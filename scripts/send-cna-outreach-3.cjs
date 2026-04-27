@@ -33,8 +33,10 @@ const LOGO_ATTACHMENT = {
 function buildHtml(bodyText) {
   const paragraphs = bodyText
     .split('\n\n')
-    .filter(p => p.trim())
-    .map(p => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`)
+    .filter((p) => p.trim())
+    .map(
+      (p) => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`,
+    )
     .join('\n');
 
   return `<!DOCTYPE html>
@@ -122,34 +124,34 @@ elevate4humanityedu@gmail.com
 }
 
 const FACILITIES = [
-  { name: 'American Village',                  email: 'info@americanvillage.com' },
-  { name: 'Robin Run Village',                 email: 'robinrun@americareusa.net' },
+  { name: 'American Village', email: 'info@americanvillage.com' },
+  { name: 'Robin Run Village', email: 'robinrun@americareusa.net' },
   { name: 'Hoosier Village Retirement Community', email: 'info@hoosiervillage.com' },
-  { name: 'Allison Pointe Healthcare Center',  email: 'info@allisonpointehc.com' },
-  { name: 'Spring Mill Meadows',               email: 'springmillmeadows@american-senior.com' },
+  { name: 'Allison Pointe Healthcare Center', email: 'info@allisonpointehc.com' },
+  { name: 'Spring Mill Meadows', email: 'springmillmeadows@american-senior.com' },
   { name: 'Rosewalk Village at Indiana Masonic Home', email: 'info@rosewalkvillage.com' },
   { name: 'Greenwood Health and Living Community', email: 'info@greenwoodhealthliving.com' },
-  { name: 'Forest Creek Village',              email: 'info@forestcreekvillage.com' },
-  { name: 'Eagle Valley Meadows',              email: 'info@eaglevalleymeadows.com' },
-  { name: 'Westside Village Health Center',    email: 'info@westsidevillagehc.com' },
+  { name: 'Forest Creek Village', email: 'info@forestcreekvillage.com' },
+  { name: 'Eagle Valley Meadows', email: 'info@eaglevalleymeadows.com' },
+  { name: 'Westside Village Health Center', email: 'info@westsidevillagehc.com' },
 ];
 
 const AGENCIES = [
-  { name: 'Home Instead Indianapolis',         email: 'info.indy@homeinstead.com' },
-  { name: 'Visiting Angels Indianapolis',      email: 'indy@visitingangels.com' },
-  { name: 'Comfort Keepers Indianapolis',      email: 'indy@comfortkeepers.com' },
-  { name: 'Senior Helpers Indianapolis',       email: 'indianapolis@seniorhelpers.com' },
-  { name: 'Right at Home Indianapolis',        email: 'info@rahindy.net' },
+  { name: 'Home Instead Indianapolis', email: 'info.indy@homeinstead.com' },
+  { name: 'Visiting Angels Indianapolis', email: 'indy@visitingangels.com' },
+  { name: 'Comfort Keepers Indianapolis', email: 'indy@comfortkeepers.com' },
+  { name: 'Senior Helpers Indianapolis', email: 'indianapolis@seniorhelpers.com' },
+  { name: 'Right at Home Indianapolis', email: 'info@rahindy.net' },
 ];
 
 const EMAILS = [
-  ...FACILITIES.map(f => ({
+  ...FACILITIES.map((f) => ({
     to: f.email,
     toName: 'Administration',
     subject: 'CNA Clinical Training Partnership — Elevate for Humanity',
     body: facilityBody(f.name),
   })),
-  ...AGENCIES.map(a => ({
+  ...AGENCIES.map((a) => ({
     to: a.email,
     toName: 'Administration',
     subject: 'CNA Workforce Partnership — Elevate for Humanity',
@@ -160,10 +162,12 @@ const EMAILS = [
 function sendEmail(email) {
   return new Promise((resolve, reject) => {
     const payload = JSON.stringify({
-      personalizations: [{
-        to: [{ email: email.to, name: email.toName }],
-        cc: [{ email: COPY_TO, name: 'Elizabeth Greene' }],
-      }],
+      personalizations: [
+        {
+          to: [{ email: email.to, name: email.toName }],
+          cc: [{ email: COPY_TO, name: 'Elizabeth Greene' }],
+        },
+      ],
       from: { email: FROM, name: FROM_NAME },
       reply_to: { email: REPLY_TO, name: 'Elizabeth Greene' },
       subject: email.subject,
@@ -195,7 +199,7 @@ function sendEmail(email) {
             resolve({ ok: false, status: res.statusCode, body });
           }
         });
-      }
+      },
     );
     req.on('error', reject);
     req.write(payload);
@@ -204,7 +208,9 @@ function sendEmail(email) {
 }
 
 async function main() {
-  console.log(`Sending ${EMAILS.length} emails (${FACILITIES.length} facilities + ${AGENCIES.length} agencies)...\n`);
+  console.log(
+    `Sending ${EMAILS.length} emails (${FACILITIES.length} facilities + ${AGENCIES.length} agencies)...\n`,
+  );
   const results = [];
 
   for (const email of EMAILS) {
@@ -222,22 +228,22 @@ async function main() {
       console.log(`❌ error: ${err.message}`);
       results.push({ to: email.to, status: 'error', error: err.message });
     }
-    await new Promise(r => setTimeout(r, 500));
+    await new Promise((r) => setTimeout(r, 500));
   }
 
   console.log('\n--- Delivery Report ---');
-  const sent = results.filter(r => r.status === 'sent');
-  const failed = results.filter(r => r.status !== 'sent');
+  const sent = results.filter((r) => r.status === 'sent');
+  const failed = results.filter((r) => r.status !== 'sent');
   console.log(`Sent: ${sent.length}/${results.length}`);
   if (failed.length) {
     console.log('\nFailed:');
-    failed.forEach(f => console.log(`  ${f.to}: ${f.error}`));
+    failed.forEach((f) => console.log(`  ${f.to}: ${f.error}`));
   }
   console.log('\nTimestamps:');
-  sent.forEach(r => console.log(`  ${r.to}  ${r.ts}`));
+  sent.forEach((r) => console.log(`  ${r.to}  ${r.ts}`));
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Fatal:', err);
   process.exit(1);
 });

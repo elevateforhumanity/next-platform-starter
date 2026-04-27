@@ -45,7 +45,7 @@ export interface ProgramHolderOnboardingStatus {
  * @returns Onboarding status object
  */
 export async function getProgramHolderOnboardingStatus(
-  userId?: string
+  userId?: string,
 ): Promise<ProgramHolderOnboardingStatus> {
   const supabase = await createClient();
 
@@ -123,8 +123,7 @@ export async function getProgramHolderOnboardingStatus(
     .eq('user_id', currentUserId)
     .maybeSingle();
 
-  const isApproved =
-    programHolder?.status === 'approved' || !!programHolder?.approved_at;
+  const isApproved = programHolder?.status === 'approved' || !!programHolder?.approved_at;
 
   if (!isApproved) {
     return {
@@ -344,9 +343,7 @@ export async function getProgramHolderOnboardingStatus(
  * @param userId - User ID to check (optional)
  * @returns True if onboarding is complete
  */
-export async function canAccessProgramHolderDashboard(
-  userId?: string
-): Promise<boolean> {
+export async function canAccessProgramHolderDashboard(userId?: string): Promise<boolean> {
   const status = await getProgramHolderOnboardingStatus(userId);
   return status.onboardingComplete;
 }

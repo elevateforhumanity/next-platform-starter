@@ -29,41 +29,123 @@ interface InstructorConfig {
 function getInstructor(courseName: string): InstructorConfig {
   const name = courseName.toLowerCase();
 
-  if (name.includes('cna') || name.includes('medical') || name.includes('phlebotomy') ||
-      name.includes('pharmacy') || name.includes('dental') || name.includes('emt') ||
-      name.includes('health') || name.includes('cpr') || name.includes('direct support') ||
-      name.includes('ekg') || name.includes('patient care'))
-    return { voice: 'nova', instructions: 'Speak as a warm, knowledgeable healthcare instructor. Calm, reassuring tone with clear enunciation. Pace for note-taking.' };
+  if (
+    name.includes('cna') ||
+    name.includes('medical') ||
+    name.includes('phlebotomy') ||
+    name.includes('pharmacy') ||
+    name.includes('dental') ||
+    name.includes('emt') ||
+    name.includes('health') ||
+    name.includes('cpr') ||
+    name.includes('direct support') ||
+    name.includes('ekg') ||
+    name.includes('patient care')
+  )
+    return {
+      voice: 'nova',
+      instructions:
+        'Speak as a warm, knowledgeable healthcare instructor. Calm, reassuring tone with clear enunciation. Pace for note-taking.',
+    };
 
-  if (name.includes('hvac') || name.includes('solar') || name.includes('building') ||
-      name.includes('forklift') || name.includes('manufacturing') || name.includes('diesel') ||
-      name.includes('automotive') || name.includes('maintenance') || name.includes('welding') ||
-      name.includes('electrical') || name.includes('plumbing') || name.includes('construction'))
-    return { voice: 'onyx', instructions: 'Speak as an experienced trades instructor on a job site. Direct, practical, encouraging. Confident, steady pace.' };
+  if (
+    name.includes('hvac') ||
+    name.includes('solar') ||
+    name.includes('building') ||
+    name.includes('forklift') ||
+    name.includes('manufacturing') ||
+    name.includes('diesel') ||
+    name.includes('automotive') ||
+    name.includes('maintenance') ||
+    name.includes('welding') ||
+    name.includes('electrical') ||
+    name.includes('plumbing') ||
+    name.includes('construction')
+  )
+    return {
+      voice: 'onyx',
+      instructions:
+        'Speak as an experienced trades instructor on a job site. Direct, practical, encouraging. Confident, steady pace.',
+    };
 
-  if (name.includes('cdl') || name.includes('trucking') || name.includes('driving') ||
-      name.includes('warehouse') || name.includes('logistics'))
-    return { voice: 'fable', instructions: 'Speak as a veteran truck driver turned instructor. Straightforward, safety-focused, supportive. Calm, authoritative tone.' };
+  if (
+    name.includes('cdl') ||
+    name.includes('trucking') ||
+    name.includes('driving') ||
+    name.includes('warehouse') ||
+    name.includes('logistics')
+  )
+    return {
+      voice: 'fable',
+      instructions:
+        'Speak as a veteran truck driver turned instructor. Straightforward, safety-focused, supportive. Calm, authoritative tone.',
+    };
 
-  if (name.includes('barber') || name.includes('hair') || name.includes('nail') ||
-      name.includes('esthetician') || name.includes('cosmetology') || name.includes('beauty'))
-    return { voice: 'echo', instructions: 'Speak as a master barber teaching in a shop. Personable, energetic, real. Mix professionalism with approachable warmth.' };
+  if (
+    name.includes('barber') ||
+    name.includes('hair') ||
+    name.includes('nail') ||
+    name.includes('esthetician') ||
+    name.includes('cosmetology') ||
+    name.includes('beauty')
+  )
+    return {
+      voice: 'echo',
+      instructions:
+        'Speak as a master barber teaching in a shop. Personable, energetic, real. Mix professionalism with approachable warmth.',
+    };
 
-  if (name.includes('cyber') || name.includes('web') || name.includes('data') ||
-      name.includes('it support') || name.includes('technology') || name.includes('security officer'))
-    return { voice: 'shimmer', instructions: 'Speak as a patient IT instructor. Break down technical concepts clearly. Encouraging, friendly, measured pace.' };
+  if (
+    name.includes('cyber') ||
+    name.includes('web') ||
+    name.includes('data') ||
+    name.includes('it support') ||
+    name.includes('technology') ||
+    name.includes('security officer')
+  )
+    return {
+      voice: 'shimmer',
+      instructions:
+        'Speak as a patient IT instructor. Break down technical concepts clearly. Encouraging, friendly, measured pace.',
+    };
 
-  if (name.includes('tax') || name.includes('bookkeeping') || name.includes('business') ||
-      name.includes('entrepreneur') || name.includes('insurance') || name.includes('real estate') ||
-      name.includes('administrative') || name.includes('customer service') || name.includes('nrf'))
-    return { voice: 'alloy', instructions: 'Speak as a business coach. Professional, motivating, clear. Upbeat but grounded tone.' };
+  if (
+    name.includes('tax') ||
+    name.includes('bookkeeping') ||
+    name.includes('business') ||
+    name.includes('entrepreneur') ||
+    name.includes('insurance') ||
+    name.includes('real estate') ||
+    name.includes('administrative') ||
+    name.includes('customer service') ||
+    name.includes('nrf')
+  )
+    return {
+      voice: 'alloy',
+      instructions:
+        'Speak as a business coach. Professional, motivating, clear. Upbeat but grounded tone.',
+    };
 
-  if (name.includes('recovery') || name.includes('reentry') || name.includes('peer') ||
-      name.includes('life coach') || name.includes('community') || name.includes('culinary') ||
-      name.includes('hospitality') || name.includes('early childhood'))
-    return { voice: 'nova', instructions: 'Speak as a compassionate community instructor. Warm, supportive, encouraging. Gentle but clear pace.' };
+  if (
+    name.includes('recovery') ||
+    name.includes('reentry') ||
+    name.includes('peer') ||
+    name.includes('life coach') ||
+    name.includes('community') ||
+    name.includes('culinary') ||
+    name.includes('hospitality') ||
+    name.includes('early childhood')
+  )
+    return {
+      voice: 'nova',
+      instructions:
+        'Speak as a compassionate community instructor. Warm, supportive, encouraging. Gentle but clear pace.',
+    };
 
-  return { voice: 'nova', instructions: 'Speak as a professional instructor. Clear, warm, engaging. Pace for students.' };
+  return {
+    voice: 'nova',
+    instructions: 'Speak as a professional instructor. Clear, warm, engaging. Pace for students.',
+  };
 }
 
 function buildScript(lesson: any, courseName: string): string {
@@ -169,13 +251,15 @@ async function main() {
     }
 
     // Rate limit: ~1.5s between calls
-    await new Promise(r => setTimeout(r, 1500));
+    await new Promise((r) => setTimeout(r, 1500));
 
     // Progress every 50
     if ((i + 1) % 50 === 0) {
       const elapsed = Math.round((Date.now() - startTime) / 1000);
       const rate = Math.round(success / (elapsed / 60));
-      console.log(`\n--- Progress: ${success} done, ${failed} failed, ${elapsed}s elapsed, ~${rate}/min ---\n`);
+      console.log(
+        `\n--- Progress: ${success} done, ${failed} failed, ${elapsed}s elapsed, ~${rate}/min ---\n`,
+      );
     }
   }
 

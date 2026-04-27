@@ -31,9 +31,7 @@ export function StatCard({ label, value, sub, className = '' }: StatCardProps) {
         </div>
       ) : (
         <>
-          <p className="text-3xl font-bold text-black">
-            {value === null ? '—' : value}
-          </p>
+          <p className="text-3xl font-bold text-black">{value === null ? '—' : value}</p>
           {sub && <p className="text-xs text-black mt-1">{sub}</p>}
         </>
       )}

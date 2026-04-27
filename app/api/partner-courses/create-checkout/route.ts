@@ -1,6 +1,5 @@
 // PUBLIC ROUTE: partner course checkout
 
-
 import { NextRequest, NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe/client';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -13,33 +12,21 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await getAdminClient();
 
-    if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
-    }
+  if (!supabase) {
+    return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
+  }
   if (!stripe) {
-    return NextResponse.json(
-      { error: 'Stripe not configured' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
   }
 
   try {
-    const {
-      courseId,
-      studentId,
-      studentEmail,
-      studentName,
-      studentPhone,
-      studentAddress,
-    } = await request.json();
+    const { courseId, studentId, studentEmail, studentName, studentPhone, studentAddress } =
+      await request.json();
 
     // Get course details
     const { data: course, error: courseError } = await supabase
@@ -52,31 +39,24 @@ async function _POST(request: NextRequest) {
           provider_name,
           provider_type
         )
-      `
+      `,
       )
       .eq('id', courseId)
       .maybeSingle();
 
-    if (courseError || !course) { /* Condition handled */ }
+    if (courseError || !course) {
+      /* Condition handled */
+    }
 
     // Check if course requires payment
     if (!course.requires_payment) {
-      return NextResponse.json(
-        { error: 'This course does not require payment' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'This course does not require payment' }, { status: 400 });
     }
 
     // Create Stripe checkout session with Buy Now Pay Later options
     const session = await stripe.checkout.sessions.create({
       // Enable multiple payment methods including BNPL and ACH
-      payment_method_types: [
-        'card',
-        'affirm',
-        'afterpay_clearpay',
-        'klarna',
-        'us_bank_account',
-      ],
+      payment_method_types: ['card', 'affirm', 'afterpay_clearpay', 'klarna', 'us_bank_account'],
       line_items: [
         {
           price_data: {
@@ -134,15 +114,12 @@ async function _POST(request: NextRequest) {
     });
 
     return NextResponse.json({ sessionId: session.id, url: session.url });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Stripe checkout error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json(
-      { error: 'Failed to create checkout session' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/partner-courses/create-checkout', _POST);

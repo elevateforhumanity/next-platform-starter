@@ -29,7 +29,15 @@ export function getLessonPath(courseId: string, lessonId: string): string {
 export function getLessonActivityPath(
   courseId: string,
   lessonId: string,
-  activity: 'video' | 'reading' | 'flashcards' | 'lab' | 'practice' | 'checkpoint' | 'notes' | 'resources',
+  activity:
+    | 'video'
+    | 'reading'
+    | 'flashcards'
+    | 'lab'
+    | 'practice'
+    | 'checkpoint'
+    | 'notes'
+    | 'resources',
 ): string {
   return `${COURSE_BASE}/${courseId}/lessons/${lessonId}?activity=${activity}`;
 }

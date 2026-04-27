@@ -9,11 +9,14 @@ const fs = require('fs');
 const path = require('path');
 
 const API_KEY = process.env.SENDGRID_API_KEY;
-if (!API_KEY) { console.error('SENDGRID_API_KEY not set'); process.exit(1); }
+if (!API_KEY) {
+  console.error('SENDGRID_API_KEY not set');
+  process.exit(1);
+}
 
-const logoBase64 = fs.readFileSync(
-  path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg')
-).toString('base64');
+const logoBase64 = fs
+  .readFileSync(path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg'))
+  .toString('base64');
 
 const LOGO_ATTACHMENT = {
   content: logoBase64,
@@ -61,8 +64,12 @@ elevate4humanityedu@gmail.com
 }
 
 function buildHtml(text) {
-  const paras = text.split('\n\n').filter(p => p.trim())
-    .map(p => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`)
+  const paras = text
+    .split('\n\n')
+    .filter((p) => p.trim())
+    .map(
+      (p) => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`,
+    )
     .join('');
   return `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#f8fafc;font-family:Arial,sans-serif;">
@@ -87,19 +94,37 @@ function buildHtml(text) {
 
 // No public emails found for any of these — all require phone or contact form
 const MANUAL = [
-  { org: 'One Hour Heating & Air Conditioning', note: 'Call (317) 742-6699 | onehourheatandair.com' },
-  { org: 'Peterman Brothers',                   note: 'Call (317) 859-4270 | 5240 Commerce Cir, Indianapolis | petermanhvac.com' },
-  { org: 'Godby Heating Plumbing Electrical',   note: 'Call (317) 870-8400 | 7852 Moller Rd, Indianapolis | godbyhp.com' },
-  { org: 'R.T. Moore Company',                  note: 'Call (317) 823-1500 | 6340 La Pas Trail, Indianapolis | rtmoore.com' },
-  { org: 'Carrier Corporation',                 note: 'Contact form: carrier.com' },
-  { org: 'Williams Comfort Air',                note: 'Call (317) 268-5900 | 23 S 8th Ave, Beech Grove | williamscomfortair.com' },
-  { org: 'GEMCO Constructors',                  note: 'Call (317) 423-0200 | 11901 Exit 5 Pkwy, Fishers | gemcoconstructors.com' },
+  {
+    org: 'One Hour Heating & Air Conditioning',
+    note: 'Call (317) 742-6699 | onehourheatandair.com',
+  },
+  {
+    org: 'Peterman Brothers',
+    note: 'Call (317) 859-4270 | 5240 Commerce Cir, Indianapolis | petermanhvac.com',
+  },
+  {
+    org: 'Godby Heating Plumbing Electrical',
+    note: 'Call (317) 870-8400 | 7852 Moller Rd, Indianapolis | godbyhp.com',
+  },
+  {
+    org: 'R.T. Moore Company',
+    note: 'Call (317) 823-1500 | 6340 La Pas Trail, Indianapolis | rtmoore.com',
+  },
+  { org: 'Carrier Corporation', note: 'Contact form: carrier.com' },
+  {
+    org: 'Williams Comfort Air',
+    note: 'Call (317) 268-5900 | 23 S 8th Ave, Beech Grove | williamscomfortair.com',
+  },
+  {
+    org: 'GEMCO Constructors',
+    note: 'Call (317) 423-0200 | 11901 Exit 5 Pkwy, Fishers | gemcoconstructors.com',
+  },
 ];
 
 async function main() {
   console.log('No direct emails available for HVAC employer batch.\n');
   console.log('--- Manual Contact Required ---');
-  MANUAL.forEach(m => console.log(`  ${m.org}: ${m.note}`));
+  MANUAL.forEach((m) => console.log(`  ${m.org}: ${m.note}`));
   console.log('\nRecommendation: Call each company, ask for the Service Manager or HR Director,');
   console.log('and reference the email sent to MCA Indiana and Indiana HVAC Association.');
 }

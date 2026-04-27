@@ -44,10 +44,16 @@ export function DocumentSignatureBlock({
     import('@/lib/supabase/client').then(({ createClient }) => {
       const supabase = createClient();
       supabase?.auth.getUser().then(async ({ data }) => {
-        if (!data?.user) { setLoading(false); return; }
+        if (!data?.user) {
+          setLoading(false);
+          return;
+        }
         setSignerEmail(data.user.email ?? '');
         const { data: profile } = await supabase
-          .from('profiles').select('full_name').eq('id', data.user.id).single();
+          .from('profiles')
+          .select('full_name')
+          .eq('id', data.user.id)
+          .single();
         if (profile?.full_name) setSignerName(profile.full_name);
 
         const { data: existing } = await supabase
@@ -85,7 +91,10 @@ export function DocumentSignatureBlock({
     resize();
     window.addEventListener('resize', resize);
     setPad(instance);
-    return () => { window.removeEventListener('resize', resize); instance.off(); };
+    return () => {
+      window.removeEventListener('resize', resize);
+      instance.off();
+    };
   }, [method, pad]);
 
   const isValid = () => {
@@ -108,7 +117,7 @@ export function DocumentSignatureBlock({
         signerEmail,
         signatureMethod: method,
         signatureTyped: method === 'typed' ? typed.trim() : undefined,
-        signatureData: method === 'drawn' ? drawn ?? undefined : undefined,
+        signatureData: method === 'drawn' ? (drawn ?? undefined) : undefined,
         context: 'onboarding',
       });
       if ('error' in result) {
@@ -134,7 +143,9 @@ export function DocumentSignatureBlock({
           </div>
           <div>
             <p className="font-bold text-brand-green-800">
-              {signed ? 'Agreement signed successfully.' : 'You have already signed this agreement.'}
+              {signed
+                ? 'Agreement signed successfully.'
+                : 'You have already signed this agreement.'}
             </p>
             <p className="text-sm text-brand-green-700 mt-0.5">
               {signed ? 'Redirecting you now...' : 'Your signature is on file.'}
@@ -176,13 +187,15 @@ export function DocumentSignatureBlock({
 
         {/* Method selector */}
         <div>
-          <label className="block text-sm font-semibold text-slate-700 mb-2">Signature Method</label>
+          <label className="block text-sm font-semibold text-slate-700 mb-2">
+            Signature Method
+          </label>
           <div className="flex gap-3">
-            {([
+            {[
               { m: 'checkbox' as Method, Icon: CheckSquare, label: 'Checkbox' },
               { m: 'typed' as Method, Icon: Type, label: 'Type' },
               { m: 'drawn' as Method, Icon: Pen, label: 'Draw' },
-            ]).map(({ m, Icon, label }) => (
+            ].map(({ m, Icon, label }) => (
               <button
                 key={m}
                 type="button"
@@ -223,11 +236,17 @@ export function DocumentSignatureBlock({
               Draw Your Signature <span className="text-red-500">*</span>
             </label>
             <div className="border-2 border-slate-300 rounded-xl overflow-hidden bg-white max-w-md">
-              <canvas ref={canvasRef} style={{ width: '100%', height: '140px', touchAction: 'none' }} />
+              <canvas
+                ref={canvasRef}
+                style={{ width: '100%', height: '140px', touchAction: 'none' }}
+              />
             </div>
             <button
               type="button"
-              onClick={() => { pad?.clear(); setDrawn(null); }}
+              onClick={() => {
+                pad?.clear();
+                setDrawn(null);
+              }}
               className="text-xs text-brand-blue-600 hover:underline mt-1.5"
             >
               Clear
@@ -244,7 +263,9 @@ export function DocumentSignatureBlock({
             className="mt-0.5 w-5 h-5 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
           />
           <span className="text-sm text-slate-700 leading-relaxed">
-            I have read and understand this agreement in full. I agree to be bound by its terms. I understand this constitutes a legally binding electronic signature under the Electronic Signatures in Global and National Commerce Act (E-SIGN).
+            I have read and understand this agreement in full. I agree to be bound by its terms. I
+            understand this constitutes a legally binding electronic signature under the Electronic
+            Signatures in Global and National Commerce Act (E-SIGN).
           </span>
         </label>
 
@@ -259,10 +280,15 @@ export function DocumentSignatureBlock({
                 : 'bg-slate-200 text-slate-400 cursor-not-allowed'
             }`}
           >
-            {submitting
-              ? <><Loader2 className="w-5 h-5 animate-spin" /> Signing...</>
-              : <><Check className="w-5 h-5" /> {buttonLabel}</>
-            }
+            {submitting ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" /> Signing...
+              </>
+            ) : (
+              <>
+                <Check className="w-5 h-5" /> {buttonLabel}
+              </>
+            )}
           </button>
           <p className="text-xs text-slate-500 flex items-center gap-1.5">
             <Lock className="w-3 h-3" /> Signature, IP address, and timestamp recorded securely.

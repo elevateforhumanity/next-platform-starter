@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-
 import { getStripe } from '@/lib/stripe/client';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -15,22 +14,15 @@ async function _POST(request: NextRequest) {
     const auth = await requireAuth(request);
     if (auth.error) return auth.error;
 
-
     if (!stripe) {
-      return NextResponse.json(
-        { error: 'Payment processing is not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Payment processing is not configured' }, { status: 503 });
     }
 
     const { items, total } = await request.json();
 
     // Validate request
     if (!items || !Array.isArray(items) || items.length === 0) {
-      return NextResponse.json(
-        { error: 'Invalid items' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid items' }, { status: 400 });
     }
 
     // Create payment intent
@@ -45,7 +37,7 @@ async function _POST(request: NextRequest) {
           items.map((item: any) => ({
             id: item.id,
             quantity: item.quantity,
-          }))
+          })),
         ),
       },
     });
@@ -57,7 +49,7 @@ async function _POST(request: NextRequest) {
   } catch (err: any) {
     return NextResponse.json(
       { error: toErrorMessage(err) || 'Failed to create payment intent' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

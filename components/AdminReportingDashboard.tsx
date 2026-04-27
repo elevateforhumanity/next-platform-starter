@@ -1,12 +1,21 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
 import { Button } from '@/components/ui/Button';
 import { createClient } from '@/lib/supabase/client';
 import {
-  Users, TrendingUp, DollarSign, Award, Download,
-  Calendar, Filter, BarChart3, PieChart, LineChart, Loader2
+  Users,
+  TrendingUp,
+  DollarSign,
+  Award,
+  Download,
+  Calendar,
+  Filter,
+  BarChart3,
+  PieChart,
+  LineChart,
+  Loader2,
 } from 'lucide-react';
 
 interface Metrics {
@@ -65,10 +74,18 @@ export function AdminReportingDashboard() {
       const now = new Date();
       const startDate = new Date();
       switch (dateRange) {
-        case '7days': startDate.setDate(now.getDate() - 7); break;
-        case '30days': startDate.setDate(now.getDate() - 30); break;
-        case '90days': startDate.setDate(now.getDate() - 90); break;
-        case 'year': startDate.setFullYear(now.getFullYear() - 1); break;
+        case '7days':
+          startDate.setDate(now.getDate() - 7);
+          break;
+        case '30days':
+          startDate.setDate(now.getDate() - 30);
+          break;
+        case '90days':
+          startDate.setDate(now.getDate() - 90);
+          break;
+        case 'year':
+          startDate.setFullYear(now.getFullYear() - 1);
+          break;
       }
 
       // Previous period start for change calculation
@@ -87,23 +104,44 @@ export function AdminReportingDashboard() {
         { count: previousStudents },
       ] = await Promise.all([
         supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'student'),
-        supabase.from('program_enrollments').select('*', { count: 'exact', head: true }).in('status', ['active', 'pending']),
-        supabase.from('program_enrollments').select('*', { count: 'exact', head: true }).eq('status', 'completed'),
+        supabase
+          .from('program_enrollments')
+          .select('*', { count: 'exact', head: true })
+          .in('status', ['active', 'pending']),
+        supabase
+          .from('program_enrollments')
+          .select('*', { count: 'exact', head: true })
+          .eq('status', 'completed'),
         supabase.from('payments').select('amount').gte('created_at', startDate.toISOString()),
-        supabase.from('training_programs').select(`
+        supabase
+          .from('training_programs')
+          .select(
+            `
           id, name,
           enrollments(count),
           certificates(count)
-        `).eq('is_active', true).limit(10),
-        supabase.from('user_activity').select('*').order('created_at', { ascending: false }).limit(10),
-        supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'student').lt('created_at', startDate.toISOString()),
+        `,
+          )
+          .eq('is_active', true)
+          .limit(10),
+        supabase
+          .from('user_activity')
+          .select('*')
+          .order('created_at', { ascending: false })
+          .limit(10),
+        supabase
+          .from('profiles')
+          .select('*', { count: 'exact', head: true })
+          .eq('role', 'student')
+          .lt('created_at', startDate.toISOString()),
       ]);
 
       // Calculate metrics
       const totalEnrollments = (activeEnrollments || 0) + (completedEnrollments || 0);
-      const completionRate = totalEnrollments > 0 
-        ? Math.round(((completedEnrollments || 0) / totalEnrollments) * 100) 
-        : 0;
+      const completionRate =
+        totalEnrollments > 0
+          ? Math.round(((completedEnrollments || 0) / totalEnrollments) * 100)
+          : 0;
       const totalRevenue = payments?.reduce((sum, p) => sum + (p.amount || 0), 0) || 0;
 
       setMetrics({
@@ -111,9 +149,11 @@ export function AdminReportingDashboard() {
         activeEnrollments: activeEnrollments || 0,
         completionRate,
         revenue: totalRevenue,
-        studentChange: previousStudents > 0
-          ? Math.round(((data.totalStudents - previousStudents) / previousStudents) * 100 * 10) / 10
-          : 0,
+        studentChange:
+          previousStudents > 0
+            ? Math.round(((data.totalStudents - previousStudents) / previousStudents) * 100 * 10) /
+              10
+            : 0,
         enrollmentChange: 0,
         completionChange: 0,
         revenueChange: 0,
@@ -121,7 +161,7 @@ export function AdminReportingDashboard() {
 
       // Format program performance
       if (programs) {
-        const formattedPrograms: ProgramPerformance[] = programs.map(p => ({
+        const formattedPrograms: ProgramPerformance[] = programs.map((p) => ({
           id: p.id,
           name: p.name,
           students: (p.enrollments as any)?.[0]?.count || 0,
@@ -134,11 +174,13 @@ export function AdminReportingDashboard() {
 
       // Format recent activity
       if (activities) {
-        const formattedActivities: Activity[] = activities.slice(0, 5).map(a => ({
+        const formattedActivities: Activity[] = activities.slice(0, 5).map((a) => ({
           id: a.id,
-          type: a.activity_type?.includes('enroll') ? 'enrollment' 
-            : a.activity_type?.includes('complet') ? 'completion' 
-            : 'payment',
+          type: a.activity_type?.includes('enroll')
+            ? 'enrollment'
+            : a.activity_type?.includes('complet')
+              ? 'completion'
+              : 'payment',
           student: a.metadata?.student_name || 'Student',
           program: a.metadata?.program_name,
           amount: a.metadata?.amount,
@@ -150,7 +192,6 @@ export function AdminReportingDashboard() {
 
       // Monthly data from real enrollments would go here
       setMonthlyData([]);
-
     } catch (err) {
       console.error('Error fetching dashboard data:', err);
       setError('Failed to load reporting data. Please refresh.');
@@ -177,16 +218,21 @@ export function AdminReportingDashboard() {
 
   const exportReport = async (format: string) => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     // Log export
     if (user) {
-      await supabase.from('admin_activity_log').insert({
-        user_id: user.id,
-        action: 'report_export',
-        entity_type: 'report',
-        metadata: { format, date_range: dateRange },
-      }).catch(() => {});
+      await supabase
+        .from('admin_activity_log')
+        .insert({
+          user_id: user.id,
+          action: 'report_export',
+          entity_type: 'report',
+          metadata: { format, date_range: dateRange },
+        })
+        .catch(() => {});
     }
 
     alert(`Report exported as ${format.toUpperCase()}`);
@@ -328,14 +374,22 @@ export function AdminReportingDashboard() {
           <CardContent>
             <div className="space-y-3">
               {programPerformance.slice(0, 5).map((program, index) => {
-                const colors = ['bg-brand-blue-600', 'bg-brand-green-500', 'bg-yellow-500', 'bg-purple-500', 'bg-brand-orange-500'];
+                const colors = [
+                  'bg-brand-blue-600',
+                  'bg-brand-green-500',
+                  'bg-yellow-500',
+                  'bg-purple-500',
+                  'bg-brand-orange-500',
+                ];
                 const totalRevenue = programPerformance.reduce((sum, p) => sum + p.revenue, 0);
                 const percentage = ((program.revenue / totalRevenue) * 100).toFixed(1);
                 return (
                   <div key={program.id}>
                     <div className="flex items-center justify-between mb-1">
                       <span className="text-sm font-medium">{program.name}</span>
-                      <span className="text-sm text-slate-700">${program.revenue.toLocaleString('en-US')}</span>
+                      <span className="text-sm text-slate-700">
+                        ${program.revenue.toLocaleString('en-US')}
+                      </span>
                     </div>
                     <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                       <div
@@ -408,17 +462,27 @@ export function AdminReportingDashboard() {
         <CardContent>
           <div className="space-y-3">
             {recentActivity.map((activity) => (
-              <div key={activity.id} className="flex items-center gap-4 p-3 border rounded-lg hover:bg-gray-50 transition">
-                <div className={`w-2 h-2 rounded-full ${
-                  activity.type === 'enrollment' ? 'bg-brand-blue-600' :
-                  activity.type === 'completion' ? 'bg-brand-green-600' :
-                  'bg-brand-orange-600'
-                }`} />
+              <div
+                key={activity.id}
+                className="flex items-center gap-4 p-3 border rounded-lg hover:bg-gray-50 transition"
+              >
+                <div
+                  className={`w-2 h-2 rounded-full ${
+                    activity.type === 'enrollment'
+                      ? 'bg-brand-blue-600'
+                      : activity.type === 'completion'
+                        ? 'bg-brand-green-600'
+                        : 'bg-brand-orange-600'
+                  }`}
+                />
                 <div className="flex-1">
                   <div className="font-medium">
-                    {activity.type === 'enrollment' && `${activity.student} enrolled in ${activity.program}`}
-                    {activity.type === 'completion' && `${activity.student} completed ${activity.program}`}
-                    {activity.type === 'payment' && `${activity.student} made a payment of $${activity.amount}`}
+                    {activity.type === 'enrollment' &&
+                      `${activity.student} enrolled in ${activity.program}`}
+                    {activity.type === 'completion' &&
+                      `${activity.student} completed ${activity.program}`}
+                    {activity.type === 'payment' &&
+                      `${activity.student} made a payment of $${activity.amount}`}
                   </div>
                   <div className="text-sm text-slate-700">{activity.time}</div>
                 </div>

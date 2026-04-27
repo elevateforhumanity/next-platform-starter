@@ -85,8 +85,7 @@ app.get('/api/government/veterans', (req, res) => {
       },
       {
         title: 'Military Spouse Support',
-        description:
-          'Flexible training programs designed for military families.',
+        description: 'Flexible training programs designed for military families.',
         features: [
           'Remote learning options',
           'Portable certifications',
@@ -96,8 +95,7 @@ app.get('/api/government/veterans', (req, res) => {
       },
       {
         title: 'Veteran Entrepreneurship',
-        description:
-          'Business development and entrepreneurship training for veterans.',
+        description: 'Business development and entrepreneurship training for veterans.',
         features: [
           'Business plan development',
           'Access to capital resources',
@@ -121,8 +119,7 @@ app.get('/api/philanthropy/overview', (req, res) => {
     priorities: [
       {
         title: 'Workforce Development',
-        description:
-          'Skills training and career pathways for underserved communities',
+        description: 'Skills training and career pathways for underserved communities',
         icon: '💼',
       },
       {
@@ -156,8 +153,7 @@ app.get('/api/philanthropy/overview', (req, res) => {
       {
         title: 'Individual Learner Grants',
         fundingRange: '$500 - $5,000',
-        description:
-          'Direct support for individuals pursuing education and training programs.',
+        description: 'Direct support for individuals pursuing education and training programs.',
         eligibleRecipients: [
           'Low-income individuals',
           'Justice-involved individuals',
@@ -292,5 +288,4 @@ app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, 'index.html'));
 });
 
-app.listen(PORT, '0.0.0.0', () => {
-});
+app.listen(PORT, '0.0.0.0', () => {});

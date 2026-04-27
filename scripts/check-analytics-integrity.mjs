@@ -20,13 +20,13 @@ const CANONICAL_LOADER = 'components/analytics/google-analytics.tsx';
 let failures = 0;
 
 function grep(pattern, extensions, excludeDirs = []) {
-  const includes = extensions.map(e => `--include="*.${e}"`).join(' ');
-  const excludes = excludeDirs.map(d => `--exclude-dir="${d}"`).join(' ');
+  const includes = extensions.map((e) => `--include="*.${e}"`).join(' ');
+  const excludes = excludeDirs.map((d) => `--exclude-dir="${d}"`).join(' ');
   try {
-    const result = execSync(
-      `grep -rn "${pattern}" ${includes} ${excludes} .`,
-      { encoding: 'utf-8', cwd: process.cwd() }
-    );
+    const result = execSync(`grep -rn "${pattern}" ${includes} ${excludes} .`, {
+      encoding: 'utf-8',
+      cwd: process.cwd(),
+    });
     return result.trim().split('\n').filter(Boolean);
   } catch {
     return []; // grep returns exit 1 when no matches
@@ -47,15 +47,18 @@ function pass(rule) {
 }
 
 // --- Rule 1: Only one gtag.js injector in source code ---
-const injectors = grep('googletagmanager\\.com/gtag', ['tsx', 'ts', 'jsx'], ['node_modules', '.next'])
-  .filter(line => !line.includes('public/')); // Exclude static HTML (separate concern)
+const injectors = grep(
+  'googletagmanager\\.com/gtag',
+  ['tsx', 'ts', 'jsx'],
+  ['node_modules', '.next'],
+).filter((line) => !line.includes('public/')); // Exclude static HTML (separate concern)
 
 if (injectors.length === 0) {
   fail('Rule 1', 'No gtag.js injector found. The canonical loader may have been deleted.', []);
 } else if (injectors.length === 1 && injectors[0].includes(CANONICAL_LOADER)) {
   pass('Rule 1 — Single gtag.js injector (canonical loader)');
 } else {
-  const nonCanonical = injectors.filter(l => !l.includes(CANONICAL_LOADER));
+  const nonCanonical = injectors.filter((l) => !l.includes(CANONICAL_LOADER));
   if (nonCanonical.length > 0) {
     fail('Rule 1', `Found gtag.js injection outside canonical loader:`, nonCanonical);
   } else {
@@ -66,10 +69,10 @@ if (injectors.length === 0) {
 // --- Rule 2: No hardcoded GA4 measurement IDs ---
 // Match G- followed by 8+ alphanumeric chars, exclude placeholders and docs
 const hardcodedIds = grep('G-[A-Z0-9]\\{8,\\}', ['tsx', 'ts', 'jsx'], ['node_modules', '.next'])
-  .filter(line => !line.includes('G-XXXXXXXXXX'))  // placeholder
-  .filter(line => !line.includes('.env.example'))   // documentation
-  .filter(line => !line.includes('partnerCode'))    // false positive
-  .filter(line => !line.includes('public/'));        // static HTML (separate concern)
+  .filter((line) => !line.includes('G-XXXXXXXXXX')) // placeholder
+  .filter((line) => !line.includes('.env.example')) // documentation
+  .filter((line) => !line.includes('partnerCode')) // false positive
+  .filter((line) => !line.includes('public/')); // static HTML (separate concern)
 
 if (hardcodedIds.length === 0) {
   pass('Rule 2 — No hardcoded GA4 measurement IDs in source');
@@ -78,9 +81,13 @@ if (hardcodedIds.length === 0) {
 }
 
 // --- Rule 3: No gtag('config') outside canonical loader ---
-const configCalls = grep("gtag('config'\\|gtag(\"config\"", ['tsx', 'ts'], ['node_modules', '.next'])
-  .filter(line => !line.includes(CANONICAL_LOADER))
-  .filter(line => !line.includes('public/'));
+const configCalls = grep(
+  'gtag(\'config\'\\|gtag("config"',
+  ['tsx', 'ts'],
+  ['node_modules', '.next'],
+)
+  .filter((line) => !line.includes(CANONICAL_LOADER))
+  .filter((line) => !line.includes('public/'));
 
 if (configCalls.length === 0) {
   pass('Rule 3 — No gtag("config") calls outside canonical loader');

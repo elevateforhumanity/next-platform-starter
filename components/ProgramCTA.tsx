@@ -5,7 +5,7 @@ interface ProgramCTAProps {
   programName?: string;
 }
 
-export default function ProgramCTA({ programName = "this program" }: ProgramCTAProps) {
+export default function ProgramCTA({ programName = 'this program' }: ProgramCTAProps) {
   return (
     <>
       {/* Main CTA with Image */}
@@ -17,7 +17,9 @@ export default function ProgramCTA({ programName = "this program" }: ProgramCTAP
                 Ready to Start Your Career?
               </h2>
               <p className="text-xl mb-8 text-white">
-                Enroll in {programName} and access training funded through WIOA, WRG, or JRI for eligible participants. No tuition for those who qualify — just training and a career.
+                Enroll in {programName} and access training funded through WIOA, WRG, or JRI for
+                eligible participants. No tuition for those who qualify — just training and a
+                career.
               </p>
 
               {/* Highlights with Icons */}
@@ -29,11 +31,14 @@ export default function ProgramCTA({ programName = "this program" }: ProgramCTAP
                       alt="Funded training"
                       fill
                       className="object-cover"
-                     sizes="100vw" />
+                      sizes="100vw"
+                    />
                   </div>
                   <div>
                     <h3 className="font-bold text-lg">No-Cost Training Available</h3>
-                    <p className="text-white">Funded through WIOA, WRG, and JRI for eligible participants</p>
+                    <p className="text-white">
+                      Funded through WIOA, WRG, and JRI for eligible participants
+                    </p>
                   </div>
                 </div>
 
@@ -44,7 +49,8 @@ export default function ProgramCTA({ programName = "this program" }: ProgramCTAP
                       alt="Job placement"
                       fill
                       className="object-cover"
-                     sizes="100vw" />
+                      sizes="100vw"
+                    />
                   </div>
                   <div>
                     <h3 className="font-bold text-lg">Job Placement Support</h3>
@@ -59,7 +65,8 @@ export default function ProgramCTA({ programName = "this program" }: ProgramCTAP
                       alt="Hands-on training"
                       fill
                       className="object-cover"
-                     sizes="100vw" />
+                      sizes="100vw"
+                    />
                   </div>
                   <div>
                     <h3 className="font-bold text-lg">Hands-On Training</h3>
@@ -90,7 +97,8 @@ export default function ProgramCTA({ programName = "this program" }: ProgramCTAP
                 alt="Students in training"
                 fill
                 className="object-cover"
-               sizes="100vw" />
+                sizes="100vw"
+              />
             </div>
           </div>
         </div>
@@ -106,7 +114,8 @@ export default function ProgramCTA({ programName = "this program" }: ProgramCTAP
                 alt="Indiana Career Connect"
                 fill
                 className="object-cover"
-               sizes="100vw" />
+                sizes="100vw"
+              />
             </div>
 
             <div className="order-1 md:order-2">
@@ -114,24 +123,33 @@ export default function ProgramCTA({ programName = "this program" }: ProgramCTAP
                 Start at Indiana Career Connect
               </h2>
               <p className="text-xl mb-6 text-slate-300">
-                All WIOA-funded training starts with Indiana Career Connect. Create your account, schedule an appointment, and get approved for funded training.
+                All WIOA-funded training starts with Indiana Career Connect. Create your account,
+                schedule an appointment, and get approved for funded training.
               </p>
 
               <div className="space-y-4 mb-8">
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center font-bold">1</div>
+                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center font-bold">
+                    1
+                  </div>
                   <p className="text-slate-300">Create account at IndianaCareerConnect.com</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center font-bold">2</div>
+                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center font-bold">
+                    2
+                  </div>
                   <p className="text-slate-300">Schedule appointment with career advisor</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center font-bold">3</div>
+                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center font-bold">
+                    3
+                  </div>
                   <p className="text-slate-300">Get approved for WIOA funding</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center font-bold">4</div>
+                  <div className="w-8 h-8 bg-white rounded-full flex items-center justify-center font-bold">
+                    4
+                  </div>
                   <p className="text-slate-300">Enroll with Elevate for Humanity</p>
                 </div>
               </div>
@@ -170,14 +188,20 @@ export default function ProgramCTA({ programName = "this program" }: ProgramCTAP
                   alt="Career counseling"
                   fill
                   className="object-cover"
-                 sizes="100vw" />
+                  sizes="100vw"
+                />
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-black mb-3">Career Counseling</h3>
                 <p className="text-black mb-4">
-                  One-on-one guidance to help you choose the right career path and achieve your goals.
+                  One-on-one guidance to help you choose the right career path and achieve your
+                  goals.
                 </p>
-                <Link href="/advising" aria-label="Link" className="text-brand-orange-700 font-semibold hover:underline">
+                <Link
+                  href="/advising"
+                  aria-label="Link"
+                  className="text-brand-orange-700 font-semibold hover:underline"
+                >
                   Schedule Counseling →
                 </Link>
               </div>
@@ -191,14 +215,20 @@ export default function ProgramCTA({ programName = "this program" }: ProgramCTAP
                   alt="Job placement"
                   fill
                   className="object-cover"
-                 sizes="100vw" />
+                  sizes="100vw"
+                />
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-black mb-3">Job Placement</h3>
                 <p className="text-black mb-4">
-                  We connect you with employers actively hiring in your field. Resume help and interview prep included.
+                  We connect you with employers actively hiring in your field. Resume help and
+                  interview prep included.
                 </p>
-                <Link href="/employers" aria-label="Link" className="text-brand-orange-700 font-semibold hover:underline">
+                <Link
+                  href="/employers"
+                  aria-label="Link"
+                  className="text-brand-orange-700 font-semibold hover:underline"
+                >
                   View Employers →
                 </Link>
               </div>
@@ -212,14 +242,20 @@ export default function ProgramCTA({ programName = "this program" }: ProgramCTAP
                   alt="Supportive services"
                   fill
                   className="object-cover"
-                 sizes="100vw" />
+                  sizes="100vw"
+                />
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-black mb-3">Supportive Services</h3>
                 <p className="text-black mb-4">
-                  Transportation assistance, childcare support, and other services to help you complete training.
+                  Transportation assistance, childcare support, and other services to help you
+                  complete training.
                 </p>
-                <Link href="/support" aria-label="Link" className="text-brand-orange-700 font-semibold hover:underline">
+                <Link
+                  href="/support"
+                  aria-label="Link"
+                  className="text-brand-orange-700 font-semibold hover:underline"
+                >
                   Learn More →
                 </Link>
               </div>
@@ -231,9 +267,7 @@ export default function ProgramCTA({ programName = "this program" }: ProgramCTAP
       {/* Final CTA - Contact */}
       <section className="py-16 sm:py-20 bg-brand-blue-700 text-white">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-            Questions? We're Here to Help
-          </h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6">Questions? We're Here to Help</h2>
           <p className="text-xl mb-8 text-white/90">
             Our team is ready to answer your questions and guide you through the enrollment process.
           </p>
@@ -257,7 +291,11 @@ export default function ProgramCTA({ programName = "this program" }: ProgramCTAP
               <div className="text-4xl mb-3 text-2xl md:text-3xl lg:text-4xl">📍</div>
               <h3 className="font-bold mb-2 text-white">Visit Us</h3>
               <p className="text-white/90 text-sm">
-                8888 Keystone Crossing<br/>Suite 1300<br/>Indianapolis, IN 46240
+                8888 Keystone Crossing
+                <br />
+                Suite 1300
+                <br />
+                Indianapolis, IN 46240
               </p>
             </div>
           </div>

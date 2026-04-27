@@ -33,15 +33,27 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
     description:
       'The most common residential cooling system. An outdoor condenser unit connects to an indoor air handler or furnace with an evaporator coil via refrigerant lines. Technicians service this system more than any other.',
     moduleIds: [
-      'hvac-01', 'hvac-02', 'hvac-03', 'hvac-04', 'hvac-05',
-      'hvac-06', 'hvac-07', 'hvac-08', 'hvac-11', 'hvac-12',
-      'hvac-13', 'hvac-14', 'hvac-16',
+      'hvac-01',
+      'hvac-02',
+      'hvac-03',
+      'hvac-04',
+      'hvac-05',
+      'hvac-06',
+      'hvac-07',
+      'hvac-08',
+      'hvac-11',
+      'hvac-12',
+      'hvac-13',
+      'hvac-14',
+      'hvac-16',
     ],
     components: [
       {
         name: 'Compressor',
-        description: 'Pumps refrigerant through the system by compressing low-pressure vapor into high-pressure, high-temperature gas.',
-        location: 'Inside the outdoor condenser unit, mounted on rubber isolators at the bottom of the cabinet.',
+        description:
+          'Pumps refrigerant through the system by compressing low-pressure vapor into high-pressure, high-temperature gas.',
+        location:
+          'Inside the outdoor condenser unit, mounted on rubber isolators at the bottom of the cabinet.',
         diagnosticPoints: [
           'Measure amp draw with clamp meter — compare to RLA on nameplate',
           'Check for locked rotor amps (LRA) indicating a seized compressor',
@@ -51,7 +63,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Condenser Coil',
-        description: 'Rejects heat from the high-pressure refrigerant to the outdoor air. Refrigerant enters as hot gas and leaves as warm liquid.',
+        description:
+          'Rejects heat from the high-pressure refrigerant to the outdoor air. Refrigerant enters as hot gas and leaves as warm liquid.',
         location: 'Wraps around the inside perimeter of the outdoor unit cabinet.',
         diagnosticPoints: [
           'Inspect for dirt, debris, or bent fins restricting airflow',
@@ -61,8 +74,10 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Condenser Fan Motor',
-        description: 'Pulls outdoor air through the condenser coil to remove heat from the refrigerant.',
-        location: 'Mounted at the top of the outdoor unit with the fan blade attached to the shaft.',
+        description:
+          'Pulls outdoor air through the condenser coil to remove heat from the refrigerant.',
+        location:
+          'Mounted at the top of the outdoor unit with the fan blade attached to the shaft.',
         diagnosticPoints: [
           'Check amp draw against nameplate rating',
           'Verify fan blade spins freely with power off',
@@ -72,8 +87,10 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Run Capacitor',
-        description: 'Stores and releases electrical energy to keep the compressor and fan motor running efficiently. Rated in microfarads (µF).',
-        location: 'Inside the outdoor unit electrical compartment, usually a silver or black cylinder.',
+        description:
+          'Stores and releases electrical energy to keep the compressor and fan motor running efficiently. Rated in microfarads (µF).',
+        location:
+          'Inside the outdoor unit electrical compartment, usually a silver or black cylinder.',
         diagnosticPoints: [
           'Measure capacitance with multimeter — must be within ±6% of rated value',
           'Inspect for bulging top, oil leaks, or burn marks',
@@ -82,7 +99,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Contactor',
-        description: 'An electrically controlled switch that connects line voltage to the compressor and fan motor when the thermostat calls for cooling.',
+        description:
+          'An electrically controlled switch that connects line voltage to the compressor and fan motor when the thermostat calls for cooling.',
         location: 'Inside the outdoor unit electrical compartment, near the capacitor.',
         diagnosticPoints: [
           'Check for pitted or burned contacts',
@@ -93,7 +111,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Evaporator Coil',
-        description: 'Absorbs heat from indoor air. Cold refrigerant flows through the coil while the blower pushes warm air across it.',
+        description:
+          'Absorbs heat from indoor air. Cold refrigerant flows through the coil while the blower pushes warm air across it.',
         location: 'Mounted above the furnace or inside the air handler, in the supply plenum.',
         diagnosticPoints: [
           'Check for ice buildup indicating low airflow or low charge',
@@ -103,7 +122,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Metering Device (TXV or Piston)',
-        description: 'Creates a pressure drop that converts high-pressure liquid refrigerant into a low-pressure mixture entering the evaporator.',
+        description:
+          'Creates a pressure drop that converts high-pressure liquid refrigerant into a low-pressure mixture entering the evaporator.',
         location: 'At the inlet of the evaporator coil, connected to the liquid line.',
         diagnosticPoints: [
           'Measure superheat — high superheat may indicate restricted TXV',
@@ -113,7 +133,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Air Filter',
-        description: 'Removes dust and particles from return air before it passes over the evaporator coil. A dirty filter is the most common cause of airflow problems.',
+        description:
+          'Removes dust and particles from return air before it passes over the evaporator coil. A dirty filter is the most common cause of airflow problems.',
         location: 'In the return air duct, at the air handler, or in a wall/ceiling return grille.',
         diagnosticPoints: [
           'Inspect visually — replace if light cannot pass through',
@@ -141,7 +162,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
     components: [
       {
         name: 'Burner Assembly',
-        description: 'Mixes gas with air and produces a controlled flame inside the combustion chamber.',
+        description:
+          'Mixes gas with air and produces a controlled flame inside the combustion chamber.',
         location: 'At the bottom of the furnace, inside the combustion chamber.',
         diagnosticPoints: [
           'Inspect flame color — blue with small yellow tips is normal',
@@ -151,7 +173,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Heat Exchanger',
-        description: 'Transfers heat from combustion gases to the room air without mixing them. A cracked heat exchanger can leak carbon monoxide into the living space.',
+        description:
+          'Transfers heat from combustion gases to the room air without mixing them. A cracked heat exchanger can leak carbon monoxide into the living space.',
         location: 'Above the burner assembly, inside the furnace cabinet.',
         diagnosticPoints: [
           'Visual inspection for cracks, rust, or holes',
@@ -162,7 +185,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Blower Motor',
-        description: 'Pushes conditioned air through the duct system. Modern furnaces use ECM (variable speed) motors for efficiency.',
+        description:
+          'Pushes conditioned air through the duct system. Modern furnaces use ECM (variable speed) motors for efficiency.',
         location: 'At the bottom of the furnace, below the heat exchanger.',
         diagnosticPoints: [
           'Check amp draw against nameplate',
@@ -173,7 +197,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Ignition System (HSI / DSI)',
-        description: 'Hot surface igniters (HSI) glow red-hot to ignite gas. Direct spark ignition (DSI) uses an electric spark. Older systems use standing pilots.',
+        description:
+          'Hot surface igniters (HSI) glow red-hot to ignite gas. Direct spark ignition (DSI) uses an electric spark. Older systems use standing pilots.',
         location: 'Near the burner assembly, positioned to ignite the gas stream.',
         diagnosticPoints: [
           'HSI: measure resistance — typically 40–200 ohms when cold',
@@ -184,7 +209,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Flame Sensor',
-        description: 'Proves flame is present after ignition. If it cannot sense flame within a few seconds, the gas valve closes to prevent gas buildup.',
+        description:
+          'Proves flame is present after ignition. If it cannot sense flame within a few seconds, the gas valve closes to prevent gas buildup.',
         location: 'Mounted in the burner assembly, positioned in the flame path.',
         diagnosticPoints: [
           'Measure flame signal in microamps — should be 1–6 µA minimum',
@@ -194,7 +220,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Gas Valve',
-        description: 'Controls gas flow to the burners. Opens when the control board signals demand and the safety circuit is satisfied.',
+        description:
+          'Controls gas flow to the burners. Opens when the control board signals demand and the safety circuit is satisfied.',
         location: 'Connected to the gas supply line, near the burner assembly.',
         diagnosticPoints: [
           'Measure 24V at the gas valve when calling for heat',
@@ -204,7 +231,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Control Board',
-        description: 'The brain of the furnace. Sequences the ignition process, monitors safety switches, and controls blower operation.',
+        description:
+          'The brain of the furnace. Sequences the ignition process, monitors safety switches, and controls blower operation.',
         location: 'Inside the furnace cabinet, usually behind a removable panel.',
         diagnosticPoints: [
           'Read LED fault codes — refer to the code chart on the panel',
@@ -214,7 +242,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Safety Switches',
-        description: 'Limit switch (high temperature), pressure switch (draft), and rollout switch (flame) protect against unsafe conditions.',
+        description:
+          'Limit switch (high temperature), pressure switch (draft), and rollout switch (flame) protect against unsafe conditions.',
         location: 'Mounted on the furnace cabinet near the heat exchanger and draft inducer.',
         diagnosticPoints: [
           'Limit switch: opens if supply air exceeds safe temperature',
@@ -243,8 +272,10 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
     components: [
       {
         name: 'Reversing Valve',
-        description: 'A 4-way valve that changes refrigerant flow direction, switching the system between heating and cooling modes.',
-        location: 'Inside the outdoor unit, connected to the compressor discharge and suction lines.',
+        description:
+          'A 4-way valve that changes refrigerant flow direction, switching the system between heating and cooling modes.',
+        location:
+          'Inside the outdoor unit, connected to the compressor discharge and suction lines.',
         diagnosticPoints: [
           'Check solenoid coil for 24V when mode changes',
           'Measure temperature difference across the valve — should be minimal',
@@ -254,7 +285,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Compressor',
-        description: 'Same function as in a split-system AC — compresses refrigerant. In a heat pump, it runs in both heating and cooling seasons.',
+        description:
+          'Same function as in a split-system AC — compresses refrigerant. In a heat pump, it runs in both heating and cooling seasons.',
         location: 'Inside the outdoor unit.',
         diagnosticPoints: [
           'Higher run hours than AC-only systems — check amp draw regularly',
@@ -264,7 +296,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Outdoor Coil',
-        description: 'Acts as the condenser in cooling mode and the evaporator in heating mode. In heating mode, it absorbs heat from outdoor air.',
+        description:
+          'Acts as the condenser in cooling mode and the evaporator in heating mode. In heating mode, it absorbs heat from outdoor air.',
         location: 'Wraps around the outdoor unit cabinet.',
         diagnosticPoints: [
           'Check for ice buildup in heating mode — defrost should clear it',
@@ -274,7 +307,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Defrost Control',
-        description: 'Monitors outdoor coil temperature and activates defrost cycle when ice accumulates. Temporarily switches to cooling mode to melt ice off the outdoor coil.',
+        description:
+          'Monitors outdoor coil temperature and activates defrost cycle when ice accumulates. Temporarily switches to cooling mode to melt ice off the outdoor coil.',
         location: 'On the control board or as a separate timer/sensor on the outdoor unit.',
         diagnosticPoints: [
           'Verify defrost initiates when coil temperature drops below setpoint',
@@ -284,7 +318,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Auxiliary Heat Strips',
-        description: 'Electric resistance heating elements that supplement the heat pump when outdoor temperatures are too low for efficient heat pump operation.',
+        description:
+          'Electric resistance heating elements that supplement the heat pump when outdoor temperatures are too low for efficient heat pump operation.',
         location: 'Inside the indoor air handler, downstream of the evaporator coil.',
         diagnosticPoints: [
           'Measure amp draw on each heat strip element',
@@ -294,7 +329,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Indoor Coil',
-        description: 'Acts as the evaporator in cooling mode and the condenser in heating mode. In heating mode, it releases heat into the indoor air.',
+        description:
+          'Acts as the evaporator in cooling mode and the condenser in heating mode. In heating mode, it releases heat into the indoor air.',
         location: 'Inside the air handler, in the supply plenum.',
         diagnosticPoints: [
           'In heating mode, supply air should be warm (not hot like a furnace)',
@@ -322,7 +358,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
     components: [
       {
         name: 'Compressor Section',
-        description: 'Contains the compressor, condenser coil, and condenser fan — similar to a residential condenser but inside the packaged cabinet.',
+        description:
+          'Contains the compressor, condenser coil, and condenser fan — similar to a residential condenser but inside the packaged cabinet.',
         location: 'One side of the rooftop unit cabinet.',
         diagnosticPoints: [
           'Same diagnostics as residential condenser components',
@@ -332,7 +369,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Evaporator Section',
-        description: 'Contains the evaporator coil, blower, and air filter — similar to a residential air handler but inside the same cabinet.',
+        description:
+          'Contains the evaporator coil, blower, and air filter — similar to a residential air handler but inside the same cabinet.',
         location: 'The other side of the rooftop unit cabinet.',
         diagnosticPoints: [
           'Measure static pressure across the filter and coil',
@@ -342,7 +380,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Economizer',
-        description: 'Uses outdoor air for free cooling when conditions allow. Dampers open to bring in cool outdoor air instead of running the compressor.',
+        description:
+          'Uses outdoor air for free cooling when conditions allow. Dampers open to bring in cool outdoor air instead of running the compressor.',
         location: 'On the side of the rooftop unit where outdoor air enters.',
         diagnosticPoints: [
           'Verify damper actuator operates through full range',
@@ -352,7 +391,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Gas Heat Section',
-        description: 'Many packaged units include a gas furnace section for heating. Contains burners, heat exchanger, and gas valve.',
+        description:
+          'Many packaged units include a gas furnace section for heating. Contains burners, heat exchanger, and gas valve.',
         location: 'Inside the packaged unit cabinet, separate from the refrigeration section.',
         diagnosticPoints: [
           'Same diagnostics as residential gas furnace components',
@@ -362,7 +402,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Supply and Return Duct Connections',
-        description: 'Ductwork connects through the roof curb to distribute conditioned air throughout the building.',
+        description:
+          'Ductwork connects through the roof curb to distribute conditioned air throughout the building.',
         location: 'Bottom of the rooftop unit, through the roof curb.',
         diagnosticPoints: [
           'Check for duct leaks at the roof curb connection',
@@ -390,8 +431,10 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
     components: [
       {
         name: 'Supply Ducts',
-        description: 'Carry conditioned air from the air handler to each room. Can be rigid metal, flex duct, or duct board.',
-        location: 'Run from the supply plenum through the attic, crawlspace, or between floors to supply registers.',
+        description:
+          'Carry conditioned air from the air handler to each room. Can be rigid metal, flex duct, or duct board.',
+        location:
+          'Run from the supply plenum through the attic, crawlspace, or between floors to supply registers.',
         diagnosticPoints: [
           'Check for disconnected or crushed flex duct',
           'Measure airflow at each supply register with an anemometer',
@@ -400,7 +443,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Return Ducts',
-        description: 'Carry room air back to the air handler for reconditioning. Undersized returns are a common cause of airflow problems.',
+        description:
+          'Carry room air back to the air handler for reconditioning. Undersized returns are a common cause of airflow problems.',
         location: 'Run from return grilles back to the air handler return plenum.',
         diagnosticPoints: [
           'Verify return is not blocked by furniture or closed doors',
@@ -410,7 +454,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Supply Registers',
-        description: 'Adjustable grilles that direct conditioned air into rooms. Can be wall, floor, or ceiling mounted.',
+        description:
+          'Adjustable grilles that direct conditioned air into rooms. Can be wall, floor, or ceiling mounted.',
         location: 'In each conditioned room, connected to supply ducts.',
         diagnosticPoints: [
           'Verify registers are open and unobstructed',
@@ -421,7 +466,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       {
         name: 'Return Grilles',
         description: 'Fixed or filtered grilles where room air enters the return duct system.',
-        location: 'Typically in hallways or central areas, sometimes with a filter behind the grille.',
+        location:
+          'Typically in hallways or central areas, sometimes with a filter behind the grille.',
         diagnosticPoints: [
           'Verify grille is not blocked or covered',
           'Check filter behind grille if applicable',
@@ -430,7 +476,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Dampers',
-        description: 'Adjustable plates inside ducts that control airflow to different zones. Manual dampers are set during installation; automatic dampers are controlled by zone systems.',
+        description:
+          'Adjustable plates inside ducts that control airflow to different zones. Manual dampers are set during installation; automatic dampers are controlled by zone systems.',
         location: 'Inside duct branches, near the supply plenum or at zone takeoffs.',
         diagnosticPoints: [
           'Verify damper position matches the season and zone demand',
@@ -440,7 +487,8 @@ export const HVAC_EQUIPMENT_MODELS: EquipmentModel[] = [
       },
       {
         name: 'Air Filter',
-        description: 'Removes particles from return air. A dirty filter is the single most common cause of HVAC performance problems.',
+        description:
+          'Removes particles from return air. A dirty filter is the single most common cause of HVAC performance problems.',
         location: 'At the air handler, in the return duct, or behind a return grille.',
         diagnosticPoints: [
           'Inspect monthly — replace when dirty',

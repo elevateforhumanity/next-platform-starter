@@ -59,13 +59,19 @@ export default async function AdminInboxPage() {
     const notes = String(formData.get('internal_notes') || '');
 
     const supabase2 = await createClient();
-    await supabase2
-      .from('partner_inquiries')
-      .update({ status, notes })
-      .eq('id', id);
+    await supabase2.from('partner_inquiries').update({ status, notes }).eq('id', id);
 
-    const { data: { user: actor } } = await supabase2.auth.getUser();
-    if (actor) await logAdminAudit({ action: AdminAction.PARTNER_INQUIRY_REVIEWED, actorId: actor.id, entityType: 'partner_inquiries', entityId: id, metadata: { new_status: status } });
+    const {
+      data: { user: actor },
+    } = await supabase2.auth.getUser();
+    if (actor)
+      await logAdminAudit({
+        action: AdminAction.PARTNER_INQUIRY_REVIEWED,
+        actorId: actor.id,
+        entityType: 'partner_inquiries',
+        entityId: id,
+        metadata: { new_status: status },
+      });
 
     redirect('/admin/inbox');
   }
@@ -77,20 +83,25 @@ export default async function AdminInboxPage() {
     const notes = String(formData.get('internal_notes') || '');
 
     const supabase2 = await createClient();
-    await supabase2
-      .from('license_requests')
-      .update({ status, internal_notes: notes })
-      .eq('id', id);
+    await supabase2.from('license_requests').update({ status, internal_notes: notes }).eq('id', id);
 
-    const { data: { user: actor } } = await supabase2.auth.getUser();
-    if (actor) await logAdminAudit({ action: AdminAction.LICENSE_REQUEST_REVIEWED, actorId: actor.id, entityType: 'license_requests', entityId: id, metadata: { new_status: status } });
+    const {
+      data: { user: actor },
+    } = await supabase2.auth.getUser();
+    if (actor)
+      await logAdminAudit({
+        action: AdminAction.LICENSE_REQUEST_REVIEWED,
+        actorId: actor.id,
+        entityType: 'license_requests',
+        entityId: id,
+        metadata: { new_status: status },
+      });
 
     redirect('/admin/inbox');
   }
 
   return (
     <div className="mx-auto max-w-6xl px-4 py-12">
-
       {/* Hero Image */}
       <h1 className="text-3xl font-bold text-zinc-900">Admin Inbox</h1>
       <p className="mt-2 text-zinc-700">One place to review everything.</p>
@@ -108,21 +119,15 @@ export default async function AdminInboxPage() {
 
         <div className="mt-4 space-y-4">
           {(partners || []).map((r: any) => (
-            <div
-              key={r.id}
-              className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm"
-            >
+            <div key={r.id} className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
               <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
                 <div className="flex-1">
-                  <div className="text-lg font-bold text-zinc-900">
-                    {r.full_name}
-                  </div>
+                  <div className="text-lg font-bold text-zinc-900">{r.full_name}</div>
                   <div className="text-sm text-zinc-700">
                     {r.organization || '—'} • {r.email} • {r.phone || '—'}
                   </div>
                   <div className="mt-2 text-sm text-zinc-700">
-                    <span className="font-semibold">Type:</span>{' '}
-                    {r.relationship_type}
+                    <span className="font-semibold">Type:</span> {r.relationship_type}
                   </div>
                   <div className="mt-2 text-sm text-zinc-700 whitespace-pre-wrap">
                     <span className="font-semibold">Value:</span> {r.resources}
@@ -135,14 +140,9 @@ export default async function AdminInboxPage() {
                   </div>
                 </div>
 
-                <form
-                  action={updatePartner}
-                  className="mt-4 md:mt-0 md:w-[360px] space-y-2"
-                >
+                <form action={updatePartner} className="mt-4 md:mt-0 md:w-[360px] space-y-2">
                   <input type="hidden" name="id" value={r.id} />
-                  <label className="block text-sm font-semibold text-zinc-800">
-                    Status
-                  </label>
+                  <label className="block text-sm font-semibold text-zinc-800">Status</label>
                   <select
                     name="status"
                     defaultValue={r.status}
@@ -176,9 +176,7 @@ export default async function AdminInboxPage() {
           ))}
 
           {(!partners || partners.length === 0) && (
-            <div className="text-center py-8 text-zinc-600">
-              No partner inquiries yet.
-            </div>
+            <div className="text-center py-8 text-zinc-600">No partner inquiries yet.</div>
           )}
         </div>
       </section>
@@ -196,25 +194,18 @@ export default async function AdminInboxPage() {
 
         <div className="mt-4 space-y-4">
           {(licenses || []).map((r: any) => (
-            <div
-              key={r.id}
-              className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm"
-            >
+            <div key={r.id} className="rounded-2xl border border-zinc-200 bg-white p-5 shadow-sm">
               <div className="flex flex-col gap-2 md:flex-row md:items-start md:justify-between">
                 <div className="flex-1">
-                  <div className="text-lg font-bold text-zinc-900">
-                    {r.full_name}
-                  </div>
+                  <div className="text-lg font-bold text-zinc-900">{r.full_name}</div>
                   <div className="text-sm text-zinc-700">
                     {r.organization || '—'} • {r.email} • {r.phone || '—'}
                   </div>
                   <div className="mt-2 text-sm text-zinc-700">
-                    <span className="font-semibold">Tier:</span>{' '}
-                    {r.desired_tier}
+                    <span className="font-semibold">Tier:</span> {r.desired_tier}
                   </div>
                   <div className="mt-2 text-sm text-zinc-700 whitespace-pre-wrap">
-                    <span className="font-semibold">Launch Goal:</span>{' '}
-                    {r.launch_goal}
+                    <span className="font-semibold">Launch Goal:</span> {r.launch_goal}
                   </div>
                   <div className="mt-2 text-xs text-zinc-500">
                     Submitted: {new Date(r.created_at).toLocaleString()}
@@ -224,14 +215,9 @@ export default async function AdminInboxPage() {
                   </div>
                 </div>
 
-                <form
-                  action={updateLicense}
-                  className="mt-4 md:mt-0 md:w-[360px] space-y-2"
-                >
+                <form action={updateLicense} className="mt-4 md:mt-0 md:w-[360px] space-y-2">
                   <input type="hidden" name="id" value={r.id} />
-                  <label className="block text-sm font-semibold text-zinc-800">
-                    Status
-                  </label>
+                  <label className="block text-sm font-semibold text-zinc-800">Status</label>
                   <select
                     name="status"
                     defaultValue={r.status}
@@ -265,9 +251,7 @@ export default async function AdminInboxPage() {
           ))}
 
           {(!licenses || licenses.length === 0) && (
-            <div className="text-center py-8 text-zinc-600">
-              No license requests yet.
-            </div>
+            <div className="text-center py-8 text-zinc-600">No license requests yet.</div>
           )}
         </div>
       </section>

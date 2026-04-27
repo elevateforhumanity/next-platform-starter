@@ -19,13 +19,13 @@ export default function LicensingPage() {
             Platform Licensing & Partnerships
           </h1>
           <p className="mt-6 text-lg sm:text-xl text-zinc-700 leading-relaxed">
-            Elevate for Humanity offers its Workforce Operating System through a
-            structured licensing model for organizations that need a proven,
-            compliant workforce platform without building from scratch.
+            Elevate for Humanity offers its Workforce Operating System through a structured
+            licensing model for organizations that need a proven, compliant workforce platform
+            without building from scratch.
           </p>
           <p className="mt-4 text-lg text-zinc-700 leading-relaxed">
-            Licensing is available to approved partners operating training
-            programs, apprenticeships, or workforce initiatives.
+            Licensing is available to approved partners operating training programs,
+            apprenticeships, or workforce initiatives.
           </p>
         </div>
       </section>
@@ -60,13 +60,12 @@ export default function LicensingPage() {
             </li>
           </ul>
           <p className="mt-6 text-zinc-700">
-            Licensing is offered annually and structured based on program scope,
-            number of users, and deployment needs.
+            Licensing is offered annually and structured based on program scope, number of users,
+            and deployment needs.
           </p>
           <p className="mt-4 text-zinc-700">
-            Specific pricing and terms are discussed during a consultation to
-            ensure alignment with funding sources, compliance requirements, and
-            operational scale.
+            Specific pricing and terms are discussed during a consultation to ensure alignment with
+            funding sources, compliance requirements, and operational scale.
           </p>
         </div>
       </section>
@@ -111,14 +110,10 @@ export default function LicensingPage() {
           <h2 className="text-3xl font-black text-zinc-900 text-center mb-8">
             Who Licenses the Platform
           </h2>
-          <p className="text-lg text-zinc-700 mb-6">
-            Licensing is intended for:
-          </p>
+          <p className="text-lg text-zinc-700 mb-6">Licensing is intended for:</p>
           <div className="grid md:grid-cols-2 gap-6">
             <div className="p-6 bg-slate-50 rounded-lg">
-              <h3 className="text-lg font-bold text-zinc-900">
-                Training providers and schools
-              </h3>
+              <h3 className="text-lg font-bold text-zinc-900">Training providers and schools</h3>
             </div>
             <div className="p-6 bg-slate-50 rounded-lg">
               <h3 className="text-lg font-bold text-zinc-900">
@@ -126,9 +121,7 @@ export default function LicensingPage() {
               </h3>
             </div>
             <div className="p-6 bg-slate-50 rounded-lg">
-              <h3 className="text-lg font-bold text-zinc-900">
-                Employer consortiums
-              </h3>
+              <h3 className="text-lg font-bold text-zinc-900">Employer consortiums</h3>
             </div>
             <div className="p-6 bg-slate-50 rounded-lg">
               <h3 className="text-lg font-bold text-zinc-900">
@@ -136,14 +129,12 @@ export default function LicensingPage() {
               </h3>
             </div>
             <div className="p-6 bg-slate-50 rounded-lg">
-              <h3 className="text-lg font-bold text-zinc-900">
-                Enterprise workforce initiatives
-              </h3>
+              <h3 className="text-lg font-bold text-zinc-900">Enterprise workforce initiatives</h3>
             </div>
           </div>
           <p className="mt-8 text-center text-zinc-700">
-            All licensing relationships are reviewed to ensure mission alignment
-            and responsible use.
+            All licensing relationships are reviewed to ensure mission alignment and responsible
+            use.
           </p>
         </div>
       </section>
@@ -154,9 +145,7 @@ export default function LicensingPage() {
           <h2 className="text-3xl font-black text-zinc-900 text-center mb-8">
             What Licensing Is Not
           </h2>
-          <p className="text-lg text-zinc-700 mb-6">
-            To maintain quality and security:
-          </p>
+          <p className="text-lg text-zinc-700 mb-6">To maintain quality and security:</p>
           <ul className="space-y-3 text-zinc-700">
             <li className="flex items-start">
               <span className="text-brand-orange-600 font-bold mr-2">✗</span>
@@ -176,8 +165,7 @@ export default function LicensingPage() {
             </li>
           </ul>
           <p className="mt-6 text-zinc-700">
-            This ensures long-term stability, updates, and support for all
-            partners.
+            This ensures long-term stability, updates, and support for all partners.
           </p>
         </div>
       </section>
@@ -185,12 +173,10 @@ export default function LicensingPage() {
       {/* CTA Section */}
       <section className="px-4 sm:px-6 lg:px-10 py-16">
         <div className="mx-auto max-w-3xl text-center">
-          <h2 className="text-3xl font-black text-zinc-900">
-            Start a Licensing Conversation
-          </h2>
+          <h2 className="text-3xl font-black text-zinc-900">Start a Licensing Conversation</h2>
           <p className="mt-4 text-lg text-zinc-700">
-            If you are evaluating workforce infrastructure or replacing
-            fragmented systems, a short conversation can determine fit quickly.
+            If you are evaluating workforce infrastructure or replacing fragmented systems, a short
+            conversation can determine fit quickly.
           </p>
           <div className="mt-8 flex flex-col sm:flex-row gap-4 justify-center">
             <Link

@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -8,7 +7,8 @@ import { Shield, Scale, Users, FileText, ArrowRight, Phone } from 'lucide-react'
 
 export const metadata: Metadata = {
   title: 'Federal Compliance | Elevate For Humanity',
-  description: 'Our commitment to federal compliance including WIOA, FERPA, ADA, and equal opportunity standards. View our policies and compliance documentation.',
+  description:
+    'Our commitment to federal compliance including WIOA, FERPA, ADA, and equal opportunity standards. View our policies and compliance documentation.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/federal-compliance',
   },
@@ -20,7 +20,9 @@ export default function FederalCompliancePage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b border-slate-700">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Funding', href: '/funding' }, { label: 'Federal Compliance' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Funding', href: '/funding' }, { label: 'Federal Compliance' }]}
+          />
         </div>
       </div>
 
@@ -32,12 +34,10 @@ export default function FederalCompliancePage() {
               <Shield className="w-10 h-10 text-brand-blue-400" />
               <span className="text-brand-blue-400 font-medium">Regulatory Compliance</span>
             </div>
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Federal Compliance
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Federal Compliance</h1>
             <p className="text-xl text-slate-600 leading-relaxed">
-              Elevate for Humanity is committed to full compliance with all federal regulations 
-              governing workforce development, education, and equal opportunity. We maintain 
+              Elevate for Humanity is committed to full compliance with all federal regulations
+              governing workforce development, education, and equal opportunity. We maintain
               rigorous standards to protect participants and ensure program integrity.
             </p>
           </div>
@@ -54,41 +54,42 @@ export default function FederalCompliancePage() {
                 <Shield className="w-6 h-6 text-brand-blue-600" />
               </div>
               <div>
-                <h2 className="text-3xl font-bold text-black mb-2">
-                  WIOA Compliance
-                </h2>
-                <p className="text-lg text-black">
-                  Workforce Innovation and Opportunity Act
-                </p>
+                <h2 className="text-3xl font-bold text-black mb-2">WIOA Compliance</h2>
+                <p className="text-lg text-black">Workforce Innovation and Opportunity Act</p>
               </div>
             </div>
             <div className="bg-white rounded-xl p-8">
               <p className="text-black mb-6">
-                Our programs are designed to meet WIOA requirements for eligible training providers and workforce development activities.
+                Our programs are designed to meet WIOA requirements for eligible training providers
+                and workforce development activities.
               </p>
               <ul className="space-y-3">
                 <li className="flex items-start gap-3">
                   <span className="text-slate-500 flex-shrink-0">•</span>
                   <span className="text-black">
-                    <strong>Eligible Training Provider:</strong> Programs listed on state Eligible Training Provider Lists (ETPL)
+                    <strong>Eligible Training Provider:</strong> Programs listed on state Eligible
+                    Training Provider Lists (ETPL)
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-slate-500 flex-shrink-0">•</span>
                   <span className="text-black">
-                    <strong>Performance Reporting:</strong> Track and report participant outcomes as required
+                    <strong>Performance Reporting:</strong> Track and report participant outcomes as
+                    required
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-slate-500 flex-shrink-0">•</span>
                   <span className="text-black">
-                    <strong>Equal Opportunity:</strong> Non-discrimination in all programs and activities
+                    <strong>Equal Opportunity:</strong> Non-discrimination in all programs and
+                    activities
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-slate-500 flex-shrink-0">•</span>
                   <span className="text-black">
-                    <strong>Data Privacy:</strong> Protect participant personally identifiable information (PII)
+                    <strong>Data Privacy:</strong> Protect participant personally identifiable
+                    information (PII)
                   </span>
                 </li>
               </ul>
@@ -102,12 +103,8 @@ export default function FederalCompliancePage() {
                 <FileText className="w-6 h-6 text-brand-blue-600" />
               </div>
               <div>
-                <h2 className="text-3xl font-bold text-black mb-2">
-                  FERPA Compliance
-                </h2>
-                <p className="text-lg text-black">
-                  Family Educational Rights and Privacy Act
-                </p>
+                <h2 className="text-3xl font-bold text-black mb-2">FERPA Compliance</h2>
+                <p className="text-lg text-black">Family Educational Rights and Privacy Act</p>
               </div>
             </div>
             <div className="bg-white rounded-xl p-8">
@@ -118,19 +115,22 @@ export default function FederalCompliancePage() {
                 <li className="flex items-start gap-3">
                   <span className="text-slate-500 flex-shrink-0">•</span>
                   <span className="text-black">
-                    <strong>Student Consent:</strong> Obtain written consent before disclosing education records
+                    <strong>Student Consent:</strong> Obtain written consent before disclosing
+                    education records
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-slate-500 flex-shrink-0">•</span>
                   <span className="text-black">
-                    <strong>Access Rights:</strong> Students can review and request amendments to their records
+                    <strong>Access Rights:</strong> Students can review and request amendments to
+                    their records
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-slate-500 flex-shrink-0">•</span>
                   <span className="text-black">
-                    <strong>Secure Storage:</strong> Education records stored securely with access controls
+                    <strong>Secure Storage:</strong> Education records stored securely with access
+                    controls
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
@@ -150,12 +150,8 @@ export default function FederalCompliancePage() {
                 <Users className="w-6 h-6 text-brand-green-600" />
               </div>
               <div>
-                <h2 className="text-3xl font-bold text-black mb-2">
-                  ADA Compliance
-                </h2>
-                <p className="text-lg text-black">
-                  Americans with Disabilities Act
-                </p>
+                <h2 className="text-3xl font-bold text-black mb-2">ADA Compliance</h2>
+                <p className="text-lg text-black">Americans with Disabilities Act</p>
               </div>
             </div>
             <div className="bg-white rounded-xl p-8">
@@ -166,25 +162,29 @@ export default function FederalCompliancePage() {
                 <li className="flex items-start gap-3">
                   <span className="text-slate-500 flex-shrink-0">•</span>
                   <span className="text-black">
-                    <strong>Web Accessibility:</strong> WCAG 2.1 Level AA compliance for digital content
+                    <strong>Web Accessibility:</strong> WCAG 2.1 Level AA compliance for digital
+                    content
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-slate-500 flex-shrink-0">•</span>
                   <span className="text-black">
-                    <strong>Reasonable Accommodations:</strong> Provide accommodations for participants with disabilities
+                    <strong>Reasonable Accommodations:</strong> Provide accommodations for
+                    participants with disabilities
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-slate-500 flex-shrink-0">•</span>
                   <span className="text-black">
-                    <strong>Accessible Facilities:</strong> Physical locations meet ADA accessibility standards
+                    <strong>Accessible Facilities:</strong> Physical locations meet ADA
+                    accessibility standards
                   </span>
                 </li>
                 <li className="flex items-start gap-3">
                   <span className="text-slate-500 flex-shrink-0">•</span>
                   <span className="text-black">
-                    <strong>Assistive Technology:</strong> Compatible with screen readers and other assistive devices
+                    <strong>Assistive Technology:</strong> Compatible with screen readers and other
+                    assistive devices
                   </span>
                 </li>
               </ul>
@@ -198,17 +198,14 @@ export default function FederalCompliancePage() {
                 <Scale className="w-6 h-6 text-brand-orange-600" />
               </div>
               <div>
-                <h2 className="text-3xl font-bold text-black mb-2">
-                  Equal Opportunity
-                </h2>
-                <p className="text-lg text-black">
-                  Non-Discrimination Policy
-                </p>
+                <h2 className="text-3xl font-bold text-black mb-2">Equal Opportunity</h2>
+                <p className="text-lg text-black">Non-Discrimination Policy</p>
               </div>
             </div>
             <div className="bg-white rounded-xl p-8">
               <p className="text-black mb-6">
-                Elevate for Humanity is an equal opportunity provider and does not discriminate on the basis of:
+                Elevate for Humanity is an equal opportunity provider and does not discriminate on
+                the basis of:
               </p>
               <div className="grid md:grid-cols-2 gap-4">
                 <div className="flex items-center gap-2">
@@ -257,16 +254,21 @@ export default function FederalCompliancePage() {
 
           {/* Contact */}
           <div className="bg-brand-blue-50 border-2 border-brand-blue-600 rounded-xl p-8">
-            <h3 className="text-2xl font-bold text-brand-blue-900 mb-4">
-              Questions or Concerns?
-            </h3>
+            <h3 className="text-2xl font-bold text-brand-blue-900 mb-4">Questions or Concerns?</h3>
             <p className="text-brand-blue-800 mb-6">
-              If you have questions about our compliance policies or wish to file a complaint, please contact us:
+              If you have questions about our compliance policies or wish to file a complaint,
+              please contact us:
             </p>
             <div className="space-y-2 text-brand-blue-900">
-              <p><strong>Email:</strong> our contact form</p>
-              <p><strong>Phone:</strong> (317) 314-3757</p>
-              <p><strong>Address:</strong> Indianapolis, IN</p>
+              <p>
+                <strong>Email:</strong> our contact form
+              </p>
+              <p>
+                <strong>Phone:</strong> (317) 314-3757
+              </p>
+              <p>
+                <strong>Address:</strong> Indianapolis, IN
+              </p>
             </div>
           </div>
 

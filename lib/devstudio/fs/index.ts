@@ -31,7 +31,7 @@ const SKIP_PATTERNS = [
 ];
 
 function shouldSkipFile(path: string): boolean {
-  return SKIP_PATTERNS.some(pattern => {
+  return SKIP_PATTERNS.some((pattern) => {
     if (pattern.endsWith('/')) {
       return path.startsWith(pattern) || path.includes(`/${pattern}`);
     }
@@ -52,13 +52,9 @@ class DevStudioFS {
   /**
    * Load a GitHub repo into the WebContainer runtime
    */
-  async loadRepoToRuntime(
-    repo: string,
-    branch: string,
-    githubToken?: string
-  ): Promise<void> {
+  async loadRepoToRuntime(repo: string, branch: string, githubToken?: string): Promise<void> {
     const runtime = getRuntime();
-    
+
     if (!runtime.isReady()) {
       await runtime.boot();
     }
@@ -86,7 +82,7 @@ class DevStudioFS {
     const files: { path: string; sha: string; size: number }[] = treeData.files;
 
     // Filter out files we don't want to load
-    const filesToLoad = files.filter(f => !shouldSkipFile(f.path));
+    const filesToLoad = files.filter((f) => !shouldSkipFile(f.path));
 
     // Fetch file contents in batches
     const batchSize = 10;
@@ -94,7 +90,7 @@ class DevStudioFS {
 
     for (let i = 0; i < filesToLoad.length; i += batchSize) {
       const batch = filesToLoad.slice(i, i + batchSize);
-      
+
       const promises = batch.map(async (file) => {
         // Skip large files (> 500KB)
         if (file.size > 500000) {
@@ -132,7 +128,7 @@ class DevStudioFS {
    */
   async saveFile(path: string, content: string): Promise<void> {
     const runtime = getRuntime();
-    
+
     await runtime.writeFile(path, content);
     this.currentFiles.set(path, content);
     this.deletedFiles.delete(path);
@@ -143,7 +139,7 @@ class DevStudioFS {
    */
   async createFile(path: string, content: string = ''): Promise<void> {
     const runtime = getRuntime();
-    
+
     await runtime.writeFile(path, content);
     this.currentFiles.set(path, content);
     this.deletedFiles.delete(path);
@@ -154,15 +150,15 @@ class DevStudioFS {
    */
   async deleteFile(path: string): Promise<void> {
     const runtime = getRuntime();
-    
+
     try {
       await runtime.deleteFile(path);
     } catch {
       // File might not exist in runtime
     }
-    
+
     this.currentFiles.delete(path);
-    
+
     // Only mark as deleted if it existed in original
     if (this.originalFiles.has(path)) {
       this.deletedFiles.add(path);
@@ -174,13 +170,13 @@ class DevStudioFS {
    */
   async rename(from: string, to: string): Promise<void> {
     const runtime = getRuntime();
-    
+
     const content = this.currentFiles.get(from) || '';
     await runtime.rename(from, to);
-    
+
     this.currentFiles.delete(from);
     this.currentFiles.set(to, content);
-    
+
     if (this.originalFiles.has(from)) {
       this.deletedFiles.add(from);
     }
@@ -211,7 +207,7 @@ class DevStudioFS {
     // Check modified and new files
     for (const [path, content] of this.currentFiles) {
       const original = this.originalFiles.get(path);
-      
+
       if (original === undefined) {
         // New file
         dirty.push({
@@ -290,15 +286,15 @@ class DevStudioFS {
    */
   async resetAll(): Promise<void> {
     const runtime = getRuntime();
-    
+
     // Restore original files
     const fileContents: Record<string, string> = {};
     for (const [path, content] of this.originalFiles) {
       fileContents[path] = content;
     }
-    
+
     await runtime.mount(fileContents);
-    
+
     this.currentFiles = new Map(this.originalFiles);
     this.deletedFiles.clear();
   }

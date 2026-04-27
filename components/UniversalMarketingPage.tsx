@@ -1,6 +1,6 @@
-import Image from "next/image";
+import Image from 'next/image';
 import { sanitizeHtml } from '@/lib/sanitize';
-import Link from "next/link";
+import Link from 'next/link';
 import { ArrowRight } from 'lucide-react';
 
 interface UniversalMarketingPageProps {
@@ -11,7 +11,7 @@ interface UniversalMarketingPageProps {
     title: string;
     content: string;
     image?: string;
-    imagePosition?: "left" | "right";
+    imagePosition?: 'left' | 'right';
   }>;
   cta?: {
     title: string;
@@ -61,8 +61,8 @@ export default function UniversalMarketingPage({
           className="object-cover"
           priority
           quality={100}
-         sizes="100vw" />
-        
+          sizes="100vw"
+        />
 
         <div className="relative h-full flex items-center">
           <div className="mx-auto max-w-7xl px-6 lg:px-8 w-full">
@@ -120,13 +120,10 @@ export default function UniversalMarketingPage({
 
       {/* CONTENT SECTIONS */}
       {sections.map((section, index) => (
-        <section
-          key={index}
-          className={`py-20 ${index % 2 === 0 ? "bg-white" : "bg-slate-50"}`}
-        >
+        <section key={index} className={`py-20 ${index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}`}>
           <div className="mx-auto max-w-7xl px-6">
             <div className="grid lg:grid-cols-2 gap-12 items-center">
-              {section.imagePosition === "right" ? (
+              {section.imagePosition === 'right' ? (
                 <>
                   <div>
                     <h2 className="text-4xl font-light text-black mb-6 leading-tight text-2xl md:text-3xl lg:text-4xl">
@@ -145,7 +142,8 @@ export default function UniversalMarketingPage({
                         fill
                         className="object-cover"
                         quality={100}
-                       sizes="100vw" />
+                        sizes="100vw"
+                      />
                     </div>
                   )}
                 </>
@@ -159,7 +157,8 @@ export default function UniversalMarketingPage({
                         fill
                         className="object-cover"
                         quality={100}
-                       sizes="100vw" />
+                        sizes="100vw"
+                      />
                     </div>
                   )}
                   <div>
@@ -190,15 +189,12 @@ export default function UniversalMarketingPage({
                   fill
                   className="object-cover"
                   quality={100}
-                 sizes="100vw" />
+                  sizes="100vw"
+                />
               </div>
               <div className="text-white">
-                <h2 className="text-4xl md:text-5xl font-bold mb-6">
-                  {cta.title}
-                </h2>
-                <p className="text-xl mb-8 text-brand-orange-50">
-                  {cta.description}
-                </p>
+                <h2 className="text-4xl md:text-5xl font-bold mb-6">{cta.title}</h2>
+                <p className="text-xl mb-8 text-brand-orange-50">{cta.description}</p>
                 <div className="flex flex-col sm:flex-row gap-4">
                   <Link
                     href={cta.primaryButton.href}

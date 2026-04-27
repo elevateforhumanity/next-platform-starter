@@ -5,9 +5,21 @@ import { headers } from 'next/headers';
 import { logger } from '@/lib/logger';
 
 type AgreementType =
-  | 'eula' | 'tos' | 'aup' | 'disclosures' | 'license' | 'nda'
-  | 'mou' | 'employer_agreement' | 'staff_agreement' | 'program_holder_mou'
-  | 'enrollment' | 'handbook' | 'data_sharing' | 'ferpa' | 'participation';
+  | 'eula'
+  | 'tos'
+  | 'aup'
+  | 'disclosures'
+  | 'license'
+  | 'nda'
+  | 'mou'
+  | 'employer_agreement'
+  | 'staff_agreement'
+  | 'program_holder_mou'
+  | 'enrollment'
+  | 'handbook'
+  | 'data_sharing'
+  | 'ferpa'
+  | 'participation';
 
 type SignatureMethod = 'checkbox' | 'typed' | 'drawn';
 
@@ -22,9 +34,13 @@ interface SignParams {
   organizationId?: string;
 }
 
-export async function signAgreement(params: SignParams): Promise<{ success: true } | { error: string }> {
+export async function signAgreement(
+  params: SignParams,
+): Promise<{ success: true } | { error: string }> {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return { error: 'Unauthorized' };
@@ -56,9 +72,7 @@ export async function signAgreement(params: SignParams): Promise<{ success: true
 
   const headersList = await headers();
   const ip_address =
-    headersList.get('x-forwarded-for')?.split(',')[0] ||
-    headersList.get('x-real-ip') ||
-    'unknown';
+    headersList.get('x-forwarded-for')?.split(',')[0] || headersList.get('x-real-ip') || 'unknown';
   const user_agent = headersList.get('user-agent') || 'unknown';
 
   const { data: versions } = await supabase
@@ -75,31 +89,29 @@ export async function signAgreement(params: SignParams): Promise<{ success: true
 
   const timestamp = new Date().toISOString();
 
-  const { error: insertError } = await supabase
-    .from('license_agreement_acceptances')
-    .upsert(
-      {
-        user_id: user.id,
-        organization_id: organizationId || null,
-        agreement_type: agreementType,
-        document_version: versions?.current_version || '1.0',
-        signer_name: signerName.trim(),
-        signer_email: signerEmail.trim().toLowerCase(),
-        signature_method: signatureMethod,
-        signature_data:
-          signatureMethod === 'drawn'
-            ? signatureData
-            : signatureMethod === 'typed'
+  const { error: insertError } = await supabase.from('license_agreement_acceptances').upsert(
+    {
+      user_id: user.id,
+      organization_id: organizationId || null,
+      agreement_type: agreementType,
+      document_version: versions?.current_version || '1.0',
+      signer_name: signerName.trim(),
+      signer_email: signerEmail.trim().toLowerCase(),
+      signature_method: signatureMethod,
+      signature_data:
+        signatureMethod === 'drawn'
+          ? signatureData
+          : signatureMethod === 'typed'
             ? signatureTyped?.trim()
             : null,
-        accepted_at: timestamp,
-        ip_address,
-        user_agent,
-        legal_acknowledgment: true,
-        role_at_signing: profile?.role || 'student',
-      },
-      { onConflict: 'user_id,agreement_type,document_version' }
-    );
+      accepted_at: timestamp,
+      ip_address,
+      user_agent,
+      legal_acknowledgment: true,
+      role_at_signing: profile?.role || 'student',
+    },
+    { onConflict: 'user_id,agreement_type,document_version' },
+  );
 
   if (insertError) {
     logger.error('signAgreement: insert error', insertError);
@@ -107,12 +119,21 @@ export async function signAgreement(params: SignParams): Promise<{ success: true
   }
 
   // Audit log — non-fatal
-  supabase.from('audit_logs').insert({
-    user_id: user.id,
-    action: 'agreement_signed',
-    resource_type: 'license_agreement_acceptances',
-    metadata: { agreement_type: agreementType, signer_name: signerName, context, ip_address, timestamp },
-  }).catch(() => {});
+  supabase
+    .from('audit_logs')
+    .insert({
+      user_id: user.id,
+      action: 'agreement_signed',
+      resource_type: 'license_agreement_acceptances',
+      metadata: {
+        agreement_type: agreementType,
+        signer_name: signerName,
+        context,
+        ip_address,
+        timestamp,
+      },
+    })
+    .catch(() => {});
 
   return { success: true };
 }

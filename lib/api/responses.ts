@@ -19,10 +19,7 @@ export function created(data: unknown, init?: ResponseInit) {
 }
 
 export function badRequest(message = 'BAD_REQUEST', details?: unknown) {
-  return NextResponse.json(
-    { error: message, details: details ?? null },
-    { status: 400 },
-  );
+  return NextResponse.json({ error: message, details: details ?? null }, { status: 400 });
 }
 
 export function unauthorized(message = 'UNAUTHORIZED') {
@@ -38,10 +35,7 @@ export function notFound(message = 'NOT_FOUND') {
 }
 
 export function conflict(message = 'CONFLICT', details?: unknown) {
-  return NextResponse.json(
-    { error: message, details: details ?? null },
-    { status: 409 },
-  );
+  return NextResponse.json({ error: message, details: details ?? null }, { status: 409 });
 }
 
 export function tooManyRequests(message = 'RATE_LIMITED') {
@@ -52,8 +46,7 @@ export function serverError(message = 'INTERNAL_SERVER_ERROR', details?: unknown
   return NextResponse.json(
     {
       error: message,
-      details:
-        process.env.NODE_ENV === 'development' ? (details ?? null) : null,
+      details: process.env.NODE_ENV === 'development' ? (details ?? null) : null,
     },
     { status: 500 },
   );

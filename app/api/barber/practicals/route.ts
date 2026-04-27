@@ -18,7 +18,9 @@ export async function GET(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return safeError('Unauthorized', 401);
 
   try {
@@ -45,11 +47,9 @@ export async function GET(request: NextRequest) {
       .limit(20);
 
     // Merge categories with progress
-    const progressMap = Object.fromEntries(
-      (progress ?? []).map(p => [p.category_key, p])
-    );
+    const progressMap = Object.fromEntries((progress ?? []).map((p) => [p.category_key, p]));
 
-    const merged = (categories ?? []).map(cat => ({
+    const merged = (categories ?? []).map((cat) => ({
       ...cat,
       count_completed: progressMap[cat.category_key]?.count_completed ?? 0,
       verification_status: progressMap[cat.category_key]?.verification_status ?? 'in_progress',
@@ -67,12 +67,15 @@ export async function POST(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return safeError('Unauthorized', 401);
 
   try {
     const body = await request.json();
-    const { category_key, notes, photo_url, video_url, client_initials, service_date, shop_name } = body;
+    const { category_key, notes, photo_url, video_url, client_initials, service_date, shop_name } =
+      body;
 
     if (!category_key) return safeError('category_key required', 400);
 

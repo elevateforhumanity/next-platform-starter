@@ -14,7 +14,6 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const rootDir = join(__dirname, '..');
 
-
 // Check environment variables
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -25,11 +24,9 @@ if (!supabaseUrl || !supabaseKey) {
   process.exit(1);
 }
 
-
 // Read migration file
 const migrationPath = join(rootDir, 'supabase/migrations/20251213_ai_instructors.sql');
 const migrationSQL = fs.readFileSync(migrationPath, 'utf8');
-
 
 // Create Supabase client
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -37,9 +34,8 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 // Split SQL into individual statements
 const statements = migrationSQL
   .split(';')
-  .map(s => s.trim())
-  .filter(s => s.length > 0 && !s.startsWith('--'));
-
+  .map((s) => s.trim())
+  .filter((s) => s.length > 0 && !s.startsWith('--'));
 
 // Execute each statement
 let successCount = 0;
@@ -50,7 +46,6 @@ for (let i = 0; i < statements.length; i++) {
   const preview = statement.substring(0, 60).replace(/\n/g, ' ');
 
   try {
-
     const { error } = await supabase.rpc('exec_sql', { sql: statement });
 
     if (error) {
@@ -59,8 +54,8 @@ for (let i = 0; i < statements.length; i++) {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          'apikey': supabaseKey,
-          'Authorization': `Bearer ${supabaseKey}`,
+          apikey: supabaseKey,
+          Authorization: `Bearer ${supabaseKey}`,
         },
         body: JSON.stringify({ sql: statement }),
       });
@@ -75,9 +70,7 @@ for (let i = 0; i < statements.length; i++) {
     // Continue with other statements
     errorCount++;
   }
-
 }
-
 
 if (errorCount === 0) {
   process.exit(0);

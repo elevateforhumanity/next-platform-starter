@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /*
   Copyright (c) 2025 Elevate for Humanity
@@ -11,9 +11,7 @@ import { frameworkSettings } from '../lib/frameworkSettings';
 
 export function FrameworkSettingsPanel() {
   const [config] = useState(frameworkSettings.getConfig());
-  const [validation, setValidation] = useState(
-    frameworkSettings.validateFrameworkCompatibility()
-  );
+  const [validation, setValidation] = useState(frameworkSettings.validateFrameworkCompatibility());
   const [activeSection, setActiveSection] = useState('overview');
 
   useEffect(() => {
@@ -47,14 +45,10 @@ export function FrameworkSettingsPanel() {
           background: 'var(--brand-surface)',
         }}
       >
-        <h3 style={{ margin: '0 0 16px 0', color: '#1e293b' }}>
-          🏗️ Framework Stack
-        </h3>
+        <h3 style={{ margin: '0 0 16px 0', color: '#1e293b' }}>🏗️ Framework Stack</h3>
         <ul style={{ listStyle: 'none', padding: 0, margin: 0 }}>
           <li>⚛️ React {config.frontend.version}</li>
-          <li>
-            🔷 TypeScript {config.typescript.enabled ? '5.9.2' : 'Disabled'}
-          </li>
+          <li>🔷 TypeScript {config.typescript.enabled ? '5.9.2' : 'Disabled'}</li>
           <li>⚡ Vite (Build Tool)</li>
           <li>🎨 Tailwind CSS {config.styling.version}</li>
           <li>🧪 {config.testing.framework}</li>
@@ -74,9 +68,7 @@ export function FrameworkSettingsPanel() {
             color: validation.isValid ? '#166534' : 'var(--brand-danger)',
           }}
         >
-          {validation.isValid
-            ? '• Configuration Valid'
-            : '❌ Configuration Issues'}
+          {validation.isValid ? '• Configuration Valid' : '❌ Configuration Issues'}
         </h3>
         {validation.errors.length > 0 && (
           <div style={{ marginBottom: 12 }}>
@@ -159,9 +151,7 @@ export function FrameworkSettingsPanel() {
 
     return (
       <div>
-        <h3 style={{ marginTop: 0, textTransform: 'capitalize' }}>
-          {sectionKey} Configuration
-        </h3>
+        <h3 style={{ marginTop: 0, textTransform: 'capitalize' }}>{sectionKey} Configuration</h3>
         <pre
           style={{
             background: 'var(--brand-surface)',
@@ -190,8 +180,7 @@ export function FrameworkSettingsPanel() {
             fontSize: '0.875rem',
           }}
         >
-          Manage your application framework settings and view system
-          configuration
+          Manage your application framework settings and view system configuration
         </p>
       </div>
       <div
@@ -210,14 +199,8 @@ export function FrameworkSettingsPanel() {
             style={{
               padding: '8px 16px',
               border: 'none',
-              background:
-                activeSection === section.id
-                  ? 'var(--brand-info)'
-                  : 'transparent',
-              color:
-                activeSection === section.id
-                  ? 'white'
-                  : 'var(--brand-text-muted)',
+              background: activeSection === section.id ? 'var(--brand-info)' : 'transparent',
+              color: activeSection === section.id ? 'white' : 'var(--brand-text-muted)',
               cursor: 'pointer',
               borderRadius: '6px',
               fontSize: '0.875rem',
@@ -230,9 +213,7 @@ export function FrameworkSettingsPanel() {
         ))}
       </div>
       <div>
-        {activeSection === 'overview'
-          ? renderOverview()
-          : renderConfigSection(activeSection)}
+        {activeSection === 'overview' ? renderOverview() : renderConfigSection(activeSection)}
       </div>
       <div
         style={{
@@ -243,9 +224,7 @@ export function FrameworkSettingsPanel() {
           borderRadius: 8,
         }}
       >
-        <h4 style={{ margin: '0 0 8px 0', color: '#1e293b' }}>
-          Configuration Info
-        </h4>
+        <h4 style={{ margin: '0 0 8px 0', color: '#1e293b' }}>Configuration Info</h4>
         <p
           style={{
             margin: 0,
@@ -253,8 +232,7 @@ export function FrameworkSettingsPanel() {
             color: 'var(--brand-text-muted)',
           }}
         >
-          Last updated: {config.meta.lastUpdated} | Version:{' '}
-          {config.meta.version}
+          Last updated: {config.meta.lastUpdated} | Version: {config.meta.version}
         </p>
       </div>
     </div>

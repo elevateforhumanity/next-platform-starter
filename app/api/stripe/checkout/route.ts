@@ -69,9 +69,7 @@ async function handler(req: Request) {
     ) {
       const form = await req.formData();
       productId = String(form.get('productId') || '');
-      customerEmail = form.get('customerEmail')
-        ? String(form.get('customerEmail'))
-        : null;
+      customerEmail = form.get('customerEmail') ? String(form.get('customerEmail')) : null;
     } else {
       const body = await req.json().catch(() => ({}));
       productId = body?.productId ?? null;
@@ -84,7 +82,11 @@ async function handler(req: Request) {
 
     // DB-backed product lookup with hardcoded fallback
     let product: Awaited<ReturnType<typeof getCatalogProduct>> = null;
-    try { product = await getCatalogProduct(productId); } catch { /* DB unavailable */ }
+    try {
+      product = await getCatalogProduct(productId);
+    } catch {
+      /* DB unavailable */
+    }
     if (!product) {
       const { getProductBySlug } = await import('@/app/data/store-products');
       const legacy = getProductBySlug(productId);
@@ -95,7 +97,7 @@ async function handler(req: Request) {
           name: legacy.name,
           description: legacy.description,
           price: legacy.price,
-          billingType: legacy.billingType as any || 'one_time',
+          billingType: (legacy.billingType as any) || 'one_time',
           licenseType: legacy.licenseType as any,
           features: legacy.features || [],
           appsIncluded: legacy.appsIncluded,
@@ -114,7 +116,10 @@ async function handler(req: Request) {
 
     // Check if Stripe Price ID is configured
     if (!isPriceConfigured(productId)) {
-      return NextResponse.redirect(new URL(`${productUrl}?error=payment-unavailable`, req.url), 303);
+      return NextResponse.redirect(
+        new URL(`${productUrl}?error=payment-unavailable`, req.url),
+        303,
+      );
     }
 
     const priceId = STRIPE_PRICE_IDS[productId];

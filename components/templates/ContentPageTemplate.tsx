@@ -28,16 +28,12 @@ export default function ContentPageTemplate({
       <div className="bg-gradient-to-r from-brand-blue-600 to-purple-600 text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
           <h1 className="text-4xl md:text-5xl font-bold mb-4">{title}</h1>
-          {description && (
-            <p className="text-xl text-white max-w-3xl">{description}</p>
-          )}
+          {description && <p className="text-xl text-white max-w-3xl">{description}</p>}
         </div>
       </div>
 
       {/* Content area */}
-      <div className="max-w-7xl mx-auto px-4 py-12">
-        {children}
-      </div>
+      <div className="max-w-7xl mx-auto px-4 py-12">{children}</div>
     </div>
   );
 }

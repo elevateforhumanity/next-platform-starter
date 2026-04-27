@@ -13,15 +13,12 @@ export async function hydrateProcessEnv(): Promise<void> {
   if (!url || !key) return;
 
   try {
-    const res = await fetch(
-      `${url}/rest/v1/app_secrets?scope=eq.runtime&select=key,value`,
-      {
-        headers: {
-          apikey: key,
-          Authorization: `Bearer ${key}`,
-        },
-      }
-    );
+    const res = await fetch(`${url}/rest/v1/app_secrets?scope=eq.runtime&select=key,value`, {
+      headers: {
+        apikey: key,
+        Authorization: `Bearer ${key}`,
+      },
+    });
 
     if (!res.ok) {
       console.error('[secrets-standalone] fetch failed:', res.status);

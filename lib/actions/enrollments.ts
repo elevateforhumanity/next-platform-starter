@@ -14,7 +14,9 @@ import { revalidatePath } from 'next/cache';
 import { logAuditEvent } from '@/lib/audit';
 import { logger } from '@/lib/logger';
 
-function getDb() { return getAdminClient(); }
+function getDb() {
+  return getAdminClient();
+}
 
 // ============================================================================
 // TYPES
@@ -92,7 +94,7 @@ export async function createEnrollment(input: CreateEnrollmentInput) {
         `
         *,
         funding_program:funding_programs(*)
-      `
+      `,
       )
       .eq('program_id', input.program_id)
       .eq('funding_program_id', input.funding_program_id)
@@ -109,9 +111,7 @@ export async function createEnrollment(input: CreateEnrollmentInput) {
       .eq('status', 'active')
       .maybeSingle();
     if (existingEnrollment) {
-      throw new Error(
-        `Student already has an active enrollment in this program`
-      );
+      throw new Error(`Student already has an active enrollment in this program`);
     }
     // 5. Create enrollment
     const { data: enrollment, error: enrollmentError } = await getDb()
@@ -137,9 +137,7 @@ export async function createEnrollment(input: CreateEnrollmentInput) {
       .maybeSingle();
     if (enrollmentError || !enrollment) {
       // Error: $1
-      throw new Error(
-        `Failed to create enrollment: ${enrollmentError?.message}`
-      );
+      throw new Error(`Failed to create enrollment: ${enrollmentError?.message}`);
     }
     // 6. Get all required modules for this program
     const { data: modules, error: modulesError } = await getDb()
@@ -172,18 +170,16 @@ export async function createEnrollment(input: CreateEnrollmentInput) {
     }
     // 8. If this is an apprenticeship program, create apprenticeship_enrollments record
     if (program.is_apprenticeship) {
-      const { error: apprenticeError } = await getDb()
-        .from('apprenticeship_enrollments')
-        .insert({
-          student_id: input.student_id,
-          program_id: input.program_id,
-          enrollment_id: enrollment.id,
-          status: 'pending',
-          related_instruction_hours: 0,
-          on_the_job_hours: 0,
-          transferred_related_instruction_hours: 0,
-          transferred_ojt_hours: 0,
-        });
+      const { error: apprenticeError } = await getDb().from('apprenticeship_enrollments').insert({
+        student_id: input.student_id,
+        program_id: input.program_id,
+        enrollment_id: enrollment.id,
+        status: 'pending',
+        related_instruction_hours: 0,
+        on_the_job_hours: 0,
+        transferred_related_instruction_hours: 0,
+        transferred_ojt_hours: 0,
+      });
       if (apprenticeError) {
         logger.error('Apprenticeship enrollment error:', apprenticeError);
         // Don't fail the whole enrollment
@@ -200,12 +196,12 @@ export async function createEnrollment(input: CreateEnrollmentInput) {
       enrollment_id: enrollment.id,
       message: `Enrollment created successfully for ${student.first_name} ${student.last_name} in ${program.name}`,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
-      error:
-        'Operation failed',
+      error: 'Operation failed',
     };
   }
 }
@@ -245,9 +241,7 @@ export async function addTransferHours(input: AddTransferHoursInput) {
       .maybeSingle();
     if (transferError || !transferHours) {
       // Error: $1
-      throw new Error(
-        `Failed to create transfer hours: ${transferError?.message}`
-      );
+      throw new Error(`Failed to create transfer hours: ${transferError?.message}`);
     }
     // 3. Revalidate paths
     revalidatePath(`/admin/enrollments/${input.enrollment_id}`);
@@ -257,12 +251,12 @@ export async function addTransferHours(input: AddTransferHoursInput) {
       transfer_hours_id: transferHours.id,
       message: `Transfer hours from ${input.source_school_name} (${input.source_state}) added successfully. Status: Pending Review`,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
-      error:
-        'Operation failed',
+      error: 'Operation failed',
     };
   }
 }
@@ -283,26 +277,22 @@ export async function approveTransferHours(input: ApproveTransferHoursInput) {
           program_id,
           program:programs(is_apprenticeship)
         )
-      `
+      `,
       )
       .eq('id', input.transfer_hours_id)
       .maybeSingle();
     if (fetchError || !transferHours) {
-      throw new Error(
-        `Transfer hours record not found: ${input.transfer_hours_id}`
-      );
+      throw new Error(`Transfer hours record not found: ${input.transfer_hours_id}`);
     }
     // 2. Validate accepted hours don't exceed submitted hours
     if (input.hours_theory_accepted > transferHours.hours_theory_submitted) {
       throw new Error(
-        `Accepted theory hours (${input.hours_theory_accepted}) cannot exceed submitted hours (${transferHours.hours_theory_submitted})`
+        `Accepted theory hours (${input.hours_theory_accepted}) cannot exceed submitted hours (${transferHours.hours_theory_submitted})`,
       );
     }
-    if (
-      input.hours_practical_accepted > transferHours.hours_practical_submitted
-    ) {
+    if (input.hours_practical_accepted > transferHours.hours_practical_submitted) {
       throw new Error(
-        `Accepted practical hours (${input.hours_practical_accepted}) cannot exceed submitted hours (${transferHours.hours_practical_submitted})`
+        `Accepted practical hours (${input.hours_practical_accepted}) cannot exceed submitted hours (${transferHours.hours_practical_submitted})`,
       );
     }
     // 3. Update transfer hours record
@@ -320,33 +310,26 @@ export async function approveTransferHours(input: ApproveTransferHoursInput) {
       .eq('id', input.transfer_hours_id);
     if (updateError) {
       // Error: $1
-      throw new Error(
-        `Failed to approve transfer hours: ${updateError.message}`
-      );
+      throw new Error(`Failed to approve transfer hours: ${updateError.message}`);
     }
     // 4. If this is an apprenticeship, update apprenticeship_enrollments
     if (transferHours.enrollment?.program?.is_apprenticeship) {
       // Calculate total transferred hours for this enrollment
       const { data: allTransfers } = await getDb()
         .from('transfer_hours')
-        .select(
-          'hours_theory_accepted, hours_practical_accepted, hours_other_accepted'
-        )
+        .select('hours_theory_accepted, hours_practical_accepted, hours_other_accepted')
         .eq('enrollment_id', transferHours.enrollment_id)
         .eq('status', 'approved');
       if (allTransfers) {
         const totalTheory = allTransfers.reduce(
           (sum, t) => sum + (t.hours_theory_accepted || 0),
-          0
+          0,
         );
         const totalPractical = allTransfers.reduce(
           (sum, t) => sum + (t.hours_practical_accepted || 0),
-          0
+          0,
         );
-        const totalOther = allTransfers.reduce(
-          (sum, t) => sum + (t.hours_other_accepted || 0),
-          0
-        );
+        const totalOther = allTransfers.reduce((sum, t) => sum + (t.hours_other_accepted || 0), 0);
         // Update apprenticeship record
         await getDb()
           .from('apprenticeship_enrollments')
@@ -360,29 +343,24 @@ export async function approveTransferHours(input: ApproveTransferHoursInput) {
     }
     // 5. Revalidate paths
     revalidatePath(`/admin/enrollments/${transferHours.enrollment_id}`);
-    revalidatePath(
-      `/admin/students/${transferHours.enrollment?.student_id}/transfer-hours`
-    );
+    revalidatePath(`/admin/students/${transferHours.enrollment?.student_id}/transfer-hours`);
     return {
       success: true,
       message: `Transfer hours approved: ${input.hours_theory_accepted} theory + ${input.hours_practical_accepted} practical hours`,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
-      error:
-        'Operation failed',
+      error: 'Operation failed',
     };
   }
 }
 // ============================================================================
 // REJECT TRANSFER HOURS
 // ============================================================================
-export async function rejectTransferHours(
-  transfer_hours_id: string,
-  reason: string
-) {
+export async function rejectTransferHours(transfer_hours_id: string, reason: string) {
   try {
     const { error } = await getDb()
       .from('transfer_hours')
@@ -393,20 +371,18 @@ export async function rejectTransferHours(
       })
       .eq('id', transfer_hours_id);
     if (error) {
-      throw new Error(
-        `Failed to reject transfer hours: ${'Operation failed'}`
-      );
+      throw new Error(`Failed to reject transfer hours: ${'Operation failed'}`);
     }
     return {
       success: true,
       message: 'Transfer hours rejected',
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
-      error:
-        'Operation failed',
+      error: 'Operation failed',
     };
   }
 }
@@ -437,9 +413,7 @@ export async function updateFundingAmounts(input: UpdateFundingAmountsInput) {
       .eq('id', input.enrollment_id);
     if (updateError) {
       // Error: $1
-      throw new Error(
-        `Failed to update funding amounts: ${updateError.message}`
-      );
+      throw new Error(`Failed to update funding amounts: ${updateError.message}`);
     }
     // 3. Revalidate paths
     revalidatePath(`/admin/enrollments/${input.enrollment_id}`);
@@ -448,12 +422,12 @@ export async function updateFundingAmounts(input: UpdateFundingAmountsInput) {
       success: true,
       message: 'Funding amounts updated successfully',
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
-      error:
-        'Operation failed',
+      error: 'Operation failed',
     };
   }
 }
@@ -482,31 +456,29 @@ export async function getEnrollmentDetails(enrollment_id: string) {
           )
         ),
         apprenticeship:apprenticeship_enrollments(*)
-      `
+      `,
       )
       .eq('id', enrollment_id)
       .maybeSingle();
     if (error) {
-      throw new Error(
-        `Failed to fetch enrollment: ${'Operation failed'}`
-      );
+      throw new Error(`Failed to fetch enrollment: ${'Operation failed'}`);
     }
     // Calculate hours summary
     const transferHours = data.transfer_hours || [];
     const approvedTransfers = transferHours.filter(
-      (t: Record<string, any>) => t.status === 'approved'
+      (t: Record<string, any>) => t.status === 'approved',
     );
     const totalTransferredTheory = approvedTransfers.reduce(
       (data: any) => sum + (t.hours_theory_accepted || 0),
-      0
+      0,
     );
     const totalTransferredPractical = approvedTransfers.reduce(
       (data: any) => sum + (t.hours_practical_accepted || 0),
-      0
+      0,
     );
     const totalTransferredOther = approvedTransfers.reduce(
       (data: any) => sum + (t.hours_other_accepted || 0),
-      0
+      0,
     );
     return {
       success: true,
@@ -517,20 +489,17 @@ export async function getEnrollmentDetails(enrollment_id: string) {
             theory: totalTransferredTheory,
             practical: totalTransferredPractical,
             other: totalTransferredOther,
-            total:
-              totalTransferredTheory +
-              totalTransferredPractical +
-              totalTransferredOther,
+            total: totalTransferredTheory + totalTransferredPractical + totalTransferredOther,
           },
         },
       },
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
-      error:
-        'Operation failed',
+      error: 'Operation failed',
     };
   }
 }

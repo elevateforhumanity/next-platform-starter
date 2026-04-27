@@ -16,7 +16,10 @@ const root = path.join(__dirname, '..');
 dotenv.config({ path: path.join(root, '.env.local'), override: false });
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-if (!OPENAI_API_KEY) { console.error('OPENAI_API_KEY not set'); process.exit(1); }
+if (!OPENAI_API_KEY) {
+  console.error('OPENAI_API_KEY not set');
+  process.exit(1);
+}
 
 const MARCUS_INSTRUCTION =
   'Speak as Marcus Johnson — a licensed master electrician and HVAC technician ' +
@@ -44,8 +47,13 @@ function parseCSV(text) {
         let field = '';
         while (i < len) {
           if (text[i] === '"') {
-            if (text[i + 1] === '"') { field += '"'; i += 2; }
-            else { i++; break; }
+            if (text[i + 1] === '"') {
+              field += '"';
+              i += 2;
+            } else {
+              i++;
+              break;
+            }
           } else {
             field += text[i++];
           }
@@ -58,7 +66,10 @@ function parseCSV(text) {
         }
         row.push(field.trim());
       }
-      if (i < len && text[i] === ',') { i++; continue; }
+      if (i < len && text[i] === ',') {
+        i++;
+        continue;
+      }
       if (i < len && (text[i] === '\n' || text[i] === '\r')) {
         if (text[i] === '\r' && text[i + 1] === '\n') i++;
         i++;
@@ -67,10 +78,14 @@ function parseCSV(text) {
       break;
     }
     if (row.length === 0 || (row.length === 1 && row[0] === '')) continue;
-    if (inHeader) { headers = row; inHeader = false; }
-    else {
+    if (inHeader) {
+      headers = row;
+      inHeader = false;
+    } else {
       const obj = {};
-      headers.forEach((h, idx) => { obj[h] = row[idx] ?? ''; });
+      headers.forEach((h, idx) => {
+        obj[h] = row[idx] ?? '';
+      });
       rows.push(obj);
     }
   }
@@ -79,11 +94,13 @@ function parseCSV(text) {
 
 // Load CSV
 const csvText = readFileSync(path.join(root, 'data/hvac-master-curriculum.csv'), 'utf8');
-const csvRows = parseCSV(csvText).filter(r => r.Lesson_ID?.startsWith('hvac-'));
+const csvRows = parseCSV(csvText).filter((r) => r.Lesson_ID?.startsWith('hvac-'));
 
 // Load scripts (keyed by defId)
 const scripts = {};
-const scriptData = JSON.parse(readFileSync(path.join(root, 'data/hvac-lesson-scripts.json'), 'utf8'));
+const scriptData = JSON.parse(
+  readFileSync(path.join(root, 'data/hvac-lesson-scripts.json'), 'utf8'),
+);
 for (const entry of scriptData) {
   scripts[entry.defId] = entry.script;
 }
@@ -104,7 +121,7 @@ for (const row of csvRows) {
   if (existsSync(outPath)) {
     const size = readFileSync(outPath).length;
     if (size > 50000) {
-      console.log(`  ⏭  ${lessonId} — exists (${(size/1024).toFixed(0)}KB)`);
+      console.log(`  ⏭  ${lessonId} — exists (${(size / 1024).toFixed(0)}KB)`);
       continue;
     }
     console.log(`  ♻  ${lessonId} — exists but tiny (${size}B), regenerating`);
@@ -133,46 +150,49 @@ function generateOne(item) {
     });
 
     const attempt = (retries = 3) => {
-      const req = https.request({
-        hostname: 'api.openai.com',
-        path: '/v1/audio/speech',
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${OPENAI_API_KEY}`,
-          'Content-Type': 'application/json',
-          'Content-Length': Buffer.byteLength(body),
+      const req = https.request(
+        {
+          hostname: 'api.openai.com',
+          path: '/v1/audio/speech',
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${OPENAI_API_KEY}`,
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(body),
+          },
         },
-      }, (res) => {
-        if (res.statusCode === 429) {
-          const wait = 30000;
-          console.log(`  ⏳ Rate limited on ${item.lessonId} — waiting ${wait/1000}s`);
-          setTimeout(() => attempt(retries - 1), wait);
-          return;
-        }
-        if (res.statusCode !== 200) {
+        (res) => {
+          if (res.statusCode === 429) {
+            const wait = 30000;
+            console.log(`  ⏳ Rate limited on ${item.lessonId} — waiting ${wait / 1000}s`);
+            setTimeout(() => attempt(retries - 1), wait);
+            return;
+          }
+          if (res.statusCode !== 200) {
+            const chunks = [];
+            res.on('data', (c) => chunks.push(c));
+            res.on('end', () => {
+              const msg = Buffer.concat(chunks).toString().slice(0, 200);
+              if (retries > 0) {
+                console.warn(`  ⚠  ${item.lessonId} HTTP ${res.statusCode} — retrying. ${msg}`);
+                setTimeout(() => attempt(retries - 1), 5000);
+              } else {
+                console.error(`  ❌ ${item.lessonId} failed: ${res.statusCode} ${msg}`);
+                resolve('failed');
+              }
+            });
+            return;
+          }
           const chunks = [];
-          res.on('data', c => chunks.push(c));
+          res.on('data', (c) => chunks.push(c));
           res.on('end', () => {
-            const msg = Buffer.concat(chunks).toString().slice(0, 200);
-            if (retries > 0) {
-              console.warn(`  ⚠  ${item.lessonId} HTTP ${res.statusCode} — retrying. ${msg}`);
-              setTimeout(() => attempt(retries - 1), 5000);
-            } else {
-              console.error(`  ❌ ${item.lessonId} failed: ${res.statusCode} ${msg}`);
-              resolve('failed');
-            }
+            const buf = Buffer.concat(chunks);
+            writeFileSync(item.outPath, buf);
+            console.log(`  ✅ ${item.lessonId} — ${(buf.length / 1024).toFixed(0)}KB`);
+            resolve('ok');
           });
-          return;
-        }
-        const chunks = [];
-        res.on('data', c => chunks.push(c));
-        res.on('end', () => {
-          const buf = Buffer.concat(chunks);
-          writeFileSync(item.outPath, buf);
-          console.log(`  ✅ ${item.lessonId} — ${(buf.length/1024).toFixed(0)}KB`);
-          resolve('ok');
-        });
-      });
+        },
+      );
       req.on('error', (e) => {
         if (retries > 0) {
           console.warn(`  ⚠  ${item.lessonId} network error — retrying: ${e.message}`);
@@ -192,7 +212,8 @@ function generateOne(item) {
 
 // Process 3 at a time
 const CONCURRENCY = 3;
-let ok = 0, failed = 0;
+let ok = 0,
+  failed = 0;
 
 for (let i = 0; i < work.length; i += CONCURRENCY) {
   const batch = work.slice(i, i + CONCURRENCY);
@@ -203,7 +224,7 @@ for (let i = 0; i < work.length; i += CONCURRENCY) {
   }
   // Brief pause between batches
   if (i + CONCURRENCY < work.length) {
-    await new Promise(r => setTimeout(r, 1000));
+    await new Promise((r) => setTimeout(r, 1000));
   }
 }
 

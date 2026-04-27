@@ -8,11 +8,7 @@ function findFiles(dir, ext) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
-    if (
-      entry.isDirectory() &&
-      !entry.name.startsWith('.') &&
-      entry.name !== 'node_modules'
-    ) {
+    if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
       results = results.concat(findFiles(fullPath, ext));
     } else if (entry.name.endsWith(ext)) {
       results.push(fullPath);
@@ -36,10 +32,7 @@ for (const file of htmlFiles) {
     modified = true;
   }
   if (content.includes('/programs/building-tech')) {
-    content = content.replace(
-      /\/programs\/building-tech/g,
-      '/programs#building-tech'
-    );
+    content = content.replace(/\/programs\/building-tech/g, '/programs#building-tech');
     modified = true;
   }
 

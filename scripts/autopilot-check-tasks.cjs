@@ -122,9 +122,7 @@ taskFiles.forEach((taskFile) => {
 console.log('=====================================');
 console.log(`✅ Tasks executed: ${tasksExecuted}`);
 console.log(`❌ Tasks failed: ${tasksFailed}`);
-console.log(
-  `⏳ Tasks pending: ${taskFiles.length - tasksExecuted - tasksFailed}`
-);
+console.log(`⏳ Tasks pending: ${taskFiles.length - tasksExecuted - tasksFailed}`);
 console.log('');
 
 if (tasksExecuted > 0) {

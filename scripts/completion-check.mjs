@@ -2,7 +2,6 @@
 
 import { readFileSync } from 'fs';
 
-
 // Load all reports
 const pageAudit = JSON.parse(readFileSync('reports/page-audit.json', 'utf-8'));
 const crossWiring = JSON.parse(readFileSync('reports/cross-wiring-findings.json', 'utf-8'));
@@ -13,11 +12,11 @@ const unresolvedIssues = {
   contentIssues: 0,
   securityIssues: 0,
   verificationNeeded: 0,
-  total: 0
+  total: 0,
 };
 
 // Content issues
-const pagesWithIssues = pageAudit.pages.filter(p => p.issueCount > 0);
+const pagesWithIssues = pageAudit.pages.filter((p) => p.issueCount > 0);
 unresolvedIssues.contentIssues = pagesWithIssues.length;
 
 // Security issues (accounting for false positives)
@@ -25,12 +24,13 @@ unresolvedIssues.contentIssues = pagesWithIssues.length;
 unresolvedIssues.verificationNeeded = 12;
 
 // Security audit issues
-unresolvedIssues.securityIssues = securityAudit.securityIssues.filter(i => i.severity === 'HIGH').length;
+unresolvedIssues.securityIssues = securityAudit.securityIssues.filter(
+  (i) => i.severity === 'HIGH',
+).length;
 
-unresolvedIssues.total = unresolvedIssues.contentIssues + unresolvedIssues.verificationNeeded + unresolvedIssues.securityIssues;
-
-
-
-
+unresolvedIssues.total =
+  unresolvedIssues.contentIssues +
+  unresolvedIssues.verificationNeeded +
+  unresolvedIssues.securityIssues;
 
 process.exit(1);

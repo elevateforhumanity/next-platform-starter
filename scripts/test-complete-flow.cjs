@@ -9,7 +9,7 @@ console.log('==========================================\n');
 const results = {
   passed: [],
   failed: [],
-  warnings: []
+  warnings: [],
 };
 
 // Test 1: Authentication
@@ -26,17 +26,18 @@ const authFiles = [
   'app/auth/callback/route.ts',
 ];
 
-authFiles.forEach(file => {
+authFiles.forEach((file) => {
   const fullPath = path.join(process.cwd(), file);
   if (fs.existsSync(fullPath)) {
     const content = fs.readFileSync(fullPath, 'utf8');
     // Check for auth integration OR form imports (page wrappers)
-    const hasAuth = content.includes('supabase') || 
-                    content.includes('auth') || 
-                    content.includes('LoginForm') ||
-                    content.includes('SignupForm') ||
-                    content.includes('ForgotPasswordForm') ||
-                    content.includes('ResetPasswordForm');
+    const hasAuth =
+      content.includes('supabase') ||
+      content.includes('auth') ||
+      content.includes('LoginForm') ||
+      content.includes('SignupForm') ||
+      content.includes('ForgotPasswordForm') ||
+      content.includes('ResetPasswordForm');
     if (hasAuth) {
       console.log(`   ✅ ${file}`);
       results.passed.push(`Auth: ${file}`);
@@ -61,7 +62,7 @@ const enrollmentFiles = [
   'app/courses/partners/[courseId]/success/page.tsx',
 ];
 
-enrollmentFiles.forEach(file => {
+enrollmentFiles.forEach((file) => {
   const fullPath = path.join(process.cwd(), file);
   if (fs.existsSync(fullPath)) {
     const size = (fs.statSync(fullPath).size / 1024).toFixed(2);
@@ -82,7 +83,7 @@ const progressFiles = [
   'app/student/courses/page.tsx',
 ];
 
-progressFiles.forEach(file => {
+progressFiles.forEach((file) => {
   const fullPath = path.join(process.cwd(), file);
   if (fs.existsSync(fullPath)) {
     const content = fs.readFileSync(fullPath, 'utf8');
@@ -112,7 +113,7 @@ const certFiles = [
   'supabase/migrations/20241201_certificates_enhancement.sql',
 ];
 
-certFiles.forEach(file => {
+certFiles.forEach((file) => {
   const fullPath = path.join(process.cwd(), file);
   if (fs.existsSync(fullPath)) {
     const size = (fs.statSync(fullPath).size / 1024).toFixed(2);
@@ -133,7 +134,7 @@ const dbChecks = [
   { file: 'app/api/certificates/download/route.ts', pattern: 'certificates' },
 ];
 
-dbChecks.forEach(check => {
+dbChecks.forEach((check) => {
   const fullPath = path.join(process.cwd(), check.file);
   if (fs.existsSync(fullPath)) {
     const content = fs.readFileSync(fullPath, 'utf8');
@@ -158,13 +159,13 @@ console.log('');
 
 if (results.failed.length > 0) {
   console.log('❌ Failed Tests:');
-  results.failed.forEach(f => console.log(`  - ${f}`));
+  results.failed.forEach((f) => console.log(`  - ${f}`));
   console.log('');
 }
 
 if (results.warnings.length > 0) {
   console.log('⚠️  Warnings:');
-  results.warnings.forEach(w => console.log(`  - ${w}`));
+  results.warnings.forEach((w) => console.log(`  - ${w}`));
   console.log('');
 }
 

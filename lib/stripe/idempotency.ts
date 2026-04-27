@@ -20,13 +20,13 @@ export interface IdempotencyResult {
  */
 export async function checkIdempotency(eventId: string): Promise<IdempotencyResult> {
   const supabase = await getAdminClient();
-  
+
   const { data } = await supabase
     .from('processed_stripe_events')
     .select('id')
     .eq('stripe_event_id', eventId)
     .maybeSingle();
-  
+
   return {
     isDuplicate: !!data,
     eventId,
@@ -41,20 +41,18 @@ export async function markEventProcessed(
   eventId: string,
   eventType: string,
   paymentIntentId?: string,
-  metadata?: Record<string, any>
+  metadata?: Record<string, any>,
 ): Promise<void> {
   const supabase = await getAdminClient();
-  
-  const { error } = await supabase
-    .from('processed_stripe_events')
-    .insert({
-      stripe_event_id: eventId,
-      event_type: eventType,
-      payment_intent_id: paymentIntentId || null,
-      environment: ENVIRONMENT,
-      metadata: metadata || null,
-    });
-  
+
+  const { error } = await supabase.from('processed_stripe_events').insert({
+    stripe_event_id: eventId,
+    event_type: eventType,
+    payment_intent_id: paymentIntentId || null,
+    environment: ENVIRONMENT,
+    metadata: metadata || null,
+  });
+
   if (error) {
     // Log but don't throw - idempotency table insert failure shouldn't break processing
     logger.error('Failed to mark event as processed', error);
@@ -69,22 +67,22 @@ export async function withIdempotency<T>(
   eventId: string,
   eventType: string,
   paymentIntentId: string | undefined,
-  handler: () => Promise<T>
+  handler: () => Promise<T>,
 ): Promise<{ result: T | null; isDuplicate: boolean }> {
   // Check if already processed
   const { isDuplicate } = await checkIdempotency(eventId);
-  
+
   if (isDuplicate) {
     logger.info('Duplicate Stripe event, skipping', { eventId, eventType });
     return { result: null, isDuplicate: true };
   }
-  
+
   // Execute handler
   const result = await handler();
-  
+
   // Mark as processed
   await markEventProcessed(eventId, eventType, paymentIntentId);
-  
+
   return { result, isDuplicate: false };
 }
 
@@ -92,9 +90,9 @@ export async function withIdempotency<T>(
  * Create idempotent response for duplicate events
  */
 export function duplicateEventResponse(): Response {
-  return Response.json({ 
-    received: true, 
+  return Response.json({
+    received: true,
     duplicate: true,
-    message: 'Event already processed' 
+    message: 'Event already processed',
   });
 }

@@ -13,11 +13,11 @@ export interface TenantHeaders {
  */
 export function rejectClientTenantId(
   body: Record<string, unknown> | null,
-  query: URLSearchParams | null
+  query: URLSearchParams | null,
 ): void {
   const hasTenantInBody = body && 'tenant_id' in body;
   const hasTenantInQuery = query?.has('tenant_id');
-  
+
   if (hasTenantInBody || hasTenantInQuery) {
     logger.warn('Client attempted to pass tenant_id', {
       inBody: hasTenantInBody,
@@ -29,7 +29,7 @@ export function rejectClientTenantId(
 
 export class TenantSpoofingError extends Error {
   public statusCode: number = 400;
-  
+
   constructor(message: string) {
     super(message);
     this.name = 'TenantSpoofingError';
@@ -38,7 +38,7 @@ export class TenantSpoofingError extends Error {
 
 /**
  * STEP 4B: Extract tenant context from request headers
- * 
+ *
  * Tenant-scoped route handlers MUST use this to get tenant_id.
  * Never accept tenant_id from query params or request body.
  */
@@ -86,7 +86,7 @@ export function getTenantHeaders(request: NextRequest): TenantHeaders | null {
 
 export class TenantRequiredError extends Error {
   public statusCode: number = 403;
-  
+
   constructor(message: string) {
     super(message);
     this.name = 'TenantRequiredError';
@@ -96,9 +96,8 @@ export class TenantRequiredError extends Error {
 /**
  * Create a JSON response for tenant errors
  */
-export function tenantErrorResponse(error: TenantRequiredError | TenantSpoofingError): NextResponse {
-  return NextResponse.json(
-    { error: 'Operation failed' },
-    { status: error.statusCode }
-  );
+export function tenantErrorResponse(
+  error: TenantRequiredError | TenantSpoofingError,
+): NextResponse {
+  return NextResponse.json({ error: 'Operation failed' }, { status: error.statusCode });
 }

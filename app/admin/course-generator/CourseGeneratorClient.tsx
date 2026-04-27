@@ -3,17 +3,16 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { 
-  Sparkles, 
-  Loader2, 
-  
-  BookOpen, 
-  Clock, 
+import {
+  Sparkles,
+  Loader2,
+  BookOpen,
+  Clock,
   Target,
   GraduationCap,
   FileText,
   HelpCircle,
-  AlertCircle
+  AlertCircle,
 } from 'lucide-react';
 
 interface GeneratedCourse {
@@ -31,14 +30,12 @@ interface GeneratedCourse {
   };
 }
 
-
-
 export default function CourseGeneratorPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
   const [success, setSuccess] = useState<GeneratedCourse | null>(null);
-  
+
   const [formData, setFormData] = useState({
     topic: '',
     description: '',
@@ -111,10 +108,9 @@ Include Assignments: ${formData.includeAssignments}
 
   return (
     <div className="min-h-screen bg-white p-8">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Course Generator" }]} />
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Course Generator' }]} />
       </div>
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">
@@ -124,7 +120,9 @@ Include Assignments: ${formData.includeAssignments}
             </div>
             <h1 className="text-3xl font-bold text-slate-900">AI Course Generator</h1>
           </div>
-          <p className="text-slate-700">Generate complete courses with modules, lessons, and quizzes using AI</p>
+          <p className="text-slate-700">
+            Generate complete courses with modules, lessons, and quizzes using AI
+          </p>
         </div>
 
         {success && (
@@ -132,7 +130,9 @@ Include Assignments: ${formData.includeAssignments}
             <div className="flex items-start gap-4">
               <span className="text-slate-400 flex-shrink-0">•</span>
               <div className="flex-1">
-                <h2 className="text-xl font-semibold text-brand-green-900 mb-2">Course Generated Successfully!</h2>
+                <h2 className="text-xl font-semibold text-brand-green-900 mb-2">
+                  Course Generated Successfully!
+                </h2>
                 <p className="text-brand-green-700 mb-4">{success.outline.title}</p>
                 <div className="grid grid-cols-3 gap-4 mb-4">
                   <div className="bg-white rounded-lg p-3 text-center">
@@ -141,17 +141,37 @@ Include Assignments: ${formData.includeAssignments}
                   </div>
                   <div className="bg-white rounded-lg p-3 text-center">
                     <FileText className="w-5 h-5 text-brand-green-600 mx-auto mb-1" />
-                    <p className="text-sm font-medium">{success.outline.modules.reduce((sum, m) => sum + m.lessons.length, 0)} Lessons</p>
+                    <p className="text-sm font-medium">
+                      {success.outline.modules.reduce((sum, m) => sum + m.lessons.length, 0)}{' '}
+                      Lessons
+                    </p>
                   </div>
                   <div className="bg-white rounded-lg p-3 text-center">
                     <Clock className="w-5 h-5 text-brand-green-600 mx-auto mb-1" />
-                    <p className="text-sm font-medium">{success.outline.estimatedDuration}h Duration</p>
+                    <p className="text-sm font-medium">
+                      {success.outline.estimatedDuration}h Duration
+                    </p>
                   </div>
                 </div>
                 <div className="flex gap-3">
-                  <button onClick={() => router.push(`/admin/courses/${success.courseId}`)} className="px-4 py-2 bg-brand-green-600 text-white rounded-lg hover:bg-brand-green-700">View Course</button>
-                  <button onClick={() => router.push(`/admin/courses/${success.courseId}/edit`)} className="px-4 py-2 bg-white border border-brand-green-300 text-brand-green-700 rounded-lg hover:bg-brand-green-50">Edit Course</button>
-                  <button onClick={() => setSuccess(null)} className="px-4 py-2 bg-white border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50">Generate Another</button>
+                  <button
+                    onClick={() => router.push(`/admin/courses/${success.courseId}`)}
+                    className="px-4 py-2 bg-brand-green-600 text-white rounded-lg hover:bg-brand-green-700"
+                  >
+                    View Course
+                  </button>
+                  <button
+                    onClick={() => router.push(`/admin/courses/${success.courseId}/edit`)}
+                    className="px-4 py-2 bg-white border border-brand-green-300 text-brand-green-700 rounded-lg hover:bg-brand-green-50"
+                  >
+                    Edit Course
+                  </button>
+                  <button
+                    onClick={() => setSuccess(null)}
+                    className="px-4 py-2 bg-white border border-gray-300 text-slate-900 rounded-lg hover:bg-gray-50"
+                  >
+                    Generate Another
+                  </button>
                 </div>
               </div>
             </div>
@@ -166,27 +186,62 @@ Include Assignments: ${formData.includeAssignments}
         )}
 
         {!success && (
-          <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+          <form
+            onSubmit={handleSubmit}
+            className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+          >
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-2">Course Topic *</label>
-                <input type="text" required value={formData.topic} onChange={(e) => setFormData({ ...formData, topic: e.target.value })} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" placeholder="e.g., HVAC Fundamentals, Medical Billing Basics, CDL Test Preparation" />
+                <label className="block text-sm font-medium text-slate-900 mb-2">
+                  Course Topic *
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={formData.topic}
+                  onChange={(e) => setFormData({ ...formData, topic: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  placeholder="e.g., HVAC Fundamentals, Medical Billing Basics, CDL Test Preparation"
+                />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-2">Course Description</label>
-                <textarea value={formData.description} onChange={(e) => setFormData({ ...formData, description: e.target.value })} rows={3} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" placeholder="Describe what students will learn and achieve..." />
+                <label className="block text-sm font-medium text-slate-900 mb-2">
+                  Course Description
+                </label>
+                <textarea
+                  value={formData.description}
+                  onChange={(e) => setFormData({ ...formData, description: e.target.value })}
+                  rows={3}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  placeholder="Describe what students will learn and achieve..."
+                />
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-2">Target Audience</label>
-                <input type="text" value={formData.targetAudience} onChange={(e) => setFormData({ ...formData, targetAudience: e.target.value })} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" placeholder="e.g., Career changers, Entry-level workers, Experienced professionals" />
+                <label className="block text-sm font-medium text-slate-900 mb-2">
+                  Target Audience
+                </label>
+                <input
+                  type="text"
+                  value={formData.targetAudience}
+                  onChange={(e) => setFormData({ ...formData, targetAudience: e.target.value })}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  placeholder="e.g., Career changers, Entry-level workers, Experienced professionals"
+                />
               </div>
 
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2"><Target className="w-4 h-4 inline mr-1" />Difficulty Level</label>
-                  <select value={formData.difficulty} onChange={(e) => setFormData({ ...formData, difficulty: e.target.value })} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent">
+                  <label className="block text-sm font-medium text-slate-900 mb-2">
+                    <Target className="w-4 h-4 inline mr-1" />
+                    Difficulty Level
+                  </label>
+                  <select
+                    value={formData.difficulty}
+                    onChange={(e) => setFormData({ ...formData, difficulty: e.target.value })}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  >
                     <option value="beginner">Beginner</option>
                     <option value="intermediate">Intermediate</option>
                     <option value="advanced">Advanced</option>
@@ -194,31 +249,71 @@ Include Assignments: ${formData.includeAssignments}
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2"><Clock className="w-4 h-4 inline mr-1" />Duration (hours)</label>
-                  <input type="number" min={1} max={100} value={formData.duration} onChange={(e) => setFormData({ ...formData, duration: parseInt(e.target.value) || 10 })} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+                  <label className="block text-sm font-medium text-slate-900 mb-2">
+                    <Clock className="w-4 h-4 inline mr-1" />
+                    Duration (hours)
+                  </label>
+                  <input
+                    type="number"
+                    min={1}
+                    max={100}
+                    value={formData.duration}
+                    onChange={(e) =>
+                      setFormData({ ...formData, duration: parseInt(e.target.value) || 10 })
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  />
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2"><BookOpen className="w-4 h-4 inline mr-1" />Number of Modules</label>
-                  <input type="number" min={1} max={20} value={formData.moduleCount} onChange={(e) => setFormData({ ...formData, moduleCount: parseInt(e.target.value) || 5 })} className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+                  <label className="block text-sm font-medium text-slate-900 mb-2">
+                    <BookOpen className="w-4 h-4 inline mr-1" />
+                    Number of Modules
+                  </label>
+                  <input
+                    type="number"
+                    min={1}
+                    max={20}
+                    value={formData.moduleCount}
+                    onChange={(e) =>
+                      setFormData({ ...formData, moduleCount: parseInt(e.target.value) || 5 })
+                    }
+                    className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+                  />
                 </div>
               </div>
 
               <div className="flex flex-wrap gap-6">
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" checked={formData.includeQuizzes} onChange={(e) => setFormData({ ...formData, includeQuizzes: e.target.checked })} className="w-5 h-5 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500" />
+                  <input
+                    type="checkbox"
+                    checked={formData.includeQuizzes}
+                    onChange={(e) => setFormData({ ...formData, includeQuizzes: e.target.checked })}
+                    className="w-5 h-5 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
+                  />
                   <HelpCircle className="w-4 h-4 text-slate-700" />
                   <span className="text-slate-900">Include Quizzes</span>
                 </label>
 
                 <label className="flex items-center gap-2 cursor-pointer">
-                  <input type="checkbox" checked={formData.includeAssignments} onChange={(e) => setFormData({ ...formData, includeAssignments: e.target.checked })} className="w-5 h-5 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500" />
+                  <input
+                    type="checkbox"
+                    checked={formData.includeAssignments}
+                    onChange={(e) =>
+                      setFormData({ ...formData, includeAssignments: e.target.checked })
+                    }
+                    className="w-5 h-5 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
+                  />
                   <FileText className="w-4 h-4 text-slate-700" />
                   <span className="text-slate-900">Include Assignments</span>
                 </label>
               </div>
 
-              <button type="submit" disabled={loading || !formData.topic} className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors">
+              <button
+                type="submit"
+                disabled={loading || !formData.topic}
+                className="w-full flex items-center justify-center gap-3 px-6 py-4 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+              >
                 {loading ? (
                   <>
                     <Loader2 className="w-5 h-5 animate-spin" />

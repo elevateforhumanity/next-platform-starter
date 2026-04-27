@@ -47,7 +47,7 @@ async function _GET(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to fetch partners' }, { status: 500 });
     }
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       partners: partners || [],
       count: partners?.length || 0,
     });

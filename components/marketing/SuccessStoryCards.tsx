@@ -10,7 +10,7 @@ const stories = [
     beforeJob: 'Unemployed after incarceration',
     afterJob: 'Reentry Specialist',
     salary: '$45,000/year',
-    quote: "This program gave me a second chance when I didn't think anyone would."
+    quote: "This program gave me a second chance when I didn't think anyone would.",
   },
   {
     name: 'Sarah Martinez',
@@ -19,7 +19,7 @@ const stories = [
     beforeJob: 'Retail cashier, $12/hour',
     afterJob: 'Medical Assistant',
     salary: '$38,000/year',
-    quote: "I went from minimum wage to a career with benefits. My kids are so proud."
+    quote: 'I went from minimum wage to a career with benefits. My kids are so proud.',
   },
   {
     name: 'James Wilson',
@@ -28,8 +28,8 @@ const stories = [
     beforeJob: 'Fast food worker',
     afterJob: 'HVAC Technician',
     salary: '$52,000/year',
-    quote: "I tripled my income in 6 months. This changed my family's life."
-  }
+    quote: "I tripled my income in 6 months. This changed my family's life.",
+  },
 ];
 
 export default function SuccessStoryCards() {
@@ -47,14 +47,19 @@ export default function SuccessStoryCards() {
 
         <div className="grid md:grid-cols-3 gap-8">
           {stories.map((story) => (
-            <div key={story.name} className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition">
+            <div
+              key={story.name}
+              className="bg-white rounded-2xl border border-slate-200 overflow-hidden shadow-sm hover:shadow-lg transition"
+            >
               <div className="relative h-48">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   src={story.image}
                   alt={story.name}
                   fill
                   className="object-cover"
-                 sizes="100vw" />
+                  sizes="100vw"
+                />
               </div>
               <div className="p-6">
                 <h3 className="text-xl font-bold text-zinc-900 mb-2">{story.name}</h3>
@@ -69,7 +74,9 @@ export default function SuccessStoryCards() {
                     <TrendingUp className="w-4 h-4 text-brand-green-600 mt-0.5" />
                     <div>
                       <div className="text-sm font-semibold text-zinc-900">{story.afterJob}</div>
-                      <div className="text-sm text-brand-green-600 font-semibold">{story.salary}</div>
+                      <div className="text-sm text-brand-green-600 font-semibold">
+                        {story.salary}
+                      </div>
                     </div>
                   </div>
                 </div>

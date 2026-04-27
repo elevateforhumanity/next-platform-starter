@@ -99,7 +99,8 @@ HOUSE RULES (always apply):
 `.trim();
 
 // ── Prompts ───────────────────────────────────────────────────────────────────
-const CLASSIFICATION_PROMPT = (text: string) => `
+const CLASSIFICATION_PROMPT = (text: string) =>
+  `
 Classify the following text as exactly one of:
 - "prompt" — natural language description of a course to build
 - "syllabus" — structured syllabus with weeks/units/objectives
@@ -113,7 +114,8 @@ TEXT (first 2000 chars):
 ${text.slice(0, 2000)}
 `.trim();
 
-const EXTRACTION_PROMPT = (sourceType: SourceType, text: string) => `
+const EXTRACTION_PROMPT = (sourceType: SourceType, text: string) =>
+  `
 You are an AI course compiler for Elevate for Humanity, a workforce development training platform.
 
 ${HOUSE_RULES}
@@ -220,7 +222,9 @@ function validateAndWarn(blueprint: CourseBlueprint): void {
     warnings.push('No course title detected. Add a title before publishing.');
   }
   if (!blueprint.learning_objectives?.length || blueprint.learning_objectives.length < 2) {
-    warnings.push('Fewer than 2 learning objectives detected. Add specific objectives before publishing.');
+    warnings.push(
+      'Fewer than 2 learning objectives detected. Add specific objectives before publishing.',
+    );
   }
   if (!blueprint.modules?.length) {
     warnings.push('No modules were detected. Review the course structure before saving.');
@@ -235,7 +239,9 @@ function validateAndWarn(blueprint: CourseBlueprint): void {
     mod.lessons?.forEach((lesson, li) => {
       if (!lesson.title?.trim()) warnings.push(`Module ${mi + 1}, Lesson ${li + 1} has no title.`);
       if ((lesson.duration_minutes || 0) < 5) {
-        warnings.push(`Lesson "${lesson.title}" is very short (${lesson.duration_minutes || 0} min). Review content.`);
+        warnings.push(
+          `Lesson "${lesson.title}" is very short (${lesson.duration_minutes || 0} min). Review content.`,
+        );
       }
       if ((lesson.content?.length || 0) < 50) {
         warnings.push(`Lesson "${lesson.title}" has minimal content. Expand before publishing.`);
@@ -271,7 +277,9 @@ export async function ingestCourse(input: IngestInput): Promise<CourseBlueprint>
   const openai = getOpenAIClient();
 
   if (input.source_text.length > 80000) {
-    throw new Error('source_text exceeds 80,000 character limit. Split the document and ingest in sections.');
+    throw new Error(
+      'source_text exceeds 80,000 character limit. Split the document and ingest in sections.',
+    );
   }
 
   // Step 1: classify (re-classify documents to catch misidentified types)
@@ -304,10 +312,12 @@ export async function ingestCourse(input: IngestInput): Promise<CourseBlueprint>
         try {
           const sumRes = await openai.chat.completions.create({
             model: 'gpt-4.1-mini',
-            messages: [{
-              role: 'user',
-              content: `Summarize the key topics, structure, and learning content from this section. Preserve all topic names, objectives, and section headings.\n\n${chunk}`,
-            }],
+            messages: [
+              {
+                role: 'user',
+                content: `Summarize the key topics, structure, and learning content from this section. Preserve all topic names, objectives, and section headings.\n\n${chunk}`,
+              },
+            ],
             temperature: 0.2,
             max_tokens: 1500,
           });
@@ -323,8 +333,9 @@ export async function ingestCourse(input: IngestInput): Promise<CourseBlueprint>
   // Step 3: extract + normalize
   // Use the industry-grounded system prompt when available (built from O*NET/BLS/CareerOneStop).
   // Falls back to a minimal baseline only when no industry data was loaded.
-  const extractionSystemPrompt = input.systemPromptOverride
-    ?? 'You are an expert instructional designer and course architect. Output only valid JSON.';
+  const extractionSystemPrompt =
+    input.systemPromptOverride ??
+    'You are an expert instructional designer and course architect. Output only valid JSON.';
 
   const extractRes = await openai.chat.completions.create({
     model: 'gpt-4.1',
@@ -349,7 +360,9 @@ export async function ingestCourse(input: IngestInput): Promise<CourseBlueprint>
   try {
     blueprint = parseJSON(raw) as CourseBlueprint;
   } catch {
-    throw new Error('AI returned malformed JSON. Try rephrasing your input or using a shorter document.');
+    throw new Error(
+      'AI returned malformed JSON. Try rephrasing your input or using a shorter document.',
+    );
   }
 
   blueprint.detected_source_type = detectedType;
@@ -383,21 +396,22 @@ export async function ingestCourse(input: IngestInput): Promise<CourseBlueprint>
   if (input.compile_lessons) {
     try {
       const compiled = await compileAllLessons({
-        courseTitle:       blueprint.title,
+        courseTitle: blueprint.title,
         courseDescription: blueprint.description || '',
-        audience:          blueprint.target_audience
+        audience: blueprint.target_audience
           ? [blueprint.target_audience]
           : ['adult workforce learners'],
-        difficulty: (blueprint.skill_level as 'beginner' | 'intermediate' | 'advanced') || 'beginner',
+        difficulty:
+          (blueprint.skill_level as 'beginner' | 'intermediate' | 'advanced') || 'beginner',
         modules: blueprint.modules.map((m, mi) => ({
-          module_title:      m.title,
-          module_order:      mi + 1,
+          module_title: m.title,
+          module_order: mi + 1,
           module_objectives: [],
           lessons: m.lessons.map((l, li) => ({
-            lesson_title:      l.title,
-            lesson_order:      li + 1,
+            lesson_title: l.title,
+            lesson_order: li + 1,
             lesson_objectives: [],
-            lesson_summary:    l.description || l.content?.slice(0, 200) || '',
+            lesson_summary: l.description || l.content?.slice(0, 200) || '',
           })),
         })),
       });
@@ -431,18 +445,22 @@ export async function ingestCourse(input: IngestInput): Promise<CourseBlueprint>
       blueprint.estimated_duration_hours = Math.round((totalMinutes / 60) * 2) / 2;
 
       if (compiledCount === 0) {
-        blueprint.warnings.push('Lesson compilation ran but produced no output. Lessons contain structure only.');
+        blueprint.warnings.push(
+          'Lesson compilation ran but produced no output. Lessons contain structure only.',
+        );
       } else {
         const totalLessons = blueprint.modules.flatMap((m) => m.lessons).length;
         if (compiledCount < totalLessons) {
           blueprint.warnings.push(
-            `${totalLessons - compiledCount} of ${totalLessons} lessons could not be fully compiled. Review those lessons before publishing.`
+            `${totalLessons - compiledCount} of ${totalLessons} lessons could not be fully compiled. Review those lessons before publishing.`,
           );
         }
       }
     } catch {
       // Compilation failure is non-fatal — blueprint still usable as structure
-      blueprint.warnings.push('Lesson compilation encountered an error. Course structure is intact; lesson content may need manual expansion.');
+      blueprint.warnings.push(
+        'Lesson compilation encountered an error. Course structure is intact; lesson content may need manual expansion.',
+      );
     }
   }
 

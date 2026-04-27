@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -23,7 +23,7 @@ export default function EnrollmentWizard({
   programId,
   programName,
   programSlug,
-  price
+  price,
 }: EnrollmentWizardProps) {
   const [currentStep, setCurrentStep] = useState(1);
   const [formData, setFormData] = useState({
@@ -37,11 +37,11 @@ export default function EnrollmentWizard({
     zip: '',
     education: '',
     experience: '',
-    paymentType: 'full'
+    paymentType: 'full',
   });
 
   const updateField = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const nextStep = () => {
@@ -61,7 +61,7 @@ export default function EnrollmentWizard({
     const response = await fetch('/api/enroll', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ ...formData, programId })
+      body: JSON.stringify({ ...formData, programId }),
     });
 
     if (response.ok) {
@@ -77,10 +77,16 @@ export default function EnrollmentWizard({
           {STEPS.map((step, idx) => (
             <div key={step.id} className="flex items-center flex-1">
               <div className="flex flex-col items-center">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                  currentStep >= step.id ? 'bg-brand-blue-600 text-white' : 'bg-gray-200'
-                }`}>
-                  {currentStep > step.id ? <span className="text-slate-500 flex-shrink-0">•</span> : step.id}
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                    currentStep >= step.id ? 'bg-brand-blue-600 text-white' : 'bg-gray-200'
+                  }`}
+                >
+                  {currentStep > step.id ? (
+                    <span className="text-slate-500 flex-shrink-0">•</span>
+                  ) : (
+                    step.id
+                  )}
                 </div>
                 <div className="text-xs mt-2 text-center">
                   <div className="font-semibold">{step.name}</div>
@@ -88,9 +94,11 @@ export default function EnrollmentWizard({
                 </div>
               </div>
               {idx < STEPS.length - 1 && (
-                <div className={`flex-1 h-1 mx-4 ${
-                  currentStep > step.id ? 'bg-brand-blue-600' : 'bg-gray-200'
-                }`} />
+                <div
+                  className={`flex-1 h-1 mx-4 ${
+                    currentStep > step.id ? 'bg-brand-blue-600' : 'bg-gray-200'
+                  }`}
+                />
               )}
             </div>
           ))}
@@ -185,7 +193,7 @@ export default function EnrollmentWizard({
                   className="mr-3"
                 />
                 <div>
-                  <div className="font-bold">Payment Plan - ${Math.ceil(price/4)}/mo</div>
+                  <div className="font-bold">Payment Plan - ${Math.ceil(price / 4)}/mo</div>
                   <div className="text-sm text-black">4 monthly payments</div>
                 </div>
               </label>

@@ -6,7 +6,10 @@ import { revalidatePath } from 'next/cache';
 export async function updateProfile(formData: FormData) {
   // Use session client — RLS enforces row ownership on profiles.
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError) throw new Error(`Auth failed: ${authError.message}`);
   if (!user) return { error: 'Not authenticated' };
 
@@ -36,7 +39,10 @@ export async function updateProfile(formData: FormData) {
 
 export async function updateProfilePhoto(formData: FormData) {
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError) throw new Error(`Auth failed: ${authError.message}`);
   if (!user) return { error: 'Not authenticated' };
 
@@ -56,9 +62,9 @@ export async function updateProfilePhoto(formData: FormData) {
     return { error: uploadError.message };
   }
 
-  const { data: { publicUrl } } = supabase.storage
-    .from('avatars')
-    .getPublicUrl(fileName);
+  const {
+    data: { publicUrl },
+  } = supabase.storage.from('avatars').getPublicUrl(fileName);
 
   const { error: updateError } = await supabase
     .from('profiles')

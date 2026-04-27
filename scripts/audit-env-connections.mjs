@@ -14,7 +14,7 @@ import { Redis } from '@upstash/redis';
 const results = {
   timestamp: new Date().toISOString(),
   services: {},
-  summary: { total: 0, working: 0, failed: 0, skipped: 0 }
+  summary: { total: 0, working: 0, failed: 0, skipped: 0 },
 };
 
 function logTest(service, status, message, details = null) {
@@ -24,7 +24,7 @@ function logTest(service, status, message, details = null) {
     status,
     message,
     details,
-    tested_at: new Date().toISOString()
+    tested_at: new Date().toISOString(),
   };
 
   results.summary.total++;
@@ -34,7 +34,6 @@ function logTest(service, status, message, details = null) {
 }
 
 async function testSupabase() {
-
   try {
     const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const anonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -74,14 +73,12 @@ async function testSupabase() {
     } else {
       logTest('Supabase (Service Role)', 'skipped', 'Service role key not set');
     }
-
   } catch (error) {
     logTest('Supabase', 'failed', error.message);
   }
 }
 
 async function testStripe() {
-
   try {
     const secretKey = process.env.STRIPE_SECRET_KEY;
     const publishableKey = process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY;
@@ -96,20 +93,23 @@ async function testStripe() {
     // Test by retrieving account info
     const account = await stripe.accounts.retrieve();
 
-    logTest('Stripe', 'success', `Connected to account: ${account.business_profile?.name || account.id}`, {
-      account_id: account.id,
-      charges_enabled: account.charges_enabled,
-      payouts_enabled: account.payouts_enabled,
-      publishable_key_set: !!publishableKey
-    });
-
+    logTest(
+      'Stripe',
+      'success',
+      `Connected to account: ${account.business_profile?.name || account.id}`,
+      {
+        account_id: account.id,
+        charges_enabled: account.charges_enabled,
+        payouts_enabled: account.payouts_enabled,
+        publishable_key_set: !!publishableKey,
+      },
+    );
   } catch (error) {
     logTest('Stripe', 'failed', error.message);
   }
 }
 
 async function testResend() {
-
   try {
     const apiKey = process.env.RESEND_API_KEY;
 
@@ -128,14 +128,12 @@ async function testResend() {
     } else {
       logTest('Resend', 'success', `Connected successfully. Domains: ${data?.data?.length || 0}`);
     }
-
   } catch (error) {
     logTest('Resend', 'failed', error.message);
   }
 }
 
 async function testOpenAI() {
-
   try {
     const apiKey = process.env.OPENAI_API_KEY;
 
@@ -150,14 +148,12 @@ async function testOpenAI() {
     const models = await openai.models.list();
 
     logTest('OpenAI', 'success', `Connected successfully. Models available: ${models.data.length}`);
-
   } catch (error) {
     logTest('OpenAI', 'failed', error.message);
   }
 }
 
 async function testUpstash() {
-
   try {
     const url = process.env.UPSTASH_REDIS_REST_URL;
     const token = process.env.UPSTASH_REDIS_REST_TOKEN;
@@ -180,14 +176,12 @@ async function testUpstash() {
     } else {
       logTest('Upstash Redis', 'failed', 'Connection succeeded but read/write failed');
     }
-
   } catch (error) {
     logTest('Upstash Redis', 'failed', error.message);
   }
 }
 
 async function testDatabase() {
-
   try {
     const dbUrl = process.env.POSTGRES_URL || process.env.DATABASE_URL;
 
@@ -217,14 +211,12 @@ async function testDatabase() {
     } else {
       logTest('PostgreSQL', 'success', `Connected. Programs in database: ${count || 0}`);
     }
-
   } catch (error) {
     logTest('PostgreSQL', 'failed', error.message);
   }
 }
 
 async function testEnvironmentVariables() {
-
   const required = [
     'NEXT_PUBLIC_SUPABASE_URL',
     'NEXT_PUBLIC_SUPABASE_ANON_KEY',
@@ -232,7 +224,7 @@ async function testEnvironmentVariables() {
     'STRIPE_SECRET_KEY',
     'NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY',
     'NEXTAUTH_SECRET',
-    'NEXT_PUBLIC_SITE_URL'
+    'NEXT_PUBLIC_SITE_URL',
   ];
 
   const optional = [
@@ -241,27 +233,26 @@ async function testEnvironmentVariables() {
     'UPSTASH_REDIS_REST_URL',
     'UPSTASH_REDIS_REST_TOKEN',
     'AFFIRM_PUBLIC_KEY',
-    'AFFIRM_PRIVATE_KEY'
+    'AFFIRM_PRIVATE_KEY',
   ];
 
-  const missing = required.filter(key => !process.env[key]);
-  const optionalMissing = optional.filter(key => !process.env[key]);
+  const missing = required.filter((key) => !process.env[key]);
+  const optionalMissing = optional.filter((key) => !process.env[key]);
 
   if (missing.length === 0) {
     logTest('Environment Variables', 'success', `All ${required.length} required variables set`, {
       required_set: required.length,
       optional_set: optional.length - optionalMissing.length,
-      optional_missing: optionalMissing
+      optional_missing: optionalMissing,
     });
   } else {
     logTest('Environment Variables', 'failed', `Missing ${missing.length} required variables`, {
-      missing
+      missing,
     });
   }
 }
 
 async function runAudit() {
-
   await testEnvironmentVariables();
   await testSupabase();
   await testDatabase();
@@ -269,7 +260,6 @@ async function runAudit() {
   await testResend();
   await testOpenAI();
   await testUpstash();
-
 
   // Save results to file
   const fs = await import('fs');
@@ -284,7 +274,7 @@ async function runAudit() {
   }
 }
 
-runAudit().catch(error => {
+runAudit().catch((error) => {
   console.error('\n❌ Audit failed:', error);
   process.exit(1);
 });

@@ -62,19 +62,18 @@ export default function WorkOneApproveButton({ applicationId, studentName, hasAp
             </p>
 
             <label className="block text-sm font-medium text-slate-700 mb-1">
-              WorkOne authorization code or case number <span className="text-slate-400">(optional)</span>
+              WorkOne authorization code or case number{' '}
+              <span className="text-slate-400">(optional)</span>
             </label>
             <input
               type="text"
               value={ref}
-              onChange={e => setRef(e.target.value)}
+              onChange={(e) => setRef(e.target.value)}
               placeholder="e.g. WO-2025-XXXXX"
               className="w-full px-3 py-2 border border-slate-300 rounded-lg text-sm mb-4 focus:ring-2 focus:ring-emerald-500 focus:border-transparent"
             />
 
-            {error && (
-              <p className="text-sm text-red-600 mb-3">{error}</p>
-            )}
+            {error && <p className="text-sm text-red-600 mb-3">{error}</p>}
 
             <div className="flex gap-3">
               <button
@@ -82,7 +81,13 @@ export default function WorkOneApproveButton({ applicationId, studentName, hasAp
                 disabled={saving}
                 className="flex-1 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-2 rounded-lg text-sm disabled:opacity-50 inline-flex items-center justify-center gap-2 transition"
               >
-                {saving ? <><Loader2 className="w-4 h-4 animate-spin" /> Saving…</> : 'Confirm approval'}
+                {saving ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" /> Saving…
+                  </>
+                ) : (
+                  'Confirm approval'
+                )}
               </button>
               <button
                 onClick={() => setOpen(false)}

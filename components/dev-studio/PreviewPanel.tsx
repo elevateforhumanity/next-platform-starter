@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -26,7 +26,7 @@ export default function PreviewPanel({ url, filePath }: PreviewPanelProps) {
   const [key, setKey] = useState(0);
 
   const refresh = () => {
-    setKey(prev => prev + 1);
+    setKey((prev) => prev + 1);
   };
 
   const openInNewTab = () => {
@@ -36,7 +36,7 @@ export default function PreviewPanel({ url, filePath }: PreviewPanelProps) {
   const deviceSizes = {
     desktop: 'w-full',
     tablet: 'w-[768px] mx-auto',
-    mobile: 'w-[375px] mx-auto'
+    mobile: 'w-[375px] mx-auto',
   };
 
   return (
@@ -46,9 +46,7 @@ export default function PreviewPanel({ url, filePath }: PreviewPanelProps) {
         <div className="flex items-center gap-2">
           <span className="text-sm font-semibold text-black">Live Preview</span>
           {filePath && (
-            <span className="text-xs text-slate-700 truncate max-w-[200px]">
-              {filePath}
-            </span>
+            <span className="text-xs text-slate-700 truncate max-w-[200px]">{filePath}</span>
           )}
         </div>
 

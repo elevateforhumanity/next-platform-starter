@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import { X, ChevronDown, ChevronUp } from 'lucide-react';
@@ -37,7 +37,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
   onClose,
 }) => {
   const [expandedGroups, setExpandedGroups] = useState<Set<string>>(
-    new Set(groups.filter((g) => g.defaultOpen !== false).map((g) => g.id))
+    new Set(groups.filter((g) => g.defaultOpen !== false).map((g) => g.id)),
   );
 
   const toggleGroup = (groupId: string) => {
@@ -54,7 +54,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
 
   const totalSelectedCount = Object.values(selectedFilters).reduce(
     (sum, arr) => sum + arr.length,
-    0
+    0,
   );
 
   const content = (
@@ -64,9 +64,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
         <div>
           <h2 className="text-lg font-semibold text-black">Filters</h2>
           {totalSelectedCount > 0 && (
-            <p className="text-sm text-black mt-0.5">
-              {totalSelectedCount} selected
-            </p>
+            <p className="text-sm text-black mt-0.5">{totalSelectedCount} selected</p>
           )}
         </div>
         <div className="flex items-center gap-2">
@@ -120,7 +118,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
               </button>
 
               {isExpanded && (
-                <div 
+                <div
                   id={`filter-group-${group.id}`}
                   role="group"
                   aria-label={`${group.label} filters`}
@@ -139,11 +137,11 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
                           type={inputType}
                           name={group.id}
                           checked={isChecked}
-                          onChange={(e) =>
-                            onFilterChange(group.id, option.id, e.target.checked)
-                          }
+                          onChange={(e) => onFilterChange(group.id, option.id, e.target.checked)}
                           className="h-4 w-4 text-brand-orange-600 border-slate-300 rounded focus:ring-2 focus:ring-brand-blue-500 cursor-pointer"
-                          aria-describedby={option.count !== undefined ? `${option.id}-count` : undefined}
+                          aria-describedby={
+                            option.count !== undefined ? `${option.id}-count` : undefined
+                          }
                         />
                         <span className="flex-1 text-sm text-black group-hover:text-black">
                           {option.label}
@@ -169,12 +167,7 @@ export const FilterSidebar: React.FC<FilterSidebarProps> = ({
     return (
       <>
         {/* Mobile Overlay */}
-        {isOpen && (
-          <div
-            className="fixed inset-0 bg-black/50 z-40 lg:hidden"
-            onClick={onClose}
-          />
-        )}
+        {isOpen && <div className="fixed inset-0 bg-black/50 z-40 lg:hidden" onClick={onClose} />}
 
         {/* Mobile Sidebar */}
         <div

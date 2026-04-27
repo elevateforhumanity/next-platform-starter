@@ -1,6 +1,5 @@
 // PUBLIC ROUTE: public course metadata for SEO
 
-
 // AUTH: Intentionally public — no authentication required
 
 import { NextRequest, NextResponse } from 'next/server';
@@ -22,10 +21,7 @@ async function _GET(req: NextRequest) {
     const branch = searchParams.get('branch') || 'main';
 
     if (!course) {
-      return NextResponse.json(
-        { error: 'Missing course parameter' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing course parameter' }, { status: 400 });
     }
 
     const client = gh();
@@ -41,34 +37,23 @@ async function _GET(req: NextRequest) {
 
     // Handle array response (directory)
     if (Array.isArray(response.data)) {
-      return NextResponse.json(
-        { error: 'Path is a directory, not a file' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Path is a directory, not a file' }, { status: 400 });
     }
 
-    const raw = Buffer.from(response.data.content || '', 'base64').toString(
-      'utf8'
-    );
+    const raw = Buffer.from(response.data.content || '', 'base64').toString('utf8');
     const metadata = JSON.parse(raw);
 
     return NextResponse.json(metadata);
-  } catch (error) { 
-    logger.error(
-      'Get metadata error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Get metadata error:', error instanceof Error ? error : new Error(String(error)));
 
     if (error.status === 404) {
-      return NextResponse.json(
-        { error: 'Metadata file not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Metadata file not found' }, { status: 404 });
     }
 
     return NextResponse.json(
       { error: 'Failed to fetch metadata', message: toErrorMessage(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

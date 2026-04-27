@@ -44,7 +44,9 @@ export default async function StudentProgressPage() {
     );
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?next=/student/progress');
 
   // Sample progress data
@@ -70,7 +72,7 @@ export default async function StudentProgressPage() {
   ];
 
   const overallProgress = Math.round(
-    courses.reduce((sum, c) => sum + c.progress, 0) / courses.length
+    courses.reduce((sum, c) => sum + c.progress, 0) / courses.length,
   );
 
   const totalHours = courses.reduce((sum, c) => sum + c.hours_spent, 0);
@@ -80,7 +82,7 @@ export default async function StudentProgressPage() {
     const date = new Date(dateStr);
     const now = new Date();
     const diffHours = Math.floor((now.getTime() - date.getTime()) / (1000 * 60 * 60));
-    
+
     if (diffHours < 1) return 'Just now';
     if (diffHours < 24) return `${diffHours} hours ago`;
     const diffDays = Math.floor(diffHours / 24);
@@ -93,7 +95,9 @@ export default async function StudentProgressPage() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <Link href="/student" className="hover:text-gray-700">Student Portal</Link>
+            <Link href="/student" className="hover:text-gray-700">
+              Student Portal
+            </Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-gray-900 font-medium">Progress</span>
           </nav>

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Award, Star, Trophy, Target, Zap, Crown } from 'lucide-react';
 
@@ -80,9 +80,7 @@ export function AchievementBadges() {
               key={badge.id}
               className={`relative p-4 rounded-lg border-2 text-center transition-all ${
                 badge.earned
-                  ? 'border-transparent  ' +
-                    badge.color +
-                    ' text-white shadow-lg hover:scale-105'
+                  ? 'border-transparent  ' + badge.color + ' text-white shadow-lg hover:scale-105'
                   : 'border-gray-200 bg-gray-50 opacity-50'
               }`}
             >
@@ -92,9 +90,7 @@ export function AchievementBadges() {
                     badge.earned ? 'bg-white/20' : 'bg-gray-200'
                   }`}
                 >
-                  <Icon
-                    className={`h-10 w-10 ${badge.earned ? 'text-white' : 'text-slate-700'}`}
-                  />
+                  <Icon className={`h-10 w-10 ${badge.earned ? 'text-white' : 'text-slate-700'}`} />
                 </div>
               </div>
               <h4
@@ -102,14 +98,18 @@ export function AchievementBadges() {
               >
                 {badge.name}
               </h4>
-              <p
-                className={`text-xs ${badge.earned ? 'text-white/90' : 'text-slate-700'}`}
-              >
+              <p className={`text-xs ${badge.earned ? 'text-white/90' : 'text-slate-700'}`}>
                 {badge.description}
               </p>
               {badge.earned && badge.earnedDate && (
                 <p className="text-xs text-slate-500 mt-2">
-                  Earned {new Date(badge.earnedDate).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                  Earned{' '}
+                  {new Date(badge.earnedDate).toLocaleDateString('en-US', {
+                    timeZone: 'UTC',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
                 </p>
               )}
               {!badge.earned && (
@@ -124,9 +124,7 @@ export function AchievementBadges() {
       <div className="mt-6 pt-6 border-t border-gray-200">
         <div className="flex items-center justify-between">
           <span className="text-sm text-black">Next Achievement</span>
-          <span className="elevate-pill elevate-pill--orange">
-            2 lessons away
-          </span>
+          <span className="elevate-pill elevate-pill--orange">2 lessons away</span>
         </div>
       </div>
     </div>

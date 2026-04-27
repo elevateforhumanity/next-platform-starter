@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
@@ -37,12 +37,10 @@ export default function FundingToast() {
           <p className="text-xs font-semibold uppercase tracking-widest text-brand-orange-400">
             Funding alert
           </p>
-          <p className="text-sm font-medium">
-            Funding may be available if you qualify.
-          </p>
+          <p className="text-sm font-medium">Funding may be available if you qualify.</p>
           <p className="text-xs text-slate-200">
-            Many programs may be supported by workforce partners, employers, or
-            scholarships. Talk to a career coach to explore your options.
+            Many programs may be supported by workforce partners, employers, or scholarships. Talk
+            to a career coach to explore your options.
           </p>
           <div className="mt-2 flex flex-wrap gap-2">
             <Link

@@ -58,7 +58,10 @@ export function ResendMagicLinkForm({
             Check your inbox and spam folder. The link expires in 1 hour.
           </p>
           <button
-            onClick={() => { setSent(false); setError(null); }}
+            onClick={() => {
+              setSent(false);
+              setError(null);
+            }}
             className="text-xs text-emerald-600 underline mt-2"
           >
             Send again
@@ -89,16 +92,20 @@ export function ResendMagicLinkForm({
             disabled={loading || !email.trim()}
             className="flex items-center gap-2 rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white disabled:opacity-50 disabled:cursor-not-allowed hover:bg-slate-700 transition-colors"
           >
-            {loading
-              ? <><Loader2 className="w-4 h-4 animate-spin" /> Sending</>
-              : <><Mail className="w-4 h-4" /> {label}</>}
+            {loading ? (
+              <>
+                <Loader2 className="w-4 h-4 animate-spin" /> Sending
+              </>
+            ) : (
+              <>
+                <Mail className="w-4 h-4" /> {label}
+              </>
+            )}
           </button>
         </div>
       </div>
 
-      {error && (
-        <p className="text-sm text-red-600">{error}</p>
-      )}
+      {error && <p className="text-sm text-red-600">{error}</p>}
     </form>
   );
 }

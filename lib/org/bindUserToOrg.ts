@@ -9,7 +9,7 @@ import { logAuditEvent } from '@/lib/audit';
 export async function bindUserToOrg(
   supabase: SupabaseClient,
   userId: string,
-  orgId: string
+  orgId: string,
 ): Promise<void> {
   const { error } = await supabase
     .from('profiles')

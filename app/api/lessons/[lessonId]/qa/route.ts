@@ -1,7 +1,7 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 
-import { createClient } from "@/lib/supabase/server";
-import { getCurrentUser } from "@/lib/auth";
+import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -11,16 +11,13 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  _req: NextRequest,
-  { params }: { params: Promise<{ lessonId: string }> }
-) {
+async function _GET(_req: NextRequest, { params }: { params: Promise<{ lessonId: string }> }) {
   const { lessonId } = await params;
   const supabase = await createClient();
 
   // Q + A list (readable without login if you want)
   const { data: questions, error } = await supabase
-    .from("lesson_questions")
+    .from('lesson_questions')
     .select(
       `
       id,
@@ -32,33 +29,30 @@ async function _GET(
         body,
         created_at
       )
-    `
+    `,
     )
-    .eq("lesson_id", lessonId)
-    .order("created_at", { ascending: false });
+    .eq('lesson_id', lessonId)
+    .order('created_at', { ascending: false });
 
   if (error) {
-    logger.error("lesson_questions GET error", error);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
+    logger.error('lesson_questions GET error', error);
+    return NextResponse.json({ error: 'DB error' }, { status: 500 });
   }
 
   return NextResponse.json({ questions: questions || [] });
 }
 
 // POST is multipurpose: kind = "question" | "answer"
-async function _POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ lessonId: string }> }
-) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+async function _POST(req: NextRequest, { params }: { params: Promise<{ lessonId: string }> }) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const { lessonId } = await params;
   const supabase = await createClient();
   const user = await getCurrentUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -70,24 +64,21 @@ async function _POST(
 
   const { kind, questionId, title, body } = await req.json();
 
-  if (!kind || (kind !== "question" && kind !== "answer")) {
-    return NextResponse.json({ error: "Invalid kind" }, { status: 400 });
+  if (!kind || (kind !== 'question' && kind !== 'answer')) {
+    return NextResponse.json({ error: 'Invalid kind' }, { status: 400 });
   }
 
-  if (!body || typeof body !== "string") {
-    return NextResponse.json({ error: "Body required" }, { status: 400 });
+  if (!body || typeof body !== 'string') {
+    return NextResponse.json({ error: 'Body required' }, { status: 400 });
   }
 
-  if (kind === "question") {
-    if (!title || typeof title !== "string") {
-      return NextResponse.json(
-        { error: "Question title required" },
-        { status: 400 }
-      );
+  if (kind === 'question') {
+    if (!title || typeof title !== 'string') {
+      return NextResponse.json({ error: 'Question title required' }, { status: 400 });
     }
 
     const { data, error }: any = await supabase
-      .from("lesson_questions")
+      .from('lesson_questions')
       .insert({
         lesson_id: lessonId,
         author_id: user.id,
@@ -98,8 +89,8 @@ async function _POST(
       .maybeSingle();
 
     if (error) {
-      logger.error("lesson_questions POST error", error);
-      return NextResponse.json({ error: "DB error" }, { status: 500 });
+      logger.error('lesson_questions POST error', error);
+      return NextResponse.json({ error: 'DB error' }, { status: 500 });
     }
 
     return NextResponse.json({ question: data });
@@ -107,14 +98,11 @@ async function _POST(
 
   // kind === "answer"
   if (!questionId) {
-    return NextResponse.json(
-      { error: "questionId required for answer" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'questionId required for answer' }, { status: 400 });
   }
 
   const { data, error }: any = await supabase
-    .from("lesson_answers")
+    .from('lesson_answers')
     .insert({
       question_id: questionId,
       author_id: user.id,
@@ -124,11 +112,17 @@ async function _POST(
     .maybeSingle();
 
   if (error) {
-    logger.error("lesson_answers POST error", error);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
+    logger.error('lesson_answers POST error', error);
+    return NextResponse.json({ error: 'DB error' }, { status: 500 });
   }
 
   return NextResponse.json({ answer: data });
 }
-export const GET  = withApiAudit('/api/lessons/[lessonId]/qa', _GET  as unknown as (req: Request, ...args: any[]) => Promise<Response>);
-export const POST = withApiAudit('/api/lessons/[lessonId]/qa', _POST as unknown as (req: Request, ...args: any[]) => Promise<Response>);
+export const GET = withApiAudit(
+  '/api/lessons/[lessonId]/qa',
+  _GET as unknown as (req: Request, ...args: any[]) => Promise<Response>,
+);
+export const POST = withApiAudit(
+  '/api/lessons/[lessonId]/qa',
+  _POST as unknown as (req: Request, ...args: any[]) => Promise<Response>,
+);

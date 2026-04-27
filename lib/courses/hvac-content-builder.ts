@@ -35,7 +35,7 @@ export function buildLessonContent(lessonId: string): string {
   if (!entry) return '<p>Lesson content not found.</p>';
 
   const { module: mod } = entry;
-  const lesson = mod.lessons.find(l => l.id === lessonId);
+  const lesson = mod.lessons.find((l) => l.id === lessonId);
   if (!lesson) return '<p>Lesson not found.</p>';
   const weekNum = mod.weekAssignment?.week;
 
@@ -55,11 +55,14 @@ export function buildLessonContent(lessonId: string): string {
 }
 
 function buildVideoLessonContent(lesson: CourseLesson, mod: CourseModule, week?: number): string {
-  const objectives = mod.competencyObjectives
-    ?.filter(co => !lesson.assessesObjectives || lesson.assessesObjectives.includes(co.id))
-    .slice(0, 4) || [];
+  const objectives =
+    mod.competencyObjectives
+      ?.filter((co) => !lesson.assessesObjectives || lesson.assessesObjectives.includes(co.id))
+      .slice(0, 4) || [];
 
-  const credBadge = mod.competencyObjectives?.find(co => co.credentialAlignment)?.credentialAlignment;
+  const credBadge = mod.competencyObjectives?.find(
+    (co) => co.credentialAlignment,
+  )?.credentialAlignment;
 
   return `
 <div class="lesson-content">
@@ -76,21 +79,29 @@ function buildVideoLessonContent(lesson: CourseLesson, mod: CourseModule, week?:
   <h2>Lesson Overview</h2>
   <p>${lesson.description}</p>
 
-  ${objectives.length > 0 ? `
+  ${
+    objectives.length > 0
+      ? `
   <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin: 1.5rem 0;">
     <h3 style="font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0 0 1rem 0;">🎯 Learning Objectives</h3>
     <ul style="margin: 0; padding-left: 1.25rem;">
-      ${mod.objectives.map(obj => `<li style="margin-bottom: 0.5rem; color: #475569; line-height: 1.6;">${obj}</li>`).join('')}
+      ${mod.objectives.map((obj) => `<li style="margin-bottom: 0.5rem; color: #475569; line-height: 1.6;">${obj}</li>`).join('')}
     </ul>
-  </div>` : ''}
+  </div>`
+      : ''
+  }
 
-  ${mod.competencyObjectives && mod.competencyObjectives.length > 0 ? `
+  ${
+    mod.competencyObjectives && mod.competencyObjectives.length > 0
+      ? `
   <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 0.75rem; padding: 1.5rem; margin: 1.5rem 0;">
     <h3 style="font-size: 1rem; font-weight: 700; color: #991b1b; margin: 0 0 1rem 0;">📋 Competency Standards</h3>
     <ul style="margin: 0; padding-left: 1.25rem;">
-      ${mod.competencyObjectives.map(co => `<li style="margin-bottom: 0.5rem; color: #7f1d1d; line-height: 1.6;">${co.statement}${co.standard ? ` <strong>(${co.standard})</strong>` : ''}</li>`).join('')}
+      ${mod.competencyObjectives.map((co) => `<li style="margin-bottom: 0.5rem; color: #7f1d1d; line-height: 1.6;">${co.statement}${co.standard ? ` <strong>(${co.standard})</strong>` : ''}</li>`).join('')}
     </ul>
-  </div>` : ''}
+  </div>`
+      : ''
+  }
 
   <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 0.75rem; padding: 1.5rem; margin: 1.5rem 0;">
     <h3 style="font-size: 1rem; font-weight: 700; color: #1e40af; margin: 0 0 0.5rem 0;">📝 Instructions</h3>
@@ -102,7 +113,9 @@ function buildVideoLessonContent(lesson: CourseLesson, mod: CourseModule, week?:
 }
 
 function buildReadingContent(lesson: CourseLesson, mod: CourseModule, week?: number): string {
-  const credBadge = mod.competencyObjectives?.find(co => co.credentialAlignment)?.credentialAlignment;
+  const credBadge = mod.competencyObjectives?.find(
+    (co) => co.credentialAlignment,
+  )?.credentialAlignment;
 
   return `
 <div class="lesson-content">
@@ -119,21 +132,29 @@ function buildReadingContent(lesson: CourseLesson, mod: CourseModule, week?: num
   <h2>Reading Material</h2>
   <p style="font-size: 1.05rem; line-height: 1.8; color: #334155;">${lesson.description}</p>
 
-  ${mod.objectives.length > 0 ? `
+  ${
+    mod.objectives.length > 0
+      ? `
   <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin: 1.5rem 0;">
     <h3 style="font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0 0 1rem 0;">🎯 What You'll Learn</h3>
     <ul style="margin: 0; padding-left: 1.25rem;">
-      ${mod.objectives.map(obj => `<li style="margin-bottom: 0.5rem; color: #475569; line-height: 1.6;">${obj}</li>`).join('')}
+      ${mod.objectives.map((obj) => `<li style="margin-bottom: 0.5rem; color: #475569; line-height: 1.6;">${obj}</li>`).join('')}
     </ul>
-  </div>` : ''}
+  </div>`
+      : ''
+  }
 
-  ${mod.competencyObjectives && mod.competencyObjectives.length > 0 ? `
+  ${
+    mod.competencyObjectives && mod.competencyObjectives.length > 0
+      ? `
   <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 0.75rem; padding: 1.5rem; margin: 1.5rem 0;">
     <h3 style="font-size: 1rem; font-weight: 700; color: #991b1b; margin: 0 0 1rem 0;">📋 Competency Standards</h3>
     <ul style="margin: 0; padding-left: 1.25rem;">
-      ${mod.competencyObjectives.map(co => `<li style="margin-bottom: 0.5rem; color: #7f1d1d; line-height: 1.6;">${co.statement}${co.standard ? ` <strong>(${co.standard})</strong>` : ''}</li>`).join('')}
+      ${mod.competencyObjectives.map((co) => `<li style="margin-bottom: 0.5rem; color: #7f1d1d; line-height: 1.6;">${co.statement}${co.standard ? ` <strong>(${co.standard})</strong>` : ''}</li>`).join('')}
     </ul>
-  </div>` : ''}
+  </div>`
+      : ''
+  }
 
   <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 0.75rem; padding: 1.5rem; margin: 1.5rem 0;">
     <h3 style="font-size: 1rem; font-weight: 700; color: #166534; margin: 0 0 0.5rem 0;">📝 Study Tips</h3>
@@ -146,7 +167,9 @@ function buildReadingContent(lesson: CourseLesson, mod: CourseModule, week?: num
 
 function buildQuizContent(lesson: CourseLesson, mod: CourseModule): string {
   const passThreshold = lesson.passThreshold || 70;
-  const credBadge = mod.competencyObjectives?.find(co => co.credentialAlignment)?.credentialAlignment;
+  const credBadge = mod.competencyObjectives?.find(
+    (co) => co.credentialAlignment,
+  )?.credentialAlignment;
 
   return `
 <div class="lesson-content">
@@ -172,16 +195,22 @@ function buildQuizContent(lesson: CourseLesson, mod: CourseModule): string {
 
   <p style="color: #475569; line-height: 1.6;">${lesson.description}</p>
 
-  ${lesson.assessesObjectives && lesson.assessesObjectives.length > 0 ? `
+  ${
+    lesson.assessesObjectives && lesson.assessesObjectives.length > 0
+      ? `
   <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin: 1.5rem 0;">
     <h3 style="font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0 0 1rem 0;">This quiz assesses:</h3>
     <ul style="margin: 0; padding-left: 1.25rem;">
-      ${mod.competencyObjectives
-        ?.filter(co => lesson.assessesObjectives?.includes(co.id))
-        .map(co => `<li style="margin-bottom: 0.5rem; color: #475569;">${co.statement}</li>`)
-        .join('') || ''}
+      ${
+        mod.competencyObjectives
+          ?.filter((co) => lesson.assessesObjectives?.includes(co.id))
+          .map((co) => `<li style="margin-bottom: 0.5rem; color: #475569;">${co.statement}</li>`)
+          .join('') || ''
+      }
     </ul>
-  </div>` : ''}
+  </div>`
+      : ''
+  }
 </div>`;
 }
 
@@ -210,16 +239,25 @@ function buildLabContent(lesson: CourseLesson, mod: CourseModule): string {
     </ul>
   </div>
 
-  ${lesson.assessesObjectives && lesson.assessesObjectives.length > 0 ? `
+  ${
+    lesson.assessesObjectives && lesson.assessesObjectives.length > 0
+      ? `
   <div style="background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 0.75rem; padding: 1.5rem; margin: 1.5rem 0;">
     <h3 style="font-size: 1rem; font-weight: 700; color: #166534; margin: 0 0 1rem 0;">✅ Competencies Assessed</h3>
     <ul style="margin: 0; padding-left: 1.25rem;">
-      ${mod.competencyObjectives
-        ?.filter(co => lesson.assessesObjectives?.includes(co.id))
-        .map(co => `<li style="margin-bottom: 0.5rem; color: #15803d;">${co.statement}${co.standard ? ` — <strong>${co.standard}</strong>` : ''}</li>`)
-        .join('') || ''}
+      ${
+        mod.competencyObjectives
+          ?.filter((co) => lesson.assessesObjectives?.includes(co.id))
+          .map(
+            (co) =>
+              `<li style="margin-bottom: 0.5rem; color: #15803d;">${co.statement}${co.standard ? ` — <strong>${co.standard}</strong>` : ''}</li>`,
+          )
+          .join('') || ''
+      }
     </ul>
-  </div>` : ''}
+  </div>`
+      : ''
+  }
 
   <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 0.75rem; padding: 1.5rem; margin: 1.5rem 0;">
     <h3 style="font-size: 1rem; font-weight: 700; color: #1e40af; margin: 0 0 0.5rem 0;">📋 Completion</h3>
@@ -252,20 +290,26 @@ function buildAssignmentContent(lesson: CourseLesson, mod: CourseModule): string
 /** Builds a "Module Lessons" sidebar showing all lessons in the module */
 function buildModuleLessonList(mod: CourseModule, currentLessonId: string): string {
   const typeEmoji: Record<string, string> = {
-    video: '🎬', reading: '📖', quiz: '📝', lab: '🔧', assignment: '📋',
+    video: '🎬',
+    reading: '📖',
+    quiz: '📝',
+    lab: '🔧',
+    assignment: '📋',
   };
 
   return `
   <div style="background: #f8fafc; border: 1px solid #e2e8f0; border-radius: 0.75rem; padding: 1.5rem; margin-top: 2rem;">
     <h3 style="font-size: 1rem; font-weight: 700; color: #1e293b; margin: 0 0 1rem 0;">📚 Module: ${mod.title}</h3>
     <ol style="margin: 0; padding-left: 1.25rem;">
-      ${mod.lessons.map(l => {
-        const isCurrent = l.id === currentLessonId;
-        const emoji = typeEmoji[l.type] || '📄';
-        return `<li style="margin-bottom: 0.5rem; color: ${isCurrent ? '#dc2626' : '#475569'}; font-weight: ${isCurrent ? '700' : '400'}; line-height: 1.5;">
+      ${mod.lessons
+        .map((l) => {
+          const isCurrent = l.id === currentLessonId;
+          const emoji = typeEmoji[l.type] || '📄';
+          return `<li style="margin-bottom: 0.5rem; color: ${isCurrent ? '#dc2626' : '#475569'}; font-weight: ${isCurrent ? '700' : '400'}; line-height: 1.5;">
           ${emoji} ${l.title}${isCurrent ? ' ← You are here' : ''}${l.durationMinutes ? ` <span style="color: #94a3b8; font-size: 0.8rem;">(${l.durationMinutes} min)</span>` : ''}
         </li>`;
-      }).join('')}
+        })
+        .join('')}
     </ol>
   </div>`;
 }

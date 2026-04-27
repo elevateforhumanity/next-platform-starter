@@ -2,9 +2,18 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { 
-  CheckCircle, Clock, DollarSign, Award, ArrowRight, 
-  GraduationCap, Users, FileText, Calendar, Heart, Star
+import {
+  CheckCircle,
+  Clock,
+  DollarSign,
+  Award,
+  ArrowRight,
+  GraduationCap,
+  Users,
+  FileText,
+  Calendar,
+  Heart,
+  Star,
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 
@@ -12,7 +21,8 @@ const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export const metadata: Metadata = {
   title: 'Scholarships & Financial Aid | Free Training Funding | Elevate',
-  description: 'Explore scholarships, grants, and funding options for career training. WIOA funding, employer sponsorships, and need-based scholarships available.',
+  description:
+    'Explore scholarships, grants, and funding options for career training. WIOA funding, employer sponsorships, and need-based scholarships available.',
   alternates: { canonical: `${SITE_URL}/scholarships` },
   keywords: [
     'career training scholarships Indianapolis',
@@ -35,7 +45,14 @@ export const metadata: Metadata = {
     description: 'Explore scholarships, grants, and funding options for career training.',
     url: `${SITE_URL}/scholarships`,
     siteName: 'Elevate for Humanity',
-    images: [{ url: `${SITE_URL}/images/pages/success-stories-hero.jpg`, width: 1200, height: 630, alt: 'Scholarships and Financial Aid' }],
+    images: [
+      {
+        url: `${SITE_URL}/images/pages/success-stories-hero.jpg`,
+        width: 1200,
+        height: 630,
+        alt: 'Scholarships and Financial Aid',
+      },
+    ],
     type: 'website',
   },
   twitter: {
@@ -52,7 +69,12 @@ const fundingOptions = [
     icon: DollarSign,
     amount: 'Up to 100%',
     desc: 'Federal workforce funding covers tuition, books, supplies, and support services for eligible adults.',
-    eligibility: ['18+ years old', 'US citizen or authorized to work', 'Meet income guidelines OR other barriers', 'Indiana resident'],
+    eligibility: [
+      '18+ years old',
+      'US citizen or authorized to work',
+      'Meet income guidelines OR other barriers',
+      'Indiana resident',
+    ],
     link: '/wioa-eligibility',
   },
   {
@@ -60,15 +82,25 @@ const fundingOptions = [
     icon: Users,
     amount: 'Varies',
     desc: 'Many employers pay for training in exchange for employment commitment after graduation.',
-    eligibility: ['Accepted into program', 'Willing to work for sponsor', 'Pass background check', 'Meet employer requirements'],
+    eligibility: [
+      'Accepted into program',
+      'Willing to work for sponsor',
+      'Pass background check',
+      'Meet employer requirements',
+    ],
     link: '/employers',
   },
   {
     title: 'Need-Based Scholarships',
     icon: Heart,
     amount: '$500 - $2,000',
-    desc: 'Elevate scholarships for students who don\'t qualify for other funding but demonstrate financial need.',
-    eligibility: ['Enrolled in Elevate program', 'Demonstrate financial need', 'Submit scholarship application', 'Maintain good standing'],
+    desc: "Elevate scholarships for students who don't qualify for other funding but demonstrate financial need.",
+    eligibility: [
+      'Enrolled in Elevate program',
+      'Demonstrate financial need',
+      'Submit scholarship application',
+      'Maintain good standing',
+    ],
     link: '/apply',
   },
   {
@@ -76,7 +108,12 @@ const fundingOptions = [
     icon: Star,
     amount: 'Up to 100%',
     desc: 'GI Bill and veteran-specific funding for eligible service members and veterans.',
-    eligibility: ['Veteran or active duty', 'Eligible for VA benefits', 'Program must be VA-approved', 'Certificate of Eligibility'],
+    eligibility: [
+      'Veteran or active duty',
+      'Eligible for VA benefits',
+      'Program must be VA-approved',
+      'Certificate of Eligibility',
+    ],
     link: '/contact',
   },
 ];
@@ -125,17 +162,16 @@ export default async function ScholarshipsPage() {
   if (supabase) {
     const [enrolledRes, fundedRes] = await Promise.all([
       supabase.from('program_enrollments').select('id', { count: 'exact', head: true }),
-      supabase.from('program_enrollments')
+      supabase
+        .from('program_enrollments')
         .select('id', { count: 'exact', head: true })
         .not('funding_source', 'in', '(self_pay,pending,null)'),
     ]);
     totalEnrolled = enrolledRes.count ?? 0;
-    fundedCount   = fundedRes.count ?? 0;
+    fundedCount = fundedRes.count ?? 0;
   }
 
-  const fundedPct = totalEnrolled > 0
-    ? Math.round((fundedCount / totalEnrolled) * 100)
-    : null;
+  const fundedPct = totalEnrolled > 0 ? Math.round((fundedCount / totalEnrolled) * 100) : null;
   return (
     <div className="min-h-screen bg-white">
       {/* Breadcrumbs */}
@@ -147,12 +183,13 @@ export default async function ScholarshipsPage() {
 
       {/* Hero */}
       <section className="relative h-[50vh] min-h-[400px]">
-        <Image 
-          src="/images/pages/success-stories-hero.jpg" 
-          alt="Scholarships and Financial Aid" 
-          fill 
-          className="object-cover" 
-          priority 
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image sizes="100vw"
+          src="/images/pages/success-stories-hero.jpg"
+          alt="Scholarships and Financial Aid"
+          fill
+          className="object-cover"
+          priority
         />
         <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent" />
         <div className="absolute bottom-0 left-0 right-0 p-8 md:p-12">
@@ -164,13 +201,20 @@ export default async function ScholarshipsPage() {
               Scholarships & Financial Aid
             </h1>
             <p className="text-xl text-white/90 max-w-xl mb-6">
-              Don&apos;t let cost stop you. Most students pay $0 for training through WIOA funding, scholarships, and employer sponsorships.
+              Don&apos;t let cost stop you. Most students pay $0 for training through WIOA funding,
+              scholarships, and employer sponsorships.
             </p>
             <div className="flex flex-wrap gap-4">
-              <Link href="/wioa-eligibility" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105">
+              <Link
+                href="/wioa-eligibility"
+                className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105"
+              >
                 Check Eligibility <ArrowRight className="w-5 h-5" />
               </Link>
-              <Link href="/apply" className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-8 py-4 rounded-full font-bold text-lg transition-all border border-white/40">
+              <Link
+                href="/apply"
+                className="inline-flex items-center gap-2 bg-white/20 hover:bg-white/30 text-white px-8 py-4 rounded-full font-bold text-lg transition-all border border-white/40"
+              >
                 Apply Now
               </Link>
             </div>
@@ -213,10 +257,13 @@ export default async function ScholarshipsPage() {
           <p className="text-center text-slate-600 mb-12 max-w-2xl mx-auto">
             Multiple ways to fund your training. Our team helps you find the best option.
           </p>
-          
+
           <div className="grid md:grid-cols-2 gap-6">
             {fundingOptions.map((option, i) => (
-              <div key={i} className="bg-white rounded-xl p-6 shadow-lg border border-slate-200 hover:shadow-xl transition-shadow">
+              <div
+                key={i}
+                className="bg-white rounded-xl p-6 shadow-lg border border-slate-200 hover:shadow-xl transition-shadow"
+              >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-center gap-4">
                     <div className="w-12 h-12 bg-green-100 rounded-xl flex items-center justify-center">
@@ -240,7 +287,10 @@ export default async function ScholarshipsPage() {
                     ))}
                   </ul>
                 </div>
-                <Link href={option.link} className="mt-4 inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700">
+                <Link
+                  href={option.link}
+                  className="mt-4 inline-flex items-center gap-2 text-blue-600 font-semibold hover:text-blue-700"
+                >
                   Learn More <ArrowRight className="w-4 h-4" />
                 </Link>
               </div>
@@ -254,9 +304,11 @@ export default async function ScholarshipsPage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6">WIOA: Your Best Option</h2>
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6">
+                WIOA: Your Best Option
+              </h2>
               <p className="text-lg text-slate-600 mb-6">
-                The Workforce Innovation and Opportunity Act (WIOA) is federal funding that pays for 
+                The Workforce Innovation and Opportunity Act (WIOA) is federal funding that pays for
                 career training for eligible adults. Most of our students qualify.
               </p>
               <div className="space-y-4">
@@ -264,25 +316,34 @@ export default async function ScholarshipsPage() {
                   <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-bold text-slate-900">Covers Everything</h3>
-                    <p className="text-slate-600">Tuition, books, supplies, uniforms, certification exams</p>
+                    <p className="text-slate-600">
+                      Tuition, books, supplies, uniforms, certification exams
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-bold text-slate-900">Support Services</h3>
-                    <p className="text-slate-600">Transportation, childcare, work clothes assistance</p>
+                    <p className="text-slate-600">
+                      Transportation, childcare, work clothes assistance
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-4">
                   <CheckCircle className="w-6 h-6 text-green-500 flex-shrink-0 mt-1" />
                   <div>
                     <h3 className="font-bold text-slate-900">No Repayment</h3>
-                    <p className="text-slate-600">This is a grant, not a loan. Nothing to pay back.</p>
+                    <p className="text-slate-600">
+                      This is a grant, not a loan. Nothing to pay back.
+                    </p>
                   </div>
                 </div>
               </div>
-              <Link href="/wioa-eligibility" className="mt-8 inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105">
+              <Link
+                href="/wioa-eligibility"
+                className="mt-8 inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-8 py-4 rounded-full font-bold text-lg transition-all hover:scale-105"
+              >
                 Check WIOA Eligibility <ArrowRight className="w-5 h-5" />
               </Link>
             </div>
@@ -322,10 +383,13 @@ export default async function ScholarshipsPage() {
           <p className="text-center text-slate-600 mb-12 max-w-2xl mx-auto">
             For students who don&apos;t qualify for WIOA, we offer need-based scholarships.
           </p>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {scholarshipTypes.map((scholarship, i) => (
-              <div key={i} className="bg-white rounded-xl p-6 shadow-lg border border-slate-200 text-center">
+              <div
+                key={i}
+                className="bg-white rounded-xl p-6 shadow-lg border border-slate-200 text-center"
+              >
                 <Award className="w-10 h-10 text-yellow-500 mx-auto mb-4" />
                 <h3 className="font-bold text-lg text-slate-900 mb-2">{scholarship.name}</h3>
                 <div className="text-2xl font-bold text-green-600 mb-2">{scholarship.amount}</div>
@@ -341,7 +405,7 @@ export default async function ScholarshipsPage() {
       <section className="py-16 bg-slate-50">
         <div className="max-w-5xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-black text-center mb-12">How to Get Funded</h2>
-          
+
           <div className="grid md:grid-cols-4 gap-6">
             {steps.map((step, i) => (
               <div key={i} className="text-center">
@@ -360,7 +424,7 @@ export default async function ScholarshipsPage() {
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-black text-center mb-12">Common Questions</h2>
-          
+
           <div className="space-y-6">
             {[
               {
@@ -372,12 +436,12 @@ export default async function ScholarshipsPage() {
                 a: 'WIOA approval typically takes 1-2 weeks after submitting all required documents.',
               },
               {
-                q: 'What if I don\'t qualify for WIOA?',
+                q: "What if I don't qualify for WIOA?",
                 a: 'We have other options including employer sponsorships, payment plans, and need-based scholarships.',
               },
               {
                 q: 'Can I use funding for any program?',
-                a: 'WIOA funding can be used for programs on the state\'s Eligible Training Provider List (ETPL). Most of our programs qualify.',
+                a: "WIOA funding can be used for programs on the state's Eligible Training Provider List (ETPL). Most of our programs qualify.",
               },
             ].map((faq, i) => (
               <div key={i} className="bg-white rounded-xl p-6 shadow-sm border border-slate-200">
@@ -399,10 +463,16 @@ export default async function ScholarshipsPage() {
             Most of our students pay $0 for training. Let us help you find funding.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/wioa-eligibility" className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105">
+            <Link
+              href="/wioa-eligibility"
+              className="inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white px-10 py-5 rounded-full font-bold text-lg transition-all hover:scale-105"
+            >
               Check Eligibility <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link href="/apply" className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-10 py-5 rounded-full font-bold text-lg transition-all border border-white/30">
+            <Link
+              href="/apply"
+              className="inline-flex items-center gap-2 bg-white/10 hover:bg-white/20 text-white px-10 py-5 rounded-full font-bold text-lg transition-all border border-white/30"
+            >
               Apply Now
             </Link>
           </div>

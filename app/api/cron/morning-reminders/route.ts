@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -48,7 +47,7 @@ async function _GET(request: NextRequest) {
             name
           )
         )
-      `
+      `,
       )
       .eq('notification_type', 'checkin_reminder')
       .eq('enabled', true)
@@ -78,7 +77,7 @@ async function _GET(request: NextRequest) {
               employerName: apprenticeship.employer?.full_name,
             },
           }),
-        }
+        },
       );
 
       results.push({
@@ -98,12 +97,9 @@ async function _GET(request: NextRequest) {
       sent: results.length,
       results,
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Morning reminders cron error:', error);
-    return NextResponse.json(
-      { error: 'Failed to send morning reminders' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to send morning reminders' }, { status: 500 });
   }
 }
 export const GET = withRuntime(withApiAudit('/api/cron/morning-reminders', _GET));

@@ -1,6 +1,6 @@
 /**
  * Webhook event deduplication and tracking.
- * 
+ *
  * Every webhook event is recorded before processing.
  * If the event_id already exists, processing is skipped (idempotent).
  * After processing, the record is finalized with status + timestamp.
@@ -41,20 +41,22 @@ export async function claimWebhookEvent(
       return { shouldProcess: true, isDuplicate: false, confident: false };
     }
 
-    const { error } = await supabase
-      .from('webhook_events_processed')
-      .insert({
-        event_id: eventId,
-        provider,
-        event_type: eventType,
-        status: 'processing',
-        metadata: metadata || {},
-      });
+    const { error } = await supabase.from('webhook_events_processed').insert({
+      event_id: eventId,
+      provider,
+      event_type: eventType,
+      status: 'processing',
+      metadata: metadata || {},
+    });
 
     if (error) {
       // Unique constraint violation = duplicate
       if (error.code === '23505') {
-        logger.info('Webhook event already processed (idempotent skip)', { provider, eventId, eventType });
+        logger.info('Webhook event already processed (idempotent skip)', {
+          provider,
+          eventId,
+          eventType,
+        });
         return { shouldProcess: false, isDuplicate: true, confident: true };
       }
       // Other DB error — not confident in deduplication
@@ -93,7 +95,12 @@ export async function finalizeWebhookEvent(
       .eq('event_id', eventId);
 
     if (error) {
-      logger.error('Webhook event tracker finalize error', { provider, eventId, status, error });
+      logger.error('Webhook event tracker finalize error', undefined, {
+        provider,
+        eventId,
+        status,
+        error,
+      });
     }
   } catch (err) {
     logger.error('Webhook event tracker finalize exception', err);

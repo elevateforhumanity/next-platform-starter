@@ -1,4 +1,5 @@
 # Admissions Funding Script
+
 ## Elevate for Humanity Career and Training Institute
 
 **INTERNAL DOCUMENT — REQUIRED READING FOR ALL ADMISSIONS STAFF**
@@ -123,7 +124,7 @@ Then end the conversation professionally.
 ❌ Waive the $500 initial payment  
 ❌ Accept manual payments (autopay only)  
 ❌ Promise anything not in this script  
-❌ Enroll without funding confirmed or payment agreement signed  
+❌ Enroll without funding confirmed or payment agreement signed
 
 ---
 
@@ -134,7 +135,7 @@ Then end the conversation professionally.
 ✅ Document every interaction in the CRM  
 ✅ Route to workforce funding first  
 ✅ Get signed agreements before enrollment  
-✅ Say "no" when the answer is no  
+✅ Say "no" when the answer is no
 
 ---
 
@@ -161,4 +162,4 @@ Program Director will review and respond within 24 hours.
 
 ---
 
-*This script is mandatory. Deviation without written Executive Director approval is a policy violation subject to disciplinary action.*
+_This script is mandatory. Deviation without written Executive Director approval is a policy violation subject to disciplinary action._

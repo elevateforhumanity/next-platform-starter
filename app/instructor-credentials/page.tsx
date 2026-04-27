@@ -35,9 +35,12 @@ const PROGRAM_CREDENTIALS = [
       'Completion of instructor training or apprenticeship mentor certification',
       'Current CPR/First Aid certification (for clinical supervision)',
     ],
-    programHolderRole: 'Barber Apprenticeship Coordinator — manages apprentice placement, RTI scheduling, and RAPIDS documentation under licensed barber school supervision.',
-    smeScope: 'Licensed master barbers at host shops provide supplemental hands-on mentoring and technique instruction.',
-    credentialIssued: 'Indiana Barber License — issued by Indiana Professional Licensing Agency (PLA)',
+    programHolderRole:
+      'Barber Apprenticeship Coordinator — manages apprentice placement, RTI scheduling, and RAPIDS documentation under licensed barber school supervision.',
+    smeScope:
+      'Licensed master barbers at host shops provide supplemental hands-on mentoring and technique instruction.',
+    credentialIssued:
+      'Indiana Barber License — issued by Indiana Professional Licensing Agency (PLA)',
     regulatoryBody: 'Indiana Professional Licensing Agency (PLA)',
   },
   {
@@ -50,8 +53,10 @@ const PROGRAM_CREDENTIALS = [
       'State-approved nurse aide training instructor certification',
       'Current CPR/BLS certification',
     ],
-    programHolderRole: 'Healthcare Training Manager — coordinates clinical rotation scheduling, student progress tracking, and exam preparation under nursing program oversight.',
-    smeScope: 'Experienced CNAs and healthcare professionals provide supplemental skills practice and patient care mentoring.',
+    programHolderRole:
+      'Healthcare Training Manager — coordinates clinical rotation scheduling, student progress tracking, and exam preparation under nursing program oversight.',
+    smeScope:
+      'Experienced CNAs and healthcare professionals provide supplemental skills practice and patient care mentoring.',
     credentialIssued: 'CNA Certification — issued by Indiana State Department of Health (ISDH)',
     regulatoryBody: 'Indiana State Department of Health (ISDH)',
   },
@@ -65,8 +70,10 @@ const PROGRAM_CREDENTIALS = [
       'ELDT (Entry-Level Driver Training) instructor certification',
       'Clean driving record (no major violations in past 3 years)',
     ],
-    programHolderRole: 'CDL Program Coordinator — manages student enrollment, DOT physical scheduling, behind-the-wheel hour tracking, and BMV exam coordination.',
-    smeScope: 'Experienced commercial drivers provide supplemental road mentoring and pre-trip inspection practice.',
+    programHolderRole:
+      'CDL Program Coordinator — manages student enrollment, DOT physical scheduling, behind-the-wheel hour tracking, and BMV exam coordination.',
+    smeScope:
+      'Experienced commercial drivers provide supplemental road mentoring and pre-trip inspection practice.',
     credentialIssued: 'CDL Class A or Class B — issued by Indiana Bureau of Motor Vehicles (BMV)',
     regulatoryBody: 'FMCSA (Federal Motor Carrier Safety Administration) / Indiana BMV',
   },
@@ -80,8 +87,10 @@ const PROGRAM_CREDENTIALS = [
       'Minimum 5 years of HVAC field experience',
       'NATE certification preferred',
     ],
-    programHolderRole: 'Trades Program Lead — coordinates lab scheduling, equipment access, safety compliance, and certification exam preparation.',
-    smeScope: 'EPA-certified HVAC technicians provide supplemental equipment training, troubleshooting labs, and refrigerant handling instruction.',
+    programHolderRole:
+      'Trades Program Lead — coordinates lab scheduling, equipment access, safety compliance, and certification exam preparation.',
+    smeScope:
+      'EPA-certified HVAC technicians provide supplemental equipment training, troubleshooting labs, and refrigerant handling instruction.',
     credentialIssued: 'EPA 608 Certification + OSHA 10-Hour — issued by EPA and OSHA',
     regulatoryBody: 'EPA / OSHA / Indiana DOE',
   },
@@ -95,8 +104,10 @@ const PROGRAM_CREDENTIALS = [
       'Certiport Educator certification preferred',
       'Experience with LMS-based instruction delivery',
     ],
-    programHolderRole: 'Technology Program Lead — manages module sequencing, lab environment setup, practice exam scheduling, and student progress tracking.',
-    smeScope: 'Certified IT professionals provide supplemental tutoring, lab mentoring, and exam preparation support.',
+    programHolderRole:
+      'Technology Program Lead — manages module sequencing, lab environment setup, practice exam scheduling, and student progress tracking.',
+    smeScope:
+      'Certified IT professionals provide supplemental tutoring, lab mentoring, and exam preparation support.',
     credentialIssued: 'IT Specialist — Device Configuration & Management — issued by Certiport',
     regulatoryBody: 'Certiport',
   },
@@ -110,8 +121,10 @@ const PROGRAM_CREDENTIALS = [
       'CySA+, CISSP, or CEH certification preferred',
       'Experience with virtual lab environments and threat simulation',
     ],
-    programHolderRole: 'Technology Program Lead — manages curriculum delivery, virtual lab access, assessment scheduling, and certification readiness evaluation.',
-    smeScope: 'Certified cybersecurity professionals provide supplemental threat analysis labs, incident response exercises, and exam preparation.',
+    programHolderRole:
+      'Technology Program Lead — manages curriculum delivery, virtual lab access, assessment scheduling, and certification readiness evaluation.',
+    smeScope:
+      'Certified cybersecurity professionals provide supplemental threat analysis labs, incident response exercises, and exam preparation.',
     credentialIssued: 'IT Specialist — Cybersecurity — issued by Certiport',
     regulatoryBody: 'Certiport',
   },
@@ -125,8 +138,10 @@ const PROGRAM_CREDENTIALS = [
       'Minimum 5 years of professional welding experience',
       'AWS Certified Welding Inspector (CWI) preferred',
     ],
-    programHolderRole: 'Trades Program Lead — coordinates shop scheduling, safety compliance, welding process instruction, and certification testing.',
-    smeScope: 'AWS-certified welders provide supplemental technique instruction, joint preparation labs, and weld quality mentoring.',
+    programHolderRole:
+      'Trades Program Lead — coordinates shop scheduling, safety compliance, welding process instruction, and certification testing.',
+    smeScope:
+      'AWS-certified welders provide supplemental technique instruction, joint preparation labs, and weld quality mentoring.',
     credentialIssued: 'AWS D1.1 Certification + OSHA 10-Hour — issued by AWS and OSHA',
     regulatoryBody: 'AWS (American Welding Society) / OSHA',
   },
@@ -140,8 +155,10 @@ const PROGRAM_CREDENTIALS = [
       'Minimum 5 years of electrical field experience',
       'NCCER Certified Instructor preferred',
     ],
-    programHolderRole: 'Trades Program Lead — coordinates lab scheduling, NEC code instruction, safety compliance, and NCCER assessment administration.',
-    smeScope: 'Licensed electricians provide supplemental wiring labs, code interpretation mentoring, and job site safety instruction.',
+    programHolderRole:
+      'Trades Program Lead — coordinates lab scheduling, NEC code instruction, safety compliance, and NCCER assessment administration.',
+    smeScope:
+      'Licensed electricians provide supplemental wiring labs, code interpretation mentoring, and job site safety instruction.',
     credentialIssued: 'OSHA 10-Hour + NCCER Core Certification — issued by OSHA and NCCER',
     regulatoryBody: 'Indiana DOE / OSHA / NCCER',
   },
@@ -153,15 +170,18 @@ export default function InstructorCredentialsPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Instructional Framework', href: '/instructor-credentials' },
-            { label: 'Instructor Credentials' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Instructional Framework', href: '/instructor-credentials' },
+              { label: 'Instructor Credentials' },
+            ]}
+          />
         </div>
       </div>
 
       {/* Hero */}
       <section className="relative h-[260px] sm:h-[340px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/instructor-credentials-page-1.jpg"
           alt="Professional instructor working with students"
@@ -188,10 +208,9 @@ export default function InstructorCredentialsPage() {
           <div className="border-l-4 border-brand-blue-600 pl-6 mb-8">
             <p className="text-gray-700 leading-relaxed">
               All instructors delivering Related Technical Instruction (RTI) through Elevate
-              programs hold occupation-specific credentials that match the program they teach.
-              This page documents the qualification standards for each program, the role of
-              credential partners and program holders, and the scope of subject matter expert
-              involvement.
+              programs hold occupation-specific credentials that match the program they teach. This
+              page documents the qualification standards for each program, the role of credential
+              partners and program holders, and the scope of subject matter expert involvement.
             </p>
           </div>
 
@@ -199,12 +218,16 @@ export default function InstructorCredentialsPage() {
             <div className="bg-white rounded-lg p-4 text-center">
               <GraduationCap className="w-6 h-6 text-brand-blue-600 mx-auto mb-2" />
               <p className="text-sm font-semibold text-gray-900">Credential Partners</p>
-              <p className="text-xs text-gray-600 mt-1">State-approved or licensed instructional authorities</p>
+              <p className="text-xs text-gray-600 mt-1">
+                State-approved or licensed instructional authorities
+              </p>
             </div>
             <div className="bg-white rounded-lg p-4 text-center">
               <FileCheck className="w-6 h-6 text-brand-blue-600 mx-auto mb-2" />
               <p className="text-sm font-semibold text-gray-900">Program Holders</p>
-              <p className="text-xs text-gray-600 mt-1">Authorized RTI coordinators under licensed supervision</p>
+              <p className="text-xs text-gray-600 mt-1">
+                Authorized RTI coordinators under licensed supervision
+              </p>
             </div>
             <div className="bg-white rounded-lg p-4 text-center">
               <Award className="w-6 h-6 text-brand-blue-600 mx-auto mb-2" />
@@ -221,25 +244,37 @@ export default function InstructorCredentialsPage() {
             </h2>
             <p className="text-sm text-gray-700 mb-3">
               For apprenticeship compliance and ETPL review, RTI instructors must be clearly
-              qualified for the occupation they teach. The following standards apply across
-              all programs:
+              qualified for the occupation they teach. The following standards apply across all
+              programs:
             </p>
             <ul className="space-y-2 text-sm text-gray-700">
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
-                <span><strong>Credential match:</strong> Instructor license or certification must correspond to the occupation being taught</span>
+                <span>
+                  <strong>Credential match:</strong> Instructor license or certification must
+                  correspond to the occupation being taught
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
-                <span><strong>Field experience:</strong> Minimum years of documented professional experience in the occupation</span>
+                <span>
+                  <strong>Field experience:</strong> Minimum years of documented professional
+                  experience in the occupation
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
-                <span><strong>MOU documentation:</strong> All credential partners and program holders operate under signed agreements with defined scope</span>
+                <span>
+                  <strong>MOU documentation:</strong> All credential partners and program holders
+                  operate under signed agreements with defined scope
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-4 h-4 text-brand-green-600 flex-shrink-0 mt-0.5" />
-                <span><strong>Periodic review:</strong> Instructor credentials are verified annually and maintained in compliance files</span>
+                <span>
+                  <strong>Periodic review:</strong> Instructor credentials are verified annually and
+                  maintained in compliance files
+                </span>
               </li>
             </ul>
           </div>
@@ -249,7 +284,9 @@ export default function InstructorCredentialsPage() {
       {/* Per-Program Credential Details */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-2">Program-Specific Instructor Requirements</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-2">
+            Program-Specific Instructor Requirements
+          </h2>
           <p className="text-gray-600 mb-8">
             Detailed qualification standards for each program, including credential partner type,
             instructor requirements, program holder role, and SME scope.
@@ -271,7 +308,9 @@ export default function InstructorCredentialsPage() {
                       <GraduationCap className="w-3.5 h-3.5" /> Credential Partner (Tier 1)
                     </p>
                     <p className="text-sm text-gray-900 font-medium">{prog.credentialPartner}</p>
-                    <p className="text-xs text-gray-500 mt-1">Regulatory body: {prog.regulatoryBody}</p>
+                    <p className="text-xs text-gray-500 mt-1">
+                      Regulatory body: {prog.regulatoryBody}
+                    </p>
                   </div>
 
                   {/* Instructor Requirements */}
@@ -333,22 +372,26 @@ export default function InstructorCredentialsPage() {
               {
                 type: 'Credential Partner MOU',
                 parties: 'Elevate + State-Approved Training Provider',
-                covers: 'RTI delivery scope, instructor qualifications, curriculum alignment, assessment protocols, credential issuance process, reporting requirements',
+                covers:
+                  'RTI delivery scope, instructor qualifications, curriculum alignment, assessment protocols, credential issuance process, reporting requirements',
               },
               {
                 type: 'Program Holder Agreement',
                 parties: 'Elevate + Authorized RTI Coordinator',
-                covers: 'Coordination scope, curriculum management responsibilities, progress documentation requirements, instructional supervision chain, periodic review schedule',
+                covers:
+                  'Coordination scope, curriculum management responsibilities, progress documentation requirements, instructional supervision chain, periodic review schedule',
               },
               {
                 type: 'SME Instructor Agreement',
                 parties: 'Elevate + Subject Matter Expert',
-                covers: 'Supplemental instruction scope, credential verification, session documentation, curriculum compliance, liability and insurance',
+                covers:
+                  'Supplemental instruction scope, credential verification, session documentation, curriculum compliance, liability and insurance',
               },
               {
                 type: 'Employer OJT Agreement',
                 parties: 'Elevate + Employer Partner',
-                covers: 'Work process schedule, supervisor designation, wage progression (apprenticeship), evaluation schedule, safety compliance, hour verification process',
+                covers:
+                  'Work process schedule, supervisor designation, wage progression (apprenticeship), evaluation schedule, safety compliance, hour verification process',
               },
             ].map((item, i) => (
               <div key={i} className="border rounded-lg p-5">
@@ -365,7 +408,10 @@ export default function InstructorCredentialsPage() {
 
           <div className="mt-6 bg-white border rounded-lg p-4">
             <p className="text-sm text-gray-700">
-              <span className="font-semibold">Disclosure:</span> Specific provider names, MOU documents, and instructor credential files are maintained in internal compliance records and disclosed to authorized reviewers (ETPL, DWD, DOL, workforce boards) upon request.
+              <span className="font-semibold">Disclosure:</span> Specific provider names, MOU
+              documents, and instructor credential files are maintained in internal compliance
+              records and disclosed to authorized reviewers (ETPL, DWD, DOL, workforce boards) upon
+              request.
             </p>
           </div>
         </div>

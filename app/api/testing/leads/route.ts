@@ -26,7 +26,13 @@ export async function POST(req: NextRequest) {
   const rateLimited = await applyRateLimit(req, 'contact');
   if (rateLimited) return rateLimited;
 
-  let body: { email?: string; examType?: string; firstName?: string; phone?: string; source?: string };
+  let body: {
+    email?: string;
+    examType?: string;
+    firstName?: string;
+    phone?: string;
+    source?: string;
+  };
   try {
     body = await req.json();
   } catch {
@@ -63,7 +69,7 @@ export async function POST(req: NextRequest) {
         {
           onConflict: 'email,exam_type',
           ignoreDuplicates: false,
-        }
+        },
       )
       .select('id')
       .maybeSingle();

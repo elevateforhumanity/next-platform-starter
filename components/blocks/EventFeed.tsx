@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 
 interface EventFeedProps {
-  type?: string;        // filter by event category/type
+  type?: string; // filter by event category/type
   limit?: number;
   heading?: string;
 }
@@ -42,13 +42,13 @@ export default async function EventFeed({
               >
                 <p className="text-sm text-brand-blue-600 font-medium mb-1">
                   {new Date(event.start_date).toLocaleDateString('en-US', {
-                    month: 'short', day: 'numeric', year: 'numeric',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
                   })}
                 </p>
                 <h3 className="font-semibold text-slate-800">{event.title}</h3>
-                {event.location && (
-                  <p className="text-sm text-slate-500 mt-1">{event.location}</p>
-                )}
+                {event.location && <p className="text-sm text-slate-500 mt-1">{event.location}</p>}
               </Link>
             ))}
           </div>

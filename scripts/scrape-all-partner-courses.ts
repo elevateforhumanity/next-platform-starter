@@ -17,62 +17,222 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 // Full course catalogs compiled from partner websites
 const FULL_COURSE_CATALOG = {
   certiport: [
     // Microsoft Office Specialist (MOS)
-    { name: 'MOS: Word Associate (Office 2019)', category: 'Microsoft Office', price: 117, duration: 40 },
-    { name: 'MOS: Word Expert (Office 2019)', category: 'Microsoft Office', price: 117, duration: 50 },
-    { name: 'MOS: Excel Associate (Office 2019)', category: 'Microsoft Office', price: 117, duration: 40 },
-    { name: 'MOS: Excel Expert (Office 2019)', category: 'Microsoft Office', price: 117, duration: 50 },
-    { name: 'MOS: PowerPoint (Office 2019)', category: 'Microsoft Office', price: 117, duration: 30 },
+    {
+      name: 'MOS: Word Associate (Office 2019)',
+      category: 'Microsoft Office',
+      price: 117,
+      duration: 40,
+    },
+    {
+      name: 'MOS: Word Expert (Office 2019)',
+      category: 'Microsoft Office',
+      price: 117,
+      duration: 50,
+    },
+    {
+      name: 'MOS: Excel Associate (Office 2019)',
+      category: 'Microsoft Office',
+      price: 117,
+      duration: 40,
+    },
+    {
+      name: 'MOS: Excel Expert (Office 2019)',
+      category: 'Microsoft Office',
+      price: 117,
+      duration: 50,
+    },
+    {
+      name: 'MOS: PowerPoint (Office 2019)',
+      category: 'Microsoft Office',
+      price: 117,
+      duration: 30,
+    },
     { name: 'MOS: Outlook (Office 2019)', category: 'Microsoft Office', price: 117, duration: 30 },
-    { name: 'MOS: Access Expert (Office 2019)', category: 'Microsoft Office', price: 117, duration: 40 },
-    { name: 'MOS: Word Associate (Microsoft 365)', category: 'Microsoft Office', price: 117, duration: 40 },
-    { name: 'MOS: Word Expert (Microsoft 365)', category: 'Microsoft Office', price: 117, duration: 50 },
-    { name: 'MOS: Excel Associate (Microsoft 365)', category: 'Microsoft Office', price: 117, duration: 40 },
-    { name: 'MOS: Excel Expert (Microsoft 365)', category: 'Microsoft Office', price: 117, duration: 50 },
-    { name: 'MOS: PowerPoint (Microsoft 365)', category: 'Microsoft Office', price: 117, duration: 30 },
-    { name: 'MOS: Outlook (Microsoft 365)', category: 'Microsoft Office', price: 117, duration: 30 },
-    { name: 'MOS: Access Expert (Microsoft 365)', category: 'Microsoft Office', price: 117, duration: 40 },
+    {
+      name: 'MOS: Access Expert (Office 2019)',
+      category: 'Microsoft Office',
+      price: 117,
+      duration: 40,
+    },
+    {
+      name: 'MOS: Word Associate (Microsoft 365)',
+      category: 'Microsoft Office',
+      price: 117,
+      duration: 40,
+    },
+    {
+      name: 'MOS: Word Expert (Microsoft 365)',
+      category: 'Microsoft Office',
+      price: 117,
+      duration: 50,
+    },
+    {
+      name: 'MOS: Excel Associate (Microsoft 365)',
+      category: 'Microsoft Office',
+      price: 117,
+      duration: 40,
+    },
+    {
+      name: 'MOS: Excel Expert (Microsoft 365)',
+      category: 'Microsoft Office',
+      price: 117,
+      duration: 50,
+    },
+    {
+      name: 'MOS: PowerPoint (Microsoft 365)',
+      category: 'Microsoft Office',
+      price: 117,
+      duration: 30,
+    },
+    {
+      name: 'MOS: Outlook (Microsoft 365)',
+      category: 'Microsoft Office',
+      price: 117,
+      duration: 30,
+    },
+    {
+      name: 'MOS: Access Expert (Microsoft 365)',
+      category: 'Microsoft Office',
+      price: 117,
+      duration: 40,
+    },
 
     // Adobe
-    { name: 'Adobe Certified Professional: Photoshop', category: 'Adobe Creative', price: 150, duration: 60 },
-    { name: 'Adobe Certified Professional: Illustrator', category: 'Adobe Creative', price: 150, duration: 60 },
-    { name: 'Adobe Certified Professional: InDesign', category: 'Adobe Creative', price: 150, duration: 60 },
-    { name: 'Adobe Certified Professional: Premiere Pro', category: 'Adobe Creative', price: 150, duration: 60 },
-    { name: 'Adobe Certified Professional: After Effects', category: 'Adobe Creative', price: 150, duration: 60 },
+    {
+      name: 'Adobe Certified Professional: Photoshop',
+      category: 'Adobe Creative',
+      price: 150,
+      duration: 60,
+    },
+    {
+      name: 'Adobe Certified Professional: Illustrator',
+      category: 'Adobe Creative',
+      price: 150,
+      duration: 60,
+    },
+    {
+      name: 'Adobe Certified Professional: InDesign',
+      category: 'Adobe Creative',
+      price: 150,
+      duration: 60,
+    },
+    {
+      name: 'Adobe Certified Professional: Premiere Pro',
+      category: 'Adobe Creative',
+      price: 150,
+      duration: 60,
+    },
+    {
+      name: 'Adobe Certified Professional: After Effects',
+      category: 'Adobe Creative',
+      price: 150,
+      duration: 60,
+    },
 
     // IC3 Digital Literacy
-    { name: 'IC3 Digital Literacy: Computing Fundamentals', category: 'Digital Literacy', price: 117, duration: 30 },
-    { name: 'IC3 Digital Literacy: Key Applications', category: 'Digital Literacy', price: 117, duration: 30 },
-    { name: 'IC3 Digital Literacy: Living Online', category: 'Digital Literacy', price: 117, duration: 30 },
+    {
+      name: 'IC3 Digital Literacy: Computing Fundamentals',
+      category: 'Digital Literacy',
+      price: 117,
+      duration: 30,
+    },
+    {
+      name: 'IC3 Digital Literacy: Key Applications',
+      category: 'Digital Literacy',
+      price: 117,
+      duration: 30,
+    },
+    {
+      name: 'IC3 Digital Literacy: Living Online',
+      category: 'Digital Literacy',
+      price: 117,
+      duration: 30,
+    },
 
     // IT Specialist
-    { name: 'IT Specialist: Cybersecurity', category: 'IT Certifications', price: 117, duration: 40 },
-    { name: 'IT Specialist: Network Security', category: 'IT Certifications', price: 117, duration: 40 },
+    {
+      name: 'IT Specialist: Cybersecurity',
+      category: 'IT Certifications',
+      price: 117,
+      duration: 40,
+    },
+    {
+      name: 'IT Specialist: Network Security',
+      category: 'IT Certifications',
+      price: 117,
+      duration: 40,
+    },
     { name: 'IT Specialist: Python', category: 'IT Certifications', price: 117, duration: 50 },
     { name: 'IT Specialist: JavaScript', category: 'IT Certifications', price: 117, duration: 50 },
-    { name: 'IT Specialist: HTML and CSS', category: 'IT Certifications', price: 117, duration: 40 },
+    {
+      name: 'IT Specialist: HTML and CSS',
+      category: 'IT Certifications',
+      price: 117,
+      duration: 40,
+    },
     { name: 'IT Specialist: Java', category: 'IT Certifications', price: 117, duration: 50 },
     { name: 'IT Specialist: Databases', category: 'IT Certifications', price: 117, duration: 40 },
-    { name: 'IT Specialist: Device Configuration and Management', category: 'IT Certifications', price: 117, duration: 40 },
+    {
+      name: 'IT Specialist: Device Configuration and Management',
+      category: 'IT Certifications',
+      price: 117,
+      duration: 40,
+    },
 
     // Entrepreneurship and Small Business
-    { name: 'Entrepreneurship and Small Business (ESB)', category: 'Business', price: 117, duration: 40 },
+    {
+      name: 'Entrepreneurship and Small Business (ESB)',
+      category: 'Business',
+      price: 117,
+      duration: 40,
+    },
 
     // Autodesk
-    { name: 'Autodesk Certified User: AutoCAD', category: 'Design & Engineering', price: 150, duration: 60 },
-    { name: 'Autodesk Certified User: Revit', category: 'Design & Engineering', price: 150, duration: 60 },
-    { name: 'Autodesk Certified User: Inventor', category: 'Design & Engineering', price: 150, duration: 60 },
-    { name: 'Autodesk Certified User: Fusion 360', category: 'Design & Engineering', price: 150, duration: 60 },
+    {
+      name: 'Autodesk Certified User: AutoCAD',
+      category: 'Design & Engineering',
+      price: 150,
+      duration: 60,
+    },
+    {
+      name: 'Autodesk Certified User: Revit',
+      category: 'Design & Engineering',
+      price: 150,
+      duration: 60,
+    },
+    {
+      name: 'Autodesk Certified User: Inventor',
+      category: 'Design & Engineering',
+      price: 150,
+      duration: 60,
+    },
+    {
+      name: 'Autodesk Certified User: Fusion 360',
+      category: 'Design & Engineering',
+      price: 150,
+      duration: 60,
+    },
 
     // Unity
-    { name: 'Unity Certified User: Programmer', category: 'Game Development', price: 150, duration: 60 },
-    { name: 'Unity Certified User: Artist', category: 'Game Development', price: 150, duration: 60 },
+    {
+      name: 'Unity Certified User: Programmer',
+      category: 'Game Development',
+      price: 150,
+      duration: 60,
+    },
+    {
+      name: 'Unity Certified User: Artist',
+      category: 'Game Development',
+      price: 150,
+      duration: 60,
+    },
 
     // Intuit
     { name: 'Intuit Certified QuickBooks User', category: 'Accounting', price: 150, duration: 40 },
@@ -91,14 +251,24 @@ const FULL_COURSE_CATALOG = {
 
     // Bloodborne Pathogens
     { name: 'Bloodborne Pathogens', category: 'Healthcare Safety', price: 50, duration: 1 },
-    { name: 'Bloodborne Pathogens for Healthcare', category: 'Healthcare Safety', price: 60, duration: 1.5 },
+    {
+      name: 'Bloodborne Pathogens for Healthcare',
+      category: 'Healthcare Safety',
+      price: 60,
+      duration: 1.5,
+    },
 
     // Workplace Safety
     { name: 'Fire Safety', category: 'Workplace Safety', price: 45, duration: 1 },
     { name: 'Workplace Violence Prevention', category: 'Workplace Safety', price: 50, duration: 1 },
     { name: 'Active Shooter Response', category: 'Workplace Safety', price: 50, duration: 1 },
     { name: 'Ergonomics in the Workplace', category: 'Workplace Safety', price: 45, duration: 1 },
-    { name: 'Slips, Trips, and Falls Prevention', category: 'Workplace Safety', price: 45, duration: 1 },
+    {
+      name: 'Slips, Trips, and Falls Prevention',
+      category: 'Workplace Safety',
+      price: 45,
+      duration: 1,
+    },
 
     // Food Safety
     { name: 'Food Handler Training', category: 'Food Safety', price: 40, duration: 2 },
@@ -108,30 +278,90 @@ const FULL_COURSE_CATALOG = {
 
   jri: [
     // Medical Assistant
-    { name: 'Certified Clinical Medical Assistant (CCMA)', category: 'Medical Assistant', price: 150, duration: 120 },
-    { name: 'Registered Medical Assistant (RMA)', category: 'Medical Assistant', price: 150, duration: 120 },
-    { name: 'Medical Assistant Certification Prep', category: 'Medical Assistant', price: 200, duration: 80 },
+    {
+      name: 'Certified Clinical Medical Assistant (CCMA)',
+      category: 'Medical Assistant',
+      price: 150,
+      duration: 120,
+    },
+    {
+      name: 'Registered Medical Assistant (RMA)',
+      category: 'Medical Assistant',
+      price: 150,
+      duration: 120,
+    },
+    {
+      name: 'Medical Assistant Certification Prep',
+      category: 'Medical Assistant',
+      price: 200,
+      duration: 80,
+    },
 
     // Phlebotomy
-    { name: 'Certified Phlebotomy Technician (CPT)', category: 'Phlebotomy', price: 150, duration: 80 },
-    { name: 'Phlebotomy Technician Certification Prep', category: 'Phlebotomy', price: 180, duration: 60 },
+    {
+      name: 'Certified Phlebotomy Technician (CPT)',
+      category: 'Phlebotomy',
+      price: 150,
+      duration: 80,
+    },
+    {
+      name: 'Phlebotomy Technician Certification Prep',
+      category: 'Phlebotomy',
+      price: 180,
+      duration: 60,
+    },
 
     // EKG/ECG
     { name: 'Certified EKG Technician (CET)', category: 'EKG/ECG', price: 150, duration: 60 },
     { name: 'EKG Technician Certification Prep', category: 'EKG/ECG', price: 180, duration: 40 },
 
     // Pharmacy Technician
-    { name: 'Certified Pharmacy Technician (CPhT)', category: 'Pharmacy', price: 200, duration: 120 },
-    { name: 'Pharmacy Technician Certification Prep', category: 'Pharmacy', price: 250, duration: 80 },
+    {
+      name: 'Certified Pharmacy Technician (CPhT)',
+      category: 'Pharmacy',
+      price: 200,
+      duration: 120,
+    },
+    {
+      name: 'Pharmacy Technician Certification Prep',
+      category: 'Pharmacy',
+      price: 250,
+      duration: 80,
+    },
 
     // Patient Care Technician
-    { name: 'Certified Patient Care Technician (CPCT)', category: 'Patient Care', price: 180, duration: 100 },
-    { name: 'Patient Care Technician Certification Prep', category: 'Patient Care', price: 220, duration: 80 },
+    {
+      name: 'Certified Patient Care Technician (CPCT)',
+      category: 'Patient Care',
+      price: 180,
+      duration: 100,
+    },
+    {
+      name: 'Patient Care Technician Certification Prep',
+      category: 'Patient Care',
+      price: 220,
+      duration: 80,
+    },
 
     // Billing & Coding
-    { name: 'Certified Professional Coder (CPC)', category: 'Medical Billing & Coding', price: 300, duration: 160 },
-    { name: 'Medical Billing and Coding Specialist', category: 'Medical Billing & Coding', price: 250, duration: 120 },
-    { name: 'ICD-10 Coding Certification', category: 'Medical Billing & Coding', price: 200, duration: 80 },
+    {
+      name: 'Certified Professional Coder (CPC)',
+      category: 'Medical Billing & Coding',
+      price: 300,
+      duration: 160,
+    },
+    {
+      name: 'Medical Billing and Coding Specialist',
+      category: 'Medical Billing & Coding',
+      price: 250,
+      duration: 120,
+    },
+    {
+      name: 'ICD-10 Coding Certification',
+      category: 'Medical Billing & Coding',
+      price: 200,
+      duration: 80,
+    },
   ],
 
   nrf: [
@@ -182,8 +412,18 @@ const FULL_COURSE_CATALOG = {
     { name: 'RISE Esthetics Certification', category: 'Esthetics', price: 29.95, duration: 20 },
 
     // Professional Makeup
-    { name: 'Professional Makeup Certification - Inspire', category: 'Makeup Artistry', price: 365, duration: 40 },
-    { name: 'Professional Makeup Certification - Protégé', category: 'Makeup Artistry', price: 500, duration: 60 },
+    {
+      name: 'Professional Makeup Certification - Inspire',
+      category: 'Makeup Artistry',
+      price: 365,
+      duration: 40,
+    },
+    {
+      name: 'Professional Makeup Certification - Protégé',
+      category: 'Makeup Artistry',
+      price: 500,
+      duration: 60,
+    },
 
     // Master Educator
     { name: 'Master Educator Level 1', category: 'Instructor Training', price: 489, duration: 80 },
@@ -205,17 +445,25 @@ const FULL_COURSE_CATALOG = {
     { name: 'Drug Testing Compliance Officer', category: 'Drug Testing', price: 150, duration: 16 },
 
     // Workplace Drug Testing
-    { name: 'Workplace Drug Testing Administrator', category: 'Workplace Safety', price: 125, duration: 12 },
-    { name: 'Drug-Free Workplace Program Management', category: 'Workplace Safety', price: 175, duration: 20 },
+    {
+      name: 'Workplace Drug Testing Administrator',
+      category: 'Workplace Safety',
+      price: 125,
+      duration: 12,
+    },
+    {
+      name: 'Drug-Free Workplace Program Management',
+      category: 'Workplace Safety',
+      price: 175,
+      duration: 20,
+    },
   ],
 };
 
 async function main() {
-
   let totalImported = 0;
 
   for (const [providerType, courses] of Object.entries(FULL_COURSE_CATALOG)) {
-
     // Get provider ID
     const { data: provider } = await supabase
       .from('partner_lms_providers')
@@ -256,9 +504,7 @@ async function main() {
     const batchSize = 50;
     for (let i = 0; i < coursesToInsert.length; i += batchSize) {
       const batch = coursesToInsert.slice(i, i + batchSize);
-      const { error } = await supabase
-        .from('partner_courses_catalog')
-        .insert(batch);
+      const { error } = await supabase.from('partner_courses_catalog').insert(batch);
 
       if (error) {
       }
@@ -267,12 +513,10 @@ async function main() {
     totalImported += courses.length;
   }
 
-
   // Verify
   const { count } = await supabase
     .from('partner_courses_catalog')
     .select('*', { count: 'exact', head: true });
-
 }
 
 main().catch(console.error);

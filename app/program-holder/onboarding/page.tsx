@@ -36,20 +36,9 @@ export default async function ProgramHolderOnboarding() {
 
   // Resolve onboarding step completion for this user
   const [profileRes, acksRes, docsRes] = await Promise.all([
-    db
-      .from('profiles')
-      .select('program_holder_id')
-      .eq('id', user.id)
-      .maybeSingle(),
-    db
-      .from('program_holder_acknowledgements')
-      .select('document_type')
-      .eq('user_id', user.id),
-    db
-      .from('program_holder_documents')
-      .select('id')
-      .eq('user_id', user.id)
-      .limit(1),
+    db.from('profiles').select('program_holder_id').eq('id', user.id).maybeSingle(),
+    db.from('program_holder_acknowledgements').select('document_type').eq('user_id', user.id),
+    db.from('program_holder_documents').select('id').eq('user_id', user.id).limit(1),
   ]);
 
   const holderId = profileRes.data?.program_holder_id ?? null;
@@ -108,6 +97,7 @@ export default async function ProgramHolderOnboarding() {
       />
       {/* Hero Section */}
       <section className="relative h-[400px] sm:h-[500px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/programs-hero-new-2.jpg"
           alt="Program holder training"
@@ -126,7 +116,8 @@ export default async function ProgramHolderOnboarding() {
             Program Holder Onboarding
           </h1>
           <p className="text-base md:text-lg sm:text-xl text-slate-700 mb-6">
-            Complete the steps below to activate your portal. Once all steps are done you&apos;ll receive a welcome email and full dashboard access.
+            Complete the steps below to activate your portal. Once all steps are done you&apos;ll
+            receive a welcome email and full dashboard access.
           </p>
           <div className="flex flex-wrap gap-4">
             {allDone ? (
@@ -182,7 +173,9 @@ export default async function ProgramHolderOnboarding() {
                     )}
                   </div>
                   <div className="flex-1 min-w-0">
-                    <p className={`text-sm font-semibold ${step.done ? 'text-slate-400 line-through' : 'text-slate-900'}`}>
+                    <p
+                      className={`text-sm font-semibold ${step.done ? 'text-slate-400 line-through' : 'text-slate-900'}`}
+                    >
                       {i + 1}. {step.label}
                     </p>
                     <p className="text-xs text-slate-500 mt-0.5">{step.detail}</p>
@@ -205,31 +198,27 @@ export default async function ProgramHolderOnboarding() {
           </h2>
           <div className="bg-white rounded-lg shadow-sm border p-8">
             <p className="text-lg text-black mb-4">
-              A <strong>Program Holder</strong> is an organization or entity
-              that partners with Elevate for Humanity to deliver workforce
-              training programs to students. As a program holder, you are
-              responsible for:
+              A <strong>Program Holder</strong> is an organization or entity that partners with
+              Elevate for Humanity to deliver workforce training programs to students. As a program
+              holder, you are responsible for:
             </p>
             <ul className="space-y-3 text-black">
               <li className="flex items-start">
                 <span className="text-slate-500 flex-shrink-0">•</span>
                 <span>
-                  <strong>Enrolling students</strong> in approved training
-                  programs
+                  <strong>Enrolling students</strong> in approved training programs
                 </span>
               </li>
               <li className="flex items-start">
                 <span className="text-slate-500 flex-shrink-0">•</span>
                 <span>
-                  <strong>Tracking student progress</strong> through the
-                  platform
+                  <strong>Tracking student progress</strong> through the platform
                 </span>
               </li>
               <li className="flex items-start">
                 <span className="text-slate-500 flex-shrink-0">•</span>
                 <span>
-                  <strong>Providing support</strong> to students during their
-                  training
+                  <strong>Providing support</strong> to students during their training
                 </span>
               </li>
               <li className="flex items-start">
@@ -241,8 +230,7 @@ export default async function ProgramHolderOnboarding() {
               <li className="flex items-start">
                 <span className="text-slate-500 flex-shrink-0">•</span>
                 <span>
-                  <strong>Maintaining compliance</strong> with program
-                  requirements
+                  <strong>Maintaining compliance</strong> with program requirements
                 </span>
               </li>
             </ul>
@@ -253,9 +241,7 @@ export default async function ProgramHolderOnboarding() {
       {/* Getting Started */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-black mb-8">
-            Getting Started
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-black mb-8">Getting Started</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white rounded-lg shadow-sm border p-6">
               <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center mb-4">
@@ -263,8 +249,8 @@ export default async function ProgramHolderOnboarding() {
               </div>
               <h3 className="text-lg font-bold mb-3">Apply</h3>
               <p className="text-black mb-4">
-                Submit your program holder application with organization details
-                and program interests.
+                Submit your program holder application with organization details and program
+                interests.
               </p>
               <Link
                 href="/program-holder/onboarding"
@@ -280,12 +266,9 @@ export default async function ProgramHolderOnboarding() {
               </div>
               <h3 className="text-lg font-bold mb-3">Get Approved</h3>
               <p className="text-black mb-4">
-                Our team will review your application and contact you within 2-3
-                business days.
+                Our team will review your application and contact you within 2-3 business days.
               </p>
-              <span className="text-slate-500 text-sm">
-                Approval typically takes 2-3 days
-              </span>
+              <span className="text-slate-500 text-sm">Approval typically takes 2-3 days</span>
             </div>
 
             <div className="bg-white rounded-lg shadow-sm border p-6">
@@ -294,18 +277,12 @@ export default async function ProgramHolderOnboarding() {
               </div>
               <h3 className="text-lg font-bold mb-3">Access Dashboard</h3>
               <p className="text-black mb-4">
-                Once approved, log in to your dashboard and start
-                enrolling students.
+                Once approved, log in to your dashboard and start enrolling students.
               </p>
-              <Link
-                href="/login"
-                className="text-brand-blue-700 font-semibold hover:underline"
-              >
+              <Link href="/login" className="text-brand-blue-700 font-semibold hover:underline">
                 Log In →
               </Link>
             </div>
-
-
           </div>
         </div>
       </section>
@@ -325,9 +302,8 @@ export default async function ProgramHolderOnboarding() {
                 <h3 className="text-lg font-bold">Student Management</h3>
               </div>
               <p className="text-black mb-4">
-                View all your enrolled students, track their progress, and
-                manage enrollments. You can see completion rates, active
-                courses, and student status at a glance.
+                View all your enrolled students, track their progress, and manage enrollments. You
+                can see completion rates, active courses, and student status at a glance.
               </p>
               <ul className="space-y-2 text-sm text-black">
                 <li>• View student list with status</li>
@@ -345,9 +321,8 @@ export default async function ProgramHolderOnboarding() {
                 <h3 className="text-lg font-bold">Reports & Analytics</h3>
               </div>
               <p className="text-black mb-4">
-                Access detailed reports on student outcomes, completion rates,
-                and program performance. Generate reports for compliance and
-                funding requirements.
+                Access detailed reports on student outcomes, completion rates, and program
+                performance. Generate reports for compliance and funding requirements.
               </p>
               <ul className="space-y-2 text-sm text-black">
                 <li>• Completion rate reports</li>
@@ -365,8 +340,8 @@ export default async function ProgramHolderOnboarding() {
                 <h3 className="text-lg font-bold">Communication</h3>
               </div>
               <p className="text-black mb-4">
-                Send messages to students, receive notifications about progress,
-                and communicate with Elevate staff for support.
+                Send messages to students, receive notifications about progress, and communicate
+                with Elevate staff for support.
               </p>
               <ul className="space-y-2 text-sm text-black">
                 <li>• Message individual students</li>
@@ -384,8 +359,8 @@ export default async function ProgramHolderOnboarding() {
                 <h3 className="text-lg font-bold">Program Access</h3>
               </div>
               <p className="text-black mb-4">
-                Browse available training programs, view curriculum details, and
-                enroll students in approved programs or need assistance.
+                Browse available training programs, view curriculum details, and enroll students in
+                approved programs or need assistance.
               </p>
               <ul className="space-y-2 text-sm text-black">
                 <li>• View all available programs</li>
@@ -394,8 +369,6 @@ export default async function ProgramHolderOnboarding() {
                 <li>• Enroll students directly</li>
               </ul>
             </div>
-
-
           </div>
         </div>
       </section>
@@ -403,56 +376,50 @@ export default async function ProgramHolderOnboarding() {
       {/* Responsibilities */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-black mb-6">
-            Your Responsibilities
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-black mb-6">Your Responsibilities</h2>
           <div className="bg-white rounded-lg shadow-sm border p-8">
             <div className="space-y-6">
               <div>
                 <h3 className="text-lg font-bold mb-3">Student Support</h3>
                 <p className="text-black">
-                  Provide guidance and support to students throughout their
-                  training. This includes answering questions, helping with
-                  technical issues, and ensuring students stay engaged with
-                  their coursework.
+                  Provide guidance and support to students throughout their training. This includes
+                  answering questions, helping with technical issues, and ensuring students stay
+                  engaged with their coursework.
                 </p>
               </div>
 
               <div>
                 <h3 className="text-lg font-bold mb-3">Progress Monitoring</h3>
                 <p className="text-black">
-                  Regularly check student progress through the dashboard.
-                  Identify students who may be falling behind and provide
-                  additional support or intervention as needed.
+                  Regularly check student progress through the dashboard. Identify students who may
+                  be falling behind and provide additional support or intervention as needed.
                 </p>
               </div>
 
               <div>
-                <h3 className="text-lg font-bold mb-3">
-                  Compliance & Reporting
-                </h3>
+                <h3 className="text-lg font-bold mb-3">Compliance & Reporting</h3>
                 <p className="text-black">
-                  Maintain accurate records of student enrollments, progress,
-                  and completions. Submit required reports on time and ensure
-                  all documentation meets state and federal requirements.
+                  Maintain accurate records of student enrollments, progress, and completions.
+                  Submit required reports on time and ensure all documentation meets state and
+                  federal requirements.
                 </p>
               </div>
 
               <div>
                 <h3 className="text-lg font-bold mb-3">Communication</h3>
                 <p className="text-black">
-                  Maintain regular communication with students and Elevate
-                  staff. Respond to messages within 24-48 hours and keep
-                  students informed of important updates or changes.
+                  Maintain regular communication with students and Elevate staff. Respond to
+                  messages within 24-48 hours and keep students informed of important updates or
+                  changes.
                 </p>
               </div>
 
               <div>
                 <h3 className="text-lg font-bold mb-3">Quality Assurance</h3>
                 <p className="text-black">
-                  Ensure students are receiving quality training and support.
-                  Report any issues or concerns to Elevate staff immediately and
-                  work collaboratively to resolve problems.
+                  Ensure students are receiving quality training and support. Report any issues or
+                  concerns to Elevate staff immediately and work collaboratively to resolve
+                  problems.
                 </p>
               </div>
             </div>
@@ -463,9 +430,7 @@ export default async function ProgramHolderOnboarding() {
       {/* Resources */}
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-black mb-8">
-            Resources & Support
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-black mb-8">Resources & Support</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <Link
               href="/docs/program-holder-guide"
@@ -476,8 +441,8 @@ export default async function ProgramHolderOnboarding() {
               </div>
               <h3 className="text-lg font-bold mb-2">User Guide</h3>
               <p className="text-black mb-4">
-                Complete documentation on using the platform, managing students,
-                and accessing features.
+                Complete documentation on using the platform, managing students, and accessing
+                features.
               </p>
               <span className="text-brand-blue-700 font-semibold">View Guide →</span>
             </Link>
@@ -491,12 +456,9 @@ export default async function ProgramHolderOnboarding() {
               </div>
               <h3 className="text-lg font-bold mb-2">Video Tutorials</h3>
               <p className="text-black mb-4">
-                Step-by-step video guides showing how to use key features and
-                manage students.
+                Step-by-step video guides showing how to use key features and manage students.
               </p>
-              <span className="text-brand-blue-700 font-semibold">
-                Watch Videos →
-              </span>
+              <span className="text-brand-blue-700 font-semibold">Watch Videos →</span>
             </Link>
 
             <Link
@@ -508,12 +470,9 @@ export default async function ProgramHolderOnboarding() {
               </div>
               <h3 className="text-lg font-bold mb-2">Get Support</h3>
               <p className="text-black mb-4">
-                Contact our support team for help with technical issues,
-                questions, or concerns.
+                Contact our support team for help with technical issues, questions, or concerns.
               </p>
-              <span className="text-brand-blue-700 font-semibold">
-                Contact Support →
-              </span>
+              <span className="text-brand-blue-700 font-semibold">Contact Support →</span>
             </Link>
           </div>
         </div>
@@ -527,56 +486,40 @@ export default async function ProgramHolderOnboarding() {
           </h2>
           <div className="space-y-6">
             <div className="bg-white rounded-lg shadow-sm border p-6">
-              <h3 className="text-lg font-bold mb-2">
-                How do I enroll a new student?
-              </h3>
+              <h3 className="text-lg font-bold mb-2">How do I enroll a new student?</h3>
               <p className="text-black">
-                From your dashboard, click "Enroll Student" and enter their
-                information. Select the program they'll be enrolled in, and
-                submit. The student will receive an email with login
-                instructions.
+                From your dashboard, click "Enroll Student" and enter their information. Select the
+                program they'll be enrolled in, and submit. The student will receive an email with
+                login instructions.
               </p>
             </div>
 
             <div className="bg-white rounded-lg shadow-sm border p-6">
-              <h3 className="text-lg font-bold mb-2">
-                How do I track student progress?
-              </h3>
+              <h3 className="text-lg font-bold mb-2">How do I track student progress?</h3>
               <p className="text-black">
-                Go to your dashboard and click on any student's name to view
-                their detailed progress. You'll see courses completed, current
-                progress, grades, and time spent in training.
+                Go to your dashboard and click on any student's name to view their detailed
+                progress. You'll see courses completed, current progress, grades, and time spent in
+                training.
               </p>
             </div>
 
             <div className="bg-white rounded-lg shadow-sm border p-6">
-              <h3 className="text-lg font-bold mb-2">
-                What reports do I need to submit?
-              </h3>
+              <h3 className="text-lg font-bold mb-2">What reports do I need to submit?</h3>
               <p className="text-black">
-                Monthly progress reports are required, showing student
-                enrollments, completions, and outcomes. These can be generated
-                automatically from your dashboard under "Reports."
+                Monthly progress reports are required, showing student enrollments, completions, and
+                outcomes. These can be generated automatically from your dashboard under "Reports."
               </p>
             </div>
 
             <div className="bg-white rounded-lg shadow-sm border p-6">
-              <h3 className="text-lg font-bold mb-2">
-                Who do I contact for technical support?
-              </h3>
+              <h3 className="text-lg font-bold mb-2">Who do I contact for technical support?</h3>
               <p className="text-black">
                 Email{' '}
-                <a
-                  href="/contact"
-                  className="text-brand-blue-700 font-semibold hover:underline"
-                >
+                <a href="/contact" className="text-brand-blue-700 font-semibold hover:underline">
                   our contact form
                 </a>{' '}
                 or call{' '}
-                <a
-                  href="/support"
-                  className="text-brand-blue-700 font-semibold hover:underline"
-                >
+                <a href="/support" className="text-brand-blue-700 font-semibold hover:underline">
                   support center
                 </a>{' '}
                 for immediate assistance.
@@ -588,9 +531,8 @@ export default async function ProgramHolderOnboarding() {
                 Can I enroll students in multiple programs?
               </h3>
               <p className="text-black">
-                Yes! Students can be enrolled in multiple programs
-                simultaneously. Each enrollment is tracked separately in your
-                dashboard.
+                Yes! Students can be enrolled in multiple programs simultaneously. Each enrollment
+                is tracked separately in your dashboard.
               </p>
             </div>
           </div>
@@ -600,12 +542,10 @@ export default async function ProgramHolderOnboarding() {
       {/* CTA */}
       <section className="py-16 bg-brand-blue-700 text-white">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-4">
-            Need Help?
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold mb-4">Need Help?</h2>
           <p className="text-base md:text-lg text-white mb-8">
-            Apply now to become a program holder and start enrolling students in
-            life-changing training programs or need assistance.
+            Apply now to become a program holder and start enrolling students in life-changing
+            training programs or need assistance.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link

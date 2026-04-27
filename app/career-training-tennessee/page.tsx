@@ -16,7 +16,9 @@ export default function CareerTrainingTennesseePage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex items-center gap-2 text-green-200 mb-4">
             <MapPin className="w-5 h-5" />
-            <span className="text-sm font-medium uppercase tracking-wider">Serving All of Tennessee</span>
+            <span className="text-sm font-medium uppercase tracking-wider">
+              Serving All of Tennessee
+            </span>
           </div>
           <h1 className="text-4xl md:text-5xl font-black text-white mb-6">
             Career Training &amp; Workforce Programs in Tennessee
@@ -27,10 +29,16 @@ export default function CareerTrainingTennesseePage() {
             consistency and oversight across regions.
           </p>
           <div className="flex flex-col sm:flex-row gap-4">
-            <Link href="/programs" className="inline-flex items-center justify-center px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-lg font-bold transition-colors">
+            <Link
+              href="/programs"
+              className="inline-flex items-center justify-center px-8 py-4 bg-orange-500 hover:bg-orange-600 text-white rounded-lg text-lg font-bold transition-colors"
+            >
               Explore Programs <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
-            <Link href="/how-it-works" className="inline-flex items-center justify-center px-8 py-4 bg-white/10 hover:bg-white/20 text-white border-2 border-white/30 rounded-lg text-lg font-bold transition-colors">
+            <Link
+              href="/how-it-works"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white/10 hover:bg-white/20 text-white border-2 border-white/30 rounded-lg text-lg font-bold transition-colors"
+            >
               How It Works
             </Link>
           </div>
@@ -42,7 +50,12 @@ export default function CareerTrainingTennesseePage() {
           <h2 className="text-3xl font-bold text-gray-900 mb-8">Workforce Training in Tennessee</h2>
           <p className="text-gray-600 mb-8">Programs typically emphasize:</p>
           <div className="grid md:grid-cols-2 gap-6">
-            {['Defined learning paths', 'Progress tracking', 'Clear completion criteria', 'Administrative accountability'].map((item) => (
+            {[
+              'Defined learning paths',
+              'Progress tracking',
+              'Clear completion criteria',
+              'Administrative accountability',
+            ].map((item) => (
               <div key={item} className="flex items-start gap-3">
                 <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                 <span className="text-gray-700">{item}</span>
@@ -56,7 +69,12 @@ export default function CareerTrainingTennesseePage() {
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-900 mb-8">Platform Support</h2>
           <div className="grid md:grid-cols-2 gap-6">
-            {['Centralized oversight', 'Learner tracking', 'Role-based access', 'Program documentation'].map((item) => (
+            {[
+              'Centralized oversight',
+              'Learner tracking',
+              'Role-based access',
+              'Program documentation',
+            ].map((item) => (
               <div key={item} className="flex items-start gap-3 bg-white p-4 rounded-lg">
                 <CheckCircle className="w-5 h-5 text-green-500 flex-shrink-0 mt-0.5" />
                 <span className="text-gray-700">{item}</span>
@@ -69,13 +87,21 @@ export default function CareerTrainingTennesseePage() {
       <section className="py-16 bg-white">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-900 mb-8">Governance</h2>
-          <p className="text-gray-600 mb-8">Programs align with documented governance and operational controls.</p>
+          <p className="text-gray-600 mb-8">
+            Programs align with documented governance and operational controls.
+          </p>
           <div className="grid md:grid-cols-2 gap-6">
-            <Link href="/governance" className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+            <Link
+              href="/governance"
+              className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100"
+            >
               <Shield className="w-6 h-6 text-blue-600" />
               <span className="font-semibold text-gray-900">Governance</span>
             </Link>
-            <Link href="/governance/operational-controls" className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100">
+            <Link
+              href="/governance/operational-controls"
+              className="flex items-center gap-3 p-4 bg-gray-50 rounded-lg hover:bg-gray-100"
+            >
               <Award className="w-6 h-6 text-green-600" />
               <span className="font-semibold text-gray-900">Operational Controls</span>
             </Link>
@@ -87,15 +113,24 @@ export default function CareerTrainingTennesseePage() {
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-900 mb-8">Platform Resources</h2>
           <div className="grid md:grid-cols-3 gap-6">
-            <Link href="/lms" className="p-4 bg-white rounded-lg hover:bg-gray-50 border border-gray-200">
+            <Link
+              href="/lms"
+              className="p-4 bg-white rounded-lg hover:bg-gray-50 border border-gray-200"
+            >
               <span className="font-semibold text-gray-900">Learning Platform</span>
               <p className="text-sm text-gray-600 mt-1">Access the learning management system</p>
             </Link>
-            <Link href="/resources" className="p-4 bg-white rounded-lg hover:bg-gray-50 border border-gray-200">
+            <Link
+              href="/resources"
+              className="p-4 bg-white rounded-lg hover:bg-gray-50 border border-gray-200"
+            >
               <span className="font-semibold text-gray-900">Student Resources</span>
               <p className="text-sm text-gray-600 mt-1">Support materials and guides</p>
             </Link>
-            <Link href="/programs" className="p-4 bg-white rounded-lg hover:bg-gray-50 border border-gray-200">
+            <Link
+              href="/programs"
+              className="p-4 bg-white rounded-lg hover:bg-gray-50 border border-gray-200"
+            >
               <span className="font-semibold text-gray-900">All Programs</span>
               <p className="text-sm text-gray-600 mt-1">Browse available training programs</p>
             </Link>
@@ -107,20 +142,29 @@ export default function CareerTrainingTennesseePage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-black text-white mb-4">Explore Programs</h2>
           <p className="text-xl text-white/90 mb-8">
-            Participants and partners can explore how structured training programs operate statewide.
+            Participants and partners can explore how structured training programs operate
+            statewide.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/programs" className="inline-flex items-center justify-center px-8 py-4 bg-white text-orange-600 rounded-lg text-lg font-bold hover:bg-gray-100 transition-colors">
+            <Link
+              href="/programs"
+              className="inline-flex items-center justify-center px-8 py-4 bg-white text-orange-600 rounded-lg text-lg font-bold hover:bg-gray-100 transition-colors"
+            >
               Browse Programs
             </Link>
-            <Link href="/how-it-works" className="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg text-lg font-bold hover:bg-white hover:text-orange-600 transition-colors">
+            <Link
+              href="/how-it-works"
+              className="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-white text-white rounded-lg text-lg font-bold hover:bg-white hover:text-orange-600 transition-colors"
+            >
               How It Works
             </Link>
           </div>
         </div>
       </section>
 
-      <p className="text-center text-gray-500 text-sm py-8">Last reviewed: January 2026 | Service scope: Statewide digital delivery</p>
+      <p className="text-center text-gray-500 text-sm py-8">
+        Last reviewed: January 2026 | Service scope: Statewide digital delivery
+      </p>
     </div>
   );
 }

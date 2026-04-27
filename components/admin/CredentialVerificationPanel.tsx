@@ -1,7 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { Award, Search, CheckCircle, XCircle, ExternalLink, Loader2, User, Calendar, Hash } from 'lucide-react';
+import {
+  Award,
+  Search,
+  CheckCircle,
+  XCircle,
+  ExternalLink,
+  Loader2,
+  User,
+  Calendar,
+  Hash,
+} from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 interface CertResult {
@@ -23,11 +33,11 @@ interface CertResult {
 }
 
 export function CredentialVerificationPanel() {
-  const [query, setQuery]   = useState('');
+  const [query, setQuery] = useState('');
   const [results, setResults] = useState<CertResult[]>([]);
   const [loading, setLoading] = useState(false);
   const [searched, setSearched] = useState(false);
-  const [error, setError]   = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
 
   async function search() {
     const q = query.trim();
@@ -43,7 +53,9 @@ export function CredentialVerificationPanel() {
       // 1. Search program_completion_certificates by certificate_number
       const { data: byNumber } = await supabase
         .from('program_completion_certificates')
-        .select('id, certificate_number, issued_at, completion_date, verification_url, checkpoints_passed, total_checkpoints, user_id, program_id')
+        .select(
+          'id, certificate_number, issued_at, completion_date, verification_url, checkpoints_passed, total_checkpoints, user_id, program_id',
+        )
         .ilike('certificate_number', `%${q}%`)
         .limit(20);
 
@@ -61,7 +73,9 @@ export function CredentialVerificationPanel() {
       if (profileIds.length > 0) {
         const { data } = await supabase
           .from('program_completion_certificates')
-          .select('id, certificate_number, issued_at, completion_date, verification_url, checkpoints_passed, total_checkpoints, user_id, program_id')
+          .select(
+            'id, certificate_number, issued_at, completion_date, verification_url, checkpoints_passed, total_checkpoints, user_id, program_id',
+          )
           .in('user_id', profileIds)
           .limit(20);
         byStudent = data ?? [];
@@ -70,7 +84,11 @@ export function CredentialVerificationPanel() {
       // Merge, deduplicate by id
       const allCerts = [...(byNumber ?? []), ...byStudent];
       const seen = new Set<string>();
-      const uniqueCerts = allCerts.filter((c: any) => { if (seen.has(c.id)) return false; seen.add(c.id); return true; });
+      const uniqueCerts = allCerts.filter((c: any) => {
+        if (seen.has(c.id)) return false;
+        seen.add(c.id);
+        return true;
+      });
 
       // Hydrate program titles
       const programIds = [...new Set(uniqueCerts.map((c: any) => c.program_id).filter(Boolean))];
@@ -80,9 +98,14 @@ export function CredentialVerificationPanel() {
       const programMap = Object.fromEntries((programs ?? []).map((p: any) => [p.id, p]));
 
       // Hydrate profiles for byNumber results (may not be in profileMap)
-      const missingProfileIds = uniqueCerts.map((c: any) => c.user_id).filter((id: string) => id && !profileMap[id]);
+      const missingProfileIds = uniqueCerts
+        .map((c: any) => c.user_id)
+        .filter((id: string) => id && !profileMap[id]);
       if (missingProfileIds.length > 0) {
-        const { data: extra } = await supabase.from('profiles').select('id, full_name, email').in('id', missingProfileIds);
+        const { data: extra } = await supabase
+          .from('profiles')
+          .select('id, full_name, email')
+          .in('id', missingProfileIds);
         for (const p of extra ?? []) profileMap[(p as any).id] = p;
       }
 
@@ -107,10 +130,14 @@ export function CredentialVerificationPanel() {
       // 3. Search external certifications table
       const { data: extCerts } = await supabase
         .from('certifications')
-        .select('id, name, issuer, credential_id, issue_date, expiry_date, is_active, verification_url, user_id')
-        .or(profileIds.length > 0
-          ? `credential_id.ilike.%${q}%,user_id.in.(${profileIds.join(',')})`
-          : `credential_id.ilike.%${q}%`)
+        .select(
+          'id, name, issuer, credential_id, issue_date, expiry_date, is_active, verification_url, user_id',
+        )
+        .or(
+          profileIds.length > 0
+            ? `credential_id.ilike.%${q}%,user_id.in.(${profileIds.join(',')})`
+            : `credential_id.ilike.%${q}%`,
+        )
         .limit(20);
 
       for (const c of extCerts ?? []) {
@@ -148,7 +175,9 @@ export function CredentialVerificationPanel() {
           <Award className="w-4 h-4 text-brand-blue-600" />
           Credential Verification
         </h2>
-        <p className="text-xs text-slate-400 mt-0.5">Search by certificate number, student name, or email</p>
+        <p className="text-xs text-slate-400 mt-0.5">
+          Search by certificate number, student name, or email
+        </p>
       </div>
 
       <div className="px-6 py-4">
@@ -166,14 +195,16 @@ export function CredentialVerificationPanel() {
             disabled={loading || !query.trim()}
             className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 hover:bg-brand-blue-700 disabled:opacity-50 text-white text-sm font-semibold rounded-lg transition-colors"
           >
-            {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <Search className="w-4 h-4" />}
+            {loading ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Search className="w-4 h-4" />
+            )}
             Search
           </button>
         </div>
 
-        {error && (
-          <p className="mt-3 text-sm text-red-600">{error}</p>
-        )}
+        {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
       </div>
 
       {searched && (
@@ -182,28 +213,34 @@ export function CredentialVerificationPanel() {
             <div className="py-10 text-center">
               <XCircle className="w-7 h-7 text-slate-300 mx-auto mb-2" />
               <p className="text-sm font-semibold text-slate-600">No credentials found</p>
-              <p className="text-xs text-slate-400 mt-1">Try a different certificate number, name, or email</p>
+              <p className="text-xs text-slate-400 mt-1">
+                Try a different certificate number, name, or email
+              </p>
             </div>
           ) : (
             <div className="divide-y divide-slate-50">
               {results.map((r) => {
                 const isExpired = r.expiry_date ? new Date(r.expiry_date) < new Date() : false;
-                const isValid = r.source === 'program_completion'
-                  ? true
-                  : (r.is_active !== false && !isExpired);
+                const isValid =
+                  r.source === 'program_completion' ? true : r.is_active !== false && !isExpired;
 
                 return (
                   <div key={r.id} className="px-6 py-4 hover:bg-slate-50 transition-colors">
                     <div className="flex items-start justify-between gap-4">
                       <div className="flex items-start gap-3 min-w-0">
-                        <div className={`mt-0.5 flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isValid ? 'bg-green-100' : 'bg-red-100'}`}>
-                          {isValid
-                            ? <CheckCircle className="w-4 h-4 text-green-600" />
-                            : <XCircle className="w-4 h-4 text-red-500" />
-                          }
+                        <div
+                          className={`mt-0.5 flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isValid ? 'bg-green-100' : 'bg-red-100'}`}
+                        >
+                          {isValid ? (
+                            <CheckCircle className="w-4 h-4 text-green-600" />
+                          ) : (
+                            <XCircle className="w-4 h-4 text-red-500" />
+                          )}
                         </div>
                         <div className="min-w-0">
-                          <p className="font-semibold text-slate-900 truncate">{r.program_title ?? 'Credential'}</p>
+                          <p className="font-semibold text-slate-900 truncate">
+                            {r.program_title ?? 'Credential'}
+                          </p>
                           {r.source === 'external' && r.issuer && (
                             <p className="text-xs text-slate-500">Issued by {r.issuer}</p>
                           )}
@@ -211,25 +248,33 @@ export function CredentialVerificationPanel() {
                           <div className="mt-2 flex flex-wrap gap-x-4 gap-y-1">
                             {r.student_name && (
                               <span className="flex items-center gap-1 text-xs text-slate-500">
-                                <User className="w-3 h-3" />{r.student_name}
-                                {r.student_email && <span className="text-slate-400">· {r.student_email}</span>}
+                                <User className="w-3 h-3" />
+                                {r.student_name}
+                                {r.student_email && (
+                                  <span className="text-slate-400">· {r.student_email}</span>
+                                )}
                               </span>
                             )}
                             {r.certificate_number && (
                               <span className="flex items-center gap-1 text-xs text-slate-500">
-                                <Hash className="w-3 h-3" />{r.certificate_number}
+                                <Hash className="w-3 h-3" />
+                                {r.certificate_number}
                               </span>
                             )}
                             {(r.issued_at || r.completion_date) && (
                               <span className="flex items-center gap-1 text-xs text-slate-500">
                                 <Calendar className="w-3 h-3" />
-                                Issued {new Date(r.issued_at ?? r.completion_date!).toLocaleDateString()}
+                                Issued{' '}
+                                {new Date(r.issued_at ?? r.completion_date!).toLocaleDateString()}
                               </span>
                             )}
                             {r.expiry_date && (
-                              <span className={`flex items-center gap-1 text-xs ${isExpired ? 'text-red-600 font-semibold' : 'text-slate-500'}`}>
+                              <span
+                                className={`flex items-center gap-1 text-xs ${isExpired ? 'text-red-600 font-semibold' : 'text-slate-500'}`}
+                              >
                                 <Calendar className="w-3 h-3" />
-                                {isExpired ? 'Expired' : 'Expires'} {new Date(r.expiry_date).toLocaleDateString()}
+                                {isExpired ? 'Expired' : 'Expires'}{' '}
+                                {new Date(r.expiry_date).toLocaleDateString()}
                               </span>
                             )}
                             {r.checkpoints_passed != null && r.total_checkpoints != null && (
@@ -242,9 +287,11 @@ export function CredentialVerificationPanel() {
                       </div>
 
                       <div className="flex items-center gap-2 flex-shrink-0">
-                        <span className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
-                          isValid ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-                        }`}>
+                        <span
+                          className={`text-[10px] font-bold px-2 py-0.5 rounded-full ${
+                            isValid ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
+                          }`}
+                        >
                           {isValid ? 'VALID' : 'INVALID'}
                         </span>
                         {r.source === 'program_completion' && (

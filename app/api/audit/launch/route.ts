@@ -17,8 +17,6 @@ export const maxDuration = 60;
  * Mode: GET or POST with options
  */
 
-
-
 interface AuditOptions {
   mode: 'quick' | 'full';
   maxRoutes: number;
@@ -46,10 +44,9 @@ interface Finding {
 }
 
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-return handleAudit(request, {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  return handleAudit(request, {
     mode: 'quick',
     maxRoutes: 200,
     sample: 'top',
@@ -57,8 +54,8 @@ return handleAudit(request, {
 }
 
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const body = await request.json().catch(() => ({}));
   const options: AuditOptions = {
@@ -73,20 +70,14 @@ async function handleAudit(request: NextRequest, options: AuditOptions) {
   const AUDIT_SECRET = process.env.AUDIT_SECRET;
 
   if (!AUDIT_SECRET) {
-    return NextResponse.json(
-      { error: 'Audit endpoint disabled' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Audit endpoint disabled' }, { status: 503 });
   }
 
   const headersList = await headers();
   const auditSecret = headersList.get('x-audit-secret');
 
   if (!auditSecret || auditSecret !== AUDIT_SECRET) {
-    return NextResponse.json(
-      { error: 'Unauthorized' },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   try {
@@ -98,13 +89,13 @@ async function handleAudit(request: NextRequest, options: AuditOptions) {
         'Cache-Control': 'no-cache, no-store, must-revalidate',
       },
     });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
         error: 'Audit failed',
         message: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -171,10 +162,7 @@ async function runAudit(options: AuditOptions) {
 // ============================================================================══════════════════════════════════════════════════════════════════════════
 
 async function checkEnvironment() {
-  const required = [
-    'NEXT_PUBLIC_SUPABASE_URL',
-    'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-  ];
+  const required = ['NEXT_PUBLIC_SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_ANON_KEY'];
 
   const missing = required.filter((key) => !process.env[key]);
 
@@ -426,7 +414,7 @@ function analyzeChecks(checks: any, blockers: Finding[], warnings: Finding[]) {
 
   // Feature gaps
   const highPriorityGaps = checks.features.missingComparedToBestInClass.filter(
-    (feature: any) => feature.priority === 'high'
+    (feature: any) => feature.priority === 'high',
   );
 
   if (highPriorityGaps.length > 0) {

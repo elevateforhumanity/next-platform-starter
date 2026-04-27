@@ -34,37 +34,37 @@ import type { ActivityId, ActivityDef } from '@/lib/lms/activity-map';
 import { getCheckpointGates } from '@/lib/lms/activity-map';
 
 const ACTIVITY_ICONS: Record<ActivityId, React.ElementType> = {
-  video:       Video,
-  reading:     FileText,
-  flashcards:  Brain,
-  lab:         FlaskConical,
-  scenario:    FlaskConical,
-  practice:    Zap,
-  checkpoint:  Shield,
-  notes:       MessageSquare,
-  resources:   Download,
+  video: Video,
+  reading: FileText,
+  flashcards: Brain,
+  lab: FlaskConical,
+  scenario: FlaskConical,
+  practice: Zap,
+  checkpoint: Shield,
+  notes: MessageSquare,
+  resources: Download,
 };
 
 const ACTIVITY_COLORS: Record<ActivityId, string> = {
-  video:       'text-blue-600',
-  reading:     'text-slate-600',
-  flashcards:  'text-purple-600',
-  lab:         'text-green-600',
-  scenario:    'text-teal-600',
-  practice:    'text-amber-600',
-  checkpoint:  'text-red-600',
-  notes:       'text-slate-500',
-  resources:   'text-slate-500',
+  video: 'text-blue-600',
+  reading: 'text-slate-600',
+  flashcards: 'text-purple-600',
+  lab: 'text-green-600',
+  scenario: 'text-teal-600',
+  practice: 'text-amber-600',
+  checkpoint: 'text-red-600',
+  notes: 'text-slate-500',
+  resources: 'text-slate-500',
 };
 
 interface Props {
-  activities:  ActivityDef[];
-  activeId:    ActivityId;
-  attempted:   Set<ActivityId>;
+  activities: ActivityDef[];
+  activeId: ActivityId;
+  attempted: Set<ActivityId>;
   /** Activities truly completed — video watched ≥80%, reading scrolled to bottom, etc. */
   completedActivities?: Set<ActivityId>;
   isCompleted: boolean;
-  onChange:    (id: ActivityId) => void;
+  onChange: (id: ActivityId) => void;
 }
 
 export default function LessonActivityMenu({
@@ -83,7 +83,7 @@ export default function LessonActivityMenu({
     if (isCompleted) return false;
     // Use completedActivities if available, fall back to attempted
     const doneSet = completedActivities ?? attempted;
-    return [...gateIds].some(id => !doneSet.has(id));
+    return [...gateIds].some((id) => !doneSet.has(id));
   }
 
   function statusIcon(act: ActivityDef) {
@@ -92,11 +92,18 @@ export default function LessonActivityMenu({
       return <Lock className="w-3 h-3 text-slate-400 flex-shrink-0" aria-hidden />;
     }
     if (done.has(act.id)) {
-      return <CheckCircle2 className="w-3 h-3 text-emerald-500 flex-shrink-0" aria-label="Completed" />;
+      return (
+        <CheckCircle2 className="w-3 h-3 text-emerald-500 flex-shrink-0" aria-label="Completed" />
+      );
     }
     if (act.gatesCheckpoint) {
       // Required but not yet completed — amber dot
-      return <span className="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0" aria-label="Required" />;
+      return (
+        <span
+          className="w-1.5 h-1.5 rounded-full bg-amber-400 flex-shrink-0"
+          aria-label="Required"
+        />
+      );
     }
     return null;
   }
@@ -109,10 +116,10 @@ export default function LessonActivityMenu({
         className="flex gap-0.5 overflow-x-auto pb-0 scrollbar-hide"
       >
         {activities.map((act) => {
-          const Icon    = ACTIVITY_ICONS[act.id] ?? FileText;
-          const color   = ACTIVITY_COLORS[act.id] ?? 'text-slate-600';
-          const active  = activeId === act.id;
-          const locked  = isLocked(act);
+          const Icon = ACTIVITY_ICONS[act.id] ?? FileText;
+          const color = ACTIVITY_COLORS[act.id] ?? 'text-slate-600';
+          const active = activeId === act.id;
+          const locked = isLocked(act);
 
           return (
             <button
@@ -123,9 +130,9 @@ export default function LessonActivityMenu({
               aria-controls={`activity-panel-${act.id}`}
               id={`activity-tab-${act.id}`}
               onClick={() => !locked && onChange(act.id)}
-              onKeyDown={e => {
+              onKeyDown={(e) => {
                 // Arrow key navigation between tabs
-                const ids = activities.filter(a => !isLocked(a)).map(a => a.id);
+                const ids = activities.filter((a) => !isLocked(a)).map((a) => a.id);
                 const idx = ids.indexOf(act.id);
                 if (e.key === 'ArrowRight') {
                   e.preventDefault();
@@ -149,11 +156,14 @@ export default function LessonActivityMenu({
                 active
                   ? 'border-blue-600 text-blue-600'
                   : locked
-                  ? 'border-transparent text-slate-300 cursor-not-allowed'
-                  : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300',
+                    ? 'border-transparent text-slate-300 cursor-not-allowed'
+                    : 'border-transparent text-slate-500 hover:text-slate-800 hover:border-slate-300',
               ].join(' ')}
             >
-              <Icon className={`w-4 h-4 flex-shrink-0 ${active ? color : locked ? 'text-slate-300' : 'text-slate-400'}`} aria-hidden />
+              <Icon
+                className={`w-4 h-4 flex-shrink-0 ${active ? color : locked ? 'text-slate-300' : 'text-slate-400'}`}
+                aria-hidden
+              />
               <span className="hidden sm:inline">{act.label}</span>
               {statusIcon(act)}
             </button>
@@ -162,7 +172,7 @@ export default function LessonActivityMenu({
       </div>
 
       {/* Gating hint — shown when checkpoint is locked */}
-      {activities.some(a => a.id === 'checkpoint' && isLocked(a)) && (
+      {activities.some((a) => a.id === 'checkpoint' && isLocked(a)) && (
         <div
           role="status"
           aria-live="polite"
@@ -171,8 +181,8 @@ export default function LessonActivityMenu({
           <Lock className="w-3 h-3 flex-shrink-0" aria-hidden />
           Complete{' '}
           {[...gateIds]
-            .filter(id => !(completedActivities ?? attempted).has(id))
-            .map(id => activities.find(a => a.id === id)?.label ?? id)
+            .filter((id) => !(completedActivities ?? attempted).has(id))
+            .map((id) => activities.find((a) => a.id === id)?.label ?? id)
             .join(' and ')}{' '}
           to unlock the checkpoint.
         </div>

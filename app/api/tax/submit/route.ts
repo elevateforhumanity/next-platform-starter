@@ -17,17 +17,17 @@ async function _POST(request: NextRequest) {
       assertRuntimeReadyForSubmission();
     } catch (error) {
       const issues =
-        error && typeof error === "object" && "issues" in error
+        error && typeof error === 'object' && 'issues' in error
           ? (error as { issues: unknown }).issues
           : [];
       return NextResponse.json(
         {
           ok: false,
-          code: "MEF_RUNTIME_NOT_READY",
-          message: "Submission blocked because the MeF runtime is not fully configured.",
+          code: 'MEF_RUNTIME_NOT_READY',
+          message: 'Submission blocked because the MeF runtime is not fully configured.',
           issues,
         },
-        { status: 503 }
+        { status: 503 },
       );
     }
 
@@ -38,7 +38,7 @@ async function _POST(request: NextRequest) {
     if (auth.error) return auth.error;
 
     const body = await request.json();
-    
+
     // Build complete tax return
     const taxReturn: TaxReturn = {
       taxYear: body.taxYear || 2024,
@@ -66,7 +66,7 @@ async function _POST(request: NextRequest) {
         childTaxCredit: 0,
         creditForOtherDependents: 0,
         earnedIncomeCredit: 0,
-        additionalChildTaxCredit: 0
+        additionalChildTaxCredit: 0,
       },
       totalCredits: body.totalCredits || 0,
       federalWithholding: body.federalWithholding || 0,
@@ -81,19 +81,22 @@ async function _POST(request: NextRequest) {
       spouseIpPin: body.spouseIpPin,
       taxpayerSignature: body.taxpayerSignature,
       spouseSignature: body.spouseSignature,
-      preparerSignature: body.preparerSignature
+      preparerSignature: body.preparerSignature,
     };
-    
+
     // Validate the return
     const validation = validateTaxReturn(taxReturn);
     if (!validation.valid) {
-      return NextResponse.json({
-        success: false,
-        errors: validation.errors,
-        warnings: validation.warnings
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          success: false,
+          errors: validation.errors,
+          warnings: validation.warnings,
+        },
+        { status: 400 },
+      );
     }
-    
+
     // IRS_SOFTWARE_ID is assigned after ATS certification.
     // Falls back to 'PENDING' until IRS issues the identifier.
     const softwareId = process.env.IRS_SOFTWARE_ID || 'PENDING';
@@ -120,44 +123,47 @@ async function _POST(request: NextRequest) {
           error: 'XML schema validation failed. Return cannot be transmitted.',
           schemaErrors: xsdResult.errors,
         },
-        { status: 422 }
+        { status: 422 },
       );
     }
-    
+
     // Transmit to IRS (test mode by default)
     const transmitter = createTransmitter({
       softwareId,
-      environment: (process.env.IRS_ENVIRONMENT as 'test' | 'production') || 'test'
+      environment: (process.env.IRS_ENVIRONMENT as 'test' | 'production') || 'test',
     });
-    
+
     const result = await transmitter.transmit({
       submissionId: submission.submissionId,
       taxYear: submission.taxYear,
       submissionType: submission.submissionType,
-      xmlContent: submission.xmlContent
+      xmlContent: submission.xmlContent,
     });
-    
+
     if (result.success) {
       return NextResponse.json({
         success: true,
         submissionId: result.submissionId,
         transmittedAt: result.transmittedAt,
         acknowledgment: result.acknowledgment,
-        message: 'Return successfully transmitted to IRS'
+        message: 'Return successfully transmitted to IRS',
       });
     } else {
-      return NextResponse.json({
-        success: false,
-        submissionId: result.submissionId,
-        error: result.error,
-        message: 'Failed to transmit return to IRS'
-      }, { status: 500 });
+      return NextResponse.json(
+        {
+          success: false,
+          submissionId: result.submissionId,
+          error: result.error,
+          message: 'Failed to transmit return to IRS',
+        },
+        { status: 500 },
+      );
     }
   } catch (error) {
     logger.error('Tax submission error:', error);
     return NextResponse.json(
       { success: false, error: 'Failed to submit tax return' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

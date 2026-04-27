@@ -1,11 +1,8 @@
-"use client";
+'use client';
 
 import React from 'react';
 
-import {
-  getArchetypeContent,
-  type ArchetypeContent,
-} from '@/lib/content/archetype-content';
+import { getArchetypeContent, type ArchetypeContent } from '@/lib/content/archetype-content';
 import Image from 'next/image';
 
 interface ArchetypeBaseProps {
@@ -33,20 +30,20 @@ export function ArchetypeBase({
       {/* Hero Section */}
       <section className="relative h-[400px]">
         {finalContent.hero.image && (
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src={finalContent.hero.image}
             alt={finalContent.hero.imageAlt || ''}
             fill
             className="object-cover"
             priority
-           sizes="100vw" />
+            sizes="100vw"
+          />
         )}
         <div className="absolute inset-0 flex items-center">
           <div className="container mx-auto px-4">
             <div className="max-w-3xl text-white">
-              <h1 className="text-5xl font-bold mb-4">
-                {finalContent.hero.title}
-              </h1>
+              <h1 className="text-5xl font-bold mb-4">{finalContent.hero.title}</h1>
               <p className="text-xl mb-6">{finalContent.hero.purpose}</p>
               {finalContent.cta && (
                 <div className="flex gap-4">

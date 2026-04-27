@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -52,11 +52,13 @@ export function Spinner({ size = 'md' }: { size?: 'sm' | 'md' | 'lg' }) {
   const sizeClasses = {
     sm: 'w-4 h-4 border-2',
     md: 'w-8 h-8 border-3',
-    lg: 'w-12 h-12 border-4'
+    lg: 'w-12 h-12 border-4',
   };
 
   return (
-    <div className={`${sizeClasses[size]} border-brand-orange-600 border-t-transparent rounded-full animate-spin`} />
+    <div
+      className={`${sizeClasses[size]} border-brand-orange-600 border-t-transparent rounded-full animate-spin`}
+    />
   );
 }
 
@@ -133,15 +135,19 @@ export function PageLoading() {
 }
 
 // Button Loading State
-export function ButtonLoading({ children, loading }: { children: React.ReactNode; loading: boolean }) {
+export function ButtonLoading({
+  children,
+  loading,
+}: {
+  children: React.ReactNode;
+  loading: boolean;
+}) {
   return (
     <button
       disabled={loading}
       className="relative inline-flex items-center justify-center gap-2 px-6 py-3 bg-brand-orange-600 text-white font-bold rounded-full button-scale disabled:opacity-50 disabled:cursor-not-allowed"
     >
-      {loading && (
-        <Spinner size="sm" />
-      )}
+      {loading && <Spinner size="sm" />}
       <span className={loading ? 'opacity-50' : ''}>{children}</span>
     </button>
   );

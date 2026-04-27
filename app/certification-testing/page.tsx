@@ -1,6 +1,14 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { CheckCircle, Shield, Clock, CalendarDays, MapPin, Phone, ChevronRight } from 'lucide-react';
+import {
+  CheckCircle,
+  Shield,
+  Clock,
+  CalendarDays,
+  MapPin,
+  Phone,
+  ChevronRight,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Schedule Your NHA Certification Exam | Elevate for Humanity',
@@ -13,8 +21,8 @@ export const metadata: Metadata = {
 
 const NHA_EXAMS = [
   { code: 'CCMA', name: 'Certified Clinical Medical Assistant' },
-  { code: 'CPT',  name: 'Certified Phlebotomy Technician' },
-  { code: 'CET',  name: 'Certified EKG Technician' },
+  { code: 'CPT', name: 'Certified Phlebotomy Technician' },
+  { code: 'CET', name: 'Certified EKG Technician' },
   { code: 'CMAA', name: 'Certified Medical Administrative Assistant' },
   { code: 'ExCPT', name: 'Certified Pharmacy Technician' },
   { code: 'CPCT/A', name: 'Certified Patient Care Technician/Assistant' },
@@ -38,7 +46,6 @@ const WHAT_TO_EXPECT = [
 export default function CertificationTestingPage() {
   return (
     <main className="bg-white">
-
       {/* ── HERO ─────────────────────────────────────────────────────────── */}
       <section className="bg-[#1E3A5F] text-white py-16 px-4">
         <div className="max-w-3xl mx-auto text-center">
@@ -46,10 +53,12 @@ export default function CertificationTestingPage() {
             NHA Authorized Testing Center
           </p>
           <h1 className="text-4xl md:text-5xl font-extrabold leading-tight mb-4">
-            Get Certified.<br className="hidden sm:block" /> Schedule Your Exam Today.
+            Get Certified.
+            <br className="hidden sm:block" /> Schedule Your Exam Today.
           </h1>
           <p className="text-slate-300 text-lg mb-8 max-w-xl mx-auto">
-            Fast, secure, and supported testing through our authorized NHA certification center in Indianapolis.
+            Fast, secure, and supported testing through our authorized NHA certification center in
+            Indianapolis.
           </p>
           <Link
             href="/testing/book?type=nha"
@@ -58,9 +67,15 @@ export default function CertificationTestingPage() {
             Schedule Your Exam <ChevronRight className="w-5 h-5" />
           </Link>
           <div className="flex items-center justify-center gap-6 mt-6 text-sm text-slate-400">
-            <span className="flex items-center gap-1.5"><Shield className="w-4 h-4" /> Secure checkout</span>
-            <span className="flex items-center gap-1.5"><CheckCircle className="w-4 h-4" /> Instant confirmation</span>
-            <span className="flex items-center gap-1.5"><Clock className="w-4 h-4" /> No hidden fees</span>
+            <span className="flex items-center gap-1.5">
+              <Shield className="w-4 h-4" /> Secure checkout
+            </span>
+            <span className="flex items-center gap-1.5">
+              <CheckCircle className="w-4 h-4" /> Instant confirmation
+            </span>
+            <span className="flex items-center gap-1.5">
+              <Clock className="w-4 h-4" /> No hidden fees
+            </span>
           </div>
         </div>
       </section>
@@ -72,9 +87,12 @@ export default function CertificationTestingPage() {
             <Shield className="w-6 h-6 text-white" />
           </div>
           <p className="text-slate-700 text-sm leading-relaxed">
-            <strong className="text-slate-900">Authorized Testing Center — NHA Account #412957.</strong>{' '}
-            This exam is administered through an authorized testing partner of the National Healthcareer Association.
-            All candidates receive secure proctoring, verified testing conditions, and full support throughout the process.
+            <strong className="text-slate-900">
+              Authorized Testing Center — NHA Account #412957.
+            </strong>{' '}
+            This exam is administered through an authorized testing partner of the National
+            Healthcareer Association. All candidates receive secure proctoring, verified testing
+            conditions, and full support throughout the process.
           </p>
         </div>
       </section>
@@ -83,7 +101,9 @@ export default function CertificationTestingPage() {
       <section className="py-14 px-4">
         <div className="max-w-lg mx-auto">
           <h2 className="text-2xl font-extrabold text-slate-900 text-center mb-2">Exam Pricing</h2>
-          <p className="text-slate-500 text-sm text-center mb-8">All NHA certification exams — one flat rate.</p>
+          <p className="text-slate-500 text-sm text-center mb-8">
+            All NHA certification exams — one flat rate.
+          </p>
 
           <div className="border border-slate-200 rounded-2xl overflow-hidden shadow-sm">
             <div className="bg-slate-50 px-6 py-4 border-b border-slate-200">
@@ -108,7 +128,9 @@ export default function CertificationTestingPage() {
 
           {/* Fee justification */}
           <div className="mt-6 bg-slate-50 rounded-xl border border-slate-200 px-5 py-4">
-            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">What your fee covers</p>
+            <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
+              What your fee covers
+            </p>
             <ul className="space-y-2">
               {WHAT_IT_COVERS.map((item) => (
                 <li key={item} className="flex items-start gap-2 text-sm text-slate-700">
@@ -126,7 +148,9 @@ export default function CertificationTestingPage() {
             >
               Schedule Your Exam <ChevronRight className="w-5 h-5" />
             </Link>
-            <p className="text-xs text-slate-400 mt-3">Secure checkout · Instant confirmation · No hidden fees</p>
+            <p className="text-xs text-slate-400 mt-3">
+              Secure checkout · Instant confirmation · No hidden fees
+            </p>
           </div>
         </div>
       </section>
@@ -149,8 +173,12 @@ export default function CertificationTestingPage() {
                 <CheckCircle className="w-3 h-3 text-amber-600" />
               </div>
               <div>
-                <p className="font-bold text-slate-900">Certification Success Package — <span className="text-amber-700">$59</span></p>
-                <p className="text-sm text-slate-500 mt-0.5">Add this when you schedule your exam</p>
+                <p className="font-bold text-slate-900">
+                  Certification Success Package — <span className="text-amber-700">$59</span>
+                </p>
+                <p className="text-sm text-slate-500 mt-0.5">
+                  Add this when you schedule your exam
+                </p>
               </div>
             </div>
             <ul className="space-y-2 pl-8">
@@ -173,8 +201,12 @@ export default function CertificationTestingPage() {
       {/* ── AVAILABLE EXAMS ──────────────────────────────────────────────── */}
       <section className="py-14 px-4">
         <div className="max-w-3xl mx-auto">
-          <h2 className="text-2xl font-extrabold text-slate-900 text-center mb-2">Available NHA Exams</h2>
-          <p className="text-slate-500 text-sm text-center mb-8">All exams proctored in-person at our Indianapolis testing center.</p>
+          <h2 className="text-2xl font-extrabold text-slate-900 text-center mb-2">
+            Available NHA Exams
+          </h2>
+          <p className="text-slate-500 text-sm text-center mb-8">
+            All exams proctored in-person at our Indianapolis testing center.
+          </p>
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
             {NHA_EXAMS.map((exam) => (
               <Link
@@ -196,8 +228,12 @@ export default function CertificationTestingPage() {
       {/* ── WHAT TO EXPECT ───────────────────────────────────────────────── */}
       <section className="bg-slate-50 border-y border-slate-200 py-14 px-4">
         <div className="max-w-2xl mx-auto">
-          <h2 className="text-2xl font-extrabold text-slate-900 text-center mb-2">What to Expect</h2>
-          <p className="text-slate-500 text-sm text-center mb-10">From booking to certification in four steps.</p>
+          <h2 className="text-2xl font-extrabold text-slate-900 text-center mb-2">
+            What to Expect
+          </h2>
+          <p className="text-slate-500 text-sm text-center mb-10">
+            From booking to certification in four steps.
+          </p>
           <div className="space-y-6">
             {WHAT_TO_EXPECT.map(({ step, text }) => (
               <div key={step} className="flex items-start gap-4">
@@ -223,10 +259,12 @@ export default function CertificationTestingPage() {
       <section className="py-10 px-4">
         <div className="max-w-2xl mx-auto bg-brand-red-50 border border-brand-red-200 rounded-2xl px-6 py-6 text-center">
           <CalendarDays className="w-8 h-8 text-brand-red-600 mx-auto mb-3" />
-          <h3 className="font-extrabold text-slate-900 text-lg mb-1">Limited Daily Testing Slots</h3>
+          <h3 className="font-extrabold text-slate-900 text-lg mb-1">
+            Limited Daily Testing Slots
+          </h3>
           <p className="text-slate-600 text-sm max-w-md mx-auto">
-            We limit the number of candidates per session to maintain a secure and focused testing environment.
-            Book early to secure your preferred date and time.
+            We limit the number of candidates per session to maintain a secure and focused testing
+            environment. Book early to secure your preferred date and time.
           </p>
         </div>
       </section>
@@ -238,11 +276,17 @@ export default function CertificationTestingPage() {
           <div className="flex flex-col sm:flex-row items-center justify-center gap-6 text-sm text-slate-300">
             <div className="flex items-start gap-2">
               <MapPin className="w-4 h-4 text-slate-400 flex-shrink-0 mt-0.5" />
-              <span>8888 Keystone Crossing, Suite 1300<br />Indianapolis, IN 46240</span>
+              <span>
+                8888 Keystone Crossing, Suite 1300
+                <br />
+                Indianapolis, IN 46240
+              </span>
             </div>
             <div className="flex items-center gap-2">
               <Phone className="w-4 h-4 text-slate-400 flex-shrink-0" />
-              <a href="tel:3173143757" className="hover:text-white transition-colors">(317) 314-3757</a>
+              <a href="tel:3173143757" className="hover:text-white transition-colors">
+                (317) 314-3757
+              </a>
             </div>
           </div>
           <div className="mt-8">
@@ -255,7 +299,6 @@ export default function CertificationTestingPage() {
           </div>
         </div>
       </section>
-
     </main>
   );
 }

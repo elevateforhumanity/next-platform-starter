@@ -14,11 +14,17 @@ const ROLE_LABELS: Record<string, string> = {
 
 export default async function ProviderStaffPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/provider/staff');
 
   const db = await getAdminClient();
-  const { data: profile } = await supabase.from('profiles').select('tenant_id').eq('id', user.id).maybeSingle();
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('tenant_id')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!profile?.tenant_id) redirect('/unauthorized');
 
   const { data: staff } = await supabase
@@ -46,7 +52,7 @@ export default async function ProviderStaffPage() {
           </div>
         ) : (
           <div className="divide-y divide-slate-100">
-            {(staff ?? []).map(member => (
+            {(staff ?? []).map((member) => (
               <div key={member.id} className="flex items-center justify-between px-5 py-3.5">
                 <div>
                   <div className="text-sm font-medium text-slate-900">

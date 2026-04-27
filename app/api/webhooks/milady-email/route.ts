@@ -3,14 +3,13 @@ import { createAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 /**
  * Milady Email Forwarding Webhook
- * 
+ *
  * Receives emails from Milady (via email forwarding service like SendGrid Inbound Parse)
  * and forwards the Milady login credentials to the student.
- * 
+ *
  * Setup: Configure Milady to send enrollment emails to: milady-inbound@elevateforhumanity.org
  * Then set up SendGrid/Resend inbound parse to POST to this endpoint.
  */
-
 
 import { NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
@@ -23,31 +22,31 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 async function _POST(request: Request) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
-    // Verify shared secret — set MILADY_WEBHOOK_SECRET and append as ?secret=<value>
-    // in the SendGrid/Resend inbound parse URL configuration.
-    const webhookSecret = process.env.MILADY_WEBHOOK_SECRET;
-    if (webhookSecret) {
-      const url = new URL((request as any).url || 'http://localhost');
-      const provided = url.searchParams.get('secret')
-        || (request.headers as any).get?.('x-webhook-secret')
-        || '';
-      const { timingSafeEqual } = await import('crypto');
-      const match = provided.length === webhookSecret.length &&
-        timingSafeEqual(Buffer.from(provided), Buffer.from(webhookSecret));
-      if (!match) {
-        logger.error('[milady-email] Unauthorized request — secret mismatch');
-        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-      }
-    } else {
-      logger.warn('[milady-email] MILADY_WEBHOOK_SECRET not set — endpoint is unauthenticated');
+  // Verify shared secret — set MILADY_WEBHOOK_SECRET and append as ?secret=<value>
+  // in the SendGrid/Resend inbound parse URL configuration.
+  const webhookSecret = process.env.MILADY_WEBHOOK_SECRET;
+  if (webhookSecret) {
+    const url = new URL((request as any).url || 'http://localhost');
+    const provided =
+      url.searchParams.get('secret') || (request.headers as any).get?.('x-webhook-secret') || '';
+    const { timingSafeEqual } = await import('crypto');
+    const match =
+      provided.length === webhookSecret.length &&
+      timingSafeEqual(Buffer.from(provided), Buffer.from(webhookSecret));
+    if (!match) {
+      logger.error('[milady-email] Unauthorized request — secret mismatch');
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
+  } else {
+    logger.warn('[milady-email] MILADY_WEBHOOK_SECRET not set — endpoint is unauthenticated');
+  }
 
   try {
     const formData = await request.formData();
-    
+
     // Extract email data from inbound parse
     const from = formData.get('from') as string;
     const to = formData.get('to') as string;
@@ -72,12 +71,12 @@ async function _POST(request: Request) {
       try {
         const envelopeData = JSON.parse(envelope);
         // Look for student email in envelope
-        studentEmail = envelopeData.to?.find((e: string) => 
-          !e.includes('elevate') && !e.includes('milady')
+        studentEmail = envelopeData.to?.find(
+          (e: string) => !e.includes('elevate') && !e.includes('milady'),
         );
       } catch (err) {
-          logger.error("[milady-email] Envelope parse error", err instanceof Error ? err : undefined);
-        }
+        logger.error('[milady-email] Envelope parse error', err instanceof Error ? err : undefined);
+      }
     }
 
     const supabase = createClient(supabaseUrl, supabaseKey);
@@ -108,7 +107,7 @@ async function _POST(request: Request) {
     // If we found the student, forward the email
     if (student && studentEmail) {
       const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-      
+
       // Forward the Milady email to the student
       await fetch(`${siteUrl}/api/email/send`, {
         method: 'POST',
@@ -158,13 +157,14 @@ async function _POST(request: Request) {
       });
 
       // Update student record to mark Milady email received
-      await supabase
-        .from('student_onboarding')
-        .upsert({
+      await supabase.from('student_onboarding').upsert(
+        {
           student_id: student.id,
           milady_credentials_received: true,
           milady_credentials_received_at: new Date().toISOString(),
-        }, { onConflict: 'student_id' });
+        },
+        { onConflict: 'student_id' },
+      );
 
       logger.info('[milady-email] Forwarded to student:', studentEmail);
     }
@@ -175,4 +175,7 @@ async function _POST(request: Request) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
-export const POST = withApiAudit('/api/webhooks/milady-email', _POST, { actor_type: 'webhook', skip_body: true });
+export const POST = withApiAudit('/api/webhooks/milady-email', _POST, {
+  actor_type: 'webhook',
+  skip_body: true,
+});

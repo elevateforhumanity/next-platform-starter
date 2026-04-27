@@ -1,12 +1,26 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
 import React, { useEffect } from 'react';
 
 import { useState, useCallback } from 'react';
-import { DndContext, closestCenter, KeyboardSensor, PointerSensor, useSensor, useSensors, DragEndEvent } from '@dnd-kit/core';
-import { arrayMove, SortableContext, sortableKeyboardCoordinates, verticalListSortingStrategy, useSortable } from '@dnd-kit/sortable';
+import {
+  DndContext,
+  closestCenter,
+  KeyboardSensor,
+  PointerSensor,
+  useSensor,
+  useSensors,
+  DragEndEvent,
+} from '@dnd-kit/core';
+import {
+  arrayMove,
+  SortableContext,
+  sortableKeyboardCoordinates,
+  verticalListSortingStrategy,
+  useSortable,
+} from '@dnd-kit/sortable';
 import { CSS } from '@dnd-kit/utilities';
 
 interface CourseModule {
@@ -43,18 +57,25 @@ function useModulesDB(courseId: string, initialModules?: CourseModule[]) {
 
   const saveModuleOrder = async (newModules: CourseModule[]) => {
     for (let i = 0; i < newModules.length; i++) {
-      await supabase
-        .from('course_modules')
-        .update({ order: i })
-        .eq('id', newModules[i].id);
+      await supabase.from('course_modules').update({ order: i }).eq('id', newModules[i].id);
     }
   };
 
   return { modules, setModules, saveModuleOrder };
 }
 
-function SortableItem({ module, onEdit, onDelete }: { module: CourseModule; onEdit: (id: string) => void; onDelete: (id: string) => void }) {
-  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({ id: module.id });
+function SortableItem({
+  module,
+  onEdit,
+  onDelete,
+}: {
+  module: CourseModule;
+  onEdit: (id: string) => void;
+  onDelete: (id: string) => void;
+}) {
+  const { attributes, listeners, setNodeRef, transform, transition, isDragging } = useSortable({
+    id: module.id,
+  });
 
   const style = {
     transform: CSS.Transform.toString(transform),
@@ -73,7 +94,11 @@ function SortableItem({ module, onEdit, onDelete }: { module: CourseModule; onEd
       case 'quiz':
         return (
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z" clipRule="evenodd" />
+            <path
+              fillRule="evenodd"
+              d="M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-8-3a1 1 0 00-.867.5 1 1 0 11-1.731-1A3 3 0 0113 8a3.001 3.001 0 01-2 2.83V11a1 1 0 11-2 0v-1a1 1 0 011-1 1 1 0 100-2zm0 8a1 1 0 100-2 1 1 0 000 2z"
+              clipRule="evenodd"
+            />
           </svg>
         );
       case 'reading':
@@ -85,13 +110,21 @@ function SortableItem({ module, onEdit, onDelete }: { module: CourseModule; onEd
       case 'assignment':
         return (
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z" clipRule="evenodd" />
+            <path
+              fillRule="evenodd"
+              d="M6 2a2 2 0 00-2 2v12a2 2 0 002 2h8a2 2 0 002-2V7.414A2 2 0 0015.414 6L12 2.586A2 2 0 0010.586 2H6zm5 6a1 1 0 10-2 0v3.586l-1.293-1.293a1 1 0 10-1.414 1.414l3 3a1 1 0 001.414 0l3-3a1 1 0 00-1.414-1.414L11 11.586V8z"
+              clipRule="evenodd"
+            />
           </svg>
         );
       case 'discussion':
         return (
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z" clipRule="evenodd" />
+            <path
+              fillRule="evenodd"
+              d="M18 10c0 3.866-3.582 7-8 7a8.841 8.841 0 01-4.083-.98L2 17l1.338-3.123C2.493 12.767 2 11.434 2 10c0-3.866 3.582-7 8-7s8 3.134 8 7zM7 9H5v2h2V9zm8 0h-2v2h2V9zM9 9h2v2H9V9z"
+              clipRule="evenodd"
+            />
           </svg>
         );
       default:
@@ -100,14 +133,25 @@ function SortableItem({ module, onEdit, onDelete }: { module: CourseModule; onEd
   };
 
   return (
-    <div ref={setNodeRef} style={style} className="bg-white border border-slate-200 rounded-lg p-4 mb-3 hover:shadow-md transition-shadow">
+    <div
+      ref={setNodeRef}
+      style={style}
+      className="bg-white border border-slate-200 rounded-lg p-4 mb-3 hover:shadow-md transition-shadow"
+    >
       <div className="flex items-center gap-4">
         {/* Drag Handle */}
-        <button {...attributes} {...listeners} className="cursor-grab active:cursor-grabbing text-slate-400 hover:text-black">
-          <svg className="w-6 h-6" fill="none" stroke="currentColor"
-viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-d="M4 8h16M4 16h16" />
+        <button
+          {...attributes}
+          {...listeners}
+          className="cursor-grab active:cursor-grabbing text-slate-400 hover:text-black"
+        >
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 8h16M4 16h16"
+            />
           </svg>
         </button>
 
@@ -131,20 +175,26 @@ d="M4 8h16M4 16h16" />
             onClick={() => onEdit(module.id)}
             className="p-2 text-black hover:text-brand-blue-600 hover:bg-gray-50 rounded-lg transition-colors"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor"
-viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z" />
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M11 5H6a2 2 0 00-2 2v11a2 2 0 002 2h11a2 2 0 002-2v-5m-1.414-9.414a2 2 0 112.828 2.828L11.828 15H9v-2.828l8.586-8.586z"
+              />
             </svg>
           </button>
           <button
             onClick={() => onDelete(module.id)}
             className="p-2 text-black hover:text-brand-orange-600 hover:bg-brand-red-50 rounded-lg transition-colors"
           >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor"
-viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
+            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"
+              />
             </svg>
           </button>
         </div>
@@ -153,7 +203,11 @@ d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6
   );
 }
 
-export default function DragDropBuilder({ courseId, initialModules = [], onSave }: DragDropBuilderProps) {
+export default function DragDropBuilder({
+  courseId,
+  initialModules = [],
+  onSave,
+}: DragDropBuilderProps) {
   const [modules, setModules] = useState<CourseModule[]>(initialModules);
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingModule, setEditingModule] = useState<CourseModule | null>(null);
@@ -168,7 +222,7 @@ export default function DragDropBuilder({ courseId, initialModules = [], onSave 
     useSensor(PointerSensor),
     useSensor(KeyboardSensor, {
       coordinateGetter: sortableKeyboardCoordinates,
-    })
+    }),
   );
 
   const handleDragEnd = useCallback((event: DragEndEvent) => {
@@ -238,7 +292,8 @@ export default function DragDropBuilder({ courseId, initialModules = [], onSave 
         body: JSON.stringify({ modules }),
       });
       alert('Course structure saved successfully!');
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('Failed to save course structure');
     }
@@ -271,10 +326,18 @@ export default function DragDropBuilder({ courseId, initialModules = [], onSave 
       {/* Module List */}
       {modules.length === 0 ? (
         <div className="bg-slate-50 border-2 border-dashed border-slate-300 rounded-lg p-12 text-center">
-          <svg className="w-16 h-16 text-slate-400 mx-auto mb-4" fill="none" stroke="currentColor"
-viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2}
-d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
+          <svg
+            className="w-16 h-16 text-slate-400 mx-auto mb-4"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M12 6v6m0 0v6m0-6h6m-6 0H6"
+            />
           </svg>
           <h3 className="text-xl font-semibold text-black mb-2">No modules yet</h3>
           <p className="text-black mb-4">Get started by adding your first module</p>
@@ -289,8 +352,12 @@ d="M12 6v6m0 0v6m0-6h6m-6 0H6" />
         <DndContext sensors={sensors} collisionDetection={closestCenter} onDragEnd={handleDragEnd}>
           <SortableContext items={modules.map((m) => m.id)} strategy={verticalListSortingStrategy}>
             {modules.map((module) => (
-              <SortableItem key={module.id} module={module} onEdit={handleEditModule}
-onDelete={handleDeleteModule} />
+              <SortableItem
+                key={module.id}
+                module={module}
+                onEdit={handleEditModule}
+                onDelete={handleDeleteModule}
+              />
             ))}
           </SortableContext>
         </DndContext>
@@ -309,7 +376,9 @@ onDelete={handleDeleteModule} />
             <div className="p-6 space-y-6">
               {/* Title */}
               <div>
-                <label className="block text-sm font-semibold text-black mb-2">Module Title *</label>
+                <label className="block text-sm font-semibold text-black mb-2">
+                  Module Title *
+                </label>
                 <input
                   type="text"
                   value={newModule.title}
@@ -324,7 +393,9 @@ onDelete={handleDeleteModule} />
                 <label className="block text-sm font-semibold text-black mb-2">Module Type *</label>
                 <select
                   value={newModule.type}
-                  onChange={(e) => setNewModule({ ...newModule, type: e.target.value as CourseModule['type'] })}
+                  onChange={(e) =>
+                    setNewModule({ ...newModule, type: e.target.value as CourseModule['type'] })
+                  }
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 >
                   <option value="video">Video Lesson</option>
@@ -337,11 +408,15 @@ onDelete={handleDeleteModule} />
 
               {/* Duration */}
               <div>
-                <label className="block text-sm font-semibold text-black mb-2">Duration (minutes)</label>
+                <label className="block text-sm font-semibold text-black mb-2">
+                  Duration (minutes)
+                </label>
                 <input
                   type="number"
                   value={newModule.duration || ''}
-                  onChange={(e) => setNewModule({ ...newModule, duration: parseInt(e.target.value) || 0 })}
+                  onChange={(e) =>
+                    setNewModule({ ...newModule, duration: parseInt(e.target.value) || 0 })
+                  }
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                   placeholder="30"
                 />
@@ -349,7 +424,9 @@ onDelete={handleDeleteModule} />
 
               {/* Content */}
               <div>
-                <label className="block text-sm font-semibold text-black mb-2">Content/Description</label>
+                <label className="block text-sm font-semibold text-black mb-2">
+                  Content/Description
+                </label>
                 <textarea
                   value={newModule.content}
                   onChange={(e) => setNewModule({ ...newModule, content: e.target.value })}

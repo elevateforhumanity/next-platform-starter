@@ -15,7 +15,11 @@ interface CohortStats {
   avg_progress: number;
 }
 
-export default function CohortView({ showBy = 'program' }: { showBy?: 'program' | 'funding' | 'start_date' }) {
+export default function CohortView({
+  showBy = 'program',
+}: {
+  showBy?: 'program' | 'funding' | 'start_date';
+}) {
   const [cohorts, setCohorts] = useState<CohortStats[]>([]);
   const [loading, setLoading] = useState(true);
   const [groupBy, setGroupBy] = useState(showBy);
@@ -27,9 +31,7 @@ export default function CohortView({ showBy = 'program' }: { showBy?: 'program' 
 
       if (groupBy === 'program') {
         // Group by program
-        const { data: programs } = await supabase
-          .from('programs')
-          .select('id, name');
+        const { data: programs } = await supabase.from('programs').select('id, name');
 
         if (programs) {
           const cohortData: CohortStats[] = [];
@@ -43,10 +45,12 @@ export default function CohortView({ showBy = 'program' }: { showBy?: 'program' 
             if (enrollments && enrollments.length > 0) {
               const total = enrollments.length;
               const completed = enrollments.filter((e: any) => e.progress >= 100).length;
-              const atRisk = enrollments.filter((e: any) => e.status === 'at_risk' || (e.progress < 25 && e.progress > 0)).length;
+              const atRisk = enrollments.filter(
+                (e: any) => e.status === 'at_risk' || (e.progress < 25 && e.progress > 0),
+              ).length;
               const onTrack = total - completed - atRisk;
               const avgProgress = Math.round(
-                enrollments.reduce((sum: number, e: any) => sum + (e.progress || 0), 0) / total
+                enrollments.reduce((sum: number, e: any) => sum + (e.progress || 0), 0) / total,
               );
 
               cohortData.push({
@@ -80,8 +84,8 @@ export default function CohortView({ showBy = 'program' }: { showBy?: 'program' 
 
           const cohortData: CohortStats[] = Object.entries(fundingMap).map(([source, items]) => {
             const total = items.length;
-            const completed = items.filter(e => e.status === 'completed').length;
-            const atRisk = items.filter(e => e.status === 'at_risk').length;
+            const completed = items.filter((e) => e.status === 'completed').length;
+            const atRisk = items.filter((e) => e.status === 'at_risk').length;
             return {
               id: source,
               name: source,
@@ -107,7 +111,11 @@ export default function CohortView({ showBy = 'program' }: { showBy?: 'program' 
           enrollments.forEach((e: any) => {
             const date = new Date(e.created_at);
             const monthKey = `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, '0')}`;
-            const monthName = date.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', year: 'numeric' });
+            const monthName = date.toLocaleDateString('en-US', {
+              timeZone: 'UTC',
+              month: 'long',
+              year: 'numeric',
+            });
             if (!monthMap[monthKey]) monthMap[monthKey] = { name: monthName, items: [] };
             monthMap[monthKey].items.push(e);
           });
@@ -119,7 +127,7 @@ export default function CohortView({ showBy = 'program' }: { showBy?: 'program' 
               const completed = items.filter((e: any) => e.progress >= 100).length;
               const atRisk = items.filter((e: any) => e.status === 'at_risk').length;
               const avgProgress = Math.round(
-                items.reduce((sum: number, e: any) => sum + (e.progress || 0), 0) / total
+                items.reduce((sum: number, e: any) => sum + (e.progress || 0), 0) / total,
               );
               return {
                 id: key,
@@ -150,7 +158,7 @@ export default function CohortView({ showBy = 'program' }: { showBy?: 'program' 
         <div className="animate-pulse space-y-4">
           <div className="h-4 bg-slate-200 rounded w-1/4"></div>
           <div className="space-y-3">
-            {[1, 2, 3].map(i => (
+            {[1, 2, 3].map((i) => (
               <div key={i} className="h-16 bg-slate-100 rounded"></div>
             ))}
           </div>
@@ -212,15 +220,15 @@ export default function CohortView({ showBy = 'program' }: { showBy?: 'program' 
               {cohort.avg_progress > 0 && (
                 <div className="mt-3">
                   <div className="h-1.5 bg-slate-100 rounded-full overflow-hidden flex">
-                    <div 
+                    <div
                       className="bg-white rounded-full"
                       style={{ width: `${(cohort.completed / cohort.total) * 100}%` }}
                     />
-                    <div 
+                    <div
                       className="bg-white"
                       style={{ width: `${(cohort.on_track / cohort.total) * 100}%` }}
                     />
-                    <div 
+                    <div
                       className="bg-amber-500"
                       style={{ width: `${(cohort.at_risk / cohort.total) * 100}%` }}
                     />

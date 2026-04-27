@@ -35,7 +35,7 @@ async function _POST(req: Request) {
     if (!profile || profile.role !== 'program_holder') {
       return NextResponse.json(
         { error: 'Must be a program holder to upload documents' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -47,7 +47,7 @@ async function _POST(req: Request) {
     if (!file || !documentType) {
       return NextResponse.json(
         { error: 'Missing required fields: file and document_type' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -68,7 +68,7 @@ async function _POST(req: Request) {
         {
           error: `Invalid document_type. Must be one of: ${validTypes.join(', ')}`,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -87,18 +87,13 @@ async function _POST(req: Request) {
       });
 
     if (uploadError) {
-      return NextResponse.json(
-        { error: 'Upload failed' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Upload failed' }, { status: 500 });
     }
 
     // Get public URL
     const {
       data: { publicUrl },
-    } = supabase.storage
-      .from('program_holder_documents')
-      .getPublicUrl(uploadData.path);
+    } = supabase.storage.from('program_holder_documents').getPublicUrl(uploadData.path);
 
     // Save document record to database
     const { data: document, error: dbError } = await supabase
@@ -120,14 +115,9 @@ async function _POST(req: Request) {
 
     if (dbError) {
       // Clean up uploaded file
-      await supabase.storage
-        .from('program_holder_documents')
-        .remove([uploadData.path]);
+      await supabase.storage.from('program_holder_documents').remove([uploadData.path]);
 
-      return NextResponse.json(
-        { error: 'Database operation failed' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Database operation failed' }, { status: 500 });
     }
 
     // Run OCR validation for image files — non-fatal, routes to manual review on failure
@@ -179,14 +169,16 @@ async function _POST(req: Request) {
             reply_to: { email: 'elevate4humanityedu@gmail.com', name: 'Elevate for Humanity' },
             personalizations: [{ to: [{ email: 'elevate4humanityedu@gmail.com' }] }],
             subject: `Document Uploaded — ${phProfile.full_name || 'Program Holder'} (${documentType.replace(/_/g, ' ')})`,
-            content: [{
-              type: 'text/html',
-              value: `<p><strong>${phProfile.full_name || 'A program holder'}</strong> (${phProfile.email}) uploaded a new document.</p>
+            content: [
+              {
+                type: 'text/html',
+                value: `<p><strong>${phProfile.full_name || 'A program holder'}</strong> (${phProfile.email}) uploaded a new document.</p>
 <p><strong>Type:</strong> ${documentType.replace(/_/g, ' ')}<br>
 <strong>File:</strong> ${fileName}<br>
 <strong>Size:</strong> ${(file.size / 1024).toFixed(0)} KB</p>
 <p><a href="${siteUrl}/admin/dashboard">Review in Admin Dashboard →</a></p>`,
-            }],
+              },
+            ],
           }),
         }).catch(() => {});
       }
@@ -215,7 +207,8 @@ async function _POST(req: Request) {
 
           if (hasHandbook && hasRights) {
             // All steps done — send full welcome email inline
-            const { checkAndSendOnboardingCompleteEmail } = await import('@/lib/program-holder/onboarding-complete');
+            const { checkAndSendOnboardingCompleteEmail } =
+              await import('@/lib/program-holder/onboarding-complete');
             await checkAndSendOnboardingCompleteEmail(admin, user.id).catch((err: unknown) => {
               logger.warn('[PH Upload] onboarding-complete email failed', err);
             });
@@ -238,10 +231,7 @@ async function _POST(req: Request) {
       },
     });
   } catch (err: unknown) {
-    return NextResponse.json(
-      { error: toErrorMessage(err) || 'Upload failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: toErrorMessage(err) || 'Upload failed' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/program-holder/documents/upload', _POST);

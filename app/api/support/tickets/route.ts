@@ -28,51 +28,50 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    
+
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', user.id)
       .maybeSingle();
-    
+
     const adminClient = await getAdminClient();
 
     if (!adminClient) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
     const isAdmin = profile?.role && ['admin', 'super_admin', 'staff'].includes(profile.role);
-    
+
     let query = adminClient
       .from('support_tickets')
       .select('*, support_messages(id, message, created_at, is_staff)')
       .order('created_at', { ascending: false });
-    
+
     if (!isAdmin) {
       query = query.eq('user_id', user.id);
     }
-    
+
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
     const category = searchParams.get('category');
-    
+
     if (status) query = query.eq('status', status);
     if (category) query = query.eq('category', category);
-    
+
     const { data: tickets, error } = await query.limit(50);
-    
+
     if (error) {
       logger.error('Tickets fetch error:', error);
       return NextResponse.json({ error: 'Failed to fetch tickets' }, { status: 500 });
     }
-    
+
     return NextResponse.json({ tickets: tickets || [] });
   } catch (error) {
     logger.error('Support API error:', error);
@@ -88,13 +87,15 @@ async function _POST(request: NextRequest) {
 
     const body = await request.json();
     const validatedData = ticketSchema.parse(body);
-    
+
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     // Generate ticket number
     const ticketNumber = `TKT-${Date.now().toString(36).toUpperCase()}`;
-    
+
     const adminClient = await getAdminClient();
     const { data: ticket, error } = await adminClient
       .from('support_tickets')
@@ -113,26 +114,24 @@ async function _POST(request: NextRequest) {
       })
       .select()
       .maybeSingle();
-    
+
     if (error) {
       logger.error('Ticket create error:', error);
       return NextResponse.json({ error: 'Failed to create ticket' }, { status: 500 });
     }
-    
+
     // Create initial message
-    await adminClient
-      .from('support_messages')
-      .insert({
-        ticket_id: ticket.id,
-        user_id: user?.id || null,
-        message: validatedData.description,
-        is_staff: false,
-      });
-    
-    return NextResponse.json({ 
-      success: true, 
+    await adminClient.from('support_messages').insert({
+      ticket_id: ticket.id,
+      user_id: user?.id || null,
+      message: validatedData.description,
+      is_staff: false,
+    });
+
+    return NextResponse.json({
+      success: true,
       ticket,
-      message: `Ticket ${ticketNumber} created successfully. We'll respond within 24 hours.`
+      message: `Ticket ${ticketNumber} created successfully. We'll respond within 24 hours.`,
     });
   } catch (error) {
     if (error instanceof z.ZodError) {

@@ -88,11 +88,9 @@ export async function createOrUpdateEnrollment(
     fullName,
   } = input;
 
-  const resolvedStatus =
-    status ?? (isDeposit ? 'deposit_paid' : 'active');
+  const resolvedStatus = status ?? (isDeposit ? 'deposit_paid' : 'active');
   const resolvedPaymentStatus =
-    paymentStatus ??
-    (isDeposit ? 'deposit_paid' : amountPaidCents === 0 ? 'waived' : 'paid');
+    paymentStatus ?? (isDeposit ? 'deposit_paid' : amountPaidCents === 0 ? 'waived' : 'paid');
   const resolvedFundingSource = normalizeFundingSource(fundingSource);
 
   try {
@@ -116,7 +114,7 @@ export async function createOrUpdateEnrollment(
       user_id: userId,
       program_id: programId,
       ...(programSlug ? { program_slug: programSlug } : {}),
-      ...(courseId   ? { course_id:    courseId    } : {}),
+      ...(courseId ? { course_id: courseId } : {}),
       funding_source: resolvedFundingSource,
       status: resolvedStatus,
       payment_status: resolvedPaymentStatus,
@@ -302,9 +300,15 @@ export async function checkEnrollmentIntegrity(supabase: SupabaseClient): Promis
 
   const [duplicateUserProgram, duplicateCheckoutSessions, duplicatePaymentIntents] =
     await Promise.all([
-      run(`SELECT COUNT(*) AS cnt FROM (SELECT user_id, program_id, COUNT(*) AS c FROM program_enrollments GROUP BY user_id, program_id HAVING COUNT(*) > 1) d`),
-      run(`SELECT COUNT(*) AS cnt FROM (SELECT stripe_checkout_session_id, COUNT(*) AS c FROM program_enrollments WHERE stripe_checkout_session_id IS NOT NULL GROUP BY stripe_checkout_session_id HAVING COUNT(*) > 1) d`),
-      run(`SELECT COUNT(*) AS cnt FROM (SELECT stripe_payment_intent_id, COUNT(*) AS c FROM program_enrollments WHERE stripe_payment_intent_id IS NOT NULL GROUP BY stripe_payment_intent_id HAVING COUNT(*) > 1) d`),
+      run(
+        `SELECT COUNT(*) AS cnt FROM (SELECT user_id, program_id, COUNT(*) AS c FROM program_enrollments GROUP BY user_id, program_id HAVING COUNT(*) > 1) d`,
+      ),
+      run(
+        `SELECT COUNT(*) AS cnt FROM (SELECT stripe_checkout_session_id, COUNT(*) AS c FROM program_enrollments WHERE stripe_checkout_session_id IS NOT NULL GROUP BY stripe_checkout_session_id HAVING COUNT(*) > 1) d`,
+      ),
+      run(
+        `SELECT COUNT(*) AS cnt FROM (SELECT stripe_payment_intent_id, COUNT(*) AS c FROM program_enrollments WHERE stripe_payment_intent_id IS NOT NULL GROUP BY stripe_payment_intent_id HAVING COUNT(*) > 1) d`,
+      ),
     ]);
 
   return { duplicateUserProgram, duplicateCheckoutSessions, duplicatePaymentIntents };

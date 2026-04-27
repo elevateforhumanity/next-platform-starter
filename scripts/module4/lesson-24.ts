@@ -222,7 +222,8 @@ export const quizQuestions = [
   {
     id: 'mod4-l24-q1',
     type: 'scenario' as const,
-    question: 'You are using clipper over comb to blend the sides and notice a visible gouge after two passes. The comb angle and pass direction were consistent. What is the most likely cause?',
+    question:
+      'You are using clipper over comb to blend the sides and notice a visible gouge after two passes. The comb angle and pass direction were consistent. What is the most likely cause?',
     options: [
       'The comb angle was too upright — it lifted too much hair above the teeth',
       'The clipper was angled into the comb rather than running parallel across it — the blade dug into the hair instead of cutting across it',
@@ -230,12 +231,14 @@ export const quizQuestions = [
       'The comb stopped mid-pass — the clipper cut at the pause point and created the gouge',
     ],
     correctAnswer: 1,
-    explanation: 'A gouge is the signature failure of incorrect clipper position — the blade angled into the comb rather than running parallel across it. When the blade tilts downward into the comb teeth, it digs into the hair and removes a chunk rather than cutting evenly across the lifted section. Consistent comb angle rules out option A. A mid-pass stop creates a horizontal line, not a gouge. Coarse hair does not cause gouges — blade angle does. The fix is to keep the blade parallel to the comb spine throughout the pass.',
+    explanation:
+      'A gouge is the signature failure of incorrect clipper position — the blade angled into the comb rather than running parallel across it. When the blade tilts downward into the comb teeth, it digs into the hair and removes a chunk rather than cutting evenly across the lifted section. Consistent comb angle rules out option A. A mid-pass stop creates a horizontal line, not a gouge. Coarse hair does not cause gouges — blade angle does. The fix is to keep the blade parallel to the comb spine throughout the pass.',
   },
   {
     id: 'mod4-l24-q2',
     type: 'scenario' as const,
-    question: 'A client with very fine hair requests a blended taper on the sides. Which approach is most appropriate?',
+    question:
+      'A client with very fine hair requests a blended taper on the sides. Which approach is most appropriate?',
     options: [
       'Use clipper over comb throughout — it is the most precise blending technique',
       'Use clipper over comb for bulk removal, then switch to scissor over comb for the final blending passes',
@@ -243,12 +246,14 @@ export const quizQuestions = [
       'Use clipper over comb with a wide-tooth comb to minimize the amount removed per pass',
     ],
     correctAnswer: 1,
-    explanation: 'Fine hair has little margin for error — clipper over comb can create scalp show-through if used aggressively for blending. The correct approach is to use clipper over comb for bulk removal where needed, then switch to scissor over comb for the final blending passes, which produce a softer, more controlled finish.',
+    explanation:
+      'Fine hair has little margin for error — clipper over comb can create scalp show-through if used aggressively for blending. The correct approach is to use clipper over comb for bulk removal where needed, then switch to scissor over comb for the final blending passes, which produce a softer, more controlled finish.',
   },
   {
     id: 'mod4-l24-q3',
     type: 'failure-diagnosis' as const,
-    question: 'You are tapering the sides and notice a horizontal line across the section after two passes. What is the most likely root cause?',
+    question:
+      'You are tapering the sides and notice a horizontal line across the section after two passes. What is the most likely root cause?',
     options: [
       'The clipper blade is misaligned and cutting unevenly',
       'The comb stopped mid-pass and the clipper cut at the pause point',
@@ -256,12 +261,14 @@ export const quizQuestions = [
       'The hair is too coarse for clipper over comb technique',
     ],
     correctAnswer: 1,
-    explanation: 'A horizontal line across a clipper over comb section is almost always caused by the comb stopping mid-pass. The clipper cuts at the point where the comb paused, creating a hard line. The comb pass must be completed in one continuous motion from base to tip.',
+    explanation:
+      'A horizontal line across a clipper over comb section is almost always caused by the comb stopping mid-pass. The clipper cuts at the point where the comb paused, creating a hard line. The comb pass must be completed in one continuous motion from base to tip.',
   },
   {
     id: 'mod4-l24-q4',
     type: 'next-step' as const,
-    question: 'After completing a clipper over comb section, you notice a hard line where it meets the adjacent guard section. What is the correct next step?',
+    question:
+      'After completing a clipper over comb section, you notice a hard line where it meets the adjacent guard section. What is the correct next step?',
     options: [
       'Take the guard section shorter to match the clipper over comb length',
       'Use a flatter comb angle at the boundary and add a blending pass with the open-lever technique',
@@ -269,12 +276,14 @@ export const quizQuestions = [
       'The line will disappear when the hair is dry — no correction needed',
     ],
     correctAnswer: 1,
-    explanation: 'A hard line at the boundary between a clipper over comb section and a guard section means no blending pass was made at the transition. The correction is a flatter comb angle at the boundary combined with an open-lever blending pass — this creates a gradual transition without removing significant length from either section.',
+    explanation:
+      'A hard line at the boundary between a clipper over comb section and a guard section means no blending pass was made at the transition. The correction is a flatter comb angle at the boundary combined with an open-lever blending pass — this creates a gradual transition without removing significant length from either section.',
   },
   {
     id: 'mod4-l24-q5',
     type: 'scenario' as const,
-    question: 'To create a taper (shorter at the bottom, longer at the top) using clipper over comb, how should the comb be angled?',
+    question:
+      'To create a taper (shorter at the bottom, longer at the top) using clipper over comb, how should the comb be angled?',
     options: [
       'Flat (parallel to the scalp) throughout the section',
       'Spine angled away from the scalp — this lifts more hair at the base than at the tip',
@@ -282,6 +291,7 @@ export const quizQuestions = [
       'The comb angle does not affect the taper — only the clipper speed matters',
     ],
     correctAnswer: 1,
-    explanation: 'Angling the comb spine away from the scalp lifts more hair at the base of the section than at the tip. When the clipper passes across, it removes more at the base (shorter) and less at the tip (longer) — creating the taper. The comb angle is the primary length control mechanism in clipper over comb.',
+    explanation:
+      'Angling the comb spine away from the scalp lifts more hair at the base of the section than at the tip. When the clipper passes across, it removes more at the base (shorter) and less at the tip (longer) — creating the taper. The comb angle is the primary length control mechanism in clipper over comb.',
   },
 ];

@@ -1,10 +1,9 @@
 import { logger } from '@/lib/logger';
 /**
  * Workforce Referral API
- * 
+ *
  * Manages workforce agency referrals with automated status reporting.
  */
-
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
@@ -19,12 +18,13 @@ export const dynamic = 'force-dynamic';
 
 // GET: List referrals or get specific referral
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -45,9 +45,7 @@ const supabase = await createClient();
   const agencyName = searchParams.get('agency');
   const status = searchParams.get('status');
 
-  let query = supabase
-    .from('workforce_referrals')
-    .select(`
+  let query = supabase.from('workforce_referrals').select(`
       *,
       enrollments (
         id,
@@ -78,12 +76,14 @@ const supabase = await createClient();
 
 // POST: Create new referral
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -103,9 +103,12 @@ async function _POST(request: NextRequest) {
 
   // Validate required fields
   if (!userId || !agencyName || !agencyType) {
-    return NextResponse.json({ 
-      error: 'Missing required fields: userId, agencyName, agencyType' 
-    }, { status: 400 });
+    return NextResponse.json(
+      {
+        error: 'Missing required fields: userId, agencyName, agencyType',
+      },
+      { status: 400 },
+    );
   }
 
   // Validate agency type
@@ -117,7 +120,7 @@ async function _POST(request: NextRequest) {
     'jri',
     'snap_et',
     'fssa',
-    'other'
+    'other',
   ];
 
   if (!validAgencyTypes.includes(agencyType)) {
@@ -146,21 +149,22 @@ async function _POST(request: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 
-  return NextResponse.json({ 
-    success: true, 
+  return NextResponse.json({
+    success: true,
     referralId: data.id,
-    message: 'Workforce referral created'
+    message: 'Workforce referral created',
   });
 }
 
 // PATCH: Update referral status
 async function _PATCH(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -194,7 +198,7 @@ const supabase = await createClient();
         'active',
         'completed',
         'withdrawn',
-        'cancelled'
+        'cancelled',
       ];
 
       if (!actionData?.status || !validStatuses.includes(actionData.status)) {
@@ -234,9 +238,12 @@ const supabase = await createClient();
         .maybeSingle();
 
       if (!referral || !referral.case_manager_email) {
-        return NextResponse.json({ 
-          error: 'Referral not found or no case manager email' 
-        }, { status: 400 });
+        return NextResponse.json(
+          {
+            error: 'Referral not found or no case manager email',
+          },
+          { status: 400 },
+        );
       }
 
       // Send status update email (implement email sending)
@@ -255,8 +262,8 @@ const supabase = await createClient();
               to: referral.case_manager_email,
               subject: `Referral Status Update - ${referral.participant_name}`,
               template: 'referral-status-update',
-              data: { referral, status: updateData }
-            })
+              data: { referral, status: updateData },
+            }),
           });
         } catch (emailError) {
           logger.error('Failed to send status email:', emailError);
@@ -282,14 +289,13 @@ const supabase = await createClient();
 
 // Automated status update endpoint (for cron jobs)
 async function _PUT(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
-  
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
+
   // This endpoint is for automated status updates
   // Should be called by a cron job
-  
+
   const authHeader = request.headers.get('authorization');
   if (authHeader !== `Bearer ${process.env.CRON_SECRET}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -301,16 +307,20 @@ const supabase = await createClient();
 
   const { data: referrals } = await supabase
     .from('workforce_referrals')
-    .select(`
+    .select(
+      `
       *,
       enrollments (
         status,
         programs (name)
       )
-    `)
+    `,
+    )
     .eq('status_update_email_enabled', true)
     .not('case_manager_email', 'is', null)
-    .or(`last_status_update_sent_at.is.null,last_status_update_sent_at.lt.${sevenDaysAgo.toISOString()}`);
+    .or(
+      `last_status_update_sent_at.is.null,last_status_update_sent_at.lt.${sevenDaysAgo.toISOString()}`,
+    );
 
   if (!referrals || referrals.length === 0) {
     return NextResponse.json({ message: 'No updates needed', count: 0 });
@@ -328,25 +338,25 @@ const supabase = await createClient();
           to: referral.case_manager_email,
           subject: `Weekly Status Update - ${referral.participant_name}`,
           template: 'referral-weekly-update',
-          data: { referral }
-        })
+          data: { referral },
+        }),
       });
     } catch (emailError) {
       logger.error('Failed to send email to:', referral.case_manager_email, emailError);
     }
-    
+
     await supabase
       .from('workforce_referrals')
       .update({ last_status_update_sent_at: new Date().toISOString() })
       .eq('id', referral.id);
-    
+
     sentCount++;
   }
 
-  return NextResponse.json({ 
-    success: true, 
+  return NextResponse.json({
+    success: true,
     message: `Sent ${sentCount} status updates`,
-    count: sentCount 
+    count: sentCount,
   });
 }
 export const GET = withRuntime(withApiAudit('/api/workforce-referral', _GET));

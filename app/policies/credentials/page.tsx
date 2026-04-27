@@ -6,7 +6,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
   title: 'Credentials Policy | Elevate for Humanity',
-  description: 'Standards for issuing, verifying, and maintaining certificates, credentials, and certifications.',
+  description:
+    'Standards for issuing, verifying, and maintaining certificates, credentials, and certifications.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/credentials',
   },
@@ -18,10 +19,10 @@ export default async function CredentialsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Policies", href: "/policies" }, { label: "Credentials" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Policies', href: '/policies' }, { label: 'Credentials' }]} />
       </div>
-<div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
         <article className="bg-white rounded-xl shadow-sm p-8 md:p-12">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-black mb-4">Credentials Policy</h1>
@@ -31,13 +32,14 @@ export default async function CredentialsPage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
-              This policy establishes standards for issuing, verifying, and maintaining credentials earned through 
-              Elevate for Humanity programs. We ensure credentials accurately represent student achievement and 
-              maintain their value and integrity in the marketplace.
+              This policy establishes standards for issuing, verifying, and maintaining credentials
+              earned through Elevate for Humanity programs. We ensure credentials accurately
+              represent student achievement and maintain their value and integrity in the
+              marketplace.
             </p>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Types of Credentials</h2>
-            
+
             <div className="grid md:grid-cols-2 gap-6 mb-8">
               <div className="bg-brand-blue-50 rounded-lg p-6 border-2 border-brand-blue-200">
                 <h3 className="text-xl font-bold text-black mb-3">Certificates of Completion</h3>
@@ -55,9 +57,7 @@ export default async function CredentialsPage() {
 
               <div className="bg-brand-green-50 rounded-lg p-6 border-2 border-brand-green-200">
                 <h3 className="text-xl font-bold text-black mb-3">Industry Certifications</h3>
-                <p className="text-black mb-3">
-                  Preparation for external certifications:
-                </p>
+                <p className="text-black mb-3">Preparation for external certifications:</p>
                 <ul className="list-disc pl-6 text-black space-y-1">
                   <li>State CNA Certification</li>
                   <li>Commercial Driver's License</li>
@@ -69,9 +69,7 @@ export default async function CredentialsPage() {
 
               <div className="bg-brand-blue-50 rounded-lg p-6 border-2 border-brand-blue-200">
                 <h3 className="text-xl font-bold text-black mb-3">Digital Badges</h3>
-                <p className="text-black mb-3">
-                  Micro-credentials for specific skills:
-                </p>
+                <p className="text-black mb-3">Micro-credentials for specific skills:</p>
                 <ul className="list-disc pl-6 text-black space-y-1">
                   <li>Skill-based badges</li>
                   <li>Course completion badges</li>
@@ -82,9 +80,7 @@ export default async function CredentialsPage() {
 
               <div className="bg-brand-orange-50 rounded-lg p-6 border-2 border-brand-orange-200">
                 <h3 className="text-xl font-bold text-black mb-3">Continuing Education</h3>
-                <p className="text-black mb-3">
-                  CEUs and professional development:
-                </p>
+                <p className="text-black mb-3">CEUs and professional development:</p>
                 <ul className="list-disc pl-6 text-black space-y-1">
                   <li>Continuing Education Units</li>
                   <li>Professional development hours</li>
@@ -94,24 +90,52 @@ export default async function CredentialsPage() {
               </div>
             </div>
 
-            <h2 className="text-2xl font-bold text-black mt-8 mb-4">Requirements for Credential Issuance</h2>
-            
+            <h2 className="text-2xl font-bold text-black mt-8 mb-4">
+              Requirements for Credential Issuance
+            </h2>
+
             <div className="bg-brand-blue-50 rounded-xl p-6 border-2 border-brand-blue-200 mb-6">
-              <h3 className="text-xl font-bold text-black mb-4">To Earn a Credential, Students Must:</h3>
+              <h3 className="text-xl font-bold text-black mb-4">
+                To Earn a Credential, Students Must:
+              </h3>
               <ul className="list-disc pl-6 text-black space-y-2">
-                <li><strong>Complete all coursework:</strong> Finish all required modules, lessons, and activities</li>
-                <li><strong>Pass all assessments:</strong> Achieve minimum passing scores on exams and evaluations</li>
-                <li><strong>Meet attendance requirements:</strong> Maintain 80% attendance (or program-specific requirement)</li>
-                <li><strong>Complete clinical/practical hours:</strong> Fulfill all hands-on training requirements</li>
-                <li><strong>Demonstrate competency:</strong> Pass skills assessments and performance evaluations</li>
-                <li><strong>Maintain good standing:</strong> No unresolved academic integrity or conduct violations</li>
-                <li><strong>Clear financial obligations:</strong> All tuition and fees paid or payment plan current</li>
-                <li><strong>Submit required documentation:</strong> All forms, evaluations, and paperwork completed</li>
+                <li>
+                  <strong>Complete all coursework:</strong> Finish all required modules, lessons,
+                  and activities
+                </li>
+                <li>
+                  <strong>Pass all assessments:</strong> Achieve minimum passing scores on exams and
+                  evaluations
+                </li>
+                <li>
+                  <strong>Meet attendance requirements:</strong> Maintain 80% attendance (or
+                  program-specific requirement)
+                </li>
+                <li>
+                  <strong>Complete clinical/practical hours:</strong> Fulfill all hands-on training
+                  requirements
+                </li>
+                <li>
+                  <strong>Demonstrate competency:</strong> Pass skills assessments and performance
+                  evaluations
+                </li>
+                <li>
+                  <strong>Maintain good standing:</strong> No unresolved academic integrity or
+                  conduct violations
+                </li>
+                <li>
+                  <strong>Clear financial obligations:</strong> All tuition and fees paid or payment
+                  plan current
+                </li>
+                <li>
+                  <strong>Submit required documentation:</strong> All forms, evaluations, and
+                  paperwork completed
+                </li>
               </ul>
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Credential Issuance Process</h2>
-            
+
             <div className="bg-gray-50 rounded-xl p-8 border-2 border-gray-200 mb-6">
               <div className="space-y-6">
                 <div className="flex gap-6">
@@ -121,8 +145,8 @@ export default async function CredentialsPage() {
                   <div>
                     <h3 className="text-xl font-bold text-black mb-2">Program Completion</h3>
                     <p className="text-black">
-                      Student completes all program requirements. Instructor verifies completion and submits 
-                      final grades to registrar.
+                      Student completes all program requirements. Instructor verifies completion and
+                      submits final grades to registrar.
                     </p>
                   </div>
                 </div>
@@ -134,8 +158,8 @@ export default async function CredentialsPage() {
                   <div>
                     <h3 className="text-xl font-bold text-black mb-2">Verification</h3>
                     <p className="text-black">
-                      Registrar verifies all requirements met, including attendance, assessments, and financial 
-                      clearance. Any issues are resolved before proceeding.
+                      Registrar verifies all requirements met, including attendance, assessments,
+                      and financial clearance. Any issues are resolved before proceeding.
                     </p>
                   </div>
                 </div>
@@ -147,8 +171,8 @@ export default async function CredentialsPage() {
                   <div>
                     <h3 className="text-xl font-bold text-black mb-2">Credential Generation</h3>
                     <p className="text-black">
-                      Official credential is generated with unique credential ID, student information, program 
-                      details, completion date, and authorized signatures.
+                      Official credential is generated with unique credential ID, student
+                      information, program details, completion date, and authorized signatures.
                     </p>
                   </div>
                 </div>
@@ -160,8 +184,9 @@ export default async function CredentialsPage() {
                   <div>
                     <h3 className="text-xl font-bold text-black mb-2">Delivery</h3>
                     <p className="text-black">
-                      Credential delivered to student via email (digital) and/or mail (physical). Digital 
-                      credentials available immediately; physical certificates within 2-3 weeks.
+                      Credential delivered to student via email (digital) and/or mail (physical).
+                      Digital credentials available immediately; physical certificates within 2-3
+                      weeks.
                     </p>
                   </div>
                 </div>
@@ -173,8 +198,8 @@ export default async function CredentialsPage() {
                   <div>
                     <h3 className="text-xl font-bold text-black mb-2">Record Keeping</h3>
                     <p className="text-black">
-                      Credential recorded in permanent student records and verification database. Available 
-                      for future verification requests.
+                      Credential recorded in permanent student records and verification database.
+                      Available for future verification requests.
                     </p>
                   </div>
                 </div>
@@ -182,11 +207,11 @@ export default async function CredentialsPage() {
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Credential Information</h2>
-            
-            <h3 className="text-xl font-bold text-black mt-6 mb-3">What's Included on Credentials</h3>
-            <p className="text-black mb-4">
-              Official credentials include:
-            </p>
+
+            <h3 className="text-xl font-bold text-black mt-6 mb-3">
+              What's Included on Credentials
+            </h3>
+            <p className="text-black mb-4">Official credentials include:</p>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
               <li>Student name (as appears in official records)</li>
               <li>Program or course name</li>
@@ -198,7 +223,9 @@ export default async function CredentialsPage() {
               <li>Skills or competencies achieved (if applicable)</li>
             </ul>
 
-            <h3 className="text-xl font-bold text-black mt-6 mb-3">Digital vs. Physical Credentials</h3>
+            <h3 className="text-xl font-bold text-black mt-6 mb-3">
+              Digital vs. Physical Credentials
+            </h3>
             <div className="grid md:grid-cols-2 gap-6 mb-6">
               <div className="bg-white rounded-lg p-6 border-2 border-gray-200">
                 <h4 className="text-lg font-bold text-black mb-3">Digital Credentials</h4>
@@ -224,11 +251,11 @@ export default async function CredentialsPage() {
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Credential Verification</h2>
-            
-            <h3 className="text-xl font-bold text-black mt-6 mb-3">For Employers and Institutions</h3>
-            <p className="text-black mb-4">
-              To verify a credential:
-            </p>
+
+            <h3 className="text-xl font-bold text-black mt-6 mb-3">
+              For Employers and Institutions
+            </h3>
+            <p className="text-black mb-4">To verify a credential:</p>
             <ol className="list-decimal pl-6 mb-6 text-black space-y-2">
               <li>Visit our verification portal: www.elevateforhumanity.org/verify</li>
               <li>Enter the credential ID number</li>
@@ -239,10 +266,10 @@ export default async function CredentialsPage() {
               Or contact our registrar office at our contact form or (317) 314-3757.
             </p>
 
-            <h3 className="text-xl font-bold text-black mt-6 mb-3">Verification Information Provided</h3>
-            <p className="text-black mb-4">
-              Verification confirms:
-            </p>
+            <h3 className="text-xl font-bold text-black mt-6 mb-3">
+              Verification Information Provided
+            </h3>
+            <p className="text-black mb-4">Verification confirms:</p>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
               <li>Credential is authentic and issued by us</li>
               <li>Student name and credential details</li>
@@ -252,7 +279,7 @@ export default async function CredentialsPage() {
             </ul>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Replacement Credentials</h2>
-            
+
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Requesting Replacements</h3>
             <p className="text-black mb-4">
               If your credential is lost, damaged, or you need additional copies:
@@ -276,7 +303,7 @@ export default async function CredentialsPage() {
             </ul>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Credential Revocation</h2>
-            
+
             <div className="bg-brand-red-50 border-l-4 border-brand-red-400 p-6 mb-6">
               <h3 className="text-lg font-bold text-black mb-3">Grounds for Revocation</h3>
               <p className="text-black mb-2">Credentials may be revoked if:</p>
@@ -301,22 +328,25 @@ export default async function CredentialsPage() {
             </ol>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Credential Maintenance</h2>
-            
-            <h3 className="text-xl font-bold text-black mt-6 mb-3">Continuing Education Requirements</h3>
+
+            <h3 className="text-xl font-bold text-black mt-6 mb-3">
+              Continuing Education Requirements
+            </h3>
             <p className="text-black mb-6">
-              Some credentials require ongoing education to maintain validity. Check your specific program 
-              requirements. We offer continuing education courses to help you maintain certifications.
+              Some credentials require ongoing education to maintain validity. Check your specific
+              program requirements. We offer continuing education courses to help you maintain
+              certifications.
             </p>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Credential Expiration</h3>
             <p className="text-black mb-6">
-              Most Elevate for Humanity certificates do not expire. However, industry certifications and 
-              licenses may have expiration dates set by certifying bodies. You are responsible for maintaining 
-              external certifications.
+              Most Elevate for Humanity certificates do not expire. However, industry certifications
+              and licenses may have expiration dates set by certifying bodies. You are responsible
+              for maintaining external certifications.
             </p>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Transcript Services</h2>
-            
+
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Official Transcripts</h3>
             <p className="text-black mb-4">
               Request official transcripts showing all completed programs:
@@ -329,14 +359,23 @@ export default async function CredentialsPage() {
             </ul>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Contact Information</h2>
-            <p className="text-black mb-4">
-              For credential questions or services:
-            </p>
+            <p className="text-black mb-4">For credential questions or services:</p>
             <ul className="list-none mb-6 text-black space-y-2">
-              <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
-              <li><strong>Verification Portal:</strong> www.elevateforhumanity.org/verify</li>
-              <li><strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST</li>
+              <li>
+                <strong>Email:</strong>{' '}
+                <a href="/contact" className="text-brand-blue-600 hover:underline">
+                  Contact Us
+                </a>
+              </li>
+              <li>
+                <strong>Phone:</strong> (317) 314-3757
+              </li>
+              <li>
+                <strong>Verification Portal:</strong> www.elevateforhumanity.org/verify
+              </li>
+              <li>
+                <strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST
+              </li>
             </ul>
 
             <div className="bg-brand-blue-50 border-l-4 border-brand-blue-400 p-6 mt-8">
@@ -344,10 +383,29 @@ export default async function CredentialsPage() {
                 <strong>Related Policies:</strong>
               </p>
               <ul className="list-disc pl-6 text-black space-y-1">
-                <li><a href="/policies/progress" className="text-brand-blue-600 hover:underline">Progress Policy</a></li>
-                <li><a href="/policies/revocation" className="text-brand-blue-600 hover:underline">Revocation Policy</a></li>
-                <li><a href="/policies/verification" className="text-brand-blue-600 hover:underline">Verification Policy</a></li>
-                <li><a href="/policies/academic-integrity" className="text-brand-blue-600 hover:underline">Academic Integrity Policy</a></li>
+                <li>
+                  <a href="/policies/progress" className="text-brand-blue-600 hover:underline">
+                    Progress Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="/policies/revocation" className="text-brand-blue-600 hover:underline">
+                    Revocation Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="/policies/verification" className="text-brand-blue-600 hover:underline">
+                    Verification Policy
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/policies/academic-integrity"
+                    className="text-brand-blue-600 hover:underline"
+                  >
+                    Academic Integrity Policy
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

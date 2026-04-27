@@ -26,7 +26,7 @@ export interface FeatureDefinition {
   id: string;
   name: string;
   description: string;
-  component: string;       // import path
+  component: string; // import path
   surface: FeatureSurface;
   category: FeatureCategory;
   status: FeatureStatus;

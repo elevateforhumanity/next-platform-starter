@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { motion, useScroll, useTransform, useInView } from 'framer-motion';
 import { useRef, ReactNode } from 'react';
@@ -6,7 +6,7 @@ import { useRef, ReactNode } from 'react';
 // Fade In Up Animation
 export function FadeInUp({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
     <motion.div
@@ -23,7 +23,7 @@ export function FadeInUp({ children, delay = 0 }: { children: ReactNode; delay?:
 // Fade In Left Animation
 export function FadeInLeft({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
     <motion.div
@@ -40,7 +40,7 @@ export function FadeInLeft({ children, delay = 0 }: { children: ReactNode; delay
 // Fade In Right Animation
 export function FadeInRight({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
     <motion.div
@@ -57,7 +57,7 @@ export function FadeInRight({ children, delay = 0 }: { children: ReactNode; dela
 // Scale In Animation
 export function ScaleIn({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
     <motion.div
@@ -76,7 +76,7 @@ export function ParallaxScroll({ children, speed = 0.5 }: { children: ReactNode;
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"]
+    offset: ['start end', 'end start'],
   });
 
   const y = useTransform(scrollYProgress, [0, 1], [0, speed * 100]);
@@ -89,21 +89,27 @@ export function ParallaxScroll({ children, speed = 0.5 }: { children: ReactNode;
 }
 
 // Stagger Children Animation
-export function StaggerChildren({ children, staggerDelay = 0.1 }: { children: ReactNode; staggerDelay?: number }) {
+export function StaggerChildren({
+  children,
+  staggerDelay = 0.1,
+}: {
+  children: ReactNode;
+  staggerDelay?: number;
+}) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
     <motion.div
       ref={ref}
       initial="hidden"
-      animate={isInView ? "visible" : "hidden"}
+      animate={isInView ? 'visible' : 'hidden'}
       variants={{
         visible: {
           transition: {
-            staggerChildren: staggerDelay
-          }
-        }
+            staggerChildren: staggerDelay,
+          },
+        },
       }}
     >
       {children}
@@ -117,7 +123,7 @@ export function StaggerItem({ children }: { children: ReactNode }) {
     <motion.div
       variants={{
         hidden: { opacity: 0, y: 20 },
-        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } }
+        visible: { opacity: 1, y: 0, transition: { duration: 0.5, ease: [0.22, 1, 0.36, 1] } },
       }}
     >
       {children}
@@ -128,13 +134,17 @@ export function StaggerItem({ children }: { children: ReactNode }) {
 // Reveal Animation (for text)
 export function RevealText({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, clipPath: "inset(0 100% 0 0)" }}
-      animate={isInView ? { opacity: 1, clipPath: "inset(0 0% 0 0)" } : { opacity: 0, clipPath: "inset(0 100% 0 0)" }}
+      initial={{ opacity: 0, clipPath: 'inset(0 100% 0 0)' }}
+      animate={
+        isInView
+          ? { opacity: 1, clipPath: 'inset(0 0% 0 0)' }
+          : { opacity: 0, clipPath: 'inset(0 100% 0 0)' }
+      }
       transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
@@ -143,7 +153,13 @@ export function RevealText({ children, delay = 0 }: { children: ReactNode; delay
 }
 
 // Magnetic Button Effect
-export function MagneticButton({ children, className = '' }: { children: ReactNode; className?: string }) {
+export function MagneticButton({
+  children,
+  className = '',
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   const ref = useRef<HTMLDivElement>(null);
 
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
@@ -182,7 +198,7 @@ export function SmoothReveal({ children }: { children: ReactNode }) {
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
     target: ref,
-    offset: ["start end", "end start"]
+    offset: ['start end', 'end start'],
   });
 
   const opacity = useTransform(scrollYProgress, [0, 0.3, 0.7, 1], [0, 1, 1, 0]);
@@ -196,15 +212,23 @@ export function SmoothReveal({ children }: { children: ReactNode }) {
 }
 
 // Image Reveal on Scroll
-export function ImageReveal({ src, alt, className = '' }: { src: string; alt: string; className?: string }) {
+export function ImageReveal({
+  src,
+  alt,
+  className = '',
+}: {
+  src: string;
+  alt: string;
+  className?: string;
+}) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ clipPath: "inset(0 100% 0 0)" }}
-      animate={isInView ? { clipPath: "inset(0 0% 0 0)" } : { clipPath: "inset(0 100% 0 0)" }}
+      initial={{ clipPath: 'inset(0 100% 0 0)' }}
+      animate={isInView ? { clipPath: 'inset(0 0% 0 0)' } : { clipPath: 'inset(0 100% 0 0)' }}
       transition={{ duration: 1.2, ease: [0.22, 1, 0.36, 1] }}
       className={className}
     >
@@ -221,7 +245,17 @@ export function ImageReveal({ src, alt, className = '' }: { src: string; alt: st
 }
 
 // Counter Animation
-export function CounterAnimation({ from = 0, to, duration = 2, suffix = '' }: { from?: number; to: number; duration?: number; suffix?: string }) {
+export function CounterAnimation({
+  from = 0,
+  to,
+  duration = 2,
+  suffix = '',
+}: {
+  from?: number;
+  to: number;
+  duration?: number;
+  suffix?: string;
+}) {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true });
 
@@ -235,7 +269,7 @@ export function CounterAnimation({ from = 0, to, duration = 2, suffix = '' }: { 
         <motion.span
           initial={{ value: from }}
           animate={{ value: to }}
-          transition={{ duration, ease: "easeOut" }}
+          transition={{ duration, ease: 'easeOut' }}
         >
           {({ value }: { value: number }) => Math.round(value).toLocaleString('en-US') + suffix}
         </motion.span>
@@ -247,17 +281,20 @@ export function CounterAnimation({ from = 0, to, duration = 2, suffix = '' }: { 
 // Hover Scale Effect
 export function HoverScale({ children, scale = 1.05 }: { children: ReactNode; scale?: number }) {
   return (
-    <motion.div
-      whileHover={{ scale }}
-      transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}
-    >
+    <motion.div whileHover={{ scale }} transition={{ duration: 0.3, ease: [0.22, 1, 0.36, 1] }}>
       {children}
     </motion.div>
   );
 }
 
 // Floating Animation
-export function FloatingElement({ children, duration = 3 }: { children: ReactNode; duration?: number }) {
+export function FloatingElement({
+  children,
+  duration = 3,
+}: {
+  children: ReactNode;
+  duration?: number;
+}) {
   return (
     <motion.div
       animate={{
@@ -266,7 +303,7 @@ export function FloatingElement({ children, duration = 3 }: { children: ReactNod
       transition={{
         duration,
         repeat: Infinity,
-        ease: "easeInOut"
+        ease: 'easeInOut',
       }}
     >
       {children}
@@ -275,7 +312,13 @@ export function FloatingElement({ children, duration = 3 }: { children: ReactNod
 }
 
 // Gradient Text Animation
-export function GradientText({ children, className = '' }: { children: ReactNode; className?: string }) {
+export function GradientText({
+  children,
+  className = '',
+}: {
+  children: ReactNode;
+  className?: string;
+}) {
   return (
     <motion.span
       className={`    bg-clip-text text-transparent ${className}`}
@@ -285,7 +328,7 @@ export function GradientText({ children, className = '' }: { children: ReactNode
       transition={{
         duration: 5,
         repeat: Infinity,
-        ease: "linear"
+        ease: 'linear',
       }}
       style={{
         backgroundSize: '200% 200%',
@@ -313,13 +356,15 @@ export function PageTransition({ children }: { children: ReactNode }) {
 // Blur In Animation
 export function BlurIn({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
     <motion.div
       ref={ref}
-      initial={{ opacity: 0, filter: "blur(10px)" }}
-      animate={isInView ? { opacity: 1, filter: "blur(0px)" } : { opacity: 0, filter: "blur(10px)" }}
+      initial={{ opacity: 0, filter: 'blur(10px)' }}
+      animate={
+        isInView ? { opacity: 1, filter: 'blur(0px)' } : { opacity: 0, filter: 'blur(10px)' }
+      }
       transition={{ duration: 0.8, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}
@@ -330,7 +375,7 @@ export function BlurIn({ children, delay = 0 }: { children: ReactNode; delay?: n
 // Slide In From Bottom
 export function SlideInBottom({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-50px" });
+  const isInView = useInView(ref, { once: true, margin: '-50px' });
 
   return (
     <motion.div
@@ -347,13 +392,15 @@ export function SlideInBottom({ children, delay = 0 }: { children: ReactNode; de
 // Rotate In Animation
 export function RotateIn({ children, delay = 0 }: { children: ReactNode; delay?: number }) {
   const ref = useRef(null);
-  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const isInView = useInView(ref, { once: true, margin: '-100px' });
 
   return (
     <motion.div
       ref={ref}
       initial={{ opacity: 0, rotate: -10, scale: 0.9 }}
-      animate={isInView ? { opacity: 1, rotate: 0, scale: 1 } : { opacity: 0, rotate: -10, scale: 0.9 }}
+      animate={
+        isInView ? { opacity: 1, rotate: 0, scale: 1 } : { opacity: 0, rotate: -10, scale: 0.9 }
+      }
       transition={{ duration: 0.6, delay, ease: [0.22, 1, 0.36, 1] }}
     >
       {children}

@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { createClient } from '@/lib/supabase/server';
@@ -17,7 +16,9 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -48,12 +49,9 @@ async function _GET(request: NextRequest) {
     }
 
     return NextResponse.json({ notes });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error fetching notes:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch notes' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch notes' }, { status: 500 });
   }
 }
 
@@ -63,7 +61,9 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -73,10 +73,7 @@ async function _POST(request: NextRequest) {
     const { courseId, lessonId, content, timestamp } = body;
 
     if (!courseId || !content) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const { data: note, error } = await supabase
@@ -97,12 +94,9 @@ async function _POST(request: NextRequest) {
     }
 
     return NextResponse.json({ note });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error creating note:', error);
-    return NextResponse.json(
-      { error: 'Failed to create note' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create note' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/notes', _GET);

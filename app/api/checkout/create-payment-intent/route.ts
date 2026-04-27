@@ -17,7 +17,9 @@ async function _POST(req: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const stripe = getStripe();
@@ -29,7 +31,10 @@ async function _POST(req: NextRequest) {
     const { courseId, amount } = body;
 
     if (!courseId || !amount || typeof amount !== 'number' || amount <= 0) {
-      return NextResponse.json({ error: 'courseId and a positive amount are required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'courseId and a positive amount are required' },
+        { status: 400 },
+      );
     }
 
     // Verify the course exists

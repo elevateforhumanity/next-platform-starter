@@ -4,11 +4,11 @@ import { StateConfig, getOtherStates } from '@/config/states';
 
 // State hero images — one per state, fallback to generic tax image
 const STATE_HERO: Record<string, string> = {
-  indiana:   '/images/pages/supersonic-page-10.jpg',
-  illinois:  '/images/pages/supersonic-page-11.jpg',
-  ohio:      '/images/pages/supersonic-page-12.jpg',
+  indiana: '/images/pages/supersonic-page-10.jpg',
+  illinois: '/images/pages/supersonic-page-11.jpg',
+  ohio: '/images/pages/supersonic-page-12.jpg',
   tennessee: '/images/pages/supersonic-fast-cash-page-1.jpg',
-  texas:     '/images/pages/supersonic-tax.jpg',
+  texas: '/images/pages/supersonic-tax.jpg',
 };
 
 const STATE_FEATURE_IMAGES = [
@@ -19,11 +19,11 @@ const STATE_FEATURE_IMAGES = [
 ];
 
 const OTHER_STATE_IMAGES: Record<string, string> = {
-  indiana:   '/images/pages/supersonic-page-10.jpg',
-  illinois:  '/images/pages/supersonic-page-11.jpg',
-  ohio:      '/images/pages/supersonic-page-12.jpg',
+  indiana: '/images/pages/supersonic-page-10.jpg',
+  illinois: '/images/pages/supersonic-page-11.jpg',
+  ohio: '/images/pages/supersonic-page-12.jpg',
   tennessee: '/images/pages/supersonic-fast-cash-page-1.jpg',
-  texas:     '/images/pages/supersonic-tax.jpg',
+  texas: '/images/pages/supersonic-tax.jpg',
 };
 
 interface Props {
@@ -36,7 +36,6 @@ export default function StateTaxPreparationPage({ state }: Props) {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* HERO — full bleed, no text overlay */}
       <section className="relative w-full h-[75vh] min-h-[500px]">
         <Image
@@ -83,13 +82,16 @@ export default function StateTaxPreparationPage({ state }: Props) {
               Why Choose Our {state.name} Tax Services
             </h2>
             <p className="text-xl text-slate-600 max-w-2xl leading-relaxed">
-              Professional tax preparation and free VITA services for {state.demonym}.
-              Every return reviewed for accuracy before filing.
+              Professional tax preparation and free VITA services for {state.demonym}. Every return
+              reviewed for accuracy before filing.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {state.taxPreparation.features.map((feature, i) => (
-              <div key={feature} className="rounded-2xl overflow-hidden border border-slate-200 flex flex-col">
+              <div
+                key={feature}
+                className="rounded-2xl overflow-hidden border border-slate-200 flex flex-col"
+              >
                 <div className="relative h-40 w-full flex-shrink-0">
                   <Image
                     src={STATE_FEATURE_IMAGES[i % STATE_FEATURE_IMAGES.length]}
@@ -126,20 +128,45 @@ export default function StateTaxPreparationPage({ state }: Props) {
                 Who Qualifies for Free Tax Preparation?
               </h2>
               <p className="text-lg text-slate-600 mb-6 leading-relaxed">
-                The IRS Volunteer Income Tax Assistance (VITA) program provides free tax
-                preparation to qualifying individuals and families in {state.name}.
-                Most people earning $67,000 or less per year are eligible.
+                The IRS Volunteer Income Tax Assistance (VITA) program provides free tax preparation
+                to qualifying individuals and families in {state.name}. Most people earning $67,000
+                or less per year are eligible.
               </p>
               <div className="grid grid-cols-2 gap-4 mb-8">
                 {[
-                  { label: 'Income Limit', value: '$67,000 or below', image: '/images/pages/finance-accounting.jpg' },
-                  { label: 'Service Cost', value: 'Completely free', image: '/images/pages/supersonic-page-6.jpg' },
-                  { label: 'Volunteers', value: 'IRS-certified', image: '/images/pages/admin-tax-training-hero.jpg' },
-                  { label: 'Filing', value: 'Federal + state', image: '/images/pages/admin-tax-filing-hero.jpg' },
+                  {
+                    label: 'Income Limit',
+                    value: '$67,000 or below',
+                    image: '/images/pages/finance-accounting.jpg',
+                  },
+                  {
+                    label: 'Service Cost',
+                    value: 'Completely free',
+                    image: '/images/pages/supersonic-page-6.jpg',
+                  },
+                  {
+                    label: 'Volunteers',
+                    value: 'IRS-certified',
+                    image: '/images/pages/admin-tax-training-hero.jpg',
+                  },
+                  {
+                    label: 'Filing',
+                    value: 'Federal + state',
+                    image: '/images/pages/admin-tax-filing-hero.jpg',
+                  },
                 ].map((item) => (
-                  <div key={item.label} className="rounded-xl overflow-hidden border border-slate-200">
+                  <div
+                    key={item.label}
+                    className="rounded-xl overflow-hidden border border-slate-200"
+                  >
                     <div className="relative h-24">
-                      <Image src={item.image} alt={item.label} fill className="object-cover" sizes="200px" />
+                      <Image
+                        src={item.image}
+                        alt={item.label}
+                        fill
+                        className="object-cover"
+                        sizes="200px"
+                      />
                     </div>
                     <div className="p-3 bg-white">
                       <p className="text-xs text-slate-500 font-medium">{item.label}</p>
@@ -167,8 +194,8 @@ export default function StateTaxPreparationPage({ state }: Props) {
               VITA Locations in {state.name}
             </h2>
             <p className="text-xl text-slate-600 max-w-2xl leading-relaxed">
-              Free tax preparation sites operate at community centers, libraries, and
-              partner organizations throughout {state.name}.
+              Free tax preparation sites operate at community centers, libraries, and partner
+              organizations throughout {state.name}.
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -202,10 +229,12 @@ export default function StateTaxPreparationPage({ state }: Props) {
       <section className="py-20 bg-slate-50">
         <div className="max-w-7xl mx-auto px-4">
           <div className="mb-12">
-            <h2 className="text-4xl font-black text-slate-900 mb-4">Tax Services in Other States</h2>
+            <h2 className="text-4xl font-black text-slate-900 mb-4">
+              Tax Services in Other States
+            </h2>
             <p className="text-xl text-slate-600 max-w-2xl leading-relaxed">
-              Supersonic Fast Cash and Rise Up Foundation VITA services are available
-              across five states.
+              Supersonic Fast Cash and Rise Up Foundation VITA services are available across five
+              states.
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-6">
@@ -251,7 +280,8 @@ export default function StateTaxPreparationPage({ state }: Props) {
               Ready to File in {state.name}?
             </h2>
             <p className="text-xl text-slate-200 mb-8 leading-relaxed">
-              Professional paid preparation or free VITA services — we have an option for every {state.demonym}.
+              Professional paid preparation or free VITA services — we have an option for every{' '}
+              {state.demonym}.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -275,13 +305,13 @@ export default function StateTaxPreparationPage({ state }: Props) {
       <section className="py-6 border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <p className="text-xs text-slate-500 leading-relaxed">
-            VITA services are provided by IRS-certified volunteers at no cost to qualifying taxpayers.
-            Income eligibility limits apply. Supersonic Fast Cash professional tax preparation services
-            are separate from VITA and are subject to standard fees. All preparers are PTIN-credentialed.
+            VITA services are provided by IRS-certified volunteers at no cost to qualifying
+            taxpayers. Income eligibility limits apply. Supersonic Fast Cash professional tax
+            preparation services are separate from VITA and are subject to standard fees. All
+            preparers are PTIN-credentialed.
           </p>
         </div>
       </section>
-
     </div>
   );
 }

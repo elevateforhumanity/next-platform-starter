@@ -9,11 +9,14 @@ const fs = require('fs');
 const path = require('path');
 
 const API_KEY = process.env.SENDGRID_API_KEY;
-if (!API_KEY) { console.error('SENDGRID_API_KEY not set'); process.exit(1); }
+if (!API_KEY) {
+  console.error('SENDGRID_API_KEY not set');
+  process.exit(1);
+}
 
-const logoBase64 = fs.readFileSync(
-  path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg')
-).toString('base64');
+const logoBase64 = fs
+  .readFileSync(path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg'))
+  .toString('base64');
 
 const LOGO_ATTACHMENT = {
   content: logoBase64,
@@ -52,8 +55,12 @@ elevate4humanityedu@gmail.com
 }
 
 function buildHtml(text) {
-  const paras = text.split('\n\n').filter(p => p.trim())
-    .map(p => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`)
+  const paras = text
+    .split('\n\n')
+    .filter((p) => p.trim())
+    .map(
+      (p) => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`,
+    )
     .join('');
   return `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#f8fafc;font-family:Arial,sans-serif;">
@@ -78,11 +85,26 @@ function buildHtml(text) {
 
 // No public general emails for these distributors — all route through contact forms or branch phones
 const MANUAL = [
-  { org: 'Johnstone Supply Indianapolis',  note: 'Call (317) 926-5186 | 1050 E 30th St, Indianapolis | johnstonesupply.com — ask for Branch Manager' },
-  { org: 'Ferguson Indianapolis',          note: 'Call (317) 334-1700 | 8230 Zionsville Rd, Indianapolis | ferguson.com — ask for Branch Manager' },
-  { org: 'R.E. Michel Company',            note: 'Call (317) 293-8060 | 6641 Guion Rd, Indianapolis | remichel.com — ask for Branch Manager' },
-  { org: 'United Refrigeration',           note: 'Call (317) 872-9233 | 5150 W 84th St, Indianapolis | uri.com — ask for Branch Manager' },
-  { org: 'Gemaire Distributors',           note: 'Call (317) 291-3535 | 4020 Industrial Blvd, Indianapolis | gemaire.com — ask for Branch Manager' },
+  {
+    org: 'Johnstone Supply Indianapolis',
+    note: 'Call (317) 926-5186 | 1050 E 30th St, Indianapolis | johnstonesupply.com — ask for Branch Manager',
+  },
+  {
+    org: 'Ferguson Indianapolis',
+    note: 'Call (317) 334-1700 | 8230 Zionsville Rd, Indianapolis | ferguson.com — ask for Branch Manager',
+  },
+  {
+    org: 'R.E. Michel Company',
+    note: 'Call (317) 293-8060 | 6641 Guion Rd, Indianapolis | remichel.com — ask for Branch Manager',
+  },
+  {
+    org: 'United Refrigeration',
+    note: 'Call (317) 872-9233 | 5150 W 84th St, Indianapolis | uri.com — ask for Branch Manager',
+  },
+  {
+    org: 'Gemaire Distributors',
+    note: 'Call (317) 291-3535 | 4020 Industrial Blvd, Indianapolis | gemaire.com — ask for Branch Manager',
+  },
 ];
 
 async function main() {
@@ -90,8 +112,10 @@ async function main() {
   console.log('None of these distributors publish general contact emails.');
   console.log('Direct branch calls are the fastest path.\n');
   console.log('--- Call List ---');
-  MANUAL.forEach(m => console.log(`  ${m.org}:\n    ${m.note}\n`));
-  console.log('Script: "Hi, my name is Elizabeth Greene, Executive Director of Elevate for Humanity.');
+  MANUAL.forEach((m) => console.log(`  ${m.org}:\n    ${m.note}\n`));
+  console.log(
+    'Script: "Hi, my name is Elizabeth Greene, Executive Director of Elevate for Humanity.',
+  );
   console.log('We run HVAC workforce training and EPA 608 proctoring in Indianapolis.');
   console.log('I wanted to reach out about collaborating to support technician training');
   console.log('for contractors in your network. Could I speak with your branch manager?"');

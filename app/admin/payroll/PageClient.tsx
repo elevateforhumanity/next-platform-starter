@@ -1,6 +1,5 @@
 'use client';
 
-
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import React from 'react';
@@ -27,7 +26,7 @@ export default function AdminPayroll() {
         `
         *,
         student:profiles!apprenticeship_enrollments_student_id_fkey(full_name, email)
-      `
+      `,
       )
       .eq('status', 'active')
       .order('created_at', { ascending: false });
@@ -41,7 +40,7 @@ export default function AdminPayroll() {
         *,
         student:profiles!apprentice_payroll_student_id_fkey(full_name),
         apprenticeship:apprenticeship_enrollments(employer_name)
-      `
+      `,
       )
       .order('pay_period_end', { ascending: false })
       .limit(50);
@@ -53,7 +52,10 @@ export default function AdminPayroll() {
   useEffect(() => {
     // Verify session before loading sensitive payroll data
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) { router.replace('/login?redirect=/admin/payroll'); return; }
+      if (!session) {
+        router.replace('/login?redirect=/admin/payroll');
+        return;
+      }
       loadData();
     });
   }, [loadData, router, supabase]);
@@ -106,13 +108,13 @@ export default function AdminPayroll() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Payroll" }]} />
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Payroll' }]} />
       </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-payroll-detail.jpg"
           alt="Payroll"
@@ -122,15 +124,12 @@ export default function AdminPayroll() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <h1 className="text-3xl font-bold">Payroll Management</h1>
-          <p className="text-black mt-2">
-            Track apprentice hours and payments
-          </p>
+          <p className="text-black mt-2">Track apprentice hours and payments</p>
         </div>
       </div>
 
@@ -139,23 +138,14 @@ export default function AdminPayroll() {
         <div className="bg-white rounded-lg shadow mb-8">
           <div className="p-6 border-b">
             <h2 className="text-xl font-bold">Generate Payroll</h2>
-            <p className="text-sm text-black mt-1">
-              Calculate pay for the last week
-            </p>
+            <p className="text-sm text-black mt-1">Calculate pay for the last week</p>
           </div>
           <div className="divide-y">
             {apprenticeships.map((apprenticeship) => (
-              <div
-                key={apprenticeship.id}
-                className="p-6 flex justify-between items-center"
-              >
+              <div key={apprenticeship.id} className="p-6 flex justify-between items-center">
                 <div>
-                  <p className="font-semibold">
-                    {apprenticeship.student?.full_name}
-                  </p>
-                  <p className="text-sm text-black">
-                    {apprenticeship.employer_name}
-                  </p>
+                  <p className="font-semibold">{apprenticeship.student?.full_name}</p>
+                  <p className="text-sm text-black">{apprenticeship.employer_name}</p>
                   <p className="text-sm text-black">
                     Rate: ${apprenticeship.wage_current}/hr | Total Hours:{' '}
                     {apprenticeship.total_hours_completed.toFixed(1)}
@@ -211,22 +201,14 @@ export default function AdminPayroll() {
               <tbody className="divide-y">
                 {payrolls.map((payroll) => (
                   <tr key={payroll.id} className="hover:bg-gray-50">
-                    <td className="px-6 py-4 font-medium">
-                      {payroll.student?.full_name}
-                    </td>
-                    <td className="px-6 py-4">
-                      {payroll.apprenticeship?.employer_name}
-                    </td>
+                    <td className="px-6 py-4 font-medium">{payroll.student?.full_name}</td>
+                    <td className="px-6 py-4">{payroll.apprenticeship?.employer_name}</td>
                     <td className="px-6 py-4 text-sm">
-                      {new Date(payroll.pay_period_start).toLocaleDateString()}{' '}
-                      -{new Date(payroll.pay_period_end).toLocaleDateString()}
+                      {new Date(payroll.pay_period_start).toLocaleDateString()} -
+                      {new Date(payroll.pay_period_end).toLocaleDateString()}
                     </td>
-                    <td className="px-6 py-4 font-bold">
-                      {payroll.total_hours.toFixed(1)}
-                    </td>
-                    <td className="px-6 py-4">
-                      ${payroll.hourly_rate.toFixed(2)}
-                    </td>
+                    <td className="px-6 py-4 font-bold">{payroll.total_hours.toFixed(1)}</td>
+                    <td className="px-6 py-4">${payroll.hourly_rate.toFixed(2)}</td>
                     <td className="px-6 py-4 font-bold text-brand-green-600">
                       ${payroll.gross_pay.toFixed(2)}
                     </td>
@@ -252,8 +234,7 @@ export default function AdminPayroll() {
                       )}
                       {payroll.status === 'paid' && (
                         <span className="text-black">
-                          • Paid{' '}
-                          {new Date(payroll.paid_at).toLocaleDateString()}
+                          • Paid {new Date(payroll.paid_at).toLocaleDateString()}
                         </span>
                       )}
                     </td>
@@ -268,24 +249,22 @@ export default function AdminPayroll() {
         <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-2xl md:text-3xl font-bold mb-6">
-              Payroll Processing
-                          </h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-6">Payroll Processing</h2>
               <p className="text-base md:text-lg mb-8 text-brand-blue-100">
-              Process instructor and staff compensation.
-                          </p>
+                Process instructor and staff compensation.
+              </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/admin/payroll"
                   className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
                 >
-                View Payroll
+                  View Payroll
                 </Link>
                 <Link
                   href="/admin/dashboard"
                   className="bg-brand-blue-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-blue-600 border-2 border-white text-lg shadow-2xl transition-all"
                 >
-                View Dashboard
+                  View Dashboard
                 </Link>
               </div>
             </div>

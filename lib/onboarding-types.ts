@@ -55,20 +55,22 @@ export const ONBOARDING_FLOWS: Record<string, OnboardingFlow> = {
       {
         id: 'welcome',
         title: 'Welcome! 👋',
-        description: 'Let\'s take a quick tour to help you get started with your learning journey.',
+        description: "Let's take a quick tour to help you get started with your learning journey.",
         skippable: true,
       },
       {
         id: 'dashboard',
         title: 'Your Dashboard',
-        description: 'This is your personal dashboard where you can see your enrolled courses, progress, and upcoming assignments.',
+        description:
+          'This is your personal dashboard where you can see your enrolled courses, progress, and upcoming assignments.',
         target: '[data-onboarding="dashboard"]',
         position: 'bottom',
       },
       {
         id: 'browse_courses',
         title: 'Browse Courses',
-        description: 'Explore thousands of courses across various categories. Use filters to find exactly what you need.',
+        description:
+          'Explore thousands of courses across various categories. Use filters to find exactly what you need.',
         target: '[data-onboarding="browse"]',
         position: 'bottom',
         action: 'Browse Courses',
@@ -76,28 +78,32 @@ export const ONBOARDING_FLOWS: Record<string, OnboardingFlow> = {
       {
         id: 'search',
         title: 'Search Functionality',
-        description: 'Use the search bar to quickly find courses, instructors, or topics you\'re interested in.',
+        description:
+          "Use the search bar to quickly find courses, instructors, or topics you're interested in.",
         target: '[data-onboarding="search"]',
         position: 'bottom',
       },
       {
         id: 'profile',
         title: 'Your Profile',
-        description: 'Customize your profile, track achievements, and manage your learning preferences.',
+        description:
+          'Customize your profile, track achievements, and manage your learning preferences.',
         target: '[data-onboarding="profile"]',
         position: 'left',
       },
       {
         id: 'notifications',
         title: 'Stay Updated',
-        description: 'Get real-time notifications about course updates, assignments, and messages from instructors.',
+        description:
+          'Get real-time notifications about course updates, assignments, and messages from instructors.',
         target: '[data-onboarding="notifications"]',
         position: 'bottom',
       },
       {
         id: 'complete',
-        title: 'You\'re All Set! 🎉',
-        description: 'You\'ve completed the tour. Start exploring courses and begin your learning journey today!',
+        title: "You're All Set! 🎉",
+        description:
+          "You've completed the tour. Start exploring courses and begin your learning journey today!",
         action: 'Start Learning',
       },
     ],
@@ -120,7 +126,8 @@ export const TUTORIALS: Record<string, Tutorial> = {
       {
         id: 'playback_speed',
         title: 'Adjust Playback Speed',
-        content: 'Speed up or slow down videos to match your learning pace. Click the speed button and select from 0.5x to 2x.',
+        content:
+          'Speed up or slow down videos to match your learning pace. Click the speed button and select from 0.5x to 2x.',
         type: 'interactive',
         action: {
           type: 'click',
@@ -130,7 +137,8 @@ export const TUTORIALS: Record<string, Tutorial> = {
       {
         id: 'quality_selector',
         title: 'Change Video Quality',
-        content: 'Adjust video quality based on your internet connection. Higher quality uses more bandwidth.',
+        content:
+          'Adjust video quality based on your internet connection. Higher quality uses more bandwidth.',
         type: 'interactive',
         action: {
           type: 'click',

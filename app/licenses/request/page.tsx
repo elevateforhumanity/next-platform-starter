@@ -47,9 +47,13 @@ export default function LicenseRequestPage() {
           </div>
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Request Received</h1>
           <p className="text-slate-700 mb-8">
-            We will review your license request and contact you within 2 business days to discuss setup and onboarding.
+            We will review your license request and contact you within 2 business days to discuss
+            setup and onboarding.
           </p>
-          <Link href="/store/licensing" className="text-brand-blue-600 font-semibold hover:underline">
+          <Link
+            href="/store/licensing"
+            className="text-brand-blue-600 font-semibold hover:underline"
+          >
             Return to Platform Licensing
           </Link>
         </div>
@@ -59,18 +63,13 @@ export default function LicenseRequestPage() {
 
   return (
     <div className="min-h-screen bg-white py-16 px-4">
-      <Breadcrumbs
-        items={[
-          { label: 'Licenses', href: '/licenses' },
-          { label: 'Request' },
-        ]}
-      />
+      <Breadcrumbs items={[{ label: 'Licenses', href: '/licenses' }, { label: 'Request' }]} />
       <div className="max-w-2xl mx-auto">
         <h1 className="text-3xl font-bold text-slate-900 mb-4">
           Request Managed Enterprise LMS License
         </h1>
         <p className="text-slate-700 mb-8">
-          Complete this form to begin the licensing process. We will contact you to discuss your 
+          Complete this form to begin the licensing process. We will contact you to discuss your
           organization's needs, setup requirements, and subscription terms.
         </p>
 
@@ -102,9 +101,7 @@ export default function LicenseRequestPage() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-900 mb-2">
-                Email *
-              </label>
+              <label className="block text-sm font-semibold text-slate-900 mb-2">Email *</label>
               <input
                 type="email"
                 required
@@ -117,9 +114,7 @@ export default function LicenseRequestPage() {
 
           <div className="grid md:grid-cols-2 gap-6">
             <div>
-              <label className="block text-sm font-semibold text-slate-900 mb-2">
-                Phone
-              </label>
+              <label className="block text-sm font-semibold text-slate-900 mb-2">Phone</label>
               <input
                 type="tel"
                 value={formData.phone}
@@ -167,9 +162,7 @@ export default function LicenseRequestPage() {
               </select>
             </div>
             <div>
-              <label className="block text-sm font-semibold text-slate-900 mb-2">
-                Timeline
-              </label>
+              <label className="block text-sm font-semibold text-slate-900 mb-2">Timeline</label>
               <select
                 value={formData.timeline}
                 onChange={(e) => setFormData({ ...formData, timeline: e.target.value })}
@@ -198,8 +191,8 @@ export default function LicenseRequestPage() {
           </div>
 
           <div className="bg-white rounded-lg p-4 text-sm text-slate-700">
-            By submitting this request, you acknowledge that licensing requires an active subscription 
-            and that non-payment results in platform lockout.
+            By submitting this request, you acknowledge that licensing requires an active
+            subscription and that non-payment results in platform lockout.
           </div>
 
           <button
@@ -211,7 +204,9 @@ export default function LicenseRequestPage() {
           </button>
 
           {status === 'error' && (
-            <p className="text-brand-red-600 text-center">Something went wrong. Please try again.</p>
+            <p className="text-brand-red-600 text-center">
+              Something went wrong. Please try again.
+            </p>
           )}
         </form>
       </div>

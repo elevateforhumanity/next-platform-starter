@@ -16,7 +16,6 @@ export const metadata = {
 export default async function ProgramHolderNotificationSettingsPage() {
   const supabase = await createClient();
 
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -62,17 +61,16 @@ export default async function ProgramHolderNotificationSettingsPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Program Holder", href: "/program-holder" }, { label: "Settings" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Program Holder', href: '/program-holder' }, { label: 'Settings' }]}
+        />
+      </div>
       <div className="max-w-3xl mx-auto px-4">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-black mb-2">
-            Notification Settings
-          </h1>
+          <h1 className="text-3xl font-bold text-black mb-2">Notification Settings</h1>
           <p className="text-black">
-            Manage how you receive notifications about student enrollments and
-            updates.
+            Manage how you receive notifications about student enrollments and updates.
           </p>
         </div>
 

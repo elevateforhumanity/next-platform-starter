@@ -31,30 +31,41 @@ const OUT_FILE = path.join(CLIPS_DIR, 'clip-labels.json');
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY! });
 
 const CATEGORIES = [
-  'handwashing', 'gloves_ppe', 'barbicide_soak', 'tool_cleaning',
-  'autoclave', 'tool_storage', 'barbershop_general', 'client_service',
-  'neck_strip_cape', 'sharps_disposal', 'first_aid', 'inspection', 'other'
+  'handwashing',
+  'gloves_ppe',
+  'barbicide_soak',
+  'tool_cleaning',
+  'autoclave',
+  'tool_storage',
+  'barbershop_general',
+  'client_service',
+  'neck_strip_cape',
+  'sharps_disposal',
+  'first_aid',
+  'inspection',
+  'other',
 ];
 
 async function labelClip(clipFile: string): Promise<{ description: string; category: string }> {
   const base = path.basename(clipFile, '.mp4');
   // Extract 3 frames: 1s, middle, near end
-  const dur = parseFloat(execSync(
-    `ffprobe -v error -show_entries format=duration -of csv=p=0 "${clipFile}"`,
-    { encoding: 'utf-8' }
-  ).trim()) || 8;
+  const dur =
+    parseFloat(
+      execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${clipFile}"`, {
+        encoding: 'utf-8',
+      }).trim(),
+    ) || 8;
 
   const frames: string[] = [];
-  for (const t of [1, dur / 2, dur - 1].map(x => Math.max(0.5, x))) {
+  for (const t of [1, dur / 2, dur - 1].map((x) => Math.max(0.5, x))) {
     const fp = path.join(THUMBS_DIR, `${base}-t${t.toFixed(0)}.jpg`);
-    execSync(
-      `ffmpeg -y -ss ${t} -i "${clipFile}" -vframes 1 -q:v 3 -vf "scale=480:270" "${fp}"`,
-      { stdio: 'pipe' }
-    );
+    execSync(`ffmpeg -y -ss ${t} -i "${clipFile}" -vframes 1 -q:v 3 -vf "scale=480:270" "${fp}"`, {
+      stdio: 'pipe',
+    });
     frames.push(fp);
   }
 
-  const imageContents = frames.map(fp => ({
+  const imageContents = frames.map((fp) => ({
     type: 'image_url' as const,
     image_url: {
       url: `data:image/jpeg;base64,${fs.readFileSync(fp).toString('base64')}`,
@@ -65,12 +76,13 @@ async function labelClip(clipFile: string): Promise<{ description: string; categ
   const res = await openai.chat.completions.create({
     model: 'gpt-4o',
     max_tokens: 100,
-    messages: [{
-      role: 'user',
-      content: [
-        {
-          type: 'text',
-          text: `These are 3 frames from a short video clip used in a barber apprenticeship infection-control lesson.
+    messages: [
+      {
+        role: 'user',
+        content: [
+          {
+            type: 'text',
+            text: `These are 3 frames from a short video clip used in a barber apprenticeship infection-control lesson.
 Describe what is happening in ONE sentence (max 15 words).
 Then on a new line write only the single best category from this list:
 ${CATEGORIES.join(', ')}
@@ -78,10 +90,11 @@ ${CATEGORIES.join(', ')}
 Format:
 DESCRIPTION: <one sentence>
 CATEGORY: <one word from list>`,
-        },
-        ...imageContents,
-      ],
-    }],
+          },
+          ...imageContents,
+        ],
+      },
+    ],
   });
 
   const text = res.choices[0].message.content || '';
@@ -94,26 +107,33 @@ CATEGORY: <one word from list>`,
 }
 
 async function main() {
-  if (!process.env.OPENAI_API_KEY) { console.error('OPENAI_API_KEY not set'); process.exit(1); }
+  if (!process.env.OPENAI_API_KEY) {
+    console.error('OPENAI_API_KEY not set');
+    process.exit(1);
+  }
   fs.mkdirSync(THUMBS_DIR, { recursive: true });
 
-  const clips = fs.readdirSync(CLIPS_DIR)
-    .filter(f => f.endsWith('.mp4'))
+  const clips = fs
+    .readdirSync(CLIPS_DIR)
+    .filter((f) => f.endsWith('.mp4'))
     .sort();
 
   // Load existing results if any
-  const existing: Record<string, { description: string; category: string }> =
-    fs.existsSync(OUT_FILE) ? JSON.parse(fs.readFileSync(OUT_FILE, 'utf-8')) : {};
+  const existing: Record<string, { description: string; category: string }> = fs.existsSync(
+    OUT_FILE,
+  )
+    ? JSON.parse(fs.readFileSync(OUT_FILE, 'utf-8'))
+    : {};
 
   console.log(`\nLabeling ${clips.length} clips...\n`);
 
   for (let i = 0; i < clips.length; i++) {
     const clip = clips[i];
     if (existing[clip]) {
-      console.log(`⏭  [${i+1}/${clips.length}] ${clip} — ${existing[clip].category}`);
+      console.log(`⏭  [${i + 1}/${clips.length}] ${clip} — ${existing[clip].category}`);
       continue;
     }
-    process.stdout.write(`[${i+1}/${clips.length}] ${clip}...`);
+    process.stdout.write(`[${i + 1}/${clips.length}] ${clip}...`);
     try {
       const label = await labelClip(path.join(CLIPS_DIR, clip));
       existing[clip] = label;
@@ -136,8 +156,11 @@ async function main() {
   console.log('\n=== BY CATEGORY ===');
   for (const [cat, files] of Object.entries(byCat).sort()) {
     console.log(`\n${cat} (${files.length}):`);
-    files.forEach(f => console.log(`  ${f} — ${existing[f].description}`));
+    files.forEach((f) => console.log(`  ${f} — ${existing[f].description}`));
   }
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e);
+  process.exit(1);
+});

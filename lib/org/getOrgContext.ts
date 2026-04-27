@@ -38,7 +38,7 @@ export const getOrgContext = cache(
         type,
         status
       )
-    `
+    `,
       )
       .eq('user_id', userId)
       .eq('organization_id', profile.organization_id)
@@ -55,9 +55,7 @@ export const getOrgContext = cache(
     return {
       organization_id: data.organization_id,
       role: data.role,
-      organization: Array.isArray(data.organizations)
-        ? data.organizations[0]
-        : data.organizations,
+      organization: Array.isArray(data.organizations) ? data.organizations[0] : data.organizations,
     };
-  }
+  },
 );

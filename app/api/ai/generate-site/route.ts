@@ -17,7 +17,7 @@ function getOpenAI() {
 
 /**
  * POST /api/ai/generate-site
- * 
+ *
  * AI generates a complete site configuration based on user input.
  * Returns preview config that can be used to render a preview site.
  */
@@ -30,7 +30,7 @@ async function _POST(request: NextRequest) {
     if (auth.error) return auth.error;
 
     const body = await request.json();
-    const { 
+    const {
       organizationName,
       organizationType,
       industry,
@@ -41,14 +41,14 @@ async function _POST(request: NextRequest) {
     } = body;
 
     if (!organizationName || !organizationType) {
-      return NextResponse.json(
-        { error: 'Organization name and type required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Organization name and type required' }, { status: 400 });
     }
 
     // Get recommended template based on industry/org type
-    const template = getRecommendedTemplate(industry || 'General', organizationType || 'Training Provider');
+    const template = getRecommendedTemplate(
+      industry || 'General',
+      organizationType || 'Training Provider',
+    );
 
     // Generate site configuration using AI
     const prompt = `You are a learning management system configuration expert. Generate compelling content for a training organization website.
@@ -80,15 +80,18 @@ Return ONLY valid JSON, no markdown.`;
     const completion = await openai.chat.completions.create({
       model: 'gpt-4.1',
       messages: [
-        { role: 'system', content: 'You are a site configuration generator. Return only valid JSON.' },
-        { role: 'user', content: prompt }
+        {
+          role: 'system',
+          content: 'You are a site configuration generator. Return only valid JSON.',
+        },
+        { role: 'user', content: prompt },
       ],
       temperature: 0.7,
       max_tokens: 2000,
     });
 
     const responseText = completion.choices[0]?.message?.content || '';
-    
+
     // Parse JSON from response
     let siteConfig;
     try {
@@ -136,9 +139,24 @@ Return ONLY valid JSON, no markdown.`;
         ],
       },
       programs: siteConfig.programs || [
-        { name: 'Fundamentals', description: 'Build your foundation', duration: '4 weeks', level: 'Beginner' },
-        { name: 'Advanced', description: 'Take skills further', duration: '8 weeks', level: 'Intermediate' },
-        { name: 'Professional', description: 'Industry certification', duration: '12 weeks', level: 'Advanced' },
+        {
+          name: 'Fundamentals',
+          description: 'Build your foundation',
+          duration: '4 weeks',
+          level: 'Beginner',
+        },
+        {
+          name: 'Advanced',
+          description: 'Take skills further',
+          duration: '8 weeks',
+          level: 'Intermediate',
+        },
+        {
+          name: 'Professional',
+          description: 'Industry certification',
+          duration: '12 weeks',
+          level: 'Advanced',
+        },
       ],
       stats: siteConfig.stats || {
         students: 500,
@@ -147,7 +165,8 @@ Return ONLY valid JSON, no markdown.`;
         rating: '4.9',
       },
       testimonial: siteConfig.testimonial || {
-        quote: 'This program changed my career trajectory completely. The instructors were amazing.',
+        quote:
+          'This program changed my career trajectory completely. The instructors were amazing.',
         author: 'Recent Graduate',
       },
       navigation: [
@@ -173,7 +192,7 @@ Return ONLY valid JSON, no markdown.`;
         previewId,
       },
     };
-    
+
     return NextResponse.json({
       success: true,
       previewId,
@@ -182,10 +201,7 @@ Return ONLY valid JSON, no markdown.`;
     });
   } catch (error) {
     logger.error('AI generation error:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate site configuration' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to generate site configuration' }, { status: 500 });
   }
 }
 
@@ -218,9 +234,24 @@ function getDefaultConfig(name: string, type: string) {
       ],
     },
     programs: [
-      { name: 'Fundamentals Course', description: 'Build your foundation', duration: '4 weeks', level: 'Beginner' },
-      { name: 'Advanced Training', description: 'Take your skills further', duration: '8 weeks', level: 'Intermediate' },
-      { name: 'Professional Certification', description: 'Industry-recognized credential', duration: '12 weeks', level: 'Advanced' },
+      {
+        name: 'Fundamentals Course',
+        description: 'Build your foundation',
+        duration: '4 weeks',
+        level: 'Beginner',
+      },
+      {
+        name: 'Advanced Training',
+        description: 'Take your skills further',
+        duration: '8 weeks',
+        level: 'Intermediate',
+      },
+      {
+        name: 'Professional Certification',
+        description: 'Industry-recognized credential',
+        duration: '12 weeks',
+        level: 'Advanced',
+      },
     ],
     navigation: [
       { label: 'Home', href: '/' },

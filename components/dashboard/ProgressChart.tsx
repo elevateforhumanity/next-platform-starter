@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 export function ProgressChart() {
   const courses = [
@@ -16,12 +16,8 @@ export function ProgressChart() {
         {courses.map((course) => (
           <div key={course.name}>
             <div className="flex justify-between items-center mb-2">
-              <span className="text-sm font-medium text-black">
-                {course.name}
-              </span>
-              <span className="text-sm font-bold text-black">
-                {course.progress}%
-              </span>
+              <span className="text-sm font-medium text-black">{course.name}</span>
+              <span className="text-sm font-bold text-black">{course.progress}%</span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-3">
               <div

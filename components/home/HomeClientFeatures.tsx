@@ -8,7 +8,9 @@
 import dynamic from 'next/dynamic';
 
 const NewsletterSignup = dynamic(() => import('@/components/NewsletterSignup'), { ssr: false });
-const SocialMediaHighlight = dynamic(() => import('@/components/SocialMediaHighlight'), { ssr: false });
+const SocialMediaHighlight = dynamic(() => import('@/components/SocialMediaHighlight'), {
+  ssr: false,
+});
 
 export default function HomeClientFeatures() {
   return (

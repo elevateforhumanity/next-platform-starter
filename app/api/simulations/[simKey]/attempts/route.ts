@@ -5,10 +5,7 @@ import { logger } from '@/lib/logger';
 
 // GET /api/simulations/[simKey]/attempts
 // Returns the authenticated learner's attempt history for this sim.
-export async function GET(
-  _req: NextRequest,
-  { params }: { params: Promise<{ simKey: string }> }
-) {
+export async function GET(_req: NextRequest, { params }: { params: Promise<{ simKey: string }> }) {
   const { simKey } = await params;
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -52,10 +49,7 @@ export async function GET(
 
 // POST /api/simulations/[simKey]/attempts
 // Starts a new attempt. Returns the attempt ID the client uses for step recording.
-export async function POST(
-  _req: NextRequest,
-  { params }: { params: Promise<{ simKey: string }> }
-) {
+export async function POST(_req: NextRequest, { params }: { params: Promise<{ simKey: string }> }) {
   const { simKey } = await params;
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -75,8 +69,8 @@ export async function POST(
     .from('sim_attempts')
     .insert({
       simulation_id: sim.id,
-      learner_id:    user.id,
-      steps_taken:   [],
+      learner_id: user.id,
+      steps_taken: [],
     })
     .select('id, started_at')
     .maybeSingle();

@@ -140,14 +140,16 @@ async function evalCompletePreviousModule(
     .eq('is_required', true);
 
   if (prevLessonsErr) {
-    throw new Error(`progression-gate: previous module lessons query failed: ${prevLessonsErr.message}`);
+    throw new Error(
+      `progression-gate: previous module lessons query failed: ${prevLessonsErr.message}`,
+    );
   }
 
   if (!prevLessons?.length) {
     return { unlocked: true, ruleType: 'complete_previous_module' };
   }
 
-  const prevLessonIds = prevLessons.map(l => l.id);
+  const prevLessonIds = prevLessons.map((l) => l.id);
 
   const { data: completed, error: progressErr } = await db
     .from('lesson_progress')
@@ -160,8 +162,8 @@ async function evalCompletePreviousModule(
     throw new Error(`progression-gate: lesson_progress query failed: ${progressErr.message}`);
   }
 
-  const completedIds = new Set((completed ?? []).map(r => r.lesson_id));
-  const incomplete = prevLessonIds.filter(id => !completedIds.has(id));
+  const completedIds = new Set((completed ?? []).map((r) => r.lesson_id));
+  const incomplete = prevLessonIds.filter((id) => !completedIds.has(id));
 
   if (incomplete.length > 0) {
     return {
@@ -229,7 +231,10 @@ export async function evaluateUnlockRule(
     .maybeSingle();
 
   if (error) {
-    logger.error('[progression-gate] Failed to load lesson unlock_rule', { lessonId, error: error.message });
+    logger.error('[progression-gate] Failed to load lesson unlock_rule', {
+      lessonId,
+      error: error.message,
+    });
     throw new Error(`Failed to load lesson for progression gate: ${error.message}`);
   }
 
@@ -285,7 +290,7 @@ export async function batchEvaluateUnlockRules(
   const results: LessonAccessMap = {};
 
   await Promise.all(
-    (lessons ?? []).map(async lesson => {
+    (lessons ?? []).map(async (lesson) => {
       if (!lesson.unlock_rule) {
         results[lesson.id] = { unlocked: true };
         return;

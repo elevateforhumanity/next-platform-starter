@@ -11,7 +11,9 @@ import { logger } from '@/lib/logger';
 export async function createWOTCApplication(formData: FormData) {
   const supabase = await createClient();
   const db = await getAdminClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return { error: 'Not authenticated' };
   }
@@ -24,7 +26,7 @@ export async function createWOTCApplication(formData: FormData) {
   // Hash SSN — never store plaintext
   const rawSsn = formData.get('ssn') as string;
   const ssnData = rawSsn ? prepareSSNForStorage(rawSsn) : { ssn_hash: '', ssn_last4: '' };
-  
+
   const applicationData = {
     employee_first_name: formData.get('firstName') as string,
     employee_last_name: formData.get('lastName') as string,
@@ -33,7 +35,7 @@ export async function createWOTCApplication(formData: FormData) {
     employee_dob: formData.get('dob') as string,
     employer_name: formData.get('employerName') as string,
     employer_ein: formData.get('ein') as string,
-    employer_phone: formData.get('employerPhone') as string || null,
+    employer_phone: (formData.get('employerPhone') as string) || null,
     job_offer_date: formData.get('offerDate') as string,
     start_date: formData.get('startDate') as string,
     starting_wage: parseFloat(formData.get('wage') as string) || null,
@@ -71,14 +73,20 @@ export async function createWOTCApplication(formData: FormData) {
 export async function updateWOTCApplication(id: string, formData: FormData) {
   const supabase = await createClient();
   const db = await getAdminClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return { error: 'Not authenticated' };
   }
   const { data: _p2 } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
   if (!_p2 || !['admin', 'super_admin'].includes(_p2.role)) return { error: 'Forbidden' };
 
-  const { data: _existing } = await db.from('wotc_applications').select('id').eq('id', id).maybeSingle();
+  const { data: _existing } = await db
+    .from('wotc_applications')
+    .select('id')
+    .eq('id', id)
+    .maybeSingle();
   if (!_existing) return { error: 'WOTC application not found' };
 
   const targetGroups = formData.getAll('targetGroups') as string[];
@@ -86,7 +94,7 @@ export async function updateWOTCApplication(id: string, formData: FormData) {
   // Hash SSN — never store plaintext
   const rawSsn = formData.get('ssn') as string;
   const ssnData = rawSsn ? prepareSSNForStorage(rawSsn) : { ssn_hash: '', ssn_last4: '' };
-  
+
   const updateData = {
     employee_first_name: formData.get('firstName') as string,
     employee_last_name: formData.get('lastName') as string,
@@ -95,7 +103,7 @@ export async function updateWOTCApplication(id: string, formData: FormData) {
     employee_dob: formData.get('dob') as string,
     employer_name: formData.get('employerName') as string,
     employer_ein: formData.get('ein') as string,
-    employer_phone: formData.get('employerPhone') as string || null,
+    employer_phone: (formData.get('employerPhone') as string) || null,
     job_offer_date: formData.get('offerDate') as string,
     start_date: formData.get('startDate') as string,
     starting_wage: parseFloat(formData.get('wage') as string) || null,
@@ -104,10 +112,7 @@ export async function updateWOTCApplication(id: string, formData: FormData) {
     updated_at: new Date().toISOString(),
   };
 
-  const { error } = await db
-    .from('wotc_applications')
-    .update(updateData)
-    .eq('id', id);
+  const { error } = await db.from('wotc_applications').update(updateData).eq('id', id);
 
   if (error) {
     return { error: 'Operation failed' };
@@ -130,18 +135,24 @@ export async function submitWOTCApplication(id: string) {
   const supabase = await createClient();
   const db = await getAdminClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { error: 'Not authenticated' };
   const { data: _p3 } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
   if (!_p3 || !['admin', 'super_admin'].includes(_p3.role)) return { error: 'Forbidden' };
 
-  const { data: _rec } = await db.from('wotc_applications').select('id, status').eq('id', id).maybeSingle();
+  const { data: _rec } = await db
+    .from('wotc_applications')
+    .select('id, status')
+    .eq('id', id)
+    .maybeSingle();
   if (!_rec) return { error: 'WOTC application not found' };
   if (_rec.status !== 'draft') return { error: 'Only draft applications can be submitted' };
 
   const { error } = await db
     .from('wotc_applications')
-    .update({ 
+    .update({
       status: 'submitted',
       submitted_at: new Date().toISOString(),
       updated_at: new Date().toISOString(),
@@ -160,12 +171,18 @@ export async function updateWOTCStatus(id: string, status: string, notes?: strin
   const supabase = await createClient();
   const db = await getAdminClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { error: 'Not authenticated' };
   const { data: _p4 } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
   if (!_p4 || !['admin', 'super_admin'].includes(_p4.role)) return { error: 'Forbidden' };
 
-  const { data: _rec2 } = await db.from('wotc_applications').select('id').eq('id', id).maybeSingle();
+  const { data: _rec2 } = await db
+    .from('wotc_applications')
+    .select('id')
+    .eq('id', id)
+    .maybeSingle();
   if (!_rec2) return { error: 'WOTC application not found' };
 
   const updateData: Record<string, unknown> = {
@@ -181,10 +198,7 @@ export async function updateWOTCStatus(id: string, status: string, notes?: strin
     updateData.reviewer_notes = notes;
   }
 
-  const { error } = await db
-    .from('wotc_applications')
-    .update(updateData)
-    .eq('id', id);
+  const { error } = await db.from('wotc_applications').update(updateData).eq('id', id);
 
   if (error) {
     return { error: 'Operation failed' };
@@ -199,18 +213,21 @@ export async function deleteWOTCApplication(id: string) {
   const supabase = await createClient();
   const db = await getAdminClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { error: 'Not authenticated' };
   const { data: _p5 } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
   if (!_p5 || !['admin', 'super_admin'].includes(_p5.role)) return { error: 'Forbidden' };
 
-  const { data: _rec3 } = await db.from('wotc_applications').select('id').eq('id', id).maybeSingle();
+  const { data: _rec3 } = await db
+    .from('wotc_applications')
+    .select('id')
+    .eq('id', id)
+    .maybeSingle();
   if (!_rec3) return { error: 'WOTC application not found' };
 
-  const { error } = await db
-    .from('wotc_applications')
-    .delete()
-    .eq('id', id);
+  const { error } = await db.from('wotc_applications').delete().eq('id', id);
 
   if (error) {
     return { error: 'Operation failed' };

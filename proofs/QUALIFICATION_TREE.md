@@ -79,11 +79,11 @@ Did they reference:
 
 ## Final Classification
 
-| Classification | Criteria | Action |
-|----------------|----------|--------|
-| **BUYER** | Governance accepted + operational pain + authority present | Move to pricing |
-| **FUTURE BUYER** | Governance accepted, authority unclear | Nurture (Email 2) |
-| **BUILDER** | Stack fixation, governance resistance, low urgency | Exit (Email 3) |
+| Classification   | Criteria                                                   | Action            |
+| ---------------- | ---------------------------------------------------------- | ----------------- |
+| **BUYER**        | Governance accepted + operational pain + authority present | Move to pricing   |
+| **FUTURE BUYER** | Governance accepted, authority unclear                     | Nurture (Email 2) |
+| **BUILDER**      | Stack fixation, governance resistance, low urgency         | Exit (Email 3)    |
 
 **Your time goes only to the first category.**
 

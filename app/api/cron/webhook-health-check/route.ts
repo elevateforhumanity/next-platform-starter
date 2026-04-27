@@ -63,7 +63,7 @@ export async function GET(request: NextRequest) {
       // Volume drop check
       if (baselineDailyAvg > 0 && recent / baselineDailyAvg < VOLUME_DROP_THRESHOLD) {
         alerts.push(
-          `${provider}: volume drop — ${recent} events in 24h vs ${baselineDailyAvg.toFixed(1)} daily avg`
+          `${provider}: volume drop — ${recent} events in 24h vs ${baselineDailyAvg.toFixed(1)} daily avg`,
         );
       }
 
@@ -79,7 +79,7 @@ export async function GET(request: NextRequest) {
         const errors = errorCount || 0;
         if (errors / recent > ERROR_RATE_THRESHOLD) {
           alerts.push(
-            `${provider}: high error rate — ${errors}/${recent} events errored (${((errors / recent) * 100).toFixed(0)}%)`
+            `${provider}: high error rate — ${errors}/${recent} events errored (${((errors / recent) * 100).toFixed(0)}%)`,
           );
         }
       }
@@ -119,7 +119,9 @@ export async function GET(request: NextRequest) {
           notificationQueued = true;
         }
       } else {
-        logger.info('Webhook health alert throttled — alert sent within last hour', { recentAlerts });
+        logger.info('Webhook health alert throttled — alert sent within last hour', {
+          recentAlerts,
+        });
       }
 
       return NextResponse.json({

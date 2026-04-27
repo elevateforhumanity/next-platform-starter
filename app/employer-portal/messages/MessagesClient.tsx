@@ -2,7 +2,16 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { createClient } from '@/lib/supabase/client';
-import { MessageSquare, Search, Star, Send, Paperclip, MoreVertical, CheckCheck, Loader2 } from 'lucide-react';
+import {
+  MessageSquare,
+  Search,
+  Star,
+  Send,
+  Paperclip,
+  MoreVertical,
+  CheckCheck,
+  Loader2,
+} from 'lucide-react';
 
 interface Conversation {
   id: string;
@@ -29,9 +38,14 @@ interface Props {
   currentUserId: string;
 }
 
-export default function MessagesClient({ conversations: initialConversations, currentUserId }: Props) {
+export default function MessagesClient({
+  conversations: initialConversations,
+  currentUserId,
+}: Props) {
   const [conversations, setConversations] = useState(initialConversations);
-  const [activeConvId, setActiveConvId] = useState<string | null>(initialConversations[0]?.id || null);
+  const [activeConvId, setActiveConvId] = useState<string | null>(
+    initialConversations[0]?.id || null,
+  );
   const [messages, setMessages] = useState<Message[]>([]);
   const [loading, setLoading] = useState(false);
   const [newMessage, setNewMessage] = useState('');
@@ -40,7 +54,7 @@ export default function MessagesClient({ conversations: initialConversations, cu
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const supabase = createClient();
 
-  const activeConv = conversations.find(c => c.id === activeConvId);
+  const activeConv = conversations.find((c) => c.id === activeConvId);
 
   // Load messages for active conversation
   useEffect(() => {
@@ -75,18 +89,24 @@ export default function MessagesClient({ conversations: initialConversations, cu
 
     const channel = supabase
       .channel(`messages:${activeConvId}`)
-      .on('postgres_changes', {
-        event: 'INSERT',
-        schema: 'public',
-        table: 'portal_messages',
-        filter: `conversation_id=eq.${activeConvId}`,
-      }, (payload) => {
-        setMessages(prev => [...prev, payload.new as Message]);
-        setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
-      })
+      .on(
+        'postgres_changes',
+        {
+          event: 'INSERT',
+          schema: 'public',
+          table: 'portal_messages',
+          filter: `conversation_id=eq.${activeConvId}`,
+        },
+        (payload) => {
+          setMessages((prev) => [...prev, payload.new as Message]);
+          setTimeout(() => messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' }), 100);
+        },
+      )
       .subscribe();
 
-    return () => { supabase.removeChannel(channel); };
+    return () => {
+      supabase.removeChannel(channel);
+    };
   }, [activeConvId]);
 
   const handleSend = async () => {
@@ -101,10 +121,13 @@ export default function MessagesClient({ conversations: initialConversations, cu
 
     if (!error) {
       // Update conversation preview
-      await supabase.from('conversations').update({
-        last_message_at: new Date().toISOString(),
-        last_message_preview: newMessage.trim().slice(0, 100),
-      }).eq('id', activeConvId);
+      await supabase
+        .from('conversations')
+        .update({
+          last_message_at: new Date().toISOString(),
+          last_message_preview: newMessage.trim().slice(0, 100),
+        })
+        .eq('id', activeConvId);
 
       setNewMessage('');
     }
@@ -112,9 +135,10 @@ export default function MessagesClient({ conversations: initialConversations, cu
   };
 
   const filteredConversations = searchQuery
-    ? conversations.filter(c =>
-        c.other_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
-        c.last_message_preview?.toLowerCase().includes(searchQuery.toLowerCase())
+    ? conversations.filter(
+        (c) =>
+          c.other_name.toLowerCase().includes(searchQuery.toLowerCase()) ||
+          c.last_message_preview?.toLowerCase().includes(searchQuery.toLowerCase()),
       )
     : conversations;
 
@@ -122,7 +146,8 @@ export default function MessagesClient({ conversations: initialConversations, cu
     const d = new Date(dateStr);
     const now = new Date();
     const diffDays = Math.floor((now.getTime() - d.getTime()) / 86400000);
-    if (diffDays === 0) return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
+    if (diffDays === 0)
+      return d.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     if (diffDays === 1) return 'Yesterday';
     return d.toLocaleDateString('en-US', { month: 'short', day: 'numeric' });
   };
@@ -145,7 +170,10 @@ export default function MessagesClient({ conversations: initialConversations, cu
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-white rounded-xl shadow-sm overflow-hidden" style={{ height: 'calc(100vh - 220px)' }}>
+        <div
+          className="bg-white rounded-xl shadow-sm overflow-hidden"
+          style={{ height: 'calc(100vh - 220px)' }}
+        >
           <div className="flex h-full">
             {/* Conversation list */}
             <div className="w-80 border-r flex flex-col">
@@ -156,7 +184,7 @@ export default function MessagesClient({ conversations: initialConversations, cu
                     type="text"
                     placeholder="Search messages..."
                     value={searchQuery}
-                    onChange={e => setSearchQuery(e.target.value)}
+                    onChange={(e) => setSearchQuery(e.target.value)}
                     className="w-full pl-10 pr-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   />
                 </div>
@@ -169,7 +197,7 @@ export default function MessagesClient({ conversations: initialConversations, cu
                     <p className="text-sm">No conversations yet</p>
                   </div>
                 ) : (
-                  filteredConversations.map(conv => (
+                  filteredConversations.map((conv) => (
                     <button
                       key={conv.id}
                       onClick={() => setActiveConvId(conv.id)}
@@ -185,11 +213,17 @@ export default function MessagesClient({ conversations: initialConversations, cu
                         </div>
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center justify-between">
-                            <h3 className="font-semibold text-slate-900 truncate text-sm">{conv.other_name}</h3>
-                            <span className="text-xs text-slate-700 flex-shrink-0">{formatTime(conv.last_message_at)}</span>
+                            <h3 className="font-semibold text-slate-900 truncate text-sm">
+                              {conv.other_name}
+                            </h3>
+                            <span className="text-xs text-slate-700 flex-shrink-0">
+                              {formatTime(conv.last_message_at)}
+                            </span>
                           </div>
                           <p className="text-xs text-slate-700">{conv.other_role}</p>
-                          <p className="text-sm text-slate-700 truncate mt-1">{conv.last_message_preview || 'No messages yet'}</p>
+                          <p className="text-sm text-slate-700 truncate mt-1">
+                            {conv.last_message_preview || 'No messages yet'}
+                          </p>
                         </div>
                       </div>
                     </button>
@@ -229,21 +263,32 @@ export default function MessagesClient({ conversations: initialConversations, cu
                         <p>No messages yet. Start the conversation!</p>
                       </div>
                     ) : (
-                      messages.map(msg => {
+                      messages.map((msg) => {
                         const isMe = msg.sender_id === currentUserId;
                         return (
-                          <div key={msg.id} className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}>
+                          <div
+                            key={msg.id}
+                            className={`flex ${isMe ? 'justify-end' : 'justify-start'}`}
+                          >
                             <div className="max-w-md">
-                              <div className={`px-4 py-3 rounded-2xl ${
-                                isMe
-                                  ? 'bg-brand-blue-600 text-white rounded-br-md'
-                                  : 'bg-white text-slate-900 rounded-bl-md'
-                              }`}>
+                              <div
+                                className={`px-4 py-3 rounded-2xl ${
+                                  isMe
+                                    ? 'bg-brand-blue-600 text-white rounded-br-md'
+                                    : 'bg-white text-slate-900 rounded-bl-md'
+                                }`}
+                              >
                                 <p>{msg.content}</p>
                               </div>
-                              <div className={`flex items-center gap-1 mt-1 ${isMe ? 'justify-end' : ''}`}>
-                                <span className="text-xs text-slate-700">{formatTime(msg.created_at)}</span>
-                                {isMe && msg.read && <CheckCheck className="w-4 h-4 text-brand-blue-500" />}
+                              <div
+                                className={`flex items-center gap-1 mt-1 ${isMe ? 'justify-end' : ''}`}
+                              >
+                                <span className="text-xs text-slate-700">
+                                  {formatTime(msg.created_at)}
+                                </span>
+                                {isMe && msg.read && (
+                                  <CheckCheck className="w-4 h-4 text-brand-blue-500" />
+                                )}
                               </div>
                             </div>
                           </div>
@@ -254,14 +299,20 @@ export default function MessagesClient({ conversations: initialConversations, cu
                   </div>
 
                   <div className="p-4 border-t">
-                    <form onSubmit={e => { e.preventDefault(); handleSend(); }} className="flex items-center gap-3">
+                    <form
+                      onSubmit={(e) => {
+                        e.preventDefault();
+                        handleSend();
+                      }}
+                      className="flex items-center gap-3"
+                    >
                       <button type="button" className="p-2 hover:bg-white rounded-lg">
                         <Paperclip className="w-5 h-5 text-slate-700" />
                       </button>
                       <input
                         type="text"
                         value={newMessage}
-                        onChange={e => setNewMessage(e.target.value)}
+                        onChange={(e) => setNewMessage(e.target.value)}
                         placeholder="Type a message..."
                         className="flex-1 px-4 py-2 border rounded-full focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                       />
@@ -270,7 +321,11 @@ export default function MessagesClient({ conversations: initialConversations, cu
                         disabled={!newMessage.trim() || sending}
                         className="p-3 bg-brand-blue-600 text-white rounded-full hover:bg-brand-blue-700 transition disabled:opacity-50"
                       >
-                        {sending ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+                        {sending ? (
+                          <Loader2 className="w-5 h-5 animate-spin" />
+                        ) : (
+                          <Send className="w-5 h-5" />
+                        )}
                       </button>
                     </form>
                   </div>

@@ -14,8 +14,6 @@ export default async function PendingCashAdvancesPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   // Fetch pending cash advances
   const { data: pendingAdvances } = await supabase
     .from('cash_advances')
@@ -25,7 +23,6 @@ export default async function PendingCashAdvancesPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
@@ -35,12 +32,8 @@ export default async function PendingCashAdvancesPage() {
           >
             ← Back to Cash Advances
           </Link>
-          <h1 className="text-3xl font-bold text-black">
-            Pending Cash Advances
-          </h1>
-          <p className="mt-2 text-black">
-            Review and approve pending cash advance requests.
-          </p>
+          <h1 className="text-3xl font-bold text-black">Pending Cash Advances</h1>
+          <p className="mt-2 text-black">Review and approve pending cash advance requests.</p>
         </div>
 
         {/* Stats */}
@@ -56,9 +49,7 @@ export default async function PendingCashAdvancesPage() {
         {/* Pending List */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-black">
-              Pending Requests
-            </h2>
+            <h2 className="text-lg font-semibold text-black">Pending Requests</h2>
           </div>
 
           {pendingAdvances && pendingAdvances.length > 0 ? (
@@ -70,12 +61,9 @@ export default async function PendingCashAdvancesPage() {
                       <h3 className="font-semibold text-black">
                         {advance.profiles?.full_name || 'Unknown'}
                       </h3>
-                      <p className="text-sm text-black">
-                        {advance.profiles?.email}
-                      </p>
+                      <p className="text-sm text-black">{advance.profiles?.email}</p>
                       <p className="text-sm text-black mt-1">
-                        Requested:{' '}
-                        {new Date(advance.created_at).toLocaleDateString()}
+                        Requested: {new Date(advance.created_at).toLocaleDateString()}
                       </p>
                     </div>
                     <div className="text-right">

@@ -2,7 +2,7 @@ import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 type Props = {
@@ -13,14 +13,12 @@ export default async function EmployerProgramDetailPage({ params }: Props) {
   const { id } = await params;
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  const { data: program } = await supabase
-    .from('programs')
-    .select('*')
-    .eq('id', id)
-    .maybeSingle();
+  const { data: program } = await supabase.from('programs').select('*').eq('id', id).maybeSingle();
 
   if (!program) notFound();
 
@@ -29,9 +27,17 @@ export default async function EmployerProgramDetailPage({ params }: Props) {
       <div className="max-w-4xl mx-auto px-6 py-10 space-y-6">
         <nav className="text-sm text-slate-700">
           <ol className="flex items-center gap-2">
-            <li><Link href="/employer/dashboard" className="hover:text-slate-900">Employer</Link></li>
+            <li>
+              <Link href="/employer/dashboard" className="hover:text-slate-900">
+                Employer
+              </Link>
+            </li>
             <li>/</li>
-            <li><Link href="/employer/dashboard" className="hover:text-slate-900">Programs</Link></li>
+            <li>
+              <Link href="/employer/dashboard" className="hover:text-slate-900">
+                Programs
+              </Link>
+            </li>
             <li>/</li>
             <li className="text-slate-900 font-medium">{program.title}</li>
           </ol>

@@ -23,26 +23,27 @@ async function _POST(request: Request) {
 
     // Validate required fields
     if (!name || !phone) {
-      return NextResponse.json(
-        { error: 'Name and phone number are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Name and phone number are required' }, { status: 400 });
     }
 
     const supabase = await createClient();
 
     // DB write is required — no fallthrough on failure
     const record = await requireDbWrite(
-      supabase.from('advising_requests').insert({
-        name,
-        phone,
-        email,
-        program_interest: programInterest,
-        contact_methods: contactMethod,
-        questions,
-        created_at: new Date().toISOString(),
-      }).select().maybeSingle(),
-      'Failed to save advising request'
+      supabase
+        .from('advising_requests')
+        .insert({
+          name,
+          phone,
+          email,
+          program_interest: programInterest,
+          contact_methods: contactMethod,
+          questions,
+          created_at: new Date().toISOString(),
+        })
+        .select()
+        .maybeSingle(),
+      'Failed to save advising request',
     );
 
     // Email is secondary — only runs after DB success

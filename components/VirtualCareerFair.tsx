@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -26,7 +26,9 @@ interface Session {
 }
 
 export default function VirtualCareerFair() {
-  const [activeTab, setActiveTab] = useState<'exhibitors' | 'schedule' | 'networking'>('exhibitors');
+  const [activeTab, setActiveTab] = useState<'exhibitors' | 'schedule' | 'networking'>(
+    'exhibitors',
+  );
 
   const employers: Employer[] = [
     {
@@ -89,14 +91,19 @@ export default function VirtualCareerFair() {
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2">Virtual Career Fair 2024</h2>
+          <h2 className="text-2xl md:text-3xl lg:text-4xl font-bold mb-2">
+            Virtual Career Fair 2024
+          </h2>
           <p className="text-white">Connect with top employers from anywhere</p>
           <div className="mt-4 flex gap-4">
             <div className="bg-white/20 px-4 py-2 rounded">
               <span className="font-bold">{employers.length}</span> Employers
             </div>
             <div className="bg-white/20 px-4 py-2 rounded">
-              <span className="font-bold">{employers.reduce((sum, e) => sum + e.openPositions, 0)}</span> Open Positions
+              <span className="font-bold">
+                {employers.reduce((sum, e) => sum + e.openPositions, 0)}
+              </span>{' '}
+              Open Positions
             </div>
             <div className="bg-white/20 px-4 py-2 rounded">
               <span className="font-bold">{sessions.length}</span> Sessions
@@ -113,7 +120,9 @@ export default function VirtualCareerFair() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`py-4 px-2 border-b-2 font-medium ${
-                  activeTab === tab ? 'border-brand-red-600 text-brand-orange-600' : 'border-transparent text-slate-700'
+                  activeTab === tab
+                    ? 'border-brand-red-600 text-brand-orange-600'
+                    : 'border-transparent text-slate-700'
                 }`}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -148,7 +157,9 @@ export default function VirtualCareerFair() {
 
                 <div className="space-y-2">
                   <Button className="w-full">Visit Booth</Button>
-                  <Button variant="secondary" className="w-full">View Positions</Button>
+                  <Button variant="secondary" className="w-full">
+                    View Positions
+                  </Button>
                 </div>
               </Card>
             ))}
@@ -163,11 +174,15 @@ export default function VirtualCareerFair() {
                 <div className="flex justify-between items-start">
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
-                      <span className={`px-3 py-2 rounded text-xs font-medium ${
-                        session.type === 'workshop' ? 'bg-brand-blue-100 text-brand-blue-700' :
-                        session.type === 'panel' ? 'bg-purple-100 text-purple-700' :
-                        'bg-brand-green-100 text-brand-green-700'
-                      }`}>
+                      <span
+                        className={`px-3 py-2 rounded text-xs font-medium ${
+                          session.type === 'workshop'
+                            ? 'bg-brand-blue-100 text-brand-blue-700'
+                            : session.type === 'panel'
+                              ? 'bg-purple-100 text-purple-700'
+                              : 'bg-brand-green-100 text-brand-green-700'
+                        }`}
+                      >
                         {session.type}
                       </span>
                       <span className="text-sm text-black">{session.time}</span>

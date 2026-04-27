@@ -28,16 +28,12 @@ async function _POST(req: Request) {
     } = body || {};
 
     if (!email) {
-      return NextResponse.json(
-        { ok: false, error: 'Email is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ ok: false, error: 'Email is required' }, { status: 400 });
     }
 
     const portalId = process.env.HUBSPOT_PORTAL_ID;
     const formGuid = process.env.HUBSPOT_FORM_GUID;
-    const token =
-      process.env.HUBSPOT_PRIVATE_APP_TOKEN || process.env.HUBSPOT_API_KEY;
+    const token = process.env.HUBSPOT_PRIVATE_APP_TOKEN || process.env.HUBSPOT_API_KEY;
 
     if (!portalId || !formGuid || !token) {
       logger.error('HubSpot configuration missing');
@@ -87,7 +83,7 @@ async function _POST(req: Request) {
           error: 'Submission failed',
           details: data,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -99,7 +95,7 @@ async function _POST(req: Request) {
         ok: false,
         err: toErrorMessage(err) || 'Internal server err',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -93,12 +93,14 @@ async function main() {
           apikey: SUPABASE_KEY,
           Authorization: `Bearer ${SUPABASE_KEY}`,
         },
-      }
+      },
     );
     const events = await eventRes.json();
 
     if (Array.isArray(events) && events.length > 0) {
-      console.log(`   ✅ HOP 2: Found ${events.length} event(s) with correlationId in license_events`);
+      console.log(
+        `   ✅ HOP 2: Found ${events.length} event(s) with correlationId in license_events`,
+      );
       for (const e of events) {
         console.log(`     - ${e.event_type} at ${e.created_at}`);
       }
@@ -121,10 +123,12 @@ async function main() {
     const emails = await emailRes.json();
 
     if (emails?.data) {
-      const match = emails.data.find(e => e.to?.includes(TEST_EMAIL));
+      const match = emails.data.find((e) => e.to?.includes(TEST_EMAIL));
       if (match) {
         console.log(`   ✅ HOP 3: Email sent to ${TEST_EMAIL} (id: ${match.id})`);
-        console.log('   Note: X-Correlation-ID header verification requires Resend webhook or manual check in Resend dashboard.');
+        console.log(
+          '   Note: X-Correlation-ID header verification requires Resend webhook or manual check in Resend dashboard.',
+        );
       } else {
         console.log(`   ⚠️  HOP 3: No email found for ${TEST_EMAIL} yet (may take a few seconds)`);
       }
@@ -140,7 +144,7 @@ async function main() {
   console.log(`Use this ID to search in GA4 DebugView, Supabase, and Resend.`);
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Verification failed:', err.message);
   process.exit(1);
 });

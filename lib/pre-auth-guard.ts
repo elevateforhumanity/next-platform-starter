@@ -36,7 +36,7 @@ import { logger } from '@/lib/logger';
  * Throws synchronously before any DB operation if not registered.
  */
 export function assertPreAuthTable(table: string) {
-  const entry = PRE_AUTH_TABLES.find(t => t.table === table);
+  const entry = PRE_AUTH_TABLES.find((t) => t.table === table);
 
   if (!entry) {
     const msg =

@@ -19,7 +19,7 @@ class OfflineQueue {
 
   async init(): Promise<void> {
     if (typeof window === 'undefined') return;
-    
+
     return new Promise((resolve, reject) => {
       const request = indexedDB.open(DB_NAME, DB_VERSION);
 
@@ -32,9 +32,9 @@ class OfflineQueue {
       request.onupgradeneeded = (event) => {
         const db = (event.target as IDBOpenDBRequest).result;
         if (!db.objectStoreNames.contains(STORE_NAME)) {
-          const store = db.createObjectStore(STORE_NAME, { 
-            keyPath: 'id', 
-            autoIncrement: true 
+          const store = db.createObjectStore(STORE_NAME, {
+            keyPath: 'id',
+            autoIncrement: true,
           });
           store.createIndex('type', 'type', { unique: false });
           store.createIndex('timestamp', 'timestamp', { unique: false });
@@ -149,7 +149,7 @@ export function useOfflineQueue() {
     url: string,
     method: string,
     body: any,
-    type: QueuedRequest['type'] = 'other'
+    type: QueuedRequest['type'] = 'other',
   ): Promise<boolean> => {
     // Try online first
     if (navigator.onLine) {

@@ -45,10 +45,7 @@ export async function requireProgramHolder(): Promise<ProgramHolderContext> {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (
-    !profile ||
-    !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role)
-  ) {
+  if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role)) {
     redirect('/unauthorized');
   }
 
@@ -105,9 +102,7 @@ export async function requireProgramHolder(): Promise<ProgramHolderContext> {
  * Validate that a specific programId belongs to the current program holder.
  * Use in /programs/[programId]/* routes.
  */
-export async function requireProgramAccess(
-  programId: string
-): Promise<ProgramHolderContext> {
+export async function requireProgramAccess(programId: string): Promise<ProgramHolderContext> {
   const ctx = await requireProgramHolder();
 
   if (!ctx.programIds.includes(programId)) {

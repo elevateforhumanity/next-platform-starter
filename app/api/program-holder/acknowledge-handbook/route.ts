@@ -27,10 +27,7 @@ async function _POST(req: Request) {
     const { fullName, title } = body;
 
     if (!fullName || !title) {
-      return NextResponse.json(
-        { error: 'Full name and title are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Full name and title are required' }, { status: 400 });
     }
 
     // Get user profile
@@ -52,10 +49,7 @@ async function _POST(req: Request) {
 
     if (error) {
       logger.error('[Acknowledge Handbook] Error:', error);
-      return NextResponse.json(
-        { error: 'Failed to record acknowledgement' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to record acknowledgement' }, { status: 500 });
     }
 
     logger.info('[Acknowledge Handbook] Success:', {
@@ -72,12 +66,9 @@ async function _POST(req: Request) {
   } catch (err: any) {
     logger.error(
       '[Acknowledge Handbook] Error:',
-      err instanceof Error ? err : new Error(String(err))
+      err instanceof Error ? err : new Error(String(err)),
     );
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/program-holder/acknowledge-handbook', _POST);

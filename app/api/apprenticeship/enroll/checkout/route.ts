@@ -25,26 +25,23 @@ const PRICING = {
 type PaymentOption = 'full' | 'deposit' | 'installment';
 
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'contact');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'contact');
+  if (rateLimited) return rateLimited;
 
   if (!stripe) {
-    return NextResponse.json(
-      { error: 'Payment system not configured' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
   }
 
   try {
     const supabase = await createClient();
-    
+
     // Verify user is authenticated
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
     const body = await request.json();
@@ -57,7 +54,7 @@ async function _POST(request: NextRequest) {
     if (!['full', 'deposit', 'installment'].includes(payment_option)) {
       return NextResponse.json(
         { error: 'Invalid payment option. Must be: full, deposit, or installment' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -72,23 +69,29 @@ async function _POST(request: NextRequest) {
     if (appError || !application) {
       return NextResponse.json(
         { error: 'Application not found. You must apply before payment.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (application.status !== 'submitted' && application.status !== 'approved') {
       return NextResponse.json(
         { error: 'Application must be submitted before payment.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Verify this is an apprenticeship program
-    const apprenticeshipPrograms = ['barber-apprenticeship', 'barber', 'cosmetology-apprenticeship', 'esthetician-apprenticeship', 'nail-technician-apprenticeship'];
+    const apprenticeshipPrograms = [
+      'barber-apprenticeship',
+      'barber',
+      'cosmetology-apprenticeship',
+      'esthetician-apprenticeship',
+      'nail-technician-apprenticeship',
+    ];
     if (!apprenticeshipPrograms.includes(application.program_slug)) {
       return NextResponse.json(
         { error: 'This payment flow is for apprenticeship programs only.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -99,10 +102,13 @@ async function _POST(request: NextRequest) {
       .eq('application_id', application_id)
       .maybeSingle();
 
-    if (existingEnrollment && ['enrolled_pending_approval', 'active'].includes(existingEnrollment.status)) {
+    if (
+      existingEnrollment &&
+      ['enrolled_pending_approval', 'active'].includes(existingEnrollment.status)
+    ) {
       return NextResponse.json(
         { error: 'You are already enrolled in this program.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -126,7 +132,8 @@ async function _POST(request: NextRequest) {
             currency: 'usd',
             product_data: {
               name: pricing.description,
-              description: 'Payment secures your enrollment. Training access unlocks after approval and shop assignment.',
+              description:
+                'Payment secures your enrollment. Training access unlocks after approval and shop assignment.',
             },
             unit_amount: pricing.amount,
           },
@@ -168,13 +175,9 @@ async function _POST(request: NextRequest) {
       checkout_url: session.url,
       session_id: session.id,
     });
-
   } catch (error) {
     logger.error('Apprenticeship checkout error:', error);
-    return NextResponse.json(
-      { error: 'Failed to create checkout session' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/apprenticeship/enroll/checkout', _POST);

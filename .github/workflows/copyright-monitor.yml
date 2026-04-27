@@ -13,11 +13,11 @@ on:
 jobs:
   monitor:
     runs-on: ubuntu-latest
-    
+
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-      
+
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
@@ -25,14 +25,14 @@ jobs:
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
-      
+
       - name: Install dependencies
         run: pnpm install --frozen-lockfile
-      
+
       - name: Run copyright monitor
         run: pnpm exec ts-node scripts/monitor-copycats.ts
         continue-on-error: true
-      
+
       - name: Check for watermarks in search results
         run: |
           echo "Checking Google for unauthorized copies..."
@@ -42,7 +42,7 @@ jobs:
           echo "2. Search: \"EFH-ORIGINAL-2024\""
           echo ""
           echo "If results found, follow docs/COPYRIGHT-PROTECTION.md"
-      
+
       # Optional: Send Slack notification
       # - name: Notify Slack
       #   if: failure()
@@ -52,7 +52,7 @@ jobs:
       #     text: 'Copyright monitoring detected potential issues'
       #   env:
       #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK }}
-      
+
       # Optional: Create issue if problems found
       # - name: Create Issue
       #   if: failure()

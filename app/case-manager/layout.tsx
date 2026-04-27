@@ -17,15 +17,17 @@ export const metadata: Metadata = {
 const ALLOWED_ROLES = ['case_manager', 'admin', 'super_admin', 'staff'];
 
 const NAV_ITEMS = [
-  { href: '/case-manager/dashboard',    label: 'Dashboard' },
+  { href: '/case-manager/dashboard', label: 'Dashboard' },
   { href: '/case-manager/participants', label: 'Participants' },
-  { href: '/case-manager/placements',   label: 'Placements' },
-  { href: '/case-manager/reports',      label: 'Reports' },
+  { href: '/case-manager/placements', label: 'Placements' },
+  { href: '/case-manager/reports', label: 'Reports' },
 ];
 
 export default async function CaseManagerLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/case-manager/dashboard');
@@ -51,14 +53,20 @@ export default async function CaseManagerLayout({ children }: { children: React.
               <span className="text-lg font-bold text-brand-blue-700">Case Manager Portal</span>
               <div className="hidden md:flex items-center gap-4">
                 {NAV_ITEMS.map((item) => (
-                  <a key={item.href} href={item.href} className="text-sm text-slate-700 hover:text-brand-blue-700 transition-colors">
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="text-sm text-slate-700 hover:text-brand-blue-700 transition-colors"
+                  >
                     {item.label}
                   </a>
                 ))}
               </div>
             </div>
             <div className="flex items-center">
-              <a href="/api/auth/signout" className="text-sm text-slate-700 hover:text-slate-900">Sign out</a>
+              <a href="/api/auth/signout" className="text-sm text-slate-700 hover:text-slate-900">
+                Sign out
+              </a>
             </div>
           </div>
         </div>

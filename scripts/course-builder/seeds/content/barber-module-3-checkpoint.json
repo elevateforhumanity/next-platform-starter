@@ -4,12 +4,7 @@
     "questions": [
       {
         "prompt": "A client comes in with curly hair and requests a layered haircut to reduce bulk. What technique should you use to achieve this?",
-        "choices": [
-          "Slide cutting",
-          "Blunt cutting",
-          "Clipper over comb",
-          "Point cutting"
-        ],
+        "choices": ["Slide cutting", "Blunt cutting", "Clipper over comb", "Point cutting"],
         "answerIndex": 3,
         "rationale": "Point cutting is effective for reducing bulk and adding texture, especially in curly hair."
       },
@@ -26,12 +21,7 @@
       },
       {
         "prompt": "A client with straight, fine hair wants a haircut that adds volume. Which cutting technique is most suitable?",
-        "choices": [
-          "Razor cutting",
-          "Blunt cutting",
-          "Layering",
-          "Undercutting"
-        ],
+        "choices": ["Razor cutting", "Blunt cutting", "Layering", "Undercutting"],
         "answerIndex": 2,
         "rationale": "Layering can add volume and movement to fine hair, making it appear fuller."
       },
@@ -92,12 +82,7 @@
       },
       {
         "prompt": "A client requests a textured crop haircut. Which tool is best suited for creating texture in this style?",
-        "choices": [
-          "Clippers",
-          "Razor",
-          "Thinning shears",
-          "Blunt scissors"
-        ],
+        "choices": ["Clippers", "Razor", "Thinning shears", "Blunt scissors"],
         "answerIndex": 2,
         "rationale": "Thinning shears are ideal for adding texture and removing bulk without altering the overall length significantly."
       },
@@ -114,12 +99,7 @@
       },
       {
         "prompt": "A client with thick, wavy hair wants a short, manageable style. Which technique should you consider?",
-        "choices": [
-          "Blunt cutting",
-          "Texturizing",
-          "Razor cutting",
-          "Layering"
-        ],
+        "choices": ["Blunt cutting", "Texturizing", "Razor cutting", "Layering"],
         "answerIndex": 1,
         "rationale": "Texturizing can help reduce bulk and make thick, wavy hair easier to manage."
       },
@@ -169,12 +149,7 @@
       },
       {
         "prompt": "A client with a square face shape wants a haircut that softens their features. What should you consider?",
-        "choices": [
-          "Blunt bangs",
-          "Short layers",
-          "Long, soft layers",
-          "High fade"
-        ],
+        "choices": ["Blunt bangs", "Short layers", "Long, soft layers", "High fade"],
         "answerIndex": 2,
         "rationale": "Long, soft layers can help soften the angles of a square face, creating a more balanced appearance."
       },
@@ -191,23 +166,13 @@
       },
       {
         "prompt": "A client with a round face wants a haircut that elongates their appearance. What style should you suggest?",
-        "choices": [
-          "Short bob",
-          "Long layers",
-          "Pixie cut",
-          "Flat top"
-        ],
+        "choices": ["Short bob", "Long layers", "Pixie cut", "Flat top"],
         "answerIndex": 1,
         "rationale": "Long layers can help elongate a round face by adding height and drawing the eye downward."
       },
       {
         "prompt": "What is the benefit of using a texturizing technique on thick hair?",
-        "choices": [
-          "Adds weight",
-          "Reduces bulk",
-          "Creates blunt edges",
-          "Increases shine"
-        ],
+        "choices": ["Adds weight", "Reduces bulk", "Creates blunt edges", "Increases shine"],
         "answerIndex": 1,
         "rationale": "Texturizing reduces bulk, making thick hair more manageable and easier to style."
       },

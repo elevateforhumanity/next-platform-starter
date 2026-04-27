@@ -44,27 +44,31 @@ test.describe('AutomaticCourseBuilder — UUID resolution', () => {
     };
 
     await page.route('**/api/ai/generate-course-outline', (route) =>
-      route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify(outline) })
+      route.fulfill({
+        status: 200,
+        contentType: 'application/json',
+        body: JSON.stringify(outline),
+      }),
     );
     await page.route('**/api/ai/generate-module-content', (route) =>
       route.fulfill({
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({ lessons: outline.modules[0].lessons }),
-      })
+      }),
     );
     await page.route('**/api/ai/generate-assessments', (route) =>
-      route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([]) })
+      route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify([]) }),
     );
     await page.route('**/api/ai/generate-video-scripts', (route) =>
-      route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({}) })
+      route.fulfill({ status: 200, contentType: 'application/json', body: JSON.stringify({}) }),
     );
   }
 
   async function fillAndSubmit(page: import('@playwright/test').Page) {
     await page.fill(
       'textarea',
-      'Create a comprehensive HVAC technician training course covering basics to advanced troubleshooting'
+      'Create a comprehensive HVAC technician training course covering basics to advanced troubleshooting',
     );
     await page.click('button:has-text("Generate Course")');
   }
@@ -77,7 +81,7 @@ test.describe('AutomaticCourseBuilder — UUID resolution', () => {
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({ id: VALID_UUID }),
-      })
+      }),
     );
 
     await page.goto(COURSE_BUILDER_PATH);
@@ -95,7 +99,7 @@ test.describe('AutomaticCourseBuilder — UUID resolution', () => {
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({ course: { id: VALID_UUID } }),
-      })
+      }),
     );
 
     await page.goto(COURSE_BUILDER_PATH);
@@ -113,7 +117,7 @@ test.describe('AutomaticCourseBuilder — UUID resolution', () => {
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({ courseId: VALID_UUID }),
-      })
+      }),
     );
 
     await page.goto(COURSE_BUILDER_PATH);
@@ -132,7 +136,7 @@ test.describe('AutomaticCourseBuilder — UUID resolution', () => {
         contentType: 'application/json',
         // Deliberately malformed — no UUID field
         body: JSON.stringify({ status: 'ok', result: 'created' }),
-      })
+      }),
     );
 
     // Capture the alert dialog
@@ -161,7 +165,7 @@ test.describe('AutomaticCourseBuilder — UUID resolution', () => {
         status: 200,
         contentType: 'application/json',
         body: JSON.stringify({ id: 'not-a-uuid' }),
-      })
+      }),
     );
 
     let alertMessage = '';

@@ -2,11 +2,7 @@
   {
     "id": "sc-01-bad-capacitor",
     "equipmentModelId": "split-system-ac",
-    "moduleIds": [
-      "hvac-03",
-      "hvac-05",
-      "hvac-13"
-    ],
+    "moduleIds": ["hvac-03", "hvac-05", "hvac-13"],
     "complaint": "The AC is not cooling. The outdoor unit is humming but the fan is not spinning.",
     "conditions": "Summer, 95°F outdoor temperature. System was working yesterday.",
     "systemInfo": "3-ton R-410A split system, 5 years old. Dual run capacitor rated 45/5 µF.",
@@ -59,12 +55,7 @@
   {
     "id": "sc-02-low-charge",
     "equipmentModelId": "split-system-ac",
-    "moduleIds": [
-      "hvac-05",
-      "hvac-08",
-      "hvac-11",
-      "hvac-13"
-    ],
+    "moduleIds": ["hvac-05", "hvac-08", "hvac-11", "hvac-13"],
     "complaint": "The house is not getting cool enough. The AC runs all day but the temperature stays at 78°F.",
     "conditions": "Summer, 92°F outdoor temperature. Problem has been getting worse over several weeks.",
     "systemInfo": "2.5-ton R-410A split system, 8 years old. TXV metering device.",
@@ -118,11 +109,7 @@
   {
     "id": "sc-03-frozen-coil",
     "equipmentModelId": "split-system-ac",
-    "moduleIds": [
-      "hvac-05",
-      "hvac-10",
-      "hvac-13"
-    ],
+    "moduleIds": ["hvac-05", "hvac-10", "hvac-13"],
     "complaint": "Water is dripping from the ceiling near the hallway. The AC seems to be running but the house is warm.",
     "conditions": "Summer, 88°F outdoor temperature. System has been running continuously for 2 days.",
     "systemInfo": "3-ton R-410A split system, 3 years old. Filter last changed 4 months ago.",
@@ -170,10 +157,7 @@
   {
     "id": "sc-04-dirty-flame-sensor",
     "equipmentModelId": "gas-furnace",
-    "moduleIds": [
-      "hvac-04",
-      "hvac-13"
-    ],
+    "moduleIds": ["hvac-04", "hvac-13"],
     "complaint": "The furnace starts up, the burners light for a few seconds, then everything shuts off. It tries again and does the same thing.",
     "conditions": "Winter, 25°F outdoor temperature. Furnace is 6 years old.",
     "systemInfo": "Single-stage 80,000 BTU gas furnace with hot surface igniter. Natural gas.",
@@ -218,11 +202,7 @@
   {
     "id": "sc-05-cracked-heat-exchanger",
     "equipmentModelId": "gas-furnace",
-    "moduleIds": [
-      "hvac-04",
-      "hvac-13",
-      "hvac-14"
-    ],
+    "moduleIds": ["hvac-04", "hvac-13", "hvac-14"],
     "complaint": "The furnace smells strange when it runs. Family members have been getting headaches.",
     "conditions": "Winter, 30°F outdoor temperature. Furnace is 18 years old.",
     "systemInfo": "100,000 BTU gas furnace, natural gas. Original equipment, never replaced.",
@@ -263,11 +243,7 @@
   {
     "id": "sc-06-stuck-reversing-valve",
     "equipmentModelId": "heat-pump",
-    "moduleIds": [
-      "hvac-04",
-      "hvac-09",
-      "hvac-13"
-    ],
+    "moduleIds": ["hvac-04", "hvac-09", "hvac-13"],
     "complaint": "The heat pump is blowing cold air in heating mode. The thermostat is set to heat but the air from the vents feels cold.",
     "conditions": "Winter, 35°F outdoor temperature.",
     "systemInfo": "3-ton R-410A heat pump, 7 years old. Honeywell thermostat (O wire energized in cooling).",
@@ -316,10 +292,7 @@
   {
     "id": "sc-07-disconnected-duct",
     "equipmentModelId": "duct-system",
-    "moduleIds": [
-      "hvac-10",
-      "hvac-13"
-    ],
+    "moduleIds": ["hvac-10", "hvac-13"],
     "complaint": "One bedroom is always hot in summer and cold in winter. The rest of the house is comfortable.",
     "conditions": "Summer, 90°F outdoor temperature. Problem has existed since the family moved in.",
     "systemInfo": "Flex duct system in the attic. House is 12 years old.",
@@ -359,11 +332,7 @@
   {
     "id": "sc-08-high-static-pressure",
     "equipmentModelId": "duct-system",
-    "moduleIds": [
-      "hvac-10",
-      "hvac-12",
-      "hvac-13"
-    ],
+    "moduleIds": ["hvac-10", "hvac-12", "hvac-13"],
     "complaint": "The system is noisy and the energy bills are very high. Some rooms are too hot and some are too cold.",
     "conditions": "Year-round problem. House was recently renovated and rooms were added.",
     "systemInfo": "4-ton system with original ductwork designed for a 3-ton system. Renovation added 2 rooms without adding duct capacity.",
@@ -404,10 +373,7 @@
   {
     "id": "sc-09-furnace-pressure-switch",
     "equipmentModelId": "gas-furnace",
-    "moduleIds": [
-      "hvac-09",
-      "hvac-13"
-    ],
+    "moduleIds": ["hvac-09", "hvac-13"],
     "complaint": "The furnace tries to start but never lights. I can hear a motor running but no flame.",
     "conditions": "Winter, 20°F outdoor temperature. Furnace is 10 years old.",
     "systemInfo": "80,000 BTU two-stage gas furnace with hot surface igniter. Condensing (90%+ AFUE).",
@@ -453,11 +419,7 @@
   {
     "id": "sc-10-overcharge",
     "equipmentModelId": "split-system-ac",
-    "moduleIds": [
-      "hvac-08",
-      "hvac-11",
-      "hvac-13"
-    ],
+    "moduleIds": ["hvac-08", "hvac-11", "hvac-13"],
     "complaint": "The AC is running but the electric bill doubled this month. The house feels humid.",
     "conditions": "Summer, 88°F outdoor temperature. A different company serviced the system last month.",
     "systemInfo": "3-ton R-410A split system with TXV. System is 4 years old.",
@@ -506,10 +468,7 @@
   {
     "id": "sc-11-blower-failure",
     "equipmentModelId": "duct-system",
-    "moduleIds": [
-      "hvac-12",
-      "hvac-13"
-    ],
+    "moduleIds": ["hvac-12", "hvac-13"],
     "complaint": "No air is coming from any of the vents. The outdoor unit seems to be running.",
     "conditions": "Summer, 90°F outdoor temperature.",
     "systemInfo": "3-ton split system, 6 years old. PSC blower motor with 10 µF run capacitor.",

@@ -21,7 +21,7 @@ export const runtime = 'nodejs';
 
 export async function GET(
   request: NextRequest,
-  { params }: { params: Promise<{ jobId: string }> }
+  { params }: { params: Promise<{ jobId: string }> },
 ) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
@@ -36,22 +36,20 @@ export async function GET(
   if (!job) return safeError('Job not found', 404);
 
   // Calculate elapsed time for in-progress jobs
-  const elapsedMs = job.started_at
-    ? Date.now() - new Date(job.started_at).getTime()
-    : null;
+  const elapsedMs = job.started_at ? Date.now() - new Date(job.started_at).getTime() : null;
 
   return NextResponse.json({
-    job_id:           job.id,
-    lesson_id:        job.lesson_id,
-    status:           job.status,
-    video_url:        job.video_url,
-    audio_url:        job.audio_url,
+    job_id: job.id,
+    lesson_id: job.lesson_id,
+    status: job.status,
+    video_url: job.video_url,
+    audio_url: job.audio_url,
     duration_seconds: job.duration_seconds,
-    scene_count:      job.scene_count,
-    error:            job.error_message,
-    elapsed_seconds:  elapsedMs ? Math.round(elapsedMs / 1000) : null,
-    queued_at:        job.queued_at,
-    started_at:       job.started_at,
-    completed_at:     job.completed_at,
+    scene_count: job.scene_count,
+    error: job.error_message,
+    elapsed_seconds: elapsedMs ? Math.round(elapsedMs / 1000) : null,
+    queued_at: job.queued_at,
+    started_at: job.started_at,
+    completed_at: job.completed_at,
   });
 }

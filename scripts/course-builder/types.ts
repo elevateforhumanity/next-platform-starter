@@ -11,25 +11,25 @@
 
 // ── State board exam domains (Indiana barber written exam) ────────────────────
 export type BarberDomain =
-  | 'infection_control'   // 25% of written exam
-  | 'haircutting'         // 25% of written exam
-  | 'shaving'             // part of haircutting/practical
-  | 'chemical_services'   // 15% of written exam
-  | 'laws_rules'          // 15% of written exam
-  | 'consultation'        // embedded in hair science (20%)
-  | 'hair_science'        // 20% of written exam
-  | 'business'            // professional skills
-  | 'exam_prep';          // module 8
+  | 'infection_control' // 25% of written exam
+  | 'haircutting' // 25% of written exam
+  | 'shaving' // part of haircutting/practical
+  | 'chemical_services' // 15% of written exam
+  | 'laws_rules' // 15% of written exam
+  | 'consultation' // embedded in hair science (20%)
+  | 'hair_science' // 20% of written exam
+  | 'business' // professional skills
+  | 'exam_prep'; // module 8
 
 // ── OJT categories (DOL apprenticeship hour tracking) ────────────────────────
 export type OJTCategory =
-  | 'sanitation'          // infection control OJT
-  | 'cutting'             // haircutting OJT
-  | 'shaving'             // shaving/beard OJT
-  | 'chemical'            // chemical services OJT
-  | 'client_service'      // consultation, communication
-  | 'shop_ops'            // business, professional skills
-  | 'theory';             // RTI (related technical instruction)
+  | 'sanitation' // infection control OJT
+  | 'cutting' // haircutting OJT
+  | 'shaving' // shaving/beard OJT
+  | 'chemical' // chemical services OJT
+  | 'client_service' // consultation, communication
+  | 'shop_ops' // business, professional skills
+  | 'theory'; // RTI (related technical instruction)
 
 // ── Competency check (hard pass/fail) ────────────────────────────────────────
 export type CompetencyCheck = {
@@ -40,9 +40,9 @@ export type CompetencyCheck = {
 
 // ── Lesson section types ──────────────────────────────────────────────────────
 export type LessonSectionSeed =
-  | { type: 'text';    heading: string; body: string[] }
-  | { type: 'steps';   heading: string; steps: string[] }
-  | { type: 'table';   heading: string; rows: { label: string; value: string }[] }
+  | { type: 'text'; heading: string; body: string[] }
+  | { type: 'steps'; heading: string; steps: string[] }
+  | { type: 'table'; heading: string; rows: { label: string; value: string }[] }
   | { type: 'callout'; heading: string; tone: 'info' | 'warning' | 'exam' | 'tip'; body: string[] };
 
 export type GlossaryItem = {

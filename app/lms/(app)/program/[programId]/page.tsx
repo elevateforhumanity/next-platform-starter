@@ -39,7 +39,9 @@ export default async function ProgramDashboardPage({ params }: { params: Params 
   const { programId } = await params;
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/lms/program/' + programId);
 
   // Look up program by id, slug, or code
@@ -76,24 +78,24 @@ export default async function ProgramDashboardPage({ params }: { params: Params 
   // Get lesson counts and progress per course
   const courseIds = (courses || []).map((c: any) => c.id);
 
-  const { data: allLessons } = courseIds.length > 0
-    ? await supabase
-        .from('lms_lessons')
-        .select('id, course_id')
-        .in('course_id', courseIds)
-    : { data: [] };
+  const { data: allLessons } =
+    courseIds.length > 0
+      ? await supabase.from('lms_lessons').select('id, course_id').in('course_id', courseIds)
+      : { data: [] };
 
-  const { data: lessonProgress } = courseIds.length > 0
-    ? await supabase
-        .from('lesson_progress')
-        .select('lesson_id, completed')
-        .eq('user_id', user.id)
-        .in('lesson_id', (allLessons || []).map((l: any) => l.id))
-    : { data: [] };
+  const { data: lessonProgress } =
+    courseIds.length > 0
+      ? await supabase
+          .from('lesson_progress')
+          .select('lesson_id, completed')
+          .eq('user_id', user.id)
+          .in(
+            'lesson_id',
+            (allLessons || []).map((l: any) => l.id),
+          )
+      : { data: [] };
 
-  const progressMap = new Map(
-    (lessonProgress || []).map((p: any) => [p.lesson_id, p.completed])
-  );
+  const progressMap = new Map((lessonProgress || []).map((p: any) => [p.lesson_id, p.completed]));
 
   // Build per-course stats
   const courseStats = (courses || []).map((course: any) => {
@@ -140,10 +142,7 @@ export default async function ProgramDashboardPage({ params }: { params: Params 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[
-          { label: 'LMS', href: '/lms/dashboard' },
-          { label: program.title },
-        ]} />
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/dashboard' }, { label: program.title }]} />
       </div>
 
       <div className="max-w-7xl mx-auto px-4 py-6">
@@ -167,10 +166,12 @@ export default async function ProgramDashboardPage({ params }: { params: Params 
               </span>
             )}
             <span className="flex items-center gap-1 text-white/70 text-sm">
-              <BookOpen className="w-4 h-4" /> {courseStats.length} course{courseStats.length !== 1 ? 's' : ''}
+              <BookOpen className="w-4 h-4" /> {courseStats.length} course
+              {courseStats.length !== 1 ? 's' : ''}
             </span>
             <span className="flex items-center gap-1 text-white/70 text-sm">
-              <Award className="w-4 h-4" /> {certificates?.length || 0} certificate{(certificates?.length || 0) !== 1 ? 's' : ''}
+              <Award className="w-4 h-4" /> {certificates?.length || 0} certificate
+              {(certificates?.length || 0) !== 1 ? 's' : ''}
             </span>
           </div>
 
@@ -199,7 +200,9 @@ export default async function ProgramDashboardPage({ params }: { params: Params 
           <div className="bg-white rounded-xl border p-8 text-center">
             <BookOpen className="w-12 h-12 text-slate-700 mx-auto mb-4" />
             <h3 className="text-lg font-medium text-slate-900 mb-2">No courses yet</h3>
-            <p className="text-slate-700">Courses for this program have not been published yet. Check back soon.</p>
+            <p className="text-slate-700">
+              Courses for this program have not been published yet. Check back soon.
+            </p>
           </div>
         ) : (
           <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-3 mb-8">
@@ -267,7 +270,10 @@ export default async function ProgramDashboardPage({ params }: { params: Params 
             <h2 className="text-xl font-bold text-slate-900 mb-4">Certificates Earned</h2>
             <div className="grid gap-4 md:grid-cols-2">
               {certificates!.map((cert: any) => (
-                <div key={cert.id} className="bg-white rounded-xl border p-6 flex items-center gap-4">
+                <div
+                  key={cert.id}
+                  className="bg-white rounded-xl border p-6 flex items-center gap-4"
+                >
                   <div className="w-12 h-12 bg-amber-100 rounded-xl flex items-center justify-center flex-shrink-0">
                     <Award className="w-6 h-6 text-amber-600" />
                   </div>

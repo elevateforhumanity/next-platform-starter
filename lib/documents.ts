@@ -1,17 +1,17 @@
 import { logger } from '@/lib/logger';
 /**
  * Document Management System
- * 
+ *
  * MANDATORY VERIFICATION ENFORCEMENT (LOCKED)
- * 
+ *
  * Automation must NOT:
  * - Credit transfer hours
  * - Approve host shops/apprentices
  * - Match apprentices to host shops
  * - Set IPLA exam eligibility
- * 
+ *
  * UNTIL required documents are VERIFIED (documents.verified=true OR status='verified').
- * 
+ *
  * Required verified docs:
  * - Apprentice enrollment: photo_id
  * - Host shop enrollment: shop_license + barber_license
@@ -38,7 +38,7 @@ export type DocumentType =
   | 'ipla_packet'
   | 'other';
 
-export type TransferSourceType = 
+export type TransferSourceType =
   | 'in_state_barber_school'
   | 'out_of_state_school'
   | 'out_of_state_license'
@@ -94,12 +94,7 @@ export const TRANSFER_REQUIRED_DOCUMENTS: DocumentType[] = [
 export const CE_REQUIRED_DOCUMENTS: DocumentType[] = ['ce_certificate'];
 
 // Allowed MIME types
-export const ALLOWED_MIME_TYPES = [
-  'image/jpeg',
-  'image/png',
-  'image/webp',
-  'application/pdf',
-];
+export const ALLOWED_MIME_TYPES = ['image/jpeg', 'image/png', 'image/webp', 'application/pdf'];
 
 // Max file size (10MB)
 export const MAX_FILE_SIZE = 10 * 1024 * 1024;
@@ -109,7 +104,7 @@ export const MAX_FILE_SIZE = 10 * 1024 * 1024;
  */
 export async function hasRequiredDocuments(
   ownerType: OwnerType,
-  ownerId: string
+  ownerId: string,
 ): Promise<{ complete: boolean; missing: DocumentType[] }> {
   const supabase = await getAdminClient();
   if (!supabase) {
@@ -140,7 +135,7 @@ export async function hasRequiredDocuments(
 export async function hasVerifiedDocuments(
   ownerType: OwnerType,
   ownerId: string,
-  requiredTypes?: DocumentType[]
+  requiredTypes?: DocumentType[],
 ): Promise<{ complete: boolean; unverified: DocumentType[] }> {
   const supabase = await getAdminClient();
   if (!supabase) {
@@ -158,8 +153,9 @@ export async function hasVerifiedDocuments(
 
   // Document is verified if verified=true OR status='verified'
   const verifiedTypes = new Set(
-    docs?.filter((d) => d.verified === true || d.status === 'verified')
-      .map((d) => d.document_type) || []
+    docs
+      ?.filter((d) => d.verified === true || d.status === 'verified')
+      .map((d) => d.document_type) || [],
   );
   const unverified = required.filter((type) => !verifiedTypes.has(type));
 
@@ -176,7 +172,7 @@ export async function hasVerifiedDocuments(
  */
 export async function hasVerifiedTransferDocuments(
   userId: string,
-  sourceType: TransferSourceType
+  sourceType: TransferSourceType,
 ): Promise<{ complete: boolean; unverified: DocumentType[] }> {
   const supabase = await getAdminClient();
   if (!supabase) {
@@ -184,9 +180,13 @@ export async function hasVerifiedTransferDocuments(
   }
 
   const requiredDocs = TRANSFER_DOCS_BY_SOURCE[sourceType] || [];
-  
+
   // For school transfers, only ONE of the docs needs to be verified (OR logic)
-  const isOrLogic = ['in_state_barber_school', 'out_of_state_school', 'previous_apprenticeship'].includes(sourceType);
+  const isOrLogic = [
+    'in_state_barber_school',
+    'out_of_state_school',
+    'previous_apprenticeship',
+  ].includes(sourceType);
 
   const { data: docs } = await supabase
     .from('documents')
@@ -195,8 +195,9 @@ export async function hasVerifiedTransferDocuments(
     .in('document_type', requiredDocs);
 
   const verifiedTypes = new Set(
-    docs?.filter((d) => d.verified === true || d.status === 'verified')
-      .map((d) => d.document_type) || []
+    docs
+      ?.filter((d) => d.verified === true || d.status === 'verified')
+      .map((d) => d.document_type) || [],
   );
 
   if (isOrLogic) {
@@ -222,7 +223,7 @@ export async function hasVerifiedTransferDocuments(
  */
 export async function hasTransferDocuments(
   apprenticeId: string,
-  transferId?: string
+  transferId?: string,
 ): Promise<boolean> {
   const supabase = await getAdminClient();
   if (!supabase) return false;
@@ -251,11 +252,9 @@ export interface VerificationGateResult {
  * GATE: Can apprentice be approved?
  * Requires: photo_id verified
  */
-export async function canApproveApprentice(
-  apprenticeId: string
-): Promise<VerificationGateResult> {
+export async function canApproveApprentice(apprenticeId: string): Promise<VerificationGateResult> {
   const result = await hasVerifiedDocuments('apprentice', apprenticeId);
-  
+
   if (!result.complete) {
     return {
       allowed: false,
@@ -263,7 +262,7 @@ export async function canApproveApprentice(
       unverifiedDocs: result.unverified,
     };
   }
-  
+
   return { allowed: true };
 }
 
@@ -271,11 +270,9 @@ export async function canApproveApprentice(
  * GATE: Can host shop be approved?
  * Requires: shop_license AND barber_license verified
  */
-export async function canApproveHostShop(
-  shopId: string
-): Promise<VerificationGateResult> {
+export async function canApproveHostShop(shopId: string): Promise<VerificationGateResult> {
   const result = await hasVerifiedDocuments('host_shop', shopId);
-  
+
   if (!result.complete) {
     return {
       allowed: false,
@@ -283,7 +280,7 @@ export async function canApproveHostShop(
       unverifiedDocs: result.unverified,
     };
   }
-  
+
   return { allowed: true };
 }
 
@@ -293,10 +290,10 @@ export async function canApproveHostShop(
  */
 export async function canEvaluateTransfer(
   userId: string,
-  sourceType: TransferSourceType
+  sourceType: TransferSourceType,
 ): Promise<VerificationGateResult> {
   const result = await hasVerifiedTransferDocuments(userId, sourceType);
-  
+
   if (!result.complete) {
     return {
       allowed: false,
@@ -304,7 +301,7 @@ export async function canEvaluateTransfer(
       unverifiedDocs: result.unverified,
     };
   }
-  
+
   return { allowed: true };
 }
 
@@ -314,11 +311,11 @@ export async function canEvaluateTransfer(
  */
 export async function canMatchApprentice(
   apprenticeId: string,
-  shopId: string
+  shopId: string,
 ): Promise<VerificationGateResult> {
   const apprenticeResult = await hasVerifiedDocuments('apprentice', apprenticeId);
   const shopResult = await hasVerifiedDocuments('host_shop', shopId);
-  
+
   if (!apprenticeResult.complete || !shopResult.complete) {
     const allUnverified = [
       ...(apprenticeResult.unverified || []),
@@ -330,7 +327,7 @@ export async function canMatchApprentice(
       unverifiedDocs: allUnverified,
     };
   }
-  
+
   return { allowed: true };
 }
 
@@ -340,11 +337,11 @@ export async function canMatchApprentice(
  */
 export async function canSetExamEligible(
   apprenticeId: string,
-  userId: string
+  userId: string,
 ): Promise<VerificationGateResult> {
   // Check apprentice docs
   const apprenticeResult = await hasVerifiedDocuments('apprentice', apprenticeId);
-  
+
   if (!apprenticeResult.complete) {
     return {
       allowed: false,
@@ -352,7 +349,7 @@ export async function canSetExamEligible(
       unverifiedDocs: apprenticeResult.unverified,
     };
   }
-  
+
   // Check for any pending transfer requests that need verification
   const supabase = await getAdminClient();
   if (supabase) {
@@ -361,7 +358,7 @@ export async function canSetExamEligible(
       .select('id, status')
       .eq('apprentice_id', apprenticeId)
       .eq('status', 'requires_manual_review');
-    
+
     if (pendingTransfers && pendingTransfers.length > 0) {
       return {
         allowed: false,
@@ -369,7 +366,7 @@ export async function canSetExamEligible(
       };
     }
   }
-  
+
   return { allowed: true };
 }
 
@@ -377,9 +374,7 @@ export async function canSetExamEligible(
  * GATE: Can CE hours be approved?
  * Requires: ce_certificate verified
  */
-export async function canApproveCEHours(
-  userId: string
-): Promise<VerificationGateResult> {
+export async function canApproveCEHours(userId: string): Promise<VerificationGateResult> {
   const supabase = await getAdminClient();
   if (!supabase) {
     return {
@@ -395,9 +390,7 @@ export async function canApproveCEHours(
     .eq('user_id', userId)
     .eq('document_type', 'ce_certificate');
 
-  const hasVerified = docs?.some(
-    (d) => d.verified === true || d.status === 'verified'
-  );
+  const hasVerified = docs?.some((d) => d.verified === true || d.status === 'verified');
 
   if (!hasVerified) {
     return {
@@ -413,10 +406,7 @@ export async function canApproveCEHours(
 /**
  * Get all documents for an owner
  */
-export async function getDocuments(
-  ownerType: OwnerType,
-  ownerId: string
-): Promise<Document[]> {
+export async function getDocuments(ownerType: OwnerType, ownerId: string): Promise<Document[]> {
   const supabase = await getAdminClient();
   if (!supabase) return [];
 
@@ -437,12 +427,15 @@ export async function getDocuments(
 export async function verifyDocument(
   documentId: string,
   verifiedBy: string,
-  verificationNotes?: string
+  verificationNotes?: string,
 ): Promise<boolean> {
   const supabase = await getAdminClient();
   if (!supabase) return false;
 
-  await setAuditContext(supabase, { actorUserId: verifiedBy, systemActor: 'document_verification' });
+  await setAuditContext(supabase, {
+    actorUserId: verifiedBy,
+    systemActor: 'document_verification',
+  });
 
   const { error } = await supabase
     .from('documents')
@@ -466,12 +459,15 @@ export async function verifyDocument(
 export async function rejectDocument(
   documentId: string,
   rejectedBy: string,
-  reason: string
+  reason: string,
 ): Promise<boolean> {
   const supabase = await getAdminClient();
   if (!supabase) return false;
 
-  await setAuditContext(supabase, { actorUserId: rejectedBy, systemActor: 'document_verification' });
+  await setAuditContext(supabase, {
+    actorUserId: rejectedBy,
+    systemActor: 'document_verification',
+  });
 
   const { error } = await supabase
     .from('documents')
@@ -504,7 +500,10 @@ export async function createDocumentRecord(params: {
   const supabase = await getAdminClient();
   if (!supabase) return null;
 
-  await setAuditContext(supabase, { actorUserId: params.uploadedBy, systemActor: 'document_upload' });
+  await setAuditContext(supabase, {
+    actorUserId: params.uploadedBy,
+    systemActor: 'document_upload',
+  });
 
   const { data, error } = await supabase
     .from('documents')
@@ -532,10 +531,10 @@ export async function createDocumentRecord(params: {
 /**
  * Validate file before upload
  */
-export function validateFile(file: {
-  type: string;
-  size: number;
-}): { valid: boolean; error?: string } {
+export function validateFile(file: { type: string; size: number }): {
+  valid: boolean;
+  error?: string;
+} {
   if (!ALLOWED_MIME_TYPES.includes(file.type)) {
     return {
       valid: false,
@@ -557,9 +556,7 @@ export function validateFile(file: {
  * Get storage bucket name for owner type
  */
 export function getStorageBucket(ownerType: OwnerType): string {
-  return ownerType === 'apprentice'
-    ? 'apprentice-documents'
-    : 'host-shop-documents';
+  return ownerType === 'apprentice' ? 'apprentice-documents' : 'host-shop-documents';
 }
 
 /**
@@ -569,7 +566,7 @@ export function generateStoragePath(
   ownerType: OwnerType,
   ownerId: string,
   documentType: DocumentType,
-  fileName: string
+  fileName: string,
 ): string {
   const timestamp = Date.now();
   const sanitizedFileName = fileName.replace(/[^a-zA-Z0-9.-]/g, '_');

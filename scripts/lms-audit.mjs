@@ -1,18 +1,18 @@
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
+import path from 'path';
 
 const ROOT = process.cwd();
-const COURSES_DIR = path.join(ROOT, "lms-data", "courses");
-const INDEX_FILE = path.join(COURSES_DIR, "index.ts");
+const COURSES_DIR = path.join(ROOT, 'lms-data', 'courses');
+const INDEX_FILE = path.join(COURSES_DIR, 'index.ts');
 
 function read(file) {
-  return fs.readFileSync(file, "utf8");
+  return fs.readFileSync(file, 'utf8');
 }
 
 function listCourseFiles() {
   return fs
     .readdirSync(COURSES_DIR)
-    .filter((f) => f.startsWith("program-") && f.endsWith(".ts"))
+    .filter((f) => f.startsWith('program-') && f.endsWith('.ts'))
     .map((f) => path.join(COURSES_DIR, f));
 }
 
@@ -35,23 +35,25 @@ function parseBool(source, field) {
 
 function hasPlaceholderText(source) {
   const bad = [
-    "lorem ipsum",
-    "placeholder",
-    "sample data",
-    "TODO:",
-    "FIXME",
-    "example.com",
-    "changeme",
+    'lorem ipsum',
+    'placeholder',
+    'sample data',
+    'TODO:',
+    'FIXME',
+    'example.com',
+    'changeme',
   ];
   const lower = source.toLowerCase();
 
   // Allow "Mock Exam", "Mock Test", "Mock Skills" (legitimate practice tests)
   // Only flag if "mock" appears without "exam", "test", "skills", "board"
-  if (lower.includes("mock") &&
-      !lower.includes("mock exam") &&
-      !lower.includes("mock test") &&
-      !lower.includes("mock skills") &&
-      !lower.includes("mock state board")) {
+  if (
+    lower.includes('mock') &&
+    !lower.includes('mock exam') &&
+    !lower.includes('mock test') &&
+    !lower.includes('mock skills') &&
+    !lower.includes('mock state board')
+  ) {
     return true;
   }
 
@@ -60,7 +62,7 @@ function hasPlaceholderText(source) {
 
 function extractCoverPath(source) {
   // common keys: coverImage, cover, image, thumbnail
-  const keys = ["coverImage", "cover", "image", "thumbnail"];
+  const keys = ['coverImage', 'cover', 'image', 'thumbnail'];
   for (const k of keys) {
     const v = parseField(source, k);
     if (v) return v;
@@ -81,10 +83,10 @@ const idSet = new Set();
 for (const file of files) {
   const src = read(file);
   const exportName = parseExportName(src);
-  const slug = parseField(src, "slug");
-  const id = parseField(src, "id");
-  const title = parseField(src, "title") || parseField(src, "name");
-  const isPublished = parseBool(src, "isPublished");
+  const slug = parseField(src, 'slug');
+  const id = parseField(src, 'id');
+  const title = parseField(src, 'title') || parseField(src, 'name');
+  const isPublished = parseBool(src, 'isPublished');
   const cover = extractCoverPath(src);
   const hasPlaceholders = hasPlaceholderText(src);
 
@@ -96,7 +98,8 @@ for (const file of files) {
 
   // Uniqueness checks
   if (slug) {
-    if (slugSet.has(slug)) errors.push(`Duplicate slug "${slug}" found (file: ${path.basename(file)})`);
+    if (slugSet.has(slug))
+      errors.push(`Duplicate slug "${slug}" found (file: ${path.basename(file)})`);
     slugSet.add(slug);
   }
   if (id) {
@@ -105,26 +108,34 @@ for (const file of files) {
   }
 
   // Published check
-  if (isPublished === "false" || isPublished === null) {
-    warnings.push(`Not published (or missing isPublished): ${path.basename(file)} (slug=${slug ?? "?"})`);
+  if (isPublished === 'false' || isPublished === null) {
+    warnings.push(
+      `Not published (or missing isPublished): ${path.basename(file)} (slug=${slug ?? '?'})`,
+    );
   }
 
   // Cover existence check (only if it's a local /public path)
-  if (cover && cover.startsWith("/")) {
-    const coverPath = path.join(ROOT, "public", cover.replace(/^\//, ""));
+  if (cover && cover.startsWith('/')) {
+    const coverPath = path.join(ROOT, 'public', cover.replace(/^\//, ''));
     if (!fs.existsSync(coverPath)) {
-      warnings.push(`Missing cover image file for ${slug ?? path.basename(file)}: ${cover} (expected ${coverPath})`);
+      warnings.push(
+        `Missing cover image file for ${slug ?? path.basename(file)}: ${cover} (expected ${coverPath})`,
+      );
     }
   }
 
   // Placeholder check
   if (hasPlaceholders) {
-    warnings.push(`Placeholder/mock/TODO text detected inside ${path.basename(file)} (slug=${slug ?? "?"})`);
+    warnings.push(
+      `Placeholder/mock/TODO text detected inside ${path.basename(file)} (slug=${slug ?? '?'})`,
+    );
   }
 
   // Index import check
   if (exportName) {
-    const expectedImport = new RegExp(`import\\s*\\{\\s*${exportName}\\s*\\}\\s*from\\s*["'\`]\\.\\/program-`);
+    const expectedImport = new RegExp(
+      `import\\s*\\{\\s*${exportName}\\s*\\}\\s*from\\s*["'\`]\\.\\/program-`,
+    );
     if (!expectedImport.test(indexSource)) {
       errors.push(`Index is not importing export "${exportName}" (file: ${path.basename(file)})`);
     }
@@ -136,11 +147,11 @@ for (const file of files) {
 // Report
 
 if (errors.length) {
-  for (const e of errors) console.log(" - " + e);
+  for (const e of errors) console.log(' - ' + e);
 }
 
 if (warnings.length) {
-  for (const w of warnings) console.log(" - " + w);
+  for (const w of warnings) console.log(' - ' + w);
 }
 
 if (!errors.length) {

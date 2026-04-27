@@ -11,9 +11,11 @@ export default function ApplyPage() {
       const { createBrowserClient } = await import('@supabase/ssr');
       const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       );
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (!session) {
         window.location.href = '/login?redirect=/programs/electrical/apply';
       }
@@ -32,10 +34,10 @@ export default function ApplyPage() {
     const form = e.currentTarget;
     const data = {
       firstName: (form.elements.namedItem('firstName') as HTMLInputElement).value,
-      lastName:  (form.elements.namedItem('lastName')  as HTMLInputElement).value,
-      email:     (form.elements.namedItem('email')     as HTMLInputElement).value,
-      phone:     (form.elements.namedItem('phone')     as HTMLInputElement).value,
-      city:      (form.elements.namedItem('city')      as HTMLInputElement).value,
+      lastName: (form.elements.namedItem('lastName') as HTMLInputElement).value,
+      email: (form.elements.namedItem('email') as HTMLInputElement).value,
+      phone: (form.elements.namedItem('phone') as HTMLInputElement).value,
+      city: (form.elements.namedItem('city') as HTMLInputElement).value,
       program: 'electrical',
       source: 'student-application',
     };
@@ -59,52 +61,130 @@ export default function ApplyPage() {
   return (
     <div className="min-h-screen bg-white py-12 px-4">
       <div className="max-w-xl mx-auto">
-        <Link href="/programs/electrical" className="inline-flex items-center gap-2 text-sm text-black hover:text-slate-700 mb-8">
+        <Link
+          href="/programs/electrical"
+          className="inline-flex items-center gap-2 text-sm text-black hover:text-slate-700 mb-8"
+        >
           <ArrowLeft className="w-4 h-4" /> Back to Program
         </Link>
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
           <div className="mb-6">
-            <span className="text-xs font-bold text-brand-red-600 uppercase tracking-wider">Electrical</span>
-            <h1 className="text-2xl font-extrabold text-slate-900 mt-1">Electrical Training Application</h1>
-            <p className="text-slate-600 text-sm mt-2">NCCER electrical training with OSHA 10. Complete this form to begin your application.</p>
+            <span className="text-xs font-bold text-brand-red-600 uppercase tracking-wider">
+              Electrical
+            </span>
+            <h1 className="text-2xl font-extrabold text-slate-900 mt-1">
+              Electrical Training Application
+            </h1>
+            <p className="text-slate-600 text-sm mt-2">
+              NCCER electrical training with OSHA 10. Complete this form to begin your application.
+            </p>
           </div>
           <div className="bg-slate-50 rounded-xl p-4 mb-6 space-y-2">
-            {['Free to apply — no cost to submit', 'WIOA and Workforce Ready Grant funding available', 'Our team will contact you within 1 business day', 'Flexible scheduling available'].map((item) => (
+            {[
+              'Free to apply — no cost to submit',
+              'WIOA and Workforce Ready Grant funding available',
+              'Our team will contact you within 1 business day',
+              'Flexible scheduling available',
+            ].map((item) => (
               <div key={item} className="flex items-start gap-2 text-sm text-slate-700">
                 <CheckCircle className="w-4 h-4 text-brand-red-500 flex-shrink-0 mt-0.5" />
                 {item}
               </div>
             ))}
           </div>
-          {error && <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm mb-5">{error}</div>}
+          {error && (
+            <div className="bg-red-50 border border-red-200 text-red-700 rounded-lg px-4 py-3 text-sm mb-5">
+              {error}
+            </div>
+          )}
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="firstName">First Name *</label>
-                <input id="firstName" name="firstName" type="text" required className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-500" />
+                <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="firstName">
+                  First Name *
+                </label>
+                <input
+                  id="firstName"
+                  name="firstName"
+                  type="text"
+                  required
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-500"
+                />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="lastName">Last Name *</label>
-                <input id="lastName" name="lastName" type="text" required className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-500" />
+                <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="lastName">
+                  Last Name *
+                </label>
+                <input
+                  id="lastName"
+                  name="lastName"
+                  type="text"
+                  required
+                  className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-500"
+                />
               </div>
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="email">Email Address *</label>
-              <input id="email" name="email" type="email" required className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-500" />
+              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="email">
+                Email Address *
+              </label>
+              <input
+                id="email"
+                name="email"
+                type="email"
+                required
+                className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-500"
+              />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="phone">Phone Number *</label>
-              <input id="phone" name="phone" type="tel" required className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-500" />
+              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="phone">
+                Phone Number *
+              </label>
+              <input
+                id="phone"
+                name="phone"
+                type="tel"
+                required
+                className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-500"
+              />
             </div>
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="city">City *</label>
-              <input id="city" name="city" type="text" required className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-500" />
+              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="city">
+                City *
+              </label>
+              <input
+                id="city"
+                name="city"
+                type="text"
+                required
+                className="w-full border border-slate-300 rounded-lg px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-500"
+              />
             </div>
-            <button type="submit" disabled={loading} className="w-full bg-brand-red-600 hover:bg-brand-red-700 disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 mt-2">
-              {loading ? <><Loader2 className="w-4 h-4 animate-spin" /> Submitting…</> : 'Submit Application'}
+            <button
+              type="submit"
+              disabled={loading}
+              className="w-full bg-brand-red-600 hover:bg-brand-red-700 disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 mt-2"
+            >
+              {loading ? (
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" /> Submitting…
+                </>
+              ) : (
+                'Submit Application'
+              )}
             </button>
             <p className="text-xs text-slate-500 text-center">
-              Questions? <a href="tel:3173143757" className="text-brand-red-600 hover:underline">(317) 314-3757</a> or <a href="mailto:info@elevateforhumanity.org" className="text-brand-red-600 hover:underline">email us</a>
+              Questions?{' '}
+              <a href="tel:3173143757" className="text-brand-red-600 hover:underline">
+                (317) 314-3757
+              </a>{' '}
+              or{' '}
+              <a
+                href="mailto:info@elevateforhumanity.org"
+                className="text-brand-red-600 hover:underline"
+              >
+                email us
+              </a>
             </p>
           </form>
         </div>

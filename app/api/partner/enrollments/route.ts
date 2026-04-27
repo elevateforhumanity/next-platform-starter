@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';
 import { getTenantContext, TenantContextError } from '@/lib/tenant';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -21,28 +21,30 @@ async function _GET(request: Request) {
 
     // Check if user is partner
     const { data: profile } = await supabase
-      .from("profiles")
-      .select("role")
-      .eq("id", tenantContext.userId)
+      .from('profiles')
+      .select('role')
+      .eq('id', tenantContext.userId)
       .maybeSingle();
 
-    if (profile?.role !== "partner") {
-      return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    if (profile?.role !== 'partner') {
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     // Get enrollments for this tenant (RLS also enforces this)
     const { data: enrollments, error } = await supabase
-      .from("program_enrollments")
-      .select(`
+      .from('program_enrollments')
+      .select(
+        `
         id,
         user_id,
         course_id,
         status,
         profiles!enrollments_user_id_fkey(full_name, email),
         courses(title)
-      `)
-      .eq("tenant_id", tenantContext.tenantId)
-      .order("created_at", { ascending: false });
+      `,
+      )
+      .eq('tenant_id', tenantContext.tenantId)
+      .order('created_at', { ascending: false });
 
     if (error) {
       return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });

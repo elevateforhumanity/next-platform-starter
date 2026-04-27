@@ -34,7 +34,7 @@ export const maxDuration = 300;
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ courseId: string }> }
+  { params }: { params: Promise<{ courseId: string }> },
 ) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
@@ -44,8 +44,11 @@ export async function POST(
   const { lessonId, force = false } = body as { lessonId?: string; force?: boolean };
 
   // Verify ffmpeg is available
-  try { execSync('which ffmpeg', { stdio: 'pipe' }); }
-  catch { return safeError('ffmpeg not available in this environment. Run on Railway or locally.', 503); }
+  try {
+    execSync('which ffmpeg', { stdio: 'pipe' });
+  } catch {
+    return safeError('ffmpeg not available in this environment. Run on Railway or locally.', 503);
+  }
 
   if (!process.env.OPENAI_API_KEY) return safeError('OPENAI_API_KEY not set', 503);
   if (!process.env.PEXELS_API_KEY) return safeError('PEXELS_API_KEY not set', 503);
@@ -66,8 +69,8 @@ export async function POST(
   if (!course.video_config && !course.video_profile) {
     return safeError(
       'This course has no video_profile or video_config set. ' +
-      'Add a video_profile to the course row to enable video generation.',
-      422
+        'Add a video_profile to the course row to enable video generation.',
+      422,
     );
   }
 
@@ -89,7 +92,11 @@ export async function POST(
   const { data: lessons, error: lessonsErr } = await query;
   if (lessonsErr) return safeInternalError(lessonsErr, 'Failed to fetch lessons');
   if (!lessons?.length) {
-    return NextResponse.json({ ok: true, generated: 0, message: 'All lessons already have videos' });
+    return NextResponse.json({
+      ok: true,
+      generated: 0,
+      message: 'All lessons already have videos',
+    });
   }
 
   // Load module titles for chapter overlays
@@ -110,7 +117,7 @@ export async function POST(
     try {
       const lessonWithModule = {
         ...lesson,
-        module_title: lesson.module_id ? moduleMap[lesson.module_id] ?? null : null,
+        module_title: lesson.module_id ? (moduleMap[lesson.module_id] ?? null) : null,
       };
 
       const videoUrl = await processLesson(lessonWithModule as any, profile, tmpDir, {
@@ -131,8 +138,8 @@ export async function POST(
     logger.debug('Failed to clean video temp directory', { tmpDir, err });
   }
 
-  const generated = results.filter(r => r.video_url).length;
-  const failed    = results.filter(r => r.error).length;
+  const generated = results.filter((r) => r.video_url).length;
+  const failed = results.filter((r) => r.error).length;
 
   return NextResponse.json({ ok: true, generated, failed, results, profile: profile.programSlug });
 }

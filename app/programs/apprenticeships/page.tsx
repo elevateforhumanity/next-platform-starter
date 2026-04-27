@@ -15,8 +15,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title:
-    'Apprenticeship Programs | Earn While You Learn | Elevate for Humanity',
+  title: 'Apprenticeship Programs | Earn While You Learn | Elevate for Humanity',
   description:
     'DOL-registered apprenticeship programs in Indiana. Get paid while you learn. Barber, HVAC, Building Maintenance, and more. No debt, real wages.',
   alternates: {
@@ -44,7 +43,7 @@ export default async function ApprenticeshipProgramsPage() {
       </div>
     );
   }
-  
+
   // Fetch apprenticeship programs
   const { data: dbApprenticeships } = await supabase
     .from('programs')
@@ -56,19 +55,14 @@ export default async function ApprenticeshipProgramsPage() {
   return (
     <div className="bg-white">
       <Breadcrumbs
-        items={[
-          { label: 'Programs', href: '/programs' },
-          { label: 'Apprenticeships' },
-        ]}
+        items={[{ label: 'Programs', href: '/programs' }, { label: 'Apprenticeships' }]}
       />
       {/* Hero */}
       <section className="bg-white text-white px-6 sm:px-10 lg:px-12 py-20 lg:py-28">
         <div className="mx-auto max-w-5xl text-center">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
             <Briefcase className="w-5 h-5" />
-            <span className="text-sm font-semibold">
-              Apprenticeship Programs
-            </span>
+            <span className="text-sm font-semibold">Apprenticeship Programs</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6">
@@ -76,9 +70,8 @@ export default async function ApprenticeshipProgramsPage() {
           </h1>
 
           <p className="text-xl sm:text-2xl text-blue-100 leading-relaxed max-w-3xl mx-auto">
-            Get paid to train in a skilled trade. Apprenticeships combine
-            hands-on work experience with classroom instruction—and you earn a
-            paycheck from day one.
+            Get paid to train in a skilled trade. Apprenticeships combine hands-on work experience
+            with classroom instruction—and you earn a paycheck from day one.
           </p>
         </div>
       </section>
@@ -92,30 +85,28 @@ export default async function ApprenticeshipProgramsPage() {
 
           <div className="space-y-6 text-lg text-black leading-relaxed">
             <p>
-              Traditional education asks you to pay tuition and wait years
-              before earning a real income. Apprenticeships flip that model—you
-              get paid while you learn, gaining real-world experience from day
-              one.
+              Traditional education asks you to pay tuition and wait years before earning a real
+              income. Apprenticeships flip that model—you get paid while you learn, gaining
+              real-world experience from day one.
             </p>
 
             <p>
               <span className="font-bold text-black">
                 You're not just a student—you're an employee.
               </span>{' '}
-              You work alongside experienced professionals, learning the trade
-              through hands-on practice. Your employer pays you a wage that
-              increases as your skills grow.
+              You work alongside experienced professionals, learning the trade through hands-on
+              practice. Your employer pays you a wage that increases as your skills grow.
             </p>
 
             <p>
-              By the time you complete your apprenticeship, you have years of
-              experience, industry certifications, and zero student debt. You're
-              ready to command top wages in your field.
+              By the time you complete your apprenticeship, you have years of experience, industry
+              certifications, and zero student debt. You're ready to command top wages in your
+              field.
             </p>
 
             <p className="text-xl font-bold text-black">
-              This is how skilled trades have been taught for centuries—and it
-              still works better than anything else.
+              This is how skilled trades have been taught for centuries—and it still works better
+              than anything else.
             </p>
           </div>
         </div>
@@ -134,9 +125,7 @@ export default async function ApprenticeshipProgramsPage() {
                 <DollarSign className="w-8 h-8" />
               </div>
               <h3 className="font-bold text-black mb-2">Get Paid</h3>
-              <p className="text-black">
-                Earn a wage from day one, with increases as you progress
-              </p>
+              <p className="text-black">Earn a wage from day one, with increases as you progress</p>
             </div>
 
             <div className="text-center">
@@ -144,9 +133,7 @@ export default async function ApprenticeshipProgramsPage() {
                 <Briefcase className="w-8 h-8" />
               </div>
               <h3 className="font-bold text-black mb-2">Real Experience</h3>
-              <p className="text-black">
-                Work on actual projects, not just classroom exercises
-              </p>
+              <p className="text-black">Work on actual projects, not just classroom exercises</p>
             </div>
 
             <div className="text-center">
@@ -154,9 +141,7 @@ export default async function ApprenticeshipProgramsPage() {
                 <Award className="w-8 h-8" />
               </div>
               <h3 className="font-bold text-black mb-2">Certifications</h3>
-              <p className="text-black">
-                Earn industry-recognized credentials as you train
-              </p>
+              <p className="text-black">Earn industry-recognized credentials as you train</p>
             </div>
 
             <div className="text-center">
@@ -164,9 +149,7 @@ export default async function ApprenticeshipProgramsPage() {
                 <Clock className="w-8 h-8" />
               </div>
               <h3 className="font-bold text-black mb-2">No Debt</h3>
-              <p className="text-black">
-                Zero tuition costs—you're paid to learn
-              </p>
+              <p className="text-black">Zero tuition costs—you're paid to learn</p>
             </div>
           </div>
         </div>
@@ -187,6 +170,7 @@ export default async function ApprenticeshipProgramsPage() {
                 className="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all"
               >
                 <div className="relative h-64 w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     priority
                     src={program.heroImage}
@@ -198,12 +182,8 @@ export default async function ApprenticeshipProgramsPage() {
                   />
                 </div>
                 <div className="p-8">
-                  <h3 className="text-2xl font-bold text-black mb-3">
-                    {program.name}
-                  </h3>
-                  <p className="text-black mb-4 leading-relaxed">
-                    {program.shortDescription}
-                  </p>
+                  <h3 className="text-2xl font-bold text-black mb-3">{program.name}</h3>
+                  <p className="text-black mb-4 leading-relaxed">{program.shortDescription}</p>
                   <div className="flex flex-wrap gap-2 mb-4">
                     <span className="px-3 py-2 bg-blue-100 text-blue-700 text-sm font-semibold rounded-full">
                       {program.duration}
@@ -223,11 +203,7 @@ export default async function ApprenticeshipProgramsPage() {
       </section>
 
       {/* Host Shop Requirements - All Tracks */}
-      <HostShopRequirements 
-        programTrack="all" 
-        showApprovalProcess={true}
-        showMultiRegion={true}
-      />
+      <HostShopRequirements programTrack="all" showApprovalProcess={true} showMultiRegion={true} />
 
       {/* Credentials & Outcomes */}
       <section className="py-16 bg-gray-50">

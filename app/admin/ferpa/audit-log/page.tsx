@@ -31,7 +31,9 @@ async function getFerpaAuditLog() {
 
   const { data, error } = await db
     .from('audit_logs')
-    .select('id, action, actor_id, target_id, metadata, created_at, profiles:actor_id(full_name, email)')
+    .select(
+      'id, action, actor_id, target_id, metadata, created_at, profiles:actor_id(full_name, email)',
+    )
     .in('action', FERPA_ACTIONS)
     .order('created_at', { ascending: false })
     .limit(200);
@@ -56,17 +58,20 @@ export default async function FerpaAuditLogPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="max-w-6xl mx-auto px-4 py-8">
-        <Breadcrumbs items={[
-          { label: 'Admin', href: '/admin' },
-          { label: 'FERPA', href: '/admin/ferpa' },
-          { label: 'Audit Log' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Admin', href: '/admin' },
+            { label: 'FERPA', href: '/admin/ferpa' },
+            { label: 'Audit Log' },
+          ]}
+        />
 
         <div className="mt-6 mb-8 flex items-center justify-between">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">FERPA Audit Log</h1>
             <p className="text-slate-600 mt-1">
-              All FERPA-relevant actions — disclosures, access requests, consent changes, and record views.
+              All FERPA-relevant actions — disclosures, access requests, consent changes, and record
+              views.
             </p>
           </div>
           <span className="text-sm text-slate-500">{entries.length} entries</span>
@@ -99,12 +104,16 @@ export default async function FerpaAuditLogPage() {
                       {new Date(e.created_at).toLocaleString()}
                     </td>
                     <td className="px-6 py-3">
-                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${actionColor[e.action] ?? 'bg-slate-100 text-slate-700'}`}>
+                      <span
+                        className={`px-2 py-0.5 rounded text-xs font-medium ${actionColor[e.action] ?? 'bg-slate-100 text-slate-700'}`}
+                      >
                         {e.action}
                       </span>
                     </td>
                     <td className="px-6 py-3 text-slate-700">
-                      {(e.profiles as any)?.full_name ?? (e.profiles as any)?.email ?? e.actor_id?.slice(0, 8) + '…'}
+                      {(e.profiles as any)?.full_name ??
+                        (e.profiles as any)?.email ??
+                        e.actor_id?.slice(0, 8) + '…'}
                     </td>
                     <td className="px-6 py-3 text-slate-500 font-mono text-xs">
                       {e.target_id ? e.target_id.slice(0, 8) + '…' : '—'}

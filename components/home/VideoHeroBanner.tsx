@@ -1,9 +1,7 @@
-
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-
 
 interface VideoHeroBannerProps {
   videoSrc?: string;
@@ -34,7 +32,7 @@ export default function VideoHeroBanner({
   useEffect(() => {
     setIsMounted(true);
     setShouldLoadVideo(true);
-    
+
     const video = videoRef.current;
     if (!video) return;
 
@@ -62,7 +60,9 @@ export default function VideoHeroBanner({
 
   const handleUserInteraction = () => {
     if (audioRef.current && voiceoverSrc && audioRef.current.paused) {
-      audioRef.current.play().catch(() => { /* Autoplay blocked */ });
+      audioRef.current.play().catch(() => {
+        /* Autoplay blocked */
+      });
     }
   };
 
@@ -89,10 +89,7 @@ export default function VideoHeroBanner({
   }
 
   return (
-    <section
-      className="relative w-full bg-brand-blue-900"
-      onClick={handleUserInteraction}
-    >
+    <section className="relative w-full bg-brand-blue-900" onClick={handleUserInteraction}>
       {/* Video Container - Full viewport height */}
       <div
         className="relative w-full min-h-[500px] md:min-h-[600px] lg:min-h-[700px]"

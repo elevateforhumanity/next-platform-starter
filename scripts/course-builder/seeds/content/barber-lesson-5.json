@@ -172,12 +172,7 @@
       },
       {
         "prompt": "Which of the following items is designed for single use?",
-        "choices": [
-          "Clippers",
-          "Neck strip",
-          "Towel",
-          "Cape"
-        ],
+        "choices": ["Clippers", "Neck strip", "Towel", "Cape"],
         "answerIndex": 1,
         "rationale": "Neck strips are single-use items and should be disposed of after each client to prevent cross-contamination.",
         "type": "recall"

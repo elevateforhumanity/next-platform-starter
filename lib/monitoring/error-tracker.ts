@@ -11,12 +11,11 @@ async function sendCriticalAlert(data: {
 }): Promise<void> {
   const sendgridKey = process.env.SENDGRID_API_KEY;
   const adminEmail = process.env.ADMIN_ALERT_EMAIL || 'elevate4humanityedu@gmail.com';
-  
+
   if (!sendgridKey) {
     logger.error('SENDGRID_API_KEY not configured for alerts');
     return;
   }
-
 
   await resend.emails.send({
     from: 'Elevate LMS Alerts <alerts@elevateforhumanity.org>',
@@ -199,10 +198,10 @@ export async function getErrorStats(timeRange: '1h' | '24h' | '7d' = '24h'): Pro
 }> {
   try {
     const supabase = await getAdminClient();
-    
+
     const now = new Date();
     const startTime = new Date(now);
-    
+
     switch (timeRange) {
       case '1h':
         startTime.setHours(now.getHours() - 1);
@@ -251,7 +250,7 @@ export async function getErrorStats(timeRange: '1h' | '24h' | '7d' = '24h'): Pro
  * Enhanced error handler with logging
  */
 export function withErrorLogging<T = any>(
-  handler: (request: Request, context?: any) => Promise<Response>
+  handler: (request: Request, context?: any) => Promise<Response>,
 ) {
   return async (request: Request, context?: any): Promise<Response> => {
     const startTime = Date.now();
@@ -261,7 +260,7 @@ export function withErrorLogging<T = any>(
 
     try {
       const response = await handler(request, context);
-      
+
       // Log successful requests (optional - can be disabled for performance)
       if (response.status >= 400) {
         await logError({

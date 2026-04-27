@@ -1,4 +1,4 @@
-import { Clock, AlertCircle, XCircle, CheckCircle, } from 'lucide-react';
+import { Clock, AlertCircle, XCircle, CheckCircle } from 'lucide-react';
 
 type MOUStatusBadgeProps = {
   status: string;
@@ -6,11 +6,7 @@ type MOUStatusBadgeProps = {
   size?: 'sm' | 'md' | 'lg';
 };
 
-export function MOUStatusBadge({
-  status,
-  showIcon = true,
-  size = 'md',
-}: MOUStatusBadgeProps) {
+export function MOUStatusBadge({ status, showIcon = true, size = 'md' }: MOUStatusBadgeProps) {
   const configs: Record<
     string,
     {
@@ -97,8 +93,8 @@ export function MOUStatusAlert({
         <div>
           <p className="font-medium text-brand-green-900">MOU Fully Executed</p>
           <p className="text-sm text-brand-green-700 mt-1">
-            Your MOU is fully signed and you can now enroll participants and
-            receive revenue share payments.
+            Your MOU is fully signed and you can now enroll participants and receive revenue share
+            payments.
           </p>
         </div>
       </div>
@@ -110,12 +106,10 @@ export function MOUStatusAlert({
       <div className="flex items-start gap-3 p-4 bg-brand-orange-50 border border-brand-orange-200 rounded-lg">
         <Clock className="h-5 w-5 text-brand-orange-600 mt-0.5 flex-shrink-0" />
         <div>
-          <p className="font-medium text-brand-orange-900">
-            MOU Awaiting Countersignature
-          </p>
+          <p className="font-medium text-brand-orange-900">MOU Awaiting Countersignature</p>
           <p className="text-sm text-brand-orange-700 mt-1">
-            You've signed the MOU. An Elevate representative will countersign
-            and provide the fully executed copy.
+            You've signed the MOU. An Elevate representative will countersign and provide the fully
+            executed copy.
           </p>
         </div>
       </div>
@@ -129,8 +123,8 @@ export function MOUStatusAlert({
         <div>
           <p className="font-medium text-brand-blue-900">Action Required: Sign MOU</p>
           <p className="text-sm text-brand-blue-700 mt-1">
-            Please review and sign your MOU to begin training participants and
-            receiving revenue share payments.
+            Please review and sign your MOU to begin training participants and receiving revenue
+            share payments.
           </p>
         </div>
       </div>
@@ -143,8 +137,7 @@ export function MOUStatusAlert({
       <div>
         <p className="font-medium text-yellow-900">MOU Required</p>
         <p className="text-sm text-yellow-700 mt-1">
-          A signed MOU is required before you can enroll participants or receive
-          payments.
+          A signed MOU is required before you can enroll participants or receive payments.
         </p>
       </div>
     </div>

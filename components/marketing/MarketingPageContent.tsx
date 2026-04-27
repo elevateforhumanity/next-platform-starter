@@ -17,22 +17,20 @@ export function MarketingPageContent({ page }: MarketingPageContentProps) {
     <div className="min-h-screen">
       {/* Hero Section */}
       <section className="relative h-[500px] flex items-center">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={page.hero_image}
           alt={page.hero_image_alt}
           fill
           className="object-cover"
           priority
-         sizes="100vw" />
-        
+          sizes="100vw"
+        />
+
         <div className="relative max-w-7xl mx-auto px-6 text-white">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-            {page.title}
-          </h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">{page.title}</h1>
           {page.subtitle && (
-            <p className="text-xl md:text-2xl text-white max-w-3xl">
-              {page.subtitle}
-            </p>
+            <p className="text-xl md:text-2xl text-white max-w-3xl">{page.subtitle}</p>
           )}
         </div>
       </section>
@@ -67,7 +65,7 @@ function TextSection({ section }: { section: MarketingSection }) {
     <section className="py-16">
       <div className="max-w-4xl mx-auto px-6">
         <h2 className="text-3xl font-bold text-slate-900 mb-6">{section.heading}</h2>
-        <div 
+        <div
           className="prose prose-lg max-w-none text-slate-900"
           dangerouslySetInnerHTML={{ __html: sanitizeHtml(section.body || '') }}
         />

@@ -10,12 +10,7 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
-import {
-  ExternalLink,
-  Clock,
-  XCircle,
-  AlertCircle,
-CheckCircle, } from 'lucide-react';
+import { ExternalLink, Clock, XCircle, AlertCircle, CheckCircle } from 'lucide-react';
 
 export function ExternalModulesPageClient() {
   const supabase = createClient();
@@ -29,9 +24,15 @@ export function ExternalModulesPageClient() {
   // Role guard — admin/super_admin/staff only
   useEffect(() => {
     supabase.auth.getUser().then(async ({ data: { user } }) => {
-      if (!user) { router.replace('/login?redirect=/admin/external-modules'); return; }
+      if (!user) {
+        router.replace('/login?redirect=/admin/external-modules');
+        return;
+      }
       const { data: profile } = await supabase
-        .from('profiles').select('role').eq('id', user.id).maybeSingle();
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .maybeSingle();
       if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
         router.replace('/unauthorized');
         return;
@@ -53,7 +54,7 @@ export function ExternalModulesPageClient() {
         *,
         provider:training_providers(name),
         enrollments:external_module_enrollments(count)
-      `
+      `,
       )
       .order('created_at', { ascending: false });
 
@@ -71,7 +72,7 @@ export function ExternalModulesPageClient() {
         `
         *,
         provider:training_providers(name)
-      `
+      `,
       )
       .eq('approval_status', 'pending')
       .order('created_at', { ascending: false });
@@ -81,18 +82,18 @@ export function ExternalModulesPageClient() {
   }
 
   async function approveModule(moduleId: string) {
-    const res = await fetch(
-      `/api/admin/external-modules/${moduleId}/approve`,
-      { method: 'POST', credentials: 'include' },
-    );
+    const res = await fetch(`/api/admin/external-modules/${moduleId}/approve`, {
+      method: 'POST',
+      credentials: 'include',
+    });
     if (res.ok) await loadData();
   }
 
   async function rejectModule(moduleId: string) {
-    const res = await fetch(
-      `/api/admin/external-modules/${moduleId}/reject`,
-      { method: 'POST', credentials: 'include' },
-    );
+    const res = await fetch(`/api/admin/external-modules/${moduleId}/reject`, {
+      method: 'POST',
+      credentials: 'include',
+    });
     if (res.ok) await loadData();
   }
 
@@ -102,13 +103,13 @@ export function ExternalModulesPageClient() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "External Modules" }]} />
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'External Modules' }]} />
       </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-external-modules-detail.jpg"
           alt="External Modules Management"
@@ -118,7 +119,6 @@ export function ExternalModulesPageClient() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -126,9 +126,7 @@ export function ExternalModulesPageClient() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <p className="text-sm text-black mb-2">Total Modules</p>
-            <p className="text-3xl font-bold text-brand-blue-600">
-              {modules.length}
-            </p>
+            <p className="text-3xl font-bold text-brand-blue-600">{modules.length}</p>
           </div>
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <p className="text-sm text-black mb-2">Active</p>
@@ -138,9 +136,7 @@ export function ExternalModulesPageClient() {
           </div>
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <p className="text-sm text-black mb-2">Pending Approval</p>
-            <p className="text-3xl font-bold text-brand-orange-600">
-              {pendingApprovals.length}
-            </p>
+            <p className="text-3xl font-bold text-brand-orange-600">{pendingApprovals.length}</p>
           </div>
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <p className="text-sm text-black mb-2">Inactive</p>
@@ -156,9 +152,7 @@ export function ExternalModulesPageClient() {
             <button
               onClick={() => setFilter('all')}
               className={`px-4 py-2 rounded-lg font-medium ${
-                filter === 'all'
-                  ? 'bg-brand-blue-600 text-white'
-                  : 'bg-gray-100 text-black'
+                filter === 'all' ? 'bg-brand-blue-600 text-white' : 'bg-gray-100 text-black'
               }`}
             >
               All Modules
@@ -166,9 +160,7 @@ export function ExternalModulesPageClient() {
             <button
               onClick={() => setFilter('active')}
               className={`px-4 py-2 rounded-lg font-medium ${
-                filter === 'active'
-                  ? 'bg-brand-green-600 text-white'
-                  : 'bg-gray-100 text-black'
+                filter === 'active' ? 'bg-brand-green-600 text-white' : 'bg-gray-100 text-black'
               }`}
             >
               Active
@@ -176,9 +168,7 @@ export function ExternalModulesPageClient() {
             <button
               onClick={() => setFilter('pending')}
               className={`px-4 py-2 rounded-lg font-medium ${
-                filter === 'pending'
-                  ? 'bg-brand-orange-600 text-white'
-                  : 'bg-gray-100 text-black'
+                filter === 'pending' ? 'bg-brand-orange-600 text-white' : 'bg-gray-100 text-black'
               }`}
             >
               Pending
@@ -195,10 +185,7 @@ export function ExternalModulesPageClient() {
             </h2>
             <div className="space-y-4">
               {pendingApprovals.map((module) => (
-                <div
-                  key={module.id}
-                  className="p-4 border rounded-lg bg-brand-orange-50"
-                >
+                <div key={module.id} className="p-4 border rounded-lg bg-brand-orange-50">
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="font-semibold text-lg">{module.name}</h3>
@@ -206,8 +193,7 @@ export function ExternalModulesPageClient() {
                         Provider: {module.provider?.name || 'Unknown'}
                       </p>
                       <p className="text-sm text-black">
-                        Submitted:{' '}
-                        {new Date(module.created_at).toLocaleDateString()}
+                        Submitted: {new Date(module.created_at).toLocaleDateString()}
                       </p>
                     </div>
                     <div className="flex gap-2">
@@ -237,10 +223,7 @@ export function ExternalModulesPageClient() {
           {modules && modules.length > 0 ? (
             <div className="space-y-4">
               {modules.map((module) => (
-                <div
-                  key={module.id}
-                  className="p-4 border rounded-lg hover:bg-gray-50"
-                >
+                <div key={module.id} className="p-4 border rounded-lg hover:bg-gray-50">
                   <div className="flex justify-between items-start">
                     <div>
                       <h3 className="font-semibold text-lg flex items-center gap-2">
@@ -251,8 +234,7 @@ export function ExternalModulesPageClient() {
                         Provider: {module.provider?.name || 'Unknown'}
                       </p>
                       <p className="text-sm text-black">
-                        Created:{' '}
-                        {new Date(module.created_at).toLocaleDateString()}
+                        Created: {new Date(module.created_at).toLocaleDateString()}
                       </p>
                     </div>
                     <div className="flex items-center gap-2">
@@ -280,9 +262,7 @@ export function ExternalModulesPageClient() {
               ))}
             </div>
           ) : (
-            <p className="text-black text-center py-8">
-              No external modules found
-            </p>
+            <p className="text-black text-center py-8">No external modules found</p>
           )}
         </div>
       </div>
@@ -291,12 +271,10 @@ export function ExternalModulesPageClient() {
       <section className="py-16 bg-brand-blue-700">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              External Learning Modules
-                        </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">External Learning Modules</h2>
             <p className="text-base md:text-lg text-brand-blue-100 mb-8">
               Manage third-party content integrations and LTI connections.
-                        </p>
+            </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/admin/external-modules"

@@ -26,13 +26,7 @@ type Props = {
   className?: string;
 };
 
-export default function CanonicalHero({
-  media,
-  title,
-  body,
-  actions,
-  className = '',
-}: Props) {
+export default function CanonicalHero({ media, title, body, actions, className = '' }: Props) {
   return (
     <section className={`w-full ${className}`}>
       {/* Media block — full width, no text inside */}
@@ -50,9 +44,7 @@ export default function CanonicalHero({
           </p>
         ) : null}
 
-        {actions ? (
-          <div className="mt-6 flex flex-wrap gap-3">{actions}</div>
-        ) : null}
+        {actions ? <div className="mt-6 flex flex-wrap gap-3">{actions}</div> : null}
       </div>
     </section>
   );

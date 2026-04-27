@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -27,11 +27,8 @@ export default function OnboardingFlow({
 
   // Calculate progress
   const totalSteps = documents.length + 1; // documents + payroll setup
-  const completedDocs = documents.filter((d) =>
-    signedDocumentIds.has(d.id)
-  ).length;
-  const payrollComplete =
-    payrollStatus === 'ACTIVE' || payrollStatus === 'PENDING';
+  const completedDocs = documents.filter((d) => signedDocumentIds.has(d.id)).length;
+  const payrollComplete = payrollStatus === 'ACTIVE' || payrollStatus === 'PENDING';
   const completedSteps = completedDocs + (payrollComplete ? 1 : 0);
   const progressPercent = Math.round((completedSteps / totalSteps) * 100);
 
@@ -51,14 +48,10 @@ export default function OnboardingFlow({
               <h1 className="text-2xl font-bold text-black">
                 {roleNames[profile.role]} Onboarding
               </h1>
-              <p className="text-black mt-1">
-                Complete all steps to get started
-              </p>
+              <p className="text-black mt-1">Complete all steps to get started</p>
             </div>
             <div className="text-right">
-              <div className="text-3xl font-bold text-brand-blue-600">
-                {progressPercent}%
-              </div>
+              <div className="text-3xl font-bold text-brand-blue-600">{progressPercent}%</div>
               <div className="text-sm text-black">
                 {completedSteps} of {totalSteps} complete
               </div>
@@ -83,9 +76,7 @@ export default function OnboardingFlow({
           {/* Sidebar - Checklist */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 sticky top-8">
-              <h2 className="text-lg font-semibold text-black mb-4">
-                Onboarding Checklist
-              </h2>
+              <h2 className="text-lg font-semibold text-black mb-4">Onboarding Checklist</h2>
               <div className="space-y-3">
                 {documents.map((doc, index) => {
                   const isComplete = signedDocumentIds.has(doc.id);
@@ -122,9 +113,7 @@ export default function OnboardingFlow({
                         >
                           {doc.title}
                         </div>
-                        <div className="text-xs text-slate-500 mt-0.5">
-                          {doc.document_type}
-                        </div>
+                        <div className="text-xs text-slate-500 mt-0.5">{doc.document_type}</div>
                       </div>
                     </button>
                   );
@@ -203,32 +192,20 @@ export default function OnboardingFlow({
 }
 
 // Document Step Component
-function DocumentStep({
-  document,
-  isComplete,
-  userId,
-  userRole,
-  userName,
-  onComplete,
-}: any) {
+function DocumentStep({ document, isComplete, userId, userRole, userName, onComplete }: any) {
   const [signature, setSignature] = useState('');
   const [acknowledged, setAcknowledged] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
 
   const handleSubmit = async () => {
-    if (
-      document.requires_signature &&
-      signature.trim().toLowerCase() !== userName.toLowerCase()
-    ) {
+    if (document.requires_signature && signature.trim().toLowerCase() !== userName.toLowerCase()) {
       setError('Signature must match your full name exactly');
       return;
     }
 
     if (!acknowledged) {
-      setError(
-        'You must acknowledge that you have read and understood this document'
-      );
+      setError('You must acknowledge that you have read and understood this document');
       return;
     }
 
@@ -265,9 +242,7 @@ function DocumentStep({
       <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
         <div className="text-center">
           <span className="text-slate-500 flex-shrink-0">•</span>
-          <h2 className="text-2xl font-bold text-black mb-2">
-            {document.title}
-          </h2>
+          <h2 className="text-2xl font-bold text-black mb-2">{document.title}</h2>
           <p className="text-black mb-6">
             You completed this step on {new Date().toLocaleDateString()}
           </p>
@@ -291,9 +266,7 @@ function DocumentStep({
             <FileText className="w-6 h-6 text-brand-blue-600" />
           </div>
           <div className="flex-1">
-            <h2 className="text-xl font-bold text-black">
-              {document.title}
-            </h2>
+            <h2 className="text-xl font-bold text-black">{document.title}</h2>
             <p className="text-black mt-1">{document.document_type}</p>
           </div>
         </div>
@@ -314,9 +287,7 @@ function DocumentStep({
         {document.requires_signature && (
           <div className="mt-6 space-y-4">
             <div>
-              <label className="block text-sm font-medium text-black mb-2">
-                Digital Signature
-              </label>
+              <label className="block text-sm font-medium text-black mb-2">Digital Signature</label>
               <input
                 type="text"
                 value={signature}
@@ -341,9 +312,8 @@ function DocumentStep({
               className="mt-1 w-5 h-5 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
             />
             <span className="text-sm text-black">
-              I have read and understood this document. I acknowledge that this
-              digital signature has the same legal effect as a handwritten
-              signature.
+              I have read and understood this document. I acknowledge that this digital signature
+              has the same legal effect as a handwritten signature.
             </span>
           </label>
         </div>
@@ -358,11 +328,7 @@ function DocumentStep({
         <div className="mt-6">
           <button
             onClick={handleSubmit}
-            disabled={
-              isSubmitting ||
-              !acknowledged ||
-              (document.requires_signature && !signature)
-            }
+            disabled={isSubmitting || !acknowledged || (document.requires_signature && !signature)}
             className="w-full px-6 py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {isSubmitting ? 'Submitting...' : 'Sign and Continue'}
@@ -374,12 +340,7 @@ function DocumentStep({
 }
 
 // Payroll Setup Step Component
-function PayrollSetupStep({
-  userId,
-  userRole,
-  currentStatus,
-  onComplete,
-}: any) {
+function PayrollSetupStep({ userId, userRole, currentStatus, onComplete }: any) {
   return (
     <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
       <div className="flex items-start gap-4 mb-6">
@@ -388,18 +349,14 @@ function PayrollSetupStep({
         </div>
         <div className="flex-1">
           <h2 className="text-xl font-bold text-black">Payroll Setup</h2>
-          <p className="text-black mt-1">
-            Configure your payment method and tax information
-          </p>
+          <p className="text-black mt-1">Configure your payment method and tax information</p>
         </div>
       </div>
 
       {currentStatus === 'PENDING' || currentStatus === 'ACTIVE' ? (
         <div className="text-center py-8">
           <span className="text-slate-500 flex-shrink-0">•</span>
-          <h3 className="text-lg font-semibold text-black mb-2">
-            Payroll Setup Complete
-          </h3>
+          <h3 className="text-lg font-semibold text-black mb-2">Payroll Setup Complete</h3>
           <p className="text-black mb-6">
             Status: <strong>{currentStatus}</strong>
           </p>

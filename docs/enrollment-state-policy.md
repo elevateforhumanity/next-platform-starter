@@ -8,14 +8,14 @@
 
 ## 1. Enrollment State Definitions
 
-| State | `enrollment_state` | `status` | LMS Access | Description |
-|---|---|---|---|---|
-| Applied | `applied` | `pending_approval` | None | Application submitted, awaiting admin review |
-| Pending Funding Verification | `pending_funding_verification` | `pending_funding_verification` | None | Enrolled via instant-access flow; funding source not yet confirmed |
-| Onboarding | `onboarding` | `active` | Full | Funding verified or payment confirmed; student completing orientation |
-| Active | `active` | `active` | Full | Actively progressing through coursework |
-| Orientation | `orientation` | `active` | Full | In orientation phase |
-| Revoked | `revoked` | `revoked` | None | Enrollment terminated (non-payment, policy violation, or SLA expiry) |
+| State                        | `enrollment_state`             | `status`                       | LMS Access | Description                                                           |
+| ---------------------------- | ------------------------------ | ------------------------------ | ---------- | --------------------------------------------------------------------- |
+| Applied                      | `applied`                      | `pending_approval`             | None       | Application submitted, awaiting admin review                          |
+| Pending Funding Verification | `pending_funding_verification` | `pending_funding_verification` | None       | Enrolled via instant-access flow; funding source not yet confirmed    |
+| Onboarding                   | `onboarding`                   | `active`                       | Full       | Funding verified or payment confirmed; student completing orientation |
+| Active                       | `active`                       | `active`                       | Full       | Actively progressing through coursework                               |
+| Orientation                  | `orientation`                  | `active`                       | Full       | In orientation phase                                                  |
+| Revoked                      | `revoked`                      | `revoked`                      | None       | Enrollment terminated (non-payment, policy violation, or SLA expiry)  |
 
 ---
 
@@ -107,12 +107,12 @@ CHECK (enrollment_state IN (
 
 Routes that enforce the `pending_funding_verification` block:
 
-| Route | Behavior | HTTP Status |
-|---|---|---|
-| `POST /api/lessons/[lessonId]/complete` | Returns error before recording progress | 403 |
-| `POST /api/certificates/generate` | Returns error before generating PDF | 403 |
-| `GET /learner/dashboard` | Shows status banner; auto-repair fires if Stripe shows paid | N/A |
-| `POST /api/system/reconcile-payment` | Self-healing: checks Stripe live, repairs missing enrollment | 200 / 409 |
+| Route                                   | Behavior                                                     | HTTP Status |
+| --------------------------------------- | ------------------------------------------------------------ | ----------- |
+| `POST /api/lessons/[lessonId]/complete` | Returns error before recording progress                      | 403         |
+| `POST /api/certificates/generate`       | Returns error before generating PDF                          | 403         |
+| `GET /learner/dashboard`                | Shows status banner; auto-repair fires if Stripe shows paid  | N/A         |
+| `POST /api/system/reconcile-payment`    | Self-healing: checks Stripe live, repairs missing enrollment | 200 / 409   |
 
 The learner dashboard does not block page load — it shows a banner explaining the student's status and next steps. All lesson and certificate API calls are blocked server-side.
 
@@ -126,21 +126,21 @@ The learner dashboard does not block page load — it shows a banner explaining 
 
 ### Queue Columns
 
-| Column | Source |
-|---|---|
-| Student name / email | `profiles` joined via `v_funding_verification_queue` |
-| Program | `courses.title` |
-| Enrolled date | `program_enrollments.created_at` |
-| SLA status | Computed: `on_track` / `at_risk` (≤3 days) / `overdue` |
-| Days remaining | Computed (negative = overdue) |
+| Column               | Source                                                 |
+| -------------------- | ------------------------------------------------------ |
+| Student name / email | `profiles` joined via `v_funding_verification_queue`   |
+| Program              | `courses.title`                                        |
+| Enrolled date        | `program_enrollments.created_at`                       |
+| SLA status           | Computed: `on_track` / `at_risk` (≤3 days) / `overdue` |
+| Days remaining       | Computed (negative = overdue)                          |
 
 ### Admin Actions
 
-| Action | Effect |
-|---|---|
+| Action     | Effect                                                                                                      |
+| ---------- | ----------------------------------------------------------------------------------------------------------- |
 | **Verify** | Moves enrollment to `onboarding`, sets `funding_verified = true`, resolves integrity flag, writes audit log |
-| **Reject** | Moves enrollment to `revoked`, resolves integrity flag, writes audit log |
-| **Note** | Attaches free-text note to the Verify or Reject action (stored in audit log and integrity flag resolution) |
+| **Reject** | Moves enrollment to `revoked`, resolves integrity flag, writes audit log                                    |
+| **Note**   | Attaches free-text note to the Verify or Reject action (stored in audit log and integrity flag resolution)  |
 
 ---
 
@@ -186,11 +186,11 @@ Returns:
 
 **Views:**
 
-| View | Purpose |
-|---|---|
-| `v_paid_not_enrolled` | Stripe sessions with `payment_status = 'paid'` but no matching enrollment |
-| `v_enrolled_not_paid` | Active enrollments with no Stripe payment and `funding_verified = false` |
-| `v_funding_verification_queue` | All `pending_funding_verification` enrollments with SLA status |
+| View                           | Purpose                                                                   |
+| ------------------------------ | ------------------------------------------------------------------------- |
+| `v_paid_not_enrolled`          | Stripe sessions with `payment_status = 'paid'` but no matching enrollment |
+| `v_enrolled_not_paid`          | Active enrollments with no Stripe payment and `funding_verified = false`  |
+| `v_funding_verification_queue` | All `pending_funding_verification` enrollments with SLA status            |
 
 **Expected steady-state:**
 
@@ -230,13 +230,13 @@ Returns:
 
 ## 9. Changelog
 
-| Date | Change | Migration / Ref |
-|---|---|---|
-| 2026-05-03 | Added `pending_funding_verification` enrollment state with DB constraint | `20260503000013` |
-| 2026-05-03 | Created `stripe_sessions_staging` and payment integrity views | `20260503000010` |
-| 2026-05-03 | Created `payment_integrity_flags`; flagged 36 legacy enrollments | `20260503000011` |
-| 2026-05-03 | Hardened `enroll_application` RPC with Stripe staging check | `20260503000012` |
-| 2026-05-03 | Fixed Stripe webhook (`withApiAudit` re-throw bug) | Code |
-| 2026-05-03 | Added LMS access gates to lesson complete and certificate generate routes | Code |
-| 2026-05-03 | Built admin funding verification queue (`/admin/funding-verification`) | Code |
-| 2026-05-03 | Added SLA escalation cron (`/api/cron/funding-escalation`) | Code |
+| Date       | Change                                                                    | Migration / Ref  |
+| ---------- | ------------------------------------------------------------------------- | ---------------- |
+| 2026-05-03 | Added `pending_funding_verification` enrollment state with DB constraint  | `20260503000013` |
+| 2026-05-03 | Created `stripe_sessions_staging` and payment integrity views             | `20260503000010` |
+| 2026-05-03 | Created `payment_integrity_flags`; flagged 36 legacy enrollments          | `20260503000011` |
+| 2026-05-03 | Hardened `enroll_application` RPC with Stripe staging check               | `20260503000012` |
+| 2026-05-03 | Fixed Stripe webhook (`withApiAudit` re-throw bug)                        | Code             |
+| 2026-05-03 | Added LMS access gates to lesson complete and certificate generate routes | Code             |
+| 2026-05-03 | Built admin funding verification queue (`/admin/funding-verification`)    | Code             |
+| 2026-05-03 | Added SLA escalation cron (`/api/cron/funding-escalation`)                | Code             |

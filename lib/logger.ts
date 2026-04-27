@@ -37,11 +37,13 @@ class Logger {
     // JSON format for production (easier to parse by log aggregators)
     return JSON.stringify({
       ...entry,
-      error: error ? {
-        message: 'Operation failed',
-        stack: error instanceof Error ? error.stack : undefined,
-        name: error instanceof Error ? error.name : undefined,
-      } : undefined,
+      error: error
+        ? {
+            message: 'Operation failed',
+            stack: error instanceof Error ? error.stack : undefined,
+            name: error instanceof Error ? error.name : undefined,
+          }
+        : undefined,
     });
   }
 
@@ -90,7 +92,7 @@ class Logger {
       // Sentry integration for error tracking
       if (entry.level === 'error' && process.env.SENTRY_DSN) {
         const Sentry = await import('@sentry/nextjs');
-        
+
         if (entry.error) {
           Sentry.captureException(entry.error, {
             extra: {
@@ -150,5 +152,6 @@ export const log = {
   debug: (message: string, context?: Record<string, any>) => logger.debug(message, context),
   info: (message: string, context?: Record<string, any>) => logger.info(message, context),
   warn: (message: string, context?: Record<string, any>) => logger.warn(message, context),
-  error: (message: string, error?: Error, context?: Record<string, any>) => logger.error(message, error, context),
+  error: (message: string, error?: Error, context?: Record<string, any>) =>
+    logger.error(message, error, context),
 };

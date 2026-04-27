@@ -1,4 +1,3 @@
-
 import { createClient } from '@/lib/supabase/server';
 
 export interface DeploymentStatus {
@@ -28,8 +27,7 @@ export async function prepareDeploy(): Promise<DeploymentStatus> {
     checks.database = !dbError;
 
     checks.environment = !!(
-      process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
     );
 
     checks.build = true;
@@ -65,13 +63,16 @@ export async function runAutopilot(config: {
   const supabase = await createClient();
   const { action, target, options } = config;
 
-  await supabase.from('autopilot_logs').insert({
-    action,
-    target,
-    options: JSON.stringify(options),
-    status: 'started',
-    started_at: new Date().toISOString(),
-  }).catch(() => {});
+  await supabase
+    .from('autopilot_logs')
+    .insert({
+      action,
+      target,
+      options: JSON.stringify(options),
+      status: 'started',
+      started_at: new Date().toISOString(),
+    })
+    .catch(() => {});
 
   switch (action) {
     case 'sync-enrollments':
@@ -117,7 +118,9 @@ async function generateReports(supabase: any) {
     report: {
       totalEnrollments: enrollmentCount || 0,
       completions: completionCount || 0,
-      completionRate: enrollmentCount ? ((completionCount || 0) / enrollmentCount * 100).toFixed(1) : 0,
+      completionRate: enrollmentCount
+        ? (((completionCount || 0) / enrollmentCount) * 100).toFixed(1)
+        : 0,
       generatedAt: new Date().toISOString(),
     },
   };
@@ -214,11 +217,14 @@ export async function generateSitemap() {
   };
 }
 
-export async function enhanceMedia(mediaUrl: string, options: {
-  resize?: boolean;
-  optimize?: boolean;
-  format?: string;
-}) {
+export async function enhanceMedia(
+  mediaUrl: string,
+  options: {
+    resize?: boolean;
+    optimize?: boolean;
+    format?: string;
+  },
+) {
   return {
     ok: true,
     original: mediaUrl,

@@ -18,12 +18,12 @@ export interface QuizAttempt {
 
 export function calculateScore(
   questions: QuizQuestion[],
-  answers: Record<string, number>
+  answers: Record<string, number>,
 ): { score: number; correct: number; total: number } {
   let correct = 0;
   const total = questions.length;
 
-  questions.forEach(question => {
+  questions.forEach((question) => {
     if (answers[question.id] === question.correct_answer) {
       correct++;
     }
@@ -40,8 +40,8 @@ export function checkPassed(score: number, passingScore: number): boolean {
 
 export function validateAnswers(
   questions: QuizQuestion[],
-  answers: Record<string, number>
+  answers: Record<string, number>,
 ): boolean {
   // Check if all questions are answered
-  return questions.every(q => answers[q.id] !== undefined);
+  return questions.every((q) => answers[q.id] !== undefined);
 }

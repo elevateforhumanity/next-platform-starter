@@ -7,12 +7,10 @@ import Image from 'next/image';
 
 export const metadata: Metadata = {
   alternates: {
-    canonical:
-      'https://www.elevateforhumanity.org/programs/admin/programs/[programId]',
+    canonical: 'https://www.elevateforhumanity.org/programs/admin/programs/[programId]',
   },
   title: '[programId] | Elevate For Humanity',
-  description:
-    'Manage [programId] settings and development.',
+  description: 'Manage [programId] settings and development.',
 };
 
 export default async function programIdPage() {
@@ -36,11 +34,7 @@ export default async function programIdPage() {
     redirect('/login');
   }
 
-  const { data: profile } = await supabase
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .single();
+  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
 
   if (profile?.role !== 'admin' && profile?.role !== 'super_admin') {
     redirect('/unauthorized');
@@ -57,6 +51,7 @@ export default async function programIdPage() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <section className="relative h-[400px] md:h-[500px] lg:h-[600px] flex items-center justify-center text-white overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/hero/admin-hero.jpg"
           alt="[programId]"
@@ -68,12 +63,9 @@ export default async function programIdPage() {
         />
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            [programId]
-          </h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">[programId]</h1>
           <p className="text-base md:text-lg md:text-xl mb-8 text-gray-100">
-            Manage [programId] settings and
-            development.
+            Manage [programId] settings and development.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -93,25 +85,17 @@ export default async function programIdPage() {
             {/* Stats */}
             <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-8">
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <h3 className="text-sm font-medium text-black mb-2">
-                  Total Items
-                </h3>
-                <p className="text-3xl font-bold text-brand-blue-600">
-                  {count || 0}
-                </p>
+                <h3 className="text-sm font-medium text-black mb-2">Total Items</h3>
+                <p className="text-3xl font-bold text-brand-blue-600">{count || 0}</p>
               </div>
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <h3 className="text-sm font-medium text-black mb-2">
-                  Active
-                </h3>
+                <h3 className="text-sm font-medium text-black mb-2">Active</h3>
                 <p className="text-3xl font-bold text-brand-green-600">
                   {items?.filter((i) => i.status === 'active').length || 0}
                 </p>
               </div>
               <div className="bg-white rounded-lg shadow-sm border p-6">
-                <h3 className="text-sm font-medium text-black mb-2">
-                  Recent
-                </h3>
+                <h3 className="text-sm font-medium text-black mb-2">Recent</h3>
                 <p className="text-3xl font-bold text-purple-600">
                   {items?.filter((i) => {
                     const created = new Date(i.created_at);
@@ -129,13 +113,8 @@ export default async function programIdPage() {
               {items && items.length > 0 ? (
                 <div className="space-y-4">
                   {items.map((item: any) => (
-                    <div
-                      key={item.id}
-                      className="p-4 border rounded-lg hover:bg-gray-50"
-                    >
-                      <p className="font-semibold">
-                        {item.title || item.name || item.id}
-                      </p>
+                    <div key={item.id} className="p-4 border rounded-lg hover:bg-gray-50">
+                      <p className="font-semibold">{item.title || item.name || item.id}</p>
                       <p className="text-sm text-black">
                         {new Date(item.created_at).toLocaleDateString()}
                       </p>
@@ -154,12 +133,9 @@ export default async function programIdPage() {
       <section className="py-16 bg-brand-blue-700 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Ready to Get Started?
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Get Started?</h2>
             <p className="text-base md:text-lg text-blue-100 mb-8">
-              Join thousands who have launched successful careers through our
-              programs.
+              Join thousands who have launched successful careers through our programs.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link

@@ -2,7 +2,16 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { User, GraduationCap, Briefcase, FileText, ChevronRight, ChevronLeft, Upload, CheckCircle, } from 'lucide-react';
+import {
+  User,
+  GraduationCap,
+  Briefcase,
+  FileText,
+  ChevronRight,
+  ChevronLeft,
+  Upload,
+  CheckCircle,
+} from 'lucide-react';
 import EnrollmentDocumentStep from '@/components/enrollment/EnrollmentDocumentStep';
 
 interface Program {
@@ -35,7 +44,7 @@ const APPRENTICE_DOCUMENT_REQUIREMENTS = [
   {
     type: 'photo_id',
     label: 'Photo ID',
-    description: 'Government-issued photo ID (driver\'s license, state ID, or passport)',
+    description: "Government-issued photo ID (driver's license, state ID, or passport)",
     required: true,
   },
 ];
@@ -55,7 +64,7 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [uploadedDocuments, setUploadedDocuments] = useState<UploadedDocument[]>([]);
-  
+
   const [formData, setFormData] = useState({
     firstName: '',
     lastName: '',
@@ -76,9 +85,9 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
   });
 
   // Check if selected program is barber apprenticeship
-  const selectedProgram = programs.find(p => p.id === formData.programId);
-  const isApprenticeshipProgram = selectedProgram?.slug?.includes('barber') || 
-    selectedProgram?.slug?.includes('apprentice');
+  const selectedProgram = programs.find((p) => p.id === formData.programId);
+  const isApprenticeshipProgram =
+    selectedProgram?.slug?.includes('barber') || selectedProgram?.slug?.includes('apprentice');
 
   const handleDocumentUpload = async (documentType: string, file: File) => {
     const formDataUpload = new FormData();
@@ -96,22 +105,25 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
     }
 
     const data = await response.json();
-    setUploadedDocuments(prev => [...prev, {
-      id: data.document.id,
-      document_type: documentType,
-      file_name: file.name,
-      status: 'pending',
-    }]);
+    setUploadedDocuments((prev) => [
+      ...prev,
+      {
+        id: data.document.id,
+        document_type: documentType,
+        file_name: file.name,
+        status: 'pending',
+      },
+    ]);
   };
 
   const handleDocumentRemove = async (documentId: string) => {
     // For now, just remove from local state
     // In production, you'd also delete from storage
-    setUploadedDocuments(prev => prev.filter(d => d.id !== documentId));
+    setUploadedDocuments((prev) => prev.filter((d) => d.id !== documentId));
   };
 
   const updateField = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async () => {
@@ -126,7 +138,7 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
         body: JSON.stringify({
           ...formData,
           staffId,
-          documentIds: uploadedDocuments.map(d => d.id),
+          documentIds: uploadedDocuments.map((d) => d.id),
         }),
       });
 
@@ -149,16 +161,31 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
       <div className="flex items-center justify-between mb-8">
         {steps.map((step, idx) => (
           <div key={step.id} className="flex items-center">
-            <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
-              currentStep > step.id ? 'bg-brand-green-500 text-white' :
-              currentStep === step.id ? 'bg-brand-orange-500 text-white' : 'bg-gray-200 text-slate-700'
-            }`}>
-              {currentStep > step.id ? <span className="text-slate-500 flex-shrink-0">•</span> : <step.icon className="w-5 h-5" />}
+            <div
+              className={`flex items-center justify-center w-10 h-10 rounded-full ${
+                currentStep > step.id
+                  ? 'bg-brand-green-500 text-white'
+                  : currentStep === step.id
+                    ? 'bg-brand-orange-500 text-white'
+                    : 'bg-gray-200 text-slate-700'
+              }`}
+            >
+              {currentStep > step.id ? (
+                <span className="text-slate-500 flex-shrink-0">•</span>
+              ) : (
+                <step.icon className="w-5 h-5" />
+              )}
             </div>
-            <span className={`ml-2 text-sm hidden sm:block ${currentStep === step.id ? 'font-medium text-slate-900' : 'text-slate-700'}`}>
+            <span
+              className={`ml-2 text-sm hidden sm:block ${currentStep === step.id ? 'font-medium text-slate-900' : 'text-slate-700'}`}
+            >
               {step.name}
             </span>
-            {idx < steps.length - 1 && <div className={`w-12 h-1 mx-2 ${currentStep > step.id ? 'bg-brand-green-500' : 'bg-gray-200'}`} />}
+            {idx < steps.length - 1 && (
+              <div
+                className={`w-12 h-1 mx-2 ${currentStep > step.id ? 'bg-brand-green-500' : 'bg-gray-200'}`}
+              />
+            )}
           </div>
         ))}
       </div>
@@ -175,54 +202,101 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
             <h2 className="text-xl font-semibold mb-4">Personal Information</h2>
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">First Name *</label>
-                <input type="text" value={formData.firstName} onChange={e => updateField('firstName', e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500" required />
+                <label className="block text-sm font-medium text-slate-900 mb-1">
+                  First Name *
+                </label>
+                <input
+                  type="text"
+                  value={formData.firstName}
+                  onChange={(e) => updateField('firstName', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500"
+                  required
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-1">Last Name *</label>
-                <input type="text" value={formData.lastName} onChange={e => updateField('lastName', e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500" required />
+                <input
+                  type="text"
+                  value={formData.lastName}
+                  onChange={(e) => updateField('lastName', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500"
+                  required
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-1">Email *</label>
-                <input type="email" value={formData.email} onChange={e => updateField('email', e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500" required />
+                <input
+                  type="email"
+                  value={formData.email}
+                  onChange={(e) => updateField('email', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500"
+                  required
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-1">Phone</label>
-                <input type="tel" value={formData.phone} onChange={e => updateField('phone', e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500" />
+                <input
+                  type="tel"
+                  value={formData.phone}
+                  onChange={(e) => updateField('phone', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500"
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">Date of Birth</label>
-                <input type="date" value={formData.dateOfBirth} onChange={e => updateField('dateOfBirth', e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500" />
+                <label className="block text-sm font-medium text-slate-900 mb-1">
+                  Date of Birth
+                </label>
+                <input
+                  type="date"
+                  value={formData.dateOfBirth}
+                  onChange={(e) => updateField('dateOfBirth', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500"
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-1">County</label>
-                <input type="text" value={formData.county} onChange={e => updateField('county', e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500" />
+                <input
+                  type="text"
+                  value={formData.county}
+                  onChange={(e) => updateField('county', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500"
+                />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-slate-900 mb-1">Address</label>
-                <input type="text" value={formData.address} onChange={e => updateField('address', e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500" />
+                <input
+                  type="text"
+                  value={formData.address}
+                  onChange={(e) => updateField('address', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500"
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-1">City</label>
-                <input type="text" value={formData.city} onChange={e => updateField('city', e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500" />
+                <input
+                  type="text"
+                  value={formData.city}
+                  onChange={(e) => updateField('city', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500"
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-1">State</label>
-                <input type="text" value={formData.state} onChange={e => updateField('state', e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500" />
+                <input
+                  type="text"
+                  value={formData.state}
+                  onChange={(e) => updateField('state', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500"
+                />
               </div>
               <div>
                 <label className="block text-sm font-medium text-slate-900 mb-1">ZIP Code</label>
-                <input type="text" value={formData.zipCode} onChange={e => updateField('zipCode', e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500" />
+                <input
+                  type="text"
+                  value={formData.zipCode}
+                  onChange={(e) => updateField('zipCode', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500"
+                />
               </div>
             </div>
           </div>
@@ -235,12 +309,23 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
               <p className="text-slate-700">No active programs available.</p>
             ) : (
               <div className="space-y-3">
-                {programs.map(program => (
-                  <label key={program.id} className={`flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-white ${
-                    formData.programId === program.id ? 'border-brand-orange-500 bg-brand-orange-50' : ''
-                  }`}>
-                    <input type="radio" name="program" value={program.id} checked={formData.programId === program.id}
-                      onChange={e => updateField('programId', e.target.value)} className="w-4 h-4 text-brand-orange-500" />
+                {programs.map((program) => (
+                  <label
+                    key={program.id}
+                    className={`flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-white ${
+                      formData.programId === program.id
+                        ? 'border-brand-orange-500 bg-brand-orange-50'
+                        : ''
+                    }`}
+                  >
+                    <input
+                      type="radio"
+                      name="program"
+                      value={program.id}
+                      checked={formData.programId === program.id}
+                      onChange={(e) => updateField('programId', e.target.value)}
+                      className="w-4 h-4 text-brand-orange-500"
+                    />
                     <div className="flex-1">
                       <p className="font-medium">{program.name}</p>
                       <p className="text-sm text-slate-700">
@@ -259,12 +344,23 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
           <div className="space-y-4">
             <h2 className="text-xl font-semibold mb-4">Funding Source</h2>
             <div className="space-y-3">
-              {fundingTypes.map(type => (
-                <label key={type.value} className={`flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-white ${
-                  formData.fundingType === type.value ? 'border-brand-orange-500 bg-brand-orange-50' : ''
-                }`}>
-                  <input type="radio" name="funding" value={type.value} checked={formData.fundingType === type.value}
-                    onChange={e => updateField('fundingType', e.target.value)} className="w-4 h-4 text-brand-orange-500" />
+              {fundingTypes.map((type) => (
+                <label
+                  key={type.value}
+                  className={`flex items-center gap-4 p-4 border rounded-lg cursor-pointer hover:bg-white ${
+                    formData.fundingType === type.value
+                      ? 'border-brand-orange-500 bg-brand-orange-50'
+                      : ''
+                  }`}
+                >
+                  <input
+                    type="radio"
+                    name="funding"
+                    value={type.value}
+                    checked={formData.fundingType === type.value}
+                    onChange={(e) => updateField('fundingType', e.target.value)}
+                    className="w-4 h-4 text-brand-orange-500"
+                  />
                   <span>{type.label}</span>
                 </label>
               ))}
@@ -293,27 +389,51 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
         {currentStep === 5 && (
           <div className="space-y-4">
             <h2 className="text-xl font-semibold mb-4">Case Manager Information</h2>
-            <p className="text-sm text-slate-700 mb-4">Optional: Enter case manager details if applicable</p>
+            <p className="text-sm text-slate-700 mb-4">
+              Optional: Enter case manager details if applicable
+            </p>
             <div className="grid md:grid-cols-2 gap-4">
               <div className="md:col-span-2">
-                <label className="block text-sm font-medium text-slate-900 mb-1">Case Manager Name</label>
-                <input type="text" value={formData.caseManagerName} onChange={e => updateField('caseManagerName', e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500" />
+                <label className="block text-sm font-medium text-slate-900 mb-1">
+                  Case Manager Name
+                </label>
+                <input
+                  type="text"
+                  value={formData.caseManagerName}
+                  onChange={(e) => updateField('caseManagerName', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500"
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">Case Manager Email</label>
-                <input type="email" value={formData.caseManagerEmail} onChange={e => updateField('caseManagerEmail', e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500" />
+                <label className="block text-sm font-medium text-slate-900 mb-1">
+                  Case Manager Email
+                </label>
+                <input
+                  type="email"
+                  value={formData.caseManagerEmail}
+                  onChange={(e) => updateField('caseManagerEmail', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500"
+                />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">Case Manager Phone</label>
-                <input type="tel" value={formData.caseManagerPhone} onChange={e => updateField('caseManagerPhone', e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500" />
+                <label className="block text-sm font-medium text-slate-900 mb-1">
+                  Case Manager Phone
+                </label>
+                <input
+                  type="tel"
+                  value={formData.caseManagerPhone}
+                  onChange={(e) => updateField('caseManagerPhone', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500"
+                />
               </div>
               <div className="md:col-span-2">
                 <label className="block text-sm font-medium text-slate-900 mb-1">Notes</label>
-                <textarea rows={3} value={formData.notes} onChange={e => updateField('notes', e.target.value)}
-                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500" />
+                <textarea
+                  rows={3}
+                  value={formData.notes}
+                  onChange={(e) => updateField('notes', e.target.value)}
+                  className="w-full px-3 py-2 border rounded-lg focus:ring-2 focus:ring-brand-orange-500"
+                />
               </div>
             </div>
           </div>
@@ -325,28 +445,35 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
             <div className="space-y-4">
               <div className="bg-white rounded-lg p-4">
                 <h3 className="font-medium text-slate-900 mb-2">Student Information</h3>
-                <p className="text-sm text-slate-700">{formData.firstName} {formData.lastName}</p>
+                <p className="text-sm text-slate-700">
+                  {formData.firstName} {formData.lastName}
+                </p>
                 <p className="text-sm text-slate-700">{formData.email}</p>
                 {formData.phone && <p className="text-sm text-slate-700">{formData.phone}</p>}
                 {formData.city && formData.state && (
-                  <p className="text-sm text-slate-700">{formData.city}, {formData.state} {formData.zipCode}</p>
+                  <p className="text-sm text-slate-700">
+                    {formData.city}, {formData.state} {formData.zipCode}
+                  </p>
                 )}
               </div>
               <div className="bg-white rounded-lg p-4">
                 <h3 className="font-medium text-slate-900 mb-2">Program</h3>
-                <p className="text-sm text-slate-700">{selectedProgram?.name || 'No program selected'}</p>
+                <p className="text-sm text-slate-700">
+                  {selectedProgram?.name || 'No program selected'}
+                </p>
               </div>
               <div className="bg-white rounded-lg p-4">
                 <h3 className="font-medium text-slate-900 mb-2">Funding</h3>
                 <p className="text-sm text-slate-700">
-                  {fundingTypes.find(f => f.value === formData.fundingType)?.label || 'Not specified'}
+                  {fundingTypes.find((f) => f.value === formData.fundingType)?.label ||
+                    'Not specified'}
                 </p>
               </div>
               <div className="bg-white rounded-lg p-4">
                 <h3 className="font-medium text-slate-900 mb-2">Documents</h3>
                 {uploadedDocuments.length > 0 ? (
                   <ul className="text-sm text-slate-700 space-y-1">
-                    {uploadedDocuments.map(doc => (
+                    {uploadedDocuments.map((doc) => (
                       <li key={doc.id} className="flex items-center gap-2">
                         <span className="text-slate-500 flex-shrink-0">•</span>
                         {doc.file_name} ({doc.document_type})
@@ -361,7 +488,9 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
                 <div className="bg-white rounded-lg p-4">
                   <h3 className="font-medium text-slate-900 mb-2">Case Manager</h3>
                   <p className="text-sm text-slate-700">{formData.caseManagerName}</p>
-                  {formData.caseManagerEmail && <p className="text-sm text-slate-700">{formData.caseManagerEmail}</p>}
+                  {formData.caseManagerEmail && (
+                    <p className="text-sm text-slate-700">{formData.caseManagerEmail}</p>
+                  )}
                 </div>
               )}
             </div>
@@ -369,19 +498,29 @@ export default function StudentAddForm({ programs, fundingTypes, staffId }: Prop
         )}
 
         <div className="flex justify-between mt-6 pt-4 border-t">
-          <button onClick={() => setCurrentStep(s => Math.max(1, s - 1))} disabled={currentStep === 1}
-            className="flex items-center gap-2 px-4 py-2 text-slate-700 hover:text-slate-900 disabled:opacity-50">
+          <button
+            onClick={() => setCurrentStep((s) => Math.max(1, s - 1))}
+            disabled={currentStep === 1}
+            className="flex items-center gap-2 px-4 py-2 text-slate-700 hover:text-slate-900 disabled:opacity-50"
+          >
             <ChevronLeft className="w-4 h-4" /> Previous
           </button>
           {currentStep < 6 ? (
-            <button onClick={() => setCurrentStep(s => s + 1)}
-              disabled={currentStep === 1 && (!formData.firstName || !formData.lastName || !formData.email)}
-              className="flex items-center gap-2 px-6 py-2 bg-brand-orange-500 text-white rounded-lg hover:bg-brand-orange-600 disabled:opacity-50">
+            <button
+              onClick={() => setCurrentStep((s) => s + 1)}
+              disabled={
+                currentStep === 1 && (!formData.firstName || !formData.lastName || !formData.email)
+              }
+              className="flex items-center gap-2 px-6 py-2 bg-brand-orange-500 text-white rounded-lg hover:bg-brand-orange-600 disabled:opacity-50"
+            >
               Next <ChevronRight className="w-4 h-4" />
             </button>
           ) : (
-            <button onClick={handleSubmit} disabled={isSubmitting}
-              className="px-6 py-2 bg-brand-green-500 text-white rounded-lg hover:bg-brand-green-600 disabled:opacity-50">
+            <button
+              onClick={handleSubmit}
+              disabled={isSubmitting}
+              className="px-6 py-2 bg-brand-green-500 text-white rounded-lg hover:bg-brand-green-600 disabled:opacity-50"
+            >
               {isSubmitting ? 'Enrolling...' : 'Complete Enrollment'}
             </button>
           )}

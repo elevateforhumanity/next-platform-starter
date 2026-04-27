@@ -51,7 +51,10 @@ export async function authGuard(options: AuthGuardOptions = {}): Promise<AuthGua
   } = options;
 
   const supabase = await createClient();
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
   // Check if authentication is required
   if (requireAuth && (!user || error)) {
@@ -107,8 +110,7 @@ export async function authGuard(options: AuthGuardOptions = {}): Promise<AuthGua
   }
 
   // Check role authorization
-  const isAuthorized = allowedRoles.length === 0 ||
-    (role && allowedRoles.includes(role));
+  const isAuthorized = allowedRoles.length === 0 || (role && allowedRoles.includes(role));
 
   if (requireAuth && !isAuthorized) {
     redirect('/unauthorized');
@@ -129,7 +131,9 @@ export async function authGuard(options: AuthGuardOptions = {}): Promise<AuthGua
 
 export async function requireAuth() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');
@@ -194,13 +198,17 @@ export async function requireAdminOrDelegate() {
 
 export async function optionalAuth() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   return user;
 }
 
 export async function getUserRole(): Promise<UserRole | null> {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return null;
 
@@ -235,18 +243,8 @@ const PERMISSIONS: Record<UserRole, string[]> = {
     'join_discussions',
     'view_own_progress',
   ],
-  program_holder: [
-    'view_programs',
-    'manage_programs',
-    'view_students',
-    'view_analytics',
-  ],
-  delegate: [
-    'view_programs',
-    'view_students',
-    'view_analytics',
-    'manage_enrollments',
-  ],
+  program_holder: ['view_programs', 'manage_programs', 'view_students', 'view_analytics'],
+  delegate: ['view_programs', 'view_students', 'view_analytics', 'manage_enrollments'],
 };
 
 export async function hasPermission(permission: string): Promise<boolean> {
@@ -277,7 +275,9 @@ export async function requirePermission(permission: string) {
  */
 export async function canAccessCourse(courseId: string): Promise<boolean> {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return false;
 
@@ -324,7 +324,9 @@ export async function requireCourseAccess(courseId: string) {
  */
 export async function canEditCourse(courseId: string): Promise<boolean> {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return false;
 
@@ -361,7 +363,9 @@ export async function requireCourseEditAccess(courseId: string) {
  */
 export async function canAccessStudentData(studentId: string): Promise<boolean> {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) return false;
 
@@ -415,14 +419,13 @@ export async function apiAuthGuard(options: AuthGuardOptions = {}): Promise<{
   role: UserRole | null;
   error?: string;
 }> {
-  const {
-    requireAuth = true,
-    allowedRoles = [],
-    requireEmailVerified = false,
-  } = options;
+  const { requireAuth = true, allowedRoles = [], requireEmailVerified = false } = options;
 
   const supabase = await createClient();
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
   if (requireAuth && (!user || error)) {
     return {
@@ -461,8 +464,7 @@ export async function apiAuthGuard(options: AuthGuardOptions = {}): Promise<{
     };
   }
 
-  const isAuthorized = allowedRoles.length === 0 ||
-    (role && allowedRoles.includes(role));
+  const isAuthorized = allowedRoles.length === 0 || (role && allowedRoles.includes(role));
 
   if (requireAuth && !isAuthorized) {
     return {
@@ -492,10 +494,7 @@ export async function apiRequireAdmin() {
   });
 
   if (!result.authorized) {
-    return NextResponse.json(
-      { error: result.error || 'Unauthorized' },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: result.error || 'Unauthorized' }, { status: 401 });
   }
 
   return result;
@@ -511,10 +510,7 @@ export async function apiRequireInstructor() {
   });
 
   if (!result.authorized) {
-    return NextResponse.json(
-      { error: result.error || 'Unauthorized' },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: result.error || 'Unauthorized' }, { status: 401 });
   }
 
   return result;
@@ -530,10 +526,7 @@ export async function apiRequireStudent() {
   });
 
   if (!result.authorized) {
-    return NextResponse.json(
-      { error: result.error || 'Unauthorized' },
-      { status: 401 }
-    );
+    return NextResponse.json({ error: result.error || 'Unauthorized' }, { status: 401 });
   }
 
   return result;

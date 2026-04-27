@@ -5,17 +5,17 @@
  */
 
 export const TESTING_CENTER = {
-  name:    'Elevate for Humanity Testing Center',
+  name: 'Elevate for Humanity Testing Center',
   address: '8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240',
-  phone:   '(317) 314-3757',
+  phone: '(317) 314-3757',
   phoneTel: '+13173143757',
-  email:   'testing@elevateforhumanity.org',
+  email: 'testing@elevateforhumanity.org',
   contact: {
-    name:  'Elizabeth Greene',
+    name: 'Elizabeth Greene',
     title: 'Founder & CEO / EPA 608 Certified Proctor',
   },
   coordinator: {
-    name:  'Alberta Davis',
+    name: 'Alberta Davis',
     title: 'Testing Center Coordinator',
   },
   policy: {
@@ -24,7 +24,8 @@ export const TESTING_CENTER = {
     idRequired: 'Government-issued photo ID required.',
     noWalkIns: 'By appointment only — walk-ins are not accepted.',
     cancellationPolicy: 'Fees are non-refundable unless the exam is canceled by Elevate.',
-    workforceFunding: 'Workforce-funded candidates (WIOA, WorkOne) may have fees covered — contact us before booking.',
+    workforceFunding:
+      'Workforce-funded candidates (WIOA, WorkOne) may have fees covered — contact us before booking.',
   },
 } as const;
 
@@ -44,13 +45,14 @@ export const TESTING_CENTER = {
  * to the general scheduling page.
  */
 export const CALENDLY_CONFIG = {
-  userUri:      'https://api.calendly.com/users/8c7a5621-62c0-4193-ad08-0952e24485f9',
+  userUri: 'https://api.calendly.com/users/8c7a5621-62c0-4193-ad08-0952e24485f9',
   schedulingUrl: 'https://calendly.com/elevate4humanityedu',
-  testingUrl:   process.env.NEXT_PUBLIC_CALENDLY_TESTING_URL
-                  ?? 'https://calendly.com/elevate4humanityedu/60min',
+  testingUrl:
+    process.env.NEXT_PUBLIC_CALENDLY_TESTING_URL ??
+    'https://calendly.com/elevate4humanityedu/60min',
 } as const;
 
 export const TESTING_EMAIL = {
-  from:       `Elevate Testing Center <${TESTING_CENTER.email}>`,
+  from: `Elevate Testing Center <${TESTING_CENTER.email}>`,
   adminEmail: TESTING_CENTER.email,
 } as const;

@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { apiAuthGuard } from '@/lib/admin/guards';
@@ -44,10 +43,7 @@ async function _GET(request: NextRequest) {
       case 'my-codes':
         const authResult = await apiAuthGuard({ requireAuth: true });
         if (!authResult.authorized) {
-          return NextResponse.json(
-            { error: authResult.error },
-            { status: 401 }
-          );
+          return NextResponse.json({ error: authResult.error }, { status: 401 });
         }
         const codes = await getUserReferralCodes(authResult.user.id);
         return NextResponse.json({ codes });
@@ -55,10 +51,7 @@ async function _GET(request: NextRequest) {
       case 'my-referrals':
         const authResult2 = await apiAuthGuard({ requireAuth: true });
         if (!authResult2.authorized) {
-          return NextResponse.json(
-            { error: authResult2.error },
-            { status: 401 }
-          );
+          return NextResponse.json({ error: authResult2.error }, { status: 401 });
         }
         const status = searchParams.get('status') as any;
         const referrals = await getUserReferrals(authResult2.user.id, status);
@@ -67,10 +60,7 @@ async function _GET(request: NextRequest) {
       case 'stats':
         const authResult3 = await apiAuthGuard({ requireAuth: true });
         if (!authResult3.authorized) {
-          return NextResponse.json(
-            { error: authResult3.error },
-            { status: 401 }
-          );
+          return NextResponse.json({ error: authResult3.error }, { status: 401 });
         }
         const stats = await getAffiliateStats(authResult3.user.id);
         return NextResponse.json({ stats });
@@ -83,12 +73,9 @@ async function _GET(request: NextRequest) {
       default:
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
-  } catch (error) { 
+  } catch (error) {
     logger.error('Referrals GET error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch referral data' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch referral data' }, { status: 500 });
   }
 }
 
@@ -108,8 +95,7 @@ async function _POST(request: NextRequest) {
 
     switch (action) {
       case 'create-code':
-        const { type, customCode, discountPercentage, commissionPercentage } =
-          body;
+        const { type, customCode, discountPercentage, commissionPercentage } = body;
         const code = await createReferralCode(user.id, type, {
           customCode,
           discountPercentage,
@@ -120,10 +106,7 @@ async function _POST(request: NextRequest) {
       case 'track':
         const { referralCode } = body;
         if (!referralCode) {
-          return NextResponse.json(
-            { error: 'referralCode required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'referralCode required' }, { status: 400 });
         }
         const referral = await trackReferral(referralCode, user.id);
         return NextResponse.json({ success: true, referral });
@@ -141,43 +124,29 @@ async function _POST(request: NextRequest) {
       case 'request-payout':
         const { amount, paymentMethod, paymentDetails } = body;
         if (!amount || !paymentMethod) {
-          return NextResponse.json(
-            { error: 'amount and paymentMethod required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'amount and paymentMethod required' }, { status: 400 });
         }
-        await processAffiliatePayout(
-          user.id,
-          amount,
-          paymentMethod,
-          paymentDetails
-        );
+        await processAffiliatePayout(user.id, amount, paymentMethod, paymentDetails);
         return NextResponse.json({ success: true });
 
       case 'calculate-discount':
         const { code: discountCode, originalAmount } = body;
         if (!discountCode || !originalAmount) {
-          return NextResponse.json(
-            { error: 'code and originalAmount required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'code and originalAmount required' }, { status: 400 });
         }
-        const discount = await applyReferralDiscount(
-          discountCode,
-          originalAmount
-        );
+        const discount = await applyReferralDiscount(discountCode, originalAmount);
         return NextResponse.json({ discount });
 
       default:
         return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
     }
-  } catch (error) { 
+  } catch (error) {
     logger.error('Referrals POST error:', error);
     return NextResponse.json(
       {
         error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

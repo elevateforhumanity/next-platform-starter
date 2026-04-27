@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 /* eslint-disable no-useless-escape */
@@ -21,9 +21,7 @@ export default function VideoPlayer({
   onComplete,
   autoplay = false,
 }: VideoPlayerProps) {
-  const [videoType, setVideoType] = useState<
-    'youtube' | 'vimeo' | 'direct' | null
-  >(null);
+  const [videoType, setVideoType] = useState<'youtube' | 'vimeo' | 'direct' | null>(null);
   const [videoId, setVideoId] = useState<string>('');
   const [isPlaying, setIsPlaying] = useState(false);
 
@@ -34,7 +32,7 @@ export default function VideoPlayer({
     if (url.includes('youtube.com') || url.includes('youtu.be')) {
       setVideoType('youtube');
       const match = url.match(
-        /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/
+        /(?:youtube\.com\/(?:[^\/]+\/.+\/|(?:v|e(?:mbed)?)\/|.*[?&]v=)|youtu\.be\/)([^"&?\/\s]{11})/,
       );
       if (match) setVideoId(match[1]);
     } else if (url.includes('vimeo.com')) {

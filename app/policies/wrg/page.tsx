@@ -9,7 +9,8 @@ import { ArrowRight, Phone, Mail, DollarSign } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
   title: 'Workforce Ready Grant Policy | Elevate for Humanity',
-  description: 'Indiana Workforce Ready Grant provides up to $7,500/year for tuition in high-demand career training programs. Eligibility, covered programs, and application process.',
+  description:
+    'Indiana Workforce Ready Grant provides up to $7,500/year for tuition in high-demand career training programs. Eligibility, covered programs, and application process.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/policies/wrg' },
 };
 
@@ -29,12 +30,24 @@ export default async function WRGPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
-          <Image src="/hero-images/federal-funded-hero.jpg" alt="Workforce Ready Grant" fill className="object-cover" priority sizes="100vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src="/hero-images/federal-funded-hero.jpg"
+            alt="Workforce Ready Grant"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-slate-900 py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">Workforce Ready Grant</h1>
-            <p className="text-lg text-slate-300 max-w-3xl mx-auto">Indiana tuition assistance for high-demand career training</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
+              Workforce Ready Grant
+            </h1>
+            <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+              Indiana tuition assistance for high-demand career training
+            </p>
           </div>
         </div>
       </section>
@@ -47,16 +60,18 @@ export default async function WRGPage() {
           <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-8 mb-12 text-center">
             <DollarSign className="w-12 h-12 text-brand-green-600 mx-auto mb-3" />
             <p className="text-4xl font-bold text-brand-green-700 mb-2">Up to $7,500/year</p>
-            <p className="text-gray-600">Tuition and fees covered for qualifying Indiana residents</p>
+            <p className="text-gray-600">
+              Tuition and fees covered for qualifying Indiana residents
+            </p>
           </div>
 
           <div className="prose prose-lg max-w-none">
             <h2>Overview</h2>
             <p>
-              The Indiana Workforce Ready Grant (WRG) provides tuition assistance for Indiana residents
-              pursuing high-value certificates and certifications in high-demand fields. The grant covers
-              tuition and mandatory fees at approved training providers, making career training accessible
-              to qualifying individuals.
+              The Indiana Workforce Ready Grant (WRG) provides tuition assistance for Indiana
+              residents pursuing high-value certificates and certifications in high-demand fields.
+              The grant covers tuition and mandatory fees at approved training providers, making
+              career training accessible to qualifying individuals.
             </p>
 
             <h2>Eligibility Requirements</h2>
@@ -71,7 +86,7 @@ export default async function WRGPage() {
                   'U.S. citizen or eligible non-citizen',
                   'High school diploma or GED equivalent',
                   'Enrolled in an eligible certificate program',
-                  'Not currently holding a bachelor\'s degree or higher',
+                  "Not currently holding a bachelor's degree or higher",
                   'Maintaining satisfactory academic progress',
                 ].map((item, i) => (
                   <li key={i} className="flex items-start gap-3">
@@ -115,7 +130,12 @@ export default async function WRGPage() {
             <h2>Application Process</h2>
             <ol>
               <li>Complete the FAFSA (Free Application for Federal Student Aid)</li>
-              <li>Apply to Elevate for Humanity at <Link href="/apply" className="text-brand-blue-600">elevateforhumanity.org/apply</Link></li>
+              <li>
+                Apply to Elevate for Humanity at{' '}
+                <Link href="/apply" className="text-brand-blue-600">
+                  elevateforhumanity.org/apply
+                </Link>
+              </li>
               <li>Select an eligible certificate program</li>
               <li>Meet with a financial aid counselor to confirm WRG eligibility</li>
               <li>Enroll and begin training</li>
@@ -131,24 +151,36 @@ export default async function WRGPage() {
 
             <h2>Renewal</h2>
             <p>
-              The WRG may be renewed for up to two academic years, provided the student continues to meet
-              eligibility requirements and maintains satisfactory academic progress. Students must reapply
-              each academic year.
+              The WRG may be renewed for up to two academic years, provided the student continues to
+              meet eligibility requirements and maintains satisfactory academic progress. Students
+              must reapply each academic year.
             </p>
           </div>
 
           {/* Contact */}
           <div className="mt-12 bg-slate-50 rounded-xl p-8 border">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Questions About WRG?</h2>
-            <p className="text-gray-600 mb-6">Our financial aid team can help determine your eligibility and guide you through the application process.</p>
+            <p className="text-gray-600 mb-6">
+              Our financial aid team can help determine your eligibility and guide you through the
+              application process.
+            </p>
             <div className="flex flex-wrap gap-4">
-              <a href="/contact" className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-medium hover:bg-brand-blue-700 transition">
+              <a
+                href="/contact"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-medium hover:bg-brand-blue-700 transition"
+              >
                 <Mail className="w-4 h-4" /> Email Us
               </a>
-              <a href="/support" className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition">
+              <a
+                href="/support"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition"
+              >
                 <Phone className="w-4 h-4" /> Get Help Online
               </a>
-              <Link href="/apply" className="inline-flex items-center gap-2 px-6 py-3 bg-brand-green-600 text-white rounded-lg font-medium hover:bg-brand-green-700 transition">
+              <Link
+                href="/apply"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-brand-green-600 text-white rounded-lg font-medium hover:bg-brand-green-700 transition"
+              >
                 Apply Now <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

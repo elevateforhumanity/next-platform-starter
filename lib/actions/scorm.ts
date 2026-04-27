@@ -14,7 +14,9 @@ export async function trackScormProgress(data: {
   cmiData: any;
 }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user || user.id !== data.userId) {
     throw new Error('Unauthorized');
@@ -23,20 +25,23 @@ export async function trackScormProgress(data: {
   // Update SCORM enrollment
   const { data: enrollment, error: enrollmentError } = await supabase
     .from('scorm_enrollments')
-    .upsert({
-      scorm_package_id: data.scormPackageId,
-      user_id: data.userId,
-      enrollment_id: data.enrollmentId,
-      status: data.status,
-      progress_percentage: data.progress,
-      score: data.score,
-      time_spent_seconds: data.timeSpent,
-      last_accessed_at: new Date().toISOString(),
-      cmi_data: data.cmiData,
-      updated_at: new Date().toISOString(),
-    }, {
-      onConflict: 'scorm_package_id,user_id'
-    })
+    .upsert(
+      {
+        scorm_package_id: data.scormPackageId,
+        user_id: data.userId,
+        enrollment_id: data.enrollmentId,
+        status: data.status,
+        progress_percentage: data.progress,
+        score: data.score,
+        time_spent_seconds: data.timeSpent,
+        last_accessed_at: new Date().toISOString(),
+        cmi_data: data.cmiData,
+        updated_at: new Date().toISOString(),
+      },
+      {
+        onConflict: 'scorm_package_id,user_id',
+      },
+    )
     .select()
     .maybeSingle();
 
@@ -52,7 +57,7 @@ export async function trackScormProgress(data: {
         scorm_enrollment_id: enrollment.id,
         element,
         value: String(value),
-      })
+      }),
     );
 
     await Promise.all(trackingPromises);
@@ -78,7 +83,9 @@ export async function trackScormProgress(data: {
 
 export async function getScormEnrollment(scormPackageId: string, userId: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     throw new Error('Unauthorized');
@@ -99,12 +106,11 @@ export async function getScormEnrollment(scormPackageId: string, userId: string)
   return enrollment || null;
 }
 
-export async function enrollInPartnerCourse(data: {
-  partnerCourseId: string;
-  programId?: string;
-}) {
+export async function enrollInPartnerCourse(data: { partnerCourseId: string; programId?: string }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     throw new Error('Unauthorized');
@@ -113,10 +119,12 @@ export async function enrollInPartnerCourse(data: {
   // Get partner course details
   const { data: partnerCourse, error: courseError } = await supabase
     .from('partner_lms_courses')
-    .select(`
+    .select(
+      `
       *,
       provider:partner_lms_providers(*)
-    `)
+    `,
+    )
     .eq('id', data.partnerCourseId)
     .maybeSingle();
 
@@ -135,7 +143,7 @@ export async function enrollInPartnerCourse(data: {
   if (existingEnrollment) {
     return {
       error: 'Already enrolled in this course',
-      enrollment: existingEnrollment
+      enrollment: existingEnrollment,
     };
   }
 
@@ -167,41 +175,39 @@ export async function enrollInPartnerCourse(data: {
   // Check if there's a SCORM package mapped to this course
   const { data: mapping } = await supabase
     .from('partner_course_mappings')
-    .select(`
+    .select(
+      `
       *,
       scorm_package:scorm_packages(*)
-    `)
+    `,
+    )
     .eq('partner_course_id', data.partnerCourseId)
     .eq('is_active', true)
     .maybeSingle();
 
   // If SCORM package exists, create SCORM enrollment
   if (mapping?.scorm_package) {
-    await supabase
-      .from('scorm_enrollments')
-      .insert({
-        scorm_package_id: mapping.scorm_package_id,
-        user_id: user.id,
-        enrollment_id: enrollment.id,
-        status: 'not_attempted',
-      });
+    await supabase.from('scorm_enrollments').insert({
+      scorm_package_id: mapping.scorm_package_id,
+      user_id: user.id,
+      enrollment_id: enrollment.id,
+      status: 'not_attempted',
+    });
   }
 
   // Log the sync
-  await supabase
-    .from('lms_sync_log')
-    .insert({
-      provider_id: partnerCourse.provider_id,
-      sync_type: 'enrollment',
-      status: 'success',
-      records_processed: 1,
-      sync_data: {
-        enrollment_id: enrollment.id,
-        course_id: data.partnerCourseId,
-        user_id: user.id,
-      },
-      completed_at: new Date().toISOString(),
-    });
+  await supabase.from('lms_sync_log').insert({
+    provider_id: partnerCourse.provider_id,
+    sync_type: 'enrollment',
+    status: 'success',
+    records_processed: 1,
+    sync_data: {
+      enrollment_id: enrollment.id,
+      course_id: data.partnerCourseId,
+      user_id: user.id,
+    },
+    completed_at: new Date().toISOString(),
+  });
 
   revalidatePath('/courses/partners');
   revalidatePath('/lms/courses');
@@ -216,7 +222,9 @@ export async function enrollInPartnerCourse(data: {
 
 export async function getPartnerEnrollments(userId?: string) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     throw new Error('Unauthorized');
@@ -227,12 +235,14 @@ export async function getPartnerEnrollments(userId?: string) {
   // Get all partner enrollments for user
   const { data: enrollments, error } = await supabase
     .from('partner_lms_enrollments')
-    .select(`
+    .select(
+      `
       *,
       course:partner_courses(*),
       provider:partner_lms_providers(*),
       program:programs(name, slug)
-    `)
+    `,
+    )
     .eq('student_id', targetUserId)
     .order('enrolled_at', { ascending: false });
 
@@ -244,13 +254,18 @@ export async function getPartnerEnrollments(userId?: string) {
   return enrollments;
 }
 
-export async function syncPartnerProgress(enrollmentId: string, progressData: {
-  progress: number;
-  status: string;
-  completedModules?: string[];
-}) {
+export async function syncPartnerProgress(
+  enrollmentId: string,
+  progressData: {
+    progress: number;
+    status: string;
+    completedModules?: string[];
+  },
+) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     throw new Error('Unauthorized');

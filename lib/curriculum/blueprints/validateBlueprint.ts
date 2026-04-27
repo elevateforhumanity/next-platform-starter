@@ -8,14 +8,14 @@
 import type { CredentialBlueprint } from './types';
 
 export function validateBlueprint(blueprint: CredentialBlueprint): void {
-  if (!blueprint.id)             throw new Error('Blueprint missing id');
+  if (!blueprint.id) throw new Error('Blueprint missing id');
   if (!blueprint.credentialSlug) throw new Error('Blueprint missing credentialSlug');
-  if (!blueprint.credentialTitle)throw new Error('Blueprint missing credentialTitle');
-  if (!blueprint.state)          throw new Error('Blueprint missing state');
-  if (!blueprint.programSlug)    throw new Error('Blueprint missing programSlug');
+  if (!blueprint.credentialTitle) throw new Error('Blueprint missing credentialTitle');
+  if (!blueprint.state) throw new Error('Blueprint missing state');
+  if (!blueprint.programSlug) throw new Error('Blueprint missing programSlug');
   if (!blueprint.credentialCode) throw new Error('Blueprint missing credentialCode');
-  if (!blueprint.version)        throw new Error('Blueprint missing version');
-  if (!blueprint.status)         throw new Error('Blueprint missing status');
+  if (!blueprint.version) throw new Error('Blueprint missing version');
+  if (!blueprint.status) throw new Error('Blueprint missing status');
 
   if (!blueprint.generationRules) {
     throw new Error(`Blueprint "${blueprint.id}" missing generationRules`);
@@ -27,16 +27,16 @@ export function validateBlueprint(blueprint: CredentialBlueprint): void {
 
   if (blueprint.modules.length !== blueprint.expectedModuleCount) {
     throw new Error(
-      `Blueprint "${blueprint.id}": expected ${blueprint.expectedModuleCount} modules, found ${blueprint.modules.length}`
+      `Blueprint "${blueprint.id}": expected ${blueprint.expectedModuleCount} modules, found ${blueprint.modules.length}`,
     );
   }
 
-  const moduleSlugs  = new Set<string>();
-  const lessonSlugs  = new Set<string>();
-  let   lessonCount  = 0;
+  const moduleSlugs = new Set<string>();
+  const lessonSlugs = new Set<string>();
+  let lessonCount = 0;
 
   for (const mod of blueprint.modules) {
-    if (!mod.slug)  throw new Error(`Blueprint "${blueprint.id}" has module with missing slug`);
+    if (!mod.slug) throw new Error(`Blueprint "${blueprint.id}" has module with missing slug`);
     if (!mod.title) throw new Error(`Blueprint "${blueprint.id}" has module with missing title`);
 
     if (moduleSlugs.has(mod.slug)) {
@@ -50,7 +50,7 @@ export function validateBlueprint(blueprint: CredentialBlueprint): void {
 
     if (mod.minLessons == null || mod.maxLessons == null || mod.minLessons > mod.maxLessons) {
       throw new Error(
-        `Blueprint "${blueprint.id}" module "${mod.slug}" has invalid lesson bounds (min=${mod.minLessons}, max=${mod.maxLessons})`
+        `Blueprint "${blueprint.id}" module "${mod.slug}" has invalid lesson bounds (min=${mod.minLessons}, max=${mod.maxLessons})`,
       );
     }
 
@@ -62,19 +62,19 @@ export function validateBlueprint(blueprint: CredentialBlueprint): void {
 
         if (!lesson.slug) {
           throw new Error(
-            `Blueprint "${blueprint.id}" module "${mod.slug}" has lesson with missing slug`
+            `Blueprint "${blueprint.id}" module "${mod.slug}" has lesson with missing slug`,
           );
         }
         if (lessonSlugs.has(lesson.slug)) {
           throw new Error(
-            `Blueprint "${blueprint.id}" has duplicate lesson slug: "${lesson.slug}"`
+            `Blueprint "${blueprint.id}" has duplicate lesson slug: "${lesson.slug}"`,
           );
         }
         lessonSlugs.add(lesson.slug);
 
         if (seenOrders.has(lesson.order)) {
           throw new Error(
-            `Blueprint "${blueprint.id}" module "${mod.slug}" has duplicate lesson order: ${lesson.order}`
+            `Blueprint "${blueprint.id}" module "${mod.slug}" has duplicate lesson order: ${lesson.order}`,
           );
         }
         seenOrders.add(lesson.order);
@@ -85,7 +85,7 @@ export function validateBlueprint(blueprint: CredentialBlueprint): void {
   // Only enforce expectedLessonCount when lessons are pre-defined (> 0)
   if (blueprint.expectedLessonCount > 0 && lessonCount !== blueprint.expectedLessonCount) {
     throw new Error(
-      `Blueprint "${blueprint.id}": expected ${blueprint.expectedLessonCount} lessons, found ${lessonCount}`
+      `Blueprint "${blueprint.id}": expected ${blueprint.expectedLessonCount} lessons, found ${lessonCount}`,
     );
   }
 }

@@ -1,6 +1,6 @@
 /**
  * Workspace Durable Object
- * 
+ *
  * Manages workspace state, file watchers, and collaborative editing
  */
 
@@ -28,7 +28,7 @@ export class WorkspaceDurableObject {
 
     // Initialize workspace
     if (path === '/init' && request.method === 'POST') {
-      const body = await request.json() as { id: string; userId: string; name: string };
+      const body = (await request.json()) as { id: string; userId: string; name: string };
       this.workspaceState = {
         id: body.id,
         userId: body.userId,
@@ -60,7 +60,7 @@ export class WorkspaceDurableObject {
 
     // Broadcast file change to all connected clients
     if (path === '/broadcast' && request.method === 'POST') {
-      const body = await request.json() as { type: string; path: string; content?: string };
+      const body = (await request.json()) as { type: string; path: string; content?: string };
       this.broadcast(body);
       return new Response(JSON.stringify({ success: true }));
     }
@@ -70,11 +70,11 @@ export class WorkspaceDurableObject {
 
   private async handleWebSocket(ws: WebSocket) {
     ws.accept();
-    
+
     const connectionId = crypto.randomUUID();
-    
+
     if (!this.workspaceState) {
-      this.workspaceState = await this.state.storage.get('workspace') as WorkspaceState || {
+      this.workspaceState = ((await this.state.storage.get('workspace')) as WorkspaceState) || {
         id: '',
         userId: '',
         name: '',
@@ -82,7 +82,7 @@ export class WorkspaceDurableObject {
         fileWatchers: new Map(),
       };
     }
-    
+
     this.workspaceState.activeConnections.set(connectionId, ws);
 
     ws.addEventListener('message', async (event) => {
@@ -103,11 +103,13 @@ export class WorkspaceDurableObject {
     });
 
     // Send initial state
-    ws.send(JSON.stringify({
-      type: 'connected',
-      connectionId,
-      activeUsers: this.workspaceState.activeConnections.size,
-    }));
+    ws.send(
+      JSON.stringify({
+        type: 'connected',
+        connectionId,
+        activeUsers: this.workspaceState.activeConnections.size,
+      }),
+    );
   }
 
   private async handleMessage(connectionId: string, message: any, ws: WebSocket) {
@@ -127,32 +129,41 @@ export class WorkspaceDurableObject {
 
       case 'cursor':
         // Broadcast cursor position to other users
-        this.broadcast({
-          type: 'cursor',
-          userId: message.userId,
-          path: message.path,
-          position: message.position,
-        }, connectionId);
+        this.broadcast(
+          {
+            type: 'cursor',
+            userId: message.userId,
+            path: message.path,
+            position: message.position,
+          },
+          connectionId,
+        );
         break;
 
       case 'selection':
         // Broadcast selection to other users
-        this.broadcast({
-          type: 'selection',
-          userId: message.userId,
-          path: message.path,
-          selection: message.selection,
-        }, connectionId);
+        this.broadcast(
+          {
+            type: 'selection',
+            userId: message.userId,
+            path: message.path,
+            selection: message.selection,
+          },
+          connectionId,
+        );
         break;
 
       case 'edit':
         // Broadcast edit operation (for OT/CRDT)
-        this.broadcast({
-          type: 'edit',
-          userId: message.userId,
-          path: message.path,
-          operation: message.operation,
-        }, connectionId);
+        this.broadcast(
+          {
+            type: 'edit',
+            userId: message.userId,
+            path: message.path,
+            operation: message.operation,
+          },
+          connectionId,
+        );
         break;
 
       default:

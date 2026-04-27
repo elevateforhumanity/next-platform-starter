@@ -1,4 +1,3 @@
-
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -26,14 +25,11 @@ async function _POST(req: Request) {
     const { message } = await req.json();
 
     if (!message || typeof message !== 'string') {
-      return NextResponse.json(
-        { error: 'Message is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
 
     const supabase = await createClient();
-  const db = (await getAdminClient()) || supabase;
+    const db = (await getAdminClient()) || supabase;
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -50,7 +46,7 @@ async function _POST(req: Request) {
         instructor_id,
         program_slug,
         ai_instructors(system_prompt, name)
-      `
+      `,
       )
       .eq('student_id', user.id)
       .single();
@@ -58,7 +54,7 @@ async function _POST(req: Request) {
     if (!assignment || assignmentError) {
       return NextResponse.json(
         { error: 'No AI instructor assigned. Please contact support.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -83,10 +79,7 @@ async function _POST(req: Request) {
 
       if (sessionError) {
         // Error: $1
-        return NextResponse.json(
-          { error: 'Failed to create chat session' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to create chat session' }, { status: 500 });
       }
 
       session = newSession;
@@ -107,7 +100,10 @@ async function _POST(req: Request) {
         .eq('student_id', user.id)
         .eq('ai_instructor_met', false);
     } catch (onboardingError) {
-        logger.error("Unhandled error", onboardingError instanceof Error ? onboardingError : undefined);
+      logger.error(
+        'Unhandled error',
+        onboardingError instanceof Error ? onboardingError : undefined,
+      );
     }
 
     // Pull recent history
@@ -126,8 +122,7 @@ async function _POST(req: Request) {
         {
           role: 'system',
           content:
-            (assignment.ai_instructors as any)?.system_prompt ||
-            'You are a helpful instructor.',
+            (assignment.ai_instructors as any)?.system_prompt || 'You are a helpful instructor.',
         },
         ...(history || []).map((msg: any) => ({
           role: msg.role as 'user' | 'assistant',
@@ -148,11 +143,11 @@ async function _POST(req: Request) {
     });
 
     return NextResponse.json({ reply });
-  } catch (error) { 
+  } catch (error) {
     // Error: $1
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to process chat' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -164,7 +159,7 @@ async function _GET(req: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-  const db = (await getAdminClient()) || supabase;
+    const db = (await getAdminClient()) || supabase;
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -192,12 +187,9 @@ async function _GET(req: Request) {
       .order('created_at', { ascending: true });
 
     return NextResponse.json({ messages: messages || [] });
-  } catch (error) { 
+  } catch (error) {
     // Error: $1
-    return NextResponse.json(
-      { error: 'Failed to load chat history' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to load chat history' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/ai/chat', _GET);

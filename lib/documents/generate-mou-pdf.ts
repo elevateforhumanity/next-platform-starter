@@ -54,7 +54,7 @@ function drawWrappedText(
   font: PDFFont,
   fontSize: number,
   lineHeight: number,
-  color = rgb(0, 0, 0)
+  color = rgb(0, 0, 0),
 ): number {
   const lines = wrapText(text, maxWidth, font, fontSize);
   for (const line of lines) {
@@ -76,7 +76,9 @@ export async function generateMOUPdf(data: MOUPDFData): Promise<Uint8Array> {
   const contentWidth = pageWidth - margin * 2;
   const lineH = 14;
   const signedDate = new Date(data.signed_at).toLocaleDateString('en-US', {
-    year: 'numeric', month: 'long', day: 'numeric',
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric',
   });
 
   let page = doc.addPage([pageWidth, pageHeight]);
@@ -87,14 +89,27 @@ export async function generateMOUPdf(data: MOUPDFData): Promise<Uint8Array> {
     y = pageHeight - margin;
   };
 
-  const checkY = (needed = 60) => { if (y < margin + needed) newPage(); };
+  const checkY = (needed = 60) => {
+    if (y < margin + needed) newPage();
+  };
 
   const drawLine = (yPos: number) => {
-    page.drawLine({ start: { x: margin, y: yPos }, end: { x: pageWidth - margin, y: yPos }, thickness: 0.5, color: rgb(0.7, 0.7, 0.7) });
+    page.drawLine({
+      start: { x: margin, y: yPos },
+      end: { x: pageWidth - margin, y: yPos },
+      thickness: 0.5,
+      color: rgb(0.7, 0.7, 0.7),
+    });
   };
 
   // ── Header ──────────────────────────────────────────────────────────────────
-  page.drawRectangle({ x: 0, y: pageHeight - 90, width: pageWidth, height: 90, color: rgb(0.1, 0.1, 0.18) });
+  page.drawRectangle({
+    x: 0,
+    y: pageHeight - 90,
+    width: pageWidth,
+    height: 90,
+    color: rgb(0.1, 0.1, 0.18),
+  });
 
   // Embed logo — try to load from public/images/logo.png
   let logoEmbedded = false;
@@ -121,20 +136,62 @@ export async function generateMOUPdf(data: MOUPDFData): Promise<Uint8Array> {
   }
 
   const textX = logoEmbedded ? margin + 120 : margin;
-  page.drawText('ELEVATE FOR HUMANITY', { x: textX, y: pageHeight - 38, size: 15, font: boldFont, color: rgb(1, 1, 1) });
-  page.drawText('Technical and Career Institute  ·  DOL Registered Apprenticeship', { x: textX, y: pageHeight - 54, size: 8, font: regularFont, color: rgb(0.7, 0.7, 0.7) });
-  page.drawText(`RAPIDS: ${RAPIDS}  ·  CAGE: ${CAGE}  ·  UEI: ${UEI}`, { x: textX, y: pageHeight - 68, size: 7.5, font: regularFont, color: rgb(0.6, 0.6, 0.6) });
+  page.drawText('ELEVATE FOR HUMANITY', {
+    x: textX,
+    y: pageHeight - 38,
+    size: 15,
+    font: boldFont,
+    color: rgb(1, 1, 1),
+  });
+  page.drawText('Technical and Career Institute  ·  DOL Registered Apprenticeship', {
+    x: textX,
+    y: pageHeight - 54,
+    size: 8,
+    font: regularFont,
+    color: rgb(0.7, 0.7, 0.7),
+  });
+  page.drawText(`RAPIDS: ${RAPIDS}  ·  CAGE: ${CAGE}  ·  UEI: ${UEI}`, {
+    x: textX,
+    y: pageHeight - 68,
+    size: 7.5,
+    font: regularFont,
+    color: rgb(0.6, 0.6, 0.6),
+  });
 
   y = pageHeight - 100;
 
   // ── Title ───────────────────────────────────────────────────────────────────
-  page.drawText('EMPLOYER TRAINING SITE', { x: margin, y, size: 11, font: boldFont, color: rgb(0.4, 0.4, 0.4) });
+  page.drawText('EMPLOYER TRAINING SITE', {
+    x: margin,
+    y,
+    size: 11,
+    font: boldFont,
+    color: rgb(0.4, 0.4, 0.4),
+  });
   y -= 18;
-  page.drawText('Memorandum of Understanding', { x: margin, y, size: 18, font: boldFont, color: rgb(0.1, 0.1, 0.18) });
+  page.drawText('Memorandum of Understanding', {
+    x: margin,
+    y,
+    size: 18,
+    font: boldFont,
+    color: rgb(0.1, 0.1, 0.18),
+  });
   y -= 16;
-  page.drawText('Barber Apprenticeship Program', { x: margin, y, size: 11, font: regularFont, color: rgb(0.3, 0.3, 0.3) });
+  page.drawText('Barber Apprenticeship Program', {
+    x: margin,
+    y,
+    size: 11,
+    font: regularFont,
+    color: rgb(0.3, 0.3, 0.3),
+  });
   y -= 12;
-  page.drawText(`Version ${data.mou_version || '2.0'}  ·  Effective: ${signedDate}`, { x: margin, y, size: 9, font: italicFont, color: rgb(0.5, 0.5, 0.5) });
+  page.drawText(`Version ${data.mou_version || '2.0'}  ·  Effective: ${signedDate}`, {
+    x: margin,
+    y,
+    size: 9,
+    font: italicFont,
+    color: rgb(0.5, 0.5, 0.5),
+  });
   y -= 20;
   drawLine(y);
   y -= 16;
@@ -143,7 +200,16 @@ export async function generateMOUPdf(data: MOUPDFData): Promise<Uint8Array> {
   page.drawText('PARTIES', { x: margin, y, size: 10, font: boldFont, color: rgb(0.1, 0.1, 0.18) });
   y -= lineH;
   y = drawWrappedText(page, `Sponsor: ${SPONSOR}`, margin, y, contentWidth, regularFont, 9, lineH);
-  y = drawWrappedText(page, `Employer Training Site: ${data.shop_name}`, margin, y, contentWidth, regularFont, 9, lineH);
+  y = drawWrappedText(
+    page,
+    `Employer Training Site: ${data.shop_name}`,
+    margin,
+    y,
+    contentWidth,
+    regularFont,
+    9,
+    lineH,
+  );
   y -= 8;
 
   // ── MOU Sections ────────────────────────────────────────────────────────────
@@ -184,9 +250,24 @@ export async function generateMOUPdf(data: MOUPDFData): Promise<Uint8Array> {
 
   for (const section of sections) {
     checkY(60);
-    page.drawText(section.title, { x: margin, y, size: 10, font: boldFont, color: rgb(0.1, 0.1, 0.18) });
+    page.drawText(section.title, {
+      x: margin,
+      y,
+      size: 10,
+      font: boldFont,
+      color: rgb(0.1, 0.1, 0.18),
+    });
     y -= lineH;
-    y = drawWrappedText(page, section.body, margin + 10, y, contentWidth - 10, regularFont, 9, lineH);
+    y = drawWrappedText(
+      page,
+      section.body,
+      margin + 10,
+      y,
+      contentWidth - 10,
+      regularFont,
+      9,
+      lineH,
+    );
     y -= 8;
   }
 
@@ -195,7 +276,13 @@ export async function generateMOUPdf(data: MOUPDFData): Promise<Uint8Array> {
   y -= 10;
   drawLine(y);
   y -= 20;
-  page.drawText('SIGNATURES', { x: margin, y, size: 12, font: boldFont, color: rgb(0.1, 0.1, 0.18) });
+  page.drawText('SIGNATURES', {
+    x: margin,
+    y,
+    size: 12,
+    font: boldFont,
+    color: rgb(0.1, 0.1, 0.18),
+  });
   y -= 20;
 
   const colW = (contentWidth - 20) / 2;
@@ -203,13 +290,30 @@ export async function generateMOUPdf(data: MOUPDFData): Promise<Uint8Array> {
 
   // Sponsor column header
   page.drawText('SPONSOR', { x: margin, y, size: 9, font: boldFont, color: rgb(0.1, 0.1, 0.18) });
-  page.drawText('EMPLOYER TRAINING SITE', { x: col2X, y, size: 9, font: boldFont, color: rgb(0.75, 0.22, 0.17) });
+  page.drawText('EMPLOYER TRAINING SITE', {
+    x: col2X,
+    y,
+    size: 9,
+    font: boldFont,
+    color: rgb(0.75, 0.22, 0.17),
+  });
   y -= 16;
 
   // Sponsor name
-  page.drawText(SPONSOR_SIGNER, { x: margin, y, size: 18, font: italicFont, color: rgb(0.1, 0.1, 0.18) });
+  page.drawText(SPONSOR_SIGNER, {
+    x: margin,
+    y,
+    size: 18,
+    font: italicFont,
+    color: rgb(0.1, 0.1, 0.18),
+  });
   y -= 4;
-  page.drawLine({ start: { x: margin, y }, end: { x: margin + colW, y }, thickness: 1, color: rgb(0.2, 0.2, 0.2) });
+  page.drawLine({
+    start: { x: margin, y },
+    end: { x: margin + colW, y },
+    thickness: 1,
+    color: rgb(0.2, 0.2, 0.2),
+  });
 
   // Employer signature image or typed name
   if (data.signature_data && data.signature_data.startsWith('data:image/')) {
@@ -219,42 +323,125 @@ export async function generateMOUPdf(data: MOUPDFData): Promise<Uint8Array> {
       const img = await doc.embedPng(imgBytes).catch(() => doc.embedJpg(imgBytes));
       page.drawImage(img, { x: col2X, y: y - 20, width: colW, height: 36 });
     } catch {
-      page.drawText(data.signer_name, { x: col2X, y, size: 18, font: italicFont, color: rgb(0.1, 0.1, 0.18) });
+      page.drawText(data.signer_name, {
+        x: col2X,
+        y,
+        size: 18,
+        font: italicFont,
+        color: rgb(0.1, 0.1, 0.18),
+      });
     }
   } else {
-    page.drawText(data.signer_name, { x: col2X, y, size: 18, font: italicFont, color: rgb(0.1, 0.1, 0.18) });
+    page.drawText(data.signer_name, {
+      x: col2X,
+      y,
+      size: 18,
+      font: italicFont,
+      color: rgb(0.1, 0.1, 0.18),
+    });
   }
   y -= 4;
-  page.drawLine({ start: { x: col2X, y }, end: { x: col2X + colW, y }, thickness: 1, color: rgb(0.75, 0.22, 0.17) });
+  page.drawLine({
+    start: { x: col2X, y },
+    end: { x: col2X + colW, y },
+    thickness: 1,
+    color: rgb(0.75, 0.22, 0.17),
+  });
 
   y -= 14;
-  page.drawText(`Name: ${SPONSOR_SIGNER}`, { x: margin, y, size: 9, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
-  page.drawText(`Name: ${data.signer_name}`, { x: col2X, y, size: 9, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
+  page.drawText(`Name: ${SPONSOR_SIGNER}`, {
+    x: margin,
+    y,
+    size: 9,
+    font: regularFont,
+    color: rgb(0.2, 0.2, 0.2),
+  });
+  page.drawText(`Name: ${data.signer_name}`, {
+    x: col2X,
+    y,
+    size: 9,
+    font: regularFont,
+    color: rgb(0.2, 0.2, 0.2),
+  });
   y -= lineH;
-  page.drawText(`Title: ${SPONSOR_TITLE}`, { x: margin, y, size: 9, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
-  page.drawText(`Title: ${data.signer_title}`, { x: col2X, y, size: 9, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
+  page.drawText(`Title: ${SPONSOR_TITLE}`, {
+    x: margin,
+    y,
+    size: 9,
+    font: regularFont,
+    color: rgb(0.2, 0.2, 0.2),
+  });
+  page.drawText(`Title: ${data.signer_title}`, {
+    x: col2X,
+    y,
+    size: 9,
+    font: regularFont,
+    color: rgb(0.2, 0.2, 0.2),
+  });
   y -= lineH;
-  page.drawText(`Organization: ${SPONSOR}`, { x: margin, y, size: 7, font: regularFont, color: rgb(0.4, 0.4, 0.4) });
-  page.drawText(`Organization: ${data.shop_name}`, { x: col2X, y, size: 9, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
+  page.drawText(`Organization: ${SPONSOR}`, {
+    x: margin,
+    y,
+    size: 7,
+    font: regularFont,
+    color: rgb(0.4, 0.4, 0.4),
+  });
+  page.drawText(`Organization: ${data.shop_name}`, {
+    x: col2X,
+    y,
+    size: 9,
+    font: regularFont,
+    color: rgb(0.2, 0.2, 0.2),
+  });
   y -= lineH;
-  page.drawText(`Date: ${signedDate}`, { x: margin, y, size: 9, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
-  page.drawText(`Date: ${signedDate}`, { x: col2X, y, size: 9, font: regularFont, color: rgb(0.2, 0.2, 0.2) });
+  page.drawText(`Date: ${signedDate}`, {
+    x: margin,
+    y,
+    size: 9,
+    font: regularFont,
+    color: rgb(0.2, 0.2, 0.2),
+  });
+  page.drawText(`Date: ${signedDate}`, {
+    x: col2X,
+    y,
+    size: 9,
+    font: regularFont,
+    color: rgb(0.2, 0.2, 0.2),
+  });
 
   // ── Footer ───────────────────────────────────────────────────────────────────
   y -= 30;
   drawLine(y);
   y -= 12;
-  page.drawText(`Document ID: MOU-${Date.now()}  ·  Signed: ${signedDate}  ·  IP: ${data.ip_address || 'on file'}`, {
-    x: margin, y, size: 7, font: regularFont, color: rgb(0.6, 0.6, 0.6),
-  });
+  page.drawText(
+    `Document ID: MOU-${Date.now()}  ·  Signed: ${signedDate}  ·  IP: ${data.ip_address || 'on file'}`,
+    {
+      x: margin,
+      y,
+      size: 7,
+      font: regularFont,
+      color: rgb(0.6, 0.6, 0.6),
+    },
+  );
   y -= 10;
   page.drawText(`${SPONSOR}  ·  ${ADDRESS}  ·  ${PHONE}`, {
-    x: margin, y, size: 7, font: regularFont, color: rgb(0.6, 0.6, 0.6),
+    x: margin,
+    y,
+    size: 7,
+    font: regularFont,
+    color: rgb(0.6, 0.6, 0.6),
   });
   y -= 10;
-  page.drawText('This document was executed electronically under the Indiana Uniform Electronic Transactions Act (IC 26-2-8) and the federal ESIGN Act.', {
-    x: margin, y, size: 7, font: italicFont, color: rgb(0.6, 0.6, 0.6),
-  });
+  page.drawText(
+    'This document was executed electronically under the Indiana Uniform Electronic Transactions Act (IC 26-2-8) and the federal ESIGN Act.',
+    {
+      x: margin,
+      y,
+      size: 7,
+      font: italicFont,
+      color: rgb(0.6, 0.6, 0.6),
+    },
+  );
 
   return doc.save();
 }

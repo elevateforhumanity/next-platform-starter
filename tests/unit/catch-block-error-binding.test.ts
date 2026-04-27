@@ -1,6 +1,6 @@
 /**
  * Tests to verify that catch blocks properly bind error variables
- * 
+ *
  * This test suite validates that the bug fix for undefined error variables
  * in catch blocks is working correctly. The bug was: `catch { }` without
  * binding the error, followed by code that referenced `error`.
@@ -34,7 +34,7 @@ function errorLoggingPattern() {
   const mockLogger = {
     error: (msg: string, err: Error) => {
       logs.push(`${msg}: ${err.message}`);
-    }
+    },
   };
 
   try {
@@ -64,7 +64,7 @@ function errorHandlerPattern() {
 // Simulate monitoring pattern (like in lib/monitoring.ts)
 function monitoringPattern() {
   const errors: any[] = [];
-  
+
   function logError(endpoint: string, status: number, err: any) {
     errors.push({ endpoint, status, error: err });
   }
@@ -103,49 +103,49 @@ describe('Catch Block Error Binding', () => {
   describe('Error Properties Access', () => {
     it('should access error.message correctly', () => {
       let capturedMessage = '';
-      
+
       try {
         throw new Error('Specific error message');
       } catch (error) {
         capturedMessage = (error as Error).message;
       }
-      
+
       expect(capturedMessage).toBe('Specific error message');
     });
 
     it('should access error.stack correctly', () => {
       let hasStack = false;
-      
+
       try {
         throw new Error('Stack test');
       } catch (error) {
         hasStack = !!(error as Error).stack;
       }
-      
+
       expect(hasStack).toBe(true);
     });
 
     it('should handle non-Error throws', () => {
       let capturedValue: any;
-      
+
       try {
         throw 'string error';
       } catch (error) {
         capturedValue = error;
       }
-      
+
       expect(capturedValue).toBe('string error');
     });
 
     it('should handle object throws', () => {
       let capturedValue: any;
-      
+
       try {
         throw { code: 'ERR_001', message: 'Custom error' };
       } catch (error) {
         capturedValue = error;
       }
-      
+
       expect(capturedValue).toEqual({ code: 'ERR_001', message: 'Custom error' });
     });
   });
@@ -153,13 +153,13 @@ describe('Catch Block Error Binding', () => {
   describe('Async Error Handling', () => {
     it('should properly bind error in async catch block', async () => {
       let capturedError: Error | null = null;
-      
+
       try {
         await Promise.reject(new Error('Async error'));
       } catch (error) {
         capturedError = error as Error;
       }
-      
+
       expect(capturedError).toBeInstanceOf(Error);
       expect(capturedError?.message).toBe('Async error');
     });
@@ -168,15 +168,15 @@ describe('Catch Block Error Binding', () => {
       async function failingAsync() {
         throw new Error('Async function error');
       }
-      
+
       let result: { success: boolean; error?: string } = { success: true };
-      
+
       try {
         await failingAsync();
       } catch (error) {
         result = { success: false, error: (error as Error).message };
       }
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Async function error');
     });
@@ -185,7 +185,7 @@ describe('Catch Block Error Binding', () => {
   describe('Nested Try-Catch', () => {
     it('should properly bind errors in nested catch blocks', () => {
       const errors: string[] = [];
-      
+
       try {
         try {
           throw new Error('Inner error');
@@ -196,7 +196,7 @@ describe('Catch Block Error Binding', () => {
       } catch (outerError) {
         errors.push((outerError as Error).message);
       }
-      
+
       expect(errors).toEqual(['Inner error', 'Outer error']);
     });
   });
@@ -211,7 +211,7 @@ describe('Catch Block Error Binding', () => {
           return null;
         }
       }
-      
+
       expect(getAuthUser()).toBeNull();
     });
 
@@ -223,7 +223,7 @@ describe('Catch Block Error Binding', () => {
           return { success: false, error: (error as Error).message };
         }
       }
-      
+
       const result = apiCall();
       expect(result.success).toBe(false);
       expect(result.error).toBe('API error');
@@ -238,7 +238,7 @@ describe('Catch Block Error Binding', () => {
           return [];
         }
       }
-      
+
       expect(getItems()).toEqual([]);
     });
 
@@ -251,7 +251,7 @@ describe('Catch Block Error Binding', () => {
           return false;
         }
       }
-      
+
       expect(checkSomething()).toBe(false);
     });
   });

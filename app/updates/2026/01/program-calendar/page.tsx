@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -15,21 +14,22 @@ export const metadata: Metadata = {
 export default function ProgramCalendar() {
   return (
     <article className="max-w-3xl mx-auto px-6 py-12">
-      <Link href="/updates" className="text-brand-orange-600 hover:text-brand-orange-700 mb-4 inline-block">
+      <Link
+        href="/updates"
+        className="text-brand-orange-600 hover:text-brand-orange-700 mb-4 inline-block"
+      >
         ← Back to Updates
       </Link>
-      
-      <h1 className="text-3xl font-bold mb-4">
-        2026 Program Calendar & Funding Pathways
-      </h1>
-      
+
+      <h1 className="text-3xl font-bold mb-4">2026 Program Calendar & Funding Pathways</h1>
+
       <time className="text-black block mb-6">January 8, 2026</time>
-      
+
       <div className="prose prose-lg max-w-none">
         <p className="text-black leading-relaxed mb-6">
-          Elevate for Humanity will offer workforce training cohorts across healthcare, skilled trades, 
-          and technology sectors throughout 2026. Programs are designed to meet industry demand and 
-          prepare participants for immediate employment.
+          Elevate for Humanity will offer workforce training cohorts across healthcare, skilled
+          trades, and technology sectors throughout 2026. Programs are designed to meet industry
+          demand and prepare participants for immediate employment.
         </p>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">Healthcare Programs</h2>
@@ -58,18 +58,27 @@ export default function ProgramCalendar() {
           Training is available at no cost to eligible participants through:
         </p>
         <ul className="list-disc pl-6 space-y-2 text-black">
-          <li><strong>WIOA (Workforce Innovation and Opportunity Act)</strong> - Federal workforce funding</li>
-          <li><strong>Next Level Jobs</strong> - Indiana state-funded training</li>
-          <li><strong>Employer Sponsorship</strong> - Company-paid training for new hires</li>
-          <li><strong>Veterans Benefits</strong> - GI Bill and VA vocational rehabilitation</li>
+          <li>
+            <strong>WIOA (Workforce Innovation and Opportunity Act)</strong> - Federal workforce
+            funding
+          </li>
+          <li>
+            <strong>Next Level Jobs</strong> - Indiana state-funded training
+          </li>
+          <li>
+            <strong>Employer Sponsorship</strong> - Company-paid training for new hires
+          </li>
+          <li>
+            <strong>Veterans Benefits</strong> - GI Bill and VA vocational rehabilitation
+          </li>
         </ul>
 
         <h2 className="text-2xl font-semibold mt-8 mb-4">How to Apply</h2>
         <p className="text-black leading-relaxed mb-4">
           Applications are accepted on a rolling basis. Cohorts start monthly based on enrollment.
         </p>
-        <Link 
-          href="/start" 
+        <Link
+          href="/start"
           className="inline-block bg-brand-orange-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-orange-700 transition-colors"
         >
           Start Your Application

@@ -34,8 +34,7 @@ export default function EnrollmentDocumentStep({
   const [error, setError] = useState<string | null>(null);
   const [dragOver, setDragOver] = useState<string | null>(null);
 
-  const getUploadedDoc = (type: string) =>
-    uploadedDocuments.find((d) => d.document_type === type);
+  const getUploadedDoc = (type: string) => uploadedDocuments.find((d) => d.document_type === type);
 
   const handleFileSelect = useCallback(
     async (documentType: string, file: File) => {
@@ -70,7 +69,7 @@ export default function EnrollmentDocumentStep({
         setUploading(null);
       }
     },
-    [onUpload]
+    [onUpload],
   );
 
   const handleDrop = useCallback(
@@ -83,7 +82,7 @@ export default function EnrollmentDocumentStep({
         handleFileSelect(documentType, file);
       }
     },
-    [handleFileSelect]
+    [handleFileSelect],
   );
 
   const handleDragOver = (documentType: string, e: React.DragEvent) => {
@@ -97,7 +96,7 @@ export default function EnrollmentDocumentStep({
 
   const requiredCount = requirements.filter((r) => r.required).length;
   const uploadedRequiredCount = requirements.filter(
-    (r) => r.required && getUploadedDoc(r.type)
+    (r) => r.required && getUploadedDoc(r.type),
   ).length;
   const allRequiredUploaded = uploadedRequiredCount === requiredCount;
 
@@ -106,8 +105,8 @@ export default function EnrollmentDocumentStep({
       <div>
         <h2 className="text-xl font-semibold mb-2">Required Documents</h2>
         <p className="text-slate-700 text-sm">
-          Upload the following documents to complete enrollment. Documents will be
-          reviewed by staff before activation.
+          Upload the following documents to complete enrollment. Documents will be reviewed by staff
+          before activation.
         </p>
       </div>
 
@@ -129,9 +128,7 @@ export default function EnrollmentDocumentStep({
       {/* Progress indicator */}
       <div className="bg-gray-50 rounded-lg p-4">
         <div className="flex items-center justify-between mb-2">
-          <span className="text-sm font-medium text-slate-900">
-            Upload Progress
-          </span>
+          <span className="text-sm font-medium text-slate-900">Upload Progress</span>
           <span className="text-sm text-slate-700">
             {uploadedRequiredCount} of {requiredCount} required
           </span>
@@ -257,9 +254,7 @@ export default function EnrollmentDocumentStep({
                           </>
                         )}
                       </label>
-                      <span className="ml-3 text-xs text-slate-700">
-                        PDF, JPG, PNG (max 10MB)
-                      </span>
+                      <span className="ml-3 text-xs text-slate-700">PDF, JPG, PNG (max 10MB)</span>
                     </div>
                   )}
                 </div>
@@ -273,9 +268,7 @@ export default function EnrollmentDocumentStep({
         <div className="p-4 bg-brand-green-50 border border-brand-green-200 rounded-lg flex items-center gap-3">
           <span className="text-slate-500 flex-shrink-0">•</span>
           <div>
-            <p className="font-medium text-brand-green-900">
-              All required documents uploaded
-            </p>
+            <p className="font-medium text-brand-green-900">All required documents uploaded</p>
             <p className="text-sm text-brand-green-700">
               Documents will be reviewed by staff. You can proceed with enrollment.
             </p>

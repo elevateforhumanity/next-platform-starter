@@ -9,11 +9,7 @@ export default defineConfig({
     globals: true,
     // Only include unit tests in the unit folder
     include: ['tests/unit/**/*.test.ts', 'tests/unit/**/*.test.tsx'],
-    exclude: [
-      'node_modules',
-      'tests/e2e/**',
-      '**/*.spec.ts',
-    ],
+    exclude: ['node_modules', 'tests/e2e/**', '**/*.spec.ts'],
     setupFiles: ['./tests/setup.ts'],
   },
   resolve: {

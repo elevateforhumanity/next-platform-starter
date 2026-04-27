@@ -11,5 +11,9 @@ export function AdminGreeting({ name }: { name: string }) {
     setGreeting(h < 12 ? 'Good morning' : h < 17 ? 'Good afternoon' : 'Good evening');
   }, []);
 
-  return <>{greeting}, {name}.</>;
+  return (
+    <>
+      {greeting}, {name}.
+    </>
+  );
 }

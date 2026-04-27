@@ -15,7 +15,10 @@ export default function ImpersonateForm() {
     e.preventDefault();
     setError('');
     setSuccess('');
-    if (!userId.trim()) { setError('User ID is required'); return; }
+    if (!userId.trim()) {
+      setError('User ID is required');
+      return;
+    }
 
     setLoading(true);
     try {
@@ -25,8 +28,13 @@ export default function ImpersonateForm() {
         body: JSON.stringify({ target_user_id: userId.trim(), reason: reason.trim() || null }),
       });
       const data = await res.json();
-      if (!res.ok) { setError(data.error ?? 'Failed to start impersonation'); return; }
-      setSuccess(`Now viewing as: ${data.impersonating.name} (${data.impersonating.email}). Session expires ${new Date(data.impersonating.expires_at).toLocaleTimeString()}.`);
+      if (!res.ok) {
+        setError(data.error ?? 'Failed to start impersonation');
+        return;
+      }
+      setSuccess(
+        `Now viewing as: ${data.impersonating.name} (${data.impersonating.email}). Session expires ${new Date(data.impersonating.expires_at).toLocaleTimeString()}.`,
+      );
       router.refresh();
     } catch {
       setError('Request failed');

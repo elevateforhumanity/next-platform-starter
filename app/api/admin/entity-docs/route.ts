@@ -13,12 +13,11 @@ export const dynamic = 'force-dynamic';
  * Used by the admin verification drawer to show entity-level doc checklist.
  */
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
-const { searchParams } = new URL(request.url);
+  const { searchParams } = new URL(request.url);
   const userId = searchParams.get('userId');
   const category = searchParams.get('category');
 
@@ -30,11 +29,8 @@ const { searchParams } = new URL(request.url);
 
   // Get all documents for this user
   const docTypes = getDocTypesForCategory(category || 'all');
-  
-  let query = supabase
-    .from('documents')
-    .select('*')
-    .eq('user_id', userId);
+
+  let query = supabase.from('documents').select('*').eq('user_id', userId);
 
   if (docTypes.length > 0) {
     query = query.in('document_type', docTypes);
@@ -62,7 +58,12 @@ function getDocTypesForCategory(category: string): string[] {
     case 'host_shop':
       return ['shop_license', 'barber_license'];
     case 'transfer':
-      return ['school_transcript', 'certificate', 'out_of_state_license', 'employment_verification'];
+      return [
+        'school_transcript',
+        'certificate',
+        'out_of_state_license',
+        'employment_verification',
+      ];
     case 'ce':
       return ['ce_certificate'];
     default:
@@ -73,7 +74,7 @@ function getDocTypesForCategory(category: string): string[] {
 async function getEntityStatus(
   supabase: any,
   userId: string,
-  category: string | null
+  category: string | null,
 ): Promise<{
   intake_complete: boolean;
   agreement_accepted: boolean;
@@ -103,28 +104,30 @@ async function getEntityStatus(
       // For host_shop: both shop_license AND barber_license must be verified
       // For transfer: at least one must be verified (OR logic)
       // For ce: ce_certificate must be verified
-      
+
       if (category === 'apprentice') {
-        docsVerified = docs?.some(
-          (d: any) => d.document_type === 'photo_id' && (d.verified || d.status === 'verified')
-        ) || false;
+        docsVerified =
+          docs?.some(
+            (d: any) => d.document_type === 'photo_id' && (d.verified || d.status === 'verified'),
+          ) || false;
       } else if (category === 'host_shop') {
         const shopLicenseVerified = docs?.some(
-          (d: any) => d.document_type === 'shop_license' && (d.verified || d.status === 'verified')
+          (d: any) => d.document_type === 'shop_license' && (d.verified || d.status === 'verified'),
         );
         const barberLicenseVerified = docs?.some(
-          (d: any) => d.document_type === 'barber_license' && (d.verified || d.status === 'verified')
+          (d: any) =>
+            d.document_type === 'barber_license' && (d.verified || d.status === 'verified'),
         );
         docsVerified = shopLicenseVerified && barberLicenseVerified;
       } else if (category === 'transfer') {
         // At least one transfer doc verified
-        docsVerified = docs?.some(
-          (d: any) => (d.verified || d.status === 'verified')
-        ) || false;
+        docsVerified = docs?.some((d: any) => d.verified || d.status === 'verified') || false;
       } else if (category === 'ce') {
-        docsVerified = docs?.some(
-          (d: any) => d.document_type === 'ce_certificate' && (d.verified || d.status === 'verified')
-        ) || false;
+        docsVerified =
+          docs?.some(
+            (d: any) =>
+              d.document_type === 'ce_certificate' && (d.verified || d.status === 'verified'),
+          ) || false;
       }
     }
 
@@ -135,16 +138,13 @@ async function getEntityStatus(
       .eq('user_id', userId)
       .maybeSingle();
 
-    const intakeComplete = !!profile && (
-      profile.enrollment_status === 'pending' || 
-      profile.enrollment_status === 'active' ||
-      !!enrollment
-    );
+    const intakeComplete =
+      !!profile &&
+      (profile.enrollment_status === 'pending' ||
+        profile.enrollment_status === 'active' ||
+        !!enrollment);
 
-    const agreementAccepted = !!(
-      profile?.agreement_signed_at || 
-      enrollment?.agreement_signed
-    );
+    const agreementAccepted = !!(profile?.agreement_signed_at || enrollment?.agreement_signed);
 
     return {
       intake_complete: intakeComplete,

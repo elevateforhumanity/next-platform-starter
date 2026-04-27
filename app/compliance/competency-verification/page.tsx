@@ -1,6 +1,4 @@
-
 export const revalidate = 3600;
-
 
 import { Metadata } from 'next';
 import Link from 'next/link';
@@ -33,22 +31,32 @@ function RubricCard({ competency, index }: { competency: Competency; index: numb
   return (
     <div className="bg-white rounded-lg border overflow-hidden print:break-inside-avoid">
       <div className="bg-white px-4 py-2 border-b flex items-center justify-between print:bg-white">
-        <span className="font-semibold text-slate-900 text-sm">{index + 1}. {competency.name}</span>
-        <span className="text-xs text-slate-700">RTI: {competency.rtiHours}h | OJT: {competency.ojtHours}h</span>
+        <span className="font-semibold text-slate-900 text-sm">
+          {index + 1}. {competency.name}
+        </span>
+        <span className="text-xs text-slate-700">
+          RTI: {competency.rtiHours}h | OJT: {competency.ojtHours}h
+        </span>
       </div>
       <div className="p-4 space-y-3">
         <div className="grid grid-cols-2 gap-3 text-xs">
           <div>
-            <p className="font-semibold text-slate-700 uppercase tracking-wider mb-0.5">Assessment</p>
+            <p className="font-semibold text-slate-700 uppercase tracking-wider mb-0.5">
+              Assessment
+            </p>
             <p className="text-slate-900">{competency.assessmentType}</p>
           </div>
           <div>
-            <p className="font-semibold text-slate-700 uppercase tracking-wider mb-0.5">Evaluator</p>
+            <p className="font-semibold text-slate-700 uppercase tracking-wider mb-0.5">
+              Evaluator
+            </p>
             <p className="text-slate-900">{competency.evaluator}</p>
           </div>
         </div>
         <div>
-          <p className="font-semibold text-slate-700 uppercase tracking-wider text-xs mb-1">Pass Criteria</p>
+          <p className="font-semibold text-slate-700 uppercase tracking-wider text-xs mb-1">
+            Pass Criteria
+          </p>
           <ul className="space-y-0.5">
             {competency.passCriteria.map((c, i) => (
               <li key={i} className="text-xs text-slate-900 flex items-start gap-1.5">
@@ -76,15 +84,21 @@ function ProgramRubricSection({ rubric }: { rubric: ProgramRubric }) {
       <div className="bg-white border-x border-b rounded-b-xl p-6 mb-2">
         <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-6">
           <div className="text-center">
-            <p className="text-2xl font-bold text-brand-blue-600 print:text-slate-900">{rubric.totalCompetencies}</p>
+            <p className="text-2xl font-bold text-brand-blue-600 print:text-slate-900">
+              {rubric.totalCompetencies}
+            </p>
             <p className="text-xs text-slate-700">Competencies</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-brand-blue-600 print:text-slate-900">{totalRTI}</p>
+            <p className="text-2xl font-bold text-brand-blue-600 print:text-slate-900">
+              {totalRTI}
+            </p>
             <p className="text-xs text-slate-700">RTI Hours</p>
           </div>
           <div className="text-center">
-            <p className="text-2xl font-bold text-brand-blue-600 print:text-slate-900">{totalOJT}</p>
+            <p className="text-2xl font-bold text-brand-blue-600 print:text-slate-900">
+              {totalOJT}
+            </p>
             <p className="text-xs text-slate-700">OJT Hours</p>
           </div>
           <div className="text-center">
@@ -104,21 +118,23 @@ function ProgramRubricSection({ rubric }: { rubric: ProgramRubric }) {
 }
 
 export default function CompetencyVerificationPage() {
-
   return (
     <div className="bg-white min-h-screen print:bg-white">
       {/* Breadcrumbs */}
       <div className="bg-white border-b print:hidden">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Compliance', href: '/compliance' },
-            { label: 'Competency Verification' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Compliance', href: '/compliance' },
+              { label: 'Competency Verification' },
+            ]}
+          />
         </div>
       </div>
 
       {/* Hero */}
       <section className="relative h-[240px] sm:h-[300px] print:hidden overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/compliance-page-2.jpg"
           alt="Competency assessment in progress"
@@ -142,7 +158,9 @@ export default function CompetencyVerificationPage() {
       {/* Print header */}
       <div className="hidden print:block px-8 pt-8 pb-4 border-b-2 border-gray-900">
         <h1 className="text-2xl font-bold text-slate-900">Competency Verification Matrix</h1>
-        <p className="text-sm text-slate-700">Elevate for Humanity — Assessment Rubric Documentation</p>
+        <p className="text-sm text-slate-700">
+          Elevate for Humanity — Assessment Rubric Documentation
+        </p>
       </div>
 
       {/* Purpose & Verification Authority */}
@@ -152,10 +170,10 @@ export default function CompetencyVerificationPage() {
             <h2 className="text-lg font-bold text-slate-900 mb-2">Document Purpose</h2>
             <p className="text-slate-900 text-sm leading-relaxed">
               This document defines the competency assessment rubrics for each program. Every
-              competency is mapped to specific RTI hours, OJT hours, assessment methods,
-              evaluator roles, and objective pass criteria. These rubrics standardize assessment
-              across all credential partners, program holders, and employer sites — ensuring
-              consistent, verifiable competency validation regardless of delivery location.
+              competency is mapped to specific RTI hours, OJT hours, assessment methods, evaluator
+              roles, and objective pass criteria. These rubrics standardize assessment across all
+              credential partners, program holders, and employer sites — ensuring consistent,
+              verifiable competency validation regardless of delivery location.
             </p>
           </div>
 
@@ -163,17 +181,45 @@ export default function CompetencyVerificationPage() {
           <h2 className="text-xl font-bold text-slate-900 mb-4">Assessment Authority Hierarchy</h2>
           <div className="space-y-3 mb-8">
             {[
-              { icon: GraduationCap, role: 'RTI Competencies', authority: 'Credential Partner / Licensed Instructor', desc: 'Classroom, lab, and module-based competency assessments. Instructor sign-off required.' },
-              { icon: Building2, role: 'OJT Competencies', authority: 'Employer Supervisor', desc: 'Workplace skill verification using structured checklists. Supervisor sign-off required.' },
-              { icon: FileCheck, role: 'Progress Oversight', authority: 'Program Holder', desc: 'Rubric completion tracking, evaluation checkpoint enforcement, LMS documentation.' },
-              { icon: Shield, role: 'Final Completion', authority: 'Elevate (Sponsor)', desc: 'Final competency validation, credential readiness determination, completion documentation.' },
+              {
+                icon: GraduationCap,
+                role: 'RTI Competencies',
+                authority: 'Credential Partner / Licensed Instructor',
+                desc: 'Classroom, lab, and module-based competency assessments. Instructor sign-off required.',
+              },
+              {
+                icon: Building2,
+                role: 'OJT Competencies',
+                authority: 'Employer Supervisor',
+                desc: 'Workplace skill verification using structured checklists. Supervisor sign-off required.',
+              },
+              {
+                icon: FileCheck,
+                role: 'Progress Oversight',
+                authority: 'Program Holder',
+                desc: 'Rubric completion tracking, evaluation checkpoint enforcement, LMS documentation.',
+              },
+              {
+                icon: Shield,
+                role: 'Final Completion',
+                authority: 'Elevate (Sponsor)',
+                desc: 'Final competency validation, credential readiness determination, completion documentation.',
+              },
             ].map((item, i) => {
               const Icon = item.icon;
               return (
-                <div key={i} className="flex gap-3 items-start bg-white rounded-lg p-4 print:bg-white print:border">
+                <div
+                  key={i}
+                  className="flex gap-3 items-start bg-white rounded-lg p-4 print:bg-white print:border"
+                >
                   <Icon className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5 print:text-slate-900" />
                   <div>
-                    <p className="font-semibold text-slate-900 text-sm">{item.role} — <span className="text-brand-blue-700 print:text-slate-900">{item.authority}</span></p>
+                    <p className="font-semibold text-slate-900 text-sm">
+                      {item.role} —{' '}
+                      <span className="text-brand-blue-700 print:text-slate-900">
+                        {item.authority}
+                      </span>
+                    </p>
                     <p className="text-slate-700 text-xs">{item.desc}</p>
                   </div>
                 </div>
@@ -182,13 +228,31 @@ export default function CompetencyVerificationPage() {
           </div>
 
           {/* Evaluation Checkpoints */}
-          <h2 className="text-xl font-bold text-slate-900 mb-4">Standardized Evaluation Checkpoints</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">
+            Standardized Evaluation Checkpoints
+          </h2>
           <div className="grid sm:grid-cols-2 gap-3 mb-8">
             {[
-              { checkpoint: '30-Day Evaluation', desc: 'Initial progress review. RTI attendance, early module completion, OJT orientation verified.', evaluator: 'Program Holder + Instructor' },
-              { checkpoint: 'Midpoint Evaluation', desc: 'Competency milestone check. Core skills assessed, OJT skill verification in progress.', evaluator: 'Instructor + Employer Supervisor' },
-              { checkpoint: 'Final Competency Review', desc: 'All rubric competencies verified. Certification readiness determination.', evaluator: 'Credential Partner + Program Holder' },
-              { checkpoint: 'Completion Documentation', desc: 'Credential issuance confirmed, placement support initiated, file closed.', evaluator: 'Elevate (Sponsor)' },
+              {
+                checkpoint: '30-Day Evaluation',
+                desc: 'Initial progress review. RTI attendance, early module completion, OJT orientation verified.',
+                evaluator: 'Program Holder + Instructor',
+              },
+              {
+                checkpoint: 'Midpoint Evaluation',
+                desc: 'Competency milestone check. Core skills assessed, OJT skill verification in progress.',
+                evaluator: 'Instructor + Employer Supervisor',
+              },
+              {
+                checkpoint: 'Final Competency Review',
+                desc: 'All rubric competencies verified. Certification readiness determination.',
+                evaluator: 'Credential Partner + Program Holder',
+              },
+              {
+                checkpoint: 'Completion Documentation',
+                desc: 'Credential issuance confirmed, placement support initiated, file closed.',
+                evaluator: 'Elevate (Sponsor)',
+              },
             ].map((item, i) => (
               <div key={i} className="bg-white rounded-lg p-4 print:bg-white print:border">
                 <p className="font-semibold text-slate-900 text-sm">{item.checkpoint}</p>
@@ -200,13 +264,22 @@ export default function CompetencyVerificationPage() {
 
           {/* OJT Skill Verification Checklist Categories */}
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-5 print:bg-white print:border-gray-300">
-            <h3 className="font-bold text-slate-900 mb-2 text-sm">OJT Skill Verification Checklist Categories</h3>
+            <h3 className="font-bold text-slate-900 mb-2 text-sm">
+              OJT Skill Verification Checklist Categories
+            </h3>
             <p className="text-xs text-slate-900 mb-3">
-              Employers verify OJT competencies using structured checklists (not open-ended comments).
-              Each OJT evaluation covers these standardized categories:
+              Employers verify OJT competencies using structured checklists (not open-ended
+              comments). Each OJT evaluation covers these standardized categories:
             </p>
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-2 text-xs">
-              {['Equipment Operation', 'Safety Compliance', 'Task Execution Accuracy', 'Time Efficiency', 'Professional Conduct', 'Documentation Quality'].map((cat, i) => (
+              {[
+                'Equipment Operation',
+                'Safety Compliance',
+                'Task Execution Accuracy',
+                'Time Efficiency',
+                'Professional Conduct',
+                'Documentation Quality',
+              ].map((cat, i) => (
                 <div key={i} className="flex items-center gap-1.5">
                   <ClipboardCheck className="w-3.5 h-3.5 text-amber-600" />
                   <span className="text-slate-900">{cat}</span>
@@ -222,13 +295,18 @@ export default function CompetencyVerificationPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Program Competency Rubrics</h2>
           <p className="text-slate-700 text-sm mb-6">
-            Summary rubrics for each program. Programs with dedicated deep-dive rubric pages are linked below.
+            Summary rubrics for each program. Programs with dedicated deep-dive rubric pages are
+            linked below.
           </p>
 
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 mb-8 print:bg-white print:border-gray-300">
             <p className="text-sm text-slate-900 font-semibold mb-1">Dedicated Rubric Pages</p>
-            <Link href="/compliance/competency-verification/barber" className="text-sm text-brand-blue-600 underline hover:text-brand-blue-700">
-              Barber Apprenticeship — Full 6-Section Competency Rubric (30 competencies, RAPIDS-aligned)
+            <Link
+              href="/compliance/competency-verification/barber"
+              className="text-sm text-brand-blue-600 underline hover:text-brand-blue-700"
+            >
+              Barber Apprenticeship — Full 6-Section Competency Rubric (30 competencies,
+              RAPIDS-aligned)
             </Link>
           </div>
 
@@ -276,13 +354,22 @@ export default function CompetencyVerificationPage() {
       <section className="py-10 print:hidden">
         <div className="max-w-4xl mx-auto px-4">
           <div className="flex flex-wrap gap-3">
-            <Link href="/compliance/apprenticeship-structure" className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition">
+            <Link
+              href="/compliance/apprenticeship-structure"
+              className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition"
+            >
               Apprenticeship & RTI Structure
             </Link>
-            <Link href="/compliance/credential-partners" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+            <Link
+              href="/compliance/credential-partners"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition"
+            >
               Credential Partner Registry
             </Link>
-            <Link href="/instructional-framework" className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition">
+            <Link
+              href="/instructional-framework"
+              className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-slate-900 rounded-lg text-sm font-medium hover:bg-white transition"
+            >
               Instructional Framework
             </Link>
             <PrintButton />

@@ -25,15 +25,14 @@ export function ApprenticeshipExplainer() {
           </li>
           <li className="flex items-start">
             <span className="text-brand-green-600 font-bold mr-2">•</span>
-            Earn income based on your shop's pay structure (hourly, commission,
-            tips)
+            Earn income based on your shop's pay structure (hourly, commission, tips)
           </li>
         </ul>
       </div>
 
       <p className="text-brand-green-800 text-sm">
-        Workforce funding may cover tuition costs while you work and train. Your
-        WorkOne advisor will confirm eligibility and funding options.
+        Workforce funding may cover tuition costs while you work and train. Your WorkOne advisor
+        will confirm eligibility and funding options.
       </p>
     </div>
   );

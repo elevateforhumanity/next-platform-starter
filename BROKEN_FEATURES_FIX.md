@@ -1,6 +1,7 @@
 # 🚨 BROKEN FEATURES - MUST FIX BEFORE SELLING LICENSES
 
 ## Summary
+
 **15 issues found** that will cause features to fail in production.
 
 ---
@@ -17,7 +18,7 @@ Copy and paste this entire SQL block:
 -- ============================================================
 
 -- 1. ADD MISSING COLUMNS TO shop_products
-ALTER TABLE shop_products 
+ALTER TABLE shop_products
 ADD COLUMN IF NOT EXISTS image_url TEXT,
 ADD COLUMN IF NOT EXISTS is_featured BOOLEAN DEFAULT false,
 ADD COLUMN IF NOT EXISTS images JSONB DEFAULT '[]'::jsonb,
@@ -83,7 +84,7 @@ ALTER TABLE testimonials ENABLE ROW LEVEL SECURITY;
 ALTER TABLE achievements ENABLE ROW LEVEL SECURITY;
 
 -- 6. ADD DEFAULT IMAGES
-UPDATE shop_products 
+UPDATE shop_products
 SET image_url = 'https://images.pexels.com/photos/5632402/pexels-photo-5632402.jpeg?auto=compress&cs=tinysrgb&w=400'
 WHERE image_url IS NULL;
 
@@ -106,18 +107,21 @@ GRANT SELECT ON lessons TO anon, authenticated;
 Your shop products have NO Stripe IDs. Checkout will fail.
 
 ### Option 1: Manual (Quick)
+
 1. Go to Stripe Dashboard → Products
 2. Create each product manually
 3. Copy the product ID and price ID
 4. Update Supabase:
+
 ```sql
-UPDATE shop_products SET 
+UPDATE shop_products SET
   stripe_product_id = 'prod_xxx',
   stripe_price_id = 'price_xxx'
 WHERE id = 'your-product-id';
 ```
 
 ### Option 2: Run Sync Script
+
 ```bash
 pnpm run stripe:sync-products
 ```
@@ -127,37 +131,41 @@ pnpm run stripe:sync-products
 ## 📊 ISSUES BY CATEGORY
 
 ### RLS Policy Issues (4)
-| Table | Issue | Impact |
-|-------|-------|--------|
+
+| Table         | Issue            | Impact                   |
+| ------------- | ---------------- | ------------------------ |
 | shop_products | No public SELECT | Shop shows fallback data |
-| blog_posts | No public SELECT | Blog empty |
-| testimonials | No public SELECT | Homepage broken |
-| achievements | No public SELECT | Achievements hidden |
+| blog_posts    | No public SELECT | Blog empty               |
+| testimonials  | No public SELECT | Homepage broken          |
+| achievements  | No public SELECT | Achievements hidden      |
 
 ### Schema Mismatches (7)
-| Table | Missing Column | Used By |
-|-------|---------------|---------|
-| shop_products | image_url | /shop |
-| shop_products | is_featured | /shop |
-| shop_products | images | Product detail |
-| shop_products | features | Product detail |
-| testimonials | quote | Homepage |
-| testimonials | image_url | Homepage |
-| testimonials | avatar_url | Homepage |
+
+| Table         | Missing Column | Used By        |
+| ------------- | -------------- | -------------- |
+| shop_products | image_url      | /shop          |
+| shop_products | is_featured    | /shop          |
+| shop_products | images         | Product detail |
+| shop_products | features       | Product detail |
+| testimonials  | quote          | Homepage       |
+| testimonials  | image_url      | Homepage       |
+| testimonials  | avatar_url     | Homepage       |
 
 ### Empty Tables (4)
-| Table | Feature Broken |
-|-------|---------------|
-| orders | Order history |
-| cart_items | Shopping cart |
-| entities | Org management |
-| notifications | Notifications |
+
+| Table         | Feature Broken |
+| ------------- | -------------- |
+| orders        | Order history  |
+| cart_items    | Shopping cart  |
+| entities      | Org management |
+| notifications | Notifications  |
 
 ### Stripe Issues
-| Issue | Impact |
-|-------|--------|
+
+| Issue                            | Impact         |
+| -------------------------------- | -------------- |
 | No stripe_product_id on products | Checkout fails |
-| No stripe_price_id on products | Checkout fails |
+| No stripe_price_id on products   | Checkout fails |
 
 ---
 
@@ -181,6 +189,7 @@ SELECT * FROM testimonials LIMIT 5;
 ## 🔧 AUTOMATED PREVENTION
 
 Quality gates have been added to prevent these issues:
+
 - Pre-commit hooks check for common patterns
 - `scripts/quality-gates.sh` runs on every commit
 - ESLint rules for Suspense boundaries

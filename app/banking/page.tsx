@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -24,6 +23,7 @@ export default function BankingPage() {
 
       {/* Hero */}
       <section className="relative h-64 md:h-80 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/banking-page-2.jpg"
           alt="Tax preparation and banking services"
@@ -39,7 +39,8 @@ export default function BankingPage() {
         <div className="max-w-7xl mx-auto px-6">
           <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-2">Banking Services</h1>
           <p className="text-slate-600 text-lg max-w-xl">
-            Refund advances, direct deposit, and prepaid cards — powered by EPS Financial, Member FDIC.
+            Refund advances, direct deposit, and prepaid cards — powered by EPS Financial, Member
+            FDIC.
           </p>
         </div>
       </section>
@@ -62,7 +63,9 @@ export default function BankingPage() {
       {/* Products */}
       <section className="py-16 sm:py-20">
         <div className="max-w-7xl mx-auto px-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-3">Banking Products</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-3">
+            Banking Products
+          </h2>
           <p className="text-slate-600 text-center mb-12 max-w-2xl mx-auto">
             Three ways to receive your tax refund. Choose what works best for your situation.
           </p>
@@ -84,12 +87,27 @@ export default function BankingPage() {
                   Get your refund faster with an advance loan. No credit check required.
                 </p>
                 <ul className="space-y-2 mb-6 text-sm text-slate-700">
-                  <li className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />Up to $6,000 advance</li>
-                  <li className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />No credit check</li>
-                  <li className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />Same-day funding available</li>
-                  <li className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />Repaid from IRS refund</li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
+                    Up to $6,000 advance
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
+                    No credit check
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
+                    Same-day funding available
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
+                    Repaid from IRS refund
+                  </li>
                 </ul>
-                <Link href="/banking/refund-advance" className="block w-full bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-center px-6 py-3 rounded-lg font-bold transition-colors">
+                <Link
+                  href="/banking/refund-advance"
+                  className="block w-full bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-center px-6 py-3 rounded-lg font-bold transition-colors"
+                >
                   Learn More
                 </Link>
               </div>
@@ -108,15 +126,31 @@ export default function BankingPage() {
               <div className="p-7">
                 <h3 className="text-xl font-bold text-slate-900 mb-3">Direct Deposit</h3>
                 <p className="text-slate-600 mb-5">
-                  Get your refund deposited directly to your bank account — the fastest method available.
+                  Get your refund deposited directly to your bank account — the fastest method
+                  available.
                 </p>
                 <ul className="space-y-2 mb-6 text-sm text-slate-700">
-                  <li className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 mt-1.5 flex-shrink-0" />Fastest refund method</li>
-                  <li className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 mt-1.5 flex-shrink-0" />Secure and reliable</li>
-                  <li className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 mt-1.5 flex-shrink-0" />No check cashing fees</li>
-                  <li className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 mt-1.5 flex-shrink-0" />Track your refund status</li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 mt-1.5 flex-shrink-0" />
+                    Fastest refund method
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 mt-1.5 flex-shrink-0" />
+                    Secure and reliable
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 mt-1.5 flex-shrink-0" />
+                    No check cashing fees
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-green-500 mt-1.5 flex-shrink-0" />
+                    Track your refund status
+                  </li>
                 </ul>
-                <Link href="/banking/direct-deposit" className="block w-full bg-brand-green-600 hover:bg-brand-green-700 text-white text-center px-6 py-3 rounded-lg font-bold transition-colors">
+                <Link
+                  href="/banking/direct-deposit"
+                  className="block w-full bg-brand-green-600 hover:bg-brand-green-700 text-white text-center px-6 py-3 rounded-lg font-bold transition-colors"
+                >
                   Learn More
                 </Link>
               </div>
@@ -138,12 +172,27 @@ export default function BankingPage() {
                   Receive your refund on a prepaid Visa debit card. No bank account needed.
                 </p>
                 <ul className="space-y-2 mb-6 text-sm text-slate-700">
-                  <li className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />No bank account required</li>
-                  <li className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />Use anywhere Visa is accepted</li>
-                  <li className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />ATM access nationwide</li>
-                  <li className="flex items-start gap-2"><span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />FDIC insured</li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
+                    No bank account required
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
+                    Use anywhere Visa is accepted
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
+                    ATM access nationwide
+                  </li>
+                  <li className="flex items-start gap-2">
+                    <span className="w-1.5 h-1.5 rounded-full bg-brand-blue-500 mt-1.5 flex-shrink-0" />
+                    FDIC insured
+                  </li>
                 </ul>
-                <Link href="/banking/prepaid-card" className="block w-full bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-center px-6 py-3 rounded-lg font-bold transition-colors">
+                <Link
+                  href="/banking/prepaid-card"
+                  className="block w-full bg-brand-blue-600 hover:bg-brand-blue-700 text-white text-center px-6 py-3 rounded-lg font-bold transition-colors"
+                >
                   Learn More
                 </Link>
               </div>
@@ -155,13 +204,31 @@ export default function BankingPage() {
       {/* How It Works */}
       <section className="py-16 sm:py-20 border-t border-slate-100">
         <div className="max-w-5xl mx-auto px-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-12">How It Works</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 text-center mb-12">
+            How It Works
+          </h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { num: '1', title: 'File Your Taxes', desc: 'Complete your tax return with our professional preparers.' },
-              { num: '2', title: 'Choose Your Option', desc: 'Select refund advance, direct deposit, or prepaid card.' },
-              { num: '3', title: 'Get Approved', desc: 'Quick approval process, usually within minutes.' },
-              { num: '4', title: 'Receive Funds', desc: 'Get your money fast — same day or next day available.' },
+              {
+                num: '1',
+                title: 'File Your Taxes',
+                desc: 'Complete your tax return with our professional preparers.',
+              },
+              {
+                num: '2',
+                title: 'Choose Your Option',
+                desc: 'Select refund advance, direct deposit, or prepaid card.',
+              },
+              {
+                num: '3',
+                title: 'Get Approved',
+                desc: 'Quick approval process, usually within minutes.',
+              },
+              {
+                num: '4',
+                title: 'Receive Funds',
+                desc: 'Get your money fast — same day or next day available.',
+              },
             ].map((step) => (
               <div key={step.num} className="text-center">
                 <div className="w-12 h-12 rounded-full bg-brand-blue-600 text-white text-xl font-black flex items-center justify-center mx-auto mb-4">
@@ -179,7 +246,10 @@ export default function BankingPage() {
       <section className="py-16 sm:py-20 bg-slate-50">
         <div className="max-w-5xl mx-auto px-6">
           <div className="grid md:grid-cols-2 gap-10 items-center">
-            <div className="relative rounded-xl overflow-hidden aspect-[4/3]" style={{ aspectRatio: '4/3' }}>
+            <div
+              className="relative rounded-xl overflow-hidden aspect-[4/3]"
+              style={{ aspectRatio: '4/3' }}
+            >
               <Image
                 src="/images/pages/pathways-page-7.jpg"
                 alt="Professional tax preparation services powered by EPS Financial"
@@ -222,7 +292,9 @@ export default function BankingPage() {
       {/* Fees & Disclosures */}
       <section className="py-16 sm:py-20">
         <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-8">Fees &amp; Disclosures</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-8">
+            Fees &amp; Disclosures
+          </h2>
           <div className="bg-white rounded-xl border border-slate-200 p-8 space-y-6">
             <div>
               <h3 className="font-bold text-slate-900 mb-3">Refund Advance</h3>
@@ -251,9 +323,9 @@ export default function BankingPage() {
             </div>
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-4">
               <p className="text-sm text-slate-700">
-                <strong>Important:</strong> All banking products are provided by EPS Financial, Member FDIC.
-                Refund advances are loans and must be repaid. Terms and conditions apply.
-                See your tax professional for complete details.
+                <strong>Important:</strong> All banking products are provided by EPS Financial,
+                Member FDIC. Refund advances are loans and must be repaid. Terms and conditions
+                apply. See your tax professional for complete details.
               </p>
             </div>
           </div>
@@ -263,15 +335,23 @@ export default function BankingPage() {
       {/* CTA */}
       <section className="py-16 sm:py-20 border-t border-slate-100">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Ready to Get Started?</h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+            Ready to Get Started?
+          </h2>
           <p className="text-slate-600 mb-8">
             File your taxes and choose the banking option that works best for you.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/start" className="bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-8 py-4 rounded-lg font-bold transition-colors">
+            <Link
+              href="/start"
+              className="bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-8 py-4 rounded-lg font-bold transition-colors"
+            >
               File Your Taxes
             </Link>
-            <Link href="/contact" className="border border-slate-300 text-slate-700 px-8 py-4 rounded-lg font-bold hover:bg-white transition-colors">
+            <Link
+              href="/contact"
+              className="border border-slate-300 text-slate-700 px-8 py-4 rounded-lg font-bold hover:bg-white transition-colors"
+            >
               Contact Us
             </Link>
           </div>

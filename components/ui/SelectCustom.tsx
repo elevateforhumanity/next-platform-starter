@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Check, ChevronDown, X, Search } from 'lucide-react';
@@ -44,14 +44,12 @@ export const Select: React.FC<SelectProps> = ({
   const selectedValues = Array.isArray(value) ? value : value ? [value] : [];
 
   const filteredOptions = searchable
-    ? options.filter(option =>
-        option.label.toLowerCase().includes(searchQuery.toLowerCase())
-      )
+    ? options.filter((option) => option.label.toLowerCase().includes(searchQuery.toLowerCase()))
     : options;
 
   const selectedLabels = options
-    .filter(opt => selectedValues.includes(opt.value))
-    .map(opt => opt.label)
+    .filter((opt) => selectedValues.includes(opt.value))
+    .map((opt) => opt.label)
     .join(', ');
 
   useEffect(() => {
@@ -81,7 +79,7 @@ export const Select: React.FC<SelectProps> = ({
   const handleSelect = (optionValue: string) => {
     if (multiple) {
       const newValue = selectedValues.includes(optionValue)
-        ? selectedValues.filter(v => v !== optionValue)
+        ? selectedValues.filter((v) => v !== optionValue)
         : [...selectedValues, optionValue];
       onChange(newValue);
     } else {
@@ -124,10 +122,7 @@ export const Select: React.FC<SelectProps> = ({
             </span>
             <div className="flex items-center gap-2">
               {selectedValues.length > 0 && !disabled && (
-                <X
-                  className="h-4 w-4 text-slate-400 hover:text-black"
-                  onClick={handleClear}
-                />
+                <X className="h-4 w-4 text-slate-400 hover:text-black" onClick={handleClear} />
               )}
               <ChevronDown
                 className={`h-4 w-4 text-slate-400 transition-transform ${isOpen ? 'rotate-180' : ''}`}
@@ -146,7 +141,11 @@ export const Select: React.FC<SelectProps> = ({
                     ref={searchInputRef}
                     type="text"
                     value={searchQuery}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setSearchQuery(e.target.value)}
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
+                    ) => setSearchQuery(e.target.value)}
                     placeholder="Search..."
                     className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-md focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                   />
@@ -185,11 +184,7 @@ export const Select: React.FC<SelectProps> = ({
         )}
       </div>
 
-      {error && (
-        <p className="mt-2 text-sm text-brand-orange-600">{error}</p>
-      )}
+      {error && <p className="mt-2 text-sm text-brand-orange-600">{error}</p>}
     </div>
   );
 };
-
-

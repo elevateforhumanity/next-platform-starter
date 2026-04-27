@@ -11,7 +11,8 @@ import {
   AlertCircle,
   Download,
   BookOpen,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import AssignmentSubmitForm from '../AssignmentSubmitForm';
 
 export const dynamic = 'force-dynamic';
@@ -23,8 +24,7 @@ interface Props {
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { id } = await params;
   const supabase = await createClient();
-  
-  
+
   const { data: assignment } = await supabase
     .from('assignments')
     .select('title')
@@ -40,14 +40,17 @@ export default async function AssignmentDetailPage({ params }: Props) {
   const { id } = await params;
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/lms/assignments/' + id);
 
   // Fetch assignment
   const { data: assignment, error } = await supabase
     .from('assignments')
-    .select('id, title, description, due_date, course_id, max_points, submission_type, instructions')
+    .select(
+      'id, title, description, due_date, course_id, max_points, submission_type, instructions',
+    )
     .eq('id', id)
     .maybeSingle();
 
@@ -55,7 +58,11 @@ export default async function AssignmentDetailPage({ params }: Props) {
 
   // Hydrate course title separately (no FK on assignments.course_id)
   const { data: assignmentCourse } = assignment.course_id
-    ? await supabase.from('courses').select('id, title').eq('id', assignment.course_id).maybeSingle()
+    ? await supabase
+        .from('courses')
+        .select('id, title')
+        .eq('id', assignment.course_id)
+        .maybeSingle()
     : { data: null };
   const assignmentWithCourse = { ...assignment, courses: assignmentCourse };
 
@@ -128,14 +135,17 @@ export default async function AssignmentDetailPage({ params }: Props) {
 
               {/* Due Date */}
               {assignment.due_date && (
-                <div className={`flex items-center gap-2 p-3 rounded-lg mb-4 ${
-                  isOverdue && !isSubmitted
-                    ? 'bg-brand-red-50 text-brand-red-800'
-                    : 'bg-white text-slate-700'
-                }`}>
+                <div
+                  className={`flex items-center gap-2 p-3 rounded-lg mb-4 ${
+                    isOverdue && !isSubmitted
+                      ? 'bg-brand-red-50 text-brand-red-800'
+                      : 'bg-white text-slate-700'
+                  }`}
+                >
                   <Calendar className="w-5 h-5" />
                   <span>
-                    Due: {new Date(assignment.due_date).toLocaleDateString('en-US', {
+                    Due:{' '}
+                    {new Date(assignment.due_date).toLocaleDateString('en-US', {
                       weekday: 'long',
                       month: 'long',
                       day: 'numeric',

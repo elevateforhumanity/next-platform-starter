@@ -8,14 +8,10 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _DELETE(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  
-    const rateLimited = await applyRateLimit(request, 'contact');
-    if (rateLimited) return rateLimited;
-const { id } = await params;
+async function _DELETE(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'contact');
+  if (rateLimited) return rateLimited;
+  const { id } = await params;
   try {
     const supabase = await createClient();
 
@@ -36,10 +32,7 @@ const { id } = await params;
       .single();
 
     if (fetchError || !document) {
-      return NextResponse.json(
-        { error: 'Document not found or access denied' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Document not found or access denied' }, { status: 404 });
     }
 
     // Delete from storage
@@ -66,11 +59,8 @@ const { id } = await params;
       success: true,
       message: 'Document deleted successfully',
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const DELETE = withApiAudit('/api/tax/documents/[id]', _DELETE);

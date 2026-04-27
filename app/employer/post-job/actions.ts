@@ -6,7 +6,9 @@ import { safeError } from '@/lib/api/safe-error';
 
 export async function postJobAction(formData: FormData) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const title = (formData.get('title') as string)?.trim();

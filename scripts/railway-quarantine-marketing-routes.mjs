@@ -47,39 +47,118 @@ const SERVICE_ROLE = process.env.SERVICE_ROLE || 'all';
 
 // Shared: needed by every Railway service
 const SHARED = [
-  '(auth)', '(dashboard)', '(marketing)', '(partner)', '(public)',
-  '.well-known', '_data', 'actions', 'components', 'data', 'layouts',
-  'login', 'signup', 'forgot-password', 'reset', 'reset-password',
-  'verify-email', 'accept-invite', 'unauthorized', 'auth', 'billing-required',
+  '(auth)',
+  '(dashboard)',
+  '(marketing)',
+  '(partner)',
+  '(public)',
+  '.well-known',
+  '_data',
+  'actions',
+  'components',
+  'data',
+  'layouts',
+  'login',
+  'signup',
+  'forgot-password',
+  'reset',
+  'reset-password',
+  'verify-email',
+  'accept-invite',
+  'unauthorized',
+  'auth',
+  'billing-required',
   'api',
 ];
 
 // LMS service: learner-facing routes
 const LMS_ONLY = [
-  'lms', 'learner', 'courses', 'course-preview', 'my-dashboard', 'dashboard',
-  'onboarding', 'orientation', 'student', 'student-portal',
-  'account', 'profile', 'settings', 'billing', 'checkout', 'pay', 'payment',
-  'enroll', 'enrollment', 'messages', 'notifications', 'search',
-  'certificates', 'credentials', 'achievements', 'transcript', 'advising',
-  'next-steps', 'sign', 'documents', 'compliance', 'apprentice', 'schedule',
-  'portals', 'videos', 'video', 'ai', 'ai-chat', 'ai-studio', 'ai-tutor',
+  'lms',
+  'learner',
+  'courses',
+  'course-preview',
+  'my-dashboard',
+  'dashboard',
+  'onboarding',
+  'orientation',
+  'student',
+  'student-portal',
+  'account',
+  'profile',
+  'settings',
+  'billing',
+  'checkout',
+  'pay',
+  'payment',
+  'enroll',
+  'enrollment',
+  'messages',
+  'notifications',
+  'search',
+  'certificates',
+  'credentials',
+  'achievements',
+  'transcript',
+  'advising',
+  'next-steps',
+  'sign',
+  'documents',
+  'compliance',
+  'apprentice',
+  'schedule',
+  'portals',
+  'videos',
+  'video',
+  'ai',
+  'ai-chat',
+  'ai-studio',
+  'ai-tutor',
 ];
 
 // Admin service: staff-facing routes
 const ADMIN_ONLY = [
-  'admin', 'staff-portal', 'case-manager', 'proctor', 'builder', 'creator',
-  'generate', 'reports', 'approvals', 'instructor', 'employer', 'employer-portal',
-  'partner', 'partner-portal', 'program-holder', 'mentor', 'workforce-board',
-  'account', 'profile', 'settings', 'messages', 'notifications', 'search',
-  'documents', 'compliance', 'supersonic', 'tax', 'store', 'shop',
-  'demos', 'testing', 'pwa',
+  'admin',
+  'staff-portal',
+  'case-manager',
+  'proctor',
+  'builder',
+  'creator',
+  'generate',
+  'reports',
+  'approvals',
+  'instructor',
+  'employer',
+  'employer-portal',
+  'partner',
+  'partner-portal',
+  'program-holder',
+  'mentor',
+  'workforce-board',
+  'account',
+  'profile',
+  'settings',
+  'messages',
+  'notifications',
+  'search',
+  'documents',
+  'compliance',
+  'supersonic',
+  'tax',
+  'store',
+  'shop',
+  'demos',
+  'testing',
+  'pwa',
 ];
 
 function getAllowlist() {
   switch (SERVICE_ROLE) {
-    case 'lms':   return new Set([...SHARED, ...LMS_ONLY]);
-    case 'admin': return new Set([...SHARED, ...ADMIN_ONLY]);
-    default:      return new Set([...SHARED, ...LMS_ONLY, ...ADMIN_ONLY]);
+    case 'lms':
+      return new Set([...SHARED, ...LMS_ONLY]);
+    case 'admin':
+      return new Set([...SHARED, ...ADMIN_ONLY]);
+    default:
+      return new Set([...SHARED, ...LMS_ONLY, ...ADMIN_ONLY]);
   }
 }
 
@@ -94,18 +173,24 @@ async function quarantine() {
     try {
       const s = await stat(src);
       if (s.isDirectory()) toMove.push(entry);
-    } catch { /* skip */ }
+    } catch {
+      /* skip */
+    }
   }
 
   console.log(`[railway-quarantine] SERVICE_ROLE=${SERVICE_ROLE}`);
-  console.log(`[railway-quarantine] ${entries.length} entries in app/ — quarantining ${toMove.length} marketing dirs...`);
+  console.log(
+    `[railway-quarantine] ${entries.length} entries in app/ — quarantining ${toMove.length} marketing dirs...`,
+  );
 
   for (const entry of toMove) {
     await moveDir(join('app', entry), join(QUARANTINE_ROOT, 'app', entry));
     console.log(`  ✓ app/${entry}`);
   }
 
-  console.log(`[railway-quarantine] Done — ${entries.length - toMove.length} dirs remain for compilation.`);
+  console.log(
+    `[railway-quarantine] Done — ${entries.length - toMove.length} dirs remain for compilation.`,
+  );
 }
 
 async function restore() {

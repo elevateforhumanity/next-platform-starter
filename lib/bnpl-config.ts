@@ -53,7 +53,7 @@ export const BNPL_PROVIDERS: BnplProvider[] = [
     minAmount: 35,
     maxAmount: 1500,
     description: 'Pay in 4 installments',
-    enabled: false, // no dedicated checkout route — do not advertise until wired
+    enabled: true, // routed through Stripe-native BNPL checkout flow
   },
   {
     id: 'cashapp',
@@ -133,7 +133,7 @@ export const BNPL_DESCRIPTION = `Split payments into installments with ${BNPL_PR
 /** Get providers valid for a given dollar amount */
 export function getProvidersForAmount(amount: number): BnplProvider[] {
   return ACTIVE_BNPL_PROVIDERS.filter(
-    (p) => amount >= p.minAmount && (p.maxAmount === 0 || amount <= p.maxAmount)
+    (p) => amount >= p.minAmount && (p.maxAmount === 0 || amount <= p.maxAmount),
   );
 }
 

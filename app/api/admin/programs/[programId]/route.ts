@@ -9,7 +9,6 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-
 async function _GET(request: Request, { params }: { params: Promise<{ programId: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
@@ -37,7 +36,10 @@ async function _PATCH(request: Request, { params }: { params: Promise<{ programI
     const body = await request.json().catch(() => null);
     const parsed = ProgramUpdateSchema.safeParse(body);
     if (!parsed.success) {
-      return NextResponse.json({ error: 'Invalid input', details: parsed.error.flatten() }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid input', details: parsed.error.flatten() },
+        { status: 400 },
+      );
     }
     if (Object.keys(parsed.data).length === 0) {
       return NextResponse.json({ error: 'No fields to update' }, { status: 400 });

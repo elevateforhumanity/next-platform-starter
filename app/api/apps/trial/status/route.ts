@@ -11,7 +11,9 @@ async function _GET(request: NextRequest) {
 
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -31,10 +33,10 @@ async function _GET(request: NextRequest) {
       .maybeSingle();
 
     if (!subscription) {
-      return NextResponse.json({ 
+      return NextResponse.json({
         hasAccess: false,
         status: 'none',
-        message: 'No subscription found'
+        message: 'No subscription found',
       });
     }
 
@@ -55,7 +57,7 @@ async function _GET(request: NextRequest) {
           hasAccess: false,
           status: 'expired',
           message: 'Trial expired',
-          upgradeUrl: `/store/apps/${appSlug}?upgrade=true`
+          upgradeUrl: `/store/apps/${appSlug}?upgrade=true`,
         });
       }
 
@@ -64,7 +66,7 @@ async function _GET(request: NextRequest) {
         status: 'trial',
         daysRemaining,
         trialEndsAt: subscription.trial_ends_at,
-        subscription
+        subscription,
       });
     }
 
@@ -74,7 +76,7 @@ async function _GET(request: NextRequest) {
         hasAccess: true,
         status: 'active',
         plan: subscription.plan,
-        subscription
+        subscription,
       });
     }
 
@@ -83,9 +85,8 @@ async function _GET(request: NextRequest) {
       hasAccess: false,
       status: subscription.status,
       message: `Subscription ${subscription.status}`,
-      upgradeUrl: `/store/apps/${appSlug}?reactivate=true`
+      upgradeUrl: `/store/apps/${appSlug}?reactivate=true`,
     });
-
   } catch (error) {
     logger.error('Trial status error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

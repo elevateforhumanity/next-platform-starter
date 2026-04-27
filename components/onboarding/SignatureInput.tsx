@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useRef, useEffect, useCallback } from 'react';
 import { Type, Pen, RotateCcw, Check, AlertCircle, Loader2 } from 'lucide-react';
@@ -32,7 +32,7 @@ export function SignatureInput({
   const [saved, setSaved] = useState(false);
   const [error, setError] = useState<string | null>(null);
   const [userId, setUserId] = useState<string | null>(null);
-  
+
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const contextRef = useRef<CanvasRenderingContext2D | null>(null);
 
@@ -109,33 +109,36 @@ export function SignatureInput({
     context.moveTo(x, y);
   }, []);
 
-  const draw = useCallback((e: React.MouseEvent | React.TouchEvent) => {
-    if (!isDrawing) return;
-    
-    const canvas = canvasRef.current;
-    const context = contextRef.current;
-    if (!canvas || !context) return;
+  const draw = useCallback(
+    (e: React.MouseEvent | React.TouchEvent) => {
+      if (!isDrawing) return;
 
-    const rect = canvas.getBoundingClientRect();
-    let x, y;
+      const canvas = canvasRef.current;
+      const context = contextRef.current;
+      if (!canvas || !context) return;
 
-    if ('touches' in e) {
-      e.preventDefault();
-      x = e.touches[0].clientX - rect.left;
-      y = e.touches[0].clientY - rect.top;
-    } else {
-      x = e.clientX - rect.left;
-      y = e.clientY - rect.top;
-    }
+      const rect = canvas.getBoundingClientRect();
+      let x, y;
 
-    context.lineTo(x, y);
-    context.stroke();
-  }, [isDrawing]);
+      if ('touches' in e) {
+        e.preventDefault();
+        x = e.touches[0].clientX - rect.left;
+        y = e.touches[0].clientY - rect.top;
+      } else {
+        x = e.clientX - rect.left;
+        y = e.clientY - rect.top;
+      }
+
+      context.lineTo(x, y);
+      context.stroke();
+    },
+    [isDrawing],
+  );
 
   const stopDrawing = useCallback(() => {
     if (!isDrawing) return;
     setIsDrawing(false);
-    
+
     const canvas = canvasRef.current;
     if (canvas) {
       const dataUrl = canvas.toDataURL('image/png');
@@ -166,7 +169,7 @@ export function SignatureInput({
 
     try {
       const signatureData = signatureType === 'TYPED' ? typedSignature : drawnSignature;
-      
+
       // Save signature record
       const { data: signature, error: saveError } = await supabase
         .from('signatures')
@@ -187,19 +190,21 @@ export function SignatureInput({
       if (saveError) throw saveError;
 
       // Log activity
-      await supabase.from('user_activity').insert({
-        user_id: userId,
-        activity_type: 'document_signed',
-        metadata: {
-          document_id: documentId,
-          document_type: documentType,
-          signature_type: signatureType,
-        },
-      }).catch(() => {});
+      await supabase
+        .from('user_activity')
+        .insert({
+          user_id: userId,
+          activity_type: 'document_signed',
+          metadata: {
+            document_id: documentId,
+            document_type: documentType,
+            signature_type: signatureType,
+          },
+        })
+        .catch(() => {});
 
       setSaved(true);
       onSignatureSaved?.(signature.id);
-
     } catch (err: any) {
       console.error('Error saving signature:', err);
       setError('Failed to save signature');
@@ -260,8 +265,8 @@ export function SignatureInput({
             onChange={(e) => handleTypedChange(e.target.value)}
             placeholder="Type your full name exactly as shown"
             className={`w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-xl ${
-              typedSignature && !isValid 
-                ? 'border-brand-red-300 bg-brand-red-50' 
+              typedSignature && !isValid
+                ? 'border-brand-red-300 bg-brand-red-50'
                 : 'border-slate-300'
             }`}
             style={{ fontFamily: "'Brush Script MT', 'Segoe Script', cursive" }}
@@ -271,7 +276,9 @@ export function SignatureInput({
               Must match: <strong className="text-slate-900">{userName}</strong>
             </p>
             {typedSignature && (
-              <span className={`text-sm flex items-center gap-1 ${isValid ? 'text-brand-green-600' : 'text-brand-red-600'}`}>
+              <span
+                className={`text-sm flex items-center gap-1 ${isValid ? 'text-brand-green-600' : 'text-brand-red-600'}`}
+              >
                 {isValid ? (
                   <>
                     <Check className="w-4 h-4" /> Valid
@@ -347,10 +354,9 @@ export function SignatureInput({
       {/* Legal Notice */}
       <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
         <p className="text-sm text-brand-blue-900">
-          <strong>Legal Notice:</strong> This digital signature has the same
-          legal effect as a handwritten signature under the Electronic Signatures 
-          in Global and National Commerce Act (E-SIGN Act). By signing, you agree 
-          to be legally bound by this document.
+          <strong>Legal Notice:</strong> This digital signature has the same legal effect as a
+          handwritten signature under the Electronic Signatures in Global and National Commerce Act
+          (E-SIGN Act). By signing, you agree to be legally bound by this document.
         </p>
       </div>
 

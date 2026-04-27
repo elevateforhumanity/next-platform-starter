@@ -9,7 +9,7 @@ export const studentEmailTemplates = {
    */
   applicationReceived: {
     from: 'noreply@elevateforhumanity.org',
-    subject: 'We received your application — here\'s what happens next',
+    subject: "We received your application — here's what happens next",
     getHtml: (data: { firstName: string }) => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <p>Hello ${data.firstName},</p>
@@ -56,7 +56,7 @@ We're glad you took this step.
 Elevate for Humanity
 Support: info@elevateforhumanity.org
 Phone: (317) 314-3757
-    `
+    `,
   },
 
   /**
@@ -64,7 +64,7 @@ Phone: (317) 314-3757
    */
   advisorOutreach: {
     from: 'advisor@www.elevateforhumanity.org',
-    subject: 'Let\'s talk about your next steps',
+    subject: "Let's talk about your next steps",
     getHtml: (data: { firstName: string; advisorName: string; calendlyLink?: string }) => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <p>Hi ${data.firstName},</p>
@@ -78,10 +78,14 @@ Phone: (317) 314-3757
           <li>Timeline and next steps</li>
         </ul>
 
-        ${data.calendlyLink ? `
+        ${
+          data.calendlyLink
+            ? `
           <p>You can schedule a time that works for you here:<br />
           <a href="${data.calendlyLink}" style="display: inline-block; padding: 12px 24px; background-color: #ea580c; color: white; text-decoration: none; border-radius: 6px; margin: 10px 0;">Schedule Appointment</a></p>
-        ` : ''}
+        `
+            : ''
+        }
 
         <p>If you'd rather talk by phone, feel free to reply to this email or call us at <a href="tel:+13173143757">(317) 314-3757</a>.</p>
 
@@ -112,7 +116,7 @@ Looking forward to speaking with you.
 —
 ${data.advisorName}
 Elevate for Humanity
-    `
+    `,
   },
 
   /**
@@ -159,7 +163,7 @@ Thank you for working with us.
 
 —
 Elevate for Humanity
-    `
+    `,
   },
 
   /**
@@ -167,13 +171,13 @@ Elevate for Humanity
    */
   enrollmentConfirmation: {
     from: 'noreply@elevateforhumanity.org',
-    subject: 'You\'re enrolled — here\'s what\'s next',
+    subject: "You're enrolled — here's what's next",
     getHtml: (data: {
       firstName: string;
       programName: string;
       startDate: string;
       format: string;
-      partnerLink?: string
+      partnerLink?: string;
     }) => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <p>Congratulations ${data.firstName},</p>
@@ -205,7 +209,7 @@ Elevate for Humanity
       programName: string;
       startDate: string;
       format: string;
-      partnerLink?: string
+      partnerLink?: string;
     }) => `
 Congratulations ${data.firstName},
 
@@ -222,6 +226,6 @@ We're excited to support you.
 
 —
 Elevate for Humanity
-    `
-  }
+    `,
+  },
 };

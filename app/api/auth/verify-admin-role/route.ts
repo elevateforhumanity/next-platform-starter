@@ -14,7 +14,10 @@ const ADMIN_ROLES = ['admin', 'super_admin', 'org_admin', 'staff'];
 export async function POST() {
   try {
     const supabase = await createClient();
-    const { data: { user }, error } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error,
+    } = await supabase.auth.getUser();
 
     if (error || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

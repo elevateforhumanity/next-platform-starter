@@ -15,7 +15,7 @@ interface ComplianceGateProps {
 
 /**
  * ComplianceGate - Wraps content that requires compliance verification
- * 
+ *
  * Blocks access until user has completed:
  * - Required agreements
  * - Onboarding steps
@@ -49,7 +49,7 @@ export function ComplianceGate({
         const compData = compRes.ok ? await compRes.json() : { handbook: [], agreements: [] };
 
         const complianceStatus = await checkComplianceStatus(data.user.id, context);
-        
+
         // Merge API data with library check
         if (compData.handbook?.length > 0) {
           complianceStatus.handbookComplete = true;
@@ -98,9 +98,7 @@ export function ComplianceGate({
             <div className="w-16 h-16 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-4">
               <AlertTriangle className="w-8 h-8 text-amber-600" />
             </div>
-            <h2 className="text-xl font-semibold text-slate-900 mb-2">
-              Action Required
-            </h2>
+            <h2 className="text-xl font-semibold text-slate-900 mb-2">Action Required</h2>
             <p className="text-slate-600">
               Please complete the following before accessing this content:
             </p>
@@ -151,7 +149,9 @@ export function ComplianceGate({
 /**
  * Hook for checking compliance status
  */
-export function useComplianceStatus(context: 'student' | 'partner' | 'employer' | 'licensee' = 'student') {
+export function useComplianceStatus(
+  context: 'student' | 'partner' | 'employer' | 'licensee' = 'student',
+) {
   const [status, setStatus] = useState<ComplianceStatus | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<Error | null>(null);

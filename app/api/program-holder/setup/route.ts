@@ -4,7 +4,6 @@ import { createRouteHandlerClient } from '@/lib/auth';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
-
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
@@ -45,7 +44,7 @@ async function _POST(req: NextRequest) {
   if (!organizationName || !programName || !programType) {
     return NextResponse.json(
       { error: 'organizationName, programName, and programType are required' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -54,7 +53,7 @@ async function _POST(req: NextRequest) {
   if (accountNumber && process.env.NODE_ENV === 'production') {
     return NextResponse.json(
       { error: 'Banking information cannot be submitted yet. Please contact support.' },
-      { status: 422 }
+      { status: 422 },
     );
   }
 
@@ -96,23 +95,17 @@ async function _POST(req: NextRequest) {
           setup_submitted_at: new Date().toISOString(),
         },
       },
-      { onConflict: 'user_id' }
+      { onConflict: 'user_id' },
     )
     .select('id')
     .maybeSingle();
 
   if (upsertError) {
-    return NextResponse.json(
-      { error: 'Failed to save setup data' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to save setup data' }, { status: 500 });
   }
 
   // Assign program_holder role so the portal layout and auth guards work.
-  await admin
-    .from('profiles')
-    .update({ role: 'program_holder' })
-    .eq('id', user.id);
+  await admin.from('profiles').update({ role: 'program_holder' }).eq('id', user.id);
 
   return NextResponse.json({ success: true, holderId: holder?.id });
 }

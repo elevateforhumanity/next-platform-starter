@@ -1,4 +1,3 @@
-
 /**
  * POST /api/admin/courses/[courseId]/generate-missing
  *
@@ -23,8 +22,12 @@ export async function POST(
   request: NextRequest,
   { params }: { params: Promise<{ courseId: string }> },
 ) {
-  try { await apiRequireAdmin(request); }
-  catch (e) { if (e instanceof Response) return e; return NextResponse.json({ error: 'Unauthorized' }, { status: 401 }); }
+  try {
+    await apiRequireAdmin(request);
+  } catch (e) {
+    if (e instanceof Response) return e;
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  }
 
   const { courseId } = await params;
   const db = await getAdminClient();
@@ -37,33 +40,34 @@ export async function POST(
     .maybeSingle();
 
   if (courseError) return safeInternalError(courseError, 'Failed to load course');
-  if (!course)     return safeError('Course not found', 404);
+  if (!course) return safeError('Course not found', 404);
 
   const programSlug = (course.programs as { slug: string } | null)?.slug ?? null;
-  if (!programSlug) return safeError('Course has no linked program — cannot determine blueprint', 400);
+  if (!programSlug)
+    return safeError('Course has no linked program — cannot determine blueprint', 400);
 
-  const blueprint = (await loadAllBlueprints()).find(bp => bp.programSlug === programSlug);
-  if (!blueprint)  return safeError(`No blueprint registered for program slug: ${programSlug}`, 400);
+  const blueprint = (await loadAllBlueprints()).find((bp) => bp.programSlug === programSlug);
+  if (!blueprint) return safeError(`No blueprint registered for program slug: ${programSlug}`, 400);
 
   const programId = course.program_id as string | null;
-  if (!programId)  return safeError('Course has no program_id — cannot generate', 400);
+  if (!programId) return safeError('Course has no program_id — cannot generate', 400);
 
   try {
     const result = await generateCourseFromBlueprint({
-      courseId:      course.id,
+      courseId: course.id,
       blueprintSlug: blueprint.id,
       programId,
-      mode:          'missing-only',
+      mode: 'missing-only',
     });
 
     return NextResponse.json({
-      ok:            true,
-      courseId:      result.courseId,
+      ok: true,
+      courseId: result.courseId,
       blueprintSlug: blueprint.id,
-      moduleCount:   result.moduleCount,
-      lessonCount:   result.lessonCount,
-      skipped:       result.skipped,
-      warnings:      result.warnings,
+      moduleCount: result.moduleCount,
+      lessonCount: result.lessonCount,
+      skipped: result.skipped,
+      warnings: result.warnings,
     });
   } catch (err) {
     return safeInternalError(err, 'Generation failed');

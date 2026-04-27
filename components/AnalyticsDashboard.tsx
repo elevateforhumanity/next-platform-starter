@@ -1,7 +1,16 @@
-"use client";
+'use client';
 
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/Card';
-import { TrendingUp, Users, BookOpen, Award, Clock, Target, DollarSign, CheckCircle, } from 'lucide-react';
+import {
+  TrendingUp,
+  Users,
+  BookOpen,
+  Award,
+  Clock,
+  Target,
+  DollarSign,
+  CheckCircle,
+} from 'lucide-react';
 
 interface AnalyticsData {
   totalStudents: number;
@@ -136,10 +145,7 @@ export function AnalyticsDashboard({ data, timeframe = 'month' }: AnalyticsDashb
                     </div>
                   </div>
                   <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
-                    <div
-                      className="h-full   "
-                      style={{ width: `${course.completion}%` }}
-                    />
+                    <div className="h-full   " style={{ width: `${course.completion}%` }} />
                   </div>
                 </div>
               ))}
@@ -183,7 +189,22 @@ export function AnalyticsDashboard({ data, timeframe = 'month' }: AnalyticsDashb
                   style={{ height: `${(value / 115) * 100}%` }}
                 />
                 <div className="text-xs text-black mt-2">
-                  {['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'][index]}
+                  {
+                    [
+                      'Jan',
+                      'Feb',
+                      'Mar',
+                      'Apr',
+                      'May',
+                      'Jun',
+                      'Jul',
+                      'Aug',
+                      'Sep',
+                      'Oct',
+                      'Nov',
+                      'Dec',
+                    ][index]
+                  }
                 </div>
               </div>
             ))}

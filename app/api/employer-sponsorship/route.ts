@@ -1,15 +1,14 @@
 /**
  * Employer Sponsorship API
- * 
+ *
  * Manages employer sponsorship records with post-hire reimbursement tracking.
  */
 
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { 
+import {
   validateEmployerSponsorshipTerms,
-  handleEmployerSeparation 
+  handleEmployerSeparation,
 } from '@/lib/enrollment/funding-enforcement';
 import { EMPLOYER_SPONSORSHIP_CONSTRAINTS } from '@/types/enrollment';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -20,12 +19,13 @@ export const dynamic = 'force-dynamic';
 
 // GET: List sponsorships (admin) or get specific sponsorship
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -46,9 +46,7 @@ const supabase = await createClient();
   const status = searchParams.get('status');
   const employerName = searchParams.get('employer');
 
-  let query = supabase
-    .from('employer_sponsorships')
-    .select(`
+  let query = supabase.from('employer_sponsorships').select(`
       *,
       enrollments (
         id,
@@ -79,12 +77,14 @@ const supabase = await createClient();
 
 // POST: Create new sponsorship
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -114,21 +114,27 @@ async function _POST(request: NextRequest) {
 
   // Validate required fields
   if (!enrollmentId || !userId || !employerName) {
-    return NextResponse.json({ 
-      error: 'Missing required fields: enrollmentId, userId, employerName' 
-    }, { status: 400 });
+    return NextResponse.json(
+      {
+        error: 'Missing required fields: enrollmentId, userId, employerName',
+      },
+      { status: 400 },
+    );
   }
 
   // Validate terms
   const reimbursement = monthlyReimbursement || 300;
   const term = termMonths || 16;
-  
+
   const validation = validateEmployerSponsorshipTerms(reimbursement, term);
   if (!validation.valid) {
-    return NextResponse.json({ 
-      error: 'Invalid sponsorship terms',
-      details: validation.errors 
-    }, { status: 400 });
+    return NextResponse.json(
+      {
+        error: 'Invalid sponsorship terms',
+        details: validation.errors,
+      },
+      { status: 400 },
+    );
   }
 
   const { data, error } = await supabase
@@ -152,21 +158,22 @@ async function _POST(request: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 
-  return NextResponse.json({ 
-    success: true, 
+  return NextResponse.json({
+    success: true,
     sponsorshipId: data.id,
-    message: 'Employer sponsorship created. Send agreement to employer.'
+    message: 'Employer sponsorship created. Send agreement to employer.',
   });
 }
 
 // PATCH: Update sponsorship (status, hire confirmation, reimbursement, separation)
 async function _PATCH(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -211,11 +218,11 @@ const supabase = await createClient();
       if (!actionData?.hireDate) {
         return NextResponse.json({ error: 'Hire date required' }, { status: 400 });
       }
-      
+
       // Calculate first reimbursement due date (first of next month after hire)
       const hireDate = new Date(actionData.hireDate);
       const nextMonth = new Date(hireDate.getFullYear(), hireDate.getMonth() + 1, 1);
-      
+
       updateData = {
         hire_date: actionData.hireDate,
         hire_confirmed: true,
@@ -257,7 +264,7 @@ const supabase = await createClient();
 
       const newReimbursementsReceived = (current.reimbursements_received || 0) + 1;
       const newTotalReimbursed = (current.total_reimbursed || 0) + actionData.amount;
-      
+
       // Calculate next due date
       const nextDue = new Date();
       nextDue.setMonth(nextDue.getMonth() + 1);
@@ -271,8 +278,10 @@ const supabase = await createClient();
       };
 
       // Check if completed
-      if (newTotalReimbursed >= current.total_tuition || 
-          newReimbursementsReceived >= current.term_months) {
+      if (
+        newTotalReimbursed >= current.total_tuition ||
+        newReimbursementsReceived >= current.term_months
+      ) {
         updateData.status = 'completed';
       }
       break;
@@ -287,9 +296,9 @@ const supabase = await createClient();
         return NextResponse.json({ error: result.error }, { status: 500 });
       }
 
-      return NextResponse.json({ 
-        success: true, 
-        message: 'Employment separation recorded. Reimbursement stopped.' 
+      return NextResponse.json({
+        success: true,
+        message: 'Employment separation recorded. Reimbursement stopped.',
       });
 
     default:

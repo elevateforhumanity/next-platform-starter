@@ -22,15 +22,15 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 /**
  * POST /api/barber/checkout
- * 
+ *
  * Creates a Stripe Checkout session for Barber Apprenticeship enrollment.
- * 
+ *
  * Billing flow:
  * 1. Setup fee ($1,743) collected immediately at checkout
  * 2. Weekly payments start on the FOLLOWING Friday (never same-day)
  * 3. Weekly amount = $3,237 / weeks_remaining
  * 4. Subscription ends after weeks_remaining weeks
- * 
+ *
  * Friday billing rule:
  * - Mon-Thu enrollment: first charge upcoming Friday
  * - Friday enrollment: first charge next week's Friday (7 days later)
@@ -42,17 +42,15 @@ async function _POST(request: NextRequest) {
 
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    const { 
-      hours_per_week = 40, 
-      transferred_hours_verified = 0,
-      enrollment_id,
-    } = body;
+    const { hours_per_week = 40, transferred_hours_verified = 0, enrollment_id } = body;
 
     // CHECK FOR EXISTING ACTIVE ENROLLMENT (prevent double enrollment)
     const { data: existingEnrollment } = await supabase
@@ -64,20 +62,23 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (existingEnrollment) {
-      return NextResponse.json({
-        error: 'You already have an active enrollment',
-        code: 'ENROLLMENT_EXISTS',
-        enrollment_id: existingEnrollment.id,
-        status: existingEnrollment.status,
-        redirect: '/apprentice',
-      }, { status: 409 }); // 409 Conflict
+      return NextResponse.json(
+        {
+          error: 'You already have an active enrollment',
+          code: 'ENROLLMENT_EXISTS',
+          enrollment_id: existingEnrollment.id,
+          status: existingEnrollment.status,
+          redirect: '/apprentice',
+        },
+        { status: 409 },
+      ); // 409 Conflict
     }
 
     // Validate hours per week (realistic range for apprenticeship)
     if (hours_per_week < 20 || hours_per_week > 50) {
       return NextResponse.json(
         { error: 'Hours per week must be between 20 and 50' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -91,7 +92,7 @@ async function _POST(request: NextRequest) {
     if (calculation.weeksRemaining <= 0) {
       return NextResponse.json(
         { error: 'Invalid calculation: no weeks remaining' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -100,7 +101,7 @@ async function _POST(request: NextRequest) {
 
     // Get or create Stripe customer
     let stripeCustomerId: string;
-    
+
     const { data: profile } = await supabase
       .from('profiles')
       .select('stripe_customer_id, email, full_name')
@@ -144,7 +145,8 @@ async function _POST(request: NextRequest) {
             currency: 'usd',
             product_data: {
               name: 'Barber Apprenticeship - Setup Fee (35%)',
-              description: 'Enrollment setup fee - covers onboarding, registration support, employer coordination, and program setup. Non-refundable.',
+              description:
+                'Enrollment setup fee - covers onboarding, registration support, employer coordination, and program setup. Non-refundable.',
             },
             unit_amount: BARBER_PRICING.setupFee * 100, // $1,743 in cents = 174300
           },
@@ -219,22 +221,25 @@ async function _POST(request: NextRequest) {
     });
 
     // Store checkout session info for tracking
-    await supabase.from('payment_sessions').insert({
-      user_id: user.id,
-      stripe_session_id: session.id,
-      program_slug: 'barber-apprenticeship',
-      amount_total: BARBER_PRICING.setupFee + calculation.weeklyPaymentDollars,
-      setup_fee: BARBER_PRICING.setupFee,
-      weekly_payment: calculation.weeklyPaymentDollars,
-      weeks_remaining: calculation.weeksRemaining,
-      hours_per_week,
-      transferred_hours_verified,
-      status: 'pending',
-      billing_cycle_anchor: new Date(billingCycleAnchor * 1000).toISOString(),
-      first_billing_date: firstBillingDateFormatted,
-    }).catch(() => {
-      // Table may not exist yet, continue anyway
-    });
+    await supabase
+      .from('payment_sessions')
+      .insert({
+        user_id: user.id,
+        stripe_session_id: session.id,
+        program_slug: 'barber-apprenticeship',
+        amount_total: BARBER_PRICING.setupFee + calculation.weeklyPaymentDollars,
+        setup_fee: BARBER_PRICING.setupFee,
+        weekly_payment: calculation.weeklyPaymentDollars,
+        weeks_remaining: calculation.weeksRemaining,
+        hours_per_week,
+        transferred_hours_verified,
+        status: 'pending',
+        billing_cycle_anchor: new Date(billingCycleAnchor * 1000).toISOString(),
+        first_billing_date: firstBillingDateFormatted,
+      })
+      .catch(() => {
+        // Table may not exist yet, continue anyway
+      });
 
     return NextResponse.json({
       sessionId: session.id,
@@ -251,16 +256,13 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Barber checkout error:', error);
-    return NextResponse.json(
-      { error: 'Failed to create checkout session' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
   }
 }
 
 /**
  * GET /api/barber/checkout
- * 
+ *
  * Calculate payment plan without creating a session (for preview)
  * Use this to show estimated payments before checkout
  */
@@ -276,7 +278,7 @@ async function _GET(request: NextRequest) {
     if (hoursPerWeek < 20 || hoursPerWeek > 50) {
       return NextResponse.json(
         { error: 'Hours per week must be between 20 and 50' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -284,42 +286,42 @@ async function _GET(request: NextRequest) {
     const billingCycleAnchor = getBillingCycleAnchor();
     const firstBillingDateFormatted = formatFirstBillingDate();
 
-  return NextResponse.json({
-    pricing: {
-      fullPrice: BARBER_PRICING.fullPrice,
-      setupFee: BARBER_PRICING.setupFee,
-      setupFeeRate: '35%',
-      remainingBalance: BARBER_PRICING.remainingBalance,
-      totalHoursRequired: BARBER_PRICING.totalHoursRequired,
-    },
-    calculation: {
-      hoursPerWeek,
-      transferredHours,
-      hoursRemaining: calculation.hoursRemaining,
-      weeksRemaining: calculation.weeksRemaining,
-      weeklyPaymentDollars: calculation.weeklyPaymentDollars,
-      weeklyPaymentCents: calculation.weeklyPaymentCents,
-      totalWeeklyPayments: calculation.totalWeeklyPayments,
-    },
-    billing: {
-      setupFeeDueAt: 'enrollment',
-      firstWeeklyCharge: firstBillingDateFormatted,
-      billingDay: 'Friday',
-      billingTime: '10:00 AM Indianapolis time',
-      billingCycleAnchorUnix: billingCycleAnchor,
-    },
-    summary: {
-      dueToday: `$${BARBER_PRICING.setupFee.toLocaleString()} (setup fee)`,
-      weeklyPayment: `$${calculation.weeklyPaymentDollars.toFixed(2)}/week`,
-      duration: `~${calculation.weeksRemaining} weeks`,
-      firstCharge: firstBillingDateFormatted,
-    },
-  });
+    return NextResponse.json({
+      pricing: {
+        fullPrice: BARBER_PRICING.fullPrice,
+        setupFee: BARBER_PRICING.setupFee,
+        setupFeeRate: '35%',
+        remainingBalance: BARBER_PRICING.remainingBalance,
+        totalHoursRequired: BARBER_PRICING.totalHoursRequired,
+      },
+      calculation: {
+        hoursPerWeek,
+        transferredHours,
+        hoursRemaining: calculation.hoursRemaining,
+        weeksRemaining: calculation.weeksRemaining,
+        weeklyPaymentDollars: calculation.weeklyPaymentDollars,
+        weeklyPaymentCents: calculation.weeklyPaymentCents,
+        totalWeeklyPayments: calculation.totalWeeklyPayments,
+      },
+      billing: {
+        setupFeeDueAt: 'enrollment',
+        firstWeeklyCharge: firstBillingDateFormatted,
+        billingDay: 'Friday',
+        billingTime: '10:00 AM Indianapolis time',
+        billingCycleAnchorUnix: billingCycleAnchor,
+      },
+      summary: {
+        dueToday: `$${BARBER_PRICING.setupFee.toLocaleString()} (setup fee)`,
+        weeklyPayment: `$${calculation.weeklyPaymentDollars.toFixed(2)}/week`,
+        duration: `~${calculation.weeksRemaining} weeks`,
+        firstCharge: firstBillingDateFormatted,
+      },
+    });
   } catch (error) {
     logger.error('Barber checkout GET error:', error);
     return NextResponse.json(
       { error: 'Failed to calculate payment plan', details: 'Internal server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

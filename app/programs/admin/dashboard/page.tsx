@@ -35,10 +35,7 @@ export default async function ProgramAdminDashboardPage() {
       .from('programs')
       .select('id, title, slug, category, is_active, status, published, created_at')
       .order('created_at', { ascending: false }),
-    supabase
-      .from('program_enrollments')
-      .select('program_id')
-      .not('program_id', 'is', null),
+    supabase.from('program_enrollments').select('program_id').not('program_id', 'is', null),
   ]);
 
   const programs: Program[] = programsResult.data ?? [];
@@ -65,7 +62,9 @@ export default async function ProgramAdminDashboardPage() {
       <div className="max-w-7xl mx-auto space-y-8">
         <div>
           <h1 className="text-3xl font-bold text-gray-900">Program Admin Dashboard</h1>
-          <p className="text-gray-500 mt-1">Manage all programs, enrollments, and publishing status.</p>
+          <p className="text-gray-500 mt-1">
+            Manage all programs, enrollments, and publishing status.
+          </p>
         </div>
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
@@ -75,7 +74,10 @@ export default async function ProgramAdminDashboardPage() {
             { label: 'Published', value: publishedCount },
             { label: 'Total Enrollments', value: totalEnrollments },
           ].map((stat) => (
-            <div key={stat.label} className="bg-white rounded-xl border border-gray-200 p-5 text-center">
+            <div
+              key={stat.label}
+              className="bg-white rounded-xl border border-gray-200 p-5 text-center"
+            >
               <p className="text-3xl font-bold text-blue-600">{stat.value}</p>
               <p className="text-sm text-gray-500 mt-1">{stat.label}</p>
             </div>
@@ -92,7 +94,9 @@ export default async function ProgramAdminDashboardPage() {
                   className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-blue-50 text-blue-700 text-sm font-medium"
                 >
                   {cat}
-                  <span className="bg-blue-100 text-blue-800 rounded-full px-2 py-0.5 text-xs">{count}</span>
+                  <span className="bg-blue-100 text-blue-800 rounded-full px-2 py-0.5 text-xs">
+                    {count}
+                  </span>
                 </span>
               ))}
             </div>

@@ -29,19 +29,29 @@ import {
 import dynamic from 'next/dynamic';
 import { sanitizeRichHtml } from '@/lib/security/sanitize-html';
 
-const QuizSystem = dynamic(() => import('@/components/lms/QuizSystem').then(m => ({ default: m.QuizSystem })), { ssr: false });
+const QuizSystem = dynamic(
+  () => import('@/components/lms/QuizSystem').then((m) => ({ default: m.QuizSystem })),
+  { ssr: false },
+);
 const QuizPlayer = dynamic(() => import('@/components/lms/QuizPlayer'), { ssr: false });
 const LessonPlayer = dynamic(() => import('@/components/lms/LessonPlayer'), { ssr: false });
-const StepSubmissionForm = dynamic(() => import('@/components/lms/StepSubmissionForm'), { ssr: false });
-const OjtCompletionPanel = dynamic(() => import('@/components/lms/OjtCompletionPanel'), { ssr: false });
-const InteractiveVideoPlayer = dynamic(() => import('@/components/lms/InteractiveVideoPlayer'), { ssr: false });
+const StepSubmissionForm = dynamic(() => import('@/components/lms/StepSubmissionForm'), {
+  ssr: false,
+});
+const OjtCompletionPanel = dynamic(() => import('@/components/lms/OjtCompletionPanel'), {
+  ssr: false,
+});
+const InteractiveVideoPlayer = dynamic(() => import('@/components/lms/InteractiveVideoPlayer'), {
+  ssr: false,
+});
 const HvacLessonVideo = dynamic(() => import('@/components/lms/HvacLessonVideo'), { ssr: false });
-const NoteTaking = dynamic(() => import('@/components/NoteTaking').then(m => ({ default: m.NoteTaking })), { ssr: false });
+const NoteTaking = dynamic(
+  () => import('@/components/NoteTaking').then((m) => ({ default: m.NoteTaking })),
+  { ssr: false },
+);
 const DigitalBinder = dynamic(() => import('@/components/DigitalBinder'), { ssr: false });
 import { transformLessonContent, isAiJsonBlob } from '@/lib/lms/transformLessonContent';
 // HVAC_COURSE_ID removed — isHvacCourse now derived from course slug (see fetchLesson)
-
-
 
 /**
  * Resolve a barber lesson video URL.
@@ -75,27 +85,38 @@ import type { ActivityId } from '@/lib/lms/activity-map';
 import { useActivityCompletion } from '@/lib/lms/use-activity-completion';
 import { BARBER_PROGRAM_ID, BARBER_COURSE_ID } from '@/lib/barber/pricing';
 
-const ExplainSimply = dynamic(() => import('@/components/lms/ai/ExplainSimply').then(m => ({ default: m.ExplainSimply })), { ssr: false });
-const TranslateToggle = dynamic(() => import('@/components/lms/ai/TranslateToggle').then(m => ({ default: m.TranslateToggle })), { ssr: false });
-const SpacedRepetitionReview = dynamic(() => import('@/components/lms/SpacedRepetitionReview'), { ssr: false });
-const LessonActivityMenu = dynamic(() => import('@/components/lms/LessonActivityMenu'), { ssr: false });
-const LessonInlineInput = dynamic(() => import('@/components/lms/LessonInlineInput'), { ssr: false });
+const ExplainSimply = dynamic(
+  () => import('@/components/lms/ai/ExplainSimply').then((m) => ({ default: m.ExplainSimply })),
+  { ssr: false },
+);
+const TranslateToggle = dynamic(
+  () => import('@/components/lms/ai/TranslateToggle').then((m) => ({ default: m.TranslateToggle })),
+  { ssr: false },
+);
+const SpacedRepetitionReview = dynamic(() => import('@/components/lms/SpacedRepetitionReview'), {
+  ssr: false,
+});
+const LessonActivityMenu = dynamic(() => import('@/components/lms/LessonActivityMenu'), {
+  ssr: false,
+});
+const LessonInlineInput = dynamic(() => import('@/components/lms/LessonInlineInput'), {
+  ssr: false,
+});
 const ScenarioBlock = dynamic(() => import('@/components/lms/ScenarioBlock'), { ssr: false });
 
 const LessonVideoWithSimulation = dynamic(
   () => import('@/components/lms/LessonVideoWithSimulation'),
-  { ssr: false }
+  { ssr: false },
 );
 
 const ARTrainingModules = dynamic(
   () => import('@/components/ARTrainingModules').then((m) => ({ default: m.ARTrainingModules })),
-  { ssr: false }
+  { ssr: false },
 );
 
-const TikTokStyleVideoPlayer = dynamic(
-  () => import('@/components/video/TikTokStyleVideoPlayer'),
-  { ssr: false }
-);
+const TikTokStyleVideoPlayer = dynamic(() => import('@/components/video/TikTokStyleVideoPlayer'), {
+  ssr: false,
+});
 
 // Reads ?activity= once on mount inside its own Suspense boundary.
 // Defined outside LessonPage so it has a stable identity across renders.
@@ -137,7 +158,9 @@ export default function LessonPage() {
   const [courseCompleted, setCourseCompleted] = useState(false);
   const [certificate, setCertificate] = useState<any>(null);
   const [enrollmentBlocked, setEnrollmentBlocked] = useState(false);
-  const [enrollmentBlockReason, setEnrollmentBlockReason] = useState<'pending_approval' | 'pending_funding_verification' | 'not_enrolled'>('not_enrolled');
+  const [enrollmentBlockReason, setEnrollmentBlockReason] = useState<
+    'pending_approval' | 'pending_funding_verification' | 'not_enrolled'
+  >('not_enrolled');
   const [completionError, setCompletionError] = useState<string | null>(null);
   const [checkpointBlocked, setCheckpointBlocked] = useState(false);
   const [passedCheckpointIds, setPassedCheckpointIds] = useState<Set<string>>(new Set());
@@ -171,7 +194,7 @@ export default function LessonPage() {
 
   // Mark an activity as attempted (called when learner interacts with it).
   const markAttempted = useCallback((id: ActivityId) => {
-    setAttempted(prev => {
+    setAttempted((prev) => {
       if (prev.has(id)) return prev;
       const next = new Set(prev);
       next.add(id);
@@ -206,7 +229,9 @@ export default function LessonPage() {
     const supabase = await createClient();
 
     // Check enrollment via server API (bypasses RLS — no student SELECT policy on training_enrollments)
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (user) {
       try {
         const enrollRes = await fetch(`/api/lms/enrollment-status?courseId=${courseId}`);
@@ -227,9 +252,11 @@ export default function LessonPage() {
 
           if (!enrollData?.enrolled || isPendingApproval || isPendingFunding) {
             setEnrollmentBlockReason(
-              isPendingFunding ? 'pending_funding_verification'
-              : isPendingApproval ? 'pending_approval'
-              : 'not_enrolled'
+              isPendingFunding
+                ? 'pending_funding_verification'
+                : isPendingApproval
+                  ? 'pending_approval'
+                  : 'not_enrolled',
             );
             setEnrollmentBlocked(true);
             return;
@@ -320,7 +347,7 @@ export default function LessonPage() {
         .eq('id', lessonData.module_id)
         .maybeSingle();
       if (moduleData) {
-        const isDraft     = moduleData.is_draft === true;
+        const isDraft = moduleData.is_draft === true;
         const isScheduled = moduleData.available_from
           ? new Date(moduleData.available_from) > new Date()
           : false;
@@ -343,7 +370,10 @@ export default function LessonPage() {
       let enrichedContent: string | null = lessonData.rendered_html || lessonData.content;
 
       if (isAiJsonBlob(enrichedContent)) {
-        const { html, quizQuestions: transformedQuiz } = transformLessonContent(enrichedContent, lessonData.slug);
+        const { html, quizQuestions: transformedQuiz } = transformLessonContent(
+          enrichedContent,
+          lessonData.slug,
+        );
         enrichedContent = html;
         // Only use transformed quiz if no quiz_questions already set
         if (transformedQuiz.length > 0 && (!quizQuestions || quizQuestions.length === 0)) {
@@ -367,8 +397,7 @@ export default function LessonPage() {
     }
 
     if (courseData) {
-      const completedCount =
-        lessonsData?.filter((l) => l.completed).length || 0;
+      const completedCount = lessonsData?.filter((l) => l.completed).length || 0;
       setCourse({
         ...courseData,
         totalLessons: lessonsData?.length || 0,
@@ -402,7 +431,7 @@ export default function LessonPage() {
             passedIds = new Set<string>(
               Object.entries(data.checkpointScores as Record<string, { passed: boolean }>)
                 .filter(([, v]) => v.passed)
-                .map(([k]) => k)
+                .map(([k]) => k),
             );
             setPassedCheckpointIds(passedIds);
           }
@@ -423,11 +452,12 @@ export default function LessonPage() {
     // after the render triggered by setPassedCheckpointIds — it is always stale
     // (empty Set) on the first call to fetchLessonData, which caused every learner
     // in module 2+ to see their lesson incorrectly blocked on every page load.
-    const isDbDrivenLesson = lessonData?.lesson_source === 'canonical' || lessonData?.lesson_source === 'course_lessons';
+    const isDbDrivenLesson =
+      lessonData?.lesson_source === 'canonical' || lessonData?.lesson_source === 'course_lessons';
     if (lessonData && lessonsData && isDbDrivenLesson && lessonData.module_order > 1) {
       const prevModuleOrder = lessonData.module_order - 1;
       const prevCheckpoint = lessonsData.find(
-        (l: any) => l.module_order === prevModuleOrder && l.step_type === 'checkpoint'
+        (l: any) => l.module_order === prevModuleOrder && l.step_type === 'checkpoint',
       );
       if (prevCheckpoint && !passedIds.has(prevCheckpoint.id)) {
         setCheckpointBlocked(true);
@@ -445,7 +475,7 @@ export default function LessonPage() {
   useEffect(() => {
     if (!isBarberLesson) return; // extend this check when cosmetology course ID is known
     fetch('/api/apprentice/hours-summary')
-      .then((r) => r.ok ? r.json() : null)
+      .then((r) => (r.ok ? r.json() : null))
       .then((data) => {
         if (!data?.summary) return;
         setHoursLogged(Math.round(data.summary.total_hours + (data.summary.transfer_hours ?? 0)));
@@ -478,11 +508,15 @@ export default function LessonPage() {
             if (err.code === 'CHECKPOINT_NOT_PASSED') {
               // Server-side gate fired — surface the exact message from the API
               // which includes checkpoint title and required score.
-              setCompletionError(err.error ?? 'You must pass the previous module checkpoint before continuing.');
+              setCompletionError(
+                err.error ?? 'You must pass the previous module checkpoint before continuing.',
+              );
               setCheckpointBlocked(true);
             } else if (err.required && err.actual != null) {
               const remaining = Math.ceil((err.required - err.actual) / 60);
-              setCompletionError(`Please spend at least ${remaining} more minute${remaining !== 1 ? 's' : ''} on this lesson before marking it complete.`);
+              setCompletionError(
+                `Please spend at least ${remaining} more minute${remaining !== 1 ? 's' : ''} on this lesson before marking it complete.`,
+              );
             } else {
               setCompletionError(err.error ?? 'Unable to mark complete. Please try again.');
             }
@@ -544,23 +578,22 @@ export default function LessonPage() {
 
   const goToPrevious = () => {
     if (hasPrevious) {
-      router.push(
-        `/lms/courses/${courseId}/lessons/${lessons[currentIndex - 1].id}`
-      );
+      router.push(`/lms/courses/${courseId}/lessons/${lessons[currentIndex - 1].id}`);
     }
   };
 
   const goToNext = () => {
     if (hasNext) {
-      router.push(
-        `/lms/courses/${courseId}/lessons/${lessons[currentIndex + 1].id}`
-      );
+      router.push(`/lms/courses/${courseId}/lessons/${lessons[currentIndex + 1].id}`);
     }
   };
 
   // Timeout: if lesson hasn't loaded after 30s, show error
   useEffect(() => {
-    if (lesson) { setLoadTimeout(false); return; }
+    if (lesson) {
+      setLoadTimeout(false);
+      return;
+    }
     const timer = setTimeout(() => {
       setLoadTimeout(true);
     }, 30000);
@@ -575,9 +608,13 @@ export default function LessonPage() {
             <div className="text-4xl">🔒</div>
             <h2 className="text-xl font-semibold text-slate-900">Module Not Yet Available</h2>
             <p className="text-slate-700">
-              This module is still being prepared. Check back soon — your instructor will notify you when it opens.
+              This module is still being prepared. Check back soon — your instructor will notify you
+              when it opens.
             </p>
-            <a href={`/lms/courses/${courseId}`} className="inline-block mt-4 text-sm text-blue-600 underline">
+            <a
+              href={`/lms/courses/${courseId}`}
+              className="inline-block mt-4 text-sm text-blue-600 underline"
+            >
               Back to course
             </a>
           </div>
@@ -588,8 +625,12 @@ export default function LessonPage() {
     return (
       <div className="flex items-center justify-center h-[100dvh] bg-white">
         <div className="text-center max-w-md px-4">
-          <div className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${isFundingBlock ? 'bg-orange-100' : 'bg-amber-100'}`}>
-            <ClipboardList className={`w-8 h-8 ${isFundingBlock ? 'text-orange-600' : 'text-amber-600'}`} />
+          <div
+            className={`w-16 h-16 rounded-full flex items-center justify-center mx-auto mb-4 ${isFundingBlock ? 'bg-orange-100' : 'bg-amber-100'}`}
+          >
+            <ClipboardList
+              className={`w-8 h-8 ${isFundingBlock ? 'text-orange-600' : 'text-amber-600'}`}
+            />
           </div>
           <h2 className="text-2xl font-bold text-slate-900 mb-2">
             {isFundingBlock ? 'Funding Verification Required' : 'Enrollment Pending Approval'}
@@ -671,11 +712,13 @@ export default function LessonPage() {
         <ActivityParamSync onActivity={handleActivityParam} />
       </Suspense>
       <div className="px-4 py-2 border-b border-slate-100 bg-white flex-shrink-0">
-        <Breadcrumbs items={[
-          { label: "Dashboard", href: "/lms/courses" },
-          { label: course?.title || "Course", href: `/lms/courses/${courseId}` },
-          { label: lesson.title },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Dashboard', href: '/lms/courses' },
+            { label: course?.title || 'Course', href: `/lms/courses/${courseId}` },
+            { label: lesson.title },
+          ]}
+        />
       </div>
 
       {/* Momentum strip — behavioral copy that drives forward motion */}
@@ -687,7 +730,9 @@ export default function LessonPage() {
               <div className="w-24 h-1.5 bg-slate-700 rounded-full overflow-hidden">
                 <div
                   className="h-full bg-brand-blue-500 rounded-full transition-all"
-                  style={{ width: `${lessons.length > 0 ? Math.round((completedLessonIds.size / lessons.length) * 100) : 0}%` }}
+                  style={{
+                    width: `${lessons.length > 0 ? Math.round((completedLessonIds.size / lessons.length) * 100) : 0}%`,
+                  }}
                 />
               </div>
               <span className="text-xs font-bold text-white tabular-nums">
@@ -725,506 +770,482 @@ export default function LessonPage() {
         </div>
       )}
       <div className="flex flex-1 overflow-hidden">
-{/* Mobile Sidebar Toggle */}
-      <button
-        onClick={() => setSidebarOpen(!sidebarOpen)}
-        className="md:hidden fixed top-16 left-4 z-50 bg-white p-3 rounded-lg shadow-lg"
-      >
-        <svg
-          className="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
+        {/* Mobile Sidebar Toggle */}
+        <button
+          onClick={() => setSidebarOpen(!sidebarOpen)}
+          className="md:hidden fixed top-16 left-4 z-50 bg-white p-3 rounded-lg shadow-lg"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth={2}
-            d="M4 6h16M4 12h16M4 18h16"
+          <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth={2}
+              d="M4 6h16M4 12h16M4 18h16"
+            />
+          </svg>
+        </button>
+
+        {/* Mobile Overlay */}
+        {sidebarOpen && (
+          <div
+            className="fixed inset-0 bg-slate-900/50 z-30 md:hidden"
+            onClick={() => setSidebarOpen(false)}
           />
-        </svg>
-      </button>
+        )}
 
-      {/* Mobile Overlay */}
-      {sidebarOpen && (
-        <div
-          className="fixed inset-0 bg-slate-900/50 z-30 md:hidden"
-          onClick={() => setSidebarOpen(false)}
-        />
-      )}
-
-      {/* Sidebar - Lesson List */}
-      <aside
-        className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 w-80 max-w-[85vw] md:max-w-none bg-white border-r overflow-y-auto transition-transform duration-300 fixed md:relative h-full z-40`}
-      >
-        <div className="p-6 border-b">
-          <Link
-            href={`/lms/courses/${courseId}`}
-            className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-semibold mb-4 inline-block"
-          >
-            ← Back to Course
-          </Link>
-          <h2 className="font-bold text-lg">{course?.title}</h2>
-          <div className="mt-3">
-            <div className="text-sm text-black mb-1">
-              {completedLessonIds.size} of {lessons.length} lessons
-            </div>
-            <div className="w-full bg-slate-200 rounded-full h-2">
-              <div
-                className="bg-brand-green-600 h-2 rounded-full transition-all"
-                style={{
-                  width: `${lessons.length > 0 ? (completedLessonIds.size / lessons.length) * 100 : 0}%`,
-                }}
-              />
+        {/* Sidebar - Lesson List */}
+        <aside
+          className={`${sidebarOpen ? 'translate-x-0' : '-translate-x-full'} md:translate-x-0 w-80 max-w-[85vw] md:max-w-none bg-white border-r overflow-y-auto transition-transform duration-300 fixed md:relative h-full z-40`}
+        >
+          <div className="p-6 border-b">
+            <Link
+              href={`/lms/courses/${courseId}`}
+              className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-semibold mb-4 inline-block"
+            >
+              ← Back to Course
+            </Link>
+            <h2 className="font-bold text-lg">{course?.title}</h2>
+            <div className="mt-3">
+              <div className="text-sm text-black mb-1">
+                {completedLessonIds.size} of {lessons.length} lessons
+              </div>
+              <div className="w-full bg-slate-200 rounded-full h-2">
+                <div
+                  className="bg-brand-green-600 h-2 rounded-full transition-all"
+                  style={{
+                    width: `${lessons.length > 0 ? (completedLessonIds.size / lessons.length) * 100 : 0}%`,
+                  }}
+                />
+              </div>
             </div>
           </div>
-        </div>
 
-        <nav role="navigation" aria-label="Main navigation" className="p-4">
-          {/* Group lessons by module_title when available, otherwise flat list */}
-          {(() => {
-            // Build module groups
-            const groups: { title: string | null; lessons: typeof lessons }[] = [];
-            for (const l of lessons) {
-              const title = l.module_title ?? null;
-              const last = groups[groups.length - 1];
-              if (last && last.title === title) { last.lessons.push(l); }
-              else { groups.push({ title, lessons: [l] }); }
-            }
-            const multiGroup = groups.length > 1 && groups.some(g => g.title);
-            return groups.map((group, gi) => (
-              <div key={gi} className="mb-2">
-                {multiGroup && group.title && (
-                  <div className="px-2 py-1.5 mb-1 text-xs font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
-                    {group.title}
-                  </div>
-                )}
-                {group.lessons.map((l) => {
-                  const idx = lessons.findIndex(x => x.id === l.id);
-                  const lessonDone = completedLessonIds.has(l.id) || (l.id === lessonId && isCompleted);
-                  const previousDone = idx === 0 || completedLessonIds.has(lessons[idx - 1]?.id);
-                  const isLocked = !lessonDone && !previousDone && l.id !== lessonId;
-                  const isCurrent = l.id === lessonId;
-                  // Step type badge
-                  const stepBadge = l.step_type === 'checkpoint' ? '⬡' : l.step_type === 'quiz' ? '?' : l.step_type === 'lab' ? '⚙' : null;
+          <nav role="navigation" aria-label="Main navigation" className="p-4">
+            {/* Group lessons by module_title when available, otherwise flat list */}
+            {(() => {
+              // Build module groups
+              const groups: { title: string | null; lessons: typeof lessons }[] = [];
+              for (const l of lessons) {
+                const title = l.module_title ?? null;
+                const last = groups[groups.length - 1];
+                if (last && last.title === title) {
+                  last.lessons.push(l);
+                } else {
+                  groups.push({ title, lessons: [l] });
+                }
+              }
+              const multiGroup = groups.length > 1 && groups.some((g) => g.title);
+              return groups.map((group, gi) => (
+                <div key={gi} className="mb-2">
+                  {multiGroup && group.title && (
+                    <div className="px-2 py-1.5 mb-1 text-xs font-bold uppercase tracking-wider text-slate-400 border-b border-slate-100">
+                      {group.title}
+                    </div>
+                  )}
+                  {group.lessons.map((l) => {
+                    const idx = lessons.findIndex((x) => x.id === l.id);
+                    const lessonDone =
+                      completedLessonIds.has(l.id) || (l.id === lessonId && isCompleted);
+                    const previousDone = idx === 0 || completedLessonIds.has(lessons[idx - 1]?.id);
+                    const isLocked = !lessonDone && !previousDone && l.id !== lessonId;
+                    const isCurrent = l.id === lessonId;
+                    // Step type badge
+                    const stepBadge =
+                      l.step_type === 'checkpoint'
+                        ? '⬡'
+                        : l.step_type === 'quiz'
+                          ? '?'
+                          : l.step_type === 'lab'
+                            ? '⚙'
+                            : null;
 
-                  if (isLocked) {
+                    if (isLocked) {
+                      return (
+                        <div
+                          key={l.id}
+                          className="flex items-center gap-3 p-3 rounded-lg mb-1 opacity-40 cursor-not-allowed"
+                          title="Complete the previous lesson first"
+                        >
+                          <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-white text-slate-400">
+                            <svg
+                              className="w-4 h-4"
+                              fill="none"
+                              stroke="currentColor"
+                              viewBox="0 0 24 24"
+                            >
+                              <path
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                                strokeWidth={2}
+                                d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z"
+                              />
+                            </svg>
+                          </div>
+                          <div className="flex-1 min-w-0">
+                            <div className="font-semibold text-sm truncate text-slate-400">
+                              {l.title}
+                            </div>
+                            <div className="text-xs text-slate-400">{l.duration}</div>
+                          </div>
+                        </div>
+                      );
+                    }
+
                     return (
-                      <div
+                      <Link
                         key={l.id}
-                        className="flex items-center gap-3 p-3 rounded-lg mb-1 opacity-40 cursor-not-allowed"
-                        title="Complete the previous lesson first"
-                      >
-                        <div className="w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 bg-white text-slate-400">
-                          <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 15v2m-6 4h12a2 2 0 002-2v-6a2 2 0 00-2-2H6a2 2 0 00-2 2v6a2 2 0 002 2zm10-10V7a4 4 0 00-8 0v4h8z" /></svg>
-                        </div>
-                        <div className="flex-1 min-w-0">
-                          <div className="font-semibold text-sm truncate text-slate-400">{l.title}</div>
-                          <div className="text-xs text-slate-400">{l.duration}</div>
-                        </div>
-                      </div>
-                    );
-                  }
-
-                  return (
-                    <Link
-                      key={l.id}
-                      href={`/lms/courses/${courseId}/lessons/${l.id}`}
-                      className={`flex items-center gap-3 p-3 rounded-lg mb-1 transition ${
-                        isCurrent
-                          ? 'bg-brand-blue-50 border-l-4 border-brand-blue-600'
-                          : 'hover:bg-white'
-                      }`}
-                    >
-                      <div
-                        className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold ${
-                          lessonDone
-                            ? 'bg-brand-green-100 text-brand-green-600'
-                            : isCurrent
-                              ? 'bg-brand-blue-100 text-brand-blue-600'
-                              : 'bg-white text-black'
+                        href={`/lms/courses/${courseId}/lessons/${l.id}`}
+                        className={`flex items-center gap-3 p-3 rounded-lg mb-1 transition ${
+                          isCurrent
+                            ? 'bg-brand-blue-50 border-l-4 border-brand-blue-600'
+                            : 'hover:bg-white'
                         }`}
                       >
-                        {lessonDone ? (
-                          <span className="w-3 h-3 rounded-full bg-brand-green-500 inline-block" />
-                        ) : stepBadge ? (
-                          <span>{stepBadge}</span>
-                        ) : (
-                          <span>{idx + 1}</span>
-                        )}
-                      </div>
-                      <div className="flex-1 min-w-0">
-                        <div className={`font-semibold text-sm truncate ${isCurrent ? 'text-brand-blue-900' : lessonDone ? 'text-brand-green-800' : 'text-black'}`}>
-                          {l.title}
+                        <div
+                          className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 text-sm font-bold ${
+                            lessonDone
+                              ? 'bg-brand-green-100 text-brand-green-600'
+                              : isCurrent
+                                ? 'bg-brand-blue-100 text-brand-blue-600'
+                                : 'bg-white text-black'
+                          }`}
+                        >
+                          {lessonDone ? (
+                            <span className="w-3 h-3 rounded-full bg-brand-green-500 inline-block" />
+                          ) : stepBadge ? (
+                            <span>{stepBadge}</span>
+                          ) : (
+                            <span>{idx + 1}</span>
+                          )}
                         </div>
-                        <div className="text-xs text-slate-500">
-                          {lessonDone ? 'Completed' : l.step_type === 'checkpoint' ? 'Checkpoint' : l.step_type === 'lab' ? 'Lab' : l.step_type === 'assignment' ? 'Assignment' : l.duration}
+                        <div className="flex-1 min-w-0">
+                          <div
+                            className={`font-semibold text-sm truncate ${isCurrent ? 'text-brand-blue-900' : lessonDone ? 'text-brand-green-800' : 'text-black'}`}
+                          >
+                            {l.title}
+                          </div>
+                          <div className="text-xs text-slate-500">
+                            {lessonDone
+                              ? 'Completed'
+                              : l.step_type === 'checkpoint'
+                                ? 'Checkpoint'
+                                : l.step_type === 'lab'
+                                  ? 'Lab'
+                                  : l.step_type === 'assignment'
+                                    ? 'Assignment'
+                                    : l.duration}
+                          </div>
                         </div>
-                      </div>
-                    </Link>
-                  );
-                })}
-              </div>
-            ));
-          })()}
-        </nav>
-      </aside>
+                      </Link>
+                    );
+                  })}
+                </div>
+              ));
+            })()}
+          </nav>
+        </aside>
 
-      {/* Main Content */}
-      <div className="flex-1 overflow-y-auto">
-        {/* Content area — routes by step_type first, then content_type for legacy */}
-        {/* Checkpoint: module-boundary gate with reflection prompt */}
-        {(lesson.step_type === 'checkpoint') && !lesson.quiz_questions?.length ? (
-          <div className="max-w-4xl mx-auto p-4 md:p-8">
-            <div className="bg-amber-50 border border-amber-200 rounded-xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
-                  <ClipboardList className="w-5 h-5 text-amber-600" />
-                </div>
-                <div>
-                  <div className="text-xs font-semibold uppercase tracking-wide text-amber-600">Module Checkpoint</div>
-                  <h2 className="text-xl font-bold text-slate-900">{lesson.title}</h2>
-                </div>
-              </div>
-              {lesson.content && (
-                <div className="prose max-w-none mb-6"
-                  dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }} />
-              )}
-              <div className="bg-white rounded-lg p-6 border border-amber-100">
-                <p className="text-sm font-semibold text-slate-700 mb-2">Reflection</p>
-                <p className="text-slate-600 text-sm">{lesson.description || 'Review the key concepts from this module before continuing.'}</p>
-              </div>
-            </div>
-          </div>
-        ) : lesson.step_type === 'lab' ? (
-          <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-6">
-            {/* Lesson content / instructions */}
-            {lesson.content && (
-              <div className="bg-white border border-slate-200 rounded-xl p-6">
+        {/* Main Content */}
+        <div className="flex-1 overflow-y-auto">
+          {/* Content area — routes by step_type first, then content_type for legacy */}
+          {/* Checkpoint: module-boundary gate with reflection prompt */}
+          {lesson.step_type === 'checkpoint' && !lesson.quiz_questions?.length ? (
+            <div className="max-w-4xl mx-auto p-4 md:p-8">
+              <div className="bg-amber-50 border border-amber-200 rounded-xl p-8">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-brand-blue-100 flex items-center justify-center">
-                    <FileText className="w-5 h-5 text-brand-blue-600" />
+                  <div className="w-10 h-10 rounded-full bg-amber-100 flex items-center justify-center">
+                    <ClipboardList className="w-5 h-5 text-amber-600" />
                   </div>
                   <div>
-                    <div className="text-xs font-semibold uppercase tracking-wide text-brand-blue-600">Hands-On Lab</div>
-                    <h2 className="text-xl font-bold text-slate-900">{lesson.title}</h2>
-                  </div>
-                </div>
-                <div className="prose max-w-none"
-                  dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }} />
-              </div>
-            )}
-            {/* OJT enforcement panel — tracks shop reps + supervisor verification */}
-            <OjtCompletionPanel
-              lessonId={lessonId}
-              courseId={courseId}
-              lessonTitle={lesson.title}
-              onComplete={() => {
-                setCompletedLessonIds(prev => new Set([...prev, lessonId]));
-              }}
-            />
-            {/* File submission (evidence upload) — kept below OJT panel */}
-            <StepSubmissionForm
-              lessonId={lessonId}
-              courseId={courseId}
-              stepType="lab"
-              lessonTitle={lesson.title}
-              competencyKey={lesson.competency_checks?.[0]?.key}
-            />
-            {/* AR Training — beta */}
-            <ARTrainingModules />
-          </div>
-        ) : lesson.step_type === 'assignment' ? (
-          <div className="max-w-4xl mx-auto p-4 md:p-8">
-            <div className="bg-purple-50 border border-purple-200 rounded-xl p-8">
-              <div className="flex items-center gap-3 mb-4">
-                <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
-                  <MessageSquare className="w-5 h-5 text-purple-600" />
-                </div>
-                <div>
-                  <div className="text-xs font-semibold uppercase tracking-wide text-purple-600">Assignment</div>
-                  <h2 className="text-xl font-bold text-slate-900">{lesson.title}</h2>
-                </div>
-              </div>
-              {lesson.content && (
-                <div className="prose max-w-none"
-                  dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }} />
-              )}
-              <StepSubmissionForm
-                lessonId={lessonId}
-                courseId={courseId}
-                stepType="assignment"
-                lessonTitle={lesson.title}
-                competencyKey={lesson.competency_checks?.[0]?.key}
-              />
-            </div>
-          </div>
-        ) : lesson.step_type === 'exam' ? (
-          <div className="max-w-4xl mx-auto p-4 md:p-8">
-            {lesson.partner_exam_code ? (
-              /* Certiport external proctored exam */
-              <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-8">
-                <div className="flex items-center gap-3 mb-5">
-                  <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
-                    <Award className="w-6 h-6 text-indigo-600" />
-                  </div>
-                  <div>
-                    <div className="text-xs font-semibold uppercase tracking-wide text-indigo-600 mb-0.5">
-                      Certiport Proctored Exam — {lesson.partner_exam_code}
+                    <div className="text-xs font-semibold uppercase tracking-wide text-amber-600">
+                      Module Checkpoint
                     </div>
                     <h2 className="text-xl font-bold text-slate-900">{lesson.title}</h2>
                   </div>
                 </div>
                 {lesson.content && (
-                  <div className="prose max-w-none mb-6"
-                    dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }} />
+                  <div
+                    className="prose max-w-none mb-6"
+                    dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
+                  />
                 )}
-                <div className="bg-white rounded-lg border border-indigo-100 p-5 mb-6 space-y-2 text-sm text-slate-700">
-                  <p className="font-semibold text-slate-900">Before you begin:</p>
-                  <ul className="list-disc list-inside space-y-1 text-slate-600">
-                    <li>This exam is delivered through Certiport&apos;s Compass testing software.</li>
-                    <li>You will need your Certiport account credentials.</li>
-                    <li>A voucher will be issued to your registered email before exam day.</li>
-                    <li>Passing score: {lesson.passing_score ?? 70}%</li>
-                  </ul>
+                <div className="bg-white rounded-lg p-6 border border-amber-100">
+                  <p className="text-sm font-semibold text-slate-700 mb-2">Reflection</p>
+                  <p className="text-slate-600 text-sm">
+                    {lesson.description ||
+                      'Review the key concepts from this module before continuing.'}
+                  </p>
                 </div>
-                <Link
-                  href={`/certiport-exam?exam=${encodeURIComponent(lesson.partner_exam_code)}&courseId=${courseId}&lessonId=${lessonId}&returnUrl=${encodeURIComponent(`/lms/courses/${courseId}/lessons/${lessonId}`)}`}
-                  className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-3.5 rounded-lg transition-colors"
-                >
-                  <Award className="w-4 h-4" />
-                  Schedule My Certiport Exam
-                </Link>
               </div>
-            ) : lesson.quiz_questions?.length > 0 ? (
-              /* Internal quiz-based exam */
-              <QuizPlayer
-                questions={lesson.quiz_questions}
-                title={lesson.title}
-                onComplete={async (score, answers) => {
-                  const passingScore = lesson.passing_score || 70;
-                  const passed = score >= passingScore;
-                  try {
-                    await fetch(`/api/lessons/${lessonId}/checkpoint`, {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({ courseId, moduleOrder: lesson.module_order ?? 0, score, passed, passingScore }),
-                    });
-                  } catch (e) {
-                    console.error('[exam] checkpoint record failed:', e);
-                  }
-                  if (passed) await markComplete(true);
+            </div>
+          ) : lesson.step_type === 'lab' ? (
+            <div className="max-w-4xl mx-auto p-4 md:p-8 space-y-6">
+              {/* Lesson content / instructions */}
+              {lesson.content && (
+                <div className="bg-white border border-slate-200 rounded-xl p-6">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-full bg-brand-blue-100 flex items-center justify-center">
+                      <FileText className="w-5 h-5 text-brand-blue-600" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-semibold uppercase tracking-wide text-brand-blue-600">
+                        Hands-On Lab
+                      </div>
+                      <h2 className="text-xl font-bold text-slate-900">{lesson.title}</h2>
+                    </div>
+                  </div>
+                  <div
+                    className="prose max-w-none"
+                    dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
+                  />
+                </div>
+              )}
+              {/* OJT enforcement panel — tracks shop reps + supervisor verification */}
+              <OjtCompletionPanel
+                lessonId={lessonId}
+                courseId={courseId}
+                lessonTitle={lesson.title}
+                onComplete={() => {
+                  setCompletedLessonIds((prev) => new Set([...prev, lessonId]));
                 }}
-                passingScore={lesson.passing_score || 70}
               />
-            ) : (
-              <div className="bg-red-50 border border-red-200 rounded-xl p-8">
+              {/* File submission (evidence upload) — kept below OJT panel */}
+              <StepSubmissionForm
+                lessonId={lessonId}
+                courseId={courseId}
+                stepType="lab"
+                lessonTitle={lesson.title}
+                competencyKey={lesson.competency_checks?.[0]?.key}
+              />
+              {/* AR Training — beta */}
+              <ARTrainingModules />
+            </div>
+          ) : lesson.step_type === 'assignment' ? (
+            <div className="max-w-4xl mx-auto p-4 md:p-8">
+              <div className="bg-purple-50 border border-purple-200 rounded-xl p-8">
                 <div className="flex items-center gap-3 mb-4">
-                  <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
-                    <Award className="w-5 h-5 text-red-600" />
+                  <div className="w-10 h-10 rounded-full bg-purple-100 flex items-center justify-center">
+                    <MessageSquare className="w-5 h-5 text-purple-600" />
                   </div>
                   <div>
-                    <div className="text-xs font-semibold uppercase tracking-wide text-red-600">Final Exam</div>
+                    <div className="text-xs font-semibold uppercase tracking-wide text-purple-600">
+                      Assignment
+                    </div>
                     <h2 className="text-xl font-bold text-slate-900">{lesson.title}</h2>
                   </div>
                 </div>
                 {lesson.content && (
-                  <div className="prose max-w-none mb-6"
-                    dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }} />
+                  <div
+                    className="prose max-w-none"
+                    dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
+                  />
                 )}
-                <p className="text-slate-500 text-sm">Exam questions are not yet available. Contact your instructor.</p>
+                <StepSubmissionForm
+                  lessonId={lessonId}
+                  courseId={courseId}
+                  stepType="assignment"
+                  lessonTitle={lesson.title}
+                  competencyKey={lesson.competency_checks?.[0]?.key}
+                />
               </div>
-            )}
-          </div>
-        ) : lesson.step_type === 'certification' ? (
-          <div className="max-w-4xl mx-auto p-4 md:p-8">
-            <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-8 text-center">
-              <div className="w-16 h-16 rounded-full bg-brand-green-100 flex items-center justify-center mx-auto mb-4">
-                <GraduationCap className="w-8 h-8 text-brand-green-600" />
-              </div>
-              <div className="text-xs font-semibold uppercase tracking-wide text-brand-green-600 mb-2">Certification</div>
-              <h2 className="text-2xl font-bold text-slate-900 mb-3">{lesson.title}</h2>
-              {lesson.content && (
-                <div className="prose max-w-none text-left mb-6"
-                  dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }} />
-              )}
-              {courseCompleted && certificate ? (
-                <div className="space-y-4">
-                  <p className="text-brand-green-700 font-semibold">🎉 You have completed this program!</p>
+            </div>
+          ) : lesson.step_type === 'exam' ? (
+            <div className="max-w-4xl mx-auto p-4 md:p-8">
+              {lesson.partner_exam_code ? (
+                /* Certiport external proctored exam */
+                <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-8">
+                  <div className="flex items-center gap-3 mb-5">
+                    <div className="w-12 h-12 rounded-full bg-indigo-100 flex items-center justify-center flex-shrink-0">
+                      <Award className="w-6 h-6 text-indigo-600" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-semibold uppercase tracking-wide text-indigo-600 mb-0.5">
+                        Certiport Proctored Exam — {lesson.partner_exam_code}
+                      </div>
+                      <h2 className="text-xl font-bold text-slate-900">{lesson.title}</h2>
+                    </div>
+                  </div>
+                  {lesson.content && (
+                    <div
+                      className="prose max-w-none mb-6"
+                      dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
+                    />
+                  )}
+                  <div className="bg-white rounded-lg border border-indigo-100 p-5 mb-6 space-y-2 text-sm text-slate-700">
+                    <p className="font-semibold text-slate-900">Before you begin:</p>
+                    <ul className="list-disc list-inside space-y-1 text-slate-600">
+                      <li>
+                        This exam is delivered through Certiport&apos;s Compass testing software.
+                      </li>
+                      <li>You will need your Certiport account credentials.</li>
+                      <li>A voucher will be issued to your registered email before exam day.</li>
+                      <li>Passing score: {lesson.passing_score ?? 70}%</li>
+                    </ul>
+                  </div>
                   <Link
-                    href={`/lms/courses/${courseId}/certification`}
-                    className="inline-block bg-brand-green-600 hover:bg-brand-green-700 text-white font-bold px-8 py-3 rounded-lg transition-colors"
+                    href={`/certiport-exam?exam=${encodeURIComponent(lesson.partner_exam_code)}&courseId=${courseId}&lessonId=${lessonId}&returnUrl=${encodeURIComponent(`/lms/courses/${courseId}/lessons/${lessonId}`)}`}
+                    className="inline-flex items-center gap-2 bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-8 py-3.5 rounded-lg transition-colors"
                   >
-                    View Your Certificate
+                    <Award className="w-4 h-4" />
+                    Schedule My Certiport Exam
                   </Link>
                 </div>
+              ) : lesson.quiz_questions?.length > 0 ? (
+                /* Internal quiz-based exam */
+                <QuizPlayer
+                  questions={lesson.quiz_questions}
+                  title={lesson.title}
+                  onComplete={async (score, answers) => {
+                    const passingScore = lesson.passing_score || 70;
+                    const passed = score >= passingScore;
+                    try {
+                      await fetch(`/api/lessons/${lessonId}/checkpoint`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          courseId,
+                          moduleOrder: lesson.module_order ?? 0,
+                          score,
+                          passed,
+                          passingScore,
+                        }),
+                      });
+                    } catch (e) {
+                      console.error('[exam] checkpoint record failed:', e);
+                    }
+                    if (passed) await markComplete(true);
+                  }}
+                  passingScore={lesson.passing_score || 70}
+                />
               ) : (
-                <div className="space-y-3">
-                  <p className="text-slate-600 text-sm">Complete all lessons and pass all checkpoints to unlock your certificate.</p>
-                  <button
-                    onClick={() => markComplete(true)}
-                    className="bg-brand-green-600 hover:bg-brand-green-700 text-white font-bold px-8 py-3 rounded-lg transition-colors"
-                  >
-                    Mark Complete &amp; Claim Certificate
-                  </button>
+                <div className="bg-red-50 border border-red-200 rounded-xl p-8">
+                  <div className="flex items-center gap-3 mb-4">
+                    <div className="w-10 h-10 rounded-full bg-red-100 flex items-center justify-center">
+                      <Award className="w-5 h-5 text-red-600" />
+                    </div>
+                    <div>
+                      <div className="text-xs font-semibold uppercase tracking-wide text-red-600">
+                        Final Exam
+                      </div>
+                      <h2 className="text-xl font-bold text-slate-900">{lesson.title}</h2>
+                    </div>
+                  </div>
+                  {lesson.content && (
+                    <div
+                      className="prose max-w-none mb-6"
+                      dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
+                    />
+                  )}
+                  <p className="text-slate-500 text-sm">
+                    Exam questions are not yet available. Contact your instructor.
+                  </p>
                 </div>
               )}
             </div>
-          </div>
-        ) : lesson.content_type === 'scorm' && lesson.scorm_package_id ? (
-          <div className="h-[70vh]">
-            <iframe
-              src={`/api/scorm/content/${lesson.scorm_package_id}/${lesson.scorm_launch_path || 'index.html'}`}
-              className="w-full h-full border-0"
-              title={lesson.title}
-              sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
-            />
-          </div>
-        ) : (lesson.step_type === 'checkpoint' || lesson.content_type === 'quiz') && (lesson.quiz_questions?.length > 0 || lesson.quiz_id) ? (
-          <div className="max-w-4xl mx-auto p-4 md:p-8">
-            <QuizPlayer
-              questions={lesson.quiz_questions || []}
-              title={lesson.title}
-              isCheckpoint={lesson.step_type === 'checkpoint'}
-              onComplete={async (score, answers) => {
-                const passingScore = lesson.passing_score || 70;
-                const passed = score >= passingScore;
-
-                // For checkpoint and exam steps, record the score via the engine API.
-                // This is what the module gate reads — must be written before markComplete.
-                if (lesson.step_type === 'checkpoint' || lesson.step_type === 'exam') {
-                  try {
-                    await fetch(`/api/lessons/${lessonId}/checkpoint`, {
-                      method: 'POST',
-                      headers: { 'Content-Type': 'application/json' },
-                      body: JSON.stringify({
-                        courseId,
-                        moduleOrder: lesson.module_order ?? 0,
-                        score,
-                        passingScore,
-                        answers: answers ?? {},
-                      }),
-                    });
-
-                    if (passed) {
-                      setPassedCheckpointIds(prev => new Set<string>([...Array.from(prev), lessonId]));
-                      setCheckpointBlocked(false);
-                    }
-                  } catch (e) {
-                    console.error('[lesson] checkpoint record failed (quiz player):', e);
-                    // Non-fatal — fail open so the lesson still renders
-                  }
-                }
-
-                if (passed) {
-                  markComplete();
-                }
-              }}
-              passingScore={lesson.passing_score || 70}
-            />
-          </div>
-        ) : isHvacCourse ? (
-          /* HVAC: avatar+audio player — resolves local MP3/MP4 by lessonId UUID */
-          <div className="max-w-4xl mx-auto p-4 md:p-8">
-            <HvacLessonVideo
-              lessonId={lessonId}
-              dbVideoUrl={lesson.video_url ?? undefined}
-              brollVideoUrl="/videos/hvac-technician.mp4"
-              lessonTitle={lesson.title}
-              onComplete={() => {
-                if (!isCompleted) {
-                  setIsCompleted(true);
-                  markComplete();
-                }
-              }}
-            />
-            {lesson.content && (
-              <div className="mt-6 bg-white rounded-xl p-8 shadow-sm">
-                <div
-                  className="prose max-w-none"
-                  dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
-                />
+          ) : lesson.step_type === 'certification' ? (
+            <div className="max-w-4xl mx-auto p-4 md:p-8">
+              <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-8 text-center">
+                <div className="w-16 h-16 rounded-full bg-brand-green-100 flex items-center justify-center mx-auto mb-4">
+                  <GraduationCap className="w-8 h-8 text-brand-green-600" />
+                </div>
+                <div className="text-xs font-semibold uppercase tracking-wide text-brand-green-600 mb-2">
+                  Certification
+                </div>
+                <h2 className="text-2xl font-bold text-slate-900 mb-3">{lesson.title}</h2>
+                {lesson.content && (
+                  <div
+                    className="prose max-w-none text-left mb-6"
+                    dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
+                  />
+                )}
+                {courseCompleted && certificate ? (
+                  <div className="space-y-4">
+                    <p className="text-brand-green-700 font-semibold">
+                      🎉 You have completed this program!
+                    </p>
+                    <Link
+                      href={`/lms/courses/${courseId}/certification`}
+                      className="inline-block bg-brand-green-600 hover:bg-brand-green-700 text-white font-bold px-8 py-3 rounded-lg transition-colors"
+                    >
+                      View Your Certificate
+                    </Link>
+                  </div>
+                ) : (
+                  <div className="space-y-3">
+                    <p className="text-slate-600 text-sm">
+                      Complete all lessons and pass all checkpoints to unlock your certificate.
+                    </p>
+                    <button
+                      onClick={() => markComplete(true)}
+                      className="bg-brand-green-600 hover:bg-brand-green-700 text-white font-bold px-8 py-3 rounded-lg transition-colors"
+                    >
+                      Mark Complete &amp; Claim Certificate
+                    </button>
+                  </div>
+                )}
               </div>
-            )}
-          </div>
-        ) : isBarberLesson ? (
-          /* Barber: per-lesson MP4s for lessons 1–5; video_url for all others */
-          <div className="max-w-4xl mx-auto p-4 md:p-8">
-            {barberVideoUrl(lesson.slug, lesson.video_config, lesson.video_url) ? (
-              <InteractiveVideoPlayer
-                videoUrl={barberVideoUrl(lesson.slug, lesson.video_config, lesson.video_url)!}
+            </div>
+          ) : lesson.content_type === 'scorm' && lesson.scorm_package_id ? (
+            <div className="h-[70vh]">
+              <iframe
+                src={`/api/scorm/content/${lesson.scorm_package_id}/${lesson.scorm_launch_path || 'index.html'}`}
+                className="w-full h-full border-0"
                 title={lesson.title}
-                onComplete={() => {
-                  if (!isCompleted) { setIsCompleted(true); markComplete(); }
-                }}
+                sandbox="allow-scripts allow-same-origin allow-forms allow-popups allow-modals"
               />
-            ) : (
-              <div className="bg-slate-100 rounded-xl flex items-center justify-center h-48 text-slate-400 text-sm">
-                Video not yet available for this lesson
-              </div>
-            )}
-            {lesson.content && (
-              <div className="mt-6 bg-white rounded-xl p-8 shadow-sm">
-                <div
-                  className="prose max-w-none"
-                  dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
-                />
-              </div>
-            )}
-          </div>
-        ) : lesson.video_url && lessonUuidToSimulationKey[lessonId] ? (
-          <div className="max-w-4xl mx-auto p-4 md:p-8">
-            {/* Video + 3D simulation lesson */}
-            <LessonVideoWithSimulation
-              lessonKey={lessonUuidToSimulationKey[lessonId]}
-              videoUrl={lesson.video_url}
-              minimumTimeSeconds={120}
-              onMinimumTimeReached={() => {
-                // Simulation unlocked — no action needed yet
-              }}
-              onSimulationComplete={() => {
-                if (!isCompleted) {
-                  setIsCompleted(true);
-                  markComplete();
-                }
-              }}
-            />
-            {/* Show lesson content below simulation */}
-            {lesson.content && (
-              <div className="mt-6 bg-white rounded-xl p-8 shadow-sm">
-                <div
-                  className="prose max-w-none"
-                  dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
-                />
-              </div>
-            )}
-            {/* Quick Check quiz below simulation lessons */}
-            {lesson.quiz_questions?.length > 0 && (
-              <div className="mt-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                  <ClipboardList className="w-6 h-6 text-brand-blue-600" />
-                  Quick Check — Test Your Understanding
-                </h3>
-                <QuizPlayer
-                  questions={lesson.quiz_questions}
-                  title="Quick Check"
-                  passingScore={60}
-                  onComplete={() => {}}
-                />
-              </div>
-            )}
-          </div>
-        ) : lesson.video_url ? (
-          <div className="max-w-4xl mx-auto p-4 md:p-8">
-            {isHvacCourse ? (
-              /* HVAC: avatar+audio sync player with local MP3/MP4 fallback chain */
+            </div>
+          ) : (lesson.step_type === 'checkpoint' || lesson.content_type === 'quiz') &&
+            (lesson.quiz_questions?.length > 0 || lesson.quiz_id) ? (
+            <div className="max-w-4xl mx-auto p-4 md:p-8">
+              <QuizPlayer
+                questions={lesson.quiz_questions || []}
+                title={lesson.title}
+                isCheckpoint={lesson.step_type === 'checkpoint'}
+                onComplete={async (score, answers) => {
+                  const passingScore = lesson.passing_score || 70;
+                  const passed = score >= passingScore;
+
+                  // For checkpoint and exam steps, record the score via the engine API.
+                  // This is what the module gate reads — must be written before markComplete.
+                  if (lesson.step_type === 'checkpoint' || lesson.step_type === 'exam') {
+                    try {
+                      await fetch(`/api/lessons/${lessonId}/checkpoint`, {
+                        method: 'POST',
+                        headers: { 'Content-Type': 'application/json' },
+                        body: JSON.stringify({
+                          courseId,
+                          moduleOrder: lesson.module_order ?? 0,
+                          score,
+                          passingScore,
+                          answers: answers ?? {},
+                        }),
+                      });
+
+                      if (passed) {
+                        setPassedCheckpointIds(
+                          (prev) => new Set<string>([...Array.from(prev), lessonId]),
+                        );
+                        setCheckpointBlocked(false);
+                      }
+                    } catch (e) {
+                      console.error('[lesson] checkpoint record failed (quiz player):', e);
+                      // Non-fatal — fail open so the lesson still renders
+                    }
+                  }
+
+                  if (passed) {
+                    markComplete();
+                  }
+                }}
+                passingScore={lesson.passing_score || 70}
+              />
+            </div>
+          ) : isHvacCourse ? (
+            /* HVAC: avatar+audio player — resolves local MP3/MP4 by lessonId UUID */
+            <div className="max-w-4xl mx-auto p-4 md:p-8">
               <HvacLessonVideo
-                lessonDefId={
-                  HVAC_UUID_TO_DEF[lessonId] ??
-                  (lesson.slug ? hvacDefIdFromSlug(lesson.slug) : undefined) ??
-                  lesson.slug
-                }
-                dbVideoUrl={lesson.video_url}
+                lessonId={lessonId}
+                dbVideoUrl={lesson.video_url ?? undefined}
                 brollVideoUrl="/videos/hvac-technician.mp4"
                 lessonTitle={lesson.title}
                 onComplete={() => {
@@ -1234,406 +1255,567 @@ export default function LessonPage() {
                   }
                 }}
               />
-            ) : (
-              /* Generic video player for all other courses */
-              <div>
-                <div className="flex justify-end mb-2">
-                  <button
-                    onClick={() => setTiktokMode((v) => !v)}
-                    className="text-xs text-slate-500 hover:text-brand-blue-600 underline"
-                  >
-                    {tiktokMode ? 'Standard view' : 'Short-form view'}
-                  </button>
+              {lesson.content && (
+                <div className="mt-6 bg-white rounded-xl p-8 shadow-sm">
+                  <div
+                    className="prose max-w-none"
+                    dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
+                  />
                 </div>
-                {tiktokMode ? (
-                  <TikTokStyleVideoPlayer
-                    src={lesson.video_url}
-                    poster={lesson.thumbnail_url ?? undefined}
-                    title={lesson.title}
-                    onComplete={() => {
-                      if (!isCompleted) { setIsCompleted(true); markComplete(); }
-                    }}
-                  />
-                ) : (
-                  <InteractiveVideoPlayer
-                    videoUrl={lesson.video_url}
-                    title={lesson.title}
-                    onComplete={() => {
-                      if (!isCompleted) { setIsCompleted(true); markComplete(); }
-                    }}
-                  />
-                )}
-              </div>
-            )}
-            {/* Show lesson content below video */}
-            {lesson.content && (
-              <div className="mt-6 bg-white rounded-xl p-8 shadow-sm">
-                <div
-                  className="prose max-w-none"
-                  dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
-                />
-              </div>
-            )}
-            {/* Quick Check quiz below video lessons */}
-            {lesson.quiz_questions?.length > 0 && (
-              <div className="mt-8">
-                <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
-                  <ClipboardList className="w-6 h-6 text-brand-blue-600" />
-                  Quick Check — Test Your Understanding
-                </h3>
-                <QuizPlayer
-                  questions={lesson.quiz_questions}
-                  title="Quick Check"
-                  passingScore={60}
-                  onComplete={() => {}}
-                />
-              </div>
-            )}
-          </div>
-        ) : (
-          /* Reading / text / video-without-file lesson — show rich content */
-          <div className="bg-white py-8">
-            <div className="max-w-4xl mx-auto px-4">
-              <div className="bg-white rounded-xl p-8 shadow-sm">
-                {lesson.content ? (
-                  <>
-                    <div
-                      className="prose max-w-none"
-                      dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
-                    />
-                    {/* AI reading aids — only for text lessons with real content */}
-                    <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap gap-3">
-                      <ExplainSimply content={lesson.content} />
-                      <TranslateToggle content={lesson.content} />
-                    </div>
-                  </>
-                ) : (
-                  <div>
-                    <div className="flex items-center gap-2 text-sm text-slate-500 mb-4">
-                      <BookOpen className="w-4 h-4" />
-                      <span>Lesson {currentIndex + 1} of {lessons.length}</span>
-                    </div>
-                    <p className="text-slate-600">{lesson.description || 'No content available for this lesson.'}</p>
-                  </div>
-                )}
-              </div>
+              )}
             </div>
-          </div>
-        )}
-
-        {/* Lesson Content */}
-        <div className="max-w-4xl mx-auto p-4 md:p-8">
-          {/* Checkpoint gate banner — shown when previous module checkpoint not passed */}
-          {checkpointBlocked && (
-            <div className="mb-6 p-4 bg-amber-50 border border-amber-300 rounded-xl flex items-start gap-3">
-              <ClipboardList className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
-              <div>
-                <p className="font-semibold text-amber-800 text-sm">Module checkpoint required</p>
-                <p className="text-amber-700 text-sm mt-1">
-                  {completionError && completionError.includes('≥')
-                    ? completionError
-                    : 'You must pass the checkpoint for the previous module before continuing. Return to that checkpoint and achieve a passing score to unlock this lesson.'}
-                </p>
-              </div>
-            </div>
-          )}
-          <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
-            <h1 className="text-2xl md:text-3xl font-bold">{lesson.title}</h1>
-            <button
-              onClick={checkpointBlocked ? undefined : markComplete}
-              disabled={checkpointBlocked}
-              className={`px-6 py-3 rounded-lg font-semibold transition ${
-                checkpointBlocked
-                  ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
-                  : isCompleted
-                  ? 'bg-brand-green-100 text-brand-green-700 border-2 border-brand-green-600'
-                  : 'bg-brand-green-600 hover:bg-brand-green-700 text-white'
-              }`}
-            >
-              {checkpointBlocked ? 'Locked — complete checkpoint first' : isCompleted ? '• Completed' : 'Mark as Complete'}
-            </button>
-          </div>
-          {completionError && (
-            <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-sm">
-              {completionError}
-            </div>
-          )}
-
-          {/* NHA-STYLE ACTIVITY TABS */}
-          {(() => {
-            const stepType = lesson.step_type || lesson.content_type || 'lesson';
-            const activityDefs = getActivitiesForLesson(stepType, lesson.activities);
-
-            return (
-              <>
-                <LessonActivityMenu
-                  activities={activityDefs}
-                  activeId={activeActivity}
-                  attempted={attempted}
-                  completedActivities={completedActivities}
-                  isCompleted={isCompleted}
-                  onChange={(id) => {
-                    setActiveActivity(id);
-                    markAttempted(id);
+          ) : isBarberLesson ? (
+            /* Barber: per-lesson MP4s for lessons 1–5; video_url for all others */
+            <div className="max-w-4xl mx-auto p-4 md:p-8">
+              {barberVideoUrl(lesson.slug, lesson.video_config, lesson.video_url) ? (
+                <InteractiveVideoPlayer
+                  videoUrl={barberVideoUrl(lesson.slug, lesson.video_config, lesson.video_url)!}
+                  title={lesson.title}
+                  onComplete={() => {
+                    if (!isCompleted) {
+                      setIsCompleted(true);
+                      markComplete();
+                    }
                   }}
                 />
-
-                {/* Activity content */}
-                <div className="mb-8">
-
-                  {/* VIDEO */}
-                  {activeActivity === 'video' && (
-                    <div role="tabpanel" aria-label="Video">
-                      {isBarberLesson ? (
-                        barberVideoUrl(lesson.slug, lesson.video_config, lesson.video_url) ? (
-                          <InteractiveVideoPlayer
-                            videoUrl={barberVideoUrl(lesson.slug, lesson.video_config, lesson.video_url)!}
-                            title={lesson.title}
-                            onProgress={(p) => onVideoProgress(p, 100)}
-                            onComplete={() => { markActivityCompleted('video'); markAttempted('video'); if (!isCompleted) markComplete(); }}
-                          />
-                        ) : (
-                          <div className="bg-slate-100 rounded-xl flex items-center justify-center h-48 text-slate-400 text-sm">
-                            Video not yet available for this lesson
-                          </div>
-                        )
-                      ) : lesson.video_url ? (
-                        isHvacCourse ? (
-                          <HvacLessonVideo
-                            lessonId={lessonId}
-                            videoUrl={lesson.video_url}
-                            title={lesson.title}
-                            onComplete={() => { markActivityCompleted('video'); markAttempted('video'); if (!isCompleted) markComplete(); }}
-                          />
-                        ) : (
-                          <InteractiveVideoPlayer
-                            videoUrl={lesson.video_url}
-                            title={lesson.title}
-                            onProgress={(p) => onVideoProgress(p, 100)}
-                            onComplete={() => { markActivityCompleted('video'); markAttempted('video'); if (!isCompleted) markComplete(); }}
-                          />
-                        )
-                      ) : (
-                        <div className="bg-slate-900 rounded-xl aspect-video flex flex-col items-center justify-center text-white gap-3">
-                          <Video className="w-12 h-12 text-slate-500" />
-                          <p className="text-slate-500 text-sm">Video will be published with the next content update.</p>
-                          <p className="text-slate-500 text-xs">Read the lesson content below in the meantime.</p>
-                        </div>
-                      )}
-                      {lesson.content && (
-                        <div className="mt-6 bg-white rounded-xl p-6 shadow-sm">
-                          <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }} />
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* READING */}
-                  {activeActivity === 'reading' && (
-                    <div
-                      role="tabpanel"
-                      aria-label="Reading"
-                      className="bg-white rounded-xl p-4 md:p-8 shadow-sm overflow-y-auto max-h-[70vh]"
-                      onScroll={onReadingScroll}
+              ) : (
+                <div className="bg-slate-100 rounded-xl flex items-center justify-center h-48 text-slate-400 text-sm">
+                  Video not yet available for this lesson
+                </div>
+              )}
+              {lesson.content && (
+                <div className="mt-6 bg-white rounded-xl p-8 shadow-sm">
+                  <div
+                    className="prose max-w-none"
+                    dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
+                  />
+                </div>
+              )}
+            </div>
+          ) : lesson.video_url && lessonUuidToSimulationKey[lessonId] ? (
+            <div className="max-w-4xl mx-auto p-4 md:p-8">
+              {/* Video + 3D simulation lesson */}
+              <LessonVideoWithSimulation
+                lessonKey={lessonUuidToSimulationKey[lessonId]}
+                videoUrl={lesson.video_url}
+                minimumTimeSeconds={120}
+                onMinimumTimeReached={() => {
+                  // Simulation unlocked — no action needed yet
+                }}
+                onSimulationComplete={() => {
+                  if (!isCompleted) {
+                    setIsCompleted(true);
+                    markComplete();
+                  }
+                }}
+              />
+              {/* Show lesson content below simulation */}
+              {lesson.content && (
+                <div className="mt-6 bg-white rounded-xl p-8 shadow-sm">
+                  <div
+                    className="prose max-w-none"
+                    dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
+                  />
+                </div>
+              )}
+              {/* Quick Check quiz below simulation lessons */}
+              {lesson.quiz_questions?.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <ClipboardList className="w-6 h-6 text-brand-blue-600" />
+                    Quick Check — Test Your Understanding
+                  </h3>
+                  <QuizPlayer
+                    questions={lesson.quiz_questions}
+                    title="Quick Check"
+                    passingScore={60}
+                    onComplete={() => {}}
+                  />
+                </div>
+              )}
+            </div>
+          ) : lesson.video_url ? (
+            <div className="max-w-4xl mx-auto p-4 md:p-8">
+              {isHvacCourse ? (
+                /* HVAC: avatar+audio sync player with local MP3/MP4 fallback chain */
+                <HvacLessonVideo
+                  lessonDefId={
+                    HVAC_UUID_TO_DEF[lessonId] ??
+                    (lesson.slug ? hvacDefIdFromSlug(lesson.slug) : undefined) ??
+                    lesson.slug
+                  }
+                  dbVideoUrl={lesson.video_url}
+                  brollVideoUrl="/videos/hvac-technician.mp4"
+                  lessonTitle={lesson.title}
+                  onComplete={() => {
+                    if (!isCompleted) {
+                      setIsCompleted(true);
+                      markComplete();
+                    }
+                  }}
+                />
+              ) : (
+                /* Generic video player for all other courses */
+                <div>
+                  <div className="flex justify-end mb-2">
+                    <button
+                      onClick={() => setTiktokMode((v) => !v)}
+                      className="text-xs text-slate-500 hover:text-brand-blue-600 underline"
                     >
-                      {lesson.content ? (
-                        <>
-                          <div className="prose max-w-none" dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }} />
-                          <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap gap-3">
-                            <ExplainSimply content={lesson.content} />
-                            <TranslateToggle content={lesson.content} />
-                          </div>
-                          {/* Inline reflection prompt — auto-saves to lesson_responses */}
-                          <div className="mt-6">
-                            <LessonInlineInput
-                              lessonId={lessonId}
-                              courseId={courseId}
-                              fieldKey="reading-reflection"
-                              prompt="What's one key idea from this reading you want to remember?"
-                              variant="reflect"
-                              onChange={() => markActivityCompleted('reading')}
-                            />
-                          </div>
-                        </>
-                      ) : (
-                        <div className="text-center py-10 text-slate-400">
-                          <BookOpen className="w-8 h-8 mx-auto mb-2 opacity-40" />
-                          <p className="text-sm">Reading content will be published with the next module update.</p>
-                        </div>
-                      )}
-                    </div>
+                      {tiktokMode ? 'Standard view' : 'Short-form view'}
+                    </button>
+                  </div>
+                  {tiktokMode ? (
+                    <TikTokStyleVideoPlayer
+                      src={lesson.video_url}
+                      poster={lesson.thumbnail_url ?? undefined}
+                      title={lesson.title}
+                      onComplete={() => {
+                        if (!isCompleted) {
+                          setIsCompleted(true);
+                          markComplete();
+                        }
+                      }}
+                    />
+                  ) : (
+                    <InteractiveVideoPlayer
+                      videoUrl={lesson.video_url}
+                      title={lesson.title}
+                      onComplete={() => {
+                        if (!isCompleted) {
+                          setIsCompleted(true);
+                          markComplete();
+                        }
+                      }}
+                    />
                   )}
-
-                  {/* FLASHCARDS */}
-                  {activeActivity === 'flashcards' && (
-                    <div role="tabpanel" aria-label="Flashcards">
-                      <SpacedRepetitionReview />
-                    </div>
-                  )}
-
-                  {/* LAB */}
-                  {activeActivity === 'lab' && (
-                    <div role="tabpanel" aria-label="Lab">
-                      {(lesson.step_type === 'lab' || lesson.step_type === 'assignment') ? (
-                        <StepSubmissionForm
-                          lessonId={lessonId}
-                          courseId={courseId}
-                          stepType={lesson.step_type}
-                          lessonTitle={lesson.title}
-                          competencyKey={lesson.competency_checks?.[0]?.key}
-                          onSubmitted={() => { markActivityCompleted('lab'); markAttempted('lab'); if (!isCompleted) markComplete(); }}
-                        />
-                      ) : (
-                        <div className="bg-white rounded-xl p-8 shadow-sm text-center">
-                          <FlaskConical className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-                          <p className="text-slate-500 font-medium">No lab activity for this lesson.</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* PRACTICE QUESTIONS */}
-                  {activeActivity === 'practice' && (
-                    <div role="tabpanel" aria-label="Practice">
-                      {lesson.quiz_questions?.length > 0 ? (
-                        <QuizPlayer
-                          questions={lesson.quiz_questions}
-                          title="Practice Questions"
-                          passingScore={60}
-                          onComplete={() => { markActivityCompleted('practice'); markAttempted('practice'); }}
-                        />
-                      ) : (
-                        <div className="bg-white rounded-xl p-8 shadow-sm text-center">
-                          <Zap className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-                          <p className="text-slate-500 font-medium">Practice questions will be released with the assessment module.</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* CHECKPOINT / QUIZ */}
-                  {activeActivity === 'checkpoint' && (
-                    <div role="tabpanel" aria-label="Checkpoint">
-                      {lesson.quiz_questions?.length > 0 ? (
-                        <QuizPlayer
-                          questions={lesson.quiz_questions}
-                          title={lesson.title}
-                          passingScore={lesson.passing_score || 70}
-                          isCheckpoint={lesson.step_type === 'checkpoint'}
-                          onComplete={(score) => {
-                            markActivityCompleted('checkpoint');
-                            if (score >= (lesson.passing_score || 70) && !isCompleted) markComplete();
-                          }}
-                        />
-                      ) : (
-                        <div className="bg-white rounded-xl p-8 shadow-sm text-center">
-                          <Shield className="w-10 h-10 text-slate-300 mx-auto mb-3" />
-                          <p className="text-slate-500 font-medium">Checkpoint questions are scheduled for the next content refresh.</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
-                  {/* NOTES */}
-                  {activeActivity === 'notes' && (
-                    <div role="tabpanel" aria-label="Notes">
-                      <NoteTaking courseId={courseId} lessonId={lessonId} />
-                    </div>
-                  )}
-
-                  {/* RESOURCES */}
-                  {activeActivity === 'resources' && (
-                    <div role="tabpanel" aria-label="Resources" className="space-y-3">
-                      {lesson.resources?.length > 0 ? lesson.resources.map((resource: any, idx: number) => (
-                        <div key={idx} className="flex items-center justify-between p-4 bg-white rounded-lg hover:bg-slate-50 transition">
-                          <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
-                              <FileText className="w-5 h-5 text-brand-blue-600" />
-                            </div>
-                            <div>
-                              <div className="font-semibold">{resource.name}</div>
-                              <div className="text-sm text-slate-500">{resource.size}</div>
-                            </div>
-                          </div>
-                          <a href={resource.url} download className="flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-700 font-semibold">
-                            <Download className="w-4 h-4" />Download
-                          </a>
-                        </div>
-                      )) : (
-                        <div className="text-center py-10 text-slate-400">
-                          <FileText className="w-8 h-8 mx-auto mb-2 opacity-40" />
-                          <p className="text-sm">No downloadable resources for this lesson.</p>
-                        </div>
-                      )}
-                    </div>
-                  )}
-
                 </div>
-              </>
-            );
-          })()}
-
-          {/* Course Completion Banner */}
-          {courseCompleted && (
-            <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-6 mb-8">
-              <div className="flex items-center gap-4">
-                <div className="w-12 h-12 bg-brand-green-100 rounded-full flex items-center justify-center">
-                  <span className="w-4 h-4 rounded-full bg-brand-green-500 inline-block" />
+              )}
+              {/* Show lesson content below video */}
+              {lesson.content && (
+                <div className="mt-6 bg-white rounded-xl p-8 shadow-sm">
+                  <div
+                    className="prose max-w-none"
+                    dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
+                  />
                 </div>
-                <div className="flex-1">
-                  <h3 className="text-lg font-bold text-brand-green-900">Course Completed!</h3>
-                  <p className="text-brand-green-700 text-sm">
-                    Congratulations! You have completed all lessons in this course.
-                  </p>
+              )}
+              {/* Quick Check quiz below video lessons */}
+              {lesson.quiz_questions?.length > 0 && (
+                <div className="mt-8">
+                  <h3 className="text-xl font-bold text-slate-900 mb-4 flex items-center gap-2">
+                    <ClipboardList className="w-6 h-6 text-brand-blue-600" />
+                    Quick Check — Test Your Understanding
+                  </h3>
+                  <QuizPlayer
+                    questions={lesson.quiz_questions}
+                    title="Quick Check"
+                    passingScore={60}
+                    onComplete={() => {}}
+                  />
                 </div>
-                {certificate && (
-                  <Link
-                    href={`/certificates/${certificate.id}`}
-                    className="bg-brand-green-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-brand-green-700 transition text-sm"
-                  >
-                    View Certificate
-                  </Link>
-                )}
+              )}
+            </div>
+          ) : (
+            /* Reading / text / video-without-file lesson — show rich content */
+            <div className="bg-white py-8">
+              <div className="max-w-4xl mx-auto px-4">
+                <div className="bg-white rounded-xl p-8 shadow-sm">
+                  {lesson.content ? (
+                    <>
+                      <div
+                        className="prose max-w-none"
+                        dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
+                      />
+                      {/* AI reading aids — only for text lessons with real content */}
+                      <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap gap-3">
+                        <ExplainSimply content={lesson.content} />
+                        <TranslateToggle content={lesson.content} />
+                      </div>
+                    </>
+                  ) : (
+                    <div>
+                      <div className="flex items-center gap-2 text-sm text-slate-500 mb-4">
+                        <BookOpen className="w-4 h-4" />
+                        <span>
+                          Lesson {currentIndex + 1} of {lessons.length}
+                        </span>
+                      </div>
+                      <p className="text-slate-600">
+                        {lesson.description || 'No content available for this lesson.'}
+                      </p>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
           )}
 
-          {/* Navigation */}
-          <div className="flex justify-between pt-8 border-t border-slate-200">
-            <button
-              onClick={goToPrevious}
-              disabled={!hasPrevious}
-              aria-label="Previous Lesson"
-              className={`flex items-center gap-2 px-3 sm:px-6 py-3 rounded-lg text-sm sm:text-base font-semibold transition ${
-                hasPrevious
-                  ? 'bg-white hover:bg-slate-200 text-black'
-                  : 'bg-white text-slate-400 cursor-not-allowed'
-              }`}
-            >
-              <ChevronLeft className="w-5 h-5" />
-              <span className="hidden sm:inline">Previous Lesson</span>
-            </button>
-            <button
-              onClick={goToNext}
-              disabled={!hasNext}
-              aria-label="Next Lesson"
-              className={`flex items-center gap-2 px-3 sm:px-6 py-3 rounded-lg text-sm sm:text-base font-semibold transition ${
-                hasNext
-                  ? 'bg-brand-blue-600 hover:bg-brand-blue-700 text-white'
-                  : 'bg-white text-slate-400 cursor-not-allowed'
-              }`}
-            >
-              <span className="hidden sm:inline">Next Lesson</span>
-              <ChevronRight className="w-5 h-5" />
-            </button>
-          </div>
+          {/* Lesson Content */}
+          <div className="max-w-4xl mx-auto p-4 md:p-8">
+            {/* Checkpoint gate banner — shown when previous module checkpoint not passed */}
+            {checkpointBlocked && (
+              <div className="mb-6 p-4 bg-amber-50 border border-amber-300 rounded-xl flex items-start gap-3">
+                <ClipboardList className="w-5 h-5 text-amber-600 mt-0.5 shrink-0" />
+                <div>
+                  <p className="font-semibold text-amber-800 text-sm">Module checkpoint required</p>
+                  <p className="text-amber-700 text-sm mt-1">
+                    {completionError && completionError.includes('≥')
+                      ? completionError
+                      : 'You must pass the checkpoint for the previous module before continuing. Return to that checkpoint and achieve a passing score to unlock this lesson.'}
+                  </p>
+                </div>
+              </div>
+            )}
+            <div className="flex flex-col md:flex-row md:items-center justify-between mb-6 gap-4">
+              <h1 className="text-2xl md:text-3xl font-bold">{lesson.title}</h1>
+              <button
+                onClick={checkpointBlocked ? undefined : markComplete}
+                disabled={checkpointBlocked}
+                className={`px-6 py-3 rounded-lg font-semibold transition ${
+                  checkpointBlocked
+                    ? 'bg-slate-100 text-slate-400 cursor-not-allowed border border-slate-200'
+                    : isCompleted
+                      ? 'bg-brand-green-100 text-brand-green-700 border-2 border-brand-green-600'
+                      : 'bg-brand-green-600 hover:bg-brand-green-700 text-white'
+                }`}
+              >
+                {checkpointBlocked
+                  ? 'Locked — complete checkpoint first'
+                  : isCompleted
+                    ? '• Completed'
+                    : 'Mark as Complete'}
+              </button>
+            </div>
+            {completionError && (
+              <div className="mb-4 p-3 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-sm">
+                {completionError}
+              </div>
+            )}
 
-          {/* Digital Binder */}
-          <div className="mt-8">
-            <DigitalBinder />
+            {/* NHA-STYLE ACTIVITY TABS */}
+            {(() => {
+              const stepType = lesson.step_type || lesson.content_type || 'lesson';
+              const activityDefs = getActivitiesForLesson(stepType, lesson.activities);
+
+              return (
+                <>
+                  <LessonActivityMenu
+                    activities={activityDefs}
+                    activeId={activeActivity}
+                    attempted={attempted}
+                    completedActivities={completedActivities}
+                    isCompleted={isCompleted}
+                    onChange={(id) => {
+                      setActiveActivity(id);
+                      markAttempted(id);
+                    }}
+                  />
+
+                  {/* Activity content */}
+                  <div className="mb-8">
+                    {/* VIDEO */}
+                    {activeActivity === 'video' && (
+                      <div role="tabpanel" aria-label="Video">
+                        {isBarberLesson ? (
+                          barberVideoUrl(lesson.slug, lesson.video_config, lesson.video_url) ? (
+                            <InteractiveVideoPlayer
+                              videoUrl={
+                                barberVideoUrl(lesson.slug, lesson.video_config, lesson.video_url)!
+                              }
+                              title={lesson.title}
+                              onProgress={(p) => onVideoProgress(p, 100)}
+                              onComplete={() => {
+                                markActivityCompleted('video');
+                                markAttempted('video');
+                                if (!isCompleted) markComplete();
+                              }}
+                            />
+                          ) : (
+                            <div className="bg-slate-100 rounded-xl flex items-center justify-center h-48 text-slate-400 text-sm">
+                              Video not yet available for this lesson
+                            </div>
+                          )
+                        ) : lesson.video_url ? (
+                          isHvacCourse ? (
+                            <HvacLessonVideo
+                              lessonId={lessonId}
+                              videoUrl={lesson.video_url}
+                              title={lesson.title}
+                              onComplete={() => {
+                                markActivityCompleted('video');
+                                markAttempted('video');
+                                if (!isCompleted) markComplete();
+                              }}
+                            />
+                          ) : (
+                            <InteractiveVideoPlayer
+                              videoUrl={lesson.video_url}
+                              title={lesson.title}
+                              onProgress={(p) => onVideoProgress(p, 100)}
+                              onComplete={() => {
+                                markActivityCompleted('video');
+                                markAttempted('video');
+                                if (!isCompleted) markComplete();
+                              }}
+                            />
+                          )
+                        ) : (
+                          <div className="bg-slate-900 rounded-xl aspect-video flex flex-col items-center justify-center text-white gap-3">
+                            <Video className="w-12 h-12 text-slate-500" />
+                            <p className="text-slate-500 text-sm">
+                              Video will be published with the next content update.
+                            </p>
+                            <p className="text-slate-500 text-xs">
+                              Read the lesson content below in the meantime.
+                            </p>
+                          </div>
+                        )}
+                        {lesson.content && (
+                          <div className="mt-6 bg-white rounded-xl p-6 shadow-sm">
+                            <div
+                              className="prose max-w-none"
+                              dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
+                            />
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* READING */}
+                    {activeActivity === 'reading' && (
+                      <div
+                        role="tabpanel"
+                        aria-label="Reading"
+                        className="bg-white rounded-xl p-4 md:p-8 shadow-sm overflow-y-auto max-h-[70vh]"
+                        onScroll={onReadingScroll}
+                      >
+                        {lesson.content ? (
+                          <>
+                            <div
+                              className="prose max-w-none"
+                              dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(lesson.content) }}
+                            />
+                            <div className="mt-6 pt-4 border-t border-slate-100 flex flex-wrap gap-3">
+                              <ExplainSimply content={lesson.content} />
+                              <TranslateToggle content={lesson.content} />
+                            </div>
+                            {/* Inline reflection prompt — auto-saves to lesson_responses */}
+                            <div className="mt-6">
+                              <LessonInlineInput
+                                lessonId={lessonId}
+                                courseId={courseId}
+                                fieldKey="reading-reflection"
+                                prompt="What's one key idea from this reading you want to remember?"
+                                variant="reflect"
+                                onChange={() => markActivityCompleted('reading')}
+                              />
+                            </div>
+                          </>
+                        ) : (
+                          <div className="text-center py-10 text-slate-400">
+                            <BookOpen className="w-8 h-8 mx-auto mb-2 opacity-40" />
+                            <p className="text-sm">
+                              Reading content will be published with the next module update.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* FLASHCARDS */}
+                    {activeActivity === 'flashcards' && (
+                      <div role="tabpanel" aria-label="Flashcards">
+                        <SpacedRepetitionReview />
+                      </div>
+                    )}
+
+                    {/* LAB */}
+                    {activeActivity === 'lab' && (
+                      <div role="tabpanel" aria-label="Lab">
+                        {lesson.step_type === 'lab' || lesson.step_type === 'assignment' ? (
+                          <StepSubmissionForm
+                            lessonId={lessonId}
+                            courseId={courseId}
+                            stepType={lesson.step_type}
+                            lessonTitle={lesson.title}
+                            competencyKey={lesson.competency_checks?.[0]?.key}
+                            onSubmitted={() => {
+                              markActivityCompleted('lab');
+                              markAttempted('lab');
+                              if (!isCompleted) markComplete();
+                            }}
+                          />
+                        ) : (
+                          <div className="bg-white rounded-xl p-8 shadow-sm text-center">
+                            <FlaskConical className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+                            <p className="text-slate-500 font-medium">
+                              No lab activity for this lesson.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* PRACTICE QUESTIONS */}
+                    {activeActivity === 'practice' && (
+                      <div role="tabpanel" aria-label="Practice">
+                        {lesson.quiz_questions?.length > 0 ? (
+                          <QuizPlayer
+                            questions={lesson.quiz_questions}
+                            title="Practice Questions"
+                            passingScore={60}
+                            onComplete={() => {
+                              markActivityCompleted('practice');
+                              markAttempted('practice');
+                            }}
+                          />
+                        ) : (
+                          <div className="bg-white rounded-xl p-8 shadow-sm text-center">
+                            <Zap className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+                            <p className="text-slate-500 font-medium">
+                              Practice questions will be released with the assessment module.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* CHECKPOINT / QUIZ */}
+                    {activeActivity === 'checkpoint' && (
+                      <div role="tabpanel" aria-label="Checkpoint">
+                        {lesson.quiz_questions?.length > 0 ? (
+                          <QuizPlayer
+                            questions={lesson.quiz_questions}
+                            title={lesson.title}
+                            passingScore={lesson.passing_score || 70}
+                            isCheckpoint={lesson.step_type === 'checkpoint'}
+                            onComplete={(score) => {
+                              markActivityCompleted('checkpoint');
+                              if (score >= (lesson.passing_score || 70) && !isCompleted)
+                                markComplete();
+                            }}
+                          />
+                        ) : (
+                          <div className="bg-white rounded-xl p-8 shadow-sm text-center">
+                            <Shield className="w-10 h-10 text-slate-300 mx-auto mb-3" />
+                            <p className="text-slate-500 font-medium">
+                              Checkpoint questions are scheduled for the next content refresh.
+                            </p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+
+                    {/* NOTES */}
+                    {activeActivity === 'notes' && (
+                      <div role="tabpanel" aria-label="Notes">
+                        <NoteTaking courseId={courseId} lessonId={lessonId} />
+                      </div>
+                    )}
+
+                    {/* RESOURCES */}
+                    {activeActivity === 'resources' && (
+                      <div role="tabpanel" aria-label="Resources" className="space-y-3">
+                        {lesson.resources?.length > 0 ? (
+                          lesson.resources.map((resource: any, idx: number) => (
+                            <div
+                              key={idx}
+                              className="flex items-center justify-between p-4 bg-white rounded-lg hover:bg-slate-50 transition"
+                            >
+                              <div className="flex items-center gap-3">
+                                <div className="w-10 h-10 bg-brand-blue-100 rounded-lg flex items-center justify-center">
+                                  <FileText className="w-5 h-5 text-brand-blue-600" />
+                                </div>
+                                <div>
+                                  <div className="font-semibold">{resource.name}</div>
+                                  <div className="text-sm text-slate-500">{resource.size}</div>
+                                </div>
+                              </div>
+                              <a
+                                href={resource.url}
+                                download
+                                className="flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-700 font-semibold"
+                              >
+                                <Download className="w-4 h-4" />
+                                Download
+                              </a>
+                            </div>
+                          ))
+                        ) : (
+                          <div className="text-center py-10 text-slate-400">
+                            <FileText className="w-8 h-8 mx-auto mb-2 opacity-40" />
+                            <p className="text-sm">No downloadable resources for this lesson.</p>
+                          </div>
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </>
+              );
+            })()}
+
+            {/* Course Completion Banner */}
+            {courseCompleted && (
+              <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-6 mb-8">
+                <div className="flex items-center gap-4">
+                  <div className="w-12 h-12 bg-brand-green-100 rounded-full flex items-center justify-center">
+                    <span className="w-4 h-4 rounded-full bg-brand-green-500 inline-block" />
+                  </div>
+                  <div className="flex-1">
+                    <h3 className="text-lg font-bold text-brand-green-900">Course Completed!</h3>
+                    <p className="text-brand-green-700 text-sm">
+                      Congratulations! You have completed all lessons in this course.
+                    </p>
+                  </div>
+                  {certificate && (
+                    <Link
+                      href={`/certificates/${certificate.id}`}
+                      className="bg-brand-green-600 text-white px-5 py-2.5 rounded-lg font-semibold hover:bg-brand-green-700 transition text-sm"
+                    >
+                      View Certificate
+                    </Link>
+                  )}
+                </div>
+              </div>
+            )}
+
+            {/* Navigation */}
+            <div className="flex justify-between pt-8 border-t border-slate-200">
+              <button
+                onClick={goToPrevious}
+                disabled={!hasPrevious}
+                aria-label="Previous Lesson"
+                className={`flex items-center gap-2 px-3 sm:px-6 py-3 rounded-lg text-sm sm:text-base font-semibold transition ${
+                  hasPrevious
+                    ? 'bg-white hover:bg-slate-200 text-black'
+                    : 'bg-white text-slate-400 cursor-not-allowed'
+                }`}
+              >
+                <ChevronLeft className="w-5 h-5" />
+                <span className="hidden sm:inline">Previous Lesson</span>
+              </button>
+              <button
+                onClick={goToNext}
+                disabled={!hasNext}
+                aria-label="Next Lesson"
+                className={`flex items-center gap-2 px-3 sm:px-6 py-3 rounded-lg text-sm sm:text-base font-semibold transition ${
+                  hasNext
+                    ? 'bg-brand-blue-600 hover:bg-brand-blue-700 text-white'
+                    : 'bg-white text-slate-400 cursor-not-allowed'
+                }`}
+              >
+                <span className="hidden sm:inline">Next Lesson</span>
+                <ChevronRight className="w-5 h-5" />
+              </button>
+            </div>
+
+            {/* Digital Binder */}
+            <div className="mt-8">
+              <DigitalBinder />
+            </div>
           </div>
         </div>
-      </div>
       </div>
     </div>
   );

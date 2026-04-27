@@ -12,15 +12,13 @@ export class SyncManager {
     return SyncManager.instance;
   }
   async registerBackgroundSync() {
-    if (
-      'serviceWorker' in navigator &&
-      'sync' in ServiceWorkerRegistration.prototype
-    ) {
+    if ('serviceWorker' in navigator && 'sync' in ServiceWorkerRegistration.prototype) {
       try {
         const registration = await navigator.serviceWorker.ready;
         await (registration as string).sync.register('sync-progress');
         //
-      } catch (error) { /* Error handled silently */ 
+      } catch (error) {
+        /* Error handled silently */
         // Error: $1
         // Fallback to periodic sync
         this.startPeriodicSync();
@@ -38,7 +36,7 @@ export class SyncManager {
           this.syncNow();
         }
       },
-      5 * 60 * 1000
+      5 * 60 * 1000,
     );
     // Sync when coming back online
     window.addEventListener('online', () => {
@@ -82,12 +80,10 @@ export class SyncManager {
               //
             }
           } else {
-            logger.error(
-              `[Sync] Failed to sync progress:`,
-              response.statusText
-            );
+            logger.error(`[Sync] Failed to sync progress:`, response.statusText);
           }
-        } catch (error) { /* Error handled silently */ 
+        } catch (error) {
+          /* Error handled silently */
           // Error: $1
         }
       }
@@ -105,14 +101,16 @@ export class SyncManager {
             await db.removeFromSyncQueue(item.id);
             //
           }
-        } catch (error) { /* Error handled silently */ 
+        } catch (error) {
+          /* Error handled silently */
           // Error: $1
         }
       }
       //
       this.syncing = false;
       return true;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       this.syncing = false;
       return false;

@@ -54,7 +54,7 @@ export class StripeService {
   async createPaymentIntent(
     amount: number,
     currency: string = 'usd',
-    metadata?: Record<string, string>
+    metadata?: Record<string, string>,
   ): Promise<PaymentIntent> {
     if (!stripe) throw new Error('Stripe is not configured');
     try {
@@ -116,10 +116,7 @@ export class StripeService {
   }
 
   // Create subscription
-  async createSubscription(
-    customerId: string,
-    priceId: string
-  ): Promise<Subscription> {
+  async createSubscription(customerId: string, priceId: string): Promise<Subscription> {
     if (!stripe) throw new Error('Stripe is not configured');
     try {
       const subscription = await stripe.subscriptions.create({
@@ -217,10 +214,7 @@ export class StripeService {
   }
 
   // Process refund
-  async createRefund(
-    paymentIntentId: string,
-    amount?: number
-  ): Promise<boolean> {
+  async createRefund(paymentIntentId: string, amount?: number): Promise<boolean> {
     if (!paymentIntentId) return false;
     if (!stripe) throw new Error('Stripe is not configured');
 
@@ -251,11 +245,7 @@ export class StripeService {
     }
 
     try {
-      const event = stripe.webhooks.constructEvent(
-        payload,
-        signature,
-        webhookSecret
-      );
+      const event = stripe.webhooks.constructEvent(payload, signature, webhookSecret);
 
       switch (event.type) {
         case 'payment_intent.succeeded':

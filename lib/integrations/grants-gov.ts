@@ -2,9 +2,9 @@ import { logger } from '@/lib/logger';
 /**
  * Grants.gov API Integration
  * Federal grant opportunities search and retrieval
- * 
+ *
  * API Documentation: https://www.grants.gov/web/grants/s2s/applicant/web-services.html
- * 
+ *
  * Required env var: GRANTS_GOV_API_KEY (optional for search, required for apply)
  */
 
@@ -72,10 +72,10 @@ const GRANTS_GOV_BASE_URL = 'https://www.grants.gov/grantsws/rest';
  * Search for grant opportunities on Grants.gov
  */
 export async function searchOpportunities(
-  params: GrantsGovSearchParams
+  params: GrantsGovSearchParams,
 ): Promise<GrantsGovSearchResponse> {
   const apiKey = process.env.GRANTS_GOV_API_KEY;
-  
+
   const searchBody: Record<string, any> = {
     keyword: params.keyword || '',
     rows: params.rows || 25,
@@ -94,9 +94,9 @@ export async function searchOpportunities(
   try {
     const headers: Record<string, string> = {
       'Content-Type': 'application/json',
-      'Accept': 'application/json',
+      Accept: 'application/json',
     };
-    
+
     if (apiKey) {
       headers['Authorization'] = `Bearer ${apiKey}`;
     }
@@ -117,7 +117,7 @@ export async function searchOpportunities(
     }
 
     const data = await response.json();
-    
+
     const opportunities: GrantsGovOpportunity[] = (data.oppHits || []).map((opp: any) => ({
       id: opp.id || opp.oppId,
       number: opp.number || opp.oppNumber,
@@ -127,27 +127,33 @@ export async function searchOpportunities(
         name: opp.agencyName || opp.agency?.name || '',
       },
       cfdaList: opp.cfdaList || [],
-      synopsis: opp.synopsis ? {
-        synopsisDesc: opp.synopsis.synopsisDesc || '',
-        applicantTypes: opp.synopsis.applicantTypes || [],
-        fundingActivityCategories: opp.synopsis.fundingActivityCategories || [],
-        fundingInstruments: opp.synopsis.fundingInstruments || [],
-      } : undefined,
+      synopsis: opp.synopsis
+        ? {
+            synopsisDesc: opp.synopsis.synopsisDesc || '',
+            applicantTypes: opp.synopsis.applicantTypes || [],
+            fundingActivityCategories: opp.synopsis.fundingActivityCategories || [],
+            fundingInstruments: opp.synopsis.fundingInstruments || [],
+          }
+        : undefined,
       dates: {
         postDate: opp.openDate || opp.postDate || '',
         closeDate: opp.closeDate || '',
         archiveDate: opp.archiveDate || undefined,
       },
-      award: opp.award ? {
-        ceiling: opp.award.ceiling,
-        floor: opp.award.floor,
-        estimatedTotalProgramFunding: opp.award.estimatedTotalProgramFunding,
-        expectedNumberOfAwards: opp.award.expectedNumberOfAwards,
-      } : undefined,
-      eligibility: opp.eligibility ? {
-        applicantTypes: opp.eligibility.applicantTypes || [],
-        additionalInfo: opp.eligibility.additionalInfo,
-      } : undefined,
+      award: opp.award
+        ? {
+            ceiling: opp.award.ceiling,
+            floor: opp.award.floor,
+            estimatedTotalProgramFunding: opp.award.estimatedTotalProgramFunding,
+            expectedNumberOfAwards: opp.award.expectedNumberOfAwards,
+          }
+        : undefined,
+      eligibility: opp.eligibility
+        ? {
+            applicantTypes: opp.eligibility.applicantTypes || [],
+            additionalInfo: opp.eligibility.additionalInfo,
+          }
+        : undefined,
       status: opp.oppStatus || opp.status || 'posted',
       opportunityCategory: opp.opportunityCategory || '',
       opportunityUrl: `https://www.grants.gov/search-results-detail/${opp.id || opp.oppId}`,
@@ -171,24 +177,21 @@ export async function searchOpportunities(
 /**
  * Get detailed information about a specific opportunity
  */
-export async function getOpportunityDetails(
-  oppId: string
-): Promise<GrantsGovOpportunity | null> {
+export async function getOpportunityDetails(oppId: string): Promise<GrantsGovOpportunity | null> {
   const apiKey = process.env.GRANTS_GOV_API_KEY;
 
   try {
     const headers: Record<string, string> = {
-      'Accept': 'application/json',
+      Accept: 'application/json',
     };
-    
+
     if (apiKey) {
       headers['Authorization'] = `Bearer ${apiKey}`;
     }
 
-    const response = await fetch(
-      `${GRANTS_GOV_BASE_URL}/opportunity/details/${oppId}`,
-      { headers }
-    );
+    const response = await fetch(`${GRANTS_GOV_BASE_URL}/opportunity/details/${oppId}`, {
+      headers,
+    });
 
     if (!response.ok) {
       logger.error('Grants.gov API error:', response.status);
@@ -206,27 +209,33 @@ export async function getOpportunityDetails(
         name: opp.agencyName || '',
       },
       cfdaList: opp.cfdaList || [],
-      synopsis: opp.synopsis ? {
-        synopsisDesc: opp.synopsis.synopsisDesc || '',
-        applicantTypes: opp.synopsis.applicantTypes || [],
-        fundingActivityCategories: opp.synopsis.fundingActivityCategories || [],
-        fundingInstruments: opp.synopsis.fundingInstruments || [],
-      } : undefined,
+      synopsis: opp.synopsis
+        ? {
+            synopsisDesc: opp.synopsis.synopsisDesc || '',
+            applicantTypes: opp.synopsis.applicantTypes || [],
+            fundingActivityCategories: opp.synopsis.fundingActivityCategories || [],
+            fundingInstruments: opp.synopsis.fundingInstruments || [],
+          }
+        : undefined,
       dates: {
         postDate: opp.openDate || opp.postDate || '',
         closeDate: opp.closeDate || '',
         archiveDate: opp.archiveDate || undefined,
       },
-      award: opp.award ? {
-        ceiling: opp.award.ceiling,
-        floor: opp.award.floor,
-        estimatedTotalProgramFunding: opp.award.estimatedTotalProgramFunding,
-        expectedNumberOfAwards: opp.award.expectedNumberOfAwards,
-      } : undefined,
-      eligibility: opp.eligibility ? {
-        applicantTypes: opp.eligibility.applicantTypes || [],
-        additionalInfo: opp.eligibility.additionalInfo,
-      } : undefined,
+      award: opp.award
+        ? {
+            ceiling: opp.award.ceiling,
+            floor: opp.award.floor,
+            estimatedTotalProgramFunding: opp.award.estimatedTotalProgramFunding,
+            expectedNumberOfAwards: opp.award.expectedNumberOfAwards,
+          }
+        : undefined,
+      eligibility: opp.eligibility
+        ? {
+            applicantTypes: opp.eligibility.applicantTypes || [],
+            additionalInfo: opp.eligibility.additionalInfo,
+          }
+        : undefined,
       status: opp.oppStatus || opp.status || 'posted',
       opportunityCategory: opp.opportunityCategory || '',
       opportunityUrl: `https://www.grants.gov/search-results-detail/${opp.id || opp.oppId}`,
@@ -310,10 +319,8 @@ export async function getRelevantGrants(): Promise<GrantsGovOpportunity[]> {
   ]);
 
   // Combine and deduplicate
-  const allOpportunities = searches.flatMap(s => s.opportunities);
-  const uniqueOpportunities = Array.from(
-    new Map(allOpportunities.map(o => [o.id, o])).values()
-  );
+  const allOpportunities = searches.flatMap((s) => s.opportunities);
+  const uniqueOpportunities = Array.from(new Map(allOpportunities.map((o) => [o.id, o])).values());
 
   // Sort by close date
   return uniqueOpportunities.sort((a, b) => {
@@ -337,9 +344,9 @@ export const NONPROFIT_ELIGIBILITY_CODES = [
  * Funding category codes relevant to workforce development
  */
 export const WORKFORCE_FUNDING_CATEGORIES = [
-  'ED',  // Education
+  'ED', // Education
   'ELT', // Employment, Labor and Training
-  'HL',  // Health
-  'IS',  // Income Security and Social Services
-  'CD',  // Community Development
+  'HL', // Health
+  'IS', // Income Security and Social Services
+  'CD', // Community Development
 ];

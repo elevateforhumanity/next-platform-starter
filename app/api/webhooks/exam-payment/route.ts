@@ -9,8 +9,6 @@ import { getStripeServer } from '@/lib/stripe/get-stripe-server';
  * Idempotent — safe to replay. Uses stripe_webhook_events for deduplication.
  */
 
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { markPaymentSucceeded } from '@/lib/services/credential-pipeline';
@@ -103,8 +101,12 @@ export async function POST(req: NextRequest) {
         .update({ status: 'payment_failed', updated_at: new Date().toISOString() })
         .eq('id', intent.metadata.certification_request_id);
 
-      await db.from('exam_fee_payments')
-        .update({ status: 'failed', failure_reason: intent.last_payment_error?.message ?? 'Payment failed' })
+      await db
+        .from('exam_fee_payments')
+        .update({
+          status: 'failed',
+          failure_reason: intent.last_payment_error?.message ?? 'Payment failed',
+        })
         .eq('stripe_payment_intent', intent.id);
     }
 
@@ -121,14 +123,17 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ received: true, skipped: true });
   }
 
-  const paymentIntentId = typeof session.payment_intent === 'string'
-    ? session.payment_intent
-    : session.payment_intent?.id ?? '';
+  const paymentIntentId =
+    typeof session.payment_intent === 'string'
+      ? session.payment_intent
+      : (session.payment_intent?.id ?? '');
 
   const result = await markPaymentSucceeded(session.id, paymentIntentId);
 
   if (!result.ok) {
-    logger.error('exam-payment webhook: markPaymentSucceeded failed', undefined, { sessionId: session.id });
+    logger.error('exam-payment webhook: markPaymentSucceeded failed', undefined, {
+      sessionId: session.id,
+    });
     return NextResponse.json({ error: result.error }, { status: 500 });
   }
 
@@ -168,7 +173,10 @@ export async function POST(req: NextRequest) {
         });
       }
     } catch (emailErr) {
-      logger.error('exam-payment webhook: email send failed', emailErr instanceof Error ? emailErr : undefined);
+      logger.error(
+        'exam-payment webhook: email send failed',
+        emailErr instanceof Error ? emailErr : undefined,
+      );
     }
   }
 

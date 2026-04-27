@@ -18,10 +18,11 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     // Rate limiting for clone operations
-    const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || 
-                     req.headers.get('x-real-ip') || 
-                     'unknown';
-    
+    const clientIp =
+      req.headers.get('x-forwarded-for')?.split(',')[0] ||
+      req.headers.get('x-real-ip') ||
+      'unknown';
+
     const rateLimit = await checkRateLimit({
       key: `license-clone:${clientIp}`,
       limit: 3,
@@ -32,7 +33,7 @@ async function _POST(req: Request) {
       logger.warn('Clone rate limit exceeded', { ip: clientIp });
       return Response.json(
         { error: 'Too many clone requests. Please try again later.' },
-        { status: 429 }
+        { status: 429 },
       );
     }
 
@@ -41,17 +42,14 @@ async function _POST(req: Request) {
     if (!licenseKey || !targetOwner || !targetRepo) {
       return Response.json(
         { error: 'License key, target owner, and target repo required' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Validate license using hashed key lookup
@@ -69,27 +67,18 @@ async function _POST(req: Request) {
 
     // Check license status
     if (license.status !== 'active') {
-      return Response.json(
-        { error: `License is ${license.status}` },
-        { status: 403 }
-      );
+      return Response.json({ error: `License is ${license.status}` }, { status: 403 });
     }
 
     // Check expiration
     if (license.expires_at && new Date(license.expires_at) < new Date()) {
-      return Response.json(
-        { error: 'License has expired' },
-        { status: 403 }
-      );
+      return Response.json({ error: 'License has expired' }, { status: 403 });
     }
 
     // Get product repo from metadata
     const productSlug = license.metadata?.product_slug;
     if (!productSlug) {
-      return Response.json(
-        { error: 'License has no associated product' },
-        { status: 400 }
-      );
+      return Response.json({ error: 'License has no associated product' }, { status: 400 });
     }
 
     // Map product slug to repository
@@ -102,19 +91,13 @@ async function _POST(req: Request) {
 
     const sourceRepo = productRepos[productSlug];
     if (!sourceRepo) {
-      return Response.json(
-        { error: 'Product has no repository configured' },
-        { status: 400 }
-      );
+      return Response.json({ error: 'Product has no repository configured' }, { status: 400 });
     }
 
     // Clone repository
     const githubToken = process.env.GITHUB_TOKEN;
     if (!githubToken) {
-      return Response.json(
-        { error: 'GitHub token not configured' },
-        { status: 500 }
-      );
+      return Response.json({ error: 'GitHub token not configured' }, { status: 500 });
     }
 
     const result = await cloneRepoForCustomer({
@@ -125,7 +108,9 @@ async function _POST(req: Request) {
     });
 
     if (!result.success) {
-      logger.error('Clone failed', new Error(result.error || 'Unknown error'), { licenseId: license.id });
+      logger.error('Clone failed', new Error(result.error || 'Unknown error'), {
+        licenseId: license.id,
+      });
       return Response.json({ error: result.error }, { status: 500 });
     }
 
@@ -141,11 +126,8 @@ async function _POST(req: Request) {
       repoUrl: result.repoUrl,
       cloneUrl: result.cloneUrl,
     });
-  } catch (error) { 
-    logger.error(
-      'Clone error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Clone error:', error instanceof Error ? error : new Error(String(error)));
     return Response.json({ error: toErrorMessage(error) }, { status: 500 });
   }
 }

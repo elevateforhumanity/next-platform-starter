@@ -1,18 +1,11 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 import { useState, useRef, useEffect } from 'react';
 import { Button } from '@/components/ui/Button';
 import { Card, CardContent } from '@/components/ui/Card';
-import {
-  Play,
-  Pause,
-  Volume2,
-  VolumeX,
-  Maximize,
-  Settings,
-} from 'lucide-react';
+import { Play, Pause, Volume2, VolumeX, Maximize, Settings } from 'lucide-react';
 
 interface VideoNote {
   timestamp: number;
@@ -64,9 +57,7 @@ export default function InteractiveVideoPlayer({
       setCurrentTime(current);
 
       // Check for quizzes at current timestamp
-      const quiz = quizzes.find(
-        (q) => Math.abs(q.timestamp - current) < 0.5 && !activeQuiz
-      );
+      const quiz = quizzes.find((q) => Math.abs(q.timestamp - current) < 0.5 && !activeQuiz);
       if (quiz) {
         video.pause();
         setIsPlaying(false);
@@ -180,9 +171,7 @@ export default function InteractiveVideoPlayer({
     return `${mins}:${secs.toString().padStart(2, '0')}`;
   };
 
-  const currentNotes = notes.filter(
-    (note) => Math.abs(note.timestamp - currentTime) < 5
-  );
+  const currentNotes = notes.filter((note) => Math.abs(note.timestamp - currentTime) < 5);
 
   return (
     <div className="space-y-4">
@@ -205,11 +194,7 @@ export default function InteractiveVideoPlayer({
                   onClick={togglePlay}
                   className="text-white hover:bg-white/20"
                 >
-                  {isPlaying ? (
-                    <Pause className="h-5 w-5" />
-                  ) : (
-                    <Play className="h-5 w-5" />
-                  )}
+                  {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="h-5 w-5" />}
                 </Button>
                 <div className="flex-1">
                   <input
@@ -217,7 +202,11 @@ export default function InteractiveVideoPlayer({
                     min="0"
                     max={duration}
                     value={currentTime}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => seekTo(parseFloat(e.target.value))}
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
+                    ) => seekTo(parseFloat(e.target.value))}
                     className="w-full"
                   />
                   <div className="flex justify-between text-xs text-white mt-1">
@@ -231,11 +220,7 @@ export default function InteractiveVideoPlayer({
                   onClick={toggleMute}
                   className="text-white hover:bg-white/20"
                 >
-                  {isMuted ? (
-                    <VolumeX className="h-5 w-5" />
-                  ) : (
-                    <Volume2 className="h-5 w-5" />
-                  )}
+                  {isMuted ? <VolumeX className="h-5 w-5" /> : <Volume2 className="h-5 w-5" />}
                 </Button>
                 <Button
                   variant="ghost"
@@ -260,9 +245,7 @@ export default function InteractiveVideoPlayer({
               <div className="absolute inset-0 bg-black/90 flex items-center justify-center p-8">
                 <Card className="max-w-2xl w-full">
                   <CardContent className="p-6">
-                    <h3 className="text-xl font-bold mb-4">
-                      {activeQuiz.question}
-                    </h3>
+                    <h3 className="text-xl font-bold mb-4">{activeQuiz.question}</h3>
                     <div className="space-y-2 mb-4">
                       {activeQuiz.options.map((option, index) => (
                         <button
@@ -296,9 +279,7 @@ export default function InteractiveVideoPlayer({
       {showNotes && currentNotes.length > 0 && (
         <Card>
           <CardContent className="p-4">
-            <h3 className="font-semibold mb-2">
-              Notes at {formatTime(currentTime)}
-            </h3>
+            <h3 className="font-semibold mb-2">Notes at {formatTime(currentTime)}</h3>
             <div className="space-y-2">
               {currentNotes.map((note, index) => (
                 <div key={index} className="text-sm text-muted-foreground">

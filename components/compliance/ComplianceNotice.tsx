@@ -21,9 +21,7 @@ export function ComplianceNotice({
 }: ComplianceNoticeProps) {
   if (variant === 'compact') {
     return (
-      <div
-        className={`flex items-center gap-2 text-xs text-black ${className}`}
-      >
+      <div className={`flex items-center gap-2 text-xs text-black ${className}`}>
         <Shield className="w-4 h-4 text-slate-700" />
         <span>
           Subject to:{' '}
@@ -47,15 +45,11 @@ export function ComplianceNotice({
 
   if (variant === 'detailed') {
     return (
-      <div
-        className={`bg-amber-50 border border-amber-200 rounded-lg p-4 ${className}`}
-      >
+      <div className={`bg-amber-50 border border-amber-200 rounded-lg p-4 ${className}`}>
         <div className="flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
           <div className="flex-1">
-            <h4 className="text-sm font-semibold text-amber-900 mb-2">
-              Compliance Requirements
-            </h4>
+            <h4 className="text-sm font-semibold text-amber-900 mb-2">Compliance Requirements</h4>
             <p className="text-sm text-amber-800 mb-3">{context}</p>
             <ul className="space-y-2">
               {policies.map((policy) => (
@@ -79,9 +73,7 @@ export function ComplianceNotice({
   }
 
   return (
-    <div
-      className={`bg-gray-50 border border-gray-200 rounded-lg p-4 ${className}`}
-    >
+    <div className={`bg-gray-50 border border-gray-200 rounded-lg p-4 ${className}`}>
       <div className="flex items-start gap-3">
         <Shield className="w-5 h-5 text-black flex-shrink-0 mt-0.5" />
         <div className="flex-1">

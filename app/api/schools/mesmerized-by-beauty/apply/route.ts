@@ -22,15 +22,15 @@ import { logger } from '@/lib/logger';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-const PARTNER_ID      = '8420fefa-3228-4ec7-9ea7-265b045aa93d';
-const SCHOOL_EMAIL    = 'mesmerizedbybeautyl@yahoo.com';
-const ELEVATE_CC      = 'info@elevateforhumanity.org';
-const ADMIN_REVIEW    = `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/admin/applications`;
+const PARTNER_ID = '8420fefa-3228-4ec7-9ea7-265b045aa93d';
+const SCHOOL_EMAIL = 'mesmerizedbybeautyl@yahoo.com';
+const ELEVATE_CC = 'info@elevateforhumanity.org';
+const ADMIN_REVIEW = `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/admin/applications`;
 
 const PROGRAM_LABELS: Record<string, string> = {
-  'cosmetology-apprenticeship':      'Cosmetology Apprenticeship',
-  'esthetician-apprenticeship':      'Esthetician Apprenticeship',
-  'nail-technician-apprenticeship':  'Nail Technician Apprenticeship',
+  'cosmetology-apprenticeship': 'Cosmetology Apprenticeship',
+  'esthetician-apprenticeship': 'Esthetician Apprenticeship',
+  'nail-technician-apprenticeship': 'Nail Technician Apprenticeship',
 };
 
 const VALID_PROGRAMS = Object.keys(PROGRAM_LABELS);
@@ -42,15 +42,27 @@ export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
     const {
-      firstName, lastName, email, phone,
-      city, state, zip,
-      programInterest, fundingSource, priorExperience, notes,
-      utmSource, utmMedium, utmCampaign,
+      firstName,
+      lastName,
+      email,
+      phone,
+      city,
+      state,
+      zip,
+      programInterest,
+      fundingSource,
+      priorExperience,
+      notes,
+      utmSource,
+      utmMedium,
+      utmCampaign,
     } = body;
 
     // Validation
-    if (!firstName?.trim() || !lastName?.trim()) return safeError('First and last name are required', 400);
-    if (!email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return safeError('Valid email is required', 400);
+    if (!firstName?.trim() || !lastName?.trim())
+      return safeError('First and last name are required', 400);
+    if (!email?.trim() || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email))
+      return safeError('Valid email is required', 400);
     if (!phone?.trim()) return safeError('Phone number is required', 400);
     if (!programInterest || !VALID_PROGRAMS.includes(programInterest)) {
       return safeError('Select a valid program', 400);
@@ -70,30 +82,33 @@ export async function POST(request: NextRequest) {
       .maybeSingle();
 
     if (existing) {
-      return safeError('An application for this program was already submitted recently. We will be in touch soon.', 409);
+      return safeError(
+        'An application for this program was already submitted recently. We will be in touch soon.',
+        409,
+      );
     }
 
     // Insert application
     const { data: application, error: insertError } = await supabase
       .from('school_applications')
       .insert({
-        partner_id:       PARTNER_ID,
-        first_name:       firstName.trim(),
-        last_name:        lastName.trim(),
-        email:            email.toLowerCase().trim(),
-        phone:            phone.trim(),
-        city:             city?.trim() || null,
-        state:            state?.trim() || 'IN',
-        zip:              zip?.trim() || null,
+        partner_id: PARTNER_ID,
+        first_name: firstName.trim(),
+        last_name: lastName.trim(),
+        email: email.toLowerCase().trim(),
+        phone: phone.trim(),
+        city: city?.trim() || null,
+        state: state?.trim() || 'IN',
+        zip: zip?.trim() || null,
         program_interest: programInterest,
-        funding_source:   fundingSource || null,
+        funding_source: fundingSource || null,
         prior_experience: priorExperience || null,
-        notes:            notes || null,
-        status:           'submitted',
-        source:           'school_landing_page',
-        utm_source:       utmSource || null,
-        utm_medium:       utmMedium || null,
-        utm_campaign:     utmCampaign || null,
+        notes: notes || null,
+        status: 'submitted',
+        source: 'school_landing_page',
+        utm_source: utmSource || null,
+        utm_medium: utmMedium || null,
+        utm_campaign: utmCampaign || null,
       })
       .select('id')
       .maybeSingle();
@@ -104,7 +119,7 @@ export async function POST(request: NextRequest) {
     }
 
     const programLabel = PROGRAM_LABELS[programInterest];
-    const fullName     = `${firstName.trim()} ${lastName.trim()}`;
+    const fullName = `${firstName.trim()} ${lastName.trim()}`;
 
     // 1. Applicant confirmation email
     const applicantHtml = `
@@ -148,11 +163,15 @@ export async function POST(request: NextRequest) {
           'You will receive a call or email to schedule an in-person or virtual interview.',
           'Once accepted, you will be placed with a licensed partner salon for your apprenticeship hours.',
           'You will gain access to the Elevate LMS for your theory coursework.',
-        ].map((step, i) => `
+        ]
+          .map(
+            (step, i) => `
         <div style="display:flex;align-items:flex-start;gap:12px;margin-bottom:10px">
           <div style="width:24px;height:24px;background:#7c3aed;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;color:#fff;font-size:12px;font-weight:700;line-height:24px;text-align:center">${i + 1}</div>
           <p style="color:#475569;font-size:14px;line-height:1.5;margin:2px 0">${step}</p>
-        </div>`).join('')}
+        </div>`,
+          )
+          .join('')}
       </div>
     </div>
 

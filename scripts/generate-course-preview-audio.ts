@@ -28,7 +28,7 @@ const COURSE_SCRIPTS: Record<string, string> = {
     The best part? Most of our students pay nothing. Workforce grants cover the whole thing.
     This is your moment. Let's build your future together!
   `,
-  'cna': `
+  cna: `
     Hey, welcome! If you've ever wanted to work in healthcare and actually make a difference in people's lives every single day — this is your path.
     Certified Nursing Assistants are the heart of every hospital and nursing home. You're the one patients see most. You matter.
     You'll help with daily care, take vital signs, and work right alongside nurses and doctors.
@@ -37,7 +37,7 @@ const COURSE_SCRIPTS: Record<string, string> = {
     Funding through WIOA may cover your entire program. That means you could start a healthcare career for free.
     You've got this. Let's get started!
   `,
-  'cdl': `
+  cdl: `
     Ready to hit the open road and get paid really well to do it? Let's talk CDL-A.
     Truck drivers are the backbone of the American economy. And right now? Companies are DESPERATE to hire them.
     A CDL-A license opens the door to driving 18-wheelers — and earning fifty-five thousand dollars or more your first year.
@@ -65,7 +65,7 @@ const COURSE_SCRIPTS: Record<string, string> = {
     The program is about one hundred twenty hours. Funding may be available.
     Your healthcare career starts right now. Let's go!
   `,
-  'phlebotomy': `
+  phlebotomy: `
     Hey! Welcome to Phlebotomy Technician training.
     Here's something most people don't realize — phlebotomists are needed everywhere. Hospitals. Clinics. Blood banks. Labs. Doctor's offices.
     Your job? Draw blood samples that help doctors save lives. It's precise work. Important work. And it pays well.
@@ -74,7 +74,7 @@ const COURSE_SCRIPTS: Record<string, string> = {
     If you want a fast, affordable path into healthcare, phlebotomy is one of the smartest moves you can make.
     Funding may be available. Let's get you certified!
   `,
-  'cybersecurity': `
+  cybersecurity: `
     Welcome to Cybersecurity training — one of the hottest careers in tech right now.
     Here's the reality: hackers attack businesses, hospitals, and government agencies every single day.
     Companies are desperate for people who know how to stop them. And they pay really, really well.
@@ -85,7 +85,7 @@ const COURSE_SCRIPTS: Record<string, string> = {
     This is your entry point into a career that will never run out of demand.
     Let's build your future in tech!
   `,
-  'excel': `
+  excel: `
     Hey! Quick question — do you know Microsoft Excel?
     Because here's the truth: Excel is used in EVERY industry. Healthcare. Finance. Logistics. Retail. Education. You name it.
     Employers test for it. They pay more for it. And most people don't know it as well as they think they do.
@@ -116,9 +116,9 @@ async function generateAudio(id: string, script: string): Promise<void> {
   process.stdout.write(`  ${id}...`);
   const response = await openai.audio.speech.create({
     model: 'tts-1-hd',
-    voice: 'nova',   // nova = warm, upbeat, energetic female — not robotic
+    voice: 'nova', // nova = warm, upbeat, energetic female — not robotic
     input: script.trim().replace(/\s+/g, ' '),
-    speed: 1.05,     // slightly faster = more energy, less drag
+    speed: 1.05, // slightly faster = more energy, less drag
   });
 
   const buffer = Buffer.from(await response.arrayBuffer());
@@ -143,4 +143,7 @@ async function main() {
   console.log('\nAll done. Now run: npx tsx scripts/generate-course-preview-videos.ts');
 }
 
-main().catch(e => { console.error('Fatal:', e.message); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e.message);
+  process.exit(1);
+});

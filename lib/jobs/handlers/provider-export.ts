@@ -25,16 +25,15 @@ function toCSV(rows: Record<string, unknown>[]): string {
       ? `"${s.replace(/"/g, '""')}"`
       : s;
   };
-  return [
-    headers.join(','),
-    ...rows.map((r) => headers.map((h) => escape(r[h])).join(',')),
-  ].join('\n');
+  return [headers.join(','), ...rows.map((r) => headers.map((h) => escape(r[h])).join(','))].join(
+    '\n',
+  );
 }
 
 async function fetchRows(
   db: ReturnType<typeof createAdminClient>,
   exportType: ExportType,
-  tenantId: string
+  tenantId: string,
 ): Promise<Record<string, unknown>[]> {
   if (!db) return [];
 
@@ -64,7 +63,9 @@ async function fetchRows(
         .select('id, user_id, program_id, completed_at, credential_earned, certificate_issued_at')
         .in(
           'program_id',
-          (await db.from('programs').select('id').eq('tenant_id', tenantId)).data?.map((p: any) => p.id) ?? []
+          (await db.from('programs').select('id').eq('tenant_id', tenantId)).data?.map(
+            (p: any) => p.id,
+          ) ?? [],
         )
         .order('completed_at', { ascending: false });
       return data ?? [];
@@ -73,10 +74,14 @@ async function fetchRows(
     case 'credentials': {
       const { data } = await db
         .from('learner_credentials')
-        .select('id, learner_id, credential_id, status, issued_at, expires_at, verified_at, verification_source')
+        .select(
+          'id, learner_id, credential_id, status, issued_at, expires_at, verified_at, verification_source',
+        )
         .in(
           'learner_id',
-          (await db.from('profiles').select('id').eq('tenant_id', tenantId).eq('role', 'student')).data?.map((p: any) => p.id) ?? []
+          (
+            await db.from('profiles').select('id').eq('tenant_id', tenantId).eq('role', 'student')
+          ).data?.map((p: any) => p.id) ?? [],
         )
         .order('issued_at', { ascending: false });
       return data ?? [];
@@ -85,7 +90,9 @@ async function fetchRows(
     case 'placements': {
       const { data } = await db
         .from('placement_records')
-        .select('id, learner_id, employer_id, program_id, hire_date, job_title, employment_type, hourly_wage, verification_source, status, created_at')
+        .select(
+          'id, learner_id, employer_id, program_id, hire_date, job_title, employment_type, hourly_wage, verification_source, status, created_at',
+        )
         .eq('tenant_id', tenantId)
         .order('hire_date', { ascending: false });
       return data ?? [];
@@ -114,12 +121,10 @@ export async function handleProviderDataExport(payload: Record<string, any>): Pr
   const buffer = Buffer.from(await blob.arrayBuffer());
 
   // Upload to Supabase Storage bucket 'provider-exports'
-  const { error: uploadErr } = await db.storage
-    .from('provider_exports')
-    .upload(filename, buffer, {
-      contentType: 'text/csv',
-      upsert: false,
-    });
+  const { error: uploadErr } = await db.storage.from('provider_exports').upload(filename, buffer, {
+    contentType: 'text/csv',
+    upsert: false,
+  });
 
   if (uploadErr) {
     logger.error('Provider export upload failed', { error: uploadErr.message, filename });

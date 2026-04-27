@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
 import React from 'react';
 
-import { useState, useEffect } from "react";
-import { MessageCircle, X } from "lucide-react";
+import { useState, useEffect } from 'react';
+import { MessageCircle, X } from 'lucide-react';
 
 export function ElevateChatWidget() {
   const [open, setOpen] = useState(false);
@@ -68,9 +68,7 @@ export function ElevateChatWidget() {
               <p className="text-sm text-black mb-3 font-semibold">
                 👋 Welcome to Elevate For Humanity!
               </p>
-              <p className="text-sm text-black mb-3">
-                I can help you with:
-              </p>
+              <p className="text-sm text-black mb-3">I can help you with:</p>
               <ul className="text-xs text-black space-y-2 mb-4">
                 <li className="flex items-start gap-2">
                   <span className="text-brand-orange-500">•</span>
@@ -125,12 +123,8 @@ export function ElevateChatWidget() {
               <div className="flex items-center gap-3">
                 <MessageCircle size={24} />
                 <div>
-                  <div className="text-sm font-semibold">
-                    Elevate AI Helper
-                  </div>
-                  <div className="text-xs opacity-90">
-                    Ask me anything about our programs
-                  </div>
+                  <div className="text-sm font-semibold">Elevate AI Helper</div>
+                  <div className="text-xs opacity-90">Ask me anything about our programs</div>
                 </div>
               </div>
               <button
@@ -142,11 +136,7 @@ export function ElevateChatWidget() {
                 <X size={20} />
               </button>
             </div>
-            <iframe
-              src="/ai-chat"
-              className="flex-1 w-full border-0"
-              title="Elevate AI Chat"
-            />
+            <iframe src="/ai-chat" className="flex-1 w-full border-0" title="Elevate AI Chat" />
           </div>
         </div>
       )}

@@ -1,4 +1,5 @@
 # Monthly Admissions & Funding Compliance Audit
+
 ## Elevate for Humanity Career and Training Institute
 
 **INTERNAL DOCUMENT — LEADERSHIP REVIEW REQUIRED**
@@ -19,12 +20,12 @@ To ensure admissions, funding pathways, and tuition collection are executed cons
 
 For the audit period, confirm:
 
-| Metric | Count |
-|--------|-------|
-| Total new enrollments | _____ |
-| Completed intakes | _____ |
-| Enrollments without signed intake | _____ (must be zero) |
-| Provisional enrollments | _____ (must align with policy) |
+| Metric                            | Count                           |
+| --------------------------------- | ------------------------------- |
+| Total new enrollments             | **\_**                          |
+| Completed intakes                 | **\_**                          |
+| Enrollments without signed intake | **\_** (must be zero)           |
+| Provisional enrollments           | **\_** (must align with policy) |
 
 **Any enrollment without completed intake documentation is a critical failure.**
 
@@ -34,13 +35,14 @@ For the audit period, confirm:
 
 Confirm enrollment breakdown:
 
-| Pathway | Count | Percentage |
-|---------|-------|------------|
-| Workforce-funded | _____ | _____% |
-| Employer-sponsored | _____ | _____% |
-| Structured student tuition (bridge) | _____ | _____% |
+| Pathway                             | Count  | Percentage |
+| ----------------------------------- | ------ | ---------- |
+| Workforce-funded                    | **\_** | **\_**%    |
+| Employer-sponsored                  | **\_** | **\_**%    |
+| Structured student tuition (bridge) | **\_** | **\_**%    |
 
 **Red flags:**
+
 - High concentration of internal tuition
 - Decline in workforce-funded placements
 - Employer lane underutilization
@@ -61,22 +63,22 @@ Review all student-paid accounts:
 
 **Any unpaid balance beyond 90 days = policy breach.**
 
-| Metric | Count |
-|--------|-------|
-| Accounts current | _____ |
-| Accounts with missed payments | _____ |
-| Accounts paused for non-payment | _____ |
-| Accounts beyond 90 days | _____ (must be zero) |
+| Metric                          | Count                 |
+| ------------------------------- | --------------------- |
+| Accounts current                | **\_**                |
+| Accounts with missed payments   | **\_**                |
+| Accounts paused for non-payment | **\_**                |
+| Accounts beyond 90 days         | **\_** (must be zero) |
 
 ---
 
 ## SECTION 4: Exception Tracking (Should Be Rare)
 
-| Metric | Count |
-|--------|-------|
-| Executive-approved exceptions | _____ |
-| Written approval on file | _____ |
-| Staff-initiated exceptions | _____ (must be zero) |
+| Metric                        | Count                 |
+| ----------------------------- | --------------------- |
+| Executive-approved exceptions | **\_**                |
+| Written approval on file      | **\_**                |
+| Staff-initiated exceptions    | **\_** (must be zero) |
 
 **More than two exceptions in a month indicates a policy discipline issue, not a student issue.**
 
@@ -87,12 +89,12 @@ Review all student-paid accounts:
 Randomly sample admissions interactions:
 
 | Sample # | Script Followed | Pathways Explained | No Negotiation | Objections Handled |
-|----------|-----------------|-------------------|----------------|-------------------|
-| 1 | [ ] Yes [ ] No | [ ] Yes [ ] No | [ ] Yes [ ] No | [ ] Yes [ ] No |
-| 2 | [ ] Yes [ ] No | [ ] Yes [ ] No | [ ] Yes [ ] No | [ ] Yes [ ] No |
-| 3 | [ ] Yes [ ] No | [ ] Yes [ ] No | [ ] Yes [ ] No | [ ] Yes [ ] No |
-| 4 | [ ] Yes [ ] No | [ ] Yes [ ] No | [ ] Yes [ ] No | [ ] Yes [ ] No |
-| 5 | [ ] Yes [ ] No | [ ] Yes [ ] No | [ ] Yes [ ] No | [ ] Yes [ ] No |
+| -------- | --------------- | ------------------ | -------------- | ------------------ |
+| 1        | [ ] Yes [ ] No  | [ ] Yes [ ] No     | [ ] Yes [ ] No | [ ] Yes [ ] No     |
+| 2        | [ ] Yes [ ] No  | [ ] Yes [ ] No     | [ ] Yes [ ] No | [ ] Yes [ ] No     |
+| 3        | [ ] Yes [ ] No  | [ ] Yes [ ] No     | [ ] Yes [ ] No | [ ] Yes [ ] No     |
+| 4        | [ ] Yes [ ] No  | [ ] Yes [ ] No     | [ ] Yes [ ] No | [ ] Yes [ ] No     |
+| 5        | [ ] Yes [ ] No  | [ ] Yes [ ] No     | [ ] Yes [ ] No | [ ] Yes [ ] No     |
 
 **Two deviations by the same staff member in one month triggers retraining.**
 
@@ -103,12 +105,12 @@ Randomly sample admissions interactions:
 Randomly select 5 student files and confirm:
 
 | File # | Workforce Screen | Employer Screen | Financial Ready | Pathway Assigned | Acknowledgment Signed |
-|--------|-----------------|-----------------|-----------------|------------------|----------------------|
-| 1 | [ ] | [ ] | [ ] | [ ] | [ ] |
-| 2 | [ ] | [ ] | [ ] | [ ] | [ ] |
-| 3 | [ ] | [ ] | [ ] | [ ] | [ ] |
-| 4 | [ ] | [ ] | [ ] | [ ] | [ ] |
-| 5 | [ ] | [ ] | [ ] | [ ] | [ ] |
+| ------ | ---------------- | --------------- | --------------- | ---------------- | --------------------- |
+| 1      | [ ]              | [ ]             | [ ]             | [ ]              | [ ]                   |
+| 2      | [ ]              | [ ]             | [ ]             | [ ]              | [ ]                   |
+| 3      | [ ]              | [ ]             | [ ]             | [ ]              | [ ]                   |
+| 4      | [ ]              | [ ]             | [ ]             | [ ]              | [ ]                   |
+| 5      | [ ]              | [ ]             | [ ]             | [ ]              | [ ]                   |
 
 **Missing or incomplete fields invalidate the intake.**
 
@@ -116,14 +118,14 @@ Randomly select 5 student files and confirm:
 
 ## SECTION 7: Outcomes Alignment (Quarterly Snapshot)
 
-*Complete quarterly; reference in monthly audit.*
+_Complete quarterly; reference in monthly audit._
 
-| Metric | Lane 1 | Lane 2 | Lane 3 |
-|--------|--------|--------|--------|
-| Completion rate | _____% | _____% | _____% |
-| Withdrawal rate | _____% | _____% | _____% |
-| Payment-related attrition | N/A | N/A | _____% |
-| Avg. days to employer placement | _____ | _____ | _____ |
+| Metric                          | Lane 1  | Lane 2  | Lane 3  |
+| ------------------------------- | ------- | ------- | ------- |
+| Completion rate                 | **\_**% | **\_**% | **\_**% |
+| Withdrawal rate                 | **\_**% | **\_**% | **\_**% |
+| Payment-related attrition       | N/A     | N/A     | **\_**% |
+| Avg. days to employer placement | **\_**  | **\_**  | **\_**  |
 
 **Patterns inform program and funding adjustments—not admissions improvisation.**
 
@@ -132,10 +134,10 @@ Randomly select 5 student files and confirm:
 ## SECTION 8: Corrective Action Log
 
 | Issue | Root Cause | Corrective Action | Staff Action | Resolution Date |
-|-------|------------|-------------------|--------------|-----------------|
-| | | | | |
-| | | | | |
-| | | | | |
+| ----- | ---------- | ----------------- | ------------ | --------------- |
+|       |            |                   |              |                 |
+|       |            |                   |              |                 |
+|       |            |                   |              |                 |
 
 **Unlogged issues are considered unresolved.**
 
@@ -143,11 +145,11 @@ Randomly select 5 student files and confirm:
 
 ## SECTION 9: Leadership Sign-Off
 
-| Role | Name | Signature | Date |
-|------|------|-----------|------|
-| Admissions Lead | _________________ | _________________ | _______ |
-| Program Director | _________________ | _________________ | _______ |
-| Executive Leadership | _________________ | _________________ | _______ |
+| Role                 | Name               | Signature          | Date       |
+| -------------------- | ------------------ | ------------------ | ---------- |
+| Admissions Lead      | ********\_******** | ********\_******** | **\_\_\_** |
+| Program Director     | ********\_******** | ********\_******** | **\_\_\_** |
+| Executive Leadership | ********\_******** | ********\_******** | **\_\_\_** |
 
 **Unsigned audits are incomplete.**
 
@@ -163,12 +165,12 @@ Consistency is what protects access, funding credibility, and long-term growth.
 
 ## Audit Period
 
-**Month/Year:** _________________
+**Month/Year:** ********\_********
 
-**Audit Completed By:** _________________
+**Audit Completed By:** ********\_********
 
-**Date Completed:** _________________
+**Date Completed:** ********\_********
 
 ---
 
-*This audit is completed monthly, reviewed by leadership, and retained for compliance records.*
+_This audit is completed monthly, reviewed by leadership, and retained for compliance records._

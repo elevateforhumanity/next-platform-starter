@@ -78,28 +78,45 @@ export default async function ProgramStudentsPage({
                     <td className="px-4 py-3 text-center">
                       <div className="flex items-center justify-center gap-2">
                         <div className="w-16 bg-gray-200 rounded-full h-2">
-                          <div className="bg-brand-blue-500 h-2 rounded-full" style={{ width: `${Math.min(s.progress, 100)}%` }} />
+                          <div
+                            className="bg-brand-blue-500 h-2 rounded-full"
+                            style={{ width: `${Math.min(s.progress, 100)}%` }}
+                          />
                         </div>
                         <span className="text-xs font-medium">{s.progress}%</span>
                       </div>
                     </td>
                     <td className="px-4 py-3 text-center">
-                      <span className={`text-xs font-medium px-2 py-1 rounded ${
-                        s.status === 'completed' ? 'bg-brand-green-100 text-brand-green-800' :
-                        s.status === 'active' ? 'bg-brand-blue-100 text-brand-blue-800' :
-                        s.status === 'pending' ? 'bg-amber-100 text-amber-800' :
-                        'bg-slate-100 text-slate-700'
-                      }`}>{s.status}</span>
+                      <span
+                        className={`text-xs font-medium px-2 py-1 rounded ${
+                          s.status === 'completed'
+                            ? 'bg-brand-green-100 text-brand-green-800'
+                            : s.status === 'active'
+                              ? 'bg-brand-blue-100 text-brand-blue-800'
+                              : s.status === 'pending'
+                                ? 'bg-amber-100 text-amber-800'
+                                : 'bg-slate-100 text-slate-700'
+                        }`}
+                      >
+                        {s.status}
+                      </span>
                     </td>
                     <td className="px-4 py-3 text-slate-700 text-xs">
                       {new Date(s.enrolledAt).toLocaleDateString()}
                     </td>
                     <td className="px-4 py-3 text-center">
                       <div className="flex items-center justify-center gap-2">
-                        <button className="p-1 text-slate-700 hover:text-brand-blue-600" title="View details">
+                        <button
+                          className="p-1 text-slate-700 hover:text-brand-blue-600"
+                          title="View details"
+                        >
                           <Eye className="w-4 h-4" />
                         </button>
-                        <a href={`mailto:${s.email}`} className="p-1 text-slate-700 hover:text-brand-blue-600" title="Email student">
+                        <a
+                          href={`mailto:${s.email}`}
+                          className="p-1 text-slate-700 hover:text-brand-blue-600"
+                          title="Email student"
+                        >
                           <Mail className="w-4 h-4" />
                         </a>
                       </div>

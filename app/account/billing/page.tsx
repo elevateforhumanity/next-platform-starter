@@ -32,9 +32,11 @@ export default function BillingPage() {
   useEffect(() => {
     async function fetchLicenseData() {
       const supabase = createClient();
-      
-      const { data: { user } } = await supabase.auth.getUser();
-      
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       if (!user) {
         setError('Please sign in to view billing information');
         setIsPageLoading(false);
@@ -44,7 +46,9 @@ export default function BillingPage() {
       // Fetch license/subscription data from profiles or a licenses table
       const { data: profile, error: profileError } = await supabase
         .from('profiles')
-        .select('stripe_customer_id, subscription_status, subscription_plan, trial_ends_at, current_period_end')
+        .select(
+          'stripe_customer_id, subscription_status, subscription_plan, trial_ends_at, current_period_end',
+        )
         .eq('id', user.id)
         .maybeSingle();
 
@@ -57,7 +61,9 @@ export default function BillingPage() {
           status: (profile.subscription_status as LicenseStatus) || 'trial',
           planId: (profile.subscription_plan as PlanId) || 'starter_annual',
           trialEndsAt: profile.trial_ends_at ? new Date(profile.trial_ends_at) : null,
-          currentPeriodEnd: profile.current_period_end ? new Date(profile.current_period_end) : null,
+          currentPeriodEnd: profile.current_period_end
+            ? new Date(profile.current_period_end)
+            : null,
           stripeCustomerId: profile.stripe_customer_id,
         });
       } else {
@@ -231,11 +237,11 @@ export default function BillingPage() {
         <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
           <div className="flex items-start justify-between">
             <div>
-              <h2 className="text-lg font-bold text-slate-900 mb-1">
-                Subscription Status
-              </h2>
+              <h2 className="text-lg font-bold text-slate-900 mb-1">Subscription Status</h2>
               <div className="flex items-center gap-2">
-                <span className={`inline-flex items-center gap-1 px-2 py-1 bg-${status.color}-100 text-${status.color}-700 text-sm font-medium rounded-full`}>
+                <span
+                  className={`inline-flex items-center gap-1 px-2 py-1 bg-${status.color}-100 text-${status.color}-700 text-sm font-medium rounded-full`}
+                >
                   <StatusIcon className="w-4 h-4" />
                   {status.label}
                 </span>
@@ -250,7 +256,9 @@ export default function BillingPage() {
                 <Calendar className="w-5 h-5 text-brand-blue-600" />
                 <div>
                   <p className="font-medium text-brand-blue-900">
-                    Trial ends {license.trialEndsAt.toLocaleDateString('en-US', { timeZone: 'UTC',
+                    Trial ends{' '}
+                    {license.trialEndsAt.toLocaleDateString('en-US', {
+                      timeZone: 'UTC',
                       weekday: 'long',
                       month: 'long',
                       day: 'numeric',
@@ -267,7 +275,8 @@ export default function BillingPage() {
           {license.status === 'past_due' && (
             <div className="mt-4 p-4 bg-amber-50 rounded-lg">
               <p className="text-amber-900">
-                Your last payment failed. Please update your payment method to avoid service interruption.
+                Your last payment failed. Please update your payment method to avoid service
+                interruption.
               </p>
             </div>
           )}
@@ -350,9 +359,7 @@ export default function BillingPage() {
               </>
             )}
           </button>
-          <p className="text-xs text-slate-700 mt-3">
-            Opens Stripe's secure billing portal
-          </p>
+          <p className="text-xs text-slate-700 mt-3">Opens Stripe's secure billing portal</p>
         </div>
 
         {/* Back Link */}

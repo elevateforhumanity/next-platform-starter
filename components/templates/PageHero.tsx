@@ -54,6 +54,7 @@ export default function PageHero({ title, description, forceHero }: PageHeroProp
           autoPlayOnMount
         />
       ) : (
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={heroSrc}
           alt={title || 'Hero'}
@@ -62,7 +63,8 @@ export default function PageHero({ title, description, forceHero }: PageHeroProp
           quality={100}
           priority={priority}
           unoptimized
-         sizes="100vw" />
+          sizes="100vw"
+        />
       )}
 
       {title && (

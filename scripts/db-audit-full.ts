@@ -10,24 +10,46 @@ const db = createClient(url, key);
 
 // Check hyphenated table names (invalid in postgres without quotes)
 const HYPHENATED = [
-  'apprentice-uploads','audit-archive','course-content','course-videos',
-  'credential-uploads','enrollment-documents','partner-documents',
-  'program-holder-documents','scorm-packages','shop-onboarding',
-  'tax-documents'
+  'apprentice-uploads',
+  'audit-archive',
+  'course-content',
+  'course-videos',
+  'credential-uploads',
+  'enrollment-documents',
+  'partner-documents',
+  'program-holder-documents',
+  'scorm-packages',
+  'shop-onboarding',
+  'tax-documents',
 ];
 
 // Check row counts on critical tables
 const CRITICAL = [
-  'profiles','programs','courses','course_lessons','curriculum_lessons',
-  'training_courses','training_lessons','program_enrollments','applications',
-  'certificates','lms_lessons'
+  'profiles',
+  'programs',
+  'courses',
+  'course_lessons',
+  'curriculum_lessons',
+  'training_courses',
+  'training_lessons',
+  'program_enrollments',
+  'applications',
+  'certificates',
+  'lms_lessons',
 ];
 
 async function run() {
   console.log('\n=== HYPHENATED TABLE NAMES (invalid without quotes) ===');
   for (const t of HYPHENATED) {
-    const { error } = await db.from(t as any).select('id').limit(1);
-    const status = !error ? 'EXISTS' : error.code === '42P01' ? 'MISSING' : 'ERROR: ' + error.message;
+    const { error } = await db
+      .from(t as any)
+      .select('id')
+      .limit(1);
+    const status = !error
+      ? 'EXISTS'
+      : error.code === '42P01'
+        ? 'MISSING'
+        : 'ERROR: ' + error.message;
     console.log(`  ${status.padEnd(10)} ${t}`);
   }
 
@@ -39,10 +61,15 @@ async function run() {
   }
 
   console.log('\n=== MISSING TABLES REFERENCED IN CODE ===');
-  const missing = ['student_interventions','at_risk_students'];
+  const missing = ['student_interventions', 'at_risk_students'];
   for (const t of missing) {
-    const refs = await import('child_process').then(cp => 
-      cp.execSync(`grep -rn "${t}" /workspaces/Elevate-lms/app --include="*.tsx" --include="*.ts" | wc -l`).toString().trim()
+    const refs = await import('child_process').then((cp) =>
+      cp
+        .execSync(
+          `grep -rn "${t}" /workspaces/Elevate-lms/app --include="*.tsx" --include="*.ts" | wc -l`,
+        )
+        .toString()
+        .trim(),
     );
     console.log(`  ${t}: ${refs} code references — table does not exist in DB`);
   }

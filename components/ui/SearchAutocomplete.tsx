@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useRef, useEffect } from 'react';
 import { Search, X } from 'lucide-react';
@@ -56,14 +56,13 @@ export const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (!isOpen) return null; return;
+    if (!isOpen) return null;
+    return;
 
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
-        setSelectedIndex((prev) =>
-          prev < displayResults.length - 1 ? prev + 1 : prev
-        );
+        setSelectedIndex((prev) => (prev < displayResults.length - 1 ? prev + 1 : prev));
         break;
       case 'ArrowUp':
         e.preventDefault();
@@ -138,11 +137,7 @@ export const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({
           ) : displayResults.length > 0 ? (
             <ul>
               {displayResults.map((result, index) => (
-                <li
-                  key={result.id}
-                  role="option"
-                  aria-selected={index === selectedIndex}
-                >
+                <li key={result.id} role="option" aria-selected={index === selectedIndex}>
                   <button
                     onClick={() => handleSelect(result)}
                     className={`w-full text-left px-4 py-3 hover:bg-slate-50 transition-colors border-b border-slate-100 last:border-b-0 ${
@@ -151,9 +146,7 @@ export const SearchAutocomplete: React.FC<SearchAutocompleteProps> = ({
                   >
                     <div className="flex items-start justify-between gap-3">
                       <div className="flex-1 min-w-0">
-                        <p className="font-medium text-black truncate">
-                          {result.title}
-                        </p>
+                        <p className="font-medium text-black truncate">{result.title}</p>
                         {result.description && (
                           <p className="text-sm text-black line-clamp-1 mt-0.5">
                             {result.description}

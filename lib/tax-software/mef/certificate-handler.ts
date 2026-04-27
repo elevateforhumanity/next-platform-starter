@@ -1,7 +1,7 @@
 /**
  * IRS MeF Certificate Handler
  * Manages TLS certificates for IRS mutual authentication
- * 
+ *
  * Certificate Requirements:
  * - IRS requires mutual TLS (mTLS) for MeF transmission
  * - Certificates must be obtained from IRS-approved providers
@@ -44,14 +44,14 @@ export const CERT_ENV_VARS = {
     cert: 'IRS_TEST_CERT_PATH',
     key: 'IRS_TEST_KEY_PATH',
     ca: 'IRS_TEST_CA_PATH',
-    passphrase: 'IRS_TEST_CERT_PASSPHRASE'
+    passphrase: 'IRS_TEST_CERT_PASSPHRASE',
   },
   production: {
     cert: 'IRS_PROD_CERT_PATH',
     key: 'IRS_PROD_KEY_PATH',
     ca: 'IRS_PROD_CA_PATH',
-    passphrase: 'IRS_PROD_CERT_PASSPHRASE'
-  }
+    passphrase: 'IRS_PROD_CERT_PASSPHRASE',
+  },
 };
 
 // Default certificate paths (relative to project root)
@@ -59,13 +59,13 @@ export const DEFAULT_CERT_PATHS = {
   test: {
     cert: 'certs/test/client.crt',
     key: 'certs/test/client.key',
-    ca: 'certs/test/ca.crt'
+    ca: 'certs/test/ca.crt',
   },
   production: {
     cert: 'certs/prod/client.crt',
     key: 'certs/prod/client.key',
-    ca: 'certs/prod/ca.crt'
-  }
+    ca: 'certs/prod/ca.crt',
+  },
 };
 
 /**
@@ -105,22 +105,22 @@ export class CertificateHandler {
   async checkCertificatesAvailable(): Promise<{ available: boolean; missing: string[] }> {
     const missing: string[] = [];
 
-    if (!this.certPath || !await this.fileExists(this.certPath)) {
+    if (!this.certPath || !(await this.fileExists(this.certPath))) {
       missing.push(`Client certificate (${this.certPath || 'not configured'})`);
     }
 
-    if (!this.keyPath || !await this.fileExists(this.keyPath)) {
+    if (!this.keyPath || !(await this.fileExists(this.keyPath))) {
       missing.push(`Private key (${this.keyPath || 'not configured'})`);
     }
 
     // CA is optional but recommended
-    if (this.caPath && !await this.fileExists(this.caPath)) {
+    if (this.caPath && !(await this.fileExists(this.caPath))) {
       missing.push(`CA certificate (${this.caPath})`);
     }
 
     return {
       available: missing.length === 0 || (missing.length === 1 && missing[0].includes('CA')),
-      missing
+      missing,
     };
   }
 
@@ -135,7 +135,7 @@ export class CertificateHandler {
         return {
           loaded: false,
           environment: this.environment,
-          error: `Missing certificates: ${missing.join(', ')}`
+          error: `Missing certificates: ${missing.join(', ')}`,
         };
       }
 
@@ -146,7 +146,7 @@ export class CertificateHandler {
       if (this.keyPath) {
         this.keyContent = await fs.promises.readFile(this.keyPath);
       }
-      if (this.caPath && await this.fileExists(this.caPath)) {
+      if (this.caPath && (await this.fileExists(this.caPath))) {
         this.caContent = await fs.promises.readFile(this.caPath);
       }
 
@@ -156,13 +156,13 @@ export class CertificateHandler {
       return {
         loaded: true,
         environment: this.environment,
-        info
+        info,
       };
     } catch (err) {
       return {
         loaded: false,
         environment: this.environment,
-        error: err instanceof Error ? err.message : 'Failed to load certificates'
+        error: err instanceof Error ? err.message : 'Failed to load certificates',
       };
     }
   }
@@ -180,7 +180,7 @@ export class CertificateHandler {
       cert: this.certContent || undefined,
       key: this.keyContent || undefined,
       ca: this.caContent || undefined,
-      passphrase: this.passphrase || undefined
+      passphrase: this.passphrase || undefined,
     };
   }
 
@@ -192,21 +192,22 @@ export class CertificateHandler {
 
     try {
       const certString = this.certContent.toString();
-      
+
       // Extract basic info from PEM certificate
       // Note: Full parsing would require a library like node-forge
-      const fingerprint = crypto
-        .createHash('sha256')
-        .update(this.certContent)
-        .digest('hex')
-        .toUpperCase()
-        .match(/.{2}/g)
-        ?.join(':') || '';
+      const fingerprint =
+        crypto
+          .createHash('sha256')
+          .update(this.certContent)
+          .digest('hex')
+          .toUpperCase()
+          .match(/.{2}/g)
+          ?.join(':') || '';
 
       // Basic validity check - look for dates in cert
       // This is a simplified check; production should use proper X.509 parsing
       const now = new Date();
-      
+
       return {
         subject: 'Certificate loaded (parse with openssl for details)',
         issuer: 'Certificate loaded (parse with openssl for details)',
@@ -215,7 +216,7 @@ export class CertificateHandler {
         serialNumber: 'See certificate file',
         fingerprint,
         isValid: true, // Simplified
-        daysUntilExpiry: 365 // Placeholder
+        daysUntilExpiry: 365, // Placeholder
       };
     } catch {
       return undefined;
@@ -316,6 +317,6 @@ export async function verifyCertificateSetup(): Promise<{
 
   return {
     test: await testHandler.loadCertificates(),
-    production: await prodHandler.loadCertificates()
+    production: await prodHandler.loadCertificates(),
   };
 }

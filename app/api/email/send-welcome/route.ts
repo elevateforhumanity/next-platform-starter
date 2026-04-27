@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
@@ -126,14 +124,14 @@ async function _POST(request: NextRequest) {
         dev: true,
       });
     }
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Send welcome email error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to send email' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

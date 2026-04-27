@@ -5,7 +5,9 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 async function _POST(request: NextRequest) {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.redirect(new URL('/login', request.url));
@@ -20,17 +22,22 @@ async function _POST(request: NextRequest) {
       }
     }
 
-    await supabase
-      .from('notification_preferences')
-      .upsert({
+    await supabase.from('notification_preferences').upsert(
+      {
         user_id: user.id,
         preferences,
         updated_at: new Date().toISOString(),
-      }, { onConflict: 'user_id' });
+      },
+      { onConflict: 'user_id' },
+    );
 
-    return NextResponse.redirect(new URL('/account/settings/notifications?success=saved', request.url));
+    return NextResponse.redirect(
+      new URL('/account/settings/notifications?success=saved', request.url),
+    );
   } catch {
-    return NextResponse.redirect(new URL('/account/settings/notifications?error=server-error', request.url));
+    return NextResponse.redirect(
+      new URL('/account/settings/notifications?error=server-error', request.url),
+    );
   }
 }
 export const POST = withApiAudit('/api/account/notifications', _POST);

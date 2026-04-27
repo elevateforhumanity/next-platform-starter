@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * Hours Summary Widget Component
@@ -19,24 +19,18 @@ export default function HoursSummaryWidget({
   transferred,
   earned,
   remaining,
-  progressPercent
+  progressPercent,
 }: HoursSummaryWidgetProps) {
-
   const transferredPercent = required > 0 ? (transferred / required) * 100 : 0;
   const earnedPercent = required > 0 ? (earned / required) * 100 : 0;
 
   return (
     <div className="glow-card p-6">
-
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-bold text-white">
-          Hours Summary
-        </h2>
+        <h2 className="text-2xl font-bold text-white">Hours Summary</h2>
         <div className="text-right">
-          <div className="text-3xl font-bold text-white">
-            {progressPercent.toFixed(1)}%
-          </div>
+          <div className="text-3xl font-bold text-white">{progressPercent.toFixed(1)}%</div>
           <div className="text-sm text-slate-400">Complete</div>
         </div>
       </div>
@@ -54,14 +48,11 @@ export default function HoursSummaryWidget({
             className="absolute h-full bg-brand-green-500 transition-all"
             style={{
               left: `${transferredPercent}%`,
-              width: `${earnedPercent}%`
+              width: `${earnedPercent}%`,
             }}
           />
           {/* Combined glow effect */}
-          <div
-            className="progress-fill"
-            style={{ width: `${progressPercent}%` }}
-          />
+          <div className="progress-fill" style={{ width: `${progressPercent}%` }} />
         </div>
 
         {/* Legend */}
@@ -83,15 +74,12 @@ export default function HoursSummaryWidget({
 
       {/* Hours Breakdown */}
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
-
         {/* Required */}
         <div className="text-center p-4 bg-slate-800/50 rounded-lg">
           <div className="text-3xl font-bold text-white mb-1">
             {required.toLocaleString('en-US')}
           </div>
-          <div className="text-xs text-slate-400 uppercase tracking-wide">
-            Required
-          </div>
+          <div className="text-xs text-slate-400 uppercase tracking-wide">Required</div>
         </div>
 
         {/* Transferred */}
@@ -99,13 +87,9 @@ export default function HoursSummaryWidget({
           <div className="text-3xl font-bold text-brand-blue-400 mb-1">
             {transferred.toLocaleString('en-US')}
           </div>
-          <div className="text-xs text-slate-400 uppercase tracking-wide">
-            Transferred
-          </div>
+          <div className="text-xs text-slate-400 uppercase tracking-wide">Transferred</div>
           {transferredPercent > 0 && (
-            <div className="text-xs text-brand-blue-400 mt-1">
-              {transferredPercent.toFixed(1)}%
-            </div>
+            <div className="text-xs text-brand-blue-400 mt-1">{transferredPercent.toFixed(1)}%</div>
           )}
         </div>
 
@@ -114,13 +98,9 @@ export default function HoursSummaryWidget({
           <div className="text-3xl font-bold text-brand-green-400 mb-1">
             {earned.toLocaleString('en-US')}
           </div>
-          <div className="text-xs text-slate-400 uppercase tracking-wide">
-            Earned
-          </div>
+          <div className="text-xs text-slate-400 uppercase tracking-wide">Earned</div>
           {earnedPercent > 0 && (
-            <div className="text-xs text-brand-green-400 mt-1">
-              {earnedPercent.toFixed(1)}%
-            </div>
+            <div className="text-xs text-brand-green-400 mt-1">{earnedPercent.toFixed(1)}%</div>
           )}
         </div>
 
@@ -129,16 +109,13 @@ export default function HoursSummaryWidget({
           <div className="text-3xl font-bold text-brand-orange-400 mb-1">
             {remaining.toLocaleString('en-US')}
           </div>
-          <div className="text-xs text-slate-400 uppercase tracking-wide">
-            Remaining
-          </div>
+          <div className="text-xs text-slate-400 uppercase tracking-wide">Remaining</div>
           {remaining > 0 && (
             <div className="text-xs text-brand-orange-400 mt-1">
               {((remaining / required) * 100).toFixed(1)}%
             </div>
           )}
         </div>
-
       </div>
 
       {/* Status Message */}
@@ -146,9 +123,7 @@ export default function HoursSummaryWidget({
         {remaining <= 0 ? (
           <div className="text-center">
             <div className="text-brand-green-400 text-2xl mb-2">🎉</div>
-            <div className="text-brand-green-400 font-semibold">
-              All required hours completed!
-            </div>
+            <div className="text-brand-green-400 font-semibold">All required hours completed!</div>
             <div className="text-slate-400 text-sm mt-1">
               Student is eligible for program completion
             </div>
@@ -156,9 +131,7 @@ export default function HoursSummaryWidget({
         ) : remaining < required * 0.25 ? (
           <div className="text-center">
             <div className="text-brand-blue-400 text-2xl mb-2">🎯</div>
-            <div className="text-brand-blue-400 font-semibold">
-              Almost there!
-            </div>
+            <div className="text-brand-blue-400 font-semibold">Almost there!</div>
             <div className="text-slate-400 text-sm mt-1">
               Only {remaining} hours remaining ({((remaining / required) * 100).toFixed(1)}%)
             </div>
@@ -166,7 +139,8 @@ export default function HoursSummaryWidget({
         ) : (
           <div className="text-center">
             <div className="text-slate-400 text-sm">
-              <strong className="text-white">{remaining}</strong> hours remaining to complete program
+              <strong className="text-white">{remaining}</strong> hours remaining to complete
+              program
             </div>
             {transferred > 0 && (
               <div className="text-xs text-brand-blue-400 mt-2">
@@ -201,7 +175,6 @@ export default function HoursSummaryWidget({
           </div>
         </div>
       </details>
-
     </div>
   );
 }

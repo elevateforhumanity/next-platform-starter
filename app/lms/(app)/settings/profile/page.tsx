@@ -15,7 +15,9 @@ export const dynamic = 'force-dynamic';
 export default async function ProfileSettingsPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');
@@ -29,8 +31,8 @@ export default async function ProfileSettingsPage() {
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
-      <Link 
-        href="/lms/settings" 
+      <Link
+        href="/lms/settings"
         className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-6"
       >
         <ArrowLeft className="w-4 h-4" />

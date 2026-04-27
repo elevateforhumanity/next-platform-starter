@@ -2,25 +2,27 @@ import { createClient } from '@/lib/supabase/server';
 
 const fallbackTestimonials = [
   {
-    content: "I didn't know where to start. This program showed me exactly what to do, step by step. Now I'm certified and working.",
-    name: "Sarah Johnson",
-    role: "Healthcare Graduate",
+    content:
+      "I didn't know where to start. This program showed me exactly what to do, step by step. Now I'm certified and working.",
+    name: 'Sarah Johnson',
+    role: 'Healthcare Graduate',
   },
   {
-    content: "The training was real. The credentials matter. I got hired two weeks after finishing the program.",
-    name: "Maria Rodriguez",
-    role: "Skilled Trades Graduate",
+    content:
+      'The training was real. The credentials matter. I got hired two weeks after finishing the program.',
+    name: 'Maria Rodriguez',
+    role: 'Skilled Trades Graduate',
   },
   {
-    content: "No cost, no debt, and a real career path. This changed everything for me.",
-    name: "David Chen",
-    role: "Technology Graduate",
-  }
+    content: 'No cost, no debt, and a real career path. This changed everything for me.',
+    name: 'David Chen',
+    role: 'Technology Graduate',
+  },
 ];
 
 export default async function Testimonials() {
   let testimonials = fallbackTestimonials;
-  
+
   try {
     const supabase = await createClient();
     if (supabase) {
@@ -33,7 +35,7 @@ export default async function Testimonials() {
         .limit(3);
 
       if (data && data.length > 0) {
-        testimonials = data.map(t => ({
+        testimonials = data.map((t) => ({
           content: t.quote,
           name: t.name,
           role: t.title || 'Graduate',
@@ -50,7 +52,7 @@ export default async function Testimonials() {
         <h2 className="text-xl md:text-4xl font-bold text-black mb-6 md:mb-16 text-center">
           What Students Say
         </h2>
-        
+
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 md:gap-12">
           {testimonials.map((testimonial, index) => (
             <div key={index} className="bg-gray-50 p-6 md:p-8 rounded-lg">
@@ -61,12 +63,8 @@ export default async function Testimonials() {
                   </span>
                 </div>
                 <div>
-                  <p className="text-lg md:text-xl font-bold text-black">
-                    {testimonial.name}
-                  </p>
-                  <p className="text-base md:text-lg text-black">
-                    {testimonial.role}
-                  </p>
+                  <p className="text-lg md:text-xl font-bold text-black">{testimonial.name}</p>
+                  <p className="text-base md:text-lg text-black">{testimonial.role}</p>
                 </div>
               </div>
               <p className="text-base md:text-xl text-black leading-relaxed text-center">

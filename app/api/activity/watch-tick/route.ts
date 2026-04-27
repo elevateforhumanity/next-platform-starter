@@ -1,7 +1,6 @@
-
-import { NextRequest, NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
-import { getCurrentUser } from "@/lib/auth";
+import { NextRequest, NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
+import { getCurrentUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -15,44 +14,48 @@ async function awardAchievement(
   userId: string,
   code: string,
   label: string,
-  description: string
+  description: string,
 ) {
   // Safe upsert: unique (user_id, code) in DB
-  const { error } = await supabase.from("achievements").upsert(
+  const { error } = await supabase.from('achievements').upsert(
     {
       user_id: userId,
       code,
       label,
       description,
     },
-    { onConflict: "user_id,code" }
+    { onConflict: 'user_id,code' },
   );
 
   if (error) {
-    logger.error("awardAchievement error", error instanceof Error ? error : new Error(String(error)), { code });
+    logger.error(
+      'awardAchievement error',
+      error instanceof Error ? error : new Error(String(error)),
+      { code },
+    );
   }
 }
 
 async function _POST(req: NextRequest) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const user = await getCurrentUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { seconds } = await req.json();
 
   if (
-    typeof seconds !== "number" ||
+    typeof seconds !== 'number' ||
     Number.isNaN(seconds) ||
     seconds <= 0 ||
     seconds > 600 // sanity cap (10 minutes)
   ) {
-    return NextResponse.json({ error: "Invalid seconds" }, { status: 400 });
+    return NextResponse.json({ error: 'Invalid seconds' }, { status: 400 });
   }
 
   const today = new Date().toISOString().slice(0, 10); // YYYY-MM-DD
@@ -69,39 +72,37 @@ async function _POST(req: NextRequest) {
   // best-effort (streak tracking, not financial data) and concurrent writes
   // from the same user are extremely unlikely within the same 8-second window.
   const { data: existingActivity } = await supabase
-    .from("learning_activity")
-    .select("seconds_watched")
-    .eq("user_id", user.id)
-    .eq("activity_date", today)
+    .from('learning_activity')
+    .select('seconds_watched')
+    .eq('user_id', user.id)
+    .eq('activity_date', today)
     .maybeSingle();
 
   const newTotal = (existingActivity?.seconds_watched ?? 0) + seconds;
 
-  const { error: activityError } = await supabase
-    .from("learning_activity")
-    .upsert(
-      {
-        user_id: user.id,
-        activity_date: today,
-        seconds_watched: newTotal,
-      },
-      {
-        onConflict: "user_id,activity_date",
-      }
-    );
+  const { error: activityError } = await supabase.from('learning_activity').upsert(
+    {
+      user_id: user.id,
+      activity_date: today,
+      seconds_watched: newTotal,
+    },
+    {
+      onConflict: 'user_id,activity_date',
+    },
+  );
 
   if (activityError) {
-    logger.error("learning_activity upsert error", activityError);
-    return NextResponse.json({ error: "DB error" }, { status: 500 });
+    logger.error('learning_activity upsert error', activityError);
+    return NextResponse.json({ error: 'DB error' }, { status: 500 });
   }
 
   const secondsToday = newTotal;
 
   // 3) Get goal (default 20 minutes if none)
   const { data: goalRow } = await supabase
-    .from("learning_goals")
-    .select("daily_minutes")
-    .eq("user_id", user.id)
+    .from('learning_goals')
+    .select('daily_minutes')
+    .eq('user_id', user.id)
     .maybeSingle();
 
   const dailyMinutes = goalRow?.daily_minutes ?? 20;
@@ -109,9 +110,9 @@ async function _POST(req: NextRequest) {
 
   // 4) Get or init streak
   const { data: streakRow } = await supabase
-    .from("daily_streaks")
-    .select("id, current_streak, longest_streak, last_active_date")
-    .eq("user_id", user.id)
+    .from('daily_streaks')
+    .select('id, current_streak, longest_streak, last_active_date')
+    .eq('user_id', user.id)
     .maybeSingle();
 
   const todayDate = new Date(today);
@@ -131,7 +132,7 @@ async function _POST(req: NextRequest) {
     longestStreak = currentStreak;
     lastActiveDate = reachedGoalToday ? today : null;
 
-    const { error: insertError } = await supabase.from("daily_streaks").insert({
+    const { error: insertError } = await supabase.from('daily_streaks').insert({
       user_id: user.id,
       current_streak: currentStreak,
       longest_streak: longestStreak,
@@ -139,7 +140,7 @@ async function _POST(req: NextRequest) {
     });
 
     if (insertError) {
-      logger.error("daily_streaks insert error", insertError);
+      logger.error('daily_streaks insert error', insertError);
     }
   } else {
     currentStreak = streakRow.current_streak;
@@ -163,17 +164,17 @@ async function _POST(req: NextRequest) {
       }
 
       const { error: updateError } = await supabase
-        .from("daily_streaks")
+        .from('daily_streaks')
         .update({
           current_streak: currentStreak,
           longest_streak: longestStreak,
           last_active_date: today,
           updated_at: new Date().toISOString(),
         })
-        .eq("user_id", user.id);
+        .eq('user_id', user.id);
 
       if (updateError) {
-        logger.error("daily_streaks update error", updateError);
+        logger.error('daily_streaks update error', updateError);
       }
     }
   }
@@ -186,18 +187,18 @@ async function _POST(req: NextRequest) {
     await awardAchievement(
       supabase,
       user.id,
-      "BIG_DAY_30",
-      "30-Minute Grind",
-      "Completed at least 30 minutes of learning in a single day."
+      'BIG_DAY_30',
+      '30-Minute Grind',
+      'Completed at least 30 minutes of learning in a single day.',
     );
   }
   if (secondsToday >= 60 * 60) {
     await awardAchievement(
       supabase,
       user.id,
-      "BIG_DAY_60",
-      "1-Hour Power Session",
-      "Completed at least 60 minutes of learning in a single day."
+      'BIG_DAY_60',
+      '1-Hour Power Session',
+      'Completed at least 60 minutes of learning in a single day.',
     );
   }
 
@@ -207,27 +208,27 @@ async function _POST(req: NextRequest) {
       await awardAchievement(
         supabase,
         user.id,
-        "STREAK_3",
-        "3-Day Streak",
-        "Hit your daily learning goal 3 days in a row."
+        'STREAK_3',
+        '3-Day Streak',
+        'Hit your daily learning goal 3 days in a row.',
       );
     }
     if (currentStreak >= 7) {
       await awardAchievement(
         supabase,
         user.id,
-        "STREAK_7",
-        "7-Day Streak",
-        "Hit your daily learning goal 7 days in a row."
+        'STREAK_7',
+        '7-Day Streak',
+        'Hit your daily learning goal 7 days in a row.',
       );
     }
     if (currentStreak >= 30) {
       await awardAchievement(
         supabase,
         user.id,
-        "STREAK_30",
-        "30-Day Streak",
-        "Hit your daily learning goal 30 days in a row."
+        'STREAK_30',
+        '30-Day Streak',
+        'Hit your daily learning goal 30 days in a row.',
       );
     }
   }

@@ -10,18 +10,18 @@ interface RAPIDSData {
   dateOfBirth: string;
   gender: string;
   ssnLastFour?: string;
-  
+
   // Demographics (for EEO reporting)
   raceEthnicity: string;
   veteranStatus: boolean;
   disabilityStatus: boolean;
   educationLevel: string;
-  
+
   // Employer (if known)
   employerName?: string;
   employerCity?: string;
   employerState?: string;
-  
+
   // Consent
   rapidsConsent: boolean;
 }
@@ -53,8 +53,8 @@ const EDUCATION_OPTIONS = [
   { value: 'some_college', label: 'Some College, No Degree' },
   { value: 'certificate', label: 'Certificate/Credential' },
   { value: 'associate', label: 'Associate Degree' },
-  { value: 'bachelor', label: 'Bachelor\'s Degree' },
-  { value: 'master_plus', label: 'Master\'s Degree or Higher' },
+  { value: 'bachelor', label: "Bachelor's Degree" },
+  { value: 'master_plus', label: "Master's Degree or Higher" },
 ];
 
 const GENDER_OPTIONS = [
@@ -89,8 +89,9 @@ export function RAPIDSDataCollection({
         <div>
           <h3 className="font-semibold text-slate-900">RAPIDS Registration Information</h3>
           <p className="text-sm text-slate-700 mt-1">
-            As a USDOL Registered Apprenticeship program, we are required to collect this information 
-            for federal reporting. Your data is protected and used only for compliance purposes.
+            As a USDOL Registered Apprenticeship program, we are required to collect this
+            information for federal reporting. Your data is protected and used only for compliance
+            purposes.
           </p>
         </div>
       </div>
@@ -102,8 +103,8 @@ export function RAPIDSDataCollection({
           <div className="text-sm text-brand-blue-800">
             <p className="font-medium">Why do we need this?</p>
             <p className="mt-1">
-              The U.S. Department of Labor requires registered apprenticeship sponsors to report 
-              demographic data for Equal Employment Opportunity (EEO) compliance. This information 
+              The U.S. Department of Labor requires registered apprenticeship sponsors to report
+              demographic data for Equal Employment Opportunity (EEO) compliance. This information
               helps ensure fair access to apprenticeship opportunities.
             </p>
           </div>
@@ -137,8 +138,10 @@ export function RAPIDSDataCollection({
                 required={required}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               >
-                {GENDER_OPTIONS.map(opt => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                {GENDER_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
                 ))}
               </select>
             </div>
@@ -183,8 +186,10 @@ export function RAPIDSDataCollection({
                 required={required}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               >
-                {RACE_ETHNICITY_OPTIONS.map(opt => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                {RACE_ETHNICITY_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
                 ))}
               </select>
             </div>
@@ -198,13 +203,15 @@ export function RAPIDSDataCollection({
                 required={required}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
               >
-                {EDUCATION_OPTIONS.map(opt => (
-                  <option key={opt.value} value={opt.value}>{opt.label}</option>
+                {EDUCATION_OPTIONS.map((opt) => (
+                  <option key={opt.value} value={opt.value}>
+                    {opt.label}
+                  </option>
                 ))}
               </select>
             </div>
           </div>
-          
+
           <div className="mt-4 space-y-3">
             <label className="flex items-center gap-3">
               <input
@@ -213,7 +220,9 @@ export function RAPIDSDataCollection({
                 onChange={(e) => handleChange('veteranStatus', e.target.checked)}
                 className="w-4 h-4 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
               />
-              <span className="text-sm text-slate-900">I am a veteran of the U.S. Armed Forces</span>
+              <span className="text-sm text-slate-900">
+                I am a veteran of the U.S. Armed Forces
+              </span>
             </label>
             <label className="flex items-center gap-3">
               <input
@@ -239,7 +248,7 @@ export function RAPIDSDataCollection({
               {showEmployer ? 'Hide' : 'Add employer'}
             </button>
           </div>
-          
+
           {showEmployer && (
             <div className="grid md:grid-cols-3 gap-4">
               <div>
@@ -255,9 +264,7 @@ export function RAPIDSDataCollection({
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">
-                  City
-                </label>
+                <label className="block text-sm font-medium text-slate-900 mb-1">City</label>
                 <input
                   type="text"
                   value={data.employerCity || ''}
@@ -267,9 +274,7 @@ export function RAPIDSDataCollection({
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">
-                  State
-                </label>
+                <label className="block text-sm font-medium text-slate-900 mb-1">State</label>
                 <input
                   type="text"
                   value={data.employerState || ''}
@@ -294,9 +299,9 @@ export function RAPIDSDataCollection({
               className="w-4 h-4 mt-1 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
             />
             <span className="text-sm text-slate-900">
-              I understand that {programName} is a USDOL Registered Apprenticeship program and 
-              I consent to my information being reported to the Department of Labor for compliance 
-              and EEO purposes. I certify that the information provided is accurate.
+              I understand that {programName} is a USDOL Registered Apprenticeship program and I
+              consent to my information being reported to the Department of Labor for compliance and
+              EEO purposes. I certify that the information provided is accurate.
               <span className="text-brand-red-500"> *</span>
             </span>
           </label>
@@ -304,12 +309,16 @@ export function RAPIDSDataCollection({
       </div>
 
       {/* Validation Status */}
-      {data.rapidsConsent && data.dateOfBirth && data.gender && data.raceEthnicity && data.educationLevel && (
-        <div className="mt-6 flex items-center gap-2 text-brand-green-600">
-          <span className="text-slate-400 flex-shrink-0">•</span>
-          <span className="text-sm font-medium">RAPIDS information complete</span>
-        </div>
-      )}
+      {data.rapidsConsent &&
+        data.dateOfBirth &&
+        data.gender &&
+        data.raceEthnicity &&
+        data.educationLevel && (
+          <div className="mt-6 flex items-center gap-2 text-brand-green-600">
+            <span className="text-slate-400 flex-shrink-0">•</span>
+            <span className="text-sm font-medium">RAPIDS information complete</span>
+          </div>
+        )}
     </div>
   );
 }

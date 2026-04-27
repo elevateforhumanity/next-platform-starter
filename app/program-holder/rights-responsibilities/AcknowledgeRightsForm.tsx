@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -20,7 +20,7 @@ export function AcknowledgeRightsForm() {
 
     if (!agreed) {
       setError(
-        'You must acknowledge that you have read and understood your rights and responsibilities'
+        'You must acknowledge that you have read and understood your rights and responsibilities',
       );
       return;
     }
@@ -64,9 +64,12 @@ export function AcknowledgeRightsForm() {
         <div className="flex items-start gap-4 bg-green-50 border border-green-200 rounded-lg p-5">
           <CheckCircle className="w-6 h-6 text-green-600 flex-shrink-0 mt-0.5" />
           <div>
-            <p className="font-semibold text-green-900">Rights &amp; Responsibilities acknowledged</p>
+            <p className="font-semibold text-green-900">
+              Rights &amp; Responsibilities acknowledged
+            </p>
             <p className="text-green-800 text-sm mt-1 leading-relaxed">
-              Your acknowledgement has been recorded. One last step — upload your required documents below.
+              Your acknowledgement has been recorded. One last step — upload your required documents
+              below.
             </p>
           </div>
         </div>
@@ -85,10 +88,7 @@ export function AcknowledgeRightsForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       <div>
-        <label
-          htmlFor="fullName"
-          className="block text-sm font-medium text-black mb-2"
-        >
+        <label htmlFor="fullName" className="block text-sm font-medium text-black mb-2">
           Full Name *
         </label>
         <input
@@ -103,10 +103,7 @@ export function AcknowledgeRightsForm() {
       </div>
 
       <div>
-        <label
-          htmlFor="title"
-          className="block text-sm font-medium text-black mb-2"
-        >
+        <label htmlFor="title" className="block text-sm font-medium text-black mb-2">
           Title/Position *
         </label>
         <input
@@ -129,10 +126,9 @@ export function AcknowledgeRightsForm() {
             className="mt-1 w-5 h-5 text-brand-blue-600 border-slate-300 rounded focus:ring-2 focus:ring-brand-blue-500"
           />
           <span className="text-black font-medium">
-            I acknowledge that I have read, understood, and agree to uphold my
-            rights and responsibilities as a Program Holder. I understand that
-            failure to meet my responsibilities may result in corrective action
-            or termination of my agreement.
+            I acknowledge that I have read, understood, and agree to uphold my rights and
+            responsibilities as a Program Holder. I understand that failure to meet my
+            responsibilities may result in corrective action or termination of my agreement.
           </span>
         </label>
       </div>

@@ -7,7 +7,8 @@ import { getVideosByCategory } from '@/lib/video/registry';
 
 export const metadata: Metadata = {
   title: 'Product Demos | Elevate For Humanity',
-  description: 'See our training platform in action. Watch demos of the LMS, employer portal, and admin dashboard.',
+  description:
+    'See our training platform in action. Watch demos of the LMS, employer portal, and admin dashboard.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/demos',
   },
@@ -17,7 +18,8 @@ const demos = [
   {
     id: 'demo-lms-overview',
     title: 'LMS Platform Overview',
-    description: 'See how students navigate courses, track progress, earn certificates, and interact with AI tutors.',
+    description:
+      'See how students navigate courses, track progress, earn certificates, and interact with AI tutors.',
     duration: '15 min',
     thumbnail: '/images/pages/tech-classroom.jpg',
     features: [
@@ -34,7 +36,8 @@ const demos = [
   {
     id: 'demo-employer-portal',
     title: 'Employer Portal Demo',
-    description: 'Learn how employers track sponsored employees, post jobs, and access workforce analytics.',
+    description:
+      'Learn how employers track sponsored employees, post jobs, and access workforce analytics.',
     duration: '10 min',
     thumbnail: '/images/pages/features-hero.jpg',
     features: [
@@ -51,7 +54,8 @@ const demos = [
   {
     id: 'demo-admin-dashboard',
     title: 'Admin Dashboard Tour',
-    description: 'Explore the administrative tools for managing programs, students, courses, and compliance.',
+    description:
+      'Explore the administrative tools for managing programs, students, courses, and compliance.',
     duration: '20 min',
     thumbnail: '/images/pages/workforce-training.jpg',
     features: [
@@ -68,7 +72,8 @@ const demos = [
   {
     id: 'demo-course-builder',
     title: 'AI Course Builder',
-    description: 'Watch how to create complete courses with AI-generated content, quizzes, and video lessons.',
+    description:
+      'Watch how to create complete courses with AI-generated content, quizzes, and video lessons.',
     duration: '12 min',
     thumbnail: '/images/pages/philanthropy-hero.jpg',
     features: [
@@ -90,19 +95,32 @@ export default function DemosPage() {
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Demos" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Demos' }]} />
       </div>
-{/* Hero */}
+      {/* Hero */}
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-          <Image src="/images/pages/demos-hero.jpg" alt="Product Demos" fill className="object-cover" priority sizes="100vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src="/images/pages/demos-hero.jpg"
+            alt="Product Demos"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-white py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">See Elevate in Action</h1>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">Watch demos of our training platform or schedule a personalized walkthrough with our team. See how we help organizations train their workforce.</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+              See Elevate in Action
+            </h1>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              Watch demos of our training platform or schedule a personalized walkthrough with our
+              team. See how we help organizations train their workforce.
+            </p>
           </div>
         </div>
       </section>
@@ -111,16 +129,28 @@ export default function DemosPage() {
       <section className="py-4 border-b">
         <div className="max-w-6xl mx-auto px-4">
           <div className="flex flex-wrap gap-3 justify-center">
-            <Link href="/videos" className="px-4 py-2 bg-brand-orange-100 text-brand-orange-800 rounded-full text-sm font-medium hover:bg-brand-orange-200 transition-colors">
+            <Link
+              href="/videos"
+              className="px-4 py-2 bg-brand-orange-100 text-brand-orange-800 rounded-full text-sm font-medium hover:bg-brand-orange-200 transition-colors"
+            >
               Training Videos
             </Link>
-            <Link href="/webinars" className="px-4 py-2 bg-brand-blue-100 text-brand-blue-800 rounded-full text-sm font-medium hover:bg-brand-blue-200 transition-colors">
+            <Link
+              href="/webinars"
+              className="px-4 py-2 bg-brand-blue-100 text-brand-blue-800 rounded-full text-sm font-medium hover:bg-brand-blue-200 transition-colors"
+            >
               Webinars
             </Link>
-            <Link href="/testimonials" className="px-4 py-2 bg-brand-green-100 text-brand-green-800 rounded-full text-sm font-medium hover:bg-brand-green-200 transition-colors">
+            <Link
+              href="/testimonials"
+              className="px-4 py-2 bg-brand-green-100 text-brand-green-800 rounded-full text-sm font-medium hover:bg-brand-green-200 transition-colors"
+            >
               Success Stories
             </Link>
-            <Link href="/store" className="px-4 py-2 bg-brand-blue-100 text-brand-blue-800 rounded-full text-sm font-medium hover:bg-brand-blue-200 transition-colors">
+            <Link
+              href="/store"
+              className="px-4 py-2 bg-brand-blue-100 text-brand-blue-800 rounded-full text-sm font-medium hover:bg-brand-blue-200 transition-colors"
+            >
               Platform Store
             </Link>
           </div>
@@ -131,9 +161,7 @@ export default function DemosPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
-            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">
-              Platform Demos
-            </h2>
+            <h2 className="text-3xl md:text-4xl font-black text-gray-900 mb-4">Platform Demos</h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
               Explore our platform capabilities through these detailed walkthroughs
             </p>
@@ -141,8 +169,8 @@ export default function DemosPage() {
 
           <div className="grid md:grid-cols-2 gap-8">
             {demos.map((demo) => (
-              <div 
-                key={demo.id} 
+              <div
+                key={demo.id}
                 className="bg-white border-2 border-gray-200 rounded-2xl overflow-hidden hover:border-brand-blue-300 hover:shadow-xl transition-all"
               >
                 {/* Thumbnail */}
@@ -152,9 +180,10 @@ export default function DemosPage() {
                     alt={demo.title}
                     fill
                     className="object-cover"
-                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                   <div className="absolute inset-0 bg-white/40 flex items-center justify-center">
-                    <Link 
+                    <Link
                       href={demo.demoUrl}
                       className="w-20 h-20 bg-white/90 rounded-full flex items-center justify-center hover:scale-110 transition-transform"
                     >
@@ -171,7 +200,7 @@ export default function DemosPage() {
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-2">{demo.title}</h3>
                   <p className="text-gray-600 mb-4">{demo.description}</p>
-                  
+
                   <div className="space-y-2 mb-6">
                     {demo.features.slice(0, 3).map((feature, idx) => (
                       <div key={idx} className="flex items-center gap-2 text-sm text-gray-700">
@@ -203,12 +232,10 @@ export default function DemosPage() {
       <section className="py-20 bg-brand-blue-700 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <Users className="w-16 h-16 mx-auto mb-6 text-brand-blue-300" />
-          <h2 className="text-3xl md:text-4xl font-black mb-4">
-            Want a Personalized Demo?
-          </h2>
+          <h2 className="text-3xl md:text-4xl font-black mb-4">Want a Personalized Demo?</h2>
           <p className="text-xl text-white mb-8">
-            Schedule a live walkthrough with our team to see how Elevate can work 
-            for your organization. We&apos;ll customize the demo to your specific needs.
+            Schedule a live walkthrough with our team to see how Elevate can work for your
+            organization. We&apos;ll customize the demo to your specific needs.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -235,9 +262,7 @@ export default function DemosPage() {
             <h2 className="text-3xl font-bold text-gray-900 mb-4">
               What You&apos;ll See in a Live Demo
             </h2>
-            <p className="text-gray-600">
-              Our team will walk you through the entire platform
-            </p>
+            <p className="text-gray-600">Our team will walk you through the entire platform</p>
           </div>
 
           <div className="grid md:grid-cols-3 gap-8">

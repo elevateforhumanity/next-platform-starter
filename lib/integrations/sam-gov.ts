@@ -28,9 +28,9 @@ export async function getEntityByUEI(uei: string): Promise<SAMEntity | null> {
       `https://api.sam.gov/entity-information/v3/entities?ueiSAM=${uei}&api_key=${apiKey}`,
       {
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
         },
-      }
+      },
     );
 
     if (!response.ok) {
@@ -40,7 +40,8 @@ export async function getEntityByUEI(uei: string): Promise<SAMEntity | null> {
 
     const data = await response.json();
     return data.entityData?.[0] || null;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('Error fetching SAM.gov entity:', error);
     return null;
   }
@@ -61,9 +62,9 @@ export async function checkExclusions(uei: string): Promise<boolean> {
       `https://api.sam.gov/entity-information/v3/exclusions?ueiSAM=${uei}&api_key=${apiKey}`,
       {
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
         },
-      }
+      },
     );
 
     if (!response.ok) {
@@ -72,7 +73,8 @@ export async function checkExclusions(uei: string): Promise<boolean> {
 
     const data = await response.json();
     return data.exclusionDetails && data.exclusionDetails.length > 0;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('Error checking SAM.gov exclusions:', error);
     return false;
   }
@@ -93,9 +95,9 @@ export async function searchEntities(name: string): Promise<SAMEntity[]> {
       `https://api.sam.gov/entity-information/v3/entities?legalBusinessName=${encodeURIComponent(name)}&api_key=${apiKey}`,
       {
         headers: {
-          'Accept': 'application/json',
+          Accept: 'application/json',
         },
-      }
+      },
     );
 
     if (!response.ok) {
@@ -104,7 +106,8 @@ export async function searchEntities(name: string): Promise<SAMEntity[]> {
 
     const data = await response.json();
     return data.entityData || [];
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('Error searching SAM.gov entities:', error);
     return [];
   }

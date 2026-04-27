@@ -3,7 +3,6 @@
 // Simple production readiness check
 import fs from 'fs';
 
-
 // Test all the actual security features
 const serverContent = fs.readFileSync('./simple-server.cjs', 'utf8');
 const packageContent = JSON.parse(fs.readFileSync('./package.json', 'utf8'));
@@ -41,22 +40,18 @@ const checks = [
   },
   {
     name: 'Structured logging (Pino)',
-    passed:
-      serverContent.includes('pino') && serverContent.includes('pinoHttp'),
+    passed: serverContent.includes('pino') && serverContent.includes('pinoHttp'),
     critical: false,
   },
   {
     name: 'Request ID tracking',
-    passed:
-      serverContent.includes('req.id') &&
-      serverContent.includes('X-Request-ID'),
+    passed: serverContent.includes('req.id') && serverContent.includes('X-Request-ID'),
     critical: false,
   },
   {
     name: 'Security dependencies',
     passed:
-      packageContent.dependencies?.helmet &&
-      packageContent.dependencies?.['express-rate-limit'],
+      packageContent.dependencies?.helmet && packageContent.dependencies?.['express-rate-limit'],
     critical: false,
   },
 ];
@@ -72,7 +67,6 @@ checks.forEach((check) => {
 
 const score = Math.round((passed / checks.length) * 100);
 const ready = critical === 0;
-
 
 if (critical > 0) {
 }

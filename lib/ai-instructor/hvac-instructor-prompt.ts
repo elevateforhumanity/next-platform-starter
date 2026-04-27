@@ -7,7 +7,10 @@
  * actual instructor rather than a generic chatbot.
  */
 
-import { HVAC_LESSON_NUMBER_TO_DEF_ID, getModuleIdForLessonNumber } from '@/lib/courses/hvac-lesson-number-map';
+import {
+  HVAC_LESSON_NUMBER_TO_DEF_ID,
+  getModuleIdForLessonNumber,
+} from '@/lib/courses/hvac-lesson-number-map';
 import { loadJsonOnce } from '@/lib/data/json-cache';
 
 const getProceduresByModule = (_moduleId: string): any[] => [];
@@ -34,7 +37,9 @@ export function buildMarcusSystemPrompt(ctx: LessonContext): string {
   // Cached per process — parsed once, reused across requests
   const HVAC_LESSON_CONTENT = loadJsonOnce<Record<string, any>>('hvac-lesson-content.json');
   const HVAC_QUIZ_BANKS = loadJsonOnce<Record<string, any>>('hvac-quiz-banks.json');
-  const { EPA608_STUDY_TOPICS } = loadJsonOnce<{ EPA608_STUDY_TOPICS: any[] }>('hvac-epa608-prep.json');
+  const { EPA608_STUDY_TOPICS } = loadJsonOnce<{ EPA608_STUDY_TOPICS: any[] }>(
+    'hvac-epa608-prep.json',
+  );
   const HVAC_SERVICE_SCENARIOS = loadJsonOnce<any[]>('hvac-service-scenarios.json');
 
   const lessonContent = defId ? HVAC_LESSON_CONTENT[defId] : null;
@@ -47,10 +52,15 @@ export function buildMarcusSystemPrompt(ctx: LessonContext): string {
   // EPA 608 topics for modules 6-9
   const modNum = moduleId ? parseInt(moduleId.replace('hvac-', ''), 10) : 0;
   const epaSection =
-    modNum === 6 ? 'core' :
-    modNum === 7 ? 'type1' :
-    modNum === 8 ? 'type2' :
-    modNum === 9 ? 'type3' : null;
+    modNum === 6
+      ? 'core'
+      : modNum === 7
+        ? 'type1'
+        : modNum === 8
+          ? 'type2'
+          : modNum === 9
+            ? 'type3'
+            : null;
   const epaTopics = epaSection
     ? EPA608_STUDY_TOPICS.filter((t: any) => t.section === epaSection)
     : [];
@@ -99,18 +109,26 @@ ${lessonContent.watchFor.map((w) => `- ${w}`).join('\n')}
     prompt += `
 ## Quiz Questions You Can Use to Test the Student
 Use these to check understanding. Ask them one at a time. Do not reveal the answer until the student attempts it.
-${quizQuestions.slice(0, 5).map((q, i) =>
-  `${i + 1}. ${q.question}\n   Options: ${q.options.join(' | ')}\n   Correct: ${q.options[q.answer]}\n   Why: ${q.explanation}`
-).join('\n\n')}
+${quizQuestions
+  .slice(0, 5)
+  .map(
+    (q, i) =>
+      `${i + 1}. ${q.question}\n   Options: ${q.options.join(' | ')}\n   Correct: ${q.options[q.answer]}\n   Why: ${q.explanation}`,
+  )
+  .join('\n\n')}
 `;
   }
 
   if (procedures.length > 0) {
     prompt += `
 ## Procedures Relevant to This Lesson
-${procedures.slice(0, 2).map((p) =>
-  `### ${p.title}\nWhen: ${p.whenToPerform}\nTools: ${p.toolsRequired.join(', ')}\nSteps:\n${p.steps.map((s) => `  ${s.step}. ${s.action} — ${s.detail}${s.warning ? ` ⚠ ${s.warning}` : ''}`).join('\n')}\nCommon mistakes: ${p.commonMistakes.join('; ')}`
-).join('\n\n')}
+${procedures
+  .slice(0, 2)
+  .map(
+    (p) =>
+      `### ${p.title}\nWhen: ${p.whenToPerform}\nTools: ${p.toolsRequired.join(', ')}\nSteps:\n${p.steps.map((s) => `  ${s.step}. ${s.action} — ${s.detail}${s.warning ? ` ⚠ ${s.warning}` : ''}`).join('\n')}\nCommon mistakes: ${p.commonMistakes.join('; ')}`,
+  )
+  .join('\n\n')}
 `;
   }
 
@@ -118,18 +136,26 @@ ${procedures.slice(0, 2).map((p) =>
     prompt += `
 ## Service Call Scenarios You Can Walk Students Through
 Present these as real calls. Have the student diagnose before you reveal the answer.
-${scenarios.slice(0, 2).map((s) =>
-  `### Scenario: ${s.complaint}\nConditions: ${s.conditions}\nSystem: ${s.systemInfo}\nRoot cause: ${s.rootCause}\nCorrect repair: ${s.correctRepair}\nCommon mistakes: ${s.commonMistakes.join('; ')}`
-).join('\n\n')}
+${scenarios
+  .slice(0, 2)
+  .map(
+    (s) =>
+      `### Scenario: ${s.complaint}\nConditions: ${s.conditions}\nSystem: ${s.systemInfo}\nRoot cause: ${s.rootCause}\nCorrect repair: ${s.correctRepair}\nCommon mistakes: ${s.commonMistakes.join('; ')}`,
+  )
+  .join('\n\n')}
 `;
   }
 
   if (epaTopics.length > 0) {
     prompt += `
 ## EPA 608 Study Content for This Module
-${epaTopics.slice(0, 4).map((t) =>
-  `### ${t.title} (${t.examWeight} priority)\n${t.content}\nKey facts:\n${t.keyFacts.map((f) => `- ${f}`).join('\n')}`
-).join('\n\n')}
+${epaTopics
+  .slice(0, 4)
+  .map(
+    (t) =>
+      `### ${t.title} (${t.examWeight} priority)\n${t.content}\nKey facts:\n${t.keyFacts.map((f) => `- ${f}`).join('\n')}`,
+  )
+  .join('\n\n')}
 `;
   }
 

@@ -19,7 +19,8 @@ async function _POST(req: Request) {
   // Verify internal caller — reject any request without the shared secret.
   // This prevents the route from being used as an open email relay.
   const secret = process.env.CRON_SECRET;
-  const provided = (req as any).headers?.get?.('x-internal-secret') ??
+  const provided =
+    (req as any).headers?.get?.('x-internal-secret') ??
     (req as Request).headers.get('x-internal-secret');
   if (!secret || provided !== secret) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -41,7 +42,7 @@ async function _POST(req: Request) {
     if (!to || !subject || (!html && !text)) {
       return NextResponse.json(
         { error: 'Missing required fields: to, subject, and html or text' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -72,10 +73,7 @@ async function _POST(req: Request) {
       });
     }
 
-    return NextResponse.json(
-      { error: 'Unexpected error sending email' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Unexpected error sending email' }, { status: 500 });
   }
 }
 export const POST = withRuntime(withApiAudit('/api/email/send', _POST));

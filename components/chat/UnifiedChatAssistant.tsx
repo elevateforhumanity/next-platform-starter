@@ -1,7 +1,18 @@
 'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
-import { MessageCircle, X, Send, Loader2, Bot, User, Minimize2, Maximize2, Volume2, VolumeX } from 'lucide-react';
+import {
+  MessageCircle,
+  X,
+  Send,
+  Loader2,
+  Bot,
+  User,
+  Minimize2,
+  Maximize2,
+  Volume2,
+  VolumeX,
+} from 'lucide-react';
 import { getAssistantScript, AssistantScript, QuickAction } from '@/lib/chat/scripts';
 
 interface Message {
@@ -21,10 +32,10 @@ interface UnifiedChatAssistantProps {
 
 /**
  * Unified Chat Assistant
- * 
+ *
  * Single chat component that loads behavior from the canonical script registry.
  * Supports multiple assistant personalities via assistantId prop.
- * 
+ *
  * Usage:
  * <UnifiedChatAssistant assistantId="elevate-main" />
  * <UnifiedChatAssistant assistantId="lms-tutor" />
@@ -44,7 +55,9 @@ export default function UnifiedChatAssistant({
   const [isLoading, setIsLoading] = useState(false);
   const [script, setScript] = useState<AssistantScript | null>(null);
   const [scriptError, setScriptError] = useState<string | null>(null);
-  const [sessionId] = useState(() => `chat_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`);
+  const [sessionId] = useState(
+    () => `chat_${Date.now()}_${Math.random().toString(36).substring(2, 9)}`,
+  );
   const [soundEnabled, setSoundEnabled] = useState(true);
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
@@ -52,7 +65,7 @@ export default function UnifiedChatAssistant({
   // Load script from registry
   useEffect(() => {
     const loadedScript = getAssistantScript(assistantId, 'prod');
-    
+
     if (!loadedScript) {
       setScriptError(`Assistant script "${assistantId}" not found or inactive`);
       console.error(`Failed to load assistant script: ${assistantId}`);
@@ -66,12 +79,14 @@ export default function UnifiedChatAssistant({
 
     // Set initial greeting
     if (loadedScript.greeting) {
-      setMessages([{
-        id: 'greeting',
-        role: 'assistant',
-        content: loadedScript.greeting,
-        timestamp: new Date(),
-      }]);
+      setMessages([
+        {
+          id: 'greeting',
+          role: 'assistant',
+          content: loadedScript.greeting,
+          timestamp: new Date(),
+        },
+      ]);
     }
   }, [assistantId, sessionId]);
 
@@ -101,98 +116,109 @@ export default function UnifiedChatAssistant({
   }, [soundEnabled]);
 
   // Send message to AI
-  const sendMessage = useCallback(async (content: string) => {
-    if (!content.trim() || !script) return;
+  const sendMessage = useCallback(
+    async (content: string) => {
+      if (!content.trim() || !script) return;
 
-    const userMessage: Message = {
-      id: `user_${Date.now()}`,
-      role: 'user',
-      content: content.trim(),
-      timestamp: new Date(),
-    };
+      const userMessage: Message = {
+        id: `user_${Date.now()}`,
+        role: 'user',
+        content: content.trim(),
+        timestamp: new Date(),
+      };
 
-    setMessages(prev => [...prev, userMessage]);
-    setInput('');
-    setIsLoading(true);
-    onMessage?.(userMessage);
+      setMessages((prev) => [...prev, userMessage]);
+      setInput('');
+      setIsLoading(true);
+      onMessage?.(userMessage);
 
-    try {
-      // Check for escalation triggers
-      const escalationRule = script.escalation_rules.find(rule =>
-        content.toLowerCase().includes(rule.trigger.toLowerCase())
-      );
+      try {
+        // Check for escalation triggers
+        const escalationRule = script.escalation_rules.find((rule) =>
+          content.toLowerCase().includes(rule.trigger.toLowerCase()),
+        );
 
-      if (escalationRule) {
-        const escalationMessage: Message = {
+        if (escalationRule) {
+          const escalationMessage: Message = {
+            id: `assistant_${Date.now()}`,
+            role: 'assistant',
+            content: escalationRule.message,
+            timestamp: new Date(),
+          };
+          setMessages((prev) => [...prev, escalationMessage]);
+          playSound();
+          onMessage?.(escalationMessage);
+          setIsLoading(false);
+          return;
+        }
+
+        // Build conversation history for API
+        const conversationHistory = messages.slice(-10).map((m) => ({
+          role: m.role === 'assistant' ? 'assistant' : 'user',
+          content: m.content,
+        }));
+
+        // Add the new user message
+        conversationHistory.push({
+          role: 'user',
+          content: content,
+        });
+
+        // Call public AI chat API (no auth required)
+        const response = await fetch('/api/ai-chat', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: conversationHistory,
+          }),
+        });
+
+        if (!response.ok) {
+          throw new Error('Failed to get response');
+        }
+
+        const data = await response.json();
+
+        const assistantMessage: Message = {
           id: `assistant_${Date.now()}`,
           role: 'assistant',
-          content: escalationRule.message,
+          content:
+            data.reply ||
+            data.response ||
+            data.message ||
+            "I'm sorry, I couldn't process that request. Please try again.",
           timestamp: new Date(),
         };
-        setMessages(prev => [...prev, escalationMessage]);
+
+        setMessages((prev) => [...prev, assistantMessage]);
         playSound();
-        onMessage?.(escalationMessage);
+        onMessage?.(assistantMessage);
+      } catch (error) {
+        console.error('Chat error:', error);
+
+        const errorMessage: Message = {
+          id: `error_${Date.now()}`,
+          role: 'assistant',
+          content:
+            "I'm having trouble connecting right now. Please try again in a moment, or contact us at (317) 314-3757 for immediate assistance.",
+          timestamp: new Date(),
+        };
+
+        setMessages((prev) => [...prev, errorMessage]);
+      } finally {
         setIsLoading(false);
-        return;
       }
-
-      // Build conversation history for API
-      const conversationHistory = messages.slice(-10).map(m => ({
-        role: m.role === 'assistant' ? 'assistant' : 'user',
-        content: m.content,
-      }));
-
-      // Add the new user message
-      conversationHistory.push({
-        role: 'user',
-        content: content,
-      });
-
-      // Call public AI chat API (no auth required)
-      const response = await fetch('/api/ai-chat', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: conversationHistory,
-        }),
-      });
-
-      if (!response.ok) {
-        throw new Error('Failed to get response');
-      }
-
-      const data = await response.json();
-      
-      const assistantMessage: Message = {
-        id: `assistant_${Date.now()}`,
-        role: 'assistant',
-        content: data.reply || data.response || data.message || "I'm sorry, I couldn't process that request. Please try again.",
-        timestamp: new Date(),
-      };
-
-      setMessages(prev => [...prev, assistantMessage]);
-      playSound();
-      onMessage?.(assistantMessage);
-    } catch (error) {
-      console.error('Chat error:', error);
-      
-      const errorMessage: Message = {
-        id: `error_${Date.now()}`,
-        role: 'assistant',
-        content: "I'm having trouble connecting right now. Please try again in a moment, or contact us at (317) 314-3757 for immediate assistance.",
-        timestamp: new Date(),
-      };
-      
-      setMessages(prev => [...prev, errorMessage]);
-    } finally {
-      setIsLoading(false);
-    }
-  }, [script, messages, sessionId, onMessage, playSound]);
+    },
+    [script, messages, sessionId, onMessage, playSound],
+  );
 
   // Handle quick action click
-  const handleQuickAction = useCallback((action: QuickAction) => {
-    sendMessage(action.label);
-  }, [sendMessage]);
+  const handleQuickAction = useCallback(
+    (action: QuickAction) => {
+      sendMessage(action.label);
+    },
+    [sendMessage],
+  );
 
   // Handle form submit
   const handleSubmit = (e: React.FormEvent) => {
@@ -204,7 +230,7 @@ export default function UnifiedChatAssistant({
   const positionClasses = {
     'bottom-right': 'fixed bottom-4 right-4 z-50',
     'bottom-left': 'fixed bottom-4 left-4 z-50',
-    'inline': 'relative',
+    inline: 'relative',
   };
 
   // Error state - don't render if script failed to load
@@ -262,7 +288,11 @@ export default function UnifiedChatAssistant({
                 className="p-1.5 hover:bg-white/20 rounded-lg transition-colors"
                 aria-label={isMinimized ? 'Expand' : 'Minimize'}
               >
-                {isMinimized ? <Maximize2 className="w-4 h-4" /> : <Minimize2 className="w-4 h-4" />}
+                {isMinimized ? (
+                  <Maximize2 className="w-4 h-4" />
+                ) : (
+                  <Minimize2 className="w-4 h-4" />
+                )}
               </button>
               {position !== 'inline' && (
                 <button
@@ -309,7 +339,10 @@ export default function UnifiedChatAssistant({
                           message.role === 'user' ? 'text-white' : 'text-slate-700'
                         }`}
                       >
-                        {message.timestamp.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                        {message.timestamp.toLocaleTimeString([], {
+                          hour: '2-digit',
+                          minute: '2-digit',
+                        })}
                       </p>
                     </div>
                   </div>

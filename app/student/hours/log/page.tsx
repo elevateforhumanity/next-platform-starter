@@ -11,11 +11,11 @@ export const dynamic = 'force-dynamic';
 export default function LogHoursPage() {
   const router = useRouter();
   const supabase = createClient();
-  const [formData, setFormData] = useState({ 
-    date: new Date().toISOString().split('T')[0], 
-    hours: '', 
-    activity: '', 
-    notes: '' 
+  const [formData, setFormData] = useState({
+    date: new Date().toISOString().split('T')[0],
+    hours: '',
+    activity: '',
+    notes: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [error, setError] = useState('');
@@ -23,19 +23,21 @@ export default function LogHoursPage() {
   const [user, setUser] = useState<any>(null);
 
   const activities = [
-    'Classroom Training', 
-    'Lab Practice', 
-    'Online Coursework', 
-    'Study Time', 
-    'Assessment/Testing', 
+    'Classroom Training',
+    'Lab Practice',
+    'Online Coursework',
+    'Study Time',
+    'Assessment/Testing',
     'Clinical Hours',
     'Hands-on Practice',
-    'Other'
+    'Other',
   ];
 
   useEffect(() => {
     const getUser = async () => {
-      const { data: { user } } = await supabase?.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase?.auth.getUser();
       setUser(user);
     };
     getUser();
@@ -44,7 +46,7 @@ export default function LogHoursPage() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
-    
+
     if (!formData.date || !formData.hours || !formData.activity) {
       setError('Please fill in all required fields');
       return;
@@ -60,23 +62,21 @@ export default function LogHoursPage() {
 
     try {
       if (!user) {
-        await new Promise(resolve => setTimeout(resolve, 1000));
+        await new Promise((resolve) => setTimeout(resolve, 1000));
         setSuccess(true);
         setTimeout(() => router.push('/student/hours'), 1500);
         return;
       }
 
-      const { error: insertError } = await supabase
-        .from('training_hours')
-        .insert({
-          user_id: user.id,
-          date: formData.date,
-          hours: hours,
-          activity_type: formData.activity,
-          description: formData.notes || null,
-          hour_type: 'training',
-          status: 'pending'
-        });
+      const { error: insertError } = await supabase.from('training_hours').insert({
+        user_id: user.id,
+        date: formData.date,
+        hours: hours,
+        activity_type: formData.activity,
+        description: formData.notes || null,
+        hour_type: 'training',
+        status: 'pending',
+      });
 
       if (insertError) {
         console.error('Insert error:', insertError);
@@ -104,7 +104,9 @@ export default function LogHoursPage() {
         <div className="max-w-md w-full bg-white rounded-xl shadow-lg p-8 text-center">
           <CheckCircle className="w-16 h-16 text-green-600 mx-auto mb-4" />
           <h1 className="text-2xl font-bold text-gray-900 mb-2">Hours Logged!</h1>
-          <p className="text-gray-600 mb-4">Your training hours have been submitted for approval.</p>
+          <p className="text-gray-600 mb-4">
+            Your training hours have been submitted for approval.
+          </p>
           <p className="text-sm text-gray-500">Redirecting to hours dashboard...</p>
         </div>
       </div>
@@ -116,11 +118,17 @@ export default function LogHoursPage() {
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <nav className="flex items-center text-sm text-gray-600">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">
+              Home
+            </Link>
             <span className="mx-2">/</span>
-            <Link href="/student" className="hover:text-blue-600">Student Portal</Link>
+            <Link href="/student" className="hover:text-blue-600">
+              Student Portal
+            </Link>
             <span className="mx-2">/</span>
-            <Link href="/student/hours" className="hover:text-blue-600">Hours</Link>
+            <Link href="/student/hours" className="hover:text-blue-600">
+              Hours
+            </Link>
             <span className="mx-2">/</span>
             <span className="text-gray-900 font-medium">Log Hours</span>
           </nav>
@@ -128,7 +136,10 @@ export default function LogHoursPage() {
       </div>
 
       <div className="max-w-2xl mx-auto px-4 py-8">
-        <Link href="/student/hours" className="inline-flex items-center text-gray-600 hover:text-blue-600 mb-6">
+        <Link
+          href="/student/hours"
+          className="inline-flex items-center text-gray-600 hover:text-blue-600 mb-6"
+        >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Hours
         </Link>
@@ -157,27 +168,27 @@ export default function LogHoursPage() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Date <span className="text-red-500">*</span>
                 </label>
-                <input 
-                  type="date" 
-                  value={formData.date} 
+                <input
+                  type="date"
+                  value={formData.date}
                   onChange={(e) => setFormData({ ...formData, date: e.target.value })}
                   max={new Date().toISOString().split('T')[0]}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
               </div>
               <div>
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   Hours <span className="text-red-500">*</span>
                 </label>
-                <input 
-                  type="number" 
-                  min="0.5" 
-                  max="24" 
-                  step="0.5" 
+                <input
+                  type="number"
+                  min="0.5"
+                  max="24"
+                  step="0.5"
                   value={formData.hours}
                   onChange={(e) => setFormData({ ...formData, hours: e.target.value })}
                   placeholder="Enter hours (e.g., 4)"
-                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500" 
+                  className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
                 />
                 <p className="mt-1 text-xs text-gray-500">Enter between 0.5 and 24 hours</p>
               </div>
@@ -187,14 +198,16 @@ export default function LogHoursPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Activity Type <span className="text-red-500">*</span>
               </label>
-              <select 
-                value={formData.activity} 
+              <select
+                value={formData.activity}
                 onChange={(e) => setFormData({ ...formData, activity: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
               >
                 <option value="">Select activity type</option>
                 {activities.map((a) => (
-                  <option key={a} value={a}>{a}</option>
+                  <option key={a} value={a}>
+                    {a}
+                  </option>
                 ))}
               </select>
             </div>
@@ -203,12 +216,12 @@ export default function LogHoursPage() {
               <label className="block text-sm font-medium text-gray-700 mb-2">
                 Notes (Optional)
               </label>
-              <textarea 
-                value={formData.notes} 
+              <textarea
+                value={formData.notes}
                 onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
-                rows={4} 
+                rows={4}
                 placeholder="Describe what you worked on during this time..."
-                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none" 
+                className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 resize-none"
               />
             </div>
 
@@ -223,15 +236,25 @@ export default function LogHoursPage() {
             </div>
 
             <div className="flex items-center justify-end gap-4 pt-4 border-t">
-              <Link href="/student/hours" className="px-6 py-3 text-gray-700 hover:text-gray-900 font-medium">
+              <Link
+                href="/student/hours"
+                className="px-6 py-3 text-gray-700 hover:text-gray-900 font-medium"
+              >
                 Cancel
               </Link>
-              <button 
-                type="submit" 
+              <button
+                type="submit"
                 disabled={isSubmitting}
                 className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-bold transition inline-flex items-center disabled:opacity-50 disabled:cursor-not-allowed"
               >
-                {isSubmitting ? 'Saving...' : <><Save className="w-5 h-5 mr-2" />Save Hours</>}
+                {isSubmitting ? (
+                  'Saving...'
+                ) : (
+                  <>
+                    <Save className="w-5 h-5 mr-2" />
+                    Save Hours
+                  </>
+                )}
               </button>
             </div>
           </form>

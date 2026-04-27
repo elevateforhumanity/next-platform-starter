@@ -1,6 +1,6 @@
 /**
  * Pathway Disclosure Component
- * 
+ *
  * Required on:
  * - Homepage (under "How It Works")
  * - Every program page (above primary CTA)
@@ -25,16 +25,12 @@ const COMPACT_DISCLOSURE = `This program is part of the Elevate for Humanity Car
 // Inline version for headers/banners
 const INLINE_DISCLOSURE = `All programs require eligibility screening before enrollment.`;
 
-export default function PathwayDisclosure({ 
-  variant = 'full', 
-  className = '' 
+export default function PathwayDisclosure({
+  variant = 'full',
+  className = '',
 }: PathwayDisclosureProps) {
   if (variant === 'inline') {
-    return (
-      <p className={`text-sm text-slate-700 ${className}`}>
-        {INLINE_DISCLOSURE}
-      </p>
-    );
+    return <p className={`text-sm text-slate-700 ${className}`}>{INLINE_DISCLOSURE}</p>;
   }
 
   if (variant === 'compact') {
@@ -42,9 +38,7 @@ export default function PathwayDisclosure({
       <div className={`bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 ${className}`}>
         <div className="flex items-start gap-3">
           <Shield className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
-          <p className="text-sm text-brand-blue-800">
-            {COMPACT_DISCLOSURE}
-          </p>
+          <p className="text-sm text-brand-blue-800">{COMPACT_DISCLOSURE}</p>
         </div>
       </div>
     );
@@ -59,9 +53,7 @@ export default function PathwayDisclosure({
         </div>
         <div>
           <h4 className="font-bold text-slate-900 mb-2">Career Pathway Disclosure</h4>
-          <p className="text-sm text-slate-900 leading-relaxed">
-            {FULL_DISCLOSURE}
-          </p>
+          <p className="text-sm text-slate-900 leading-relaxed">{FULL_DISCLOSURE}</p>
         </div>
       </div>
     </div>

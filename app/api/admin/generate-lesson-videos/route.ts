@@ -36,9 +36,19 @@ export const maxDuration = 300;
 
 function getSynthesiaAvatarForCourse(courseName: string): string {
   const name = courseName.toLowerCase();
-  if (name.includes('health') || name.includes('cna') || name.includes('medical') || name.includes('cpr'))
+  if (
+    name.includes('health') ||
+    name.includes('cna') ||
+    name.includes('medical') ||
+    name.includes('cpr')
+  )
     return 'anna_costume1_cameraA';
-  if (name.includes('trade') || name.includes('hvac') || name.includes('welding') || name.includes('cdl'))
+  if (
+    name.includes('trade') ||
+    name.includes('hvac') ||
+    name.includes('welding') ||
+    name.includes('cdl')
+  )
     return 'jack_costume1_cameraA';
   if (name.includes('tech') || name.includes('cyber') || name.includes('it '))
     return 'bridget_costume1_cameraA';
@@ -78,7 +88,7 @@ let soraSkip = false;
 async function generateForLesson(
   lesson: any,
   courseName: string,
-  supabase: any
+  supabase: any,
 ): Promise<{ success: boolean; videoUrl?: string; method?: string; error?: string }> {
   const script = buildScript(lesson, courseName);
   const instructor = getInstructorForCourse(courseName);
@@ -91,7 +101,8 @@ async function generateForLesson(
       logger.info(`[VideoGen] Synthesia: "${lesson.title}" (${avatarId})`);
       const result = await generateSynthesiaVideo(script, avatarId);
 
-      await supabase.from('training_lessons')
+      await supabase
+        .from('training_lessons')
         .update({ video_url: result.videoUrl, updated_at: new Date().toISOString() })
         .eq('id', lesson.id);
 
@@ -116,7 +127,8 @@ async function generateForLesson(
       const audioDataUrl = `data:audio/mp3;base64,${audioBase64}`;
       const result = await generateDIDVideo(script, instructor.avatar, audioDataUrl);
 
-      await supabase.from('training_lessons')
+      await supabase
+        .from('training_lessons')
         .update({ video_url: result.videoUrl, updated_at: new Date().toISOString() })
         .eq('id', lesson.id);
 
@@ -139,7 +151,8 @@ async function generateForLesson(
       logger.info(`[VideoGen] Sora: "${lesson.title}"`);
       const result = await generateSoraVideo(prompt, '8', '1280x720');
 
-      await supabase.from('training_lessons')
+      await supabase
+        .from('training_lessons')
         .update({ video_url: result.videoUrl, updated_at: new Date().toISOString() })
         .eq('id', lesson.id);
 
@@ -167,7 +180,8 @@ async function generateForLesson(
     await generateNaturalVoiceover(script, voice, instructor.id, outputPath);
     const audioUrl = `/hvac/audio/${filename}`;
 
-    await supabase.from('training_lessons')
+    await supabase
+      .from('training_lessons')
       .update({ video_url: audioUrl, updated_at: new Date().toISOString() })
       .eq('id', lesson.id);
 
@@ -188,7 +202,8 @@ async function generateForLesson(
     await generateVoiceover(script, voice as any, outputPath);
     const audioUrl = `/hvac/audio/${filename}`;
 
-    await supabase.from('training_lessons')
+    await supabase
+      .from('training_lessons')
       .update({ video_url: audioUrl, updated_at: new Date().toISOString() })
       .eq('id', lesson.id);
 
@@ -210,9 +225,10 @@ async function generateForLesson(
       title: lesson.title,
       moduleTitle: lesson.module_title || courseName,
       objective: lesson.objective || lesson.title,
-      keyPoints: Array.isArray(lesson.key_points) && lesson.key_points.length
-        ? lesson.key_points
-        : (lesson.content || '').split(/\.\s+/).filter(Boolean).slice(0, 5),
+      keyPoints:
+        Array.isArray(lesson.key_points) && lesson.key_points.length
+          ? lesson.key_points
+          : (lesson.content || '').split(/\.\s+/).filter(Boolean).slice(0, 5),
       example: lesson.example || lesson.content?.substring(0, 300) || '',
       summary: lesson.summary || lesson.content?.substring(0, 150) || lesson.title,
       quizTeaser: 'Complete the knowledge check to continue.',
@@ -222,7 +238,8 @@ async function generateForLesson(
     });
 
     if (result.success && result.videoUrl) {
-      await supabase.from('training_lessons')
+      await supabase
+        .from('training_lessons')
         .update({ video_url: result.videoUrl, updated_at: new Date().toISOString() })
         .eq('id', lesson.id);
 
@@ -244,10 +261,16 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-    const { data: _roleProfile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    const { data: _roleProfile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
     if (!_roleProfile || !['admin', 'super_admin', 'staff'].includes(_roleProfile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
@@ -294,18 +317,28 @@ async function _POST(request: NextRequest) {
       const courseName = lesson.training_courses?.course_name || 'Course';
       const result = await generateForLesson(lesson, courseName, supabase);
       results.push({ lessonId: lesson.id, title: lesson.title, course: courseName, ...result });
-      await new Promise(resolve => setTimeout(resolve, 1500));
+      await new Promise((resolve) => setTimeout(resolve, 1500));
     }
 
-    const successful = results.filter(r => r.success).length;
-    const failed = results.filter(r => !r.success).length;
+    const successful = results.filter((r) => r.success).length;
+    const failed = results.filter((r) => !r.success).length;
     const methods: Record<string, number> = {};
     for (const r of results) {
       if (r.method) methods[r.method] = (methods[r.method] || 0) + 1;
     }
 
-    const { data: { user: actor } } = await supabase.auth.getUser();
-    if (actor) await logAdminAudit({ action: AdminAction.LESSON_VIDEO_GENERATED, actorId: actor.id, entityType: 'training_lessons', entityId: BULK_ENTITY_ID, metadata: { generated: successful, failed, methods }, req: request });
+    const {
+      data: { user: actor },
+    } = await supabase.auth.getUser();
+    if (actor)
+      await logAdminAudit({
+        action: AdminAction.LESSON_VIDEO_GENERATED,
+        actorId: actor.id,
+        entityType: 'training_lessons',
+        entityId: BULK_ENTITY_ID,
+        metadata: { generated: successful, failed, methods },
+        req: request,
+      });
 
     return NextResponse.json({
       success: true,
@@ -316,7 +349,6 @@ async function _POST(request: NextRequest) {
       services: getAvailableServices(),
       results,
     });
-
   } catch (error) {
     logger.error('[VideoGen] Route error', error instanceof Error ? error : undefined);
     return NextResponse.json({ error: 'Failed to generate videos' }, { status: 500 });
@@ -361,10 +393,9 @@ async function _GET(request: NextRequest) {
       withMp3Only: withMp3 || 0,
       withoutMedia: noMedia || 0,
       needsGeneration: needsGen,
-      percentComplete: total ? Math.round(realVideos / total * 100) : 0,
+      percentComplete: total ? Math.round((realVideos / total) * 100) : 0,
       services: getAvailableServices(),
     });
-
   } catch (error) {
     return NextResponse.json({ error: 'Failed to get status' }, { status: 500 });
   }

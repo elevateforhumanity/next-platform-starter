@@ -12,7 +12,8 @@ async function generateScenes() {
   const result = await lessonToScenes({
     title: 'Introduction to HVAC Systems',
     content: lessonScript,
-    description: 'Module 1: Learn the major components of a residential HVAC condenser unit and how technicians inspect them during service calls.',
+    description:
+      'Module 1: Learn the major components of a residential HVAC condenser unit and how technicians inspect them during service calls.',
     lessonNumber: 1,
     courseName: 'HVAC Technician Training',
     courseCategory: 'hvac',

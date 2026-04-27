@@ -20,9 +20,7 @@ export function FerpaDirectoryInfoClient({ fields: initialFields }: Props) {
   const [isPending, startTransition] = useTransition();
 
   function toggle(key: string) {
-    setFields((prev) =>
-      prev.map((f) => (f.key === key ? { ...f, enabled: !f.enabled } : f))
-    );
+    setFields((prev) => prev.map((f) => (f.key === key ? { ...f, enabled: !f.enabled } : f)));
     setSaved(false);
   }
 
@@ -94,23 +92,15 @@ export function FerpaDirectoryInfoClient({ fields: initialFields }: Props) {
 
       <div className="px-6 py-4 border-t border-slate-100 flex items-center justify-between">
         <div>
-          {saved && (
-            <p className="text-sm text-emerald-600 font-medium">Settings saved.</p>
-          )}
-          {error && (
-            <p className="text-sm text-red-600">{error}</p>
-          )}
+          {saved && <p className="text-sm text-emerald-600 font-medium">Settings saved.</p>}
+          {error && <p className="text-sm text-red-600">{error}</p>}
         </div>
         <button
           onClick={handleSave}
           disabled={isPending}
           className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white text-sm font-semibold rounded-lg hover:bg-brand-blue-700 disabled:opacity-60 transition-colors"
         >
-          {isPending ? (
-            <Loader2 className="w-4 h-4 animate-spin" />
-          ) : (
-            <Save className="w-4 h-4" />
-          )}
+          {isPending ? <Loader2 className="w-4 h-4 animate-spin" /> : <Save className="w-4 h-4" />}
           Save Changes
         </button>
       </div>

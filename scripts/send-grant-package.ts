@@ -19,10 +19,7 @@ if (!SENDGRID_API_KEY) {
   process.exit(1);
 }
 
-const PACKAGE_DIR = path.join(
-  process.cwd(),
-  'docs/grants/employindy-2026-003-package'
-);
+const PACKAGE_DIR = path.join(process.cwd(), 'docs/grants/employindy-2026-003-package');
 
 const DOCUMENTS = [
   {
@@ -111,8 +108,7 @@ ${markdown
   })
   .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2">$1</a>')
   .replace(/\n\n/g, '</p><p>')
-  .replace(/^(?!<[h|u|o|l|p|d|t|b|i|a|c|s|h])/gm, '')
-}
+  .replace(/^(?!<[h|u|o|l|p|d|t|b|i|a|c|s|h])/gm, '')}
 </div>
 <div class="footer">
   Elevate for Humanity &nbsp;|&nbsp; www.elevateforhumanity.org &nbsp;|&nbsp; Indianapolis, Indiana<br>

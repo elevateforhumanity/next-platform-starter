@@ -21,12 +21,8 @@ function scanFile(file) {
   while ((m = regex.exec(src))) {
     const imp = m[1];
     if (imp.startsWith('http') || imp.startsWith('@')) continue;
-    const resolvedCandidates = exts.map((e) =>
-      path.resolve(path.dirname(file), imp + e)
-    );
-    const indexCandidates = exts.map((e) =>
-      path.resolve(path.dirname(file), imp, 'index' + e)
-    );
+    const resolvedCandidates = exts.map((e) => path.resolve(path.dirname(file), imp + e));
+    const indexCandidates = exts.map((e) => path.resolve(path.dirname(file), imp, 'index' + e));
     const exists = [...resolvedCandidates, ...indexCandidates].some((f) => {
       try {
         return statSync(f).isFile();

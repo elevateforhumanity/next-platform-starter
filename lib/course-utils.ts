@@ -1,15 +1,14 @@
-
 export function slugify(str: string): string {
   return str
     .toLowerCase()
-    .replace(/[^a-z0-9]+/g, "-")
-    .replace(/^-+|-+$/g, "");
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '');
 }
 
 export function buildCoursePath(
   courseSlug: string,
   moduleSlug: string,
-  lessonSlug: string
+  lessonSlug: string,
 ): string {
   return `courses/${courseSlug}/modules/${moduleSlug}/${lessonSlug}.html`;
 }
@@ -25,9 +24,9 @@ export function buildCourseMetadataPath(courseSlug: string): string {
 export function validateCourseStructure(data: any): { ok: boolean; errors: string[] } {
   const errors: string[] = [];
 
-  if (!course.title) errors.push("Missing course title");
-  if (!course.slug) errors.push("Missing course slug");
-  if (!Array.isArray(course.modules)) errors.push("Modules must be an array");
+  if (!course.title) errors.push('Missing course title');
+  if (!course.slug) errors.push('Missing course slug');
+  if (!Array.isArray(course.modules)) errors.push('Modules must be an array');
 
   course.modules?.forEach((module: any, index: number) => {
     if (!module.title) errors.push(`Module ${index + 1} missing title`);

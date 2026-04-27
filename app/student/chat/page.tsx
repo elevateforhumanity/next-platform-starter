@@ -34,10 +34,11 @@ interface Message {
   timestamp: string;
 }
 
-const getSupabase = () => createBrowserClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
-);
+const getSupabase = () =>
+  createBrowserClient(
+    process.env.NEXT_PUBLIC_SUPABASE_URL!,
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
+  );
 
 export default function StudentChatPage() {
   const [selectedConversation, setSelectedConversation] = useState<string | null>(null);
@@ -49,7 +50,9 @@ export default function StudentChatPage() {
   useEffect(() => {
     async function loadConversations() {
       const supabase = getSupabase();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
       setUserId(user.id);
 
@@ -67,9 +70,12 @@ export default function StudentChatPage() {
         .order('created_at', { ascending: false });
 
       // Build conversation list from unique partners
-      const partnerMap = new Map<string, { lastMessage: string; timestamp: string; unread: number }>();
+      const partnerMap = new Map<
+        string,
+        { lastMessage: string; timestamp: string; unread: number }
+      >();
 
-      for (const m of (received || [])) {
+      for (const m of received || []) {
         if (!partnerMap.has(m.sender_id)) {
           partnerMap.set(m.sender_id, {
             lastMessage: m.body || '',
@@ -82,7 +88,7 @@ export default function StudentChatPage() {
         }
       }
 
-      for (const m of (sent || [])) {
+      for (const m of sent || []) {
         if (!partnerMap.has(m.recipient_id)) {
           partnerMap.set(m.recipient_id, {
             lastMessage: m.body || '',
@@ -101,16 +107,18 @@ export default function StudentChatPage() {
         .select('id, full_name, role')
         .in('id', partnerIds);
 
-      const convos: Conversation[] = partnerIds.map(pid => {
-        const profile = (profiles || []).find(p => p.id === pid);
+      const convos: Conversation[] = partnerIds.map((pid) => {
+        const profile = (profiles || []).find((p) => p.id === pid);
         const info = partnerMap.get(pid)!;
         const ts = new Date(info.timestamp);
         const now = new Date();
         const diffDays = Math.floor((now.getTime() - ts.getTime()) / (1000 * 60 * 60 * 24));
-        const timeStr = diffDays === 0
-          ? ts.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
-          : diffDays === 1 ? 'Yesterday'
-          : ts.toLocaleDateString();
+        const timeStr =
+          diffDays === 0
+            ? ts.toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })
+            : diffDays === 1
+              ? 'Yesterday'
+              : ts.toLocaleDateString();
 
         return {
           id: pid,
@@ -139,16 +147,23 @@ export default function StudentChatPage() {
       const { data } = await supabase
         .from('messages')
         .select('id, sender_id, body, created_at')
-        .or(`and(sender_id.eq.${userId},recipient_id.eq.${selectedConversation}),and(sender_id.eq.${selectedConversation},recipient_id.eq.${userId})`)
+        .or(
+          `and(sender_id.eq.${userId},recipient_id.eq.${selectedConversation}),and(sender_id.eq.${selectedConversation},recipient_id.eq.${userId})`,
+        )
         .order('created_at', { ascending: true })
         .limit(100);
 
-      setMessages((data || []).map(m => ({
-        id: m.id,
-        sender: m.sender_id === userId ? 'me' : 'other',
-        text: m.body || '',
-        timestamp: new Date(m.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      })));
+      setMessages(
+        (data || []).map((m) => ({
+          id: m.id,
+          sender: m.sender_id === userId ? 'me' : 'other',
+          text: m.body || '',
+          timestamp: new Date(m.created_at).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          }),
+        })),
+      );
 
       // Mark received messages as read
       await supabase
@@ -177,18 +192,24 @@ export default function StudentChatPage() {
       .maybeSingle();
 
     if (!error && data) {
-      setMessages(prev => [...prev, {
-        id: data.id,
-        sender: 'me',
-        text: newMessage.trim(),
-        timestamp: new Date(data.created_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }),
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          id: data.id,
+          sender: 'me',
+          text: newMessage.trim(),
+          timestamp: new Date(data.created_at).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+          }),
+        },
+      ]);
     }
 
     setNewMessage('');
   };
 
-  const selectedConvo = conversations.find(c => c.id === selectedConversation);
+  const selectedConvo = conversations.find((c) => c.id === selectedConversation);
 
   return (
     <div className="min-h-screen bg-white">
@@ -206,7 +227,10 @@ export default function StudentChatPage() {
       </div>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        <div className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden" style={{ height: 'calc(100vh - 200px)' }}>
+        <div
+          className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+          style={{ height: 'calc(100vh - 200px)' }}
+        >
           <div className="flex h-full">
             {/* Conversations List */}
             <div className="w-80 border-r border-gray-200 flex flex-col">
@@ -304,9 +328,11 @@ export default function StudentChatPage() {
                         }`}
                       >
                         <p>{message.text}</p>
-                        <p className={`text-xs mt-1 ${
-                          message.sender === 'me' ? 'text-white' : 'text-slate-700'
-                        }`}>
+                        <p
+                          className={`text-xs mt-1 ${
+                            message.sender === 'me' ? 'text-white' : 'text-slate-700'
+                          }`}
+                        >
                           {message.timestamp}
                         </p>
                       </div>

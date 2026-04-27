@@ -111,20 +111,17 @@ export function getQuarterDates(quarter: string, year: number) {
  */
 export async function generateQuarterlyReport(
   quarter: string,
-  year: number
+  year: number,
 ): Promise<QuarterlyReport> {
   const dates = getQuarterDates(quarter, year);
 
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error('Supabase not configured');
   }
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
   );
   await setAuditContext(supabase, { systemActor: 'wioa_reporting' });
 
@@ -136,10 +133,10 @@ export async function generateQuarterlyReport(
       *,
       profiles!inner(first_name, last_name, date_of_birth),
       programs!inner(name, code)
-    `
+    `,
     )
     .or(
-      `enrollment_date.gte.${dates.start},enrollment_date.lte.${dates.end},completion_date.gte.${dates.start},completion_date.lte.${dates.end}`
+      `enrollment_date.gte.${dates.start},enrollment_date.lte.${dates.end},completion_date.gte.${dates.start},completion_date.lte.${dates.end}`,
     )
     .order('enrollment_date', { ascending: true });
 
@@ -173,14 +170,9 @@ export async function generateQuarterlyReport(
   // Calculate summary statistics
   const completed = students.filter((s) => s.completion_date);
   const withCredentials = students.filter((s) => s.credential_attained);
-  const employed = students.filter(
-    (s) => s.employment_status_at_exit === 'employed'
-  );
-  const wages = employed
-    .filter((s) => s.wage_at_placement)
-    .map((s) => s.wage_at_placement!);
-  const avgWage =
-    wages.length > 0 ? wages.reduce((a, b) => a + b, 0) / wages.length : 0;
+  const employed = students.filter((s) => s.employment_status_at_exit === 'employed');
+  const wages = employed.filter((s) => s.wage_at_placement).map((s) => s.wage_at_placement!);
+  const avgWage = wages.length > 0 ? wages.reduce((a, b) => a + b, 0) / wages.length : 0;
 
   return {
     quarter,
@@ -195,14 +187,9 @@ export async function generateQuarterlyReport(
       total_credentials: withCredentials.length,
       total_employed: employed.length,
       average_wage: avgWage,
-      completion_rate:
-        students.length > 0 ? (completed.length / students.length) * 100 : 0,
-      employment_rate:
-        completed.length > 0 ? (employed.length / completed.length) * 100 : 0,
-      credential_rate:
-        completed.length > 0
-          ? (withCredentials.length / completed.length) * 100
-          : 0,
+      completion_rate: students.length > 0 ? (completed.length / students.length) * 100 : 0,
+      employment_rate: completed.length > 0 ? (employed.length / completed.length) * 100 : 0,
+      credential_rate: completed.length > 0 ? (withCredentials.length / completed.length) * 100 : 0,
     },
   };
 }
@@ -261,18 +248,15 @@ export function exportToINTrainingCSV(report: QuarterlyReport): string {
  */
 export async function calculateWIOAPerformance(
   startDate: string,
-  endDate: string
+  endDate: string,
 ): Promise<WIOAPerformanceMetrics> {
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error('Supabase not configured');
   }
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
   );
   await setAuditContext(supabase, { systemActor: 'wioa_reporting' });
 
@@ -287,12 +271,10 @@ export async function calculateWIOAPerformance(
   const total = completers?.length || 0;
 
   // Employment 2nd quarter after exit
-  const employed2nd =
-    completers?.filter((c) => c.employed_2nd_quarter).length || 0;
+  const employed2nd = completers?.filter((c) => c.employed_2nd_quarter).length || 0;
 
   // Employment 4th quarter after exit
-  const employed4th =
-    completers?.filter((c) => c.employed_4th_quarter).length || 0;
+  const employed4th = completers?.filter((c) => c.employed_4th_quarter).length || 0;
 
   // Median earnings 2nd quarter
   const wages2nd =
@@ -300,16 +282,13 @@ export async function calculateWIOAPerformance(
       ?.filter((c) => c.wage_2nd_quarter)
       .map((c) => c.wage_2nd_quarter)
       .sort((a, b) => a - b) || [];
-  const medianEarnings =
-    wages2nd.length > 0 ? wages2nd[Math.floor(wages2nd.length / 2)] : 0;
+  const medianEarnings = wages2nd.length > 0 ? wages2nd[Math.floor(wages2nd.length / 2)] : 0;
 
   // Credential attainment
-  const withCredentials =
-    completers?.filter((c) => c.credential_attained).length || 0;
+  const withCredentials = completers?.filter((c) => c.credential_attained).length || 0;
 
   // Measurable skill gains
-  const withSkillGains =
-    completers?.filter((c) => c.measurable_skill_gains).length || 0;
+  const withSkillGains = completers?.filter((c) => c.measurable_skill_gains).length || 0;
 
   return {
     reporting_period: `${startDate} to ${endDate}`,
@@ -341,16 +320,13 @@ export async function calculateWIOAPerformance(
  * Schedule follow-up for wage verification
  */
 export async function scheduleWageFollowUp(enrollmentId: string) {
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     return;
   }
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL,
-    process.env.SUPABASE_SERVICE_ROLE_KEY
+    process.env.SUPABASE_SERVICE_ROLE_KEY,
   );
 
   const { data: enrollment } = await supabase
@@ -404,9 +380,7 @@ export function getUpcomingDeadlines(): Array<{
     for (const quarter of ['Q1', 'Q2', 'Q3', 'Q4']) {
       const dates = getQuarterDates(quarter, year);
       const dueDate = new Date(dates.due);
-      const daysUntilDue = Math.ceil(
-        (dueDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
-      );
+      const daysUntilDue = Math.ceil((dueDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
 
       if (daysUntilDue > -30 && daysUntilDue < 90) {
         deadlines.push({

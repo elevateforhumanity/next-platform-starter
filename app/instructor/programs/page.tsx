@@ -15,8 +15,9 @@ export const dynamic = 'force-dynamic';
 export default async function InstructorProgramsPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const { data: profile } = await supabase
@@ -45,15 +46,22 @@ export default async function InstructorProgramsPage() {
         .eq('program_id', p.id)
         .in('status', ['active', 'enrolled', 'completed']);
       return { ...p, enrollmentCount: count || 0 };
-    })
+    }),
   );
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/instructor-page-11.jpg" alt="Instructor portal" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/instructor-page-11.jpg"
+          alt="Instructor portal"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
@@ -62,7 +70,10 @@ export default async function InstructorProgramsPage() {
               <h1 className="text-2xl font-bold text-slate-900">My Programs</h1>
               <p className="text-slate-700">Programs you are assigned to teach</p>
             </div>
-            <Link href="/instructor/dashboard" className="px-4 py-2 text-slate-700 hover:text-slate-900">
+            <Link
+              href="/instructor/dashboard"
+              className="px-4 py-2 text-slate-700 hover:text-slate-900"
+            >
               ← Dashboard
             </Link>
           </div>
@@ -73,18 +84,25 @@ export default async function InstructorProgramsPage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {programs && programs.length > 0 ? (
             programs.map((program: any) => (
-              <div key={program.id} className="bg-white rounded-lg shadow-sm border overflow-hidden">
+              <div
+                key={program.id}
+                className="bg-white rounded-lg shadow-sm border overflow-hidden"
+              >
                 <div className="p-6">
                   <div className="flex items-start gap-3 mb-4">
                     <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center">
                       <BookOpen className="w-6 h-6 text-brand-blue-600" />
                     </div>
                     <div>
-                      <h3 className="font-semibold text-slate-900">{program.title || program.name}</h3>
-                      <p className="text-sm text-slate-700">{program.credential || 'Certificate'}</p>
+                      <h3 className="font-semibold text-slate-900">
+                        {program.title || program.name}
+                      </h3>
+                      <p className="text-sm text-slate-700">
+                        {program.credential || 'Certificate'}
+                      </p>
                     </div>
                   </div>
-                  
+
                   <p className="text-sm text-slate-700 mb-4 line-clamp-2">
                     {program.description || 'No description available.'}
                   </p>
@@ -113,9 +131,7 @@ export default async function InstructorProgramsPage() {
             <div className="col-span-full bg-white rounded-lg shadow-sm border p-12 text-center">
               <BookOpen className="w-16 h-16 text-slate-700 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-slate-900 mb-2">No Programs Assigned</h3>
-              <p className="text-slate-700">
-                Contact an administrator to be assigned to programs.
-              </p>
+              <p className="text-slate-700">Contact an administrator to be assigned to programs.</p>
             </div>
           )}
         </div>

@@ -1,25 +1,22 @@
+import type { ProgramEnrollment } from '@/types/enrollment';
+import { createClient } from '@supabase/supabase-js';
+import { setAuditContext } from '@/lib/audit-context';
 
-import type { ProgramEnrollment } from "@/types/enrollment";
-import { createClient } from "@supabase/supabase-js";
-import { setAuditContext } from "@/lib/audit-context";
+const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
-const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || "";
-const serviceRoleKey = process.env.SUPABASE_SERVICE_ROLE_KEY || "";
-
-const supabase = supabaseUrl && serviceRoleKey
-  ? createClient(supabaseUrl, serviceRoleKey)
-  : null;
+const supabase = supabaseUrl && serviceRoleKey ? createClient(supabaseUrl, serviceRoleKey) : null;
 
 export async function createProgramEnrollment(
-  partial: Omit<ProgramEnrollment, "id" | "createdAt">
+  partial: Omit<ProgramEnrollment, 'id' | 'createdAt'>,
 ): Promise<ProgramEnrollment> {
   if (!supabase) {
-    throw new Error("Supabase not configured");
+    throw new Error('Supabase not configured');
   }
-  await setAuditContext(supabase, { systemActor: "enrollment_db" });
+  await setAuditContext(supabase, { systemActor: 'enrollment_db' });
 
   const { data, error }: any = await supabase
-    .from("program_enrollments")
+    .from('program_enrollments')
     .insert({
       student_id: partial.studentId,
       program_id: partial.programId,
@@ -50,17 +47,14 @@ export async function createProgramEnrollment(
 
 export async function updateEnrollmentStatus(
   id: string,
-  status: ProgramEnrollment["status"]
+  status: ProgramEnrollment['status'],
 ): Promise<void> {
   if (!supabase) {
-    throw new Error("Supabase not configured");
+    throw new Error('Supabase not configured');
   }
-  await setAuditContext(supabase, { systemActor: "enrollment_db" });
+  await setAuditContext(supabase, { systemActor: 'enrollment_db' });
 
-  const { error } = await supabase
-    .from("program_enrollments")
-    .update({ status })
-    .eq("id", id);
+  const { error } = await supabase.from('program_enrollments').update({ status }).eq('id', id);
 
   if (error) {
     // Error: $1
@@ -74,9 +68,9 @@ export async function listEnrollments(): Promise<ProgramEnrollment[]> {
   }
 
   const { data, error }: any = await supabase
-    .from("program_enrollments")
-    .select("*")
-    .order("created_at", { ascending: false });
+    .from('program_enrollments')
+    .select('*')
+    .order('created_at', { ascending: false });
 
   if (error) {
     // Error: $1

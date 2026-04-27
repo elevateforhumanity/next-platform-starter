@@ -11,7 +11,7 @@
    ============================================================================ */
 
 /* Admin portal base typography - minimum 16px, darker colors */
-[class*="/admin"] body,
+[class*='/admin'] body,
 .admin-portal {
   font-size: 16px;
   line-height: 1.6;
@@ -19,17 +19,17 @@
 
 /* Override light grays with institutional dark tones */
 .admin-portal .text-gray-500,
-[class*="/admin"] .text-gray-500 {
+[class*='/admin'] .text-gray-500 {
   color: #374151 !important; /* gray-700 */
 }
 
 .admin-portal .text-gray-600,
-[class*="/admin"] .text-gray-600 {
+[class*='/admin'] .text-gray-600 {
   color: #1f2937 !important; /* gray-800 */
 }
 
 .admin-portal .text-gray-400,
-[class*="/admin"] .text-gray-400 {
+[class*='/admin'] .text-gray-400 {
   color: #4b5563 !important; /* gray-600 */
 }
 
@@ -38,10 +38,10 @@
 .admin-portal h2,
 .admin-portal h3,
 .admin-portal h4,
-[class*="/admin"] h1,
-[class*="/admin"] h2,
-[class*="/admin"] h3,
-[class*="/admin"] h4 {
+[class*='/admin'] h1,
+[class*='/admin'] h2,
+[class*='/admin'] h3,
+[class*='/admin'] h4 {
   color: #111827; /* gray-900 */
   font-weight: 600;
 }
@@ -52,29 +52,29 @@
 .admin-portal td,
 .admin-portal th,
 .admin-portal label,
-[class*="/admin"] p,
-[class*="/admin"] span,
-[class*="/admin"] td,
-[class*="/admin"] th,
-[class*="/admin"] label {
+[class*='/admin'] p,
+[class*='/admin'] span,
+[class*='/admin'] td,
+[class*='/admin'] th,
+[class*='/admin'] label {
   font-size: max(0.875rem, 14px);
 }
 
 /* Admin tables - clear, readable */
 .admin-portal table,
-[class*="/admin"] table {
+[class*='/admin'] table {
   font-size: 14px;
 }
 
 .admin-portal th,
-[class*="/admin"] th {
+[class*='/admin'] th {
   font-weight: 600;
   color: #111827;
   background-color: #f9fafb;
 }
 
 .admin-portal td,
-[class*="/admin"] td {
+[class*='/admin'] td {
   color: #374151;
 }
 
@@ -84,7 +84,8 @@
 
 /* Show content immediately - no FOUC prevention needed */
 /* Fonts load fast enough with preconnect, no need to hide content */
-html, body {
+html,
+body {
   opacity: 1;
   background-color: #ffffff;
   color: #0f172a; /* slate-950 — platform-wide default. Prevents light/missing text-color bugs. */
@@ -93,7 +94,7 @@ html, body {
 /* ============================================================================
    OVERLAY FIX: Ensure closed Radix portals are hidden
    ============================================================================ */
-[data-radix-portal] [data-state="closed"] {
+[data-radix-portal] [data-state='closed'] {
   display: none !important;
 }
 
@@ -110,21 +111,35 @@ html, body {
 
   /* Ensure all text inherits the dark default unless explicitly overridden.
      Fixes 7,900+ text-black / missing-color instances platform-wide. */
-  p, li, span, td, th, label, dt, dd, blockquote, figcaption {
+  p,
+  li,
+  span,
+  td,
+  th,
+  label,
+  dt,
+  dd,
+  blockquote,
+  figcaption {
     color: inherit;
   }
 
-  h1, h2, h3, h4, h5, h6 {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
     color: inherit;
   }
 
   /* BUTTON FIX: Ensure all buttons are easy to tap/click */
   button,
-  [role="button"],
+  [role='button'],
   a.btn,
   .btn,
-  input[type="submit"],
-  input[type="button"] {
+  input[type='submit'],
+  input[type='button'] {
     min-height: 44px;
     min-width: 44px;
     cursor: pointer;
@@ -134,8 +149,8 @@ html, body {
   }
 
   /* Links that look like buttons */
-  a[class*="bg-"],
-  a[class*="rounded"] {
+  a[class*='bg-'],
+  a[class*='rounded'] {
     min-height: 44px;
     display: inline-flex;
     align-items: center;
@@ -522,12 +537,9 @@ section {
 
   /* Shadows - Softer for light theme */
   --brand-shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  --brand-shadow-md:
-    0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
-  --brand-shadow-lg:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
-  --brand-shadow-xl:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+  --brand-shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --brand-shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --brand-shadow-xl: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
 
   /* Border Radius */
   --brand-radius-sm: 0.375rem;
@@ -545,8 +557,8 @@ section {
   --brand-space-2xl: 3rem;
 
   --brand-font-sans:
-    var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto',
-    'Helvetica Neue', sans-serif;
+    var(--font-inter), -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Helvetica Neue',
+    sans-serif;
 }
 
 /* ============================================
@@ -618,11 +630,7 @@ html {
 
 /* Hero section */
 .elevate-hero {
-  background: linear-gradient(
-    135deg,
-    var(--brand-red) 0%,
-    var(--brand-orange) 100%
-  );
+  background: linear-gradient(135deg, var(--brand-red) 0%, var(--brand-orange) 100%);
   color: white;
   padding: 3rem 2rem;
   margin-bottom: 2rem;
@@ -687,11 +695,7 @@ html {
   font-size: 0.9375rem;
   font-weight: 600;
   color: white;
-  background: linear-gradient(
-    135deg,
-    var(--brand-red) 0%,
-    var(--brand-red-dark) 100%
-  );
+  background: linear-gradient(135deg, var(--brand-red) 0%, var(--brand-red-dark) 100%);
   box-shadow: var(--brand-shadow-md);
   transition: all 0.2s ease;
 }
@@ -699,11 +703,7 @@ html {
 .elevate-btn-primary:hover {
   transform: translateY(-2px);
   box-shadow: var(--brand-shadow-lg);
-  background: linear-gradient(
-    135deg,
-    var(--brand-red-light) 0%,
-    var(--brand-red) 100%
-  );
+  background: linear-gradient(135deg, var(--brand-red-light) 0%, var(--brand-red) 100%);
 }
 
 /* Secondary Button - Orange */
@@ -743,11 +743,7 @@ html {
   font-size: 0.9375rem;
   font-weight: 600;
   color: white;
-  background: linear-gradient(
-    135deg,
-    var(--brand-blue) 0%,
-    var(--brand-blue-dark) 100%
-  );
+  background: linear-gradient(135deg, var(--brand-blue) 0%, var(--brand-blue-dark) 100%);
   box-shadow: var(--brand-shadow-md);
   transition: all 0.2s ease;
 }
@@ -1258,18 +1254,24 @@ html {
   }
 
   /* Ensure images don't overflow on mobile - exclude absolute/fill images */
-  img:not([data-nimg="fill"]):not([style*="absolute"]) {
+  img:not([data-nimg='fill']):not([style*='absolute']) {
     max-width: 100%;
   }
 
   /* Fix any absolute/fixed elements that might overflow - exclude images */
-  [class*="fixed"]:not(img),
-  [class*="absolute"]:not(img) {
+  [class*='fixed']:not(img),
+  [class*='absolute']:not(img) {
     max-width: 100vw;
   }
 
   /* Ensure text doesn't cause horizontal scroll */
-  h1, h2, h3, h4, h5, h6, p {
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6,
+  p {
     word-wrap: break-word;
     overflow-wrap: break-word;
   }
@@ -1523,15 +1525,25 @@ body {
 
 /* 3️⃣ Scale text dynamically on very large screens */
 @media screen and (min-width: 1400px) {
-  body { font-size: 18px; }
-  h1 { font-size: 2.6rem; }
-  h2 { font-size: 2rem; }
-  h3 { font-size: 1.4rem; }
+  body {
+    font-size: 18px;
+  }
+  h1 {
+    font-size: 2.6rem;
+  }
+  h2 {
+    font-size: 2rem;
+  }
+  h3 {
+    font-size: 1.4rem;
+  }
 }
 
 /* 4️⃣ Make hero/banner sections use more height */
-.hero, .banner, .page-header {
-  min-height: 80vh;                  /* Taller hero area */
+.hero,
+.banner,
+.page-header {
+  min-height: 80vh; /* Taller hero area */
   display: flex;
   align-items: center;
   justify-content: center;
@@ -1545,7 +1557,9 @@ section {
 }
 
 /* 6️⃣ Adjust CTA buttons to scale with screen size */
-button, .btn, a.button {
+button,
+.btn,
+a.button {
   font-size: 1rem;
   padding: 0.8em 1.6em;
   border-radius: 6px;
@@ -1567,8 +1581,13 @@ footer {
     max-width: 100%;
     padding-inline: 5vw;
   }
-  body { font-size: 15px; }
-  main section { padding-top: 2.5rem; padding-bottom: 2.5rem; }
+  body {
+    font-size: 15px;
+  }
+  main section {
+    padding-top: 2.5rem;
+    padding-bottom: 2.5rem;
+  }
 }
 
 /* ============================================================================
@@ -1577,51 +1596,66 @@ footer {
    ============================================================================ */
 
 /* Headings in content areas */
-main h1, main h2, main h3, main h4, main h5, main h6,
-section h1, section h2, section h3, section h4, section h5, section h6,
-article h1, article h2, article h3, article h4, article h5, article h6 {
-  color: #0f172a;  /* Near-black for maximum readability */
+main h1,
+main h2,
+main h3,
+main h4,
+main h5,
+main h6,
+section h1,
+section h2,
+section h3,
+section h4,
+section h5,
+section h6,
+article h1,
+article h2,
+article h3,
+article h4,
+article h5,
+article h6 {
+  color: #0f172a; /* Near-black for maximum readability */
 }
 
 /* Paragraph text in content areas */
 main p,
 section p,
 article p {
-  color: #334155;  /* Slate-700 equivalent, WCAG AA compliant */
+  color: #334155; /* Slate-700 equivalent, WCAG AA compliant */
 }
 
 /* Links with better contrast and hover states - scoped to content areas */
 main a,
 section a,
 article a {
-  color: #0369a1;  /* Sky-700, accessible blue */
+  color: #0369a1; /* Sky-700, accessible blue */
   text-decoration: none;
 }
 
 main a:hover,
 section a:hover,
 article a:hover {
-  color: #0c4a6e;  /* Sky-900, darker on hover */
+  color: #0c4a6e; /* Sky-900, darker on hover */
   text-decoration: underline;
 }
 
 /* Button text contrast */
 .btn-primary {
-  background-color: #ea580c;  /* Orange-600 */
+  background-color: #ea580c; /* Orange-600 */
   color: #ffffff;
 }
 
 .btn-primary:hover {
-  background-color: #c2410c;  /* Orange-700 */
+  background-color: #c2410c; /* Orange-700 */
 }
 
 .btn-secondary {
-  background-color: #2563eb;  /* Blue-600 */
+  background-color: #2563eb; /* Blue-600 */
   color: #ffffff;
 }
 
 .btn-secondary:hover {
-  background-color: #1d4ed8;  /* Blue-700 */
+  background-color: #1d4ed8; /* Blue-700 */
 }
 
 /* Ensure sufficient contrast on colored backgrounds */
@@ -1650,10 +1684,18 @@ footer a:hover {
 
 /* Toast animations */
 @keyframes slide-in {
-  from { transform: translateX(100%); opacity: 0; }
-  to { transform: translateX(0); opacity: 1; }
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
 }
-.animate-slide-in { animation: slide-in 0.3s ease-out; }
+.animate-slide-in {
+  animation: slide-in 0.3s ease-out;
+}
 
 /* ============================================================================
    HEADER TEXT VISIBILITY FIX - MUST BE LAST
@@ -1661,7 +1703,7 @@ footer a:hover {
    Scoped to direct children and text elements — NOT dropdown containers,
    which need opacity-0/invisible to toggle on hover.
    ============================================================================ */
-header[role="banner"] {
+header[role='banner'] {
   opacity: 1 !important;
   visibility: visible !important;
   filter: none !important;
@@ -1669,76 +1711,84 @@ header[role="banner"] {
   background-color: #ffffff !important;
 }
 
-header[role="banner"] > div,
-header[role="banner"] a,
-header[role="banner"] span,
-header[role="banner"] button,
-header[role="banner"] img,
-header[role="banner"] svg {
+header[role='banner'] > div,
+header[role='banner'] a,
+header[role='banner'] span,
+header[role='banner'] button,
+header[role='banner'] img,
+header[role='banner'] svg {
   -webkit-text-fill-color: unset !important;
   background-clip: unset !important;
 }
 
 /* Header text colors - explicit colors for all elements */
-header[role="banner"] span,
-header[role="banner"] button {
+header[role='banner'] span,
+header[role='banner'] button {
   color: #111827 !important; /* gray-900 */
 }
 
-header[role="banner"] nav {
+header[role='banner'] nav {
   color: #111827 !important;
 }
 
 /* Desktop nav links - must be visible */
-header[role="banner"] nav a {
+header[role='banner'] nav a {
   color: #374151 !important; /* gray-700 */
 }
 
-header[role="banner"] nav a:hover {
+header[role='banner'] nav a:hover {
   color: #2563eb !important; /* blue-600 */
 }
 
 /* Active nav link */
-header[role="banner"] nav a[aria-current="page"] {
+header[role='banner'] nav a[aria-current='page'] {
   color: #2563eb !important; /* blue-600 */
 }
 
 /* Logo link */
-header[role="banner"] > div > a:first-child {
+header[role='banner'] > div > a:first-child {
   color: #111827 !important;
 }
 
 /* Sign in link */
-header[role="banner"] a.text-gray-700 {
+header[role='banner'] a.text-gray-700 {
   color: #374151 !important;
 }
 
 /* Apply Now button - white text on blue background */
-header[role="banner"] a.bg-brand-blue-600,
-header[role="banner"] a.\!text-white {
+header[role='banner'] a.bg-brand-blue-600,
+header[role='banner'] a.\!text-white {
   color: #ffffff !important;
 }
 
 /* Mitchy-style animations */
 @keyframes fade-in {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 @keyframes slide-up-reveal {
-  from { 
-    opacity: 0; 
-    transform: translateY(40px); 
+  from {
+    opacity: 0;
+    transform: translateY(40px);
   }
-  to { 
-    opacity: 1; 
-    transform: translateY(0); 
+  to {
+    opacity: 1;
+    transform: translateY(0);
   }
 }
 
 @keyframes marquee-reverse {
-  from { transform: translateX(0); }
-  to { transform: translateX(50%); }
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(50%);
+  }
 }
 
 .animate-fade-in {
@@ -1756,19 +1806,31 @@ header[role="banner"] a.\!text-white {
 }
 
 /* Animation delays */
-.animation-delay-100 { animation-delay: 0.1s; }
-.animation-delay-200 { animation-delay: 0.2s; }
-.animation-delay-300 { animation-delay: 0.3s; }
-.animation-delay-400 { animation-delay: 0.4s; }
-.animation-delay-500 { animation-delay: 0.5s; }
+.animation-delay-100 {
+  animation-delay: 0.1s;
+}
+.animation-delay-200 {
+  animation-delay: 0.2s;
+}
+.animation-delay-300 {
+  animation-delay: 0.3s;
+}
+.animation-delay-400 {
+  animation-delay: 0.4s;
+}
+.animation-delay-500 {
+  animation-delay: 0.5s;
+}
 
 /* Card hover animations */
 .hover-lift {
-  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  transition:
+    transform 0.3s ease,
+    box-shadow 0.3s ease;
 }
 .hover-lift:hover {
   transform: translateY(-8px);
-  box-shadow: 0 20px 40px rgba(0,0,0,0.15);
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
 }
 
 /* ============================================================================
@@ -1852,22 +1914,24 @@ header[role="banner"] a.\!text-white {
 
 @theme inline {
   @keyframes shimmer-slide {
-  to {
-    transform: translate(calc(100cqw - 100%), 0);
+    to {
+      transform: translate(calc(100cqw - 100%), 0);
     }
   }
   @keyframes spin-around {
-  0% {
-    transform: translateZ(0) rotate(0);
+    0% {
+      transform: translateZ(0) rotate(0);
     }
-  15%, 35% {
-    transform: translateZ(0) rotate(90deg);
+    15%,
+    35% {
+      transform: translateZ(0) rotate(90deg);
     }
-  65%, 85% {
-    transform: translateZ(0) rotate(270deg);
+    65%,
+    85% {
+      transform: translateZ(0) rotate(270deg);
     }
-  100% {
-    transform: translateZ(0) rotate(360deg);
+    100% {
+      transform: translateZ(0) rotate(360deg);
     }
   }
 }
@@ -1933,24 +1997,28 @@ header[role="banner"] a.\!text-white {
 }
 
 /* Hide all marketing chrome (header + footer) on app routes */
-[data-public-layout-root][data-app-route="true"] [data-marketing-chrome],
-body[data-app-route="true"] [data-marketing-chrome] {
+[data-public-layout-root][data-app-route='true'] [data-marketing-chrome],
+body[data-app-route='true'] [data-marketing-chrome] {
   display: none !important;
 }
 
 /* Re-show the footer on admin routes — admin portal has its own header
    but shares the public footer */
-[data-public-layout-root][data-admin-route="true"] [data-marketing-footer],
-body[data-admin-route="true"] [data-marketing-footer] {
+[data-public-layout-root][data-admin-route='true'] [data-marketing-footer],
+body[data-admin-route='true'] [data-marketing-footer] {
   display: block !important;
 }
 
-[data-public-layout-root][data-app-route="true"] [data-marketing-main],
-body[data-app-route="true"] [data-marketing-main] {
+[data-public-layout-root][data-app-route='true'] [data-marketing-main],
+body[data-app-route='true'] [data-marketing-main] {
   padding-top: 0 !important;
 }
 
 @keyframes elevate-marquee {
-  0%   { transform: translateX(0); }
-  100% { transform: translateX(-50%); }
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
 }

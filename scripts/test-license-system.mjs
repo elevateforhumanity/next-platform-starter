@@ -24,7 +24,6 @@ function generateLicenseKey() {
 }
 
 async function testLicenseSystem() {
-
   // Test 1: Create a valid license
   const validLicense = {
     license_key: generateLicenseKey(),
@@ -49,7 +48,6 @@ async function testLicenseSystem() {
     return false;
   }
 
-
   // Test 2: Validate the license
   const { data: validated, error: validateError } = await supabase
     .from('licenses')
@@ -62,7 +60,6 @@ async function testLicenseSystem() {
     console.error('❌ License validation failed');
     return false;
   }
-
 
   // Test 3: Create an expired license
   const expiredLicense = {
@@ -80,7 +77,6 @@ async function testLicenseSystem() {
     .select()
     .single();
 
-
   // Test 4: Check if expired license is detected
   const expiresAt = new Date(expiredCreated.expires_at);
   const isExpired = expiresAt < new Date();
@@ -92,21 +88,18 @@ async function testLicenseSystem() {
   }
 
   // Test 5: Log validation attempt
-  const { error: logError } = await supabase
-    .from('license_validations')
-    .insert({
-      license_id: created.id,
-      ip_address: '127.0.0.1',
-      user_agent: 'Test Script',
-      result: 'valid',
-      metadata: { test: true },
-    });
+  const { error: logError } = await supabase.from('license_validations').insert({
+    license_id: created.id,
+    ip_address: '127.0.0.1',
+    user_agent: 'Test Script',
+    result: 'valid',
+    metadata: { test: true },
+  });
 
   if (logError) {
     console.error('❌ Failed to log validation:', logError.message);
     return false;
   }
-
 
   // Test 6: Check validation count updated
   const { data: updated } = await supabase
@@ -139,7 +132,6 @@ async function testLicenseSystem() {
       .insert(tierLicense)
       .select()
       .single();
-
   }
 
   // Test 8: Cleanup test data

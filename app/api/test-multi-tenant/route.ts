@@ -11,19 +11,13 @@ import { NextResponse } from 'next/server';
  */
 export async function GET() {
   try {
-    if (
-      !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-      !process.env.SUPABASE_SERVICE_ROLE_KEY
-    ) {
-      return NextResponse.json(
-        { error: 'Supabase not configured' },
-        { status: 500 }
-      );
+    if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
+      return NextResponse.json({ error: 'Supabase not configured' }, { status: 500 });
     }
 
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY
+      process.env.SUPABASE_SERVICE_ROLE_KEY,
     );
 
     const results: any = {
@@ -204,10 +198,8 @@ export async function GET() {
     };
 
     return NextResponse.json(results);
-  } catch (error) { /* Error handled silently */ 
-    return NextResponse.json(
-      { error: error.message, stack: error.stack },
-      { status: 500 }
-    );
+  } catch (error) {
+    /* Error handled silently */
+    return NextResponse.json({ error: error.message, stack: error.stack }, { status: 500 });
   }
 }

@@ -7,10 +7,10 @@ import type { AdminCourseOverview, AdminCourseStatus } from '@/lib/admin/course-
 
 function StatusBadge({ status }: { status: AdminCourseStatus }) {
   const map: Record<AdminCourseStatus, { label: string; cls: string }> = {
-    complete:   { label: 'Complete',   cls: 'bg-emerald-100 text-emerald-800' },
-    partial:    { label: 'Partial',    cls: 'bg-amber-100 text-amber-800' },
+    complete: { label: 'Complete', cls: 'bg-emerald-100 text-emerald-800' },
+    partial: { label: 'Partial', cls: 'bg-amber-100 text-amber-800' },
     structured: { label: 'Structured', cls: 'bg-brand-blue-100 text-brand-blue-800' },
-    empty:      { label: 'Empty',      cls: 'bg-slate-100 text-slate-600' },
+    empty: { label: 'Empty', cls: 'bg-slate-100 text-slate-600' },
   };
   const { label, cls } = map[status];
   return (
@@ -28,7 +28,9 @@ function GenerateButton({ courseId, disabled }: { courseId: string; disabled?: b
   function handleGenerate() {
     setError(null);
     startTransition(async () => {
-      const res = await fetch(`/api/admin/courses/${courseId}/generate-missing`, { method: 'POST' });
+      const res = await fetch(`/api/admin/courses/${courseId}/generate-missing`, {
+        method: 'POST',
+      });
       if (!res.ok) {
         const body = await res.json().catch(() => null);
         setError(body?.error ?? 'Generation failed');
@@ -59,25 +61,28 @@ export function AdminCoursesTable({ courses }: { courses: AdminCourseOverview[] 
 
   const filtered = useMemo(() => {
     const q = search.toLowerCase();
-    return courses.filter(c => {
+    return courses.filter((c) => {
       const matchesSearch = !q || c.title.toLowerCase().includes(q) || (c.slug ?? '').includes(q);
       const matchesStatus = statusFilter === 'all' || c.status === statusFilter;
       return matchesSearch && matchesStatus;
     });
   }, [courses, search, statusFilter]);
 
-  const counts = useMemo(() => ({
-    complete:   courses.filter(c => c.status === 'complete').length,
-    partial:    courses.filter(c => c.status === 'partial').length,
-    structured: courses.filter(c => c.status === 'structured').length,
-    empty:      courses.filter(c => c.status === 'empty').length,
-  }), [courses]);
+  const counts = useMemo(
+    () => ({
+      complete: courses.filter((c) => c.status === 'complete').length,
+      partial: courses.filter((c) => c.status === 'partial').length,
+      structured: courses.filter((c) => c.status === 'structured').length,
+      empty: courses.filter((c) => c.status === 'empty').length,
+    }),
+    [courses],
+  );
 
   return (
     <div className="space-y-4">
       {/* Summary chips */}
       <div className="flex flex-wrap gap-2">
-        {(['all', 'complete', 'partial', 'structured', 'empty'] as const).map(s => (
+        {(['all', 'complete', 'partial', 'structured', 'empty'] as const).map((s) => (
           <button
             key={s}
             onClick={() => setStatusFilter(s)}
@@ -87,7 +92,9 @@ export function AdminCoursesTable({ courses }: { courses: AdminCourseOverview[] 
                 : 'bg-white text-slate-600 border-slate-200 hover:bg-slate-50'
             }`}
           >
-            {s === 'all' ? `All (${courses.length})` : `${s.charAt(0).toUpperCase() + s.slice(1)} (${counts[s]})`}
+            {s === 'all'
+              ? `All (${courses.length})`
+              : `${s.charAt(0).toUpperCase() + s.slice(1)} (${counts[s]})`}
           </button>
         ))}
       </div>
@@ -97,7 +104,7 @@ export function AdminCoursesTable({ courses }: { courses: AdminCourseOverview[] 
         type="search"
         placeholder="Search by title or slug…"
         value={search}
-        onChange={e => setSearch(e.target.value)}
+        onChange={(e) => setSearch(e.target.value)}
         className="w-full max-w-sm rounded-lg border border-slate-200 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
       />
 
@@ -115,7 +122,7 @@ export function AdminCoursesTable({ courses }: { courses: AdminCourseOverview[] 
             </tr>
           </thead>
           <tbody className="divide-y divide-slate-100">
-            {filtered.map(course => (
+            {filtered.map((course) => (
               <tr key={course.id} className="hover:bg-slate-50">
                 <td className="px-4 py-3">
                   <div className="font-medium text-slate-900">{course.title}</div>

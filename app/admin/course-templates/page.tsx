@@ -17,19 +17,22 @@ export default async function CourseTemplatesPage() {
   const db = await getAdminClient();
 
   // course_templates: id, name, description, category, structure, is_public, created_by, created_at
-  const [
-    { data: templates, count: total },
-    { count: publicCount },
-    { count: privateCount },
-  ] = await Promise.all([
-    db
-      .from('course_templates')
-      .select('id, name, description, category, is_public, created_at', { count: 'exact' })
-      .order('created_at', { ascending: false })
-      .limit(100),
-    db.from('course_templates').select('id', { count: 'exact', head: true }).eq('is_public', true),
-    db.from('course_templates').select('id', { count: 'exact', head: true }).eq('is_public', false),
-  ]);
+  const [{ data: templates, count: total }, { count: publicCount }, { count: privateCount }] =
+    await Promise.all([
+      db
+        .from('course_templates')
+        .select('id, name, description, category, is_public, created_at', { count: 'exact' })
+        .order('created_at', { ascending: false })
+        .limit(100),
+      db
+        .from('course_templates')
+        .select('id', { count: 'exact', head: true })
+        .eq('is_public', true),
+      db
+        .from('course_templates')
+        .select('id', { count: 'exact', head: true })
+        .eq('is_public', false),
+    ]);
 
   return (
     <div className="min-h-screen bg-gray-50">
@@ -41,7 +44,10 @@ export default async function CourseTemplatesPage() {
             <h1 className="text-2xl font-bold text-slate-900">Course Templates</h1>
             <p className="text-slate-600 text-sm mt-1">{total ?? 0} templates</p>
           </div>
-          <Link href="/admin/course-studio" className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700">
+          <Link
+            href="/admin/course-studio"
+            className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700"
+          >
             Create Template
           </Link>
         </div>
@@ -83,17 +89,40 @@ export default async function CourseTemplatesPage() {
                     <tr key={t.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
                         <p className="font-medium text-slate-900">{t.name ?? 'Untitled'}</p>
-                        {t.description && <p className="text-xs text-slate-500 truncate max-w-xs">{t.description}</p>}
+                        {t.description && (
+                          <p className="text-xs text-slate-500 truncate max-w-xs">
+                            {t.description}
+                          </p>
+                        )}
                       </td>
                       <td className="px-6 py-4 text-slate-600 capitalize">{t.category ?? '—'}</td>
                       <td className="px-6 py-4">
-                        <span className={`flex items-center gap-1 text-xs font-medium ${t.is_public ? 'text-green-700' : 'text-slate-500'}`}>
-                          {t.is_public ? <><Globe className="w-3.5 h-3.5" />Public</> : <><Lock className="w-3.5 h-3.5" />Private</>}
+                        <span
+                          className={`flex items-center gap-1 text-xs font-medium ${t.is_public ? 'text-green-700' : 'text-slate-500'}`}
+                        >
+                          {t.is_public ? (
+                            <>
+                              <Globe className="w-3.5 h-3.5" />
+                              Public
+                            </>
+                          ) : (
+                            <>
+                              <Lock className="w-3.5 h-3.5" />
+                              Private
+                            </>
+                          )}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-slate-500 text-xs">{new Date(t.created_at).toLocaleDateString()}</td>
+                      <td className="px-6 py-4 text-slate-500 text-xs">
+                        {new Date(t.created_at).toLocaleDateString()}
+                      </td>
                       <td className="px-6 py-4">
-                        <Link href={`/admin/course-templates/${t.id}`} className="text-brand-blue-600 hover:underline text-xs font-medium">Edit →</Link>
+                        <Link
+                          href={`/admin/course-templates/${t.id}`}
+                          className="text-brand-blue-600 hover:underline text-xs font-medium"
+                        >
+                          Edit →
+                        </Link>
                       </td>
                     </tr>
                   ))}

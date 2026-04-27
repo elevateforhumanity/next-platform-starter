@@ -45,7 +45,7 @@ export async function getAtRiskStudents(): Promise<AtRiskStudent[]> {
           )
         )
       )
-    `
+    `,
     )
     .eq('status', 'at_risk')
     .order('overdue_count', { ascending: false });
@@ -57,8 +57,7 @@ export async function getAtRiskStudents(): Promise<AtRiskStudent[]> {
   return data.map((risk: any) => {
     const enrollment = risk.enrollments;
     const student = enrollment?.profiles;
-    const funding =
-      enrollment?.student_funding_assignments?.[0]?.funding_sources;
+    const funding = enrollment?.student_funding_assignments?.[0]?.funding_sources;
 
     return {
       enrollment_id: enrollment?.id || '',
@@ -107,7 +106,7 @@ export async function getNeedsActionStudents(): Promise<AtRiskStudent[]> {
           )
         )
       )
-    `
+    `,
     )
     .eq('status', 'needs_action')
     .order('overdue_count', { ascending: false });
@@ -119,8 +118,7 @@ export async function getNeedsActionStudents(): Promise<AtRiskStudent[]> {
   return data.map((risk: any) => {
     const enrollment = risk.enrollments;
     const student = enrollment?.profiles;
-    const funding =
-      enrollment?.student_funding_assignments?.[0]?.funding_sources;
+    const funding = enrollment?.student_funding_assignments?.[0]?.funding_sources;
 
     return {
       enrollment_id: enrollment?.id || '',
@@ -144,7 +142,7 @@ export async function getNeedsActionStudents(): Promise<AtRiskStudent[]> {
  * Get inactive students (no activity in X days)
  */
 export async function getInactiveStudents(
-  daysSinceActivity: number = 14
+  daysSinceActivity: number = 14,
 ): Promise<AtRiskStudent[]> {
   const supabase = await createClient();
 
@@ -167,7 +165,7 @@ export async function getInactiveStudents(
           name
         )
       )
-    `
+    `,
     )
     .eq('enrollments.status', 'active')
     .gte('days_since_activity', daysSinceActivity)
@@ -202,9 +200,7 @@ export async function getInactiveStudents(
 /**
  * Get programs with low completion rates
  */
-export async function getLowCompletionPrograms(
-  threshold: number = 70
-): Promise<any[]> {
+export async function getLowCompletionPrograms(threshold: number = 70): Promise<any[]> {
   const supabase = await createClient();
 
   const { data: programs } = await supabase.from('programs').select(`
@@ -223,16 +219,11 @@ export async function getLowCompletionPrograms(
   const programStats = programs.map((program: any) => {
     const enrollments = program.enrollments || [];
     const total = enrollments.length;
-    const completed = enrollments.filter(
-      (e: any) => e.status === 'completed'
-    ).length;
-    const dropped = enrollments.filter(
-      (e: any) => e.status === 'dropped'
-    ).length;
+    const completed = enrollments.filter((e: any) => e.status === 'completed').length;
+    const dropped = enrollments.filter((e: any) => e.status === 'dropped').length;
     const active = enrollments.filter((e: any) => e.status === 'active').length;
 
-    const completionRate =
-      total > 0 ? Math.round((completed / total) * 100) : 0;
+    const completionRate = total > 0 ? Math.round((completed / total) * 100) : 0;
     const dropoutRate = total > 0 ? Math.round((dropped / total) * 100) : 0;
 
     return {
@@ -275,7 +266,7 @@ export async function getFundingSourceMetrics(): Promise<any[]> {
           )
         )
       )
-    `
+    `,
     )
     .eq('active', true);
 
@@ -286,22 +277,16 @@ export async function getFundingSourceMetrics(): Promise<any[]> {
   return fundingSources
     .map((source: any) => {
       const assignments = source.student_funding_assignments || [];
-      const enrollments = assignments
-        .map((a: any) => a.enrollments)
-        .filter(Boolean);
+      const enrollments = assignments.map((a: any) => a.enrollments).filter(Boolean);
 
       const total = enrollments.length;
-      const active = enrollments.filter(
-        (e: any) => e.status === 'active'
-      ).length;
-      const completed = enrollments.filter(
-        (e: any) => e.status === 'completed'
-      ).length;
+      const active = enrollments.filter((e: any) => e.status === 'active').length;
+      const completed = enrollments.filter((e: any) => e.status === 'completed').length;
       const atRisk = enrollments.filter(
-        (e: any) => e.student_risk_status?.[0]?.status === 'at_risk'
+        (e: any) => e.student_risk_status?.[0]?.status === 'at_risk',
       ).length;
       const onTrack = enrollments.filter(
-        (e: any) => e.student_risk_status?.[0]?.status === 'on_track'
+        (e: any) => e.student_risk_status?.[0]?.status === 'on_track',
       ).length;
 
       return {
@@ -321,9 +306,7 @@ export async function getFundingSourceMetrics(): Promise<any[]> {
 /**
  * Detect students with missing critical requirements
  */
-export async function getStudentsWithMissingCriticalRequirements(): Promise<
-  any[]
-> {
+export async function getStudentsWithMissingCriticalRequirements(): Promise<any[]> {
   const supabase = await createClient();
 
   const { data }: any = await supabase
@@ -342,7 +325,7 @@ export async function getStudentsWithMissingCriticalRequirements(): Promise<
           name
         )
       )
-    `
+    `,
     )
     .eq('priority', 'urgent')
     .in('status', ['pending', 'in_progress'])

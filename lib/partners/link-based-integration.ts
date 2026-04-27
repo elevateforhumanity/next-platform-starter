@@ -49,7 +49,7 @@ export const HSI_COURSES: PartnerCourse[] = [
     category: 'Healthcare',
     duration: '4 hours',
     vendorCost: 18,
-    retailPrice: 27,   // $18 × 1.5 = $27
+    retailPrice: 27, // $18 × 1.5 = $27
     stripePriceId: 'price_1TL8hrH4a2yrVOt5ElYR7I96',
     paymentLink: 'https://buy.stripe.com/6oU6oHdzycjka8jbbzgIo0v',
     enrollmentUrl: 'https://www.hsi.com/courses/cpr-aed',
@@ -67,7 +67,7 @@ export const HSI_COURSES: PartnerCourse[] = [
     category: 'Healthcare',
     duration: '4 hours',
     vendorCost: 18,
-    retailPrice: 27,   // $18 × 1.5 = $27
+    retailPrice: 27, // $18 × 1.5 = $27
     stripePriceId: 'price_1TL8hsH4a2yrVOt57ehb2iDo',
     paymentLink: 'https://buy.stripe.com/3cIeVd2UUersbcn5RfgIo0w',
     enrollmentUrl: 'https://www.hsi.com/courses/first-aid',
@@ -85,7 +85,7 @@ export const HSI_COURSES: PartnerCourse[] = [
     category: 'Healthcare',
     duration: '2 hours',
     vendorCost: 12,
-    retailPrice: 18,   // $12 × 1.5 = $18
+    retailPrice: 18, // $12 × 1.5 = $18
     stripePriceId: 'price_1TL8hsH4a2yrVOt56ipM5Rns',
     paymentLink: 'https://buy.stripe.com/8x2cN5eDC6Z02FR7ZngIo0x',
     enrollmentUrl: 'https://www.hsi.com/courses/bloodborne-pathogens',
@@ -107,8 +107,8 @@ export const NRF_COURSES: PartnerCourse[] = [
     description: 'Entry-level food safety certification',
     category: 'Food Service',
     duration: '2 hours',
-    vendorCost: 13.50,
-    retailPrice: 21,   // $13.50 × 1.5 = $20.25 → $21
+    vendorCost: 13.5,
+    retailPrice: 21, // $13.50 × 1.5 = $20.25 → $21
     stripePriceId: 'price_1TL8htH4a2yrVOt5NIqzSJ30',
     paymentLink: 'https://buy.stripe.com/8x2aEXdzyfvw1BN4NbgIo0y',
     enrollmentUrl: 'https://www.servsafe.com/access/ss/Catalog/ProductDetails/SSFH7',
@@ -126,7 +126,7 @@ export const NRF_COURSES: PartnerCourse[] = [
     category: 'Food Service',
     duration: '16 hours',
     vendorCost: 137.66,
-    retailPrice: 199,  // retailOverride from servsafe-programs.ts
+    retailPrice: 199, // retailOverride from servsafe-programs.ts
     stripePriceId: 'price_1TL8huH4a2yrVOt59YVknndf',
     paymentLink: 'https://buy.stripe.com/28E7sLdzy6Z080bgvTgIo0z',
     enrollmentUrl: 'https://www.servsafe.com/access/ss/Catalog/ProductDetails/SSMC7',
@@ -144,7 +144,7 @@ export const NRF_COURSES: PartnerCourse[] = [
     category: 'Food Service',
     duration: '4 hours',
     vendorCost: 20,
-    retailPrice: 30,   // $20 × 1.5 = $30
+    retailPrice: 30, // $20 × 1.5 = $30
     stripePriceId: 'price_1TL8XbH4a2yrVOt5XvDSzwsS',
     paymentLink: 'https://buy.stripe.com/cNidR9brq4QS2FR93rgIo0o',
     enrollmentUrl: 'https://www.servsafe.com/access/ss/Catalog/ProductDetails/SSA7',
@@ -222,23 +222,23 @@ export const ALL_PARTNER_COURSES: PartnerCourse[] = [
 ];
 
 export function getPartnerCourses(partnerId: string): PartnerCourse[] {
-  return ALL_PARTNER_COURSES.filter(c => c.partnerId === partnerId);
+  return ALL_PARTNER_COURSES.filter((c) => c.partnerId === partnerId);
 }
 
 export function getCourseById(courseId: string): PartnerCourse | undefined {
-  return ALL_PARTNER_COURSES.find(c => c.id === courseId);
+  return ALL_PARTNER_COURSES.find((c) => c.id === courseId);
 }
 
 export function getCoursesByCategory(category: string): PartnerCourse[] {
-  return ALL_PARTNER_COURSES.filter(c => c.category === category);
+  return ALL_PARTNER_COURSES.filter((c) => c.category === category);
 }
 
 export function getActiveCourses(): PartnerCourse[] {
-  return ALL_PARTNER_COURSES.filter(c => c.isActive);
+  return ALL_PARTNER_COURSES.filter((c) => c.isActive);
 }
 
 export function getPaidCourses(): PartnerCourse[] {
-  return ALL_PARTNER_COURSES.filter(c => c.retailPrice > 0);
+  return ALL_PARTNER_COURSES.filter((c) => c.retailPrice > 0);
 }
 
 export function getPaymentLink(courseId: string, email?: string): string {
@@ -251,7 +251,7 @@ export function getPaymentLink(courseId: string, email?: string): string {
 
 export async function createPartnerEnrollment(
   studentId: string,
-  courseId: string
+  courseId: string,
 ): Promise<PartnerEnrollment> {
   const course = getCourseById(courseId);
   if (!course) throw new Error(`Course not found: ${courseId}`);

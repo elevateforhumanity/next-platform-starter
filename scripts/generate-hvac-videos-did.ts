@@ -31,14 +31,21 @@ import { HVAC_LESSON_UUID } from '../lib/courses/hvac-legacy-maps';
 const DID_API_BASE = 'https://api.d-id.com';
 const DID_KEY = process.env.DID_API_KEY;
 const SITE_URL = 'https://www.elevateforhumanity.org';
-const SUPABASE_URL        = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
-const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const SUPABASE_SERVICE_KEY =
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
-const AUDIO_DIR  = path.join(process.cwd(), 'public', 'hvac', 'audio');
-const VIDEO_DIR  = path.join(process.cwd(), 'public', 'hvac', 'videos');
+const AUDIO_DIR = path.join(process.cwd(), 'public', 'hvac', 'audio');
+const VIDEO_DIR = path.join(process.cwd(), 'public', 'hvac', 'videos');
 // elizabeth-greene-headshot.jpg: 800x1080 portrait — passes D-ID face detection
-const PHOTO_LOCAL = path.join(process.cwd(), 'public', 'images', 'team', 'elizabeth-greene-headshot.jpg');
-const PHOTO_URL   = `${SITE_URL}/images/team/elizabeth-greene-headshot.jpg`;
+const PHOTO_LOCAL = path.join(
+  process.cwd(),
+  'public',
+  'images',
+  'team',
+  'elizabeth-greene-headshot.jpg',
+);
+const PHOTO_URL = `${SITE_URL}/images/team/elizabeth-greene-headshot.jpg`;
 const CONCURRENCY = 3; // D-ID free tier allows ~3 concurrent
 
 if (!DID_KEY) {
@@ -57,18 +64,15 @@ function didHeaders() {
 /** Upload a local file to Supabase Storage and return its public https URL. */
 async function uploadToSupabase(localPath: string, storagePath: string): Promise<string> {
   const buf = fs.readFileSync(localPath);
-  const res = await fetch(
-    `${SUPABASE_URL}/storage/v1/object/lesson-audio/${storagePath}`,
-    {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
-        'Content-Type': 'audio/mpeg',
-        'x-upsert': 'true',
-      },
-      body: buf,
-    }
-  );
+  const res = await fetch(`${SUPABASE_URL}/storage/v1/object/lesson-audio/${storagePath}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
+      'Content-Type': 'audio/mpeg',
+      'x-upsert': 'true',
+    },
+    body: buf,
+  });
   if (!res.ok) {
     const err = await res.text();
     throw new Error(`Supabase upload failed: ${err}`);
@@ -97,12 +101,13 @@ async function submitTalk(audioUrl: string, photoUrl: string = PHOTO_URL): Promi
 async function pollTalk(talkId: string, maxWaitMs = 300000): Promise<string> {
   const start = Date.now();
   while (Date.now() - start < maxWaitMs) {
-    await new Promise(r => setTimeout(r, 5000));
+    await new Promise((r) => setTimeout(r, 5000));
     const res = await fetch(`${DID_API_BASE}/talks/${talkId}`, { headers: didHeaders() });
     if (!res.ok) throw new Error(`D-ID poll error ${res.status}`);
     const data = await res.json();
     if (data.status === 'done') return data.result_url as string;
-    if (data.status === 'error') throw new Error(`D-ID failed: ${data.error?.description || 'unknown'}`);
+    if (data.status === 'error')
+      throw new Error(`D-ID failed: ${data.error?.description || 'unknown'}`);
   }
   throw new Error(`D-ID timed out after ${maxWaitMs / 1000}s`);
 }
@@ -148,7 +153,7 @@ async function main() {
   // Single-lesson mode: --lesson-id hvac-06-09 --audio /path/audio.mp3 --out /path/video.mp4
   const singleLessonId = getArg('--lesson-id');
   const singleAudioPath = getArg('--audio');
-  const singleOutPath   = getArg('--out');
+  const singleOutPath = getArg('--out');
 
   if (singleLessonId) {
     if (!singleAudioPath || !singleOutPath) {
@@ -175,18 +180,20 @@ async function main() {
         {
           method: 'POST',
           headers: {
-            'Authorization': `Bearer ${SUPABASE_SERVICE_KEY}`,
+            Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
             'Content-Type': 'image/jpeg',
             'x-upsert': 'true',
           },
           body: photoBuf,
-        }
+        },
       );
       if (photoRes.ok) {
         photoUrl = `${SUPABASE_URL}/storage/v1/object/public/avatars/hvac-instructor.jpg`;
         console.log(`  Photo URL: ${photoUrl}`);
       }
-    } catch { /* fall back to site URL */ }
+    } catch {
+      /* fall back to site URL */
+    }
 
     // D-ID requires a public https:// URL — upload audio to Supabase Storage first
     const storagePath = `hvac/audio/lesson-${uuid}.mp3`;
@@ -217,7 +224,9 @@ async function main() {
 
   // Batch mode — all lessons
   const all = Object.entries(HVAC_LESSON_UUID) as [string, string][];
-  const pending = all.filter(([, uuid]) => !fs.existsSync(path.join(VIDEO_DIR, `lesson-${uuid}.mp4`)));
+  const pending = all.filter(
+    ([, uuid]) => !fs.existsSync(path.join(VIDEO_DIR, `lesson-${uuid}.mp4`)),
+  );
 
   if (pending.length === 0) {
     console.log('All HVAC lessons already have video.');
@@ -229,29 +238,42 @@ async function main() {
   console.log(`Audio base URL: ${SITE_URL}/hvac/audio/`);
   console.log(`Concurrency: ${CONCURRENCY}\n`);
 
-  let done = 0, failed = 0, skipped = 0;
+  let done = 0,
+    failed = 0,
+    skipped = 0;
 
   for (let i = 0; i < pending.length; i += CONCURRENCY) {
     const batch = pending.slice(i, i + CONCURRENCY);
     const labels = batch.map(([id]) => id).join(', ');
-    process.stdout.write(`  [${i + 1}-${Math.min(i + CONCURRENCY, pending.length)}/${pending.length}] ${labels} ... `);
+    process.stdout.write(
+      `  [${i + 1}-${Math.min(i + CONCURRENCY, pending.length)}/${pending.length}] ${labels} ... `,
+    );
 
     const results = await Promise.all(batch.map(([defId, uuid]) => processOne(defId, uuid)));
     for (const r of results) {
-      if (r === 'done')    done++;
-      if (r === 'failed')  failed++;
+      if (r === 'done') done++;
+      if (r === 'failed') failed++;
       if (r === 'skipped') skipped++;
     }
 
     const parts = [];
-    if (results.filter(r => r === 'done').length)    parts.push(`${results.filter(r => r === 'done').length} done`);
-    if (results.filter(r => r === 'skipped').length) parts.push(`${results.filter(r => r === 'skipped').length} skipped`);
-    if (results.filter(r => r === 'failed').length)  parts.push(`${results.filter(r => r === 'failed').length} failed`);
+    if (results.filter((r) => r === 'done').length)
+      parts.push(`${results.filter((r) => r === 'done').length} done`);
+    if (results.filter((r) => r === 'skipped').length)
+      parts.push(`${results.filter((r) => r === 'skipped').length} skipped`);
+    if (results.filter((r) => r === 'failed').length)
+      parts.push(`${results.filter((r) => r === 'failed').length} failed`);
     console.log(parts.join(', '));
   }
 
   console.log(`\nDone: ${done} generated, ${skipped} skipped, ${failed} failed.`);
-  if (failed > 0) { console.log('Re-run to retry failed lessons.'); process.exit(1); }
+  if (failed > 0) {
+    console.log('Re-run to retry failed lessons.');
+    process.exit(1);
+  }
 }
 
-main().catch(e => { console.error('Fatal:', e.message); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e.message);
+  process.exit(1);
+});

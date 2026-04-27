@@ -1,12 +1,21 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 import { useState, useRef, useCallback } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
 import {
-  Upload, File, FileText, Image as ImageIcon, X, Check,
-  AlertCircle, Loader, Download, Eye, Trash2
+  Upload,
+  File,
+  FileText,
+  Image as ImageIcon,
+  X,
+  Check,
+  AlertCircle,
+  Loader,
+  Download,
+  Eye,
+  Trash2,
 } from 'lucide-react';
 
 interface UploadedFile {
@@ -34,7 +43,7 @@ export default function DocumentUpload({
   maxSize = 10,
   acceptedTypes = ['.pdf', '.doc', '.docx', '.jpg', '.jpeg', '.png'],
   onUploadComplete,
-  required = false
+  required = false,
 }: DocumentUploadProps) {
   const [files, setFiles] = useState<UploadedFile[]>([]);
   const [isDragging, setIsDragging] = useState(false);
@@ -69,47 +78,50 @@ export default function DocumentUpload({
       if (progress >= 100) {
         progress = 100;
         clearInterval(interval);
-        setFiles(prev => prev.map(f =>
-          f.id === fileId
-            ? { ...f, status: 'success', progress: 100, url: URL.createObjectURL(f.file) }
-            : f
-        ));
+        setFiles((prev) =>
+          prev.map((f) =>
+            f.id === fileId
+              ? { ...f, status: 'success', progress: 100, url: URL.createObjectURL(f.file) }
+              : f,
+          ),
+        );
       } else {
-        setFiles(prev => prev.map(f =>
-          f.id === fileId ? { ...f, progress } : f
-        ));
+        setFiles((prev) => prev.map((f) => (f.id === fileId ? { ...f, progress } : f)));
       }
     }, 200);
   };
 
-  const handleFiles = useCallback((newFiles: FileList | null) => {
-    if (!newFiles) return;
+  const handleFiles = useCallback(
+    (newFiles: FileList | null) => {
+      if (!newFiles) return;
 
-    setError(null);
-    const fileArray = Array.from(newFiles);
+      setError(null);
+      const fileArray = Array.from(newFiles);
 
-    fileArray.forEach(file => {
-      const validationError = validateFile(file);
+      fileArray.forEach((file) => {
+        const validationError = validateFile(file);
 
-      if (validationError) {
-        setError(validationError);
-        return;
-      }
+        if (validationError) {
+          setError(validationError);
+          return;
+        }
 
-      const uploadedFile: UploadedFile = {
-        id: Math.random().toString(36).substr(2, 9),
-        file,
-        name: file.name,
-        size: file.size,
-        type: file.type,
-        status: 'uploading',
-        progress: 0
-      };
+        const uploadedFile: UploadedFile = {
+          id: Math.random().toString(36).substr(2, 9),
+          file,
+          name: file.name,
+          size: file.size,
+          type: file.type,
+          status: 'uploading',
+          progress: 0,
+        };
 
-      setFiles(prev => [...prev, uploadedFile]);
-      simulateUpload(uploadedFile.id);
-    });
-  }, [files.length, maxFiles, maxSize, acceptedTypes]);
+        setFiles((prev) => [...prev, uploadedFile]);
+        simulateUpload(uploadedFile.id);
+      });
+    },
+    [files.length, maxFiles, maxSize, acceptedTypes],
+  );
 
   const handleDragOver = useCallback((e: React.DragEvent) => {
     e.preventDefault();
@@ -121,18 +133,24 @@ export default function DocumentUpload({
     setIsDragging(false);
   }, []);
 
-  const handleDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setIsDragging(false);
-    handleFiles(e.dataTransfer.files);
-  }, [handleFiles]);
+  const handleDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setIsDragging(false);
+      handleFiles(e.dataTransfer.files);
+    },
+    [handleFiles],
+  );
 
-  const handleFileInput = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    handleFiles(e.target.files);
-  }, [handleFiles]);
+  const handleFileInput = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      handleFiles(e.target.files);
+    },
+    [handleFiles],
+  );
 
   const removeFile = (fileId: string) => {
-    setFiles(prev => prev.filter(f => f.id !== fileId));
+    setFiles((prev) => prev.filter((f) => f.id !== fileId));
     setError(null);
   };
 
@@ -141,7 +159,7 @@ export default function DocumentUpload({
     const k = 1024;
     const sizes = ['Bytes', 'KB', 'MB', 'GB'];
     const i = Math.floor(Math.log(bytes) / Math.log(k));
-    return Math.round(bytes / Math.pow(k, i) * 100) / 100 + ' ' + sizes[i];
+    return Math.round((bytes / Math.pow(k, i)) * 100) / 100 + ' ' + sizes[i];
   };
 
   const getFileIcon = (type: string) => {
@@ -150,8 +168,8 @@ export default function DocumentUpload({
     return File;
   };
 
-  const successCount = files.filter(f => f.status === 'success').length;
-  const uploadingCount = files.filter(f => f.status === 'uploading').length;
+  const successCount = files.filter((f) => f.status === 'success').length;
+  const uploadingCount = files.filter((f) => f.status === 'uploading').length;
 
   return (
     <div className="w-full">
@@ -164,8 +182,8 @@ export default function DocumentUpload({
           isDragging
             ? 'border-brand-blue-500 bg-brand-blue-50'
             : error
-            ? 'border-brand-red-300 bg-brand-red-50'
-            : 'border-gray-300 bg-gray-50 hover:border-brand-blue-400 hover:bg-gray-50'
+              ? 'border-brand-red-300 bg-brand-red-50'
+              : 'border-gray-300 bg-gray-50 hover:border-brand-blue-400 hover:bg-gray-50'
         }`}
       >
         <input
@@ -178,13 +196,12 @@ export default function DocumentUpload({
         />
 
         <div className="text-center">
-          <motion.div
-            animate={isDragging ? { scale: 1.1 } : { scale: 1 }}
-            className="inline-block"
-          >
-            <div className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
-              isDragging ? 'bg-brand-blue-600' : 'bg-gray-200'
-            }`}>
+          <motion.div animate={isDragging ? { scale: 1.1 } : { scale: 1 }} className="inline-block">
+            <div
+              className={`w-16 h-16 mx-auto mb-4 rounded-full flex items-center justify-center ${
+                isDragging ? 'bg-brand-blue-600' : 'bg-gray-200'
+              }`}
+            >
               <Upload className={`w-8 h-8 ${isDragging ? 'text-white' : 'text-black'}`} />
             </div>
           </motion.div>
@@ -193,9 +210,7 @@ export default function DocumentUpload({
             {isDragging ? 'Drop files here' : 'Upload Documents'}
           </h3>
 
-          <p className="text-black mb-4">
-            Drag and drop files here, or click to browse
-          </p>
+          <p className="text-black mb-4">Drag and drop files here, or click to browse</p>
 
           <button
             onClick={() => fileInputRef.current?.click()}
@@ -264,11 +279,15 @@ export default function DocumentUpload({
                 >
                   <div className="flex items-center gap-4">
                     {/* File Icon */}
-                    <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
-                      file.status === 'success' ? 'bg-brand-green-100' :
-                      file.status === 'error' ? 'bg-brand-red-100' :
-                      'bg-brand-blue-100'
-                    }`}>
+                    <div
+                      className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${
+                        file.status === 'success'
+                          ? 'bg-brand-green-100'
+                          : file.status === 'error'
+                            ? 'bg-brand-red-100'
+                            : 'bg-brand-blue-100'
+                      }`}
+                    >
                       {file.status === 'success' ? (
                         <Check className="w-6 h-6 text-brand-green-600" />
                       ) : file.status === 'error' ? (
@@ -281,9 +300,7 @@ export default function DocumentUpload({
                     {/* File Info */}
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-1">
-                        <h5 className="font-semibold text-black truncate">
-                          {file.name}
-                        </h5>
+                        <h5 className="font-semibold text-black truncate">{file.name}</h5>
                         <span className="text-sm text-slate-700 ml-2">
                           {formatFileSize(file.size)}
                         </span>
@@ -363,9 +380,7 @@ export default function DocumentUpload({
 
       {/* Required Field Indicator */}
       {required && files.length === 0 && (
-        <p className="mt-4 text-sm text-black">
-          * At least one document is required
-        </p>
+        <p className="mt-4 text-sm text-black">* At least one document is required</p>
       )}
 
       {/* Success Summary */}

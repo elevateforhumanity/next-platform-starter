@@ -31,6 +31,7 @@ Ask these in order. Do not solve yet.
    (If yes, name them. No new partners mid-launch.)
 
 **If they try to expand scope:**
+
 > "For launch, we lock scope. Expansion comes after stability."
 
 Then move on.
@@ -47,9 +48,10 @@ Say this verbatim or close:
 
 > "This ensures your first cohort moves end-to-end without surprises."
 
-*Pause. Let them agree.*
+_Pause. Let them agree._
 
 **If they push back:**
+
 > "We can absolutely extend later. We don't do it mid-launch."
 
 ---
@@ -59,14 +61,17 @@ Say this verbatim or close:
 Establish clear ownership immediately.
 
 **Say:**
+
 > "You own program decisions." (content, requirements, partners)
 > "We own lifecycle enforcement." (enrollment → completion → credentialing)
 > "Staff intervene by exception, not by default."
 
 **Then confirm:**
+
 > "Who is the single decision-maker for launch approvals?"
 
 **If they name a committee:**
+
 > "We'll need one accountable owner to keep momentum."
 
 ---
@@ -76,6 +81,7 @@ Establish clear ownership immediately.
 Walk through this quickly.
 
 **For launch readiness, we require:**
+
 - [ ] Program names and descriptions finalized
 - [ ] Enrollment criteria confirmed
 - [ ] Document requirements listed
@@ -84,6 +90,7 @@ Walk through this quickly.
 - [ ] Partner contacts confirmed (if applicable)
 
 **Add:**
+
 > "If any of these are missing, launch pauses—not partially launches."
 
 **This prevents half-live chaos.**
@@ -93,9 +100,11 @@ Walk through this quickly.
 ## Step 5 — Set the Launch Timeline (Keeps Control)
 
 **Frame it like this:**
+
 > "Once inputs are complete, launch is measured in days, not weeks."
 
 **Define the rhythm:**
+
 1. Configuration window
 2. Internal verification
 3. Pilot cohort
@@ -108,10 +117,12 @@ Walk through this quickly.
 ## Step 6 — Set Expectations for Change Requests
 
 **Say this clearly:**
+
 > "During the first cohort, changes are logged—not implemented immediately."
 > We stabilize first. Then we extend intentionally.
 
 **If they ask "why":**
+
 > "Because mid-stream changes create exceptions. Exceptions are what break systems."
 
 End of discussion.
@@ -121,9 +132,11 @@ End of discussion.
 ## Step 7 — Close with Confidence
 
 **End onboarding with this:**
+
 > "If we follow this process, you'll see students enroll, progress, complete, and receive credentials without staff chasing anything."
 
 **Then:**
+
 > "Our job is to make the system boring."
 
 **That line lands.**

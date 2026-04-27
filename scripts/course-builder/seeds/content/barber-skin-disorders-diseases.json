@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which skin condition is considered contagious?",
-        "choices": [
-          "Eczema",
-          "Psoriasis",
-          "Ringworm",
-          "Rosacea"
-        ],
+        "choices": ["Eczema", "Psoriasis", "Ringworm", "Rosacea"],
         "answerIndex": 2,
         "rationale": "Ringworm is a contagious fungal infection that can spread through direct contact or shared tools.",
         "type": "recall"
@@ -64,12 +59,7 @@
       },
       {
         "prompt": "Which of the following skin conditions is non-contagious?",
-        "choices": [
-          "Impetigo",
-          "Psoriasis",
-          "Ringworm",
-          "Scabies"
-        ],
+        "choices": ["Impetigo", "Psoriasis", "Ringworm", "Scabies"],
         "answerIndex": 1,
         "rationale": "Psoriasis is a non-contagious skin condition that does not pose a risk of spreading to others.",
         "type": "recall"
@@ -88,12 +78,7 @@
       },
       {
         "prompt": "Which condition should prompt a barber to refer a client to a physician?",
-        "choices": [
-          "A new rash",
-          "Dandruff",
-          "Dry scalp",
-          "Oily hair"
-        ],
+        "choices": ["A new rash", "Dandruff", "Dry scalp", "Oily hair"],
         "answerIndex": 0,
         "rationale": "A new rash may indicate an underlying issue that requires medical evaluation, warranting a referral to a physician.",
         "type": "recall"
@@ -160,12 +145,7 @@
       },
       {
         "prompt": "Which of the following conditions would contraindicate a shaving service?",
-        "choices": [
-          "Dry skin",
-          "Severe acne",
-          "Oily skin",
-          "Normal skin"
-        ],
+        "choices": ["Dry skin", "Severe acne", "Oily skin", "Normal skin"],
         "answerIndex": 1,
         "rationale": "Severe acne is a contraindication for shaving services as it may lead to further irritation or infection.",
         "type": "recall"

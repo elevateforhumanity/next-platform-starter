@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -52,7 +52,7 @@ export function LiveChatSupport() {
       timestamp: new Date().toLocaleTimeString(),
     };
 
-    setMessages(prev => [...prev, newMessage]);
+    setMessages((prev) => [...prev, newMessage]);
     setMessage('');
 
     // Persist via API route
@@ -76,7 +76,7 @@ export function LiveChatSupport() {
         text: 'Thank you for your message. An agent will respond shortly. You can also visit our FAQ at /faq or submit a request at /contact.',
         timestamp: new Date().toLocaleTimeString(),
       };
-      setMessages(prev => [...prev, agentResponse]);
+      setMessages((prev) => [...prev, agentResponse]);
 
       if (sessionId) {
         fetch('/api/chat/message', {
@@ -92,7 +92,8 @@ export function LiveChatSupport() {
     }, 1000);
   };
 
-  if (!isOpen) return null; {
+  if (!isOpen) return null;
+  {
     return (
       <button
         onClick={() => setIsOpen(true)}
@@ -117,12 +118,19 @@ export function LiveChatSupport() {
 
       <div className="flex-1 overflow-y-auto p-4 space-y-3">
         {messages.map((msg) => (
-          <div key={msg.id} className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}>
-            <div className={`max-w-[80%] rounded-lg p-3 ${
-              msg.sender === 'user' ? 'bg-brand-orange-600 text-white' : 'bg-gray-100 text-black'
-            }`}>
+          <div
+            key={msg.id}
+            className={`flex ${msg.sender === 'user' ? 'justify-end' : 'justify-start'}`}
+          >
+            <div
+              className={`max-w-[80%] rounded-lg p-3 ${
+                msg.sender === 'user' ? 'bg-brand-orange-600 text-white' : 'bg-gray-100 text-black'
+              }`}
+            >
               <p className="text-sm">{msg.text}</p>
-              <p className={`text-xs mt-1 ${msg.sender === 'user' ? 'text-white' : 'text-slate-700'}`}>
+              <p
+                className={`text-xs mt-1 ${msg.sender === 'user' ? 'text-white' : 'text-slate-700'}`}
+              >
                 {msg.timestamp}
               </p>
             </div>
@@ -135,7 +143,9 @@ export function LiveChatSupport() {
           <input
             type="text"
             value={message}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setMessage(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setMessage(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
             placeholder="Type your message..."
             className="flex-1 px-3 py-2 border rounded-lg text-sm"

@@ -15,8 +15,6 @@ export default async function TaxFilingApplicationsPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   // Fetch tax applications
   const { data: applications } = await supabase
     .from('tax_applications')
@@ -36,7 +34,6 @@ export default async function TaxFilingApplicationsPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
@@ -46,9 +43,7 @@ export default async function TaxFilingApplicationsPage() {
           >
             ← Back to Tax Filing
           </Link>
-          <h1 className="text-3xl font-bold text-black">
-            Tax Filing Applications
-          </h1>
+          <h1 className="text-3xl font-bold text-black">Tax Filing Applications</h1>
           <p className="mt-2 text-black">
             Manage client tax filing applications and intake process.
           </p>
@@ -63,23 +58,15 @@ export default async function TaxFilingApplicationsPage() {
             <div className="text-black text-sm">Total Applications</div>
           </div>
           <div className="bg-white p-6 rounded-lg shadow">
-            <div className="text-3xl font-bold text-brand-orange-600">
-              {pendingCount || 0}
-            </div>
+            <div className="text-3xl font-bold text-brand-orange-600">{pendingCount || 0}</div>
             <div className="text-black text-sm">Pending Review</div>
           </div>
           <div className="bg-white p-6 rounded-lg shadow">
-            <div className="text-3xl font-bold text-brand-green-600">
-              {completedCount || 0}
-            </div>
+            <div className="text-3xl font-bold text-brand-green-600">{completedCount || 0}</div>
             <div className="text-black text-sm">Completed</div>
           </div>
           <div className="bg-white p-6 rounded-lg shadow">
-            <Link
-              href="/admin/tax-filing/applications/new"
-              aria-label="Link"
-              className="block"
-            >
+            <Link href="/admin/tax-filing/applications/new" aria-label="Link" className="block">
               <div className="text-lg font-bold text-brand-blue-600">+ New</div>
               <div className="text-black text-sm">Add Application</div>
             </Link>
@@ -107,7 +94,10 @@ export default async function TaxFilingApplicationsPage() {
               <option value="2023">2023</option>
               <option value="2022">2022</option>
             </select>
-            <button className="px-4 py-2 bg-brand-blue-600 text-white rounded-md hover:bg-brand-blue-700" aria-label="Action button">
+            <button
+              className="px-4 py-2 bg-brand-blue-600 text-white rounded-md hover:bg-brand-blue-700"
+              aria-label="Action button"
+            >
               Apply Filters
             </button>
           </div>
@@ -116,9 +106,7 @@ export default async function TaxFilingApplicationsPage() {
         {/* Applications List */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200 flex justify-between items-center">
-            <h2 className="text-lg font-semibold text-black">
-              Recent Applications
-            </h2>
+            <h2 className="text-lg font-semibold text-black">Recent Applications</h2>
             <Link
               href="/admin/tax-filing/applications/new"
               className="px-4 py-2 bg-brand-blue-600 text-white rounded-md hover:bg-brand-blue-700 text-sm"
@@ -156,9 +144,7 @@ export default async function TaxFilingApplicationsPage() {
                         <div className="text-sm font-medium text-black">
                           {item.client_name || 'N/A'}
                         </div>
-                        <div className="text-sm text-black">
-                          {item.client_email || ''}
-                        </div>
+                        <div className="text-sm text-black">{item.client_email || ''}</div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap text-sm text-black">
                         {item.tax_year || '2024'}
@@ -194,8 +180,7 @@ export default async function TaxFilingApplicationsPage() {
             </div>
           ) : (
             <div className="px-6 py-12 text-center text-black">
-              No tax filing applications yet. Create your first application
-              above.
+              No tax filing applications yet. Create your first application above.
             </div>
           )}
         </div>

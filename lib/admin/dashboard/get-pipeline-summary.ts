@@ -2,7 +2,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 export interface DashboardPipeline {
   applications: { draft: number; submitted: number; approved: number; rejected: number };
-  enrollments:  { enrolled: number; active: number; completed: number; withdrawn: number };
+  enrollments: { enrolled: number; active: number; completed: number; withdrawn: number };
 }
 
 export async function getPipelineSummary(db: SupabaseClient): Promise<DashboardPipeline> {
@@ -12,21 +12,21 @@ export async function getPipelineSummary(db: SupabaseClient): Promise<DashboardP
   ]);
 
   const count = <T extends string>(rows: { [k: string]: T }[] | null, key: string, val: T) =>
-    (rows ?? []).filter(r => r[key] === val).length;
+    (rows ?? []).filter((r) => r[key] === val).length;
 
   const a = apps.data as { stage: string }[] | null;
   const e = enrollments.data as { status: string }[] | null;
 
   return {
     applications: {
-      draft:     count(a, 'stage', 'draft'),
+      draft: count(a, 'stage', 'draft'),
       submitted: count(a, 'stage', 'submitted'),
-      approved:  count(a, 'stage', 'approved'),
-      rejected:  count(a, 'stage', 'rejected'),
+      approved: count(a, 'stage', 'approved'),
+      rejected: count(a, 'stage', 'rejected'),
     },
     enrollments: {
-      enrolled:  count(e, 'status', 'enrolled'),
-      active:    count(e, 'status', 'active'),
+      enrolled: count(e, 'status', 'enrolled'),
+      active: count(e, 'status', 'active'),
       completed: count(e, 'status', 'completed'),
       withdrawn: count(e, 'status', 'withdrawn'),
     },

@@ -21,7 +21,10 @@ export default function NewDealPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!form.title.trim()) { setError('Deal name is required'); return; }
+    if (!form.title.trim()) {
+      setError('Deal name is required');
+      return;
+    }
     setSaving(true);
     setError('');
 
@@ -49,17 +52,25 @@ export default function NewDealPage() {
     }
   };
 
-  const update = (field: string, value: string) => setForm(prev => ({ ...prev, [field]: value }));
+  const update = (field: string, value: string) => setForm((prev) => ({ ...prev, [field]: value }));
 
   return (
     <div className="min-h-screen bg-white p-8">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'CRM', href: '/admin/crm' }, { label: 'New Deal' }]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Admin', href: '/admin' },
+            { label: 'CRM', href: '/admin/crm' },
+            { label: 'New Deal' },
+          ]}
+        />
       </div>
       <div className="max-w-2xl mx-auto">
-        <Link href="/admin/crm/deals" className="flex items-center gap-2 text-slate-700 hover:text-brand-blue-600 mb-6">
+        <Link
+          href="/admin/crm/deals"
+          className="flex items-center gap-2 text-slate-700 hover:text-brand-blue-600 mb-6"
+        >
           <ArrowLeft className="w-4 h-4" />
           Back to Deals
         </Link>
@@ -74,7 +85,9 @@ export default function NewDealPage() {
             <h2 className="text-lg font-bold text-slate-900 mb-6">Deal Information</h2>
 
             {error && (
-              <div className="mb-4 p-3 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-700 text-sm">{error}</div>
+              <div className="mb-4 p-3 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-700 text-sm">
+                {error}
+              </div>
             )}
 
             <div className="space-y-6">
@@ -83,7 +96,7 @@ export default function NewDealPage() {
                 <input
                   type="text"
                   value={form.title}
-                  onChange={e => update('title', e.target.value)}
+                  onChange={(e) => update('title', e.target.value)}
                   placeholder="e.g., ABC Corp - Apprenticeship Program"
                   className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   required
@@ -95,7 +108,7 @@ export default function NewDealPage() {
                 <input
                   type="text"
                   value={form.company_name}
-                  onChange={e => update('company_name', e.target.value)}
+                  onChange={(e) => update('company_name', e.target.value)}
                   placeholder="Company name"
                   className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 />
@@ -109,20 +122,22 @@ export default function NewDealPage() {
                     <input
                       type="number"
                       value={form.value}
-                      onChange={e => update('value', e.target.value)}
+                      onChange={(e) => update('value', e.target.value)}
                       placeholder="0.00"
                       className="w-full pl-10 pr-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                     />
                   </div>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2">Probability (%)</label>
+                  <label className="block text-sm font-medium text-slate-900 mb-2">
+                    Probability (%)
+                  </label>
                   <input
                     type="number"
                     min="0"
                     max="100"
                     value={form.probability}
-                    onChange={e => update('probability', e.target.value)}
+                    onChange={(e) => update('probability', e.target.value)}
                     className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   />
                 </div>
@@ -133,7 +148,7 @@ export default function NewDealPage() {
                   <label className="block text-sm font-medium text-slate-900 mb-2">Stage</label>
                   <select
                     value={form.stage}
-                    onChange={e => update('stage', e.target.value)}
+                    onChange={(e) => update('stage', e.target.value)}
                     className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   >
                     <option value="lead">Lead</option>
@@ -145,11 +160,13 @@ export default function NewDealPage() {
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2">Expected Close Date</label>
+                  <label className="block text-sm font-medium text-slate-900 mb-2">
+                    Expected Close Date
+                  </label>
                   <input
                     type="date"
                     value={form.expected_close_date}
-                    onChange={e => update('expected_close_date', e.target.value)}
+                    onChange={(e) => update('expected_close_date', e.target.value)}
                     className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   />
                 </div>
@@ -160,7 +177,7 @@ export default function NewDealPage() {
                 <textarea
                   rows={4}
                   value={form.notes}
-                  onChange={e => update('notes', e.target.value)}
+                  onChange={(e) => update('notes', e.target.value)}
                   placeholder="Add any relevant notes about this deal..."
                   className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 />

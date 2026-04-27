@@ -14,14 +14,14 @@ export const frameworkSettings = {
     return {
       name: 'Next.js',
       version: '16.0.7',
-      features: ['SSR', 'SSG', 'API Routes', 'Middleware']
+      features: ['SSR', 'SSG', 'API Routes', 'Middleware'],
     };
   },
 
   validateFrameworkCompatibility(): { valid: boolean; issues: string[] } {
     return {
       valid: true,
-      issues: []
+      issues: [],
     };
-  }
+  },
 };

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Circle } from 'lucide-react';
 

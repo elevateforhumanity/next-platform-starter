@@ -7,8 +7,7 @@ import { createClient } from '@/lib/supabase/server';
 // VAPID configuration
 const VAPID_PUBLIC_KEY = process.env.VAPID_PUBLIC_KEY || '';
 const VAPID_PRIVATE_KEY = process.env.VAPID_PRIVATE_KEY || '';
-const VAPID_SUBJECT =
-  process.env.VAPID_SUBJECT || 'mailto:admin@www.elevateforhumanity.org';
+const VAPID_SUBJECT = process.env.VAPID_SUBJECT || 'mailto:admin@www.elevateforhumanity.org';
 // Initialize web-push
 if (VAPID_PUBLIC_KEY && VAPID_PRIVATE_KEY) {
   webpush.setVapidDetails(VAPID_SUBJECT, VAPID_PUBLIC_KEY, VAPID_PRIVATE_KEY);
@@ -43,7 +42,7 @@ export class PushNotificationService {
    */
   async sendToSubscription(
     subscription: PushSubscription,
-    notification: PushNotification
+    notification: PushNotification,
   ): Promise<boolean> {
     if (!VAPID_PUBLIC_KEY || !VAPID_PRIVATE_KEY) {
       return false;
@@ -52,7 +51,8 @@ export class PushNotificationService {
       const payload = JSON.stringify(notification);
       await webpush.sendNotification(subscription, payload);
       return true;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Handle expired subscriptions
       if (error.statusCode === 410 || error.statusCode === 404) {
         await this.removeSubscription(subscription.endpoint);
@@ -65,20 +65,14 @@ export class PushNotificationService {
   /**
    * Send push notification to a user
    */
-  async sendToUser(
-    userId: string,
-    notification: PushNotification
-  ): Promise<number> {
+  async sendToUser(userId: string, notification: PushNotification): Promise<number> {
     const subscriptions = await this.getUserSubscriptions(userId);
     if (subscriptions.length === 0) {
       return 0;
     }
     let successCount = 0;
     for (const sub of subscriptions) {
-      const success = await this.sendToSubscription(
-        sub.subscription,
-        notification
-      );
+      const success = await this.sendToSubscription(sub.subscription, notification);
       if (success) successCount++;
     }
     return successCount;
@@ -86,10 +80,7 @@ export class PushNotificationService {
   /**
    * Send push notification to multiple users
    */
-  async sendToUsers(
-    userIds: string[],
-    notification: PushNotification
-  ): Promise<number> {
+  async sendToUsers(userIds: string[], notification: PushNotification): Promise<number> {
     let totalSent = 0;
     for (const userId of userIds) {
       const sent = await this.sendToUser(userId, notification);
@@ -104,10 +95,7 @@ export class PushNotificationService {
     const subscriptions = await this.getAllSubscriptions();
     let successCount = 0;
     for (const sub of subscriptions) {
-      const success = await this.sendToSubscription(
-        sub.subscription,
-        notification
-      );
+      const success = await this.sendToSubscription(sub.subscription, notification);
       if (success) successCount++;
     }
     return successCount;
@@ -138,9 +126,7 @@ export class PushNotificationService {
   private async getAllSubscriptions(): Promise<any[]> {
     try {
       const supabase = await createClient();
-      const { data, error }: any = await supabase
-        .from('push_subscriptions')
-        .select('*');
+      const { data, error }: any = await supabase.from('push_subscriptions').select('*');
       if (error) {
         // Error: $1
         return [];
@@ -157,10 +143,7 @@ export class PushNotificationService {
   private async removeSubscription(endpoint: string): Promise<void> {
     try {
       const supabase = await createClient();
-      await supabase
-        .from('push_subscriptions')
-        .delete()
-        .eq('endpoint', endpoint);
+      await supabase.from('push_subscriptions').delete().eq('endpoint', endpoint);
     } catch (error) {
       // Error: $1
     }
@@ -168,10 +151,7 @@ export class PushNotificationService {
   /**
    * Send course enrollment notification
    */
-  async sendCourseEnrollmentNotification(
-    userId: string,
-    courseName: string
-  ): Promise<void> {
+  async sendCourseEnrollmentNotification(userId: string, courseName: string): Promise<void> {
     await this.sendToUser(userId, {
       title: 'Course Enrollment Confirmed',
       body: `You've been enrolled in ${courseName}`,
@@ -185,10 +165,7 @@ export class PushNotificationService {
   /**
    * Send course completion notification
    */
-  async sendCourseCompletionNotification(
-    userId: string,
-    courseName: string
-  ): Promise<void> {
+  async sendCourseCompletionNotification(userId: string, courseName: string): Promise<void> {
     await this.sendToUser(userId, {
       title: 'Course Completed! 🎉',
       body: `Congratulations on completing ${courseName}`,
@@ -206,7 +183,7 @@ export class PushNotificationService {
   async sendAchievementNotification(
     userId: string,
     achievementName: string,
-    points: number
+    points: number,
   ): Promise<void> {
     await this.sendToUser(userId, {
       title: 'Achievement Unlocked! 🏆',
@@ -221,11 +198,7 @@ export class PushNotificationService {
   /**
    * Send class reminder notification
    */
-  async sendClassReminder(
-    userId: string,
-    className: string,
-    startTime: Date
-  ): Promise<void> {
+  async sendClassReminder(userId: string, className: string, startTime: Date): Promise<void> {
     const timeStr = startTime.toLocaleTimeString('en-US', {
       hour: 'numeric',
       minute: '2-digit',
@@ -248,10 +221,7 @@ export class PushNotificationService {
   /**
    * Send certificate ready notification
    */
-  async sendCertificateReadyNotification(
-    userId: string,
-    courseName: string
-  ): Promise<void> {
+  async sendCertificateReadyNotification(userId: string, courseName: string): Promise<void> {
     await this.sendToUser(userId, {
       title: 'Certificate Ready',
       body: `Your certificate for ${courseName} is ready to download`,
@@ -287,7 +257,7 @@ export class PushNotificationService {
   async sendLeaderboardNotification(
     userId: string,
     position: number,
-    change: number
+    change: number,
   ): Promise<void> {
     const changeText = change > 0 ? `up ${change}` : `down ${Math.abs(change)}`;
     await this.sendToUser(userId, {
@@ -306,7 +276,7 @@ export class PushNotificationService {
   async sendMessageNotification(
     userId: string,
     senderName: string,
-    preview: string
+    preview: string,
   ): Promise<void> {
     await this.sendToUser(userId, {
       title: `Message from ${senderName}`,

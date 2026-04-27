@@ -8,6 +8,7 @@ Indianapolis, Indiana
 ---
 
 # RFP 2026-003 — WIOA In-School Youth Service Provision
+
 # WIOA 14 Service Elements Delivery Plan
 
 ---
@@ -28,7 +29,7 @@ Indianapolis, Indiana
 
 ---
 
-## Element 3 — Paid & Unpaid Work-Based Learning *(PRIMARY INVESTMENT AREA)*
+## Element 3 — Paid & Unpaid Work-Based Learning _(PRIMARY INVESTMENT AREA)_
 
 **Delivery Method:** This is Elevate's primary investment area and core competitive strength.
 
@@ -63,6 +64,7 @@ Indianapolis, Indiana
 ## Element 6 — Leadership Development
 
 **Delivery Method:**
+
 - **Employability Bootcamp:** Workplace behavior, professionalism, communication, and conflict resolution delivered via LMS and in-person sessions at Warren Central.
 - **Financial Literacy:** Module covering budgeting, banking, credit, and tax basics — informed by Elizabeth Greene's background as an IRS Enrolled Agent and SupersonicFastCash operator.
 - **Employer-Led Sessions:** 2Exclusive Platinum Cleaning leadership delivers workplace expectations and professional development sessions for participants.
@@ -75,6 +77,7 @@ Indianapolis, Indiana
 ## Element 7 — Supportive Services
 
 **Delivery Method:** All supportive services are covered at no cost to participants under WIOA funding:
+
 - Transportation stipends for work-based learning participation
 - Work attire and tools for OJT placements
 - EPA 608 exam fees covered
@@ -129,6 +132,7 @@ Indianapolis, Indiana
 ## Element 13 — Labor Market Information
 
 **Delivery Method:**
+
 - Sector-based HVAC career exploration cohorts at Warren Central
 - Industry tours at 2Exclusive Platinum Cleaning and Marion County HVAC employer sites
 - LMI sessions covering Indiana Demand Occupation List, HVAC wage data, and career ladder from pre-apprentice to journeyworker to facilities manager
@@ -141,6 +145,7 @@ Indianapolis, Indiana
 ## Element 14 — Postsecondary Preparation & Transition
 
 **Delivery Method:**
+
 - FAFSA completion support for participants pursuing postsecondary education
 - Dual credit guidance in coordination with Warren Central counseling staff
 - Postsecondary bridge coaching for participants transitioning to Ivy Tech, IUPUI, or other Indiana institutions
@@ -151,4 +156,4 @@ Indianapolis, Indiana
 
 ---
 
-*Elevate for Humanity | www.elevateforhumanity.org | RFP 2026-003*
+_Elevate for Humanity | www.elevateforhumanity.org | RFP 2026-003_

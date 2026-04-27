@@ -8,11 +8,11 @@ import { createClient, SupabaseClient } from '@supabase/supabase-js';
 function getSupabase(): SupabaseClient {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  
+
   if (!supabaseUrl || !supabaseServiceKey) {
     throw new Error('Missing Supabase environment variables');
   }
-  
+
   return createClient(supabaseUrl, supabaseServiceKey);
 }
 
@@ -116,7 +116,7 @@ class EROService {
         ...input,
         is_active: true,
         created_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .select()
       .maybeSingle();
@@ -134,21 +134,20 @@ class EROService {
    * Generate ERO signature for a return
    * This is the franchise owner's signature that appears on all returns
    */
-  async generateEROSignature(
-    officeId: string,
-    ipAddress?: string
-  ): Promise<EROSignature> {
+  async generateEROSignature(officeId: string, ipAddress?: string): Promise<EROSignature> {
     // Get ERO config for office
     const config = await this.getEROConfig(officeId);
-    
+
     if (!config) {
       // Fall back to office owner as ERO
       const { data: office, error: officeError } = await this.supabase
         .from('franchise_offices')
-        .select(`
+        .select(
+          `
           *,
           owner:franchise_preparers!franchise_offices_owner_id_fkey(*)
-        `)
+        `,
+        )
         .eq('id', officeId)
         .maybeSingle();
 
@@ -169,7 +168,7 @@ class EROService {
         efin: office.efin || '',
         signature_date: new Date().toISOString().split('T')[0],
         signature_pin: owner.signature_pin || this.generatePin(),
-        ip_address: ipAddress
+        ip_address: ipAddress,
       };
     }
 
@@ -191,7 +190,7 @@ class EROService {
       efin: config.efin,
       signature_date: new Date().toISOString().split('T')[0],
       signature_pin: config.signature_pin,
-      ip_address: ipAddress
+      ip_address: ipAddress,
     };
   }
 
@@ -271,14 +270,14 @@ class EROService {
   async recordSignature(
     submissionId: string,
     signature: EROSignature,
-    actorId: string
+    actorId: string,
   ): Promise<void> {
     const { error } = await this.supabase
       .from('franchise_return_submissions')
       .update({
         ero_signature: signature,
         ero_signed_at: new Date().toISOString(),
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', submissionId);
 
@@ -288,7 +287,7 @@ class EROService {
 
     await this.logAudit('ero_signature_recorded', null, submissionId, actorId, {
       ero_id: signature.ero_id,
-      signature_date: signature.signature_date
+      signature_date: signature.signature_date,
     });
   }
 
@@ -298,11 +297,13 @@ class EROService {
   async getPendingSignatures(officeId: string): Promise<any[]> {
     const { data, error } = await this.supabase
       .from('franchise_return_submissions')
-      .select(`
+      .select(
+        `
         *,
         preparer:franchise_preparers(*),
         client:franchise_clients(*)
-      `)
+      `,
+      )
       .eq('office_id', officeId)
       .is('ero_signed_at', null)
       .eq('status', 'pending_ero')
@@ -322,7 +323,7 @@ class EROService {
     submissionIds: string[],
     officeId: string,
     ipAddress: string | undefined,
-    actorId: string
+    actorId: string,
   ): Promise<{ signed: string[]; failed: { id: string; error: string }[] }> {
     const signature = await this.generateEROSignature(officeId, ipAddress);
     const signed: string[] = [];
@@ -331,13 +332,13 @@ class EROService {
     for (const id of submissionIds) {
       try {
         await this.recordSignature(id, signature, actorId);
-        
+
         // Update status to ready for submission
         await this.supabase
           .from('franchise_return_submissions')
           .update({
             status: 'ready_to_submit',
-            updated_at: new Date().toISOString()
+            updated_at: new Date().toISOString(),
           })
           .eq('id', id);
 
@@ -345,7 +346,7 @@ class EROService {
       } catch (error) {
         failed.push({
           id,
-          error: 'Operation failed'
+          error: 'Operation failed',
         });
       }
     }
@@ -368,7 +369,7 @@ class EROService {
     officeId: string | null,
     entityId: string,
     actorId: string,
-    details: Record<string, unknown>
+    details: Record<string, unknown>,
   ): Promise<void> {
     await this.supabase.from('franchise_audit_log').insert({
       action,
@@ -377,7 +378,7 @@ class EROService {
       office_id: officeId,
       actor_id: actorId,
       details,
-      created_at: new Date().toISOString()
+      created_at: new Date().toISOString(),
     });
   }
 }

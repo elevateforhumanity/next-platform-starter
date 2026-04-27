@@ -1,17 +1,16 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { 
-  
-  Clock, 
-  Upload, 
-  ExternalLink, 
+import {
+  Clock,
+  Upload,
+  ExternalLink,
   Award,
   AlertCircle,
   ChevronDown,
   ChevronUp,
   FileText,
-  Calendar
+  Calendar,
 } from 'lucide-react';
 
 interface Certification {
@@ -34,14 +33,14 @@ interface Program {
 }
 
 const PARTNER_LINKS: Record<string, string> = {
-  'CareerSafe': 'https://www.careersafeonline.com',
-  'HSI': 'https://www.hsi.com',
+  CareerSafe: 'https://www.careersafeonline.com',
+  HSI: 'https://www.hsi.com',
   'NRF Foundation': 'https://nrffoundation.org/riseup',
-  'Certiport': 'https://certiport.pearsonvue.com',
-  'IRS': 'https://www.irs.gov/individuals/link-learn-taxes',
+  Certiport: 'https://certiport.pearsonvue.com',
+  IRS: 'https://www.irs.gov/individuals/link-learn-taxes',
   'Elevate LMS': '/lms/courses',
   'National Drug Screening': 'https://www.mydrugtraining.com',
-  'EmployIndy': '/lms/courses/jri',
+  EmployIndy: '/lms/courses/jri',
 };
 
 interface CertificationTrackerProps {
@@ -57,7 +56,9 @@ export function CertificationTracker({ programId, userId }: CertificationTracker
 
   const fetchCertifications = useCallback(async () => {
     try {
-      const res = await fetch(`/api/certifications/progress?programId=${programId}&userId=${userId}`);
+      const res = await fetch(
+        `/api/certifications/progress?programId=${programId}&userId=${userId}`,
+      );
       if (res.ok) {
         const data = await res.json();
         setProgram(data);
@@ -75,7 +76,7 @@ export function CertificationTracker({ programId, userId }: CertificationTracker
 
   const handleFileUpload = async (certId: string, file: File) => {
     setUploadingCert(certId);
-    
+
     const formData = new FormData();
     formData.append('file', file);
     formData.append('certificationId', certId);
@@ -99,28 +100,40 @@ export function CertificationTracker({ programId, userId }: CertificationTracker
 
   const getStatusColor = (status: Certification['status']) => {
     switch (status) {
-      case 'completed': return 'text-brand-green-600 bg-brand-green-50 border-brand-green-200';
-      case 'pending_review': return 'text-amber-600 bg-amber-50 border-amber-200';
-      case 'in_progress': return 'text-brand-blue-600 bg-brand-blue-50 border-brand-blue-200';
-      default: return 'text-slate-500 bg-slate-50 border-slate-200';
+      case 'completed':
+        return 'text-brand-green-600 bg-brand-green-50 border-brand-green-200';
+      case 'pending_review':
+        return 'text-amber-600 bg-amber-50 border-amber-200';
+      case 'in_progress':
+        return 'text-brand-blue-600 bg-brand-blue-50 border-brand-blue-200';
+      default:
+        return 'text-slate-500 bg-slate-50 border-slate-200';
     }
   };
 
   const getStatusIcon = (status: Certification['status']) => {
     switch (status) {
-      case 'completed': return <span className="text-slate-400 flex-shrink-0">•</span>;
-      case 'pending_review': return <Clock className="w-5 h-5 text-amber-600" />;
-      case 'in_progress': return <AlertCircle className="w-5 h-5 text-brand-blue-600" />;
-      default: return <div className="w-5 h-5 rounded-full border-2 border-slate-300" />;
+      case 'completed':
+        return <span className="text-slate-400 flex-shrink-0">•</span>;
+      case 'pending_review':
+        return <Clock className="w-5 h-5 text-amber-600" />;
+      case 'in_progress':
+        return <AlertCircle className="w-5 h-5 text-brand-blue-600" />;
+      default:
+        return <div className="w-5 h-5 rounded-full border-2 border-slate-300" />;
     }
   };
 
   const getStatusLabel = (status: Certification['status']) => {
     switch (status) {
-      case 'completed': return 'Completed';
-      case 'pending_review': return 'Pending Review';
-      case 'in_progress': return 'In Progress';
-      default: return 'Not Started';
+      case 'completed':
+        return 'Completed';
+      case 'pending_review':
+        return 'Pending Review';
+      case 'in_progress':
+        return 'In Progress';
+      default:
+        return 'Not Started';
     }
   };
 
@@ -130,7 +143,7 @@ export function CertificationTracker({ programId, userId }: CertificationTracker
         <div className="animate-pulse space-y-4">
           <div className="h-6 bg-slate-200 rounded w-1/3"></div>
           <div className="space-y-3">
-            {[1, 2, 3, 4].map(i => (
+            {[1, 2, 3, 4].map((i) => (
               <div key={i} className="h-16 bg-slate-100 rounded-lg"></div>
             ))}
           </div>
@@ -147,7 +160,7 @@ export function CertificationTracker({ programId, userId }: CertificationTracker
     );
   }
 
-  const completedCount = program.certifications.filter(c => c.status === 'completed').length;
+  const completedCount = program.certifications.filter((c) => c.status === 'completed').length;
   const totalCount = program.certifications.length;
   const progressPercent = Math.round((completedCount / totalCount) * 100);
 
@@ -161,14 +174,16 @@ export function CertificationTracker({ programId, userId }: CertificationTracker
             <p className="text-sm text-slate-600">Required Certifications</p>
           </div>
           <div className="text-right">
-            <div className="text-2xl font-bold text-slate-900">{completedCount}/{totalCount}</div>
+            <div className="text-2xl font-bold text-slate-900">
+              {completedCount}/{totalCount}
+            </div>
             <p className="text-sm text-slate-600">Completed</p>
           </div>
         </div>
-        
+
         {/* Progress Bar */}
         <div className="h-3 bg-slate-100 rounded-full overflow-hidden">
-          <div 
+          <div
             className="h-full bg-gradient-to-r from-brand-blue-500 to-brand-green-500 transition-all duration-500"
             style={{ width: `${progressPercent}%` }}
           />
@@ -181,7 +196,7 @@ export function CertificationTracker({ programId, userId }: CertificationTracker
         {program.certifications.map((cert) => (
           <div key={cert.id} className="p-4">
             {/* Certification Row */}
-            <div 
+            <div
               className="flex items-center gap-4 cursor-pointer"
               onClick={() => setExpandedCert(expandedCert === cert.id ? null : cert.id)}
             >
@@ -191,11 +206,15 @@ export function CertificationTracker({ programId, userId }: CertificationTracker
               {/* Info */}
               <div className="flex-1 min-w-0">
                 <h3 className="font-medium text-slate-900 truncate">{cert.name}</h3>
-                <p className="text-sm text-slate-500">{cert.provider} • {cert.hours} hours</p>
+                <p className="text-sm text-slate-500">
+                  {cert.provider} • {cert.hours} hours
+                </p>
               </div>
 
               {/* Status Badge */}
-              <span className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(cert.status)}`}>
+              <span
+                className={`px-3 py-1 rounded-full text-xs font-medium border ${getStatusColor(cert.status)}`}
+              >
                 {getStatusLabel(cert.status)}
               </span>
 
@@ -236,13 +255,25 @@ export function CertificationTracker({ programId, userId }: CertificationTracker
                     {cert.completedAt && (
                       <p className="text-sm text-brand-green-800 flex items-center gap-2">
                         <Calendar className="w-4 h-4" />
-                        Completed: {new Date(cert.completedAt).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                        Completed:{' '}
+                        {new Date(cert.completedAt).toLocaleDateString('en-US', {
+                          timeZone: 'UTC',
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
                       </p>
                     )}
                     {cert.expiresAt && (
                       <p className="text-sm text-brand-green-800 flex items-center gap-2">
                         <Clock className="w-4 h-4" />
-                        Expires: {new Date(cert.expiresAt).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                        Expires:{' '}
+                        {new Date(cert.expiresAt).toLocaleDateString('en-US', {
+                          timeZone: 'UTC',
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
                       </p>
                     )}
                     {cert.credentialNumber && (
@@ -312,7 +343,9 @@ export function CertificationTracker({ programId, userId }: CertificationTracker
             </div>
             <div>
               <h3 className="font-bold text-brand-green-900">Congratulations!</h3>
-              <p className="text-sm text-brand-green-700">You've completed all required certifications for this program.</p>
+              <p className="text-sm text-brand-green-700">
+                You've completed all required certifications for this program.
+              </p>
             </div>
           </div>
         </div>

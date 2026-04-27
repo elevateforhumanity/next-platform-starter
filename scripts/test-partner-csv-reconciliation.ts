@@ -80,8 +80,11 @@ const SEED: PartnerStudentWithTraining[] = [
 
 function isoDate(value: string | null | undefined): string {
   if (!value) return '';
-  try { return new Date(value).toISOString().slice(0, 10); }
-  catch { return ''; }
+  try {
+    return new Date(value).toISOString().slice(0, 10);
+  } catch {
+    return '';
+  }
 }
 
 function csvRow(fields: string[]): string {
@@ -97,27 +100,54 @@ function csvRow(fields: string[]): string {
 
 function generateCsv(students: PartnerStudentWithTraining[]): string {
   const header = [
-    'Student Name', 'Email', 'Location', 'Placement Start', 'Course',
-    'Progress %', 'Status', 'Enrollment Date', 'Completion Date',
-    'Credential ID', 'Total Certificates',
+    'Student Name',
+    'Email',
+    'Location',
+    'Placement Start',
+    'Course',
+    'Progress %',
+    'Status',
+    'Enrollment Date',
+    'Completion Date',
+    'Credential ID',
+    'Total Certificates',
   ].join(',');
 
   const rows: string[] = [];
   for (const s of students) {
     if (s.courses.length === 0) {
-      rows.push(csvRow([
-        s.student_name, s.student_email, s.shop_name,
-        s.placement_start || '', 'No enrollments', '0',
-        s.placement_status, '', '', '', String(s.certificate_count),
-      ]));
+      rows.push(
+        csvRow([
+          s.student_name,
+          s.student_email,
+          s.shop_name,
+          s.placement_start || '',
+          'No enrollments',
+          '0',
+          s.placement_status,
+          '',
+          '',
+          '',
+          String(s.certificate_count),
+        ]),
+      );
     } else {
       for (const c of s.courses) {
-        rows.push(csvRow([
-          s.student_name, s.student_email, s.shop_name,
-          s.placement_start || '', c.course_title, String(c.progress),
-          c.status, isoDate(c.enrolled_at), isoDate(c.completed_at),
-          c.credential_id || '', String(s.certificate_count),
-        ]));
+        rows.push(
+          csvRow([
+            s.student_name,
+            s.student_email,
+            s.shop_name,
+            s.placement_start || '',
+            c.course_title,
+            String(c.progress),
+            c.status,
+            isoDate(c.enrolled_at),
+            isoDate(c.completed_at),
+            c.credential_id || '',
+            String(s.certificate_count),
+          ]),
+        );
       }
     }
   }
@@ -130,8 +160,13 @@ let passed = 0;
 let failed = 0;
 
 function assert(label: string, condition: boolean, detail?: string) {
-  if (condition) { console.log(`  ✅ ${label}`); passed++; }
-  else { console.log(`  ❌ ${label}${detail ? ` — ${detail}` : ''}`); failed++; }
+  if (condition) {
+    console.log(`  ✅ ${label}`);
+    passed++;
+  } else {
+    console.log(`  ❌ ${label}${detail ? ` — ${detail}` : ''}`);
+    failed++;
+  }
 }
 
 console.log('Partner CSV Reconciliation Test (Grant-Report Grade)\n');
@@ -205,7 +240,10 @@ assert('All dates in ISO format (YYYY-MM-DD)', allDatesIso);
 
 // --- 6. Security ---
 console.log('\n6. Security (no internal IDs leaked):');
-assert('No student_id in CSV', !csv.includes('stu-001') && !csv.includes('stu-002') && !csv.includes('stu-003'));
+assert(
+  'No student_id in CSV',
+  !csv.includes('stu-001') && !csv.includes('stu-002') && !csv.includes('stu-003'),
+);
 assert('No course_id in CSV', !csv.includes('crs-001') && !csv.includes('crs-002'));
 assert('No shop_id in CSV', !csv.includes('shop_id'));
 

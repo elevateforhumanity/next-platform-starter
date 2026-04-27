@@ -9,7 +9,8 @@ import { ArrowRight, Phone, Mail } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
   title: 'Justice Reinvestment Initiative Policy | Elevate for Humanity',
-  description: 'JRI funding policy for workforce training for justice-involved individuals. Eligibility, covered services, and application process.',
+  description:
+    'JRI funding policy for workforce training for justice-involved individuals. Eligibility, covered services, and application process.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/policies/jri' },
 };
 
@@ -30,12 +31,24 @@ export default async function JRIPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
-          <Image src="/hero-images/jri-hero.jpg" alt="Justice Reinvestment Initiative" fill className="object-cover" priority sizes="100vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src="/hero-images/jri-hero.jpg"
+            alt="Justice Reinvestment Initiative"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-slate-900 py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">Justice Reinvestment Initiative</h1>
-            <p className="text-lg text-slate-300 max-w-3xl mx-auto">Workforce training and career support for justice-involved individuals</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">
+              Justice Reinvestment Initiative
+            </h1>
+            <p className="text-lg text-slate-300 max-w-3xl mx-auto">
+              Workforce training and career support for justice-involved individuals
+            </p>
           </div>
         </div>
       </section>
@@ -48,10 +61,10 @@ export default async function JRIPage() {
           <div className="prose prose-lg max-w-none">
             <h2>Overview</h2>
             <p>
-              The Justice Reinvestment Initiative (JRI) provides funding for workforce training programs
-              designed to reduce recidivism and support successful reentry into the community. Through JRI,
-              eligible individuals can access career training, job placement assistance, and supportive
-              services at no cost.
+              The Justice Reinvestment Initiative (JRI) provides funding for workforce training
+              programs designed to reduce recidivism and support successful reentry into the
+              community. Through JRI, eligible individuals can access career training, job placement
+              assistance, and supportive services at no cost.
             </p>
 
             <h2>Eligibility Requirements</h2>
@@ -96,7 +109,10 @@ export default async function JRIPage() {
 
           <div className="prose prose-lg max-w-none">
             <h2>Available Programs</h2>
-            <p>JRI-funded participants may enroll in any of our approved training programs, including:</p>
+            <p>
+              JRI-funded participants may enroll in any of our approved training programs,
+              including:
+            </p>
             <ul>
               <li>Barber Apprenticeship (2,000 hours)</li>
               <li>HVAC Technician Training (12-16 weeks)</li>
@@ -109,7 +125,12 @@ export default async function JRIPage() {
             <h2>Application Process</h2>
             <ol>
               <li>Obtain a referral from your probation/parole officer or case manager</li>
-              <li>Complete the online application at <Link href="/apply" className="text-brand-blue-600">elevateforhumanity.org/apply</Link></li>
+              <li>
+                Complete the online application at{' '}
+                <Link href="/apply" className="text-brand-blue-600">
+                  elevateforhumanity.org/apply
+                </Link>
+              </li>
               <li>Attend an orientation session (virtual or in-person)</li>
               <li>Meet with an enrollment counselor to select your program</li>
               <li>Begin training upon enrollment approval</li>
@@ -126,24 +147,37 @@ export default async function JRIPage() {
 
             <h2>Supportive Services</h2>
             <p>
-              In addition to training, JRI participants may access wraparound support services including
-              housing referrals, mental health resources, substance abuse counseling, and financial literacy
-              workshops. These services are coordinated through our case management team.
+              In addition to training, JRI participants may access wraparound support services
+              including housing referrals, mental health resources, substance abuse counseling, and
+              financial literacy workshops. These services are coordinated through our case
+              management team.
             </p>
           </div>
 
           {/* Contact */}
           <div className="mt-12 bg-slate-50 rounded-xl p-8 border">
             <h2 className="text-2xl font-bold text-gray-900 mb-4">Questions About JRI?</h2>
-            <p className="text-gray-600 mb-6">Contact our enrollment team for more information about JRI eligibility and available programs.</p>
+            <p className="text-gray-600 mb-6">
+              Contact our enrollment team for more information about JRI eligibility and available
+              programs.
+            </p>
             <div className="flex flex-wrap gap-4">
-              <a href="/contact" className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-medium hover:bg-brand-blue-700 transition">
+              <a
+                href="/contact"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-medium hover:bg-brand-blue-700 transition"
+              >
                 <Mail className="w-4 h-4" /> Email Us
               </a>
-              <a href="/support" className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition">
+              <a
+                href="/support"
+                className="inline-flex items-center gap-2 px-6 py-3 border border-gray-300 rounded-lg font-medium hover:bg-gray-50 transition"
+              >
                 <Phone className="w-4 h-4" /> Get Help Online
               </a>
-              <Link href="/apply" className="inline-flex items-center gap-2 px-6 py-3 bg-brand-green-600 text-white rounded-lg font-medium hover:bg-brand-green-700 transition">
+              <Link
+                href="/apply"
+                className="inline-flex items-center gap-2 px-6 py-3 bg-brand-green-600 text-white rounded-lg font-medium hover:bg-brand-green-700 transition"
+              >
                 Apply Now <ArrowRight className="w-4 h-4" />
               </Link>
             </div>

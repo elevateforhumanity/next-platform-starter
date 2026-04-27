@@ -18,24 +18,27 @@ const pages = [
 for (const { name, url } of pages) {
   test(`Accessibility scan: ${name}`, async ({ page }) => {
     await page.goto(`${baseURL}${url}`);
-    
+
     const accessibilityScanResults = await new AxeBuilder({ page })
       .withTags(['wcag2a', 'wcag2aa', 'wcag21a', 'wcag21aa'])
       .analyze();
-    
+
     const violations = accessibilityScanResults.violations;
-    
+
     console.log(`${name}: ${violations.length} violations found`);
-    
+
     if (violations.length > 0) {
-      console.log('Violations:', violations.map(v => ({
-        id: v.id,
-        impact: v.impact,
-        description: v.description,
-        nodes: v.nodes.length
-      })));
+      console.log(
+        'Violations:',
+        violations.map((v) => ({
+          id: v.id,
+          impact: v.impact,
+          description: v.description,
+          nodes: v.nodes.length,
+        })),
+      );
     }
-    
+
     expect(violations.length).toBe(0);
   });
 }

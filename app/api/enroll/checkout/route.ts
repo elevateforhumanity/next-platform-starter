@@ -6,18 +6,18 @@
  */
 /**
  * CANONICAL ENROLLMENT CHECKOUT ENDPOINT
- * 
+ *
  * This is the SOURCE OF TRUTH for program enrollments.
  * All "Enroll" CTAs should route through this endpoint.
- * 
+ *
  * Creates Stripe Checkout Sessions with required metadata:
  * - payment_type: 'enrollment'
  * - enrollment_id, program_id, program_slug
  * - student info (first_name, last_name, email)
- * 
+ *
  * The webhook at /api/webhooks/stripe/route.ts expects this metadata
  * to properly process enrollment payments.
- * 
+ *
  * Payment Links are supported via fallback handler but should NOT be
  * used for enrollments - they lack guaranteed metadata.
  */
@@ -39,7 +39,11 @@ const enrollCheckoutSchema = z.object({
   firstName: z.string().min(1).max(100).trim(),
   lastName: z.string().min(1).max(100).trim(),
   email: z.string().email().toLowerCase(),
-  phone: z.string().regex(/^[\d\s\-()+ ]+$/).min(10).optional(),
+  phone: z
+    .string()
+    .regex(/^[\d\s\-()+ ]+$/)
+    .min(10)
+    .optional(),
   programSlug: z.string().min(1).max(100),
   fundingSource: z.enum(['self_pay', 'wioa', 'wrg', 'other_funded']).optional(),
 });
@@ -53,7 +57,7 @@ async function _POST(req: Request) {
     if (!process.env.STRIPE_SECRET_KEY) {
       return NextResponse.json(
         { error: 'Payment system not configured. Please contact support.' },
-        { status: 503 }
+        { status: 503 },
       );
     }
 
@@ -61,8 +65,11 @@ async function _POST(req: Request) {
     const parsed = enrollCheckoutSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Validation failed', details: parsed.error.issues.map(i => `${i.path.join('.')}: ${i.message}`) },
-        { status: 400 }
+        {
+          error: 'Validation failed',
+          details: parsed.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`),
+        },
+        { status: 400 },
       );
     }
     const { firstName, lastName, email, phone, programSlug, fundingSource } = parsed.data;
@@ -86,9 +93,10 @@ async function _POST(req: Request) {
     // Funded students (WIOA, WRG) only pay for external credentials (OSHA 10 + CPR).
     // Self-pay students pay the full program cost.
     const isFunded = fundingSource && fundingSource !== 'self_pay';
-    const chargeAmount = isFunded && program.credentialing_cost
-      ? Number(program.credentialing_cost)
-      : Number(program.total_cost) || 4980;
+    const chargeAmount =
+      isFunded && program.credentialing_cost
+        ? Number(program.credentialing_cost)
+        : Number(program.total_cost) || 4980;
     const amount = Math.round(chargeAmount * 100); // cents
 
     // Create or get user profile
@@ -124,15 +132,12 @@ async function _POST(req: Request) {
 
     if (appError) {
       logger.error('Application creation error', appError);
-      return NextResponse.json(
-        { error: 'Failed to create application' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to create application' }, { status: 500 });
     }
 
     // Create pending enrollment record (will be activated after payment)
     let enrollmentId = application.id; // Default to application ID
-    
+
     if (userId) {
       const { data: enrollment } = await supabase
         .from('program_enrollments')
@@ -144,7 +149,7 @@ async function _POST(req: Request) {
         })
         .select('id')
         .single();
-      
+
       if (enrollment) {
         enrollmentId = enrollment.id;
       }
@@ -155,8 +160,11 @@ async function _POST(req: Request) {
     if (!stripe) {
       logger.error('Stripe not configured — STRIPE_SECRET_KEY missing');
       return NextResponse.json(
-        { error: 'Payment processing is temporarily unavailable. Please contact admissions at info@elevateforhumanity.org.' },
-        { status: 503 }
+        {
+          error:
+            'Payment processing is temporarily unavailable. Please contact admissions at info@elevateforhumanity.org.',
+        },
+        { status: 503 },
       );
     }
 
@@ -217,10 +225,7 @@ async function _POST(req: Request) {
     });
 
     if (!session.url) {
-      return NextResponse.json(
-        { error: 'Failed to create checkout session' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
     }
 
     // Update application with stripe session ID
@@ -246,7 +251,7 @@ async function _POST(req: Request) {
     logger.error('Checkout creation err', err);
     return NextResponse.json(
       { err: toErrorMessage(err) || 'Internal server err' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

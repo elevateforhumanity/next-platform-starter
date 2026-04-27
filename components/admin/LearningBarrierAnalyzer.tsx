@@ -1,13 +1,8 @@
-"use client";
+'use client';
 import React, { useState, useEffect } from 'react';
 interface LearningBarrier {
   id: string;
-  type:
-    | 'knowledge_gap'
-    | 'skill_deficit'
-    | 'engagement'
-    | 'prerequisite'
-    | 'pace';
+  type: 'knowledge_gap' | 'skill_deficit' | 'engagement' | 'prerequisite' | 'pace';
   subject: string;
   description: string;
   severity: 'low' | 'medium' | 'high' | 'critical';
@@ -40,9 +35,7 @@ interface StudentStruggle {
 }
 export function LearningBarrierAnalyzer() {
   const [barriers, setBarriers] = useState<LearningBarrier[]>([]);
-  const [strugglingStudents, setStrugglingStudents] = useState<
-    StudentStruggle[]
-  >([]);
+  const [strugglingStudents, setStrugglingStudents] = useState<StudentStruggle[]>([]);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
   const [autoRemediationEnabled, setAutoRemediationEnabled] = useState(true);
   useEffect(() => {
@@ -60,8 +53,7 @@ export function LearningBarrierAnalyzer() {
         id: 'barrier_1',
         type: 'knowledge_gap',
         subject: 'Medical Terminology',
-        description:
-          'Students struggling with anatomical terms in Medical Assistant program',
+        description: 'Students struggling with anatomical terms in Medical Assistant program',
         severity: 'high',
         affectedStudents: 12,
         identifiedDate: new Date().toISOString(),
@@ -85,16 +77,14 @@ export function LearningBarrierAnalyzer() {
         id: 'barrier_2',
         type: 'skill_deficit',
         subject: 'Network Configuration',
-        description:
-          'IT Support students having difficulty with router setup procedures',
+        description: 'IT Support students having difficulty with router setup procedures',
         severity: 'medium',
         affectedStudents: 8,
         identifiedDate: new Date().toISOString(),
         autoRemediation: {
           type: 'hands_on_practice',
           title: 'Virtual Network Lab Sessions',
-          description:
-            'Simulated network environments for safe practice with immediate feedback',
+          description: 'Simulated network environments for safe practice with immediate feedback',
           estimatedTime: '4-6 hours over 2 weeks',
           resources: [
             'Virtual router simulators',
@@ -110,16 +100,14 @@ export function LearningBarrierAnalyzer() {
         id: 'barrier_3',
         type: 'engagement',
         subject: 'HVAC Safety Protocols',
-        description:
-          'Low engagement in safety training modules affecting retention',
+        description: 'Low engagement in safety training modules affecting retention',
         severity: 'critical',
         affectedStudents: 15,
         identifiedDate: new Date().toISOString(),
         autoRemediation: {
           type: 'adaptive_content',
           title: 'Interactive Safety Scenarios',
-          description:
-            'Gamified safety training with real-world scenarios and consequences',
+          description: 'Gamified safety training with real-world scenarios and consequences',
           estimatedTime: '3-4 hours over 1 week',
           resources: [
             'VR safety simulations',
@@ -135,16 +123,14 @@ export function LearningBarrierAnalyzer() {
         id: 'barrier_4',
         type: 'prerequisite',
         subject: 'Basic Math Skills',
-        description:
-          'Students lacking foundational math skills for technical calculations',
+        description: 'Students lacking foundational math skills for technical calculations',
         severity: 'high',
         affectedStudents: 18,
         identifiedDate: new Date().toISOString(),
         autoRemediation: {
           type: 'refresher_course',
           title: 'Technical Math Foundations',
-          description:
-            'Comprehensive math refresher tailored to technical program requirements',
+          description: 'Comprehensive math refresher tailored to technical program requirements',
           estimatedTime: '6-8 hours over 3 weeks',
           resources: [
             'Adaptive math software',
@@ -249,12 +235,9 @@ export function LearningBarrierAnalyzer() {
     <div className="learning-barrier-analyzer">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-brand-text">
-            🧠 Learning Barrier Analyzer
-          </h2>
+          <h2 className="text-2xl font-bold text-brand-text">🧠 Learning Barrier Analyzer</h2>
           <p className="text-brand-text-muted">
-            AI-powered identification and automatic remediation of learning
-            challenges
+            AI-powered identification and automatic remediation of learning challenges
           </p>
         </div>
         <div className="flex items-center space-x-4">
@@ -262,7 +245,9 @@ export function LearningBarrierAnalyzer() {
             <input
               type="checkbox"
               checked={autoRemediationEnabled}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setAutoRemediationEnabled(e.target.checked)}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+              ) => setAutoRemediationEnabled(e.target.checked)}
               className="mr-2"
             />
             <span className="text-sm text-brand-text">Auto-remediation enabled</span>
@@ -294,18 +279,11 @@ export function LearningBarrierAnalyzer() {
         </h3>
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
           {barriers.map((barrier) => (
-            <div
-              key={barrier.id}
-              className="bg-white border rounded-lg p-6 shadow-sm"
-            >
+            <div key={barrier.id} className="bg-white border rounded-lg p-6 shadow-sm">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h4 className="font-semibold text-brand-text">
-                    {barrier.subject}
-                  </h4>
-                  <p className="text-sm text-brand-text-muted mt-1">
-                    {barrier.description}
-                  </p>
+                  <h4 className="font-semibold text-brand-text">{barrier.subject}</h4>
+                  <p className="text-sm text-brand-text-muted mt-1">{barrier.description}</p>
                 </div>
                 <span
                   className={`px-2 py-2 text-xs font-medium rounded-full border ${getSeverityColor(barrier.severity)}`}
@@ -322,7 +300,12 @@ export function LearningBarrierAnalyzer() {
                 </div>
                 <div className="text-xs text-brand-text-light">
                   Identified:{' '}
-                  {new Date(barrier.identifiedDate).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                  {new Date(barrier.identifiedDate).toLocaleDateString('en-US', {
+                    timeZone: 'UTC',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
                 </div>
               </div>
               {/* Au Remediation */}
@@ -331,9 +314,7 @@ export function LearningBarrierAnalyzer() {
                   <span className="text-lg mr-2">
                     {getRemediationIcon(barrier.autoRemediation.type)}
                   </span>
-                  <h5 className="font-medium text-brand-green-900">
-                    Au Solution
-                  </h5>
+                  <h5 className="font-medium text-brand-green-900">Au Solution</h5>
                   <span className="ml-auto text-xs bg-brand-green-200 text-brand-success px-2 py-2 rounded">
                     {barrier.autoRemediation.effectiveness}% effective
                   </span>
@@ -352,16 +333,14 @@ export function LearningBarrierAnalyzer() {
                     📚 Au Resources:
                   </div>
                   <div className="flex flex-wrap gap-1">
-                    {barrier.autoRemediation.resources.map(
-                      (resource, index) => (
-                        <span
-                          key={index}
-                          className="text-xs bg-brand-surface text-brand-green-700 px-2 py-2 rounded"
-                        >
-                          {resource}
-                        </span>
-                      )
-                    )}
+                    {barrier.autoRemediation.resources.map((resource, index) => (
+                      <span
+                        key={index}
+                        className="text-xs bg-brand-surface text-brand-green-700 px-2 py-2 rounded"
+                      >
+                        {resource}
+                      </span>
+                    ))}
                   </div>
                 </div>
                 <div className="flex space-x-2">
@@ -379,9 +358,7 @@ export function LearningBarrierAnalyzer() {
       </div>
       {/* Struggling Students */}
       <div className="mb-8">
-        <h3 className="text-lg font-semibold text-brand-text mb-4">
-          👨‍🎓 Students Needing Support
-        </h3>
+        <h3 className="text-lg font-semibold text-brand-text mb-4">👨‍🎓 Students Needing Support</h3>
         <div className="bg-white border rounded-lg overflow-hidden">
           <table className="min-w-full">
             <thead className="bg-brand-surface">
@@ -407,16 +384,10 @@ export function LearningBarrierAnalyzer() {
               {strugglingStudents.map((student) => (
                 <tr key={student.studentId}>
                   <td className="px-6 py-4">
-                    <div className="font-medium text-brand-text">
-                      {student.studentName}
-                    </div>
-                    <div className="text-sm text-brand-text-light">
-                      {student.studentId}
-                    </div>
+                    <div className="font-medium text-brand-text">{student.studentName}</div>
+                    <div className="text-sm text-brand-text-light">{student.studentId}</div>
                   </td>
-                  <td className="px-6 py-4 text-sm text-brand-text-muted">
-                    {student.program}
-                  </td>
+                  <td className="px-6 py-4 text-sm text-brand-text-muted">{student.program}</td>
                   <td className="px-6 py-4">
                     <div className="flex flex-wrap gap-1">
                       {student.strugglingAreas.map((area, index) => (
@@ -443,23 +414,19 @@ export function LearningBarrierAnalyzer() {
                           style={{ width: `${student.performanceScore}%` }}
                         />
                       </div>
-                      <span className="text-sm font-medium">
-                        {student.performanceScore}%
-                      </span>
+                      <span className="text-sm font-medium">{student.performanceScore}%</span>
                     </div>
                   </td>
                   <td className="px-6 py-4">
                     <div className="space-y-1">
-                      {student.recommendedActions
-                        .slice(0, 2)
-                        .map((action, index) => (
-                          <div
-                            key={index}
-                            className="text-xs bg-brand-surface text-brand-info px-2 py-2 rounded"
-                          >
-                            🤖 {action}
-                          </div>
-                        ))}
+                      {student.recommendedActions.slice(0, 2).map((action, index) => (
+                        <div
+                          key={index}
+                          className="text-xs bg-brand-surface text-brand-info px-2 py-2 rounded"
+                        >
+                          🤖 {action}
+                        </div>
+                      ))}
                     </div>
                   </td>
                 </tr>
@@ -470,14 +437,10 @@ export function LearningBarrierAnalyzer() {
       </div>
       {/* Real-time Monitoring Status */}
       <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
-        <h4 className="font-semibold text-brand-blue-900 mb-2">
-          🔄 Real-time Monitoring Active
-        </h4>
+        <h4 className="font-semibold text-brand-blue-900 mb-2">🔄 Real-time Monitoring Active</h4>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4 text-sm">
           <div>
-            <div className="font-medium text-brand-info">
-              Learning Analytics
-            </div>
+            <div className="font-medium text-brand-info">Learning Analytics</div>
             <div className="text-brand-info">
               Continuously analyzing student performance patterns
             </div>

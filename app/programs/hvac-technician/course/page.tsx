@@ -2,7 +2,9 @@ import { Metadata } from 'next';
 import { readFileSync } from 'fs';
 import path from 'path';
 function getCourseBySlug(slug: string) {
-  const defs: any[] = JSON.parse(readFileSync(path.join(process.cwd(), 'public/data/course-definitions.json'), 'utf8'));
+  const defs: any[] = JSON.parse(
+    readFileSync(path.join(process.cwd(), 'public/data/course-definitions.json'), 'utf8'),
+  );
   return defs.find((c: any) => c.slug === slug);
 }
 import { getCurrentUser } from '@/lib/auth';
@@ -46,11 +48,17 @@ export default async function HvacCoursePage() {
 
       if (progress && progress.length > 0) {
         completedLessonIds = progress.filter((p: any) => p.completed).map((p: any) => p.lesson_id);
-        totalTimeSeconds = progress.reduce((s: number, p: any) => s + (p.time_spent_seconds || 0), 0);
+        totalTimeSeconds = progress.reduce(
+          (s: number, p: any) => s + (p.time_spent_seconds || 0),
+          0,
+        );
 
         const last = progress
           .filter((p: any) => p.completed_at)
-          .sort((a: any, b: any) => new Date(b.completed_at).getTime() - new Date(a.completed_at).getTime())[0];
+          .sort(
+            (a: any, b: any) =>
+              new Date(b.completed_at).getTime() - new Date(a.completed_at).getTime(),
+          )[0];
         if (last) lastLessonId = last.lesson_id;
       }
 
@@ -69,7 +77,8 @@ export default async function HvacCoursePage() {
   }
 
   const totalLessons = course.modules.reduce((s, m) => s + m.lessons.length, 0);
-  const progressPercent = totalLessons > 0 ? Math.round((completedLessonIds.length / totalLessons) * 100) : 0;
+  const progressPercent =
+    totalLessons > 0 ? Math.round((completedLessonIds.length / totalLessons) * 100) : 0;
 
   return (
     <HvacCourseHome

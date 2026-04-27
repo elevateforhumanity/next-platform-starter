@@ -11,7 +11,10 @@ const TIME_SLOTS: Record<SessionType, string[]> = {
   barbershop: ['10:00', '12:00', '14:00', '16:00'],
 };
 
-const SESSION_LABELS: Record<SessionType, { label: string; desc: string; icon: React.ReactNode; duration: number }> = {
+const SESSION_LABELS: Record<
+  SessionType,
+  { label: string; desc: string; icon: React.ReactNode; duration: number }
+> = {
   virtual: {
     label: 'Virtual Orientation (Zoom)',
     desc: 'For prospective students — learn about programs, funding, and next steps. ~45 minutes.',
@@ -78,9 +81,10 @@ export default function OrientationScheduleClient() {
       const endMs = new Date(`${date}T${time}:00`).getTime() + duration * 60 * 1000;
       const endDate = new Date(endMs);
       const endDT = `${endDate.toISOString().slice(0, 10).replace(/-/g, '')}T${endDate.toTimeString().slice(0, 5).replace(':', '')}00`;
-      const title = sessionType === 'barbershop'
-        ? 'Elevate for Humanity — Barbershop Walk-Through'
-        : 'Elevate for Humanity — Orientation';
+      const title =
+        sessionType === 'barbershop'
+          ? 'Elevate for Humanity — Barbershop Walk-Through'
+          : 'Elevate for Humanity — Orientation';
       const details = `Session for ${name} (${email})%0A%0AZoom Link: ${meetingUrl}`;
       const calUrl = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${startDT}/${endDT}&details=${details}&add=${encodeURIComponent(email)}`;
       window.open(calUrl, '_blank');
@@ -101,8 +105,8 @@ export default function OrientationScheduleClient() {
         </div>
         <h2 className="text-2xl font-black text-black">You're Scheduled!</h2>
         <p className="text-black">
-          A confirmation email with your Zoom link has been sent to <strong>{email}</strong>.
-          A Google Calendar invite just opened in a new tab.
+          A confirmation email with your Zoom link has been sent to <strong>{email}</strong>. A
+          Google Calendar invite just opened in a new tab.
         </p>
         {zoomUrl && (
           <a
@@ -115,7 +119,10 @@ export default function OrientationScheduleClient() {
           </a>
         )}
         <p className="text-black text-sm">
-          Questions? Call <a href="tel:3173143757" className="text-brand-blue-600 font-semibold hover:underline">(317) 314-3757</a>
+          Questions? Call{' '}
+          <a href="tel:3173143757" className="text-brand-blue-600 font-semibold hover:underline">
+            (317) 314-3757
+          </a>
         </p>
       </div>
     );
@@ -128,7 +135,10 @@ export default function OrientationScheduleClient() {
         {(Object.keys(SESSION_LABELS) as SessionType[]).map((type) => (
           <button
             key={type}
-            onClick={() => { setSessionType(type); setTime(''); }}
+            onClick={() => {
+              setSessionType(type);
+              setTime('');
+            }}
             className={`flex items-center justify-center gap-2 py-4 px-3 text-sm font-bold transition-colors ${
               sessionType === type
                 ? 'bg-brand-blue-600 text-white'
@@ -136,7 +146,9 @@ export default function OrientationScheduleClient() {
             }`}
           >
             {SESSION_LABELS[type].icon}
-            <span className="hidden sm:inline">{type === 'virtual' ? 'Virtual Orientation' : 'Barbershop Walk-Through'}</span>
+            <span className="hidden sm:inline">
+              {type === 'virtual' ? 'Virtual Orientation' : 'Barbershop Walk-Through'}
+            </span>
             <span className="sm:hidden">{type === 'virtual' ? 'Virtual' : 'Walk-Through'}</span>
           </button>
         ))}
@@ -187,7 +199,10 @@ export default function OrientationScheduleClient() {
                 required
                 min={getMinDate()}
                 value={date}
-                onChange={(e) => { setDate(e.target.value); setTime(''); }}
+                onChange={(e) => {
+                  setDate(e.target.value);
+                  setTime('');
+                }}
                 className="w-full px-4 py-3 border border-slate-300 rounded-xl focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black"
               />
             </div>
@@ -204,7 +219,9 @@ export default function OrientationScheduleClient() {
               >
                 <option value="">Select...</option>
                 {TIME_SLOTS[sessionType].map((slot) => (
-                  <option key={slot} value={slot}>{formatTime(slot)}</option>
+                  <option key={slot} value={slot}>
+                    {formatTime(slot)}
+                  </option>
                 ))}
               </select>
               <p className="text-xs text-black mt-1">All times Eastern</p>
@@ -223,9 +240,14 @@ export default function OrientationScheduleClient() {
             className="w-full bg-brand-blue-600 hover:bg-brand-blue-700 text-white font-bold py-4 rounded-xl transition-colors disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
           >
             {loading ? (
-              <><div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" /> Creating meeting...</>
+              <>
+                <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-white" />{' '}
+                Creating meeting...
+              </>
             ) : (
-              <><Calendar className="w-5 h-5" /> Book & Add to Google Calendar</>
+              <>
+                <Calendar className="w-5 h-5" /> Book & Add to Google Calendar
+              </>
             )}
           </button>
 

@@ -27,7 +27,11 @@ export async function POST(req: NextRequest) {
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const db = await getAdminClient();
-    const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    const { data: profile } = await db
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
     if (!profile || !ADMIN_ROLES.has(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
@@ -37,9 +41,19 @@ export async function POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const { lesson_number, lesson_title, module_title, course_title, instruction }
-      : { lesson_number: number; lesson_title: string; module_title: string;
-          course_title: string; instruction?: string } = body;
+    const {
+      lesson_number,
+      lesson_title,
+      module_title,
+      course_title,
+      instruction,
+    }: {
+      lesson_number: number;
+      lesson_title: string;
+      module_title: string;
+      course_title: string;
+      instruction?: string;
+    } = body;
 
     const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 

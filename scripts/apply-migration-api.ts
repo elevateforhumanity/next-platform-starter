@@ -1,6 +1,6 @@
 /**
  * Apply Agreement Migration via Supabase Management API
- * 
+ *
  * Usage: npx tsx scripts/apply-migration-api.ts
  */
 
@@ -119,7 +119,7 @@ async function applyMigration() {
 
   // Use the SQL API endpoint
   const sqlEndpoint = `${SUPABASE_URL}/rest/v1/rpc/`;
-  
+
   console.log('📋 Migration SQL prepared');
   console.log('   Size:', MIGRATION_SQL.length, 'bytes\n');
 
@@ -136,7 +136,7 @@ async function applyMigration() {
   console.log('🔍 Checking current database state...\n');
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
-    auth: { persistSession: false }
+    auth: { persistSession: false },
   });
 
   // Check if table exists
@@ -150,11 +150,11 @@ async function applyMigration() {
     console.log('   Error:', testError.message);
   } else {
     console.log('✅ license_agreement_acceptances table exists');
-    
+
     const { count } = await supabase
       .from('license_agreement_acceptances')
       .select('*', { count: 'exact', head: true });
-    
+
     console.log(`   Current row count: ${count || 0}`);
   }
 

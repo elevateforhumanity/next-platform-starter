@@ -1,4 +1,5 @@
 # Schema vs Insert Contract Matrix
+
 # Generated: 2026-02-26T08:36:32Z
 
 ## TABLE: admin_audit_events
@@ -197,7 +198,7 @@
   columns: action,created_at,details,resource_id,resource_type,success,user_id
 
 - **lib/auditLog.ts:93** [LIB_FUNCTION]
-  columns: 
+  columns:
 
 - **lib/automation/partner-approval.ts:215** [LIB_FUNCTION]
   columns: actor_id,approved,decision_id,event_type,failed_documents,metadata,missing_documents,pending_documents,program_id,reason_codes,resource_id,resource_type,review_queue_id,status,success
@@ -277,7 +278,7 @@
 ## TABLE: security_logs
 
 - **app/unauthorized/page.tsx:32** [SERVER_COMPONENT]
-  columns: 
+  columns:
 
 - **app/api/security/log/route.ts:58** [API_ROUTE]
   columns: event_type,ip_address,severity,timestamp,url,user_agent

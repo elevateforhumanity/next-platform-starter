@@ -89,7 +89,8 @@ const QUIZ = [
       'Vacuum testing damages the compressor',
     ],
     correct: 1,
-    explanation: 'Low-pressure systems operate below atmospheric pressure. Pulling a vacuum just recreates normal operating conditions. You must pressurize above atmospheric to create a pressure differential that reveals leaks.',
+    explanation:
+      'Low-pressure systems operate below atmospheric pressure. Pulling a vacuum just recreates normal operating conditions. You must pressurize above atmospheric to create a pressure differential that reveals leaks.',
   },
   {
     q: 'What is the required recovery level for a low-pressure system manufactured in 2010?',
@@ -100,7 +101,8 @@ const QUIZ = [
       '500 microns',
     ],
     correct: 2,
-    explanation: 'Low-pressure systems require recovery to 25 mm Hg absolute — a very deep vacuum of approximately 29 in. Hg. This applies to systems manufactured after November 15, 1993.',
+    explanation:
+      'Low-pressure systems require recovery to 25 mm Hg absolute — a very deep vacuum of approximately 29 in. Hg. This applies to systems manufactured after November 15, 1993.',
   },
   {
     q: 'What must you do before opening a low-pressure system after recovery?',
@@ -111,7 +113,8 @@ const QUIZ = [
       'Charge with R-123 to 5 PSIG',
     ],
     correct: 2,
-    explanation: 'After recovery, the system is at deep vacuum. You must break the vacuum with dry nitrogen before opening. This prevents air and moisture from rushing in and contaminating the system.',
+    explanation:
+      'After recovery, the system is at deep vacuum. You must break the vacuum with dry nitrogen before opening. This prevents air and moisture from rushing in and contaminating the system.',
   },
 ];
 
@@ -125,7 +128,11 @@ export default function TypeIIIChillerDiagram({ onComplete }: { onComplete?: () 
   function toggle(id: string) {
     setExpanded((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) { next.delete(id); } else { next.add(id); }
+      if (next.has(id)) {
+        next.delete(id);
+      } else {
+        next.add(id);
+      }
       return next;
     });
     setSeenConcepts((prev) => new Set([...prev, id]));
@@ -143,20 +150,24 @@ export default function TypeIIIChillerDiagram({ onComplete }: { onComplete?: () 
 
   return (
     <div className="space-y-5">
-
       <div className="bg-brand-blue-700 rounded-2xl p-5 text-white">
-        <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-1">EPA 608 Type III — Low-Pressure Systems</p>
+        <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-1">
+          EPA 608 Type III — Low-Pressure Systems
+        </p>
         <h2 className="text-xl font-extrabold">Centrifugal Chillers</h2>
-        <p className="text-slate-500 text-sm mt-1">The most specialized section. Expand each concept, then take the quiz.</p>
+        <p className="text-slate-500 text-sm mt-1">
+          The most specialized section. Expand each concept, then take the quiz.
+        </p>
       </div>
 
       {/* Key difference callout */}
       <div className="bg-brand-blue-700 rounded-2xl p-4 text-white">
         <p className="font-extrabold text-sm mb-1">The Key Difference from Type I and II</p>
         <p className="text-white text-sm leading-relaxed">
-          Type III systems operate <span className="text-white font-bold">below atmospheric pressure</span> (in a vacuum).
-          Air leaks IN. You test for leaks by pressurizing, not pulling vacuum.
-          Recovery requires a very deep vacuum (25 mm Hg absolute).
+          Type III systems operate{' '}
+          <span className="text-white font-bold">below atmospheric pressure</span> (in a vacuum).
+          Air leaks IN. You test for leaks by pressurizing, not pulling vacuum. Recovery requires a
+          very deep vacuum (25 mm Hg absolute).
         </p>
       </div>
 
@@ -166,7 +177,10 @@ export default function TypeIIIChillerDiagram({ onComplete }: { onComplete?: () 
           const isOpen = expanded.has(c.id);
           const isSeen = seenConcepts.has(c.id);
           return (
-            <div key={c.id} className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
+            <div
+              key={c.id}
+              className="bg-white rounded-2xl border border-slate-200 overflow-hidden"
+            >
               <button
                 onClick={() => toggle(c.id)}
                 className="w-full flex items-center justify-between px-5 py-4 text-left"
@@ -175,11 +189,17 @@ export default function TypeIIIChillerDiagram({ onComplete }: { onComplete?: () 
                   {isSeen && <CheckCircle className="w-4 h-4 text-brand-green-500 flex-shrink-0" />}
                   <span className="font-bold text-slate-900 text-sm">{c.title}</span>
                 </div>
-                {isOpen ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+                {isOpen ? (
+                  <ChevronUp className="w-4 h-4 text-slate-400" />
+                ) : (
+                  <ChevronDown className="w-4 h-4 text-slate-400" />
+                )}
               </button>
               {isOpen && (
                 <div className="px-5 pb-5 space-y-3 border-t border-slate-100">
-                  <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line pt-3">{c.content}</p>
+                  <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-line pt-3">
+                    {c.content}
+                  </p>
                   <div className="bg-amber-50 border border-amber-200 rounded-xl px-4 py-3 flex gap-2">
                     <span className="text-amber-500 flex-shrink-0">⚡</span>
                     <p className="text-amber-800 text-xs font-semibold leading-relaxed">{c.fact}</p>
@@ -193,7 +213,9 @@ export default function TypeIIIChillerDiagram({ onComplete }: { onComplete?: () 
 
       {/* Quick reference numbers */}
       <div className="bg-slate-50 rounded-2xl border border-slate-200 p-4">
-        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">Type III Numbers — Memorize These</p>
+        <p className="text-xs font-bold text-slate-500 uppercase tracking-wider mb-3">
+          Type III Numbers — Memorize These
+        </p>
         <div className="grid grid-cols-2 gap-3">
           {[
             { label: 'Recovery Level', value: '25 mm Hg', sub: 'absolute (~29 in. Hg)' },
@@ -201,7 +223,10 @@ export default function TypeIIIChillerDiagram({ onComplete }: { onComplete?: () 
             { label: 'Leak Trigger', value: '10%', sub: 'annual charge loss' },
             { label: 'R-123 TLV', value: '10 ppm', sub: 'ASHRAE 15 alarm level' },
           ].map((item) => (
-            <div key={item.label} className="bg-white rounded-xl border border-slate-200 p-3 text-center">
+            <div
+              key={item.label}
+              className="bg-white rounded-xl border border-slate-200 p-3 text-center"
+            >
               <p className="text-xs text-slate-500 font-medium">{item.label}</p>
               <p className="text-xl font-extrabold text-brand-blue-700 mt-1">{item.value}</p>
               <p className="text-[10px] text-slate-500 mt-0.5">{item.sub}</p>
@@ -237,14 +262,21 @@ export default function TypeIIIChillerDiagram({ onComplete }: { onComplete?: () 
                       onClick={() => answer(qi, ai)}
                       disabled={isAnswered}
                       className={`w-full text-left px-4 py-3 rounded-xl border text-sm transition-all flex items-center gap-2 ${
-                        !isAnswered ? 'bg-slate-50 border-slate-200 hover:border-brand-blue-300 hover:bg-brand-blue-50'
-                        : isCorrect ? 'bg-brand-green-50 border-brand-green-300'
-                        : isSelected ? 'bg-brand-red-50 border-brand-red-300'
-                        : 'bg-slate-50 border-slate-200 opacity-50'
+                        !isAnswered
+                          ? 'bg-slate-50 border-slate-200 hover:border-brand-blue-300 hover:bg-brand-blue-50'
+                          : isCorrect
+                            ? 'bg-brand-green-50 border-brand-green-300'
+                            : isSelected
+                              ? 'bg-brand-red-50 border-brand-red-300'
+                              : 'bg-slate-50 border-slate-200 opacity-50'
                       }`}
                     >
-                      {isAnswered && isCorrect && <CheckCircle className="w-4 h-4 text-brand-green-500 flex-shrink-0" />}
-                      {isAnswered && isSelected && !isCorrect && <XCircle className="w-4 h-4 text-brand-red-500 flex-shrink-0" />}
+                      {isAnswered && isCorrect && (
+                        <CheckCircle className="w-4 h-4 text-brand-green-500 flex-shrink-0" />
+                      )}
+                      {isAnswered && isSelected && !isCorrect && (
+                        <XCircle className="w-4 h-4 text-brand-red-500 flex-shrink-0" />
+                      )}
                       {opt}
                     </button>
                   );
@@ -259,10 +291,18 @@ export default function TypeIIIChillerDiagram({ onComplete }: { onComplete?: () 
           ))}
 
           {allAnswered && (
-            <div className={`rounded-2xl p-5 text-white ${score === QUIZ.length ? 'bg-brand-green-900' : score >= 2 ? 'bg-brand-blue-900' : 'bg-slate-800'}`}>
-              <p className="font-extrabold text-xl">{score}/{QUIZ.length} correct</p>
+            <div
+              className={`rounded-2xl p-5 text-white ${score === QUIZ.length ? 'bg-brand-green-900' : score >= 2 ? 'bg-brand-blue-900' : 'bg-slate-800'}`}
+            >
+              <p className="font-extrabold text-xl">
+                {score}/{QUIZ.length} correct
+              </p>
               <p className="text-sm mt-1 opacity-80">
-                {score === QUIZ.length ? 'Perfect — Type III mastered.' : score >= 2 ? 'Good. Review the concepts you missed.' : 'Review all Type III concepts and try again.'}
+                {score === QUIZ.length
+                  ? 'Perfect — Type III mastered.'
+                  : score >= 2
+                    ? 'Good. Review the concepts you missed.'
+                    : 'Review all Type III concepts and try again.'}
               </p>
             </div>
           )}

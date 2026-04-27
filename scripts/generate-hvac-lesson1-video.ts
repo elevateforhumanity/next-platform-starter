@@ -17,14 +17,14 @@ import { generateLessonScript } from '../lib/autopilot/lesson-script-generator';
 import { generateTextToSpeech } from '../server/tts-service';
 import { renderLessonVideo } from '../server/lesson-video-renderer';
 
-const OUTPUT_DIR       = path.join(process.cwd(), 'public/hvac/videos');
+const OUTPUT_DIR = path.join(process.cwd(), 'public/hvac/videos');
 const INSTRUCTOR_PHOTO = path.join(process.cwd(), 'public/images/instructors/marcus-johnson.jpg');
-const VOICE            = 'onyx';
-const DRY_RUN          = process.argv.includes('--dry-run');
+const VOICE = 'onyx';
+const DRY_RUN = process.argv.includes('--dry-run');
 
 const LESSON = {
-  uuid:  '2f172cb2-4657-5460-9b93-f9b062ad8dd2',
-  slug:  'hvac-01-01',
+  uuid: '2f172cb2-4657-5460-9b93-f9b062ad8dd2',
+  slug: 'hvac-01-01',
   title: 'Welcome to HVAC Technician Training',
   lessonNumber: 1,
   moduleName: 'Program Orientation & Workforce Readiness',
@@ -68,21 +68,21 @@ async function main() {
   console.log(`Mode: ${DRY_RUN ? 'DRY RUN' : 'LIVE'}\n`);
 
   const outputPath = path.join(OUTPUT_DIR, `lesson-${LESSON.uuid}.mp4`);
-  const tempAudio  = path.join(OUTPUT_DIR, `lesson-${LESSON.uuid}.tmp.mp3`);
+  const tempAudio = path.join(OUTPUT_DIR, `lesson-${LESSON.uuid}.tmp.mp3`);
 
   // Step 1: Generate structured script + slides
   console.log('Step 1: Generating lesson script...');
   const script = await generateLessonScript({
-    title:           LESSON.title,
-    lessonNumber:    LESSON.lessonNumber,
-    moduleName:      LESSON.moduleName,
-    moduleNumber:    LESSON.moduleNumber,
-    description:     LESSON.description,
-    content:         LESSON.content,
-    topics:          LESSON.topics,
-    contentType:     LESSON.contentType,
+    title: LESSON.title,
+    lessonNumber: LESSON.lessonNumber,
+    moduleName: LESSON.moduleName,
+    moduleNumber: LESSON.moduleNumber,
+    description: LESSON.description,
+    content: LESSON.content,
+    topics: LESSON.topics,
+    contentType: LESSON.contentType,
     nextLessonTitle: LESSON.nextLessonTitle,
-    courseName:      LESSON.courseName,
+    courseName: LESSON.courseName,
   });
 
   console.log(`  → ${script.wordCount} words, ~${Math.round(script.estimatedDuration / 60)} min`);
@@ -105,13 +105,13 @@ async function main() {
   await fs.mkdir(OUTPUT_DIR, { recursive: true });
 
   const result = await renderLessonVideo(script.slides, tempAudio, outputPath, {
-    width:           1280,
-    height:          720,
-    instructorName:  'Marcus Johnson',
+    width: 1280,
+    height: 720,
+    instructorName: 'Marcus Johnson',
     instructorTitle: 'HVAC Instructor',
     instructorPhoto: INSTRUCTOR_PHOTO,
-    accentColor:     '#ea580c',
-    courseName:      LESSON.courseName,
+    accentColor: '#ea580c',
+    courseName: LESSON.courseName,
   });
 
   // Cleanup temp audio
@@ -123,4 +123,7 @@ async function main() {
   console.log(`   Output:   ${outputPath}`);
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e);
+  process.exit(1);
+});

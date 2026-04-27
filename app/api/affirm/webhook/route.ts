@@ -1,13 +1,12 @@
 /**
  * Affirm Webhook Handler
- * 
+ *
  * Authoritative enrollment activator for Affirm payments.
  * charge.captured is the source of truth — not the redirect.
- * 
+ *
  * Configure webhook URL in Affirm merchant dashboard:
  * https://www.elevateforhumanity.org/api/affirm/webhook
  */
-
 
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -42,8 +41,9 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Webhook not configured' }, { status: 503 });
     }
 
-    const providedSecret = request.headers.get('x-affirm-webhook-secret') 
-      || request.headers.get('authorization')?.replace('Bearer ', '');
+    const providedSecret =
+      request.headers.get('x-affirm-webhook-secret') ||
+      request.headers.get('authorization')?.replace('Bearer ', '');
     if (providedSecret !== webhookSecret) {
       logger.warn('Affirm webhook: invalid secret');
       return NextResponse.json({ error: 'Invalid webhook secret' }, { status: 401 });
@@ -106,7 +106,9 @@ async function _POST(request: NextRequest) {
     // Also check applications table (legacy path)
     const { data: application } = await supabase
       .from('applications')
-      .select('id, affirm_order_id, customer_email, first_name, last_name, phone, program_slug, program_id')
+      .select(
+        'id, affirm_order_id, customer_email, first_name, last_name, phone, program_slug, program_id',
+      )
       .eq('affirm_order_id', event.data.order_id)
       .maybeSingle();
 
@@ -137,14 +139,18 @@ async function _POST(request: NextRequest) {
   } catch (error) {
     logger.error('Affirm webhook error:', error);
     // Best-effort finalize — eventId may not be defined if parsing failed
-    try { await finalizeWebhookEvent('affirm', eventId!, 'errored', String(error)); } catch { /* */ }
+    try {
+      await finalizeWebhookEvent('affirm', eventId!, 'errored', String(error));
+    } catch {
+      /* */
+    }
     return NextResponse.json({ error: 'Webhook processing failed' }, { status: 500 });
   }
 }
 
 async function handleChargeAuthorized(event: AffirmWebhookEvent, supabase: any, application: any) {
   const { id, order_id, amount } = event.data;
-  
+
   logger.info('Affirm charge authorized', { chargeId: id, orderId: order_id, amount });
 
   if (application) {
@@ -160,7 +166,7 @@ async function handleChargeAuthorized(event: AffirmWebhookEvent, supabase: any, 
 
 /**
  * charge.captured is the authoritative enrollment activator.
- * 
+ *
  * Routing rules:
  * - barber-apprenticeship → barber_subscriptions
  * - all other programs → createEnrollmentFromPayment() → program_enrollments
@@ -172,7 +178,7 @@ async function handleChargeCaptured(
   application: any,
 ) {
   const { id: chargeId, order_id, amount } = event.data;
-  
+
   logger.info('Affirm charge captured — activating enrollment', {
     chargeId,
     orderId: order_id,
@@ -186,7 +192,8 @@ async function handleChargeCaptured(
   const programId = context?.program_id || application?.program_id || '';
   const email = context?.customer_email || application?.customer_email || '';
   const firstName = context?.customer_name?.split(' ')[0] || application?.first_name || '';
-  const lastName = context?.customer_name?.split(' ').slice(1).join(' ') || application?.last_name || '';
+  const lastName =
+    context?.customer_name?.split(' ').slice(1).join(' ') || application?.last_name || '';
   const phone = application?.phone || '';
 
   // Update application payment status
@@ -253,7 +260,9 @@ async function handleChargeCaptured(
             activated_by: 'webhook:charge.captured',
           },
         });
-      } catch { /* audit best-effort */ }
+      } catch {
+        /* audit best-effort */
+      }
     } else {
       const totalHoursRequired = BARBER_PRICING.totalHoursRequired || 2000;
       const transferHours = context?.transfer_hours || 0;
@@ -308,7 +317,9 @@ async function handleChargeCaptured(
               activated_by: 'webhook:charge.captured',
             },
           });
-        } catch { /* audit best-effort */ }
+        } catch {
+          /* audit best-effort */
+        }
       }
     }
   } else if (programId && email) {
@@ -356,7 +367,7 @@ async function handleChargeCaptured(
 
 async function handleChargeVoided(event: AffirmWebhookEvent, supabase: any, application: any) {
   const { id, order_id } = event.data;
-  
+
   logger.info('Affirm charge voided', { chargeId: id, orderId: order_id });
 
   if (application) {
@@ -372,7 +383,7 @@ async function handleChargeVoided(event: AffirmWebhookEvent, supabase: any, appl
 
 async function handleChargeRefunded(event: AffirmWebhookEvent, supabase: any, application: any) {
   const { id, order_id, amount } = event.data;
-  
+
   logger.info('Affirm charge refunded', { chargeId: id, orderId: order_id, amount });
 
   if (application) {
@@ -438,7 +449,9 @@ async function deactivateEnrollmentForCharge(
           deactivated_by: `webhook:charge.${reason}`,
         },
       });
-    } catch { /* audit best-effort */ }
+    } catch {
+      /* audit best-effort */
+    }
   }
 
   // Deactivate program enrollment if linked via payment_reference
@@ -478,7 +491,9 @@ async function deactivateEnrollmentForCharge(
           deactivated_by: `webhook:charge.${reason}`,
         },
       });
-    } catch { /* audit best-effort */ }
+    } catch {
+      /* audit best-effort */
+    }
   }
 
   // If neither found, log for reconciliation
@@ -505,4 +520,7 @@ async function deactivateEnrollmentForCharge(
   }
 }
 
-export const POST = withApiAudit('/api/affirm/webhook', _POST, { actor_type: 'webhook', skip_body: true });
+export const POST = withApiAudit('/api/affirm/webhook', _POST, {
+  actor_type: 'webhook',
+  skip_body: true,
+});

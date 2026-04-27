@@ -24,7 +24,7 @@ export async function register() {
 export const onRequestError = async (
   err: unknown,
   request: { path: string; method: string },
-  context: { routerKind: string; routePath: string; routeType: string }
+  context: { routerKind: string; routePath: string; routeType: string },
 ) => {
   if (process.env.SENTRY_DSN || process.env.NEXT_PUBLIC_SENTRY_DSN) {
     const { captureRequestError } = await import('@sentry/nextjs');

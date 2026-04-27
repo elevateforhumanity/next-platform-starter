@@ -2,12 +2,12 @@
 
 ## Platform Support (Students, Employers, Partners)
 
-| Channel | Contact |
-|---------|---------|
-| **Website** | [elevateforhumanity.org/support](https://www.elevateforhumanity.org/support) |
-| **Email** | info@elevateforhumanity.org |
-| **Phone** | (317) 314-3757 |
-| **Location** | 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240 |
+| Channel      | Contact                                                                      |
+| ------------ | ---------------------------------------------------------------------------- |
+| **Website**  | [elevateforhumanity.org/support](https://www.elevateforhumanity.org/support) |
+| **Email**    | info@elevateforhumanity.org                                                  |
+| **Phone**    | (317) 314-3757                                                               |
+| **Location** | 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240                   |
 
 For enrollment questions, funding eligibility, or program information — use the website or call directly.
 

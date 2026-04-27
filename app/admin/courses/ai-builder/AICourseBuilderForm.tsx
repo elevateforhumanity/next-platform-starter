@@ -66,7 +66,7 @@ export default function AICourseBuilderForm() {
   const [errorMsg, setErrorMsg] = useState('');
 
   function set<K extends keyof FormState>(key: K, value: FormState[K]) {
-    setForm(f => ({ ...f, [key]: value }));
+    setForm((f) => ({ ...f, [key]: value }));
   }
 
   async function handleGenerate(e: React.FormEvent) {
@@ -120,11 +120,13 @@ export default function AICourseBuilderForm() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <Breadcrumbs items={[
-          { label: 'Admin', href: '/admin' },
-          { label: 'Courses', href: '/admin/courses' },
-          { label: 'AI Builder' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Admin', href: '/admin' },
+            { label: 'Courses', href: '/admin/courses' },
+            { label: 'AI Builder' },
+          ]}
+        />
 
         {/* Header */}
         <div className="mt-4 mb-8">
@@ -133,7 +135,8 @@ export default function AICourseBuilderForm() {
             AI Course Builder
           </h1>
           <p className="text-slate-700 mt-1">
-            Enter a prompt or paste a syllabus — the AI generates a complete course draft saved directly to the LMS.
+            Enter a prompt or paste a syllabus — the AI generates a complete course draft saved
+            directly to the LMS.
           </p>
         </div>
 
@@ -151,7 +154,9 @@ export default function AICourseBuilderForm() {
                 <p className="font-semibold text-slate-900">{result.courseTitle}</p>
               </div>
               <div className="bg-gray-50 rounded-lg p-4">
-                <p className="text-xs text-slate-700 uppercase tracking-wide mb-1">Lessons Created</p>
+                <p className="text-xs text-slate-700 uppercase tracking-wide mb-1">
+                  Lessons Created
+                </p>
                 <p className="font-semibold text-slate-900">{result.lessonCount}</p>
               </div>
             </div>
@@ -159,7 +164,9 @@ export default function AICourseBuilderForm() {
             {/* Learning objectives */}
             {result.learningObjectives?.length > 0 && (
               <div className="mb-5">
-                <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-2">Learning Objectives</p>
+                <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-2">
+                  Learning Objectives
+                </p>
                 <ul className="space-y-1">
                   {result.learningObjectives.map((obj, i) => (
                     <li key={i} className="text-sm text-slate-700 flex items-start gap-2">
@@ -173,9 +180,11 @@ export default function AICourseBuilderForm() {
 
             {/* Lesson list */}
             <div className="mb-5">
-              <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-2">Lessons</p>
+              <p className="text-xs font-semibold text-slate-700 uppercase tracking-wide mb-2">
+                Lessons
+              </p>
               <ol className="space-y-1">
-                {result.lessons.map(l => (
+                {result.lessons.map((l) => (
                   <li key={l.id} className="text-sm text-slate-700 flex items-center gap-2">
                     <span className="w-5 h-5 rounded-full bg-brand-blue-100 text-brand-blue-700 text-xs font-bold flex items-center justify-center flex-shrink-0">
                       {l.lesson_number}
@@ -191,7 +200,9 @@ export default function AICourseBuilderForm() {
               <div className="mb-5 bg-yellow-50 border border-yellow-200 rounded-lg p-3">
                 <p className="text-xs font-semibold text-yellow-800 mb-1">Partial warnings</p>
                 {result.warnings.map((w, i) => (
-                  <p key={i} className="text-xs text-yellow-700">{w}</p>
+                  <p key={i} className="text-xs text-yellow-700">
+                    {w}
+                  </p>
                 ))}
               </div>
             )}
@@ -226,7 +237,6 @@ export default function AICourseBuilderForm() {
         {/* Form — hidden after success */}
         {status !== 'success' && (
           <form onSubmit={handleGenerate} className="space-y-6">
-
             {/* Mode toggle */}
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <div className="flex gap-2 mb-5">
@@ -261,7 +271,7 @@ export default function AICourseBuilderForm() {
                   </label>
                   <textarea
                     value={form.prompt}
-                    onChange={e => set('prompt', e.target.value)}
+                    onChange={(e) => set('prompt', e.target.value)}
                     rows={4}
                     required
                     disabled={isGenerating}
@@ -276,7 +286,7 @@ export default function AICourseBuilderForm() {
                   </label>
                   <textarea
                     value={form.prompt}
-                    onChange={e => set('prompt', e.target.value)}
+                    onChange={(e) => set('prompt', e.target.value)}
                     rows={12}
                     required
                     disabled={isGenerating}
@@ -297,7 +307,7 @@ export default function AICourseBuilderForm() {
                   <input
                     type="text"
                     value={form.courseTitle}
-                    onChange={e => set('courseTitle', e.target.value)}
+                    onChange={(e) => set('courseTitle', e.target.value)}
                     disabled={isGenerating}
                     placeholder="AI will generate one if blank"
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
@@ -311,7 +321,7 @@ export default function AICourseBuilderForm() {
                   <input
                     type="text"
                     value={form.audience}
-                    onChange={e => set('audience', e.target.value)}
+                    onChange={(e) => set('audience', e.target.value)}
                     disabled={isGenerating}
                     placeholder="e.g. Young adults entering the trades"
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
@@ -324,7 +334,7 @@ export default function AICourseBuilderForm() {
                   </label>
                   <select
                     value={form.difficulty}
-                    onChange={e => set('difficulty', e.target.value as FormState['difficulty'])}
+                    onChange={(e) => set('difficulty', e.target.value as FormState['difficulty'])}
                     disabled={isGenerating}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm bg-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
                   >
@@ -343,7 +353,7 @@ export default function AICourseBuilderForm() {
                     min={1}
                     max={20}
                     value={form.lessonCount}
-                    onChange={e => set('lessonCount', parseInt(e.target.value, 10) || 6)}
+                    onChange={(e) => set('lessonCount', parseInt(e.target.value, 10) || 6)}
                     disabled={isGenerating}
                     className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
                   />
@@ -356,31 +366,39 @@ export default function AICourseBuilderForm() {
                   <input
                     type="checkbox"
                     checked={form.includeQuiz}
-                    onChange={e => set('includeQuiz', e.target.checked)}
+                    onChange={(e) => set('includeQuiz', e.target.checked)}
                     disabled={isGenerating}
                     className="w-4 h-4 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
                   />
-                  <span className="text-sm font-medium text-slate-700">Include quiz questions per lesson</span>
+                  <span className="text-sm font-medium text-slate-700">
+                    Include quiz questions per lesson
+                  </span>
                 </label>
                 <label className="flex items-center gap-2 cursor-pointer">
                   <input
                     type="checkbox"
                     checked={form.includeReflection}
-                    onChange={e => set('includeReflection', e.target.checked)}
+                    onChange={(e) => set('includeReflection', e.target.checked)}
                     disabled={isGenerating}
                     className="w-4 h-4 rounded border-gray-300 text-brand-blue-600 focus:ring-brand-blue-500"
                   />
-                  <span className="text-sm font-medium text-slate-700">Include reflection prompts</span>
+                  <span className="text-sm font-medium text-slate-700">
+                    Include reflection prompts
+                  </span>
                 </label>
               </div>
 
               {/* Advanced options toggle */}
               <button
                 type="button"
-                onClick={() => setShowAdvanced(v => !v)}
+                onClick={() => setShowAdvanced((v) => !v)}
                 className="mt-5 flex items-center gap-1.5 text-sm text-brand-blue-600 hover:underline"
               >
-                {showAdvanced ? <ChevronUp className="h-4 w-4" /> : <ChevronDown className="h-4 w-4" />}
+                {showAdvanced ? (
+                  <ChevronUp className="h-4 w-4" />
+                ) : (
+                  <ChevronDown className="h-4 w-4" />
+                )}
                 {showAdvanced ? 'Hide' : 'Show'} advanced options
               </button>
 
@@ -396,7 +414,7 @@ export default function AICourseBuilderForm() {
                       max={200}
                       step={0.5}
                       value={form.durationHours}
-                      onChange={e => set('durationHours', parseFloat(e.target.value) || 4)}
+                      onChange={(e) => set('durationHours', parseFloat(e.target.value) || 4)}
                       disabled={isGenerating}
                       className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"
                     />
@@ -408,7 +426,7 @@ export default function AICourseBuilderForm() {
                     <input
                       type="text"
                       value={form.tone}
-                      onChange={e => set('tone', e.target.value)}
+                      onChange={(e) => set('tone', e.target.value)}
                       disabled={isGenerating}
                       placeholder="e.g. Practical, conversational, formal"
                       className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 disabled:opacity-50"

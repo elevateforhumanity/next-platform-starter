@@ -3,7 +3,8 @@ import type { ProgramSchema } from '@/lib/programs/program-schema';
 export const BOOKKEEPING: ProgramSchema = {
   slug: 'bookkeeping',
   title: 'Bookkeeping & QuickBooks',
-  subtitle: 'Master small business accounting and prepare for the QuickBooks Certified User exam in 5 weeks.',
+  subtitle:
+    'Master small business accounting and prepare for the QuickBooks Certified User exam in 5 weeks.',
   sector: 'business',
   category: 'Accounting & Finance',
 
@@ -30,45 +31,160 @@ export const BOOKKEEPING: ProgramSchema = {
   badgeColor: 'orange',
 
   credentials: [
-    { name: 'QuickBooks Certified User', issuer: 'Intuit / Certiport', description: 'Validates proficiency in QuickBooks Online for small business accounting.', validity: 'Lifetime (version-specific)' },
-    { name: 'Bookkeeping Fundamentals Certificate', issuer: 'Elevate for Humanity', description: 'Institutional certificate verifying double-entry bookkeeping competency.', validity: 'Lifetime' },
-    { name: 'Microsoft Office Specialist: Excel', issuer: 'Microsoft / Certiport', description: 'Validates spreadsheet skills for financial reporting and data analysis.', validity: 'Lifetime (version-specific)' },
+    {
+      name: 'QuickBooks Certified User',
+      issuer: 'Intuit / Certiport',
+      description: 'Validates proficiency in QuickBooks Online for small business accounting.',
+      validity: 'Lifetime (version-specific)',
+    },
+    {
+      name: 'Bookkeeping Fundamentals Certificate',
+      issuer: 'Elevate for Humanity',
+      description: 'Institutional certificate verifying double-entry bookkeeping competency.',
+      validity: 'Lifetime',
+    },
+    {
+      name: 'Microsoft Office Specialist: Excel',
+      issuer: 'Microsoft / Certiport',
+      description: 'Validates spreadsheet skills for financial reporting and data analysis.',
+      validity: 'Lifetime (version-specific)',
+    },
   ],
 
   outcomes: [
-    { statement: 'Record transactions using double-entry bookkeeping principles', assessedAt: 'Week 1' },
-    { statement: 'Set up a company file in QuickBooks Online with chart of accounts', assessedAt: 'Week 2' },
-    { statement: 'Reconcile bank and credit card accounts within $0.01 accuracy', assessedAt: 'Week 3' },
-    { statement: 'Generate profit & loss, balance sheet, and cash flow statements', assessedAt: 'Week 3' },
+    {
+      statement: 'Record transactions using double-entry bookkeeping principles',
+      assessedAt: 'Week 1',
+    },
+    {
+      statement: 'Set up a company file in QuickBooks Online with chart of accounts',
+      assessedAt: 'Week 2',
+    },
+    {
+      statement: 'Reconcile bank and credit card accounts within $0.01 accuracy',
+      assessedAt: 'Week 3',
+    },
+    {
+      statement: 'Generate profit & loss, balance sheet, and cash flow statements',
+      assessedAt: 'Week 3',
+    },
     { statement: 'Process payroll and calculate employer tax obligations', assessedAt: 'Week 4' },
   ],
 
   careerPathway: [
-    { title: 'Bookkeeper', timeframe: '0–6 months', requirements: 'QuickBooks Certified User', salaryRange: '$35,000–$45,000' },
-    { title: 'Accounts Payable/Receivable Clerk', timeframe: '6–18 months', requirements: 'QBO + 6 months experience', salaryRange: '$38,000–$48,000' },
-    { title: 'Full-Charge Bookkeeper', timeframe: '2–3 years', requirements: 'QBO + payroll experience', salaryRange: '$45,000–$55,000' },
-    { title: 'Accounting Assistant / Staff Accountant', timeframe: '3–5 years', requirements: 'Associate degree or additional certifications', salaryRange: '$50,000–$65,000' },
+    {
+      title: 'Bookkeeper',
+      timeframe: '0–6 months',
+      requirements: 'QuickBooks Certified User',
+      salaryRange: '$35,000–$45,000',
+    },
+    {
+      title: 'Accounts Payable/Receivable Clerk',
+      timeframe: '6–18 months',
+      requirements: 'QBO + 6 months experience',
+      salaryRange: '$38,000–$48,000',
+    },
+    {
+      title: 'Full-Charge Bookkeeper',
+      timeframe: '2–3 years',
+      requirements: 'QBO + payroll experience',
+      salaryRange: '$45,000–$55,000',
+    },
+    {
+      title: 'Accounting Assistant / Staff Accountant',
+      timeframe: '3–5 years',
+      requirements: 'Associate degree or additional certifications',
+      salaryRange: '$50,000–$65,000',
+    },
   ],
 
   weeklySchedule: [
-    { week: 'Week 1', title: 'Bookkeeping Fundamentals', competencyMilestone: 'Record debits and credits using T-accounts' },
-    { week: 'Week 2', title: 'QuickBooks Online Setup', competencyMilestone: 'Create a company file with chart of accounts and opening balances' },
-    { week: 'Week 3', title: 'Transactions & Reconciliation', competencyMilestone: 'Reconcile bank accounts and generate financial statements' },
-    { week: 'Week 4', title: 'Payroll & Tax Basics', competencyMilestone: 'Process a payroll cycle and calculate employer tax obligations' },
-    { week: 'Week 5', title: 'Exam Prep & Career Placement', competencyMilestone: 'Pass QuickBooks Certified User practice exam with 80%+ score' },
+    {
+      week: 'Week 1',
+      title: 'Bookkeeping Fundamentals',
+      competencyMilestone: 'Record debits and credits using T-accounts',
+    },
+    {
+      week: 'Week 2',
+      title: 'QuickBooks Online Setup',
+      competencyMilestone: 'Create a company file with chart of accounts and opening balances',
+    },
+    {
+      week: 'Week 3',
+      title: 'Transactions & Reconciliation',
+      competencyMilestone: 'Reconcile bank accounts and generate financial statements',
+    },
+    {
+      week: 'Week 4',
+      title: 'Payroll & Tax Basics',
+      competencyMilestone: 'Process a payroll cycle and calculate employer tax obligations',
+    },
+    {
+      week: 'Week 5',
+      title: 'Exam Prep & Career Placement',
+      competencyMilestone: 'Pass QuickBooks Certified User practice exam with 80%+ score',
+    },
   ],
 
   curriculum: [
-    { title: 'Accounting Fundamentals', topics: ['Double-entry bookkeeping', 'Chart of accounts', 'Journal entries and ledgers', 'Accrual vs cash basis'] },
-    { title: 'QuickBooks Online', topics: ['Company setup and customization', 'Invoicing and payments', 'Expense tracking and categorization', 'Bank feeds and reconciliation'] },
-    { title: 'Financial Reporting', topics: ['Profit & loss statements', 'Balance sheets', 'Cash flow statements', 'Accounts aging reports'] },
-    { title: 'Payroll & Compliance', topics: ['Payroll processing', 'Federal and state tax withholding', 'W-2 and 1099 preparation', 'Quarterly tax filings'] },
-    { title: 'Excel for Accounting', topics: ['Formulas and functions (SUM, VLOOKUP, IF)', 'Pivot tables for financial analysis', 'Budget templates', 'Data validation'] },
+    {
+      title: 'Accounting Fundamentals',
+      topics: [
+        'Double-entry bookkeeping',
+        'Chart of accounts',
+        'Journal entries and ledgers',
+        'Accrual vs cash basis',
+      ],
+    },
+    {
+      title: 'QuickBooks Online',
+      topics: [
+        'Company setup and customization',
+        'Invoicing and payments',
+        'Expense tracking and categorization',
+        'Bank feeds and reconciliation',
+      ],
+    },
+    {
+      title: 'Financial Reporting',
+      topics: [
+        'Profit & loss statements',
+        'Balance sheets',
+        'Cash flow statements',
+        'Accounts aging reports',
+      ],
+    },
+    {
+      title: 'Payroll & Compliance',
+      topics: [
+        'Payroll processing',
+        'Federal and state tax withholding',
+        'W-2 and 1099 preparation',
+        'Quarterly tax filings',
+      ],
+    },
+    {
+      title: 'Excel for Accounting',
+      topics: [
+        'Formulas and functions (SUM, VLOOKUP, IF)',
+        'Pivot tables for financial analysis',
+        'Budget templates',
+        'Data validation',
+      ],
+    },
   ],
 
   complianceAlignment: [
-    { standard: 'Intuit QuickBooks Certified User Exam', description: 'Curriculum aligned to current Certiport QuickBooks Certified User exam objectives.' },
-    { standard: 'GAAP Fundamentals', description: 'Program teaches Generally Accepted Accounting Principles at the bookkeeping level.' },
+    {
+      standard: 'Intuit QuickBooks Certified User Exam',
+      description:
+        'Curriculum aligned to current Certiport QuickBooks Certified User exam objectives.',
+    },
+    {
+      standard: 'GAAP Fundamentals',
+      description:
+        'Program teaches Generally Accepted Accounting Principles at the bookkeeping level.',
+    },
   ],
 
   trainingPhases: [
@@ -76,7 +192,8 @@ export const BOOKKEEPING: ProgramSchema = {
       phase: 1,
       title: 'Accounting Fundamentals',
       weeks: 'Week 1',
-      focus: 'Double-entry bookkeeping, chart of accounts, journal entries, and accrual vs cash basis.',
+      focus:
+        'Double-entry bookkeeping, chart of accounts, journal entries, and accrual vs cash basis.',
       labCompetencies: [
         'Record 20 transactions using T-accounts with zero errors',
         'Classify accounts as asset, liability, equity, revenue, or expense',
@@ -153,7 +270,8 @@ export const BOOKKEEPING: ProgramSchema = {
   cta: {
     applyHref: '/apply?program=bookkeeping',
     requestInfoHref: '/programs/bookkeeping/request-info',
-    careerConnectHref: 'https://www.indianacareerconnect.com/jobs/search?q=bookkeeper&location=Indiana',
+    careerConnectHref:
+      'https://www.indianacareerconnect.com/jobs/search?q=bookkeeper&location=Indiana',
     advisorHref: '/contact',
     courseHref: '/programs/bookkeeping',
   },
@@ -164,10 +282,17 @@ export const BOOKKEEPING: ProgramSchema = {
     'Basic computer literacy (email, web browsing, file management)',
     'No prior accounting experience required',
   ],
-  equipmentIncluded: 'QuickBooks Online subscription (program duration), all training materials, and certification exam voucher included',
-  modality: 'Hybrid — Online coursework via LMS, in-person computer labs at Elevate training center',
+  equipmentIncluded:
+    'QuickBooks Online subscription (program duration), all training materials, and certification exam voucher included',
+  modality:
+    'Hybrid — Online coursework via LMS, in-person computer labs at Elevate training center',
   facilityInfo: 'Elevate training center, Indianapolis',
-  employerPartners: ['Katz Sapper & Miller', 'Blue & Co.', 'Somerset CPAs', 'Small Business Development Center (SBDC)'],
+  employerPartners: [
+    'Katz Sapper & Miller',
+    'Blue & Co.',
+    'Somerset CPAs',
+    'Small Business Development Center (SBDC)',
+  ],
   pricingIncludes: [
     'QuickBooks Certified User exam voucher',
     'Microsoft Excel MOS exam voucher',
@@ -185,10 +310,26 @@ export const BOOKKEEPING: ProgramSchema = {
   lmsCourseSlug: 'bookkeeping-quickbooks',
 
   faqs: [
-    { question: 'Do I need accounting experience?', answer: 'No. This program starts from the fundamentals of double-entry bookkeeping and builds to QuickBooks proficiency.' },
-    { question: 'Is this program eligible for WIOA funding?', answer: 'This is currently a self-pay program at $1,500. Payment plans are available. Contact us about potential funding options.' },
-    { question: 'What version of QuickBooks do you teach?', answer: 'We teach QuickBooks Online (QBO), which is the most widely used version for small businesses.' },
-    { question: 'Can I start my own bookkeeping business?', answer: 'Yes. Many graduates start freelance bookkeeping practices. The QuickBooks Certified User credential helps establish credibility with clients.' },
+    {
+      question: 'Do I need accounting experience?',
+      answer:
+        'No. This program starts from the fundamentals of double-entry bookkeeping and builds to QuickBooks proficiency.',
+    },
+    {
+      question: 'Is this program eligible for WIOA funding?',
+      answer:
+        'This is currently a self-pay program at $1,500. Payment plans are available. Contact us about potential funding options.',
+    },
+    {
+      question: 'What version of QuickBooks do you teach?',
+      answer:
+        'We teach QuickBooks Online (QBO), which is the most widely used version for small businesses.',
+    },
+    {
+      question: 'Can I start my own bookkeeping business?',
+      answer:
+        'Yes. Many graduates start freelance bookkeeping practices. The QuickBooks Certified User credential helps establish credibility with clients.',
+    },
   ],
 
   breadcrumbs: [
@@ -198,5 +339,6 @@ export const BOOKKEEPING: ProgramSchema = {
   ],
 
   metaTitle: 'Bookkeeping & QuickBooks | Certified User | Indianapolis',
-  metaDescription: 'Prepare for the QuickBooks Certified User exam. 5-week program. Bookkeepers earn $45,860/year in Indiana. Payment plans available.',
+  metaDescription:
+    'Prepare for the QuickBooks Certified User exam. 5-week program. Bookkeepers earn $45,860/year in Indiana. Payment plans available.',
 };

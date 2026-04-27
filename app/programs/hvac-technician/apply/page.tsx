@@ -1,17 +1,23 @@
 'use client';
 
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowLeft, Loader2, CreditCard, Info, Shield } from 'lucide-react';
-import FundingEligibilityFlow, { type EligibilityStatus } from '@/components/programs/FundingEligibilityFlow';
+import FundingEligibilityFlow, {
+  type EligibilityStatus,
+} from '@/components/programs/FundingEligibilityFlow';
 
 const PRICING = {
   totalWeeks: 20,
   fullPrice: 5000,
-  depositPct: 0.20, // 20% down — constant
-  get depositAmount() { return Math.round(this.fullPrice * this.depositPct); },
-  get remainingBalance() { return this.fullPrice - this.depositAmount; },
+  depositPct: 0.2, // 20% down — constant
+  get depositAmount() {
+    return Math.round(this.fullPrice * this.depositPct);
+  },
+  get remainingBalance() {
+    return this.fullPrice - this.depositAmount;
+  },
 };
 
 // Minimum weekly payment = remaining balance ÷ program weeks
@@ -31,9 +37,11 @@ export default function HvacApplyPage() {
       const { createBrowserClient } = await import('@supabase/ssr');
       const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       );
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (!session) {
         window.location.href = '/login?redirect=/programs/hvac-technician/apply';
       }
@@ -45,7 +53,9 @@ export default function HvacApplyPage() {
   const [error, setError] = useState('');
   const [errorSeverity, setErrorSeverity] = useState<'info' | 'critical'>('info');
 
-  const [paymentOption, setPaymentOption] = useState<'weekly' | 'full' | 'custom' | 'sezzle' | 'affirm' | 'stripe-bnpl'>('weekly');
+  const [paymentOption, setPaymentOption] = useState<
+    'weekly' | 'full' | 'custom' | 'sezzle' | 'affirm' | 'stripe-bnpl'
+  >('weekly');
   // customWeekly: user-entered weekly amount (must be >= MIN_WEEKLY)
   const [customWeekly, setCustomWeekly] = useState(MIN_WEEKLY);
   // customAmount: used by Affirm/Sezzle for their amount input
@@ -64,7 +74,8 @@ export default function HvacApplyPage() {
   });
 
   // Tracks eligibility status from FundingEligibilityFlow — required before submit for WIOA/WRG/FSSA
-  const [fundingEligibilityStatus, setFundingEligibilityStatus] = useState<EligibilityStatus | null>(null);
+  const [fundingEligibilityStatus, setFundingEligibilityStatus] =
+    useState<EligibilityStatus | null>(null);
 
   // Reset eligibility status when funding type changes
   const handleFundingChange = (value: string) => {
@@ -76,10 +87,11 @@ export default function HvacApplyPage() {
   const fundedOptionsReady =
     formData.fundingInterest === 'employer' ||
     formData.fundingInterest === 'unsure' ||
-    ((['wioa', 'wrg', 'fssa'] as string[]).includes(formData.fundingInterest) && fundingEligibilityStatus !== null);
+    ((['wioa', 'wrg', 'fssa'] as string[]).includes(formData.fundingInterest) &&
+      fundingEligibilityStatus !== null);
 
   const updateField = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handlePayNow = async () => {
@@ -102,7 +114,8 @@ export default function HvacApplyPage() {
           ...formData,
           program: 'HVAC Technician',
           programSlug: 'hvac-technician',
-          fundingType: formData.fundingInterest === 'self-pay' ? 'self-pay' : formData.fundingInterest,
+          fundingType:
+            formData.fundingInterest === 'self-pay' ? 'self-pay' : formData.fundingInterest,
           fundingEligibilityStatus: fundingEligibilityStatus ?? undefined,
           source: 'program-page',
           paymentOption,
@@ -147,7 +160,10 @@ export default function HvacApplyPage() {
         const affirmData = await checkoutResponse.json();
 
         if (!checkoutResponse.ok || !affirmData.checkoutConfig) {
-          setError(affirmData.error || 'Affirm is temporarily unavailable. Please select another payment option.');
+          setError(
+            affirmData.error ||
+              'Affirm is temporarily unavailable. Please select another payment option.',
+          );
           setErrorSeverity('info');
           setLoading(false);
           return;
@@ -211,7 +227,10 @@ export default function HvacApplyPage() {
         if (checkoutResponse.ok && sezzleData.checkoutUrl) {
           window.location.href = sezzleData.checkoutUrl;
         } else {
-          setError(sezzleData.error || 'Sezzle is temporarily unavailable. Please select another payment option.');
+          setError(
+            sezzleData.error ||
+              'Sezzle is temporarily unavailable. Please select another payment option.',
+          );
           setErrorSeverity('info');
           setLoading(false);
         }
@@ -238,7 +257,11 @@ export default function HvacApplyPage() {
         if (bnplResponse.ok && (bnplData.checkoutUrl || bnplData.url)) {
           window.location.href = bnplData.checkoutUrl || bnplData.url;
         } else {
-          setError(bnplData.error || bnplData.err || 'Afterpay/Klarna checkout unavailable. Please select another option.');
+          setError(
+            bnplData.error ||
+              bnplData.err ||
+              'Afterpay/Klarna checkout unavailable. Please select another option.',
+          );
           setErrorSeverity('info');
           setLoading(false);
         }
@@ -269,7 +292,9 @@ export default function HvacApplyPage() {
       if (checkoutResponse.ok && (checkoutData.checkoutUrl || checkoutData.url)) {
         window.location.href = checkoutData.checkoutUrl || checkoutData.url;
       } else {
-        setError(checkoutData.error || checkoutData.err || 'Unable to create checkout. Please try again.');
+        setError(
+          checkoutData.error || checkoutData.err || 'Unable to create checkout. Please try again.',
+        );
         setErrorSeverity('critical');
         setLoading(false);
       }
@@ -285,33 +310,38 @@ export default function HvacApplyPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/programs-hvac-apply-hero.jpg"
             alt="HVAC technician working on an air conditioning unit"
             fill
             className="object-cover"
             priority
-           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
         </div>
         <div className="bg-white py-10 border-t">
           <div className="max-w-5xl mx-auto px-4 text-center">
             <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Apply Now</h1>
-            <p className="text-lg text-black max-w-3xl mx-auto">HVAC Technician — 12 Weeks, 6 Credentials</p>
+            <p className="text-lg text-black max-w-3xl mx-auto">
+              HVAC Technician — 12 Weeks, 6 Credentials
+            </p>
           </div>
         </div>
       </section>
 
       <div className="max-w-5xl mx-auto px-6 py-12">
-        <Link href="/programs/hvac-technician" className="inline-flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-700 font-medium mb-8">
+        <Link
+          href="/programs/hvac-technician"
+          className="inline-flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-700 font-medium mb-8"
+        >
           <ArrowLeft className="w-4 h-4" /> Back to Program Details
         </Link>
 
         <div className="grid lg:grid-cols-5 gap-8">
-
           {/* Left Column - Program Info (pricing only shows for self-pay) */}
           <div className="lg:col-span-2">
             <div className="bg-brand-blue-700 rounded-2xl p-6 text-white sticky top-8">
-
               <div className="bg-white/10 rounded-xl p-4 mb-4">
                 <div className="grid grid-cols-2 gap-4 text-center">
                   <div>
@@ -347,7 +377,9 @@ export default function HvacApplyPage() {
                   <div className="bg-white/10 rounded-xl p-4 mb-4">
                     <div className="text-center">
                       <div className="text-white text-xs uppercase mb-1">Total Tuition</div>
-                      <div className="text-3xl font-black">${PRICING.fullPrice.toLocaleString()}</div>
+                      <div className="text-3xl font-black">
+                        ${PRICING.fullPrice.toLocaleString()}
+                      </div>
                     </div>
                   </div>
 
@@ -355,11 +387,22 @@ export default function HvacApplyPage() {
                     <div className="text-center">
                       <div className="text-white text-xs uppercase mb-1">Payment Options</div>
                       <div className="text-sm text-black mt-2 space-y-1 text-left">
-                        <p><strong>20% down:</strong> ${PRICING.depositAmount.toLocaleString()} today</p>
-                        <p><strong>Structured weekly:</strong> ${structuredWeekly}/wk × {weeksNeeded} wks</p>
-                        <p><strong>Custom weekly:</strong> any amount ≥ ${MIN_WEEKLY}/wk</p>
-                        <p><strong>Pay in full:</strong> ${PRICING.fullPrice.toLocaleString()}</p>
-                        <p><strong>BNPL:</strong> Affirm · Sezzle · Afterpay · Klarna</p>
+                        <p>
+                          <strong>20% down:</strong> ${PRICING.depositAmount.toLocaleString()} today
+                        </p>
+                        <p>
+                          <strong>Structured weekly:</strong> ${structuredWeekly}/wk × {weeksNeeded}{' '}
+                          wks
+                        </p>
+                        <p>
+                          <strong>Custom weekly:</strong> any amount ≥ ${MIN_WEEKLY}/wk
+                        </p>
+                        <p>
+                          <strong>Pay in full:</strong> ${PRICING.fullPrice.toLocaleString()}
+                        </p>
+                        <p>
+                          <strong>BNPL:</strong> Affirm · Sezzle · Afterpay · Klarna
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -382,7 +425,8 @@ export default function HvacApplyPage() {
               <div className="mt-4 flex items-start gap-2">
                 <Info className="w-4 h-4 text-white flex-shrink-0 mt-0.5" />
                 <p className="text-xs text-white">
-                  Select your funding option in the form. WIOA and Workforce Ready Grant may cover full tuition for eligible students.
+                  Select your funding option in the form. WIOA and Workforce Ready Grant may cover
+                  full tuition for eligible students.
                 </p>
               </div>
             </div>
@@ -391,16 +435,25 @@ export default function HvacApplyPage() {
           {/* Right Column - Form & Payment */}
           <div className="lg:col-span-3">
             {error && (
-              <div className={`mb-6 p-4 rounded-lg border ${
-                errorSeverity === 'critical'
-                  ? 'bg-brand-red-50 border-brand-red-200'
-                  : 'bg-amber-50 border-amber-200'
-              }`}>
-                <p className={`font-medium ${
-                  errorSeverity === 'critical' ? 'text-brand-red-800' : 'text-amber-800'
-                }`}>{error}</p>
+              <div
+                className={`mb-6 p-4 rounded-lg border ${
+                  errorSeverity === 'critical'
+                    ? 'bg-brand-red-50 border-brand-red-200'
+                    : 'bg-amber-50 border-amber-200'
+                }`}
+              >
+                <p
+                  className={`font-medium ${
+                    errorSeverity === 'critical' ? 'text-brand-red-800' : 'text-amber-800'
+                  }`}
+                >
+                  {error}
+                </p>
                 {errorSeverity === 'critical' && (
-                  <a href="/support" className="inline-block mt-2 text-brand-red-600 font-medium hover:underline">
+                  <a
+                    href="/support"
+                    className="inline-block mt-2 text-brand-red-600 font-medium hover:underline"
+                  >
                     Need help? Contact support
                   </a>
                 )}
@@ -414,7 +467,9 @@ export default function HvacApplyPage() {
                 {/* Name */}
                 <div className="grid grid-cols-2 gap-4">
                   <div>
-                    <label className="block text-sm font-medium text-black mb-1">First Name *</label>
+                    <label className="block text-sm font-medium text-black mb-1">
+                      First Name *
+                    </label>
                     <input
                       type="text"
                       required
@@ -464,7 +519,9 @@ export default function HvacApplyPage() {
 
                 {/* Experience */}
                 <div>
-                  <label className="block text-sm font-medium text-black mb-1">HVAC Experience</label>
+                  <label className="block text-sm font-medium text-black mb-1">
+                    HVAC Experience
+                  </label>
                   <select
                     value={formData.experience}
                     onChange={(e) => updateField('experience', e.target.value)}
@@ -485,18 +542,45 @@ export default function HvacApplyPage() {
                   </label>
                   <div className="space-y-2">
                     {[
-                      { value: 'self-pay', label: 'Self-pay', sub: 'Card, BNPL, or payment plan — start immediately' },
-                      { value: 'wioa',     label: 'WIOA Funding', sub: 'Workforce Innovation & Opportunity Act — no cost if eligible' },
-                      { value: 'wrg',      label: 'Workforce Ready Grant / Next Level Jobs', sub: 'Indiana state grant — no cost if eligible' },
-                      { value: 'fssa',     label: 'FSSA IMPACT', sub: 'For current SNAP/TANF recipients — no cost if eligible' },
-                      { value: 'employer', label: 'Employer-sponsored', sub: 'OJT wage reimbursement or apprenticeship agreement' },
-                      { value: 'unsure',   label: 'Not sure', sub: 'Help me find the right funding option' },
-                    ].map(opt => (
-                      <label key={opt.value} className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-colors ${
-                        formData.fundingInterest === opt.value
-                          ? 'border-brand-blue-500 bg-brand-blue-50'
-                          : 'border-slate-200 bg-white hover:border-slate-300'
-                      }`}>
+                      {
+                        value: 'self-pay',
+                        label: 'Self-pay',
+                        sub: 'Card, BNPL, or payment plan — start immediately',
+                      },
+                      {
+                        value: 'wioa',
+                        label: 'WIOA Funding',
+                        sub: 'Workforce Innovation & Opportunity Act — no cost if eligible',
+                      },
+                      {
+                        value: 'wrg',
+                        label: 'Workforce Ready Grant / Next Level Jobs',
+                        sub: 'Indiana state grant — no cost if eligible',
+                      },
+                      {
+                        value: 'fssa',
+                        label: 'FSSA IMPACT',
+                        sub: 'For current SNAP/TANF recipients — no cost if eligible',
+                      },
+                      {
+                        value: 'employer',
+                        label: 'Employer-sponsored',
+                        sub: 'OJT wage reimbursement or apprenticeship agreement',
+                      },
+                      {
+                        value: 'unsure',
+                        label: 'Not sure',
+                        sub: 'Help me find the right funding option',
+                      },
+                    ].map((opt) => (
+                      <label
+                        key={opt.value}
+                        className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-colors ${
+                          formData.fundingInterest === opt.value
+                            ? 'border-brand-blue-500 bg-brand-blue-50'
+                            : 'border-slate-200 bg-white hover:border-slate-300'
+                        }`}
+                      >
                         <input
                           type="radio"
                           name="fundingInterest"
@@ -515,7 +599,9 @@ export default function HvacApplyPage() {
                 </div>
 
                 {/* Eligibility flow for WIOA / WRG / FSSA */}
-                {(formData.fundingInterest === 'wioa' || formData.fundingInterest === 'wrg' || formData.fundingInterest === 'fssa') && (
+                {(formData.fundingInterest === 'wioa' ||
+                  formData.fundingInterest === 'wrg' ||
+                  formData.fundingInterest === 'fssa') && (
                   <FundingEligibilityFlow
                     fundingType={formData.fundingInterest as 'wioa' | 'wrg' | 'fssa'}
                     onReady={(status) => setFundingEligibilityStatus(status)}
@@ -523,14 +609,15 @@ export default function HvacApplyPage() {
                 )}
 
                 {/* Employer / unsure — simple message */}
-                {(formData.fundingInterest === 'employer' || formData.fundingInterest === 'unsure') && (
+                {(formData.fundingInterest === 'employer' ||
+                  formData.fundingInterest === 'unsure') && (
                   <div className="bg-green-50 border border-green-200 rounded-xl p-4 flex items-start gap-3">
                     <Shield className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
                     <div>
                       <p className="text-sm font-bold text-green-800">No payment required today</p>
                       <p className="text-sm text-green-700 mt-1">
-                        Submit your application and our enrollment team will contact you within 2 business days
-                        to verify your funding and walk you through next steps.
+                        Submit your application and our enrollment team will contact you within 2
+                        business days to verify your funding and walk you through next steps.
                       </p>
                     </div>
                   </div>
@@ -544,13 +631,14 @@ export default function HvacApplyPage() {
                     {/* Deposit notice — always shown */}
                     <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-2">
                       <p className="text-sm font-semibold text-amber-800">
-                        All plans require a <strong>20% deposit (${PRICING.depositAmount.toLocaleString()})</strong> at enrollment.
-                        The remaining ${PRICING.remainingBalance.toLocaleString()} is paid per your chosen schedule.
+                        All plans require a{' '}
+                        <strong>20% deposit (${PRICING.depositAmount.toLocaleString()})</strong> at
+                        enrollment. The remaining ${PRICING.remainingBalance.toLocaleString()} is
+                        paid per your chosen schedule.
                       </p>
                     </div>
 
                     <div className="space-y-3">
-
                       {/* Option 1: Structured weekly */}
                       <button
                         type="button"
@@ -559,9 +647,13 @@ export default function HvacApplyPage() {
                       >
                         <p className="font-bold text-black text-lg">Structured Weekly Plan</p>
                         <p className="text-sm text-black mt-1">
-                          ${PRICING.depositAmount.toLocaleString()} down today, then <strong>${structuredWeekly.toFixed(2)}/week</strong> for {weeksNeeded} weeks
+                          ${PRICING.depositAmount.toLocaleString()} down today, then{' '}
+                          <strong>${structuredWeekly.toFixed(2)}/week</strong> for {weeksNeeded}{' '}
+                          weeks
                         </p>
-                        <p className="text-xs text-black mt-0.5">Minimum weekly payment — balance paid in full by program end</p>
+                        <p className="text-xs text-black mt-0.5">
+                          Minimum weekly payment — balance paid in full by program end
+                        </p>
                       </button>
 
                       {/* Option 2: Custom weekly */}
@@ -572,7 +664,8 @@ export default function HvacApplyPage() {
                       >
                         <p className="font-bold text-black text-lg">Custom Weekly Amount</p>
                         <p className="text-sm text-black mt-1">
-                          Pay more per week to finish faster. Minimum ${structuredWeekly.toFixed(2)}/week.
+                          Pay more per week to finish faster. Minimum ${structuredWeekly.toFixed(2)}
+                          /week.
                         </p>
                       </button>
 
@@ -588,14 +681,22 @@ export default function HvacApplyPage() {
                               max={PRICING.remainingBalance}
                               step={5}
                               value={customWeekly}
-                              onChange={(e) => setCustomWeekly(Math.max(MIN_WEEKLY, parseFloat(e.target.value) || MIN_WEEKLY))}
+                              onChange={(e) =>
+                                setCustomWeekly(
+                                  Math.max(MIN_WEEKLY, parseFloat(e.target.value) || MIN_WEEKLY),
+                                )
+                              }
                               className="w-full px-4 py-3 border border-slate-300 rounded-lg"
                             />
                           </div>
                           <div className="bg-white rounded-lg p-3 border border-slate-200 text-sm space-y-1">
-                            <p className="text-slate-700"><strong>${userWeekly.toFixed(2)}/week</strong> × {userWeeks - 1} weeks</p>
+                            <p className="text-slate-700">
+                              <strong>${userWeekly.toFixed(2)}/week</strong> × {userWeeks - 1} weeks
+                            </p>
                             <p className="text-black">Final payment: ${lastPayment.toFixed(2)}</p>
-                            <p className="text-brand-green-700 font-semibold">Total: ${PRICING.fullPrice.toLocaleString()}</p>
+                            <p className="text-brand-green-700 font-semibold">
+                              Total: ${PRICING.fullPrice.toLocaleString()}
+                            </p>
                           </div>
                         </div>
                       )}
@@ -608,7 +709,8 @@ export default function HvacApplyPage() {
                       >
                         <p className="font-bold text-black text-lg">Pay in Full</p>
                         <p className="text-sm text-black mt-1">
-                          ${PRICING.fullPrice.toLocaleString()} — Visa, Mastercard, Amex, Apple Pay, Google Pay
+                          ${PRICING.fullPrice.toLocaleString()} — Visa, Mastercard, Amex, Apple Pay,
+                          Google Pay
                         </p>
                       </button>
 
@@ -619,13 +721,16 @@ export default function HvacApplyPage() {
                         className={`w-full text-left p-4 rounded-xl border-2 transition-all ${paymentOption === 'affirm' ? 'border-brand-blue-600 bg-brand-blue-50' : 'border-slate-200 hover:border-slate-300'}`}
                       >
                         <p className="font-bold text-black text-lg">Affirm</p>
-                        <p className="text-sm text-black mt-1">Monthly installments. 0% APR available for qualifying applicants.</p>
+                        <p className="text-sm text-black mt-1">
+                          Monthly installments. 0% APR available for qualifying applicants.
+                        </p>
                       </button>
 
                       {paymentOption === 'affirm' && (
                         <div className="ml-4 p-4 bg-white rounded-lg border border-slate-200">
                           <label className="block text-sm font-medium text-slate-700 mb-2">
-                            Amount to finance with Affirm (min ${PRICING.depositAmount.toLocaleString()})
+                            Amount to finance with Affirm (min $
+                            {PRICING.depositAmount.toLocaleString()})
                           </label>
                           <input
                             type="number"
@@ -633,10 +738,19 @@ export default function HvacApplyPage() {
                             max={PRICING.fullPrice}
                             step={50}
                             value={customAmount}
-                            onChange={(e) => setCustomAmount(Math.max(PRICING.depositAmount, parseInt(e.target.value) || PRICING.depositAmount))}
+                            onChange={(e) =>
+                              setCustomAmount(
+                                Math.max(
+                                  PRICING.depositAmount,
+                                  parseInt(e.target.value) || PRICING.depositAmount,
+                                ),
+                              )
+                            }
                             className="w-full px-4 py-3 border border-slate-300 rounded-lg"
                           />
-                          <p className="text-xs text-black mt-2">Affirm checks eligibility and shows payment options at checkout</p>
+                          <p className="text-xs text-black mt-2">
+                            Affirm checks eligibility and shows payment options at checkout
+                          </p>
                         </div>
                       )}
 
@@ -647,13 +761,16 @@ export default function HvacApplyPage() {
                         className={`w-full text-left p-4 rounded-xl border-2 transition-all ${paymentOption === 'sezzle' ? 'border-brand-blue-600 bg-brand-blue-50' : 'border-slate-200 hover:border-slate-300'}`}
                       >
                         <p className="font-bold text-black text-lg">Sezzle</p>
-                        <p className="text-sm text-black mt-1">4 interest-free payments over 6 weeks (up to $2,500)</p>
+                        <p className="text-sm text-black mt-1">
+                          4 interest-free payments over 6 weeks (up to $2,500)
+                        </p>
                       </button>
 
                       {paymentOption === 'sezzle' && (
                         <div className="ml-4 p-4 bg-white rounded-lg border border-slate-200">
                           <label className="block text-sm font-medium text-slate-700 mb-2">
-                            Amount to pay with Sezzle (${PRICING.depositAmount.toLocaleString()} – $2,500)
+                            Amount to pay with Sezzle (${PRICING.depositAmount.toLocaleString()} –
+                            $2,500)
                           </label>
                           <input
                             type="number"
@@ -661,11 +778,22 @@ export default function HvacApplyPage() {
                             max={2500}
                             step={50}
                             value={customAmount}
-                            onChange={(e) => setCustomAmount(Math.min(2500, Math.max(PRICING.depositAmount, parseInt(e.target.value) || PRICING.depositAmount)))}
+                            onChange={(e) =>
+                              setCustomAmount(
+                                Math.min(
+                                  2500,
+                                  Math.max(
+                                    PRICING.depositAmount,
+                                    parseInt(e.target.value) || PRICING.depositAmount,
+                                  ),
+                                ),
+                              )
+                            }
                             className="w-full px-4 py-3 border border-slate-300 rounded-lg"
                           />
                           <p className="text-xs text-black mt-2">
-                            4 payments of ${Math.round((customAmount || 0) / 4).toLocaleString()} every 2 weeks
+                            4 payments of ${Math.round((customAmount || 0) / 4).toLocaleString()}{' '}
+                            every 2 weeks
                           </p>
                         </div>
                       )}
@@ -678,45 +806,75 @@ export default function HvacApplyPage() {
                       >
                         <div className="flex items-center justify-between">
                           <p className="font-bold text-black text-lg">Afterpay / Klarna</p>
-                          <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">via Stripe</span>
+                          <span className="text-xs bg-green-100 text-green-700 font-semibold px-2 py-0.5 rounded-full">
+                            via Stripe
+                          </span>
                         </div>
                         <p className="text-sm text-black mt-1">
-                          4 interest-free payments with Afterpay, or flexible monthly payments with Klarna.
+                          4 interest-free payments with Afterpay, or flexible monthly payments with
+                          Klarna.
                         </p>
                       </button>
 
                       {paymentOption === 'stripe-bnpl' && (
                         <div className="ml-4 p-4 bg-brand-blue-50 rounded-lg border border-brand-blue-200 text-sm text-brand-blue-800 space-y-1">
                           <p className="font-semibold">How it works:</p>
-                          <p>• <strong>Afterpay</strong> — 4 payments of ~${(PRICING.fullPrice / 4).toLocaleString()} every 2 weeks, 0% interest</p>
-                          <p>• <strong>Klarna</strong> — pay later or monthly installments at checkout</p>
-                          <p className="text-xs text-brand-blue-600 mt-2">Eligibility determined at checkout. Billing address required.</p>
+                          <p>
+                            • <strong>Afterpay</strong> — 4 payments of ~$
+                            {(PRICING.fullPrice / 4).toLocaleString()} every 2 weeks, 0% interest
+                          </p>
+                          <p>
+                            • <strong>Klarna</strong> — pay later or monthly installments at
+                            checkout
+                          </p>
+                          <p className="text-xs text-brand-blue-600 mt-2">
+                            Eligibility determined at checkout. Billing address required.
+                          </p>
                         </div>
                       )}
-
                     </div>
 
                     {/* Payment methods accepted */}
                     <div className="bg-white rounded-lg p-4 border border-slate-200">
-                      <p className="text-sm text-black font-medium mb-3">Payment methods accepted at checkout:</p>
+                      <p className="text-sm text-black font-medium mb-3">
+                        Payment methods accepted at checkout:
+                      </p>
                       <div className="flex flex-wrap gap-2">
-                        {['Visa', 'Mastercard', 'Amex', 'Discover', 'Apple Pay', 'Google Pay', 'Afterpay', 'Klarna', 'Affirm', 'Sezzle'].map(m => (
-                          <span key={m} className="px-2 py-1 bg-white border border-slate-200 rounded text-xs text-black">{m}</span>
+                        {[
+                          'Visa',
+                          'Mastercard',
+                          'Amex',
+                          'Discover',
+                          'Apple Pay',
+                          'Google Pay',
+                          'Afterpay',
+                          'Klarna',
+                          'Affirm',
+                          'Sezzle',
+                        ].map((m) => (
+                          <span
+                            key={m}
+                            className="px-2 py-1 bg-white border border-slate-200 rounded text-xs text-black"
+                          >
+                            {m}
+                          </span>
                         ))}
                       </div>
                       <p className="text-xs text-black mt-3">
-                        Secure payment via Stripe. BNPL options (Afterpay, Klarna, Affirm, Sezzle) available for self-pay enrollments.
+                        Secure payment via Stripe. BNPL options (Afterpay, Klarna, Affirm, Sezzle)
+                        available for self-pay enrollments.
                       </p>
                     </div>
                   </>
                 )}
 
                 {/* Gate message — WIOA/WRG/FSSA selected but eligibility not confirmed yet */}
-                {(['wioa', 'wrg', 'fssa'] as string[]).includes(formData.fundingInterest) && !fundingEligibilityStatus && (
-                  <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm text-amber-800 font-medium">
-                    ⚠ Please answer the eligibility questions above before submitting.
-                  </div>
-                )}
+                {(['wioa', 'wrg', 'fssa'] as string[]).includes(formData.fundingInterest) &&
+                  !fundingEligibilityStatus && (
+                    <div className="bg-amber-50 border border-amber-200 rounded-xl p-3 text-sm text-amber-800 font-medium">
+                      ⚠ Please answer the eligibility questions above before submitting.
+                    </div>
+                  )}
 
                 {/* Submit Button */}
                 <button
@@ -724,7 +882,8 @@ export default function HvacApplyPage() {
                   disabled={
                     loading ||
                     !formData.fundingInterest ||
-                    ((['wioa', 'wrg', 'fssa'] as string[]).includes(formData.fundingInterest) && !fundingEligibilityStatus)
+                    ((['wioa', 'wrg', 'fssa'] as string[]).includes(formData.fundingInterest) &&
+                      !fundingEligibilityStatus)
                   }
                   className="w-full bg-brand-red-600 hover:bg-brand-red-700 text-white py-4 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
                 >
@@ -749,8 +908,14 @@ export default function HvacApplyPage() {
 
                 <p className="text-xs text-black text-center">
                   By submitting, you agree to our{' '}
-                  <Link href="/terms-of-service" className="underline">Terms of Service</Link> and{' '}
-                  <Link href="/privacy-policy" className="underline">Privacy Policy</Link>.
+                  <Link href="/terms-of-service" className="underline">
+                    Terms of Service
+                  </Link>{' '}
+                  and{' '}
+                  <Link href="/privacy-policy" className="underline">
+                    Privacy Policy
+                  </Link>
+                  .
                 </p>
               </div>
             </div>
@@ -759,13 +924,20 @@ export default function HvacApplyPage() {
             <div className="mt-6 bg-white rounded-xl p-6 border border-slate-200">
               <h3 className="font-bold text-slate-900 mb-2">Need Help?</h3>
               <p className="text-sm text-black mb-3">
-                Our enrollment team can help you find funding, answer questions, or walk you through the application.
+                Our enrollment team can help you find funding, answer questions, or walk you through
+                the application.
               </p>
               <div className="flex flex-wrap gap-3">
-                <Link href="/support" className="text-brand-blue-600 font-medium hover:underline text-sm">
+                <Link
+                  href="/support"
+                  className="text-brand-blue-600 font-medium hover:underline text-sm"
+                >
                   Contact Support →
                 </Link>
-                <Link href="/funding" className="text-brand-blue-600 font-medium hover:underline text-sm">
+                <Link
+                  href="/funding"
+                  className="text-brand-blue-600 font-medium hover:underline text-sm"
+                >
                   Explore Funding Options →
                 </Link>
               </div>

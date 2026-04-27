@@ -12,7 +12,11 @@ import { CheckCircle } from 'lucide-react';
 const COMPONENTS = [
   { id: 'compressor', label: 'Compressor', desc: 'Pressurizes the refrigerant gas' },
   { id: 'condenser', label: 'Condenser Coil', desc: 'Releases heat to the outside air' },
-  { id: 'expansion', label: 'Expansion Valve', desc: 'Reduces refrigerant pressure and temperature' },
+  {
+    id: 'expansion',
+    label: 'Expansion Valve',
+    desc: 'Reduces refrigerant pressure and temperature',
+  },
   { id: 'evaporator', label: 'Evaporator Coil', desc: 'Absorbs heat from indoor air' },
   { id: 'refrigerant', label: 'Refrigerant Lines', desc: 'Carry refrigerant between components' },
 ];
@@ -25,9 +29,10 @@ export default function HVACLab({ onAllIdentified }: HVACLabProps) {
   const [identified, setIdentified] = useState<Set<string>>(new Set());
 
   const toggle = (id: string) => {
-    setIdentified(prev => {
+    setIdentified((prev) => {
       const next = new Set(prev);
-      if (next.has(id)) next.delete(id); else next.add(id);
+      if (next.has(id)) next.delete(id);
+      else next.add(id);
       if (next.size === COMPONENTS.length) onAllIdentified?.();
       return next;
     });
@@ -36,9 +41,11 @@ export default function HVACLab({ onAllIdentified }: HVACLabProps) {
   return (
     <div className="bg-white rounded-xl p-6">
       <h3 className="text-slate-900 font-bold text-lg mb-2">HVAC System Component Lab</h3>
-      <p className="text-slate-500 text-sm mb-6">Click each component to identify it. Identify all 5 to complete the lab.</p>
+      <p className="text-slate-500 text-sm mb-6">
+        Click each component to identify it. Identify all 5 to complete the lab.
+      </p>
       <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-3">
-        {COMPONENTS.map(c => {
+        {COMPONENTS.map((c) => {
           const done = identified.has(c.id);
           return (
             <button
@@ -48,7 +55,11 @@ export default function HVACLab({ onAllIdentified }: HVACLabProps) {
             >
               <div className="flex items-center gap-2 mb-1">
                 {done && <CheckCircle className="w-4 h-4 text-brand-green-400 flex-shrink-0" />}
-                <span className={`font-bold text-sm ${done ? 'text-brand-green-300' : 'text-white'}`}>{c.label}</span>
+                <span
+                  className={`font-bold text-sm ${done ? 'text-brand-green-300' : 'text-white'}`}
+                >
+                  {c.label}
+                </span>
               </div>
               <p className="text-slate-500 text-xs">{c.desc}</p>
             </button>

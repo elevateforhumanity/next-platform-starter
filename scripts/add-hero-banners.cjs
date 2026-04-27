@@ -12,25 +12,25 @@ console.log('Adding hero banners to all pages...\n');
 
 let updated = 0;
 
-placeholders.pages.forEach(page => {
+placeholders.pages.forEach((page) => {
   const filePath = page.file;
-  
+
   if (!fs.existsSync(filePath)) {
     console.log(`Skip: ${filePath} (not found)`);
     return;
   }
-  
+
   const content = fs.readFileSync(filePath, 'utf8');
-  
+
   // Skip if already has hero banner
   if (content.includes('bg-gradient-to-r') || content.includes('Hero Section')) {
     return;
   }
-  
+
   const newContent = addHeroBanner(content, page);
   fs.writeFileSync(filePath, newContent, 'utf8');
   updated++;
-  
+
   if (updated % 50 === 0) {
     console.log(`Updated ${updated} pages...`);
   }
@@ -41,11 +41,11 @@ console.log(`\n✅ Updated ${updated} pages with hero banners`);
 function addHeroBanner(content, page) {
   const title = page.title || 'Page';
   const desc = page.description || 'Description';
-  
+
   // Find the return statement
   const returnMatch = content.match(/return \(\s*<div className="min-h-screen[^>]*>/);
   if (!returnMatch) return content;
-  
+
   const heroSection = `
       {/* Hero Banner */}
       <section className="bg-gradient-to-r from-blue-600 to-blue-800 text-white py-20">
@@ -67,10 +67,10 @@ function addHeroBanner(content, page) {
         </div>
       </section>
 `;
-  
+
   // Insert hero after opening div
   return content.replace(
     /return \(\s*<div className="min-h-screen[^>]*>/,
-    match => match + heroSection
+    (match) => match + heroSection,
   );
 }

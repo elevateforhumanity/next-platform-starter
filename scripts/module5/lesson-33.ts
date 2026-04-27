@@ -149,11 +149,13 @@ export const quizQuestions = [
       'The midpoint between the two nostrils',
     ],
     correctAnswer: 1,
-    explanation: 'The philtrum is the natural center reference for all mustache symmetry measurements. Corner width, lower boundary height, and channel definition are all measured relative to the philtrum center.',
+    explanation:
+      'The philtrum is the natural center reference for all mustache symmetry measurements. Corner width, lower boundary height, and channel definition are all measured relative to the philtrum center.',
   },
   {
     id: 'mod5-l33-q2',
-    question: 'A client requests a handlebar mustache but has sparse, patchy growth. What is the correct response?',
+    question:
+      'A client requests a handlebar mustache but has sparse, patchy growth. What is the correct response?',
     options: [
       'Proceed — the wax will fill in the sparse areas',
       'Decline the service — sparse mustaches cannot be styled',
@@ -161,7 +163,8 @@ export const quizQuestions = [
       'Trim it into a handlebar shape and let the client decide if they like it',
     ],
     correctAnswer: 2,
-    explanation: 'Sparse mustaches cannot support styles that require density. The professional response is to explain the limitation and offer alternatives — not to proceed with a style that will not look as expected, and not to refuse service entirely.',
+    explanation:
+      'Sparse mustaches cannot support styles that require density. The professional response is to explain the limitation and offer alternatives — not to proceed with a style that will not look as expected, and not to refuse service entirely.',
   },
   {
     id: 'mod5-l33-q3',
@@ -173,11 +176,13 @@ export const quizQuestions = [
       'Symmetry check first, then bulk, then edges',
     ],
     correctAnswer: 1,
-    explanation: 'Bulk reduction always comes before edge definition. Defining edges on an untrimmed mustache creates a false boundary — when bulk is then removed, the edge lines no longer match the intended shape.',
+    explanation:
+      'Bulk reduction always comes before edge definition. Defining edges on an untrimmed mustache creates a false boundary — when bulk is then removed, the edge lines no longer match the intended shape.',
   },
   {
     id: 'mod5-l33-q4',
-    question: 'A client has folliculitis visible under the mustache. Which tool should be used for lower lip line definition?',
+    question:
+      'A client has folliculitis visible under the mustache. Which tool should be used for lower lip line definition?',
     options: [
       'Straight razor — gives the sharpest edge',
       'T-outliner or detail trimmer — avoid razor on inflamed skin',
@@ -185,11 +190,13 @@ export const quizQuestions = [
       'Skip the lower line definition until the skin clears',
     ],
     correctAnswer: 1,
-    explanation: 'Razor on inflamed skin worsens folliculitis and risks spreading infection. A trimmer achieves the necessary definition without blade-to-skin contact on the inflamed area. Skipping the definition entirely is not necessary — modify the tool.',
+    explanation:
+      'Razor on inflamed skin worsens folliculitis and risks spreading infection. A trimmer achieves the necessary definition without blade-to-skin contact on the inflamed area. Skipping the definition entirely is not necessary — modify the tool.',
   },
   {
     id: 'mod5-l33-q5',
-    question: 'A client says "just clean it up." Before picking up the trimmer, what should you do?',
+    question:
+      'A client says "just clean it up." Before picking up the trimmer, what should you do?',
     options: [
       'Begin trimming — "clean it up" is a standard maintenance request',
       'Ask whether they want to keep the same shape and length or take it shorter',
@@ -197,6 +204,7 @@ export const quizQuestions = [
       'Show the client three style options and let them choose',
     ],
     correctAnswer: 1,
-    explanation: '"Clean it up" is ambiguous — it means different things to different clients. One clarifying question before cutting prevents the most common mustache service complaint: "You took too much off." Always confirm intent before cutting.',
+    explanation:
+      '"Clean it up" is ambiguous — it means different things to different clients. One clarifying question before cutting prevents the most common mustache service complaint: "You took too much off." Always confirm intent before cutting.',
   },
 ];

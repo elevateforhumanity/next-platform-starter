@@ -25,12 +25,7 @@
  */
 
 import type { SupabaseClient } from '@supabase/supabase-js';
-import type {
-  CourseTemplate,
-  CourseModule,
-  CourseLesson,
-  FinalExamConfig,
-} from './schema';
+import type { CourseTemplate, CourseModule, CourseLesson, FinalExamConfig } from './schema';
 import { ASSESSED_LESSON_TYPES } from './schema';
 import { getCompetenciesForProgram } from './competencies';
 import { assignDuration } from './hours-engine';
@@ -72,8 +67,8 @@ export type CompilerResult = {
 function parseBlueprint(template: CourseTemplate): string[] {
   const errors: string[] = [];
   if (!template.programSlug) errors.push('programSlug is required');
-  if (!template.courseSlug)  errors.push('courseSlug is required');
-  if (!template.title)       errors.push('title is required');
+  if (!template.courseSlug) errors.push('courseSlug is required');
+  if (!template.title) errors.push('title is required');
   if (!template.modules?.length) errors.push('at least one module is required');
   if (template.requiresFinalExam && !template.finalExam) {
     errors.push('requiresFinalExam=true but finalExam config is missing');
@@ -97,21 +92,18 @@ export function generateModulePlan(mod: CourseModule): CourseModule {
 
 // ─── Step 3: Assessment injection ────────────────────────────────────────────
 
-export function generateAssessmentPlan(
-  mod: CourseModule,
-  injected: string[],
-): CourseModule {
+export function generateAssessmentPlan(mod: CourseModule, injected: string[]): CourseModule {
   if (!mod.quizRequired) return mod;
 
   // Already has a checkpoint or quiz — no injection needed
-  const hasAssessment = mod.lessons.some(l =>
-    ASSESSED_LESSON_TYPES.includes(l.type as typeof ASSESSED_LESSON_TYPES[number]),
+  const hasAssessment = mod.lessons.some((l) =>
+    ASSESSED_LESSON_TYPES.includes(l.type as (typeof ASSESSED_LESSON_TYPES)[number]),
   );
   if (hasAssessment) return mod;
 
   const questionCount = mod.quizQuestionCount ?? 8;
   const checkpointSlug = `${mod.slug}-checkpoint`;
-  const maxOrder = Math.max(...mod.lessons.map(l => l.order), 0);
+  const maxOrder = Math.max(...mod.lessons.map((l) => l.order), 0);
 
   const checkpoint: CourseLesson = {
     slug: checkpointSlug,
@@ -137,20 +129,15 @@ export function generateAssessmentPlan(
 
 // ─── Step 4: Practical injection ─────────────────────────────────────────────
 
-export function generatePracticalPlan(
-  mod: CourseModule,
-  injected: string[],
-): CourseModule {
+export function generatePracticalPlan(mod: CourseModule, injected: string[]): CourseModule {
   if (!mod.practicalRequired) return mod;
 
   // Already has a lab or assignment — no injection needed
-  const hasPractical = mod.lessons.some(l =>
-    l.type === 'lab' || l.type === 'assignment',
-  );
+  const hasPractical = mod.lessons.some((l) => l.type === 'lab' || l.type === 'assignment');
   if (hasPractical) return mod;
 
   const labSlug = `${mod.slug}-lab`;
-  const maxOrder = Math.max(...mod.lessons.map(l => l.order), 0);
+  const maxOrder = Math.max(...mod.lessons.map((l) => l.order), 0);
 
   const lab: CourseLesson = {
     slug: labSlug,
@@ -172,12 +159,9 @@ export function generatePracticalPlan(
 
 // ─── Step 5: Final exam injection ─────────────────────────────────────────────
 
-function injectFinalExam(
-  template: CourseTemplate,
-  examConfig: FinalExamConfig,
-): CourseTemplate {
-  const allLessons = template.modules.flatMap(m => m.lessons);
-  const hasExam = allLessons.some(l => l.type === 'exam');
+function injectFinalExam(template: CourseTemplate, examConfig: FinalExamConfig): CourseTemplate {
+  const allLessons = template.modules.flatMap((m) => m.lessons);
+  const hasExam = allLessons.some((l) => l.type === 'exam');
   if (hasExam) return template;
 
   const examSlug = `${template.courseSlug}-final-exam`;
@@ -187,7 +171,7 @@ function injectFinalExam(
     slug: examSlug,
     title: 'Final Examination',
     type: 'exam',
-    order: Math.max(...lastMod.lessons.map(l => l.order), 0) + 1,
+    order: Math.max(...lastMod.lessons.map((l) => l.order), 0) + 1,
     learningObjectives: ['Demonstrate mastery of all program competencies'],
     passingScore: examConfig.passingScore,
     quizQuestions: Array.from({ length: examConfig.questionCount }, (_, i) => ({
@@ -202,9 +186,7 @@ function injectFinalExam(
   };
 
   const updatedModules = template.modules.map((mod, idx) =>
-    idx === template.modules.length - 1
-      ? { ...mod, lessons: [...mod.lessons, exam] }
-      : mod,
+    idx === template.modules.length - 1 ? { ...mod, lessons: [...mod.lessons, exam] } : mod,
   );
 
   return { ...template, modules: updatedModules };
@@ -215,9 +197,9 @@ function injectFinalExam(
 function assignDurations(template: CourseTemplate): CourseTemplate {
   return {
     ...template,
-    modules: template.modules.map(mod => ({
+    modules: template.modules.map((mod) => ({
       ...mod,
-      lessons: mod.lessons.map(lesson => ({
+      lessons: mod.lessons.map((lesson) => ({
         ...lesson,
         durationMinutes: lesson.durationMinutes ?? assignDuration(lesson.type),
       })),
@@ -227,9 +209,7 @@ function assignDurations(template: CourseTemplate): CourseTemplate {
 
 // ─── Step 7: Competency assignment ───────────────────────────────────────────
 
-export function assignCompetencies(
-  template: CourseTemplate,
-): CourseTemplate {
+export function assignCompetencies(template: CourseTemplate): CourseTemplate {
   const programCompetencies = getCompetenciesForProgram(template.programSlug);
   if (!programCompetencies.length) return template;
 
@@ -243,9 +223,9 @@ export function assignCompetencies(
 
   return {
     ...template,
-    modules: template.modules.map(mod => ({
+    modules: template.modules.map((mod) => ({
       ...mod,
-      lessons: mod.lessons.map(lesson => {
+      lessons: mod.lessons.map((lesson) => {
         // Only attach to practical lessons that don't already have checks
         if (lesson.type !== 'lab' && lesson.type !== 'assignment') return lesson;
         if (lesson.competencyChecks?.length) return lesson;
@@ -256,7 +236,7 @@ export function assignCompetencies(
 
         return {
           ...lesson,
-          competencyChecks: domainComps.map(c => ({
+          competencyChecks: domainComps.map((c) => ({
             key: c.key,
             label: c.label,
             requiresInstructorSignoff: c.requiresInstructorSignoff,
@@ -277,15 +257,13 @@ export function validatePlan(plan: CourseTemplate): { valid: boolean; errors: st
   const result = validateCourseTemplate(plan);
   return {
     valid: result.valid,
-    errors: result.errors.map(e => `${e.moduleSlug}/${e.lessonSlug} [${e.field}]: ${e.message}`),
+    errors: result.errors.map((e) => `${e.moduleSlug}/${e.lessonSlug} [${e.field}]: ${e.message}`),
   };
 }
 
 // ─── Main compiler ────────────────────────────────────────────────────────────
 
-export async function compileBlueprintToCourse(
-  opts: CompilerOptions,
-): Promise<CompilerResult> {
+export async function compileBlueprintToCourse(opts: CompilerOptions): Promise<CompilerResult> {
   const { db, mode = 'missing-only', dryRun = false } = opts;
   let template = { ...opts.template };
 
@@ -302,7 +280,7 @@ export async function compileBlueprintToCourse(
   // Steps 2–4: Expand modules
   template = {
     ...template,
-    modules: template.modules.map(mod => {
+    modules: template.modules.map((mod) => {
       let expanded = generateModulePlan(mod);
       expanded = generateAssessmentPlan(expanded, injectedQuizzes);
       expanded = generatePracticalPlan(expanded, injectedLabs);
@@ -313,9 +291,13 @@ export async function compileBlueprintToCourse(
   // Step 5: Final exam
   let injectedExam = false;
   if (template.requiresFinalExam && template.finalExam) {
-    const before = template.modules.flatMap(m => m.lessons).filter(l => l.type === 'exam').length;
+    const before = template.modules
+      .flatMap((m) => m.lessons)
+      .filter((l) => l.type === 'exam').length;
     template = injectFinalExam(template, template.finalExam);
-    const after = template.modules.flatMap(m => m.lessons).filter(l => l.type === 'exam').length;
+    const after = template.modules
+      .flatMap((m) => m.lessons)
+      .filter((l) => l.type === 'exam').length;
     injectedExam = after > before;
   }
 
@@ -326,7 +308,7 @@ export async function compileBlueprintToCourse(
   template = assignCompetencies(template);
 
   // Compute plan stats
-  const allLessons = template.modules.flatMap(m => m.lessons);
+  const allLessons = template.modules.flatMap((m) => m.lessons);
   const estimatedHours = allLessons.reduce((s, l) => s + (l.durationMinutes ?? 0), 0) / 60;
 
   // Hours gate

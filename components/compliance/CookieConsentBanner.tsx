@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -65,18 +65,18 @@ export default function CookieConsentBanner() {
 
     // Log consent to database for compliance audit trail
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    await supabase
-      .from('cookie_consent_log')
-      .insert({
-        user_id: user?.id || null,
-        session_id: localStorage.getItem('session_id') || crypto.randomUUID(),
-        preferences: prefs,
-        ip_address: null, // Set server-side
-        user_agent: navigator.userAgent,
-        consented_at: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    await supabase.from('cookie_consent_log').insert({
+      user_id: user?.id || null,
+      session_id: localStorage.getItem('session_id') || crypto.randomUUID(),
+      preferences: prefs,
+      ip_address: null, // Set server-side
+      user_agent: navigator.userAgent,
+      consented_at: new Date().toISOString(),
+    });
   };
 
   const acceptAll = () => {
@@ -113,7 +113,7 @@ export default function CookieConsentBanner() {
 
   const togglePreference = (key: keyof CookiePreferences) => {
     if (key === 'necessary') return; // Can't disable necessary cookies
-    setPreferences(prev => ({ ...prev, [key]: !prev[key] }));
+    setPreferences((prev) => ({ ...prev, [key]: !prev[key] }));
   };
 
   if (!showBanner) return null;
@@ -134,19 +134,25 @@ export default function CookieConsentBanner() {
                   <Cookie className="w-6 h-6 text-brand-blue-600" />
                 </div>
                 <div>
-                  <h3 className="text-lg font-bold text-black mb-2">
-                    We Value Your Privacy
-                  </h3>
+                  <h3 className="text-lg font-bold text-black mb-2">We Value Your Privacy</h3>
                   <p className="text-sm text-black mb-2">
-                    We use cookies to enhance your experience, analyze site traffic, and personalize content.
-                    By clicking "Accept All", you consent to our use of cookies.
+                    We use cookies to enhance your experience, analyze site traffic, and personalize
+                    content. By clicking "Accept All", you consent to our use of cookies.
                   </p>
                   <div className="flex flex-wrap gap-2 text-xs">
-                    <Link href="/privacy-policy" aria-label="Link" className="text-brand-blue-600 hover:underline">
+                    <Link
+                      href="/privacy-policy"
+                      aria-label="Link"
+                      className="text-brand-blue-600 hover:underline"
+                    >
                       Privacy Policy
                     </Link>
                     <span className="text-slate-500">•</span>
-                    <Link href="/cookies" aria-label="Link" className="text-brand-blue-600 hover:underline">
+                    <Link
+                      href="/cookies"
+                      aria-label="Link"
+                      className="text-brand-blue-600 hover:underline"
+                    >
                       Cookie Policy
                     </Link>
                     <span className="text-slate-500">•</span>
@@ -181,9 +187,7 @@ export default function CookieConsentBanner() {
               <div className="flex items-center justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <Settings className="w-6 h-6 text-brand-blue-600" />
-                  <h3 className="text-xl font-bold text-black">
-                    Cookie Preferences
-                  </h3>
+                  <h3 className="text-xl font-bold text-black">Cookie Preferences</h3>
                 </div>
                 <button
                   onClick={() => setShowSettings(false)}
@@ -206,8 +210,9 @@ export default function CookieConsentBanner() {
                         </span>
                       </div>
                       <p className="text-sm text-black">
-                        Essential for the website to function properly. These cookies enable basic functions like page navigation,
-                        secure areas access, and authentication. The website cannot function properly without these cookies.
+                        Essential for the website to function properly. These cookies enable basic
+                        functions like page navigation, secure areas access, and authentication. The
+                        website cannot function properly without these cookies.
                       </p>
                     </div>
                     <div className="ml-4">
@@ -222,7 +227,8 @@ export default function CookieConsentBanner() {
                     <div className="flex-1">
                       <h4 className="font-bold text-black mb-2">Functional Cookies</h4>
                       <p className="text-sm text-black">
-                        Enable enhanced functionality and personalization, such as videos, live chat, and remembering your preferences.
+                        Enable enhanced functionality and personalization, such as videos, live
+                        chat, and remembering your preferences.
                       </p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer ml-4">
@@ -243,8 +249,8 @@ export default function CookieConsentBanner() {
                     <div className="flex-1">
                       <h4 className="font-bold text-black mb-2">Analytics Cookies</h4>
                       <p className="text-sm text-black">
-                        Help us understand how visitors interact with our website by collecting and reporting information anonymously.
-                        This helps us improve our services.
+                        Help us understand how visitors interact with our website by collecting and
+                        reporting information anonymously. This helps us improve our services.
                       </p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer ml-4">
@@ -265,8 +271,8 @@ export default function CookieConsentBanner() {
                     <div className="flex-1">
                       <h4 className="font-bold text-black mb-2">Marketing Cookies</h4>
                       <p className="text-sm text-black">
-                        Used to track visitors across websites to display relevant advertisements. These cookies help us show you
-                        content that may be of interest to you.
+                        Used to track visitors across websites to display relevant advertisements.
+                        These cookies help us show you content that may be of interest to you.
                       </p>
                     </div>
                     <label className="relative inline-flex items-center cursor-pointer ml-4">

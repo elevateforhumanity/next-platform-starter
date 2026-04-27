@@ -16,8 +16,8 @@ export default async function CaseManagerParticipantsPage() {
   const { user } = await requireRole(['case_manager', 'admin', 'super_admin', 'staff']);
 
   const supabase = await createClient();
-  const admin    = await getAdminClient();
-  const db       = admin || supabase;
+  const admin = await getAdminClient();
+  const db = admin || supabase;
 
   // Resolve assigned application IDs for this case manager
   const { data: assignments } = await supabase
@@ -69,9 +69,9 @@ export default async function CaseManagerParticipantsPage() {
   }
 
   const statusBadge = (status: string) => {
-    if (status === 'approved')  return 'bg-green-100 text-green-800';
-    if (status === 'pending')   return 'bg-yellow-100 text-yellow-800';
-    if (status === 'rejected')  return 'bg-red-100 text-red-800';
+    if (status === 'approved') return 'bg-green-100 text-green-800';
+    if (status === 'pending') return 'bg-yellow-100 text-yellow-800';
+    if (status === 'rejected') return 'bg-red-100 text-red-800';
     return 'bg-gray-100 text-slate-900';
   };
 
@@ -82,7 +82,9 @@ export default async function CaseManagerParticipantsPage() {
         <div className="flex items-center justify-between mb-6">
           <div>
             <nav className="text-xs text-slate-700 mb-1">
-              <Link href="/case-manager/dashboard" className="hover:underline">Dashboard</Link>
+              <Link href="/case-manager/dashboard" className="hover:underline">
+                Dashboard
+              </Link>
               <span className="mx-1">/</span>
               <span>Participants</span>
             </nav>
@@ -104,12 +106,24 @@ export default async function CaseManagerParticipantsPage() {
             <table className="min-w-full divide-y divide-gray-100">
               <thead className="bg-gray-50">
                 <tr>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Name</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Email</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Program Interest</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Enrollments</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">App Status</th>
-                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">Applied</th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">
+                    Name
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">
+                    Email
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">
+                    Program Interest
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">
+                    Enrollments
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">
+                    App Status
+                  </th>
+                  <th className="px-4 py-3 text-left text-xs font-semibold text-slate-700 uppercase">
+                    Applied
+                  </th>
                   <th className="px-4 py-3" />
                 </tr>
               </thead>
@@ -123,10 +137,14 @@ export default async function CaseManagerParticipantsPage() {
                         {app.first_name} {app.last_name}
                       </td>
                       <td className="px-4 py-3 text-sm text-slate-700">{app.email}</td>
-                      <td className="px-4 py-3 text-sm text-slate-700">{app.program_interest ?? '—'}</td>
+                      <td className="px-4 py-3 text-sm text-slate-700">
+                        {app.program_interest ?? '—'}
+                      </td>
                       <td className="px-4 py-3 text-sm text-slate-900">{enrollCount}</td>
                       <td className="px-4 py-3">
-                        <span className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${statusBadge(app.status)}`}>
+                        <span
+                          className={`inline-flex items-center rounded-full px-2 py-0.5 text-xs font-medium ${statusBadge(app.status)}`}
+                        >
                           {app.status ?? 'unknown'}
                         </span>
                       </td>

@@ -39,12 +39,30 @@ function section(title) {
 section('Domain layer exports');
 
 const DOMAIN_FILES = [
-  { file: 'lib/domain/credentials.ts', exports: ['mapCredentialRow', 'mapLearnerCredentialRow', 'assertIssuable', 'isVerifiable'] },
-  { file: 'lib/domain/programs.ts',    exports: ['mapProgramRow'] },
-  { file: 'lib/domain/courses.ts',     exports: ['mapCourseRow'] },
-  { file: 'lib/domain/certificates.ts', exports: ['mapCertificateRow', 'assertGeneratable', 'isCertificateValid'] },
-  { file: 'lib/domain/reports.ts',     exports: ['mapStudentRow', 'mapEnrollmentRow', 'mapCertificateReportRow', 'mapProgramSummaryRow', 'mapCourseSummaryRow'] },
-  { file: 'lib/domain/index.ts',       exports: ['mapCredentialRow', 'mapProgramRow', 'mapCourseRow', 'mapCertificateRow'] },
+  {
+    file: 'lib/domain/credentials.ts',
+    exports: ['mapCredentialRow', 'mapLearnerCredentialRow', 'assertIssuable', 'isVerifiable'],
+  },
+  { file: 'lib/domain/programs.ts', exports: ['mapProgramRow'] },
+  { file: 'lib/domain/courses.ts', exports: ['mapCourseRow'] },
+  {
+    file: 'lib/domain/certificates.ts',
+    exports: ['mapCertificateRow', 'assertGeneratable', 'isCertificateValid'],
+  },
+  {
+    file: 'lib/domain/reports.ts',
+    exports: [
+      'mapStudentRow',
+      'mapEnrollmentRow',
+      'mapCertificateReportRow',
+      'mapProgramSummaryRow',
+      'mapCourseSummaryRow',
+    ],
+  },
+  {
+    file: 'lib/domain/index.ts',
+    exports: ['mapCredentialRow', 'mapProgramRow', 'mapCourseRow', 'mapCertificateRow'],
+  },
 ];
 
 for (const { file, exports: required } of DOMAIN_FILES) {
@@ -57,7 +75,9 @@ for (const { file, exports: required } of DOMAIN_FILES) {
   for (const sym of required) {
     // Match: export function X, export const X, export type X, export interface X, export * (re-export)
     const exported =
-      new RegExp(`export\\s+(function|const|type|interface|async function)\\s+${sym}\\b`).test(src) ||
+      new RegExp(`export\\s+(function|const|type|interface|async function)\\s+${sym}\\b`).test(
+        src,
+      ) ||
       (file.endsWith('index.ts') && src.includes("export * from './"));
     if (!exported) {
       fail(`${file} — missing export: ${sym}`);
@@ -75,7 +95,9 @@ const SIM_DIR = join(ROOT, 'content', 'hvac-sims');
 if (!existsSync(SIM_DIR)) {
   fail('content/hvac-sims/ directory missing');
 } else {
-  const simFiles = readdirSync(SIM_DIR).filter(f => f.endsWith('.json')).sort();
+  const simFiles = readdirSync(SIM_DIR)
+    .filter((f) => f.endsWith('.json'))
+    .sort();
   if (simFiles.length !== 10) {
     fail(`Expected 10 sim JSON files, found ${simFiles.length}`);
   } else {
@@ -112,7 +134,7 @@ if (!existsSync(CRED_SYSTEM)) {
   const src = readFileSync(CRED_SYSTEM, 'utf8');
 
   // Extract id: '...' values from the ALL_CREDENTIALS array
-  const idMatches = [...src.matchAll(/\bid:\s*['"]([^'"]+)['"]/g)].map(m => m[1]);
+  const idMatches = [...src.matchAll(/\bid:\s*['"]([^'"]+)['"]/g)].map((m) => m[1]);
 
   if (idMatches.length === 0) {
     pass('credential-system.ts — no static IDs to check (DB-driven)');

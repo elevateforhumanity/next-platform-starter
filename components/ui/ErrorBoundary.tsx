@@ -24,7 +24,7 @@ export function ErrorBoundaryUI({
   }, [error]);
 
   return (
-    <div 
+    <div
       className="min-h-screen flex items-center justify-center bg-gray-50 px-4"
       role="alert"
       aria-live="assertive"
@@ -75,8 +75,8 @@ export function ErrorBoundaryUI({
 
         <div className="text-sm text-slate-700">
           <p>If this problem persists, please contact support:</p>
-          <a 
-            href="/contact" 
+          <a
+            href="/contact"
             className="text-brand-blue-600 hover:underline focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           >
             our contact form

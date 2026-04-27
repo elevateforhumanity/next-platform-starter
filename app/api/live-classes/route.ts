@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createServerSupabaseClient } from '@/lib/auth';
 import { logger } from '@/lib/logger';
@@ -26,7 +25,7 @@ async function _GET(req: NextRequest) {
         *,
         instructor:profiles!instructor_id(full_name, email),
         course:courses(title)
-      `
+      `,
       )
       .order('scheduled_at', { ascending: true });
 
@@ -43,12 +42,9 @@ async function _GET(req: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ classes: data });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error fetching live classes:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch live classes' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch live classes' }, { status: 500 });
   }
 }
 
@@ -78,21 +74,11 @@ async function _POST(req: NextRequest) {
     }
 
     const body = await req.json();
-    const {
-      course_id,
-      title,
-      description,
-      scheduled_at,
-      duration_minutes,
-      provider,
-      meeting_url,
-    } = body;
+    const { course_id, title, description, scheduled_at, duration_minutes, provider, meeting_url } =
+      body;
 
     if (!course_id || !title || !scheduled_at) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const { data, error }: any = await supabase
@@ -113,12 +99,9 @@ async function _POST(req: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ class: data }, { status: 201 });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error creating live class:', error);
-    return NextResponse.json(
-      { error: 'Failed to create live class' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create live class' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/live-classes', _GET);

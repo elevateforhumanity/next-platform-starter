@@ -4,7 +4,7 @@ export class AppError extends Error {
   constructor(
     message: string,
     public statusCode: number = 500,
-    public isOperational: boolean = true
+    public isOperational: boolean = true,
   ) {
     super(message);
     this.name = this.constructor.name;
@@ -57,9 +57,8 @@ export function handleError(error: any): { message: string; statusCode: number }
     }
 
     return {
-      message: process.env.NODE_ENV === 'development'
-        ? error.message
-        : 'An unexpected error occurred',
+      message:
+        process.env.NODE_ENV === 'development' ? error.message : 'An unexpected error occurred',
       statusCode: 500,
     };
   }
@@ -72,12 +71,13 @@ export function handleError(error: any): { message: string; statusCode: number }
 
 export async function withErrorHandling<T>(
   fn: () => Promise<T>,
-  errorMessage: string = 'Operation failed'
+  errorMessage: string = 'Operation failed',
 ): Promise<{ data?: T; error?: string }> {
   try {
     const data = await fn();
     return { data };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     const { message } = handleError(error);
     return { error: message || errorMessage };
   }

@@ -1,9 +1,18 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import {
-  DollarSign, CreditCard, Building2, Banknote,
-  CheckCircle, AlertCircle, ChevronRight, TrendingUp,
-  Calendar, Download, Settings, FileText,
+  DollarSign,
+  CreditCard,
+  Building2,
+  Banknote,
+  CheckCircle,
+  AlertCircle,
+  ChevronRight,
+  TrendingUp,
+  Calendar,
+  Download,
+  Settings,
+  FileText,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireProgramHolder } from '@/lib/auth/require-program-holder';
@@ -21,7 +30,11 @@ function fmt(n: number | null | undefined) {
 }
 function fmtDate(d: string | null) {
   if (!d) return '—';
-  return new Date(d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+  return new Date(d).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+  });
 }
 
 export default async function ProgramHolderPayrollPage() {
@@ -37,7 +50,9 @@ export default async function ProgramHolderPayrollPage() {
   // Fetch payroll runs scoped to this holder's tenant
   const payrollRunsQuery = db
     .from('payroll_runs')
-    .select('id, pay_period_start, pay_period_end, pay_date, status, total_gross, total_net, total_taxes, employee_count, created_at')
+    .select(
+      'id, pay_period_start, pay_period_end, pay_date, status, total_gross, total_net, total_taxes, employee_count, created_at',
+    )
     .order('pay_date', { ascending: false })
     .limit(20);
 
@@ -48,7 +63,9 @@ export default async function ProgramHolderPayrollPage() {
   // Fetch pay stubs for this user
   const { data: stubs } = await db
     .from('pay_stubs')
-    .select('id, gross_pay, net_pay, federal_tax, state_tax, social_security, medicare, created_at, payroll_run_id, payroll_runs(pay_period_start, pay_period_end, pay_date, status)')
+    .select(
+      'id, gross_pay, net_pay, federal_tax, state_tax, social_security, medicare, created_at, payroll_run_id, payroll_runs(pay_period_start, pay_period_end, pay_date, status)',
+    )
     .eq('employee_id', user.id)
     .order('created_at', { ascending: false })
     .limit(12);
@@ -67,10 +84,12 @@ export default async function ProgramHolderPayrollPage() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-5xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Program Holder', href: '/program-holder/dashboard' },
-            { label: 'Payroll & Payouts' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Program Holder', href: '/program-holder/dashboard' },
+              { label: 'Payroll & Payouts' },
+            ]}
+          />
         </div>
       </div>
 
@@ -79,10 +98,14 @@ export default async function ProgramHolderPayrollPage() {
         <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mb-8">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Payroll &amp; Payouts</h1>
-            <p className="text-slate-500 text-sm mt-1">Manage your pay method, view earnings, and run payroll for your staff</p>
+            <p className="text-slate-500 text-sm mt-1">
+              Manage your pay method, view earnings, and run payroll for your staff
+            </p>
           </div>
-          <Link href="/program-holder/payroll"
-            className="flex items-center gap-2 border border-slate-300 text-slate-700 px-4 py-2 rounded-lg hover:bg-white text-sm font-medium">
+          <Link
+            href="/program-holder/payroll"
+            className="flex items-center gap-2 border border-slate-300 text-slate-700 px-4 py-2 rounded-lg hover:bg-white text-sm font-medium"
+          >
             <Settings className="w-4 h-4" /> Payout Settings
           </Link>
         </div>
@@ -94,11 +117,14 @@ export default async function ProgramHolderPayrollPage() {
             <div className="flex-1">
               <p className="font-semibold text-amber-900">Payout setup required</p>
               <p className="text-sm text-amber-700 mt-0.5">
-                Connect your bank account or choose a pay card to receive program revenue and payroll deposits.
+                Connect your bank account or choose a pay card to receive program revenue and
+                payroll deposits.
               </p>
             </div>
-            <Link href="/program-holder/payroll"
-              className="flex-shrink-0 bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-amber-700">
+            <Link
+              href="/program-holder/payroll"
+              className="flex-shrink-0 bg-amber-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-amber-700"
+            >
               Set Up Now
             </Link>
           </div>
@@ -108,16 +134,19 @@ export default async function ProgramHolderPayrollPage() {
             <div className="flex-1">
               <p className="font-semibold text-brand-green-900">Payout account connected</p>
               <p className="text-sm text-brand-green-700">
-                {payoutProfile?.bank_name ?? 'Bank account'} ···{payoutProfile?.external_account_last4 ?? '****'}
+                {payoutProfile?.bank_name ?? 'Bank account'} ···
+                {payoutProfile?.external_account_last4 ?? '****'}
                 {' · '}
                 <span className="capitalize">{verificationStatus}</span>
               </p>
             </div>
-            <span className={`text-xs px-2.5 py-1 rounded-full font-semibold ${
-              verificationStatus === 'verified'
-                ? 'bg-brand-green-200 text-brand-green-800'
-                : 'bg-amber-100 text-amber-800'
-            }`}>
+            <span
+              className={`text-xs px-2.5 py-1 rounded-full font-semibold ${
+                verificationStatus === 'verified'
+                  ? 'bg-brand-green-200 text-brand-green-800'
+                  : 'bg-amber-100 text-amber-800'
+              }`}
+            >
               {verificationStatus === 'verified' ? 'Verified' : 'Pending Verification'}
             </span>
           </div>
@@ -128,14 +157,28 @@ export default async function ProgramHolderPayrollPage() {
           {[
             { label: 'YTD Gross', value: fmt(ytdGross), icon: TrendingUp, color: 'brand-blue' },
             { label: 'YTD Net', value: fmt(ytdNet), icon: DollarSign, color: 'brand-green' },
-            { label: 'Last Pay Date', value: lastRun ? fmtDate(lastRun.pay_date) : 'None yet', icon: Calendar, color: 'brand-orange' },
-            { label: 'Pay Stubs', value: payStubs.length.toString(), icon: FileText, color: 'brand-blue' },
+            {
+              label: 'Last Pay Date',
+              value: lastRun ? fmtDate(lastRun.pay_date) : 'None yet',
+              icon: Calendar,
+              color: 'brand-orange',
+            },
+            {
+              label: 'Pay Stubs',
+              value: payStubs.length.toString(),
+              icon: FileText,
+              color: 'brand-blue',
+            },
           ].map(({ label, value, icon: Icon, color }) => (
             <div key={label} className="bg-white rounded-xl border p-5">
-              <div className={`w-9 h-9 rounded-lg bg-${color}-100 flex items-center justify-center mb-3`}>
+              <div
+                className={`w-9 h-9 rounded-lg bg-${color}-100 flex items-center justify-center mb-3`}
+              >
                 <Icon className={`w-4 h-4 text-${color}-600`} />
               </div>
-              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">{label}</p>
+              <p className="text-xs font-semibold uppercase tracking-wide text-slate-500 mb-1">
+                {label}
+              </p>
               <p className="text-lg font-bold text-slate-900">{value}</p>
             </div>
           ))}
@@ -144,26 +187,57 @@ export default async function ProgramHolderPayrollPage() {
         {/* Quick actions */}
         <div className="grid sm:grid-cols-3 gap-3 mb-8">
           {[
-            { label: 'Run Payroll', desc: 'Process bi-weekly payroll for your staff', href: '/admin/hr/payroll', icon: DollarSign, primary: true },
-            { label: 'W-9 & Tax Docs', desc: 'Submit or update your W-9 on file', href: '/program-holder/payroll/w9', icon: FileText, primary: false },
-            { label: 'Staff Payroll Setup', desc: 'Help staff set up their pay method', href: '/onboarding/payroll-setup', icon: Settings, primary: false },
+            {
+              label: 'Run Payroll',
+              desc: 'Process bi-weekly payroll for your staff',
+              href: '/admin/hr/payroll',
+              icon: DollarSign,
+              primary: true,
+            },
+            {
+              label: 'W-9 & Tax Docs',
+              desc: 'Submit or update your W-9 on file',
+              href: '/program-holder/payroll/w9',
+              icon: FileText,
+              primary: false,
+            },
+            {
+              label: 'Staff Payroll Setup',
+              desc: 'Help staff set up their pay method',
+              href: '/onboarding/payroll-setup',
+              icon: Settings,
+              primary: false,
+            },
           ].map(({ label, desc, href, icon: Icon, primary }) => (
-            <Link key={href} href={href}
+            <Link
+              key={href}
+              href={href}
               className={`flex items-center gap-4 p-5 rounded-xl border transition group ${
                 primary
                   ? 'bg-brand-blue-600 border-brand-blue-600 hover:bg-brand-blue-700 text-white'
                   : 'bg-white hover:border-brand-blue-300 hover:bg-brand-blue-50'
-              }`}>
-              <div className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                primary ? 'bg-brand-blue-500' : 'bg-white group-hover:bg-brand-blue-100'
-              }`}>
-                <Icon className={`w-5 h-5 ${primary ? 'text-white' : 'text-slate-500 group-hover:text-brand-blue-600'}`} />
+              }`}
+            >
+              <div
+                className={`w-10 h-10 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                  primary ? 'bg-brand-blue-500' : 'bg-white group-hover:bg-brand-blue-100'
+                }`}
+              >
+                <Icon
+                  className={`w-5 h-5 ${primary ? 'text-white' : 'text-slate-500 group-hover:text-brand-blue-600'}`}
+                />
               </div>
               <div className="flex-1 min-w-0">
-                <p className={`font-semibold text-sm ${primary ? 'text-white' : 'text-slate-900'}`}>{label}</p>
-                <p className={`text-xs mt-0.5 ${primary ? 'text-white' : 'text-slate-400'}`}>{desc}</p>
+                <p className={`font-semibold text-sm ${primary ? 'text-white' : 'text-slate-900'}`}>
+                  {label}
+                </p>
+                <p className={`text-xs mt-0.5 ${primary ? 'text-white' : 'text-slate-400'}`}>
+                  {desc}
+                </p>
               </div>
-              <ChevronRight className={`w-4 h-4 flex-shrink-0 ${primary ? 'text-white' : 'text-slate-300'}`} />
+              <ChevronRight
+                className={`w-4 h-4 flex-shrink-0 ${primary ? 'text-white' : 'text-slate-300'}`}
+              />
             </Link>
           ))}
         </div>
@@ -177,8 +251,13 @@ export default async function ProgramHolderPayrollPage() {
           {payStubs.length === 0 ? (
             <div className="px-6 py-12 text-center text-slate-400">
               <DollarSign className="w-10 h-10 mx-auto mb-3 opacity-30" />
-              <p className="text-sm">No pay stubs yet. Your first stub will appear after your first payroll run.</p>
-              <Link href="/admin/hr/payroll" className="mt-3 inline-flex items-center gap-1 text-brand-blue-600 text-sm font-medium hover:underline">
+              <p className="text-sm">
+                No pay stubs yet. Your first stub will appear after your first payroll run.
+              </p>
+              <Link
+                href="/admin/hr/payroll"
+                className="mt-3 inline-flex items-center gap-1 text-brand-blue-600 text-sm font-medium hover:underline"
+              >
                 Go to Payroll <ChevronRight className="w-3.5 h-3.5" />
               </Link>
             </div>
@@ -186,10 +265,16 @@ export default async function ProgramHolderPayrollPage() {
             <div className="divide-y">
               {payStubs.map((stub: any) => {
                 const run = stub.payroll_runs;
-                const taxes = Number(stub.federal_tax ?? 0) + Number(stub.state_tax ?? 0) +
-                  Number(stub.social_security ?? 0) + Number(stub.medicare ?? 0);
+                const taxes =
+                  Number(stub.federal_tax ?? 0) +
+                  Number(stub.state_tax ?? 0) +
+                  Number(stub.social_security ?? 0) +
+                  Number(stub.medicare ?? 0);
                 return (
-                  <div key={stub.id} className="px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3">
+                  <div
+                    key={stub.id}
+                    className="px-6 py-4 flex flex-col sm:flex-row sm:items-center gap-3"
+                  >
                     <div className="w-9 h-9 bg-brand-green-100 rounded-xl flex items-center justify-center flex-shrink-0">
                       <DollarSign className="w-4 h-4 text-brand-green-600" />
                     </div>
@@ -202,9 +287,15 @@ export default async function ProgramHolderPayrollPage() {
                       <p className="text-xs text-slate-500">
                         Pay date: {run ? fmtDate(run.pay_date) : '—'}
                         {run?.status && (
-                          <span className={`ml-2 px-1.5 py-0.5 rounded text-xs font-medium ${
-                            run.status === 'paid' ? 'bg-brand-green-100 text-brand-green-700' : 'bg-white text-slate-600'
-                          }`}>{run.status}</span>
+                          <span
+                            className={`ml-2 px-1.5 py-0.5 rounded text-xs font-medium ${
+                              run.status === 'paid'
+                                ? 'bg-brand-green-100 text-brand-green-700'
+                                : 'bg-white text-slate-600'
+                            }`}
+                          >
+                            {run.status}
+                          </span>
                         )}
                       </p>
                     </div>
@@ -242,7 +333,10 @@ export default async function ProgramHolderPayrollPage() {
           <div className="bg-white rounded-xl border overflow-hidden">
             <div className="px-6 py-4 border-b flex items-center justify-between">
               <h2 className="font-semibold text-slate-900">Payroll Runs</h2>
-              <Link href="/admin/hr/payroll" className="text-sm text-brand-blue-600 hover:underline font-medium">
+              <Link
+                href="/admin/hr/payroll"
+                className="text-sm text-brand-blue-600 hover:underline font-medium"
+              >
                 Manage
               </Link>
             </div>
@@ -251,16 +345,24 @@ export default async function ProgramHolderPayrollPage() {
                 <div key={run.id} className="px-6 py-4 flex items-center gap-4">
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2 mb-0.5">
-                      <span className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
-                        run.status === 'paid' ? 'bg-brand-green-100 text-brand-green-700' :
-                        run.status === 'processing' ? 'bg-yellow-100 text-yellow-800' :
-                        'bg-white text-slate-600'
-                      }`}>{run.status}</span>
+                      <span
+                        className={`text-xs font-semibold px-2 py-0.5 rounded-full ${
+                          run.status === 'paid'
+                            ? 'bg-brand-green-100 text-brand-green-700'
+                            : run.status === 'processing'
+                              ? 'bg-yellow-100 text-yellow-800'
+                              : 'bg-white text-slate-600'
+                        }`}
+                      >
+                        {run.status}
+                      </span>
                       <span className="text-sm font-semibold text-slate-900">
                         {fmtDate(run.pay_period_start)} – {fmtDate(run.pay_period_end)}
                       </span>
                     </div>
-                    <p className="text-xs text-slate-500">Pay date: {fmtDate(run.pay_date)} · {run.employee_count ?? 0} employees</p>
+                    <p className="text-xs text-slate-500">
+                      Pay date: {fmtDate(run.pay_date)} · {run.employee_count ?? 0} employees
+                    </p>
                   </div>
                   <div className="text-right">
                     <p className="text-xs text-slate-500">Net</p>

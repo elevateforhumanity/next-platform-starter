@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useEffect } from 'react';
 import { XCircle, AlertCircle, Info, X } from 'lucide-react';
@@ -12,12 +12,7 @@ export interface ToastProps {
   duration?: number;
 }
 
-export const Toast: React.FC<ToastProps> = ({
-  type,
-  message,
-  onClose,
-  duration = 5000,
-}) => {
+export const Toast: React.FC<ToastProps> = ({ type, message, onClose, duration = 5000 }) => {
   useEffect(() => {
     if (duration > 0) {
       const timer = setTimeout(onClose, duration);

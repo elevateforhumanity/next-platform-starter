@@ -4,9 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ScrollReveal } from '@/components/animations/ScrollReveal';
-import { BarChart, Lock, Smartphone, Zap,
-  Phone
-} from 'lucide-react';
+import { BarChart, Lock, Smartphone, Zap, Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const revalidate = 3600;
@@ -22,25 +20,17 @@ export const metadata: Metadata = {
 export default async function TaxSelfPrepPage() {
   const supabase = await createClient();
 
-  
   // Fetch tax prep pricing
-  const { data: pricing } = await supabase
-    .from('tax_services')
-    .select('*')
-    .eq('type', 'self_prep');
+  const { data: pricing } = await supabase.from('tax_services').select('*').eq('type', 'self_prep');
   return (
     <div className="min-h-screen bg-white">
-      <Breadcrumbs
-        items={[
-          { label: 'Tax Services', href: '/tax' },
-          { label: 'Self Prep' },
-        ]}
-      />
+      <Breadcrumbs items={[{ label: 'Tax Services', href: '/tax' }, { label: 'Self Prep' }]} />
       {/* Hero - TurboTax Style */}
       <section className="relative py-20">
         <div className="max-w-7xl mx-auto px-4">
           {/* Hero Section */}
           <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
             <Image
               src="/images/pages/tax-self-prep-hero.jpg"
               alt="Hero"
@@ -50,16 +40,12 @@ export default async function TaxSelfPrepPage() {
               priority
               sizes="100vw"
             />
-
           </section>
 
           <div className="max-w-3xl mx-auto text-center">
-            <h1 className="text-5xl md:text-6xl font-bold mb-6">
-              Do your taxes with confidence
-            </h1>
+            <h1 className="text-5xl md:text-6xl font-bold mb-6">Do your taxes with confidence</h1>
             <p className="text-base md:text-lg mb-8 font-light">
-              Easy, step-by-step guidance. Maximum refund guaranteed. Free to
-              start.
+              Easy, step-by-step guidance. Maximum refund guaranteed. Free to start.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
               <Link
@@ -70,8 +56,7 @@ export default async function TaxSelfPrepPage() {
               </Link>
             </div>
             <p className="text-sm opacity-90">
-              • Free to start • Pay only when you file • Maximum refund
-              guaranteed
+              • Free to start • Pay only when you file • Maximum refund guaranteed
             </p>
           </div>
         </div>
@@ -92,9 +77,7 @@ export default async function TaxSelfPrepPage() {
               {/* Free Edition */}
               <div className="bg-white border-2 border-slate-200 rounded-lg p-6 hover:border-brand-blue-600 hover:shadow-xl transition">
                 <div className="text-center mb-6">
-                  <h3 className="text-lg md:text-lg font-bold mb-2">
-                    Free Edition
-                  </h3>
+                  <h3 className="text-lg md:text-lg font-bold mb-2">Free Edition</h3>
                   <div className="text-4xl font-bold text-brand-blue-600 mb-2 text-2xl md:text-3xl lg:text-4xl">
                     $0
                   </div>
@@ -162,14 +145,10 @@ export default async function TaxSelfPrepPage() {
                   <div className="text-4xl font-bold text-brand-blue-600 mb-2 text-2xl md:text-3xl lg:text-4xl">
                     $39
                   </div>
-                  <div className="text-sm text-black">
-                    Federal + $39 State
-                  </div>
+                  <div className="text-sm text-black">Federal + $39 State</div>
                 </div>
                 <div className="mb-6">
-                  <div className="text-sm font-semibold mb-3">
-                    Everything in Free, plus:
-                  </div>
+                  <div className="text-sm font-semibold mb-3">Everything in Free, plus:</div>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start gap-2">
                       <svg
@@ -233,14 +212,10 @@ export default async function TaxSelfPrepPage() {
                   <div className="text-4xl font-bold text-brand-blue-600 mb-2 text-2xl md:text-3xl lg:text-4xl">
                     $69
                   </div>
-                  <div className="text-sm text-black">
-                    Federal + $39 State
-                  </div>
+                  <div className="text-sm text-black">Federal + $39 State</div>
                 </div>
                 <div className="mb-6">
-                  <div className="text-sm font-semibold mb-3">
-                    Everything in Deluxe, plus:
-                  </div>
+                  <div className="text-sm font-semibold mb-3">Everything in Deluxe, plus:</div>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start gap-2">
                       <svg
@@ -297,20 +272,14 @@ export default async function TaxSelfPrepPage() {
               {/* Self-Employed */}
               <div className="bg-white border-2 border-slate-200 rounded-lg p-6 hover:border-brand-blue-600 hover:shadow-xl transition">
                 <div className="text-center mb-6">
-                  <h3 className="text-lg md:text-lg font-bold mb-2">
-                    Self-Employed
-                  </h3>
+                  <h3 className="text-lg md:text-lg font-bold mb-2">Self-Employed</h3>
                   <div className="text-4xl font-bold text-brand-blue-600 mb-2 text-2xl md:text-3xl lg:text-4xl">
                     $99
                   </div>
-                  <div className="text-sm text-black">
-                    Federal + $39 State
-                  </div>
+                  <div className="text-sm text-black">Federal + $39 State</div>
                 </div>
                 <div className="mb-6">
-                  <div className="text-sm font-semibold mb-3">
-                    Everything in Premier, plus:
-                  </div>
+                  <div className="text-sm font-semibold mb-3">Everything in Premier, plus:</div>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-start gap-2">
                       <svg
@@ -367,8 +336,7 @@ export default async function TaxSelfPrepPage() {
 
             <div className="mt-12 text-center">
               <p className="text-sm text-black">
-                Not sure which product? Start for free and we'll recommend the
-                right one for you.
+                Not sure which product? Start for free and we'll recommend the right one for you.
               </p>
             </div>
           </div>
@@ -387,12 +355,9 @@ export default async function TaxSelfPrepPage() {
                 <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-brand-blue-600">
                   1
                 </div>
-                <h3 className="text-lg font-bold mb-3">
-                  Answer simple questions
-                </h3>
+                <h3 className="text-lg font-bold mb-3">Answer simple questions</h3>
                 <p className="text-black">
-                  We'll ask you about your income, deductions, and credits in
-                  plain English.
+                  We'll ask you about your income, deductions, and credits in plain English.
                 </p>
               </div>
 
@@ -400,12 +365,9 @@ export default async function TaxSelfPrepPage() {
                 <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-brand-blue-600">
                   2
                 </div>
-                <h3 className="text-lg font-bold mb-3">
-                  We fill out the forms
-                </h3>
+                <h3 className="text-lg font-bold mb-3">We fill out the forms</h3>
                 <p className="text-black">
-                  Our software automatically fills out all the right tax forms
-                  for you.
+                  Our software automatically fills out all the right tax forms for you.
                 </p>
               </div>
 
@@ -413,12 +375,9 @@ export default async function TaxSelfPrepPage() {
                 <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-brand-blue-600">
                   3
                 </div>
-                <h3 className="text-lg font-bold mb-3">
-                  Double-check everything
-                </h3>
+                <h3 className="text-lg font-bold mb-3">Double-check everything</h3>
                 <p className="text-black">
-                  Review your return and make sure everything looks right before
-                  filing.
+                  Review your return and make sure everything looks right before filing.
                 </p>
               </div>
 
@@ -426,12 +385,9 @@ export default async function TaxSelfPrepPage() {
                 <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4 text-2xl font-bold text-brand-blue-600">
                   4
                 </div>
-                <h3 className="text-lg font-bold mb-3">
-                  E-file and get refund
-                </h3>
+                <h3 className="text-lg font-bold mb-3">E-file and get refund</h3>
                 <p className="text-black">
-                  File electronically and get your refund in as little as 8
-                  days.
+                  File electronically and get your refund in as little as 8 days.
                 </p>
               </div>
             </div>
@@ -448,15 +404,11 @@ export default async function TaxSelfPrepPage() {
             </h2>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="bg-white p-8 rounded-lg">
-                <div className="text-4xl mb-4 text-2xl md:text-3xl lg:text-4xl">
-                  •
-                </div>
-                <h3 className="text-lg font-bold mb-3">
-                  Maximum Refund Guaranteed
-                </h3>
+                <div className="text-4xl mb-4 text-2xl md:text-3xl lg:text-4xl">•</div>
+                <h3 className="text-lg font-bold mb-3">Maximum Refund Guaranteed</h3>
                 <p className="text-black">
-                  We guarantee you'll get the maximum refund you're entitled to,
-                  or we'll refund your service fee.
+                  We guarantee you'll get the maximum refund you're entitled to, or we'll refund
+                  your service fee.
                 </p>
               </div>
 
@@ -466,21 +418,15 @@ export default async function TaxSelfPrepPage() {
                 </div>
                 <h3 className="text-lg font-bold mb-3">100% Secure</h3>
                 <p className="text-black">
-                  Bank-level encryption and multi-factor authentication protect
-                  your data.
+                  Bank-level encryption and multi-factor authentication protect your data.
                 </p>
               </div>
 
               <div className="bg-white p-8 rounded-lg">
-                <div className="text-4xl mb-4 text-2xl md:text-3xl lg:text-4xl">
-                  💬
-                </div>
-                <h3 className="text-lg font-bold mb-3">
-                  Expert Help Available
-                </h3>
+                <div className="text-4xl mb-4 text-2xl md:text-3xl lg:text-4xl">💬</div>
+                <h3 className="text-lg font-bold mb-3">Expert Help Available</h3>
                 <p className="text-black">
-                  Get help from tax experts via chat, phone, or video call if
-                  you need it.
+                  Get help from tax experts via chat, phone, or video call if you need it.
                 </p>
               </div>
 
@@ -490,8 +436,7 @@ export default async function TaxSelfPrepPage() {
                 </div>
                 <h3 className="text-lg font-bold mb-3">Mobile App</h3>
                 <p className="text-black">
-                  Do your taxes on your phone or tablet. Snap photos of W-2s and
-                  upload instantly.
+                  Do your taxes on your phone or tablet. Snap photos of W-2s and upload instantly.
                 </p>
               </div>
 
@@ -501,8 +446,7 @@ export default async function TaxSelfPrepPage() {
                 </div>
                 <h3 className="text-lg font-bold mb-3">Fast & Easy</h3>
                 <p className="text-black">
-                  Most people finish in under 30 minutes. Save and come back
-                  anytime.
+                  Most people finish in under 30 minutes. Save and come back anytime.
                 </p>
               </div>
 
@@ -512,8 +456,7 @@ export default async function TaxSelfPrepPage() {
                 </div>
                 <h3 className="text-lg font-bold mb-3">Import Last Year</h3>
                 <p className="text-black">
-                  Import last year's return from any major tax software to save
-                  time.
+                  Import last year's return from any major tax software to save time.
                 </p>
               </div>
             </div>
@@ -545,7 +488,9 @@ export default async function TaxSelfPrepPage() {
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Your Career?</h2>
-          <p className="text-white mb-6">Check your eligibility for funded career training programs.</p>
+          <p className="text-white mb-6">
+            Check your eligibility for funded career training programs.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/start"

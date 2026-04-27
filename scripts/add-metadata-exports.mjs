@@ -14,11 +14,7 @@ if (!fs.existsSync(filesPath)) {
   process.exit(1);
 }
 
-const files = fs.readFileSync(filesPath, 'utf8')
-  .trim()
-  .split('\n')
-  .filter(Boolean);
-
+const files = fs.readFileSync(filesPath, 'utf8').trim().split('\n').filter(Boolean);
 
 function routeToTitle(filePath) {
   // Extract route from file path
@@ -41,7 +37,7 @@ function routeToTitle(filePath) {
 
   return lastPart
     .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 }
 
@@ -67,7 +63,11 @@ for (const file of files) {
   const content = fs.readFileSync(file, 'utf8');
 
   // Check if already has metadata (double-check)
-  if (/export\s+(const\s+metadata|async\s+function\s+generateMetadata|function\s+generateMetadata)\b/.test(content)) {
+  if (
+    /export\s+(const\s+metadata|async\s+function\s+generateMetadata|function\s+generateMetadata)\b/.test(
+      content,
+    )
+  ) {
     continue;
   }
 
@@ -103,4 +103,3 @@ for (const file of files) {
   fs.writeFileSync(file, lines.join('\n'), 'utf8');
   added++;
 }
-

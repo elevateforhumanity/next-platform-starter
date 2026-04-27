@@ -20,7 +20,7 @@ export interface TurnstileVerificationResult {
  */
 export async function verifyTurnstileToken(
   token: string,
-  ip?: string
+  ip?: string,
 ): Promise<TurnstileVerificationResult> {
   try {
     const secretKey = process.env.TURNSTILE_SECRET_KEY;
@@ -40,13 +40,10 @@ export async function verifyTurnstileToken(
       formData.append('remoteip', ip);
     }
 
-    const response = await fetch(
-      'https://challenges.cloudflare.com/turnstile/v0/siteverify',
-      {
-        method: 'POST',
-        body: formData,
-      }
-    );
+    const response = await fetch('https://challenges.cloudflare.com/turnstile/v0/siteverify', {
+      method: 'POST',
+      body: formData,
+    });
 
     const data = await response.json();
 
@@ -59,7 +56,8 @@ export async function verifyTurnstileToken(
     }
 
     return { success: true };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('❌ Turnstile verification error:', error);
     return {
       success: false,
@@ -77,7 +75,7 @@ const rateLimitMap = new Map<string, { count: number; resetAt: number }>();
 export function checkRateLimit(
   identifier: string,
   maxRequests: number = 5,
-  windowMs: number = 60000 // 1 minute
+  windowMs: number = 60000, // 1 minute
 ): { allowed: boolean; remaining: number; resetAt: number } {
   const now = Date.now();
   const record = rateLimitMap.get(identifier);

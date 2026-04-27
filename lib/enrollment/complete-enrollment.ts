@@ -81,7 +81,7 @@ export async function completeEnrollment(data: EnrollmentData): Promise<Enrollme
     }
 
     // Step 4: Resolve latest published course version
-    const { data: version } = await supabase
+    const { data: version } = (await supabase
       .from('course_versions')
       .select('id')
       .eq('course_id', data.courseId)
@@ -89,7 +89,7 @@ export async function completeEnrollment(data: EnrollmentData): Promise<Enrollme
       .order('version_number', { ascending: false })
       .limit(1)
       .maybeSingle()
-      .catch(() => ({ data: null })) as { data: { id: string } | null };
+      .catch(() => ({ data: null }))) as { data: { id: string } | null };
 
     // Step 5: Resolve program_slug — required by DB trigger on program_enrollments
     // Look up the course slug directly (courses.slug matches programs.slug for canonical courses)
@@ -101,15 +101,15 @@ export async function completeEnrollment(data: EnrollmentData): Promise<Enrollme
     const { data: enrollment, error: enrollError } = await supabase
       .from('program_enrollments')
       .insert({
-        user_id:           data.userId,
-        course_id:         data.courseId,
-        program_id:        data.programId ?? null,
-        program_slug:      programSlug,
+        user_id: data.userId,
+        course_id: data.courseId,
+        program_id: data.programId ?? null,
+        program_slug: programSlug,
         course_version_id: version?.id ?? null,
-        status:            enrollmentStatus,
-        progress_percent:  0,
-        enrolled_at:       new Date().toISOString(),
-        funding_source:    data.paymentMethod ?? null,
+        status: enrollmentStatus,
+        progress_percent: 0,
+        enrolled_at: new Date().toISOString(),
+        funding_source: data.paymentMethod ?? null,
       })
       .select('id')
       .maybeSingle();
@@ -123,15 +123,15 @@ export async function completeEnrollment(data: EnrollmentData): Promise<Enrollme
     supabase
       .from('audit_logs')
       .insert({
-        user_id:       data.userId,
-        action:        'enrollment_created',
+        user_id: data.userId,
+        action: 'enrollment_created',
         resource_type: 'enrollment',
-        resource_id:   enrollment.id,
+        resource_id: enrollment.id,
         metadata: {
-          course_id:    data.courseId,
+          course_id: data.courseId,
           course_title: course.title,
-          version_id:   version?.id ?? null,
-          table:        'program_enrollments',
+          version_id: version?.id ?? null,
+          table: 'program_enrollments',
         },
       })
       .then(() => {})
@@ -142,7 +142,6 @@ export async function completeEnrollment(data: EnrollmentData): Promise<Enrollme
       enrollmentId: enrollment.id,
       courseAccessUrl: `/lms/courses/${data.courseId}`,
     };
-
   } catch (error) {
     logger.error('Enrollment flow error', error);
     return { success: false, error: 'An unexpected error occurred during enrollment' };

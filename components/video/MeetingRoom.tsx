@@ -5,12 +5,7 @@ import React, { useEffect, useRef, useState } from 'react';
  * MeetingRoom Component - Jitsi Meet Integration
  * Provides video conferencing with screen sharing, recording, and chat
  */
-export function MeetingRoom({
-  meetingCode,
-  userName,
-  isModerator = false,
-  onLeave,
-}) {
+export function MeetingRoom({ meetingCode, userName, isModerator = false, onLeave }) {
   const jitsiContainerRef = useRef(null);
   const [api, setApi] = useState(null);
   const [isRecording, setIsRecording] = useState(false);

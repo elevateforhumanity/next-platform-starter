@@ -3,18 +3,21 @@
 ## 🏛️ Official Federal Registrations
 
 ### Entity 1: 2EXCLUSIVE LLC-S
+
 **UEI:** VX2GK5S8SZH8
 **CAGE Code:** 0QH19
 **Status:** ✅ ACTIVE
 **Annual Renewal Date:** June 29, 2026 (21:14:01.997)
 
 ### Entity 2: SELFISH INC
+
 **UEI:** H3NUZZ6BMDA7
 **CAGE Code:** 0Q856
 **Status:** ✅ ACTIVE
 **Annual Renewal Date:** [Check SAM.gov for renewal date]
 
 ### Entity 3: CURVATURE BODY SCULPTING LLC
+
 **UEI:** RNXZUZW7FA63
 **CAGE Code:** 9XV55
 **Status:** ⚠️ ACTION REQUIRED
@@ -32,11 +35,13 @@
 **SAM.gov** (System for Award Management) is the official U.S. federal government system for entities doing business with the government.
 
 **Managed By:**
+
 - U.S. General Services Administration (GSA)
 - Defense Logistics Agency (DLA) CAGE Program
 - Multiple federal agencies
 
 **Purpose:**
+
 - Register to do business with federal government
 - Receive federal contracts and grants
 - Maintain eligibility for federal opportunities
@@ -49,6 +54,7 @@
 ### Entity Information:
 
 #### Entity 1: 2EXCLUSIVE LLC-S
+
 **Unique Entity ID (UEI):** VX2GK5S8SZH8
 **CAGE Code:** 0QH19
 **Status:** ✅ ACTIVE
@@ -56,6 +62,7 @@
 **Renewal Required:** Annually
 
 #### Entity 2: SELFISH INC
+
 **Unique Entity ID (UEI):** H3NUZZ6BMDA7
 **CAGE Code:** 0Q856
 **Status:** ✅ ACTIVE
@@ -63,6 +70,7 @@
 **Renewal Required:** Annually
 
 #### Entity 3: CURVATURE BODY SCULPTING LLC
+
 **Unique Entity ID (UEI):** RNXZUZW7FA63
 **CAGE Code:** 9XV55
 **Status:** ⚠️ ACTION REQUIRED
@@ -70,6 +78,7 @@
 **Renewal Required:** Annually
 
 **⚠️ IMMEDIATE ACTION NEEDED:**
+
 - Login to SAM.gov
 - Complete required actions for CURVATURE BODY SCULPTING LLC
 - Verify all information is correct
@@ -77,6 +86,7 @@
 - Confirm registration is active
 
 **What is UEI?**
+
 - Unique Entity Identifier
 - Replaces DUNS number
 - Required for all federal transactions
@@ -84,6 +94,7 @@
 - Each legal entity has its own UEI
 
 **What is CAGE Code?**
+
 - Commercial and Government Entity Code
 - Assigned by Defense Logistics Agency (DLA)
 - 5-character identifier
@@ -96,24 +107,28 @@
 ## ✅ Benefits of SAM.gov Registration
 
 ### 1. **Federal Contracting Eligibility**
+
 - ✅ Eligible to bid on federal contracts
 - ✅ Eligible to receive federal grants
 - ✅ Eligible for federal subcontracts
 - ✅ Access to federal opportunities
 
 ### 2. **Visibility & Credibility**
+
 - ✅ Listed in official federal database
 - ✅ Searchable by federal agencies
 - ✅ Enhanced business credibility
 - ✅ Verified entity status
 
 ### 3. **Business Opportunities**
+
 - ✅ Access to federal procurement opportunities
 - ✅ Grant opportunities
 - ✅ Subcontracting opportunities
 - ✅ Set-aside programs (small business, minority-owned, etc.)
 
 ### 4. **Compliance & Requirements**
+
 - ✅ Meet federal contracting requirements
 - ✅ Maintain active status
 - ✅ Update entity information
@@ -126,24 +141,28 @@
 ### Types of Opportunities:
 
 **1. Federal Contracts**
+
 - Training services for federal agencies
 - Workforce development programs
 - Educational services
 - Consulting services
 
 **2. Federal Grants**
+
 - Workforce development grants
 - Education grants
 - Community development grants
 - Small business grants
 
 **3. Subcontracts**
+
 - Prime contractor subcontracting
 - Set-aside programs
 - Small business subcontracting
 - Minority-owned business programs
 
 **4. Set-Aside Programs**
+
 - Small Business Set-Asides
 - 8(a) Business Development Program
 - HUBZone Program
@@ -157,14 +176,17 @@
 ### Renewal Process:
 
 **Entity 1 (2EXCLUSIVE LLC-S):**
+
 - Renewal Date: June 29, 2026
 - Set reminder: May 29, 2026
 
 **Entity 2 (SELFISH INC):**
+
 - Renewal Date: [Check SAM.gov for specific date]
 - Set reminder: 1 month before expiration
 
 **Entity 3 (CURVATURE BODY SCULPTING LLC):**
+
 - ⚠️ **ACTION REQUIRED** - Complete pending actions NOW
 - Renewal Date: [Check SAM.gov for specific date]
 - Set reminder: 1 month before expiration
@@ -173,6 +195,7 @@
 **Requirement:** MUST renew ALL THREE entities to remain eligible
 
 **How to Renew:**
+
 1. Login to SAM.gov
 2. Select entity to renew
 3. Review entity information
@@ -183,6 +206,7 @@
 8. Repeat for each additional entity
 
 **Important:**
+
 - ⚠️ Set calendar reminders for ALL THREE entities
 - ⚠️ Allow 2-4 weeks before expiration
 - ⚠️ Expired registration = ineligible for federal business
@@ -197,12 +221,14 @@
 ### Invite Additional Users:
 
 **Why Add Users:**
+
 - Multiple staff can manage registration
 - Backup access if primary user unavailable
 - Different roles and permissions
 - Team collaboration
 
 **How to Add Users:**
+
 1. Login to SAM.gov
 2. Navigate to user management
 3. Invite users by email
@@ -210,6 +236,7 @@
 5. Users receive invitation email
 
 **Recommended Users:**
+
 - CEO/Owner (primary)
 - CFO/Finance Manager
 - Contracts Manager
@@ -222,30 +249,35 @@
 ### Where to Search:
 
 **1. SAM.gov**
+
 - Contract opportunities
 - Grant opportunities
 - Entity search
 - Wage determinations
 
 **2. Beta.SAM.gov**
+
 - New interface
 - Enhanced search
 - Better user experience
 - Modern design
 
 **3. Grants.gov**
+
 - Federal grant opportunities
 - Application portal
 - Grant search
 - Eligibility information
 
 **4. USAspending.gov**
+
 - Federal spending data
 - Contract awards
 - Grant awards
 - Transparency portal
 
 **5. FedBizOpps (now SAM.gov)**
+
 - Merged into SAM.gov
 - Historical opportunities
 - Archived data
@@ -257,6 +289,7 @@
 ### Marketing & Proposals:
 
 **Include in:**
+
 - ✅ Federal proposals and bids
 - ✅ Grant applications
 - ✅ Capability statements
@@ -265,6 +298,7 @@
 - ✅ Business cards (if relevant)
 
 **Highlight:**
+
 - Active SAM.gov registration
 - UEI number
 - CAGE code
@@ -274,6 +308,7 @@
 ### Capability Statement:
 
 **Create a Federal Capability Statement:**
+
 - Company overview
 - Core competencies
 - Past performance
@@ -290,27 +325,32 @@
 ### Federal Programs for Training:
 
 **Department of Labor (DOL):**
+
 - Workforce Innovation and Opportunity Act (WIOA)
 - Apprenticeship grants
 - Job training grants
 - Youth programs
 
 **Department of Education (ED):**
+
 - Adult education grants
 - Career and technical education
 - Workforce development programs
 
 **Department of Defense (DOD):**
+
 - SkillBridge program
 - Military spouse employment
 - Veteran training programs
 
 **Small Business Administration (SBA):**
+
 - Entrepreneurship training
 - Small business development
 - Technical assistance
 
 **Department of Veterans Affairs (VA):**
+
 - Veteran training programs
 - Vocational rehabilitation
 - Employment services
@@ -322,6 +362,7 @@
 ### Keep Registration Current:
 
 **Update Immediately When:**
+
 - Business name changes
 - Address changes
 - Ownership changes
@@ -330,12 +371,14 @@
 - NAICS codes change
 
 **Review Regularly:**
+
 - Monthly: Check for opportunities
 - Quarterly: Review entity information
 - Annually: Complete renewal
 - As needed: Update changes
 
 **Maintain Documentation:**
+
 - Registration confirmation
 - UEI and CAGE code
 - Renewal dates
@@ -349,6 +392,7 @@
 ### Immediate Actions:
 
 **1. ⚠️ URGENT: Complete Action for CURVATURE BODY SCULPTING LLC**
+
 - [ ] **Login to SAM.gov IMMEDIATELY**
 - [ ] **Complete required actions for CURVATURE BODY SCULPTING LLC**
 - [ ] **Verify all information is correct**
@@ -356,6 +400,7 @@
 - [ ] **Confirm registration becomes ACTIVE**
 
 **2. Confirm ALL THREE Registrations**
+
 - [ ] Login to SAM.gov
 - [ ] Verify 2EXCLUSIVE LLC-S information (ACTIVE)
 - [ ] Verify SELFISH INC information (ACTIVE)
@@ -365,6 +410,7 @@
 - [ ] Confirm renewal dates for ALL THREE entities
 
 **3. Set Up Reminders for ALL THREE Entities**
+
 - [ ] Calendar reminder: 2EXCLUSIVE LLC-S (June 29, 2026)
 - [ ] Calendar reminder: 2EXCLUSIVE LLC-S (May 29, 2026 - 1 month early)
 - [ ] Calendar reminder: SELFISH INC renewal date
@@ -375,6 +421,7 @@
 - [ ] Notify finance/admin team about ALL THREE entities
 
 **4. Add Users to ALL THREE Entities**
+
 - [ ] Identify additional users to add
 - [ ] Invite users to 2EXCLUSIVE LLC-S
 - [ ] Invite users to SELFISH INC
@@ -383,6 +430,7 @@
 - [ ] Document user access for ALL THREE
 
 **5. Create Capability Statements**
+
 - [ ] Draft federal capability statement for 2EXCLUSIVE LLC-S
 - [ ] Draft federal capability statement for SELFISH INC
 - [ ] Draft federal capability statement for CURVATURE BODY SCULPTING LLC
@@ -392,6 +440,7 @@
 - [ ] Design professional layouts
 
 **6. Search for Opportunities**
+
 - [ ] Browse SAM.gov contract opportunities
 - [ ] Search Grants.gov for grants
 - [ ] Identify relevant NAICS codes for ALL THREE entities
@@ -406,12 +455,14 @@
 ### Update Marketing Materials:
 
 **Website:**
+
 - Add "Federal Contractor" badge
 - Create federal contracting page
 - List UEI and CAGE code
 - Highlight federal capabilities
 
 **Email Signature:**
+
 ```
 Elizabeth Greene
 CEO, Elevate for Humanity Training Center
@@ -427,6 +478,7 @@ ByBlack Certified Business
 ```
 
 **Proposals & Bids:**
+
 - Include UEI and CAGE code
 - Reference SAM.gov registration
 - Highlight federal compliance
@@ -439,6 +491,7 @@ ByBlack Certified Business
 ### Explore Eligibility:
 
 **Small Business Programs:**
+
 - Small Business Set-Aside
 - 8(a) Business Development
 - HUBZone Program
@@ -446,11 +499,13 @@ ByBlack Certified Business
 - Economically Disadvantaged Women-Owned Small Business (EDWOSB)
 
 **Socioeconomic Programs:**
+
 - Minority-Owned Business
 - Veteran-Owned Small Business
 - Service-Disabled Veteran-Owned Small Business
 
 **How to Apply:**
+
 1. Determine eligibility
 2. Gather required documentation
 3. Apply through SBA
@@ -462,6 +517,7 @@ ByBlack Certified Business
 ## 📞 Support Resources
 
 ### SAM.gov Resources:
+
 - **Website:** www.sam.gov
 - **Help Desk:** Available on website
 - **User Guides:** Available on website
@@ -469,12 +525,14 @@ ByBlack Certified Business
 - **FAQs:** Comprehensive FAQ section
 
 ### Federal Contracting Resources:
+
 - **SBA.gov:** Small Business Administration
 - **Grants.gov:** Federal grant opportunities
 - **USAspending.gov:** Federal spending data
 - **Acquisition.gov:** Federal acquisition regulations
 
 ### Local Resources:
+
 - **Procurement Technical Assistance Center (PTAC):** Free federal contracting assistance
 - **Small Business Development Center (SBDC):** Business counseling
 - **SCORE:** Free business mentoring
@@ -485,30 +543,35 @@ ByBlack Certified Business
 ## 💡 Best Practices
 
 ### 1. Stay Active
+
 - Login regularly to SAM.gov
 - Search for opportunities weekly
 - Update information promptly
 - Respond to opportunities quickly
 
 ### 2. Build Relationships
+
 - Attend federal contracting events
 - Network with federal agencies
 - Connect with prime contractors
 - Join industry associations
 
 ### 3. Start Small
+
 - Begin with subcontracts
 - Build past performance
 - Gain federal experience
 - Scale up over time
 
 ### 4. Be Prepared
+
 - Have capability statement ready
 - Maintain current certifications
 - Document past performance
 - Keep proposals updated
 
 ### 5. Seek Assistance
+
 - Use PTAC services (free)
 - Attend training workshops
 - Join federal contracting groups
@@ -521,6 +584,7 @@ ByBlack Certified Business
 ### Elevate for Humanity Certifications:
 
 **Business Certifications:**
+
 1. ✅ ByBlack Certified Business (U.S. Black Chambers, Inc.)
 2. ✅ **SAM.gov Registrations** (U.S. Federal Government)
    - **2EXCLUSIVE LLC-S:** UEI VX2GK5S8SZH8 | CAGE 0QH19 ✅ ACTIVE
@@ -528,6 +592,7 @@ ByBlack Certified Business
    - **CURVATURE BODY SCULPTING LLC:** UEI RNXZUZW7FA63 | CAGE 9XV55 ⚠️ ACTION REQUIRED
 
 **Training Partnerships:**
+
 1. ✅ JRI (Job Readiness Initiative) - EmployIndy
 2. ✅ Milady RISE (Barber Safety)
 3. ✅ NRF RISE Up (Customer Service)
@@ -544,28 +609,34 @@ ByBlack Certified Business
 ## 📅 Important Dates
 
 ### Annual Renewal:
+
 **Renewal Date:** June 29, 2026 (21:14:01.997)
 **Reminder:** Set calendar alert for May 29, 2026 (1 month early)
 **Action Required:** Login to SAM.gov and complete renewal
 
 ### Quarterly Reviews:
+
 - **March 2025:** Review ALL THREE entities' information
 - **June 2025:** Search for opportunities for ALL THREE entities
 - **September 2025:** Update ALL THREE capability statements
 - **December 2025:** Prepare for ALL THREE renewals
 
 ### Entity-Specific Dates:
+
 **2EXCLUSIVE LLC-S:**
+
 - Status: ✅ ACTIVE
 - Renewal: June 29, 2026
 - Reminder: May 29, 2026
 
 **SELFISH INC:**
+
 - Status: ✅ ACTIVE
 - Renewal: [Check SAM.gov for specific date]
 - Reminder: [Set 1 month before expiration]
 
 **CURVATURE BODY SCULPTING LLC:**
+
 - Status: ⚠️ **ACTION REQUIRED - COMPLETE NOW**
 - Renewal: [Check SAM.gov after completing actions]
 - Reminder: [Set 1 month before expiration once active]
@@ -577,6 +648,7 @@ ByBlack Certified Business
 **You are now registered in SAM.gov and eligible to do business with the U.S. federal government!**
 
 **Key Takeaways:**
+
 - ✅ THREE SAM.gov registrations (2 active, 1 requires action)
 - ✅ **2EXCLUSIVE LLC-S:** UEI VX2GK5S8SZH8 | CAGE 0QH19 - ACTIVE
 - ✅ **SELFISH INC:** UEI H3NUZZ6BMDA7 | CAGE 0Q856 - ACTIVE
@@ -588,6 +660,7 @@ ByBlack Certified Business
   - CURVATURE BODY SCULPTING LLC: [Check SAM.gov after completing actions]
 
 **Next Steps:**
+
 1. ⚠️ **URGENT: Complete action for CURVATURE BODY SCULPTING LLC**
 2. Confirm ALL THREE registration details
 3. Set renewal reminders for ALL THREE
@@ -610,6 +683,7 @@ ByBlack Certified Business
 **CAGE Code:** 9XV55
 
 **What to Do:**
+
 1. **Login to SAM.gov immediately**
 2. **Navigate to CURVATURE BODY SCULPTING LLC registration**
 3. **Review any pending actions or notifications**
@@ -620,6 +694,7 @@ ByBlack Certified Business
 8. **Note renewal date**
 
 **Common Actions Required:**
+
 - Verify entity information
 - Confirm points of contact
 - Validate banking information
@@ -628,12 +703,14 @@ ByBlack Certified Business
 - Submit final registration
 
 **Timeline:**
+
 - Complete as soon as possible
 - Do not delay - registration may expire
 - Set aside 30-60 minutes to complete
 - Have all entity information ready
 
 **After Completion:**
+
 - Verify status shows ACTIVE
 - Download registration confirmation
 - Save UEI and CAGE code
@@ -647,6 +724,7 @@ ByBlack Certified Business
 ### Why Three Entities?
 
 **Strategic Advantages:**
+
 - Different legal structures for different purposes
 - Flexibility in bidding and contracting
 - Risk management and liability separation
@@ -656,12 +734,14 @@ ByBlack Certified Business
 ### Best Practices:
 
 **1. Keep Separate Records**
+
 - Maintain separate files for each entity
 - Track renewal dates separately
 - Document which entity is used for each contract
 - Keep financial records separate
 
 **2. Choose Appropriate Entity**
+
 - Review opportunity requirements
 - Consider liability and risk
 - Evaluate set-aside eligibility
@@ -669,18 +749,21 @@ ByBlack Certified Business
 - Consult legal/financial advisors
 
 **3. Maintain Both Registrations**
+
 - Renew BOTH annually
 - Update BOTH when information changes
 - Monitor BOTH for compliance
 - Keep BOTH active and current
 
 **4. Avoid Conflicts**
+
 - Don't bid same opportunity with both entities
 - Maintain clear separation
 - Follow federal regulations
 - Consult with contracting officers if unsure
 
 **5. Leverage Both**
+
 - Use appropriate entity for each opportunity
 - Highlight strengths of each
 - Build past performance for both

@@ -67,7 +67,6 @@ export class VideoGenerator {
   async generateVideo(config: VideoConfig): Promise<string> {
     await this.initialize();
 
-
     // Get video dimensions based on format
     const dimensions = this.getDimensions(config.format, config.resolution);
 
@@ -92,10 +91,7 @@ export class VideoGenerator {
     return finalVideo;
   }
 
-  private getDimensions(
-    format: string,
-    resolution: string
-  ): { width: number; height: number } {
+  private getDimensions(format: string, resolution: string): { width: number; height: number } {
     const resMap = {
       '1080p': 1080,
       '720p': 720,
@@ -119,7 +115,7 @@ export class VideoGenerator {
   private async generateScene(
     scene: Scene,
     dimensions: { width: number; height: number },
-    index: number
+    index: number,
   ): Promise<string> {
     // Create canvas for this scene
     const canvas = _createCanvas!(dimensions.width, dimensions.height);
@@ -177,7 +173,7 @@ export class VideoGenerator {
     ctx: CanvasRenderingContext2D,
     text: string,
     dimensions: { width: number; height: number },
-    position: 'center' | 'top' | 'bottom'
+    position: 'center' | 'top' | 'bottom',
   ) {
     // Set text style
     const fontSize = Math.round(dimensions.height / 20);
@@ -234,10 +230,7 @@ export class VideoGenerator {
     });
   }
 
-  private async concatenateScenes(
-    sceneVideos: string[],
-    videoId: string
-  ): Promise<string> {
+  private async concatenateScenes(sceneVideos: string[], videoId: string): Promise<string> {
     const outputPath = path.join(this.outputDir, `${videoId}.mp4`);
     const fileListPath = path.join(this.tempDir, 'filelist.txt');
 
@@ -274,9 +267,7 @@ export class VideoGenerator {
 }
 
 // Example usage
-export async function generateVideoFromConfig(
-  config: VideoConfig
-): Promise<string> {
+export async function generateVideoFromConfig(config: VideoConfig): Promise<string> {
   await ensureDeps();
   const generator = new VideoGenerator();
   const videoPath = await generator.generateVideo(config);

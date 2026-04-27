@@ -379,10 +379,13 @@ export async function GET(request: NextRequest) {
     // ============================================
     const totalDashboards = results.dashboards.length;
     const passedDashboards = results.dashboards.filter((d: any) => d.passed).length;
-    const totalTests = results.dashboards.reduce((sum: number, d: any) => sum + (d.tests?.length || 0), 0);
+    const totalTests = results.dashboards.reduce(
+      (sum: number, d: any) => sum + (d.tests?.length || 0),
+      0,
+    );
     const passedTests = results.dashboards.reduce(
       (sum: number, d: any) => sum + (d.tests?.filter((t: any) => t.passed).length || 0),
-      0
+      0,
     );
 
     results.summary = {
@@ -422,10 +425,8 @@ export async function GET(request: NextRequest) {
     };
 
     return NextResponse.json(results);
-  } catch (error) { /* Error handled silently */ 
-    return NextResponse.json(
-      { error: error.message, stack: error.stack },
-      { status: 500 }
-    );
+  } catch (error) {
+    /* Error handled silently */
+    return NextResponse.json({ error: error.message, stack: error.stack }, { status: 500 });
   }
 }

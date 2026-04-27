@@ -26,22 +26,19 @@ async function _GET(req: NextRequest) {
       logger.error('Supabase error:', error);
       return NextResponse.json(
         { error: 'Failed to fetch products', details: 'Internal server error' },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     return NextResponse.json(data || []);
-  } catch (error) { 
-    logger.error(
-      'Get products error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Get products error:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
       {
         error: 'Failed to fetch products',
         message: toErrorMessage(error),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -9,10 +9,7 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function _POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
@@ -25,7 +22,7 @@ async function _POST(
     if (!full_name || !email) {
       return NextResponse.json(
         { error: 'Missing required fields: full_name, email' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -41,7 +38,7 @@ async function _POST(
     if (event.status !== 'published') {
       return NextResponse.json(
         { error: 'Event is not available for registration' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -57,10 +54,7 @@ async function _POST(
       if (event.allow_waitlist) {
         status = 'waitlisted';
       } else {
-        return NextResponse.json(
-          { error: 'Event is at full capacity' },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: 'Event is at full capacity' }, { status: 400 });
       }
     }
 
@@ -92,17 +86,14 @@ async function _POST(
             ? 'You have been added to the waitlist'
             : 'Registration successful',
       },
-      { status: 201 }
+      { status: 201 },
     );
   } catch (err: any) {
     logger.error(
       'POST /events/[id]/register error',
-      err instanceof Error ? err : new Error(String(err))
+      err instanceof Error ? err : new Error(String(err)),
     );
-    return NextResponse.json(
-      { error: 'Failed to register' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to register' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/events/[id]/register', _POST);

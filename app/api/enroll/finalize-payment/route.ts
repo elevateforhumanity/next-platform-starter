@@ -1,5 +1,3 @@
-
-
 /**
  * Finalize Enrollment Payment
  *
@@ -38,10 +36,7 @@ async function _POST(req: Request) {
 
     // Check if Stripe is configured
     if (!process.env.STRIPE_SECRET_KEY) {
-      return NextResponse.json(
-        { error: 'Payment system not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
     }
 
     const supabase = await createClient();
@@ -62,7 +57,7 @@ async function _POST(req: Request) {
     if (!enrollmentId || !paymentMode) {
       return NextResponse.json(
         { error: 'Missing required fields: enrollmentId, paymentMode' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -70,21 +65,22 @@ async function _POST(req: Request) {
     const { data: rawEnrollment, error: enrollmentError } = await supabase
       .from('program_enrollments')
       .select(
-        `*, course:courses(id, title, slug, partner_id, wholesale_cost_cents, retail_price_cents)`
+        `*, course:courses(id, title, slug, partner_id, wholesale_cost_cents, retail_price_cents)`,
       )
       .eq('id', enrollmentId)
       .maybeSingle();
 
     if (enrollmentError || !rawEnrollment) {
-      return NextResponse.json(
-        { error: 'Enrollment not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Enrollment not found' }, { status: 404 });
     }
 
     // Hydrate student profile separately (user_id → auth.users, no FK to profiles)
     const { data: studentProfile } = rawEnrollment.user_id
-      ? await supabase.from('profiles').select('id, email, full_name, phone').eq('id', rawEnrollment.user_id).maybeSingle()
+      ? await supabase
+          .from('profiles')
+          .select('id, email, full_name, phone')
+          .eq('id', rawEnrollment.user_id)
+          .maybeSingle()
       : { data: null };
     const enrollment = { ...rawEnrollment, student: studentProfile ?? null };
 
@@ -94,7 +90,7 @@ async function _POST(req: Request) {
         {
           error: `Enrollment must be approved before payment. Current status: ${enrollment.status}`,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -105,7 +101,7 @@ async function _POST(req: Request) {
           error: 'Enrollment already paid',
           enrollmentId: enrollment.id,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -116,7 +112,7 @@ async function _POST(req: Request) {
           error: 'Payment already initiated',
           lockedAt: enrollment.billing_lock_at,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -147,10 +143,7 @@ async function _POST(req: Request) {
 
       if (updateError) {
         logger.error('Error updating scholarship enrollment:', updateError);
-        return NextResponse.json(
-          { error: 'Failed to process scholarship' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to process scholarship' }, { status: 500 });
       }
 
       return NextResponse.json({
@@ -168,10 +161,7 @@ async function _POST(req: Request) {
         .maybeSingle();
 
       if (!enrollment) {
-        return NextResponse.json(
-          { error: 'Enrollment not found' },
-          { status: 404 }
-        );
+        return NextResponse.json({ error: 'Enrollment not found' }, { status: 404 });
       }
 
       // Create Stripe invoice for employer
@@ -216,21 +206,15 @@ async function _POST(req: Request) {
     }
 
     // Lock enrollment for billing (prevents double-charging)
-    const { error: lockError } = await supabase.rpc(
-      'initiate_enrollment_payment',
-      {
-        p_enrollment_id: enrollmentId,
-        p_payment_mode: paymentMode,
-        p_amount_cents: amountCents,
-      }
-    );
+    const { error: lockError } = await supabase.rpc('initiate_enrollment_payment', {
+      p_enrollment_id: enrollmentId,
+      p_payment_mode: paymentMode,
+      p_amount_cents: amountCents,
+    });
 
     if (lockError) {
       logger.error('Error locking enrollment for payment:', lockError);
-      return NextResponse.json(
-        { error: 'Failed to initiate payment' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to initiate payment' }, { status: 500 });
     }
 
     const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
@@ -263,10 +247,8 @@ async function _POST(req: Request) {
         course_id: enrollment.course.id,
         payment_mode: paymentMode,
         partner_id: enrollment.course.partner_id || '',
-        wholesale_cost_cents:
-          enrollment.course.wholesale_cost_cents?.toString() || '0',
-        retail_price_cents:
-          enrollment.course.retail_price_cents?.toString() || '0',
+        wholesale_cost_cents: enrollment.course.wholesale_cost_cents?.toString() || '0',
+        retail_price_cents: enrollment.course.retail_price_cents?.toString() || '0',
       },
       // Enable payment methods
       payment_method_types: ['card', 'klarna', 'afterpay_clearpay'],
@@ -286,10 +268,7 @@ async function _POST(req: Request) {
         })
         .eq('id', enrollmentId);
 
-      return NextResponse.json(
-        { error: 'Failed to create checkout session' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
     }
 
     // Update enrollment with stripe session ID
@@ -319,10 +298,9 @@ async function _POST(req: Request) {
     logger.error('Payment finalization err:', err);
     return NextResponse.json(
       {
-        err:
-          'Internal server error',
+        err: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

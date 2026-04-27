@@ -12,14 +12,20 @@ export const metadata: Metadata = {
   description: 'Manage course content, lessons, and materials.',
 };
 
-export default async function CourseContentPage({ params }: { params: Promise<{ courseId: string }> }) {
+export default async function CourseContentPage({
+  params,
+}: {
+  params: Promise<{ courseId: string }>;
+}) {
   await requireRole(['admin', 'super_admin']);
   const { courseId } = await params;
   const supabase = await createClient();
 
-
-
-  const { data: rawCourse } = await supabase.from('training_courses').select('*').eq('id', courseId).maybeSingle();
+  const { data: rawCourse } = await supabase
+    .from('training_courses')
+    .select('*')
+    .eq('id', courseId)
+    .maybeSingle();
 
   // Also check courses table for video_config / video_profile (set by blueprint seeder)
   const { data: canonicalCourse } = await supabase
@@ -37,7 +43,11 @@ export default async function CourseContentPage({ params }: { params: Promise<{ 
       }
     : null;
 
-  const { data: lessons } = await supabase.from('training_lessons').select('*').eq('course_id', courseId).order('lesson_number');
+  const { data: lessons } = await supabase
+    .from('training_lessons')
+    .select('*')
+    .eq('course_id', courseId)
+    .order('lesson_number');
 
   // Extract quiz data from metadata JSONB (set by AI ingestion pipeline)
   const quizMeta = rawCourse?.metadata as {
@@ -52,9 +62,17 @@ export default async function CourseContentPage({ params }: { params: Promise<{ 
         <div className="mb-8">
           <nav className="text-sm mb-4">
             <ol className="flex items-center space-x-2 text-slate-700">
-              <li><Link href="/admin" className="hover:text-primary">Admin</Link></li>
+              <li>
+                <Link href="/admin" className="hover:text-primary">
+                  Admin
+                </Link>
+              </li>
               <li>/</li>
-              <li><Link href="/admin/courses" className="hover:text-primary">Courses</Link></li>
+              <li>
+                <Link href="/admin/courses" className="hover:text-primary">
+                  Courses
+                </Link>
+              </li>
               <li>/</li>
               <li className="text-slate-900 font-medium">Content</li>
             </ol>

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Image, { ImageProps } from 'next/image';
 import { useState, useEffect, useRef } from 'react';
@@ -7,12 +7,12 @@ interface LazyImageProps extends Omit<ImageProps, 'onLoad'> {
   fallback?: string;
 }
 
-export function LazyImage({ 
-  src, 
-  alt, 
+export function LazyImage({
+  src,
+  alt,
   fallback = '/images/pages/prog-hero-main-2.jpg',
   className = '',
-  ...props 
+  ...props
 }: LazyImageProps) {
   const [isLoaded, setIsLoaded] = useState(false);
   const [isInView, setIsInView] = useState(false);
@@ -29,7 +29,7 @@ export function LazyImage({
           observer.disconnect();
         }
       },
-      { rootMargin: '100px' }
+      { rootMargin: '100px' },
     );
 
     observer.observe(imgRef.current);
@@ -40,10 +40,8 @@ export function LazyImage({
   return (
     <div ref={imgRef} className={`relative overflow-hidden ${className}`}>
       {/* Placeholder/skeleton while loading */}
-      {!isLoaded && (
-        <div className="absolute inset-0 bg-gray-200 animate-pulse" />
-      )}
-      
+      {!isLoaded && <div className="absolute inset-0 bg-gray-200 animate-pulse" />}
+
       {isInView && (
         <Image
           src={error ? fallback : src}
@@ -70,7 +68,15 @@ export function preloadImage(src: string) {
 }
 
 // Image optimization utilities
-export const imageLoader = ({ src, width, quality }: { src: string; width: number; quality?: number }) => {
+export const imageLoader = ({
+  src,
+  width,
+  quality,
+}: {
+  src: string;
+  width: number;
+  quality?: number;
+}) => {
   // Use Next.js image optimization
   if (src.startsWith('/')) {
     return `/_next/image?url=${encodeURIComponent(src)}&w=${width}&q=${quality || 75}`;

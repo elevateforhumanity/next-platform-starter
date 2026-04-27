@@ -211,10 +211,7 @@ function fixBrokenAPI() {
     let content = fs.readFileSync(brokenAPI, 'utf8');
 
     // Check if handler is missing
-    if (
-      !content.includes('export const handler') &&
-      !content.includes('exports.handler')
-    ) {
+    if (!content.includes('export const handler') && !content.includes('exports.handler')) {
       // Add handler export
       content += `
 
@@ -296,12 +293,7 @@ function fixPermissions() {
     let gitignore = fs.readFileSync(gitignorePath, 'utf8');
 
     // Remove overly restrictive rules
-    const allowRules = [
-      '!dist/',
-      '!.env.example',
-      '!scripts/',
-      '!netlify/functions/',
-    ];
+    const allowRules = ['!dist/', '!.env.example', '!scripts/', '!netlify/functions/'];
 
     for (const rule of allowRules) {
       if (!gitignore.includes(rule)) {
@@ -489,7 +481,7 @@ function validateFixes() {
 
   log(
     `Validation: ${passed}/${checks.length} passed`,
-    passed === checks.length ? 'success' : 'warning'
+    passed === checks.length ? 'success' : 'warning',
   );
 
   return passed === checks.length;
@@ -510,16 +502,9 @@ function findFiles(dir, ...extensions) {
     for (const entry of entries) {
       const fullPath = path.join(dir, entry.name);
 
-      if (
-        entry.isDirectory() &&
-        !entry.name.startsWith('.') &&
-        entry.name !== 'node_modules'
-      ) {
+      if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
         results = results.concat(findFiles(fullPath, ...extensions));
-      } else if (
-        extensions.length === 0 ||
-        extensions.some((ext) => entry.name.endsWith(ext))
-      ) {
+      } else if (extensions.length === 0 || extensions.some((ext) => entry.name.endsWith(ext))) {
         results.push(fullPath);
       }
     }
@@ -533,16 +518,10 @@ function findFiles(dir, ...extensions) {
 // ============================================================================
 
 function main() {
-  console.log(
-    '═══════════════════════════════════════════════════════════════════'
-  );
+  console.log('═══════════════════════════════════════════════════════════════════');
   console.log('  FIX ALL ISSUES - NO EXCEPTIONS');
-  console.log(
-    '  Automatically fixing every problem - Going around restrictions'
-  );
-  console.log(
-    '═══════════════════════════════════════════════════════════════════\n'
-  );
+  console.log('  Automatically fixing every problem - Going around restrictions');
+  console.log('═══════════════════════════════════════════════════════════════════\n');
 
   const startTime = Date.now();
 
@@ -577,18 +556,14 @@ function main() {
   console.log('═'.repeat(70));
   console.log(`  Issues found:    ${ISSUES_FOUND}`);
   console.log(`  Fixes applied:   ${FIXES_APPLIED}`);
-  console.log(
-    `  Validation:      ${allFixed ? '✅ PASSED' : '⚠️  NEEDS ATTENTION'}`
-  );
+  console.log(`  Validation:      ${allFixed ? '✅ PASSED' : '⚠️  NEEDS ATTENTION'}`);
   console.log(`  Duration:        ${duration}s`);
   console.log('═'.repeat(70));
 
   if (allFixed) {
     console.log('\n🎉 ALL ISSUES FIXED! Repository is now 100% ready!');
     console.log('\n📋 Next steps:');
-    console.log(
-      '   1. Run: node scripts/comprehensive-audit.cjs (verify fixes)'
-    );
+    console.log('   1. Run: node scripts/comprehensive-audit.cjs (verify fixes)');
     console.log('   2. Run: node scripts/autonomous-deploy.cjs (deploy)');
     return 0;
   } else {

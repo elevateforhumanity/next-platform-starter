@@ -40,13 +40,15 @@ export async function getModulesWithStatus(
   // Get modules with lesson counts
   const { data: modules, error: modErr } = await db
     .from('course_modules')
-    .select(`
+    .select(
+      `
       id,
       course_id,
       title,
       order_index,
       course_lessons(id, is_required)
-    `)
+    `,
+    )
     .eq('course_id', courseId)
     .order('order_index', { ascending: true });
 
@@ -60,9 +62,7 @@ export async function getModulesWithStatus(
     .eq('user_id', userId)
     .eq('course_id', courseId);
 
-  const progressMap = new Map(
-    (progress ?? []).map(p => [p.module_id, p]),
-  );
+  const progressMap = new Map((progress ?? []).map((p) => [p.module_id, p]));
 
   // Get completed lessons for this student in this course
   const { data: completedLessons } = await db
@@ -71,13 +71,13 @@ export async function getModulesWithStatus(
     .eq('user_id', userId)
     .eq('completed', true);
 
-  const completedSet = new Set((completedLessons ?? []).map(l => l.lesson_id));
+  const completedSet = new Set((completedLessons ?? []).map((l) => l.lesson_id));
 
   return modules.map((mod, idx) => {
     const prog = progressMap.get(mod.id);
     const lessons = (mod.course_lessons as { id: string; is_required: boolean }[]) ?? [];
-    const requiredLessons = lessons.filter(l => l.is_required);
-    const completedCount = requiredLessons.filter(l => completedSet.has(l.id)).length;
+    const requiredLessons = lessons.filter((l) => l.is_required);
+    const completedCount = requiredLessons.filter((l) => completedSet.has(l.id)).length;
 
     // Module 1 is always unlocked if no progress record exists
     let status: ModuleStatus = prog?.status ?? (idx === 0 ? 'unlocked' : 'locked');
@@ -86,7 +86,11 @@ export async function getModulesWithStatus(
     if (status === 'unlocked' && completedCount > 0) {
       status = 'in_progress';
     }
-    if (status === 'in_progress' && completedCount === requiredLessons.length && requiredLessons.length > 0) {
+    if (
+      status === 'in_progress' &&
+      completedCount === requiredLessons.length &&
+      requiredLessons.length > 0
+    ) {
       status = 'completed';
     }
 

@@ -1,4 +1,3 @@
-
 import { createClient } from '@/lib/supabase/server';
 import { auditLog } from '@/lib/auditLog';
 
@@ -6,25 +5,9 @@ import { auditLog } from '@/lib/auditLog';
 // CONTENT MODERATION TYPES
 // =====================================================
 
-export type ContentType =
-  | 'course'
-  | 'discussion'
-  | 'comment'
-  | 'review'
-  | 'message'
-  | 'profile';
-export type ModerationStatus =
-  | 'pending'
-  | 'approved'
-  | 'rejected'
-  | 'flagged'
-  | 'removed';
-export type ModerationAction =
-  | 'approve'
-  | 'reject'
-  | 'flag'
-  | 'remove'
-  | 'warn';
+export type ContentType = 'course' | 'discussion' | 'comment' | 'review' | 'message' | 'profile';
+export type ModerationStatus = 'pending' | 'approved' | 'rejected' | 'flagged' | 'removed';
+export type ModerationAction = 'approve' | 'reject' | 'flag' | 'remove' | 'warn';
 export type ReportReason =
   | 'spam'
   | 'harassment'
@@ -159,7 +142,7 @@ export async function reportContent(
   contentId: string,
   reporterId: string,
   reason: ReportReason,
-  description?: string
+  description?: string,
 ): Promise<ModerationReport> {
   const supabase = await createClient();
 
@@ -195,7 +178,7 @@ export async function reportContent(
  */
 export async function getPendingReports(
   contentType?: ContentType,
-  limit: number = 50
+  limit: number = 50,
 ): Promise<ModerationReport[]> {
   const supabase = await createClient();
 
@@ -206,7 +189,7 @@ export async function getPendingReports(
       *,
       reporter:profiles!reporter_id(first_name, last_name, email),
       reviewer:profiles!reviewed_by(first_name, last_name, email)
-    `
+    `,
     )
     .eq('status', 'pending')
     .order('created_at', { ascending: false })
@@ -228,7 +211,7 @@ export async function getPendingReports(
  */
 export async function getContentReports(
   contentType: ContentType,
-  contentId: string
+  contentId: string,
 ): Promise<ModerationReport[]> {
   const supabase = await createClient();
 
@@ -251,7 +234,7 @@ export async function reviewReport(
   reportId: string,
   moderatorId: string,
   action: ModerationAction,
-  notes?: string
+  notes?: string,
 ): Promise<void> {
   const supabase = await createClient();
 
@@ -287,13 +270,7 @@ export async function reviewReport(
     .eq('id', reportId);
 
   // Take action on the content
-  await moderateContent(
-    report.content_type,
-    report.content_id,
-    action,
-    moderatorId,
-    notes
-  );
+  await moderateContent(report.content_type, report.content_id, action, moderatorId, notes);
 
   // Log audit event
   await auditLog({
@@ -318,7 +295,7 @@ export async function moderateContent(
   contentId: string,
   action: ModerationAction,
   moderatorId: string,
-  notes?: string
+  notes?: string,
 ): Promise<void> {
   const supabase = await createClient();
 
@@ -365,16 +342,13 @@ export async function moderateContent(
 async function updateContentStatus(
   contentType: ContentType,
   contentId: string,
-  status: ModerationStatus
+  status: ModerationStatus,
 ): Promise<void> {
   const supabase = await createClient();
 
   const tableName = getTableName(contentType);
 
-  await supabase
-    .from(tableName)
-    .update({ moderation_status: status })
-    .eq('id', contentId);
+  await supabase.from(tableName).update({ moderation_status: status }).eq('id', contentId);
 }
 
 /**
@@ -384,7 +358,7 @@ async function sendModerationWarning(
   contentType: ContentType,
   contentId: string,
   moderatorId: string,
-  reason?: string
+  reason?: string,
 ): Promise<void> {
   const supabase = await createClient();
 
@@ -452,7 +426,7 @@ export async function getModerationRules(): Promise<ModerationRule[]> {
 export async function applyModerationRules(
   contentType: ContentType,
   contentId: string,
-  text: string
+  text: string,
 ): Promise<{
   shouldFlag: boolean;
   matchedRules: string[];
@@ -468,9 +442,7 @@ export async function applyModerationRules(
 
     // Check if any keywords match
     const lowerText = text.toLowerCase();
-    const hasMatch = rule.keywords.some((keyword) =>
-      lowerText.includes(keyword.toLowerCase())
-    );
+    const hasMatch = rule.keywords.some((keyword) => lowerText.includes(keyword.toLowerCase()));
 
     if (hasMatch) {
       matchedRules.push(rule.name);
@@ -492,7 +464,7 @@ export async function autoModerateContent(
   contentType: ContentType,
   contentId: string,
   text: string,
-  authorId: string
+  authorId: string,
 ): Promise<{
   approved: boolean;
   reason?: string;
@@ -510,7 +482,7 @@ export async function autoModerateContent(
       contentId,
       'remove',
       'system',
-      `Auto-moderated: High risk score (${analysis.score})`
+      `Auto-moderated: High risk score (${analysis.score})`,
     );
     return { approved: false, reason: 'Content flagged by automated system' };
   }
@@ -522,7 +494,7 @@ export async function autoModerateContent(
       contentId,
       'flag',
       'system',
-      `Flagged for review: Score ${analysis.score}, Rules: ${ruleCheck.matchedRules.join(', ')}`
+      `Flagged for review: Score ${analysis.score}, Rules: ${ruleCheck.matchedRules.join(', ')}`,
     );
     return { approved: false, reason: 'Content flagged for manual review' };
   }
@@ -541,7 +513,7 @@ export async function autoModerateContent(
  */
 export async function getModerationStats(
   startDate?: string,
-  endDate?: string
+  endDate?: string,
 ): Promise<{
   totalReports: number;
   pendingReports: number;
@@ -569,10 +541,8 @@ export async function getModerationStats(
   const stats = {
     totalReports: reports?.length || 0,
     pendingReports: reports?.filter((r) => r.status === 'pending').length || 0,
-    approvedReports:
-      reports?.filter((r) => r.status === 'approved').length || 0,
-    rejectedReports:
-      reports?.filter((r) => r.status === 'rejected').length || 0,
+    approvedReports: reports?.filter((r) => r.status === 'approved').length || 0,
+    rejectedReports: reports?.filter((r) => r.status === 'rejected').length || 0,
     reportsByType: {} as Record<ContentType, number>,
     reportsByReason: {} as Record<ReportReason, number>,
     averageReviewTime: 0,
@@ -580,10 +550,8 @@ export async function getModerationStats(
 
   // Calculate by type
   reports?.forEach((report) => {
-    stats.reportsByType[report.content_type] =
-      (stats.reportsByType[report.content_type] || 0) + 1;
-    stats.reportsByReason[report.reason] =
-      (stats.reportsByReason[report.reason] || 0) + 1;
+    stats.reportsByType[report.content_type] = (stats.reportsByType[report.content_type] || 0) + 1;
+    stats.reportsByReason[report.reason] = (stats.reportsByReason[report.reason] || 0) + 1;
   });
 
   // Calculate average review time
@@ -594,8 +562,7 @@ export async function getModerationStats(
       const reviewed = new Date(report.reviewed_at!).getTime();
       return sum + (reviewed - created);
     }, 0);
-    stats.averageReviewTime =
-      totalTime / reviewedReports.length / (1000 * 60 * 60); // Convert to hours
+    stats.averageReviewTime = totalTime / reviewedReports.length / (1000 * 60 * 60); // Convert to hours
   }
 
   return stats;
@@ -607,7 +574,7 @@ export async function getModerationStats(
 export async function getModeratorPerformance(
   moderatorId: string,
   startDate?: string,
-  endDate?: string
+  endDate?: string,
 ): Promise<{
   totalReviews: number;
   approvals: number;
@@ -616,10 +583,7 @@ export async function getModeratorPerformance(
 }> {
   const supabase = await createClient();
 
-  let query = supabase
-    .from('moderation_reports')
-    .select('*')
-    .eq('reviewed_by', moderatorId);
+  let query = supabase.from('moderation_reports').select('*').eq('reviewed_by', moderatorId);
 
   if (startDate) {
     query = query.gte('reviewed_at', startDate);

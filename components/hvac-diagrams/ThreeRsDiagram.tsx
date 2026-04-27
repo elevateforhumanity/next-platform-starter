@@ -18,7 +18,8 @@ const THREE_RS = [
     light: 'bg-brand-blue-50',
     border: 'border-brand-blue-300',
     text: 'text-brand-blue-700',
-    definition: 'Remove refrigerant from a system in any condition and store it in an approved external container.',
+    definition:
+      'Remove refrigerant from a system in any condition and store it in an approved external container.',
     when: 'Required before opening ANY part of the refrigerant circuit — every single time.',
     equipment: 'Recovery machine + approved recovery cylinder',
     canDo: [
@@ -27,7 +28,7 @@ const THREE_RS = [
       'Return to the same system after repair',
     ],
     cannotDo: [
-      'Put into a different owner\'s system',
+      "Put into a different owner's system",
       'Sell as usable refrigerant',
       'Assume it is clean — it may contain oil, moisture, or non-condensables',
     ],
@@ -41,8 +42,9 @@ const THREE_RS = [
     light: 'bg-amber-50',
     border: 'border-amber-300',
     text: 'text-amber-700',
-    definition: 'Clean refrigerant for reuse using oil separation and single or multiple passes through filter-driers. Done on-site.',
-    when: 'When you want to reuse refrigerant in the same system or the same owner\'s other systems.',
+    definition:
+      'Clean refrigerant for reuse using oil separation and single or multiple passes through filter-driers. Done on-site.',
+    when: "When you want to reuse refrigerant in the same system or the same owner's other systems.",
     equipment: 'Recycling machine with oil separator and filter-driers',
     canDo: [
       'Return to the same system',
@@ -50,7 +52,7 @@ const THREE_RS = [
       'Store for future use by the same owner',
     ],
     cannotDo: [
-      'Use in a different owner\'s system',
+      "Use in a different owner's system",
       'Sell to another party',
       'Claim it meets virgin refrigerant purity (AHRI 700)',
     ],
@@ -64,9 +66,11 @@ const THREE_RS = [
     light: 'bg-brand-green-50',
     border: 'border-brand-green-300',
     text: 'text-brand-green-700',
-    definition: 'Reprocess refrigerant to AHRI Standard 700 purity — equivalent to new virgin refrigerant. Requires EPA-certified reclaimer.',
+    definition:
+      'Reprocess refrigerant to AHRI Standard 700 purity — equivalent to new virgin refrigerant. Requires EPA-certified reclaimer.',
     when: 'When refrigerant needs to be sold, transferred to a different owner, or verified to virgin specs.',
-    equipment: 'EPA-certified reclaim facility only — laboratory-grade equipment and chemical analysis',
+    equipment:
+      'EPA-certified reclaim facility only — laboratory-grade equipment and chemical analysis',
     canDo: [
       'Sell as new refrigerant',
       'Use in any system, any owner',
@@ -96,9 +100,10 @@ export default function ThreeRsDiagram({ onComplete }: { onComplete?: () => void
 
   return (
     <div className="space-y-5">
-
       <div className="bg-brand-blue-700 rounded-2xl p-5 text-white">
-        <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-1">EPA 608 Core — The Three R's</p>
+        <p className="text-brand-red-400 text-xs font-bold uppercase tracking-widest mb-1">
+          EPA 608 Core — The Three R's
+        </p>
         <h2 className="text-xl font-extrabold">Recover · Recycle · Reclaim</h2>
         <p className="text-slate-500 text-sm mt-1">
           The exam tests the exact legal difference between these three. Tap each one.
@@ -118,17 +123,21 @@ export default function ThreeRsDiagram({ onComplete }: { onComplete?: () => void
                 isActive
                   ? `${r.light} ${r.border} shadow-lg scale-[1.03]`
                   : isSeen
-                  ? 'bg-slate-50 border-slate-200'
-                  : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-sm'
+                    ? 'bg-slate-50 border-slate-200'
+                    : 'bg-white border-slate-200 hover:border-slate-300 hover:shadow-sm'
               }`}
             >
               {isSeen && !isActive && (
                 <CheckCircle className="absolute top-2 right-2 w-4 h-4 text-brand-green-500" />
               )}
-              <div className={`w-12 h-12 rounded-full ${r.color} flex items-center justify-center text-white font-extrabold text-2xl mx-auto mb-2`}>
+              <div
+                className={`w-12 h-12 rounded-full ${r.color} flex items-center justify-center text-white font-extrabold text-2xl mx-auto mb-2`}
+              >
                 {r.letter}
               </div>
-              <p className={`font-extrabold text-sm ${isActive ? r.text : 'text-slate-700'}`}>{r.word}</p>
+              <p className={`font-extrabold text-sm ${isActive ? r.text : 'text-slate-700'}`}>
+                {r.word}
+              </p>
             </button>
           );
         })}
@@ -144,18 +153,24 @@ export default function ThreeRsDiagram({ onComplete }: { onComplete?: () => void
             <p className="text-slate-700 text-sm leading-relaxed">{activeR.definition}</p>
 
             <div className="bg-white rounded-xl border border-slate-200 p-4 space-y-1">
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">When to use it</p>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                When to use it
+              </p>
               <p className="text-sm text-slate-700">{activeR.when}</p>
             </div>
 
             <div className="bg-white rounded-xl border border-slate-200 p-4 space-y-1">
-              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Equipment needed</p>
+              <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Equipment needed
+              </p>
               <p className="text-sm text-slate-700">{activeR.equipment}</p>
             </div>
 
             <div className="grid grid-cols-2 gap-3">
               <div className="bg-brand-green-50 rounded-xl border border-brand-green-200 p-3">
-                <p className="text-xs font-bold text-brand-green-700 uppercase tracking-wider mb-2">✓ You CAN</p>
+                <p className="text-xs font-bold text-brand-green-700 uppercase tracking-wider mb-2">
+                  ✓ You CAN
+                </p>
                 <ul className="space-y-1.5">
                   {activeR.canDo.map((item, i) => (
                     <li key={i} className="flex gap-1.5 text-xs text-slate-700">
@@ -166,7 +181,9 @@ export default function ThreeRsDiagram({ onComplete }: { onComplete?: () => void
                 </ul>
               </div>
               <div className="bg-brand-red-50 rounded-xl border border-brand-red-200 p-3">
-                <p className="text-xs font-bold text-brand-red-700 uppercase tracking-wider mb-2">✗ You CANNOT</p>
+                <p className="text-xs font-bold text-brand-red-700 uppercase tracking-wider mb-2">
+                  ✗ You CANNOT
+                </p>
                 <ul className="space-y-1.5">
                   {activeR.cannotDo.map((item, i) => (
                     <li key={i} className="flex gap-1.5 text-xs text-slate-700">

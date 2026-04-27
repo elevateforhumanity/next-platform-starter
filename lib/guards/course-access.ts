@@ -15,7 +15,10 @@ export async function verifyCourseAccess(courseId: string): Promise<CourseAccess
   const supabase = await createClient();
 
   // Check authentication
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
 
   if (authError || !user) {
     redirect(`/login?redirect=/courses/${courseId}`);
@@ -24,10 +27,12 @@ export async function verifyCourseAccess(courseId: string): Promise<CourseAccess
   // Check enrollment
   const { data: enrollment, error: enrollError } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       *,
       course:courses(*)
-    `)
+    `,
+    )
     .eq('user_id', user.id)
     .eq('course_id', courseId)
     .maybeSingle();

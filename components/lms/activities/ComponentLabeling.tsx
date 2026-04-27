@@ -22,27 +22,33 @@ interface ComponentLabelingProps {
  * Tap-to-place labeling: tap a label, then tap where it goes on the diagram.
  * Works on phone and desktop — no drag required.
  */
-export function ComponentLabeling({ title, description, diagramSrc, zones, onComplete }: ComponentLabelingProps) {
+export function ComponentLabeling({
+  title,
+  description,
+  diagramSrc,
+  zones,
+  onComplete,
+}: ComponentLabelingProps) {
   const [placements, setPlacements] = useState<Record<string, string | null>>({});
   const [selectedLabel, setSelectedLabel] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
 
   const [shuffledLabels] = useState(() =>
-    zones.map(z => z.label).sort(() => Math.random() - 0.5)
+    zones.map((z) => z.label).sort(() => Math.random() - 0.5),
   );
 
   const placedLabels = new Set(Object.values(placements).filter(Boolean));
-  const availableLabels = shuffledLabels.filter(l => !placedLabels.has(l));
+  const availableLabels = shuffledLabels.filter((l) => !placedLabels.has(l));
 
   function handleLabelTap(label: string) {
     if (submitted) return;
-    setSelectedLabel(prev => prev === label ? null : label);
+    setSelectedLabel((prev) => (prev === label ? null : label));
   }
 
   function handleZoneTap(zoneId: string) {
     if (submitted) return;
     if (selectedLabel) {
-      setPlacements(prev => {
+      setPlacements((prev) => {
         const cleaned: Record<string, string | null> = {};
         for (const [k, v] of Object.entries(prev)) {
           cleaned[k] = v === selectedLabel ? null : v;
@@ -52,13 +58,13 @@ export function ComponentLabeling({ title, description, diagramSrc, zones, onCom
       });
       setSelectedLabel(null);
     } else if (placements[zoneId]) {
-      setPlacements(prev => ({ ...prev, [zoneId]: null }));
+      setPlacements((prev) => ({ ...prev, [zoneId]: null }));
     }
   }
 
   function handleSubmit() {
     setSubmitted(true);
-    const correct = zones.filter(z => placements[z.id] === z.label).length;
+    const correct = zones.filter((z) => placements[z.id] === z.label).length;
     const score = Math.round((correct / zones.length) * 100);
     onComplete?.(score, score >= 70);
   }
@@ -69,14 +75,16 @@ export function ComponentLabeling({ title, description, diagramSrc, zones, onCom
     setSubmitted(false);
   }
 
-  const correctCount = zones.filter(z => placements[z.id] === z.label).length;
+  const correctCount = zones.filter((z) => placements[z.id] === z.label).length;
   const score = Math.round((correctCount / zones.length) * 100);
-  const allPlaced = zones.every(z => placements[z.id]);
+  const allPlaced = zones.every((z) => placements[z.id]);
 
   return (
     <div className="rounded-2xl border border-gray-200 bg-white p-6">
       <div className="mb-4">
-        <span className="text-xs font-bold uppercase tracking-wider text-brand-blue-600 bg-brand-blue-50 px-2 py-0.5 rounded">Activity</span>
+        <span className="text-xs font-bold uppercase tracking-wider text-brand-blue-600 bg-brand-blue-50 px-2 py-0.5 rounded">
+          Activity
+        </span>
         <h3 className="text-xl font-bold text-slate-900 mt-2">{title}</h3>
         {description && <p className="text-slate-700 text-sm mt-1">{description}</p>}
         {!submitted && (
@@ -89,11 +97,13 @@ export function ComponentLabeling({ title, description, diagramSrc, zones, onCom
       </div>
 
       {/* Diagram with tap zones */}
-      <div className="relative rounded-xl overflow-hidden border-2 border-gray-200 bg-gray-50 mb-4"
-        style={{ aspectRatio: '16/10' }}>
+      <div
+        className="relative rounded-xl overflow-hidden border-2 border-gray-200 bg-gray-50 mb-4"
+        style={{ aspectRatio: '16/10' }}
+      >
         <img src={diagramSrc} alt="System diagram" className="w-full h-full object-contain" />
 
-        {zones.map(zone => {
+        {zones.map((zone) => {
           const placed = placements[zone.id];
           const isCorrect = submitted && placed === zone.label;
           const isWrong = submitted && placed && placed !== zone.label;
@@ -106,21 +116,27 @@ export function ComponentLabeling({ title, description, diagramSrc, zones, onCom
               style={{ left: `${zone.x}%`, top: `${zone.y}%` }}
             >
               {placed ? (
-                <div className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 text-sm font-bold shadow-md whitespace-nowrap ${
-                  isCorrect ? 'bg-green-100 border-green-500 text-green-800' :
-                  isWrong ? 'bg-red-100 border-red-400 text-red-700' :
-                  'bg-white border-brand-blue-400 text-slate-900 hover:bg-brand-blue-50'
-                }`}>
+                <div
+                  className={`flex items-center gap-1.5 px-3 py-1.5 rounded-lg border-2 text-sm font-bold shadow-md whitespace-nowrap ${
+                    isCorrect
+                      ? 'bg-green-100 border-green-500 text-green-800'
+                      : isWrong
+                        ? 'bg-red-100 border-red-400 text-red-700'
+                        : 'bg-white border-brand-blue-400 text-slate-900 hover:bg-brand-blue-50'
+                  }`}
+                >
                   {isCorrect && <CheckCircle className="w-4 h-4 text-green-600 flex-shrink-0" />}
                   {isWrong && <XCircle className="w-4 h-4 text-red-500 flex-shrink-0" />}
                   {placed}
                 </div>
               ) : (
-                <div className={`w-10 h-10 rounded-full border-2 border-dashed flex items-center justify-center text-lg font-bold ${
-                  selectedLabel
-                    ? 'border-brand-blue-400 bg-brand-blue-50 text-brand-blue-600 animate-pulse'
-                    : 'border-gray-300 bg-white/90 text-slate-700'
-                }`}>
+                <div
+                  className={`w-10 h-10 rounded-full border-2 border-dashed flex items-center justify-center text-lg font-bold ${
+                    selectedLabel
+                      ? 'border-brand-blue-400 bg-brand-blue-50 text-brand-blue-600 animate-pulse'
+                      : 'border-gray-300 bg-white/90 text-slate-700'
+                  }`}
+                >
                   ?
                 </div>
               )}
@@ -132,9 +148,11 @@ export function ComponentLabeling({ title, description, diagramSrc, zones, onCom
       {/* Label bank */}
       {!submitted && (
         <div className="mb-4">
-          <p className="text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">Tap a label to select it</p>
+          <p className="text-xs font-semibold text-slate-700 uppercase tracking-wider mb-2">
+            Tap a label to select it
+          </p>
           <div className="flex flex-wrap gap-2">
-            {availableLabels.map(label => (
+            {availableLabels.map((label) => (
               <button
                 key={label}
                 onClick={() => handleLabelTap(label)}
@@ -148,7 +166,9 @@ export function ComponentLabeling({ title, description, diagramSrc, zones, onCom
               </button>
             ))}
             {availableLabels.length === 0 && !submitted && (
-              <p className="text-sm text-slate-700 italic">All placed. Tap a label on the diagram to remove it.</p>
+              <p className="text-sm text-slate-700 italic">
+                All placed. Tap a label on the diagram to remove it.
+              </p>
             )}
           </div>
         </div>
@@ -156,13 +176,18 @@ export function ComponentLabeling({ title, description, diagramSrc, zones, onCom
 
       {!submitted ? (
         <div className="flex justify-end">
-          <button onClick={handleSubmit} disabled={!allPlaced}
-            className="px-6 py-2.5 rounded-xl bg-brand-blue-600 text-white font-semibold text-sm hover:bg-brand-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors">
+          <button
+            onClick={handleSubmit}
+            disabled={!allPlaced}
+            className="px-6 py-2.5 rounded-xl bg-brand-blue-600 text-white font-semibold text-sm hover:bg-brand-blue-700 disabled:opacity-40 disabled:cursor-not-allowed transition-colors"
+          >
             Check Answers
           </button>
         </div>
       ) : (
-        <div className={`p-4 rounded-xl ${score >= 70 ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}>
+        <div
+          className={`p-4 rounded-xl ${score >= 70 ? 'bg-green-50 border border-green-200' : 'bg-red-50 border border-red-200'}`}
+        >
           <div className="flex items-center justify-between">
             <div>
               <p className={`text-lg font-bold ${score >= 70 ? 'text-green-800' : 'text-red-800'}`}>
@@ -173,7 +198,10 @@ export function ComponentLabeling({ title, description, diagramSrc, zones, onCom
               </p>
             </div>
             {score < 100 && (
-              <button onClick={handleRetry} className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white border border-gray-200 text-slate-900 text-sm font-semibold hover:bg-gray-50">
+              <button
+                onClick={handleRetry}
+                className="flex items-center gap-1.5 px-4 py-2 rounded-lg bg-white border border-gray-200 text-slate-900 text-sm font-semibold hover:bg-gray-50"
+              >
                 <RotateCcw className="w-4 h-4" /> Retry
               </button>
             )}

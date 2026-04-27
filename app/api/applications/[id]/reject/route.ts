@@ -11,16 +11,15 @@ export const maxDuration = 30;
 
 export const dynamic = 'force-dynamic';
 
-async function _POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function _POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const db = await getAdminClient();
@@ -55,7 +54,9 @@ async function _POST(
       .from('applications')
       .update({
         status: 'rejected',
-        notes: reason ? `${application.notes || ''}\nRejection reason: ${reason}` : application.notes,
+        notes: reason
+          ? `${application.notes || ''}\nRejection reason: ${reason}`
+          : application.notes,
         updated_at: new Date().toISOString(),
       })
       .eq('id', id);

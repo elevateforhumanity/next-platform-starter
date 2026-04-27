@@ -150,8 +150,7 @@ export function getProgramContent(programSlug: string): PageContent {
     description:
       'Earn while you learn through our DOL-registered apprenticeship program. Receive hands-on training, industry credentials, and job placement support.',
     imageSrc: '/images/pages/training-classroom.jpg',
-    imageAlt:
-      'Apprentice receiving hands-on training from experienced instructor',
+    imageAlt: 'Apprentice receiving hands-on training from experienced instructor',
     actions: [
       {
         label: 'Apply Now',
@@ -212,28 +211,18 @@ export function validateContent(content: PageContent): void {
     throw new Error('Content validation failed: title too short or missing');
   }
   if (!content.description || content.description.length < 50) {
-    throw new Error(
-      'Content validation failed: description too short or missing'
-    );
+    throw new Error('Content validation failed: description too short or missing');
   }
   if (!content.imageSrc || !content.imageAlt) {
     throw new Error('Content validation failed: image or alt text missing');
   }
 
-  const forbidden = [
-    'Available Now',
-    'Content',
-    'lorem ipsum',
-    'tbd',
-    'todo',
-  ];
+  const forbidden = ['Available Now', 'Content', 'lorem ipsum', 'tbd', 'todo'];
   const text = `${content.title} ${content.description}`.toLowerCase();
 
   for (const phrase of forbidden) {
     if (text.includes(phrase)) {
-      throw new Error(
-        `Content validation failed: forbidden phrase "${phrase}" detected`
-      );
+      throw new Error(`Content validation failed: forbidden phrase "${phrase}" detected`);
     }
   }
 }

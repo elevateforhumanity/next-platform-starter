@@ -25,8 +25,6 @@ interface GenerationResult {
   error?: string;
 }
 
-
-
 export default function VideoGeneratorPage() {
   const [status, setStatus] = useState<GenerationStatus | null>(null);
   const [generating, setGenerating] = useState(false);
@@ -39,7 +37,7 @@ export default function VideoGeneratorPage() {
   const pendingLessons =
     status?.needsGeneration ??
     status?.withoutVideos ??
-    ((status?.withoutMedia ?? 0) + (status?.withMp3Only ?? 0));
+    (status?.withoutMedia ?? 0) + (status?.withMp3Only ?? 0);
 
   const fetchStatus = async () => {
     try {
@@ -90,7 +88,8 @@ export default function VideoGeneratorPage() {
     let totalGenerated = 0;
     let hasMore = true;
 
-    while (hasMore && totalGenerated < 100) { // Safety limit
+    while (hasMore && totalGenerated < 100) {
+      // Safety limit
       try {
         const res = await fetch('/api/admin/generate-lesson-videos', {
           method: 'POST',
@@ -106,7 +105,7 @@ export default function VideoGeneratorPage() {
         }
 
         fetchStatus();
-        await new Promise(r => setTimeout(r, 1000));
+        await new Promise((r) => setTimeout(r, 1000));
       } catch (err) {
         setError('Batch generation failed');
         hasMore = false;
@@ -118,10 +117,9 @@ export default function VideoGeneratorPage() {
 
   return (
     <div className="min-h-screen bg-white p-8">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Video Generator" }]} />
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Video Generator' }]} />
       </div>
       <div className="max-w-4xl mx-auto">
         <div className="bg-white rounded-xl shadow-sm border p-6 mb-6">
@@ -146,7 +144,9 @@ export default function VideoGeneratorPage() {
                 <div className="text-sm text-slate-700">Need Videos</div>
               </div>
               <div className="bg-brand-blue-50 rounded-lg p-4 text-center">
-                <div className="text-3xl font-bold text-brand-blue-600">{status.percentComplete}%</div>
+                <div className="text-3xl font-bold text-brand-blue-600">
+                  {status.percentComplete}%
+                </div>
                 <div className="text-sm text-slate-700">Complete</div>
               </div>
             </div>
@@ -156,7 +156,7 @@ export default function VideoGeneratorPage() {
           {status && (
             <div className="mb-6">
               <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
-                <div 
+                <div
                   className="h-full bg-brand-blue-500 transition-all duration-500"
                   style={{ width: `${status.percentComplete}%` }}
                 />
@@ -168,8 +168,8 @@ export default function VideoGeneratorPage() {
           <div className="flex items-center gap-4 mb-6">
             <div className="flex items-center gap-2">
               <label className="text-sm font-medium">Batch Size:</label>
-              <select 
-                value={batchSize} 
+              <select
+                value={batchSize}
                 onChange={(e) => setBatchSize(Number(e.target.value))}
                 className="border rounded-lg px-3 py-2"
                 disabled={generating}
@@ -227,9 +227,7 @@ export default function VideoGeneratorPage() {
           {/* Results */}
           {results.length > 0 && (
             <div className="border rounded-lg overflow-hidden">
-              <div className="bg-gray-50 px-4 py-2 font-medium border-b">
-                Generation Results
-              </div>
+              <div className="bg-gray-50 px-4 py-2 font-medium border-b">Generation Results</div>
               <div className="divide-y max-h-96 overflow-y-auto">
                 {results.map((result, i) => (
                   <div key={i} className="flex items-center gap-3 px-4 py-3">
@@ -242,9 +240,9 @@ export default function VideoGeneratorPage() {
                       {result.lessonId.substring(0, 8)}...
                     </span>
                     {result.success ? (
-                      <a 
-                        href={result.videoUrl} 
-                        target="_blank" 
+                      <a
+                        href={result.videoUrl}
+                        target="_blank"
                         rel="noopener noreferrer"
                         className="text-brand-blue-600 hover:underline text-sm"
                       >
@@ -270,12 +268,12 @@ export default function VideoGeneratorPage() {
             <li>Videos are uploaded to Cloudflare Stream for fast delivery</li>
             <li>The lesson record is updated with the video URL</li>
           </ol>
-          
+
           <div className="mt-4 p-4 bg-brand-blue-50 rounded-lg">
             <p className="text-sm text-brand-blue-800">
-              <strong>Note:</strong> Video generation takes 30-60 seconds per lesson. 
-              For 540 lessons, full generation will take several hours. 
-              You can generate in batches and the system will track progress.
+              <strong>Note:</strong> Video generation takes 30-60 seconds per lesson. For 540
+              lessons, full generation will take several hours. You can generate in batches and the
+              system will track progress.
             </p>
           </div>
         </div>

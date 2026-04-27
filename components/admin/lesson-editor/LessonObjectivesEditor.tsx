@@ -45,7 +45,8 @@ export default function LessonObjectivesEditor({ objectives, onChange }: Props) 
     <div className="space-y-3">
       <div className="flex items-center justify-between">
         <p className="text-xs text-slate-500">
-          At least one objective is required for publish. Use action verbs (e.g. "Identify", "Demonstrate", "Apply").
+          At least one objective is required for publish. Use action verbs (e.g. "Identify",
+          "Demonstrate", "Apply").
         </p>
         <button
           type="button"
@@ -72,20 +73,26 @@ export default function LessonObjectivesEditor({ objectives, onChange }: Props) 
                 disabled={i === 0}
                 className="text-slate-300 hover:text-slate-500 disabled:opacity-20 text-xs leading-none"
                 title="Move up"
-              >▲</button>
+              >
+                ▲
+              </button>
               <button
                 type="button"
                 onClick={() => moveDown(i)}
                 disabled={i === objectives.length - 1}
                 className="text-slate-300 hover:text-slate-500 disabled:opacity-20 text-xs leading-none"
                 title="Move down"
-              >▼</button>
+              >
+                ▼
+              </button>
             </div>
-            <span className="text-xs font-mono text-slate-400 w-5 text-right flex-shrink-0">{i + 1}.</span>
+            <span className="text-xs font-mono text-slate-400 w-5 text-right flex-shrink-0">
+              {i + 1}.
+            </span>
             <input
               type="text"
               value={obj}
-              onChange={e => update(i, e.target.value)}
+              onChange={(e) => update(i, e.target.value)}
               placeholder={`Objective ${i + 1} — e.g. "Identify the three phases of..."`}
               className="flex-1 border border-slate-200 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
             />

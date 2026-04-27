@@ -14,7 +14,9 @@ export const metadata: Metadata = {
 
 export default async function NotificationSettingsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/account/settings/notifications');
@@ -49,14 +51,20 @@ export default async function NotificationSettingsPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Account', href: '/account' }, { label: 'Settings', href: '/account/settings' }, { label: 'Notifications' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Account', href: '/account' },
+              { label: 'Settings', href: '/account/settings' },
+              { label: 'Notifications' },
+            ]}
+          />
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <Link 
+          <Link
             href="/account/settings"
             className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-4"
           >
@@ -82,19 +90,52 @@ export default async function NotificationSettingsPage() {
             </div>
             <div className="space-y-4">
               {[
-                { id: 'email_course_updates', label: 'Course updates and announcements', description: 'New lessons, assignments, and course changes', defaultChecked: prefs.email_course_updates },
-                { id: 'email_grades', label: 'Grade notifications', description: 'When grades are posted or updated', defaultChecked: prefs.email_grades },
-                { id: 'email_deadlines', label: 'Deadline reminders', description: 'Upcoming assignment and exam deadlines', defaultChecked: prefs.email_deadlines },
-                { id: 'email_messages', label: 'Direct messages', description: 'Messages from instructors and classmates', defaultChecked: prefs.email_messages },
-                { id: 'email_newsletter', label: 'Newsletter and updates', description: 'News, events, and career opportunities', defaultChecked: prefs.email_newsletter },
+                {
+                  id: 'email_course_updates',
+                  label: 'Course updates and announcements',
+                  description: 'New lessons, assignments, and course changes',
+                  defaultChecked: prefs.email_course_updates,
+                },
+                {
+                  id: 'email_grades',
+                  label: 'Grade notifications',
+                  description: 'When grades are posted or updated',
+                  defaultChecked: prefs.email_grades,
+                },
+                {
+                  id: 'email_deadlines',
+                  label: 'Deadline reminders',
+                  description: 'Upcoming assignment and exam deadlines',
+                  defaultChecked: prefs.email_deadlines,
+                },
+                {
+                  id: 'email_messages',
+                  label: 'Direct messages',
+                  description: 'Messages from instructors and classmates',
+                  defaultChecked: prefs.email_messages,
+                },
+                {
+                  id: 'email_newsletter',
+                  label: 'Newsletter and updates',
+                  description: 'News, events, and career opportunities',
+                  defaultChecked: prefs.email_newsletter,
+                },
               ].map((item) => (
-                <div key={item.id} className="flex items-start justify-between py-3 border-b border-gray-100 last:border-0">
+                <div
+                  key={item.id}
+                  className="flex items-start justify-between py-3 border-b border-gray-100 last:border-0"
+                >
                   <div>
                     <p className="font-medium text-slate-900">{item.label}</p>
                     <p className="text-sm text-slate-700">{item.description}</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" name={item.id} defaultChecked={item.defaultChecked} className="sr-only peer" />
+                    <input
+                      type="checkbox"
+                      name={item.id}
+                      defaultChecked={item.defaultChecked}
+                      className="sr-only peer"
+                    />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white"></div>
                   </label>
                 </div>
@@ -115,17 +156,40 @@ export default async function NotificationSettingsPage() {
             </div>
             <div className="space-y-4">
               {[
-                { id: 'push_messages', label: 'New messages', description: 'Instant alerts for new messages', defaultChecked: prefs.push_messages },
-                { id: 'push_reminders', label: 'Class reminders', description: 'Reminders before live sessions', defaultChecked: prefs.push_reminders },
-                { id: 'push_announcements', label: 'Important announcements', description: 'Urgent updates from instructors', defaultChecked: prefs.push_announcements },
+                {
+                  id: 'push_messages',
+                  label: 'New messages',
+                  description: 'Instant alerts for new messages',
+                  defaultChecked: prefs.push_messages,
+                },
+                {
+                  id: 'push_reminders',
+                  label: 'Class reminders',
+                  description: 'Reminders before live sessions',
+                  defaultChecked: prefs.push_reminders,
+                },
+                {
+                  id: 'push_announcements',
+                  label: 'Important announcements',
+                  description: 'Urgent updates from instructors',
+                  defaultChecked: prefs.push_announcements,
+                },
               ].map((item) => (
-                <div key={item.id} className="flex items-start justify-between py-3 border-b border-gray-100 last:border-0">
+                <div
+                  key={item.id}
+                  className="flex items-start justify-between py-3 border-b border-gray-100 last:border-0"
+                >
                   <div>
                     <p className="font-medium text-slate-900">{item.label}</p>
                     <p className="text-sm text-slate-700">{item.description}</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" name={item.id} defaultChecked={item.defaultChecked} className="sr-only peer" />
+                    <input
+                      type="checkbox"
+                      name={item.id}
+                      defaultChecked={item.defaultChecked}
+                      className="sr-only peer"
+                    />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white"></div>
                   </label>
                 </div>
@@ -141,7 +205,9 @@ export default async function NotificationSettingsPage() {
               </div>
               <div>
                 <h2 className="text-lg font-semibold text-slate-900">SMS Notifications</h2>
-                <p className="text-sm text-slate-700">Text message alerts (standard rates may apply)</p>
+                <p className="text-sm text-slate-700">
+                  Text message alerts (standard rates may apply)
+                </p>
               </div>
             </div>
             <div className="space-y-4">
@@ -158,16 +224,34 @@ export default async function NotificationSettingsPage() {
                 />
               </div>
               {[
-                { id: 'sms_urgent', label: 'Urgent alerts only', description: 'Class cancellations and emergencies', defaultChecked: prefs.sms_urgent },
-                { id: 'sms_reminders', label: 'Appointment reminders', description: 'Upcoming appointments and meetings', defaultChecked: prefs.sms_reminders },
+                {
+                  id: 'sms_urgent',
+                  label: 'Urgent alerts only',
+                  description: 'Class cancellations and emergencies',
+                  defaultChecked: prefs.sms_urgent,
+                },
+                {
+                  id: 'sms_reminders',
+                  label: 'Appointment reminders',
+                  description: 'Upcoming appointments and meetings',
+                  defaultChecked: prefs.sms_reminders,
+                },
               ].map((item) => (
-                <div key={item.id} className="flex items-start justify-between py-3 border-b border-gray-100 last:border-0">
+                <div
+                  key={item.id}
+                  className="flex items-start justify-between py-3 border-b border-gray-100 last:border-0"
+                >
                   <div>
                     <p className="font-medium text-slate-900">{item.label}</p>
                     <p className="text-sm text-slate-700">{item.description}</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" name={item.id} defaultChecked={item.defaultChecked} className="sr-only peer" />
+                    <input
+                      type="checkbox"
+                      name={item.id}
+                      defaultChecked={item.defaultChecked}
+                      className="sr-only peer"
+                    />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white"></div>
                   </label>
                 </div>
@@ -188,16 +272,34 @@ export default async function NotificationSettingsPage() {
             </div>
             <div className="space-y-4">
               {[
-                { id: 'in_app_all', label: 'All activity', description: 'Show all notifications in the app', defaultChecked: prefs.in_app_all },
-                { id: 'in_app_sound', label: 'Notification sounds', description: 'Play sounds for new notifications', defaultChecked: prefs.in_app_sound },
+                {
+                  id: 'in_app_all',
+                  label: 'All activity',
+                  description: 'Show all notifications in the app',
+                  defaultChecked: prefs.in_app_all,
+                },
+                {
+                  id: 'in_app_sound',
+                  label: 'Notification sounds',
+                  description: 'Play sounds for new notifications',
+                  defaultChecked: prefs.in_app_sound,
+                },
               ].map((item) => (
-                <div key={item.id} className="flex items-start justify-between py-3 border-b border-gray-100 last:border-0">
+                <div
+                  key={item.id}
+                  className="flex items-start justify-between py-3 border-b border-gray-100 last:border-0"
+                >
                   <div>
                     <p className="font-medium text-slate-900">{item.label}</p>
                     <p className="text-sm text-slate-700">{item.description}</p>
                   </div>
                   <label className="relative inline-flex items-center cursor-pointer">
-                    <input type="checkbox" name={item.id} defaultChecked={item.defaultChecked} className="sr-only peer" />
+                    <input
+                      type="checkbox"
+                      name={item.id}
+                      defaultChecked={item.defaultChecked}
+                      className="sr-only peer"
+                    />
                     <div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-white"></div>
                   </label>
                 </div>

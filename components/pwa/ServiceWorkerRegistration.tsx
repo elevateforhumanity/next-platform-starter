@@ -7,10 +7,7 @@ interface ServiceWorkerRegistrationProps {
   onSuccess?: () => void;
 }
 
-export function ServiceWorkerRegistration({ 
-  onUpdate, 
-  onSuccess 
-}: ServiceWorkerRegistrationProps) {
+export function ServiceWorkerRegistration({ onUpdate, onSuccess }: ServiceWorkerRegistrationProps) {
   useEffect(() => {
     if (typeof window === 'undefined' || !('serviceWorker' in navigator)) {
       return;
@@ -45,7 +42,6 @@ export function ServiceWorkerRegistration({
           refreshing = true;
           window.location.reload();
         });
-
       } catch (error) {
         console.error('[PWA] Service Worker registration failed:', error);
       }

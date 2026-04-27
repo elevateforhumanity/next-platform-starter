@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -10,20 +9,26 @@ export const dynamic = 'force-dynamic';
 async function _POST(req: NextRequest, { params }: { params: Promise<{ skillId: string }> }) {
   const supabase = await createClient();
   const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
-  const { data: { user } } = await supabase.auth.getUser();
+  if (!db)
+    return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { skillId } = await params;
 
-  await db.from('user_skills').upsert({
-    user_id: user.id,
-    skill_name: skillId,
-    proficiency: 3,
-    proficiency_level: 'competent',
-    verified: false,
-    updated_at: new Date().toISOString(),
-  }, { onConflict: 'user_id,skill_name' });
+  await db.from('user_skills').upsert(
+    {
+      user_id: user.id,
+      skill_name: skillId,
+      proficiency: 3,
+      proficiency_level: 'competent',
+      verified: false,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: 'user_id,skill_name' },
+  );
 
   // Redirect back to skills page (form POST)
   return NextResponse.redirect(new URL('/staff-portal/skills', req.url));

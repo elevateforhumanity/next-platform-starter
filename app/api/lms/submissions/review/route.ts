@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
 
 const ALLOWED_ROLES = ['instructor', 'admin', 'super_admin', 'staff'];
 const VALID_STATUSES = ['under_review', 'approved', 'rejected', 'revision_requested'] as const;
-type ReviewStatus = typeof VALID_STATUSES[number];
+type ReviewStatus = (typeof VALID_STATUSES)[number];
 
 /**
  * PATCH /api/lms/submissions/review
@@ -62,7 +62,9 @@ export async function PATCH(request: NextRequest) {
   // Fetch the submission to verify it exists
   const { data: submission, error: fetchErr } = await db
     .from('step_submissions')
-    .select('id, user_id, course_lesson_id, lesson_id, course_id, step_type, status, competency_key')
+    .select(
+      'id, user_id, course_lesson_id, lesson_id, course_id, step_type, status, competency_key',
+    )
     .eq('id', submission_id)
     .maybeSingle();
 
@@ -70,20 +72,19 @@ export async function PATCH(request: NextRequest) {
 
   const now = new Date().toISOString();
   const instructorStatus: 'approved' | 'rejected' | 'pending' =
-    status === 'approved' ? 'approved' :
-    status === 'rejected' ? 'rejected' : 'pending';
+    status === 'approved' ? 'approved' : status === 'rejected' ? 'rejected' : 'pending';
 
   const { data: updated, error: updateErr } = await db
     .from('step_submissions')
     .update({
       status,
-      instructor_note:     note?.trim() || null,
-      instructor_id:       user.id,
-      instructor_status:   instructorStatus,
+      instructor_note: note?.trim() || null,
+      instructor_id: user.id,
+      instructor_status: instructorStatus,
       instructor_feedback: note?.trim() || null,
-      reviewed_by:         user.id,
-      reviewed_at:         now,
-      updated_at:          now,
+      reviewed_by: user.id,
+      reviewed_at: now,
+      updated_at: now,
     })
     .eq('id', submission_id)
     .select('id, status, reviewed_at, competency_key')
@@ -92,19 +93,23 @@ export async function PATCH(request: NextRequest) {
   if (updateErr) return safeDbError(updateErr, 'Failed to update submission');
 
   // Write audit log entry
-  await db.from('competency_audit_log').insert({
-    submission_id,
-    user_id:        submission.user_id,
-    lesson_id:      submission.course_lesson_id ?? submission.lesson_id,
-    course_id:      submission.course_id,
-    competency_key: submission.competency_key ?? null,
-    action:         status,
-    actor_id:       user.id,
-    note:           note?.trim() || null,
-    created_at:     now,
-  }).then(({ error }) => {
-    if (error) logger.warn('[submissions/review] audit log insert failed (non-fatal):', error.message);
-  });
+  await db
+    .from('competency_audit_log')
+    .insert({
+      submission_id,
+      user_id: submission.user_id,
+      lesson_id: submission.course_lesson_id ?? submission.lesson_id,
+      course_id: submission.course_id,
+      competency_key: submission.competency_key ?? null,
+      action: status,
+      actor_id: user.id,
+      note: note?.trim() || null,
+      created_at: now,
+    })
+    .then(({ error }) => {
+      if (error)
+        logger.warn('[submissions/review] audit log insert failed (non-fatal):', error.message);
+    });
 
   // If approved, check whether all required competency checks for this lesson are now approved.
   // If so, write lesson_progress completion.
@@ -125,15 +130,18 @@ export async function PATCH(request: NextRequest) {
 
       await db
         .from('lesson_progress')
-        .upsert({
-          user_id:       submission.user_id,
-          lesson_id:     lessonId,
-          course_id:     submission.course_id,
-          enrollment_id: enrollment?.id ?? null,
-          completed:     true,
-          completed_at:  now,
-          updated_at:    now,
-        }, { onConflict: 'user_id,lesson_id' })
+        .upsert(
+          {
+            user_id: submission.user_id,
+            lesson_id: lessonId,
+            course_id: submission.course_id,
+            enrollment_id: enrollment?.id ?? null,
+            completed: true,
+            completed_at: now,
+            updated_at: now,
+          },
+          { onConflict: 'user_id,lesson_id' },
+        )
         .then(({ error }) => {
           if (error) logger.error('[submissions/review] lesson_progress upsert failed:', error);
         });

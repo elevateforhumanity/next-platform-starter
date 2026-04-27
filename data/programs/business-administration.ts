@@ -1,73 +1,230 @@
 import type { ProgramSchema } from '@/lib/programs/program-schema';
 export const BUSINESS_ADMIN: ProgramSchema = {
-  slug: 'business', title: 'Business Administration',
-  subtitle: 'Prepare for Certiport business certifications. Microsoft Office, QuickBooks, and business fundamentals in 8 weeks.',
-  sector: 'business', category: 'Business Administration',
-  heroImage: '/images/pages/business-sector.jpg', heroImageAlt: 'Business administration student working on a computer',
-  deliveryMode: 'hybrid', durationWeeks: 8, hoursPerWeekMin: 15, hoursPerWeekMax: 20,
+  slug: 'business',
+  title: 'Business Administration',
+  subtitle:
+    'Prepare for Certiport business certifications. Microsoft Office, QuickBooks, and business fundamentals in 8 weeks.',
+  sector: 'business',
+  category: 'Business Administration',
+  heroImage: '/images/pages/business-sector.jpg',
+  heroImageAlt: 'Business administration student working on a computer',
+  deliveryMode: 'hybrid',
+  durationWeeks: 8,
+  hoursPerWeekMin: 15,
+  hoursPerWeekMax: 20,
   hoursBreakdown: { onlineInstruction: 60, handsOnLab: 60, examPrep: 20, careerPlacement: 20 },
   schedule: 'Mon–Fri, 9:00 AM–12:00 PM (15–20 hrs/week)',
-  eveningSchedule: 'Evening cohorts available.', cohortSize: '12–18 participants per cohort',
-  fundingStatement: 'WIOA and Next Level Jobs funding available for eligible Indiana residents. You must qualify — eligibility is not guaranteed. Self-pay options available.', selfPayCost: '$2,500',
-  badge: 'Funding Available', badgeColor: 'green',
+  eveningSchedule: 'Evening cohorts available.',
+  cohortSize: '12–18 participants per cohort',
+  fundingStatement:
+    'WIOA and Next Level Jobs funding available for eligible Indiana residents. You must qualify — eligibility is not guaranteed. Self-pay options available.',
+  selfPayCost: '$2,500',
+  badge: 'Funding Available',
+  badgeColor: 'green',
   credentials: [
-    { name: 'Microsoft Office Specialist (MOS)', issuer: 'Certiport / Microsoft', description: 'Certification in Word, Excel, and PowerPoint.', validity: 'Lifetime (version-specific)' },
-    { name: 'Intuit QuickBooks Certified User', issuer: 'Certiport / Intuit', description: 'Certification in QuickBooks accounting software.', validity: 'Lifetime (version-specific)' },
-    { name: 'Entrepreneurship and Small Business (ESB)', issuer: 'Certiport', description: 'Certification in business planning and entrepreneurship fundamentals.', validity: 'Lifetime' },
+    {
+      name: 'Microsoft Office Specialist (MOS)',
+      issuer: 'Certiport / Microsoft',
+      description: 'Certification in Word, Excel, and PowerPoint.',
+      validity: 'Lifetime (version-specific)',
+    },
+    {
+      name: 'Intuit QuickBooks Certified User',
+      issuer: 'Certiport / Intuit',
+      description: 'Certification in QuickBooks accounting software.',
+      validity: 'Lifetime (version-specific)',
+    },
+    {
+      name: 'Entrepreneurship and Small Business (ESB)',
+      issuer: 'Certiport',
+      description: 'Certification in business planning and entrepreneurship fundamentals.',
+      validity: 'Lifetime',
+    },
   ],
   outcomes: [
-    { statement: 'Create professional documents, spreadsheets, and presentations using Microsoft Office', assessedAt: 'Week 3' },
-    { statement: 'Set up and manage a small business in QuickBooks (invoicing, payroll, reports)', assessedAt: 'Week 5' },
+    {
+      statement:
+        'Create professional documents, spreadsheets, and presentations using Microsoft Office',
+      assessedAt: 'Week 3',
+    },
+    {
+      statement: 'Set up and manage a small business in QuickBooks (invoicing, payroll, reports)',
+      assessedAt: 'Week 5',
+    },
     { statement: 'Develop a business plan with financial projections', assessedAt: 'Week 7' },
-    { statement: 'Apply basic accounting principles (debits, credits, financial statements)', assessedAt: 'Week 4' },
+    {
+      statement: 'Apply basic accounting principles (debits, credits, financial statements)',
+      assessedAt: 'Week 4',
+    },
     { statement: 'Pass Certiport MOS and QuickBooks certification exams', assessedAt: 'Week 8' },
   ],
   careerPathway: [
-    { title: 'Administrative Assistant', timeframe: '0–6 months', requirements: 'MOS certification', salaryRange: '$30,000–$38,000' },
-    { title: 'Office Manager', timeframe: '1–3 years', requirements: 'MOS + QuickBooks + experience', salaryRange: '$38,000–$50,000' },
-    { title: 'Bookkeeper', timeframe: '1–2 years', requirements: 'QuickBooks certification', salaryRange: '$35,000–$48,000' },
-    { title: 'Small Business Owner', timeframe: '1+ years', requirements: 'ESB + business plan', salaryRange: 'Varies' },
+    {
+      title: 'Administrative Assistant',
+      timeframe: '0–6 months',
+      requirements: 'MOS certification',
+      salaryRange: '$30,000–$38,000',
+    },
+    {
+      title: 'Office Manager',
+      timeframe: '1–3 years',
+      requirements: 'MOS + QuickBooks + experience',
+      salaryRange: '$38,000–$50,000',
+    },
+    {
+      title: 'Bookkeeper',
+      timeframe: '1–2 years',
+      requirements: 'QuickBooks certification',
+      salaryRange: '$35,000–$48,000',
+    },
+    {
+      title: 'Small Business Owner',
+      timeframe: '1+ years',
+      requirements: 'ESB + business plan',
+      salaryRange: 'Varies',
+    },
   ],
   weeklySchedule: [
-    { week: 'Week 1', title: 'Business Fundamentals', competencyMilestone: 'Identify business structures and basic accounting concepts' },
-    { week: 'Week 2', title: 'Microsoft Word & PowerPoint', competencyMilestone: 'Create professional documents and presentations' },
-    { week: 'Week 3', title: 'Microsoft Excel', competencyMilestone: 'Build spreadsheets with formulas, charts, and pivot tables' },
-    { week: 'Week 4', title: 'Accounting Principles', competencyMilestone: 'Record transactions using debits and credits' },
-    { week: 'Week 5', title: 'QuickBooks Setup & Operations', competencyMilestone: 'Set up a company in QuickBooks and process transactions' },
-    { week: 'Week 6', title: 'QuickBooks Reports & Payroll', competencyMilestone: 'Generate financial reports and process payroll' },
-    { week: 'Week 7', title: 'Business Planning', competencyMilestone: 'Complete a business plan with financial projections' },
-    { week: 'Week 8', title: 'Certification Exams & Placement', competencyMilestone: 'Pass MOS and QuickBooks certification exams' },
+    {
+      week: 'Week 1',
+      title: 'Business Fundamentals',
+      competencyMilestone: 'Identify business structures and basic accounting concepts',
+    },
+    {
+      week: 'Week 2',
+      title: 'Microsoft Word & PowerPoint',
+      competencyMilestone: 'Create professional documents and presentations',
+    },
+    {
+      week: 'Week 3',
+      title: 'Microsoft Excel',
+      competencyMilestone: 'Build spreadsheets with formulas, charts, and pivot tables',
+    },
+    {
+      week: 'Week 4',
+      title: 'Accounting Principles',
+      competencyMilestone: 'Record transactions using debits and credits',
+    },
+    {
+      week: 'Week 5',
+      title: 'QuickBooks Setup & Operations',
+      competencyMilestone: 'Set up a company in QuickBooks and process transactions',
+    },
+    {
+      week: 'Week 6',
+      title: 'QuickBooks Reports & Payroll',
+      competencyMilestone: 'Generate financial reports and process payroll',
+    },
+    {
+      week: 'Week 7',
+      title: 'Business Planning',
+      competencyMilestone: 'Complete a business plan with financial projections',
+    },
+    {
+      week: 'Week 8',
+      title: 'Certification Exams & Placement',
+      competencyMilestone: 'Pass MOS and QuickBooks certification exams',
+    },
   ],
   curriculum: [
-    { title: 'Microsoft Office', topics: ['Word document formatting', 'Excel formulas and functions', 'Pivot tables and charts', 'PowerPoint presentations', 'Outlook email management'] },
-    { title: 'QuickBooks', topics: ['Company setup', 'Invoicing and payments', 'Bank reconciliation', 'Payroll processing', 'Financial reports'] },
-    { title: 'Business Fundamentals', topics: ['Business structures (LLC, S-Corp)', 'Basic accounting', 'Marketing fundamentals', 'Business plan development', 'Financial projections'] },
+    {
+      title: 'Microsoft Office',
+      topics: [
+        'Word document formatting',
+        'Excel formulas and functions',
+        'Pivot tables and charts',
+        'PowerPoint presentations',
+        'Outlook email management',
+      ],
+    },
+    {
+      title: 'QuickBooks',
+      topics: [
+        'Company setup',
+        'Invoicing and payments',
+        'Bank reconciliation',
+        'Payroll processing',
+        'Financial reports',
+      ],
+    },
+    {
+      title: 'Business Fundamentals',
+      topics: [
+        'Business structures (LLC, S-Corp)',
+        'Basic accounting',
+        'Marketing fundamentals',
+        'Business plan development',
+        'Financial projections',
+      ],
+    },
   ],
   complianceAlignment: [
-    { standard: 'Certiport Certification Standards', description: 'Curriculum aligned to Certiport MOS and QuickBooks exam objectives.' },
-    { standard: 'WIOA Title I', description: 'Program meets WIOA eligibility for Individual Training Accounts.' },
+    {
+      standard: 'Certiport Certification Standards',
+      description: 'Curriculum aligned to Certiport MOS and QuickBooks exam objectives.',
+    },
+    {
+      standard: 'WIOA Title I',
+      description: 'Program meets WIOA eligibility for Individual Training Accounts.',
+    },
   ],
   credentialPipeline: [
-    { training: 'Business Administration (8 weeks)', certification: 'MOS + QuickBooks Certified', certBody: 'Certiport', jobRole: 'Administrative Assistant / Office Manager' },
-    { training: 'ESB Module', certification: 'Entrepreneurship & Small Business', certBody: 'Certiport', jobRole: 'Small Business Owner' },
+    {
+      training: 'Business Administration (8 weeks)',
+      certification: 'MOS + QuickBooks Certified',
+      certBody: 'Certiport',
+      jobRole: 'Administrative Assistant / Office Manager',
+    },
+    {
+      training: 'ESB Module',
+      certification: 'Entrepreneurship & Small Business',
+      certBody: 'Certiport',
+      jobRole: 'Small Business Owner',
+    },
   ],
-  laborMarket: { medianSalary: 40990, salaryRange: '$30,000–$50,000', growthRate: '-7% (declining for secretaries, growing for specialists)', source: 'U.S. Bureau of Labor Statistics', sourceYear: 2024, region: 'Indianapolis-Carmel-Anderson MSA' },
+  laborMarket: {
+    medianSalary: 40990,
+    salaryRange: '$30,000–$50,000',
+    growthRate: '-7% (declining for secretaries, growing for specialists)',
+    source: 'U.S. Bureau of Labor Statistics',
+    sourceYear: 2024,
+    region: 'Indianapolis-Carmel-Anderson MSA',
+  },
   careers: [
     { title: 'Administrative Assistant', salary: '$30,000–$38,000' },
     { title: 'Office Manager', salary: '$38,000–$50,000' },
     { title: 'Bookkeeper', salary: '$35,000–$48,000' },
     { title: 'Small Business Owner', salary: 'Varies' },
   ],
-  cta: { applyHref: '/apply?program=business-administration',
+  cta: {
+    applyHref: '/apply?program=business-administration',
     requestInfoHref: '/programs/business-administration/request-info',
-    careerConnectHref: 'https://www.indianacareerconnect.com/jobs/search?q=business+administration&location=Indiana', advisorHref: '/contact', courseHref: '/programs/business' },
-  admissionRequirements: ['18 years or older', 'High school diploma or GED', 'Basic computer skills', 'No prior business experience required'],
-  equipmentIncluded: 'Laptop provided during training. All software licenses and certification exam fees included.',
+    careerConnectHref:
+      'https://www.indianacareerconnect.com/jobs/search?q=business+administration&location=Indiana',
+    advisorHref: '/contact',
+    courseHref: '/programs/business',
+  },
+  admissionRequirements: [
+    '18 years or older',
+    'High school diploma or GED',
+    'Basic computer skills',
+    'No prior business experience required',
+  ],
+  equipmentIncluded:
+    'Laptop provided during training. All software licenses and certification exam fees included.',
   modality: 'Hybrid — In-person computer labs, LMS-supported coursework',
   facilityInfo: 'Elevate training center, Indianapolis',
   employerPartners: ['Indianapolis-area small businesses and offices'],
-  pricingIncludes: ['140 instructional hours', 'MOS certification exam', 'QuickBooks certification exam', 'ESB certification exam', 'Laptop use during training', 'Career placement support'],
-  paymentTerms: 'WIOA and Next Level Jobs funding available for eligible Indiana residents — eligibility not guaranteed. Self-pay: $2,500 with payment plans.',
+  pricingIncludes: [
+    '140 instructional hours',
+    'MOS certification exam',
+    'QuickBooks certification exam',
+    'ESB certification exam',
+    'Laptop use during training',
+    'Career placement support',
+  ],
+  paymentTerms:
+    'WIOA and Next Level Jobs funding available for eligible Indiana residents — eligibility not guaranteed. Self-pay: $2,500 with payment plans.',
   // ─── Content model ──────────────────────────────────────────────
   deliveryModel: 'partner',
   deliveryModelDetail: 'hybrid',
@@ -107,11 +264,27 @@ export const BUSINESS_ADMIN: ProgramSchema = {
   ],
 
   faqs: [
-    { question: 'Do I need computer experience?', answer: 'Basic computer skills (typing, using a mouse, navigating the internet) are required. No prior business or accounting experience needed.' },
-    { question: 'What certifications will I earn?', answer: 'Microsoft Office Specialist, QuickBooks Certified User, and Entrepreneurship & Small Business — three Certiport certifications.' },
-    { question: 'Is funding available?', answer: 'Yes. WIOA and Next Level Jobs funding covers tuition for eligible participants.' },
+    {
+      question: 'Do I need computer experience?',
+      answer:
+        'Basic computer skills (typing, using a mouse, navigating the internet) are required. No prior business or accounting experience needed.',
+    },
+    {
+      question: 'What certifications will I earn?',
+      answer:
+        'Microsoft Office Specialist, QuickBooks Certified User, and Entrepreneurship & Small Business — three Certiport certifications.',
+    },
+    {
+      question: 'Is funding available?',
+      answer: 'Yes. WIOA and Next Level Jobs funding covers tuition for eligible participants.',
+    },
   ],
-  breadcrumbs: [{ label: 'Home', href: '/' }, { label: 'Programs', href: '/programs' }, { label: 'Business Administration' }],
+  breadcrumbs: [
+    { label: 'Home', href: '/' },
+    { label: 'Programs', href: '/programs' },
+    { label: 'Business Administration' },
+  ],
   metaTitle: 'Business Administration | Certiport Certified | Indianapolis',
-  metaDescription: 'Prepare for Microsoft Office, QuickBooks, and ESB certifications in 8 weeks. Indianapolis. WIOA funding available for eligible Indiana residents.',
+  metaDescription:
+    'Prepare for Microsoft Office, QuickBooks, and ESB certifications in 8 weeks. Indianapolis. WIOA funding available for eligible Indiana residents.',
 };

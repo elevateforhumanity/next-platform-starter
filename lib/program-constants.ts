@@ -1,9 +1,9 @@
 /**
  * Program Constants - Single Source of Truth (SSOT)
- * 
+ *
  * IMPORTANT: Update these values here to change them across the entire site.
  * All program pages, tuition tables, and marketing materials should import from this file.
- * 
+ *
  * Last updated: January 2026
  * Effective date: January 2026
  */
@@ -14,7 +14,7 @@
 export const BARBER_PROGRAM = {
   name: 'Barber Apprenticeship',
   slug: 'barber-apprenticeship',
-  
+
   // Hours and Duration
   totalHours: 2000,
   totalHoursFormatted: '2,000',
@@ -22,7 +22,7 @@ export const BARBER_PROGRAM = {
   durationMonths: 12,
   durationFormatted: '12 months',
   hoursPerWeek: 40,
-  
+
   // Pricing (in cents for Stripe, dollars for display)
   tuitionCents: 498000,
   tuitionDollars: 4980,
@@ -36,13 +36,13 @@ export const BARBER_PROGRAM = {
   totalCostCents: 508000,
   totalCostDollars: 5080,
   totalCostFormatted: '$5,080',
-  
+
   // Funding
   fundingOptions: ['WIOA', 'Apprenticeship Grants', 'Self-Pay', 'Payment Plans'],
   wioaEligible: true,
   apprenticeshipRegistered: true,
   registrationNumber: 'IN-2024-0001', // USDOL registration
-  
+
   // Wages
   startingWageMin: 12,
   startingWageMax: 15,
@@ -50,20 +50,21 @@ export const BARBER_PROGRAM = {
   experiencedWageMin: 18,
   experiencedWageMax: 25,
   experiencedWageFormatted: '$18-25/hr',
-  
+
   // Certification
   certificationName: 'Indiana Barber License',
   certifyingBody: 'Indiana Professional Licensing Agency (IPLA)',
   examName: 'Indiana State Barber Examination',
-  
+
   // Requirements
   minimumAge: 16,
   educationRequirement: 'High School Diploma or GED (or enrolled)',
   backgroundCheckRequired: true,
-  
+
   // Description
   shortDescription: 'Earn while you learn with our USDOL-registered barber apprenticeship program.',
-  longDescription: 'Complete 2,000 hours of hands-on training at a licensed barbershop while earning wages. Graduate with your Indiana Barber License and real-world experience.',
+  longDescription:
+    'Complete 2,000 hours of hands-on training at a licensed barbershop while earning wages. Graduate with your Indiana Barber License and real-world experience.',
 } as const;
 
 // =============================================================================
@@ -72,7 +73,7 @@ export const BARBER_PROGRAM = {
 export const COSMETOLOGY_PROGRAM = {
   name: 'Cosmetology Apprenticeship',
   slug: 'cosmetology-apprenticeship',
-  
+
   // Hours and Duration
   totalHours: 1500,
   totalHoursFormatted: '1,500',
@@ -80,7 +81,7 @@ export const COSMETOLOGY_PROGRAM = {
   durationMonths: 10,
   durationFormatted: '10 months',
   hoursPerWeek: 40,
-  
+
   // Pricing
   tuitionCents: 498000,
   tuitionDollars: 4980,
@@ -94,12 +95,12 @@ export const COSMETOLOGY_PROGRAM = {
   totalCostCents: 508000,
   totalCostDollars: 5080,
   totalCostFormatted: '$5,080',
-  
+
   // Funding
   fundingOptions: ['WIOA', 'Apprenticeship Grants', 'Self-Pay', 'Payment Plans'],
   wioaEligible: true,
   apprenticeshipRegistered: true,
-  
+
   // Certification
   certificationName: 'Indiana Cosmetology License',
   certifyingBody: 'Indiana Professional Licensing Agency (IPLA)',
@@ -111,7 +112,7 @@ export const COSMETOLOGY_PROGRAM = {
 export const ESTHETICIAN_PROGRAM = {
   name: 'Esthetician Apprenticeship',
   slug: 'esthetician-apprenticeship',
-  
+
   // Hours and Duration
   totalHours: 700,
   totalHoursFormatted: '700',
@@ -119,7 +120,7 @@ export const ESTHETICIAN_PROGRAM = {
   durationMonths: 5,
   durationFormatted: '5 months',
   hoursPerWeek: 35,
-  
+
   // Pricing
   tuitionCents: 349000,
   tuitionDollars: 3490,
@@ -127,7 +128,7 @@ export const ESTHETICIAN_PROGRAM = {
   examFeeCents: 10000,
   examFeeDollars: 100,
   examFeeFormatted: '$100',
-  
+
   // Certification
   certificationName: 'Indiana Esthetician License',
   certifyingBody: 'Indiana Professional Licensing Agency (IPLA)',
@@ -139,7 +140,7 @@ export const ESTHETICIAN_PROGRAM = {
 export const NAIL_TECH_PROGRAM = {
   name: 'Nail Technician Apprenticeship',
   slug: 'nail-technician-apprenticeship',
-  
+
   // Hours and Duration
   totalHours: 450,
   totalHoursFormatted: '450',
@@ -147,7 +148,7 @@ export const NAIL_TECH_PROGRAM = {
   durationMonths: 3,
   durationFormatted: '3 months',
   hoursPerWeek: 35,
-  
+
   // Pricing
   tuitionCents: 249000,
   tuitionDollars: 2490,
@@ -155,7 +156,7 @@ export const NAIL_TECH_PROGRAM = {
   examFeeCents: 10000,
   examFeeDollars: 100,
   examFeeFormatted: '$100',
-  
+
   // Certification
   certificationName: 'Indiana Manicurist License',
   certifyingBody: 'Indiana Professional Licensing Agency (IPLA)',

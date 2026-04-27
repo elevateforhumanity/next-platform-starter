@@ -12,7 +12,6 @@ if (!supabaseKey) {
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function querySchema() {
-
   const results = {};
 
   try {
@@ -26,7 +25,7 @@ async function querySchema() {
       'program_holder_verification',
       'program_holders',
       'profiles',
-      'applications'
+      'applications',
     ];
 
     for (const table of tables) {
@@ -40,10 +39,7 @@ async function querySchema() {
         results[table] = { exists: true, count };
 
         // Get first row to see structure
-        const { data: sample } = await supabase
-          .from(table)
-          .select('*')
-          .limit(1);
+        const { data: sample } = await supabase.from(table).select('*').limit(1);
 
         if (sample && sample[0]) {
           results[table].columns = Object.keys(sample[0]);
@@ -52,7 +48,6 @@ async function querySchema() {
     }
 
     writeFileSync('schema-audit-results.json', JSON.stringify(results, null, 2));
-
   } catch (error) {
     console.error('❌ Error:', error.message);
   }

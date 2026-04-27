@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -14,7 +14,7 @@ interface VoiceoverPlayerProps {
 export default function VoiceoverPlayer({
   text,
   autoPlay = false,
-  voiceoverFile = '/videos/voiceover.mp3'
+  voiceoverFile = '/videos/voiceover.mp3',
 }: VoiceoverPlayerProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
@@ -63,7 +63,8 @@ export default function VoiceoverPlayer({
         audioRef.current.loop = false; // NO LOOP - plays once
         await audioRef.current.play().catch(() => {});
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // NO robotic fallback - only professional voiceovers
       handleVoiceoverError();
     }
@@ -75,7 +76,9 @@ export default function VoiceoverPlayer({
     setIsPlaying(false);
 
     // Show error message to user
-    alert('Professional voiceover file not found. Please add custom voiceover to /public/videos/voiceover.mp3');
+    alert(
+      'Professional voiceover file not found. Please add custom voiceover to /public/videos/voiceover.mp3',
+    );
   };
 
   const stopVoiceover = () => {
@@ -108,8 +111,8 @@ export default function VoiceoverPlayer({
           <button
             onClick={toggleMute}
             className="p-3 bg-white text-black rounded-full shadow-lg hover:bg-slate-100 transition-all border-2 border-slate-200"
-            title={isMuted ? "Unmute voiceover" : "Mute voiceover"}
-            aria-label={isMuted ? "Unmute voiceover" : "Mute voiceover"}
+            title={isMuted ? 'Unmute voiceover' : 'Mute voiceover'}
+            aria-label={isMuted ? 'Unmute voiceover' : 'Mute voiceover'}
           >
             {isMuted ? <VolumeX size={24} /> : <Volume2 size={24} />}
           </button>

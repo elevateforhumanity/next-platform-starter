@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { gh, parseRepo } from '@/lib/github';
 import { logger } from '@/lib/logger';
@@ -21,10 +19,7 @@ async function _POST(req: NextRequest) {
     const { output, repo = 'elevateforhumanity/fix2', branch = 'main' } = body;
 
     if (!output) {
-      return NextResponse.json(
-        { error: 'Missing course output data' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing course output data' }, { status: 400 });
     }
 
     const client = gh();
@@ -35,15 +30,10 @@ async function _POST(req: NextRequest) {
     try {
       parsed = typeof output === 'string' ? JSON.parse(output) : output;
     } catch (e) {
-      return NextResponse.json(
-        { error: 'Invalid JSON in output' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid JSON in output' }, { status: 400 });
     }
 
-    const courseId = (parsed.title || 'untitled-course')
-      .toLowerCase()
-      .replace(/[^a-z0-9]+/g, '-');
+    const courseId = (parsed.title || 'untitled-course').toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
     const basePath = `courses/${courseId}`;
 
@@ -57,20 +47,17 @@ async function _POST(req: NextRequest) {
           message: `Autopilot: Create ${path}`,
           content: Buffer.from(content).toString('base64'),
         });
-      } catch (error) { 
+      } catch (error) {
         logger.error(
           `Failed to save ${path}:`,
-          error instanceof Error ? error : new Error(String(error))
+          error instanceof Error ? error : new Error(String(error)),
         );
         throw error;
       }
     }
 
     // Create metadata.json
-    await saveFile(
-      `${basePath}/metadata.json`,
-      JSON.stringify(parsed, null, 2)
-    );
+    await saveFile(`${basePath}/metadata.json`, JSON.stringify(parsed, null, 2));
 
     // Create README
     const readme = `# ${parsed.title || 'Course'}
@@ -89,25 +76,18 @@ ${parsed.modules?.map((mod: any, i: number) => `${i + 1}. ${mod.title || mod}`).
     // Create folders + lessons if modules exist
     if (parsed.modules && Array.isArray(parsed.modules)) {
       for (const module of parsed.modules) {
-        const moduleSlug = (module.title || 'module')
-          .toLowerCase()
-          .replace(/[^a-z0-9]+/g, '-');
+        const moduleSlug = (module.title || 'module').toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
         if (module.lessons && Array.isArray(module.lessons)) {
           for (const lesson of module.lessons) {
-            const lessonSlug = (lesson.title || lesson)
-              .toLowerCase()
-              .replace(/[^a-z0-9]+/g, '-');
+            const lessonSlug = (lesson.title || lesson).toLowerCase().replace(/[^a-z0-9]+/g, '-');
 
             const lessonContent =
               lesson.content ||
               lesson.html ||
               `# ${lesson.title || lesson}\n\nLesson content here.`;
 
-            await saveFile(
-              `${basePath}/modules/${moduleSlug}/${lessonSlug}.html`,
-              lessonContent
-            );
+            await saveFile(`${basePath}/modules/${moduleSlug}/${lessonSlug}.html`, lessonContent);
           }
         }
       }
@@ -120,17 +100,14 @@ ${parsed.modules?.map((mod: any, i: number) => `${i + 1}. ${mod.title || mod}`).
       path: basePath,
       filesCreated: parsed.modules?.length || 0,
     });
-  } catch (error) { 
-    logger.error(
-      'Build course error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Build course error:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
       {
         error: 'Failed to build course',
         message: toErrorMessage(error),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

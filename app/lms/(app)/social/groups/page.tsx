@@ -3,9 +3,16 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  Users, Search, Plus, Heart, Briefcase, 
-  Wrench, GraduationCap, Globe, ChevronRight
+import {
+  Users,
+  Search,
+  Plus,
+  Heart,
+  Briefcase,
+  Wrench,
+  GraduationCap,
+  Globe,
+  ChevronRight,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -76,8 +83,9 @@ const featuredGroups = [
 export default async function GroupsPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/lms/social/groups');
@@ -101,11 +109,13 @@ export default async function GroupsPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'LMS', href: '/lms/dashboard' },
-            { label: 'Social', href: '/lms/social' },
-            { label: 'Groups' }
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'LMS', href: '/lms/dashboard' },
+              { label: 'Social', href: '/lms/social' },
+              { label: 'Groups' },
+            ]}
+          />
         </div>
       </div>
 
@@ -119,9 +129,7 @@ export default async function GroupsPage() {
               </div>
               <div>
                 <h1 className="text-3xl font-bold">Study Groups</h1>
-                <p className="text-purple-100 mt-1">
-                  Join communities of learners in your field
-                </p>
+                <p className="text-purple-100 mt-1">Join communities of learners in your field</p>
               </div>
             </div>
             <button className="flex items-center gap-2 px-6 py-3 bg-white text-purple-700 rounded-lg hover:bg-purple-50 font-medium">
@@ -129,7 +137,7 @@ export default async function GroupsPage() {
               Create Group
             </button>
           </div>
-          
+
           {/* Search Bar */}
           <div className="mt-8 max-w-2xl">
             <div className="relative">
@@ -149,7 +157,10 @@ export default async function GroupsPage() {
         <div className="bg-white rounded-xl shadow-sm border mb-8">
           <div className="p-6 border-b flex items-center justify-between">
             <h2 className="font-semibold text-slate-900">My Groups</h2>
-            <Link href="/lms/study-groups" className="text-purple-600 hover:text-purple-700 text-sm font-medium">
+            <Link
+              href="/lms/study-groups"
+              className="text-purple-600 hover:text-purple-700 text-sm font-medium"
+            >
               Manage Groups
             </Link>
           </div>
@@ -167,7 +178,9 @@ export default async function GroupsPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="font-medium text-slate-900 truncate">{group.name}</div>
-                      <div className="text-sm text-slate-700">{group.member_count || 0} members</div>
+                      <div className="text-sm text-slate-700">
+                        {group.member_count || 0} members
+                      </div>
                     </div>
                     <ChevronRight className="w-5 h-5 text-slate-700" />
                   </div>
@@ -194,20 +207,36 @@ export default async function GroupsPage() {
                 className="bg-white rounded-xl shadow-sm border p-6 hover:border-purple-300 hover:shadow-md transition-all"
               >
                 <div className="flex items-start gap-4">
-                  <div className={`w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 ${
-                    group.color === 'red' ? 'bg-brand-red-100' :
-                    group.color === 'orange' ? 'bg-brand-orange-100' :
-                    group.color === 'blue' ? 'bg-brand-blue-100' :
-                    group.color === 'purple' ? 'bg-purple-100' :
-                    group.color === 'green' ? 'bg-brand-green-100' : 'bg-indigo-100'
-                  }`}>
-                    <group.icon className={`w-7 h-7 ${
-                      group.color === 'red' ? 'text-brand-red-600' :
-                      group.color === 'orange' ? 'text-brand-orange-600' :
-                      group.color === 'blue' ? 'text-brand-blue-600' :
-                      group.color === 'purple' ? 'text-purple-600' :
-                      group.color === 'green' ? 'text-brand-green-600' : 'text-indigo-600'
-                    }`} />
+                  <div
+                    className={`w-14 h-14 rounded-xl flex items-center justify-center flex-shrink-0 ${
+                      group.color === 'red'
+                        ? 'bg-brand-red-100'
+                        : group.color === 'orange'
+                          ? 'bg-brand-orange-100'
+                          : group.color === 'blue'
+                            ? 'bg-brand-blue-100'
+                            : group.color === 'purple'
+                              ? 'bg-purple-100'
+                              : group.color === 'green'
+                                ? 'bg-brand-green-100'
+                                : 'bg-indigo-100'
+                    }`}
+                  >
+                    <group.icon
+                      className={`w-7 h-7 ${
+                        group.color === 'red'
+                          ? 'text-brand-red-600'
+                          : group.color === 'orange'
+                            ? 'text-brand-orange-600'
+                            : group.color === 'blue'
+                              ? 'text-brand-blue-600'
+                              : group.color === 'purple'
+                                ? 'text-purple-600'
+                                : group.color === 'green'
+                                  ? 'text-brand-green-600'
+                                  : 'text-indigo-600'
+                      }`}
+                    />
                   </div>
                   <div className="flex-1">
                     <h3 className="font-semibold text-slate-900">{group.name}</h3>
@@ -228,8 +257,12 @@ export default async function GroupsPage() {
 
         {/* Create Your Own */}
         <div className="bg-gradient-to-r from-purple-50 to-pink-50 rounded-xl p-8 text-center">
-          <h3 className="text-xl font-semibold text-slate-900 mb-2">Can&apos;t find what you&apos;re looking for?</h3>
-          <p className="text-slate-700 mb-6">Create your own study group and invite others to join!</p>
+          <h3 className="text-xl font-semibold text-slate-900 mb-2">
+            Can&apos;t find what you&apos;re looking for?
+          </h3>
+          <p className="text-slate-700 mb-6">
+            Create your own study group and invite others to join!
+          </p>
           <button className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white rounded-lg hover:bg-purple-700 font-medium">
             <Plus className="w-5 h-5" />
             Create a New Group

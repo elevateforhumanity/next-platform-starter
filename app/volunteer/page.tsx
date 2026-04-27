@@ -51,13 +51,15 @@ export default async function VolunteerPage() {
 
       {/* Hero */}
       <div className="relative h-[40vh] min-h-[300px] flex items-center overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/volunteer-page-1.jpg"
           alt="Volunteer with Elevate"
           fill
           className="object-cover"
           priority
-         sizes="100vw" />
+          sizes="100vw"
+        />
       </div>
 
       <div className="max-w-6xl mx-auto px-4 py-12">
@@ -78,11 +80,14 @@ export default async function VolunteerPage() {
 
         {/* Opportunities */}
         <h2 className="text-2xl font-bold text-slate-900 mb-6">Current Opportunities</h2>
-        
+
         {opportunityList.length > 0 ? (
           <div className="grid md:grid-cols-2 gap-6">
             {opportunityList.map((opp: any) => (
-              <div key={opp.id} className="bg-white rounded-xl border p-6 hover:shadow-lg transition">
+              <div
+                key={opp.id}
+                className="bg-white rounded-xl border p-6 hover:shadow-lg transition"
+              >
                 <div className="flex items-start justify-between mb-4">
                   <div>
                     <h3 className="text-lg font-semibold text-slate-900">{opp.title}</h3>
@@ -128,7 +133,10 @@ export default async function VolunteerPage() {
           <div className="bg-white rounded-xl border p-12 text-center">
             <Users className="w-16 h-16 text-slate-700 mx-auto mb-4" />
             <h3 className="text-xl font-semibold text-slate-900 mb-2">No opportunities listed</h3>
-            <p className="text-slate-700 mb-6">No volunteer opportunities posted yet. Contact us to express your interest and we will reach out when openings are available.</p>
+            <p className="text-slate-700 mb-6">
+              No volunteer opportunities posted yet. Contact us to express your interest and we will
+              reach out when openings are available.
+            </p>
             <Link
               href="/contact"
               className="inline-flex items-center gap-2 px-6 py-3 bg-brand-orange-500 text-white rounded-lg hover:bg-brand-orange-600"
@@ -143,17 +151,42 @@ export default async function VolunteerPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-6 text-center">Volunteer FAQ</h2>
           <div className="space-y-4 max-w-2xl mx-auto">
             {[
-              { q: 'What volunteer opportunities are available?', a: 'We need mentors, guest speakers, mock interview partners, resume reviewers, and event volunteers. Opportunities vary based on current needs.' },
-              { q: 'How much time do I need to commit?', a: 'Commitments vary. Some roles are one-time (guest speaker), others are ongoing (mentor). We work with your schedule.' },
-              { q: 'Do I need specific qualifications?', a: 'It depends on the role. Mentors should have industry experience. Other roles just require enthusiasm and reliability.' },
-              { q: 'Is there a background check?', a: 'Yes, volunteers working directly with students undergo background checks. This is standard for educational organizations.' },
-              { q: 'Can I volunteer remotely?', a: 'Some roles like resume review can be done remotely. Others like mock interviews work best in person. We\'ll match you with appropriate opportunities.' },
+              {
+                q: 'What volunteer opportunities are available?',
+                a: 'We need mentors, guest speakers, mock interview partners, resume reviewers, and event volunteers. Opportunities vary based on current needs.',
+              },
+              {
+                q: 'How much time do I need to commit?',
+                a: 'Commitments vary. Some roles are one-time (guest speaker), others are ongoing (mentor). We work with your schedule.',
+              },
+              {
+                q: 'Do I need specific qualifications?',
+                a: 'It depends on the role. Mentors should have industry experience. Other roles just require enthusiasm and reliability.',
+              },
+              {
+                q: 'Is there a background check?',
+                a: 'Yes, volunteers working directly with students undergo background checks. This is standard for educational organizations.',
+              },
+              {
+                q: 'Can I volunteer remotely?',
+                a: "Some roles like resume review can be done remotely. Others like mock interviews work best in person. We'll match you with appropriate opportunities.",
+              },
             ].map((faq, i) => (
               <details key={i} className="bg-white rounded-xl overflow-hidden shadow-sm group">
                 <summary className="p-4 cursor-pointer font-semibold text-slate-900 flex justify-between items-center">
                   {faq.q}
-                  <svg className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <svg
+                    className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </summary>
                 <div className="px-4 pb-4 text-slate-600">{faq.a}</div>

@@ -29,7 +29,9 @@ export async function GET(request: NextRequest) {
   const db = await getAdminClient();
   const { data, error } = await db
     .from('student_lesson_evidence')
-    .select('id, submission_mode, body_text, file_url, media_url, external_url, status, evaluator_notes, submitted_at, reviewed_at, attempt_number')
+    .select(
+      'id, submission_mode, body_text, file_url, media_url, external_url, status, evaluator_notes, submitted_at, reviewed_at, attempt_number',
+    )
     .eq('user_id', user.id)
     .eq('course_id', courseId)
     .eq('lesson_id', lessonId)
@@ -52,17 +54,24 @@ export async function POST(request: NextRequest) {
   const { user } = auth;
 
   let body: Record<string, any>;
-  try { body = await request.json(); }
-  catch { return safeError('Invalid JSON', 400); }
+  try {
+    body = await request.json();
+  } catch {
+    return safeError('Invalid JSON', 400);
+  }
 
-  const { lesson_id, course_id, submission_mode, body_text, file_url, media_url, external_url } = body;
+  const { lesson_id, course_id, submission_mode, body_text, file_url, media_url, external_url } =
+    body;
 
   if (!lesson_id || !course_id) return safeError('lesson_id and course_id required', 400);
   if (!submission_mode || !VALID_MODES.includes(submission_mode)) {
     return safeError(`submission_mode must be one of: ${VALID_MODES.join(', ')}`, 400);
   }
   if (!body_text?.trim() && !file_url && !media_url && !external_url) {
-    return safeError('At least one of body_text, file_url, media_url, or external_url is required', 400);
+    return safeError(
+      'At least one of body_text, file_url, media_url, or external_url is required',
+      400,
+    );
   }
 
   const db = await getAdminClient();
@@ -86,7 +95,8 @@ export async function POST(request: NextRequest) {
     .maybeSingle();
 
   if (!lesson) return safeError('Lesson not found', 404);
-  if (!lesson.requires_evidence) return safeError('This lesson does not require evidence submission', 400);
+  if (!lesson.requires_evidence)
+    return safeError('This lesson does not require evidence submission', 400);
 
   // Get attempt number
   const { count } = await db
@@ -100,16 +110,16 @@ export async function POST(request: NextRequest) {
   const { data: newEvidence, error: insertErr } = await db
     .from('student_lesson_evidence')
     .insert({
-      user_id:         user.id,
+      user_id: user.id,
       course_id,
       lesson_id,
       submission_mode,
-      body_text:       body_text?.trim() || null,
-      file_url:        file_url || null,
-      media_url:       media_url || null,
-      external_url:    external_url || null,
-      status:          'submitted',
-      attempt_number:  attemptNumber,
+      body_text: body_text?.trim() || null,
+      file_url: file_url || null,
+      media_url: media_url || null,
+      external_url: external_url || null,
+      status: 'submitted',
+      attempt_number: attemptNumber,
     })
     .select()
     .single();

@@ -28,25 +28,30 @@ const ROOT = path.join(__dirname, '..');
 const envPath = path.join(ROOT, '.env.local');
 const env = {};
 if (fs.existsSync(envPath)) {
-  fs.readFileSync(envPath, 'utf8').split('\n').forEach(line => {
-    const m = line.match(/^([^#=]+)=(.*)$/);
-    if (m) env[m[1].trim()] = m[2].trim();
-  });
+  fs.readFileSync(envPath, 'utf8')
+    .split('\n')
+    .forEach((line) => {
+      const m = line.match(/^([^#=]+)=(.*)$/);
+      if (m) env[m[1].trim()] = m[2].trim();
+    });
 }
 const OPENAI_KEY = env.OPENAI_API_KEY || process.env.OPENAI_API_KEY;
-if (!OPENAI_KEY) { console.error('OPENAI_API_KEY not set'); process.exit(1); }
+if (!OPENAI_KEY) {
+  console.error('OPENAI_API_KEY not set');
+  process.exit(1);
+}
 
 const DRY_RUN = process.argv.includes('--dry-run');
-const PHOTO   = path.join(ROOT, 'public/images/instructors/marcus-johnson.jpg');
+const PHOTO = path.join(ROOT, 'public/images/instructors/marcus-johnson.jpg');
 const OUT_DIR = path.join(ROOT, 'public/hvac/videos');
 const TMP_DIR = path.join(ROOT, 'temp/hvac-makeover');
-const FONT_B  = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
-const FONT_R  = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf';
+const FONT_B = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
+const FONT_R = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf';
 
 const LESSONS = [
   {
     defId: 'hvac-01-01',
-    uuid:  '2f172cb2-4657-5460-9b93-f9b062ad8dd2',
+    uuid: '2f172cb2-4657-5460-9b93-f9b062ad8dd2',
     title: 'Welcome to HVAC Technician Training',
     module: 'Module 1 — Program Orientation',
     script: `Welcome to the HVAC Technician Training Program. I'm Marcus Johnson, and I'll be your instructor throughout this course.
@@ -66,7 +71,7 @@ Let's get started.`,
   },
   {
     defId: 'hvac-01-02',
-    uuid:  '96576bf0-cbd5-581f-99aa-f36e48e694fd',
+    uuid: '96576bf0-cbd5-581f-99aa-f36e48e694fd',
     title: 'WIOA Funding & Support Services',
     module: 'Module 1 — Program Orientation',
     script: `This lesson covers WIOA funding — the Workforce Innovation and Opportunity Act — which is the primary funding source for most students in this program.
@@ -84,11 +89,16 @@ For justice-involved individuals, Job Ready Indy provides additional support ser
 Documentation is everything. Keep copies of every document you submit. If your case manager asks for something, get it to them the same day. Missing a documentation deadline is the number one reason students lose funding — not because they were ineligible, but because paperwork was late.
 
 If you have a transportation or childcare emergency that might cause you to miss class, call your case manager before you miss — not after. They have emergency support funds available, but only if you ask in advance.`,
-    keyTerms: ['WIOA — Workforce Innovation Act', 'Workforce Ready Grant (WRG)', 'Individual Training Account', 'WorkOne Case Manager'],
+    keyTerms: [
+      'WIOA — Workforce Innovation Act',
+      'Workforce Ready Grant (WRG)',
+      'Individual Training Account',
+      'WorkOne Case Manager',
+    ],
   },
   {
     defId: 'hvac-01-03',
-    uuid:  '5c5b516c-2e7c-5cae-8231-1f4483c1a912',
+    uuid: '5c5b516c-2e7c-5cae-8231-1f4483c1a912',
     title: 'HVAC Career Pathways',
     module: 'Module 1 — Program Orientation',
     script: `Let's talk about where this career can take you. Understanding the full pathway from day one helps you make better decisions about your training and your first job.
@@ -108,11 +118,16 @@ Now let's talk about specializations. Residential HVAC is the most common entry 
 EPA 608 Universal certification — which you will earn in this program — qualifies you to work on all of these. That's why Universal matters. Type I only covers small appliances. Type II covers high-pressure systems. Type III covers low-pressure systems. Universal means all four sections passed, all equipment types covered.
 
 The job market right now is exceptional. HVAC technicians are in demand everywhere. Employers are actively recruiting graduates from programs like this one. Your job placement starts in Module 16, but the relationships you build with your instructors and employer partners start now.`,
-    keyTerms: ['Apprentice → Journeyman → Master', 'EPA 608 Universal', 'Residential vs Commercial', '8,000 OJT Hours for Journeyman'],
+    keyTerms: [
+      'Apprentice → Journeyman → Master',
+      'EPA 608 Universal',
+      'Residential vs Commercial',
+      '8,000 OJT Hours for Journeyman',
+    ],
   },
   {
     defId: 'hvac-01-04',
-    uuid:  '4097148b-7a06-5784-9807-5e3470d4c091',
+    uuid: '4097148b-7a06-5784-9807-5e3470d4c091',
     title: 'Orientation Quiz',
     module: 'Module 1 — Program Orientation',
     script: `Before we move into the technical content, let's make sure you have the foundation locked in.
@@ -128,11 +143,16 @@ On the career pathway: the four levels are apprentice, journeyman, master, and c
 Take your time on the quiz. Read each question carefully. If you're unsure about something, go back and review the lesson before submitting.
 
 After you pass the orientation quiz, we move into Module 2: HVAC Fundamentals and Safety. That's where the technical training begins.`,
-    keyTerms: ['80% Attendance Minimum', '70% EPA 608 Pass Score', 'Proctored Exam Format', 'ITA — Individual Training Account'],
+    keyTerms: [
+      '80% Attendance Minimum',
+      '70% EPA 608 Pass Score',
+      'Proctored Exam Format',
+      'ITA — Individual Training Account',
+    ],
   },
   {
     defId: 'hvac-02-01',
-    uuid:  'ee8c4e3a-b1c6-51bf-acd5-2836c8b16e56',
+    uuid: 'ee8c4e3a-b1c6-51bf-acd5-2836c8b16e56',
     title: 'How HVAC Systems Work',
     module: 'Module 2 — HVAC Fundamentals & Safety',
     script: `Welcome to Module 2. This lesson covers how HVAC systems work — the fundamental principles that everything else in this program builds on.
@@ -156,14 +176,22 @@ For heating, a gas furnace works differently. The gas valve opens, the igniter l
 Heat pumps can do both heating and cooling. In cooling mode, they work exactly like an air conditioner. In heating mode, they reverse the cycle — the outdoor coil becomes the evaporator, absorbing heat from outdoor air, and the indoor coil becomes the condenser, releasing that heat inside. Heat pumps work efficiently down to about 35 degrees Fahrenheit. Below that, auxiliary electric heat strips kick in.
 
 These four components — compressor, condenser, metering device, evaporator — are on every system you will ever work on. Learn them cold. Everything else in this program builds on this foundation.`,
-    keyTerms: ['Compressor → Condenser → Metering Device → Evaporator', 'Heat Moves Hot to Cold', 'Split System Components', 'Heat Pump Reversing Valve'],
+    keyTerms: [
+      'Compressor → Condenser → Metering Device → Evaporator',
+      'Heat Moves Hot to Cold',
+      'Split System Components',
+      'Heat Pump Reversing Valve',
+    ],
   },
 ];
 
 // ── Helpers ──────────────────────────────────────────────────────────
 
 function run(cmd, opts = {}) {
-  if (DRY_RUN) { console.log('  [dry-run]', cmd.slice(0, 120)); return; }
+  if (DRY_RUN) {
+    console.log('  [dry-run]', cmd.slice(0, 120));
+    return;
+  }
   execSync(cmd, { stdio: 'pipe', ...opts });
 }
 
@@ -194,7 +222,7 @@ function escFF(s) {
   // Escape string for ffmpeg drawtext
   return s
     .replace(/\\/g, '\\\\')
-    .replace(/'/g, "\u2019")
+    .replace(/'/g, '\u2019')
     .replace(/:/g, '\\:')
     .replace(/\[/g, '\\[')
     .replace(/\]/g, '\\]')
@@ -204,7 +232,8 @@ function escFF(s) {
 }
 
 async function buildVideo(lesson, audioPath, outputPath) {
-  const W = 1280, H = 720;
+  const W = 1280,
+    H = 720;
   const photoW = 560; // left panel width
   const panelX = photoW; // right panel starts here
 
@@ -218,7 +247,9 @@ async function buildVideo(lesson, audioPath, outputPath) {
   let filters = [];
 
   // 1. Scale photo to fill left panel (560x720), slight zoom via crop
-  filters.push(`[0:v]scale=${photoW}:${H}:force_original_aspect_ratio=increase,crop=${photoW}:${H}[photo]`);
+  filters.push(
+    `[0:v]scale=${photoW}:${H}:force_original_aspect_ratio=increase,crop=${photoW}:${H}[photo]`,
+  );
 
   // 2. Dark right panel (720x720)
   const panelW = W - photoW;
@@ -236,7 +267,7 @@ async function buildVideo(lesson, audioPath, outputPath) {
   // 6. Draw module label (top of right panel)
   filters.push(
     `[withaccent]drawtext=fontfile='${FONT_R}':text='${escFF(lesson.module)}':` +
-    `fontcolor=0xea580c:fontsize=18:x=${panelX + 32}:y=48[mod]`
+      `fontcolor=0xea580c:fontsize=18:x=${panelX + 32}:y=48[mod]`,
   );
 
   // 7. Draw lesson title (wrapped, bold)
@@ -246,7 +277,7 @@ async function buildVideo(lesson, audioPath, outputPath) {
     const tag = `title${i}`;
     filters.push(
       `[${lastFilter}]drawtext=fontfile='${FONT_B}':text='${escFF(titleLines[i])}':` +
-      `fontcolor=white:fontsize=26:x=${panelX + 32}:y=${yPos}[${tag}]`
+        `fontcolor=white:fontsize=26:x=${panelX + 32}:y=${yPos}[${tag}]`,
     );
     yPos += 36;
     lastFilter = tag;
@@ -255,7 +286,7 @@ async function buildVideo(lesson, audioPath, outputPath) {
   // 8. Divider line
   yPos += 16;
   filters.push(
-    `[${lastFilter}]drawbox=x=${panelX + 32}:y=${yPos}:w=${panelW - 64}:h=1:color=0x334155:t=fill[div]`
+    `[${lastFilter}]drawbox=x=${panelX + 32}:y=${yPos}:w=${panelW - 64}:h=1:color=0x334155:t=fill[div]`,
   );
   yPos += 20;
   lastFilter = 'div';
@@ -263,7 +294,7 @@ async function buildVideo(lesson, audioPath, outputPath) {
   // 9. "KEY TERMS" label
   filters.push(
     `[${lastFilter}]drawtext=fontfile='${FONT_B}':text='KEY TERMS':` +
-    `fontcolor=0x94a3b8:fontsize=14:x=${panelX + 32}:y=${yPos}[kt]`
+      `fontcolor=0x94a3b8:fontsize=14:x=${panelX + 32}:y=${yPos}[kt]`,
   );
   yPos += 28;
   lastFilter = 'kt';
@@ -277,7 +308,7 @@ async function buildVideo(lesson, audioPath, outputPath) {
       const color = j === 0 ? 'white' : '0xcbd5e1';
       filters.push(
         `[${lastFilter}]drawtext=fontfile='${j === 0 ? FONT_B : FONT_R}':text='${escFF(termLines[j])}':` +
-        `fontcolor=${color}:fontsize=18:x=${panelX + 32}:y=${yPos}[${subTag}]`
+          `fontcolor=${color}:fontsize=18:x=${panelX + 32}:y=${yPos}[${subTag}]`,
       );
       yPos += 26;
       lastFilter = subTag;
@@ -288,15 +319,15 @@ async function buildVideo(lesson, audioPath, outputPath) {
   // 11. Lower-third name bar on photo side
   // Semi-transparent dark bar
   filters.push(
-    `[${lastFilter}]drawbox=x=0:y=${H - 80}:w=${photoW}:h=80:color=0x0f172a@0.85:t=fill[namebg]`
+    `[${lastFilter}]drawbox=x=0:y=${H - 80}:w=${photoW}:h=80:color=0x0f172a@0.85:t=fill[namebg]`,
   );
   filters.push(
     `[namebg]drawtext=fontfile='${FONT_B}':text='Marcus Johnson':` +
-    `fontcolor=white:fontsize=20:x=20:y=${H - 58}[name]`
+      `fontcolor=white:fontsize=20:x=20:y=${H - 58}[name]`,
   );
   filters.push(
     `[name]drawtext=fontfile='${FONT_R}':text='HVAC Instructor':` +
-    `fontcolor=0xea580c:fontsize=15:x=20:y=${H - 34}[final]`
+      `fontcolor=0xea580c:fontsize=15:x=20:y=${H - 34}[final]`,
   );
 
   const filterStr = filters.join(';');
@@ -356,10 +387,9 @@ async function main() {
     process.stdout.write('  → Generating TTS audio...');
     if (!DRY_RUN) {
       await generateTTS(lesson.script, audioPath);
-      const dur = execSync(
-        `ffprobe -v quiet -print_format json -show_format "${audioPath}"`,
-        { encoding: 'utf8' }
-      );
+      const dur = execSync(`ffprobe -v quiet -print_format json -show_format "${audioPath}"`, {
+        encoding: 'utf8',
+      });
       const secs = parseFloat(JSON.parse(dur).format?.duration || '0');
       console.log(` ${Math.round(secs)}s`);
     } else {
@@ -380,4 +410,7 @@ async function main() {
   console.log('\n✅ Done.');
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e);
+  process.exit(1);
+});

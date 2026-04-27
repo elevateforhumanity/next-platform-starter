@@ -28,8 +28,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'business-startup-marketing',
     name: 'Business Start-Up & Marketing Program',
     tagline: 'Launch your own business with Rise Forward',
-    description: 'The Business Start-Up & Marketing Program with Rise Forward equips participants with hands-on skills to launch their own business ventures. Students will learn the fundamentals of entrepreneurship, digital marketing, LLC formation, business planning, customer service, and resume development. The program includes guided startup support, mentorship, and ends with a business match stipend and laptop kit to empower real-world implementation. Ideal for youth ready to explore self-employment and leadership pathways in today\'s economy.',
-    summary: 'Learn entrepreneurship, digital marketing, LLC formation, and business planning with mentorship and startup support.',
+    description:
+      "The Business Start-Up & Marketing Program with Rise Forward equips participants with hands-on skills to launch their own business ventures. Students will learn the fundamentals of entrepreneurship, digital marketing, LLC formation, business planning, customer service, and resume development. The program includes guided startup support, mentorship, and ends with a business match stipend and laptop kit to empower real-world implementation. Ideal for youth ready to explore self-employment and leadership pathways in today's economy.",
+    summary:
+      'Learn entrepreneurship, digital marketing, LLC formation, and business planning with mentorship and startup support.',
     bullets: [
       '5-week accelerated program',
       '32 instructional hours (8 hours/week)',
@@ -38,7 +40,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Business match stipend + laptop kit',
       'Resume development and professional branding',
       '100% online, flexible schedule',
-      'Open to youth ages 16+'
+      'Open to youth ages 16+',
     ],
     funding: ['WIOA', 'WRG'],
     duration: '5 Weeks • 32 Hours',
@@ -49,7 +51,8 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'emergency-health-safety-tech',
     name: 'Emergency Health & Safety Technician',
     tagline: 'Life-saving skills through DOL Federally Registered Apprenticeship',
-    description: 'The Emergency Health & Safety Technician is a DOL Federally Registered Apprenticeship that prepares individuals for life-saving response roles in schools, workplaces and emergency settings. This hybrid (time-based and competency-based) apprenticeship includes CPR, OSHA 10, and Emergency Medical Responder (EMR) training. Students graduate with nationally recognized certifications and are equipped for careers in healthcare, public safety, community response, and entry-level emergency technician pathways.',
+    description:
+      'The Emergency Health & Safety Technician is a DOL Federally Registered Apprenticeship that prepares individuals for life-saving response roles in schools, workplaces and emergency settings. This hybrid (time-based and competency-based) apprenticeship includes CPR, OSHA 10, and Emergency Medical Responder (EMR) training. Students graduate with nationally recognized certifications and are equipped for careers in healthcare, public safety, community response, and entry-level emergency technician pathways.',
     summary: 'Earn OSHA 10, CPR, and EMR certifications in 4-week DOL Registered Apprenticeship.',
     bullets: [
       'DOL Federally Registered Apprenticeship',
@@ -61,7 +64,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Earn Emergency Medical Responder (EMR) certification',
       'Public health emergency awareness',
       'High school diploma or GED required',
-      'Day, evening, weekend, and online options'
+      'Day, evening, weekend, and online options',
     ],
     funding: ['WIOA', 'WRG', 'Apprenticeship'],
     duration: '4 Weeks • 80 Hours',
@@ -72,8 +75,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'hvac-technician',
     name: 'HVAC Technician',
     tagline: 'DOL Federally Registered Apprenticeship in HVAC',
-    description: 'The HVAC Technician program is a DOL Federally Registered Apprenticeship that provides comprehensive training in heating, ventilation, air conditioning, and refrigeration systems. This hybrid (time-based and competency-based) apprenticeship includes 50 weeks of Related Technical Instruction combined with on-the-job training. Students earn multiple industry-recognized certifications including CPR, Rise Up Credential, OSHA 30, and two Residential HVAC Certifications.',
-    summary: 'Earn 5 certifications in DOL Registered HVAC Apprenticeship with 10 active apprentices.',
+    description:
+      'The HVAC Technician program is a DOL Federally Registered Apprenticeship that provides comprehensive training in heating, ventilation, air conditioning, and refrigeration systems. This hybrid (time-based and competency-based) apprenticeship includes 50 weeks of Related Technical Instruction combined with on-the-job training. Students earn multiple industry-recognized certifications including CPR, Rise Up Credential, OSHA 30, and two Residential HVAC Certifications.',
+    summary:
+      'Earn 5 certifications in DOL Registered HVAC Apprenticeship with 10 active apprentices.',
     bullets: [
       'DOL Federally Registered Apprenticeship',
       '50 weeks of Related Technical Instruction (RTI)',
@@ -84,7 +89,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Earn OSHA 30 certification',
       'Earn Residential HVAC Certification 1',
       'Earn Residential HVAC Certification 2 - Refrigeration Diagnostics',
-      'No prerequisites'
+      'No prerequisites',
     ],
     funding: ['WIOA', 'WRG', 'Apprenticeship'],
     duration: '50 Weeks • 125 Hours RTI',
@@ -95,8 +100,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'direct-support-professional',
     name: 'Direct Support Professional (DSP)',
     tagline: 'Compassionate care for individuals with developmental needs',
-    description: 'Our Direct Support Professional (DSP) training program is built to prepare compassionate individuals for meaningful work in the care and support field. This program offers hands-on instruction, real-world scenarios, and practical skills that help students feel confident working with individuals who have developmental, physical, or emotional needs.',
-    summary: 'Prepare for a rewarding career supporting individuals with developmental, physical, or emotional needs.',
+    description:
+      'Our Direct Support Professional (DSP) training program is built to prepare compassionate individuals for meaningful work in the care and support field. This program offers hands-on instruction, real-world scenarios, and practical skills that help students feel confident working with individuals who have developmental, physical, or emotional needs.',
+    summary:
+      'Prepare for a rewarding career supporting individuals with developmental, physical, or emotional needs.',
     bullets: [
       'Rolling enrollment - start anytime',
       'Cohorts begin 1st and 15th of each month',
@@ -105,7 +112,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Must be 18+ with high school diploma or GED',
       'Background check required',
       'Job placement assistance included',
-      'CDSP, CNA, or QIDP pathway'
+      'CDSP, CNA, or QIDP pathway',
     ],
     funding: ['WIOA', 'WRG'],
     duration: 'Rolling Enrollment',
@@ -116,8 +123,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'professional-esthetician',
     name: 'Professional Esthetician & Client Services',
     tagline: 'Job-ready skincare and spa skills through DOL Federally Registered Apprenticeship',
-    description: 'The Esthetics and Skincare Specialist Certificate Program is a DOL Federally Registered Apprenticeship that prepares individuals to enter the high-demand personal care industry with job-ready skills in skin analysis, facial treatments, hair removal, sanitation, customer service, and product knowledge. This RAPIDS-verified program offers traditional wrap around support including career readiness, business startup training, wellness coaching and access to employer networks.',
-    summary: 'Master skincare, facial treatments, and client services in 5 weeks through DOL Registered Apprenticeship.',
+    description:
+      'The Esthetics and Skincare Specialist Certificate Program is a DOL Federally Registered Apprenticeship that prepares individuals to enter the high-demand personal care industry with job-ready skills in skin analysis, facial treatments, hair removal, sanitation, customer service, and product knowledge. This RAPIDS-verified program offers traditional wrap around support including career readiness, business startup training, wellness coaching and access to employer networks.',
+    summary:
+      'Master skincare, facial treatments, and client services in 5 weeks through DOL Registered Apprenticeship.',
     bullets: [
       'DOL Federally Registered Apprenticeship',
       '5-week program (4 weeks RTI)',
@@ -128,7 +137,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Business of Retail Certified Specialist',
       'Skin analysis and facial treatments',
       'Career readiness and business startup training',
-      'No prerequisites - all ages welcome'
+      'No prerequisites - all ages welcome',
     ],
     funding: ['WIOA', 'WRG', 'Apprenticeship'],
     duration: '5 Weeks • 60 Hours',
@@ -139,8 +148,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'tax-prep-financial-services',
     name: 'Tax Preparation & Financial Services Certificate',
     tagline: 'State-Approved Earn and Learn Program with IRS VITA/TCE certification',
-    description: 'The Tax Preparation & Financial Services Certificate is a State-Approved Earn and Learn Program (approved 2025-10-01) that prepares individuals to understand federal and state taxation concepts and apply them in real-world settings. Students earn QuickBooks Pro Advisor and Microsoft 365 Fundamentals certifications, plus the Rise Up Credential. Graduates gain the skills required for employment as Tax Preparers, Bookkeeping Assistants, and Financial Service Specialists.',
-    summary: 'Earn IRS VITA/TCE, QuickBooks, Microsoft 365, and Rise Up certifications in State-Approved Earn and Learn Program.',
+    description:
+      'The Tax Preparation & Financial Services Certificate is a State-Approved Earn and Learn Program (approved 2025-10-01) that prepares individuals to understand federal and state taxation concepts and apply them in real-world settings. Students earn QuickBooks Pro Advisor and Microsoft 365 Fundamentals certifications, plus the Rise Up Credential. Graduates gain the skills required for employment as Tax Preparers, Bookkeeping Assistants, and Financial Service Specialists.',
+    summary:
+      'Earn IRS VITA/TCE, QuickBooks, Microsoft 365, and Rise Up certifications in State-Approved Earn and Learn Program.',
     bullets: [
       'State-Approved Earn and Learn Program (approved 2025-10-01)',
       '10-week comprehensive program',
@@ -151,7 +162,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'IRS VITA/TCE certification included',
       'Federal and state tax law training',
       'Supervised practicum at IRS-approved VITA site',
-      'High school diploma or GED required'
+      'High school diploma or GED required',
     ],
     funding: ['WIOA', 'WRG', 'Earn and Learn'],
     duration: '10 Weeks • 150 Hours',
@@ -162,8 +173,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'public-safety-reentry-specialist',
     name: 'Public Safety Reentry Specialist Program',
     tagline: 'Career pathways for justice-involved individuals',
-    description: 'This program directly supports the critical shortage in Indiana\'s behavioral health, reentry, and public safety workforce by training Peer Recovery Specialists with a trauma-informed lens. Aligned with O*NET Code 21-1093.00 (Social and Human Service Assistants), this certification-based program prepares justice-impacted individuals and others to provide frontline recovery, crisis response, and peer coaching services.',
-    summary: 'Trauma-informed Peer Recovery Specialist training for justice-impacted individuals and reentry professionals.',
+    description:
+      "This program directly supports the critical shortage in Indiana's behavioral health, reentry, and public safety workforce by training Peer Recovery Specialists with a trauma-informed lens. Aligned with O*NET Code 21-1093.00 (Social and Human Service Assistants), this certification-based program prepares justice-impacted individuals and others to provide frontline recovery, crisis response, and peer coaching services.",
+    summary:
+      'Trauma-informed Peer Recovery Specialist training for justice-impacted individuals and reentry professionals.',
     bullets: [
       '45-day intensive program',
       '180 instructional hours (15 hours/week)',
@@ -173,7 +186,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Crisis response and peer navigation',
       'No prior credential required',
       '100% online with tutoring support',
-      '100% acceptance rate for eligible applicants'
+      '100% acceptance rate for eligible applicants',
     ],
     funding: ['WIOA', 'JRI'],
     duration: '45 Days • 180 Hours',
@@ -184,7 +197,8 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'barber-apprenticeship',
     name: 'Barber Apprenticeship Program',
     tagline: 'Master barbering through DOL Federally Registered Apprenticeship',
-    description: 'The Barber Apprenticeship Program is a comprehensive 2,000-hour DOL Federally Registered Apprenticeship that combines 12 weeks of instructional training with extensive on-the-job training. Students learn cutting, styling, shaving, sanitation, and business skills in a real barbershop environment. This RAPIDS-verified apprenticeship prepares participants for Indiana Registered Barber License.',
+    description:
+      'The Barber Apprenticeship Program is a comprehensive 2,000-hour DOL Federally Registered Apprenticeship that combines 12 weeks of instructional training with extensive on-the-job training. Students learn cutting, styling, shaving, sanitation, and business skills in a real barbershop environment. This RAPIDS-verified apprenticeship prepares participants for Indiana Registered Barber License.',
     summary: 'Earn while you learn in a 2,000-hour DOL Federally Registered Apprenticeship.',
     bullets: [
       'DOL Federally Registered Apprenticeship',
@@ -196,7 +210,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'RAPIDS-verified apprenticeship',
       'Pathway to Indiana Registered Barber License',
       'Earn while you learn',
-      'Shop ownership pathway'
+      'Shop ownership pathway',
     ],
     funding: ['WIOA', 'WRG', 'Apprenticeship'],
     duration: '2,000 Hours • 12 Weeks + OJT',
@@ -207,7 +221,8 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'beauty-career-educator',
     name: 'Beauty & Career Educator Training Program',
     tagline: 'Develop career-ready, technical, and leadership skills in beauty education',
-    description: 'The Beauty & Career Educator Training Program is a 12-week hybrid training experience designed to help aspiring beauty professionals and peer educators develop career-ready, technical, and leadership skills. Participants earn a nationally recognized Rise Up Credential, a Career Readiness Certificate, and a custom Certificate of Completion. Designed for youth and adults ages 16+.',
+    description:
+      'The Beauty & Career Educator Training Program is a 12-week hybrid training experience designed to help aspiring beauty professionals and peer educators develop career-ready, technical, and leadership skills. Participants earn a nationally recognized Rise Up Credential, a Career Readiness Certificate, and a custom Certificate of Completion. Designed for youth and adults ages 16+.',
     summary: 'Earn Rise Up Credential + Career Readiness Certificate in 12 weeks.',
     bullets: [
       '12-week hybrid training program',
@@ -219,7 +234,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Rise Up Credential (nationally recognized)',
       'Career Readiness Certificate',
       'Ages 16+ welcome',
-      'CIP Code 13.1326 eligible'
+      'CIP Code 13.1326 eligible',
     ],
     funding: ['WIOA', 'WRG'],
     duration: '12 Weeks',
@@ -230,7 +245,8 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'certified-peer-support-professional',
     name: 'Certified Peer Support Professional',
     tagline: 'Support others through lived experience',
-    description: 'The Certified Peer Support Professional program trains individuals with lived experience in mental health or substance use recovery to provide peer support services. This certification is recognized by behavioral health agencies, hospitals, and community organizations. Participants learn recovery principles, ethical boundaries, trauma-informed care, and advocacy skills.',
+    description:
+      'The Certified Peer Support Professional program trains individuals with lived experience in mental health or substance use recovery to provide peer support services. This certification is recognized by behavioral health agencies, hospitals, and community organizations. Participants learn recovery principles, ethical boundaries, trauma-informed care, and advocacy skills.',
     summary: 'Become a certified peer support professional and help others in recovery.',
     bullets: [
       'Certification for lived experience professionals',
@@ -242,7 +258,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Hospital and community organization placement',
       'No prior healthcare degree required',
       'Lived experience valued',
-      'Career pathway in behavioral health'
+      'Career pathway in behavioral health',
     ],
     funding: ['WIOA', 'JRI'],
     duration: '6-8 Weeks',
@@ -253,7 +269,8 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'certified-peer-recovery-coach',
     name: 'Certified Peer Recovery Coach (CPRC)',
     tagline: 'Guide others on their recovery journey',
-    description: 'The Certified Peer Recovery Coach (CPRC) credential prepares individuals to provide recovery coaching services in substance use and mental health settings. This certification is recognized nationally and qualifies graduates to work in treatment centers, recovery housing, hospitals, and community programs. Training covers motivational interviewing, recovery capital, relapse prevention, and ethical practice.',
+    description:
+      'The Certified Peer Recovery Coach (CPRC) credential prepares individuals to provide recovery coaching services in substance use and mental health settings. This certification is recognized nationally and qualifies graduates to work in treatment centers, recovery housing, hospitals, and community programs. Training covers motivational interviewing, recovery capital, relapse prevention, and ethical practice.',
     summary: 'Earn your CPRC credential and make a difference in recovery services.',
     bullets: [
       'Nationally recognized CPRC credential',
@@ -265,7 +282,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Treatment center placement',
       'Recovery housing opportunities',
       'Hospital and community program roles',
-      'Justice-involved individuals welcome'
+      'Justice-involved individuals welcome',
     ],
     funding: ['WIOA', 'JRI'],
     duration: '45 Days • 180 Hours',
@@ -276,7 +293,8 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'cpr-certification',
     name: 'CPR Certification',
     tagline: 'Life-saving skills in one day',
-    description: 'CPR Certification provides essential life-saving skills through American Heart Association or Red Cross training. This standalone certification is required for many healthcare, childcare, fitness, and public safety positions. Participants learn adult, child, and infant CPR, AED use, and choking relief. Certification is valid for 2 years.',
+    description:
+      'CPR Certification provides essential life-saving skills through American Heart Association or Red Cross training. This standalone certification is required for many healthcare, childcare, fitness, and public safety positions. Participants learn adult, child, and infant CPR, AED use, and choking relief. Certification is valid for 2 years.',
     summary: 'Get CPR/AED certified in one day.',
     bullets: [
       'American Heart Association or Red Cross certified',
@@ -288,7 +306,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Public safety certification',
       '2-year certification validity',
       'One-day training',
-      'Recertification available'
+      'Recertification available',
     ],
     funding: ['Self-Pay', 'Employer Sponsored'],
     duration: '1 Day • 4-8 Hours',
@@ -299,7 +317,8 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'certified-community-healthcare-worker',
     name: 'Certified Community Healthcare Worker (CCHW)',
     tagline: 'Bridge healthcare gaps in your community',
-    description: 'The Certified Community Healthcare Worker (CCHW) program trains individuals to serve as liaisons between healthcare providers and communities. CHWs help patients navigate the healthcare system, provide health education, connect people to resources, and advocate for community health needs. This certification is increasingly recognized by hospitals, clinics, and public health departments.',
+    description:
+      'The Certified Community Healthcare Worker (CCHW) program trains individuals to serve as liaisons between healthcare providers and communities. CHWs help patients navigate the healthcare system, provide health education, connect people to resources, and advocate for community health needs. This certification is increasingly recognized by hospitals, clinics, and public health departments.',
     summary: 'Become a certified community healthcare worker and improve health outcomes.',
     bullets: [
       'Liaison between healthcare providers and communities',
@@ -311,7 +330,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Public health department opportunities',
       'Cultural competency training',
       'No prior healthcare degree required',
-      'Community-focused career pathway'
+      'Community-focused career pathway',
     ],
     funding: ['WIOA', 'WRG'],
     duration: '8-12 Weeks',
@@ -322,7 +341,8 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'rise-up-certificate',
     name: 'Rise Up Certificate',
     tagline: 'Foundational skills for career success with Job Ready Indy',
-    description: 'The Rise Up Certificate program provides foundational skills for individuals entering or re-entering the workforce. This program covers digital literacy, professional communication, workplace readiness, financial literacy, and personal wellness. Students also complete the Job Ready Indy (JRI) 6-badge series through EmployIndy, earning a nationally recognized workforce readiness credential.',
+    description:
+      'The Rise Up Certificate program provides foundational skills for individuals entering or re-entering the workforce. This program covers digital literacy, professional communication, workplace readiness, financial literacy, and personal wellness. Students also complete the Job Ready Indy (JRI) 6-badge series through EmployIndy, earning a nationally recognized workforce readiness credential.',
     summary: 'Build foundational skills and earn Job Ready Indy credential.',
     bullets: [
       'Foundational workforce readiness skills',
@@ -334,7 +354,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Includes Job Ready Indy (JRI) 6-badge series',
       'Nationally recognized credential',
       'EmployIndy JRI Facilitator: Elevate for Humanity',
-      'Pathway to further training or employment'
+      'Pathway to further training or employment',
     ],
     funding: ['WIOA', 'JRI'],
     duration: '4-6 Weeks',
@@ -345,7 +365,8 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'osha-10-certification',
     name: 'OSHA 10 Certification',
     tagline: 'Essential workplace safety training',
-    description: 'OSHA 10-Hour General Industry certification provides foundational knowledge of workplace safety and health hazards. This certification is required or preferred for many construction, manufacturing, healthcare, and service industry positions. Participants learn hazard recognition, fall protection, electrical safety, personal protective equipment (PPE), and emergency response. The certification is valid and recognized nationwide.',
+    description:
+      'OSHA 10-Hour General Industry certification provides foundational knowledge of workplace safety and health hazards. This certification is required or preferred for many construction, manufacturing, healthcare, and service industry positions. Participants learn hazard recognition, fall protection, electrical safety, personal protective equipment (PPE), and emergency response. The certification is valid and recognized nationwide.',
     summary: 'Get OSHA 10 certified and meet employer safety requirements.',
     bullets: [
       'OSHA 10-Hour General Industry certification',
@@ -357,7 +378,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Required for many industry positions',
       'Nationally recognized certification',
       'Valid for career advancement',
-      'Included in Beauty & Career Educator program'
+      'Included in Beauty & Career Educator program',
     ],
     funding: ['WIOA', 'WRG'],
     duration: '10 Hours • 2 Days',
@@ -368,8 +389,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'cna-certification',
     name: 'Certified Nursing Assistant (CNA)',
     tagline: 'Start your healthcare career in 4-6 weeks',
-    description: 'The Certified Nursing Assistant (CNA) program prepares students for entry-level positions in healthcare facilities. This comprehensive training includes classroom instruction, hands-on lab practice, and clinical experience in real healthcare settings. Students learn patient care, vital signs, infection control, and communication skills. Upon completion, graduates are eligible to take the state certification exam.',
-    summary: 'Become a Certified Nursing Assistant with hands-on training and clinical experience in 4-6 weeks.',
+    description:
+      'The Certified Nursing Assistant (CNA) program prepares students for entry-level positions in healthcare facilities. This comprehensive training includes classroom instruction, hands-on lab practice, and clinical experience in real healthcare settings. Students learn patient care, vital signs, infection control, and communication skills. Upon completion, graduates are eligible to take the state certification exam.',
+    summary:
+      'Become a Certified Nursing Assistant with hands-on training and clinical experience in 4-6 weeks.',
     bullets: [
       '4-6 week accelerated program',
       '120+ hours of instruction',
@@ -380,7 +403,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Infection control and safety protocols',
       'High school diploma or GED required',
       'Background check and drug screening required',
-      'Day and evening classes available'
+      'Day and evening classes available',
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '4-6 Weeks • 120+ Hours',
@@ -391,8 +414,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'building-maintenance-tech',
     name: 'Building Maintenance Technician',
     tagline: 'Essential skills for property maintenance careers',
-    description: 'The Building Maintenance Technician program provides comprehensive training in property maintenance, repair, and facility operations. Students learn electrical basics, plumbing, HVAC fundamentals, carpentry, painting, and general building systems. This program prepares graduates for positions in apartment complexes, commercial buildings, schools, and property management companies.',
-    summary: 'Learn essential maintenance skills for careers in property management and facility operations.',
+    description:
+      'The Building Maintenance Technician program provides comprehensive training in property maintenance, repair, and facility operations. Students learn electrical basics, plumbing, HVAC fundamentals, carpentry, painting, and general building systems. This program prepares graduates for positions in apartment complexes, commercial buildings, schools, and property management companies.',
+    summary:
+      'Learn essential maintenance skills for careers in property management and facility operations.',
     bullets: [
       '6-8 week comprehensive program',
       'Electrical and plumbing basics',
@@ -403,7 +428,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Tool safety and usage',
       'OSHA 10 certification included',
       'Hands-on training in real facilities',
-      'Job placement assistance'
+      'Job placement assistance',
     ],
     funding: ['WIOA', 'WRG'],
     duration: '6-8 Weeks • 160 Hours',
@@ -412,9 +437,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
   },
   {
     slug: 'cdl-training',
-    name: 'Commercial Driver\'s License (CDL) Training',
+    name: "Commercial Driver's License (CDL) Training",
     tagline: 'Launch your trucking career with Class A CDL',
-    description: 'Our CDL Training program prepares students for careers in commercial trucking. This comprehensive program includes classroom instruction on DOT regulations, vehicle inspection, and safety, plus extensive behind-the-wheel training. Students learn to operate tractor-trailers, perform pre-trip inspections, and master backing maneuvers. Graduates are prepared to pass the CDL Class A exam and begin earning immediately.',
+    description:
+      'Our CDL Training program prepares students for careers in commercial trucking. This comprehensive program includes classroom instruction on DOT regulations, vehicle inspection, and safety, plus extensive behind-the-wheel training. Students learn to operate tractor-trailers, perform pre-trip inspections, and master backing maneuvers. Graduates are prepared to pass the CDL Class A exam and begin earning immediately.',
     summary: 'Get your Class A CDL and start a high-paying trucking career in 4-6 weeks.',
     bullets: [
       '4-6 week intensive program',
@@ -424,9 +450,9 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Behind-the-wheel instruction',
       'Backing and maneuvering practice',
       'Road test preparation',
-      'Valid driver\'s license required',
+      "Valid driver's license required",
       'Must pass DOT physical',
-      'Job placement assistance with carriers'
+      'Job placement assistance with carriers',
     ],
     funding: ['WIOA', 'WRG', 'Carrier Sponsorship'],
     duration: '4-6 Weeks • 160+ Hours',
@@ -437,8 +463,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'customer-service-retail-nrf',
     name: 'Customer Service & Retail (NRF RISE Up)',
     tagline: 'Build essential retail and customer service skills',
-    description: 'The NRF RISE Up Customer Service & Retail program provides foundational training for careers in retail, hospitality, and customer-facing roles. Developed by the National Retail Federation, this program covers customer engagement, sales techniques, inventory management, point-of-sale systems, and workplace professionalism. Students earn a nationally recognized credential valued by employers across industries.',
-    summary: 'Earn NRF RISE Up credential with essential skills for retail and customer service careers.',
+    description:
+      'The NRF RISE Up Customer Service & Retail program provides foundational training for careers in retail, hospitality, and customer-facing roles. Developed by the National Retail Federation, this program covers customer engagement, sales techniques, inventory management, point-of-sale systems, and workplace professionalism. Students earn a nationally recognized credential valued by employers across industries.',
+    summary:
+      'Earn NRF RISE Up credential with essential skills for retail and customer service careers.',
     bullets: [
       '40-60 hours of online training',
       'Self-paced learning modules',
@@ -449,7 +477,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Workplace professionalism',
       'NRF RISE Up credential',
       'Nationally recognized certification',
-      'No prerequisites required'
+      'No prerequisites required',
     ],
     funding: ['WIOA', 'WRG', 'Free through partnership'],
     duration: '4-6 Weeks • 40-60 Hours',
@@ -466,8 +494,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'microsoft-office-mos',
     name: 'Microsoft Office Specialist (MOS)',
     tagline: 'Master Microsoft Office and earn industry certification',
-    description: 'The Microsoft Office Specialist (MOS) program provides comprehensive training in Microsoft Word, Excel, PowerPoint, and Outlook. Students learn essential business software skills through hands-on practice and real-world projects. Upon completion, students are prepared to take MOS certification exams, earning credentials recognized by employers worldwide. This program is essential for administrative, office, and business support roles.',
-    summary: 'Earn Microsoft Office Specialist certifications in Word, Excel, PowerPoint, and Outlook.',
+    description:
+      'The Microsoft Office Specialist (MOS) program provides comprehensive training in Microsoft Word, Excel, PowerPoint, and Outlook. Students learn essential business software skills through hands-on practice and real-world projects. Upon completion, students are prepared to take MOS certification exams, earning credentials recognized by employers worldwide. This program is essential for administrative, office, and business support roles.',
+    summary:
+      'Earn Microsoft Office Specialist certifications in Word, Excel, PowerPoint, and Outlook.',
     bullets: [
       '6-8 week program',
       'Microsoft Word certification prep',
@@ -478,7 +508,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'MOS certification exams included',
       'Globally recognized credentials',
       'Essential for office careers',
-      'Online and in-person options'
+      'Online and in-person options',
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '6-8 Weeks • 80 Hours',
@@ -489,8 +519,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'cpr-first-aid-hsi',
     name: 'CPR & First Aid (HSI)',
     tagline: 'Life-saving skills for healthcare and safety careers',
-    description: 'The CPR & First Aid program through Health & Safety Institute (HSI) provides essential emergency response training. Students learn CPR for adults, children, and infants, AED operation, choking relief, and basic first aid. This certification is required for many healthcare, childcare, and safety positions. The course includes hands-on practice with manikins and AED trainers.',
-    summary: 'Earn HSI CPR and First Aid certifications required for healthcare and safety careers.',
+    description:
+      'The CPR & First Aid program through Health & Safety Institute (HSI) provides essential emergency response training. Students learn CPR for adults, children, and infants, AED operation, choking relief, and basic first aid. This certification is required for many healthcare, childcare, and safety positions. The course includes hands-on practice with manikins and AED trainers.',
+    summary:
+      'Earn HSI CPR and First Aid certifications required for healthcare and safety careers.',
     bullets: [
       '1-day intensive training',
       '4-8 hours of instruction',
@@ -501,7 +533,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Hands-on practice with equipment',
       'HSI certification cards',
       'Valid for 2 years',
-      'Required for many healthcare jobs'
+      'Required for many healthcare jobs',
     ],
     funding: ['WIOA', 'WRG', 'Employer Sponsored'],
     duration: '1 Day • 4-8 Hours',
@@ -509,7 +541,8 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     etplApproved: true,
     partnerName: 'Health & Safety Institute (HSI)',
     partnerUrl: 'https://hsi.com',
-    partnerLoginUrl: 'https://hsi.com/solutions/cpr-aed-first-aid-training/elevate-for-humanity-career-training-org-nts-class-sign-up',
+    partnerLoginUrl:
+      'https://hsi.com/solutions/cpr-aed-first-aid-training/elevate-for-humanity-career-training-org-nts-class-sign-up',
     certificateUploadEnabled: true,
     cipCode: '51.0904',
     socCode: '29-2099.00',
@@ -518,7 +551,8 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'osha-30-careersafe',
     name: 'OSHA 30-Hour (CareerSafe)',
     tagline: 'Advanced workplace safety certification',
-    description: 'The OSHA 30-Hour Safety Training through CareerSafe provides comprehensive workplace safety education for supervisors and workers in construction or general industry. This DOL-authorized program covers hazard recognition, accident prevention, safety regulations, and emergency response. Students earn an OSHA 30-Hour card upon completion, demonstrating advanced safety knowledge valued by employers.',
+    description:
+      'The OSHA 30-Hour Safety Training through CareerSafe provides comprehensive workplace safety education for supervisors and workers in construction or general industry. This DOL-authorized program covers hazard recognition, accident prevention, safety regulations, and emergency response. Students earn an OSHA 30-Hour card upon completion, demonstrating advanced safety knowledge valued by employers.',
     summary: 'Earn OSHA 30-Hour certification for advanced workplace safety and supervisory roles.',
     bullets: [
       '30 hours of online training',
@@ -530,7 +564,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Safety management principles',
       'DOL-authorized CareerSafe training',
       'OSHA 30-Hour card upon completion',
-      'Required for many supervisory positions'
+      'Required for many supervisory positions',
     ],
     funding: ['WIOA', 'WRG', 'Employer Sponsored'],
     duration: '30 Hours • 1-2 Weeks',
@@ -546,7 +580,8 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'cybersecurity-analyst',
     name: 'Cybersecurity Analyst',
     tagline: 'Launch your career in cybersecurity',
-    description: 'The Cybersecurity Fundamentals program provides entry-level training in information security, network defense, and cyber threat awareness. Students learn security principles, risk management, encryption, firewalls, and incident response. This program prepares graduates for entry-level cybersecurity positions and provides a foundation for advanced certifications like Certiport IT Specialist — Cybersecurity.',
+    description:
+      'The Cybersecurity Fundamentals program provides entry-level training in information security, network defense, and cyber threat awareness. Students learn security principles, risk management, encryption, firewalls, and incident response. This program prepares graduates for entry-level cybersecurity positions and provides a foundation for advanced certifications like Certiport IT Specialist — Cybersecurity.',
     summary: 'Build foundational cybersecurity skills for entry-level IT security careers.',
     bullets: [
       '8-12 week program',
@@ -558,7 +593,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Security policies and compliance',
       'Hands-on lab exercises',
       'Certiport IT Specialist — Cybersecurity exam prep',
-      'Career coaching and job placement'
+      'Career coaching and job placement',
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '8-12 Weeks • 120 Hours',
@@ -569,8 +604,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'it-help-desk',
     name: 'IT Help Desk Technician',
     tagline: 'Start your IT career with hands-on training',
-    description: 'The IT Support Specialist program prepares students for entry-level positions in technical support and help desk roles. Training covers computer hardware, operating systems, networking basics, troubleshooting, and customer service. Students gain hands-on experience with real equipment and scenarios. Graduates are prepared for Certiport IT Specialist certification and immediate employment in IT support.',
-    summary: 'Become an IT Support Specialist with Certiport IT Specialist certification preparation.',
+    description:
+      'The IT Support Specialist program prepares students for entry-level positions in technical support and help desk roles. Training covers computer hardware, operating systems, networking basics, troubleshooting, and customer service. Students gain hands-on experience with real equipment and scenarios. Graduates are prepared for Certiport IT Specialist certification and immediate employment in IT support.',
+    summary:
+      'Become an IT Support Specialist with Certiport IT Specialist certification preparation.',
     bullets: [
       '8-12 week comprehensive program',
       'Computer hardware and software',
@@ -581,7 +618,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Mobile device support',
       'Certiport IT Specialist exam preparation',
       'Hands-on lab practice',
-      'Job placement assistance'
+      'Job placement assistance',
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '8-12 Weeks • 120 Hours',
@@ -592,8 +629,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'medical-administrative-assistant',
     name: 'Medical Administrative Assistant',
     tagline: 'Essential skills for healthcare office careers',
-    description: 'The Medical Administrative Assistant program trains students for front-office positions in healthcare facilities. Curriculum includes medical terminology, insurance billing, electronic health records, appointment scheduling, and patient communication. Students learn HIPAA compliance, medical coding basics, and office software. Graduates are prepared for positions in hospitals, clinics, and medical offices.',
-    summary: 'Prepare for medical office careers with training in billing, coding, and healthcare administration.',
+    description:
+      'The Medical Administrative Assistant program trains students for front-office positions in healthcare facilities. Curriculum includes medical terminology, insurance billing, electronic health records, appointment scheduling, and patient communication. Students learn HIPAA compliance, medical coding basics, and office software. Graduates are prepared for positions in hospitals, clinics, and medical offices.',
+    summary:
+      'Prepare for medical office careers with training in billing, coding, and healthcare administration.',
     bullets: [
       '8-10 week program',
       'Medical terminology',
@@ -604,7 +643,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'HIPAA compliance',
       'Medical office software',
       'Customer service in healthcare',
-      'Externship opportunities available'
+      'Externship opportunities available',
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '8-10 Weeks • 120 Hours',
@@ -615,7 +654,8 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'patient-care-technician',
     name: 'Patient Care Technician',
     tagline: 'Advanced patient care skills for hospital careers',
-    description: 'The Patient Care Technician program combines CNA skills with additional training in EKG, phlebotomy, and vital signs monitoring. This comprehensive program prepares students for hospital-based patient care roles. Training includes hands-on practice in labs and clinical settings. Graduates can work in hospitals, long-term care facilities, and specialty clinics with expanded responsibilities.',
+    description:
+      'The Patient Care Technician program combines CNA skills with additional training in EKG, phlebotomy, and vital signs monitoring. This comprehensive program prepares students for hospital-based patient care roles. Training includes hands-on practice in labs and clinical settings. Graduates can work in hospitals, long-term care facilities, and specialty clinics with expanded responsibilities.',
     summary: 'Combine CNA, EKG, and phlebotomy skills for advanced patient care positions.',
     bullets: [
       '8-12 week comprehensive program',
@@ -627,7 +667,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Medical terminology',
       'Clinical experience in hospitals',
       'Multiple certifications earned',
-      'Higher pay than standard CNA'
+      'Higher pay than standard CNA',
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '8-12 Weeks • 200+ Hours',
@@ -638,8 +678,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'dental-assistant',
     name: 'Dental Assistant',
     tagline: 'Start your dental career in weeks',
-    description: 'The Dental Assistant program prepares students for chairside assisting positions in dental offices. Training covers dental terminology, instrument identification, infection control, patient care, X-ray safety, and office procedures. Students gain hands-on experience in simulated dental settings. Graduates are prepared for entry-level positions and can pursue additional certifications like Radiology and Expanded Functions.',
-    summary: 'Become a Dental Assistant with hands-on training in chairside procedures and patient care.',
+    description:
+      'The Dental Assistant program prepares students for chairside assisting positions in dental offices. Training covers dental terminology, instrument identification, infection control, patient care, X-ray safety, and office procedures. Students gain hands-on experience in simulated dental settings. Graduates are prepared for entry-level positions and can pursue additional certifications like Radiology and Expanded Functions.',
+    summary:
+      'Become a Dental Assistant with hands-on training in chairside procedures and patient care.',
     bullets: [
       '8-12 week program',
       'Chairside assisting techniques',
@@ -650,7 +692,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Patient communication',
       'Dental office procedures',
       'Hands-on lab practice',
-      'Externship in dental offices'
+      'Externship in dental offices',
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '8-12 Weeks • 150 Hours',
@@ -661,8 +703,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'pharmacy-technician',
     name: 'Pharmacy Technician',
     tagline: 'Prepare for national certification in pharmacy',
-    description: 'The Pharmacy Technician program trains students to assist pharmacists in retail and hospital pharmacies. Curriculum includes pharmaceutical calculations, drug classifications, prescription processing, inventory management, and pharmacy law. Students learn to use pharmacy software and prepare medications under supervision. Graduates are prepared for the PTCB national certification exam.',
-    summary: 'Become a certified Pharmacy Technician with training in prescription processing and pharmacy operations.',
+    description:
+      'The Pharmacy Technician program trains students to assist pharmacists in retail and hospital pharmacies. Curriculum includes pharmaceutical calculations, drug classifications, prescription processing, inventory management, and pharmacy law. Students learn to use pharmacy software and prepare medications under supervision. Graduates are prepared for the PTCB national certification exam.',
+    summary:
+      'Become a certified Pharmacy Technician with training in prescription processing and pharmacy operations.',
     bullets: [
       '12-16 week comprehensive program',
       'Pharmaceutical calculations',
@@ -673,7 +717,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Pharmacy law and ethics',
       'Sterile compounding basics',
       'PTCB exam preparation',
-      'Externship in retail or hospital pharmacy'
+      'Externship in retail or hospital pharmacy',
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '12-16 Weeks • 200 Hours',
@@ -684,8 +728,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'phlebotomy-technician',
     name: 'Phlebotomy Technician',
     tagline: 'Master blood collection techniques in weeks',
-    description: 'The Phlebotomy Technician program trains students in venipuncture, capillary puncture, and specimen processing. This hands-on program includes extensive practice on training arms and live draws under supervision. Students learn infection control, patient interaction, and laboratory safety. Graduates are prepared for national certification and employment in hospitals, labs, and blood donation centers.',
-    summary: 'Earn phlebotomy certification with hands-on training in blood collection and specimen processing.',
+    description:
+      'The Phlebotomy Technician program trains students in venipuncture, capillary puncture, and specimen processing. This hands-on program includes extensive practice on training arms and live draws under supervision. Students learn infection control, patient interaction, and laboratory safety. Graduates are prepared for national certification and employment in hospitals, labs, and blood donation centers.',
+    summary:
+      'Earn phlebotomy certification with hands-on training in blood collection and specimen processing.',
     bullets: [
       '4-8 week intensive program',
       '80-120 hours of training',
@@ -696,7 +742,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Patient interaction skills',
       'Hands-on practice with training equipment',
       'Clinical externship with live draws',
-      'National certification exam preparation'
+      'National certification exam preparation',
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '4-8 Weeks • 80-120 Hours',
@@ -707,8 +753,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'entrepreneurship-business',
     name: 'Entrepreneurship & Small Business',
     tagline: 'Turn your business idea into reality',
-    description: 'The Entrepreneurship & Small Business program guides aspiring entrepreneurs through the process of starting and running a successful business. Training covers business planning, financial management, marketing strategies, legal structures, and operations. Students develop a complete business plan and learn to access funding, manage cash flow, and build a customer base. Ideal for those ready to be their own boss.',
-    summary: 'Launch your own business with comprehensive training in planning, marketing, and operations.',
+    description:
+      'The Entrepreneurship & Small Business program guides aspiring entrepreneurs through the process of starting and running a successful business. Training covers business planning, financial management, marketing strategies, legal structures, and operations. Students develop a complete business plan and learn to access funding, manage cash flow, and build a customer base. Ideal for those ready to be their own boss.',
+    summary:
+      'Launch your own business with comprehensive training in planning, marketing, and operations.',
     bullets: [
       '8-12 week program',
       'Business plan development',
@@ -719,7 +767,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Customer acquisition and retention',
       'Operations and inventory management',
       'Mentorship from successful entrepreneurs',
-      'Pitch competition and startup funding opportunities'
+      'Pitch competition and startup funding opportunities',
     ],
     funding: ['WIOA', 'WRG', 'Small Business Grants'],
     duration: '8-12 Weeks • 100 Hours',
@@ -730,8 +778,10 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
     slug: 'hospitality-culinary',
     name: 'Hospitality & Culinary Arts',
     tagline: 'Launch your career in food service and hospitality',
-    description: 'The Hospitality & Culinary Arts program prepares students for careers in restaurants, hotels, catering, and food service management. Training includes food preparation, kitchen safety, sanitation, customer service, and hospitality operations. Students learn culinary techniques, menu planning, and front-of-house service. Graduates earn food handler and ServSafe certifications and are prepared for positions from line cook to restaurant management.',
-    summary: 'Master culinary skills and hospitality operations for careers in food service and restaurants.',
+    description:
+      'The Hospitality & Culinary Arts program prepares students for careers in restaurants, hotels, catering, and food service management. Training includes food preparation, kitchen safety, sanitation, customer service, and hospitality operations. Students learn culinary techniques, menu planning, and front-of-house service. Graduates earn food handler and ServSafe certifications and are prepared for positions from line cook to restaurant management.',
+    summary:
+      'Master culinary skills and hospitality operations for careers in food service and restaurants.',
     bullets: [
       '12-16 week comprehensive program',
       'Culinary techniques and knife skills',
@@ -742,7 +792,7 @@ export const COMPLETE_PROGRAMS: ProgramData[] = [
       'Front-of-house operations',
       'ServSafe Manager certification',
       'Hands-on cooking labs',
-      'Externship in restaurants or hotels'
+      'Externship in restaurants or hotels',
     ],
     funding: ['WIOA', 'WRG', 'Pell Grant'],
     duration: '12-16 Weeks • 200 Hours',

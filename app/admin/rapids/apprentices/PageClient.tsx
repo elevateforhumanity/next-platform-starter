@@ -1,19 +1,19 @@
 'use client';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { useState, useEffect } from 'react';
-import { 
-  Download, 
-  Upload, 
-  Users, 
-  Clock, 
-  Circle, 
+import {
+  Download,
+  Upload,
+  Users,
+  Clock,
+  Circle,
   AlertCircle,
   FileSpreadsheet,
   RefreshCw,
   Search,
   Filter,
   ExternalLink,
-  ChevronDown
+  ChevronDown,
 } from 'lucide-react';
 
 interface Apprentice {
@@ -77,7 +77,7 @@ export default function RAPIDSApprenticesPage() {
     try {
       const res = await fetch(`/api/reports/rapids/export?type=${type}&format=${format}`);
       if (!res.ok) throw new Error('Export failed');
-      
+
       if (format === 'csv') {
         const blob = await res.blob();
         const url = window.URL.createObjectURL(blob);
@@ -107,8 +107,8 @@ export default function RAPIDSApprenticesPage() {
     }
   }
 
-  const filteredApprentices = apprentices.filter(a => {
-    const matchesSearch = 
+  const filteredApprentices = apprentices.filter((a) => {
+    const matchesSearch =
       `${a.firstName} ${a.lastName}`.toLowerCase().includes(searchTerm.toLowerCase()) ||
       a.email?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesStatus = statusFilter === 'all' || a.status === statusFilter;
@@ -117,20 +117,19 @@ export default function RAPIDSApprenticesPage() {
 
   const stats = {
     total: apprentices.length,
-    pending: apprentices.filter(a => a.status === 'pending').length,
-    registered: apprentices.filter(a => a.status === 'registered').length,
-    active: apprentices.filter(a => a.status === 'active').length,
-    completed: apprentices.filter(a => a.status === 'completed').length,
+    pending: apprentices.filter((a) => a.status === 'pending').length,
+    registered: apprentices.filter((a) => a.status === 'registered').length,
+    active: apprentices.filter((a) => a.status === 'active').length,
+    completed: apprentices.filter((a) => a.status === 'completed').length,
   };
 
   return (
     <div className="min-h-screen bg-white p-6">
-
       {/* Hero Image */}
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Apprentices" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Apprentices' }]} />
       </div>
-<div className="max-w-7xl mx-auto">
+      <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="flex items-center justify-between mb-6">
           <div>
@@ -213,9 +212,10 @@ export default function RAPIDSApprenticesPage() {
         <div className="bg-white rounded-xl border border-gray-200 p-6 mb-6">
           <h2 className="text-lg font-semibold text-slate-900 mb-4">Export for RAPIDS Portal</h2>
           <p className="text-sm text-slate-700 mb-4">
-            Download apprentice data formatted for the DOL RAPIDS portal. Upload the CSV file or copy data manually.
+            Download apprentice data formatted for the DOL RAPIDS portal. Upload the CSV file or
+            copy data manually.
           </p>
-          
+
           <div className="grid md:grid-cols-3 gap-4">
             {/* Registration Export */}
             <div className="border border-gray-200 rounded-lg p-4">
@@ -327,7 +327,9 @@ export default function RAPIDSApprenticesPage() {
                   disabled={loading}
                   className="p-2 border border-gray-300 rounded-lg hover:bg-gray-50 disabled:opacity-50"
                 >
-                  <RefreshCw className={`w-4 h-4 text-slate-700 ${loading ? 'animate-spin' : ''}`} />
+                  <RefreshCw
+                    className={`w-4 h-4 text-slate-700 ${loading ? 'animate-spin' : ''}`}
+                  />
                 </button>
               </div>
             </div>
@@ -393,16 +395,22 @@ export default function RAPIDSApprenticesPage() {
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         <div className="text-sm text-slate-900">{apprentice.programName}</div>
-                        <div className="text-xs text-slate-700 font-mono">{apprentice.occupationCode}</div>
+                        <div className="text-xs text-slate-700 font-mono">
+                          {apprentice.occupationCode}
+                        </div>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[apprentice.status] || 'bg-gray-100 text-slate-900'}`}>
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[apprentice.status] || 'bg-gray-100 text-slate-900'}`}
+                        >
                           {apprentice.status}
                         </span>
                       </td>
                       <td className="px-6 py-4 whitespace-nowrap">
                         {apprentice.rapidsId ? (
-                          <span className="font-mono text-sm text-slate-900">{apprentice.rapidsId}</span>
+                          <span className="font-mono text-sm text-slate-900">
+                            {apprentice.rapidsId}
+                          </span>
                         ) : (
                           <span className="text-sm text-slate-700">Not assigned</span>
                         )}
@@ -412,13 +420,14 @@ export default function RAPIDSApprenticesPage() {
                           {apprentice.ojtHoursCompleted || 0} / {apprentice.totalHoursRequired} OJT
                         </div>
                         <div className="text-xs text-slate-700">
-                          {apprentice.rtiHoursCompleted || 0} / {apprentice.rtiHoursRequired || 144} RTI
+                          {apprentice.rtiHoursCompleted || 0} / {apprentice.rtiHoursRequired || 144}{' '}
+                          RTI
                         </div>
                         <div className="w-full bg-gray-200 rounded-full h-1.5 mt-1">
-                          <div 
-                            className="bg-brand-blue-600 h-1.5 rounded-full" 
-                            style={{ 
-                              width: `${Math.min(100, ((apprentice.ojtHoursCompleted || 0) / (apprentice.totalHoursRequired || 1500)) * 100)}%` 
+                          <div
+                            className="bg-brand-blue-600 h-1.5 rounded-full"
+                            style={{
+                              width: `${Math.min(100, ((apprentice.ojtHoursCompleted || 0) / (apprentice.totalHoursRequired || 1500)) * 100)}%`,
                             }}
                           />
                         </div>

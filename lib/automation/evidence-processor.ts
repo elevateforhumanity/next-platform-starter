@@ -1,13 +1,13 @@
 import 'server-only';
 /**
  * Evidence Processor
- * 
+ *
  * Automated document processing pipeline that:
  * 1. Classifies uploaded documents
  * 2. Extracts data via OCR
  * 3. Validates against rulesets
  * 4. Auto-approves when safe OR routes to human review
- * 
+ *
  * GUARDRAILS:
  * - Minimum OCR confidence thresholds per document type
  * - Required fields must be present
@@ -25,7 +25,7 @@ import { setAuditContext } from '@/lib/audit-context';
 // TYPES
 // ============================================
 
-export type DocumentType = 
+export type DocumentType =
   | 'transcript'
   | 'license'
   | 'id'
@@ -36,10 +36,7 @@ export type DocumentType =
   | 'certification'
   | 'unknown';
 
-export type DecisionOutcome = 
-  | 'auto_approved'
-  | 'routed_to_review'
-  | 'auto_rejected';
+export type DecisionOutcome = 'auto_approved' | 'routed_to_review' | 'auto_rejected';
 
 export interface ProcessingResult {
   success: boolean;
@@ -93,13 +90,13 @@ const RULESET_VERSION = '1.0.0';
 // Minimum OCR confidence by document type
 const MIN_CONFIDENCE: Record<DocumentType, number> = {
   transcript: 0.85,
-  license: 0.80,
-  id: 0.80,
+  license: 0.8,
+  id: 0.8,
   mou: 0.75,
-  insurance: 0.80,
+  insurance: 0.8,
   w2: 0.85,
   '1099': 0.85,
-  certification: 0.80,
+  certification: 0.8,
   unknown: 1.0, // Never auto-approve unknown
 };
 
@@ -155,7 +152,8 @@ const TRANSCRIPT_RULES: ValidationRule[] = [
     name: 'Completion date not in future',
     description: 'Completion date cannot be in the future',
     validate: (data) => {
-      if (!data.completion_date) return { passed: false, reason: 'Missing completion date', severity: 'error' };
+      if (!data.completion_date)
+        return { passed: false, reason: 'Missing completion date', severity: 'error' };
       const date = new Date(data.completion_date as string);
       return {
         passed: date <= new Date(),
@@ -185,7 +183,8 @@ const LICENSE_RULES: ValidationRule[] = [
     name: 'License not expired',
     description: 'License expiration date must be in the future',
     validate: (data) => {
-      if (!data.expiration_date) return { passed: false, reason: 'Missing expiration date', severity: 'error' };
+      if (!data.expiration_date)
+        return { passed: false, reason: 'Missing expiration date', severity: 'error' };
       const expDate = new Date(data.expiration_date as string);
       return {
         passed: expDate > new Date(),
@@ -222,7 +221,8 @@ const MOU_RULES: ValidationRule[] = [
     name: 'MOU is effective',
     description: 'MOU effective date must be today or earlier',
     validate: (data) => {
-      if (!data.effective_date) return { passed: false, reason: 'Missing effective date', severity: 'error' };
+      if (!data.effective_date)
+        return { passed: false, reason: 'Missing effective date', severity: 'error' };
       const effDate = new Date(data.effective_date as string);
       return {
         passed: effDate <= new Date(),
@@ -258,7 +258,7 @@ export async function processDocument(
   documentId: string,
   fileUrl: string,
   declaredType?: DocumentType,
-  context?: ValidationContext
+  context?: ValidationContext,
 ): Promise<ProcessingResult> {
   const supabase = await getAdminClient();
   await setAuditContext(supabase, { systemActor: 'evidence_processor' });
@@ -267,22 +267,22 @@ export async function processDocument(
   try {
     // Step 1: Fetch file and run OCR
     logger.info('[EvidenceProcessor] Starting document processing', { documentId, declaredType });
-    
+
     const response = await fetch(fileUrl);
     if (!response.ok) {
       throw new Error(`Failed to fetch document: ${response.status}`);
     }
-    
+
     const buffer = Buffer.from(await response.arrayBuffer());
     const ocrResult = await autoExtract(buffer);
-    
+
     const confidence = ocrResult.confidence;
     const extractedData = ocrResult.data || {};
     const detectedType = (ocrResult.documentType as DocumentType) || declaredType || 'unknown';
-    
-    logger.info('[EvidenceProcessor] OCR complete', { 
-      documentId, 
-      detectedType, 
+
+    logger.info('[EvidenceProcessor] OCR complete', {
+      documentId,
+      detectedType,
       confidence,
       extractedFields: Object.keys(extractedData),
     });
@@ -290,18 +290,34 @@ export async function processDocument(
     // Step 2: Check confidence threshold
     const minConfidence = MIN_CONFIDENCE[detectedType];
     if (confidence < minConfidence) {
-      return await routeToReview(supabase, documentId, detectedType, extractedData, confidence, [
-        `OCR confidence (${(confidence * 100).toFixed(1)}%) below threshold (${(minConfidence * 100).toFixed(1)}%)`,
-      ], context, startTime);
+      return await routeToReview(
+        supabase,
+        documentId,
+        detectedType,
+        extractedData,
+        confidence,
+        [
+          `OCR confidence (${(confidence * 100).toFixed(1)}%) below threshold (${(minConfidence * 100).toFixed(1)}%)`,
+        ],
+        context,
+        startTime,
+      );
     }
 
     // Step 3: Check required fields
     const requiredFields = REQUIRED_FIELDS[detectedType];
-    const missingFields = requiredFields.filter(field => !extractedData[field]);
+    const missingFields = requiredFields.filter((field) => !extractedData[field]);
     if (missingFields.length > 0) {
-      return await routeToReview(supabase, documentId, detectedType, extractedData, confidence, [
-        `Missing required fields: ${missingFields.join(', ')}`,
-      ], context, startTime);
+      return await routeToReview(
+        supabase,
+        documentId,
+        detectedType,
+        extractedData,
+        confidence,
+        [`Missing required fields: ${missingFields.join(', ')}`],
+        context,
+        startTime,
+      );
     }
 
     // Step 4: Run validation rules
@@ -322,16 +338,33 @@ export async function processDocument(
 
     // Step 5: Determine outcome
     if (failedRules.length > 0) {
-      return await routeToReview(supabase, documentId, detectedType, extractedData, confidence, failedRules, context, startTime);
+      return await routeToReview(
+        supabase,
+        documentId,
+        detectedType,
+        extractedData,
+        confidence,
+        failedRules,
+        context,
+        startTime,
+      );
     }
 
     // Step 6: Route to human review — auto-approval is disabled.
     // All documents require manual admin approval regardless of OCR confidence.
-    return await routeToReview(supabase, documentId, detectedType, extractedData, confidence, warnings.length > 0 ? warnings : ['ocr_passed_pending_admin_review'], context, startTime);
-
+    return await routeToReview(
+      supabase,
+      documentId,
+      detectedType,
+      extractedData,
+      confidence,
+      warnings.length > 0 ? warnings : ['ocr_passed_pending_admin_review'],
+      context,
+      startTime,
+    );
   } catch (error) {
     logger.error('[EvidenceProcessor] Processing failed', { documentId, error });
-    
+
     // On error, route to review with error message
     return {
       success: false,
@@ -340,7 +373,9 @@ export async function processDocument(
       outcome: 'routed_to_review',
       confidence: 0,
       extractedData: {},
-      failedRules: [`Processing error: ${error instanceof Error ? error.message : 'Unknown error'}`],
+      failedRules: [
+        `Processing error: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      ],
       error: error instanceof Error ? error.message : 'Unknown error',
     };
   }
@@ -359,7 +394,7 @@ async function autoApprove(
   confidence: number,
   warnings: string[],
   context: ValidationContext | undefined,
-  startTime: number
+  startTime: number,
 ): Promise<ProcessingResult> {
   const processingTimeMs = Date.now() - startTime;
 
@@ -448,7 +483,7 @@ async function routeToReview(
   confidence: number,
   failedRules: string[],
   context: ValidationContext | undefined,
-  startTime: number
+  startTime: number,
 ): Promise<ProcessingResult> {
   const processingTimeMs = Date.now() - startTime;
 
@@ -566,8 +601,8 @@ function calculatePriority(documentType: DocumentType, failedRules: string[]): n
   let priority = basePriority[documentType] || 5;
 
   // Increase priority for certain failure types
-  if (failedRules.some(r => r.includes('expired'))) priority -= 1;
-  if (failedRules.some(r => r.includes('missing'))) priority += 1;
+  if (failedRules.some((r) => r.includes('expired'))) priority -= 1;
+  if (failedRules.some((r) => r.includes('missing'))) priority += 1;
 
   return Math.max(1, Math.min(10, priority));
 }
@@ -582,7 +617,7 @@ function determineRecommendation(confidence: number, failedRules: string[]): str
   if (confidence < 0.5) {
     return 'likely_reject_poor_quality';
   }
-  if (failedRules.some(r => r.includes('out-of-state'))) {
+  if (failedRules.some((r) => r.includes('out-of-state'))) {
     return 'manual_state_verification_required';
   }
   return 'manual_review_required';
@@ -599,7 +634,7 @@ export async function processTranscript(
   documentId: string,
   fileUrl: string,
   enrollmentId: string,
-  state?: string
+  state?: string,
 ): Promise<ProcessingResult & { hoursApplied?: number }> {
   const result = await processDocument(documentId, fileUrl, 'transcript', {
     documentType: 'transcript',
@@ -608,7 +643,11 @@ export async function processTranscript(
 
   // Transfer hours are only applied after manual admin approval unless explicitly enabled.
   const shouldAutoApplyTransferHours = process.env.ENABLE_AUTO_TRANSFER_HOURS === 'true';
-  if (shouldAutoApplyTransferHours && result.outcome === 'auto_approved' && result.extractedData.hours_completed) {
+  if (
+    shouldAutoApplyTransferHours &&
+    result.outcome === 'auto_approved' &&
+    result.extractedData.hours_completed
+  ) {
     const supabase = await getAdminClient();
     await setAuditContext(supabase, { systemActor: 'evidence_processor' });
     const hours = result.extractedData.hours_completed as number;
@@ -676,9 +715,4 @@ export async function processTranscript(
 // EXPORTS
 // ============================================
 
-export {
-  RULESET_VERSION,
-  MIN_CONFIDENCE,
-  REQUIRED_FIELDS,
-  STATES_WITH_TRANSCRIPT_RULES,
-};
+export { RULESET_VERSION, MIN_CONFIDENCE, REQUIRED_FIELDS, STATES_WITH_TRANSCRIPT_RULES };

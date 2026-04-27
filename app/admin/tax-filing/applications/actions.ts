@@ -12,7 +12,9 @@ export async function createTaxApplication(formData: FormData) {
   if (!db) throw new Error('Admin client failed to initialize');
   if (!supabase) throw new Error('Database unavailable');
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) throw new Error('Not authenticated');
   const { data: _p } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
   if (!_p || !['admin', 'super_admin'].includes(_p.role)) throw new Error('Forbidden');
@@ -20,17 +22,23 @@ export async function createTaxApplication(formData: FormData) {
   const { error } = await db.from('tax_applications').insert({
     client_name: formData.get('client_name') as string,
     client_email: formData.get('client_email') as string,
-    client_phone: formData.get('client_phone') as string || null,
-    filing_type: formData.get('filing_type') as string || 'individual',
-    tax_year: formData.get('tax_year') as string || new Date().getFullYear().toString(),
+    client_phone: (formData.get('client_phone') as string) || null,
+    filing_type: (formData.get('filing_type') as string) || 'individual',
+    tax_year: (formData.get('tax_year') as string) || new Date().getFullYear().toString(),
     status: 'pending',
-    notes: formData.get('notes') as string || null,
+    notes: (formData.get('notes') as string) || null,
     created_by: user.id,
   });
 
   if (error) throw new Error('Failed to process tax filing application.');
 
-  await logAdminAudit({ action: AdminAction.TAX_APPLICATION_CREATED, actorId: user.id, entityType: 'tax_applications', entityId: BULK_ENTITY_ID, metadata: {} });
+  await logAdminAudit({
+    action: AdminAction.TAX_APPLICATION_CREATED,
+    actorId: user.id,
+    entityType: 'tax_applications',
+    entityId: BULK_ENTITY_ID,
+    metadata: {},
+  });
 
   revalidatePath('/admin/tax-filing/applications');
   redirect('/admin/tax-filing/applications');

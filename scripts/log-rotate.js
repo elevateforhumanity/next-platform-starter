@@ -31,7 +31,5 @@ for (const f of fs.readdirSync(logDir)) {
     const buf = fs.readFileSync(full);
     fs.writeFileSync(gz, zlib.gzipSync(buf));
     fs.unlinkSync(full);
-  } catch (e) {
-  }
+  } catch (e) {}
 }
-

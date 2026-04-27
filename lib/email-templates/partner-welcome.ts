@@ -15,7 +15,11 @@ interface PartnerWelcomeData {
   programName?: string;
 }
 
-export function getPartnerWelcomeEmail(data: PartnerWelcomeData): { subject: string; html: string; text: string } {
+export function getPartnerWelcomeEmail(data: PartnerWelcomeData): {
+  subject: string;
+  html: string;
+  text: string;
+} {
   const subject = `Welcome to ${data.providerName} - Your Enrollment is Complete!`;
 
   const html = `
@@ -42,15 +46,21 @@ export function getPartnerWelcomeEmail(data: PartnerWelcomeData): { subject: str
       Great news! You've been successfully enrolled in <strong>${data.providerName}</strong>${data.programName ? ` as part of your <strong>${data.programName}</strong> program` : ''}.
     </p>
 
-    ${data.enrollmentUrl ? `
+    ${
+      data.enrollmentUrl
+        ? `
     <div style="background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 8px; margin: 30px 0;">
       <h2 style="margin-top: 0; color: #1f2937; font-size: 20px;">🚀 Get Started</h2>
       <p style="margin-bottom: 15px;">Click the button below to access your courses:</p>
       <a href="${data.enrollmentUrl}" style="display: inline-block; background: #ea580c; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 16px;">Access ${data.providerName}</a>
     </div>
-    ` : ''}
+    `
+        : ''
+    }
 
-    ${data.promoCode ? `
+    ${
+      data.promoCode
+        ? `
     <div style="background: #f9fafb; border-left: 4px solid #e5e7eb; padding: 20px; margin: 30px 0; border-radius: 4px;">
       <h3 style="margin-top: 0; color: #374151; font-size: 18px;">💰 Your Promo Code</h3>
       <p style="margin-bottom: 10px; color: #78350f;">Use this code during enrollment:</p>
@@ -58,14 +68,20 @@ export function getPartnerWelcomeEmail(data: PartnerWelcomeData): { subject: str
         <code style="font-size: 24px; font-weight: bold; color: #667eea; letter-spacing: 2px;">${data.promoCode}</code>
       </div>
     </div>
-    ` : ''}
+    `
+        : ''
+    }
 
-    ${data.loginInstructions ? `
+    ${
+      data.loginInstructions
+        ? `
     <div style="background: #f9fafb; border: 1px solid #e5e7eb; padding: 20px; border-radius: 8px; margin: 30px 0;">
       <h3 style="margin-top: 0; color: #3730a3; font-size: 18px;">📝 Login Instructions</h3>
       <p style="color: #4338ca; margin: 0;">${data.loginInstructions}</p>
     </div>
-    ` : ''}
+    `
+        : ''
+    }
 
     <div style="margin: 30px 0;">
       <h3 style="color: #1f2937; font-size: 18px;">What's Next?</h3>
@@ -77,14 +93,18 @@ export function getPartnerWelcomeEmail(data: PartnerWelcomeData): { subject: str
       </ol>
     </div>
 
-    ${data.contactEmail || data.contactPhone ? `
+    ${
+      data.contactEmail || data.contactPhone
+        ? `
     <div style="background: #f9fafb; padding: 20px; border-radius: 8px; margin: 30px 0;">
       <h3 style="margin-top: 0; color: #1f2937; font-size: 18px;">💬 Need Help?</h3>
       <p style="color: #4b5563; margin-bottom: 10px;">If you have questions or need assistance:</p>
       ${data.contactEmail ? `<p style="margin: 5px 0;"><strong>Email:</strong> <a href="mailto:${data.contactEmail}" style="color: #667eea;">${data.contactEmail}</a></p>` : ''}
       ${data.contactPhone ? `<p style="margin: 5px 0;"><strong>Phone:</strong> ${data.contactPhone}</p>` : ''}
     </div>
-    ` : ''}
+    `
+        : ''
+    }
 
     <div style="margin-top: 40px; padding-top: 30px; border-top: 2px solid #e5e7eb;">
       <p style="color: #6b7280; font-size: 14px; margin: 0;">
@@ -117,20 +137,32 @@ Hi ${data.studentName},
 
 Great news! You've been successfully enrolled in ${data.providerName}${data.programName ? ` as part of your ${data.programName} program` : ''}.
 
-${data.enrollmentUrl ? `
+${
+  data.enrollmentUrl
+    ? `
 GET STARTED
 Access your courses here: ${data.enrollmentUrl}
-` : ''}
+`
+    : ''
+}
 
-${data.promoCode ? `
+${
+  data.promoCode
+    ? `
 YOUR PROMO CODE
 Use this code during enrollment: ${data.promoCode}
-` : ''}
+`
+    : ''
+}
 
-${data.loginInstructions ? `
+${
+  data.loginInstructions
+    ? `
 LOGIN INSTRUCTIONS
 ${data.loginInstructions}
-` : ''}
+`
+    : ''
+}
 
 WHAT'S NEXT?
 1. Access the ${data.providerName} platform using the link above
@@ -138,11 +170,15 @@ WHAT'S NEXT?
 3. Browse available courses and certifications
 4. Start learning and earning credentials!
 
-${data.contactEmail || data.contactPhone ? `
+${
+  data.contactEmail || data.contactPhone
+    ? `
 NEED HELP?
 ${data.contactEmail ? `Email: ${data.contactEmail}` : ''}
 ${data.contactPhone ? `Phone: ${data.contactPhone}` : ''}
-` : ''}
+`
+    : ''
+}
 
 ---
 This enrollment was created through Elevate for Humanity.
@@ -194,11 +230,15 @@ export function getPartnerCompletionEmail(data: {
       <p style="color: #047857; margin: 10px 0 0 0;">Completed on ${new Date(data.completedAt).toLocaleDateString()}</p>
     </div>
 
-    ${data.certificateUrl ? `
+    ${
+      data.certificateUrl
+        ? `
     <div style="text-align: center; margin: 30px 0;">
       <a href="${data.certificateUrl}" style="display: inline-block; background: #ea580c; color: white; padding: 14px 28px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 16px;">Download Your Certificate</a>
     </div>
-    ` : ''}
+    `
+        : ''
+    }
 
     <div style="margin: 30px 0;">
       <h3 style="color: #1f2937; font-size: 18px;">What's Next?</h3>
@@ -240,10 +280,14 @@ You did it! You've successfully completed ${data.courseName || data.providerName
 COURSE COMPLETED!
 Completed on ${new Date(data.completedAt).toLocaleDateString()}
 
-${data.certificateUrl ? `
+${
+  data.certificateUrl
+    ? `
 DOWNLOAD YOUR CERTIFICATE
 ${data.certificateUrl}
-` : ''}
+`
+    : ''
+}
 
 WHAT'S NEXT?
 - Add this certification to your resume and LinkedIn profile

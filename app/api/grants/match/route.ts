@@ -1,5 +1,3 @@
-
-
 // app/api/grants/match/route.ts
 import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -16,7 +14,7 @@ function computeMatchScore(
   entityNaics: string[],
   grantNaics: string[],
   entityType: 'for_profit' | 'nonprofit',
-  categories: string[]
+  categories: string[],
 ): { score: number; reasons: string[] } {
   let score = 0;
   const reasons: string[] = [];
@@ -55,8 +53,8 @@ async function _POST(request: Request) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
-  const auth = await apiRequireAdmin(request);
-  const supabaseAdmin = await getAdminClient();
+    const auth = await apiRequireAdmin(request);
+    const supabaseAdmin = await getAdminClient();
 
     const { data: entities, error: entitiesError } = await supabaseAdmin
       .from('entities')
@@ -64,10 +62,7 @@ async function _POST(request: Request) {
 
     if (entitiesError || !entities) {
       logger.error(entitiesError);
-      return NextResponse.json(
-        { error: 'Failed to fetch entities' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch entities' }, { status: 500 });
     }
 
     const { data: grants, error: grantsError } = await supabaseAdmin
@@ -77,10 +72,7 @@ async function _POST(request: Request) {
 
     if (grantsError || !grants) {
       logger.error(grantsError);
-      return NextResponse.json(
-        { error: 'Failed to fetch grants' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch grants' }, { status: 500 });
     }
 
     for (const grant of grants) {
@@ -93,7 +85,7 @@ async function _POST(request: Request) {
           entityNaics,
           grantNaics,
           entity.entity_type as 'for_profit' | 'nonprofit',
-          categories
+          categories,
         );
 
         if (score < 30) continue;
@@ -105,16 +97,11 @@ async function _POST(request: Request) {
             match_score: score,
             reasons,
           },
-          { onConflict: 'grant_id,entity_id' }
+          { onConflict: 'grant_id,entity_id' },
         );
 
         if (error) {
-          logger.error(
-            'Error upserting grant_match',
-            grant.id,
-            entity.id,
-            error
-          );
+          logger.error('Error upserting grant_match', grant.id, entity.id, error);
         }
       }
     }
@@ -122,10 +109,7 @@ async function _POST(request: Request) {
     return NextResponse.json({ ok: true });
   } catch (err) {
     logger.error(err);
-    return NextResponse.json(
-      { error: 'Unexpected error during grant matching' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Unexpected error during grant matching' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/grants/match', _POST);

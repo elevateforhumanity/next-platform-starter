@@ -20,7 +20,7 @@ export interface OCRResult {
  */
 export async function extractTextFromImage(
   imageBuffer: Buffer,
-  language = 'eng'
+  language = 'eng',
 ): Promise<OCRResult> {
   try {
     const Tesseract = await import(/* webpackIgnore: true */ 'tesseract.js');
@@ -70,10 +70,7 @@ export async function extractTextFromPdf(pdfBuffer: Buffer): Promise<OCRResult> 
  * - Image → Tesseract
  * - Other → empty result
  */
-export async function autoExtract(
-  buffer: Buffer,
-  mimeType?: string
-): Promise<OCRResult> {
+export async function autoExtract(buffer: Buffer, mimeType?: string): Promise<OCRResult> {
   const mime = mimeType ?? detectMimeType(buffer);
 
   if (mime === 'application/pdf') {
@@ -100,7 +97,7 @@ function detectMimeType(buffer: Buffer): string {
   if (buffer[0] === 0x25 && buffer[1] === 0x50 && buffer[2] === 0x44 && buffer[3] === 0x46) {
     return 'application/pdf';
   }
-  if (buffer[0] === 0xFF && buffer[1] === 0xD8) return 'image/jpeg';
+  if (buffer[0] === 0xff && buffer[1] === 0xd8) return 'image/jpeg';
   if (buffer[0] === 0x89 && buffer[1] === 0x50) return 'image/png';
   if (buffer[0] === 0x47 && buffer[1] === 0x49) return 'image/gif';
   if (buffer[0] === 0x52 && buffer[1] === 0x49) return 'image/webp';

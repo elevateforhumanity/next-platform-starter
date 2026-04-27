@@ -17,7 +17,7 @@ export function checkVersionMismatch(): boolean {
 
 export function clearVersionAndReload() {
   if (typeof window === 'undefined') return;
-  
+
   localStorage.removeItem('app_version');
   location.replace('/reset?reason=version_mismatch&ts=' + Date.now());
 }

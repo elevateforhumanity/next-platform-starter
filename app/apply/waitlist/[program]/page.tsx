@@ -4,10 +4,14 @@ import { useState } from 'react';
 import { useParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 
-const WAITLIST_PROGRAMS: Record<string, { name: string; description: string; estimatedWait: string }> = {
+const WAITLIST_PROGRAMS: Record<
+  string,
+  { name: string; description: string; estimatedWait: string }
+> = {
   'cdl-training': {
-    name: 'CDL (Commercial Driver\'s License)',
-    description: 'Earn your Class A CDL and launch a high-demand career in transportation and logistics.',
+    name: "CDL (Commercial Driver's License)",
+    description:
+      'Earn your Class A CDL and launch a high-demand career in transportation and logistics.',
     estimatedWait: '4–8 weeks',
   },
   'barber-apprenticeship': {
@@ -32,7 +36,12 @@ export default function WaitlistPage() {
     notes: '',
   });
   const [submitting, setSubmitting] = useState(false);
-  const [result, setResult] = useState<{ success: boolean; position?: number; message?: string; error?: string } | null>(null);
+  const [result, setResult] = useState<{
+    success: boolean;
+    position?: number;
+    message?: string;
+    error?: string;
+  } | null>(null);
 
   if (!program) {
     return (
@@ -40,7 +49,9 @@ export default function WaitlistPage() {
         <div className="text-center max-w-md px-6">
           <h1 className="text-2xl font-bold text-slate-800 mb-4">Program Not Found</h1>
           <p className="text-black mb-6">This program does not currently have a waitlist.</p>
-          <Link href="/apply/student" className="text-brand-blue-600 underline">View all programs</Link>
+          <Link href="/apply/student" className="text-brand-blue-600 underline">
+            View all programs
+          </Link>
         </div>
       </div>
     );
@@ -56,20 +67,23 @@ export default function WaitlistPage() {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          firstName:       form.firstName,
-          lastName:        form.lastName,
-          email:           form.email,
-          phone:           form.phone,
+          firstName: form.firstName,
+          lastName: form.lastName,
+          email: form.email,
+          phone: form.phone,
           programSlug,
           fundingInterest: form.fundingInterest,
-          notes:           form.notes,
+          notes: form.notes,
         }),
       });
       const data = await res.json();
       if (res.ok && data.success) {
         setResult({ success: true, position: data.position, message: data.message });
       } else {
-        setResult({ success: false, error: data.error ?? 'Something went wrong. Please try again.' });
+        setResult({
+          success: false,
+          error: data.error ?? 'Something went wrong. Please try again.',
+        });
       }
     } catch {
       setResult({ success: false, error: 'Network error. Please try again.' });
@@ -83,8 +97,18 @@ export default function WaitlistPage() {
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
         <div className="bg-white rounded-2xl shadow-lg max-w-lg w-full p-8 text-center">
           <div className="w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
-            <svg className="w-8 h-8 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+            <svg
+              className="w-8 h-8 text-green-600"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth={2}
+                d="M5 13l4 4L19 7"
+              />
             </svg>
           </div>
           <h2 className="text-2xl font-bold text-slate-800 mb-3">You're on the waitlist!</h2>
@@ -102,17 +126,31 @@ export default function WaitlistPage() {
             </p>
             <p className="text-sm text-amber-700 leading-relaxed">
               Don't wait for your seat to open. Visit{' '}
-              <a href="https://www.workone.in.gov" target="_blank" rel="noopener noreferrer"
-                 className="font-semibold underline">WorkOne</a>{' '}
+              <a
+                href="https://www.workone.in.gov"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold underline"
+              >
+                WorkOne
+              </a>{' '}
               or{' '}
-              <a href="https://www.employindy.org" target="_blank" rel="noopener noreferrer"
-                 className="font-semibold underline">EmployIndy</a>{' '}
-              (Marion County) to get pre-approved for WIOA or other funding.
-              Pre-approval means you can enroll immediately when your spot is ready.
+              <a
+                href="https://www.employindy.org"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="font-semibold underline"
+              >
+                EmployIndy
+              </a>{' '}
+              (Marion County) to get pre-approved for WIOA or other funding. Pre-approval means you
+              can enroll immediately when your spot is ready.
             </p>
           </div>
 
-          <Link href="/" className="text-brand-blue-600 text-sm underline">Return to homepage</Link>
+          <Link href="/" className="text-brand-blue-600 text-sm underline">
+            Return to homepage
+          </Link>
         </div>
       </div>
     );
@@ -121,13 +159,14 @@ export default function WaitlistPage() {
   return (
     <div className="min-h-screen bg-white py-12 px-4">
       <div className="max-w-xl mx-auto">
-
         {/* Header */}
         <div className="text-center mb-8">
           <span className="inline-block bg-amber-100 text-amber-800 text-xs font-semibold px-3 py-1 rounded-full mb-4 uppercase tracking-wide">
             Waitlist Open
           </span>
-          <h1 className="text-3xl font-bold text-slate-800 mb-3">{program.title || program?.title || program?.name}</h1>
+          <h1 className="text-3xl font-bold text-slate-800 mb-3">
+            {program.title || program?.title || program?.name}
+          </h1>
           <p className="text-black">{program.description}</p>
           <p className="text-sm text-black mt-2">
             Estimated wait: <strong>{program.estimatedWait}</strong>
@@ -141,11 +180,14 @@ export default function WaitlistPage() {
           <form onSubmit={handleSubmit} className="space-y-5">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">First Name *</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  First Name *
+                </label>
                 <input
-                  type="text" required
+                  type="text"
+                  required
                   value={form.firstName}
-                  onChange={e => setForm(f => ({ ...f, firstName: e.target.value }))}
+                  onChange={(e) => setForm((f) => ({ ...f, firstName: e.target.value }))}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent text-sm"
                   placeholder="First name"
                 />
@@ -153,9 +195,10 @@ export default function WaitlistPage() {
               <div>
                 <label className="block text-sm font-medium text-slate-700 mb-1">Last Name *</label>
                 <input
-                  type="text" required
+                  type="text"
+                  required
                   value={form.lastName}
-                  onChange={e => setForm(f => ({ ...f, lastName: e.target.value }))}
+                  onChange={(e) => setForm((f) => ({ ...f, lastName: e.target.value }))}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent text-sm"
                   placeholder="Last name"
                 />
@@ -163,11 +206,14 @@ export default function WaitlistPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Email Address *</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Email Address *
+              </label>
               <input
-                type="email" required
+                type="email"
+                required
                 value={form.email}
-                onChange={e => setForm(f => ({ ...f, email: e.target.value }))}
+                onChange={(e) => setForm((f) => ({ ...f, email: e.target.value }))}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent text-sm"
                 placeholder="your@email.com"
               />
@@ -178,7 +224,7 @@ export default function WaitlistPage() {
               <input
                 type="tel"
                 value={form.phone}
-                onChange={e => setForm(f => ({ ...f, phone: e.target.value }))}
+                onChange={(e) => setForm((f) => ({ ...f, phone: e.target.value }))}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent text-sm"
                 placeholder="(317) 000-0000"
               />
@@ -190,7 +236,7 @@ export default function WaitlistPage() {
               </label>
               <select
                 value={form.fundingInterest}
-                onChange={e => setForm(f => ({ ...f, fundingInterest: e.target.value }))}
+                onChange={(e) => setForm((f) => ({ ...f, fundingInterest: e.target.value }))}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent text-sm bg-white"
               >
                 <option value="">Select an option</option>
@@ -207,12 +253,13 @@ export default function WaitlistPage() {
 
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">
-                Anything else you'd like us to know? <span className="text-black font-normal">(optional)</span>
+                Anything else you'd like us to know?{' '}
+                <span className="text-black font-normal">(optional)</span>
               </label>
               <textarea
                 rows={3}
                 value={form.notes}
-                onChange={e => setForm(f => ({ ...f, notes: e.target.value }))}
+                onChange={(e) => setForm((f) => ({ ...f, notes: e.target.value }))}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent text-sm resize-none"
                 placeholder="e.g. preferred start date, questions about the program..."
               />
@@ -225,11 +272,19 @@ export default function WaitlistPage() {
               </p>
               <p className="text-xs text-amber-700 leading-relaxed">
                 If you plan to use WIOA, WorkOne, EmployIndy, Workforce Ready Grant, or any
-                state/federal funding, you must receive <strong>written approval from your
-                funding agency before enrollment can be finalized</strong>. We recommend
-                starting that process now while you wait.{' '}
-                <a href="https://www.workone.in.gov" target="_blank" rel="noopener noreferrer"
-                   className="underline font-semibold">Find your WorkOne office →</a>
+                state/federal funding, you must receive{' '}
+                <strong>
+                  written approval from your funding agency before enrollment can be finalized
+                </strong>
+                . We recommend starting that process now while you wait.{' '}
+                <a
+                  href="https://www.workone.in.gov"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="underline font-semibold"
+                >
+                  Find your WorkOne office →
+                </a>
               </p>
             </div>
 
@@ -249,7 +304,10 @@ export default function WaitlistPage() {
 
             <p className="text-center text-xs text-black">
               Already approved for funding?{' '}
-              <Link href={`/apply/student?program=${programSlug}`} className="text-brand-blue-600 underline">
+              <Link
+                href={`/apply/student?program=${programSlug}`}
+                className="text-brand-blue-600 underline"
+              >
                 Apply to enroll directly →
               </Link>
             </p>

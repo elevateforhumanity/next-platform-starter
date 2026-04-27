@@ -70,9 +70,7 @@ export function getArchetypeForRoute(route: string): PageArchetype {
   }
 
   // Partner pages
-  if (
-    route.match(/\/(shop|employer|partner|board|delegate|workforce-board)\//)
-  ) {
+  if (route.match(/\/(shop|employer|partner|board|delegate|workforce-board)\//)) {
     return PageArchetype.PARTNER;
   }
 
@@ -95,7 +93,7 @@ export function validateArchetypePage(
     hasMetadata: boolean;
     hasAuth: boolean;
     hasContent: boolean;
-  }
+  },
 ): { valid: boolean; errors: string[] } {
   const errors: string[] = [];
 
@@ -112,11 +110,7 @@ export function validateArchetypePage(
 
   // Dashboards, portals, admin must have auth
   if (
-    [
-      PageArchetype.DASHBOARD,
-      PageArchetype.PORTAL,
-      PageArchetype.ADMIN_CRUD,
-    ].includes(archetype)
+    [PageArchetype.DASHBOARD, PageArchetype.PORTAL, PageArchetype.ADMIN_CRUD].includes(archetype)
   ) {
     if (!pageProps.hasAuth) {
       errors.push('Missing authentication check');

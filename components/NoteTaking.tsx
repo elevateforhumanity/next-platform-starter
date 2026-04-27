@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -40,7 +40,8 @@ export function NoteTaking({ courseId, lessonId, videoTimestamp }: NoteTakingPro
         const data = await res.json();
         setNotes(data.notes || []);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }
@@ -66,7 +67,8 @@ export function NoteTaking({ courseId, lessonId, videoTimestamp }: NoteTakingPro
         setNotes([data.note, ...notes]);
         setCurrentNote('');
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     } finally {
       setSaving(false);
@@ -76,15 +78,15 @@ export function NoteTaking({ courseId, lessonId, videoTimestamp }: NoteTakingPro
   async function deleteNote(noteId: string) {
     try {
       await fetch(`/api/notes/${noteId}`, { method: 'DELETE' });
-      setNotes(notes.filter(n => n.id !== noteId));
-    } catch (error) { /* Error handled silently */ 
+      setNotes(notes.filter((n) => n.id !== noteId));
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }
 
-  const filteredNotes = notes.filter(note =>
-    searchQuery === '' ||
-    note.content.toLowerCase().includes(searchQuery.toLowerCase())
+  const filteredNotes = notes.filter(
+    (note) => searchQuery === '' || note.content.toLowerCase().includes(searchQuery.toLowerCase()),
   );
 
   const formatTimestamp = (seconds?: number) => {
@@ -102,7 +104,9 @@ export function NoteTaking({ courseId, lessonId, videoTimestamp }: NoteTakingPro
       <div className="mb-4">
         <textarea
           value={currentNote}
-          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setCurrentNote(e.target.value)}
+          onChange={(
+            e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+          ) => setCurrentNote(e.target.value)}
           placeholder="Take a note..."
           className="w-full h-24 px-3 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-emerald-500 text-sm"
         />
@@ -133,7 +137,9 @@ export function NoteTaking({ courseId, lessonId, videoTimestamp }: NoteTakingPro
           type="text"
           placeholder="Search notes..."
           value={searchQuery}
-          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setSearchQuery(e.target.value)}
+          onChange={(
+            e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+          ) => setSearchQuery(e.target.value)}
           className="w-full pl-10 pr-4 py-2 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
         />
       </div>
@@ -142,10 +148,7 @@ export function NoteTaking({ courseId, lessonId, videoTimestamp }: NoteTakingPro
       <div className="space-y-3 max-h-96 overflow-y-auto">
         {filteredNotes.length > 0 ? (
           filteredNotes.map((note) => (
-            <div
-              key={note.id}
-              className="p-3 bg-slate-50 rounded-lg border border-slate-200"
-            >
+            <div key={note.id} className="p-3 bg-slate-50 rounded-lg border border-slate-200">
               <div className="flex items-start justify-between gap-2">
                 <div className="flex-1">
                   {note.timestamp && (
@@ -154,11 +157,14 @@ export function NoteTaking({ courseId, lessonId, videoTimestamp }: NoteTakingPro
                       {formatTimestamp(note.timestamp)}
                     </div>
                   )}
-                  <p className="text-sm text-black whitespace-pre-wrap">
-                    {note.content}
-                  </p>
+                  <p className="text-sm text-black whitespace-pre-wrap">{note.content}</p>
                   <p className="text-xs text-slate-500 mt-2">
-                    {new Date(note.created_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                    {new Date(note.created_at).toLocaleDateString('en-US', {
+                      timeZone: 'UTC',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                   </p>
                 </div>
                 <button

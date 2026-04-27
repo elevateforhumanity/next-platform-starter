@@ -8,23 +8,16 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
-import {
-  MessageCircle,
-  Users,
-  Clock,
-  TrendingUp,
-  ExternalLink,
-CheckCircle, } from 'lucide-react';
+import { MessageCircle, Users, Clock, TrendingUp, ExternalLink, CheckCircle } from 'lucide-react';
 
 export default function LiveChatPage() {
   const router = useRouter();
-
-  
 
   return (
     <div className="min-h-screen bg-white">
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-live-chat-detail.jpg"
           alt="Live Chat"
@@ -34,7 +27,6 @@ export default function LiveChatPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Header */}
@@ -46,9 +38,7 @@ export default function LiveChatPage() {
               <MessageCircle className="w-8 h-8 text-brand-blue-600" />
               <div>
                 <h1 className="text-3xl font-bold text-black">Live Chat</h1>
-                <p className="text-black mt-1">
-                  Real-time support for students and visitors
-                </p>
+                <p className="text-black mt-1">Real-time support for students and visitors</p>
               </div>
             </div>
 
@@ -68,30 +58,10 @@ export default function LiveChatPage() {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Stats */}
         <div className="grid grid-cols-1 md:grid-cols-4 gap-6 mb-8">
-          <StatCard
-            title="Active Chats"
-            value="0"
-            icon={MessageCircle}
-            color="blue"
-          />
-          <StatCard
-            title="Avg Response Time"
-            value="N/A"
-            icon={Clock}
-            color="green"
-          />
-          <StatCard
-            title="Satisfaction Rate"
-            value="N/A"
-            icon={CheckCircle}
-            color="blue"
-          />
-          <StatCard
-            title="Total Conversations"
-            value="0"
-            icon={TrendingUp}
-            color="orange"
-          />
+          <StatCard title="Active Chats" value="0" icon={MessageCircle} color="blue" />
+          <StatCard title="Avg Response Time" value="N/A" icon={Clock} color="green" />
+          <StatCard title="Satisfaction Rate" value="N/A" icon={CheckCircle} color="blue" />
+          <StatCard title="Total Conversations" value="0" icon={TrendingUp} color="orange" />
         </div>
 
         {/* Setup Instructions */}
@@ -100,9 +70,7 @@ export default function LiveChatPage() {
 
           <div className="space-y-6">
             <div>
-              <h3 className="font-medium text-black mb-2">
-                1. Create Tawk.to Account (FREE)
-              </h3>
+              <h3 className="font-medium text-black mb-2">1. Create Tawk.to Account (FREE)</h3>
               <p className="text-black mb-2">
                 Sign up at{' '}
                 <a
@@ -118,9 +86,7 @@ export default function LiveChatPage() {
             </div>
 
             <div>
-              <h3 className="font-medium text-black mb-2">
-                2. Get Your Widget Code
-              </h3>
+              <h3 className="font-medium text-black mb-2">2. Get Your Widget Code</h3>
               <ol className="list-decimal list-inside text-black space-y-1 ml-4">
                 <li>Log in to Tawk.to dashboard</li>
                 <li>Go to Administration → Channels → Chat Widget</li>
@@ -129,9 +95,7 @@ export default function LiveChatPage() {
             </div>
 
             <div>
-              <h3 className="font-medium text-black mb-2">
-                3. Add to Environment Variables
-              </h3>
+              <h3 className="font-medium text-black mb-2">3. Add to Environment Variables</h3>
               <div className="bg-slate-800 text-slate-700 p-4 rounded-lg font-mono text-sm">
                 <div>NEXT_PUBLIC_TAWK_PROPERTY_ID=your_property_id</div>
                 <div>NEXT_PUBLIC_TAWK_WIDGET_ID=your_widget_id</div>
@@ -139,12 +103,9 @@ export default function LiveChatPage() {
             </div>
 
             <div>
-              <h3 className="font-medium text-black mb-2">
-                4. Deploy & Test
-              </h3>
+              <h3 className="font-medium text-black mb-2">4. Deploy & Test</h3>
               <p className="text-black">
-                Redeploy your site and the chat widget will appear on all pages
-                automatically.
+                Redeploy your site and the chat widget will appear on all pages automatically.
               </p>
             </div>
           </div>
@@ -152,9 +113,7 @@ export default function LiveChatPage() {
 
         {/* Features */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h2 className="text-xl font-semibold mb-4">
-            Tawk.to Features (All FREE)
-          </h2>
+          <h2 className="text-xl font-semibold mb-4">Tawk.to Features (All FREE)</h2>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
             <FeatureItem
@@ -177,18 +136,9 @@ export default function LiveChatPage() {
               title="Canned Responses"
               description="Quick replies for common questions"
             />
-            <FeatureItem
-              title="File Sharing"
-              description="Share documents and images in chat"
-            />
-            <FeatureItem
-              title="Customization"
-              description="Match your brand colors and style"
-            />
-            <FeatureItem
-              title="Analytics"
-              description="Detailed reports and insights"
-            />
+            <FeatureItem title="File Sharing" description="Share documents and images in chat" />
+            <FeatureItem title="Customization" description="Match your brand colors and style" />
+            <FeatureItem title="Analytics" description="Detailed reports and insights" />
           </div>
         </div>
 
@@ -217,13 +167,10 @@ export default function LiveChatPage() {
 
         {/* Alternative Options */}
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-6 mt-8">
-          <h3 className="font-semibold text-brand-blue-900 mb-2">
-            Alternative Chat Solutions
-          </h3>
+          <h3 className="font-semibold text-brand-blue-900 mb-2">Alternative Chat Solutions</h3>
           <div className="space-y-2 text-sm text-brand-blue-800">
             <div>
-              • <strong>Intercom</strong>: $74/month - Advanced features, CRM
-              integration
+              • <strong>Intercom</strong>: $74/month - Advanced features, CRM integration
             </div>
             <div>
               • <strong>Crisp</strong>: $25/month - Modern UI, chatbots
@@ -242,24 +189,22 @@ export default function LiveChatPage() {
         <section className="py-16">
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
-              <h2 className="text-2xl md:text-3xl font-bold mb-6">
-              Live Chat Management
-                          </h2>
+              <h2 className="text-2xl md:text-3xl font-bold mb-6">Live Chat Management</h2>
               <p className="text-base md:text-lg mb-8 text-brand-blue-100">
-              Monitor and respond to visitor and student conversations.
-                          </p>
+                Monitor and respond to visitor and student conversations.
+              </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/admin/live-chat"
                   className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
                 >
-                Open Chat
+                  Open Chat
                 </Link>
                 <Link
                   href="/admin/dashboard"
                   className="bg-brand-blue-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-blue-600 border-2 border-white text-lg shadow-2xl transition-all"
                 >
-                View Dashboard
+                  View Dashboard
                 </Link>
               </div>
             </div>

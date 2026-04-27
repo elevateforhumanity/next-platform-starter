@@ -71,7 +71,8 @@ async function fetchLesson(courseId: string, lessonNumber: number): Promise<Less
   );
   if (!res.ok) throw new Error(`Fetch failed: ${await res.text()}`);
   const rows = await res.json();
-  if (rows.length === 0) throw new Error(`No lesson found: course=${courseId}, lesson=${lessonNumber}`);
+  if (rows.length === 0)
+    throw new Error(`No lesson found: course=${courseId}, lesson=${lessonNumber}`);
   return rows[0];
 }
 
@@ -96,9 +97,10 @@ async function generateScript(lesson: LessonRow, courseName: string): Promise<st
     model: 'gpt-4o',
     temperature: 0.6,
     max_tokens: 3000,
-    messages: [{
-      role: 'user',
-      content: `You are an instructor for "${courseName}". Write a teaching script for this lesson that an avatar will speak on camera.
+    messages: [
+      {
+        role: 'user',
+        content: `You are an instructor for "${courseName}". Write a teaching script for this lesson that an avatar will speak on camera.
 
 LESSON: ${lesson.title}
 CONTENT:
@@ -114,12 +116,16 @@ Requirements:
 - Do NOT include stage directions, just the spoken words
 - Do NOT use markdown formatting
 
-Return ONLY the script segments separated by ---`
-    }],
+Return ONLY the script segments separated by ---`,
+      },
+    ],
   });
 
   const raw = res.choices[0].message.content || '';
-  const segments = raw.split('---').map(s => s.trim()).filter(s => s.length > 20);
+  const segments = raw
+    .split('---')
+    .map((s) => s.trim())
+    .filter((s) => s.length > 20);
   return segments;
 }
 
@@ -131,7 +137,7 @@ async function submitHeyGenVideo(
   avatarConfig: { avatarId: string; voiceId: string },
   title: string,
 ): Promise<string> {
-  const videoInputs = segments.map(segment => ({
+  const videoInputs = segments.map((segment) => ({
     character: {
       type: 'avatar',
       avatar_id: avatarConfig.avatarId,
@@ -167,13 +173,15 @@ async function submitHeyGenVideo(
 /**
  * Poll HeyGen until video is ready, return the video URL.
  */
-async function waitForVideo(videoId: string, maxWaitMs = 600000): Promise<{ url: string; duration: number }> {
+async function waitForVideo(
+  videoId: string,
+  maxWaitMs = 600000,
+): Promise<{ url: string; duration: number }> {
   const start = Date.now();
   while (Date.now() - start < maxWaitMs) {
-    const res = await fetch(
-      `https://api.heygen.com/v1/video_status.get?video_id=${videoId}`,
-      { headers: { 'X-Api-Key': HEYGEN_KEY } },
-    );
+    const res = await fetch(`https://api.heygen.com/v1/video_status.get?video_id=${videoId}`, {
+      headers: { 'X-Api-Key': HEYGEN_KEY },
+    });
     const data = await res.json();
     const status = data.data?.status;
 
@@ -189,7 +197,7 @@ async function waitForVideo(videoId: string, maxWaitMs = 600000): Promise<{ url:
 
     // Still processing — wait 15 seconds
     process.stdout.write('.');
-    await new Promise(r => setTimeout(r, 15000));
+    await new Promise((r) => setTimeout(r, 15000));
   }
   throw new Error('HeyGen video timed out after 10 minutes');
 }
@@ -197,10 +205,7 @@ async function waitForVideo(videoId: string, maxWaitMs = 600000): Promise<{ url:
 /**
  * Download video from HeyGen URL and upload to Supabase storage.
  */
-async function downloadAndUpload(
-  heygenUrl: string,
-  storagePath: string,
-): Promise<string> {
+async function downloadAndUpload(heygenUrl: string, storagePath: string): Promise<string> {
   // Download
   const dlRes = await fetch(heygenUrl);
   if (!dlRes.ok) throw new Error(`Download failed: ${dlRes.status}`);
@@ -222,19 +227,16 @@ async function downloadAndUpload(
 }
 
 async function updateLessonVideoUrl(lessonId: string, videoUrl: string) {
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/training_lessons?id=eq.${lessonId}`,
-    {
-      method: 'PATCH',
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json',
-        Prefer: 'return=minimal',
-      },
-      body: JSON.stringify({ video_url: videoUrl }),
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/training_lessons?id=eq.${lessonId}`, {
+    method: 'PATCH',
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
     },
-  );
+    body: JSON.stringify({ video_url: videoUrl }),
+  });
   if (!res.ok) throw new Error(`DB update failed: ${await res.text()}`);
 }
 
@@ -248,12 +250,24 @@ async function main() {
   const courseKey = getArg('course') || 'hvac';
   const lessonNum = parseInt(getArg('lesson') || '1');
 
-  if (!HEYGEN_KEY) { console.error('HEYGEN_API_KEY not set'); process.exit(1); }
-  if (!SUPABASE_KEY) { console.error('SUPABASE_SERVICE_ROLE_KEY not set'); process.exit(1); }
-  if (!process.env.OPENAI_API_KEY) { console.error('OPENAI_API_KEY not set'); process.exit(1); }
+  if (!HEYGEN_KEY) {
+    console.error('HEYGEN_API_KEY not set');
+    process.exit(1);
+  }
+  if (!SUPABASE_KEY) {
+    console.error('SUPABASE_SERVICE_ROLE_KEY not set');
+    process.exit(1);
+  }
+  if (!process.env.OPENAI_API_KEY) {
+    console.error('OPENAI_API_KEY not set');
+    process.exit(1);
+  }
 
   const courseInfo = COURSES[courseKey];
-  if (!courseInfo) { console.error(`Unknown course: ${courseKey}`); process.exit(1); }
+  if (!courseInfo) {
+    console.error(`Unknown course: ${courseKey}`);
+    process.exit(1);
+  }
 
   const avatarConfig = COURSE_AVATARS[courseKey];
   console.log(`\nCourse: ${courseInfo.name}`);
@@ -269,11 +283,17 @@ async function main() {
   console.log('Generating teaching script (GPT-4o)...');
   const segments = await generateScript(lesson, courseInfo.name);
   const totalWords = segments.join(' ').split(/\s+/).length;
-  console.log(`  ${segments.length} segments, ${totalWords} words (~${Math.round(totalWords / 150)} min)`);
+  console.log(
+    `  ${segments.length} segments, ${totalWords} words (~${Math.round(totalWords / 150)} min)`,
+  );
 
   // 3. Submit to HeyGen
   console.log('Submitting to HeyGen...');
-  const videoId = await submitHeyGenVideo(segments, avatarConfig, `${courseInfo.name} - L${lessonNum}: ${lesson.title}`);
+  const videoId = await submitHeyGenVideo(
+    segments,
+    avatarConfig,
+    `${courseInfo.name} - L${lessonNum}: ${lesson.title}`,
+  );
   console.log(`  Video ID: ${videoId}`);
 
   // 4. Wait for rendering
@@ -284,7 +304,10 @@ async function main() {
   // 5. Download and upload to Supabase
   console.log('Uploading to Supabase...');
   const num = String(lessonNum).padStart(3, '0');
-  const slug = courseInfo.name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/-+$/, '');
+  const slug = courseInfo.name
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/-+$/, '');
   const storagePath = `lessons-v3/${slug}-lesson-${num}.mp4`;
   const publicUrl = await downloadAndUpload(heygenUrl, storagePath);
   console.log(`  ${publicUrl}`);
@@ -305,4 +328,7 @@ async function main() {
   console.log(`   HeyGen credits remaining: ${remaining}s (${Math.round(remaining / 60)} min)`);
 }
 
-main().catch(err => { console.error('Fatal:', err.message); process.exit(1); });
+main().catch((err) => {
+  console.error('Fatal:', err.message);
+  process.exit(1);
+});

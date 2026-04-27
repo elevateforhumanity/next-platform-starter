@@ -1,5 +1,6 @@
 // config/navigation.ts
 import { siteMapSections, type SiteMapItem } from '@/config/site-map.auto';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 export type NavItem = SiteMapItem;
 
@@ -12,8 +13,7 @@ export type NavSection = {
 // helper: find a section by id or title
 function itemsFrom(key: string): NavItem[] {
   const section =
-    siteMapSections.find((s) => s.id === key) ||
-    siteMapSections.find((s) => s.title === key);
+    siteMapSections.find((s) => s.id === key) || siteMapSections.find((s) => s.title === key);
   return section ? section.items : [];
 }
 
@@ -31,9 +31,9 @@ export const headerNav: NavSection[] = [
         label: 'Barber Apprenticeship',
         href: '/programs/barber-apprenticeship',
       },
-      { label: 'HVAC Technician', href: '/programs/hvac-technician' },
+      { label: 'HVAC Technician', href: canonicalRoutes.programs.hvacTechnician },
       { label: 'CDL Training', href: '/programs/cdl' },
-      { label: 'CNA Healthcare', href: '/programs/cna' },
+      { label: 'CNA Healthcare', href: canonicalRoutes.programs.certifiedNursingAssistant },
       { label: 'Workforce Readiness', href: '/programs/workforce-readiness' },
     ],
   },

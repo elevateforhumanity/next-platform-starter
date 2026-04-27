@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
@@ -69,8 +68,8 @@ export default async function AdminCampaignsPage() {
   let totalSent = 0;
   let totalOpened = 0;
   let totalClicked = 0;
-  
-  campaigns?.forEach(c => {
+
+  campaigns?.forEach((c) => {
     const stats = c.stats as { sent?: number; opened?: number; clicked?: number } | null;
     if (stats) {
       totalSent += stats.sent || 0;
@@ -84,7 +83,6 @@ export default async function AdminCampaignsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
@@ -186,49 +184,64 @@ export default async function AdminCampaignsPage() {
             <table className="w-full">
               <thead className="bg-gray-50 border-b border-gray-200">
                 <tr>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Campaign</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">
+                    Campaign
+                  </th>
                   <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Type</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Status</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">
+                    Status
+                  </th>
                   <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Sent</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Opened</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Clicked</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Created</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">
+                    Opened
+                  </th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">
+                    Clicked
+                  </th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">
+                    Created
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
                 {campaigns.map((campaign) => {
                   const TypeIcon = typeIcons[campaign.campaign_type] || Mail;
-                  
+
                   return (
                     <tr key={campaign.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
-                        <Link href={`/admin/campaigns/${campaign.id}`} className="font-medium text-slate-900 hover:text-brand-blue-600">
+                        <Link
+                          href={`/admin/campaigns/${campaign.id}`}
+                          className="font-medium text-slate-900 hover:text-brand-blue-600"
+                        >
                           {campaign.name}
                         </Link>
                         {campaign.subject && (
-                          <p className="text-sm text-slate-700 truncate max-w-xs">{campaign.subject}</p>
+                          <p className="text-sm text-slate-700 truncate max-w-xs">
+                            {campaign.subject}
+                          </p>
                         )}
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex items-center gap-2">
                           <TypeIcon className="w-4 h-4 text-slate-700" />
-                          <span className="text-sm text-slate-700 capitalize">{campaign.campaign_type}</span>
+                          <span className="text-sm text-slate-700 capitalize">
+                            {campaign.campaign_type}
+                          </span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${statusColors[campaign.status] || 'bg-gray-100 text-slate-900'}`}>
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium capitalize ${statusColors[campaign.status] || 'bg-gray-100 text-slate-900'}`}
+                        >
                           {campaign.status}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-sm text-slate-700">
                         {campaign.sent_at ? 'Sent' : '-'}
                       </td>
-                      <td className="px-6 py-4 text-sm text-slate-700">
-                        -
-                      </td>
-                      <td className="px-6 py-4 text-sm text-slate-700">
-                        -
-                      </td>
+                      <td className="px-6 py-4 text-sm text-slate-700">-</td>
+                      <td className="px-6 py-4 text-sm text-slate-700">-</td>
                       <td className="px-6 py-4 text-sm text-slate-700">
                         {new Date(campaign.created_at).toLocaleDateString()}
                       </td>

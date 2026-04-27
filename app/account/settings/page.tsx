@@ -3,9 +3,17 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { 
-  Bell, Shield, Globe, Moon, Trash2, ChevronRight, 
-  Mail, Smartphone, Eye, Lock
+import {
+  Bell,
+  Shield,
+  Globe,
+  Moon,
+  Trash2,
+  ChevronRight,
+  Mail,
+  Smartphone,
+  Eye,
+  Lock,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -51,7 +59,9 @@ const settingsSections = [
 export default async function AccountSettingsPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/account/settings');
@@ -62,10 +72,7 @@ export default async function AccountSettingsPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Account', href: '/account' },
-            { label: 'Settings' }
-          ]} />
+          <Breadcrumbs items={[{ label: 'Account', href: '/account' }, { label: 'Settings' }]} />
         </div>
       </div>
 
@@ -95,7 +102,7 @@ export default async function AccountSettingsPage() {
         {/* Quick Settings */}
         <div className="bg-white rounded-xl p-6 shadow-sm border mb-8">
           <h2 className="font-semibold text-slate-900 mb-6">Quick Settings</h2>
-          
+
           <div className="space-y-6">
             {/* Email Notifications Toggle */}
             <div className="flex items-center justify-between">
@@ -136,7 +143,7 @@ export default async function AccountSettingsPage() {
                   <div className="text-sm text-slate-700">Add an extra layer of security</div>
                 </div>
               </div>
-              <Link 
+              <Link
                 href="/account/settings/security"
                 className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-medium"
               >

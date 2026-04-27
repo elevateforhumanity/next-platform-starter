@@ -21,7 +21,9 @@ async function _GET(request: NextRequest) {
   try {
     // Search both the database store and the static search index
     const [storeResults, indexResults] = await Promise.all([
-      source !== 'index' ? searchStore(query, audience, category, limit).catch(() => []) : Promise.resolve([]),
+      source !== 'index'
+        ? searchStore(query, audience, category, limit).catch(() => [])
+        : Promise.resolve([]),
       query
         ? Promise.resolve(searchItems(query, audience, category).slice(0, limit))
         : audience

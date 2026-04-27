@@ -1,4 +1,3 @@
-
 // GET /api/cron/compliance-expiration
 // Runs weekly (Netlify cron or pg_cron fallback).
 // Finds provider_compliance_artifacts expiring within 30 days.
@@ -74,30 +73,35 @@ export async function GET(request: Request) {
 
     for (const artifact of artifacts) {
       const daysLeft = Math.ceil(
-        (new Date(artifact.expires_at).getTime() - now.getTime()) / 86400000
+        (new Date(artifact.expires_at).getTime() - now.getTime()) / 86400000,
       );
 
-      await db.from('notification_outbox').insert({
-        to_email: contact.email,
-        template_key: 'compliance_expiring',
-        template_data: {
-          contact_name: contact.full_name ?? contact.email,
-          org_name: tenant?.name ?? tenantId,
-          artifact_label: artifact.label,
-          artifact_type: artifact.artifact_type,
-          expires_at: artifact.expires_at,
-          days_until_expiry: daysLeft,
-          portal_link: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/provider/compliance`,
-        },
-        status: 'queued',
-        scheduled_for: now.toISOString(),
-      }).catch(err => logger.warn('Failed to queue compliance_expiring notification', err));
+      await db
+        .from('notification_outbox')
+        .insert({
+          to_email: contact.email,
+          template_key: 'compliance_expiring',
+          template_data: {
+            contact_name: contact.full_name ?? contact.email,
+            org_name: tenant?.name ?? tenantId,
+            artifact_label: artifact.label,
+            artifact_type: artifact.artifact_type,
+            expires_at: artifact.expires_at,
+            days_until_expiry: daysLeft,
+            portal_link: `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/provider/compliance`,
+          },
+          status: 'queued',
+          scheduled_for: now.toISOString(),
+        })
+        .catch((err) => logger.warn('Failed to queue compliance_expiring notification', err));
 
       queued++;
     }
   }
 
-  logger.info(`compliance-expiration cron: queued ${queued} notifications for ${Object.keys(byTenant).length} tenants`);
+  logger.info(
+    `compliance-expiration cron: queued ${queued} notifications for ${Object.keys(byTenant).length} tenants`,
+  );
   return NextResponse.json({
     queued,
     tenants: Object.keys(byTenant).length,

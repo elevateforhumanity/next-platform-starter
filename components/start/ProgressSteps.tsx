@@ -2,11 +2,7 @@ type ProgressStepsProps = {
   current?: 1 | 2 | 3;
 };
 
-const steps = [
-  'Tell us about you',
-  'We review your fit',
-  'We guide funding + enrollment',
-];
+const steps = ['Tell us about you', 'We review your fit', 'We guide funding + enrollment'];
 
 export default function ProgressSteps({ current = 1 }: ProgressStepsProps) {
   return (
@@ -24,8 +20,8 @@ export default function ProgressSteps({ current = 1 }: ProgressStepsProps) {
                 isActive
                   ? 'border-brand-blue-600 bg-brand-blue-600 text-white'
                   : isComplete
-                  ? 'border-brand-blue-200 bg-brand-blue-50 text-brand-blue-800'
-                  : 'border-gray-200 bg-white text-slate-900'
+                    ? 'border-brand-blue-200 bg-brand-blue-50 text-brand-blue-800'
+                    : 'border-gray-200 bg-white text-slate-900'
               }`}
             >
               <div className="text-sm font-medium">Step {stepNumber}</div>

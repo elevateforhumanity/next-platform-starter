@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 
-
 import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -17,10 +16,7 @@ async function _POST(req: Request) {
     const { hour_id, reason } = await req.json();
 
     if (!hour_id) {
-      return NextResponse.json(
-        { error: 'Hour ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Hour ID is required' }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -51,7 +47,7 @@ async function _POST(req: Request) {
     if (!isAdmin && !isPartner) {
       return NextResponse.json(
         { error: 'Forbidden - requires admin or partner role' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -65,10 +61,7 @@ async function _POST(req: Request) {
       .eq('id', hour_id);
 
     if (error) {
-      return NextResponse.json(
-        { error: 'Failed to reject hours' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to reject hours' }, { status: 500 });
     }
 
     // Log the rejection
@@ -85,7 +78,7 @@ async function _POST(req: Request) {
   } catch (err: any) {
     return NextResponse.json(
       { error: toErrorMessage(err) || 'Failed to reject hours' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

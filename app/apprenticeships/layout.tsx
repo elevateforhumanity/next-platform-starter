@@ -10,7 +10,8 @@ export const metadata: Metadata = {
   },
   openGraph: {
     title: 'Apprenticeship Programs - Earn While You Learn',
-    description: 'Paid apprenticeships in barbering, HVAC, electrical, and more. Hands-on training with job placement.',
+    description:
+      'Paid apprenticeships in barbering, HVAC, electrical, and more. Hands-on training with job placement.',
     url: 'https://www.elevateforhumanity.org/apprenticeships',
     siteName: 'Elevate for Humanity',
     images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: 'Apprenticeship Programs' }],
@@ -24,10 +25,6 @@ export const metadata: Metadata = {
   },
 };
 
-export default function ApprenticeshipsLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function ApprenticeshipsLayout({ children }: { children: React.ReactNode }) {
   return <>{children}</>;
 }

@@ -6,8 +6,7 @@ import { createClient } from 'https://esm.sh/@supabase/supabase-js@2';
 
 const corsHeaders = {
   'Access-Control-Allow-Origin': '*',
-  'Access-Control-Allow-Headers':
-    'authorization, x-client-info, apikey, content-type',
+  'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
 };
 
 serve(async (req) => {
@@ -104,10 +103,7 @@ async function applyMigrations(supabase: any, data: any) {
 
       if (error) {
         // Ignore "already exists" errors
-        if (
-          !error.message.includes('already exists') &&
-          !error.message.includes('duplicate')
-        ) {
+        if (!error.message.includes('already exists') && !error.message.includes('duplicate')) {
           throw error;
         }
       }
@@ -172,8 +168,7 @@ async function verifySchema(supabase: any) {
 
 // Add a course with lessons
 async function addCourse(supabase: any, data: any) {
-  const { program_slug, course_code, course_title, course_summary, lessons } =
-    data;
+  const { program_slug, course_code, course_title, course_summary, lessons } = data;
 
   // Get program ID
   const { data: program } = await supabase

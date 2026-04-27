@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
@@ -28,19 +28,19 @@ interface DigitalBinderProps {
   programName?: string;
 }
 
-export default function DigitalBinder({
-  studentId,
-  studentName,
-  programName,
-}: DigitalBinderProps) {
+export default function DigitalBinder({ studentId, studentName, programName }: DigitalBinderProps) {
   const [activeTab, setActiveTab] = useState<'documents' | 'notes' | 'tracking'>('documents');
   const [newNote, setNewNote] = useState('');
 
   const [documents, setDocuments] = useState<BinderDocument[]>([]);
   const [notes, setNotes] = useState<BinderNote[]>([]);
   const [trackingData, setTrackingData] = useState({
-    hoursCompleted: 0, hoursRequired: 0, attendanceRate: 0,
-    assignmentsCompleted: 0, assignmentsTotal: 0, currentGrade: 0,
+    hoursCompleted: 0,
+    hoursRequired: 0,
+    attendanceRate: 0,
+    assignmentsCompleted: 0,
+    assignmentsTotal: 0,
+    currentGrade: 0,
   });
 
   useEffect(() => {
@@ -49,24 +49,46 @@ export default function DigitalBinder({
 
     async function loadBinder() {
       const [docsRes, notesRes, enrollRes] = await Promise.all([
-        supabase.from('documents').select('id, document_type, file_name, created_at, status, uploaded_by')
-          .eq('user_id', studentId).order('created_at', { ascending: false }),
-        supabase.from('case_notes').select('id, created_at, author_name, note, category')
-          .eq('student_id', studentId).order('created_at', { ascending: false }),
-        supabase.from('program_enrollments').select('progress, status')
-          .eq('user_id', studentId).eq('status', 'active').limit(1).maybeSingle(),
+        supabase
+          .from('documents')
+          .select('id, document_type, file_name, created_at, status, uploaded_by')
+          .eq('user_id', studentId)
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('case_notes')
+          .select('id, created_at, author_name, note, category')
+          .eq('student_id', studentId)
+          .order('created_at', { ascending: false }),
+        supabase
+          .from('program_enrollments')
+          .select('progress, status')
+          .eq('user_id', studentId)
+          .eq('status', 'active')
+          .limit(1)
+          .maybeSingle(),
       ]);
 
-      setDocuments((docsRes.data || []).map(d => ({
-        id: d.id, title: d.file_name || d.document_type, type: d.document_type || 'form',
-        date: d.created_at?.split('T')[0] || '', status: d.status || 'pending', uploadedBy: d.uploaded_by || '',
-      })));
-      setNotes((notesRes.data || []).map(n => ({
-        id: n.id, date: n.created_at?.split('T')[0] || '', author: n.author_name || '',
-        note: n.note || '', category: n.category || 'progress',
-      })));
+      setDocuments(
+        (docsRes.data || []).map((d) => ({
+          id: d.id,
+          title: d.file_name || d.document_type,
+          type: d.document_type || 'form',
+          date: d.created_at?.split('T')[0] || '',
+          status: d.status || 'pending',
+          uploadedBy: d.uploaded_by || '',
+        })),
+      );
+      setNotes(
+        (notesRes.data || []).map((n) => ({
+          id: n.id,
+          date: n.created_at?.split('T')[0] || '',
+          author: n.author_name || '',
+          note: n.note || '',
+          category: n.category || 'progress',
+        })),
+      );
       if (enrollRes.data) {
-        setTrackingData(prev => ({ ...prev, hoursCompleted: enrollRes.data.progress || 0 }));
+        setTrackingData((prev) => ({ ...prev, hoursCompleted: enrollRes.data.progress || 0 }));
       }
     }
 
@@ -111,7 +133,9 @@ export default function DigitalBinder({
         <div className="flex items-center justify-between">
           <div>
             <h2 className="text-2xl font-bold mb-1">Digital Binder</h2>
-            <p className="text-white">{studentName || 'Student'} • {programName || 'Program'}</p>
+            <p className="text-white">
+              {studentName || 'Student'} • {programName || 'Program'}
+            </p>
           </div>
           <div className="text-right">
             <div className="text-sm text-white">Student ID</div>
@@ -171,13 +195,23 @@ export default function DigitalBinder({
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <h4 className="font-semibold text-black">{doc.title}</h4>
-                      <span className={`px-2 py-2 rounded-full text-xs font-medium ${getStatusColor(doc.status)}`}>
+                      <span
+                        className={`px-2 py-2 rounded-full text-xs font-medium ${getStatusColor(doc.status)}`}
+                      >
                         {doc.status}
                       </span>
                     </div>
                     <div className="flex items-center gap-4 text-sm text-black">
                       <span>Type: {doc.type}</span>
-                      <span>Date: {new Date(doc.date).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}</span>
+                      <span>
+                        Date:{' '}
+                        {new Date(doc.date).toLocaleDateString('en-US', {
+                          timeZone: 'UTC',
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                        })}
+                      </span>
                       {doc.uploadedBy && <span>By: {doc.uploadedBy}</span>}
                     </div>
                   </div>
@@ -208,7 +242,9 @@ export default function DigitalBinder({
             <Card className="p-4 mb-4 bg-brand-blue-50 border-brand-blue-200">
               <textarea
                 value={newNote}
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setNewNote(e.target.value)}
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+                ) => setNewNote(e.target.value)}
                 placeholder="Add a new note about this student..."
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 rows={3}
@@ -233,12 +269,19 @@ export default function DigitalBinder({
                   <div className="flex items-start justify-between mb-2">
                     <div className="flex items-center gap-2">
                       <span className="font-semibold text-black">{note.author}</span>
-                      <span className={`px-2 py-2 rounded-full text-xs font-medium ${getCategoryColor(note.category)}`}>
+                      <span
+                        className={`px-2 py-2 rounded-full text-xs font-medium ${getCategoryColor(note.category)}`}
+                      >
                         {note.category}
                       </span>
                     </div>
                     <span className="text-sm text-slate-700">
-                      {new Date(note.date).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                      {new Date(note.date).toLocaleDateString('en-US', {
+                        timeZone: 'UTC',
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
                     </span>
                   </div>
                   <p className="text-black">{note.note}</p>
@@ -263,7 +306,9 @@ export default function DigitalBinder({
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
                   className="bg-white h-2 rounded-full"
-                  style={{ width: `${(trackingData.hoursCompleted / trackingData.hoursRequired) * 100}%` }}
+                  style={{
+                    width: `${(trackingData.hoursCompleted / trackingData.hoursRequired) * 100}%`,
+                  }}
                 />
               </div>
             </Card>
@@ -283,9 +328,7 @@ export default function DigitalBinder({
 
             <Card className="p-6">
               <div className="text-sm text-black mb-2">Current Grade</div>
-              <div className="text-3xl font-bold text-black mb-3">
-                {trackingData.currentGrade}%
-              </div>
+              <div className="text-3xl font-bold text-black mb-3">{trackingData.currentGrade}%</div>
               <div className="w-full bg-gray-200 rounded-full h-2">
                 <div
                   className="bg-white h-2 rounded-full"
@@ -298,15 +341,22 @@ export default function DigitalBinder({
           <Card className="p-6">
             <h4 className="font-semibold text-black mb-4">Assignments</h4>
             <div className="flex items-center justify-between mb-2">
-              <span className="text-black">Completed: {trackingData.assignmentsCompleted} / {trackingData.assignmentsTotal}</span>
+              <span className="text-black">
+                Completed: {trackingData.assignmentsCompleted} / {trackingData.assignmentsTotal}
+              </span>
               <span className="font-semibold text-black">
-                {Math.round((trackingData.assignmentsCompleted / trackingData.assignmentsTotal) * 100)}%
+                {Math.round(
+                  (trackingData.assignmentsCompleted / trackingData.assignmentsTotal) * 100,
+                )}
+                %
               </span>
             </div>
             <div className="w-full bg-gray-200 rounded-full h-3">
               <div
                 className="bg-white h-3 rounded-full"
-                style={{ width: `${(trackingData.assignmentsCompleted / trackingData.assignmentsTotal) * 100}%` }}
+                style={{
+                  width: `${(trackingData.assignmentsCompleted / trackingData.assignmentsTotal) * 100}%`,
+                }}
               />
             </div>
           </Card>

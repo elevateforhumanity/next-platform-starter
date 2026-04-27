@@ -1,14 +1,9 @@
-
 // Bulk operations for admin functions
 
 import { createClient } from '@/lib/supabase/server';
 import { auditLog } from './auditLog';
 
-export async function bulkEnrollStudents(
-  studentIds: string[],
-  courseId: string,
-  actorId: string
-) {
+export async function bulkEnrollStudents(studentIds: string[], courseId: string, actorId: string) {
   const supabase = await createClient();
 
   try {
@@ -42,7 +37,8 @@ export async function bulkEnrollStudents(
       enrolled: data?.length || 0,
       data,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',
@@ -53,7 +49,7 @@ export async function bulkEnrollStudents(
 export async function bulkUnenrollStudents(
   studentIds: string[],
   courseId: string,
-  actorId: string
+  actorId: string,
 ) {
   const supabase = await createClient();
 
@@ -80,7 +76,8 @@ export async function bulkUnenrollStudents(
       success: true,
       unenrolled: studentIds.length,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',
@@ -91,7 +88,7 @@ export async function bulkUnenrollStudents(
 export async function bulkIssueCertificates(
   studentIds: string[],
   courseId: string,
-  actorId: string
+  actorId: string,
 ) {
   const supabase = await createClient();
 
@@ -125,16 +122,10 @@ export async function bulkIssueCertificates(
       program_name: course.program_name,
       certificate_number: `CERT-${Date.now()}-${student.id.slice(0, 8)}`,
       issued_date: new Date().toISOString(),
-      verification_code: Math.random()
-        .toString(36)
-        .substring(2, 10)
-        .toUpperCase(),
+      verification_code: Math.random().toString(36).substring(2, 10).toUpperCase(),
     }));
 
-    const { data, error }: any = await supabase
-      .from('certificates')
-      .insert(certificates)
-      .select();
+    const { data, error }: any = await supabase.from('certificates').insert(certificates).select();
 
     if (error) {
       return { success: false, error: 'Operation failed' };
@@ -153,7 +144,8 @@ export async function bulkIssueCertificates(
       issued: data?.length || 0,
       data,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',
@@ -163,7 +155,7 @@ export async function bulkIssueCertificates(
 
 export async function bulkUpdateGrades(
   updates: Array<{ student_id: string; assignment_id: string; grade: number }>,
-  actorId: string
+  actorId: string,
 ) {
   const supabase = await createClient();
 
@@ -179,7 +171,7 @@ export async function bulkUpdateGrades(
         });
 
         return { success: !error, error: error?.message };
-      })
+      }),
     );
 
     const successful = results.filter((r) => r.success).length;
@@ -201,7 +193,8 @@ export async function bulkUpdateGrades(
       failed,
       results,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',
@@ -223,10 +216,7 @@ export async function bulkDeleteUsers(userIds: string[], actorId: string) {
     ]);
 
     // Delete profiles
-    const { error } = await supabase
-      .from('profiles')
-      .delete()
-      .in('id', userIds);
+    const { error } = await supabase.from('profiles').delete().in('id', userIds);
 
     if (error) {
       return { success: false, error: 'Operation failed' };
@@ -242,7 +232,8 @@ export async function bulkDeleteUsers(userIds: string[], actorId: string) {
       success: true,
       deleted: userIds.length,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',
@@ -258,7 +249,7 @@ export async function bulkSendNotifications(
     type: 'info' | 'success' | 'warning' | 'error';
     action_url?: string;
   },
-  actorId: string
+  actorId: string,
 ) {
   const supabase = await createClient();
 
@@ -286,7 +277,8 @@ export async function bulkSendNotifications(
       success: true,
       sent: data?.length || 0,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',
@@ -294,10 +286,7 @@ export async function bulkSendNotifications(
   }
 }
 
-export async function bulkExportData(
-  table: string,
-  filters?: Record<string, any>
-) {
+export async function bulkExportData(table: string, filters?: Record<string, any>) {
   const supabase = await createClient();
 
   try {
@@ -327,7 +316,7 @@ export async function bulkExportData(
               const stringValue = value === null ? '' : String(value);
               return `"${stringValue.replace(/"/g, '""')}"`;
             })
-            .join(',')
+            .join(','),
         ),
       ].join('\n');
 
@@ -345,7 +334,8 @@ export async function bulkExportData(
       filename: `${table}_export_${Date.now()}.csv`,
       recordCount: 0,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',

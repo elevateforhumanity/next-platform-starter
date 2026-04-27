@@ -2,7 +2,16 @@ import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import { ShoppingBag, DollarSign, Package, Download, Key, Tag, ArrowRight, ExternalLink } from 'lucide-react';
+import {
+  ShoppingBag,
+  DollarSign,
+  Package,
+  Download,
+  Key,
+  Tag,
+  ArrowRight,
+  ExternalLink,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const dynamic = 'force-dynamic';
@@ -17,8 +26,6 @@ export default async function AdminStorePage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   const [
     { data: storeProducts, count: productCount },
     { data: purchases, count: purchaseCount },
@@ -26,17 +33,33 @@ export default async function AdminStorePage() {
     { data: recentPurchases },
     { data: recentLicenses },
   ] = await Promise.all([
-    supabase.from('store_products').select('id, name, price, is_active, product_type', { count: 'exact' }).order('created_at', { ascending: false }).limit(20),
-    supabase.from('purchases').select('id, amount, status, created_at', { count: 'exact' }).limit(500),
-    supabase.from('license_purchases').select('id, amount, status, created_at', { count: 'exact' }).limit(500),
-    supabase.from('purchases').select('id, amount, status, created_at, profiles(full_name, email)').order('created_at', { ascending: false }).limit(10),
-    supabase.from('license_purchases').select('id, amount, status, created_at, profiles(full_name, email)').order('created_at', { ascending: false }).limit(10),
+    supabase
+      .from('store_products')
+      .select('id, name, price, is_active, product_type', { count: 'exact' })
+      .order('created_at', { ascending: false })
+      .limit(20),
+    supabase
+      .from('purchases')
+      .select('id, amount, status, created_at', { count: 'exact' })
+      .limit(500),
+    supabase
+      .from('license_purchases')
+      .select('id, amount, status, created_at', { count: 'exact' })
+      .limit(500),
+    supabase
+      .from('purchases')
+      .select('id, amount, status, created_at, profiles(full_name, email)')
+      .order('created_at', { ascending: false })
+      .limit(10),
+    supabase
+      .from('license_purchases')
+      .select('id, amount, status, created_at, profiles(full_name, email)')
+      .order('created_at', { ascending: false })
+      .limit(10),
   ]);
 
-  const totalRevenue = [
-    ...(purchases || []),
-    ...(licensePurchases || []),
-  ].filter((p: any) => p.status === 'completed' || p.status === 'succeeded')
+  const totalRevenue = [...(purchases || []), ...(licensePurchases || [])]
+    .filter((p: any) => p.status === 'completed' || p.status === 'succeeded')
     .reduce((sum: number, p: any) => sum + Number(p.amount || 0), 0);
 
   const activeProducts = (storeProducts || []).filter((p: any) => p.is_active).length;
@@ -67,10 +90,17 @@ export default async function AdminStorePage() {
               <p className="text-slate-700 mt-1">Products, licenses, and purchase history</p>
             </div>
             <div className="flex gap-3">
-              <Link href="/store" target="_blank" className="flex items-center gap-2 border border-gray-300 text-slate-900 px-4 py-2 rounded-lg hover:bg-gray-50 text-sm">
+              <Link
+                href="/store"
+                target="_blank"
+                className="flex items-center gap-2 border border-gray-300 text-slate-900 px-4 py-2 rounded-lg hover:bg-gray-50 text-sm"
+              >
                 <ExternalLink size={14} /> View Store
               </Link>
-              <Link href="/admin/licenses" className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 text-sm font-medium">
+              <Link
+                href="/admin/licenses"
+                className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 text-sm font-medium"
+              >
                 Manage Licenses
               </Link>
             </div>
@@ -116,32 +146,43 @@ export default async function AdminStorePage() {
           <div className="bg-white rounded-xl shadow-sm border">
             <div className="p-5 border-b flex justify-between items-center">
               <h2 className="text-base font-semibold text-slate-900">Products</h2>
-              <Link href="/store" className="text-sm text-brand-blue-600 hover:text-brand-blue-800 flex items-center gap-1">
+              <Link
+                href="/store"
+                className="text-sm text-brand-blue-600 hover:text-brand-blue-800 flex items-center gap-1"
+              >
                 View store <ArrowRight size={14} />
               </Link>
             </div>
             <div className="divide-y">
-              {storeProducts && storeProducts.length > 0 ? storeProducts.map((prod: any) => (
-                <div key={prod.id} className="px-5 py-3 flex items-center justify-between">
-                  <div className="flex items-center gap-3">
-                    <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
-                      <Tag className="w-4 h-4 text-slate-700" />
+              {storeProducts && storeProducts.length > 0 ? (
+                storeProducts.map((prod: any) => (
+                  <div key={prod.id} className="px-5 py-3 flex items-center justify-between">
+                    <div className="flex items-center gap-3">
+                      <div className="w-8 h-8 bg-gray-100 rounded-lg flex items-center justify-center">
+                        <Tag className="w-4 h-4 text-slate-700" />
+                      </div>
+                      <div>
+                        <p className="text-sm font-medium text-slate-900">{prod.name}</p>
+                        <p className="text-xs text-slate-700">
+                          ${Number(prod.price || 0).toLocaleString()}
+                        </p>
+                      </div>
                     </div>
-                    <div>
-                      <p className="text-sm font-medium text-slate-900">{prod.name}</p>
-                      <p className="text-xs text-slate-700">${Number(prod.price || 0).toLocaleString()}</p>
+                    <div className="flex items-center gap-2">
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded-full capitalize ${productTypeBadge[prod.product_type] || 'bg-gray-100 text-slate-700'}`}
+                      >
+                        {prod.product_type || 'product'}
+                      </span>
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded-full ${prod.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-slate-700'}`}
+                      >
+                        {prod.is_active ? 'Active' : 'Inactive'}
+                      </span>
                     </div>
                   </div>
-                  <div className="flex items-center gap-2">
-                    <span className={`text-xs px-2 py-0.5 rounded-full capitalize ${productTypeBadge[prod.product_type] || 'bg-gray-100 text-slate-700'}`}>
-                      {prod.product_type || 'product'}
-                    </span>
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${prod.is_active ? 'bg-green-100 text-green-700' : 'bg-gray-100 text-slate-700'}`}>
-                      {prod.is_active ? 'Active' : 'Inactive'}
-                    </span>
-                  </div>
-                </div>
-              )) : (
+                ))
+              ) : (
                 <div className="p-8 text-center text-slate-700 text-sm">No products yet</div>
               )}
             </div>
@@ -151,25 +192,39 @@ export default async function AdminStorePage() {
           <div className="bg-white rounded-xl shadow-sm border">
             <div className="p-5 border-b flex justify-between items-center">
               <h2 className="text-base font-semibold text-slate-900">Recent Orders</h2>
-              <Link href="/admin/licenses" className="text-sm text-brand-blue-600 hover:text-brand-blue-800 flex items-center gap-1">
+              <Link
+                href="/admin/licenses"
+                className="text-sm text-brand-blue-600 hover:text-brand-blue-800 flex items-center gap-1"
+              >
                 Licenses <ArrowRight size={14} />
               </Link>
             </div>
             <div className="divide-y">
-              {recentPurchases && recentPurchases.length > 0 ? recentPurchases.map((p: any) => (
-                <div key={p.id} className="px-5 py-3 flex items-center justify-between">
-                  <div>
-                    <p className="text-sm font-medium text-slate-900">{(p.profiles as any)?.full_name || 'Customer'}</p>
-                    <p className="text-xs text-slate-700">{(p.profiles as any)?.email || '—'} · {p.created_at ? new Date(p.created_at).toLocaleDateString() : '—'}</p>
+              {recentPurchases && recentPurchases.length > 0 ? (
+                recentPurchases.map((p: any) => (
+                  <div key={p.id} className="px-5 py-3 flex items-center justify-between">
+                    <div>
+                      <p className="text-sm font-medium text-slate-900">
+                        {(p.profiles as any)?.full_name || 'Customer'}
+                      </p>
+                      <p className="text-xs text-slate-700">
+                        {(p.profiles as any)?.email || '—'} ·{' '}
+                        {p.created_at ? new Date(p.created_at).toLocaleDateString() : '—'}
+                      </p>
+                    </div>
+                    <div className="text-right">
+                      <p className="text-sm font-semibold text-slate-900">
+                        ${Number(p.amount || 0).toLocaleString()}
+                      </p>
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded-full capitalize ${purchaseStatusBadge[p.status] || 'bg-gray-100 text-slate-700'}`}
+                      >
+                        {p.status || 'pending'}
+                      </span>
+                    </div>
                   </div>
-                  <div className="text-right">
-                    <p className="text-sm font-semibold text-slate-900">${Number(p.amount || 0).toLocaleString()}</p>
-                    <span className={`text-xs px-2 py-0.5 rounded-full capitalize ${purchaseStatusBadge[p.status] || 'bg-gray-100 text-slate-700'}`}>
-                      {p.status || 'pending'}
-                    </span>
-                  </div>
-                </div>
-              )) : (
+                ))
+              ) : (
                 <div className="p-8 text-center text-slate-700 text-sm">No orders yet</div>
               )}
             </div>
@@ -181,32 +236,55 @@ export default async function AdminStorePage() {
           <div className="bg-white rounded-xl shadow-sm border">
             <div className="p-5 border-b flex justify-between items-center">
               <h2 className="text-base font-semibold text-slate-900">Recent License Sales</h2>
-              <Link href="/admin/licenses" className="text-sm text-brand-blue-600 hover:text-brand-blue-800">Manage licenses</Link>
+              <Link
+                href="/admin/licenses"
+                className="text-sm text-brand-blue-600 hover:text-brand-blue-800"
+              >
+                Manage licenses
+              </Link>
             </div>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead className="bg-gray-50 border-b">
                   <tr>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">Customer</th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">Amount</th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">Status</th>
-                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">Date</th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
+                      Customer
+                    </th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
+                      Amount
+                    </th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
+                      Status
+                    </th>
+                    <th className="text-left px-4 py-3 text-xs font-medium text-slate-700 uppercase">
+                      Date
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y">
                   {recentLicenses.map((l: any) => (
                     <tr key={l.id} className="hover:bg-gray-50">
                       <td className="px-4 py-3">
-                        <p className="font-medium text-slate-900">{(l.profiles as any)?.full_name || 'Customer'}</p>
-                        <p className="text-xs text-slate-700">{(l.profiles as any)?.email || '—'}</p>
+                        <p className="font-medium text-slate-900">
+                          {(l.profiles as any)?.full_name || 'Customer'}
+                        </p>
+                        <p className="text-xs text-slate-700">
+                          {(l.profiles as any)?.email || '—'}
+                        </p>
                       </td>
-                      <td className="px-4 py-3 font-semibold text-slate-900">${Number(l.amount || 0).toLocaleString()}</td>
+                      <td className="px-4 py-3 font-semibold text-slate-900">
+                        ${Number(l.amount || 0).toLocaleString()}
+                      </td>
                       <td className="px-4 py-3">
-                        <span className={`text-xs px-2 py-1 rounded-full capitalize ${purchaseStatusBadge[l.status] || 'bg-gray-100 text-slate-700'}`}>
+                        <span
+                          className={`text-xs px-2 py-1 rounded-full capitalize ${purchaseStatusBadge[l.status] || 'bg-gray-100 text-slate-700'}`}
+                        >
                           {l.status || 'pending'}
                         </span>
                       </td>
-                      <td className="px-4 py-3 text-slate-700 text-xs">{l.created_at ? new Date(l.created_at).toLocaleDateString() : '—'}</td>
+                      <td className="px-4 py-3 text-slate-700 text-xs">
+                        {l.created_at ? new Date(l.created_at).toLocaleDateString() : '—'}
+                      </td>
                     </tr>
                   ))}
                 </tbody>

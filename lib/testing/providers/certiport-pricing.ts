@@ -2,11 +2,16 @@
 
 import { calculatePrice, calculateRetakePrice, calculateNoShowFee } from '../pricing-engine';
 
-const PROCTOR_COST  = 25;
+const PROCTOR_COST = 25;
 const OVERHEAD_COST = 15;
 
 function certiportPrice(voucherCost: number) {
-  return calculatePrice({ voucherCost, proctorCost: PROCTOR_COST, overheadCost: OVERHEAD_COST, provider: 'certiport' });
+  return calculatePrice({
+    voucherCost,
+    proctorCost: PROCTOR_COST,
+    overheadCost: OVERHEAD_COST,
+    provider: 'certiport',
+  });
 }
 
 // ─── Voucher costs by exam family ────────────────────────────────────────────
@@ -18,10 +23,10 @@ export const CERTIPORT_EXAMS = {
    * ⚠️  ESTIMATE: $55–$80 depending on your volume tier
    */
   mos: {
-    name:        'Microsoft Office Specialist (MOS)',
+    name: 'Microsoft Office Specialist (MOS)',
     voucherCost: 65, // ⚠️ ESTIMATE
     ...certiportPrice(65),
-    exams:       ['Word', 'Excel', 'PowerPoint', 'Outlook', 'Access'],
+    exams: ['Word', 'Excel', 'PowerPoint', 'Outlook', 'Access'],
   },
 
   /**
@@ -29,10 +34,10 @@ export const CERTIPORT_EXAMS = {
    * ⚠️  ESTIMATE: $55–$75
    */
   its: {
-    name:        'IT Specialist',
+    name: 'IT Specialist',
     voucherCost: 60, // ⚠️ ESTIMATE
     ...certiportPrice(60),
-    exams:       ['Python', 'Java', 'HTML & CSS', 'Networking', 'Cybersecurity', 'Databases'],
+    exams: ['Python', 'Java', 'HTML & CSS', 'Networking', 'Cybersecurity', 'Databases'],
   },
 
   /**
@@ -40,10 +45,10 @@ export const CERTIPORT_EXAMS = {
    * ⚠️  ESTIMATE: $45–$55 — typically the lowest-cost Certiport exam
    */
   ic3: {
-    name:        'IC3 Digital Literacy',
+    name: 'IC3 Digital Literacy',
     voucherCost: 48, // ⚠️ ESTIMATE
     ...certiportPrice(48),
-    exams:       ['Computing Fundamentals', 'Key Applications', 'Living Online'],
+    exams: ['Computing Fundamentals', 'Key Applications', 'Living Online'],
   },
 
   /**
@@ -51,10 +56,10 @@ export const CERTIPORT_EXAMS = {
    * ⚠️  ESTIMATE: $65–$85
    */
   quickbooks: {
-    name:        'Intuit QuickBooks Certified User',
+    name: 'Intuit QuickBooks Certified User',
     voucherCost: 70, // ⚠️ ESTIMATE
     ...certiportPrice(70),
-    exams:       ['QuickBooks Online', 'QuickBooks Desktop'],
+    exams: ['QuickBooks Online', 'QuickBooks Desktop'],
   },
 
   /**
@@ -62,10 +67,10 @@ export const CERTIPORT_EXAMS = {
    * ⚠️  ESTIMATE: $80–$110
    */
   adobe: {
-    name:        'Adobe Certified Professional',
+    name: 'Adobe Certified Professional',
     voucherCost: 90, // ⚠️ ESTIMATE
     ...certiportPrice(90),
-    exams:       ['Photoshop', 'Illustrator', 'InDesign', 'Premiere Pro', 'After Effects'],
+    exams: ['Photoshop', 'Illustrator', 'InDesign', 'Premiere Pro', 'After Effects'],
   },
 
   /**
@@ -73,10 +78,10 @@ export const CERTIPORT_EXAMS = {
    * ⚠️  ESTIMATE: $55–$70
    */
   esb: {
-    name:        'Entrepreneurship & Small Business (ESB)',
+    name: 'Entrepreneurship & Small Business (ESB)',
     voucherCost: 60, // ⚠️ ESTIMATE
     ...certiportPrice(60),
-    exams:       ['ESB Certification'],
+    exams: ['ESB Certification'],
   },
 
   /**
@@ -87,10 +92,10 @@ export const CERTIPORT_EXAMS = {
    *     At $65 flat you were losing ~$80/exam on Security+.
    */
   comptia: {
-    name:        'CompTIA',
+    name: 'CompTIA',
     voucherCost: 120, // ⚠️ ESTIMATE — verify per-exam; Security+ is higher
     ...certiportPrice(120),
-    exams:       ['A+', 'Network+', 'Security+'],
+    exams: ['A+', 'Network+', 'Security+'],
   },
 } as const;
 
@@ -101,7 +106,7 @@ export const CERTIPORT_EXAMS = {
  * For CompTIA retakes, charge the CompTIA retake price — see getRetakePrice().
  */
 export const CERTIPORT_DEFAULT_RETAKE_FEE = calculateRetakePrice(CERTIPORT_EXAMS.mos.voucherCost);
-export const CERTIPORT_NO_SHOW_FEE        = calculateNoShowFee(PROCTOR_COST, OVERHEAD_COST);
+export const CERTIPORT_NO_SHOW_FEE = calculateNoShowFee(PROCTOR_COST, OVERHEAD_COST);
 
 /**
  * Returns the retake fee for a specific exam family.
@@ -120,18 +125,18 @@ export function getCertiportRetakePrice(examKey: keyof typeof CERTIPORT_EXAMS): 
  */
 export const CERTIPORT_FEES = [
   {
-    label:  'Microsoft Office Specialist / IT Specialist / IC3',
+    label: 'Microsoft Office Specialist / IT Specialist / IC3',
     amount: CERTIPORT_EXAMS.mos.price,
-    note:   'Includes exam voucher + proctoring',
+    note: 'Includes exam voucher + proctoring',
   },
   {
-    label:  'Adobe / QuickBooks / ESB',
+    label: 'Adobe / QuickBooks / ESB',
     amount: CERTIPORT_EXAMS.adobe.price,
-    note:   'Includes exam voucher + proctoring',
+    note: 'Includes exam voucher + proctoring',
   },
   {
-    label:  'CompTIA (A+ · Network+ · Security+)',
+    label: 'CompTIA (A+ · Network+ · Security+)',
     amount: CERTIPORT_EXAMS.comptia.price,
-    note:   'Includes exam voucher + proctoring — verify your exam tier',
+    note: 'Includes exam voucher + proctoring — verify your exam tier',
   },
 ] as const;

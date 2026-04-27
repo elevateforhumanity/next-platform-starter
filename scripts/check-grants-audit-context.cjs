@@ -60,7 +60,7 @@
 
 'use strict';
 
-const fs   = require('fs');
+const fs = require('fs');
 const path = require('path');
 
 // ─── Registry ────────────────────────────────────────────────────────────────
@@ -77,12 +77,12 @@ const AUDITABLE_TABLES = new Set([
 
 // ─── Patterns ────────────────────────────────────────────────────────────────
 
-const FROM_RE       = /\.from\(['"]([^'"]+)['"]\)/g;
-const WRITE_OP_RE   = /\.(insert|update|upsert)\s*\(/;
-const AUDIT_CTX_RE  = /setAuditContext\s*\(/;
-const EXEMPT_RE     = /\/\/\s*grants-audit:\s*exempt/;
+const FROM_RE = /\.from\(['"]([^'"]+)['"]\)/g;
+const WRITE_OP_RE = /\.(insert|update|upsert)\s*\(/;
+const AUDIT_CTX_RE = /setAuditContext\s*\(/;
+const EXEMPT_RE = /\/\/\s*grants-audit:\s*exempt/;
 const VAR_ASSIGN_RE = /(?:const|let|var)\s+(\w+)\s*=\s*(?:[^;]*?)\.from\(['"]([^'"]+)['"]\)/g;
-const FN_CALL_RE    = /\b(\w+)\s*\(/g;
+const FN_CALL_RE = /\b(\w+)\s*\(/g;
 
 function varWriteRE(varName) {
   return new RegExp(`\\b${varName}\\s*\\.\\s*(?:insert|update|upsert)\\s*\\(`);
@@ -90,7 +90,7 @@ function varWriteRE(varName) {
 
 // ─── File collection ─────────────────────────────────────────────────────────
 
-const ROOT      = path.resolve(__dirname, '..');
+const ROOT = path.resolve(__dirname, '..');
 const SCAN_DIRS = [path.join(ROOT, 'app'), path.join(ROOT, 'lib')];
 
 function collectFiles(dirs) {
@@ -101,7 +101,10 @@ function collectFiles(dirs) {
       for (const entry of fs.readdirSync(d, { withFileTypes: true })) {
         if (entry.name === 'node_modules' || entry.name === '.next') continue;
         const full = path.join(d, entry.name);
-        if (entry.isDirectory()) { walk(full); continue; }
+        if (entry.isDirectory()) {
+          walk(full);
+          continue;
+        }
         if (/\.(ts|tsx)$/.test(entry.name)) results.push(full);
       }
     })(dir);
@@ -124,7 +127,13 @@ function extractFunctionBlocks(source) {
     let depth = 0;
     while (i < source.length) {
       if (source[i] === '(') depth++;
-      else if (source[i] === ')') { depth--; if (depth === 0) { i++; break; } }
+      else if (source[i] === ')') {
+        depth--;
+        if (depth === 0) {
+          i++;
+          break;
+        }
+      }
       i++;
     }
 
@@ -132,10 +141,11 @@ function extractFunctionBlocks(source) {
     while (i < source.length && /\s/.test(source[i])) i++;
     if (source[i] === ':') {
       i++;
-      let anglDepth = 0, parenDepth = 0;
+      let anglDepth = 0,
+        parenDepth = 0;
       while (i < source.length) {
         const ch = source[i];
-        if      (ch === '<') anglDepth++;
+        if (ch === '<') anglDepth++;
         else if (ch === '>') anglDepth--;
         else if (ch === '(') parenDepth++;
         else if (ch === ')') parenDepth--;
@@ -150,11 +160,14 @@ function extractFunctionBlocks(source) {
     let braceDepth = 0;
     while (i < source.length) {
       if (source[i] === '{') braceDepth++;
-      else if (source[i] === '}') { braceDepth--; if (braceDepth === 0) break; }
+      else if (source[i] === '}') {
+        braceDepth--;
+        if (braceDepth === 0) break;
+      }
       i++;
     }
 
-    const body      = source.slice(braceStart, i + 1);
+    const body = source.slice(braceStart, i + 1);
     const startLine = source.slice(0, braceStart).split('\n').length;
     blocks.push({ name, startLine, body });
   }
@@ -170,14 +183,22 @@ function extractFunctionBlocks(source) {
  */
 function statementFrom(text, pos) {
   let i = pos;
-  let parenDepth = 0, braceDepth = 0;
+  let parenDepth = 0,
+    braceDepth = 0;
   while (i < text.length) {
     const ch = text[i];
-    if      (ch === '(') parenDepth++;
-    else if (ch === ')') { if (parenDepth === 0) break; parenDepth--; }
-    else if (ch === '{') braceDepth++;
-    else if (ch === '}') { if (braceDepth === 0) break; braceDepth--; }
-    else if (ch === ';' && parenDepth === 0 && braceDepth === 0) { i++; break; }
+    if (ch === '(') parenDepth++;
+    else if (ch === ')') {
+      if (parenDepth === 0) break;
+      parenDepth--;
+    } else if (ch === '{') braceDepth++;
+    else if (ch === '}') {
+      if (braceDepth === 0) break;
+      braceDepth--;
+    } else if (ch === ';' && parenDepth === 0 && braceDepth === 0) {
+      i++;
+      break;
+    }
     i++;
   }
   return text.slice(pos, i);
@@ -214,12 +235,12 @@ function intermediateVarWrittenTables(body) {
 function buildFunctionMap(blocks) {
   const map = new Map();
   for (const { name, body } of blocks) {
-    const directTables  = directWrittenTables(body);
-    const varTables     = intermediateVarWrittenTables(body);
+    const directTables = directWrittenTables(body);
+    const varTables = intermediateVarWrittenTables(body);
     map.set(name, {
       body,
-      hasAuditCtx:  AUDIT_CTX_RE.test(body),
-      isExempt:     EXEMPT_RE.test(body),
+      hasAuditCtx: AUDIT_CTX_RE.test(body),
+      isExempt: EXEMPT_RE.test(body),
       writtenTables: new Set([...directTables, ...varTables]),
     });
   }
@@ -249,7 +270,7 @@ function indirectionViolations(callerBody, fnMap) {
 
 // ─── Main scan ────────────────────────────────────────────────────────────────
 
-const files      = collectFiles(SCAN_DIRS);
+const files = collectFiles(SCAN_DIRS);
 const violations = [];
 
 for (const file of files) {
@@ -257,27 +278,30 @@ for (const file of files) {
 
   let hasAuditableRef = false;
   for (const table of AUDITABLE_TABLES) {
-    if (source.includes(table)) { hasAuditableRef = true; break; }
+    if (source.includes(table)) {
+      hasAuditableRef = true;
+      break;
+    }
   }
   if (!hasAuditableRef) continue;
 
   const blocks = extractFunctionBlocks(source);
-  const fnMap  = buildFunctionMap(blocks);
+  const fnMap = buildFunctionMap(blocks);
 
   for (const { name, startLine, body } of blocks) {
     if (EXEMPT_RE.test(body)) continue;
 
     // Layers 1 + 2
     const directTables = directWrittenTables(body);
-    const varTables    = intermediateVarWrittenTables(body);
-    const allWritten   = new Set([...directTables, ...varTables]);
+    const varTables = intermediateVarWrittenTables(body);
+    const allWritten = new Set([...directTables, ...varTables]);
 
     if (allWritten.size > 0 && !AUDIT_CTX_RE.test(body)) {
       for (const table of allWritten) {
         violations.push({
-          file:    path.relative(ROOT, file),
-          fn:      name,
-          line:    startLine,
+          file: path.relative(ROOT, file),
+          fn: name,
+          line: startLine,
           table,
           pattern: varTables.has(table) ? 'intermediate-variable' : 'direct',
         });
@@ -288,9 +312,9 @@ for (const file of files) {
     if (!AUDIT_CTX_RE.test(body)) {
       for (const { callee, table } of indirectionViolations(body, fnMap)) {
         violations.push({
-          file:    path.relative(ROOT, file),
-          fn:      name,
-          line:    startLine,
+          file: path.relative(ROOT, file),
+          fn: name,
+          line: startLine,
           table,
           pattern: `indirection via ${callee}()`,
         });
@@ -306,12 +330,16 @@ if (!fs.existsSync(REPORT_DIR)) fs.mkdirSync(REPORT_DIR, { recursive: true });
 
 fs.writeFileSync(
   path.join(REPORT_DIR, 'grants_audit_context_report.json'),
-  JSON.stringify({
-    generated_at:     new Date().toISOString(),
-    violations,
-    auditable_tables: [...AUDITABLE_TABLES],
-    files_scanned:    files.length,
-  }, null, 2)
+  JSON.stringify(
+    {
+      generated_at: new Date().toISOString(),
+      violations,
+      auditable_tables: [...AUDITABLE_TABLES],
+      files_scanned: files.length,
+    },
+    null,
+    2,
+  ),
 );
 
 if (violations.length === 0) {
@@ -325,7 +353,9 @@ for (const v of violations) {
   console.error(`             function : ${v.fn}`);
   console.error(`             table    : ${v.table}`);
   console.error(`             pattern  : ${v.pattern}`);
-  console.error(`             fix      : add setAuditContext(db, { systemActor: '...' }) at function entry`);
+  console.error(
+    `             fix      : add setAuditContext(db, { systemActor: '...' }) at function entry`,
+  );
   console.error(`             exempt   : add // grants-audit: exempt — <reason> inside function`);
   console.error('');
 }

@@ -9,7 +9,6 @@ import { createClient } from '@supabase/supabase-js';
 
 const PRODUCTION_URL = 'https://www.elevateforhumanity.org';
 
-
 // Test 1: Environment Variables
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
@@ -28,10 +27,7 @@ try {
 
 // Test 3: Database Connection
 try {
-  const { data, error } = await supabase
-    .from('profiles')
-    .select('count')
-    .limit(1);
+  const { data, error } = await supabase.from('profiles').select('count').limit(1);
 
   if (error) {
     process.exit(1);
@@ -48,16 +44,13 @@ const criticalTables = [
   'courses',
   'programs',
   'tenants',
-  'licenses'
+  'licenses',
 ];
 
 let allTablesExist = true;
 for (const table of criticalTables) {
   try {
-    const { error } = await supabase
-      .from(table)
-      .select('count')
-      .limit(1);
+    const { error } = await supabase.from(table).select('count').limit(1);
 
     if (error) {
       allTablesExist = false;
@@ -74,10 +67,7 @@ if (!allTablesExist) {
 
 // Test 5: Test RLS Policies (public access)
 try {
-  const { data, error } = await supabase
-    .from('programs')
-    .select('id, name, slug')
-    .limit(5);
+  const { data, error } = await supabase.from('programs').select('id, name, slug').limit(5);
 
   if (error) {
     process.exit(1);
@@ -89,8 +79,5 @@ try {
 } catch (error) {
   process.exit(1);
 }
-
-
-
 
 process.exit(0);

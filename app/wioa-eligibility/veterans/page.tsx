@@ -2,18 +2,18 @@ import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Shield, Award, Briefcase, Phone, CheckCircle, } from 'lucide-react';
+import { Shield, Award, Briefcase, Phone, CheckCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'WIOA Eligibility for Veterans | Elevate for Humanity',
-  description: 'Priority WIOA funding for military veterans. Free career training with expedited services.',
+  description:
+    'Priority WIOA funding for military veterans. Free career training with expedited services.',
 };
 
 export const revalidate = 3600;
 export default async function VeteransPage() {
   const supabase = await createClient();
-
 
   // Get veteran-specific programs
   const { data: programs } = await supabase
@@ -41,8 +41,16 @@ export default async function VeteransPage() {
   const benefits = [
     { title: 'Priority Enrollment', description: 'First access to training programs', icon: Award },
     { title: 'Expedited Processing', description: 'Faster application review', icon: Shield },
-    { title: 'Dedicated Counselor', description: 'Veteran-focused career advisor', icon: Briefcase },
-    { title: 'Funded Training', description: 'Tuition covered for eligible veterans', icon: CheckCircle },
+    {
+      title: 'Dedicated Counselor',
+      description: 'Veteran-focused career advisor',
+      icon: Briefcase,
+    },
+    {
+      title: 'Funded Training',
+      description: 'Tuition covered for eligible veterans',
+      icon: CheckCircle,
+    },
   ];
 
   const qualifications = [
@@ -64,36 +72,56 @@ export default async function VeteransPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'WIOA Eligibility', href: '/wioa-eligibility' }, { label: 'Veterans' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'WIOA Eligibility', href: '/wioa-eligibility' },
+              { label: 'Veterans' },
+            ]}
+          />
         </div>
       </div>
 
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-          <Image src="/hero-images/about-hero.jpg" alt="Veterans Priority Services" fill className="object-cover" priority sizes="100vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src="/hero-images/about-hero.jpg"
+            alt="Veterans Priority Services"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-white py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">WIOA Priority for Veterans</h1>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">Expedited services and priority enrollment for those who served</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+              WIOA Priority for Veterans
+            </h1>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              Expedited services and priority enrollment for those who served
+            </p>
           </div>
         </div>
       </section>
 
       <div className="max-w-4xl mx-auto px-6 py-12">
-        <Link href="/wioa-eligibility" className="text-brand-blue-600 hover:underline mb-6 inline-block">
+        <Link
+          href="/wioa-eligibility"
+          className="text-brand-blue-600 hover:underline mb-6 inline-block"
+        >
           ← Back to WIOA Eligibility
         </Link>
 
         {/* Benefits */}
         <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
           <h2 className="text-3xl font-bold text-black mb-6">Veterans Priority Services</h2>
-          
+
           <p className="text-lg text-slate-700 mb-8">
-            As a veteran, you receive <strong>priority of service</strong> under WIOA. 
-            This means you get first access to training programs, career counseling, 
-            and job placement services.
+            As a veteran, you receive <strong>priority of service</strong> under WIOA. This means
+            you get first access to training programs, career counseling, and job placement
+            services.
           </p>
 
           <div className="grid md:grid-cols-2 gap-6 mb-8">
@@ -151,7 +179,9 @@ export default async function VeteransPage() {
                 >
                   <h4 className="font-semibold">{program.title || program.name}</h4>
                   {program.description && (
-                    <p className="text-sm text-slate-700 mt-1 line-clamp-2">{program.description}</p>
+                    <p className="text-sm text-slate-700 mt-1 line-clamp-2">
+                      {program.description}
+                    </p>
                   )}
                 </Link>
               ))}

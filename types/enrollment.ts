@@ -2,10 +2,7 @@
 // FUNDING PATHWAY TYPES (ENFORCED)
 // =====================================================
 
-export type FundingPathway = 
-  | 'workforce_funded'
-  | 'employer_sponsored'
-  | 'structured_tuition';
+export type FundingPathway = 'workforce_funded' | 'employer_sponsored' | 'structured_tuition';
 
 export type IntakeStatus =
   | 'not_started'
@@ -18,12 +15,7 @@ export type IntakeStatus =
   | 'completed'
   | 'rejected';
 
-export type PaymentPlanStatus =
-  | 'active'
-  | 'paused'
-  | 'completed'
-  | 'defaulted'
-  | 'cancelled';
+export type PaymentPlanStatus = 'active' | 'paused' | 'completed' | 'defaulted' | 'cancelled';
 
 export type EnrollmentStatus =
   | 'pending'
@@ -34,12 +26,7 @@ export type EnrollmentStatus =
   | 'withdrawn';
 
 // Legacy types for backward compatibility
-export type FundingSource =
-  | 'SELF_PAY'
-  | 'EMPLOYER'
-  | 'WRG'
-  | 'WIOA'
-  | 'SCHOLARSHIP';
+export type FundingSource = 'SELF_PAY' | 'EMPLOYER' | 'WRG' | 'WIOA' | 'SCHOLARSHIP';
 
 // =====================================================
 // INTAKE RECORD
@@ -50,12 +37,12 @@ export interface IntakeRecord {
   userId: string;
   programId: string | null;
   status: IntakeStatus;
-  
+
   // Step 1: Identity
   identityVerified: boolean;
   identityVerifiedAt: string | null;
   identityDocumentType: string | null;
-  
+
   // Step 2: Workforce screening
   workforceScreeningCompleted: boolean;
   workforceScreeningAt: string | null;
@@ -63,7 +50,7 @@ export interface IntakeRecord {
   workforceAgency: string | null;
   workforceCaseManager: string | null;
   workforceFundingType: string | null;
-  
+
   // Step 3: Employer screening
   employerScreeningCompleted: boolean;
   employerScreeningAt: string | null;
@@ -71,7 +58,7 @@ export interface IntakeRecord {
   employerName: string | null;
   employerContact: string | null;
   employerReimbursementConfirmed: boolean;
-  
+
   // Step 4: Financial readiness
   financialReadinessCompleted: boolean;
   financialReadinessAt: string | null;
@@ -79,7 +66,7 @@ export interface IntakeRecord {
   canCommitMonthly: boolean | null;
   acceptsAutoPayment: boolean | null;
   understands90DayLimit: boolean | null;
-  
+
   // Step 5: Program readiness
   programReadinessCompleted: boolean;
   programReadinessAt: string | null;
@@ -88,16 +75,16 @@ export interface IntakeRecord {
   technologyAccessConfirmed: boolean | null;
   timeCommitmentAcknowledged: boolean | null;
   outcomeExpectationsExplained: boolean | null;
-  
+
   // Funding pathway
   fundingPathway: FundingPathway | null;
   fundingPathwayAssignedAt: string | null;
   fundingPathwayAssignedBy: string | null;
-  
+
   // Signature
   acknowledgmentSigned: boolean;
   acknowledgmentSignedAt: string | null;
-  
+
   // Timestamps
   intakeStartedAt: string;
   intakeCompletedAt: string | null;
@@ -113,46 +100,46 @@ export interface BridgePaymentPlan {
   id: string;
   enrollmentId: string;
   userId: string;
-  
+
   // Plan structure (enforced)
   downPaymentAmount: number; // minimum $500
   monthlyPaymentAmount: number; // minimum $200
   maxTermMonths: number; // maximum 3
-  
+
   // Down payment
   downPaymentPaid: boolean;
   downPaymentPaidAt: string | null;
   downPaymentStripeId: string | null;
-  
+
   // Monthly payments
   monthsPaid: number;
   lastPaymentAt: string | null;
   nextPaymentDue: string | null;
-  
+
   // Auto-payment (required)
   autoPaymentEnabled: boolean;
   stripeSubscriptionId: string | null;
-  
+
   // Status
   status: PaymentPlanStatus;
-  
+
   // Dates
   planStartDate: string;
   planEndDate: string;
-  
+
   // Balance
   totalAmount: number;
   amountPaid: number;
   balanceRemaining: number;
-  
+
   // Access control
   academicAccessPaused: boolean;
   academicAccessPausedAt: string | null;
   academicAccessPausedReason: string | null;
-  
+
   // Credential hold
   credentialHold: boolean;
-  
+
   createdAt: string;
   updatedAt: string;
 }
@@ -175,43 +162,43 @@ export interface EmployerSponsorship {
   id: string;
   enrollmentId: string;
   userId: string;
-  
+
   // Employer info
   employerName: string;
   employerContactName: string | null;
   employerContactEmail: string | null;
   employerContactPhone: string | null;
-  
+
   // Terms
   totalTuition: number;
   monthlyReimbursement: number; // $250-$400
   termMonths: number; // 12-20
-  
+
   // Hire tracking
   hireDate: string | null;
   hireConfirmed: boolean;
   hireConfirmedAt: string | null;
-  
+
   // Reimbursement
   reimbursementsReceived: number;
   totalReimbursed: number;
   lastReimbursementAt: string | null;
   nextReimbursementDue: string | null;
-  
+
   // Separation
   employmentEnded: boolean;
   employmentEndedAt: string | null;
   employmentEndReason: string | null;
   reimbursementStoppedAt: string | null;
-  
+
   // Status
   status: EmployerSponsorshipStatus;
-  
+
   // Agreement
   agreementSigned: boolean;
   agreementSignedAt: string | null;
   agreementDocumentUrl: string | null;
-  
+
   createdAt: string;
   updatedAt: string;
 }
@@ -243,26 +230,26 @@ export interface WorkforceReferral {
   id: string;
   enrollmentId: string | null;
   userId: string;
-  
+
   // Source
   agencyName: string;
   agencyType: WorkforceAgencyType;
   caseManagerName: string | null;
   caseManagerEmail: string | null;
   caseManagerPhone: string | null;
-  
+
   // Funding
   fundingType: string | null;
   voucherNumber: string | null;
   fundingAmount: number | null;
   fundingApproved: boolean;
   fundingApprovedAt: string | null;
-  
+
   // Status
   status: WorkforceReferralStatus;
   lastStatusUpdateSentAt: string | null;
   statusUpdateEmailEnabled: boolean;
-  
+
   referralDate: string;
   createdAt: string;
   updatedAt: string;
@@ -276,21 +263,21 @@ export interface ProgramEnrollment {
   id: string;
   userId: string;
   programId: string;
-  
+
   // Funding pathway (required)
   fundingPathway: FundingPathway;
-  
+
   // Intake (required)
   intakeRecordId: string;
   intakeCompleted: boolean;
-  
+
   // Status
   status: EnrollmentStatus;
-  
+
   // Payment
   paymentStatus: 'pending' | 'paid' | 'refunded';
   stripePaymentId: string | null;
-  
+
   // Dates
   enrolledAt: string;
   completedAt: string | null;
@@ -306,60 +293,60 @@ export interface ComplianceAudit {
   id: string;
   auditMonth: number;
   auditYear: number;
-  
+
   // Section 1: Enrollment integrity
   totalEnrollments: number;
   completedIntakes: number;
   enrollmentsWithoutIntake: number;
   provisionalEnrollments: number;
-  
+
   // Section 2: Funding distribution
   workforceFundedCount: number;
   employerSponsoredCount: number;
   structuredTuitionCount: number;
   lane3Percentage: number;
   lane3ThresholdExceeded: boolean;
-  
+
   // Section 3: Payment compliance
   accountsCurrent: number;
   accountsMissedPayment: number;
   accountsPaused: number;
   accountsBeyond90Days: number;
-  
+
   // Section 4: Exceptions
   executiveExceptions: number;
   staffExceptions: number;
-  
+
   // Section 5: Script adherence
   scriptSamplesReviewed: number;
   scriptDeviationsFound: number;
-  
+
   // Section 6: Intake accuracy
   intakeFilesReviewed: number;
   intakeIssuesFound: number;
-  
+
   // Auto-flagged
   autoFlaggedIssues: Array<{
     type: string;
     description: string;
     enrollmentId?: string;
   }>;
-  
+
   // Sign-offs
   admissionsLeadSigned: boolean;
   admissionsLeadSignedAt: string | null;
   admissionsLeadId: string | null;
-  
+
   programDirectorSigned: boolean;
   programDirectorSignedAt: string | null;
   programDirectorId: string | null;
-  
+
   executiveSigned: boolean;
   executiveSignedAt: string | null;
   executiveId: string | null;
-  
+
   status: 'draft' | 'in_progress' | 'pending_signoff' | 'completed';
-  
+
   createdAt: string;
   updatedAt: string;
   completedAt: string | null;

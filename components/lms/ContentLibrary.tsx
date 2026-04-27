@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
@@ -25,14 +25,7 @@ interface ContentItem {
   id: string;
   title: string;
   description: string;
-  content_type:
-    | 'video'
-    | 'document'
-    | 'image'
-    | 'audio'
-    | 'scorm'
-    | 'interactive'
-    | 'quiz';
+  content_type: 'video' | 'document' | 'image' | 'audio' | 'scorm' | 'interactive' | 'quiz';
   file_url: string;
   file_size: number;
   mime_type: string;
@@ -65,7 +58,8 @@ export default function ContentLibrary() {
       const response = await fetch('/api/content-library');
       const data = await response.json();
       setItems(data.items || []);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   };
@@ -78,9 +72,7 @@ export default function ContentLibrary() {
         (item) =>
           item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
           item.description?.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          item.tags.some((tag) =>
-            tag.toLowerCase().includes(searchQuery.toLowerCase())
-          )
+          item.tags.some((tag) => tag.toLowerCase().includes(searchQuery.toLowerCase())),
       );
     }
 
@@ -114,7 +106,8 @@ export default function ContentLibrary() {
       if (response.ok) {
         fetchContent();
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   };
@@ -125,7 +118,8 @@ export default function ContentLibrary() {
     try {
       await fetch(`/api/content-library/${id}`, { method: 'DELETE' });
       fetchContent();
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   };
@@ -160,8 +154,7 @@ export default function ContentLibrary() {
   const formatFileSize = (bytes: number) => {
     if (bytes < 1024) return bytes + ' B';
     if (bytes < 1024 * 1024) return (bytes / 1024).toFixed(1) + ' KB';
-    if (bytes < 1024 * 1024 * 1024)
-      return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
+    if (bytes < 1024 * 1024 * 1024) return (bytes / (1024 * 1024)).toFixed(1) + ' MB';
     return (bytes / (1024 * 1024 * 1024)).toFixed(1) + ' GB';
   };
 
@@ -178,9 +171,7 @@ export default function ContentLibrary() {
         <div className="flex items-center justify-between mb-4">
           <div>
             <h1 className="text-2xl font-bold">Content Library</h1>
-            <p className="text-sm text-black">
-              Manage and reuse your learning content
-            </p>
+            <p className="text-sm text-black">Manage and reuse your learning content</p>
           </div>
           <div className="flex gap-3">
             <label className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 cursor-pointer">
@@ -190,9 +181,7 @@ export default function ContentLibrary() {
                 type="file"
                 multiple
                 onChange={(
-                  e: React.ChangeEvent<
-                    HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-                  >
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
                 ) => e.target.files && handleUpload(e.target.files)}
                 className="hidden"
               />
@@ -208,9 +197,7 @@ export default function ContentLibrary() {
               type="text"
               value={searchQuery}
               onChange={(
-                e: React.ChangeEvent<
-                  HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-                >
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
               ) => setSearchQuery(e.target.value)}
               placeholder="Search content..."
               className="w-full pl-10 pr-4 py-2 border rounded-lg"
@@ -219,9 +206,7 @@ export default function ContentLibrary() {
           <select
             value={selectedType}
             onChange={(
-              e: React.ChangeEvent<
-                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-              >
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setSelectedType(e.target.value)}
             className="px-4 py-2 border rounded-lg"
           >
@@ -237,9 +222,7 @@ export default function ContentLibrary() {
           <select
             value={selectedCategory}
             onChange={(
-              e: React.ChangeEvent<
-                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-              >
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setSelectedCategory(e.target.value)}
             className="px-4 py-2 border rounded-lg"
           >
@@ -311,17 +294,12 @@ export default function ContentLibrary() {
                   {/* Info */}
                   <div className="space-y-2">
                     <h3 className="font-semibold truncate">{item.title}</h3>
-                    <p className="text-sm text-black line-clamp-2">
-                      {item.description}
-                    </p>
+                    <p className="text-sm text-black line-clamp-2">{item.description}</p>
 
                     {/* Tags */}
                     <div className="flex flex-wrap gap-1">
                       {item.tags.slice(0, 3).map((tag) => (
-                        <span
-                          key={tag}
-                          className="text-xs px-2 py-2 bg-gray-100 rounded"
-                        >
+                        <span key={tag} className="text-xs px-2 py-2 bg-gray-100 rounded">
                           {tag}
                         </span>
                       ))}
@@ -407,9 +385,7 @@ export default function ContentLibrary() {
                           <Icon className="w-5 h-5 text-slate-700" />
                           <div>
                             <div className="font-medium">{item.title}</div>
-                            <div className="text-sm text-slate-700">
-                              {item.description}
-                            </div>
+                            <div className="text-sm text-slate-700">{item.description}</div>
                           </div>
                         </div>
                       </td>
@@ -418,15 +394,9 @@ export default function ContentLibrary() {
                           {item.content_type}
                         </span>
                       </td>
-                      <td className="p-4 text-sm text-black">
-                        {item.category}
-                      </td>
-                      <td className="p-4 text-sm text-black">
-                        {formatFileSize(item.file_size)}
-                      </td>
-                      <td className="p-4 text-sm text-black">
-                        {item.usage_count}
-                      </td>
+                      <td className="p-4 text-sm text-black">{item.category}</td>
+                      <td className="p-4 text-sm text-black">{formatFileSize(item.file_size)}</td>
+                      <td className="p-4 text-sm text-black">{item.usage_count}</td>
                       <td className="p-4 text-sm text-black">
                         {new Date(item.created_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
                       </td>

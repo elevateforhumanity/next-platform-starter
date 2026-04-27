@@ -10,7 +10,7 @@ import { execSync } from 'node:child_process';
 
 // Get duplicate metadata from archetype mapper
 const output = execSync('node scripts/archetype-mapper.mjs 2>&1', { encoding: 'utf8' });
-const lines = output.split('\n').filter(line => line.includes('Duplicate metadata title'));
+const lines = output.split('\n').filter((line) => line.includes('Duplicate metadata title'));
 
 const duplicates = [];
 
@@ -25,7 +25,6 @@ for (const line of lines) {
   }
 }
 
-
 function routeToContextualTitle(route) {
   // Extract meaningful context from route
   const parts = route.split('/').filter(Boolean);
@@ -35,7 +34,7 @@ function routeToContextualTitle(route) {
   // Get role/context from first part
   const context = parts[0]
     .split('-')
-    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(' ');
 
   // Get page name from last part
@@ -44,7 +43,7 @@ function routeToContextualTitle(route) {
       return param.charAt(0).toUpperCase() + param.slice(1);
     })
     .split('-')
-    .map(w => w.charAt(0).toUpperCase() + w.slice(1))
+    .map((w) => w.charAt(0).toUpperCase() + w.slice(1))
     .join(' ');
 
   // Combine context + page name
@@ -74,7 +73,10 @@ for (const { title, routes } of duplicates) {
     const fullNewTitle = `${newTitle} | Elevate For Humanity`;
 
     // Replace metadata title
-    const oldTitlePattern = new RegExp(`title:\\s*['"\`]${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"\`]`, 'g');
+    const oldTitlePattern = new RegExp(
+      `title:\\s*['"\`]${title.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')}['"\`]`,
+      'g',
+    );
 
     if (oldTitlePattern.test(content)) {
       content = content.replace(oldTitlePattern, `title: '${fullNewTitle}'`);
@@ -83,4 +85,3 @@ for (const { title, routes } of duplicates) {
     }
   }
 }
-

@@ -100,11 +100,13 @@ Visit: http://localhost:3000
 ### Step 1: Install Node.js
 
 #### macOS (using Homebrew)
+
 ```bash
 brew install node@20
 ```
 
 #### Linux (using nvm)
+
 ```bash
 curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/v0.39.0/install.sh | bash
 nvm install 20
@@ -112,6 +114,7 @@ nvm use 20
 ```
 
 #### Windows
+
 Download from: https://nodejs.org/
 
 ### Step 2: Install pnpm
@@ -121,6 +124,7 @@ npm install -g pnpm
 ```
 
 Verify installation:
+
 ```bash
 pnpm --version
 ```
@@ -144,6 +148,7 @@ pnpm prepare
 ```
 
 This sets up:
+
 - Pre-commit linting
 - Pre-commit formatting
 - Commit message validation
@@ -241,6 +246,7 @@ NEXT_PUBLIC_ENABLE_GAMIFICATION=true
 ### Getting API Keys
 
 #### Supabase
+
 1. Go to https://app.supabase.com
 2. Create a new project
 3. Go to Settings → API
@@ -250,6 +256,7 @@ NEXT_PUBLIC_ENABLE_GAMIFICATION=true
    - Service Role Key → `SUPABASE_SERVICE_ROLE_KEY`
 
 #### Stripe
+
 1. Go to https://dashboard.stripe.com
 2. Get your API keys from Developers → API keys
 3. For webhooks:
@@ -258,12 +265,14 @@ NEXT_PUBLIC_ENABLE_GAMIFICATION=true
    - Copy webhook signing secret
 
 #### Resend
+
 1. Go to https://resend.com
 2. Create account and verify domain
 3. Go to API Keys
 4. Create new API key
 
 #### OpenAI (Optional)
+
 1. Go to https://platform.openai.com
 2. Create API key
 3. Add billing information
@@ -309,6 +318,7 @@ pnpm db:seed
 ```
 
 This creates:
+
 - Sample courses
 - Test users
 - Demo programs
@@ -373,6 +383,7 @@ pnpm db:check
 ### Stripe Setup
 
 #### 1. Create Stripe Account
+
 - Go to https://dashboard.stripe.com
 - Complete account setup
 - Verify business details
@@ -380,6 +391,7 @@ pnpm db:check
 #### 2. Configure Products
 
 Create products in Stripe Dashboard:
+
 - Individual Tax Prep: $89
 - Business Tax Returns: $299
 - Bookkeeping: $199/month
@@ -398,6 +410,7 @@ Create products in Stripe Dashboard:
 #### 4. Test Mode
 
 Use test mode for development:
+
 - Test cards: https://stripe.com/docs/testing
 - Test webhook: Use Stripe CLI
 
@@ -412,6 +425,7 @@ stripe listen --forward-to localhost:3000/api/stripe/webhook
 ### Resend Setup
 
 #### 1. Create Account
+
 - Go to https://resend.com
 - Sign up and verify email
 
@@ -558,6 +572,7 @@ pnpm db:reset
 #### Issue: "Module not found"
 
 **Solution:**
+
 ```bash
 # Clear node_modules and reinstall
 rm -rf node_modules
@@ -567,6 +582,7 @@ pnpm install
 #### Issue: "Port 3000 already in use"
 
 **Solution:**
+
 ```bash
 # Kill process on port 3000
 lsof -ti:3000 | xargs kill -9
@@ -578,6 +594,7 @@ pnpm dev -- -p 3001
 #### Issue: "Database connection failed"
 
 **Solution:**
+
 1. Check environment variables
 2. Verify Supabase project is running
 3. Check network connection
@@ -592,6 +609,7 @@ curl $NEXT_PUBLIC_SUPABASE_URL/rest/v1/ \
 #### Issue: "Build fails with memory error"
 
 **Solution:**
+
 ```bash
 # Increase Node memory
 export NODE_OPTIONS="--max-old-space-size=8192"
@@ -601,6 +619,7 @@ pnpm build
 #### Issue: "Stripe webhook not working locally"
 
 **Solution:**
+
 ```bash
 # Use Stripe CLI to forward webhooks
 stripe listen --forward-to localhost:3000/api/stripe/webhook
@@ -611,6 +630,7 @@ stripe listen --forward-to localhost:3000/api/stripe/webhook
 #### Issue: "Email not sending"
 
 **Solution:**
+
 1. Verify Resend API key
 2. Check domain verification
 3. Check email logs in Resend dashboard
@@ -635,6 +655,7 @@ LOG_LEVEL=debug
 ```
 
 View logs:
+
 ```bash
 # Development logs
 pnpm dev
@@ -684,18 +705,21 @@ After setup is complete:
 ## Additional Resources
 
 ### Documentation
+
 - [Architecture](./ARCHITECTURE.md)
 - [API Documentation](./API_DOCUMENTATION.md)
 - [User Flows](./USER_FLOWS.md)
 - [Contributing](./CONTRIBUTING.md)
 
 ### External Resources
+
 - [Next.js Documentation](https://nextjs.org/docs)
 - [Supabase Documentation](https://supabase.com/docs)
 - [Stripe Documentation](https://stripe.com/docs)
 - [Tailwind CSS Documentation](https://tailwindcss.com/docs)
 
 ### Community
+
 - GitHub Issues: https://github.com/elevateforhumanity/Elevate-lms/issues
 - Website: https://www.elevateforhumanity.org
 - Email: support@www.elevateforhumanity.org

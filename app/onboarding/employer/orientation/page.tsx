@@ -106,36 +106,29 @@ export default async function EmployerOrientationPage() {
             Welcome to the Partner Program
           </h1>
           <p className="text-slate-600 text-lg leading-relaxed">
-            This orientation covers everything you need to know about partnering
-            with Elevate for Humanity — how our programs work, what we expect
-            from partners, and how to get the most out of your dashboard.
+            This orientation covers everything you need to know about partnering with Elevate for
+            Humanity — how our programs work, what we expect from partners, and how to get the most
+            out of your dashboard.
           </p>
         </div>
 
         {/* Orientation sections */}
         <div className="space-y-6 mb-10">
           {ORIENTATION_SECTIONS.map((section, i) => (
-            <div
-              key={i}
-              className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6"
-            >
+            <div key={i} className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
               <div className="flex items-center gap-3 mb-4">
                 <div
                   className={`w-10 h-10 rounded-xl ${section.bg} flex items-center justify-center flex-shrink-0`}
                 >
                   <section.icon className={`w-5 h-5 ${section.color}`} />
                 </div>
-                <h2 className="text-base font-bold text-slate-900">
-                  {section.title}
-                </h2>
+                <h2 className="text-base font-bold text-slate-900">{section.title}</h2>
               </div>
               <ul className="space-y-2">
                 {section.points.map((point, j) => (
                   <li key={j} className="flex items-start gap-2.5">
                     <CheckCircle className="w-4 h-4 text-brand-green-500 mt-0.5 flex-shrink-0" />
-                    <span className="text-sm text-slate-700 leading-relaxed">
-                      {point}
-                    </span>
+                    <span className="text-sm text-slate-700 leading-relaxed">{point}</span>
                   </li>
                 ))}
               </ul>
@@ -184,9 +177,7 @@ export default async function EmployerOrientationPage() {
 
         {/* Contact */}
         <div className="bg-white rounded-2xl border border-slate-100 p-6 mb-8">
-          <h2 className="text-base font-bold text-slate-900 mb-3">
-            Your partnership team
-          </h2>
+          <h2 className="text-base font-bold text-slate-900 mb-3">Your partnership team</h2>
           <div className="flex flex-col sm:flex-row gap-4">
             <div className="flex items-center gap-3">
               <Phone className="w-4 h-4 text-slate-400" />

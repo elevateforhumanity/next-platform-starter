@@ -4,24 +4,14 @@
     "questions": [
       {
         "prompt": "What is the highest point on the top of the head that serves as a critical reference for balance and symmetry in haircuts?",
-        "choices": [
-          "Apex",
-          "Crown",
-          "Occipital bone",
-          "Nape"
-        ],
+        "choices": ["Apex", "Crown", "Occipital bone", "Nape"],
         "answerIndex": 0,
         "rationale": "The apex is the highest point on the top of the head and is essential for determining balance and symmetry in haircuts.",
         "type": "recall"
       },
       {
         "prompt": "Which sectioning line divides the hair from the forehead to the nape?",
-        "choices": [
-          "Horizontal line",
-          "Diagonal line",
-          "Center part",
-          "Vertical line"
-        ],
+        "choices": ["Horizontal line", "Diagonal line", "Center part", "Vertical line"],
         "answerIndex": 2,
         "rationale": "A center part is used to divide the hair from the forehead to the nape, creating left and right sections.",
         "type": "recall"
@@ -64,12 +54,7 @@
       },
       {
         "prompt": "Which reference point helps define the nape area and influences the overall silhouette of the haircut?",
-        "choices": [
-          "Apex",
-          "Crown",
-          "Occipital bone",
-          "Frontal bone"
-        ],
+        "choices": ["Apex", "Crown", "Occipital bone", "Frontal bone"],
         "answerIndex": 2,
         "rationale": "The occipital bone helps define the nape area and influences the haircut's silhouette.",
         "type": "recall"
@@ -112,12 +97,7 @@
       },
       {
         "prompt": "Which of the following is a key reference point located just below the apex?",
-        "choices": [
-          "Crown",
-          "Occipital bone",
-          "Frontal bone",
-          "Nape"
-        ],
+        "choices": ["Crown", "Occipital bone", "Frontal bone", "Nape"],
         "answerIndex": 0,
         "rationale": "The crown is located just below the apex and can be challenging due to hair growth patterns.",
         "type": "recall"
@@ -160,12 +140,7 @@
       },
       {
         "prompt": "A client with thick hair wants a more manageable style. Which sectioning technique should you consider?",
-        "choices": [
-          "Horizontal sections",
-          "Vertical sections",
-          "Diagonal sections",
-          "No sections"
-        ],
+        "choices": ["Horizontal sections", "Vertical sections", "Diagonal sections", "No sections"],
         "answerIndex": 0,
         "rationale": "Horizontal sections can help manage thick hair by allowing for even weight distribution and layering.",
         "type": "scenario"
@@ -184,12 +159,7 @@
       },
       {
         "prompt": "Which part of the head is crucial for determining the haircut's shape and flow?",
-        "choices": [
-          "Apex",
-          "Crown",
-          "Occipital bone",
-          "All reference points"
-        ],
+        "choices": ["Apex", "Crown", "Occipital bone", "All reference points"],
         "answerIndex": 3,
         "rationale": "All reference points, including the apex, crown, and occipital bone, are crucial for determining the haircut's shape and flow.",
         "type": "recall"

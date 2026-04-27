@@ -19,7 +19,6 @@ const sizes = [
 async function generateLogos() {
   const inputPath = join(publicDir, 'logo-original.png');
 
-
   for (const { name, size } of sizes) {
     const outputPath = join(publicDir, name);
 
@@ -27,11 +26,10 @@ async function generateLogos() {
       await sharp(inputPath)
         .resize(size, size, {
           fit: 'contain',
-          background: { r: 255, g: 255, b: 255, alpha: 0 }
+          background: { r: 255, g: 255, b: 255, alpha: 0 },
         })
         .png()
         .toFile(outputPath);
-
     } catch (error) {
       console.error(`❌ Failed to create ${name}:`, error.message);
     }
@@ -42,11 +40,10 @@ async function generateLogos() {
     await sharp(inputPath)
       .resize(32, 32, {
         fit: 'contain',
-        background: { r: 255, g: 255, b: 255, alpha: 0 }
+        background: { r: 255, g: 255, b: 255, alpha: 0 },
       })
       .png()
       .toFile(join(publicDir, 'favicon-temp.png'));
-
   } catch (error) {
     console.error('❌ Error:', error.message);
   }

@@ -15,7 +15,6 @@ import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
 import PWAManager from '@/components/PWAManager';
 import { UpdatePrompt } from '@/components/pwa/UpdatePrompt';
 
-
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
@@ -32,8 +31,7 @@ export const metadata: Metadata = {
   manifest: '/manifest-admin.json',
   openGraph: {
     title: 'Admin Portal | Elevate for Humanity',
-    description:
-      'Manage programs, students, certificates, and workforce development operations.',
+    description: 'Manage programs, students, certificates, and workforce development operations.',
     images: ['/images/pages/comp-home-highlight-health.jpg'],
     type: 'website',
   },
@@ -44,8 +42,12 @@ async function getLicenseContext() {
 
   const supabase = await createClient();
 
-  const { data: { user }, error: userError } = await supabase.auth.getUser();
-  if (userError) throw new Error(`Auth user fetch failed in getLicenseContext: ${userError.message}`);
+  const {
+    data: { user },
+    error: userError,
+  } = await supabase.auth.getUser();
+  if (userError)
+    throw new Error(`Auth user fetch failed in getLicenseContext: ${userError.message}`);
   if (!user) return null;
 
   const { data: profile, error: profileError } = await db
@@ -58,7 +60,9 @@ async function getLicenseContext() {
 
   const { data: license, error: licenseError } = await db
     .from('licenses')
-    .select('id, tier, status, expires_at, current_period_end, stripe_subscription_id, stripe_customer_id, canceled_at, suspended_at')
+    .select(
+      'id, tier, status, expires_at, current_period_end, stripe_subscription_id, stripe_customer_id, canceled_at, suspended_at',
+    )
     .eq('tenant_id', profile.tenant_id)
     .eq('status', 'active')
     .order('created_at', { ascending: false })
@@ -76,11 +80,7 @@ async function getLicenseContext() {
   };
 }
 
-export default async function AdminLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function AdminLayout({ children }: { children: React.ReactNode }) {
   // Auth check — one call, result reused below
   await requireAdmin();
 
@@ -91,59 +91,106 @@ export default async function AdminLayout({
 
   const [context, headerData] = await Promise.all([
     withTimeout(getLicenseContext(), 3000, 'getLicenseContext').catch(() => null),
-    withTimeout((async () => {
-      try {
-        const { data: { user } } = await supabase.auth.getUser();
-        if (!user) return { userName: 'Admin', notifs: [] };
+    withTimeout(
+      (async () => {
+        try {
+          const {
+            data: { user },
+          } = await supabase.auth.getUser();
+          if (!user) return { userName: 'Admin', notifs: [] };
 
-        const [profileRes, appsRes, docsRes, alertsRes, wioaDocsRes, staleLeadsRes] = await Promise.all([
-          db.from('profiles').select('full_name, first_name').eq('id', user.id).maybeSingle(),
-          db.from('applications').select('id', { count: 'exact', head: true }).in('status', ['submitted', 'in_review']),
-          db.from('documents').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
-          db.from('compliance_alerts').select('id', { count: 'exact', head: true }).eq('resolved', false),
-          db.from('wioa_documents').select('id', { count: 'exact', head: true }).eq('status', 'pending'),
-          db.from('leads').select('id', { count: 'exact', head: true })
-            .lt('updated_at', new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString())
-            .not('stage', 'in', '("Closed Won","Closed Lost")'),
-        ]);
-        // Header notification counts are non-critical — log failures but don't throw
-        if (appsRes.error) console.error('[AdminLayout] applications count failed:', appsRes.error.message);
-        if (docsRes.error) console.error('[AdminLayout] documents count failed:', docsRes.error.message);
+          const [profileRes, appsRes, docsRes, alertsRes, wioaDocsRes, staleLeadsRes] =
+            await Promise.all([
+              db.from('profiles').select('full_name, first_name').eq('id', user.id).maybeSingle(),
+              db
+                .from('applications')
+                .select('id', { count: 'exact', head: true })
+                .in('status', ['submitted', 'in_review']),
+              db
+                .from('documents')
+                .select('id', { count: 'exact', head: true })
+                .eq('status', 'pending'),
+              db
+                .from('compliance_alerts')
+                .select('id', { count: 'exact', head: true })
+                .eq('resolved', false),
+              db
+                .from('wioa_documents')
+                .select('id', { count: 'exact', head: true })
+                .eq('status', 'pending'),
+              db
+                .from('leads')
+                .select('id', { count: 'exact', head: true })
+                .lt('updated_at', new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString())
+                .not('stage', 'in', '("Closed Won","Closed Lost")'),
+            ]);
+          // Header notification counts are non-critical — log failures but don't throw
+          if (appsRes.error)
+            console.error('[AdminLayout] applications count failed:', appsRes.error.message);
+          if (docsRes.error)
+            console.error('[AdminLayout] documents count failed:', docsRes.error.message);
 
-        const name = profileRes.data?.first_name || profileRes.data?.full_name?.split(' ')[0] || 'Admin';
-        const notifs: import('@/components/admin/AdminNav').AdminNavNotif[] = [];
+          const name =
+            profileRes.data?.first_name || profileRes.data?.full_name?.split(' ')[0] || 'Admin';
+          const notifs: import('@/components/admin/AdminNav').AdminNavNotif[] = [];
 
-        if ((appsRes.count ?? 0) > 0) {
-          notifs.push({ id: 'apps', unread: true, href: '/admin/applications?status=submitted',
-            title: `${appsRes.count} application${appsRes.count !== 1 ? 's' : ''} pending review`,
-            time: 'Pending action' });
-        }
-        if ((docsRes.count ?? 0) > 0) {
-          notifs.push({ id: 'docs', unread: true, href: '/admin/documents/review',
-            title: `${docsRes.count} document${docsRes.count !== 1 ? 's' : ''} need review`,
-            time: 'Compliance required' });
-        }
-        if ((alertsRes.count ?? 0) > 0) {
-          notifs.push({ id: 'compliance', unread: true, href: '/admin/compliance',
-            title: `${alertsRes.count} unresolved compliance alert${alertsRes.count !== 1 ? 's' : ''}`,
-            time: 'Needs attention' });
-        }
-        if ((wioaDocsRes.count ?? 0) > 0) {
-          notifs.push({ id: 'wioa', unread: true, href: '/admin/wioa/documents',
-            title: `${wioaDocsRes.count} WIOA document${wioaDocsRes.count !== 1 ? 's' : ''} awaiting review`,
-            time: 'WIOA queue' });
-        }
-        if ((staleLeadsRes.count ?? 0) > 0) {
-          notifs.push({ id: 'leads', unread: true, href: '/admin/crm/leads',
-            title: `${staleLeadsRes.count} CRM lead${staleLeadsRes.count !== 1 ? 's' : ''} with no activity in 5+ days`,
-            time: 'Follow-up needed' });
-        }
+          if ((appsRes.count ?? 0) > 0) {
+            notifs.push({
+              id: 'apps',
+              unread: true,
+              href: '/admin/applications?status=submitted',
+              title: `${appsRes.count} application${appsRes.count !== 1 ? 's' : ''} pending review`,
+              time: 'Pending action',
+            });
+          }
+          if ((docsRes.count ?? 0) > 0) {
+            notifs.push({
+              id: 'docs',
+              unread: true,
+              href: '/admin/documents/review',
+              title: `${docsRes.count} document${docsRes.count !== 1 ? 's' : ''} need review`,
+              time: 'Compliance required',
+            });
+          }
+          if ((alertsRes.count ?? 0) > 0) {
+            notifs.push({
+              id: 'compliance',
+              unread: true,
+              href: '/admin/compliance',
+              title: `${alertsRes.count} unresolved compliance alert${alertsRes.count !== 1 ? 's' : ''}`,
+              time: 'Needs attention',
+            });
+          }
+          if ((wioaDocsRes.count ?? 0) > 0) {
+            notifs.push({
+              id: 'wioa',
+              unread: true,
+              href: '/admin/wioa/documents',
+              title: `${wioaDocsRes.count} WIOA document${wioaDocsRes.count !== 1 ? 's' : ''} awaiting review`,
+              time: 'WIOA queue',
+            });
+          }
+          if ((staleLeadsRes.count ?? 0) > 0) {
+            notifs.push({
+              id: 'leads',
+              unread: true,
+              href: '/admin/crm/leads',
+              title: `${staleLeadsRes.count} CRM lead${staleLeadsRes.count !== 1 ? 's' : ''} with no activity in 5+ days`,
+              time: 'Follow-up needed',
+            });
+          }
 
-        return { userName: name, notifs };
-      } catch {
-        return { userName: 'Admin', notifs: [] };
-      }
-    })(), 3000, 'adminHeaderData').catch(() => ({ userName: 'Admin', notifs: [] as import('@/components/admin/AdminNav').AdminNavNotif[] })),
+          return { userName: name, notifs };
+        } catch {
+          return { userName: 'Admin', notifs: [] };
+        }
+      })(),
+      3000,
+      'adminHeaderData',
+    ).catch(() => ({
+      userName: 'Admin',
+      notifs: [] as import('@/components/admin/AdminNav').AdminNavNotif[],
+    })),
   ]);
 
   // Reconcile trial onboarding — fire and forget

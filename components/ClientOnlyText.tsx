@@ -12,7 +12,12 @@ interface ClientOnlyTextProps {
   className?: string;
 }
 
-export function ClientOnlyText({ fallback, children, as: Tag = 'span', className }: ClientOnlyTextProps) {
+export function ClientOnlyText({
+  fallback,
+  children,
+  as: Tag = 'span',
+  className,
+}: ClientOnlyTextProps) {
   const mounted = useMounted();
   return <Tag className={className}>{mounted ? children : fallback}</Tag>;
 }

@@ -17,10 +17,10 @@ export default async function AdminCoursesPage() {
 
   const courses = await getAdminCoursesOverview();
 
-  const complete   = courses.filter(c => c.status === 'complete').length;
-  const partial    = courses.filter(c => c.status === 'partial').length;
-  const structured = courses.filter(c => c.status === 'structured').length;
-  const empty      = courses.filter(c => c.status === 'empty').length;
+  const complete = courses.filter((c) => c.status === 'complete').length;
+  const partial = courses.filter((c) => c.status === 'partial').length;
+  const structured = courses.filter((c) => c.status === 'structured').length;
+  const empty = courses.filter((c) => c.status === 'empty').length;
   const totalLessons = courses.reduce((sum, c) => sum + c.actualLessons, 0);
 
   return (
@@ -45,7 +45,12 @@ export default async function AdminCoursesPage() {
               className="rounded-lg bg-purple-500 text-white px-4 py-2 text-sm font-semibold hover:bg-purple-400 flex items-center gap-2"
             >
               <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z"
+                />
               </svg>
               AI Builder
             </Link>
@@ -62,12 +67,12 @@ export default async function AdminCoursesPage() {
       <div className="max-w-7xl mx-auto px-4 py-8 space-y-6">
         <div className="grid grid-cols-2 md:grid-cols-5 gap-4">
           {[
-            { label: 'Total',      value: courses.length, cls: 'text-slate-900' },
-            { label: 'Complete',   value: complete,        cls: 'text-emerald-700' },
-            { label: 'Partial',    value: partial,         cls: 'text-amber-700' },
-            { label: 'Structured', value: structured,      cls: 'text-brand-blue-700' },
-            { label: 'Empty',      value: empty,           cls: 'text-slate-500' },
-          ].map(s => (
+            { label: 'Total', value: courses.length, cls: 'text-slate-900' },
+            { label: 'Complete', value: complete, cls: 'text-emerald-700' },
+            { label: 'Partial', value: partial, cls: 'text-amber-700' },
+            { label: 'Structured', value: structured, cls: 'text-brand-blue-700' },
+            { label: 'Empty', value: empty, cls: 'text-slate-500' },
+          ].map((s) => (
             <div key={s.label} className="bg-white rounded-lg border p-4">
               <p className="text-xs text-slate-500 mb-1">{s.label}</p>
               <p className={`text-2xl font-bold ${s.cls}`}>{s.value}</p>

@@ -1,4 +1,3 @@
-
 /**
  * PATCH /api/admin/lms/courses/[courseId]  — update a canonical course
  * DELETE /api/admin/lms/courses/[courseId] — archive a canonical course
@@ -15,10 +14,16 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 async function requireAdmin(supabase: Awaited<ReturnType<typeof createClient>>) {
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
   if (error || !user) return { user: null, profile: null };
   const { data: profile } = await supabase
-    .from('profiles').select('role').eq('id', user.id).maybeSingle();
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   return { user, profile };
 }
 
@@ -80,7 +85,8 @@ export async function DELETE(
       .eq('id', courseId)
       .maybeSingle();
 
-    if (fetchErr || !existing) return NextResponse.json({ error: 'Course not found' }, { status: 404 });
+    if (fetchErr || !existing)
+      return NextResponse.json({ error: 'Course not found' }, { status: 404 });
 
     // Archive, never hard-delete — preserves enrollment history
     const { error } = await supabase

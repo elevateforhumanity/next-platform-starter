@@ -37,10 +37,7 @@ export class EnvValidationError extends Error {
  * Throws error if required vars are missing
  */
 export function validateRequiredEnv(): void {
-  const required = [
-    'NEXT_PUBLIC_SUPABASE_URL',
-    'NEXT_PUBLIC_SUPABASE_ANON_KEY',
-  ];
+  const required = ['NEXT_PUBLIC_SUPABASE_URL', 'NEXT_PUBLIC_SUPABASE_ANON_KEY'];
 
   // NEXT_PUBLIC_SITE_URL is required in production — missing value causes
   // checkout and auth redirects to point at localhost instead of the real domain.
@@ -54,7 +51,7 @@ export function validateRequiredEnv(): void {
     throw new EnvValidationError(
       `Missing required environment variables:\n${missing.map((k) => `  - ${k}`).join('\n')}\n\n` +
         `Please create a .env.local file with these variables.\n` +
-        `See .env.example for reference.`
+        `See .env.example for reference.`,
     );
   }
 }
@@ -107,8 +104,7 @@ export function getServiceStatus() {
 export function logServiceStatus() {
   if (process.env.NODE_ENV === 'development') {
     const status = getServiceStatus();
-    Object.entries(status).forEach(([service, available]) => {
-    });
+    Object.entries(status).forEach(([service, available]) => {});
   }
 }
 

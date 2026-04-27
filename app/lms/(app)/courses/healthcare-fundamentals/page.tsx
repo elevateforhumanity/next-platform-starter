@@ -18,7 +18,8 @@ import {
   FileText,
   Star,
   Calendar,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
@@ -31,7 +32,6 @@ export const metadata: Metadata = {
 };
 
 export default function HealthcareFundamentalsCoursePage() {
-
   const courseFeatures = [
     {
       icon: Video,
@@ -99,7 +99,13 @@ export default function HealthcareFundamentalsCoursePage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'LMS', href: '/lms' }, { label: 'Courses', href: '/lms' }, { label: 'Healthcare Fundamentals' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'LMS', href: '/lms' },
+              { label: 'Courses', href: '/lms' },
+              { label: 'Healthcare Fundamentals' },
+            ]}
+          />
         </div>
       </div>
 
@@ -118,8 +124,7 @@ export default function HealthcareFundamentalsCoursePage() {
               </h1>
 
               <p className="text-xl md:text-2xl text-white/90 mb-8">
-                Master the essential knowledge and skills needed to begin your
-                healthcare career
+                Master the essential knowledge and skills needed to begin your healthcare career
               </p>
 
               <div className="flex flex-wrap gap-6 mb-8">
@@ -155,12 +160,14 @@ export default function HealthcareFundamentalsCoursePage() {
             </div>
 
             <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-2xl border-4 border-white/20">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image
                 src="/images/pages/lms-page-5.jpg"
                 alt="Healthcare Fundamentals Course"
                 fill
                 className="object-cover"
-               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
             </div>
           </div>
         </div>
@@ -170,26 +177,23 @@ export default function HealthcareFundamentalsCoursePage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-4xl">
-            <h2 className="text-4xl font-black text-black mb-6">
-              Course Overview
-            </h2>
+            <h2 className="text-4xl font-black text-black mb-6">Course Overview</h2>
             <div className="prose prose-lg max-w-none text-black">
               <p className="text-xl mb-6">
-                This comprehensive course provides a solid foundation in
-                healthcare fundamentals, preparing you for entry-level positions
-                in the healthcare industry or further specialized training.
+                This comprehensive course provides a solid foundation in healthcare fundamentals,
+                preparing you for entry-level positions in the healthcare industry or further
+                specialized training.
               </p>
               <p className="text-lg mb-6">
-                You'll learn essential medical terminology, basic anatomy and
-                physiology, patient care principles, infection control
-                procedures, and healthcare documentation practices. The course
-                combines video lessons, interactive quizzes, and practical
+                You'll learn essential medical terminology, basic anatomy and physiology, patient
+                care principles, infection control procedures, and healthcare documentation
+                practices. The course combines video lessons, interactive quizzes, and practical
                 exercises to ensure you master the material.
               </p>
               <p className="text-lg">
-                Upon completion, you'll receive a certificate and be prepared to
-                pursue certifications such as CNA (Certified Nursing Assistant),
-                Medical Assistant, or other healthcare roles.
+                Upon completion, you'll receive a certificate and be prepared to pursue
+                certifications such as CNA (Certified Nursing Assistant), Medical Assistant, or
+                other healthcare roles.
               </p>
             </div>
           </div>
@@ -199,24 +203,17 @@ export default function HealthcareFundamentalsCoursePage() {
       {/* Course Features */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-black text-black mb-12 text-center">
-            What's Included
-          </h2>
+          <h2 className="text-4xl font-black text-black mb-12 text-center">What's Included</h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {courseFeatures.map((feature, idx) => {
               const Icon = feature.icon;
               return (
-                <div
-                  key={idx}
-                  className="bg-white rounded-xl p-6 border-2 border-gray-200"
-                >
+                <div key={idx} className="bg-white rounded-xl p-6 border-2 border-gray-200">
                   <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center mb-4">
                     <Icon className="w-6 h-6 text-brand-blue-600" />
                   </div>
-                  <h3 className="text-lg font-bold text-black mb-2">
-                    {feature.title}
-                  </h3>
+                  <h3 className="text-lg font-bold text-black mb-2">{feature.title}</h3>
                   <p className="text-black text-sm">{feature.description}</p>
                 </div>
               );
@@ -228,9 +225,7 @@ export default function HealthcareFundamentalsCoursePage() {
       {/* Curriculum */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-black text-black mb-12 text-center">
-            Course Curriculum
-          </h2>
+          <h2 className="text-4xl font-black text-black mb-12 text-center">Course Curriculum</h2>
 
           <div className="max-w-4xl mx-auto space-y-4">
             {curriculum.map((item, idx) => (
@@ -262,17 +257,13 @@ export default function HealthcareFundamentalsCoursePage() {
       {/* What You'll Learn */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-black text-black mb-12 text-center">
-            What You'll Learn
-          </h2>
+          <h2 className="text-4xl font-black text-black mb-12 text-center">What You'll Learn</h2>
 
           <div className="max-w-4xl mx-auto grid md:grid-cols-2 gap-6">
             <div className="flex items-start gap-3">
               <span className="text-slate-400 flex-shrink-0">•</span>
               <div>
-                <h3 className="font-bold text-black mb-1">
-                  Medical Terminology
-                </h3>
+                <h3 className="font-bold text-black mb-1">Medical Terminology</h3>
                 <p className="text-black text-sm">
                   Understand and use common medical terms and abbreviations
                 </p>
@@ -283,9 +274,7 @@ export default function HealthcareFundamentalsCoursePage() {
               <span className="text-slate-400 flex-shrink-0">•</span>
               <div>
                 <h3 className="font-bold text-black mb-1">Anatomy Basics</h3>
-                <p className="text-black text-sm">
-                  Learn body systems and their functions
-                </p>
+                <p className="text-black text-sm">Learn body systems and their functions</p>
               </div>
             </div>
 
@@ -293,9 +282,7 @@ export default function HealthcareFundamentalsCoursePage() {
               <span className="text-slate-400 flex-shrink-0">•</span>
               <div>
                 <h3 className="font-bold text-black mb-1">Patient Care</h3>
-                <p className="text-black text-sm">
-                  Master fundamental patient care techniques
-                </p>
+                <p className="text-black text-sm">Master fundamental patient care techniques</p>
               </div>
             </div>
 
@@ -335,9 +322,7 @@ export default function HealthcareFundamentalsCoursePage() {
       {/* Instructor */}
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-4xl font-black text-black mb-12 text-center">
-            Your Instructor
-          </h2>
+          <h2 className="text-4xl font-black text-black mb-12 text-center">Your Instructor</h2>
 
           <div className="max-w-4xl mx-auto bg-white rounded-2xl p-8 md:p-12">
             <div className="flex flex-col md:flex-row gap-8 items-center">
@@ -345,14 +330,11 @@ export default function HealthcareFundamentalsCoursePage() {
                 <Users className="w-16 h-16 text-white" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-black mb-2">
-                  Instructor, RN, BSN
-                </h3>
+                <h3 className="text-2xl font-bold text-black mb-2">Instructor, RN, BSN</h3>
                 <p className="text-black mb-4">
-                  Dr. Johnson has over 15 years of experience in healthcare
-                  education and clinical practice. She has trained hundreds of
-                  healthcare professionals and is passionate about helping
-                  students succeed in their healthcare careers.
+                  Dr. Johnson has over 15 years of experience in healthcare education and clinical
+                  practice. She has trained hundreds of healthcare professionals and is passionate
+                  about helping students succeed in their healthcare careers.
                 </p>
                 <div className="flex items-center gap-2 text-sm text-black">
                   <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
@@ -388,9 +370,7 @@ export default function HealthcareFundamentalsCoursePage() {
               View All Courses
             </Link>
           </div>
-          <p className="text-white/80 mt-6">
-            Questions? Contact us at (317) 314-3757
-          </p>
+          <p className="text-white/80 mt-6">Questions? Contact us at (317) 314-3757</p>
         </div>
       </section>
     </div>

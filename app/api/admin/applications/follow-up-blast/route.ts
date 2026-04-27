@@ -16,7 +16,7 @@ const PENDING_STATUSES = ['pending', 'submitted', 'in_review'];
 
 function buildFollowUpHtml(firstName: string, programInterest: string): string {
   const program = programInterest
-    ? programInterest.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+    ? programInterest.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
     : 'your program of interest';
 
   return `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
@@ -79,7 +79,7 @@ function buildFollowUpHtml(firstName: string, programInterest: string): string {
 
 function buildFollowUpText(firstName: string, programInterest: string): string {
   const program = programInterest
-    ? programInterest.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase())
+    ? programInterest.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())
     : 'your program of interest';
 
   return `Hi ${firstName},
@@ -117,7 +117,8 @@ export async function POST(request: Request) {
 
   const supabase = await createClient();
   const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+  if (!db)
+    return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 
   // Optional: filter by status or program from request body
   const body = await request.json().catch(() => ({}));
@@ -149,7 +150,10 @@ export async function POST(request: Request) {
   const errors: string[] = [];
 
   for (const app of applications) {
-    if (!app.email) { skipped++; continue; }
+    if (!app.email) {
+      skipped++;
+      continue;
+    }
 
     const firstName = app.first_name || app.full_name?.split(' ')[0] || 'there';
     const program = app.program_interest || '';

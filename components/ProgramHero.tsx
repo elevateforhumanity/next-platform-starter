@@ -27,17 +27,36 @@ export default function ProgramHero({
       {/* Hero Banner */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-          <Image src={imageSrc} alt={imageAlt} fill className="object-cover" priority quality={100} sizes="100vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src={imageSrc}
+            alt={imageAlt}
+            fill
+            className="object-cover"
+            priority
+            quality={100}
+            sizes="100vw"
+          />
         </div>
         <div className="bg-white py-10 border-t">
           <div className="max-w-5xl mx-auto px-6 text-center">
-            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3">{title}</h1>
-            <p className="text-lg md:text-xl text-slate-600 mb-6 max-w-3xl mx-auto">{description}</p>
+            <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-slate-900 mb-3">
+              {title}
+            </h1>
+            <p className="text-lg md:text-xl text-slate-600 mb-6 max-w-3xl mx-auto">
+              {description}
+            </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <Link href="/apply" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-brand-orange-500 rounded-lg hover:bg-brand-orange-600 transition-colors">
+              <Link
+                href="/apply"
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-white bg-brand-orange-500 rounded-lg hover:bg-brand-orange-600 transition-colors"
+              >
                 Apply Now
               </Link>
-              <Link href="/contact" className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-slate-300 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors border border-slate-500">
+              <Link
+                href="/contact"
+                className="inline-flex items-center justify-center px-8 py-4 text-lg font-bold text-slate-300 bg-slate-700 rounded-lg hover:bg-slate-600 transition-colors border border-slate-500"
+              >
                 Learn More
               </Link>
             </div>
@@ -49,7 +68,6 @@ export default function ProgramHero({
       <section className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-
             {/* Quick Facts */}
             <div className="grid md:grid-cols-4 gap-6">
               <div className="bg-white rounded-lg shadow-sm border p-6 text-center">

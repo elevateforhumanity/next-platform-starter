@@ -27,13 +27,14 @@ export async function POST(req: NextRequest) {
     return safeError('Forbidden', 403);
   }
 
-  const { error } = await db
-    .from('orientation_completions')
-    .upsert({
+  const { error } = await db.from('orientation_completions').upsert(
+    {
       user_id: auth.id,
       orientation_type: 'instructor',
       completed_at: new Date().toISOString(),
-    }, { onConflict: 'user_id,orientation_type', ignoreDuplicates: false });
+    },
+    { onConflict: 'user_id,orientation_type', ignoreDuplicates: false },
+  );
 
   if (error) return safeInternalError(error, 'Failed to record orientation completion');
 

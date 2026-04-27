@@ -58,7 +58,10 @@ export default function QuickApplyForm() {
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white border border-slate-200 rounded-xl p-6 sm:p-8 space-y-5">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white border border-slate-200 rounded-xl p-6 sm:p-8 space-y-5"
+    >
       <div className="grid sm:grid-cols-2 gap-5">
         <div>
           <label className="block text-sm font-semibold text-slate-700 mb-1" htmlFor="firstName">
@@ -117,7 +120,10 @@ export default function QuickApplyForm() {
       </div>
 
       <div>
-        <label className="block text-sm font-semibold text-slate-700 mb-1" htmlFor="programInterest">
+        <label
+          className="block text-sm font-semibold text-slate-700 mb-1"
+          htmlFor="programInterest"
+        >
           Program of Interest <span className="text-red-500">*</span>
         </label>
         <select
@@ -128,7 +134,9 @@ export default function QuickApplyForm() {
         >
           <option value="">Select a program…</option>
           {PROGRAMS.map((p) => (
-            <option key={p} value={p}>{p}</option>
+            <option key={p} value={p}>
+              {p}
+            </option>
           ))}
         </select>
       </div>
@@ -149,7 +157,9 @@ export default function QuickApplyForm() {
 
       <p className="text-xs text-slate-500 text-center">
         We'll contact you within 1–2 business days. Need help?{' '}
-        <a href="tel:3173143757" className="text-emerald-600 hover:underline">317-314-3757</a>
+        <a href="tel:3173143757" className="text-emerald-600 hover:underline">
+          317-314-3757
+        </a>
       </p>
     </form>
   );

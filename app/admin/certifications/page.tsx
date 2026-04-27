@@ -19,12 +19,14 @@ async function getCertificationData() {
   const db = adminClient ?? fallback;
 
   const [pendingRes, recentRes] = await Promise.all([
-    db.from('step_submissions')
+    db
+      .from('step_submissions')
       .select('id, user_id, lesson_id, status, submitted_at, notes, profiles(full_name, email)')
       .eq('status', 'pending')
       .order('submitted_at', { ascending: true })
       .limit(50),
-    db.from('step_submissions')
+    db
+      .from('step_submissions')
       .select('id, user_id, lesson_id, status, submitted_at, notes, profiles(full_name, email)')
       .in('status', ['approved', 'rejected'])
       .order('submitted_at', { ascending: false })
@@ -67,10 +69,7 @@ export default async function CertificationsPage() {
             Review pending submissions and manage issued credentials.
           </p>
         </div>
-        <CertificationReviewPanel
-          pendingSubmissions={pending}
-          recentSubmissions={recent}
-        />
+        <CertificationReviewPanel pendingSubmissions={pending} recentSubmissions={recent} />
       </div>
     </div>
   );

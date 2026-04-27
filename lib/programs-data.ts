@@ -19,7 +19,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'tax-prep-financial-services',
     name: 'Tax Preparation & Financial Services',
-    blurb: 'State-Approved Earn and Learn Program! Earn IRS VITA/TCE, QuickBooks Pro Advisor, and Microsoft 365 certifications in just 10 weeks. Learn federal and state tax law, bookkeeping, and financial literacy with supervised practicum at IRS-approved VITA site. Graduate ready for Tax Preparer, Bookkeeping Assistant, and Financial Service Specialist roles.',
+    blurb:
+      'State-Approved Earn and Learn Program! Earn IRS VITA/TCE, QuickBooks Pro Advisor, and Microsoft 365 certifications in just 10 weeks. Learn federal and state tax law, bookkeeping, and financial literacy with supervised practicum at IRS-approved VITA site. Graduate ready for Tax Preparer, Bookkeeping Assistant, and Financial Service Specialist roles.',
     funding: 'WIOA • WRG • Earn and Learn',
     duration: '10 Weeks • 150 Hours',
     image: '/media/programs/tax-prep-hd.jpg',
@@ -29,7 +30,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'business-startup-marketing',
     name: 'Business Start-Up & Marketing',
-    blurb: 'Launch your own business in 5 weeks! Learn entrepreneurship, digital marketing, LLC formation, and business planning with mentorship and startup support. Program includes business match stipend and laptop kit. Perfect for youth ages 16+ ready to explore self-employment and leadership pathways.',
+    blurb:
+      'Launch your own business in 5 weeks! Learn entrepreneurship, digital marketing, LLC formation, and business planning with mentorship and startup support. Program includes business match stipend and laptop kit. Perfect for youth ages 16+ ready to explore self-employment and leadership pathways.',
     funding: 'WIOA • WRG',
     duration: '5 Weeks • 32 Hours',
     image: '/media/programs/building-tech-hd.jpg',
@@ -39,17 +41,19 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'emergency-health-safety-tech',
     name: 'Emergency Health & Safety Technician',
-    blurb: 'DOL Federally Registered Apprenticeship! Earn OSHA 10, CPR, and Emergency Medical Responder (EMR) certifications in 4 weeks. Prepare for life-saving response roles in schools, workplaces, and emergency settings. Hybrid program with 80 instructional hours.',
+    blurb:
+      'DOL Federally Registered Apprenticeship! Earn OSHA 10, CPR, and Emergency Medical Responder (EMR) certifications in 4 weeks. Prepare for life-saving response roles in schools, workplaces, and emergency settings. Hybrid program with 80 instructional hours.',
     funding: 'WIOA • WRG • Apprenticeship',
     duration: '4 Weeks • 80 Hours',
     image: 'https://images.unsplash.com/photo-1504813184591-01572f98c85f?w=600&q=80',
     etplApproved: true,
-    syllabusUrl: "/docs/syllabi/emergency-health-safety-tech.md",
+    syllabusUrl: '/docs/syllabi/emergency-health-safety-tech.md',
   },
   {
     slug: 'professional-esthetician',
     name: 'Professional Esthetician & Client Services',
-    blurb: 'DOL Federally Registered Apprenticeship! Master skincare, facial treatments, hair removal, and client services in 5 weeks. Earn OSHA 10, Customer Service, and Business of Retail certifications. Hands-on training in professional spa setting with career readiness and business startup support.',
+    blurb:
+      'DOL Federally Registered Apprenticeship! Master skincare, facial treatments, hair removal, and client services in 5 weeks. Earn OSHA 10, Customer Service, and Business of Retail certifications. Hands-on training in professional spa setting with career readiness and business startup support.',
     funding: 'WIOA • WRG • Apprenticeship',
     duration: '5 Weeks • 60 Hours',
     image: 'https://images.unsplash.com/photo-1570172619644-dfd03ed5d881?w=600&q=80',
@@ -58,7 +62,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'beauty-career-educator',
     name: 'Beauty & Career Educator Training',
-    blurb: 'Become a licensed beauty instructor! This program prepares experienced cosmetologists and barbers to teach the next generation. Learn curriculum development, classroom management, and state licensing requirements. Perfect for those with 3+ years industry experience.',
+    blurb:
+      'Become a licensed beauty instructor! This program prepares experienced cosmetologists and barbers to teach the next generation. Learn curriculum development, classroom management, and state licensing requirements. Perfect for those with 3+ years industry experience.',
     funding: 'WIOA • WRG',
     duration: '12-16 Weeks',
     image: 'https://images.unsplash.com/photo-1560066984-138dadb4c035?w=600&q=80',
@@ -67,7 +72,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'peer-support-professional',
     name: 'Certified Peer Support Professional',
-    blurb: 'Make a difference in recovery! Train to provide peer support services in behavioral health, addiction recovery, and mental health settings. Learn trauma-informed care, crisis intervention, and recovery coaching. No prior healthcare experience required.',
+    blurb:
+      'Make a difference in recovery! Train to provide peer support services in behavioral health, addiction recovery, and mental health settings. Learn trauma-informed care, crisis intervention, and recovery coaching. No prior healthcare experience required.',
     funding: 'WIOA • JRI',
     duration: '6-8 Weeks',
     image: 'https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?w=600&q=80',
@@ -76,7 +82,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'peer-recovery-coach',
     name: 'Certified Peer Recovery Coach (CPRC)',
-    blurb: 'Support individuals in addiction recovery! Become a Certified Peer Recovery Coach and help others navigate their recovery journey. Learn motivational interviewing, relapse prevention, and community resources. Justice-involved individuals welcome.',
+    blurb:
+      'Support individuals in addiction recovery! Become a Certified Peer Recovery Coach and help others navigate their recovery journey. Learn motivational interviewing, relapse prevention, and community resources. Justice-involved individuals welcome.',
     funding: 'WIOA • JRI',
     duration: '45 Days • 180 Hours',
     image: 'https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=600&q=80',
@@ -85,7 +92,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'cpr-certification',
     name: 'CPR & First Aid Certification',
-    blurb: 'Life-saving skills for everyone! Earn American Heart Association CPR/AED and First Aid certifications. Perfect for healthcare workers, teachers, childcare providers, and anyone who wants to be prepared for emergencies. Classes available day, evening, and weekend.',
+    blurb:
+      'Life-saving skills for everyone! Earn American Heart Association CPR/AED and First Aid certifications. Perfect for healthcare workers, teachers, childcare providers, and anyone who wants to be prepared for emergencies. Classes available day, evening, and weekend.',
     funding: 'Self-Pay • Employer Sponsored',
     duration: '1 Day • 4-8 Hours',
     image: 'https://images.unsplash.com/photo-1584515933487-779824d29309?w=600&q=80',
@@ -94,7 +102,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'medical-assistant',
     name: 'Medical Assistant',
-    blurb: 'Train for a healthcare career in just 16-24 weeks! Learn vital signs, EKG, phlebotomy, medical records, and patient care through hands-on clinical practice. Our hybrid program combines online coursework with real clinic experience, preparing you for immediate employment in doctors\' offices, hospitals, and urgent care centers. ETPL-approved and WRG/WIOA funded.',
+    blurb:
+      "Train for a healthcare career in just 16-24 weeks! Learn vital signs, EKG, phlebotomy, medical records, and patient care through hands-on clinical practice. Our hybrid program combines online coursework with real clinic experience, preparing you for immediate employment in doctors' offices, hospitals, and urgent care centers. ETPL-approved and WRG/WIOA funded.",
     funding: 'WRG • WIOA • Workforce Grants',
     duration: '16–24 Weeks • Hybrid (Online + Clinical)',
     image: 'https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?w=600&q=80',
@@ -103,7 +112,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'barber-apprenticeship',
     name: 'Barber Apprenticeship',
-    blurb: 'Earn while you learn! This state-approved apprenticeship places you in real barbershops where you\'ll master fades, tapers, razor work, and client service while building your hours toward Indiana barber licensure. Perfect for career changers and re-entry participants. Get paid on-the-job training, business coaching, and a clear path to owning your own chair or shop.',
+    blurb:
+      "Earn while you learn! This state-approved apprenticeship places you in real barbershops where you'll master fades, tapers, razor work, and client service while building your hours toward Indiana barber licensure. Perfect for career changers and re-entry participants. Get paid on-the-job training, business coaching, and a clear path to owning your own chair or shop.",
     funding: 'Registered Apprenticeship • WIOA • WRG',
     duration: '12–18 Months • Barbershop + Classroom',
     image: 'https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=600&q=80',
@@ -112,7 +122,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'hvac-technician',
     name: 'HVAC Technician',
-    blurb: 'Start a high-paying skilled trade career. 12-week evening program covering heating, cooling, refrigeration theory, and EPA 608 certification prep. Includes employer site days with HVAC contractors and apprenticeship pathway guidance. 4-star Indiana Top Jobs demand rating.',
+    blurb:
+      'Start a high-paying skilled trade career. 12-week evening program covering heating, cooling, refrigeration theory, and EPA 608 certification prep. Includes employer site days with HVAC contractors and apprenticeship pathway guidance. 4-star Indiana Top Jobs demand rating.',
     funding: 'WIOA • Next Level Jobs • Workforce Grants',
     duration: '12 Weeks • 144 Hours • Hybrid (Classroom + LMS + Employer Site Days)',
     image: '/images/trades/hero-program-hvac.jpg',
@@ -121,7 +132,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'building-maintenance',
     name: 'Building Maintenance Technician',
-    blurb: 'Become the go-to person who keeps buildings running! Learn plumbing basics, electrical repairs, HVAC maintenance, carpentry, and safety systems through hands-on training. This 4-9 month program prepares you for steady employment with property management companies, schools, hospitals, and commercial buildings. Perfect for those who like variety and problem-solving.',
+    blurb:
+      'Become the go-to person who keeps buildings running! Learn plumbing basics, electrical repairs, HVAC maintenance, carpentry, and safety systems through hands-on training. This 4-9 month program prepares you for steady employment with property management companies, schools, hospitals, and commercial buildings. Perfect for those who like variety and problem-solving.',
     funding: 'Workforce Grants • Apprenticeship • WIOA',
     duration: '4–9 Months • Hands-On Training',
     image: 'https://images.unsplash.com/photo-1504307651254-35680f356dfd?w=600&q=80',
@@ -130,7 +142,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'truck-driving',
     name: 'CDL / Truck Driving',
-    blurb: 'Get your Commercial Driver\'s License in just 4-6 weeks! Our 160-hour program includes classroom instruction, range practice, and real road experience. Learn pre-trip inspections, backing maneuvers, highway driving, and DOT regulations. Graduate with your CDL Class A and immediate job placement assistance with trucking companies offering $50K+ starting salaries.',
+    blurb:
+      "Get your Commercial Driver's License in just 4-6 weeks! Our 160-hour program includes classroom instruction, range practice, and real road experience. Learn pre-trip inspections, backing maneuvers, highway driving, and DOT regulations. Graduate with your CDL Class A and immediate job placement assistance with trucking companies offering $50K+ starting salaries.",
     funding: 'Workforce Grants • Employer Sponsors • WIOA',
     duration: '4–6 Weeks (160 Hours) • Range + Road',
     image: 'https://images.unsplash.com/photo-1601584115197-04ecc0da31d7?w=600&q=80',
@@ -139,7 +152,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'workforce-readiness',
     name: 'Workforce Readiness & Re-Entry',
-    blurb: 'Rebuild your career with confidence! Whether you\'re re-entering after incarceration, overcoming gaps in work history, or starting fresh, this 4-12 week program provides resume building, interview coaching, workplace skills, and direct connections to employers who hire second-chance candidates. Includes support with transportation, childcare, and work clothing.',
+    blurb:
+      "Rebuild your career with confidence! Whether you're re-entering after incarceration, overcoming gaps in work history, or starting fresh, this 4-12 week program provides resume building, interview coaching, workplace skills, and direct connections to employers who hire second-chance candidates. Includes support with transportation, childcare, and work clothing.",
     funding: 'Support Services • Referrals • Case Management',
     duration: '4–12 Weeks • Flexible Coaching + Workshops',
     image: 'https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?w=600&q=80',
@@ -148,7 +162,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'phlebotomy',
     name: 'Phlebotomy Technician',
-    blurb: 'Launch your healthcare career in just 4-8 weeks! Learn proper blood draw techniques, patient interaction, lab safety, and specimen handling. Our hands-on program includes clinical rotations at real healthcare facilities. Graduate ready for immediate employment in hospitals, clinics, blood banks, and diagnostic labs with national certification.',
+    blurb:
+      'Launch your healthcare career in just 4-8 weeks! Learn proper blood draw techniques, patient interaction, lab safety, and specimen handling. Our hands-on program includes clinical rotations at real healthcare facilities. Graduate ready for immediate employment in hospitals, clinics, blood banks, and diagnostic labs with national certification.',
     funding: 'WRG • WIOA • Workforce Grants',
     duration: '4–8 Weeks • Clinical Rotations Included',
     image: 'https://images.unsplash.com/photo-1579154204601-01588f351e67?w=600&q=80',
@@ -157,7 +172,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'welding',
     name: 'Welding Technology',
-    blurb: 'Master a high-demand skilled trade! Learn MIG, TIG, stick welding, blueprint reading, and metal fabrication through intensive hands-on training. Our 12-24 week program prepares you for AWS certification and immediate employment in manufacturing, construction, automotive, and industrial settings. Welders earn $40K-$60K+ starting.',
+    blurb:
+      'Master a high-demand skilled trade! Learn MIG, TIG, stick welding, blueprint reading, and metal fabrication through intensive hands-on training. Our 12-24 week program prepares you for AWS certification and immediate employment in manufacturing, construction, automotive, and industrial settings. Welders earn $40K-$60K+ starting.',
     funding: 'Workforce Grants • Apprenticeship • WIOA',
     duration: '12–24 Weeks • Hands-On Lab Training',
     image: 'https://images.unsplash.com/photo-1504328345606-18bbc8c9d7d1?w=600&q=80',
@@ -166,7 +182,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'electrical',
     name: 'Electrical Technician',
-    blurb: 'Start your career in the electrical trades. 12-week evening program covering NEC code, residential and commercial wiring theory, electrical safety, and OSHA 10 certification. Includes employer site days with electrical contractors and apprenticeship pathway guidance. 3-star Indiana Top Jobs demand rating.',
+    blurb:
+      'Start your career in the electrical trades. 12-week evening program covering NEC code, residential and commercial wiring theory, electrical safety, and OSHA 10 certification. Includes employer site days with electrical contractors and apprenticeship pathway guidance. 3-star Indiana Top Jobs demand rating.',
     funding: 'WIOA • Next Level Jobs • Workforce Grants',
     duration: '12 Weeks • 144 Hours • Hybrid (Classroom + LMS + Employer Site Days)',
     image: '/images/trades/hero-program-electrical.jpg',
@@ -175,7 +192,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'plumbing',
     name: 'Plumbing Technician',
-    blurb: 'Start your career in the plumbing trades. 12-week evening program covering Indiana Plumbing Code, pipe materials and joining methods, DWV systems, water supply, fixture installation, and troubleshooting. Includes employer site days with plumbing contractors and apprenticeship pathway guidance.',
+    blurb:
+      'Start your career in the plumbing trades. 12-week evening program covering Indiana Plumbing Code, pipe materials and joining methods, DWV systems, water supply, fixture installation, and troubleshooting. Includes employer site days with plumbing contractors and apprenticeship pathway guidance.',
     funding: 'WIOA • Next Level Jobs • Workforce Grants',
     duration: '12 Weeks • 144 Hours • Hybrid (Classroom + LMS + Employer Site Days)',
     image: '/images/trades/hero-program-plumbing.jpg',
@@ -184,7 +202,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'forklift',
     name: 'Forklift Operator Certification',
-    blurb: 'OSHA-compliant forklift operator certification in 1-2 weeks. Covers powered industrial truck operation, safety standards, load handling, warehouse operations, and practical driving evaluation at employer partner site. 3-star Indiana Top Jobs demand rating. Immediate employability at distribution centers.',
+    blurb:
+      'OSHA-compliant forklift operator certification in 1-2 weeks. Covers powered industrial truck operation, safety standards, load handling, warehouse operations, and practical driving evaluation at employer partner site. 3-star Indiana Top Jobs demand rating. Immediate employability at distribution centers.',
     funding: 'WIOA • Workforce Grants',
     duration: '1–2 Weeks • 40 Hours',
     image: '/images/programs-hq/skilled-trades-hero.jpg',
@@ -193,7 +212,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'pharmacy-tech',
     name: 'Pharmacy Technician',
-    blurb: 'Enter the growing pharmacy field in 12-16 weeks! Learn medication dispensing, prescription processing, inventory management, insurance billing, and patient service. Our program includes externship at retail or hospital pharmacies. Graduate ready for national PTCB certification and employment at CVS, Walgreens, hospitals, and clinics.',
+    blurb:
+      'Enter the growing pharmacy field in 12-16 weeks! Learn medication dispensing, prescription processing, inventory management, insurance billing, and patient service. Our program includes externship at retail or hospital pharmacies. Graduate ready for national PTCB certification and employment at CVS, Walgreens, hospitals, and clinics.',
     funding: 'WRG • WIOA • Workforce Grants',
     duration: '12–16 Weeks • Externship Included',
     image: 'https://images.unsplash.com/photo-1587854692152-cbe660dbde88?w=600&q=80',
@@ -202,7 +222,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'it-help-desk',
     name: 'IT Help Desk Technician',
-    blurb: 'Launch your tech career with Certiport IT Specialist certification. Learn computer hardware, software, networking, troubleshooting, and customer service. Our 8-week program prepares you for help desk, desktop support, and IT technician roles. No prior experience needed. Tech jobs start at $40K+ with room for growth.',
+    blurb:
+      'Launch your tech career with Certiport IT Specialist certification. Learn computer hardware, software, networking, troubleshooting, and customer service. Our 8-week program prepares you for help desk, desktop support, and IT technician roles. No prior experience needed. Tech jobs start at $40K+ with room for growth.',
     funding: 'Workforce Grants • WIOA • Employer Sponsors',
     duration: '12–20 Weeks • Online + Hands-On Labs',
     image: 'https://images.unsplash.com/photo-1573164713714-d95e436ab8d6?w=600&q=80',
@@ -211,7 +232,8 @@ export const PROGRAMS: ProgramData[] = [
   {
     slug: 'culinary-arts',
     name: 'Culinary Arts & Food Service',
-    blurb: 'Turn your passion for cooking into a career through our Registered Apprenticeship! Earn while you learn in professional kitchens. Master food preparation, kitchen safety, menu planning, nutrition, and restaurant operations through hands-on training. Graduate ready for line cook, prep cook, or food service management positions in restaurants, hotels, and catering.',
+    blurb:
+      'Turn your passion for cooking into a career through our Registered Apprenticeship! Earn while you learn in professional kitchens. Master food preparation, kitchen safety, menu planning, nutrition, and restaurant operations through hands-on training. Graduate ready for line cook, prep cook, or food service management positions in restaurants, hotels, and catering.',
     funding: 'Registered Apprenticeship • WIOA • WRG',
     duration: '12–18 Months • Earn While You Learn',
     image: 'https://images.unsplash.com/photo-1556910103-1c02745aae4d?w=600&q=80',
@@ -234,14 +256,20 @@ const SHARED_LOC_FIELDS = {
   bilingualSupport: true,
   tutoringAvailable: true,
   nextLevelJobsEligible: true,
-  labLocation: 'Hybrid — Related Technical Instruction (RTI) delivered online via LMS. On-the-Job Training (OJT) completed as internship at employer partner sites in Indianapolis, IN (Marion County).',
+  labLocation:
+    'Hybrid — Related Technical Instruction (RTI) delivered online via LMS. On-the-Job Training (OJT) completed as internship at employer partner sites in Indianapolis, IN (Marion County).',
   cohortSchedule: 'Schedule coordinated with LOC partner — evening and weekend options available',
-  attendanceTracking: 'LMS-tracked daily attendance with instructor sign-off. Absence alerts sent within 24 hours.',
-  alertEscalationProcess: 'Automated alert to LOC case manager after 2 consecutive absences. Weekly status summary emailed to LOC contact.',
-  progressReportFrequency: 'Bi-weekly progress reports during program; monthly post-placement for 12 months',
-  progressReportFormat: 'CSV and PDF export — Salesforce-compatible fields (participant ID, attendance %, module completion, credential status)',
+  attendanceTracking:
+    'LMS-tracked daily attendance with instructor sign-off. Absence alerts sent within 24 hours.',
+  alertEscalationProcess:
+    'Automated alert to LOC case manager after 2 consecutive absences. Weekly status summary emailed to LOC contact.',
+  progressReportFrequency:
+    'Bi-weekly progress reports during program; monthly post-placement for 12 months',
+  progressReportFormat:
+    'CSV and PDF export — Salesforce-compatible fields (participant ID, attendance %, module completion, credential status)',
   retentionTracking: '90-day and 180-day post-placement follow-up with employer verification',
-  paymentTerms: 'Net 30 invoice per cohort. Milestone billing available: 50% at enrollment, 50% at completion.',
+  paymentTerms:
+    'Net 30 invoice per cohort. Milestone billing available: 50% at enrollment, 50% at completion.',
 };
 
 export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
@@ -253,15 +281,27 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
     rtiHours: '240 (classroom/lab)',
     ojtHours: '160+ (employer site internship)',
     credentials: [
-      { name: 'EPA Section 608 Universal Certification', issuingBody: 'U.S. Environmental Protection Agency (EPA)', examFeeIncluded: true },
-      { name: 'OSHA 30 — Construction Safety', issuingBody: 'OSHA / CareerSafe', examFeeIncluded: true },
+      {
+        name: 'EPA Section 608 Universal Certification',
+        issuingBody: 'U.S. Environmental Protection Agency (EPA)',
+        examFeeIncluded: true,
+      },
+      {
+        name: 'OSHA 30 — Construction Safety',
+        issuingBody: 'OSHA / CareerSafe',
+        examFeeIncluded: true,
+      },
       { name: 'CPR / First Aid', issuingBody: 'American Heart Association', examFeeIncluded: true },
-      { name: 'Rise Up — Retail Industry Fundamentals', issuingBody: 'National Retail Federation (NRF)', examFeeIncluded: true },
+      {
+        name: 'Rise Up — Retail Industry Fundamentals',
+        issuingBody: 'National Retail Federation (NRF)',
+        examFeeIncluded: true,
+      },
     ],
     admissionsRequirements: [
       '18 years or older',
       'High school diploma or GED',
-      'Valid driver\'s license (HVAC work requires travel to job sites)',
+      "Valid driver's license (HVAC work requires travel to job sites)",
       'Ability to lift 50+ pounds',
       'Pass background check',
       'Basic math skills (fractions, measurements)',
@@ -275,7 +315,8 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
       'Textbooks and study materials',
       'EPA 608 exam prep materials',
     ],
-    workBasedLearning: 'OJT internship at employer partner sites — supervised HVAC installation, maintenance, and service calls',
+    workBasedLearning:
+      'OJT internship at employer partner sites — supervised HVAC installation, maintenance, and service calls',
     employerPartners: [],
     placementRate: 'Program goal: 85%+ placement within 90 days',
     materialsIncluded: [
@@ -288,7 +329,7 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
     ...SHARED_LOC_FIELDS,
   },
 
-  'electrical': {
+  electrical: {
     slug: 'electrical',
     name: 'Electrical Technology',
     totalWeeks: '16–24',
@@ -296,10 +337,22 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
     rtiHours: '240 (classroom/lab)',
     ojtHours: '160+ (employer site internship)',
     credentials: [
-      { name: 'OSHA 10 — General Industry Safety', issuingBody: 'OSHA / CareerSafe', examFeeIncluded: true },
-      { name: 'Indiana Electrical Apprentice Registration', issuingBody: 'Indiana Department of Homeland Security (IDHS)', examFeeIncluded: true },
+      {
+        name: 'OSHA 10 — General Industry Safety',
+        issuingBody: 'OSHA / CareerSafe',
+        examFeeIncluded: true,
+      },
+      {
+        name: 'Indiana Electrical Apprentice Registration',
+        issuingBody: 'Indiana Department of Homeland Security (IDHS)',
+        examFeeIncluded: true,
+      },
       { name: 'CPR / First Aid', issuingBody: 'American Heart Association', examFeeIncluded: true },
-      { name: 'Program Completion Certificate', issuingBody: 'Elevate for Humanity Career & Technical Institute', examFeeIncluded: true },
+      {
+        name: 'Program Completion Certificate',
+        issuingBody: 'Elevate for Humanity Career & Technical Institute',
+        examFeeIncluded: true,
+      },
     ],
     admissionsRequirements: [
       '18 years or older',
@@ -309,16 +362,18 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
       'Pass background check',
       'Physical ability to climb ladders and work in confined spaces',
     ],
-    modality: 'Hybrid — RTI delivered online via LMS (NEC code, electrical theory) + OJT internship at electrical contractor sites',
+    modality:
+      'Hybrid — RTI delivered online via LMS (NEC code, electrical theory) + OJT internship at electrical contractor sites',
     equipmentIncluded: [
       'PPE (safety glasses, gloves, hard hat)',
       'Multimeter',
-      'Wire strippers and lineman\'s pliers',
+      "Wire strippers and lineman's pliers",
       'Hand tools',
       'NEC codebook',
       'Textbooks and study materials',
     ],
-    workBasedLearning: 'OJT internship at electrical contractor sites — supervised residential and commercial wiring, installation, and troubleshooting',
+    workBasedLearning:
+      'OJT internship at electrical contractor sites — supervised residential and commercial wiring, installation, and troubleshooting',
     employerPartners: [],
     placementRate: 'Program goal: 85%+ placement within 90 days',
     materialsIncluded: [
@@ -331,7 +386,7 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
     ...SHARED_LOC_FIELDS,
   },
 
-  'plumbing': {
+  plumbing: {
     slug: 'plumbing',
     name: 'Plumbing Technology',
     totalWeeks: 16,
@@ -339,9 +394,17 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
     rtiHours: '240 (classroom/lab)',
     ojtHours: '160+ (employer site internship)',
     credentials: [
-      { name: 'OSHA 10 — Construction Safety', issuingBody: 'OSHA / CareerSafe', examFeeIncluded: true },
+      {
+        name: 'OSHA 10 — Construction Safety',
+        issuingBody: 'OSHA / CareerSafe',
+        examFeeIncluded: true,
+      },
       { name: 'CPR / First Aid', issuingBody: 'American Heart Association', examFeeIncluded: true },
-      { name: 'Program Completion Certificate', issuingBody: 'Elevate for Humanity Career & Technical Institute', examFeeIncluded: true },
+      {
+        name: 'Program Completion Certificate',
+        issuingBody: 'Elevate for Humanity Career & Technical Institute',
+        examFeeIncluded: true,
+      },
     ],
     admissionsRequirements: [
       '18 years or older',
@@ -350,7 +413,8 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
       'Pass background check',
       'Basic math skills (measurements, slope calculations)',
     ],
-    modality: 'Hybrid — RTI delivered online via LMS (plumbing code, system design) + OJT internship at plumbing contractor sites',
+    modality:
+      'Hybrid — RTI delivered online via LMS (plumbing code, system design) + OJT internship at plumbing contractor sites',
     equipmentIncluded: [
       'PPE (safety glasses, gloves, hard hat)',
       'Pipe wrenches',
@@ -359,7 +423,8 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
       'Hand tools',
       'Textbooks and study materials',
     ],
-    workBasedLearning: 'OJT internship at plumbing contractor sites — supervised residential and commercial plumbing installation and service',
+    workBasedLearning:
+      'OJT internship at plumbing contractor sites — supervised residential and commercial plumbing installation and service',
     employerPartners: [],
     placementRate: 'Program goal: 85%+ placement within 90 days',
     materialsIncluded: [
@@ -372,7 +437,7 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
     ...SHARED_LOC_FIELDS,
   },
 
-  'forklift': {
+  forklift: {
     slug: 'forklift',
     name: 'Forklift Operator Certification',
     totalWeeks: '1 day',
@@ -380,7 +445,11 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
     rtiHours: '4 (classroom instruction)',
     ojtHours: '4 (hands-on driving evaluation)',
     credentials: [
-      { name: 'OSHA-Compliant Forklift Operator Certification', issuingBody: 'OSHA / Employer-Verified', examFeeIncluded: true },
+      {
+        name: 'OSHA-Compliant Forklift Operator Certification',
+        issuingBody: 'OSHA / Employer-Verified',
+        examFeeIncluded: true,
+      },
     ],
     admissionsRequirements: [
       '18 years or older',
@@ -395,15 +464,12 @@ export const LOC_PROGRAM_SPECS: Record<string, LOCProgramSpec> = {
       'Study materials',
       'Written and practical exam',
     ],
-    workBasedLearning: 'Hands-on forklift operation during training — warehouse and dock simulation',
+    workBasedLearning:
+      'Hands-on forklift operation during training — warehouse and dock simulation',
     employerPartners: [],
-    placementRate: 'Immediate employability — certification valid for 3 years per OSHA 29 CFR 1910.178',
-    materialsIncluded: [
-      'All training materials',
-      'PPE',
-      'Certification card',
-      'Exam fee',
-    ],
+    placementRate:
+      'Immediate employability — certification valid for 3 years per OSHA 29 CFR 1910.178',
+    materialsIncluded: ['All training materials', 'PPE', 'Certification card', 'Exam fee'],
     ...SHARED_LOC_FIELDS,
     costPerParticipant: 2700,
   },

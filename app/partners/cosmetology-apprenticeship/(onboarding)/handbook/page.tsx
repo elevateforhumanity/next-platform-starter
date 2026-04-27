@@ -4,13 +4,21 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { InstitutionalHeader } from '@/components/documents/InstitutionalHeader';
 import { DocumentFooter } from '@/components/documents/DocumentFooter';
 import {
-  Shield, Clock, Users, AlertTriangle, Phone,
-  CheckCircle2, FileText, Scale, ArrowRight,
+  Shield,
+  Clock,
+  Users,
+  AlertTriangle,
+  Phone,
+  CheckCircle2,
+  FileText,
+  Scale,
+  ArrowRight,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Partner Handbook | Cosmetology Apprenticeship',
-  description: 'Responsibilities, policies, and guidelines for cosmetology apprenticeship host salon partners.',
+  description:
+    'Responsibilities, policies, and guidelines for cosmetology apprenticeship host salon partners.',
 };
 
 const sections = [
@@ -20,7 +28,7 @@ const sections = [
     title: 'Your Role as a Host Salon',
     content: [
       'As a host salon, you provide the hands-on training environment where apprentices develop real-world cosmetology skills under direct supervision of a licensed cosmetologist.',
-      'You are not just an employer — you are a mentor and trainer. The quality of the apprentice\'s experience depends on the structure and support you provide.',
+      "You are not just an employer — you are a mentor and trainer. The quality of the apprentice's experience depends on the structure and support you provide.",
     ],
     items: [
       'Designate a supervising cosmetologist (Indiana IPLA licensed, minimum 2 years experience) for each apprentice',
@@ -43,7 +51,7 @@ const sections = [
       'Hybrid — $8.00–$10.00/hour base + 15%–25% commission on services',
       'Tip Policy — Apprentices keep 100% of tips earned from their clients',
       'Pay Frequency — Biweekly or semi-monthly, with itemized pay stubs',
-      'Workers\' compensation insurance coverage is required for all apprentices',
+      "Workers' compensation insurance coverage is required for all apprentices",
     ],
   },
   {
@@ -90,7 +98,7 @@ const sections = [
       'Maintain a valid Indiana salon license in good standing at all times',
       'Follow all Indiana State Board of Cosmetology and Barber Examiners regulations',
       'Ensure proper sanitation and disinfection of all tools, stations, and implements',
-      'Maintain current workers\' compensation and general liability insurance',
+      "Maintain current workers' compensation and general liability insurance",
       'Provide a harassment-free and discrimination-free workplace',
       'Report any workplace injuries or incidents to the Sponsor immediately',
       'Ensure all chemical services are performed with proper ventilation and PPE',
@@ -142,7 +150,7 @@ const sections = [
       'The Sponsor will work to reassign the apprentice to another approved salon',
       'All outstanding hours and compensation must be settled upon termination',
       'Return any Sponsor-provided materials or equipment',
-      'Termination of the salon partnership does not affect the apprentice\'s standing in the program',
+      "Termination of the salon partnership does not affect the apprentice's standing in the program",
     ],
   },
 ];
@@ -151,10 +159,12 @@ export default function CosmetologyPartnerHandbookPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 pt-6">
-        <Breadcrumbs items={[
-          { label: 'Partners', href: '/partners/cosmetology-apprenticeship' },
-          { label: 'Handbook' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Partners', href: '/partners/cosmetology-apprenticeship' },
+            { label: 'Handbook' },
+          ]}
+        />
       </div>
 
       <section className="py-8 border-b">
@@ -190,12 +200,16 @@ export default function CosmetologyPartnerHandbookPage() {
               <h2 className="text-xl font-bold text-slate-900">{title}</h2>
             </div>
             {content.map((p, i) => (
-              <p key={i} className="text-slate-600 text-sm leading-relaxed mb-3">{p}</p>
+              <p key={i} className="text-slate-600 text-sm leading-relaxed mb-3">
+                {p}
+              </p>
             ))}
             <ul className="space-y-2 mt-3">
               {items.map((item, i) => (
                 <li key={i} className="flex items-start gap-3 text-sm text-slate-700">
-                  <span className="w-5 h-5 bg-purple-600 text-white rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold mt-0.5">{i + 1}</span>
+                  <span className="w-5 h-5 bg-purple-600 text-white rounded-full flex items-center justify-center flex-shrink-0 text-xs font-bold mt-0.5">
+                    {i + 1}
+                  </span>
                   {item}
                 </li>
               ))}
@@ -206,7 +220,9 @@ export default function CosmetologyPartnerHandbookPage() {
         {/* Next step CTA */}
         <div className="bg-purple-50 border border-purple-200 rounded-2xl p-6 text-center">
           <p className="text-purple-900 font-bold text-lg mb-2">Ready to continue?</p>
-          <p className="text-purple-700 text-sm mb-5">After reading this handbook, proceed to sign the MOU and complete your onboarding.</p>
+          <p className="text-purple-700 text-sm mb-5">
+            After reading this handbook, proceed to sign the MOU and complete your onboarding.
+          </p>
           <Link
             href="/partners/cosmetology-apprenticeship/(onboarding)/sign-mou"
             className="inline-flex items-center gap-2 px-6 py-3 bg-purple-600 text-white font-bold rounded-lg hover:bg-purple-700 transition"
@@ -215,9 +231,7 @@ export default function CosmetologyPartnerHandbookPage() {
           </Link>
         </div>
 
-        <DocumentFooter
-          notice="RAPIDS Program No.: 2025-IN-132301 · RTI Provider ID: 208029 · DOL Registered Apprenticeship Sponsor"
-        />
+        <DocumentFooter notice="RAPIDS Program No.: 2025-IN-132301 · RTI Provider ID: 208029 · DOL Registered Apprenticeship Sponsor" />
       </div>
     </div>
   );

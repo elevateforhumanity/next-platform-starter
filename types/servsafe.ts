@@ -17,21 +17,21 @@ export type ServsafePriceType =
   | 'learning_suite';
 
 export interface ServsafeProduct {
-  key:             string;
-  label:           string;
+  key: string;
+  label: string;
   /** Vendor cost — admin only, never rendered publicly */
-  vendorBase:      number;
-  type:            ServsafePriceType;
+  vendorBase: number;
+  type: ServsafePriceType;
   /** Explicit retail price — use when formula deviates from agreed target */
   retailOverride?: number;
-  description?:    string;
+  description?: string;
 }
 
 export interface ServsafeProgram {
-  key:              string;
-  label:            string;
-  category:         'servsafe' | 'ahlei';
+  key: string;
+  label: string;
+  category: 'servsafe' | 'ahlei';
   shortDescription: string;
-  products:         ServsafeProduct[];
-  featured?:        boolean;
+  products: ServsafeProduct[];
+  featured?: boolean;
 }

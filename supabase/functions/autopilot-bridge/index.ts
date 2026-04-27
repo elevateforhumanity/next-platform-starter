@@ -175,10 +175,7 @@ serve(async (req) => {
       const child = Number(kv.child);
 
       if (!parent || !child) {
-        return new Response(
-          JSON.stringify({ error: 'missing parent or child' }),
-          { status: 400 }
-        );
+        return new Response(JSON.stringify({ error: 'missing parent or child' }), { status: 400 });
       }
 
       // Note: This would need a separate endpoint or direct DB access
@@ -187,7 +184,7 @@ serve(async (req) => {
           ok: true,
           message: `Edge ${parent}→${child} (implement via SQL or admin endpoint)`,
         }),
-        { status: 200 }
+        { status: 200 },
       );
     }
 

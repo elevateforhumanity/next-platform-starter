@@ -15,18 +15,18 @@ export interface TenantContext {
  */
 export async function withTenant(
   request: NextRequest,
-  handler: (req: NextRequest, tenant: TenantContext) => Promise<NextResponse>
+  handler: (req: NextRequest, tenant: TenantContext) => Promise<NextResponse>,
 ): Promise<NextResponse> {
   try {
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
     // Extract tenant_id from user metadata
@@ -35,10 +35,7 @@ export async function withTenant(
 
     if (!tenantId) {
       logger.warn('Request without tenant context', { userId: user.id });
-      return NextResponse.json(
-        { error: 'Tenant context required' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Tenant context required' }, { status: 403 });
     }
 
     const tenantContext: TenantContext = {
@@ -50,22 +47,16 @@ export async function withTenant(
     return handler(request, tenantContext);
   } catch (error) {
     logger.error('Tenant middleware error', error as Error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 /**
  * Validate that a user has access to a specific tenant
  */
-export async function validateTenantAccess(
-  userId: string,
-  tenantId: string
-): Promise<boolean> {
+export async function validateTenantAccess(userId: string, tenantId: string): Promise<boolean> {
   const supabase = await createClient();
-  
+
   const { data: profile } = await supabase
     .from('profiles')
     .select('tenant_id')
@@ -78,13 +69,13 @@ export async function validateTenantAccess(
 /**
  * Get tenant ID from request (for use in API routes)
  */
-export async function getTenantFromRequest(
-  request: NextRequest
-): Promise<TenantContext | null> {
+export async function getTenantFromRequest(request: NextRequest): Promise<TenantContext | null> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) return null;
 
     const tenantId = user.user_metadata?.tenant_id;

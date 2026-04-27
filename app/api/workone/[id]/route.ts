@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -9,16 +8,15 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _PATCH(
-  req: Request,
-  { params }: { params: Promise<{ id: string }> },
-) {
+async function _PATCH(req: Request, { params }: { params: Promise<{ id: string }> }) {
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
 
   const { id } = await params;
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const adminClient = await getAdminClient();
@@ -53,17 +51,14 @@ async function _PATCH(
   };
 
   const next: Record<string, unknown> = {};
-  if (patch.status)        next.status = patch.status;
-  if ('notes' in patch)    next.notes = patch.notes;
+  if (patch.status) next.status = patch.status;
+  if ('notes' in patch) next.notes = patch.notes;
   if ('due_date' in patch) next.due_date = patch.due_date;
 
-  if (patch.status === 'done')  next.completed_at = new Date().toISOString();
+  if (patch.status === 'done') next.completed_at = new Date().toISOString();
   if (patch.status && patch.status !== 'done') next.completed_at = null;
 
-  const { error: updErr } = await adminClient
-    .from('workone_checklist')
-    .update(next)
-    .eq('id', id);
+  const { error: updErr } = await adminClient.from('workone_checklist').update(next).eq('id', id);
 
   if (updErr) {
     return NextResponse.json({ error: 'Update failed' }, { status: 500 });

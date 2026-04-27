@@ -10,7 +10,9 @@ export async function POST(req: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const body = await req.json().catch(() => ({}));
@@ -51,17 +53,21 @@ export async function POST(req: NextRequest) {
   }
 
   // Log the signature for compliance
-  await db.from('audit_logs').insert({
-    user_id: user.id,
-    action: 'mou_signed',
-    entity_type: 'program_holders',
-    entity_id: phId,
-    metadata: {
-      typed_name: typedName.trim(),
-      signed_at: signedAt,
-      ip: req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown',
-    },
-  }).throwOnError().catch(() => null); // non-blocking
+  await db
+    .from('audit_logs')
+    .insert({
+      user_id: user.id,
+      action: 'mou_signed',
+      entity_type: 'program_holders',
+      entity_id: phId,
+      metadata: {
+        typed_name: typedName.trim(),
+        signed_at: signedAt,
+        ip: req.headers.get('x-forwarded-for') || req.headers.get('x-real-ip') || 'unknown',
+      },
+    })
+    .throwOnError()
+    .catch(() => null); // non-blocking
 
   return NextResponse.json({ success: true, signed_at: signedAt });
 }

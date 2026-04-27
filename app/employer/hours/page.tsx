@@ -15,7 +15,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function EmployerHoursPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) redirect('/login?redirect=/employer/hours');
 
@@ -53,21 +55,28 @@ export default async function EmployerHoursPage() {
     .eq('status', 'approved');
 
   const totalApprovedHours = (approvedHoursData || []).reduce(
-    (sum, h) => sum + (Number(h.accepted_hours) || Number(h.hours_claimed) || 0), 0
+    (sum, h) => sum + (Number(h.accepted_hours) || Number(h.hours_claimed) || 0),
+    0,
   );
 
   return (
     <div className="min-h-screen bg-white">
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/employer-page-1.jpg" alt="Employer hours management" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/employer-page-1.jpg"
+          alt="Employer hours management"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
 
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Employer', href: '/employer' },
-            { label: 'Hours Approval' }
-          ]} />
+          <Breadcrumbs
+            items={[{ label: 'Employer', href: '/employer' }, { label: 'Hours Approval' }]}
+          />
         </div>
       </div>
 

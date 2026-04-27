@@ -97,7 +97,7 @@ const MIN_RATIONALE_LEN = 15;
 
 export function validateCourseOutline(
   raw: unknown,
-  opts: { expectedModuleCount?: number; expectedCheckpointAfter?: number[] } = {}
+  opts: { expectedModuleCount?: number; expectedCheckpointAfter?: number[] } = {},
 ): ValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -135,19 +135,26 @@ export function validateCourseOutline(
   if (typeof course.pass_threshold_final_exam !== 'number') {
     errors.push('course.pass_threshold_final_exam must be a number');
   }
-  if (!Array.isArray(course.exam_eligibility_criteria) || (course.exam_eligibility_criteria as unknown[]).length === 0) {
+  if (
+    !Array.isArray(course.exam_eligibility_criteria) ||
+    (course.exam_eligibility_criteria as unknown[]).length === 0
+  ) {
     errors.push('course.exam_eligibility_criteria must be a non-empty array');
   }
   // Compliance status — must always be draft_for_human_review.
   // "verified" is not a valid value from AI output — only a human reviewer can set that
   // directly in the DB. The validator rejects it to prevent AI self-certification.
   if (course.compliance_status !== 'draft_for_human_review') {
-    errors.push('course.compliance_status must be "draft_for_human_review" — AI output cannot be self-certified as verified');
+    errors.push(
+      'course.compliance_status must be "draft_for_human_review" — AI output cannot be self-certified as verified',
+    );
   }
 
   // ── Module count ──────────────────────────────────────────────
   if (!Array.isArray(modules) || modules.length !== expectedModules) {
-    errors.push(`Expected exactly ${expectedModules} modules, got ${Array.isArray(modules) ? modules.length : 'non-array'}`);
+    errors.push(
+      `Expected exactly ${expectedModules} modules, got ${Array.isArray(modules) ? modules.length : 'non-array'}`,
+    );
   }
 
   // ── Module fields ─────────────────────────────────────────────
@@ -155,10 +162,13 @@ export function validateCourseOutline(
   if (Array.isArray(modules)) {
     for (const [i, mod] of modules.entries()) {
       const m = mod as Record<string, unknown>;
-      if (typeof m.module_index !== 'number') errors.push(`modules[${i}].module_index must be a number`);
+      if (typeof m.module_index !== 'number')
+        errors.push(`modules[${i}].module_index must be a number`);
       else moduleIndices.add(m.module_index as number);
-      if (!SLUG_RE.test((m.slug as string) ?? '')) errors.push(`modules[${i}].slug "${m.slug}" is not slug-safe`);
-      if (typeof m.title !== 'string' || !(m.title as string).trim()) errors.push(`modules[${i}].title is empty`);
+      if (!SLUG_RE.test((m.slug as string) ?? ''))
+        errors.push(`modules[${i}].slug "${m.slug}" is not slug-safe`);
+      if (typeof m.title !== 'string' || !(m.title as string).trim())
+        errors.push(`modules[${i}].title is empty`);
     }
   }
 
@@ -209,7 +219,9 @@ export function validateCourseOutline(
 
         // scenario
         if (typeof l.scenario !== 'string' || l.scenario.trim().length < MIN_SCENARIO_LEN) {
-          errors.push(`${ref}: scenario too short (min ${MIN_SCENARIO_LEN} chars), got: "${String(l.scenario).substring(0, 60)}"`);
+          errors.push(
+            `${ref}: scenario too short (min ${MIN_SCENARIO_LEN} chars), got: "${String(l.scenario).substring(0, 60)}"`,
+          );
         }
 
         // assessment_question
@@ -258,8 +270,9 @@ export function validateCourseOutline(
         const m = mod as Record<string, unknown>;
         const modIdx = m.module_index as number;
         const modLessons = lessons.filter(
-          (l) => (l as Record<string, unknown>).module_index === modIdx &&
-                 (l as Record<string, unknown>).step_type === 'lesson'
+          (l) =>
+            (l as Record<string, unknown>).module_index === modIdx &&
+            (l as Record<string, unknown>).step_type === 'lesson',
         );
         if (modLessons.length < 4 || modLessons.length > 6) {
           errors.push(`Module ${modIdx} has ${modLessons.length} "lesson" rows (expected 4–6)`);
@@ -270,22 +283,29 @@ export function validateCourseOutline(
     // Total row count sanity check: 20 lessons + 3 checkpoints + 1 exam = 24
     const totalExpected = 24;
     if (lessons.length !== totalExpected) {
-      warnings.push(`lessons array has ${lessons.length} rows (expected ${totalExpected}: 20 lessons + 3 checkpoints + 1 exam)`);
+      warnings.push(
+        `lessons array has ${lessons.length} rows (expected ${totalExpected}: 20 lessons + 3 checkpoints + 1 exam)`,
+      );
     }
 
     // No checkpoint on module 1 or module 5 (only after 2, 3, 4)
     const badCpModules = lessons.filter(
-      (l) => (l as Record<string, unknown>).step_type === 'checkpoint' &&
-             ![2, 3, 4].includes((l as Record<string, unknown>).module_index as number)
+      (l) =>
+        (l as Record<string, unknown>).step_type === 'checkpoint' &&
+        ![2, 3, 4].includes((l as Record<string, unknown>).module_index as number),
     );
     if (badCpModules.length > 0) {
-      errors.push(`Checkpoint rows found in wrong modules: ${badCpModules.map((l) => (l as Record<string, unknown>).module_index).join(', ')} (only allowed after modules 2, 3, 4)`);
+      errors.push(
+        `Checkpoint rows found in wrong modules: ${badCpModules.map((l) => (l as Record<string, unknown>).module_index).join(', ')} (only allowed after modules 2, 3, 4)`,
+      );
     }
   }
 
   // ── Checkpoints ───────────────────────────────────────────────
   if (!Array.isArray(checkpoints) || checkpoints.length !== expectedCpAfter.length) {
-    errors.push(`Expected ${expectedCpAfter.length} checkpoints, got ${Array.isArray(checkpoints) ? checkpoints.length : 'non-array'}`);
+    errors.push(
+      `Expected ${expectedCpAfter.length} checkpoints, got ${Array.isArray(checkpoints) ? checkpoints.length : 'non-array'}`,
+    );
   } else {
     const cpAfter = checkpoints
       .map((c) => (c as Record<string, unknown>).after_module_index as number)
@@ -295,9 +315,14 @@ export function validateCourseOutline(
     }
     for (const [i, cp] of checkpoints.entries()) {
       const c = cp as Record<string, unknown>;
-      if (!SLUG_RE.test((c.slug as string) ?? '')) errors.push(`checkpoints[${i}].slug not slug-safe`);
-      if (typeof c.pass_threshold !== 'number') errors.push(`checkpoints[${i}].pass_threshold must be a number`);
-      if (!Array.isArray(c.competencies_tested) || (c.competencies_tested as unknown[]).length === 0) {
+      if (!SLUG_RE.test((c.slug as string) ?? ''))
+        errors.push(`checkpoints[${i}].slug not slug-safe`);
+      if (typeof c.pass_threshold !== 'number')
+        errors.push(`checkpoints[${i}].pass_threshold must be a number`);
+      if (
+        !Array.isArray(c.competencies_tested) ||
+        (c.competencies_tested as unknown[]).length === 0
+      ) {
         errors.push(`checkpoints[${i}].competencies_tested must be a non-empty array`);
       }
     }
@@ -314,13 +339,20 @@ export function validateCourseOutline(
     if (typeof exam.pass_threshold !== 'number') {
       errors.push('exam.pass_threshold must be a number');
     }
-    if (!Array.isArray(exam.domain_blueprint) || (exam.domain_blueprint as unknown[]).length === 0) {
+    if (
+      !Array.isArray(exam.domain_blueprint) ||
+      (exam.domain_blueprint as unknown[]).length === 0
+    ) {
       errors.push('exam.domain_blueprint must be a non-empty array');
     } else {
-      const totalQ = (exam.domain_blueprint as Record<string, unknown>[])
-        .reduce((sum, d) => sum + ((d.question_count as number) ?? 0), 0);
+      const totalQ = (exam.domain_blueprint as Record<string, unknown>[]).reduce(
+        (sum, d) => sum + ((d.question_count as number) ?? 0),
+        0,
+      );
       if (totalQ !== exam.question_count) {
-        warnings.push(`domain_blueprint question_count sum (${totalQ}) does not match exam.question_count (${exam.question_count})`);
+        warnings.push(
+          `domain_blueprint question_count sum (${totalQ}) does not match exam.question_count (${exam.question_count})`,
+        );
       }
     }
   }

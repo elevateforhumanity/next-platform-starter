@@ -3,14 +3,12 @@
 import { readFileSync, readdirSync } from 'node:fs';
 import { join } from 'node:path';
 
-
 const PAGES_DIR = 'src/pages';
 
 // Get all page files
 const pageFiles = readdirSync(PAGES_DIR)
   .filter((f) => f.endsWith('.jsx') || f.endsWith('.tsx'))
   .map((f) => join(PAGES_DIR, f));
-
 
 // Test patterns
 const patterns = {
@@ -111,10 +109,7 @@ pageFiles.forEach((filePath) => {
   // Check for common issues
 
   // Issue: onClick without handler
-  if (
-    content.includes('onClick={}') ||
-    content.includes('onClick={() => {}}')
-  ) {
+  if (content.includes('onClick={}') || content.includes('onClick={() => {}}')) {
     results.issues.push({
       file: fileName,
       type: 'Empty onClick handler',
@@ -141,11 +136,7 @@ pageFiles.forEach((filePath) => {
   }
 
   // Issue: Async function without error handling
-  if (
-    content.includes('async ') &&
-    !content.includes('try') &&
-    !content.includes('catch')
-  ) {
+  if (content.includes('async ') && !content.includes('try') && !content.includes('catch')) {
     results.issues.push({
       file: fileName,
       type: 'Async function without error handling',
@@ -159,41 +150,33 @@ pageFiles.forEach((filePath) => {
 results.pagesWithButtons
   .sort((a, b) => b.count - a.count)
   .slice(0, 10)
-  .forEach(({ file, count }) => {
-  });
+  .forEach(({ file, count }) => {});
 
 results.pagesWithLinks
   .sort((a, b) => b.count - a.count)
   .slice(0, 10)
-  .forEach(({ file, count }) => {
-  });
+  .forEach(({ file, count }) => {});
 
-results.pagesWithForms.forEach(({ file, count }) => {
-});
+results.pagesWithForms.forEach(({ file, count }) => {});
 
 results.pagesWithApi
   .sort((a, b) => b.count - a.count)
   .slice(0, 10)
-  .forEach(({ file, count }) => {
-  });
+  .forEach(({ file, count }) => {});
 
 // Display issues
 if (results.issues.length > 0) {
-
   const errors = results.issues.filter((i) => i.severity === 'error');
   const warnings = results.issues.filter((i) => i.severity === 'warning');
 
   if (errors.length > 0) {
-    errors.forEach(({ file, type }) => {
-    });
+    errors.forEach(({ file, type }) => {});
   }
 
   if (warnings.length > 0) {
-    warnings.forEach(({ file, type }) => {
-    });
+    warnings.forEach(({ file, type }) => {});
   }
 } else {
 }
 
 // Recommendations
-

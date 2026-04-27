@@ -28,7 +28,13 @@ export const MAX_CHARS = 80_000;
 export const MAX_CHUNKS = 4;
 export const CHUNK_SIZE = 12_000;
 
-export type IngestionStage = 'pending' | 'summarizing' | 'summarized' | 'extracting' | 'done' | 'failed';
+export type IngestionStage =
+  | 'pending'
+  | 'summarizing'
+  | 'summarized'
+  | 'extracting'
+  | 'done'
+  | 'failed';
 
 export interface IngestionDraft {
   job_id: string;
@@ -62,13 +68,18 @@ export function chunkText(text: string, maxChars = CHUNK_SIZE): string[] {
 }
 
 /** Summarize a single chunk via gpt-4o-mini */
-async function summarizeChunk(openai: ReturnType<typeof getOpenAIClient>, chunk: string): Promise<string> {
+async function summarizeChunk(
+  openai: ReturnType<typeof getOpenAIClient>,
+  chunk: string,
+): Promise<string> {
   const res = await openai.chat.completions.create({
     model: 'gpt-4.1-mini',
-    messages: [{
-      role: 'user',
-      content: `Summarize the key topics, structure, and learning content from this section. Preserve all topic names, objectives, section headings, and any assessment cues.\n\n${chunk}`,
-    }],
+    messages: [
+      {
+        role: 'user',
+        content: `Summarize the key topics, structure, and learning content from this section. Preserve all topic names, objectives, section headings, and any assessment cues.\n\n${chunk}`,
+      },
+    ],
     temperature: 0.2,
     max_tokens: 1200,
   });
@@ -82,7 +93,7 @@ async function summarizeChunk(openai: ReturnType<typeof getOpenAIClient>, chunk:
  */
 export async function summarizeForExtraction(
   text: string,
-  openai: ReturnType<typeof getOpenAIClient>
+  openai: ReturnType<typeof getOpenAIClient>,
 ): Promise<{ summarizedText: string; chunkCount: number; wasChunked: boolean }> {
   if (text.length <= SAFE_CHARS) {
     return { summarizedText: text, chunkCount: 1, wasChunked: false };
@@ -103,7 +114,9 @@ export async function summarizeForExtraction(
 }
 
 /** Persist an ingestion draft to job_queue for resumable processing */
-export async function persistIngestionDraft(draft: Omit<IngestionDraft, 'job_id'>): Promise<string> {
+export async function persistIngestionDraft(
+  draft: Omit<IngestionDraft, 'job_id'>,
+): Promise<string> {
   const db = await getAdminClient();
   if (!db) throw new Error('Database unavailable');
 
@@ -136,14 +149,18 @@ export async function loadIngestionDraft(jobId: string): Promise<IngestionDraft 
     .maybeSingle();
 
   if (!data) return null;
-  return { ...(data.payload as IngestionDraft), job_id: data.id, stage: data.status as IngestionStage };
+  return {
+    ...(data.payload as IngestionDraft),
+    job_id: data.id,
+    stage: data.status as IngestionStage,
+  };
 }
 
 /** Update stage on an existing draft */
 export async function updateIngestionDraftStage(
   jobId: string,
   stage: IngestionStage,
-  patch: Partial<IngestionDraft> = {}
+  patch: Partial<IngestionDraft> = {},
 ): Promise<void> {
   const db = await getAdminClient();
   if (!db) return;

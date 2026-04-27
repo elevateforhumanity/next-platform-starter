@@ -67,7 +67,7 @@ export async function createClient(): Promise<SupabaseClient<any>> {
     if (process.env.NODE_ENV === 'development') {
       logger.warn(
         '[Supabase Server] Missing NEXT_PUBLIC_SUPABASE_URL or NEXT_PUBLIC_SUPABASE_ANON_KEY. ' +
-        'Database features disabled. Set these in .env.local to enable.'
+          'Database features disabled. Set these in .env.local to enable.',
       );
     }
     return mockClient;
@@ -76,26 +76,22 @@ export async function createClient(): Promise<SupabaseClient<any>> {
   try {
     const cookieStore = await cookies();
 
-    return createServerClient(
-      supabaseUrl,
-      supabaseAnonKey,
-      {
-        cookies: {
-          getAll() {
-            return cookieStore.getAll();
-          },
-          setAll(cookiesToSet) {
-            try {
-              cookiesToSet.forEach(({ name, value, options }) =>
-                cookieStore.set(name, value, options)
-              );
-            } catch {
-              // Server Component - cookies are read-only
-            }
-          },
+    return createServerClient(supabaseUrl, supabaseAnonKey, {
+      cookies: {
+        getAll() {
+          return cookieStore.getAll();
         },
-      }
-    );
+        setAll(cookiesToSet) {
+          try {
+            cookiesToSet.forEach(({ name, value, options }) =>
+              cookieStore.set(name, value, options),
+            );
+          } catch {
+            // Server Component - cookies are read-only
+          }
+        },
+      },
+    });
   } catch (error) {
     // cookies() throws during static prerender — this is expected and handled.
     // Only log in development; at build time this fires for every static page

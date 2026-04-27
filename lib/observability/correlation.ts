@@ -2,9 +2,9 @@ import type Stripe from 'stripe';
 
 /**
  * STEP 6C: Correlation ID management
- * 
+ *
  * Every log and audit record must include correlation_id for end-to-end tracing.
- * 
+ *
  * Priority order:
  * 1. payment_intent_id (if available)
  * 2. stripe_event_id (for webhooks)
@@ -25,34 +25,34 @@ export interface CorrelationContext {
  */
 export function getCorrelationFromStripeEvent(event: Stripe.Event): CorrelationContext {
   const eventObject = event.data.object as Record<string, unknown>;
-  
+
   // Try to extract payment_intent_id from various event types
   let paymentIntentId: string | undefined;
   let checkoutSessionId: string | undefined;
-  
+
   if ('payment_intent' in eventObject) {
     paymentIntentId = eventObject.payment_intent as string;
   }
-  
+
   if (event.type === 'checkout.session.completed') {
     const session = eventObject as Stripe.Checkout.Session;
     paymentIntentId = session.payment_intent as string;
     checkoutSessionId = session.id;
   }
-  
+
   if (event.type.startsWith('charge.')) {
     const charge = eventObject as Stripe.Charge;
     paymentIntentId = charge.payment_intent as string;
   }
-  
+
   if (event.type.startsWith('invoice.')) {
     const invoice = eventObject as Stripe.Invoice;
     paymentIntentId = invoice.payment_intent as string;
   }
-  
+
   // Correlation ID priority: payment_intent > event_id
   const correlationId = paymentIntentId || event.id;
-  
+
   return {
     correlationId,
     paymentIntentId,
@@ -67,18 +67,19 @@ export function getCorrelationFromStripeEvent(event: Stripe.Event): CorrelationC
  */
 export function getCorrelationFromRequest(request: Request): CorrelationContext {
   const url = new URL(request.url);
-  
+
   // Check headers first
   const headerCorrelation = request.headers.get('x-correlation-id');
   const headerPaymentIntent = request.headers.get('x-payment-intent-id');
-  
+
   // Check query params
   const queryCorrelation = url.searchParams.get('correlation_id');
   const queryPaymentIntent = url.searchParams.get('payment_intent_id');
-  
+
   const paymentIntentId = headerPaymentIntent || queryPaymentIntent || undefined;
-  const correlationId = headerCorrelation || queryCorrelation || paymentIntentId || generateCorrelationId();
-  
+  const correlationId =
+    headerCorrelation || queryCorrelation || paymentIntentId || generateCorrelationId();
+
   return {
     correlationId,
     paymentIntentId,
@@ -97,7 +98,7 @@ export function generateCorrelationId(): string {
  */
 export function createCorrelationContext(
   paymentIntentId?: string,
-  tenantId?: string
+  tenantId?: string,
 ): CorrelationContext {
   return {
     correlationId: paymentIntentId || generateCorrelationId(),
@@ -112,7 +113,7 @@ export function createCorrelationContext(
  */
 export function withCorrelation(
   context: CorrelationContext,
-  baseLogger: typeof console
+  baseLogger: typeof console,
 ): typeof console {
   const contextData = {
     correlationId: context.correlationId,
@@ -120,7 +121,7 @@ export function withCorrelation(
     ...(context.stripeEventId && { stripeEventId: context.stripeEventId }),
     ...(context.tenantId && { tenantId: context.tenantId }),
   };
-  
+
   return {
     ...baseLogger,
     log: (...args: unknown[]) => baseLogger.log(...args, contextData),

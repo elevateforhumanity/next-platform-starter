@@ -54,7 +54,7 @@ export default function AgreementSigningForm({
   const [error, setError] = useState('');
 
   const pendingAgreements = agreements.filter(
-    (a) => a.required && !acceptedAgreements.includes(a.type)
+    (a) => a.required && !acceptedAgreements.includes(a.type),
   );
   const allReviewed = pendingAgreements.every((a) => reviewedAgreements.includes(a.type));
 
@@ -323,11 +323,7 @@ export default function AgreementSigningForm({
               <label className="block text-sm font-medium text-slate-900 mb-2">
                 Draw Your Signature <span className="text-brand-red-500">*</span>
               </label>
-              <SignatureCanvas
-                onSignatureChange={setDrawnSignature}
-                width={500}
-                height={150}
-              />
+              <SignatureCanvas onSignatureChange={setDrawnSignature} width={500} height={150} />
             </div>
           )}
 
@@ -341,10 +337,10 @@ export default function AgreementSigningForm({
                 className="mt-1 w-5 h-5 text-brand-blue-600 rounded border-gray-300 focus:ring-brand-blue-500"
               />
               <span className="text-sm text-slate-900">
-                I confirm that I have read and understand all agreements listed above. I agree to
-                be legally bound by these agreements. I understand that this electronic signature
-                has the same legal effect as a handwritten signature. I am authorized to sign on
-                behalf of the organization (if applicable).
+                I confirm that I have read and understand all agreements listed above. I agree to be
+                legally bound by these agreements. I understand that this electronic signature has
+                the same legal effect as a handwritten signature. I am authorized to sign on behalf
+                of the organization (if applicable).
               </span>
             </label>
           </div>

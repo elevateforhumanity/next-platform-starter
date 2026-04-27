@@ -14,10 +14,7 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function _POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -77,7 +74,7 @@ async function _POST(
       application: data,
       message: 'Application approved successfully',
     });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
   }
 }

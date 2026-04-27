@@ -15,7 +15,8 @@ export default function RequestMeeting({ context }: RequestMeetingProps) {
       <Calendar className="w-10 h-10 text-brand-blue-600 mx-auto mb-3" />
       <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-2">Need More Information?</h3>
       <p className="text-slate-600 text-sm mb-4 max-w-md mx-auto">
-        {context || 'Have questions before applying? Schedule a free meeting with an advisor. No commitment required.'}
+        {context ||
+          'Have questions before applying? Schedule a free meeting with an advisor. No commitment required.'}
       </p>
       <div className="flex flex-col sm:flex-row gap-3 justify-center">
         <a

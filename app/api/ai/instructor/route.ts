@@ -1,11 +1,6 @@
-
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import {
-  getInstructorByProgramId,
-  getInstructorById,
-} from '@/lms-data/instructors';
+import { getInstructorByProgramId, getInstructorById } from '@/lms-data/instructors';
 import { allPrograms } from '@/lms-data/programs';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -43,7 +38,7 @@ async function _POST(req: Request) {
     if (!programId || !latest) {
       return NextResponse.json(
         { message: 'Missing programId or latest message.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -53,10 +48,7 @@ async function _POST(req: Request) {
       : getInstructorByProgramId(programId);
 
     if (!program || !instructor) {
-      return NextResponse.json(
-        { message: 'Program or instructor not found.' },
-        { status: 404 }
-      );
+      return NextResponse.json({ message: 'Program or instructor not found.' }, { status: 404 });
     }
 
     // Fallback if OpenAI is not configured: simple canned response
@@ -109,35 +101,37 @@ Keep responses concise (2-4 paragraphs max), practical, and encouraging. Focus o
       // Log interaction to database
       try {
         const supabase = await createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        await supabase.from('ai_instructor_interactions').insert({
-          user_id: user?.id || null,
-          program_id: programId,
-          instructor_id: instructorId,
-          user_message: latest,
-          assistant_response: reply,
-        }).catch(() => {});
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        await supabase
+          .from('ai_instructor_interactions')
+          .insert({
+            user_id: user?.id || null,
+            program_id: programId,
+            instructor_id: instructorId,
+            user_message: latest,
+            assistant_response: reply,
+          })
+          .catch(() => {});
       } catch (err) {
-          logger.error("Unhandled error", err instanceof Error ? err : undefined);
-        }
+        logger.error('Unhandled error', err instanceof Error ? err : undefined);
+      }
 
       return NextResponse.json({ text: reply });
     } catch (err: any) {
       logger.error('OpenAI API error:', err);
       return NextResponse.json(
         { message: 'AI service temporarily unavailable. Please try again.' },
-        { status: 503 }
+        { status: 503 },
       );
     }
   } catch (error) {
     logger.error(
       'AI instructor route error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json(
-      { message: 'Internal server error.' },
-      { status: 500 }
-    );
+    return NextResponse.json({ message: 'Internal server error.' }, { status: 500 });
   }
 }
 export const POST = withRuntime(withApiAudit('/api/ai/instructor', _POST));

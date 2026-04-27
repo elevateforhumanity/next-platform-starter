@@ -27,7 +27,7 @@ export interface SchemaVerification {
  */
 export async function verifyTableSchema(
   tableName: string,
-  expectedColumns?: string[]
+  expectedColumns?: string[],
 ): Promise<SchemaVerification> {
   const supabase = await createClient();
 
@@ -47,8 +47,9 @@ export async function verifyTableSchema(
   }
 
   // Get all columns for the table via RPC (PostgREST can't query information_schema directly)
-  const { data: columns, error } = await supabase
-    .rpc('get_table_columns', { p_table_name: tableName });
+  const { data: columns, error } = await supabase.rpc('get_table_columns', {
+    p_table_name: tableName,
+  });
 
   if (error) {
     logger.error('Schema verification error:', error);
@@ -78,7 +79,7 @@ export async function verifyTableSchema(
  */
 export async function verifyColumns(
   tableName: string,
-  columnNames: string[]
+  columnNames: string[],
 ): Promise<{ [key: string]: boolean }> {
   const verification = await verifyTableSchema(tableName, columnNames);
 
@@ -93,9 +94,7 @@ export async function verifyColumns(
 /**
  * Get all columns for a table
  */
-export async function getTableColumns(
-  tableName: string
-): Promise<ColumnInfo[]> {
+export async function getTableColumns(tableName: string): Promise<ColumnInfo[]> {
   const verification = await verifyTableSchema(tableName);
   return verification.columns;
 }
@@ -106,9 +105,7 @@ export async function getTableColumns(
 export function logSchemaVerification(verification: SchemaVerification): void {
   if (process.env.NODE_ENV === 'development') {
     if (verification.missingColumns.length > 0) {
-      logger.info(
-        `   ⚠️  Missing columns: ${verification.missingColumns.join(', ')}`
-      );
+      logger.info(`   ⚠️  Missing columns: ${verification.missingColumns.join(', ')}`);
     }
 
     if (verification.columns.length > 0) {
@@ -122,10 +119,7 @@ export function logSchemaVerification(verification: SchemaVerification): void {
 /**
  * Assert columns exist (throws error if missing)
  */
-export async function assertColumnsExist(
-  tableName: string,
-  columnNames: string[]
-): Promise<void> {
+export async function assertColumnsExist(tableName: string, columnNames: string[]): Promise<void> {
   const verification = await verifyTableSchema(tableName, columnNames);
 
   if (!verification.exists) {
@@ -135,7 +129,7 @@ export async function assertColumnsExist(
   if (verification.missingColumns.length > 0) {
     throw new Error(
       `Table '${tableName}' is missing columns: ${verification.missingColumns.join(', ')}\n` +
-        `Available columns: ${verification.columns.map((c) => c.column_name).join(', ')}`
+        `Available columns: ${verification.columns.map((c) => c.column_name).join(', ')}`,
     );
   }
 }
@@ -145,7 +139,7 @@ export async function assertColumnsExist(
  */
 export async function safeSelect<T>(
   tableName: string,
-  columns: string[]
+  columns: string[],
 ): Promise<{ data: T[] | null; error: Error | null }> {
   try {
     // Verify columns exist
@@ -153,16 +147,15 @@ export async function safeSelect<T>(
 
     // Execute query
     const supabase = await createClient();
-    const { data, error }: any = await supabase
-      .from(tableName)
-      .select(columns.join(', '));
+    const { data, error }: any = await supabase.from(tableName).select(columns.join(', '));
 
     if (error) {
       return { data: null, error: new Error(error.message) };
     }
 
     return { data: data as T[], error: null };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       data: null,
       error: error instanceof Error ? error : new Error(String(error)),

@@ -1,8 +1,8 @@
 #!/usr/bin/env node
 
-import fs from "fs";
-import path from "path";
-import OpenAI from "openai";
+import fs from 'fs';
+import path from 'path';
+import OpenAI from 'openai';
 
 const client = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
@@ -32,21 +32,20 @@ Format the output in markdown with clear sections.
 `;
 
   const response = await client.chat.completions.create({
-    model: "gpt-4",
-    messages: [{ role: "user", content: prompt }],
+    model: 'gpt-4',
+    messages: [{ role: 'user', content: prompt }],
   });
 
   const text = response.choices[0].message.content;
 
-  const date = new Date().toISOString().split("T")[0];
-  const outPath = path.join(process.cwd(), "content", "social-packs", `${date}-social-pack.md`);
+  const date = new Date().toISOString().split('T')[0];
+  const outPath = path.join(process.cwd(), 'content', 'social-packs', `${date}-social-pack.md`);
 
   fs.mkdirSync(path.dirname(outPath), { recursive: true });
   fs.writeFileSync(outPath, text);
-
 }
 
-generate().catch(err => {
-  console.error("Error:", err.message);
+generate().catch((err) => {
+  console.error('Error:', err.message);
   process.exit(1);
 });

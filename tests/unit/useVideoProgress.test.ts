@@ -22,9 +22,15 @@ const localStorageMock = (() => {
   let store: Record<string, string> = {};
   return {
     getItem: vi.fn((key: string) => store[key] ?? null),
-    setItem: vi.fn((key: string, value: string) => { store[key] = value; }),
-    removeItem: vi.fn((key: string) => { delete store[key]; }),
-    clear: () => { store = {}; },
+    setItem: vi.fn((key: string, value: string) => {
+      store[key] = value;
+    }),
+    removeItem: vi.fn((key: string) => {
+      delete store[key];
+    }),
+    clear: () => {
+      store = {};
+    },
     _store: () => store,
   };
 })();
@@ -62,10 +68,7 @@ function makeVideo(overrides: Partial<HTMLVideoElement> = {}): HTMLVideoElement 
 
 // ── Helper: render hook with a video ref ─────────────────────────────────────
 
-function setup(
-  video: HTMLVideoElement,
-  options: Parameters<typeof useVideoProgress>[1] = {}
-) {
+function setup(video: HTMLVideoElement, options: Parameters<typeof useVideoProgress>[1] = {}) {
   return renderHook(() => {
     const ref = useRef<HTMLVideoElement>(video);
     useVideoProgress(ref, options);
@@ -191,7 +194,11 @@ describe('useVideoProgress — malformed saved value clamping', () => {
   for (const bad of BAD_VALUES) {
     it(`ignores saved value "${bad}"`, () => {
       localStorageMock.getItem.mockReturnValueOnce(bad);
-      const video = makeVideo({ currentTime: 0, duration: 120, readyState: 4 } as Partial<HTMLVideoElement>);
+      const video = makeVideo({
+        currentTime: 0,
+        duration: 120,
+        readyState: 4,
+      } as Partial<HTMLVideoElement>);
       setup(video, { lessonId: 'lesson-x' });
 
       // currentTime should remain 0 — hook must not set it to a bad value
@@ -201,7 +208,11 @@ describe('useVideoProgress — malformed saved value clamping', () => {
 
   it('restores a valid mid-video position', () => {
     localStorageMock.getItem.mockReturnValueOnce('45');
-    const video = makeVideo({ currentTime: 0, duration: 120, readyState: 4 } as Partial<HTMLVideoElement>);
+    const video = makeVideo({
+      currentTime: 0,
+      duration: 120,
+      readyState: 4,
+    } as Partial<HTMLVideoElement>);
     setup(video, { lessonId: 'lesson-y' });
 
     expect(video.currentTime).toBe(45);
@@ -209,7 +220,11 @@ describe('useVideoProgress — malformed saved value clamping', () => {
 
   it('does not restore if saved time >= duration - 2 (video effectively finished)', () => {
     localStorageMock.getItem.mockReturnValueOnce('119');
-    const video = makeVideo({ currentTime: 0, duration: 120, readyState: 4 } as Partial<HTMLVideoElement>);
+    const video = makeVideo({
+      currentTime: 0,
+      duration: 120,
+      readyState: 4,
+    } as Partial<HTMLVideoElement>);
     setup(video, { lessonId: 'lesson-z' });
 
     expect(video.currentTime).toBe(0);
@@ -225,7 +240,11 @@ describe('useVideoProgress — restore via loadedmetadata', () => {
   it('waits for loadedmetadata when readyState < 1', () => {
     localStorageMock.getItem.mockReturnValueOnce('60');
     // readyState 0 = HAVE_NOTHING — metadata not yet loaded
-    const video = makeVideo({ currentTime: 0, duration: 0, readyState: 0 } as Partial<HTMLVideoElement>);
+    const video = makeVideo({
+      currentTime: 0,
+      duration: 0,
+      readyState: 0,
+    } as Partial<HTMLVideoElement>);
     setup(video, { lessonId: 'lesson-meta' });
 
     // Before metadata fires, currentTime must not be set
@@ -267,7 +286,7 @@ describe('useVideoProgress — save throttling', () => {
 
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
       expect.stringContaining('lesson-throttle'),
-      '11'
+      '11',
     );
   });
 });
@@ -286,9 +305,7 @@ describe('useVideoProgress — clear on natural end', () => {
       (video as ReturnType<typeof makeVideo>)._emit('ended');
     });
 
-    expect(localStorageMock.removeItem).toHaveBeenCalledWith(
-      expect.stringContaining('lesson-end')
-    );
+    expect(localStorageMock.removeItem).toHaveBeenCalledWith(expect.stringContaining('lesson-end'));
   });
 });
 
@@ -310,7 +327,7 @@ describe('useVideoProgress — completion reporting', () => {
     expect(fetchMock).toHaveBeenCalledTimes(1);
     expect(fetchMock).toHaveBeenCalledWith(
       '/api/progress',
-      expect.objectContaining({ method: 'POST' })
+      expect.objectContaining({ method: 'POST' }),
     );
   });
 
@@ -357,7 +374,7 @@ describe('useVideoProgress — persist on unmount', () => {
 
     expect(localStorageMock.setItem).toHaveBeenCalledWith(
       expect.stringContaining('lesson-unmount'),
-      '42'
+      '42',
     );
   });
 

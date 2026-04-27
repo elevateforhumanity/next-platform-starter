@@ -1,4 +1,4 @@
-import rawBranding from "../config/branding.json";
+import rawBranding from '../config/branding.json';
 
 export type BrandingConfig = {
   appName: string;
@@ -7,9 +7,9 @@ export type BrandingConfig = {
 };
 
 const defaultBranding: BrandingConfig = {
-  appName: "Elevate Workforce Platform",
-  primaryColor: "#EA580C",
-  logoPath: "/branding/logo.png"
+  appName: 'Elevate Workforce Platform',
+  primaryColor: '#EA580C',
+  logoPath: '/branding/logo.png',
 };
 
 export function getBranding(): BrandingConfig {
@@ -18,7 +18,7 @@ export function getBranding(): BrandingConfig {
     return {
       appName: b.appName || defaultBranding.appName,
       primaryColor: b.primaryColor || defaultBranding.primaryColor,
-      logoPath: b.logoPath || defaultBranding.logoPath
+      logoPath: b.logoPath || defaultBranding.logoPath,
     };
   } catch (err) {
     // Error: $1

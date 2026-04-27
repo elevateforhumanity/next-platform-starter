@@ -16,7 +16,6 @@ interface PageProps {
   }>;
 }
 
-
 export const metadata: Metadata = {
   title: 'Token',
   alternates: { canonical: 'https://www.elevateforhumanity.org/c/' },

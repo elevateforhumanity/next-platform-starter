@@ -47,7 +47,8 @@ export const COMPETENCY_REGISTRY: CompetencyDefinition[] = [
     isCritical: true,
     assessmentMethod: 'observation',
     domainKey: 'infection_control',
-    description: 'Student correctly prepares Barbicide solution and fully submerges tools for required contact time.',
+    description:
+      'Student correctly prepares Barbicide solution and fully submerges tools for required contact time.',
   },
   {
     key: 'razor_blade_change',
@@ -57,7 +58,8 @@ export const COMPETENCY_REGISTRY: CompetencyDefinition[] = [
     isCritical: true,
     assessmentMethod: 'observation',
     domainKey: 'infection_control',
-    description: 'Student safely removes and replaces a razor blade using proper sharps handling technique.',
+    description:
+      'Student safely removes and replaces a razor blade using proper sharps handling technique.',
   },
   {
     key: 'neck_strip_application',
@@ -67,7 +69,8 @@ export const COMPETENCY_REGISTRY: CompetencyDefinition[] = [
     isCritical: false,
     assessmentMethod: 'observation',
     domainKey: 'infection_control',
-    description: 'Student applies neck strip and cape without skin contact, ensuring client protection.',
+    description:
+      'Student applies neck strip and cape without skin contact, ensuring client protection.',
   },
 
   // ── Barber Apprenticeship — Lesson 5: Chemical Safety & OSHA ───────────────
@@ -79,7 +82,8 @@ export const COMPETENCY_REGISTRY: CompetencyDefinition[] = [
     isCritical: true,
     assessmentMethod: 'observation',
     domainKey: 'chemical_services',
-    description: 'Student correctly labels, stores, and segregates chemicals per OSHA HazCom standards.',
+    description:
+      'Student correctly labels, stores, and segregates chemicals per OSHA HazCom standards.',
   },
   {
     key: 'hazard_identification',
@@ -89,7 +93,8 @@ export const COMPETENCY_REGISTRY: CompetencyDefinition[] = [
     isCritical: false,
     assessmentMethod: 'observation',
     domainKey: 'chemical_services',
-    description: 'Student locates and reads a Safety Data Sheet, identifying hazard class and PPE requirements.',
+    description:
+      'Student locates and reads a Safety Data Sheet, identifying hazard class and PPE requirements.',
   },
 
   // ── Barber Apprenticeship — Lesson 6: Client Consultation ──────────────────
@@ -101,7 +106,8 @@ export const COMPETENCY_REGISTRY: CompetencyDefinition[] = [
     isCritical: true,
     assessmentMethod: 'observation',
     domainKey: 'consultation',
-    description: 'Student conducts a full consultation: service goals, contraindications, and written record.',
+    description:
+      'Student conducts a full consultation: service goals, contraindications, and written record.',
   },
 
   // ── Barber Apprenticeship — Lesson 15: Clipper & Trimmer Maintenance ────────
@@ -125,17 +131,18 @@ export const COMPETENCY_REGISTRY: CompetencyDefinition[] = [
     isCritical: true,
     assessmentMethod: 'observation',
     domainKey: 'shaving',
-    description: 'Student demonstrates correct razor grip, tension, and stroke angle on a mannequin.',
+    description:
+      'Student demonstrates correct razor grip, tension, and stroke angle on a mannequin.',
   },
 ];
 
 // ─── Lookup helpers ───────────────────────────────────────────────────────────
 
 /** All registered keys as a Set — O(1) lookup */
-const REGISTERED_KEYS = new Set(COMPETENCY_REGISTRY.map(c => c.key));
+const REGISTERED_KEYS = new Set(COMPETENCY_REGISTRY.map((c) => c.key));
 
 /** Map from key → definition */
-const REGISTRY_MAP = new Map(COMPETENCY_REGISTRY.map(c => [c.key, c]));
+const REGISTRY_MAP = new Map(COMPETENCY_REGISTRY.map((c) => [c.key, c]));
 
 /** Returns true if the key exists in the registry */
 export function isRegisteredCompetencyKey(key: string): boolean {
@@ -149,10 +156,10 @@ export function getCompetencyDefinition(key: string): CompetencyDefinition | und
 
 /** Returns all competency keys for a given program slug */
 export function getCompetenciesForProgram(programSlug: string): CompetencyDefinition[] {
-  return COMPETENCY_REGISTRY.filter(c => c.programSlug === programSlug);
+  return COMPETENCY_REGISTRY.filter((c) => c.programSlug === programSlug);
 }
 
 /** Validates a list of keys — returns any that are not registered */
 export function findUnregisteredKeys(keys: string[]): string[] {
-  return keys.filter(k => !REGISTERED_KEYS.has(k));
+  return keys.filter((k) => !REGISTERED_KEYS.has(k));
 }

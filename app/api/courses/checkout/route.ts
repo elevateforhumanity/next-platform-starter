@@ -4,27 +4,21 @@ import Stripe from 'stripe';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-const stripe = process.env.STRIPE_SECRET_KEY 
+const stripe = process.env.STRIPE_SECRET_KEY
   ? new Stripe(process.env.STRIPE_SECRET_KEY, { apiVersion: '2025-10-29.clover' })
   : null;
 
 export async function POST(request: NextRequest) {
   try {
     if (!stripe) {
-      return NextResponse.json(
-        { error: 'Payment system not configured' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Payment system not configured' }, { status: 500 });
     }
 
     const body = await request.json();
     const { courseId, courseSlug, courseName, price, wholesaleCost, provider } = body;
 
     if (!courseId || !courseName || !price) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Calculate split payment amounts
@@ -81,7 +75,7 @@ export async function POST(request: NextRequest) {
     console.error('Course checkout error:', error);
     return NextResponse.json(
       { error: error.message || 'Failed to create checkout session' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

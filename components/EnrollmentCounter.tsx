@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -20,7 +20,7 @@ export default function EnrollmentCounter() {
     thisMonth: 0,
     today: 0,
     activeStudents: 0,
-    lastUpdated: new Date()
+    lastUpdated: new Date(),
   });
 
   const [isLive, setIsLive] = useState(false);
@@ -32,8 +32,8 @@ export default function EnrollmentCounter() {
 
   useEffect(() => {
     fetch('/api/admin/enrollment-stats')
-      .then(r => r.json())
-      .then(d => {
+      .then((r) => r.json())
+      .then((d) => {
         if (d.data) {
           setEnrollmentData({ ...d.data, lastUpdated: new Date() });
           setIsLive(true);
@@ -44,7 +44,6 @@ export default function EnrollmentCounter() {
         }
       })
       .catch(() => {});
-
   }, [totalCount, monthCount, todayCount, activeCount]);
 
   // Format number with commas
@@ -57,7 +56,9 @@ export default function EnrollmentCounter() {
 
   useEffect(() => {
     const updateTimer = setInterval(() => {
-      const seconds = Math.floor((new Date().getTime() - enrollmentData.lastUpdated.getTime()) / 1000);
+      const seconds = Math.floor(
+        (new Date().getTime() - enrollmentData.lastUpdated.getTime()) / 1000,
+      );
 
       if (seconds < 10) {
         setTimeSinceUpdate('just now');
@@ -101,11 +102,10 @@ export default function EnrollmentCounter() {
             </div>
             Live Enrollment Data
           </div>
-          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">
-            Enroll Today
-          </h2>
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-4">Enroll Today</h2>
           <p className="text-xl text-white/90 max-w-3xl mx-auto">
-            Real people, real-time. Watch as students enroll and start their journey to a better career.
+            Real people, real-time. Watch as students enroll and start their journey to a better
+            career.
           </p>
         </motion.div>
 
@@ -224,11 +224,36 @@ export default function EnrollmentCounter() {
 
           <div className="space-y-3">
             {[
-              { name: 'Sarah M.', program: 'Healthcare Assistant', time: '2 minutes ago', location: 'Indianapolis, IN' },
-              { name: 'James T.', program: 'HVAC Technician', time: '5 minutes ago', location: 'Fort Wayne, IN' },
-              { name: 'Maria R.', program: 'Medical Coding', time: '8 minutes ago', location: 'Bloomington, IN' },
-              { name: 'David K.', program: 'CDL Training', time: '12 minutes ago', location: 'Evansville, IN' },
-              { name: 'Jennifer L.', program: 'Cosmetology', time: '15 minutes ago', location: 'South Bend, IN' }
+              {
+                name: 'Sarah M.',
+                program: 'Healthcare Assistant',
+                time: '2 minutes ago',
+                location: 'Indianapolis, IN',
+              },
+              {
+                name: 'James T.',
+                program: 'HVAC Technician',
+                time: '5 minutes ago',
+                location: 'Fort Wayne, IN',
+              },
+              {
+                name: 'Maria R.',
+                program: 'Medical Coding',
+                time: '8 minutes ago',
+                location: 'Bloomington, IN',
+              },
+              {
+                name: 'David K.',
+                program: 'CDL Training',
+                time: '12 minutes ago',
+                location: 'Evansville, IN',
+              },
+              {
+                name: 'Jennifer L.',
+                program: 'Cosmetology',
+                time: '15 minutes ago',
+                location: 'South Bend, IN',
+              },
             ].map((enrollment, index) => (
               <motion.div
                 key={index}
@@ -283,7 +308,7 @@ export default function EnrollmentCounter() {
           </div>
 
           <p className="mt-6 text-white/60 text-sm">
-            • No application fee  • Financial aid available  • Start in weeks, not months
+            • No application fee • Financial aid available • Start in weeks, not months
           </p>
         </motion.div>
       </div>

@@ -5,22 +5,32 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import {
-  Users, GraduationCap, TrendingUp, Award, BarChart3,
-  Activity, Target, ArrowRight, ChevronRight,
+  Users,
+  GraduationCap,
+  TrendingUp,
+  Award,
+  BarChart3,
+  Activity,
+  Target,
+  ArrowRight,
+  ChevronRight,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Platform Analytics | Elevate for Humanity',
-  description: 'Enrollment, completion, and outcome analytics for Elevate for Humanity workforce programs.',
+  description:
+    'Enrollment, completion, and outcome analytics for Elevate for Humanity workforce programs.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/analytics' },
   robots: { index: false, follow: false },
 };
 
 export default async function AnalyticsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/analytics');
 
   // Check role — analytics is admin/staff only
@@ -49,8 +59,14 @@ export default async function AnalyticsPage() {
     db.from('profiles').select('*', { count: 'exact', head: true }),
     db.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'student'),
     db.from('program_enrollments').select('*', { count: 'exact', head: true }),
-    db.from('program_enrollments').select('*', { count: 'exact', head: true }).eq('status', 'active'),
-    db.from('program_enrollments').select('*', { count: 'exact', head: true }).eq('status', 'completed'),
+    db
+      .from('program_enrollments')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'active'),
+    db
+      .from('program_enrollments')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'completed'),
     db.from('program_completion_certificates').select('*', { count: 'exact', head: true }),
     db.from('programs').select('*', { count: 'exact', head: true }).eq('published', true),
   ]);
@@ -62,26 +78,59 @@ export default async function AnalyticsPage() {
     .order('created_at', { ascending: false })
     .limit(8);
 
-  const completionRate = totalEnrollments && completedEnrollments
-    ? Math.round((completedEnrollments / totalEnrollments) * 100)
-    : 0;
+  const completionRate =
+    totalEnrollments && completedEnrollments
+      ? Math.round((completedEnrollments / totalEnrollments) * 100)
+      : 0;
 
   const stats = [
     { label: 'Total Users', value: totalUsers ?? 0, icon: Users, color: 'text-blue-500' },
     { label: 'Students', value: totalStudents ?? 0, icon: GraduationCap, color: 'text-green-500' },
-    { label: 'Active Enrollments', value: activeEnrollments ?? 0, icon: Activity, color: 'text-amber-500' },
-    { label: 'Completions', value: completedEnrollments ?? 0, icon: Award, color: 'text-purple-500' },
-    { label: 'Completion Rate', value: `${completionRate}%`, icon: Target, color: 'text-brand-red-500' },
-    { label: 'Certificates Issued', value: totalCertificates ?? 0, icon: Award, color: 'text-teal-500' },
-    { label: 'Published Programs', value: publishedPrograms ?? 0, icon: BarChart3, color: 'text-slate-500' },
-    { label: 'Total Enrollments', value: totalEnrollments ?? 0, icon: TrendingUp, color: 'text-indigo-500' },
+    {
+      label: 'Active Enrollments',
+      value: activeEnrollments ?? 0,
+      icon: Activity,
+      color: 'text-amber-500',
+    },
+    {
+      label: 'Completions',
+      value: completedEnrollments ?? 0,
+      icon: Award,
+      color: 'text-purple-500',
+    },
+    {
+      label: 'Completion Rate',
+      value: `${completionRate}%`,
+      icon: Target,
+      color: 'text-brand-red-500',
+    },
+    {
+      label: 'Certificates Issued',
+      value: totalCertificates ?? 0,
+      icon: Award,
+      color: 'text-teal-500',
+    },
+    {
+      label: 'Published Programs',
+      value: publishedPrograms ?? 0,
+      icon: BarChart3,
+      color: 'text-slate-500',
+    },
+    {
+      label: 'Total Enrollments',
+      value: totalEnrollments ?? 0,
+      icon: TrendingUp,
+      color: 'text-indigo-500',
+    },
   ];
 
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Admin', href: '/admin/dashboard' }, { label: 'Analytics' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Admin', href: '/admin/dashboard' }, { label: 'Analytics' }]}
+          />
         </div>
       </div>
 
@@ -114,7 +163,10 @@ export default async function AnalyticsPage() {
         <div className="bg-white rounded-xl border border-slate-200">
           <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
             <h2 className="font-bold text-slate-900">Recent Enrollments</h2>
-            <Link href="/admin/enrollments" className="text-sm text-brand-red-600 hover:underline flex items-center gap-1">
+            <Link
+              href="/admin/enrollments"
+              className="text-sm text-brand-red-600 hover:underline flex items-center gap-1"
+            >
               View all <ChevronRight className="w-3.5 h-3.5" />
             </Link>
           </div>
@@ -128,13 +180,19 @@ export default async function AnalyticsPage() {
                     <p className="text-sm font-medium text-slate-900">
                       {e.programs?.title ?? 'Unknown Program'}
                     </p>
-                    <p className="text-xs text-slate-400">{new Date(e.created_at).toLocaleDateString()}</p>
+                    <p className="text-xs text-slate-400">
+                      {new Date(e.created_at).toLocaleDateString()}
+                    </p>
                   </div>
-                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-                    e.status === 'active' ? 'bg-green-50 text-green-700' :
-                    e.status === 'completed' ? 'bg-blue-50 text-blue-700' :
-                    'bg-slate-100 text-slate-600'
-                  }`}>
+                  <span
+                    className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
+                      e.status === 'active'
+                        ? 'bg-green-50 text-green-700'
+                        : e.status === 'completed'
+                          ? 'bg-blue-50 text-blue-700'
+                          : 'bg-slate-100 text-slate-600'
+                    }`}
+                  >
                     {e.status}
                   </span>
                 </div>

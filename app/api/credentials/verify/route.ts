@@ -1,6 +1,5 @@
 // PUBLIC ROUTE: Public credential verification by certificate ID
 
-
 // =====================================================
 // CREDENTIAL VERIFICATION API - PUBLIC
 // =====================================================
@@ -28,10 +27,7 @@ async function _POST(req: NextRequest) {
     const { code } = await req.json();
 
     if (!code || typeof code !== 'string') {
-      return NextResponse.json(
-        { error: 'Invalid credential code' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid credential code' }, { status: 400 });
     }
 
     const supabase = await createServerSupabaseClient();
@@ -66,7 +62,7 @@ async function _POST(req: NextRequest) {
         programs (
           title
         )
-      `
+      `,
       )
       .eq('code', code)
       .maybeSingle();
@@ -74,10 +70,7 @@ async function _POST(req: NextRequest) {
     if (error || !credential) {
       // Generic response to prevent scraping
       logger.info('Credential verification failed', { code });
-      return NextResponse.json(
-        { valid: false, message: 'Credential not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ valid: false, message: 'Credential not found' }, { status: 404 });
     }
 
     // Check expiration
@@ -146,10 +139,7 @@ async function _POST(req: NextRequest) {
     }
   } catch (error) {
     logger.error('Credential verification error', { error });
-    return NextResponse.json(
-      { error: 'Verification failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Verification failed' }, { status: 500 });
   }
 }
 
@@ -158,16 +148,12 @@ async function _POST(req: NextRequest) {
  * Alternative GET endpoint for simple verification
  */
 async function _GET(req: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
-const code = req.nextUrl.searchParams.get('code');
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
+  const code = req.nextUrl.searchParams.get('code');
 
   if (!code) {
-    return NextResponse.json(
-      { error: 'Missing credential code' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Missing credential code' }, { status: 400 });
   }
 
   // Reuse POST logic
@@ -176,7 +162,7 @@ const code = req.nextUrl.searchParams.get('code');
       method: 'POST',
       body: JSON.stringify({ code }),
       headers: req.headers,
-    })
+    }),
   );
 }
 export const GET = withApiAudit('/api/credentials/verify', _GET);

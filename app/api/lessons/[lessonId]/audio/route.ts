@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { existsSync } from 'fs';
 import { mkdir, writeFile, readFile } from 'fs/promises';
@@ -9,7 +8,9 @@ import { apiAuthGuard } from '@/lib/admin/guards';
 type CourseLesson = any;
 type CourseModule = any;
 function loadCourseDefinitions(): any[] {
-  return JSON.parse(readFileSync(path.join(process.cwd(), 'public/data/course-definitions.json'), 'utf8'));
+  return JSON.parse(
+    readFileSync(path.join(process.cwd(), 'public/data/course-definitions.json'), 'utf8'),
+  );
 }
 import { getInstructorForCourse } from '@/lib/ai-instructors';
 import { aiChat, isAIAvailable } from '@/lib/ai/ai-service';
@@ -102,15 +103,21 @@ async function generateFullScript(ctx: LessonContext): Promise<string> {
   const targetWords = targetMinutes * 150;
 
   const siblingLessons = module.lessons
-    .map((l, i) => `  ${i + 1}. ${l.title} (${l.type}${l.durationMinutes ? `, ${l.durationMinutes} min` : ''})`)
+    .map(
+      (l, i) =>
+        `  ${i + 1}. ${l.title} (${l.type}${l.durationMinutes ? `, ${l.durationMinutes} min` : ''})`,
+    )
     .join('\n');
 
   const typeGuidance: Record<string, string> = {
     quiz: 'This is a QUIZ REVIEW lesson. Walk through every key concept students will be tested on. Explain common mistakes. Give example questions and talk through the correct answers.',
     lab: 'This is a HANDS-ON LAB lesson. Explain the full procedure step by step. Cover safety requirements, tools needed, PPE, and what competency looks like.',
-    reading: 'This is a READING lesson. Narrate the full content as if reading a textbook chapter aloud. Explain every concept in depth with real-world examples.',
-    video: 'This is a VIDEO LECTURE lesson. Teach the full content as a complete lecture with real-world examples from job sites.',
-    assignment: 'This is an ASSIGNMENT lesson. Explain what students need to do, walk through the requirements, give tips for success.',
+    reading:
+      'This is a READING lesson. Narrate the full content as if reading a textbook chapter aloud. Explain every concept in depth with real-world examples.',
+    video:
+      'This is a VIDEO LECTURE lesson. Teach the full content as a complete lecture with real-world examples from job sites.',
+    assignment:
+      'This is an ASSIGNMENT lesson. Explain what students need to do, walk through the requirements, give tips for success.',
   };
 
   const systemPrompt = `You are ${instructor.name}, ${instructor.title} at Elevate for Humanity. You have 20 years of field experience. Write lecture scripts that sound natural and conversational — exactly as you would speak in a classroom.`;
@@ -254,7 +261,8 @@ async function convertToAudio(script: string): Promise<Buffer | null> {
           model: 'gpt-4o-mini-tts',
           voice: 'onyx' as any,
           input: chunks[i],
-          instructions: 'Speak as an experienced HVAC trades instructor. Direct, practical, encouraging. Confident steady pace.',
+          instructions:
+            'Speak as an experienced HVAC trades instructor. Direct, practical, encouraging. Confident steady pace.',
           response_format: 'mp3',
         });
         audioBuffers.push(Buffer.from(await response.arrayBuffer()));
@@ -279,10 +287,7 @@ async function convertToAudio(script: string): Promise<Buffer | null> {
 
 type Params = Promise<{ lessonId: string }>;
 
-async function _GET(
-  request: NextRequest,
-  { params }: { params: Params },
-) {
+async function _GET(request: NextRequest, { params }: { params: Params }) {
   const { lessonId } = await params;
 
   const rateLimited = await applyRateLimit(request, 'api');
@@ -354,7 +359,9 @@ async function _GET(
     const estimatedMinutes = Math.round(wordCount / 150);
 
     // Try to generate audio
-    logger.info(`[LessonAudio] Converting ${lessonId} to audio (${wordCount} words, ~${estimatedMinutes} min)`);
+    logger.info(
+      `[LessonAudio] Converting ${lessonId} to audio (${wordCount} words, ~${estimatedMinutes} min)`,
+    );
     const audioBuffer = await convertToAudio(script);
 
     if (audioBuffer) {
@@ -380,10 +387,7 @@ async function _GET(
   } catch (err) {
     const msg = err instanceof Error ? err.message : 'unknown';
     logger.error(`[LessonAudio] Failed for ${lessonId}: ${msg}`);
-    return NextResponse.json(
-      { error: 'Generation failed', audioUrl: null },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: 'Generation failed', audioUrl: null }, { status: 500 });
   }
 }
 export const GET = withRuntime(withApiAudit('/api/lessons/[lessonId]/audio', _GET));

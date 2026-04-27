@@ -3,8 +3,15 @@
 import { useState, FormEvent } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  ArrowLeft, ArrowRight, User, FileText, Shield, Key,
-  AlertCircle, CheckCircle2, Loader2,
+  ArrowLeft,
+  ArrowRight,
+  User,
+  FileText,
+  Shield,
+  Key,
+  AlertCircle,
+  CheckCircle2,
+  Loader2,
 } from 'lucide-react';
 import Link from 'next/link';
 import type { ExamProvider, IdType } from '@/lib/proctor/types';
@@ -74,7 +81,7 @@ export default function NewExamSession() {
     if (prevStep) setStep(prevStep.key);
   }
 
-  function selectPreset(preset: typeof EXAM_PRESETS[number]) {
+  function selectPreset(preset: (typeof EXAM_PRESETS)[number]) {
     update({
       provider: preset.provider,
       examName: preset.name,
@@ -87,12 +94,18 @@ export default function NewExamSession() {
 
   function canAdvance(): boolean {
     switch (step) {
-      case 'exam': return !!form.examName;
-      case 'student': return !!form.studentName.trim();
-      case 'verify': return form.idVerified && !!form.idType;
-      case 'codes': return true; // codes optional for some providers
-      case 'confirm': return true;
-      default: return false;
+      case 'exam':
+        return !!form.examName;
+      case 'student':
+        return !!form.studentName.trim();
+      case 'verify':
+        return form.idVerified && !!form.idType;
+      case 'codes':
+        return true; // codes optional for some providers
+      case 'confirm':
+        return true;
+      default:
+        return false;
     }
   }
 
@@ -135,12 +148,17 @@ export default function NewExamSession() {
   return (
     <div className="max-w-3xl mx-auto">
       {/* Back link */}
-      <Link href="/proctor" className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900 mb-6">
+      <Link
+        href="/proctor"
+        className="inline-flex items-center gap-1.5 text-sm text-slate-500 hover:text-slate-900 mb-6"
+      >
         <ArrowLeft className="w-4 h-4" /> Back to Sessions
       </Link>
 
       <h2 className="text-2xl font-black text-slate-900 mb-2">New Exam Session</h2>
-      <p className="text-slate-500 mb-8">Check in a test taker for a proctored certification exam.</p>
+      <p className="text-slate-500 mb-8">
+        Check in a test taker for a proctored certification exam.
+      </p>
 
       {/* Step indicator */}
       <div className="flex items-center gap-1 mb-8 overflow-x-auto">
@@ -178,9 +196,16 @@ export default function NewExamSession() {
           {step === 'exam' && (
             <div className="space-y-6">
               <div>
-                <label className="block text-sm font-semibold text-slate-900 mb-2">Exam Provider</label>
+                <label className="block text-sm font-semibold text-slate-900 mb-2">
+                  Exam Provider
+                </label>
                 <div className="grid grid-cols-2 gap-3">
-                  {(Object.entries(EXAM_PROVIDERS) as [ExamProvider, { label: string; description: string }][]).map(([key, val]) => (
+                  {(
+                    Object.entries(EXAM_PROVIDERS) as [
+                      ExamProvider,
+                      { label: string; description: string },
+                    ][]
+                  ).map(([key, val]) => (
                     <button
                       key={key}
                       type="button"
@@ -200,7 +225,9 @@ export default function NewExamSession() {
 
               {filteredPresets.length > 0 && (
                 <div>
-                  <label className="block text-sm font-semibold text-slate-900 mb-2">Select Exam</label>
+                  <label className="block text-sm font-semibold text-slate-900 mb-2">
+                    Select Exam
+                  </label>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {filteredPresets.map((preset) => (
                       <button
@@ -236,7 +263,9 @@ export default function NewExamSession() {
 
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-semibold text-slate-900 mb-1">Exam Code</label>
+                  <label className="block text-sm font-semibold text-slate-900 mb-1">
+                    Exam Code
+                  </label>
                   <input
                     type="text"
                     value={form.examCode}
@@ -246,7 +275,9 @@ export default function NewExamSession() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-semibold text-slate-900 mb-1">Duration (minutes)</label>
+                  <label className="block text-sm font-semibold text-slate-900 mb-1">
+                    Duration (minutes)
+                  </label>
                   <input
                     type="number"
                     value={form.durationMin}
@@ -275,7 +306,9 @@ export default function NewExamSession() {
                   className="w-full px-4 py-2.5 border border-slate-200 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                   autoFocus
                 />
-                <p className="text-xs text-slate-500 mt-1">Must match the name on the photo ID presented.</p>
+                <p className="text-xs text-slate-500 mt-1">
+                  Must match the name on the photo ID presented.
+                </p>
               </div>
 
               <div>
@@ -314,7 +347,8 @@ export default function NewExamSession() {
             <div className="space-y-6">
               <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
                 <p className="text-sm text-yellow-800 font-medium">
-                  The test taker must present a valid, unexpired government-issued photo ID before the exam can begin.
+                  The test taker must present a valid, unexpired government-issued photo ID before
+                  the exam can begin.
                 </p>
               </div>
 
@@ -323,13 +357,15 @@ export default function NewExamSession() {
                   ID Type <span className="text-brand-red-500">*</span>
                 </label>
                 <div className="grid grid-cols-2 sm:grid-cols-3 gap-2">
-                  {([
-                    ['drivers_license', "Driver's License"],
-                    ['state_id', 'State ID'],
-                    ['passport', 'Passport'],
-                    ['military_id', 'Military ID'],
-                    ['other', 'Other'],
-                  ] as [IdType, string][]).map(([key, label]) => (
+                  {(
+                    [
+                      ['drivers_license', "Driver's License"],
+                      ['state_id', 'State ID'],
+                      ['passport', 'Passport'],
+                      ['military_id', 'Military ID'],
+                      ['other', 'Other'],
+                    ] as [IdType, string][]
+                  ).map(([key, label]) => (
                     <button
                       key={key}
                       type="button"
@@ -365,9 +401,12 @@ export default function NewExamSession() {
                   className="mt-0.5 w-5 h-5 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
                 />
                 <div>
-                  <p className="font-semibold text-slate-900">I have verified the test taker&apos;s photo ID</p>
+                  <p className="font-semibold text-slate-900">
+                    I have verified the test taker&apos;s photo ID
+                  </p>
                   <p className="text-sm text-slate-500 mt-0.5">
-                    The photo matches the person present, the name matches the registration, and the ID is valid and unexpired.
+                    The photo matches the person present, the name matches the registration, and the
+                    ID is valid and unexpired.
                   </p>
                 </div>
               </label>
@@ -379,13 +418,16 @@ export default function NewExamSession() {
             <div className="space-y-6">
               <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-4">
                 <p className="text-sm text-brand-blue-800">
-                  Enter the start code and start key provided by {EXAM_PROVIDERS[form.provider]?.label || 'the exam provider'}.
-                  These are single-use codes that authorize the exam session.
+                  Enter the start code and start key provided by{' '}
+                  {EXAM_PROVIDERS[form.provider]?.label || 'the exam provider'}. These are
+                  single-use codes that authorize the exam session.
                 </p>
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-900 mb-1">Start Code</label>
+                <label className="block text-sm font-semibold text-slate-900 mb-1">
+                  Start Code
+                </label>
                 <input
                   type="text"
                   value={form.startCode}
@@ -408,7 +450,9 @@ export default function NewExamSession() {
               </div>
 
               <div>
-                <label className="block text-sm font-semibold text-slate-900 mb-1">Proctor Notes</label>
+                <label className="block text-sm font-semibold text-slate-900 mb-1">
+                  Proctor Notes
+                </label>
                 <textarea
                   value={form.proctorNotes}
                   onChange={(e) => update({ proctorNotes: e.target.value })}
@@ -426,12 +470,18 @@ export default function NewExamSession() {
               <h3 className="text-lg font-bold text-slate-900">Review &amp; Start Session</h3>
 
               <div className="divide-y divide-slate-100">
-                <ConfirmRow label="Exam" value={`${form.examName} (${EXAM_PROVIDERS[form.provider]?.label})`} />
+                <ConfirmRow
+                  label="Exam"
+                  value={`${form.examName} (${EXAM_PROVIDERS[form.provider]?.label})`}
+                />
                 <ConfirmRow label="Duration" value={`${form.durationMin} minutes`} />
                 <ConfirmRow label="Test Taker" value={form.studentName} />
                 {form.studentEmail && <ConfirmRow label="Email" value={form.studentEmail} />}
                 {form.programSlug && <ConfirmRow label="Program" value={form.programSlug} />}
-                <ConfirmRow label="ID Verified" value={form.idVerified ? `Yes — ${form.idType?.replace('_', ' ')}` : 'No'} />
+                <ConfirmRow
+                  label="ID Verified"
+                  value={form.idVerified ? `Yes — ${form.idType?.replace('_', ' ')}` : 'No'}
+                />
                 {form.startCode && <ConfirmRow label="Start Code" value={form.startCode} mono />}
                 {form.startKey && <ConfirmRow label="Start Key" value={form.startKey} mono />}
                 {form.proctorNotes && <ConfirmRow label="Notes" value={form.proctorNotes} />}
@@ -439,8 +489,9 @@ export default function NewExamSession() {
 
               <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-4">
                 <p className="text-sm text-yellow-800">
-                  <strong>Reminder:</strong> The test taker will have {form.durationMin} minutes of uninterrupted access.
-                  The timer starts when you click &quot;Start Exam Session&quot; below. Ensure the test taker is ready.
+                  <strong>Reminder:</strong> The test taker will have {form.durationMin} minutes of
+                  uninterrupted access. The timer starts when you click &quot;Start Exam
+                  Session&quot; below. Ensure the test taker is ready.
                 </p>
               </div>
             </div>
@@ -477,9 +528,13 @@ export default function NewExamSession() {
                 className="inline-flex items-center gap-2 text-sm bg-brand-green-600 hover:bg-brand-green-700 disabled:bg-slate-300 text-white px-8 py-3 rounded-lg font-bold transition-colors"
               >
                 {submitting ? (
-                  <><Loader2 className="w-4 h-4 animate-spin" /> Creating...</>
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" /> Creating...
+                  </>
                 ) : (
-                  <><CheckCircle2 className="w-4 h-4" /> Start Exam Session</>
+                  <>
+                    <CheckCircle2 className="w-4 h-4" /> Start Exam Session
+                  </>
                 )}
               </button>
             )}
@@ -494,7 +549,9 @@ function ConfirmRow({ label, value, mono }: { label: string; value: string; mono
   return (
     <div className="flex items-start justify-between py-3 gap-4">
       <span className="text-sm text-slate-500 flex-shrink-0">{label}</span>
-      <span className={`text-sm text-slate-900 font-medium text-right ${mono ? 'font-mono' : ''}`}>{value}</span>
+      <span className={`text-sm text-slate-900 font-medium text-right ${mono ? 'font-mono' : ''}`}>
+        {value}
+      </span>
     </div>
   );
 }

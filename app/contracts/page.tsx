@@ -1,15 +1,7 @@
-
 export const revalidate = 3600;
 
 import Link from 'next/link';
-import {
-  FileText,
-  Download,
-  Shield,
-  Users,
-  Briefcase,
-  Building2,
-CheckCircle, } from 'lucide-react';
+import { FileText, Download, Shield, Users, Briefcase, Building2, CheckCircle } from 'lucide-react';
 
 export const metadata = {
   title: 'Contract Templates | Elevate for Humanity',
@@ -34,8 +26,8 @@ export default function ContractsPage() {
               Contract Templates
             </h1>
             <p className="text-2xl text-white/90 mb-8 leading-relaxed">
-              Grant-safe, audit-ready templates for workforce partnerships,
-              employer agreements, and platform licensing.
+              Grant-safe, audit-ready templates for workforce partnerships, employer agreements, and
+              platform licensing.
             </p>
             <div className="bg-white/20 backdrop-blur-sm border border-brand-green-400/30 rounded-xl p-4">
               <p className="text-sm text-brand-green-400 font-bold">
@@ -81,9 +73,8 @@ export default function ContractsPage() {
 
                 <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-4">
                   <p className="text-xs text-black">
-                    <strong className="text-black">Grant-Safe:</strong> All
-                    fees are platform licensing and administrative fees only and
-                    are not tied to grant disbursement.
+                    <strong className="text-black">Grant-Safe:</strong> All fees are platform
+                    licensing and administrative fees only and are not tied to grant disbursement.
                   </p>
                 </div>
               </div>
@@ -104,12 +95,8 @@ export default function ContractsPage() {
                   <Users className="w-6 h-6 text-brand-green-600" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-black mb-2">
-                    Workforce Partnership MOU
-                  </h3>
-                  <p className="text-sm text-black">
-                    For: WorkOne, Workforce Boards, DWD
-                  </p>
+                  <h3 className="text-2xl font-bold text-black mb-2">Workforce Partnership MOU</h3>
+                  <p className="text-sm text-black">For: WorkOne, Workforce Boards, DWD</p>
                 </div>
               </div>
 
@@ -128,11 +115,8 @@ export default function ContractsPage() {
 
                 <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-4">
                   <p className="text-xs text-black">
-                    <strong className="text-black">
-                      WorkOne-Friendly:
-                    </strong>{' '}
-                    All funding determinations remain solely with the workforce
-                    agency.
+                    <strong className="text-black">WorkOne-Friendly:</strong> All funding
+                    determinations remain solely with the workforce agency.
                   </p>
                 </div>
               </div>
@@ -156,9 +140,7 @@ export default function ContractsPage() {
                   <h3 className="text-2xl font-bold text-black mb-2">
                     Employer Participation Agreement
                   </h3>
-                  <p className="text-sm text-black">
-                    For: Barber Shops, Contractors, Businesses
-                  </p>
+                  <p className="text-sm text-black">For: Barber Shops, Contractors, Businesses</p>
                 </div>
               </div>
 
@@ -177,9 +159,8 @@ export default function ContractsPage() {
 
                 <div className="bg-brand-orange-50 border border-brand-orange-200 rounded-xl p-4">
                   <p className="text-xs text-black">
-                    <strong className="text-black">Clear Terms:</strong>{' '}
-                    Funding eligibility is determined by workforce agencies and
-                    is not guaranteed.
+                    <strong className="text-black">Clear Terms:</strong> Funding eligibility is
+                    determined by workforce agencies and is not guaranteed.
                   </p>
                 </div>
               </div>
@@ -203,9 +184,7 @@ export default function ContractsPage() {
                   <h3 className="text-2xl font-bold text-black mb-2">
                     Data Sharing & Confidentiality
                   </h3>
-                  <p className="text-sm text-black">
-                    For: All Partners (HIPAA-style)
-                  </p>
+                  <p className="text-sm text-black">For: All Partners (HIPAA-style)</p>
                 </div>
               </div>
 
@@ -224,9 +203,8 @@ export default function ContractsPage() {
 
                 <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-4">
                   <p className="text-xs text-black">
-                    <strong className="text-black">Secure:</strong> Data may
-                    be used solely for program administration, compliance,
-                    reporting, and audits.
+                    <strong className="text-black">Secure:</strong> Data may be used solely for
+                    program administration, compliance, reporting, and audits.
                   </p>
                 </div>
               </div>
@@ -269,13 +247,11 @@ export default function ContractsPage() {
 
                 <div className="bg-indigo-50 border border-indigo-200 rounded-xl p-4">
                   <p className="text-xs text-black mb-3">
-                    <strong className="text-black">Protection:</strong>{' '}
-                    Licensee may use custom branding subject to restrictions on
-                    misrepresentation and resale.
+                    <strong className="text-black">Protection:</strong> Licensee may use custom
+                    branding subject to restrictions on misrepresentation and resale.
                   </p>
                   <p className="text-xs text-black italic">
-                    Typically included with Professional and Enterprise
-                    licenses.
+                    Typically included with Professional and Enterprise licenses.
                   </p>
                 </div>
               </div>
@@ -299,28 +275,24 @@ export default function ContractsPage() {
             <div className="inline-block px-4 py-2 bg-brand-green-100 text-brand-green-700 rounded-full text-sm font-bold mb-4">
               Use This Verbatim
             </div>
-            <h2 className="text-4xl font-bold text-black mb-4">
-              Grant-Safe Language
-            </h2>
-            <p className="text-xl text-black">
-              For proposals, contracts, and agreements
-            </p>
+            <h2 className="text-4xl font-bold text-black mb-4">Grant-Safe Language</h2>
+            <p className="text-xl text-black">For proposals, contracts, and agreements</p>
           </div>
 
           <div className="bg-white   rounded-3xl p-8 md:p-12 border-2 border-brand-green-200">
             <div className="bg-white rounded-2xl p-6 md:p-8 border border-brand-green-200">
               <p className="text-lg text-black leading-relaxed italic">
-                "All fees charged under this agreement are for software access,
-                administrative infrastructure, and compliance support. No grant
-                funds are used for wages, training delivery, or participant
-                stipends unless expressly authorized by the funding agency."
+                "All fees charged under this agreement are for software access, administrative
+                infrastructure, and compliance support. No grant funds are used for wages, training
+                delivery, or participant stipends unless expressly authorized by the funding
+                agency."
               </p>
             </div>
             <div className="mt-6 flex items-start gap-3">
               <span className="text-slate-500 flex-shrink-0">•</span>
               <p className="text-sm text-black">
-                This language protects your WIOA/WRG position and is exactly
-                what auditors expect to see.
+                This language protects your WIOA/WRG position and is exactly what auditors expect to
+                see.
               </p>
             </div>
           </div>
@@ -331,12 +303,8 @@ export default function ContractsPage() {
       <section className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center mb-12">
-            <h2 className="text-4xl font-bold text-black mb-4">
-              How to Use These Templates
-            </h2>
-            <p className="text-xl text-black">
-              Match the right contract to your partner type
-            </p>
+            <h2 className="text-4xl font-bold text-black mb-4">How to Use These Templates</h2>
+            <p className="text-xl text-black">Match the right contract to your partner type</p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -362,13 +330,8 @@ export default function ContractsPage() {
                 color: 'indigo',
               },
             ].map((item, i) => (
-              <div
-                key={i}
-                className={`bg-white rounded-2xl p-6 border-2 border-${item.color}-200`}
-              >
-                <h3 className="font-bold text-black mb-2">
-                  {item.partner}
-                </h3>
+              <div key={i} className={`bg-white rounded-2xl p-6 border-2 border-${item.color}-200`}>
+                <h3 className="font-bold text-black mb-2">{item.partner}</h3>
                 <p className="text-sm text-black">→ {item.contract}</p>
               </div>
             ))}
@@ -389,8 +352,8 @@ export default function ContractsPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-4xl font-bold mb-6">Need Custom Contracts?</h2>
           <p className="text-xl mb-10 text-white/90">
-            We can customize these templates for your specific state, funding
-            source, or partnership structure.
+            We can customize these templates for your specific state, funding source, or partnership
+            structure.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

@@ -1,4 +1,3 @@
-
 interface Step {
   number: number;
   title: string;
@@ -26,11 +25,7 @@ export function HowItWorks({ steps, variant = 'horizontal' }: HowItWorksProps) {
               <h3 className="text-xl font-bold text-black mb-2">{step.title}</h3>
               <p className="text-black">{step.description}</p>
             </div>
-            {step.icon && (
-              <div className="flex-shrink-0 text-brand-blue-600">
-                {step.icon}
-              </div>
-            )}
+            {step.icon && <div className="flex-shrink-0 text-brand-blue-600">{step.icon}</div>}
           </div>
         ))}
       </div>
@@ -51,9 +46,7 @@ export function HowItWorks({ steps, variant = 'horizontal' }: HowItWorksProps) {
               {step.number}
             </div>
             {step.icon && (
-              <div className="text-brand-blue-600 flex justify-center mb-3">
-                {step.icon}
-              </div>
+              <div className="text-brand-blue-600 flex justify-center mb-3">{step.icon}</div>
             )}
             <h3 className="text-lg font-bold text-black mb-2">{step.title}</h3>
             <p className="text-sm text-black">{step.description}</p>

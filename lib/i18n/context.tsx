@@ -11,7 +11,7 @@ export type Locale = (typeof LOCALES)[number];
 
 export const LOCALE_NAMES: Record<Locale, string> = {
   en: 'English',
-  es: 'Español', 
+  es: 'Español',
   fr: 'Français',
 };
 
@@ -37,7 +37,7 @@ const I18nContext = createContext<I18nContextValue | null>(null);
 function getValue(obj: unknown, path: string): string {
   const keys = path.split('.');
   let current = obj;
-  
+
   for (const key of keys) {
     if (current && typeof current === 'object' && key in current) {
       current = (current as Record<string, unknown>)[key];
@@ -45,7 +45,7 @@ function getValue(obj: unknown, path: string): string {
       return path;
     }
   }
-  
+
   return typeof current === 'string' ? current : path;
 }
 
@@ -65,9 +65,9 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     try {
       const saved = document.cookie
         .split('; ')
-        .find(c => c.startsWith('NEXT_LOCALE='))
+        .find((c) => c.startsWith('NEXT_LOCALE='))
         ?.split('=')[1] as Locale | undefined;
-      
+
       if (saved && LOCALES.includes(saved)) {
         setLocaleState(saved);
       }
@@ -79,16 +79,19 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
 
   const setLocale = useCallback((newLocale: Locale) => {
     if (!LOCALES.includes(newLocale)) return;
-    
+
     document.cookie = `NEXT_LOCALE=${newLocale};path=/;max-age=31536000;SameSite=Lax`;
     setLocaleState(newLocale);
   }, []);
 
-  const t = useCallback((key: string, params?: Record<string, string | number>): string => {
-    const messages = MESSAGES[locale];
-    const value = getValue(messages, key);
-    return interpolate(value, params);
-  }, [locale]);
+  const t = useCallback(
+    (key: string, params?: Record<string, string | number>): string => {
+      const messages = MESSAGES[locale];
+      const value = getValue(messages, key);
+      return interpolate(value, params);
+    },
+    [locale],
+  );
 
   // Use default locale during SSR to prevent hydration mismatch
   const contextValue: I18nContextValue = {
@@ -97,11 +100,7 @@ export function I18nProvider({ children }: { children: React.ReactNode }) {
     t: isHydrated ? t : (key) => getValue(MESSAGES.en, key),
   };
 
-  return (
-    <I18nContext.Provider value={contextValue}>
-      {children}
-    </I18nContext.Provider>
-  );
+  return <I18nContext.Provider value={contextValue}>{children}</I18nContext.Provider>;
 }
 
 // Hook

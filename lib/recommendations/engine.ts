@@ -41,7 +41,7 @@ export class RecommendationEngine {
   getRecommendations(
     user: UserProfile,
     availableCourses: Course[],
-    limit: number = 5
+    limit: number = 5,
   ): Recommendation[] {
     const recommendations: Recommendation[] = [];
 
@@ -90,9 +90,7 @@ export class RecommendationEngine {
     }
 
     // Sort by score and return top N
-    return recommendations
-      .sort((a, b) => b.score - a.score)
-      .slice(0, limit);
+    return recommendations.sort((a, b) => b.score - a.score).slice(0, limit);
   }
 
   // Calculate interest match score
@@ -102,10 +100,11 @@ export class RecommendationEngine {
     }
 
     const matches = userInterests.filter((interest) =>
-      courseTopics.some((topic) =>
-        topic.toLowerCase().includes(interest.toLowerCase()) ||
-        interest.toLowerCase().includes(topic.toLowerCase())
-      )
+      courseTopics.some(
+        (topic) =>
+          topic.toLowerCase().includes(interest.toLowerCase()) ||
+          interest.toLowerCase().includes(topic.toLowerCase()),
+      ),
     );
 
     return matches.length / Math.max(userInterests.length, courseTopics.length);
@@ -138,9 +137,7 @@ export class RecommendationEngine {
       return 1; // No prerequisites required
     }
 
-    const metPrerequisites = prerequisites.filter((prereq) =>
-      completedCourses.includes(prereq)
-    );
+    const metPrerequisites = prerequisites.filter((prereq) => completedCourses.includes(prereq));
 
     return metPrerequisites.length / prerequisites.length;
   }
@@ -195,20 +192,21 @@ export class RecommendationEngine {
   // Get courses for career path
   getCareerPathCourses(careerGoal: string, allCourses: Course[]): Course[] {
     const careerPaths: Record<string, string[]> = {
-      'healthcare': ['CNA', 'Medical Assistant', 'Phlebotomy', 'EMT'],
+      healthcare: ['CNA', 'Medical Assistant', 'Phlebotomy', 'EMT'],
       'skilled-trades': ['HVAC', 'Electrical', 'Plumbing', 'Welding'],
-      'technology': ['Web Development', 'Data Analysis', 'Cybersecurity', 'Cloud Computing'],
-      'business': ['Project Management', 'Digital Marketing', 'Accounting', 'HR Management'],
+      technology: ['Web Development', 'Data Analysis', 'Cybersecurity', 'Cloud Computing'],
+      business: ['Project Management', 'Digital Marketing', 'Accounting', 'HR Management'],
     };
 
     const relevantTopics = careerPaths[careerGoal.toLowerCase()] || [];
 
     return allCourses
       .filter((course) =>
-        relevantTopics.some((topic) =>
-          course.title.toLowerCase().includes(topic.toLowerCase()) ||
-          course.topics.some((t) => t.toLowerCase().includes(topic.toLowerCase()))
-        )
+        relevantTopics.some(
+          (topic) =>
+            course.title.toLowerCase().includes(topic.toLowerCase()) ||
+            course.topics.some((t) => t.toLowerCase().includes(topic.toLowerCase())),
+        ),
       )
       .sort((a, b) => {
         // Sort by level (beginner first) then rating

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -25,15 +25,15 @@ export function HelpSearchBox() {
 
   // Log help search to DB
   const logHelpSearch = async (searchQuery: string, resultCount: number) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('help_search_log')
-      .insert({
-        user_id: user?.id,
-        query: searchQuery,
-        result_count: resultCount,
-        searched_at: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('help_search_log').insert({
+      user_id: user?.id,
+      query: searchQuery,
+      result_count: resultCount,
+      searched_at: new Date().toISOString(),
+    });
   };
 
   async function handleSearch(e: React.FormEvent) {
@@ -57,7 +57,9 @@ export function HelpSearchBox() {
           <input
             type="search"
             value={query}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setQuery(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setQuery(e.target.value)}
             placeholder='Search help articles (e.g. "barber apprenticeship attendance")'
             className="w-full rounded-2xl border border-slate-200 px-4 py-3 text-sm shadow-sm outline-none focus:border-brand-orange-500 focus:ring-2 focus:ring-brand-orange-100"
           />
@@ -82,9 +84,7 @@ export function HelpSearchBox() {
               <p className="mt-1 text-xs text-slate-500">
                 {r.category} • {r.audience}
               </p>
-              <p className="mt-1 text-xs text-black">
-                {r.snippet}...
-              </p>
+              <p className="mt-1 text-xs text-black">{r.snippet}...</p>
             </Link>
           ))}
         </div>

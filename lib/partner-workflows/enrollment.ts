@@ -25,9 +25,7 @@ export interface EnrollmentResult {
  * Certiport Enrollment Workflow
  * Microsoft Office Specialist certifications
  */
-export async function enrollCertiport(
-  request: EnrollmentRequest
-): Promise<EnrollmentResult> {
+export async function enrollCertiport(request: EnrollmentRequest): Promise<EnrollmentResult> {
   const supabase = createClient();
 
   try {
@@ -91,7 +89,8 @@ export async function enrollCertiport(
       message:
         'Certiport exam enrollment created. Admin will assign a voucher code from the Certiport portal. Student takes the proctored exam on-site.',
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',
@@ -102,9 +101,7 @@ export async function enrollCertiport(
 /**
  * HSI (Health & Safety Institute) Enrollment Workflow
  */
-export async function enrollHSI(
-  request: EnrollmentRequest
-): Promise<EnrollmentResult> {
+export async function enrollHSI(request: EnrollmentRequest): Promise<EnrollmentResult> {
   const supabase = createClient();
 
   try {
@@ -151,10 +148,10 @@ export async function enrollHSI(
     return {
       success: true,
       enrollmentId: enrollment.id,
-      message:
-        'HSI enrollment created. Student will receive access instructions via email.',
+      message: 'HSI enrollment created. Student will receive access instructions via email.',
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',
@@ -165,9 +162,7 @@ export async function enrollHSI(
 /**
  * JRI (Janitorial Resource Institute) Enrollment Workflow
  */
-export async function enrollJRI(
-  request: EnrollmentRequest
-): Promise<EnrollmentResult> {
+export async function enrollJRI(request: EnrollmentRequest): Promise<EnrollmentResult> {
   const supabase = createClient();
 
   try {
@@ -214,10 +209,10 @@ export async function enrollJRI(
     return {
       success: true,
       enrollmentId: enrollment.id,
-      message:
-        'JRI enrollment created. Student will receive course access details.',
+      message: 'JRI enrollment created. Student will receive course access details.',
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',
@@ -229,9 +224,7 @@ export async function enrollJRI(
  * NRF RISE Up Enrollment Workflow
  * Retail industry training
  */
-export async function enrollNRFRiseUp(
-  request: EnrollmentRequest
-): Promise<EnrollmentResult> {
+export async function enrollNRFRiseUp(request: EnrollmentRequest): Promise<EnrollmentResult> {
   const supabase = createClient();
 
   try {
@@ -278,10 +271,10 @@ export async function enrollNRFRiseUp(
     return {
       success: true,
       enrollmentId: enrollment.id,
-      message:
-        'NRF RISE Up enrollment created. Student will receive platform access.',
+      message: 'NRF RISE Up enrollment created. Student will receive platform access.',
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',
@@ -293,9 +286,7 @@ export async function enrollNRFRiseUp(
  * CareerSafe Enrollment Workflow
  * OSHA safety training
  */
-export async function enrollCareerSafe(
-  request: EnrollmentRequest
-): Promise<EnrollmentResult> {
+export async function enrollCareerSafe(request: EnrollmentRequest): Promise<EnrollmentResult> {
   const supabase = createClient();
 
   try {
@@ -342,10 +333,10 @@ export async function enrollCareerSafe(
     return {
       success: true,
       enrollmentId: enrollment.id,
-      message:
-        'CareerSafe enrollment created. Student will receive OSHA training access.',
+      message: 'CareerSafe enrollment created. Student will receive OSHA training access.',
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',
@@ -358,9 +349,7 @@ export async function enrollCareerSafe(
 /**
  * Universal enrollment function that routes to the correct provider
  */
-export async function enrollStudent(
-  request: EnrollmentRequest
-): Promise<EnrollmentResult> {
+export async function enrollStudent(request: EnrollmentRequest): Promise<EnrollmentResult> {
   const supabase = createClient();
 
   try {
@@ -391,7 +380,8 @@ export async function enrollStudent(
       default:
         throw new Error(`Unsupported provider type: ${provider.provider_type}`);
     }
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',
@@ -405,7 +395,7 @@ export async function enrollStudent(
 export async function bulkEnrollStudents(
   studentIds: string[],
   providerId: string,
-  programId?: string
+  programId?: string,
 ): Promise<{
   successful: number;
   failed: number;

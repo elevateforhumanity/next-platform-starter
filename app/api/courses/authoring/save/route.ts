@@ -1,4 +1,3 @@
-
 import { createClient } from '@/lib/supabase/server';
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
@@ -49,8 +48,11 @@ async function _POST(request: NextRequest) {
       for (const lesson of module.lessons) {
         // LEGACY_SYSTEM_DISABLED — lesson writes must go through canonical course_lessons
         return NextResponse.json(
-          { error: 'LEGACY_SYSTEM_DISABLED: use /api/admin/lms/courses/[courseId] for lesson authoring' },
-          { status: 410 }
+          {
+            error:
+              'LEGACY_SYSTEM_DISABLED: use /api/admin/lms/courses/[courseId] for lesson authoring',
+          },
+          { status: 410 },
         );
 
         const { data: lessonData, error: lessonError } = await supabase
@@ -68,22 +70,17 @@ async function _POST(request: NextRequest) {
         if (lessonError) throw lessonError;
 
         // Delete existing blocks for this lesson
-        await supabase
-          .from('lesson_content_blocks')
-          .delete()
-          .eq('lesson_id', lessonData.id);
+        await supabase.from('lesson_content_blocks').delete().eq('lesson_id', lessonData.id);
 
         // Save content blocks
         if (lesson.blocks && lesson.blocks.length > 0) {
-          const blocks = lesson.blocks.map(
-            (block: Record<string, any>) => ({
-              lesson_id: lessonData.id,
-              block_type: block.type,
-              block_order: block.order,
-              content: block.content,
-              settings: block.settings || {},
-            })
-          );
+          const blocks = lesson.blocks.map((block: Record<string, any>) => ({
+            lesson_id: lessonData.id,
+            block_type: block.type,
+            block_order: block.order,
+            content: block.content,
+            settings: block.settings || {},
+          }));
 
           const { error: blocksError } = await supabase
             .from('lesson_content_blocks')
@@ -98,14 +95,11 @@ async function _POST(request: NextRequest) {
       success: true,
       message: 'Course saved successfully',
     });
-  } catch (error) { 
-    logger.error(
-      'Error saving course:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Error saving course:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to save course' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

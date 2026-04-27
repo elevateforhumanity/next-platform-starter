@@ -12,49 +12,49 @@ async function _GET(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user } } = await supabase.auth.getUser();
+
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    
+
     // Get courses and enrollment counts from canonical table
     const { data: enrollments } = await supabase
       .from('program_enrollments')
       .select('program_id, status, programs!program_enrollments_program_id_fkey(title)')
       .limit(200);
-    
+
     // Aggregate by program
     const programStats: Record<string, { name: string; students: number; completed: number }> = {};
-    
+
     (enrollments || []).forEach((e: any) => {
       const programId = e.program_id;
       const title = e.programs?.title || 'Unknown Program';
-      
+
       if (!programStats[programId]) {
         programStats[programId] = { name: title, students: 0, completed: 0 };
       }
       programStats[programId].students++;
       if (e.status === 'completed') programStats[programId].completed++;
     });
-    
+
     const courses = Object.values(programStats)
       .slice(0, 5)
-      .map(p => ({
+      .map((p) => ({
         name: p.name.length > 30 ? p.name.substring(0, 27) + '...' : p.name,
         students: p.students,
         completion: p.students > 0 ? Math.round((p.completed / p.students) * 100) : 0,
       }));
-    
+
     // If no data, return placeholder
     if (courses.length === 0) {
       return NextResponse.json({
-        courses: [
-          { name: 'No courses yet', students: 0, completion: 0 }
-        ]
+        courses: [{ name: 'No courses yet', students: 0, completion: 0 }],
       });
     }
-    
+
     return NextResponse.json({ courses });
   } catch (error) {
     logger.error('Course performance error:', error);

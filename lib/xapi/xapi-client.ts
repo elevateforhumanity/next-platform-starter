@@ -28,6 +28,7 @@ export interface XAPIResult {
   success?: boolean;
   completion?: boolean;
   duration?: string; // ISO 8601 duration
+  extensions?: Record<string, unknown>;
 }
 export interface XAPIStatement {
   actor: XAPIActor;
@@ -47,9 +48,7 @@ export class XAPIClient {
     if (username && password) {
       this.auth = btoa(`${username}:${password}`);
     } else {
-      this.auth = btoa(
-        `${process.env.XAPI_USERNAME || ''}:${process.env.XAPI_PASSWORD || ''}`
-      );
+      this.auth = btoa(`${process.env.XAPI_USERNAME || ''}:${process.env.XAPI_PASSWORD || ''}`);
     }
   }
   async sendStatement(statement: XAPIStatement): Promise<void> {
@@ -71,12 +70,11 @@ export class XAPIClient {
         }),
       });
       if (!response.ok) {
-        throw new Error(
-          `xAPI error: ${response.status} ${response.statusText}`
-        );
+        throw new Error(`xAPI error: ${response.status} ${response.statusText}`);
       }
       //
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       // Don't throw - we don't want tracking failures to break the app
     }
@@ -125,7 +123,7 @@ export class XAPIClient {
     userId: string,
     userName: string,
     courseId: string,
-    courseName: string
+    courseName: string,
   ): Promise<void> {
     await this.sendStatement({
       actor: this.createActor(userId, userName),
@@ -147,7 +145,7 @@ export class XAPIClient {
     lessonId: string,
     lessonName: string,
     score?: number,
-    duration?: number
+    duration?: number,
   ): Promise<void> {
     const result: XAPIResult = {
       completion: true,
@@ -186,7 +184,7 @@ export class XAPIClient {
     quizName: string,
     score: number,
     passed: boolean,
-    duration?: number
+    duration?: number,
   ): Promise<void> {
     await this.sendStatement({
       actor: this.createActor(userId, userName),
@@ -219,7 +217,7 @@ export class XAPIClient {
     videoId: string,
     videoName: string,
     duration: number,
-    completionPercentage: number
+    completionPercentage: number,
   ): Promise<void> {
     await this.sendStatement({
       actor: this.createActor(userId, userName),

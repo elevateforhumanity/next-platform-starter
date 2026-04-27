@@ -9,7 +9,9 @@ export default function WorkforceMOUPage() {
   return (
     <>
       <div className="max-w-4xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Contracts', href: '/contracts' }, { label: 'Workforce MOU' }]} />
+        <Breadcrumbs
+          items={[{ label: 'Contracts', href: '/contracts' }, { label: 'Workforce MOU' }]}
+        />
       </div>
 
       <DocumentPage
@@ -20,11 +22,19 @@ export default function WorkforceMOUPage() {
         confidential
       >
         <div className="flex items-center justify-between mb-6 -mt-4">
-          <Link href="/contracts" className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 text-sm">
+          <Link
+            href="/contracts"
+            className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 text-sm"
+          >
             <ArrowLeft className="w-4 h-4" /> Back to Contracts
           </Link>
           <div className="flex gap-2">
-            <button onClick={() => window.print()} className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-white text-sm">Print</button>
+            <button
+              onClick={() => window.print()}
+              className="flex items-center gap-2 px-4 py-2 border rounded-lg hover:bg-white text-sm"
+            >
+              Print
+            </button>
           </div>
         </div>
 

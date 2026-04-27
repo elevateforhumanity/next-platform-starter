@@ -45,7 +45,9 @@ export default async function HoursHistoryPage() {
     );
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?next=/student/hours/history');
 
   // Sample hours data
@@ -95,8 +97,12 @@ export default async function HoursHistoryPage() {
     },
   ];
 
-  const totalHours = hoursEntries.filter(e => e.status === 'approved').reduce((sum, e) => sum + e.hours, 0);
-  const pendingHours = hoursEntries.filter(e => e.status === 'pending').reduce((sum, e) => sum + e.hours, 0);
+  const totalHours = hoursEntries
+    .filter((e) => e.status === 'approved')
+    .reduce((sum, e) => sum + e.hours, 0);
+  const pendingHours = hoursEntries
+    .filter((e) => e.status === 'pending')
+    .reduce((sum, e) => sum + e.hours, 0);
   const requiredHours = 1500; // Example requirement
   const progressPercent = Math.round((totalHours / requiredHours) * 100);
 
@@ -129,9 +135,13 @@ export default async function HoursHistoryPage() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-gray-500 mb-4">
-            <Link href="/student" className="hover:text-gray-700">Student Portal</Link>
+            <Link href="/student" className="hover:text-gray-700">
+              Student Portal
+            </Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href="/student/hours" className="hover:text-gray-700">Hours</Link>
+            <Link href="/student/hours" className="hover:text-gray-700">
+              Hours
+            </Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-gray-900 font-medium">History</span>
           </nav>
@@ -181,11 +191,13 @@ export default async function HoursHistoryPage() {
         <div className="grid sm:grid-cols-4 gap-4 mb-8">
           {['classroom', 'practical', 'online', 'externship'].map((type) => {
             const typeHours = hoursEntries
-              .filter(e => e.type === type && e.status === 'approved')
+              .filter((e) => e.type === type && e.status === 'approved')
               .reduce((sum, e) => sum + e.hours, 0);
             return (
               <div key={type} className="bg-white rounded-lg shadow-sm border border-gray-200 p-4">
-                <span className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${getTypeColor(type)} mb-2`}>
+                <span
+                  className={`inline-block px-2 py-0.5 rounded text-xs font-medium ${getTypeColor(type)} mb-2`}
+                >
                   {type.charAt(0).toUpperCase() + type.slice(1)}
                 </span>
                 <p className="text-2xl font-bold text-gray-900">{typeHours}</p>
@@ -215,15 +227,22 @@ export default async function HoursHistoryPage() {
                     </div>
                     <div>
                       <div className="flex items-center gap-2 mb-1">
-                        <span className={`px-2 py-0.5 rounded text-xs font-medium ${getTypeColor(entry.type)}`}>
+                        <span
+                          className={`px-2 py-0.5 rounded text-xs font-medium ${getTypeColor(entry.type)}`}
+                        >
                           {entry.type.charAt(0).toUpperCase() + entry.type.slice(1)}
                         </span>
                         <span className="flex items-center gap-1 text-sm">
                           {getStatusIcon(entry.status)}
-                          <span className={
-                            entry.status === 'approved' ? 'text-green-600' :
-                            entry.status === 'pending' ? 'text-yellow-600' : 'text-red-600'
-                          }>
+                          <span
+                            className={
+                              entry.status === 'approved'
+                                ? 'text-green-600'
+                                : entry.status === 'pending'
+                                  ? 'text-yellow-600'
+                                  : 'text-red-600'
+                            }
+                          >
                             {entry.status.charAt(0).toUpperCase() + entry.status.slice(1)}
                           </span>
                         </span>
@@ -255,7 +274,7 @@ export default async function HoursHistoryPage() {
             <div>
               <h3 className="font-medium text-blue-800">Hours Requirement</h3>
               <p className="text-sm text-blue-700 mt-1">
-                Your program requires {requiredHours} total hours to complete. Keep logging your 
+                Your program requires {requiredHours} total hours to complete. Keep logging your
                 hours regularly to track your progress toward graduation.
               </p>
             </div>

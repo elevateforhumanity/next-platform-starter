@@ -19,7 +19,7 @@ import {
 } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 interface ProfileData {
@@ -41,7 +41,7 @@ export default function AlumniProfilePage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [message, setMessage] = useState<{ type: 'success' | 'error'; text: string } | null>(null);
-  
+
   const [profile, setProfile] = useState<ProfileData>({
     full_name: '',
     email: '',
@@ -58,18 +58,16 @@ export default function AlumniProfilePage() {
 
   const loadProfile = useCallback(async () => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       router.push('/login?redirect=/lms/alumni/profile');
       return;
     }
 
-    const { data } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('id', user.id)
-      .maybeSingle();
+    const { data } = await supabase.from('profiles').select('*').eq('id', user.id).maybeSingle();
 
     if (data) {
       setProfile({
@@ -100,8 +98,10 @@ export default function AlumniProfilePage() {
 
     try {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       if (!user) throw new Error('Not authenticated');
 
       const { error } = await supabase
@@ -142,15 +142,19 @@ export default function AlumniProfilePage() {
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Lms", href: "/lms" }, { label: "Profile" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Lms', href: '/lms' }, { label: 'Profile' }]} />
       </div>
-<div className="bg-white border-b border-gray-200">
+      <div className="bg-white border-b border-gray-200">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-slate-700 mb-4">
-            <Link href="/lms/dashboard" className="hover:text-slate-900">LMS</Link>
+            <Link href="/lms/dashboard" className="hover:text-slate-900">
+              LMS
+            </Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href="/lms/alumni" className="hover:text-slate-900">Alumni</Link>
+            <Link href="/lms/alumni" className="hover:text-slate-900">
+              Alumni
+            </Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-slate-900 font-medium">My Profile</span>
           </nav>
@@ -161,9 +165,13 @@ export default function AlumniProfilePage() {
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {message && (
-          <div className={`mb-6 p-4 rounded-lg ${
-            message.type === 'success' ? 'bg-brand-green-50 text-brand-green-800 border border-brand-green-200' : 'bg-brand-red-50 text-brand-red-800 border border-brand-red-200'
-          }`}>
+          <div
+            className={`mb-6 p-4 rounded-lg ${
+              message.type === 'success'
+                ? 'bg-brand-green-50 text-brand-green-800 border border-brand-green-200'
+                : 'bg-brand-red-50 text-brand-red-800 border border-brand-red-200'
+            }`}
+          >
             {message.text}
           </div>
         )}
@@ -185,7 +193,9 @@ export default function AlumniProfilePage() {
               </div>
               <div>
                 <h3 className="font-semibold text-slate-900">Profile Photo</h3>
-                <p className="text-sm text-slate-700">Upload a professional photo for your alumni profile</p>
+                <p className="text-sm text-slate-700">
+                  Upload a professional photo for your alumni profile
+                </p>
               </div>
             </div>
           </div>
@@ -198,7 +208,10 @@ export default function AlumniProfilePage() {
             </h2>
             <div className="grid gap-4">
               <div>
-                <label htmlFor="full_name" className="block text-sm font-medium text-slate-900 mb-1">
+                <label
+                  htmlFor="full_name"
+                  className="block text-sm font-medium text-slate-900 mb-1"
+                >
                   Full Name
                 </label>
                 <input
@@ -279,7 +292,10 @@ export default function AlumniProfilePage() {
             <div className="grid gap-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label htmlFor="job_title" className="block text-sm font-medium text-slate-900 mb-1">
+                  <label
+                    htmlFor="job_title"
+                    className="block text-sm font-medium text-slate-900 mb-1"
+                  >
                     Job Title
                   </label>
                   <input
@@ -291,7 +307,10 @@ export default function AlumniProfilePage() {
                   />
                 </div>
                 <div>
-                  <label htmlFor="company" className="block text-sm font-medium text-slate-900 mb-1">
+                  <label
+                    htmlFor="company"
+                    className="block text-sm font-medium text-slate-900 mb-1"
+                  >
                     Company
                   </label>
                   <input
@@ -304,7 +323,10 @@ export default function AlumniProfilePage() {
                 </div>
               </div>
               <div>
-                <label htmlFor="linkedin_url" className="block text-sm font-medium text-slate-900 mb-1">
+                <label
+                  htmlFor="linkedin_url"
+                  className="block text-sm font-medium text-slate-900 mb-1"
+                >
                   LinkedIn Profile
                 </label>
                 <div className="relative">
@@ -351,7 +373,9 @@ export default function AlumniProfilePage() {
                 />
                 <div>
                   <p className="font-medium text-slate-900">Show in Alumni Directory</p>
-                  <p className="text-sm text-slate-700">Allow other alumni to find and connect with you</p>
+                  <p className="text-sm text-slate-700">
+                    Allow other alumni to find and connect with you
+                  </p>
                 </div>
               </label>
               <label className="flex items-start gap-3">
@@ -363,7 +387,9 @@ export default function AlumniProfilePage() {
                 />
                 <div>
                   <p className="font-medium text-slate-900">Available as Mentor</p>
-                  <p className="text-sm text-slate-700">Offer to mentor current students and recent graduates</p>
+                  <p className="text-sm text-slate-700">
+                    Offer to mentor current students and recent graduates
+                  </p>
                 </div>
               </label>
             </div>

@@ -1,6 +1,6 @@
 /**
  * License Enforcement
- * 
+ *
  * Server-side enforcement of license limits.
  * These functions should be called before any action that could exceed limits.
  */
@@ -21,7 +21,7 @@ export interface EnforcementResult {
 export function canEnrollStudent(
   planId: PlanId,
   status: LicenseStatus,
-  currentStudentCount: number
+  currentStudentCount: number,
 ): EnforcementResult {
   // Check license status first
   if (status === 'suspended' || status === 'canceled') {
@@ -50,9 +50,10 @@ export function canEnrollStudent(
         allowed: false,
         reason: `You've reached the ${plan.limits.students} student limit on your ${plan.name} plan. Contact sales to continue.`,
         upgradeRequired: true,
-        redirectTo: plan.category === 'self_serve' 
-          ? '/account/billing' 
-          : '/store/request-license?tier=implementation_plus_annual',
+        redirectTo:
+          plan.category === 'self_serve'
+            ? '/account/billing'
+            : '/store/request-license?tier=implementation_plus_annual',
       };
     }
   }
@@ -66,7 +67,7 @@ export function canEnrollStudent(
 export function canAddAdmin(
   planId: PlanId,
   status: LicenseStatus,
-  currentAdminCount: number
+  currentAdminCount: number,
 ): EnforcementResult {
   if (status === 'suspended' || status === 'canceled') {
     return {
@@ -93,9 +94,10 @@ export function canAddAdmin(
         allowed: false,
         reason: `You've reached the ${plan.limits.admins} admin limit on your ${plan.name} plan.`,
         upgradeRequired: true,
-        redirectTo: plan.category === 'self_serve'
-          ? '/account/billing'
-          : '/store/request-license?tier=implementation_plus_annual',
+        redirectTo:
+          plan.category === 'self_serve'
+            ? '/account/billing'
+            : '/store/request-license?tier=implementation_plus_annual',
       };
     }
   }
@@ -109,7 +111,7 @@ export function canAddAdmin(
 export function canCreateProgram(
   planId: PlanId,
   status: LicenseStatus,
-  currentProgramCount: number
+  currentProgramCount: number,
 ): EnforcementResult {
   if (status === 'suspended' || status === 'canceled') {
     return {
@@ -150,7 +152,7 @@ export function canCreateProgram(
 export function canAccessFeature(
   planId: PlanId,
   status: LicenseStatus,
-  feature: string
+  feature: string,
 ): EnforcementResult {
   if (status === 'suspended' || status === 'canceled') {
     return {
@@ -182,7 +184,7 @@ export function canAccessFeature(
  */
 export function canDeployMultiSite(planId: PlanId): EnforcementResult {
   const plan = PLANS[planId];
-  
+
   if (plan?.category !== 'enterprise') {
     return {
       allowed: false,
@@ -200,7 +202,7 @@ export function canDeployMultiSite(planId: PlanId): EnforcementResult {
  */
 export function canAccessComplianceFeatures(planId: PlanId): EnforcementResult {
   const plan = PLANS[planId];
-  
+
   if (plan?.category !== 'enterprise') {
     return {
       allowed: false,
@@ -219,7 +221,7 @@ export function canAccessComplianceFeatures(planId: PlanId): EnforcementResult {
 export function getLicenseHealth(
   planId: PlanId,
   status: LicenseStatus,
-  usage: UsageMetrics
+  usage: UsageMetrics,
 ): {
   healthy: boolean;
   warnings: string[];
@@ -273,7 +275,7 @@ export function shouldBlockRequest(
   planId: PlanId,
   status: LicenseStatus,
   action: 'enroll_student' | 'add_admin' | 'create_program' | 'export_data' | 'access_compliance',
-  currentCounts: Partial<UsageMetrics>
+  currentCounts: Partial<UsageMetrics>,
 ): EnforcementResult {
   switch (action) {
     case 'enroll_student':

@@ -1,12 +1,18 @@
 import { logger } from '@/lib/logger';
 /**
  * Cloudflare R2 Storage Client
- * 
+ *
  * R2 is S3-compatible, so we use the AWS SDK.
  * Free egress makes it ideal for video/image CDN.
  */
 
-import { S3Client, PutObjectCommand, DeleteObjectCommand, GetObjectCommand, ListObjectsV2Command } from '@aws-sdk/client-s3';
+import {
+  S3Client,
+  PutObjectCommand,
+  DeleteObjectCommand,
+  GetObjectCommand,
+  ListObjectsV2Command,
+} from '@aws-sdk/client-s3';
 import { getSignedUrl } from '@aws-sdk/s3-request-presigner';
 
 // R2 Configuration
@@ -24,7 +30,9 @@ export const isR2Configured = () => {
 // Create S3-compatible client for R2
 const getR2Client = () => {
   if (!isR2Configured()) {
-    throw new Error('Cloudflare R2 is not configured. Set CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_R2_ACCESS_KEY_ID, and CLOUDFLARE_R2_SECRET_ACCESS_KEY');
+    throw new Error(
+      'Cloudflare R2 is not configured. Set CLOUDFLARE_ACCOUNT_ID, CLOUDFLARE_R2_ACCESS_KEY_ID, and CLOUDFLARE_R2_SECRET_ACCESS_KEY',
+    );
   }
 
   return new S3Client({
@@ -50,29 +58,31 @@ export interface UploadResult {
 export async function uploadToR2(
   file: Buffer | Uint8Array,
   key: string,
-  contentType: string
+  contentType: string,
 ): Promise<UploadResult> {
   try {
     const client = getR2Client();
 
-    await client.send(new PutObjectCommand({
-      Bucket: R2_BUCKET_NAME,
-      Key: key,
-      Body: file,
-      ContentType: contentType,
-      CacheControl: 'public, max-age=31536000', // 1 year cache
-    }));
+    await client.send(
+      new PutObjectCommand({
+        Bucket: R2_BUCKET_NAME,
+        Key: key,
+        Body: file,
+        ContentType: contentType,
+        CacheControl: 'public, max-age=31536000', // 1 year cache
+      }),
+    );
 
-    const url = R2_PUBLIC_URL 
+    const url = R2_PUBLIC_URL
       ? `${R2_PUBLIC_URL}/${key}`
       : `https://${R2_BUCKET_NAME}.${R2_ACCOUNT_ID}.r2.cloudflarestorage.com/${key}`;
 
     return { success: true, key, url };
   } catch (error) {
     logger.error('R2 upload error:', error);
-    return { 
-      success: false, 
-      error: error instanceof Error ? error.message : 'Upload failed' 
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Upload failed',
     };
   }
 }
@@ -80,10 +90,7 @@ export async function uploadToR2(
 /**
  * Upload a file from URL to R2
  */
-export async function uploadFromUrlToR2(
-  sourceUrl: string,
-  key: string
-): Promise<UploadResult> {
+export async function uploadFromUrlToR2(sourceUrl: string, key: string): Promise<UploadResult> {
   try {
     const response = await fetch(sourceUrl);
     if (!response.ok) {
@@ -96,9 +103,9 @@ export async function uploadFromUrlToR2(
     return uploadToR2(buffer, key, contentType);
   } catch (error) {
     logger.error('R2 upload from URL error:', error);
-    return { 
-      success: false, 
-      error: error instanceof Error ? error.message : 'Upload failed' 
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Upload failed',
     };
   }
 }
@@ -110,10 +117,12 @@ export async function deleteFromR2(key: string): Promise<boolean> {
   try {
     const client = getR2Client();
 
-    await client.send(new DeleteObjectCommand({
-      Bucket: R2_BUCKET_NAME,
-      Key: key,
-    }));
+    await client.send(
+      new DeleteObjectCommand({
+        Bucket: R2_BUCKET_NAME,
+        Key: key,
+      }),
+    );
 
     return true;
   } catch (error) {
@@ -135,7 +144,7 @@ export async function getSignedR2Url(key: string, expiresIn = 3600): Promise<str
         Bucket: R2_BUCKET_NAME,
         Key: key,
       }),
-      { expiresIn }
+      { expiresIn },
     );
 
     return url;
@@ -152,12 +161,14 @@ export async function listR2Files(prefix?: string): Promise<string[]> {
   try {
     const client = getR2Client();
 
-    const response = await client.send(new ListObjectsV2Command({
-      Bucket: R2_BUCKET_NAME,
-      Prefix: prefix,
-    }));
+    const response = await client.send(
+      new ListObjectsV2Command({
+        Bucket: R2_BUCKET_NAME,
+        Prefix: prefix,
+      }),
+    );
 
-    return response.Contents?.map(obj => obj.Key!).filter(Boolean) || [];
+    return response.Contents?.map((obj) => obj.Key!).filter(Boolean) || [];
   } catch (error) {
     logger.error('R2 list error:', error);
     return [];

@@ -46,8 +46,11 @@ export async function GET(request: NextRequest) {
 // ── POST — register or update a mapping ──────────────────────────────────────
 
 const registerSchema = z.object({
-  program_slug: z.string().min(1).regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'must be lowercase kebab-case'),
-  course_id:    z.string().uuid('must be a valid UUID'),
+  program_slug: z
+    .string()
+    .min(1)
+    .regex(/^[a-z0-9]+(-[a-z0-9]+)*$/, 'must be lowercase kebab-case'),
+  course_id: z.string().uuid('must be a valid UUID'),
 });
 
 export async function POST(request: NextRequest) {

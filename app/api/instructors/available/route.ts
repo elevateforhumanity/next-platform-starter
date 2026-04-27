@@ -37,9 +37,7 @@ async function _GET(request: Request) {
       .in('status', ['pending', 'confirmed']);
 
     const bookedSlots = new Set(
-      (bookedAppointments || []).map(
-        (a) => `${a.appointment_date}-${a.appointment_time}`
-      )
+      (bookedAppointments || []).map((a) => `${a.appointment_date}-${a.appointment_time}`),
     );
 
     // Generate real availability based on booked appointments
@@ -48,24 +46,22 @@ async function _GET(request: Request) {
       for (let i = 1; i <= 7; i++) {
         const date = new Date(today);
         date.setDate(date.getDate() + i);
-        
+
         // Skip weekends
         if (date.getDay() === 0 || date.getDay() === 6) continue;
-        
+
         const dateStr = date.toISOString().split('T')[0];
 
-        ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'].forEach(
-          (time) => {
-            const slotKey = `${dateStr}-${time}:00`;
-            slots.push({
-              id: `slot-${dateStr}-${time}`,
-              date: dateStr,
-              time,
-              available: !bookedSlots.has(slotKey),
-              platform: 'zoom',
-            });
-          }
-        );
+        ['09:00', '10:00', '11:00', '13:00', '14:00', '15:00', '16:00'].forEach((time) => {
+          const slotKey = `${dateStr}-${time}:00`;
+          slots.push({
+            id: `slot-${dateStr}-${time}`,
+            date: dateStr,
+            time,
+            available: !bookedSlots.has(slotKey),
+            platform: 'zoom',
+          });
+        });
       }
       return slots;
     };
@@ -103,7 +99,7 @@ async function _GET(request: Request) {
     return NextResponse.json({ instructors: allInstructors });
   } catch (error) {
     logger.error('Error fetching instructors:', error);
-    
+
     // Fallback to AI instructors only
     const aiInstructors = AI_INSTRUCTORS.map((ai) => ({
       id: ai.id,

@@ -19,11 +19,7 @@ export function DelegateStatsGrid({ stats }: Props) {
         value={stats.totalLearners}
         helper="Assigned to your caseload"
       />
-      <StatCard
-        label="On track"
-        value={stats.onTrackCount}
-        helper="Healthy progress"
-      />
+      <StatCard label="On track" value={stats.onTrackCount} helper="Healthy progress" />
       <StatCard
         label="At risk"
         value={stats.atRiskCount}
@@ -49,27 +45,20 @@ type StatCardProps = {
   label: string;
   value: string | number;
   helper?: string;
-  intent?: "default" | "warning" | "danger";
+  intent?: 'default' | 'warning' | 'danger';
 };
 
-function StatCard({
-  label,
-  value,
-  helper,
-  intent = "default",
-}: StatCardProps) {
+function StatCard({ label, value, helper, intent = 'default' }: StatCardProps) {
   const badgeClass =
-    intent === "warning"
-      ? "bg-amber-50 text-amber-700"
-      : intent === "danger"
-      ? "bg-rose-50 text-rose-700"
-      : "bg-slate-50 text-black";
+    intent === 'warning'
+      ? 'bg-amber-50 text-amber-700'
+      : intent === 'danger'
+        ? 'bg-rose-50 text-rose-700'
+        : 'bg-slate-50 text-black';
 
   return (
     <div className="flex flex-col justify-between rounded-2xl bg-white p-3 shadow-sm">
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-        {label}
-      </p>
+      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
       <p className="mt-1 text-xl font-semibold text-black">{value}</p>
       {helper && (
         <span

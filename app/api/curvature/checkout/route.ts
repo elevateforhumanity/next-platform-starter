@@ -8,7 +8,6 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
-
 interface CartItem {
   product_id: string;
   quantity: number;
@@ -22,19 +21,18 @@ interface CartItem {
 }
 
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'contact');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'contact');
+  if (rateLimited) return rateLimited;
 
   if (!stripe) {
-    return NextResponse.json(
-      { error: 'Payment system not configured' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
   }
 
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -43,11 +41,13 @@ async function _POST(request: NextRequest) {
     // Get cart items with product details
     const { data: cartItems, error: cartError } = await supabase
       .from('cart_items')
-      .select(`
+      .select(
+        `
         product_id,
         quantity,
         product:products(id, name, price, description, image_url)
-      `)
+      `,
+      )
       .eq('user_id', user.id);
 
     if (cartError || !cartItems || cartItems.length === 0) {
@@ -70,7 +70,7 @@ async function _POST(request: NextRequest) {
 
     // Calculate total for metadata
     const total = cartItems.reduce((sum: number, item: any) => {
-      return sum + (parseFloat(item.product.price) * item.quantity);
+      return sum + parseFloat(item.product.price) * item.quantity;
     }, 0);
 
     // Create Stripe checkout session
@@ -144,10 +144,7 @@ async function _POST(request: NextRequest) {
     return NextResponse.json({ url: session.url, sessionId: session.id });
   } catch (error) {
     logger.error('Checkout error:', error);
-    return NextResponse.json(
-      { error: 'Failed to create checkout session' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/curvature/checkout', _POST);

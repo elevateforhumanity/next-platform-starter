@@ -106,12 +106,19 @@ export default function XTerminal({ onCommand }: XTerminalProps) {
           currentLine = '';
           historyIdx = -1;
 
-          if (!cmd) { prompt(); return; }
+          if (!cmd) {
+            prompt();
+            return;
+          }
 
           historyBuf.unshift(cmd);
           if (historyBuf.length > 100) historyBuf.pop();
 
-          if (cmd === 'clear') { term.clear(); prompt(); return; }
+          if (cmd === 'clear') {
+            term.clear();
+            prompt();
+            return;
+          }
 
           term.write('\x1b[90m');
           try {
@@ -125,7 +132,6 @@ export default function XTerminal({ onCommand }: XTerminalProps) {
           }
           term.write('\x1b[0m');
           prompt();
-
         } else if (code === 8) {
           // Backspace
           if (currentLine.length > 0) {
@@ -171,16 +177,10 @@ export default function XTerminal({ onCommand }: XTerminalProps) {
 
     const cleanup = init();
     return () => {
-      cleanup.then(fn => fn?.());
+      cleanup.then((fn) => fn?.());
       termRef.current?.dispose();
     };
   }, [onCommand]);
 
-  return (
-    <div
-      ref={containerRef}
-      className="h-full w-full"
-      style={{ background: '#0d1117' }}
-    />
-  );
+  return <div ref={containerRef} className="h-full w-full" style={{ background: '#0d1117' }} />;
 }

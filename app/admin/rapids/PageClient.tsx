@@ -4,7 +4,16 @@ import { useState, useEffect } from 'react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { RAPIDS_CONFIG } from '@/lib/compliance/rapids-config';
-import { Circle, XCircle, Copy, Shield, FileText, Users, Download, ExternalLink } from 'lucide-react';
+import {
+  Circle,
+  XCircle,
+  Copy,
+  Shield,
+  FileText,
+  Users,
+  Download,
+  ExternalLink,
+} from 'lucide-react';
 import Link from 'next/link';
 
 import { createBrowserClient } from '@supabase/ssr';
@@ -14,12 +23,20 @@ export default function RapidsAdminPage() {
   useEffect(() => {
     const supabase = createBrowserClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
     );
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) { router.replace('/login?redirect=/admin/rapids'); return; }
-      supabase.from('apprenticeships').select('*').limit(50)
-        .then(({ data }) => { if (data) setDbRows(data); });
+      if (!session) {
+        router.replace('/login?redirect=/admin/rapids');
+        return;
+      }
+      supabase
+        .from('apprenticeships')
+        .select('*')
+        .limit(50)
+        .then(({ data }) => {
+          if (data) setDbRows(data);
+        });
     });
   }, [router]);
 
@@ -32,10 +49,9 @@ export default function RapidsAdminPage() {
 
   return (
     <div className="min-h-screen bg-white p-6">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Rapids" }]} />
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Rapids' }]} />
       </div>
       <div className="max-w-6xl mx-auto">
         {/* Header */}
@@ -49,7 +65,8 @@ export default function RapidsAdminPage() {
                 </h1>
               </div>
               <p className="text-sm text-slate-700">
-                Internal view. Do not share screenshots publicly. Registration documentation is provided upon request.
+                Internal view. Do not share screenshots publicly. Registration documentation is
+                provided upon request.
               </p>
             </div>
             <div className="flex gap-3">
@@ -104,9 +121,12 @@ export default function RapidsAdminPage() {
 
         {/* CSV Export Section */}
         <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6 shadow-sm">
-          <h2 className="text-lg font-semibold text-slate-900 mb-4">Export for RAPIDS Bulk Upload</h2>
+          <h2 className="text-lg font-semibold text-slate-900 mb-4">
+            Export for RAPIDS Bulk Upload
+          </h2>
           <p className="text-sm text-slate-700 mb-4">
-            Download CSV files formatted for RAPIDS portal bulk upload. After downloading, upload to the RAPIDS portal.
+            Download CSV files formatted for RAPIDS portal bulk upload. After downloading, upload to
+            the RAPIDS portal.
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
             <a
@@ -155,15 +175,15 @@ export default function RapidsAdminPage() {
         {/* Sponsor Information */}
         <div className="bg-white border border-gray-200 rounded-xl p-6 mb-6 shadow-sm">
           <h2 className="text-lg font-semibold text-slate-900 mb-4">Sponsor Information</h2>
-          
+
           {/* Important clarification banner */}
           <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-4">
             <p className="text-sm text-amber-800">
-              <strong>Legal Entity vs Brand:</strong> The RAPIDS-registered Sponsor of Record is the legal entity. 
-              The DBA (trade name) is used in marketing and student-facing materials.
+              <strong>Legal Entity vs Brand:</strong> The RAPIDS-registered Sponsor of Record is the
+              legal entity. The DBA (trade name) is used in marketing and student-facing materials.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 gap-4">
             <div>
               <p className="text-sm text-slate-700">Sponsor of Record (Legal Entity)</p>
@@ -175,14 +195,18 @@ export default function RapidsAdminPage() {
             </div>
             <div>
               <p className="text-sm text-slate-700">State</p>
-              <p className="font-semibold text-slate-900">{RAPIDS_CONFIG.state} ({RAPIDS_CONFIG.stateCode})</p>
+              <p className="font-semibold text-slate-900">
+                {RAPIDS_CONFIG.state} ({RAPIDS_CONFIG.stateCode})
+              </p>
             </div>
             <div>
               <p className="text-sm text-slate-700">Licensing Agency</p>
               <p className="font-semibold text-slate-900">{RAPIDS_CONFIG.licensingAgency}</p>
             </div>
             <div className="md:col-span-2 bg-slate-50 rounded-lg p-3">
-              <p className="text-sm text-slate-700">Registration ID (Internal Only - Do Not Share Publicly)</p>
+              <p className="text-sm text-slate-700">
+                Registration ID (Internal Only - Do Not Share Publicly)
+              </p>
               <p className="font-mono text-slate-900">{RAPIDS_CONFIG.registrationId}</p>
             </div>
             <div>
@@ -291,16 +315,14 @@ export default function RapidsAdminPage() {
               Copy
             </button>
           </div>
-          <p className="text-brand-blue-900 leading-relaxed">
-            {procurementStatement}
-          </p>
+          <p className="text-brand-blue-900 leading-relaxed">{procurementStatement}</p>
         </div>
 
         {/* Footer Note */}
         <div className="mt-6 text-center text-sm text-slate-700">
           <p>
-            This page is for internal use only. Registration documentation can be provided to procurement,
-            compliance officers, or partner organizations upon request.
+            This page is for internal use only. Registration documentation can be provided to
+            procurement, compliance officers, or partner organizations upon request.
           </p>
         </div>
       </div>

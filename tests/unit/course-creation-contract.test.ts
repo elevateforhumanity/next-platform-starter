@@ -83,7 +83,7 @@ describe('POST /api/admin/lms/courses — response shape contract', () => {
     expect(body).toHaveProperty('course');
     expect(body.course).toHaveProperty('id');
     expect(body.course.id).toMatch(
-      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
+      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i,
     );
   });
 
@@ -153,7 +153,7 @@ describe('POST /api/admin/lms/courses — response shape contract', () => {
 
     expect(mockCreateDraftCourse).toHaveBeenCalledWith(
       expect.anything(),
-      expect.objectContaining({ modules })
+      expect.objectContaining({ modules }),
     );
   });
 });

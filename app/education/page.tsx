@@ -5,7 +5,20 @@ import Image from 'next/image';
 import Logo from '@/components/ui/Logo';
 import Link from 'next/link';
 import HeroVideo from '@/components/marketing/HeroVideo';
-import { Heart, MapPin, ArrowRight, Clock, Menu, X, Phone, Mail, BookOpen, Users, Award, CheckCircle } from 'lucide-react';
+import {
+  Heart,
+  MapPin,
+  ArrowRight,
+  Clock,
+  Menu,
+  X,
+  Phone,
+  Mail,
+  BookOpen,
+  Users,
+  Award,
+  CheckCircle,
+} from 'lucide-react';
 
 const NAV = [
   { label: 'Programs', href: '/programs' },
@@ -63,11 +76,41 @@ const PROGRAMS = [
 ];
 
 const LOCATIONS = [
-  { state: 'Indiana', href: '/career-training-indiana', cities: ['Indianapolis', 'Fort Wayne', 'Evansville'], image: '/images/pages/about-career-training.jpg', desc: 'Main campus. WIOA-eligible programs, apprenticeships, and job placement.' },
-  { state: 'Illinois', href: '/career-training-illinois', cities: ['Chicago', 'Aurora', 'Naperville'], image: '/images/pages/workforce-training.jpg', desc: 'Workforce programs across the Chicago metro and statewide.' },
-  { state: 'Ohio', href: '/career-training-ohio', cities: ['Columbus', 'Cleveland', 'Cincinnati'], image: '/images/pages/welding-sparks.jpg', desc: 'Career training aligned with Ohio industry demand.' },
-  { state: 'Tennessee', href: '/career-training-tennessee', cities: ['Nashville', 'Memphis', 'Knoxville'], image: '/images/pages/electrical.jpg', desc: 'Expanding workforce development across Tennessee.' },
-  { state: 'Texas', href: '/career-training-texas', cities: ['Houston', 'Dallas', 'San Antonio'], image: '/images/pages/business-sector.jpg', desc: 'Trade, healthcare, and technology programs for Texas.' },
+  {
+    state: 'Indiana',
+    href: '/career-training-indiana',
+    cities: ['Indianapolis', 'Fort Wayne', 'Evansville'],
+    image: '/images/pages/about-career-training.jpg',
+    desc: 'Main campus. WIOA-eligible programs, apprenticeships, and job placement.',
+  },
+  {
+    state: 'Illinois',
+    href: '/career-training-illinois',
+    cities: ['Chicago', 'Aurora', 'Naperville'],
+    image: '/images/pages/workforce-training.jpg',
+    desc: 'Workforce programs across the Chicago metro and statewide.',
+  },
+  {
+    state: 'Ohio',
+    href: '/career-training-ohio',
+    cities: ['Columbus', 'Cleveland', 'Cincinnati'],
+    image: '/images/pages/welding-sparks.jpg',
+    desc: 'Career training aligned with Ohio industry demand.',
+  },
+  {
+    state: 'Tennessee',
+    href: '/career-training-tennessee',
+    cities: ['Nashville', 'Memphis', 'Knoxville'],
+    image: '/images/pages/electrical.jpg',
+    desc: 'Expanding workforce development across Tennessee.',
+  },
+  {
+    state: 'Texas',
+    href: '/career-training-texas',
+    cities: ['Houston', 'Dallas', 'San Antonio'],
+    image: '/images/pages/business-sector.jpg',
+    desc: 'Trade, healthcare, and technology programs for Texas.',
+  },
 ];
 
 const STATS = [
@@ -87,25 +130,74 @@ export default function EducationLandingPage() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="flex items-center justify-between h-16">
             <Link href="/education" className="flex items-center gap-2.5">
-              <Logo alt="Elevate for Humanity" width={140} height={40} className="h-9 w-auto" priority />
-              <span className="hidden sm:inline text-xs font-bold text-brand-red-600 bg-brand-red-50 px-2.5 py-1 rounded-full border border-brand-red-200">Education</span>
+              <Logo
+                alt="Elevate for Humanity"
+                width={140}
+                height={40}
+                className="h-9 w-auto"
+                priority
+              />
+              <span className="hidden sm:inline text-xs font-bold text-brand-red-600 bg-brand-red-50 px-2.5 py-1 rounded-full border border-brand-red-200">
+                Education
+              </span>
             </Link>
             <nav className="hidden lg:flex items-center gap-1">
               {NAV.map((n) => (
-                <Link key={n.label} href={n.href} className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-brand-red-600 hover:bg-white rounded-lg transition-colors">{n.label}</Link>
+                <Link
+                  key={n.label}
+                  href={n.href}
+                  className="px-3 py-2 text-sm font-medium text-gray-700 hover:text-brand-red-600 hover:bg-white rounded-lg transition-colors"
+                >
+                  {n.label}
+                </Link>
               ))}
-              <Link href="/start" className="ml-1 px-5 py-2.5 text-sm font-bold bg-brand-red-600 hover:bg-brand-red-700 text-slate-900 rounded-lg transition-colors">Apply Now</Link>
-              <Link href="/login" className="ml-1 px-4 py-2.5 text-sm font-semibold text-brand-blue-600 border border-brand-blue-200 hover:bg-brand-blue-50 rounded-lg transition-colors">Sign In</Link>
+              <Link
+                href="/start"
+                className="ml-1 px-5 py-2.5 text-sm font-bold bg-brand-red-600 hover:bg-brand-red-700 text-slate-900 rounded-lg transition-colors"
+              >
+                Apply Now
+              </Link>
+              <Link
+                href="/login"
+                className="ml-1 px-4 py-2.5 text-sm font-semibold text-brand-blue-600 border border-brand-blue-200 hover:bg-brand-blue-50 rounded-lg transition-colors"
+              >
+                Sign In
+              </Link>
             </nav>
-            <button onClick={() => setMobileOpen(!mobileOpen)} className="lg:hidden p-2 rounded-lg text-gray-600 hover:bg-white" aria-label="Menu">
+            <button
+              onClick={() => setMobileOpen(!mobileOpen)}
+              className="lg:hidden p-2 rounded-lg text-gray-600 hover:bg-white"
+              aria-label="Menu"
+            >
               {mobileOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
           {mobileOpen && (
             <div className="lg:hidden border-t py-3 space-y-1">
-              {NAV.map((n) => <Link key={n.label} href={n.href} onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-white rounded-lg">{n.label}</Link>)}
-              <Link href="/start" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-bold text-brand-red-600">Apply Now</Link>
-              <Link href="/login" onClick={() => setMobileOpen(false)} className="block px-3 py-2.5 text-sm font-semibold text-brand-blue-600">Sign In</Link>
+              {NAV.map((n) => (
+                <Link
+                  key={n.label}
+                  href={n.href}
+                  onClick={() => setMobileOpen(false)}
+                  className="block px-3 py-2.5 text-sm font-medium text-gray-700 hover:bg-white rounded-lg"
+                >
+                  {n.label}
+                </Link>
+              ))}
+              <Link
+                href="/start"
+                onClick={() => setMobileOpen(false)}
+                className="block px-3 py-2.5 text-sm font-bold text-brand-red-600"
+              >
+                Apply Now
+              </Link>
+              <Link
+                href="/login"
+                onClick={() => setMobileOpen(false)}
+                className="block px-3 py-2.5 text-sm font-semibold text-brand-blue-600"
+              >
+                Sign In
+              </Link>
             </div>
           )}
         </div>
@@ -124,12 +216,32 @@ export default function EducationLandingPage() {
             <div className="inline-flex items-center gap-2 text-slate-600 text-sm font-semibold mb-4">
               <Heart className="w-4 h-4" /> Elevate for Humanity Education
             </div>
-            <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">Career Training That Changes Lives</h1>
-            <p className="text-base md:text-lg text-slate-600 mb-8 max-w-3xl mx-auto">No-cost career training for eligible participants. Choose your program, pick your location, and build a career in healthcare, skilled trades, technology, and more.</p>
+            <h1 className="text-3xl md:text-5xl font-bold text-slate-900 mb-4">
+              Career Training That Changes Lives
+            </h1>
+            <p className="text-base md:text-lg text-slate-600 mb-8 max-w-3xl mx-auto">
+              No-cost career training for eligible participants. Choose your program, pick your
+              location, and build a career in healthcare, skilled trades, technology, and more.
+            </p>
             <div className="flex flex-wrap justify-center gap-3">
-              <Link href="/programs" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-7 py-3.5 rounded-lg font-bold transition-colors">Browse All Programs <ArrowRight className="w-5 h-5" /></Link>
-              <Link href="/start" className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-7 py-3.5 rounded-lg font-bold hover:bg-slate-50 transition-colors">Apply Now</Link>
-              <Link href="/funding" className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-7 py-3.5 rounded-lg font-semibold hover:bg-slate-50 transition-colors">Check Funding</Link>
+              <Link
+                href="/programs"
+                className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-7 py-3.5 rounded-lg font-bold transition-colors"
+              >
+                Browse All Programs <ArrowRight className="w-5 h-5" />
+              </Link>
+              <Link
+                href="/start"
+                className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-7 py-3.5 rounded-lg font-bold hover:bg-slate-50 transition-colors"
+              >
+                Apply Now
+              </Link>
+              <Link
+                href="/funding"
+                className="inline-flex items-center gap-2 border border-slate-300 text-slate-700 px-7 py-3.5 rounded-lg font-semibold hover:bg-slate-50 transition-colors"
+              >
+                Check Funding
+              </Link>
             </div>
           </div>
         </HeroVideo>
@@ -154,22 +266,47 @@ export default function EducationLandingPage() {
       <section className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Choose Your Career Path</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Industry-recognized certifications and hands-on training. Many programs are fully funded through WIOA and state workforce grants.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+              Choose Your Career Path
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Industry-recognized certifications and hands-on training. Many programs are fully
+              funded through WIOA and state workforce grants.
+            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {PROGRAMS.map((p) => (
-              <div key={p.title} className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-gray-100">
+              <div
+                key={p.title}
+                className="bg-white rounded-xl overflow-hidden shadow-md hover:shadow-xl transition-shadow border border-gray-100"
+              >
                 <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/9' }}>
-                  <Image src={p.image} alt={`${p.title} training`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+                  <Image
+                    src={p.image}
+                    alt={`${p.title} training`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
                 </div>
                 <div className="p-5">
                   <h3 className="text-lg font-bold text-gray-900 mb-3">{p.title}</h3>
                   <p className="text-gray-600 text-sm mb-3">{p.desc}</p>
                   <div className="flex flex-wrap gap-1.5 mb-4">
-                    {p.tags.map((t) => <span key={t} className="text-xs bg-white text-slate-700 px-2 py-1 rounded-full">{t}</span>)}
+                    {p.tags.map((t) => (
+                      <span
+                        key={t}
+                        className="text-xs bg-white text-slate-700 px-2 py-1 rounded-full"
+                      >
+                        {t}
+                      </span>
+                    ))}
                   </div>
-                  <Link href={p.href} className="block w-full text-center bg-brand-red-600 hover:bg-brand-red-700 text-slate-900 py-2.5 rounded-lg font-semibold text-sm transition-colors">
+                  <Link
+                    href={p.href}
+                    className="block w-full text-center bg-brand-red-600 hover:bg-brand-red-700 text-slate-900 py-2.5 rounded-lg font-semibold text-sm transition-colors"
+                  >
                     View Programs <ArrowRight className="w-4 h-4 inline ml-1" />
                   </Link>
                 </div>
@@ -183,14 +320,28 @@ export default function EducationLandingPage() {
       <section className="py-16 px-6">
         <div className="max-w-6xl mx-auto">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">Pick Your Location</h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">Training across five states. Select a location to see programs, schedules, and enrollment near you.</p>
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-3">
+              Pick Your Location
+            </h2>
+            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
+              Training across five states. Select a location to see programs, schedules, and
+              enrollment near you.
+            </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {LOCATIONS.map((loc) => (
-              <div key={loc.state} className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-100">
+              <div
+                key={loc.state}
+                className="bg-white rounded-xl overflow-hidden shadow-sm hover:shadow-lg transition-shadow border border-gray-100"
+              >
                 <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/9' }}>
-                  <Image src={loc.image} alt={`Training in ${loc.state}`} fill className="object-cover" sizes="(max-width: 768px) 100vw, 33vw" />
+                  <Image
+                    src={loc.image}
+                    alt={`Training in ${loc.state}`}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 768px) 100vw, 33vw"
+                  />
                 </div>
                 <div className="p-4">
                   <div className="flex items-center gap-2 mb-2">
@@ -199,9 +350,16 @@ export default function EducationLandingPage() {
                   </div>
                   <p className="text-gray-600 text-sm mb-3">{loc.desc}</p>
                   <div className="flex flex-wrap gap-1.5 mb-4">
-                    {loc.cities.map((c) => <span key={c} className="text-xs bg-white text-slate-600 px-2 py-0.5 rounded">{c}</span>)}
+                    {loc.cities.map((c) => (
+                      <span key={c} className="text-xs bg-white text-slate-600 px-2 py-0.5 rounded">
+                        {c}
+                      </span>
+                    ))}
                   </div>
-                  <Link href={loc.href} className="block w-full text-center bg-slate-800 hover:bg-slate-900 text-slate-900 py-2.5 rounded-lg font-semibold text-sm transition-colors">
+                  <Link
+                    href={loc.href}
+                    className="block w-full text-center bg-slate-800 hover:bg-slate-900 text-slate-900 py-2.5 rounded-lg font-semibold text-sm transition-colors"
+                  >
                     Explore {loc.state} <ArrowRight className="w-4 h-4 inline ml-1" />
                   </Link>
                 </div>
@@ -217,11 +375,26 @@ export default function EducationLandingPage() {
           <div className="inline-flex items-center gap-2 bg-green-100 text-green-800 px-4 py-1.5 rounded-full text-sm font-semibold mb-4">
             <Clock className="w-4 h-4" /> Now Enrolling
           </div>
-          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Training Funding Available</h2>
-          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">Many programs are available at no cost through WIOA, state workforce grants, DOL Registered Apprenticeships, and other funding. Self-pay options also available.</p>
+          <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">
+            Training Funding Available
+          </h2>
+          <p className="text-lg text-gray-600 mb-8 max-w-2xl mx-auto">
+            Many programs are available at no cost through WIOA, state workforce grants, DOL
+            Registered Apprenticeships, and other funding. Self-pay options also available.
+          </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link href="/funding" className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-slate-900 px-7 py-3.5 rounded-lg font-bold transition-colors">Check Funding Eligibility</Link>
-            <Link href="/start" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-slate-900 px-7 py-3.5 rounded-lg font-bold transition-colors">Start Your Application</Link>
+            <Link
+              href="/funding"
+              className="inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 text-slate-900 px-7 py-3.5 rounded-lg font-bold transition-colors"
+            >
+              Check Funding Eligibility
+            </Link>
+            <Link
+              href="/start"
+              className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-slate-900 px-7 py-3.5 rounded-lg font-bold transition-colors"
+            >
+              Start Your Application
+            </Link>
           </div>
         </div>
       </section>
@@ -231,33 +404,66 @@ export default function EducationLandingPage() {
         <div className="max-w-6xl mx-auto">
           <div className="grid md:grid-cols-3 gap-8 mb-8">
             <div>
-              <Logo alt="Elevate for Humanity" width={120} height={36} className="h-8 w-auto brightness-0 invert mb-3" />
+              <Logo
+                alt="Elevate for Humanity"
+                width={120}
+                height={36}
+                className="h-8 w-auto brightness-0 invert mb-3"
+              />
               <div className="text-sm">8888 Keystone Crossing, Suite 1300</div>
               <div className="text-sm">Indianapolis, IN 46240</div>
-              <div className="flex items-center gap-2 mt-3 text-sm"><Phone className="w-4 h-4" /><a href="tel:+13173550500" className="hover:text-slate-900">(317) 355-0500</a></div>
-              <div className="flex items-center gap-2 mt-1 text-sm"><Mail className="w-4 h-4" /><a href="mailto:info@elevateforhumanity.org" className="hover:text-slate-900">info@elevateforhumanity.org</a></div>
+              <div className="flex items-center gap-2 mt-3 text-sm">
+                <Phone className="w-4 h-4" />
+                <a href="tel:+13173550500" className="hover:text-slate-900">
+                  (317) 355-0500
+                </a>
+              </div>
+              <div className="flex items-center gap-2 mt-1 text-sm">
+                <Mail className="w-4 h-4" />
+                <a href="mailto:info@elevateforhumanity.org" className="hover:text-slate-900">
+                  info@elevateforhumanity.org
+                </a>
+              </div>
             </div>
             <div>
               <div className="text-slate-900 font-semibold mb-3">Programs</div>
               <div className="space-y-2 text-sm">
-                {PROGRAMS.map((p) => <Link key={p.title} href={p.href} className="block hover:text-slate-900">{p.title}</Link>)}
+                {PROGRAMS.map((p) => (
+                  <Link key={p.title} href={p.href} className="block hover:text-slate-900">
+                    {p.title}
+                  </Link>
+                ))}
               </div>
             </div>
             <div>
               <div className="text-slate-900 font-semibold mb-3">Quick Links</div>
               <div className="space-y-2 text-sm">
-                <Link href="/start" className="block hover:text-slate-900">Apply Now</Link>
-                <Link href="/funding" className="block hover:text-slate-900">Funding & Financial Aid</Link>
-                <Link href="/locations" className="block hover:text-slate-900">Locations</Link>
-                <Link href="/about" className="block hover:text-slate-900">About Us</Link>
-                <Link href="/contact" className="block hover:text-slate-900">Contact</Link>
-                <Link href="/privacy-policy" className="block hover:text-slate-900">Privacy Policy</Link>
+                <Link href="/start" className="block hover:text-slate-900">
+                  Apply Now
+                </Link>
+                <Link href="/funding" className="block hover:text-slate-900">
+                  Funding & Financial Aid
+                </Link>
+                <Link href="/locations" className="block hover:text-slate-900">
+                  Locations
+                </Link>
+                <Link href="/about" className="block hover:text-slate-900">
+                  About Us
+                </Link>
+                <Link href="/contact" className="block hover:text-slate-900">
+                  Contact
+                </Link>
+                <Link href="/privacy-policy" className="block hover:text-slate-900">
+                  Privacy Policy
+                </Link>
               </div>
             </div>
           </div>
           <div className="border-t border-gray-800 pt-6 flex flex-col md:flex-row justify-between items-center gap-3 text-sm">
             <div>&copy; {new Date().getFullYear()} Elevate for Humanity. All rights reserved.</div>
-            <Link href="https://www.elevateforhumanity.org" className="hover:text-slate-900">www.elevateforhumanity.org</Link>
+            <Link href="https://www.elevateforhumanity.org" className="hover:text-slate-900">
+              www.elevateforhumanity.org
+            </Link>
           </div>
         </div>
       </footer>

@@ -13,8 +13,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/lms/learning-paths',
   },
   title: 'Learning Paths | Elevate For Humanity',
-  description:
-    'Explore structured learning paths for career development.',
+  description: 'Explore structured learning paths for career development.',
 };
 
 export const dynamic = 'force-dynamic';
@@ -23,51 +22,65 @@ export const dynamic = 'force-dynamic';
 const getCachedUserData = unstable_cache(
   async (userId: string, supabase: any) => {
     // Run queries in parallel instead of sequentially
-    const [profileResult, enrollmentsResult, activeResult, completedResult, progressResult] = await Promise.all([
-      supabase
-        .from('profiles')
-        .select('id, full_name, role, avatar_url')
-        .eq('id', userId)
-        .maybeSingle(),
-      supabase
-        .from('program_enrollments')
-        .select('id, status, progress_percent, course_id, created_at')
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false })
-        .limit(10),
-      supabase
-        .from('program_enrollments')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', userId)
-        .eq('status', 'active'),
-      supabase
-        .from('program_enrollments')
-        .select('*', { count: 'exact', head: true })
-        .eq('user_id', userId)
-        .eq('status', 'completed'),
-      supabase
-        .from('student_progress')
-        .select('id, course_id, updated_at')
-        .eq('student_id', userId)
-        .order('updated_at', { ascending: false })
-        .limit(5),
-    ]);
+    const [profileResult, enrollmentsResult, activeResult, completedResult, progressResult] =
+      await Promise.all([
+        supabase
+          .from('profiles')
+          .select('id, full_name, role, avatar_url')
+          .eq('id', userId)
+          .maybeSingle(),
+        supabase
+          .from('program_enrollments')
+          .select('id, status, progress_percent, course_id, created_at')
+          .eq('user_id', userId)
+          .order('created_at', { ascending: false })
+          .limit(10),
+        supabase
+          .from('program_enrollments')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', userId)
+          .eq('status', 'active'),
+        supabase
+          .from('program_enrollments')
+          .select('*', { count: 'exact', head: true })
+          .eq('user_id', userId)
+          .eq('status', 'completed'),
+        supabase
+          .from('student_progress')
+          .select('id, course_id, updated_at')
+          .eq('student_id', userId)
+          .order('updated_at', { ascending: false })
+          .limit(5),
+      ]);
 
     // Hydrate course details for enrollments
-    const lpCourseIds = [...new Set((enrollmentsResult.data || []).map((e: any) => e.course_id).filter(Boolean))];
+    const lpCourseIds = [
+      ...new Set((enrollmentsResult.data || []).map((e: any) => e.course_id).filter(Boolean)),
+    ];
     const { data: lpCourses } = lpCourseIds.length
-      ? await supabase.from('courses').select('id, title, description, thumbnail_url').in('id', lpCourseIds)
+      ? await supabase
+          .from('courses')
+          .select('id, title, description, thumbnail_url')
+          .in('id', lpCourseIds)
       : { data: [] };
     const lpCourseMap = Object.fromEntries((lpCourses || []).map((c: any) => [c.id, c]));
-    const hydratedEnrollments = (enrollmentsResult.data || []).map((e: any) => ({ ...e, courses: lpCourseMap[e.course_id] ?? null }));
+    const hydratedEnrollments = (enrollmentsResult.data || []).map((e: any) => ({
+      ...e,
+      courses: lpCourseMap[e.course_id] ?? null,
+    }));
 
     // Hydrate course titles for recent progress
-    const lpProgCourseIds = [...new Set((progressResult.data || []).map((p: any) => p.course_id).filter(Boolean))];
+    const lpProgCourseIds = [
+      ...new Set((progressResult.data || []).map((p: any) => p.course_id).filter(Boolean)),
+    ];
     const { data: lpProgCourses } = lpProgCourseIds.length
       ? await supabase.from('courses').select('id, title').in('id', lpProgCourseIds)
       : { data: [] };
     const lpProgCourseMap = Object.fromEntries((lpProgCourses || []).map((c: any) => [c.id, c]));
-    const hydratedProgress = (progressResult.data || []).map((p: any) => ({ ...p, courses: lpProgCourseMap[p.course_id] ?? null }));
+    const hydratedProgress = (progressResult.data || []).map((p: any) => ({
+      ...p,
+      courses: lpProgCourseMap[p.course_id] ?? null,
+    }));
 
     return {
       profile: profileResult.data,
@@ -78,7 +91,7 @@ const getCachedUserData = unstable_cache(
     };
   },
   ['learning-paths-user-data'],
-  { revalidate: 60, tags: ['learning-paths'] }
+  { revalidate: 60, tags: ['learning-paths'] },
 );
 
 export default async function LearningPathsPage() {
@@ -93,16 +106,19 @@ export default async function LearningPathsPage() {
   }
 
   // Use cached parallel queries instead of sequential
-  const { profile, enrollments, activeCourses, completedCourses, recentProgress } = 
+  const { profile, enrollments, activeCourses, completedCourses, recentProgress } =
     await getCachedUserData(user.id, supabase);
 
   return (
     <div className="min-h-screen bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Learning Paths" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Learning Paths' }]}
+        />
+      </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/lms-page-4.jpg"
           alt="Learning Paths"
@@ -112,7 +128,6 @@ export default async function LearningPathsPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Content Section */}
@@ -124,8 +139,8 @@ export default async function LearningPathsPage() {
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Learning Paths</h2>
                 <p className="text-black mb-6">
-                  Explore structured learning paths for career development.
-                  workforce training and career success.
+                  Explore structured learning paths for career development. workforce training and
+                  career success.
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start">
@@ -180,12 +195,9 @@ export default async function LearningPathsPage() {
       <section className="py-16 bg-brand-blue-700">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Need Help?
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Need Help?</h2>
             <p className="text-base md:text-lg text-brand-blue-100 mb-8">
-              Contact support if you have questions about the learning
-              platform or need assistance.
+              Contact support if you have questions about the learning platform or need assistance.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link

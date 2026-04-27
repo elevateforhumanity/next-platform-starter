@@ -4,11 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { getDb } from '@/lib/lms/api';
 import { redirect } from 'next/navigation';
 
-export default async function OrientationLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function OrientationLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
   const db = await getDb();
   if (!db) throw new Error('Admin client failed to initialize');
@@ -17,7 +13,9 @@ export default async function OrientationLayout({
     redirect('/login?redirect=/programs/nail-technician-apprenticeship/orientation');
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/programs/nail-technician-apprenticeship/orientation');
@@ -35,7 +33,11 @@ export default async function OrientationLayout({
     redirect('/programs/nail-technician-apprenticeship');
   }
 
-  if (!['confirmed', 'paid', 'orientation_complete', 'documents_complete', 'active'].includes(enrollment.status)) {
+  if (
+    !['confirmed', 'paid', 'orientation_complete', 'documents_complete', 'active'].includes(
+      enrollment.status,
+    )
+  ) {
     redirect('/programs/nail-technician-apprenticeship');
   }
 

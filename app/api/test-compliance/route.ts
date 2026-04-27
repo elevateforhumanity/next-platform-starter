@@ -48,8 +48,7 @@ export async function GET(request: NextRequest) {
       // Test 3: Export to CSV
       if (report) {
         const csv = exportToINTrainingCSV(report);
-        const hasHeaders =
-          csv.includes('Student ID') && csv.includes('Program Name');
+        const hasHeaders = csv.includes('Student ID') && csv.includes('Program Name');
         results.tests.push({
           name: 'Export to INTraining CSV',
           passed: hasHeaders && csv.length > 100,
@@ -60,7 +59,8 @@ export async function GET(request: NextRequest) {
           },
         });
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.tests.push({
         name: 'Generate Q1 2026 Report',
         passed: false,
@@ -86,7 +86,8 @@ export async function GET(request: NextRequest) {
           measurable_skill_gains: performance.measurable_skill_gains,
         },
       });
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.tests.push({
         name: 'Calculate WIOA Performance Metrics',
         passed: false,
@@ -117,7 +118,8 @@ export async function GET(request: NextRequest) {
           present_fields: Object.keys(report),
         },
       });
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.tests.push({
         name: 'Report Has All Required Fields',
         passed: false,
@@ -141,10 +143,8 @@ export async function GET(request: NextRequest) {
     results.compliance_ready = failedTests === 0;
 
     return NextResponse.json(results);
-  } catch (error) { /* Error handled silently */ 
-    return NextResponse.json(
-      { error: error.message, stack: error.stack },
-      { status: 500 }
-    );
+  } catch (error) {
+    /* Error handled silently */
+    return NextResponse.json({ error: error.message, stack: error.stack }, { status: 500 });
   }
 }

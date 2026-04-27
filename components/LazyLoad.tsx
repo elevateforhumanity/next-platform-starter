@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -15,7 +15,7 @@ export function LazyLoad({
   children,
   threshold = 0.1,
   rootMargin = '50px',
-  Content
+  Content,
 }: LazyLoadProps) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -28,7 +28,7 @@ export function LazyLoad({
           observer.disconnect();
         }
       },
-      { threshold, rootMargin }
+      { threshold, rootMargin },
     );
 
     if (ref.current) {
@@ -38,9 +38,5 @@ export function LazyLoad({
     return () => observer.disconnect();
   }, [threshold, rootMargin]);
 
-  return (
-    <div ref={ref}>
-      {isVisible ? children : (Content || <div className="min-h-[200px]" />)}
-    </div>
-  );
+  return <div ref={ref}>{isVisible ? children : Content || <div className="min-h-[200px]" />}</div>;
 }

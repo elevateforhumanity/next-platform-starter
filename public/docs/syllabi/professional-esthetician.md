@@ -1,4 +1,5 @@
 # Professional Esthetician & Client Services
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** ESTH-PROF  
 **Duration:** 5 Weeks (60 Hours)  
 **Delivery Method:** Hybrid (Theory + Hands-On Lab)  
-**Funding:** WIOA • WRG • Apprenticeship  
+**Funding:** WIOA • WRG • Apprenticeship
 
 ---
 
@@ -31,6 +32,7 @@ DOL Federally Registered Apprenticeship! Master skincare, facial treatments, hai
 ## Course Outline
 
 ### Week 1: Esthetics Foundations & Safety (12 hours)
+
 - Skin anatomy and physiology
 - Skin types and conditions
 - Sanitation and infection control
@@ -38,6 +40,7 @@ DOL Federally Registered Apprenticeship! Master skincare, facial treatments, hai
 - Professional ethics and conduct
 
 ### Week 2: Facial Treatments (12 hours)
+
 - Facial massage techniques
 - Product application and removal
 - Steam and extraction procedures
@@ -45,6 +48,7 @@ DOL Federally Registered Apprenticeship! Master skincare, facial treatments, hai
 - Client consultation and skin analysis
 
 ### Week 3: Hair Removal & Advanced Services (12 hours)
+
 - Waxing techniques (face and body)
 - Threading basics
 - Eyebrow shaping and tinting
@@ -52,6 +56,7 @@ DOL Federally Registered Apprenticeship! Master skincare, facial treatments, hai
 - Post-treatment care
 
 ### Week 4: Client Services & Retail (12 hours)
+
 - Customer service excellence
 - Appointment scheduling and management
 - Product knowledge and sales
@@ -59,6 +64,7 @@ DOL Federally Registered Apprenticeship! Master skincare, facial treatments, hai
 - Building client loyalty
 
 ### Week 5: Business & Career Readiness (12 hours)
+
 - Spa operations and management
 - Pricing and profitability
 - Marketing your services

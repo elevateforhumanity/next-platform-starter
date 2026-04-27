@@ -11,12 +11,22 @@ import {
   ClipboardCheck,
   Signature,
   Calendar,
-  RefreshCw
+  RefreshCw,
 } from 'lucide-react';
 
 const MONTHS = [
-  'January', 'February', 'March', 'April', 'May', 'June',
-  'July', 'August', 'September', 'October', 'November', 'December'
+  'January',
+  'February',
+  'March',
+  'April',
+  'May',
+  'June',
+  'July',
+  'August',
+  'September',
+  'October',
+  'November',
+  'December',
 ];
 
 export default function ComplianceAuditPage() {
@@ -86,9 +96,10 @@ export default function ComplianceAuditPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-
         <div className="mb-4">
-          <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Compliance Audit' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Admin', href: '/admin' }, { label: 'Compliance Audit' }]}
+          />
         </div>
 
         {/* Header */}
@@ -107,7 +118,9 @@ export default function ComplianceAuditPage() {
               className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
             >
               {MONTHS.map((month, index) => (
-                <option key={month} value={index + 1}>{month}</option>
+                <option key={month} value={index + 1}>
+                  {month}
+                </option>
               ))}
             </select>
             <select
@@ -115,8 +128,10 @@ export default function ComplianceAuditPage() {
               onChange={(e) => setSelectedYear(parseInt(e.target.value))}
               className="px-3 py-2 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
             >
-              {[2024, 2025, 2026].map(year => (
-                <option key={year} value={year}>{year}</option>
+              {[2024, 2025, 2026].map((year) => (
+                <option key={year} value={year}>
+                  {year}
+                </option>
               ))}
             </select>
             <button
@@ -124,7 +139,11 @@ export default function ComplianceAuditPage() {
               disabled={generating}
               className="flex items-center gap-2 px-4 py-2 bg-gray-900 text-white rounded-lg text-sm font-medium hover:bg-gray-800 disabled:opacity-50 transition-colors"
             >
-              {generating ? <RefreshCw className="w-4 h-4 animate-spin" /> : <FileText className="w-4 h-4" />}
+              {generating ? (
+                <RefreshCw className="w-4 h-4 animate-spin" />
+              ) : (
+                <FileText className="w-4 h-4" />
+              )}
               Generate Audit
             </button>
           </div>
@@ -132,10 +151,11 @@ export default function ComplianceAuditPage() {
 
         {/* Body */}
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
           {/* Audit list */}
           <div className="lg:col-span-1 space-y-3">
-            <h2 className="text-sm font-medium text-slate-700 uppercase tracking-wide">Audit History</h2>
+            <h2 className="text-sm font-medium text-slate-700 uppercase tracking-wide">
+              Audit History
+            </h2>
 
             {loading ? (
               <div className="text-center py-8 text-sm text-slate-700">Loading...</div>
@@ -163,7 +183,8 @@ export default function ComplianceAuditPage() {
                     </span>
                   </div>
                   <div className="text-xs text-slate-700">
-                    {audit.total_enrollments} enrollments · {audit.auto_flagged_issues?.length || 0} flags
+                    {audit.total_enrollments} enrollments · {audit.auto_flagged_issues?.length || 0}{' '}
+                    flags
                   </div>
                 </button>
               ))
@@ -174,7 +195,6 @@ export default function ComplianceAuditPage() {
           <div className="lg:col-span-2">
             {selectedAudit ? (
               <div className="border border-gray-200 rounded-lg overflow-hidden">
-
                 {/* Detail header */}
                 <div className="px-6 py-5 border-b border-gray-100">
                   <h2 className="text-lg font-semibold text-slate-900">
@@ -202,10 +222,26 @@ export default function ComplianceAuditPage() {
 
                 {/* Metrics */}
                 <div className="px-6 py-5 grid grid-cols-2 md:grid-cols-4 gap-4 border-b border-gray-100">
-                  <MetricCard label="Total Enrollments" value={selectedAudit.total_enrollments} icon={Users} />
-                  <MetricCard label="Completed Intakes" value={selectedAudit.completed_intakes} icon={ClipboardCheck} />
-                  <MetricCard label="Lane 3 %" value={`${selectedAudit.lane3_percentage?.toFixed(1)}%`} icon={DollarSign} />
-                  <MetricCard label="Beyond 90 Days" value={selectedAudit.accounts_beyond_90_days} icon={Calendar} />
+                  <MetricCard
+                    label="Total Enrollments"
+                    value={selectedAudit.total_enrollments}
+                    icon={Users}
+                  />
+                  <MetricCard
+                    label="Completed Intakes"
+                    value={selectedAudit.completed_intakes}
+                    icon={ClipboardCheck}
+                  />
+                  <MetricCard
+                    label="Lane 3 %"
+                    value={`${selectedAudit.lane3_percentage?.toFixed(1)}%`}
+                    icon={DollarSign}
+                  />
+                  <MetricCard
+                    label="Beyond 90 Days"
+                    value={selectedAudit.accounts_beyond_90_days}
+                    icon={Calendar}
+                  />
                 </div>
 
                 {/* Funding distribution */}
@@ -214,8 +250,14 @@ export default function ComplianceAuditPage() {
                   <div className="grid grid-cols-3 gap-4">
                     {[
                       { label: 'Workforce-Funded', value: selectedAudit.workforce_funded_count },
-                      { label: 'Employer-Sponsored', value: selectedAudit.employer_sponsored_count },
-                      { label: 'Structured Tuition', value: selectedAudit.structured_tuition_count },
+                      {
+                        label: 'Employer-Sponsored',
+                        value: selectedAudit.employer_sponsored_count,
+                      },
+                      {
+                        label: 'Structured Tuition',
+                        value: selectedAudit.structured_tuition_count,
+                      },
                     ].map(({ label, value }) => (
                       <div key={label} className="border border-gray-200 rounded-lg p-4">
                         <p className="text-2xl font-semibold text-slate-900">{value}</p>
@@ -267,7 +309,6 @@ export default function ComplianceAuditPage() {
                     />
                   </div>
                 </div>
-
               </div>
             ) : (
               <div className="border border-gray-200 rounded-lg p-16 text-center text-sm text-slate-700">
@@ -276,7 +317,6 @@ export default function ComplianceAuditPage() {
             )}
           </div>
         </div>
-
       </div>
     </div>
   );
@@ -312,15 +352,15 @@ function SignoffCard({
   onSign: () => void;
 }) {
   return (
-    <div className={`p-4 rounded-lg border ${signed ? 'border-gray-300 bg-white' : 'border-gray-200 bg-white'}`}>
+    <div
+      className={`p-4 rounded-lg border ${signed ? 'border-gray-300 bg-white' : 'border-gray-200 bg-white'}`}
+    >
       <div className="flex items-center gap-2 mb-2">
         <Signature className="w-4 h-4 text-slate-700" />
         <span className="text-sm font-medium text-slate-900">{role}</span>
       </div>
       {signed ? (
-        <p className="text-xs text-slate-700">
-          Signed {new Date(signedAt!).toLocaleDateString()}
-        </p>
+        <p className="text-xs text-slate-700">Signed {new Date(signedAt!).toLocaleDateString()}</p>
       ) : (
         <button
           onClick={onSign}

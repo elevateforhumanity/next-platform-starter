@@ -10,28 +10,25 @@ if (!SUPABASE_KEY) {
   process.exit(1);
 }
 
-
 // Read migration file
 const migrationPath = path.join(__dirname, '../supabase/COMPLETE_MIGRATION.sql');
 const sql = fs.readFileSync(migrationPath, 'utf8');
 
-
 // Split SQL into individual statements (simple approach)
 const statements = sql
   .split(';')
-  .map(s => s.trim())
-  .filter(s => s.length > 0 && !s.startsWith('--') && !s.startsWith('\\echo'));
-
+  .map((s) => s.trim())
+  .filter((s) => s.length > 0 && !s.startsWith('--') && !s.startsWith('\\echo'));
 
 async function executeSQL(statement) {
   const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/exec_sql`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'apikey': SUPABASE_KEY,
-      'Authorization': `Bearer ${SUPABASE_KEY}`
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
     },
-    body: JSON.stringify({ query: statement })
+    body: JSON.stringify({ query: statement }),
   });
 
   if (!response.ok) {
@@ -72,7 +69,6 @@ async function runMigrations() {
       }
     }
   }
-
 }
 
 // Simple approach: Just verify we can connect
@@ -80,10 +76,10 @@ async function verifyConnection() {
   try {
     const response = await fetch(`${SUPABASE_URL}/rest/v1/programs?select=count`, {
       headers: {
-        'apikey': SUPABASE_KEY,
-        'Authorization': `Bearer ${SUPABASE_KEY}`,
-        'Prefer': 'count=exact'
-      }
+        apikey: SUPABASE_KEY,
+        Authorization: `Bearer ${SUPABASE_KEY}`,
+        Prefer: 'count=exact',
+      },
     });
 
     if (response.ok) {
@@ -100,8 +96,6 @@ async function main() {
   if (!connected) {
     process.exit(1);
   }
-
-
 }
 
 main();

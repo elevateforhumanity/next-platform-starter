@@ -145,14 +145,18 @@ export function generateLicenseWelcomeEmail(data: LicenseWelcomeEmailData): {
               <!-- Features Included -->
               <h3 style="color: #111827; font-size: 18px; margin: 32px 0 16px 0;">✅ Features Included</h3>
               <table width="100%" cellpadding="0" cellspacing="0">
-                ${data.features.map(feature => `
+                ${data.features
+                  .map(
+                    (feature) => `
                 <tr>
                   <td style="padding: 8px 0; color: #374151; font-size: 14px;">
                     <span style="color: #059669; margin-right: 8px;">✓</span>
                     ${formatFeatureName(feature)}
                   </td>
                 </tr>
-                `).join('')}
+                `,
+                  )
+                  .join('')}
               </table>
 
               <!-- Support -->
@@ -214,7 +218,7 @@ QUICK START GUIDE
 
 FEATURES INCLUDED
 =================
-${data.features.map(f => `✓ ${formatFeatureName(f)}`).join('\n')}
+${data.features.map((f) => `✓ ${formatFeatureName(f)}`).join('\n')}
 
 NEED HELP?
 ==========
@@ -231,18 +235,18 @@ Elevate for Humanity
 
 function formatFeatureName(feature: string): string {
   const names: Record<string, string> = {
-    'lms': 'Learning Management System',
-    'enrollment': 'Enrollment & Intake',
-    'admin': 'Admin Dashboard',
-    'payments': 'Payment Processing',
+    lms: 'Learning Management System',
+    enrollment: 'Enrollment & Intake',
+    admin: 'Admin Dashboard',
+    payments: 'Payment Processing',
     'partner-dashboard': 'Partner Dashboard',
     'case-management': 'Case Management',
     'employer-portal': 'Employer Portal',
-    'compliance': 'Compliance & Reporting',
+    compliance: 'Compliance & Reporting',
     'mobile-app': 'Mobile PWA',
     'ai-tutor': 'AI Tutor',
     'api-access': 'API Access',
     'white-label': 'White-Label Branding',
   };
-  return names[feature] || feature.replace(/-/g, ' ').replace(/\b\w/g, l => l.toUpperCase());
+  return names[feature] || feature.replace(/-/g, ' ').replace(/\b\w/g, (l) => l.toUpperCase());
 }

@@ -9,16 +9,13 @@ const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 async function checkSchema() {
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
-    auth: { persistSession: false }
+    auth: { persistSession: false },
   });
 
   console.log('Checking license_agreement_acceptances schema...\n');
 
   // Try to select all columns
-  const { data, error } = await supabase
-    .from('license_agreement_acceptances')
-    .select('*')
-    .limit(0);
+  const { data, error } = await supabase.from('license_agreement_acceptances').select('*').limit(0);
 
   if (error) {
     console.log('Error:', error.message);
@@ -64,13 +61,10 @@ async function checkSchema() {
     console.log('Success! Columns in response:');
     console.log(Object.keys(testInsert.data[0] || {}).join(', '));
     console.log('\nRecord:', JSON.stringify(testInsert.data[0], null, 2));
-    
+
     // Clean up
     if (testInsert.data?.[0]?.id) {
-      await supabase
-        .from('license_agreement_acceptances')
-        .delete()
-        .eq('id', testInsert.data[0].id);
+      await supabase.from('license_agreement_acceptances').delete().eq('id', testInsert.data[0].id);
       console.log('\nTest record cleaned up');
     }
   }

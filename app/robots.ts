@@ -82,8 +82,6 @@ export default function robots(): MetadataRoute.Robots {
           '/platform',
           '/docs',
           '/help',
-
-
         ],
       },
     ],

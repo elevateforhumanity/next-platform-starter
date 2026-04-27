@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -21,8 +20,8 @@ export const metadata: Metadata = {
 export default function Page() {
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Getstarted" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Getstarted' }]} />
       </div>
       <CanonicalHero
         media={
@@ -38,10 +37,16 @@ export default function Page() {
         body="Funded training. No cost, no debt. Real careers waiting. Get started in 3 simple steps."
         actions={
           <>
-            <Link href="/contact" className="bg-brand-orange-600 text-white px-8 py-3.5 rounded-lg font-bold hover:bg-brand-orange-700 transition-colors">
+            <Link
+              href="/contact"
+              className="bg-brand-orange-600 text-white px-8 py-3.5 rounded-lg font-bold hover:bg-brand-orange-700 transition-colors"
+            >
               Contact Us
             </Link>
-            <Link href="/programs" className="border border-slate-300 text-slate-700 px-8 py-3.5 rounded-lg font-bold hover:bg-slate-50 transition-colors">
+            <Link
+              href="/programs"
+              className="border border-slate-300 text-slate-700 px-8 py-3.5 rounded-lg font-bold hover:bg-slate-50 transition-colors"
+            >
               View Programs
             </Link>
           </>
@@ -56,8 +61,7 @@ export default function Page() {
               Your Path to a New Career
             </h2>
             <p className="text-base md:text-lg text-black">
-              Three simple steps. No hidden costs. No complicated process. Just
-              you and your future.
+              Three simple steps. No hidden costs. No complicated process. Just you and your future.
             </p>
           </div>
 
@@ -67,18 +71,12 @@ export default function Page() {
               <div className="w-16 h-16 bg-brand-blue-700 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-2xl font-bold">
                 1
               </div>
-              <h3 className="text-lg md:text-lg font-bold mb-4">
-                Apply Online
-              </h3>
+              <h3 className="text-lg md:text-lg font-bold mb-4">Apply Online</h3>
               <p className="text-black mb-6 leading-relaxed">
-                Fill out a simple application (takes 5 minutes). Tell us about
-                yourself, what you're interested in, and what support you might
-                need. No commitment required.
+                Fill out a simple application (takes 5 minutes). Tell us about yourself, what you're
+                interested in, and what support you might need. No commitment required.
               </p>
-              <Link
-                href="/contact"
-                className="text-brand-orange-600 font-semibold hover:underline"
-              >
+              <Link href="/contact" className="text-brand-orange-600 font-semibold hover:underline">
                 Contact Us →
               </Link>
             </div>
@@ -88,20 +86,15 @@ export default function Page() {
               <div className="w-16 h-16 bg-brand-blue-700 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-2xl font-bold">
                 2
               </div>
-              <h3 className="text-lg md:text-lg font-bold mb-4">
-                Meet Your Advisor
-              </h3>
+              <h3 className="text-lg md:text-lg font-bold mb-4">Meet Your Advisor</h3>
               <p className="text-black mb-6 leading-relaxed">
-                Within 1-2 days, a real person will call you. They'll explain
-                programs, help you check eligibility for free funding, and
-                answer all your questions. No pressure, just guidance.
+                Within 1-2 days, a real person will call you. They'll explain programs, help you
+                check eligibility for free funding, and answer all your questions. No pressure, just
+                guidance.
               </p>
               <p className="text-sm text-black">
                 Contact us anytime:{' '}
-                <a
-                  href="/support"
-                  className="text-brand-blue-600 font-semibold"
-                >
+                <a href="/support" className="text-brand-blue-600 font-semibold">
                   support center
                 </a>
               </p>
@@ -112,18 +105,12 @@ export default function Page() {
               <div className="w-16 h-16 bg-brand-blue-700 rounded-full flex items-center justify-center mx-auto mb-6 text-white text-2xl font-bold">
                 3
               </div>
-              <h3 className="text-lg md:text-lg font-bold mb-4">
-                Start Training
-              </h3>
+              <h3 className="text-lg md:text-lg font-bold mb-4">Start Training</h3>
               <p className="text-black mb-6 leading-relaxed">
-                Once approved, you'll start training—Funded. Learn new
-                skills, earn credentials, and get connected to employers. We
-                support you every step until you're hired.
+                Once approved, you'll start training—Funded. Learn new skills, earn credentials, and
+                get connected to employers. We support you every step until you're hired.
               </p>
-              <Link
-                href="/programs"
-                className="text-brand-green-600 font-semibold hover:underline"
-              >
+              <Link href="/programs" className="text-brand-green-600 font-semibold hover:underline">
                 View Programs →
               </Link>
             </div>
@@ -141,9 +128,8 @@ export default function Page() {
                   Why Thousands Choose Elevate
                 </h2>
                 <p className="text-lg text-black mb-6 leading-relaxed">
-                  We're not just a training program—we're a community that
-                  believes everyone deserves a shot at a better life, regardless
-                  of their past or current situation.
+                  We're not just a training program—we're a community that believes everyone
+                  deserves a shot at a better life, regardless of their past or current situation.
                 </p>
                 <ul className="space-y-4">
                   <li className="flex items-start">
@@ -152,21 +138,18 @@ export default function Page() {
                       <strong className="text-black">Zero Cost:</strong>
                       <span className="text-black">
                         {' '}
-                        Government pays for everything—tuition, books, supplies,
-                        even transportation and childcare support.
+                        Government pays for everything—tuition, books, supplies, even transportation
+                        and childcare support.
                       </span>
                     </div>
                   </li>
                   <li className="flex items-start">
                     <span className="text-slate-400 flex-shrink-0">•</span>
                     <div>
-                      <strong className="text-black">
-                        Real Credentials:
-                      </strong>
+                      <strong className="text-black">Real Credentials:</strong>
                       <span className="text-black">
                         {' '}
-                        State licenses and industry certifications that
-                        employers actually hire for.
+                        State licenses and industry certifications that employers actually hire for.
                       </span>
                     </div>
                   </li>
@@ -176,32 +159,32 @@ export default function Page() {
                       <strong className="text-black">Job Placement:</strong>
                       <span className="text-black">
                         {' '}
-                        We don't stop at training—we connect you with employers
-                        and support you through your first 90 days.
+                        We don't stop at training—we connect you with employers and support you
+                        through your first 90 days.
                       </span>
                     </div>
                   </li>
                   <li className="flex items-start">
                     <span className="text-slate-400 flex-shrink-0">•</span>
                     <div>
-                      <strong className="text-black">
-                        Second Chances Welcome:
-                      </strong>
+                      <strong className="text-black">Second Chances Welcome:</strong>
                       <span className="text-black">
                         {' '}
-                        Re-entry? Past struggles? We don't judge—we help you
-                        move forward.
+                        Re-entry? Past struggles? We don't judge—we help you move forward.
                       </span>
                     </div>
                   </li>
                 </ul>
               </div>
               <div className="relative h-96 rounded-2xl overflow-hidden shadow-xl">
-                <Image alt="Getting started with Elevate" priority
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+                <Image
+                  alt="Getting started with Elevate"
+                  priority
                   src="/images/pages/getstarted-page-1.jpg"
                   alt="Training Facility"
                   fill
-          sizes="100vw"
+                  sizes="100vw"
                   className="object-cover"
                   quality={90}
                 />
@@ -215,9 +198,7 @@ export default function Page() {
       <section className="py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">
-              Why Choose Us
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">Why Choose Us</h2>
             <div className="grid md:grid-cols-3 gap-8">
               <div className="bg-white rounded-lg shadow-sm border p-6 hover:shadow-md transition-shadow">
                 <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center mb-4">
@@ -258,9 +239,7 @@ export default function Page() {
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold mb-3">Job Placement</h3>
-                <p className="text-black">
-                  We help you find employment after training
-                </p>
+                <p className="text-black">We help you find employment after training</p>
               </div>
 
               <div className="bg-white rounded-lg shadow-sm border p-6 hover:shadow-md transition-shadow">
@@ -280,9 +259,7 @@ export default function Page() {
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold mb-3">Expert Training</h3>
-                <p className="text-black">
-                  Learn from industry professionals
-                </p>
+                <p className="text-black">Learn from industry professionals</p>
               </div>
             </div>
           </div>

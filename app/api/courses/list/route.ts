@@ -43,7 +43,7 @@ async function _GET(request: NextRequest) {
         rating,
         created_at,
         updated_at
-      `
+      `,
       )
       .order('created_at', { ascending: false });
 
@@ -61,21 +61,15 @@ async function _GET(request: NextRequest) {
 
     if (error) {
       logger.error('Courses fetch error:', error);
-      return NextResponse.json(
-        { error: toErrorMessage(error) },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: toErrorMessage(error) }, { status: 400 });
     }
 
     return NextResponse.json({ courses });
-  } catch (error) { 
-    logger.error(
-      'Courses list error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Courses list error:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to fetch courses' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

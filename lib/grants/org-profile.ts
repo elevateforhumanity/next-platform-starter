@@ -28,7 +28,8 @@ export const ORG_PROFILE = {
   primaryContact: 'Elizabeth Greene',
   primaryTitle: 'Founder & Chief Executive Officer',
   primaryContactFull: 'Elizabeth Greene, Founder & Chief Executive Officer',
-  financialContact: 'Dr. Carlina Wilkes, Executive Director of Financial Operations & Organizational Compliance',
+  financialContact:
+    'Dr. Carlina Wilkes, Executive Director of Financial Operations & Organizational Compliance',
 
   // ── Credentials & Registrations ─────────────────────────────────────────────
   dolSponsor: 'DOL Registered Apprenticeship Sponsor (RAPIDS: 2025-IN-132301)',
@@ -36,7 +37,8 @@ export const ORG_PROFILE = {
   funding: 'WRG, WIOA, and JRI approved',
   partners: 'WorkOne partner, EmployIndy partner, Job Ready Indy partner, HSI affiliate',
   certifications: 'CareerSafe OSHA provider, NRF Rise Up provider, Certiport CATC',
-  federal: 'SAM.gov registered (CAGE: 0QH19, UEI: VX2GK5S8SZH8), active federal government contractor',
+  federal:
+    'SAM.gov registered (CAGE: 0QH19, UEI: VX2GK5S8SZH8), active federal government contractor',
   byblack: 'ByBlack certified (U.S. Black Chambers / NAACP)',
   samStatus: 'Active — registered bidder with the State of Indiana',
 
@@ -63,20 +65,26 @@ export const ORG_PROFILE = {
     'Drug Testing Business',
   ],
 
-  targetPopulation: 'Justice-involved individuals, veterans, low-income adults, career changers, and underserved communities in Central Indiana',
+  targetPopulation:
+    'Justice-involved individuals, veterans, low-income adults, career changers, and underserved communities in Central Indiana',
   serviceArea: 'Marion County and surrounding Central Indiana counties',
   yearsOperating: 'Active since 2020',
 
   // ── Narrative Bank ──────────────────────────────────────────────────────────
-  mission: 'Elevate for Humanity connects Hoosiers to funded career training, registered apprenticeships, and industry credentials — removing barriers so every person can access a sustainable career pathway.',
+  mission:
+    'Elevate for Humanity connects Hoosiers to funded career training, registered apprenticeships, and industry credentials — removing barriers so every person can access a sustainable career pathway.',
 
-  capabilityStatement: '2Exclusive LLC-S (DBA: Elevate for Humanity Technical and Career Institute) is a DOL Registered Apprenticeship Sponsor, ETPL provider, and WRG/WIOA/JRI approved training organization based in Indianapolis, Indiana. We deliver workforce training, registered apprenticeships, and industry credentialing to justice-involved individuals, veterans, low-income adults, and career changers. Our infrastructure includes participant documentation, data reporting, grant compliance, and active partnerships with WorkOne, EmployIndy, and the Indiana Department of Workforce Development.',
+  capabilityStatement:
+    '2Exclusive LLC-S (DBA: Elevate for Humanity Technical and Career Institute) is a DOL Registered Apprenticeship Sponsor, ETPL provider, and WRG/WIOA/JRI approved training organization based in Indianapolis, Indiana. We deliver workforce training, registered apprenticeships, and industry credentialing to justice-involved individuals, veterans, low-income adults, and career changers. Our infrastructure includes participant documentation, data reporting, grant compliance, and active partnerships with WorkOne, EmployIndy, and the Indiana Department of Workforce Development.',
 
-  statementOfNeed: 'Indiana faces persistent workforce shortages in skilled trades, healthcare, education, and advanced manufacturing. Underserved populations in Marion County — including justice-involved individuals, veterans, and low-income adults — lack access to structured, earn-while-you-learn pathways. Elevate for Humanity addresses this gap through registered apprenticeships and pre-apprenticeship programs that combine on-the-job learning with related technical instruction, wraparound case management, and industry-recognized credentials.',
+  statementOfNeed:
+    'Indiana faces persistent workforce shortages in skilled trades, healthcare, education, and advanced manufacturing. Underserved populations in Marion County — including justice-involved individuals, veterans, and low-income adults — lack access to structured, earn-while-you-learn pathways. Elevate for Humanity addresses this gap through registered apprenticeships and pre-apprenticeship programs that combine on-the-job learning with related technical instruction, wraparound case management, and industry-recognized credentials.',
 
-  outcomesStatement: 'Program graduates achieve industry-recognized credentials, living-wage employment, and long-term career advancement. Elevate maintains an active job placement network and tracks participant outcomes through Indiana Career Connect and RAPIDS per federal reporting requirements.',
+  outcomesStatement:
+    'Program graduates achieve industry-recognized credentials, living-wage employment, and long-term career advancement. Elevate maintains an active job placement network and tracks participant outcomes through Indiana Career Connect and RAPIDS per federal reporting requirements.',
 
-  complianceStatement: 'All participants are entered into Indiana Career Connect and RAPIDS within 30 days of enrollment. Quarterly financial and outcome reports are submitted within 15 days of each quarter end using agency-provided templates. All records are maintained in audit-ready format per DWD-WBLA requirements.',
+  complianceStatement:
+    'All participants are entered into Indiana Career Connect and RAPIDS within 30 days of enrollment. Quarterly financial and outcome reports are submitted within 15 days of each quarter end using agency-provided templates. All records are maintained in audit-ready format per DWD-WBLA requirements.',
 };
 
 // ── Field Matching Engine ────────────────────────────────────────────────────
@@ -91,8 +99,17 @@ export type FieldMatch = {
 
 const KEYWORDS: Array<{ patterns: RegExp[]; resolve: () => FieldMatch }> = [
   {
-    patterns: [/legal.*(name|entity)/i, /organization.*name/i, /applicant.*name/i, /grantee.*name/i],
-    resolve: () => ({ value: ORG_PROFILE.fullName, confidence: 'high', alternatives: [ORG_PROFILE.legalName, ORG_PROFILE.dba] }),
+    patterns: [
+      /legal.*(name|entity)/i,
+      /organization.*name/i,
+      /applicant.*name/i,
+      /grantee.*name/i,
+    ],
+    resolve: () => ({
+      value: ORG_PROFILE.fullName,
+      confidence: 'high',
+      alternatives: [ORG_PROFILE.legalName, ORG_PROFILE.dba],
+    }),
   },
   {
     patterns: [/dba|doing business/i],
@@ -128,7 +145,11 @@ const KEYWORDS: Array<{ patterns: RegExp[]; resolve: () => FieldMatch }> = [
   },
   {
     patterns: [/primary contact|contact person|authorized rep/i],
-    resolve: () => ({ value: ORG_PROFILE.primaryContactFull, confidence: 'high', alternatives: [ORG_PROFILE.primaryContact] }),
+    resolve: () => ({
+      value: ORG_PROFILE.primaryContactFull,
+      confidence: 'high',
+      alternatives: [ORG_PROFILE.primaryContact],
+    }),
   },
   {
     patterns: [/title|position|role/i],
@@ -152,7 +173,11 @@ const KEYWORDS: Array<{ patterns: RegExp[]; resolve: () => FieldMatch }> = [
   },
   {
     patterns: [/org.*type|type.*org|entity type|nonprofit|public entity/i],
-    resolve: () => ({ value: ORG_PROFILE.orgType, confidence: 'high', alternatives: ['Nonprofit', 'LLC'] }),
+    resolve: () => ({
+      value: ORG_PROFILE.orgType,
+      confidence: 'high',
+      alternatives: ['Nonprofit', 'LLC'],
+    }),
   },
   {
     patterns: [/mission/i],
@@ -177,7 +202,9 @@ const KEYWORDS: Array<{ patterns: RegExp[]; resolve: () => FieldMatch }> = [
   {
     patterns: [/employer partner|partner employer/i],
     resolve: () => ({
-      value: ORG_PROFILE.employerPartners.map(p => `${p.name} — ${p.type}, ${p.location}. ${p.role}.`).join('\n'),
+      value: ORG_PROFILE.employerPartners
+        .map((p) => `${p.name} — ${p.type}, ${p.location}. ${p.role}.`)
+        .join('\n'),
       confidence: 'high',
     }),
   },
@@ -197,7 +224,7 @@ const KEYWORDS: Array<{ patterns: RegExp[]; resolve: () => FieldMatch }> = [
 
 export function matchField(label: string): FieldMatch | null {
   for (const entry of KEYWORDS) {
-    if (entry.patterns.some(p => p.test(label))) {
+    if (entry.patterns.some((p) => p.test(label))) {
       return entry.resolve();
     }
   }

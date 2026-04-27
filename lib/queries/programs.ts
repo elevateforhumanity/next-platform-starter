@@ -31,7 +31,7 @@ export interface Program {
  * Get all active programs
  */
 export async function getAllPrograms(supabase?: SupabaseClient) {
-  const client = supabase || await createClient();
+  const client = supabase || (await createClient());
 
   const { data, error } = await client
     .from('programs')
@@ -51,7 +51,7 @@ export async function getAllPrograms(supabase?: SupabaseClient) {
  * Get program by slug
  */
 export async function getProgramBySlug(slug: string, supabase?: SupabaseClient) {
-  const client = supabase || await createClient();
+  const client = supabase || (await createClient());
 
   const { data, error } = await client
     .from('programs')
@@ -71,11 +71,8 @@ export async function getProgramBySlug(slug: string, supabase?: SupabaseClient) 
 /**
  * Get programs by funding source
  */
-export async function getProgramsByFunding(
-  fundingSource: string,
-  supabase?: SupabaseClient
-) {
-  const client = supabase || await createClient();
+export async function getProgramsByFunding(fundingSource: string, supabase?: SupabaseClient) {
+  const client = supabase || (await createClient());
 
   const { data, error } = await client
     .from('programs')
@@ -96,7 +93,7 @@ export async function getProgramsByFunding(
  * Get ETPL approved programs
  */
 export async function getETPLPrograms(supabase?: SupabaseClient) {
-  const client = supabase || await createClient();
+  const client = supabase || (await createClient());
 
   const { data, error } = await client
     .from('programs')
@@ -117,7 +114,7 @@ export async function getETPLPrograms(supabase?: SupabaseClient) {
  * Search programs by name or description
  */
 export async function searchPrograms(query: string, supabase?: SupabaseClient) {
-  const client = supabase || await createClient();
+  const client = supabase || (await createClient());
 
   const { data, error } = await client
     .from('programs')
@@ -138,7 +135,7 @@ export async function searchPrograms(query: string, supabase?: SupabaseClient) {
  * Get program count
  */
 export async function getProgramCount(supabase?: SupabaseClient) {
-  const client = supabase || await createClient();
+  const client = supabase || (await createClient());
 
   const { count, error } = await client
     .from('programs')
@@ -157,11 +154,12 @@ export async function getProgramCount(supabase?: SupabaseClient) {
  * Get programs with courses
  */
 export async function getProgramsWithCourses(supabase?: SupabaseClient) {
-  const client = supabase || await createClient();
+  const client = supabase || (await createClient());
 
   const { data, error } = await client
     .from('programs')
-    .select(`
+    .select(
+      `
       *,
       courses (
         id,
@@ -170,7 +168,8 @@ export async function getProgramsWithCourses(supabase?: SupabaseClient) {
         duration_hours,
         order_index
       )
-    `)
+    `,
+    )
     .eq('active', true)
     .order('name');
 

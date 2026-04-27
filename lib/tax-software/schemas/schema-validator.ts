@@ -1,5 +1,5 @@
-import { execFileSync } from "node:child_process";
-import path from "node:path";
+import { execFileSync } from 'node:child_process';
+import path from 'node:path';
 
 export type ValidationError = {
   code: string;
@@ -13,16 +13,16 @@ export type ValidationResult = {
 
 function runXmllint(xmlPath: string, xsdPath: string): string | null {
   try {
-    execFileSync("xmllint", ["--noout", "--schema", xsdPath, xmlPath], {
-      encoding: "utf8",
-      stdio: ["ignore", "pipe", "pipe"],
+    execFileSync('xmllint', ['--noout', '--schema', xsdPath, xmlPath], {
+      encoding: 'utf8',
+      stdio: ['ignore', 'pipe', 'pipe'],
     });
     return null;
   } catch (err) {
     const stderr =
-      err && typeof err === "object" && "stderr" in err
-        ? String((err as { stderr?: Buffer | string }).stderr || "")
-        : "Unknown xmllint validation error";
+      err && typeof err === 'object' && 'stderr' in err
+        ? String((err as { stderr?: Buffer | string }).stderr || '')
+        : 'Unknown xmllint validation error';
     return stderr.trim();
   }
 }
@@ -32,20 +32,13 @@ function runXmllint(xmlPath: string, xsdPath: string): string | null {
 // assertRuntimeReadyForSubmission() must be called before this function
 // to guarantee xmllint and schemas are present.
 export function validateAgainstXsd(xmlPath: string): ValidationResult {
-  const xsdPath = path.join(
-    process.cwd(),
-    "lib",
-    "tax-software",
-    "schemas",
-    "2024",
-    "Return.xsd"
-  );
+  const xsdPath = path.join(process.cwd(), 'lib', 'tax-software', 'schemas', '2024', 'Return.xsd');
 
   const xmllintError = runXmllint(xmlPath, xsdPath);
   if (xmllintError) {
     return {
       valid: false,
-      errors: [{ code: "XSD_VALIDATION_FAILED", message: xmllintError }],
+      errors: [{ code: 'XSD_VALIDATION_FAILED', message: xmllintError }],
     };
   }
 

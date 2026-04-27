@@ -1,15 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  ChevronDown,
-  BookOpen,
-  DollarSign,
-  Rocket,
-  Users,
-  Laptop,
-  Star,
-} from 'lucide-react';
+import { ChevronDown, BookOpen, DollarSign, Rocket, Users, Laptop, Star } from 'lucide-react';
 
 const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
   BookOpen,
@@ -38,7 +30,11 @@ interface FAQAccordionProps {
   activeCategory?: string;
 }
 
-export function FAQAccordion({ categories, searchQuery = '', activeCategory = 'all' }: FAQAccordionProps) {
+export function FAQAccordion({
+  categories,
+  searchQuery = '',
+  activeCategory = 'all',
+}: FAQAccordionProps) {
   const [openQuestions, setOpenQuestions] = useState<Set<string>>(new Set());
 
   const toggleQuestion = (categoryId: string, questionIndex: number) => {
@@ -61,7 +57,7 @@ export function FAQAccordion({ categories, searchQuery = '', activeCategory = 'a
         (faq) =>
           searchQuery === '' ||
           faq.q.toLowerCase().includes(searchQuery.toLowerCase()) ||
-          faq.a.toLowerCase().includes(searchQuery.toLowerCase())
+          faq.a.toLowerCase().includes(searchQuery.toLowerCase()),
       ),
     }))
     .filter((category) => category.questions.length > 0);

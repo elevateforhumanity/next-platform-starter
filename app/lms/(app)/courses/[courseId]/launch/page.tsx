@@ -12,7 +12,6 @@ import { createClient } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
 
-
 interface Params {
   courseId: string;
 }
@@ -21,7 +20,6 @@ export default async function LaunchCourse({ params }: { params: Params }) {
   const { courseId } = await params;
   const supabase = await createClient();
 
-
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -29,9 +27,7 @@ export default async function LaunchCourse({ params }: { params: Params }) {
 
   const { data: course, error } = await supabase
     .from('courses')
-    .select(
-      'id, slug, title, delivery_mode, partner_url, launch_mode, allow_iframe'
-    )
+    .select('id, slug, title, delivery_mode, partner_url, launch_mode, allow_iframe')
     .eq('id', courseId)
     .maybeSingle();
 
@@ -47,7 +43,7 @@ export default async function LaunchCourse({ params }: { params: Params }) {
       started_at: new Date().toISOString(),
       last_activity_at: new Date().toISOString(),
     },
-    { onConflict: 'user_id,course_id' }
+    { onConflict: 'user_id,course_id' },
   );
 
   // If not a partner link course, redirect to normal course page

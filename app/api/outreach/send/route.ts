@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { hydrateProcessEnv } from '@/lib/secrets';
@@ -149,7 +148,10 @@ const WAVES: Record<string, string[]> = {
 
 async function sendViaSendGrid(to: string[], subject: string, html: string, text: string) {
   if (!SENDGRID_KEY) {
-    return NextResponse.json({ error: 'SendGrid API key not configured (SENDGRID_KEY or SENDGRID_API_KEY)' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'SendGrid API key not configured (SENDGRID_KEY or SENDGRID_API_KEY)' },
+      { status: 500 },
+    );
   }
 
   // Send individually (not BCC) so each org gets their own email
@@ -186,7 +188,7 @@ async function sendViaSendGrid(to: string[], subject: string, html: string, text
     }
 
     // Small delay between sends to avoid rate limits
-    await new Promise(r => setTimeout(r, 500));
+    await new Promise((r) => setTimeout(r, 500));
   }
 
   return results;
@@ -196,7 +198,9 @@ export async function POST(request: NextRequest) {
   await hydrateProcessEnv();
   // Auth check — only admin can trigger outreach
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
@@ -220,7 +224,12 @@ export async function POST(request: NextRequest) {
 
   // Test mode: send to a single email
   if (test_email) {
-    const results = await sendViaSendGrid([test_email], subject, PARTNERSHIP_HTML, PARTNERSHIP_TEXT);
+    const results = await sendViaSendGrid(
+      [test_email],
+      subject,
+      PARTNERSHIP_HTML,
+      PARTNERSHIP_TEXT,
+    );
     return NextResponse.json({ mode: 'test', results });
   }
 
@@ -232,8 +241,8 @@ export async function POST(request: NextRequest) {
   const recipients = WAVES[wave];
   const results = await sendViaSendGrid(recipients, subject, PARTNERSHIP_HTML, PARTNERSHIP_TEXT);
 
-  const sent = results.filter(r => r.status === 'sent').length;
-  const failed = results.filter(r => r.status === 'failed').length;
+  const sent = results.filter((r) => r.status === 'sent').length;
+  const failed = results.filter((r) => r.status === 'failed').length;
 
   return NextResponse.json({
     mode: 'wave',

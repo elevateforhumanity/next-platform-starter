@@ -12,18 +12,21 @@ console.log('🔍 Validating enrollment flow...\n');
 const ENROLLMENT_FILES = [
   // Types
   { path: 'types/enrollment.ts', description: 'Enrollment types' },
-  
+
   // API routes
   { path: 'app/api/enrollments/route.ts', description: 'Enrollments API' },
   { path: 'app/api/apply/route.ts', description: 'Application API' },
-  
+
   // Pages
   { path: 'app/apply/page.tsx', description: 'Application page' },
   { path: 'app/enroll/page.tsx', description: 'Enrollment page' },
-  
+
   // Components
-  { path: 'components/enrollment/EnrollmentWizard.tsx', description: 'Enrollment wizard component' },
-  
+  {
+    path: 'components/enrollment/EnrollmentWizard.tsx',
+    description: 'Enrollment wizard component',
+  },
+
   // Lib
   { path: 'lib/enrollment', description: 'Enrollment utilities (directory)' },
 ];
@@ -34,7 +37,7 @@ const present: string[] = [];
 
 for (const file of ENROLLMENT_FILES) {
   const fullPath = path.join(process.cwd(), file.path);
-  
+
   if (fs.existsSync(fullPath)) {
     present.push(`✅ ${file.description}`);
   } else {
@@ -47,12 +50,9 @@ for (const file of ENROLLMENT_FILES) {
 const dbTypesPath = path.join(process.cwd(), 'types/database.ts');
 if (fs.existsSync(dbTypesPath)) {
   const content = fs.readFileSync(dbTypesPath, 'utf8');
-  
-  const requiredTypes = [
-    'EnrollmentStatus',
-    'FundingType',
-  ];
-  
+
+  const requiredTypes = ['EnrollmentStatus', 'FundingType'];
+
   for (const type of requiredTypes) {
     if (content.includes(type)) {
       present.push(`✅ Database type: ${type}`);

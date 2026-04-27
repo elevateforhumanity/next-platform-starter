@@ -54,7 +54,7 @@ export function useOnboarding(userId: string, userRole: 'student' | 'instructor'
       if (!response.ok) throw new Error('Failed to complete onboarding');
 
       // Remove from recommended flows
-      setRecommendedFlows(flows => flows.filter(f => f.id !== flowId));
+      setRecommendedFlows((flows) => flows.filter((f) => f.id !== flowId));
       return true;
     } catch (err) {
       return false;
@@ -72,7 +72,7 @@ export function useOnboarding(userId: string, userRole: 'student' | 'instructor'
       if (!response.ok) throw new Error('Failed to skip onboarding');
 
       // Remove from recommended flows
-      setRecommendedFlows(flows => flows.filter(f => f.id !== flowId));
+      setRecommendedFlows((flows) => flows.filter((f) => f.id !== flowId));
       return true;
     } catch (err) {
       return false;

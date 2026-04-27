@@ -11,17 +11,20 @@ This document describes the automated evidence processing and approval system us
 ## Part 1: What Is Automated
 
 ### Document Processing
+
 - **Transcript verification**: OCR extraction of school name, hours completed, completion date
 - **License validation**: Expiration date checking, license number format validation
 - **MOU verification**: Signature presence, effective date validation
 - **Insurance verification**: Policy number extraction, coverage validation
 
 ### Partner Onboarding
+
 - **Checklist tracking**: Automatic tracking of required document uploads
 - **MOU signature detection**: Automatic detection when MOU is signed
 - **Auto-approval trigger**: When all requirements met, partner is auto-approved
 
 ### Apprentice Routing
+
 - **Shop scoring**: Distance, capacity, program compatibility, reputation
 - **Recommendation generation**: Top 5 eligible shops ranked by score
 - **Auto-assignment**: When confidence threshold (85%) exceeded
@@ -31,18 +34,21 @@ This document describes the automated evidence processing and approval system us
 ## Part 2: What Is Never Automated
 
 ### Discretionary Decisions
+
 - Out-of-state transcript evaluation (no ruleset = human review)
 - License validity disputes
 - Capacity exceptions
 - Policy overrides
 
 ### Low-Confidence Scenarios
+
 - OCR confidence below threshold (85% for transcripts, 80% for licenses)
 - Missing required fields
 - Conflicting data detected
 - Unknown document types
 
 ### Explicit Human Gates
+
 - Final enrollment approval for edge cases
 - Partner suspension decisions
 - Apprentice termination
@@ -53,13 +59,16 @@ This document describes the automated evidence processing and approval system us
 ## Part 3: Why This Is Safe
 
 ### Fail-Closed Design
+
 - Unknown tiers are DENIED
 - Missing rulesets route to review
 - Low confidence routes to review
 - Errors route to review
 
 ### Audit Trail
+
 Every automated decision records:
+
 - What document/entity was processed
 - What data was extracted
 - What ruleset version was applied
@@ -68,7 +77,9 @@ Every automated decision records:
 - Processing time in milliseconds
 
 ### Reconstructability
+
 Every decision can be reconstructed later using:
+
 - `automated_decisions` table with full input snapshots
 - `audit_logs` table with action history
 - `review_queue` table with resolution history
@@ -98,6 +109,7 @@ Every decision can be reconstructed later using:
 ### Audit Protection
 
 Every automated decision records:
+
 - `entity_type` and `entity_id` - what was decided
 - `decision_type` - what kind of decision
 - `outcome` - approved, routed_to_review, rejected
@@ -150,14 +162,14 @@ Every automated decision records:
 
 ### Automation Stops When:
 
-| Condition | Action |
-|-----------|--------|
-| OCR confidence below threshold | Route to review |
-| Required fields missing | Route to review |
+| Condition                                | Action          |
+| ---------------------------------------- | --------------- |
+| OCR confidence below threshold           | Route to review |
+| Required fields missing                  | Route to review |
 | Ruleset does not exist for state/program | Route to review |
-| Transcript is out-of-state | Route to review |
-| Shop capacity unclear | Route to review |
-| Data conflicts detected | Route to review |
+| Transcript is out-of-state               | Route to review |
+| Shop capacity unclear                    | Route to review |
+| Data conflicts detected                  | Route to review |
 
 ### When Automation Stops:
 
@@ -210,16 +222,17 @@ Every automated decision records:
 
 ### Database Tables
 
-| Table | Purpose |
-|-------|---------|
-| `automated_decisions` | Immutable record of all automated decisions |
-| `review_queue` | Items requiring human review |
-| `shop_recommendations` | Persisted routing recommendations |
-| `audit_logs` | Complete action history |
+| Table                  | Purpose                                     |
+| ---------------------- | ------------------------------------------- |
+| `automated_decisions`  | Immutable record of all automated decisions |
+| `review_queue`         | Items requiring human review                |
+| `shop_recommendations` | Persisted routing recommendations           |
+| `audit_logs`           | Complete action history                     |
 
 ### Ruleset Versioning
 
 All rulesets are versioned (e.g., `1.0.0`). When rules change:
+
 1. New version is deployed
 2. Old decisions retain their original ruleset version
 3. Audit trail shows which rules were in effect
@@ -227,16 +240,17 @@ All rulesets are versioned (e.g., `1.0.0`). When rules change:
 ### Confidence Thresholds
 
 | Document Type | Min Confidence |
-|---------------|----------------|
-| Transcript | 85% |
-| License | 80% |
-| ID | 80% |
-| MOU | 75% |
-| Insurance | 80% |
+| ------------- | -------------- |
+| Transcript    | 85%            |
+| License       | 80%            |
+| ID            | 80%            |
+| MOU           | 75%            |
+| Insurance     | 80%            |
 
 ### State Coverage
 
 States with explicit transcript rulesets (auto-approval allowed):
+
 - Indiana (IN)
 - Illinois (IL)
 - Ohio (OH)
@@ -270,6 +284,7 @@ All other states route to human review.
 > "Our platform automates evidence verification and routing while preserving human authority — reducing workload, increasing consistency, and remaining fully auditable."
 
 This sentence is defensible in:
+
 - Audits
 - Sales calls
 - Procurement reviews
@@ -279,17 +294,17 @@ This sentence is defensible in:
 
 ## Appendix: File Locations
 
-| Component | Location |
-|-----------|----------|
-| Evidence Processor | `lib/automation/evidence-processor.ts` |
-| Partner Approval | `lib/automation/partner-approval.ts` |
-| Shop Routing | `lib/automation/shop-routing.ts` |
-| Review Queue UI | `app/admin/review-queue/` |
-| QA Dashboard | `app/admin/automation-qa/` |
+| Component          | Location                                                     |
+| ------------------ | ------------------------------------------------------------ |
+| Evidence Processor | `lib/automation/evidence-processor.ts`                       |
+| Partner Approval   | `lib/automation/partner-approval.ts`                         |
+| Shop Routing       | `lib/automation/shop-routing.ts`                             |
+| Review Queue UI    | `app/admin/review-queue/`                                    |
+| QA Dashboard       | `app/admin/automation-qa/`                                   |
 | Database Migration | `supabase/migrations/20260205_automation_infrastructure.sql` |
-| Test Endpoints | `app/api/automation/test/` |
+| Test Endpoints     | `app/api/automation/test/`                                   |
 
 ---
 
-*Document Version: 1.0.0*
-*Last Updated: February 2026*
+_Document Version: 1.0.0_
+_Last Updated: February 2026_

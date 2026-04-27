@@ -46,10 +46,7 @@ async function _GET(request: Request) {
     });
   } catch (error) {
     logger.error('Error fetching homepage content:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch content' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch content' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/content/homepage', _GET);

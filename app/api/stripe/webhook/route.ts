@@ -7,7 +7,6 @@ import { NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe/client';
 import { logger } from '@/lib/logger';
 
-
 function tierFromPrice(priceId?: string | null): 'free' | 'student' | 'career' {
   if (!priceId) return 'free';
   if (priceId === process.env.STRIPE_PRICE_STUDENT) return 'student';
@@ -56,10 +55,7 @@ async function upsertAccess(payload: {
 
 export async function POST(req: Request) {
   if (!process.env.STRIPE_SECRET_KEY || !process.env.STRIPE_WEBHOOK_SECRET) {
-    return NextResponse.json(
-      { error: 'Stripe not configured' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Stripe not configured' }, { status: 503 });
   }
 
   const stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
@@ -68,27 +64,17 @@ export async function POST(req: Request) {
 
   const sig = req.headers.get('stripe-signature');
   if (!sig) {
-    return NextResponse.json(
-      { error: 'Missing stripe-signature' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Missing stripe-signature' }, { status: 400 });
   }
 
   const body = await req.text();
 
   let event: Stripe.Event;
   try {
-    event = stripe.webhooks.constructEvent(
-      body,
-      sig,
-      process.env.STRIPE_WEBHOOK_SECRET
-    );
+    event = stripe.webhooks.constructEvent(body, sig, process.env.STRIPE_WEBHOOK_SECRET);
   } catch (err: any) {
     logger.error('Stripe webhook signature verification failed', err);
-    return NextResponse.json(
-      { error: 'Invalid signature' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
   try {
@@ -102,7 +88,7 @@ export async function POST(req: Request) {
         const { createClient } = await import('@/lib/supabase/server');
         const supabaseAdmin = createClient(
           process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.SUPABASE_SERVICE_ROLE_KEY!
+          process.env.SUPABASE_SERVICE_ROLE_KEY!,
         );
 
         const { error } = await supabaseAdmin
@@ -119,7 +105,6 @@ export async function POST(req: Request) {
         } else {
           logger.info(`✅ Marked tax intake ${intakeId} as paid (session: ${session.id})`);
         }
-
       }
 
       // Check if this is a course enrollment payment
@@ -129,19 +114,17 @@ export async function POST(req: Request) {
         const { createClient } = await import('@/lib/supabase/server');
         const supabaseAdmin = createClient(
           process.env.NEXT_PUBLIC_SUPABASE_URL!,
-          process.env.SUPABASE_SERVICE_ROLE_KEY!
+          process.env.SUPABASE_SERVICE_ROLE_KEY!,
         );
 
         // Create enrollment
-        const { error: enrollError } = await supabaseAdmin
-          .from('enrollments')
-          .insert({
-            user_id: userId,
-            course_id: courseId,
-            status: 'active',
-            progress: 0,
-            started_at: new Date().toISOString(),
-          });
+        const { error: enrollError } = await supabaseAdmin.from('enrollments').insert({
+          user_id: userId,
+          course_id: courseId,
+          status: 'active',
+          progress: 0,
+          started_at: new Date().toISOString(),
+        });
 
         if (enrollError) {
           logger.error('Failed to create course enrollment', enrollError);
@@ -165,9 +148,7 @@ export async function POST(req: Request) {
       const lastName = session.metadata?.last_name;
 
       if (!studentId || !programId) {
-        logger.info(
-          '[Webhook] Missing student/program metadata, skipping auto-enrollment'
-        );
+        logger.info('[Webhook] Missing student/program metadata, skipping auto-enrollment');
       } else {
         logger.info('[Webhook] Processing funding payment - AUTO-ENROLLMENT', {
           sessionId: session.id,
@@ -179,185 +160,186 @@ export async function POST(req: Request) {
         });
 
         // Import Supabase client
-      const { createClient } = await import('@/lib/supabase/server');
-      const supabaseClient = await createClient();
+        const { createClient } = await import('@/lib/supabase/server');
+        const supabaseClient = await createClient();
 
-      // STEP 1: Update application status if exists
-      if (applicationId) {
+        // STEP 1: Update application status if exists
+        if (applicationId) {
+          await supabaseClient
+            .from('applications')
+            .update({
+              status: 'accepted',
+              payment_status: 'paid',
+            })
+            .eq('id', applicationId);
+        }
+
+        // Mark funding payment as paid (audit trail)
         await supabaseClient
-          .from('applications')
+          .from('funding_payments')
           .update({
-            status: 'accepted',
-            payment_status: 'paid',
+            status: 'paid',
+            stripe_payment_intent_id: session.payment_intent as string,
+            paid_at: new Date().toISOString(),
           })
-          .eq('id', applicationId);
-      }
+          .eq('stripe_checkout_session_id', session.id);
 
-      // Mark funding payment as paid (audit trail)
-      await supabaseClient
-        .from('funding_payments')
-        .update({
-          status: 'paid',
-          stripe_payment_intent_id: session.payment_intent as string,
-          paid_at: new Date().toISOString(),
-        })
-        .eq('stripe_checkout_session_id', session.id);
+        // Update tenant license if this is a platform subscription
+        const tenantId = session.metadata?.tenant_id;
+        const planName = session.metadata?.plan_name ?? 'starter';
+        if (tenantId && session.customer && session.subscription) {
+          const customerId =
+            typeof session.customer === 'string'
+              ? session.customer
+              : (session.customer?.id ?? null);
+          const subscriptionId =
+            typeof session.subscription === 'string'
+              ? session.subscription
+              : (session.subscription?.id ?? null);
+          const priceId = session.metadata?.stripe_price_id ?? null;
 
-      // Update tenant license if this is a platform subscription
-      const tenantId = session.metadata?.tenant_id;
-      const planName = session.metadata?.plan_name ?? 'starter';
-      if (tenantId && session.customer && session.subscription) {
-        const customerId =
-          typeof session.customer === 'string'
-            ? session.customer
-            : (session.customer?.id ?? null);
-        const subscriptionId =
-          typeof session.subscription === 'string'
-            ? session.subscription
-            : (session.subscription?.id ?? null);
-        const priceId = session.metadata?.stripe_price_id ?? null;
-
-        // Use RPC function for atomic update
-        const { error: rpcError } = await supabaseClient.rpc(
-          'upsert_license_from_stripe',
-          {
+          // Use RPC function for atomic update
+          const { error: rpcError } = await supabaseClient.rpc('upsert_license_from_stripe', {
             p_tenant_id: tenantId,
             p_stripe_customer_id: customerId,
             p_stripe_subscription_id: subscriptionId,
             p_stripe_price_id: priceId,
             p_status: 'active',
             p_plan_name: planName,
-          }
-        );
-
-        if (rpcError) {
-          logger.error(
-            '[Webhook] Failed to update tenant license via RPC',
-            rpcError
-          );
-        } else {
-          logger.info('[Webhook] Updated tenant license via RPC', {
-            tenantId,
-            customerId,
-            subscriptionId,
-            planName,
           });
+
+          if (rpcError) {
+            logger.error('[Webhook] Failed to update tenant license via RPC', rpcError);
+          } else {
+            logger.info('[Webhook] Updated tenant license via RPC', {
+              tenantId,
+              customerId,
+              subscriptionId,
+              planName,
+            });
+          }
         }
-      }
 
-      // STEP 2: Create/activate enrollment (AUTO-ENROLL)
-      // Idempotency: don't double-enroll if webhook retries
-      const { data: existing } = await supabaseClient
-        .from('enrollments')
-        .select('id, status')
-        .eq('student_id', studentId)
-        .eq('program_id', programId)
-        .maybeSingle();
-
-      let enrollmentId: string | null = null;
-      let isNewEnrollment = false;
-
-      if (!existing) {
-        // Create new enrollment
-        const { data: newEnrollment } = await supabaseClient
+        // STEP 2: Create/activate enrollment (AUTO-ENROLL)
+        // Idempotency: don't double-enroll if webhook retries
+        const { data: existing } = await supabaseClient
           .from('enrollments')
-          .insert({
-            student_id: studentId,
-            program_id: programId,
-            status: 'active',
-            payment_status: 'paid',
-            enrolled_at: new Date().toISOString(),
-          })
-          .select('id')
-          .single();
+          .select('id, status')
+          .eq('student_id', studentId)
+          .eq('program_id', programId)
+          .maybeSingle();
 
-        enrollmentId = newEnrollment?.id || null;
-        isNewEnrollment = true;
+        let enrollmentId: string | null = null;
+        let isNewEnrollment = false;
 
-        logger.info('[Webhook] ✅ Created new enrollment', {
-          studentId,
-          programId,
-          enrollmentId,
-        });
-      } else if (existing.status !== 'active') {
-        // Activate existing enrollment
-        await supabaseClient
-          .from('enrollments')
-          .update({
-            status: 'active',
-            payment_status: 'paid',
-            enrolled_at: new Date().toISOString(),
-          })
-          .eq('id', existing.id);
-
-        enrollmentId = existing.id;
-        isNewEnrollment = true;
-
-        logger.info('[Webhook] ✅ Activated existing enrollment', {
-          enrollmentId: existing.id,
-        });
-      } else {
-        enrollmentId = existing.id;
-        logger.info('[Webhook] Enrollment already active', {
-          enrollmentId: existing.id,
-        });
-      }
-
-      // Send welcome email for new enrollments
-      if (isNewEnrollment && email) {
-        try {
-          const { data: programDetails } = await supabaseClient
-            .from('programs')
-            .select('name, slug')
-            .eq('id', programId)
+        if (!existing) {
+          // Create new enrollment
+          const { data: newEnrollment } = await supabaseClient
+            .from('enrollments')
+            .insert({
+              student_id: studentId,
+              program_id: programId,
+              status: 'active',
+              payment_status: 'paid',
+              enrolled_at: new Date().toISOString(),
+            })
+            .select('id')
             .single();
 
-          // Use barber-specific email for barber apprenticeship
-          if (programSlug === 'barber-apprenticeship' || programDetails?.slug === 'barber-apprenticeship') {
-            const { getBarberWelcomePaidEmail } = await import('@/lib/email/templates/barber-welcome-paid');
-            
-            // Get student's transfer hours if any
-            const { data: enrollmentData } = await supabaseClient
-              .from('student_enrollments')
-              .select('transfer_hours, required_hours')
-              .eq('student_id', studentId)
-              .eq('program_id', programId)
-              .maybeSingle();
+          enrollmentId = newEnrollment?.id || null;
+          isNewEnrollment = true;
 
-            const barberEmail = getBarberWelcomePaidEmail({
-              studentName: firstName || 'Student',
-              studentEmail: email,
-              dashboardUrl: 'https://www.elevateforhumanity.org/lms/dashboard',
-              miladyEnrollmentUrl: 'https://www.miladytraining.com/bundles/barber-apprentice-program',
-              requiredHours: enrollmentData?.required_hours || 1500,
-              transferHours: enrollmentData?.transfer_hours || 0,
-              rapidsPending: true,
-            });
+          logger.info('[Webhook] ✅ Created new enrollment', {
+            studentId,
+            programId,
+            enrollmentId,
+          });
+        } else if (existing.status !== 'active') {
+          // Activate existing enrollment
+          await supabaseClient
+            .from('enrollments')
+            .update({
+              status: 'active',
+              payment_status: 'paid',
+              enrolled_at: new Date().toISOString(),
+            })
+            .eq('id', existing.id);
 
-            await fetch(
-              `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/api/email/send`,
-              {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  to: email,
-                  subject: barberEmail.subject,
-                  html: barberEmail.html,
-                }),
-              }
-            );
-            logger.info('[Webhook] Sent barber welcome email with Milady enrollment link', { email });
-          } else {
-            // Generic welcome email for other programs
-            await fetch(
-              `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/api/email/send`,
-              {
-                method: 'POST',
-                headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({
-                  to: email,
-                  subject: `Welcome to ${programDetails?.name || 'Your Program'}!`,
-                  html: `
+          enrollmentId = existing.id;
+          isNewEnrollment = true;
+
+          logger.info('[Webhook] ✅ Activated existing enrollment', {
+            enrollmentId: existing.id,
+          });
+        } else {
+          enrollmentId = existing.id;
+          logger.info('[Webhook] Enrollment already active', {
+            enrollmentId: existing.id,
+          });
+        }
+
+        // Send welcome email for new enrollments
+        if (isNewEnrollment && email) {
+          try {
+            const { data: programDetails } = await supabaseClient
+              .from('programs')
+              .select('name, slug')
+              .eq('id', programId)
+              .single();
+
+            // Use barber-specific email for barber apprenticeship
+            if (
+              programSlug === 'barber-apprenticeship' ||
+              programDetails?.slug === 'barber-apprenticeship'
+            ) {
+              const { getBarberWelcomePaidEmail } =
+                await import('@/lib/email/templates/barber-welcome-paid');
+
+              // Get student's transfer hours if any
+              const { data: enrollmentData } = await supabaseClient
+                .from('student_enrollments')
+                .select('transfer_hours, required_hours')
+                .eq('student_id', studentId)
+                .eq('program_id', programId)
+                .maybeSingle();
+
+              const barberEmail = getBarberWelcomePaidEmail({
+                studentName: firstName || 'Student',
+                studentEmail: email,
+                dashboardUrl: 'https://www.elevateforhumanity.org/lms/dashboard',
+                miladyEnrollmentUrl:
+                  'https://www.miladytraining.com/bundles/barber-apprentice-program',
+                requiredHours: enrollmentData?.required_hours || 1500,
+                transferHours: enrollmentData?.transfer_hours || 0,
+                rapidsPending: true,
+              });
+
+              await fetch(
+                `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/api/email/send`,
+                {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    to: email,
+                    subject: barberEmail.subject,
+                    html: barberEmail.html,
+                  }),
+                },
+              );
+              logger.info('[Webhook] Sent barber welcome email with Milady enrollment link', {
+                email,
+              });
+            } else {
+              // Generic welcome email for other programs
+              await fetch(
+                `${process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org'}/api/email/send`,
+                {
+                  method: 'POST',
+                  headers: { 'Content-Type': 'application/json' },
+                  body: JSON.stringify({
+                    to: email,
+                    subject: `Welcome to ${programDetails?.name || 'Your Program'}!`,
+                    html: `
                   <h2>Welcome to Elevate for Humanity!</h2>
                   <p>Hi ${firstName || 'there'},</p>
                   <p>Congratulations! Your enrollment in <strong>${programDetails?.name || 'your program'}</strong> is now active.</p>
@@ -371,91 +353,85 @@ export async function POST(req: Request) {
                   <p>Questions? Call us at <a href="tel:3173143757">317-314-3757</a></p>
                   <p>Best regards,<br>Elevate for Humanity Team</p>
                 `,
-                }),
-              }
-            );
+                  }),
+                },
+              );
+            }
+          } catch (emailError) {
+            logger.warn('[Webhook] Failed to send welcome email', emailError);
           }
-        } catch (emailError) {
-          logger.warn('[Webhook] Failed to send welcome email', emailError);
         }
-      }
 
-      // STEP 3: Assign AI Instructor
-      if (programSlug) {
-        try {
-          const { assignAIInstructorForProgram } =
-            await import('@/lib/ai/assign');
-          const assignResult = await assignAIInstructorForProgram({
-            studentId,
-            programSlug,
-          });
-
-          if (assignResult.ok) {
-            logger.info(
-              '[Webhook] ✅ AI instructor assigned:',
-              assignResult.instructorSlug
-            );
-          } else {
-            logger.warn(
-              '[Webhook] ⚠️ AI instructor assignment failed:',
-              assignResult.reason
-            );
-          }
-        } catch (aiError) {
-          logger.warn('[Webhook] ⚠️ AI instructor assignment error', aiError);
-        }
-      }
-
-      // STEP 4: Barber Apprenticeship specific setup (Indiana IPLA)
-      if (programSlug === 'barber-apprenticeship') {
-        try {
-          // 4a: Create student_enrollments record with Indiana requirements
-          const { data: studentEnrollment, error: seError } = await supabaseClient
-            .from('student_enrollments')
-            .upsert({
-              student_id: studentId,
-              program_id: programId,
-              status: 'active',
-              required_hours: 1500, // Indiana IPLA requirement
-              transfer_hours: 0,
-              rapids_status: 'pending',
-              milady_enrolled: false,
-              started_at: new Date().toISOString(),
-            }, {
-              onConflict: 'student_id,program_id',
-            })
-            .select('id')
-            .single();
-
-          if (seError) {
-            logger.warn('[Webhook] Failed to create student_enrollment', seError);
-          } else {
-            logger.info('[Webhook] ✅ Created student_enrollment for barber apprenticeship', {
-              enrollmentId: studentEnrollment?.id,
-            });
-          }
-
-          // 4b: Create RAPIDS registration record
-          const { error: rapidsError } = await supabaseClient
-            .from('rapids_registrations')
-            .insert({
-              student_id: studentId,
-              enrollment_id: studentEnrollment?.id || enrollmentId,
-              occupation_code: '39-5011.00', // Barbers
-              status: 'pending',
-              submitted_at: new Date().toISOString(),
+        // STEP 3: Assign AI Instructor
+        if (programSlug) {
+          try {
+            const { assignAIInstructorForProgram } = await import('@/lib/ai/assign');
+            const assignResult = await assignAIInstructorForProgram({
+              studentId,
+              programSlug,
             });
 
-          if (rapidsError) {
-            logger.warn('[Webhook] Failed to create RAPIDS registration', rapidsError);
-          } else {
-            logger.info('[Webhook] ✅ Created RAPIDS registration record');
+            if (assignResult.ok) {
+              logger.info('[Webhook] ✅ AI instructor assigned:', assignResult.instructorSlug);
+            } else {
+              logger.warn('[Webhook] ⚠️ AI instructor assignment failed:', assignResult.reason);
+            }
+          } catch (aiError) {
+            logger.warn('[Webhook] ⚠️ AI instructor assignment error', aiError);
           }
+        }
 
-          // 4c: Create state board readiness record
-          const { error: sbError } = await supabaseClient
-            .from('state_board_readiness')
-            .insert({
+        // STEP 4: Barber Apprenticeship specific setup (Indiana IPLA)
+        if (programSlug === 'barber-apprenticeship') {
+          try {
+            // 4a: Create student_enrollments record with Indiana requirements
+            const { data: studentEnrollment, error: seError } = await supabaseClient
+              .from('student_enrollments')
+              .upsert(
+                {
+                  student_id: studentId,
+                  program_id: programId,
+                  status: 'active',
+                  required_hours: 1500, // Indiana IPLA requirement
+                  transfer_hours: 0,
+                  rapids_status: 'pending',
+                  milady_enrolled: false,
+                  started_at: new Date().toISOString(),
+                },
+                {
+                  onConflict: 'student_id,program_id',
+                },
+              )
+              .select('id')
+              .single();
+
+            if (seError) {
+              logger.warn('[Webhook] Failed to create student_enrollment', seError);
+            } else {
+              logger.info('[Webhook] ✅ Created student_enrollment for barber apprenticeship', {
+                enrollmentId: studentEnrollment?.id,
+              });
+            }
+
+            // 4b: Create RAPIDS registration record
+            const { error: rapidsError } = await supabaseClient
+              .from('rapids_registrations')
+              .insert({
+                student_id: studentId,
+                enrollment_id: studentEnrollment?.id || enrollmentId,
+                occupation_code: '39-5011.00', // Barbers
+                status: 'pending',
+                submitted_at: new Date().toISOString(),
+              });
+
+            if (rapidsError) {
+              logger.warn('[Webhook] Failed to create RAPIDS registration', rapidsError);
+            } else {
+              logger.info('[Webhook] ✅ Created RAPIDS registration record');
+            }
+
+            // 4c: Create state board readiness record
+            const { error: sbError } = await supabaseClient.from('state_board_readiness').insert({
               student_id: studentId,
               enrollment_id: studentEnrollment?.id || enrollmentId,
               total_hours_completed: 0,
@@ -465,124 +441,132 @@ export async function POST(req: Request) {
               ready_for_exam: false,
             });
 
-          if (sbError) {
-            logger.warn('[Webhook] Failed to create state board readiness record', sbError);
-          }
-
-          logger.info('[Webhook] ✅ Barber apprenticeship setup complete', {
-            studentId,
-            programId,
-            enrollmentId: studentEnrollment?.id,
-          });
-
-          // 4d: Purchase Milady course and provision student access
-          // Elevate pays Milady $295 per student (included in $4,980 flat fee)
-          try {
-            const { purchaseMiladyCourse } = await import('@/lib/vendors/milady-purchase');
-            
-            const miladyResult = await purchaseMiladyCourse(
-              {
-                id: studentId,
-                email: email,
-                firstName: firstName || 'Student',
-                lastName: lastName || '',
-              },
-              'barber-apprenticeship',
-              paymentIntentId || session.id
-            );
-
-            if (miladyResult.success) {
-              logger.info('[Webhook] ✅ Milady course purchased', {
-                hasCredentials: !!miladyResult.studentCredentials,
-                hasLicenseCode: !!miladyResult.licenseCode,
-                paymentId: miladyResult.paymentId,
-              });
-
-              // Update enrollment to mark Milady as enrolled
-              await supabaseClient
-                .from('student_enrollments')
-                .update({ 
-                  milady_enrolled: true,
-                  milady_access_url: miladyResult.studentCredentials?.loginUrl,
-                })
-                .eq('student_id', studentId)
-                .eq('program_id', programId);
-
-            } else {
-              logger.warn('[Webhook] ⚠️ Milady purchase failed', { error: miladyResult.error });
+            if (sbError) {
+              logger.warn('[Webhook] Failed to create state board readiness record', sbError);
             }
-          } catch (miladyError) {
-            logger.warn('[Webhook] ⚠️ Milady purchase error', miladyError);
-            // Don't fail - student access will be provisioned manually
-          }
 
-        } catch (barberSetupError) {
-          logger.warn('[Webhook] ⚠️ Barber apprenticeship setup error', barberSetupError);
-          // Don't fail the whole webhook - enrollment is still active
-        }
-      }
-
-      // Handle other beauty apprenticeship programs (cosmetology, esthetician, nail tech)
-      const beautyPrograms = ['cosmetology-apprenticeship', 'esthetician-apprenticeship', 'nail-technician-apprenticeship'];
-      const programHours: Record<string, number> = {
-        'cosmetology-apprenticeship': 1500,
-        'esthetician-apprenticeship': 700,
-        'nail-technician-apprenticeship': 450,
-      };
-
-      if (beautyPrograms.includes(programSlug)) {
-        try {
-          // Create student_enrollments record
-          const { data: studentEnrollment, error: seError } = await supabaseClient
-            .from('student_enrollments')
-            .upsert({
-              student_id: studentId,
-              program_id: programId,
-              status: 'active',
-              required_hours: programHours[programSlug] || 1500,
-              transfer_hours: 0,
-              rapids_status: 'pending',
-              milady_enrolled: false,
-              started_at: new Date().toISOString(),
-            }, {
-              onConflict: 'student_id,program_id',
-            })
-            .select('id')
-            .single();
-
-          if (seError) {
-            logger.warn(`[Webhook] Failed to create student_enrollment for ${programSlug}`, seError);
-          }
-
-          // Process Milady payment and auto-enrollment
-          try {
-            const { processMiladyPayment } = await import('@/lib/vendors/milady-payment');
-            const miladyResult = await processMiladyPayment({
-              enrollmentId: studentEnrollment?.id || enrollmentId,
+            logger.info('[Webhook] ✅ Barber apprenticeship setup complete', {
               studentId,
               programId,
+              enrollmentId: studentEnrollment?.id,
             });
 
-            if (miladyResult.success) {
-              logger.info(`[Webhook] ✅ Milady payment processed for ${programSlug}`, {
-                amount: miladyResult.amount,
+            // 4d: Purchase Milady course and provision student access
+            // Elevate pays Milady $295 per student (included in $4,980 flat fee)
+            try {
+              const { purchaseMiladyCourse } = await import('@/lib/vendors/milady-purchase');
+
+              const miladyResult = await purchaseMiladyCourse(
+                {
+                  id: studentId,
+                  email: email,
+                  firstName: firstName || 'Student',
+                  lastName: lastName || '',
+                },
+                'barber-apprenticeship',
+                paymentIntentId || session.id,
+              );
+
+              if (miladyResult.success) {
+                logger.info('[Webhook] ✅ Milady course purchased', {
+                  hasCredentials: !!miladyResult.studentCredentials,
+                  hasLicenseCode: !!miladyResult.licenseCode,
+                  paymentId: miladyResult.paymentId,
+                });
+
+                // Update enrollment to mark Milady as enrolled
+                await supabaseClient
+                  .from('student_enrollments')
+                  .update({
+                    milady_enrolled: true,
+                    milady_access_url: miladyResult.studentCredentials?.loginUrl,
+                  })
+                  .eq('student_id', studentId)
+                  .eq('program_id', programId);
+              } else {
+                logger.warn('[Webhook] ⚠️ Milady purchase failed', { error: miladyResult.error });
+              }
+            } catch (miladyError) {
+              logger.warn('[Webhook] ⚠️ Milady purchase error', miladyError);
+              // Don't fail - student access will be provisioned manually
+            }
+          } catch (barberSetupError) {
+            logger.warn('[Webhook] ⚠️ Barber apprenticeship setup error', barberSetupError);
+            // Don't fail the whole webhook - enrollment is still active
+          }
+        }
+
+        // Handle other beauty apprenticeship programs (cosmetology, esthetician, nail tech)
+        const beautyPrograms = [
+          'cosmetology-apprenticeship',
+          'esthetician-apprenticeship',
+          'nail-technician-apprenticeship',
+        ];
+        const programHours: Record<string, number> = {
+          'cosmetology-apprenticeship': 1500,
+          'esthetician-apprenticeship': 700,
+          'nail-technician-apprenticeship': 450,
+        };
+
+        if (beautyPrograms.includes(programSlug)) {
+          try {
+            // Create student_enrollments record
+            const { data: studentEnrollment, error: seError } = await supabaseClient
+              .from('student_enrollments')
+              .upsert(
+                {
+                  student_id: studentId,
+                  program_id: programId,
+                  status: 'active',
+                  required_hours: programHours[programSlug] || 1500,
+                  transfer_hours: 0,
+                  rapids_status: 'pending',
+                  milady_enrolled: false,
+                  started_at: new Date().toISOString(),
+                },
+                {
+                  onConflict: 'student_id,program_id',
+                },
+              )
+              .select('id')
+              .single();
+
+            if (seError) {
+              logger.warn(
+                `[Webhook] Failed to create student_enrollment for ${programSlug}`,
+                seError,
+              );
+            }
+
+            // Process Milady payment and auto-enrollment
+            try {
+              const { processMiladyPayment } = await import('@/lib/vendors/milady-payment');
+              const miladyResult = await processMiladyPayment({
+                enrollmentId: studentEnrollment?.id || enrollmentId,
+                studentId,
+                programId,
               });
 
-              await supabaseClient
-                .from('student_enrollments')
-                .update({ milady_enrolled: true })
-                .eq('student_id', studentId)
-                .eq('program_id', programId);
-            }
-          } catch (miladyError) {
-            logger.warn(`[Webhook] ⚠️ Milady payment error for ${programSlug}`, miladyError);
-          }
+              if (miladyResult.success) {
+                logger.info(`[Webhook] ✅ Milady payment processed for ${programSlug}`, {
+                  amount: miladyResult.amount,
+                });
 
-          logger.info(`[Webhook] ✅ ${programSlug} setup complete`, { studentId, programId });
-        } catch (beautySetupError) {
-          logger.warn(`[Webhook] ⚠️ ${programSlug} setup error`, beautySetupError);
+                await supabaseClient
+                  .from('student_enrollments')
+                  .update({ milady_enrolled: true })
+                  .eq('student_id', studentId)
+                  .eq('program_id', programId);
+              }
+            } catch (miladyError) {
+              logger.warn(`[Webhook] ⚠️ Milady payment error for ${programSlug}`, miladyError);
+            }
+
+            logger.info(`[Webhook] ✅ ${programSlug} setup complete`, { studentId, programId });
+          } catch (beautySetupError) {
+            logger.warn(`[Webhook] ⚠️ ${programSlug} setup error`, beautySetupError);
+          }
         }
-      }
       } // Close else block for studentId/programId check
     }
 
@@ -599,18 +583,15 @@ export async function POST(req: Request) {
         });
       }
 
-      const customerId =
-        typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
+      const customerId = typeof sub.customer === 'string' ? sub.customer : sub.customer.id;
       const priceId = sub.items.data[0]?.price?.id ?? null;
       const tier = tierFromPrice(priceId);
       const status = sub.status;
       const periodEnd = sub.current_period_end ?? null;
 
       // If deleted, downgrade to free
-      const finalTier =
-        event.type === 'customer.subscription.deleted' ? 'free' : tier;
-      const finalStatus =
-        event.type === 'customer.subscription.deleted' ? 'canceled' : status;
+      const finalTier = event.type === 'customer.subscription.deleted' ? 'free' : tier;
+      const finalStatus = event.type === 'customer.subscription.deleted' ? 'canceled' : status;
 
       await upsertAccess({
         user_id: userId,
@@ -631,46 +612,37 @@ export async function POST(req: Request) {
         const priceId = sub.metadata?.stripe_price_id ?? null;
 
         // Use RPC function for atomic update
-        const { error: rpcError } = await supabaseClient.rpc(
-          'upsert_license_from_stripe',
-          {
-            p_tenant_id: tenantId,
-            p_stripe_customer_id: customerId,
-            p_stripe_subscription_id: sub.id,
-            p_stripe_price_id: priceId,
-            p_status: finalStatus,
-            p_plan_name: planName,
-          }
-        );
+        const { error: rpcError } = await supabaseClient.rpc('upsert_license_from_stripe', {
+          p_tenant_id: tenantId,
+          p_stripe_customer_id: customerId,
+          p_stripe_subscription_id: sub.id,
+          p_stripe_price_id: priceId,
+          p_status: finalStatus,
+          p_plan_name: planName,
+        });
 
         if (rpcError) {
           logger.error(
             '[Webhook] Failed to update tenant license from subscription via RPC',
-            rpcError
+            rpcError,
           );
         } else {
-          logger.info(
-            '[Webhook] Updated tenant license from subscription event via RPC',
-            {
-              tenantId,
-              subscriptionId: sub.id,
-              status: finalStatus,
-              planName,
-            }
-          );
+          logger.info('[Webhook] Updated tenant license from subscription event via RPC', {
+            tenantId,
+            subscriptionId: sub.id,
+            status: finalStatus,
+            planName,
+          });
         }
       }
 
       logger.info(
-        `[Webhook] ${event.type}: user=${userId}, tier=${finalTier}, status=${finalStatus}`
+        `[Webhook] ${event.type}: user=${userId}, tier=${finalTier}, status=${finalStatus}`,
       );
     }
 
     return NextResponse.json({ received: true });
   } catch (err: any) {
-    return NextResponse.json(
-      { error: 'Webhook handler failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Webhook handler failed' }, { status: 500 });
   }
 }

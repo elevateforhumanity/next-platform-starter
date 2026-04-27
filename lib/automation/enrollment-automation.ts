@@ -25,13 +25,15 @@ export async function sendWelcomeSequence(enrollmentId: string) {
 
   const { data: enrollment } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       id,
       student_id,
       program_id,
       profiles (full_name, email),
       programs (name)
-    `)
+    `,
+    )
     .eq('id', enrollmentId)
     .maybeSingle();
 
@@ -43,44 +45,50 @@ export async function sendWelcomeSequence(enrollmentId: string) {
   // Day 0: Welcome email (already sent by webhook)
 
   // Day 1: Getting started guide
-  setTimeout(async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-internal-secret': process.env.CRON_SECRET ?? '',
-      },
-      body: JSON.stringify({
-        to: profile.email,
-        subject: `Getting Started with ${program.name}`,
-        html: `
+  setTimeout(
+    async () => {
+      await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-internal-secret': process.env.CRON_SECRET ?? '',
+        },
+        body: JSON.stringify({
+          to: profile.email,
+          subject: `Getting Started with ${program.name}`,
+          html: `
           <h2>Getting Started Guide</h2>
           <p>Hi ${profile.full_name?.split(' ')[0]},</p>
           <p>Here's everything you need to know to get started...</p>
         `,
-      }),
-    });
-  }, 24 * 60 * 60 * 1000); // 1 day
+        }),
+      });
+    },
+    24 * 60 * 60 * 1000,
+  ); // 1 day
 
   // Day 3: Check-in email
-  setTimeout(async () => {
-    await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'x-internal-secret': process.env.CRON_SECRET ?? '',
-      },
-      body: JSON.stringify({
-        to: profile.email,
-        subject: 'How are you doing?',
-        html: `
+  setTimeout(
+    async () => {
+      await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'x-internal-secret': process.env.CRON_SECRET ?? '',
+        },
+        body: JSON.stringify({
+          to: profile.email,
+          subject: 'How are you doing?',
+          html: `
           <h2>Quick Check-In</h2>
           <p>Hi ${profile.full_name?.split(' ')[0]},</p>
           <p>Just checking in to see how your first few days are going...</p>
         `,
-      }),
-    });
-  }, 3 * 24 * 60 * 60 * 1000); // 3 days
+        }),
+      });
+    },
+    3 * 24 * 60 * 60 * 1000,
+  ); // 3 days
 
   return { success: true };
 }
@@ -97,14 +105,16 @@ export async function sendInactivityReminders() {
 
   const { data: inactiveStudents } = await supabase
     .from('lms_progress')
-    .select(`
+    .select(
+      `
       user_id,
       course_id,
       last_activity_at,
       progress_percent,
       profiles (full_name, email),
       courses (title)
-    `)
+    `,
+    )
     .lt('last_activity_at', sevenDaysAgo)
     .eq('status', 'in_progress');
 
@@ -122,9 +132,9 @@ export async function sendInactivityReminders() {
       await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`, {
         method: 'POST',
         headers: {
-        'Content-Type': 'application/json',
-        'x-internal-secret': process.env.CRON_SECRET ?? '',
-      },
+          'Content-Type': 'application/json',
+          'x-internal-secret': process.env.CRON_SECRET ?? '',
+        },
         body: JSON.stringify({
           to: profile.email,
           subject: `We miss you in ${course.title}!`,
@@ -138,7 +148,8 @@ export async function sendInactivityReminders() {
         }),
       });
       sent++;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       logger.error(`Failed to send reminder to ${profile.email}:`, error);
     }
   }
@@ -156,13 +167,15 @@ export async function sendCompletionNudges() {
   // Find students who are 80%+ complete but haven't finished
   const { data: nearCompletion } = await supabase
     .from('lms_progress')
-    .select(`
+    .select(
+      `
       user_id,
       course_id,
       progress_percent,
       profiles (full_name, email),
       courses (title)
-    `)
+    `,
+    )
     .gte('progress_percent', 80)
     .lt('progress_percent', 100)
     .eq('status', 'in_progress');
@@ -181,9 +194,9 @@ export async function sendCompletionNudges() {
       await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`, {
         method: 'POST',
         headers: {
-        'Content-Type': 'application/json',
-        'x-internal-secret': process.env.CRON_SECRET ?? '',
-      },
+          'Content-Type': 'application/json',
+          'x-internal-secret': process.env.CRON_SECRET ?? '',
+        },
         body: JSON.stringify({
           to: profile.email,
           subject: `You're almost done with ${course.title}! 🎉`,
@@ -197,7 +210,8 @@ export async function sendCompletionNudges() {
         }),
       });
       sent++;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       logger.error(`Failed to send nudge to ${profile.email}:`, error);
     }
   }
@@ -231,7 +245,7 @@ export async function autoAssignCourses(enrollmentId: string) {
   }
 
   // Create progress records for each course
-  const progressRecords = programCourses.map(pc => ({
+  const progressRecords = programCourses.map((pc) => ({
     user_id: enrollment.student_id,
     course_id: pc.course_id,
     status: 'not_started',
@@ -270,11 +284,7 @@ export async function scheduleAutomatedEmails(enrollmentId: string) {
  * Run all automation tasks (called by cron job)
  */
 export async function runAutomationTasks() {
-
-  const results = await Promise.allSettled([
-    sendInactivityReminders(),
-    sendCompletionNudges(),
-  ]);
+  const results = await Promise.allSettled([sendInactivityReminders(), sendCompletionNudges()]);
 
   const summary = {
     timestamp: new Date().toISOString(),

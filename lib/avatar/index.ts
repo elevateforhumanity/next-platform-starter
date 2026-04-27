@@ -1,6 +1,6 @@
 /**
  * Avatar System - Public API
- * 
+ *
  * Usage:
  * ```tsx
  * import { useAvatarOnLoad, getAvatarContextForRoute } from '@/lib/avatar';
@@ -11,8 +11,8 @@
 export { useAvatarOnLoad, useAvatarListener } from './useAvatarOnLoad';
 
 // Route mapping
-export { 
-  getAvatarContextForRoute, 
+export {
+  getAvatarContextForRoute,
   shouldRouteHaveAvatar,
   getAvatarEnabledRoutes,
   type RouteAvatarContext,

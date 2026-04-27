@@ -87,11 +87,32 @@ export const ALL_PROGRAMS: ProgramSchema[] = [
 ];
 
 export const SECTORS = [
-  { key: 'skilled-trades', label: 'Skilled Trades', description: 'Hands-on technical training in construction, HVAC, electrical, and welding.' },
-  { key: 'healthcare', label: 'Healthcare', description: 'Clinical and patient care training leading to nationally recognized certifications.' },
-  { key: 'personal-services', label: 'Personal Services', description: 'Licensed trade programs in barbering, cosmetology, and personal care.' },
-  { key: 'technology', label: 'Technology', description: 'IT support, cybersecurity, and software development pathways.' },
-  { key: 'business', label: 'Business & Office', description: 'Office administration, bookkeeping, and business management.' },
+  {
+    key: 'skilled-trades',
+    label: 'Skilled Trades',
+    description: 'Hands-on technical training in construction, HVAC, electrical, and welding.',
+  },
+  {
+    key: 'healthcare',
+    label: 'Healthcare',
+    description:
+      'Clinical and patient care training leading to nationally recognized certifications.',
+  },
+  {
+    key: 'personal-services',
+    label: 'Personal Services',
+    description: 'Licensed trade programs in barbering, cosmetology, and personal care.',
+  },
+  {
+    key: 'technology',
+    label: 'Technology',
+    description: 'IT support, cybersecurity, and software development pathways.',
+  },
+  {
+    key: 'business',
+    label: 'Business & Office',
+    description: 'Office administration, bookkeeping, and business management.',
+  },
 ] as const;
 
 export function getProgramsBySector(sector: string): ProgramSchema[] {

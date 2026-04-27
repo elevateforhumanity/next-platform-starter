@@ -9,13 +9,11 @@ export const dynamic = 'force-dynamic';
 // are in the process of creating an account — the apply flow creates the
 // account first, then redirects here. Only block if explicitly not logged in
 // AND not coming from the apply flow.
-export default async function PartnerOnboardingLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function PartnerOnboardingLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/partner/onboarding');

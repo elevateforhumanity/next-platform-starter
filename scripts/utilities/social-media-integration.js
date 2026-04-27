@@ -47,22 +47,15 @@ class SocialMediaIntegration {
         platforms: {
           twitter: {
             enabled: !!process.env.TWITTER_API_KEY,
-            configured: !!(
-              process.env.TWITTER_API_KEY && process.env.TWITTER_API_SECRET
-            ),
+            configured: !!(process.env.TWITTER_API_KEY && process.env.TWITTER_API_SECRET),
           },
           facebook: {
             enabled: !!process.env.FACEBOOK_APP_ID,
-            configured: !!(
-              process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_SECRET
-            ),
+            configured: !!(process.env.FACEBOOK_APP_ID && process.env.FACEBOOK_APP_SECRET),
           },
           linkedin: {
             enabled: !!process.env.LINKEDIN_CLIENT_ID,
-            configured: !!(
-              process.env.LINKEDIN_CLIENT_ID &&
-              process.env.LINKEDIN_CLIENT_SECRET
-            ),
+            configured: !!(process.env.LINKEDIN_CLIENT_ID && process.env.LINKEDIN_CLIENT_SECRET),
           },
           instagram: {
             enabled: !!process.env.INSTAGRAM_ACCESS_TOKEN,
@@ -111,10 +104,7 @@ class SocialMediaIntegration {
       }
 
       // Instagram posting
-      if (
-        platforms.includes('instagram') &&
-        process.env.INSTAGRAM_ACCESS_TOKEN
-      ) {
+      if (platforms.includes('instagram') && process.env.INSTAGRAM_ACCESS_TOKEN) {
         results.instagram = await this.postToInstagram(content);
       }
 
@@ -155,7 +145,6 @@ class SocialMediaIntegration {
     }
 
     try {
-
       return {
         status: 'success',
         platform: 'facebook',
@@ -174,13 +163,11 @@ class SocialMediaIntegration {
     }
 
     try {
-
       return {
         status: 'success',
         platform: 'linkedin',
         postId: 'li_' + Date.now(),
-        url:
-          'https://linkedin.com/company/elevateforhumanity/posts/' + Date.now(),
+        url: 'https://linkedin.com/company/elevateforhumanity/posts/' + Date.now(),
         message: 'Posted to LinkedIn successfully',
       };
     } catch (error) {
@@ -194,7 +181,6 @@ class SocialMediaIntegration {
     }
 
     try {
-
       return {
         status: 'success',
         platform: 'instagram',
@@ -221,7 +207,6 @@ class SocialMediaIntegration {
         status: 'scheduled',
         createdAt: new Date(),
       };
-
 
       res.json({
         success: true,

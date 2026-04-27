@@ -1,4 +1,5 @@
 # Business Start-Up & Marketing
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** BIZ-STARTUP  
 **Duration:** 5 Weeks (32 Hours)  
 **Delivery Method:** Hybrid (Online + In-Person Workshops)  
-**Funding:** WIOA • WRG  
+**Funding:** WIOA • WRG
 
 ---
 
@@ -32,6 +33,7 @@ Launch your own business in 5 weeks! Learn entrepreneurship, digital marketing, 
 ## Course Outline
 
 ### Week 1: Entrepreneurship Foundations (8 hours)
+
 - What is entrepreneurship?
 - Identifying business opportunities
 - Market research and customer discovery
@@ -40,6 +42,7 @@ Launch your own business in 5 weeks! Learn entrepreneurship, digital marketing, 
 - Business name and branding basics
 
 ### Week 2: Business Planning & Finance (8 hours)
+
 - Writing a business plan
 - Financial projections and budgeting
 - Startup costs and funding sources
@@ -48,6 +51,7 @@ Launch your own business in 5 weeks! Learn entrepreneurship, digital marketing, 
 - Business bank accounts and credit
 
 ### Week 3: Digital Marketing & Social Media (8 hours)
+
 - Social media marketing (Instagram, Facebook, TikTok)
 - Content creation and storytelling
 - Building a brand identity
@@ -56,6 +60,7 @@ Launch your own business in 5 weeks! Learn entrepreneurship, digital marketing, 
 - SEO and online visibility
 
 ### Week 4: Operations & Legal Compliance (4 hours)
+
 - Registering your LLC in Indiana
 - Obtaining EIN and business licenses
 - Business insurance basics
@@ -64,6 +69,7 @@ Launch your own business in 5 weeks! Learn entrepreneurship, digital marketing, 
 - Tax obligations for small businesses
 
 ### Week 5: Pitch & Launch (4 hours)
+
 - Elevator pitch development
 - Presenting to investors or customers
 - Launch planning and marketing

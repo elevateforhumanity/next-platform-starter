@@ -3,7 +3,7 @@ import fs from 'fs/promises';
 import path from 'path';
 import type { RenderedScenePlan, SceneRenderOptions } from './types';
 
-const FONT_BOLD    = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
+const FONT_BOLD = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
 const FONT_REGULAR = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf';
 
 const DEFAULT_OPTS: SceneRenderOptions = {
@@ -22,7 +22,7 @@ const DEFAULT_OPTS: SceneRenderOptions = {
 function esc(text: string): string {
   return text
     .replace(/\\/g, '\\\\')
-    .replace(/'/g, "\u2019")   // replace straight apostrophe with curly to avoid shell quoting issues
+    .replace(/'/g, '\u2019') // replace straight apostrophe with curly to avoid shell quoting issues
     .replace(/:/g, '\\:')
     .replace(/\[/g, '\\[')
     .replace(/\]/g, '\\]');
@@ -52,7 +52,7 @@ export async function renderSceneVideo(
 ): Promise<string> {
   const o = { ...DEFAULT_OPTS, ...opts };
   const outputPath = path.join(outputDir, `${scene.id}.mp4`);
-  const tmpPath    = outputPath + '.tmp.mp4';
+  const tmpPath = outputPath + '.tmp.mp4';
 
   const { videoPath, durationSeconds: clipDuration } = scene.video;
   const { audioPath, durationSeconds: audioDuration } = scene.audio;
@@ -68,13 +68,13 @@ export async function renderSceneVideo(
 
   // Y positions — anchor from bottom
   // Layout (lower_third): gradient bar at bottom, headline above subcaption
-  const gradientH  = hasSubcap ? 220 : 170;
-  const gradientY  = o.height - gradientH;
+  const gradientH = hasSubcap ? 220 : 170;
+  const gradientY = o.height - gradientH;
 
   // subcaption sits just above the bottom margin
-  const subcapY    = o.height - o.marginBottom;
+  const subcapY = o.height - o.marginBottom;
   // headline sits above subcaption (or above bottom margin if no subcap)
-  const headlineY  = hasSubcap
+  const headlineY = hasSubcap
     ? subcapY - o.subcaptionFontSize - 24
     : o.height - o.marginBottom - 10;
   // if caption wraps, line2 is below line1
@@ -104,8 +104,8 @@ export async function renderSceneVideo(
 
   // Build filtergraph
   // [0:v] → scale/crop → format → drawbox gradient → drawtext(s) → [vout]
-  const scaleFilter   = `scale=${o.width}:${o.height}:force_original_aspect_ratio=increase,crop=${o.width}:${o.height}`;
-  const formatFilter  = `format=yuv420p`;
+  const scaleFilter = `scale=${o.width}:${o.height}:force_original_aspect_ratio=increase,crop=${o.width}:${o.height}`;
+  const formatFilter = `format=yuv420p`;
   const gradientFilter = `drawbox=x=0:y=${gradientY}:w=${o.width}:h=${gradientH}:color=black@${o.overlayOpacity}:t=fill`;
 
   const filterChain = [scaleFilter, formatFilter, gradientFilter, ...drawtextFilters].join(',');
@@ -115,20 +115,38 @@ export async function renderSceneVideo(
   const inputOpts = needsLoop ? ['-stream_loop', '-1'] : [];
 
   const cmd = [
-    'ffmpeg', '-y',
+    'ffmpeg',
+    '-y',
     ...inputOpts,
-    '-i', `"${videoPath}"`,
-    '-i', `"${audioPath}"`,
-    '-filter_complex', `"${filterComplex}"`,
-    '-map', '[vout]',
-    '-map', '1:a',
-    '-c:v', 'libx264', '-crf', '22', '-preset', 'fast',
+    '-i',
+    `"${videoPath}"`,
+    '-i',
+    `"${audioPath}"`,
+    '-filter_complex',
+    `"${filterComplex}"`,
+    '-map',
+    '[vout]',
+    '-map',
+    '1:a',
+    '-c:v',
+    'libx264',
+    '-crf',
+    '22',
+    '-preset',
+    'fast',
     // Lock to constant 30fps — required for stream-copy concat to work correctly.
     // Variable-rate source clips produce misaligned timestamps that truncate the
     // video stream when concatenated without re-encoding.
-    `-r`, `${o.fps}`,
-    '-c:a', 'aac', '-b:a', '128k', '-ar', '48000',
-    '-t', sceneDuration.toFixed(3),
+    `-r`,
+    `${o.fps}`,
+    '-c:a',
+    'aac',
+    '-b:a',
+    '128k',
+    '-ar',
+    '48000',
+    '-t',
+    sceneDuration.toFixed(3),
     `"${tmpPath}"`,
   ].join(' ');
 

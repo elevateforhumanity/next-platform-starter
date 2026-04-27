@@ -7,9 +7,15 @@ import { redirect, notFound } from 'next/navigation';
 import Link from 'next/link';
 import { logger } from '@/lib/logger';
 import {
-
-  User, Mail, Phone, Calendar,
-  FileText, BookOpen, ArrowLeft, ShieldAlert, AlertTriangle,
+  User,
+  Mail,
+  Phone,
+  Calendar,
+  FileText,
+  BookOpen,
+  ArrowLeft,
+  ShieldAlert,
+  AlertTriangle,
 } from 'lucide-react';
 export const dynamic = 'force-dynamic';
 
@@ -30,12 +36,16 @@ function canApprove(role: AdminRole): boolean {
 }
 
 /** Re-verify caller is admin/super_admin. Returns caller ID + admin client, or redirects with error. */
-async function verifyApprovalCaller(holderId: string): Promise<{ callerId: string; adb: SupabaseClient }> {
+async function verifyApprovalCaller(
+  holderId: string,
+): Promise<{ callerId: string; adb: SupabaseClient }> {
   const supa = await createClient();
   const adb = await getAdminClient();
   const sdb = adb;
 
-  const { data: { user: caller } } = await supa.auth.getUser();
+  const {
+    data: { user: caller },
+  } = await supa.auth.getUser();
   if (!caller) {
     redirect(`/admin/program-holders/${holderId}?error=${encodeURIComponent('Session expired')}`);
   }
@@ -47,11 +57,15 @@ async function verifyApprovalCaller(holderId: string): Promise<{ callerId: strin
     .maybeSingle();
 
   if (!callerProfile || !canApprove(callerProfile.role as AdminRole)) {
-    redirect(`/admin/program-holders/${holderId}?error=${encodeURIComponent('Approval requires admin or super_admin role')}`);
+    redirect(
+      `/admin/program-holders/${holderId}?error=${encodeURIComponent('Approval requires admin or super_admin role')}`,
+    );
   }
 
   if (!adb) {
-    redirect(`/admin/program-holders/${holderId}?error=${encodeURIComponent('Database not configured')}`);
+    redirect(
+      `/admin/program-holders/${holderId}?error=${encodeURIComponent('Database not configured')}`,
+    );
   }
 
   return { callerId: caller.id, adb };
@@ -62,7 +76,9 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
   const { error: pageError, success: pageSuccess } = await searchParams;
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/admin/program-holders');
 
   const { data: adminProfile } = await supabase
@@ -97,12 +113,15 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
   const assignedProgramIds = (assignments || []).map((a: any) => a.program_id);
 
   // Fetch program details for assigned programs
-  const { data: assignedPrograms } = assignedProgramIds.length > 0
-    ? await supabase.from('programs').select('id, name, title, slug').in('id', assignedProgramIds)
-    : { data: [] };
+  const { data: assignedPrograms } =
+    assignedProgramIds.length > 0
+      ? await supabase.from('programs').select('id, name, title, slug').in('id', assignedProgramIds)
+      : { data: [] };
 
   const programMap: Record<string, any> = {};
-  (assignedPrograms || []).forEach((p: any) => { programMap[p.id] = p; });
+  (assignedPrograms || []).forEach((p: any) => {
+    programMap[p.id] = p;
+  });
 
   // Fetch all active programs for dropdowns
   const { data: allPrograms } = await supabase
@@ -112,12 +131,16 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
     .order('name', { ascending: true });
 
   const unassignedPrograms = (allPrograms || []).filter(
-    (p: any) => !assignedProgramIds.includes(p.id)
+    (p: any) => !assignedProgramIds.includes(p.id),
   );
 
   // Fetch linked user profile
   const { data: holderProfile } = holder.user_id
-    ? await supabase.from('profiles').select('id, email, full_name, role').eq('id', holder.user_id).maybeSingle()
+    ? await supabase
+        .from('profiles')
+        .select('id, email, full_name, role')
+        .eq('id', holder.user_id)
+        .maybeSingle()
     : { data: null };
 
   // Fetch audit events for this holder
@@ -141,26 +164,31 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
     'use server';
     const programId = formData.get('program_id') as string;
     if (!programId) {
-      redirect(`/admin/program-holders/${id}?error=${encodeURIComponent('Program selection is required')}`);
+      redirect(
+        `/admin/program-holders/${id}?error=${encodeURIComponent('Program selection is required')}`,
+      );
     }
 
     const { callerId, adb } = await verifyApprovalCaller(id);
 
-    const { data, error: rpcError } = await adb
-      .rpc('approve_and_provision_program_holder', {
-        p_holder_id: id,
-        p_program_id: programId,
-        p_actor_id: callerId,
-      });
+    const { data, error: rpcError } = await adb.rpc('approve_and_provision_program_holder', {
+      p_holder_id: id,
+      p_program_id: programId,
+      p_actor_id: callerId,
+    });
 
     if (rpcError) {
       logger.error('[PH Approve RPC] Database error', { id, error: rpcError });
-      redirect(`/admin/program-holders/${id}?error=${encodeURIComponent(rpcError.message || 'Database error during approval')}`);
+      redirect(
+        `/admin/program-holders/${id}?error=${encodeURIComponent(rpcError.message || 'Database error during approval')}`,
+      );
     }
 
     if (data && !data.success) {
       logger.warn('[PH Approve RPC] Validation failed', { id, result: data });
-      redirect(`/admin/program-holders/${id}?error=${encodeURIComponent(data.error || 'Approval validation failed')}`);
+      redirect(
+        `/admin/program-holders/${id}?error=${encodeURIComponent(data.error || 'Approval validation failed')}`,
+      );
     }
 
     logger.info('[PH Approve] Success via RPC', { holderId: id, programId, approvedBy: callerId });
@@ -195,7 +223,9 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
       logger.warn('[PH Approve] Email notification failed (non-critical)', emailErr);
     }
 
-    redirect(`/admin/program-holders/${id}?success=${encodeURIComponent('Holder approved and program provisioned')}`);
+    redirect(
+      `/admin/program-holders/${id}?success=${encodeURIComponent('Holder approved and program provisioned')}`,
+    );
   }
 
   async function rejectHolder() {
@@ -209,7 +239,9 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
       .eq('status', 'pending'); // optimistic concurrency
 
     if (updateErr) {
-      redirect(`/admin/program-holders/${id}?error=${encodeURIComponent(updateErr.message || 'Failed to reject')}`);
+      redirect(
+        `/admin/program-holders/${id}?error=${encodeURIComponent(updateErr.message || 'Failed to reject')}`,
+      );
     }
 
     // Audit event
@@ -236,7 +268,9 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
       .eq('status', 'active'); // optimistic concurrency
 
     if (updateErr) {
-      redirect(`/admin/program-holders/${id}?error=${encodeURIComponent(updateErr.message || 'Failed to suspend')}`);
+      redirect(
+        `/admin/program-holders/${id}?error=${encodeURIComponent(updateErr.message || 'Failed to suspend')}`,
+      );
     }
 
     await adb.from('admin_audit_events').insert({
@@ -255,25 +289,30 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
     'use server';
     const programId = formData.get('program_id') as string;
     if (!programId) {
-      redirect(`/admin/program-holders/${id}?error=${encodeURIComponent('Program selection is required')}`);
+      redirect(
+        `/admin/program-holders/${id}?error=${encodeURIComponent('Program selection is required')}`,
+      );
     }
 
     const { callerId, adb } = await verifyApprovalCaller(id);
 
-    const { data, error: rpcError } = await adb
-      .rpc('provision_additional_program', {
-        p_holder_id: id,
-        p_program_id: programId,
-        p_actor_id: callerId,
-      });
+    const { data, error: rpcError } = await adb.rpc('provision_additional_program', {
+      p_holder_id: id,
+      p_program_id: programId,
+      p_actor_id: callerId,
+    });
 
     if (rpcError) {
       logger.error('[PH Provision RPC] Database error', { id, programId, error: rpcError });
-      redirect(`/admin/program-holders/${id}?error=${encodeURIComponent(rpcError.message || 'Database error during provisioning')}`);
+      redirect(
+        `/admin/program-holders/${id}?error=${encodeURIComponent(rpcError.message || 'Database error during provisioning')}`,
+      );
     }
 
     if (data && !data.success) {
-      redirect(`/admin/program-holders/${id}?error=${encodeURIComponent(data.error || 'Provisioning validation failed')}`);
+      redirect(
+        `/admin/program-holders/${id}?error=${encodeURIComponent(data.error || 'Provisioning validation failed')}`,
+      );
     }
 
     redirect(`/admin/program-holders/${id}?success=${encodeURIComponent('Program provisioned')}`);
@@ -283,24 +322,29 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
     'use server';
     const assignmentId = formData.get('assignment_id') as string;
     if (!assignmentId) {
-      redirect(`/admin/program-holders/${id}?error=${encodeURIComponent('Assignment ID is required')}`);
+      redirect(
+        `/admin/program-holders/${id}?error=${encodeURIComponent('Assignment ID is required')}`,
+      );
     }
 
     const { callerId, adb } = await verifyApprovalCaller(id);
 
-    const { data, error: rpcError } = await adb
-      .rpc('deprovision_program', {
-        p_assignment_id: assignmentId,
-        p_actor_id: callerId,
-      });
+    const { data, error: rpcError } = await adb.rpc('deprovision_program', {
+      p_assignment_id: assignmentId,
+      p_actor_id: callerId,
+    });
 
     if (rpcError) {
       logger.error('[PH Deprovision RPC] Database error', { id, assignmentId, error: rpcError });
-      redirect(`/admin/program-holders/${id}?error=${encodeURIComponent(rpcError.message || 'Database error during deprovisioning')}`);
+      redirect(
+        `/admin/program-holders/${id}?error=${encodeURIComponent(rpcError.message || 'Database error during deprovisioning')}`,
+      );
     }
 
     if (data && !data.success) {
-      redirect(`/admin/program-holders/${id}?error=${encodeURIComponent(data.error || 'Deprovisioning failed')}`);
+      redirect(
+        `/admin/program-holders/${id}?error=${encodeURIComponent(data.error || 'Deprovisioning failed')}`,
+      );
     }
 
     redirect(`/admin/program-holders/${id}?success=${encodeURIComponent('Program removed')}`);
@@ -317,14 +361,19 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
     <div className="min-h-screen bg-white">
       <div className="max-w-5xl mx-auto px-4 py-8">
         <div className="mb-4">
-          <Breadcrumbs items={[
-            { label: 'Admin', href: '/admin/dashboard' },
-            { label: 'Program Holders', href: '/admin/program-holders' },
-            { label: holder.organization_name || holder.name || 'Detail' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Admin', href: '/admin/dashboard' },
+              { label: 'Program Holders', href: '/admin/program-holders' },
+              { label: holder.organization_name || holder.name || 'Detail' },
+            ]}
+          />
         </div>
 
-        <Link href="/admin/program-holders" className="inline-flex items-center gap-1 text-sm text-slate-700 hover:text-slate-900 mb-4">
+        <Link
+          href="/admin/program-holders"
+          className="inline-flex items-center gap-1 text-sm text-slate-700 hover:text-slate-900 mb-4"
+        >
           <ArrowLeft className="w-4 h-4" /> Back to list
         </Link>
 
@@ -347,7 +396,9 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
               <h1 className="text-2xl font-bold text-slate-900">
                 {holder.organization_name || holder.name || 'Unnamed Organization'}
               </h1>
-              <span className={`inline-block mt-2 text-xs font-medium px-3 py-1 rounded border ${statusColor[holder.status] || 'bg-gray-100 text-slate-700'}`}>
+              <span
+                className={`inline-block mt-2 text-xs font-medium px-3 py-1 rounded border ${statusColor[holder.status] || 'bg-gray-100 text-slate-700'}`}
+              >
                 {holder.status?.toUpperCase()}
               </span>
             </div>
@@ -355,14 +406,20 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
             <div className="flex gap-2">
               {hasApprovalAuthority && isActive && (
                 <form action={suspendHolder}>
-                  <button type="submit" className="px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition">
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-gray-600 text-white text-sm font-medium rounded-lg hover:bg-gray-700 transition"
+                  >
                     Suspend
                   </button>
                 </form>
               )}
               {hasApprovalAuthority && isPending && (
                 <form action={rejectHolder}>
-                  <button type="submit" className="px-4 py-2 bg-brand-red-600 text-white text-sm font-medium rounded-lg hover:bg-brand-red-700 transition">
+                  <button
+                    type="submit"
+                    className="px-4 py-2 bg-brand-red-600 text-white text-sm font-medium rounded-lg hover:bg-brand-red-700 transition"
+                  >
                     Reject
                   </button>
                 </form>
@@ -381,7 +438,8 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
             <div className="mt-4 bg-brand-red-50 border border-brand-red-200 rounded-lg p-3 text-sm text-brand-red-800 flex items-start gap-2">
               <AlertTriangle className="w-4 h-4 flex-shrink-0 mt-0.5" />
               <div>
-                <strong>Missing linked user.</strong> This holder has no user_id — approval is blocked until a user account is linked.
+                <strong>Missing linked user.</strong> This holder has no user_id — approval is
+                blocked until a user account is linked.
               </div>
             </div>
           )}
@@ -417,7 +475,9 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
               <div className="flex items-center gap-2">
                 <User className="w-4 h-4 text-slate-700" />
                 <dt className="text-slate-700">Account:</dt>
-                <dd className="font-medium">{holderProfile.email} ({holderProfile.role})</dd>
+                <dd className="font-medium">
+                  {holderProfile.email} ({holderProfile.role})
+                </dd>
               </div>
             )}
             {holder.approved_by && (
@@ -437,13 +497,18 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
               {isPending ? 'Approve & Provision' : 'Reactivate & Provision'}
             </h2>
             <p className="text-sm text-slate-700 mb-4">
-              Select the primary program this holder will manage. Approval and program provisioning execute as a single database transaction — the holder cannot be activated without a program.
+              Select the primary program this holder will manage. Approval and program provisioning
+              execute as a single database transaction — the holder cannot be activated without a
+              program.
             </p>
 
             {unassignedPrograms.length > 0 ? (
               <form action={approveAndProvision} className="space-y-4">
                 <div>
-                  <label htmlFor="approve_program_id" className="block text-sm font-medium text-slate-900 mb-1">
+                  <label
+                    htmlFor="approve_program_id"
+                    className="block text-sm font-medium text-slate-900 mb-1"
+                  >
                     Primary program to provision
                   </label>
                   <select
@@ -453,7 +518,9 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
                     defaultValue=""
                     className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-green-500 focus:border-brand-green-500"
                   >
-                    <option value="" disabled>Select a program...</option>
+                    <option value="" disabled>
+                      Select a program...
+                    </option>
                     {unassignedPrograms.map((p: any) => (
                       <option key={p.id} value={p.id}>
                         {p.name || p.title} ({p.slug})
@@ -483,7 +550,8 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
             Provisioned Programs
           </h2>
           <p className="text-xs text-slate-700 mb-4">
-            Each program grants scoped access to student records, grades, and analytics for that program only.
+            Each program grants scoped access to student records, grades, and analytics for that
+            program only.
           </p>
 
           {assignmentCount > 0 ? (
@@ -491,20 +559,33 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
               {(assignments || []).map((a: any) => {
                 const prog = programMap[a.program_id];
                 return (
-                  <div key={a.id} className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg">
+                  <div
+                    key={a.id}
+                    className="flex items-center justify-between py-2 px-3 bg-gray-50 rounded-lg"
+                  >
                     <div>
                       <p className="font-medium text-slate-900">
                         {prog?.name || prog?.title || a.program_id}
                         {a.is_primary && (
-                          <span className="ml-2 text-xs bg-brand-blue-100 text-brand-blue-700 px-2 py-0.5 rounded">Primary</span>
+                          <span className="ml-2 text-xs bg-brand-blue-100 text-brand-blue-700 px-2 py-0.5 rounded">
+                            Primary
+                          </span>
                         )}
                       </p>
-                      <p className="text-xs text-slate-700">Role: {a.role_in_program} | Since {new Date(a.created_at).toLocaleDateString()}</p>
+                      <p className="text-xs text-slate-700">
+                        Role: {a.role_in_program} | Since{' '}
+                        {new Date(a.created_at).toLocaleDateString()}
+                      </p>
                     </div>
                     {hasApprovalAuthority && (
                       <form action={removeProgram}>
                         <input type="hidden" name="assignment_id" value={a.id} />
-                        <button type="submit" className="text-xs text-brand-red-600 hover:underline">Remove</button>
+                        <button
+                          type="submit"
+                          className="text-xs text-brand-red-600 hover:underline"
+                        >
+                          Remove
+                        </button>
                       </form>
                     )}
                   </div>
@@ -526,7 +607,10 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
           {isActive && hasApprovalAuthority && unassignedPrograms.length > 0 && (
             <form action={provisionProgram} className="flex items-end gap-3 pt-4 border-t">
               <div className="flex-1">
-                <label htmlFor="provision_program_id" className="block text-sm font-medium text-slate-900 mb-1">
+                <label
+                  htmlFor="provision_program_id"
+                  className="block text-sm font-medium text-slate-900 mb-1"
+                >
                   Provision additional program
                 </label>
                 <select
@@ -536,7 +620,9 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
                   defaultValue=""
                   className="w-full px-3 py-2 border border-gray-300 rounded-lg text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                 >
-                  <option value="" disabled>Select a program to provision...</option>
+                  <option value="" disabled>
+                    Select a program to provision...
+                  </option>
                   {unassignedPrograms.map((p: any) => (
                     <option key={p.id} value={p.id}>
                       {p.name || p.title} ({p.slug})
@@ -554,7 +640,9 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
           )}
 
           {!hasApprovalAuthority && unassignedPrograms.length > 0 && (
-            <p className="text-xs text-slate-700 mt-2">Program provisioning requires admin or super_admin role.</p>
+            <p className="text-xs text-slate-700 mt-2">
+              Program provisioning requires admin or super_admin role.
+            </p>
           )}
         </div>
 
@@ -564,12 +652,17 @@ export default async function AdminProgramHolderDetailPage({ params, searchParam
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Audit Trail</h2>
             <div className="space-y-2">
               {(auditEvents || []).map((evt: any, i: number) => (
-                <div key={i} className="flex items-start gap-3 text-sm py-2 border-b border-gray-100 last:border-0">
+                <div
+                  key={i}
+                  className="flex items-start gap-3 text-sm py-2 border-b border-gray-100 last:border-0"
+                >
                   <span className="text-slate-700 whitespace-nowrap text-xs mt-0.5">
                     {new Date(evt.created_at).toLocaleString()}
                   </span>
                   <div>
-                    <span className="font-medium text-slate-900">{evt.action.replace('program_holder.', '')}</span>
+                    <span className="font-medium text-slate-900">
+                      {evt.action.replace('program_holder.', '')}
+                    </span>
                     {evt.metadata?.program_name && (
                       <span className="text-slate-700"> — {evt.metadata.program_name}</span>
                     )}

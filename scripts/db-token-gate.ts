@@ -1,13 +1,13 @@
 #!/usr/bin/env npx tsx
 /**
  * DB Token Gate
- * 
+ *
  * Checks published database content for banned tokens.
  * Run as part of deploy pipeline.
- * 
+ *
  * Usage: npx tsx scripts/db-token-gate.ts
  * Exit code: 0 = pass, 1 = fail
- * 
+ *
  * Requires: NEXT_PUBLIC_SUPABASE_URL and SUPABASE_SERVICE_ROLE_KEY env vars
  */
 
@@ -52,22 +52,23 @@ async function main() {
   // Tables and fields to check
   const checks = [
     { table: 'announcements', filter: { published: true }, fields: ['title', 'body'] },
-    { table: 'marketing_pages', filter: { published: true }, fields: ['title', 'subtitle', 'meta_description'] },
+    {
+      table: 'marketing_pages',
+      filter: { published: true },
+      fields: ['title', 'subtitle', 'meta_description'],
+    },
     { table: 'marketing_sections', filter: null, fields: ['heading', 'body'] },
     { table: 'programs', filter: { is_active: true }, fields: ['name', 'description'] },
     { table: 'program_outcomes', filter: null, fields: ['outcome'] },
     { table: 'program_tasks', filter: null, fields: ['title', 'instructions'] },
   ];
 
-  const pattern = new RegExp(
-    BANNED_TOKENS.map((t) => t.replace(/\s+/g, '\\s+')).join('|'),
-    'gi'
-  );
+  const pattern = new RegExp(BANNED_TOKENS.map((t) => t.replace(/\s+/g, '\\s+')).join('|'), 'gi');
 
   for (const check of checks) {
     try {
       let query = supabase.from(check.table).select('id, ' + check.fields.join(', '));
-      
+
       if (check.filter) {
         Object.entries(check.filter).forEach(([key, value]) => {
           query = query.eq(key, value);
@@ -90,7 +91,7 @@ async function main() {
 
           pattern.lastIndex = 0;
           const matches = value.match(pattern);
-          
+
           if (matches) {
             matches.forEach((match) => {
               violations.push({
@@ -135,7 +136,7 @@ async function main() {
   });
 
   console.log('Deploy blocked. Remove placeholder content from database before deploying.\n');
-  
+
   process.exit(1);
 }
 

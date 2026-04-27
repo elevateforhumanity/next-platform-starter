@@ -20,7 +20,8 @@ interface Props {
 
 export default function AccordionSection({ heading, items, bg = 'white' }: Props) {
   const [open, setOpen] = useState<number | null>(null);
-  const sectionBg = bg === 'slate' ? 'bg-slate-50 border-y border-slate-200' : 'bg-white border-y border-slate-100';
+  const sectionBg =
+    bg === 'slate' ? 'bg-slate-50 border-y border-slate-200' : 'bg-white border-y border-slate-100';
 
   return (
     <section className={`${sectionBg} py-12 sm:py-16`}>
@@ -36,7 +37,9 @@ export default function AccordionSection({ heading, items, bg = 'white' }: Props
                 className="w-full flex items-center justify-between px-6 py-5 text-left hover:bg-slate-50 transition-colors"
                 aria-expanded={open === i}
               >
-                <span className="font-bold text-slate-900 text-sm sm:text-base pr-4">{item.question}</span>
+                <span className="font-bold text-slate-900 text-sm sm:text-base pr-4">
+                  {item.question}
+                </span>
                 <span className="flex-shrink-0 w-5 h-5 border-2 border-slate-400 rounded-full flex items-center justify-center text-slate-500 font-bold text-xs">
                   {open === i ? '−' : '+'}
                 </span>

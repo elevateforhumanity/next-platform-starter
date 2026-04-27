@@ -1,33 +1,33 @@
 /**
  * Netlify Function: PDF Export
- * 
+ *
  * Handles PDF generation for data exports.
  * Isolated from Next.js to keep heavy PDF libraries out of the main server handler.
  */
 
-import type { Handler } from "@netlify/functions";
+import type { Handler } from '@netlify/functions';
 
 export const handler: Handler = async (event) => {
   try {
-    if (event.httpMethod !== "POST") {
-      return { statusCode: 405, body: "Method Not Allowed" };
+    if (event.httpMethod !== 'POST') {
+      return { statusCode: 405, body: 'Method Not Allowed' };
     }
 
     const payload = event.body ? JSON.parse(event.body) : null;
     if (!payload) {
-      return { statusCode: 400, body: "Missing body" };
+      return { statusCode: 400, body: 'Missing body' };
     }
 
     // Dynamic import keeps heavy PDF libs in this function bundle only
-    const { PDFDocument, StandardFonts, rgb } = await import("pdf-lib");
+    const { PDFDocument, StandardFonts, rgb } = await import('pdf-lib');
 
     const pdfDoc = await PDFDocument.create();
     const font = await pdfDoc.embedFont(StandardFonts.Helvetica);
     const boldFont = await pdfDoc.embedFont(StandardFonts.HelveticaBold);
 
     const { data, options, filename } = payload;
-    const title = options?.title || "Data Export";
-    const subtitle = options?.subtitle || "";
+    const title = options?.title || 'Data Export';
+    const subtitle = options?.subtitle || '';
     const columns = options?.columns || [];
 
     // Create first page
@@ -71,7 +71,7 @@ export const handler: Handler = async (event) => {
     // Table header
     if (columns.length > 0 && data && data.length > 0) {
       const colWidth = (pageWidth - margin * 2) / columns.length;
-      
+
       // Draw header row
       columns.forEach((col: { key: string; label: string }, i: number) => {
         page.drawText(col.label || col.key, {
@@ -83,7 +83,7 @@ export const handler: Handler = async (event) => {
         });
       });
       y -= 5;
-      
+
       // Header underline
       page.drawLine({
         start: { x: margin, y },
@@ -102,8 +102,8 @@ export const handler: Handler = async (event) => {
         }
 
         columns.forEach((col: { key: string; label: string }, i: number) => {
-          const value = String(row[col.key] ?? "");
-          const truncated = value.length > 30 ? value.substring(0, 27) + "..." : value;
+          const value = String(row[col.key] ?? '');
+          const truncated = value.length > 30 ? value.substring(0, 27) + '...' : value;
           page.drawText(truncated, {
             x: margin + i * colWidth,
             y,
@@ -134,7 +134,7 @@ export const handler: Handler = async (event) => {
     }
 
     // Footer on last page
-    page.drawText("Elevate for Humanity", {
+    page.drawText('Elevate for Humanity', {
       x: pageWidth / 2 - 50,
       y: 30,
       size: 8,
@@ -147,15 +147,15 @@ export const handler: Handler = async (event) => {
     return {
       statusCode: 200,
       headers: {
-        "Content-Type": "application/pdf",
-        "Content-Disposition": `attachment; filename="${filename || 'export.pdf'}"`,
-        "Cache-Control": "no-store",
+        'Content-Type': 'application/pdf',
+        'Content-Disposition': `attachment; filename="${filename || 'export.pdf'}"`,
+        'Cache-Control': 'no-store',
       },
-      body: Buffer.from(pdfBytes).toString("base64"),
+      body: Buffer.from(pdfBytes).toString('base64'),
       isBase64Encoded: true,
     };
   } catch (e: any) {
-    console.error("PDF export error:", e);
-    return { statusCode: 500, body: e?.message ?? "PDF export failed" };
+    console.error('PDF export error:', e);
+    return { statusCode: 500, body: e?.message ?? 'PDF export failed' };
   }
 };

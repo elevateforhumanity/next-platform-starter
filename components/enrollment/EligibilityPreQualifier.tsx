@@ -2,7 +2,16 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowRight, ArrowLeft, CheckCircle, XCircle, Clock, DollarSign, GraduationCap, Briefcase } from 'lucide-react';
+import {
+  ArrowRight,
+  ArrowLeft,
+  CheckCircle,
+  XCircle,
+  Clock,
+  DollarSign,
+  GraduationCap,
+  Briefcase,
+} from 'lucide-react';
 
 interface Step {
   id: string;
@@ -44,17 +53,25 @@ const STEPS: Step[] = [
     options: [
       { label: 'Yes, below $40K', value: 'low', qualifies: true },
       { label: 'No, above $40K', value: 'above', qualifies: true },
-      { label: 'I\'m not sure', value: 'unsure', qualifies: true },
+      { label: "I'm not sure", value: 'unsure', qualifies: true },
     ],
   },
   {
     id: 'interest',
     question: 'What career field interests you?',
-    description: 'We\'ll match you with the right program and funding.',
+    description: "We'll match you with the right program and funding.",
     icon: GraduationCap,
     options: [
-      { label: 'Healthcare (CNA, Medical Assistant, Phlebotomy)', value: 'healthcare', qualifies: true },
-      { label: 'Skilled Trades (HVAC, Electrical, Welding, Plumbing)', value: 'trades', qualifies: true },
+      {
+        label: 'Healthcare (CNA, Medical Assistant, Phlebotomy)',
+        value: 'healthcare',
+        qualifies: true,
+      },
+      {
+        label: 'Skilled Trades (HVAC, Electrical, Welding, Plumbing)',
+        value: 'trades',
+        qualifies: true,
+      },
       { label: 'CDL / Trucking', value: 'cdl', qualifies: true },
       { label: 'Technology (IT Support, Cybersecurity)', value: 'technology', qualifies: true },
       { label: 'Barbering / Cosmetology', value: 'barber', qualifies: true },
@@ -69,7 +86,7 @@ export default function EligibilityPreQualifier() {
   const [complete, setComplete] = useState(false);
 
   const step = STEPS[currentStep];
-  const progress = ((currentStep) / STEPS.length) * 100;
+  const progress = (currentStep / STEPS.length) * 100;
   const progressAfter = ((currentStep + 1) / STEPS.length) * 100;
 
   const handleSelect = (value: string) => {
@@ -77,14 +94,14 @@ export default function EligibilityPreQualifier() {
     setAnswers(newAnswers);
 
     if (currentStep < STEPS.length - 1) {
-      setTimeout(() => setCurrentStep(prev => prev + 1), 300);
+      setTimeout(() => setCurrentStep((prev) => prev + 1), 300);
     } else {
       setTimeout(() => setComplete(true), 300);
     }
   };
 
   const goBack = () => {
-    if (currentStep > 0) setCurrentStep(prev => prev - 1);
+    if (currentStep > 0) setCurrentStep((prev) => prev - 1);
   };
 
   // Determine likely funding
@@ -117,12 +134,16 @@ export default function EligibilityPreQualifier() {
           You likely qualify for funding.
         </h2>
         <p className="text-lg text-slate-600 mb-8">
-          Based on your answers, you may be eligible for {funding.length} funding source{funding.length > 1 ? 's' : ''}:
+          Based on your answers, you may be eligible for {funding.length} funding source
+          {funding.length > 1 ? 's' : ''}:
         </p>
 
         <div className="grid sm:grid-cols-2 gap-3 mb-10 text-left">
           {funding.map((source, i) => (
-            <div key={i} className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-xl p-4">
+            <div
+              key={i}
+              className="flex items-center gap-3 bg-emerald-50 border border-emerald-200 rounded-xl p-4"
+            >
               <CheckCircle className="w-5 h-5 text-emerald-600 flex-shrink-0" />
               <span className="font-medium text-slate-900">{source}</span>
             </div>
@@ -130,7 +151,8 @@ export default function EligibilityPreQualifier() {
         </div>
 
         <p className="text-sm text-slate-500 mb-8">
-          Final eligibility is determined by your local WorkOne office. We help you through the process.
+          Final eligibility is determined by your local WorkOne office. We help you through the
+          process.
         </p>
 
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
@@ -179,9 +201,7 @@ export default function EligibilityPreQualifier() {
         <div className="w-14 h-14 bg-brand-blue-100 rounded-2xl flex items-center justify-center mx-auto mb-4">
           <Icon className="w-7 h-7 text-brand-blue-600" />
         </div>
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">
-          {step.question}
-        </h2>
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">{step.question}</h2>
         <p className="text-slate-500">{step.description}</p>
       </div>
 

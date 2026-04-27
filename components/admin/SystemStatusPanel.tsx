@@ -4,7 +4,7 @@ import { Shield, Clock, Database, Lock, FileText } from 'lucide-react';
 
 /**
  * System Status Panel - Institutional Signals
- * 
+ *
  * Displays explicit control statements for auditors and executives.
  * Shows governance posture without exposing internals.
  */
@@ -82,7 +82,7 @@ export function SystemStatusPanel({ lastComplianceReview }: SystemStatusPanelPro
 
       <div className="space-y-4">
         {statusItems.map((item) => (
-          <div 
+          <div
             key={item.label}
             className="flex items-center justify-between py-2 border-b border-slate-100 last:border-0"
           >
@@ -91,17 +91,20 @@ export function SystemStatusPanel({ lastComplianceReview }: SystemStatusPanelPro
               <span className="text-sm text-slate-700">{item.label}</span>
             </div>
             <div className="flex items-center gap-2">
-              <span className={`text-sm font-medium ${
-                item.status === 'active'      ? 'text-slate-900' :
-                item.status === 'production'  ? 'text-brand-green-700' :
-                item.status === 'missing'     ? 'text-amber-600 italic' :
-                'text-slate-600'
-              }`}>
+              <span
+                className={`text-sm font-medium ${
+                  item.status === 'active'
+                    ? 'text-slate-900'
+                    : item.status === 'production'
+                      ? 'text-brand-green-700'
+                      : item.status === 'missing'
+                        ? 'text-amber-600 italic'
+                        : 'text-slate-600'
+                }`}
+              >
                 {item.value}
               </span>
-              {item.status === 'active' && (
-                <span className="text-slate-400 flex-shrink-0">•</span>
-              )}
+              {item.status === 'active' && <span className="text-slate-400 flex-shrink-0">•</span>}
               {item.status === 'production' && (
                 <span className="px-2 py-0.5 text-xs font-medium bg-brand-green-100 text-brand-green-700 rounded">
                   Live

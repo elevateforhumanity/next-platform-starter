@@ -13,23 +13,33 @@ function readFileSafe(file: string): string {
   return fs.readFileSync(file, 'utf8');
 }
 
-function uniq<T>(arr: T[]): T[] { return [...new Set(arr)]; }
-function sortAlpha(arr: string[]): string[] { return [...arr].sort((a, b) => a.localeCompare(b)); }
+function uniq<T>(arr: T[]): T[] {
+  return [...new Set(arr)];
+}
+function sortAlpha(arr: string[]): string[] {
+  return [...arr].sort((a, b) => a.localeCompare(b));
+}
 
 function extractAll(regex: RegExp, text: string): string[] {
   const out: string[] = [];
   let match: RegExpExecArray | null;
   const r = new RegExp(regex.source, regex.flags.includes('g') ? regex.flags : `${regex.flags}g`);
-  while ((match = r.exec(text)) !== null) { if (match[1]) out.push(match[1]); }
+  while ((match = r.exec(text)) !== null) {
+    if (match[1]) out.push(match[1]);
+  }
   return out;
 }
 
 function extractBlueprintLessonSlugs(text: string): string[] {
-  return uniq(extractAll(/slug:\s*'((?:barber-lesson-\d+)|(?:barber-module-\d+-checkpoint))'/g, text));
+  return uniq(
+    extractAll(/slug:\s*'((?:barber-lesson-\d+)|(?:barber-module-\d+-checkpoint))'/g, text),
+  );
 }
 
 function extractBlueprintModuleSlugs(text: string): string[] {
-  return uniq(extractAll(/slug:\s*'(barber-module-\d+)'/g, text).filter((s) => !s.endsWith('-checkpoint')));
+  return uniq(
+    extractAll(/slug:\s*'(barber-module-\d+)'/g, text).filter((s) => !s.endsWith('-checkpoint')),
+  );
 }
 
 function extractSeedLessonSlugs(text: string): string[] {
@@ -55,19 +65,34 @@ function numericLessonSort(a: string, b: string): number {
   return a.localeCompare(b);
 }
 
-function diff(a: string[], b: string[]): string[] { const bSet = new Set(b); return a.filter((x) => !bSet.has(x)); }
-function intersect(a: string[], b: string[]): string[] { const bSet = new Set(b); return a.filter((x) => bSet.has(x)); }
+function diff(a: string[], b: string[]): string[] {
+  const bSet = new Set(b);
+  return a.filter((x) => !bSet.has(x));
+}
+function intersect(a: string[], b: string[]): string[] {
+  const bSet = new Set(b);
+  return a.filter((x) => bSet.has(x));
+}
 
 function summarizeRange(slugs: string[]): string {
-  const nums = slugs.map((s) => s.match(/lesson-(\d+)/)?.[1]).filter(Boolean).map(Number).sort((a, b) => a - b);
+  const nums = slugs
+    .map((s) => s.match(/lesson-(\d+)/)?.[1])
+    .filter(Boolean)
+    .map(Number)
+    .sort((a, b) => a - b);
   if (!nums.length) return 'none';
   const ranges: string[] = [];
-  let start = nums[0]; let prev = nums[0];
+  let start = nums[0];
+  let prev = nums[0];
   for (let i = 1; i < nums.length; i++) {
     const n = nums[i];
-    if (n === prev + 1) { prev = n; continue; }
+    if (n === prev + 1) {
+      prev = n;
+      continue;
+    }
     ranges.push(start === prev ? `${start}` : `${start}-${prev}`);
-    start = n; prev = n;
+    start = n;
+    prev = n;
   }
   ranges.push(start === prev ? `${start}` : `${start}-${prev}`);
   return ranges.join(', ');
@@ -75,7 +100,10 @@ function summarizeRange(slugs: string[]): string {
 
 function printSection(title: string, items: string[]): void {
   console.log(`\n=== ${title} (${items.length}) ===`);
-  if (!items.length) { console.log('none'); return; }
+  if (!items.length) {
+    console.log('none');
+    return;
+  }
   for (const item of items) console.log(item);
 }
 
@@ -123,9 +151,10 @@ function main(): void {
   console.log(`Seed lesson ranges:             ${summarizeRange(seedLessons)}`);
   console.log(`Missing-from-seeds ranges:      ${summarizeRange(liveButNotSeeded)}`);
 
-  const status = liveButNotSeeded.length === 0 && modulesLiveButNotSeeded.length === 0
-    ? 'FULL BLUEPRINT COVERAGE REACHED'
-    : 'GENERATOR DOES NOT YET COVER THE FULL BLUEPRINT';
+  const status =
+    liveButNotSeeded.length === 0 && modulesLiveButNotSeeded.length === 0
+      ? 'FULL BLUEPRINT COVERAGE REACHED'
+      : 'GENERATOR DOES NOT YET COVER THE FULL BLUEPRINT';
 
   console.log(`\nSTATUS: ${status}\n`);
 }

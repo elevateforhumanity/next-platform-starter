@@ -5,11 +5,7 @@ import { OrgConfig } from './getOrgConfig';
  * Uses dot notation path (e.g., 'features.micro_courses')
  * Falls back to true if config path doesn't exist (backward compatible)
  */
-export function featureEnabled(
-  config: OrgConfig,
-  path: string,
-  fallback = true
-): boolean {
+export function featureEnabled(config: OrgConfig, path: string, fallback = true): boolean {
   const keys = path.split('.');
   let current: any = config;
 

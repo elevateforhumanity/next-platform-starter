@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -58,8 +58,8 @@ export default function CodeEditor({ value, onChange, filePath, readOnly }: Code
           lineNumbers: 'on',
           renderWhitespace: 'selection',
           bracketPairColorization: {
-            enabled: true
-          }
+            enabled: true,
+          },
         }}
         loading={
           <div className="flex items-center justify-center h-full bg-brand-blue-700 text-white">

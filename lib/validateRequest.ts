@@ -1,35 +1,32 @@
-
 // lib/validateRequest.ts - Request validation utilities
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
 
 export async function validateRequest<T>(
   req: Request,
-  schema: z.Schema<T>
+  schema: z.Schema<T>,
 ): Promise<{ data: T | null; error: Response | null }> {
   try {
     const body = await req.json();
     const data = schema.parse(body);
     return { data, error: null };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     if (error instanceof z.ZodError) {
       return {
         data: null,
         error: NextResponse.json(
-          {
-            error: 'Validation failed',
-            details: error.errors,
-          },
-          { status: 400 }
+            {
+              error: 'Validation failed',
+              details: error.issues,
+            },
+          { status: 400 },
         ),
       };
     }
     return {
       data: null,
-      error: NextResponse.json(
-        { error: 'Invalid request body' },
-        { status: 400 }
-      ),
+      error: NextResponse.json({ error: 'Invalid request body' }, { status: 400 }),
     };
   }
 }

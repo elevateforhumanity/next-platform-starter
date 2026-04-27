@@ -44,7 +44,7 @@ export async function submitUI3Request(
     full_ssn?: string; // Encrypted, only for authorized requests
     enrollment_id: string;
     completion_date: string;
-  }>
+  }>,
 ): Promise<{ request_id: string; status: string }> {
   // In production, this would:
   // 1. Encrypt SSNs
@@ -69,19 +69,14 @@ export async function submitUI3Request(
  *
  * Updates employment_tracking table with verified wage data.
  */
-export async function processUI3Results(
-  results: UI3WageRecord[]
-): Promise<UI3MatchResult[]> {
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
+export async function processUI3Results(results: UI3WageRecord[]): Promise<UI3MatchResult[]> {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error('Supabase not configured');
   }
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
 
   await setAuditContext(supabase, { systemActor: 'ui3_wage_matching' });
@@ -112,15 +107,10 @@ export async function processUI3Results(
     // Determine which quarter this is (2nd or 4th after completion)
     const completionDate = new Date(enrollment.completion_date);
     const recordQuarter = parseQuarter(record.quarter);
-    const monthsAfterCompletion = getMonthsDifference(
-      completionDate,
-      recordQuarter
-    );
+    const monthsAfterCompletion = getMonthsDifference(completionDate, recordQuarter);
 
-    const is2ndQuarter =
-      monthsAfterCompletion >= 4 && monthsAfterCompletion < 7;
-    const is4thQuarter =
-      monthsAfterCompletion >= 10 && monthsAfterCompletion < 13;
+    const is2ndQuarter = monthsAfterCompletion >= 4 && monthsAfterCompletion < 7;
+    const is4thQuarter = monthsAfterCompletion >= 10 && monthsAfterCompletion < 13;
 
     // Update employment_tracking
     const updateData: any = {
@@ -168,16 +158,13 @@ export async function processUI3Results(
  * Should run quarterly after each quarter ends.
  */
 export async function scheduleUI3Matching() {
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     return;
   }
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
 
   // Get all students who completed 6 months ago (for 2nd quarter check)
@@ -231,28 +218,21 @@ function getMonthsDifference(date1: Date, date2: Date): number {
  * Generate UI-3 compliance report
  */
 export async function generateUI3Report() {
-  if (
-    !process.env.NEXT_PUBLIC_SUPABASE_URL ||
-    !process.env.SUPABASE_SERVICE_ROLE_KEY
-  ) {
+  if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.SUPABASE_SERVICE_ROLE_KEY) {
     throw new Error('Supabase not configured');
   }
 
   const supabase = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.SUPABASE_SERVICE_ROLE_KEY!
+    process.env.SUPABASE_SERVICE_ROLE_KEY!,
   );
 
-  const { data: tracking } = await supabase
-    .from('employment_tracking')
-    .select('*');
+  const { data: tracking } = await supabase.from('employment_tracking').select('*');
 
   const total = tracking?.length || 0;
   const ui3Matched = tracking?.filter((t) => t.ui3_matched).length || 0;
-  const verified2nd =
-    tracking?.filter((t) => t.verified_2nd_quarter).length || 0;
-  const verified4th =
-    tracking?.filter((t) => t.verified_4th_quarter).length || 0;
+  const verified2nd = tracking?.filter((t) => t.verified_2nd_quarter).length || 0;
+  const verified4th = tracking?.filter((t) => t.verified_4th_quarter).length || 0;
 
   return {
     total_records: total,
@@ -260,9 +240,7 @@ export async function generateUI3Report() {
     ui3_match_rate: total > 0 ? ((ui3Matched / total) * 100).toFixed(1) : '0',
     verified_2nd_quarter: verified2nd,
     verified_4th_quarter: verified4th,
-    verification_rate_2nd:
-      total > 0 ? ((verified2nd / total) * 100).toFixed(1) : '0',
-    verification_rate_4th:
-      total > 0 ? ((verified4th / total) * 100).toFixed(1) : '0',
+    verification_rate_2nd: total > 0 ? ((verified2nd / total) * 100).toFixed(1) : '0',
+    verification_rate_4th: total > 0 ? ((verified4th / total) * 100).toFixed(1) : '0',
   };
 }

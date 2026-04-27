@@ -43,10 +43,10 @@ function getSupabaseAdmin() {
 export async function checkPartnerApproval(
   partnerId: string,
   programId: string = 'barber_apprenticeship',
-  state: string = 'IN'
+  state: string = 'IN',
 ): Promise<PartnerApprovalResult> {
   const supabase = getSupabaseAdmin();
-  
+
   try {
     // 1. Get partner info
     const { data: partner, error: partnerError } = await supabase
@@ -54,7 +54,7 @@ export async function checkPartnerApproval(
       .select('*')
       .eq('id', partnerId)
       .maybeSingle();
-    
+
     if (partnerError || !partner) {
       return {
         success: false,
@@ -66,13 +66,13 @@ export async function checkPartnerApproval(
         error: 'Partner not found',
       };
     }
-    
+
     // 2. Get partner documents
     const { data: documents, error: docsError } = await supabase
       .from('partner_documents')
       .select('*')
       .eq('partner_id', partnerId);
-    
+
     if (docsError) {
       return {
         success: false,
@@ -84,7 +84,7 @@ export async function checkPartnerApproval(
         error: 'Failed to fetch documents',
       };
     }
-    
+
     const partnerDocs: PartnerDocument[] = (documents || []).map((d: any) => ({
       id: d.id,
       partner_id: d.partner_id,
@@ -97,25 +97,25 @@ export async function checkPartnerApproval(
       expiration_date: d.expiration_date,
       notes: d.notes,
     }));
-    
+
     // 3. Get required documents for this program/state
     const requiredDocs = getRequiredDocuments(programId, state);
-    
+
     // 4. Categorize documents
     const missing = getMissingDocuments(partnerDocs, programId, state);
-    const pending = partnerDocs.filter(d => d.status === 'pending').map(d => d.document_type);
-    const failed = partnerDocs.filter(d => d.status === 'rejected').map(d => d.document_type);
-    const accepted = partnerDocs.filter(d => d.status === 'accepted');
-    
+    const pending = partnerDocs.filter((d) => d.status === 'pending').map((d) => d.document_type);
+    const failed = partnerDocs.filter((d) => d.status === 'rejected').map((d) => d.document_type);
+    const accepted = partnerDocs.filter((d) => d.status === 'accepted');
+
     // 5. Check MOU status
     const { data: mouStatus } = await supabase
       .from('program_holders')
       .select('mou_status')
       .eq('partner_id', partnerId)
       .maybeSingle();
-    
+
     const mouSigned = mouStatus?.mou_status === 'fully_executed';
-    
+
     // 6. Get ruleset
     const { data: ruleset } = await supabase
       .from('automation_rulesets')
@@ -123,28 +123,29 @@ export async function checkPartnerApproval(
       .eq('rule_type', 'partner_approval')
       .eq('is_active', true)
       .maybeSingle();
-    
+
     const rules = ruleset?.rules || {
       required_docs: ['shop_license', 'partner_mou'],
       license_must_be_valid: true,
       mou_must_be_signed: true,
     };
-    
+
     // 7. Validate license expiration
-    const licenseDoc = accepted.find(d => d.document_type === 'shop_license');
+    const licenseDoc = accepted.find((d) => d.document_type === 'shop_license');
     let licenseValid = true;
     if (rules.license_must_be_valid && licenseDoc?.expiration_date) {
       licenseValid = new Date(licenseDoc.expiration_date) > new Date();
     }
-    
+
     // 8. Determine if can auto-approve
     const allDocsAccepted = areAllDocumentsAccepted(partnerDocs, programId, state);
     const mouOk = !rules.mou_must_be_signed || mouSigned;
-    const canAutoApprove = allDocsAccepted && mouOk && licenseValid && missing.length === 0 && failed.length === 0;
-    
+    const canAutoApprove =
+      allDocsAccepted && mouOk && licenseValid && missing.length === 0 && failed.length === 0;
+
     // 9. Calculate status
     const status = calculatePartnerStatus(partnerDocs);
-    
+
     // 10. Create decision record
     const reasonCodes: string[] = [];
     if (!allDocsAccepted) reasonCodes.push('DOCS_NOT_ACCEPTED');
@@ -153,7 +154,7 @@ export async function checkPartnerApproval(
     if (missing.length > 0) reasonCodes.push('MISSING_DOCS');
     if (failed.length > 0) reasonCodes.push('FAILED_DOCS');
     if (canAutoApprove) reasonCodes.push('ALL_REQUIREMENTS_MET');
-    
+
     const { data: decisionRecord } = await supabase
       .from('automated_decisions')
       .insert({
@@ -164,7 +165,7 @@ export async function checkPartnerApproval(
         input_snapshot: {
           program_id: programId,
           state,
-          documents: partnerDocs.map(d => ({ type: d.document_type, status: d.status })),
+          documents: partnerDocs.map((d) => ({ type: d.document_type, status: d.status })),
           mou_signed: mouSigned,
           license_valid: licenseValid,
         },
@@ -173,7 +174,7 @@ export async function checkPartnerApproval(
       })
       .select()
       .maybeSingle();
-    
+
     // 11. Update partner status if approved
     if (canAutoApprove) {
       await supabase
@@ -185,7 +186,7 @@ export async function checkPartnerApproval(
         })
         .eq('id', partnerId);
     }
-    
+
     // 12. Add to review queue if not approved
     let reviewQueueId: string | undefined;
     if (!canAutoApprove && (pending.length > 0 || missing.length > 0)) {
@@ -207,10 +208,10 @@ export async function checkPartnerApproval(
         })
         .select()
         .maybeSingle();
-      
+
       reviewQueueId = queueItem?.id;
     }
-    
+
     // 13. Audit log
     await supabase.from('audit_logs').insert({
       actor_id: null,
@@ -223,7 +224,7 @@ export async function checkPartnerApproval(
         reason_codes: reasonCodes,
       },
     });
-    
+
     return {
       success: true,
       approved: canAutoApprove,
@@ -255,7 +256,7 @@ export async function processPartnerDocument(
   partnerId: string,
   documentId: string,
   programId: string = 'barber_apprenticeship',
-  state: string = 'IN'
+  state: string = 'IN',
 ): Promise<PartnerApprovalResult> {
   // Document processing moved to Netlify function
   // For now, skip automatic processing and require manual review
@@ -268,7 +269,7 @@ export async function processPartnerDocument(
     failed_documents: [],
     review_queue_id: undefined,
   };
-  
+
   /* Original code - requires evidence-processor which uses Tesseract
   const docResult = await processDocument(documentId);
   
@@ -284,10 +285,10 @@ export async function processPartnerDocument(
     };
   }
   */
-  
+
   // 2. If document passed, update partner_documents status
   const supabase = getSupabaseAdmin();
-  
+
   if (docResult.decision?.decision === 'approved') {
     await supabase
       .from('partner_documents')
@@ -306,7 +307,7 @@ export async function processPartnerDocument(
       })
       .eq('id', documentId);
   }
-  
+
   // 3. Check if partner can now be auto-approved
   return checkPartnerApproval(partnerId, programId, state);
 }

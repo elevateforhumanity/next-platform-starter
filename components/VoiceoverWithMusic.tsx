@@ -8,10 +8,10 @@ interface VoiceoverWithMusicProps {
   volume?: number;
 }
 
-export default function VoiceoverWithMusic({ 
-  audioSrc, 
+export default function VoiceoverWithMusic({
+  audioSrc,
   delay = 800,
-  volume = 0.85 
+  volume = 0.85,
 }: VoiceoverWithMusicProps) {
   const [hasPlayed, setHasPlayed] = useState(false);
   const [showPlayButton, setShowPlayButton] = useState(false);
@@ -64,14 +64,18 @@ export default function VoiceoverWithMusic({
         });
     };
 
-    window.addEventListener('scroll', onScroll, { capture: true, passive: true, once: true } as any);
+    window.addEventListener('scroll', onScroll, {
+      capture: true,
+      passive: true,
+      once: true,
+    } as any);
 
     return () => {
       window.removeEventListener('scroll', onScroll, true);
       if (progressInterval.current) clearInterval(progressInterval.current);
       audio.pause();
     };
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [audioSrc]);
 
   const playAudio = useCallback(() => {
@@ -81,7 +85,8 @@ export default function VoiceoverWithMusic({
     audio.muted = false;
     audio.volume = volume;
 
-    audio.play()
+    audio
+      .play()
       .then(() => {
         setHasPlayed(true);
         setIsPlaying(true);
@@ -131,10 +136,22 @@ export default function VoiceoverWithMusic({
             <div className="flex items-center gap-3 min-w-0">
               {/* Soundbars */}
               <div className="flex items-end gap-0.5 h-5 flex-shrink-0">
-                <span className="w-1 bg-brand-red-500 rounded-full animate-soundbar1" style={{ height: '60%' }} />
-                <span className="w-1 bg-brand-red-500 rounded-full animate-soundbar2" style={{ height: '100%' }} />
-                <span className="w-1 bg-brand-red-500 rounded-full animate-soundbar3" style={{ height: '40%' }} />
-                <span className="w-1 bg-brand-red-500 rounded-full animate-soundbar1" style={{ height: '80%' }} />
+                <span
+                  className="w-1 bg-brand-red-500 rounded-full animate-soundbar1"
+                  style={{ height: '60%' }}
+                />
+                <span
+                  className="w-1 bg-brand-red-500 rounded-full animate-soundbar2"
+                  style={{ height: '100%' }}
+                />
+                <span
+                  className="w-1 bg-brand-red-500 rounded-full animate-soundbar3"
+                  style={{ height: '40%' }}
+                />
+                <span
+                  className="w-1 bg-brand-red-500 rounded-full animate-soundbar1"
+                  style={{ height: '80%' }}
+                />
               </div>
               <div className="min-w-0">
                 <p className="text-sm font-bold text-white truncate">Elevate for Humanity</p>
@@ -167,7 +184,7 @@ export default function VoiceoverWithMusic({
           <div className="relative flex items-center gap-2.5 bg-brand-red-600 hover:bg-brand-red-700 text-white pl-4 pr-5 py-3 rounded-full shadow-xl hover:scale-105 transition-all duration-200">
             {/* Speaker icon */}
             <svg className="w-4 h-4 flex-shrink-0" fill="currentColor" viewBox="0 0 24 24">
-              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z"/>
+              <path d="M3 9v6h4l5 5V4L7 9H3zm13.5 3c0-1.77-1.02-3.29-2.5-4.03v8.05c1.48-.73 2.5-2.25 2.5-4.02z" />
             </svg>
             <div className="text-left">
               <span className="text-sm font-bold block leading-tight">Hear Our Story</span>

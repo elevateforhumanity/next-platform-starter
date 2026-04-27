@@ -3,9 +3,8 @@ import { join } from 'path';
 
 const migrationsDir = 'supabase/migrations';
 const files = readdirSync(migrationsDir)
-  .filter(f => f.endsWith('.sql'))
+  .filter((f) => f.endsWith('.sql'))
   .sort();
-
 
 const tableCreations = {};
 const duplicates = {};
@@ -37,17 +36,22 @@ for (const [table, files] of Object.entries(tableCreations)) {
 const sortedDuplicates = Object.entries(duplicates).sort((a, b) => b[1].length - a[1].length);
 
 for (const [table, files] of sortedDuplicates.slice(0, 20)) {
-  files.slice(0, 3).forEach(f => console.log(`  - ${f}`));
+  files.slice(0, 3).forEach((f) => console.log(`  - ${f}`));
   if (files.length > 3) console.log(`  ... and ${files.length - 3} more`);
 }
 
-
 // Save full report
 import { writeFileSync } from 'fs';
-writeFileSync('migration-duplicates-report.json', JSON.stringify({
-  totalFiles: files.length,
-  totalTables: Object.keys(tableCreations).length,
-  duplicateTables: Object.keys(duplicates).length,
-  duplicates: duplicates
-}, null, 2));
-
+writeFileSync(
+  'migration-duplicates-report.json',
+  JSON.stringify(
+    {
+      totalFiles: files.length,
+      totalTables: Object.keys(tableCreations).length,
+      duplicateTables: Object.keys(duplicates).length,
+      duplicates: duplicates,
+    },
+    null,
+    2,
+  ),
+);

@@ -40,17 +40,17 @@ export default function CourseBuilderTopBar({
   };
 
   const statusLabel =
-    state.status === 'published' ? 'Published' :
-    derived.canPublish ? 'Ready' :
-    'Draft';
+    state.status === 'published' ? 'Published' : derived.canPublish ? 'Ready' : 'Draft';
 
-  const statusStyle = STATUS_STYLES[state.status === 'published' ? 'published' : derived.canPublish ? 'ready' : 'draft'];
+  const statusStyle =
+    STATUS_STYLES[
+      state.status === 'published' ? 'published' : derived.canPublish ? 'ready' : 'draft'
+    ];
 
   return (
     <div className="sticky top-0 z-40 border-b border-slate-200 bg-white/95 backdrop-blur supports-[backdrop-filter]:bg-white/80">
       <div className="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
         <div className="flex h-14 items-center justify-between gap-4">
-
           {/* Left: back + title + status */}
           <div className="flex min-w-0 items-center gap-3">
             <Link
@@ -65,14 +65,20 @@ export default function CourseBuilderTopBar({
               <input
                 autoFocus
                 value={titleDraft}
-                onChange={e => setTitleDraft(e.target.value)}
+                onChange={(e) => setTitleDraft(e.target.value)}
                 onBlur={commitTitle}
-                onKeyDown={e => { if (e.key === 'Enter') commitTitle(); if (e.key === 'Escape') setEditingTitle(false); }}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter') commitTitle();
+                  if (e.key === 'Escape') setEditingTitle(false);
+                }}
                 className="min-w-0 flex-1 rounded border border-brand-blue-400 px-2 py-0.5 text-sm font-semibold text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               />
             ) : (
               <button
-                onClick={() => { setTitleDraft(state.title); setEditingTitle(true); }}
+                onClick={() => {
+                  setTitleDraft(state.title);
+                  setEditingTitle(true);
+                }}
                 className="min-w-0 truncate text-sm font-semibold text-slate-900 hover:text-brand-blue-600 transition-colors text-left"
                 title="Click to rename"
               >
@@ -80,7 +86,9 @@ export default function CourseBuilderTopBar({
               </button>
             )}
 
-            <span className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyle}`}>
+            <span
+              className={`flex-shrink-0 rounded-full px-2.5 py-0.5 text-xs font-medium ${statusStyle}`}
+            >
               {statusLabel}
             </span>
           </div>
@@ -102,7 +110,8 @@ export default function CourseBuilderTopBar({
             {derived.missingRequired.length > 0 ? (
               <span className="flex items-center gap-1 text-amber-600">
                 <AlertTriangle className="h-3.5 w-3.5" />
-                {derived.missingRequired.length} required {derived.missingRequired.length === 1 ? 'item' : 'items'} missing
+                {derived.missingRequired.length} required{' '}
+                {derived.missingRequired.length === 1 ? 'item' : 'items'} missing
               </span>
             ) : (
               <span className="flex items-center gap-1 text-emerald-600">
@@ -134,7 +143,9 @@ export default function CourseBuilderTopBar({
             <button
               onClick={onPublish}
               disabled={!derived.canPublish || state.status === 'published'}
-              title={!derived.canPublish ? `Cannot publish: ${derived.missingRequired[0]}` : undefined}
+              title={
+                !derived.canPublish ? `Cannot publish: ${derived.missingRequired[0]}` : undefined
+              }
               className="rounded-lg bg-brand-blue-600 px-4 py-1.5 text-sm font-semibold text-white hover:bg-brand-blue-700 transition-colors disabled:cursor-not-allowed disabled:opacity-40"
             >
               {state.status === 'published' ? 'Published' : 'Publish'}

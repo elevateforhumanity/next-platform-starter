@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -54,7 +54,9 @@ export function VideoConferencingIntegration() {
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Video Conferencing</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Video Conferencing
+          </h1>
           <p className="text-white">Join live sessions and meetings</p>
         </div>
       </div>
@@ -70,30 +72,43 @@ export function VideoConferencingIntegration() {
             <Card key={meeting.id} className="p-6">
               <div className="flex justify-between items-start mb-3">
                 <h3 className="text-xl font-bold">{meeting.title}</h3>
-                <span className={`px-3 py-2 rounded text-xs font-medium ${
-                  meeting.status === 'live' ? 'bg-brand-red-100 text-brand-red-700' :
-                  meeting.status === 'upcoming' ? 'bg-brand-blue-100 text-brand-blue-700' :
-                  'bg-gray-100 text-black'
-                }`}>
-                  {meeting.status === 'live' && '🔴 '}{meeting.status.toUpperCase()}
+                <span
+                  className={`px-3 py-2 rounded text-xs font-medium ${
+                    meeting.status === 'live'
+                      ? 'bg-brand-red-100 text-brand-red-700'
+                      : meeting.status === 'upcoming'
+                        ? 'bg-brand-blue-100 text-brand-blue-700'
+                        : 'bg-gray-100 text-black'
+                  }`}
+                >
+                  {meeting.status === 'live' && '🔴 '}
+                  {meeting.status.toUpperCase()}
                 </span>
               </div>
 
               <div className="space-y-2 text-sm text-black mb-4">
                 <p>👤 Host: {meeting.host}</p>
-                <p>📅 {meeting.date} at {meeting.time}</p>
+                <p>
+                  📅 {meeting.date} at {meeting.time}
+                </p>
                 <p>⏱️ Duration: {meeting.duration}</p>
                 <p>👥 {meeting.participants} participants</p>
               </div>
 
               {meeting.status === 'live' && (
-                <Button className="w-full bg-brand-orange-600 hover:bg-brand-orange-700">Join Now</Button>
+                <Button className="w-full bg-brand-orange-600 hover:bg-brand-orange-700">
+                  Join Now
+                </Button>
               )}
               {meeting.status === 'upcoming' && (
-                <Button className="w-full" variant="secondary">Add to Calendar</Button>
+                <Button className="w-full" variant="secondary">
+                  Add to Calendar
+                </Button>
               )}
               {meeting.status === 'ended' && (
-                <Button className="w-full" variant="secondary">View Recording</Button>
+                <Button className="w-full" variant="secondary">
+                  View Recording
+                </Button>
               )}
             </Card>
           ))}
@@ -103,7 +118,9 @@ export function VideoConferencingIntegration() {
           <h3 className="text-xl font-bold mb-4">Quick Start a Meeting</h3>
           <div className="flex gap-4">
             <Button className="flex-1">Start Instant Meeting</Button>
-            <Button variant="secondary" className="flex-1">Schedule for Later</Button>
+            <Button variant="secondary" className="flex-1">
+              Schedule for Later
+            </Button>
           </div>
         </Card>
       </div>

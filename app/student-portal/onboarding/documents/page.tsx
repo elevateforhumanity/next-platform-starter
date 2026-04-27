@@ -1,4 +1,3 @@
-
 'use client';
 
 import Image from 'next/image';
@@ -49,7 +48,8 @@ const REQUIRED_DOCUMENTS: RequiredDocument[] = [
   {
     id: 'proof_of_eligibility',
     name: 'Proof of Eligibility',
-    description: 'WIOA eligibility letter, unemployment documentation, or income verification (if applicable)',
+    description:
+      'WIOA eligibility letter, unemployment documentation, or income verification (if applicable)',
     required: false,
     acceptedTypes: ['image/jpeg', 'image/png', 'application/pdf'],
     maxSize: 10,
@@ -59,7 +59,11 @@ const REQUIRED_DOCUMENTS: RequiredDocument[] = [
     name: 'Resume/CV',
     description: 'Current resume or curriculum vitae (recommended for job placement)',
     required: false,
-    acceptedTypes: ['application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document'],
+    acceptedTypes: [
+      'application/pdf',
+      'application/msword',
+      'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
+    ],
     maxSize: 5,
   },
 ];
@@ -220,7 +224,7 @@ export default function OnboardingDocumentsPage() {
       // Check if all required documents are uploaded
       const requiredDocs = REQUIRED_DOCUMENTS.filter((d) => d.required);
       const allRequiredUploaded = requiredDocs.every(
-        (d) => uploadedFiles[d.id] || d.id === documentId
+        (d) => uploadedFiles[d.id] || d.id === documentId,
       );
 
       if (allRequiredUploaded) {
@@ -248,10 +252,7 @@ export default function OnboardingDocumentsPage() {
       const supabase = createClient();
 
       // Delete from database (storage cleanup can be done via trigger or cron)
-      await supabase!
-        .from('documents')
-        .delete()
-        .eq('id', uploadedFiles[documentId].documentId);
+      await supabase!.from('documents').delete().eq('id', uploadedFiles[documentId].documentId);
 
       setUploadedFiles((prev) => {
         const updated = { ...prev };
@@ -277,7 +278,10 @@ export default function OnboardingDocumentsPage() {
       const supabase = createClient();
       const { error: updateError } = await supabase
         .from('secure_identity')
-        .upsert({ user_id: user.id, ssn_last4: digits.slice(-4), updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
+        .upsert(
+          { user_id: user.id, ssn_last4: digits.slice(-4), updated_at: new Date().toISOString() },
+          { onConflict: 'user_id' },
+        );
       if (updateError) throw updateError;
       setSsn(`***-**-${digits.slice(-4)}`);
       setSsnSaved(true);
@@ -289,7 +293,7 @@ export default function OnboardingDocumentsPage() {
   };
 
   const requiredComplete = REQUIRED_DOCUMENTS.filter((d) => d.required).every(
-    (d) => uploadedFiles[d.id]
+    (d) => uploadedFiles[d.id],
   );
 
   const handleContinue = async () => {
@@ -310,11 +314,18 @@ export default function OnboardingDocumentsPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-slate-50 flex items-center justify-center">
-
-      {/* Hero Image */}
-      <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
-        <Image src="/images/pages/comp-home-highlight-success.jpg" alt="Student portal" fill sizes="100vw" className="object-cover" priority />
-      </section>
+        {/* Hero Image */}
+        <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src="/images/pages/comp-home-highlight-success.jpg"
+            alt="Student portal"
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
+        </section>
         <div className="text-center">
           <Loader2 className="w-8 h-8 text-brand-blue-600 animate-spin mx-auto mb-4" />
           <p className="text-slate-600">Loading documents...</p>
@@ -342,9 +353,7 @@ export default function OnboardingDocumentsPage() {
               <Upload className="w-6 h-6 text-brand-blue-600" />
             </div>
             <div>
-              <h1 className="text-2xl font-bold text-slate-900">
-                Upload Required Documents
-              </h1>
+              <h1 className="text-2xl font-bold text-slate-900">Upload Required Documents</h1>
               <p className="text-slate-600 mt-1">
                 Please upload the following documents to complete your enrollment.
               </p>
@@ -360,7 +369,10 @@ export default function OnboardingDocumentsPage() {
               <p className="text-brand-red-800 font-medium">Error</p>
               <p className="text-brand-red-700 text-sm">{error}</p>
             </div>
-            <button onClick={() => setError(null)} className="text-brand-red-400 hover:text-brand-red-600">
+            <button
+              onClick={() => setError(null)}
+              className="text-brand-red-400 hover:text-brand-red-600"
+            >
               <X className="w-5 h-5" />
             </button>
           </div>
@@ -369,7 +381,9 @@ export default function OnboardingDocumentsPage() {
         {/* Social Security Number */}
         <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
           <div className="flex items-start gap-4">
-            <div className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${ssnSaved ? 'bg-brand-green-100' : 'bg-slate-100'}`}>
+            <div
+              className={`w-12 h-12 rounded-lg flex items-center justify-center flex-shrink-0 ${ssnSaved ? 'bg-brand-green-100' : 'bg-slate-100'}`}
+            >
               {ssnSaved ? (
                 <Check className="w-6 h-6 text-brand-green-600" />
               ) : (
@@ -379,10 +393,13 @@ export default function OnboardingDocumentsPage() {
             <div className="flex-1">
               <div className="flex items-center gap-2 mb-1">
                 <h3 className="font-semibold text-slate-900">Social Security Number</h3>
-                <span className="text-xs bg-brand-red-100 text-brand-red-700 px-2 py-0.5 rounded-full">Required</span>
+                <span className="text-xs bg-brand-red-100 text-brand-red-700 px-2 py-0.5 rounded-full">
+                  Required
+                </span>
               </div>
               <p className="text-sm text-slate-600 mb-3">
-                Only the last 4 digits are stored. Used for employment verification and funding eligibility.
+                Only the last 4 digits are stored. Used for employment verification and funding
+                eligibility.
               </p>
               {ssnSaved ? (
                 <div className="flex items-center gap-2 bg-slate-50 rounded-lg p-3">
@@ -427,16 +444,24 @@ export default function OnboardingDocumentsPage() {
             const uploaded = uploadedFiles[doc.id];
             const isUploading = uploading === doc.id;
             const vStatus = uploaded?.validationStatus;
-            const borderColor = !uploaded ? 'border-transparent'
-              : vStatus === 'verified' ? 'border-brand-green-500'
-              : vStatus === 'rejected' ? 'border-brand-red-500'
-              : vStatus === 'validating' ? 'border-brand-blue-400'
-              : 'border-amber-400';
-            const iconBg = !uploaded ? 'bg-slate-100'
-              : vStatus === 'verified' ? 'bg-brand-green-100'
-              : vStatus === 'rejected' ? 'bg-brand-red-100'
-              : vStatus === 'validating' ? 'bg-brand-blue-100'
-              : 'bg-amber-100';
+            const borderColor = !uploaded
+              ? 'border-transparent'
+              : vStatus === 'verified'
+                ? 'border-brand-green-500'
+                : vStatus === 'rejected'
+                  ? 'border-brand-red-500'
+                  : vStatus === 'validating'
+                    ? 'border-brand-blue-400'
+                    : 'border-amber-400';
+            const iconBg = !uploaded
+              ? 'bg-slate-100'
+              : vStatus === 'verified'
+                ? 'bg-brand-green-100'
+                : vStatus === 'rejected'
+                  ? 'bg-brand-red-100'
+                  : vStatus === 'validating'
+                    ? 'bg-brand-blue-100'
+                    : 'bg-amber-100';
 
             return (
               <div
@@ -562,8 +587,8 @@ export default function OnboardingDocumentsPage() {
 
         {/* Privacy Notice */}
         <p className="text-xs text-slate-500 text-center mt-6">
-          Your documents are stored securely and will only be used for enrollment verification.
-          We comply with FERPA and applicable privacy regulations.
+          Your documents are stored securely and will only be used for enrollment verification. We
+          comply with FERPA and applicable privacy regulations.
         </p>
       </div>
     </div>

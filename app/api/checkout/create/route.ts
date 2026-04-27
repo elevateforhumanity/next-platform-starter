@@ -1,5 +1,3 @@
-
-
 // app/api/checkout/create/route.ts - Create Stripe checkout for course
 import { getStripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
@@ -14,17 +12,12 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-
-
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'contact');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'contact');
+  if (rateLimited) return rateLimited;
 
   if (!stripe) {
-    return NextResponse.json(
-      { error: 'Payment system not configured' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
   }
 
   try {
@@ -37,10 +30,7 @@ async function _POST(request: NextRequest) {
     const { courseId } = await request.json();
 
     if (!courseId) {
-      return NextResponse.json(
-        { error: 'Course ID required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Course ID required' }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -57,15 +47,8 @@ async function _POST(request: NextRequest) {
     }
 
     // Check if course requires payment
-    if (
-      course.is_free ||
-      !course.requires_payment ||
-      course.student_price_cents === 0
-    ) {
-      return NextResponse.json(
-        { error: 'This course is free' },
-        { status: 400 }
-      );
+    if (course.is_free || !course.requires_payment || course.student_price_cents === 0) {
+      return NextResponse.json({ error: 'This course is free' }, { status: 400 });
     }
 
     // Check if already enrolled
@@ -77,10 +60,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (existing && existing.payment_status === 'paid') {
-      return NextResponse.json(
-        { error: 'Already enrolled and paid' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Already enrolled and paid' }, { status: 400 });
     }
 
     // Create Stripe checkout session
@@ -140,14 +120,11 @@ async function _POST(request: NextRequest) {
       sessionId: session.id,
       url: session.url,
     });
-  } catch (error) { 
-    logger.error(
-      'Checkout error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Checkout error:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to create checkout' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

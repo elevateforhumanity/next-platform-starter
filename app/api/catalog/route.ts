@@ -39,10 +39,10 @@ export async function GET(request: NextRequest) {
       .from('program_catalog_index')
       .select(
         'program_id, provider_name, provider_slug, title, slug, category, program_type, ' +
-        'wioa_eligible, funding_tags, credential_type, credential_name, credential_authority, ' +
-        'duration_weeks, next_start_date, seats_available, delivery_mode, ' +
-        'service_area, city, state, completion_rate, placement_rate',
-        { count: 'exact' }
+          'wioa_eligible, funding_tags, credential_type, credential_name, credential_authority, ' +
+          'duration_weeks, next_start_date, seats_available, delivery_mode, ' +
+          'service_area, city, state, completion_rate, placement_rate',
+        { count: 'exact' },
       )
       .range(offset, offset + perPage - 1)
       .order('next_start_date', { ascending: true, nullsFirst: false });
@@ -58,15 +58,18 @@ export async function GET(request: NextRequest) {
     const { data, count, error } = await query;
     if (error) return safeInternalError(error, 'Failed to fetch catalog');
 
-    return NextResponse.json({
-      programs: data ?? [],
-      total: count ?? 0,
-      page,
-      perPage,
-      totalPages: Math.ceil((count ?? 0) / perPage),
-    }, {
-      headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300' },
-    });
+    return NextResponse.json(
+      {
+        programs: data ?? [],
+        total: count ?? 0,
+        page,
+        perPage,
+        totalPages: Math.ceil((count ?? 0) / perPage),
+      },
+      {
+        headers: { 'Cache-Control': 'public, s-maxage=60, stale-while-revalidate=300' },
+      },
+    );
   } catch (err) {
     return safeInternalError(err, 'Failed to fetch catalog');
   }

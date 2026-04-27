@@ -48,8 +48,7 @@ function isLessonCheckpointBlocked(
   passedIds: Set<string>,
 ): boolean {
   const isDbDrivenLesson =
-    lessonData.lesson_source === 'canonical' ||
-    lessonData.lesson_source === 'course_lessons';
+    lessonData.lesson_source === 'canonical' || lessonData.lesson_source === 'course_lessons';
 
   if (!isDbDrivenLesson || lessonData.module_order <= 1) {
     return false;

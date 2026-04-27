@@ -1,6 +1,5 @@
 import { NextResponse } from 'next/server';
 
-
 import { writeFile, mkdir } from 'fs/promises';
 import { join } from 'path';
 import { existsSync } from 'fs';
@@ -28,10 +27,12 @@ const ALLOWED_FILE_TYPES: Record<string, string[]> = {
 // Magic bytes for file type validation
 const FILE_SIGNATURES: Record<string, number[][]> = {
   'application/pdf': [[0x25, 0x50, 0x44, 0x46]], // %PDF
-  'image/jpeg': [[0xFF, 0xD8, 0xFF]],
-  'image/png': [[0x89, 0x50, 0x4E, 0x47, 0x0D, 0x0A, 0x1A, 0x0A]],
-  'application/msword': [[0xD0, 0xCF, 0x11, 0xE0, 0xA1, 0xB1, 0x1A, 0xE1]],
-  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [[0x50, 0x4B, 0x03, 0x04]], // ZIP-based
+  'image/jpeg': [[0xff, 0xd8, 0xff]],
+  'image/png': [[0x89, 0x50, 0x4e, 0x47, 0x0d, 0x0a, 0x1a, 0x0a]],
+  'application/msword': [[0xd0, 0xcf, 0x11, 0xe0, 0xa1, 0xb1, 0x1a, 0xe1]],
+  'application/vnd.openxmlformats-officedocument.wordprocessingml.document': [
+    [0x50, 0x4b, 0x03, 0x04],
+  ], // ZIP-based
 };
 
 // Rate limit: 10 uploads per minute per user
@@ -51,20 +52,20 @@ function isValidExtension(mimeType: string, extension: string): boolean {
 function sanitizeFilename(filename: string): string {
   // Remove path separators and null bytes
   let sanitized = filename.replace(/[/\\:*?"<>|]/g, '').replace(/\0/g, '');
-  
+
   // Remove all dot sequences (path traversal prevention)
   sanitized = sanitized.replace(/\.{2,}/g, '.');
-  
+
   // Remove leading dots to prevent hidden files
   sanitized = sanitized.replace(/^\.+/, '');
-  
+
   // Limit length
   if (sanitized.length > 100) {
     const ext = sanitized.split('.').pop() || '';
     const name = sanitized.slice(0, 90);
     sanitized = ext ? `${name}.${ext}` : name;
   }
-  
+
   return sanitized || 'unnamed';
 }
 
@@ -81,7 +82,7 @@ async function validateFileContent(file: File, declaredMimeType: string): Promis
   const buffer = await file.arrayBuffer();
   const bytes = new Uint8Array(buffer);
 
-  return signatures.some(signature => {
+  return signatures.some((signature) => {
     if (bytes.length < signature.length) return false;
     return signature.every((byte, index) => bytes[index] === byte);
   });
@@ -103,12 +104,15 @@ async function _POST(request: Request) {
 
     // Authentication check
     const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
       return NextResponse.json(
         { success: false, error: 'Authentication required' },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -119,17 +123,14 @@ async function _POST(request: Request) {
     const file = formData.get('file') as File;
 
     if (!file) {
-      return NextResponse.json(
-        { success: false, error: 'No file provided' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'No file provided' }, { status: 400 });
     }
 
     // Validate file size
     if (file.size > MAX_FILE_SIZE) {
       return NextResponse.json(
         { success: false, error: 'File size exceeds 10MB limit' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -137,7 +138,7 @@ async function _POST(request: Request) {
     if (!ALLOWED_FILE_TYPES[file.type]) {
       return NextResponse.json(
         { success: false, error: 'File type not allowed. Allowed types: PDF, DOC, DOCX, JPG, PNG' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -148,7 +149,7 @@ async function _POST(request: Request) {
     if (!extension) {
       return NextResponse.json(
         { success: false, error: 'File must have a valid extension' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -156,21 +157,21 @@ async function _POST(request: Request) {
     if (!isValidExtension(file.type, extension)) {
       return NextResponse.json(
         { success: false, error: 'File extension does not match file type' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Validate file content (magic bytes)
     const contentValid = await validateFileContent(file, file.type);
     if (!contentValid) {
-      logger.warn('File content validation failed', { 
-        userId: user.id, 
+      logger.warn('File content validation failed', {
+        userId: user.id,
         filename: sanitizedName,
-        declaredType: file.type 
+        declaredType: file.type,
       });
       return NextResponse.json(
         { success: false, error: 'File content does not match declared type' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -209,15 +210,12 @@ async function _POST(request: Request) {
         originalName: sanitizedName,
         url: fileUrl,
         size: file.size,
-        type: file.type
-      }
+        type: file.type,
+      },
     });
   } catch (error) {
     logger.error('Upload error:', error as Error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to upload file' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Failed to upload file' }, { status: 500 });
   }
 }
 
@@ -228,12 +226,15 @@ async function _DELETE(request: Request) {
 
     // Authentication check
     const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
       return NextResponse.json(
         { success: false, error: 'Authentication required' },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
@@ -241,10 +242,7 @@ async function _DELETE(request: Request) {
     const filename = searchParams.get('filename');
 
     if (!filename) {
-      return NextResponse.json(
-        { success: false, error: 'No filename provided' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'No filename provided' }, { status: 400 });
     }
 
     // Validate filename format to prevent path traversal
@@ -253,7 +251,7 @@ async function _DELETE(request: Request) {
     if (!safeFilenamePattern.test(filename)) {
       return NextResponse.json(
         { success: false, error: 'Invalid filename format' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -269,33 +267,28 @@ async function _DELETE(request: Request) {
       if (!filename.startsWith(userPrefix)) {
         return NextResponse.json(
           { success: false, error: 'Unauthorized to delete this file' },
-          { status: 403 }
+          { status: 403 },
         );
       }
 
-      const { error } = await supabase.storage
-        .from('uploads')
-        .remove([filename]);
+      const { error } = await supabase.storage.from('uploads').remove([filename]);
 
       if (error) {
         logger.error('Storage deletion error:', error);
         return NextResponse.json(
           { success: false, error: 'Failed to delete file from storage' },
-          { status: 500 }
+          { status: 500 },
         );
       }
     }
 
     return NextResponse.json({
       success: true,
-      message: 'File deleted successfully'
+      message: 'File deleted successfully',
     });
   } catch (error) {
     logger.error('Delete error:', error as Error);
-    return NextResponse.json(
-      { success: false, error: 'Failed to delete file' },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: 'Failed to delete file' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/upload', _POST);

@@ -6,11 +6,13 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const dynamic = 'force-dynamic';
 
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'strict');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'strict');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -20,7 +22,10 @@ async function _POST(request: NextRequest) {
     const { phone_number, message_text, template_id } = await request.json();
 
     if (!phone_number || !message_text) {
-      return NextResponse.json({ error: 'phone_number and message_text are required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'phone_number and message_text are required' },
+        { status: 400 },
+      );
     }
 
     // Log the SMS message (actual sending requires Twilio/SMS provider integration)

@@ -1,7 +1,7 @@
-import { logger } from "@/lib/logger";
+import { logger } from '@/lib/logger';
 /**
  * Server-side Compliance Utilities
- * 
+ *
  * Use these functions in Server Components and API routes.
  */
 
@@ -13,7 +13,7 @@ import { checkComplianceStatus, type ComplianceStatus } from './enforcement';
  */
 export async function checkComplianceStatusServer(
   userId: string,
-  context: string = 'student'
+  context: string = 'student',
 ): Promise<ComplianceStatus> {
   return checkComplianceStatus(userId, context);
 }
@@ -24,36 +24,24 @@ export async function checkComplianceStatusServer(
 export async function getUserComplianceSummary(userId: string) {
   const supabase = await createClient();
 
-  const [
-    { data: agreements },
-    { data: handbook },
-    { data: onboarding },
-    { data: profile },
-  ] = await Promise.all([
-    supabase
-      .from('license_agreement_acceptances')
-      .select('agreement_type, document_version, accepted_at, signature_method')
-      .eq('user_id', userId),
-    supabase
-      .from('handbook_acknowledgments')
-      .select('handbook_version, acknowledged_at')
-      .eq('user_id', userId)
-      .maybeSingle(),
-    supabase
-      .from('onboarding_progress')
-      .select('*')
-      .eq('user_id', userId)
-      .maybeSingle(),
-    supabase
-      .from('profiles')
-      .select('full_name, email, role')
-      .eq('id', userId)
-      .maybeSingle(),
-  ]);
+  const [{ data: agreements }, { data: handbook }, { data: onboarding }, { data: profile }] =
+    await Promise.all([
+      supabase
+        .from('license_agreement_acceptances')
+        .select('agreement_type, document_version, accepted_at, signature_method')
+        .eq('user_id', userId),
+      supabase
+        .from('handbook_acknowledgments')
+        .select('handbook_version, acknowledged_at')
+        .eq('user_id', userId)
+        .maybeSingle(),
+      supabase.from('onboarding_progress').select('*').eq('user_id', userId).maybeSingle(),
+      supabase.from('profiles').select('full_name, email, role').eq('id', userId).maybeSingle(),
+    ]);
 
   const requiredAgreements = ['enrollment', 'participation', 'ferpa'];
-  const signedAgreements = agreements?.map(a => a.agreement_type) || [];
-  const missingAgreements = requiredAgreements.filter(a => !signedAgreements.includes(a));
+  const signedAgreements = agreements?.map((a) => a.agreement_type) || [];
+  const missingAgreements = requiredAgreements.filter((a) => !signedAgreements.includes(a));
 
   return {
     user: {
@@ -81,9 +69,7 @@ export async function getUserComplianceSummary(userId: string) {
       completedAt: onboarding?.completed_at,
     },
     isFullyCompliant:
-      missingAgreements.length === 0 &&
-      !!handbook &&
-      onboarding?.status === 'completed',
+      missingAgreements.length === 0 && !!handbook && onboarding?.status === 'completed',
   };
 }
 
@@ -92,7 +78,7 @@ export async function getUserComplianceSummary(userId: string) {
  */
 export async function getComplianceAuditTrail(
   userId: string,
-  options?: { limit?: number; eventTypes?: string[] }
+  options?: { limit?: number; eventTypes?: string[] },
 ) {
   const supabase = await createClient();
 
@@ -126,7 +112,7 @@ export async function getComplianceAuditTrail(
 export async function verifyAgreementSigned(
   userId: string,
   agreementType: string,
-  version?: string
+  version?: string,
 ): Promise<{
   signed: boolean;
   acceptance?: {

@@ -12,6 +12,7 @@ to muted silently. The user never sees a mute toggle.
 All hero video components use `useHeroVideo` from `hooks/useHeroVideo.ts`.
 
 The hook:
+
 1. Attempts `el.muted = false; el.play()`
 2. On failure, falls back to `el.muted = true; el.play()`
 3. Pauses when scrolled off-screen (configurable via `pauseOffScreen`)
@@ -55,14 +56,14 @@ It auto-plays on first scroll. Pass `audioSrc` to `PageVideoHero` or render
 
 ## Components That Use This Standard
 
-| Component | Used By |
-|-----------|---------|
-| `components/ui/HomeHeroVideo.tsx` | Home page |
-| `components/ProgramHeroBanner.tsx` | Programs index, ProgramPageLayout, ProgramTemplate |
-| `components/ui/PageVideoHero.tsx` | ProgramDetailPage |
-| `components/ui/VideoHeroBanner.tsx` | Mission page |
-| `components/programs/ProgramCategoryPage.tsx` | Healthcare, Trades, Tech category pages |
-| `hooks/useHeroVideo.ts` | All of the above |
+| Component                                     | Used By                                            |
+| --------------------------------------------- | -------------------------------------------------- |
+| `components/ui/HomeHeroVideo.tsx`             | Home page                                          |
+| `components/ProgramHeroBanner.tsx`            | Programs index, ProgramPageLayout, ProgramTemplate |
+| `components/ui/PageVideoHero.tsx`             | ProgramDetailPage                                  |
+| `components/ui/VideoHeroBanner.tsx`           | Mission page                                       |
+| `components/programs/ProgramCategoryPage.tsx` | Healthcare, Trades, Tech category pages            |
+| `hooks/useHeroVideo.ts`                       | All of the above                                   |
 
 ## Prohibited
 

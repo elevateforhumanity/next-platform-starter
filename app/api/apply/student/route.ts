@@ -29,6 +29,8 @@ export async function POST(request: Request) {
     body: JSON.stringify(body),
   });
 
-  const data = await res.json().catch(() => ({ error: 'Unexpected response from applications service' }));
+  const data = await res
+    .json()
+    .catch(() => ({ error: 'Unexpected response from applications service' }));
   return NextResponse.json(data, { status: res.status });
 }

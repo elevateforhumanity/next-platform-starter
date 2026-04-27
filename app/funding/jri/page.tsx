@@ -2,26 +2,27 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { 
-  CheckCircle, 
-  ArrowRight, 
-  Heart, 
-  Briefcase, 
-  GraduationCap, 
-  Home, 
-  Users, 
+import {
+  CheckCircle,
+  ArrowRight,
+  Heart,
+  Briefcase,
+  GraduationCap,
+  Home,
+  Users,
   Shield,
   Phone,
   Clock,
   DollarSign,
-  MapPin
+  MapPin,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/funding/jri',
   },
-  title: 'JRI Program - Free Reentry Training | Justice Reinvestment Initiative | Elevate For Humanity',
+  title:
+    'JRI Program - Free Reentry Training | Justice Reinvestment Initiative | Elevate For Humanity',
   description:
     'Free career training for justice-involved individuals in Indiana. JRI covers 100% of training costs including certifications, supplies, and job placement support. Your past does not define your future.',
 };
@@ -39,7 +40,8 @@ export default function JriPage() {
       {/* Hero Section */}
       <section className="relative min-h-[500px] flex items-center overflow-hidden">
         <div className="absolute inset-0">
-          <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image sizes="100vw"
             src="/images/pages/jri-hero.jpg"
             alt="Second chance career training"
             fill
@@ -53,7 +55,9 @@ export default function JriPage() {
           <div className="max-w-3xl">
             <div className="inline-flex items-center gap-2 bg-white/10 backdrop-blur-sm border border-white/20 px-4 py-2 rounded-full mb-6">
               <Heart className="w-5 h-5 text-red-400" />
-              <span className="text-white font-semibold text-sm">Justice Reinvestment Initiative</span>
+              <span className="text-white font-semibold text-sm">
+                Justice Reinvestment Initiative
+              </span>
             </div>
 
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-black text-white leading-tight mb-6">
@@ -62,8 +66,8 @@ export default function JriPage() {
             </h1>
 
             <p className="text-xl text-indigo-100 mb-8 leading-relaxed">
-              100% FREE career training for justice-involved individuals in Indiana. 
-              Get certified, get hired, and build the life you deserve.
+              100% FREE career training for justice-involved individuals in Indiana. Get certified,
+              get hired, and build the life you deserve.
             </p>
 
             <div className="flex flex-wrap gap-4 mb-8">
@@ -110,19 +114,42 @@ export default function JriPage() {
               What JRI Pays For (Everything)
             </h2>
             <p className="text-xl text-gray-600 max-w-2xl mx-auto">
-              The Justice Reinvestment Initiative covers ALL costs so you can focus on your training and future.
+              The Justice Reinvestment Initiative covers ALL costs so you can focus on your training
+              and future.
             </p>
           </div>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: GraduationCap, title: 'Tuition & Training', desc: 'All classroom and hands-on instruction', color: 'bg-blue-100 text-blue-600' },
-              { icon: Shield, title: 'Certifications', desc: 'Industry credentials and licenses', color: 'bg-green-100 text-green-600' },
-              { icon: Briefcase, title: 'Tools & Supplies', desc: 'Everything you need for training', color: 'bg-purple-100 text-purple-600' },
-              { icon: Users, title: 'Support Services', desc: 'Case management & job placement', color: 'bg-orange-100 text-orange-600' },
+              {
+                icon: GraduationCap,
+                title: 'Tuition & Training',
+                desc: 'All classroom and hands-on instruction',
+                color: 'bg-blue-100 text-blue-600',
+              },
+              {
+                icon: Shield,
+                title: 'Certifications',
+                desc: 'Industry credentials and licenses',
+                color: 'bg-green-100 text-green-600',
+              },
+              {
+                icon: Briefcase,
+                title: 'Tools & Supplies',
+                desc: 'Everything you need for training',
+                color: 'bg-purple-100 text-purple-600',
+              },
+              {
+                icon: Users,
+                title: 'Support Services',
+                desc: 'Case management & job placement',
+                color: 'bg-orange-100 text-orange-600',
+              },
             ].map((item, i) => (
               <div key={i} className="bg-white rounded-xl p-6 shadow-sm border text-center">
-                <div className={`w-14 h-14 ${item.color} rounded-xl flex items-center justify-center mx-auto mb-4`}>
+                <div
+                  className={`w-14 h-14 ${item.color} rounded-xl flex items-center justify-center mx-auto mb-4`}
+                >
                   <item.icon className="w-7 h-7" />
                 </div>
                 <h3 className="font-bold text-gray-900 text-lg mb-2">{item.title}</h3>
@@ -153,7 +180,7 @@ export default function JriPage() {
                 duration: '18 months',
                 outcome: 'Indiana Barber License',
                 salary: '$35,000 - $60,000+/year',
-                desc: 'Learn to cut hair, build clientele, and own your own business. Work in a real barbershop while you train.'
+                desc: 'Learn to cut hair, build clientele, and own your own business. Work in a real barbershop while you train.',
               },
               {
                 title: 'CNA / Healthcare',
@@ -161,7 +188,7 @@ export default function JriPage() {
                 duration: '4-8 weeks',
                 outcome: 'State CNA Certification',
                 salary: '$30,000 - $40,000/year',
-                desc: 'Start a career in healthcare. CNAs are in high demand at hospitals, nursing homes, and home health agencies.'
+                desc: 'Start a career in healthcare. CNAs are in high demand at hospitals, nursing homes, and home health agencies.',
               },
               {
                 title: 'CDL Truck Driving',
@@ -169,7 +196,7 @@ export default function JriPage() {
                 duration: '3-4 weeks',
                 outcome: 'Commercial Driver License',
                 salary: '$45,000 - $70,000+/year',
-                desc: 'Get your CDL and hit the road. Trucking companies are hiring immediately with sign-on bonuses.'
+                desc: 'Get your CDL and hit the road. Trucking companies are hiring immediately with sign-on bonuses.',
               },
               {
                 title: 'Building Maintenance',
@@ -177,7 +204,7 @@ export default function JriPage() {
                 duration: '8-12 weeks',
                 outcome: 'Multiple Certifications',
                 salary: '$32,000 - $50,000/year',
-                desc: 'Learn HVAC basics, electrical, plumbing, and general maintenance. Every building needs maintenance techs.'
+                desc: 'Learn HVAC basics, electrical, plumbing, and general maintenance. Every building needs maintenance techs.',
               },
               {
                 title: 'Forklift & Warehouse',
@@ -185,7 +212,7 @@ export default function JriPage() {
                 duration: '1-2 weeks',
                 outcome: 'OSHA Forklift Certification',
                 salary: '$30,000 - $45,000/year',
-                desc: 'Quick certification to get you working fast. Warehouses and distribution centers are always hiring.'
+                desc: 'Quick certification to get you working fast. Warehouses and distribution centers are always hiring.',
               },
               {
                 title: 'Construction Trades',
@@ -193,12 +220,20 @@ export default function JriPage() {
                 duration: '8-16 weeks',
                 outcome: 'OSHA 10 + Trade Certs',
                 salary: '$35,000 - $55,000/year',
-                desc: 'Learn carpentry, drywall, painting, or concrete work. Construction is booming in Indianapolis.'
+                desc: 'Learn carpentry, drywall, painting, or concrete work. Construction is booming in Indianapolis.',
               },
             ].map((program, i) => (
-              <div key={i} className="bg-white rounded-xl overflow-hidden shadow-lg border group hover:shadow-xl transition-shadow">
+              <div
+                key={i}
+                className="bg-white rounded-xl overflow-hidden shadow-lg border group hover:shadow-xl transition-shadow"
+              >
                 <div className="relative h-48">
-                  <Image src={program.image} alt={program.title} fill className="object-cover group-hover:scale-105 transition-transform duration-300" />
+                  <Image sizes="100vw"
+                    src={program.image}
+                    alt={program.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
                   <div className="absolute top-4 right-4 bg-green-500 text-white text-xs font-bold px-3 py-1 rounded-full">
                     JRI FUNDED
                   </div>
@@ -236,8 +271,9 @@ export default function JriPage() {
                 Do You Qualify for JRI?
               </h2>
               <p className="text-lg text-gray-600 mb-8">
-                JRI is specifically for people who have been involved in the criminal justice system 
-                and want to build a legitimate career. If any of these apply to you, you likely qualify:
+                JRI is specifically for people who have been involved in the criminal justice system
+                and want to build a legitimate career. If any of these apply to you, you likely
+                qualify:
               </p>
 
               <ul className="space-y-4">
@@ -258,8 +294,8 @@ export default function JriPage() {
 
               <div className="mt-8 p-4 bg-amber-50 border border-amber-200 rounded-lg">
                 <p className="text-amber-800">
-                  <strong>Not sure if you qualify?</strong> Call us at (317) 314-3757. 
-                  We&apos;ll help you figure it out — no judgment, just answers.
+                  <strong>Not sure if you qualify?</strong> Call us at (317) 314-3757. We&apos;ll
+                  help you figure it out — no judgment, just answers.
                 </p>
               </div>
             </div>
@@ -274,7 +310,8 @@ export default function JriPage() {
               />
               <div className="absolute -bottom-6 -left-6 bg-white rounded-xl p-6 shadow-lg max-w-xs">
                 <p className="text-gray-900 font-medium italic">
-                  &quot;JRI gave me a second chance when no one else would. Now I have my CDL and make $55K a year.&quot;
+                  &quot;JRI gave me a second chance when no one else would. Now I have my CDL and
+                  make $55K a year.&quot;
                 </p>
                 <p className="text-gray-500 text-sm mt-2">— Marcus T., JRI Graduate</p>
               </div>
@@ -300,32 +337,32 @@ export default function JriPage() {
               {
                 icon: Users,
                 title: 'Case Management',
-                desc: 'A dedicated case manager helps you navigate training, appointments, and any challenges that come up.'
+                desc: 'A dedicated case manager helps you navigate training, appointments, and any challenges that come up.',
               },
               {
                 icon: Briefcase,
                 title: 'Job Placement',
-                desc: 'We connect you with employers who hire people with records. Many of our partners specifically want JRI graduates.'
+                desc: 'We connect you with employers who hire people with records. Many of our partners specifically want JRI graduates.',
               },
               {
                 icon: Home,
                 title: 'Housing Assistance',
-                desc: 'Need help finding stable housing? We can connect you with reentry housing resources in Indianapolis.'
+                desc: 'Need help finding stable housing? We can connect you with reentry housing resources in Indianapolis.',
               },
               {
                 icon: Shield,
                 title: 'Record Expungement Help',
-                desc: 'Learn about Indiana expungement laws and get connected to legal aid if you qualify.'
+                desc: 'Learn about Indiana expungement laws and get connected to legal aid if you qualify.',
               },
               {
                 icon: Heart,
                 title: 'Mental Health Support',
-                desc: 'Access to counseling and mental health resources to help you stay on track.'
+                desc: 'Access to counseling and mental health resources to help you stay on track.',
               },
               {
                 icon: DollarSign,
                 title: 'Financial Coaching',
-                desc: 'Learn to budget, build credit, and manage money so you can stay stable long-term.'
+                desc: 'Learn to budget, build credit, and manage money so you can stay stable long-term.',
               },
             ].map((service, i) => (
               <div key={i} className="bg-gray-50 rounded-xl p-6 border">
@@ -342,12 +379,8 @@ export default function JriPage() {
       <section className="py-16 bg-gray-900 text-white">
         <div className="max-w-4xl mx-auto px-4">
           <div className="text-center mb-12">
-            <h2 className="text-3xl md:text-4xl font-black mb-4">
-              How to Get Started
-            </h2>
-            <p className="text-xl text-gray-400">
-              Three simple steps to start your new career
-            </p>
+            <h2 className="text-3xl md:text-4xl font-black mb-4">How to Get Started</h2>
+            <p className="text-xl text-gray-400">Three simple steps to start your new career</p>
           </div>
 
           <div className="space-y-8">
@@ -355,17 +388,17 @@ export default function JriPage() {
               {
                 step: 1,
                 title: 'Apply Online or Call Us',
-                desc: 'Fill out a short application (10 minutes) or call (317) 314-3757. Tell us about yourself and what career interests you.'
+                desc: 'Fill out a short application (10 minutes) or call (317) 314-3757. Tell us about yourself and what career interests you.',
               },
               {
                 step: 2,
                 title: 'Meet With Our Team',
-                desc: 'We\'ll verify your JRI eligibility, discuss your goals, and help you choose the right training program.'
+                desc: "We'll verify your JRI eligibility, discuss your goals, and help you choose the right training program.",
               },
               {
                 step: 3,
                 title: 'Start Training',
-                desc: 'Begin your program with everything paid for. Focus on learning — we handle the rest.'
+                desc: 'Begin your program with everything paid for. Focus on learning — we handle the rest.',
               },
             ].map((item) => (
               <div key={item.step} className="flex gap-6 items-start">
@@ -390,7 +423,8 @@ export default function JriPage() {
             Ready for Your Second Chance?
           </h2>
           <p className="text-xl text-indigo-100 mb-8 max-w-2xl mx-auto">
-            Don&apos;t let your past hold you back. JRI exists because Indiana believes in second chances — and so do we.
+            Don&apos;t let your past hold you back. JRI exists because Indiana believes in second
+            chances — and so do we.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link

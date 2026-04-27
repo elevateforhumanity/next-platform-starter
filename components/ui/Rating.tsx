@@ -40,9 +40,7 @@ export const Rating: React.FC<RatingProps> = ({
           >
             <Star
               className={`${sizes[size]} ${
-                isFilled || isHalf
-                  ? 'fill-yellow-400 text-yellow-400'
-                  : 'text-slate-300'
+                isFilled || isHalf ? 'fill-yellow-400 text-yellow-400' : 'text-slate-300'
               }`}
             />
           </button>

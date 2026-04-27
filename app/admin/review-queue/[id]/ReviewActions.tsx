@@ -22,10 +22,10 @@ export function ReviewActions({
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
-  
+
   // Override fields
   const [approvedHours, setApprovedHours] = useState(
-    transferHours?.total_hours?.toString() || extraction?.extracted?.total_hours?.toString() || ''
+    transferHours?.total_hours?.toString() || extraction?.extracted?.total_hours?.toString() || '',
   );
   const [selectedShopId, setSelectedShopId] = useState(routingScores[0]?.shop_id || '');
   const [rejectReason, setRejectReason] = useState('');
@@ -43,12 +43,14 @@ export function ReviewActions({
           action,
           user_id: userId,
           // Override data
-          approved_hours: action === 'approve' && item.queue_type === 'transcript_review' 
-            ? parseFloat(approvedHours) 
-            : undefined,
-          selected_shop_id: action === 'approve' && item.queue_type === 'routing_review'
-            ? selectedShopId
-            : undefined,
+          approved_hours:
+            action === 'approve' && item.queue_type === 'transcript_review'
+              ? parseFloat(approvedHours)
+              : undefined,
+          selected_shop_id:
+            action === 'approve' && item.queue_type === 'routing_review'
+              ? selectedShopId
+              : undefined,
           reject_reason: action === 'reject' ? rejectReason : undefined,
         }),
       });
@@ -75,9 +77,7 @@ export function ReviewActions({
           <span className="text-slate-400 flex-shrink-0">•</span>
           <span className="font-medium">Resolved</span>
         </div>
-        {item.resolution && (
-          <p className="text-sm text-brand-green-600 mt-2">{item.resolution}</p>
-        )}
+        {item.resolution && <p className="text-sm text-brand-green-600 mt-2">{item.resolution}</p>}
       </div>
     );
   }
@@ -114,9 +114,7 @@ export function ReviewActions({
       {/* Routing Review - Shop Selection */}
       {item.queue_type === 'routing_review' && routingScores.length > 0 && (
         <div>
-          <label className="block text-sm font-medium text-slate-900 mb-1">
-            Assign to Shop
-          </label>
+          <label className="block text-sm font-medium text-slate-900 mb-1">Assign to Shop</label>
           <select
             value={selectedShopId}
             onChange={(e) => setSelectedShopId(e.target.value)}
@@ -137,15 +135,17 @@ export function ReviewActions({
         disabled={loading}
         className="w-full flex items-center justify-center gap-2 bg-brand-green-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-brand-green-700 disabled:opacity-50"
       >
-        {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <span className="text-slate-400 flex-shrink-0">•</span>}
+        {loading ? (
+          <Loader2 className="w-4 h-4 animate-spin" />
+        ) : (
+          <span className="text-slate-400 flex-shrink-0">•</span>
+        )}
         Approve
       </button>
 
       {/* Reject Section */}
       <div className="border-t pt-4">
-        <label className="block text-sm font-medium text-slate-900 mb-1">
-          Rejection Reason
-        </label>
+        <label className="block text-sm font-medium text-slate-900 mb-1">Rejection Reason</label>
         <textarea
           value={rejectReason}
           onChange={(e) => setRejectReason(e.target.value)}
@@ -170,7 +170,11 @@ export function ReviewActions({
           disabled={loading}
           className="w-full flex items-center justify-center gap-2 bg-yellow-600 text-white px-4 py-2 rounded-lg font-medium hover:bg-yellow-700 disabled:opacity-50"
         >
-          {loading ? <Loader2 className="w-4 h-4 animate-spin" /> : <RefreshCw className="w-4 h-4" />}
+          {loading ? (
+            <Loader2 className="w-4 h-4 animate-spin" />
+          ) : (
+            <RefreshCw className="w-4 h-4" />
+          )}
           Request Reupload
         </button>
       )}

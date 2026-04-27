@@ -15,21 +15,44 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { ArrowLeft, Clock, Calendar, Loader2, CheckCircle2, Scissors, BookOpen, Sparkles, Hand, Flower2 } from 'lucide-react';
+import {
+  ArrowLeft,
+  Clock,
+  Calendar,
+  Loader2,
+  CheckCircle2,
+  Scissors,
+  BookOpen,
+  Sparkles,
+  Hand,
+  Flower2,
+} from 'lucide-react';
 
 type HourCategory = 'practical' | 'theory' | 'sanitation' | 'customer_service';
 
 const CATEGORIES: { value: HourCategory; label: string; description: string }[] = [
-  { value: 'practical',         label: 'Practical Training',  description: 'Hands-on skills at the worksite' },
-  { value: 'theory',            label: 'Theory / Classroom',  description: 'Elevate LMS curriculum, state board prep' },
-  { value: 'sanitation',        label: 'Sanitation',          description: 'Cleaning, sterilization, safety' },
-  { value: 'customer_service',  label: 'Customer Service',    description: 'Client interaction, consultation' },
+  {
+    value: 'practical',
+    label: 'Practical Training',
+    description: 'Hands-on skills at the worksite',
+  },
+  {
+    value: 'theory',
+    label: 'Theory / Classroom',
+    description: 'Elevate LMS curriculum, state board prep',
+  },
+  { value: 'sanitation', label: 'Sanitation', description: 'Cleaning, sterilization, safety' },
+  {
+    value: 'customer_service',
+    label: 'Customer Service',
+    description: 'Client interaction, consultation',
+  },
 ];
 
 const DISCIPLINE_ICONS: Record<string, React.ReactNode> = {
-  cosmetology:  <Sparkles className="w-5 h-5 text-white" />,
-  'nail-tech':  <Hand className="w-5 h-5 text-white" />,
-  esthetician:  <Flower2 className="w-5 h-5 text-white" />,
+  cosmetology: <Sparkles className="w-5 h-5 text-white" />,
+  'nail-tech': <Hand className="w-5 h-5 text-white" />,
+  esthetician: <Flower2 className="w-5 h-5 text-white" />,
 };
 
 interface Props {
@@ -39,7 +62,12 @@ interface Props {
   accentColor?: string;
 }
 
-export default function ApprenticeHoursLogger({ discipline, apiPath, backHref, accentColor = 'bg-slate-800' }: Props) {
+export default function ApprenticeHoursLogger({
+  discipline,
+  apiPath,
+  backHref,
+  accentColor = 'bg-slate-800',
+}: Props) {
   const [date, setDate] = useState(new Date().toISOString().split('T')[0]);
   const [hours, setHours] = useState('');
   const [minutes, setMinutes] = useState('0');
@@ -51,7 +79,10 @@ export default function ApprenticeHoursLogger({ discipline, apiPath, backHref, a
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    if (!hours || parseFloat(hours) <= 0) { setError('Enter a valid number of hours.'); return; }
+    if (!hours || parseFloat(hours) <= 0) {
+      setError('Enter a valid number of hours.');
+      return;
+    }
     setSubmitting(true);
     setError('');
 
@@ -93,7 +124,10 @@ export default function ApprenticeHoursLogger({ discipline, apiPath, backHref, a
       {/* Header */}
       <header className={`${accentColor} px-4 pt-12 pb-4`}>
         <div className="flex items-center gap-4">
-          <Link href={backHref} className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center">
+          <Link
+            href={backHref}
+            className="w-10 h-10 bg-white/10 rounded-full flex items-center justify-center"
+          >
             <ArrowLeft className="w-5 h-5 text-white" />
           </Link>
           <div className="flex items-center gap-2">
@@ -112,7 +146,6 @@ export default function ApprenticeHoursLogger({ discipline, apiPath, backHref, a
           </div>
         ) : (
           <form onSubmit={handleSubmit} className="space-y-5">
-
             {/* Date */}
             <div className="bg-slate-800 rounded-2xl p-5">
               <label className="flex items-center gap-2 text-slate-300 text-sm font-medium mb-3">
@@ -121,7 +154,7 @@ export default function ApprenticeHoursLogger({ discipline, apiPath, backHref, a
               <input
                 type="date"
                 value={date}
-                onChange={e => setDate(e.target.value)}
+                onChange={(e) => setDate(e.target.value)}
                 max={new Date().toISOString().split('T')[0]}
                 className="w-full bg-slate-700 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
               />
@@ -141,7 +174,7 @@ export default function ApprenticeHoursLogger({ discipline, apiPath, backHref, a
                     max="16"
                     step="1"
                     value={hours}
-                    onChange={e => setHours(e.target.value)}
+                    onChange={(e) => setHours(e.target.value)}
                     placeholder="0"
                     className="w-full bg-slate-700 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
                   />
@@ -150,7 +183,7 @@ export default function ApprenticeHoursLogger({ discipline, apiPath, backHref, a
                   <label className="text-xs text-slate-400 mb-1 block">Minutes</label>
                   <select
                     value={minutes}
-                    onChange={e => setMinutes(e.target.value)}
+                    onChange={(e) => setMinutes(e.target.value)}
                     className="w-full bg-slate-700 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500"
                   >
                     <option value="0">0 min</option>
@@ -168,7 +201,7 @@ export default function ApprenticeHoursLogger({ discipline, apiPath, backHref, a
                 <BookOpen className="w-4 h-4" /> Category
               </label>
               <div className="space-y-2">
-                {CATEGORIES.map(cat => (
+                {CATEGORIES.map((cat) => (
                   <button
                     key={cat.value}
                     type="button"
@@ -188,10 +221,12 @@ export default function ApprenticeHoursLogger({ discipline, apiPath, backHref, a
 
             {/* Notes */}
             <div className="bg-slate-800 rounded-2xl p-5">
-              <label className="text-slate-300 text-sm font-medium mb-3 block">Notes (optional)</label>
+              <label className="text-slate-300 text-sm font-medium mb-3 block">
+                Notes (optional)
+              </label>
               <textarea
                 value={notes}
-                onChange={e => setNotes(e.target.value)}
+                onChange={(e) => setNotes(e.target.value)}
                 rows={3}
                 placeholder="What did you work on today?"
                 className="w-full bg-slate-700 text-white rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-purple-500 resize-none"
@@ -209,9 +244,16 @@ export default function ApprenticeHoursLogger({ discipline, apiPath, backHref, a
               disabled={submitting}
               className="w-full bg-purple-600 hover:bg-purple-700 disabled:opacity-50 text-white font-bold py-4 rounded-2xl flex items-center justify-center gap-2 transition-colors"
             >
-              {submitting ? <><Loader2 className="w-5 h-5 animate-spin" /> Saving…</> : <><Clock className="w-5 h-5" /> Log These Hours</>}
+              {submitting ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" /> Saving…
+                </>
+              ) : (
+                <>
+                  <Clock className="w-5 h-5" /> Log These Hours
+                </>
+              )}
             </button>
-
           </form>
         )}
       </main>

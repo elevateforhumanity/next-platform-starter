@@ -14,7 +14,9 @@ export const metadata: Metadata = {
 export default async function EstheticianEnrollmentSuccessPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/programs/esthetician/enrollment-success');
 
   const { data: enrollment } = await supabase
@@ -34,7 +36,8 @@ export default async function EstheticianEnrollmentSuccessPage() {
       .eq('id', enrollment.id);
   }
 
-  const programName = (enrollment.programs as { name?: string })?.name || 'Esthetician Apprenticeship';
+  const programName =
+    (enrollment.programs as { name?: string })?.name || 'Esthetician Apprenticeship';
 
   const enrolledDate = enrollment?.enrolled_at ? new Date(enrollment.enrolled_at) : new Date();
   const daysUntilMonday = (8 - enrolledDate.getDay()) % 7 || 7;

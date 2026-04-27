@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which tool is essential for executing the clipper-over-comb technique?",
-        "choices": [
-          "Razor",
-          "Comb",
-          "Scissors",
-          "Hairdryer"
-        ],
+        "choices": ["Razor", "Comb", "Scissors", "Hairdryer"],
         "answerIndex": 1,
         "rationale": "A comb is essential for lifting sections of hair while trimming with clippers in the clipper-over-comb technique.",
         "type": "recall"
@@ -52,12 +47,7 @@
       },
       {
         "prompt": "What is the correct dwell time for clipper disinfectant spray?",
-        "choices": [
-          "1 second",
-          "10 seconds",
-          "30 seconds",
-          "5 minutes"
-        ],
+        "choices": ["1 second", "10 seconds", "30 seconds", "5 minutes"],
         "answerIndex": 2,
         "rationale": "The correct dwell time for clipper disinfectant spray is typically around 30 seconds to effectively eliminate bacteria.",
         "type": "recall"
@@ -148,12 +138,7 @@
       },
       {
         "prompt": "A client requests a textured look with different hair lengths. Which technique is most appropriate?",
-        "choices": [
-          "Clipper-over-comb",
-          "Scissor-over-comb",
-          "Razor cutting",
-          "Blunt cutting"
-        ],
+        "choices": ["Clipper-over-comb", "Scissor-over-comb", "Razor cutting", "Blunt cutting"],
         "answerIndex": 0,
         "rationale": "The clipper-over-comb technique is versatile and effective for creating textured looks with varying lengths.",
         "type": "scenario"

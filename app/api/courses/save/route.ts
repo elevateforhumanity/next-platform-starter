@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -17,11 +16,17 @@ async function _POST(req: NextRequest) {
 
     // Auth: require admin or instructor
     const supabase = await createClient();
-      const { data: { session } } = await supabase.auth.getSession();
+    const {
+      data: { session },
+    } = await supabase.auth.getSession();
     if (!session) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    const { data: profile } = await supabase.from('profiles').select('role').eq('id', session.user.id).maybeSingle();
+    const { data: profile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', session.user.id)
+      .maybeSingle();
     if (!profile || !['admin', 'super_admin', 'instructor'].includes(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
@@ -36,7 +41,7 @@ async function _POST(req: NextRequest) {
     // LEGACY_SYSTEM_DISABLED — course updates must go through /api/admin/lms/courses/[courseId]
     return NextResponse.json(
       { error: 'LEGACY_SYSTEM_DISABLED: use PATCH /api/admin/lms/courses/[courseId]' },
-      { status: 410 }
+      { status: 410 },
     );
 
     const updateData: any = {};
@@ -53,21 +58,15 @@ async function _POST(req: NextRequest) {
 
     if (error) {
       logger.error('Supabase error:', error);
-      return NextResponse.json(
-        { error: toErrorMessage(error) },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: toErrorMessage(error) }, { status: 400 });
     }
 
     return NextResponse.json({ ok: true, course: data });
-  } catch (error) { 
-    logger.error(
-      'Save course error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Save course error:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
       { error: 'Failed to save course', message: toErrorMessage(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

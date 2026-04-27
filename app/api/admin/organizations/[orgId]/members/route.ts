@@ -24,7 +24,7 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 export const dynamic = 'force-dynamic';
 
 const ORG_ROLES = ['org_owner', 'org_admin', 'instructor', 'reviewer', 'report_viewer'] as const;
-type OrgRole = typeof ORG_ROLES[number];
+type OrgRole = (typeof ORG_ROLES)[number];
 
 export async function GET(
   request: NextRequest,
@@ -49,11 +49,13 @@ export async function GET(
   return NextResponse.json({ ok: true, members: data ?? [] });
 }
 
-const addSchema = z.object({
-  email:   z.string().email().optional(),
-  user_id: z.string().uuid().optional(),
-  role:    z.enum(ORG_ROLES),
-}).refine(d => d.email || d.user_id, { message: 'email or user_id required' });
+const addSchema = z
+  .object({
+    email: z.string().email().optional(),
+    user_id: z.string().uuid().optional(),
+    role: z.enum(ORG_ROLES),
+  })
+  .refine((d) => d.email || d.user_id, { message: 'email or user_id required' });
 
 export async function POST(
   request: NextRequest,

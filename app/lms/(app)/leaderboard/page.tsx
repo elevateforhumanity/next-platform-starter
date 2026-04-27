@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import {
-
   Trophy,
   Medal,
   Award,
@@ -39,7 +38,9 @@ interface LeaderboardEntry {
 export default async function LeaderboardPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/lms/leaderboard');
 
   // Fetch all profiles
@@ -67,15 +68,13 @@ export default async function LeaderboardPage() {
     .eq('completed', true);
 
   // Fetch badges earned
-  const { data: userBadges } = await supabase
-    .from('user_badges')
-    .select('user_id, badge_id');
+  const { data: userBadges } = await supabase.from('user_badges').select('user_id, badge_id');
 
   // Calculate leaderboard entries
   const leaderboardMap = new Map<string, LeaderboardEntry>();
 
   // Initialize with profiles
-  profiles?.forEach(profile => {
+  profiles?.forEach((profile) => {
     leaderboardMap.set(profile.id, {
       userId: profile.id,
       name: `${profile.first_name || ''} ${profile.last_name || ''}`.trim() || 'Anonymous Learner',
@@ -89,7 +88,7 @@ export default async function LeaderboardPage() {
   });
 
   // Add points for completed courses (100 points each)
-  enrollments?.forEach(enrollment => {
+  enrollments?.forEach((enrollment) => {
     const entry = leaderboardMap.get(enrollment.user_id);
     if (entry) {
       entry.coursesCompleted += 1;
@@ -99,7 +98,7 @@ export default async function LeaderboardPage() {
   });
 
   // Add points for completed lessons (10 points each)
-  progressData?.forEach(progress => {
+  progressData?.forEach((progress) => {
     const entry = leaderboardMap.get(progress.student_id);
     if (entry) {
       entry.points += 10;
@@ -107,7 +106,7 @@ export default async function LeaderboardPage() {
   });
 
   // Add points for quiz scores
-  quizAttempts?.forEach(attempt => {
+  quizAttempts?.forEach((attempt) => {
     const entry = leaderboardMap.get(attempt.user_id);
     if (entry) {
       entry.quizzesPassed += 1;
@@ -116,7 +115,7 @@ export default async function LeaderboardPage() {
   });
 
   // Add points for badges (25 points each)
-  userBadges?.forEach(badge => {
+  userBadges?.forEach((badge) => {
     const entry = leaderboardMap.get(badge.user_id);
     if (entry) {
       entry.points += 25;
@@ -125,19 +124,23 @@ export default async function LeaderboardPage() {
 
   // Convert to array and sort by points
   const leaderboard = Array.from(leaderboardMap.values())
-    .filter(entry => entry.points > 0)
+    .filter((entry) => entry.points > 0)
     .sort((a, b) => b.points - a.points)
     .slice(0, 50);
 
   // Find current user's rank
   const currentUserEntry = leaderboardMap.get(user.id);
-  const currentUserRank = leaderboard.findIndex(e => e.userId === user.id) + 1;
+  const currentUserRank = leaderboard.findIndex((e) => e.userId === user.id) + 1;
 
   const getRankIcon = (rank: number) => {
     if (rank === 1) return <Crown className="w-6 h-6 text-yellow-500" />;
     if (rank === 2) return <Medal className="w-6 h-6 text-slate-700" />;
     if (rank === 3) return <Medal className="w-6 h-6 text-amber-600" />;
-    return <span className="w-6 h-6 flex items-center justify-center text-slate-500 font-bold">{rank}</span>;
+    return (
+      <span className="w-6 h-6 flex items-center justify-center text-slate-500 font-bold">
+        {rank}
+      </span>
+    );
   };
 
   const getRankBg = (rank: number) => {
@@ -149,9 +152,9 @@ export default async function LeaderboardPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Leaderboard" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Leaderboard' }]} />
+      </div>
       <div className="max-w-4xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-8">
@@ -189,7 +192,9 @@ export default async function LeaderboardPage() {
               </div>
               <div className="text-right">
                 <div className="text-4xl font-black">#{currentUserRank || '—'}</div>
-                <div className="text-brand-blue-100">{currentUserEntry.points.toLocaleString()} points</div>
+                <div className="text-brand-blue-100">
+                  {currentUserEntry.points.toLocaleString()} points
+                </div>
               </div>
             </div>
             <div className="grid grid-cols-4 gap-4 mt-6 pt-6 border-t border-white/20">
@@ -345,7 +350,10 @@ export default async function LeaderboardPage() {
 
         {/* Back Link */}
         <div className="mt-8 text-center">
-          <Link href="/lms/community" className="text-brand-blue-600 hover:text-brand-blue-700 font-medium">
+          <Link
+            href="/lms/community"
+            className="text-brand-blue-600 hover:text-brand-blue-700 font-medium"
+          >
             ← Back to Community
           </Link>
         </div>

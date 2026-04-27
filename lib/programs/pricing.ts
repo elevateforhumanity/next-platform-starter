@@ -54,7 +54,7 @@ export interface WeeklyPaymentCalculation {
 export function calculateWeeklyPayment(
   hoursPerWeek: number,
   transferredHoursVerified: number = 0,
-  downPayment: number = BARBER_PRICING.defaultDownPayment
+  downPayment: number = BARBER_PRICING.defaultDownPayment,
 ): WeeklyPaymentCalculation {
   const { fullPrice, paymentTermWeeks, totalHoursRequired } = BARBER_PRICING;
 
@@ -117,9 +117,9 @@ export interface BoothRentalTier {
   spaceType: 'Booth' | 'Suite';
   weeklyRateDollars: number;
   weeklyRateCents: number;
-  depositDollars: number;   // 1 week's rent
+  depositDollars: number; // 1 week's rent
   depositCents: number;
-  stripePriceKey: string;   // key into PRICES for the weekly subscription
+  stripePriceKey: string; // key into PRICES for the weekly subscription
   stripeDepositKey: string; // key into PRICES for the one-time deposit
 }
 
@@ -163,17 +163,17 @@ export const BOOTH_RENTAL_TIERS: Record<BoothRentalDiscipline, BoothRentalTier> 
     spaceType: 'Suite',
     weeklyRateDollars: 160,
     weeklyRateCents: 16000,
-    depositDollars: 0,    // no deposit for esthetician suite
+    depositDollars: 0, // no deposit for esthetician suite
     depositCents: 0,
     stripePriceKey: 'BOOTH_ESTHI_WEEKLY',
-    stripeDepositKey: '',  // no deposit charge
+    stripeDepositKey: '', // no deposit charge
   },
 };
 
 export const BOOTH_LATE_FEE = {
-  initialFeeDollars: 25,   // charged on day 1 past due
-  dailyFeeDollars: 10,     // charged each additional day (days 2–5)
-  terminationDays: 5,      // access terminated after this many days past due
+  initialFeeDollars: 25, // charged on day 1 past due
+  dailyFeeDollars: 10, // charged each additional day (days 2–5)
+  terminationDays: 5, // access terminated after this many days past due
 } as const;
 
 /**
@@ -209,7 +209,7 @@ export function formatCurrencyWhole(amount: number): string {
 
 /**
  * Get the FOLLOWING Friday at 10:00 AM Indianapolis time
- * 
+ *
  * Rule: First weekly charge is always the "following Friday" (never same-day)
  * - Mon-Thu enrollment: upcoming Friday
  * - Friday enrollment: next week's Friday (7 days later)
@@ -217,36 +217,36 @@ export function formatCurrencyWhole(amount: number): string {
  */
 export function getNextFridayAnchor(): Date {
   const now = new Date();
-  
+
   // Get current day in Indianapolis timezone
   const formatter = new Intl.DateTimeFormat('en-US', {
     timeZone: BARBER_PRICING.billingTimezone,
     weekday: 'long',
   });
-  
+
   const currentDay = formatter.format(now);
-  
+
   // Calculate days until next Friday
   const daysOfWeek = ['Sunday', 'Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday'];
   const currentDayIndex = daysOfWeek.indexOf(currentDay);
   const fridayIndex = 5;
-  
+
   let daysUntilFriday = (fridayIndex - currentDayIndex + 7) % 7;
-  
+
   // CRITICAL: If today is Friday, first charge is NEXT Friday (7 days)
   // This prevents "I just paid and got charged again" complaints
   if (daysUntilFriday === 0) {
     daysUntilFriday = 7;
   }
-  
+
   // Create the target Friday date
   const nextFriday = new Date(now);
   nextFriday.setDate(nextFriday.getDate() + daysUntilFriday);
-  
+
   // Set to 10:00 AM Indianapolis time
   // Note: This creates a local time; Stripe will handle timezone conversion
   nextFriday.setHours(BARBER_PRICING.billingHour, 0, 0, 0);
-  
+
   return nextFriday;
 }
 

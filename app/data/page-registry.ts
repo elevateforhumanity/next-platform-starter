@@ -11,8 +11,8 @@ import { programs } from './programs';
 export type NavItem = {
   label: string;
   href: string;
-  public?: boolean;  // default true - whether page is publicly accessible
-  hidden?: boolean;  // default false - if true, excluded from nav (but still audited)
+  public?: boolean; // default true - whether page is publicly accessible
+  hidden?: boolean; // default false - if true, excluded from nav (but still audited)
   description?: string; // optional description for mega menus
 };
 
@@ -40,7 +40,7 @@ export const NAV_REGISTRY: NavCategory[] = [
       })),
       // Static program pages
       { label: 'All Programs', href: '/programs', description: 'View all training programs' },
-      { label: 'Micro Courses', href: "/programs", description: 'Short certification courses' },
+      { label: 'Micro Courses', href: '/programs', description: 'Short certification courses' },
     ],
     // Featured programs for mega menu
     featured: [
@@ -55,10 +55,24 @@ export const NAV_REGISTRY: NavCategory[] = [
     items: [
       { label: 'Apply', href: '/apply', description: 'Start your application' },
       { label: 'Enroll', href: '/enroll', description: 'Enroll in a program' },
-      { label: 'Funding Options', href: '/funding', description: 'WIOA, WRG, Job Ready Indy, and more' },
+      {
+        label: 'Funding Options',
+        href: '/funding',
+        description: 'WIOA, WRG, Job Ready Indy, and more',
+      },
       { label: 'How It Works', href: '/how-it-works', description: 'Our enrollment process' },
-      { label: 'Student Dashboard', href: '/dashboard', public: false, description: 'Access your dashboard' },
-      { label: 'Next Steps Checklist', href: '/dashboard/next-steps', public: false, description: 'Track your progress' },
+      {
+        label: 'Student Dashboard',
+        href: '/dashboard',
+        public: false,
+        description: 'Access your dashboard',
+      },
+      {
+        label: 'Next Steps Checklist',
+        href: '/dashboard/next-steps',
+        public: false,
+        description: 'Track your progress',
+      },
     ],
   },
   {
@@ -67,10 +81,18 @@ export const NAV_REGISTRY: NavCategory[] = [
     items: [
       { label: 'Partner With Us', href: '/partners', description: 'Become a training partner' },
       { label: 'Employers', href: '/employers', description: 'Hire our graduates' },
-      { label: 'Training Providers', href: "/platform/training-providers", description: 'Partner as a provider' },
+      {
+        label: 'Training Providers',
+        href: '/platform/training-providers',
+        description: 'Partner as a provider',
+      },
       { label: 'Workforce Boards', href: '/partners', description: 'Workforce board partnerships' },
       { label: 'License the Platform', href: '/platform', description: 'Deploy our platform' },
-      { label: 'Platform Licensing', href: '/platform/licensing', description: 'Licensing options' },
+      {
+        label: 'Platform Licensing',
+        href: '/platform/licensing',
+        description: 'Licensing options',
+      },
     ],
   },
   {

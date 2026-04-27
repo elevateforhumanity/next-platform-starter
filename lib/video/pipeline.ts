@@ -72,9 +72,9 @@ export interface PipelineOptions {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-const FONT_BOLD    = '/workspaces/Elevate-lms/public/fonts/Inter-Bold.otf';
+const FONT_BOLD = '/workspaces/Elevate-lms/public/fonts/Inter-Bold.otf';
 const FONT_REGULAR = '/workspaces/Elevate-lms/public/fonts/Inter-Regular.otf';
-const FONT_SEMI    = '/workspaces/Elevate-lms/public/fonts/Inter-SemiBold.otf';
+const FONT_SEMI = '/workspaces/Elevate-lms/public/fonts/Inter-SemiBold.otf';
 
 // Fallback to DejaVu if Inter not present
 function fontPath(variant: 'bold' | 'regular' | 'semi'): string {
@@ -98,7 +98,7 @@ function buildNarration(title: string, content: string, maxChars = 4000): string
 
   const intro = `Welcome. Today's lesson is ${title}. Let's get into it.\n\n`;
   const outro = `\n\nThat wraps up ${title}. Complete the activities before moving on. Great work today.`;
-  const body  = clean.slice(0, maxChars - intro.length - outro.length - 10);
+  const body = clean.slice(0, maxChars - intro.length - outro.length - 10);
   return intro + body + outro;
 }
 
@@ -116,7 +116,7 @@ async function generateTTS(
   text: string,
   outPath: string,
   voice: string,
-  speed: number
+  speed: number,
 ): Promise<void> {
   const res = await fetch('https://api.openai.com/v1/audio/speech', {
     method: 'POST',
@@ -155,11 +155,11 @@ async function transcribeToSrt(audioPath: string): Promise<string> {
 async function fetchPexelsClipUrl(query: string): Promise<string | null> {
   const res = await fetch(
     `https://api.pexels.com/videos/search?query=${encodeURIComponent(query)}&per_page=5&orientation=landscape&size=medium`,
-    { headers: { Authorization: process.env.PEXELS_API_KEY! } }
+    { headers: { Authorization: process.env.PEXELS_API_KEY! } },
   );
   if (!res.ok) return null;
-  const data = await res.json() as any;
-  for (const video of (data.videos || [])) {
+  const data = (await res.json()) as any;
+  for (const video of data.videos || []) {
     const files = (video.video_files || []).sort((a: any, b: any) => b.width - a.width);
     const file = files.find((f: any) => f.width <= 1920 && f.file_type === 'video/mp4');
     if (file?.link) return file.link;
@@ -171,7 +171,7 @@ async function uploadToSupabase(
   buf: Buffer,
   bucket: string,
   storagePath: string,
-  contentType: string
+  contentType: string,
 ): Promise<string> {
   const SUPA_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
   const SUPA_SVC = process.env.SUPABASE_SERVICE_ROLE_KEY!;
@@ -182,7 +182,7 @@ async function uploadToSupabase(
       'Content-Type': contentType,
       'x-upsert': 'true',
     },
-    body: buf,
+    body: new Uint8Array(buf),
   });
   if (!res.ok) throw new Error(`Upload failed (${storagePath}): ${await res.text()}`);
   return `${SUPA_URL}/storage/v1/object/public/${bucket}/${storagePath}`;
@@ -201,25 +201,41 @@ async function getOrFetchBroll(brollKey: string, tmpDir: string): Promise<string
   const clipUrl = await fetchPexelsClipUrl(query);
   if (!clipUrl) throw new Error(`No Pexels clip for: ${query}`);
 
-  const tmpPath  = path.join(tmpDir, `${brollKey}.mp4`);
+  const tmpPath = path.join(tmpDir, `${brollKey}.mp4`);
   const trimPath = path.join(tmpDir, `${brollKey}-trim.mp4`);
   execSync(`curl -sL "${clipUrl}" -o "${tmpPath}"`, { stdio: 'pipe' });
   execSync(`ffmpeg -y -i "${tmpPath}" -t 30 -c copy "${trimPath}" 2>/dev/null`, { stdio: 'pipe' });
 
-  const url = await uploadToSupabase(fs.readFileSync(trimPath), 'course-videos', storagePath, 'video/mp4');
-  try { fs.unlinkSync(tmpPath); fs.unlinkSync(trimPath); } catch (error) { void error; }
+  const url = await uploadToSupabase(
+    fs.readFileSync(trimPath),
+    'course-videos',
+    storagePath,
+    'video/mp4',
+  );
+  try {
+    fs.unlinkSync(tmpPath);
+    fs.unlinkSync(trimPath);
+  } catch (error) {
+    void error;
+  }
   return url;
 }
 
 function getAudioDuration(audioPath: string): number {
   try {
-    return parseFloat(
-      execSync(
-        `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${audioPath}"`,
-        { stdio: 'pipe' }
-      ).toString().trim()
-    ) || 60;
-  } catch { return 60; }
+    return (
+      parseFloat(
+        execSync(
+          `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${audioPath}"`,
+          { stdio: 'pipe' },
+        )
+          .toString()
+          .trim(),
+      ) || 60
+    );
+  } catch {
+    return 60;
+  }
 }
 
 // ── Intro / Outro card generator ──────────────────────────────────────────────
@@ -232,20 +248,16 @@ function generateBrandCard(
   outPath: string,
   profile: VideoProfile,
   lessonTitle: string,
-  type: 'intro' | 'outro'
+  type: 'intro' | 'outro',
 ): void {
-  const bg     = hexToFfmpeg(profile.introBgColor);
+  const bg = hexToFfmpeg(profile.introBgColor);
   const accent = hexToFfmpeg(profile.accentColor);
-  const fg     = hexToFfmpeg(profile.introTextColor);
-  const bold   = fontPath('bold');
-  const semi   = fontPath('semi');
+  const fg = hexToFfmpeg(profile.introTextColor);
+  const bold = fontPath('bold');
+  const semi = fontPath('semi');
 
-  const line1 = type === 'intro'
-    ? esc(profile.programName)
-    : 'Elevate for Humanity';
-  const line2 = type === 'intro'
-    ? esc(lessonTitle)
-    : 'Complete the activities to continue.';
+  const line1 = type === 'intro' ? esc(profile.programName) : 'Elevate for Humanity';
+  const line2 = type === 'intro' ? esc(lessonTitle) : 'Complete the activities to continue.';
 
   // Top accent bar + program name + lesson title (intro) or sign-off (outro)
   const filter = [
@@ -263,7 +275,7 @@ function generateBrandCard(
 
   execSync(
     `ffmpeg -y -f lavfi -i "color=c=${bg}:size=1280x720:rate=30" -vf "${filter}" -t 3 -c:v libx264 -preset fast -crf 20 -an "${outPath}" 2>/dev/null`,
-    { stdio: 'pipe', timeout: 30000 }
+    { stdio: 'pipe', timeout: 30000 },
   );
 }
 
@@ -279,7 +291,7 @@ export async function processLesson(
   lesson: LessonRow,
   profile: VideoProfile,
   tmpDir: string,
-  opts: PipelineOptions = {}
+  opts: PipelineOptions = {},
 ): Promise<string> {
   const log = opts.onProgress ?? (() => {});
   const slug = lesson.slug || `lesson-${lesson.id.slice(0, 8)}`;
@@ -296,7 +308,7 @@ export async function processLesson(
     fs.readFileSync(audioPath),
     'lesson-audio',
     `${profile.programSlug}/${slug}.mp3`,
-    'audio/mpeg'
+    'audio/mpeg',
   );
 
   // ── 2. Whisper captions ───────────────────────────────────────────────────
@@ -308,13 +320,16 @@ export async function processLesson(
   // ── 3. B-roll clips ───────────────────────────────────────────────────────
   log(`  [3/7] B-roll clips…`);
   const sections = (lesson.content || lesson.title).split(/\n#{1,3} /).slice(0, 3);
-  const brollKeys = [...new Set(sections.map(s => pickBrollKey(s)))].slice(0, 3);
+  const brollKeys = [...new Set(sections.map((s) => pickBrollKey(s)))].slice(0, 3);
   if (!brollKeys.length) brollKeys.push('default');
 
   const brollUrls: string[] = [];
   for (const key of brollKeys) {
-    try { brollUrls.push(await getOrFetchBroll(key, tmpDir)); }
-    catch { brollUrls.push(await getOrFetchBroll('default', tmpDir)); }
+    try {
+      brollUrls.push(await getOrFetchBroll(key, tmpDir));
+    } catch {
+      brollUrls.push(await getOrFetchBroll('default', tmpDir));
+    }
   }
 
   // Download b-roll to tmp
@@ -337,8 +352,8 @@ export async function processLesson(
   const concatPath = path.join(tmpDir, `concat-${slug}.txt`);
   // Loop clips until we cover the full audio duration
   const clipDuration = 30; // each clip is trimmed to 30 s
-  const loopsNeeded  = Math.ceil(duration / (clipPaths.length * clipDuration)) + 1;
-  let concatContent  = '';
+  const loopsNeeded = Math.ceil(duration / (clipPaths.length * clipDuration)) + 1;
+  let concatContent = '';
   for (let i = 0; i < loopsNeeded; i++) {
     for (const p of clipPaths) concatContent += `file '${p}'\n`;
   }
@@ -347,22 +362,22 @@ export async function processLesson(
   const brollAssembled = path.join(tmpDir, `${slug}-broll.mp4`);
   execSync(
     `ffmpeg -y -f concat -safe 0 -i "${concatPath}" -t ${duration} ` +
-    `-vf "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setsar=1,${profile.colorGrade}" ` +
-    `-c:v libx264 -preset fast -crf 23 -an "${brollAssembled}" 2>/dev/null`,
-    { stdio: 'pipe', timeout: 300000 }
+      `-vf "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2,setsar=1,${profile.colorGrade}" ` +
+      `-c:v libx264 -preset fast -crf 23 -an "${brollAssembled}" 2>/dev/null`,
+    { stdio: 'pipe', timeout: 300000 },
   );
 
   // ── 6. Overlay: chapter title + lower third + captions ───────────────────
   log(`  [6/7] Text overlays + captions…`);
-  const bold   = fontPath('bold');
-  const semi   = fontPath('semi');
+  const bold = fontPath('bold');
+  const semi = fontPath('semi');
   const accent = hexToFfmpeg(profile.accentColor);
-  const white  = '0xFFFFFF';
+  const white = '0xFFFFFF';
 
-  const chapterTitle  = esc(lesson.title);
-  const moduleLabel   = lesson.module_title ? esc(lesson.module_title) : '';
-  const instrName     = esc(profile.instructorName);
-  const instrTitle    = esc(profile.instructorTitle);
+  const chapterTitle = esc(lesson.title);
+  const moduleLabel = lesson.module_title ? esc(lesson.module_title) : '';
+  const instrName = esc(profile.instructorName);
+  const instrTitle = esc(profile.instructorTitle);
 
   // Build vf chain
   const overlayFilters: string[] = [
@@ -375,35 +390,35 @@ export async function processLesson(
   if (moduleLabel) {
     overlayFilters.push(
       `drawtext=fontfile='${semi}':text='${moduleLabel}':fontcolor=${white}@0.7:fontsize=18:x=32:y=68` +
-        `:alpha='if(lt(t,0.4),t/0.4,if(lt(t,4.6),1,if(lt(t,5),1-(t-4.6)/0.4,0)))'`
+        `:alpha='if(lt(t,0.4),t/0.4,if(lt(t,4.6),1,if(lt(t,5),1-(t-4.6)/0.4,0)))'`,
     );
   }
 
   // Lower third — instructor name + title, seconds 6–10
   overlayFilters.push(
     // Bar
-    `drawbox=x=0:y=h-80:w=420:h=80:color=${accent}@0.88:t=fill` +
-      `:enable='between(t,6,10)'`,
+    `drawbox=x=0:y=h-80:w=420:h=80:color=${accent}@0.88:t=fill` + `:enable='between(t,6,10)'`,
     // Name
     `drawtext=fontfile='${bold}':text='${instrName}':fontcolor=${white}:fontsize=22:x=16:y=h-62` +
       `:enable='between(t,6,10)'`,
     // Title
     `drawtext=fontfile='${semi}':text='${instrTitle}':fontcolor=${white}@0.85:fontsize=16:x=16:y=h-36` +
-      `:enable='between(t,6,10)'`
+      `:enable='between(t,6,10)'`,
   );
 
   const overlaidBroll = path.join(tmpDir, `${slug}-overlaid.mp4`);
   const vfChain = overlayFilters.join(',');
 
   // Apply overlays (captions via subtitles filter if SRT exists)
-  const subtitleFilter = srtContent && fs.existsSync(srtPath)
-    ? `,subtitles='${srtPath.replace(/'/g, "\\'")}':force_style='FontName=DejaVu Sans,FontSize=18,PrimaryColour=&HFFFFFF,OutlineColour=&H000000,Outline=2,Shadow=1,Alignment=2'`
-    : '';
+  const subtitleFilter =
+    srtContent && fs.existsSync(srtPath)
+      ? `,subtitles='${srtPath.replace(/'/g, "\\'")}':force_style='FontName=DejaVu Sans,FontSize=18,PrimaryColour=&HFFFFFF,OutlineColour=&H000000,Outline=2,Shadow=1,Alignment=2'`
+      : '';
 
   execSync(
     `ffmpeg -y -i "${brollAssembled}" -vf "${vfChain}${subtitleFilter}" ` +
-    `-c:v libx264 -preset fast -crf 22 -an "${overlaidBroll}" 2>/dev/null`,
-    { stdio: 'pipe', timeout: 300000 }
+      `-c:v libx264 -preset fast -crf 22 -an "${overlaidBroll}" 2>/dev/null`,
+    { stdio: 'pipe', timeout: 300000 },
   );
 
   // ── 7. Final assembly: intro + content + outro + audio + music ────────────
@@ -411,14 +426,15 @@ export async function processLesson(
 
   // Concat list: intro → overlaid broll → outro
   const finalConcatPath = path.join(tmpDir, `final-concat-${slug}.txt`);
-  fs.writeFileSync(finalConcatPath,
-    `file '${introPath}'\nfile '${overlaidBroll}'\nfile '${outroPath}'\n`
+  fs.writeFileSync(
+    finalConcatPath,
+    `file '${introPath}'\nfile '${overlaidBroll}'\nfile '${outroPath}'\n`,
   );
 
   const videoNoAudio = path.join(tmpDir, `${slug}-noaudio.mp4`);
   execSync(
     `ffmpeg -y -f concat -safe 0 -i "${finalConcatPath}" -c:v libx264 -preset fast -crf 22 -an "${videoNoAudio}" 2>/dev/null`,
-    { stdio: 'pipe', timeout: 120000 }
+    { stdio: 'pipe', timeout: 120000 },
   );
 
   // Mix narration + optional music bed
@@ -428,11 +444,11 @@ export async function processLesson(
 
   execSync(
     `ffmpeg -y -i "${videoNoAudio}" -i "${audioPath}" ` +
-    `-map 0:v:0 -map 1:a:0 ` +
-    `-c:v copy -c:a aac -b:a 128k ` +
-    `-t ${totalDuration} ` +
-    `"${finalVideo}" 2>/dev/null`,
-    { stdio: 'pipe', timeout: 120000 }
+      `-map 0:v:0 -map 1:a:0 ` +
+      `-c:v copy -c:a aac -b:a 128k ` +
+      `-t ${totalDuration} ` +
+      `"${finalVideo}" 2>/dev/null`,
+    { stdio: 'pipe', timeout: 120000 },
   );
 
   // ── Upload final video ────────────────────────────────────────────────────
@@ -440,16 +456,30 @@ export async function processLesson(
     fs.readFileSync(finalVideo),
     'course-videos',
     `${profile.programSlug}/${slug}.mp4`,
-    'video/mp4'
+    'video/mp4',
   );
 
   // Cleanup tmp files
   const toClean = [
-    audioPath, srtPath, ...clipPaths, introPath, outroPath,
-    brollAssembled, overlaidBroll, videoNoAudio, finalVideo,
-    concatPath, finalConcatPath,
+    audioPath,
+    srtPath,
+    ...clipPaths,
+    introPath,
+    outroPath,
+    brollAssembled,
+    overlaidBroll,
+    videoNoAudio,
+    finalVideo,
+    concatPath,
+    finalConcatPath,
   ];
-  for (const p of toClean) { try { fs.unlinkSync(p); } catch (error) { void error; } }
+  for (const p of toClean) {
+    try {
+      fs.unlinkSync(p);
+    } catch (error) {
+      void error;
+    }
+  }
 
   return videoUrl;
 }
@@ -462,46 +492,40 @@ export async function processLesson(
  *
  * Falls back to sensible defaults so the pipeline always runs.
  */
-export function resolveVideoProfile(
-  courseRow: {
-    title?: string | null;
-    slug?: string | null;
-    video_config?: any;
-    video_profile?: any;
-  }
-): VideoProfile {
+export function resolveVideoProfile(courseRow: {
+  title?: string | null;
+  slug?: string | null;
+  video_config?: any;
+  video_profile?: any;
+}): VideoProfile {
   // Prefer explicit video_profile, then fall back to blueprint video_config
   const cfg = courseRow.video_profile ?? courseRow.video_config ?? {};
 
-  const programSlug = cfg.programSlug
-    ?? courseRow.slug
-    ?? 'course';
+  const programSlug = cfg.programSlug ?? courseRow.slug ?? 'course';
 
-  const accentColor  = cfg.topBarColor ?? cfg.accentColor ?? '#ea580c';
+  const accentColor = cfg.topBarColor ?? cfg.accentColor ?? '#ea580c';
   const introBgColor = cfg.backgroundColor ?? '#0f172a';
 
   // Color grade presets
   const gradeMap: Record<string, string> = {
-    warm:    'eq=brightness=0.02:saturation=1.15:gamma_r=1.05:gamma_b=0.95',
-    cool:    'eq=brightness=0.01:saturation=1.1:gamma_r=0.95:gamma_b=1.05',
+    warm: 'eq=brightness=0.02:saturation=1.15:gamma_r=1.05:gamma_b=0.95',
+    cool: 'eq=brightness=0.01:saturation=1.1:gamma_r=0.95:gamma_b=1.05',
     neutral: 'eq=brightness=0.01:saturation=1.05',
-    beauty:  'eq=brightness=0.03:saturation=1.2:gamma_r=1.08:gamma_b=0.92',
+    beauty: 'eq=brightness=0.03:saturation=1.2:gamma_r=1.08:gamma_b=0.92',
     medical: 'eq=brightness=0.0:saturation=0.95:gamma_r=0.98:gamma_b=1.02',
   };
-  const colorGrade = cfg.colorGrade
-    ?? gradeMap[cfg.colorGradePreset as string]
-    ?? gradeMap['warm'];
+  const colorGrade = cfg.colorGrade ?? gradeMap[cfg.colorGradePreset as string] ?? gradeMap['warm'];
 
   return {
     programSlug,
-    programName:     cfg.programName ?? courseRow.title ?? 'Elevate LMS',
-    instructorName:  cfg.instructorName ?? 'Elevate Instructor',
+    programName: cfg.programName ?? courseRow.title ?? 'Elevate LMS',
+    instructorName: cfg.instructorName ?? 'Elevate Instructor',
     instructorTitle: cfg.instructorTitle ?? 'Certified Professional',
-    ttsVoice:        cfg.ttsVoice ?? 'onyx',
-    ttsSpeed:        cfg.ttsSpeed ?? 0.9,
+    ttsVoice: cfg.ttsVoice ?? 'onyx',
+    ttsSpeed: cfg.ttsSpeed ?? 0.9,
     accentColor,
     colorGrade,
     introBgColor,
-    introTextColor:  cfg.introTextColor ?? '#ffffff',
+    introTextColor: cfg.introTextColor ?? '#ffffff',
   };
 }

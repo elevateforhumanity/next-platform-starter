@@ -1,6 +1,6 @@
 /**
  * Authenticated Enrollment Flow Tests
- * 
+ *
  * Tests authentication and authorization for enrollment operations
  */
 
@@ -56,9 +56,9 @@ class AuthService {
   private tokenCounter = 0;
 
   async login(email: string, password: string): Promise<Session | null> {
-    const user = Array.from(this.users.values()).find(u => u.email === email);
+    const user = Array.from(this.users.values()).find((u) => u.email === email);
     if (!user || !user.is_active) return null;
-    
+
     this.tokenCounter++;
     const session: Session = {
       user,
@@ -91,13 +91,17 @@ class AuthService {
 // Enrollment service with auth
 class AuthenticatedEnrollmentService {
   private auth: AuthService;
-  private enrollments: Map<string, { userId: string; courseId: string; status: string }> = new Map();
+  private enrollments: Map<string, { userId: string; courseId: string; status: string }> =
+    new Map();
 
   constructor(auth: AuthService) {
     this.auth = auth;
   }
 
-  async enroll(token: string | null, courseId: string): Promise<{ success: boolean; error?: string; enrollmentId?: string }> {
+  async enroll(
+    token: string | null,
+    courseId: string,
+  ): Promise<{ success: boolean; error?: string; enrollmentId?: string }> {
     // Check authentication
     if (!token) {
       return { success: false, error: 'No authentication token provided' };
@@ -135,7 +139,9 @@ class AuthenticatedEnrollmentService {
     return { success: true, enrollmentId };
   }
 
-  async getMyEnrollments(token: string | null): Promise<{ success: boolean; error?: string; enrollments?: any[] }> {
+  async getMyEnrollments(
+    token: string | null,
+  ): Promise<{ success: boolean; error?: string; enrollments?: any[] }> {
     if (!token) {
       return { success: false, error: 'No authentication token provided' };
     }
@@ -155,7 +161,11 @@ class AuthenticatedEnrollmentService {
     return { success: true, enrollments: userEnrollments };
   }
 
-  async adminEnrollUser(token: string | null, userId: string, courseId: string): Promise<{ success: boolean; error?: string }> {
+  async adminEnrollUser(
+    token: string | null,
+    userId: string,
+    courseId: string,
+  ): Promise<{ success: boolean; error?: string }> {
     if (!token) {
       return { success: false, error: 'No authentication token provided' };
     }
@@ -191,7 +201,10 @@ class AuthenticatedEnrollmentService {
     return { success: true };
   }
 
-  async dropEnrollment(token: string | null, courseId: string): Promise<{ success: boolean; error?: string }> {
+  async dropEnrollment(
+    token: string | null,
+    courseId: string,
+  ): Promise<{ success: boolean; error?: string }> {
     if (!token) {
       return { success: false, error: 'No authentication token provided' };
     }
@@ -203,7 +216,7 @@ class AuthenticatedEnrollmentService {
 
     const key = `${user.id}-${courseId}`;
     const enrollment = this.enrollments.get(key);
-    
+
     if (!enrollment) {
       return { success: false, error: 'Enrollment not found' };
     }
@@ -225,14 +238,14 @@ describe('Authentication for Enrollment', () => {
   describe('Token Validation', () => {
     it('should reject requests without token', async () => {
       const result = await enrollmentService.enroll(null, 'course-1');
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('No authentication token provided');
     });
 
     it('should reject requests with invalid token', async () => {
       const result = await enrollmentService.enroll('invalid-token', 'course-1');
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Invalid or expired token');
     });
@@ -240,9 +253,9 @@ describe('Authentication for Enrollment', () => {
     it('should accept requests with valid token', async () => {
       const session = await auth.login('student@test.com', 'password');
       expect(session).not.toBeNull();
-      
+
       const result = await enrollmentService.enroll(session!.access_token, 'course-1');
-      
+
       expect(result.success).toBe(true);
       expect(result.enrollmentId).toBeDefined();
     });
@@ -250,11 +263,11 @@ describe('Authentication for Enrollment', () => {
     it('should reject expired tokens', async () => {
       const session = await auth.login('student@test.com', 'password');
       expect(session).not.toBeNull();
-      
+
       // Manually expire the session
       const expiredSession = { ...session!, expires_at: Date.now() - 1000 };
       // This simulates token expiration check in validateToken
-      
+
       // Since we can't directly modify the session, we test the concept
       const user = await auth.validateToken('non-existent-token');
       expect(user).toBeNull();
@@ -279,14 +292,14 @@ describe('Authentication for Enrollment', () => {
     it('should allow students to enroll', async () => {
       const session = await auth.login('student@test.com', 'password');
       const result = await enrollmentService.enroll(session!.access_token, 'course-1');
-      
+
       expect(result.success).toBe(true);
     });
 
     it('should prevent instructors from self-enrolling', async () => {
       const session = await auth.login('instructor@test.com', 'password');
       const result = await enrollmentService.enroll(session!.access_token, 'course-1');
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Only students can enroll in courses');
     });
@@ -296,9 +309,9 @@ describe('Authentication for Enrollment', () => {
       const result = await enrollmentService.adminEnrollUser(
         adminSession!.access_token,
         'student-1',
-        'course-1'
+        'course-1',
       );
-      
+
       expect(result.success).toBe(true);
     });
 
@@ -307,9 +320,9 @@ describe('Authentication for Enrollment', () => {
       const result = await enrollmentService.adminEnrollUser(
         studentSession!.access_token,
         'student-1',
-        'course-1'
+        'course-1',
       );
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Admin access required');
     });
@@ -318,7 +331,7 @@ describe('Authentication for Enrollment', () => {
   describe('Session Management', () => {
     it('should create valid session on login', async () => {
       const session = await auth.login('student@test.com', 'password');
-      
+
       expect(session).not.toBeNull();
       expect(session!.access_token).toBeDefined();
       expect(session!.expires_at).toBeGreaterThan(Date.now());
@@ -328,10 +341,10 @@ describe('Authentication for Enrollment', () => {
     it('should invalidate session on logout', async () => {
       const session = await auth.login('student@test.com', 'password');
       expect(session).not.toBeNull();
-      
+
       const loggedOut = await auth.logout(session!.access_token);
       expect(loggedOut).toBe(true);
-      
+
       const user = await auth.validateToken(session!.access_token);
       expect(user).toBeNull();
     });
@@ -339,12 +352,12 @@ describe('Authentication for Enrollment', () => {
     it('should maintain separate sessions for different users', async () => {
       const studentSession = await auth.login('student@test.com', 'password');
       const adminSession = await auth.login('admin@test.com', 'password');
-      
+
       expect(studentSession!.access_token).not.toBe(adminSession!.access_token);
-      
+
       const studentUser = await auth.validateToken(studentSession!.access_token);
       const adminUser = await auth.validateToken(adminSession!.access_token);
-      
+
       expect(studentUser!.role).toBe('student');
       expect(adminUser!.role).toBe('admin');
     });
@@ -364,9 +377,9 @@ describe('Enrollment Authorization', () => {
     it('should allow user to view own enrollments', async () => {
       const session = await auth.login('student@test.com', 'password');
       await enrollmentService.enroll(session!.access_token, 'course-1');
-      
+
       const result = await enrollmentService.getMyEnrollments(session!.access_token);
-      
+
       expect(result.success).toBe(true);
       expect(result.enrollments).toHaveLength(1);
     });
@@ -374,17 +387,24 @@ describe('Enrollment Authorization', () => {
     it('should not show other users enrollments', async () => {
       // Student 1 enrolls
       const student1Session = await auth.login('student@test.com', 'password');
-      const enrollResult = await enrollmentService.enroll(student1Session!.access_token, 'course-1');
+      const enrollResult = await enrollmentService.enroll(
+        student1Session!.access_token,
+        'course-1',
+      );
       expect(enrollResult.success).toBe(true);
-      
+
       // Admin enrolls instructor in a different course
       const adminSession = await auth.login('admin@test.com', 'password');
-      const adminEnrollResult = await enrollmentService.adminEnrollUser(adminSession!.access_token, 'instructor-1', 'course-2');
+      const adminEnrollResult = await enrollmentService.adminEnrollUser(
+        adminSession!.access_token,
+        'instructor-1',
+        'course-2',
+      );
       expect(adminEnrollResult.success).toBe(true);
-      
+
       // Student 1 should only see their own enrollment
       const result = await enrollmentService.getMyEnrollments(student1Session!.access_token);
-      
+
       expect(result.success).toBe(true);
       expect(result.enrollments!.length).toBe(1);
       expect(result.enrollments![0].courseId).toBe('course-1');
@@ -394,17 +414,17 @@ describe('Enrollment Authorization', () => {
     it('should allow user to drop own enrollment', async () => {
       const session = await auth.login('student@test.com', 'password');
       await enrollmentService.enroll(session!.access_token, 'course-1');
-      
+
       const result = await enrollmentService.dropEnrollment(session!.access_token, 'course-1');
-      
+
       expect(result.success).toBe(true);
     });
 
     it('should prevent dropping non-existent enrollment', async () => {
       const session = await auth.login('student@test.com', 'password');
-      
+
       const result = await enrollmentService.dropEnrollment(session!.access_token, 'course-999');
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Enrollment not found');
     });
@@ -413,10 +433,10 @@ describe('Enrollment Authorization', () => {
   describe('Duplicate Prevention', () => {
     it('should prevent duplicate enrollment', async () => {
       const session = await auth.login('student@test.com', 'password');
-      
+
       const result1 = await enrollmentService.enroll(session!.access_token, 'course-1');
       expect(result1.success).toBe(true);
-      
+
       const result2 = await enrollmentService.enroll(session!.access_token, 'course-1');
       expect(result2.success).toBe(false);
       expect(result2.error).toBe('Already enrolled in this course');
@@ -424,10 +444,10 @@ describe('Enrollment Authorization', () => {
 
     it('should allow enrollment in different courses', async () => {
       const session = await auth.login('student@test.com', 'password');
-      
+
       const result1 = await enrollmentService.enroll(session!.access_token, 'course-1');
       const result2 = await enrollmentService.enroll(session!.access_token, 'course-2');
-      
+
       expect(result1.success).toBe(true);
       expect(result2.success).toBe(true);
     });
@@ -447,30 +467,30 @@ describe('Complete Authenticated Enrollment Flow', () => {
     // Step 1: Login
     const session = await auth.login('student@test.com', 'password');
     expect(session).not.toBeNull();
-    
+
     // Step 2: Enroll in course
     const enrollResult = await enrollmentService.enroll(session!.access_token, 'course-1');
     expect(enrollResult.success).toBe(true);
     expect(enrollResult.enrollmentId).toBeDefined();
-    
+
     // Step 3: Verify enrollment
     const myEnrollments = await enrollmentService.getMyEnrollments(session!.access_token);
     expect(myEnrollments.success).toBe(true);
     expect(myEnrollments.enrollments).toHaveLength(1);
     expect(myEnrollments.enrollments![0].status).toBe('active');
-    
+
     // Step 4: Drop enrollment
     const dropResult = await enrollmentService.dropEnrollment(session!.access_token, 'course-1');
     expect(dropResult.success).toBe(true);
-    
+
     // Step 5: Verify dropped status
     const afterDrop = await enrollmentService.getMyEnrollments(session!.access_token);
     expect(afterDrop.enrollments![0].status).toBe('dropped');
-    
+
     // Step 6: Logout
     const loggedOut = await auth.logout(session!.access_token);
     expect(loggedOut).toBe(true);
-    
+
     // Step 7: Verify session invalidated
     const afterLogout = await enrollmentService.getMyEnrollments(session!.access_token);
     expect(afterLogout.success).toBe(false);
@@ -480,19 +500,19 @@ describe('Complete Authenticated Enrollment Flow', () => {
     // Step 1: Admin login
     const adminSession = await auth.login('admin@test.com', 'password');
     expect(adminSession).not.toBeNull();
-    
+
     // Step 2: Admin enrolls student
     const enrollResult = await enrollmentService.adminEnrollUser(
       adminSession!.access_token,
       'student-1',
-      'course-1'
+      'course-1',
     );
     expect(enrollResult.success).toBe(true);
-    
+
     // Step 3: Student logs in and verifies enrollment
     const studentSession = await auth.login('student@test.com', 'password');
     const myEnrollments = await enrollmentService.getMyEnrollments(studentSession!.access_token);
-    
+
     expect(myEnrollments.success).toBe(true);
     expect(myEnrollments.enrollments).toHaveLength(1);
     expect(myEnrollments.enrollments![0].courseId).toBe('course-1');

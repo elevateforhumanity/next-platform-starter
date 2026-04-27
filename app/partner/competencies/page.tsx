@@ -75,8 +75,10 @@ export default function PartnerCompetenciesPage() {
       });
       const data = await res.json().catch(() => ({}));
       if (!res.ok) throw new Error(data.error || 'Failed to verify rep');
-      setEntries(prev => prev.filter(item => item.id !== entry.id));
-      setSuccess(`Verified ${entry.serviceCount} rep${entry.serviceCount !== 1 ? 's' : ''} successfully.`);
+      setEntries((prev) => prev.filter((item) => item.id !== entry.id));
+      setSuccess(
+        `Verified ${entry.serviceCount} rep${entry.serviceCount !== 1 ? 's' : ''} successfully.`,
+      );
     } catch (err: unknown) {
       logger.error(
         'Failed to verify competency rep',
@@ -93,17 +95,18 @@ export default function PartnerCompetenciesPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="mb-6">
-        <Breadcrumbs items={[
-          { label: 'Partner', href: '/partner/dashboard' },
-          { label: 'Competencies' },
-        ]} />
+        <Breadcrumbs
+          items={[{ label: 'Partner', href: '/partner/dashboard' }, { label: 'Competencies' }]}
+        />
       </div>
 
       <div>
         <div className="flex flex-wrap items-center justify-between gap-4 mb-6">
           <div>
             <h1 className="text-3xl font-bold text-slate-900">Competency Verification</h1>
-            <p className="text-slate-600 mt-1">Approve barber service reps (cuts, shaves, chemical services, sanitation).</p>
+            <p className="text-slate-600 mt-1">
+              Approve barber service reps (cuts, shaves, chemical services, sanitation).
+            </p>
           </div>
           <button
             onClick={fetchPending}
@@ -116,7 +119,8 @@ export default function PartnerCompetenciesPage() {
         </div>
 
         <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 text-sm text-amber-800">
-          Only verify reps you personally witnessed. Your sign-off is a legal attestation for DOL records.
+          Only verify reps you personally witnessed. Your sign-off is a legal attestation for DOL
+          records.
         </div>
 
         {error && (
@@ -152,7 +156,7 @@ export default function PartnerCompetenciesPage() {
           </div>
         ) : (
           <div className="space-y-4">
-            {entries.map(entry => {
+            {entries.map((entry) => {
               const workDate = parseWorkDate(entry.workDate);
               const submitted = new Date(entry.submittedAt);
               return (
@@ -174,19 +178,36 @@ export default function PartnerCompetenciesPage() {
 
                       <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 text-sm text-slate-600 mb-3">
                         <div>
-                          <span className="block text-xs text-slate-400 uppercase tracking-wide">Date Performed</span>
+                          <span className="block text-xs text-slate-400 uppercase tracking-wide">
+                            Date Performed
+                          </span>
                           {workDate
-                            ? workDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' })
+                            ? workDate.toLocaleDateString('en-US', {
+                                month: 'short',
+                                day: 'numeric',
+                                year: 'numeric',
+                                timeZone: 'UTC',
+                              })
                             : entry.workDate}
                         </div>
                         <div>
-                          <span className="block text-xs text-slate-400 uppercase tracking-wide">Reps Logged</span>
+                          <span className="block text-xs text-slate-400 uppercase tracking-wide">
+                            Reps Logged
+                          </span>
                           {entry.serviceCount} rep{entry.serviceCount !== 1 ? 's' : ''}
                         </div>
                         <div>
-                          <span className="block text-xs text-slate-400 uppercase tracking-wide">Submitted</span>
-                          {submitted.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })}{' '}
-                          {submitted.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' })}
+                          <span className="block text-xs text-slate-400 uppercase tracking-wide">
+                            Submitted
+                          </span>
+                          {submitted.toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                          })}{' '}
+                          {submitted.toLocaleTimeString('en-US', {
+                            hour: 'numeric',
+                            minute: '2-digit',
+                          })}
                         </div>
                       </div>
 

@@ -39,9 +39,7 @@ export function QualityHero({
     throw new Error('QualityHero: title must be specific (min 10 characters)');
   }
   if (!description || description.length < 20) {
-    throw new Error(
-      'QualityHero: description must be clear (min 20 characters)'
-    );
+    throw new Error('QualityHero: description must be clear (min 20 characters)');
   }
   if (!imageSrc || !imageAlt) {
     throw new Error('QualityHero: image and alt text required');
@@ -59,11 +57,7 @@ export function QualityHero({
     <section className="relative">
       {/* Breadcrumbs */}
       {breadcrumbs.length > 0 && (
-        <nav
-          role="navigation"
-          className="container mx-auto px-4 py-4"
-          aria-label="Breadcrumb"
-        >
+        <nav role="navigation" className="container mx-auto px-4 py-4" aria-label="Breadcrumb">
           <ol className="flex items-center space-x-2 text-sm">
             {breadcrumbs.map((crumb, index) => (
               <li key={crumb.href} className="flex items-center">
@@ -85,12 +79,8 @@ export function QualityHero({
         <div className="grid md:grid-cols-2 gap-12 items-center">
           {/* Text Content */}
           <div>
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-6">
-              {title}
-            </h1>
-            <p className="text-lg md:text-xl text-black mb-8 leading-relaxed">
-              {description}
-            </p>
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-black mb-6">{title}</h1>
+            <p className="text-lg md:text-xl text-black mb-8 leading-relaxed">{description}</p>
 
             {/* Actions */}
             {actions.length > 0 && (
@@ -117,6 +107,7 @@ export function QualityHero({
 
           {/* Image */}
           <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] rounded-lg overflow-hidden shadow-xl">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
             <Image
               src={imageSrc}
               alt={imageAlt}

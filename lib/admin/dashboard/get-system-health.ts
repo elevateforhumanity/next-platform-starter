@@ -29,7 +29,7 @@ export async function getSystemHealth(db: SupabaseClient): Promise<DashboardSyst
   const alerts: SystemHealthAlert[] = [];
 
   // Check required env vars
-  const missingEnv = REQUIRED_ENV.filter(k => !process.env[k]);
+  const missingEnv = REQUIRED_ENV.filter((k) => !process.env[k]);
   const buildEnvOk = missingEnv.length === 0;
   if (!buildEnvOk) {
     alerts.push({
@@ -41,27 +41,24 @@ export async function getSystemHealth(db: SupabaseClient): Promise<DashboardSyst
 
   const [stripeWebhook, staleJobs, missingDocs, unresolvedFlags] = await Promise.all([
     // Check Stripe webhook status via app_secrets or a known sentinel
-    db.from('app_secrets')
-      .select('value')
-      .eq('key', 'STRIPE_WEBHOOK_SECRET')
-      .maybeSingle(),
+    db.from('app_secrets').select('value').eq('key', 'STRIPE_WEBHOOK_SECRET').maybeSingle(),
 
     // Stale jobs stuck in processing > 30 min
-    db.from('job_queue')
+    db
+      .from('job_queue')
       .select('id', { count: 'exact', head: true })
       .eq('status', 'processing')
       .lt('updated_at', new Date(Date.now() - 30 * 60 * 1000).toISOString()),
 
     // Enrollments missing required documents
-    db.from('program_enrollments')
+    db
+      .from('program_enrollments')
       .select('id', { count: 'exact', head: true })
       .eq('status', 'active')
       .eq('docs_verified', false),
 
     // Unresolved compliance flags
-    db.from('compliance_flags')
-      .select('id', { count: 'exact', head: true })
-      .eq('resolved', false),
+    db.from('compliance_flags').select('id', { count: 'exact', head: true }).eq('resolved', false),
   ]);
 
   const stripeWebhookOk = !!stripeWebhook.data?.value;
@@ -85,11 +82,11 @@ export async function getSystemHealth(db: SupabaseClient): Promise<DashboardSyst
   return {
     stripeWebhookOk,
     buildEnvOk,
-    staleJobs:             staleJobCount,
-    degraded:              alerts.some(a => a.severity === 'critical'),
-    missingDocuments:      missingDocs.count ?? 0,
+    staleJobs: staleJobCount,
+    degraded: alerts.some((a) => a.severity === 'critical'),
+    missingDocuments: missingDocs.count ?? 0,
     missingCertifications: 0, // populated by compliance query if table exists
-    unresolvedFlags:       unresolvedFlags.count ?? 0,
+    unresolvedFlags: unresolvedFlags.count ?? 0,
     alerts,
   };
 }

@@ -4,9 +4,10 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 
-export const metadata: Metadata = { 
+export const metadata: Metadata = {
   title: 'Complete Your Application | Elevate For Humanity',
-  description: 'Enter your contact information, location, and program selection. If funded, we ask eligibility questions. If self-pay, we focus on enrollment and payment options.',
+  description:
+    'Enter your contact information, location, and program selection. If funded, we ask eligibility questions. If self-pay, we focus on enrollment and payment options.',
 };
 
 export const dynamic = 'force-dynamic';
@@ -28,7 +29,9 @@ export default async function EnrollPage() {
   // Fetch active programs
   const { data: programs, error } = await supabase
     .from('programs')
-    .select('id, name, slug, description, duration_weeks, is_free, price, total_cost, funding_eligible')
+    .select(
+      'id, name, slug, description, duration_weeks, is_free, price, total_cost, funding_eligible',
+    )
     .eq('status', 'active')
     .order('name', { ascending: true })
     .limit(20);
@@ -44,7 +47,8 @@ export default async function EnrollPage() {
 
       {/* Hero - Image only */}
       <div className="relative h-[40vh] min-h-[300px]">
-        <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image sizes="100vw"
           src="/images/pages/programs-hero.jpg"
           alt="Enroll in Training"
           fill
@@ -56,8 +60,12 @@ export default async function EnrollPage() {
       <div className="max-w-4xl mx-auto px-4 py-12">
         <div className="bg-white rounded-xl shadow-sm p-8 mb-8">
           <h2 className="text-2xl font-bold text-gray-900 mb-2">Complete Your Application</h2>
-          <p className="text-gray-600 mb-6">Enter your contact information, location, and the program you're applying for. If your training is funded, we'll also ask questions tied to eligibility. If you're self-pay, we'll focus on enrollment and payment options.</p>
-          
+          <p className="text-gray-600 mb-6">
+            Enter your contact information, location, and the program you're applying for. If your
+            training is funded, we'll also ask questions tied to eligibility. If you're self-pay,
+            we'll focus on enrollment and payment options.
+          </p>
+
           {programs && programs.length > 0 ? (
             <div className="space-y-4">
               {programs.map((program) => (
@@ -70,7 +78,9 @@ export default async function EnrollPage() {
                     <div>
                       <h3 className="text-lg font-semibold text-gray-900">{program.name}</h3>
                       {program.description && (
-                        <p className="text-gray-600 mt-1 text-sm line-clamp-2">{program.description}</p>
+                        <p className="text-gray-600 mt-1 text-sm line-clamp-2">
+                          {program.description}
+                        </p>
                       )}
                       {program.duration_weeks && (
                         <p className="text-sm text-gray-500 mt-2">
@@ -88,13 +98,17 @@ export default async function EnrollPage() {
                           <span className="inline-block px-3 py-1 bg-green-100 text-green-800 text-sm font-medium rounded-full">
                             Free with WIOA/WRG
                           </span>
-                          {(program.price || program.total_cost) ? (
+                          {program.price || program.total_cost ? (
                             <p className="text-xs text-gray-500 mt-1">
-                              or ${((program.price || program.total_cost || 0) as number).toLocaleString()} self-pay
+                              or $
+                              {(
+                                (program.price || program.total_cost || 0) as number
+                              ).toLocaleString()}{' '}
+                              self-pay
                             </p>
                           ) : null}
                         </div>
-                      ) : (program.price || program.total_cost) ? (
+                      ) : program.price || program.total_cost ? (
                         <span className="inline-block px-3 py-1 bg-blue-100 text-blue-800 text-sm font-medium rounded-full">
                           ${((program.price || program.total_cost || 0) as number).toLocaleString()}
                         </span>
@@ -111,10 +125,7 @@ export default async function EnrollPage() {
           ) : (
             <div className="text-center py-8">
               <p className="text-gray-600 mb-4">No programs currently available for enrollment.</p>
-              <Link
-                href="/programs"
-                className="text-blue-600 hover:underline"
-              >
+              <Link href="/programs" className="text-blue-600 hover:underline">
                 View all programs
               </Link>
             </div>

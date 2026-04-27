@@ -7,7 +7,6 @@ import { redirect } from 'next/navigation';
 import LearningAnalyticsDashboard from '@/components/LearningAnalyticsDashboard';
 import StudentEngagementAnalytics from '@/components/StudentEngagementAnalytics';
 import {
-
   BarChart3,
   TrendingUp,
   Clock,
@@ -17,7 +16,8 @@ import {
   Calendar,
   Activity,
   Zap,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: {
@@ -44,12 +44,20 @@ export default async function AnalyticsPage() {
     .select('id, status, course_id, progress_percent, completed_lessons, enrolled_at, updated_at')
     .eq('user_id', user.id);
 
-  const enrollmentCourseIds = [...new Set((rawEnrollments || []).map(e => e.course_id).filter(Boolean))];
+  const enrollmentCourseIds = [
+    ...new Set((rawEnrollments || []).map((e) => e.course_id).filter(Boolean)),
+  ];
   const { data: enrollmentCourses } = enrollmentCourseIds.length
-    ? await supabase.from('courses').select('id, title, total_lessons, duration_hours').in('id', enrollmentCourseIds)
+    ? await supabase
+        .from('courses')
+        .select('id, title, total_lessons, duration_hours')
+        .in('id', enrollmentCourseIds)
     : { data: [] };
-  const enrollmentCourseMap = Object.fromEntries((enrollmentCourses || []).map(c => [c.id, c]));
-  const enrollments = (rawEnrollments || []).map(e => ({ ...e, courses: enrollmentCourseMap[e.course_id] ?? null }));
+  const enrollmentCourseMap = Object.fromEntries((enrollmentCourses || []).map((c) => [c.id, c]));
+  const enrollments = (rawEnrollments || []).map((e) => ({
+    ...e,
+    courses: enrollmentCourseMap[e.course_id] ?? null,
+  }));
 
   // Fetch lesson progress
   const { data: lessonProgress } = await supabase
@@ -76,27 +84,27 @@ export default async function AnalyticsPage() {
   // Calculate stats
   const stats = {
     totalCourses: enrollments?.length || 0,
-    completedCourses: enrollments?.filter(e => e.status === 'completed').length || 0,
-    activeCourses: enrollments?.filter(e => e.status === 'active').length || 0,
+    completedCourses: enrollments?.filter((e) => e.status === 'completed').length || 0,
+    activeCourses: enrollments?.filter((e) => e.status === 'active').length || 0,
     totalLessons: enrollments?.reduce((sum, e) => sum + (e.courses?.total_lessons || 0), 0) || 0,
-    completedLessons: lessonProgress?.filter(p => p.completed).length || 0,
+    completedLessons: lessonProgress?.filter((p) => p.completed).length || 0,
     totalQuizzes: quizAttempts?.length || 0,
     avgQuizScore: 0,
     totalAssignments: assignments?.length || 0,
-    gradedAssignments: assignments?.filter(a => a.grade !== null).length || 0,
+    gradedAssignments: assignments?.filter((a) => a.grade !== null).length || 0,
     totalHours: enrollments?.reduce((sum, e) => sum + (e.courses?.duration_hours || 0), 0) || 0,
   };
 
   if (quizAttempts && quizAttempts.length > 0) {
     stats.avgQuizScore = Math.round(
-      quizAttempts.reduce((sum, q) => sum + (q.score || 0), 0) / quizAttempts.length
+      quizAttempts.reduce((sum, q) => sum + (q.score || 0), 0) / quizAttempts.length,
     );
   }
 
   // Calculate weekly activity (last 7 days)
   const weeklyActivity = Array(7).fill(0);
   const today = new Date();
-  lessonProgress?.forEach(progress => {
+  lessonProgress?.forEach((progress) => {
     const progressDate = new Date(progress.updated_at);
     const daysDiff = Math.floor((today.getTime() - progressDate.getTime()) / (1000 * 60 * 60 * 24));
     if (daysDiff >= 0 && daysDiff < 7) {
@@ -105,28 +113,29 @@ export default async function AnalyticsPage() {
   });
 
   // Calculate course progress
-  const courseProgress = enrollments?.map(enrollment => {
-    const totalLessons = enrollment.courses?.total_lessons || 0;
-    const completedLessons = enrollment.completed_lessons || 0;
-    const progress = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
-    return {
-      id: enrollment.course_id,
-      title: enrollment.courses?.title || 'Course',
-      progress,
-      completedLessons,
-      totalLessons,
-      status: enrollment.status,
-    };
-  }) || [];
+  const courseProgress =
+    enrollments?.map((enrollment) => {
+      const totalLessons = enrollment.courses?.total_lessons || 0;
+      const completedLessons = enrollment.completed_lessons || 0;
+      const progress = totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
+      return {
+        id: enrollment.course_id,
+        title: enrollment.courses?.title || 'Course',
+        progress,
+        completedLessons,
+        totalLessons,
+        status: enrollment.status,
+      };
+    }) || [];
 
   const dayNames = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
   const maxActivity = Math.max(...weeklyActivity, 1);
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Analytics" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Analytics' }]} />
+      </div>
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
@@ -212,11 +221,14 @@ export default async function AnalyticsPage() {
                 ))}
               </div>
               <p className="text-sm text-slate-600 mt-4 text-center">
-                {lessonProgress?.filter(p => {
+                {lessonProgress?.filter((p) => {
                   const date = new Date(p.updated_at);
-                  const daysDiff = Math.floor((today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24));
+                  const daysDiff = Math.floor(
+                    (today.getTime() - date.getTime()) / (1000 * 60 * 60 * 24),
+                  );
                   return daysDiff < 7;
-                }).length || 0} lessons completed this week
+                }).length || 0}{' '}
+                lessons completed this week
               </p>
             </div>
 
@@ -232,11 +244,13 @@ export default async function AnalyticsPage() {
                     <div key={course.id} className="p-4 bg-white rounded-xl">
                       <div className="flex items-center justify-between mb-2">
                         <h3 className="font-medium text-slate-900">{course.course_name}</h3>
-                        <span className={`px-2 py-1 rounded text-xs font-medium ${
-                          course.status === 'completed'
-                            ? 'bg-brand-green-100 text-brand-green-700'
-                            : 'bg-brand-blue-100 text-brand-blue-700'
-                        }`}>
+                        <span
+                          className={`px-2 py-1 rounded text-xs font-medium ${
+                            course.status === 'completed'
+                              ? 'bg-brand-green-100 text-brand-green-700'
+                              : 'bg-brand-blue-100 text-brand-blue-700'
+                          }`}
+                        >
                           {course.status === 'completed' ? 'Completed' : 'In Progress'}
                         </span>
                       </div>
@@ -307,7 +321,9 @@ export default async function AnalyticsPage() {
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-brand-blue-100">Courses</span>
-                    <span className="font-bold">{stats.completedCourses}/{stats.totalCourses}</span>
+                    <span className="font-bold">
+                      {stats.completedCourses}/{stats.totalCourses}
+                    </span>
                   </div>
                   <div className="h-2 bg-white/20 rounded-full overflow-hidden">
                     <div
@@ -321,7 +337,9 @@ export default async function AnalyticsPage() {
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <span className="text-brand-blue-100">Lessons</span>
-                    <span className="font-bold">{stats.completedLessons}/{stats.totalLessons}</span>
+                    <span className="font-bold">
+                      {stats.completedLessons}/{stats.totalLessons}
+                    </span>
                   </div>
                   <div className="h-2 bg-white/20 rounded-full overflow-hidden">
                     <div

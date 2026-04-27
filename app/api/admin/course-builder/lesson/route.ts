@@ -24,7 +24,19 @@ const competencyCheckSchema = z.object({
   isCritical: z.boolean(),
   domainKey: z.string().optional(),
   assessmentMethod: z.enum(['quiz', 'lab', 'exam', 'observation', 'assignment']).optional(),
-  evidenceType: z.enum(['quiz', 'upload', 'video', 'audio', 'checklist', 'observation', 'attestation', 'exam', 'reflection']).optional(),
+  evidenceType: z
+    .enum([
+      'quiz',
+      'upload',
+      'video',
+      'audio',
+      'checklist',
+      'observation',
+      'attestation',
+      'exam',
+      'reflection',
+    ])
+    .optional(),
 });
 
 const instructorRequirementSchema = z.object({
@@ -41,7 +53,18 @@ const bodySchema = z.object({
   slug: z.string().min(1),
   title: z.string().min(1),
   orderIndex: z.number().int().min(0),
-  lessonType: z.enum(['video','reading','quiz','assignment','practical','checkpoint','exam','live_session','fieldwork','observation']),
+  lessonType: z.enum([
+    'video',
+    'reading',
+    'quiz',
+    'assignment',
+    'practical',
+    'checkpoint',
+    'exam',
+    'live_session',
+    'fieldwork',
+    'observation',
+  ]),
   durationMinutes: z.number().positive(),
   learningObjectives: z.array(z.string()).min(1),
   content: z.record(z.unknown()),
@@ -53,17 +76,62 @@ const bodySchema = z.object({
   competencyChecks: z.array(competencyCheckSchema).optional(),
   instructorNotes: z.string().nullable().optional(),
   practicalRequired: z.boolean().optional(),
-  requiredArtifacts: z.array(z.enum(['text','video','audio','checklist','document','image','form'])).optional(),
-  activities: z.array(z.object({
-    type: z.enum(['video','reading','worksheet','reflection','upload','checklist','quiz','observation','discussion','lab']),
-    label: z.string(),
-    config: z.record(z.unknown()).optional(),
-  })).optional(),
+  requiredArtifacts: z
+    .array(z.enum(['text', 'video', 'audio', 'checklist', 'document', 'image', 'form']))
+    .optional(),
+  activities: z
+    .array(
+      z.object({
+        type: z.enum([
+          'video',
+          'reading',
+          'worksheet',
+          'reflection',
+          'upload',
+          'checklist',
+          'quiz',
+          'observation',
+          'discussion',
+          'lab',
+        ]),
+        label: z.string(),
+        config: z.record(z.unknown()).optional(),
+      }),
+    )
+    .optional(),
   isRequired: z.boolean().optional(),
   domainKey: z.string().nullable().optional(),
-  hourCategory: z.enum(['didactic','practical','clinical','fieldwork','observation','supervision','self_study','exam']).nullable().optional(),
-  evidenceType: z.enum(['quiz','upload','video','audio','checklist','observation','attestation','exam','reflection']).nullable().optional(),
-  deliveryMethod: z.enum(['online_async','online_live','in_person','hybrid','field_based']).nullable().optional(),
+  hourCategory: z
+    .enum([
+      'didactic',
+      'practical',
+      'clinical',
+      'fieldwork',
+      'observation',
+      'supervision',
+      'self_study',
+      'exam',
+    ])
+    .nullable()
+    .optional(),
+  evidenceType: z
+    .enum([
+      'quiz',
+      'upload',
+      'video',
+      'audio',
+      'checklist',
+      'observation',
+      'attestation',
+      'exam',
+      'reflection',
+    ])
+    .nullable()
+    .optional(),
+  deliveryMethod: z
+    .enum(['online_async', 'online_live', 'in_person', 'hybrid', 'field_based'])
+    .nullable()
+    .optional(),
   requiresInstructorSignoff: z.boolean().optional(),
   instructorRequirement: instructorRequirementSchema.nullable().optional(),
   minimumSeatTimeMinutes: z.number().nullable().optional(),
@@ -112,7 +180,12 @@ export async function POST(req: NextRequest) {
     };
 
     if (body.id) {
-      const { data, error } = await db.from('course_lessons').update(payload).eq('id', body.id).select('*').single();
+      const { data, error } = await db
+        .from('course_lessons')
+        .update(payload)
+        .eq('id', body.id)
+        .select('*')
+        .single();
       if (error) throw error;
       return NextResponse.json({ ok: true, lesson: data });
     }

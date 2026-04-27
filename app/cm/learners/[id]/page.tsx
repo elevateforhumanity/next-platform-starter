@@ -17,7 +17,8 @@ import {
   FileText,
   AlertCircle,
   Target,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import Image from 'next/image';
 
 export const dynamic = 'force-dynamic';
@@ -37,8 +38,9 @@ export default async function CMLearnerDetailPage({ params }: Props) {
   const { id } = await params;
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   // Verify case manager access
@@ -64,21 +66,25 @@ export default async function CMLearnerDetailPage({ params }: Props) {
   // Fetch enrollments
   const { data: enrollments } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       *,
       courses (id, title),
       programs (id, name)
-    `)
+    `,
+    )
     .eq('user_id', id)
     .order('enrolled_at', { ascending: false });
 
   // Fetch case notes
   const { data: caseNotes } = await supabase
     .from('case_notes')
-    .select(`
+    .select(
+      `
       *,
       profiles:created_by (first_name, last_name)
-    `)
+    `,
+    )
     .eq('learner_id', id)
     .order('created_at', { ascending: false })
     .limit(5);
@@ -98,8 +104,8 @@ export default async function CMLearnerDetailPage({ params }: Props) {
     .order('created_at', { ascending: false })
     .limit(5);
 
-  const activeEnrollments = enrollments?.filter(e => e.status === 'active').length || 0;
-  const completedGoals = goals?.filter(g => g.status === 'completed').length || 0;
+  const activeEnrollments = enrollments?.filter((e) => e.status === 'active').length || 0;
+  const completedGoals = goals?.filter((g) => g.status === 'completed').length || 0;
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
@@ -117,7 +123,13 @@ export default async function CMLearnerDetailPage({ params }: Props) {
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center">
               {learner.avatar_url ? (
-                <Image src={learner.avatar_url} alt={`${learner.first_name} ${learner.last_name}`} width={64} height={64} className="w-16 h-16 rounded-full object-cover" />
+                <Image sizes="100vw"
+                  src={learner.avatar_url}
+                  alt={`${learner.first_name} ${learner.last_name}`}
+                  width={64}
+                  height={64}
+                  className="w-16 h-16 rounded-full object-cover"
+                />
               ) : (
                 <User className="w-8 h-8 text-brand-blue-600" />
               )}
@@ -128,9 +140,13 @@ export default async function CMLearnerDetailPage({ params }: Props) {
               </h1>
               <p className="text-slate-600">{learner.email}</p>
               <div className="flex items-center gap-2 mt-1">
-                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                  learner.status === 'active' ? 'bg-brand-green-100 text-brand-green-800' : 'bg-white text-slate-900'
-                }`}>
+                <span
+                  className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                    learner.status === 'active'
+                      ? 'bg-brand-green-100 text-brand-green-800'
+                      : 'bg-white text-slate-900'
+                  }`}
+                >
                   {learner.status || 'Active'}
                 </span>
               </div>
@@ -210,18 +226,26 @@ export default async function CMLearnerDetailPage({ params }: Props) {
           <div className="bg-white rounded-xl border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Goals & Milestones</h2>
-              <Link href={`/cm/learners/${id}/goals`} className="text-sm text-brand-blue-600 hover:underline">
+              <Link
+                href={`/cm/learners/${id}/goals`}
+                className="text-sm text-brand-blue-600 hover:underline"
+              >
                 Manage Goals
               </Link>
             </div>
             {goals && goals.length > 0 ? (
               <div className="space-y-3">
                 {goals.slice(0, 5).map((goal: any) => (
-                  <div key={goal.id} className="flex items-center justify-between p-3 bg-white rounded-lg">
+                  <div
+                    key={goal.id}
+                    className="flex items-center justify-between p-3 bg-white rounded-lg"
+                  >
                     <div className="flex items-center gap-3">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                        goal.status === 'completed' ? 'bg-brand-green-100' : 'bg-yellow-100'
-                      }`}>
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                          goal.status === 'completed' ? 'bg-brand-green-100' : 'bg-yellow-100'
+                        }`}
+                      >
                         {goal.status === 'completed' ? (
                           <span className="text-slate-500 flex-shrink-0">•</span>
                         ) : (
@@ -231,15 +255,22 @@ export default async function CMLearnerDetailPage({ params }: Props) {
                       <div>
                         <p className="font-medium text-slate-900">{goal.title}</p>
                         <p className="text-sm text-slate-600">
-                          Due: {goal.due_date ? new Date(goal.due_date).toLocaleDateString() : 'No deadline'}
+                          Due:{' '}
+                          {goal.due_date
+                            ? new Date(goal.due_date).toLocaleDateString()
+                            : 'No deadline'}
                         </p>
                       </div>
                     </div>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      goal.status === 'completed' ? 'bg-brand-green-100 text-brand-green-800' :
-                      goal.status === 'in_progress' ? 'bg-brand-blue-100 text-brand-blue-800' :
-                      'bg-white text-slate-900'
-                    }`}>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        goal.status === 'completed'
+                          ? 'bg-brand-green-100 text-brand-green-800'
+                          : goal.status === 'in_progress'
+                            ? 'bg-brand-blue-100 text-brand-blue-800'
+                            : 'bg-white text-slate-900'
+                      }`}
+                    >
                       {goal.status?.replace('_', ' ')}
                     </span>
                   </div>
@@ -254,7 +285,10 @@ export default async function CMLearnerDetailPage({ params }: Props) {
           <div className="bg-white rounded-xl border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Recent Case Notes</h2>
-              <Link href={`/cm/learners/${id}/notes`} className="text-sm text-brand-blue-600 hover:underline">
+              <Link
+                href={`/cm/learners/${id}/notes`}
+                className="text-sm text-brand-blue-600 hover:underline"
+              >
                 View All
               </Link>
             </div>
@@ -296,7 +330,10 @@ export default async function CMLearnerDetailPage({ params }: Props) {
             {enrollments && enrollments.length > 0 ? (
               <div className="space-y-3">
                 {enrollments.map((enrollment: any) => (
-                  <div key={enrollment.id} className="flex items-center justify-between p-3 bg-white rounded-lg">
+                  <div
+                    key={enrollment.id}
+                    className="flex items-center justify-between p-3 bg-white rounded-lg"
+                  >
                     <div>
                       <p className="font-medium text-slate-900">
                         {enrollment.programs?.name || enrollment.courses?.title || 'Unknown'}
@@ -307,10 +344,15 @@ export default async function CMLearnerDetailPage({ params }: Props) {
                     </div>
                     <div className="text-right">
                       <p className="font-medium text-slate-900">{enrollment.progress || 0}%</p>
-                      <span className={`text-xs ${
-                        enrollment.status === 'completed' ? 'text-brand-green-600' :
-                        enrollment.status === 'active' ? 'text-brand-blue-600' : 'text-slate-500'
-                      }`}>
+                      <span
+                        className={`text-xs ${
+                          enrollment.status === 'completed'
+                            ? 'text-brand-green-600'
+                            : enrollment.status === 'active'
+                              ? 'text-brand-blue-600'
+                              : 'text-slate-500'
+                        }`}
+                      >
                         {enrollment.status}
                       </span>
                     </div>
@@ -372,7 +414,10 @@ export default async function CMLearnerDetailPage({ params }: Props) {
           <div className="bg-white rounded-xl border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Documents</h2>
-              <Link href={`/cm/learners/${id}/documents`} className="text-sm text-brand-blue-600 hover:underline">
+              <Link
+                href={`/cm/learners/${id}/documents`}
+                className="text-sm text-brand-blue-600 hover:underline"
+              >
                 View All
               </Link>
             </div>

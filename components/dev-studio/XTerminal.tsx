@@ -42,8 +42,8 @@ const XTerminal = forwardRef<XTerminalHandle, XTerminalProps>(({ onClear }, ref)
   useImperativeHandle(ref, () => ({
     write: (data: string) => {
       const newLines = data.split('\n');
-      setLines(prev => [...prev, ...newLines.filter(l => l !== '')]);
-      
+      setLines((prev) => [...prev, ...newLines.filter((l) => l !== '')]);
+
       // Auto-scroll
       setTimeout(() => {
         if (terminalRef.current) {
@@ -82,15 +82,12 @@ const XTerminal = forwardRef<XTerminalHandle, XTerminalProps>(({ onClear }, ref)
       </div>
 
       {/* Terminal Content */}
-      <div 
-        ref={terminalRef} 
+      <div
+        ref={terminalRef}
         className="flex-1 p-3 overflow-auto font-mono text-sm text-[#c9d1d9] leading-relaxed"
       >
         {lines.map((line, i) => (
-          <div 
-            key={i} 
-            dangerouslySetInnerHTML={{ __html: ansiToHtml(line) || '&nbsp;' }}
-          />
+          <div key={i} dangerouslySetInnerHTML={{ __html: ansiToHtml(line) || '&nbsp;' }} />
         ))}
       </div>
     </div>

@@ -2,8 +2,8 @@
 // NOTE: This component runs in root layout which may be edge context.
 // DO NOT import @supabase/supabase-js here - it breaks Netlify edge functions.
 import { sanitizeHtml } from '@/lib/sanitize';
-import { getTenantFromHost } from "@/lib/multiTenant/tenantFromHost";
-import { headers } from "next/headers";
+import { getTenantFromHost } from '@/lib/multiTenant/tenantFromHost';
+import { headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
 
 interface TenantStyles {
@@ -22,13 +22,13 @@ interface TenantStyles {
 
 export async function TenantCustomStyles() {
   const headersList = await headers();
-  const host = headersList.get("host") ?? undefined;
-  
+  const host = headersList.get('host') ?? undefined;
+
   let styles: TenantStyles | null = null;
 
   // Try to get tenant from host
   const tenant = await getTenantFromHost(host);
-  
+
   if (tenant) {
     styles = {
       primary_color: tenant.primary_color,
@@ -67,7 +67,9 @@ export async function TenantCustomStyles() {
       ${styles.font_family ? `--tenant-font: ${styles.font_family};` : ''}
     }
     
-    ${styles.primary_color ? `
+    ${
+      styles.primary_color
+        ? `
       .btn-primary, .bg-primary, [data-tenant-primary] {
         background-color: var(--tenant-primary) !important;
       }
@@ -80,43 +82,49 @@ export async function TenantCustomStyles() {
       .ring-primary {
         --tw-ring-color: var(--tenant-primary) !important;
       }
-    ` : ''}
+    `
+        : ''
+    }
     
-    ${styles.secondary_color ? `
+    ${
+      styles.secondary_color
+        ? `
       .btn-secondary, .bg-secondary, [data-tenant-secondary] {
         background-color: var(--tenant-secondary) !important;
       }
       .text-secondary, [data-tenant-secondary-text] {
         color: var(--tenant-secondary) !important;
       }
-    ` : ''}
+    `
+        : ''
+    }
     
-    ${styles.font_family ? `
+    ${
+      styles.font_family
+        ? `
       body, .tenant-font {
         font-family: var(--tenant-font), system-ui, sans-serif !important;
       }
-    ` : ''}
+    `
+        : ''
+    }
   `;
 
   return (
     <>
       {/* Custom font */}
-      {styles.custom_font_url && (
-        <link rel="stylesheet" href={styles.custom_font_url} />
-      )}
-      
+      {styles.custom_font_url && <link rel="stylesheet" href={styles.custom_font_url} />}
+
       {/* CSS Variables and tenant overrides */}
       <style dangerouslySetInnerHTML={{ __html: cssVariables }} />
-      
+
       {/* Custom CSS from tenant */}
       {styles.custom_css && (
         <style dangerouslySetInnerHTML={{ __html: sanitizeHtml(styles.custom_css) }} />
       )}
-      
+
       {/* Custom favicon */}
-      {styles.custom_favicon_url && (
-        <link rel="icon" href={styles.custom_favicon_url} />
-      )}
+      {styles.custom_favicon_url && <link rel="icon" href={styles.custom_favicon_url} />}
     </>
   );
 }

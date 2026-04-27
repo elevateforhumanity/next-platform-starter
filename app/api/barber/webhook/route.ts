@@ -4,7 +4,11 @@ import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import type Stripe from 'stripe';
-import { BARBER_PRICING, calculateWeeklyPayment, getBillingCycleAnchor } from '@/lib/programs/pricing';
+import {
+  BARBER_PRICING,
+  calculateWeeklyPayment,
+  getBillingCycleAnchor,
+} from '@/lib/programs/pricing';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { runBarberPostPayment } from '@/lib/enrollment/barber-post-payment';
 import {
@@ -37,7 +41,7 @@ async function scheduleWeeklyInvoices(
     hoursPerWeek: number;
     transferredHours: number;
     applicationId?: string;
-  }
+  },
 ) {
   const { customerId, weeksRemaining, weeklyPaymentCents } = params;
 
@@ -45,11 +49,11 @@ async function scheduleWeeklyInvoices(
   const now = new Date();
   const dayOfWeek = now.getDay();
   const daysUntilFriday = dayOfWeek === 5 ? 7 : (5 - dayOfWeek + 7) % 7 || 7;
-  
+
   // Schedule invoices for each week
   for (let week = 0; week < weeksRemaining; week++) {
     const invoiceDate = new Date(now);
-    invoiceDate.setDate(now.getDate() + daysUntilFriday + (week * 7));
+    invoiceDate.setDate(now.getDate() + daysUntilFriday + week * 7);
     invoiceDate.setHours(10, 0, 0, 0); // 10 AM
 
     // Create invoice item scheduled for that date
@@ -90,9 +94,9 @@ function getWebhookSecret() {
 
 /**
  * POST /api/barber/webhook
- * 
+ *
  * Handles Stripe webhook events for Barber Apprenticeship subscriptions.
- * 
+ *
  * On checkout.session.completed (deposit paid):
  * 1. Store subscription details
  * 2. Create/upsert apprentice record
@@ -127,7 +131,7 @@ async function _POST(request: NextRequest) {
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
-        
+
         // Only process barber enrollments
         if (session.metadata?.program !== 'barber-apprenticeship') {
           break;
@@ -151,12 +155,12 @@ async function _POST(request: NextRequest) {
           const weeksRemaining = meta.weeks_remaining;
           const hoursPerWeek = meta.hours_per_week;
           const transferredHours = meta.transfer_hours_claimed;
-          
+
           // Check payment method used
           const paymentIntent = session.payment_intent as string;
           let paymentMethodType = 'card';
           let bnplProvider = null;
-          
+
           if (paymentIntent) {
             try {
               const pi = await stripe.paymentIntents.retrieve(paymentIntent);
@@ -188,7 +192,9 @@ async function _POST(request: NextRequest) {
             // Weekly billing is handled by the Stripe subscription created at checkout
             // (barber/checkout route, subscription mode) or by a cron job.
             // The weeklyPaymentCents value is stored on barber_subscriptions for reference.
-            logger.info(`[barber/webhook] Payment plan: $${(weeklyPaymentCents / 100).toFixed(2)}/week for ${invoiceWeeks} weeks — billing handled by subscription`);
+            logger.info(
+              `[barber/webhook] Payment plan: $${(weeklyPaymentCents / 100).toFixed(2)}/week for ${invoiceWeeks} weeks — billing handled by subscription`,
+            );
           }
 
           // Create enrollment record
@@ -217,15 +223,17 @@ async function _POST(request: NextRequest) {
               .from('applications')
               .update({
                 payment_status: 'paid',
-                payment_intent_id: session.payment_intent as string ?? null,
+                payment_intent_id: (session.payment_intent as string) ?? null,
                 updated_at: new Date().toISOString(),
               })
               .eq('id', applicationId);
             if (appUpdateResult?.error) {
-              logger.error('[barber/webhook] applications payment_status update (full_tuition) failed (non-fatal):', appUpdateResult.error);
+              logger.error(
+                '[barber/webhook] applications payment_status update (full_tuition) failed (non-fatal):',
+                appUpdateResult.error,
+              );
             }
           }
-
 
           // ── Wire weekly billing via Stripe subscription ──────────────────
           // Only for card payments on a payment plan (BNPL providers manage
@@ -233,14 +241,14 @@ async function _POST(request: NextRequest) {
           if (!fullyPaid && !bnplProvider && weeklyPaymentCents > 0) {
             try {
               // Retrieve the payment method saved during checkout
-              const checkoutSession = await stripe.checkout.sessions.retrieve(
-                session.id,
-                { expand: ['payment_intent.payment_method'] }
-              );
+              const checkoutSession = await stripe.checkout.sessions.retrieve(session.id, {
+                expand: ['payment_intent.payment_method'],
+              });
               const pi = checkoutSession.payment_intent as Stripe.PaymentIntent | null;
-              const pmId = typeof pi?.payment_method === 'string'
-                ? pi.payment_method
-                : (pi?.payment_method as Stripe.PaymentMethod | null)?.id;
+              const pmId =
+                typeof pi?.payment_method === 'string'
+                  ? pi.payment_method
+                  : (pi?.payment_method as Stripe.PaymentMethod | null)?.id;
 
               if (pmId) {
                 // Attach payment method to customer and set as default
@@ -290,11 +298,17 @@ async function _POST(request: NextRequest) {
                   weeks: invoiceWeeks,
                 });
               } else {
-                logger.warn('[Barber Webhook] No payment method found — weekly billing not scheduled', { customerId });
+                logger.warn(
+                  '[Barber Webhook] No payment method found — weekly billing not scheduled',
+                  { customerId },
+                );
               }
             } catch (billingErr) {
               // Non-fatal — log and alert admin but do not block enrollment
-              logger.error('[Barber Webhook] Failed to create weekly subscription', { customerId, billingErr });
+              logger.error('[Barber Webhook] Failed to create weekly subscription', {
+                customerId,
+                billingErr,
+              });
               try {
                 const { sendEmail } = await import('@/lib/email/sendgrid');
                 await sendEmail({
@@ -302,7 +316,9 @@ async function _POST(request: NextRequest) {
                   subject: '⚠️ Weekly billing setup failed — manual action required',
                   html: `<p>Student: ${customerEmail}<br>Customer ID: ${customerId}<br>Weekly amount: $${(weeklyPaymentCents / 100).toFixed(2)}<br>Weeks: ${invoiceWeeks}</p><p>Stripe subscription was not created. Set up manually in Stripe dashboard.</p>`,
                 });
-              } catch { /* non-fatal */ }
+              } catch {
+                /* non-fatal */
+              }
             }
           }
 
@@ -313,34 +329,37 @@ async function _POST(request: NextRequest) {
                 db: supabase,
                 applicationId,
                 stripeSessionId: session.id,
-                stripePaymentIntentId: session.payment_intent as string ?? null,
+                stripePaymentIntentId: (session.payment_intent as string) ?? null,
                 amountPaidCents,
-              }).catch((err: unknown) => logger.error('[barber/webhook] runBarberPostPayment failed (non-fatal)', err));
+              }).catch((err: unknown) =>
+                logger.error('[barber/webhook] runBarberPostPayment failed (non-fatal)', err),
+              );
             }
           } else {
             // No application_id — send legacy welcome email
             try {
-            const { sendEmail } = await import('@/lib/email/sendgrid');
-            let paymentSummary = '';
-            if (fullyPaid) {
-              if (bnplProvider) {
-                paymentSummary = `• Paid via ${bnplProvider.charAt(0).toUpperCase() + bnplProvider.slice(1)}: $${BARBER_PRICING.fullPrice.toLocaleString()}<br>
+              const { sendEmail } = await import('@/lib/email/sendgrid');
+              let paymentSummary = '';
+              if (fullyPaid) {
+                if (bnplProvider) {
+                  paymentSummary = `• Paid via ${bnplProvider.charAt(0).toUpperCase() + bnplProvider.slice(1)}: $${BARBER_PRICING.fullPrice.toLocaleString()}<br>
 • ${bnplProvider === 'affirm' ? 'Affirm will handle your payment schedule' : 'Your payments are managed by ' + bnplProvider}`;
-              } else {
-                paymentSummary = `• Paid in full: $${BARBER_PRICING.fullPrice.toLocaleString()}<br>
+                } else {
+                  paymentSummary = `• Paid in full: $${BARBER_PRICING.fullPrice.toLocaleString()}<br>
 • No additional payments required!`;
-              }
-            } else {
-              paymentSummary = `• Amount paid today: $${(amountPaidCents / 100).toFixed(2)}<br>
+                }
+              } else {
+                paymentSummary = `• Amount paid today: $${(amountPaidCents / 100).toFixed(2)}<br>
 • Remaining balance: $${(remainingBalanceCents / 100).toFixed(2)}<br>
 • Weekly payment: $${(weeklyPaymentCents / 100).toFixed(2)} for ~${invoiceWeeks} weeks`;
-            }
+              }
 
-            const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-            await sendEmail({
-              to: customerEmail,
-              subject: 'Payment Received — Complete Your Barber Apprenticeship Application',
-              html: `
+              const siteUrl =
+                process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+              await sendEmail({
+                to: customerEmail,
+                subject: 'Payment Received — Complete Your Barber Apprenticeship Application',
+                html: `
 <div style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif;color:#1a1a1a">
 <p>Hi ${customerName || 'there'},</p>
 
@@ -362,19 +381,20 @@ ${!fullyPaid ? `<p><strong>Payment plan:</strong> Your card on file will be auto
 <p>— Elevate for Humanity</p>
 </div>
               `,
-            });
-          } catch (emailErr) {
-            logger.error('Failed to send welcome email:', emailErr);
-          }
+              });
+            } catch (emailErr) {
+              logger.error('Failed to send welcome email:', emailErr);
+            }
 
-          // Admin notification — action required to grant LMS access
-          try {
-            const { sendEmail } = await import('@/lib/email/sendgrid');
-            const siteUrlAdmin = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-            await sendEmail({
-              to: 'elevate4humanityedu@gmail.com',
-              subject: `⚠️ ACTION REQUIRED — New Barber Apprentice Payment: ${customerName || customerEmail}`,
-              html: `
+            // Admin notification — action required to grant LMS access
+            try {
+              const { sendEmail } = await import('@/lib/email/sendgrid');
+              const siteUrlAdmin =
+                process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+              await sendEmail({
+                to: 'elevate4humanityedu@gmail.com',
+                subject: `⚠️ ACTION REQUIRED — New Barber Apprentice Payment: ${customerName || customerEmail}`,
+                html: `
 <div style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif;color:#1a1a1a">
 <div style="background:#dc2626;color:white;padding:16px;border-radius:8px;margin-bottom:20px">
   <h2 style="margin:0">LMS Access NOT Yet Granted</h2>
@@ -395,13 +415,15 @@ ${!fullyPaid ? `<p><strong>Payment plan:</strong> Your card on file will be auto
 </div>
 <a href="${siteUrlAdmin}/admin/enrollments" style="background:#dc2626;color:white;padding:14px 28px;text-decoration:none;border-radius:6px;display:inline-block;font-weight:bold">Grant LMS Access →</a>
 </div>`,
-            });
-          } catch (emailErr) {
-            logger.error('Failed to send admin notification:', emailErr);
-          }
+              });
+            } catch (emailErr) {
+              logger.error('Failed to send admin notification:', emailErr);
+            }
           } // end else (no applicationId — legacy email path)
 
-          logger.info(`Barber enrollment complete: ${customerId}, fullyPaid: ${fullyPaid}, bnpl: ${bnplProvider}`);
+          logger.info(
+            `Barber enrollment complete: ${customerId}, fullyPaid: ${fullyPaid}, bnpl: ${bnplProvider}`,
+          );
           break;
         }
 
@@ -422,27 +444,33 @@ ${!fullyPaid ? `<p><strong>Payment plan:</strong> Your card on file will be auto
           // Pre-creating all 29 invoices at once sends 29 emails to the student immediately.
           // Weekly billing is handled by the Stripe subscription or a cron job.
           if (!fullyPaid && weeklyPaymentCents > 0 && weeksRemaining > 0) {
-            logger.info(`[barber/webhook] Payment plan: $${(weeklyPaymentCents / 100).toFixed(2)}/week for ${weeksRemaining} weeks — billing handled by subscription`);
+            logger.info(
+              `[barber/webhook] Payment plan: $${(weeklyPaymentCents / 100).toFixed(2)}/week for ${weeksRemaining} weeks — billing handled by subscription`,
+            );
           }
 
-          const { data: subRecord } = await supabase.from('barber_subscriptions').insert({
-            stripe_customer_id: customerId,
-            customer_email: customerEmail,
-            customer_name: customerName,
-            customer_phone: customerPhone,
-            status: 'active',
-            full_tuition_amount: BARBER_PRICING.fullPrice,
-            amount_paid_at_checkout: amountPaidCents / 100,
-            remaining_balance: remainingBalanceCents / 100,
-            payment_method: 'card',
-            fully_paid: fullyPaid,
-            weekly_payment_cents: fullyPaid ? 0 : weeklyPaymentCents,
-            weeks_remaining: fullyPaid ? 0 : weeksRemaining,
-            hours_per_week: hoursPerWeek,
-            transferred_hours_verified: transferredHours,
-            payment_model: fullyPaid ? 'paid_in_full' : 'invoices',
-            created_at: new Date().toISOString(),
-          }).select('id').maybeSingle();
+          const { data: subRecord } = await supabase
+            .from('barber_subscriptions')
+            .insert({
+              stripe_customer_id: customerId,
+              customer_email: customerEmail,
+              customer_name: customerName,
+              customer_phone: customerPhone,
+              status: 'active',
+              full_tuition_amount: BARBER_PRICING.fullPrice,
+              amount_paid_at_checkout: amountPaidCents / 100,
+              remaining_balance: remainingBalanceCents / 100,
+              payment_method: 'card',
+              fully_paid: fullyPaid,
+              weekly_payment_cents: fullyPaid ? 0 : weeklyPaymentCents,
+              weeks_remaining: fullyPaid ? 0 : weeksRemaining,
+              hours_per_week: hoursPerWeek,
+              transferred_hours_verified: transferredHours,
+              payment_model: fullyPaid ? 'paid_in_full' : 'invoices',
+              created_at: new Date().toISOString(),
+            })
+            .select('id')
+            .maybeSingle();
           if (subRecord?.error) {
             logger.error('barber_subscriptions insert error:', subRecord.error);
           }
@@ -453,12 +481,15 @@ ${!fullyPaid ? `<p><strong>Payment plan:</strong> Your card on file will be auto
               .from('applications')
               .update({
                 payment_status: 'paid',
-                payment_intent_id: session.payment_intent as string ?? null,
+                payment_intent_id: (session.payment_intent as string) ?? null,
                 updated_at: new Date().toISOString(),
               })
               .eq('id', applicationId);
             if (enrollAppUpdate?.error) {
-              logger.error('[barber/webhook] applications payment_status update failed (non-fatal):', enrollAppUpdate.error);
+              logger.error(
+                '[barber/webhook] applications payment_status update failed (non-fatal):',
+                enrollAppUpdate.error,
+              );
             }
           }
 
@@ -469,7 +500,8 @@ ${!fullyPaid ? `<p><strong>Payment plan:</strong> Your card on file will be auto
           // Create program_enrollments row via canonical service.
           // user_id is null — public checkout has no Supabase account yet.
           // linkOrphanedEnrollments() in auth/confirm links it by email on first login.
-          const { createOrUpdateEnrollment, linkOrphanedEnrollments } = await import('@/lib/enrollment-service');
+          const { createOrUpdateEnrollment, linkOrphanedEnrollments } =
+            await import('@/lib/enrollment-service');
           // Resolve program UUID — metadata.program_id is set by checkout/public.
           // Fall back to DB lookup by slug if missing (legacy sessions).
           const UUID_RE = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
@@ -500,7 +532,9 @@ ${!fullyPaid ? `<p><strong>Payment plan:</strong> Your card on file will be auto
           if (enrollResult.error) {
             logger.error('[barber/webhook] program_enrollments write failed:', enrollResult.error);
           } else {
-            logger.info(`[barber/webhook] program_enrollments ${enrollResult.action}: ${enrollResult.id}`);
+            logger.info(
+              `[barber/webhook] program_enrollments ${enrollResult.action}: ${enrollResult.id}`,
+            );
           }
           // Link to account if one already exists for this email
           await linkOrphanedEnrollments(supabase, normalizedEmail).catch(() => {});
@@ -512,7 +546,8 @@ ${!fullyPaid ? `<p><strong>Payment plan:</strong> Your card on file will be auto
               ? `Paid in full: $${(amountPaidCents / 100).toLocaleString()}`
               : `Setup fee paid: $${(amountPaidCents / 100).toFixed(2)} — $${(weeklyPaymentCents / 100).toFixed(2)}/week for ~${weeksRemaining} weeks`;
 
-            const siteUrl2 = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+            const siteUrl2 =
+              process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
             await sendEmail({
               to: customerEmail,
               subject: 'Payment Received — Complete Your Barber Apprenticeship Application',
@@ -561,20 +596,27 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
                 db: supabase,
                 applicationId,
                 stripeSessionId: session.id,
-                stripePaymentIntentId: session.payment_intent as string ?? null,
+                stripePaymentIntentId: (session.payment_intent as string) ?? null,
                 amountPaidCents,
-              }).catch((err: unknown) => logger.error('[barber/webhook] runBarberPostPayment (enrollment) failed (non-fatal)', err));
+              }).catch((err: unknown) =>
+                logger.error(
+                  '[barber/webhook] runBarberPostPayment (enrollment) failed (non-fatal)',
+                  err,
+                ),
+              );
             }
           }
 
           // No application_id — send LMS access email (legacy public checkout path)
-          if (!applicationId) { try {
-            const { sendEmail } = await import('@/lib/email/sendgrid');
-            const siteUrl3 = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-            await sendEmail({
-              to: customerEmail,
-              subject: 'Your Coursework Access — Barber Apprenticeship',
-              html: `
+          if (!applicationId) {
+            try {
+              const { sendEmail } = await import('@/lib/email/sendgrid');
+              const siteUrl3 =
+                process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+              await sendEmail({
+                to: customerEmail,
+                subject: 'Your Coursework Access — Barber Apprenticeship',
+                html: `
 <div style="max-width:600px;margin:0 auto;font-family:Arial,sans-serif;color:#1a1a1a">
 <p>Hi ${customerName || 'there'},</p>
 <p>Your related instruction is available in the <strong>Elevate LMS</strong>. Log in to your student portal to access your courses.</p>
@@ -585,13 +627,15 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
 <p>— Elevate for Humanity</p>
 </div>
               `,
-            });
-          } catch (lmsEmailErr) {
-            logger.error('[barber/webhook] LMS access email failed (non-fatal):', lmsEmailErr);
-          }
+              });
+            } catch (lmsEmailErr) {
+              logger.error('[barber/webhook] LMS access email failed (non-fatal):', lmsEmailErr);
+            }
           } // end if (!applicationId) — legacy path
 
-          logger.info(`Barber public enrollment complete: ${customerEmail}, fullyPaid: ${fullyPaid}`);
+          logger.info(
+            `Barber public enrollment complete: ${customerEmail}, fullyPaid: ${fullyPaid}`,
+          );
           break;
         }
 
@@ -609,27 +653,42 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
         const subscription = await stripe.subscriptions.retrieve(subscriptionId);
 
         // Store subscription in database with email tracking fields
-        const { data: subscriptionRecord } = await supabase.from('barber_subscriptions').upsert({
-          user_id: userId,
-          enrollment_id: enrollmentId || null,
-          stripe_subscription_id: subscriptionId,
-          stripe_customer_id: session.customer as string,
-          customer_email: customerEmail,
-          customer_name: customerName,
-          status: subscription.status,
-          setup_fee_paid: true,
-          setup_fee_amount: BARBER_PRICING.setupFee,
-          weekly_payment_cents: parseInt(subscription.metadata?.weekly_payment_cents || '0'),
-          weeks_remaining: parseInt(subscription.metadata?.weeks_remaining || '0'),
-          hours_per_week: parseInt(subscription.metadata?.hours_per_week || '40'),
-          transferred_hours_verified: parseInt(subscription.metadata?.transferred_hours_verified || '0'),
-          billing_cycle_anchor: new Date((subscription.billing_cycle_anchor || 0) * 1000).toISOString(),
-          current_period_start: new Date((subscription.current_period_start || 0) * 1000).toISOString(),
-          current_period_end: new Date((subscription.current_period_end || 0) * 1000).toISOString(),
-          created_at: new Date().toISOString(),
-        }, {
-          onConflict: 'stripe_subscription_id',
-        }).select().maybeSingle();
+        const { data: subscriptionRecord } = await supabase
+          .from('barber_subscriptions')
+          .upsert(
+            {
+              user_id: userId,
+              enrollment_id: enrollmentId || null,
+              stripe_subscription_id: subscriptionId,
+              stripe_customer_id: session.customer as string,
+              customer_email: customerEmail,
+              customer_name: customerName,
+              status: subscription.status,
+              setup_fee_paid: true,
+              setup_fee_amount: BARBER_PRICING.setupFee,
+              weekly_payment_cents: parseInt(subscription.metadata?.weekly_payment_cents || '0'),
+              weeks_remaining: parseInt(subscription.metadata?.weeks_remaining || '0'),
+              hours_per_week: parseInt(subscription.metadata?.hours_per_week || '40'),
+              transferred_hours_verified: parseInt(
+                subscription.metadata?.transferred_hours_verified || '0',
+              ),
+              billing_cycle_anchor: new Date(
+                (subscription.billing_cycle_anchor || 0) * 1000,
+              ).toISOString(),
+              current_period_start: new Date(
+                (subscription.current_period_start || 0) * 1000,
+              ).toISOString(),
+              current_period_end: new Date(
+                (subscription.current_period_end || 0) * 1000,
+              ).toISOString(),
+              created_at: new Date().toISOString(),
+            },
+            {
+              onConflict: 'stripe_subscription_id',
+            },
+          )
+          .select()
+          .maybeSingle();
 
         // Record subscription ID on enrollment — status stays pending_review until admin grants access.
         if (enrollmentId) {
@@ -693,7 +752,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
 
         // Generate magic link for dashboard access
         let magicLink = `${process.env.NEXT_PUBLIC_SITE_URL}/apprentice`;
-        
+
         if (customerEmail) {
           try {
             const { data: linkData } = await supabase.auth.admin.generateLink({
@@ -715,9 +774,12 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
         if (!subRecord?.welcome_email_sent_at && customerEmail) {
           try {
             const { sendEmail } = await import('@/lib/email/sendgrid');
-            const weeklyPayment = (parseInt(subscription.metadata?.weekly_payment_cents || '0') / 100).toFixed(2);
-            const firstBillingDate = subscription.metadata?.first_billing_date || 'the following Friday';
-            
+            const weeklyPayment = (
+              parseInt(subscription.metadata?.weekly_payment_cents || '0') / 100
+            ).toFixed(2);
+            const firstBillingDate =
+              subscription.metadata?.first_billing_date || 'the following Friday';
+
             await sendEmail({
               to: customerEmail,
               subject: 'Welcome to Barber Apprenticeship - Dashboard Access',
@@ -749,7 +811,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
 <p>— Elevate for Humanity</p>
               `,
             });
-            
+
             // Also send internal notification
             try {
               await sendEmail({
@@ -769,16 +831,16 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
             } catch (internalErr) {
               logger.error('Internal notification failed:', internalErr);
             }
-            
+
             // Mark welcome email as sent
             await supabase
               .from('barber_subscriptions')
-              .update({ 
+              .update({
                 welcome_email_sent_at: new Date().toISOString(),
                 dashboard_invite_sent_at: new Date().toISOString(),
               })
               .eq('stripe_subscription_id', subscriptionId);
-              
+
             logger.info(`Welcome email sent to ${customerEmail}`);
           } catch (emailErr) {
             logger.error('Welcome email failed:', emailErr);
@@ -799,13 +861,15 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
           }).catch((err: unknown) => logger.error('Admin enrollment SMS failed (non-fatal):', err));
         }
 
-        logger.info(`Barber subscription created: ${subscriptionId} for user ${userId}, apprentice ${apprenticeId}`);
+        logger.info(
+          `Barber subscription created: ${subscriptionId} for user ${userId}, apprentice ${apprenticeId}`,
+        );
         break;
       }
 
       case 'customer.subscription.updated': {
         const subscription = event.data.object as Stripe.Subscription;
-        
+
         // Only process barber subscriptions
         if (subscription.metadata?.program !== 'barber-apprenticeship') {
           break;
@@ -817,8 +881,12 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
             status: subscription.status,
             weekly_payment_cents: parseInt(subscription.metadata?.weekly_payment_cents || '0'),
             weeks_remaining: parseInt(subscription.metadata?.weeks_remaining || '0'),
-            current_period_start: new Date((subscription.current_period_start || 0) * 1000).toISOString(),
-            current_period_end: new Date((subscription.current_period_end || 0) * 1000).toISOString(),
+            current_period_start: new Date(
+              (subscription.current_period_start || 0) * 1000,
+            ).toISOString(),
+            current_period_end: new Date(
+              (subscription.current_period_end || 0) * 1000,
+            ).toISOString(),
             updated_at: new Date().toISOString(),
           })
           .eq('stripe_subscription_id', subscription.id);
@@ -829,7 +897,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
 
       case 'customer.subscription.deleted': {
         const subscription = event.data.object as Stripe.Subscription;
-        
+
         if (subscription.metadata?.program !== 'barber-apprenticeship') {
           break;
         }
@@ -850,12 +918,13 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
       case 'invoice.payment_failed':
       case 'payment_intent.payment_failed': {
         const failedObj = event.data.object as Stripe.Invoice | Stripe.PaymentIntent;
-        const failedCustomerId = 'customer' in failedObj
-          ? (typeof failedObj.customer === 'string' ? failedObj.customer : failedObj.customer?.id)
-          : undefined;
-        const failedEmail = 'customer_email' in failedObj
-          ? failedObj.customer_email
-          : undefined;
+        const failedCustomerId =
+          'customer' in failedObj
+            ? typeof failedObj.customer === 'string'
+              ? failedObj.customer
+              : failedObj.customer?.id
+            : undefined;
+        const failedEmail = 'customer_email' in failedObj ? failedObj.customer_email : undefined;
 
         if (!failedCustomerId) break;
 
@@ -869,13 +938,16 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
           .maybeSingle();
 
         if (!sub) {
-          logger.warn('[Barber Webhook] payment_failed: no subscription found', { failedCustomerId });
+          logger.warn('[Barber Webhook] payment_failed: no subscription found', {
+            failedCustomerId,
+          });
           break;
         }
 
         // Idempotent — only act on first failure for this subscription.
         // failed_payment_at being null means we haven't processed a failure yet.
-        const isFirstFailure = !sub.failed_payment_at &&
+        const isFirstFailure =
+          !sub.failed_payment_at &&
           !['past_due', 'suspended', 'cancelled'].includes(sub.payment_status ?? '');
 
         if (isFirstFailure) {
@@ -890,12 +962,15 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
 
           // Log to billing_events for audit trail
           const invoiceId = 'id' in failedObj ? failedObj.id : undefined;
-          await supabase.from('billing_events').insert({
-            barber_subscription_id: sub.id,
-            event_type: 'payment_failed',
-            stripe_invoice_id: invoiceId || null,
-            metadata: { stripe_customer_id: failedCustomerId, event_id: event.id },
-          }).catch(() => {});
+          await supabase
+            .from('billing_events')
+            .insert({
+              barber_subscription_id: sub.id,
+              event_type: 'payment_failed',
+              stripe_invoice_id: invoiceId || null,
+              metadata: { stripe_customer_id: failedCustomerId, event_id: event.id },
+            })
+            .catch(() => {});
         }
 
         // 2. Send immediate email — only on first failure to avoid duplicate alerts on retries
@@ -903,7 +978,8 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
         if (studentEmail && isFirstFailure) {
           try {
             const { sendEmail } = await import('@/lib/email/sendgrid');
-            const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+            const siteUrl =
+              process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
             await sendEmail({
               to: studentEmail,
               subject: '⚠️ Payment Failed — Action Required to Keep Your Enrollment',
@@ -928,7 +1004,10 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
 </div>`,
             });
           } catch (emailErr) {
-            logger.error('[Barber Webhook] Failed to send payment-failed email', { studentEmail, emailErr });
+            logger.error('[Barber Webhook] Failed to send payment-failed email', {
+              studentEmail,
+              emailErr,
+            });
           }
         }
 
@@ -941,10 +1020,16 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
               subject: `Payment failed — ${studentEmail}`,
               html: `<p>Student: ${studentEmail}<br>Customer ID: ${failedCustomerId}<br>Subscription ID: ${sub.id}<br>Suspension deadline: 7 days from now.</p>`,
             });
-          } catch { /* non-fatal */ }
+          } catch {
+            /* non-fatal */
+          }
         }
 
-        logger.info('[Barber Webhook] Payment failed', { failedCustomerId, studentEmail, isFirstFailure });
+        logger.info('[Barber Webhook] Payment failed', {
+          failedCustomerId,
+          studentEmail,
+          isFirstFailure,
+        });
         break;
       }
 
@@ -962,20 +1047,31 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
         }
 
         // Validate subscription metadata contract
-        const subMeta = parseWebhookMeta(BarberSubscriptionMeta, subscription.metadata, event.id, logger);
+        const subMeta = parseWebhookMeta(
+          BarberSubscriptionMeta,
+          subscription.metadata,
+          event.id,
+          logger,
+        );
         if (!subMeta) break;
 
         // Record payment — upsert on stripe_invoice_id so Stripe retries are idempotent
-        await supabase.from('barber_payments').upsert({
-          user_id: subMeta.user_id || null,
-          stripe_subscription_id: subscriptionId,
-          stripe_invoice_id: invoice.id,
-          amount_paid: (invoice.amount_paid || 0) / 100,
-          payment_date: new Date().toISOString(),
-          invoice_url: invoice.hosted_invoice_url,
-        }, { onConflict: 'stripe_invoice_id', ignoreDuplicates: true }).catch(() => {
-          // Table may not exist yet — non-fatal
-        });
+        await supabase
+          .from('barber_payments')
+          .upsert(
+            {
+              user_id: subMeta.user_id || null,
+              stripe_subscription_id: subscriptionId,
+              stripe_invoice_id: invoice.id,
+              amount_paid: (invoice.amount_paid || 0) / 100,
+              payment_date: new Date().toISOString(),
+              invoice_url: invoice.hosted_invoice_url,
+            },
+            { onConflict: 'stripe_invoice_id', ignoreDuplicates: true },
+          )
+          .catch(() => {
+            // Table may not exist yet — non-fatal
+          });
 
         // Reinstate if previously suspended or past_due
         const { data: subRecord } = await supabase
@@ -997,14 +1093,17 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
             })
             .eq('id', subRecord.id);
 
-          await supabase.from('billing_events').insert({
-            barber_subscription_id: subRecord.id,
-            user_id: subRecord.user_id,
-            event_type: 'reinstated',
-            stripe_invoice_id: invoice.id,
-            amount_cents: invoice.amount_paid,
-            metadata: { source: 'invoice.paid_webhook' },
-          }).catch(() => {});
+          await supabase
+            .from('billing_events')
+            .insert({
+              barber_subscription_id: subRecord.id,
+              user_id: subRecord.user_id,
+              event_type: 'reinstated',
+              stripe_invoice_id: invoice.id,
+              amount_cents: invoice.amount_paid,
+              metadata: { source: 'invoice.paid_webhook' },
+            })
+            .catch(() => {});
 
           const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
           if (subRecord.customer_email) {
@@ -1023,7 +1122,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
         const currentWeeks = parseInt(subscription.metadata?.weeks_remaining || '0');
         if (currentWeeks > 0) {
           const newWeeksRemaining = currentWeeks - 1;
-          
+
           await supabase
             .from('barber_subscriptions')
             .update({
@@ -1037,7 +1136,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
             try {
               await stripe.subscriptions.cancel(subscriptionId);
               logger.info(`Barber subscription auto-canceled (fully paid): ${subscriptionId}`);
-              
+
               // Send completion email
               const customerEmail = subscription.metadata?.customer_email;
               if (customerEmail) {
@@ -1083,7 +1182,7 @@ Amount paid: $${(amountPaidCents / 100).toFixed(2)}</p>`,
 
 /**
  * PUT /api/barber/webhook
- * 
+ *
  * Update subscription when transfer hours are verified
  * Called internally when admin verifies transfer hours
  */
@@ -1095,7 +1194,9 @@ async function _PUT(request: NextRequest) {
     }
 
     // Verify admin access
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -1111,11 +1212,7 @@ async function _PUT(request: NextRequest) {
     }
 
     const body = await request.json();
-    const { 
-      subscription_id,
-      transferred_hours_verified,
-      hours_per_week,
-    } = body;
+    const { subscription_id, transferred_hours_verified, hours_per_week } = body;
 
     if (!subscription_id) {
       return NextResponse.json({ error: 'Subscription ID required' }, { status: 400 });
@@ -1123,7 +1220,7 @@ async function _PUT(request: NextRequest) {
 
     // Get current subscription
     const subscription = await stripe.subscriptions.retrieve(subscription_id);
-    
+
     if (subscription.metadata?.program !== 'barber-apprenticeship') {
       return NextResponse.json({ error: 'Not a barber subscription' }, { status: 400 });
     }
@@ -1134,7 +1231,7 @@ async function _PUT(request: NextRequest) {
 
     // Update subscription item quantity (weekly payment amount)
     const subscriptionItem = subscription.items.data[0];
-    
+
     await stripe.subscriptionItems.update(subscriptionItem.id, {
       quantity: calculation.weeklyPaymentCents,
       proration_behavior: 'none', // No mid-cycle adjustments
@@ -1152,8 +1249,9 @@ async function _PUT(request: NextRequest) {
       },
     });
 
-    // Update database
-    await supabase
+    // Update database — use admin client to bypass RLS on barber_subscriptions
+    const adminDb = await getAdminClient();
+    await adminDb
       .from('barber_subscriptions')
       .update({
         transferred_hours_verified,
@@ -1179,5 +1277,9 @@ async function _PUT(request: NextRequest) {
     return NextResponse.json({ error: 'Failed to update subscription' }, { status: 500 });
   }
 }
-export const POST = withRuntime(withApiAudit('/api/barber/webhook', _POST, { actor_type: 'webhook', skip_body: true }));
-export const PUT = withRuntime(withApiAudit('/api/barber/webhook', _PUT, { actor_type: 'webhook', skip_body: true }));
+export const POST = withRuntime(
+  withApiAudit('/api/barber/webhook', _POST, { actor_type: 'webhook', skip_body: true }),
+);
+export const PUT = withRuntime(
+  withApiAudit('/api/barber/webhook', _PUT, { actor_type: 'webhook', skip_body: true }),
+);

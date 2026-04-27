@@ -168,7 +168,6 @@ export default function ProgramPageLayout({
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* ===== HERO — canonical HeroVideo, no text overlay ===== */}
       {(() => {
         const key = c.pageKey;
@@ -198,6 +197,7 @@ export default function ProgramPageLayout({
         if (c.heroImage) {
           return (
             <div className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image
                 src={c.heroImage}
                 alt={c.heroImageAlt || c.title}
@@ -238,10 +238,14 @@ export default function ProgramPageLayout({
             {/* Row 1: Title + CTA */}
             <div className="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4 mb-6">
               <div className="flex-1 min-w-0">
-                <p className="text-brand-red-600 font-bold text-xs uppercase tracking-wider mb-2">Credential Pathway</p>
+                <p className="text-brand-red-600 font-bold text-xs uppercase tracking-wider mb-2">
+                  Credential Pathway
+                </p>
                 <div className="flex items-center gap-3 mb-2">
                   {c.badge && (
-                    <span className={`text-[11px] font-bold text-white px-2.5 py-0.5 rounded-full ${badgeMap[c.badgeColor || 'red']}`}>
+                    <span
+                      className={`text-[11px] font-bold text-white px-2.5 py-0.5 rounded-full ${badgeMap[c.badgeColor || 'red']}`}
+                    >
                       {c.badge}
                     </span>
                   )}
@@ -281,9 +285,16 @@ export default function ProgramPageLayout({
                 { label: 'Cost', value: c.cost, icon: '💰' },
                 { label: 'Credentials', value: c.credential, icon: '🏆' },
               ].map((f) => (
-                <div key={f.label} className="bg-slate-50 rounded-lg px-4 py-3 border border-slate-100">
-                  <div className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">{f.icon} {f.label}</div>
-                  <div className="font-bold text-slate-900 text-sm mt-0.5 leading-snug">{f.value}</div>
+                <div
+                  key={f.label}
+                  className="bg-slate-50 rounded-lg px-4 py-3 border border-slate-100"
+                >
+                  <div className="text-[11px] text-slate-400 uppercase tracking-wider font-semibold">
+                    {f.icon} {f.label}
+                  </div>
+                  <div className="font-bold text-slate-900 text-sm mt-0.5 leading-snug">
+                    {f.value}
+                  </div>
                 </div>
               ))}
             </div>
@@ -307,8 +318,12 @@ export default function ProgramPageLayout({
           <div className="max-w-5xl mx-auto px-6">
             <div className="grid lg:grid-cols-5 gap-10 items-start">
               <div className="lg:col-span-3">
-                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">Credential Pathway Overview</p>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">What This Pathway Includes</h2>
+                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">
+                  Credential Pathway Overview
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-4">
+                  What This Pathway Includes
+                </h2>
                 <p className="text-slate-600 leading-relaxed">{c.overview}</p>
                 <ul className="mt-6 space-y-3">
                   {c.highlights.map((h) => (
@@ -353,14 +368,20 @@ export default function ProgramPageLayout({
           <section className="py-14 lg:py-20 border-t border-slate-100">
             <div className="max-w-5xl mx-auto px-6">
               <div className="text-center mb-10">
-                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">Curriculum</p>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">What You&apos;ll Learn</h2>
+                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">
+                  Curriculum
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+                  What You&apos;ll Learn
+                </h2>
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {c.curriculum.map((mod, i) => (
                   <ScrollReveal key={mod.title} delay={i * 80} direction="up">
                     <div className="bg-slate-50 rounded-xl p-6 border border-slate-100 h-full hover:shadow-md hover:-translate-y-1 transition-all duration-300">
-                      <h3 className="font-bold text-slate-900 text-sm uppercase tracking-wide mb-3">{mod.title}</h3>
+                      <h3 className="font-bold text-slate-900 text-sm uppercase tracking-wide mb-3">
+                        {mod.title}
+                      </h3>
                       <ul className="space-y-2">
                         {mod.topics.map((t) => (
                           <li key={t} className="flex items-start gap-2 text-sm text-slate-600">
@@ -384,28 +405,40 @@ export default function ProgramPageLayout({
           <section className="py-14 lg:py-20 border-t border-slate-100">
             <div className="max-w-5xl mx-auto px-6">
               <div className="text-center mb-10">
-                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">Instructional Delivery</p>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">How Training Is Delivered</h2>
+                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">
+                  Instructional Delivery
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+                  How Training Is Delivered
+                </h2>
               </div>
               <div className="grid md:grid-cols-2 gap-6 max-w-4xl mx-auto">
                 <div className="bg-slate-50 rounded-xl p-6 border border-slate-100">
                   <h3 className="font-bold text-slate-900 mb-2">Delivery Model</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">{c.instructionalDelivery.description}</p>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    {c.instructionalDelivery.description}
+                  </p>
                 </div>
                 <div className="bg-slate-50 rounded-xl p-6 border border-slate-100">
                   <h3 className="font-bold text-slate-900 mb-2">Instructor Qualifications</h3>
-                  <p className="text-sm text-slate-600 leading-relaxed">{c.instructionalDelivery.qualifications}</p>
+                  <p className="text-sm text-slate-600 leading-relaxed">
+                    {c.instructionalDelivery.qualifications}
+                  </p>
                 </div>
                 {c.instructionalDelivery.labProvider && (
                   <div className="bg-slate-50 rounded-xl p-6 border border-slate-100">
                     <h3 className="font-bold text-slate-900 mb-2">Lab Training</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed">{c.instructionalDelivery.labProvider}</p>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      {c.instructionalDelivery.labProvider}
+                    </p>
                   </div>
                 )}
                 {c.instructionalDelivery.ojtProvider && (
                   <div className="bg-slate-50 rounded-xl p-6 border border-slate-100">
                     <h3 className="font-bold text-slate-900 mb-2">On-the-Job Training</h3>
-                    <p className="text-sm text-slate-600 leading-relaxed">{c.instructionalDelivery.ojtProvider}</p>
+                    <p className="text-sm text-slate-600 leading-relaxed">
+                      {c.instructionalDelivery.ojtProvider}
+                    </p>
                   </div>
                 )}
               </div>
@@ -420,8 +453,12 @@ export default function ProgramPageLayout({
           <section className="py-14 lg:py-20 bg-slate-50 border-t border-slate-100">
             <div className="max-w-5xl mx-auto px-6">
               <div className="text-center mb-10">
-                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">Training Hours</p>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Hours Breakdown</h2>
+                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">
+                  Training Hours
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+                  Hours Breakdown
+                </h2>
               </div>
               <div className="max-w-2xl mx-auto">
                 <div className="space-y-3">
@@ -429,13 +466,19 @@ export default function ProgramPageLayout({
                     const total = c.hoursBreakdown!.reduce((sum, h) => sum + h.hours, 0);
                     const pct = Math.round((item.hours / total) * 100);
                     return (
-                      <div key={item.label} className="bg-white rounded-xl p-4 border border-slate-100">
+                      <div
+                        key={item.label}
+                        className="bg-white rounded-xl p-4 border border-slate-100"
+                      >
                         <div className="flex justify-between items-center mb-2">
                           <span className="font-semibold text-slate-900 text-sm">{item.label}</span>
                           <span className="font-bold text-brand-red-600">{item.hours} hours</span>
                         </div>
                         <div className="w-full bg-slate-100 rounded-full h-2.5">
-                          <div className="bg-white h-2.5 rounded-full transition-all" style={{ width: `${pct}%` }} />
+                          <div
+                            className="bg-white h-2.5 rounded-full transition-all"
+                            style={{ width: `${pct}%` }}
+                          />
                         </div>
                       </div>
                     );
@@ -458,8 +501,12 @@ export default function ProgramPageLayout({
           <section className="py-14 lg:py-20 border-t border-slate-100">
             <div className="max-w-5xl mx-auto px-6">
               <div className="text-center mb-10">
-                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">Assessment</p>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Program Assessment Structure</h2>
+                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">
+                  Assessment
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+                  Program Assessment Structure
+                </h2>
               </div>
               <div className="max-w-3xl mx-auto">
                 <div className="bg-slate-50 rounded-xl p-8 border border-slate-100">
@@ -475,12 +522,16 @@ export default function ProgramPageLayout({
                   <div className="flex flex-wrap gap-4 pt-4 border-t border-slate-200">
                     <div className="bg-white rounded-lg px-5 py-3 border border-slate-200">
                       <span className="text-xs text-slate-500 block">Minimum Passing Score</span>
-                      <span className="text-xl font-extrabold text-brand-red-600">{c.assessmentStructure.passingScore}%</span>
+                      <span className="text-xl font-extrabold text-brand-red-600">
+                        {c.assessmentStructure.passingScore}%
+                      </span>
                     </div>
                     {c.assessmentStructure.retakePolicy && (
                       <div className="bg-white rounded-lg px-5 py-3 border border-slate-200 flex-1 min-w-[200px]">
                         <span className="text-xs text-slate-500 block">Retake Policy</span>
-                        <span className="text-sm font-semibold text-slate-900">{c.assessmentStructure.retakePolicy}</span>
+                        <span className="text-sm font-semibold text-slate-900">
+                          {c.assessmentStructure.retakePolicy}
+                        </span>
                       </div>
                     )}
                   </div>
@@ -497,12 +548,18 @@ export default function ProgramPageLayout({
           <section className="py-14 lg:py-20 bg-slate-50 border-t border-slate-100">
             <div className="max-w-5xl mx-auto px-6">
               <div className="text-center mb-10">
-                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">Career Placement</p>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Where Graduates Work</h2>
+                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">
+                  Career Placement
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+                  Where Graduates Work
+                </h2>
               </div>
               <div className="max-w-3xl mx-auto">
                 {c.employerPathway.description && (
-                  <p className="text-slate-600 text-center mb-8 leading-relaxed">{c.employerPathway.description}</p>
+                  <p className="text-slate-600 text-center mb-8 leading-relaxed">
+                    {c.employerPathway.description}
+                  </p>
                 )}
                 <div className="grid sm:grid-cols-2 gap-4 mb-8">
                   {c.employerPathway.sectors.map((sector) => (
@@ -513,9 +570,14 @@ export default function ProgramPageLayout({
                 </div>
                 {c.employerPathway.placementRate && (
                   <div className="text-center bg-white rounded-xl p-6 border border-slate-200">
-                    <div className="text-3xl font-extrabold text-brand-green-600 mb-1">{c.employerPathway.placementRate}</div>
+                    <div className="text-3xl font-extrabold text-brand-green-600 mb-1">
+                      {c.employerPathway.placementRate}
+                    </div>
                     <p className="text-sm text-slate-500">
-                      placement rate{c.employerPathway.placementWindow ? ` within ${c.employerPathway.placementWindow}` : ''}
+                      placement rate
+                      {c.employerPathway.placementWindow
+                        ? ` within ${c.employerPathway.placementWindow}`
+                        : ''}
                     </p>
                   </div>
                 )}
@@ -531,8 +593,12 @@ export default function ProgramPageLayout({
           <section className="py-14 lg:py-20 bg-slate-50 border-t border-slate-100">
             <div className="max-w-5xl mx-auto px-6">
               <div className="text-center mb-10">
-                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">National Credentials</p>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Credentials You&apos;ll Earn</h2>
+                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">
+                  National Credentials
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+                  Credentials You&apos;ll Earn
+                </h2>
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                 {c.credentials.map((cr, i) => {
@@ -543,7 +609,9 @@ export default function ProgramPageLayout({
                   return (
                     <ScrollReveal key={cr} delay={i * 60} direction="up">
                       <div className="bg-white rounded-xl p-5 border border-slate-200 h-full shadow-sm hover:shadow-md transition-shadow">
-                        <h3 className="font-bold text-slate-900 text-sm leading-snug mb-1">{name}</h3>
+                        <h3 className="font-bold text-slate-900 text-sm leading-snug mb-1">
+                          {name}
+                        </h3>
                         {issuer && <p className="text-xs text-slate-500 leading-snug">{issuer}</p>}
                       </div>
                     </ScrollReveal>
@@ -559,18 +627,30 @@ export default function ProgramPageLayout({
       {children}
 
       {/* ===== PROGRAM DETAILS (workforce partner info) ===== */}
-      {(c.totalHours || c.schedule || c.cohortSize || c.modality || c.bilingualSupport || c.employerPartners || c.selfPayCost) && (
+      {(c.totalHours ||
+        c.schedule ||
+        c.cohortSize ||
+        c.modality ||
+        c.bilingualSupport ||
+        c.employerPartners ||
+        c.selfPayCost) && (
         <InView animation="fade-up">
           <section className="py-14 lg:py-20 border-t border-slate-100">
             <div className="max-w-5xl mx-auto px-6">
               <div className="text-center mb-10">
-                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">Program Details</p>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Structure & Delivery</h2>
+                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">
+                  Program Details
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+                  Structure & Delivery
+                </h2>
               </div>
               <div className="grid md:grid-cols-2 gap-8">
                 {/* Left column — Training Structure */}
                 <div className="space-y-4">
-                  <h3 className="font-bold text-slate-900 text-lg border-b border-slate-200 pb-2">Training Structure</h3>
+                  <h3 className="font-bold text-slate-900 text-lg border-b border-slate-200 pb-2">
+                    Training Structure
+                  </h3>
                   {c.totalHours && (
                     <div className="flex justify-between text-sm">
                       <span className="text-slate-500">Total Instructional Hours</span>
@@ -604,13 +684,17 @@ export default function ProgramPageLayout({
                   {c.facilityInfo && (
                     <div className="flex justify-between text-sm">
                       <span className="text-slate-500">Training Location</span>
-                      <span className="font-semibold text-slate-900 text-right max-w-[60%]">{c.facilityInfo}</span>
+                      <span className="font-semibold text-slate-900 text-right max-w-[60%]">
+                        {c.facilityInfo}
+                      </span>
                     </div>
                   )}
                   {c.equipmentIncluded && (
                     <div className="flex justify-between text-sm">
                       <span className="text-slate-500">Equipment & Materials</span>
-                      <span className="font-semibold text-slate-900 text-right max-w-[60%]">{c.equipmentIncluded}</span>
+                      <span className="font-semibold text-slate-900 text-right max-w-[60%]">
+                        {c.equipmentIncluded}
+                      </span>
                     </div>
                   )}
                   {c.bilingualSupport && (
@@ -621,7 +705,9 @@ export default function ProgramPageLayout({
                   )}
                   {c.nextLevelJobsEligible && (
                     <div className="text-sm bg-brand-green-50 border border-brand-green-200 rounded-lg p-3">
-                      <span className="font-semibold text-brand-green-800">Next Level Jobs Eligible</span>
+                      <span className="font-semibold text-brand-green-800">
+                        Next Level Jobs Eligible
+                      </span>
                     </div>
                   )}
                   {c.admissionRequirements && c.admissionRequirements.length > 0 && (
@@ -643,7 +729,9 @@ export default function ProgramPageLayout({
                 <div className="space-y-4">
                   {(c.selfPayCost || c.cohortPricing || c.pricingIncludes) && (
                     <>
-                      <h3 className="font-bold text-slate-900 text-lg border-b border-slate-200 pb-2">Pricing & Funding</h3>
+                      <h3 className="font-bold text-slate-900 text-lg border-b border-slate-200 pb-2">
+                        Pricing & Funding
+                      </h3>
                       {c.selfPayCost && (
                         <div className="flex justify-between text-sm">
                           <span className="text-slate-500">Self-Pay Tuition</span>
@@ -670,13 +758,17 @@ export default function ProgramPageLayout({
                         </div>
                       )}
                       {c.paymentTerms && (
-                        <div className="text-sm text-slate-600 bg-slate-50 rounded-lg p-3">{c.paymentTerms}</div>
+                        <div className="text-sm text-slate-600 bg-slate-50 rounded-lg p-3">
+                          {c.paymentTerms}
+                        </div>
                       )}
                     </>
                   )}
                   {c.employerPartners && c.employerPartners.length > 0 && (
                     <>
-                      <h3 className="font-bold text-slate-900 text-lg border-b border-slate-200 pb-2 mt-6">Employer Partners</h3>
+                      <h3 className="font-bold text-slate-900 text-lg border-b border-slate-200 pb-2 mt-6">
+                        Employer Partners
+                      </h3>
                       <ul className="space-y-2">
                         {c.employerPartners.map((partner) => (
                           <li key={partner} className="flex items-center gap-2 text-sm">
@@ -700,9 +792,13 @@ export default function ProgramPageLayout({
           <section className="py-14 lg:py-20 border-t border-slate-100">
             <div className="max-w-5xl mx-auto px-6">
               <div className="text-center mb-10">
-                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">After Graduation</p>
+                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">
+                  After Graduation
+                </p>
                 <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">Career Paths</h2>
-                <p className="text-slate-500 mt-2 max-w-md mx-auto">Where our graduates work after completing this program.</p>
+                <p className="text-slate-500 mt-2 max-w-md mx-auto">
+                  Where our graduates work after completing this program.
+                </p>
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
                 {c.careers.map((career, i) => (
@@ -710,7 +806,9 @@ export default function ProgramPageLayout({
                     <div className="bg-slate-50 rounded-xl p-6 border border-slate-200 hover:shadow-md hover:-translate-y-1 transition-all duration-300">
                       <h3 className="font-bold text-slate-900 mb-2">{career.title}</h3>
                       <div className="text-brand-green-700 font-bold text-lg">{career.salary}</div>
-                      {career.growth && <p className="text-sm text-slate-500 mt-1">{career.growth}</p>}
+                      {career.growth && (
+                        <p className="text-sm text-slate-500 mt-1">{career.growth}</p>
+                      )}
                     </div>
                   </ScrollReveal>
                 ))}
@@ -726,8 +824,12 @@ export default function ProgramPageLayout({
           <section className="py-14 lg:py-20 bg-slate-50 border-t border-slate-100">
             <div className="max-w-5xl mx-auto px-6">
               <div className="text-center mb-10">
-                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">Get Started</p>
-                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">How to Enroll</h2>
+                <p className="text-brand-red-600 font-semibold text-sm uppercase tracking-wider mb-2">
+                  Get Started
+                </p>
+                <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900">
+                  How to Enroll
+                </h2>
               </div>
               <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-10">
                 {c.steps.map((step, i) => (
@@ -745,8 +847,12 @@ export default function ProgramPageLayout({
 
               {/* Indiana Career Connect — shown for all WIOA-eligible programs */}
               <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6">
-                <p className="text-brand-blue-900 font-semibold text-sm mb-1">Indiana Career Connect</p>
-                <p className="text-brand-blue-800 text-sm leading-relaxed mb-4">{ICC_INSTRUCTION}</p>
+                <p className="text-brand-blue-900 font-semibold text-sm mb-1">
+                  Indiana Career Connect
+                </p>
+                <p className="text-brand-blue-800 text-sm leading-relaxed mb-4">
+                  {ICC_INSTRUCTION}
+                </p>
                 <a
                   href={ICC_URL}
                   target="_blank"
@@ -766,13 +872,20 @@ export default function ProgramPageLayout({
         <InView animation="fade-up">
           <section className="py-14 lg:py-20 border-t border-slate-100">
             <div className="max-w-3xl mx-auto px-6">
-              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-8 text-center">Frequently Asked Questions</h2>
+              <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-8 text-center">
+                Frequently Asked Questions
+              </h2>
               <div className="space-y-3">
                 {c.faqs.map((faq) => (
-                  <details key={faq.question} className="group bg-slate-50 rounded-xl border border-slate-200 overflow-hidden">
+                  <details
+                    key={faq.question}
+                    className="group bg-slate-50 rounded-xl border border-slate-200 overflow-hidden"
+                  >
                     <summary className="flex items-center justify-between cursor-pointer px-6 py-4 font-semibold text-slate-900 hover:text-brand-red-600 transition-colors text-sm">
                       {faq.question}
-                      <span className="ml-4 text-slate-500 group-open:rotate-45 transition-transform text-lg leading-none">+</span>
+                      <span className="ml-4 text-slate-500 group-open:rotate-45 transition-transform text-lg leading-none">
+                        +
+                      </span>
                     </summary>
                     <div className="px-6 pb-4 text-slate-600 text-sm leading-relaxed">
                       {faq.answer}
@@ -793,7 +906,8 @@ export default function ProgramPageLayout({
               Start This Credential Pathway
             </h2>
             <p className="text-slate-300 text-base sm:text-lg mb-8 max-w-lg mx-auto leading-relaxed">
-              Apply in minutes. Training may be fully funded for eligible Indiana residents. Graduate with nationally recognized credentials.
+              Apply in minutes. Training may be fully funded for eligible Indiana residents.
+              Graduate with nationally recognized credentials.
             </p>
             <div className="flex flex-col sm:flex-row justify-center gap-4">
               <Link
@@ -816,7 +930,9 @@ export default function ProgramPageLayout({
       {/* ===== TRUST BAR ===== */}
       <section className="py-8 bg-slate-50 border-t border-slate-100">
         <div className="max-w-5xl mx-auto px-6">
-          <p className="text-center text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">Recognized By</p>
+          <p className="text-center text-xs font-semibold text-slate-500 uppercase tracking-wider mb-4">
+            Recognized By
+          </p>
           <div className="flex flex-wrap justify-center items-center gap-x-8 gap-y-4 mb-4">
             {[
               { src: '/images/partners/usdol.webp', alt: 'U.S. Department of Labor' },
@@ -824,7 +940,14 @@ export default function ProgramPageLayout({
               { src: '/images/partners/workone.webp', alt: 'WorkOne Indiana' },
               { src: '/images/partners/nextleveljobs.webp', alt: 'Next Level Jobs' },
             ].map((logo) => (
-              <Image key={logo.alt} src={logo.src} alt={logo.alt} width={100} height={40} className="object-contain h-8 w-auto opacity-70 hover:opacity-100 transition-opacity" />
+              <Image sizes="100vw"
+                key={logo.alt}
+                src={logo.src}
+                alt={logo.alt}
+                width={100}
+                height={40}
+                className="object-contain h-8 w-auto opacity-70 hover:opacity-100 transition-opacity"
+              />
             ))}
           </div>
         </div>

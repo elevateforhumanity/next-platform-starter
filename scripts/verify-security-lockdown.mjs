@@ -21,7 +21,6 @@ const adminClient = SUPABASE_SERVICE_ROLE_KEY
   ? createClient(SUPABASE_URL, SUPABASE_SERVICE_ROLE_KEY)
   : null;
 
-
 const results = {
   passed: 0,
   failed: 0,
@@ -30,10 +29,7 @@ const results = {
 
 async function testTable(tableName, shouldBeReadable) {
   try {
-    const { data, error } = await anonClient
-      .from(tableName)
-      .select('*')
-      .limit(1);
+    const { data, error } = await anonClient.from(tableName).select('*').limit(1);
 
     if (shouldBeReadable) {
       if (error) {

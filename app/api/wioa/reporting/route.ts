@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { requireApiRole } from '@/lib/auth/require-api-role';
 import { toErrorMessage } from '@/lib/safe';
@@ -11,12 +10,11 @@ export const dynamic = 'force-dynamic';
 
 // GET /api/wioa/reporting - Generate WIOA reports
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 'super_admin']);
-    if (_authCheck instanceof NextResponse) return _authCheck;
-    const supabase = _authCheck.adminDb;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 'super_admin']);
+  if (_authCheck instanceof NextResponse) return _authCheck;
+  const supabase = _authCheck.adminDb;
   try {
     const { searchParams } = new URL(request.url);
     const reportType = searchParams.get('type');
@@ -32,7 +30,7 @@ const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 's
             message: 'Report type is required',
           },
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -40,28 +38,16 @@ const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 's
 
     switch (reportType) {
       case 'enrollment':
-        reportData = await generateEnrollmentReport(
-          supabase,
-          startDate,
-          endDate
-        );
+        reportData = await generateEnrollmentReport(supabase, startDate, endDate);
         break;
       case 'outcomes':
         reportData = await generateOutcomesReport(supabase, startDate, endDate);
         break;
       case 'performance':
-        reportData = await generatePerformanceReport(
-          supabase,
-          startDate,
-          endDate
-        );
+        reportData = await generatePerformanceReport(supabase, startDate, endDate);
         break;
       case 'demographics':
-        reportData = await generateDemographicsReport(
-          supabase,
-          startDate,
-          endDate
-        );
+        reportData = await generateDemographicsReport(supabase, startDate, endDate);
         break;
       case 'services':
         reportData = await generateServicesReport(supabase, startDate, endDate);
@@ -75,18 +61,18 @@ const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 's
               message: 'Invalid report type',
             },
           },
-          { status: 400 }
+          { status: 400 },
         );
     }
 
     return NextResponse.json({ success: true, data: reportData });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
         success: false,
         error: { code: 'SERVER_ERROR', message: toErrorMessage(error) },
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -94,7 +80,7 @@ const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 's
 async function generateEnrollmentReport(
   supabase: any,
   startDate: string | null,
-  endDate: string | null
+  endDate: string | null,
 ) {
   let query = supabase.from('program_enrollments').select('*');
 
@@ -114,7 +100,7 @@ async function generateEnrollmentReport(
 async function generateOutcomesReport(
   supabase: any,
   startDate: string | null,
-  endDate: string | null
+  endDate: string | null,
 ) {
   let query = supabase.from('employment_outcomes').select('*');
 
@@ -124,11 +110,8 @@ async function generateOutcomesReport(
   const { data, error } = await query;
   if (error) throw error;
 
-  const employed =
-    data?.filter((e) => e.employment_status === 'employed').length || 0;
-  const avgWage =
-    data?.reduce((sum, e) => sum + (e.hourly_wage || 0), 0) /
-    (data?.length || 1);
+  const employed = data?.filter((e) => e.employment_status === 'employed').length || 0;
+  const avgWage = data?.reduce((sum, e) => sum + (e.hourly_wage || 0), 0) / (data?.length || 1);
 
   return {
     totalPlacements: data?.length || 0,
@@ -142,14 +125,10 @@ async function generateOutcomesReport(
 async function generatePerformanceReport(
   supabase: any,
   startDate: string | null,
-  endDate: string | null
+  endDate: string | null,
 ) {
   // WIOA Performance Measures
-  const enrollments = await generateEnrollmentReport(
-    supabase,
-    startDate,
-    endDate
-  );
+  const enrollments = await generateEnrollmentReport(supabase, startDate, endDate);
   const outcomes = await generateOutcomesReport(supabase, startDate, endDate);
 
   return {
@@ -163,11 +142,9 @@ async function generatePerformanceReport(
 async function generateDemographicsReport(
   supabase: any,
   startDate: string | null,
-  endDate: string | null
+  endDate: string | null,
 ) {
-  const { data, error }: any = await supabase
-    .from('participant_eligibility')
-    .select('*');
+  const { data, error }: any = await supabase.from('participant_eligibility').select('*');
 
   if (error) throw error;
 
@@ -187,7 +164,7 @@ async function generateDemographicsReport(
 async function generateServicesReport(
   supabase: any,
   startDate: string | null,
-  endDate: string | null
+  endDate: string | null,
 ) {
   let query = supabase.from('supportive_services').select('*');
 
@@ -197,8 +174,7 @@ async function generateServicesReport(
   const { data, error } = await query;
   if (error) throw error;
 
-  const totalRequested =
-    data?.reduce((sum, s) => sum + (s.requested_amount || 0), 0) || 0;
+  const totalRequested = data?.reduce((sum, s) => sum + (s.requested_amount || 0), 0) || 0;
   const totalApproved =
     data
       ?.filter((s) => s.status === 'approved')

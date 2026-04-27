@@ -12,19 +12,61 @@ const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY, {
-  auth: { autoRefreshToken: false, persistSession: false }
+  auth: { autoRefreshToken: false, persistSession: false },
 });
 
 const firstNames = [
-  'James', 'Mary', 'John', 'Patricia', 'Robert', 'Jennifer', 'Michael', 'Linda',
-  'William', 'Barbara', 'David', 'Elizabeth', 'Richard', 'Susan', 'Joseph', 'Jessica',
-  'Thomas', 'Sarah', 'Charles', 'Karen', 'Christopher', 'Nancy', 'Daniel', 'Lisa',
-  'Matthew', 'Betty', 'Anthony', 'Margaret', 'Mark', 'Sandra', 'Donald', 'Ashley',
+  'James',
+  'Mary',
+  'John',
+  'Patricia',
+  'Robert',
+  'Jennifer',
+  'Michael',
+  'Linda',
+  'William',
+  'Barbara',
+  'David',
+  'Elizabeth',
+  'Richard',
+  'Susan',
+  'Joseph',
+  'Jessica',
+  'Thomas',
+  'Sarah',
+  'Charles',
+  'Karen',
+  'Christopher',
+  'Nancy',
+  'Daniel',
+  'Lisa',
+  'Matthew',
+  'Betty',
+  'Anthony',
+  'Margaret',
+  'Mark',
+  'Sandra',
+  'Donald',
+  'Ashley',
 ];
 
 const lastNames = [
-  'Smith', 'Johnson', 'Williams', 'Brown', 'Jones', 'Garcia', 'Miller', 'Davis',
-  'Rodriguez', 'Martinez', 'Hernandez', 'Lopez', 'Gonzalez', 'Wilson', 'Anderson', 'Thomas',
+  'Smith',
+  'Johnson',
+  'Williams',
+  'Brown',
+  'Jones',
+  'Garcia',
+  'Miller',
+  'Davis',
+  'Rodriguez',
+  'Martinez',
+  'Hernandez',
+  'Lopez',
+  'Gonzalez',
+  'Wilson',
+  'Anderson',
+  'Thomas',
 ];
 
 const cities = ['Indianapolis', 'Fort Wayne', 'Evansville', 'South Bend', 'Carmel', 'Fishers'];
@@ -75,7 +117,7 @@ async function main() {
         email,
         password: 'StudentPass123!',
         email_confirm: true,
-        user_metadata: { 
+        user_metadata: {
           full_name: fullName,
           first_name: firstName,
           last_name: lastName,
@@ -91,20 +133,18 @@ async function main() {
       if (!userId) continue;
 
       // Insert profile directly (trigger may not exist)
-      const { error: profileError } = await supabase
-        .from('profiles')
-        .insert({
-          id: userId,
-          email,
-          full_name: fullName,
-          role: 'student',
-          enrollment_status: 'pending',
-          phone: generatePhone(),
-          city: randomItem(cities),
-          state: 'IN',
-          tenant_id: tenantId,
-          organization_id: orgId,
-        });
+      const { error: profileError } = await supabase.from('profiles').insert({
+        id: userId,
+        email,
+        full_name: fullName,
+        role: 'student',
+        enrollment_status: 'pending',
+        phone: generatePhone(),
+        city: randomItem(cities),
+        state: 'IN',
+        tenant_id: tenantId,
+        organization_id: orgId,
+      });
 
       if (profileError) {
         console.log(`   ⚠️ Profile insert: ${profileError.message}`);
@@ -127,7 +167,6 @@ async function main() {
 
       created++;
       if (created % 10 === 0) console.log(`   ✅ Created ${created} students...`);
-
     } catch (err) {
       console.log(`   ❌ Error: ${err}`);
     }

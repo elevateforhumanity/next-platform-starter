@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
@@ -6,7 +6,6 @@ import type { Program } from '@/lib/types/program';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
 
 export function ProgramHero({ program }: { program: Program }) {
-
   const isBarberProgram = program.slug === 'barber-apprenticeship';
   const isHVACProgram = program.slug === 'hvac-technician';
   const isCDLProgram = program.slug === 'cdl';
@@ -14,8 +13,12 @@ export function ProgramHero({ program }: { program: Program }) {
   const isWorkforceProgram = program.slug === 'workforce-readiness';
   const isMedicalAssistant = program.slug === 'medical-assistant';
   const hasVideo =
-    isBarberProgram || isHVACProgram || isCDLProgram || isCNAProgram ||
-    isWorkforceProgram || isMedicalAssistant;
+    isBarberProgram ||
+    isHVACProgram ||
+    isCDLProgram ||
+    isCNAProgram ||
+    isWorkforceProgram ||
+    isMedicalAssistant;
 
   const getIcon = () => {
     if (program.slug.includes('barber')) return '✂️';
@@ -40,6 +43,7 @@ export function ProgramHero({ program }: { program: Program }) {
               className="absolute inset-0 w-full h-full object-cover"
             />
           ) : (
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
             <Image
               src={program.heroImage}
               alt={program.heroImageAlt}

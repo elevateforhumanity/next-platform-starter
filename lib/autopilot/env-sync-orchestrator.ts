@@ -40,7 +40,7 @@ export async function instructEnvSync(): Promise<AutopilotResult> {
     const response = await fetch(`${siteUrl}/api/autopilot/sync-env`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${autopilotSecret}`,
+        Authorization: `Bearer ${autopilotSecret}`,
         'Content-Type': 'application/json',
       },
       body: JSON.stringify({
@@ -67,8 +67,8 @@ export async function instructEnvSync(): Promise<AutopilotResult> {
       data: result,
       timestamp: new Date().toISOString(),
     };
-
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',
@@ -106,8 +106,8 @@ export async function verifyEnvSync(): Promise<AutopilotResult> {
       data: status,
       timestamp: new Date().toISOString(),
     };
-
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',
@@ -127,7 +127,7 @@ export async function downloadEnvFile(autopilotSecret: string): Promise<string |
     const response = await fetch(`${siteUrl}/api/autopilot/sync-env`, {
       method: 'POST',
       headers: {
-        'Authorization': `Bearer ${autopilotSecret}`,
+        Authorization: `Bearer ${autopilotSecret}`,
         'Content-Type': 'application/json',
       },
     });
@@ -138,8 +138,8 @@ export async function downloadEnvFile(autopilotSecret: string): Promise<string |
 
     const result = await response.json();
     return result.envContent || null;
-
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('Failed to download env file:', error);
     return null;
   }

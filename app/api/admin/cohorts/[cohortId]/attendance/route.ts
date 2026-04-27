@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -9,10 +8,17 @@ export const dynamic = 'force-dynamic';
 async function requireAdmin() {
   const supabase = await createClient();
   const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
-  const { data: { user } } = await supabase.auth.getUser();
+  if (!db)
+    return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return { error: 'Unauthorized', status: 401 };
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!profile || !['admin', 'super_admin', 'sponsor'].includes(profile.role)) {
     return { error: 'Forbidden', status: 403 };
   }
@@ -28,12 +34,17 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ coho
 
   const { data, error } = await auth.db
     .from('cohort_attendance')
-    .select(`
+    .select(
+      `
       *,
       session:cohort_session_id(session_date, start_time, end_time, modality)
-    `)
-    .in('cohort_session_id', 
-      (await auth.db.from('cohort_sessions').select('id').eq('cohort_id', cohortId)).data?.map(s => s.id) || []
+    `,
+    )
+    .in(
+      'cohort_session_id',
+      (await auth.db.from('cohort_sessions').select('id').eq('cohort_id', cohortId)).data?.map(
+        (s) => s.id,
+      ) || [],
     )
     .order('created_at', { ascending: true });
 
@@ -42,7 +53,10 @@ export async function GET(req: NextRequest, { params }: { params: Promise<{ coho
 }
 
 // POST — log attendance for a session (bulk: array of { user_id, status, minutes_attended })
-export async function POST(req: NextRequest, { params }: { params: Promise<{ cohortId: string }> }) {
+export async function POST(
+  req: NextRequest,
+  { params }: { params: Promise<{ cohortId: string }> },
+) {
   const auth = await requireAdmin();
   if ('error' in auth) return NextResponse.json({ error: auth.error }, { status: auth.status });
 

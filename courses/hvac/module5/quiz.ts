@@ -1,6 +1,7 @@
 export const quiz = [
   {
-    question: 'What law requires EPA 608 certification for anyone who purchases, handles, or disposes of refrigerants?',
+    question:
+      'What law requires EPA 608 certification for anyone who purchases, handles, or disposes of refrigerants?',
     options: ['OSHA Act', 'Clean Air Act Section 608', 'EPA Section 404', 'National Fire Code'],
     answer: 'Clean Air Act Section 608',
   },
@@ -29,4 +30,4 @@ export const quiz = [
     options: ['Upside down', 'On their side', 'Upright and secured', 'Any position is fine'],
     answer: 'Upright and secured',
   },
-]
+];

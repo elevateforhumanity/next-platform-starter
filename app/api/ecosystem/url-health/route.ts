@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import URLHealthMonitor from '@/lib/new-ecosystem-services/URLHealthMonitor';
@@ -26,8 +25,14 @@ async function _POST(request: NextRequest) {
     const result = await monitor.run(body);
     return NextResponse.json({ success: true, result });
   } catch (error) {
-    logger.error('URL health check error:', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json({ error: toErrorMessage(error) || 'URL health check failed' }, { status: 500 });
+    logger.error(
+      'URL health check error:',
+      error instanceof Error ? error : new Error(String(error)),
+    );
+    return NextResponse.json(
+      { error: toErrorMessage(error) || 'URL health check failed' },
+      { status: 500 },
+    );
   }
 }
 

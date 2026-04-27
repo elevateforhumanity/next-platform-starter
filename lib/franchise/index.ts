@@ -1,6 +1,6 @@
 /**
  * Franchise Tax Preparation System
- * 
+ *
  * This module provides services for managing a multi-office tax preparation franchise:
  * - Office management (create, update, activate, suspend)
  * - Preparer management with PTIN tracking
@@ -35,30 +35,17 @@ export type {
   FranchiseStats,
   OfficeStats,
   PreparerStats,
-  Certification
+  Certification,
 } from './types';
 
 // ERO types
-export type {
-  EROSignature,
-  EROConfig,
-  CreateEROConfigInput
-} from './ero-service';
+export type { EROSignature, EROConfig, CreateEROConfigInput } from './ero-service';
 
 // Fee types
-export type {
-  CreateFeeScheduleInput,
-  FeeCalculation
-} from './fee-service';
+export type { CreateFeeScheduleInput, FeeCalculation } from './fee-service';
 
 // Payout types
-export type {
-  CreatePayoutInput,
-  PayoutSummary
-} from './payout-service';
+export type { CreatePayoutInput, PayoutSummary } from './payout-service';
 
 // Return types
-export type {
-  CreateReturnInput,
-  ReturnWithAssignment
-} from './return-service';
+export type { CreateReturnInput, ReturnWithAssignment } from './return-service';

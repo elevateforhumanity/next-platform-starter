@@ -8,10 +8,7 @@ export type Certificate = {
   certificate_number: string;
 };
 
-export async function checkCourseCompletion(
-  userId: string,
-  courseId: string
-): Promise<boolean> {
+export async function checkCourseCompletion(userId: string, courseId: string): Promise<boolean> {
   // Get all lessons for the course
   const { data: lessons } = await supa
     .from('training_lessons')
@@ -27,7 +24,7 @@ export async function checkCourseCompletion(
     .eq('user_id', userId)
     .in(
       'lesson_id',
-      lessons.map((l) => l.id)
+      lessons.map((l) => l.id),
     );
 
   if (!progress || progress.length !== lessons.length) return false;
@@ -35,10 +32,7 @@ export async function checkCourseCompletion(
   return progress.every((p) => p.percent === 100);
 }
 
-export async function generateCertificate(
-  userId: string,
-  courseId: string
-): Promise<Certificate> {
+export async function generateCertificate(userId: string, courseId: string): Promise<Certificate> {
   // Check if certificate already exists
   const { data: existing } = await supa
     .from('certificates')
@@ -76,9 +70,7 @@ export async function generateCertificate(
   return data as Certificate;
 }
 
-export async function getUserCertificates(
-  userId: string
-): Promise<Certificate[]> {
+export async function getUserCertificates(userId: string): Promise<Certificate[]> {
   const { data, error } = await supa
     .from('certificates')
     .select('*, courses(title, code)')
@@ -100,9 +92,7 @@ export async function getCertificate(certificateId: string): Promise<any> {
   return data;
 }
 
-export async function verifyCertificate(
-  certificateNumber: string
-): Promise<any> {
+export async function verifyCertificate(certificateNumber: string): Promise<any> {
   const { data, error } = await supa
     .from('certificates')
     .select('*, courses(title, code), profiles(email)')

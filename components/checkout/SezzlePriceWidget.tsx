@@ -70,14 +70,14 @@ declare global {
 
 /**
  * Sezzle Price Widget
- * 
+ *
  * Displays "or 4 interest-free payments of $X with Sezzle" messaging.
- * 
+ *
  * Simple Usage:
  * <SezzlePriceWidget price={99.99} />
- * 
+ *
  * Advanced Usage with Config:
- * <SezzlePriceWidget 
+ * <SezzlePriceWidget
  *   config={{
  *     configGroups: [{
  *       targetXPath: ".product-price",
@@ -88,10 +88,10 @@ declare global {
  *     maxPrice: 2500
  *   }}
  * />
- * 
+ *
  * Requires NEXT_PUBLIC_SEZZLE_MERCHANT_ID environment variable.
  */
-export default function SezzlePriceWidget({ 
+export default function SezzlePriceWidget({
   merchantId,
   config,
   price,
@@ -116,7 +116,7 @@ export default function SezzlePriceWidget({
             targetXPath: targetSelector || '.sezzle-price',
             theme: theme,
             alignment: alignment,
-          }
+          },
         ],
         language: language,
         minPrice: minPrice,
@@ -158,10 +158,7 @@ export default function SezzlePriceWidget({
         }}
       />
       {price !== undefined && (
-        <div 
-          className="sezzle-price sezzle-payment-amount" 
-          data-sezzle-price={price.toFixed(2)}
-        >
+        <div className="sezzle-price sezzle-payment-amount" data-sezzle-price={price.toFixed(2)}>
           ${price.toFixed(2)}
         </div>
       )}
@@ -175,35 +172,41 @@ export default function SezzlePriceWidget({
 export const SezzleConfigs = {
   // Product page - targets common price selectors
   productPage: (options?: Partial<SezzleConfigGroup>): SezzleWidgetConfig => ({
-    configGroups: [{
-      targetXPath: '.product-price, .price, [data-price], .amount',
-      theme: 'light',
-      alignment: 'left',
-      ...options,
-    }],
+    configGroups: [
+      {
+        targetXPath: '.product-price, .price, [data-price], .amount',
+        theme: 'light',
+        alignment: 'left',
+        ...options,
+      },
+    ],
     minPrice: 35,
     maxPrice: 2500,
   }),
 
   // Cart page
   cartPage: (options?: Partial<SezzleConfigGroup>): SezzleWidgetConfig => ({
-    configGroups: [{
-      targetXPath: '.cart-total, .order-total, .subtotal',
-      theme: 'light',
-      alignment: 'right',
-      ...options,
-    }],
+    configGroups: [
+      {
+        targetXPath: '.cart-total, .order-total, .subtotal',
+        theme: 'light',
+        alignment: 'right',
+        ...options,
+      },
+    ],
     minPrice: 35,
     maxPrice: 2500,
   }),
 
   // Dark theme for dark backgrounds
   darkTheme: (targetXPath: string): SezzleWidgetConfig => ({
-    configGroups: [{
-      targetXPath,
-      theme: 'dark',
-      alignment: 'left',
-    }],
+    configGroups: [
+      {
+        targetXPath,
+        theme: 'dark',
+        alignment: 'left',
+      },
+    ],
     minPrice: 35,
     maxPrice: 2500,
   }),
@@ -213,16 +216,18 @@ export const SezzleConfigs = {
     targetXPath: string,
     containerStyle?: ConfigGroupStyle,
     textStyle?: ConfigGroupStyle,
-    logoStyle?: ConfigGroupStyle
+    logoStyle?: ConfigGroupStyle,
   ): SezzleWidgetConfig => ({
-    configGroups: [{
-      targetXPath,
-      theme: 'light',
-      alignment: 'left',
-      containerStyle,
-      textStyle,
-      logoStyle,
-    }],
+    configGroups: [
+      {
+        targetXPath,
+        theme: 'light',
+        alignment: 'left',
+        containerStyle,
+        textStyle,
+        logoStyle,
+      },
+    ],
     minPrice: 35,
     maxPrice: 2500,
   }),

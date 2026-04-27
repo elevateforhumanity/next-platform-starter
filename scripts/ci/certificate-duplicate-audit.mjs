@@ -77,7 +77,7 @@ try {
   const rows = await query(
     'certificates',
     'student_id,course_id',
-    '&student_id=not.is.null&course_id=not.is.null'
+    '&student_id=not.is.null&course_id=not.is.null',
   );
 
   const seen = new Map();
@@ -113,7 +113,7 @@ try {
   const rows = await query(
     'certificates',
     'student_id,program_id',
-    '&student_id=not.is.null&program_id=not.is.null'
+    '&student_id=not.is.null&program_id=not.is.null',
   );
 
   const seen = new Map();
@@ -146,11 +146,7 @@ try {
 // ── 4. Duplicate certificate_number ──────────────────────────────────────
 console.log('\nChecking certificate_number duplicates...');
 try {
-  const rows = await query(
-    'certificates',
-    'certificate_number',
-    '&certificate_number=not.is.null'
-  );
+  const rows = await query('certificates', 'certificate_number', '&certificate_number=not.is.null');
 
   const seen = new Map();
   const dupes = [];

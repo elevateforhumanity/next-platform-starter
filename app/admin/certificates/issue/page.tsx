@@ -18,8 +18,6 @@ export default async function IssueCertificatePage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   // Fetch certificate templates
   const { data: templates } = await supabase
     .from('certificate_templates')
@@ -36,16 +34,23 @@ export default async function IssueCertificatePage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-3xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
           <nav className="text-sm mb-4">
             <ol className="flex items-center space-x-2 text-slate-700">
-              <li><Link href="/admin" className="hover:text-primary">Admin</Link></li>
+              <li>
+                <Link href="/admin" className="hover:text-primary">
+                  Admin
+                </Link>
+              </li>
               <li>/</li>
-              <li><Link href="/admin/certificates" className="hover:text-primary">Certificates</Link></li>
+              <li>
+                <Link href="/admin/certificates" className="hover:text-primary">
+                  Certificates
+                </Link>
+              </li>
               <li>/</li>
               <li className="text-slate-900 font-medium">Issue</li>
             </ol>
@@ -65,9 +70,9 @@ export default async function IssueCertificatePage() {
                   <label className="block text-sm font-medium text-slate-900 mb-2">
                     Recipient Name *
                   </label>
-                  <input 
+                  <input
                     name="recipientName"
-                    type="text" 
+                    type="text"
                     className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                     placeholder="Full name as it appears on certificate"
                     required
@@ -77,9 +82,9 @@ export default async function IssueCertificatePage() {
                   <label className="block text-sm font-medium text-slate-900 mb-2">
                     Email Address *
                   </label>
-                  <input 
+                  <input
                     name="email"
-                    type="email" 
+                    type="email"
                     className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                     placeholder="recipient@email.com"
                     required
@@ -96,7 +101,7 @@ export default async function IssueCertificatePage() {
                   <label className="block text-sm font-medium text-slate-900 mb-2">
                     Certificate Template *
                   </label>
-                  <select 
+                  <select
                     name="templateId"
                     className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                     required
@@ -117,7 +122,10 @@ export default async function IssueCertificatePage() {
                   <label className="block text-sm font-medium text-slate-900 mb-2">
                     Course / Program
                   </label>
-                  <select name="courseId" className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500">
+                  <select
+                    name="courseId"
+                    className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  >
                     <option value="">Select a course (optional)</option>
                     {courses?.map((course: any) => (
                       <option key={course.id} value={course.id}>
@@ -132,9 +140,9 @@ export default async function IssueCertificatePage() {
                     <label className="block text-sm font-medium text-slate-900 mb-2">
                       Issue Date *
                     </label>
-                    <input 
+                    <input
                       name="issueDate"
-                      type="date" 
+                      type="date"
                       className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                       defaultValue={new Date().toISOString().split('T')[0]}
                       required
@@ -144,21 +152,19 @@ export default async function IssueCertificatePage() {
                     <label className="block text-sm font-medium text-slate-900 mb-2">
                       Expiration Date
                     </label>
-                    <input 
+                    <input
                       name="expirationDate"
-                      type="date" 
+                      type="date"
                       className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                     />
                   </div>
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-2">
-                    Signed By
-                  </label>
-                  <input 
+                  <label className="block text-sm font-medium text-slate-900 mb-2">Signed By</label>
+                  <input
                     name="signedBy"
-                    type="text" 
+                    type="text"
                     className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                     placeholder="Director or authorized signer name"
                   />
@@ -168,7 +174,7 @@ export default async function IssueCertificatePage() {
                   <label className="block text-sm font-medium text-slate-900 mb-2">
                     Additional Notes
                   </label>
-                  <textarea 
+                  <textarea
                     name="notes"
                     className="w-full border rounded-lg px-3 py-2 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                     rows={3}
@@ -183,8 +189,15 @@ export default async function IssueCertificatePage() {
               <h2 className="text-lg font-semibold mb-4">Notification</h2>
               <div className="space-y-2">
                 <label className="flex items-center gap-2">
-                  <input name="sendEmail" type="checkbox" className="w-4 h-4 text-brand-blue-600 rounded" defaultChecked />
-                  <span className="text-sm text-slate-900">Send email notification to recipient</span>
+                  <input
+                    name="sendEmail"
+                    type="checkbox"
+                    className="w-4 h-4 text-brand-blue-600 rounded"
+                    defaultChecked
+                  />
+                  <span className="text-sm text-slate-900">
+                    Send email notification to recipient
+                  </span>
                 </label>
                 <label className="flex items-center gap-2">
                   <input type="checkbox" className="w-4 h-4 text-brand-blue-600 rounded" />
@@ -195,13 +208,13 @@ export default async function IssueCertificatePage() {
 
             {/* Actions */}
             <div className="flex gap-4 pt-4 border-t">
-              <button 
+              <button
                 type="submit"
                 className="flex-1 bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700"
               >
                 Issue Certificate
               </button>
-              <Link 
+              <Link
                 href="/admin/certificates"
                 className="px-4 py-2 border rounded-lg hover:bg-gray-50 text-center"
               >

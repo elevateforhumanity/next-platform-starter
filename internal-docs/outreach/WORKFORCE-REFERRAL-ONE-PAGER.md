@@ -1,4 +1,5 @@
 # Elevate for Humanity Career and Training Institute
+
 ## Workforce Referral Partner Sheet
 
 ---
@@ -66,6 +67,7 @@ Cohort-based enrollment with limited seats to ensure quality outcomes.
 ### Reporting & Compliance
 
 We provide referring agencies with:
+
 - Enrollment confirmation
 - Attendance verification
 - Completion status

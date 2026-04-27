@@ -11,44 +11,36 @@ async function _POST(request: NextRequest) {
     // Auth: require authenticated user
     const { createClient: createAuthClient } = await import('@/lib/supabase/server');
     const authSupabase = await createAuthClient();
-    const { data: { session: authSession } } = await authSupabase.auth.getSession();
+    const {
+      data: { session: authSession },
+    } = await authSupabase.auth.getSession();
     if (!authSession) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-
 
     const body = await request.json();
     const { intake, agreement } = body;
 
     if (!intake || !agreement) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Validate required intake fields
     if (!intake.shopName || !intake.ownerName || !intake.email || !intake.licenseNumber) {
       return NextResponse.json(
         { error: 'Shop name, owner name, email, and license number are required' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Validate agreement acceptance
     if (!agreement.acceptedName || !agreement.acceptedShopName || !agreement.acceptedEmail) {
-      return NextResponse.json(
-        { error: 'Agreement acceptance is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Agreement acceptance is required' }, { status: 400 });
     }
 
     const supabase = await getAdminClient();
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Database connection unavailable' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Database connection unavailable' }, { status: 503 });
     }
 
     // Get client info for audit
@@ -80,25 +72,20 @@ async function _POST(request: NextRequest) {
 
     if (appError) {
       logger.error('Error inserting host shop application:', appError);
-      return NextResponse.json(
-        { error: 'Failed to submit application' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to submit application' }, { status: 500 });
     }
 
     // Insert agreement acceptance
-    const { error: agreementError } = await supabase
-      .from('agreement_acceptances')
-      .insert({
-        subject_type: 'host_shop',
-        subject_id: application.id,
-        agreement_key: agreement.key,
-        agreement_version: agreement.version,
-        accepted_name: agreement.acceptedName,
-        accepted_email: agreement.acceptedEmail.toLowerCase(),
-        accepted_ip: clientIp || null,
-        user_agent: userAgent || null,
-      });
+    const { error: agreementError } = await supabase.from('agreement_acceptances').insert({
+      subject_type: 'host_shop',
+      subject_id: application.id,
+      agreement_key: agreement.key,
+      agreement_version: agreement.version,
+      accepted_name: agreement.acceptedName,
+      accepted_email: agreement.acceptedEmail.toLowerCase(),
+      accepted_ip: clientIp || null,
+      user_agent: userAgent || null,
+    });
 
     if (agreementError) {
       logger.error('Error inserting agreement acceptance:', agreementError);
@@ -127,11 +114,11 @@ async function _POST(request: NextRequest) {
               <p><a href="https://www.elevateforhumanity.org/portal/admin/host-shops">View in Admin Portal</a></p>
             `,
           }),
-        }
+        },
       );
     } catch (err) {
-        logger.error("Unhandled error", err instanceof Error ? err : undefined);
-      }
+      logger.error('Unhandled error', err instanceof Error ? err : undefined);
+    }
 
     return NextResponse.json({
       success: true,
@@ -139,10 +126,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Host shop enrollment error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/enrollments/host-shop', _POST);

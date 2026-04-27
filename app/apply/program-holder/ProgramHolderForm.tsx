@@ -44,23 +44,21 @@ export default function ProgramHolderForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6" aria-busy={loading}>
       {error && (
-        <div className="p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-800 text-sm" role="alert">
+        <div
+          className="p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-800 text-sm"
+          role="alert"
+        >
           {error}
         </div>
       )}
 
       {/* Contact Information */}
       <div className="bg-white border border-slate-200 rounded-lg p-6">
-        <h2 className="text-xl font-bold text-black mb-4">
-          Contact Information
-        </h2>
+        <h2 className="text-xl font-bold text-black mb-4">Contact Information</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label
-              htmlFor="firstName"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="firstName" className="block text-sm font-medium text-black mb-2">
               First Name *
             </label>
             <input
@@ -73,10 +71,7 @@ export default function ProgramHolderForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="lastName"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="lastName" className="block text-sm font-medium text-black mb-2">
               Last Name *
             </label>
             <input
@@ -89,10 +84,7 @@ export default function ProgramHolderForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-black mb-2">
               Email *
             </label>
             <input
@@ -105,10 +97,7 @@ export default function ProgramHolderForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="phone"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="phone" className="block text-sm font-medium text-black mb-2">
               Phone *
             </label>
             <input
@@ -124,16 +113,11 @@ export default function ProgramHolderForm() {
 
       {/* Organization Information */}
       <div className="bg-white border border-slate-200 rounded-lg p-6">
-        <h2 className="text-xl font-bold text-black mb-4">
-          Organization Information
-        </h2>
+        <h2 className="text-xl font-bold text-black mb-4">Organization Information</h2>
 
         <div className="space-y-4">
           <div>
-            <label
-              htmlFor="organizationName"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="organizationName" className="block text-sm font-medium text-black mb-2">
               Organization Name *
             </label>
             <input
@@ -146,10 +130,7 @@ export default function ProgramHolderForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="organizationType"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="organizationType" className="block text-sm font-medium text-black mb-2">
               Organization Type
             </label>
             <select
@@ -160,9 +141,7 @@ export default function ProgramHolderForm() {
               <option value="">Select type</option>
               <option value="school">School / Educational Institution</option>
               <option value="nonprofit">Nonprofit Organization</option>
-              <option value="workforce-board">
-                Workforce Development Board
-              </option>
+              <option value="workforce-board">Workforce Development Board</option>
               <option value="community-org">Community Organization</option>
               <option value="government">Government Agency</option>
               <option value="other">Other</option>
@@ -170,10 +149,7 @@ export default function ProgramHolderForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="website"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="website" className="block text-sm font-medium text-black mb-2">
               Website
             </label>
             <input
@@ -186,10 +162,7 @@ export default function ProgramHolderForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="numberOfStudents"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="numberOfStudents" className="block text-sm font-medium text-black mb-2">
               Estimated Number of Students
             </label>
             <select
@@ -206,10 +179,7 @@ export default function ProgramHolderForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="programsOffered"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="programsOffered" className="block text-sm font-medium text-black mb-2">
               Programs Currently Offered
             </label>
             <textarea
@@ -222,10 +192,7 @@ export default function ProgramHolderForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="partnershipGoals"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="partnershipGoals" className="block text-sm font-medium text-black mb-2">
               Partnership Goals
             </label>
             <textarea

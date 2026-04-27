@@ -1,14 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  AlertCircle,
-  Camera,
-  File,
-  Loader2,
-  Smartphone,
-  Upload,
-CheckCircle, } from 'lucide-react';
+import { AlertCircle, Camera, File, Loader2, Smartphone, Upload, CheckCircle } from 'lucide-react';
 
 interface ManualIDUploadFormProps {
   userId: string;
@@ -30,7 +23,7 @@ export default function ManualIDUploadForm({
 
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    type: 'front' | 'back' | 'selfie'
+    type: 'front' | 'back' | 'selfie',
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -105,8 +98,8 @@ export default function ManualIDUploadForm({
             Documents Uploaded Successfully!
           </h2>
           <p className="text-black mb-6">
-            Your identity documents have been submitted for review. Our team
-            will verify your documents within 1-2 business days.
+            Your identity documents have been submitted for review. Our team will verify your
+            documents within 1-2 business days.
           </p>
           <div className="bg-brand-blue-50 border-l-4 border-brand-blue-400 p-4 text-left">
             <p className="text-sm text-brand-blue-900">
@@ -129,8 +122,8 @@ export default function ManualIDUploadForm({
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-2">Upload Photo ID (FREE)</h2>
         <p className="text-black">
-          Upload photos of your government-issued ID and a selfie. Admin will
-          review within 1-2 business days.
+          Upload photos of your government-issued ID and a selfie. Admin will review within 1-2
+          business days.
         </p>
         <div className="mt-4 p-4 bg-brand-green-50 border-l-4 border-brand-green-400">
           <p className="text-sm text-brand-green-900">
@@ -173,27 +166,18 @@ export default function ManualIDUploadForm({
               id="id-front"
               required
             />
-            <label
-              htmlFor="id-front"
-              className="cursor-pointer flex flex-col items-center"
-            >
+            <label htmlFor="id-front" className="cursor-pointer flex flex-col items-center">
               {idFrontFile ? (
                 <>
                   <span className="text-slate-500 flex-shrink-0">•</span>
-                  <p className="text-sm font-medium text-black">
-                    {idFrontFile.name}
-                  </p>
+                  <p className="text-sm font-medium text-black">{idFrontFile.name}</p>
                   <p className="text-xs text-black mt-1">Click to change</p>
                 </>
               ) : (
                 <>
                   <Upload className="text-black mb-2" size={32} />
-                  <p className="text-sm font-medium text-black">
-                    Upload front of ID
-                  </p>
-                  <p className="text-xs text-black mt-1">
-                    Driver's license, passport, or state ID
-                  </p>
+                  <p className="text-sm font-medium text-black">Upload front of ID</p>
+                  <p className="text-xs text-black mt-1">Driver's license, passport, or state ID</p>
                 </>
               )}
             </label>
@@ -213,27 +197,18 @@ export default function ManualIDUploadForm({
               className="hidden"
               id="id-back"
             />
-            <label
-              htmlFor="id-back"
-              className="cursor-pointer flex flex-col items-center"
-            >
+            <label htmlFor="id-back" className="cursor-pointer flex flex-col items-center">
               {idBackFile ? (
                 <>
                   <span className="text-slate-500 flex-shrink-0">•</span>
-                  <p className="text-sm font-medium text-black">
-                    {idBackFile.name}
-                  </p>
+                  <p className="text-sm font-medium text-black">{idBackFile.name}</p>
                   <p className="text-xs text-black mt-1">Click to change</p>
                 </>
               ) : (
                 <>
                   <Upload className="text-black mb-2" size={32} />
-                  <p className="text-sm font-medium text-black">
-                    Upload back of ID
-                  </p>
-                  <p className="text-xs text-black mt-1">
-                    Optional but recommended
-                  </p>
+                  <p className="text-sm font-medium text-black">Upload back of ID</p>
+                  <p className="text-xs text-black mt-1">Optional but recommended</p>
                 </>
               )}
             </label>
@@ -255,27 +230,18 @@ export default function ManualIDUploadForm({
               id="selfie"
               required
             />
-            <label
-              htmlFor="selfie"
-              className="cursor-pointer flex flex-col items-center"
-            >
+            <label htmlFor="selfie" className="cursor-pointer flex flex-col items-center">
               {selfieFile ? (
                 <>
                   <span className="text-slate-500 flex-shrink-0">•</span>
-                  <p className="text-sm font-medium text-black">
-                    {selfieFile.name}
-                  </p>
+                  <p className="text-sm font-medium text-black">{selfieFile.name}</p>
                   <p className="text-xs text-black mt-1">Click to change</p>
                 </>
               ) : (
                 <>
                   <Camera className="text-black mb-2" size={32} />
-                  <p className="text-sm font-medium text-black">
-                    Take selfie holding ID
-                  </p>
-                  <p className="text-xs text-black mt-1">
-                    Hold your ID next to your face
-                  </p>
+                  <p className="text-sm font-medium text-black">Take selfie holding ID</p>
+                  <p className="text-xs text-black mt-1">Hold your ID next to your face</p>
                 </>
               )}
             </label>
@@ -284,9 +250,7 @@ export default function ManualIDUploadForm({
 
         {/* Tips */}
         <div className="bg-white rounded-lg p-4">
-          <p className="text-sm font-semibold text-black mb-2">
-            📸 Photo Tips:
-          </p>
+          <p className="text-sm font-semibold text-black mb-2">📸 Photo Tips:</p>
           <ul className="text-sm text-black space-y-1">
             <li>• Ensure good lighting</li>
             <li>• ID should be clearly visible and readable</li>

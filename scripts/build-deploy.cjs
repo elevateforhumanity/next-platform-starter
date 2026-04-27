@@ -43,13 +43,7 @@ essentialFiles.forEach((file) => {
 });
 
 // Copy configuration files
-const configFiles = [
-  '_redirects',
-  '_headers',
-  'robots.txt',
-  'sitemap.xml',
-  'sitemap-index.xml',
-];
+const configFiles = ['_redirects', '_headers', 'robots.txt', 'sitemap.xml', 'sitemap-index.xml'];
 console.log('⚙️  Copying configuration files...');
 configFiles.forEach((file) => {
   const srcPath = path.join(__dirname, '..', file);
@@ -82,9 +76,7 @@ if (fs.existsSync(imagesDir)) {
       fs.copyFileSync(srcPath, destPath);
       copiedCount++;
     } else {
-      console.log(
-        `⚠️  Skipped large image: ${file} (${Math.round(stats.size / 1024 / 1024)}MB)`
-      );
+      console.log(`⚠️  Skipped large image: ${file} (${Math.round(stats.size / 1024 / 1024)}MB)`);
     }
   });
 
@@ -141,9 +133,7 @@ console.log(`📁 Output directory: ${distDir}`);
 console.log('');
 
 if (finalSizeMB > 100) {
-  console.log(
-    '⚠️  Warning: Package is still large. Consider further optimization.'
-  );
+  console.log('⚠️  Warning: Package is still large. Consider further optimization.');
 } else {
   console.log('✅ Package size is optimized for deployment!');
 }

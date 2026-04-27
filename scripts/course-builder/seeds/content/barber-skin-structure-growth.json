@@ -4,24 +4,14 @@
     "questions": [
       {
         "prompt": "What is the outermost layer of the skin called?",
-        "choices": [
-          "Epidermis",
-          "Dermis",
-          "Hypodermis",
-          "Subcutaneous"
-        ],
+        "choices": ["Epidermis", "Dermis", "Hypodermis", "Subcutaneous"],
         "answerIndex": 0,
         "rationale": "The epidermis is the outermost layer of the skin, acting as a protective barrier.",
         "type": "recall"
       },
       {
         "prompt": "Which layer of the skin houses blood vessels and nerves?",
-        "choices": [
-          "Epidermis",
-          "Dermis",
-          "Hypodermis",
-          "Stratum corneum"
-        ],
+        "choices": ["Epidermis", "Dermis", "Hypodermis", "Stratum corneum"],
         "answerIndex": 1,
         "rationale": "The dermis contains blood vessels and nerves, providing nutrients and support to the skin.",
         "type": "recall"
@@ -40,24 +30,14 @@
       },
       {
         "prompt": "Which skin type on the Fitzpatrick scale rarely burns and tans darkly?",
-        "choices": [
-          "Type I",
-          "Type III",
-          "Type V",
-          "Type VI"
-        ],
+        "choices": ["Type I", "Type III", "Type V", "Type VI"],
         "answerIndex": 3,
         "rationale": "Type VI skin on the Fitzpatrick scale rarely burns and tans darkly.",
         "type": "recall"
       },
       {
         "prompt": "What is the main component of the hypodermis?",
-        "choices": [
-          "Keratin",
-          "Melanin",
-          "Fat and connective tissue",
-          "Collagen"
-        ],
+        "choices": ["Keratin", "Melanin", "Fat and connective tissue", "Collagen"],
         "answerIndex": 2,
         "rationale": "The hypodermis is primarily composed of fat and connective tissue, providing insulation and cushioning.",
         "type": "recall"
@@ -76,12 +56,7 @@
       },
       {
         "prompt": "During which step of a scalp analysis should you visually inspect the scalp?",
-        "choices": [
-          "First",
-          "Second",
-          "Third",
-          "Fourth"
-        ],
+        "choices": ["First", "Second", "Third", "Fourth"],
         "answerIndex": 0,
         "rationale": "The visual inspection is the first step in conducting a thorough scalp analysis.",
         "type": "recall"
@@ -100,12 +75,7 @@
       },
       {
         "prompt": "A client presents with excessively oily hair. Which skin appendage is likely overactive?",
-        "choices": [
-          "Sweat glands",
-          "Sebaceous glands",
-          "Hair follicles",
-          "Melanocytes"
-        ],
+        "choices": ["Sweat glands", "Sebaceous glands", "Hair follicles", "Melanocytes"],
         "answerIndex": 1,
         "rationale": "Overactive sebaceous glands produce excess sebum, leading to oily hair.",
         "type": "scenario"
@@ -148,12 +118,7 @@
       },
       {
         "prompt": "A client complains of scalp odor. Which skin appendage might be involved?",
-        "choices": [
-          "Sebaceous glands",
-          "Sweat glands",
-          "Hair follicles",
-          "Melanocytes"
-        ],
+        "choices": ["Sebaceous glands", "Sweat glands", "Hair follicles", "Melanocytes"],
         "answerIndex": 1,
         "rationale": "Sweat glands can contribute to scalp odor, especially if they are overactive.",
         "type": "scenario"
@@ -172,12 +137,7 @@
       },
       {
         "prompt": "During a consultation, a client mentions frequent scalp irritation. What should you assess first?",
-        "choices": [
-          "Hair length",
-          "Scalp condition",
-          "Hair color",
-          "Styling tools used"
-        ],
+        "choices": ["Hair length", "Scalp condition", "Hair color", "Styling tools used"],
         "answerIndex": 1,
         "rationale": "Assessing the scalp condition can help identify the cause of irritation.",
         "type": "scenario"

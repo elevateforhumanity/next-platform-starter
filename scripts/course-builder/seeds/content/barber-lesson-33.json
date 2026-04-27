@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which mustache style is characterized by its long, curled ends?",
-        "choices": [
-          "Chevron",
-          "Handlebar",
-          "Pencil",
-          "Walrus"
-        ],
+        "choices": ["Chevron", "Handlebar", "Pencil", "Walrus"],
         "answerIndex": 1,
         "rationale": "The Handlebar mustache is defined by its long, curled ends.",
         "type": "recall"
@@ -136,12 +131,7 @@
       },
       {
         "prompt": "Which mustache style resembles an inverted U?",
-        "choices": [
-          "Chevron",
-          "Horseshoe",
-          "Walrus",
-          "Handlebar"
-        ],
+        "choices": ["Chevron", "Horseshoe", "Walrus", "Handlebar"],
         "answerIndex": 1,
         "rationale": "The Horseshoe mustache is characterized by its inverted U shape.",
         "type": "recall"

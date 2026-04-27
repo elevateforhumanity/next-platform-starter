@@ -73,7 +73,12 @@ export const AlertTemplates = {
     `,
   }),
 
-  enrollmentCreated: (data: { studentName: string; program: string; fundingSource: string; id: string }) => ({
+  enrollmentCreated: (data: {
+    studentName: string;
+    program: string;
+    fundingSource: string;
+    id: string;
+  }) => ({
     to: 'registrar@www.elevateforhumanity.org',
     subject: `New Enrollment: ${data.studentName} - ${data.program}`,
     html: `
@@ -87,7 +92,12 @@ export const AlertTemplates = {
     `,
   }),
 
-  certificateIssued: (data: { studentName: string; program: string; certificateNumber: string; id: string }) => ({
+  certificateIssued: (data: {
+    studentName: string;
+    program: string;
+    certificateNumber: string;
+    id: string;
+  }) => ({
     to: 'registrar@www.elevateforhumanity.org',
     subject: `Certificate Issued: ${data.certificateNumber}`,
     html: `

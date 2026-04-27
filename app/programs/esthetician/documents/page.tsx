@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import { Upload, FileText, AlertCircle, X } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
-
 interface UploadedFile {
   name: string;
   type: string;
@@ -24,7 +23,9 @@ export default function EstheticianDocumentsPage() {
   useEffect(() => {
     async function getEnrollment() {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
       const { data: enrollment } = await supabase
         .from('program_enrollments')
@@ -40,7 +41,7 @@ export default function EstheticianDocumentsPage() {
 
   const handleFileUpload = async (
     e: React.ChangeEvent<HTMLInputElement>,
-    docType: 'government-id' | 'additional'
+    docType: 'government-id' | 'additional',
   ) => {
     const file = e.target.files?.[0];
     if (!file) return;
@@ -58,7 +59,10 @@ export default function EstheticianDocumentsPage() {
       formData.append('documentType', docType);
       if (enrollmentId) formData.append('enrollmentId', enrollmentId);
 
-      const response = await fetch('/api/enrollment/upload-document', { method: 'POST', body: formData });
+      const response = await fetch('/api/enrollment/upload-document', {
+        method: 'POST',
+        body: formData,
+      });
       const result = await response.json();
 
       if (response.ok && result.success) {
@@ -66,7 +70,11 @@ export default function EstheticianDocumentsPage() {
           setGovernmentId({ ...uploadedFile, status: 'complete', url: result.document?.file_url });
         } else {
           setAdditionalDocs((prev) =>
-            prev.map((doc) => doc.name === file.name ? { ...doc, status: 'complete', url: result.document?.file_url } : doc)
+            prev.map((doc) =>
+              doc.name === file.name
+                ? { ...doc, status: 'complete', url: result.document?.file_url }
+                : doc,
+            ),
           );
         }
       } else {
@@ -77,7 +85,7 @@ export default function EstheticianDocumentsPage() {
         setGovernmentId({ ...uploadedFile, status: 'error' });
       } else {
         setAdditionalDocs((prev) =>
-          prev.map((doc) => doc.name === file.name ? { ...doc, status: 'error' } : doc)
+          prev.map((doc) => (doc.name === file.name ? { ...doc, status: 'error' } : doc)),
         );
       }
     }
@@ -113,7 +121,9 @@ export default function EstheticianDocumentsPage() {
       <div className="bg-white py-8 border-t">
         <div className="max-w-2xl mx-auto px-6">
           <h1 className="text-3xl font-black mb-2">Required Documents</h1>
-          <p className="text-black">Upload your documents to complete enrollment and access your program.</p>
+          <p className="text-black">
+            Upload your documents to complete enrollment and access your program.
+          </p>
         </div>
       </div>
 
@@ -134,11 +144,20 @@ export default function EstheticianDocumentsPage() {
               {governmentId ? (
                 <div className="flex items-center gap-3 p-3 bg-white rounded-lg">
                   <FileText className="w-5 h-5 text-black" />
-                  <span className="flex-1 text-sm text-slate-700 truncate">{governmentId.name}</span>
-                  {governmentId.status === 'uploading' && <span className="text-sm text-rose-600">Uploading...</span>}
-                  {governmentId.status === 'error' && <span className="text-sm text-red-600">Upload failed. Please try again.</span>}
+                  <span className="flex-1 text-sm text-slate-700 truncate">
+                    {governmentId.name}
+                  </span>
+                  {governmentId.status === 'uploading' && (
+                    <span className="text-sm text-rose-600">Uploading...</span>
+                  )}
+                  {governmentId.status === 'error' && (
+                    <span className="text-sm text-red-600">Upload failed. Please try again.</span>
+                  )}
                   {governmentId.status === 'complete' && (
-                    <button onClick={() => setGovernmentId(null)} className="text-black hover:text-red-500">
+                    <button
+                      onClick={() => setGovernmentId(null)}
+                      className="text-black hover:text-red-500"
+                    >
                       <X className="w-4 h-4" />
                     </button>
                   )}
@@ -147,7 +166,12 @@ export default function EstheticianDocumentsPage() {
                 <label className="flex items-center justify-center gap-2 p-4 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer hover:border-rose-500 hover:bg-rose-50 transition">
                   <Upload className="w-5 h-5 text-black" />
                   <span className="text-black">Click to upload</span>
-                  <input type="file" accept="image/*,.pdf" onChange={(e) => handleFileUpload(e, 'government-id')} className="hidden" />
+                  <input
+                    type="file"
+                    accept="image/*,.pdf"
+                    onChange={(e) => handleFileUpload(e, 'government-id')}
+                    className="hidden"
+                  />
                 </label>
               )}
             </div>
@@ -162,7 +186,11 @@ export default function EstheticianDocumentsPage() {
           <div className="p-6 space-y-4">
             {[
               { id: 'high-school', name: 'High School Diploma or GED', desc: 'If available' },
-              { id: 'background-check', name: 'Background Check Authorization', desc: 'Will be provided if not uploaded' },
+              {
+                id: 'background-check',
+                name: 'Background Check Authorization',
+                desc: 'Will be provided if not uploaded',
+              },
             ].map((doc) => (
               <div key={doc.id}>
                 <h3 className="font-medium text-slate-900">{doc.name}</h3>
@@ -170,7 +198,12 @@ export default function EstheticianDocumentsPage() {
                 <label className="flex items-center justify-center gap-2 p-3 border border-slate-200 rounded-lg cursor-pointer hover:border-slate-300 hover:bg-white transition">
                   <Upload className="w-4 h-4 text-black" />
                   <span className="text-sm text-black">Upload (optional)</span>
-                  <input type="file" accept="image/*,.pdf" onChange={(e) => handleFileUpload(e, 'additional')} className="hidden" />
+                  <input
+                    type="file"
+                    accept="image/*,.pdf"
+                    onChange={(e) => handleFileUpload(e, 'additional')}
+                    className="hidden"
+                  />
                 </label>
               </div>
             ))}
@@ -198,7 +231,9 @@ export default function EstheticianDocumentsPage() {
           </p>
         )}
 
-        <p className="text-center text-black text-sm mt-4">Your documents are encrypted and stored securely.</p>
+        <p className="text-center text-black text-sm mt-4">
+          Your documents are encrypted and stored securely.
+        </p>
       </div>
     </div>
   );

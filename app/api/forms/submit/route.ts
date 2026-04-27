@@ -18,11 +18,7 @@ export async function POST(request: NextRequest) {
     const supabase = await createClient();
 
     // Verify form exists
-    const { data: form } = await supabase
-      .from('forms')
-      .select('id')
-      .eq('id', formId)
-      .maybeSingle();
+    const { data: form } = await supabase.from('forms').select('id').eq('id', formId).maybeSingle();
 
     if (!form) return safeError('Form not found', 404);
 

@@ -154,7 +154,8 @@ export const content = `<h2>Beard Design & Shaping</h2>
 export const quizQuestions = [
   {
     id: 'mod5-l31-q1',
-    question: 'A client with a round face requests a full, wide beard with volume on the cheeks. What is the correct professional response?',
+    question:
+      'A client with a round face requests a full, wide beard with volume on the cheeks. What is the correct professional response?',
     options: [
       'Proceed — the client knows what they want',
       'Explain that full cheek volume emphasizes roundness, and recommend length on the chin with shorter sides to elongate the face',
@@ -162,23 +163,26 @@ export const quizQuestions = [
       'Proceed but reduce the cheek volume slightly without telling the client',
     ],
     correctAnswer: 1,
-    explanation: 'Full cheek volume on a round face emphasizes the roundness rather than correcting it. The professional response is to explain the visual effect and offer the correct alternative — length on the chin with shorter sides. Proceeding silently or refusing service are both wrong.',
+    explanation:
+      'Full cheek volume on a round face emphasizes the roundness rather than correcting it. The professional response is to explain the visual effect and offer the correct alternative — length on the chin with shorter sides. Proceeding silently or refusing service are both wrong.',
   },
   {
     id: 'mod5-l31-q2',
     question: 'Where is the standard neckline placed, and why?',
     options: [
       'At the jawline — where the jaw meets the neck',
-      'At the Adam\'s apple — the most visible anatomical landmark',
-      'Two finger-widths above the Adam\'s apple, following a curved U-shape',
+      "At the Adam's apple — the most visible anatomical landmark",
+      "Two finger-widths above the Adam's apple, following a curved U-shape",
       'Halfway between the chin and the collarbone',
     ],
     correctAnswer: 2,
-    explanation: 'The standard neckline sits two finger-widths above the Adam\'s apple and follows a curved U-shape from ear to ear. Placement at the jawline is too high. Placement at the Adam\'s apple is too low and creates a "beard floating on the neck" appearance.',
+    explanation:
+      'The standard neckline sits two finger-widths above the Adam\'s apple and follows a curved U-shape from ear to ear. Placement at the jawline is too high. Placement at the Adam\'s apple is too low and creates a "beard floating on the neck" appearance.',
   },
   {
     id: 'mod5-l31-q3',
-    question: 'You are setting cheek lines and notice the client\'s ears sit at slightly different heights. Which reference point should you use to ensure symmetry?',
+    question:
+      "You are setting cheek lines and notice the client's ears sit at slightly different heights. Which reference point should you use to ensure symmetry?",
     options: [
       'The ears — they are the closest landmark to the cheek line',
       'The nose — it is the correct center reference for cheek line height on both sides',
@@ -186,11 +190,13 @@ export const quizQuestions = [
       'The jawline — it provides a consistent horizontal reference',
     ],
     correctAnswer: 1,
-    explanation: 'Ears sit at different heights on most people. Using ears as a reference produces asymmetric cheek lines. The nose is the correct center reference — both cheek lines are set at the same height relative to the nose, not the ears.',
+    explanation:
+      'Ears sit at different heights on most people. Using ears as a reference produces asymmetric cheek lines. The nose is the correct center reference — both cheek lines are set at the same height relative to the nose, not the ears.',
   },
   {
     id: 'mod5-l31-q4',
-    question: 'A client has folliculitis visible along the neckline. Which tool should be used for neckline definition?',
+    question:
+      'A client has folliculitis visible along the neckline. Which tool should be used for neckline definition?',
     options: [
       'Straight razor — gives the sharpest, cleanest edge',
       'T-outliner or detail trimmer — avoid razor on inflamed skin',
@@ -198,11 +204,13 @@ export const quizQuestions = [
       'Skip neckline definition until the skin clears',
     ],
     correctAnswer: 1,
-    explanation: 'Razor on inflamed skin worsens folliculitis and risks spreading infection. A trimmer achieves the necessary definition without blade-to-skin contact on the inflamed area. Skipping the neckline entirely is not necessary — modify the tool, not the service.',
+    explanation:
+      'Razor on inflamed skin worsens folliculitis and risks spreading infection. A trimmer achieves the necessary definition without blade-to-skin contact on the inflamed area. Skipping the neckline entirely is not necessary — modify the tool, not the service.',
   },
   {
     id: 'mod5-l31-q5',
-    question: 'During a beard service, you define the cheek and neckline edges first, then attempt to reduce bulk. What is the problem with this sequence?',
+    question:
+      'During a beard service, you define the cheek and neckline edges first, then attempt to reduce bulk. What is the problem with this sequence?',
     options: [
       'No problem — edges can be set at any point in the service',
       'The edges will shift when bulk is removed, requiring them to be recut',
@@ -210,6 +218,7 @@ export const quizQuestions = [
       'The razor cannot be used after clippers have touched the beard',
     ],
     correctAnswer: 1,
-    explanation: 'Edges set on an untrimmed beard shift when bulk is removed — the boundary moves as the hair length changes. Always reduce bulk first, then define edges. This is a non-negotiable service order rule.',
+    explanation:
+      'Edges set on an untrimmed beard shift when bulk is removed — the boundary moves as the hair length changes. Always reduce bulk first, then define edges. This is a non-negotiable service order rule.',
   },
 ];

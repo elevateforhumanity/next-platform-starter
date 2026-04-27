@@ -1,4 +1,3 @@
-
 /**
  * TIERED ALERT SYSTEM
  *
@@ -20,13 +19,7 @@ import {
   type IndianaReportType,
 } from './indiana-compliance';
 
-export type AlertLevel =
-  | 'info'
-  | 'reminder'
-  | 'warning'
-  | 'urgent'
-  | 'critical'
-  | 'final';
+export type AlertLevel = 'info' | 'reminder' | 'warning' | 'urgent' | 'critical' | 'final';
 export type AlertChannel = 'email' | 'sms' | 'dashboard' | 'phone';
 
 export interface Alert {
@@ -637,9 +630,7 @@ export const BATCH_CONFIG = {
  * HELPER FUNCTIONS
  */
 
-export function getAlertTimeline(
-  reportType: 'critical' | 'high' | 'performance'
-): AlertTimeline[] {
+export function getAlertTimeline(reportType: 'critical' | 'high' | 'performance'): AlertTimeline[] {
   switch (reportType) {
     case 'critical':
       return CRITICAL_REPORT_ALERTS;
@@ -652,34 +643,25 @@ export function getAlertTimeline(
 
 export function getNextAlert(
   daysUntilDue: number,
-  reportType: 'critical' | 'high' | 'performance'
+  reportType: 'critical' | 'high' | 'performance',
 ): AlertTimeline | null {
   const timeline = getAlertTimeline(reportType);
 
   // Find the next alert that should be sent
-  const nextAlert = timeline.find(
-    (alert) => alert.daysBeforeDue <= daysUntilDue
-  );
+  const nextAlert = timeline.find((alert) => alert.daysBeforeDue <= daysUntilDue);
 
   return nextAlert || null;
 }
 
-export function shouldSendAlert(
-  lastAlertSent: Date | null,
-  nextAlert: AlertTimeline
-): boolean {
+export function shouldSendAlert(lastAlertSent: Date | null, nextAlert: AlertTimeline): boolean {
   if (!lastAlertSent) return true;
 
-  const hoursSinceLastAlert =
-    (Date.now() - lastAlertSent.getTime()) / (1000 * 60 * 60);
+  const hoursSinceLastAlert = (Date.now() - lastAlertSent.getTime()) / (1000 * 60 * 60);
 
   return hoursSinceLastAlert >= nextAlert.escalationHours;
 }
 
-export function formatEmailTemplate(
-  template: string,
-  variables: Record<string, string>
-): string {
+export function formatEmailTemplate(template: string, variables: Record<string, string>): string {
   let formatted = template;
 
   Object.entries(variables).forEach(([key, value]) => {
@@ -695,7 +677,7 @@ export function formatEmailTemplate(
 
 export function getIndianaAlertForReport(
   reportType: IndianaReportType,
-  daysUntilDue: number
+  daysUntilDue: number,
 ): AlertTimeline | null {
   const schedule = INDIANA_REPORTING_SCHEDULES[reportType];
 
@@ -707,8 +689,7 @@ export function getIndianaAlertForReport(
         daysBeforeDue: daysUntilDue,
         level: 'critical',
         channels: ['email', 'dashboard', 'sms', 'phone'],
-        subject:
-          'URGENT: Indiana Federal Reporting Overdue - Immediate Removal',
+        subject: 'URGENT: Indiana Federal Reporting Overdue - Immediate Removal',
         template: 'federal_reporting_overdue',
         requiresAcknowledgment: true,
         escalationHours: 0, // No escalation - immediate action
@@ -733,8 +714,7 @@ export function getIndianaAlertForReport(
         daysBeforeDue: daysUntilDue,
         level: 'critical',
         channels: ['email', 'dashboard', 'sms', 'phone'],
-        subject:
-          'CRITICAL: Indiana Student Data 30+ Days Overdue - Removal Imminent',
+        subject: 'CRITICAL: Indiana Student Data 30+ Days Overdue - Removal Imminent',
         template: 'student_data_critical',
         requiresAcknowledgment: true,
         escalationHours: 0,
@@ -828,7 +808,7 @@ export function checkIndianaPerformanceStandards(
   credentialRate: number,
   wageGain: number,
   enrollmentCount: number,
-  dataQuality: number
+  dataQuality: number,
 ): {
   needsAlert: boolean;
   alertLevel: AlertLevel;
@@ -840,26 +820,22 @@ export function checkIndianaPerformanceStandards(
   // Check employment rate
   if (employmentRate < 0.6) {
     failures.push(
-      `Employment rate ${(employmentRate * 100).toFixed(1)}% critically below 70% standard`
+      `Employment rate ${(employmentRate * 100).toFixed(1)}% critically below 70% standard`,
     );
     alertLevel = 'critical';
   } else if (employmentRate < 0.7) {
-    failures.push(
-      `Employment rate ${(employmentRate * 100).toFixed(1)}% below 70% standard`
-    );
+    failures.push(`Employment rate ${(employmentRate * 100).toFixed(1)}% below 70% standard`);
     alertLevel = alertLevel === 'critical' ? 'critical' : 'warning';
   }
 
   // Check credential rate
   if (credentialRate < 0.5) {
     failures.push(
-      `Credential rate ${(credentialRate * 100).toFixed(1)}% critically below 60% standard`
+      `Credential rate ${(credentialRate * 100).toFixed(1)}% critically below 60% standard`,
     );
     alertLevel = 'critical';
   } else if (credentialRate < 0.6) {
-    failures.push(
-      `Credential rate ${(credentialRate * 100).toFixed(1)}% below 60% standard`
-    );
+    failures.push(`Credential rate ${(credentialRate * 100).toFixed(1)}% below 60% standard`);
     alertLevel = alertLevel === 'critical' ? 'critical' : 'warning';
   }
 
@@ -877,14 +853,10 @@ export function checkIndianaPerformanceStandards(
 
   // Check data quality
   if (dataQuality < 0.8) {
-    failures.push(
-      `Data quality ${(dataQuality * 100).toFixed(1)}% critically below 90% standard`
-    );
+    failures.push(`Data quality ${(dataQuality * 100).toFixed(1)}% critically below 90% standard`);
     alertLevel = 'critical';
   } else if (dataQuality < 0.9) {
-    failures.push(
-      `Data quality ${(dataQuality * 100).toFixed(1)}% below 90% standard`
-    );
+    failures.push(`Data quality ${(dataQuality * 100).toFixed(1)}% below 90% standard`);
     alertLevel = alertLevel === 'critical' ? 'critical' : 'reminder';
   }
 

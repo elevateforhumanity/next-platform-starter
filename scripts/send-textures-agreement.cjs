@@ -28,26 +28,29 @@ const FILENAME = 'Textures_Institute_Partnership_Agreement.docx';
 function sendEmail(payload) {
   return new Promise((resolve, reject) => {
     const body = JSON.stringify(payload);
-    const req = https.request({
-      hostname: 'api.sendgrid.com',
-      path: '/v3/mail/send',
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${SENDGRID_API_KEY}`,
-        'Content-Type': 'application/json',
-        'Content-Length': Buffer.byteLength(body),
+    const req = https.request(
+      {
+        hostname: 'api.sendgrid.com',
+        path: '/v3/mail/send',
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${SENDGRID_API_KEY}`,
+          'Content-Type': 'application/json',
+          'Content-Length': Buffer.byteLength(body),
+        },
       },
-    }, (res) => {
-      let data = '';
-      res.on('data', chunk => data += chunk);
-      res.on('end', () => {
-        if (res.statusCode >= 200 && res.statusCode < 300) {
-          resolve({ success: true });
-        } else {
-          reject(new Error(`SendGrid ${res.statusCode}: ${data}`));
-        }
-      });
-    });
+      (res) => {
+        let data = '';
+        res.on('data', (chunk) => (data += chunk));
+        res.on('end', () => {
+          if (res.statusCode >= 200 && res.statusCode < 300) {
+            resolve({ success: true });
+          } else {
+            reject(new Error(`SendGrid ${res.statusCode}: ${data}`));
+          }
+        });
+      },
+    );
     req.on('error', reject);
     req.write(body);
     req.end();
@@ -69,9 +72,10 @@ const jozannaEmail = {
   personalizations: [{ to: [{ email: 'Jozannageorge@outlook.com', name: 'Jozanna George' }] }],
   subject: 'Textures Institute — Partnership Agreement with Elevate for Humanity',
   attachments: [attachment],
-  content: [{
-    type: 'text/html',
-    value: `<!DOCTYPE html>
+  content: [
+    {
+      type: 'text/html',
+      value: `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
 <body style="margin:0;padding:0;font-family:Arial,sans-serif;background:#f8fafc">
@@ -129,7 +133,8 @@ const jozannaEmail = {
   </table>
 </body>
 </html>`,
-  }],
+    },
+  ],
 };
 
 // ─── Email to Arthur ─────────────────────────────────────────────────────────
@@ -140,9 +145,10 @@ const arthurEmail = {
   personalizations: [{ to: [{ email: 'arthurncarole@aol.com', name: 'Arthur Harris' }] }],
   subject: 'Textures Institute — Partnership Agreement with Elevate for Humanity',
   attachments: [attachment],
-  content: [{
-    type: 'text/html',
-    value: `<!DOCTYPE html>
+  content: [
+    {
+      type: 'text/html',
+      value: `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1.0"></head>
 <body style="margin:0;padding:0;font-family:Arial,sans-serif;background:#f8fafc">
@@ -202,7 +208,8 @@ const arthurEmail = {
   </table>
 </body>
 </html>`,
-  }],
+    },
+  ],
 };
 
 // ─── Copy to Elizabeth ────────────────────────────────────────────────────────
@@ -210,12 +217,15 @@ const arthurEmail = {
 const elizabethEmail = {
   from: FROM,
   reply_to: REPLY_TO,
-  personalizations: [{ to: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }] }],
+  personalizations: [
+    { to: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }] },
+  ],
   subject: '[COPY] Textures Institute Agreement — Sent to Jozanna & Arthur',
   attachments: [attachment],
-  content: [{
-    type: 'text/html',
-    value: `<!DOCTYPE html>
+  content: [
+    {
+      type: 'text/html',
+      value: `<!DOCTYPE html>
 <html>
 <head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;font-family:Arial,sans-serif;background:#f8fafc">
@@ -257,7 +267,8 @@ const elizabethEmail = {
   </table>
 </body>
 </html>`,
-  }],
+    },
+  ],
 };
 
 // ─── Send all three ───────────────────────────────────────────────────────────

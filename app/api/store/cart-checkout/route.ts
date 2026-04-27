@@ -31,7 +31,9 @@ async function _POST(req: Request) {
     }
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.redirect(`${baseUrl}/login?redirect=/store/cart`);
@@ -39,17 +41,19 @@ async function _POST(req: Request) {
 
     // Get form data
     const formData = await req.formData();
-    const customerEmail = formData.get('customerEmail') as string || user.email;
+    const customerEmail = (formData.get('customerEmail') as string) || user.email;
 
     // Get cart items with product details + LMS access flags from store_products
     const { data: cartItems, error: cartError } = await supabase
       .from('cart_items')
-      .select(`
+      .select(
+        `
         id,
         quantity,
         product_id,
         product:products(id, name, price, stripe_price_id, slug)
-      `)
+      `,
+      )
       .eq('user_id', user.id);
 
     if (cartError || !cartItems || cartItems.length === 0) {
@@ -64,7 +68,10 @@ async function _POST(req: Request) {
       .in('product_id', productIds);
 
     // Key by product_id (FK to products) so lookups via item.product_id work correctly.
-    const storeProductMap: Record<string, { grants_course_access: string | null; course_id: string | null }> = {};
+    const storeProductMap: Record<
+      string,
+      { grants_course_access: string | null; course_id: string | null }
+    > = {};
     for (const sp of storeProducts || []) {
       storeProductMap[sp.product_id] = sp;
     }
@@ -137,7 +144,9 @@ async function _POST(req: Request) {
     });
 
     if (!session.url) {
-      logger.error('Cart checkout: Stripe session created but no URL returned', { userId: user.id });
+      logger.error('Cart checkout: Stripe session created but no URL returned', {
+        userId: user.id,
+      });
       return NextResponse.redirect(`${baseUrl}/store/cart?error=checkout-failed`);
     }
 

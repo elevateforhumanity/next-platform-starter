@@ -10,14 +10,14 @@ Elevate for Humanity Career & Training Institute operates under multiple regulat
 
 The platform tracks all DOL-required apprenticeship data:
 
-| Requirement | Platform Implementation |
-|-------------|------------------------|
-| RTI hour logs | Per-session attendance records in `training_enrollments` |
-| OJT hour logs | Employer-submitted hour logs with supervisor sign-off |
-| Competency rubrics | Structured evaluation forms per occupation |
-| Apprentice registration | Individual records linked to RAPIDS program ID |
-| Wage schedule compliance | Wage progression tracked per apprentice |
-| Equal opportunity | EEO disclosures on all apprenticeship pages; sponsor disclosure required by 29 CFR Part 30 |
+| Requirement              | Platform Implementation                                                                    |
+| ------------------------ | ------------------------------------------------------------------------------------------ |
+| RTI hour logs            | Per-session attendance records in `training_enrollments`                                   |
+| OJT hour logs            | Employer-submitted hour logs with supervisor sign-off                                      |
+| Competency rubrics       | Structured evaluation forms per occupation                                                 |
+| Apprentice registration  | Individual records linked to RAPIDS program ID                                             |
+| Wage schedule compliance | Wage progression tracked per apprentice                                                    |
+| Equal opportunity        | EEO disclosures on all apprenticeship pages; sponsor disclosure required by 29 CFR Part 30 |
 
 Registered occupations: Building Services Technician (432 RTI hrs), Hair Stylist (154), Barber (260), Esthetician (300), Nail Tech (200), Youth Culinary (144).
 
@@ -25,14 +25,14 @@ Registered occupations: Building Services Technician (432 RTI hrs), Hair Stylist
 
 The platform supports WIOA Title I performance reporting requirements:
 
-| Metric | Tracking Method |
-|--------|----------------|
-| Enrollment | Application records with funding source |
-| Training completion | Course completion records with credential attainment |
+| Metric                | Tracking Method                                         |
+| --------------------- | ------------------------------------------------------- |
+| Enrollment            | Application records with funding source                 |
+| Training completion   | Course completion records with credential attainment    |
 | Credential attainment | Certificate issuance linked to national certifying body |
-| Employment entered | Placement records at program exit |
-| Employment retained | 2nd and 4th quarter follow-up tracking |
-| Median earnings | Employer-reported wage data |
+| Employment entered    | Placement records at program exit                       |
+| Employment retained   | 2nd and 4th quarter follow-up tracking                  |
+| Median earnings       | Employer-reported wage data                             |
 
 Funding sources tracked: WIOA Adult, WIOA Dislocated Worker, WIOA Youth, Workforce Ready Grant, JRI, Next Level Jobs, EmployIndy, self-pay.
 
@@ -47,17 +47,17 @@ Student educational records are handled in alignment with FERPA principles:
 
 ## Platform Security Posture
 
-| Control | Implementation |
-|---------|---------------|
-| **Authentication** | Supabase Auth — JWT tokens, server-side validation on every request |
-| **Authorization** | Row Level Security (RLS) on all database tables |
-| **Role-based access** | student, instructor, admin, super_admin, program_holder, delegate, employer |
-| **Audit logging** | All critical mutations logged with actor ID, timestamp, IP, and context |
-| **Input validation** | Zod schemas on all API routes |
-| **Secrets management** | Environment variables only — never committed to source |
-| **Transport security** | HTTPS enforced via Netlify; no HTTP fallback |
-| **Payment security** | Stripe — no card data stored; PCI DSS handled by Stripe |
-| **Multi-tenancy** | Tenant isolation enforced at database and API layers |
+| Control                | Implementation                                                              |
+| ---------------------- | --------------------------------------------------------------------------- |
+| **Authentication**     | Supabase Auth — JWT tokens, server-side validation on every request         |
+| **Authorization**      | Row Level Security (RLS) on all database tables                             |
+| **Role-based access**  | student, instructor, admin, super_admin, program_holder, delegate, employer |
+| **Audit logging**      | All critical mutations logged with actor ID, timestamp, IP, and context     |
+| **Input validation**   | Zod schemas on all API routes                                               |
+| **Secrets management** | Environment variables only — never committed to source                      |
+| **Transport security** | HTTPS enforced via Netlify; no HTTP fallback                                |
+| **Payment security**   | Stripe — no card data stored; PCI DSS handled by Stripe                     |
+| **Multi-tenancy**      | Tenant isolation enforced at database and API layers                        |
 
 ## EPA Section 608
 

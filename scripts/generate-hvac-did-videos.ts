@@ -22,22 +22,22 @@ import fs from 'fs';
 import path from 'path';
 import { createClient } from '@supabase/supabase-js';
 
-const HVAC_COURSE_ID   = '0ba9a61c-1f1b-4019-be6f-90e92eba2bc0';
-const AUDIO_DIR        = path.join(process.cwd(), 'public/hvac/audio');
-const PHOTO_LOCAL      = path.join(process.cwd(), 'public/images/team/elizabeth-greene-headshot.jpg');
-const PHOTO_STORAGE    = 'hvac-instructor.jpg'; // uploaded to Supabase avatars bucket
-const DID_API          = 'https://api.d-id.com';
-const CONCURRENCY      = 3;
+const HVAC_COURSE_ID = '0ba9a61c-1f1b-4019-be6f-90e92eba2bc0';
+const AUDIO_DIR = path.join(process.cwd(), 'public/hvac/audio');
+const PHOTO_LOCAL = path.join(process.cwd(), 'public/images/team/elizabeth-greene-headshot.jpg');
+const PHOTO_STORAGE = 'hvac-instructor.jpg'; // uploaded to Supabase avatars bucket
+const DID_API = 'https://api.d-id.com';
+const CONCURRENCY = 3;
 const POLL_INTERVAL_MS = 5000;
-const POLL_TIMEOUT_MS  = 300000; // 5 min per video
+const POLL_TIMEOUT_MS = 300000; // 5 min per video
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
-const DID_KEY   = process.env.DID_API_KEY!;
-const SUPA_URL  = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const SUPA_KEY  = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const DID_KEY = process.env.DID_API_KEY!;
+const SUPA_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
+const SUPA_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 function didHeaders() {
   return {
@@ -74,14 +74,22 @@ async function getPhotoUrl(): Promise<string> {
   const buf = fs.readFileSync(PHOTO_LOCAL);
   const res = await fetch(`${SUPA_URL}/storage/v1/object/avatars/${PHOTO_STORAGE}`, {
     method: 'POST',
-    headers: { Authorization: `Bearer ${SUPA_KEY}`, 'Content-Type': 'image/jpeg', 'x-upsert': 'true' },
+    headers: {
+      Authorization: `Bearer ${SUPA_KEY}`,
+      'Content-Type': 'image/jpeg',
+      'x-upsert': 'true',
+    },
     body: buf,
   });
   if (!res.ok) {
     // Try PUT if POST fails
     const res2 = await fetch(`${SUPA_URL}/storage/v1/object/avatars/${PHOTO_STORAGE}`, {
       method: 'PUT',
-      headers: { Authorization: `Bearer ${SUPA_KEY}`, 'Content-Type': 'image/jpeg', 'x-upsert': 'true' },
+      headers: {
+        Authorization: `Bearer ${SUPA_KEY}`,
+        'Content-Type': 'image/jpeg',
+        'x-upsert': 'true',
+      },
       body: buf,
     });
     if (!res2.ok) throw new Error(`Photo upload failed: ${await res2.text()}`);
@@ -112,7 +120,7 @@ async function submitTalk(audioUrl: string): Promise<string> {
       },
     }),
   });
-  const d = await res.json() as any;
+  const d = (await res.json()) as any;
   if (!res.ok || !d.id) throw new Error(`D-ID submit failed: ${JSON.stringify(d)}`);
   return d.id as string;
 }
@@ -121,9 +129,9 @@ async function submitTalk(audioUrl: string): Promise<string> {
 async function pollTalk(talkId: string): Promise<string> {
   const start = Date.now();
   while (Date.now() - start < POLL_TIMEOUT_MS) {
-    await new Promise(r => setTimeout(r, POLL_INTERVAL_MS));
+    await new Promise((r) => setTimeout(r, POLL_INTERVAL_MS));
     const res = await fetch(`${DID_API}/talks/${talkId}`, { headers: didHeaders() });
-    const d = await res.json() as any;
+    const d = (await res.json()) as any;
     if (d.status === 'done') return d.result_url as string;
     if (d.status === 'error') throw new Error(`D-ID error: ${d.error?.description || 'unknown'}`);
   }
@@ -184,10 +192,7 @@ async function processLesson(lesson: any, idx: number, total: number): Promise<v
   const publicUrl = await uploadVideo(videoBuf, id);
 
   // 6. Update DB
-  await supabase
-    .from('course_lessons')
-    .update({ video_url: publicUrl })
-    .eq('id', id);
+  await supabase.from('course_lessons').update({ video_url: publicUrl }).eq('id', id);
 
   console.log(` ✅`);
 }
@@ -195,12 +200,12 @@ async function processLesson(lesson: any, idx: number, total: number): Promise<v
 // ── Main ─────────────────────────────────────────────────────────────
 async function main() {
   const args = process.argv.slice(2);
-  const dryRun   = args.includes('--dry-run');
+  const dryRun = args.includes('--dry-run');
   const forceAll = args.includes('--force');
   const startArg = args.indexOf('--start');
   const limitArg = args.indexOf('--limit');
   const startIdx = startArg >= 0 ? parseInt(args[startArg + 1]) : 0;
-  const limit    = limitArg >= 0 ? parseInt(args[limitArg + 1]) : 9999;
+  const limit = limitArg >= 0 ? parseInt(args[limitArg + 1]) : 9999;
 
   console.log('=== HVAC D-ID Video Generator ===');
   console.log(`Mode: ${dryRun ? 'DRY RUN' : 'LIVE'} | Start: ${startIdx} | Limit: ${limit}\n`);
@@ -213,7 +218,10 @@ async function main() {
     .in('lesson_type', ['lesson', 'lab'])
     .order('order_index');
 
-  if (error || !lessons) { console.error('DB error:', error?.message); process.exit(1); }
+  if (error || !lessons) {
+    console.error('DB error:', error?.message);
+    process.exit(1);
+  }
 
   // Filter: needs video = no URL or not a D-ID/course-videos URL
   const needsVideo = (l: any) =>
@@ -228,33 +236,41 @@ async function main() {
 
   // Check credits
   const credRes = await fetch(`${DID_API}/credits`, { headers: didHeaders() });
-  const cred = await credRes.json() as any;
+  const cred = (await credRes.json()) as any;
   console.log(`D-ID credits remaining: ${cred.remaining || 'unknown'}\n`);
 
   if (dryRun) {
     targets.forEach((l: any, i: number) => {
       const audioPath = path.join(AUDIO_DIR, `lesson-${l.id}.mp3`);
       const hasAudio = fs.existsSync(audioPath);
-      const sizeMB = hasAudio ? (fs.statSync(audioPath).size / 1024 / 1024).toFixed(1) + 'MB' : 'NO MP3';
+      const sizeMB = hasAudio
+        ? (fs.statSync(audioPath).size / 1024 / 1024).toFixed(1) + 'MB'
+        : 'NO MP3';
       console.log(`  [${i + 1}] ${l.title.slice(0, 60)} — ${sizeMB}`);
     });
     return;
   }
 
   // Process in batches of CONCURRENCY
-  let ok = 0, fail = 0;
+  let ok = 0,
+    fail = 0;
   const t0 = Date.now();
 
   for (let i = 0; i < targets.length; i += CONCURRENCY) {
     const batch = targets.slice(i, i + CONCURRENCY);
     const results = await Promise.allSettled(
-      batch.map((l: any, j: number) => processLesson(l, i + j + 1, targets.length))
+      batch.map((l: any, j: number) => processLesson(l, i + j + 1, targets.length)),
     );
-    results.forEach(r => r.status === 'fulfilled' ? ok++ : (fail++, console.error('  ❌', (r as any).reason?.message)));
+    results.forEach((r) =>
+      r.status === 'fulfilled' ? ok++ : (fail++, console.error('  ❌', (r as any).reason?.message)),
+    );
   }
 
   const elapsed = ((Date.now() - t0) / 60000).toFixed(1);
   console.log(`\n=== DONE === ${ok} generated | ${fail} failed | ${elapsed} min`);
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e);
+  process.exit(1);
+});

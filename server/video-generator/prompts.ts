@@ -96,7 +96,10 @@ export function buildSceneGenerationUserPrompt(opts: {
   lessonType?: 'intro' | 'skill' | 'theory' | 'review';
   sceneCount?: number;
 }): string {
-  const isIntro = opts.lessonType === 'intro' || opts.lessonId.endsWith('-1') || opts.lessonId.endsWith('lesson-1');
+  const isIntro =
+    opts.lessonType === 'intro' ||
+    opts.lessonId.endsWith('-1') ||
+    opts.lessonId.endsWith('lesson-1');
   const sceneCount = opts.sceneCount ?? 8;
 
   const spineBlock = isIntro

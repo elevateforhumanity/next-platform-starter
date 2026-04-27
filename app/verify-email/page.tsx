@@ -58,9 +58,7 @@ export default function VerifyEmailPage() {
           <div className="inline-flex items-center justify-center w-16 h-16 bg-brand-orange-100 rounded-full mb-4">
             <Mail className="w-8 h-8 text-brand-orange-600" />
           </div>
-          <h1 className="text-2xl font-bold text-black mb-2">
-            Verify Your Email
-          </h1>
+          <h1 className="text-2xl font-bold text-black mb-2">Verify Your Email</h1>
           <p className="text-black">We sent a verification link to:</p>
           <p className="text-brand-blue-600 font-semibold mt-2">{email}</p>
         </div>
@@ -101,11 +99,7 @@ export default function VerifyEmailPage() {
             disabled={resending || resent}
             className="w-full px-6 py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 disabled:bg-gray-300 disabled:cursor-not-allowed transition"
           >
-            {resending
-              ? 'Sending...'
-              : resent
-                ? 'Email Sent!'
-                : 'Resend Verification Email'}
+            {resending ? 'Sending...' : resent ? 'Email Sent!' : 'Resend Verification Email'}
           </button>
 
           <button
@@ -117,9 +111,7 @@ export default function VerifyEmailPage() {
         </div>
 
         <div className="mt-6 pt-6 border-t border-gray-200 text-center">
-          <p className="text-sm text-black mb-2">
-            Didn't receive the email?
-          </p>
+          <p className="text-sm text-black mb-2">Didn't receive the email?</p>
           <ul className="text-xs text-black space-y-1">
             <li>• Check your spam/junk folder</li>
             <li>• Make sure {email} is correct</li>

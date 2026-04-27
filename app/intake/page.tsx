@@ -5,7 +5,8 @@ import { ClipboardList, ArrowRight, CheckCircle, Clock, Phone } from 'lucide-rea
 
 export const metadata: Metadata = {
   title: 'Intake Form | Elevate For Humanity',
-  description: 'Complete your intake form to begin the enrollment process for career training programs.',
+  description:
+    'Complete your intake form to begin the enrollment process for career training programs.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/intake',
   },
@@ -14,18 +15,17 @@ export const metadata: Metadata = {
 export default function IntakePage() {
   return (
     <div className="min-h-screen bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Intake" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Intake' }]} />
       </div>
-{/* Hero */}
+      {/* Hero */}
       <section className="pt-24 pb-12 lg:pt-32 lg:pb-16 bg-white border-b">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <ClipboardList className="w-12 h-12 text-blue-600 mx-auto mb-4" />
-          <h1 className="text-3xl sm:text-4xl font-bold mb-4">
-            Student Intake Form
-          </h1>
+          <h1 className="text-3xl sm:text-4xl font-bold mb-4">Student Intake Form</h1>
           <p className="text-gray-600 mb-6">
-            Complete this form to begin your enrollment process. This helps us match you with the right program and funding options.
+            Complete this form to begin your enrollment process. This helps us match you with the
+            right program and funding options.
           </p>
           <div className="flex items-center justify-center gap-6 text-sm text-gray-500">
             <span className="flex items-center gap-1">

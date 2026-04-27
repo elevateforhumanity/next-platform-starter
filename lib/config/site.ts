@@ -8,12 +8,13 @@ export const siteConfig = {
   name: 'Elevate for Humanity',
   shortName: 'Elevate',
   tagline: 'Workforce Infrastructure',
-  description: 'Workforce infrastructure that connects public funding, employer demand, and credential-backed training to drive measurable outcomes.',
-  
+  description:
+    'Workforce infrastructure that connects public funding, employer demand, and credential-backed training to drive measurable outcomes.',
+
   // URLs
   url: process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org',
   domain: 'elevateforhumanity.org',
-  
+
   // Contact
   phone: {
     display: '(317) 314-3757',
@@ -26,7 +27,7 @@ export const siteConfig = {
     support: 'info@elevateforhumanity.org',
     careers: 'info@elevateforhumanity.org',
   },
-  
+
   // Location
   headquarters: {
     city: 'Indianapolis',
@@ -36,7 +37,7 @@ export const siteConfig = {
     zip: '46240',
     country: 'United States',
   },
-  
+
   // Social
   social: {
     facebook: 'https://www.facebook.com/share/1BUqvUAnCo/',
@@ -45,29 +46,30 @@ export const siteConfig = {
     youtube: 'https://youtube.com/@elevateforhumanity',
     twitter: 'https://twitter.com/elevate4humanity',
   },
-  
+
   // Business hours
   hours: {
     weekdays: '9:00 AM - 5:00 PM EST',
     saturday: 'By appointment',
     sunday: 'Closed',
   },
-  
+
   // Legal
   legal: {
     ein: '88-3456789',
     founded: 2020,
     type: '501(c)(3) Nonprofit',
   },
-  
+
   // SEO defaults
   seo: {
     titleTemplate: '%s | Elevate for Humanity',
     defaultTitle: 'Elevate for Humanity | Workforce Infrastructure',
-    defaultDescription: 'Free workforce training programs in healthcare, skilled trades, and technology. WIOA-funded career pathways in Indianapolis.',
+    defaultDescription:
+      'Free workforce training programs in healthcare, skilled trades, and technology. WIOA-funded career pathways in Indianapolis.',
     defaultImage: '/og-default.jpg',
   },
-  
+
   // Feature flags
   features: {
     aiTutor: true,

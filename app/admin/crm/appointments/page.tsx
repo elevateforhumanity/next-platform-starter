@@ -13,8 +13,8 @@ export const metadata: Metadata = {
 const STATUS_STYLES: Record<string, string> = {
   scheduled: 'bg-blue-100 text-blue-700',
   completed: 'bg-green-100 text-green-700',
-  cancelled:  'bg-red-100 text-red-700',
-  no_show:    'bg-yellow-100 text-yellow-700',
+  cancelled: 'bg-red-100 text-red-700',
+  no_show: 'bg-yellow-100 text-yellow-700',
 };
 
 export default async function AppointmentsPage() {
@@ -22,12 +22,14 @@ export default async function AppointmentsPage() {
   const db = await getAdminClient();
 
   const [upcomingRes, pastRes, countRes] = await Promise.all([
-    db.from('appointments')
+    db
+      .from('appointments')
       .select('id,title,contact_name,scheduled_at,status,notes')
       .gte('scheduled_at', new Date().toISOString())
       .order('scheduled_at', { ascending: true })
       .limit(25),
-    db.from('appointments')
+    db
+      .from('appointments')
       .select('id,title,contact_name,scheduled_at,status,notes')
       .lt('scheduled_at', new Date().toISOString())
       .order('scheduled_at', { ascending: false })
@@ -38,13 +40,16 @@ export default async function AppointmentsPage() {
   const upcoming = upcomingRes.data ?? [];
   const past = pastRes.data ?? [];
   const total = countRes.count ?? 0;
-  const completed = past.filter(a => a.status === 'completed').length;
-  const cancelled = [...upcoming, ...past].filter(a => a.status === 'cancelled').length;
+  const completed = past.filter((a) => a.status === 'completed').length;
+  const cancelled = [...upcoming, ...past].filter((a) => a.status === 'cancelled').length;
 
   function fmt(iso: string) {
     return new Date(iso).toLocaleString('en-US', {
-      month: 'short', day: 'numeric', year: 'numeric',
-      hour: 'numeric', minute: '2-digit',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
     });
   }
 
@@ -56,8 +61,10 @@ export default async function AppointmentsPage() {
             <h1 className="text-2xl font-bold text-slate-900">Appointments</h1>
             <p className="text-slate-500 text-sm mt-1">Schedule and manage CRM appointments</p>
           </div>
-          <Link href="/admin/crm/appointments/new"
-            className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 transition-colors">
+          <Link
+            href="/admin/crm/appointments/new"
+            className="inline-flex items-center gap-2 px-4 py-2 bg-slate-900 text-white text-sm font-semibold rounded-lg hover:bg-slate-800 transition-colors"
+          >
             <Plus className="w-4 h-4" /> New Appointment
           </Link>
         </div>
@@ -84,7 +91,9 @@ export default async function AppointmentsPage() {
           {upcoming.length === 0 ? (
             <div className="bg-white rounded-xl border p-8 text-center text-slate-500">
               No upcoming appointments.{' '}
-              <Link href="/admin/crm/appointments/new" className="underline">Schedule one</Link>
+              <Link href="/admin/crm/appointments/new" className="underline">
+                Schedule one
+              </Link>
             </div>
           ) : (
             <div className="bg-white rounded-xl border divide-y">
@@ -100,7 +109,9 @@ export default async function AppointmentsPage() {
                   </div>
                   <div className="text-right flex-shrink-0">
                     <p className="text-sm font-medium text-slate-700">{fmt(a.scheduled_at)}</p>
-                    <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_STYLES[a.status] ?? 'bg-slate-100 text-slate-600'}`}>
+                    <span
+                      className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_STYLES[a.status] ?? 'bg-slate-100 text-slate-600'}`}
+                    >
                       {a.status}
                     </span>
                   </div>
@@ -113,7 +124,9 @@ export default async function AppointmentsPage() {
         <section>
           <h2 className="text-lg font-semibold text-slate-900 mb-4">Past Appointments</h2>
           {past.length === 0 ? (
-            <div className="bg-white rounded-xl border p-6 text-center text-slate-400 text-sm">No past appointments.</div>
+            <div className="bg-white rounded-xl border p-6 text-center text-slate-400 text-sm">
+              No past appointments.
+            </div>
           ) : (
             <div className="bg-white rounded-xl border divide-y">
               {past.map((a) => (
@@ -127,7 +140,9 @@ export default async function AppointmentsPage() {
                   </div>
                   <div className="text-right flex-shrink-0">
                     <p className="text-sm text-slate-500">{fmt(a.scheduled_at)}</p>
-                    <span className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_STYLES[a.status] ?? 'bg-slate-100 text-slate-600'}`}>
+                    <span
+                      className={`inline-block mt-1 px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_STYLES[a.status] ?? 'bg-slate-100 text-slate-600'}`}
+                    >
                       {a.status}
                     </span>
                   </div>

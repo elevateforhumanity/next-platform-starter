@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@supabase/supabase-js';
 import { getStripe } from '@/lib/stripe/client';
@@ -13,12 +11,10 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-const supabase = process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
-  ? createClient(
-      process.env.NEXT_PUBLIC_SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_ROLE_KEY
-    )
-  : null;
+const supabase =
+  process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY
+    ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL, process.env.SUPABASE_SERVICE_ROLE_KEY)
+    : null;
 
 async function _POST(request: NextRequest) {
   await hydrateProcessEnv();
@@ -44,7 +40,9 @@ async function _POST(request: NextRequest) {
 
   try {
     event = stripeClient.webhooks.constructEvent(body, signature, webhookSecret);
-  } catch { /* non-fatal */ }
+  } catch {
+    /* non-fatal */
+  }
 
   // Idempotency check
   if (supabase) {
@@ -69,7 +67,9 @@ async function _POST(request: NextRequest) {
     const session = event.data.object as Stripe.Identity.VerificationSession;
     const userId = session.metadata?.user_id;
 
-    if (!userId) { /* Condition handled */ }
+    if (!userId) {
+      /* Condition handled */
+    }
 
     try {
       // Update verification record
@@ -91,12 +91,8 @@ async function _POST(request: NextRequest) {
         .eq('user_id', userId);
 
       // Email notification handled by trigger to user
-
-    } catch (error) { 
-      return NextResponse.json(
-        { error: 'Database update failed' },
-        { status: 500 }
-      );
+    } catch (error) {
+      return NextResponse.json({ error: 'Database update failed' }, { status: 500 });
     }
   }
 
@@ -108,7 +104,9 @@ async function _POST(request: NextRequest) {
     const session = event.data.object as Stripe.Identity.VerificationSession;
     const userId = session.metadata?.user_id;
 
-    if (!userId) { /* Condition handled */ }
+    if (!userId) {
+      /* Condition handled */
+    }
 
     try {
       // Update verification record
@@ -129,14 +127,13 @@ async function _POST(request: NextRequest) {
         .eq('user_id', userId);
 
       // Email notification handled by trigger to user
-
-    } catch (error) { 
-      return NextResponse.json(
-        { error: 'Database update failed' },
-        { status: 500 }
-      );
+    } catch (error) {
+      return NextResponse.json({ error: 'Database update failed' }, { status: 500 });
     }
   }
-
 }
-export const POST = withApiAudit('/api/webhooks/stripe-identity', _POST, { actor_type: 'webhook', skip_body: true , critical: true });
+export const POST = withApiAudit('/api/webhooks/stripe-identity', _POST, {
+  actor_type: 'webhook',
+  skip_body: true,
+  critical: true,
+});

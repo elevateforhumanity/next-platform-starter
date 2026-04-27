@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import React from 'react';
 
-import { useRef, useState } from "react";
+import { useRef, useState } from 'react';
 
 type VideoHighlight = {
   id: string;
@@ -12,18 +12,12 @@ type VideoHighlight = {
   poster?: string;
 };
 
-export default function VideoHighlights({
-  items,
-}: {
-  items: VideoHighlight[];
-}) {
+export default function VideoHighlights({ items }: { items: VideoHighlight[] }) {
   if (!items?.length) return null;
 
   return (
     <section className="mt-12">
-      <h2 className="text-xl sm:text-2xl font-black text-zinc-900">
-        Program highlights
-      </h2>
+      <h2 className="text-xl sm:text-2xl font-black text-zinc-900">Program highlights</h2>
 
       <div className="mt-6 grid md:grid-cols-2 gap-6">
         {items.map((v) => (
@@ -34,12 +28,7 @@ export default function VideoHighlights({
   );
 }
 
-function VideoCard({
-  title,
-  description,
-  videoSrc,
-  poster,
-}: VideoHighlight) {
+function VideoCard({ title, description, videoSrc, poster }: VideoHighlight) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const [started, setStarted] = useState(false);
 
@@ -89,9 +78,7 @@ function VideoCard({
 
       <div className="mt-4">
         <div className="font-black text-zinc-900">{title}</div>
-        {description && (
-          <p className="mt-2 text-sm text-zinc-700">{description}</p>
-        )}
+        {description && <p className="mt-2 text-sm text-zinc-700">{description}</p>}
       </div>
     </div>
   );

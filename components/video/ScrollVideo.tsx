@@ -24,12 +24,7 @@ export function ScrollVideo({
 }: ScrollVideoProps) {
   return (
     <div className="relative">
-      <CanonicalVideo
-        src={src}
-        poster={poster}
-        className={className}
-        threshold={threshold}
-      />
+      <CanonicalVideo src={src} poster={poster} className={className} threshold={threshold} />
     </div>
   );
 }

@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
@@ -15,7 +14,9 @@ export const metadata: Metadata = {
 
 export default async function EmployerMessagesPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/employer-portal/messages');
@@ -31,22 +32,23 @@ export default async function EmployerMessagesPage() {
 
   // Get other participants' profiles
   const participantIds = new Set<string>();
-  (conversations || []).forEach(c => {
+  (conversations || []).forEach((c) => {
     (c.participant_ids || []).forEach((pid: string) => {
       if (pid !== user.id) participantIds.add(pid);
     });
   });
 
-  const { data: profiles } = participantIds.size > 0
-    ? await supabase
-        .from('profiles')
-        .select('id, full_name, avatar_url, role')
-        .in('id', Array.from(participantIds))
-    : { data: [] };
+  const { data: profiles } =
+    participantIds.size > 0
+      ? await supabase
+          .from('profiles')
+          .select('id, full_name, avatar_url, role')
+          .in('id', Array.from(participantIds))
+      : { data: [] };
 
-  const profileMap = new Map((profiles || []).map(p => [p.id, p]));
+  const profileMap = new Map((profiles || []).map((p) => [p.id, p]));
 
-  const enrichedConversations = (conversations || []).map(c => {
+  const enrichedConversations = (conversations || []).map((c) => {
     const otherId = (c.participant_ids || []).find((pid: string) => pid !== user.id);
     const otherProfile = otherId ? profileMap.get(otherId) : null;
     return {
@@ -59,11 +61,10 @@ export default async function EmployerMessagesPage() {
 
   return (
     <div className="min-h-screen bg-white">
-      <Breadcrumbs items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'Messages' }]} />
-      <MessagesClient
-        conversations={enrichedConversations}
-        currentUserId={user.id}
+      <Breadcrumbs
+        items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'Messages' }]}
       />
+      <MessagesClient conversations={enrichedConversations} currentUserId={user.id} />
     </div>
   );
 }

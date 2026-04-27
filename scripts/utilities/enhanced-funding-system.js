@@ -10,8 +10,7 @@ class EnhancedFundingSystem {
       WIOA: {
         name: 'WIOA (Workforce Innovation and Opportunity Act)',
         description: 'Federal workforce development funding',
-        eligibility:
-          'Must meet income requirements and be authorized by WorkOne',
+        eligibility: 'Must meet income requirements and be authorized by WorkOne',
         coverage: 'FULL_TUITION_AND_FEES',
         priority: 1,
       },
@@ -167,12 +166,8 @@ class EnhancedFundingSystem {
 
     switch (program.costTransparency) {
       case 'CONDITIONAL_DISPLAY':
-        if (
-          userFundingStatus &&
-          this.isFullyFunded(program, userFundingStatus)
-        ) {
-          display.primaryMessage =
-            'Program cost covered for eligible participants';
+        if (userFundingStatus && this.isFullyFunded(program, userFundingStatus)) {
+          display.primaryMessage = 'Program cost covered for eligible participants';
           display.secondaryMessage = `Standard program cost: $${totalCost.toLocaleString()}`;
           display.showFees = true;
           display.complianceLevel = 'ENHANCED';
@@ -217,18 +212,13 @@ class EnhancedFundingSystem {
   calculateTotalCost(program) {
     if (!program.baseTuition) return 0;
 
-    const feesTotal = Object.values(program.additionalFees).reduce(
-      (sum, fee) => sum + fee,
-      0
-    );
+    const feesTotal = Object.values(program.additionalFees).reduce((sum, fee) => sum + fee, 0);
     return program.baseTuition + feesTotal;
   }
 
   isFullyFunded(program, fundingType) {
     const coverage = program.fundingCoverage[fundingType];
-    return (
-      coverage === 'FULL_PROGRAM_COST' || coverage === 'FULL_TUITION_AND_FEES'
-    );
+    return coverage === 'FULL_PROGRAM_COST' || coverage === 'FULL_TUITION_AND_FEES';
   }
 
   generateCallToAction(program) {
@@ -243,10 +233,7 @@ class EnhancedFundingSystem {
 
   // Generate compliance-ready HTML for program cost display
   generateComplianceCostHTML(programId, userContext = {}) {
-    const display = this.generateCostDisplay(
-      programId,
-      userContext.fundingStatus
-    );
+    const display = this.generateCostDisplay(programId, userContext.fundingStatus);
     const program = this.programs.get(programId);
 
     if (!display || !program) return '';
@@ -274,8 +261,7 @@ class EnhancedFundingSystem {
                 }
 
                 ${
-                  display.showFees &&
-                  Object.keys(program.additionalFees).length > 0
+                  display.showFees && Object.keys(program.additionalFees).length > 0
                     ? `
                 <div class="fees-section">
                     <h4>Additional Fees:</h4>
@@ -286,7 +272,7 @@ class EnhancedFundingSystem {
                         <span>${type.charAt(0).toUpperCase() + type.slice(1)}:</span>
                         <span>$${amount}</span>
                     </div>
-                    `
+                    `,
                       )
                       .join('')}
                 </div>
@@ -316,7 +302,7 @@ class EnhancedFundingSystem {
                             Coverage: ${this.formatCoverage(option.coverage)}
                         </div>
                     </li>
-                    `
+                    `,
                       )
                       .join('')}
                 </ul>
@@ -422,8 +408,7 @@ class EnhancedFundingSystem {
                         <option value="">Select program</option>
                         ${Array.from(this.programs.values())
                           .map(
-                            (program) =>
-                              `<option value="${program.id}">${program.name}</option>`
+                            (program) => `<option value="${program.id}">${program.name}</option>`,
                           )
                           .join('')}
                     </select>
@@ -450,13 +435,11 @@ class EnhancedFundingSystem {
       estimatedCoverage: 'UNKNOWN',
     };
 
-    const { employmentStatus, ageGroup, incomeLevel, programInterest } =
-      userInputs;
+    const { employmentStatus, ageGroup, incomeLevel, programInterest } = userInputs;
 
     // WIOA eligibility logic
     if (
-      (employmentStatus === 'unemployed' ||
-        employmentStatus === 'underemployed') &&
+      (employmentStatus === 'unemployed' || employmentStatus === 'underemployed') &&
       incomeLevel === 'low'
     ) {
       results.recommendedFunding.push({
@@ -507,11 +490,10 @@ class EnhancedFundingSystem {
     const report = {
       timestamp: new Date().toISOString(),
       totalPrograms: this.programs.size,
-      programsWithETLP: Array.from(this.programs.values()).filter(
-        (p) => p.etplStatus === 'LISTED'
-      ).length,
+      programsWithETLP: Array.from(this.programs.values()).filter((p) => p.etplStatus === 'LISTED')
+        .length,
       programsWithFunding: Array.from(this.programs.values()).filter(
-        (p) => p.fundingOptions.length > 0
+        (p) => p.fundingOptions.length > 0,
       ).length,
       fundingTypes: Object.keys(this.fundingRules),
       programs: Array.from(this.programs.values()).map((program) => ({
@@ -596,8 +578,7 @@ function displayEligibilityResults(results) {
   html += '<div class="next-steps">';
   html += '<h5>Recommended Next Steps:</h5>';
   html += '<ol>';
-  html +=
-    '<li>Contact our enrollment team to discuss your specific situation</li>';
+  html += '<li>Contact our enrollment team to discuss your specific situation</li>';
   html += '<li>Gather required documentation for funding applications</li>';
   html += '<li>Schedule a program information session</li>';
   html += '</ol>';

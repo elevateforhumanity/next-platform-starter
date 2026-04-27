@@ -42,7 +42,10 @@ export function DataTable<T extends Record<string, any>>({
           <tbody className="divide-y divide-slate-50">
             {data.length === 0 ? (
               <tr>
-                <td colSpan={columns.length} className="px-5 py-8 text-center text-sm text-slate-400">
+                <td
+                  colSpan={columns.length}
+                  className="px-5 py-8 text-center text-sm text-slate-400"
+                >
                   {emptyMessage}
                 </td>
               </tr>
@@ -50,7 +53,10 @@ export function DataTable<T extends Record<string, any>>({
               data.map((row, i) => (
                 <tr key={i} className="hover:bg-slate-50 transition-colors">
                   {columns.map((col) => (
-                    <td key={col.key} className={`px-5 py-3.5 text-sm text-slate-700 ${col.className || ''}`}>
+                    <td
+                      key={col.key}
+                      className={`px-5 py-3.5 text-sm text-slate-700 ${col.className || ''}`}
+                    >
                       {col.render ? col.render(row) : row[col.key]}
                     </td>
                   ))}

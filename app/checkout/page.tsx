@@ -1,4 +1,3 @@
-
 import { redirect } from 'next/navigation';
 import { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
@@ -23,17 +22,12 @@ const PLANS = {
 
 type PlanKey = keyof typeof PLANS;
 
-
 export const metadata: Metadata = {
   title: 'Payment System Not Configured',
   robots: { index: false, follow: false },
 };
 
-export default async function CheckoutPage({
-  searchParams,
-}: {
-  searchParams: { plan?: string };
-}) {
+export default async function CheckoutPage({ searchParams }: { searchParams: { plan?: string } }) {
   const plan = searchParams.plan as PlanKey;
 
   // Validate plan
@@ -46,11 +40,10 @@ export default async function CheckoutPage({
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">
-            Payment Temporarily Unavailable
-          </h1>
+          <h1 className="text-2xl font-bold text-gray-900 mb-4">Payment Temporarily Unavailable</h1>
           <p className="text-gray-600 mb-4">
-            Online payments are temporarily unavailable. Please contact us to complete your purchase.
+            Online payments are temporarily unavailable. Please contact us to complete your
+            purchase.
           </p>
           <a
             href="/contact"
@@ -58,9 +51,7 @@ export default async function CheckoutPage({
           >
             Contact Us
           </a>
-          <p className="text-center text-sm text-gray-500 mt-4">
-            Or call (317) 314-3757
-          </p>
+          <p className="text-center text-sm text-gray-500 mt-4">Or call (317) 314-3757</p>
         </div>
       </div>
     );
@@ -75,23 +66,22 @@ export default async function CheckoutPage({
     // Get current user (optional - can checkout as guest)
     const supabase = await createClient();
 
-  if (!supabase) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600">Please try again later.</p>
+    if (!supabase) {
+      return (
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
+            <p className="text-gray-600">Please try again later.</p>
+          </div>
         </div>
-      </div>
-    );
-  }
+      );
+    }
     const {
       data: { user },
     } = await supabase.auth.getUser();
 
     // Get base URL
-    const baseUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 
     // Create Stripe Checkout Session
     const session = await stripe.checkout.sessions.create({
@@ -135,17 +125,16 @@ export default async function CheckoutPage({
 
     // Redirect to Stripe Checkout
     redirect(session.url!);
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
 
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-50">
         <div className="max-w-md w-full bg-white shadow-lg rounded-lg p-8">
-          <h1 className="text-2xl font-bold text-red-600 mb-4">
-            Checkout Error
-          </h1>
+          <h1 className="text-2xl font-bold text-red-600 mb-4">Checkout Error</h1>
           <p className="text-black mb-4">
-            We encountered an error creating your checkout session. Please try
-            again or contact support.
+            We encountered an error creating your checkout session. Please try again or contact
+            support.
           </p>
           <div className="space-y-3">
             <a

@@ -15,7 +15,12 @@ export const dynamic = 'force-dynamic';
 
 async function _GET(request: Request) {
   try {
-    try { const rl = await applyRateLimit(request, 'api'); if (rl) return rl; } catch { /* continue on rate-limit backend failure */ }
+    try {
+      const rl = await applyRateLimit(request, 'api');
+      if (rl) return rl;
+    } catch {
+      /* continue on rate-limit backend failure */
+    }
 
     const auth = await apiAuthGuard(request as any);
     if (auth.error) return auth.error;
@@ -112,12 +117,9 @@ async function _GET(request: Request) {
         'Content-Disposition': 'attachment; filename="efh-account-export.json"',
       },
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Unexpected error in account export', error as Error);
-    return NextResponse.json(
-      { error: 'Failed to export account data' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to export account data' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/account/export', _GET);

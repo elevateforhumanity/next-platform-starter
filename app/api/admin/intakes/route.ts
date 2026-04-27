@@ -13,12 +13,18 @@ async function _GET(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    const { data: _roleProfile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    const { data: _roleProfile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
     if (!_roleProfile || !['admin', 'super_admin', 'staff'].includes(_roleProfile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
@@ -26,7 +32,8 @@ async function _GET(request: Request) {
     // Get intakes/applications
     const { data: intakes, error } = await supabase
       .from('applications')
-      .select(`
+      .select(
+        `
         id,
         first_name,
         last_name,
@@ -36,7 +43,8 @@ async function _GET(request: Request) {
         status,
         submitted_at,
         notes
-      `)
+      `,
+      )
       .order('submitted_at', { ascending: false })
       .limit(100);
 
@@ -58,14 +66,16 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    
+
     const { data: intake, error } = await supabase
       .from('applications')
       .insert({
@@ -81,8 +91,18 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Failed to create intake' }, { status: 500 });
     }
 
-    const { data: { user: actor } } = await supabase.auth.getUser();
-    if (actor) await logAdminAudit({ action: AdminAction.INTAKE_CREATED, actorId: actor.id, entityType: 'intakes', entityId: intake.id, metadata: { name: intake.name }, req: request });
+    const {
+      data: { user: actor },
+    } = await supabase.auth.getUser();
+    if (actor)
+      await logAdminAudit({
+        action: AdminAction.INTAKE_CREATED,
+        actorId: actor.id,
+        entityType: 'intakes',
+        entityId: intake.id,
+        metadata: { name: intake.name },
+        req: request,
+      });
 
     return NextResponse.json({ success: true, intake });
   } catch (error) {

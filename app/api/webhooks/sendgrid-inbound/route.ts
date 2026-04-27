@@ -50,7 +50,9 @@ async function _POST(request: NextRequest) {
     }
 
     if (!confident) {
-      logger.error('[SendGrid Inbound] Cannot verify idempotency — rejecting for retry', { eventId });
+      logger.error('[SendGrid Inbound] Cannot verify idempotency — rejecting for retry', {
+        eventId,
+      });
       return NextResponse.json({ error: 'Temporary processing error' }, { status: 503 });
     }
 
@@ -59,28 +61,35 @@ async function _POST(request: NextRequest) {
     logger.info('[SendGrid Inbound] Forwarding', { from, to, forwardTo, subject });
 
     const result = await sendEmail({
-      to:      forwardTo,
-      from:    'Elevate Forwarding <noreply@elevateforhumanity.org>',
+      to: forwardTo,
+      from: 'Elevate Forwarding <noreply@elevateforhumanity.org>',
       replyTo: replyTo || from,
       subject: `Fwd: ${subject}`,
-      html:    html || `<p><strong>From:</strong> ${from}</p><p>${text || '(no body)'}</p>`,
-      text:    text || `From: ${from}\n\n(no body)`,
+      html: html || `<p><strong>From:</strong> ${from}</p><p>${text || '(no body)'}</p>`,
+      text: text || `From: ${from}\n\n(no body)`,
     });
 
     if (!result.success) {
       logger.error('[SendGrid Inbound] Forward failed:', result.error);
-      await finalizeWebhookEvent('sendgrid-inbound' as any, eventId, 'errored', String(result.error));
+      await finalizeWebhookEvent(
+        'sendgrid-inbound' as any,
+        eventId,
+        'errored',
+        String(result.error),
+      );
       return NextResponse.json({ ok: false, error: 'Forward failed' }, { status: 500 });
     }
 
     await finalizeWebhookEvent('sendgrid-inbound' as any, eventId, 'processed');
     logger.info('[SendGrid Inbound] Forwarded successfully', { forwardTo, subject });
     return NextResponse.json({ ok: true });
-
   } catch (err) {
     logger.error('[SendGrid Inbound] Webhook error:', err);
     return NextResponse.json({ ok: false, error: 'Internal error' }, { status: 500 });
   }
 }
 
-export const POST = withApiAudit('/api/webhooks/sendgrid-inbound', _POST, { actor_type: 'webhook', skip_body: true });
+export const POST = withApiAudit('/api/webhooks/sendgrid-inbound', _POST, {
+  actor_type: 'webhook',
+  skip_body: true,
+});

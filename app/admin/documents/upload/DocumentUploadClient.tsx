@@ -3,8 +3,15 @@
 import { useState, useRef, useCallback } from 'react';
 import Link from 'next/link';
 import {
-  Upload, FileText, FileImage, File, X,
-  CheckCircle, Loader2, AlertCircle, FolderOpen
+  Upload,
+  FileText,
+  FileImage,
+  File,
+  X,
+  CheckCircle,
+  Loader2,
+  AlertCircle,
+  FolderOpen,
 } from 'lucide-react';
 
 type UploadStatus = 'idle' | 'uploading' | 'done' | 'error';
@@ -18,9 +25,13 @@ interface FileItem {
   error?: string;
 }
 
-const ACCEPTED = ['application/pdf', 'application/msword',
+const ACCEPTED = [
+  'application/pdf',
+  'application/msword',
   'application/vnd.openxmlformats-officedocument.wordprocessingml.document',
-  'image/jpeg', 'image/png'];
+  'image/jpeg',
+  'image/png',
+];
 const MAX_SIZE = 10 * 1024 * 1024; // 10MB
 
 function fileIcon(type: string) {
@@ -41,25 +52,28 @@ export function DocumentUploadClient() {
   const inputRef = useRef<HTMLInputElement>(null);
 
   const addFiles = useCallback((incoming: File[]) => {
-    const valid = incoming.filter(f => {
+    const valid = incoming.filter((f) => {
       if (!ACCEPTED.includes(f.type)) return false;
       if (f.size > MAX_SIZE) return false;
       return true;
     });
-    const items: FileItem[] = valid.map(f => ({
+    const items: FileItem[] = valid.map((f) => ({
       id: `${f.name}-${Date.now()}-${Math.random()}`,
       file: f,
       status: 'idle',
       progress: 0,
     }));
-    setFiles(prev => [...prev, ...items]);
+    setFiles((prev) => [...prev, ...items]);
   }, []);
 
-  const onDrop = useCallback((e: React.DragEvent) => {
-    e.preventDefault();
-    setDragging(false);
-    addFiles(Array.from(e.dataTransfer.files));
-  }, [addFiles]);
+  const onDrop = useCallback(
+    (e: React.DragEvent) => {
+      e.preventDefault();
+      setDragging(false);
+      addFiles(Array.from(e.dataTransfer.files));
+    },
+    [addFiles],
+  );
 
   const onInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) addFiles(Array.from(e.target.files));
@@ -67,11 +81,13 @@ export function DocumentUploadClient() {
   };
 
   const removeFile = (id: string) => {
-    setFiles(prev => prev.filter(f => f.id !== id));
+    setFiles((prev) => prev.filter((f) => f.id !== id));
   };
 
   const uploadFile = async (item: FileItem) => {
-    setFiles(prev => prev.map(f => f.id === item.id ? { ...f, status: 'uploading', progress: 10 } : f));
+    setFiles((prev) =>
+      prev.map((f) => (f.id === item.id ? { ...f, status: 'uploading', progress: 10 } : f)),
+    );
 
     try {
       const formData = new FormData();
@@ -80,11 +96,11 @@ export function DocumentUploadClient() {
 
       // Simulate progress
       const progressInterval = setInterval(() => {
-        setFiles(prev => prev.map(f =>
-          f.id === item.id && f.progress < 80
-            ? { ...f, progress: f.progress + 15 }
-            : f
-        ));
+        setFiles((prev) =>
+          prev.map((f) =>
+            f.id === item.id && f.progress < 80 ? { ...f, progress: f.progress + 15 } : f,
+          ),
+        );
       }, 300);
 
       const res = await fetch('/api/upload', {
@@ -100,35 +116,52 @@ export function DocumentUploadClient() {
       }
 
       const data = await res.json();
-      setFiles(prev => prev.map(f =>
-        f.id === item.id
-          ? { ...f, status: 'done', progress: 100, url: data.url || data.path }
-          : f
-      ));
+      setFiles((prev) =>
+        prev.map((f) =>
+          f.id === item.id
+            ? { ...f, status: 'done', progress: 100, url: data.url || data.path }
+            : f,
+        ),
+      );
     } catch (err) {
-      setFiles(prev => prev.map(f =>
-        f.id === item.id
-          ? { ...f, status: 'error', progress: 0, error: err instanceof Error ? err.message : 'Upload failed' }
-          : f
-      ));
+      setFiles((prev) =>
+        prev.map((f) =>
+          f.id === item.id
+            ? {
+                ...f,
+                status: 'error',
+                progress: 0,
+                error: err instanceof Error ? err.message : 'Upload failed',
+              }
+            : f,
+        ),
+      );
     }
   };
 
   const uploadAll = () => {
-    files.filter(f => f.status === 'idle').forEach(uploadFile);
+    files.filter((f) => f.status === 'idle').forEach(uploadFile);
   };
 
-  const pendingCount = files.filter(f => f.status === 'idle').length;
-  const doneCount = files.filter(f => f.status === 'done').length;
+  const pendingCount = files.filter((f) => f.status === 'idle').length;
+  const doneCount = files.filter((f) => f.status === 'done').length;
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8">
       {/* Breadcrumb */}
       <nav className="text-sm mb-6">
         <ol className="flex items-center gap-2 text-slate-700">
-          <li><Link href="/admin" className="hover:text-slate-900">Admin</Link></li>
+          <li>
+            <Link href="/admin" className="hover:text-slate-900">
+              Admin
+            </Link>
+          </li>
           <li>/</li>
-          <li><Link href="/admin/documents" className="hover:text-slate-900">Documents</Link></li>
+          <li>
+            <Link href="/admin/documents" className="hover:text-slate-900">
+              Documents
+            </Link>
+          </li>
           <li>/</li>
           <li className="text-slate-900 font-medium">Upload</li>
         </ol>
@@ -141,7 +174,10 @@ export function DocumentUploadClient() {
 
       {/* Drop zone */}
       <div
-        onDragOver={e => { e.preventDefault(); setDragging(true); }}
+        onDragOver={(e) => {
+          e.preventDefault();
+          setDragging(true);
+        }}
         onDragLeave={() => setDragging(false)}
         onDrop={onDrop}
         onClick={() => inputRef.current?.click()}
@@ -151,7 +187,9 @@ export function DocumentUploadClient() {
             : 'border-gray-300 hover:border-gray-400 bg-gray-50 hover:bg-gray-100'
         }`}
       >
-        <Upload className={`w-10 h-10 mx-auto mb-3 ${dragging ? 'text-red-500' : 'text-slate-700'}`} />
+        <Upload
+          className={`w-10 h-10 mx-auto mb-3 ${dragging ? 'text-red-500' : 'text-slate-700'}`}
+        />
         <p className="font-medium text-slate-900">
           {dragging ? 'Drop files here' : 'Drag & drop files here'}
         </p>
@@ -185,13 +223,15 @@ export function DocumentUploadClient() {
             )}
           </div>
 
-          {files.map(item => (
+          {files.map((item) => (
             <div
               key={item.id}
               className={`flex items-center gap-4 p-4 rounded-lg border ${
-                item.status === 'done' ? 'border-green-200 bg-green-50' :
-                item.status === 'error' ? 'border-red-200 bg-red-50' :
-                'border-gray-200 bg-white'
+                item.status === 'done'
+                  ? 'border-green-200 bg-green-50'
+                  : item.status === 'error'
+                    ? 'border-red-200 bg-red-50'
+                    : 'border-gray-200 bg-white'
               }`}
             >
               {/* Icon */}
@@ -238,7 +278,10 @@ export function DocumentUploadClient() {
                     >
                       Upload
                     </button>
-                    <button onClick={() => removeFile(item.id)} className="text-slate-700 hover:text-slate-700">
+                    <button
+                      onClick={() => removeFile(item.id)}
+                      className="text-slate-700 hover:text-slate-700"
+                    >
                       <X className="w-4 h-4" />
                     </button>
                   </>
@@ -246,9 +289,7 @@ export function DocumentUploadClient() {
                 {item.status === 'uploading' && (
                   <Loader2 className="w-4 h-4 text-slate-700 animate-spin" />
                 )}
-                {item.status === 'done' && (
-                  <CheckCircle className="w-5 h-5 text-green-500" />
-                )}
+                {item.status === 'done' && <CheckCircle className="w-5 h-5 text-green-500" />}
                 {item.status === 'error' && (
                   <div className="flex items-center gap-1">
                     <AlertCircle className="w-4 h-4 text-red-500" />

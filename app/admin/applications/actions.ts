@@ -15,7 +15,9 @@ import { approveApplication as runApprovalPipeline } from '@/lib/enrollment/appr
 export async function approveApplication(id: string): Promise<void> {
   // Verify the caller is an authenticated admin
   const userSupabase = await createClient();
-  const { data: { user } } = await userSupabase.auth.getUser();
+  const {
+    data: { user },
+  } = await userSupabase.auth.getUser();
   if (!user) throw new Error('Unauthorized');
 
   const { data: profile } = await userSupabase
@@ -32,7 +34,10 @@ export async function approveApplication(id: string): Promise<void> {
   const result = await runApprovalPipeline(db, { applicationId: id });
 
   if (!result.success) {
-    logger.error('[admin/applications/actions] approveApplication failed', { id, error: result.error });
+    logger.error('[admin/applications/actions] approveApplication failed', {
+      id,
+      error: result.error,
+    });
     throw new Error(result.error ?? 'Approval failed');
   }
 
@@ -45,7 +50,9 @@ export async function approveApplication(id: string): Promise<void> {
  */
 export async function rejectApplication(id: string): Promise<void> {
   const userSupabase = await createClient();
-  const { data: { user } } = await userSupabase.auth.getUser();
+  const {
+    data: { user },
+  } = await userSupabase.auth.getUser();
   if (!user) throw new Error('Unauthorized');
 
   const { data: profile } = await userSupabase

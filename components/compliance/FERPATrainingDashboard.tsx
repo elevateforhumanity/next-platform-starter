@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -14,7 +14,8 @@ import {
   Mail,
   FileText,
   Award,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 interface TrainingRecord {
   id: string;
@@ -47,7 +48,7 @@ interface FERPATrainingDashboardProps {
 export default function FERPATrainingDashboard({
   trainingRecords: initialRecords,
   pendingUsers: initialPending,
-  currentUser
+  currentUser,
 }: FERPATrainingDashboardProps) {
   const [filter, setFilter] = useState<'all' | 'completed' | 'expired' | 'pending'>('all');
   const [searchTerm, setSearchTerm] = useState('');
@@ -61,12 +62,14 @@ export default function FERPATrainingDashboard({
       // Fetch completed training records
       const { data: records } = await supabase
         .from('ferpa_training')
-        .select(`
+        .select(
+          `
           id, user_id, quiz_score, completed_at, expires_at, status,
           profiles:user_id (full_name, email, role)
-        `)
+        `,
+        )
         .order('completed_at', { ascending: false });
-      
+
       if (records) setTrainingRecords(records as any);
 
       // Fetch users without training
@@ -74,10 +77,10 @@ export default function FERPATrainingDashboard({
         .from('profiles')
         .select('id, full_name, email, role, created_at')
         .in('role', ['admin', 'instructor', 'staff']);
-      
+
       if (allUsers && records) {
         const trainedUserIds = records.map((r: any) => r.user_id);
-        const pending = allUsers.filter(u => !trainedUserIds.includes(u.id));
+        const pending = allUsers.filter((u) => !trainedUserIds.includes(u.id));
         setPendingUsers(pending);
       }
     }
@@ -86,27 +89,34 @@ export default function FERPATrainingDashboard({
 
   // Calculate statistics
   const totalStaff = trainingRecords.length + pendingUsers.length;
-  const completedCount = trainingRecords.filter(r => r.status === 'completed' && new Date(r.expires_at) > new Date()).length;
-  const expiredCount = trainingRecords.filter(r => new Date(r.expires_at) <= new Date()).length;
+  const completedCount = trainingRecords.filter(
+    (r) => r.status === 'completed' && new Date(r.expires_at) > new Date(),
+  ).length;
+  const expiredCount = trainingRecords.filter((r) => new Date(r.expires_at) <= new Date()).length;
   const pendingCount = pendingUsers.length;
   const complianceRate = totalStaff > 0 ? Math.round((completedCount / totalStaff) * 100) : 0;
 
   // Filter records
-  const filteredRecords = trainingRecords.filter(record => {
-    const matchesSearch = record.profiles.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-                         record.profiles.email.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredRecords = trainingRecords.filter((record) => {
+    const matchesSearch =
+      record.profiles.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      record.profiles.email.toLowerCase().includes(searchTerm.toLowerCase());
 
     if (filter === 'completed') {
-      return matchesSearch && record.status === 'completed' && new Date(record.expires_at) > new Date();
+      return (
+        matchesSearch && record.status === 'completed' && new Date(record.expires_at) > new Date()
+      );
     } else if (filter === 'expired') {
       return matchesSearch && new Date(record.expires_at) <= new Date();
     }
     return matchesSearch;
   });
 
-  const filteredPending = pendingUsers.filter(user => {
-    return user.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-           user.email.toLowerCase().includes(searchTerm.toLowerCase());
+  const filteredPending = pendingUsers.filter((user) => {
+    return (
+      user.full_name.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      user.email.toLowerCase().includes(searchTerm.toLowerCase())
+    );
   });
 
   const sendReminder = async (userId: string, email: string) => {
@@ -114,10 +124,11 @@ export default function FERPATrainingDashboard({
       await fetch('/api/ferpa/training/reminder', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ user_id: userId, email })
+        body: JSON.stringify({ user_id: userId, email }),
       });
       alert('Reminder sent successfully');
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       alert('Failed to send reminder');
     }
   };
@@ -129,24 +140,14 @@ export default function FERPATrainingDashboard({
         <div className="max-w-7xl mx-auto px-6 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-black">
-                FERPA Training Management
-              </h1>
-              <p className="text-black mt-1">
-                Monitor and manage FERPA training compliance
-              </p>
+              <h1 className="text-3xl font-bold text-black">FERPA Training Management</h1>
+              <p className="text-black mt-1">Monitor and manage FERPA training compliance</p>
             </div>
             <div className="flex items-center gap-4">
-              <Link
-                href="/ferpa"
-                className="px-4 py-2 text-black hover:text-black font-medium"
-              >
+              <Link href="/ferpa" className="px-4 py-2 text-black hover:text-black font-medium">
                 FERPA Portal
               </Link>
-              <Link
-                href="/admin"
-                className="px-4 py-2 text-black hover:text-black font-medium"
-              >
+              <Link href="/admin" className="px-4 py-2 text-black hover:text-black font-medium">
                 Admin Dashboard
               </Link>
             </div>
@@ -307,9 +308,7 @@ export default function FERPATrainingDashboard({
                           <div className="text-sm font-medium text-black">
                             {record.profiles.full_name}
                           </div>
-                          <div className="text-sm text-slate-500">
-                            {record.profiles.email}
-                          </div>
+                          <div className="text-sm text-slate-500">{record.profiles.email}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className="px-2 py-2 text-xs font-medium rounded-full bg-brand-blue-100 text-brand-blue-800">
@@ -317,11 +316,15 @@ export default function FERPATrainingDashboard({
                           </span>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`text-sm font-medium ${
-                            record.quiz_score >= 90 ? 'text-brand-green-600' :
-                            record.quiz_score >= 80 ? 'text-brand-blue-600' :
-                            'text-brand-orange-600'
-                          }`}>
+                          <span
+                            className={`text-sm font-medium ${
+                              record.quiz_score >= 90
+                                ? 'text-brand-green-600'
+                                : record.quiz_score >= 80
+                                  ? 'text-brand-blue-600'
+                                  : 'text-brand-orange-600'
+                            }`}
+                          >
                             {record.quiz_score}%
                           </span>
                         </td>
@@ -368,9 +371,7 @@ export default function FERPATrainingDashboard({
                 </tbody>
               </table>
               {filteredRecords.length === 0 && (
-                <div className="text-center py-12 text-slate-500">
-                  No training records found
-                </div>
+                <div className="text-center py-12 text-slate-500">No training records found</div>
               )}
             </div>
           </div>
@@ -405,16 +406,14 @@ export default function FERPATrainingDashboard({
                 </thead>
                 <tbody className="bg-white divide-y divide-slate-200">
                   {filteredPending.map((user) => {
-                    const daysPending = Math.floor((Date.now() - new Date(user.created_at).getTime()) / (1000 * 60 * 60 * 24));
+                    const daysPending = Math.floor(
+                      (Date.now() - new Date(user.created_at).getTime()) / (1000 * 60 * 60 * 24),
+                    );
                     return (
                       <tr key={user.id} className="hover:bg-slate-50">
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <div className="text-sm font-medium text-black">
-                            {user.full_name}
-                          </div>
-                          <div className="text-sm text-slate-500">
-                            {user.email}
-                          </div>
+                          <div className="text-sm font-medium text-black">{user.full_name}</div>
+                          <div className="text-sm text-slate-500">{user.email}</div>
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
                           <span className="px-2 py-2 text-xs font-medium rounded-full bg-brand-blue-100 text-brand-blue-800">
@@ -425,11 +424,15 @@ export default function FERPATrainingDashboard({
                           {new Date(user.created_at).toLocaleDateString()}
                         </td>
                         <td className="px-6 py-4 whitespace-nowrap">
-                          <span className={`text-sm font-medium ${
-                            daysPending > 30 ? 'text-brand-orange-600' :
-                            daysPending > 14 ? 'text-brand-orange-600' :
-                            'text-black'
-                          }`}>
+                          <span
+                            className={`text-sm font-medium ${
+                              daysPending > 30
+                                ? 'text-brand-orange-600'
+                                : daysPending > 14
+                                  ? 'text-brand-orange-600'
+                                  : 'text-black'
+                            }`}
+                          >
                             {daysPending} days
                           </span>
                         </td>

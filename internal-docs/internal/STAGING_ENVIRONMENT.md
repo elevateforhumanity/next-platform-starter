@@ -23,6 +23,7 @@ SUPABASE_SERVICE_ROLE_KEY_STAGING=<staging-service-key>
 ```
 
 These should be set in:
+
 - Local `.env.local` for development
 - Netlify environment variables for staging deployments
 - CI/CD pipeline secrets
@@ -62,6 +63,7 @@ The staging environment has:
 **Never copy production data to staging.**
 
 Use synthetic/seed data only:
+
 ```bash
 pnpm run seed:staging
 ```
@@ -69,6 +71,7 @@ pnpm run seed:staging
 ## Deployment
 
 Staging deployments are triggered:
+
 - Automatically on PR creation (preview deployments)
 - Manually via Netlify dashboard
 - Via CI/CD on `staging` branch pushes
@@ -76,6 +79,7 @@ Staging deployments are triggered:
 ## Access
 
 Staging environment access is limited to:
+
 - Development team
 - QA team
 - Authorized contractors
@@ -88,4 +92,4 @@ The staging database is reset weekly (Sundays at midnight UTC) to ensure a clean
 
 ---
 
-*Last updated: January 24, 2026*
+_Last updated: January 24, 2026_

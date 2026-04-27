@@ -16,10 +16,9 @@ function jsonError(message: string, status = 400) {
 }
 
 export async function GET(req: Request) {
-  
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
   const {
     data: { user },
     error: authErr,
@@ -66,13 +65,14 @@ const supabase = await createClient();
       approved_at,
       approved_by,
       user_id
-    `
+    `,
     )
     .eq('status', status.toLowerCase())
     .order('work_date', { ascending: false });
 
   if (hour_type) {
-    const mapped = hour_type === 'RTI' ? 'rti' : hour_type === 'OJT' ? 'ojt' : hour_type.toLowerCase();
+    const mapped =
+      hour_type === 'RTI' ? 'rti' : hour_type === 'OJT' ? 'ojt' : hour_type.toLowerCase();
     q = q.eq('source_type', mapped);
   }
   if (from) q = q.gte('work_date', from);
@@ -85,8 +85,8 @@ const supabase = await createClient();
 }
 
 export async function POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
 
@@ -102,8 +102,7 @@ export async function POST(req: Request) {
   const note = (body.note as string | undefined) ?? null;
 
   if (!entry_id) return jsonError('entry_id required');
-  if (!['APPROVE', 'REJECT', 'LOCK'].includes(action))
-    return jsonError('Invalid action');
+  if (!['APPROVE', 'REJECT', 'LOCK'].includes(action)) return jsonError('Invalid action');
 
   // Fetch entry + status first
   const { data: entry, error: readErr } = await supabase
@@ -114,8 +113,7 @@ export async function POST(req: Request) {
 
   if (readErr) return jsonError('Failed to read time entry', 500);
   if (!entry) return jsonError('Entry not found', 404);
-  if (entry.status === 'locked')
-    return jsonError('Entry is locked and cannot be modified', 409);
+  if (entry.status === 'locked') return jsonError('Entry is locked and cannot be modified', 409);
 
   // Business rules:
   // - Approve/Reject only when pending
@@ -125,16 +123,11 @@ export async function POST(req: Request) {
       return jsonError('Only pending entries can be approved/rejected', 409);
   }
   if (action === 'LOCK') {
-    if (entry.status !== 'approved')
-      return jsonError('Only approved entries can be locked', 409);
+    if (entry.status !== 'approved') return jsonError('Only approved entries can be locked', 409);
   }
 
   const nextStatus =
-    action === 'APPROVE'
-      ? 'approved'
-      : action === 'REJECT'
-        ? 'rejected'
-        : 'locked';
+    action === 'APPROVE' ? 'approved' : action === 'REJECT' ? 'rejected' : 'locked';
 
   const patch: Record<string, any> = {
     status: nextStatus,
@@ -156,10 +149,13 @@ export async function POST(req: Request) {
   if (updErr) return jsonError('Update failed', 500);
 
   // Audit log: hours action
-  const auditAction = action === 'APPROVE' ? AuditAction.HOURS_APPROVED 
-    : action === 'REJECT' ? AuditAction.HOURS_REJECTED 
-    : AuditAction.HOURS_VERIFIED;
-  
+  const auditAction =
+    action === 'APPROVE'
+      ? AuditAction.HOURS_APPROVED
+      : action === 'REJECT'
+        ? AuditAction.HOURS_REJECTED
+        : AuditAction.HOURS_VERIFIED;
+
   await auditLog({
     actorId: user.id,
     actorRole: 'program_holder',

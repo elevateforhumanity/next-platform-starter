@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -43,10 +42,7 @@ async function _GET(request: Request) {
       ticketsResult,
     ] = await Promise.all([
       // Total students
-      supabase
-        .from('profiles')
-        .select('*', { count: 'exact', head: true })
-        .eq('role', 'student'),
+      supabase.from('profiles').select('*', { count: 'exact', head: true }).eq('role', 'student'),
 
       // Active enrollments
       supabase
@@ -60,11 +56,7 @@ async function _GET(request: Request) {
         .select('*', { count: 'exact', head: true })
         .gte(
           'created_at',
-          new Date(
-            new Date().getFullYear(),
-            new Date().getMonth(),
-            1
-          ).toISOString()
+          new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString(),
         ),
 
       // Course completions this month
@@ -74,11 +66,7 @@ async function _GET(request: Request) {
         .eq('status', 'completed')
         .gte(
           'updated_at',
-          new Date(
-            new Date().getFullYear(),
-            new Date().getMonth(),
-            1
-          ).toISOString()
+          new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString(),
         ),
 
       // Revenue this month (from donations)
@@ -88,11 +76,7 @@ async function _GET(request: Request) {
         .eq('payment_status', 'succeeded')
         .gte(
           'created_at',
-          new Date(
-            new Date().getFullYear(),
-            new Date().getMonth(),
-            1
-          ).toISOString()
+          new Date(new Date().getFullYear(), new Date().getMonth(), 1).toISOString(),
         ),
 
       // Open tickets
@@ -104,30 +88,20 @@ async function _GET(request: Request) {
 
     // Calculate revenue
     const revenue =
-      revenueResult.data?.reduce(
-        (sum, d) => sum + parseFloat(d.amount || '0'),
-        0
-      ) || 0;
+      revenueResult.data?.reduce((sum, d) => sum + parseFloat(d.amount || '0'), 0) || 0;
 
     // Get recent performance metrics
     const { data: recentMetrics } = await supabase
       .from('performance_metrics')
       .select('*')
-      .gte(
-        'date',
-        new Date(Date.now() - 30 * 24 * 60 * 60 * 1000)
-          .toISOString()
-          .split('T')[0]
-      )
+      .gte('date', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString().split('T')[0])
       .order('date', { ascending: false });
 
     // Calculate completion rate
     const totalEnrollments = enrollmentsResult.count || 0;
     const completedEnrollments = completionsResult.count || 0;
     const completionRate =
-      totalEnrollments > 0
-        ? ((completedEnrollments / totalEnrollments) * 100).toFixed(2)
-        : '0.00';
+      totalEnrollments > 0 ? ((completedEnrollments / totalEnrollments) * 100).toFixed(2) : '0.00';
 
     const metrics = {
       totalStudents: studentsResult.count || 0,
@@ -176,11 +150,8 @@ async function _GET(request: Request) {
     ]);
 
     return NextResponse.json({ metrics });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/admin/performance', _GET);

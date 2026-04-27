@@ -49,7 +49,7 @@ async function captureScreenshots() {
   await browser.close();
 
   console.log('\n=== Screenshot Capture Summary ===');
-  results.forEach(r => {
+  results.forEach((r) => {
     console.log(`${r.status === 'success' ? '✓' : '✗'} ${r.route}: ${r.status}`);
   });
 

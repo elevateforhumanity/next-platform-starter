@@ -10,19 +10,21 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(request: Request) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const { type, apprenticeshipId, data } = await request.json();
 
   const { data: apprenticeship } = await supabase
     .from('apprenticeship_enrollments')
-    .select(`
+    .select(
+      `
       *,
       student:profiles!apprenticeship_enrollments_student_id_fkey(email, full_name),
       employer:profiles!apprenticeship_enrollments_employer_contact_id_fkey(email, full_name)
-    `)
+    `,
+    )
     .eq('id', apprenticeshipId)
     .maybeSingle();
 
@@ -110,10 +112,9 @@ async function _POST(request: Request) {
 
 // Cron endpoint to check for missed check-ins
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
   const today = new Date().toISOString().split('T')[0];
   const currentHour = new Date().getHours();
 
@@ -125,10 +126,12 @@ const supabase = await createClient();
   // Find apprentices who haven't checked in today
   const { data: apprenticeships } = await supabase
     .from('apprenticeship_enrollments')
-    .select(`
+    .select(
+      `
       *,
       student:profiles!apprenticeship_enrollments_student_id_fkey(email, full_name)
-    `)
+    `,
+    )
     .eq('status', 'active');
 
   let alertsSent = 0;
@@ -149,8 +152,8 @@ const supabase = await createClient();
         body: JSON.stringify({
           type: 'missed_checkin',
           apprenticeshipId: apprenticeship.id,
-          data: { expectedTime: '9:00 AM' }
-        })
+          data: { expectedTime: '9:00 AM' },
+        }),
       });
       alertsSent++;
     }

@@ -312,9 +312,7 @@ export const workforceBoardNavigation: NavItem[] = [];
 /**
  * Get navigation for a specific role
  */
-export function getDashboardNavigation(
-  role: string
-): NavItem[] | (NavItem | NavSection)[] {
+export function getDashboardNavigation(role: string): NavItem[] | (NavItem | NavSection)[] {
   switch (role) {
     case 'student':
       return studentNavigation;

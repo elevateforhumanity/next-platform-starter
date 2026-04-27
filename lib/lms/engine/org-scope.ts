@@ -26,49 +26,49 @@ async function requireDb(caller: string) {
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export interface OrgProgram {
-  programId:        string;
-  programName:      string;
-  programSlug:      string;
+  programId: string;
+  programName: string;
+  programSlug: string;
   relationshipType: string;
-  isActive:         boolean;
+  isActive: boolean;
 }
 
 export interface OrgCohort {
-  cohortId:      string;
-  name:          string;
-  programId:     string | null;
-  startDate:     string | null;
-  endDate:       string | null;
-  deliveryMode:  string | null;
-  status:        string;
+  cohortId: string;
+  name: string;
+  programId: string | null;
+  startDate: string | null;
+  endDate: string | null;
+  deliveryMode: string | null;
+  status: string;
   enrolledCount: number;
 }
 
 export interface OrgLearner {
-  userId:           string;
-  fullName:         string | null;
-  email:            string;
-  cohortId:         string;
-  cohortName:       string;
+  userId: string;
+  fullName: string | null;
+  email: string;
+  cohortId: string;
+  cohortName: string;
   enrollmentStatus: string;
-  enrolledAt:       string;
+  enrolledAt: string;
 }
 
 export interface OrgProgressSummary {
-  organizationId:     string;
-  cohortId:           string | null;
-  totalLearners:      number;
-  completedLearners:  number;
+  organizationId: string;
+  cohortId: string | null;
+  totalLearners: number;
+  completedLearners: number;
   avgProgressPercent: number;
   certificatesIssued: number;
 }
 
 export interface OrgReportFilters {
-  organizationId:    string;
-  cohortId?:         string;
-  programId?:        string;
-  dateFrom?:         string;
-  dateTo?:           string;
+  organizationId: string;
+  cohortId?: string;
+  programId?: string;
+  dateFrom?: string;
+  dateTo?: string;
   credentialStatus?: 'issued' | 'pending' | 'expired' | 'revoked';
 }
 
@@ -79,22 +79,24 @@ export async function getOrgPrograms(organizationId: string): Promise<OrgProgram
 
   const { data, error } = await db
     .from('program_organizations')
-    .select(`
+    .select(
+      `
       relationship_type,
       is_active,
       programs:program_id ( id, name, slug )
-    `)
+    `,
+    )
     .eq('organization_id', organizationId)
     .eq('is_active', true);
 
   if (error) throw new Error(`getOrgPrograms: ${error.message}`);
 
   return (data ?? []).map((row: any) => ({
-    programId:        row.programs.id,
-    programName:      row.programs.name,
-    programSlug:      row.programs.slug,
+    programId: row.programs.id,
+    programName: row.programs.name,
+    programSlug: row.programs.slug,
     relationshipType: row.relationship_type,
-    isActive:         row.is_active,
+    isActive: row.is_active,
   }));
 }
 
@@ -105,24 +107,26 @@ export async function getOrgCohorts(organizationId: string): Promise<OrgCohort[]
 
   const { data, error } = await db
     .from('cohorts')
-    .select(`
+    .select(
+      `
       id, name, program_id, start_date, end_date,
       delivery_mode, status,
       cohort_enrollments ( id )
-    `)
+    `,
+    )
     .eq('organization_id', organizationId)
     .order('start_date', { ascending: false });
 
   if (error) throw new Error(`getOrgCohorts: ${error.message}`);
 
   return (data ?? []).map((row: any) => ({
-    cohortId:      row.id,
-    name:          row.name,
-    programId:     row.program_id ?? null,
-    startDate:     row.start_date ?? null,
-    endDate:       row.end_date ?? null,
-    deliveryMode:  row.delivery_mode ?? null,
-    status:        row.status,
+    cohortId: row.id,
+    name: row.name,
+    programId: row.program_id ?? null,
+    startDate: row.start_date ?? null,
+    endDate: row.end_date ?? null,
+    deliveryMode: row.delivery_mode ?? null,
+    status: row.status,
     enrolledCount: Array.isArray(row.cohort_enrollments) ? row.cohort_enrollments.length : 0,
   }));
 }
@@ -131,19 +135,21 @@ export async function getOrgCohorts(organizationId: string): Promise<OrgCohort[]
 
 export async function getOrgLearners(
   organizationId: string,
-  cohortId?: string
+  cohortId?: string,
 ): Promise<OrgLearner[]> {
   const db = await requireDb('getOrgLearners');
 
   let query = db
     .from('cohort_enrollments')
-    .select(`
+    .select(
+      `
       learner_id,
       enrollment_status,
       enrolled_at,
       cohorts!inner ( id, name, organization_id ),
       profiles:learner_id ( full_name, email )
-    `)
+    `,
+    )
     .eq('cohorts.organization_id', organizationId);
 
   if (cohortId) query = query.eq('cohort_id', cohortId);
@@ -152,13 +158,13 @@ export async function getOrgLearners(
   if (error) throw new Error(`getOrgLearners: ${error.message}`);
 
   return (data ?? []).map((row: any) => ({
-    userId:           row.learner_id,
-    fullName:         row.profiles?.full_name ?? null,
-    email:            row.profiles?.email ?? '',
-    cohortId:         row.cohorts.id,
-    cohortName:       row.cohorts.name,
+    userId: row.learner_id,
+    fullName: row.profiles?.full_name ?? null,
+    email: row.profiles?.email ?? '',
+    cohortId: row.cohorts.id,
+    cohortName: row.cohorts.name,
     enrollmentStatus: row.enrollment_status,
-    enrolledAt:       row.enrolled_at,
+    enrolledAt: row.enrolled_at,
   }));
 }
 
@@ -172,16 +178,14 @@ export async function getOrgLearners(
 //   4. course_lessons (total published count)
 //   5. lesson_progress + program_completion_certificates (parallel)
 
-export async function getOrgProgress(
-  filters: OrgReportFilters
-): Promise<OrgProgressSummary> {
+export async function getOrgProgress(filters: OrgReportFilters): Promise<OrgProgressSummary> {
   const db = await requireDb('getOrgProgress');
 
   const empty: OrgProgressSummary = {
-    organizationId:     filters.organizationId,
-    cohortId:           filters.cohortId ?? null,
-    totalLearners:      0,
-    completedLearners:  0,
+    organizationId: filters.organizationId,
+    cohortId: filters.cohortId ?? null,
+    totalLearners: 0,
+    completedLearners: 0,
     avgProgressPercent: 0,
     certificatesIssued: 0,
   };
@@ -192,7 +196,7 @@ export async function getOrgProgress(
     .select('id, program_id')
     .eq('organization_id', filters.organizationId);
 
-  if (filters.cohortId)  cohortQuery = cohortQuery.eq('id', filters.cohortId);
+  if (filters.cohortId) cohortQuery = cohortQuery.eq('id', filters.cohortId);
   if (filters.programId) cohortQuery = cohortQuery.eq('program_id', filters.programId);
 
   const { data: cohorts, error: cohortErr } = await cohortQuery;
@@ -208,7 +212,7 @@ export async function getOrgProgress(
     .in('cohort_id', cohortIds);
 
   if (filters.dateFrom) enrollQuery = enrollQuery.gte('enrolled_at', filters.dateFrom);
-  if (filters.dateTo)   enrollQuery = enrollQuery.lte('enrolled_at', filters.dateTo);
+  if (filters.dateTo) enrollQuery = enrollQuery.lte('enrolled_at', filters.dateTo);
 
   const { data: enrollments, error: enrollErr } = await enrollQuery;
   if (enrollErr) throw new Error(`getOrgProgress/enrollments: ${enrollErr.message}`);
@@ -238,15 +242,11 @@ export async function getOrgProgress(
 
   // 4 + 5. Parallel: lesson counts, completion rows, certificates
   const [
-    { data: allLessons,   error: lessonErr  },
+    { data: allLessons, error: lessonErr },
     { data: completedRows, error: progressErr },
-    { data: certRows,     error: certErr    },
+    { data: certRows, error: certErr },
   ] = await Promise.all([
-    db
-      .from('course_lessons')
-      .select('id')
-      .eq('course_id', courseId)
-      .eq('is_published', true),
+    db.from('course_lessons').select('id').eq('course_id', courseId).eq('is_published', true),
 
     db
       .from('lesson_progress')
@@ -262,9 +262,9 @@ export async function getOrgProgress(
       .in('user_id', uniqueLearnerIds),
   ]);
 
-  if (lessonErr)   throw new Error(`getOrgProgress/lessons: ${lessonErr.message}`);
+  if (lessonErr) throw new Error(`getOrgProgress/lessons: ${lessonErr.message}`);
   if (progressErr) throw new Error(`getOrgProgress/progress: ${progressErr.message}`);
-  if (certErr)     throw new Error(`getOrgProgress/certs: ${certErr.message}`);
+  if (certErr) throw new Error(`getOrgProgress/certs: ${certErr.message}`);
 
   const totalLessons = allLessons?.length ?? 0;
 
@@ -274,33 +274,31 @@ export async function getOrgProgress(
     completedByLearner.set(row.user_id, (completedByLearner.get(row.user_id) ?? 0) + 1);
   }
 
-  const certLearnerIds    = new Set((certRows ?? []).map((r: any) => r.user_id as string));
+  const certLearnerIds = new Set((certRows ?? []).map((r: any) => r.user_id as string));
   const certificatesIssued = certLearnerIds.size;
 
-  let totalProgress    = 0;
+  let totalProgress = 0;
   let completedLearners = 0;
 
   for (const learnerId of uniqueLearnerIds) {
     const done = completedByLearner.get(learnerId) ?? 0;
-    const pct  = totalLessons > 0 ? Math.round((done / totalLessons) * 100) : 0;
+    const pct = totalLessons > 0 ? Math.round((done / totalLessons) * 100) : 0;
     totalProgress += pct;
     if (pct === 100 && totalLessons > 0) completedLearners++;
   }
 
-  const avgProgressPercent = uniqueLearnerIds.length > 0
-    ? Math.round(totalProgress / uniqueLearnerIds.length)
-    : 0;
+  const avgProgressPercent =
+    uniqueLearnerIds.length > 0 ? Math.round(totalProgress / uniqueLearnerIds.length) : 0;
 
   // credentialStatus='issued' narrows completedLearners to cert holders only
-  const effectiveCompleted = filters.credentialStatus === 'issued'
-    ? certificatesIssued
-    : completedLearners;
+  const effectiveCompleted =
+    filters.credentialStatus === 'issued' ? certificatesIssued : completedLearners;
 
   return {
-    organizationId:     filters.organizationId,
-    cohortId:           filters.cohortId ?? null,
-    totalLearners:      uniqueLearnerIds.length,
-    completedLearners:  effectiveCompleted,
+    organizationId: filters.organizationId,
+    cohortId: filters.cohortId ?? null,
+    totalLearners: uniqueLearnerIds.length,
+    completedLearners: effectiveCompleted,
     avgProgressPercent,
     certificatesIssued,
   };

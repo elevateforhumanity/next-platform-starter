@@ -9,10 +9,10 @@ import { createClient } from '@/lib/supabase/client';
 export async function updateOnboardingProgress(
   userId: string,
   step: string,
-  value: boolean
+  value: boolean,
 ): Promise<void> {
   const supabase = createClient();
-  
+
   if (!supabase) {
     logger.warn('[Compliance] Supabase not configured, skipping progress update');
     return;
@@ -33,15 +33,16 @@ export async function updateOnboardingProgress(
   }
 
   try {
-    await supabase
-      .from('onboarding_progress')
-      .upsert({
+    await supabase.from('onboarding_progress').upsert(
+      {
         user_id: userId,
         [column]: value,
         updated_at: new Date().toISOString(),
-      }, {
-        onConflict: 'user_id'
-      });
+      },
+      {
+        onConflict: 'user_id',
+      },
+    );
   } catch (error) {
     logger.error('[Compliance] Failed to update onboarding progress:', error);
   }
@@ -49,7 +50,7 @@ export async function updateOnboardingProgress(
 
 export async function getOnboardingProgress(userId: string): Promise<Record<string, string>> {
   const supabase = createClient();
-  
+
   if (!supabase) {
     return {};
   }
@@ -62,29 +63,28 @@ export async function getOnboardingProgress(userId: string): Promise<Record<stri
 
     if (!data) return {};
 
-    return data.reduce((acc, row) => {
-      acc[row.step] = row.status;
-      return acc;
-    }, {} as Record<string, string>);
+    return data.reduce(
+      (acc, row) => {
+        acc[row.step] = row.status;
+        return acc;
+      },
+      {} as Record<string, string>,
+    );
   } catch (error) {
     logger.error('[Compliance] Failed to get onboarding progress:', error);
     return {};
   }
 }
 
-export async function checkComplianceStatus(userId: string, context?: string): Promise<ComplianceStatus> {
+export async function checkComplianceStatus(
+  userId: string,
+  context?: string,
+): Promise<ComplianceStatus> {
   const progress = await getOnboardingProgress(userId);
-  
-  const requiredSteps = [
-    'profile',
-    'documents',
-    'agreements',
-    'verification',
-  ];
 
-  const missingSteps = requiredSteps.filter(
-    step => progress[step] !== 'completed'
-  );
+  const requiredSteps = ['profile', 'documents', 'agreements', 'verification'];
+
+  const missingSteps = requiredSteps.filter((step) => progress[step] !== 'completed');
 
   return {
     isCompliant: missingSteps.length === 0,
@@ -93,7 +93,9 @@ export async function checkComplianceStatus(userId: string, context?: string): P
     onboardingComplete: !missingSteps.includes('profile') && !missingSteps.includes('verification'),
     agreementsComplete: !missingSteps.includes('agreements'),
     handbookComplete: true, // checked separately via API
-    missingAgreements: missingSteps.includes('agreements') ? ['enrollment', 'participation', 'ferpa'] : [],
+    missingAgreements: missingSteps.includes('agreements')
+      ? ['enrollment', 'participation', 'ferpa']
+      : [],
     redirectTo: missingSteps.length > 0 ? '/onboarding/learner' : null,
   };
 }
@@ -126,7 +128,7 @@ export interface AgreementAcceptanceParams {
 }
 
 export async function recordAgreementAcceptance(
-  params: AgreementAcceptanceParams
+  params: AgreementAcceptanceParams,
 ): Promise<{ success: boolean; acceptanceId?: string; error?: string }> {
   try {
     const res = await fetch('/api/compliance/record', {

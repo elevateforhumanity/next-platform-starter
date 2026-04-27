@@ -13,8 +13,6 @@ interface ApplicationStatus {
   first_name: string;
 }
 
-
-
 export default function ApplicationStatusPage() {
   const [email, setEmail] = useState('');
   const [applicationId, setApplicationId] = useState('');
@@ -41,7 +39,9 @@ export default function ApplicationStatusPage() {
       if (response.ok && data.application) {
         setApplication(data.application);
       } else {
-        setError(data.error || 'Application not found. Please check your Application ID and email.');
+        setError(
+          data.error || 'Application not found. Please check your Application ID and email.',
+        );
       }
     } catch (error) {
       setError('Failed to check status. Please try again or call 317-314-3757.');
@@ -58,7 +58,8 @@ export default function ApplicationStatusPage() {
           title: 'Approved!',
           color: 'bg-brand-green-50 border-brand-green-200',
           textColor: 'text-brand-green-800',
-          message: 'Congratulations! Your application has been approved. Check your email for next steps.',
+          message:
+            'Congratulations! Your application has been approved. Check your email for next steps.',
         };
       case 'rejected':
         return {
@@ -66,7 +67,8 @@ export default function ApplicationStatusPage() {
           title: 'Not Approved',
           color: 'bg-brand-red-50 border-brand-red-200',
           textColor: 'text-brand-red-800',
-          message: 'Unfortunately, your application was not approved at this time. Please contact us for more information.',
+          message:
+            'Unfortunately, your application was not approved at this time. Please contact us for more information.',
         };
       case 'contacted':
         return {
@@ -74,7 +76,8 @@ export default function ApplicationStatusPage() {
           title: 'In Review',
           color: 'bg-brand-blue-50 border-brand-blue-200',
           textColor: 'text-brand-blue-800',
-          message: 'We\'ve reached out to you. Please check your email and phone for messages from our team.',
+          message:
+            "We've reached out to you. Please check your email and phone for messages from our team.",
         };
       default:
         return {
@@ -82,23 +85,21 @@ export default function ApplicationStatusPage() {
           title: 'Pending Review',
           color: 'bg-yellow-50 border-yellow-200',
           textColor: 'text-yellow-800',
-          message: 'Your application is being reviewed. We\'ll contact you within 2-3 business days.',
+          message:
+            "Your application is being reviewed. We'll contact you within 2-3 business days.",
         };
     }
   };
 
   return (
     <div className="min-h-screen bg-white py-12">
-      <Breadcrumbs
-        items={[
-          { label: 'Apply', href: '/apply' },
-          { label: 'Status' },
-        ]}
-      />
+      <Breadcrumbs items={[{ label: 'Apply', href: '/apply' }, { label: 'Status' }]} />
       <div className="max-w-xl mx-auto px-4">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-slate-900 mb-2">Check Application Status</h1>
-          <p className="text-black">Enter your Application ID and email from your confirmation to check status</p>
+          <p className="text-black">
+            Enter your Application ID and email from your confirmation to check status
+          </p>
         </div>
 
         <form onSubmit={handleSearch} className="bg-white rounded-lg shadow-sm border p-6 mb-6">
@@ -125,9 +126,15 @@ export default function ApplicationStatusPage() {
                 disabled={loading}
                 className="px-6 py-3 bg-emerald-600 text-white rounded-lg hover:bg-emerald-700 disabled:opacity-60 disabled:cursor-not-allowed flex items-center gap-2 min-w-[100px] justify-center"
               >
-                {loading
-                  ? <><Loader2 className="w-4 h-4 animate-spin" /> Checking</>
-                  : <><Search className="w-4 h-4" /> Check</>}
+                {loading ? (
+                  <>
+                    <Loader2 className="w-4 h-4 animate-spin" /> Checking
+                  </>
+                ) : (
+                  <>
+                    <Search className="w-4 h-4" /> Check
+                  </>
+                )}
               </button>
             </div>
           </div>
@@ -143,13 +150,13 @@ export default function ApplicationStatusPage() {
           <div className={`rounded-lg border-2 p-6 ${getStatusDisplay(application.status).color}`}>
             <div className="flex flex-col items-center text-center">
               {getStatusDisplay(application.status).icon}
-              <h2 className={`text-2xl font-bold mt-4 ${getStatusDisplay(application.status).textColor}`}>
+              <h2
+                className={`text-2xl font-bold mt-4 ${getStatusDisplay(application.status).textColor}`}
+              >
                 {getStatusDisplay(application.status).title}
               </h2>
-              <p className="text-slate-700 mt-2">
-                {getStatusDisplay(application.status).message}
-              </p>
-              
+              <p className="text-slate-700 mt-2">{getStatusDisplay(application.status).message}</p>
+
               <div className="mt-6 w-full bg-white rounded-lg p-4">
                 <div className="grid grid-cols-2 gap-4 text-sm">
                   <div>
@@ -159,7 +166,9 @@ export default function ApplicationStatusPage() {
                   <div>
                     <span className="text-black">Submitted</span>
                     <p className="font-medium">
-                      {new Date(application.submitted_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
+                      {new Date(application.submitted_at).toLocaleDateString('en-US', {
+                        timeZone: 'UTC',
+                      })}
                     </p>
                   </div>
                 </div>
@@ -189,7 +198,8 @@ export default function ApplicationStatusPage() {
           <div className="bg-slate-50 border border-slate-200 rounded-lg p-6 text-center">
             <p className="text-slate-700 font-medium mb-1">No application found</p>
             <p className="text-slate-500 text-sm mb-4">
-              Double-check the Application ID from your confirmation email and the email address you applied with.
+              Double-check the Application ID from your confirmation email and the email address you
+              applied with.
             </p>
             <div className="flex flex-col sm:flex-row gap-3 justify-center text-sm">
               <a href="tel:3173143757" className="text-emerald-600 font-medium hover:underline">
@@ -203,9 +213,16 @@ export default function ApplicationStatusPage() {
         )}
 
         <div className="mt-8 text-center text-black">
-          <p>Need help? Contact us at <a href="tel:317-314-3757" className="text-emerald-600 font-medium">317-314-3757</a></p>
+          <p>
+            Need help? Contact us at{' '}
+            <a href="tel:317-314-3757" className="text-emerald-600 font-medium">
+              317-314-3757
+            </a>
+          </p>
           <p className="mt-2">
-            <Link href="/start" className="text-emerald-600 hover:underline">Submit a new application</Link>
+            <Link href="/start" className="text-emerald-600 hover:underline">
+              Submit a new application
+            </Link>
           </p>
         </div>
       </div>

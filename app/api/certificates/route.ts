@@ -34,7 +34,7 @@ async function _GET(request: Request) {
         courses (
           title
         )
-      `
+      `,
       )
       .eq('student_id', user.id)
       .order('issued_at', { ascending: false });
@@ -44,7 +44,7 @@ async function _GET(request: Request) {
     }
 
     return NextResponse.json({ certificates: certificates || [] });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
   }
 }
@@ -62,10 +62,7 @@ async function _POST(request: Request) {
     const body = await parseBody<Record<string, any>>(request);
 
     if (!body.courseId) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const supabase = await createServerSupabaseClient();
@@ -86,7 +83,7 @@ async function _POST(request: Request) {
     }
 
     return NextResponse.json(certificate, { status: 201 });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
   }
 }

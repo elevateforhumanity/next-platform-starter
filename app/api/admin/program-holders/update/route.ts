@@ -16,17 +16,34 @@ export const dynamic = 'force-dynamic';
 export const POST = withAuth(
   async (req, context) => {
     const { user } = context;
-    const auditBase = { endpoint: '/api/admin/program-holders/update', method: 'POST', actor_type: 'user' as const, actor_id: user?.id ?? null };
+    const auditBase = {
+      endpoint: '/api/admin/program-holders/update',
+      method: 'POST',
+      actor_type: 'user' as const,
+      actor_id: user?.id ?? null,
+    };
     const supabase = await createRouteHandlerClient({ cookies });
     const { id, status, mou_status } = await req.json();
 
     if (!id) {
-      await writeApiAuditEvent({ ...auditBase, result: 'failure', status_code: 400, error_summary: 'Missing id' });
+      await writeApiAuditEvent({
+        ...auditBase,
+        result: 'failure',
+        status_code: 400,
+        error_summary: 'Missing id',
+      });
       return new Response('Missing id', { status: 400 });
     }
 
     // Allowlists — reject unknown values before they reach the DB
-    const VALID_STATUSES = ['pending', 'submitted', 'under_review', 'approved', 'rejected', 'suspended'];
+    const VALID_STATUSES = [
+      'pending',
+      'submitted',
+      'under_review',
+      'approved',
+      'rejected',
+      'suspended',
+    ];
     const VALID_MOU_STATUSES = ['pending', 'sent', 'signed', 'countersigned', 'expired'];
 
     if (status && !VALID_STATUSES.includes(status)) {
@@ -44,7 +61,12 @@ export const POST = withAuth(
       .maybeSingle();
 
     if (fetchError || !existing) {
-      await writeApiAuditEvent({ ...auditBase, result: 'failure', status_code: 404, error_summary: 'Not found' });
+      await writeApiAuditEvent({
+        ...auditBase,
+        result: 'failure',
+        status_code: 404,
+        error_summary: 'Not found',
+      });
       return new Response('Program holder not found', { status: 404 });
     }
 
@@ -61,13 +83,16 @@ export const POST = withAuth(
       }
     }
 
-    const { error } = await supabase
-      .from('program_holders')
-      .update(updates)
-      .eq('id', id);
+    const { error } = await supabase.from('program_holders').update(updates).eq('id', id);
 
     if (error) {
-      await writeApiAuditEvent({ ...auditBase, result: 'error', status_code: 500, params: { id, status, mou_status }, error_summary: toErrorMessage(error)?.slice(0, 200) });
+      await writeApiAuditEvent({
+        ...auditBase,
+        result: 'error',
+        status_code: 500,
+        params: { id, status, mou_status },
+        error_summary: toErrorMessage(error)?.slice(0, 200),
+      });
       return new Response(toErrorMessage(error), { status: 500 });
     }
 
@@ -79,8 +104,13 @@ export const POST = withAuth(
       metadata: { fields_updated: Object.keys(updates) },
       req,
     });
-    await writeApiAuditEvent({ ...auditBase, result: 'success', status_code: 200, params: { id, status, mou_status } });
+    await writeApiAuditEvent({
+      ...auditBase,
+      result: 'success',
+      status_code: 200,
+      params: { id, status, mou_status },
+    });
     return Response.json({ ok: true });
   },
-  { roles: ['admin', 'super_admin'] }
+  { roles: ['admin', 'super_admin'] },
 );

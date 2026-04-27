@@ -32,7 +32,7 @@ async function logAudit(
   supabase: SupabaseClient,
   ipHash: string,
   credentialId: string,
-  result: 'ok' | 'not_found' | 'blocked' | 'error'
+  result: 'ok' | 'not_found' | 'blocked' | 'error',
 ) {
   if (!supabase) return;
   await supabase
@@ -62,32 +62,24 @@ async function _POST(req: NextRequest) {
 
     const contentType = req.headers.get('content-type') || '';
     if (!contentType.includes('application/json')) {
-      return NextResponse.json(
-        { ok: false, reason: 'invalid_input' },
-        { status: 400 }
-      );
+      return NextResponse.json({ ok: false, reason: 'invalid_input' }, { status: 400 });
     }
 
     const body = await req.json().catch(() => ({}));
     const rawId = normalizeCredentialId(body.credentialId || '');
 
     if (rawId.length < 4 || rawId.length > 64 || !/^[A-Z0-9_-]+$/.test(rawId)) {
-      return NextResponse.json(
-        { ok: false, reason: 'invalid_input' },
-        { status: 400 }
-      );
+      return NextResponse.json({ ok: false, reason: 'invalid_input' }, { status: 400 });
     }
 
     if (!supabase) {
-      return NextResponse.json(
-        { ok: false, reason: 'service_unavailable' },
-        { status: 503 }
-      );
+      return NextResponse.json({ ok: false, reason: 'service_unavailable' }, { status: 503 });
     }
 
     const { data: certificate, error } = await supabase
       .from('certificates')
-      .select(`
+      .select(
+        `
         id,
         certificate_number,
         issued_at,
@@ -97,16 +89,14 @@ async function _POST(req: NextRequest) {
         credential_name,
         user_id,
         course_id
-      `)
+      `,
+      )
       .or(`id.eq.${rawId},certificate_number.eq.${rawId}`)
       .maybeSingle();
 
     if (error || !certificate) {
       await logAudit(supabase, ipHash, rawId, 'not_found');
-      return NextResponse.json(
-        { ok: false, reason: 'not_found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ ok: false, reason: 'not_found' }, { status: 404 });
     }
 
     if (certificate.is_revoked) {
@@ -130,7 +120,11 @@ async function _POST(req: NextRequest) {
         ? supabase.from('profiles').select('full_name').eq('id', certificate.user_id).maybeSingle()
         : Promise.resolve({ data: null }),
       certificate.course_id
-        ? supabase.from('training_courses').select('title').eq('id', certificate.course_id).maybeSingle()
+        ? supabase
+            .from('training_courses')
+            .select('title')
+            .eq('id', certificate.course_id)
+            .maybeSingle()
         : Promise.resolve({ data: null }),
     ]);
 
@@ -151,10 +145,7 @@ async function _POST(req: NextRequest) {
   } catch (err) {
     await logAudit(supabase, ipHash, '', 'error');
     logger.error('[Verify API Error]:', err);
-    return NextResponse.json(
-      { ok: false, reason: 'server_error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ ok: false, reason: 'server_error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/verify', _POST);

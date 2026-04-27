@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -69,9 +69,7 @@ export default function FileTree({ files, onFileSelect, selectedFile }: FileTree
         </div>
 
         {node.type === 'directory' && isExpanded && node.children && (
-          <div>
-            {node.children.map((child) => renderNode(child, level + 1))}
-          </div>
+          <div>{node.children.map((child) => renderNode(child, level + 1))}</div>
         )}
       </div>
     );
@@ -82,9 +80,7 @@ export default function FileTree({ files, onFileSelect, selectedFile }: FileTree
       <div className="p-2 border-b bg-gray-50">
         <h3 className="font-semibold text-sm">Files</h3>
       </div>
-      <div className="py-2">
-        {files.map((file) => renderNode(file))}
-      </div>
+      <div className="py-2">{files.map((file) => renderNode(file))}</div>
     </div>
   );
 }

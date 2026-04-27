@@ -16,9 +16,10 @@ export const dynamic = 'force-dynamic';
 
 export default async function RecordAttendancePage() {
   const supabase = await createClient();
-  
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/partner/login');
 
   const db = await getAdminClient();
@@ -76,31 +77,50 @@ export default async function RecordAttendancePage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/partner-page-3.jpg" alt="Record attendance" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/partner-page-3.jpg"
+          alt="Record attendance"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Partner', href: '/partner/attendance' }, { label: 'Attendance', href: '/partner/attendance' }, { label: 'Record' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Partner', href: '/partner/attendance' },
+              { label: 'Attendance', href: '/partner/attendance' },
+              { label: 'Record' },
+            ]}
+          />
         </div>
       </div>
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <Link href="/partner/attendance" className="inline-flex items-center text-slate-700 hover:text-brand-blue-600 mb-6">
-          <ArrowLeft className="w-4 h-4 mr-2" />Back to Attendance
+        <Link
+          href="/partner/attendance"
+          className="inline-flex items-center text-slate-700 hover:text-brand-blue-600 mb-6"
+        >
+          <ArrowLeft className="w-4 h-4 mr-2" />
+          Back to Attendance
         </Link>
         <div className="bg-white rounded-xl shadow-sm p-8">
           <h1 className="text-2xl font-bold text-slate-900 mb-6">Record Attendance</h1>
-          
+
           {students.length > 0 ? (
             <AttendanceRecordForm students={students} courses={courses} />
           ) : (
             <div className="text-center py-12">
               <Users className="w-16 h-16 text-slate-700 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-slate-900 mb-2">No Students Found</h3>
-              <p className="text-slate-700">No active students are enrolled with your organization.</p>
+              <p className="text-slate-700">
+                No active students are enrolled with your organization.
+              </p>
             </div>
           )}
         </div>

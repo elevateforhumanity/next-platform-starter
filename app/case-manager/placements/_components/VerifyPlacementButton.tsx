@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation';
 export default function VerifyPlacementButton({ placementId }: { placementId: string }) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [error, setError]     = useState('');
+  const [error, setError] = useState('');
 
   async function handleVerify() {
     setLoading(true);

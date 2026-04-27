@@ -31,7 +31,7 @@ async function _GET(_req: Request, { params }: Params) {
       `
       *,
       partner_lms_providers ( provider_type )
-    `
+    `,
     )
     .eq('id', enrollmentId)
     .maybeSingle();
@@ -40,8 +40,7 @@ async function _GET(_req: Request, { params }: Params) {
     return new NextResponse('Enrollment not found', { status: 404 });
   }
 
-  const partnerType = enrollment.partner_lms_providers
-    .provider_type as PartnerType;
+  const partnerType = enrollment.partner_lms_providers.provider_type as PartnerType;
   const client = getPartnerClient(partnerType);
 
   const launchUrl = await client.getSsoLaunchUrl({

@@ -31,23 +31,18 @@ export async function validateBusinessRules(input: {
   }
 
   // IND-510: Prior year AGI required when using self-select PIN
-  if (
-    xml.includes('<PrimarySignaturePIN>') &&
-    !xml.includes('<PrimaryPriorYearAGIAmt>')
-  ) {
+  if (xml.includes('<PrimarySignaturePIN>') && !xml.includes('<PrimaryPriorYearAGIAmt>')) {
     issues.push({
       code: 'IND-510',
-      message: 'PrimaryPriorYearAGIAmt is required when using self-select PIN. Use 0 for first-time filers.',
+      message:
+        'PrimaryPriorYearAGIAmt is required when using self-select PIN. Use 0 for first-time filers.',
       path: 'PrimaryPriorYearAGIAmt',
       severity: 'error',
     });
   }
 
   // IND-689: Spouse SSN required for MFJ
-  if (
-    xml.includes('<FilingStatus>MFJ</FilingStatus>') &&
-    !xml.includes('<SpouseSSN>')
-  ) {
+  if (xml.includes('<FilingStatus>MFJ</FilingStatus>') && !xml.includes('<SpouseSSN>')) {
     issues.push({
       code: 'IND-689',
       message: 'Spouse SSN is required for MFJ filing status.',

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -24,7 +24,7 @@ declare global {
           'expired-callback'?: () => void;
           theme?: 'light' | 'dark' | 'auto';
           size?: 'normal' | 'compact';
-        }
+        },
       ) => string;
       remove: (widgetId: string) => void;
     };

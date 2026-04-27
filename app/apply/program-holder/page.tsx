@@ -8,8 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Program Holder Application | Elevate for Humanity',
-  description:
-    'Partner with us to offer training programs to your community or organization.',
+  description: 'Partner with us to offer training programs to your community or organization.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/apply/program-holder',
   },
@@ -18,7 +17,6 @@ export const metadata: Metadata = {
 export default async function ProgramHolderApplicationPage() {
   const supabase = await createClient();
 
-  
   // Fetch application settings
   const { data: settings } = await supabase
     .from('site_settings')
@@ -29,28 +27,28 @@ export default async function ProgramHolderApplicationPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <div className="relative h-[200px] sm:h-[260px]">
-        <Image src="/images/pages/admin-applicants-live-hero.jpg" alt="Program holder application" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/admin-applicants-live-hero.jpg"
+          alt="Program holder application"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
         <div className="absolute top-4 left-4 bg-white/90 backdrop-blur-sm px-4 py-2 rounded">
           <span className="text-sm font-bold text-slate-900">Elevate for Humanity</span>
         </div>
       </div>
-      <Breadcrumbs
-        items={[
-          { label: 'Apply', href: '/apply' },
-          { label: 'Program Holder' },
-        ]}
-      />
+      <Breadcrumbs items={[{ label: 'Apply', href: '/apply' }, { label: 'Program Holder' }]} />
       <section className="border-b border-slate-200">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
           <p className="text-xs font-semibold tracking-widest text-brand-blue-700 uppercase mb-2">
             Program Holder Application
           </p>
-          <h1 className="text-3xl sm:text-4xl font-bold text-black mb-3">
-            Partner With Us
-          </h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-black mb-3">Partner With Us</h1>
           <p className="text-base sm:text-lg text-black max-w-3xl">
-            Offer training programs to your community or organization through
-            our platform.
+            Offer training programs to your community or organization through our platform.
           </p>
         </div>
       </section>

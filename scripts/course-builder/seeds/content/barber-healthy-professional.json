@@ -16,24 +16,14 @@
       },
       {
         "prompt": "Which PPE is essential when performing chemical services?",
-        "choices": [
-          "Gloves",
-          "Apron",
-          "Face mask",
-          "Ear plugs"
-        ],
+        "choices": ["Gloves", "Apron", "Face mask", "Ear plugs"],
         "answerIndex": 0,
         "rationale": "Gloves protect the skin from harsh chemicals, making them essential during chemical services.",
         "type": "recall"
       },
       {
         "prompt": "What is a common sign of professional burnout?",
-        "choices": [
-          "Increased energy",
-          "Improved focus",
-          "Fatigue",
-          "Enhanced motivation"
-        ],
+        "choices": ["Increased energy", "Improved focus", "Fatigue", "Enhanced motivation"],
         "answerIndex": 2,
         "rationale": "Fatigue is a common sign of burnout, indicating emotional, physical, and mental exhaustion.",
         "type": "recall"
@@ -64,12 +54,7 @@
       },
       {
         "prompt": "What PPE should be worn when there's a risk of bloodborne pathogens?",
-        "choices": [
-          "Goggles",
-          "Gloves",
-          "Face shield",
-          "Apron"
-        ],
+        "choices": ["Goggles", "Gloves", "Face shield", "Apron"],
         "answerIndex": 1,
         "rationale": "Gloves are essential to protect against bloodborne pathogens when handling sharp tools.",
         "type": "recall"
@@ -88,12 +73,7 @@
       },
       {
         "prompt": "What percentage of the Indiana state barber exam focuses on safety and sanitation?",
-        "choices": [
-          "10%",
-          "25%",
-          "50%",
-          "75%"
-        ],
+        "choices": ["10%", "25%", "50%", "75%"],
         "answerIndex": 1,
         "rationale": "Safety and sanitation account for 25% of the Indiana state barber exam.",
         "type": "recall"

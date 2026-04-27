@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { calculateProgramMetrics } from '@/lib/reporting/enterprise-dashboard';
 import { logger } from '@/lib/logger';
@@ -18,12 +16,9 @@ async function _GET(request: Request) {
 
     const metrics = await calculateProgramMetrics();
     return NextResponse.json(metrics);
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error fetching program metrics:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch program metrics' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch program metrics' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/reporting/program-metrics', _GET);

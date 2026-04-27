@@ -43,26 +43,24 @@ interface Partner {
 // Extract all partner programs
 const partners: Record<string, Partner> = catalog.credentialing_partners;
 
-
 Object.entries(partners).forEach(([partnerId, partner]) => {
-
   partner.programs.forEach((program) => {
     const markup = program.student_price - program.partner_price;
     const markupPercent = ((markup / program.partner_price) * 100).toFixed(0);
-
   });
 });
 
 // Generate summary
 const totalPartners = Object.keys(partners).length;
 const totalPrograms = Object.values(partners).reduce((sum, p) => sum + p.programs.length, 0);
-const avgPartnerPrice = Object.values(partners)
-  .flatMap(p => p.programs)
-  .reduce((sum, prog) => sum + prog.partner_price, 0) / totalPrograms;
-const avgStudentPrice = Object.values(partners)
-  .flatMap(p => p.programs)
-  .reduce((sum, prog) => sum + prog.student_price, 0) / totalPrograms;
-
+const avgPartnerPrice =
+  Object.values(partners)
+    .flatMap((p) => p.programs)
+    .reduce((sum, prog) => sum + prog.partner_price, 0) / totalPrograms;
+const avgStudentPrice =
+  Object.values(partners)
+    .flatMap((p) => p.programs)
+    .reduce((sum, prog) => sum + prog.student_price, 0) / totalPrograms;
 
 // Export for use in app
 const exportData = {
@@ -72,7 +70,7 @@ const exportData = {
     totalPrograms,
     avgPartnerPrice: parseFloat(avgPartnerPrice.toFixed(2)),
     avgStudentPrice: parseFloat(avgStudentPrice.toFixed(2)),
-  }
+  },
 };
 
 const exportPath = path.join(process.cwd(), 'app/data/partner-programs.json');

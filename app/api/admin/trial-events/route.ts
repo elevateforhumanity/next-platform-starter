@@ -86,14 +86,18 @@ const _GET = withAuth(
       // Surface setup warnings so operators see what's missing
       const setup_warnings: string[] = [];
       if (!process.env.SENDGRID_API_KEY) {
-        setup_warnings.push('SENDGRID_API_KEY not configured — trial welcome emails are not being sent');
+        setup_warnings.push(
+          'SENDGRID_API_KEY not configured — trial welcome emails are not being sent',
+        );
       }
       if (!process.env.NEXT_PUBLIC_GA_MEASUREMENT_ID) {
-        setup_warnings.push('GA4 measurement ID not configured — client-side funnel analytics are not recording');
+        setup_warnings.push(
+          'GA4 measurement ID not configured — client-side funnel analytics are not recording',
+        );
       }
       // GA4 custom dimension can't be verified programmatically — always remind
       setup_warnings.push(
-        'Verify GA4 custom dimension: Admin → Custom definitions → Event-scoped → "correlation_id". Without this, correlation IDs appear in DebugView but not in reports.'
+        'Verify GA4 custom dimension: Admin → Custom definitions → Event-scoped → "correlation_id". Without this, correlation IDs appear in DebugView but not in reports.',
       );
 
       return NextResponse.json({ summary, setup_warnings, events });
@@ -102,6 +106,6 @@ const _GET = withAuth(
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
   },
-  { roles: ['admin'] }
+  { roles: ['admin'] },
 );
 export const GET = withRuntime(withApiAudit('/api/admin/trial-events', _GET));

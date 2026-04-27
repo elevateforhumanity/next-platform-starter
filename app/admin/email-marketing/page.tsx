@@ -20,14 +20,14 @@ export default async function Page() {
     <AdminClientPage>
       <EmailMarketingClient
         stats={{
-          totalSubscribers:      subscriberCount ?? 0,
-          emailsSentThisMonth:   sgStats.thisMonth?.requests ?? 0,
-          deliveredThisMonth:    sgStats.thisMonth?.delivered ?? 0,
-          openRateThisMonth:     sgStats.thisMonth?.openRate ?? null,
-          clickRateThisMonth:    sgStats.thisMonth?.clickRate ?? null,
-          openRateLastMonth:     sgStats.lastMonth?.openRate ?? null,
-          clickRateLastMonth:    sgStats.lastMonth?.clickRate ?? null,
-          bouncesThisMonth:      sgStats.thisMonth?.bounces ?? 0,
+          totalSubscribers: subscriberCount ?? 0,
+          emailsSentThisMonth: sgStats.thisMonth?.requests ?? 0,
+          deliveredThisMonth: sgStats.thisMonth?.delivered ?? 0,
+          openRateThisMonth: sgStats.thisMonth?.openRate ?? null,
+          clickRateThisMonth: sgStats.thisMonth?.clickRate ?? null,
+          openRateLastMonth: sgStats.lastMonth?.openRate ?? null,
+          clickRateLastMonth: sgStats.lastMonth?.clickRate ?? null,
+          bouncesThisMonth: sgStats.thisMonth?.bounces ?? 0,
         }}
       />
     </AdminClientPage>

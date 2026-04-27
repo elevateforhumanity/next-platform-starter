@@ -69,10 +69,9 @@ async function _GET(request: NextRequest) {
   } catch (err: any) {
     return NextResponse.json(
       {
-        err:
-          'Internal server error',
+        err: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

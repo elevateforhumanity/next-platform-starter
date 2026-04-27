@@ -38,7 +38,9 @@ export async function POST(
   // Load the external course
   const { data: course, error: courseErr } = await adminDb
     .from('program_external_courses')
-    .select('id, title, partner_name, cost_cents, stripe_price_id, payer_rule, manual_completion_enabled')
+    .select(
+      'id, title, partner_name, cost_cents, stripe_price_id, payer_rule, manual_completion_enabled',
+    )
     .eq('id', courseId)
     .eq('program_id', program.id)
     .eq('is_active', true)
@@ -90,25 +92,24 @@ export async function POST(
   // If Elevate pays, record a $0 internal purchase and return — no Stripe session needed.
   // Staff will purchase on the partner site and enter login credentials in admin.
   if (!studentPays) {
-    const { error: upsertErr } = await adminDb
-      .from('external_course_completions')
-      .upsert(
-        {
-          user_id: auth.id,
-          external_course_id: courseId,
-          program_id: program.id,
-          completed_at: null,           // not complete yet — just purchased
-          elevate_sponsored: true,
-        },
-        { onConflict: 'user_id,external_course_id' },
-      );
+    const { error: upsertErr } = await adminDb.from('external_course_completions').upsert(
+      {
+        user_id: auth.id,
+        external_course_id: courseId,
+        program_id: program.id,
+        completed_at: null, // not complete yet — just purchased
+        elevate_sponsored: true,
+      },
+      { onConflict: 'user_id,external_course_id' },
+    );
 
     if (upsertErr) return safeDbError(upsertErr, 'Failed to record sponsored enrollment');
 
     return NextResponse.json({
       ok: true,
       payer: 'elevate',
-      message: 'Elevate will purchase this course on your behalf. Login credentials will be emailed to you shortly.',
+      message:
+        'Elevate will purchase this course on your behalf. Login credentials will be emailed to you shortly.',
     });
   }
 

@@ -16,12 +16,7 @@
       },
       {
         "prompt": "A client presents with a sensitive scalp and requests a hair relaxer. Which type of relaxer should you consider using?",
-        "choices": [
-          "Lye relaxer",
-          "No-lye relaxer",
-          "Ammonia-based relaxer",
-          "Peroxide relaxer"
-        ],
+        "choices": ["Lye relaxer", "No-lye relaxer", "Ammonia-based relaxer", "Peroxide relaxer"],
         "answerIndex": 1,
         "rationale": "No-lye relaxers are generally gentler on the scalp and are preferred for clients with sensitive skin.",
         "type": "scenario"
@@ -196,12 +191,7 @@
       },
       {
         "prompt": "Which step is crucial after applying a relaxer to ensure hair integrity?",
-        "choices": [
-          "Apply more relaxer",
-          "Use a neutralizer",
-          "Skip rinsing",
-          "Apply heat"
-        ],
+        "choices": ["Apply more relaxer", "Use a neutralizer", "Skip rinsing", "Apply heat"],
         "answerIndex": 1,
         "rationale": "Using a neutralizer is crucial to stop the chemical reaction and maintain hair integrity.",
         "type": "recall"

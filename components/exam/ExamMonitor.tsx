@@ -1,12 +1,8 @@
-'use client'
+'use client';
 
-import { useExamMonitoring } from './useExamMonitoring'
+import { useExamMonitoring } from './useExamMonitoring';
 
-export default function ExamMonitor({
-  examSessionId
-}: {
-  examSessionId: string
-}) {
-  useExamMonitoring({ examSessionId })
-  return null
+export default function ExamMonitor({ examSessionId }: { examSessionId: string }) {
+  useExamMonitoring({ examSessionId });
+  return null;
 }

@@ -16,7 +16,9 @@ import { execSync } from 'child_process';
 const ROOT = path.resolve(__dirname, '..');
 const GEN_DIR = path.join(ROOT, 'temp/generated-lessons');
 const CLIPS_DIR = path.join(ROOT, 'temp/lesson5-v10');
-const CLIPS_CONFIG = JSON.parse(fs.readFileSync(path.join(ROOT, 'config/brandon-clips.json'), 'utf-8'));
+const CLIPS_CONFIG = JSON.parse(
+  fs.readFileSync(path.join(ROOT, 'config/brandon-clips.json'), 'utf-8'),
+);
 const OUT_DIR = path.join(ROOT, 'output/manifests');
 const FONT_BOLD = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
 const FONT_REG = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf';
@@ -48,8 +50,14 @@ interface LessonManifest {
 
 function getDuration(filePath: string): number {
   try {
-    return parseFloat(execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${filePath}"`).toString().trim());
-  } catch { return 0; }
+    return parseFloat(
+      execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${filePath}"`)
+        .toString()
+        .trim(),
+    );
+  } catch {
+    return 0;
+  }
 }
 
 function pickClip(role: string, index: number): string {
@@ -209,16 +217,19 @@ for (let i = 0; i < args.length; i++) {
 fs.mkdirSync(OUT_DIR, { recursive: true });
 
 // Find all lesson directories
-const lessonDirs = fs.readdirSync(GEN_DIR)
-  .filter(d => d.startsWith('lesson-'))
-  .map(d => parseInt(d.replace('lesson-', '')))
+const lessonDirs = fs
+  .readdirSync(GEN_DIR)
+  .filter((d) => d.startsWith('lesson-'))
+  .map((d) => parseInt(d.replace('lesson-', '')))
   .sort((a, b) => a - b);
 
-const toProcess = filterLesson ? lessonDirs.filter(n => n === filterLesson) : lessonDirs;
+const toProcess = filterLesson ? lessonDirs.filter((n) => n === filterLesson) : lessonDirs;
 
 console.log(`\n=== Building Lesson Manifests ===`);
 console.log(`Lessons: ${toProcess.length}`);
-console.log(`Brandon clips: ${Object.values(CLIPS_CONFIG.roles).reduce((sum: number, r: any) => sum + r.clips.length, 0)}`);
+console.log(
+  `Brandon clips: ${Object.values(CLIPS_CONFIG.roles).reduce((sum: number, r: any) => sum + r.clips.length, 0)}`,
+);
 console.log('');
 
 let totalWarnings = 0;
@@ -228,7 +239,7 @@ for (const num of toProcess) {
   const outPath = path.join(OUT_DIR, `lesson-${num}.json`);
   fs.writeFileSync(outPath, JSON.stringify(manifest, null, 2));
 
-  const segSummary = manifest.segments.map(s => `${s.role}(${s.type})`).join(' → ');
+  const segSummary = manifest.segments.map((s) => `${s.role}(${s.type})`).join(' → ');
   const warnStr = manifest.warnings.length > 0 ? ` ⚠️ ${manifest.warnings.join(', ')}` : '';
   totalWarnings += manifest.warnings.length;
 

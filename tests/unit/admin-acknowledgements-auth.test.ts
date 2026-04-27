@@ -30,7 +30,6 @@ function checkAdminAccess(user: { id: string; role: Role } | null): AuthResult {
 // ── Tests ─────────────────────────────────────────────────────────────────────
 
 describe('Admin acknowledgements route — auth guard', () => {
-
   it('returns 401 when no user is present', () => {
     const result = checkAdminAccess(null);
     expect(result.status).toBe(401);

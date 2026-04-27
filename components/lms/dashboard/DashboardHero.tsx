@@ -11,10 +11,16 @@ interface DashboardHeroProps {
   resumeHref?: string | null;
 }
 
-export function DashboardHero({ firstName, courseProgress, hasActiveEnrollment, resumeHref }: DashboardHeroProps) {
+export function DashboardHero({
+  firstName,
+  courseProgress,
+  hasActiveEnrollment,
+  resumeHref,
+}: DashboardHeroProps) {
   return (
     <div className="mb-8 rounded-2xl overflow-hidden shadow-lg">
       <div className="relative h-[200px] sm:h-[280px] md:h-[340px]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={LMS_HEROES.dashboard}
           alt="Students celebrating training completion"
@@ -28,9 +34,7 @@ export function DashboardHero({ firstName, courseProgress, hasActiveEnrollment, 
       <div className="bg-slate-900 py-8 px-8 md:px-12">
         <div className="flex items-center gap-3 mb-3">
           <GraduationCap className="w-10 h-10 text-white" />
-          <h1 className="text-3xl md:text-4xl font-black text-white">
-            Welcome Back, {firstName}
-          </h1>
+          <h1 className="text-3xl md:text-4xl font-black text-white">Welcome Back, {firstName}</h1>
         </div>
         <p className="text-base md:text-lg text-white/90 mb-4">
           {hasActiveEnrollment

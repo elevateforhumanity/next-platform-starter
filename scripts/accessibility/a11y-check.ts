@@ -1,19 +1,18 @@
-import { chromium } from "playwright";
-import * as fs from "fs";
-import * as path from "path";
+import { chromium } from 'playwright';
+import * as fs from 'fs';
+import * as path from 'path';
 
 async function run() {
   const browser = await chromium.launch();
   const page = await browser.newPage();
 
-  const url =
-    process.env.A11Y_URL || "https://www.elevateforhumanity.org";
+  const url = process.env.A11Y_URL || 'https://www.elevateforhumanity.org';
 
-  await page.goto(url, { waitUntil: "networkidle" });
+  await page.goto(url, { waitUntil: 'networkidle' });
 
   // Inject axe-core
   await page.addScriptTag({
-    url: "https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.8.2/axe.min.js",
+    url: 'https://cdnjs.cloudflare.com/ajax/libs/axe-core/4.8.2/axe.min.js',
   });
 
   // Run axe accessibility tests
@@ -22,16 +21,13 @@ async function run() {
   });
 
   // Create output directory
-  const outDir = path.join(process.cwd(), "a11y-reports");
+  const outDir = path.join(process.cwd(), 'a11y-reports');
   if (!fs.existsSync(outDir)) {
     fs.mkdirSync(outDir, { recursive: true });
   }
 
   // Save full results
-  fs.writeFileSync(
-    path.join(outDir, "report.json"),
-    JSON.stringify(results, null, 2)
-  );
+  fs.writeFileSync(path.join(outDir, 'report.json'), JSON.stringify(results, null, 2));
 
   // Generate summary
   const summary = {
@@ -51,22 +47,17 @@ async function run() {
     })),
   };
 
-  fs.writeFileSync(
-    path.join(outDir, "summary.json"),
-    JSON.stringify(summary, null, 2)
-  );
+  fs.writeFileSync(path.join(outDir, 'summary.json'), JSON.stringify(summary, null, 2));
 
   // Generate HTML report
   const html = generateHTMLReport(summary, results);
-  fs.writeFileSync(path.join(outDir, "report.html"), html);
+  fs.writeFileSync(path.join(outDir, 'report.html'), html);
 
   // Console output
 
   if (results.violations.length > 0) {
-    results.violations.forEach((v: any) => {
-    });
+    results.violations.forEach((v: any) => {});
   }
-
 
   await browser.close();
 
@@ -177,7 +168,7 @@ function generateHTMLReport(summary: any, results: any): string {
     <h2>Violations</h2>
     ${
       summary.violations === 0
-        ? "<p>No violations found! 🎉</p>"
+        ? '<p>No violations found! 🎉</p>'
         : summary.violationDetails
             .map(
               (v: any) => `
@@ -192,9 +183,9 @@ function generateHTMLReport(summary: any, results: any): string {
           <a href="${v.helpUrl}" class="violation-link" target="_blank">Learn more →</a>
         </div>
       </div>
-    `
+    `,
             )
-            .join("")
+            .join('')
     }
   </div>
 </body>

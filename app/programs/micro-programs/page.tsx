@@ -11,24 +11,14 @@ import { createPublicClient } from '@/lib/supabase/server';
 import { Zap, Clock, Target, TrendingUp } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-
 export const metadata: Metadata = {
-  title:
-    'Micro-Credentials & Short Programs | Quick Certifications | Elevate for Humanity',
+  title: 'Micro-Credentials & Short Programs | Quick Certifications | Elevate for Humanity',
   description:
     'Fast-track certifications in 2-8 weeks. CPR, Workforce Readiness, Peer Recovery Coach, and more. Get certified, get hired.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/programs/micro-programs',
   },
 };
-
-const microProgramSlugs = [
-  'cpr-certification',
-  'workforce-readiness',
-  'peer-recovery-coach',
-  'drug-collector',
-  'emergency-health-safety-tech',
-];
 
 export default async function MicroProgramsPage() {
   const supabase = createPublicClient();
@@ -43,22 +33,16 @@ export default async function MicroProgramsPage() {
       </div>
     );
   }
-  
+
   // Fetch micro programs
-  const { data: dbMicroPrograms } = await supabase
-    .from('programs')
-    .select('*')
-    .eq('type', 'micro');
+  const { data: dbMicroPrograms } = await supabase.from('programs').select('*').eq('type', 'micro');
 
   const microPrograms = dbMicroPrograms ?? [];
 
   return (
     <div className="bg-white">
       <Breadcrumbs
-        items={[
-          { label: 'Programs', href: '/programs' },
-          { label: 'Micro Programs' },
-        ]}
+        items={[{ label: 'Programs', href: '/programs' }, { label: 'Micro Programs' }]}
       />
       {/* Hero */}
       <section className="relative bg-blue-800 text-white px-6 sm:px-10 lg:px-12 py-20 lg:py-28">
@@ -74,9 +58,8 @@ export default async function MicroProgramsPage() {
           </h1>
 
           <p className="text-xl sm:text-2xl text-blue-100 leading-relaxed max-w-3xl mx-auto">
-            Short-term certifications you can complete in days or weeks. Perfect
-            for adding credentials, meeting job requirements, or starting a new
-            career path quickly.
+            Short-term certifications you can complete in days or weeks. Perfect for adding
+            credentials, meeting job requirements, or starting a new career path quickly.
           </p>
         </div>
       </section>
@@ -90,24 +73,21 @@ export default async function MicroProgramsPage() {
 
           <div className="space-y-6 text-lg text-black leading-relaxed">
             <p>
-              Not every career path requires years of training. Sometimes you
-              just need a specific certification to qualify for a job, meet a
-              requirement, or add a valuable skill to your resume.
+              Not every career path requires years of training. Sometimes you just need a specific
+              certification to qualify for a job, meet a requirement, or add a valuable skill to
+              your resume.
             </p>
 
             <p>
-              <span className="font-bold text-black">
-                Micro programs get you there fast.
-              </span>{' '}
-              These short-term certifications are designed to be completed in
-              days or weeks, not months or years. You learn exactly what you
-              need, get certified, and move forward.
+              <span className="font-bold text-black">Micro programs get you there fast.</span> These
+              short-term certifications are designed to be completed in days or weeks, not months or
+              years. You learn exactly what you need, get certified, and move forward.
             </p>
 
             <p>
-              Many employers require certifications like CPR, workforce
-              readiness, or specialized safety training. These micro programs
-              check those boxes quickly and affordably—often at no cost to you.
+              Many employers require certifications like CPR, workforce readiness, or specialized
+              safety training. These micro programs check those boxes quickly and affordably—often
+              at no cost to you.
             </p>
 
             <p className="text-xl font-bold text-black">
@@ -130,9 +110,7 @@ export default async function MicroProgramsPage() {
                 <Clock className="w-8 h-8" />
               </div>
               <h3 className="font-bold text-black mb-2">Fast Completion</h3>
-              <p className="text-black">
-                Finish in days or weeks, not months
-              </p>
+              <p className="text-black">Finish in days or weeks, not months</p>
             </div>
 
             <div className="text-center">
@@ -140,9 +118,7 @@ export default async function MicroProgramsPage() {
                 <Target className="w-8 h-8" />
               </div>
               <h3 className="font-bold text-black mb-2">Focused Training</h3>
-              <p className="text-black">
-                Learn exactly what you need, nothing extra
-              </p>
+              <p className="text-black">Learn exactly what you need, nothing extra</p>
             </div>
 
             <div className="text-center">
@@ -150,9 +126,7 @@ export default async function MicroProgramsPage() {
                 <TrendingUp className="w-8 h-8" />
               </div>
               <h3 className="font-bold text-black mb-2">Career Boost</h3>
-              <p className="text-black">
-                Add credentials to your resume quickly
-              </p>
+              <p className="text-black">Add credentials to your resume quickly</p>
             </div>
 
             <div className="text-center">
@@ -186,9 +160,7 @@ export default async function MicroProgramsPage() {
                   </div>
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-black mb-2">
-                    {program.name}
-                  </h3>
+                  <h3 className="text-xl font-bold text-black mb-2">{program.name}</h3>
                   <div className="flex flex-wrap gap-2 mb-3">
                     <span className="px-3 py-2 bg-blue-100 text-blue-700 text-xs font-semibold rounded-full">
                       {program.duration}
@@ -216,42 +188,32 @@ export default async function MicroProgramsPage() {
 
           <div className="space-y-6">
             <div className="bg-white rounded-xl border-2 border-blue-200 p-6">
-              <h3 className="font-bold text-black mb-2">
-                You need a specific certification
-              </h3>
+              <h3 className="font-bold text-black mb-2">You need a specific certification</h3>
               <p className="text-black">
-                Many jobs require CPR, safety training, or other specific
-                credentials. Get certified quickly.
+                Many jobs require CPR, safety training, or other specific credentials. Get certified
+                quickly.
               </p>
             </div>
 
             <div className="bg-white rounded-xl border-2 border-blue-200 p-6">
-              <h3 className="font-bold text-black mb-2">
-                You're exploring career options
-              </h3>
+              <h3 className="font-bold text-black mb-2">You're exploring career options</h3>
               <p className="text-black">
-                Try a short program to see if a field interests you before
-                committing to longer training.
+                Try a short program to see if a field interests you before committing to longer
+                training.
               </p>
             </div>
 
             <div className="bg-white rounded-xl border-2 border-blue-200 p-6">
-              <h3 className="font-bold text-black mb-2">
-                You want to add skills fast
-              </h3>
+              <h3 className="font-bold text-black mb-2">You want to add skills fast</h3>
               <p className="text-black">
-                Boost your resume with additional certifications that make you
-                more competitive.
+                Boost your resume with additional certifications that make you more competitive.
               </p>
             </div>
 
             <div className="bg-white rounded-xl border-2 border-blue-200 p-6">
-              <h3 className="font-bold text-black mb-2">
-                You need workforce readiness
-              </h3>
+              <h3 className="font-bold text-black mb-2">You need workforce readiness</h3>
               <p className="text-black">
-                Prepare for employment with essential workplace skills and
-                professional development.
+                Prepare for employment with essential workplace skills and professional development.
               </p>
             </div>
           </div>

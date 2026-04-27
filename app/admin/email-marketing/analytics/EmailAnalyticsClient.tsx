@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import React from 'react';
@@ -9,7 +9,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/navigation';
 
 import {
-
   Mail,
   TrendingUp,
   TrendingDown,
@@ -58,11 +57,7 @@ interface AnalyticsData {
 export default function AnalyticsPage() {
   const router = useRouter();
 
-  
-
-  const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d' | 'all'>(
-    '30d'
-  );
+  const [timeRange, setTimeRange] = useState<'7d' | '30d' | '90d' | 'all'>('30d');
   const [loading, setLoading] = useState(true);
   const [data, setData] = useState<AnalyticsData | null>(null);
 
@@ -74,9 +69,10 @@ export default function AnalyticsPage() {
       if (result.success) {
         setData(result.data);
       }
-    } catch (error) { /* Error handled silently */ 
-    // Error handled
-  } finally {
+    } catch (error) {
+      /* Error handled silently */
+      // Error handled
+    } finally {
       setLoading(false);
     }
   }, [timeRange]);
@@ -89,15 +85,7 @@ export default function AnalyticsPage() {
     if (!data) return;
 
     const csv = [
-      [
-        'Campaign',
-        'Sent',
-        'Opens',
-        'Clicks',
-        'Open Rate',
-        'Click Rate',
-        'Date',
-      ],
+      ['Campaign', 'Sent', 'Opens', 'Clicks', 'Open Rate', 'Click Rate', 'Date'],
       ...data.campaigns.map((c) => [
         c.name,
         c.sent,
@@ -124,6 +112,7 @@ export default function AnalyticsPage() {
       <div className="min-h-screen bg-white">
         {/* Hero Section */}
         <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/admin-email-analytics-detail.jpg"
             alt="Analytics"
@@ -133,7 +122,6 @@ export default function AnalyticsPage() {
             priority
             sizes="100vw"
           />
-
         </section>
 
         <div className="text-center">
@@ -144,24 +132,22 @@ export default function AnalyticsPage() {
           <section className="py-16">
             <div className="container mx-auto px-4">
               <div className="max-w-4xl mx-auto text-center">
-                <h2 className="text-2xl md:text-3xl font-bold mb-6">
-              Email Campaign Analytics
-                            </h2>
+                <h2 className="text-2xl md:text-3xl font-bold mb-6">Email Campaign Analytics</h2>
                 <p className="text-base md:text-lg mb-8 text-brand-blue-100">
-              Track open rates, click-through, and conversion metrics.
-                            </p>
+                  Track open rates, click-through, and conversion metrics.
+                </p>
                 <div className="flex flex-col sm:flex-row gap-4 justify-center">
                   <Link
                     href="/admin/email-marketing"
                     className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
                   >
-                View Campaigns
+                    View Campaigns
                   </Link>
                   <Link
                     href="/admin/email-marketing/campaigns/new"
                     className="bg-brand-blue-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-blue-600 border-2 border-white text-lg shadow-2xl transition-all"
                   >
-                Create Campaign
+                    Create Campaign
                   </Link>
                 </div>
               </div>
@@ -185,20 +171,16 @@ export default function AnalyticsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Analytics" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Analytics' }]} />
       </div>
-{/* Header */}
+      {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-black">
-                Email Analytics
-              </h1>
-              <p className="text-black mt-1">
-                Track campaign performance and engagement
-              </p>
+              <h1 className="text-3xl font-bold text-black">Email Analytics</h1>
+              <p className="text-black mt-1">Track campaign performance and engagement</p>
             </div>
 
             <div className="flex items-center space-x-3">
@@ -243,26 +225,14 @@ export default function AnalyticsPage() {
             value={`${data.overview.openRate.toFixed(1)}%`}
             icon={Eye}
             color="green"
-            trend={
-              data.overview.openRate > 40
-                ? 'up'
-                : data.overview.openRate < 30
-                  ? 'down'
-                  : null
-            }
+            trend={data.overview.openRate > 40 ? 'up' : data.overview.openRate < 30 ? 'down' : null}
           />
           <StatCard
             title="Click Rate"
             value={`${data.overview.clickRate.toFixed(1)}%`}
             icon={MousePointerClick}
             color="blue"
-            trend={
-              data.overview.clickRate > 8
-                ? 'up'
-                : data.overview.clickRate < 5
-                  ? 'down'
-                  : null
-            }
+            trend={data.overview.clickRate > 8 ? 'up' : data.overview.clickRate < 5 ? 'down' : null}
           />
           <StatCard
             title="Bounce Rate"
@@ -270,11 +240,7 @@ export default function AnalyticsPage() {
             icon={AlertCircle}
             color="red"
             trend={
-              data.overview.bounceRate < 2
-                ? 'up'
-                : data.overview.bounceRate > 5
-                  ? 'down'
-                  : null
+              data.overview.bounceRate < 2 ? 'up' : data.overview.bounceRate > 5 ? 'down' : null
             }
           />
         </div>
@@ -323,14 +289,13 @@ export default function AnalyticsPage() {
 
         {/* Timeline Chart */}
         <div className="bg-white rounded-lg shadow p-6 mb-8">
-          <h3 className="font-semibold text-black mb-6">
-            Performance Timeline
-          </h3>
+          <h3 className="font-semibold text-black mb-6">Performance Timeline</h3>
           <div className="space-y-4">
             {data.timeline.map((day, index) => (
               <div key={index} className="flex items-center space-x-4">
                 <div className="w-24 text-sm text-black">
-                  {new Date(day.date).toLocaleDateString('en-US', { timeZone: 'UTC',
+                  {new Date(day.date).toLocaleDateString('en-US', {
+                    timeZone: 'UTC',
                     month: 'short',
                     day: 'numeric',
                   })}
@@ -345,9 +310,7 @@ export default function AnalyticsPage() {
                         }}
                       />
                     </div>
-                    <span className="text-sm text-black w-16 text-right">
-                      {day.sent} sent
-                    </span>
+                    <span className="text-sm text-black w-16 text-right">{day.sent} sent</span>
                   </div>
                   <div className="flex items-center space-x-2 mb-1">
                     <div className="flex-1 bg-gray-200 rounded-full h-2">
@@ -358,9 +321,7 @@ export default function AnalyticsPage() {
                         }}
                       />
                     </div>
-                    <span className="text-sm text-black w-16 text-right">
-                      {day.opens} opens
-                    </span>
+                    <span className="text-sm text-black w-16 text-right">{day.opens} opens</span>
                   </div>
                   <div className="flex items-center space-x-2">
                     <div className="flex-1 bg-gray-200 rounded-full h-2">
@@ -371,9 +332,7 @@ export default function AnalyticsPage() {
                         }}
                       />
                     </div>
-                    <span className="text-sm text-black w-16 text-right">
-                      {day.clicks} clicks
-                    </span>
+                    <span className="text-sm text-black w-16 text-right">{day.clicks} clicks</span>
                   </div>
                 </div>
               </div>
@@ -384,9 +343,7 @@ export default function AnalyticsPage() {
         {/* Campaign Performance Table */}
         <div className="bg-white rounded-lg shadow overflow-hidden">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h3 className="font-semibold text-black">
-              Campaign Performance
-            </h3>
+            <h3 className="font-semibold text-black">Campaign Performance</h3>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -419,9 +376,7 @@ export default function AnalyticsPage() {
                 {data.campaigns.map((campaign) => (
                   <tr key={campaign.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4 whitespace-nowrap">
-                      <div className="text-sm font-medium text-black">
-                        {campaign.name}
-                      </div>
+                      <div className="text-sm font-medium text-black">{campaign.name}</div>
                     </td>
                     <td className="px-6 py-4 whitespace-nowrap text-sm text-black">
                       {campaign.sent.toLocaleString()}
@@ -489,7 +444,6 @@ function StatCard({ title, value, icon: Icon, color, trend }: StatCardProps) {
 
   return (
     <div className="bg-white rounded-lg shadow p-6">
-
       <div className="flex items-center justify-between mb-4">
         <div className={`p-3 rounded-lg ${colorClasses[color]}`}>
           <Icon className="w-6 h-6" />

@@ -42,7 +42,7 @@ const PG_UNIQUE_VIOLATION = '23505';
 export async function enqueueJob(
   db: SupabaseClient,
   type: LmsJobType,
-  payload: LmsJobPayload
+  payload: LmsJobPayload,
 ): Promise<string> {
   const { data, error } = await db
     .from('job_queue')
@@ -52,7 +52,10 @@ export async function enqueueJob(
 
   if (error) {
     if (error.code === PG_UNIQUE_VIOLATION) {
-      logger.info('Job already enqueued (dedupe)', { type, certificateId: (payload as CertificateIssuedPayload).certificateId });
+      logger.info('Job already enqueued (dedupe)', {
+        type,
+        certificateId: (payload as CertificateIssuedPayload).certificateId,
+      });
       return 'duplicate';
     }
     // Non-dedupe errors are logged but do not throw — a failed enqueue must

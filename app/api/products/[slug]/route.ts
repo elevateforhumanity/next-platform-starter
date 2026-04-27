@@ -6,18 +6,14 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 // AUTH: Intentionally public — no authentication required
 
-async function _GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const { slug } = await params;
+async function _GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const { slug } = await params;
 
   try {
     const product = await getProduct(slug);
-    
+
     if (!product) {
       return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
@@ -28,7 +24,7 @@ const { slug } = await params;
       getAvatarSalesMessage(product.id),
     ]);
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       product,
       recommendations,
       salesMessage,

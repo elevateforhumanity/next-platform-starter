@@ -3,11 +3,11 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { 
-  Scissors, 
-  Users, 
-  Clock, 
-  Plus, 
+import {
+  Scissors,
+  Users,
+  Clock,
+  Plus,
   ArrowLeft,
   Calendar,
   Loader2,
@@ -15,7 +15,8 @@ import {
   FileText,
   Download,
   ClipboardList,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 
@@ -55,7 +56,7 @@ export default function BarberPartnerPage() {
   const [error, setError] = useState('');
   const [success, setSuccess] = useState('');
   const [onboardingStatus, setOnboardingStatus] = useState<OnboardingStatus | null>(null);
-  
+
   const [entryForm, setEntryForm] = useState({
     apprenticeId: '',
     weekEnding: getNextFriday(),
@@ -83,21 +84,21 @@ export default function BarberPartnerPage() {
       const onboardingRes = await fetch('/api/partner/onboarding-status');
       const onboardingData = await onboardingRes.json();
       setOnboardingStatus(onboardingData);
-      
+
       // If not onboarded, don't fetch other data
       if (!onboardingData.completed) {
         setLoading(false);
         return;
       }
-      
+
       const [apprenticesRes, progressRes] = await Promise.all([
         fetch('/api/partner/apprentices?program=barber'),
         fetch('/api/partner/progress?program=barber'),
       ]);
-      
+
       const apprenticesData = await apprenticesRes.json();
       const progressData = await progressRes.json();
-      
+
       setApprentices(apprenticesData.apprentices || []);
       setProgressEntries(progressData.entries || []);
     } catch (err) {
@@ -165,11 +166,11 @@ export default function BarberPartnerPage() {
             <div className="w-20 h-20 bg-amber-100 rounded-full flex items-center justify-center mx-auto mb-6">
               <ClipboardList className="w-10 h-10 text-amber-600" />
             </div>
-            <h1 className="text-2xl font-bold text-slate-900 mb-4">
-              Complete Onboarding First
-            </h1>
+            <h1 className="text-2xl font-bold text-slate-900 mb-4">Complete Onboarding First</h1>
             <p className="text-slate-600 mb-8 max-w-md mx-auto">
-              Before you can manage apprentices and submit progress reports, you need to complete the partner onboarding process. This includes providing your business information, license details, and signing the partnership agreement.
+              Before you can manage apprentices and submit progress reports, you need to complete
+              the partner onboarding process. This includes providing your business information,
+              license details, and signing the partnership agreement.
             </p>
             <div className="space-y-4">
               <Link
@@ -204,22 +205,38 @@ export default function BarberPartnerPage() {
 
   return (
     <div className="min-h-screen bg-slate-100">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px]">
-        <Image src="/images/pages/barber-hero-main.jpg" alt="Barber program" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/barber-hero-main.jpg"
+          alt="Barber program"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Partner', href: '/partner' }, { label: 'Programs', href: '/partner/programs' }, { label: 'Barber' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Partner', href: '/partner' },
+              { label: 'Programs', href: '/partner/programs' },
+              { label: 'Barber' },
+            ]}
+          />
         </div>
       </div>
 
       {/* Header */}
       <header className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 py-6">
-          <Link href="/partner-portal" className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-4">
+          <Link
+            href="/partner-portal"
+            className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 mb-4"
+          >
             <ArrowLeft className="w-4 h-4" />
             Back to Dashboard
           </Link>
@@ -230,7 +247,9 @@ export default function BarberPartnerPage() {
               </div>
               <div>
                 <h1 className="text-2xl font-bold text-slate-900">Barber Apprenticeship</h1>
-                <p className="text-slate-500">{apprentices.length} active apprentice{apprentices.length !== 1 ? 's' : ''}</p>
+                <p className="text-slate-500">
+                  {apprentices.length} active apprentice{apprentices.length !== 1 ? 's' : ''}
+                </p>
               </div>
             </div>
             <button
@@ -251,7 +270,7 @@ export default function BarberPartnerPage() {
             {error}
           </div>
         )}
-        
+
         {success && (
           <div className="mb-6 p-4 bg-brand-green-50 border border-brand-green-200 rounded-lg flex items-center gap-3 text-brand-green-700">
             <span className="text-slate-400 flex-shrink-0">•</span>
@@ -266,16 +285,27 @@ export default function BarberPartnerPage() {
             <div className="bg-white rounded-xl p-8 text-center border border-slate-200">
               <Users className="w-12 h-12 text-slate-300 mx-auto mb-4" />
               <p className="text-slate-500">No apprentices assigned yet</p>
-              <p className="text-sm text-slate-400 mt-1">Apprentices will appear here once they are assigned to your shop</p>
+              <p className="text-sm text-slate-400 mt-1">
+                Apprentices will appear here once they are assigned to your shop
+              </p>
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
               {apprentices.map((apprentice) => (
-                <div key={apprentice.id} className="bg-white rounded-xl p-6 border border-slate-200">
+                <div
+                  key={apprentice.id}
+                  className="bg-white rounded-xl p-6 border border-slate-200"
+                >
                   <div className="flex items-center gap-4 mb-4">
                     <div className="w-12 h-12 bg-brand-blue-100 rounded-full flex items-center justify-center">
                       {apprentice.avatar_url ? (
-                        <Image src={apprentice.avatar_url} alt={apprentice.full_name || 'Apprentice'} width={48} height={48} className="w-12 h-12 rounded-full object-cover" />
+                        <Image sizes="100vw"
+                          src={apprentice.avatar_url}
+                          alt={apprentice.full_name || 'Apprentice'}
+                          width={48}
+                          height={48}
+                          className="w-12 h-12 rounded-full object-cover"
+                        />
                       ) : (
                         <span className="text-lg font-bold text-brand-blue-600">
                           {apprentice.full_name.charAt(0)}
@@ -322,31 +352,57 @@ export default function BarberPartnerPage() {
               <table className="w-full">
                 <thead className="bg-slate-50 border-b border-slate-200">
                   <tr>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase">Apprentice</th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase">Week Ending</th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase">Hours</th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase">Notes</th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase">Status</th>
-                    <th className="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase">Submitted</th>
+                    <th className="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase">
+                      Apprentice
+                    </th>
+                    <th className="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase">
+                      Week Ending
+                    </th>
+                    <th className="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase">
+                      Hours
+                    </th>
+                    <th className="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase">
+                      Notes
+                    </th>
+                    <th className="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase">
+                      Status
+                    </th>
+                    <th className="text-left px-6 py-3 text-xs font-medium text-slate-500 uppercase">
+                      Submitted
+                    </th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-200">
                   {progressEntries.map((entry) => (
                     <tr key={entry.id} className="hover:bg-slate-50">
-                      <td className="px-6 py-4 text-sm text-slate-900">{entry.apprentice_name || 'Unknown'}</td>
-                      <td className="px-6 py-4 text-sm text-slate-600">{new Date(entry.week_ending).toLocaleDateString()}</td>
-                      <td className="px-6 py-4 text-sm font-medium text-slate-900">{entry.hours_worked}</td>
-                      <td className="px-6 py-4 text-sm text-slate-500 max-w-xs truncate">{entry.notes || '-'}</td>
+                      <td className="px-6 py-4 text-sm text-slate-900">
+                        {entry.apprentice_name || 'Unknown'}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-slate-600">
+                        {new Date(entry.week_ending).toLocaleDateString()}
+                      </td>
+                      <td className="px-6 py-4 text-sm font-medium text-slate-900">
+                        {entry.hours_worked}
+                      </td>
+                      <td className="px-6 py-4 text-sm text-slate-500 max-w-xs truncate">
+                        {entry.notes || '-'}
+                      </td>
                       <td className="px-6 py-4">
-                        <span className={`text-xs px-2 py-1 rounded-full ${
-                          entry.status === 'verified' ? 'bg-brand-green-100 text-brand-green-700' :
-                          entry.status === 'submitted' ? 'bg-brand-blue-100 text-brand-blue-700' :
-                          'bg-slate-100 text-slate-600'
-                        }`}>
+                        <span
+                          className={`text-xs px-2 py-1 rounded-full ${
+                            entry.status === 'verified'
+                              ? 'bg-brand-green-100 text-brand-green-700'
+                              : entry.status === 'submitted'
+                                ? 'bg-brand-blue-100 text-brand-blue-700'
+                                : 'bg-slate-100 text-slate-600'
+                          }`}
+                        >
                           {entry.status}
                         </span>
                       </td>
-                      <td className="px-6 py-4 text-sm text-slate-500">{new Date(entry.submitted_at).toLocaleDateString()}</td>
+                      <td className="px-6 py-4 text-sm text-slate-500">
+                        {new Date(entry.submitted_at).toLocaleDateString()}
+                      </td>
                     </tr>
                   ))}
                 </tbody>
@@ -363,7 +419,9 @@ export default function BarberPartnerPage() {
             <h3 className="text-lg font-bold text-slate-900 mb-4">Enter Weekly Progress</h3>
             <form onSubmit={handleSubmitProgress} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Apprentice *</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Apprentice *
+                </label>
                 <select
                   value={entryForm.apprenticeId}
                   onChange={(e) => setEntryForm({ ...entryForm, apprenticeId: e.target.value })}
@@ -372,13 +430,17 @@ export default function BarberPartnerPage() {
                 >
                   <option value="">Select apprentice...</option>
                   {apprentices.map((a) => (
-                    <option key={a.id} value={a.id}>{a.full_name}</option>
+                    <option key={a.id} value={a.id}>
+                      {a.full_name}
+                    </option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Week Ending (Friday) *</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Week Ending (Friday) *
+                </label>
                 <input
                   type="date"
                   value={entryForm.weekEnding}
@@ -389,7 +451,9 @@ export default function BarberPartnerPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Hours Worked *</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Hours Worked *
+                </label>
                 <input
                   type="number"
                   step="0.5"
@@ -404,7 +468,9 @@ export default function BarberPartnerPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-700 mb-1">Notes (optional)</label>
+                <label className="block text-sm font-medium text-slate-700 mb-1">
+                  Notes (optional)
+                </label>
                 <textarea
                   value={entryForm.notes}
                   onChange={(e) => setEntryForm({ ...entryForm, notes: e.target.value })}

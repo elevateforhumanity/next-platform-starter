@@ -4,10 +4,7 @@ import { withErrorHandling, APIErrors } from '@/lib/api';
 import { NextRequest, NextResponse } from 'next/server';
 import { auditLog, AuditAction, AuditEntity } from '@/lib/logging/auditLog';
 import { verifyDocument, rejectDocument } from '@/lib/documents';
-import { 
-  notifyDocumentRejected, 
-  notifyDocumentVerified 
-} from '@/lib/notifications';
+import { notifyDocumentRejected, notifyDocumentVerified } from '@/lib/notifications';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -63,7 +60,11 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
 
   // Hydrate profile separately (documents.user_id has no FK to profiles)
   const { data: docVerifyProfile } = document.user_id
-    ? await supabase.from('profiles').select('id, full_name, email').eq('id', document.user_id).maybeSingle()
+    ? await supabase
+        .from('profiles')
+        .select('id, full_name, email')
+        .eq('id', document.user_id)
+        .maybeSingle()
     : { data: null };
   (document as any).profiles = docVerifyProfile ?? null;
 
@@ -134,27 +135,26 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
           document.document_type,
           rejectionReason,
           documentId,
-          document.user_id
+          document.user_id,
         );
       } else {
         // Determine next step based on document type
         let nextStep = 'Your application is being reviewed.';
         if (document.document_type === 'photo_id') {
-          nextStep = enrollmentReady 
+          nextStep = enrollmentReady
             ? 'Your documents are verified! Your enrollment is ready for final approval.'
             : 'Your enrollment application is now ready for admin review.';
         } else if (['shop_license', 'barber_license'].includes(document.document_type)) {
           nextStep = 'Your host shop application is being reviewed.';
-        } else if (['school_transcript', 'certificate', 'out_of_state_license'].includes(document.document_type)) {
+        } else if (
+          ['school_transcript', 'certificate', 'out_of_state_license'].includes(
+            document.document_type,
+          )
+        ) {
           nextStep = 'Your transfer hours will be evaluated.';
         }
 
-        await notifyDocumentVerified(
-          ownerEmail,
-          ownerName,
-          document.document_type,
-          nextStep
-        );
+        await notifyDocumentVerified(ownerEmail, ownerName, document.document_type, nextStep);
       }
     } catch (notifyError) {
       // Log but don't fail the request

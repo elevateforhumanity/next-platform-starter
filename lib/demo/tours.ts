@@ -29,7 +29,8 @@ export const TOURS: Record<DemoLicenseType, Tour> = {
     id: 'institution_admin',
     name: 'Institution / Admin License Tour',
     licenseType: 'institution_admin',
-    description: 'Experience full administrative control over your training programs, from enrollment to compliance reporting.',
+    description:
+      'Experience full administrative control over your training programs, from enrollment to compliance reporting.',
     steps: [
       {
         id: 'welcome',
@@ -39,7 +40,8 @@ export const TOURS: Record<DemoLicenseType, Tour> = {
 This dashboard is where training providers, community colleges, and workforce development organizations manage their entire operation—from student enrollment to compliance reporting.
 
 As an administrator, you'll have visibility into every aspect of your programs: who's enrolled, how they're progressing, what funding sources are being used, and whether you're meeting compliance requirements.`,
-        why_it_matters: 'Centralized visibility reduces administrative overhead and ensures nothing falls through the cracks.',
+        why_it_matters:
+          'Centralized visibility reduces administrative overhead and ensures nothing falls through the cracks.',
         role: 'demo_admin',
         route: '/demo/admin/dashboard',
         completion_check: 'manual',
@@ -57,7 +59,8 @@ As an administrator, you'll have visibility into every aspect of your programs: 
 Notice how applications are organized by status. You can see at a glance how many are pending review, waiting for documents, or ready for approval.
 
 The system automatically flags applications that have been waiting too long, ensuring timely processing.`,
-        why_it_matters: 'A structured pipeline prevents applications from getting lost and ensures fair, consistent processing.',
+        why_it_matters:
+          'A structured pipeline prevents applications from getting lost and ensures fair, consistent processing.',
         role: 'demo_admin',
         route: '/demo/admin/applications',
         completion_check: 'manual',
@@ -75,7 +78,8 @@ Each enrollment record tracks:
 - **Status** - Active, on hold, completed, withdrawn
 
 You can filter by program, funding type, or status to quickly find specific groups of students.`,
-        why_it_matters: 'Real-time enrollment visibility enables proactive intervention when students fall behind.',
+        why_it_matters:
+          'Real-time enrollment visibility enables proactive intervention when students fall behind.',
         role: 'demo_admin',
         route: '/demo/admin/enrollments',
         completion_check: 'manual',
@@ -94,7 +98,8 @@ This dashboard shows your compliance status across key metrics:
 Red flags indicate areas needing immediate attention. Yellow indicates approaching deadlines.
 
 The system generates the reports your workforce board needs, formatted to their specifications.`,
-        why_it_matters: 'Automated compliance tracking prevents funding clawbacks and audit findings.',
+        why_it_matters:
+          'Automated compliance tracking prevents funding clawbacks and audit findings.',
         role: 'demo_admin',
         route: '/demo/admin/compliance',
         completion_check: 'manual',
@@ -114,7 +119,8 @@ The audit log shows:
 This is essential for WIOA audits, where you may need to demonstrate that proper procedures were followed for funding decisions.
 
 You can filter by user, action type, date range, or affected record.`,
-        why_it_matters: 'Complete audit trails protect your organization during compliance reviews and investigations.',
+        why_it_matters:
+          'Complete audit trails protect your organization during compliance reviews and investigations.',
         role: 'demo_admin',
         route: '/demo/admin/audit-logs',
         completion_check: 'manual',
@@ -131,7 +137,8 @@ You can filter by user, action type, date range, or affected record.`,
 - **Custom exports** - Pull the data you need in the format you need
 
 Reports can be scheduled to run automatically and emailed to stakeholders.`,
-        why_it_matters: 'Accurate reporting demonstrates program effectiveness and justifies continued funding.',
+        why_it_matters:
+          'Accurate reporting demonstrates program effectiveness and justifies continued funding.',
         role: 'demo_admin',
         route: '/demo/admin/reports',
         completion_check: 'manual',
@@ -152,7 +159,8 @@ Reports can be scheduled to run automatically and emailed to stakeholders.`,
 **Pricing starts at $1,500/month** for the managed platform, with volume discounts available.
 
 Ready to bring this to your organization?`,
-        why_it_matters: 'The right tools transform administrative burden into operational efficiency.',
+        why_it_matters:
+          'The right tools transform administrative burden into operational efficiency.',
         role: 'demo_admin',
         route: '/store/licenses/managed-platform',
         completion_check: 'manual',
@@ -165,7 +173,8 @@ Ready to bring this to your organization?`,
     id: 'partner_employer',
     name: 'Partner / Employer License Tour',
     licenseType: 'partner_employer',
-    description: 'See how employers access the talent pipeline, manage apprenticeships, and track hiring incentives.',
+    description:
+      'See how employers access the talent pipeline, manage apprenticeships, and track hiring incentives.',
     steps: [
       {
         id: 'welcome',
@@ -179,7 +188,8 @@ This portal is designed for hiring managers and HR teams who want to:
 - Coordinate with training providers
 
 You're not just posting jobs—you're connecting with candidates who have verified skills and credentials.`,
-        why_it_matters: 'Direct pipeline access reduces time-to-hire and ensures candidate quality.',
+        why_it_matters:
+          'Direct pipeline access reduces time-to-hire and ensures candidate quality.',
         role: 'demo_partner',
         route: '/demo/employer/dashboard',
         completion_check: 'manual',
@@ -215,7 +225,8 @@ Track each apprentice's:
 - **Competency sign-offs** - Skills demonstrated on the job
 
 The system ensures you're meeting Department of Labor requirements for registered apprenticeships.`,
-        why_it_matters: 'Proper apprenticeship tracking ensures program compliance and maximizes available subsidies.',
+        why_it_matters:
+          'Proper apprenticeship tracking ensures program compliance and maximizes available subsidies.',
         role: 'demo_partner',
         route: '/demo/employer/apprenticeships',
         completion_check: 'manual',
@@ -233,7 +244,8 @@ The system ensures you're meeting Department of Labor requirements for registere
 This dashboard tracks which incentives apply to each hire and helps you maximize your benefits.
 
 The system can generate the documentation needed to claim these incentives.`,
-        why_it_matters: 'Unclaimed incentives are money left on the table. Tracking ensures you capture every dollar.',
+        why_it_matters:
+          'Unclaimed incentives are money left on the table. Tracking ensures you capture every dollar.',
         role: 'demo_partner',
         route: '/demo/employer/incentives',
         completion_check: 'manual',
@@ -285,7 +297,8 @@ Ready to start hiring?`,
     id: 'workforce_program',
     name: 'Workforce / Program License Tour',
     licenseType: 'workforce_program',
-    description: 'Experience the complete workforce development platform with funding integration and multi-stakeholder coordination.',
+    description:
+      'Experience the complete workforce development platform with funding integration and multi-stakeholder coordination.',
     steps: [
       {
         id: 'welcome',
@@ -299,7 +312,8 @@ Unlike single-organization tools, this system coordinates across multiple stakeh
 - Case managers supporting participants
 
 Everything connects. A participant's journey from intake to employment is tracked end-to-end.`,
-        why_it_matters: 'Coordinated systems eliminate data silos and enable true outcome tracking.',
+        why_it_matters:
+          'Coordinated systems eliminate data silos and enable true outcome tracking.',
         role: 'demo_admin',
         route: '/demo/admin/dashboard',
         completion_check: 'manual',
@@ -316,7 +330,8 @@ Everything connects. A participant's journey from intake to employment is tracke
 - **Document verification** - Required supporting documentation
 
 The system guides case managers through the eligibility process, ensuring all required documentation is collected and properly stored.`,
-        why_it_matters: 'Proper eligibility determination prevents disallowed costs and audit findings.',
+        why_it_matters:
+          'Proper eligibility determination prevents disallowed costs and audit findings.',
         role: 'demo_admin',
         route: '/demo/admin/wioa',
         completion_check: 'manual',
@@ -334,7 +349,8 @@ The system guides case managers through the eligibility process, ensuring all re
 - **Grants** - Federal, state, foundation
 
 Each participant can have multiple funding sources. The system tracks obligations, expenditures, and remaining balances.`,
-        why_it_matters: 'Accurate funding tracking ensures compliance and maximizes resource utilization.',
+        why_it_matters:
+          'Accurate funding tracking ensures compliance and maximizes resource utilization.',
         role: 'demo_admin',
         route: '/demo/admin/funding',
         completion_check: 'manual',
@@ -353,7 +369,8 @@ Each participant can have multiple funding sources. The system tracks obligation
 The system automatically calculates performance against negotiated levels and projects year-end outcomes.
 
 Early warning indicators flag when performance is trending below target.`,
-        why_it_matters: 'Meeting performance measures ensures continued funding and demonstrates program value.',
+        why_it_matters:
+          'Meeting performance measures ensures continued funding and demonstrates program value.',
         role: 'demo_admin',
         route: '/demo/admin/outcomes',
         completion_check: 'manual',
@@ -387,7 +404,8 @@ Each partner has their own portal access with appropriate permissions.`,
 - **Custom reports** - Board reports, stakeholder updates
 
 Reports are generated automatically from system data—no manual data entry or reconciliation.`,
-        why_it_matters: 'Automated reporting saves hundreds of hours and eliminates data entry errors.',
+        why_it_matters:
+          'Automated reporting saves hundreds of hours and eliminates data entry errors.',
         role: 'demo_admin',
         route: '/demo/admin/reports',
         completion_check: 'manual',
@@ -409,7 +427,8 @@ Reports are generated automatically from system data—no manual data entry or r
 **Enterprise pricing starts at $75,000** for source-use license, or managed platform options available.
 
 Ready to modernize your workforce system?`,
-        why_it_matters: 'Modern infrastructure enables better outcomes for participants and communities.',
+        why_it_matters:
+          'Modern infrastructure enables better outcomes for participants and communities.',
         role: 'demo_admin',
         route: '/store/licenses/source-use',
         completion_check: 'manual',

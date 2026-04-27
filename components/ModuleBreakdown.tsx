@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -34,7 +34,7 @@ export function ModuleBreakdown({ modules, className = '' }: ModuleBreakdownProp
   const [expandedModules, setExpandedModules] = useState<Set<string>>(new Set([modules[0]?.id]));
 
   const toggleModule = (moduleId: string) => {
-    setExpandedModules(prev => {
+    setExpandedModules((prev) => {
       const next = new Set(prev);
       if (next.has(moduleId)) {
         next.delete(moduleId);
@@ -64,7 +64,7 @@ export function ModuleBreakdown({ modules, className = '' }: ModuleBreakdownProp
       <div className="space-y-4">
         {modules.map((module, index) => {
           const isExpanded = expandedModules.has(module.id);
-          const completedLessons = module.lessons.filter(l => l.completed).length;
+          const completedLessons = module.lessons.filter((l) => l.completed).length;
           const totalLessons = module.lessons.length;
 
           return (
@@ -132,9 +132,7 @@ export function ModuleBreakdown({ modules, className = '' }: ModuleBreakdownProp
                           <div className="flex-1">
                             <div className="flex items-center gap-2 mb-1">
                               <span className="text-slate-400">{getLessonIcon(lesson.type)}</span>
-                              <span className="text-sm font-medium text-black">
-                                {lesson.title}
-                              </span>
+                              <span className="text-sm font-medium text-black">{lesson.title}</span>
                             </div>
                             <span className="text-xs text-slate-500">{lesson.duration} min</span>
                           </div>

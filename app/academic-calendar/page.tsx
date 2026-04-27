@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default function AcademicCalendarPage() {
   const currentYear = new Date().getFullYear();
-  
+
   const terms = [
     {
       name: 'Winter Term',
@@ -43,9 +43,9 @@ export default function AcademicCalendarPage() {
   ];
 
   const holidays = [
-    { name: 'New Year\'s Day', date: `January 1, ${currentYear}` },
+    { name: "New Year's Day", date: `January 1, ${currentYear}` },
     { name: 'Martin Luther King Jr. Day', date: `January 20, ${currentYear}` },
-    { name: 'Presidents\' Day', date: `February 17, ${currentYear}` },
+    { name: "Presidents' Day", date: `February 17, ${currentYear}` },
     { name: 'Memorial Day', date: `May 26, ${currentYear}` },
     { name: 'Independence Day', date: `July 4, ${currentYear}` },
     { name: 'Labor Day', date: `September 1, ${currentYear}` },
@@ -64,16 +64,22 @@ export default function AcademicCalendarPage() {
 
       {/* Hero Image */}
       <section className="relative h-[200px] sm:h-[280px] md:h-[340px] overflow-hidden">
-        <Image src="/images/pages/academic-calendar-hero.jpg" alt="Academic calendar and important dates" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/academic-calendar-hero.jpg"
+          alt="Academic calendar and important dates"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
 
       {/* Title */}
       <section className="bg-brand-blue-700 text-white py-16">
         <div className="max-w-7xl mx-auto px-4">
           <h1 className="text-4xl font-bold mb-4">Academic Calendar</h1>
-          <p className="text-xl text-white">
-            Important dates and schedules for {currentYear}
-          </p>
+          <p className="text-xl text-white">Important dates and schedules for {currentYear}</p>
         </div>
       </section>
 
@@ -86,20 +92,29 @@ export default function AcademicCalendarPage() {
           </h2>
           <div className="grid md:grid-cols-2 gap-6">
             {terms.map((term) => (
-              <div key={term.name} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+              <div
+                key={term.name}
+                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+              >
                 <h3 className="text-xl font-bold text-gray-900 mb-4">{term.name}</h3>
                 <div className="space-y-3 text-gray-600">
                   <div className="flex items-center gap-2">
                     <Clock className="w-5 h-5 text-brand-green-600" />
-                    <span><strong>Start:</strong> {term.startDate}</span>
+                    <span>
+                      <strong>Start:</strong> {term.startDate}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <Clock className="w-5 h-5 text-brand-red-600" />
-                    <span><strong>End:</strong> {term.endDate}</span>
+                    <span>
+                      <strong>End:</strong> {term.endDate}
+                    </span>
                   </div>
                   <div className="flex items-center gap-2">
                     <BookOpen className="w-5 h-5 text-brand-orange-600" />
-                    <span><strong>Enrollment Deadline:</strong> {term.enrollmentDeadline}</span>
+                    <span>
+                      <strong>Enrollment Deadline:</strong> {term.enrollmentDeadline}
+                    </span>
                   </div>
                 </div>
               </div>
@@ -117,7 +132,9 @@ export default function AcademicCalendarPage() {
             <table className="w-full">
               <thead className="bg-white">
                 <tr>
-                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Holiday</th>
+                  <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">
+                    Holiday
+                  </th>
                   <th className="px-6 py-3 text-left text-sm font-semibold text-gray-900">Date</th>
                 </tr>
               </thead>

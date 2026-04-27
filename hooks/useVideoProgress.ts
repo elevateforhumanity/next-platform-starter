@@ -32,7 +32,7 @@ const storageKey = (lessonId: string | number, userId?: string) =>
  */
 export function useVideoProgress(
   ref: RefObject<HTMLVideoElement>,
-  { lessonId, userId, threshold = 0.8, saveIntervalSeconds = 5 }: UseVideoProgressOptions = {}
+  { lessonId, userId, threshold = 0.8, saveIntervalSeconds = 5 }: UseVideoProgressOptions = {},
 ) {
   const hasReportedComplete = useRef(false);
   const lastSavedTime = useRef(0);

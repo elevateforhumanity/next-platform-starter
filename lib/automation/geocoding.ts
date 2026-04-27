@@ -1,10 +1,10 @@
 import 'server-only';
 /**
  * Geocoding Utility
- * 
+ *
  * Converts addresses to lat/lng coordinates.
  * Uses OpenStreetMap Nominatim API (free, no API key required).
- * 
+ *
  * USAGE:
  * - Call geocodeAddress() when a partner is created/updated
  * - Store lat/lng in partners table
@@ -30,14 +30,14 @@ export async function geocodeAddress(
   address: string,
   city: string,
   state: string,
-  zip: string
+  zip: string,
 ): Promise<GeocodingResult> {
   const fullAddress = `${address}, ${city}, ${state} ${zip}, USA`;
-  
+
   try {
     const encodedAddress = encodeURIComponent(fullAddress);
     const url = `https://nominatim.openstreetmap.org/search?format=json&q=${encodedAddress}&limit=1`;
-    
+
     const response = await fetch(url, {
       headers: {
         'User-Agent': 'ElevateForHumanity-LMS/1.0 (contact@elevateforhumanity.org)',
@@ -108,7 +108,7 @@ export async function geocodePartner(partnerId: string): Promise<GeocodingResult
     partner.address_line1,
     partner.city,
     partner.state,
-    partner.zip
+    partner.zip,
   );
 
   if (!result.success) {
@@ -171,7 +171,7 @@ export async function geocodeAllPartners(): Promise<{
 
   for (const partner of partners) {
     const result = await geocodePartner(partner.id);
-    
+
     if (result.success) {
       success++;
     } else {
@@ -179,7 +179,7 @@ export async function geocodeAllPartners(): Promise<{
     }
 
     // Rate limit: wait 1 second between requests
-    await new Promise(resolve => setTimeout(resolve, 1100));
+    await new Promise((resolve) => setTimeout(resolve, 1100));
   }
 
   return {
@@ -196,7 +196,7 @@ export async function geocodeAllPartners(): Promise<{
 export async function setPartnerCoordinates(
   partnerId: string,
   lat: number,
-  lng: number
+  lng: number,
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await getAdminClient();
 

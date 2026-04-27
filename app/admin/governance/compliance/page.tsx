@@ -1,6 +1,4 @@
-
 export const revalidate = 3600;
-
 
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
@@ -10,7 +8,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Compliance & Disclosure Framework | Governance | Elevate for Humanity',
-  description: 'How legal, financial, and eligibility disclosures are presented and how compliance alignment is maintained across the platform.',
+  description:
+    'How legal, financial, and eligibility disclosures are presented and how compliance alignment is maintained across the platform.',
   robots: {
     index: true,
     follow: true,
@@ -28,20 +27,21 @@ export default async function CompliancePage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Governance', href: '/admin/governance' }, { label: 'Compliance' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Governance', href: '/admin/governance' }, { label: 'Compliance' }]}
+          />
         </div>
       </div>
 
       {/* Header */}
       <div className="bg-slate-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <Link 
-            href="/admin/governance" 
+          <Link
+            href="/admin/governance"
             className="inline-flex items-center text-slate-400 hover:text-white mb-6 text-sm"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -53,9 +53,7 @@ export default async function CompliancePage() {
             </div>
             <div>
               <p className="text-slate-500 text-sm">Document 3 of 7</p>
-              <h1 className="text-2xl md:text-3xl font-bold">
-                Compliance & Disclosure Framework
-              </h1>
+              <h1 className="text-2xl md:text-3xl font-bold">Compliance & Disclosure Framework</h1>
             </div>
           </div>
           <p className="text-slate-300">
@@ -79,12 +77,12 @@ export default async function CompliancePage() {
               1. Purpose
             </h2>
             <p className="text-slate-700 leading-relaxed">
-              Elevate for Humanity is a workforce development and career training institute
-              operated by 2Exclusive LLC-S, a registered limited liability company in the State of Indiana.
-              This document defines how disclosures are presented, how claims are supported,
-              and how compliance alignment is maintained across the platform. It exists to
-              ensure that users, partners, regulators, and payment processors can verify
-              that the platform operates within applicable legal and ethical standards.
+              Elevate for Humanity is a workforce development and career training institute operated
+              by 2Exclusive LLC-S, a registered limited liability company in the State of Indiana.
+              This document defines how disclosures are presented, how claims are supported, and how
+              compliance alignment is maintained across the platform. It exists to ensure that
+              users, partners, regulators, and payment processors can verify that the platform
+              operates within applicable legal and ethical standards.
             </p>
           </section>
 
@@ -93,9 +91,7 @@ export default async function CompliancePage() {
             <h2 className="text-xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">
               2. Scope
             </h2>
-            <p className="text-slate-700 leading-relaxed mb-4">
-              This framework applies to:
-            </p>
+            <p className="text-slate-700 leading-relaxed mb-4">This framework applies to:</p>
             <ul className="list-disc list-inside text-slate-700 space-y-2 ml-4">
               <li>Public website and marketing content</li>
               <li>Learning Management System (LMS) course descriptions and outcomes</li>
@@ -116,28 +112,37 @@ export default async function CompliancePage() {
                 <span className="text-slate-400 flex-shrink-0">•</span>
                 <div>
                   <p className="font-medium text-slate-900">Clear and Conspicuous</p>
-                  <p className="text-slate-600 text-sm">Disclosures are presented in plain language, visible without scrolling or clicking where possible.</p>
+                  <p className="text-slate-600 text-sm">
+                    Disclosures are presented in plain language, visible without scrolling or
+                    clicking where possible.
+                  </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <span className="text-slate-400 flex-shrink-0">•</span>
                 <div>
                   <p className="font-medium text-slate-900">Timely</p>
-                  <p className="text-slate-600 text-sm">Disclosures are presented before the user commits to a transaction or action.</p>
+                  <p className="text-slate-600 text-sm">
+                    Disclosures are presented before the user commits to a transaction or action.
+                  </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <span className="text-slate-400 flex-shrink-0">•</span>
                 <div>
                   <p className="font-medium text-slate-900">Accurate</p>
-                  <p className="text-slate-600 text-sm">All claims are supportable and aligned with authoritative documents.</p>
+                  <p className="text-slate-600 text-sm">
+                    All claims are supportable and aligned with authoritative documents.
+                  </p>
                 </div>
               </div>
               <div className="flex items-start gap-3">
                 <span className="text-slate-400 flex-shrink-0">•</span>
                 <div>
                   <p className="font-medium text-slate-900">Complete</p>
-                  <p className="text-slate-600 text-sm">Material terms, conditions, and limitations are disclosed, not hidden.</p>
+                  <p className="text-slate-600 text-sm">
+                    Material terms, conditions, and limitations are disclosed, not hidden.
+                  </p>
                 </div>
               </div>
             </div>
@@ -149,7 +154,8 @@ export default async function CompliancePage() {
               4. Eligibility Statements
             </h2>
             <p className="text-slate-700 leading-relaxed mb-4">
-              When eligibility criteria apply (e.g., for refund advances, program enrollment, or certifications):
+              When eligibility criteria apply (e.g., for refund advances, program enrollment, or
+              certifications):
             </p>
             <ul className="list-disc list-inside text-slate-700 space-y-2 ml-4">
               <li>Criteria are stated explicitly</li>
@@ -184,14 +190,14 @@ export default async function CompliancePage() {
               <div className="flex items-start gap-3">
                 <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
                 <p className="text-slate-700">
-                  Claims about outcomes (e.g., job placement, income, certification value) must be 
-                  supportable and not misleading. Typical results, not exceptional results, are used 
+                  Claims about outcomes (e.g., job placement, income, certification value) must be
+                  supportable and not misleading. Typical results, not exceptional results, are used
                   as the basis for claims.
                 </p>
               </div>
             </div>
             <p className="text-slate-700 leading-relaxed">
-              Where outcomes depend on user effort, market conditions, or third-party decisions, 
+              Where outcomes depend on user effort, market conditions, or third-party decisions,
               this is disclosed.
             </p>
           </section>
@@ -202,7 +208,8 @@ export default async function CompliancePage() {
               7. Regulatory Alignment
             </h2>
             <p className="text-slate-700 leading-relaxed mb-4">
-              The platform is designed to align with applicable regulations, including but not limited to:
+              The platform is designed to align with applicable regulations, including but not
+              limited to:
             </p>
             <ul className="list-disc list-inside text-slate-700 space-y-2 ml-4">
               <li>Consumer protection laws</li>
@@ -211,7 +218,8 @@ export default async function CompliancePage() {
               <li>Advertising and marketing standards</li>
             </ul>
             <p className="text-slate-700 leading-relaxed mt-4">
-              Specific regulatory requirements are addressed in the relevant authoritative documents.
+              Specific regulatory requirements are addressed in the relevant authoritative
+              documents.
             </p>
           </section>
 
@@ -220,9 +228,7 @@ export default async function CompliancePage() {
             <h2 className="text-xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">
               8. Review and Enforcement
             </h2>
-            <p className="text-slate-700 leading-relaxed mb-4">
-              Compliance is maintained through:
-            </p>
+            <p className="text-slate-700 leading-relaxed mb-4">Compliance is maintained through:</p>
             <ul className="list-disc list-inside text-slate-700 space-y-2 ml-4">
               <li>Quarterly compliance language audits</li>
               <li>PR review checklists for disclosure-sensitive changes</li>
@@ -237,7 +243,7 @@ export default async function CompliancePage() {
               9. Versioning
             </h2>
             <p className="text-slate-700 leading-relaxed">
-              This document is reviewed periodically and updated as regulations, products, or 
+              This document is reviewed periodically and updated as regulations, products, or
               operational practices change. Superseded versions are archived for reference.
             </p>
           </section>
@@ -247,13 +253,13 @@ export default async function CompliancePage() {
         <div className="mt-12 pt-8 border-t border-slate-200">
           <p className="text-center text-slate-500 text-sm mb-6">End of Document</p>
           <div className="flex justify-center gap-4">
-            <Link 
+            <Link
               href="/admin/governance"
               className="px-6 py-3 bg-slate-100 text-slate-700 rounded-lg font-medium hover:bg-slate-200 transition-colors"
             >
               Back to Index
             </Link>
-            <Link 
+            <Link
               href="/admin/governance/contact"
               className="px-6 py-3 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors"
             >

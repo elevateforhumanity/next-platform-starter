@@ -1,7 +1,7 @@
 #!/usr/bin/env tsx
 /**
  * HVAC Instructional Video Generator
- * 
+ *
  * For each video lesson:
  * 1. Pulls lesson content from Supabase DB
  * 2. Uses GPT-4o to create a structured narration script + diagram prompts
@@ -24,7 +24,7 @@ const SUPABASE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 const OPENAI_KEY = process.env.OPENAI_API_KEY!;
 
 const supabase = createClient(SUPABASE_URL, SUPABASE_KEY);
-const HVAC_DEF = COURSE_DEFINITIONS.find(c => c.slug === 'hvac-technician')!;
+const HVAC_DEF = COURSE_DEFINITIONS.find((c) => c.slug === 'hvac-technician')!;
 
 const OUT_DIR = '/tmp/hvac-videos';
 const VOICE = 'onyx'; // deep male voice for trades instruction
@@ -41,7 +41,7 @@ const TARGET_VIDEO_MINUTES = 5; // target ~5 min per video
 async function callGPT(systemPrompt: string, userPrompt: string): Promise<string> {
   const resp = await fetch('https://api.openai.com/v1/chat/completions', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${OPENAI_KEY}` },
     body: JSON.stringify({
       model: GPT_MODEL,
       messages: [
@@ -62,7 +62,7 @@ async function generateImage(prompt: string, outputPath: string, retries = 3): P
     try {
       const resp = await fetch('https://api.openai.com/v1/images/generations', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${OPENAI_KEY}` },
         body: JSON.stringify({
           model: IMAGE_MODEL,
           prompt,
@@ -76,12 +76,12 @@ async function generateImage(prompt: string, outputPath: string, retries = 3): P
       if (!resp.ok) {
         if (attempt < retries) {
           process.stdout.write(` (retry ${attempt})...`);
-          await new Promise(r => setTimeout(r, 3000 * attempt));
+          await new Promise((r) => setTimeout(r, 3000 * attempt));
           continue;
         }
         throw new Error(`DALL-E error after ${retries} attempts: ${JSON.stringify(data)}`);
       }
-      
+
       const imageUrl = data.data[0].url;
       const imgResp = await fetch(imageUrl);
       const buffer = Buffer.from(await imgResp.arrayBuffer());
@@ -90,7 +90,7 @@ async function generateImage(prompt: string, outputPath: string, retries = 3): P
     } catch (err: any) {
       if (attempt >= retries) throw err;
       process.stdout.write(` (retry ${attempt})...`);
-      await new Promise(r => setTimeout(r, 3000 * attempt));
+      await new Promise((r) => setTimeout(r, 3000 * attempt));
     }
   }
 }
@@ -98,7 +98,7 @@ async function generateImage(prompt: string, outputPath: string, retries = 3): P
 async function generateTTS(text: string, outputPath: string): Promise<void> {
   const resp = await fetch('https://api.openai.com/v1/audio/speech', {
     method: 'POST',
-    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${OPENAI_KEY}` },
+    headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${OPENAI_KEY}` },
     body: JSON.stringify({
       model: TTS_MODEL,
       input: text,
@@ -116,7 +116,10 @@ async function generateTTS(text: string, outputPath: string): Promise<void> {
 }
 
 function getAudioDuration(filePath: string): number {
-  const output = execSync(`ffprobe -v quiet -show_entries format=duration -of csv=p=0 "${filePath}"`, { encoding: 'utf8' });
+  const output = execSync(
+    `ffprobe -v quiet -show_entries format=duration -of csv=p=0 "${filePath}"`,
+    { encoding: 'utf8' },
+  );
   return parseFloat(output.trim());
 }
 
@@ -150,7 +153,7 @@ Rules:
 - For diagram prompts: describe a clean, labeled technical diagram on white background. NO people, NO photos. Just clean engineering-style diagrams with labels and arrows.
 
 Output EXACTLY this JSON format, no markdown:
-{"title":"...","scenes":[{"narration":"...","diagramPrompt":"..."},...]}`; 
+{"title":"...","scenes":[{"narration":"...","diagramPrompt":"..."},...]}`;
 
   const userPrompt = `Create an instructional video script for this HVAC lesson.
 
@@ -161,13 +164,16 @@ Content summary: ${lesson.content.substring(0, 2000)}
 Generate 4-6 scenes with narration and diagram descriptions.`;
 
   const raw = await callGPT(systemPrompt, userPrompt);
-  
+
   // Parse JSON from response (handle markdown code blocks)
   let jsonStr = raw;
   if (raw.includes('```')) {
-    jsonStr = raw.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
+    jsonStr = raw
+      .replace(/```json?\n?/g, '')
+      .replace(/```/g, '')
+      .trim();
   }
-  
+
   return JSON.parse(jsonStr);
 }
 
@@ -176,7 +182,7 @@ Generate 4-6 scenes with narration and diagram descriptions.`;
 function compositeVideo(
   scenes: { imagePath: string; audioPath: string; duration: number }[],
   outputPath: string,
-  title: string
+  title: string,
 ): void {
   const tempDir = path.dirname(outputPath);
   const concatFile = path.join(tempDir, 'concat.txt');
@@ -186,49 +192,56 @@ function compositeVideo(
   for (let i = 0; i < scenes.length; i++) {
     const scene = scenes[i];
     const sceneVideo = path.join(tempDir, `scene_${i}.mp4`);
-    
+
     // Create video from still image + audio
     execSync(
       `ffmpeg -y -loop 1 -i "${scene.imagePath}" -i "${scene.audioPath}" ` +
-      `-c:v libx264 -tune stillimage -c:a aac -b:a 192k -pix_fmt yuv420p ` +
-      `-vf "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2:white" ` +
-      `-shortest -t ${scene.duration + 1} "${sceneVideo}"`,
-      { stdio: 'pipe' }
+        `-c:v libx264 -tune stillimage -c:a aac -b:a 192k -pix_fmt yuv420p ` +
+        `-vf "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2:white" ` +
+        `-shortest -t ${scene.duration + 1} "${sceneVideo}"`,
+      { stdio: 'pipe' },
     );
     sceneVideos.push(sceneVideo);
   }
 
   // Create concat file
-  const concatContent = sceneVideos.map(v => `file '${v}'`).join('\n');
+  const concatContent = sceneVideos.map((v) => `file '${v}'`).join('\n');
   fs.writeFileSync(concatFile, concatContent);
 
   // Concatenate all scenes
-  execSync(
-    `ffmpeg -y -f concat -safe 0 -i "${concatFile}" -c copy "${outputPath}"`,
-    { stdio: 'pipe' }
-  );
+  execSync(`ffmpeg -y -f concat -safe 0 -i "${concatFile}" -c copy "${outputPath}"`, {
+    stdio: 'pipe',
+  });
 
   // Cleanup scene videos
   for (const v of sceneVideos) {
-    try { fs.unlinkSync(v); } catch {}
+    try {
+      fs.unlinkSync(v);
+    } catch {}
   }
-  try { fs.unlinkSync(concatFile); } catch {}
+  try {
+    fs.unlinkSync(concatFile);
+  } catch {}
 }
 
 // ─── Main pipeline ──────────────────────────────────────────────
 
-async function processLesson(lesson: {
-  defId: string;
-  uuid: string;
-  title: string;
-  module: string;
-  content: string;
-}, index: number, total: number): Promise<{ success: boolean; videoPath?: string; duration?: number; error?: string }> {
+async function processLesson(
+  lesson: {
+    defId: string;
+    uuid: string;
+    title: string;
+    module: string;
+    content: string;
+  },
+  index: number,
+  total: number,
+): Promise<{ success: boolean; videoPath?: string; duration?: number; error?: string }> {
   const lessonDir = path.join(OUT_DIR, lesson.defId);
   fs.mkdirSync(lessonDir, { recursive: true });
 
   const outputPath = path.join(OUT_DIR, `${lesson.uuid}.mp4`);
-  
+
   // Skip if already generated
   if (fs.existsSync(outputPath)) {
     const dur = getAudioDuration(outputPath);
@@ -255,7 +268,7 @@ async function processLesson(lesson: {
       if (!fs.existsSync(imgPath)) {
         await generateImage(
           `Clean, professional HVAC technical training diagram on white background. ${scene.diagramPrompt}. Style: engineering textbook illustration with clear labels, arrows, and annotations. No people, no photographs. Clean vector-style diagram.`,
-          imgPath
+          imgPath,
         );
       }
       process.stdout.write(` TTS...`);
@@ -264,10 +277,10 @@ async function processLesson(lesson: {
       if (!fs.existsSync(audioPath)) {
         await generateTTS(scene.narration, audioPath);
       }
-      
+
       const duration = getAudioDuration(audioPath);
       process.stdout.write(` ${Math.round(duration)}s\n`);
-      
+
       sceneData.push({ imagePath: imgPath, audioPath: audioPath, duration });
     }
 
@@ -278,7 +291,9 @@ async function processLesson(lesson: {
     process.stdout.write(` ${Math.round(totalDuration)}s total\n`);
 
     // Cleanup scene files
-    try { fs.rmSync(lessonDir, { recursive: true }); } catch {}
+    try {
+      fs.rmSync(lessonDir, { recursive: true });
+    } catch {}
 
     return { success: true, videoPath: outputPath, duration: totalDuration };
   } catch (err: any) {
@@ -312,20 +327,23 @@ async function main() {
     for (const lesson of mod.lessons) {
       if (lesson.type !== 'video') continue;
       const uuid = HVAC_LESSON_UUID[lesson.id];
-      
+
       // Get content from DB
       const { data } = await supabase
         .from('training_lessons')
         .select('content')
         .eq('id', uuid)
         .single();
-      
+
       let content = data?.content || '';
       if (isPlaceholderContent(content)) {
         content = buildLessonContent(lesson.id);
       }
       // Strip HTML
-      content = content.replace(/<[^>]+>/g, ' ').replace(/\s+/g, ' ').trim();
+      content = content
+        .replace(/<[^>]+>/g, ' ')
+        .replace(/\s+/g, ' ')
+        .trim();
 
       videoLessons.push({
         defId: lesson.id,
@@ -343,7 +361,13 @@ async function main() {
   const subset = videoLessons.slice(startIdx, endIdx + 1);
   let successCount = 0;
   let failCount = 0;
-  const results: Array<{ defId: string; uuid: string; title: string; success: boolean; duration?: number }> = [];
+  const results: Array<{
+    defId: string;
+    uuid: string;
+    title: string;
+    success: boolean;
+    duration?: number;
+  }> = [];
 
   for (let i = 0; i < subset.length; i++) {
     const lesson = subset[i];
@@ -364,7 +388,7 @@ async function main() {
   console.log('  GENERATION COMPLETE');
   console.log(`  Success: ${successCount} | Failed: ${failCount}`);
   console.log(`  Videos in: ${OUT_DIR}/`);
-  
+
   const totalDuration = results.reduce((s, r) => s + (r.duration || 0), 0);
   console.log(`  Total runtime: ${Math.round(totalDuration / 60)} minutes`);
   console.log('═══════════════════════════════════════════════════════\n');
@@ -373,7 +397,7 @@ async function main() {
   fs.writeFileSync(path.join(OUT_DIR, 'generation_results.json'), JSON.stringify(results, null, 2));
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Fatal error:', err);
   process.exit(1);
 });

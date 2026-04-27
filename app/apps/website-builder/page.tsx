@@ -13,9 +13,10 @@ export const metadata: Metadata = {
 
 export default async function WebsiteBuilderPage() {
   const supabase = await createClient();
-  
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     redirect('/login?redirect=/apps/website-builder&message=login-required');
   }

@@ -5,10 +5,7 @@ import { safeError, safeDbError } from '@/lib/api/safe-error';
 
 export const dynamic = 'force-dynamic';
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> },
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const auth = await apiAuthGuard(request);
 
   const { slug } = await params;
@@ -26,7 +23,9 @@ export async function GET(
 
   const { data, error } = await db
     .from('program_external_courses')
-    .select('id, partner_name, title, external_url, description, duration_display, credential_name, enrollment_instructions, is_required, manual_completion_enabled, sort_order, cost_cents, payer_rule')
+    .select(
+      'id, partner_name, title, external_url, description, duration_display, credential_name, enrollment_instructions, is_required, manual_completion_enabled, sort_order, cost_cents, payer_rule',
+    )
     .eq('program_id', program.id)
     .eq('is_active', true)
     .order('sort_order');

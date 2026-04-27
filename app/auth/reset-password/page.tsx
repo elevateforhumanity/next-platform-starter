@@ -6,16 +6,16 @@ import { AlertCircle, CheckCircle, Eye, EyeOff } from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 
 const ROLE_DESTINATIONS: Record<string, string> = {
-  admin:          '/admin/dashboard',
-  super_admin:    '/admin/dashboard',
-  staff:          '/staff-portal/dashboard',
-  instructor:     '/instructor/dashboard',
-  mentor:         '/mentor/dashboard',
+  admin: '/admin/dashboard',
+  super_admin: '/admin/dashboard',
+  staff: '/staff-portal/dashboard',
+  instructor: '/instructor/dashboard',
+  mentor: '/mentor/dashboard',
   program_holder: '/program-holder/dashboard',
-  partner:        '/partner/dashboard',
-  employer:       '/employer/dashboard',
-  student:        '/learner/dashboard',
-  learner:        '/learner/dashboard',
+  partner: '/partner/dashboard',
+  employer: '/employer/dashboard',
+  student: '/learner/dashboard',
+  learner: '/learner/dashboard',
 };
 
 function portalFor(role: string | null | undefined): string {
@@ -51,7 +51,9 @@ export default function AuthResetPasswordPage() {
       // PASSWORD_RECOVERY fires when the user arrives via a hash-fragment link.
       // SIGNED_IN fires when the browser picks up the session cookie set by
       // /auth/confirm after a short propagation delay.
-      const { data: { subscription: sub } } = supabase.auth.onAuthStateChange((event) => {
+      const {
+        data: { subscription: sub },
+      } = supabase.auth.onAuthStateChange((event) => {
         if (event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN') {
           setSessionReady(true);
         }
@@ -60,7 +62,7 @@ export default function AuthResetPasswordPage() {
 
       // After 3 s with no auth event, declare the session invalid.
       timeout = setTimeout(() => {
-        setSessionReady(prev => prev === null ? false : prev);
+        setSessionReady((prev) => (prev === null ? false : prev));
       }, 3000);
     });
 
@@ -92,7 +94,9 @@ export default function AuthResetPasswordPage() {
         setError(updateError.message);
       } else {
         // Read role before signing out so we can show the correct portal link
-        const { data: { user } } = await supabase.auth.getUser();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
         if (user) {
           const { data: profile } = await supabase
             .from('profiles')
@@ -183,9 +187,7 @@ export default function AuthResetPasswordPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <label className="block text-sm font-bold text-black mb-2">
-                New Password
-              </label>
+              <label className="block text-sm font-bold text-black mb-2">New Password</label>
               <div className="relative">
                 <input
                   type={showPassword ? 'text' : 'password'}
@@ -199,7 +201,7 @@ export default function AuthResetPasswordPage() {
                 />
                 <button
                   type="button"
-                  onClick={() => setShowPassword(v => !v)}
+                  onClick={() => setShowPassword((v) => !v)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-700 hover:text-slate-700"
                   tabIndex={-1}
                 >
@@ -209,9 +211,7 @@ export default function AuthResetPasswordPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-bold text-black mb-2">
-                Confirm Password
-              </label>
+              <label className="block text-sm font-bold text-black mb-2">Confirm Password</label>
               <input
                 type={showPassword ? 'text' : 'password'}
                 required
@@ -225,7 +225,9 @@ export default function AuthResetPasswordPage() {
             </div>
 
             {password.length > 0 && (
-              <p className={`text-sm ${password.length >= 8 ? 'text-brand-green-600' : 'text-brand-red-500'}`}>
+              <p
+                className={`text-sm ${password.length >= 8 ? 'text-brand-green-600' : 'text-brand-red-500'}`}
+              >
                 {password.length >= 8
                   ? '✓ Meets minimum length'
                   : `${8 - password.length} more character${8 - password.length === 1 ? '' : 's'} needed`}

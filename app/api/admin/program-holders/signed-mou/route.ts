@@ -14,7 +14,7 @@ const _GET = withAuth(
   async (req, context) => {
     const { user } = context;
     const supabase = await createRouteHandlerClient({ cookies });
-      const { searchParams } = new URL(req.url);
+    const { searchParams } = new URL(req.url);
     const filename = searchParams.get('filename');
 
     if (!filename) {
@@ -22,9 +22,7 @@ const _GET = withAuth(
     }
 
     // Download from storage
-    const { data, error }: any = await supabase.storage
-      .from('mous')
-      .download(filename);
+    const { data, error }: any = await supabase.storage.from('mous').download(filename);
 
     if (error || !data) {
       logger.error('Download error:', error);
@@ -39,8 +37,7 @@ const _GET = withAuth(
         'Content-Disposition': `attachment; filename="${filename}"`,
       },
     });
-
-    },
-    { roles: ['admin', 'super_admin'] }
+  },
+  { roles: ['admin', 'super_admin'] },
 );
 export const GET = withApiAudit('/api/admin/program-holders/signed-mou', _GET);

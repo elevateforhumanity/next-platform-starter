@@ -1,4 +1,3 @@
-
 /**
  * Service Worker Manager
  * Handles service worker registration, updates, and offline sync coordination
@@ -22,10 +21,7 @@ export class ServiceWorkerManager {
         const newWorker = this.registration?.installing;
         if (newWorker) {
           newWorker.addEventListener('statechange', () => {
-            if (
-              newWorker.state === 'installed' &&
-              navigator.serviceWorker.controller
-            ) {
+            if (newWorker.state === 'installed' && navigator.serviceWorker.controller) {
               // New service worker available
               this.notifyUpdate();
             }
@@ -41,10 +37,11 @@ export class ServiceWorkerManager {
         () => {
           this.registration?.update();
         },
-        60 * 60 * 1000
+        60 * 60 * 1000,
       ); // Check every hour
       return this.registration;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return null;
     }
@@ -57,7 +54,8 @@ export class ServiceWorkerManager {
     try {
       const result = await this.registration.unregister();
       return result;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return false;
     }
@@ -69,7 +67,8 @@ export class ServiceWorkerManager {
     if (!this.registration) return;
     try {
       await this.registration.update();
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }
@@ -90,9 +89,7 @@ export class ServiceWorkerManager {
     if ('caches' in window) {
       const cacheNames = await caches.keys();
       await Promise.all(
-        cacheNames
-          .filter((name) => name.startsWith('elevate-'))
-          .map((name) => caches.delete(name))
+        cacheNames.filter((name) => name.startsWith('elevate-')).map((name) => caches.delete(name)),
       );
     }
   }
@@ -111,7 +108,8 @@ export class ServiceWorkerManager {
     try {
       const syncManager = (this.registration as string).sync;
       await syncManager.register(tag);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       // Fallback to manual sync
       await this.manualSync();
@@ -137,12 +135,14 @@ export class ServiceWorkerManager {
           if (response.ok) {
             await db.deleteOfflineAction(action.id);
           }
-        } catch (error) { /* Error handled silently */ 
+        } catch (error) {
+          /* Error handled silently */
           // Error logged
         }
       }
       this.notifySyncComplete(actions.length);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }
@@ -192,9 +192,7 @@ export class ServiceWorkerManager {
    * Check if service worker is ready
    */
   isReady(): boolean {
-    return (
-      this.registration !== null && navigator.serviceWorker.controller !== null
-    );
+    return this.registration !== null && navigator.serviceWorker.controller !== null;
   }
   /**
    * Get current registration

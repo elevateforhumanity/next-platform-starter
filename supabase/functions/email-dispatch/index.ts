@@ -30,9 +30,7 @@ interface EmailRequest {
 }
 
 interface EmailProvider {
-  send(
-    request: EmailRequest
-  ): Promise<{ success: boolean; messageId?: string; error?: string }>;
+  send(request: EmailRequest): Promise<{ success: boolean; messageId?: string; error?: string }>;
 }
 
 class SendGridProvider implements EmailProvider {
@@ -43,7 +41,7 @@ class SendGridProvider implements EmailProvider {
   }
 
   async send(
-    request: EmailRequest
+    request: EmailRequest,
   ): Promise<{ success: boolean; messageId?: string; error?: string }> {
     try {
       const recipients = Array.isArray(request.to) ? request.to : [request.to];
@@ -101,7 +99,7 @@ class ResendProvider implements EmailProvider {
   }
 
   async send(
-    request: EmailRequest
+    request: EmailRequest,
   ): Promise<{ success: boolean; messageId?: string; error?: string }> {
     try {
       const recipients = Array.isArray(request.to) ? request.to : [request.to];
@@ -143,7 +141,7 @@ class ResendProvider implements EmailProvider {
 
 async function logEmail(
   request: EmailRequest,
-  result: { success: boolean; messageId?: string; error?: string }
+  result: { success: boolean; messageId?: string; error?: string },
 ) {
   try {
     const recipients = Array.isArray(request.to) ? request.to : [request.to];
@@ -162,8 +160,7 @@ async function logEmail(
         provider: SENDGRID_API_KEY ? 'sendgrid' : 'resend',
       },
     });
-  } catch (error) {
-  }
+  } catch (error) {}
 }
 
 async function processEmailQueue() {
@@ -195,10 +192,7 @@ async function processEmailQueue() {
     let processed = 0;
     for (const email of queuedEmails) {
       // Mark as processing
-      await supabase
-        .from('email_queue')
-        .update({ status: 'processing' })
-        .eq('id', email.id);
+      await supabase.from('email_queue').update({ status: 'processing' }).eq('id', email.id);
 
       // Send email
       const result = await provider.send({
@@ -239,7 +233,7 @@ async function processEmailQueue() {
           userId: email.user_id,
           orgId: email.org_id,
         },
-        result
+        result,
       );
 
       processed++;
@@ -258,8 +252,7 @@ serve(async (req) => {
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers':
-          'authorization, x-client-info, apikey, content-type',
+        'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
       },
     });
   }
@@ -281,17 +274,17 @@ serve(async (req) => {
 
     // Validate request
     if (!emailRequest.to || !emailRequest.subject) {
-      return new Response(
-        JSON.stringify({ error: 'Missing required fields: to, subject' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: 'Missing required fields: to, subject' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     if (!emailRequest.html && !emailRequest.text && !emailRequest.template) {
-      return new Response(
-        JSON.stringify({ error: 'Must provide html, text, or template' }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: 'Must provide html, text, or template' }), {
+        status: 400,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     // Select provider
@@ -302,10 +295,10 @@ serve(async (req) => {
         : null;
 
     if (!provider) {
-      return new Response(
-        JSON.stringify({ error: 'No email provider configured' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: 'No email provider configured' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     // Send email
@@ -328,7 +321,7 @@ serve(async (req) => {
       }),
       {
         headers: { 'Content-Type': 'application/json' },
-      }
+      },
     );
   } catch (error: any) {
     return new Response(JSON.stringify({ error: error.message }), {

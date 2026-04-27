@@ -21,8 +21,8 @@ export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
 interface Check {
-  name:    string;
-  ok:      boolean;
+  name: string;
+  ok: boolean;
   detail?: string;
 }
 
@@ -46,8 +46,8 @@ export async function GET(request: NextRequest) {
   for (const key of REQUIRED_ENV_VARS) {
     const val = process.env[key];
     checks.push({
-      name:   `env:${key}`,
-      ok:     Boolean(val && val.length > 0),
+      name: `env:${key}`,
+      ok: Boolean(val && val.length > 0),
       detail: val ? `${val.slice(0, 8)}…` : 'MISSING',
     });
   }
@@ -55,21 +55,22 @@ export async function GET(request: NextRequest) {
   // ── 2. Supabase DB reachability ───────────────────────────────────────────
   try {
     const supabase = await getAdminClient();
-    if (!supabase) return NextResponse.json({ error: 'Admin client returned null' }, { status: 500 });
+    if (!supabase)
+      return NextResponse.json({ error: 'Admin client returned null' }, { status: 500 });
 
     const { error } = await supabase
       .from('school_applications')
       .select('id', { count: 'exact', head: true });
 
     checks.push({
-      name:   'db:school_applications',
-      ok:     !error,
+      name: 'db:school_applications',
+      ok: !error,
       detail: error ? error.message : 'reachable',
     });
   } catch (err) {
     checks.push({
-      name:   'db:school_applications',
-      ok:     false,
+      name: 'db:school_applications',
+      ok: false,
       detail: err instanceof Error ? err.message : 'unknown error',
     });
   }
@@ -77,21 +78,22 @@ export async function GET(request: NextRequest) {
   // ── 3. Followups table reachability ───────────────────────────────────────
   try {
     const supabase = await getAdminClient();
-    if (!supabase) return NextResponse.json({ error: 'Admin client returned null' }, { status: 500 });
+    if (!supabase)
+      return NextResponse.json({ error: 'Admin client returned null' }, { status: 500 });
 
     const { error } = await supabase
       .from('school_application_followups')
       .select('id', { count: 'exact', head: true });
 
     checks.push({
-      name:   'db:school_application_followups',
-      ok:     !error,
+      name: 'db:school_application_followups',
+      ok: !error,
       detail: error ? error.message : 'reachable',
     });
   } catch (err) {
     checks.push({
-      name:   'db:school_application_followups',
-      ok:     false,
+      name: 'db:school_application_followups',
+      ok: false,
       detail: err instanceof Error ? err.message : 'unknown error',
     });
   }
@@ -99,8 +101,8 @@ export async function GET(request: NextRequest) {
   // ── 4. Cron timezone check ────────────────────────────────────────────────
   const tzOffset = new Date().getTimezoneOffset();
   checks.push({
-    name:   'runtime:timezone',
-    ok:     true, // informational only
+    name: 'runtime:timezone',
+    ok: true, // informational only
     detail: `UTC offset: ${tzOffset} min (Netlify runs UTC — cron 14:00 UTC = 9 AM ET)`,
   });
 
@@ -117,8 +119,8 @@ export async function GET(request: NextRequest) {
         .limit(5);
 
       checks.push({
-        name:   'cron:recent_sends',
-        ok:     !error,
+        name: 'cron:recent_sends',
+        ok: !error,
         detail: error
           ? error.message
           : data?.length
@@ -128,20 +130,20 @@ export async function GET(request: NextRequest) {
     }
   } catch (err) {
     checks.push({
-      name:   'cron:recent_sends',
-      ok:     false,
+      name: 'cron:recent_sends',
+      ok: false,
       detail: err instanceof Error ? err.message : 'unknown error',
     });
   }
 
-  const allOk = checks.every(c => c.ok);
+  const allOk = checks.every((c) => c.ok);
 
   if (!allOk) {
     logger.error('[cron/health] one or more checks failed', { checks });
   }
 
   return NextResponse.json({
-    ok:        allOk,
+    ok: allOk,
     timestamp: new Date().toISOString(),
     checks,
   });

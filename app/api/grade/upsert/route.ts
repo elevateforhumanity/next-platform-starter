@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -13,8 +11,8 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const {
@@ -39,15 +37,10 @@ async function _POST(req: Request) {
 
   const { gradeItemId, enrollmentId, points } = await req.json();
 
-  if (
-    !gradeItemId ||
-    !enrollmentId ||
-    points === undefined ||
-    points === null
-  ) {
+  if (!gradeItemId || !enrollmentId || points === undefined || points === null) {
     return NextResponse.json(
       { error: 'gradeItemId, enrollmentId, and points are required' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -60,7 +53,7 @@ async function _POST(req: Request) {
       courses:course_id (
         instructor_id
       )
-    `
+    `,
     )
     .eq('id', gradeItemId)
     .maybeSingle();
@@ -79,7 +72,7 @@ async function _POST(req: Request) {
     },
     {
       onConflict: 'grade_item_id,enrollment_id',
-    }
+    },
   );
 
   if (error) {

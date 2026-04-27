@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -8,7 +7,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Admin Portal | Elevate For Humanity',
-  description: 'System administration, user management, and platform configuration for Elevate for Humanity.',
+  description:
+    'System administration, user management, and platform configuration for Elevate for Humanity.',
 };
 
 export default function AdminPortalPublicPage() {
@@ -26,7 +26,8 @@ export default function AdminPortalPublicPage() {
           <Shield className="w-16 h-16 mx-auto mb-6 text-brand-blue-400" />
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Admin Portal</h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto mb-8">
-            Comprehensive platform management for administrators. Manage users, programs, compliance, and system settings.
+            Comprehensive platform management for administrators. Manage users, programs,
+            compliance, and system settings.
           </p>
           <Link
             href="/login?redirect=/admin"
@@ -46,27 +47,37 @@ export default function AdminPortalPublicPage() {
             <div className="bg-white rounded-xl p-6">
               <Users className="w-10 h-10 text-brand-blue-600 mb-4" />
               <h3 className="text-xl font-bold mb-2">User Management</h3>
-              <p className="text-slate-600">Manage students, instructors, employers, and partner accounts.</p>
+              <p className="text-slate-600">
+                Manage students, instructors, employers, and partner accounts.
+              </p>
             </div>
             <div className="bg-white rounded-xl p-6">
               <BarChart3 className="w-10 h-10 text-brand-green-600 mb-4" />
               <h3 className="text-xl font-bold mb-2">Analytics & Reports</h3>
-              <p className="text-slate-600">Track enrollments, completions, placements, and program performance.</p>
+              <p className="text-slate-600">
+                Track enrollments, completions, placements, and program performance.
+              </p>
             </div>
             <div className="bg-white rounded-xl p-6">
               <Settings className="w-10 h-10 text-brand-blue-600 mb-4" />
               <h3 className="text-xl font-bold mb-2">System Configuration</h3>
-              <p className="text-slate-600">Configure programs, courses, certifications, and platform settings.</p>
+              <p className="text-slate-600">
+                Configure programs, courses, certifications, and platform settings.
+              </p>
             </div>
             <div className="bg-white rounded-xl p-6">
               <Shield className="w-10 h-10 text-brand-red-600 mb-4" />
               <h3 className="text-xl font-bold mb-2">Compliance Management</h3>
-              <p className="text-slate-600">WIOA reporting, audit trails, and regulatory compliance tools.</p>
+              <p className="text-slate-600">
+                WIOA reporting, audit trails, and regulatory compliance tools.
+              </p>
             </div>
             <div className="bg-white rounded-xl p-6">
               <Lock className="w-10 h-10 text-amber-600 mb-4" />
               <h3 className="text-xl font-bold mb-2">Security & Access</h3>
-              <p className="text-slate-600">Role-based access control, audit logs, and security settings.</p>
+              <p className="text-slate-600">
+                Role-based access control, audit logs, and security settings.
+              </p>
             </div>
           </div>
         </div>
@@ -76,7 +87,9 @@ export default function AdminPortalPublicPage() {
       <section className="bg-brand-blue-600 text-white py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-4">Need Admin Access?</h2>
-          <p className="text-white mb-6">Contact your system administrator to request access credentials.</p>
+          <p className="text-white mb-6">
+            Contact your system administrator to request access credentials.
+          </p>
           <Link
             href="/contact"
             className="inline-flex items-center gap-2 bg-white text-brand-blue-600 px-6 py-3 rounded-lg font-bold hover:bg-white transition-colors"

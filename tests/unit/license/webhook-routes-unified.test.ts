@@ -1,6 +1,6 @@
 /**
  * Unified Webhook Routes Test
- * 
+ *
  * Verifies that both /api/license/webhook and /api/licenses/webhook
  * use the same shared linking logic from lib/license/linkStripeToLicense.ts
  */
@@ -15,7 +15,7 @@ describe('Webhook Routes Use Shared Linking Logic', () => {
   it('/api/license/webhook imports from shared module', () => {
     const filePath = path.join(process.cwd(), 'app/api/license/webhook/route.ts');
     const content = fs.readFileSync(filePath, 'utf-8');
-    
+
     // This route handles webhooks directly - verify it has proper Stripe handling
     expect(content).toContain('Stripe');
     expect(content).toContain('checkout.session.completed');
@@ -24,7 +24,7 @@ describe('Webhook Routes Use Shared Linking Logic', () => {
   it('/api/licenses/webhook imports from shared module', () => {
     const filePath = path.join(process.cwd(), 'app/api/licenses/webhook/route.ts');
     const content = fs.readFileSync(filePath, 'utf-8');
-    
+
     expect(content).toContain(SHARED_IMPORT);
     expect(content).toContain('handleCheckoutCompleted');
     expect(content).toContain('handleInvoicePaid');
@@ -34,7 +34,7 @@ describe('Webhook Routes Use Shared Linking Logic', () => {
   it('shared module exports all required handlers', () => {
     const filePath = path.join(process.cwd(), 'lib/license/linkStripeToLicense.ts');
     const content = fs.readFileSync(filePath, 'utf-8');
-    
+
     expect(content).toContain('export async function handleCheckoutCompleted');
     expect(content).toContain('export async function handleInvoicePaid');
     expect(content).toContain('export async function handleSubscriptionUpdated');
@@ -46,7 +46,7 @@ describe('Webhook Routes Use Shared Linking Logic', () => {
   it('shared module logs LICENSE_LINKED event', () => {
     const filePath = path.join(process.cwd(), 'lib/license/linkStripeToLicense.ts');
     const content = fs.readFileSync(filePath, 'utf-8');
-    
+
     expect(content).toContain("event: 'LICENSE_LINKED'");
     expect(content).toContain('license_id');
     expect(content).toContain('tenant_id');
@@ -59,17 +59,17 @@ describe('Linking Priority Order', () => {
   it('shared module prioritizes license_id > tenant_id > subscription_id', () => {
     const filePath = path.join(process.cwd(), 'lib/license/linkStripeToLicense.ts');
     const content = fs.readFileSync(filePath, 'utf-8');
-    
+
     // Check priority comments/structure
     expect(content).toContain('PRIORITY 1');
     expect(content).toContain('PRIORITY 2');
     expect(content).toContain('PRIORITY 3');
-    
+
     // Verify order: license_id check comes before tenant_id check
     const licenseIdIndex = content.indexOf("eq('id', license_id)");
     const tenantIdIndex = content.indexOf("eq('tenant_id', tenant_id)");
     const subscriptionIdIndex = content.indexOf("eq('stripe_subscription_id', subscriptionId)");
-    
+
     expect(licenseIdIndex).toBeLessThan(tenantIdIndex);
     expect(tenantIdIndex).toBeLessThan(subscriptionIdIndex);
   });
@@ -79,7 +79,7 @@ describe('SQL Update Fields', () => {
   it('updates stripe_customer_id and stripe_subscription_id', () => {
     const filePath = path.join(process.cwd(), 'lib/license/linkStripeToLicense.ts');
     const content = fs.readFileSync(filePath, 'utf-8');
-    
+
     expect(content).toContain('stripe_customer_id: customerId');
     expect(content).toContain('stripe_subscription_id: subscriptionId');
     expect(content).toContain('current_period_end');
@@ -137,7 +137,7 @@ describe('Route Identification Logging', () => {
   it('/api/license/webhook logs with [license-webhook] prefix', () => {
     const filePath = path.join(process.cwd(), 'app/api/license/webhook/route.ts');
     const content = fs.readFileSync(filePath, 'utf-8');
-    
+
     // Uses [license-webhook] prefix for logging
     expect(content).toContain('[license-webhook]');
   });
@@ -145,7 +145,7 @@ describe('Route Identification Logging', () => {
   it('/api/licenses/webhook logs with [/api/licenses/webhook] prefix', () => {
     const filePath = path.join(process.cwd(), 'app/api/licenses/webhook/route.ts');
     const content = fs.readFileSync(filePath, 'utf-8');
-    
+
     expect(content).toContain('[/api/licenses/webhook]');
   });
 });

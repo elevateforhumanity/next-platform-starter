@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -6,9 +6,7 @@ import { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
 import { Loader2 } from 'lucide-react';
 
-const stripePromise = loadStripe(
-  process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || ''
-);
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
 const DONATION_AMOUNTS = [25, 50, 100, 250, 500, 1000];
 
@@ -63,9 +61,7 @@ export default function DonationForm() {
 
   return (
     <div className="bg-white rounded-2xl shadow-xl p-8 border border-slate-200">
-      <h3 className="text-2xl font-bold text-black mb-6">
-        Choose Your Donation Amount
-      </h3>
+      <h3 className="text-2xl font-bold text-black mb-6">Choose Your Donation Amount</h3>
 
       {/* Preset Amounts */}
       <div className="grid grid-cols-3 gap-4 mb-6">
@@ -93,9 +89,7 @@ export default function DonationForm() {
           Or enter a custom amount:
         </label>
         <div className="relative">
-          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-lg">
-            $
-          </span>
+          <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-lg">$</span>
           <input
             type="number"
             min="1"

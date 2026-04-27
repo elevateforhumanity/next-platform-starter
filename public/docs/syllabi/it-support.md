@@ -1,4 +1,5 @@
 # IT Support Specialist
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** IT-SUPPORT  
 **Duration:** 12-20 Weeks (320-480 Hours)  
 **Delivery Method:** Online + Hands-On Labs  
-**Funding:** Workforce Grants • WIOA • Employer Sponsors  
+**Funding:** Workforce Grants • WIOA • Employer Sponsors
 
 ---
 
@@ -32,6 +33,7 @@ Launch your tech career with CompTIA A+ certification! Learn computer hardware, 
 ## Course Outline
 
 ### Module 1: Computer Hardware (60 hours)
+
 - Computer components and architecture
 - Motherboards, CPUs, and RAM
 - Storage devices (HDD, SSD, NVMe)
@@ -42,6 +44,7 @@ Launch your tech career with CompTIA A+ certification! Learn computer hardware, 
 - Troubleshooting hardware issues
 
 ### Module 2: Operating Systems (60 hours)
+
 - Windows 10/11 installation and configuration
 - macOS basics
 - Linux fundamentals
@@ -52,6 +55,7 @@ Launch your tech career with CompTIA A+ certification! Learn computer hardware, 
 - Virtualization basics
 
 ### Module 3: Networking Fundamentals (60 hours)
+
 - TCP/IP and OSI model
 - IP addressing and subnetting
 - DNS, DHCP, and network services
@@ -62,6 +66,7 @@ Launch your tech career with CompTIA A+ certification! Learn computer hardware, 
 - Network security basics
 
 ### Module 4: Mobile Devices (40 hours)
+
 - iOS and Android operating systems
 - Mobile device configuration
 - Email and synchronization
@@ -71,6 +76,7 @@ Launch your tech career with CompTIA A+ certification! Learn computer hardware, 
 - Mobile device management (MDM)
 
 ### Module 5: Security (50 hours)
+
 - Security threats and vulnerabilities
 - Malware prevention and removal
 - Authentication and access control
@@ -81,6 +87,7 @@ Launch your tech career with CompTIA A+ certification! Learn computer hardware, 
 - Incident response basics
 
 ### Module 6: Software Troubleshooting (40 hours)
+
 - Application installation and removal
 - Windows troubleshooting tools
 - Boot issues and recovery
@@ -90,6 +97,7 @@ Launch your tech career with CompTIA A+ certification! Learn computer hardware, 
 - Backup and recovery
 
 ### Module 7: Cloud Computing & Virtualization (30 hours)
+
 - Cloud service models (IaaS, PaaS, SaaS)
 - Cloud storage solutions
 - Virtual machines and hypervisors
@@ -97,6 +105,7 @@ Launch your tech career with CompTIA A+ certification! Learn computer hardware, 
 - Cloud security considerations
 
 ### Module 8: Customer Service & Professionalism (30 hours)
+
 - Communication skills
 - Ticketing systems
 - Remote support tools
@@ -106,6 +115,7 @@ Launch your tech career with CompTIA A+ certification! Learn computer hardware, 
 - Handling difficult customers
 
 ### Module 9: Hands-On Labs (80-160 hours)
+
 - Hardware assembly and disassembly
 - OS installation and configuration
 - Network setup and troubleshooting
@@ -169,6 +179,7 @@ Launch your tech career with CompTIA A+ certification! Learn computer hardware, 
 ## Certifications Earned
 
 Students are prepared to sit for:
+
 1. **CompTIA A+ Core 1 (220-1101)** - Hardware and networking
 2. **CompTIA A+ Core 2 (220-1102)** - Operating systems and security
 3. **CompTIA IT Fundamentals (ITF+)** - Optional foundation certification
@@ -178,6 +189,7 @@ Students are prepared to sit for:
 ## Certification Pathway
 
 After CompTIA A+, students can pursue:
+
 - **CompTIA Network+** - Advanced networking
 - **CompTIA Security+** - Cybersecurity fundamentals
 - **Microsoft certifications** - Windows Server, Azure

@@ -40,12 +40,7 @@
       },
       {
         "prompt": "What is the recommended duration for applying a hot towel to the client's face?",
-        "choices": [
-          "1–2 minutes",
-          "2–3 minutes",
-          "3–4 minutes",
-          "4–5 minutes"
-        ],
+        "choices": ["1–2 minutes", "2–3 minutes", "3–4 minutes", "4–5 minutes"],
         "answerIndex": 1,
         "rationale": "Applying the hot towel for 2–3 minutes is sufficient to soften facial hair and open pores for a smoother shave.",
         "type": "recall"
@@ -64,12 +59,7 @@
       },
       {
         "prompt": "Which of the following is a contraindication for proceeding with a shave?",
-        "choices": [
-          "Oily skin",
-          "Recent chemical peel",
-          "Sunburn",
-          "Dry skin"
-        ],
+        "choices": ["Oily skin", "Recent chemical peel", "Sunburn", "Dry skin"],
         "answerIndex": 1,
         "rationale": "A recent chemical peel is a contraindication as it can cause adverse reactions during a shave.",
         "type": "recall"
@@ -88,12 +78,7 @@
       },
       {
         "prompt": "Which pre-shave product is suitable for a client with oily skin?",
-        "choices": [
-          "Heavy cream",
-          "Moisturizing oil",
-          "Light gel",
-          "Menthol foam"
-        ],
+        "choices": ["Heavy cream", "Moisturizing oil", "Light gel", "Menthol foam"],
         "answerIndex": 2,
         "rationale": "A light gel is suitable for oily skin as it doesn't add extra oil and provides a smooth surface for shaving.",
         "type": "recall"
@@ -148,24 +133,14 @@
       },
       {
         "prompt": "Which of the following is NOT a benefit of applying a hot towel before shaving?",
-        "choices": [
-          "Softens facial hair",
-          "Opens pores",
-          "Cleans the skin",
-          "Reduces irritation"
-        ],
+        "choices": ["Softens facial hair", "Opens pores", "Cleans the skin", "Reduces irritation"],
         "answerIndex": 2,
         "rationale": "While a hot towel softens facial hair and opens pores, its primary purpose is not to clean the skin.",
         "type": "recall"
       },
       {
         "prompt": "A client with dry skin requests a shave. Which pre-shave product should you use?",
-        "choices": [
-          "Heavy cream",
-          "Moisturizing oil",
-          "Light gel",
-          "Menthol foam"
-        ],
+        "choices": ["Heavy cream", "Moisturizing oil", "Light gel", "Menthol foam"],
         "answerIndex": 1,
         "rationale": "A moisturizing oil is ideal for dry skin as it provides hydration and reduces irritation during shaving.",
         "type": "scenario"
@@ -184,12 +159,7 @@
       },
       {
         "prompt": "Which skin type benefits most from a light gel pre-shave product?",
-        "choices": [
-          "Dry skin",
-          "Oily skin",
-          "Sensitive skin",
-          "Combination skin"
-        ],
+        "choices": ["Dry skin", "Oily skin", "Sensitive skin", "Combination skin"],
         "answerIndex": 1,
         "rationale": "A light gel is suitable for oily skin as it doesn't add extra oil and provides a smooth surface for shaving.",
         "type": "recall"

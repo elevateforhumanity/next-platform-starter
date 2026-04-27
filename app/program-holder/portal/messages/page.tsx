@@ -13,41 +13,59 @@ export const metadata: Metadata = {
 
 export default async function PortalMessagesPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/program-holder/portal/messages');
 
   const db = await getAdminClient();
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
-  if (!['program_holder', 'admin', 'super_admin', 'instructor'].includes(profile?.role ?? '')) redirect('/portals');
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
+  if (!['program_holder', 'admin', 'super_admin', 'instructor'].includes(profile?.role ?? ''))
+    redirect('/portals');
 
-  const [
-    { data: conversations, count: convCount },
-    { data: recentMessages, count: unreadCount },
-  ] = await Promise.all([
-    db.from('conversations')
-      .select('id, created_at, updated_at', { count: 'exact' })
-      .or(`participant_a.eq.${user.id},participant_b.eq.${user.id}`)
-      .order('updated_at', { ascending: false })
-      .limit(10),
-    db.from('messages')
-      .select('id, content, created_at, sender_id, read_at', { count: 'exact' })
-      .eq('recipient_id', user.id)
-      .is('read_at', null)
-      .order('created_at', { ascending: false })
-      .limit(10),
-  ]);
+  const [{ data: conversations, count: convCount }, { data: recentMessages, count: unreadCount }] =
+    await Promise.all([
+      db
+        .from('conversations')
+        .select('id, created_at, updated_at', { count: 'exact' })
+        .or(`participant_a.eq.${user.id},participant_b.eq.${user.id}`)
+        .order('updated_at', { ascending: false })
+        .limit(10),
+      db
+        .from('messages')
+        .select('id, content, created_at, sender_id, read_at', { count: 'exact' })
+        .eq('recipient_id', user.id)
+        .is('read_at', null)
+        .order('created_at', { ascending: false })
+        .limit(10),
+    ]);
 
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="bg-white border-b px-6 py-4 flex items-center justify-between">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-0.5">Program Holder Portal</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-0.5">
+            Program Holder Portal
+          </p>
           <h1 className="text-xl font-bold text-slate-900 flex items-center gap-2">
             Messages
-            {(unreadCount ?? 0) > 0 && <span className="rounded-full bg-red-500 text-white text-xs font-bold px-2 py-0.5">{unreadCount}</span>}
+            {(unreadCount ?? 0) > 0 && (
+              <span className="rounded-full bg-red-500 text-white text-xs font-bold px-2 py-0.5">
+                {unreadCount}
+              </span>
+            )}
           </h1>
         </div>
-        <Link href="/program-holder/portal" className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">← Portal</Link>
+        <Link
+          href="/program-holder/portal"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+        >
+          ← Portal
+        </Link>
       </div>
 
       <div className="max-w-4xl mx-auto px-6 py-8">
@@ -92,12 +110,16 @@ export default async function PortalMessagesPage() {
             <h2 className="font-bold text-slate-900">Recent Conversations</h2>
           </div>
           {!conversations?.length ? (
-            <div className="px-6 py-12 text-center text-slate-400 text-sm">No conversations yet.</div>
+            <div className="px-6 py-12 text-center text-slate-400 text-sm">
+              No conversations yet.
+            </div>
           ) : (
             <div className="divide-y divide-slate-100">
               {conversations.map((c: any) => (
                 <div key={c.id} className="flex items-center justify-between px-6 py-3">
-                  <p className="text-xs text-slate-400">{new Date(c.updated_at ?? c.created_at).toLocaleDateString()}</p>
+                  <p className="text-xs text-slate-400">
+                    {new Date(c.updated_at ?? c.created_at).toLocaleDateString()}
+                  </p>
                   <ChevronRight className="w-4 h-4 text-slate-300" />
                 </div>
               ))}

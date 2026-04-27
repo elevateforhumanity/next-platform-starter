@@ -24,13 +24,13 @@ import { fileURLToPath } from 'url';
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
 const root = path.join(__dirname, '..');
 
-const OUT_DIR   = path.join(root, 'public', 'hvac', 'videos');
+const OUT_DIR = path.join(root, 'public', 'hvac', 'videos');
 const AUDIO_DIR = path.join(root, 'public', 'hvac', 'audio');
-const DIAG_DIR  = path.join(root, 'public', 'images', 'hvac-diagrams');
-const BRANDON   = path.join(root, 'temp', 'heygen-raw', 'a37cb28613da4a68adc47bf14741f54d.mp4');
+const DIAG_DIR = path.join(root, 'public', 'images', 'hvac-diagrams');
+const BRANDON = path.join(root, 'temp', 'heygen-raw', 'a37cb28613da4a68adc47bf14741f54d.mp4');
 const FONT_BOLD = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
-const FONT_REG  = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf';
-const FFMPEG    = '/usr/bin/ffmpeg';
+const FONT_REG = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf';
+const FFMPEG = '/usr/bin/ffmpeg';
 
 if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true });
 
@@ -45,13 +45,28 @@ function loadCSV() {
 
   function parseRow(line) {
     const cols = [];
-    let cur = '', inQuote = false;
+    let cur = '',
+      inQuote = false;
     for (let i = 0; i < line.length; i++) {
       const c = line[i];
-      if (c === '"' && !inQuote) { inQuote = true; continue; }
-      if (c === '"' && inQuote && line[i+1] === '"') { cur += '"'; i++; continue; }
-      if (c === '"' && inQuote) { inQuote = false; continue; }
-      if (c === ',' && !inQuote) { cols.push(cur); cur = ''; continue; }
+      if (c === '"' && !inQuote) {
+        inQuote = true;
+        continue;
+      }
+      if (c === '"' && inQuote && line[i + 1] === '"') {
+        cur += '"';
+        i++;
+        continue;
+      }
+      if (c === '"' && inQuote) {
+        inQuote = false;
+        continue;
+      }
+      if (c === ',' && !inQuote) {
+        cols.push(cur);
+        cur = '';
+        continue;
+      }
       cur += c;
     }
     cols.push(cur);
@@ -64,12 +79,12 @@ function loadCSV() {
     const id = row[header.indexOf('Lesson_ID')];
     if (!id) continue;
     map[id] = {
-      title:      row[header.indexOf('Lesson_Title')],
-      module:     row[header.indexOf('Module')],
-      diagram:    row[header.indexOf('Diagram_File')],
+      title: row[header.indexOf('Lesson_Title')],
+      module: row[header.indexOf('Module')],
+      diagram: row[header.indexOf('Diagram_File')],
       keyConcept: row[header.indexOf('Key_Concept')],
-      quizQ:      row[header.indexOf('Quiz_Question')],
-      quizA:      row[header.indexOf('Quiz_Answer')],
+      quizQ: row[header.indexOf('Quiz_Question')],
+      quizA: row[header.indexOf('Quiz_Answer')],
     };
   }
   return map;
@@ -188,7 +203,7 @@ function esc(s) {
 
 function assembleLesson(lesson) {
   const { defId, uuid } = lesson;
-  const outPath  = path.join(OUT_DIR, `lesson-${uuid}.mp4`);
+  const outPath = path.join(OUT_DIR, `lesson-${uuid}.mp4`);
   const audioPath = path.join(AUDIO_DIR, `lesson-${uuid}.mp3`);
 
   // Skip if already assembled
@@ -205,16 +220,18 @@ function assembleLesson(lesson) {
   // Get audio duration via ffprobe
   let audioDur;
   try {
-    const r = spawnSync('/usr/bin/ffprobe', [
-      '-v', 'quiet', '-show_entries', 'format=duration', '-of', 'csv=p=0', audioPath
-    ], { encoding: 'utf8' });
+    const r = spawnSync(
+      '/usr/bin/ffprobe',
+      ['-v', 'quiet', '-show_entries', 'format=duration', '-of', 'csv=p=0', audioPath],
+      { encoding: 'utf8' },
+    );
     audioDur = parseFloat(r.stdout.trim());
     if (isNaN(audioDur) || audioDur <= 0) audioDur = 90;
   } catch {
     audioDur = 90;
   }
 
-  const sceneDur  = Math.floor(audioDur / 3);
+  const sceneDur = Math.floor(audioDur / 3);
   const scene3Dur = Math.ceil(audioDur - sceneDur * 2);
 
   // Get diagram
@@ -226,16 +243,23 @@ function assembleLesson(lesson) {
   const meta = csvData[defId] || { title: defId, module: 'HVAC', keyConcept: '', quizQ: '' };
 
   // Pre-scale diagram to avoid slow PNG decode on every frame
-  const scaledDiag = `/tmp/diag_${defId.replace(/-/g,'_')}.jpg`;
+  const scaledDiag = `/tmp/diag_${defId.replace(/-/g, '_')}.jpg`;
   if (!existsSync(scaledDiag)) {
-    spawnSync(FFMPEG, [
-      '-y', '-i', diagFinal,
-      '-vf', 'scale=640:560:force_original_aspect_ratio=decrease,pad=640:560:(ow-iw)/2:(oh-ih)/2:color=0x1e293b',
-      scaledDiag
-    ], { stdio: 'pipe' });
+    spawnSync(
+      FFMPEG,
+      [
+        '-y',
+        '-i',
+        diagFinal,
+        '-vf',
+        'scale=640:560:force_original_aspect_ratio=decrease,pad=640:560:(ow-iw)/2:(oh-ih)/2:color=0x1e293b',
+        scaledDiag,
+      ],
+      { stdio: 'pipe' },
+    );
   }
 
-  const tmpDir = `/tmp/hvac_${defId.replace(/-/g,'_')}`;
+  const tmpDir = `/tmp/hvac_${defId.replace(/-/g, '_')}`;
   if (!existsSync(tmpDir)) mkdirSync(tmpDir, { recursive: true });
 
   const scenes = [
@@ -269,8 +293,12 @@ function assembleLesson(lesson) {
     const drawtext = [
       `drawtext=fontfile='${FONT_BOLD}':text='${esc(scene.label)}':fontcolor=0x38bdf8:fontsize=20:x=20:y=572`,
       `drawtext=fontfile='${FONT_BOLD}':text='${scene.line2}':fontcolor=white:fontsize=24:x=20:y=600`,
-      scene.line3 ? `drawtext=fontfile='${FONT_REG}':text='${scene.line3}':fontcolor=0x94a3b8:fontsize=18:x=20:y=634` : null,
-    ].filter(Boolean).join(',');
+      scene.line3
+        ? `drawtext=fontfile='${FONT_REG}':text='${scene.line3}':fontcolor=0x94a3b8:fontsize=18:x=20:y=634`
+        : null,
+    ]
+      .filter(Boolean)
+      .join(',');
 
     const filter = [
       `[0:v]scale=640:560:force_original_aspect_ratio=decrease,pad=640:560:(ow-iw)/2:(oh-ih)/2:color=0x0f172a,setsar=1[inst]`,
@@ -279,15 +307,37 @@ function assembleLesson(lesson) {
       `[padded]${drawtext}[vout]`,
     ].join(';');
 
-    const result = spawnSync(FFMPEG, [
-      '-y',
-      '-ss', String(scene.ss), '-t', String(scene.dur), '-i', BRANDON,
-      '-loop', '1', '-t', String(scene.dur), '-i', scaledDiag,
-      '-filter_complex', filter,
-      '-map', '[vout]', '-an',
-      '-c:v', 'libx264', '-preset', 'ultrafast', '-crf', '26',
-      scene.file,
-    ], { stdio: 'pipe', timeout: 120000 });
+    const result = spawnSync(
+      FFMPEG,
+      [
+        '-y',
+        '-ss',
+        String(scene.ss),
+        '-t',
+        String(scene.dur),
+        '-i',
+        BRANDON,
+        '-loop',
+        '1',
+        '-t',
+        String(scene.dur),
+        '-i',
+        scaledDiag,
+        '-filter_complex',
+        filter,
+        '-map',
+        '[vout]',
+        '-an',
+        '-c:v',
+        'libx264',
+        '-preset',
+        'ultrafast',
+        '-crf',
+        '26',
+        scene.file,
+      ],
+      { stdio: 'pipe', timeout: 120000 },
+    );
 
     if (result.status !== 0) {
       process.stdout.write(`  ❌ ${defId} scene failed\n`);
@@ -297,20 +347,42 @@ function assembleLesson(lesson) {
 
   // Concat scenes + add audio
   const concatFile = `${tmpDir}/concat.txt`;
-  const concatContent = scenes.map(s => `file '${s.file}'`).join('\n');
+  const concatContent = scenes.map((s) => `file '${s.file}'`).join('\n');
   writeFileSync(concatFile, concatContent);
 
-  const concatResult = spawnSync(FFMPEG, [
-    '-y',
-    '-f', 'concat', '-safe', '0', '-i', concatFile,
-    '-i', audioPath,
-    '-map', '0:v', '-map', '1:a',
-    '-c:v', 'libx264', '-preset', 'fast', '-crf', '22',
-    '-c:a', 'aac', '-b:a', '128k',
-    '-movflags', '+faststart',
-    '-shortest',
-    outPath,
-  ], { stdio: 'pipe', timeout: 120000 });
+  const concatResult = spawnSync(
+    FFMPEG,
+    [
+      '-y',
+      '-f',
+      'concat',
+      '-safe',
+      '0',
+      '-i',
+      concatFile,
+      '-i',
+      audioPath,
+      '-map',
+      '0:v',
+      '-map',
+      '1:a',
+      '-c:v',
+      'libx264',
+      '-preset',
+      'fast',
+      '-crf',
+      '22',
+      '-c:a',
+      'aac',
+      '-b:a',
+      '128k',
+      '-movflags',
+      '+faststart',
+      '-shortest',
+      outPath,
+    ],
+    { stdio: 'pipe', timeout: 120000 },
+  );
 
   if (concatResult.status !== 0) {
     process.stdout.write(`  ❌ ${defId} concat failed\n`);
@@ -323,7 +395,10 @@ function assembleLesson(lesson) {
 }
 
 // Run sequentially — ffmpeg is CPU-bound, parallel would thrash
-let assembled = 0, skipped = 0, failed = 0, noAudio = 0;
+let assembled = 0,
+  skipped = 0,
+  failed = 0,
+  noAudio = 0;
 
 console.log(`\nAssembling videos for ${lessons.length} HVAC lessons...`);
 console.log(`Layout: instructor left | diagram right | concept bottom\n`);
@@ -336,4 +411,6 @@ for (const lesson of lessons) {
   else failed++;
 }
 
-console.log(`\n✅ Done: ${assembled} assembled, ${skipped} skipped, ${noAudio} no-audio, ${failed} failed`);
+console.log(
+  `\n✅ Done: ${assembled} assembled, ${skipped} skipped, ${noAudio} no-audio, ${failed} failed`,
+);

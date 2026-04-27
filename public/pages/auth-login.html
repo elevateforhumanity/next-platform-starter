@@ -13,21 +13,12 @@
     <meta name="author" content="Elevate for Humanity" />
     <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="Elevate for Humanity - Workforce Development"
-    />
-    <meta
-      property="og:description"
-      content="Government-approved career training platform"
-    />
+    <meta property="og:title" content="Elevate for Humanity - Workforce Development" />
+    <meta property="og:description" content="Government-approved career training platform" />
     <meta property="twitter:card" content="summary_large_image" />
 
     <!-- Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-V9BC7WPMQC"
-    ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V9BC7WPMQC"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -51,9 +42,7 @@
 
       <form id="loginForm" class="space-y-6">
         <div>
-          <label for="email" class="block text-sm font-medium text-gray-700"
-            >Email Address</label
-          >
+          <label for="email" class="block text-sm font-medium text-gray-700">Email Address</label>
           <input
             type="email"
             id="email"
@@ -63,9 +52,7 @@
         </div>
 
         <div>
-          <label for="password" class="block text-sm font-medium text-gray-700"
-            >Password</label
-          >
+          <label for="password" class="block text-sm font-medium text-gray-700">Password</label>
           <input
             type="password"
             id="password"
@@ -75,9 +62,7 @@
         </div>
 
         <div>
-          <label for="role" class="block text-sm font-medium text-gray-700"
-            >Access Level</label
-          >
+          <label for="role" class="block text-sm font-medium text-gray-700">Access Level</label>
           <select
             id="role"
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-blue-500 focus:border-blue-500"
@@ -107,55 +92,50 @@
     <script>
       const API_BASE = window.location.origin;
 
-      document
-        .getElementById('loginForm')
-        .addEventListener('submit', async (e) => {
-          e.preventDefault();
+      document.getElementById('loginForm').addEventListener('submit', async (e) => {
+        e.preventDefault();
 
-          const email = document.getElementById('email').value;
-          const password = document.getElementById('password').value;
-          const role = document.getElementById('role').value;
-          const messageEl = document.getElementById('message');
+        const email = document.getElementById('email').value;
+        const password = document.getElementById('password').value;
+        const role = document.getElementById('role').value;
+        const messageEl = document.getElementById('message');
 
-          try {
-            const response = await fetch(`${API_BASE}/api/auth/login`, {
-              method: 'POST',
-              headers: { 'Content-Type': 'application/json' },
-              body: JSON.stringify({ email, password, role }),
-            });
+        try {
+          const response = await fetch(`${API_BASE}/api/auth/login`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email, password, role }),
+          });
 
-            const data = await response.json();
+          const data = await response.json();
 
-            if (response.ok) {
-              // Store secure token
-              localStorage.setItem('efh_auth_token', data.token);
-              localStorage.setItem('efh_user_role', data.user.role);
+          if (response.ok) {
+            // Store secure token
+            localStorage.setItem('efh_auth_token', data.token);
+            localStorage.setItem('efh_user_role', data.user.role);
 
-              messageEl.className =
-                'block p-4 rounded-md bg-green-100 text-green-800';
-              messageEl.textContent = 'Login successful! Redirecting...';
+            messageEl.className = 'block p-4 rounded-md bg-green-100 text-green-800';
+            messageEl.textContent = 'Login successful! Redirecting...';
 
-              // Redirect based on role
-              setTimeout(() => {
-                if (data.user.role === 'admin') {
-                  window.location.href = '/admin-dashboard.html';
-                } else if (data.user.role === 'partner') {
-                  window.location.href = '/partner-dashboard.html';
-                } else {
-                  window.location.href = '/user-dashboard.html';
-                }
-              }, 1500);
-            } else {
-              messageEl.className =
-                'block p-4 rounded-md bg-red-100 text-red-800';
-              messageEl.textContent = data.error || 'Login failed';
-            }
-          } catch (error) {
-            messageEl.className =
-              'block p-4 rounded-md bg-red-100 text-red-800';
-            messageEl.textContent = 'Network error. Please try again.';
+            // Redirect based on role
+            setTimeout(() => {
+              if (data.user.role === 'admin') {
+                window.location.href = '/admin-dashboard.html';
+              } else if (data.user.role === 'partner') {
+                window.location.href = '/partner-dashboard.html';
+              } else {
+                window.location.href = '/user-dashboard.html';
+              }
+            }, 1500);
+          } else {
+            messageEl.className = 'block p-4 rounded-md bg-red-100 text-red-800';
+            messageEl.textContent = data.error || 'Login failed';
           }
-        });
+        } catch (error) {
+          messageEl.className = 'block p-4 rounded-md bg-red-100 text-red-800';
+          messageEl.textContent = 'Network error. Please try again.';
+        }
+      });
 
       // Check if already logged in
       const token = localStorage.getItem('efh_auth_token');

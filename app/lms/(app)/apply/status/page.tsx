@@ -9,7 +9,7 @@ import { Clock, XCircle, FileText, ArrowRight } from 'lucide-react';
 import { EnrollmentStatusTracker } from '@/components/enrollment/EnrollmentStatusTracker';
 import { FundingPathwayBadge } from '@/components/enrollment/FundingPathwayBadge';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 interface Application {
@@ -28,7 +28,9 @@ export default function ApplicationStatusPage() {
 
   const loadApplication = useCallback(async () => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       router.push('/login?redirect=/lms/apply/status');
@@ -85,7 +87,8 @@ export default function ApplicationStatusPage() {
           title: 'Application Approved!',
           bgColor: 'bg-brand-green-50',
           borderColor: 'border-brand-green-200',
-          message: 'Congratulations! Your application has been approved. You can now proceed to enrollment.',
+          message:
+            'Congratulations! Your application has been approved. You can now proceed to enrollment.',
           showEnrollButton: true,
         };
       case 'rejected':
@@ -94,7 +97,8 @@ export default function ApplicationStatusPage() {
           title: 'Application Not Approved',
           bgColor: 'bg-brand-red-50',
           borderColor: 'border-brand-red-200',
-          message: 'Unfortunately, your application was not approved at this time. Please contact us for more information.',
+          message:
+            'Unfortunately, your application was not approved at this time. Please contact us for more information.',
           showEnrollButton: false,
         };
       case 'contacted':
@@ -103,7 +107,8 @@ export default function ApplicationStatusPage() {
           title: 'Under Review',
           bgColor: 'bg-brand-blue-50',
           borderColor: 'border-brand-blue-200',
-          message: 'We\'ve reached out to you for additional information. Please check your email and phone.',
+          message:
+            "We've reached out to you for additional information. Please check your email and phone.",
           showEnrollButton: false,
         };
       default:
@@ -112,7 +117,7 @@ export default function ApplicationStatusPage() {
           title: 'Application Pending',
           bgColor: 'bg-yellow-50',
           borderColor: 'border-yellow-200',
-          message: 'Your application is being reviewed. We\'ll notify you within 2-3 business days.',
+          message: "Your application is being reviewed. We'll notify you within 2-3 business days.",
           showEnrollButton: false,
         };
     }
@@ -122,22 +127,16 @@ export default function ApplicationStatusPage() {
 
   return (
     <div className="max-w-2xl mx-auto py-12 px-4">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Lms", href: "/lms" }, { label: "Status" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Lms', href: '/lms' }, { label: 'Status' }]} />
       </div>
-<div className={`rounded-lg border-2 p-8 ${config.bgColor} ${config.borderColor}`}>
+      <div className={`rounded-lg border-2 p-8 ${config.bgColor} ${config.borderColor}`}>
         <div className="text-center">
-          <div className="flex justify-center mb-6">
-            {config.icon}
-          </div>
-          
-          <h1 className="text-3xl font-bold text-slate-900 mb-4">
-            {config.title}
-          </h1>
-          
-          <p className="text-slate-900 text-lg mb-8">
-            {config.message}
-          </p>
+          <div className="flex justify-center mb-6">{config.icon}</div>
+
+          <h1 className="text-3xl font-bold text-slate-900 mb-4">{config.title}</h1>
+
+          <p className="text-slate-900 text-lg mb-8">{config.message}</p>
 
           <div className="bg-white rounded-lg p-6 mb-8">
             <h2 className="font-semibold text-slate-900 mb-4">Application Details</h2>
@@ -149,7 +148,9 @@ export default function ApplicationStatusPage() {
               <div>
                 <span className="text-slate-700 text-sm">Submitted</span>
                 <p className="font-medium">
-                  {new Date(application.submitted_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
+                  {new Date(application.submitted_at).toLocaleDateString('en-US', {
+                    timeZone: 'UTC',
+                  })}
                 </p>
               </div>
               <div>
@@ -190,14 +191,17 @@ export default function ApplicationStatusPage() {
       {application && (
         <div className="mt-8 max-w-2xl mx-auto">
           <EnrollmentStatusTracker
-            currentStep={application.status === 'approved' ? 'enrolled' : application.status === 'pending' ? 'applied' : 'applied'}
+            currentStep={
+              application.status === 'approved'
+                ? 'enrolled'
+                : application.status === 'pending'
+                  ? 'applied'
+                  : 'applied'
+            }
             enrollmentId={application.id}
           />
           <div className="mt-4">
-            <FundingPathwayBadge
-              pathway="wioa"
-              status={application.status as any}
-            />
+            <FundingPathwayBadge pathway="wioa" status={application.status as any} />
           </div>
         </div>
       )}

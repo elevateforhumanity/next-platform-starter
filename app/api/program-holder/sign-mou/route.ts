@@ -17,13 +17,18 @@ async function _POST(request: NextRequest) {
 
   try {
     const supabase = await createRouteHandlerClient({ cookies });
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { signatureDataUrl, signerName, signerTitle } = await request.json();
 
     if (!signatureDataUrl || !signerName || !signerTitle) {
-      return NextResponse.json({ error: 'Signature, name, and title are required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Signature, name, and title are required' },
+        { status: 400 },
+      );
     }
 
     // Check if already signed — keyed on signer_name + program_holder row
@@ -44,10 +49,11 @@ async function _POST(request: NextRequest) {
       .insert({
         signer_name: signerName,
         signer_title: signerTitle,
-        signature_data: signatureDataUrl,   // live column name
+        signature_data: signatureDataUrl, // live column name
         signed_at: new Date().toISOString(),
         agreed_at: new Date().toISOString(),
-        ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown',
+        ip_address:
+          request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip') || 'unknown',
         user_agent: request.headers.get('user-agent') || 'unknown',
         mou_version: '2025-01',
       })

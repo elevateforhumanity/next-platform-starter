@@ -28,12 +28,7 @@
       },
       {
         "prompt": "Which hormone derivative is primarily responsible for androgenetic alopecia?",
-        "choices": [
-          "Estrogen",
-          "Dihydrotestosterone (DHT)",
-          "Cortisol",
-          "Insulin"
-        ],
+        "choices": ["Estrogen", "Dihydrotestosterone (DHT)", "Cortisol", "Insulin"],
         "answerIndex": 1,
         "rationale": "Dihydrotestosterone (DHT) is a derivative of testosterone that contributes to androgenetic alopecia by causing hair follicle miniaturization.",
         "type": "recall"
@@ -112,12 +107,7 @@
       },
       {
         "prompt": "Which of the following conditions is NOT typically associated with hair loss?",
-        "choices": [
-          "Psoriasis",
-          "Severe dandruff",
-          "Ringworm infection",
-          "Healthy scalp"
-        ],
+        "choices": ["Psoriasis", "Severe dandruff", "Ringworm infection", "Healthy scalp"],
         "answerIndex": 3,
         "rationale": "A healthy scalp is not associated with hair loss, unlike conditions such as psoriasis, dandruff, or ringworm.",
         "type": "recall"
@@ -136,12 +126,7 @@
       },
       {
         "prompt": "Which of the following is a characteristic sign of androgenetic alopecia in men?",
-        "choices": [
-          "Patchy hair loss",
-          "Receding hairline",
-          "Diffuse shedding",
-          "Hair breakage"
-        ],
+        "choices": ["Patchy hair loss", "Receding hairline", "Diffuse shedding", "Hair breakage"],
         "answerIndex": 1,
         "rationale": "A receding hairline is a common pattern in androgenetic alopecia, particularly in men.",
         "type": "recall"

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -32,22 +32,20 @@ export function SimpleCaptcha({ onVerify, className = '', formId }: SimpleCaptch
 
   // Log captcha attempt to DB for security monitoring
   const logCaptchaAttempt = async (success: boolean) => {
-    await supabase
-      .from('captcha_attempts')
-      .insert({
-        form_id: formId,
-        success,
-        attempts: attempts + 1,
-        ip_address: null, // Set server-side
-        user_agent: navigator.userAgent,
-        attempted_at: new Date().toISOString()
-      });
+    await supabase.from('captcha_attempts').insert({
+      form_id: formId,
+      success,
+      attempts: attempts + 1,
+      ip_address: null, // Set server-side
+      user_agent: navigator.userAgent,
+      attempted_at: new Date().toISOString(),
+    });
   };
 
   const handleVerify = async () => {
     const correctAnswer = num1 + num2;
     const answer = parseInt(userAnswer);
-    setAttempts(prev => prev + 1);
+    setAttempts((prev) => prev + 1);
 
     if (answer === correctAnswer) {
       setIsVerified(true);
@@ -105,13 +103,9 @@ export function SimpleCaptcha({ onVerify, className = '', formId }: SimpleCaptch
           </div>
         )}
       </div>
-      {error && (
-        <p className="text-sm text-brand-orange-600">{error}</p>
-      )}
+      {error && <p className="text-sm text-brand-orange-600">{error}</p>}
       {!isVerified && (
-        <p className="text-xs text-black">
-          Please solve the math problem to verify you're human
-        </p>
+        <p className="text-xs text-black">Please solve the math problem to verify you're human</p>
       )}
     </div>
   );
@@ -135,7 +129,9 @@ export function HoneypotField({ value, onChange }: HoneypotFieldProps) {
         id="website_url"
         name="website_url"
         value={value}
-        onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => onChange(e.target.value)}
+        onChange={(
+          e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+        ) => onChange(e.target.value)}
         tabIndex={-1}
         autoComplete="off"
       />
@@ -193,7 +189,7 @@ export function BotProtection({
   onVerify,
   honeypotValue,
   onHoneypotChange,
-  children
+  children,
 }: BotProtectionProps) {
   const { handleMount, isValidTiming } = useFormTiming(3000);
   const [captchaVerified, setCaptchaVerified] = useState(false);

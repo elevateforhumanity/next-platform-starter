@@ -1,4 +1,3 @@
-
 // lib/getCurrentProfile.ts
 import { createServerClient } from '@supabase/ssr';
 import { cookies } from 'next/headers';
@@ -33,7 +32,7 @@ export async function getCurrentProfile(): Promise<CurrentProfile> {
         set() {},
         remove() {},
       },
-    }
+    },
   );
 
   const {

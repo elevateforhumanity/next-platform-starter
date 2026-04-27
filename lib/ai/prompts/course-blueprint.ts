@@ -71,26 +71,35 @@ export function buildIndustryStandardsBlock(standards: IndustryStandards): strin
   if (standards.median_annual_wage) {
     const wage = standards.indiana_median_wage ?? standards.median_annual_wage;
     lines.push(`WAGE CONTEXT (Indiana): Median $${wage.toLocaleString()}/year`);
-    if (standards.entry_wage) lines.push(`  Entry level: $${standards.entry_wage.toLocaleString()}/year`);
-    if (standards.experienced_wage) lines.push(`  Experienced: $${standards.experienced_wage.toLocaleString()}/year`);
+    if (standards.entry_wage)
+      lines.push(`  Entry level: $${standards.entry_wage.toLocaleString()}/year`);
+    if (standards.experienced_wage)
+      lines.push(`  Experienced: $${standards.experienced_wage.toLocaleString()}/year`);
     lines.push('');
   }
 
   if (standards.projected_growth_cat) {
-    lines.push(`JOB OUTLOOK: ${standards.projected_growth_cat}${standards.projected_growth_pct !== null ? ` (${standards.projected_growth_pct > 0 ? '+' : ''}${standards.projected_growth_pct}% projected growth)` : ''}`);
-    if (standards.projected_openings) lines.push(`  Annual openings: ~${standards.projected_openings.toLocaleString()}`);
+    lines.push(
+      `JOB OUTLOOK: ${standards.projected_growth_cat}${standards.projected_growth_pct !== null ? ` (${standards.projected_growth_pct > 0 ? '+' : ''}${standards.projected_growth_pct}% projected growth)` : ''}`,
+    );
+    if (standards.projected_openings)
+      lines.push(`  Annual openings: ~${standards.projected_openings.toLocaleString()}`);
     lines.push('');
   }
 
   // Credential domains — the most important injection for exam-aligned courses
   if (standards.credential_domains.length > 0) {
-    lines.push(`CREDENTIAL EXAM DOMAINS (${standards.credential_code} — course MUST cover all domains):`)
-    standards.credential_domains.forEach(d => {
+    lines.push(
+      `CREDENTIAL EXAM DOMAINS (${standards.credential_code} — course MUST cover all domains):`,
+    );
+    standards.credential_domains.forEach((d) => {
       lines.push(`  ${d.name} (${d.weight_pct}% of exam, min ${d.min_hours}h):`);
-      d.competencies.slice(0, 5).forEach(c => lines.push(`    - ${c}`));
+      d.competencies.slice(0, 5).forEach((c) => lines.push(`    - ${c}`));
     });
     if (standards.exam_blueprint) {
-      lines.push(`  Exam: ${standards.exam_blueprint.total_questions} questions, ${standards.exam_blueprint.passing_score}% passing score`);
+      lines.push(
+        `  Exam: ${standards.exam_blueprint.total_questions} questions, ${standards.exam_blueprint.passing_score}% passing score`,
+      );
     }
     lines.push('');
     lines.push('CRITICAL: Module structure must map to these credential domains.');
@@ -101,16 +110,22 @@ export function buildIndustryStandardsBlock(standards: IndustryStandards): strin
 
   if (standards.certifications.length > 0) {
     lines.push('AVAILABLE CERTIFICATIONS:');
-    standards.certifications.slice(0, 5).forEach(c => lines.push(`  - ${c.name} (${c.organization})`));
+    standards.certifications
+      .slice(0, 5)
+      .forEach((c) => lines.push(`  - ${c.name} (${c.organization})`));
     lines.push('');
   }
 
   lines.push('--- END INDUSTRY STANDARDS ---');
   lines.push('');
-  lines.push('INSTRUCTION: Use the above data as the authoritative source for what this course must teach.');
-  lines.push('Do not invent job tasks or competencies. Every module and lesson must trace back to the tasks, skills, or credential domains listed above.');
+  lines.push(
+    'INSTRUCTION: Use the above data as the authoritative source for what this course must teach.',
+  );
+  lines.push(
+    'Do not invent job tasks or competencies. Every module and lesson must trace back to the tasks, skills, or credential domains listed above.',
+  );
 
-  return lines.filter(l => l !== null).join('\n');
+  return lines.filter((l) => l !== null).join('\n');
 }
 
 /**

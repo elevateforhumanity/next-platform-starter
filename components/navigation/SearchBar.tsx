@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
@@ -38,7 +38,11 @@ const TYPE_COLORS = {
   page: 'text-slate-700 bg-gray-100',
 };
 
-export function SearchBar({ placeholder = "Search programs, courses...", className, onSearch }: Props) {
+export function SearchBar({
+  placeholder = 'Search programs, courses...',
+  className,
+  onSearch,
+}: Props) {
   const [query, setQuery] = useState('');
   const [isOpen, setIsOpen] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -56,17 +60,22 @@ export function SearchBar({ placeholder = "Search programs, courses...", classNa
     if (saved) {
       try {
         setRecentSearches(JSON.parse(saved).slice(0, 5));
-      } catch { /* Parse error ignored */ }
+      } catch {
+        /* Parse error ignored */
+      }
     }
   }, []);
 
   // Save search to recent
-  const saveRecentSearch = useCallback((searchQuery: string) => {
-    if (!searchQuery.trim()) return;
-    const updated = [searchQuery, ...recentSearches.filter(s => s !== searchQuery)].slice(0, 5);
-    setRecentSearches(updated);
-    localStorage.setItem('recentSearches', JSON.stringify(updated));
-  }, [recentSearches]);
+  const saveRecentSearch = useCallback(
+    (searchQuery: string) => {
+      if (!searchQuery.trim()) return;
+      const updated = [searchQuery, ...recentSearches.filter((s) => s !== searchQuery)].slice(0, 5);
+      setRecentSearches(updated);
+      localStorage.setItem('recentSearches', JSON.stringify(updated));
+    },
+    [recentSearches],
+  );
 
   // Perform search
   const performSearch = useCallback(async (searchQuery: string) => {
@@ -88,7 +97,7 @@ export function SearchBar({ placeholder = "Search programs, courses...", classNa
         .limit(5);
 
       if (programs) {
-        programs.forEach(p => {
+        programs.forEach((p) => {
           searchResults.push({
             id: p.id,
             type: 'program',
@@ -108,7 +117,7 @@ export function SearchBar({ placeholder = "Search programs, courses...", classNa
         .limit(5);
 
       if (courses) {
-        courses.forEach(c => {
+        courses.forEach((c) => {
           searchResults.push({
             id: c.id,
             type: 'course',
@@ -127,7 +136,7 @@ export function SearchBar({ placeholder = "Search programs, courses...", classNa
         .limit(3);
 
       if (articles) {
-        articles.forEach(a => {
+        articles.forEach((a) => {
           searchResults.push({
             id: a.id,
             type: 'article',
@@ -140,13 +149,18 @@ export function SearchBar({ placeholder = "Search programs, courses...", classNa
       }
 
       // Log search for analytics
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (user) {
-        await supabase.from('search_logs').insert({
-          user_id: user.id,
-          query: searchQuery,
-          results_count: searchResults.length,
-        }).catch(() => {});
+        await supabase
+          .from('search_logs')
+          .insert({
+            user_id: user.id,
+            query: searchQuery,
+            results_count: searchResults.length,
+          })
+          .catch(() => {});
       }
 
       setResults(searchResults);
@@ -185,11 +199,11 @@ export function SearchBar({ placeholder = "Search programs, courses...", classNa
     switch (e.key) {
       case 'ArrowDown':
         e.preventDefault();
-        setSelectedIndex(prev => (prev < totalItems - 1 ? prev + 1 : 0));
+        setSelectedIndex((prev) => (prev < totalItems - 1 ? prev + 1 : 0));
         break;
       case 'ArrowUp':
         e.preventDefault();
-        setSelectedIndex(prev => (prev > 0 ? prev - 1 : totalItems - 1));
+        setSelectedIndex((prev) => (prev > 0 ? prev - 1 : totalItems - 1));
         break;
       case 'Enter':
         e.preventDefault();
@@ -248,7 +262,10 @@ export function SearchBar({ placeholder = "Search programs, courses...", classNa
         />
         {query && (
           <button
-            onClick={() => { setQuery(''); setResults([]); }}
+            onClick={() => {
+              setQuery('');
+              setResults([]);
+            }}
             className="absolute right-3 top-1/2 transform -translate-y-1/2 text-slate-700 hover:text-slate-700"
             aria-label="Clear search"
           >
@@ -293,13 +310,9 @@ export function SearchBar({ placeholder = "Search programs, courses...", classNa
                       <Icon className="w-4 h-4" />
                     </div>
                     <div className="flex-1 min-w-0">
-                      <div className="font-medium text-slate-900 truncate">
-                        {result.title}
-                      </div>
+                      <div className="font-medium text-slate-900 truncate">{result.title}</div>
                       {result.description && (
-                        <div className="text-sm text-slate-700 truncate">
-                          {result.description}
-                        </div>
+                        <div className="text-sm text-slate-700 truncate">{result.description}</div>
                       )}
                       {result.category && (
                         <span className="inline-block mt-1 text-xs bg-gray-100 text-slate-700 px-2 py-0.5 rounded">
@@ -366,7 +379,7 @@ export function SearchBar({ placeholder = "Search programs, courses...", classNa
             <div className="p-4">
               <p className="text-sm text-slate-700 mb-3">Popular searches:</p>
               <div className="flex flex-wrap gap-2">
-                {['CNA', 'Barber', 'HVAC', 'CDL', 'Medical Assistant'].map(term => (
+                {['CNA', 'Barber', 'HVAC', 'CDL', 'Medical Assistant'].map((term) => (
                   <button
                     key={term}
                     onClick={() => setQuery(term)}

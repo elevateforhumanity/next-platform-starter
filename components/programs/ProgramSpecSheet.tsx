@@ -1,10 +1,25 @@
 'use client';
 
 import {
-  Clock, DollarSign, Award, Users, MapPin, BookOpen,
-  Shield, Briefcase, GraduationCap, FileText, Phone,
-  Globe, HelpCircle, BarChart3, AlertTriangle, Wrench,
-  Calendar, CheckCircle2, ArrowRight
+  Clock,
+  DollarSign,
+  Award,
+  Users,
+  MapPin,
+  BookOpen,
+  Shield,
+  Briefcase,
+  GraduationCap,
+  FileText,
+  Phone,
+  Globe,
+  HelpCircle,
+  BarChart3,
+  AlertTriangle,
+  Wrench,
+  Calendar,
+  CheckCircle2,
+  ArrowRight,
 } from 'lucide-react';
 import Link from 'next/link';
 
@@ -49,7 +64,17 @@ export interface LOCProgramSpec {
   brochureUrl?: string;
 }
 
-function Section({ icon: Icon, title, children, id }: { icon: React.ElementType; title: string; children: React.ReactNode; id?: string }) {
+function Section({
+  icon: Icon,
+  title,
+  children,
+  id,
+}: {
+  icon: React.ElementType;
+  title: string;
+  children: React.ReactNode;
+  id?: string;
+}) {
   return (
     <div id={id} className="bg-white rounded-xl border border-slate-200 p-6 shadow-sm">
       <div className="flex items-center gap-3 mb-4">
@@ -63,11 +88,23 @@ function Section({ icon: Icon, title, children, id }: { icon: React.ElementType;
   );
 }
 
-function DataRow({ label, value, highlight }: { label: string; value: string | React.ReactNode; highlight?: boolean }) {
+function DataRow({
+  label,
+  value,
+  highlight,
+}: {
+  label: string;
+  value: string | React.ReactNode;
+  highlight?: boolean;
+}) {
   return (
     <div className="flex justify-between items-start py-2 border-b border-slate-100 last:border-0">
       <span className="text-sm text-slate-500 flex-shrink-0 mr-4">{label}</span>
-      <span className={`text-sm font-medium text-right ${highlight ? 'text-brand-green-700' : 'text-slate-900'}`}>{value}</span>
+      <span
+        className={`text-sm font-medium text-right ${highlight ? 'text-brand-green-700' : 'text-slate-900'}`}
+      >
+        {value}
+      </span>
     </div>
   );
 }
@@ -92,12 +129,32 @@ export default function ProgramSpecSheet({ spec }: { spec: LOCProgramSpec }) {
           {/* Program Overview */}
           <Section icon={BookOpen} title="Program Overview" id="spec-overview">
             <DataRow label="Program" value={spec.name} />
-            <DataRow label="Duration" value={typeof spec.totalWeeks === 'number' ? `${spec.totalWeeks} weeks` : spec.totalWeeks} />
-            <DataRow label="Total Hours" value={typeof spec.totalHours === 'number' ? `${spec.totalHours} hours` : spec.totalHours} />
-            <DataRow label="RTI (Classroom/Lab)" value={typeof spec.rtiHours === 'number' ? `${spec.rtiHours} hours` : spec.rtiHours} />
-            <DataRow label="OJT (Employer Site)" value={typeof spec.ojtHours === 'number' ? `${spec.ojtHours} hours` : spec.ojtHours} />
+            <DataRow
+              label="Duration"
+              value={
+                typeof spec.totalWeeks === 'number' ? `${spec.totalWeeks} weeks` : spec.totalWeeks
+              }
+            />
+            <DataRow
+              label="Total Hours"
+              value={
+                typeof spec.totalHours === 'number' ? `${spec.totalHours} hours` : spec.totalHours
+              }
+            />
+            <DataRow
+              label="RTI (Classroom/Lab)"
+              value={typeof spec.rtiHours === 'number' ? `${spec.rtiHours} hours` : spec.rtiHours}
+            />
+            <DataRow
+              label="OJT (Employer Site)"
+              value={typeof spec.ojtHours === 'number' ? `${spec.ojtHours} hours` : spec.ojtHours}
+            />
             <DataRow label="Modality" value={spec.modality} />
-            <DataRow label="Next Level Jobs Eligible" value={spec.nextLevelJobsEligible ? '✅ Yes' : 'No'} highlight={spec.nextLevelJobsEligible} />
+            <DataRow
+              label="Next Level Jobs Eligible"
+              value={spec.nextLevelJobsEligible ? '✅ Yes' : 'No'}
+              highlight={spec.nextLevelJobsEligible}
+            />
           </Section>
 
           {/* Schedule & Cohort */}
@@ -119,7 +176,8 @@ export default function ProgramSpecSheet({ spec }: { spec: LOCProgramSpec }) {
                       <p className="text-sm font-semibold text-slate-900">{cred.name}</p>
                       <p className="text-xs text-slate-500">Issued by: {cred.issuingBody}</p>
                       <p className="text-xs text-brand-green-600">
-                        Exam fee: {cred.examFeeIncluded ? 'Included in program cost' : 'Not included'}
+                        Exam fee:{' '}
+                        {cred.examFeeIncluded ? 'Included in program cost' : 'Not included'}
                       </p>
                     </div>
                   </div>
@@ -144,10 +202,15 @@ export default function ProgramSpecSheet({ spec }: { spec: LOCProgramSpec }) {
           <Section icon={Wrench} title="Facilities & Equipment" id="spec-facilities">
             <DataRow label="Training Location" value={spec.labLocation} />
             <div className="mt-3">
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Included Equipment & Materials</p>
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                Included Equipment & Materials
+              </p>
               <div className="flex flex-wrap gap-2">
                 {spec.equipmentIncluded.map((item, i) => (
-                  <span key={i} className="inline-block bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-full">
+                  <span
+                    key={i}
+                    className="inline-block bg-slate-100 text-slate-700 text-xs px-2.5 py-1 rounded-full"
+                  >
                     {item}
                   </span>
                 ))}
@@ -157,8 +220,16 @@ export default function ProgramSpecSheet({ spec }: { spec: LOCProgramSpec }) {
 
           {/* Student Support */}
           <Section icon={HelpCircle} title="Student Support Services" id="spec-support">
-            <DataRow label="Bilingual Support (Spanish)" value={spec.bilingualSupport ? '✅ Available' : 'Not available'} highlight={spec.bilingualSupport} />
-            <DataRow label="Tutoring / Academic Support" value={spec.tutoringAvailable ? '✅ Available' : 'Not available'} highlight={spec.tutoringAvailable} />
+            <DataRow
+              label="Bilingual Support (Spanish)"
+              value={spec.bilingualSupport ? '✅ Available' : 'Not available'}
+              highlight={spec.bilingualSupport}
+            />
+            <DataRow
+              label="Tutoring / Academic Support"
+              value={spec.tutoringAvailable ? '✅ Available' : 'Not available'}
+              highlight={spec.tutoringAvailable}
+            />
             <DataRow label="Attendance Tracking" value={spec.attendanceTracking} />
             <DataRow label="Alert / Escalation to LOC" value={spec.alertEscalationProcess} />
           </Section>
@@ -177,33 +248,55 @@ export default function ProgramSpecSheet({ spec }: { spec: LOCProgramSpec }) {
               <DataRow label="Placement Rate" value={spec.placementRate} highlight />
             )}
             <div className="mt-3">
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Employer Partners / Hiring Pipeline</p>
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                Employer Partners / Hiring Pipeline
+              </p>
               {spec.employerPartners.length > 0 ? (
                 <div className="flex flex-wrap gap-2">
                   {spec.employerPartners.map((emp, i) => (
-                    <span key={i} className="inline-block bg-brand-blue-50 text-brand-blue-700 text-xs font-medium px-2.5 py-1 rounded-full">
+                    <span
+                      key={i}
+                      className="inline-block bg-brand-blue-50 text-brand-blue-700 text-xs font-medium px-2.5 py-1 rounded-full"
+                    >
                       {emp}
                     </span>
                   ))}
                 </div>
               ) : (
-                <p className="text-sm text-slate-500 italic">Employer partner list provided upon LOC engagement</p>
+                <p className="text-sm text-slate-500 italic">
+                  Employer partner list provided upon LOC engagement
+                </p>
               )}
             </div>
           </Section>
 
           {/* Pricing */}
           <Section icon={DollarSign} title="Pricing & Payment" id="spec-pricing">
-            <DataRow label="Cost Per Participant" value={`$${spec.costPerParticipant.toLocaleString('en-US')}`} />
+            <DataRow
+              label="Cost Per Participant"
+              value={`$${spec.costPerParticipant.toLocaleString('en-US')}`}
+            />
             {spec.costPerCohort && (
-              <DataRow label="Cost Per Cohort" value={`$${spec.costPerCohort.toLocaleString('en-US')}`} />
+              <DataRow
+                label="Cost Per Cohort"
+                value={`$${spec.costPerCohort.toLocaleString('en-US')}`}
+              />
             )}
-            <DataRow label="Exam Fees" value={spec.examFeesIncluded ? 'Included' : 'Not included'} highlight={spec.examFeesIncluded} />
+            <DataRow
+              label="Exam Fees"
+              value={spec.examFeesIncluded ? 'Included' : 'Not included'}
+              highlight={spec.examFeesIncluded}
+            />
             <div className="mt-3">
-              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">Included in Cost</p>
+              <p className="text-xs font-semibold text-slate-500 uppercase tracking-wider mb-2">
+                Included in Cost
+              </p>
               <div className="flex flex-wrap gap-2">
                 {spec.materialsIncluded.map((item, i) => (
-                  <span key={i} className="inline-block bg-brand-green-50 text-brand-green-700 text-xs px-2.5 py-1 rounded-full">
+                  <span
+                    key={i}
+                    className="inline-block bg-brand-green-50 text-brand-green-700 text-xs px-2.5 py-1 rounded-full"
+                  >
                     {item}
                   </span>
                 ))}
@@ -218,24 +311,39 @@ export default function ProgramSpecSheet({ spec }: { spec: LOCProgramSpec }) {
           <Section icon={FileText} title="Documents & Resources" id="spec-documents">
             <div className="space-y-3">
               {spec.syllabusUrl ? (
-                <Link href={spec.syllabusUrl} className="flex items-center gap-2 text-sm text-brand-blue-600 hover:text-brand-blue-700 font-medium">
+                <Link
+                  href={spec.syllabusUrl}
+                  className="flex items-center gap-2 text-sm text-brand-blue-600 hover:text-brand-blue-700 font-medium"
+                >
                   <FileText className="w-4 h-4" /> Download Syllabus
                 </Link>
               ) : (
-                <Link href={`/contact?subject=${encodeURIComponent(spec.name + ' Syllabus Request')}`} className="flex items-center gap-2 text-sm text-brand-blue-600 hover:text-brand-blue-700 font-medium">
+                <Link
+                  href={`/contact?subject=${encodeURIComponent(spec.name + ' Syllabus Request')}`}
+                  className="flex items-center gap-2 text-sm text-brand-blue-600 hover:text-brand-blue-700 font-medium"
+                >
                   <FileText className="w-4 h-4" /> Request Syllabus
                 </Link>
               )}
               {spec.brochureUrl ? (
-                <Link href={spec.brochureUrl} className="flex items-center gap-2 text-sm text-brand-blue-600 hover:text-brand-blue-700 font-medium">
+                <Link
+                  href={spec.brochureUrl}
+                  className="flex items-center gap-2 text-sm text-brand-blue-600 hover:text-brand-blue-700 font-medium"
+                >
                   <FileText className="w-4 h-4" /> Download Brochure
                 </Link>
               ) : (
-                <Link href={`/contact?subject=${encodeURIComponent(spec.name + ' Brochure Request')}`} className="flex items-center gap-2 text-sm text-brand-blue-600 hover:text-brand-blue-700 font-medium">
+                <Link
+                  href={`/contact?subject=${encodeURIComponent(spec.name + ' Brochure Request')}`}
+                  className="flex items-center gap-2 text-sm text-brand-blue-600 hover:text-brand-blue-700 font-medium"
+                >
                   <FileText className="w-4 h-4" /> Request Brochure
                 </Link>
               )}
-              <Link href="/contact" className="flex items-center gap-2 text-sm text-brand-blue-600 hover:text-brand-blue-700 font-medium">
+              <Link
+                href="/contact"
+                className="flex items-center gap-2 text-sm text-brand-blue-600 hover:text-brand-blue-700 font-medium"
+              >
                 <Phone className="w-4 h-4" /> Contact Program Director
               </Link>
             </div>

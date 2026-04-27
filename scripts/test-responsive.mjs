@@ -53,7 +53,6 @@ const RESPONSIVE_ISSUES = {
   touchTargetTooSmall: [],
 };
 
-
 // Check Tailwind responsive classes
 
 const tailwindCheck = `
@@ -62,8 +61,7 @@ grep -r "sm:\\|md:\\|lg:\\|xl:\\|2xl:" app components --include="*.tsx" --includ
 
 try {
   const responsiveClasses = execSync(tailwindCheck, { encoding: 'utf-8' }).trim();
-} catch (error) {
-}
+} catch (error) {}
 
 // Check for common responsive issues
 
@@ -90,14 +88,13 @@ const checks = [
   },
 ];
 
-checks.forEach(check => {
+checks.forEach((check) => {
   try {
     const count = parseInt(execSync(check.command, { encoding: 'utf-8' }).trim());
     const status = count > check.threshold ? '⚠️' : '✅';
     if (count > check.threshold) {
     }
-  } catch (error) {
-  }
+  } catch (error) {}
 });
 
 // Check for mobile-first patterns
@@ -117,11 +114,10 @@ const mobileFirstChecks = [
   },
 ];
 
-mobileFirstChecks.forEach(check => {
+mobileFirstChecks.forEach((check) => {
   try {
     const count = parseInt(execSync(check.command, { encoding: 'utf-8' }).trim());
-  } catch (error) {
-  }
+  } catch (error) {}
 });
 
 // Check for touch-friendly elements
@@ -137,11 +133,10 @@ const touchChecks = [
   },
 ];
 
-touchChecks.forEach(check => {
+touchChecks.forEach((check) => {
   try {
     const count = parseInt(execSync(check.command, { encoding: 'utf-8' }).trim());
-  } catch (error) {
-  }
+  } catch (error) {}
 });
 
 // Check viewport meta tag
@@ -149,22 +144,12 @@ touchChecks.forEach(check => {
 try {
   const viewportCheck = execSync(
     `grep -r "viewport" app --include="layout.tsx" --include="*.html"`,
-    { encoding: 'utf-8' }
+    { encoding: 'utf-8' },
   );
 
   if (viewportCheck.includes('width=device-width')) {
   } else {
   }
-} catch (error) {
-}
+} catch (error) {}
 
 // Generate recommendations
-
-
-
-
-
-
-
-
-

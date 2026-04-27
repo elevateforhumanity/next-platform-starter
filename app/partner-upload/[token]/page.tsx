@@ -1,15 +1,15 @@
 export const dynamic = 'force-dynamic';
 
 export default async function PartnerUploadPage({ params }: { params: { token: string } }) {
-  const supabase = await getAdminClient()
+  const supabase = await getAdminClient();
 
   const { data: partner } = await supabase
     .from('partners')
     .select('id, name, contact_name, onboarding_step')
     .eq('onboarding_step', params.token)
-    .maybeSingle()
+    .maybeSingle();
 
-  if (!partner) notFound()
+  if (!partner) notFound();
 
   return (
     <div className="min-h-screen bg-white">
@@ -21,14 +21,18 @@ export default async function PartnerUploadPage({ params }: { params: { token: s
         <div className="bg-white rounded-xl border border-gray-200 p-8">
           <h1 className="text-xl font-bold text-slate-900 mb-1">Upload Your Documents</h1>
           <p className="text-slate-700 text-sm mb-6">
-            {partner.contact_name ?? partner.name} — please upload the three required documents below to complete your onboarding with Elevate for Humanity.
+            {partner.contact_name ?? partner.name} — please upload the three required documents
+            below to complete your onboarding with Elevate for Humanity.
           </p>
           <PartnerUploadForm partnerId={partner.id} token={params.token} />
         </div>
         <p className="text-center text-xs text-slate-700 mt-6">
-          Questions? Email <a href="mailto:elevate4humanityedu@gmail.com" className="underline">elevate4humanityedu@gmail.com</a>
+          Questions? Email{' '}
+          <a href="mailto:elevate4humanityedu@gmail.com" className="underline">
+            elevate4humanityedu@gmail.com
+          </a>
         </p>
       </div>
     </div>
-  )
+  );
 }

@@ -1,17 +1,9 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  Shield,
-  AlertTriangle,
-  BookOpen,
-  FileText,
-  Users,
-  Phone,
-CheckCircle, } from 'lucide-react';
+import { Shield, AlertTriangle, BookOpen, FileText, Users, Phone, CheckCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
@@ -31,9 +23,10 @@ export default function AcademicIntegrityPage() {
           <Breadcrumbs items={[{ label: 'Academic Integrity' }]} />
         </div>
       </div>
-      
+
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/academic-integrity-hero.jpg"
           alt="Academic Integrity"
@@ -52,20 +45,18 @@ export default function AcademicIntegrityPage() {
             Our Commitment to Academic Honesty
           </h2>
           <p className="text-black mb-4">
-            At Elevate for Humanity, we are committed to maintaining the highest
-            standards of academic integrity. Academic honesty is fundamental to
-            the learning process and essential for preparing students for
-            professional careers.
+            At Elevate for Humanity, we are committed to maintaining the highest standards of
+            academic integrity. Academic honesty is fundamental to the learning process and
+            essential for preparing students for professional careers.
           </p>
           <p className="text-black mb-4">
-            All students, faculty, and staff are expected to uphold these
-            principles and contribute to a culture of honesty, trust, and
-            ethical behavior.
+            All students, faculty, and staff are expected to uphold these principles and contribute
+            to a culture of honesty, trust, and ethical behavior.
           </p>
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
             <p className="text-brand-blue-900 font-semibold">
-              Academic integrity means doing your own work, giving credit where
-              credit is due, and being honest in all academic endeavors.
+              Academic integrity means doing your own work, giving credit where credit is due, and
+              being honest in all academic endeavors.
             </p>
           </div>
         </div>
@@ -84,26 +75,15 @@ export default function AcademicIntegrityPage() {
                 Plagiarism
               </h3>
               <p className="text-black mb-3">
-                Using someone else's words, ideas, or work without proper
-                attribution.
+                Using someone else's words, ideas, or work without proper attribution.
               </p>
               <div className="bg-brand-red-50 rounded-lg p-4">
-                <p className="font-semibold text-brand-red-900 mb-2">
-                  Examples of Plagiarism:
-                </p>
+                <p className="font-semibold text-brand-red-900 mb-2">Examples of Plagiarism:</p>
                 <ul className="space-y-2 text-brand-red-800 text-sm">
-                  <li>
-                    • Copying text from websites, books, or articles without
-                    citation
-                  </li>
+                  <li>• Copying text from websites, books, or articles without citation</li>
                   <li>• Submitting someone else's work as your own</li>
-                  <li>
-                    • Paraphrasing without giving credit to the original source
-                  </li>
-                  <li>
-                    • Using AI-generated content without disclosure and proper
-                    attribution
-                  </li>
+                  <li>• Paraphrasing without giving credit to the original source</li>
+                  <li>• Using AI-generated content without disclosure and proper attribution</li>
                   <li>• Copying another student's assignment or project</li>
                   <li>• Purchasing or downloading papers from the internet</li>
                 </ul>
@@ -120,18 +100,12 @@ export default function AcademicIntegrityPage() {
                 Using unauthorized materials or assistance during assessments.
               </p>
               <div className="bg-brand-orange-50 rounded-lg p-4">
-                <p className="font-semibold text-brand-orange-900 mb-2">
-                  Examples of Cheating:
-                </p>
+                <p className="font-semibold text-brand-orange-900 mb-2">Examples of Cheating:</p>
                 <ul className="space-y-2 text-brand-orange-800 text-sm">
-                  <li>
-                    • Using notes, books, or devices during closed-book exams
-                  </li>
+                  <li>• Using notes, books, or devices during closed-book exams</li>
                   <li>• Looking at another student's exam or answers</li>
                   <li>• Sharing answers during tests or quizzes</li>
-                  <li>
-                    • Using unauthorized technology or apps during assessments
-                  </li>
+                  <li>• Using unauthorized technology or apps during assessments</li>
                   <li>• Taking photos of exams to share with others</li>
                   <li>• Having someone else take an exam for you</li>
                 </ul>
@@ -156,9 +130,8 @@ export default function AcademicIntegrityPage() {
                   <li>• Allowing others to copy your work</li>
                 </ul>
                 <p className="text-yellow-900 text-sm mt-3">
-                  <strong>Note:</strong> Collaboration is encouraged when
-                  explicitly permitted by the instructor. Always ask if you're
-                  unsure whether collaboration is allowed.
+                  <strong>Note:</strong> Collaboration is encouraged when explicitly permitted by
+                  the instructor. Always ask if you're unsure whether collaboration is allowed.
                 </p>
               </div>
             </div>
@@ -192,14 +165,13 @@ export default function AcademicIntegrityPage() {
                 Multiple Submissions
               </h3>
               <p className="text-black mb-3">
-                Submitting the same work for multiple courses without
-                permission.
+                Submitting the same work for multiple courses without permission.
               </p>
               <div className="bg-brand-blue-50 rounded-lg p-4">
                 <p className="text-brand-blue-800 text-sm">
-                  Students must obtain explicit permission from all instructors
-                  involved before submitting the same or substantially similar
-                  work for credit in more than one course.
+                  Students must obtain explicit permission from all instructors involved before
+                  submitting the same or substantially similar work for credit in more than one
+                  course.
                 </p>
               </div>
             </div>
@@ -212,9 +184,9 @@ export default function AcademicIntegrityPage() {
             Consequences of Academic Dishonesty
           </h2>
           <p className="text-black mb-6">
-            Violations of academic integrity are taken seriously and will result
-            in disciplinary action. The severity of consequences depends on the
-            nature and frequency of the violation.
+            Violations of academic integrity are taken seriously and will result in disciplinary
+            action. The severity of consequences depends on the nature and frequency of the
+            violation.
           </p>
 
           <div className="space-y-4">
@@ -245,10 +217,7 @@ export default function AcademicIntegrityPage() {
                 <li>• Failure (F) in the course</li>
                 <li>• Academic probation for one full term</li>
                 <li>• Meeting with Dean of Students</li>
-                <li>
-                  • Notation on academic transcript (may be removed upon
-                  graduation)
-                </li>
+                <li>• Notation on academic transcript (may be removed upon graduation)</li>
                 <li>• Possible suspension from program</li>
               </ul>
             </div>
@@ -272,10 +241,9 @@ export default function AcademicIntegrityPage() {
 
           <div className="mt-6 bg-white rounded-lg p-4">
             <p className="text-black text-sm">
-              <strong>Note:</strong> Particularly egregious violations (such as
-              falsifying clinical records, forging signatures, or systematic
-              cheating) may result in immediate dismissal regardless of prior
-              violations.
+              <strong>Note:</strong> Particularly egregious violations (such as falsifying clinical
+              records, forging signatures, or systematic cheating) may result in immediate dismissal
+              regardless of prior violations.
             </p>
           </div>
         </div>
@@ -333,15 +301,13 @@ export default function AcademicIntegrityPage() {
             Proper Citation Guidelines
           </h2>
           <p className="text-black mb-4">
-            When using information from other sources, you must give proper
-            credit. Here are basic guidelines:
+            When using information from other sources, you must give proper credit. Here are basic
+            guidelines:
           </p>
 
           <div className="space-y-4">
             <div className="bg-white rounded-lg p-4">
-              <h3 className="font-semibold text-black mb-2">
-                When to Cite:
-              </h3>
+              <h3 className="font-semibold text-black mb-2">When to Cite:</h3>
               <ul className="space-y-1 text-black text-sm ml-4">
                 <li>• Direct quotations from any source</li>
                 <li>• Paraphrased ideas or information</li>
@@ -353,17 +319,14 @@ export default function AcademicIntegrityPage() {
             </div>
 
             <div className="bg-white rounded-lg p-4">
-              <h3 className="font-semibold text-black mb-2">
-                Citation Formats:
-              </h3>
+              <h3 className="font-semibold text-black mb-2">Citation Formats:</h3>
               <p className="text-black text-sm mb-2">
-                Use the citation format specified by your instructor (APA, MLA,
-                Chicago, etc.). If no format is specified, use APA format.
+                Use the citation format specified by your instructor (APA, MLA, Chicago, etc.). If
+                no format is specified, use APA format.
               </p>
               <p className="text-black text-sm">
-                <strong>Resources:</strong> Ask your instructor for citation
-                guides or visit the library for assistance with proper citation
-                formatting.
+                <strong>Resources:</strong> Ask your instructor for citation guides or visit the
+                library for assistance with proper citation formatting.
               </p>
             </div>
           </div>
@@ -375,9 +338,8 @@ export default function AcademicIntegrityPage() {
             Reporting Academic Dishonesty
           </h2>
           <p className="text-black mb-4">
-            If you witness or suspect academic dishonesty, you have a
-            responsibility to report it. All reports are taken seriously and
-            handled confidentially.
+            If you witness or suspect academic dishonesty, you have a responsibility to report it.
+            All reports are taken seriously and handled confidentially.
           </p>
 
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 sm:p-6">
@@ -390,10 +352,9 @@ export default function AcademicIntegrityPage() {
               <li>• Phone: 317-314-3757</li>
             </ul>
             <p className="text-brand-blue-900 text-sm mt-4">
-              <strong>Protection:</strong> Students who report violations in
-              good faith will not face retaliation. The institution prohibits
-              any form of retaliation against those who report academic
-              dishonesty.
+              <strong>Protection:</strong> Students who report violations in good faith will not
+              face retaliation. The institution prohibits any form of retaliation against those who
+              report academic dishonesty.
             </p>
           </div>
         </div>
@@ -403,33 +364,26 @@ export default function AcademicIntegrityPage() {
           <h2 className="text-xl sm:text-2xl font-bold mb-4">Academic Integrity Pledge</h2>
           <div className="bg-white/10 rounded-lg p-4 sm:p-6">
             <p className="text-white italic mb-4">
-              "I pledge to uphold the highest standards of academic integrity. I
-              will do my own work, give credit where credit is due, and be
-              honest in all my academic endeavors. I understand that academic
-              dishonesty undermines my education and the value of my
-              credentials. I commit to maintaining these standards throughout my
-              time at Elevate for Humanity."
+              "I pledge to uphold the highest standards of academic integrity. I will do my own
+              work, give credit where credit is due, and be honest in all my academic endeavors. I
+              understand that academic dishonesty undermines my education and the value of my
+              credentials. I commit to maintaining these standards throughout my time at Elevate for
+              Humanity."
             </p>
             <p className="text-white text-sm">
-              All students acknowledge this pledge upon enrollment and are
-              expected to uphold it throughout their academic career.
+              All students acknowledge this pledge upon enrollment and are expected to uphold it
+              throughout their academic career.
             </p>
           </div>
         </div>
 
         {/* Resources */}
         <div className="bg-white rounded-xl shadow-sm border p-4 sm:p-4 sm:p-6 md:p-8">
-          <h2 className="text-xl sm:text-2xl font-bold text-black mb-6">
-            Resources & Support
-          </h2>
+          <h2 className="text-xl sm:text-2xl font-bold text-black mb-6">Resources & Support</h2>
           <div className="grid md:grid-cols-3 gap-4 sm:p-6">
             <div>
-              <h3 className="font-semibold text-black mb-2">
-                Academic Support
-              </h3>
-              <p className="text-sm text-black mb-2">
-                Get help with assignments and studying
-              </p>
+              <h3 className="font-semibold text-black mb-2">Academic Support</h3>
+              <p className="text-sm text-black mb-2">Get help with assignments and studying</p>
               <Link
                 href="/support"
                 className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-semibold"
@@ -438,12 +392,8 @@ export default function AcademicIntegrityPage() {
               </Link>
             </div>
             <div>
-              <h3 className="font-semibold text-black mb-2">
-                Student Handbook
-              </h3>
-              <p className="text-sm text-black mb-2">
-                Review all academic policies
-              </p>
+              <h3 className="font-semibold text-black mb-2">Student Handbook</h3>
+              <p className="text-sm text-black mb-2">Review all academic policies</p>
               <Link
                 href="/student-handbook"
                 className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-semibold"
@@ -453,9 +403,7 @@ export default function AcademicIntegrityPage() {
             </div>
             <div>
               <h3 className="font-semibold text-black mb-2">Questions?</h3>
-              <p className="text-sm text-black mb-2">
-                Contact Student Services
-              </p>
+              <p className="text-sm text-black mb-2">Contact Student Services</p>
               <a
                 href="/contact"
                 className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-semibold"
@@ -465,28 +413,30 @@ export default function AcademicIntegrityPage() {
             </div>
           </div>
         </div>
-      {/* CTA Section */}
-      <section className="py-12">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Your Career?</h2>
-          <p className="text-white mb-6">Check your eligibility for funded career training programs.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/start"
-              className="inline-flex items-center justify-center bg-white text-brand-blue-700 px-6 py-3 rounded-lg font-bold hover:bg-white transition"
-            >
-              Apply Now
-            </Link>
-            <a
-              href="/support"
-              className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-blue-800 transition"
-            >
-              <Phone className="w-4 h-4" />
-              Visit Support Center
-            </a>
+        {/* CTA Section */}
+        <section className="py-12">
+          <div className="max-w-4xl mx-auto px-4 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Your Career?</h2>
+            <p className="text-white mb-6">
+              Check your eligibility for funded career training programs.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/start"
+                className="inline-flex items-center justify-center bg-white text-brand-blue-700 px-6 py-3 rounded-lg font-bold hover:bg-white transition"
+              >
+                Apply Now
+              </Link>
+              <a
+                href="/support"
+                className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-blue-800 transition"
+              >
+                <Phone className="w-4 h-4" />
+                Visit Support Center
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
       </div>
     </div>
   );

@@ -9,11 +9,7 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-
-async function _GET(
-  request: Request,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
+async function _GET(request: Request, { params }: { params: Promise<{ courseId: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
@@ -30,10 +26,7 @@ async function _GET(
   }
 }
 
-async function _PATCH(
-  request: Request,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
+async function _PATCH(request: Request, { params }: { params: Promise<{ courseId: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
@@ -45,7 +38,10 @@ async function _PATCH(
     const body = await request.json().catch(() => null);
     const parsed = CourseUpdateSchema.safeParse(body);
     if (!parsed.success) {
-      return NextResponse.json({ error: 'Invalid input', details: parsed.error.flatten() }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Invalid input', details: parsed.error.flatten() },
+        { status: 400 },
+      );
     }
     const data = await updateCourse(courseId, parsed.data);
     if (!data) return safeError('Course not found', 404);
@@ -55,10 +51,7 @@ async function _PATCH(
   }
 }
 
-async function _DELETE(
-  request: Request,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
+async function _DELETE(request: Request, { params }: { params: Promise<{ courseId: string }> }) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
 
@@ -74,6 +67,6 @@ async function _DELETE(
   }
 }
 
-export const GET    = withApiAudit('/api/admin/courses/[courseId]', _GET);
-export const PATCH  = withApiAudit('/api/admin/courses/[courseId]', _PATCH);
+export const GET = withApiAudit('/api/admin/courses/[courseId]', _GET);
+export const PATCH = withApiAudit('/api/admin/courses/[courseId]', _PATCH);
 export const DELETE = withApiAudit('/api/admin/courses/[courseId]', _DELETE);

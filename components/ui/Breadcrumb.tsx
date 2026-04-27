@@ -19,9 +19,7 @@ export const Breadcrumb: React.FC<BreadcrumbProps> = ({ items }) => {
 
         return (
           <React.Fragment key={index}>
-            {index > 0 && (
-              <ChevronRight className="h-4 w-4 text-slate-400" />
-            )}
+            {index > 0 && <ChevronRight className="h-4 w-4 text-slate-400" />}
             {isLast || !item.href ? (
               <span className="text-slate-900 font-medium" aria-current="page">
                 {item.label}

@@ -7,12 +7,12 @@ import { useRouter } from 'next/navigation';
 import { Send, Loader2 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-
-
 export default function ProgramOwnerCampaignsPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
-  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(null);
+  const [feedback, setFeedback] = useState<{ type: 'success' | 'error'; message: string } | null>(
+    null,
+  );
   const [templates, setTemplates] = useState<any[]>([]);
   const [myStudents, setMyStudents] = useState<any[]>([]);
   const [selectedTemplate, setSelectedTemplate] = useState<any>(null);
@@ -46,9 +46,7 @@ export default function ProgramOwnerCampaignsPage() {
 
   const toggleStudent = (studentId: string) => {
     setSelectedStudents((prev) =>
-      prev.includes(studentId)
-        ? prev.filter((id) => id !== studentId)
-        : [...prev, studentId]
+      prev.includes(studentId) ? prev.filter((id) => id !== studentId) : [...prev, studentId],
     );
   };
 
@@ -82,7 +80,10 @@ export default function ProgramOwnerCampaignsPage() {
       const data = await response.json();
 
       if (response.ok) {
-        setFeedback({ type: 'success', message: `Email sent to ${data.sent_count} student${data.sent_count !== 1 ? 's' : ''}.` });
+        setFeedback({
+          type: 'success',
+          message: `Email sent to ${data.sent_count} student${data.sent_count !== 1 ? 's' : ''}.`,
+        });
         setSelectedStudents([]);
         setFormData({ subject: '', html_content: '' });
         setSelectedTemplate(null);
@@ -106,21 +107,15 @@ export default function ProgramOwnerCampaignsPage() {
       />
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-black">
-            Email My Students
-          </h1>
-          <p className="text-black mt-2">
-            Send emails to students in your programs
-          </p>
+          <h1 className="text-3xl font-bold text-black">Email My Students</h1>
+          <p className="text-black mt-2">Send emails to students in your programs</p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Templates */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-              <h2 className="text-lg font-bold text-black mb-4">
-                Templates
-              </h2>
+              <h2 className="text-lg font-bold text-black mb-4">Templates</h2>
               <div className="space-y-2 max-h-96 overflow-y-auto">
                 {templates.map((template) => (
                   <button
@@ -132,9 +127,7 @@ export default function ProgramOwnerCampaignsPage() {
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
-                    <p className="font-semibold text-black text-sm">
-                      {template.name}
-                    </p>
+                    <p className="font-semibold text-black text-sm">{template.name}</p>
                     <p className="text-xs text-black mt-1 capitalize">
                       {template.category.replace('_', ' ')}
                     </p>
@@ -146,9 +139,7 @@ export default function ProgramOwnerCampaignsPage() {
             {/* My Students */}
             <div className="bg-white rounded-xl shadow-sm p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-black">
-                  My Students ({myStudents.length})
-                </h2>
+                <h2 className="text-lg font-bold text-black">My Students ({myStudents.length})</h2>
                 <div className="flex gap-2">
                   <button
                     onClick={selectAll}
@@ -180,19 +171,14 @@ export default function ProgramOwnerCampaignsPage() {
                       <p className="font-semibold text-black text-sm truncate">
                         {student.full_name}
                       </p>
-                      <p className="text-xs text-black truncate">
-                        {student.email}
-                      </p>
+                      <p className="text-xs text-black truncate">{student.email}</p>
                     </div>
                   </label>
                 ))}
               </div>
               <div className="mt-4 pt-4 border-t border-gray-200">
                 <p className="text-sm text-black">
-                  Selected:{' '}
-                  <span className="font-bold text-black">
-                    {selectedStudents.length}
-                  </span>
+                  Selected: <span className="font-bold text-black">{selectedStudents.length}</span>
                 </p>
               </div>
             </div>
@@ -201,9 +187,7 @@ export default function ProgramOwnerCampaignsPage() {
           {/* Email Form */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl shadow-sm p-6">
-              <h2 className="text-xl font-bold text-black mb-6">
-                Compose Email
-              </h2>
+              <h2 className="text-xl font-bold text-black mb-6">Compose Email</h2>
 
               <div className="space-y-6">
                 <div>
@@ -214,9 +198,7 @@ export default function ProgramOwnerCampaignsPage() {
                     type="text"
                     required
                     value={formData.subject}
-                    onChange={(e) =>
-                      setFormData({ ...formData, subject: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent"
                     placeholder="e.g., Program Update"
                   />
@@ -229,9 +211,7 @@ export default function ProgramOwnerCampaignsPage() {
                   <textarea
                     required
                     value={formData.html_content}
-                    onChange={(e) =>
-                      setFormData({ ...formData, html_content: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, html_content: e.target.value })}
                     rows={16}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent font-mono text-sm"
                     placeholder="Select a template or write your own..."
@@ -243,7 +223,9 @@ export default function ProgramOwnerCampaignsPage() {
                 </div>
 
                 {feedback && (
-                  <div className={`p-3 rounded-lg text-sm ${feedback.type === 'success' ? 'bg-brand-green-50 border border-brand-green-200 text-brand-green-800' : 'bg-brand-red-50 border border-brand-red-200 text-brand-red-800'}`}>
+                  <div
+                    className={`p-3 rounded-lg text-sm ${feedback.type === 'success' ? 'bg-brand-green-50 border border-brand-green-200 text-brand-green-800' : 'bg-brand-red-50 border border-brand-red-200 text-brand-red-800'}`}
+                  >
                     {feedback.message}
                   </div>
                 )}

@@ -64,9 +64,7 @@ async function getSalesforceAuth() {
 /**
  * Create or update a contact in Salesforce
  */
-export async function createOrUpdateContact(
-  data: ContactData
-): Promise<string | null> {
+export async function createOrUpdateContact(data: ContactData): Promise<string | null> {
   const auth = await getSalesforceAuth();
   if (!auth) return null;
 
@@ -81,7 +79,7 @@ export async function createOrUpdateContact(
           Authorization: `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
 
     if (!searchResponse.ok) {
@@ -107,7 +105,7 @@ export async function createOrUpdateContact(
             LastName: data.lastName,
             Phone: data.phone,
           }),
-        }
+        },
       );
 
       if (!updateResponse.ok) {
@@ -118,22 +116,19 @@ export async function createOrUpdateContact(
       return contactId;
     } else {
       // Create new contact
-      const createResponse = await fetch(
-        `${instanceUrl}/services/data/v58.0/sobjects/Contact`,
-        {
-          method: 'POST',
-          headers: {
-            Authorization: `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            FirstName: data.firstName,
-            LastName: data.lastName,
-            Email: data.email,
-            Phone: data.phone,
-          }),
-        }
-      );
+      const createResponse = await fetch(`${instanceUrl}/services/data/v58.0/sobjects/Contact`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          FirstName: data.firstName,
+          LastName: data.lastName,
+          Email: data.email,
+          Phone: data.phone,
+        }),
+      });
 
       if (!createResponse.ok) {
         logger.error('Salesforce create error:', createResponse.status);
@@ -143,7 +138,8 @@ export async function createOrUpdateContact(
       const createData = await createResponse.json();
       return createData.id;
     }
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('Error with Salesforce contact:', error);
     return null;
   }
@@ -152,9 +148,7 @@ export async function createOrUpdateContact(
 /**
  * Create an opportunity in Salesforce
  */
-export async function createOpportunity(
-  data: OpportunityData
-): Promise<string | null> {
+export async function createOpportunity(data: OpportunityData): Promise<string | null> {
   const apiKey = process.env.SALESFORCE_API_KEY;
   const instanceUrl = process.env.SALESFORCE_INSTANCE_URL;
 
@@ -163,22 +157,19 @@ export async function createOpportunity(
   }
 
   try {
-    const response = await fetch(
-      `${instanceUrl}/services/data/v58.0/sobjects/Opportunity`,
-      {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          Name: data.name,
-          CloseDate: data.closeDate,
-          StageName: data.stageName,
-          Amount: data.amount,
-        }),
-      }
-    );
+    const response = await fetch(`${instanceUrl}/services/data/v58.0/sobjects/Opportunity`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        Name: data.name,
+        CloseDate: data.closeDate,
+        StageName: data.stageName,
+        Amount: data.amount,
+      }),
+    });
 
     if (!response.ok) {
       logger.error('Salesforce opportunity create error:', response.status);
@@ -187,7 +178,8 @@ export async function createOpportunity(
 
     const responseData = await response.json();
     return responseData.id;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('Error creating Salesforce opportunity:', error);
     return null;
   }
@@ -197,9 +189,7 @@ export async function createOpportunity(
  * Create or update an Account in Salesforce
  * Self-service: Client sets up in 5 minutes, no IT team needed
  */
-export async function createOrUpdateAccount(
-  data: AccountData
-): Promise<string | null> {
+export async function createOrUpdateAccount(data: AccountData): Promise<string | null> {
   const auth = await getSalesforceAuth();
   if (!auth) return null;
 
@@ -209,14 +199,14 @@ export async function createOrUpdateAccount(
     // Check if account exists
     const searchResponse = await fetch(
       `${instanceUrl}/services/data/v57.0/query?q=${encodeURIComponent(
-        `SELECT Id FROM Account WHERE Name = '${data.name.replace(/'/g, "\\'")}'`
+        `SELECT Id FROM Account WHERE Name = '${data.name.replace(/'/g, "\\'")}'`,
       )}`,
       {
         headers: {
-          'Authorization': `Bearer ${apiKey}`,
+          Authorization: `Bearer ${apiKey}`,
           'Content-Type': 'application/json',
         },
-      }
+      },
     );
 
     if (!searchResponse.ok) {
@@ -228,55 +218,49 @@ export async function createOrUpdateAccount(
     if (searchResult.records && searchResult.records.length > 0) {
       // Update existing
       const accountId = searchResult.records[0].Id;
-      
-      await fetch(
-        `${instanceUrl}/services/data/v57.0/sobjects/Account/${accountId}`,
-        {
-          method: 'PATCH',
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            Name: data.name,
-            Industry: data.industry,
-            Phone: data.phone,
-            Website: data.website,
-            NumberOfEmployees: data.numberOfEmployees,
-            BillingStreet: data.billingStreet,
-            BillingCity: data.billingCity,
-            BillingState: data.billingState,
-            BillingPostalCode: data.billingPostalCode,
-            BillingCountry: data.billingCountry,
-          }),
-        }
-      );
+
+      await fetch(`${instanceUrl}/services/data/v57.0/sobjects/Account/${accountId}`, {
+        method: 'PATCH',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Name: data.name,
+          Industry: data.industry,
+          Phone: data.phone,
+          Website: data.website,
+          NumberOfEmployees: data.numberOfEmployees,
+          BillingStreet: data.billingStreet,
+          BillingCity: data.billingCity,
+          BillingState: data.billingState,
+          BillingPostalCode: data.billingPostalCode,
+          BillingCountry: data.billingCountry,
+        }),
+      });
 
       return accountId;
     } else {
       // Create new
-      const createResponse = await fetch(
-        `${instanceUrl}/services/data/v57.0/sobjects/Account`,
-        {
-          method: 'POST',
-          headers: {
-            'Authorization': `Bearer ${apiKey}`,
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({
-            Name: data.name,
-            Industry: data.industry,
-            Phone: data.phone,
-            Website: data.website,
-            NumberOfEmployees: data.numberOfEmployees,
-            BillingStreet: data.billingStreet,
-            BillingCity: data.billingCity,
-            BillingState: data.billingState,
-            BillingPostalCode: data.billingPostalCode,
-            BillingCountry: data.billingCountry,
-          }),
-        }
-      );
+      const createResponse = await fetch(`${instanceUrl}/services/data/v57.0/sobjects/Account`, {
+        method: 'POST',
+        headers: {
+          Authorization: `Bearer ${apiKey}`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          Name: data.name,
+          Industry: data.industry,
+          Phone: data.phone,
+          Website: data.website,
+          NumberOfEmployees: data.numberOfEmployees,
+          BillingStreet: data.billingStreet,
+          BillingCity: data.billingCity,
+          BillingState: data.billingState,
+          BillingPostalCode: data.billingPostalCode,
+          BillingCountry: data.billingCountry,
+        }),
+      });
 
       const result = await createResponse.json();
       return result.id;
@@ -290,36 +274,31 @@ export async function createOrUpdateAccount(
  * Create a Lead in Salesforce
  * Self-service: No IT team required
  */
-export async function createLead(
-  data: LeadData
-): Promise<string | null> {
+export async function createLead(data: LeadData): Promise<string | null> {
   const auth = await getSalesforceAuth();
   if (!auth) return null;
 
   const { apiKey, instanceUrl } = auth;
 
   try {
-    const response = await fetch(
-      `${instanceUrl}/services/data/v57.0/sobjects/Lead`,
-      {
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${apiKey}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          FirstName: data.firstName,
-          LastName: data.lastName,
-          Email: data.email,
-          Company: data.company,
-          Phone: data.phone,
-          Status: data.status || 'Open - Not Contacted',
-          LeadSource: data.leadSource || 'Web',
-          Industry: data.industry,
-          Title: data.title,
-        }),
-      }
-    );
+    const response = await fetch(`${instanceUrl}/services/data/v57.0/sobjects/Lead`, {
+      method: 'POST',
+      headers: {
+        Authorization: `Bearer ${apiKey}`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        FirstName: data.firstName,
+        LastName: data.lastName,
+        Email: data.email,
+        Company: data.company,
+        Phone: data.phone,
+        Status: data.status || 'Open - Not Contacted',
+        LeadSource: data.leadSource || 'Web',
+        Industry: data.industry,
+        Title: data.title,
+      }),
+    });
 
     if (!response.ok) {
       return null;

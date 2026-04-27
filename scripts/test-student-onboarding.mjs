@@ -7,7 +7,6 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-
 // Check environment
 const requiredVars = [
   'NEXT_PUBLIC_SUPABASE_URL',
@@ -15,11 +14,11 @@ const requiredVars = [
   'NEXT_PUBLIC_SITE_URL',
 ];
 
-const missingVars = requiredVars.filter(v => !process.env[v]);
+const missingVars = requiredVars.filter((v) => !process.env[v]);
 
 if (missingVars.length > 0) {
   console.error('❌ Missing required environment variables:');
-  missingVars.forEach(v => console.error(`   - ${v}`));
+  missingVars.forEach((v) => console.error(`   - ${v}`));
   console.error('\n💡 Load environment variables first:');
   console.error('   source .env.local');
   process.exit(1);
@@ -58,7 +57,6 @@ function logStep(step, status, message, data = null) {
 }
 
 async function testStep1_CreateAccount() {
-
   try {
     // Create user account
     const { data: authData, error: authError } = await supabase.auth.admin.createUser({
@@ -84,17 +82,15 @@ async function testStep1_CreateAccount() {
     });
 
     // Create profile
-    const { error: profileError } = await supabase
-      .from('profiles')
-      .upsert({
-        id: authData.user.id,
-        email: testStudent.email,
-        first_name: testStudent.firstName,
-        last_name: testStudent.lastName,
-        full_name: `${testStudent.firstName} ${testStudent.lastName}`,
-        phone: testStudent.phone,
-        role: 'student',
-      });
+    const { error: profileError } = await supabase.from('profiles').upsert({
+      id: authData.user.id,
+      email: testStudent.email,
+      first_name: testStudent.firstName,
+      last_name: testStudent.lastName,
+      full_name: `${testStudent.firstName} ${testStudent.lastName}`,
+      phone: testStudent.phone,
+      role: 'student',
+    });
 
     if (profileError) {
       logStep('Create Profile', 'fail', profileError.message);
@@ -104,7 +100,6 @@ async function testStep1_CreateAccount() {
     logStep('Create Profile', 'pass', 'Profile created successfully');
 
     return authData.user.id;
-
   } catch (error) {
     logStep('Create Account', 'fail', error.message);
     return null;
@@ -112,7 +107,6 @@ async function testStep1_CreateAccount() {
 }
 
 async function testStep2_GetProgram() {
-
   try {
     const { data: program, error } = await supabase
       .from('programs')
@@ -132,7 +126,6 @@ async function testStep2_GetProgram() {
     });
 
     return program;
-
   } catch (error) {
     logStep('Get Program', 'fail', error.message);
     return null;
@@ -140,7 +133,6 @@ async function testStep2_GetProgram() {
 }
 
 async function testStep3_CreateEnrollment(userId, programId) {
-
   try {
     const { data: enrollment, error } = await supabase
       .from('enrollments')
@@ -166,7 +158,6 @@ async function testStep3_CreateEnrollment(userId, programId) {
     });
 
     return enrollment;
-
   } catch (error) {
     logStep('Create Enrollment', 'fail', error.message);
     return null;
@@ -174,7 +165,6 @@ async function testStep3_CreateEnrollment(userId, programId) {
 }
 
 async function testStep4_AssignAIInstructor(userId, programSlug) {
-
   try {
     // Check if AI instructor exists
     const { data: instructor, error: instructorError } = await supabase
@@ -200,14 +190,12 @@ async function testStep4_AssignAIInstructor(userId, programSlug) {
     });
 
     // Create assignment
-    const { error: assignError } = await supabase
-      .from('ai_instructor_assignments')
-      .insert({
-        student_id: userId,
-        instructor_id: instructor.id,
-        program_slug: programSlug,
-        status: 'active',
-      });
+    const { error: assignError } = await supabase.from('ai_instructor_assignments').insert({
+      student_id: userId,
+      instructor_id: instructor.id,
+      program_slug: programSlug,
+      status: 'active',
+    });
 
     if (assignError) {
       // Check if already exists
@@ -230,7 +218,6 @@ async function testStep4_AssignAIInstructor(userId, programSlug) {
     });
 
     return true;
-
   } catch (error) {
     logStep('Assign AI Instructor', 'fail', error.message);
     return false;
@@ -238,15 +225,16 @@ async function testStep4_AssignAIInstructor(userId, programSlug) {
 }
 
 async function testStep5_VerifyDashboardAccess(userId) {
-
   try {
     // Check enrollment visibility
     const { data: enrollments, error: enrollError } = await supabase
       .from('enrollments')
-      .select(`
+      .select(
+        `
         *,
         programs (id, name, title, slug)
-      `)
+      `,
+      )
       .eq('user_id', userId);
 
     if (enrollError) {
@@ -264,10 +252,12 @@ async function testStep5_VerifyDashboardAccess(userId) {
     // Check AI instructor assignment
     const { data: assignments, error: assignError } = await supabase
       .from('ai_instructor_assignments')
-      .select(`
+      .select(
+        `
         *,
         ai_instructors (id, name, role_title)
-      `)
+      `,
+      )
       .eq('student_id', userId);
 
     if (assignError) {
@@ -283,7 +273,6 @@ async function testStep5_VerifyDashboardAccess(userId) {
     logStep('Check AI Assignment', 'pass', `AI instructor: ${assignments[0].ai_instructors?.name}`);
 
     return true;
-
   } catch (error) {
     logStep('Verify Dashboard', 'fail', error.message);
     return false;
@@ -291,7 +280,6 @@ async function testStep5_VerifyDashboardAccess(userId) {
 }
 
 async function testStep6_TestDashboardRoute() {
-
   try {
     const response = await fetch(`${siteUrl}/student/dashboard`, {
       redirect: 'manual',
@@ -313,7 +301,6 @@ async function testStep6_TestDashboardRoute() {
       logStep('Dashboard Route', 'fail', `Unexpected status: ${response.status}`);
       return false;
     }
-
   } catch (error) {
     logStep('Dashboard Route', 'fail', error.message);
     return false;
@@ -321,7 +308,6 @@ async function testStep6_TestDashboardRoute() {
 }
 
 async function testStep7_CleanupTestData(userId) {
-
   try {
     // Delete user (cascade will remove enrollments, assignments, etc.)
     const { error } = await supabase.auth.admin.deleteUser(userId);
@@ -333,7 +319,6 @@ async function testStep7_CleanupTestData(userId) {
 
     logStep('Cleanup', 'pass', 'Test data cleaned up successfully');
     return true;
-
   } catch (error) {
     logStep('Cleanup', 'fail', error.message);
     return false;
@@ -341,7 +326,6 @@ async function testStep7_CleanupTestData(userId) {
 }
 
 async function runOnboardingTest() {
-
   let userId = null;
   let program = null;
 
@@ -394,7 +378,7 @@ async function runOnboardingTest() {
 }
 
 // Run test
-runOnboardingTest().catch(error => {
+runOnboardingTest().catch((error) => {
   console.error('❌ Test execution failed:', error);
   process.exit(1);
 });

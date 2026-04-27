@@ -11,7 +11,9 @@ export const metadata: Metadata = {
 
 export default async function PaymentsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/lms/payments');
 
   // Fetch payment records for this learner
@@ -29,7 +31,8 @@ export default async function PaymentsPage() {
     new Date(iso).toLocaleDateString('en-US', { year: 'numeric', month: 'short', day: 'numeric' });
 
   const statusIcon = (status: string) => {
-    if (status === 'succeeded' || status === 'paid') return <CheckCircle className="w-4 h-4 text-green-600" />;
+    if (status === 'succeeded' || status === 'paid')
+      return <CheckCircle className="w-4 h-4 text-green-600" />;
     if (status === 'pending') return <Clock className="w-4 h-4 text-amber-500" />;
     return <AlertCircle className="w-4 h-4 text-red-500" />;
   };
@@ -83,7 +86,10 @@ export default async function PaymentsPage() {
           Call (317) 314-3757
         </a>{' '}
         or{' '}
-        <a href="mailto:info@elevateforhumanity.org" className="text-brand-blue-600 hover:underline">
+        <a
+          href="mailto:info@elevateforhumanity.org"
+          className="text-brand-blue-600 hover:underline"
+        >
           email us
         </a>
         .

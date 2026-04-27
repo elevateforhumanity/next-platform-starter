@@ -11,10 +11,9 @@ export const maxDuration = 60;
 let requestCount = 0;
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const metrics = [
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const metrics = [
     '# HELP efh_http_requests_total Total HTTP requests handled by the application',
     '# TYPE efh_http_requests_total counter',
     `efh_http_requests_total ${requestCount}`,

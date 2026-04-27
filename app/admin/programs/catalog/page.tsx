@@ -3,8 +3,16 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import { FileText, Download, Printer, Eye, Calendar, Building2, Clock, GraduationCap } from 'lucide-react';
-
+import {
+  FileText,
+  Download,
+  Printer,
+  Eye,
+  Calendar,
+  Building2,
+  Clock,
+  GraduationCap,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Program Catalog Generator | Admin | Elevate',
@@ -16,7 +24,7 @@ export const dynamic = 'force-dynamic';
 export default async function ProgramCatalogPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
   const supabase = await createClient();
-  
+
   const { data: allPrograms = [] } = await supabase
     .from('programs')
     .select('*')
@@ -25,42 +33,50 @@ export default async function ProgramCatalogPage() {
   // Group programs by category
   const categories = {
     healthcare: allPrograms.filter((p: any) =>
-      (p.title || p.name || '').toLowerCase().match(/cna|medical|phlebotomy|health/)
+      (p.title || p.name || '').toLowerCase().match(/cna|medical|phlebotomy|health/),
     ),
-    trades: allPrograms.filter(p =>
-      (p.title || p.name || '').toLowerCase().match(/hvac|barber|electrical|plumbing|welding/)
+    trades: allPrograms.filter((p) =>
+      (p.title || p.name || '').toLowerCase().match(/hvac|barber|electrical|plumbing|welding/),
     ),
-    technology: allPrograms.filter(p =>
-      (p.title || p.name || '').toLowerCase().match(/\bit\b|cyber|tech/)
+    technology: allPrograms.filter((p) =>
+      (p.title || p.name || '').toLowerCase().match(/\bit\b|cyber|tech/),
     ),
-    business: allPrograms.filter(p =>
-      (p.title || p.name || '').toLowerCase().match(/business|tax|marketing/)
+    business: allPrograms.filter((p) =>
+      (p.title || p.name || '').toLowerCase().match(/business|tax|marketing/),
     ),
   };
 
   const totalPrograms = allPrograms.length;
-  const totalClockHours = allPrograms.reduce((sum: number, p: any) => sum + (p.clock_hours || 0), 0);
+  const totalClockHours = allPrograms.reduce(
+    (sum: number, p: any) => sum + (p.clock_hours || 0),
+    0,
+  );
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Catalog" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Catalog' }]} />
       </div>
-<div className="max-w-7xl mx-auto px-4 py-8">
+      <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
             <div className="flex items-center gap-2 text-sm text-slate-700 mb-2">
-              <Link href="/admin" className="hover:text-slate-900">Admin</Link>
+              <Link href="/admin" className="hover:text-slate-900">
+                Admin
+              </Link>
               <span>/</span>
-              <Link href="/admin/programs" className="hover:text-slate-900">Programs</Link>
+              <Link href="/admin/programs" className="hover:text-slate-900">
+                Programs
+              </Link>
               <span>/</span>
               <span className="text-slate-900">Catalog Generator</span>
             </div>
             <h1 className="text-3xl font-bold text-slate-900">Program Catalog Generator</h1>
-            <p className="text-slate-700 mt-1">Generate official program catalogs for state submission</p>
+            <p className="text-slate-700 mt-1">
+              Generate official program catalogs for state submission
+            </p>
           </div>
         </div>
 
@@ -85,7 +101,9 @@ export default async function ProgramCatalogPage() {
               </div>
               <div>
                 <p className="text-sm text-slate-700">Total Clock Hours</p>
-                <p className="text-2xl font-bold text-slate-900">{totalClockHours.toLocaleString()}</p>
+                <p className="text-2xl font-bold text-slate-900">
+                  {totalClockHours.toLocaleString()}
+                </p>
               </div>
             </div>
           </div>
@@ -109,7 +127,9 @@ export default async function ProgramCatalogPage() {
               </div>
               <div>
                 <p className="text-sm text-slate-700">Last Updated</p>
-                <p className="text-lg font-bold text-slate-900">{new Date().toLocaleDateString()}</p>
+                <p className="text-lg font-bold text-slate-900">
+                  {new Date().toLocaleDateString()}
+                </p>
               </div>
             </div>
           </div>
@@ -126,8 +146,8 @@ export default async function ProgramCatalogPage() {
               <div className="flex-1">
                 <h3 className="text-lg font-semibold text-slate-900">Full Program Catalog</h3>
                 <p className="text-sm text-slate-700 mt-1 mb-4">
-                  Complete catalog with all programs, descriptions, clock hours, credentials, and requirements.
-                  Suitable for state submission and accreditation.
+                  Complete catalog with all programs, descriptions, clock hours, credentials, and
+                  requirements. Suitable for state submission and accreditation.
                 </p>
                 <div className="flex items-center gap-3">
                   <Link
@@ -158,8 +178,8 @@ export default async function ProgramCatalogPage() {
               <div className="flex-1">
                 <h3 className="text-lg font-semibold text-slate-900">Summary Catalog</h3>
                 <p className="text-sm text-slate-700 mt-1 mb-4">
-                  Condensed version with program names, clock hours, and credentials only.
-                  Ideal for quick reference and marketing materials.
+                  Condensed version with program names, clock hours, and credentials only. Ideal for
+                  quick reference and marketing materials.
                 </p>
                 <div className="flex items-center gap-3">
                   <Link
@@ -195,10 +215,18 @@ export default async function ProgramCatalogPage() {
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {categories.healthcare.slice(0, 6).map((program) => (
                   <div key={program.slug} className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-medium text-slate-900 text-sm">{program.title || program.name}</h4>
+                    <h4 className="font-medium text-slate-900 text-sm">
+                      {program.title || program.name}
+                    </h4>
                     <div className="flex items-center gap-4 mt-2 text-xs text-slate-700">
-                      <span>{program.duration_weeks ? `${program.duration_weeks} weeks` : "—"}</span>
-                      {program.clock_hours && <span className="text-brand-blue-600 font-medium">{program.clock_hours} hrs</span>}
+                      <span>
+                        {program.duration_weeks ? `${program.duration_weeks} weeks` : '—'}
+                      </span>
+                      {program.clock_hours && (
+                        <span className="text-brand-blue-600 font-medium">
+                          {program.clock_hours} hrs
+                        </span>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -214,10 +242,18 @@ export default async function ProgramCatalogPage() {
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {categories.trades.slice(0, 6).map((program) => (
                   <div key={program.slug} className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-medium text-slate-900 text-sm">{program.title || program.name}</h4>
+                    <h4 className="font-medium text-slate-900 text-sm">
+                      {program.title || program.name}
+                    </h4>
                     <div className="flex items-center gap-4 mt-2 text-xs text-slate-700">
-                      <span>{program.duration_weeks ? `${program.duration_weeks} weeks` : "—"}</span>
-                      {program.clock_hours && <span className="text-brand-blue-600 font-medium">{program.clock_hours} hrs</span>}
+                      <span>
+                        {program.duration_weeks ? `${program.duration_weeks} weeks` : '—'}
+                      </span>
+                      {program.clock_hours && (
+                        <span className="text-brand-blue-600 font-medium">
+                          {program.clock_hours} hrs
+                        </span>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -233,10 +269,18 @@ export default async function ProgramCatalogPage() {
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {categories.technology.slice(0, 6).map((program) => (
                   <div key={program.slug} className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-medium text-slate-900 text-sm">{program.title || program.name}</h4>
+                    <h4 className="font-medium text-slate-900 text-sm">
+                      {program.title || program.name}
+                    </h4>
                     <div className="flex items-center gap-4 mt-2 text-xs text-slate-700">
-                      <span>{program.duration_weeks ? `${program.duration_weeks} weeks` : "—"}</span>
-                      {program.clock_hours && <span className="text-brand-blue-600 font-medium">{program.clock_hours} hrs</span>}
+                      <span>
+                        {program.duration_weeks ? `${program.duration_weeks} weeks` : '—'}
+                      </span>
+                      {program.clock_hours && (
+                        <span className="text-brand-blue-600 font-medium">
+                          {program.clock_hours} hrs
+                        </span>
+                      )}
                     </div>
                   </div>
                 ))}
@@ -252,10 +296,18 @@ export default async function ProgramCatalogPage() {
               <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
                 {categories.business.slice(0, 6).map((program) => (
                   <div key={program.slug} className="bg-gray-50 rounded-lg p-4">
-                    <h4 className="font-medium text-slate-900 text-sm">{program.title || program.name}</h4>
+                    <h4 className="font-medium text-slate-900 text-sm">
+                      {program.title || program.name}
+                    </h4>
                     <div className="flex items-center gap-4 mt-2 text-xs text-slate-700">
-                      <span>{program.duration_weeks ? `${program.duration_weeks} weeks` : "—"}</span>
-                      {program.clock_hours && <span className="text-brand-blue-600 font-medium">{program.clock_hours} hrs</span>}
+                      <span>
+                        {program.duration_weeks ? `${program.duration_weeks} weeks` : '—'}
+                      </span>
+                      {program.clock_hours && (
+                        <span className="text-brand-blue-600 font-medium">
+                          {program.clock_hours} hrs
+                        </span>
+                      )}
                     </div>
                   </div>
                 ))}

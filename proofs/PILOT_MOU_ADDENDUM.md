@@ -19,12 +19,12 @@ The purpose of this Pilot is to evaluate operational fit, usability, and outcome
 
 The Pilot is limited to:
 
-| Element | Limit |
-|---------|-------|
-| **Programs** | [1–2 programs named explicitly] |
-| **Learners** | [maximum number] |
-| **Duration** | [e.g., 90 days] |
-| **Partners (if any)** | [named] |
+| Element               | Limit                           |
+| --------------------- | ------------------------------- |
+| **Programs**          | [1–2 programs named explicitly] |
+| **Learners**          | [maximum number]                |
+| **Duration**          | [e.g., 90 days]                 |
+| **Partners (if any)** | [named]                         |
 
 **Any expansion beyond this scope requires written agreement.**
 
@@ -82,15 +82,15 @@ Client acknowledges that Pilot use is for evaluation and should not replace crit
 
 **Accepted and Agreed:**
 
-Provider: _________________________
+Provider: ************\_************
 
-Client: __________________________
+Client: ************\_\_************
 
-Date: ___________________________
+Date: ************\_\_\_************
 
-Pilot Start Date: _________________
+Pilot Start Date: ********\_********
 
-Pilot End Date: ___________________
+Pilot End Date: ********\_\_\_********
 
 ---
 

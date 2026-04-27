@@ -49,9 +49,10 @@ export async function POST(request: NextRequest) {
       .update({
         status: newStatus,
         updated_at: new Date().toISOString(),
-        review_notes: response === 'yes'
-          ? 'Applicant confirmed via onboarding email — ready for orientation + payment'
-          : 'Applicant declined via onboarding email',
+        review_notes:
+          response === 'yes'
+            ? 'Applicant confirmed via onboarding email — ready for orientation + payment'
+            : 'Applicant declined via onboarding email',
       })
       .eq('id', app.id);
 
@@ -76,9 +77,10 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({
       success: true,
       response,
-      message: response === 'yes'
-        ? 'Thank you for confirming! We will contact you within 24 hours to schedule your orientation.'
-        : 'We understand. If you change your mind, contact us at (317) 314-3757.',
+      message:
+        response === 'yes'
+          ? 'Thank you for confirming! We will contact you within 24 hours to schedule your orientation.'
+          : 'We understand. If you change your mind, contact us at (317) 314-3757.',
     });
   } catch (err) {
     logger.error('[BarberConfirm] Error:', err);

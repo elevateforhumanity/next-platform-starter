@@ -11,14 +11,12 @@ export const metadata: Metadata = {
 // Force dynamic rendering for all onboarding pages
 export const dynamic = 'force-dynamic';
 
-export default async function OnboardingLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function OnboardingLayout({ children }: { children: React.ReactNode }) {
   // Require authentication and enrollment for onboarding
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/onboarding');

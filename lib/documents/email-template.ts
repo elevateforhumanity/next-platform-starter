@@ -22,18 +22,18 @@ interface EmailOptions {
   senderTitle?: string;
 }
 
-export function buildInstitutionalEmail(options: EmailOptions): { subject: string; html: string; text: string } {
-  const {
-    recipientName,
-    subject,
-    body,
-    cta,
-    senderName = ORG.name,
-    senderTitle,
-  } = options;
+export function buildInstitutionalEmail(options: EmailOptions): {
+  subject: string;
+  html: string;
+  text: string;
+} {
+  const { recipientName, subject, body, cta, senderName = ORG.name, senderTitle } = options;
 
   const bodyHtml = body
-    .map((p) => `<p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">${p}</p>`)
+    .map(
+      (p) =>
+        `<p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">${p}</p>`,
+    )
     .join('\n      ');
 
   const ctaHtml = cta

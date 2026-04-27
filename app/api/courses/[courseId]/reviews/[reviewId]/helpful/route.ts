@@ -12,13 +12,15 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ courseId: string; reviewId: string }> }
+  { params }: { params: Promise<{ courseId: string; reviewId: string }> },
 ) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -30,7 +32,7 @@ export async function POST(
     .from('review_helpful_votes')
     .upsert(
       { review_id: reviewId, user_id: user.id },
-      { onConflict: 'review_id,user_id', ignoreDuplicates: true }
+      { onConflict: 'review_id,user_id', ignoreDuplicates: true },
     );
 
   if (!voteError) {

@@ -14,7 +14,6 @@ export const metadata: Metadata = {
 export default async function PaymentSuccessPage() {
   const supabase = await createClient();
 
-  
   // Log payment success
   await supabase.from('page_views').insert({ page: 'payment_success' }).select();
   return (
@@ -30,28 +29,28 @@ export default async function PaymentSuccessPage() {
           </h1>
 
           <p className="text-base md:text-lg text-black mb-8">
-            Thank you for enrolling in Elevate for Humanity. Your payment has
-            been processed successfully.
+            Thank you for enrolling in Elevate for Humanity. Your payment has been processed
+            successfully.
           </p>
 
           <div className="bg-brand-green-50 border border-brand-green-200 rounded-lg p-6 mb-8">
             <h2 className="font-bold text-brand-green-900 mb-2">What's Next?</h2>
             <ul className="text-left text-brand-green-800 space-y-2">
               <li>
-                <span className="text-slate-400 flex-shrink-0">•</span> Check your
-                email for enrollment confirmation
+                <span className="text-slate-400 flex-shrink-0">•</span> Check your email for
+                enrollment confirmation
               </li>
               <li>
-                <span className="text-slate-400 flex-shrink-0">•</span> You'll receive
-                your welcome packet within 24 hours
+                <span className="text-slate-400 flex-shrink-0">•</span> You'll receive your welcome
+                packet within 24 hours
               </li>
               <li>
-                <span className="text-slate-400 flex-shrink-0">•</span> Access your
-                student portal to get started
+                <span className="text-slate-400 flex-shrink-0">•</span> Access your student portal
+                to get started
               </li>
               <li>
-                <span className="text-slate-400 flex-shrink-0">•</span> Our team will
-                contact you to schedule orientation
+                <span className="text-slate-400 flex-shrink-0">•</span> Our team will contact you to
+                schedule orientation
               </li>
             </ul>
           </div>
@@ -74,17 +73,11 @@ export default async function PaymentSuccessPage() {
           <div className="mt-8 pt-8 border-t border-gray-200">
             <p className="text-sm text-black">
               Questions? Contact us at{' '}
-              <a
-                href="/support"
-                className="text-brand-orange-600 hover:underline"
-              >
+              <a href="/support" className="text-brand-orange-600 hover:underline">
                 support center
               </a>{' '}
               or{' '}
-              <a
-                href="/contact"
-                className="text-brand-orange-600 hover:underline"
-              >
+              <a href="/contact" className="text-brand-orange-600 hover:underline">
                 our contact form
               </a>
             </p>

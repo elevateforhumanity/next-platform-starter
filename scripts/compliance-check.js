@@ -5,7 +5,6 @@
  * Validates project compliance before deployment
  */
 
-
 const checks = [
   {
     name: 'Package.json exists',
@@ -33,7 +32,6 @@ checks.forEach(({ name, check }) => {
     failed++;
   }
 });
-
 
 // Always exit 0 (warnings don't block deployment)
 process.exit(0);

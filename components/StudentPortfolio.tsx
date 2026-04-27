@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -37,7 +37,9 @@ interface Certificate {
 }
 
 export function StudentPortfolio() {
-  const [activeTab, setActiveTab] = useState<'projects' | 'skills' | 'certificates' | 'about'>('projects');
+  const [activeTab, setActiveTab] = useState<'projects' | 'skills' | 'certificates' | 'about'>(
+    'projects',
+  );
   const [selectedCategory, setSelectedCategory] = useState<string>('all');
   const [student, setStudent] = useState({
     name: 'Jordan Martinez',
@@ -60,7 +62,9 @@ export function StudentPortfolio() {
   React.useEffect(() => {
     const loadPortfolio = async () => {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
         setLoading(false);
         return;
@@ -85,7 +89,8 @@ export function StudentPortfolio() {
             linkedin: profile.linkedin_url || '',
             github: profile.github_url || '',
             portfolio: profile.portfolio_url || '',
-            avatar: profile.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.id}`,
+            avatar:
+              profile.avatar_url || `https://api.dicebear.com/7.x/avataaars/svg?seed=${user.id}`,
           });
         }
 
@@ -97,18 +102,20 @@ export function StudentPortfolio() {
           .order('completed_date', { ascending: false });
 
         if (projectData) {
-          setProjects(projectData.map(p => ({
-            id: p.id,
-            title: p.title,
-            description: p.description,
-            category: p.category || 'web',
-            imageUrl: p.image_url || '/media/projects/default.jpg',
-            technologies: p.technologies || [],
-            completedDate: p.completed_date,
-            githubUrl: p.github_url,
-            liveUrl: p.live_url,
-            achievements: p.achievements || [],
-          })));
+          setProjects(
+            projectData.map((p) => ({
+              id: p.id,
+              title: p.title,
+              description: p.description,
+              category: p.category || 'web',
+              imageUrl: p.image_url || '/media/projects/default.jpg',
+              technologies: p.technologies || [],
+              completedDate: p.completed_date,
+              githubUrl: p.github_url,
+              liveUrl: p.live_url,
+              achievements: p.achievements || [],
+            })),
+          );
         }
 
         // Fetch skills
@@ -118,11 +125,13 @@ export function StudentPortfolio() {
           .eq('user_id', user.id);
 
         if (skillData) {
-          setSkills(skillData.map(s => ({
-            name: s.skill_name,
-            level: s.proficiency_level || 50,
-            category: s.category || 'technical',
-          })));
+          setSkills(
+            skillData.map((s) => ({
+              name: s.skill_name,
+              level: s.proficiency_level || 50,
+              category: s.category || 'technical',
+            })),
+          );
         }
 
         // Fetch certificates
@@ -132,13 +141,15 @@ export function StudentPortfolio() {
           .eq('user_id', user.id);
 
         if (certData) {
-          setCertificates(certData.map(c => ({
-            id: c.id,
-            title: (c.training_programs as any)?.name || c.program_name || 'Certificate',
-            issuer: 'Elevate for Humanity Career & Technical Institute',
-            date: c.issued_at?.split('T')[0] || '',
-            credentialUrl: c.verification_url || `/verify/${c.id}`,
-          })));
+          setCertificates(
+            certData.map((c) => ({
+              id: c.id,
+              title: (c.training_programs as any)?.name || c.program_name || 'Certificate',
+              issuer: 'Elevate for Humanity Career & Technical Institute',
+              date: c.issued_at?.split('T')[0] || '',
+              credentialUrl: c.verification_url || `/verify/${c.id}`,
+            })),
+          );
         }
       } catch (err) {
         console.error('Error loading portfolio:', err);
@@ -153,19 +164,25 @@ export function StudentPortfolio() {
     {
       id: '1',
       title: 'E-Commerce Platform',
-      description: 'Full-featured online shopping platform with payment integration, inventory management, and admin dashboard.',
+      description:
+        'Full-featured online shopping platform with payment integration, inventory management, and admin dashboard.',
       category: 'Web Development',
       imageUrl: '/images/pages/comp-home-hero.jpg',
       technologies: ['React', 'Node.js', 'MongoDB', 'Stripe', 'Tailwind CSS'],
       completedDate: '2024-01',
       githubUrl: 'https://github.com/example/ecommerce',
       liveUrl: 'https://demo-ecommerce.netlify.app',
-      achievements: ['Processed 1000+ transactions', 'Achieved 99.9% uptime', 'Reduced load time by 40%'],
+      achievements: [
+        'Processed 1000+ transactions',
+        'Achieved 99.9% uptime',
+        'Reduced load time by 40%',
+      ],
     },
     {
       id: '2',
       title: 'Task Management App',
-      description: 'Collaborative project management tool with real-time updates, team chat, and analytics.',
+      description:
+        'Collaborative project management tool with real-time updates, team chat, and analytics.',
       category: 'Web Development',
       imageUrl: '/images/pages/comp-home-hero.jpg',
       technologies: ['Next.js', 'TypeScript', 'PostgreSQL', 'Socket.io', 'Prisma'],
@@ -177,7 +194,8 @@ export function StudentPortfolio() {
     {
       id: '3',
       title: 'Weather Forecast Dashboard',
-      description: 'Interactive weather application with 7-day forecasts, maps, and severe weather alerts.',
+      description:
+        'Interactive weather application with 7-day forecasts, maps, and severe weather alerts.',
       category: 'Mobile Development',
       imageUrl: '/images/pages/comp-home-hero.jpg',
       technologies: ['React Native', 'OpenWeather API', 'Redux', 'Expo'],
@@ -188,7 +206,8 @@ export function StudentPortfolio() {
     {
       id: '4',
       title: 'AI Chatbot Assistant',
-      description: 'Intelligent chatbot using natural language processing for customer support automation.',
+      description:
+        'Intelligent chatbot using natural language processing for customer support automation.',
       category: 'AI/ML',
       imageUrl: '/images/pages/comp-home-hero.jpg',
       technologies: ['Python', 'TensorFlow', 'Flask', 'OpenAI API', 'Docker'],
@@ -199,7 +218,8 @@ export function StudentPortfolio() {
     {
       id: '5',
       title: 'Portfolio Website Builder',
-      description: 'Drag-and-drop website builder for creating professional portfolios without coding.',
+      description:
+        'Drag-and-drop website builder for creating professional portfolios without coding.',
       category: 'Web Development',
       imageUrl: '/images/pages/comp-home-hero.jpg',
       technologies: ['Vue.js', 'Firebase', 'Vuetify', 'Netlify'],
@@ -210,7 +230,8 @@ export function StudentPortfolio() {
     {
       id: '6',
       title: 'Fitness Tracking App',
-      description: 'Mobile app for tracking workouts, nutrition, and health metrics with social features.',
+      description:
+        'Mobile app for tracking workouts, nutrition, and health metrics with social features.',
       category: 'Mobile Development',
       imageUrl: '/images/pages/comp-home-hero.jpg',
       technologies: ['Flutter', 'Dart', 'Firebase', 'HealthKit'],
@@ -268,12 +289,11 @@ export function StudentPortfolio() {
     },
   ];
 
-  const categories = ['all', ...Array.from(new Set(projects.map(p => p.category)))];
-  const filteredProjects = selectedCategory === 'all'
-    ? projects
-    : projects.filter(p => p.category === selectedCategory);
+  const categories = ['all', ...Array.from(new Set(projects.map((p) => p.category)))];
+  const filteredProjects =
+    selectedCategory === 'all' ? projects : projects.filter((p) => p.category === selectedCategory);
 
-  const skillCategories = Array.from(new Set(skills.map(s => s.category)));
+  const skillCategories = Array.from(new Set(skills.map((s) => s.category)));
 
   return (
     <div className="min-h-screen   ">
@@ -281,6 +301,7 @@ export function StudentPortfolio() {
       <div className="   text-white">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-16">
           <div className="flex flex-col md:flex-row items-center gap-8">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
             <Image
               src={student.avatar}
               alt={student.name}
@@ -289,35 +310,61 @@ export function StudentPortfolio() {
               className="rounded-full border-4 border-white shadow-lg"
             />
             <div className="flex-1 text-center md:text-left">
-              <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">{student.name}</h1>
+              <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+                {student.name}
+              </h1>
               <p className="text-xl text-white mb-4">{student.title}</p>
               <p className="text-brand-red-50 max-w-2xl mb-6">{student.bio}</p>
               <div className="flex flex-wrap gap-4 justify-center md:justify-start">
-                <a href={`mailto:${student.email}`} className="text-white hover:text-white transition-colors">
+                <a
+                  href={`mailto:${student.email}`}
+                  className="text-white hover:text-white transition-colors"
+                >
                   📧 Email
                 </a>
-                <a href={`tel:${student.phone}`} className="text-white hover:text-white transition-colors">
+                <a
+                  href={`tel:${student.phone}`}
+                  className="text-white hover:text-white transition-colors"
+                >
                   📱 {student.phone}
                 </a>
-                <a href={`https://${student.linkedin}`} target="_blank" rel="noopener noreferrer"
-className="text-white hover:text-white transition-colors">
+                <a
+                  href={`https://${student.linkedin}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-white transition-colors"
+                >
                   💼 LinkedIn
                 </a>
-                <a href={`https://${student.github}`} target="_blank" rel="noopener noreferrer"
-className="text-white hover:text-white transition-colors">
+                <a
+                  href={`https://${student.github}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-white transition-colors"
+                >
                   🔗 GitHub
                 </a>
-                <a href={`https://${student.portfolio}`} target="_blank" rel="noopener noreferrer"
-className="text-white hover:text-white transition-colors">
+                <a
+                  href={`https://${student.portfolio}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-white hover:text-white transition-colors"
+                >
                   🌐 Portfolio
                 </a>
               </div>
             </div>
             <div className="flex gap-3">
-              <Button variant="secondary" className="bg-white text-brand-orange-600 hover:bg-brand-red-50">
+              <Button
+                variant="secondary"
+                className="bg-white text-brand-orange-600 hover:bg-brand-red-50"
+              >
                 Download Resume
               </Button>
-              <Button variant="secondary" className="bg-brand-red-700 text-white hover:bg-brand-red-800">
+              <Button
+                variant="secondary"
+                className="bg-brand-red-700 text-white hover:bg-brand-red-800"
+              >
                 Contact Me
               </Button>
             </div>
@@ -375,7 +422,10 @@ className="text-white hover:text-white transition-colors">
 
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
               {filteredProjects.map((project) => (
-                <Card key={project.id} className="overflow-hidden hover:shadow-xl transition-shadow">
+                <Card
+                  key={project.id}
+                  className="overflow-hidden hover:shadow-xl transition-shadow"
+                >
                   <div className="relative w-full h-48">
                     <Image
                       src={project.imageUrl}
@@ -398,7 +448,10 @@ className="text-white hover:text-white transition-colors">
                       <p className="text-xs font-semibold text-black mb-2">Technologies:</p>
                       <div className="flex flex-wrap gap-2">
                         {project.technologies.map((tech) => (
-                          <span key={tech} className="px-2 py-2 bg-gray-100 text-black text-xs rounded">
+                          <span
+                            key={tech}
+                            className="px-2 py-2 bg-gray-100 text-black text-xs rounded"
+                          >
                             {tech}
                           </span>
                         ))}
@@ -441,7 +494,12 @@ className="text-white hover:text-white transition-colors">
                     </div>
 
                     <p className="text-xs text-slate-700 mt-3">
-                      Completed: {new Date(project.completedDate).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', year: 'numeric' })}
+                      Completed:{' '}
+                      {new Date(project.completedDate).toLocaleDateString('en-US', {
+                        timeZone: 'UTC',
+                        month: 'long',
+                        year: 'numeric',
+                      })}
                     </p>
                   </div>
                 </Card>
@@ -469,7 +527,9 @@ className="text-white hover:text-white transition-colors">
                         <div key={skill.name}>
                           <div className="flex justify-between items-center mb-2">
                             <span className="text-sm font-medium text-black">{skill.name}</span>
-                            <span className="text-sm font-semibold text-brand-orange-600">{skill.level}%</span>
+                            <span className="text-sm font-semibold text-brand-orange-600">
+                              {skill.level}%
+                            </span>
                           </div>
                           <div className="w-full bg-gray-200 rounded-full h-2.5">
                             <div
@@ -505,7 +565,12 @@ className="text-white hover:text-white transition-colors">
                       <h3 className="text-lg font-bold text-black mb-1">{cert.title}</h3>
                       <p className="text-sm text-black mb-2">{cert.issuer}</p>
                       <p className="text-xs text-slate-700 mb-3">
-                        Issued: {new Date(cert.date).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'long', year: 'numeric' })}
+                        Issued:{' '}
+                        {new Date(cert.date).toLocaleDateString('en-US', {
+                          timeZone: 'UTC',
+                          month: 'long',
+                          year: 'numeric',
+                        })}
                       </p>
                       <a
                         href={cert.credentialUrl}
@@ -534,22 +599,26 @@ className="text-white hover:text-white transition-colors">
                 <h3 className="text-xl font-bold text-black mb-4">Professional Summary</h3>
                 <div className="prose prose-sm max-w-none text-black space-y-4">
                   <p>
-                    I'm a passionate full-stack developer with over 3 years of experience building web and mobile applications.
-                    My journey in tech started with a curiosity about how websites work, which led me to pursue formal education
-                    through Elevate for Humanity' comprehensive programs.
+                    I'm a passionate full-stack developer with over 3 years of experience building
+                    web and mobile applications. My journey in tech started with a curiosity about
+                    how websites work, which led me to pursue formal education through Elevate for
+                    Humanity' comprehensive programs.
                   </p>
                   <p>
-                    I specialize in modern JavaScript frameworks, particularly React and Next.js, and have extensive experience
-                    with backend technologies like Node.js and Python. I'm particularly interested in creating intuitive user
-                    experiences and building scalable, performant applications.
+                    I specialize in modern JavaScript frameworks, particularly React and Next.js,
+                    and have extensive experience with backend technologies like Node.js and Python.
+                    I'm particularly interested in creating intuitive user experiences and building
+                    scalable, performant applications.
                   </p>
                   <p>
-                    Currently, I'm expanding my expertise in cloud computing and DevOps practices, with a focus on AWS services
-                    and containerization. I'm also exploring machine learning and AI integration in web applications.
+                    Currently, I'm expanding my expertise in cloud computing and DevOps practices,
+                    with a focus on AWS services and containerization. I'm also exploring machine
+                    learning and AI integration in web applications.
                   </p>
                   <p>
-                    When I'm not coding, I enjoy contributing to open-source projects, mentoring junior developers, and staying
-                    up- with the latest industry trends through conferences and online communities.
+                    When I'm not coding, I enjoy contributing to open-source projects, mentoring
+                    junior developers, and staying up- with the latest industry trends through
+                    conferences and online communities.
                   </p>
                 </div>
 
@@ -585,7 +654,9 @@ className="text-white hover:text-white transition-colors">
                       <p className="text-sm text-black">Completed Projects</p>
                     </div>
                     <div>
-                      <p className="text-3xl font-bold text-brand-orange-500">{certificates.length}</p>
+                      <p className="text-3xl font-bold text-brand-orange-500">
+                        {certificates.length}
+                      </p>
                       <p className="text-sm text-black">Certifications</p>
                     </div>
                     <div>
@@ -602,8 +673,20 @@ className="text-white hover:text-white transition-colors">
                 <Card className="p-6">
                   <h3 className="text-xl font-bold text-black mb-4">Interests</h3>
                   <div className="flex flex-wrap gap-2">
-                    {['Web Development', 'Mobile Apps', 'Cloud Computing', 'AI/ML', 'Open Source', 'UI/UX Design', 'DevOps', 'Mentoring'].map((interest) => (
-                      <span key={interest} className="px-3 py-2    text-brand-red-700 text-sm rounded-full">
+                    {[
+                      'Web Development',
+                      'Mobile Apps',
+                      'Cloud Computing',
+                      'AI/ML',
+                      'Open Source',
+                      'UI/UX Design',
+                      'DevOps',
+                      'Mentoring',
+                    ].map((interest) => (
+                      <span
+                        key={interest}
+                        className="px-3 py-2    text-brand-red-700 text-sm rounded-full"
+                      >
                         {interest}
                       </span>
                     ))}
@@ -613,9 +696,13 @@ className="text-white hover:text-white transition-colors">
                 <Card className="p-6    text-white">
                   <h3 className="text-xl font-bold mb-3">Let's Connect!</h3>
                   <p className="text-brand-red-50 text-sm mb-4">
-                    I'm always open to discussing new opportunities, collaborations, or just chatting about tech.
+                    I'm always open to discussing new opportunities, collaborations, or just
+                    chatting about tech.
                   </p>
-                  <Button variant="secondary" className="w-full bg-white text-brand-orange-600 hover:bg-brand-red-50">
+                  <Button
+                    variant="secondary"
+                    className="w-full bg-white text-brand-orange-600 hover:bg-brand-red-50"
+                  >
                     Schedule a Call
                   </Button>
                 </Card>

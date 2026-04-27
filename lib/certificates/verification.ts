@@ -6,7 +6,7 @@ import { createClient } from '@/lib/supabase/server';
 export function generateVerificationCode(): string {
   const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // Removed confusing chars (0, O, 1, I)
   const segments = [];
-  
+
   for (let i = 0; i < 3; i++) {
     let segment = '';
     for (let j = 0; j < 4; j++) {
@@ -14,7 +14,7 @@ export function generateVerificationCode(): string {
     }
     segments.push(segment);
   }
-  
+
   return segments.join('-'); // Format: XXXX-XXXX-XXXX
 }
 
@@ -41,14 +41,16 @@ export function getQRCodeUrl(verificationCode: string, size: number = 200): stri
  */
 export async function verifyCertificate(code: string) {
   const supabase = await createClient();
-  
+
   const { data: certificate, error } = await supabase
     .from('certificates')
-    .select(`
+    .select(
+      `
       *,
       profiles:user_id (full_name, email),
       programs:program_id (name, slug)
-    `)
+    `,
+    )
     .eq('verification_code', code)
     .maybeSingle();
 
@@ -58,7 +60,10 @@ export async function verifyCertificate(code: string) {
 
   const isExpired = certificate.expires_at && new Date(certificate.expires_at) < new Date();
   const isRevoked = certificate.status === 'revoked';
-  const isValid = !isExpired && !isRevoked && (certificate.status === 'active' || certificate.status === 'issued');
+  const isValid =
+    !isExpired &&
+    !isRevoked &&
+    (certificate.status === 'active' || certificate.status === 'issued');
 
   return {
     valid: isValid,
@@ -87,7 +92,7 @@ export async function issueCertificate({
 }) {
   const supabase = await createClient();
   const verificationCode = generateVerificationCode();
-  
+
   const { data, error } = await supabase
     .from('certificates')
     .insert({

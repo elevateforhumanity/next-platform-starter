@@ -48,50 +48,71 @@ export function trackSearch(query: string, category?: string) {
 }
 
 // Track product view
-export function trackProductView(productId: string, productName: string, category: string, price: number) {
+export function trackProductView(
+  productId: string,
+  productName: string,
+  category: string,
+  price: number,
+) {
   if (typeof window !== 'undefined' && (window as any).gtag) {
     (window as any).gtag('event', 'view_item', {
       currency: 'USD',
       value: price,
-      items: [{
-        item_id: productId,
-        item_name: productName,
-        item_category: category,
-        price: price,
-      }],
+      items: [
+        {
+          item_id: productId,
+          item_name: productName,
+          item_category: category,
+          price: price,
+        },
+      ],
     });
   }
 }
 
 // Track course view
-export function trackCourseView(courseId: string, courseName: string, category: string, price?: number) {
+export function trackCourseView(
+  courseId: string,
+  courseName: string,
+  category: string,
+  price?: number,
+) {
   if (typeof window !== 'undefined' && (window as any).gtag) {
     (window as any).gtag('event', 'view_item', {
       currency: 'USD',
       value: price || 0,
-      items: [{
-        item_id: courseId,
-        item_name: courseName,
-        item_category: category,
-        price: price || 0,
-      }],
+      items: [
+        {
+          item_id: courseId,
+          item_name: courseName,
+          item_category: category,
+          price: price || 0,
+        },
+      ],
     });
   }
 }
 
 // Track add to cart
-export function trackAddToCart(productId: string, productName: string, category: string, price: number) {
+export function trackAddToCart(
+  productId: string,
+  productName: string,
+  category: string,
+  price: number,
+) {
   if (typeof window !== 'undefined' && (window as any).gtag) {
     (window as any).gtag('event', 'add_to_cart', {
       currency: 'USD',
       value: price,
-      items: [{
-        item_id: productId,
-        item_name: productName,
-        item_category: category,
-        price: price,
-        quantity: 1,
-      }],
+      items: [
+        {
+          item_id: productId,
+          item_name: productName,
+          item_category: category,
+          price: price,
+          quantity: 1,
+        },
+      ],
     });
   }
 }

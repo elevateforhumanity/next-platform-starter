@@ -23,7 +23,10 @@ const root = path.join(__dirname, '..');
 dotenv.config({ path: path.join(root, '.env.local'), override: false });
 
 const OPENAI_API_KEY = process.env.OPENAI_API_KEY;
-if (!OPENAI_API_KEY) { console.error('OPENAI_API_KEY not set'); process.exit(1); }
+if (!OPENAI_API_KEY) {
+  console.error('OPENAI_API_KEY not set');
+  process.exit(1);
+}
 
 const OUT_DIR = path.join(root, 'public', 'hvac', 'audio');
 if (!existsSync(OUT_DIR)) mkdirSync(OUT_DIR, { recursive: true });
@@ -46,7 +49,7 @@ async function generateAudio(lesson) {
     const size = existsSync(outPath) ? readFileSync(outPath).length : 0;
     // Skip if file exists and is > 50KB (real audio, not a stub)
     if (size > 50000) {
-      console.log(`  ⏭  ${lesson.defId} — already exists (${(size/1024).toFixed(0)}KB)`);
+      console.log(`  ⏭  ${lesson.defId} — already exists (${(size / 1024).toFixed(0)}KB)`);
       return 'skipped';
     }
   }
@@ -56,50 +59,53 @@ async function generateAudio(lesson) {
       const bodyObj = {
         model: 'gpt-4o-mini-tts',
         voice: 'echo',
-        input: lesson.script,   // lesson script ONLY
+        input: lesson.script, // lesson script ONLY
         instructions: MARCUS_INSTRUCTION, // voice style, never read aloud
       };
       const body = JSON.stringify(bodyObj);
 
-      const req = https.request({
-        hostname: 'api.openai.com',
-        path: '/v1/audio/speech',
-        method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${OPENAI_API_KEY}`,
-          'Content-Type': 'application/json',
-          'Content-Length': Buffer.byteLength(body),
+      const req = https.request(
+        {
+          hostname: 'api.openai.com',
+          path: '/v1/audio/speech',
+          method: 'POST',
+          headers: {
+            Authorization: `Bearer ${OPENAI_API_KEY}`,
+            'Content-Type': 'application/json',
+            'Content-Length': Buffer.byteLength(body),
+          },
         },
-      }, (res) => {
-        if (res.statusCode === 429) {
-          // Rate limited — wait and retry
-          const wait = 20000;
-          console.log(`  ⏳ Rate limited on ${lesson.defId} — waiting ${wait/1000}s...`);
-          setTimeout(() => tryModel(model, retries - 1), wait);
-          return;
-        }
-        if (res.statusCode !== 200) {
-          let err = '';
-          res.on('data', d => err += d);
+        (res) => {
+          if (res.statusCode === 429) {
+            // Rate limited — wait and retry
+            const wait = 20000;
+            console.log(`  ⏳ Rate limited on ${lesson.defId} — waiting ${wait / 1000}s...`);
+            setTimeout(() => tryModel(model, retries - 1), wait);
+            return;
+          }
+          if (res.statusCode !== 200) {
+            let err = '';
+            res.on('data', (d) => (err += d));
+            res.on('end', () => {
+              if (retries > 0) {
+                setTimeout(() => tryModel(model, retries - 1), 5000);
+              } else {
+                console.error(`  ❌ ${lesson.defId} failed: ${res.statusCode}`);
+                resolve('failed');
+              }
+            });
+            return;
+          }
+          const chunks = [];
+          res.on('data', (c) => chunks.push(c));
           res.on('end', () => {
-            if (retries > 0) {
-              setTimeout(() => tryModel(model, retries - 1), 5000);
-            } else {
-              console.error(`  ❌ ${lesson.defId} failed: ${res.statusCode}`);
-              resolve('failed');
-            }
+            const buf = Buffer.concat(chunks);
+            writeFileSync(outPath, buf);
+            console.log(`  ✅ ${lesson.defId} — ${(buf.length / 1024).toFixed(0)}KB`);
+            resolve('generated');
           });
-          return;
-        }
-        const chunks = [];
-        res.on('data', c => chunks.push(c));
-        res.on('end', () => {
-          const buf = Buffer.concat(chunks);
-          writeFileSync(outPath, buf);
-          console.log(`  ✅ ${lesson.defId} — ${(buf.length/1024).toFixed(0)}KB`);
-          resolve('generated');
-        });
-      });
+        },
+      );
       req.on('error', (e) => {
         if (retries > 0) {
           setTimeout(() => tryModel(model, retries - 1), 5000);
@@ -118,7 +124,9 @@ async function generateAudio(lesson) {
 
 // Process in batches of 3 to respect rate limits
 const CONCURRENCY = 3;
-let generated = 0, skipped = 0, failed = 0;
+let generated = 0,
+  skipped = 0,
+  failed = 0;
 
 console.log(`\nGenerating audio for ${lessons.length} HVAC lessons...`);
 console.log(`Output: ${OUT_DIR}\n`);
@@ -133,7 +141,7 @@ for (let i = 0; i < lessons.length; i += CONCURRENCY) {
   }
   // Small delay between batches
   if (i + CONCURRENCY < lessons.length) {
-    await new Promise(r => setTimeout(r, 1000));
+    await new Promise((r) => setTimeout(r, 1000));
   }
 }
 

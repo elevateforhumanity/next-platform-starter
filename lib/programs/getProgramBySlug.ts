@@ -91,7 +91,8 @@ export async function getPublishedProgramBySlug(slug: string): Promise<ProgramRe
   // Fetch core program fields first — fast, no joins
   const { data, error } = await supabase
     .from('programs')
-    .select(`
+    .select(
+      `
       id,
       slug,
       title,
@@ -106,7 +107,8 @@ export async function getPublishedProgramBySlug(slug: string): Promise<ProgramRe
       length_weeks,
       certificate_title,
       published
-    `)
+    `,
+    )
     .eq('slug', slug)
     .eq('published', true)
     .maybeSingle();
@@ -117,17 +119,35 @@ export async function getPublishedProgramBySlug(slug: string): Promise<ProgramRe
 
   // Fetch relations in parallel — flat queries are faster than deep nested joins
   const [mediaRes, ctasRes, tracksRes, modulesRes] = await Promise.all([
-    supabase.from('program_media').select('id,media_type,url,alt_text,sort_order').eq('program_id', data.id),
-    supabase.from('program_ctas').select('id,cta_type,label,href,style_variant,is_external,sort_order').eq('program_id', data.id),
-    supabase.from('program_tracks').select('id,track_code,title,description,funding_type,cost_cents,available,coming_soon_message,sort_order').eq('program_id', data.id),
-    supabase.from('program_modules').select('id,module_number,title,description,lesson_count,duration_hours,sort_order').eq('program_id', data.id),
+    supabase
+      .from('program_media')
+      .select('id,media_type,url,alt_text,sort_order')
+      .eq('program_id', data.id),
+    supabase
+      .from('program_ctas')
+      .select('id,cta_type,label,href,style_variant,is_external,sort_order')
+      .eq('program_id', data.id),
+    supabase
+      .from('program_tracks')
+      .select(
+        'id,track_code,title,description,funding_type,cost_cents,available,coming_soon_message,sort_order',
+      )
+      .eq('program_id', data.id),
+    supabase
+      .from('program_modules')
+      .select('id,module_number,title,description,lesson_count,duration_hours,sort_order')
+      .eq('program_id', data.id),
   ]);
 
   // Fetch lessons for all modules in one query
   const moduleIds = (modulesRes.data ?? []).map((m: any) => m.id);
-  const lessonsRes = moduleIds.length > 0
-    ? await supabase.from('program_lessons').select('id,module_id,lesson_number,title,lesson_type,duration_minutes,sort_order').in('module_id', moduleIds)
-    : { data: [] };
+  const lessonsRes =
+    moduleIds.length > 0
+      ? await supabase
+          .from('program_lessons')
+          .select('id,module_id,lesson_number,title,lesson_type,duration_minutes,sort_order')
+          .in('module_id', moduleIds)
+      : { data: [] };
 
   // Attach lessons to their modules
   const lessonsByModule = new Map<string, any[]>();
@@ -137,9 +157,9 @@ export async function getPublishedProgramBySlug(slug: string): Promise<ProgramRe
     lessonsByModule.set(lesson.module_id, arr);
   }
 
-  data.program_media   = mediaRes.data   ?? [];
-  data.program_ctas    = ctasRes.data    ?? [];
-  data.program_tracks  = tracksRes.data  ?? [];
+  data.program_media = mediaRes.data ?? [];
+  data.program_ctas = ctasRes.data ?? [];
+  data.program_tracks = tracksRes.data ?? [];
   data.program_modules = (modulesRes.data ?? []).map((m: any) => ({
     ...m,
     program_lessons: lessonsByModule.get(m.id) ?? [],
@@ -147,9 +167,9 @@ export async function getPublishedProgramBySlug(slug: string): Promise<ProgramRe
 
   // Normalise missing relations to empty arrays — page renders a controlled
   // unavailable state rather than 404ing or showing empty sections.
-  data.program_media   = data.program_media   ?? [];
-  data.program_ctas    = data.program_ctas    ?? [];
-  data.program_tracks  = data.program_tracks  ?? [];
+  data.program_media = data.program_media ?? [];
+  data.program_ctas = data.program_ctas ?? [];
+  data.program_tracks = data.program_tracks ?? [];
   data.program_modules = data.program_modules ?? [];
 
   (data as ProgramRecord).isComplete =

@@ -25,8 +25,8 @@ function getSupabaseAdmin() {
  * Also accepts x-correlation-id header.
  */
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const body = await request.json().catch(() => ({}));
   const correlationId: string =
@@ -76,16 +76,19 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (license) {
-      await supabase.from('license_events').insert({
-        license_id: license.id,
-        organization_id: org.id,
-        event_type: 'trial_onboarding_started',
-        event_data: {
-          correlation_id: correlationId,
-          subdomain,
-          source: 'trial_success_page',
-        },
-      }).catch(() => {}); // Non-critical
+      await supabase
+        .from('license_events')
+        .insert({
+          license_id: license.id,
+          organization_id: org.id,
+          event_type: 'trial_onboarding_started',
+          event_data: {
+            correlation_id: correlationId,
+            subdomain,
+            source: 'trial_success_page',
+          },
+        })
+        .catch(() => {}); // Non-critical
     }
 
     return NextResponse.json({ ok: true, correlationId });

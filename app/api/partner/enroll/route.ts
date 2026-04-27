@@ -1,4 +1,3 @@
-
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
@@ -16,25 +15,26 @@ async function _POST(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await parseBody<Record<string, any>>(request);
-    const {
-      partnerCourseId,
-      programId,
-    } = body;
+    const { partnerCourseId, programId } = body;
 
     // Get partner course details
     const { data: partnerCourse, error: courseError } = await supabase
       .from('partner_lms_courses')
-      .select(`
+      .select(
+        `
         *,
         provider:partner_lms_providers(*)
-      `)
+      `,
+      )
       .eq('id', partnerCourseId)
       .maybeSingle();
 
@@ -51,10 +51,13 @@ async function _POST(request: Request) {
       .maybeSingle();
 
     if (existingEnrollment) {
-      return NextResponse.json({
-        error: 'Already enrolled in this course',
-        enrollment: existingEnrollment
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: 'Already enrolled in this course',
+          enrollment: existingEnrollment,
+        },
+        { status: 400 },
+      );
     }
 
     // Create external enrollment based on provider type
@@ -78,7 +81,7 @@ async function _POST(request: Request) {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            'Authorization': `Bearer ${provider.api_key}`,
+            Authorization: `Bearer ${provider.api_key}`,
           },
           body: JSON.stringify({
             course_id: partnerCourse.external_course_id,
@@ -128,41 +131,39 @@ async function _POST(request: Request) {
     // Check if there's a SCORM package mapped to this course
     const { data: mapping } = await supabase
       .from('partner_course_mappings')
-      .select(`
+      .select(
+        `
         *,
         scorm_package:scorm_packages(*)
-      `)
+      `,
+      )
       .eq('partner_course_id', partnerCourseId)
       .eq('is_active', true)
       .maybeSingle();
 
     // If SCORM package exists, create SCORM enrollment
     if (mapping?.scorm_package) {
-      await supabase
-        .from('scorm_enrollments')
-        .insert({
-          scorm_package_id: mapping.scorm_package_id,
-          user_id: user.id,
-          enrollment_id: enrollment.id,
-          status: 'not_attempted',
-        });
+      await supabase.from('scorm_enrollments').insert({
+        scorm_package_id: mapping.scorm_package_id,
+        user_id: user.id,
+        enrollment_id: enrollment.id,
+        status: 'not_attempted',
+      });
     }
 
     // Log the sync
-    await supabase
-      .from('lms_sync_log')
-      .insert({
-        provider_id: partnerCourse.provider_id,
-        sync_type: 'enrollment',
-        status: 'success',
-        records_processed: 1,
-        sync_data: {
-          enrollment_id: enrollment.id,
-          course_id: partnerCourseId,
-          user_id: user.id,
-        },
-        completed_at: new Date().toISOString(),
-      });
+    await supabase.from('lms_sync_log').insert({
+      provider_id: partnerCourse.provider_id,
+      sync_type: 'enrollment',
+      status: 'success',
+      records_processed: 1,
+      sync_data: {
+        enrollment_id: enrollment.id,
+        course_id: partnerCourseId,
+        user_id: user.id,
+      },
+      completed_at: new Date().toISOString(),
+    });
 
     return NextResponse.json({
       success: true,
@@ -170,7 +171,7 @@ async function _POST(request: Request) {
       hasScorm: !!mapping?.scorm_package,
       scormPackage: mapping?.scorm_package,
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Partner enrollment error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
@@ -182,7 +183,9 @@ async function _GET(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -194,12 +197,14 @@ async function _GET(request: Request) {
     // Get all partner enrollments for user
     const { data: enrollments, error } = await supabase
       .from('partner_lms_enrollments')
-      .select(`
+      .select(
+        `
         *,
         course:partner_courses(*),
         provider:partner_lms_providers(*),
         program:programs(name, slug)
-      `)
+      `,
+      )
       .eq('student_id', userId)
       .order('enrolled_at', { ascending: false });
 
@@ -209,7 +214,7 @@ async function _GET(request: Request) {
     }
 
     return NextResponse.json({ enrollments });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Partner enrollment GET error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

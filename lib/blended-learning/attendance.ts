@@ -83,7 +83,7 @@ export async function checkInStudent(
   student_id: string,
   session_id: string,
   instructor_id: string,
-  notes?: string
+  notes?: string,
 ): Promise<AttendanceRecord> {
   const supabase = await createClient();
 
@@ -138,7 +138,7 @@ export async function checkInStudent(
  */
 export async function checkInWithQRCode(
   student_id: string,
-  qr_code: string
+  qr_code: string,
 ): Promise<AttendanceRecord> {
   const supabase = await createClient();
 
@@ -198,7 +198,7 @@ export async function checkInWithQRCode(
  */
 export async function checkOutStudent(
   student_id: string,
-  session_id: string
+  session_id: string,
 ): Promise<AttendanceRecord> {
   const supabase = await createClient();
 
@@ -223,7 +223,7 @@ export async function markAbsent(
   student_id: string,
   session_id: string,
   excused: boolean = false,
-  notes?: string
+  notes?: string,
 ): Promise<AttendanceRecord> {
   const supabase = await createClient();
 
@@ -248,16 +248,18 @@ export async function markAbsent(
  */
 export async function getAttendanceSummary(
   student_id: string,
-  course_id?: string
+  course_id?: string,
 ): Promise<AttendanceSummary> {
   const supabase = await createClient();
 
   let query = supabase
     .from('attendance_records')
-    .select(`
+    .select(
+      `
       *,
       attendance_sessions(*)
-    `)
+    `,
+    )
     .eq('student_id', student_id);
 
   if (course_id) {
@@ -280,16 +282,16 @@ export async function getAttendanceSummary(
     };
   }
 
-  const attended = records.filter(r => r.status === 'present' || r.status === 'late').length;
-  const absent = records.filter(r => r.status === 'absent').length;
-  const late = records.filter(r => r.status === 'late').length;
-  const excused = records.filter(r => r.status === 'excused').length;
+  const attended = records.filter((r) => r.status === 'present' || r.status === 'late').length;
+  const absent = records.filter((r) => r.status === 'absent').length;
+  const late = records.filter((r) => r.status === 'late').length;
+  const excused = records.filter((r) => r.status === 'excused').length;
   const total_sessions = records.length;
   const attendance_rate = total_sessions > 0 ? (attended / total_sessions) * 100 : 0;
 
   // Calculate hours
   let hours_completed = 0;
-  records.forEach(record => {
+  records.forEach((record) => {
     if (record.check_in_time && record.check_out_time) {
       const checkIn = new Date(record.check_in_time);
       const checkOut = new Date(record.check_out_time);
@@ -332,16 +334,18 @@ export async function getSessionAttendance(session_id: string): Promise<Attendan
 export async function generateAttendanceReport(
   course_id: string,
   start_date: string,
-  end_date: string
+  end_date: string,
 ): Promise<any[]> {
   const supabase = await createClient();
 
   const { data: sessions } = await supabase
     .from('attendance_sessions')
-    .select(`
+    .select(
+      `
       *,
       attendance_records(*, profiles(full_name))
-    `)
+    `,
+    )
     .eq('course_id', course_id)
     .gte('session_date', start_date)
     .lte('session_date', end_date)
@@ -355,7 +359,7 @@ export async function generateAttendanceReport(
  */
 export async function getStudentsWithLowAttendance(
   course_id: string,
-  threshold: number = 80
+  threshold: number = 80,
 ): Promise<any[]> {
   const supabase = await createClient();
 

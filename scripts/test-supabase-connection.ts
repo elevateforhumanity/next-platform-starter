@@ -11,7 +11,6 @@ if (!url || !anon) {
 const supabase = createClient(url, anon);
 
 async function main() {
-
   // Test programs table
   const { data: programs, error } = await supabase
     .from('programs')
@@ -44,7 +43,6 @@ async function main() {
   } else {
     console.table(products);
   }
-
 }
 
 main().catch((e) => {

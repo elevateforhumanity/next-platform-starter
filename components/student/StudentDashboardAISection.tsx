@@ -1,17 +1,14 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
 import React, { useEffect } from 'react';
 
-import { useState } from "react";
-import { AIInstructorCard } from "@/components/student/AIInstructorCard";
-import { AIChatPanel } from "@/components/student/AIChatPanel";
+import { useState } from 'react';
+import { AIInstructorCard } from '@/components/student/AIInstructorCard';
+import { AIChatPanel } from '@/components/student/AIChatPanel';
 
-export function StudentDashboardAISection(props: {
-  programSlug: string;
-  programName: string;
-}) {
+export function StudentDashboardAISection(props: { programSlug: string; programName: string }) {
   const [chatOpen, setChatOpen] = useState(false);
   const [aiInstructor, setAiInstructor] = useState<any>(null);
   const [chatHistory, setChatHistory] = useState<any[]>([]);
@@ -20,15 +17,17 @@ export function StudentDashboardAISection(props: {
   // Load AI instructor config and chat history from DB
   useEffect(() => {
     async function loadAIData() {
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       // Load AI instructor configuration for this program
       const { data: instructor } = await supabase
         .from('ai_instructors')
         .select('id, name, role_title, avatar_url, personality_config')
         .eq('program_slug', props.programSlug)
         .single();
-      
+
       if (instructor) setAiInstructor(instructor);
 
       // Load recent chat history
@@ -40,7 +39,7 @@ export function StudentDashboardAISection(props: {
           .eq('program_slug', props.programSlug)
           .order('created_at', { ascending: false })
           .limit(10);
-        
+
         if (history) setChatHistory(history);
       }
     }
@@ -49,22 +48,22 @@ export function StudentDashboardAISection(props: {
 
   // Log chat open event
   const handleOpenChat = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('ai_chat_sessions')
-      .insert({
-        user_id: user?.id,
-        program_slug: props.programSlug,
-        started_at: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('ai_chat_sessions').insert({
+      user_id: user?.id,
+      program_slug: props.programSlug,
+      started_at: new Date().toISOString(),
+    });
     setChatOpen(true);
   };
 
   return (
     <>
       <AIInstructorCard
-        instructorName={aiInstructor?.name || "Elizabeth Greene"}
-        roleTitle={aiInstructor?.role_title || "Program Instructor (AI)"}
+        instructorName={aiInstructor?.name || 'Elizabeth Greene'}
+        roleTitle={aiInstructor?.role_title || 'Program Instructor (AI)'}
         programName={props.programName}
         onOpenChat={handleOpenChat}
       />

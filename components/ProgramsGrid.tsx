@@ -82,18 +82,13 @@ export default function ProgramsGrid() {
             Empower Your Future Today
           </h2>
           <p className="text-lg text-black leading-relaxed">
-            Join our transformative programs and unlock career opportunities
-            that align with industry demands. Flexible, grant-funded options
-            mean more possibilities for growth.
+            Join our transformative programs and unlock career opportunities that align with
+            industry demands. Flexible, grant-funded options mean more possibilities for growth.
           </p>
         </div>
         <div className="mt-8 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
           {PROGRAMS.map((p) => (
-            <a
-              key={p.slug}
-              href={`/programs/${p.slug}`}
-              className="card overflow-hidden group"
-            >
+            <a key={p.slug} href={`/programs/${p.slug}`} className="card overflow-hidden group">
               <div className="aspect-[16/9] overflow-hidden relative">
                 <Image
                   src={p.image}

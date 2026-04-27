@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -22,9 +22,7 @@ export function RealOutcomes() {
     async function loadMetrics() {
       // Direct DB queries for real-time metrics
       const [enrollmentsResult, completedResult, activeResult] = await Promise.all([
-        supabase
-          .from('program_enrollments')
-          .select('*', { count: 'exact', head: true }),
+        supabase.from('program_enrollments').select('*', { count: 'exact', head: true }),
         supabase
           .from('program_enrollments')
           .select('*', { count: 'exact', head: true })
@@ -33,26 +31,25 @@ export function RealOutcomes() {
           .from('program_enrollments')
           .select('*', { count: 'exact', head: true })
           .eq('status', 'active')
-          .gte('updated_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString())
+          .gte('updated_at', new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString()),
       ]);
 
       const totalEnrollments = enrollmentsResult.count || 0;
       const completedCourses = completedResult.count || 0;
       const activeStudents = activeResult.count || 0;
-      const completionRate = totalEnrollments > 0 
-        ? Math.round((completedCourses / totalEnrollments) * 100) 
-        : 0;
+      const completionRate =
+        totalEnrollments > 0 ? Math.round((completedCourses / totalEnrollments) * 100) : 0;
 
       setMetrics({
         metrics: {
           totalEnrollments,
           completedCourses,
           completionRate,
-          activeStudents
+          activeStudents,
         },
         dataSource: 'Supabase Production Database',
         lastUpdated: new Date().toISOString(),
-        verified: true
+        verified: true,
       });
       setLoading(false);
     }
@@ -120,16 +117,11 @@ export function RealOutcomes() {
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-2 bg-brand-blue-100 text-brand-blue-800 px-4 py-2 rounded-full mb-4">
             <TrendingUp className="h-4 w-4" />
-            <span className="text-sm font-semibold">
-              Live Data from Production Database
-            </span>
+            <span className="text-sm font-semibold">Live Data from Production Database</span>
           </div>
-          <h2 className="text-3xl font-bold text-black mb-4">
-            Real Outcomes, Not Promises
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-4">Real Outcomes, Not Promises</h2>
           <p className="text-black max-w-2xl mx-auto">
-            Every number below is pulled directly from our database and updated
-            in real-time.
+            Every number below is pulled directly from our database and updated in real-time.
           </p>
         </div>
 
@@ -137,10 +129,7 @@ export function RealOutcomes() {
           {outcomes.map((outcome, index) => {
             const Icon = outcome.icon;
             return (
-              <div
-                key={index}
-                className="bg-slate-50 border border-slate-200 rounded-lg p-6"
-              >
+              <div key={index} className="bg-slate-50 border border-slate-200 rounded-lg p-6">
                 <div className="flex items-center justify-between mb-4">
                   <Icon className="h-10 w-10 text-brand-blue-600" />
                   {outcome.verified && (
@@ -149,12 +138,8 @@ export function RealOutcomes() {
                     </span>
                   )}
                 </div>
-                <div className="text-3xl font-bold text-black mb-2">
-                  {outcome.value}
-                </div>
-                <div className="text-sm font-semibold text-black mb-2">
-                  {outcome.label}
-                </div>
+                <div className="text-3xl font-bold text-black mb-2">{outcome.value}</div>
+                <div className="text-sm font-semibold text-black mb-2">{outcome.label}</div>
                 <div className="text-xs text-slate-500">{outcome.context}</div>
               </div>
             );
@@ -172,8 +157,7 @@ export function RealOutcomes() {
                   <strong>Source:</strong> {metrics.dataSource}
                 </div>
                 <div>
-                  <strong>Last Updated:</strong>{' '}
-                  {formatDate(metrics.lastUpdated)}
+                  <strong>Last Updated:</strong> {formatDate(metrics.lastUpdated)}
                 </div>
                 <div>
                   <strong>Verified:</strong> {metrics.verified ? 'Yes •' : 'No'}

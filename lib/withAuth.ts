@@ -13,10 +13,7 @@ interface AuthedContext {
   };
 }
 
-type Handler = (
-  req: NextRequest,
-  ctx: AuthedContext
-) => Promise<NextResponse> | NextResponse;
+type Handler = (req: NextRequest, ctx: AuthedContext) => Promise<NextResponse> | NextResponse;
 
 export function withAuth(handler: Handler, options?: { roles?: Role[] }) {
   return async (req: NextRequest, context: { params?: any }) => {

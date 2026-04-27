@@ -3,18 +3,24 @@
 import { useEffect, useState } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
-import { 
-  
-  Clock, 
-  AlertTriangle, 
+import {
+  Clock,
+  AlertTriangle,
   ArrowRight,
   BookOpen,
   Award,
   Briefcase,
   FileCheck,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
-type EnrollmentStatus = 'applied' | 'enrolled' | 'in_progress' | 'at_risk' | 'completed' | 'graduated';
+type EnrollmentStatus =
+  | 'applied'
+  | 'enrolled'
+  | 'in_progress'
+  | 'at_risk'
+  | 'completed'
+  | 'graduated';
 
 interface EnrollmentData {
   id: string;
@@ -28,47 +34,50 @@ interface EnrollmentData {
   days_inactive?: number;
 }
 
-const statusConfig: Record<EnrollmentStatus, { 
-  label: string; 
-  color: string; 
-  bgColor: string;
-  icon: any;
-}> = {
-  applied: { 
-    label: 'Application Pending', 
-    color: 'text-brand-blue-700', 
+const statusConfig: Record<
+  EnrollmentStatus,
+  {
+    label: string;
+    color: string;
+    bgColor: string;
+    icon: any;
+  }
+> = {
+  applied: {
+    label: 'Application Pending',
+    color: 'text-brand-blue-700',
     bgColor: 'bg-brand-blue-100',
-    icon: Clock 
+    icon: Clock,
   },
-  enrolled: { 
-    label: 'Enrolled', 
-    color: 'text-brand-green-700', 
+  enrolled: {
+    label: 'Enrolled',
+    color: 'text-brand-green-700',
     bgColor: 'bg-brand-green-100',
-    icon: CheckCircle 
+    icon: CheckCircle,
   },
-  in_progress: { 
-    label: 'In Progress', 
-    color: 'text-emerald-700', 
+  in_progress: {
+    label: 'In Progress',
+    color: 'text-emerald-700',
     bgColor: 'bg-emerald-100',
-    icon: BookOpen 
+    icon: BookOpen,
   },
-  at_risk: { 
-    label: 'At Risk', 
-    color: 'text-amber-700', 
+  at_risk: {
+    label: 'At Risk',
+    color: 'text-amber-700',
     bgColor: 'bg-amber-100',
-    icon: AlertTriangle 
+    icon: AlertTriangle,
   },
-  completed: { 
-    label: 'Completed', 
-    color: 'text-purple-700', 
+  completed: {
+    label: 'Completed',
+    color: 'text-purple-700',
     bgColor: 'bg-purple-100',
-    icon: Award 
+    icon: Award,
   },
-  graduated: { 
-    label: 'Graduated', 
-    color: 'text-indigo-700', 
+  graduated: {
+    label: 'Graduated',
+    color: 'text-indigo-700',
     bgColor: 'bg-indigo-100',
-    icon: Briefcase 
+    icon: Briefcase,
   },
 };
 
@@ -98,11 +107,13 @@ export default function EnrollmentState({ userId }: { userId?: string }) {
   useEffect(() => {
     async function fetchEnrollments() {
       const supabase = createClient();
-      
+
       // Get current user if not provided
       let targetUserId = userId;
       if (!targetUserId) {
-        const { data: { user } } = await supabase.auth.getUser();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
         targetUserId = user?.id;
       }
 
@@ -114,13 +125,15 @@ export default function EnrollmentState({ userId }: { userId?: string }) {
       // Fetch enrollments with program details
       const { data: enrollmentData } = await supabase
         .from('program_enrollments')
-        .select(`
+        .select(
+          `
           id,
           status,
           progress,
           created_at,
           programs(id, name, slug)
-        `)
+        `,
+        )
         .eq('user_id', targetUserId)
         .order('created_at', { ascending: false });
 
@@ -134,7 +147,7 @@ export default function EnrollmentState({ userId }: { userId?: string }) {
         const processed: EnrollmentData[] = enrollmentData.map((e: any) => {
           const program = e.programs as any;
           const progress = e.progress || 0;
-          
+
           // Determine status based on progress and enrollment status
           let status: EnrollmentStatus = e.status || 'enrolled';
           if (progress === 100) status = 'completed';
@@ -180,7 +193,7 @@ export default function EnrollmentState({ userId }: { userId?: string }) {
         <FileCheck className="w-12 h-12 text-slate-300 mx-auto mb-3" />
         <h3 className="font-bold text-slate-900 mb-2">No Active Enrollments</h3>
         <p className="text-slate-600 mb-4">Start your journey by enrolling in a program</p>
-        <Link 
+        <Link
           href="/programs"
           className="inline-flex items-center gap-2 px-4 py-2 bg-brand-green-600 text-white rounded-lg font-medium hover:bg-brand-green-700"
         >
@@ -198,18 +211,23 @@ export default function EnrollmentState({ userId }: { userId?: string }) {
         const Icon = config.icon;
 
         return (
-          <div 
-            key={enrollment.id} 
-            className="bg-white rounded-2xl border border-slate-200 p-6"
-          >
+          <div key={enrollment.id} className="bg-white rounded-2xl border border-slate-200 p-6">
             {/* Status Badge */}
             <div className="flex items-center justify-between mb-4">
-              <div className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${config.bgColor} ${config.color}`}>
+              <div
+                className={`inline-flex items-center gap-2 px-3 py-1 rounded-full ${config.bgColor} ${config.color}`}
+              >
                 <Icon className="w-4 h-4" />
                 <span className="text-sm font-medium">{config.label}</span>
               </div>
               <span className="text-sm text-slate-500">
-                Enrolled {new Date(enrollment.enrolled_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                Enrolled{' '}
+                {new Date(enrollment.enrolled_at).toLocaleDateString('en-US', {
+                  timeZone: 'UTC',
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
               </span>
             </div>
 
@@ -223,7 +241,7 @@ export default function EnrollmentState({ userId }: { userId?: string }) {
                 <span className="font-medium text-slate-900">{enrollment.progress_percent}%</span>
               </div>
               <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
-                <div 
+                <div
                   className="h-full bg-white rounded-full transition-all duration-500"
                   style={{ width: `${enrollment.progress_percent}%` }}
                 />
@@ -233,7 +251,7 @@ export default function EnrollmentState({ userId }: { userId?: string }) {
             {/* Next Action */}
             <div className="bg-slate-50 rounded-xl p-4">
               <p className="text-sm text-slate-600 mb-2">Next Step</p>
-              <Link 
+              <Link
                 href={enrollment.next_action_url}
                 className="flex items-center justify-between group"
               >

@@ -10,8 +10,16 @@
 import { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import {
-  ArrowLeft, Clock, CheckCircle2, XCircle, AlertCircle,
-  Loader2, Calendar, ChevronDown, ChevronUp, Plus,
+  ArrowLeft,
+  Clock,
+  CheckCircle2,
+  XCircle,
+  AlertCircle,
+  Loader2,
+  Calendar,
+  ChevronDown,
+  ChevronUp,
+  Plus,
 } from 'lucide-react';
 
 interface HoursEntry {
@@ -93,22 +101,32 @@ function EntryRow({ entry }: { entry: HoursEntry }) {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2 flex-wrap">
             <span className="text-sm font-semibold text-slate-900">
-              {entryDate.toLocaleDateString('en-US', { timeZone: 'UTC', weekday: 'short', month: 'short', day: 'numeric' })}
+              {entryDate.toLocaleDateString('en-US', {
+                timeZone: 'UTC',
+                weekday: 'short',
+                month: 'short',
+                day: 'numeric',
+              })}
             </span>
-            <span className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full border ${cfg.classes}`}>
+            <span
+              className={`inline-flex items-center gap-1 text-xs font-semibold px-2 py-0.5 rounded-full border ${cfg.classes}`}
+            >
               {cfg.icon} {cfg.label}
             </span>
           </div>
-          <p className="text-xs text-slate-500 mt-0.5 capitalize">{entry.category.replace(/_/g, ' ')}</p>
+          <p className="text-xs text-slate-500 mt-0.5 capitalize">
+            {entry.category.replace(/_/g, ' ')}
+          </p>
         </div>
 
         <div className="flex items-center gap-2 flex-shrink-0">
           <span className="text-base font-black text-slate-900">
-            {entry.hours}{entry.minutes ? `.${Math.round(entry.minutes / 6)}` : ''}h
+            {entry.hours}
+            {entry.minutes ? `.${Math.round(entry.minutes / 6)}` : ''}h
           </span>
           {(entry.notes || entry.rejectionReason) && (
             <button
-              onClick={() => setExpanded(v => !v)}
+              onClick={() => setExpanded((v) => !v)}
               className="text-slate-400 hover:text-slate-600 transition-colors"
               aria-label="Toggle details"
             >
@@ -122,12 +140,14 @@ function EntryRow({ entry }: { entry: HoursEntry }) {
         <div className="px-4 pb-3 space-y-2">
           {entry.notes && (
             <div className="bg-slate-50 rounded-xl px-3.5 py-2.5 text-sm text-slate-600">
-              <span className="font-semibold text-slate-700">Note: </span>{entry.notes}
+              <span className="font-semibold text-slate-700">Note: </span>
+              {entry.notes}
             </div>
           )}
           {entry.rejectionReason && (
             <div className="bg-red-50 border border-red-100 rounded-xl px-3.5 py-2.5 text-sm text-red-700">
-              <span className="font-semibold">Rejection reason: </span>{entry.rejectionReason}
+              <span className="font-semibold">Rejection reason: </span>
+              {entry.rejectionReason}
             </div>
           )}
         </div>
@@ -138,13 +158,13 @@ function EntryRow({ entry }: { entry: HoursEntry }) {
 
 function WeekCard({ group }: { group: WeekGroup }) {
   const [open, setOpen] = useState(true);
-  const hasPending  = group.entries.some(e => e.status === 'pending');
-  const hasRejected = group.entries.some(e => e.status === 'rejected');
+  const hasPending = group.entries.some((e) => e.status === 'pending');
+  const hasRejected = group.entries.some((e) => e.status === 'rejected');
 
   return (
     <div className="bg-white rounded-2xl border border-slate-200 overflow-hidden">
       <button
-        onClick={() => setOpen(v => !v)}
+        onClick={() => setOpen((v) => !v)}
         className="w-full flex items-center justify-between px-4 py-3.5 hover:bg-slate-50 transition-colors"
       >
         <div className="flex items-center gap-3">
@@ -161,7 +181,11 @@ function WeekCard({ group }: { group: WeekGroup }) {
         <div className="flex items-center gap-2">
           {hasPending && <span className="w-2 h-2 bg-amber-400 rounded-full" />}
           {hasRejected && <span className="w-2 h-2 bg-red-400 rounded-full" />}
-          {open ? <ChevronUp className="w-4 h-4 text-slate-400" /> : <ChevronDown className="w-4 h-4 text-slate-400" />}
+          {open ? (
+            <ChevronUp className="w-4 h-4 text-slate-400" />
+          ) : (
+            <ChevronDown className="w-4 h-4 text-slate-400" />
+          )}
         </div>
       </button>
 
@@ -169,7 +193,9 @@ function WeekCard({ group }: { group: WeekGroup }) {
         <div className="border-t border-slate-100">
           {group.entries
             .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())
-            .map(entry => <EntryRow key={entry.id} entry={entry} />)}
+            .map((entry) => (
+              <EntryRow key={entry.id} entry={entry} />
+            ))}
         </div>
       )}
     </div>
@@ -193,25 +219,32 @@ export default function ApprenticeHoursHistory({
   accentText,
   accentBg,
 }: Props) {
-  const [weeks, setWeeks]         = useState<WeekGroup[]>([]);
-  const [loading, setLoading]     = useState(true);
+  const [weeks, setWeeks] = useState<WeekGroup[]>([]);
+  const [loading, setLoading] = useState(true);
   const [authError, setAuthError] = useState(false);
-  const [error, setError]         = useState('');
+  const [error, setError] = useState('');
   const [totalApproved, setTotalApproved] = useState(0);
-  const [totalPending, setTotalPending]   = useState(0);
+  const [totalPending, setTotalPending] = useState(0);
 
   const load = useCallback(async () => {
     setLoading(true);
     setError('');
     try {
       const res = await fetch(apiPath);
-      if (res.status === 401) { setAuthError(true); return; }
+      if (res.status === 401) {
+        setAuthError(true);
+        return;
+      }
       if (!res.ok) throw new Error('Failed to load');
       const data = await res.json();
       const entries: HoursEntry[] = data.entries ?? [];
       setWeeks(groupByWeek(entries));
-      setTotalApproved(entries.filter(e => e.status === 'approved').reduce((s, e) => s + e.hours, 0));
-      setTotalPending(entries.filter(e => e.status === 'pending').reduce((s, e) => s + e.hours, 0));
+      setTotalApproved(
+        entries.filter((e) => e.status === 'approved').reduce((s, e) => s + e.hours, 0),
+      );
+      setTotalPending(
+        entries.filter((e) => e.status === 'pending').reduce((s, e) => s + e.hours, 0),
+      );
     } catch {
       setError('Could not load your hours history.');
     } finally {
@@ -219,7 +252,9 @@ export default function ApprenticeHoursHistory({
     }
   }, [apiPath]);
 
-  useEffect(() => { load(); }, [load]);
+  useEffect(() => {
+    load();
+  }, [load]);
 
   if (authError) {
     return (
@@ -227,8 +262,10 @@ export default function ApprenticeHoursHistory({
         <div className="text-center max-w-xs">
           <AlertCircle className="w-10 h-10 text-slate-300 mx-auto mb-3" />
           <h2 className="font-bold text-slate-900 mb-2">Sign in required</h2>
-          <Link href={`/login?redirect=/pwa/${discipline}/history`}
-            className="inline-block bg-slate-900 text-white font-semibold px-5 py-3 rounded-xl text-sm mt-2">
+          <Link
+            href={`/login?redirect=/pwa/${discipline}/history`}
+            className="inline-block bg-slate-900 text-white font-semibold px-5 py-3 rounded-xl text-sm mt-2"
+          >
             Sign In
           </Link>
         </div>
@@ -241,16 +278,22 @@ export default function ApprenticeHoursHistory({
       {/* Header */}
       <header className="bg-white border-b border-slate-200 px-4 pt-12 pb-4 safe-area-inset-top">
         <div className="flex items-center gap-3 max-w-lg mx-auto">
-          <Link href={backHref}
-            className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center flex-shrink-0">
+          <Link
+            href={backHref}
+            className="w-10 h-10 bg-slate-100 rounded-full flex items-center justify-center flex-shrink-0"
+          >
             <ArrowLeft className="w-5 h-5 text-slate-600" />
           </Link>
           <div className="flex-1">
             <h1 className="text-lg font-black text-slate-900">Hour History</h1>
-            <p className="text-xs text-slate-500 capitalize">{discipline.replace(/-/g, ' ')} apprenticeship</p>
+            <p className="text-xs text-slate-500 capitalize">
+              {discipline.replace(/-/g, ' ')} apprenticeship
+            </p>
           </div>
-          <Link href={`/pwa/${discipline}/log-hours`}
-            className={`${accentColor} text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1`}>
+          <Link
+            href={`/pwa/${discipline}/log-hours`}
+            className={`${accentColor} text-white text-xs font-bold px-3 py-2 rounded-xl flex items-center gap-1`}
+          >
             <Plus className="w-3.5 h-3.5" /> Log
           </Link>
         </div>
@@ -272,25 +315,28 @@ export default function ApprenticeHoursHistory({
         )}
 
         {/* Loading */}
-        {loading && [1, 2, 3].map(i => (
-          <div key={i} className="bg-white rounded-2xl border border-slate-200 p-4 animate-pulse">
-            <div className="flex items-center gap-3">
-              <div className="w-4 h-4 bg-slate-100 rounded" />
-              <div className="flex-1 space-y-2">
-                <div className="h-4 bg-slate-100 rounded w-40" />
-                <div className="h-3 bg-slate-100 rounded w-24" />
+        {loading &&
+          [1, 2, 3].map((i) => (
+            <div key={i} className="bg-white rounded-2xl border border-slate-200 p-4 animate-pulse">
+              <div className="flex items-center gap-3">
+                <div className="w-4 h-4 bg-slate-100 rounded" />
+                <div className="flex-1 space-y-2">
+                  <div className="h-4 bg-slate-100 rounded w-40" />
+                  <div className="h-3 bg-slate-100 rounded w-24" />
+                </div>
               </div>
             </div>
-          </div>
-        ))}
+          ))}
 
         {/* Error */}
         {!loading && error && (
           <div className="bg-white rounded-2xl border border-slate-200 p-6 text-center">
             <AlertCircle className="w-8 h-8 text-amber-400 mx-auto mb-3" />
             <p className="text-sm text-slate-600 mb-4">{error}</p>
-            <button onClick={load}
-              className="text-sm font-semibold text-slate-700 bg-slate-100 px-4 py-2 rounded-xl hover:bg-slate-200 transition-colors">
+            <button
+              onClick={load}
+              className="text-sm font-semibold text-slate-700 bg-slate-100 px-4 py-2 rounded-xl hover:bg-slate-200 transition-colors"
+            >
               Try again
             </button>
           </div>
@@ -301,18 +347,22 @@ export default function ApprenticeHoursHistory({
           <div className="bg-white rounded-2xl border border-slate-200 p-10 text-center">
             <Clock className="w-10 h-10 text-slate-200 mx-auto mb-3" />
             <h2 className="font-bold text-slate-900 mb-1">No hours logged yet</h2>
-            <p className="text-sm text-slate-500 mb-5">Start logging your training hours to see them here.</p>
-            <Link href={`/pwa/${discipline}/log-hours`}
-              className={`inline-flex items-center gap-2 ${accentColor} text-white font-bold px-5 py-3 rounded-xl text-sm`}>
+            <p className="text-sm text-slate-500 mb-5">
+              Start logging your training hours to see them here.
+            </p>
+            <Link
+              href={`/pwa/${discipline}/log-hours`}
+              className={`inline-flex items-center gap-2 ${accentColor} text-white font-bold px-5 py-3 rounded-xl text-sm`}
+            >
               <Plus className="w-4 h-4" /> Log Your First Hours
             </Link>
           </div>
         )}
 
         {/* Week groups */}
-        {!loading && !error && weeks.map(group => (
-          <WeekCard key={group.weekStart} group={group} />
-        ))}
+        {!loading &&
+          !error &&
+          weeks.map((group) => <WeekCard key={group.weekStart} group={group} />)}
       </main>
     </div>
   );

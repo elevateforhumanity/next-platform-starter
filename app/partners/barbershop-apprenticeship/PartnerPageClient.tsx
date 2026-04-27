@@ -1,11 +1,20 @@
 'use client';
 
 import Link from 'next/link';
-import { ArrowRight, ClipboardList, BookOpen, FileText, PenLine, CheckCircle2, Lock } from 'lucide-react';
+import {
+  ArrowRight,
+  ClipboardList,
+  BookOpen,
+  FileText,
+  PenLine,
+  CheckCircle2,
+  Lock,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Image from 'next/image';
 
-const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu/30min';
+const CALENDLY_URL =
+  process.env.NEXT_PUBLIC_CALENDLY_30MIN || 'https://calendly.com/elevate4humanityedu/30min';
 
 interface Props {
   isApproved?: boolean;
@@ -15,11 +24,14 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Partners', href: '/partners' }, { label: 'Barbershop Apprenticeship' }]} />
+        <Breadcrumbs
+          items={[{ label: 'Partners', href: '/partners' }, { label: 'Barbershop Apprenticeship' }]}
+        />
       </div>
 
       {/* Hero */}
       <div className="relative w-full h-[50vh] md:h-[65vh] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/barber-shop-wide.jpg"
           alt="Professional barbershop — Indiana Barbershop Apprenticeship Program"
@@ -35,7 +47,8 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
               DOL Registered Apprenticeship
             </span>
             <h1 className="text-4xl sm:text-5xl md:text-6xl font-extrabold text-white leading-tight mb-3">
-              Indiana Barbershop<br className="hidden sm:block" /> Apprenticeship
+              Indiana Barbershop
+              <br className="hidden sm:block" /> Apprenticeship
             </h1>
             <p className="text-white/90 text-lg sm:text-xl max-w-xl">
               Host an apprentice. Grow your shop. Build the next generation of licensed barbers.
@@ -47,7 +60,9 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
       {/* CTA Section below hero */}
       <section className="py-16 border-b border-slate-100">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-extrabold text-black mb-4">Barbershop Partner Program</h1>
+          <h1 className="text-4xl md:text-5xl font-extrabold text-black mb-4">
+            Barbershop Partner Program
+          </h1>
           <p className="text-xl font-medium text-black mb-8 max-w-2xl mx-auto">
             Host apprentices in your shop. Develop talent. Grow your team through Indiana&apos;s
             USDOL Registered Barber Apprenticeship.
@@ -74,7 +89,9 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
       {/* Program Overview */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-slate-900 mb-6 text-center">How the Program Works</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-6 text-center">
+            How the Program Works
+          </h2>
           <p className="text-lg font-medium text-black text-center mb-12 max-w-2xl mx-auto">
             The Indiana Barber Apprenticeship is a USDOL Registered Apprenticeship. Your shop hosts
             apprentices who train under your licensed barbers while earning a wage.
@@ -85,21 +102,30 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
                 <span className="text-orange-600 font-bold text-xl">1</span>
               </div>
               <h3 className="font-bold text-slate-900 mb-2">Apply &amp; Get Approved</h3>
-              <p className="text-sm font-medium text-black">Submit your application, complete a Zoom site visit, and sign the MOU. Approval takes about 1 week.</p>
+              <p className="text-sm font-medium text-black">
+                Submit your application, complete a Zoom site visit, and sign the MOU. Approval
+                takes about 1 week.
+              </p>
             </div>
             <div className="text-center">
               <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-orange-600 font-bold text-xl">2</span>
               </div>
               <h3 className="font-bold text-slate-900 mb-2">Host an Apprentice</h3>
-              <p className="text-sm font-medium text-black">We match qualified apprentices to your shop. They complete 2,000 hours of on-the-job training under your supervision.</p>
+              <p className="text-sm font-medium text-black">
+                We match qualified apprentices to your shop. They complete 2,000 hours of on-the-job
+                training under your supervision.
+              </p>
             </div>
             <div className="text-center">
               <div className="w-14 h-14 bg-orange-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <span className="text-orange-600 font-bold text-xl">3</span>
               </div>
               <h3 className="font-bold text-slate-900 mb-2">Grow Your Team</h3>
-              <p className="text-sm font-medium text-black">Apprentices complete theory through Elevate LMS, then sit for the Indiana State Board exam. You get a trained, licensed barber.</p>
+              <p className="text-sm font-medium text-black">
+                Apprentices complete theory through Elevate LMS, then sit for the Indiana State
+                Board exam. You get a trained, licensed barber.
+              </p>
             </div>
           </div>
         </div>
@@ -108,17 +134,43 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
       {/* What You Need to Know */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">What Partner Shops Need to Know</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">
+            What Partner Shops Need to Know
+          </h2>
           <div className="grid md:grid-cols-2 gap-6">
             {[
-              { title: "Workers' Compensation", desc: "Partner shops must carry workers' comp insurance for apprentices. If you don't have it yet, we can help you understand your options." },
-              { title: 'Pay Structure', desc: 'Apprentices must be paid at least minimum wage ($7.25/hr). You choose the model — hourly, commission, or hybrid.' },
-              { title: 'Supervising Barber', desc: 'Designate a licensed barber in your shop to supervise apprentices and verify hours and competencies.' },
-              { title: 'State Board & Licensing', desc: 'Your shop must hold a valid Indiana shop license and be in good standing with the IPLA.' },
-              { title: 'Tools & Kit', desc: 'Apprentices are responsible for their own barber kit. Elevate provides a recommended list and can help connect them with funding.' },
-              { title: 'ITIN Accepted', desc: 'Apprentices may use an ITIN (Individual Taxpayer Identification Number) in place of an SSN for enrollment.' },
-              { title: 'Video Site Visit', desc: 'Before final approval, we conduct a short Zoom site visit (~15 minutes) to see your shop and confirm it meets requirements.' },
-              { title: 'DOL Listing', desc: 'Approved shops are listed on the U.S. Department of Labor RAPIDS system as registered apprenticeship worksites.' },
+              {
+                title: "Workers' Compensation",
+                desc: "Partner shops must carry workers' comp insurance for apprentices. If you don't have it yet, we can help you understand your options.",
+              },
+              {
+                title: 'Pay Structure',
+                desc: 'Apprentices must be paid at least minimum wage ($7.25/hr). You choose the model — hourly, commission, or hybrid.',
+              },
+              {
+                title: 'Supervising Barber',
+                desc: 'Designate a licensed barber in your shop to supervise apprentices and verify hours and competencies.',
+              },
+              {
+                title: 'State Board & Licensing',
+                desc: 'Your shop must hold a valid Indiana shop license and be in good standing with the IPLA.',
+              },
+              {
+                title: 'Tools & Kit',
+                desc: 'Apprentices are responsible for their own barber kit. Elevate provides a recommended list and can help connect them with funding.',
+              },
+              {
+                title: 'ITIN Accepted',
+                desc: 'Apprentices may use an ITIN (Individual Taxpayer Identification Number) in place of an SSN for enrollment.',
+              },
+              {
+                title: 'Video Site Visit',
+                desc: 'Before final approval, we conduct a short Zoom site visit (~15 minutes) to see your shop and confirm it meets requirements.',
+              },
+              {
+                title: 'DOL Listing',
+                desc: 'Approved shops are listed on the U.S. Department of Labor RAPIDS system as registered apprenticeship worksites.',
+              },
             ].map((item) => (
               <div key={item.title} className="bg-white p-6 rounded-xl border border-gray-200">
                 <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
@@ -135,11 +187,36 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
           <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">Approval Timeline</h2>
           <div className="space-y-6">
             {[
-              { step: '1', title: 'Submit Application', time: 'Day 1', desc: 'Complete the online partner application form.' },
-              { step: '2', title: 'Verification', time: 'Days 1-3', desc: 'We verify your shop license and supervisor credentials with IPLA.' },
-              { step: '3', title: 'Video Site Visit', time: 'Days 3-5', desc: 'A 15-minute Zoom call to walk through your shop.' },
-              { step: '4', title: 'MOU Signing', time: 'Days 5-6', desc: 'Review and sign the Memorandum of Understanding.' },
-              { step: '5', title: 'Approved', time: '~1 Week', desc: 'Your shop is approved and listed as a registered worksite.' },
+              {
+                step: '1',
+                title: 'Submit Application',
+                time: 'Day 1',
+                desc: 'Complete the online partner application form.',
+              },
+              {
+                step: '2',
+                title: 'Verification',
+                time: 'Days 1-3',
+                desc: 'We verify your shop license and supervisor credentials with IPLA.',
+              },
+              {
+                step: '3',
+                title: 'Video Site Visit',
+                time: 'Days 3-5',
+                desc: 'A 15-minute Zoom call to walk through your shop.',
+              },
+              {
+                step: '4',
+                title: 'MOU Signing',
+                time: 'Days 5-6',
+                desc: 'Review and sign the Memorandum of Understanding.',
+              },
+              {
+                step: '5',
+                title: 'Approved',
+                time: '~1 Week',
+                desc: 'Your shop is approved and listed as a registered worksite.',
+              },
             ].map((item) => (
               <div key={item.step} className="flex items-start gap-4">
                 <div className="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center flex-shrink-0">
@@ -148,7 +225,9 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-1">
                     <h3 className="font-bold text-slate-900">{item.title}</h3>
-                    <span className="text-xs bg-white text-black px-2 py-0.5 rounded-full">{item.time}</span>
+                    <span className="text-xs bg-white text-black px-2 py-0.5 rounded-full">
+                      {item.time}
+                    </span>
                   </div>
                   <p className="text-sm font-medium text-black">{item.desc}</p>
                 </div>
@@ -161,27 +240,60 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
       {/* FAQ */}
       <section className="py-16">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">Frequently Asked Questions</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-10 text-center">
+            Frequently Asked Questions
+          </h2>
           <div className="space-y-6">
             {[
-              { q: 'How much does it cost to become a partner shop?', a: 'There is no fee to become a partner shop. You pay the apprentice a wage, and Elevate handles program administration, theory training, and DOL compliance.' },
-              { q: 'Do I need workers\' comp insurance?', a: 'Yes. Workers\' compensation insurance is required for all apprentices. If you don\'t currently carry it, we can help you understand your options and connect you with providers.' },
-              { q: 'How are apprentices paid?', a: 'Apprentices must be paid at least minimum wage ($7.25/hr). You choose the compensation model — hourly, commission, or a hybrid. Many shops start with hourly and transition to commission as the apprentice develops skills.' },
-              { q: 'What does the supervising barber need to do?', a: 'The supervisor verifies apprentice hours and competencies, provides hands-on training guidance, and signs off on progress reports. They must hold a valid Indiana barber license.' },
-              { q: 'What is the video site visit?', a: 'A 15-minute Zoom call where we walk through your shop to confirm it meets program requirements. We look at workstations, sanitation setup, and general shop conditions.' },
-              { q: 'How long does the apprenticeship last?', a: 'Apprentices complete 2,000 hours of on-the-job training. At full-time (40 hrs/week), that\'s about 1 year. Part-time schedules take longer.' },
-              { q: 'Can apprentices use an ITIN instead of SSN?', a: 'Yes. We accept ITIN (Individual Taxpayer Identification Number) for enrollment in place of a Social Security Number.' },
-              { q: 'What happens after the apprentice finishes?', a: 'They are eligible to sit for the Indiana State Board barber license exam. Many shops hire their apprentices as licensed barbers after completion.' },
-              { q: 'Will my shop be listed publicly?', a: 'Yes. Approved partner shops are listed on the U.S. Department of Labor RAPIDS system as registered apprenticeship worksites.' },
-              { q: 'What do I need to provide for my application?', a: 'Your shop license number, supervising barber\'s license info, your shop logo, and photos of the inside and outside of your shop.' },
+              {
+                q: 'How much does it cost to become a partner shop?',
+                a: 'There is no fee to become a partner shop. You pay the apprentice a wage, and Elevate handles program administration, theory training, and DOL compliance.',
+              },
+              {
+                q: "Do I need workers' comp insurance?",
+                a: "Yes. Workers' compensation insurance is required for all apprentices. If you don't currently carry it, we can help you understand your options and connect you with providers.",
+              },
+              {
+                q: 'How are apprentices paid?',
+                a: 'Apprentices must be paid at least minimum wage ($7.25/hr). You choose the compensation model — hourly, commission, or a hybrid. Many shops start with hourly and transition to commission as the apprentice develops skills.',
+              },
+              {
+                q: 'What does the supervising barber need to do?',
+                a: 'The supervisor verifies apprentice hours and competencies, provides hands-on training guidance, and signs off on progress reports. They must hold a valid Indiana barber license.',
+              },
+              {
+                q: 'What is the video site visit?',
+                a: 'A 15-minute Zoom call where we walk through your shop to confirm it meets program requirements. We look at workstations, sanitation setup, and general shop conditions.',
+              },
+              {
+                q: 'How long does the apprenticeship last?',
+                a: "Apprentices complete 2,000 hours of on-the-job training. At full-time (40 hrs/week), that's about 1 year. Part-time schedules take longer.",
+              },
+              {
+                q: 'Can apprentices use an ITIN instead of SSN?',
+                a: 'Yes. We accept ITIN (Individual Taxpayer Identification Number) for enrollment in place of a Social Security Number.',
+              },
+              {
+                q: 'What happens after the apprentice finishes?',
+                a: 'They are eligible to sit for the Indiana State Board barber license exam. Many shops hire their apprentices as licensed barbers after completion.',
+              },
+              {
+                q: 'Will my shop be listed publicly?',
+                a: 'Yes. Approved partner shops are listed on the U.S. Department of Labor RAPIDS system as registered apprenticeship worksites.',
+              },
+              {
+                q: 'What do I need to provide for my application?',
+                a: "Your shop license number, supervising barber's license info, your shop logo, and photos of the inside and outside of your shop.",
+              },
             ].map((item, i) => (
-              <details key={i} className="bg-white rounded-xl border border-gray-200 overflow-hidden group">
+              <details
+                key={i}
+                className="bg-white rounded-xl border border-gray-200 overflow-hidden group"
+              >
                 <summary className="px-6 py-4 cursor-pointer font-bold text-black hover:bg-white transition-colors">
                   {item.q}
                 </summary>
-                <div className="px-6 pb-4 text-sm font-medium text-black">
-                  {item.a}
-                </div>
+                <div className="px-6 pb-4 text-sm font-medium text-black">{item.a}</div>
               </details>
             ))}
           </div>
@@ -194,7 +306,8 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-extrabold text-white mb-4">Ready to Partner With Us?</h2>
           <p className="text-lg font-medium text-white mb-8">
-            Join the Indiana Barber Apprenticeship program and start developing talent for your shop.
+            Join the Indiana Barber Apprenticeship program and start developing talent for your
+            shop.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -220,90 +333,113 @@ export default function PartnerPageClient({ isApproved = false }: Props) {
       </section>
 
       {/* Onboarding — only shown to authenticated users with an approved application */}
-      {isApproved && <section className="py-16 bg-slate-50 border-t border-slate-200">
-        <div className="max-w-4xl mx-auto px-4">
-          <div className="flex items-center gap-3 mb-2">
-            <CheckCircle2 className="w-6 h-6 text-brand-green-600 flex-shrink-0" />
-            <h2 className="text-2xl font-bold text-slate-900">After Your Application Is Approved</h2>
+      {isApproved && (
+        <section className="py-16 bg-slate-50 border-t border-slate-200">
+          <div className="max-w-4xl mx-auto px-4">
+            <div className="flex items-center gap-3 mb-2">
+              <CheckCircle2 className="w-6 h-6 text-brand-green-600 flex-shrink-0" />
+              <h2 className="text-2xl font-bold text-slate-900">
+                After Your Application Is Approved
+              </h2>
+            </div>
+            <p className="text-sm font-medium text-black mb-6">
+              Once your partner application is reviewed and approved, complete these four steps to
+              receive your first apprentice placement.
+            </p>
+            <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 mb-6">
+              <Lock className="w-4 h-4 text-amber-600 flex-shrink-0" />
+              <p className="text-sm text-amber-800 font-medium">
+                These steps require a partner account. You will be prompted to log in.
+              </p>
+            </div>
+            <div className="grid sm:grid-cols-2 gap-4">
+              <Link
+                href="/login?redirect=/__partners/barbershop-apprenticeship/handbook"
+                className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
+              >
+                <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
+                  1
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <BookOpen className="w-4 h-4 text-brand-blue-600" />
+                    <h3 className="font-bold text-slate-900">Read the Partner Handbook</h3>
+                  </div>
+                  <p className="text-sm text-black">
+                    Covers your responsibilities, supervision requirements, hour tracking, and
+                    compensation rules.
+                  </p>
+                </div>
+              </Link>
+
+              <Link
+                href="/login?redirect=/__partners/barbershop-apprenticeship/policy-acknowledgment"
+                className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
+              >
+                <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
+                  2
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <ClipboardList className="w-4 h-4 text-brand-blue-600" />
+                    <h3 className="font-bold text-slate-900">Acknowledge Policies</h3>
+                  </div>
+                  <p className="text-sm text-black">
+                    Review and acknowledge the program policies, wage requirements, and supervision
+                    standards.
+                  </p>
+                </div>
+              </Link>
+
+              <Link
+                href="/login?redirect=/__partners/barbershop-apprenticeship/forms"
+                className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
+              >
+                <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
+                  3
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <FileText className="w-4 h-4 text-brand-blue-600" />
+                    <h3 className="font-bold text-slate-900">Complete Required Forms</h3>
+                  </div>
+                  <p className="text-sm text-black">
+                    Submit your shop license, insurance certificate, and barber-on-file
+                    documentation.
+                  </p>
+                </div>
+              </Link>
+
+              <Link
+                href="/login?redirect=/__partners/barbershop-apprenticeship/sign-mou"
+                className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
+              >
+                <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
+                  4
+                </div>
+                <div>
+                  <div className="flex items-center gap-2 mb-1">
+                    <PenLine className="w-4 h-4 text-brand-blue-600" />
+                    <h3 className="font-bold text-slate-900">Sign the MOU</h3>
+                  </div>
+                  <p className="text-sm text-black">
+                    Sign the Memorandum of Understanding to formalize the partnership and receive
+                    your first apprentice.
+                  </p>
+                </div>
+              </Link>
+            </div>
+
+            <p className="mt-6 text-xs text-black text-center">
+              Questions? Call{' '}
+              <a href="tel:3173143757" className="underline">
+                (317) 314-3757
+              </a>
+              .
+            </p>
           </div>
-          <p className="text-sm font-medium text-black mb-6">
-            Once your partner application is reviewed and approved, complete these four steps to receive your first apprentice placement.
-          </p>
-          <div className="flex items-center gap-2 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 mb-6">
-            <Lock className="w-4 h-4 text-amber-600 flex-shrink-0" />
-            <p className="text-sm text-amber-800 font-medium">These steps require a partner account. You will be prompted to log in.</p>
-          </div>
-          <div className="grid sm:grid-cols-2 gap-4">
-            <Link
-              href="/login?redirect=/__partners/barbershop-apprenticeship/handbook"
-              className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
-            >
-              <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
-                1
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <BookOpen className="w-4 h-4 text-brand-blue-600" />
-                  <h3 className="font-bold text-slate-900">Read the Partner Handbook</h3>
-                </div>
-                <p className="text-sm text-black">Covers your responsibilities, supervision requirements, hour tracking, and compensation rules.</p>
-              </div>
-            </Link>
-
-            <Link
-              href="/login?redirect=/__partners/barbershop-apprenticeship/policy-acknowledgment"
-              className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
-            >
-              <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
-                2
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <ClipboardList className="w-4 h-4 text-brand-blue-600" />
-                  <h3 className="font-bold text-slate-900">Acknowledge Policies</h3>
-                </div>
-                <p className="text-sm text-black">Review and acknowledge the program policies, wage requirements, and supervision standards.</p>
-              </div>
-            </Link>
-
-            <Link
-              href="/login?redirect=/__partners/barbershop-apprenticeship/forms"
-              className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
-            >
-              <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
-                3
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <FileText className="w-4 h-4 text-brand-blue-600" />
-                  <h3 className="font-bold text-slate-900">Complete Required Forms</h3>
-                </div>
-                <p className="text-sm text-black">Submit your shop license, insurance certificate, and barber-on-file documentation.</p>
-              </div>
-            </Link>
-
-            <Link
-              href="/login?redirect=/__partners/barbershop-apprenticeship/sign-mou"
-              className="flex items-start gap-4 bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-400 hover:shadow-sm transition group"
-            >
-              <div className="w-10 h-10 rounded-full bg-brand-blue-100 text-brand-blue-700 flex items-center justify-center flex-shrink-0 font-bold text-lg group-hover:bg-brand-blue-600 group-hover:text-white transition">
-                4
-              </div>
-              <div>
-                <div className="flex items-center gap-2 mb-1">
-                  <PenLine className="w-4 h-4 text-brand-blue-600" />
-                  <h3 className="font-bold text-slate-900">Sign the MOU</h3>
-                </div>
-                <p className="text-sm text-black">Sign the Memorandum of Understanding to formalize the partnership and receive your first apprentice.</p>
-              </div>
-            </Link>
-          </div>
-
-          <p className="mt-6 text-xs text-black text-center">
-            Questions? Call <a href="tel:3173143757" className="underline">(317) 314-3757</a>.
-          </p>
-        </div>
-      </section>}
+        </section>
+      )}
     </div>
   );
 }

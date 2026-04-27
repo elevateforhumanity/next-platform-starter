@@ -14,7 +14,9 @@ async function _POST(request: NextRequest) {
 
   try {
     const supabase = await createRouteHandlerClient({ cookies });
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { data: profile } = await supabase
@@ -41,7 +43,10 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (existing) {
-      return NextResponse.json({ error: 'Module certificate already issued', certificate_id: existing.id }, { status: 409 });
+      return NextResponse.json(
+        { error: 'Module certificate already issued', certificate_id: existing.id },
+        { status: 409 },
+      );
     }
 
     const certNumber = `MOD-${Date.now().toString(36).toUpperCase()}`;

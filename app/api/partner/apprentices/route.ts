@@ -14,8 +14,10 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -53,14 +55,16 @@ async function _GET(request: NextRequest) {
     // Get apprentices assigned to this partner
     let query = supabase
       .from('apprenticeships')
-      .select(`
+      .select(
+        `
         id,
         apprentice_id,
         program_id,
         start_date,
         status,
         profiles:apprentice_id(id, full_name, email, avatar_url)
-      `)
+      `,
+      )
       .eq('partner_id', partnerUser.partner_id)
       .eq('status', 'active');
 
@@ -85,7 +89,12 @@ async function _GET(request: NextRequest) {
           .eq('partner_id', partnerUser.partner_id);
 
         const totalHours = (progressSum || []).reduce((sum, p) => sum + (p.hours_worked || 0), 0);
-        const profile = a.profiles as { id: string; full_name: string; email: string; avatar_url: string | null } | null;
+        const profile = a.profiles as {
+          id: string;
+          full_name: string;
+          email: string;
+          avatar_url: string | null;
+        } | null;
 
         return {
           id: profile?.id || a.apprentice_id,
@@ -95,7 +104,7 @@ async function _GET(request: NextRequest) {
           start_date: a.start_date,
           total_hours: totalHours,
         };
-      })
+      }),
     );
 
     return NextResponse.json({ apprentices });

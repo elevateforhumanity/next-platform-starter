@@ -46,17 +46,20 @@ export const MOU_TEMPLATE_DEFAULT: MOUTemplate = {
   ],
   termStart: '',
   termEnd: '',
-  renewalTerms: 'This agreement may be renewed by mutual written consent of both parties for additional one-year terms.',
-  dataSharing: 'Both parties agree to share participant data only as necessary for program administration, reporting, and compliance. All data sharing shall comply with applicable federal and state privacy laws, including FERPA and WIOA regulations.',
-  financialTerms: 'This Memorandum of Understanding does not constitute a financial agreement. No funds are exchanged between the parties under this agreement.',
+  renewalTerms:
+    'This agreement may be renewed by mutual written consent of both parties for additional one-year terms.',
+  dataSharing:
+    'Both parties agree to share participant data only as necessary for program administration, reporting, and compliance. All data sharing shall comply with applicable federal and state privacy laws, including FERPA and WIOA regulations.',
+  financialTerms:
+    'This Memorandum of Understanding does not constitute a financial agreement. No funds are exchanged between the parties under this agreement.',
   elevateSigner: { name: '', title: 'Executive Director' },
   partnerSigner: { name: '', title: '' },
 };
 
 export function generateMOUMarkdown(mou: MOUTemplate): string {
-  const elevateResp = mou.elevateResponsibilities.map(r => `- ${r}`).join('\n');
-  const partnerResp = mou.partnerResponsibilities.map(r => `- ${r}`).join('\n');
-  const outcomes = mou.participantOutcomes.map(o => `- ${o}`).join('\n');
+  const elevateResp = mou.elevateResponsibilities.map((r) => `- ${r}`).join('\n');
+  const partnerResp = mou.partnerResponsibilities.map((r) => `- ${r}`).join('\n');
+  const outcomes = mou.participantOutcomes.map((o) => `- ${o}`).join('\n');
 
   return `# Memorandum of Understanding
 
@@ -150,10 +153,10 @@ export const REPORT_TEMPLATE_DEFAULT: ReportTemplate = {
 };
 
 export function generateReportMarkdown(r: ReportTemplate): string {
-  const activities = r.keyActivities.map(a => `- ${a}`).join('\n');
-  const updates = r.operationalUpdates.map(u => `- ${u}`).join('\n');
-  const challenges = r.challengesOrRisks.map(c => `- ${c}`).join('\n');
-  const next = r.nextSteps.map(n => `- ${n}`).join('\n');
+  const activities = r.keyActivities.map((a) => `- ${a}`).join('\n');
+  const updates = r.operationalUpdates.map((u) => `- ${u}`).join('\n');
+  const challenges = r.challengesOrRisks.map((c) => `- ${c}`).join('\n');
+  const next = r.nextSteps.map((n) => `- ${n}`).join('\n');
 
   return `# Program Progress Report – ${r.programName}
 
@@ -218,7 +221,13 @@ export const EMAIL_TEMPLATES: EmailTemplate[] = [
     name: 'Partnership Outreach',
     description: 'Initial outreach to a potential training or employer partner.',
     subject: 'Workforce Training Partnership Opportunity – Elevate for Humanity',
-    placeholders: ['[Recipient Name]', '[Organization Name]', '[Program Area]', '[Your Name]', '[Your Title]'],
+    placeholders: [
+      '[Recipient Name]',
+      '[Organization Name]',
+      '[Program Area]',
+      '[Your Name]',
+      '[Your Title]',
+    ],
     body: `Dear [Recipient Name],
 
 I am reaching out on behalf of Elevate for Humanity to explore a potential workforce training partnership with [Organization Name].
@@ -242,7 +251,14 @@ www.elevateforhumanity.org`,
     name: 'Workforce Board Follow-Up',
     description: 'Follow-up communication with a workforce development board.',
     subject: 'Follow-Up: [Program Name] – Elevate for Humanity',
-    placeholders: ['[Recipient Name]', '[Program Name]', '[Meeting Date]', '[Specific Topic]', '[Your Name]', '[Your Title]'],
+    placeholders: [
+      '[Recipient Name]',
+      '[Program Name]',
+      '[Meeting Date]',
+      '[Specific Topic]',
+      '[Your Name]',
+      '[Your Title]',
+    ],
     body: `Dear [Recipient Name],
 
 Thank you for speaking with me on [Meeting Date] regarding [Program Name]. I appreciate the time and guidance your office provided.
@@ -262,7 +278,14 @@ www.elevateforhumanity.org`,
     name: 'Employer Recruitment',
     description: 'Outreach to employers for hiring program graduates.',
     subject: 'Skilled Workforce Pipeline – Elevate for Humanity Graduates',
-    placeholders: ['[Recipient Name]', '[Company Name]', '[Program Area]', '[Credential Names]', '[Your Name]', '[Your Title]'],
+    placeholders: [
+      '[Recipient Name]',
+      '[Company Name]',
+      '[Program Area]',
+      '[Credential Names]',
+      '[Your Name]',
+      '[Your Title]',
+    ],
     body: `Dear [Recipient Name],
 
 I am writing to introduce Elevate for Humanity's workforce training programs and the skilled candidates we prepare for employment in [Program Area].
@@ -289,7 +312,18 @@ www.elevateforhumanity.org`,
     name: 'Program Update to Partners',
     description: 'Periodic update to existing partners on program progress.',
     subject: 'Program Update: [Program Name] – [Reporting Period]',
-    placeholders: ['[Recipient Name]', '[Program Name]', '[Reporting Period]', '[Enrollments]', '[Completions]', '[Certifications]', '[Placements]', '[Key Update]', '[Your Name]', '[Your Title]'],
+    placeholders: [
+      '[Recipient Name]',
+      '[Program Name]',
+      '[Reporting Period]',
+      '[Enrollments]',
+      '[Completions]',
+      '[Certifications]',
+      '[Placements]',
+      '[Key Update]',
+      '[Your Name]',
+      '[Your Title]',
+    ],
     body: `Dear [Recipient Name],
 
 I am writing to provide an update on [Program Name] for the period of [Reporting Period].
@@ -315,7 +349,14 @@ www.elevateforhumanity.org`,
     name: 'Meeting Request',
     description: 'Request a meeting with a partner, agency, or stakeholder.',
     subject: 'Meeting Request: [Topic] – Elevate for Humanity',
-    placeholders: ['[Recipient Name]', '[Topic]', '[Purpose]', '[Proposed Dates]', '[Your Name]', '[Your Title]'],
+    placeholders: [
+      '[Recipient Name]',
+      '[Topic]',
+      '[Purpose]',
+      '[Proposed Dates]',
+      '[Your Name]',
+      '[Your Title]',
+    ],
     body: `Dear [Recipient Name],
 
 I am writing to request a meeting to discuss [Topic].

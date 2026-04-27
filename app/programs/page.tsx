@@ -50,7 +50,10 @@ export default async function ProgramsPage() {
         microLabel={heroBanners['programs'].microLabel}
         belowHeroHeadline={heroBanners['programs'].belowHeroHeadline}
         belowHeroSubheadline={heroBanners['programs'].belowHeroSubheadline}
-        ctas={[heroBanners['programs'].primaryCta, ...(heroBanners['programs'].secondaryCta ? [heroBanners['programs'].secondaryCta] : [])]}
+        ctas={[
+          heroBanners['programs'].primaryCta,
+          ...(heroBanners['programs'].secondaryCta ? [heroBanners['programs'].secondaryCta] : []),
+        ]}
         trustIndicators={heroBanners['programs'].trustIndicators}
         transcript={heroBanners['programs'].transcript}
         analyticsName={heroBanners['programs'].analyticsName}
@@ -74,10 +77,15 @@ export default async function ProgramsPage() {
 
         <div className="grid gap-6 md:grid-cols-2">
           {programs.map((program) => (
-            <article key={program.slug} className="rounded-xl border border-slate-200 p-6 hover:bg-slate-50 transition-colors">
+            <article
+              key={program.slug}
+              className="rounded-xl border border-slate-200 p-6 hover:bg-slate-50 transition-colors"
+            >
               <h2 className="text-lg font-bold text-slate-900">{program.title}</h2>
               {program.description && (
-                <p className="mt-2 text-sm text-slate-600 leading-relaxed line-clamp-2">{program.description}</p>
+                <p className="mt-2 text-sm text-slate-600 leading-relaxed line-clamp-2">
+                  {program.description}
+                </p>
               )}
               <Link
                 href={`/programs/${program.slug}`}

@@ -1,6 +1,6 @@
 /**
  * Program Image Configuration
- * 
+ *
  * Every program page requires real photos - NO placeholders, NO icons.
  * If images are missing, the build should fail with a clear error.
  */
@@ -51,7 +51,7 @@ const defaultImages: ProgramImages = {
 
 // Program-specific image configurations
 export const programImages: Record<string, Partial<ProgramImages>> = {
-  'barber': {
+  barber: {
     hero: '/images/pages/workforce-training.jpg',
     snapshot: {
       jobOutcome: '/images/pages/workforce-training.jpg',
@@ -71,7 +71,7 @@ export const programImages: Record<string, Partial<ProgramImages>> = {
     },
     bottomCta: '/images/pages/workforce-training.jpg',
   },
-  'cna': {
+  cna: {
     hero: '/images/pages/workforce-training.jpg',
     snapshot: {
       jobOutcome: '/images/pages/workforce-training.jpg',
@@ -91,7 +91,7 @@ export const programImages: Record<string, Partial<ProgramImages>> = {
     },
     bottomCta: '/images/pages/workforce-training.jpg',
   },
-  'healthcare': {
+  healthcare: {
     hero: '/images/pages/workforce-training.jpg',
     snapshot: {
       jobOutcome: '/images/pages/workforce-training.jpg',
@@ -101,7 +101,7 @@ export const programImages: Record<string, Partial<ProgramImages>> = {
     },
     bottomCta: '/images/pages/workforce-training.jpg',
   },
-  'beauty': {
+  beauty: {
     hero: '/images/pages/workforce-training.jpg',
     snapshot: {
       jobOutcome: '/images/pages/workforce-training.jpg',
@@ -121,7 +121,7 @@ export const programImages: Record<string, Partial<ProgramImages>> = {
     },
     bottomCta: '/images/pages/workforce-training.jpg',
   },
-  'hvac': {
+  hvac: {
     hero: '/images/pages/workforce-training.jpg',
     snapshot: {
       jobOutcome: '/images/pages/workforce-training.jpg',
@@ -141,7 +141,7 @@ export const programImages: Record<string, Partial<ProgramImages>> = {
     },
     bottomCta: '/images/pages/workforce-training.jpg',
   },
-  'business': {
+  business: {
     hero: '/images/pages/workforce-training.jpg',
     snapshot: {
       jobOutcome: '/images/pages/workforce-training.jpg',
@@ -161,7 +161,7 @@ export const programImages: Record<string, Partial<ProgramImages>> = {
     },
     bottomCta: '/images/pages/workforce-training.jpg',
   },
-  'cdl': {
+  cdl: {
     hero: '/images/pages/workforce-training.jpg',
     snapshot: {
       jobOutcome: '/images/pages/career-counseling.jpg',
@@ -171,7 +171,7 @@ export const programImages: Record<string, Partial<ProgramImages>> = {
     },
     bottomCta: '/images/pages/workforce-training.jpg',
   },
-  'jri': {
+  jri: {
     hero: '/images/pages/workforce-training.jpg',
     snapshot: {
       jobOutcome: '/images/pages/workforce-training.jpg',
@@ -188,7 +188,7 @@ export const programImages: Record<string, Partial<ProgramImages>> = {
  */
 export function getProgramImages(slug: string): ProgramImages {
   const programSpecific = programImages[slug] || {};
-  
+
   return {
     hero: programSpecific.hero || defaultImages.hero,
     snapshot: {
@@ -211,9 +211,9 @@ export function getProgramImages(slug: string): ProgramImages {
 export function validateProgramImages(slug: string): { valid: boolean; missing: string[] } {
   const images = getProgramImages(slug);
   const missing: string[] = [];
-  
+
   // In a real implementation, you'd check if files exist
   // For now, we just return the configuration
-  
+
   return { valid: missing.length === 0, missing };
 }

@@ -54,7 +54,9 @@ function buildPrompt(body: GenerateAndPublishRequest): string {
     body.prompt ? `Additional requirements: ${body.prompt}` : '',
     'Include 5 modules with 4 lessons each, 3 checkpoints after modules 2/3/4, and 1 final exam with 25+ questions.',
     'All content must be specific, job-ready, and usable in a real training program.',
-  ].filter(Boolean).join(' ');
+  ]
+    .filter(Boolean)
+    .join(' ');
 }
 
 export async function POST(request: NextRequest) {
@@ -83,7 +85,7 @@ export async function POST(request: NextRequest) {
         error: `Generation failed after ${genResult.attempts} attempts`,
         errors_per_attempt: genResult.errors_per_attempt,
       },
-      { status: 422 }
+      { status: 422 },
     );
   }
 
@@ -95,19 +97,21 @@ export async function POST(request: NextRequest) {
   const { data: courseRow, error: courseErr } = await db
     .from('courses')
     .insert({
-      title:             outline.course.title,
-      slug:              `ai-${outline.course.slug}-${Date.now()}`,
-      description:       [
+      title: outline.course.title,
+      slug: `ai-${outline.course.slug}-${Date.now()}`,
+      description: [
         outline.course.description,
         body.audience ? `Audience: ${body.audience}` : '',
         body.state ? `State: ${body.state}` : '',
         body.credentialOrExam ? `Credential: ${body.credentialOrExam}` : '',
         `Compliance: ${outline.course.compliance_status}`,
-      ].filter(Boolean).join(' | '),
+      ]
+        .filter(Boolean)
+        .join(' | '),
       short_description: outline.course.description.substring(0, 200),
-      status:            'draft',
-      is_active:         false,
-      program_id:        body.programId ?? null,
+      status: 'draft',
+      is_active: false,
+      program_id: body.programId ?? null,
     })
     .select('id')
     .maybeSingle();
@@ -119,9 +123,9 @@ export async function POST(request: NextRequest) {
   const courseId = courseRow.id as string;
 
   // Insert modules (actual columns: course_id, title, description, order_index)
-  const moduleRows = outline.modules.map(m => ({
-    course_id:   courseId,
-    title:       m.title,
+  const moduleRows = outline.modules.map((m) => ({
+    course_id: courseId,
+    title: m.title,
     description: m.description,
     order_index: m.module_index,
   }));
@@ -138,51 +142,54 @@ export async function POST(request: NextRequest) {
   }
 
   // Build module_index → module_id map
-  const moduleIdMap = new Map(insertedModules.map(m => [m.order_index as number, m.id as string]));
+  const moduleIdMap = new Map(
+    insertedModules.map((m) => [m.order_index as number, m.id as string]),
+  );
 
   // Insert lessons (actual columns: course_id, module_id, title, slug, lesson_type,
   //                                 order_index, passing_score, activities, content, status)
-  const lessonRows = outline.lessons.map(l => {
+  const lessonRows = outline.lessons.map((l) => {
     const activities = defaultActivities(l.step_type);
 
     return {
-      course_id:    courseId,
-      module_id:    moduleIdMap.get(l.module_index) ?? null,
-      title:        l.title,
-      slug:         l.slug,
-      lesson_type:  l.step_type,   // actual column name
-      order_index:  l.order_index,
-      passing_score: l.step_type === 'checkpoint'
-        ? outline.course.pass_threshold_checkpoints
-        : l.step_type === 'exam'
-          ? outline.course.pass_threshold_final_exam
-          : null,
+      course_id: courseId,
+      module_id: moduleIdMap.get(l.module_index) ?? null,
+      title: l.title,
+      slug: l.slug,
+      lesson_type: l.step_type, // actual column name
+      order_index: l.order_index,
+      passing_score:
+        l.step_type === 'checkpoint'
+          ? outline.course.pass_threshold_checkpoints
+          : l.step_type === 'exam'
+            ? outline.course.pass_threshold_final_exam
+            : null,
       activities,
-      status:       'draft',
+      status: 'draft',
       is_published: false,
       // Transform at write time — lesson page receives HTML + quiz, not raw JSON.
       // The raw blob is preserved in content for audit/re-generation; the rendered
       // fields (rendered_html, quiz_questions) are what the LMS actually reads.
       ...(() => {
         const blob = {
-          compliance_status:   'draft_for_human_review',
-          compliance_notice:   (outline.course as any).compliance_notice,
-          learning_points:     l.learning_points,
-          scenario:            l.scenario,
+          compliance_status: 'draft_for_human_review',
+          compliance_notice: (outline.course as any).compliance_notice,
+          learning_points: l.learning_points,
+          scenario: l.scenario,
           assessment_question: l.assessment_question,
-          exam_eligibility:    l.step_type === 'exam'
-            ? outline.course.exam_eligibility_criteria
-            : undefined,
-          pass_threshold:      l.step_type === 'checkpoint'
-            ? outline.course.pass_threshold_checkpoints
-            : l.step_type === 'exam'
-              ? outline.course.pass_threshold_final_exam
-              : undefined,
+          exam_eligibility:
+            l.step_type === 'exam' ? outline.course.exam_eligibility_criteria : undefined,
+          pass_threshold:
+            l.step_type === 'checkpoint'
+              ? outline.course.pass_threshold_checkpoints
+              : l.step_type === 'exam'
+                ? outline.course.pass_threshold_final_exam
+                : undefined,
         };
         const { html, quizQuestions } = transformLessonContent(blob, l.slug);
         return {
-          content:        JSON.stringify(blob),   // raw blob preserved for audit
-          rendered_html:  html,                   // production-ready HTML
+          content: JSON.stringify(blob), // raw blob preserved for audit
+          rendered_html: html, // production-ready HTML
           quiz_questions: quizQuestions.length > 0 ? quizQuestions : null,
         };
       })(),
@@ -203,11 +210,10 @@ export async function POST(request: NextRequest) {
   //   - UPDATE course_lessons SET is_published=true (makes them visible to lms_lessons)
   //   - INSERT curriculum_lessons (archive copy, idempotent on lesson_order)
   // Any failure rolls back both writes atomically — no compensating deletes needed.
-  const { data: publishResult, error: publishErr } = await db
-    .rpc('publish_course_from_staging', {
-      p_course_id:  courseId,
-      p_program_id: (body.programId && body.programId !== courseId) ? body.programId : null,
-    });
+  const { data: publishResult, error: publishErr } = await db.rpc('publish_course_from_staging', {
+    p_course_id: courseId,
+    p_program_id: body.programId && body.programId !== courseId ? body.programId : null,
+  });
 
   if (publishErr) {
     // Transaction rolled back by Postgres — only staging tables need cleanup
@@ -224,32 +230,32 @@ export async function POST(request: NextRequest) {
   };
 
   await logAdminAudit({
-    action:     AdminAction.BULK_CONTENT_GENERATED,
-    actorId:    auth.id ?? '00000000-0000-0000-0000-000000000000',
+    action: AdminAction.BULK_CONTENT_GENERATED,
+    actorId: auth.id ?? '00000000-0000-0000-0000-000000000000',
     entityType: 'courses',
-    entityId:   courseId,
-    metadata:   {
-      title:                       outline.course.title,
-      modules_inserted:            moduleRows.length,
-      lessons_published:           pub.lessons_published,
+    entityId: courseId,
+    metadata: {
+      title: outline.course.title,
+      modules_inserted: moduleRows.length,
+      lessons_published: pub.lessons_published,
       curriculum_lessons_inserted: pub.curriculum_lessons_inserted,
-      generation_attempt:          attempt,
-      normalization_applied:       normalization,
-      program_id:                  body.programId ?? null,
+      generation_attempt: attempt,
+      normalization_applied: normalization,
+      program_id: body.programId ?? null,
     },
     req: request,
   });
 
   return NextResponse.json({
     ok: true,
-    course_id:                   courseId,
-    title:                       outline.course.title,
-    modules_inserted:            moduleRows.length,
-    lessons_published:           pub.lessons_published,
+    course_id: courseId,
+    title: outline.course.title,
+    modules_inserted: moduleRows.length,
+    lessons_published: pub.lessons_published,
     curriculum_lessons_inserted: pub.curriculum_lessons_inserted,
-    curriculum_lessons_skipped:  pub.curriculum_lessons_skipped,
-    compliance_status:           'draft_for_human_review',
-    generation_attempt:          attempt,
-    normalization_applied:       normalization,
+    curriculum_lessons_skipped: pub.curriculum_lessons_skipped,
+    compliance_status: 'draft_for_human_review',
+    generation_attempt: attempt,
+    normalization_applied: normalization,
   });
 }

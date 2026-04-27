@@ -3,14 +3,7 @@
 import { useState } from 'react';
 import { FAQAccordion } from './FAQAccordion';
 import { FAQSearch } from './FAQSearch';
-import {
-  BookOpen,
-  DollarSign,
-  Rocket,
-  Users,
-  Laptop,
-  Star,
-} from 'lucide-react';
+import { BookOpen, DollarSign, Rocket, Users, Laptop, Star } from 'lucide-react';
 
 const iconMap = {
   BookOpen,
@@ -47,9 +40,7 @@ export function FAQClient({ categories }: FAQClientProps) {
       <section className="bg-gradient-to-br from-brand-blue-600 to-brand-blue-700 text-white py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center">
-            <h1 className="text-4xl md:text-5xl font-black mb-6">
-              Frequently Asked Questions
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-black mb-6">Frequently Asked Questions</h1>
             <p className="text-xl text-white/90 mb-8 max-w-3xl mx-auto">
               Find answers to common questions about our programs, funding, and support
             </p>

@@ -12,12 +12,10 @@ import ProductApprovalActions from './ProductApprovalActions';
 
 export const dynamic = 'force-dynamic';
 
-
 export default async function AdminProductsPage() {
   await requireAdmin();
 
   const supabase = await createClient();
-
 
   // Fetch all products with creator info
   const { data: products } = await supabase
@@ -26,38 +24,29 @@ export default async function AdminProductsPage() {
       `
       *,
       creator:marketplace_creators(display_name, payout_email)
-    `
+    `,
     )
     .order('created_at', { ascending: false });
 
   const pendingProducts =
-    products?.filter(
-      (p) => p.status === 'pending_review' || p.status === 'draft'
-    ) || [];
-  const approvedProducts =
-    products?.filter((p) => p.status === 'approved') || [];
-  const rejectedProducts =
-    products?.filter((p) => p.status === 'rejected') || [];
+    products?.filter((p) => p.status === 'pending_review' || p.status === 'draft') || [];
+  const approvedProducts = products?.filter((p) => p.status === 'approved') || [];
+  const rejectedProducts = products?.filter((p) => p.status === 'rejected') || [];
 
   return (
     <div className="py-8">
-
       {/* Hero Image */}
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Products" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Products' }]} />
       </div>
-<div className="mb-8">
+      <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Manage Products</h1>
-        <p className="text-black">
-          Review and approve creator products before they go live
-        </p>
+        <p className="text-black">Review and approve creator products before they go live</p>
       </div>
 
       {/* Pending Products */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h2 className="text-2xl font-bold mb-4">
-          Pending Review ({pendingProducts.length})
-        </h2>
+        <h2 className="text-2xl font-bold mb-4">Pending Review ({pendingProducts.length})</h2>
 
         {pendingProducts.length === 0 ? (
           <p className="text-black">No products pending review.</p>
@@ -78,8 +67,7 @@ export default async function AdminProductsPage() {
                   </p>
                   <div className="flex gap-4 text-sm">
                     <span className="text-black">
-                      Price:{' '}
-                      <strong>${(product.price_cents / 100).toFixed(2)}</strong>
+                      Price: <strong>${(product.price_cents / 100).toFixed(2)}</strong>
                     </span>
                     {product.category && (
                       <span className="text-black">
@@ -87,10 +75,7 @@ export default async function AdminProductsPage() {
                       </span>
                     )}
                     <span className="text-black">
-                      Status:{' '}
-                      <strong className="text-yellow-600">
-                        {product.status}
-                      </strong>
+                      Status: <strong className="text-yellow-600">{product.status}</strong>
                     </span>
                   </div>
                   {product.file_url && (
@@ -115,19 +100,14 @@ export default async function AdminProductsPage() {
 
       {/* Approved Products */}
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h2 className="text-2xl font-bold mb-4">
-          Approved Products ({approvedProducts.length})
-        </h2>
+        <h2 className="text-2xl font-bold mb-4">Approved Products ({approvedProducts.length})</h2>
 
         {approvedProducts.length === 0 ? (
           <p className="text-black">No approved products yet.</p>
         ) : (
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
             {approvedProducts.map((product) => (
-              <div
-                key={product.id}
-                className="border rounded-lg p-4 hover:shadow-md transition"
-              >
+              <div key={product.id} className="border rounded-lg p-4 hover:shadow-md transition">
                 <h3 className="font-semibold mb-1">{product.title}</h3>
                 <p className="text-sm text-black mb-2">
                   by {product.creator?.display_name || 'Unknown'}
@@ -136,10 +116,16 @@ export default async function AdminProductsPage() {
                   ${(product.price_cents / 100).toFixed(2)}
                 </p>
                 <div className="mt-3 flex gap-2">
-                  <button className="text-sm text-brand-blue-600 hover:underline" aria-label="Action button">
+                  <button
+                    className="text-sm text-brand-blue-600 hover:underline"
+                    aria-label="Action button"
+                  >
                     Edit
                   </button>
-                  <button className="text-sm text-brand-orange-600 hover:underline" aria-label="Action button">
+                  <button
+                    className="text-sm text-brand-orange-600 hover:underline"
+                    aria-label="Action button"
+                  >
                     Archive
                   </button>
                 </div>
@@ -152,9 +138,7 @@ export default async function AdminProductsPage() {
       {/* Rejected Products */}
       {rejectedProducts.length > 0 && (
         <div className="bg-white rounded-lg shadow-md p-6">
-          <h2 className="text-2xl font-bold mb-4">
-            Rejected Products ({rejectedProducts.length})
-          </h2>
+          <h2 className="text-2xl font-bold mb-4">Rejected Products ({rejectedProducts.length})</h2>
           <div className="space-y-4">
             {rejectedProducts.map((product) => (
               <div key={product.id} className="border rounded-lg p-4 bg-brand-red-50">

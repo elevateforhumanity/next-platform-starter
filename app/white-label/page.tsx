@@ -26,7 +26,7 @@ export default async function WhiteLabelPage() {
       </div>
     );
   }
-  
+
   // Fetch white label info
   const { data: whiteLabel } = await supabase
     .from('pricing_plans')
@@ -45,15 +45,13 @@ export default async function WhiteLabelPage() {
           <h1 className="text-5xl sm:text-6xl font-black text-zinc-900 tracking-tight">
             Clone Our Platform.
             <br />
-            <span className="text-brand-green-600">
-              Run Your Own Training Business.
-            </span>
+            <span className="text-brand-green-600">Run Your Own Training Business.</span>
           </h1>
 
           <p className="mt-6 text-xl text-zinc-700 leading-relaxed max-w-3xl mx-auto">
-            Get the complete Elevate for Humanity platform with your branding.
-            Multi-tenant SaaS, WIOA compliance, apprenticeship tracking, mobile
-            apps, and AI tutoring—all ready to deploy.
+            Get the complete Elevate for Humanity platform with your branding. Multi-tenant SaaS,
+            WIOA compliance, apprenticeship tracking, mobile apps, and AI tutoring—all ready to
+            deploy.
           </p>
 
           <div className="mt-10 flex flex-col sm:flex-row gap-4 justify-center">
@@ -73,29 +71,19 @@ export default async function WhiteLabelPage() {
 
           <div className="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
             <div className="text-center">
-              <div className="text-3xl font-black text-brand-green-600">
-                100%
-              </div>
-              <div className="text-sm text-zinc-600 mt-1">
-                Complete Platform
-              </div>
+              <div className="text-3xl font-black text-brand-green-600">100%</div>
+              <div className="text-sm text-zinc-600 mt-1">Complete Platform</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-black text-brand-green-600">
-                Multi-Tenant
-              </div>
+              <div className="text-3xl font-black text-brand-green-600">Multi-Tenant</div>
               <div className="text-sm text-zinc-600 mt-1">SaaS Ready</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-black text-brand-green-600">
-                3 Apps
-              </div>
+              <div className="text-3xl font-black text-brand-green-600">3 Apps</div>
               <div className="text-sm text-zinc-600 mt-1">Web + Mobile</div>
             </div>
             <div className="text-center">
-              <div className="text-3xl font-black text-brand-green-600">
-                Your Brand
-              </div>
+              <div className="text-3xl font-black text-brand-green-600">Your Brand</div>
               <div className="text-sm text-zinc-600 mt-1">Full White-Label</div>
             </div>
           </div>
@@ -105,12 +93,9 @@ export default async function WhiteLabelPage() {
       {/* What You Get */}
       <section id="features" className="px-4 sm:px-6 lg:px-10 py-20 bg-white">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-4xl font-black text-zinc-900 text-center">
-            What's Included
-          </h2>
+          <h2 className="text-4xl font-black text-zinc-900 text-center">What's Included</h2>
           <p className="mt-4 text-lg text-zinc-700 text-center max-w-3xl mx-auto">
-            Everything we built for Elevate for Humanity, ready for your
-            organization.
+            Everything we built for Elevate for Humanity, ready for your organization.
           </p>
 
           <div className="mt-12 grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -119,9 +104,7 @@ export default async function WhiteLabelPage() {
               <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
                 <Globe className="w-6 h-6 text-blue-600" />
               </div>
-              <h3 className="text-xl font-bold text-zinc-900 mb-3">
-                Complete Platform
-              </h3>
+              <h3 className="text-xl font-bold text-zinc-900 mb-3">Complete Platform</h3>
               <ul className="space-y-2 text-zinc-700">
                 <li className="flex items-start gap-2">
                   <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
@@ -147,9 +130,7 @@ export default async function WhiteLabelPage() {
               <div className="w-12 h-12 bg-green-100 rounded-lg flex items-center justify-center mb-4">
                 <Users className="w-6 h-6 text-green-600" />
               </div>
-              <h3 className="text-xl font-bold text-zinc-900 mb-3">
-                Multi-Tenant SaaS
-              </h3>
+              <h3 className="text-xl font-bold text-zinc-900 mb-3">Multi-Tenant SaaS</h3>
               <ul className="space-y-2 text-zinc-700">
                 <li className="flex items-start gap-2">
                   <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
@@ -175,9 +156,7 @@ export default async function WhiteLabelPage() {
               <div className="w-12 h-12 bg-purple-100 rounded-lg flex items-center justify-center mb-4">
                 <Shield className="w-6 h-6 text-purple-600" />
               </div>
-              <h3 className="text-xl font-bold text-zinc-900 mb-3">
-                Compliance Built-In
-              </h3>
+              <h3 className="text-xl font-bold text-zinc-900 mb-3">Compliance Built-In</h3>
               <ul className="space-y-2 text-zinc-700">
                 <li className="flex items-start gap-2">
                   <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
@@ -203,9 +182,7 @@ export default async function WhiteLabelPage() {
               <div className="w-12 h-12 bg-orange-100 rounded-lg flex items-center justify-center mb-4">
                 <Zap className="w-6 h-6 text-orange-600" />
               </div>
-              <h3 className="text-xl font-bold text-zinc-900 mb-3">
-                Mobile Apps Included
-              </h3>
+              <h3 className="text-xl font-bold text-zinc-900 mb-3">Mobile Apps Included</h3>
               <ul className="space-y-2 text-zinc-700">
                 <li className="flex items-start gap-2">
                   <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
@@ -231,9 +208,7 @@ export default async function WhiteLabelPage() {
               <div className="w-12 h-12 bg-pink-100 rounded-lg flex items-center justify-center mb-4">
                 <Code className="w-6 h-6 text-pink-600" />
               </div>
-              <h3 className="text-xl font-bold text-zinc-900 mb-3">
-                AI-Powered Features
-              </h3>
+              <h3 className="text-xl font-bold text-zinc-900 mb-3">AI-Powered Features</h3>
               <ul className="space-y-2 text-zinc-700">
                 <li className="flex items-start gap-2">
                   <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
@@ -259,9 +234,7 @@ export default async function WhiteLabelPage() {
               <div className="w-12 h-12 bg-teal-100 rounded-lg flex items-center justify-center mb-4">
                 <Globe className="w-6 h-6 text-teal-600" />
               </div>
-              <h3 className="text-xl font-bold text-zinc-900 mb-3">
-                Partner Integrations
-              </h3>
+              <h3 className="text-xl font-bold text-zinc-900 mb-3">Partner Integrations</h3>
               <ul className="space-y-2 text-zinc-700">
                 <li className="flex items-start gap-2">
                   <Check className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
@@ -288,9 +261,7 @@ export default async function WhiteLabelPage() {
       {/* Technical Stack */}
       <section className="px-4 sm:px-6 lg:px-10 py-20 bg-slate-50">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-4xl font-black text-zinc-900 text-center">
-            Modern Tech Stack
-          </h2>
+          <h2 className="text-4xl font-black text-zinc-900 text-center">Modern Tech Stack</h2>
           <p className="mt-4 text-lg text-zinc-700 text-center max-w-3xl mx-auto">
             Built with production-ready technologies for scale and reliability.
           </p>
@@ -319,9 +290,7 @@ export default async function WhiteLabelPage() {
             </div>
 
             <div className="p-8 bg-white rounded-xl border border-slate-200">
-              <h3 className="text-xl font-bold text-zinc-900 mb-4">
-                Infrastructure
-              </h3>
+              <h3 className="text-xl font-bold text-zinc-900 mb-4">Infrastructure</h3>
               <ul className="space-y-2 text-zinc-700">
                 <li>• Vercel deployment</li>
                 <li>• CDN & edge caching</li>
@@ -332,9 +301,7 @@ export default async function WhiteLabelPage() {
             </div>
 
             <div className="p-8 bg-white rounded-xl border border-slate-200">
-              <h3 className="text-xl font-bold text-zinc-900 mb-4">
-                Integrations
-              </h3>
+              <h3 className="text-xl font-bold text-zinc-900 mb-4">Integrations</h3>
               <ul className="space-y-2 text-zinc-700">
                 <li>• OpenAI (AI features)</li>
                 <li>• Stripe (payments)</li>
@@ -350,38 +317,29 @@ export default async function WhiteLabelPage() {
       {/* Use Cases */}
       <section className="px-4 sm:px-6 lg:px-10 py-20 bg-white">
         <div className="mx-auto max-w-6xl">
-          <h2 className="text-4xl font-black text-zinc-900 text-center">
-            Perfect For
-          </h2>
+          <h2 className="text-4xl font-black text-zinc-900 text-center">Perfect For</h2>
 
           <div className="mt-12 grid md:grid-cols-3 gap-8">
             <div className="p-8 bg-blue-50 rounded-xl">
-              <h3 className="text-xl font-bold text-zinc-900 mb-3">
-                Training Providers
-              </h3>
+              <h3 className="text-xl font-bold text-zinc-900 mb-3">Training Providers</h3>
               <p className="text-zinc-700">
-                Launch your own workforce training platform with WIOA compliance
-                and apprenticeship tracking built-in.
+                Launch your own workforce training platform with WIOA compliance and apprenticeship
+                tracking built-in.
               </p>
             </div>
 
             <div className="p-8 bg-green-50 rounded-xl">
-              <h3 className="text-xl font-bold text-zinc-900 mb-3">
-                Workforce Boards
-              </h3>
+              <h3 className="text-xl font-bold text-zinc-900 mb-3">Workforce Boards</h3>
               <p className="text-zinc-700">
-                Manage multiple training providers and track outcomes across
-                your entire region.
+                Manage multiple training providers and track outcomes across your entire region.
               </p>
             </div>
 
             <div className="p-8 bg-purple-50 rounded-xl">
-              <h3 className="text-xl font-bold text-zinc-900 mb-3">
-                Educational Institutions
-              </h3>
+              <h3 className="text-xl font-bold text-zinc-900 mb-3">Educational Institutions</h3>
               <p className="text-zinc-700">
-                Add workforce training programs to your existing offerings with
-                a complete LMS solution.
+                Add workforce training programs to your existing offerings with a complete LMS
+                solution.
               </p>
             </div>
           </div>
@@ -391,9 +349,7 @@ export default async function WhiteLabelPage() {
       {/* Pricing CTA */}
       <section className="px-4 sm:px-6 lg:px-10 py-20 bg-zinc-900   text-white">
         <div className="mx-auto max-w-4xl text-center">
-          <h2 className="text-4xl sm:text-5xl font-black">
-            Ready to Launch Your Platform?
-          </h2>
+          <h2 className="text-4xl sm:text-5xl font-black">Ready to Launch Your Platform?</h2>
           <p className="mt-6 text-xl opacity-90">
             Get pricing and schedule a demo to see the platform in action.
           </p>
@@ -416,10 +372,7 @@ export default async function WhiteLabelPage() {
           <div className="mt-12 pt-12 border-t border-white/20">
             <p className="text-sm opacity-75">
               Questions? Email us at{' '}
-              <a
-                href="mailto:elevate4humanityedu@gmail.com"
-                className="underline font-bold"
-              >
+              <a href="mailto:elevate4humanityedu@gmail.com" className="underline font-bold">
                 elevate4humanityedu@gmail.com
               </a>
             </p>

@@ -3,19 +3,20 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { 
-  Tag, 
-  Plus, 
-  Trash2, 
-  Edit, 
-  Copy, 
+import {
+  Tag,
+  Plus,
+  Trash2,
+  Edit,
+  Copy,
   ArrowLeft,
   Loader2,
   Calendar,
   Users,
   DollarSign,
   Percent,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 interface PromoCode {
   id: string;
@@ -67,7 +68,7 @@ export default function PromoCodesAdminPage() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     try {
       const res = await fetch('/api/admin/promo-codes', {
         method: editingCode ? 'PUT' : 'POST',
@@ -152,10 +153,9 @@ export default function PromoCodesAdminPage() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-
-      {/* Hero Image */}
+        {/* Hero Image */}
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Promo Codes" }]} />
+          <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Promo Codes' }]} />
         </div>
         <Loader2 className="w-8 h-8 animate-spin text-brand-blue-600" />
       </div>
@@ -164,9 +164,9 @@ export default function PromoCodesAdminPage() {
 
   return (
     <div className="min-h-screen bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Promo Codes" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Promo Codes' }]} />
+      </div>
       {/* Header */}
       <header className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-4">
@@ -205,7 +205,7 @@ export default function PromoCodesAdminPage() {
           <div className="bg-white rounded-xl p-4 border">
             <p className="text-sm text-slate-700">Active</p>
             <p className="text-2xl font-bold text-brand-green-600">
-              {promoCodes.filter(p => p.is_active).length}
+              {promoCodes.filter((p) => p.is_active).length}
             </p>
           </div>
           <div className="bg-white rounded-xl p-4 border">
@@ -217,7 +217,10 @@ export default function PromoCodesAdminPage() {
           <div className="bg-white rounded-xl p-4 border">
             <p className="text-sm text-slate-700">Expired</p>
             <p className="text-2xl font-bold text-slate-700">
-              {promoCodes.filter(p => p.valid_until && new Date(p.valid_until) < new Date()).length}
+              {
+                promoCodes.filter((p) => p.valid_until && new Date(p.valid_until) < new Date())
+                  .length
+              }
             </p>
           </div>
         </div>
@@ -229,14 +232,16 @@ export default function PromoCodesAdminPage() {
               <h2 className="text-xl font-bold mb-4">
                 {editingCode ? 'Edit Promo Code' : 'Create Promo Code'}
               </h2>
-              
+
               <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
                   <label className="block text-sm font-medium mb-1">Code</label>
                   <input
                     type="text"
                     value={formData.code}
-                    onChange={(e) => setFormData({ ...formData, code: e.target.value.toUpperCase() })}
+                    onChange={(e) =>
+                      setFormData({ ...formData, code: e.target.value.toUpperCase() })
+                    }
                     className="w-full px-4 py-2 border rounded-lg uppercase"
                     placeholder="SAVE20"
                     required
@@ -259,7 +264,12 @@ export default function PromoCodesAdminPage() {
                     <label className="block text-sm font-medium mb-1">Discount Type</label>
                     <select
                       value={formData.discount_type}
-                      onChange={(e) => setFormData({ ...formData, discount_type: e.target.value as 'percentage' | 'fixed' })}
+                      onChange={(e) =>
+                        setFormData({
+                          ...formData,
+                          discount_type: e.target.value as 'percentage' | 'fixed',
+                        })
+                      }
                       className="w-full px-4 py-2 border rounded-lg"
                     >
                       <option value="percentage">Percentage (%)</option>
@@ -273,7 +283,9 @@ export default function PromoCodesAdminPage() {
                     <input
                       type="number"
                       value={formData.discount_value}
-                      onChange={(e) => setFormData({ ...formData, discount_value: parseFloat(e.target.value) })}
+                      onChange={(e) =>
+                        setFormData({ ...formData, discount_value: parseFloat(e.target.value) })
+                      }
                       className="w-full px-4 py-2 border rounded-lg"
                       min="0"
                       max={formData.discount_type === 'percentage' ? 100 : undefined}
@@ -346,11 +358,17 @@ export default function PromoCodesAdminPage() {
             <thead className="bg-gray-50 border-b">
               <tr>
                 <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900">Code</th>
-                <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900">Discount</th>
+                <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900">
+                  Discount
+                </th>
                 <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900">Uses</th>
-                <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900">Expires</th>
+                <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900">
+                  Expires
+                </th>
                 <th className="text-left px-6 py-3 text-sm font-semibold text-slate-900">Status</th>
-                <th className="text-right px-6 py-3 text-sm font-semibold text-slate-900">Actions</th>
+                <th className="text-right px-6 py-3 text-sm font-semibold text-slate-900">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y">
@@ -396,8 +414,8 @@ export default function PromoCodesAdminPage() {
                             </>
                           ) : (
                             <>
-                              <DollarSign className="w-4 h-4 text-brand-green-600" />
-                              ${promo.discount_value} off
+                              <DollarSign className="w-4 h-4 text-brand-green-600" />$
+                              {promo.discount_value} off
                             </>
                           )}
                         </span>
@@ -411,7 +429,9 @@ export default function PromoCodesAdminPage() {
                       </td>
                       <td className="px-6 py-4">
                         {promo.valid_until ? (
-                          <span className={`flex items-center gap-1 text-sm ${isExpired ? 'text-brand-red-600' : 'text-slate-700'}`}>
+                          <span
+                            className={`flex items-center gap-1 text-sm ${isExpired ? 'text-brand-red-600' : 'text-slate-700'}`}
+                          >
                             <Calendar className="w-4 h-4" />
                             {new Date(promo.valid_until).toLocaleDateString()}
                           </span>
@@ -421,13 +441,21 @@ export default function PromoCodesAdminPage() {
                       </td>
                       <td className="px-6 py-4">
                         {isExpired ? (
-                          <span className="px-2 py-1 bg-brand-red-100 text-brand-red-700 text-xs rounded-full">Expired</span>
+                          <span className="px-2 py-1 bg-brand-red-100 text-brand-red-700 text-xs rounded-full">
+                            Expired
+                          </span>
                         ) : isMaxedOut ? (
-                          <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full">Maxed Out</span>
+                          <span className="px-2 py-1 bg-yellow-100 text-yellow-700 text-xs rounded-full">
+                            Maxed Out
+                          </span>
                         ) : promo.is_active ? (
-                          <span className="px-2 py-1 bg-brand-green-100 text-brand-green-700 text-xs rounded-full">Active</span>
+                          <span className="px-2 py-1 bg-brand-green-100 text-brand-green-700 text-xs rounded-full">
+                            Active
+                          </span>
                         ) : (
-                          <span className="px-2 py-1 bg-gray-100 text-slate-900 text-xs rounded-full">Inactive</span>
+                          <span className="px-2 py-1 bg-gray-100 text-slate-900 text-xs rounded-full">
+                            Inactive
+                          </span>
                         )}
                       </td>
                       <td className="px-6 py-4">
@@ -435,8 +463,8 @@ export default function PromoCodesAdminPage() {
                           <button
                             onClick={() => handleToggleActive(promo)}
                             className={`px-3 py-1 text-sm rounded ${
-                              promo.is_active 
-                                ? 'bg-gray-100 text-slate-900 hover:bg-gray-200' 
+                              promo.is_active
+                                ? 'bg-gray-100 text-slate-900 hover:bg-gray-200'
                                 : 'bg-brand-green-100 text-brand-green-700 hover:bg-brand-green-200'
                             }`}
                           >

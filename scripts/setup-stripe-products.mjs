@@ -59,7 +59,8 @@ const PAID_PROGRAMS = [
 const WIO_PROGRAMS = [
   {
     name: 'Direct Support Professional (DSP)',
-    description: 'Become a certified Direct Support Professional - WIO funded, free for participants',
+    description:
+      'Become a certified Direct Support Professional - WIO funded, free for participants',
     price: 0,
     paymentPlans: [],
     metadata: {
@@ -92,7 +93,8 @@ const WIO_PROGRAMS = [
   },
   {
     name: 'Emergency Health & Safety Tech',
-    description: 'Emergency medical and safety technician training - WIO funded, free for participants',
+    description:
+      'Emergency medical and safety technician training - WIO funded, free for participants',
     price: 0,
     paymentPlans: [],
     metadata: {
@@ -141,14 +143,14 @@ const PROGRAMS = [...PAID_PROGRAMS, ...WIO_PROGRAMS];
 async function createProduct(programData) {
   try {
     const isWIO = programData.metadata.program_type === 'wio';
-    
+
     // Create Stripe product
     const productData = {
       name: programData.name,
       description: programData.description,
       metadata: programData.metadata,
     };
-    
+
     // Only add price for paid programs
     if (!isWIO && programData.price > 0) {
       productData.default_price_data = {
@@ -156,9 +158,11 @@ async function createProduct(programData) {
         unit_amount: programData.price,
       };
     }
-    
+
     const product = await stripe.products.create(productData);
-    console.log(`✅ Created: ${programData.name}${isWIO ? ' (WIO - FREE)' : ` ($${programData.price / 100})`}`);
+    console.log(
+      `✅ Created: ${programData.name}${isWIO ? ' (WIO - FREE)' : ` ($${programData.price / 100})`}`,
+    );
 
     // Create additional payment plan prices for paid programs
     const prices = [];
@@ -210,7 +214,6 @@ async function createProduct(programData) {
 }
 
 async function main() {
-
   if (!process.env.STRIPE_SECRET_KEY) {
     console.error('❌ STRIPE_SECRET_KEY not found in environment variables');
     console.error('   Please set it in your .env.local file');
@@ -231,8 +234,6 @@ async function main() {
       });
     }
   }
-
-
 }
 
 main().catch(console.error);

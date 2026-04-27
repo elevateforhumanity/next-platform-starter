@@ -50,7 +50,10 @@ function ViewDocumentButton({ filePath }: { filePath: string }) {
     try {
       const { getSignedDocumentUrl } = await import('./actions');
       const { url, error } = await getSignedDocumentUrl(filePath);
-      if (error || !url) { setErr(error || 'Could not open file'); return; }
+      if (error || !url) {
+        setErr(error || 'Could not open file');
+        return;
+      }
       window.open(url, '_blank', 'noopener,noreferrer');
     } catch {
       setErr('Failed to open document');
@@ -77,9 +80,7 @@ function ViewDocumentButton({ filePath }: { filePath: string }) {
 export default function AdminProgramHolderDocuments() {
   const [documents, setDocuments] = useState<Document[]>([]);
   const [loading, setLoading] = useState(true);
-  const [filter, setFilter] = useState<
-    'all' | 'pending' | 'approved' | 'rejected'
-  >('pending');
+  const [filter, setFilter] = useState<'all' | 'pending' | 'approved' | 'rejected'>('pending');
   const [selectedDoc, setSelectedDoc] = useState<Document | null>(null);
   const [approvalNotes, setApprovalNotes] = useState('');
   const [processing, setProcessing] = useState(false);
@@ -95,7 +96,7 @@ export default function AdminProgramHolderDocuments() {
           *,
           profiles:user_id (full_name, email),
           organizations:organization_id (name)
-        `
+        `,
         )
         .order('created_at', { ascending: false });
 
@@ -109,10 +110,14 @@ export default function AdminProgramHolderDocuments() {
 
       const { data, error } = await query;
 
-      if (error) { /* Condition handled */ } else if (data) {
+      if (error) {
+        /* Condition handled */
+      } else if (data) {
         setDocuments(data);
       }
-    } catch (error) { /* Error handled silently */ } finally {
+    } catch (error) {
+      /* Error handled silently */
+    } finally {
       setLoading(false);
     }
   }, [filter, supabase]);
@@ -175,7 +180,9 @@ export default function AdminProgramHolderDocuments() {
     return (
       <div className="min-h-screen bg-white py-8 flex items-center justify-center">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Program Holder Documents" }]} />
+          <Breadcrumbs
+            items={[{ label: 'Admin', href: '/admin' }, { label: 'Program Holder Documents' }]}
+          />
         </div>
         <div className="text-center">
           <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue-600 mx-auto mb-4" />
@@ -187,18 +194,16 @@ export default function AdminProgramHolderDocuments() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Program Holder Documents" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Admin', href: '/admin' }, { label: 'Program Holder Documents' }]}
+        />
+      </div>
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-black mb-2">
-            Program Holder Documents
-          </h1>
-          <p className="text-black">
-            Review and approve documents submitted by program holders
-          </p>
+          <h1 className="text-3xl font-bold text-black mb-2">Program Holder Documents</h1>
+          <p className="text-black">Review and approve documents submitted by program holders</p>
         </div>
 
         {/* Filter Tabs */}
@@ -208,8 +213,7 @@ export default function AdminProgramHolderDocuments() {
               {
                 key: 'pending',
                 label: 'Pending Review',
-                count: documents.filter((d) => !d.approved && !d.approved_by)
-                  .length,
+                count: documents.filter((d) => !d.approved && !d.approved_by).length,
               },
               {
                 key: 'approved',
@@ -219,8 +223,7 @@ export default function AdminProgramHolderDocuments() {
               {
                 key: 'rejected',
                 label: 'Rejected',
-                count: documents.filter((d) => !d.approved && d.approved_by)
-                  .length,
+                count: documents.filter((d) => !d.approved && d.approved_by).length,
               },
               { key: 'all', label: 'All Documents', count: documents.length },
             ].map((tab) => (
@@ -234,9 +237,7 @@ export default function AdminProgramHolderDocuments() {
                 }`}
               >
                 {tab.label}
-                <span className="ml-2 px-2 py-2 text-xs rounded-full bg-gray-100">
-                  {tab.count}
-                </span>
+                <span className="ml-2 px-2 py-2 text-xs rounded-full bg-gray-100">{tab.count}</span>
               </button>
             ))}
           </div>
@@ -257,21 +258,14 @@ export default function AdminProgramHolderDocuments() {
               >
                 <div className="flex items-start justify-between mb-4">
                   <div className="flex items-start gap-4 flex-1">
-                    <FileText
-                      className="text-brand-blue-600 flex-shrink-0 mt-1"
-                      size={32}
-                    />
+                    <FileText className="text-brand-blue-600 flex-shrink-0 mt-1" size={32} />
                     <div className="flex-1">
-                      <h3 className="font-semibold text-lg text-black mb-1">
-                        {doc.file_name}
-                      </h3>
+                      <h3 className="font-semibold text-lg text-black mb-1">{doc.file_name}</h3>
                       <p className="text-sm text-black capitalize mb-2">
                         {doc.document_type.replace(/_/g, ' ')}
                       </p>
                       {doc.description && (
-                        <p className="text-sm text-black mb-2">
-                          {doc.description}
-                        </p>
+                        <p className="text-sm text-black mb-2">{doc.description}</p>
                       )}
                       <div className="flex items-center gap-4 text-sm text-black">
                         <span className="flex items-center gap-1">
@@ -286,7 +280,9 @@ export default function AdminProgramHolderDocuments() {
                         )}
                         <span>{formatFileSize(doc.file_size)}</span>
                         <span>
-                          {new Date(doc.created_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
+                          {new Date(doc.created_at).toLocaleDateString('en-US', {
+                            timeZone: 'UTC',
+                          })}
                         </span>
                       </div>
                     </div>
@@ -311,9 +307,7 @@ export default function AdminProgramHolderDocuments() {
                           Approval Notes (Optional)
                         </label>
                         <textarea
-                          value={
-                            selectedDoc?.id === doc.id ? approvalNotes : ''
-                          }
+                          value={selectedDoc?.id === doc.id ? approvalNotes : ''}
                           onChange={(e) => {
                             setSelectedDoc(doc);
                             setApprovalNotes(e.target.value);

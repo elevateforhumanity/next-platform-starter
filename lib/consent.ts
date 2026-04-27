@@ -32,7 +32,7 @@ export async function recordConsent(
     ipAddress?: string;
     userAgent?: string;
     thirdPartyName?: string;
-  }
+  },
 ): Promise<string | null> {
   const supabase = await createClient();
 
@@ -56,7 +56,7 @@ export async function recordConsent(
 export async function hasConsent(
   userId: string,
   consentType: ConsentType,
-  thirdPartyName?: string
+  thirdPartyName?: string,
 ): Promise<boolean> {
   const supabase = await createClient();
 
@@ -94,7 +94,7 @@ export async function getUserConsents(userId: string): Promise<ConsentRecord[]> 
 export async function withdrawConsent(
   userId: string,
   consentType: ConsentType,
-  thirdPartyName?: string
+  thirdPartyName?: string,
 ): Promise<boolean> {
   return recordConsent(userId, consentType, false, { thirdPartyName });
 }

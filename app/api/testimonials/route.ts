@@ -7,12 +7,12 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 /**
  * GET /api/testimonials
- * 
+ *
  * Returns published testimonials.
  * Query params:
  * - featured: boolean - only featured testimonials
  * - limit: number - max results
- * 
+ *
  * Strict: Returns empty array if no data (never fake data).
  */
 async function _GET(request: NextRequest) {

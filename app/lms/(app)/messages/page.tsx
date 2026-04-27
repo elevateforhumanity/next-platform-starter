@@ -3,16 +3,16 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  MessageSquare, 
-  Search, 
-  Plus, 
+import {
+  MessageSquare,
+  Search,
+  Plus,
   User,
   Clock,
   CheckCheck,
   Star,
   Archive,
-  Trash2
+  Trash2,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -24,7 +24,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function MessagesPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');
@@ -36,11 +38,13 @@ export default async function MessagesPage() {
   try {
     const { data: messageData } = await supabase
       .from('messages')
-      .select(`
+      .select(
+        `
         *,
         sender:profiles!messages_sender_id_fkey(id, full_name, avatar_url),
         recipient:profiles!messages_recipient_id_fkey(id, full_name, avatar_url)
-      `)
+      `,
+      )
       .or(`sender_id.eq.${user.id},recipient_id.eq.${user.id}`)
       .order('created_at', { ascending: false })
       .limit(50);
@@ -48,22 +52,22 @@ export default async function MessagesPage() {
     if (messageData) {
       // Group messages into conversations
       const convMap = new Map();
-      messageData.forEach(msg => {
+      messageData.forEach((msg) => {
         const otherId = msg.sender_id === user.id ? msg.recipient_id : msg.sender_id;
         const other = msg.sender_id === user.id ? msg.recipient : msg.sender;
-        
+
         if (!convMap.has(otherId)) {
           convMap.set(otherId, {
             id: otherId,
             participant: other,
             lastMessage: msg,
-            unread: msg.recipient_id === user.id && !msg.read_at ? 1 : 0
+            unread: msg.recipient_id === user.id && !msg.read_at ? 1 : 0,
           });
         } else if (msg.recipient_id === user.id && !msg.read_at) {
           convMap.get(otherId).unread++;
         }
       });
-      
+
       conversations = Array.from(convMap.values());
       unreadCount = conversations.reduce((sum, c) => sum + c.unread, 0);
     }
@@ -76,7 +80,7 @@ export default async function MessagesPage() {
     const now = new Date();
     const diffMs = now.getTime() - date.getTime();
     const diffDays = Math.floor(diffMs / 86400000);
-    
+
     if (diffDays === 0) {
       return date.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit' });
     } else if (diffDays === 1) {
@@ -90,14 +94,16 @@ export default async function MessagesPage() {
   return (
     <div className="min-h-screen bg-white py-8">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Messages" }]} />
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Messages' }]} />
       </div>
       <div className="max-w-5xl mx-auto px-4">
         <div className="flex flex-col md:flex-row md:items-center md:justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-slate-900">Messages</h1>
             <p className="text-slate-600 mt-1">
-              {unreadCount > 0 ? `${unreadCount} unread message${unreadCount > 1 ? 's' : ''}` : 'All caught up!'}
+              {unreadCount > 0
+                ? `${unreadCount} unread message${unreadCount > 1 ? 's' : ''}`
+                : 'All caught up!'}
             </p>
           </div>
           <div className="mt-4 md:mt-0">
@@ -146,14 +152,18 @@ export default async function MessagesPage() {
                     </div>
                     <div className="flex-1 min-w-0">
                       <div className="flex items-center justify-between mb-1">
-                        <h3 className={`font-semibold truncate ${conv.unread > 0 ? 'text-slate-900' : 'text-slate-700'}`}>
+                        <h3
+                          className={`font-semibold truncate ${conv.unread > 0 ? 'text-slate-900' : 'text-slate-700'}`}
+                        >
                           {conv.participant?.full_name || 'Unknown User'}
                         </h3>
                         <span className="text-sm text-slate-500 flex-shrink-0 ml-2">
                           {formatTime(conv.lastMessage.created_at)}
                         </span>
                       </div>
-                      <p className={`text-sm truncate ${conv.unread > 0 ? 'text-slate-900 font-medium' : 'text-slate-600'}`}>
+                      <p
+                        className={`text-sm truncate ${conv.unread > 0 ? 'text-slate-900 font-medium' : 'text-slate-600'}`}
+                      >
                         {conv.lastMessage.sender_id === user.id && (
                           <span className="text-slate-400 mr-1">You:</span>
                         )}
@@ -193,7 +203,10 @@ export default async function MessagesPage() {
         <div className="mt-8">
           <h2 className="text-lg font-bold text-slate-900 mb-4">Quick Contacts</h2>
           <div className="grid md:grid-cols-3 gap-4">
-            <Link href="/lms/messages" className="bg-white rounded-xl border border-slate-200 p-4 hover:border-brand-blue-300 hover:shadow-md transition">
+            <Link
+              href="/lms/messages"
+              className="bg-white rounded-xl border border-slate-200 p-4 hover:border-brand-blue-300 hover:shadow-md transition"
+            >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-brand-green-100 rounded-full flex items-center justify-center">
                   <User className="w-5 h-5 text-brand-green-600" />
@@ -204,7 +217,10 @@ export default async function MessagesPage() {
                 </div>
               </div>
             </Link>
-            <Link href="/lms/messages/instructor" className="bg-white rounded-xl border border-slate-200 p-4 hover:border-brand-blue-300 hover:shadow-md transition">
+            <Link
+              href="/lms/messages/instructor"
+              className="bg-white rounded-xl border border-slate-200 p-4 hover:border-brand-blue-300 hover:shadow-md transition"
+            >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-brand-blue-100 rounded-full flex items-center justify-center">
                   <User className="w-5 h-5 text-brand-blue-600" />
@@ -215,7 +231,10 @@ export default async function MessagesPage() {
                 </div>
               </div>
             </Link>
-            <Link href="/lms/messages/career" className="bg-white rounded-xl border border-slate-200 p-4 hover:border-brand-blue-300 hover:shadow-md transition">
+            <Link
+              href="/lms/messages/career"
+              className="bg-white rounded-xl border border-slate-200 p-4 hover:border-brand-blue-300 hover:shadow-md transition"
+            >
               <div className="flex items-center gap-3">
                 <div className="w-10 h-10 bg-brand-blue-100 rounded-full flex items-center justify-center">
                   <User className="w-5 h-5 text-brand-blue-600" />

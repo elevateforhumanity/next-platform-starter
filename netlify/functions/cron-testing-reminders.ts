@@ -9,7 +9,7 @@
 import type { Config } from '@netlify/functions';
 
 export default async function handler() {
-  const siteUrl    = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
   const cronSecret = process.env.CRON_SECRET;
 
   if (!cronSecret) {
@@ -21,7 +21,7 @@ export default async function handler() {
 
   try {
     const res = await fetch(url, {
-      method:  'POST',
+      method: 'POST',
       headers: { 'x-cron-secret': cronSecret },
     });
 

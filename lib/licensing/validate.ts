@@ -52,7 +52,7 @@ export interface LicenseValidation {
  */
 export async function validateLicense(organizationId: string): Promise<LicenseValidation> {
   const supabase = await createClient();
-  
+
   if (!supabase) {
     return { valid: false, license: null, usage: null, reason: 'Database unavailable' };
   }
@@ -91,15 +91,14 @@ export async function validateLicense(organizationId: string): Promise<LicenseVa
   if (accessResult.expiresAt) {
     const now = new Date();
     daysRemaining = Math.ceil(
-      (accessResult.expiresAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24)
+      (accessResult.expiresAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24),
     );
   }
 
   // Determine specific failure reasons for UI
-  const isTrialExpired = 
-    !accessResult.hasAccess && 
-    (license.tier === 'trial' || license.status === 'trial');
-  
+  const isTrialExpired =
+    !accessResult.hasAccess && (license.tier === 'trial' || license.status === 'trial');
+
   const isPastDue = license.status === 'past_due';
 
   // Handle past_due with grace period (7 days)
@@ -145,10 +144,10 @@ export async function validateLicense(organizationId: string): Promise<LicenseVa
  */
 export async function checkLicenseLimit(
   organizationId: string,
-  limitType: 'students' | 'admins' | 'programs'
+  limitType: 'students' | 'admins' | 'programs',
 ): Promise<{ allowed: boolean; current: number; limit: number; reason?: string }> {
   const validation = await validateLicense(organizationId);
-  
+
   if (!validation.valid) {
     return { allowed: false, current: 0, limit: 0, reason: validation.reason };
   }
@@ -159,7 +158,7 @@ export async function checkLicenseLimit(
 
   const countKey = `${limitType.slice(0, -1)}_count` as keyof LicenseUsage;
   const limitKey = `${limitType.slice(0, -1)}_limit` as keyof LicenseUsage;
-  
+
   const current = validation.usage[countKey] as number;
   const limit = validation.usage[limitKey] as number;
 
@@ -185,7 +184,7 @@ export async function checkLicenseLimit(
  */
 export async function incrementUsage(
   organizationId: string,
-  usageType: 'student' | 'admin' | 'program'
+  usageType: 'student' | 'admin' | 'program',
 ): Promise<boolean> {
   const supabase = await createClient();
   if (!supabase) return false;
@@ -200,7 +199,7 @@ export async function incrementUsage(
   if (!license) return false;
 
   const countColumn = `${usageType}_count`;
-  
+
   const { error } = await supabase.rpc('increment_license_usage', {
     p_license_id: license.id,
     p_column: countColumn,
@@ -214,7 +213,7 @@ export async function incrementUsage(
  */
 export async function decrementUsage(
   organizationId: string,
-  usageType: 'student' | 'admin' | 'program'
+  usageType: 'student' | 'admin' | 'program',
 ): Promise<boolean> {
   const supabase = await createClient();
   if (!supabase) return false;
@@ -229,7 +228,7 @@ export async function decrementUsage(
   if (!license) return false;
 
   const countColumn = `${usageType}_count`;
-  
+
   const { error } = await supabase.rpc('decrement_license_usage', {
     p_license_id: license.id,
     p_column: countColumn,
@@ -243,7 +242,7 @@ export async function decrementUsage(
  */
 export async function requireValidLicense(organizationId: string): Promise<License> {
   const validation = await validateLicense(organizationId);
-  
+
   if (!validation.valid) {
     if (validation.isTrialExpired) {
       redirect('/store/licenses?expired=trial');

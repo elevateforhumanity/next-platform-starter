@@ -1,5 +1,3 @@
-
-
 import type Stripe from 'stripe';
 import { getStripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
@@ -7,8 +5,6 @@ import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
-
-
 
 import { auditMutation } from '@/lib/api/withAudit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -25,8 +21,8 @@ interface CheckoutRequest {
 }
 
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   // Check if Stripe is configured
   if (!stripe) {
@@ -36,7 +32,7 @@ async function _POST(request: NextRequest) {
         message: 'Please contact support at 317-314-3757',
         code: 'STRIPE_NOT_CONFIGURED',
       },
-      { status: 503 }
+      { status: 503 },
     );
   }
 
@@ -56,18 +52,13 @@ async function _POST(request: NextRequest) {
           message: 'Please sign in to continue with payment',
           code: 'AUTH_REQUIRED',
         },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
     // Parse request body
     const body: CheckoutRequest = await request.json();
-    const {
-      programId,
-      paymentType = 'full',
-      preferredMethod,
-      couponCode,
-    } = body;
+    const { programId, paymentType = 'full', preferredMethod, couponCode } = body;
 
     // Validate required fields
     if (!programId) {
@@ -76,7 +67,7 @@ async function _POST(request: NextRequest) {
           error: 'Program ID is required',
           code: 'MISSING_PROGRAM_ID',
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -94,7 +85,7 @@ async function _POST(request: NextRequest) {
           message: 'The requested program does not exist',
           code: 'PROGRAM_NOT_FOUND',
         },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -108,7 +99,7 @@ async function _POST(request: NextRequest) {
           message: 'This program is free or has no price set',
           code: 'INVALID_PRICE',
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -140,13 +131,15 @@ async function _POST(request: NextRequest) {
           .update({ stripe_customer_id: customer.id })
           .eq('id', user.id);
       } catch (customerError) {
-          logger.error("Unhandled error", customerError instanceof Error ? customerError : undefined);
+        logger.error('Unhandled error', customerError instanceof Error ? customerError : undefined);
       }
     }
 
     // Configure payment methods based on amount
-    const paymentMethodTypes: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] =
-      ['card', 'link'];
+    const paymentMethodTypes: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] = [
+      'card',
+      'link',
+    ];
 
     // Add BNPL options based on amount
     // Using Klarna, Afterpay, Zip for BNPL
@@ -161,8 +154,7 @@ async function _POST(request: NextRequest) {
     paymentMethodTypes.push('us_bank_account', 'paypal');
 
     // Base URL for redirects
-    const baseUrl =
-      process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+    const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 
     // Look up the most recent application for this user+program so we can
     // embed application_id in metadata — required for reconciliation.
@@ -293,7 +285,7 @@ async function _POST(request: NextRequest) {
           sessionConfig.discounts = [{ coupon: couponCode }];
         }
       } catch (couponError) {
-          logger.error("Unhandled error", couponError instanceof Error ? couponError : undefined);
+        logger.error('Unhandled error', couponError instanceof Error ? couponError : undefined);
       }
     }
 
@@ -317,7 +309,7 @@ async function _POST(request: NextRequest) {
         },
       });
     } catch (logError) {
-        logger.error("Unhandled error", logError instanceof Error ? logError : undefined);
+      logger.error('Unhandled error', logError instanceof Error ? logError : undefined);
     }
 
     // Return checkout URL
@@ -339,7 +331,7 @@ async function _POST(request: NextRequest) {
           message: toErrorMessage(err),
           code: 'CARD_ERROR',
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -350,7 +342,7 @@ async function _POST(request: NextRequest) {
           message: toErrorMessage(err),
           code: 'INVALID_REQUEST',
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -358,11 +350,10 @@ async function _POST(request: NextRequest) {
       return NextResponse.json(
         {
           error: 'Payment system error',
-          message:
-            'Our payment system is temporarily unavailable. Please try again.',
+          message: 'Our payment system is temporarily unavailable. Please try again.',
           code: 'API_ERROR',
         },
-        { status: 503 }
+        { status: 503 },
       );
     }
 
@@ -373,26 +364,19 @@ async function _POST(request: NextRequest) {
         message:
           'An unexpected error occurred. Please try again or contact support at 317-314-3757',
         code: 'UNKNOWN_ERROR',
-        details:
-          process.env.NODE_ENV === 'development'
-            ? toErrorMessage(err)
-            : undefined,
+        details: process.env.NODE_ENV === 'development' ? toErrorMessage(err) : undefined,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 // GET endpoint to retrieve session status
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-if (!stripe) {
-    return NextResponse.json(
-      { error: 'Payment system not configured' },
-      { status: 503 }
-    );
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  if (!stripe) {
+    return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
   }
 
   try {
@@ -400,10 +384,7 @@ if (!stripe) {
     const sessionId = searchParams.get('session_id');
 
     if (!sessionId) {
-      return NextResponse.json(
-        { error: 'Session ID required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Session ID required' }, { status: 400 });
     }
 
     const session = await stripe.checkout.sessions.retrieve(sessionId);
@@ -416,10 +397,7 @@ if (!stripe) {
     });
   } catch (err: any) {
     // Error: $1
-    return NextResponse.json(
-      { error: 'Failed to retrieve session' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to retrieve session' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/payments/create-session', _GET);

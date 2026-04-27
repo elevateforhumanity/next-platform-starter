@@ -18,7 +18,7 @@ const videos = [
   { file: 'esthetician-client-services-10002415.mp4', title: 'Esthetician Client Services' },
   { file: 'business-startup-marketing-10002422.mp4', title: 'Business Startup Marketing' },
   { file: 'tax-preparation-financial-service-10002414.mp4', title: 'Tax Preparation' },
-  { file: 'public-safety-reentry-specialist-10002439.mp4', title: 'Public Safety Reentry' }
+  { file: 'public-safety-reentry-specialist-10002439.mp4', title: 'Public Safety Reentry' },
 ];
 
 const subtitlesDir = path.join(__dirname, '../public/subtitles');
@@ -29,7 +29,7 @@ if (!fs.existsSync(subtitlesDir)) {
 }
 
 // Generate placeholder VTT files
-videos.forEach(video => {
+videos.forEach((video) => {
   const vttFilename = video.file.replace('.mp4', '.vtt');
   const vttPath = path.join(subtitlesDir, vttFilename);
 
@@ -73,4 +73,3 @@ Or use professional services:
 
   fs.writeFileSync(vttPath, vttContent);
 });
-

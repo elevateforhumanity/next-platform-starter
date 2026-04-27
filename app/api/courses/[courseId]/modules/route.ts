@@ -5,10 +5,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 export const runtime = 'nodejs';
 
-async function _GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
+async function _GET(request: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -16,7 +13,9 @@ async function _GET(
     const { courseId } = await params;
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -37,17 +36,16 @@ async function _GET(
   }
 }
 
-async function _POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
+async function _POST(request: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
     const { courseId } = await params;
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -79,17 +77,16 @@ async function _POST(
   }
 }
 
-async function _PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
+async function _PUT(request: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
     const { courseId } = await params;
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

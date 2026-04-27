@@ -30,25 +30,16 @@ async function _POST(request: Request) {
 
     // Check if demo mode is enabled
     if (!isDemoEnabled()) {
-      return NextResponse.json(
-        { error: 'Demo mode is not enabled' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Demo mode is not enabled' }, { status: 403 });
     }
 
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Database not configured' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Database not configured' }, { status: 500 });
     }
 
     const demoSlug = getDemoTenantSlug();
@@ -98,7 +89,10 @@ async function _POST(request: Request) {
     deletedCounts.profiles = profileCount || 0;
 
     // 6. Now re-seed by calling the seed endpoint
-    const seedUrl = new URL('/api/demo/seed', process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000');
+    const seedUrl = new URL(
+      '/api/demo/seed',
+      process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000',
+    );
     const seedResponse = await fetch(seedUrl.toString(), {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -112,12 +106,11 @@ async function _POST(request: Request) {
       deleted: deletedCounts,
       seeded: seedResult.results || {},
     });
-
   } catch (error) {
     logger.error('Demo reset error:', error);
     return NextResponse.json(
       { error: 'Failed to reset demo data', details: String(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

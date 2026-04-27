@@ -43,8 +43,8 @@ async function _POST(request: NextRequest) {
     const parsed = paymentSplitSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Invalid request', fields: parsed.error.issues.map(i => i.path.join('.')) },
-        { status: 400 }
+        { error: 'Invalid request', fields: parsed.error.issues.map((i) => i.path.join('.')) },
+        { status: 400 },
       );
     }
 
@@ -58,10 +58,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (enrollError || !enrollment) {
-      return NextResponse.json(
-        { error: 'Enrollment not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Enrollment not found' }, { status: 404 });
     }
 
     // Get vendor cost for this program
@@ -135,10 +132,7 @@ async function _POST(request: NextRequest) {
       },
     });
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to process payment split' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to process payment split' }, { status: 500 });
   }
 }
 
@@ -160,7 +154,7 @@ async function processVendorPayment(params: {
       .update({ vendor_paid_at: new Date().toISOString() })
       .eq('id', params.splitId);
   } catch (error) {
-      logger.error("Unhandled error", error instanceof Error ? error : undefined);
+    logger.error('Unhandled error', error instanceof Error ? error : undefined);
   }
 }
 export const POST = withApiAudit('/api/payments/split', _POST);

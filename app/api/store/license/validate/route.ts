@@ -17,10 +17,11 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     // Rate limiting for validation attempts
-    const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || 
-                     req.headers.get('x-real-ip') || 
-                     'unknown';
-    
+    const clientIp =
+      req.headers.get('x-forwarded-for')?.split(',')[0] ||
+      req.headers.get('x-real-ip') ||
+      'unknown';
+
     const rateLimit = await checkRateLimit({
       key: `license-validate:${clientIp}`,
       limit: 20,
@@ -31,7 +32,7 @@ async function _POST(req: Request) {
       logger.warn('License validation rate limit exceeded', { ip: clientIp });
       return Response.json(
         { valid: false, error: 'Too many requests. Please try again later.' },
-        { status: 429 }
+        { status: 429 },
       );
     }
 
@@ -44,45 +45,38 @@ async function _POST(req: Request) {
     // Validate format - support both old and new formats
     const isNewFormat = licenseKey.startsWith('EFH-');
     const isOldFormat = isValidLicenseKeyFormat(licenseKey);
-    
+
     if (!isNewFormat && !isOldFormat) {
       logger.warn('Invalid license key format attempted', { ip: clientIp });
-      return Response.json(
-        { valid: false, error: 'Invalid license key format' },
-        { status: 400 }
-      );
+      return Response.json({ valid: false, error: 'Invalid license key format' }, { status: 400 });
     }
 
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
     const licenseHash = hashLicenseKey(licenseKey);
 
     // Find license by hashed key
     const { data: license, error } = await supabase
       .from('licenses')
-      .select('id, customer_email, domain, tier, status, features, max_deployments, max_users, expires_at, created_at')
+      .select(
+        'id, customer_email, domain, tier, status, features, max_deployments, max_users, expires_at, created_at',
+      )
       .eq('license_key', licenseHash)
       .single();
 
     if (error || !license) {
       logger.info('License validation failed - not found', { ip: clientIp });
-      return Response.json(
-        { valid: false, error: 'License not found' },
-        { status: 404 }
-      );
+      return Response.json({ valid: false, error: 'License not found' }, { status: 404 });
     }
 
     // Check license status
     if (license.status !== 'active') {
-      logger.info('License validation failed - inactive', { 
-        licenseId: license.id, 
-        status: license.status 
+      logger.info('License validation failed - inactive', {
+        licenseId: license.id,
+        status: license.status,
       });
       return Response.json({
         valid: false,
@@ -103,13 +97,13 @@ async function _POST(req: Request) {
 
     // Optional: verify email matches
     if (email && license.customer_email !== email) {
-      logger.warn('License validation - email mismatch', { 
+      logger.warn('License validation - email mismatch', {
         licenseId: license.id,
-        ip: clientIp 
+        ip: clientIp,
       });
       return Response.json(
         { valid: false, error: 'Email does not match license' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -135,10 +129,10 @@ async function _POST(req: Request) {
         expiresAt: license.expires_at,
       },
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'License validation error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return Response.json({ error: toErrorMessage(error) }, { status: 500 });
   }

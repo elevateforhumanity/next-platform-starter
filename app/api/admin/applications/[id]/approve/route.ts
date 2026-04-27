@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -13,10 +12,7 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> },
-) {
+async function _POST(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
 
@@ -78,21 +74,21 @@ async function _POST(
           db,
           applicationId: id,
           programSlug,
-          studentEmail:      app.email,
+          studentEmail: app.email,
           studentName,
-          studentPhone:      app.phone ?? null,
+          studentPhone: app.phone ?? null,
           passwordSetupLink: result.passwordSetupLink ?? null,
-          enrollmentId:      result.enrollmentId ?? null,
+          enrollmentId: result.enrollmentId ?? null,
         });
 
         // Mark CRM lead converted
         await db
           .from('crm_leads')
           .update({
-            stage:         'converted',
-            status:        'won',
+            stage: 'converted',
+            status: 'won',
             enrollment_id: result.enrollmentId ?? null,
-            updated_at:    new Date().toISOString(),
+            updated_at: new Date().toISOString(),
           })
           .eq('email', app.email.toLowerCase().trim());
 
@@ -121,7 +117,4 @@ async function _POST(
 // critical: false — this route already calls logAdminAudit() internally.
 // Using critical:true caused the audit system to override a successful 200
 // response with 503 when the audit_logs table was unavailable.
-export const POST = withApiAudit(
-  '/api/admin/applications/[id]/approve',
-  _POST,
-);
+export const POST = withApiAudit('/api/admin/applications/[id]/approve', _POST);

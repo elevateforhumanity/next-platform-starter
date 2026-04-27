@@ -30,7 +30,7 @@ export default async function EmployerBenefitsPage() {
       </div>
     );
   }
-  
+
   // Fetch benefit content and live employer count
   const [benefitsRes, employerCountRes] = await Promise.all([
     db.from('content_blocks').select('*').eq('page', 'employer_benefits'),
@@ -40,10 +40,10 @@ export default async function EmployerBenefitsPage() {
   const employerCount = employerCountRes.count ?? 0;
   return (
     <div className="min-h-screen">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Employers", href: "/employers" }, { label: "Benefits" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Employers', href: '/employers' }, { label: 'Benefits' }]} />
       </div>
-<div className="bg-brand-blue-700 text-white py-12">
+      <div className="bg-brand-blue-700 text-white py-12">
         <div className="container mx-auto px-4">
           <Link
             href="/employers"
@@ -54,8 +54,8 @@ export default async function EmployerBenefitsPage() {
           </Link>
           <h1 className="text-4xl font-bold mb-4">Employer Benefits</h1>
           <p className="text-xl text-brand-orange-100 max-w-3xl">
-            Discover why hundreds of employers trust Elevate for Humanity to
-            help them build skilled, reliable workforces.
+            Discover why hundreds of employers trust Elevate for Humanity to help them build
+            skilled, reliable workforces.
           </p>
         </div>
       </div>
@@ -100,9 +100,7 @@ export default async function EmployerBenefitsPage() {
                 <div key={index} className="flex gap-4">
                   <span className="text-slate-400 flex-shrink-0">•</span>
                   <div>
-                    <h3 className="font-semibold text-lg mb-1">
-                      {benefit.title}
-                    </h3>
+                    <h3 className="font-semibold text-lg mb-1">{benefit.title}</h3>
                     <p className="text-black">{benefit.description}</p>
                   </div>
                 </div>
@@ -114,15 +112,11 @@ export default async function EmployerBenefitsPage() {
             <h2 className="text-2xl font-bold mb-4">Success Metrics</h2>
             <div className="grid md:grid-cols-3 gap-6 text-center">
               <div>
-                <div className="text-4xl font-bold text-brand-orange-600 mb-2">
-                  $0
-                </div>
+                <div className="text-4xl font-bold text-brand-orange-600 mb-2">$0</div>
                 <p className="text-black">Recruiting Cost</p>
               </div>
               <div>
-                <div className="text-4xl font-bold text-brand-orange-600 mb-2">
-                  6–16 wks
-                </div>
+                <div className="text-4xl font-bold text-brand-orange-600 mb-2">6–16 wks</div>
                 <p className="text-black">Time to Credential</p>
               </div>
               <div>
@@ -135,12 +129,9 @@ export default async function EmployerBenefitsPage() {
           </section>
 
           <section className="bg-brand-orange-50 border border-brand-orange-200 rounded-lg p-8 text-center">
-            <h2 className="text-2xl font-bold mb-4">
-              Ready to Partner With Us?
-            </h2>
+            <h2 className="text-2xl font-bold mb-4">Ready to Partner With Us?</h2>
             <p className="text-black mb-6">
-              Join hundreds of employers who have found success through our
-              platform.
+              Join hundreds of employers who have found success through our platform.
             </p>
             <div className="flex gap-4 justify-center">
               <Link href="/employers/post-job">

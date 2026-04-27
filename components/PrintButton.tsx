@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Printer } from 'lucide-react';
 
@@ -7,10 +7,7 @@ interface PrintButtonProps {
   label?: string;
 }
 
-export default function PrintButton({
-  className = '',
-  label = 'Print'
-}: PrintButtonProps) {
+export default function PrintButton({ className = '', label = 'Print' }: PrintButtonProps) {
   const handlePrint = () => {
     window.print();
   };
@@ -31,27 +28,14 @@ export default function PrintButton({
 
 export function PrintCertificateButton() {
   return (
-    <PrintButton
-      label="Print Certificate"
-      className="fixed bottom-6 right-6 shadow-lg z-50"
-    />
+    <PrintButton label="Print Certificate" className="fixed bottom-6 right-6 shadow-lg z-50" />
   );
 }
 
 export function PrintReportButton() {
-  return (
-    <PrintButton
-      label="Print Report"
-      className="inline-flex"
-    />
-  );
+  return <PrintButton label="Print Report" className="inline-flex" />;
 }
 
 export function PrintTranscriptButton() {
-  return (
-    <PrintButton
-      label="Print Transcript"
-      className="inline-flex"
-    />
-  );
+  return <PrintButton label="Print Transcript" className="inline-flex" />;
 }

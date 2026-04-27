@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { ReactNode, useState } from 'react';
 import { ChevronDown } from 'lucide-react';
@@ -43,7 +43,7 @@ export function Accordion({
         className={cn(
           'w-full flex items-center justify-between py-4 text-left',
           'hover:text-brand-blue-600 transition-colors',
-          alwaysOpenOnDesktop && 'md:cursor-default md:hover:text-black'
+          alwaysOpenOnDesktop && 'md:cursor-default md:hover:text-black',
         )}
         disabled={alwaysOpenOnDesktop}
       >
@@ -52,7 +52,7 @@ export function Accordion({
           className={cn(
             'h-5 w-5 transition-transform duration-200',
             isOpen && 'rotate-180',
-            alwaysOpenOnDesktop && 'md:hidden'
+            alwaysOpenOnDesktop && 'md:hidden',
           )}
           aria-hidden="true"
         />
@@ -64,9 +64,7 @@ export function Accordion({
         aria-labelledby={`${accordionId}-trigger`}
         className={cn(
           'overflow-hidden transition-all duration-200',
-          isOpen || (alwaysOpenOnDesktop && 'md:block')
-            ? 'max-h-[2000px] pb-4'
-            : 'max-h-0'
+          isOpen || (alwaysOpenOnDesktop && 'md:block') ? 'max-h-[2000px] pb-4' : 'max-h-0',
         )}
       >
         {children}
@@ -90,11 +88,7 @@ interface AccordionGroupProps {
   className?: string;
 }
 
-export function AccordionGroup({
-  items,
-  defaultOpenIndex = 0,
-  className,
-}: AccordionGroupProps) {
+export function AccordionGroup({ items, defaultOpenIndex = 0, className }: AccordionGroupProps) {
   const [openIndex, setOpenIndex] = useState(defaultOpenIndex);
 
   return (
@@ -103,34 +97,31 @@ export function AccordionGroup({
         const itemId = `accordion-group-${index}`;
         const isOpen = openIndex === index;
         return (
-        <div key={index}>
-          <button
-            onClick={() => setOpenIndex(isOpen ? -1 : index)}
-            aria-expanded={isOpen}
-            aria-controls={itemId}
-            className="w-full flex items-center justify-between py-4 text-left hover:text-brand-blue-600 transition-colors"
-          >
-            <span className="font-semibold text-lg">{item.title}</span>
-            <ChevronDown
-              className={cn(
-                'h-5 w-5 transition-transform duration-200',
-                isOpen && 'rotate-180'
-              )}
-              aria-hidden="true"
-            />
-          </button>
+          <div key={index}>
+            <button
+              onClick={() => setOpenIndex(isOpen ? -1 : index)}
+              aria-expanded={isOpen}
+              aria-controls={itemId}
+              className="w-full flex items-center justify-between py-4 text-left hover:text-brand-blue-600 transition-colors"
+            >
+              <span className="font-semibold text-lg">{item.title}</span>
+              <ChevronDown
+                className={cn('h-5 w-5 transition-transform duration-200', isOpen && 'rotate-180')}
+                aria-hidden="true"
+              />
+            </button>
 
-          <div
-            id={itemId}
-            role="region"
-            className={cn(
-              'overflow-hidden transition-all duration-200',
-              isOpen ? 'max-h-[2000px] pb-4' : 'max-h-0'
-            )}
-          >
-            {item.content}
+            <div
+              id={itemId}
+              role="region"
+              className={cn(
+                'overflow-hidden transition-all duration-200',
+                isOpen ? 'max-h-[2000px] pb-4' : 'max-h-0',
+              )}
+            >
+              {item.content}
+            </div>
           </div>
-        </div>
         );
       })}
     </div>

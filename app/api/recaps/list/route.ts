@@ -26,10 +26,7 @@ async function _GET(request: Request) {
     const adminClient = await getAdminClient();
 
     if (!adminClient) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Get user's organization
@@ -54,13 +51,12 @@ async function _GET(request: Request) {
     }
 
     return NextResponse.json({ recaps: data || [] }, { status: 200 });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
-        error:
-          'Internal server error',
+        error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

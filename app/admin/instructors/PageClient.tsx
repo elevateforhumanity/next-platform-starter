@@ -1,7 +1,5 @@
 'use client';
 
-
-
 import React from 'react';
 
 import { useRouter } from 'next/navigation';
@@ -20,7 +18,6 @@ export default function InstructorsPage() {
   const [filter, setFilter] = useState('all');
 
   const loadData = useCallback(async () => {
-    
     // Load instructors with their course assignments and performance
     let query = supabase
       .from('profiles')
@@ -31,7 +28,7 @@ export default function InstructorsPage() {
           course:courses(title, slug)
         ),
         instructor_ratings:instructor_reviews(rating)
-      `
+      `,
       )
       .eq('role', 'instructor')
       .order('created_at', { ascending: false });
@@ -49,7 +46,10 @@ export default function InstructorsPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) { router.replace('/login?redirect=/admin/instructors'); return; }
+      if (!session) {
+        router.replace('/login?redirect=/admin/instructors');
+        return;
+      }
       loadData();
     });
   }, [loadData, router, supabase]);
@@ -58,7 +58,7 @@ export default function InstructorsPage() {
     if (!ratings || ratings.length === 0) return '0';
     const sum: number = ratings.reduce(
       (acc: number, r) => acc + ((r as any).rating || 0),
-      0
+      0,
     ) as number;
     return (sum / ratings.length).toFixed(1);
   }
@@ -69,7 +69,6 @@ export default function InstructorsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
@@ -80,6 +79,7 @@ export default function InstructorsPage() {
 
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-instructors-detail.jpg"
           alt="Instructors Management"
@@ -89,7 +89,6 @@ export default function InstructorsPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       <div className="max-w-7xl mx-auto px-4 py-8">
@@ -100,9 +99,7 @@ export default function InstructorsPage() {
               <Users className="h-11 w-11 text-brand-blue-600" />
               <p className="text-sm text-black">Total Instructors</p>
             </div>
-            <p className="text-3xl font-bold text-brand-blue-600">
-              {instructors.length}
-            </p>
+            <p className="text-3xl font-bold text-brand-blue-600">{instructors.length}</p>
           </div>
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <div className="flex items-center gap-3 mb-2">
@@ -119,10 +116,7 @@ export default function InstructorsPage() {
               <p className="text-sm text-black">Total Courses</p>
             </div>
             <p className="text-3xl font-bold text-brand-blue-600">
-              {instructors.reduce(
-                (acc, i) => acc + (i.instructor_courses?.length || 0),
-                0
-              )}
+              {instructors.reduce((acc, i) => acc + (i.instructor_courses?.length || 0), 0)}
             </p>
           </div>
           <div className="bg-white rounded-lg shadow-sm border p-6">
@@ -134,12 +128,8 @@ export default function InstructorsPage() {
               {instructors.length > 0
                 ? (
                     instructors.reduce(
-                      (acc, i) =>
-                        acc +
-                        parseFloat(
-                          calculateAverageRating(i.instructor_ratings)
-                        ),
-                      0
+                      (acc, i) => acc + parseFloat(calculateAverageRating(i.instructor_ratings)),
+                      0,
                     ) / instructors.length
                   ).toFixed(1)
                 : '0.0'}
@@ -153,9 +143,7 @@ export default function InstructorsPage() {
             <button
               onClick={() => setFilter('all')}
               className={`px-4 py-2 rounded-lg font-medium ${
-                filter === 'all'
-                  ? 'bg-brand-blue-600 text-white'
-                  : 'bg-gray-100 text-black'
+                filter === 'all' ? 'bg-brand-blue-600 text-white' : 'bg-gray-100 text-black'
               }`}
             >
               All Instructors
@@ -163,9 +151,7 @@ export default function InstructorsPage() {
             <button
               onClick={() => setFilter('active')}
               className={`px-4 py-2 rounded-lg font-medium ${
-                filter === 'active'
-                  ? 'bg-brand-green-600 text-white'
-                  : 'bg-gray-100 text-black'
+                filter === 'active' ? 'bg-brand-green-600 text-white' : 'bg-gray-100 text-black'
               }`}
             >
               Active
@@ -173,9 +159,7 @@ export default function InstructorsPage() {
             <button
               onClick={() => setFilter('inactive')}
               className={`px-4 py-2 rounded-lg font-medium ${
-                filter === 'inactive'
-                  ? 'bg-gray-600 text-white'
-                  : 'bg-gray-100 text-black'
+                filter === 'inactive' ? 'bg-gray-600 text-white' : 'bg-gray-100 text-black'
               }`}
             >
               Inactive
@@ -189,40 +173,30 @@ export default function InstructorsPage() {
           {instructors && instructors.length > 0 ? (
             <div className="space-y-4">
               {instructors.map((instructor) => (
-                <div
-                  key={instructor.id}
-                  className="p-4 border rounded-lg hover:bg-gray-50"
-                >
+                <div key={instructor.id} className="p-4 border rounded-lg hover:bg-gray-50">
                   <div className="flex justify-between items-start">
                     <div className="flex-1">
-                      <h3 className="font-semibold text-lg">
-                        {instructor.full_name}
-                      </h3>
-                      <p className="text-sm text-black">
-                        {instructor.email}
-                      </p>
+                      <h3 className="font-semibold text-lg">{instructor.full_name}</h3>
+                      <p className="text-sm text-black">{instructor.email}</p>
                       <div className="mt-2 flex flex-wrap gap-4 text-sm">
                         <span className="text-black">
                           Courses: {instructor.instructor_courses?.length || 0}
                         </span>
                         <span className="text-black flex items-center gap-1">
                           <Star className="h-4 w-4 text-yellow-500" />
-                          Rating:{' '}
-                          {calculateAverageRating(
-                            instructor.instructor_ratings
-                          )}
+                          Rating: {calculateAverageRating(instructor.instructor_ratings)}
                         </span>
                         <span className="text-black">
                           Joined:{' '}
-                          {new Date(instructor.created_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
+                          {new Date(instructor.created_at).toLocaleDateString('en-US', {
+                            timeZone: 'UTC',
+                          })}
                         </span>
                       </div>
                       {instructor.instructor_courses &&
                         instructor.instructor_courses.length > 0 && (
                           <div className="mt-2">
-                            <p className="text-xs text-black mb-1">
-                              Teaching:
-                            </p>
+                            <p className="text-xs text-black mb-1">Teaching:</p>
                             <div className="flex flex-wrap gap-2">
                               {instructor.instructor_courses.map(
                                 (ic: Record<string, any>, idx: number) => (
@@ -232,7 +206,7 @@ export default function InstructorsPage() {
                                   >
                                     {ic.course?.name}
                                   </span>
-                                )
+                                ),
                               )}
                             </div>
                           </div>
@@ -260,9 +234,7 @@ export default function InstructorsPage() {
               ))}
             </div>
           ) : (
-            <p className="text-black text-center py-8">
-              No instructors found
-            </p>
+            <p className="text-black text-center py-8">No instructors found</p>
           )}
         </div>
       </div>
@@ -271,12 +243,10 @@ export default function InstructorsPage() {
       <section className="py-16 bg-brand-blue-700">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Instructor Management
-                        </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Instructor Management</h2>
             <p className="text-base md:text-lg text-brand-blue-100 mb-8">
               Assign instructors, track schedules, and manage credentials.
-                        </p>
+            </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/admin/instructors"

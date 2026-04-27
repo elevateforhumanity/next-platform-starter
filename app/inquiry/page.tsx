@@ -30,12 +30,12 @@ function InquiryForm() {
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    
+
     if (!turnstileToken) {
       setError('Please complete the verification');
       return;
     }
-    
+
     setLoading(true);
     setError('');
 
@@ -70,10 +70,10 @@ function InquiryForm() {
 
   return (
     <>
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Inquiry" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Inquiry' }]} />
       </div>
-<ModernLandingHero
+      <ModernLandingHero
         badge="Limited Seats Available"
         headline="Start Your Career"
         accentText="In 10 Minutes"
@@ -81,22 +81,18 @@ function InquiryForm() {
         description="Last year, 753 students were accepted and 89% got jobs after graduation. Average time from application to first paycheck: 67 days."
         imageSrc="/hero-images/apply-hero.jpg"
         imageAlt="Apply Now"
-        primaryCTA={{ text: "Start Application", href: "#application" }}
-        secondaryCTA={{ text: "Questions? Visit FAQ", href: "/faq" }}
+        primaryCTA={{ text: 'Start Application', href: '#application' }}
+        secondaryCTA={{ text: 'Questions? Visit FAQ', href: '/faq' }}
         features={[
-          "10-minute application with 2-3 day response",
-          "Workforce funding available for eligible Indiana residents",
-          "Job placement support and career counseling included"
+          '10-minute application with 2-3 day response',
+          'Workforce funding available for eligible Indiana residents',
+          'Job placement support and career counseling included',
         ]}
         imageOnRight={true}
       />
       <section id="application" className="max-w-3xl mx-auto px-6 py-12">
-        <h1 className="text-3xl font-bold text-black mb-4">
-          Start Your Application
-        </h1>
-        <p className="my-4 text-black">
-          10–15 minutes. Response within 2–3 business days.
-        </p>
+        <h1 className="text-3xl font-bold text-black mb-4">Start Your Application</h1>
+        <p className="my-4 text-black">10–15 minutes. Response within 2–3 business days.</p>
 
         {error && (
           <div className="mb-6 p-4 bg-brand-red-50 border-2 border-brand-red-200 rounded-lg">
@@ -106,7 +102,9 @@ function InquiryForm() {
 
         {success && (
           <div className="mb-6 p-4 bg-brand-green-50 border-2 border-brand-green-200 rounded-lg">
-            <p className="text-brand-green-800 font-semibold">• Application submitted successfully! Redirecting...</p>
+            <p className="text-brand-green-800 font-semibold">
+              • Application submitted successfully! Redirecting...
+            </p>
           </div>
         )}
 
@@ -115,10 +113,7 @@ function InquiryForm() {
           className="space-y-4 bg-white border border-slate-200 rounded-lg p-6"
         >
           <div>
-            <label
-              htmlFor="name"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="name" className="block text-sm font-medium text-black mb-2">
               Full Name <span className="text-brand-red-600">*</span>
             </label>
             <input
@@ -131,10 +126,7 @@ function InquiryForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-black mb-2">
               Email <span className="text-brand-red-600">*</span>
             </label>
             <input
@@ -148,10 +140,7 @@ function InquiryForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="phone"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="phone" className="block text-sm font-medium text-black mb-2">
               Phone <span className="text-brand-red-600">*</span>
             </label>
             <input
@@ -164,10 +153,7 @@ function InquiryForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="program"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="program" className="block text-sm font-medium text-black mb-2">
               Program <span className="text-brand-red-600">*</span>
             </label>
             <select
@@ -182,7 +168,9 @@ function InquiryForm() {
               {programGroups.map((group) => (
                 <optgroup key={group.category} label={group.category}>
                   {group.programs.map((p) => (
-                    <option key={p.slug} value={p.slug}>{p.name}</option>
+                    <option key={p.slug} value={p.slug}>
+                      {p.name}
+                    </option>
                   ))}
                 </optgroup>
               ))}
@@ -191,10 +179,7 @@ function InquiryForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="funding"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="funding" className="block text-sm font-medium text-black mb-2">
               Funding <span className="text-brand-red-600">*</span>
             </label>
             <select
@@ -232,11 +217,11 @@ function InquiryForm() {
   );
 }
 
-
-
 export default function Inquiry() {
   return (
-    <Suspense fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}>
+    <Suspense
+      fallback={<div className="min-h-screen flex items-center justify-center">Loading...</div>}
+    >
       <InquiryForm />
     </Suspense>
   );

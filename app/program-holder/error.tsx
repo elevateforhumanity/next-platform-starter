@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -13,19 +13,14 @@ export default function Error({
   error: Error & { digest?: string };
   reset: () => void;
 }) {
-  useEffect(() => {
-  }, [error]);
+  useEffect(() => {}, [error]);
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-4">
       <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
         <AlertTriangle className="h-16 w-16 text-brand-red-600 mx-auto mb-4" />
-        <h1 className="text-2xl font-bold text-black mb-2">
-          Something went wrong
-        </h1>
-        <p className="text-black mb-6">
-          An unexpected error occurred. Please try again.
-        </p>
+        <h1 className="text-2xl font-bold text-black mb-2">Something went wrong</h1>
+        <p className="text-black mb-6">An unexpected error occurred. Please try again.</p>
         {error.message && process.env.NODE_ENV === 'development' && (
           <pre className="text-xs text-left bg-brand-red-50 p-3 rounded mb-4 overflow-auto">
             <code>{error.message}</code>
@@ -45,11 +40,7 @@ export default function Error({
             Back to Dashboard
           </Link>
         </div>
-        {error.digest && (
-          <p className="text-xs text-slate-500 mt-4">
-            Error ID: {error.digest}
-          </p>
-        )}
+        {error.digest && <p className="text-xs text-slate-500 mt-4">Error ID: {error.digest}</p>}
       </div>
     </div>
   );

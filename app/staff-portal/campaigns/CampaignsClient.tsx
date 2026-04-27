@@ -22,9 +22,9 @@ interface CampaignsClientProps {
   initialStudents: Student[];
 }
 
-export default function CampaignsClient({ 
-  initialTemplates, 
-  initialStudents 
+export default function CampaignsClient({
+  initialTemplates,
+  initialStudents,
 }: CampaignsClientProps) {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
@@ -46,9 +46,7 @@ export default function CampaignsClient({
 
   const toggleStudent = (studentId: string) => {
     setSelectedStudents((prev) =>
-      prev.includes(studentId)
-        ? prev.filter((id) => id !== studentId)
-        : [...prev, studentId]
+      prev.includes(studentId) ? prev.filter((id) => id !== studentId) : [...prev, studentId],
     );
   };
 
@@ -148,9 +146,7 @@ export default function CampaignsClient({
               <input
                 type="text"
                 value={formData.subject}
-                onChange={(e) =>
-                  setFormData({ ...formData, subject: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                 className="w-full px-3 py-2 border rounded"
               />
             </div>
@@ -158,9 +154,7 @@ export default function CampaignsClient({
               <label className="block text-sm font-medium mb-2">Content</label>
               <textarea
                 value={formData.html_content}
-                onChange={(e) =>
-                  setFormData({ ...formData, html_content: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, html_content: e.target.value })}
                 rows={10}
                 className="w-full px-3 py-2 border rounded font-mono text-sm"
               />

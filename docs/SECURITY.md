@@ -10,6 +10,7 @@ If you discover a security vulnerability in this platform, report it privately:
 **Subject:** `Security Vulnerability Report`
 
 Include:
+
 - Description of the vulnerability
 - Steps to reproduce
 - Potential impact
@@ -34,26 +35,26 @@ This policy covers the Elevate for Humanity Workforce Operating System, includin
 
 ## Security Architecture
 
-| Layer | Implementation |
-|-------|---------------|
-| **Authentication** | Supabase Auth — JWT tokens, server-side validation on every request |
-| **Authorization** | Row Level Security (RLS) on all database tables; role-based access control |
-| **Transport** | HTTPS enforced via Netlify; HSTS enabled |
-| **Payments** | Stripe — no card data stored; PCI DSS handled by Stripe |
-| **Secrets** | Environment variables only; never committed to source |
-| **Audit logging** | All critical actions logged with actor, timestamp, and context |
-| **Input validation** | Zod schemas on all API routes |
-| **Multi-tenancy** | Tenant isolation enforced at database and API layers |
+| Layer                | Implementation                                                             |
+| -------------------- | -------------------------------------------------------------------------- |
+| **Authentication**   | Supabase Auth — JWT tokens, server-side validation on every request        |
+| **Authorization**    | Row Level Security (RLS) on all database tables; role-based access control |
+| **Transport**        | HTTPS enforced via Netlify; HSTS enabled                                   |
+| **Payments**         | Stripe — no card data stored; PCI DSS handled by Stripe                    |
+| **Secrets**          | Environment variables only; never committed to source                      |
+| **Audit logging**    | All critical actions logged with actor, timestamp, and context             |
+| **Input validation** | Zod schemas on all API routes                                              |
+| **Multi-tenancy**    | Tenant isolation enforced at database and API layers                       |
 
 ## Data Classification
 
-| Data Type | Classification | Handling |
-|-----------|---------------|---------|
-| Student PII (name, DOB, SSN last 4) | Restricted | Encrypted at rest; RLS-protected; FERPA-aligned |
-| Enrollment and funding records | Restricted | Audit-logged; agency-reportable |
-| Payment data | Restricted | Stripe-managed; not stored locally |
-| Course content and credentials | Internal | RLS-protected |
-| Public program information | Public | No restrictions |
+| Data Type                           | Classification | Handling                                        |
+| ----------------------------------- | -------------- | ----------------------------------------------- |
+| Student PII (name, DOB, SSN last 4) | Restricted     | Encrypted at rest; RLS-protected; FERPA-aligned |
+| Enrollment and funding records      | Restricted     | Audit-logged; agency-reportable                 |
+| Payment data                        | Restricted     | Stripe-managed; not stored locally              |
+| Course content and credentials      | Internal       | RLS-protected                                   |
+| Public program information          | Public         | No restrictions                                 |
 
 ## Integrity Controls
 
@@ -79,21 +80,22 @@ Two merge-blocking CI scanners enforce structural invariants on every PR. Neithe
 
 **Registered tables:**
 
-| Table | Written by |
-|-------|-----------|
-| `grant_submissions` | `grants_submission_tracker` |
-| `grant_federal_forms` | `grants_federal_forms` |
-| `grant_packages` | `grants_package_builder` |
-| `entity_eligibility_checks` | `grants_eligibility_engine` |
-| `grant_eligibility_results` | `grants_eligibility_engine` |
-| `grant_notifications` | `grants_notification_system` |
-| `grant_notification_log` | `grants_notification_system` |
+| Table                       | Written by                   |
+| --------------------------- | ---------------------------- |
+| `grant_submissions`         | `grants_submission_tracker`  |
+| `grant_federal_forms`       | `grants_federal_forms`       |
+| `grant_packages`            | `grants_package_builder`     |
+| `entity_eligibility_checks` | `grants_eligibility_engine`  |
+| `grant_eligibility_results` | `grants_eligibility_engine`  |
+| `grant_notifications`       | `grants_notification_system` |
+| `grant_notification_log`    | `grants_notification_system` |
 
 **Exemption:** `// grants-audit: exempt — <reason>` inside the function body. Use only for user-initiated writes where system actor attribution would be misleading (e.g. mark-read toggles).
 
 **Extending:** Add the table to `AUDITABLE_TABLES` in the scanner script. CI enforces immediately on all existing and future write functions.
 
 **Detection layers:** The scanner uses three layers:
+
 - **Layer 1 (direct):** Statement-boundary scanning — walks to semicolon or depth-0 close, covering arbitrarily long chained queries.
 - **Layer 2 (intermediate variables):** Tracks variables assigned from `.from(auditable_table)` and flags write ops on those variables anywhere in the function body.
 - **Layer 3 (single-level local helper indirection):** Builds a per-file function map and flags callers whose same-file callees write to auditable tables without audit context.

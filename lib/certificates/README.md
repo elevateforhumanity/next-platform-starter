@@ -53,7 +53,7 @@ const cert = await issueCertificate(
   'John Doe',
   'Certified Nursing Assistant',
   'Jane Smith', // instructor
-  'State Certified' // credential type
+  'State Certified', // credential type
 );
 ```
 
@@ -101,6 +101,7 @@ CREATE INDEX idx_certificates_status ON certificates(status);
 Certificates are stored in Supabase Storage bucket: `certificates`
 
 File structure:
+
 ```
 certificates/
   ├── EFH-2024-CNA-12345.pdf
@@ -112,6 +113,7 @@ certificates/
 ## Automatic Issuance
 
 Certificates can be automatically issued when:
+
 1. Student completes all course modules
 2. Student passes final assessment
 3. Instructor approves completion
@@ -180,6 +182,7 @@ Current implementation uses HTML template. For production, consider:
 ## Environment Variables
 
 Required:
+
 - `NEXT_PUBLIC_SUPABASE_URL`
 - `SUPABASE_SERVICE_ROLE_KEY`
 

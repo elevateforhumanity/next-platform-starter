@@ -20,17 +20,17 @@ async function _POST(request: Request) {
 
     const body = await request.json().catch(() => null);
     const parsed = IntakeCreateSchema.safeParse(body);
-    
+
     if (!parsed.success) {
       return NextResponse.json(
         { error: 'Invalid input', details: parsed.error.flatten() },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Get source page from referer header
     const referer = request.headers.get('referer') || '';
-    
+
     const { data, error } = await supabase
       .from('intakes')
       .insert({
@@ -68,7 +68,9 @@ async function _GET(request: Request) {
     const supabase = await createClient();
 
     // Auth check - admin only
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -86,10 +88,7 @@ async function _GET(request: Request) {
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status');
 
-    let query = supabase
-      .from('intakes')
-      .select('*')
-      .order('created_at', { ascending: false });
+    let query = supabase.from('intakes').select('*').order('created_at', { ascending: false });
 
     if (status) {
       query = query.eq('status', status);

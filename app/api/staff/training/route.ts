@@ -1,4 +1,3 @@
-
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
@@ -31,10 +30,7 @@ async function _GET(request: Request) {
       .order('order_index', { ascending: true });
 
     if (modulesError) {
-      return NextResponse.json(
-        { error: 'Failed to fetch modules' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch modules' }, { status: 500 });
     }
 
     // Get user's progress
@@ -44,10 +40,7 @@ async function _GET(request: Request) {
       .eq('user_id', user.id);
 
     if (progressError) {
-      return NextResponse.json(
-        { error: 'Failed to fetch progress' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch progress' }, { status: 500 });
     }
 
     // Combine modules with progress
@@ -64,11 +57,8 @@ async function _GET(request: Request) {
       totalModules: modules?.length || 0,
       completedModules: progress?.filter((p) => p.completed_at).length || 0,
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -91,10 +81,7 @@ async function _POST(request: Request) {
     const { module_id, quiz_score } = body;
 
     if (!module_id) {
-      return NextResponse.json(
-        { error: 'module_id is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'module_id is required' }, { status: 400 });
     }
 
     // Check if module exists
@@ -117,22 +104,18 @@ async function _POST(request: Request) {
           module_id,
           completed_at: new Date().toISOString(),
           quiz_score: quiz_score || null,
-          certification_date:
-            quiz_score && quiz_score >= 80 ? new Date().toISOString() : null,
+          certification_date: quiz_score && quiz_score >= 80 ? new Date().toISOString() : null,
           updated_at: new Date().toISOString(),
         },
         {
           onConflict: 'user_id,module_id',
-        }
+        },
       )
       .select()
       .maybeSingle();
 
     if (progressError) {
-      return NextResponse.json(
-        { error: 'Failed to fetch progress' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch progress' }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -140,11 +123,8 @@ async function _POST(request: Request) {
       progress,
       certified: quiz_score && quiz_score >= 80,
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/staff/training', _GET);

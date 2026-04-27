@@ -119,7 +119,8 @@ function EnrollPaymentContent() {
         <div className="max-w-md w-full bg-white rounded-2xl shadow-sm border border-gray-200 p-8 text-center">
           <h1 className="text-2xl font-bold text-gray-900 mb-3">Enroll</h1>
           <p className="text-gray-600 mb-6">
-            To enroll in the Barber Apprenticeship Program, start by submitting an application. Payment happens after your application is reviewed.
+            To enroll in the Barber Apprenticeship Program, start by submitting an application.
+            Payment happens after your application is reviewed.
           </p>
           <Link
             href="/programs/barber-apprenticeship/apply"
@@ -127,10 +128,7 @@ function EnrollPaymentContent() {
           >
             Start Application
           </Link>
-          <Link
-            href="/programs"
-            className="block mt-3 text-sm text-gray-500 hover:text-gray-700"
-          >
+          <Link href="/programs" className="block mt-3 text-sm text-gray-500 hover:text-gray-700">
             View all programs
           </Link>
         </div>
@@ -143,9 +141,7 @@ function EnrollPaymentContent() {
       <div className="max-w-2xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-gray-900 mb-2">
-            Enroll
-          </h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-2">Enroll</h1>
           <p className="text-gray-600">
             Barber Apprenticeship Program — choose a payment option to secure your spot.
           </p>
@@ -163,7 +159,8 @@ function EnrollPaymentContent() {
         {/* Critical messaging */}
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6 mb-8">
           <p className="text-brand-blue-900 font-medium text-center">
-            Payment secures your enrollment. Training access unlocks after approval and shop assignment.
+            Payment secures your enrollment. Training access unlocks after approval and shop
+            assignment.
           </p>
         </div>
 
@@ -180,10 +177,16 @@ function EnrollPaymentContent() {
           >
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-4">
-                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                  selectedOption === 'full' ? 'border-brand-blue-600 bg-brand-blue-600' : 'border-gray-300'
-                }`}>
-                  {selectedOption === 'full' && <span className="text-slate-400 flex-shrink-0">•</span>}
+                <div
+                  className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                    selectedOption === 'full'
+                      ? 'border-brand-blue-600 bg-brand-blue-600'
+                      : 'border-gray-300'
+                  }`}
+                >
+                  {selectedOption === 'full' && (
+                    <span className="text-slate-400 flex-shrink-0">•</span>
+                  )}
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
@@ -213,10 +216,16 @@ function EnrollPaymentContent() {
           >
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-4">
-                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                  selectedOption === 'deposit' ? 'border-brand-blue-600 bg-brand-blue-600' : 'border-gray-300'
-                }`}>
-                  {selectedOption === 'deposit' && <span className="text-slate-400 flex-shrink-0">•</span>}
+                <div
+                  className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                    selectedOption === 'deposit'
+                      ? 'border-brand-blue-600 bg-brand-blue-600'
+                      : 'border-gray-300'
+                  }`}
+                >
+                  {selectedOption === 'deposit' && (
+                    <span className="text-slate-400 flex-shrink-0">•</span>
+                  )}
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
@@ -246,10 +255,16 @@ function EnrollPaymentContent() {
           >
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-4">
-                <div className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
-                  selectedOption === 'installment' ? 'border-brand-blue-600 bg-brand-blue-600' : 'border-gray-300'
-                }`}>
-                  {selectedOption === 'installment' && <span className="text-slate-400 flex-shrink-0">•</span>}
+                <div
+                  className={`w-6 h-6 rounded-full border-2 flex items-center justify-center ${
+                    selectedOption === 'installment'
+                      ? 'border-brand-blue-600 bg-brand-blue-600'
+                      : 'border-gray-300'
+                  }`}
+                >
+                  {selectedOption === 'installment' && (
+                    <span className="text-slate-400 flex-shrink-0">•</span>
+                  )}
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
@@ -291,9 +306,7 @@ function EnrollPaymentContent() {
               Processing...
             </>
           ) : (
-            <>
-              Continue to Payment
-            </>
+            <>Continue to Payment</>
           )}
         </button>
 
@@ -307,19 +320,27 @@ function EnrollPaymentContent() {
           <h3 className="font-semibold text-gray-900 mb-4">What happens after payment?</h3>
           <div className="space-y-3">
             <div className="flex items-center gap-3">
-              <span className="w-6 h-6 rounded-full bg-brand-green-100 text-brand-green-600 flex items-center justify-center text-sm font-bold">•</span>
+              <span className="w-6 h-6 rounded-full bg-brand-green-100 text-brand-green-600 flex items-center justify-center text-sm font-bold">
+                •
+              </span>
               <span className="text-gray-700">Enrollment confirmed</span>
             </div>
             <div className="flex items-center gap-3">
-              <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-sm">⏳</span>
+              <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-sm">
+                ⏳
+              </span>
               <span className="text-gray-700">Shop assignment (1-2 weeks)</span>
             </div>
             <div className="flex items-center gap-3">
-              <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-sm">⏳</span>
+              <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-sm">
+                ⏳
+              </span>
               <span className="text-gray-700">Compliance approval</span>
             </div>
             <div className="flex items-center gap-3">
-              <span className="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-sm">🔒</span>
+              <span className="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-sm">
+                🔒
+              </span>
               <span className="text-gray-500">Training access unlocks after approval</span>
             </div>
           </div>
@@ -337,7 +358,14 @@ function EnrollPaymentContent() {
 
         {/* Contact */}
         <p className="text-center text-gray-500 text-sm mt-6">
-          Questions? <a href="/faq" className="text-brand-blue-600 underline">Check our FAQ</a> or <a href="/support" className="text-brand-blue-600 underline">contact support</a>
+          Questions?{' '}
+          <a href="/faq" className="text-brand-blue-600 underline">
+            Check our FAQ
+          </a>{' '}
+          or{' '}
+          <a href="/support" className="text-brand-blue-600 underline">
+            contact support
+          </a>
         </p>
       </div>
     </div>
@@ -346,11 +374,13 @@ function EnrollPaymentContent() {
 
 export default function EnrollPaymentPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-brand-blue-600" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-brand-blue-600" />
+        </div>
+      }
+    >
       <EnrollPaymentContent />
     </Suspense>
   );

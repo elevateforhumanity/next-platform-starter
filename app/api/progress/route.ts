@@ -46,9 +46,7 @@ async function _GET(request: Request) {
         .eq('user_id', user.id)
         .eq('course_id', courseId);
 
-      const progressMap = new Map(
-        lessonProgress?.map((p) => [p.lesson_id, p]) || []
-      );
+      const progressMap = new Map(lessonProgress?.map((p) => [p.lesson_id, p]) || []);
 
       const lessonsWithProgress = lessons?.map((lesson) => ({
         ...lesson,
@@ -58,7 +56,8 @@ async function _GET(request: Request) {
       }));
 
       const completedCount = lessonProgress?.filter((p) => p.completed).length || 0;
-      const totalTime = lessonProgress?.reduce((sum, p) => sum + (p.time_spent_seconds || 0), 0) || 0;
+      const totalTime =
+        lessonProgress?.reduce((sum, p) => sum + (p.time_spent_seconds || 0), 0) || 0;
 
       return NextResponse.json({
         userId: user.id,
@@ -75,7 +74,8 @@ async function _GET(request: Request) {
     // Get all enrollments with progress
     const { data: enrollments } = await supabase
       .from('program_enrollments')
-      .select(`
+      .select(
+        `
         id,
         course_id,
         status,
@@ -87,7 +87,8 @@ async function _GET(request: Request) {
           title,
           description
         )
-      `)
+      `,
+      )
       .eq('user_id', user.id)
       .order('started_at', { ascending: false });
 
@@ -138,7 +139,7 @@ async function _POST(request: Request) {
     if (!courseId || !lessonId) {
       return NextResponse.json(
         { error: 'Missing required fields: courseId, lessonId' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -179,7 +180,7 @@ async function _POST(request: Request) {
         },
         {
           onConflict: 'user_id,lesson_id',
-        }
+        },
       )
       .select()
       .maybeSingle();

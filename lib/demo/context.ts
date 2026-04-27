@@ -16,11 +16,11 @@ export function isDemoEnabled(): boolean {
   const allowInProd = process.env.DEMO_ALLOW_IN_PROD !== 'false';
   const isProduction = process.env.NODE_ENV === 'production';
   const isNetlifyPreview = process.env.NEXT_PUBLIC_CONTEXT === 'deploy-preview';
-  
+
   if (demoMode) return true;
   if (!isProduction) return true;
   if (isNetlifyPreview && allowInProd) return true;
-  
+
   return allowInProd;
 }
 
@@ -52,7 +52,12 @@ export function assertDemoTenant(tenantSlug: string | null | undefined): void {
 /**
  * Demo user roles
  */
-export type DemoRole = 'demo_admin' | 'demo_staff' | 'demo_partner' | 'demo_learner' | 'super_admin';
+export type DemoRole =
+  | 'demo_admin'
+  | 'demo_staff'
+  | 'demo_partner'
+  | 'demo_learner'
+  | 'super_admin';
 
 /**
  * Demo user credentials (for display in role switcher)

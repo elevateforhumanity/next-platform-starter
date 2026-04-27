@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
@@ -26,13 +25,20 @@ async function _POST(req: NextRequest) {
 
   const supabase = await createClient();
   const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+  if (!db)
+    return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   // Require admin or super_admin
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
@@ -47,7 +53,10 @@ async function _POST(req: NextRequest) {
   const { step, params, applicationId } = body;
 
   if (!step || !params?.email || !params?.firstName) {
-    return NextResponse.json({ error: 'step, params.email, and params.firstName are required' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'step, params.email, and params.firstName are required' },
+      { status: 400 },
+    );
   }
 
   const template = hrEmailTemplates[step];

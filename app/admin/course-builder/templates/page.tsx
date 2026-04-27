@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';

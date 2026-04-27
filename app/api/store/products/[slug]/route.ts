@@ -12,10 +12,7 @@ export const dynamic = 'force-dynamic';
  * Used by checkout pages to look up product details.
  * Falls back to hardcoded catalog if DB returns null (migration not yet run).
  */
-async function _GET(
-  _req: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-) {
+async function _GET(_req: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
 
   if (!slug || slug.length > 100) {

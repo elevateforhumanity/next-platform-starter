@@ -5,16 +5,10 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-import {
-
-  Shield,
-  AlertTriangle,
-  TrendingUp,
-  FileText,
-CheckCircle, } from 'lucide-react';
+import { Shield, AlertTriangle, TrendingUp, FileText, CheckCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Compliance | Program Holder Portal',
@@ -39,7 +33,8 @@ export default async function CompliancePage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!profile || !['program_holder','admin','super_admin','staff'].includes(profile.role)) redirect('/login');
+  if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role))
+    redirect('/login');
 
   // Get program holder record
   const { data: programHolder } = await supabase
@@ -71,9 +66,8 @@ export default async function CompliancePage() {
   // Calculate compliance factors
   const requiredDocs = ['license', 'insurance', 'background_check'];
   const approvedDocs =
-    documents?.filter(
-      (d) => d.status === 'approved' && requiredDocs.includes(d.document_type)
-    ) || [];
+    documents?.filter((d) => d.status === 'approved' && requiredDocs.includes(d.document_type)) ||
+    [];
   const documentScore = (approvedDocs.length / requiredDocs.length) * 100;
 
   const recentReports =
@@ -84,17 +78,13 @@ export default async function CompliancePage() {
       return reportDate >= thirtyDaysAgo;
     }) || [];
   const reportingScore =
-    students && students.length > 0
-      ? Math.min((recentReports.length / 4) * 100, 100)
-      : 100;
+    students && students.length > 0 ? Math.min((recentReports.length / 4) * 100, 100) : 100;
 
   const activeStudents = students?.filter((s: any) => s.status === 'active') || [];
   // Score 100 if any active students, 0 if none — no artificial floor
   const studentScore = activeStudents.length > 0 ? 100 : 0;
 
-  const overallScore = Math.round(
-    (documentScore + reportingScore + studentScore) / 3
-  );
+  const overallScore = Math.round((documentScore + reportingScore + studentScore) / 3);
   const complianceStatus = overallScore >= 70 ? 'compliant' : 'non_compliant';
 
   // Identify issues
@@ -120,11 +110,14 @@ export default async function CompliancePage() {
 
   return (
     <div className="min-h-screen bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Program Holder", href: "/program-holder" }, { label: "Compliance" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Program Holder', href: '/program-holder' }, { label: 'Compliance' }]}
+        />
+      </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/program-holder-page-1.jpg"
           alt="Compliance"
@@ -134,7 +127,6 @@ export default async function CompliancePage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Content Section */}
@@ -145,9 +137,7 @@ export default async function CompliancePage() {
             <div className="bg-white rounded-lg shadow-sm border p-8 mb-8">
               <div className="flex items-center justify-between mb-6">
                 <div>
-                  <h2 className="text-2xl font-bold text-black mb-2">
-                    Overall Compliance Score
-                  </h2>
+                  <h2 className="text-2xl font-bold text-black mb-2">Overall Compliance Score</h2>
                   <p className="text-black">
                     {complianceStatus === 'compliant'
                       ? 'Your program is in good standing'
@@ -173,9 +163,7 @@ export default async function CompliancePage() {
                         : 'text-brand-red-600'
                     }`}
                   >
-                    {complianceStatus === 'compliant'
-                      ? 'COMPLIANT'
-                      : 'NON-COMPLIANT'}
+                    {complianceStatus === 'compliant' ? 'COMPLIANT' : 'NON-COMPLIANT'}
                   </div>
                 </div>
               </div>
@@ -200,16 +188,13 @@ export default async function CompliancePage() {
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <FileText className="h-11 w-11 text-brand-blue-600" />
-                  <h3 className="font-semibold text-black">
-                    Documentation
-                  </h3>
+                  <h3 className="font-semibold text-black">Documentation</h3>
                 </div>
                 <div className="text-3xl font-bold text-brand-blue-600 mb-2">
                   {Math.round(documentScore)}%
                 </div>
                 <p className="text-sm text-black">
-                  {approvedDocs.length} of {requiredDocs.length} required
-                  documents approved
+                  {approvedDocs.length} of {requiredDocs.length} required documents approved
                 </p>
               </div>
 
@@ -229,25 +214,19 @@ export default async function CompliancePage() {
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <div className="flex items-center gap-3 mb-4">
                   <Shield className="h-11 w-11 text-brand-blue-600" />
-                  <h3 className="font-semibold text-black">
-                    Student Management
-                  </h3>
+                  <h3 className="font-semibold text-black">Student Management</h3>
                 </div>
                 <div className="text-3xl font-bold text-brand-blue-600 mb-2">
                   {Math.round(studentScore)}%
                 </div>
-                <p className="text-sm text-black">
-                  {activeStudents.length} active student(s)
-                </p>
+                <p className="text-sm text-black">{activeStudents.length} active student(s)</p>
               </div>
             </div>
 
             {/* Issues */}
             {issues.length > 0 && (
               <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
-                <h2 className="text-2xl font-bold text-black mb-6">
-                  Action Items
-                </h2>
+                <h2 className="text-2xl font-bold text-black mb-6">Action Items</h2>
                 <div className="space-y-4">
                   {issues.map((issue, index) => (
                     <div
@@ -260,18 +239,12 @@ export default async function CompliancePage() {
                     >
                       <AlertTriangle
                         className={`h-10 w-10 mr-3 flex-shrink-0 mt-0.5 ${
-                          issue.severity === 'high'
-                            ? 'text-brand-red-600'
-                            : 'text-yellow-600'
+                          issue.severity === 'high' ? 'text-brand-red-600' : 'text-yellow-600'
                         }`}
                       />
                       <div className="flex-1">
-                        <h3 className="font-semibold text-black mb-1">
-                          {issue.title}
-                        </h3>
-                        <p className="text-sm text-black mb-3">
-                          {issue.description}
-                        </p>
+                        <h3 className="font-semibold text-black mb-1">{issue.title}</h3>
+                        <p className="text-sm text-black mb-3">{issue.description}</p>
                         <Link
                           href={issue.href}
                           className="inline-flex items-center text-sm font-medium text-brand-blue-600 hover:text-brand-blue-700"
@@ -289,9 +262,7 @@ export default async function CompliancePage() {
             {issues.length === 0 && (
               <div className="bg-brand-green-50 border-2 border-brand-green-200 rounded-lg p-8 mb-8 text-center">
                 <span className="text-slate-500 flex-shrink-0">•</span>
-                <h3 className="text-2xl font-bold text-brand-green-900 mb-2">
-                  All Clear!
-                </h3>
+                <h3 className="text-2xl font-bold text-brand-green-900 mb-2">All Clear!</h3>
                 <p className="text-brand-green-800">
                   Your program is fully compliant. Keep up the great work!
                 </p>

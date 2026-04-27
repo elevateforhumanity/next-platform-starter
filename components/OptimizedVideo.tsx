@@ -1,5 +1,4 @@
-
-"use client";
+'use client';
 
 import { useEffect, useRef, useState } from 'react';
 
@@ -14,10 +13,10 @@ interface OptimizedVideoProps {
   playsInline?: boolean;
 }
 
-export function OptimizedVideo({ 
-  src, 
+export function OptimizedVideo({
+  src,
   poster,
-  className = '', 
+  className = '',
   audioTrack,
   autoPlay = true,
   loop = true,
@@ -66,12 +65,7 @@ export function OptimizedVideo({
         playsInline={playsInline}
       />
       {audioTrack && !muted && (
-        <audio
-          ref={audioRef}
-          src={audioTrack}
-          loop={loop}
-          className="hidden"
-        />
+        <audio ref={audioRef} src={audioTrack} loop={loop} className="hidden" />
       )}
     </div>
   );

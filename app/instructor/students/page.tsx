@@ -17,8 +17,9 @@ export const dynamic = 'force-dynamic';
 export default async function InstructorStudentsPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const { data: profile } = await supabase
@@ -34,12 +35,16 @@ export default async function InstructorStudentsPage() {
   // Get students enrolled in instructor's courses
   const { data: rawStudentEnrollments } = await supabase
     .from('program_enrollments')
-    .select('id, status, progress_percent, enrolled_at, completed_at, user_id, programs ( name, title )')
+    .select(
+      'id, status, progress_percent, enrolled_at, completed_at, user_id, programs ( name, title )',
+    )
     .order('enrolled_at', { ascending: false })
     .limit(100);
 
   // Hydrate profiles separately (no FK from program_enrollments.user_id to profiles)
-  const instrUserIds = [...new Set((rawStudentEnrollments || []).map((e: any) => e.user_id).filter(Boolean))];
+  const instrUserIds = [
+    ...new Set((rawStudentEnrollments || []).map((e: any) => e.user_id).filter(Boolean)),
+  ];
   const { data: instrProfiles } = instrUserIds.length
     ? await supabase.from('profiles').select('id, full_name, email').in('id', instrUserIds)
     : { data: [] };
@@ -50,20 +55,29 @@ export default async function InstructorStudentsPage() {
     profiles: instrProfileMap[e.user_id] ?? null,
   }));
 
-  const activeStudents = enrollments?.filter(e => e.status === 'active') || [];
-  const completedStudents = enrollments?.filter(e => e.status === 'completed') || [];
+  const activeStudents = enrollments?.filter((e) => e.status === 'active') || [];
+  const completedStudents = enrollments?.filter((e) => e.status === 'completed') || [];
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/instructor-page-14.jpg" alt="Instructor portal" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/instructor-page-14.jpg"
+          alt="Instructor portal"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Instructor', href: '/instructor' }, { label: 'Students' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Instructor', href: '/instructor' }, { label: 'Students' }]}
+          />
         </div>
       </div>
 
@@ -74,7 +88,10 @@ export default async function InstructorStudentsPage() {
               <h1 className="text-2xl font-bold text-slate-900">My Students</h1>
               <p className="text-slate-700">View and manage enrolled students</p>
             </div>
-            <Link href="/instructor/dashboard" className="px-4 py-2 text-slate-700 hover:text-slate-900">
+            <Link
+              href="/instructor/dashboard"
+              className="px-4 py-2 text-slate-700 hover:text-slate-900"
+            >
               ← Dashboard
             </Link>
           </div>
@@ -130,12 +147,24 @@ export default async function InstructorStudentsPage() {
           <table className="w-full">
             <thead className="bg-white border-b">
               <tr>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">Student</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">Program</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">Progress</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">Status</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">Enrolled</th>
-                <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">Actions</th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                  Student
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                  Program
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                  Progress
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                  Status
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                  Enrolled
+                </th>
+                <th className="px-6 py-3 text-left text-xs font-medium text-slate-700 uppercase">
+                  Actions
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y">
@@ -151,9 +180,7 @@ export default async function InstructorStudentsPage() {
                           <div className="font-medium text-slate-900">
                             {enrollment.profiles?.full_name || 'Student'}
                           </div>
-                          <div className="text-sm text-slate-700">
-                            {enrollment.profiles?.email}
-                          </div>
+                          <div className="text-sm text-slate-700">{enrollment.profiles?.email}</div>
                         </div>
                       </div>
                     </td>
@@ -163,7 +190,7 @@ export default async function InstructorStudentsPage() {
                     <td className="px-6 py-4">
                       <div className="flex items-center gap-2">
                         <div className="w-24 h-2 bg-gray-200 rounded-full overflow-hidden">
-                          <div 
+                          <div
                             className="h-full bg-white rounded-full"
                             style={{ width: `${enrollment.progress || 0}%` }}
                           />
@@ -172,13 +199,15 @@ export default async function InstructorStudentsPage() {
                       </div>
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`px-2 py-1 text-xs rounded-full ${
-                        enrollment.status === 'completed' 
-                          ? 'bg-brand-green-100 text-brand-green-800'
-                          : enrollment.status === 'active'
-                          ? 'bg-brand-blue-100 text-brand-blue-800'
-                          : 'bg-white text-slate-900'
-                      }`}>
+                      <span
+                        className={`px-2 py-1 text-xs rounded-full ${
+                          enrollment.status === 'completed'
+                            ? 'bg-brand-green-100 text-brand-green-800'
+                            : enrollment.status === 'active'
+                              ? 'bg-brand-blue-100 text-brand-blue-800'
+                              : 'bg-white text-slate-900'
+                        }`}
+                      >
                         {enrollment.status}
                       </span>
                     </td>

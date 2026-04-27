@@ -57,5 +57,5 @@ export function getAllHvacLessons(): HvacLesson[] {
 }
 
 export function getHvacLesson(lessonId: string): HvacLesson | null {
-  return getAllHvacLessons().find(l => l.lessonId === lessonId) ?? null;
+  return getAllHvacLessons().find((l) => l.lessonId === lessonId) ?? null;
 }

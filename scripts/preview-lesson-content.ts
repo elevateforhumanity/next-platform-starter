@@ -8,7 +8,10 @@ import * as dotenv from 'dotenv';
 import * as path from 'path';
 dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
-const db = createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!);
+const db = createClient(
+  process.env.NEXT_PUBLIC_SUPABASE_URL!,
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
+);
 
 async function main() {
   const { data, error } = await db
@@ -17,7 +20,10 @@ async function main() {
     .eq('program_id', '4226f7f6-fbc1-44b5-83e8-b12ea149e4c7')
     .order('lesson_order');
 
-  if (error) { console.error(error.message); process.exit(1); }
+  if (error) {
+    console.error(error.message);
+    process.exit(1);
+  }
 
   for (const l of data!) {
     console.log(`\n${'═'.repeat(80)}`);
@@ -26,4 +32,7 @@ async function main() {
     console.log(l.script_text ?? '(empty)');
   }
 }
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

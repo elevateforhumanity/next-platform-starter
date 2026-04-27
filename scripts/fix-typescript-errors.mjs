@@ -11,13 +11,12 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import path from 'path';
 
-
 let tscOutput = '';
 try {
   // Run tsc and capture output (will throw because of errors)
   execSync('npx tsc --noEmit --pretty false', {
     encoding: 'utf-8',
-    stdio: 'pipe'
+    stdio: 'pipe',
   });
 } catch (error) {
   tscOutput = error.stdout || '';
@@ -43,7 +42,6 @@ while ((match = errorPattern.exec(tscOutput)) !== null) {
   });
 }
 
-
 if (errors.length === 0) {
   process.exit(0);
 }
@@ -56,7 +54,6 @@ for (const error of errors) {
   }
   errorsByFile.get(error.file).push(error);
 }
-
 
 let filesFixed = 0;
 let errorsFixed = 0;
@@ -108,12 +105,10 @@ for (const [filePath, fileErrors] of errorsByFile.entries()) {
     // Write file back
     fs.writeFileSync(filePath, lines.join('\n'), 'utf-8');
     filesFixed++;
-
   } catch (err) {
     console.error(`  ✗ Error processing ${filePath}:`, err.message);
   }
 }
-
 
 /**
  * Truncate error message to fit on one line

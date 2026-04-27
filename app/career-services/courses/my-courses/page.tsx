@@ -22,7 +22,9 @@ export default async function MyCoursesPage() {
     redirect('/login?redirect=/career-services/courses/my-courses');
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/career-services/courses/my-courses');
@@ -31,7 +33,8 @@ export default async function MyCoursesPage() {
   // Get user's purchased courses
   const { data: purchases } = await db
     .from('career_course_purchases')
-    .select(`
+    .select(
+      `
       *,
       course:career_courses(
         id,
@@ -42,7 +45,8 @@ export default async function MyCoursesPage() {
         duration_hours,
         lesson_count
       )
-    `)
+    `,
+    )
     .eq('user_id', user.id)
     .eq('status', 'completed');
 
@@ -53,15 +57,21 @@ export default async function MyCoursesPage() {
     .eq('is_active', true)
     .eq('is_bundle', false);
 
-  const purchasedCourseIds = purchases?.map(p => p.course?.id) || [];
-  const unpurchasedCourses = allCourses?.filter(c => !purchasedCourseIds.includes(c.id)) || [];
+  const purchasedCourseIds = purchases?.map((p) => p.course?.id) || [];
+  const unpurchasedCourses = allCourses?.filter((c) => !purchasedCourseIds.includes(c.id)) || [];
 
   return (
     <div className="min-h-screen bg-white">
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Career Services', href: '/career-services' }, { label: 'Courses', href: '/career-services/courses' }, { label: 'My Courses' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Career Services', href: '/career-services' },
+              { label: 'Courses', href: '/career-services/courses' },
+              { label: 'My Courses' },
+            ]}
+          />
         </div>
       </div>
 
@@ -77,7 +87,7 @@ export default async function MyCoursesPage() {
         {/* Purchased Courses */}
         <section className="mb-16">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Your Courses</h2>
-          
+
           {!purchases || purchases.length === 0 ? (
             <div className="bg-white rounded-xl border p-12 text-center">
               <Lock className="w-12 h-12 text-gray-300 mx-auto mb-4" />
@@ -100,7 +110,7 @@ export default async function MyCoursesPage() {
                   className="bg-white rounded-xl shadow-sm border overflow-hidden hover:shadow-lg transition group"
                 >
                   <div className="relative h-40 overflow-hidden">
-                    <Image
+                    <Image sizes="100vw"
                       src={purchase.course?.image_url || '/images/pages/career-services-page-5.jpg'}
                       alt={purchase.course?.title}
                       fill
@@ -143,7 +153,7 @@ export default async function MyCoursesPage() {
                   className="bg-white rounded-xl shadow-sm border overflow-hidden"
                 >
                   <div className="relative h-40 overflow-hidden">
-                    <Image
+                    <Image sizes="100vw"
                       src={course.image_url || '/images/pages/apply-employer-hero.jpg'}
                       alt={course.title}
                       fill

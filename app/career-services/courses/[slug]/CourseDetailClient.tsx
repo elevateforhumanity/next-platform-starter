@@ -29,7 +29,7 @@ export function CourseDetailClient({ course }: { course: Course }) {
 
   const validatePromo = async () => {
     if (!promoCode.trim()) return;
-    
+
     setValidating(true);
     setPromoError('');
 
@@ -139,9 +139,7 @@ export function CourseDetailClient({ course }: { course: Course }) {
                   {promoApplied.promo.description} - Save ${promoApplied.discountAmount.toFixed(2)}
                 </span>
               )}
-              {promoError && (
-                <span className="text-brand-red-600 text-sm">{promoError}</span>
-              )}
+              {promoError && <span className="text-brand-red-600 text-sm">{promoError}</span>}
             </div>
 
             <div className="flex flex-col items-end gap-2">
@@ -157,7 +155,11 @@ export function CourseDetailClient({ course }: { course: Course }) {
                 )}
                 {promoApplied ? (
                   <>
-                    Buy Now - <span className="line-through opacity-70">${Number(course.price).toFixed(0)}</span> ${finalPrice.toFixed(0)}
+                    Buy Now -{' '}
+                    <span className="line-through opacity-70">
+                      ${Number(course.price).toFixed(0)}
+                    </span>{' '}
+                    ${finalPrice.toFixed(0)}
                   </>
                 ) : (
                   `Buy Now - $${Number(course.price).toFixed(0)}`
@@ -166,7 +168,9 @@ export function CourseDetailClient({ course }: { course: Course }) {
               {/* Sezzle Widget */}
               {finalPrice >= 35 && finalPrice <= 2500 && (
                 <div className="sezzle-widget-container">
-                  <span className="sezzle-price-target" style={{ display: 'none' }}>${finalPrice.toFixed(2)}</span>
+                  <span className="sezzle-price-target" style={{ display: 'none' }}>
+                    ${finalPrice.toFixed(2)}
+                  </span>
                 </div>
               )}
             </div>
@@ -183,15 +187,25 @@ export function CourseDetailClient({ course }: { course: Course }) {
               <div className="flex items-center gap-2">
                 {promoApplied ? (
                   <>
-                    <span className="text-xl font-bold text-brand-blue-600">${finalPrice.toFixed(0)}</span>
-                    <span className="text-black line-through">${Number(course.price).toFixed(0)}</span>
-                    <span className="text-brand-green-600 text-sm">({promoApplied.promo.code} applied)</span>
+                    <span className="text-xl font-bold text-brand-blue-600">
+                      ${finalPrice.toFixed(0)}
+                    </span>
+                    <span className="text-black line-through">
+                      ${Number(course.price).toFixed(0)}
+                    </span>
+                    <span className="text-brand-green-600 text-sm">
+                      ({promoApplied.promo.code} applied)
+                    </span>
                   </>
                 ) : (
                   <>
-                    <span className="text-xl font-bold text-brand-blue-600">${Number(course.price).toFixed(0)}</span>
+                    <span className="text-xl font-bold text-brand-blue-600">
+                      ${Number(course.price).toFixed(0)}
+                    </span>
                     {course.original_price && (
-                      <span className="text-black line-through">${Number(course.original_price).toFixed(0)}</span>
+                      <span className="text-black line-through">
+                        ${Number(course.original_price).toFixed(0)}
+                      </span>
                     )}
                   </>
                 )}

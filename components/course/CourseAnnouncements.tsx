@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import React from 'react';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 type Announcement = {
   id: string;
@@ -42,9 +42,7 @@ export function CourseAnnouncements({ courseId }: { courseId: string }) {
   if (!items.length) {
     return (
       <section className="mt-6 rounded-xl border p-4 text-xs text-slate-500">
-        <h2 className="text-sm font-semibold text-black mb-2">
-          Course announcements
-        </h2>
+        <h2 className="text-sm font-semibold text-black mb-2">Course announcements</h2>
         <p>No announcements yet.</p>
       </section>
     );
@@ -52,16 +50,12 @@ export function CourseAnnouncements({ courseId }: { courseId: string }) {
 
   return (
     <section className="mt-6 rounded-xl border p-4 text-xs">
-      <h2 className="text-sm font-semibold text-black mb-3">
-        Course announcements
-      </h2>
+      <h2 className="text-sm font-semibold text-black mb-3">Course announcements</h2>
       <ul className="space-y-2">
         {items.map((a) => (
           <li key={a.id} className="rounded-lg bg-slate-50 p-2">
             <p className="text-xs font-semibold">{a.title}</p>
-            <p className="mt-1 text-xs text-black whitespace-pre-line">
-              {a.body}
-            </p>
+            <p className="mt-1 text-xs text-black whitespace-pre-line">{a.body}</p>
             <p className="mt-1 text-[10px] text-slate-500">
               {new Date(a.created_at).toLocaleString('en-US')}
             </p>

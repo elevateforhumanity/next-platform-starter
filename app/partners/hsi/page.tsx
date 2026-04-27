@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -7,14 +6,7 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 
-import {
-  ExternalLink,
-  Clock,
-  Award,
-  Users,
-  Phone,
-  Mail,
-CheckCircle, } from 'lucide-react';
+import { ExternalLink, Clock, Award, Users, Phone, Mail, CheckCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Health & Safety Institute (HSI) | Short-Term Courses | Elevate For Humanity',
@@ -25,15 +17,13 @@ export const metadata: Metadata = {
 };
 
 export default function HSIPage() {
-
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Partners", href: "/partners" }, { label: "Hsi" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Partners', href: '/partners' }, { label: 'Hsi' }]} />
       </div>
-{/* Hero Section */}
-      <section className="relative h-48 md:h-64 w-full overflow-hidden">
-      </section>
+      {/* Hero Section */}
+      <section className="relative h-48 md:h-64 w-full overflow-hidden"></section>
 
       {/* Avatar Guide */}
 
@@ -46,16 +36,12 @@ export default function HSIPage() {
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-xl shadow-sm flex items-start gap-3">
               <span className="text-black flex-shrink-0">•</span>
-              <div className="text-black">
-                Industry-recognized certifications
-              </div>
+              <div className="text-black">Industry-recognized certifications</div>
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm flex items-start gap-3">
               <span className="text-black flex-shrink-0">•</span>
-              <div className="text-black">
-                Hands-on training with real equipment
-              </div>
+              <div className="text-black">Hands-on training with real equipment</div>
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm flex items-start gap-3">
@@ -65,16 +51,12 @@ export default function HSIPage() {
 
             <div className="bg-white p-6 rounded-xl shadow-sm flex items-start gap-3">
               <span className="text-black flex-shrink-0">•</span>
-              <div className="text-black">
-                Small class sizes (max 12 students)
-              </div>
+              <div className="text-black">Small class sizes (max 12 students)</div>
             </div>
 
             <div className="bg-white p-6 rounded-xl shadow-sm flex items-start gap-3">
               <span className="text-black flex-shrink-0">•</span>
-              <div className="text-black">
-                Traditional and blended learning options
-              </div>
+              <div className="text-black">Traditional and blended learning options</div>
             </div>
           </div>
         </div>
@@ -89,9 +71,7 @@ export default function HSIPage() {
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-blue-500 transition-colors">
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">
-                  CPR & AED Training
-                </h3>
+                <h3 className="text-lg font-bold text-black">CPR & AED Training</h3>
               </div>
 
               <div className="flex items-center gap-2 text-black mb-2">
@@ -107,9 +87,7 @@ export default function HSIPage() {
 
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-blue-500 transition-colors">
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">
-                  First Aid Training
-                </h3>
+                <h3 className="text-lg font-bold text-black">First Aid Training</h3>
               </div>
 
               <div className="flex items-center gap-2 text-black mb-2">
@@ -125,9 +103,7 @@ export default function HSIPage() {
 
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-blue-500 transition-colors">
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">
-                  Emergency Medical Responder
-                </h3>
+                <h3 className="text-lg font-bold text-black">Emergency Medical Responder</h3>
               </div>
 
               <div className="flex items-center gap-2 text-black mb-2">
@@ -143,9 +119,7 @@ export default function HSIPage() {
 
             <div className="bg-white border-2 border-slate-200 rounded-xl p-6 hover:border-brand-blue-500 transition-colors">
               <div className="flex items-start justify-between mb-4">
-                <h3 className="text-lg font-bold text-black">
-                  RSV Training
-                </h3>
+                <h3 className="text-lg font-bold text-black">RSV Training</h3>
               </div>
 
               <div className="flex items-center gap-2 text-black mb-2">
@@ -165,14 +139,10 @@ export default function HSIPage() {
       {/* Contact Information */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-6">
-          <h2 className="text-2xl md:text-3xl font-bold text-black mb-8 text-center">
-            Need Help?
-          </h2>
+          <h2 className="text-2xl md:text-3xl font-bold text-black mb-8 text-center">Need Help?</h2>
           <div className="bg-white rounded-xl p-8 shadow-lg">
             <div className="mb-6">
-              <div className="font-bold text-black text-lg mb-2">
-                Geoff Albrecht
-              </div>
+              <div className="font-bold text-black text-lg mb-2">Geoff Albrecht</div>
 
               <div className="space-y-2">
                 <a
@@ -203,8 +173,7 @@ export default function HSIPage() {
             Ready to Get Started?
           </h2>
           <p className="text-base md:text-lg text-white mb-8">
-            Enroll in Health & Safety Institute (HSI) courses through Elevate
-            for Humanity
+            Enroll in Health & Safety Institute (HSI) courses through Elevate for Humanity
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <a

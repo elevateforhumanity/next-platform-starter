@@ -26,10 +26,7 @@ export interface APIResponse<T = unknown> {
 }
 
 // Verify API Key
-export async function verifyAPIKey(
-  apiKey: string,
-  apiSecret: string
-): Promise<APIKey | null> {
+export async function verifyAPIKey(apiKey: string, apiSecret: string): Promise<APIKey | null> {
   const supabase = await createClient();
 
   const { data: key } = await supabase
@@ -42,10 +39,7 @@ export async function verifyAPIKey(
   if (!key) return null;
 
   // Verify secret
-  const secretHash = crypto
-    .createHash('sha256')
-    .update(apiSecret)
-    .digest('hex');
+  const secretHash = crypto.createHash('sha256').update(apiSecret).digest('hex');
   if (key.api_secret !== secretHash) return null;
 
   // Check expiration
@@ -74,10 +68,7 @@ export async function verifyAPIKey(
 }
 
 // Check Rate Limit
-export async function checkRateLimit(
-  apiKeyId: string,
-  limit: number
-): Promise<boolean> {
+export async function checkRateLimit(apiKeyId: string, limit: number): Promise<boolean> {
   const supabase = await createClient();
 
   const oneHourAgo = new Date(Date.now() - 60 * 60 * 1000).toISOString();
@@ -100,7 +91,7 @@ export async function logAPIRequest(
   responseTime: number,
   ipAddress?: string,
   userAgent?: string,
-  error?: string
+  error?: string,
 ) {
   const supabase = await createClient();
 
@@ -127,14 +118,11 @@ export async function generateAPIKey(
   tenantId: string,
   keyName: string,
   scopes: string[],
-  expiresInDays?: number
+  expiresInDays?: number,
 ): Promise<{ apiKey: string; apiSecret: string }> {
   const apiKey = `elk_${crypto.randomBytes(24).toString('hex')}`;
   const apiSecret = crypto.randomBytes(32).toString('hex');
-  const secretHash = crypto
-    .createHash('sha256')
-    .update(apiSecret)
-    .digest('hex');
+  const secretHash = crypto.createHash('sha256').update(apiSecret).digest('hex');
 
   const expiresAt = expiresInDays
     ? new Date(Date.now() + expiresInDays * 24 * 60 * 60 * 1000).toISOString()
@@ -161,7 +149,7 @@ export function apiResponse<T>(
   success: boolean,
   data?: T,
   error?: string,
-  meta?: Record<string, any>
+  meta?: Record<string, any>,
 ): APIResponse<T> {
   return {
     success,
@@ -176,7 +164,7 @@ export function apiResponse<T>(
 
 // Extract API Credentials from Request
 export function extractAPICredentials(
-  request: NextRequest
+  request: NextRequest,
 ): { apiKey: string; apiSecret: string } | null {
   const authHeader = request.headers.get('authorization');
 
@@ -199,9 +187,7 @@ export function extractAPICredentials(
 }
 
 // Middleware for API Authentication
-export async function authenticateAPI(
-  request: NextRequest
-): Promise<APIKey | null> {
+export async function authenticateAPI(request: NextRequest): Promise<APIKey | null> {
   const credentials = extractAPICredentials(request);
 
   if (!credentials) return null;

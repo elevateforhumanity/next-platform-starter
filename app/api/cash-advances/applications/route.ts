@@ -43,10 +43,7 @@ async function _GET(request: NextRequest) {
     const { data, error, count } = await query;
 
     if (error) {
-      return NextResponse.json(
-        { error: toErrorMessage(error) },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -55,11 +52,8 @@ async function _GET(request: NextRequest) {
       limit,
       offset,
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: toErrorMessage(error) },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/cash-advances/applications', _GET);

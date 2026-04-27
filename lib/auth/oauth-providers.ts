@@ -74,7 +74,7 @@ export function isProviderConfigured(provider: OAuthProvider): boolean {
   };
 
   const requiredVars = envVars[provider];
-  return requiredVars.every(varName => process.env[varName]);
+  return requiredVars.every((varName) => process.env[varName]);
 }
 
 /**
@@ -82,5 +82,5 @@ export function isProviderConfigured(provider: OAuthProvider): boolean {
  */
 export function getEnabledProviders(): OAuthProvider[] {
   const allProviders: OAuthProvider[] = ['google', 'azure', 'github'];
-  return allProviders.filter(provider => isProviderConfigured(provider));
+  return allProviders.filter((provider) => isProviderConfigured(provider));
 }

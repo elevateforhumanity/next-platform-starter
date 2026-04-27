@@ -36,16 +36,8 @@ async function _POST(request: NextRequest) {
     };
 
     // Validate required fields
-    if (
-      !data.company_name ||
-      !data.email ||
-      !data.first_name ||
-      !data.last_name
-    ) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+    if (!data.company_name || !data.email || !data.first_name || !data.last_name) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Get default tenant (for now - will be replaced with tenant resolution)
@@ -56,10 +48,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (!defaultTenant) {
-      return NextResponse.json(
-        { error: 'System configuration error' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'System configuration error' }, { status: 500 });
     }
 
     // Create employer application in canonical applications table
@@ -86,21 +75,13 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (appError) {
-      return NextResponse.json(
-        { error: 'Failed to submit application' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to submit application' }, { status: 500 });
     }
 
     // Redirect to success page
-    return NextResponse.redirect(
-      new URL('/apply/employer/success', request.url)
-    );
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.redirect(new URL('/apply/employer/success', request.url));
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/apply/employer', _POST);

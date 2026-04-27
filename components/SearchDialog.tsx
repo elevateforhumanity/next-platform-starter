@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import * as React from 'react';
 import { usePathname } from 'next/navigation';
@@ -27,7 +27,9 @@ const staticPages = [
 export function SearchDialog() {
   const [open, setOpen] = React.useState(false);
   const [query, setQuery] = React.useState('');
-  const [searchResults, setSearchResults] = React.useState<Array<{title: string; href: string; category: string}>>([]);
+  const [searchResults, setSearchResults] = React.useState<
+    Array<{ title: string; href: string; category: string }>
+  >([]);
   const [loading, setLoading] = React.useState(false);
   const pathname = usePathname();
 
@@ -48,24 +50,24 @@ export function SearchDialog() {
         .ilike('name', `%${searchQuery}%`)
         .limit(10);
 
-      const programResults = (programs || []).map(p => ({
+      const programResults = (programs || []).map((p) => ({
         title: p.name,
         href: `/programs/${p.slug}`,
         category: 'Program',
       }));
 
       // Combine with static pages that match
-      const pageResults = staticPages.filter(p => 
-        p.title.toLowerCase().includes(searchQuery.toLowerCase())
+      const pageResults = staticPages.filter((p) =>
+        p.title.toLowerCase().includes(searchQuery.toLowerCase()),
       );
 
       setSearchResults([...programResults, ...pageResults]);
     } catch (err) {
       console.error('Search error:', err);
       // Fallback to static search
-      setSearchResults(staticPages.filter(p => 
-        p.title.toLowerCase().includes(searchQuery.toLowerCase())
-      ));
+      setSearchResults(
+        staticPages.filter((p) => p.title.toLowerCase().includes(searchQuery.toLowerCase())),
+      );
     } finally {
       setLoading(false);
     }
@@ -102,7 +104,12 @@ export function SearchDialog() {
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button variant="outline" size="sm" className="flex gap-2" aria-label="Search programs and pages">
+        <Button
+          variant="outline"
+          size="sm"
+          className="flex gap-2"
+          aria-label="Search programs and pages"
+        >
           <Search className="h-4 w-4" />
           <span className="hidden lg:inline">Search...</span>
           <kbd className="pointer-events-none hidden h-5 select-none items-center gap-1 rounded border bg-muted px-1.5 font-mono text-[10px] font-medium opacity-100 lg:flex">
@@ -118,7 +125,9 @@ export function SearchDialog() {
           <Input
             placeholder="Search programs, pages..."
             value={query}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setQuery(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setQuery(e.target.value)}
             className="h-12"
             autoFocus
           />
@@ -137,9 +146,7 @@ export function SearchDialog() {
                   >
                     <div>
                       <div className="font-medium">{result.title}</div>
-                      <div className="text-sm text-muted-foreground">
-                        {result.category}
-                      </div>
+                      <div className="text-sm text-muted-foreground">{result.category}</div>
                     </div>
                     <Search className="h-4 w-4 text-muted-foreground" />
                   </Link>

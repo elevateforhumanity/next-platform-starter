@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -11,7 +11,8 @@ import {
   Activity,
   Clock,
   BarChart3,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 interface Metrics {
   totalUsers: number;
@@ -154,9 +155,7 @@ export function LiveMetrics() {
   };
 
   const formatTimeAgo = (timestamp: string) => {
-    const seconds = Math.floor(
-      (new Date().getTime() - new Date(timestamp).getTime()) / 1000
-    );
+    const seconds = Math.floor((new Date().getTime() - new Date(timestamp).getTime()) / 1000);
     if (seconds < 60) return 'Just now';
     if (seconds < 3600) return `${Math.floor(seconds / 60)}m ago`;
     if (seconds < 86400) return `${Math.floor(seconds / 3600)}h ago`;
@@ -169,9 +168,7 @@ export function LiveMetrics() {
       <div className="bg-brand-green-50 border border-brand-green-200 rounded-lg p-4 flex items-center gap-3">
         <span className="text-slate-500 flex-shrink-0">•</span>
         <div>
-          <p className="text-sm font-semibold text-brand-green-900">
-            • Live Data Verified
-          </p>
+          <p className="text-sm font-semibold text-brand-green-900">• Live Data Verified</p>
           <p className="text-xs text-brand-green-700">
             Real-time metrics from production database • Last updated:{' '}
             {formatTimeAgo(metrics.lastUpdated)}
@@ -194,12 +191,8 @@ export function LiveMetrics() {
                 </div>
                 <Activity className="h-4 w-4 text-brand-green-500 animate-pulse" />
               </div>
-              <p className="text-3xl font-bold text-black mb-1">
-                {stat.value}
-              </p>
-              <p className="text-sm font-semibold text-black mb-1">
-                {stat.label}
-              </p>
+              <p className="text-3xl font-bold text-black mb-1">{stat.value}</p>
+              <p className="text-sm font-semibold text-black mb-1">{stat.label}</p>
               <p className="text-xs text-slate-500">{stat.description}</p>
             </div>
           );
@@ -209,9 +202,7 @@ export function LiveMetrics() {
       {/* Completion Rate */}
       <div className="bg-white rounded-lg border border-slate-200 p-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-bold text-black">
-            Course Completion Rate
-          </h3>
+          <h3 className="text-lg font-bold text-black">Course Completion Rate</h3>
           <span className="text-2xl font-bold text-brand-green-600">
             {metrics.metrics.completionRate}%
           </span>
@@ -224,8 +215,7 @@ export function LiveMetrics() {
         </div>
         <p className="text-sm text-black mt-2">
           {metrics.metrics.completedCourses.toLocaleString('en-US')} of{' '}
-          {metrics.metrics.totalEnrollments.toLocaleString('en-US')} enrollments
-          completed
+          {metrics.metrics.totalEnrollments.toLocaleString('en-US')} enrollments completed
         </p>
       </div>
 
@@ -239,25 +229,18 @@ export function LiveMetrics() {
         <div className="space-y-3">
           {metrics.recentActivity.length > 0 ? (
             metrics.recentActivity.map((activity, index) => (
-              <div
-                key={index}
-                className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg"
-              >
+              <div key={index} className="flex items-center gap-3 p-3 bg-slate-50 rounded-lg">
                 <div className="w-2 h-2 bg-white rounded-full animate-pulse" />
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-black truncate">
                     New enrollment: {activity.courseTitle}
                   </p>
-                  <p className="text-xs text-slate-500">
-                    {formatTimeAgo(activity.timestamp)}
-                  </p>
+                  <p className="text-xs text-slate-500">{formatTimeAgo(activity.timestamp)}</p>
                 </div>
               </div>
             ))
           ) : (
-            <p className="text-sm text-slate-500 text-center py-4">
-              No recent activity
-            </p>
+            <p className="text-sm text-slate-500 text-center py-4">No recent activity</p>
           )}
         </div>
       </div>
@@ -265,10 +248,9 @@ export function LiveMetrics() {
       {/* Data Source Info */}
       <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
         <p className="text-xs text-black text-center">
-          <strong>Data Source:</strong> {metrics.dataSource} •
-          <strong> Updated:</strong>{' '}
-          {new Date(metrics.lastUpdated).toLocaleString('en-US')} •
-          <strong> Verified:</strong> {metrics.verified ? '• Yes' : '✗ No'}
+          <strong>Data Source:</strong> {metrics.dataSource} •<strong> Updated:</strong>{' '}
+          {new Date(metrics.lastUpdated).toLocaleString('en-US')} •<strong> Verified:</strong>{' '}
+          {metrics.verified ? '• Yes' : '✗ No'}
         </p>
       </div>
     </div>

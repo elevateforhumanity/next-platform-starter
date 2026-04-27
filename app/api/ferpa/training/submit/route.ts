@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { createClient } from '@/lib/supabase/server';
@@ -18,7 +17,9 @@ async function _POST(request: NextRequest) {
     const supabase = await createClient();
 
     // Verify authentication
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -33,29 +34,20 @@ async function _POST(request: NextRequest) {
       training_acknowledged,
       confidentiality_acknowledged,
       ip_address,
-      user_agent
+      user_agent,
     } = body;
 
     // Validate required fields
     if (!quiz_score || quiz_score < 80) {
-      return NextResponse.json(
-        { error: 'Quiz score must be 80% or higher' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Quiz score must be 80% or higher' }, { status: 400 });
     }
 
     if (!training_signature || !confidentiality_signature) {
-      return NextResponse.json(
-        { error: 'Both signatures are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Both signatures are required' }, { status: 400 });
     }
 
     if (!training_acknowledged || !confidentiality_acknowledged) {
-      return NextResponse.json(
-        { error: 'All acknowledgments are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'All acknowledgments are required' }, { status: 400 });
     }
 
     // Generate certificate ID
@@ -77,17 +69,14 @@ async function _POST(request: NextRequest) {
         expires_at: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString(), // 1 year
         ip_address,
         user_agent,
-        status: 'completed'
+        status: 'completed',
       })
       .select()
       .maybeSingle();
 
     if (trainingError) {
       // Error: $1
-      return NextResponse.json(
-        { error: 'Failed to save training record' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to save training record' }, { status: 500 });
     }
 
     // Log the completion
@@ -100,8 +89,8 @@ async function _POST(request: NextRequest) {
         quiz_score,
         certificate_id,
         ip_address,
-        user_agent
-      }
+        user_agent,
+      },
     });
 
     // Send confirmation email (optional)
@@ -112,25 +101,21 @@ async function _POST(request: NextRequest) {
         body: JSON.stringify({
           user_id,
           certificate_id,
-          quiz_score
-        })
+          quiz_score,
+        }),
       });
     } catch (emailError) {
-        logger.error("Unhandled error", emailError instanceof Error ? emailError : undefined);
+      logger.error('Unhandled error', emailError instanceof Error ? emailError : undefined);
     }
 
     return NextResponse.json({
       success: true,
       certificate_id,
-      training_record: trainingRecord
+      training_record: trainingRecord,
     });
-
-  } catch (error) { 
+  } catch (error) {
     // Error: $1
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/ferpa/training/submit', _POST);

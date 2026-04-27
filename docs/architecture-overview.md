@@ -39,18 +39,19 @@ Elevate for Humanity operates a vertically integrated Workforce Operating System
 
 ## Stakeholder Portals
 
-| Portal | Primary Users | Key Functions |
-|--------|--------------|---------------|
-| **Student** | Enrolled participants | Courses, progress, certificates, attendance, career services |
-| **Admin** | Elevate staff | All operations — 289 sections |
-| **Program Holder** | Community org partners | Cohort management, participant tracking, revenue share |
-| **Employer** | Hiring partners | Job postings, OJT agreements, candidate pipeline |
-| **Workforce Board** | Agency staff | Aggregate reporting, outcome data, funding utilization |
-| **Delegate** | Sub-office operators | Scoped access to participant records and reporting |
+| Portal              | Primary Users          | Key Functions                                                |
+| ------------------- | ---------------------- | ------------------------------------------------------------ |
+| **Student**         | Enrolled participants  | Courses, progress, certificates, attendance, career services |
+| **Admin**           | Elevate staff          | All operations — 289 sections                                |
+| **Program Holder**  | Community org partners | Cohort management, participant tracking, revenue share       |
+| **Employer**        | Hiring partners        | Job postings, OJT agreements, candidate pipeline             |
+| **Workforce Board** | Agency staff           | Aggregate reporting, outcome data, funding utilization       |
+| **Delegate**        | Sub-office operators   | Scoped access to participant records and reporting           |
 
 ## Data Flows
 
 ### Enrollment Flow
+
 ```
 Applicant → Application form → Funding eligibility check
 → WorkOne/agency referral (if WIOA/JRI) → Approval
@@ -59,6 +60,7 @@ Applicant → Application form → Funding eligibility check
 ```
 
 ### Compliance Reporting Flow
+
 ```
 Student activity (lessons, attendance, quizzes)
 → Progress records (training_enrollments, training_lessons)
@@ -69,6 +71,7 @@ Student activity (lessons, attendance, quizzes)
 ```
 
 ### Credential Flow
+
 ```
 Training completion → Exam eligibility confirmed
 → Proctored exam (on-site at Elevate)
@@ -79,17 +82,17 @@ Training completion → Exam eligibility confirmed
 
 ## Infrastructure
 
-| Component | Technology |
-|-----------|-----------|
-| Application | Next.js 16 (App Router, Turbopack) on Netlify |
-| Database | Supabase (PostgreSQL + Auth + RLS + Realtime) |
-| File storage | Supabase Storage |
-| Serverless functions | Netlify Functions (7 functions) |
-| Payments | Stripe (checkout, webhooks, subscriptions) |
-| Email | Resend (transactional) |
-| AI | OpenAI (tutoring, course generation, adaptive content) |
-| Monitoring | Sentry (error tracking, performance) |
-| Forms | JotForm (intake, employer agreements) |
+| Component            | Technology                                             |
+| -------------------- | ------------------------------------------------------ |
+| Application          | Next.js 16 (App Router, Turbopack) on Netlify          |
+| Database             | Supabase (PostgreSQL + Auth + RLS + Realtime)          |
+| File storage         | Supabase Storage                                       |
+| Serverless functions | Netlify Functions (7 functions)                        |
+| Payments             | Stripe (checkout, webhooks, subscriptions)             |
+| Email                | Resend (transactional)                                 |
+| AI                   | OpenAI (tutoring, course generation, adaptive content) |
+| Monitoring           | Sentry (error tracking, performance)                   |
+| Forms                | JotForm (intake, employer agreements)                  |
 
 ## Database Scale
 

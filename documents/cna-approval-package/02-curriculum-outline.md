@@ -1,4 +1,5 @@
 # CNA PROGRAM — CURRICULUM OUTLINE
+
 ## Elevate for Humanity LLC
 
 ---
@@ -6,34 +7,36 @@
 ## MODULE STRUCTURE OVERVIEW
 
 **Hour Model (Indiana NATCEP compliant):**
+
 - Classroom / Theory: 30 hours minimum (Indiana requirement: 30)
 - Skills Laboratory: 21 hours (counts within the 45-hour clinical bucket; Indiana maximum: 21)
 - Licensed LTC Facility Clinical: 24 hours (Indiana minimum: 24)
 - **Total: 75 hours (Indiana minimum: 75)**
 
-| Module | Title | Classroom Hrs | Lab Hrs | Total |
-|--------|-------|--------------|---------|-------|
-| 1 | Introduction to the CNA Role | 3 | 0 | 3 |
-| 2 | Infection Control & Standard Precautions | 3 | 2 | 5 |
-| 3 | Safety, Body Mechanics & Emergency Procedures | 3 | 2 | 5 |
-| 4 | Patient Rights, Ethics & Communication | 3 | 0 | 3 |
-| 5 | Vital Signs | 3 | 3 | 6 |
-| 6 | Personal Care Skills | 4 | 5 | 9 |
-| 7 | Mobility, Transfers & Positioning | 4 | 5 | 9 |
-| 8 | Nutrition, Hydration & Elimination | 3 | 2 | 5 |
-| 9 | Dementia, Mental Health & Restorative Care | 2 | 1 | 3 |
-| 10 | Chronic Conditions & End-of-Life Care | 2 | 1 | 3 |
-| 11 | Documentation & Reporting | 2 | 0 | 2 |
-| 12 | Clinical Preparation & Competency Review | 2 | 0 | 2 |
-| **Subtotal — Classroom + Lab** | | **30** | **21** | **51** |
-| **LTC Facility Clinical Rotation** | Supervised clinical at licensed LTC facility | — | — | **24** |
-| **TOTAL** | | **30** | **21** | **75** |
+| Module                             | Title                                         | Classroom Hrs | Lab Hrs | Total  |
+| ---------------------------------- | --------------------------------------------- | ------------- | ------- | ------ |
+| 1                                  | Introduction to the CNA Role                  | 3             | 0       | 3      |
+| 2                                  | Infection Control & Standard Precautions      | 3             | 2       | 5      |
+| 3                                  | Safety, Body Mechanics & Emergency Procedures | 3             | 2       | 5      |
+| 4                                  | Patient Rights, Ethics & Communication        | 3             | 0       | 3      |
+| 5                                  | Vital Signs                                   | 3             | 3       | 6      |
+| 6                                  | Personal Care Skills                          | 4             | 5       | 9      |
+| 7                                  | Mobility, Transfers & Positioning             | 4             | 5       | 9      |
+| 8                                  | Nutrition, Hydration & Elimination            | 3             | 2       | 5      |
+| 9                                  | Dementia, Mental Health & Restorative Care    | 2             | 1       | 3      |
+| 10                                 | Chronic Conditions & End-of-Life Care         | 2             | 1       | 3      |
+| 11                                 | Documentation & Reporting                     | 2             | 0       | 2      |
+| 12                                 | Clinical Preparation & Competency Review      | 2             | 0       | 2      |
+| **Subtotal — Classroom + Lab**     |                                               | **30**        | **21**  | **51** |
+| **LTC Facility Clinical Rotation** | Supervised clinical at licensed LTC facility  | —             | —       | **24** |
+| **TOTAL**                          |                                               | **30**        | **21**  | **75** |
 
 ---
 
 ## MODULE 1: Introduction to the CNA Role (6 hours)
 
 **Learning Objectives:**
+
 - Define the role and scope of practice of a CNA in Indiana
 - Identify the members of the healthcare team and the CNA's position within it
 - Describe the legal and ethical responsibilities of a CNA
@@ -41,6 +44,7 @@
 - Identify Indiana Nurse Aide Registry requirements
 
 **Topics Covered:**
+
 - History and evolution of the CNA profession
 - Indiana Code 16-28-13 and 410 IAC 17 overview
 - Scope of practice: what CNAs can and cannot do
@@ -58,6 +62,7 @@
 ## MODULE 2: Infection Control & Standard Precautions (8 hours)
 
 **Learning Objectives:**
+
 - Explain the chain of infection and how to break it
 - Demonstrate proper hand hygiene technique
 - Apply standard precautions and transmission-based precautions correctly
@@ -65,6 +70,7 @@
 - Describe OSHA bloodborne pathogen standards
 
 **Topics Covered:**
+
 - The chain of infection: agent, reservoir, portal of exit, transmission, portal of entry, susceptible host
 - Medical vs. surgical asepsis
 - Hand hygiene: soap and water vs. alcohol-based hand rub, when each is required
@@ -84,6 +90,7 @@
 ## MODULE 3: Safety, Body Mechanics & Emergency Procedures (7 hours)
 
 **Learning Objectives:**
+
 - Apply correct body mechanics to prevent injury during patient care
 - Identify and respond to common safety hazards in healthcare settings
 - Demonstrate proper use of side rails, call lights, and bed positioning
@@ -91,6 +98,7 @@
 - Respond appropriately to a patient fall, choking, or cardiac emergency
 
 **Topics Covered:**
+
 - Principles of body mechanics: alignment, balance, base of support
 - Ergonomics in patient care: lifting, pushing, pulling
 - Environmental safety: wet floors, clutter, lighting, call light placement
@@ -111,12 +119,14 @@
 ## MODULE 4: Patient Rights, Ethics & Communication (6 hours)
 
 **Learning Objectives:**
+
 - Identify the Resident Rights guaranteed under federal and Indiana law
 - Recognize and report abuse, neglect, and exploitation
 - Demonstrate therapeutic communication techniques
 - Adapt communication for patients with hearing, vision, or cognitive impairments
 
 **Topics Covered:**
+
 - Federal Nursing Home Reform Act (OBRA 1987) and Resident Rights
 - Indiana patient rights in non-nursing home settings
 - Right to privacy, dignity, self-determination, and grievance
@@ -136,6 +146,7 @@
 ## MODULE 5: Vital Signs (8 hours)
 
 **Learning Objectives:**
+
 - Accurately measure oral, axillary, and tympanic temperature
 - Measure radial and apical pulse
 - Count respiratory rate
@@ -144,6 +155,7 @@
 - Identify normal ranges and when to report abnormal findings
 
 **Topics Covered:**
+
 - Definition and purpose of vital signs
 - Temperature: normal ranges, types of thermometers, measurement sites, technique
 - Pulse: radial vs. apical, rate, rhythm, strength — normal range 60–100 bpm
@@ -165,6 +177,7 @@
 ## MODULE 6: Personal Care Skills (12 hours)
 
 **Learning Objectives:**
+
 - Perform complete bed bath, partial bath, and shower/tub assist
 - Provide oral hygiene including denture care
 - Assist with dressing and grooming while preserving dignity
@@ -172,6 +185,7 @@
 - Make an occupied and unoccupied bed
 
 **Topics Covered:**
+
 - Principles of personal care: privacy, dignity, patient preference, infection control
 - Complete bed bath: sequence, water temperature, technique, draping
 - Partial bath and self-care assistance
@@ -193,6 +207,7 @@
 ## MODULE 7: Mobility, Transfers & Positioning (10 hours)
 
 **Learning Objectives:**
+
 - Position patients in Fowler's, semi-Fowler's, lateral, prone, and Sims' positions
 - Transfer a patient from bed to wheelchair using proper technique and gait belt
 - Assist with ambulation using gait belt and assistive devices
@@ -200,6 +215,7 @@
 - Apply and remove anti-embolism stockings
 
 **Topics Covered:**
+
 - Importance of mobility: preventing contractures, pressure injuries, pneumonia, DVT
 - Positioning: supine, prone, lateral (side-lying), Fowler's, semi-Fowler's, Sims'
 - Pressure injury prevention: repositioning schedule (every 2 hours), pressure-relieving devices
@@ -220,6 +236,7 @@
 ## MODULE 8: Nutrition, Hydration & Elimination (7 hours)
 
 **Learning Objectives:**
+
 - Assist patients with meals while maintaining dignity and safety
 - Monitor and record fluid intake and output (I&O)
 - Provide care for patients with urinary catheters
@@ -227,6 +244,7 @@
 - Recognize signs of dehydration and malnutrition
 
 **Topics Covered:**
+
 - Basic nutrition: macronutrients, therapeutic diets (low-sodium, diabetic, pureed, thickened liquids)
 - Dysphagia: signs, aspiration risk, positioning during meals, thickened liquids
 - Meal assistance: setup, feeding technique, pacing, documentation
@@ -246,6 +264,7 @@
 ## MODULE 9: Dementia, Mental Health & Restorative Care (7 hours)
 
 **Learning Objectives:**
+
 - Describe the stages and symptoms of Alzheimer's disease and related dementias
 - Apply person-centered dementia care techniques
 - Recognize common mental health conditions in the long-term care population
@@ -253,6 +272,7 @@
 - Describe restorative nursing principles
 
 **Topics Covered:**
+
 - Dementia overview: Alzheimer's, vascular dementia, Lewy body, frontotemporal
 - Stages of Alzheimer's: early, middle, late — behavioral and functional changes
 - Person-centered dementia care: validation therapy, redirection, reminiscence
@@ -273,6 +293,7 @@
 ## MODULE 10: Chronic Conditions & End-of-Life Care (6 hours)
 
 **Learning Objectives:**
+
 - Identify common chronic conditions in the CNA's patient population
 - Provide appropriate care for patients with diabetes, COPD, CHF, and stroke
 - Describe the stages of grief and dying
@@ -280,6 +301,7 @@
 - Support families during the dying process
 
 **Topics Covered:**
+
 - Diabetes: types, hypoglycemia vs. hyperglycemia signs, foot care, diet monitoring
 - COPD: oxygen use, positioning, activity tolerance, breathing techniques
 - Congestive heart failure: fluid restrictions, edema monitoring, daily weights
@@ -299,12 +321,14 @@
 ## MODULE 11: Documentation & Reporting (5 hours)
 
 **Learning Objectives:**
+
 - Document patient care accurately using approved abbreviations
 - Complete an Activities of Daily Living (ADL) flow sheet
 - Identify what must be reported immediately to the charge nurse
 - Describe the minimum data set (MDS) and the CNA's contribution
 
 **Topics Covered:**
+
 - Principles of documentation: accuracy, timeliness, objectivity, legibility
 - Medical abbreviations and terminology used in CNA documentation
 - ADL flow sheets: purpose, completion, common errors
@@ -323,11 +347,13 @@
 ## MODULE 12: Clinical Preparation & Competency Review (4 hours)
 
 **Learning Objectives:**
+
 - Demonstrate all required skills at competency level before clinical rotation
 - Identify expectations and professional conduct standards for clinical sites
 - Review Indiana Nurse Aide Competency Evaluation format and requirements
 
 **Topics Covered:**
+
 - Review of all skills: hand hygiene, vital signs, transfers, personal care, bed making
 - Skills competency check-off: each student must pass all required skills
 - Clinical site expectations: dress code, conduct, supervision, documentation

@@ -169,7 +169,8 @@ export const content = `<h2>Shave Preparation & Hot Towel Service</h2>
 export const quizQuestions = [
   {
     id: 'mod5-l29-q1',
-    question: 'A client presents with visible razor bumps and inflamed follicles along the neck. What is the BEST course of action?',
+    question:
+      'A client presents with visible razor bumps and inflamed follicles along the neck. What is the BEST course of action?',
     options: [
       'Perform a standard shave with light pressure',
       'Proceed but avoid against-the-grain strokes',
@@ -177,19 +178,16 @@ export const quizQuestions = [
       'Apply more lather and continue',
     ],
     correctAnswer: 2,
-    explanation: 'Razor bumps (pseudofolliculitis barbae) are a contraindication for a close straight razor shave. Proceeding — even with modifications like light pressure — will worsen the inflammation. The correct action is to not perform a straight razor shave in the affected area.',
+    explanation:
+      'Razor bumps (pseudofolliculitis barbae) are a contraindication for a close straight razor shave. Proceeding — even with modifications like light pressure — will worsen the inflammation. The correct action is to not perform a straight razor shave in the affected area.',
   },
   {
     id: 'mod5-l29-q2',
     question: 'Lather appears thick and flaky during application. What is the MOST likely issue?',
-    options: [
-      'Too much water',
-      'Too little water',
-      'Incorrect brush angle',
-      'Skin is too oily',
-    ],
+    options: ['Too much water', 'Too little water', 'Incorrect brush angle', 'Skin is too oily'],
     correctAnswer: 1,
-    explanation: 'Thick, flaky lather indicates insufficient water. The fix is to add water a few drops at a time while continuing to work the brush. Dry lather causes poor glide and blade drag during the shave.',
+    explanation:
+      'Thick, flaky lather indicates insufficient water. The fix is to add water a few drops at a time while continuing to work the brush. Dry lather causes poor glide and blade drag during the shave.',
   },
   {
     id: 'mod5-l29-q3',
@@ -201,7 +199,8 @@ export const quizQuestions = [
       'Tighten skin',
     ],
     correctAnswer: 1,
-    explanation: 'The hot towel softens keratin in the hair shaft and opens pores, which reduces blade resistance and allows lather to penetrate to the follicle base. It does not disinfect, remove oil, or tighten skin.',
+    explanation:
+      'The hot towel softens keratin in the hair shaft and opens pores, which reduces blade resistance and allows lather to penetrate to the follicle base. It does not disinfect, remove oil, or tighten skin.',
   },
   {
     id: 'mod5-l29-q4',
@@ -213,11 +212,13 @@ export const quizQuestions = [
       'Reduce temperature',
     ],
     correctAnswer: 2,
-    explanation: 'A dripping towel is over-saturated. The correction is to wring it thoroughly before applying. Dripping water on the client is unprofessional and excess moisture causes the towel to cool faster, reducing its effectiveness.',
+    explanation:
+      'A dripping towel is over-saturated. The correction is to wring it thoroughly before applying. Dripping water on the client is unprofessional and excess moisture causes the towel to cool faster, reducing its effectiveness.',
   },
   {
     id: 'mod5-l29-q5',
-    question: 'During consultation, a client has coarse hair and sensitive skin. What adjustment should be made to the preparation protocol?',
+    question:
+      'During consultation, a client has coarse hair and sensitive skin. What adjustment should be made to the preparation protocol?',
     options: [
       'Use less prep time — coarse hair does not need extended softening',
       'Increase prep time and reduce aggressiveness in the shave phase',
@@ -225,6 +226,7 @@ export const quizQuestions = [
       'Use a dry shaving technique to avoid product contact',
     ],
     correctAnswer: 1,
-    explanation: 'Coarse hair requires more softening time to reduce blade resistance. Sensitive skin requires a less aggressive shave approach. Both factors point to the same adjustment: extend preparation and reduce aggressiveness. Skipping the hot towel on sensitive skin would increase — not decrease — irritation.',
+    explanation:
+      'Coarse hair requires more softening time to reduce blade resistance. Sensitive skin requires a less aggressive shave approach. Both factors point to the same adjustment: extend preparation and reduce aggressiveness. Skipping the hot towel on sensitive skin would increase — not decrease — irritation.',
   },
 ];

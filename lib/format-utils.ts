@@ -10,10 +10,10 @@
  */
 export function safeFormatDate(
   date: string | Date | null | undefined,
-  fallback: string = 'N/A'
+  fallback: string = 'N/A',
 ): string {
   if (!date) return fallback;
-  
+
   try {
     const dateObj = typeof date === 'string' ? new Date(date) : date;
     if (isNaN(dateObj.getTime())) return fallback;
@@ -31,10 +31,10 @@ export function safeFormatDate(
  */
 export function safeFormatDateTime(
   date: string | Date | null | undefined,
-  fallback: string = 'N/A'
+  fallback: string = 'N/A',
 ): string {
   if (!date) return fallback;
-  
+
   try {
     const dateObj = typeof date === 'string' ? new Date(date) : date;
     if (isNaN(dateObj.getTime())) return fallback;
@@ -50,10 +50,7 @@ export function safeFormatDateTime(
  * @param fallback - Fallback text if value is invalid (default: '0')
  * @returns Formatted number string or fallback
  */
-export function safeFormatNumber(
-  value: number | null | undefined,
-  fallback: string = '0'
-): string {
+export function safeFormatNumber(value: number | null | undefined, fallback: string = '0'): string {
   if (value === null || value === undefined || isNaN(value)) return fallback;
   return value.toLocaleString();
 }
@@ -68,10 +65,10 @@ export function safeFormatNumber(
 export function safeFormatCurrency(
   value: number | null | undefined,
   currency: string = 'USD',
-  fallback: string = '$0'
+  fallback: string = '$0',
 ): string {
   if (value === null || value === undefined || isNaN(value)) return fallback;
-  
+
   try {
     return new Intl.NumberFormat('en-US', {
       style: 'currency',
@@ -92,7 +89,7 @@ export function safeFormatCurrency(
 export function safeFormatPercent(
   value: number | null | undefined,
   decimals: number = 0,
-  fallback: string = '0%'
+  fallback: string = '0%',
 ): string {
   if (value === null || value === undefined || isNaN(value)) return fallback;
   return `${value.toFixed(decimals)}%`;

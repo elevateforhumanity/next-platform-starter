@@ -12,10 +12,7 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
-export async function PATCH(
-  request: NextRequest,
-  { params }: { params: { courseId: string } }
-) {
+export async function PATCH(request: NextRequest, { params }: { params: { courseId: string } }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
@@ -57,8 +54,8 @@ export async function PATCH(
         .from('course_modules')
         .update({ order_index, updated_at: new Date().toISOString() })
         .eq('id', id)
-        .eq('course_id', courseId)
-    )
+        .eq('course_id', courseId),
+    ),
   );
 
   const failed = updates.filter((r) => r.error);

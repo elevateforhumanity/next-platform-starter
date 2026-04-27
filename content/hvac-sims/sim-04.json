@@ -18,7 +18,11 @@
       "prompt": "The compressor runs but blows cold air in heat mode. Aux heat works. What is the most likely cause?",
       "options": [
         { "label": "Low refrigerant charge", "next": "s1-partial" },
-        { "label": "Reversing valve stuck in cooling position or O-terminal wiring issue", "next": "s2", "correct": true },
+        {
+          "label": "Reversing valve stuck in cooling position or O-terminal wiring issue",
+          "next": "s2",
+          "correct": true
+        },
         { "label": "Failed compressor", "next": "s1-wrong" },
         { "label": "Dirty air filter", "next": "s1-wrong" }
       ]
@@ -42,7 +46,11 @@
       "prompt": "You check the thermostat O-terminal. In heat mode, O should be de-energized (O-type system). You measure 24V at O in heat mode. What does this mean?",
       "options": [
         { "label": "Normal — O is always energized", "next": "s2-wrong" },
-        { "label": "The thermostat is energizing O in heat mode — it should not be", "next": "s3", "correct": true },
+        {
+          "label": "The thermostat is energizing O in heat mode — it should not be",
+          "next": "s3",
+          "correct": true
+        },
         { "label": "The reversing valve solenoid is failed open", "next": "s2-partial" }
       ]
     },
@@ -56,16 +64,18 @@
     "s2-partial": {
       "id": "s2-partial",
       "prompt": "Possible, but first confirm the thermostat is not sending the wrong signal. 24V at O in heat mode points to the thermostat.",
-      "options": [
-        { "label": "Check thermostat O/B configuration", "next": "s3", "correct": true }
-      ]
+      "options": [{ "label": "Check thermostat O/B configuration", "next": "s3", "correct": true }]
     },
     "s3": {
       "id": "s3",
       "prompt": "You check the thermostat settings. The O/B reversing valve setting is configured as \"B\" (energize in heating) instead of \"O\" (energize in cooling). What do you do?",
       "options": [
         { "label": "Replace the thermostat", "next": "s3-wrong" },
-        { "label": "Change the O/B setting to \"O\" and verify heating operation", "next": "pass", "correct": true },
+        {
+          "label": "Change the O/B setting to \"O\" and verify heating operation",
+          "next": "pass",
+          "correct": true
+        },
         { "label": "Replace the reversing valve", "next": "s3-wrong" }
       ]
     },

@@ -15,10 +15,7 @@ import { setAuditContext } from '@/lib/audit-context';
  * When files are removed via .remove(), they are permanently deleted
  * with no recoverable versions. This is the desired behavior for PII purge.
  */
-const DEFAULT_RETENTION_DAYS = parseInt(
-  process.env.DOCUMENT_RETENTION_DAYS || '1095',
-  10
-);
+const DEFAULT_RETENTION_DAYS = parseInt(process.env.DOCUMENT_RETENTION_DAYS || '1095', 10);
 
 /** Document types subject to retention policy (PII-bearing) */
 const PII_DOCUMENT_TYPES = [
@@ -57,7 +54,7 @@ interface RetentionResult {
  * for audit trail continuity. Each deletion is logged to admin_audit_events.
  */
 export async function enforceDocumentRetention(
-  options: RetentionOptions = {}
+  options: RetentionOptions = {},
 ): Promise<RetentionResult> {
   const { dryRun = false, batchSize = 50, actorId = 'system' } = options;
   const db = await getAdminClient();
@@ -103,7 +100,7 @@ export async function enforceDocumentRetention(
       skipped: 0,
       errors: 0,
       dryRun: true,
-      documents: docs.map(d => ({
+      documents: docs.map((d) => ({
         id: d.id,
         type: d.document_type,
         created_at: d.created_at,
@@ -120,9 +117,7 @@ export async function enforceDocumentRetention(
     try {
       // Delete the file from storage
       if (doc.file_path) {
-        const { error: storageError } = await db.storage
-          .from('documents')
-          .remove([doc.file_path]);
+        const { error: storageError } = await db.storage.from('documents').remove([doc.file_path]);
 
         if (storageError) {
           logger.warn('[Retention] Storage delete failed', {

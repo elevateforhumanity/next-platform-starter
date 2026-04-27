@@ -65,7 +65,7 @@ export async function getPartnerStudentIds(shopIds: string[]): Promise<string[]>
  * Joins: placements → profiles → enrollments → lesson_progress → certificates
  */
 export async function getPartnerStudentsWithTraining(
-  shopIds: string[]
+  shopIds: string[],
 ): Promise<PartnerStudentWithTraining[]> {
   if (!shopIds.length) return [];
 
@@ -75,12 +75,14 @@ export async function getPartnerStudentsWithTraining(
   // 1. Get placements with student profiles
   const { data: placements } = await supabase
     .from('apprentice_placements')
-    .select(`
+    .select(
+      `
       student_id,
       status,
       start_date,
       shops!inner(name)
-    `)
+    `,
+    )
     .in('shop_id', shopIds);
 
   if (!placements?.length) return [];
@@ -93,14 +95,14 @@ export async function getPartnerStudentsWithTraining(
     .select('id, full_name, email')
     .in('id', studentIds);
 
-  const profileMap = new Map(
-    (profiles || []).map((p: any) => [p.id, p])
-  );
+  const profileMap = new Map((profiles || []).map((p: any) => [p.id, p]));
 
   // 3. Get enrollments for these students
   const { data: enrollments } = await supabase
     .from('program_enrollments')
-    .select('id, user_id, course_id, progress, status, created_at, completed_at, courses!inner(title)')
+    .select(
+      'id, user_id, course_id, progress, status, created_at, completed_at, courses!inner(title)',
+    )
     .in('user_id', studentIds);
 
   // 4. Get certificates with credential identifiers
@@ -150,9 +152,10 @@ export async function getPartnerStudentsWithTraining(
       credential_id: certCodeMap.get(`${sid}:${e.course_id}`) || null,
     }));
 
-    const totalProgress = courses.length > 0
-      ? Math.round(courses.reduce((sum: number, c: any) => sum + c.progress, 0) / courses.length)
-      : 0;
+    const totalProgress =
+      courses.length > 0
+        ? Math.round(courses.reduce((sum: number, c: any) => sum + c.progress, 0) / courses.length)
+        : 0;
 
     results.push({
       student_id: sid,
@@ -210,10 +213,7 @@ export async function getPartnerDashboardStats(shopIds: string[]) {
   }
 
   const [enrollResult, certResult] = await Promise.all([
-    supabase
-      .from('program_enrollments')
-      .select('status, progress')
-      .in('user_id', studentIds),
+    supabase.from('program_enrollments').select('status, progress').in('user_id', studentIds),
     supabase
       .from('certificates')
       .select('id', { count: 'exact', head: true })
@@ -223,9 +223,10 @@ export async function getPartnerDashboardStats(shopIds: string[]) {
   const enrollments = enrollResult.data || [];
   const total = enrollments.length;
   const completed = enrollments.filter((e: any) => e.status === 'completed').length;
-  const avgProgress = total > 0
-    ? Math.round(enrollments.reduce((sum: number, e: any) => sum + (e.progress || 0), 0) / total)
-    : 0;
+  const avgProgress =
+    total > 0
+      ? Math.round(enrollments.reduce((sum: number, e: any) => sum + (e.progress || 0), 0) / total)
+      : 0;
 
   return {
     activeStudents: studentIds.length,

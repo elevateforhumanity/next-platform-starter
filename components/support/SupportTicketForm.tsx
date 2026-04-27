@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 // components/support/SupportTicketForm.tsx
@@ -33,24 +33,24 @@ export function SupportTicketForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-3">
       <div>
-        <label className="block text-xs font-medium text-black">
-          Subject
-        </label>
+        <label className="block text-xs font-medium text-black">Subject</label>
         <input
           value={subject}
-          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setSubject(e.target.value)}
+          onChange={(
+            e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+          ) => setSubject(e.target.value)}
           className="mt-1 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-orange-500 focus:ring-2 focus:ring-brand-orange-100"
           placeholder="Describe the issue"
           required
         />
       </div>
       <div>
-        <label className="block text-xs font-medium text-black">
-          Message
-        </label>
+        <label className="block text-xs font-medium text-black">Message</label>
         <textarea
           value={message}
-          onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setMessage(e.target.value)}
+          onChange={(
+            e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+          ) => setMessage(e.target.value)}
           className="mt-1 h-24 w-full rounded-xl border border-slate-200 px-3 py-2 text-sm outline-none focus:border-brand-orange-500 focus:ring-2 focus:ring-brand-orange-100"
           placeholder="Tell us what happened, steps to reproduce, and any error messages."
           required

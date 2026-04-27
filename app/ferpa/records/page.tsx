@@ -4,16 +4,7 @@ import { logger } from '@/lib/logger';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
-import {
-  ChevronRight,
-  Search,
-  FileText,
-  User,
-  Shield,
-  Download,
-  Eye,
-  Filter,
-} from 'lucide-react';
+import { ChevronRight, Search, FileText, User, Shield, Download, Eye, Filter } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Student Records | FERPA Portal',
@@ -40,8 +31,9 @@ interface StudentRecord {
 export default async function FerpaRecordsPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/ferpa/records');
@@ -61,7 +53,8 @@ export default async function FerpaRecordsPage() {
   // Fetch student records with enrollments
   const { data: students, error } = await supabase
     .from('profiles')
-    .select(`
+    .select(
+      `
       id,
       full_name,
       email,
@@ -73,7 +66,8 @@ export default async function FerpaRecordsPage() {
         program_id,
         created_at
       )
-    `)
+    `,
+    )
     .eq('role', 'student')
     .order('created_at', { ascending: false })
     .limit(50);
@@ -103,17 +97,26 @@ export default async function FerpaRecordsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/ferpa-page-6.jpg" alt="FERPA compliance" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/ferpa-page-6.jpg"
+          alt="FERPA compliance"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           {/* Breadcrumb */}
           <nav className="flex items-center gap-2 text-sm text-slate-700 mb-4">
-            <Link href="/ferpa" className="hover:text-slate-900">FERPA Portal</Link>
+            <Link href="/ferpa" className="hover:text-slate-900">
+              FERPA Portal
+            </Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-slate-900 font-medium">Student Records</span>
           </nav>
@@ -121,9 +124,7 @@ export default async function FerpaRecordsPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h1 className="text-2xl font-bold text-slate-900">Student Records</h1>
-              <p className="text-slate-700 mt-1">
-                View and manage student education records
-              </p>
+              <p className="text-slate-700 mt-1">View and manage student education records</p>
             </div>
             <div className="flex items-center gap-3">
               <Link
@@ -226,7 +227,9 @@ export default async function FerpaRecordsPage() {
                             <p className="font-medium text-slate-900">
                               {student.full_name || 'No name'}
                             </p>
-                            <p className="text-xs text-slate-700">ID: {student.id.slice(0, 8)}...</p>
+                            <p className="text-xs text-slate-700">
+                              ID: {student.id.slice(0, 8)}...
+                            </p>
                           </div>
                         </div>
                       </td>
@@ -270,9 +273,9 @@ export default async function FerpaRecordsPage() {
             <div>
               <h3 className="font-medium text-amber-800">FERPA Compliance Notice</h3>
               <p className="text-sm text-amber-700 mt-1">
-                Access to student education records is logged and monitored. Only access records 
-                for legitimate educational purposes. Unauthorized access or disclosure may result 
-                in disciplinary action and legal consequences.
+                Access to student education records is logged and monitored. Only access records for
+                legitimate educational purposes. Unauthorized access or disclosure may result in
+                disciplinary action and legal consequences.
               </p>
             </div>
           </div>

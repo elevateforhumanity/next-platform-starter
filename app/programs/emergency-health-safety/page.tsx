@@ -6,7 +6,8 @@ import heroBanners from '@/content/heroBanners';
 export const revalidate = 86400;
 
 export const metadata: Metadata = {
-  title: EMERGENCY_HEALTH_SAFETY.metaTitle ?? `${EMERGENCY_HEALTH_SAFETY.title} | Elevate for Humanity`,
+  title:
+    EMERGENCY_HEALTH_SAFETY.metaTitle ?? `${EMERGENCY_HEALTH_SAFETY.title} | Elevate for Humanity`,
   description: EMERGENCY_HEALTH_SAFETY.metaDescription ?? EMERGENCY_HEALTH_SAFETY.subtitle,
   alternates: { canonical: '/programs/emergency-health-safety' },
 };

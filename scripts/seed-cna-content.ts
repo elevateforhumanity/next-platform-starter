@@ -74,7 +74,8 @@ export const cnaModule1QuizQuestions = [
       'Diagnose medical conditions',
     ],
     correct_answer: 1,
-    explanation: 'CNAs provide basic patient care activities under the supervision of licensed nurses.',
+    explanation:
+      'CNAs provide basic patient care activities under the supervision of licensed nurses.',
   },
   {
     lesson_id: 'cna-lesson-1',
@@ -93,7 +94,7 @@ export const cnaModule1QuizQuestions = [
       'Exercise routine',
     ],
     correct_answer: 1,
-    explanation: 'Vital signs are measurements of the body\'s basic functions.',
+    explanation: "Vital signs are measurements of the body's basic functions.",
   },
   {
     lesson_id: 'cna-lesson-2',
@@ -180,4 +181,3 @@ export const cnaModule1QuizQuestions = [
     explanation: 'Face the patient, speak clearly, and ensure good lighting for lip reading.',
   },
 ];
-

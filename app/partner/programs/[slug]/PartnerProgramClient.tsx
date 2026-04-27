@@ -3,8 +3,15 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import {
-  Users, Clock, Plus, ArrowLeft, Calendar,
-  Loader2, AlertCircle, ClipboardList, CheckCircle,
+  Users,
+  Clock,
+  Plus,
+  ArrowLeft,
+  Calendar,
+  Loader2,
+  AlertCircle,
+  ClipboardList,
+  CheckCircle,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -59,7 +66,9 @@ export default function PartnerProgramClient({ slug, programName }: Props) {
     notes: '',
   });
 
-  useEffect(() => { fetchData(); }, [slug]);
+  useEffect(() => {
+    fetchData();
+  }, [slug]);
 
   async function fetchData() {
     setLoading(true);
@@ -67,7 +76,10 @@ export default function PartnerProgramClient({ slug, programName }: Props) {
       const onboardingRes = await fetch('/api/partner/onboarding-status');
       const onboardingData = await onboardingRes.json();
       setOnboarded(onboardingData.completed ?? false);
-      if (!onboardingData.completed) { setLoading(false); return; }
+      if (!onboardingData.completed) {
+        setLoading(false);
+        return;
+      }
 
       const [apprenticesRes, progressRes] = await Promise.all([
         fetch(`/api/partner/apprentices?program=${encodeURIComponent(slug)}`),
@@ -128,8 +140,13 @@ export default function PartnerProgramClient({ slug, programName }: Props) {
         <div className="text-center max-w-md">
           <AlertCircle className="w-12 h-12 text-amber-500 mx-auto mb-4" />
           <h2 className="text-xl font-bold mb-2">Onboarding Required</h2>
-          <p className="text-slate-700 mb-4">Complete your partner onboarding before managing apprentices.</p>
-          <Link href="/partner/onboarding" className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700">
+          <p className="text-slate-700 mb-4">
+            Complete your partner onboarding before managing apprentices.
+          </p>
+          <Link
+            href="/partner/onboarding"
+            className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700"
+          >
             Complete Onboarding
           </Link>
         </div>
@@ -141,11 +158,13 @@ export default function PartnerProgramClient({ slug, programName }: Props) {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Partner', href: '/partner/attendance' },
-            { label: 'Programs', href: '/partner/programs' },
-            { label: programName },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Partner', href: '/partner/attendance' },
+              { label: 'Programs', href: '/partner/programs' },
+              { label: programName },
+            ]}
+          />
         </div>
       </div>
 
@@ -157,7 +176,9 @@ export default function PartnerProgramClient({ slug, programName }: Props) {
             </Link>
             <div>
               <h1 className="text-2xl font-bold text-slate-900">{programName}</h1>
-              <p className="text-slate-700 text-sm">{apprentices.length} active apprentice{apprentices.length !== 1 ? 's' : ''}</p>
+              <p className="text-slate-700 text-sm">
+                {apprentices.length} active apprentice{apprentices.length !== 1 ? 's' : ''}
+              </p>
             </div>
           </div>
           <button
@@ -186,7 +207,9 @@ export default function PartnerProgramClient({ slug, programName }: Props) {
             <form onSubmit={handleSubmitProgress} className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-1">Apprentice</label>
+                  <label className="block text-sm font-medium text-slate-900 mb-1">
+                    Apprentice
+                  </label>
                   <select
                     value={entryForm.apprenticeId}
                     onChange={(e) => setEntryForm({ ...entryForm, apprenticeId: e.target.value })}
@@ -195,12 +218,16 @@ export default function PartnerProgramClient({ slug, programName }: Props) {
                   >
                     <option value="">Select apprentice…</option>
                     {apprentices.map((a) => (
-                      <option key={a.id} value={a.id}>{a.full_name}</option>
+                      <option key={a.id} value={a.id}>
+                        {a.full_name}
+                      </option>
                     ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-1">Week Ending</label>
+                  <label className="block text-sm font-medium text-slate-900 mb-1">
+                    Week Ending
+                  </label>
                   <input
                     type="date"
                     value={entryForm.weekEnding}
@@ -210,7 +237,9 @@ export default function PartnerProgramClient({ slug, programName }: Props) {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-1">Hours Worked</label>
+                  <label className="block text-sm font-medium text-slate-900 mb-1">
+                    Hours Worked
+                  </label>
                   <input
                     type="number"
                     min="0"
@@ -223,7 +252,9 @@ export default function PartnerProgramClient({ slug, programName }: Props) {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-1">Notes (optional)</label>
+                  <label className="block text-sm font-medium text-slate-900 mb-1">
+                    Notes (optional)
+                  </label>
                   <input
                     type="text"
                     value={entryForm.notes}
@@ -233,13 +264,23 @@ export default function PartnerProgramClient({ slug, programName }: Props) {
                 </div>
               </div>
               <div className="flex gap-3">
-                <button type="submit" disabled={submitting}
-                  className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:opacity-50">
-                  {submitting ? <Loader2 className="w-4 h-4 animate-spin" /> : <CheckCircle className="w-4 h-4" />}
+                <button
+                  type="submit"
+                  disabled={submitting}
+                  className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:opacity-50"
+                >
+                  {submitting ? (
+                    <Loader2 className="w-4 h-4 animate-spin" />
+                  ) : (
+                    <CheckCircle className="w-4 h-4" />
+                  )}
                   {submitting ? 'Submitting…' : 'Submit'}
                 </button>
-                <button type="button" onClick={() => setShowEntryForm(false)}
-                  className="px-4 py-2 border rounded-lg hover:bg-slate-50">
+                <button
+                  type="button"
+                  onClick={() => setShowEntryForm(false)}
+                  className="px-4 py-2 border rounded-lg hover:bg-slate-50"
+                >
                   Cancel
                 </button>
               </div>
@@ -256,7 +297,10 @@ export default function PartnerProgramClient({ slug, programName }: Props) {
             {apprentices.length > 0 ? (
               <div className="space-y-3">
                 {apprentices.map((a) => (
-                  <div key={a.id} className="flex items-center justify-between py-2 border-b last:border-0">
+                  <div
+                    key={a.id}
+                    className="flex items-center justify-between py-2 border-b last:border-0"
+                  >
                     <div>
                       <p className="font-medium text-sm">{a.full_name}</p>
                       <p className="text-xs text-slate-700">{a.email}</p>
@@ -281,7 +325,10 @@ export default function PartnerProgramClient({ slug, programName }: Props) {
             {progressEntries.length > 0 ? (
               <div className="space-y-3">
                 {progressEntries.slice(0, 8).map((entry) => (
-                  <div key={entry.id} className="flex items-center justify-between py-2 border-b last:border-0">
+                  <div
+                    key={entry.id}
+                    className="flex items-center justify-between py-2 border-b last:border-0"
+                  >
                     <div>
                       <p className="font-medium text-sm">{entry.apprentice_name || 'Unknown'}</p>
                       <p className="text-xs text-slate-700 flex items-center gap-1">
@@ -293,13 +340,15 @@ export default function PartnerProgramClient({ slug, programName }: Props) {
                       <p className="text-sm font-medium flex items-center gap-1">
                         <Clock className="w-3 h-3" /> {entry.hours_worked}h
                       </p>
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${
-                        entry.status === 'approved'
-                          ? 'bg-brand-green-100 text-brand-green-700'
-                          : entry.status === 'rejected'
-                          ? 'bg-red-100 text-red-700'
-                          : 'bg-amber-100 text-amber-700'
-                      }`}>
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded-full ${
+                          entry.status === 'approved'
+                            ? 'bg-brand-green-100 text-brand-green-700'
+                            : entry.status === 'rejected'
+                              ? 'bg-red-100 text-red-700'
+                              : 'bg-amber-100 text-amber-700'
+                        }`}
+                      >
                         {entry.status}
                       </span>
                     </div>

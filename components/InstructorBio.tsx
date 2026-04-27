@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Image from 'next/image';
 import { Mail, Linkedin, Award, BookOpen } from 'lucide-react';
@@ -39,7 +39,8 @@ export function InstructorBio({
               alt={`${name} - ${title}`}
               fill
               className="object-cover"
-             sizes="(max-width: 768px) 48px, 64px" />
+              sizes="(max-width: 768px) 48px, 64px"
+            />
           </div>
         </div>
 
@@ -107,9 +108,7 @@ export function InstructorBio({
           {/* Specialties */}
           {specialties.length > 0 && (
             <div className="mt-4">
-              <h3 className="text-sm font-semibold text-black mb-2">
-                Areas of Expertise
-              </h3>
+              <h3 className="text-sm font-semibold text-black mb-2">Areas of Expertise</h3>
               <div className="flex flex-wrap gap-2">
                 {specialties.map((specialty, idx) => (
                   <span

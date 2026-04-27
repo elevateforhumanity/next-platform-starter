@@ -17,10 +17,9 @@ export const dynamic = 'force-dynamic';
  */
 
 async function _GET(req: Request) {
-  
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
 
   // Verify staff role
   const {
@@ -57,7 +56,7 @@ const supabase = await createClient();
           last_name
         )
       )
-    `
+    `,
     )
     .in('status', ['failed', 'retrying'])
     .order('created_at', { ascending: false })
@@ -71,8 +70,8 @@ const supabase = await createClient();
 }
 
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
 
@@ -114,16 +113,21 @@ async function _POST(req: Request) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
 
-    await logAdminAudit({ action: AdminAction.ENROLLMENT_JOB_UPDATED, actorId: user.id, entityType: 'enrollment_jobs', entityId: job_id, metadata: { retry: true }, req });
+    await logAdminAudit({
+      action: AdminAction.ENROLLMENT_JOB_UPDATED,
+      actorId: user.id,
+      entityType: 'enrollment_jobs',
+      entityId: job_id,
+      metadata: { retry: true },
+      req,
+    });
 
     return NextResponse.json({ success: true, message: 'Job reset for retry' });
   }
 
   if (action === 'trigger_orchestrator') {
     // Trigger orchestrator edge function
-    const { data, error }: any = await supabase.functions.invoke(
-      'enrollment-orchestrator'
-    );
+    const { data, error }: any = await supabase.functions.invoke('enrollment-orchestrator');
 
     if (error) {
       return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

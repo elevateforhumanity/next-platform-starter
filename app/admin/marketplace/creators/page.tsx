@@ -12,12 +12,10 @@ import CreatorApprovalActions from './CreatorApprovalActions';
 
 export const dynamic = 'force-dynamic';
 
-
 export default async function AdminCreatorsPage() {
   await requireAdmin();
 
   const supabase = await createClient();
-
 
   const { data: creators } = await supabase
     .from('marketplace_creators')
@@ -28,24 +26,21 @@ export default async function AdminCreatorsPage() {
         creator_earnings_cents,
         paid_out
       )
-    `
+    `,
     )
     .order('created_at', { ascending: false });
 
   const pendingCreators = creators?.filter((c) => c.status === 'pending') || [];
-  const approvedCreators =
-    creators?.filter((c) => c.status === 'approved') || [];
-  const suspendedCreators =
-    creators?.filter((c) => c.status === 'suspended') || [];
+  const approvedCreators = creators?.filter((c) => c.status === 'approved') || [];
+  const suspendedCreators = creators?.filter((c) => c.status === 'suspended') || [];
 
   return (
     <div className="py-8">
-
       {/* Hero Image */}
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Creators" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Creators' }]} />
       </div>
-<div className="mb-8">
+      <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Manage Creators</h1>
         <p className="text-black">
           Approve applications, manage creator accounts, and track earnings
@@ -53,9 +48,7 @@ export default async function AdminCreatorsPage() {
       </div>
 
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h2 className="text-2xl font-bold mb-4">
-          Pending Applications ({pendingCreators.length})
-        </h2>
+        <h2 className="text-2xl font-bold mb-4">Pending Applications ({pendingCreators.length})</h2>
 
         {pendingCreators.length === 0 ? (
           <p className="text-black">No pending applications.</p>
@@ -67,17 +60,12 @@ export default async function AdminCreatorsPage() {
                 className="border rounded-lg p-4 flex justify-between items-start"
               >
                 <div className="flex-1">
-                  <h3 className="font-semibold text-lg">
-                    {creator.display_name}
-                  </h3>
+                  <h3 className="font-semibold text-lg">{creator.display_name}</h3>
                   <p className="text-sm text-black mb-2">{creator.bio}</p>
                   <div className="text-sm text-black">
                     <p>Payout: {creator.payout_email}</p>
                     <p>Method: {creator.payout_method}</p>
-                    <p>
-                      Applied:{' '}
-                      {new Date(creator.created_at).toLocaleDateString()}
-                    </p>
+                    <p>Applied: {new Date(creator.created_at).toLocaleDateString()}</p>
                   </div>
                 </div>
                 <CreatorApprovalActions creatorId={creator.id} />
@@ -88,9 +76,7 @@ export default async function AdminCreatorsPage() {
       </div>
 
       <div className="bg-white rounded-lg shadow-md p-6 mb-8">
-        <h2 className="text-2xl font-bold mb-4">
-          Approved Creators ({approvedCreators.length})
-        </h2>
+        <h2 className="text-2xl font-bold mb-4">Approved Creators ({approvedCreators.length})</h2>
 
         {approvedCreators.length === 0 ? (
           <p className="text-black">No approved creators yet.</p>
@@ -111,32 +97,21 @@ export default async function AdminCreatorsPage() {
                 {approvedCreators.map((creator) => {
                   const totalEarnings =
                     creator.sales?.reduce(
-                      (sum, sale) =>
-                        sum + (sale.creator_earnings_cents || 0),
-                      0
+                      (sum, sale) => sum + (sale.creator_earnings_cents || 0),
+                      0,
                     ) || 0;
                   const pendingEarnings =
                     creator.sales
                       ?.filter((s) => !s.paid_out)
-                      .reduce(
-                        (sum, sale) =>
-                          sum + (sale.creator_earnings_cents || 0),
-                        0
-                      ) || 0;
+                      .reduce((sum, sale) => sum + (sale.creator_earnings_cents || 0), 0) || 0;
 
                   return (
                     <tr key={creator.id} className="border-b hover:bg-gray-50">
                       <td className="py-3 px-4">
-                        <div className="font-semibold">
-                          {creator.display_name}
-                        </div>
-                        <div className="text-sm text-black">
-                          {creator.payout_email}
-                        </div>
+                        <div className="font-semibold">{creator.display_name}</div>
+                        <div className="text-sm text-black">{creator.payout_email}</div>
                       </td>
-                      <td className="py-3 px-4 text-sm">
-                        {creator.payout_method || 'Not set'}
-                      </td>
+                      <td className="py-3 px-4 text-sm">{creator.payout_method || 'Not set'}</td>
                       <td className="py-3 px-4 text-sm">
                         {(creator.revenue_split * 100).toFixed(0)}% creator
                       </td>
@@ -147,7 +122,10 @@ export default async function AdminCreatorsPage() {
                         ${(pendingEarnings / 100).toFixed(2)}
                       </td>
                       <td className="py-3 px-4">
-                        <button className="text-brand-orange-600 hover:underline text-sm" aria-label="Action button">
+                        <button
+                          className="text-brand-orange-600 hover:underline text-sm"
+                          aria-label="Action button"
+                        >
                           Suspend
                         </button>
                       </td>
@@ -174,7 +152,10 @@ export default async function AdminCreatorsPage() {
                 <div>
                   <h3 className="font-semibold">{creator.display_name}</h3>
                 </div>
-                <button className="text-brand-green-600 hover:underline text-sm" aria-label="Action button">
+                <button
+                  className="text-brand-green-600 hover:underline text-sm"
+                  aria-label="Action button"
+                >
                   Reactivate
                 </button>
               </div>

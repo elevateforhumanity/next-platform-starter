@@ -1,4 +1,3 @@
-
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
@@ -16,41 +15,38 @@ async function _POST(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await parseBody<Record<string, any>>(request);
-    const {
-      scormPackageId,
-      enrollmentId,
-      userId,
-      status,
-      progress,
-      score,
-      timeSpent,
-      cmiData,
-    } = body;
+    const { scormPackageId, enrollmentId, userId, status, progress, score, timeSpent, cmiData } =
+      body;
 
     // Update SCORM enrollment
     const { data: enrollment, error: enrollmentError } = await supabase
       .from('scorm_enrollments')
-      .upsert({
-        scorm_package_id: scormPackageId,
-        user_id: userId,
-        enrollment_id: enrollmentId,
-        status,
-        progress_percentage: progress,
-        score,
-        time_spent_seconds: timeSpent,
-        last_accessed_at: new Date().toISOString(),
-        cmi_data: cmiData,
-        updated_at: new Date().toISOString(),
-      }, {
-        onConflict: 'scorm_package_id,user_id'
-      })
+      .upsert(
+        {
+          scorm_package_id: scormPackageId,
+          user_id: userId,
+          enrollment_id: enrollmentId,
+          status,
+          progress_percentage: progress,
+          score,
+          time_spent_seconds: timeSpent,
+          last_accessed_at: new Date().toISOString(),
+          cmi_data: cmiData,
+          updated_at: new Date().toISOString(),
+        },
+        {
+          onConflict: 'scorm_package_id,user_id',
+        },
+      )
       .select()
       .maybeSingle();
 
@@ -66,7 +62,7 @@ async function _POST(request: Request) {
           scorm_enrollment_id: enrollment.id,
           element,
           value: String(value),
-        })
+        }),
       );
 
       await Promise.all(trackingPromises);
@@ -87,7 +83,7 @@ async function _POST(request: Request) {
     }
 
     return NextResponse.json({ success: true, enrollment });
-  } catch (error) { 
+  } catch (error) {
     logger.error('SCORM tracking error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
@@ -99,7 +95,9 @@ async function _GET(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -126,7 +124,7 @@ async function _GET(request: Request) {
     }
 
     return NextResponse.json(enrollment || {});
-  } catch (error) { 
+  } catch (error) {
     logger.error('SCORM tracking GET error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }

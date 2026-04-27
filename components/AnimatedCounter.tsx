@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -33,7 +33,7 @@ export function AnimatedCounter({
           animateCount();
         }
       },
-      { threshold: 0.1 }
+      { threshold: 0.1 },
     );
 
     if (counterRef.current) {
@@ -67,8 +67,7 @@ export function AnimatedCounter({
     requestAnimationFrame(updateCount);
   };
 
-  const formattedCount =
-    decimals > 0 ? count.toFixed(decimals) : Math.floor(count).toString();
+  const formattedCount = decimals > 0 ? count.toFixed(decimals) : Math.floor(count).toString();
 
   return (
     <div ref={counterRef} className={className}>

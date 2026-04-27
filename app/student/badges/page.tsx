@@ -12,10 +12,25 @@ export const metadata: Metadata = {
 export const dynamic = 'force-dynamic';
 
 const allBadges = [
-  { id: 'first-login', name: 'First Steps', description: 'Logged in for the first time', icon: '🎯' },
-  { id: 'profile-complete', name: 'Profile Pro', description: 'Completed your profile', icon: '👤' },
+  {
+    id: 'first-login',
+    name: 'First Steps',
+    description: 'Logged in for the first time',
+    icon: '🎯',
+  },
+  {
+    id: 'profile-complete',
+    name: 'Profile Pro',
+    description: 'Completed your profile',
+    icon: '👤',
+  },
   { id: 'first-course', name: 'Learner', description: 'Started your first course', icon: '📚' },
-  { id: 'first-completion', name: 'Achiever', description: 'Completed your first course', icon: '🏆' },
+  {
+    id: 'first-completion',
+    name: 'Achiever',
+    description: 'Completed your first course',
+    icon: '🏆',
+  },
   { id: 'week-streak', name: 'Consistent', description: '7-day learning streak', icon: '🔥' },
   { id: 'month-streak', name: 'Dedicated', description: '30-day learning streak', icon: '⭐' },
   { id: 'certification', name: 'Certified', description: 'Earned a certification', icon: '📜' },
@@ -24,8 +39,12 @@ const allBadges = [
 
 export default async function BadgesPage() {
   const supabase = await createClient();
-  if (!supabase) { redirect("/login"); }
-  const { data: { user } } = await supabase.auth.getUser();
+  if (!supabase) {
+    redirect('/login');
+  }
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/student/badges');
@@ -37,16 +56,11 @@ export default async function BadgesPage() {
     .select('badge_id, earned_at')
     .eq('user_id', user.id);
 
-  const earnedIds = new Set(earnedBadges?.map(b => b.badge_id) || []);
+  const earnedIds = new Set(earnedBadges?.map((b) => b.badge_id) || []);
 
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs
-        items={[
-          { label: 'Student Portal', href: '/student' },
-          { label: 'Badges' },
-        ]}
-      />
+      <Breadcrumbs items={[{ label: 'Student Portal', href: '/student' }, { label: 'Badges' }]} />
       <div className="max-w-4xl mx-auto px-6 py-12">
         <h1 className="text-3xl font-bold text-gray-900 mb-2">My Badges</h1>
         <p className="text-gray-600 mb-8">
@@ -86,7 +100,8 @@ export default async function BadgesPage() {
 
         <div className="mt-8 p-4 bg-blue-50 rounded-xl">
           <p className="text-sm text-blue-800">
-            <strong>Tip:</strong> Complete courses and maintain your learning streak to unlock more badges!
+            <strong>Tip:</strong> Complete courses and maintain your learning streak to unlock more
+            badges!
           </p>
         </div>
       </div>

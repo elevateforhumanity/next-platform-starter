@@ -44,7 +44,7 @@ We are grateful for the opportunity to partner with Warren Central High School a
 
 Respectfully,
 
-___________________________
+---
 
 Elizabeth Greene
 Founder & Chief Executive Officer
@@ -59,4 +59,4 @@ IMM Certified | ByBlack Certified | EmployIndy Partner | WorkOne Partner
 
 ---
 
-*This letter accompanies Elevate for Humanity's proposal submission for EmployIndy RFP 2026-003 — WIOA In-School Youth Service Provision. Submission deadline: April 24, 2026.*
+_This letter accompanies Elevate for Humanity's proposal submission for EmployIndy RFP 2026-003 — WIOA In-School Youth Service Provision. Submission deadline: April 24, 2026._

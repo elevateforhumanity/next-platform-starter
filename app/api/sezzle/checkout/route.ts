@@ -1,10 +1,10 @@
 // PUBLIC ROUTE: Sezzle BNPL checkout
 /**
  * Sezzle Checkout API - V2
- * 
+ *
  * Creates a Sezzle checkout session for BNPL payments.
  * Sezzle splits the purchase into 4 interest-free payments over 6 weeks.
- * 
+ *
  * Flow:
  * 1. Create session with order details
  * 2. Return checkout_url to redirect customer
@@ -45,8 +45,11 @@ async function _POST(request: NextRequest) {
         env: process.env.SEZZLE_ENVIRONMENT || 'not set',
       });
       return NextResponse.json(
-        { error: 'Sezzle is temporarily unavailable. Please select Card, Payment Plan, or another option above.' },
-        { status: 503 }
+        {
+          error:
+            'Sezzle is temporarily unavailable. Please select Card, Payment Plan, or another option above.',
+        },
+        { status: 503 },
       );
     }
 
@@ -98,7 +101,7 @@ async function _POST(request: NextRequest) {
     if (!firstName || !lastName || !email || !amount) {
       return NextResponse.json(
         { error: 'Missing required fields: firstName, lastName, email, amount' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -108,8 +111,8 @@ async function _POST(request: NextRequest) {
       programSlug,
       body.paymentOption, // 'deposit' | 'full' — client sends this
       amount,
-      35,    // Sezzle platform minimum
-      2500,  // Sezzle platform maximum
+      35, // Sezzle platform minimum
+      2500, // Sezzle platform maximum
     );
 
     if (!resolution.ok) {
@@ -148,20 +151,24 @@ async function _POST(request: NextRequest) {
         email,
         phone: phone || undefined,
         dob: dob || undefined,
-        billing_address: billingAddress ? {
-          street: billingAddress,
-          city: billingCity || '',
-          state: billingState || '',
-          postal_code: billingZip || '',
-          country_code: 'US',
-        } : undefined,
-        shipping_address: shippingAddress ? {
-          street: shippingAddress,
-          city: shippingCity || '',
-          state: shippingState || '',
-          postal_code: shippingZip || '',
-          country_code: 'US',
-        } : undefined,
+        billing_address: billingAddress
+          ? {
+              street: billingAddress,
+              city: billingCity || '',
+              state: billingState || '',
+              postal_code: billingZip || '',
+              country_code: 'US',
+            }
+          : undefined,
+        shipping_address: shippingAddress
+          ? {
+              street: shippingAddress,
+              city: shippingCity || '',
+              state: shippingState || '',
+              postal_code: shippingZip || '',
+              country_code: 'US',
+            }
+          : undefined,
       },
       order: {
         intent: intent as 'AUTH' | 'CAPTURE',
@@ -171,30 +178,36 @@ async function _POST(request: NextRequest) {
           amount_in_cents: Math.round(amount * 100),
           currency: 'USD',
         },
-        items: programName ? [
-          {
-            name: programName,
-            sku: programSlug || 'PROGRAM',
-            quantity: 1,
-            price: {
-              amount_in_cents: Math.round(amount * 100),
+        items: programName
+          ? [
+              {
+                name: programName,
+                sku: programSlug || 'PROGRAM',
+                quantity: 1,
+                price: {
+                  amount_in_cents: Math.round(amount * 100),
+                  currency: 'USD',
+                },
+              },
+            ]
+          : undefined,
+        tax_amount: taxAmount
+          ? {
+              amount_in_cents: Math.round(taxAmount * 100),
               currency: 'USD',
-            },
-          },
-        ] : undefined,
-        tax_amount: taxAmount ? {
-          amount_in_cents: Math.round(taxAmount * 100),
-          currency: 'USD',
-        } : undefined,
-        discounts: discountAmount ? [
-          {
-            name: discountName || 'Discount',
-            amount: {
-              amount_in_cents: Math.round(discountAmount * 100),
-              currency: 'USD',
-            },
-          },
-        ] : undefined,
+            }
+          : undefined,
+        discounts: discountAmount
+          ? [
+              {
+                name: discountName || 'Discount',
+                amount: {
+                  amount_in_cents: Math.round(discountAmount * 100),
+                  currency: 'USD',
+                },
+              },
+            ]
+          : undefined,
         metadata: {
           program_id: programId || '',
           program_slug: programSlug || '',
@@ -222,8 +235,8 @@ async function _POST(request: NextRequest) {
     const session = await sezzle.createSession(sessionRequest);
 
     // Get checkout URL from response
-    const checkoutUrl = session.order?.checkout_url || 
-      session.links?.find(l => l.rel === 'checkout')?.href;
+    const checkoutUrl =
+      session.order?.checkout_url || session.links?.find((l) => l.rel === 'checkout')?.href;
 
     if (!checkoutUrl) {
       return NextResponse.json({ error: 'No checkout URL returned from Sezzle' }, { status: 500 });
@@ -267,8 +280,11 @@ async function _POST(request: NextRequest) {
     const technicalMessage = 'Internal server error';
     logger.error('[Sezzle] Checkout session creation failed:', { technicalMessage });
     return NextResponse.json(
-      { error: 'Sezzle checkout could not be created. Please select Card, Payment Plan, or another option above.' },
-      { status: 500 }
+      {
+        error:
+          'Sezzle checkout could not be created. Please select Card, Payment Plan, or another option above.',
+      },
+      { status: 500 },
     );
   }
 }
@@ -292,10 +308,7 @@ async function _GET(request: NextRequest) {
 
     if (!sezzle.isConfigured()) {
       logger.error('[Sezzle] Status check attempted but client not configured');
-      return NextResponse.json(
-        { error: 'Sezzle is not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Sezzle is not configured' }, { status: 503 });
     }
 
     const { searchParams } = new URL(request.url);
@@ -312,10 +325,7 @@ async function _GET(request: NextRequest) {
       return NextResponse.json({ ok: true, session });
     }
 
-    return NextResponse.json(
-      { error: 'Provide order_uuid or session_uuid' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Provide order_uuid or session_uuid' }, { status: 400 });
   } catch (error) {
     logger.error('Sezzle status check error:', error);
     const message = 'Internal server error';

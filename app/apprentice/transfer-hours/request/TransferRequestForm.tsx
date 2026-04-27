@@ -2,13 +2,7 @@
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
-import {
-  Upload,
-  FileText,
-  AlertCircle,
-  Loader2,
-  X,
-CheckCircle, } from 'lucide-react';
+import { Upload, FileText, AlertCircle, Loader2, X, CheckCircle } from 'lucide-react';
 
 interface ExistingDocument {
   id: string;
@@ -58,8 +52,7 @@ export default function TransferRequestForm({
   const [error, setError] = useState<string | null>(null);
   const [success, setSuccess] = useState(false);
   const [uploading, setUploading] = useState<string | null>(null);
-  const [uploadedDocs, setUploadedDocs] =
-    useState<ExistingDocument[]>(existingDocuments);
+  const [uploadedDocs, setUploadedDocs] = useState<ExistingDocument[]>(existingDocuments);
 
   const [formData, setFormData] = useState({
     source: '',
@@ -69,18 +62,10 @@ export default function TransferRequestForm({
     employmentDates: '',
   });
 
-  const handleDocumentUpload = async (
-    documentType: string,
-    file: File
-  ) => {
+  const handleDocumentUpload = async (documentType: string, file: File) => {
     // Validate file
     const maxSize = 10 * 1024 * 1024;
-    const allowedTypes = [
-      'application/pdf',
-      'image/jpeg',
-      'image/jpg',
-      'image/png',
-    ];
+    const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png'];
 
     if (file.size > maxSize) {
       setError('File size must be less than 10MB');
@@ -132,9 +117,7 @@ export default function TransferRequestForm({
 
     // Validate at least one document uploaded
     if (uploadedDocs.length === 0) {
-      setError(
-        'Please upload at least one supporting document before submitting'
-      );
+      setError('Please upload at least one supporting document before submitting');
       return;
     }
 
@@ -179,19 +162,16 @@ export default function TransferRequestForm({
     }
   };
 
-  const getUploadedDoc = (type: string) =>
-    uploadedDocs.find((d) => d.document_type === type);
+  const getUploadedDoc = (type: string) => uploadedDocs.find((d) => d.document_type === type);
 
   if (success) {
     return (
       <div className="bg-brand-green-50 border border-brand-green-200 rounded-xl p-8 text-center">
         <span className="text-slate-500 flex-shrink-0">•</span>
-        <h2 className="text-2xl font-bold text-brand-green-900 mb-2">
-          Request Submitted!
-        </h2>
+        <h2 className="text-2xl font-bold text-brand-green-900 mb-2">Request Submitted!</h2>
         <p className="text-brand-green-700 mb-4">
-          Your transfer request has been submitted for review. You will be
-          notified once it has been processed.
+          Your transfer request has been submitted for review. You will be notified once it has been
+          processed.
         </p>
         <p className="text-brand-green-600 text-sm">Redirecting...</p>
       </div>
@@ -227,9 +207,7 @@ export default function TransferRequestForm({
             </label>
             <select
               value={formData.source}
-              onChange={(e) =>
-                setFormData({ ...formData, source: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, source: e.target.value })}
               required
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500"
             >
@@ -237,9 +215,7 @@ export default function TransferRequestForm({
               <option value="barber_school">Barber School</option>
               <option value="cosmetology_school">Cosmetology School</option>
               <option value="out_of_state_license">Out-of-State License</option>
-              <option value="previous_apprenticeship">
-                Previous Apprenticeship
-              </option>
+              <option value="previous_apprenticeship">Previous Apprenticeship</option>
               <option value="work_experience">Related Work Experience</option>
             </select>
           </div>
@@ -251,9 +227,7 @@ export default function TransferRequestForm({
             <input
               type="number"
               value={formData.hoursRequested}
-              onChange={(e) =>
-                setFormData({ ...formData, hoursRequested: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, hoursRequested: e.target.value })}
               required
               min="1"
               max={maxTransferHours}
@@ -261,8 +235,7 @@ export default function TransferRequestForm({
               placeholder={`Maximum: ${maxTransferHours} hours`}
             />
             <p className="text-sm text-slate-700 mt-1">
-              Maximum transferable: {maxTransferHours} hours (50% of program
-              total)
+              Maximum transferable: {maxTransferHours} hours (50% of program total)
             </p>
           </div>
 
@@ -273,9 +246,7 @@ export default function TransferRequestForm({
             <input
               type="text"
               value={formData.previousEmployer}
-              onChange={(e) =>
-                setFormData({ ...formData, previousEmployer: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, previousEmployer: e.target.value })}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500"
               placeholder="Name of school or employer"
             />
@@ -288,9 +259,7 @@ export default function TransferRequestForm({
             <input
               type="text"
               value={formData.employmentDates}
-              onChange={(e) =>
-                setFormData({ ...formData, employmentDates: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, employmentDates: e.target.value })}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500"
               placeholder="e.g., January 2022 - December 2023"
             />
@@ -302,9 +271,7 @@ export default function TransferRequestForm({
             </label>
             <textarea
               value={formData.description}
-              onChange={(e) =>
-                setFormData({ ...formData, description: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, description: e.target.value })}
               rows={4}
               className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500"
               placeholder="Describe your previous training or experience..."
@@ -317,8 +284,8 @@ export default function TransferRequestForm({
       <div className="bg-white rounded-xl shadow-sm border p-6">
         <h2 className="text-lg font-semibold mb-2">Supporting Documents</h2>
         <p className="text-slate-700 text-sm mb-6">
-          Upload at least one document to support your transfer request. All
-          documents will be verified before approval.
+          Upload at least one document to support your transfer request. All documents will be
+          verified before approval.
         </p>
 
         <div className="space-y-4">
@@ -347,12 +314,8 @@ export default function TransferRequestForm({
                   </div>
 
                   <div className="flex-1 min-w-0">
-                    <h3 className="font-medium text-slate-900">
-                      {docType.label}
-                    </h3>
-                    <p className="text-sm text-slate-700 mb-3">
-                      {docType.description}
-                    </p>
+                    <h3 className="font-medium text-slate-900">{docType.label}</h3>
+                    <p className="text-sm text-slate-700 mb-3">{docType.description}</p>
 
                     {uploaded ? (
                       <div className="flex items-center gap-2">
@@ -408,8 +371,8 @@ export default function TransferRequestForm({
         {uploadedDocs.length === 0 && (
           <div className="mt-4 p-4 bg-amber-50 border border-amber-200 rounded-lg">
             <p className="text-amber-800 text-sm">
-              <strong>Note:</strong> At least one supporting document is
-              required to submit a transfer request.
+              <strong>Note:</strong> At least one supporting document is required to submit a
+              transfer request.
             </p>
           </div>
         )}

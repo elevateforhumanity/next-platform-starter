@@ -3,7 +3,12 @@
 
 export interface TaxReturn {
   // Personal Info
-  filing_status: 'single' | 'married_joint' | 'married_separate' | 'head_of_household' | 'qualifying_widow';
+  filing_status:
+    | 'single'
+    | 'married_joint'
+    | 'married_separate'
+    | 'head_of_household'
+    | 'qualifying_widow';
   dependents_count: number;
 
   // Income
@@ -44,7 +49,7 @@ const STANDARD_DEDUCTIONS_2024: Record<string, number> = {
 
 // 2024 Federal Tax Brackets (Single)
 const TAX_BRACKETS_2024_SINGLE = [
-  { min: 0, max: 11600, rate: 0.10 },
+  { min: 0, max: 11600, rate: 0.1 },
   { min: 11600, max: 47150, rate: 0.12 },
   { min: 47150, max: 100525, rate: 0.22 },
   { min: 100525, max: 191950, rate: 0.24 },
@@ -55,7 +60,7 @@ const TAX_BRACKETS_2024_SINGLE = [
 
 // 2024 Federal Tax Brackets (Married Filing Jointly)
 const TAX_BRACKETS_2024_MARRIED_JOINT = [
-  { min: 0, max: 23200, rate: 0.10 },
+  { min: 0, max: 23200, rate: 0.1 },
   { min: 23200, max: 94300, rate: 0.12 },
   { min: 94300, max: 201050, rate: 0.22 },
   { min: 201050, max: 383900, rate: 0.24 },
@@ -66,7 +71,7 @@ const TAX_BRACKETS_2024_MARRIED_JOINT = [
 
 // 2024 Federal Tax Brackets (Head of Household)
 const TAX_BRACKETS_2024_HEAD_OF_HOUSEHOLD = [
-  { min: 0, max: 16550, rate: 0.10 },
+  { min: 0, max: 16550, rate: 0.1 },
   { min: 16550, max: 63100, rate: 0.12 },
   { min: 63100, max: 100500, rate: 0.22 },
   { min: 100500, max: 191950, rate: 0.24 },
@@ -151,7 +156,8 @@ export function calculateTax(taxReturn: TaxReturn): TaxCalculation {
   const adjusted_gross_income = total_income - se_tax_deduction - student_loan_deduction;
 
   // Calculate deductions
-  const standard_deduction = STANDARD_DEDUCTIONS_2024[taxReturn.filing_status] || STANDARD_DEDUCTIONS_2024.single;
+  const standard_deduction =
+    STANDARD_DEDUCTIONS_2024[taxReturn.filing_status] || STANDARD_DEDUCTIONS_2024.single;
   const deductions = taxReturn.standard_deduction
     ? standard_deduction
     : Math.max(taxReturn.itemized_deductions, standard_deduction);
@@ -184,7 +190,7 @@ export function calculateTax(taxReturn: TaxReturn): TaxCalculation {
 export function calculateRefund(
   taxCalculation: TaxCalculation,
   federal_withholding: number = 0,
-  estimated_tax_payments: number = 0
+  estimated_tax_payments: number = 0,
 ): {
   total_payments: number;
   refund_or_owed: number;
@@ -203,7 +209,7 @@ export function calculateRefund(
 // Generate Form 1040 data
 export function generateForm1040(
   taxReturn: TaxReturn,
-  taxCalculation: TaxCalculation
+  taxCalculation: TaxCalculation,
 ): Record<string, any> {
   return {
     form: '1040',

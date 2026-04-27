@@ -4,13 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 // FEEDBACK TYPES
 // =====================================================
 
-export type FeedbackType =
-  | 'bug'
-  | 'feature'
-  | 'improvement'
-  | 'complaint'
-  | 'praise'
-  | 'other';
+export type FeedbackType = 'bug' | 'feature' | 'improvement' | 'complaint' | 'praise' | 'other';
 export type FeedbackStatus =
   | 'new'
   | 'reviewing'
@@ -87,7 +81,7 @@ export async function submitFeedback(
     pageUrl?: string;
     browserInfo?: string;
     screenshotUrl?: string;
-  }
+  },
 ): Promise<Feedback> {
   const supabase = await createClient();
 
@@ -123,7 +117,7 @@ export async function getAllFeedback(
     status?: FeedbackStatus;
     priority?: FeedbackPriority;
   },
-  limit: number = 50
+  limit: number = 50,
 ): Promise<Feedback[]> {
   const supabase = await createClient();
 
@@ -133,7 +127,7 @@ export async function getAllFeedback(
       `
       *,
       user:profiles!user_id(first_name, last_name, email)
-    `
+    `,
     )
     .order('created_at', { ascending: false })
     .limit(limit);
@@ -178,7 +172,7 @@ export async function getUserFeedback(userId: string): Promise<Feedback[]> {
 export async function updateFeedbackStatus(
   feedbackId: string,
   status: FeedbackStatus,
-  adminResponse?: string
+  adminResponse?: string,
 ): Promise<void> {
   const supabase = await createClient();
 
@@ -192,10 +186,7 @@ export async function updateFeedbackStatus(
     updateData.responded_at = new Date().toISOString();
   }
 
-  const { error } = await supabase
-    .from('feedback')
-    .update(updateData)
-    .eq('id', feedbackId);
+  const { error } = await supabase.from('feedback').update(updateData).eq('id', feedbackId);
 
   if (error) throw error;
 
@@ -222,10 +213,7 @@ export async function updateFeedbackStatus(
 /**
  * Vote on feedback
  */
-export async function voteFeedback(
-  feedbackId: string,
-  userId: string
-): Promise<void> {
+export async function voteFeedback(feedbackId: string, userId: string): Promise<void> {
   const supabase = await createClient();
 
   // Check if user already voted
@@ -279,8 +267,7 @@ export async function getFeedbackStats(): Promise<{
   feedback?.forEach((item) => {
     stats.byType[item.type] = (stats.byType[item.type] || 0) + 1;
     stats.byStatus[item.status] = (stats.byStatus[item.status] || 0) + 1;
-    stats.byPriority[item.priority] =
-      (stats.byPriority[item.priority] || 0) + 1;
+    stats.byPriority[item.priority] = (stats.byPriority[item.priority] || 0) + 1;
   });
 
   // Calculate average response time
@@ -291,8 +278,7 @@ export async function getFeedbackStats(): Promise<{
       const responded = new Date(item.responded_at!).getTime();
       return sum + (responded - created);
     }, 0);
-    stats.averageResponseTime =
-      totalTime / respondedFeedback.length / (1000 * 60 * 60);
+    stats.averageResponseTime = totalTime / respondedFeedback.length / (1000 * 60 * 60);
   }
 
   return stats;
@@ -314,7 +300,7 @@ export async function createSurvey(
     targetAudience?: 'all' | 'students' | 'instructors' | 'admins';
     startDate?: string;
     endDate?: string;
-  }
+  },
 ): Promise<Survey> {
   const supabase = await createClient();
 
@@ -343,7 +329,7 @@ export async function createSurvey(
  * Get active surveys for user
  */
 export async function getActiveSurveys(
-  userRole: 'student' | 'instructor' | 'admin'
+  userRole: 'student' | 'instructor' | 'admin',
 ): Promise<Survey[]> {
   const supabase = await createClient();
 
@@ -385,7 +371,7 @@ export async function getAllSurveys(): Promise<Survey[]> {
 export async function submitSurveyResponse(
   surveyId: string,
   userId: string,
-  answers: Record<string, any>
+  answers: Record<string, any>,
 ): Promise<SurveyResponse> {
   const supabase = await createClient();
 
@@ -422,9 +408,7 @@ export async function submitSurveyResponse(
 /**
  * Get survey responses
  */
-export async function getSurveyResponses(
-  surveyId: string
-): Promise<SurveyResponse[]> {
+export async function getSurveyResponses(surveyId: string): Promise<SurveyResponse[]> {
   const supabase = await createClient();
 
   const { data, error }: any = await supabase
@@ -433,7 +417,7 @@ export async function getSurveyResponses(
       `
       *,
       user:profiles!user_id(first_name, last_name, email, role)
-    `
+    `,
     )
     .eq('survey_id', surveyId)
     .order('completed_at', { ascending: false });
@@ -458,11 +442,7 @@ export async function analyzeSurveyResults(surveyId: string): Promise<{
   const supabase = await createClient();
 
   // Get survey
-  const { data: survey } = await supabase
-    .from('surveys')
-    .select('*')
-    .eq('id', surveyId)
-    .single();
+  const { data: survey } = await supabase.from('surveys').select('*').eq('id', surveyId).single();
 
   if (!survey) throw new Error('Survey not found');
 
@@ -472,9 +452,7 @@ export async function analyzeSurveyResults(surveyId: string): Promise<{
   const analysis = {
     totalResponses: responses.length,
     questionAnalysis: survey.questions.map((q: SurveyQuestion) => {
-      const questionResponses = responses
-        .map((r) => r.answers[q.id])
-        .filter(Boolean);
+      const questionResponses = responses.map((r) => r.answers[q.id]).filter(Boolean);
 
       let responseData: any = {};
 
@@ -492,7 +470,7 @@ export async function analyzeSurveyResults(surveyId: string): Promise<{
             options: q.options?.map((option) => ({
               option,
               count: questionResponses.filter((r) =>
-                Array.isArray(r) ? r.includes(option) : r === option
+                Array.isArray(r) ? r.includes(option) : r === option,
               ).length,
             })),
           };
@@ -500,13 +478,9 @@ export async function analyzeSurveyResults(surveyId: string): Promise<{
 
         case 'rating':
         case 'scale':
-          const numericResponses = questionResponses
-            .map((r) => Number(r))
-            .filter((n) => !isNaN(n));
+          const numericResponses = questionResponses.map((r) => Number(r)).filter((n) => !isNaN(n));
           responseData = {
-            average:
-              numericResponses.reduce((a, b) => a + b, 0) /
-                numericResponses.length || 0,
+            average: numericResponses.reduce((a, b) => a + b, 0) / numericResponses.length || 0,
             min: Math.min(...numericResponses),
             max: Math.max(...numericResponses),
             distribution: numericResponses.reduce(
@@ -514,7 +488,7 @@ export async function analyzeSurveyResults(surveyId: string): Promise<{
                 acc[val] = (acc[val] || 0) + 1;
                 return acc;
               },
-              {} as Record<number, number>
+              {} as Record<number, number>,
             ),
           };
           break;
@@ -537,14 +511,11 @@ export async function analyzeSurveyResults(surveyId: string): Promise<{
  */
 export async function updateSurveyStatus(
   surveyId: string,
-  status: 'draft' | 'active' | 'closed'
+  status: 'draft' | 'active' | 'closed',
 ): Promise<void> {
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .from('surveys')
-    .update({ status })
-    .eq('id', surveyId);
+  const { error } = await supabase.from('surveys').update({ status }).eq('id', surveyId);
 
   if (error) throw error;
 }

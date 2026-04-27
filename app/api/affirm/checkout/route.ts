@@ -1,10 +1,10 @@
 // PUBLIC ROUTE: Affirm checkout initiation — unauthenticated payment flow
 /**
  * Affirm Checkout API
- * 
+ *
  * Returns configuration for client-side Affirm checkout.
  * Affirm checkout is initiated client-side via their JS SDK.
- * 
+ *
  * Flow:
  * 1. Client calls this API to get checkout config
  * 2. Server stores metadata in checkout_contexts table (not URL params)
@@ -13,7 +13,6 @@
  * 5. Affirm redirects to /api/affirm/capture with checkout_token + order_id
  * 6. Capture route loads metadata from DB by order_id
  */
-
 
 import { NextRequest, NextResponse } from 'next/server';
 import { randomBytes } from 'crypto';
@@ -40,8 +39,11 @@ async function _POST(request: NextRequest) {
         hasPrivKey: !!(process.env.AFFIRM_PRIVATE_KEY || process.env.AFFIRM_PRIVATE_API_KEY),
       });
       return NextResponse.json(
-        { error: 'Affirm is temporarily unavailable. Please select Card, Payment Plan, or another option above.' },
-        { status: 503 }
+        {
+          error:
+            'Affirm is temporarily unavailable. Please select Card, Payment Plan, or another option above.',
+        },
+        { status: 503 },
       );
     }
 
@@ -67,7 +69,7 @@ async function _POST(request: NextRequest) {
     if (!firstName || !lastName || !email || !amount) {
       return NextResponse.json(
         { error: 'Missing required fields: firstName, lastName, email, amount' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -76,8 +78,8 @@ async function _POST(request: NextRequest) {
       programSlug,
       body.paymentOption,
       amount,
-      50,    // Affirm platform minimum
-      null,  // Affirm has no platform maximum
+      50, // Affirm platform minimum
+      null, // Affirm has no platform maximum
     );
 
     if (!resolution.ok) {
@@ -92,10 +94,7 @@ async function _POST(request: NextRequest) {
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
     const { data: context, error: contextError } = await supabase
       .from('checkout_contexts')
@@ -123,10 +122,7 @@ async function _POST(request: NextRequest) {
 
     if (contextError) {
       logger.error('Failed to create checkout context:', contextError);
-      return NextResponse.json(
-        { error: 'Failed to initialize checkout' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to initialize checkout' }, { status: 500 });
     }
 
     // Only pass order_id in URL - all metadata loaded from DB in capture
@@ -165,10 +161,7 @@ async function _POST(request: NextRequest) {
   } catch (error) {
     logger.error('Affirm checkout config error:', error);
     const message = 'Internal server error';
-    return NextResponse.json(
-      { error: message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/affirm/checkout', _POST);

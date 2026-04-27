@@ -26,33 +26,34 @@ async function _POST(req: NextRequest) {
     if (missing.length > 0) {
       return NextResponse.json(
         { success: false, error: `Missing required fields: ${missing.join(', ')}` },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Basic email format check
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
     if (!emailRegex.test(data.email.trim())) {
-      return NextResponse.json(
-        { success: false, error: 'Invalid email address' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'Invalid email address' }, { status: 400 });
     }
 
     // @preAuthWrite table=program_enrollments mode=reconcile
-    const { data: enrollment, error } = await insertWithPreAuthCheck(supabase, 'program_enrollments', {
-      first_name: data.firstName.trim(),
-      last_name: data.lastName.trim(),
-      email: data.email.trim().toLowerCase(),
-      phone: data.phone?.trim() || null,
-      program_id: data.programId,
-      program_name: data.programName,
-      funding_type: data.fundingType || 'wioa',
-      status: 'pending',
-      source: data.source || 'website',
-      notes: data.notes || null,
-      created_at: new Date().toISOString(),
-    })
+    const { data: enrollment, error } = await insertWithPreAuthCheck(
+      supabase,
+      'program_enrollments',
+      {
+        first_name: data.firstName.trim(),
+        last_name: data.lastName.trim(),
+        email: data.email.trim().toLowerCase(),
+        phone: data.phone?.trim() || null,
+        program_id: data.programId,
+        program_name: data.programName,
+        funding_type: data.fundingType || 'wioa',
+        status: 'pending',
+        source: data.source || 'website',
+        notes: data.notes || null,
+        created_at: new Date().toISOString(),
+      },
+    )
       .select()
       .maybeSingle();
 
@@ -61,7 +62,10 @@ async function _POST(req: NextRequest) {
     return NextResponse.json({ success: true, enrollment });
   } catch (error) {
     logger.error('Enrollment error:', error);
-    return NextResponse.json({ success: false, error: 'Failed to submit enrollment' }, { status: 500 });
+    return NextResponse.json(
+      { success: false, error: 'Failed to submit enrollment' },
+      { status: 500 },
+    );
   }
 }
 export const POST = withApiAudit('/api/enrollment/submit', _POST);

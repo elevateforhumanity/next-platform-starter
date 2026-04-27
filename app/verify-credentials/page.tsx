@@ -1,28 +1,27 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { 
-  Shield, 
-  
-  ExternalLink, 
-  Building2, 
-  Award, 
+import {
+  Shield,
+  ExternalLink,
+  Building2,
+  Award,
   FileCheck,
   BadgeCheck,
   Phone,
   Mail,
   MapPin,
   Clock,
-  AlertCircle
+  AlertCircle,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Verify Our Credentials | Elevate For Humanity',
-  description: 'Verify Elevate For Humanity credentials including ETPL listing, RAPIDS registration, state approvals, and accreditation status. All credentials are independently verifiable.',
+  description:
+    'Verify Elevate For Humanity credentials including ETPL listing, RAPIDS registration, state approvals, and accreditation status. All credentials are independently verifiable.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/verify-credentials',
   },
@@ -49,7 +48,8 @@ const credentials: VerifiableCredential[] = [
     status: 'active',
     validThrough: null,
     verificationUrl: 'https://www.apprenticeship.gov/partner-finder',
-    verificationInstructions: 'Search for "Elevate for Humanity" in the DOL Apprenticeship Partner Finder',
+    verificationInstructions:
+      'Search for "Elevate for Humanity" in the DOL Apprenticeship Partner Finder',
     icon: Shield,
     image: '/images/pages/credential-partners-hero.jpg',
     category: 'federal',
@@ -61,7 +61,8 @@ const credentials: VerifiableCredential[] = [
     status: 'active',
     validThrough: null,
     verificationUrl: 'https://intraining.dwd.in.gov/',
-    verificationInstructions: 'Search INTraining for Location ID 10004621 or "Elevate for Humanity"',
+    verificationInstructions:
+      'Search INTraining for Location ID 10004621 or "Elevate for Humanity"',
     icon: Building2,
     image: '/images/pages/credential-partners-hero.jpg',
     category: 'state',
@@ -96,7 +97,8 @@ const credentials: VerifiableCredential[] = [
     idNumber: null,
     status: 'active',
     validThrough: null,
-    verificationUrl: 'https://www.in.gov/che/state-financial-aid/state-financial-aid-by-program/workforce-ready-grant/',
+    verificationUrl:
+      'https://www.in.gov/che/state-financial-aid/state-financial-aid-by-program/workforce-ready-grant/',
     verificationInstructions: 'WRG eligibility tied to ETPL-approved programs',
     icon: BadgeCheck,
     image: '/images/pages/credential-partners-hero.jpg',
@@ -109,7 +111,8 @@ const credentials: VerifiableCredential[] = [
     status: 'active',
     validThrough: null,
     verificationUrl: null,
-    verificationInstructions: 'Contact Indiana DOC or local WorkOne office to verify Job Ready Indy partnership',
+    verificationInstructions:
+      'Contact Indiana DOC or local WorkOne office to verify Job Ready Indy partnership',
     icon: Shield,
     image: '/images/pages/credential-partners-hero.jpg',
     category: 'funding',
@@ -122,7 +125,7 @@ function StatusBadge({ status }: { status: 'active' | 'pending' | 'renewal' }) {
     pending: 'bg-yellow-100 text-yellow-800 border-yellow-200',
     renewal: 'bg-brand-blue-100 text-brand-blue-800 border-brand-blue-200',
   };
-  
+
   const labels = {
     active: 'Active',
     pending: 'Pending',
@@ -130,7 +133,9 @@ function StatusBadge({ status }: { status: 'active' | 'pending' | 'renewal' }) {
   };
 
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium border ${styles[status]}`}>
+    <span
+      className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium border ${styles[status]}`}
+    >
       {status === 'active' && <span className="text-slate-400 flex-shrink-0">•</span>}
       {status === 'pending' && <Clock className="w-3 h-3" />}
       {status === 'renewal' && <AlertCircle className="w-3 h-3" />}
@@ -145,7 +150,14 @@ function CredentialCard({ credential }: { credential: VerifiableCredential }) {
       <div className="flex items-start justify-between mb-4">
         <div className="flex items-center gap-3">
           <div className="relative w-12 h-12 rounded-lg overflow-hidden flex-shrink-0">
-            <Image src={credential.image} alt={credential.name} fill sizes="48px" className="object-cover" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+            <Image
+              src={credential.image}
+              alt={credential.name}
+              fill
+              sizes="48px"
+              className="object-cover"
+            />
           </div>
           <div>
             <h3 className="font-bold text-slate-900">{credential.name}</h3>
@@ -154,20 +166,20 @@ function CredentialCard({ credential }: { credential: VerifiableCredential }) {
         </div>
         <StatusBadge status={credential.status} />
       </div>
-      
+
       {credential.idNumber && (
         <div className="mb-4 p-3 bg-white rounded-lg">
           <p className="text-sm text-slate-700 mb-1">Credential ID</p>
           <p className="font-mono text-sm font-medium text-slate-900">{credential.idNumber}</p>
         </div>
       )}
-      
+
       {credential.validThrough && (
         <p className="text-sm text-slate-700 mb-4">
           <strong>Valid Through:</strong> {credential.validThrough}
         </p>
       )}
-      
+
       <div className="border-t pt-4">
         <p className="text-sm text-slate-700 mb-3">
           <strong>How to Verify:</strong> {credential.verificationInstructions}
@@ -188,9 +200,9 @@ function CredentialCard({ credential }: { credential: VerifiableCredential }) {
 }
 
 export default function VerifyCredentialsPage() {
-  const federalCredentials = credentials.filter(c => c.category === 'federal');
-  const stateCredentials = credentials.filter(c => c.category === 'state');
-  const fundingCredentials = credentials.filter(c => c.category === 'funding');
+  const federalCredentials = credentials.filter((c) => c.category === 'federal');
+  const stateCredentials = credentials.filter((c) => c.category === 'state');
+  const fundingCredentials = credentials.filter((c) => c.category === 'funding');
 
   return (
     <div className="min-h-screen bg-white">
@@ -213,13 +225,15 @@ export default function VerifyCredentialsPage() {
         />
         <div className="absolute bottom-0 left-0 right-0 p-6 sm:p-10">
           <div className="max-w-6xl mx-auto">
-            <p className="text-sm font-semibold tracking-wide text-brand-blue-300 mb-1">Credential Verification</p>
+            <p className="text-sm font-semibold tracking-wide text-brand-blue-300 mb-1">
+              Credential Verification
+            </p>
             <h1 className="text-3xl md:text-5xl font-bold text-white mb-2">
               Verify Our Credentials
             </h1>
             <p className="text-base md:text-lg text-white/90 max-w-3xl">
-              All credentials are independently verifiable through official 
-              government databases and issuing authorities.
+              All credentials are independently verifiable through official government databases and
+              issuing authorities.
             </p>
           </div>
         </div>
@@ -238,15 +252,22 @@ export default function VerifyCredentialsPage() {
                 <ul className="space-y-2 text-sm">
                   <li className="flex items-start gap-2">
                     <span className="text-slate-400 flex-shrink-0">•</span>
-                    <span><strong>ETPL:</strong> INTraining Location ID 10004621</span>
+                    <span>
+                      <strong>ETPL:</strong> INTraining Location ID 10004621
+                    </span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-slate-400 flex-shrink-0">•</span>
-                    <span><strong>RAPIDS:</strong> 2025-IN-132301</span>
+                    <span>
+                      <strong>RAPIDS:</strong> 2025-IN-132301
+                    </span>
                   </li>
                   <li className="flex items-start gap-2">
                     <span className="text-slate-400 flex-shrink-0">•</span>
-                    <span><strong>Legal Name:</strong> 2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Technical Institute</span>
+                    <span>
+                      <strong>Legal Name:</strong> 2Exclusive LLC-S d/b/a Elevate for Humanity
+                      Career &amp; Technical Institute
+                    </span>
                   </li>
                 </ul>
               </div>
@@ -318,8 +339,8 @@ export default function VerifyCredentialsPage() {
                 Need Additional Verification?
               </h2>
               <p className="text-slate-700 mb-6">
-                If you need official documentation, verification letters, or have questions 
-                about our credentials, contact our compliance team directly.
+                If you need official documentation, verification letters, or have questions about
+                our credentials, contact our compliance team directly.
               </p>
               <div className="space-y-4">
                 <div className="flex items-center gap-3">
@@ -328,7 +349,10 @@ export default function VerifyCredentialsPage() {
                   </div>
                   <div>
                     <p className="text-sm text-slate-700">Phone</p>
-                    <a href="/support" className="font-medium text-slate-900 hover:text-brand-blue-600">
+                    <a
+                      href="/support"
+                      className="font-medium text-slate-900 hover:text-brand-blue-600"
+                    >
                       (317) 314-3757
                     </a>
                   </div>
@@ -339,7 +363,10 @@ export default function VerifyCredentialsPage() {
                   </div>
                   <div>
                     <p className="text-sm text-slate-700">Email</p>
-                    <a href="/contact" className="font-medium text-slate-900 hover:text-brand-blue-600">
+                    <a
+                      href="/contact"
+                      className="font-medium text-slate-900 hover:text-brand-blue-600"
+                    >
                       our contact form
                     </a>
                   </div>
@@ -398,10 +425,10 @@ export default function VerifyCredentialsPage() {
           <div className="flex items-start gap-3">
             <AlertCircle className="w-5 h-5 text-slate-700 flex-shrink-0 mt-0.5" />
             <p className="text-sm text-slate-700">
-              <strong>Note:</strong> Credential status is current as of the last update. 
-              For the most up-to-date verification, please use the official verification 
-              links provided above. Some credentials may be in renewal status during 
-              annual review periods. Contact us if you have questions about any credential status.
+              <strong>Note:</strong> Credential status is current as of the last update. For the
+              most up-to-date verification, please use the official verification links provided
+              above. Some credentials may be in renewal status during annual review periods. Contact
+              us if you have questions about any credential status.
             </p>
           </div>
         </div>

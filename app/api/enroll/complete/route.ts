@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -32,16 +30,8 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     const body: CompleteEnrollmentRequest = await req.json();
-    const {
-      sessionId,
-      applicationId,
-      programSlug,
-      firstName,
-      lastName,
-      email,
-      phone,
-      amountPaid,
-    } = body;
+    const { sessionId, applicationId, programSlug, firstName, lastName, email, phone, amountPaid } =
+      body;
 
     const supabase = await createClient();
     const emailLower = email.toLowerCase();
@@ -76,17 +66,16 @@ async function _POST(req: Request) {
       // Math.random() is predictable — use randomBytes instead.
       const { randomBytes: _rb } = await import('crypto');
       const tempPassword = `EFH-${_rb(8).toString('hex')}-Temp!`;
-      const { data: authData, error: authError } =
-        await supabase.auth.admin.createUser({
-          email: emailLower,
-          password: tempPassword,
-          email_confirm: true,
-          user_metadata: {
-            full_name: `${firstName} ${lastName}`,
-            first_name: firstName,
-            last_name: lastName,
-          },
-        });
+      const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+        email: emailLower,
+        password: tempPassword,
+        email_confirm: true,
+        user_metadata: {
+          full_name: `${firstName} ${lastName}`,
+          first_name: firstName,
+          last_name: lastName,
+        },
+      });
 
       if (authError || !authData.user) {
         logger.error('Auth user creation error', authError);
@@ -156,9 +145,7 @@ async function _POST(req: Request) {
           status: 'pending',
           payment_status: 'paid',
           stripe_checkout_session_id: sessionId,
-          ...(programSlug === 'barber-apprenticeship'
-            ? { course_id: BARBER_COURSE_ID }
-            : {}),
+          ...(programSlug === 'barber-apprenticeship' ? { course_id: BARBER_COURSE_ID } : {}),
         })
         .eq('id', enrollmentId);
     } else {
@@ -171,9 +158,7 @@ async function _POST(req: Request) {
           status: 'pending',
           payment_status: 'paid',
           stripe_checkout_session_id: sessionId,
-          ...(programSlug === 'barber-apprenticeship'
-            ? { course_id: BARBER_COURSE_ID }
-            : {}),
+          ...(programSlug === 'barber-apprenticeship' ? { course_id: BARBER_COURSE_ID } : {}),
         })
         .select('id')
         .maybeSingle();
@@ -229,10 +214,15 @@ async function _POST(req: Request) {
     // Step 10: Send welcome email with LMS access
     try {
       const { sendWelcomeEmail } = await import('@/lib/email/sendgrid');
-      const isBarberProgram = programSlug === 'barber-apprenticeship' || 
-        program.title || program?.title || program?.name.toLowerCase().includes('barber') ||
-        program.title || program?.title || program?.name.toLowerCase().includes('apprentice');
-      
+      const isBarberProgram =
+        programSlug === 'barber-apprenticeship' ||
+        program.title ||
+        program?.title ||
+        program?.name.toLowerCase().includes('barber') ||
+        program.title ||
+        program?.title ||
+        program?.name.toLowerCase().includes('apprentice');
+
       await sendWelcomeEmail({
         email: emailLower,
         name: `${firstName} ${lastName}`,
@@ -262,7 +252,7 @@ async function _POST(req: Request) {
     logger.error('Enrollment completion err', err);
     return NextResponse.json(
       { err: toErrorMessage(err) || 'Internal server err' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

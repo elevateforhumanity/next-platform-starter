@@ -23,18 +23,21 @@ export default function CprHero() {
     if (!audio) return;
     const handler = () => {
       if (audio.paused) {
-        audio.play().then(() => setMuted(false)).catch(() => {});
+        audio
+          .play()
+          .then(() => setMuted(false))
+          .catch(() => {});
       }
       ['click', 'scroll', 'touchstart', 'keydown'].forEach((e) =>
-        window.removeEventListener(e, handler, { capture: true } as EventListenerOptions)
+        window.removeEventListener(e, handler, { capture: true } as EventListenerOptions),
       );
     };
     ['click', 'scroll', 'touchstart', 'keydown'].forEach((e) =>
-      window.addEventListener(e, handler, { capture: true, passive: true })
+      window.addEventListener(e, handler, { capture: true, passive: true }),
     );
     return () => {
       ['click', 'scroll', 'touchstart', 'keydown'].forEach((e) =>
-        window.removeEventListener(e, handler, { capture: true } as EventListenerOptions)
+        window.removeEventListener(e, handler, { capture: true } as EventListenerOptions),
       );
     };
   }, []);
@@ -43,7 +46,10 @@ export default function CprHero() {
     const audio = audioRef.current;
     if (!audio) return;
     if (muted) {
-      audio.play().then(() => setMuted(false)).catch(() => {});
+      audio
+        .play()
+        .then(() => setMuted(false))
+        .catch(() => {});
     } else {
       audio.pause();
       setMuted(true);
@@ -58,6 +64,7 @@ export default function CprHero() {
         style={{ height: 'clamp(400px, 56vw, 780px)' }}
         aria-label="CPR & First Aid hero"
       >
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/cpr-training-real.jpg"
           alt="CPR training session"
@@ -67,12 +74,7 @@ export default function CprHero() {
           className="object-cover object-center"
         />
 
-        <audio
-          ref={audioRef}
-          src="/audio/heroes/cpr.mp3"
-          preload="metadata"
-          aria-hidden="true"
-        />
+        <audio ref={audioRef} src="/audio/heroes/cpr.mp3" preload="metadata" aria-hidden="true" />
 
         {/* Micro-label — bottom-left, 3 words max */}
         <div className="absolute bottom-4 left-4 z-10">
@@ -97,12 +99,16 @@ export default function CprHero() {
       {/* BELOW-HERO CONTENT — all text lives here */}
       <div className="bg-white border-b border-slate-100 py-10 px-6">
         <div className="max-w-4xl mx-auto">
-          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest mb-3">CPR &amp; First Aid Certification</p>
+          <p className="text-brand-red-600 text-xs font-bold uppercase tracking-widest mb-3">
+            CPR &amp; First Aid Certification
+          </p>
           <h1 className="text-3xl sm:text-5xl font-extrabold text-slate-900 leading-tight mb-4">
             Get CPR certified — from the comfort of your own home.
           </h1>
           <p className="text-slate-600 text-lg leading-relaxed mb-6 max-w-2xl">
-            A training mannequin is shipped directly to your door. A live instructor guides you through every step online. One session. Same-day certification card. <strong>$130</strong> — or free with any Elevate program enrollment.
+            A training mannequin is shipped directly to your door. A live instructor guides you
+            through every step online. One session. Same-day certification card.{' '}
+            <strong>$130</strong> — or free with any Elevate program enrollment.
           </p>
           <div className="flex flex-wrap gap-4">
             <Link

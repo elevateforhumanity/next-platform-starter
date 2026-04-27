@@ -18,10 +18,7 @@ import { logger } from '@/lib/logger';
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
 
-export async function GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ slug: string }> }
-) {
+export async function GET(request: NextRequest, { params }: { params: Promise<{ slug: string }> }) {
   // Auth check — must match INTERNAL_API_KEY env var
   const key = request.headers.get('x-internal-key');
   const expected = process.env.INTERNAL_API_KEY;
@@ -29,7 +26,7 @@ export async function GET(
   if (!expected) {
     return NextResponse.json(
       { error: 'INTERNAL_API_KEY not configured on this environment' },
-      { status: 503 }
+      { status: 503 },
     );
   }
 
@@ -49,7 +46,8 @@ export async function GET(
 
     const { data, error } = await supabase
       .from('programs')
-      .select(`
+      .select(
+        `
         id, slug, title, published, delivery_model, length_weeks, certificate_title,
         program_media ( id, media_type, url, sort_order ),
         program_ctas ( id, cta_type, label, href, sort_order ),
@@ -58,27 +56,33 @@ export async function GET(
           id, module_number, title, sort_order,
           program_lessons ( id, lesson_number, title, sort_order )
         )
-      `)
+      `,
+      )
       .eq('slug', slug)
       .eq('published', true)
       .maybeSingle();
 
     if (error || !data) {
       return NextResponse.json(
-        { error: `Published program not found for slug: ${slug}`, slug, query_ms: Date.now() - startMs },
-        { status: 404 }
+        {
+          error: `Published program not found for slug: ${slug}`,
+          slug,
+          query_ms: Date.now() - startMs,
+        },
+        { status: 404 },
       );
     }
 
     const heroMedia = (data.program_media ?? []).filter(
-      (m: { media_type: string }) => m.media_type === 'hero_image' || m.media_type === 'hero_video'
+      (m: { media_type: string }) => m.media_type === 'hero_image' || m.media_type === 'hero_video',
     );
     const totalLessons = (data.program_modules ?? []).reduce(
-      (sum: number, mod: { program_lessons?: unknown[] }) => sum + (mod.program_lessons?.length ?? 0),
-      0
+      (sum: number, mod: { program_lessons?: unknown[] }) =>
+        sum + (mod.program_lessons?.length ?? 0),
+      0,
     );
     const fundedTracks = (data.program_tracks ?? []).filter(
-      (t: { funding_type: string }) => t.funding_type === 'funded'
+      (t: { funding_type: string }) => t.funding_type === 'funded',
     );
 
     return NextResponse.json({
@@ -86,7 +90,8 @@ export async function GET(
         slug: data.slug,
         title: data.title,
         published: data.published,
-        source: 'programs + program_media + program_ctas + program_tracks + program_modules + program_lessons (admin client)',
+        source:
+          'programs + program_media + program_ctas + program_tracks + program_modules + program_lessons (admin client)',
         counts: {
           media: (data.program_media ?? []).length,
           hero_media: heroMedia.length,
@@ -97,12 +102,20 @@ export async function GET(
           lessons: totalLessons,
         },
         hero_media_present: heroMedia.length > 0,
-        cta_hrefs: (data.program_ctas ?? []).map((c: { cta_type: string; href: string; label: string }) => ({
-          type: c.cta_type, href: c.href, label: c.label,
-        })),
-        track_titles: (data.program_tracks ?? []).map((t: { title: string; funding_type: string; available: boolean }) => ({
-          title: t.title, funding_type: t.funding_type, available: t.available,
-        })),
+        cta_hrefs: (data.program_ctas ?? []).map(
+          (c: { cta_type: string; href: string; label: string }) => ({
+            type: c.cta_type,
+            href: c.href,
+            label: c.label,
+          }),
+        ),
+        track_titles: (data.program_tracks ?? []).map(
+          (t: { title: string; funding_type: string; available: boolean }) => ({
+            title: t.title,
+            funding_type: t.funding_type,
+            available: t.available,
+          }),
+        ),
         module_titles: (data.program_modules ?? []).map((m: { title: string }) => m.title),
         delivery_model: data.delivery_model,
         length_weeks: data.length_weeks,
@@ -114,8 +127,13 @@ export async function GET(
   } catch (err) {
     logger.error('[program-proof] unexpected error', { slug, err });
     return NextResponse.json(
-      { error: 'Internal server error', slug, queried_at: new Date().toISOString(), query_ms: Date.now() - startMs },
-      { status: 500 }
+      {
+        error: 'Internal server error',
+        slug,
+        queried_at: new Date().toISOString(),
+        query_ms: Date.now() - startMs,
+      },
+      { status: 500 },
     );
   }
 }

@@ -17,10 +17,7 @@ async function _POST(req: Request) {
     const { hour_id } = await req.json();
 
     if (!hour_id) {
-      return NextResponse.json(
-        { error: 'Hour ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Hour ID is required' }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -45,13 +42,14 @@ async function _POST(req: Request) {
       .eq('user_id', user.id)
       .maybeSingle();
 
-    const isLegacyApprover = !!profile?.role && ['admin', 'sponsor', 'employer'].includes(profile.role);
+    const isLegacyApprover =
+      !!profile?.role && ['admin', 'sponsor', 'employer'].includes(profile.role);
     const isPartner = !!partnerUser;
 
     if (!isLegacyApprover && !isPartner) {
       return NextResponse.json(
         { error: 'Forbidden - requires admin/sponsor/employer or partner role' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -71,11 +69,13 @@ async function _POST(req: Request) {
     }
 
     // Employer can only approve OJL hours, not RTI
-    const isRti = ['rti', 'in_state_barber_school', 'continuing_education'].includes(hourEntry.source_type);
+    const isRti = ['rti', 'in_state_barber_school', 'continuing_education'].includes(
+      hourEntry.source_type,
+    );
     if (isRti && profile?.role === 'employer') {
       return NextResponse.json(
         { error: 'Employers cannot approve RTI hours — requires sponsor or admin' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -90,7 +90,7 @@ async function _POST(req: Request) {
       if (studentProfile?.employer_id !== profile.employer_id) {
         return NextResponse.json(
           { error: 'Forbidden - can only approve hours for your own apprentices' },
-          { status: 403 }
+          { status: 403 },
         );
       }
     }
@@ -107,7 +107,7 @@ async function _POST(req: Request) {
       if (!apprenticeship) {
         return NextResponse.json(
           { error: 'Forbidden - can only approve hours for your own apprentices' },
-          { status: 403 }
+          { status: 403 },
         );
       }
     }
@@ -126,10 +126,7 @@ async function _POST(req: Request) {
 
     if (error) {
       // Error: $1
-      return NextResponse.json(
-        { error: 'Failed to approve hours' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to approve hours' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
@@ -137,7 +134,7 @@ async function _POST(req: Request) {
     // Error: $1
     return NextResponse.json(
       { err: toErrorMessage(err) || 'Failed to approve hours' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -151,10 +148,7 @@ async function _PUT(req: Request) {
     const { hour_ids } = await req.json();
 
     if (!hour_ids || !Array.isArray(hour_ids)) {
-      return NextResponse.json(
-        { error: 'Hour IDs array is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Hour IDs array is required' }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -179,13 +173,14 @@ async function _PUT(req: Request) {
       .eq('user_id', user.id)
       .maybeSingle();
 
-    const isLegacyApprover = !!profile?.role && ['admin', 'sponsor', 'employer'].includes(profile.role);
+    const isLegacyApprover =
+      !!profile?.role && ['admin', 'sponsor', 'employer'].includes(profile.role);
     const isPartner = !!partnerUser;
 
     if (!isLegacyApprover && !isPartner) {
       return NextResponse.json(
         { error: 'Forbidden - requires admin/sponsor/employer or partner role' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -197,19 +192,19 @@ async function _PUT(req: Request) {
         .in('id', hour_ids);
 
       if (entries) {
-        const studentIds = [...new Set(entries.map(e => e.user_id))];
+        const studentIds = [...new Set(entries.map((e) => e.user_id))];
         const { data: studentProfiles } = await supabase
           .from('user_profiles')
           .select('user_id, employer_id')
           .in('user_id', studentIds);
 
         const unauthorized = studentProfiles?.filter(
-          sp => sp.employer_id !== profile.employer_id
+          (sp) => sp.employer_id !== profile.employer_id,
         );
         if (unauthorized && unauthorized.length > 0) {
           return NextResponse.json(
             { error: 'Forbidden - can only approve hours for your own apprentices' },
-            { status: 403 }
+            { status: 403 },
           );
         }
       }
@@ -230,12 +225,14 @@ async function _PUT(req: Request) {
           .in('apprentice_id', studentIds)
           .eq('partner_id', partnerUser!.partner_id);
 
-        const authorizedIds = new Set((apprenticeships || []).map((a: { apprentice_id: string }) => a.apprentice_id));
-        const unauthorized = studentIds.filter(id => !authorizedIds.has(id));
+        const authorizedIds = new Set(
+          (apprenticeships || []).map((a: { apprentice_id: string }) => a.apprentice_id),
+        );
+        const unauthorized = studentIds.filter((id) => !authorizedIds.has(id));
         if (unauthorized.length > 0) {
           return NextResponse.json(
             { error: 'Forbidden - can only approve hours for your own apprentices' },
-            { status: 403 }
+            { status: 403 },
           );
         }
       }
@@ -255,10 +252,7 @@ async function _PUT(req: Request) {
 
     if (error) {
       // Error: $1
-      return NextResponse.json(
-        { error: 'Failed to approve hours' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to approve hours' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, count: hour_ids.length });
@@ -266,7 +260,7 @@ async function _PUT(req: Request) {
     // Error: $1
     return NextResponse.json(
       { err: toErrorMessage(err) || 'Failed to approve hours' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

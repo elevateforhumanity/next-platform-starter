@@ -35,14 +35,11 @@ export default function AdvisingPage() {
       if (response.ok) {
         setIsSubmitted(true);
       } else {
-        alert(
-          'There was an error submitting your request. Please contact us at support center.'
-        );
+        alert('There was an error submitting your request. Please contact us at support center.');
       }
-    } catch (error) { /* Error handled silently */ 
-      alert(
-        'There was an error submitting your request. Please contact us at support center.'
-      );
+    } catch (error) {
+      /* Error handled silently */
+      alert('There was an error submitting your request. Please contact us at support center.');
     } finally {
       setIsSubmitting(false);
     }
@@ -66,16 +63,13 @@ export default function AdvisingPage() {
             Talk with an advisor about your next steps.
           </h1>
           <p className="mt-3 text-sm text-black">
-            Not sure where to start, what you qualify for, or which program fits
-            you best? Our advising team will walk through your goals, barriers,
-            and options so you don&apos;t have to figure it out alone.
+            Not sure where to start, what you qualify for, or which program fits you best? Our
+            advising team will walk through your goals, barriers, and options so you don&apos;t have
+            to figure it out alone.
           </p>
           <p className="mt-4 text-sm text-black">
             <strong>Prefer to call?</strong> Reach us at{' '}
-            <a
-              href="/support"
-              className="text-indigo-600 font-semibold hover:underline"
-            >
+            <a href="/support" className="text-indigo-600 font-semibold hover:underline">
               support center
             </a>
           </p>
@@ -86,44 +80,30 @@ export default function AdvisingPage() {
             <div className="w-16 h-16 bg-white rounded-full flex items-center justify-center mx-auto mb-4">
               <span className="text-slate-500 flex-shrink-0">•</span>
             </div>
-            <h2 className="text-2xl font-bold text-black mb-2">
-              Request Submitted!
-            </h2>
+            <h2 className="text-2xl font-bold text-black mb-2">Request Submitted!</h2>
             <p className="text-black mb-4">
-              Thank you for your interest. An advisor will contact you within
-              1-2 business days.
+              Thank you for your interest. An advisor will contact you within 1-2 business days.
             </p>
             <p className="text-sm text-black">
               Need immediate assistance? Contact us at{' '}
-              <a
-                href="/support"
-                className="text-indigo-600 font-semibold hover:underline"
-              >
+              <a href="/support" className="text-indigo-600 font-semibold hover:underline">
                 support center
               </a>
             </p>
           </section>
         ) : (
           <section className="rounded-2xl p-5 shadow-sm ring-1 ring-slate-200">
-            <h2 className="text-sm font-semibold text-black">
-              Schedule a meeting or visit
-            </h2>
+            <h2 className="text-sm font-semibold text-black">Schedule a meeting or visit</h2>
             <p className="mt-2 text-xs text-black">
-              Complete this form and a member of our team will reach out to you
-              within a reasonable timeframe to schedule a phone call, video
-              meeting, or in-person appointment where available.
+              Complete this form and a member of our team will reach out to you within a reasonable
+              timeframe to schedule a phone call, video meeting, or in-person appointment where
+              available.
             </p>
 
-            <form
-              onSubmit={handleSubmit}
-              className="mt-5 space-y-5 text-sm text-black"
-            >
+            <form onSubmit={handleSubmit} className="mt-5 space-y-5 text-sm text-black">
               <div className="grid gap-4 sm:grid-cols-2">
                 <div>
-                  <label
-                    htmlFor="name"
-                    className="block text-xs font-semibold text-black"
-                  >
+                  <label htmlFor="name" className="block text-xs font-semibold text-black">
                     Full Name
                   </label>
                   <input
@@ -134,10 +114,7 @@ export default function AdvisingPage() {
                   />
                 </div>
                 <div>
-                  <label
-                    htmlFor="phone"
-                    className="block text-xs font-semibold text-black"
-                  >
+                  <label htmlFor="phone" className="block text-xs font-semibold text-black">
                     Phone Number
                   </label>
                   <input
@@ -150,10 +127,7 @@ export default function AdvisingPage() {
               </div>
 
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-xs font-semibold text-black"
-                >
+                <label htmlFor="email" className="block text-xs font-semibold text-black">
                   Email (optional)
                 </label>
                 <input
@@ -165,10 +139,7 @@ export default function AdvisingPage() {
               </div>
 
               <div>
-                <label
-                  htmlFor="programInterest"
-                  className="block text-xs font-semibold text-black"
-                >
+                <label htmlFor="programInterest" className="block text-xs font-semibold text-black">
                   Program or pathway you&apos;re interested in
                 </label>
                 <select
@@ -180,14 +151,10 @@ export default function AdvisingPage() {
                   <option value="" disabled>
                     Select an option (or leave blank)
                   </option>
-                  <option value="barber-apprenticeship">
-                    Barber Apprenticeship
-                  </option>
+                  <option value="barber-apprenticeship">Barber Apprenticeship</option>
                   <option value="beauty">Beauty / Nails / Esthetics</option>
                   <option value="healthcare">Healthcare (CNA, etc.)</option>
-                  <option value="trades">
-                    Skilled Trades / Building Maintenance
-                  </option>
+                  <option value="trades">Skilled Trades / Building Maintenance</option>
                   <option value="cdl">Transportation / CDL</option>
                   <option value="unsure">I&apos;m not sure yet</option>
                 </select>
@@ -229,16 +196,12 @@ export default function AdvisingPage() {
               </div>
 
               <div>
-                <label
-                  htmlFor="questions"
-                  className="block text-xs font-semibold text-black"
-                >
+                <label htmlFor="questions" className="block text-xs font-semibold text-black">
                   What would you like to talk about?
                 </label>
                 <p className="mt-1 text-[0.7rem] text-slate-500">
-                  (Optional) Share any questions, concerns, or barriers you want
-                  help with—like funding, childcare, transportation, re-enstart,
-                  housing, or mental health.
+                  (Optional) Share any questions, concerns, or barriers you want help with—like
+                  funding, childcare, transportation, re-enstart, housing, or mental health.
                 </p>
                 <textarea
                   id="questions"
@@ -249,10 +212,9 @@ export default function AdvisingPage() {
               </div>
 
               <p className="text-[0.7rem] text-slate-500">
-                By submitting this form, you are giving Elevate for Humanity
-                permission to contact you about advising, programs, and support
-                services. We do not share your information without your consent
-                except as required by law.
+                By submitting this form, you are giving Elevate for Humanity permission to contact
+                you about advising, programs, and support services. We do not share your information
+                without your consent except as required by law.
               </p>
 
               <div className="pt-2">

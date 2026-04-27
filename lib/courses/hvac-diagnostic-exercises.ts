@@ -117,23 +117,23 @@ export const PT_CHART_DRILLS: PTChartDrill[] = [
   { id: 'pt-08', refrigerant: 'R-22', givenPressure: 57, correctSatTemp: 40 },
   { id: 'pt-09', refrigerant: 'R-22', givenPressure: 121, correctSatTemp: 70 },
   { id: 'pt-10', refrigerant: 'R-22', givenPressure: 260, correctSatTemp: 100 },
-  { id: 'pt-11', refrigerant: 'R-410A', givenPressure: 72,  correctSatTemp: 25  },
-  { id: 'pt-12', refrigerant: 'R-410A', givenPressure: 247, correctSatTemp: 80  },
-  { id: 'pt-13', refrigerant: 'R-22',   givenPressure: 37,  correctSatTemp: 25  },
-  { id: 'pt-14', refrigerant: 'R-22',   givenPressure: 158, correctSatTemp: 80  },
+  { id: 'pt-11', refrigerant: 'R-410A', givenPressure: 72, correctSatTemp: 25 },
+  { id: 'pt-12', refrigerant: 'R-410A', givenPressure: 247, correctSatTemp: 80 },
+  { id: 'pt-13', refrigerant: 'R-22', givenPressure: 37, correctSatTemp: 25 },
+  { id: 'pt-14', refrigerant: 'R-22', givenPressure: 158, correctSatTemp: 80 },
   { id: 'pt-15', refrigerant: 'R-410A', givenPressure: 490, correctSatTemp: 130 },
   // R-454B (Opteon XL41) — A2L replacement for R-410A, required on 2025+ equipment
-  { id: 'pt-16', refrigerant: 'R-454B', givenPressure: 101, correctSatTemp: 40  },
-  { id: 'pt-17', refrigerant: 'R-454B', givenPressure: 180, correctSatTemp: 70  },
+  { id: 'pt-16', refrigerant: 'R-454B', givenPressure: 101, correctSatTemp: 40 },
+  { id: 'pt-17', refrigerant: 'R-454B', givenPressure: 180, correctSatTemp: 70 },
   { id: 'pt-18', refrigerant: 'R-454B', givenPressure: 291, correctSatTemp: 100 },
-  { id: 'pt-19', refrigerant: 'R-454B', givenPressure: 62,  correctSatTemp: 25  },
+  { id: 'pt-19', refrigerant: 'R-454B', givenPressure: 62, correctSatTemp: 25 },
   { id: 'pt-20', refrigerant: 'R-454B', givenPressure: 425, correctSatTemp: 130 },
   // R-32 — used in mini-splits worldwide, A2L, GWP 675
-  { id: 'pt-21', refrigerant: 'R-32',   givenPressure: 124, correctSatTemp: 40  },
-  { id: 'pt-22', refrigerant: 'R-32',   givenPressure: 220, correctSatTemp: 70  },
-  { id: 'pt-23', refrigerant: 'R-32',   givenPressure: 354, correctSatTemp: 100 },
-  { id: 'pt-24', refrigerant: 'R-32',   givenPressure: 76,  correctSatTemp: 25  },
-  { id: 'pt-25', refrigerant: 'R-32',   givenPressure: 515, correctSatTemp: 130 },
+  { id: 'pt-21', refrigerant: 'R-32', givenPressure: 124, correctSatTemp: 40 },
+  { id: 'pt-22', refrigerant: 'R-32', givenPressure: 220, correctSatTemp: 70 },
+  { id: 'pt-23', refrigerant: 'R-32', givenPressure: 354, correctSatTemp: 100 },
+  { id: 'pt-24', refrigerant: 'R-32', givenPressure: 76, correctSatTemp: 25 },
+  { id: 'pt-25', refrigerant: 'R-32', givenPressure: 515, correctSatTemp: 130 },
 ];
 
 // ─── GAUGE READING EXERCISES ────────────────────────────
@@ -155,8 +155,10 @@ export const GAUGE_READING_EXERCISES: GaugeReadingExercise[] = [
     superheat: 12,
     subcooling: 12,
     diagnosis: 'System is operating normally.',
-    explanation: 'Superheat of 12°F and subcooling of 12°F are within normal range for a TXV system on a 95°F day. Suction pressure of 118 psig gives a 40°F evaporator — correct for cooling. Discharge pressure of 418 psig gives 115°F condensing — normal for 95°F outdoor temp (condensing temp runs 15-25°F above outdoor).',
-    correctAction: 'No action needed. Document readings on service report. This is what a healthy system looks like.',
+    explanation:
+      'Superheat of 12°F and subcooling of 12°F are within normal range for a TXV system on a 95°F day. Suction pressure of 118 psig gives a 40°F evaporator — correct for cooling. Discharge pressure of 418 psig gives 115°F condensing — normal for 95°F outdoor temp (condensing temp runs 15-25°F above outdoor).',
+    correctAction:
+      'No action needed. Document readings on service report. This is what a healthy system looks like.',
     difficulty: 'beginner',
   },
   {
@@ -175,8 +177,10 @@ export const GAUGE_READING_EXERCISES: GaugeReadingExercise[] = [
     superheat: 27,
     subcooling: 0,
     diagnosis: 'System is undercharged. Low refrigerant.',
-    explanation: 'High superheat (27°F) means not enough liquid refrigerant is reaching the evaporator — it is all boiling off too early. Low subcooling (0°F) means there is not enough liquid stacking up in the condenser. Both pressures are low. This is a textbook low-charge pattern. Find and fix the leak before adding refrigerant.',
-    correctAction: 'Leak test the system. Find and repair the leak. Recover remaining charge. Evacuate. Weigh in the correct charge per nameplate.',
+    explanation:
+      'High superheat (27°F) means not enough liquid refrigerant is reaching the evaporator — it is all boiling off too early. Low subcooling (0°F) means there is not enough liquid stacking up in the condenser. Both pressures are low. This is a textbook low-charge pattern. Find and fix the leak before adding refrigerant.',
+    correctAction:
+      'Leak test the system. Find and repair the leak. Recover remaining charge. Evacuate. Weigh in the correct charge per nameplate.',
     difficulty: 'beginner',
   },
   {
@@ -195,8 +199,10 @@ export const GAUGE_READING_EXERCISES: GaugeReadingExercise[] = [
     superheat: 1,
     subcooling: 33,
     diagnosis: 'System is overcharged.',
-    explanation: 'Very low superheat (1°F) means liquid refrigerant is reaching the compressor — flood-back risk. Very high subcooling (33°F) means too much liquid is stacking in the condenser. Both pressures are elevated. The compressor is working harder than necessary and could be damaged by liquid slugging.',
-    correctAction: 'Recover excess refrigerant into a recovery cylinder. Remove charge in small increments, let system stabilize 15 minutes between adjustments. Target 10-15°F subcooling.',
+    explanation:
+      'Very low superheat (1°F) means liquid refrigerant is reaching the compressor — flood-back risk. Very high subcooling (33°F) means too much liquid is stacking in the condenser. Both pressures are elevated. The compressor is working harder than necessary and could be damaged by liquid slugging.',
+    correctAction:
+      'Recover excess refrigerant into a recovery cylinder. Remove charge in small increments, let system stabilize 15 minutes between adjustments. Target 10-15°F subcooling.',
     difficulty: 'intermediate',
   },
   {
@@ -215,8 +221,10 @@ export const GAUGE_READING_EXERCISES: GaugeReadingExercise[] = [
     superheat: 10,
     subcooling: 25,
     diagnosis: 'Condenser coil is dirty or condenser fan is not running.',
-    explanation: 'Discharge pressure is very high (510 psig = 135°F condensing). On a 95°F day, condensing temp should be 110-120°F, not 135°F. The condenser cannot reject heat. Suction pressure is slightly elevated because the TXV is compensating. High subcooling because liquid is backing up in the condenser. The charge is correct — the problem is airflow.',
-    correctAction: 'Check condenser fan motor — is it running? If yes, clean the condenser coil with coil cleaner and a garden hose. Rinse from inside out. Recheck readings after cleaning.',
+    explanation:
+      'Discharge pressure is very high (510 psig = 135°F condensing). On a 95°F day, condensing temp should be 110-120°F, not 135°F. The condenser cannot reject heat. Suction pressure is slightly elevated because the TXV is compensating. High subcooling because liquid is backing up in the condenser. The charge is correct — the problem is airflow.',
+    correctAction:
+      'Check condenser fan motor — is it running? If yes, clean the condenser coil with coil cleaner and a garden hose. Rinse from inside out. Recheck readings after cleaning.',
     difficulty: 'intermediate',
   },
   {
@@ -234,9 +242,12 @@ export const GAUGE_READING_EXERCISES: GaugeReadingExercise[] = [
     liquidSatTemp: 108,
     superheat: 6,
     subcooling: 10,
-    diagnosis: 'Low airflow across evaporator — dirty filter, dirty evaporator coil, or blower problem.',
-    explanation: 'Low suction pressure (100 psig = 36°F evaporator) with low superheat (6°F) means the evaporator is too cold because not enough warm air is passing over it. The coil could freeze if this continues. Check the filter first — a clogged filter is the most common cause. Then check the evaporator coil and blower motor.',
-    correctAction: 'Check and replace the air filter. Inspect the evaporator coil for dirt buildup. Verify blower motor is running at correct speed. Check for closed or blocked supply registers.',
+    diagnosis:
+      'Low airflow across evaporator — dirty filter, dirty evaporator coil, or blower problem.',
+    explanation:
+      'Low suction pressure (100 psig = 36°F evaporator) with low superheat (6°F) means the evaporator is too cold because not enough warm air is passing over it. The coil could freeze if this continues. Check the filter first — a clogged filter is the most common cause. Then check the evaporator coil and blower motor.',
+    correctAction:
+      'Check and replace the air filter. Inspect the evaporator coil for dirt buildup. Verify blower motor is running at correct speed. Check for closed or blocked supply registers.',
     difficulty: 'intermediate',
   },
   {
@@ -255,8 +266,10 @@ export const GAUGE_READING_EXERCISES: GaugeReadingExercise[] = [
     superheat: 27,
     subcooling: 27,
     diagnosis: 'Restricted metering device (TXV stuck partially closed or restricted).',
-    explanation: 'Very low suction pressure with high superheat means not enough refrigerant is getting through the metering device. But subcooling is also high — liquid is backing up before the restriction. This pattern (low suction + high superheat + high subcooling) is the signature of a restriction. It mimics low charge, but the high subcooling tells you the charge is there — it just cannot get through.',
-    correctAction: 'Check the TXV sensing bulb — is it properly mounted and insulated on the suction line? Check the TXV screen for debris. If the TXV is stuck, replace it. Check the liquid line filter-drier for restriction (feel for temperature drop across it).',
+    explanation:
+      'Very low suction pressure with high superheat means not enough refrigerant is getting through the metering device. But subcooling is also high — liquid is backing up before the restriction. This pattern (low suction + high superheat + high subcooling) is the signature of a restriction. It mimics low charge, but the high subcooling tells you the charge is there — it just cannot get through.',
+    correctAction:
+      'Check the TXV sensing bulb — is it properly mounted and insulated on the suction line? Check the TXV screen for debris. If the TXV is stuck, replace it. Check the liquid line filter-drier for restriction (feel for temperature drop across it).',
     difficulty: 'advanced',
   },
   {
@@ -275,8 +288,10 @@ export const GAUGE_READING_EXERCISES: GaugeReadingExercise[] = [
     superheat: 18,
     subcooling: -3,
     diagnosis: 'Compressor with weak or leaking valves (internal bypass).',
-    explanation: 'Suction pressure is too high and discharge pressure is too low — the compressor is not creating enough pressure differential. High-pressure gas is leaking back through worn valves to the low side. The compressor is running but not pumping effectively. Amp draw will be lower than normal. The system cannot cool.',
-    correctAction: 'Verify by checking compressor amp draw (will be low). Perform a compressor pump-down test: close the liquid line valve, run the compressor, suction should pull into a vacuum. If it cannot pull below 10 psig, the compressor has internal bypass. Replace the compressor.',
+    explanation:
+      'Suction pressure is too high and discharge pressure is too low — the compressor is not creating enough pressure differential. High-pressure gas is leaking back through worn valves to the low side. The compressor is running but not pumping effectively. Amp draw will be lower than normal. The system cannot cool.',
+    correctAction:
+      'Verify by checking compressor amp draw (will be low). Perform a compressor pump-down test: close the liquid line valve, run the compressor, suction should pull into a vacuum. If it cannot pull below 10 psig, the compressor has internal bypass. Replace the compressor.',
     difficulty: 'advanced',
   },
   {
@@ -295,8 +310,10 @@ export const GAUGE_READING_EXERCISES: GaugeReadingExercise[] = [
     superheat: 17,
     subcooling: 17,
     diagnosis: 'Non-condensable gases (air) in the system from improper evacuation.',
-    explanation: 'Discharge pressure is abnormally high for an 85°F day (condensing at 125°F when it should be 100-110°F). Suction is slightly elevated too. Air in the system takes up space in the condenser, raising head pressure. The system was likely opened for repair and not properly evacuated. Subcooling appears normal but the pressures are wrong for the conditions.',
-    correctAction: 'Recover all refrigerant. Pull a proper vacuum to 500 microns with a decay test. Recharge with fresh refrigerant by weight per nameplate.',
+    explanation:
+      'Discharge pressure is abnormally high for an 85°F day (condensing at 125°F when it should be 100-110°F). Suction is slightly elevated too. Air in the system takes up space in the condenser, raising head pressure. The system was likely opened for repair and not properly evacuated. Subcooling appears normal but the pressures are wrong for the conditions.',
+    correctAction:
+      'Recover all refrigerant. Pull a proper vacuum to 500 microns with a decay test. Recharge with fresh refrigerant by weight per nameplate.',
     difficulty: 'advanced',
   },
 ];
@@ -323,7 +340,8 @@ export const CHARGING_SCENARIOS: ChargingScenario[] = [
     },
     targetReadings: { subcooling: 12 },
     diagnosis: 'System is undercharged. Subcooling is 4°F — target is 10-15°F for TXV.',
-    correctAction: 'Add R-410A as liquid to the high side (or vapor to the low side of a running system). Add in small increments.',
+    correctAction:
+      'Add R-410A as liquid to the high side (or vapor to the low side of a running system). Add in small increments.',
     amountToAdd: 'Approximately 8-12 oz. Add slowly, wait 15 minutes between additions.',
     steps: [
       'Verify airflow: check filter, blower speed, and supply/return temps',
@@ -357,8 +375,10 @@ export const CHARGING_SCENARIOS: ChargingScenario[] = [
       subcooling: 5,
     },
     targetReadings: { superheat: 14 },
-    diagnosis: 'System is undercharged. Superheat is 29°F — target per charging chart at 85°F outdoor / 62°F wet bulb is approximately 14°F.',
-    correctAction: 'Add R-410A to bring superheat down to target. For piston systems, use the manufacturer superheat charging chart.',
+    diagnosis:
+      'System is undercharged. Superheat is 29°F — target per charging chart at 85°F outdoor / 62°F wet bulb is approximately 14°F.',
+    correctAction:
+      'Add R-410A to bring superheat down to target. For piston systems, use the manufacturer superheat charging chart.',
     amountToAdd: 'Approximately 10-16 oz. Add slowly.',
     steps: [
       'Verify airflow: check filter, blower, and duct static pressure',
@@ -392,8 +412,10 @@ export const CHARGING_SCENARIOS: ChargingScenario[] = [
       subcooling: 0,
     },
     targetReadings: { subcooling: 12 },
-    diagnosis: 'New installation. System has factory charge for 15-foot line set. Actual line set is 30 feet — need to add refrigerant for the extra 15 feet.',
-    correctAction: 'Calculate additional charge needed: 15 extra feet × 0.6 oz/ft = 9 oz additional. Total charge = factory charge + 9 oz.',
+    diagnosis:
+      'New installation. System has factory charge for 15-foot line set. Actual line set is 30 feet — need to add refrigerant for the extra 15 feet.',
+    correctAction:
+      'Calculate additional charge needed: 15 extra feet × 0.6 oz/ft = 9 oz additional. Total charge = factory charge + 9 oz.',
     amountToAdd: '9 oz additional (0.6 oz × 15 extra feet)',
     steps: [
       'Verify line set length: 30 feet total, factory charge covers 15 feet',
@@ -414,6 +436,8 @@ export const CHARGING_SCENARIOS: ChargingScenario[] = [
 
 // ─── HELPERS ────────────────────────────────────────────
 
-export function getExercisesByDifficulty(d: GaugeReadingExercise['difficulty']): GaugeReadingExercise[] {
+export function getExercisesByDifficulty(
+  d: GaugeReadingExercise['difficulty'],
+): GaugeReadingExercise[] {
   return GAUGE_READING_EXERCISES.filter((e) => e.difficulty === d);
 }

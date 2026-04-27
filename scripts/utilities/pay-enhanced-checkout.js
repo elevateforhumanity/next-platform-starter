@@ -66,10 +66,7 @@ function getSupa() {
       }),
     };
   } else {
-    _supa = createClient(
-      process.env.SUPABASE_URL,
-      process.env.SUPABASE_SERVICE_KEY
-    );
+    _supa = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
   }
   return _supa;
 }
@@ -110,8 +107,7 @@ enhancedCheckout.post('/api/checkout', async (req, res, next) => {
       if (!c.active) return null;
       if (c.starts_at && now < new Date(c.starts_at)) return null;
       if (c.ends_at && now > new Date(c.ends_at)) return null;
-      if (c.max_redemptions && c.redeemed_count >= c.max_redemptions)
-        return null;
+      if (c.max_redemptions && c.redeemed_count >= c.max_redemptions) return null;
       if (
         Array.isArray(c.allowed_programs) &&
         c.allowed_programs.length &&
@@ -142,10 +138,7 @@ enhancedCheckout.post('/api/checkout', async (req, res, next) => {
         const baseAmount = price.unit_amount;
         const discountedAmount = await getDiscountedCents(baseAmount);
 
-        if (
-          typeof discountedAmount === 'number' &&
-          discountedAmount !== baseAmount
-        ) {
+        if (typeof discountedAmount === 'number' && discountedAmount !== baseAmount) {
           // Create temporary discounted price
           const tempPrice = await getStripe().prices.create({
             currency,
@@ -169,8 +162,7 @@ enhancedCheckout.post('/api/checkout', async (req, res, next) => {
       }
 
       const discountedAmount = await getDiscountedCents(unitAmount);
-      const finalAmount =
-        typeof discountedAmount === 'number' ? discountedAmount : unitAmount;
+      const finalAmount = typeof discountedAmount === 'number' ? discountedAmount : unitAmount;
 
       // Add discount info to metadata if coupon was applied
       if (discountedAmount !== null && discountedAmount !== unitAmount) {
@@ -197,8 +189,7 @@ enhancedCheckout.post('/api/checkout', async (req, res, next) => {
     const session = await getStripe().checkout.sessions.create({
       mode: 'payment',
       line_items,
-      success_url:
-        process.env.STRIPE_SUCCESS_URL + '?session_id={CHECKOUT_SESSION_ID}',
+      success_url: process.env.STRIPE_SUCCESS_URL + '?session_id={CHECKOUT_SESSION_ID}',
       cancel_url: process.env.STRIPE_CANCEL_URL,
       metadata,
       customer_email: metadata.customer_email || undefined,
@@ -257,10 +248,8 @@ export async function handleSuccessfulPayment(session) {
 function extractFundingMetadata(metadata) {
   const fundingMeta = {};
   if (metadata?.voucher_id) fundingMeta.voucher_id = metadata.voucher_id;
-  if (metadata?.case_manager_email)
-    fundingMeta.case_manager_email = metadata.case_manager_email;
-  if (metadata?.funding_source)
-    fundingMeta.funding_source = metadata.funding_source;
+  if (metadata?.case_manager_email) fundingMeta.case_manager_email = metadata.case_manager_email;
+  if (metadata?.funding_source) fundingMeta.funding_source = metadata.funding_source;
   if (metadata?.coupon) fundingMeta.coupon = metadata.coupon;
   return fundingMeta;
 }

@@ -1,5 +1,5 @@
 import { logger } from '@/lib/logger';
-import { createClient } from "@supabase/supabase-js";
+import { createClient } from '@supabase/supabase-js';
 import { setAuditContext } from '@/lib/audit-context';
 
 function getSupabaseAdmin() {
@@ -15,16 +15,16 @@ export async function revokeEntitlement(userId: string, entitlementCode: string)
   const supabase = getSupabaseAdmin();
   await setAuditContext(supabase, { systemActor: 'entitlement_revocation' });
   const { error } = await supabase
-    .from("store_entitlements")
-    .update({ 
+    .from('store_entitlements')
+    .update({
       revoked_at: new Date().toISOString(),
-      revoke_reason: "refund"
+      revoke_reason: 'refund',
     })
-    .eq("user_id", userId)
-    .eq("entitlement_code", entitlementCode);
+    .eq('user_id', userId)
+    .eq('entitlement_code', entitlementCode);
 
   if (error) {
-    logger.error("Error revoking entitlement:", error);
+    logger.error('Error revoking entitlement:', error);
     throw error;
   }
 
@@ -35,17 +35,17 @@ export async function revokeLmsAccess(userId: string, courseId: string) {
   const supabase = getSupabaseAdmin();
   await setAuditContext(supabase, { systemActor: 'entitlement_revocation' });
   const { error } = await supabase
-    .from("course_enrollments")
-    .update({ 
-      status: "revoked",
+    .from('course_enrollments')
+    .update({
+      status: 'revoked',
       revoked_at: new Date().toISOString(),
-      revoke_reason: "refund"
+      revoke_reason: 'refund',
     })
-    .eq("user_id", userId)
-    .eq("course_id", courseId);
+    .eq('user_id', userId)
+    .eq('course_id', courseId);
 
   if (error) {
-    logger.error("Error revoking LMS access:", error);
+    logger.error('Error revoking LMS access:', error);
     throw error;
   }
 
@@ -57,30 +57,30 @@ export async function revokeAllAccessForPayment(userId: string, paymentIntentId:
   await setAuditContext(supabase, { systemActor: 'entitlement_revocation' });
   // Revoke all entitlements tied to this payment
   const { error: entitlementError } = await supabase
-    .from("store_entitlements")
-    .update({ 
+    .from('store_entitlements')
+    .update({
       revoked_at: new Date().toISOString(),
-      revoke_reason: "refund"
+      revoke_reason: 'refund',
     })
-    .eq("user_id", userId)
-    .eq("stripe_payment_intent_id", paymentIntentId);
+    .eq('user_id', userId)
+    .eq('stripe_payment_intent_id', paymentIntentId);
 
   if (entitlementError) {
-    logger.error("Error revoking entitlements:", entitlementError);
+    logger.error('Error revoking entitlements:', entitlementError);
   }
 
   // Revoke any enrollments tied to this payment
   const { error: enrollmentError } = await supabase
-    .from("program_enrollments")
-    .update({ 
-      status: "refunded",
-      refunded_at: new Date().toISOString()
+    .from('program_enrollments')
+    .update({
+      status: 'refunded',
+      refunded_at: new Date().toISOString(),
     })
-    .eq("user_id", userId)
-    .eq("stripe_payment_intent_id", paymentIntentId);
+    .eq('user_id', userId)
+    .eq('stripe_payment_intent_id', paymentIntentId);
 
   if (enrollmentError) {
-    logger.error("Error revoking enrollments:", enrollmentError);
+    logger.error('Error revoking enrollments:', enrollmentError);
   }
 
   return { success: true };

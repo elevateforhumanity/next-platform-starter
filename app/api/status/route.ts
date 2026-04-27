@@ -9,7 +9,7 @@ export async function GET() {
     status: 'operational',
     systems: {
       database: 'connected',
-      
+
       milady_rise: 'active',
       api_routes: 95,
       components: 178,

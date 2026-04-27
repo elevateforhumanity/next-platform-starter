@@ -7,18 +7,17 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 const HEYGEN_API_KEY = process.env.HEYGEN_API_KEY;
 
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
-    const auth = await requireAuth(request);
-    if (auth.error) return auth.error;
-if (!HEYGEN_API_KEY) {
+  const auth = await requireAuth(request);
+  if (auth.error) return auth.error;
+  if (!HEYGEN_API_KEY) {
     return NextResponse.json({ error: 'HeyGen API key not configured' }, { status: 500 });
   }
 
   const videoId = request.nextUrl.searchParams.get('videoId');
-  
+
   if (!videoId) {
     return NextResponse.json({ error: 'Video ID required' }, { status: 400 });
   }
@@ -33,7 +32,10 @@ if (!HEYGEN_API_KEY) {
     const data = await response.json();
 
     if (!response.ok) {
-      return NextResponse.json({ error: data.message || 'Failed to get video status' }, { status: response.status });
+      return NextResponse.json(
+        { error: data.message || 'Failed to get video status' },
+        { status: response.status },
+      );
     }
 
     return NextResponse.json({

@@ -57,9 +57,7 @@ export type CompetencyCoverageReport = {
  * Validates that every registered competency for a program appears in at least
  * one lesson, and that signoff-only competencies are not quiz-only assessed.
  */
-export function validateCompetencyCoverage(
-  template: CourseTemplate,
-): CompetencyCoverageReport {
+export function validateCompetencyCoverage(template: CourseTemplate): CompetencyCoverageReport {
   const programCompetencies = getCompetenciesForProgram(template.programSlug);
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -79,7 +77,7 @@ export function validateCompetencyCoverage(
     };
   }
 
-  const allLessons = template.modules.flatMap(m => m.lessons);
+  const allLessons = template.modules.flatMap((m) => m.lessons);
 
   // Build a map: competencyKey → lessons that reference it
   const keyToLessons = new Map<string, CourseLesson[]>();
@@ -102,7 +100,9 @@ export function validateCompetencyCoverage(
       uncovered.push(comp.key);
       if (comp.isCritical) {
         criticalUncovered.push(comp.key);
-        errors.push(`Critical competency '${comp.key}' (${comp.label}) is not covered by any lesson`);
+        errors.push(
+          `Critical competency '${comp.key}' (${comp.label}) is not covered by any lesson`,
+        );
       } else {
         warnings.push(`Competency '${comp.key}' (${comp.label}) is not covered by any lesson`);
       }
@@ -114,20 +114,18 @@ export function validateCompetencyCoverage(
     // Signoff-only rule: if requiresInstructorSignoff=true, the competency
     // must appear in at least one lab/assignment lesson, not just quiz lessons
     if (comp.requiresInstructorSignoff) {
-      const hasSignoffLesson = lessons.some(
-        l => l.type === 'lab' || l.type === 'assignment',
-      );
+      const hasSignoffLesson = lessons.some((l) => l.type === 'lab' || l.type === 'assignment');
       if (!hasSignoffLesson) {
         signoffOnlyViolations.push(comp.key);
         errors.push(
           `Competency '${comp.key}' requires instructor signoff but only appears in non-practical lessons. ` +
-          `Add it to a lab or assignment lesson.`,
+            `Add it to a lab or assignment lesson.`,
         );
       }
     }
   }
 
-  const criticalCompetencies = programCompetencies.filter(c => c.isCritical).length;
+  const criticalCompetencies = programCompetencies.filter((c) => c.isCritical).length;
 
   return {
     programSlug: template.programSlug,
@@ -157,11 +155,11 @@ export async function initializeCompetencyResults(
   const competencies = getCompetenciesForProgram(opts.programSlug);
   if (!competencies.length) return { created: 0, errors: [] };
 
-  const rows = competencies.map(c => ({
-    user_id:        opts.userId,
-    course_id:      opts.courseId,
+  const rows = competencies.map((c) => ({
+    user_id: opts.userId,
+    course_id: opts.courseId,
     competency_key: c.key,
-    status:         'not_started' as CompetencyStatus,
+    status: 'not_started' as CompetencyStatus,
   }));
 
   const { error } = await db
@@ -201,7 +199,7 @@ export async function markCompetencyAchieved(
   },
 ): Promise<{ success: boolean; error?: string }> {
   // Look up the competency definition to enforce signoff-only rule
-  const def = COMPETENCY_REGISTRY.find(c => c.key === opts.competencyKey);
+  const def = COMPETENCY_REGISTRY.find((c) => c.key === opts.competencyKey);
 
   if (def?.requiresInstructorSignoff) {
     const quizOnlyMethods: AchievedVia[] = ['quiz', 'exam'];
@@ -222,20 +220,21 @@ export async function markCompetencyAchieved(
     }
   }
 
-  const { error } = await db
-    .from('competency_results')
-    .upsert({
-      user_id:                opts.userId,
-      course_id:              opts.courseId,
-      competency_key:         opts.competencyKey,
-      status:                 'achieved',
-      achieved_at:            new Date().toISOString(),
-      achieved_via:           opts.achievedVia,
-      verified_by:            opts.verifiedBy ?? null,
-      lesson_id:              opts.lessonId ?? null,
+  const { error } = await db.from('competency_results').upsert(
+    {
+      user_id: opts.userId,
+      course_id: opts.courseId,
+      competency_key: opts.competencyKey,
+      status: 'achieved',
+      achieved_at: new Date().toISOString(),
+      achieved_via: opts.achievedVia,
+      verified_by: opts.verifiedBy ?? null,
+      lesson_id: opts.lessonId ?? null,
       evidence_submission_id: opts.evidenceSubmissionId ?? null,
-      updated_at:             new Date().toISOString(),
-    }, { onConflict: 'user_id,course_id,competency_key' });
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: 'user_id,course_id,competency_key' },
+  );
 
   if (error) {
     logger.error('[competency-mapper] Failed to mark competency achieved', {
@@ -279,11 +278,9 @@ export async function getLearnerCompetencyStatus(
     .eq('user_id', opts.userId)
     .eq('course_id', opts.courseId);
 
-  const resultMap = new Map(
-    (results ?? []).map(r => [r.competency_key, r]),
-  );
+  const resultMap = new Map((results ?? []).map((r) => [r.competency_key, r]));
 
-  return programCompetencies.map(comp => {
+  return programCompetencies.map((comp) => {
     const result = resultMap.get(comp.key);
     return {
       key: comp.key,
@@ -304,6 +301,6 @@ export async function allCriticalCompetenciesAchieved(
   opts: { userId: string; courseId: string; programSlug: string },
 ): Promise<boolean> {
   const statuses = await getLearnerCompetencyStatus(db, opts);
-  const critical = statuses.filter(s => s.isCritical);
-  return critical.every(s => s.status === 'achieved');
+  const critical = statuses.filter((s) => s.isCritical);
+  return critical.every((s) => s.status === 'achieved');
 }

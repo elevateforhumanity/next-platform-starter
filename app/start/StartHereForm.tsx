@@ -74,8 +74,8 @@ export default function StartHereForm() {
         </div>
         <h2 className="text-2xl font-extrabold text-slate-900 mb-2">You're on your way</h2>
         <p className="text-slate-600 mb-6">
-          A career advisor will reach out within one business day to walk you through
-          funding options and next steps. No paperwork yet — just a conversation.
+          A career advisor will reach out within one business day to walk you through funding
+          options and next steps. No paperwork yet — just a conversation.
         </p>
         <div className="bg-white rounded-xl p-4 text-left space-y-2 text-sm text-slate-700">
           <p className="font-semibold text-slate-900 mb-1">What happens next:</p>
@@ -127,22 +127,24 @@ export default function StartHereForm() {
         </div>
 
         <div>
-          <label className="block text-xs font-semibold text-slate-600 mb-1">Program of Interest</label>
+          <label className="block text-xs font-semibold text-slate-600 mb-1">
+            Program of Interest
+          </label>
           <select
             name="program"
             required
             className="w-full border border-slate-200 rounded-lg px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent bg-white"
           >
             <option value="">Select a program</option>
-            {PROGRAMS.map(p => (
-              <option key={p} value={p}>{p}</option>
+            {PROGRAMS.map((p) => (
+              <option key={p} value={p}>
+                {p}
+              </option>
             ))}
           </select>
         </div>
 
-        {error && (
-          <p className="text-brand-red-600 text-sm">{error}</p>
-        )}
+        {error && <p className="text-brand-red-600 text-sm">{error}</p>}
 
         <button
           type="submit"
@@ -150,9 +152,13 @@ export default function StartHereForm() {
           className="w-full bg-brand-red-600 hover:bg-brand-red-700 disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 text-sm"
         >
           {loading ? (
-            <><Loader2 className="w-4 h-4 animate-spin" /> Submitting...</>
+            <>
+              <Loader2 className="w-4 h-4 animate-spin" /> Submitting...
+            </>
           ) : (
-            <>Get Started <ArrowRight className="w-4 h-4" /></>
+            <>
+              Get Started <ArrowRight className="w-4 h-4" />
+            </>
           )}
         </button>
 

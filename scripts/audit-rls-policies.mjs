@@ -10,7 +10,6 @@ if (!supabaseKey) {
 
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-
 async function auditRLS() {
   // Critical tables that MUST have RLS
   const criticalTables = [
@@ -23,9 +22,8 @@ async function auditRLS() {
     'program_holders',
     'program_holder_documents',
     'program_holder_verification',
-    'program_holder_banking'
+    'program_holder_banking',
   ];
-
 
   for (const table of criticalTables) {
     // Check if table exists and has data

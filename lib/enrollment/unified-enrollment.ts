@@ -1,9 +1,9 @@
 /**
  * Unified Enrollment Service
- * 
+ *
  * This service provides a single interface for enrollment operations,
  * abstracting the underlying table structure.
- * 
+ *
  * Table Usage:
  * - `enrollments`: Course-level access (user_id + course_id)
  * - `student_enrollments`: Program-level with case management
@@ -46,12 +46,12 @@ function determineEnrollmentType(params: UnifiedEnrollmentParams): EnrollmentTyp
   if (params.courseId && !params.programId && !params.programSlug) {
     return 'course';
   }
-  
+
   // If workforce-funded with program holder
   if (params.programHolderId || params.fundingSource?.match(/WIOA|WRG|JRI|workforce/i)) {
     return 'workforce';
   }
-  
+
   // Default to program enrollment for multi-module programs
   return 'program';
 }
@@ -60,7 +60,7 @@ function determineEnrollmentType(params: UnifiedEnrollmentParams): EnrollmentTyp
  * Create enrollment in the appropriate table
  */
 export async function createUnifiedEnrollment(
-  params: UnifiedEnrollmentParams
+  params: UnifiedEnrollmentParams,
 ): Promise<UnifiedEnrollmentResult> {
   const supabase = await createClient();
   const enrollmentType = determineEnrollmentType(params);
@@ -87,7 +87,7 @@ export async function createUnifiedEnrollment(
  */
 async function createCourseEnrollment(
   supabase: any,
-  params: UnifiedEnrollmentParams
+  params: UnifiedEnrollmentParams,
 ): Promise<UnifiedEnrollmentResult> {
   if (!params.courseId) {
     return { success: false, error: 'courseId required for course enrollment' };
@@ -102,11 +102,11 @@ async function createCourseEnrollment(
     .maybeSingle();
 
   if (existing) {
-    return { 
-      success: false, 
+    return {
+      success: false,
       error: 'Already enrolled in this course',
       enrollmentType: 'course',
-      table: 'enrollments'
+      table: 'enrollments',
     };
   }
 
@@ -142,10 +142,10 @@ async function createCourseEnrollment(
  */
 async function createProgramEnrollment(
   supabase: any,
-  params: UnifiedEnrollmentParams
+  params: UnifiedEnrollmentParams,
 ): Promise<UnifiedEnrollmentResult> {
   const programId = params.programId || params.programSlug;
-  
+
   if (!programId) {
     return { success: false, error: 'programId or programSlug required' };
   }
@@ -201,10 +201,10 @@ async function createProgramEnrollment(
  */
 async function createWorkforceEnrollment(
   supabase: any,
-  params: UnifiedEnrollmentParams
+  params: UnifiedEnrollmentParams,
 ): Promise<UnifiedEnrollmentResult> {
   const programId = params.programId || params.programSlug;
-  
+
   if (!programId) {
     return { success: false, error: 'programId required for workforce enrollment' };
   }
@@ -264,13 +264,13 @@ export async function getUserEnrollments(userId: string) {
       .from('program_enrollments')
       .select('*, courses(id, title, slug)')
       .eq('user_id', userId),
-    
+
     // Program enrollments (student_enrollments)
     supabase
       .from('student_enrollments')
       .select('*, programs(id, name, slug)')
       .eq('student_id', userId),
-    
+
     // Workforce enrollments (program_enrollments)
     supabase
       .from('program_enrollments')
@@ -283,9 +283,9 @@ export async function getUserEnrollments(userId: string) {
     programs: programEnrollments.data || [],
     workforce: workforceEnrollments.data || [],
     all: [
-      ...(courseEnrollments.data || []).map(e => ({ ...e, _type: 'course' })),
-      ...(programEnrollments.data || []).map(e => ({ ...e, _type: 'program' })),
-      ...(workforceEnrollments.data || []).map(e => ({ ...e, _type: 'workforce' })),
+      ...(courseEnrollments.data || []).map((e) => ({ ...e, _type: 'course' })),
+      ...(programEnrollments.data || []).map((e) => ({ ...e, _type: 'program' })),
+      ...(workforceEnrollments.data || []).map((e) => ({ ...e, _type: 'workforce' })),
     ],
   };
 }
@@ -295,7 +295,7 @@ export async function getUserEnrollments(userId: string) {
  */
 export async function checkEnrollmentStatus(
   userId: string,
-  options: { courseId?: string; programId?: string; programSlug?: string }
+  options: { courseId?: string; programId?: string; programSlug?: string },
 ): Promise<{ enrolled: boolean; enrollmentType?: EnrollmentType; status?: string }> {
   const supabase = await createClient();
 
@@ -306,7 +306,7 @@ export async function checkEnrollmentStatus(
       .eq('user_id', userId)
       .eq('course_id', options.courseId)
       .maybeSingle();
-    
+
     if (data) {
       return { enrolled: true, enrollmentType: 'course', status: data.status };
     }

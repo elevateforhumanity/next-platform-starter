@@ -13,7 +13,8 @@ export const ecdCourses: EcdCourse[] = [
   {
     id: 'careersafe-osha10',
     course_name: 'CareerSafe OSHA 10',
-    shortDescription: 'OSHA 10-hour general industry safety certification through CareerSafe online platform.',
+    shortDescription:
+      'OSHA 10-hour general industry safety certification through CareerSafe online platform.',
     path: '/courses/careersafe',
     coverImageKey: 'training-classroom',
     category: 'Safety',
@@ -23,7 +24,8 @@ export const ecdCourses: EcdCourse[] = [
   {
     id: 'nrf-customer-service',
     course_name: 'NRF Customer Service',
-    shortDescription: 'National Retail Federation customer service and sales certification program.',
+    shortDescription:
+      'National Retail Federation customer service and sales certification program.',
     path: '/courses/nrf',
     coverImageKey: 'business-training',
     category: 'Business',
@@ -33,7 +35,8 @@ export const ecdCourses: EcdCourse[] = [
   {
     id: 'nds-digital-skills',
     course_name: 'NDS Digital Skills',
-    shortDescription: 'National Digital Skills certification covering digital literacy and workplace technology.',
+    shortDescription:
+      'National Digital Skills certification covering digital literacy and workplace technology.',
     path: '/courses/nds',
     coverImageKey: 'technology-hero',
     category: 'Technology',
@@ -43,7 +46,8 @@ export const ecdCourses: EcdCourse[] = [
   {
     id: 'capital-readiness',
     course_name: 'Capital Readiness',
-    shortDescription: 'Financial literacy and capital readiness training for aspiring entrepreneurs.',
+    shortDescription:
+      'Financial literacy and capital readiness training for aspiring entrepreneurs.',
     path: '/courses/capital-readiness',
     coverImageKey: 'business-office',
     category: 'Business',

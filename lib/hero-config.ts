@@ -1,6 +1,6 @@
 /**
  * Hero Configuration System
- * 
+ *
  * Rules:
  * 1. Every page MUST have a hero
  * 2. No gradient overlays - ever
@@ -18,22 +18,22 @@ export const VIDEO_HEROES = {
   // Main/Marketing
   homepage: `${R2}/hero-home-fast.mp4`,
   careerServices: `${R2}/career-services-hero.mp4`,
-  
+
   // Program Categories
-  barber: `${R2}/barber-hero.mp4`,
-  barberApprenticeship: `${R2}/barber-hero.mp4`,
+  barber: `${R2}/barber-hero-final.mp4`,
+  barberApprenticeship: `${R2}/barber-hero-final.mp4`,
   healthcare: `${R2}/cna-hero.mp4`,
   skilledTrades: `${R2}/hvac-hero-final.mp4`,
   technology: `${R2}/hero-home-fast.mp4`,
-  
+
   // Government/Enterprise
   government: `${R2}/hero-home-fast.mp4`,
   workforceBoard: `${R2}/hero-home-fast.mp4`,
-  
+
   // Store
   storeCourses: `${R2}/hero-home-fast.mp4`,
   storeDigital: `${R2}/hero-home-fast.mp4`,
-  
+
   // LMS
   lmsCourses: `${R2}/hero-home-fast.mp4`,
 } as const;
@@ -137,13 +137,13 @@ export interface PageHeroConfig {
 // Pre-defined hero configs for key pages
 // TOP 10 PRIORITY PAGES - these get migrated first
 export const PAGE_HEROES: Record<string, PageHeroConfig> = {
-  
   // ============================================
   // PRIORITY 1: Homepage (VIDEO)
   // ============================================
   '/': {
     title: 'Free Career Training That Changes Lives',
-    subtitle: 'WIOA-funded workforce programs in healthcare, skilled trades, and technology. No cost if you qualify.',
+    subtitle:
+      'WIOA-funded workforce programs in healthcare, skilled trades, and technology. No cost if you qualify.',
     videoSrc: VIDEO_HEROES.homepage,
     videoPoster: '/images/pages/workforce-training.jpg',
     variant: 'video',
@@ -151,28 +151,30 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     ctaPrimary: { label: 'Find a Program', href: '/programs' },
     ctaSecondary: { label: 'For Partners', href: '/partner' },
   },
-  
+
   // ============================================
   // PRIORITY 2: Programs Index
   // ============================================
   '/programs': {
     title: 'Career Training Programs',
-    subtitle: 'Industry-recognized certifications in high-demand fields. Free for eligible participants.',
+    subtitle:
+      'Industry-recognized certifications in high-demand fields. Free for eligible participants.',
     image: '/images/pages/training-classroom.jpg',
     variant: 'split',
     height: 'medium',
     ctaPrimary: { label: 'Check Eligibility', href: '/wioa-eligibility' },
     ctaSecondary: { label: 'View All Programs', href: '#programs' },
   },
-  
+
   // ============================================
   // PRIORITY 3-7: Top 5 Programs
   // ============================================
-  
+
   // Barber Apprenticeship (VIDEO)
   '/programs/barber-apprenticeship': {
     title: 'Barber Apprenticeship Program',
-    subtitle: 'Become a licensed barber through our USDOL-registered apprenticeship. Earn while you learn.',
+    subtitle:
+      'Become a licensed barber through our USDOL-registered apprenticeship. Earn while you learn.',
     videoSrc: VIDEO_HEROES.barberApprenticeship,
     videoPoster: '/images/pages/barber-hero-main.jpg',
     variant: 'video',
@@ -186,7 +188,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     ctaPrimary: { label: 'Apply Now', href: '/programs/barber-apprenticeship/apply' },
     ctaSecondary: { label: 'Find a Host Shop', href: '/programs/barber-apprenticeship/host-shops' },
   },
-  
+
   // CNA Certification
   '/programs/cna': {
     title: 'CNA Certification Training',
@@ -203,7 +205,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     ctaPrimary: { label: 'Apply Now', href: '/apply?program=cna' },
     ctaSecondary: { label: 'Check Eligibility', href: '/wioa-eligibility' },
   },
-  
+
   // Esthetician Apprenticeship
   '/programs/esthetician-apprenticeship': {
     title: 'Esthetician Apprenticeship',
@@ -220,11 +222,11 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     ctaPrimary: { label: 'Apply Now', href: '/apply?program=esthetician' },
     ctaSecondary: { label: 'Learn More', href: '#program-details' },
   },
-  
+
   // CDL Training
   '/programs/cdl': {
     title: 'CDL Training Program',
-    subtitle: 'Get your Commercial Driver\'s License and start a career in transportation.',
+    subtitle: "Get your Commercial Driver's License and start a career in transportation.",
     image: '/images/pages/cdl-truck-highway.jpg',
     variant: 'split',
     height: 'medium',
@@ -237,7 +239,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     ctaPrimary: { label: 'Apply Now', href: '/apply?program=cdl' },
     ctaSecondary: { label: 'Check Eligibility', href: '/wioa-eligibility' },
   },
-  
+
   // IT Support
   '/programs/it-help-desk': {
     title: 'IT Support Training',
@@ -254,33 +256,35 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     ctaPrimary: { label: 'Apply Now', href: '/apply?program=it-support' },
     ctaSecondary: { label: 'Check Eligibility', href: '/wioa-eligibility' },
   },
-  
+
   // ============================================
   // PRIORITY 8: Apply/Enrollment
   // ============================================
   '/apply': {
     title: 'Start Your Application',
-    subtitle: 'Take the first step toward a new career. Our team will guide you through the process.',
+    subtitle:
+      'Take the first step toward a new career. Our team will guide you through the process.',
     image: '/images/pages/healthcare-classroom.jpg',
     variant: 'split',
     height: 'medium',
     badge: 'Free Training Available',
     ctaPrimary: { label: 'Begin Application', href: '#application-form' },
   },
-  
+
   // ============================================
   // PRIORITY 9: Enterprise/Licensing
   // ============================================
   '/store/licenses': {
     title: 'Enterprise Licensing',
-    subtitle: 'Deploy the Elevate LMS platform for your organization. Managed infrastructure, your brand.',
+    subtitle:
+      'Deploy the Elevate LMS platform for your organization. Managed infrastructure, your brand.',
     image: '/images/pages/features-hero.jpg',
     variant: 'illustration',
     height: 'medium',
     ctaPrimary: { label: 'View Plans', href: '/admin/licenses' },
     ctaSecondary: { label: 'Contact Sales', href: '/contact' },
   },
-  
+
   // ============================================
   // PRIORITY 10: Student Portal (LMS)
   // ============================================
@@ -291,11 +295,11 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     variant: 'split',
     height: 'compact',
   },
-  
+
   // ============================================
   // ADDITIONAL KEY PAGES
   // ============================================
-  
+
   // About
   '/about': {
     title: 'About Elevate for Humanity',
@@ -306,17 +310,17 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     ctaPrimary: { label: 'Our Mission', href: '/about/mission' },
     ctaSecondary: { label: 'Meet the Team', href: '/about/team' },
   },
-  
+
   // Contact
   '/contact': {
     title: 'Contact Us',
-    subtitle: 'Questions about programs, enrollment, or partnerships? We\'re here to help.',
+    subtitle: "Questions about programs, enrollment, or partnerships? We're here to help.",
     image: '/images/pages/contact-hero.jpg',
     variant: 'split',
     height: 'medium',
     ctaPrimary: { label: 'Call Now', href: 'tel:3173143757' },
   },
-  
+
   // Testimonials
   '/testimonials': {
     title: 'Success Stories',
@@ -326,7 +330,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     height: 'medium',
     ctaPrimary: { label: 'Start Your Journey', href: '/apply' },
   },
-  
+
   // FERPA (Governance)
   '/policies/ferpa': {
     title: 'FERPA Privacy Policy',
@@ -335,7 +339,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     variant: 'illustration',
     height: 'compact',
   },
-  
+
   // Privacy Policy (Governance)
   '/privacy': {
     title: 'Privacy Policy',
@@ -344,15 +348,16 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     variant: 'illustration',
     height: 'compact',
   },
-  
+
   // ============================================
   // VIDEO HERO PAGES (Category Landings)
   // ============================================
-  
+
   // Barber Category (VIDEO)
   '/programs/barber': {
     title: 'Barber Training Programs',
-    subtitle: 'Start your career in barbering with hands-on training and apprenticeship opportunities.',
+    subtitle:
+      'Start your career in barbering with hands-on training and apprenticeship opportunities.',
     videoSrc: VIDEO_HEROES.barber,
     videoPoster: '/images/pages/barber-styling-hair.jpg',
     variant: 'video',
@@ -360,7 +365,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     ctaPrimary: { label: 'Apply Now', href: '/apply?program=barber' },
     ctaSecondary: { label: 'View Programs', href: '#programs' },
   },
-  
+
   // Healthcare Category (VIDEO)
   '/programs/healthcare': {
     title: 'Healthcare Training Programs',
@@ -372,7 +377,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     ctaPrimary: { label: 'Apply Now', href: '/apply?program=healthcare' },
     ctaSecondary: { label: 'View Programs', href: '#programs' },
   },
-  
+
   // Skilled Trades Category (VIDEO)
   '/programs/skilled-trades': {
     title: 'Skilled Trades Training',
@@ -384,7 +389,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     ctaPrimary: { label: 'Apply Now', href: '/apply?program=trades' },
     ctaSecondary: { label: 'View Programs', href: '#programs' },
   },
-  
+
   // Technology Category (VIDEO)
   '/programs/technology': {
     title: 'Technology Training Programs',
@@ -396,7 +401,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     ctaPrimary: { label: 'Apply Now', href: '/apply?program=technology' },
     ctaSecondary: { label: 'View Programs', href: '#programs' },
   },
-  
+
   // Career Services (VIDEO)
   '/career-services': {
     title: 'Career Services',
@@ -407,7 +412,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     height: 'medium',
     ctaPrimary: { label: 'Get Started', href: '/career-services/contact' },
   },
-  
+
   // Government (VIDEO)
   '/government': {
     title: 'Government Partners',
@@ -418,7 +423,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     height: 'medium',
     ctaPrimary: { label: 'Partner With Us', href: '/contact' },
   },
-  
+
   // Workforce Board (VIDEO)
   '/workforce-board': {
     title: 'Workforce Board Portal',
@@ -429,7 +434,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     height: 'medium',
     ctaPrimary: { label: 'Access Portal', href: '/workforce-board/dashboard' },
   },
-  
+
   // Store - Courses (VIDEO)
   '/store/courses': {
     title: 'Course Marketplace',
@@ -440,7 +445,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     height: 'medium',
     ctaPrimary: { label: 'Browse Courses', href: '#courses' },
   },
-  
+
   // Store - Digital (VIDEO)
   '/store/digital': {
     title: 'Digital Products',
@@ -451,7 +456,7 @@ export const PAGE_HEROES: Record<string, PageHeroConfig> = {
     height: 'medium',
     ctaPrimary: { label: 'Browse Products', href: '#products' },
   },
-  
+
   // LMS Courses (VIDEO)
   '/lms/courses': {
     title: 'My Courses',
@@ -469,10 +474,7 @@ export function getHeroConfig(pathname: string): PageHeroConfig | null {
 }
 
 // Helper to get category image
-export function getCategoryImage(
-  category: keyof typeof HERO_IMAGES,
-  subcategory: string
-): string {
+export function getCategoryImage(category: keyof typeof HERO_IMAGES, subcategory: string): string {
   const categoryImages = HERO_IMAGES[category];
   if (categoryImages && subcategory in categoryImages) {
     return categoryImages[subcategory as keyof typeof categoryImages];

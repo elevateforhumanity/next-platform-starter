@@ -22,7 +22,11 @@ export default function ApplicationActions({
   const router = useRouter();
 
   // Terminal states
-  if (currentStatus === 'approved' || currentStatus === 'converted' || currentStatus === 'enrolled') {
+  if (
+    currentStatus === 'approved' ||
+    currentStatus === 'converted' ||
+    currentStatus === 'enrolled'
+  ) {
     return (
       <div className="text-sm text-brand-green-700 bg-brand-green-50 border border-brand-green-200 rounded-lg p-3">
         This application has been approved. The student account and enrollment have been created.
@@ -64,7 +68,7 @@ export default function ApplicationActions({
       setSuccess(
         data.enrollment_id
           ? `Approved and enrolled. (enrollment ${data.enrollment_id?.slice(0, 8)}...)`
-          : `Approved. No program assigned — enrollment skipped. Assign a program to complete enrollment.`
+          : `Approved. No program assigned — enrollment skipped. Assign a program to complete enrollment.`,
       );
       router.refresh();
     } catch (err: unknown) {
@@ -112,7 +116,7 @@ export default function ApplicationActions({
       )}
 
       <div className="flex flex-wrap gap-2">
-        {(currentStatus === 'pending' || currentStatus === 'submitted') ? (
+        {currentStatus === 'pending' || currentStatus === 'submitted' ? (
           <>
             <button
               onClick={() => handleStatusChange('in_review')}

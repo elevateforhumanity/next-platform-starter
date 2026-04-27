@@ -1,6 +1,6 @@
-"use client";
+'use client';
 
-import * as React from "react";
+import * as React from 'react';
 import {
   Play,
   Pause,
@@ -13,7 +13,7 @@ import {
   SkipForward,
   SkipBack,
   Headphones,
-} from "lucide-react";
+} from 'lucide-react';
 
 interface LessonPlayerProps {
   videoUrl: string;
@@ -31,27 +31,27 @@ interface LessonPlayerProps {
 
 /* Media type detection */
 
-type MediaKind = "video" | "audio" | "unknown";
+type MediaKind = 'video' | 'audio' | 'unknown';
 
 function detectMediaKind(url?: string | null): MediaKind {
-  if (!url) return "unknown";
-  const clean = url.toLowerCase().split("?")[0];
-  if (/\.(mp4|webm|mov|m4v|ogv)$/.test(clean)) return "video";
-  if (/\.(mp3|m4a|wav|aac|ogg|flac)$/.test(clean)) return "audio";
+  if (!url) return 'unknown';
+  const clean = url.toLowerCase().split('?')[0];
+  if (/\.(mp4|webm|mov|m4v|ogv)$/.test(clean)) return 'video';
+  if (/\.(mp3|m4a|wav|aac|ogg|flac)$/.test(clean)) return 'audio';
   // Default to video for URLs without extension (Supabase storage, CDN)
-  return "video";
+  return 'video';
 }
 
 function mimeForUrl(url: string): string | undefined {
-  const clean = url.toLowerCase().split("?")[0];
-  if (clean.endsWith(".mp4")) return "video/mp4";
-  if (clean.endsWith(".webm")) return "video/webm";
-  if (clean.endsWith(".mov")) return "video/quicktime";
-  if (clean.endsWith(".mp3")) return "audio/mpeg";
-  if (clean.endsWith(".m4a")) return "audio/mp4";
-  if (clean.endsWith(".wav")) return "audio/wav";
-  if (clean.endsWith(".aac")) return "audio/aac";
-  if (clean.endsWith(".ogg")) return "audio/ogg";
+  const clean = url.toLowerCase().split('?')[0];
+  if (clean.endsWith('.mp4')) return 'video/mp4';
+  if (clean.endsWith('.webm')) return 'video/webm';
+  if (clean.endsWith('.mov')) return 'video/quicktime';
+  if (clean.endsWith('.mp3')) return 'audio/mpeg';
+  if (clean.endsWith('.m4a')) return 'audio/mp4';
+  if (clean.endsWith('.wav')) return 'audio/wav';
+  if (clean.endsWith('.aac')) return 'audio/aac';
+  if (clean.endsWith('.ogg')) return 'audio/ogg';
   return undefined;
 }
 
@@ -87,7 +87,7 @@ export default function LessonPlayer({
   const maxWatchedRef = React.useRef(0);
 
   const getMedia = React.useCallback((): HTMLMediaElement | null => {
-    return mediaKind === "audio" ? audioRef.current : videoRef.current;
+    return mediaKind === 'audio' ? audioRef.current : videoRef.current;
   }, [mediaKind]);
 
   // Reset state when URL changes
@@ -107,9 +107,17 @@ export default function LessonPlayer({
     const v = getMedia();
     if (!v) return;
 
-    const onPlay = () => { setIsPlaying(true); setHasStarted(true); setIsLoading(false); };
+    const onPlay = () => {
+      setIsPlaying(true);
+      setHasStarted(true);
+      setIsLoading(false);
+    };
     const onPause = () => setIsPlaying(false);
-    const onEnded = () => { setIsPlaying(false); setEnded(true); onComplete?.(); };
+    const onEnded = () => {
+      setIsPlaying(false);
+      setEnded(true);
+      onComplete?.();
+    };
     const onTimeUpdate = () => {
       setCurrentTime(v.currentTime);
       if (v.currentTime > maxWatchedRef.current) {
@@ -130,40 +138,43 @@ export default function LessonPlayer({
     const onCanPlay = () => setIsLoading(false);
     const onPlaying = () => setIsLoading(false);
     const onStalled = () => setIsLoading(true);
-    const onError = () => { setIsLoading(false); setHasError(true); };
+    const onError = () => {
+      setIsLoading(false);
+      setHasError(true);
+    };
 
-    v.addEventListener("play", onPlay);
-    v.addEventListener("pause", onPause);
-    v.addEventListener("ended", onEnded);
-    v.addEventListener("timeupdate", onTimeUpdate);
-    v.addEventListener("seeking", onSeeking);
-    v.addEventListener("loadedmetadata", onLoaded);
-    v.addEventListener("waiting", onWaiting);
-    v.addEventListener("canplay", onCanPlay);
-    v.addEventListener("playing", onPlaying);
-    v.addEventListener("stalled", onStalled);
-    v.addEventListener("error", onError);
+    v.addEventListener('play', onPlay);
+    v.addEventListener('pause', onPause);
+    v.addEventListener('ended', onEnded);
+    v.addEventListener('timeupdate', onTimeUpdate);
+    v.addEventListener('seeking', onSeeking);
+    v.addEventListener('loadedmetadata', onLoaded);
+    v.addEventListener('waiting', onWaiting);
+    v.addEventListener('canplay', onCanPlay);
+    v.addEventListener('playing', onPlaying);
+    v.addEventListener('stalled', onStalled);
+    v.addEventListener('error', onError);
 
     return () => {
-      v.removeEventListener("play", onPlay);
-      v.removeEventListener("pause", onPause);
-      v.removeEventListener("ended", onEnded);
-      v.removeEventListener("timeupdate", onTimeUpdate);
-      v.removeEventListener("seeking", onSeeking);
-      v.removeEventListener("loadedmetadata", onLoaded);
-      v.removeEventListener("waiting", onWaiting);
-      v.removeEventListener("canplay", onCanPlay);
-      v.removeEventListener("playing", onPlaying);
-      v.removeEventListener("stalled", onStalled);
-      v.removeEventListener("error", onError);
+      v.removeEventListener('play', onPlay);
+      v.removeEventListener('pause', onPause);
+      v.removeEventListener('ended', onEnded);
+      v.removeEventListener('timeupdate', onTimeUpdate);
+      v.removeEventListener('seeking', onSeeking);
+      v.removeEventListener('loadedmetadata', onLoaded);
+      v.removeEventListener('waiting', onWaiting);
+      v.removeEventListener('canplay', onCanPlay);
+      v.removeEventListener('playing', onPlaying);
+      v.removeEventListener('stalled', onStalled);
+      v.removeEventListener('error', onError);
     };
   }, [onComplete, onProgress, getMedia, videoUrl, mediaKind]);
 
   // Fullscreen listener
   React.useEffect(() => {
     const onChange = () => setIsFullscreen(!!document.fullscreenElement);
-    document.addEventListener("fullscreenchange", onChange);
-    return () => document.removeEventListener("fullscreenchange", onChange);
+    document.addEventListener('fullscreenchange', onChange);
+    return () => document.removeEventListener('fullscreenchange', onChange);
   }, []);
 
   // Auto-hide controls after 3s during playback
@@ -178,7 +189,9 @@ export default function LessonPlayer({
   React.useEffect(() => {
     if (!isPlaying) setShowControls(true);
     else resetControlsTimer();
-    return () => { if (hideControlsTimer.current) clearTimeout(hideControlsTimer.current); };
+    return () => {
+      if (hideControlsTimer.current) clearTimeout(hideControlsTimer.current);
+    };
   }, [isPlaying, resetControlsTimer]);
 
   /* Playback controls */
@@ -188,13 +201,19 @@ export default function LessonPlayer({
     if (!v) return;
     setIsLoading(true);
     setHasStarted(true);
-    try { await v.play(); } catch { setIsPlaying(false); setIsLoading(false); }
+    try {
+      await v.play();
+    } catch {
+      setIsPlaying(false);
+      setIsLoading(false);
+    }
   };
 
   const togglePlay = async () => {
     const v = getMedia();
     if (!v) return;
-    if (v.paused) await play(); else v.pause();
+    if (v.paused) await play();
+    else v.pause();
   };
 
   const restart = async () => {
@@ -236,21 +255,26 @@ export default function LessonPlayer({
     if (!v || !duration) return;
     const rect = target.getBoundingClientRect();
     const clientX =
-      "touches" in e ? e.touches[0]?.clientX ?? e.changedTouches[0]?.clientX ?? 0 : e.clientX;
+      'touches' in e ? (e.touches[0]?.clientX ?? e.changedTouches[0]?.clientX ?? 0) : e.clientX;
     const pct = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
     v.currentTime = pct * duration;
   };
 
   const seek = (e: React.MouseEvent<HTMLDivElement>) => seekFromEvent(e, e.currentTarget);
   const [isSeeking, setIsSeeking] = React.useState(false);
-  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => { setIsSeeking(true); seekFromEvent(e, e.currentTarget); };
-  const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => { if (isSeeking) seekFromEvent(e, e.currentTarget); };
+  const onTouchStart = (e: React.TouchEvent<HTMLDivElement>) => {
+    setIsSeeking(true);
+    seekFromEvent(e, e.currentTarget);
+  };
+  const onTouchMove = (e: React.TouchEvent<HTMLDivElement>) => {
+    if (isSeeking) seekFromEvent(e, e.currentTarget);
+  };
   const onTouchEnd = () => setIsSeeking(false);
 
   const fmt = (s: number) => {
     const m = Math.floor(s / 60);
     const sec = Math.floor(s % 60);
-    return `${m}:${sec.toString().padStart(2, "0")}`;
+    return `${m}:${sec.toString().padStart(2, '0')}`;
   };
 
   const progressPct = duration > 0 ? (currentTime / duration) * 100 : 0;
@@ -260,15 +284,27 @@ export default function LessonPlayer({
     const handler = (e: KeyboardEvent) => {
       if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) return;
       switch (e.key) {
-        case " ": case "k": e.preventDefault(); togglePlay(); break;
-        case "m": toggleMute(); break;
-        case "f": if (mediaKind === "video") toggleFullscreen(); break;
-        case "ArrowLeft": skip(-10); break;
-        case "ArrowRight": skip(10); break;
+        case ' ':
+        case 'k':
+          e.preventDefault();
+          togglePlay();
+          break;
+        case 'm':
+          toggleMute();
+          break;
+        case 'f':
+          if (mediaKind === 'video') toggleFullscreen();
+          break;
+        case 'ArrowLeft':
+          skip(-10);
+          break;
+        case 'ArrowRight':
+          skip(10);
+          break;
       }
     };
-    window.addEventListener("keydown", handler);
-    return () => window.removeEventListener("keydown", handler);
+    window.addEventListener('keydown', handler);
+    return () => window.removeEventListener('keydown', handler);
   });
 
   /* Shared progress bar */
@@ -304,7 +340,9 @@ export default function LessonPlayer({
         <div className="flex items-center gap-2 text-sm text-slate-500 mb-2">
           <BookOpen className="h-4 w-4" />
           {moduleTitle && <span>{moduleTitle} &middot; </span>}
-          <span>{lessonNumber && totalLessons ? `Lesson ${lessonNumber} of ${totalLessons}` : "Lesson"}</span>
+          <span>
+            {lessonNumber && totalLessons ? `Lesson ${lessonNumber} of ${totalLessons}` : 'Lesson'}
+          </span>
         </div>
         <h3 className="text-lg font-semibold text-slate-900">{lessonTitle}</h3>
         <p className="mt-3 text-sm text-slate-500">No playable media attached to this lesson.</p>
@@ -314,7 +352,7 @@ export default function LessonPlayer({
 
   /* Audio player */
 
-  if (mediaKind === "audio") {
+  if (mediaKind === 'audio') {
     return (
       <div ref={containerRef} className="w-full">
         <div className="rounded-2xl bg-slate-900 p-6 shadow-xl">
@@ -325,12 +363,16 @@ export default function LessonPlayer({
             </div>
             <div>
               {moduleTitle && (
-                <p className="text-xs font-medium uppercase tracking-wider text-white/50">{moduleTitle}</p>
+                <p className="text-xs font-medium uppercase tracking-wider text-white/50">
+                  {moduleTitle}
+                </p>
               )}
               <h3 className="text-lg font-bold text-white">{lessonTitle}</h3>
               <p className="text-xs text-white/40">
-                {lessonNumber && totalLessons ? `Lesson ${lessonNumber} of ${totalLessons}` : "Audio Lesson"}
-                {durationMinutes ? ` · ${durationMinutes} min` : ""}
+                {lessonNumber && totalLessons
+                  ? `Lesson ${lessonNumber} of ${totalLessons}`
+                  : 'Audio Lesson'}
+                {durationMinutes ? ` · ${durationMinutes} min` : ''}
               </p>
             </div>
           </div>
@@ -338,9 +380,19 @@ export default function LessonPlayer({
           {/* Error */}
           {hasError && (
             <div className="mb-4 rounded-xl border border-red-500/30 bg-red-500/10 p-3">
-              <p className="text-sm text-red-300">Audio failed to load. Please try again or contact support.</p>
-              <button type="button" onClick={() => { setHasError(false); audioRef.current?.load(); }}
-                className="mt-2 rounded-lg bg-white/10 px-3 py-1.5 text-xs text-white hover:bg-white/20">Retry</button>
+              <p className="text-sm text-red-300">
+                Audio failed to load. Please try again or contact support.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setHasError(false);
+                  audioRef.current?.load();
+                }}
+                className="mt-2 rounded-lg bg-white/10 px-3 py-1.5 text-xs text-white hover:bg-white/20"
+              >
+                Retry
+              </button>
             </div>
           )}
 
@@ -354,23 +406,47 @@ export default function LessonPlayer({
             {ProgressBar}
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-2">
-                <button type="button" onClick={() => skip(-10)} className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white" aria-label="Back 10 seconds">
+                <button
+                  type="button"
+                  onClick={() => skip(-10)}
+                  className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white"
+                  aria-label="Back 10 seconds"
+                >
                   <SkipBack className="h-4 w-4" />
                 </button>
-                <button type="button" onClick={ended ? restart : togglePlay}
+                <button
+                  type="button"
+                  onClick={ended ? restart : togglePlay}
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-brand-blue-600 text-white hover:bg-brand-blue-500"
-                  aria-label={ended ? "Replay" : isPlaying ? "Pause" : "Play"}>
-                  {ended ? <RotateCcw className="h-4 w-4" /> : isPlaying ? <Pause className="h-5 w-5" /> : <Play className="ml-0.5 h-5 w-5" />}
+                  aria-label={ended ? 'Replay' : isPlaying ? 'Pause' : 'Play'}
+                >
+                  {ended ? (
+                    <RotateCcw className="h-4 w-4" />
+                  ) : isPlaying ? (
+                    <Pause className="h-5 w-5" />
+                  ) : (
+                    <Play className="ml-0.5 h-5 w-5" />
+                  )}
                 </button>
-                <button type="button" onClick={() => skip(10)} className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white" aria-label="Forward 10 seconds">
+                <button
+                  type="button"
+                  onClick={() => skip(10)}
+                  className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white"
+                  aria-label="Forward 10 seconds"
+                >
                   <SkipForward className="h-4 w-4" />
                 </button>
-                <button type="button" onClick={toggleMute} className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white" aria-label={muted ? "Unmute" : "Mute"}>
+                <button
+                  type="button"
+                  onClick={toggleMute}
+                  className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white"
+                  aria-label={muted ? 'Unmute' : 'Mute'}
+                >
                   {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                 </button>
               </div>
               <span className="text-xs tabular-nums text-white/50">
-                {fmt(currentTime)} / {duration > 0 ? fmt(duration) : "--:--"}
+                {fmt(currentTime)} / {duration > 0 ? fmt(duration) : '--:--'}
               </span>
             </div>
           </div>
@@ -400,7 +476,7 @@ export default function LessonPlayer({
             className="absolute inset-0 h-full w-full object-contain bg-black"
             onClick={togglePlay}
           >
-            <source src={videoUrl} type={mimeForUrl(videoUrl) || "video/mp4"} />
+            <source src={videoUrl} type={mimeForUrl(videoUrl) || 'video/mp4'} />
             {captionUrl && (
               <track kind="captions" src={captionUrl} srcLang="en" label="English" default />
             )}
@@ -418,20 +494,43 @@ export default function LessonPlayer({
           {hasError && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-slate-900">
               <div className="mb-4 rounded-full bg-brand-red-500/20 p-4">
-                <svg className="h-8 w-8 text-brand-red-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z" />
+                <svg
+                  className="h-8 w-8 text-brand-red-400"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-2.5L13.732 4c-.77-.833-1.964-.833-2.732 0L4.082 16.5c-.77.833.192 2.5 1.732 2.5z"
+                  />
                 </svg>
               </div>
               <p className="text-sm text-white/70">Video could not be loaded</p>
-              <p className="mt-1 max-w-md text-center text-xs text-white/30 px-4">Please try again or contact your program coordinator.</p>
-              <button type="button" onClick={() => { setHasError(false); videoRef.current?.load(); }}
-                className="mt-3 rounded-lg bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20">Retry</button>
+              <p className="mt-1 max-w-md text-center text-xs text-white/30 px-4">
+                Please try again or contact your program coordinator.
+              </p>
+              <button
+                type="button"
+                onClick={() => {
+                  setHasError(false);
+                  videoRef.current?.load();
+                }}
+                className="mt-3 rounded-lg bg-white/10 px-4 py-2 text-sm text-white hover:bg-white/20"
+              >
+                Retry
+              </button>
             </div>
           )}
 
           {/* Pre-start — semi-transparent so first frame shows through */}
           {!hasStarted && !hasError && (
-            <div className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer" onClick={play}>
+            <div
+              className="absolute inset-0 flex flex-col items-center justify-center cursor-pointer"
+              onClick={play}
+            >
               <div className="absolute inset-0 bg-black/55" />
               {/* Top bar */}
               <div className="absolute left-0 right-0 top-0 flex items-center justify-between px-4 py-3 sm:px-6 sm:py-4 z-10">
@@ -441,10 +540,14 @@ export default function LessonPlayer({
                   </div>
                   <div>
                     {moduleTitle && (
-                      <p className="text-[10px] font-medium uppercase tracking-wider text-white/50 sm:text-xs">{moduleTitle}</p>
+                      <p className="text-[10px] font-medium uppercase tracking-wider text-white/50 sm:text-xs">
+                        {moduleTitle}
+                      </p>
                     )}
                     <p className="text-xs font-medium text-white/70 sm:text-sm">
-                      {lessonNumber && totalLessons ? `Lesson ${lessonNumber} of ${totalLessons}` : "Lesson"}
+                      {lessonNumber && totalLessons
+                        ? `Lesson ${lessonNumber} of ${totalLessons}`
+                        : 'Lesson'}
                     </p>
                   </div>
                 </div>
@@ -456,11 +559,21 @@ export default function LessonPlayer({
               </div>
               {/* Center */}
               <div className="relative z-10 flex flex-col items-center">
-                <h2 className="mb-3 max-w-lg text-center text-xl font-bold text-white sm:text-3xl md:text-4xl px-4">{lessonTitle}</h2>
-                {moduleTitle && <p className="mb-8 text-sm text-white/50 sm:text-base">{moduleTitle}</p>}
-                <button type="button" onClick={(e) => { e.stopPropagation(); play(); }}
+                <h2 className="mb-3 max-w-lg text-center text-xl font-bold text-white sm:text-3xl md:text-4xl px-4">
+                  {lessonTitle}
+                </h2>
+                {moduleTitle && (
+                  <p className="mb-8 text-sm text-white/50 sm:text-base">{moduleTitle}</p>
+                )}
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    play();
+                  }}
                   className="inline-flex h-16 w-16 items-center justify-center rounded-full bg-brand-blue-600 text-white shadow-lg shadow-brand-blue-600/30 transition hover:scale-105 hover:bg-brand-blue-500 hover:shadow-xl sm:h-20 sm:w-20"
-                  aria-label="Play video">
+                  aria-label="Play video"
+                >
                   <Play className="ml-1 h-7 w-7 sm:h-8 sm:w-8" />
                 </button>
                 <p className="mt-4 flex items-center justify-center gap-1.5 text-xs text-white/40 sm:text-sm">
@@ -476,8 +589,14 @@ export default function LessonPlayer({
               <div className="mb-4 text-5xl text-brand-green-400">&#10003;</div>
               <h2 className="mb-2 text-2xl font-bold text-white sm:text-3xl">Lesson Complete</h2>
               <p className="mb-6 text-sm text-white/50">{lessonTitle}</p>
-              <button type="button" onClick={(e) => { e.stopPropagation(); restart(); }}
-                className="inline-flex items-center gap-2 rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20">
+              <button
+                type="button"
+                onClick={(e) => {
+                  e.stopPropagation();
+                  restart();
+                }}
+                className="inline-flex items-center gap-2 rounded-full bg-white/10 px-6 py-3 text-sm font-semibold text-white backdrop-blur-sm transition hover:bg-white/20"
+              >
                 <RotateCcw className="h-4 w-4" /> Replay
               </button>
             </div>
@@ -487,35 +606,70 @@ export default function LessonPlayer({
           {hasStarted && !ended && (
             <div
               className={`absolute bottom-0 left-0 right-0 bg-black/60 px-3 pb-2 pt-4 transition-opacity duration-300 sm:px-5 sm:pb-3 ${
-                showControls ? "opacity-100" : "opacity-0 pointer-events-none"
+                showControls ? 'opacity-100' : 'opacity-0 pointer-events-none'
               }`}
               onClick={(e) => e.stopPropagation()}
             >
               <div className="mb-2">{ProgressBar}</div>
               <div className="flex items-center justify-between">
                 <div className="flex items-center gap-1 sm:gap-3">
-                  <button type="button" onClick={ended ? restart : togglePlay} className="rounded-full p-1.5 text-white/80 transition hover:bg-white/10 hover:text-white" aria-label={isPlaying ? "Pause" : "Play"}>
-                    {isPlaying ? <Pause className="h-5 w-5" /> : <Play className="ml-0.5 h-5 w-5" />}
+                  <button
+                    type="button"
+                    onClick={ended ? restart : togglePlay}
+                    className="rounded-full p-1.5 text-white/80 transition hover:bg-white/10 hover:text-white"
+                    aria-label={isPlaying ? 'Pause' : 'Play'}
+                  >
+                    {isPlaying ? (
+                      <Pause className="h-5 w-5" />
+                    ) : (
+                      <Play className="ml-0.5 h-5 w-5" />
+                    )}
                   </button>
-                  <button type="button" onClick={() => skip(-10)} className="hidden rounded-full p-1.5 text-white/60 transition hover:bg-white/10 hover:text-white sm:block" aria-label="Back 10 seconds">
+                  <button
+                    type="button"
+                    onClick={() => skip(-10)}
+                    className="hidden rounded-full p-1.5 text-white/60 transition hover:bg-white/10 hover:text-white sm:block"
+                    aria-label="Back 10 seconds"
+                  >
                     <SkipBack className="h-4 w-4" />
                   </button>
-                  <button type="button" onClick={() => skip(10)} className="hidden rounded-full p-1.5 text-white/60 transition hover:bg-white/10 hover:text-white sm:block" aria-label="Forward 10 seconds">
+                  <button
+                    type="button"
+                    onClick={() => skip(10)}
+                    className="hidden rounded-full p-1.5 text-white/60 transition hover:bg-white/10 hover:text-white sm:block"
+                    aria-label="Forward 10 seconds"
+                  >
                     <SkipForward className="h-4 w-4" />
                   </button>
-                  <button type="button" onClick={toggleMute} className="rounded-full p-1.5 text-white/60 transition hover:bg-white/10 hover:text-white" aria-label={muted ? "Unmute" : "Mute"}>
+                  <button
+                    type="button"
+                    onClick={toggleMute}
+                    className="rounded-full p-1.5 text-white/60 transition hover:bg-white/10 hover:text-white"
+                    aria-label={muted ? 'Unmute' : 'Mute'}
+                  >
                     {muted ? <VolumeX className="h-4 w-4" /> : <Volume2 className="h-4 w-4" />}
                   </button>
                   <span className="ml-1 text-xs tabular-nums text-white/50">
-                    {fmt(currentTime)} / {duration > 0 ? fmt(duration) : "--:--"}
+                    {fmt(currentTime)} / {duration > 0 ? fmt(duration) : '--:--'}
                   </span>
                 </div>
                 <div className="flex items-center gap-1">
                   {lessonNumber && totalLessons && (
-                    <span className="mr-2 hidden text-xs text-white/40 sm:inline">Lesson {lessonNumber}/{totalLessons}</span>
+                    <span className="mr-2 hidden text-xs text-white/40 sm:inline">
+                      Lesson {lessonNumber}/{totalLessons}
+                    </span>
                   )}
-                  <button type="button" onClick={toggleFullscreen} className="rounded-full p-1.5 text-white/60 transition hover:bg-white/10 hover:text-white" aria-label="Fullscreen">
-                    {isFullscreen ? <Minimize2 className="h-4 w-4" /> : <Maximize2 className="h-4 w-4" />}
+                  <button
+                    type="button"
+                    onClick={toggleFullscreen}
+                    className="rounded-full p-1.5 text-white/60 transition hover:bg-white/10 hover:text-white"
+                    aria-label="Fullscreen"
+                  >
+                    {isFullscreen ? (
+                      <Minimize2 className="h-4 w-4" />
+                    ) : (
+                      <Maximize2 className="h-4 w-4" />
+                    )}
                   </button>
                 </div>
               </div>

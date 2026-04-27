@@ -124,23 +124,13 @@ export type ProgramDeliveryModel = 'internal' | 'partner' | 'hybrid';
  *   external_redirect  — Enrollment handled entirely by an external provider
  *   hybrid             — Mix of internal LMS + partner/external components
  */
-export type DeliveryModel =
-  | 'internal_lms'
-  | 'partner_scorm'
-  | 'external_redirect'
-  | 'hybrid';
+export type DeliveryModel = 'internal_lms' | 'partner_scorm' | 'external_redirect' | 'hybrid';
 
 /**
  * Funding sources that may cover this program.
  * Only include options that are actually available — do not guess.
  */
-export type FundingType =
-  | 'wioa'
-  | 'wrg'
-  | 'impact'
-  | 'self_pay'
-  | 'employer_paid'
-  | 'unknown';
+export type FundingType = 'wioa' | 'wrg' | 'impact' | 'self_pay' | 'employer_paid' | 'unknown';
 
 /**
  * How a learner enrolls.
@@ -217,12 +207,12 @@ export interface ProgramSchema {
   // ─── Facility & Delivery Details ────────────────────────────────
   facilityDetails?: {
     address: string;
-    classSize: string;        // e.g. "Up to 20 students per cohort"
-    labEquipment?: string;    // e.g. "6 HVAC training rigs, EPA 608 exam station"
+    classSize: string; // e.g. "Up to 20 students per cohort"
+    labEquipment?: string; // e.g. "6 HVAC training rigs, EPA 608 exam station"
     instructors: {
       name: string;
-      credential: string;     // e.g. "EPA 608 Universal, OSHA 30"
-      experience: string;     // e.g. "12 years field experience"
+      credential: string; // e.g. "EPA 608 Universal, OSHA 30"
+      experience: string; // e.g. "12 years field experience"
     }[];
   };
   badge?: string;
@@ -232,18 +222,18 @@ export interface ProgramSchema {
   /** Two-track enrollment: funded (Indiana) vs self-pay (national) */
   enrollmentTracks?: {
     funded: {
-      label: string;           // e.g. "Indiana Residents — Workforce Funded"
-      requirement: string;     // e.g. "Must reside in Indiana"
+      label: string; // e.g. "Indiana Residents — Workforce Funded"
+      requirement: string; // e.g. "Must reside in Indiana"
       description: string;
       applyHref: string;
       available: true;
     };
     selfPay: {
-      label: string;           // e.g. "All States — Self-Pay"
-      cost: string;            // e.g. "$5,000"
+      label: string; // e.g. "All States — Self-Pay"
+      cost: string; // e.g. "$5,000"
       description: string;
       applyHref: string;
-      available: boolean;      // false = not yet available for enrollment
+      available: boolean; // false = not yet available for enrollment
       comingSoonMessage?: string;
     };
   };
@@ -285,11 +275,11 @@ export interface ProgramSchema {
   // ─── BNPL / Payment Options ─────────────────────────────────────
   bnplOptions?: {
     headline: string;
-    note: string;       // e.g. "Not government funded — tuition is paid directly to Elevate"
+    note: string; // e.g. "Not government funded — tuition is paid directly to Elevate"
     plans: {
-      label: string;    // e.g. "Pay in Full"
-      amount: string;   // e.g. "$5,000"
-      detail: string;   // e.g. "One-time payment"
+      label: string; // e.g. "Pay in Full"
+      amount: string; // e.g. "$5,000"
+      detail: string; // e.g. "One-time payment"
     }[];
   };
 
@@ -402,10 +392,16 @@ export function validateProgram(p: ProgramSchema): ValidationError[] {
 
   // Credentials: 3–6 with issuer
   if (p.credentials.length < 3) {
-    errors.push({ field: 'credentials', message: `Need at least 3 credentials, got ${p.credentials.length}` });
+    errors.push({
+      field: 'credentials',
+      message: `Need at least 3 credentials, got ${p.credentials.length}`,
+    });
   }
   if (p.credentials.length > 6) {
-    errors.push({ field: 'credentials', message: `Maximum 6 credentials, got ${p.credentials.length}` });
+    errors.push({
+      field: 'credentials',
+      message: `Maximum 6 credentials, got ${p.credentials.length}`,
+    });
   }
   for (const c of p.credentials) {
     if (!c.issuer) {
@@ -415,7 +411,10 @@ export function validateProgram(p: ProgramSchema): ValidationError[] {
 
   // Outcomes: 5–8 measurable
   if (p.outcomes.length < 5) {
-    errors.push({ field: 'outcomes', message: `Need at least 5 measurable outcomes, got ${p.outcomes.length}` });
+    errors.push({
+      field: 'outcomes',
+      message: `Need at least 5 measurable outcomes, got ${p.outcomes.length}`,
+    });
   }
   if (p.outcomes.length > 8) {
     errors.push({ field: 'outcomes', message: `Maximum 8 outcomes, got ${p.outcomes.length}` });
@@ -505,10 +504,12 @@ export function getPrimaryCTA(p: ProgramSchema): PrimaryCTA | null {
  * Returns explicit tracks if defined, otherwise builds defaults from fundingOptions.
  * Every program gets a decision-ready tracks object — no silent empty sections.
  */
-export function getEnrollmentTracks(p: ProgramSchema): NonNullable<ProgramSchema['enrollmentTracks']> {
+export function getEnrollmentTracks(
+  p: ProgramSchema,
+): NonNullable<ProgramSchema['enrollmentTracks']> {
   if (p.enrollmentTracks) return p.enrollmentTracks;
 
-  const hasWIOA = p.fundingOptions?.some(f => f === 'wioa' || f === 'wrg') ?? false;
+  const hasWIOA = p.fundingOptions?.some((f) => f === 'wioa' || f === 'wrg') ?? false;
   const hasEmployer = p.fundingOptions?.includes('employer_paid') ?? false;
   const applyHref = p.cta.applyHref || `/programs/${p.slug}/apply`;
 
@@ -519,15 +520,16 @@ export function getEnrollmentTracks(p: ProgramSchema): NonNullable<ProgramSchema
       description: hasEmployer
         ? 'Train while earning wages at a partner employer. Your employer covers tuition through the apprenticeship agreement. No out-of-pocket cost.'
         : hasWIOA
-        ? 'Federal and Indiana state workforce funding may cover 100% of tuition, books, and exam fees for eligible Indiana residents. We help you apply for every option you qualify for.'
-        : 'Funding assistance may be available through workforce development programs. Contact an advisor to check your eligibility.',
+          ? 'Federal and Indiana state workforce funding may cover 100% of tuition, books, and exam fees for eligible Indiana residents. We help you apply for every option you qualify for.'
+          : 'Funding assistance may be available through workforce development programs. Contact an advisor to check your eligibility.',
       applyHref,
       available: true as const,
     },
     selfPay: {
       label: 'Self-Pay — All States',
       cost: p.selfPayCost,
-      description: 'Enroll immediately without waiting for funding approval. Payment plans, BNPL (Klarna, Afterpay, Zip), and income-share options available.',
+      description:
+        'Enroll immediately without waiting for funding approval. Payment plans, BNPL (Klarna, Afterpay, Zip), and income-share options available.',
       applyHref,
       available: p.enrollmentType !== 'waitlist',
       comingSoonMessage: 'Self-pay enrollment is opening soon. Join the waitlist to be notified.',

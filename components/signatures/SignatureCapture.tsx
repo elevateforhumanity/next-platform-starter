@@ -5,23 +5,23 @@ import { PenLine, Type, Trash2 } from 'lucide-react';
 
 // Signature fonts — loaded via Google Fonts in layout
 const TYPED_FONTS = [
-  { label: 'Cursive',    family: 'Dancing Script, cursive' },
-  { label: 'Elegant',   family: 'Great Vibes, cursive' },
-  { label: 'Classic',   family: 'Pacifico, cursive' },
-  { label: 'Print',     family: 'Caveat, cursive' },
+  { label: 'Cursive', family: 'Dancing Script, cursive' },
+  { label: 'Elegant', family: 'Great Vibes, cursive' },
+  { label: 'Classic', family: 'Pacifico, cursive' },
+  { label: 'Print', family: 'Caveat, cursive' },
 ];
 
 export type SignatureMode = 'draw' | 'typed';
 
 export interface SignatureCaptureResult {
   mode: SignatureMode;
-  signatureData?: string;   // base64 PNG (draw mode)
-  typedName?: string;       // typed name string
-  fontFamily?: string;      // font used in typed mode
+  signatureData?: string; // base64 PNG (draw mode)
+  typedName?: string; // typed name string
+  fontFamily?: string; // font used in typed mode
 }
 
 interface Props {
-  signerName?: string;      // pre-fill typed name
+  signerName?: string; // pre-fill typed name
   onChange: (result: SignatureCaptureResult | null) => void;
 }
 
@@ -70,7 +70,9 @@ export default function SignatureCapture({ signerName = '', onChange }: Props) {
     return { x: e.clientX - rect.left, y: e.clientY - rect.top };
   };
 
-  const startDraw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
+  const startDraw = (
+    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>,
+  ) => {
     const ctx = canvasRef.current?.getContext('2d');
     if (!ctx) return;
     isDrawingRef.current = true;
@@ -185,13 +187,13 @@ export default function SignatureCapture({ signerName = '', onChange }: Props) {
           <input
             type="text"
             value={typedName}
-            onChange={e => setTypedName(e.target.value)}
+            onChange={(e) => setTypedName(e.target.value)}
             placeholder="Type your full name"
             className="w-full border border-slate-200 rounded-xl px-4 py-3 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           />
           {/* Font picker */}
           <div className="flex flex-wrap gap-2">
-            {TYPED_FONTS.map(f => (
+            {TYPED_FONTS.map((f) => (
               <button
                 key={f.family}
                 type="button"

@@ -14,8 +14,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/admin/videos',
   },
   title: 'Videos Management | Elevate For Humanity',
-  description:
-    'Manage video content, course videos, and multimedia learning materials.',
+  description: 'Manage video content, course videos, and multimedia learning materials.',
 };
 
 export default async function VideosPage() {
@@ -24,7 +23,9 @@ export default async function VideosPage() {
 
   const { data: videos, error } = await db
     .from('videos')
-    .select('id, title, description, url, video_url, thumbnail_url, duration_seconds, published, category, created_at')
+    .select(
+      'id, title, description, url, video_url, thumbnail_url, duration_seconds, published, category, created_at',
+    )
     .order('created_at', { ascending: false });
 
   const rows = videos ?? [];
@@ -33,13 +34,13 @@ export default async function VideosPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Videos" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Videos' }]} />
+      </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-videos-hero.jpg"
           alt="Videos Management"
@@ -49,7 +50,6 @@ export default async function VideosPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Content Section */}
@@ -61,35 +61,24 @@ export default async function VideosPage() {
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <div className="flex items-center gap-3 mb-2">
                   <Video className="h-11 w-11 text-brand-blue-600" />
-                  <h3 className="text-sm font-medium text-black">
-                    Total Videos
-                  </h3>
+                  <h3 className="text-sm font-medium text-black">Total Videos</h3>
                 </div>
-                <p className="text-3xl font-bold text-brand-blue-600">
-                  {totalVideos || 0}
-                </p>
+                <p className="text-3xl font-bold text-brand-blue-600">{totalVideos || 0}</p>
               </div>
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <div className="flex items-center gap-3 mb-2">
                   <Play className="h-11 w-11 text-brand-green-600" />
-                  <h3 className="text-sm font-medium text-black">
-                    Published
-                  </h3>
+                  <h3 className="text-sm font-medium text-black">Published</h3>
                 </div>
-                <p className="text-3xl font-bold text-brand-green-600">
-                  {publishedVideos || 0}
-                </p>
+                <p className="text-3xl font-bold text-brand-green-600">{publishedVideos || 0}</p>
               </div>
               <div className="bg-white rounded-lg shadow-sm border p-6">
                 <div className="flex items-center gap-3 mb-2">
                   <Eye className="h-11 w-11 text-brand-blue-600" />
-                  <h3 className="text-sm font-medium text-black">
-                    Total Views
-                  </h3>
+                  <h3 className="text-sm font-medium text-black">Total Views</h3>
                 </div>
                 <p className="text-3xl font-bold text-brand-blue-600">
-                  {videos?.reduce((acc, v) => acc + (v.view_count || 0), 0) ||
-                    0}
+                  {videos?.reduce((acc, v) => acc + (v.view_count || 0), 0) || 0}
                 </p>
               </div>
             </div>
@@ -120,7 +109,8 @@ export default async function VideosPage() {
                             alt={video.title}
                             fill
                             className="object-cover"
-                           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                          />
                           <div className="absolute inset-0 flex items-center justify-center bg-slate-800/20">
                             <Play className="h-12 w-12 text-white" />
                           </div>
@@ -161,9 +151,7 @@ export default async function VideosPage() {
                 <div className="text-center py-12">
                   <Video className="h-16 w-16 text-slate-700 mx-auto mb-4" />
                   <p className="text-black text-lg">No videos found</p>
-                  <p className="text-black text-sm mt-2">
-                    Upload your first video to get started
-                  </p>
+                  <p className="text-black text-sm mt-2">Upload your first video to get started</p>
                 </div>
               )}
             </div>
@@ -175,12 +163,10 @@ export default async function VideosPage() {
       <section className="py-16 bg-brand-blue-700">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Video Management
-                        </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Video Management</h2>
             <p className="text-base md:text-lg text-brand-blue-100 mb-8">
               Upload, organize, and embed training videos.
-                        </p>
+            </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link
                 href="/admin/videos"

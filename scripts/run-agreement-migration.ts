@@ -1,6 +1,6 @@
 /**
  * Run Agreement Compliance Migration
- * 
+ *
  * Usage: npx tsx scripts/run-agreement-migration.ts
  */
 
@@ -24,11 +24,14 @@ async function runMigration() {
   }
 
   const supabase = createClient(SUPABASE_URL, SUPABASE_SERVICE_KEY, {
-    auth: { persistSession: false }
+    auth: { persistSession: false },
   });
 
   // Read migration file
-  const migrationPath = path.join(__dirname, '../supabase/migrations/20260203_agreement_compliance_final.sql');
+  const migrationPath = path.join(
+    __dirname,
+    '../supabase/migrations/20260203_agreement_compliance_final.sql',
+  );
   const migrationSQL = fs.readFileSync(migrationPath, 'utf-8');
 
   console.log('📄 Migration file loaded');
@@ -37,17 +40,17 @@ async function runMigration() {
 
   // Split into statements (simple split on semicolons outside of functions)
   // For complex migrations, we'll execute as a single block via RPC
-  
+
   try {
     // Execute via Supabase's SQL execution
     const { data, error } = await supabase.rpc('exec_sql', {
-      sql: migrationSQL
+      sql: migrationSQL,
     });
 
     if (error) {
       // If exec_sql doesn't exist, try direct approach
       console.log('⚠️  exec_sql RPC not available, trying alternative...\n');
-      
+
       // Split and execute statements individually
       const statements = splitSQLStatements(migrationSQL);
       console.log(`📝 Found ${statements.length} SQL statements\n`);
@@ -57,10 +60,10 @@ async function runMigration() {
         if (!stmt) continue;
 
         console.log(`   [${i + 1}/${statements.length}] Executing...`);
-        
+
         // Use raw SQL via postgrest
         const { error: stmtError } = await supabase.from('_exec').select().limit(0);
-        
+
         // Since we can't execute raw SQL directly, we'll need to use the Supabase dashboard
         // or a direct postgres connection
       }
@@ -80,7 +83,7 @@ async function runMigration() {
 
   // Verify the table exists
   console.log('🔍 Verifying migration...\n');
-  
+
   const { data: tables, error: tableError } = await supabase
     .from('license_agreement_acceptances')
     .select('id')
@@ -91,12 +94,12 @@ async function runMigration() {
     console.log('\n⚠️  The table may not exist yet. Please run the migration manually.\n');
   } else {
     console.log('✅ Table license_agreement_acceptances exists');
-    
+
     // Check count
     const { count } = await supabase
       .from('license_agreement_acceptances')
       .select('*', { count: 'exact', head: true });
-    
+
     console.log(`   Current row count: ${count || 0}\n`);
   }
 
@@ -125,7 +128,7 @@ function splitSQLStatements(sql: string): string[] {
   let dollarQuote = '';
 
   const lines = sql.split('\n');
-  
+
   for (const line of lines) {
     // Skip comments
     if (line.trim().startsWith('--')) {

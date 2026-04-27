@@ -19,11 +19,7 @@ export type ExtractedField = {
  * Strips punctuation, lowercases, collapses whitespace.
  */
 export function normalizeFieldText(text: string): string {
-  return text
-    .toLowerCase()
-    .replace(/[*:?]/g, '')
-    .replace(/\s+/g, ' ')
-    .trim();
+  return text.toLowerCase().replace(/[*:?]/g, '').replace(/\s+/g, ' ').trim();
 }
 
 /**
@@ -31,7 +27,7 @@ export function normalizeFieldText(text: string): string {
  * Used for internal application pages where we define the schema.
  */
 export function extractFieldsFromSchema(
-  schema: Array<Omit<ExtractedField, 'fieldName'> & { fieldName: string }>
+  schema: Array<Omit<ExtractedField, 'fieldName'> & { fieldName: string }>,
 ): ExtractedField[] {
   return schema.map((f) => ({
     ...f,

@@ -13,9 +13,17 @@ interface TrialBannerProps {
 }
 
 const TRIAL_STEPS = [
-  { id: 'oriented', label: 'You\'re in your live workspace', description: 'This is real — nothing is public until you launch' },
+  {
+    id: 'oriented',
+    label: "You're in your live workspace",
+    description: 'This is real — nothing is public until you launch',
+  },
   { id: 'add_users', label: 'Add team members', description: 'Invite at least 1 admin and 1 user' },
-  { id: 'create_program', label: 'Create a program', description: 'Set up your first training program' },
+  {
+    id: 'create_program',
+    label: 'Create a program',
+    description: 'Set up your first training program',
+  },
   { id: 'publish_course', label: 'Publish a course', description: 'Add content and publish' },
   { id: 'enroll_learner', label: 'Enroll a learner', description: 'Assign someone to your course' },
   { id: 'view_progress', label: 'View progress', description: 'Check the reports dashboard' },
@@ -52,26 +60,26 @@ export function TrialBanner({
   const bannerColor = isExpired
     ? 'bg-brand-red-50 border-brand-red-200'
     : isExpiringSoon
-    ? 'bg-amber-50 border-amber-200'
-    : 'bg-brand-blue-50 border-brand-blue-200';
+      ? 'bg-amber-50 border-amber-200'
+      : 'bg-brand-blue-50 border-brand-blue-200';
 
   const textColor = isExpired
     ? 'text-brand-red-900'
     : isExpiringSoon
-    ? 'text-amber-900'
-    : 'text-brand-blue-900';
+      ? 'text-amber-900'
+      : 'text-brand-blue-900';
 
   const accentColor = isExpired
     ? 'text-brand-red-600'
     : isExpiringSoon
-    ? 'text-amber-600'
-    : 'text-brand-blue-600';
+      ? 'text-amber-600'
+      : 'text-brand-blue-600';
 
   const buttonColor = isExpired
     ? 'bg-brand-red-600 hover:bg-brand-red-700'
     : isExpiringSoon
-    ? 'bg-amber-600 hover:bg-amber-700'
-    : 'bg-brand-blue-600 hover:bg-brand-blue-700';
+      ? 'bg-amber-600 hover:bg-amber-700'
+      : 'bg-brand-blue-600 hover:bg-brand-blue-700';
 
   return (
     <div className={`${bannerColor} border-b`}>
@@ -156,7 +164,9 @@ export function TrialBanner({
                       <Circle className="w-5 h-5 text-slate-400 flex-shrink-0 mt-0.5" />
                     )}
                     <div>
-                      <p className={`text-sm font-medium ${isComplete ? 'text-brand-green-800' : textColor}`}>
+                      <p
+                        className={`text-sm font-medium ${isComplete ? 'text-brand-green-800' : textColor}`}
+                      >
                         {step.label}
                       </p>
                       <p className="text-xs text-slate-600">{step.description}</p>
@@ -172,10 +182,7 @@ export function TrialBanner({
               >
                 Schedule onboarding call
               </Link>
-              <Link
-                href="/support"
-                className={`text-sm ${accentColor} hover:underline`}
-              >
+              <Link href="/support" className={`text-sm ${accentColor} hover:underline`}>
                 View documentation
               </Link>
             </div>
@@ -189,13 +196,7 @@ export function TrialBanner({
 /**
  * Compact version for sidebar/header
  */
-export function TrialBadge({
-  expiresAt,
-  licenseId,
-}: {
-  expiresAt: Date;
-  licenseId: string;
-}) {
+export function TrialBadge({ expiresAt, licenseId }: { expiresAt: Date; licenseId: string }) {
   const now = new Date();
   const daysRemaining = Math.ceil((expiresAt.getTime() - now.getTime()) / (1000 * 60 * 60 * 24));
   const isExpiringSoon = daysRemaining <= 3;
@@ -204,8 +205,8 @@ export function TrialBadge({
   const badgeColor = isExpired
     ? 'bg-brand-red-100 text-brand-red-800 border-brand-red-200'
     : isExpiringSoon
-    ? 'bg-amber-100 text-amber-800 border-amber-200'
-    : 'bg-brand-blue-100 text-brand-blue-800 border-brand-blue-200';
+      ? 'bg-amber-100 text-amber-800 border-amber-200'
+      : 'bg-brand-blue-100 text-brand-blue-800 border-brand-blue-200';
 
   return (
     <Link

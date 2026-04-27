@@ -16,8 +16,6 @@ export default async function ModulesPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   const { data: modules, count: totalModules } = await supabase
     .from('modules')
     .select(
@@ -26,7 +24,7 @@ export default async function ModulesPage() {
       program:programs(name, title, slug),
       scorm_package:scorm_packages(id, title, version)
     `,
-      { count: 'exact' }
+      { count: 'exact' },
     )
     .order('created_at', { ascending: false });
 
@@ -54,22 +52,17 @@ export default async function ModulesPage() {
 
   return (
     <div className="min-h-screen bg-white p-8">
-
       {/* Hero Image */}
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Modules" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Modules' }]} />
+      </div>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h1 className="text-3xl font-bold text-black">
-                Modules Management
-              </h1>
-              <p className="text-black mt-1">
-                Manage program modules and SCORM content
-              </p>
+              <h1 className="text-3xl font-bold text-black">Modules Management</h1>
+              <p className="text-black mt-1">Manage program modules and SCORM content</p>
             </div>
             <Link
               href="/admin/modules/new"
@@ -82,33 +75,23 @@ export default async function ModulesPage() {
           {/* Stats */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-4 mt-6">
             <div className="bg-white rounded-lg shadow-sm border p-4">
-              <h3 className="text-sm font-medium text-black mb-1">
-                Total Modules
-              </h3>
-              <p className="text-base md:text-lg font-bold text-black">
-                {totalModules || 0}
-              </p>
+              <h3 className="text-sm font-medium text-black mb-1">Total Modules</h3>
+              <p className="text-base md:text-lg font-bold text-black">{totalModules || 0}</p>
             </div>
             <div className="bg-white rounded-lg shadow-sm border p-4">
-              <h3 className="text-sm font-medium text-black mb-1">
-                SCORM Packages
-              </h3>
+              <h3 className="text-sm font-medium text-black mb-1">SCORM Packages</h3>
               <p className="text-base md:text-lg font-bold text-brand-blue-600">
                 {scormModules || 0}
               </p>
             </div>
             <div className="bg-white rounded-lg shadow-sm border p-4">
-              <h3 className="text-sm font-medium text-black mb-1">
-                Lessons
-              </h3>
+              <h3 className="text-sm font-medium text-black mb-1">Lessons</h3>
               <p className="text-base md:text-lg font-bold text-brand-green-600">
                 {lessonModules || 0}
               </p>
             </div>
             <div className="bg-white rounded-lg shadow-sm border p-4">
-              <h3 className="text-sm font-medium text-black mb-1">
-                Assessments
-              </h3>
+              <h3 className="text-sm font-medium text-black mb-1">Assessments</h3>
               <p className="text-base md:text-lg font-bold text-brand-blue-600">
                 {assessmentModules || 0}
               </p>

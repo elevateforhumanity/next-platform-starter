@@ -1,6 +1,6 @@
 /**
  * A/B Testing Framework
- * 
+ *
  * Lightweight experimentation system for conversion optimization.
  * Integrates with Google Analytics for tracking.
  */
@@ -49,7 +49,7 @@ const STORAGE_KEY = 'efh_experiments';
  */
 function getUserId(): string {
   if (typeof window === 'undefined') return '';
-  
+
   let userId = localStorage.getItem('efh_user_id');
   if (!userId) {
     userId = `user_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
@@ -65,7 +65,7 @@ function hashString(str: string): number {
   let hash = 0;
   for (let i = 0; i < str.length; i++) {
     const char = str.charCodeAt(i);
-    hash = ((hash << 5) - hash) + char;
+    hash = (hash << 5) - hash + char;
     hash = hash & hash;
   }
   return Math.abs(hash);
@@ -76,7 +76,7 @@ function hashString(str: string): number {
  */
 function getStoredAssignments(): Record<string, ExperimentAssignment> {
   if (typeof window === 'undefined') return {};
-  
+
   try {
     const stored = localStorage.getItem(STORAGE_KEY);
     return stored ? JSON.parse(stored) : {};
@@ -90,7 +90,7 @@ function getStoredAssignments(): Record<string, ExperimentAssignment> {
  */
 function storeAssignment(assignment: ExperimentAssignment): void {
   if (typeof window === 'undefined') return;
-  
+
   const assignments = getStoredAssignments();
   assignments[assignment.experimentId] = assignment;
   localStorage.setItem(STORAGE_KEY, JSON.stringify(assignments));
@@ -101,17 +101,17 @@ function storeAssignment(assignment: ExperimentAssignment): void {
  */
 function matchesAudience(filter?: AudienceFilter): boolean {
   if (!filter) return true;
-  
+
   // Traffic percentage check
   if (filter.trafficPercentage !== undefined) {
     const userId = getUserId();
     const hash = hashString(userId) % 100;
     if (hash >= filter.trafficPercentage) return false;
   }
-  
+
   // User attribute checks would go here
   // (requires integration with user context)
-  
+
   return true;
 }
 
@@ -121,7 +121,7 @@ function matchesAudience(filter?: AudienceFilter): boolean {
 function assignVariant(experiment: Experiment): Variant {
   const userId = getUserId();
   const hash = hashString(`${userId}_${experiment.id}`) % 100;
-  
+
   let cumulative = 0;
   for (const variant of experiment.variants) {
     cumulative += variant.weight;
@@ -129,7 +129,7 @@ function assignVariant(experiment: Experiment): Variant {
       return variant;
     }
   }
-  
+
   // Fallback to first variant
   return experiment.variants[0];
 }
@@ -140,39 +140,39 @@ function assignVariant(experiment: Experiment): Variant {
  */
 export function getVariant(experiment: Experiment): Variant | null {
   if (typeof window === 'undefined') return null;
-  
+
   // Check experiment status
   if (experiment.status !== 'running') return null;
-  
+
   // Check date range
   const now = new Date();
   if (experiment.startDate && now < experiment.startDate) return null;
   if (experiment.endDate && now > experiment.endDate) return null;
-  
+
   // Check audience filter
   if (!matchesAudience(experiment.targetAudience)) return null;
-  
+
   // Check for existing assignment
   const assignments = getStoredAssignments();
   const existing = assignments[experiment.id];
-  
+
   if (existing) {
-    const variant = experiment.variants.find(v => v.id === existing.variantId);
+    const variant = experiment.variants.find((v) => v.id === existing.variantId);
     if (variant) return variant;
   }
-  
+
   // Assign new variant
   const variant = assignVariant(experiment);
-  
+
   storeAssignment({
     experimentId: experiment.id,
     variantId: variant.id,
     assignedAt: Date.now(),
   });
-  
+
   // Track assignment in analytics
   trackExperimentAssignment(experiment.id, variant.id);
-  
+
   return variant;
 }
 
@@ -192,15 +192,15 @@ function trackExperimentAssignment(experimentId: string, variantId: string): voi
  * Track conversion event for an experiment
  */
 export function trackConversion(
-  experimentId: string, 
+  experimentId: string,
   conversionType: string,
-  value?: number
+  value?: number,
 ): void {
   const assignments = getStoredAssignments();
   const assignment = assignments[experimentId];
-  
+
   if (!assignment) return;
-  
+
   if (typeof window !== 'undefined' && window.gtag) {
     window.gtag('event', 'experiment_conversion', {
       experiment_id: experimentId,
@@ -218,20 +218,19 @@ export function useExperiment(experiment: Experiment) {
   // Get variant on client side only
   if (typeof window === 'undefined') {
     return {
-      variant: experiment.variants.find(v => v.isControl) || experiment.variants[0],
+      variant: experiment.variants.find((v) => v.isControl) || experiment.variants[0],
       isLoading: true,
       trackConversion: () => {},
     };
   }
-  
+
   const variant = getVariant(experiment);
-  
+
   return {
-    variant: variant || experiment.variants.find(v => v.isControl) || experiment.variants[0],
+    variant: variant || experiment.variants.find((v) => v.isControl) || experiment.variants[0],
     isLoading: false,
     isInExperiment: variant !== null,
-    trackConversion: (type: string, value?: number) => 
-      trackConversion(experiment.id, type, value),
+    trackConversion: (type: string, value?: number) => trackConversion(experiment.id, type, value),
   };
 }
 
@@ -251,7 +250,7 @@ export const EXPERIMENTS = {
       { id: 'green', name: 'Green', weight: 50 },
     ],
   },
-  
+
   // Application form length
   applicationFormLength: {
     id: 'application-form-length',
@@ -263,7 +262,7 @@ export const EXPERIMENTS = {
       { id: 'short', name: 'Short Form', weight: 50 },
     ],
   },
-  
+
   // Social proof placement
   socialProof: {
     id: 'social-proof-placement',

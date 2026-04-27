@@ -10,9 +10,7 @@ app.post('/api/validate-license', (req, res) => {
   const { licenseKey } = req.body;
 
   if (!licenseKey) {
-    return res
-      .status(400)
-      .json({ valid: false, reason: 'License key required' });
+    return res.status(400).json({ valid: false, reason: 'License key required' });
   }
 
   const result = validateLicense(licenseKey);
@@ -41,11 +39,7 @@ app.post('/api/renew-license', (req, res) => {
   }
 
   // Generate new license with extended expiration
-  const newLicense = generateLicense(
-    validation.email,
-    validation.productId,
-    additionalDays
-  );
+  const newLicense = generateLicense(validation.email, validation.productId, additionalDays);
   res.json({
     message: 'License renewed successfully',
     oldExpiry: validation.expiresAt,
@@ -68,9 +62,7 @@ app.post('/api/license-info', (req, res) => {
       productId,
       issuedAt,
       expiresAt,
-      daysRemaining: Math.ceil(
-        (new Date(expiresAt) - new Date()) / (1000 * 60 * 60 * 24)
-      ),
+      daysRemaining: Math.ceil((new Date(expiresAt) - new Date()) / (1000 * 60 * 60 * 24)),
     });
   } catch (err) {
     res.status(400).json({ error: 'Malformed license key' });
@@ -78,7 +70,6 @@ app.post('/api/license-info', (req, res) => {
 });
 
 const PORT = process.env.PORT || 3000;
-app.listen(PORT, () => {
-});
+app.listen(PORT, () => {});
 
 module.exports = app;

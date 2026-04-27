@@ -1,6 +1,6 @@
 /**
  * RAPIDS Registration Configuration
- * 
+ *
  * Centralized source of truth for USDOL Registered Apprenticeship data.
  * This file is the authoritative reference for all RAPIDS-related information.
  */
@@ -10,11 +10,11 @@ export const RAPIDS_CONFIG = {
   // RAPIDS registered sponsor is the legal entity; brand is the program name
   sponsorOfRecord: '2Exclusive LLC-S', // Legal entity on RAPIDS registration
   programBrand: 'Elevate for Humanity Career & Technical Institute', // DBA of 2Exclusive LLC-S
-  
+
   // Registration Details
   registrationId: process.env.RAPIDS_REGISTRATION_ID || '2025-IN-132301',
   programNumber: process.env.NEXT_PUBLIC_RAPIDS_PROGRAM_NUMBER || '2025-IN-132301',
-  
+
   // Program Details
   programs: {
     barber: {
@@ -29,12 +29,12 @@ export const RAPIDS_CONFIG = {
       tuition: 4980,
     },
   },
-  
+
   // State Information
   state: 'Indiana',
   stateCode: 'IN',
   licensingAgency: 'Indiana Professional Licensing Agency',
-  
+
   // Compliance Flags
   isStateFunded: false,
   wagesGuaranteed: false,
@@ -45,12 +45,10 @@ export const RAPIDS_CONFIG = {
  * Get RAPIDS metadata for Stripe checkout sessions (internal audit trail)
  */
 export function getRAPIDSMetadata(programSlug: string) {
-  const program = Object.values(RAPIDS_CONFIG.programs).find(
-    p => p.slug === programSlug
-  );
-  
+  const program = Object.values(RAPIDS_CONFIG.programs).find((p) => p.slug === programSlug);
+
   if (!program) return null;
-  
+
   return {
     rapids_sponsor_legal: RAPIDS_CONFIG.sponsorOfRecord, // Legal entity on RAPIDS
     rapids_program_brand: RAPIDS_CONFIG.programBrand, // Program brand name
@@ -66,12 +64,10 @@ export function getRAPIDSMetadata(programSlug: string) {
  * Get RAPIDS enrollment data for database records
  */
 export function getRAPIDSEnrollmentData(programSlug: string) {
-  const program = Object.values(RAPIDS_CONFIG.programs).find(
-    p => p.slug === programSlug
-  );
-  
+  const program = Object.values(RAPIDS_CONFIG.programs).find((p) => p.slug === programSlug);
+
   if (!program) return null;
-  
+
   return {
     rapids_sponsor: RAPIDS_CONFIG.sponsorOfRecord,
     rapids_program: program.name,
@@ -87,9 +83,7 @@ export function getRAPIDSEnrollmentData(programSlug: string) {
  * Check if a program is RAPIDS-registered
  */
 export function isRAPIDSProgram(programSlug: string): boolean {
-  return Object.values(RAPIDS_CONFIG.programs).some(
-    p => p.slug === programSlug
-  );
+  return Object.values(RAPIDS_CONFIG.programs).some((p) => p.slug === programSlug);
 }
 
 /**

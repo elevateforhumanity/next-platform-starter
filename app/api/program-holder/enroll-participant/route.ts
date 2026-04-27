@@ -65,13 +65,18 @@ async function _POST(req: NextRequest) {
           currentStatus: mouStatus.status,
           requiresAction: true,
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
   }
 
   // Parse and validate request body
-  let body: { participantEmail?: string; participantName?: string; programId?: string; fundingSource?: string };
+  let body: {
+    participantEmail?: string;
+    participantName?: string;
+    programId?: string;
+    fundingSource?: string;
+  };
   try {
     body = await req.json();
   } catch {
@@ -109,8 +114,12 @@ async function _POST(req: NextRequest) {
 
   if (existing) {
     return NextResponse.json(
-      { error: 'ALREADY_ENROLLED', message: 'Participant is already enrolled in this program', enrollmentId: existing.id },
-      { status: 409 }
+      {
+        error: 'ALREADY_ENROLLED',
+        message: 'Participant is already enrolled in this program',
+        enrollmentId: existing.id,
+      },
+      { status: 409 },
     );
   }
 

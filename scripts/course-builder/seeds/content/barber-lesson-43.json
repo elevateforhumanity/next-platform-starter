@@ -28,12 +28,7 @@
       },
       {
         "prompt": "Which of the following services is outside the scope of practice for an Indiana barber?",
-        "choices": [
-          "Haircut",
-          "Shave",
-          "Chemical hair treatment",
-          "Basic grooming"
-        ],
+        "choices": ["Haircut", "Shave", "Chemical hair treatment", "Basic grooming"],
         "answerIndex": 2,
         "rationale": "Chemical hair treatments are outside the scope of practice for barbers and should be referred to a licensed cosmetologist.",
         "type": "recall"
@@ -76,12 +71,7 @@
       },
       {
         "prompt": "Which element of the barber's code involves being honest and transparent?",
-        "choices": [
-          "Respect",
-          "Integrity",
-          "Responsibility",
-          "Excellence"
-        ],
+        "choices": ["Respect", "Integrity", "Responsibility", "Excellence"],
         "answerIndex": 1,
         "rationale": "Integrity involves being honest and transparent with clients and colleagues, which is a key component of professionalism.",
         "type": "recall"
@@ -136,12 +126,7 @@
       },
       {
         "prompt": "Which of the following is NOT a component of handling client complaints professionally?",
-        "choices": [
-          "Stay calm",
-          "Listen actively",
-          "Offer a solution",
-          "Ignore the complaint"
-        ],
+        "choices": ["Stay calm", "Listen actively", "Offer a solution", "Ignore the complaint"],
         "answerIndex": 3,
         "rationale": "Ignoring the complaint is not a professional way to handle client concerns; addressing them is essential.",
         "type": "recall"

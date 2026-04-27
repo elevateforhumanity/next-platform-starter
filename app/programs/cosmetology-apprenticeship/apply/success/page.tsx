@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -14,7 +13,6 @@ export default function CosmetologyApplySuccessPage() {
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center py-12 px-4">
       <div className="max-w-lg w-full">
-
         <div className="text-center mb-8">
           <div className="w-20 h-20 bg-purple-600 rounded-full flex items-center justify-center mx-auto mb-5 shadow-lg">
             <CheckCircle className="w-10 h-10 text-white" />
@@ -30,12 +28,15 @@ export default function CosmetologyApplySuccessPage() {
             <UserPlus className="w-5 h-5 text-white flex-shrink-0" />
             <div>
               <p className="font-bold text-white text-sm">Create your account</p>
-              <p className="text-purple-200 text-xs">Required to access orientation and your apprentice dashboard</p>
+              <p className="text-purple-200 text-xs">
+                Required to access orientation and your apprentice dashboard
+              </p>
             </div>
           </div>
           <div className="p-6">
             <p className="text-slate-600 text-sm mb-4">
-              Use the same email address you used on your application. Your enrollment will be linked automatically.
+              Use the same email address you used on your application. Your enrollment will be
+              linked automatically.
             </p>
             <Link
               href="/signup?role=apprentice&redirect=/programs/cosmetology-apprenticeship/orientation"
@@ -45,7 +46,10 @@ export default function CosmetologyApplySuccessPage() {
             </Link>
             <p className="text-center text-xs text-slate-500 mt-3">
               Already have an account?{' '}
-              <Link href="/login?redirect=/programs/cosmetology-apprenticeship/orientation" className="text-purple-600 hover:underline font-medium">
+              <Link
+                href="/login?redirect=/programs/cosmetology-apprenticeship/orientation"
+                className="text-purple-600 hover:underline font-medium"
+              >
                 Sign in
               </Link>
             </p>
@@ -74,8 +78,12 @@ export default function CosmetologyApplySuccessPage() {
         </div>
 
         <div className="bg-purple-50 border border-purple-200 rounded-xl p-4 mb-5 text-center">
-          <p className="text-purple-900 font-bold text-sm">Reminder: This program has no tuition.</p>
-          <p className="text-purple-700 text-xs mt-1">You earn wages from your host salon throughout your 2,000-hour apprenticeship.</p>
+          <p className="text-purple-900 font-bold text-sm">
+            Reminder: This program has no tuition.
+          </p>
+          <p className="text-purple-700 text-xs mt-1">
+            You earn wages from your host salon throughout your 2,000-hour apprenticeship.
+          </p>
         </div>
 
         <div className="bg-white rounded-xl border border-slate-200 p-5 text-center">
@@ -97,7 +105,6 @@ export default function CosmetologyApplySuccessPage() {
             </a>
           </div>
         </div>
-
       </div>
     </div>
   );

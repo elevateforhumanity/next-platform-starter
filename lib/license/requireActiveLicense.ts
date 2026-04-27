@@ -6,13 +6,13 @@ import { checkLicenseAccess } from '@/lib/licensing/billing-authority';
 
 /**
  * STEP 5B: License Enforcement Middleware
- * 
+ *
  * Canonical license statuses:
  * - active: Full access
  * - suspended: Payment problem (refund/dispute)
  * - expired: Time-based expiry
  * - revoked: Admin action
- * 
+ *
  * Billing Authority Rules:
  * - DB-Authoritative tiers (trial, lifetime, one_time): Access via expires_at
  * - Stripe-Authoritative tiers (*_monthly, *_annual): Access via current_period_end
@@ -41,12 +41,12 @@ export class LicenseError extends Error {
   public statusCode: number;
   public licenseStatus: LicenseStatus | 'missing';
   public billingAuthority?: BillingAuthority;
-  
+
   constructor(
-    message: string, 
-    statusCode: number, 
+    message: string,
+    statusCode: number,
     licenseStatus: LicenseStatus | 'missing',
-    billingAuthority?: BillingAuthority
+    billingAuthority?: BillingAuthority,
   ) {
     super(message);
     this.name = 'LicenseError';
@@ -62,16 +62,15 @@ export class LicenseError extends Error {
  */
 export async function getActiveLicense(tenantId: string): Promise<License | null> {
   const supabase = await createClient();
-  
+
   // Use the database function that handles expiry
-  const { data, error } = await supabase
-    .rpc('get_active_license', { p_tenant_id: tenantId });
-  
+  const { data, error } = await supabase.rpc('get_active_license', { p_tenant_id: tenantId });
+
   if (error) {
     logger.error('Failed to fetch license', error, { tenantId });
     return null;
   }
-  
+
   return data as License | null;
 }
 
@@ -85,10 +84,10 @@ function validateLicense(license: License | null): void {
     throw new LicenseError(
       'No license found. Please purchase a license to continue.',
       402,
-      'missing'
+      'missing',
     );
   }
-  
+
   // Use billing authority rules for access check
   const accessResult = checkLicenseAccess({
     id: license.id,
@@ -104,7 +103,7 @@ function validateLicense(license: License | null): void {
     // Map to appropriate error based on reason
     let status: LicenseStatus | 'missing' = 'expired';
     let statusCode = 402;
-    
+
     if (license.status === 'suspended') {
       status = 'suspended';
       statusCode = 402;
@@ -116,12 +115,7 @@ function validateLicense(license: License | null): void {
       statusCode = 402;
     }
 
-    throw new LicenseError(
-      accessResult.reason,
-      statusCode,
-      status,
-      accessResult.authority
-    );
+    throw new LicenseError(accessResult.reason, statusCode, status, accessResult.authority);
   }
 
   // Store billing authority on license for downstream use
@@ -130,7 +124,7 @@ function validateLicense(license: License | null): void {
 
 /**
  * STEP 5B: Require active license for route
- * 
+ *
  * Usage in API route:
  * ```
  * const license = await requireActiveLicense();
@@ -140,9 +134,9 @@ function validateLicense(license: License | null): void {
 export async function requireActiveLicense(): Promise<License> {
   const tenantContext = await getTenantContext();
   const license = await getActiveLicense(tenantContext.tenantId);
-  
+
   validateLicense(license);
-  
+
   return license!;
 }
 
@@ -163,19 +157,22 @@ export async function checkLicense(): Promise<License | null> {
 export function getLicenseErrorRedirect(error: LicenseError, licenseId?: string): string {
   const baseUrl = '/admin/licenses';
   const params = new URLSearchParams();
-  
+
   params.set('reason', error.licenseStatus);
   if (licenseId) params.set('license_id', licenseId);
-  
+
   // Add specific messaging based on error type
   if (error.licenseStatus === 'expired') {
     params.set('message', 'Your trial has ended. Subscribe to continue using the platform.');
   } else if (error.licenseStatus === 'suspended') {
-    params.set('message', 'Your license is suspended. Please resolve billing issues to restore access.');
+    params.set(
+      'message',
+      'Your license is suspended. Please resolve billing issues to restore access.',
+    );
   } else if (error.licenseStatus === 'missing') {
     params.set('message', 'No active license found. Purchase a license to get started.');
   }
-  
+
   return `${baseUrl}?${params.toString()}`;
 }
 
@@ -185,16 +182,16 @@ export function getLicenseErrorRedirect(error: LicenseError, licenseId?: string)
  */
 export function licenseErrorResponse(error: LicenseError, licenseId?: string): NextResponse {
   const redirectUrl = getLicenseErrorRedirect(error, licenseId);
-  
+
   return NextResponse.json(
-    { 
+    {
       error: 'Operation failed',
       licenseStatus: error.licenseStatus,
       code: 'LICENSE_REQUIRED',
       redirectUrl,
       billingAuthority: error.billingAuthority,
     },
-    { status: error.statusCode }
+    { status: error.statusCode },
   );
 }
 
@@ -202,7 +199,7 @@ export function licenseErrorResponse(error: LicenseError, licenseId?: string): N
  * Wrapper for API routes that require active license
  */
 export function withActiveLicense<T>(
-  handler: (license: License) => Promise<NextResponse>
+  handler: (license: License) => Promise<NextResponse>,
 ): () => Promise<NextResponse> {
   return async () => {
     try {

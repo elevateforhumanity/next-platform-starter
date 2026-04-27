@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -40,16 +40,21 @@ export function FinancialAidCalculator() {
     // Log calculation for analytics
     try {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      await supabase.from('financial_aid_calculations').insert({
-        user_id: user?.id || null,
-        income_range: incomeNum < 30000 ? 'low' : incomeNum < 50000 ? 'medium' : 'high',
-        dependents: dependentsNum,
-        tuition_amount: tuitionNum,
-        estimated_grant: eligibleGrant,
-        estimated_loan: maxLoan,
-        out_of_pocket: outOfPocket,
-      }).catch(() => {});
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      await supabase
+        .from('financial_aid_calculations')
+        .insert({
+          user_id: user?.id || null,
+          income_range: incomeNum < 30000 ? 'low' : incomeNum < 50000 ? 'medium' : 'high',
+          dependents: dependentsNum,
+          tuition_amount: tuitionNum,
+          estimated_grant: eligibleGrant,
+          estimated_loan: maxLoan,
+          out_of_pocket: outOfPocket,
+        })
+        .catch(() => {});
     } catch {
       // Analytics logging is non-critical
     }
@@ -59,7 +64,9 @@ export function FinancialAidCalculator() {
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Financial Aid Calculator</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Financial Aid Calculator
+          </h1>
           <p className="text-slate-600">Estimate your financial aid eligibility</p>
         </div>
       </div>
@@ -75,7 +82,11 @@ export function FinancialAidCalculator() {
                   type="number"
                   className="w-full px-3 py-2 border rounded"
                   value={income}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setIncome(e.target.value)}
+                  onChange={(
+                    e: React.ChangeEvent<
+                      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                    >,
+                  ) => setIncome(e.target.value)}
                   placeholder="50000"
                 />
               </div>
@@ -86,7 +97,11 @@ export function FinancialAidCalculator() {
                   type="number"
                   className="w-full px-3 py-2 border rounded"
                   value={dependents}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setDependents(e.target.value)}
+                  onChange={(
+                    e: React.ChangeEvent<
+                      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                    >,
+                  ) => setDependents(e.target.value)}
                   placeholder="0"
                 />
               </div>
@@ -97,12 +112,18 @@ export function FinancialAidCalculator() {
                   type="number"
                   className="w-full px-3 py-2 border rounded"
                   value={tuition}
-                  onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setTuition(e.target.value)}
+                  onChange={(
+                    e: React.ChangeEvent<
+                      HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                    >,
+                  ) => setTuition(e.target.value)}
                   placeholder="15000"
                 />
               </div>
 
-              <Button onClick={calculateAid} className="w-full">Calculate Aid</Button>
+              <Button onClick={calculateAid} className="w-full">
+                Calculate Aid
+              </Button>
             </div>
           </Card>
 

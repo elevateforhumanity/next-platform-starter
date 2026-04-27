@@ -2,9 +2,17 @@ import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
-import { Users, Calendar, MessageSquare, ChevronRight, Clock, CheckCircle, Award } from 'lucide-react';
+import {
+  Users,
+  Calendar,
+  MessageSquare,
+  ChevronRight,
+  Clock,
+  CheckCircle,
+  Award,
+} from 'lucide-react';
 
-export const metadata: Metadata = { 
+export const metadata: Metadata = {
   title: 'Mentor Dashboard | Elevate for Humanity',
   description: 'Manage your mentees, schedule sessions, and track your mentoring progress.',
 };
@@ -25,14 +33,17 @@ export default async function MentorDashboardPage() {
   // Get mentor's mentees
   const { data: mentorships, count } = await supabase
     .from('mentorships')
-    .select(`
+    .select(
+      `
       id,
       mentee_id,
       status,
       created_at,
       profiles!mentorships_mentee_id_fkey(id, full_name),
       enrollments!mentorships_mentee_id_fkey(program_id, progress, programs(name, title))
-    `, { count: 'exact' })
+    `,
+      { count: 'exact' },
+    )
     .eq('mentor_id', user.id)
     .eq('status', 'active');
 
@@ -41,7 +52,10 @@ export default async function MentorDashboardPage() {
     recentMentees = mentorships.slice(0, 4).map((m: any) => ({
       id: m.mentee_id,
       name: m.profiles?.full_name || 'Mentee',
-      program: (m.enrollments?.[0]?.programs as any)?.title || (m.enrollments?.[0]?.programs as any)?.name || 'Program',
+      program:
+        (m.enrollments?.[0]?.programs as any)?.title ||
+        (m.enrollments?.[0]?.programs as any)?.name ||
+        'Program',
       progress: m.enrollments?.[0]?.progress || 0,
     }));
   }
@@ -49,13 +63,15 @@ export default async function MentorDashboardPage() {
   // Get upcoming sessions
   const { data: sessions } = await supabase
     .from('mentor_sessions')
-    .select(`
+    .select(
+      `
       id,
       scheduled_at,
       topic,
       mentee_id,
       profiles!mentor_sessions_mentee_id_fkey(full_name)
-    `)
+    `,
+    )
     .eq('mentor_id', user.id)
     .gte('scheduled_at', new Date().toISOString())
     .order('scheduled_at', { ascending: true })
@@ -158,7 +174,10 @@ export default async function MentorDashboardPage() {
                 You have {unreadMessages} unread message{(unreadMessages ?? 0) > 1 ? 's' : ''}
               </p>
             </div>
-            <Link href="/mentor/messages" className="text-sm font-semibold text-brand-blue-700 hover:underline">
+            <Link
+              href="/mentor/messages"
+              className="text-sm font-semibold text-brand-blue-700 hover:underline"
+            >
               View →
             </Link>
           </div>
@@ -168,12 +187,17 @@ export default async function MentorDashboardPage() {
           <div className="bg-white rounded-xl shadow-sm p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-gray-900">Upcoming Sessions</h2>
-              <Link href="/mentor/sessions" className="text-teal-600 hover:underline text-sm">View All</Link>
+              <Link href="/mentor/sessions" className="text-teal-600 hover:underline text-sm">
+                View All
+              </Link>
             </div>
             {upcomingSessions.length > 0 ? (
               <div className="space-y-4">
                 {upcomingSessions.map((session) => (
-                  <div key={session.id} className="flex items-center justify-between p-4 bg-white rounded-lg">
+                  <div
+                    key={session.id}
+                    className="flex items-center justify-between p-4 bg-white rounded-lg"
+                  >
                     <div>
                       <p className="font-medium text-gray-900">{session.mentee}</p>
                       <p className="text-sm text-gray-500">{session.topic}</p>
@@ -195,12 +219,17 @@ export default async function MentorDashboardPage() {
           <div className="bg-white rounded-xl shadow-sm p-6">
             <div className="flex items-center justify-between mb-6">
               <h2 className="text-xl font-bold text-gray-900">My Mentees</h2>
-              <Link href="/mentor/mentees" className="text-teal-600 hover:underline text-sm">View All</Link>
+              <Link href="/mentor/mentees" className="text-teal-600 hover:underline text-sm">
+                View All
+              </Link>
             </div>
             {recentMentees.length > 0 ? (
               <div className="space-y-4">
                 {recentMentees.map((mentee) => (
-                  <div key={mentee.id} className="flex items-center justify-between p-4 bg-white rounded-lg">
+                  <div
+                    key={mentee.id}
+                    className="flex items-center justify-between p-4 bg-white rounded-lg"
+                  >
                     <div className="flex items-center gap-4">
                       <div className="w-10 h-10 bg-teal-100 rounded-full flex items-center justify-center">
                         <span className="text-teal-600 font-medium">{mentee.name.charAt(0)}</span>
@@ -213,7 +242,10 @@ export default async function MentorDashboardPage() {
                     <div className="text-right">
                       <div className="flex items-center gap-2">
                         <div className="w-16 h-2 bg-gray-200 rounded-full overflow-hidden">
-                          <div className="h-full bg-white rounded-full" style={{ width: `${mentee.progress}%` }}></div>
+                          <div
+                            className="h-full bg-white rounded-full"
+                            style={{ width: `${mentee.progress}%` }}
+                          ></div>
                         </div>
                         <span className="text-sm text-gray-600">{mentee.progress}%</span>
                       </div>
@@ -237,7 +269,9 @@ export default async function MentorDashboardPage() {
                 <Clock className="w-5 h-5 text-teal-600" />
                 Recent Sessions
               </h2>
-              <Link href="/mentor/sessions" className="text-sm text-teal-600 hover:underline">View all</Link>
+              <Link href="/mentor/sessions" className="text-sm text-teal-600 hover:underline">
+                View all
+              </Link>
             </div>
             <div className="divide-y divide-gray-100">
               {recentSessions.map((s) => (
@@ -257,7 +291,10 @@ export default async function MentorDashboardPage() {
         )}
 
         <div className="mt-8 grid md:grid-cols-3 gap-6">
-          <Link href="/mentor/mentees" className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
+          <Link
+            href="/mentor/mentees"
+            className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+          >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Users className="w-8 h-8 text-teal-600" />
@@ -266,7 +303,10 @@ export default async function MentorDashboardPage() {
               <ChevronRight className="w-5 h-5 text-gray-400" />
             </div>
           </Link>
-          <Link href="/mentor/sessions" className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
+          <Link
+            href="/mentor/sessions"
+            className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+          >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Calendar className="w-8 h-8 text-teal-600" />
@@ -275,7 +315,10 @@ export default async function MentorDashboardPage() {
               <ChevronRight className="w-5 h-5 text-gray-400" />
             </div>
           </Link>
-          <Link href="/mentor/resources" className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow">
+          <Link
+            href="/mentor/resources"
+            className="bg-white rounded-xl shadow-sm p-6 hover:shadow-md transition-shadow"
+          >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-3">
                 <Award className="w-8 h-8 text-teal-600" />

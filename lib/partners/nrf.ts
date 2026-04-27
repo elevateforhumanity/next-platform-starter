@@ -1,4 +1,3 @@
-
 // lib/partners/nrf.ts
 // NRF RISE Up API Integration
 // Retail Industry Skills and Education
@@ -53,7 +52,8 @@ export class NrfAPI extends BasePartnerAPI {
         username: response.data.username,
         loginUrl: response.data.platformUrl,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       this.log('error', 'Failed to create NRF RISE Up account', {
         error: 'Operation failed',
       });
@@ -63,7 +63,7 @@ export class NrfAPI extends BasePartnerAPI {
 
   async enrollInCourse(
     accountExternalId: string,
-    courseExternalCode: string
+    courseExternalCode: string,
   ): Promise<CourseEnrollment> {
     this.log('info', 'Enrolling in NRF RISE Up course', {
       accountExternalId,
@@ -90,7 +90,8 @@ export class NrfAPI extends BasePartnerAPI {
         courseName: response.data.courseName,
         accessUrl: response.data.courseUrl,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       this.log('error', 'Failed to enroll in NRF RISE Up course', {
         error: 'Operation failed',
       });
@@ -98,9 +99,7 @@ export class NrfAPI extends BasePartnerAPI {
     }
   }
 
-  async getProgress(
-    externalEnrollmentId: string
-  ): Promise<ProgressData | null> {
+  async getProgress(externalEnrollmentId: string): Promise<ProgressData | null> {
     this.log('info', 'Fetching NRF RISE Up progress', {
       externalEnrollmentId,
     });
@@ -120,16 +119,15 @@ export class NrfAPI extends BasePartnerAPI {
       return {
         percentage: response.data.completionPercentage,
         completed,
-        completedAt: response.data.completedAt
-          ? new Date(response.data.completedAt)
-          : undefined,
+        completedAt: response.data.completedAt ? new Date(response.data.completedAt) : undefined,
         lastAccessed: response.data.lastAccessedAt
           ? new Date(response.data.lastAccessedAt)
           : undefined,
         lessonsCompleted: response.data.lessonsCompleted,
         totalLessons: response.data.totalLessons,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       if (error instanceof PartnerAPIError && error.statusCode === 404) {
         return null;
       }
@@ -140,9 +138,7 @@ export class NrfAPI extends BasePartnerAPI {
     }
   }
 
-  async getCertificate(
-    externalEnrollmentId: string
-  ): Promise<CertificateData | null> {
+  async getCertificate(externalEnrollmentId: string): Promise<CertificateData | null> {
     this.log('info', 'Fetching NRF RISE Up certificate', {
       externalEnrollmentId,
     });
@@ -163,7 +159,8 @@ export class NrfAPI extends BasePartnerAPI {
         downloadUrl: response.data.downloadUrl,
         verificationUrl: response.data.verificationUrl,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       if (error instanceof PartnerAPIError && error.statusCode === 404) {
         return null;
       }
@@ -192,7 +189,8 @@ export class NrfAPI extends BasePartnerAPI {
       });
 
       return response.data.ssoUrl;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       this.log('error', 'Failed to generate NRF RISE Up SSO URL', {
         error: 'Operation failed',
       });

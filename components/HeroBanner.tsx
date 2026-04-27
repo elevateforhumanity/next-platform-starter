@@ -1,6 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
-import { getMediaBySlot, MediaSlot } from "../lms-data/mediaSlots";
+import Image from 'next/image';
+import Link from 'next/link';
+import { getMediaBySlot, MediaSlot } from '../lms-data/mediaSlots';
 
 interface HeroBannerProps {
   title: string;
@@ -30,9 +30,7 @@ export function HeroBanner({
           </p>
           <h1 className="text-2xl font-bold md:text-3xl">{title}</h1>
           <p className="text-xs text-slate-300 md:text-sm">{subtitle}</p>
-          {secondaryText && (
-            <p className="text-[11px] text-slate-400">{secondaryText}</p>
-          )}
+          {secondaryText && <p className="text-[11px] text-slate-400">{secondaryText}</p>}
           {ctaLabel && ctaHref && (
             <div className="pt-2">
               <Link
@@ -47,6 +45,7 @@ export function HeroBanner({
 
         {media && (
           <div className="relative h-52 w-full flex-1 overflow-hidden rounded-2xl border border-slate-800 bg-white shadow-lg md:h-64">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
             <Image
               src={media.imageSrc}
               alt={media.alt}

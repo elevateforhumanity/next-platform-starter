@@ -3,12 +3,7 @@
     {
       "id": "q-01-01-1",
       "question": "What credential does this program prepare you to earn first?",
-      "options": [
-        "OSHA 30",
-        "EPA 608 Universal",
-        "NATE Core",
-        "CompTIA A+"
-      ],
+      "options": ["OSHA 30", "EPA 608 Universal", "NATE Core", "CompTIA A+"],
       "correctAnswer": 1,
       "explanation": "EPA 608 Universal is the primary certification target — it is required by federal law to purchase and handle refrigerants."
     },
@@ -27,24 +22,14 @@
     {
       "id": "q-01-01-3",
       "question": "What is the typical starting wage range for a certified HVAC apprentice?",
-      "options": [
-        "$8–12/hr",
-        "$16–22/hr",
-        "$30–40/hr",
-        "$50+/hr"
-      ],
+      "options": ["$8–12/hr", "$16–22/hr", "$30–40/hr", "$50+/hr"],
       "correctAnswer": 1,
       "explanation": "Certified apprentice technicians typically start at $16–22/hr, with experienced techs earning $25–40/hr."
     },
     {
       "id": "q-01-01-4",
       "question": "Which of the following is NOT a credential earned in this program?",
-      "options": [
-        "EPA 608 Universal",
-        "OSHA 10",
-        "CPR/AED",
-        "Journeyman License"
-      ],
+      "options": ["EPA 608 Universal", "OSHA 10", "CPR/AED", "Journeyman License"],
       "correctAnswer": 3,
       "explanation": "A Journeyman License requires additional apprenticeship hours beyond this program. EPA 608, OSHA 10, and CPR/AED are all earned here."
     },
@@ -65,12 +50,7 @@
     {
       "id": "q-01-02-1",
       "question": "Which federal program funds workforce training for displaced workers?",
-      "options": [
-        "SNAP",
-        "WIOA (Workforce Innovation and Opportunity Act)",
-        "FAFSA",
-        "Medicaid"
-      ],
+      "options": ["SNAP", "WIOA (Workforce Innovation and Opportunity Act)", "FAFSA", "Medicaid"],
       "correctAnswer": 1,
       "explanation": "WIOA funds workforce training for eligible adults, dislocated workers, and youth through local workforce boards."
     },
@@ -101,12 +81,7 @@
     {
       "id": "q-01-02-4",
       "question": "JRI funding in Indiana is administered by which agency?",
-      "options": [
-        "IRS",
-        "Indiana DWD (Department of Workforce Development)",
-        "FEMA",
-        "HUD"
-      ],
+      "options": ["IRS", "Indiana DWD (Department of Workforce Development)", "FEMA", "HUD"],
       "correctAnswer": 1,
       "explanation": "The Job Ready Indy (JRI) is an Indiana DWD program that funds training for justice-involved individuals."
     },
@@ -127,36 +102,21 @@
     {
       "id": "q-01-03-1",
       "question": "What is the entry-level position on the HVAC career ladder?",
-      "options": [
-        "Master Technician",
-        "Service Manager",
-        "Apprentice Technician",
-        "HVAC Engineer"
-      ],
+      "options": ["Master Technician", "Service Manager", "Apprentice Technician", "HVAC Engineer"],
       "correctAnswer": 2,
       "explanation": "Apprentice Technician is the entry point — graduates of this program are qualified to enter at this level."
     },
     {
       "id": "q-01-03-2",
       "question": "Approximately how many years of field experience does it take to reach Journeyman level?",
-      "options": [
-        "6 months",
-        "1 year",
-        "3–5 years",
-        "10+ years"
-      ],
+      "options": ["6 months", "1 year", "3–5 years", "10+ years"],
       "correctAnswer": 2,
       "explanation": "Journeyman status typically requires 3–5 years of documented field experience plus additional licensing exams."
     },
     {
       "id": "q-01-03-3",
       "question": "Which certification is required by federal law to handle refrigerants?",
-      "options": [
-        "NATE",
-        "EPA 608",
-        "OSHA 10",
-        "NCI"
-      ],
+      "options": ["NATE", "EPA 608", "OSHA 10", "NCI"],
       "correctAnswer": 1,
       "explanation": "EPA Section 608 certification is federally mandated for anyone who purchases or handles regulated refrigerants."
     },
@@ -213,12 +173,7 @@
     {
       "id": "q-02-01-3",
       "question": "Which HVAC system component moves conditioned air through the building?",
-      "options": [
-        "Compressor",
-        "Air handler / blower",
-        "Condenser",
-        "Metering device"
-      ],
+      "options": ["Compressor", "Air handler / blower", "Condenser", "Metering device"],
       "correctAnswer": 1,
       "explanation": "The air handler (blower) circulates conditioned air through the duct system to all areas of the building."
     },
@@ -251,24 +206,14 @@
     {
       "id": "q-02-02-1",
       "question": "Heat always moves from:",
-      "options": [
-        "Cold to hot",
-        "Hot to cold",
-        "Low pressure to high pressure",
-        "Wet to dry"
-      ],
+      "options": ["Cold to hot", "Hot to cold", "Low pressure to high pressure", "Wet to dry"],
       "correctAnswer": 1,
       "explanation": "The Second Law of Thermodynamics: heat always flows from a warmer object to a cooler one, never the reverse."
     },
     {
       "id": "q-02-02-2",
       "question": "Which heat transfer method moves heat through direct contact between materials?",
-      "options": [
-        "Convection",
-        "Radiation",
-        "Conduction",
-        "Evaporation"
-      ],
+      "options": ["Convection", "Radiation", "Conduction", "Evaporation"],
       "correctAnswer": 2,
       "explanation": "Conduction transfers heat through direct molecular contact — like a metal pan heating on a stove."
     },
@@ -313,12 +258,7 @@
     {
       "id": "q-02-03-1",
       "question": "In the refrigeration cycle, where does the refrigerant absorb heat from the building?",
-      "options": [
-        "Condenser",
-        "Compressor",
-        "Evaporator",
-        "Metering device"
-      ],
+      "options": ["Condenser", "Compressor", "Evaporator", "Metering device"],
       "correctAnswer": 2,
       "explanation": "The evaporator coil absorbs heat from indoor air as liquid refrigerant evaporates into a low-pressure vapor."
     },
@@ -337,12 +277,7 @@
     {
       "id": "q-02-03-3",
       "question": "Where does the refrigerant reject heat to the outdoors?",
-      "options": [
-        "Evaporator",
-        "Metering device",
-        "Condenser",
-        "Filter drier"
-      ],
+      "options": ["Evaporator", "Metering device", "Condenser", "Filter drier"],
       "correctAnswer": 2,
       "explanation": "The condenser rejects heat from the refrigerant to the outdoor air, condensing vapor back into liquid."
     },
@@ -473,12 +408,7 @@
     {
       "id": "q-03-01-4",
       "question": "What is the unit of electrical power?",
-      "options": [
-        "Volt",
-        "Ampere",
-        "Ohm",
-        "Watt"
-      ],
+      "options": ["Volt", "Ampere", "Ohm", "Watt"],
       "correctAnswer": 3,
       "explanation": "Power (P) is measured in watts. P = V × I. A 120V circuit drawing 10A consumes 1,200 watts (1.2 kW)."
     },
@@ -535,12 +465,7 @@
     {
       "id": "q-03-02-4",
       "question": "If a 240V circuit has a 20Ω load, what is the current draw?",
-      "options": [
-        "4,800A",
-        "220A",
-        "12A",
-        "260A"
-      ],
+      "options": ["4,800A", "220A", "12A", "260A"],
       "correctAnswer": 2,
       "explanation": "I = V ÷ R = 240 ÷ 20 = 12A."
     },
@@ -573,12 +498,7 @@
     {
       "id": "q-03-03-2",
       "question": "What does the letter \"C\" on a thermostat wiring diagram stand for?",
-      "options": [
-        "Cooling",
-        "Common (24V return)",
-        "Compressor",
-        "Capacitor"
-      ],
+      "options": ["Cooling", "Common (24V return)", "Compressor", "Capacitor"],
       "correctAnswer": 1,
       "explanation": "C is the Common wire — the 24V return path that completes the control circuit. Required for smart thermostats."
     },
@@ -609,12 +529,7 @@
     {
       "id": "q-03-03-5",
       "question": "The \"Y\" terminal on a thermostat controls:",
-      "options": [
-        "Heat",
-        "Fan only",
-        "Cooling (compressor contactor)",
-        "Emergency heat"
-      ],
+      "options": ["Heat", "Fan only", "Cooling (compressor contactor)", "Emergency heat"],
       "correctAnswer": 2,
       "explanation": "Y energizes the cooling circuit — it signals the outdoor unit contactor to start the compressor and condenser fan."
     }
@@ -635,12 +550,7 @@
     {
       "id": "q-03-04-2",
       "question": "What is the minimum safe approach distance for unqualified workers near exposed 480V conductors?",
-      "options": [
-        "No restriction",
-        "1 foot",
-        "3 feet (limited approach boundary)",
-        "10 feet"
-      ],
+      "options": ["No restriction", "1 foot", "3 feet (limited approach boundary)", "10 feet"],
       "correctAnswer": 2,
       "explanation": "NFPA 70E establishes approach boundaries. Unqualified workers must stay outside the limited approach boundary."
     },
@@ -747,36 +657,21 @@
     {
       "id": "q-04-02-1",
       "question": "Electric resistance heat converts electrical energy to heat at what efficiency?",
-      "options": [
-        "50%",
-        "80%",
-        "95%",
-        "100%"
-      ],
+      "options": ["50%", "80%", "95%", "100%"],
       "correctAnswer": 3,
       "explanation": "Electric resistance heating is 100% efficient at point of use — all electrical energy converts directly to heat."
     },
     {
       "id": "q-04-02-2",
       "question": "Electric heat strips are rated in:",
-      "options": [
-        "BTUs only",
-        "Kilowatts (kW)",
-        "Tons",
-        "CFM"
-      ],
+      "options": ["BTUs only", "Kilowatts (kW)", "Tons", "CFM"],
       "correctAnswer": 1,
       "explanation": "Electric heat strips are rated in kilowatts. A 10kW strip produces approximately 34,100 BTU/hr."
     },
     {
       "id": "q-04-02-3",
       "question": "What safety device prevents electric heat strips from overheating?",
-      "options": [
-        "Flame sensor",
-        "High-limit thermal cutout",
-        "Pressure switch",
-        "Capacitor"
-      ],
+      "options": ["Flame sensor", "High-limit thermal cutout", "Pressure switch", "Capacitor"],
       "correctAnswer": 1,
       "explanation": "A high-limit thermal cutout (auto-reset or manual-reset) opens the circuit if strip temperature exceeds a safe threshold."
     },
@@ -821,24 +716,14 @@
     {
       "id": "q-04-03-2",
       "question": "What component reverses refrigerant flow in a heat pump?",
-      "options": [
-        "Compressor",
-        "Reversing valve (4-way valve)",
-        "TXV",
-        "Accumulator"
-      ],
+      "options": ["Compressor", "Reversing valve (4-way valve)", "TXV", "Accumulator"],
       "correctAnswer": 1,
       "explanation": "The reversing valve switches refrigerant direction — in heating mode, the outdoor coil becomes the evaporator and indoor coil becomes the condenser."
     },
     {
       "id": "q-04-03-3",
       "question": "At what outdoor temperature do most standard heat pumps lose efficiency and require backup heat?",
-      "options": [
-        "50°F",
-        "35–40°F",
-        "20°F",
-        "0°F"
-      ],
+      "options": ["50°F", "35–40°F", "20°F", "0°F"],
       "correctAnswer": 1,
       "explanation": "Standard heat pumps lose efficiency below 35–40°F. Below this, backup electric strips or a gas furnace (dual-fuel) supplements heating."
     },
@@ -871,24 +756,14 @@
     {
       "id": "q-04-04-1",
       "question": "What instrument measures CO2 and O2 levels in flue gas?",
-      "options": [
-        "Manometer",
-        "Combustion analyzer",
-        "Multimeter",
-        "Psychrometer"
-      ],
+      "options": ["Manometer", "Combustion analyzer", "Multimeter", "Psychrometer"],
       "correctAnswer": 1,
       "explanation": "A combustion analyzer measures O2, CO2, CO, flue temperature, and calculates efficiency — essential for furnace tuning."
     },
     {
       "id": "q-04-04-2",
       "question": "Ideal CO2 percentage in natural gas combustion flue gas is approximately:",
-      "options": [
-        "2–4%",
-        "8–10%",
-        "15–18%",
-        "21%"
-      ],
+      "options": ["2–4%", "8–10%", "15–18%", "21%"],
       "correctAnswer": 1,
       "explanation": "Ideal CO2 for natural gas is 8–10%. Higher indicates incomplete combustion; lower indicates excess air dilution."
     },
@@ -1007,12 +882,7 @@
     {
       "id": "q-05-01-2",
       "question": "On the low side of the system, refrigerant pressure and temperature are:",
-      "options": [
-        "High",
-        "Low",
-        "The same as the high side",
-        "Atmospheric"
-      ],
+      "options": ["High", "Low", "The same as the high side", "Atmospheric"],
       "correctAnswer": 1,
       "explanation": "The low side (suction side) has low pressure and low temperature — this is where refrigerant evaporates and absorbs heat."
     },
@@ -1043,12 +913,7 @@
     {
       "id": "q-05-01-5",
       "question": "The suction line carries refrigerant from the evaporator to the:",
-      "options": [
-        "Condenser",
-        "Metering device",
-        "Compressor",
-        "Filter drier"
-      ],
+      "options": ["Condenser", "Metering device", "Compressor", "Filter drier"],
       "correctAnswer": 2,
       "explanation": "The suction line carries low-pressure vapor from the evaporator outlet to the compressor inlet."
     }
@@ -1057,12 +922,7 @@
     {
       "id": "q-05-02-1",
       "question": "What type of compressor is most common in residential HVAC equipment?",
-      "options": [
-        "Reciprocating piston",
-        "Scroll compressor",
-        "Centrifugal",
-        "Screw compressor"
-      ],
+      "options": ["Reciprocating piston", "Scroll compressor", "Centrifugal", "Screw compressor"],
       "correctAnswer": 1,
       "explanation": "Scroll compressors dominate residential HVAC — they are quieter, more efficient, and more reliable than reciprocating types."
     },
@@ -1317,12 +1177,7 @@
     {
       "id": "q-05-06-2",
       "question": "Target evaporator superheat for a fixed orifice system is typically:",
-      "options": [
-        "0–2°F",
-        "5–10°F",
-        "20–30°F",
-        "40°F+"
-      ],
+      "options": ["0–2°F", "5–10°F", "20–30°F", "40°F+"],
       "correctAnswer": 1,
       "explanation": "Fixed orifice systems target 5–10°F superheat at the evaporator outlet. Too low risks liquid slugging; too high means undercharge."
     },
@@ -1367,60 +1222,35 @@
     {
       "id": "q-06-01-1",
       "question": "Which layer of the atmosphere does refrigerant damage?",
-      "options": [
-        "Troposphere",
-        "Stratospheric ozone layer",
-        "Mesosphere",
-        "Thermosphere"
-      ],
+      "options": ["Troposphere", "Stratospheric ozone layer", "Mesosphere", "Thermosphere"],
       "correctAnswer": 1,
       "explanation": "CFCs and HCFCs rise to the stratosphere where UV radiation releases chlorine atoms that destroy ozone molecules."
     },
     {
       "id": "q-06-01-2",
       "question": "The Montreal Protocol (1987) required phaseout of:",
-      "options": [
-        "HFCs",
-        "CFCs and HCFCs",
-        "HFOs",
-        "Natural refrigerants"
-      ],
+      "options": ["HFCs", "CFCs and HCFCs", "HFOs", "Natural refrigerants"],
       "correctAnswer": 1,
       "explanation": "The Montreal Protocol mandated the global phaseout of ozone-depleting CFCs and HCFCs."
     },
     {
       "id": "q-06-01-3",
       "question": "R-22 (HCFC-22) production for new equipment was banned in the US in:",
-      "options": [
-        "1995",
-        "2010",
-        "2020",
-        "2030"
-      ],
+      "options": ["1995", "2010", "2020", "2030"],
       "correctAnswer": 1,
       "explanation": "R-22 was banned for use in new equipment in 2010. Production and import of virgin R-22 ended January 1, 2020."
     },
     {
       "id": "q-06-01-4",
       "question": "The maximum civil penalty per day per violation of Section 608 is approximately:",
-      "options": [
-        "$500",
-        "$5,000",
-        "$44,539",
-        "$100,000"
-      ],
+      "options": ["$500", "$5,000", "$44,539", "$100,000"],
       "correctAnswer": 2,
       "explanation": "EPA can assess civil penalties up to $44,539 per day per violation for knowing venting of refrigerants."
     },
     {
       "id": "q-06-01-5",
       "question": "Which refrigerant has zero ozone depletion potential (ODP)?",
-      "options": [
-        "R-12",
-        "R-22",
-        "R-410A",
-        "R-11"
-      ],
+      "options": ["R-12", "R-22", "R-410A", "R-11"],
       "correctAnswer": 2,
       "explanation": "R-410A is an HFC — it contains no chlorine or bromine, so it has zero ODP. It does have a high GWP (2,088)."
     }
@@ -1441,24 +1271,14 @@
     {
       "id": "q-06-02-2",
       "question": "R-410A has a GWP of approximately:",
-      "options": [
-        "1",
-        "150",
-        "2,088",
-        "10,000"
-      ],
+      "options": ["1", "150", "2,088", "10,000"],
       "correctAnswer": 2,
       "explanation": "R-410A has a GWP of 2,088 — over 2,000 times more potent than CO2 as a greenhouse gas."
     },
     {
       "id": "q-06-02-3",
       "question": "R-32 is being adopted as a lower-GWP alternative because its GWP is approximately:",
-      "options": [
-        "2,088",
-        "675",
-        "150",
-        "1"
-      ],
+      "options": ["2,088", "675", "150", "1"],
       "correctAnswer": 1,
       "explanation": "R-32 has a GWP of 675 — about one-third of R-410A — making it a more climate-friendly alternative."
     },
@@ -1539,12 +1359,7 @@
     {
       "id": "q-06-03-5",
       "question": "Recovery cylinders must not be filled beyond what percentage of capacity?",
-      "options": [
-        "50%",
-        "60%",
-        "80%",
-        "100%"
-      ],
+      "options": ["50%", "60%", "80%", "100%"],
       "correctAnswer": 2,
       "explanation": "Recovery cylinders must not exceed 80% of capacity by weight to allow for thermal expansion and prevent rupture."
     }
@@ -1565,12 +1380,7 @@
     {
       "id": "q-06-04-2",
       "question": "Under EPA Section 608, appliances with more than how many pounds of refrigerant must be repaired if leak rate exceeds threshold?",
-      "options": [
-        "5 lbs",
-        "50 lbs",
-        "200 lbs",
-        "500 lbs"
-      ],
+      "options": ["5 lbs", "50 lbs", "200 lbs", "500 lbs"],
       "correctAnswer": 1,
       "explanation": "Systems with more than 50 lbs of refrigerant must be repaired if the annual leak rate exceeds 20% (comfort cooling) or 30% (industrial)."
     },
@@ -1663,12 +1473,7 @@
     {
       "id": "q-06-05-5",
       "question": "To pass each section of the EPA 608 exam, you must score at least:",
-      "options": [
-        "60%",
-        "70%",
-        "80%",
-        "90%"
-      ],
+      "options": ["60%", "70%", "80%", "90%"],
       "correctAnswer": 1,
       "explanation": "A score of 70% or higher is required to pass each section of the EPA 608 exam."
     }
@@ -1689,36 +1494,21 @@
     {
       "id": "q-06-06-2",
       "question": "The required recovery efficiency for systems with more than 200 lbs of refrigerant is:",
-      "options": [
-        "80%",
-        "90%",
-        "95%",
-        "99%"
-      ],
+      "options": ["80%", "90%", "95%", "99%"],
       "correctAnswer": 2,
       "explanation": "Systems with more than 200 lbs require 90% recovery efficiency. Smaller systems have lower requirements."
     },
     {
       "id": "q-06-06-3",
       "question": "A recovery cylinder must be evacuated to what level before being refilled?",
-      "options": [
-        "500 microns",
-        "4 in. Hg vacuum",
-        "Atmospheric pressure",
-        "No requirement"
-      ],
+      "options": ["500 microns", "4 in. Hg vacuum", "Atmospheric pressure", "No requirement"],
       "correctAnswer": 1,
       "explanation": "Recovery cylinders must be evacuated to 4 in. Hg vacuum before refilling to prevent contamination and overpressure."
     },
     {
       "id": "q-06-06-4",
       "question": "System-dependent (passive) recovery is allowed on systems with less than:",
-      "options": [
-        "5 lbs",
-        "15 lbs",
-        "50 lbs",
-        "200 lbs"
-      ],
+      "options": ["5 lbs", "15 lbs", "50 lbs", "200 lbs"],
       "correctAnswer": 0,
       "explanation": "System-dependent recovery (using the system's own compressor) is allowed on systems with less than 5 lbs of refrigerant."
     },
@@ -1763,12 +1553,7 @@
     {
       "id": "q-06-07-3",
       "question": "Refrigerant sales records must be kept for:",
-      "options": [
-        "1 year",
-        "3 years",
-        "5 years",
-        "10 years"
-      ],
+      "options": ["1 year", "3 years", "5 years", "10 years"],
       "correctAnswer": 1,
       "explanation": "Refrigerant purchase and sales records must be maintained for 3 years and made available to EPA inspectors."
     },
@@ -1787,12 +1572,7 @@
     {
       "id": "q-06-07-5",
       "question": "R-454B is a replacement for R-410A with a GWP of approximately:",
-      "options": [
-        "2,088",
-        "675",
-        "466",
-        "150"
-      ],
+      "options": ["2,088", "675", "466", "150"],
       "correctAnswer": 2,
       "explanation": "R-454B (Opteon XL41) has a GWP of 466 — about 78% lower than R-410A — and is the primary R-410A replacement in new equipment."
     }
@@ -1949,12 +1729,7 @@
     {
       "id": "q-06-11-3",
       "question": "A manifold gauge set has how many gauges?",
-      "options": [
-        "1",
-        "2 (high and low side)",
-        "3",
-        "4"
-      ],
+      "options": ["1", "2 (high and low side)", "3", "4"],
       "correctAnswer": 1,
       "explanation": "A standard manifold gauge set has two gauges: low-side (blue, compound) and high-side (red, pressure only)."
     },
@@ -1999,12 +1774,7 @@
     {
       "id": "q-06-12-2",
       "question": "The target evacuation level for most HVAC systems is:",
-      "options": [
-        "29 in. Hg",
-        "500 microns or below",
-        "1,000 microns",
-        "0 psig"
-      ],
+      "options": ["29 in. Hg", "500 microns or below", "1,000 microns", "0 psig"],
       "correctAnswer": 1,
       "explanation": "500 microns (0.5 mm Hg absolute) is the standard target — it indicates adequate moisture removal and absence of non-condensables."
     },
@@ -2135,12 +1905,7 @@
     {
       "id": "q-07-02-3",
       "question": "Recovery efficiency required for small appliances with a working compressor is:",
-      "options": [
-        "80%",
-        "90%",
-        "95%",
-        "80% or 4 in. Hg vacuum"
-      ],
+      "options": ["80%", "90%", "95%", "80% or 4 in. Hg vacuum"],
       "correctAnswer": 3,
       "explanation": "For small appliances with a working compressor: recover to 80% of the charge or pull to 4 in. Hg vacuum."
     },
@@ -2247,24 +2012,14 @@
     {
       "id": "q-07-04-2",
       "question": "Which refrigerant replaced R-12 in automotive and household refrigerators?",
-      "options": [
-        "R-22",
-        "R-134a",
-        "R-410A",
-        "R-32"
-      ],
+      "options": ["R-22", "R-134a", "R-410A", "R-32"],
       "correctAnswer": 1,
       "explanation": "R-134a replaced R-12 (CFC-12) in automotive AC and household refrigerators due to R-12's high ODP."
     },
     {
       "id": "q-07-04-3",
       "question": "The maximum charge in a small appliance covered by Type I is:",
-      "options": [
-        "2 lbs",
-        "5 lbs",
-        "10 lbs",
-        "15 lbs"
-      ],
+      "options": ["2 lbs", "5 lbs", "10 lbs", "15 lbs"],
       "correctAnswer": 1,
       "explanation": "Type I covers appliances with 5 lbs or less of refrigerant. Above 5 lbs requires Type II or III certification."
     },
@@ -2309,12 +2064,7 @@
     {
       "id": "q-08-01-2",
       "question": "R-410A operates at approximately what high-side pressure on a 95°F day?",
-      "options": [
-        "150 psig",
-        "250 psig",
-        "400 psig",
-        "600 psig"
-      ],
+      "options": ["150 psig", "250 psig", "400 psig", "600 psig"],
       "correctAnswer": 2,
       "explanation": "R-410A operates at approximately 400 psig on the high side at 95°F ambient — significantly higher than R-22 (~250 psig)."
     },
@@ -2359,24 +2109,14 @@
     {
       "id": "q-08-02-1",
       "question": "Required evacuation level for systems with 200+ lbs of refrigerant (high-pressure) is:",
-      "options": [
-        "500 microns",
-        "4 in. Hg",
-        "10 in. Hg",
-        "29 in. Hg"
-      ],
+      "options": ["500 microns", "4 in. Hg", "10 in. Hg", "29 in. Hg"],
       "correctAnswer": 1,
       "explanation": "Systems with 200+ lbs require evacuation to 4 in. Hg (approximately 10,000 microns). Smaller systems require deeper vacuum."
     },
     {
       "id": "q-08-02-2",
       "question": "Required evacuation level for systems with less than 200 lbs of high-pressure refrigerant is:",
-      "options": [
-        "4 in. Hg",
-        "10 in. Hg",
-        "15 in. Hg",
-        "23 in. Hg"
-      ],
+      "options": ["4 in. Hg", "10 in. Hg", "15 in. Hg", "23 in. Hg"],
       "correctAnswer": 1,
       "explanation": "Systems with less than 200 lbs of high-pressure refrigerant require evacuation to 10 in. Hg before opening."
     },
@@ -2483,36 +2223,21 @@
     {
       "id": "q-08-04-1",
       "question": "The annual leak rate threshold requiring repair for comfort cooling systems with 50+ lbs is:",
-      "options": [
-        "5%",
-        "10%",
-        "20%",
-        "30%"
-      ],
+      "options": ["5%", "10%", "20%", "30%"],
       "correctAnswer": 2,
       "explanation": "Comfort cooling systems with 50+ lbs must be repaired if the annual leak rate exceeds 20% of the system charge."
     },
     {
       "id": "q-08-04-2",
       "question": "After repairing a leak on a system with 50+ lbs, the technician must verify the repair within:",
-      "options": [
-        "24 hours",
-        "30 days",
-        "90 days",
-        "1 year"
-      ],
+      "options": ["24 hours", "30 days", "90 days", "1 year"],
       "correctAnswer": 1,
       "explanation": "Leak repairs on systems with 50+ lbs must be verified within 30 days of the repair."
     },
     {
       "id": "q-08-04-3",
       "question": "Service records for systems with 50+ lbs must be kept for:",
-      "options": [
-        "1 year",
-        "3 years",
-        "5 years",
-        "10 years"
-      ],
+      "options": ["1 year", "3 years", "5 years", "10 years"],
       "correctAnswer": 1,
       "explanation": "Service records for large systems must be maintained for 3 years and made available to EPA inspectors on request."
     },
@@ -2569,12 +2294,7 @@
     {
       "id": "q-08-05-3",
       "question": "Low suction pressure and low head pressure together typically indicate:",
-      "options": [
-        "Overcharge",
-        "Undercharge or low load",
-        "Restriction",
-        "Non-condensables"
-      ],
+      "options": ["Overcharge", "Undercharge or low load", "Restriction", "Non-condensables"],
       "correctAnswer": 1,
       "explanation": "Both pressures low = undercharge or very low load. Not enough refrigerant is circulating through the system."
     },
@@ -2681,12 +2401,7 @@
     {
       "id": "q-09-01-2",
       "question": "R-123 is the low-pressure replacement for:",
-      "options": [
-        "R-22",
-        "R-11 (CFC-11)",
-        "R-410A",
-        "R-134a"
-      ],
+      "options": ["R-22", "R-11 (CFC-11)", "R-410A", "R-134a"],
       "correctAnswer": 1,
       "explanation": "R-123 (HCFC-123) replaced R-11 (CFC-11) in centrifugal chillers. R-123 has lower ODP than R-11 but is still being phased out."
     },
@@ -2767,12 +2482,7 @@
     {
       "id": "q-09-02-4",
       "question": "The purge unit log must be maintained for:",
-      "options": [
-        "1 year",
-        "3 years",
-        "5 years",
-        "10 years"
-      ],
+      "options": ["1 year", "3 years", "5 years", "10 years"],
       "correctAnswer": 1,
       "explanation": "Purge unit logs must be maintained for 3 years and made available to EPA inspectors."
     },
@@ -2805,12 +2515,7 @@
     {
       "id": "q-09-03-2",
       "question": "Required recovery level for low-pressure systems is:",
-      "options": [
-        "500 microns",
-        "4 in. Hg",
-        "25 mm Hg absolute (29 in. Hg vacuum)",
-        "0 psig"
-      ],
+      "options": ["500 microns", "4 in. Hg", "25 mm Hg absolute (29 in. Hg vacuum)", "0 psig"],
       "correctAnswer": 2,
       "explanation": "Low-pressure systems require recovery to 25 mm Hg absolute — a very deep vacuum due to the refrigerant's low operating pressure."
     },
@@ -2903,12 +2608,7 @@
     {
       "id": "q-09-04-5",
       "question": "Chiller efficiency is measured by:",
-      "options": [
-        "Tons only",
-        "kW/ton (kilowatts per ton of cooling)",
-        "BTU/hr only",
-        "CFM"
-      ],
+      "options": ["Tons only", "kW/ton (kilowatts per ton of cooling)", "BTU/hr only", "CFM"],
       "correctAnswer": 1,
       "explanation": "Chiller efficiency is expressed as kW/ton. Lower kW/ton = more efficient. Modern chillers achieve 0.5 kW/ton or better."
     }
@@ -2991,12 +2691,7 @@
     {
       "id": "q-10-01-2",
       "question": "What unit is used to measure airflow volume?",
-      "options": [
-        "PSI",
-        "CFM (cubic feet per minute)",
-        "BTU/hr",
-        "Watts"
-      ],
+      "options": ["PSI", "CFM (cubic feet per minute)", "BTU/hr", "Watts"],
       "correctAnswer": 1,
       "explanation": "Airflow is measured in CFM (cubic feet per minute). A typical 3-ton system moves approximately 1,200 CFM."
     },
@@ -3041,12 +2736,7 @@
     {
       "id": "q-10-02-1",
       "question": "Static pressure in ductwork is measured in:",
-      "options": [
-        "PSI",
-        "Inches of water column (in. w.c.)",
-        "Microns",
-        "CFM"
-      ],
+      "options": ["PSI", "Inches of water column (in. w.c.)", "Microns", "CFM"],
       "correctAnswer": 1,
       "explanation": "Duct static pressure is measured in inches of water column (in. w.c.) using a manometer or magnehelic gauge."
     },
@@ -3065,12 +2755,7 @@
     {
       "id": "q-10-02-3",
       "question": "Typical maximum TESP for a residential system is:",
-      "options": [
-        "0.1 in. w.c.",
-        "0.5 in. w.c.",
-        "2.0 in. w.c.",
-        "5.0 in. w.c."
-      ],
+      "options": ["0.1 in. w.c.", "0.5 in. w.c.", "2.0 in. w.c.", "5.0 in. w.c."],
       "correctAnswer": 1,
       "explanation": "Most residential equipment is rated for 0.5 in. w.c. TESP. Exceeding this reduces airflow and causes comfort and efficiency problems."
     },
@@ -3325,12 +3010,7 @@
     {
       "id": "q-10-06-4",
       "question": "Temperature split across the evaporator (return minus supply) in cooling mode should be approximately:",
-      "options": [
-        "5–8°F",
-        "14–22°F",
-        "30–40°F",
-        "50°F+"
-      ],
+      "options": ["5–8°F", "14–22°F", "30–40°F", "50°F+"],
       "correctAnswer": 1,
       "explanation": "A 14–22°F temperature split across the evaporator indicates proper heat transfer. Lower split = low airflow or low charge; higher = very low airflow."
     },
@@ -3363,24 +3043,14 @@
     {
       "id": "q-11-01-2",
       "question": "The \"G\" terminal on a thermostat controls:",
-      "options": [
-        "Gas valve",
-        "Indoor blower fan (fan only mode)",
-        "Ground",
-        "Compressor"
-      ],
+      "options": ["Gas valve", "Indoor blower fan (fan only mode)", "Ground", "Compressor"],
       "correctAnswer": 1,
       "explanation": "G energizes the indoor blower relay for fan-only operation. It is also energized during heating and cooling calls."
     },
     {
       "id": "q-11-01-3",
       "question": "The \"W\" terminal controls:",
-      "options": [
-        "Cooling",
-        "Heating (gas valve or electric heat)",
-        "Fan",
-        "Compressor"
-      ],
+      "options": ["Cooling", "Heating (gas valve or electric heat)", "Fan", "Compressor"],
       "correctAnswer": 1,
       "explanation": "W energizes the heating circuit — gas valve on a furnace, or electric heat strips on an air handler."
     },
@@ -3499,12 +3169,7 @@
     {
       "id": "q-11-03-3",
       "question": "Capacitor capacitance is measured in:",
-      "options": [
-        "Ohms",
-        "Microfarads (µF)",
-        "Volts",
-        "Amperes"
-      ],
+      "options": ["Ohms", "Microfarads (µF)", "Volts", "Amperes"],
       "correctAnswer": 1,
       "explanation": "Capacitance is measured in microfarads (µF). A typical compressor run capacitor is 35–80 µF; fan motor capacitors are 5–15 µF."
     },
@@ -3833,12 +3498,7 @@
     {
       "id": "q-12-04-5",
       "question": "Cold climate heat pumps (hyper-heat) can operate efficiently down to:",
-      "options": [
-        "35°F",
-        "20°F",
-        "-13°F or lower",
-        "0°F only"
-      ],
+      "options": ["35°F", "20°F", "-13°F or lower", "0°F only"],
       "correctAnswer": 2,
       "explanation": "Modern cold-climate heat pumps (Mitsubishi Hyper-Heat, Bosch IDS) maintain rated capacity down to -13°F or lower using variable-speed compressors."
     }
@@ -4231,12 +3891,7 @@
     {
       "id": "q-14-01-2",
       "question": "Fall protection is required in general industry at heights of:",
-      "options": [
-        "3 feet",
-        "4 feet",
-        "6 feet",
-        "10 feet"
-      ],
+      "options": ["3 feet", "4 feet", "6 feet", "10 feet"],
       "correctAnswer": 1,
       "explanation": "General industry (OSHA 1910): fall protection required at 4 feet. Construction (OSHA 1926): 6 feet. Always use protection at or above these heights."
     },
@@ -4255,12 +3910,7 @@
     {
       "id": "q-14-01-4",
       "question": "Ladders must extend how far above the landing when used for roof access?",
-      "options": [
-        "1 foot",
-        "3 feet",
-        "5 feet",
-        "6 feet"
-      ],
+      "options": ["1 foot", "3 feet", "5 feet", "6 feet"],
       "correctAnswer": 1,
       "explanation": "Ladders used for roof or elevated surface access must extend at least 3 feet above the landing point."
     },
@@ -4355,12 +4005,7 @@
     {
       "id": "q-14-03-2",
       "question": "An SDS (Safety Data Sheet) has how many sections?",
-      "options": [
-        "8",
-        "12",
-        "16",
-        "24"
-      ],
+      "options": ["8", "12", "16", "24"],
       "correctAnswer": 2,
       "explanation": "GHS-format SDS has 16 standardized sections covering identification, hazards, composition, first aid, fire fighting, handling, and more."
     },
@@ -4479,24 +4124,14 @@
     {
       "id": "q-14-05-2",
       "question": "A fire watch must be maintained for how long after hot work is completed?",
-      "options": [
-        "5 minutes",
-        "30 minutes minimum",
-        "1 hour",
-        "Until the next day"
-      ],
+      "options": ["5 minutes", "30 minutes minimum", "1 hour", "Until the next day"],
       "correctAnswer": 1,
       "explanation": "A fire watch must continue for at least 30 minutes after hot work ends — smoldering materials can ignite long after the work is done."
     },
     {
       "id": "q-14-05-3",
       "question": "The correct fire extinguisher class for a flammable liquid fire is:",
-      "options": [
-        "Class A",
-        "Class B",
-        "Class C",
-        "Class D"
-      ],
+      "options": ["Class A", "Class B", "Class C", "Class D"],
       "correctAnswer": 1,
       "explanation": "Class B extinguishers are rated for flammable liquid fires (gasoline, oil, refrigerant). ABC extinguishers cover all common fire types."
     },
@@ -4541,12 +4176,7 @@
     {
       "id": "q-14-06-2",
       "question": "Safety glasses must meet which standard for impact protection?",
-      "options": [
-        "OSHA 1910.133",
-        "ANSI Z87.1",
-        "NFPA 70E",
-        "ASTM F2413"
-      ],
+      "options": ["OSHA 1910.133", "ANSI Z87.1", "NFPA 70E", "ASTM F2413"],
       "correctAnswer": 1,
       "explanation": "ANSI Z87.1 is the standard for eye and face protection. Look for the Z87 marking on safety glasses to verify compliance."
     },
@@ -4591,12 +4221,7 @@
     {
       "id": "q-14-07-1",
       "question": "The maximum weight for manual lifting without mechanical assistance is generally:",
-      "options": [
-        "25 lbs",
-        "50 lbs",
-        "No standard limit — use proper technique",
-        "100 lbs"
-      ],
+      "options": ["25 lbs", "50 lbs", "No standard limit — use proper technique", "100 lbs"],
       "correctAnswer": 2,
       "explanation": "OSHA has no specific weight limit, but NIOSH recommends a recommended weight limit (RWL) based on task conditions. Use mechanical assists for heavy loads."
     },
@@ -4653,24 +4278,14 @@
     {
       "id": "q-15-01-1",
       "question": "CPR compressions should be performed at a rate of:",
-      "options": [
-        "60 per minute",
-        "80 per minute",
-        "100–120 per minute",
-        "150 per minute"
-      ],
+      "options": ["60 per minute", "80 per minute", "100–120 per minute", "150 per minute"],
       "correctAnswer": 2,
       "explanation": "AHA guidelines: 100–120 compressions per minute, 2–2.4 inches deep for adults. The song \"Stayin' Alive\" is approximately 100 BPM."
     },
     {
       "id": "q-15-01-2",
       "question": "The compression-to-breath ratio for adult CPR (2-rescuer) is:",
-      "options": [
-        "15:2",
-        "30:2",
-        "15:1",
-        "30:1"
-      ],
+      "options": ["15:2", "30:2", "15:1", "30:1"],
       "correctAnswer": 1,
       "explanation": "30 compressions to 2 breaths for adult CPR. With an advanced airway in place, give 1 breath every 6 seconds continuously."
     },
@@ -4813,12 +4428,7 @@
     {
       "id": "q-15-03-4",
       "question": "Resume length for an entry-level HVAC technician should be:",
-      "options": [
-        "3–4 pages",
-        "1 page",
-        "2 pages minimum",
-        "As long as needed"
-      ],
+      "options": ["3–4 pages", "1 page", "2 pages minimum", "As long as needed"],
       "correctAnswer": 1,
       "explanation": "Entry-level resumes should be 1 page. Experienced technicians with 10+ years may use 2 pages. Recruiters spend 6–7 seconds on initial review."
     },

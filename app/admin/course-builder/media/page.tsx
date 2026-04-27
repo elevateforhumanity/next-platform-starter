@@ -1,10 +1,18 @@
-
 import NextImage from 'next/image';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { ArrowLeft, Upload, Image as ImageIcon, Video, FileText, Search, Grid, List } from 'lucide-react';
+import {
+  ArrowLeft,
+  Upload,
+  Image as ImageIcon,
+  Video,
+  FileText,
+  Search,
+  Grid,
+  List,
+} from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -15,20 +23,25 @@ export const metadata: Metadata = {
 
 export default async function MediaLibraryPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!['admin', 'super_admin', 'staff'].includes(profile?.role ?? '')) redirect('/unauthorized');
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
 
       <div className="max-w-7xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <Link 
+          <Link
             href="/admin/course-builder"
             className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-4"
           >
@@ -38,7 +51,9 @@ export default async function MediaLibraryPage() {
           <div className="flex items-center justify-between">
             <div>
               <h1 className="text-3xl font-bold text-slate-900">Media Library</h1>
-              <p className="text-slate-700 mt-1">Manage videos, images, and documents for courses</p>
+              <p className="text-slate-700 mt-1">
+                Manage videos, images, and documents for courses
+              </p>
             </div>
             <button className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition-colors">
               <Upload className="w-5 h-5" />
@@ -131,7 +146,9 @@ export default async function MediaLibraryPage() {
             <Upload className="w-8 h-8 text-slate-700" />
           </div>
           <h3 className="text-lg font-medium text-slate-900 mb-2">No media files yet</h3>
-          <p className="text-slate-700 mb-6">Upload videos, images, and documents for your courses</p>
+          <p className="text-slate-700 mb-6">
+            Upload videos, images, and documents for your courses
+          </p>
           <button className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition-colors">
             <Upload className="w-5 h-5" />
             Upload Files

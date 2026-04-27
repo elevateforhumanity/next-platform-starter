@@ -42,7 +42,6 @@ function getChangeInfo() {
 
 const { appRelevant, buildType, categories } = getChangeInfo();
 
-
 let copiedFiles = 0;
 
 // 1. Always include core files
@@ -69,7 +68,6 @@ if (cp('sitemaps', path.join(outDir, 'sitemaps'))) {
 // 3. Handle different build types
 switch (buildType) {
   case 'full': {
-
     // Copy all HTML files
     const htmlFiles = fs.readdirSync('.').filter((f) => f.endsWith('.html'));
     htmlFiles.forEach((file) => {
@@ -102,7 +100,6 @@ switch (buildType) {
   }
 
   case 'pages': {
-
     // Copy changed HTML files
     categories.html.forEach((file) => {
       if (cp(file, path.join(outDir, file))) {
@@ -127,7 +124,6 @@ switch (buildType) {
   }
 
   case 'assets': {
-
     // Copy changed assets
     categories.assets.forEach((file) => {
       if (cp(file, path.join(outDir, file))) {
@@ -149,7 +145,6 @@ switch (buildType) {
   }
 
   case 'seo': {
-
     // Copy changed SEO files
     categories.seo.forEach((file) => {
       if (cp(file, path.join(outDir, file))) {
@@ -169,13 +164,7 @@ switch (buildType) {
 }
 
 // 4. Ensure page directories exist with index.html
-const pageDirectories = [
-  'programs',
-  'contracts',
-  'students',
-  'contact',
-  'about',
-];
+const pageDirectories = ['programs', 'contracts', 'students', 'contact', 'about'];
 pageDirectories.forEach((dir) => {
   const indexPath = path.join(outDir, dir, 'index.html');
   if (!fs.existsSync(indexPath)) {
@@ -216,10 +205,7 @@ const manifest = {
   siteType: 'multi-page-static',
 };
 
-fs.writeFileSync(
-  path.join(outDir, 'deploy-manifest.json'),
-  JSON.stringify(manifest, null, 2)
-);
+fs.writeFileSync(path.join(outDir, 'deploy-manifest.json'), JSON.stringify(manifest, null, 2));
 
 const duration = Date.now() - startTime;
 

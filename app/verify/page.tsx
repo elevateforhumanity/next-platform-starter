@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -34,7 +33,10 @@ export default async function VerifyPage({
             <Link href="/" className="text-xl font-bold text-slate-900">
               Elevate for Humanity
             </Link>
-            <Link href="/verify-credentials" className="text-sm text-brand-orange-600 hover:text-brand-orange-700">
+            <Link
+              href="/verify-credentials"
+              className="text-sm text-brand-orange-600 hover:text-brand-orange-700"
+            >
               View All Credentials
             </Link>
           </div>

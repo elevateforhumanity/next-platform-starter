@@ -1,4 +1,4 @@
-import type { ProgramEnrollmentConfig } from "@/lms-data/enrollment";
+import type { ProgramEnrollmentConfig } from '@/lms-data/enrollment';
 
 interface Props {
   config: ProgramEnrollmentConfig;
@@ -6,24 +6,24 @@ interface Props {
 
 function labelForFlag(flag: string): string {
   switch (flag) {
-    case "jri":
-      return "Job Ready Indy (JRI)";
-    case "wrg":
-      return "Workforce Ready Grant (WRG)";
-    case "wex":
-      return "Work Experience (WEX)";
-    case "ojt":
-      return "On-the-Job Training (OJT)";
-    case "apprenticeship":
-      return "Apprenticeship";
-    case "state-grant":
-      return "State Grant Eligible";
-    case "federal-grant":
-      return "Federal / Partner Funding";
-    case "employer-pay":
-      return "Employer Sponsorship";
-    case "self-pay":
-      return "Self-Pay / Payment Plan";
+    case 'jri':
+      return 'Job Ready Indy (JRI)';
+    case 'wrg':
+      return 'Workforce Ready Grant (WRG)';
+    case 'wex':
+      return 'Work Experience (WEX)';
+    case 'ojt':
+      return 'On-the-Job Training (OJT)';
+    case 'apprenticeship':
+      return 'Apprenticeship';
+    case 'state-grant':
+      return 'State Grant Eligible';
+    case 'federal-grant':
+      return 'Federal / Partner Funding';
+    case 'employer-pay':
+      return 'Employer Sponsorship';
+    case 'self-pay':
+      return 'Self-Pay / Payment Plan';
     default:
       return flag;
   }

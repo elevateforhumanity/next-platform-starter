@@ -3,14 +3,7 @@
 import { useEffect, useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import {
-  CheckCircle,
-  Clock,
-  AlertCircle,
-  ArrowRight,
-  FileText,
-  Phone,
-} from 'lucide-react';
+import { CheckCircle, Clock, AlertCircle, ArrowRight, FileText, Phone } from 'lucide-react';
 
 type ApplicationData = {
   fullName: string;
@@ -94,7 +87,10 @@ function StatusContent() {
   useEffect(() => {
     async function load() {
       if (!token) {
-        setData({ success: false, error: 'Missing status token. Check the link in your confirmation email.' });
+        setData({
+          success: false,
+          error: 'Missing status token. Check the link in your confirmation email.',
+        });
         setLoading(false);
         return;
       }
@@ -130,7 +126,9 @@ function StatusContent() {
             <AlertCircle className="mt-0.5 h-5 w-5 flex-shrink-0" />
             <div>
               <p className="font-medium">Unable to find your application</p>
-              <p className="mt-1 text-sm">{data?.error || 'Please check the link in your confirmation email.'}</p>
+              <p className="mt-1 text-sm">
+                {data?.error || 'Please check the link in your confirmation email.'}
+              </p>
             </div>
           </div>
         </div>
@@ -213,8 +211,17 @@ function StatusContent() {
       <div className="mt-8 rounded-2xl border border-gray-200 bg-white p-5">
         <p className="font-medium text-slate-900">Questions about your application?</p>
         <p className="mt-1 text-sm text-slate-700">
-          Call <a href="tel:+13173143757" className="font-medium text-brand-blue-600 hover:underline">(317) 314-3757</a> or
-          email <a href="mailto:info@elevateforhumanity.org" className="font-medium text-brand-blue-600 hover:underline">info@elevateforhumanity.org</a>
+          Call{' '}
+          <a href="tel:+13173143757" className="font-medium text-brand-blue-600 hover:underline">
+            (317) 314-3757
+          </a>{' '}
+          or email{' '}
+          <a
+            href="mailto:info@elevateforhumanity.org"
+            className="font-medium text-brand-blue-600 hover:underline"
+          >
+            info@elevateforhumanity.org
+          </a>
         </p>
       </div>
     </div>
@@ -223,12 +230,14 @@ function StatusContent() {
 
 export default function ApplicationStatusPage() {
   return (
-    <Suspense fallback={
-      <div className="mx-auto max-w-3xl px-4 py-12">
-        <div className="h-8 w-48 animate-pulse rounded bg-gray-200" />
-        <div className="mt-6 h-64 animate-pulse rounded-3xl bg-white" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="mx-auto max-w-3xl px-4 py-12">
+          <div className="h-8 w-48 animate-pulse rounded bg-gray-200" />
+          <div className="mt-6 h-64 animate-pulse rounded-3xl bg-white" />
+        </div>
+      }
+    >
       <StatusContent />
     </Suspense>
   );

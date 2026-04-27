@@ -2,12 +2,11 @@
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { 
-  Video, 
-  Mic, 
-  Sparkles, 
-  Play, 
-  
+import {
+  Video,
+  Mic,
+  Sparkles,
+  Play,
   Clock,
   ArrowRight,
   ArrowLeft,
@@ -17,7 +16,7 @@ import {
   Save,
   Wand2,
   FileText,
-  List
+  List,
 } from 'lucide-react';
 
 interface Module {
@@ -110,7 +109,7 @@ export default function CreateCourseContentPage() {
       });
 
       const data = await res.json();
-      
+
       if (data.videoUrl) {
         // Update module with video URL
         await fetch(`/api/admin/career-courses/modules/${selectedModule.id}`, {
@@ -154,12 +153,11 @@ export default function CreateCourseContentPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Create" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Create' }]} />
       </div>
-{/* Header */}
+      {/* Header */}
       <header className="bg-white border-b sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
@@ -193,7 +191,9 @@ export default function CreateCourseContentPage() {
               </h2>
 
               {courses.length === 0 ? (
-                <p className="text-sm text-slate-700">No courses found. Create courses in the database first.</p>
+                <p className="text-sm text-slate-700">
+                  No courses found. Create courses in the database first.
+                </p>
               ) : (
                 <div className="space-y-4">
                   {courses.map((course) => (
@@ -211,7 +211,9 @@ export default function CreateCourseContentPage() {
                         }`}
                       >
                         <p className="font-medium text-sm">{course.title}</p>
-                        <p className="text-xs text-slate-700">{course.modules?.length || 0} modules</p>
+                        <p className="text-xs text-slate-700">
+                          {course.modules?.length || 0} modules
+                        </p>
                       </button>
 
                       {selectedCourse?.id === course.id && course.modules && (
@@ -254,7 +256,9 @@ export default function CreateCourseContentPage() {
               <div className="bg-white rounded-xl shadow-sm border p-12 text-center">
                 <Video className="w-16 h-16 text-slate-700 mx-auto mb-4" />
                 <h3 className="text-xl font-semibold text-slate-900 mb-2">Select a Module</h3>
-                <p className="text-slate-700">Choose a course and module from the left to start creating content.</p>
+                <p className="text-slate-700">
+                  Choose a course and module from the left to start creating content.
+                </p>
               </div>
             ) : (
               <div className="space-y-6">
@@ -276,7 +280,9 @@ export default function CreateCourseContentPage() {
                       <span className="text-slate-400 flex-shrink-0">•</span>
                       <div className="flex-1">
                         <p className="font-medium text-brand-green-900">Video Generated</p>
-                        <p className="text-sm text-brand-green-700">This module has a video ready.</p>
+                        <p className="text-sm text-brand-green-700">
+                          This module has a video ready.
+                        </p>
                       </div>
                       <a
                         href={selectedModule.video_url}
@@ -325,7 +331,8 @@ export default function CreateCourseContentPage() {
 
                   <div className="flex justify-between mt-4">
                     <p className="text-sm text-slate-700">
-                      {script.split(' ').length} words • ~{Math.ceil(script.split(' ').length / 150)} min read
+                      {script.split(' ').length} words • ~
+                      {Math.ceil(script.split(' ').length / 150)} min read
                     </p>
                     <button
                       onClick={saveScript}
@@ -393,7 +400,8 @@ export default function CreateCourseContentPage() {
                   </div>
 
                   <p className="text-slate-700 mb-4">
-                    Once your script is ready, click below to generate the AI avatar video. This may take a few minutes.
+                    Once your script is ready, click below to generate the AI avatar video. This may
+                    take a few minutes.
                   </p>
 
                   <button

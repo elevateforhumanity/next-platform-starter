@@ -13,15 +13,13 @@
  *    sign-off is required to advance past them, not to view them.
  */
 
-import type {
-  EngineLesson, LearnerProgress, AccessDecision, LearnerState,
-} from './types';
+import type { EngineLesson, LearnerProgress, AccessDecision, LearnerState } from './types';
 import { GATED_STEP_TYPES } from './types';
 
 export function canAccessLesson(
   lesson: EngineLesson,
   allLessonsInCourse: EngineLesson[],
-  progress: LearnerProgress
+  progress: LearnerProgress,
 ): AccessDecision {
   // Unpublished lessons are never accessible to learners
   if (lesson.status !== 'published') {
@@ -30,14 +28,14 @@ export function canAccessLesson(
 
   // Sort all lessons by module then lesson order for sequential check
   const ordered = [...allLessonsInCourse]
-    .filter(l => l.status === 'published')
+    .filter((l) => l.status === 'published')
     .sort((a, b) =>
       a.moduleOrder !== b.moduleOrder
         ? a.moduleOrder - b.moduleOrder
-        : a.lessonOrder - b.lessonOrder
+        : a.lessonOrder - b.lessonOrder,
     );
 
-  const lessonIndex = ordered.findIndex(l => l.id === lesson.id);
+  const lessonIndex = ordered.findIndex((l) => l.id === lesson.id);
 
   // First lesson is always accessible
   if (lessonIndex <= 0) {

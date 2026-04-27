@@ -1,0 +1,175 @@
+{
+  "canonicalRoutes": {
+    "publicMarketing": {
+      "home": "/",
+      "programs": "/programs",
+      "funding": "/funding",
+      "disclosures": "/disclosures",
+      "partners": "/partners",
+      "contact": "/contact"
+    },
+    "programs": {
+      "certifiedNursingAssistant": "/programs/certified-nursing-assistant",
+      "hvacTechnician": "/programs/hvac-technician",
+      "cdlTraining": "/programs/cdl-training",
+      "itHelpDesk": "/programs/it-help-desk",
+      "barberApprenticeship": "/programs/barber-apprenticeship"
+    },
+    "complianceFunding": {
+      "funding": "/funding",
+      "disclosures": "/disclosures",
+      "privacyPolicy": "/privacy-policy",
+      "termsOfService": "/terms-of-service"
+    },
+    "partners": {
+      "index": "/partners",
+      "employers": "/employers",
+      "partnerWithUs": "/partner-with-us"
+    }
+  },
+  "legacyAliases": [
+    {
+      "source": "/programs/cna",
+      "destination": "/programs/certified-nursing-assistant",
+      "permanent": true
+    },
+    {
+      "source": "/programs/cna-training",
+      "destination": "/programs/certified-nursing-assistant",
+      "permanent": true
+    },
+    {
+      "source": "/programs/cna-certification",
+      "destination": "/programs/certified-nursing-assistant",
+      "permanent": true
+    },
+    {
+      "source": "/programs/cna-cert",
+      "destination": "/programs/certified-nursing-assistant",
+      "permanent": true
+    },
+    {
+      "source": "/programs/home-health-aide",
+      "destination": "/programs/certified-nursing-assistant",
+      "permanent": true
+    },
+    {
+      "source": "/programs/hvac",
+      "destination": "/programs/hvac-technician",
+      "permanent": true
+    },
+    {
+      "source": "/programs/hvac-technician-program",
+      "destination": "/programs/hvac-technician",
+      "permanent": true
+    },
+    {
+      "source": "/programs/hvac-tech",
+      "destination": "/programs/hvac-technician",
+      "permanent": true
+    },
+    {
+      "source": "/programs/hvac-technician-wrg",
+      "destination": "/programs/hvac-technician",
+      "permanent": true
+    },
+    {
+      "source": "/training/hvac-technician",
+      "destination": "/programs/hvac-technician",
+      "permanent": true
+    },
+    {
+      "source": "/programs/cna-training-wrg",
+      "destination": "/programs/certified-nursing-assistant",
+      "permanent": true
+    },
+    {
+      "source": "/partners/esthetician-apprenticeship",
+      "destination": "/partners/cosmetology-apprenticeship",
+      "permanent": true
+    },
+    {
+      "source": "/programs/peer-recovery-coach",
+      "destination": "/programs/peer-recovery-specialist",
+      "permanent": true
+    },
+    {
+      "source": "/programs/peer-recovery-specialist-jri",
+      "destination": "/programs/peer-recovery-specialist",
+      "permanent": true
+    },
+    {
+      "source": "/programs/certified-peer-recovery-coach",
+      "destination": "/programs/peer-recovery-specialist",
+      "permanent": true
+    },
+    {
+      "source": "/programs/peer-recovery",
+      "destination": "/programs/peer-recovery-specialist",
+      "permanent": true
+    },
+    {
+      "source": "/programs/peer-support",
+      "destination": "/programs/peer-recovery-specialist",
+      "permanent": true
+    },
+    {
+      "source": "/programs/peer-support-professional",
+      "destination": "/programs/peer-recovery-specialist",
+      "permanent": true
+    },
+    {
+      "source": "/programs/recovery-coach",
+      "destination": "/programs/peer-recovery-specialist",
+      "permanent": true
+    },
+    {
+      "source": "/programs/it-support-specialist",
+      "destination": "/programs/it-help-desk",
+      "permanent": true
+    },
+    {
+      "source": "/programs/it-support",
+      "destination": "/programs/it-help-desk",
+      "permanent": true
+    },
+    {
+      "source": "/workforce-training-indianapolis",
+      "destination": "/career-training-indiana",
+      "permanent": true
+    },
+    {
+      "source": "/wioa-funded-training-indiana",
+      "destination": "/wioa-eligibility",
+      "permanent": true
+    }
+  ],
+  "railwayOnlyPrefixes": [
+    "/admin",
+    "/lms",
+    "/learner",
+    "/student",
+    "/instructor",
+    "/employer",
+    "/partner",
+    "/api",
+    "/cron",
+    "/jobs",
+    "/billing",
+    "/video",
+    "/ai",
+    "/ocr",
+    "/pdf",
+    "/migrations",
+    "/internal"
+  ],
+  "externalOrAppHostedAllowlist": [
+    "/login",
+    "/signup",
+    "/admin/dashboard",
+    "/instructor/dashboard",
+    "/partner/login",
+    "/learner/dashboard",
+    "/lms/dashboard"
+  ]
+}

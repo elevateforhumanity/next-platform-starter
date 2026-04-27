@@ -38,10 +38,10 @@ export type NhaPriceType =
   | 'bundle';
 
 export interface NhaProduct {
-  key:             string;
-  label:           string;
-  vendorBase:      number;
-  type:            NhaPriceType;
+  key: string;
+  label: string;
+  vendorBase: number;
+  type: NhaPriceType;
   /**
    * Explicit retail price override. Use only when the formula produces a price
    * that differs from the agreed retail target. Documents the intentional deviation.
@@ -50,30 +50,30 @@ export interface NhaProduct {
 }
 
 export interface NhaProgram {
-  key:                  string;
-  label:                string;
+  key: string;
+  label: string;
   /** Short benefit statement shown under price on public pages */
-  tagline:              string;
-  products:             NhaProduct[];
+  tagline: string;
+  products: NhaProduct[];
   /** NHA's pre-discounted bundle price — apply bundle markup to get retail */
   bundledDiscountedBase?: number;
   /** Show payment plan note when retail bundle price exceeds this threshold */
   paymentPlanThreshold: number;
   /** Whether this is a lead program (shown first on public pages) */
-  featured:             boolean;
+  featured: boolean;
 }
 
 // ─── Markup engine ────────────────────────────────────────────────────────────
 
 const MARKUP_MULTIPLIERS: Record<NhaPriceType, number> = {
-  study_guide:         1.40,
-  practice_test:       1.40,
-  exam_prep:           1.40,
-  cert_exam:           1.35,
-  core_module:         1.45,
-  competency_module:   1.45,
-  professional_module: 1.50,
-  bundle:              1.30,
+  study_guide: 1.4,
+  practice_test: 1.4,
+  exam_prep: 1.4,
+  cert_exam: 1.35,
+  core_module: 1.45,
+  competency_module: 1.45,
+  professional_module: 1.5,
+  bundle: 1.3,
 };
 
 /**
@@ -81,7 +81,7 @@ const MARKUP_MULTIPLIERS: Record<NhaPriceType, number> = {
  * $100 → $109, $110 → $119, $119 → $119, $120 → $129
  */
 export function roundToPsychologicalPrice(value: number): number {
-  const ceiled    = Math.ceil(value);
+  const ceiled = Math.ceil(value);
   const remainder = ceiled % 10;
   if (remainder === 9) return ceiled;
   return ceiled + ((9 - remainder + 10) % 10);
@@ -123,134 +123,236 @@ export function showPaymentPlan(program: NhaProgram): boolean {
 // ─── Program catalog ──────────────────────────────────────────────────────────
 
 export const NHA_PROGRAMS: Record<string, NhaProgram> = {
-
   medicalAssistant: {
-    key:     'medicalAssistant',
-    label:   'Medical Assistant',
+    key: 'medicalAssistant',
+    label: 'Medical Assistant',
     tagline: 'Includes exam prep and learner support',
     featured: true,
     paymentPlanThreshold: 499,
-    bundledDiscountedBase: 704.80,
+    bundledDiscountedBase: 704.8,
     products: [
       // retailOverride: formula produces $139 (1.45 × $94 = $136.30 → $139) but target is $129
-      { key: 'prepMaterials',              label: 'Prep Materials',                vendorBase: 94,  type: 'core_module',         retailOverride: 129 },
-      { key: 'certificationExam',          label: 'Certification Exam (CCMA)',      vendorBase: 165, type: 'cert_exam'            },
-      { key: 'medicalTerminology',         label: 'Medical Terminology',            vendorBase: 75,  type: 'core_module'         },
-      { key: 'anatomyPhysiology',          label: 'Anatomy & Physiology',           vendorBase: 75,  type: 'core_module'         },
-      { key: 'clinicalPlus',               label: 'Clinical Plus',                  vendorBase: 129, type: 'competency_module'   },
-      { key: 'administrativePlus',         label: 'Administrative Plus',            vendorBase: 129, type: 'competency_module'   },
-      { key: 'personAbility',              label: 'PersonAbility',                  vendorBase: 80,  type: 'professional_module' },
-      { key: 'principlesOfHealthCoaching', label: 'Principles of Health Coaching',  vendorBase: 150, type: 'professional_module' },
+      {
+        key: 'prepMaterials',
+        label: 'Prep Materials',
+        vendorBase: 94,
+        type: 'core_module',
+        retailOverride: 129,
+      },
+      {
+        key: 'certificationExam',
+        label: 'Certification Exam (CCMA)',
+        vendorBase: 165,
+        type: 'cert_exam',
+      },
+      {
+        key: 'medicalTerminology',
+        label: 'Medical Terminology',
+        vendorBase: 75,
+        type: 'core_module',
+      },
+      {
+        key: 'anatomyPhysiology',
+        label: 'Anatomy & Physiology',
+        vendorBase: 75,
+        type: 'core_module',
+      },
+      { key: 'clinicalPlus', label: 'Clinical Plus', vendorBase: 129, type: 'competency_module' },
+      {
+        key: 'administrativePlus',
+        label: 'Administrative Plus',
+        vendorBase: 129,
+        type: 'competency_module',
+      },
+      { key: 'personAbility', label: 'PersonAbility', vendorBase: 80, type: 'professional_module' },
+      {
+        key: 'principlesOfHealthCoaching',
+        label: 'Principles of Health Coaching',
+        vendorBase: 150,
+        type: 'professional_module',
+      },
     ],
   },
 
   medicalAdminAssistant: {
-    key:     'medicalAdminAssistant',
-    label:   'Medical Administrative Assistant',
+    key: 'medicalAdminAssistant',
+    label: 'Medical Administrative Assistant',
     tagline: 'Includes exam prep and learner support',
     featured: false,
     paymentPlanThreshold: 499,
     bundledDiscountedBase: 342,
     products: [
-      { key: 'prepMaterials',      label: 'Prep Materials',                  vendorBase: 84,  type: 'core_module'       },
-      { key: 'certificationExam',  label: 'Certification Exam (CMAA)',        vendorBase: 129, type: 'cert_exam'          },
-      { key: 'medicalTerminology', label: 'Medical Terminology',              vendorBase: 75,  type: 'core_module'       },
-      { key: 'administrativePlus', label: 'Administrative Plus',              vendorBase: 129, type: 'competency_module' },
+      { key: 'prepMaterials', label: 'Prep Materials', vendorBase: 84, type: 'core_module' },
+      {
+        key: 'certificationExam',
+        label: 'Certification Exam (CMAA)',
+        vendorBase: 129,
+        type: 'cert_exam',
+      },
+      {
+        key: 'medicalTerminology',
+        label: 'Medical Terminology',
+        vendorBase: 75,
+        type: 'core_module',
+      },
+      {
+        key: 'administrativePlus',
+        label: 'Administrative Plus',
+        vendorBase: 129,
+        type: 'competency_module',
+      },
     ],
   },
 
   electronicHealthRecords: {
-    key:     'electronicHealthRecords',
-    label:   'Electronic Health Records',
+    key: 'electronicHealthRecords',
+    label: 'Electronic Health Records',
     tagline: 'Includes exam prep and learner support',
     featured: false,
     paymentPlanThreshold: 499,
     products: [
-      { key: 'studyGuide',        label: 'Study Guide',          vendorBase: 50,  type: 'study_guide'  },
-      { key: 'practiceTest',      label: 'Practice Test',        vendorBase: 44,  type: 'practice_test' },
-      { key: 'examPrepPackage',   label: 'Exam Prep Package',    vendorBase: 75,  type: 'exam_prep'    },
-      { key: 'certificationExam', label: 'Certification Exam',   vendorBase: 129, type: 'cert_exam'    },
+      { key: 'studyGuide', label: 'Study Guide', vendorBase: 50, type: 'study_guide' },
+      { key: 'practiceTest', label: 'Practice Test', vendorBase: 44, type: 'practice_test' },
+      { key: 'examPrepPackage', label: 'Exam Prep Package', vendorBase: 75, type: 'exam_prep' },
+      { key: 'certificationExam', label: 'Certification Exam', vendorBase: 129, type: 'cert_exam' },
     ],
   },
 
   billingAndCoding: {
-    key:     'billingAndCoding',
-    label:   'Billing and Coding',
+    key: 'billingAndCoding',
+    label: 'Billing and Coding',
     tagline: 'Includes exam prep and learner support',
     featured: true,
     paymentPlanThreshold: 499,
     products: [
       // retailOverride: formula produces $99 (1.4 × $64 = $89.60 → $99) but target is $89
-      { key: 'studyGuide',        label: 'Study Guide',          vendorBase: 64,  type: 'study_guide',  retailOverride: 89 },
-      { key: 'practiceTest',      label: 'Practice Test',        vendorBase: 49,  type: 'practice_test' },
-      { key: 'examPrepPackage',   label: 'Exam Prep Package',    vendorBase: 84,  type: 'exam_prep'    },
-      { key: 'certificationExam', label: 'Certification Exam',   vendorBase: 129, type: 'cert_exam'    },
+      {
+        key: 'studyGuide',
+        label: 'Study Guide',
+        vendorBase: 64,
+        type: 'study_guide',
+        retailOverride: 89,
+      },
+      { key: 'practiceTest', label: 'Practice Test', vendorBase: 49, type: 'practice_test' },
+      { key: 'examPrepPackage', label: 'Exam Prep Package', vendorBase: 84, type: 'exam_prep' },
+      { key: 'certificationExam', label: 'Certification Exam', vendorBase: 129, type: 'cert_exam' },
     ],
   },
 
   ekgTechnician: {
-    key:     'ekgTechnician',
-    label:   'EKG Technician',
+    key: 'ekgTechnician',
+    label: 'EKG Technician',
     tagline: 'Includes exam prep and learner support',
     featured: false,
     paymentPlanThreshold: 499,
     products: [
-      { key: 'studyGuide',        label: 'Study Guide',          vendorBase: 54,  type: 'study_guide'  },
-      { key: 'practiceTest',      label: 'Practice Test',        vendorBase: 49,  type: 'practice_test' },
-      { key: 'examPrepPackage',   label: 'Exam Prep Package',    vendorBase: 84,  type: 'exam_prep'    },
-      { key: 'certificationExam', label: 'Certification Exam (CET)', vendorBase: 129, type: 'cert_exam' },
+      { key: 'studyGuide', label: 'Study Guide', vendorBase: 54, type: 'study_guide' },
+      { key: 'practiceTest', label: 'Practice Test', vendorBase: 49, type: 'practice_test' },
+      { key: 'examPrepPackage', label: 'Exam Prep Package', vendorBase: 84, type: 'exam_prep' },
+      {
+        key: 'certificationExam',
+        label: 'Certification Exam (CET)',
+        vendorBase: 129,
+        type: 'cert_exam',
+      },
     ],
   },
 
   phlebotomy: {
-    key:     'phlebotomy',
-    label:   'Phlebotomy Technician',
+    key: 'phlebotomy',
+    label: 'Phlebotomy Technician',
     tagline: 'Includes exam prep and learner support',
     featured: true,
     paymentPlanThreshold: 499,
     products: [
-      { key: 'studyGuide',        label: 'Study Guide',          vendorBase: 54,  type: 'study_guide'  },
-      { key: 'practiceTest',      label: 'Practice Test',        vendorBase: 49,  type: 'practice_test' },
-      { key: 'examPrepPackage',   label: 'Exam Prep Package',    vendorBase: 84,  type: 'exam_prep'    },
-      { key: 'certificationExam', label: 'Certification Exam (CPT)', vendorBase: 129, type: 'cert_exam' },
+      { key: 'studyGuide', label: 'Study Guide', vendorBase: 54, type: 'study_guide' },
+      { key: 'practiceTest', label: 'Practice Test', vendorBase: 49, type: 'practice_test' },
+      { key: 'examPrepPackage', label: 'Exam Prep Package', vendorBase: 84, type: 'exam_prep' },
+      {
+        key: 'certificationExam',
+        label: 'Certification Exam (CPT)',
+        vendorBase: 129,
+        type: 'cert_exam',
+      },
     ],
   },
 
   patientCareTechnician: {
-    key:     'patientCareTechnician',
-    label:   'Patient Care Technician',
+    key: 'patientCareTechnician',
+    label: 'Patient Care Technician',
     tagline: 'Includes exam prep and learner support',
     featured: false,
     paymentPlanThreshold: 499,
     bundledDiscountedBase: 499,
     products: [
-      { key: 'prepMaterials',       label: 'Prep Materials',                  vendorBase: 84,  type: 'core_module'       },
-      { key: 'certificationExam',   label: 'Certification Exam (CPCT/A)',      vendorBase: 165, type: 'cert_exam'          },
-      { key: 'medicalTerminology',  label: 'Medical Terminology',              vendorBase: 75,  type: 'core_module'       },
-      { key: 'anatomyPhysiology',   label: 'Anatomy & Physiology',             vendorBase: 75,  type: 'core_module'       },
-      { key: 'pctSkillsBuilderPlus',label: 'PCT SkillsBuilder Plus',           vendorBase: 129, type: 'competency_module' },
-      { key: 'personAbility',       label: 'PersonAbility',                    vendorBase: 80,  type: 'professional_module'},
+      { key: 'prepMaterials', label: 'Prep Materials', vendorBase: 84, type: 'core_module' },
+      {
+        key: 'certificationExam',
+        label: 'Certification Exam (CPCT/A)',
+        vendorBase: 165,
+        type: 'cert_exam',
+      },
+      {
+        key: 'medicalTerminology',
+        label: 'Medical Terminology',
+        vendorBase: 75,
+        type: 'core_module',
+      },
+      {
+        key: 'anatomyPhysiology',
+        label: 'Anatomy & Physiology',
+        vendorBase: 75,
+        type: 'core_module',
+      },
+      {
+        key: 'pctSkillsBuilderPlus',
+        label: 'PCT SkillsBuilder Plus',
+        vendorBase: 129,
+        type: 'competency_module',
+      },
+      { key: 'personAbility', label: 'PersonAbility', vendorBase: 80, type: 'professional_module' },
     ],
   },
 
   pharmacyTechnician: {
-    key:     'pharmacyTechnician',
-    label:   'Pharmacy Technician',
+    key: 'pharmacyTechnician',
+    label: 'Pharmacy Technician',
     tagline: 'Includes exam prep and learner support',
     featured: true,
     paymentPlanThreshold: 499,
     bundledDiscountedBase: 555,
     products: [
       // retailOverride: formula produces $139 (1.45 × $89 = $129.05 → $139) but target is $129
-      { key: 'prepMaterials',     label: 'Prep Materials',              vendorBase: 89,  type: 'core_module',         retailOverride: 129 },
-      { key: 'certificationExam', label: 'Certification Exam (ExCPT)',   vendorBase: 129, type: 'cert_exam'            },
+      {
+        key: 'prepMaterials',
+        label: 'Prep Materials',
+        vendorBase: 89,
+        type: 'core_module',
+        retailOverride: 129,
+      },
+      {
+        key: 'certificationExam',
+        label: 'Certification Exam (ExCPT)',
+        vendorBase: 129,
+        type: 'cert_exam',
+      },
       // retailOverride: formula produces $439 (1.5 × $289 = $433.50 → $439) but target is $419
-      { key: 'pharmaSeer',        label: 'PharmaSeer',                   vendorBase: 289, type: 'professional_module', retailOverride: 419 },
-      { key: 'pharmaSeerMath',    label: 'PharmaSeer Math',              vendorBase: 125, type: 'professional_module' },
-      { key: 'personAbility',     label: 'PersonAbility',                vendorBase: 80,  type: 'professional_module' },
+      {
+        key: 'pharmaSeer',
+        label: 'PharmaSeer',
+        vendorBase: 289,
+        type: 'professional_module',
+        retailOverride: 419,
+      },
+      {
+        key: 'pharmaSeerMath',
+        label: 'PharmaSeer Math',
+        vendorBase: 125,
+        type: 'professional_module',
+      },
+      { key: 'personAbility', label: 'PersonAbility', vendorBase: 80, type: 'professional_module' },
     ],
   },
-
 } as const satisfies Record<string, NhaProgram>;
 
 // ─── Ordered lists for rendering ─────────────────────────────────────────────
@@ -283,10 +385,8 @@ export function getProgramDisplayPrice(programKey: keyof typeof NHA_PROGRAMS): n
  * Keyed by product key for easy lookup in components.
  */
 export function getAlaCarteRetailPrices(
-  programKey: keyof typeof NHA_PROGRAMS
+  programKey: keyof typeof NHA_PROGRAMS,
 ): Record<string, number> {
   const program = NHA_PROGRAMS[programKey];
-  return Object.fromEntries(
-    program.products.map(p => [p.key, getRetailPrice(p)])
-  );
+  return Object.fromEntries(program.products.map((p) => [p.key, getRetailPrice(p)]));
 }

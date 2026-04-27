@@ -24,7 +24,8 @@ export function AdminAIAssistant() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "Hi — I'm your admin operations assistant.\n\nAsk me anything about live data: applications, enrollments, revenue, students, programs, compliance. I can also help you navigate to the right page.",
+      content:
+        "Hi — I'm your admin operations assistant.\n\nAsk me anything about live data: applications, enrollments, revenue, students, programs, compliance. I can also help you navigate to the right page.",
       ts: new Date().toISOString(),
     },
   ]);
@@ -43,41 +44,50 @@ export function AdminAIAssistant() {
     if (open && !minimized) inputRef.current?.focus();
   }, [open, minimized]);
 
-  const send = useCallback(async (text?: string) => {
-    const msg = (text ?? input).trim();
-    if (!msg || loading) return;
-    setInput('');
+  const send = useCallback(
+    async (text?: string) => {
+      const msg = (text ?? input).trim();
+      if (!msg || loading) return;
+      setInput('');
 
-    const userMsg: Message = { role: 'user', content: msg, ts: new Date().toISOString() };
-    const next = [...messages, userMsg];
-    setMessages(next);
-    setLoading(true);
+      const userMsg: Message = { role: 'user', content: msg, ts: new Date().toISOString() };
+      const next = [...messages, userMsg];
+      setMessages(next);
+      setLoading(true);
 
-    try {
-      const res = await fetch('/api/admin/ai-assistant', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          message: msg,
-          history: next.slice(-10).map(m => ({ role: m.role, content: m.content })),
-        }),
-      });
-      const data = await res.json();
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: data.reply ?? 'No response.',
-        ts: new Date().toISOString(),
-      }]);
-    } catch {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: 'Could not reach the assistant. Check your connection.',
-        ts: new Date().toISOString(),
-      }]);
-    } finally {
-      setLoading(false);
-    }
-  }, [input, loading, messages]);
+      try {
+        const res = await fetch('/api/admin/ai-assistant', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            message: msg,
+            history: next.slice(-10).map((m) => ({ role: m.role, content: m.content })),
+          }),
+        });
+        const data = await res.json();
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'assistant',
+            content: data.reply ?? 'No response.',
+            ts: new Date().toISOString(),
+          },
+        ]);
+      } catch {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'assistant',
+            content: 'Could not reach the assistant. Check your connection.',
+            ts: new Date().toISOString(),
+          },
+        ]);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [input, loading, messages],
+  );
 
   function handleKey(e: React.KeyboardEvent<HTMLTextAreaElement>) {
     if (e.key === 'Enter' && !e.shiftKey) {
@@ -106,10 +116,12 @@ export function AdminAIAssistant() {
   }
 
   return (
-    <div className={`fixed z-40 flex flex-col bg-white shadow-2xl transition-all duration-200
-      ${minimized
-        ? 'bottom-20 right-4 lg:bottom-6 lg:right-6 h-14 w-72 rounded-2xl border border-slate-200'
-        : 'bottom-0 right-0 left-0 h-[70vh] rounded-t-2xl border-t border-slate-200 sm:bottom-20 sm:right-4 sm:left-auto sm:h-[600px] sm:w-96 sm:max-h-[85vh] sm:rounded-2xl sm:border lg:bottom-6 lg:right-6'
+    <div
+      className={`fixed z-40 flex flex-col bg-white shadow-2xl transition-all duration-200
+      ${
+        minimized
+          ? 'bottom-20 right-4 lg:bottom-6 lg:right-6 h-14 w-72 rounded-2xl border border-slate-200'
+          : 'bottom-0 right-0 left-0 h-[70vh] rounded-t-2xl border-t border-slate-200 sm:bottom-20 sm:right-4 sm:left-auto sm:h-[600px] sm:w-96 sm:max-h-[85vh] sm:rounded-2xl sm:border lg:bottom-6 lg:right-6'
       }`}
     >
       {/* Header */}
@@ -123,10 +135,14 @@ export function AdminAIAssistant() {
         </div>
         <div className="flex items-center gap-1">
           <button
-            onClick={() => setMinimized(m => !m)}
+            onClick={() => setMinimized((m) => !m)}
             className="p-1.5 rounded-lg text-slate-400 hover:text-white hover:bg-slate-700 transition-colors"
           >
-            {minimized ? <Maximize2 className="w-3.5 h-3.5" /> : <Minimize2 className="w-3.5 h-3.5" />}
+            {minimized ? (
+              <Maximize2 className="w-3.5 h-3.5" />
+            ) : (
+              <Minimize2 className="w-3.5 h-3.5" />
+            )}
           </button>
           <button
             onClick={() => setOpen(false)}
@@ -141,7 +157,7 @@ export function AdminAIAssistant() {
         <>
           {/* Quick prompts */}
           <div className="px-3 py-2 border-b border-slate-100 flex flex-wrap gap-1.5 flex-shrink-0">
-            {QUICK_PROMPTS.map(p => (
+            {QUICK_PROMPTS.map((p) => (
               <button
                 key={p}
                 onClick={() => send(p)}
@@ -156,12 +172,17 @@ export function AdminAIAssistant() {
           {/* Messages */}
           <div className="flex-1 overflow-y-auto px-4 py-3 space-y-4 min-h-0">
             {messages.map((m, i) => (
-              <div key={i} className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}>
-                <div className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed whitespace-pre-wrap ${
-                  m.role === 'user'
-                    ? 'bg-slate-900 text-white rounded-br-sm'
-                    : 'bg-slate-100 text-slate-800 rounded-bl-sm'
-                }`}>
+              <div
+                key={i}
+                className={`flex flex-col ${m.role === 'user' ? 'items-end' : 'items-start'}`}
+              >
+                <div
+                  className={`max-w-[88%] rounded-2xl px-3.5 py-2.5 text-xs leading-relaxed whitespace-pre-wrap ${
+                    m.role === 'user'
+                      ? 'bg-slate-900 text-white rounded-br-sm'
+                      : 'bg-slate-100 text-slate-800 rounded-bl-sm'
+                  }`}
+                >
                   {m.content}
                 </div>
                 {m.ts && (
@@ -185,7 +206,7 @@ export function AdminAIAssistant() {
             <textarea
               ref={inputRef}
               value={input}
-              onChange={e => setInput(e.target.value)}
+              onChange={(e) => setInput(e.target.value)}
               onKeyDown={handleKey}
               placeholder="Ask about applications, revenue, students… (Enter to send)"
               disabled={loading}

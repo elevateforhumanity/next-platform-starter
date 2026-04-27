@@ -35,7 +35,10 @@ async function getFFmpeg() {
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const LESSON_ID = 'b500b9d3-cf78-42d3-ba91-cb2b33c9eecf';
-const INSTRUCTOR_PHOTO = path.join(process.cwd(), 'public/images/team/elizabeth-greene-headshot.jpg');
+const INSTRUCTOR_PHOTO = path.join(
+  process.cwd(),
+  'public/images/team/elizabeth-greene-headshot.jpg',
+);
 const INSTRUCTOR_NAME = 'Elizabeth Greene';
 const INSTRUCTOR_TITLE = 'Founder & Program Director';
 const VOICE = 'nova'; // Angela's voice
@@ -46,8 +49,8 @@ const HEIGHT = 1080;
 interface LessonScene {
   id: string;
   slideTitle: string;
-  slideText: string;       // displayed on screen
-  narration: string;       // spoken by TTS (can differ from displayed text)
+  slideText: string; // displayed on screen
+  narration: string; // spoken by TTS (can differ from displayed text)
   accentColor?: string;
 }
 
@@ -254,11 +257,7 @@ const SCENES: LessonScene[] = [
   },
 ];
 
-async function renderScene(
-  scene: LessonScene,
-  index: number,
-  tempDir: string
-): Promise<string> {
+async function renderScene(scene: LessonScene, index: number, tempDir: string): Promise<string> {
   const sceneDir = path.join(tempDir, `scene-${index}`);
   await fs.mkdir(sceneDir, { recursive: true });
 
@@ -284,20 +283,15 @@ async function renderScene(
 
   // 2. Create composite frame (slide + instructor avatar)
   console.log(`  [${index + 1}/${SCENES.length}] Frame: ${WIDTH}x${HEIGHT}, ${audioDuration}s`);
-  const frameBuffer = await createInstructorCompositeFrame(
-    scene.slideText,
-    WIDTH,
-    HEIGHT,
-    {
-      instructorImagePath: INSTRUCTOR_PHOTO,
-      instructorName: INSTRUCTOR_NAME,
-      instructorTitle: INSTRUCTOR_TITLE,
-      slideTitle: scene.slideTitle,
-      accentColor: scene.accentColor,
-      fontSize: 54,
-      titleFontSize: 72,
-    }
-  );
+  const frameBuffer = await createInstructorCompositeFrame(scene.slideText, WIDTH, HEIGHT, {
+    instructorImagePath: INSTRUCTOR_PHOTO,
+    instructorName: INSTRUCTOR_NAME,
+    instructorTitle: INSTRUCTOR_TITLE,
+    slideTitle: scene.slideTitle,
+    accentColor: scene.accentColor,
+    fontSize: 54,
+    titleFontSize: 72,
+  });
   const framePath = path.join(sceneDir, 'frame.png');
   await fs.writeFile(framePath, frameBuffer);
 
@@ -309,18 +303,29 @@ async function renderScene(
       .inputOptions(['-loop', '1'])
       .input(audioPath)
       .outputOptions([
-        '-map', '0:v',
-        '-map', '1:a',
-        '-c:v', 'libx264',
-        '-crf', '20',
-        '-preset', 'fast',
-        '-r', '30',
-        '-t', audioDuration.toString(),
-        '-pix_fmt', 'yuv420p',
-        '-c:a', 'aac',
-        '-b:a', '128k',
+        '-map',
+        '0:v',
+        '-map',
+        '1:a',
+        '-c:v',
+        'libx264',
+        '-crf',
+        '20',
+        '-preset',
+        'fast',
+        '-r',
+        '30',
+        '-t',
+        audioDuration.toString(),
+        '-pix_fmt',
+        'yuv420p',
+        '-c:a',
+        'aac',
+        '-b:a',
+        '128k',
         '-shortest',
-        '-movflags', '+faststart',
+        '-movflags',
+        '+faststart',
       ])
       .output(videoPath)
       .on('end', () => resolve())
@@ -329,7 +334,9 @@ async function renderScene(
   });
 
   const stat = await fs.stat(videoPath);
-  console.log(`  [${index + 1}/${SCENES.length}] Done: ${(stat.size / 1024 / 1024).toFixed(1)} MB, ${audioDuration}s`);
+  console.log(
+    `  [${index + 1}/${SCENES.length}] Done: ${(stat.size / 1024 / 1024).toFixed(1)} MB, ${audioDuration}s`,
+  );
   return videoPath;
 }
 
@@ -404,38 +411,34 @@ async function main() {
   const videoBuffer = await fs.readFile(outputPath);
   const storagePath = 'lessons/bookkeeping-lesson-001.mp4';
 
-  const uploadRes = await fetch(
-    `${SUPABASE_URL}/storage/v1/object/media/${storagePath}`,
-    {
-      method: 'PUT',
-      headers: {
-        Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
-        'Content-Type': 'video/mp4',
-        'x-upsert': 'true',
-      },
-      body: videoBuffer,
-    }
-  );
+  const uploadRes = await fetch(`${SUPABASE_URL}/storage/v1/object/media/${storagePath}`, {
+    method: 'PUT',
+    headers: {
+      Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+      'Content-Type': 'video/mp4',
+      'x-upsert': 'true',
+    },
+    body: videoBuffer,
+  });
 
   if (uploadRes.ok) {
     const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/media/${storagePath}`;
     console.log(`✅ Uploaded: ${publicUrl}`);
 
     // Update lesson row
-    const updateRes = await fetch(
-      `${SUPABASE_URL}/rest/v1/training_lessons?id=eq.${LESSON_ID}`,
-      {
-        method: 'PATCH',
-        headers: {
-          apikey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
-          Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
-          'Content-Type': 'application/json',
-          Prefer: 'return=minimal',
-        },
-        body: JSON.stringify({ video_url: publicUrl }),
-      }
+    const updateRes = await fetch(`${SUPABASE_URL}/rest/v1/training_lessons?id=eq.${LESSON_ID}`, {
+      method: 'PATCH',
+      headers: {
+        apikey: process.env.SUPABASE_SERVICE_ROLE_KEY!,
+        Authorization: `Bearer ${process.env.SUPABASE_SERVICE_ROLE_KEY}`,
+        'Content-Type': 'application/json',
+        Prefer: 'return=minimal',
+      },
+      body: JSON.stringify({ video_url: publicUrl }),
+    });
+    console.log(
+      updateRes.ok ? '✅ Lesson row updated' : `⚠️ Lesson update failed: ${await updateRes.text()}`,
     );
-    console.log(updateRes.ok ? '✅ Lesson row updated' : `⚠️ Lesson update failed: ${await updateRes.text()}`);
   } else {
     console.error('Upload failed:', await uploadRes.text());
   }

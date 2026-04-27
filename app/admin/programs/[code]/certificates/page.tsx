@@ -8,13 +8,26 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = { title: 'Program Certificates | Elevate Admin' };
 
-export default async function ProgramCertificatesPage({ params }: { params: Promise<{ code: string }> }) {
+export default async function ProgramCertificatesPage({
+  params,
+}: {
+  params: Promise<{ code: string }>;
+}) {
   const { code } = await params;
   await requireAdmin();
   const supabase = await createClient();
 
-  const { data: program } = await supabase.from('programs').select('id, title').or(`code.eq.${code},slug.eq.${code}`).maybeSingle();
-  if (!program) return <div className="p-8"><h1 className="text-2xl font-bold">Program not found</h1></div>;
+  const { data: program } = await supabase
+    .from('programs')
+    .select('id, title')
+    .or(`code.eq.${code},slug.eq.${code}`)
+    .maybeSingle();
+  if (!program)
+    return (
+      <div className="p-8">
+        <h1 className="text-2xl font-bold">Program not found</h1>
+      </div>
+    );
 
   const { data: certs } = await supabase
     .from('certificates')
@@ -27,9 +40,17 @@ export default async function ProgramCertificatesPage({ params }: { params: Prom
     <div className="max-w-7xl mx-auto px-4 py-8">
       <nav className="text-sm mb-4">
         <ol className="flex items-center space-x-2 text-slate-700">
-          <li><Link href="/admin/programs" className="hover:text-brand-blue-600">Programs</Link></li>
+          <li>
+            <Link href="/admin/programs" className="hover:text-brand-blue-600">
+              Programs
+            </Link>
+          </li>
           <li>/</li>
-          <li><Link href={`/admin/programs/${code}/dashboard`} className="hover:text-brand-blue-600">{program.title}</Link></li>
+          <li>
+            <Link href={`/admin/programs/${code}/dashboard`} className="hover:text-brand-blue-600">
+              {program.title}
+            </Link>
+          </li>
           <li>/</li>
           <li className="text-slate-900 font-medium">Certificates</li>
         </ol>
@@ -45,11 +66,13 @@ export default async function ProgramCertificatesPage({ params }: { params: Prom
         </Link>
       </div>
 
-      {(!certs || certs.length === 0) ? (
+      {!certs || certs.length === 0 ? (
         <div className="bg-white rounded-lg border p-12 text-center">
           <Award className="w-12 h-12 text-slate-700 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-slate-900 mb-2">No certificates issued</h3>
-          <p className="text-slate-700">Certificates will appear here once students complete this program.</p>
+          <p className="text-slate-700">
+            Certificates will appear here once students complete this program.
+          </p>
         </div>
       ) : (
         <div className="bg-white rounded-lg border overflow-hidden">
@@ -65,13 +88,26 @@ export default async function ProgramCertificatesPage({ params }: { params: Prom
             <tbody className="divide-y">
               {certs.map((cert: any) => (
                 <tr key={cert.id} className="hover:bg-gray-50">
-                  <td className="px-4 py-3 font-mono text-xs text-slate-900">{cert.id?.slice(0, 12)}...</td>
-                  <td className="px-4 py-3 text-slate-900">{cert.student_name || cert.user_id?.slice(0, 8)}</td>
-                  <td className="px-4 py-3 text-slate-700">{cert.created_at ? new Date(cert.created_at).toLocaleDateString() : '—'}</td>
+                  <td className="px-4 py-3 font-mono text-xs text-slate-900">
+                    {cert.id?.slice(0, 12)}...
+                  </td>
+                  <td className="px-4 py-3 text-slate-900">
+                    {cert.student_name || cert.user_id?.slice(0, 8)}
+                  </td>
+                  <td className="px-4 py-3 text-slate-700">
+                    {cert.created_at ? new Date(cert.created_at).toLocaleDateString() : '—'}
+                  </td>
                   <td className="px-4 py-3">
                     {cert.verification_token ? (
-                      <Link href={`/verify/${cert.verification_token}`} className="text-brand-blue-600 hover:underline text-xs">Verify</Link>
-                    ) : '—'}
+                      <Link
+                        href={`/verify/${cert.verification_token}`}
+                        className="text-brand-blue-600 hover:underline text-xs"
+                      >
+                        Verify
+                      </Link>
+                    ) : (
+                      '—'
+                    )}
                   </td>
                 </tr>
               ))}

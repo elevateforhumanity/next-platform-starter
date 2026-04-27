@@ -1,6 +1,6 @@
 /**
  * Apply Agreement Migration via Direct SQL
- * 
+ *
  * Usage: npx tsx scripts/apply-migration-direct.ts
  */
 
@@ -17,14 +17,14 @@ async function applyMigration() {
   }
 
   const client = new pg.Client({ connectionString: DATABASE_URL });
-  
+
   try {
     await client.connect();
     console.log('✅ Connected to database\n');
 
     // Drop and recreate tables
     console.log('📝 Creating license_agreement_acceptances table...');
-    
+
     await client.query(`
       DROP TABLE IF EXISTS license_agreement_acceptances CASCADE;
       
@@ -80,7 +80,7 @@ async function applyMigration() {
 
     // Create RLS policies
     console.log('📝 Creating RLS policies...');
-    
+
     await client.query(`
       DROP POLICY IF EXISTS "Users can view own acceptances" ON license_agreement_acceptances;
       CREATE POLICY "Users can view own acceptances" 
@@ -169,7 +169,7 @@ async function applyMigration() {
 
     // Verify
     console.log('\n🔍 Verifying migration...');
-    
+
     const { rows: acceptanceCount } = await client.query(`
       SELECT COUNT(*) as count FROM license_agreement_acceptances;
     `);
@@ -184,7 +184,6 @@ async function applyMigration() {
     }
 
     console.log('\n✅ Migration completed successfully!\n');
-
   } catch (err) {
     console.error('❌ Migration failed:', err);
     process.exit(1);

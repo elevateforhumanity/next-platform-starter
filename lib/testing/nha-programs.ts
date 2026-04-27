@@ -25,96 +25,92 @@
  */
 
 import type { NhaProgramAgreement, NhaProgramWithPricing } from '@/types/nha';
-import {
-  NHA_PROGRAMS,
-  getBundleRetailPrice,
-  markupPrice,
-} from './nha-pricing';
+import { NHA_PROGRAMS, getBundleRetailPrice, markupPrice } from './nha-pricing';
 
 // ─── Agreement data ───────────────────────────────────────────────────────────
 
 export const NHA_PROGRAM_AGREEMENTS: NhaProgramAgreement[] = [
   {
-    key:                 'medical_assistant',
-    label:               'Medical Assistant',
-    credential:          'CCMA',
-    pathway:             'training_program',
+    key: 'medical_assistant',
+    label: 'Medical Assistant',
+    credential: 'CCMA',
+    pathway: 'training_program',
     prepMaterialPayment: 'institution',
-    examDelivery:        'online',
-    examAttemptPayment:  'institution',
-    retakePayment:       'candidate',
-    adminNotes:          'Highest-demand program. Lead with this. Bundle base $704.80.',
+    examDelivery: 'online',
+    examAttemptPayment: 'institution',
+    retakePayment: 'candidate',
+    adminNotes: 'Highest-demand program. Lead with this. Bundle base $704.80.',
   },
   {
-    key:                 'pharmacy',
-    label:               'Pharmacy Technician',
-    credential:          'ExCPT',
-    pathway:             'training_program',
+    key: 'pharmacy',
+    label: 'Pharmacy Technician',
+    credential: 'ExCPT',
+    pathway: 'training_program',
     prepMaterialPayment: 'institution',
-    examDelivery:        'online',
-    examAttemptPayment:  'institution',
-    retakePayment:       'candidate',
-    adminNotes:          'PharmaSeer is the differentiator — include in bundle pitch.',
+    examDelivery: 'online',
+    examAttemptPayment: 'institution',
+    retakePayment: 'candidate',
+    adminNotes: 'PharmaSeer is the differentiator — include in bundle pitch.',
   },
   {
-    key:                 'phlebotomy',
-    label:               'Phlebotomy Technician',
-    credential:          'CPT',
-    pathway:             'training_program',
+    key: 'phlebotomy',
+    label: 'Phlebotomy Technician',
+    credential: 'CPT',
+    pathway: 'training_program',
     prepMaterialPayment: 'institution',
-    examDelivery:        'online',
-    examAttemptPayment:  'institution',
-    retakePayment:       'candidate',
+    examDelivery: 'online',
+    examAttemptPayment: 'institution',
+    retakePayment: 'candidate',
   },
   {
-    key:                 'billing_coding',
-    label:               'Billing and Coding',
-    credential:          'CBCS',
-    pathway:             'training_program',
+    key: 'billing_coding',
+    label: 'Billing and Coding',
+    credential: 'CBCS',
+    pathway: 'training_program',
     prepMaterialPayment: 'institution',
-    examDelivery:        'online',
-    examAttemptPayment:  'institution',
-    retakePayment:       'candidate',
+    examDelivery: 'online',
+    examAttemptPayment: 'institution',
+    retakePayment: 'candidate',
   },
   {
-    key:                 'patient_care',
-    label:               'Patient Care Technician',
-    credential:          'CPCT/A',
-    pathway:             'training_program',
+    key: 'patient_care',
+    label: 'Patient Care Technician',
+    credential: 'CPCT/A',
+    pathway: 'training_program',
     prepMaterialPayment: 'institution',
-    examDelivery:        'online',
-    examAttemptPayment:  'institution',
-    retakePayment:       'candidate',
+    examDelivery: 'online',
+    examAttemptPayment: 'institution',
+    retakePayment: 'candidate',
   },
   {
-    key:                 'medical_admin',
-    label:               'Medical Administrative Assistant',
-    credential:          'CMAA',
-    pathway:             'training_program',
+    key: 'medical_admin',
+    label: 'Medical Administrative Assistant',
+    credential: 'CMAA',
+    pathway: 'training_program',
     prepMaterialPayment: 'institution',
-    examDelivery:        'online',
-    examAttemptPayment:  'institution',
-    retakePayment:       'candidate',
+    examDelivery: 'online',
+    examAttemptPayment: 'institution',
+    retakePayment: 'candidate',
   },
   {
-    key:                 'ehr',
-    label:               'Electronic Health Records',
-    credential:          'CEHRS',
-    pathway:             'training_program',
+    key: 'ehr',
+    label: 'Electronic Health Records',
+    credential: 'CEHRS',
+    pathway: 'training_program',
     prepMaterialPayment: 'institution',
-    examDelivery:        'online',
-    examAttemptPayment:  'institution',
-    retakePayment:       'candidate',
+    examDelivery: 'online',
+    examAttemptPayment: 'institution',
+    retakePayment: 'candidate',
   },
   {
-    key:                 'ekg',
-    label:               'EKG Technician',
-    credential:          'CET',
-    pathway:             'training_program',
+    key: 'ekg',
+    label: 'EKG Technician',
+    credential: 'CET',
+    pathway: 'training_program',
     prepMaterialPayment: 'institution',
-    examDelivery:        'online',
-    examAttemptPayment:  'institution',
-    retakePayment:       'candidate',
+    examDelivery: 'online',
+    examAttemptPayment: 'institution',
+    retakePayment: 'candidate',
   },
 ];
 
@@ -126,13 +122,13 @@ export const NHA_PROGRAM_AGREEMENTS: NhaProgramAgreement[] = [
  */
 const AGREEMENT_TO_PRICING_KEY: Record<string, keyof typeof NHA_PROGRAMS> = {
   medical_assistant: 'medicalAssistant',
-  pharmacy:          'pharmacyTechnician',
-  phlebotomy:        'phlebotomy',
-  billing_coding:    'billingAndCoding',
-  patient_care:      'patientCareTechnician',
-  medical_admin:     'medicalAdminAssistant',
-  ehr:               'electronicHealthRecords',
-  ekg:               'ekgTechnician',
+  pharmacy: 'pharmacyTechnician',
+  phlebotomy: 'phlebotomy',
+  billing_coding: 'billingAndCoding',
+  patient_care: 'patientCareTechnician',
+  medical_admin: 'medicalAdminAssistant',
+  ehr: 'electronicHealthRecords',
+  ekg: 'ekgTechnician',
 };
 
 // ─── Pricing bridge ───────────────────────────────────────────────────────────
@@ -144,7 +140,7 @@ const AGREEMENT_TO_PRICING_KEY: Record<string, keyof typeof NHA_PROGRAMS> = {
  */
 function getCertExamVendorBase(pricingKey: keyof typeof NHA_PROGRAMS): number {
   const program = NHA_PROGRAMS[pricingKey];
-  const certProduct = program.products.find(p => p.key === 'certificationExam');
+  const certProduct = program.products.find((p) => p.key === 'certificationExam');
   return certProduct?.vendorBase ?? 129; // $129 is the standard NHA cert exam cost
 }
 
@@ -168,19 +164,18 @@ function getRetakeFee(pricingKey: keyof typeof NHA_PROGRAMS): number {
  * between agreement metadata and the pricing engine.
  */
 export function getProgramWithPricing(agreementKey: string): NhaProgramWithPricing | null {
-  const agreement  = NHA_PROGRAM_AGREEMENTS.find(p => p.key === agreementKey);
+  const agreement = NHA_PROGRAM_AGREEMENTS.find((p) => p.key === agreementKey);
   if (!agreement) return null;
 
   const pricingKey = AGREEMENT_TO_PRICING_KEY[agreementKey];
   if (!pricingKey) return null;
 
-  const program          = NHA_PROGRAMS[pricingKey];
-  const bundleRetail     = getBundleRetailPrice(program);
-  const retakeFee        = getRetakeFee(pricingKey);
-  const vendorBase       = program.bundledDiscountedBase ?? null;
-  const bundleMargin     = bundleRetail != null && vendorBase != null
-    ? (bundleRetail - vendorBase) / bundleRetail
-    : null;
+  const program = NHA_PROGRAMS[pricingKey];
+  const bundleRetail = getBundleRetailPrice(program);
+  const retakeFee = getRetakeFee(pricingKey);
+  const vendorBase = program.bundledDiscountedBase ?? null;
+  const bundleMargin =
+    bundleRetail != null && vendorBase != null ? (bundleRetail - vendorBase) / bundleRetail : null;
 
   return {
     ...agreement,
@@ -195,9 +190,9 @@ export function getProgramWithPricing(agreementKey: string): NhaProgramWithPrici
  * Use this for admin dashboards and full catalog views.
  */
 export function getAllProgramsWithPricing(): NhaProgramWithPricing[] {
-  return NHA_PROGRAM_AGREEMENTS
-    .map(a => getProgramWithPricing(a.key))
-    .filter((p): p is NhaProgramWithPricing => p !== null);
+  return NHA_PROGRAM_AGREEMENTS.map((a) => getProgramWithPricing(a.key)).filter(
+    (p): p is NhaProgramWithPricing => p !== null,
+  );
 }
 
 // ─── Checkout rules ───────────────────────────────────────────────────────────
@@ -225,8 +220,8 @@ export function getRetakeChargeAmount(agreementKey: string): number | null {
 
 const RESPONSIBILITY_LABELS: Record<string, string> = {
   institution: 'Institution Paid',
-  candidate:   'Candidate Paid',
-  split:       'Split',
+  candidate: 'Candidate Paid',
+  split: 'Split',
 };
 
 export function formatResponsibility(r: string): string {

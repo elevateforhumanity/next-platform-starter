@@ -6,7 +6,7 @@
   /* =====================================================
      GLOBAL PRINT STYLES
      ===================================================== */
-  
+
   * {
     -webkit-print-color-adjust: exact !important;
     print-color-adjust: exact !important;
@@ -47,7 +47,7 @@
   /* =====================================================
      PAGE SETUP
      ===================================================== */
-  
+
   @page {
     size: A4;
     margin: 2cm;
@@ -60,7 +60,7 @@
   /* =====================================================
      CERTIFICATE STYLES
      ===================================================== */
-  
+
   .certificate {
     page-break-after: always;
     page-break-inside: avoid;
@@ -187,7 +187,7 @@
   /* =====================================================
      REPORT STYLES
      ===================================================== */
-  
+
   .report {
     page-break-after: always;
   }
@@ -241,7 +241,7 @@
   /* =====================================================
      TABLE STYLES
      ===================================================== */
-  
+
   table {
     width: 100%;
     border-collapse: collapse;
@@ -283,7 +283,7 @@
   /* =====================================================
      GRADE REPORT STYLES
      ===================================================== */
-  
+
   .grade-report {
     page-break-after: always;
   }
@@ -358,7 +358,7 @@
   /* =====================================================
      TRANSCRIPT STYLES
      ===================================================== */
-  
+
   .transcript {
     page-break-after: always;
   }
@@ -434,7 +434,7 @@
   /* =====================================================
      PROGRESS REPORT STYLES
      ===================================================== */
-  
+
   .progress-report {
     page-break-after: always;
   }
@@ -484,7 +484,7 @@
   /* =====================================================
      ATTENDANCE REPORT STYLES
      ===================================================== */
-  
+
   .attendance-report {
     page-break-after: always;
   }
@@ -542,7 +542,7 @@
   /* =====================================================
      UTILITY CLASSES
      ===================================================== */
-  
+
   .page-break {
     page-break-after: always;
   }
@@ -579,27 +579,27 @@
   /* =====================================================
      LINKS AND COLORS
      ===================================================== */
-  
+
   a {
     color: #2c5282;
     text-decoration: none;
   }
 
   a[href]:after {
-    content: " (" attr(href) ")";
+    content: ' (' attr(href) ')';
     font-size: 9pt;
     color: #718096;
   }
 
-  a[href^="#"]:after,
-  a[href^="javascript:"]:after {
-    content: "";
+  a[href^='#']:after,
+  a[href^='javascript:']:after {
+    content: '';
   }
 
   /* =====================================================
      IMAGES
      ===================================================== */
-  
+
   img {
     max-width: 100%;
     height: auto;
@@ -613,7 +613,7 @@
   /* =====================================================
      FOOTER FOR ALL PAGES
      ===================================================== */
-  
+
   .print-footer {
     position: fixed;
     bottom: 0;
@@ -627,13 +627,13 @@
   }
 
   .print-footer::after {
-    content: "Page " counter(page) " of " counter(pages);
+    content: 'Page ' counter(page) ' of ' counter(pages);
   }
 
   /* =====================================================
      QR CODE AND VERIFICATION
      ===================================================== */
-  
+
   .verification-section {
     margin-top: 2cm;
     padding-top: 0.5cm;

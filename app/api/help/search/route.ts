@@ -13,9 +13,9 @@ export const dynamic = 'force-dynamic';
 
 async function _GET(request: Request) {
   const supabase = await getAdminClient();
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const { searchParams } = new URL(request.url);
   const q = searchParams.get('q') || '';
 

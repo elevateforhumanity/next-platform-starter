@@ -55,12 +55,7 @@
               },
               {
                 "prompt": "How many total hours must a barber apprentice complete in Indiana to qualify for the state board exam?",
-                "choices": [
-                  "1,000 hours",
-                  "1,200 hours",
-                  "1,500 hours",
-                  "2,000 hours"
-                ],
+                "choices": ["1,000 hours", "1,200 hours", "1,500 hours", "2,000 hours"],
                 "answerIndex": 2,
                 "rationale": "The Indiana State Board requires 1,500 hours of training for licensure eligibility.",
                 "type": "recall"
@@ -398,12 +393,7 @@
               },
               {
                 "prompt": "According to OSHA standards, which item is considered personal protective equipment (PPE) for barbers?",
-                "choices": [
-                  "Apron",
-                  "Gloves",
-                  "Hairdryer",
-                  "Scissors"
-                ],
+                "choices": ["Apron", "Gloves", "Hairdryer", "Scissors"],
                 "answerIndex": 1,
                 "rationale": "Gloves are considered PPE as they protect the barber from direct contact with potentially infectious materials.",
                 "type": "recall"
@@ -422,12 +412,7 @@
               },
               {
                 "prompt": "Universal precautions assume that all human blood and certain body fluids are:",
-                "choices": [
-                  "Non-infectious",
-                  "Potentially infectious",
-                  "Sterile",
-                  "Harmless"
-                ],
+                "choices": ["Non-infectious", "Potentially infectious", "Sterile", "Harmless"],
                 "answerIndex": 1,
                 "rationale": "Universal precautions treat all human blood and certain body fluids as potentially infectious to prevent the spread of infections.",
                 "type": "recall"
@@ -735,24 +720,14 @@
               },
               {
                 "prompt": "Which process uses chemical agents to kill bacteria, viruses, and fungi on non-porous surfaces?",
-                "choices": [
-                  "Sanitation",
-                  "Disinfection",
-                  "Sterilization",
-                  "Decontamination"
-                ],
+                "choices": ["Sanitation", "Disinfection", "Sterilization", "Decontamination"],
                 "answerIndex": 1,
                 "rationale": "Disinfection involves using chemical agents to kill pathogens on surfaces.",
                 "type": "recall"
               },
               {
                 "prompt": "What is the most thorough form of decontamination in a barber shop?",
-                "choices": [
-                  "Sanitation",
-                  "Disinfection",
-                  "Sterilization",
-                  "Cleaning"
-                ],
+                "choices": ["Sanitation", "Disinfection", "Sterilization", "Cleaning"],
                 "answerIndex": 2,
                 "rationale": "Sterilization eliminates all forms of microbial life, making it the most thorough decontamination method.",
                 "type": "recall"
@@ -795,12 +770,7 @@
               },
               {
                 "prompt": "Which step is critical to ensure disinfectants work effectively on tools?",
-                "choices": [
-                  "Pre-cleaning",
-                  "Contact time",
-                  "Storage",
-                  "Rinsing"
-                ],
+                "choices": ["Pre-cleaning", "Contact time", "Storage", "Rinsing"],
                 "answerIndex": 1,
                 "rationale": "Allowing the disinfectant to remain on the surface for the recommended contact time is crucial for effectiveness.",
                 "type": "recall"
@@ -843,12 +813,7 @@
               },
               {
                 "prompt": "Which of the following is NOT a part of the disinfection process?",
-                "choices": [
-                  "Pre-cleaning",
-                  "Contact time",
-                  "Rinsing",
-                  "Storage"
-                ],
+                "choices": ["Pre-cleaning", "Contact time", "Rinsing", "Storage"],
                 "answerIndex": 2,
                 "rationale": "Rinsing is not part of the disinfection process; it involves pre-cleaning, contact time, and storage.",
                 "type": "recall"
@@ -1120,12 +1085,7 @@
               },
               {
                 "prompt": "Which item should be discarded immediately after use?",
-                "choices": [
-                  "Metal scissors",
-                  "Clipper blades",
-                  "Neck strips",
-                  "Combs"
-                ],
+                "choices": ["Metal scissors", "Clipper blades", "Neck strips", "Combs"],
                 "answerIndex": 2,
                 "rationale": "Neck strips are single-use items and should be discarded after each client to prevent contamination.",
                 "type": "recall"
@@ -1192,12 +1152,7 @@
               },
               {
                 "prompt": "What is the correct distance to hold the disinfectant spray from clipper blades?",
-                "choices": [
-                  "2 inches",
-                  "4 inches",
-                  "6 inches",
-                  "8 inches"
-                ],
+                "choices": ["2 inches", "4 inches", "6 inches", "8 inches"],
                 "answerIndex": 2,
                 "rationale": "Holding the spray can 6 inches away ensures even coverage and effective disinfection.",
                 "type": "recall"
@@ -1660,12 +1615,7 @@
               },
               {
                 "prompt": "Which of the following items is designed for single use?",
-                "choices": [
-                  "Clippers",
-                  "Neck strip",
-                  "Towel",
-                  "Cape"
-                ],
+                "choices": ["Clippers", "Neck strip", "Towel", "Cape"],
                 "answerIndex": 1,
                 "rationale": "Neck strips are single-use items and should be disposed of after each client to prevent cross-contamination.",
                 "type": "recall"
@@ -1889,12 +1839,7 @@
               },
               {
                 "prompt": "How many hours of apprenticeship are required to become a licensed barber in Indiana?",
-                "choices": [
-                  "1000 hours",
-                  "1200 hours",
-                  "1500 hours",
-                  "2000 hours"
-                ],
+                "choices": ["1000 hours", "1200 hours", "1500 hours", "2000 hours"],
                 "answerIndex": 2,
                 "rationale": "Indiana requires a 1500-hour apprenticeship program to ensure comprehensive training for aspiring barbers.",
                 "type": "recall"
@@ -1913,12 +1858,7 @@
               },
               {
                 "prompt": "Which of the following services is outside the scope of practice for a licensed barber in Indiana?",
-                "choices": [
-                  "Hair cutting",
-                  "Shaving",
-                  "Chemical hair treatments",
-                  "Styling"
-                ],
+                "choices": ["Hair cutting", "Shaving", "Chemical hair treatments", "Styling"],
                 "answerIndex": 2,
                 "rationale": "Chemical hair treatments require additional licensure or certification and are outside the scope of practice for barbers.",
                 "type": "recall"
@@ -2214,24 +2154,14 @@
             "questions": [
               {
                 "prompt": "What does the 'S' in SMART goals stand for?",
-                "choices": [
-                  "Specific",
-                  "Simple",
-                  "Standard",
-                  "Strategic"
-                ],
+                "choices": ["Specific", "Simple", "Standard", "Strategic"],
                 "answerIndex": 0,
                 "rationale": "The 'S' in SMART goals stands for 'Specific,' which means that goals should be clear and well-defined.",
                 "type": "recall"
               },
               {
                 "prompt": "Which of the following is NOT a component of a SMART goal?",
-                "choices": [
-                  "Achievable",
-                  "Measurable",
-                  "Flexible",
-                  "Relevant"
-                ],
+                "choices": ["Achievable", "Measurable", "Flexible", "Relevant"],
                 "answerIndex": 2,
                 "rationale": "SMART goals are Specific, Measurable, Achievable, Relevant, and Time-bound. 'Flexible' is not part of the SMART criteria.",
                 "type": "recall"
@@ -2262,12 +2192,7 @@
               },
               {
                 "prompt": "What percentage of the Indiana state board exam focuses on ethical obligations?",
-                "choices": [
-                  "10%",
-                  "15%",
-                  "20%",
-                  "25%"
-                ],
+                "choices": ["10%", "15%", "20%", "25%"],
                 "answerIndex": 2,
                 "rationale": "Ethical obligations make up approximately 20% of the Indiana state board exam.",
                 "type": "recall"
@@ -2551,12 +2476,7 @@
             "questions": [
               {
                 "prompt": "What percentage of the Indiana State Board Exam focuses on sanitation and infection control?",
-                "choices": [
-                  "15%",
-                  "25%",
-                  "50%",
-                  "10%"
-                ],
+                "choices": ["15%", "25%", "50%", "10%"],
                 "answerIndex": 0,
                 "rationale": "Approximately 15% of the Indiana State Board Exam focuses on sanitation and infection control, testing knowledge of hygiene practices and regulations.",
                 "type": "recall"
@@ -3237,24 +3157,14 @@
               },
               {
                 "prompt": "Which PPE is essential when performing chemical services?",
-                "choices": [
-                  "Gloves",
-                  "Apron",
-                  "Face mask",
-                  "Ear plugs"
-                ],
+                "choices": ["Gloves", "Apron", "Face mask", "Ear plugs"],
                 "answerIndex": 0,
                 "rationale": "Gloves protect the skin from harsh chemicals, making them essential during chemical services.",
                 "type": "recall"
               },
               {
                 "prompt": "What is a common sign of professional burnout?",
-                "choices": [
-                  "Increased energy",
-                  "Improved focus",
-                  "Fatigue",
-                  "Enhanced motivation"
-                ],
+                "choices": ["Increased energy", "Improved focus", "Fatigue", "Enhanced motivation"],
                 "answerIndex": 2,
                 "rationale": "Fatigue is a common sign of burnout, indicating emotional, physical, and mental exhaustion.",
                 "type": "recall"
@@ -3285,12 +3195,7 @@
               },
               {
                 "prompt": "What PPE should be worn when there's a risk of bloodborne pathogens?",
-                "choices": [
-                  "Goggles",
-                  "Gloves",
-                  "Face shield",
-                  "Apron"
-                ],
+                "choices": ["Goggles", "Gloves", "Face shield", "Apron"],
                 "answerIndex": 1,
                 "rationale": "Gloves are essential to protect against bloodborne pathogens when handling sharp tools.",
                 "type": "recall"
@@ -3309,12 +3214,7 @@
               },
               {
                 "prompt": "What percentage of the Indiana state barber exam focuses on safety and sanitation?",
-                "choices": [
-                  "10%",
-                  "25%",
-                  "50%",
-                  "75%"
-                ],
+                "choices": ["10%", "25%", "50%", "75%"],
                 "answerIndex": 1,
                 "rationale": "Safety and sanitation account for 25% of the Indiana state barber exam.",
                 "type": "recall"
@@ -3562,12 +3462,7 @@
             "questions": [
               {
                 "prompt": "What is the typical pH range of healthy hair?",
-                "choices": [
-                  "A. 2.5 to 3.5",
-                  "B. 4.5 to 5.5",
-                  "C. 6.5 to 7.5",
-                  "D. 8.5 to 9.5"
-                ],
+                "choices": ["A. 2.5 to 3.5", "B. 4.5 to 5.5", "C. 6.5 to 7.5", "D. 8.5 to 9.5"],
                 "answerIndex": 1,
                 "rationale": "Healthy hair has a slightly acidic pH, typically ranging from 4.5 to 5.5.",
                 "type": "recall"
@@ -3610,12 +3505,7 @@
               },
               {
                 "prompt": "Which PPE is essential when applying hair relaxers?",
-                "choices": [
-                  "A. Goggles",
-                  "B. Gloves",
-                  "C. Apron",
-                  "D. Mask"
-                ],
+                "choices": ["A. Goggles", "B. Gloves", "C. Apron", "D. Mask"],
                 "answerIndex": 1,
                 "rationale": "Gloves are essential to prevent skin irritation from chemicals in hair relaxers.",
                 "type": "recall"
@@ -4487,12 +4377,7 @@
               },
               {
                 "prompt": "Which layer of the hair shaft contains melanin, the pigment responsible for hair color?",
-                "choices": [
-                  "Cuticle",
-                  "Cortex",
-                  "Medulla",
-                  "Follicle"
-                ],
+                "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
                 "answerIndex": 1,
                 "rationale": "The cortex is the layer of the hair shaft that contains melanin, which is responsible for the hair's color.",
                 "type": "recall"
@@ -4511,12 +4396,7 @@
               },
               {
                 "prompt": "Which of the following best describes the function of sebaceous glands in the hair follicle?",
-                "choices": [
-                  "Produce keratin",
-                  "Produce sebum",
-                  "Produce melanin",
-                  "Produce sweat"
-                ],
+                "choices": ["Produce keratin", "Produce sebum", "Produce melanin", "Produce sweat"],
                 "answerIndex": 1,
                 "rationale": "Sebaceous glands produce sebum, a natural oil that conditions the hair and scalp.",
                 "type": "recall"
@@ -4547,24 +4427,14 @@
               },
               {
                 "prompt": "What is the primary component of the cortex layer that gives hair its strength and elasticity?",
-                "choices": [
-                  "Sebum",
-                  "Melanin",
-                  "Keratin",
-                  "Medulla"
-                ],
+                "choices": ["Sebum", "Melanin", "Keratin", "Medulla"],
                 "answerIndex": 2,
                 "rationale": "Keratin is the protein found in the cortex layer that gives hair its strength and elasticity.",
                 "type": "recall"
               },
               {
                 "prompt": "Which layer of the hair shaft is not always present in every hair type?",
-                "choices": [
-                  "Cuticle",
-                  "Cortex",
-                  "Medulla",
-                  "Follicle"
-                ],
+                "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
                 "answerIndex": 2,
                 "rationale": "The medulla is a soft, spongy core that is not always present in every hair type.",
                 "type": "recall"
@@ -4607,12 +4477,7 @@
               },
               {
                 "prompt": "During a consultation, a client mentions their hair color fades quickly. Which layer of the hair shaft should you focus on?",
-                "choices": [
-                  "Cuticle",
-                  "Cortex",
-                  "Medulla",
-                  "Follicle"
-                ],
+                "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
                 "answerIndex": 1,
                 "rationale": "The cortex contains melanin, the pigment responsible for hair color, and is directly affected by coloring services.",
                 "type": "scenario"
@@ -4643,24 +4508,14 @@
               },
               {
                 "prompt": "A client is concerned about hair thinning. Which part of the hair structure should you focus on?",
-                "choices": [
-                  "The cuticle",
-                  "The cortex",
-                  "The medulla",
-                  "The follicle"
-                ],
+                "choices": ["The cuticle", "The cortex", "The medulla", "The follicle"],
                 "answerIndex": 3,
                 "rationale": "The health of the follicle directly affects hair growth and thickness, making it a key focus for addressing thinning issues.",
                 "type": "scenario"
               },
               {
                 "prompt": "A client wants to maintain their hair's natural oils. What product ingredient should they avoid?",
-                "choices": [
-                  "Alcohol",
-                  "Keratin",
-                  "Argan oil",
-                  "Silicone"
-                ],
+                "choices": ["Alcohol", "Keratin", "Argan oil", "Silicone"],
                 "answerIndex": 0,
                 "rationale": "Products with high alcohol content can strip the cuticle of its natural oils, leading to dryness and damage.",
                 "type": "scenario"
@@ -4812,12 +4667,7 @@
             "questions": [
               {
                 "prompt": "What is the active growth phase of the hair cycle called?",
-                "choices": [
-                  "Anagen",
-                  "Catagen",
-                  "Telogen",
-                  "Exogen"
-                ],
+                "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
                 "answerIndex": 0,
                 "rationale": "The anagen phase is the active growth stage where hair cells divide rapidly, resulting in hair growth.",
                 "type": "recall"
@@ -4836,36 +4686,21 @@
               },
               {
                 "prompt": "During which phase does the hair follicle detach from the dermal papilla?",
-                "choices": [
-                  "Anagen",
-                  "Catagen",
-                  "Telogen",
-                  "Exogen"
-                ],
+                "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
                 "answerIndex": 1,
                 "rationale": "In the catagen phase, the hair follicle shrinks and detaches from the dermal papilla.",
                 "type": "recall"
               },
               {
                 "prompt": "What percentage of hair is typically in the anagen phase at any given time?",
-                "choices": [
-                  "10–15%",
-                  "1–2%",
-                  "85–90%",
-                  "50–60%"
-                ],
+                "choices": ["10–15%", "1–2%", "85–90%", "50–60%"],
                 "answerIndex": 2,
                 "rationale": "About 85–90% of hair is in the anagen phase, reflecting its continuous growth.",
                 "type": "recall"
               },
               {
                 "prompt": "What is the resting stage of the hair growth cycle called?",
-                "choices": [
-                  "Anagen",
-                  "Catagen",
-                  "Telogen",
-                  "Exogen"
-                ],
+                "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
                 "answerIndex": 2,
                 "rationale": "The telogen phase is the resting stage where hair does not grow but remains attached to the follicle.",
                 "type": "recall"
@@ -4884,12 +4719,7 @@
               },
               {
                 "prompt": "Which phase of the hair cycle is associated with hair shedding?",
-                "choices": [
-                  "Anagen",
-                  "Catagen",
-                  "Telogen",
-                  "Exogen"
-                ],
+                "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
                 "answerIndex": 2,
                 "rationale": "The telogen phase is when hair is shed and a new hair begins to grow in its place.",
                 "type": "recall"
@@ -4908,12 +4738,7 @@
               },
               {
                 "prompt": "A client presents with concerns about hair not growing as expected. You suspect the hair is in which phase?",
-                "choices": [
-                  "Anagen",
-                  "Catagen",
-                  "Telogen",
-                  "Exogen"
-                ],
+                "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
                 "answerIndex": 1,
                 "rationale": "In the catagen phase, hair growth stops, which could explain why hair is not growing as expected.",
                 "type": "scenario"
@@ -4932,12 +4757,7 @@
               },
               {
                 "prompt": "A new client asks why their hair seems to have stopped growing. Which phase might this indicate?",
-                "choices": [
-                  "Anagen",
-                  "Catagen",
-                  "Telogen",
-                  "Exogen"
-                ],
+                "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
                 "answerIndex": 1,
                 "rationale": "The catagen phase is a transitional stage where hair growth stops.",
                 "type": "scenario"
@@ -4956,12 +4776,7 @@
               },
               {
                 "prompt": "A client mentions significant hair loss after a stressful event. What should you consider?",
-                "choices": [
-                  "Anagen phase",
-                  "Catagen phase",
-                  "Telogen phase",
-                  "Exogen phase"
-                ],
+                "choices": ["Anagen phase", "Catagen phase", "Telogen phase", "Exogen phase"],
                 "answerIndex": 2,
                 "rationale": "Stress can trigger telogen effluvium, where hair prematurely enters the telogen phase and sheds.",
                 "type": "scenario"
@@ -5161,12 +4976,7 @@
               },
               {
                 "prompt": "A client presents with hair that appears very translucent and feels silky. How would you classify their hair texture?",
-                "choices": [
-                  "Fine",
-                  "Medium",
-                  "Coarse",
-                  "Curly"
-                ],
+                "choices": ["Fine", "Medium", "Coarse", "Curly"],
                 "answerIndex": 0,
                 "rationale": "Fine hair often appears more translucent and feels silky, indicating a delicate texture.",
                 "type": "scenario"
@@ -5185,12 +4995,7 @@
               },
               {
                 "prompt": "During a service, you notice a client's hair sinks quickly in water. What does this indicate about their hair porosity?",
-                "choices": [
-                  "Low porosity",
-                  "Normal porosity",
-                  "High porosity",
-                  "No porosity"
-                ],
+                "choices": ["Low porosity", "Normal porosity", "High porosity", "No porosity"],
                 "answerIndex": 2,
                 "rationale": "Hair that sinks quickly in water indicates high porosity, as the open cuticles allow water to penetrate rapidly.",
                 "type": "scenario"
@@ -5209,12 +5014,7 @@
               },
               {
                 "prompt": "What does a visual inspection under natural light help you assess in a client's hair?",
-                "choices": [
-                  "Porosity",
-                  "Texture",
-                  "Elasticity",
-                  "Color"
-                ],
+                "choices": ["Porosity", "Texture", "Elasticity", "Color"],
                 "answerIndex": 1,
                 "rationale": "A visual inspection under natural light helps to assess the hair's texture by observing its translucency and thickness.",
                 "type": "recall"
@@ -5257,12 +5057,7 @@
               },
               {
                 "prompt": "During a consultation, you observe more scalp visibility than usual. What does this suggest about the client's hair density?",
-                "choices": [
-                  "High density",
-                  "Low density",
-                  "Normal density",
-                  "No density"
-                ],
+                "choices": ["High density", "Low density", "Normal density", "No density"],
                 "answerIndex": 1,
                 "rationale": "More scalp visibility suggests low hair density, indicating fewer strands per square inch on the scalp.",
                 "type": "scenario"
@@ -5305,36 +5100,21 @@
               },
               {
                 "prompt": "A client presents with hair that feels thick and rough. What texture does this indicate?",
-                "choices": [
-                  "Fine",
-                  "Medium",
-                  "Coarse",
-                  "Curly"
-                ],
+                "choices": ["Fine", "Medium", "Coarse", "Curly"],
                 "answerIndex": 2,
                 "rationale": "Hair that feels thick and rough is indicative of a coarse texture, which is more resistant to styling.",
                 "type": "scenario"
               },
               {
                 "prompt": "Which cutting technique is most effective for managing coarse hair?",
-                "choices": [
-                  "Layering",
-                  "Thinning",
-                  "Blunt cutting",
-                  "Point cutting"
-                ],
+                "choices": ["Layering", "Thinning", "Blunt cutting", "Point cutting"],
                 "answerIndex": 1,
                 "rationale": "Thinning is effective for managing coarse hair as it reduces bulk and enhances manageability.",
                 "type": "applied"
               },
               {
                 "prompt": "What does it mean if a client's hair floats during the porosity test?",
-                "choices": [
-                  "Low porosity",
-                  "Normal porosity",
-                  "High porosity",
-                  "No porosity"
-                ],
+                "choices": ["Low porosity", "Normal porosity", "High porosity", "No porosity"],
                 "answerIndex": 0,
                 "rationale": "If a client's hair floats during the porosity test, it indicates low porosity, meaning the cuticles are tightly closed.",
                 "type": "recall"
@@ -5353,12 +5133,7 @@
               },
               {
                 "prompt": "Which factor is crucial for determining how hair responds to styling and chemical processes?",
-                "choices": [
-                  "Hair color",
-                  "Hair length",
-                  "Hair porosity",
-                  "Scalp condition"
-                ],
+                "choices": ["Hair color", "Hair length", "Hair porosity", "Scalp condition"],
                 "answerIndex": 2,
                 "rationale": "Hair porosity is crucial as it affects how hair absorbs and retains moisture, influencing its response to styling and chemicals.",
                 "type": "recall"
@@ -5560,12 +5335,7 @@
               },
               {
                 "prompt": "Which scalp condition is highly contagious and requires immediate cessation of services?",
-                "choices": [
-                  "Dandruff",
-                  "Psoriasis",
-                  "Tinea capitis",
-                  "Alopecia areata"
-                ],
+                "choices": ["Dandruff", "Psoriasis", "Tinea capitis", "Alopecia areata"],
                 "answerIndex": 2,
                 "rationale": "Tinea capitis is a fungal infection that is highly contagious, necessitating an immediate halt to services to prevent spreading.",
                 "type": "recall"
@@ -5656,12 +5426,7 @@
               },
               {
                 "prompt": "Which scalp condition requires immediate referral to a physician due to its contagious nature?",
-                "choices": [
-                  "Dandruff",
-                  "Psoriasis",
-                  "Tinea capitis",
-                  "Alopecia areata"
-                ],
+                "choices": ["Dandruff", "Psoriasis", "Tinea capitis", "Alopecia areata"],
                 "answerIndex": 2,
                 "rationale": "Tinea capitis is a contagious fungal infection that requires immediate referral to prevent spreading.",
                 "type": "recall"
@@ -5692,12 +5457,7 @@
               },
               {
                 "prompt": "A client presents with flaky, itchy scalp. Which condition is most likely?",
-                "choices": [
-                  "Psoriasis",
-                  "Dandruff",
-                  "Tinea capitis",
-                  "Alopecia areata"
-                ],
+                "choices": ["Psoriasis", "Dandruff", "Tinea capitis", "Alopecia areata"],
                 "answerIndex": 1,
                 "rationale": "Flaky, itchy scalp is a common symptom of dandruff, a non-contagious condition that can be managed with over-the-counter treatments.",
                 "type": "scenario"
@@ -6701,24 +6461,14 @@
               },
               {
                 "prompt": "A client presents with a flaky, itchy scalp. What condition might this indicate?",
-                "choices": [
-                  "Psoriasis",
-                  "Dandruff",
-                  "Alopecia",
-                  "Eczema"
-                ],
+                "choices": ["Psoriasis", "Dandruff", "Alopecia", "Eczema"],
                 "answerIndex": 1,
                 "rationale": "Dandruff is characterized by a flaky, itchy scalp and is a common condition that barbers encounter.",
                 "type": "scenario"
               },
               {
                 "prompt": "Which muscle is primarily responsible for the movement of the jaw during chewing?",
-                "choices": [
-                  "Masseter",
-                  "Temporalis",
-                  "Orbicularis Oculi",
-                  "Frontalis"
-                ],
+                "choices": ["Masseter", "Temporalis", "Orbicularis Oculi", "Frontalis"],
                 "answerIndex": 0,
                 "rationale": "The masseter muscle plays a key role in jaw movement and chewing.",
                 "type": "recall"
@@ -6737,12 +6487,7 @@
               },
               {
                 "prompt": "Which cranial nerve is responsible for facial sensation and motor functions such as biting and chewing?",
-                "choices": [
-                  "Facial Nerve",
-                  "Trigeminal Nerve",
-                  "Vagus Nerve",
-                  "Accessory Nerve"
-                ],
+                "choices": ["Facial Nerve", "Trigeminal Nerve", "Vagus Nerve", "Accessory Nerve"],
                 "answerIndex": 1,
                 "rationale": "The trigeminal nerve is responsible for facial sensation and motor functions like biting and chewing.",
                 "type": "recall"
@@ -6761,12 +6506,7 @@
               },
               {
                 "prompt": "Which bone is important to consider when creating seamless fades and tapers in haircuts?",
-                "choices": [
-                  "Frontal Bone",
-                  "Parietal Bone",
-                  "Occipital Bone",
-                  "Zygomatic Bone"
-                ],
+                "choices": ["Frontal Bone", "Parietal Bone", "Occipital Bone", "Zygomatic Bone"],
                 "answerIndex": 2,
                 "rationale": "The occipital bone's curvature guides barbers in creating seamless fades and tapers.",
                 "type": "recall"
@@ -6785,12 +6525,7 @@
               },
               {
                 "prompt": "Which muscle surrounds the eye and is responsible for closing the eyelids?",
-                "choices": [
-                  "Masseter",
-                  "Temporalis",
-                  "Orbicularis Oculi",
-                  "Frontalis"
-                ],
+                "choices": ["Masseter", "Temporalis", "Orbicularis Oculi", "Frontalis"],
                 "answerIndex": 2,
                 "rationale": "The orbicularis oculi muscle surrounds the eye and controls eyelid movement.",
                 "type": "recall"
@@ -6809,12 +6544,7 @@
               },
               {
                 "prompt": "Which part of the hair structure is the outermost layer that protects the inner layers?",
-                "choices": [
-                  "Cuticle",
-                  "Cortex",
-                  "Medulla",
-                  "Follicle"
-                ],
+                "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
                 "answerIndex": 0,
                 "rationale": "The cuticle is the outermost layer of hair that protects the cortex and medulla.",
                 "type": "recall"
@@ -6845,24 +6575,14 @@
               },
               {
                 "prompt": "A client reports discomfort during a shave. Which cranial nerve might be irritated?",
-                "choices": [
-                  "Facial Nerve",
-                  "Trigeminal Nerve",
-                  "Vagus Nerve",
-                  "Accessory Nerve"
-                ],
+                "choices": ["Facial Nerve", "Trigeminal Nerve", "Vagus Nerve", "Accessory Nerve"],
                 "answerIndex": 1,
                 "rationale": "The trigeminal nerve is involved in facial sensation and might be irritated if the client reports discomfort.",
                 "type": "scenario"
               },
               {
                 "prompt": "Which bone forms the lower jaw and is important for facial hair sculpting?",
-                "choices": [
-                  "Mandible",
-                  "Maxilla",
-                  "Zygomatic",
-                  "Frontal"
-                ],
+                "choices": ["Mandible", "Maxilla", "Zygomatic", "Frontal"],
                 "answerIndex": 0,
                 "rationale": "The mandible forms the lower jaw and is crucial for sculpting facial hair to complement natural features.",
                 "type": "recall"
@@ -6905,12 +6625,7 @@
               },
               {
                 "prompt": "Which muscle is located on the side of the head and assists in chewing?",
-                "choices": [
-                  "Masseter",
-                  "Temporalis",
-                  "Orbicularis Oculi",
-                  "Frontalis"
-                ],
+                "choices": ["Masseter", "Temporalis", "Orbicularis Oculi", "Frontalis"],
                 "answerIndex": 1,
                 "rationale": "The temporalis muscle is located on the side of the head and assists in the chewing process.",
                 "type": "recall"
@@ -7026,24 +6741,14 @@
             "questions": [
               {
                 "prompt": "What is the outermost layer of the skin called?",
-                "choices": [
-                  "Epidermis",
-                  "Dermis",
-                  "Hypodermis",
-                  "Subcutaneous"
-                ],
+                "choices": ["Epidermis", "Dermis", "Hypodermis", "Subcutaneous"],
                 "answerIndex": 0,
                 "rationale": "The epidermis is the outermost layer of the skin, acting as a protective barrier.",
                 "type": "recall"
               },
               {
                 "prompt": "Which layer of the skin houses blood vessels and nerves?",
-                "choices": [
-                  "Epidermis",
-                  "Dermis",
-                  "Hypodermis",
-                  "Stratum corneum"
-                ],
+                "choices": ["Epidermis", "Dermis", "Hypodermis", "Stratum corneum"],
                 "answerIndex": 1,
                 "rationale": "The dermis contains blood vessels and nerves, providing nutrients and support to the skin.",
                 "type": "recall"
@@ -7062,24 +6767,14 @@
               },
               {
                 "prompt": "Which skin type on the Fitzpatrick scale rarely burns and tans darkly?",
-                "choices": [
-                  "Type I",
-                  "Type III",
-                  "Type V",
-                  "Type VI"
-                ],
+                "choices": ["Type I", "Type III", "Type V", "Type VI"],
                 "answerIndex": 3,
                 "rationale": "Type VI skin on the Fitzpatrick scale rarely burns and tans darkly.",
                 "type": "recall"
               },
               {
                 "prompt": "What is the main component of the hypodermis?",
-                "choices": [
-                  "Keratin",
-                  "Melanin",
-                  "Fat and connective tissue",
-                  "Collagen"
-                ],
+                "choices": ["Keratin", "Melanin", "Fat and connective tissue", "Collagen"],
                 "answerIndex": 2,
                 "rationale": "The hypodermis is primarily composed of fat and connective tissue, providing insulation and cushioning.",
                 "type": "recall"
@@ -7098,12 +6793,7 @@
               },
               {
                 "prompt": "During which step of a scalp analysis should you visually inspect the scalp?",
-                "choices": [
-                  "First",
-                  "Second",
-                  "Third",
-                  "Fourth"
-                ],
+                "choices": ["First", "Second", "Third", "Fourth"],
                 "answerIndex": 0,
                 "rationale": "The visual inspection is the first step in conducting a thorough scalp analysis.",
                 "type": "recall"
@@ -7122,12 +6812,7 @@
               },
               {
                 "prompt": "A client presents with excessively oily hair. Which skin appendage is likely overactive?",
-                "choices": [
-                  "Sweat glands",
-                  "Sebaceous glands",
-                  "Hair follicles",
-                  "Melanocytes"
-                ],
+                "choices": ["Sweat glands", "Sebaceous glands", "Hair follicles", "Melanocytes"],
                 "answerIndex": 1,
                 "rationale": "Overactive sebaceous glands produce excess sebum, leading to oily hair.",
                 "type": "scenario"
@@ -7170,12 +6855,7 @@
               },
               {
                 "prompt": "A client complains of scalp odor. Which skin appendage might be involved?",
-                "choices": [
-                  "Sebaceous glands",
-                  "Sweat glands",
-                  "Hair follicles",
-                  "Melanocytes"
-                ],
+                "choices": ["Sebaceous glands", "Sweat glands", "Hair follicles", "Melanocytes"],
                 "answerIndex": 1,
                 "rationale": "Sweat glands can contribute to scalp odor, especially if they are overactive.",
                 "type": "scenario"
@@ -7194,12 +6874,7 @@
               },
               {
                 "prompt": "During a consultation, a client mentions frequent scalp irritation. What should you assess first?",
-                "choices": [
-                  "Hair length",
-                  "Scalp condition",
-                  "Hair color",
-                  "Styling tools used"
-                ],
+                "choices": ["Hair length", "Scalp condition", "Hair color", "Styling tools used"],
                 "answerIndex": 1,
                 "rationale": "Assessing the scalp condition can help identify the cause of irritation.",
                 "type": "scenario"
@@ -7375,12 +7050,7 @@
               },
               {
                 "prompt": "Which skin condition is considered contagious?",
-                "choices": [
-                  "Eczema",
-                  "Psoriasis",
-                  "Ringworm",
-                  "Rosacea"
-                ],
+                "choices": ["Eczema", "Psoriasis", "Ringworm", "Rosacea"],
                 "answerIndex": 2,
                 "rationale": "Ringworm is a contagious fungal infection that can spread through direct contact or shared tools.",
                 "type": "recall"
@@ -7423,12 +7093,7 @@
               },
               {
                 "prompt": "Which of the following skin conditions is non-contagious?",
-                "choices": [
-                  "Impetigo",
-                  "Psoriasis",
-                  "Ringworm",
-                  "Scabies"
-                ],
+                "choices": ["Impetigo", "Psoriasis", "Ringworm", "Scabies"],
                 "answerIndex": 1,
                 "rationale": "Psoriasis is a non-contagious skin condition that does not pose a risk of spreading to others.",
                 "type": "recall"
@@ -7447,12 +7112,7 @@
               },
               {
                 "prompt": "Which condition should prompt a barber to refer a client to a physician?",
-                "choices": [
-                  "A new rash",
-                  "Dandruff",
-                  "Dry scalp",
-                  "Oily hair"
-                ],
+                "choices": ["A new rash", "Dandruff", "Dry scalp", "Oily hair"],
                 "answerIndex": 0,
                 "rationale": "A new rash may indicate an underlying issue that requires medical evaluation, warranting a referral to a physician.",
                 "type": "recall"
@@ -7519,12 +7179,7 @@
               },
               {
                 "prompt": "Which of the following conditions would contraindicate a shaving service?",
-                "choices": [
-                  "Dry skin",
-                  "Severe acne",
-                  "Oily skin",
-                  "Normal skin"
-                ],
+                "choices": ["Dry skin", "Severe acne", "Oily skin", "Normal skin"],
                 "answerIndex": 1,
                 "rationale": "Severe acne is a contraindication for shaving services as it may lead to further irritation or infection.",
                 "type": "recall"
@@ -7712,12 +7367,7 @@
               },
               {
                 "prompt": "Which element of hair design refers to the overall shape and structure of a hairstyle?",
-                "choices": [
-                  "Texture",
-                  "Form",
-                  "Space",
-                  "Color"
-                ],
+                "choices": ["Texture", "Form", "Space", "Color"],
                 "answerIndex": 1,
                 "rationale": "Form is the element that refers to the overall shape and structure of a hairstyle, providing its silhouette.",
                 "type": "recall"
@@ -7748,12 +7398,7 @@
               },
               {
                 "prompt": "Which design principle involves the relationship between different parts of the hairstyle?",
-                "choices": [
-                  "Rhythm",
-                  "Proportion",
-                  "Balance",
-                  "Harmony"
-                ],
+                "choices": ["Rhythm", "Proportion", "Balance", "Harmony"],
                 "answerIndex": 1,
                 "rationale": "Proportion involves the relationship between different parts of the hairstyle, ensuring they work together harmoniously.",
                 "type": "recall"
@@ -7772,24 +7417,14 @@
               },
               {
                 "prompt": "What is the effect of using horizontal lines in a hairstyle?",
-                "choices": [
-                  "Add length",
-                  "Add width",
-                  "Create movement",
-                  "Highlight features"
-                ],
+                "choices": ["Add length", "Add width", "Create movement", "Highlight features"],
                 "answerIndex": 1,
                 "rationale": "Horizontal lines add width to a hairstyle, which can make a face appear wider.",
                 "type": "recall"
               },
               {
                 "prompt": "Which element of hair design can create contrast and highlight features?",
-                "choices": [
-                  "Line",
-                  "Space",
-                  "Color",
-                  "Form"
-                ],
+                "choices": ["Line", "Space", "Color", "Form"],
                 "answerIndex": 2,
                 "rationale": "Color adds dimension and depth, creating contrast and highlighting features in a hairstyle.",
                 "type": "recall"
@@ -7820,36 +7455,21 @@
               },
               {
                 "prompt": "What is the principle of design that ensures all elements work together seamlessly?",
-                "choices": [
-                  "Rhythm",
-                  "Emphasis",
-                  "Harmony",
-                  "Balance"
-                ],
+                "choices": ["Rhythm", "Emphasis", "Harmony", "Balance"],
                 "answerIndex": 2,
                 "rationale": "Harmony is achieved when all elements and principles work together seamlessly, resulting in an attractive and suitable hairstyle.",
                 "type": "recall"
               },
               {
                 "prompt": "A client wants a hairstyle that emphasizes their eyes. Which design principle should you focus on?",
-                "choices": [
-                  "Proportion",
-                  "Rhythm",
-                  "Emphasis",
-                  "Harmony"
-                ],
+                "choices": ["Proportion", "Rhythm", "Emphasis", "Harmony"],
                 "answerIndex": 2,
                 "rationale": "Emphasis is the focal point of the hairstyle, which can be used to draw attention to features like the eyes.",
                 "type": "scenario"
               },
               {
                 "prompt": "Which element of hair design refers to the surface quality of the hair?",
-                "choices": [
-                  "Line",
-                  "Texture",
-                  "Space",
-                  "Color"
-                ],
+                "choices": ["Line", "Texture", "Space", "Color"],
                 "answerIndex": 1,
                 "rationale": "Texture refers to the surface quality of the hair, such as whether it is smooth, wavy, curly, or coiled.",
                 "type": "recall"
@@ -7868,12 +7488,7 @@
               },
               {
                 "prompt": "Which design principle involves the flow or movement within a hairstyle?",
-                "choices": [
-                  "Proportion",
-                  "Rhythm",
-                  "Balance",
-                  "Emphasis"
-                ],
+                "choices": ["Proportion", "Rhythm", "Balance", "Emphasis"],
                 "answerIndex": 1,
                 "rationale": "Rhythm involves the flow or movement within a hairstyle, guiding the eye smoothly from one part of the style to another.",
                 "type": "recall"
@@ -7916,12 +7531,7 @@
               },
               {
                 "prompt": "Which design principle is focused on the distribution of visual weight within the hairstyle?",
-                "choices": [
-                  "Rhythm",
-                  "Proportion",
-                  "Balance",
-                  "Harmony"
-                ],
+                "choices": ["Rhythm", "Proportion", "Balance", "Harmony"],
                 "answerIndex": 2,
                 "rationale": "Balance refers to the distribution of visual weight within the hairstyle, which can be symmetrical or asymmetrical.",
                 "type": "recall"
@@ -8037,24 +7647,14 @@
             "questions": [
               {
                 "prompt": "What type of current is typically used in battery-operated devices?",
-                "choices": [
-                  "AC",
-                  "DC",
-                  "Alternating",
-                  "Sinusoidal"
-                ],
+                "choices": ["AC", "DC", "Alternating", "Sinusoidal"],
                 "answerIndex": 1,
                 "rationale": "DC, or direct current, flows in a single direction and is used in battery-operated devices like cordless clippers.",
                 "type": "recall"
               },
               {
                 "prompt": "A client presents with a request for a deep cleansing facial. Which type of current should you use?",
-                "choices": [
-                  "Galvanic",
-                  "Faradic",
-                  "Sinusoidal",
-                  "AC"
-                ],
+                "choices": ["Galvanic", "Faradic", "Sinusoidal", "AC"],
                 "answerIndex": 0,
                 "rationale": "Galvanic current is used in skin treatments for deep cleansing and product penetration.",
                 "type": "scenario"
@@ -8073,24 +7673,14 @@
               },
               {
                 "prompt": "Which type of current flows in a back-and-forth motion and is commonly supplied to homes?",
-                "choices": [
-                  "DC",
-                  "AC",
-                  "Galvanic",
-                  "Faradic"
-                ],
+                "choices": ["DC", "AC", "Galvanic", "Faradic"],
                 "answerIndex": 1,
                 "rationale": "AC, or alternating current, flows in a back-and-forth motion and is the standard form of electricity supplied to homes.",
                 "type": "recall"
               },
               {
                 "prompt": "A new client asks for a scalp treatment to relax their muscles. Which current modality should you use?",
-                "choices": [
-                  "Galvanic",
-                  "Faradic",
-                  "Sinusoidal",
-                  "DC"
-                ],
+                "choices": ["Galvanic", "Faradic", "Sinusoidal", "DC"],
                 "answerIndex": 2,
                 "rationale": "Sinusoidal current is known for its soothing effects and is ideal for relaxing muscles during scalp treatments.",
                 "type": "scenario"
@@ -8121,12 +7711,7 @@
               },
               {
                 "prompt": "Which current modality is used to stimulate muscle contractions in facial treatments?",
-                "choices": [
-                  "Galvanic",
-                  "Faradic",
-                  "Sinusoidal",
-                  "DC"
-                ],
+                "choices": ["Galvanic", "Faradic", "Sinusoidal", "DC"],
                 "answerIndex": 1,
                 "rationale": "Faradic current is used to stimulate muscle contractions, beneficial for toning muscles in facial treatments.",
                 "type": "recall"
@@ -8145,12 +7730,7 @@
               },
               {
                 "prompt": "A client requests a facial treatment to improve circulation. Which current modality should you use?",
-                "choices": [
-                  "Galvanic",
-                  "Faradic",
-                  "Sinusoidal",
-                  "AC"
-                ],
+                "choices": ["Galvanic", "Faradic", "Sinusoidal", "AC"],
                 "answerIndex": 1,
                 "rationale": "Faradic current is used to stimulate muscle contractions and improve circulation, making it suitable for such treatments.",
                 "type": "scenario"
@@ -8169,24 +7749,14 @@
               },
               {
                 "prompt": "A client presents with muscle tension and requests a soothing treatment. Which current modality should you apply?",
-                "choices": [
-                  "Galvanic",
-                  "Faradic",
-                  "Sinusoidal",
-                  "DC"
-                ],
+                "choices": ["Galvanic", "Faradic", "Sinusoidal", "DC"],
                 "answerIndex": 2,
                 "rationale": "Sinusoidal current is known for its soothing effects, making it ideal for relaxing muscles and alleviating tension.",
                 "type": "scenario"
               },
               {
                 "prompt": "What is the primary difference between AC and DC current?",
-                "choices": [
-                  "Direction of flow",
-                  "Voltage level",
-                  "Frequency",
-                  "Source of power"
-                ],
+                "choices": ["Direction of flow", "Voltage level", "Frequency", "Source of power"],
                 "answerIndex": 0,
                 "rationale": "The primary difference is the direction of flow: AC flows back-and-forth, while DC flows in a single direction.",
                 "type": "recall"
@@ -8205,12 +7775,7 @@
               },
               {
                 "prompt": "Which of the following is a direct current modality used in skin treatments?",
-                "choices": [
-                  "Galvanic",
-                  "Faradic",
-                  "Sinusoidal",
-                  "AC"
-                ],
+                "choices": ["Galvanic", "Faradic", "Sinusoidal", "AC"],
                 "answerIndex": 0,
                 "rationale": "Galvanic current is a direct current used in skin treatments for deep cleansing and product penetration.",
                 "type": "recall"
@@ -8434,12 +7999,7 @@
               },
               {
                 "prompt": "Which over-the-counter treatment can barbers recommend for certain types of hair loss?",
-                "choices": [
-                  "Minoxidil",
-                  "Finasteride",
-                  "Corticosteroids",
-                  "Anthralin"
-                ],
+                "choices": ["Minoxidil", "Finasteride", "Corticosteroids", "Anthralin"],
                 "answerIndex": 0,
                 "rationale": "Minoxidil is an over-the-counter topical treatment that barbers can recommend for certain types of hair loss.",
                 "type": "recall"
@@ -8722,12 +8282,7 @@
           },
           {
             "prompt": "Which layer of the hair shaft is primarily responsible for the hair's strength and elasticity?",
-            "choices": [
-              "A. Cuticle",
-              "B. Cortex",
-              "C. Medulla",
-              "D. Follicle"
-            ],
+            "choices": ["A. Cuticle", "B. Cortex", "C. Medulla", "D. Follicle"],
             "answerIndex": 1,
             "rationale": "The cortex is the middle layer of the hair shaft and is responsible for the hair's strength and elasticity due to its fibrous protein structure."
           },
@@ -8755,12 +8310,7 @@
           },
           {
             "prompt": "A client reports experiencing dandruff. Which ingredient should you look for in a shampoo to address this issue?",
-            "choices": [
-              "A. Keratin",
-              "B. Salicylic acid",
-              "C. Panthenol",
-              "D. Argan oil"
-            ],
+            "choices": ["A. Keratin", "B. Salicylic acid", "C. Panthenol", "D. Argan oil"],
             "answerIndex": 1,
             "rationale": "Salicylic acid is effective in treating dandruff as it helps exfoliate the scalp and reduce flakiness."
           },
@@ -8810,12 +8360,7 @@
           },
           {
             "prompt": "Which part of the hair structure is primarily responsible for hair color?",
-            "choices": [
-              "A. Cuticle",
-              "B. Cortex",
-              "C. Medulla",
-              "D. Follicle"
-            ],
+            "choices": ["A. Cuticle", "B. Cortex", "C. Medulla", "D. Follicle"],
             "answerIndex": 1,
             "rationale": "The cortex contains melanin, the pigment responsible for hair color."
           },
@@ -8843,23 +8388,13 @@
           },
           {
             "prompt": "A client with a sensitive scalp is concerned about using hair dye. What ingredient should they avoid?",
-            "choices": [
-              "A. Ammonia",
-              "B. Keratin",
-              "C. Argan oil",
-              "D. Aloe vera"
-            ],
+            "choices": ["A. Ammonia", "B. Keratin", "C. Argan oil", "D. Aloe vera"],
             "answerIndex": 0,
             "rationale": "Ammonia is a common ingredient in hair dyes that can irritate sensitive scalps, so it should be avoided."
           },
           {
             "prompt": "Which of the following is a sign of healthy hair?",
-            "choices": [
-              "A. Split ends",
-              "B. High porosity",
-              "C. Elasticity",
-              "D. Brittle texture"
-            ],
+            "choices": ["A. Split ends", "B. High porosity", "C. Elasticity", "D. Brittle texture"],
             "answerIndex": 2,
             "rationale": "Elasticity is a sign of healthy hair, indicating that the hair can stretch and return to its original shape without breaking."
           },
@@ -8968,12 +8503,7 @@
               },
               {
                 "prompt": "A client presents with a request for a detailed hairline. Which tool should you use?",
-                "choices": [
-                  "Clippers",
-                  "Trimmers",
-                  "Scissors",
-                  "Straight razor"
-                ],
+                "choices": ["Clippers", "Trimmers", "Scissors", "Straight razor"],
                 "answerIndex": 1,
                 "rationale": "Trimmers are specifically designed for detailing work, such as shaping hairlines and trimming around the ears and neck.",
                 "type": "scenario"
@@ -8992,24 +8522,14 @@
               },
               {
                 "prompt": "During a service, you notice your scissors are not cutting smoothly. What should you do first?",
-                "choices": [
-                  "Replace them",
-                  "Disinfect them",
-                  "Lubricate them",
-                  "Sharpen them"
-                ],
+                "choices": ["Replace them", "Disinfect them", "Lubricate them", "Sharpen them"],
                 "answerIndex": 3,
                 "rationale": "If scissors are not cutting smoothly, they may need sharpening to restore their precision and effectiveness.",
                 "type": "scenario"
               },
               {
                 "prompt": "Which tool is used for close shaves and requires careful handling?",
-                "choices": [
-                  "Clippers",
-                  "Trimmers",
-                  "Scissors",
-                  "Straight razor"
-                ],
+                "choices": ["Clippers", "Trimmers", "Scissors", "Straight razor"],
                 "answerIndex": 3,
                 "rationale": "The straight razor is used for close shaves and requires skill and practice to handle safely and effectively.",
                 "type": "recall"
@@ -9028,12 +8548,7 @@
               },
               {
                 "prompt": "What is the correct dwell time for clipper blades in a disinfectant solution?",
-                "choices": [
-                  "5 minutes",
-                  "10 minutes",
-                  "15 minutes",
-                  "20 minutes"
-                ],
+                "choices": ["5 minutes", "10 minutes", "15 minutes", "20 minutes"],
                 "answerIndex": 1,
                 "rationale": "The recommended dwell time for clipper blades in a disinfectant solution is usually 10 minutes to ensure effective sanitation.",
                 "type": "recall"
@@ -9064,24 +8579,14 @@
               },
               {
                 "prompt": "A client presents with sensitive skin and requests a shave. Which tool should you use with caution?",
-                "choices": [
-                  "Clippers",
-                  "Trimmers",
-                  "Scissors",
-                  "Straight razor"
-                ],
+                "choices": ["Clippers", "Trimmers", "Scissors", "Straight razor"],
                 "answerIndex": 3,
                 "rationale": "The straight razor should be used with caution on sensitive skin to avoid irritation and ensure a comfortable shave.",
                 "type": "scenario"
               },
               {
                 "prompt": "Which tool is essential for sectioning and styling hair during a haircut?",
-                "choices": [
-                  "Clippers",
-                  "Trimmers",
-                  "Scissors",
-                  "Combs"
-                ],
+                "choices": ["Clippers", "Trimmers", "Scissors", "Combs"],
                 "answerIndex": 3,
                 "rationale": "Combs are used in conjunction with scissors and clippers to section and style hair, ensuring uniformity and precision.",
                 "type": "recall"
@@ -9112,12 +8617,7 @@
               },
               {
                 "prompt": "A client asks for a layered haircut. Which tool should you primarily use?",
-                "choices": [
-                  "Clippers",
-                  "Trimmers",
-                  "Scissors",
-                  "Straight razor"
-                ],
+                "choices": ["Clippers", "Trimmers", "Scissors", "Straight razor"],
                 "answerIndex": 2,
                 "rationale": "Scissors are indispensable for cutting and layering hair, providing more control and precision than clippers.",
                 "type": "scenario"
@@ -9160,12 +8660,7 @@
               },
               {
                 "prompt": "Which tool is primarily used for detailing work around the ears and neck?",
-                "choices": [
-                  "Clippers",
-                  "Trimmers",
-                  "Scissors",
-                  "Straight razor"
-                ],
+                "choices": ["Clippers", "Trimmers", "Scissors", "Straight razor"],
                 "answerIndex": 1,
                 "rationale": "Trimmers are designed for detailing work, such as shaping hairlines and trimming around the ears and neck.",
                 "type": "recall"
@@ -9382,12 +8877,7 @@
               },
               {
                 "prompt": "Which technique helps maintain uniformity throughout a haircut?",
-                "choices": [
-                  "Layering",
-                  "Texturizing",
-                  "Establishing a guide line",
-                  "Thinning"
-                ],
+                "choices": ["Layering", "Texturizing", "Establishing a guide line", "Thinning"],
                 "answerIndex": 2,
                 "rationale": "Establishing a guide line provides a reference point for maintaining uniformity in length and shape.",
                 "type": "recall"
@@ -9490,12 +8980,7 @@
               },
               {
                 "prompt": "Which tool is essential for creating precise partings?",
-                "choices": [
-                  "Thinning shears",
-                  "Comb",
-                  "Razor",
-                  "Blow dryer"
-                ],
+                "choices": ["Thinning shears", "Comb", "Razor", "Blow dryer"],
                 "answerIndex": 1,
                 "rationale": "A comb is essential for creating precise partings and ensuring even sections.",
                 "type": "recall"
@@ -9781,36 +9266,21 @@
               },
               {
                 "prompt": "Which elevation angle is used to achieve a graduated effect in a haircut?",
-                "choices": [
-                  "0°",
-                  "45°",
-                  "90°",
-                  "180°"
-                ],
+                "choices": ["0°", "45°", "90°", "180°"],
                 "answerIndex": 1,
                 "rationale": "A 45° elevation creates a graduated effect by adding volume and movement to the hair.",
                 "type": "recall"
               },
               {
                 "prompt": "A client presents with fine, flat hair and desires more volume. Which elevation should you use?",
-                "choices": [
-                  "0°",
-                  "45°",
-                  "90°",
-                  "180°"
-                ],
+                "choices": ["0°", "45°", "90°", "180°"],
                 "answerIndex": 2,
                 "rationale": "90° elevation adds layers and texture, reducing weight and increasing volume.",
                 "type": "scenario"
               },
               {
                 "prompt": "During a service, you notice the client has uneven hair length on one side. How can overdirection help?",
-                "choices": [
-                  "Create symmetry",
-                  "Add volume",
-                  "Reduce weight",
-                  "Create a blunt cut"
-                ],
+                "choices": ["Create symmetry", "Add volume", "Reduce weight", "Create a blunt cut"],
                 "answerIndex": 0,
                 "rationale": "Overdirection can help create symmetry by adjusting the length on one side.",
                 "type": "scenario"
@@ -9829,24 +9299,14 @@
               },
               {
                 "prompt": "A new client asks for a style with a longer front and shorter back. Which technique should you use?",
-                "choices": [
-                  "0° elevation",
-                  "45° elevation",
-                  "Overdirection",
-                  "90° elevation"
-                ],
+                "choices": ["0° elevation", "45° elevation", "Overdirection", "90° elevation"],
                 "answerIndex": 2,
                 "rationale": "Overdirection can create a longer front and shorter back by shifting the hair before cutting.",
                 "type": "scenario"
               },
               {
                 "prompt": "Which of the following is NOT a primary elevation angle used in haircutting?",
-                "choices": [
-                  "0°",
-                  "30°",
-                  "45°",
-                  "90°"
-                ],
+                "choices": ["0°", "30°", "45°", "90°"],
                 "answerIndex": 1,
                 "rationale": "30° is not a standard primary elevation angle in haircutting.",
                 "type": "recall"
@@ -9865,120 +9325,70 @@
               },
               {
                 "prompt": "A client wants a haircut that maintains weight at the ends but still has some movement. Which elevation is best?",
-                "choices": [
-                  "0°",
-                  "45°",
-                  "90°",
-                  "180°"
-                ],
+                "choices": ["0°", "45°", "90°", "180°"],
                 "answerIndex": 1,
                 "rationale": "45° elevation maintains weight while adding movement through a graduated effect.",
                 "type": "scenario"
               },
               {
                 "prompt": "During a haircut, you need to reduce weight and add texture. Which elevation should you choose?",
-                "choices": [
-                  "0°",
-                  "45°",
-                  "90°",
-                  "180°"
-                ],
+                "choices": ["0°", "45°", "90°", "180°"],
                 "answerIndex": 2,
                 "rationale": "90° elevation is ideal for reducing weight and adding texture through layering.",
                 "type": "scenario"
               },
               {
                 "prompt": "Which technique is essential for creating asymmetrical hairstyles?",
-                "choices": [
-                  "Elevation",
-                  "Overdirection",
-                  "Texturizing",
-                  "Thinning"
-                ],
+                "choices": ["Elevation", "Overdirection", "Texturizing", "Thinning"],
                 "answerIndex": 1,
                 "rationale": "Overdirection is key for creating asymmetrical styles by altering the natural fall of hair.",
                 "type": "recall"
               },
               {
                 "prompt": "A client requests a sleek, polished bob. Which elevation should you use?",
-                "choices": [
-                  "0°",
-                  "45°",
-                  "90°",
-                  "180°"
-                ],
+                "choices": ["0°", "45°", "90°", "180°"],
                 "answerIndex": 0,
                 "rationale": "0° elevation is used for blunt cuts like a sleek bob, concentrating weight at the ends.",
                 "type": "scenario"
               },
               {
                 "prompt": "What is the best approach to add volume to a client's hair without significantly reducing length?",
-                "choices": [
-                  "0° elevation",
-                  "45° elevation",
-                  "90° elevation",
-                  "Overdirection"
-                ],
+                "choices": ["0° elevation", "45° elevation", "90° elevation", "Overdirection"],
                 "answerIndex": 1,
                 "rationale": "45° elevation adds volume and movement without significantly reducing length.",
                 "type": "applied"
               },
               {
                 "prompt": "Which elevation angle is most suitable for creating a layered effect?",
-                "choices": [
-                  "0°",
-                  "45°",
-                  "90°",
-                  "180°"
-                ],
+                "choices": ["0°", "45°", "90°", "180°"],
                 "answerIndex": 2,
                 "rationale": "90° elevation creates layers by lifting the hair perpendicular to the scalp.",
                 "type": "recall"
               },
               {
                 "prompt": "A client wants a natural, airy style. Which elevation technique should you apply?",
-                "choices": [
-                  "0°",
-                  "45°",
-                  "90°",
-                  "Overdirection"
-                ],
+                "choices": ["0°", "45°", "90°", "Overdirection"],
                 "answerIndex": 2,
                 "rationale": "90° elevation is best for a natural, airy style by removing weight and adding texture.",
                 "type": "scenario"
               },
               {
                 "prompt": "What is the BEST approach to create a haircut with a longer front and shorter back?",
-                "choices": [
-                  "0° elevation",
-                  "45° elevation",
-                  "90° elevation",
-                  "Overdirection"
-                ],
+                "choices": ["0° elevation", "45° elevation", "90° elevation", "Overdirection"],
                 "answerIndex": 3,
                 "rationale": "Overdirection is the best approach to control the length and shape for a longer front and shorter back.",
                 "type": "applied"
               },
               {
                 "prompt": "Which elevation angle is used to maintain the most weight at the ends of the hair?",
-                "choices": [
-                  "0°",
-                  "45°",
-                  "90°",
-                  "180°"
-                ],
+                "choices": ["0°", "45°", "90°", "180°"],
                 "answerIndex": 0,
                 "rationale": "0° elevation maintains the most weight at the ends, resulting in a blunt cut.",
                 "type": "recall"
               },
               {
                 "prompt": "A client wants a style that is both voluminous and structured. Which elevation should you consider?",
-                "choices": [
-                  "0°",
-                  "45°",
-                  "90°",
-                  "180°"
-                ],
+                "choices": ["0°", "45°", "90°", "180°"],
                 "answerIndex": 1,
                 "rationale": "45° elevation adds volume and structure through a graduated effect.",
                 "type": "scenario"
@@ -10124,12 +9534,7 @@
               },
               {
                 "prompt": "Which guard number would leave the shortest length of hair?",
-                "choices": [
-                  "1",
-                  "3",
-                  "5",
-                  "7"
-                ],
+                "choices": ["1", "3", "5", "7"],
                 "answerIndex": 0,
                 "rationale": "Smaller guard numbers leave shorter hair, with guard number 1 leaving the shortest length.",
                 "type": "recall"
@@ -10184,12 +9589,7 @@
               },
               {
                 "prompt": "What is the recommended time to let disinfectant sit on clipper blades?",
-                "choices": [
-                  "Immediately wipe off",
-                  "30 seconds",
-                  "A few minutes",
-                  "10 minutes"
-                ],
+                "choices": ["Immediately wipe off", "30 seconds", "A few minutes", "10 minutes"],
                 "answerIndex": 2,
                 "rationale": "Allowing the disinfectant to sit for a few minutes ensures effective germ killing.",
                 "type": "recall"
@@ -10232,12 +9632,7 @@
               },
               {
                 "prompt": "A new client asks for a very short buzz cut. Which guard should you likely use?",
-                "choices": [
-                  "Guard #1",
-                  "Guard #3",
-                  "Guard #5",
-                  "Guard #7"
-                ],
+                "choices": ["Guard #1", "Guard #3", "Guard #5", "Guard #7"],
                 "answerIndex": 0,
                 "rationale": "Guard #1 is typically used for very short buzz cuts as it leaves the shortest length.",
                 "type": "scenario"
@@ -10533,12 +9928,7 @@
               },
               {
                 "prompt": "Which tool acts as a guide in the Scissor Over Comb technique?",
-                "choices": [
-                  "Scissors",
-                  "Comb",
-                  "Razor",
-                  "Clippers"
-                ],
+                "choices": ["Scissors", "Comb", "Razor", "Clippers"],
                 "answerIndex": 1,
                 "rationale": "In the Scissor Over Comb technique, the comb acts as a guide, determining the length of hair to be cut.",
                 "type": "recall"
@@ -10605,12 +9995,7 @@
               },
               {
                 "prompt": "What percentage of the Indiana state board barber exam is dedicated to haircutting skills?",
-                "choices": [
-                  "10%",
-                  "25%",
-                  "50%",
-                  "75%"
-                ],
+                "choices": ["10%", "25%", "50%", "75%"],
                 "answerIndex": 1,
                 "rationale": "The Indiana state board barber exam dedicates 25% of the exam to haircutting skills.",
                 "type": "recall"
@@ -10969,12 +10354,7 @@
               },
               {
                 "prompt": "Which tool is essential for cleaning the hairline after completing a fade?",
-                "choices": [
-                  "Scissors",
-                  "Trimmers",
-                  "Razor",
-                  "Clipper guards"
-                ],
+                "choices": ["Scissors", "Trimmers", "Razor", "Clipper guards"],
                 "answerIndex": 1,
                 "rationale": "Trimmers are used to define and clean the hairline, enhancing the overall appearance of the haircut.",
                 "type": "recall"
@@ -11349,12 +10729,7 @@
               },
               {
                 "prompt": "Which hormone derivative is primarily responsible for androgenetic alopecia?",
-                "choices": [
-                  "Estrogen",
-                  "Dihydrotestosterone (DHT)",
-                  "Cortisol",
-                  "Insulin"
-                ],
+                "choices": ["Estrogen", "Dihydrotestosterone (DHT)", "Cortisol", "Insulin"],
                 "answerIndex": 1,
                 "rationale": "Dihydrotestosterone (DHT) is a derivative of testosterone that contributes to androgenetic alopecia by causing hair follicle miniaturization.",
                 "type": "recall"
@@ -11433,12 +10808,7 @@
               },
               {
                 "prompt": "Which of the following conditions is NOT typically associated with hair loss?",
-                "choices": [
-                  "Psoriasis",
-                  "Severe dandruff",
-                  "Ringworm infection",
-                  "Healthy scalp"
-                ],
+                "choices": ["Psoriasis", "Severe dandruff", "Ringworm infection", "Healthy scalp"],
                 "answerIndex": 3,
                 "rationale": "A healthy scalp is not associated with hair loss, unlike conditions such as psoriasis, dandruff, or ringworm.",
                 "type": "recall"
@@ -11640,12 +11010,7 @@
         "questions": [
           {
             "prompt": "A client comes in with curly hair and requests a layered haircut to reduce bulk. What technique should you use to achieve this?",
-            "choices": [
-              "Slide cutting",
-              "Blunt cutting",
-              "Clipper over comb",
-              "Point cutting"
-            ],
+            "choices": ["Slide cutting", "Blunt cutting", "Clipper over comb", "Point cutting"],
             "answerIndex": 3,
             "rationale": "Point cutting is effective for reducing bulk and adding texture, especially in curly hair."
           },
@@ -11662,12 +11027,7 @@
           },
           {
             "prompt": "A client with straight, fine hair wants a haircut that adds volume. Which cutting technique is most suitable?",
-            "choices": [
-              "Razor cutting",
-              "Blunt cutting",
-              "Layering",
-              "Undercutting"
-            ],
+            "choices": ["Razor cutting", "Blunt cutting", "Layering", "Undercutting"],
             "answerIndex": 2,
             "rationale": "Layering can add volume and movement to fine hair, making it appear fuller."
           },
@@ -11728,12 +11088,7 @@
           },
           {
             "prompt": "A client requests a textured crop haircut. Which tool is best suited for creating texture in this style?",
-            "choices": [
-              "Clippers",
-              "Razor",
-              "Thinning shears",
-              "Blunt scissors"
-            ],
+            "choices": ["Clippers", "Razor", "Thinning shears", "Blunt scissors"],
             "answerIndex": 2,
             "rationale": "Thinning shears are ideal for adding texture and removing bulk without altering the overall length significantly."
           },
@@ -11750,12 +11105,7 @@
           },
           {
             "prompt": "A client with thick, wavy hair wants a short, manageable style. Which technique should you consider?",
-            "choices": [
-              "Blunt cutting",
-              "Texturizing",
-              "Razor cutting",
-              "Layering"
-            ],
+            "choices": ["Blunt cutting", "Texturizing", "Razor cutting", "Layering"],
             "answerIndex": 1,
             "rationale": "Texturizing can help reduce bulk and make thick, wavy hair easier to manage."
           },
@@ -11805,12 +11155,7 @@
           },
           {
             "prompt": "A client with a square face shape wants a haircut that softens their features. What should you consider?",
-            "choices": [
-              "Blunt bangs",
-              "Short layers",
-              "Long, soft layers",
-              "High fade"
-            ],
+            "choices": ["Blunt bangs", "Short layers", "Long, soft layers", "High fade"],
             "answerIndex": 2,
             "rationale": "Long, soft layers can help soften the angles of a square face, creating a more balanced appearance."
           },
@@ -11827,23 +11172,13 @@
           },
           {
             "prompt": "A client with a round face wants a haircut that elongates their appearance. What style should you suggest?",
-            "choices": [
-              "Short bob",
-              "Long layers",
-              "Pixie cut",
-              "Flat top"
-            ],
+            "choices": ["Short bob", "Long layers", "Pixie cut", "Flat top"],
             "answerIndex": 1,
             "rationale": "Long layers can help elongate a round face by adding height and drawing the eye downward."
           },
           {
             "prompt": "What is the benefit of using a texturizing technique on thick hair?",
-            "choices": [
-              "Adds weight",
-              "Reduces bulk",
-              "Creates blunt edges",
-              "Increases shine"
-            ],
+            "choices": ["Adds weight", "Reduces bulk", "Creates blunt edges", "Increases shine"],
             "answerIndex": 1,
             "rationale": "Texturizing reduces bulk, making thick hair more manageable and easier to style."
           },
@@ -11907,24 +11242,14 @@
             "questions": [
               {
                 "prompt": "What is the highest point on the top of the head that serves as a critical reference for balance and symmetry in haircuts?",
-                "choices": [
-                  "Apex",
-                  "Crown",
-                  "Occipital bone",
-                  "Nape"
-                ],
+                "choices": ["Apex", "Crown", "Occipital bone", "Nape"],
                 "answerIndex": 0,
                 "rationale": "The apex is the highest point on the top of the head and is essential for determining balance and symmetry in haircuts.",
                 "type": "recall"
               },
               {
                 "prompt": "Which sectioning line divides the hair from the forehead to the nape?",
-                "choices": [
-                  "Horizontal line",
-                  "Diagonal line",
-                  "Center part",
-                  "Vertical line"
-                ],
+                "choices": ["Horizontal line", "Diagonal line", "Center part", "Vertical line"],
                 "answerIndex": 2,
                 "rationale": "A center part is used to divide the hair from the forehead to the nape, creating left and right sections.",
                 "type": "recall"
@@ -11967,12 +11292,7 @@
               },
               {
                 "prompt": "Which reference point helps define the nape area and influences the overall silhouette of the haircut?",
-                "choices": [
-                  "Apex",
-                  "Crown",
-                  "Occipital bone",
-                  "Frontal bone"
-                ],
+                "choices": ["Apex", "Crown", "Occipital bone", "Frontal bone"],
                 "answerIndex": 2,
                 "rationale": "The occipital bone helps define the nape area and influences the haircut's silhouette.",
                 "type": "recall"
@@ -12015,12 +11335,7 @@
               },
               {
                 "prompt": "Which of the following is a key reference point located just below the apex?",
-                "choices": [
-                  "Crown",
-                  "Occipital bone",
-                  "Frontal bone",
-                  "Nape"
-                ],
+                "choices": ["Crown", "Occipital bone", "Frontal bone", "Nape"],
                 "answerIndex": 0,
                 "rationale": "The crown is located just below the apex and can be challenging due to hair growth patterns.",
                 "type": "recall"
@@ -12087,12 +11402,7 @@
               },
               {
                 "prompt": "Which part of the head is crucial for determining the haircut's shape and flow?",
-                "choices": [
-                  "Apex",
-                  "Crown",
-                  "Occipital bone",
-                  "All reference points"
-                ],
+                "choices": ["Apex", "Crown", "Occipital bone", "All reference points"],
                 "answerIndex": 3,
                 "rationale": "All reference points, including the apex, crown, and occipital bone, are crucial for determining the haircut's shape and flow.",
                 "type": "recall"
@@ -12262,12 +11572,7 @@
               },
               {
                 "prompt": "Which fade type is ideal for a client seeking a conservative yet stylish look?",
-                "choices": [
-                  "Low fade",
-                  "Mid fade",
-                  "High fade",
-                  "No fade"
-                ],
+                "choices": ["Low fade", "Mid fade", "High fade", "No fade"],
                 "answerIndex": 0,
                 "rationale": "A low fade offers a conservative yet stylish look, making it suitable for clients who prefer subtlety.",
                 "type": "recall"
@@ -12286,24 +11591,14 @@
               },
               {
                 "prompt": "A client presents with a request for a bold, edgy appearance. Which fade should you recommend?",
-                "choices": [
-                  "Low fade",
-                  "Mid fade",
-                  "High fade",
-                  "No fade"
-                ],
+                "choices": ["Low fade", "Mid fade", "High fade", "No fade"],
                 "answerIndex": 2,
                 "rationale": "A high fade creates a striking contrast, making it ideal for clients seeking a bold, edgy look.",
                 "type": "scenario"
               },
               {
                 "prompt": "What is the correct dwell time for clipper disinfectant spray?",
-                "choices": [
-                  "5 minutes",
-                  "10 minutes",
-                  "15 minutes",
-                  "20 minutes"
-                ],
+                "choices": ["5 minutes", "10 minutes", "15 minutes", "20 minutes"],
                 "answerIndex": 1,
                 "rationale": "The correct dwell time for clipper disinfectant spray is usually around 10 minutes to effectively kill bacteria and viruses.",
                 "type": "recall"
@@ -12322,12 +11617,7 @@
               },
               {
                 "prompt": "A new client asks for a fade that starts around the temple area. Which fade should you perform?",
-                "choices": [
-                  "Low fade",
-                  "Mid fade",
-                  "High fade",
-                  "No fade"
-                ],
+                "choices": ["Low fade", "Mid fade", "High fade", "No fade"],
                 "answerIndex": 1,
                 "rationale": "A mid fade starts around the temple area, offering a balanced look.",
                 "type": "scenario"
@@ -12358,12 +11648,7 @@
               },
               {
                 "prompt": "Which fade type offers a balanced look that is neither too bold nor too subtle?",
-                "choices": [
-                  "Low fade",
-                  "Mid fade",
-                  "High fade",
-                  "No fade"
-                ],
+                "choices": ["Low fade", "Mid fade", "High fade", "No fade"],
                 "answerIndex": 1,
                 "rationale": "A mid fade offers a balanced look, making it suitable for clients who want a modern, versatile style.",
                 "type": "recall"
@@ -12442,12 +11727,7 @@
               },
               {
                 "prompt": "A client with a round face requests a fade. Which fade might complement their face shape best?",
-                "choices": [
-                  "Low fade",
-                  "Mid fade",
-                  "High fade",
-                  "No fade"
-                ],
+                "choices": ["Low fade", "Mid fade", "High fade", "No fade"],
                 "answerIndex": 2,
                 "rationale": "A high fade can add length to the appearance of a round face, providing a more balanced look.",
                 "type": "scenario"
@@ -12662,12 +11942,7 @@
               },
               {
                 "prompt": "Which tool is essential for executing the clipper-over-comb technique?",
-                "choices": [
-                  "Razor",
-                  "Comb",
-                  "Scissors",
-                  "Hairdryer"
-                ],
+                "choices": ["Razor", "Comb", "Scissors", "Hairdryer"],
                 "answerIndex": 1,
                 "rationale": "A comb is essential for lifting sections of hair while trimming with clippers in the clipper-over-comb technique.",
                 "type": "recall"
@@ -12698,12 +11973,7 @@
               },
               {
                 "prompt": "What is the correct dwell time for clipper disinfectant spray?",
-                "choices": [
-                  "1 second",
-                  "10 seconds",
-                  "30 seconds",
-                  "5 minutes"
-                ],
+                "choices": ["1 second", "10 seconds", "30 seconds", "5 minutes"],
                 "answerIndex": 2,
                 "rationale": "The correct dwell time for clipper disinfectant spray is typically around 30 seconds to effectively eliminate bacteria.",
                 "type": "recall"
@@ -13067,12 +12337,7 @@
               },
               {
                 "prompt": "Which tool should be held in the non-dominant hand during the scissor-over-comb technique?",
-                "choices": [
-                  "Scissors",
-                  "Comb",
-                  "Razor",
-                  "Clippers"
-                ],
+                "choices": ["Scissors", "Comb", "Razor", "Clippers"],
                 "answerIndex": 1,
                 "rationale": "The comb is held in the non-dominant hand to lift and control the hair while cutting with the dominant hand.",
                 "type": "recall"
@@ -13103,12 +12368,7 @@
               },
               {
                 "prompt": "What angle should the scissors be held at during point cutting?",
-                "choices": [
-                  "Horizontal",
-                  "Vertical",
-                  "Diagonal",
-                  "Parallel to the comb"
-                ],
+                "choices": ["Horizontal", "Vertical", "Diagonal", "Parallel to the comb"],
                 "answerIndex": 1,
                 "rationale": "Point cutting requires the scissors to be held at a vertical angle to create texture and soften the ends.",
                 "type": "recall"
@@ -13474,12 +12734,7 @@
               },
               {
                 "prompt": "Which of the following is a contraindication for using a razor during a lineup?",
-                "choices": [
-                  "Dry skin",
-                  "Irritated skin",
-                  "Oily skin",
-                  "Thick hair"
-                ],
+                "choices": ["Dry skin", "Irritated skin", "Oily skin", "Thick hair"],
                 "answerIndex": 1,
                 "rationale": "Irritated skin is a contraindication because using a razor on it can exacerbate the condition and lead to discomfort or infection.",
                 "type": "recall"
@@ -13896,12 +13151,7 @@
               },
               {
                 "prompt": "Which tool is essential for guiding clippers during a flat top cut?",
-                "choices": [
-                  "Flat comb",
-                  "Round brush",
-                  "Straight razor",
-                  "Texturizing shears"
-                ],
+                "choices": ["Flat comb", "Round brush", "Straight razor", "Texturizing shears"],
                 "answerIndex": 0,
                 "rationale": "A flat comb is used to guide clippers during a flat top cut, helping to maintain a level surface.",
                 "type": "recall"
@@ -14028,12 +13278,7 @@
               },
               {
                 "prompt": "Which step is NOT part of the flat top cut procedure?",
-                "choices": [
-                  "Preparation",
-                  "Sectioning",
-                  "Leveling",
-                  "Blow-drying"
-                ],
+                "choices": ["Preparation", "Sectioning", "Leveling", "Blow-drying"],
                 "answerIndex": 3,
                 "rationale": "Blow-drying is not listed as a step in the flat top cut procedure, which focuses on preparation, sectioning, clipping, leveling, and detailing.",
                 "type": "recall"
@@ -14261,12 +13506,7 @@
           },
           {
             "prompt": "A client requests a fade haircut with a gradual blend from short to long. Which tool is most appropriate for achieving the initial short length?",
-            "choices": [
-              "A. Clippers",
-              "B. Scissors",
-              "C. Razor",
-              "D. Thinning shears"
-            ],
+            "choices": ["A. Clippers", "B. Scissors", "C. Razor", "D. Thinning shears"],
             "answerIndex": 0,
             "rationale": "Clippers are best for achieving the precise, short lengths needed in a fade haircut."
           },
@@ -14294,23 +13534,13 @@
           },
           {
             "prompt": "During a consultation, a client mentions they want a haircut that elongates their round face shape. Which style should you recommend?",
-            "choices": [
-              "A. A-line bob",
-              "B. Pixie cut",
-              "C. Long layers",
-              "D. Blunt cut"
-            ],
+            "choices": ["A. A-line bob", "B. Pixie cut", "C. Long layers", "D. Blunt cut"],
             "answerIndex": 2,
             "rationale": "Long layers can help elongate a round face by adding vertical lines and height."
           },
           {
             "prompt": "A client with fine hair wants more volume. Which technique should you avoid?",
-            "choices": [
-              "A. Layering",
-              "B. Blunt cutting",
-              "C. Texturizing",
-              "D. Thinning"
-            ],
+            "choices": ["A. Layering", "B. Blunt cutting", "C. Texturizing", "D. Thinning"],
             "answerIndex": 3,
             "rationale": "Thinning fine hair can make it appear even thinner, reducing volume."
           },
@@ -14327,12 +13557,7 @@
           },
           {
             "prompt": "A client requests a bob that is longer in the front and shorter in the back. What is this style called?",
-            "choices": [
-              "A. Inverted bob",
-              "B. Layered bob",
-              "C. Blunt bob",
-              "D. Graduated bob"
-            ],
+            "choices": ["A. Inverted bob", "B. Layered bob", "C. Blunt bob", "D. Graduated bob"],
             "answerIndex": 0,
             "rationale": "An inverted bob is characterized by being longer in the front and shorter in the back."
           },
@@ -14349,12 +13574,7 @@
           },
           {
             "prompt": "A client with thick, straight hair wants a style with less bulk. Which tool should you use?",
-            "choices": [
-              "A. Clippers",
-              "B. Thinning shears",
-              "C. Razor",
-              "D. Scissors"
-            ],
+            "choices": ["A. Clippers", "B. Thinning shears", "C. Razor", "D. Scissors"],
             "answerIndex": 1,
             "rationale": "Thinning shears are ideal for removing bulk from thick hair without affecting the overall length."
           },
@@ -14371,12 +13591,7 @@
           },
           {
             "prompt": "A client complains their hair looks too flat after a haircut. What technique could have caused this?",
-            "choices": [
-              "A. Over-direction",
-              "B. Texturizing",
-              "C. Blunt cutting",
-              "D. Layering"
-            ],
+            "choices": ["A. Over-direction", "B. Texturizing", "C. Blunt cutting", "D. Layering"],
             "answerIndex": 2,
             "rationale": "Blunt cutting can make hair appear flat if not combined with other techniques to add volume or movement."
           },
@@ -14393,12 +13608,7 @@
           },
           {
             "prompt": "A client wants a haircut that requires minimal styling effort. Which style should you recommend?",
-            "choices": [
-              "A. Layered cut",
-              "B. Pixie cut",
-              "C. Bob cut",
-              "D. Shag cut"
-            ],
+            "choices": ["A. Layered cut", "B. Pixie cut", "C. Bob cut", "D. Shag cut"],
             "answerIndex": 1,
             "rationale": "A pixie cut is low-maintenance and requires minimal styling effort, making it ideal for clients seeking simplicity."
           },
@@ -14415,12 +13625,7 @@
           },
           {
             "prompt": "A client with a square face shape wants a haircut that softens their features. What should you suggest?",
-            "choices": [
-              "A. Blunt bangs",
-              "B. Long layers",
-              "C. Straight bob",
-              "D. Short pixie"
-            ],
+            "choices": ["A. Blunt bangs", "B. Long layers", "C. Straight bob", "D. Short pixie"],
             "answerIndex": 1,
             "rationale": "Long layers can soften the angular features of a square face by adding movement and framing the face."
           },
@@ -14437,12 +13642,7 @@
           },
           {
             "prompt": "A client with wavy hair wants to enhance their natural texture. Which product should you recommend?",
-            "choices": [
-              "A. Mousse",
-              "B. Gel",
-              "C. Pomade",
-              "D. Hair spray"
-            ],
+            "choices": ["A. Mousse", "B. Gel", "C. Pomade", "D. Hair spray"],
             "answerIndex": 0,
             "rationale": "Mousse is lightweight and helps enhance natural waves without weighing the hair down."
           },
@@ -14542,12 +13742,7 @@
               },
               {
                 "prompt": "What is the recommended duration for applying a hot towel to the client's face?",
-                "choices": [
-                  "1–2 minutes",
-                  "2–3 minutes",
-                  "3–4 minutes",
-                  "4–5 minutes"
-                ],
+                "choices": ["1–2 minutes", "2–3 minutes", "3–4 minutes", "4–5 minutes"],
                 "answerIndex": 1,
                 "rationale": "Applying the hot towel for 2–3 minutes is sufficient to soften facial hair and open pores for a smoother shave.",
                 "type": "recall"
@@ -14566,12 +13761,7 @@
               },
               {
                 "prompt": "Which of the following is a contraindication for proceeding with a shave?",
-                "choices": [
-                  "Oily skin",
-                  "Recent chemical peel",
-                  "Sunburn",
-                  "Dry skin"
-                ],
+                "choices": ["Oily skin", "Recent chemical peel", "Sunburn", "Dry skin"],
                 "answerIndex": 1,
                 "rationale": "A recent chemical peel is a contraindication as it can cause adverse reactions during a shave.",
                 "type": "recall"
@@ -14590,12 +13780,7 @@
               },
               {
                 "prompt": "Which pre-shave product is suitable for a client with oily skin?",
-                "choices": [
-                  "Heavy cream",
-                  "Moisturizing oil",
-                  "Light gel",
-                  "Menthol foam"
-                ],
+                "choices": ["Heavy cream", "Moisturizing oil", "Light gel", "Menthol foam"],
                 "answerIndex": 2,
                 "rationale": "A light gel is suitable for oily skin as it doesn't add extra oil and provides a smooth surface for shaving.",
                 "type": "recall"
@@ -14662,12 +13847,7 @@
               },
               {
                 "prompt": "A client with dry skin requests a shave. Which pre-shave product should you use?",
-                "choices": [
-                  "Heavy cream",
-                  "Moisturizing oil",
-                  "Light gel",
-                  "Menthol foam"
-                ],
+                "choices": ["Heavy cream", "Moisturizing oil", "Light gel", "Menthol foam"],
                 "answerIndex": 1,
                 "rationale": "A moisturizing oil is ideal for dry skin as it provides hydration and reduces irritation during shaving.",
                 "type": "scenario"
@@ -14686,12 +13866,7 @@
               },
               {
                 "prompt": "Which skin type benefits most from a light gel pre-shave product?",
-                "choices": [
-                  "Dry skin",
-                  "Oily skin",
-                  "Sensitive skin",
-                  "Combination skin"
-                ],
+                "choices": ["Dry skin", "Oily skin", "Sensitive skin", "Combination skin"],
                 "answerIndex": 1,
                 "rationale": "A light gel is suitable for oily skin as it doesn't add extra oil and provides a smooth surface for shaving.",
                 "type": "recall"
@@ -14950,12 +14125,7 @@
               },
               {
                 "prompt": "What angle should be maintained between the razor and the skin for an effective shave?",
-                "choices": [
-                  "15 degrees",
-                  "30 degrees",
-                  "45 degrees",
-                  "60 degrees"
-                ],
+                "choices": ["15 degrees", "30 degrees", "45 degrees", "60 degrees"],
                 "answerIndex": 1,
                 "rationale": "A 30-degree angle is optimal for cutting hair efficiently while minimizing the risk of cutting the skin.",
                 "type": "recall"
@@ -14974,12 +14144,7 @@
               },
               {
                 "prompt": "What is the correct sequence of passes for a straight razor shave?",
-                "choices": [
-                  "XTG, ATG, WTG",
-                  "WTG, XTG, ATG",
-                  "ATG, WTG, XTG",
-                  "WTG, ATG, XTG"
-                ],
+                "choices": ["XTG, ATG, WTG", "WTG, XTG, ATG", "ATG, WTG, XTG", "WTG, ATG, XTG"],
                 "answerIndex": 1,
                 "rationale": "The typical sequence involves shaving with the grain first, then across, and finally against the grain if appropriate.",
                 "type": "recall"
@@ -15010,12 +14175,7 @@
               },
               {
                 "prompt": "How much of the Indiana state board practical exam focuses on safety and sanitation?",
-                "choices": [
-                  "10%",
-                  "20%",
-                  "30%",
-                  "40%"
-                ],
+                "choices": ["10%", "20%", "30%", "40%"],
                 "answerIndex": 1,
                 "rationale": "Safety and sanitation comprise approximately 20% of the practical exam, emphasizing their importance.",
                 "type": "recall"
@@ -15360,24 +14520,14 @@
               },
               {
                 "prompt": "Which face shape is considered the most versatile for beard styles?",
-                "choices": [
-                  "Round",
-                  "Oval",
-                  "Square",
-                  "Triangular"
-                ],
+                "choices": ["Round", "Oval", "Square", "Triangular"],
                 "answerIndex": 1,
                 "rationale": "Oval faces are considered the most versatile because most beard styles work well with this shape.",
                 "type": "recall"
               },
               {
                 "prompt": "A client presents with a round face and wants a beard that elongates their appearance. Which style should you recommend?",
-                "choices": [
-                  "Circle beard",
-                  "Classic full beard",
-                  "Goatee",
-                  "Fuller sides"
-                ],
+                "choices": ["Circle beard", "Classic full beard", "Goatee", "Fuller sides"],
                 "answerIndex": 2,
                 "rationale": "A goatee adds length to the face, creating the illusion of a more oval shape, which is ideal for round faces.",
                 "type": "scenario"
@@ -15408,24 +14558,14 @@
               },
               {
                 "prompt": "A new client asks for a beard style that softens their strong jawline. They have a square face. What style should you suggest?",
-                "choices": [
-                  "Van Dyke",
-                  "Circle beard",
-                  "Goatee",
-                  "Fuller sides"
-                ],
+                "choices": ["Van Dyke", "Circle beard", "Goatee", "Fuller sides"],
                 "answerIndex": 1,
                 "rationale": "A circle beard softens the angles of a square face, complementing the strong jawline.",
                 "type": "scenario"
               },
               {
                 "prompt": "Which tool is primarily used to set the neckline in beard design?",
-                "choices": [
-                  "Razor",
-                  "Scissors",
-                  "Trimmer",
-                  "Comb"
-                ],
+                "choices": ["Razor", "Scissors", "Trimmer", "Comb"],
                 "answerIndex": 2,
                 "rationale": "A trimmer is used to set the neckline, ensuring precision and symmetry.",
                 "type": "recall"
@@ -15444,12 +14584,7 @@
               },
               {
                 "prompt": "A client with a rectangular face wants to avoid a beard style that adds length. What should you recommend?",
-                "choices": [
-                  "Goatee",
-                  "Fuller sides",
-                  "Van Dyke",
-                  "Elongated styles"
-                ],
+                "choices": ["Goatee", "Fuller sides", "Van Dyke", "Elongated styles"],
                 "answerIndex": 1,
                 "rationale": "Fuller sides help balance a rectangular face by avoiding additional length.",
                 "type": "scenario"
@@ -15564,12 +14699,7 @@
               },
               {
                 "prompt": "A client with a triangular face wants a beard style that adds width at the top. What should you recommend?",
-                "choices": [
-                  "Elongated styles",
-                  "Goatee",
-                  "Fuller cheek lines",
-                  "Van Dyke"
-                ],
+                "choices": ["Elongated styles", "Goatee", "Fuller cheek lines", "Van Dyke"],
                 "answerIndex": 2,
                 "rationale": "Fuller cheek lines add width at the top, balancing a triangular face's narrower forehead.",
                 "type": "scenario"
@@ -15770,12 +14900,7 @@
               },
               {
                 "prompt": "How long should a cold towel be applied to the face after shaving?",
-                "choices": [
-                  "30 seconds",
-                  "1-2 minutes",
-                  "5 minutes",
-                  "10 minutes"
-                ],
+                "choices": ["30 seconds", "1-2 minutes", "5 minutes", "10 minutes"],
                 "answerIndex": 1,
                 "rationale": "A cold towel should be applied for 1-2 minutes to effectively reduce swelling and provide a refreshing sensation.",
                 "type": "recall"
@@ -16175,12 +15300,7 @@
               },
               {
                 "prompt": "Which mustache style is characterized by its long, curled ends?",
-                "choices": [
-                  "Chevron",
-                  "Handlebar",
-                  "Pencil",
-                  "Walrus"
-                ],
+                "choices": ["Chevron", "Handlebar", "Pencil", "Walrus"],
                 "answerIndex": 1,
                 "rationale": "The Handlebar mustache is defined by its long, curled ends.",
                 "type": "recall"
@@ -16295,12 +15415,7 @@
               },
               {
                 "prompt": "Which mustache style resembles an inverted U?",
-                "choices": [
-                  "Chevron",
-                  "Horseshoe",
-                  "Walrus",
-                  "Handlebar"
-                ],
+                "choices": ["Chevron", "Horseshoe", "Walrus", "Handlebar"],
                 "answerIndex": 1,
                 "rationale": "The Horseshoe mustache is characterized by its inverted U shape.",
                 "type": "recall"
@@ -16552,12 +15667,7 @@
           },
           {
             "prompt": "During a beard trim, a client requests a specific style that requires precise lines. Which tool is best suited for this task?",
-            "choices": [
-              "Straight razor",
-              "Electric clipper",
-              "Scissors",
-              "Beard comb"
-            ],
+            "choices": ["Straight razor", "Electric clipper", "Scissors", "Beard comb"],
             "answerIndex": 0,
             "rationale": "A straight razor allows for the most precise lines and detailing in beard styling."
           },
@@ -16618,12 +15728,7 @@
           },
           {
             "prompt": "When sanitizing a straight razor, what is the minimum recommended contact time with a disinfectant solution?",
-            "choices": [
-              "10 seconds",
-              "1 minute",
-              "5 minutes",
-              "15 minutes"
-            ],
+            "choices": ["10 seconds", "1 minute", "5 minutes", "15 minutes"],
             "answerIndex": 2,
             "rationale": "A contact time of 5 minutes is generally recommended to ensure effective disinfection."
           },
@@ -16640,12 +15745,7 @@
           },
           {
             "prompt": "Which of the following is a contraindication for a straight razor shave?",
-            "choices": [
-              "Dry skin",
-              "Acne",
-              "Oily skin",
-              "Thick beard"
-            ],
+            "choices": ["Dry skin", "Acne", "Oily skin", "Thick beard"],
             "answerIndex": 1,
             "rationale": "Acne can be irritated or cut during a straight razor shave, making it a contraindication."
           },
@@ -16717,12 +15817,7 @@
           },
           {
             "prompt": "During a shave, the client mentions they have a latex allergy. What should you avoid using?",
-            "choices": [
-              "Latex gloves",
-              "Shaving cream",
-              "Aftershave lotion",
-              "Straight razor"
-            ],
+            "choices": ["Latex gloves", "Shaving cream", "Aftershave lotion", "Straight razor"],
             "answerIndex": 0,
             "rationale": "Latex gloves should be avoided to prevent allergic reactions in clients with latex allergies."
           },
@@ -16739,12 +15834,7 @@
           },
           {
             "prompt": "A client with a thick beard wants a close shave. Which razor type is most suitable for this task?",
-            "choices": [
-              "Disposable razor",
-              "Electric razor",
-              "Safety razor",
-              "Straight razor"
-            ],
+            "choices": ["Disposable razor", "Electric razor", "Safety razor", "Straight razor"],
             "answerIndex": 3,
             "rationale": "A straight razor provides a closer shave and is ideal for thick beards."
           }
@@ -16803,60 +15893,35 @@
               },
               {
                 "prompt": "Which of the following is a secondary color?",
-                "choices": [
-                  "Red",
-                  "Green",
-                  "Blue",
-                  "Yellow"
-                ],
+                "choices": ["Red", "Green", "Blue", "Yellow"],
                 "answerIndex": 1,
                 "rationale": "Green is a secondary color, created by mixing the primary colors blue and yellow.",
                 "type": "recall"
               },
               {
                 "prompt": "A client presents with brassy orange tones in their blonde hair. Which complementary color should you use to neutralize the unwanted tones?",
-                "choices": [
-                  "Blue",
-                  "Red",
-                  "Green",
-                  "Yellow"
-                ],
+                "choices": ["Blue", "Red", "Green", "Yellow"],
                 "answerIndex": 0,
                 "rationale": "Blue is the complementary color to orange and will neutralize brassy tones.",
                 "type": "scenario"
               },
               {
                 "prompt": "During a consultation, a client wants to cover their gray hair with a long-lasting solution. Which type of hair color should you recommend?",
-                "choices": [
-                  "Temporary",
-                  "Semi-Permanent",
-                  "Demi-Permanent",
-                  "Permanent"
-                ],
+                "choices": ["Temporary", "Semi-Permanent", "Demi-Permanent", "Permanent"],
                 "answerIndex": 3,
                 "rationale": "Permanent hair color is ideal for covering gray hair as it offers long-lasting results.",
                 "type": "scenario"
               },
               {
                 "prompt": "What is the lightest level on the hair color level system?",
-                "choices": [
-                  "Level 1",
-                  "Level 5",
-                  "Level 7",
-                  "Level 10"
-                ],
+                "choices": ["Level 1", "Level 5", "Level 7", "Level 10"],
                 "answerIndex": 3,
                 "rationale": "Level 10 is the lightest level, representing pale blonde on the hair color level system.",
                 "type": "recall"
               },
               {
                 "prompt": "Which type of hair color requires a low-volume developer and lasts up to 24 shampoos?",
-                "choices": [
-                  "Temporary",
-                  "Semi-Permanent",
-                  "Demi-Permanent",
-                  "Permanent"
-                ],
+                "choices": ["Temporary", "Semi-Permanent", "Demi-Permanent", "Permanent"],
                 "answerIndex": 2,
                 "rationale": "Demi-permanent hair color uses a low-volume developer and lasts longer than semi-permanent options.",
                 "type": "recall"
@@ -16923,24 +15988,14 @@
               },
               {
                 "prompt": "Which hair color type is best for clients who want to experiment with color without a long-term commitment?",
-                "choices": [
-                  "Temporary",
-                  "Semi-Permanent",
-                  "Demi-Permanent",
-                  "Permanent"
-                ],
+                "choices": ["Temporary", "Semi-Permanent", "Demi-Permanent", "Permanent"],
                 "answerIndex": 1,
                 "rationale": "Semi-permanent hair color is ideal for clients wanting to experiment without long-term commitment, lasting 4 to 12 shampoos.",
                 "type": "recall"
               },
               {
                 "prompt": "A client wants a subtle color change that enhances their natural shade. Which hair color type should you recommend?",
-                "choices": [
-                  "Temporary",
-                  "Semi-Permanent",
-                  "Demi-Permanent",
-                  "Permanent"
-                ],
+                "choices": ["Temporary", "Semi-Permanent", "Demi-Permanent", "Permanent"],
                 "answerIndex": 2,
                 "rationale": "Demi-permanent color is excellent for enhancing natural color with a subtle change.",
                 "type": "scenario"
@@ -16959,24 +16014,14 @@
               },
               {
                 "prompt": "Which level on the hair color level system represents medium brown?",
-                "choices": [
-                  "Level 3",
-                  "Level 5",
-                  "Level 7",
-                  "Level 9"
-                ],
+                "choices": ["Level 3", "Level 5", "Level 7", "Level 9"],
                 "answerIndex": 1,
                 "rationale": "Level 5 is medium brown on the hair color level system.",
                 "type": "recall"
               },
               {
                 "prompt": "A client requests a hair color that will last only for a special event. Which product should you use?",
-                "choices": [
-                  "Temporary",
-                  "Semi-Permanent",
-                  "Demi-Permanent",
-                  "Permanent"
-                ],
+                "choices": ["Temporary", "Semi-Permanent", "Demi-Permanent", "Permanent"],
                 "answerIndex": 0,
                 "rationale": "Temporary hair color is ideal for short-term use, as it washes out after one or two shampoos.",
                 "type": "scenario"
@@ -16995,12 +16040,7 @@
               },
               {
                 "prompt": "Which type of hair color penetrates the hair shaft slightly and lasts through 4 to 12 shampoos?",
-                "choices": [
-                  "Temporary",
-                  "Semi-Permanent",
-                  "Demi-Permanent",
-                  "Permanent"
-                ],
+                "choices": ["Temporary", "Semi-Permanent", "Demi-Permanent", "Permanent"],
                 "answerIndex": 1,
                 "rationale": "Semi-permanent hair color penetrates slightly and lasts through 4 to 12 shampoos.",
                 "type": "recall"
@@ -17146,12 +16186,7 @@
               },
               {
                 "prompt": "Which personal protective equipment is essential for barbers during chemical services?",
-                "choices": [
-                  "Cotton gloves",
-                  "Nitrile gloves",
-                  "Wool gloves",
-                  "Plastic gloves"
-                ],
+                "choices": ["Cotton gloves", "Nitrile gloves", "Wool gloves", "Plastic gloves"],
                 "answerIndex": 1,
                 "rationale": "Nitrile gloves are essential because they provide a barrier against a wide range of chemicals.",
                 "type": "recall"
@@ -17206,12 +16241,7 @@
               },
               {
                 "prompt": "Which area is commonly used for a patch test?",
-                "choices": [
-                  "Back of the hand",
-                  "Inner forearm",
-                  "Top of the foot",
-                  "Outer thigh"
-                ],
+                "choices": ["Back of the hand", "Inner forearm", "Top of the foot", "Outer thigh"],
                 "answerIndex": 1,
                 "rationale": "The inner forearm is a discreet area commonly used for patch tests.",
                 "type": "recall"
@@ -17884,12 +16914,7 @@
               },
               {
                 "prompt": "Which ingredient is commonly found in medicated shampoos for treating dandruff?",
-                "choices": [
-                  "Zinc pyrithione",
-                  "Aloe vera",
-                  "Coconut oil",
-                  "Argan oil"
-                ],
+                "choices": ["Zinc pyrithione", "Aloe vera", "Coconut oil", "Argan oil"],
                 "answerIndex": 0,
                 "rationale": "Medicated shampoos for dandruff often contain zinc pyrithione, which helps control the yeast-like fungus that can cause dandruff.",
                 "type": "recall"
@@ -17932,12 +16957,7 @@
               },
               {
                 "prompt": "Which scalp condition is characterized by overactive sebaceous glands?",
-                "choices": [
-                  "Oily scalp",
-                  "Dry scalp",
-                  "Dandruff",
-                  "Scalp psoriasis"
-                ],
+                "choices": ["Oily scalp", "Dry scalp", "Dandruff", "Scalp psoriasis"],
                 "answerIndex": 0,
                 "rationale": "An oily scalp results from overactive sebaceous glands, leading to greasy hair and scalp.",
                 "type": "recall"
@@ -17968,12 +16988,7 @@
               },
               {
                 "prompt": "A client presents with flaky, itchy skin on their scalp. What is the most likely condition?",
-                "choices": [
-                  "Dandruff",
-                  "Dry scalp",
-                  "Oily scalp",
-                  "Scalp psoriasis"
-                ],
+                "choices": ["Dandruff", "Dry scalp", "Oily scalp", "Scalp psoriasis"],
                 "answerIndex": 0,
                 "rationale": "Flaky, itchy skin on the scalp is a common symptom of dandruff.",
                 "type": "scenario"
@@ -18862,12 +17877,7 @@
             "questions": [
               {
                 "prompt": "What is the typical commission percentage range for barbers in a commission-based model?",
-                "choices": [
-                  "A) 20% to 30%",
-                  "B) 40% to 60%",
-                  "C) 60% to 80%",
-                  "D) 80% to 100%"
-                ],
+                "choices": ["A) 20% to 30%", "B) 40% to 60%", "C) 60% to 80%", "D) 80% to 100%"],
                 "answerIndex": 1,
                 "rationale": "The typical commission percentage range for barbers is 40% to 60%, which allows them to earn a portion of the revenue generated from their services.",
                 "type": "recall"
@@ -18910,12 +17920,7 @@
               },
               {
                 "prompt": "What is the self-employment tax rate for barbers who are booth renters or owners?",
-                "choices": [
-                  "A) 10.5%",
-                  "B) 12.4%",
-                  "C) 15.3%",
-                  "D) 18.6%"
-                ],
+                "choices": ["A) 10.5%", "B) 12.4%", "C) 15.3%", "D) 18.6%"],
                 "answerIndex": 2,
                 "rationale": "The self-employment tax rate is 15.3%, covering both Social Security and Medicare, which self-employed barbers must pay.",
                 "type": "recall"
@@ -18958,12 +17963,7 @@
               },
               {
                 "prompt": "Which business model offers barbers the most control over their work environment and schedule?",
-                "choices": [
-                  "A) Commission",
-                  "B) Booth Rental",
-                  "C) Employment",
-                  "D) Internship"
-                ],
+                "choices": ["A) Commission", "B) Booth Rental", "C) Employment", "D) Internship"],
                 "answerIndex": 1,
                 "rationale": "Booth rental allows barbers to operate as independent contractors, giving them control over their work environment and schedule.",
                 "type": "recall"
@@ -19054,12 +18054,7 @@
               },
               {
                 "prompt": "Which business model requires barbers to set aside funds for self-employment taxes?",
-                "choices": [
-                  "A) Commission",
-                  "B) Booth Rental",
-                  "C) Employment",
-                  "D) Internship"
-                ],
+                "choices": ["A) Commission", "B) Booth Rental", "C) Employment", "D) Internship"],
                 "answerIndex": 1,
                 "rationale": "Booth rental requires barbers to manage their own taxes, including setting aside funds for self-employment taxes.",
                 "type": "recall"
@@ -19199,12 +18194,7 @@
             "questions": [
               {
                 "prompt": "What is the standard tip percentage range for barbering services?",
-                "choices": [
-                  "10-15%",
-                  "15-20%",
-                  "20-25%",
-                  "5-10%"
-                ],
+                "choices": ["10-15%", "15-20%", "20-25%", "5-10%"],
                 "answerIndex": 1,
                 "rationale": "In the barbering industry, it is customary for clients to tip between 15% and 20% of the total service cost.",
                 "type": "recall"
@@ -19271,12 +18261,7 @@
               },
               {
                 "prompt": "What tool is used to estimate tax liability for quarterly estimated taxes?",
-                "choices": [
-                  "Form W-2",
-                  "Form 1099",
-                  "Form 1040-ES",
-                  "Form 940"
-                ],
+                "choices": ["Form W-2", "Form 1099", "Form 1040-ES", "Form 940"],
                 "answerIndex": 2,
                 "rationale": "IRS Form 1040-ES is used to estimate tax liability for quarterly estimated taxes.",
                 "type": "recall"
@@ -19566,12 +18551,7 @@
               },
               {
                 "prompt": "Which of the following services is outside the scope of practice for an Indiana barber?",
-                "choices": [
-                  "Haircut",
-                  "Shave",
-                  "Chemical hair treatment",
-                  "Basic grooming"
-                ],
+                "choices": ["Haircut", "Shave", "Chemical hair treatment", "Basic grooming"],
                 "answerIndex": 2,
                 "rationale": "Chemical hair treatments are outside the scope of practice for barbers and should be referred to a licensed cosmetologist.",
                 "type": "recall"
@@ -19614,12 +18594,7 @@
               },
               {
                 "prompt": "Which element of the barber's code involves being honest and transparent?",
-                "choices": [
-                  "Respect",
-                  "Integrity",
-                  "Responsibility",
-                  "Excellence"
-                ],
+                "choices": ["Respect", "Integrity", "Responsibility", "Excellence"],
                 "answerIndex": 1,
                 "rationale": "Integrity involves being honest and transparent with clients and colleagues, which is a key component of professionalism.",
                 "type": "recall"
@@ -19879,24 +18854,14 @@
             "questions": [
               {
                 "prompt": "Which styling product is known for providing a strong hold with a wet finish?",
-                "choices": [
-                  "Gel",
-                  "Pomade",
-                  "Wax",
-                  "Cream"
-                ],
+                "choices": ["Gel", "Pomade", "Wax", "Cream"],
                 "answerIndex": 0,
                 "rationale": "Gel is known for its strong hold and wet finish, making it ideal for sleek, structured styles.",
                 "type": "recall"
               },
               {
                 "prompt": "A client presents with thick, curly hair and wants a style with control and definition. Which product should you choose?",
-                "choices": [
-                  "Gel",
-                  "Pomade",
-                  "Wax",
-                  "Cream"
-                ],
+                "choices": ["Gel", "Pomade", "Wax", "Cream"],
                 "answerIndex": 1,
                 "rationale": "Pomade offers a medium to strong hold, which is suitable for maintaining control and definition in thick, curly hair.",
                 "type": "scenario"
@@ -19927,24 +18892,14 @@
               },
               {
                 "prompt": "Which styling product is ideal for achieving a natural, matte finish with a flexible hold?",
-                "choices": [
-                  "Gel",
-                  "Pomade",
-                  "Wax",
-                  "Spray"
-                ],
+                "choices": ["Gel", "Pomade", "Wax", "Spray"],
                 "answerIndex": 2,
                 "rationale": "Wax provides a flexible hold with a matte or low-shine finish, suitable for textured, tousled styles.",
                 "type": "recall"
               },
               {
                 "prompt": "A new client asks for a soft, flowing look. Which product is most appropriate?",
-                "choices": [
-                  "Gel",
-                  "Pomade",
-                  "Wax",
-                  "Cream"
-                ],
+                "choices": ["Gel", "Pomade", "Wax", "Cream"],
                 "answerIndex": 3,
                 "rationale": "Creams offer a light hold and natural finish, making them ideal for soft, flowing looks.",
                 "type": "scenario"
@@ -19963,24 +18918,14 @@
               },
               {
                 "prompt": "A client with fine hair wants more volume without weighing it down. Which product should you recommend?",
-                "choices": [
-                  "Heavy pomade",
-                  "Lightweight cream",
-                  "Strong gel",
-                  "Thick wax"
-                ],
+                "choices": ["Heavy pomade", "Lightweight cream", "Strong gel", "Thick wax"],
                 "answerIndex": 1,
                 "rationale": "Lightweight creams or sprays are suitable for fine hair as they add volume without weighing it down.",
                 "type": "scenario"
               },
               {
                 "prompt": "Which styling product is best for achieving a high-shine, slicked-back look?",
-                "choices": [
-                  "Gel",
-                  "Pomade",
-                  "Wax",
-                  "Cream"
-                ],
+                "choices": ["Gel", "Pomade", "Wax", "Cream"],
                 "answerIndex": 1,
                 "rationale": "Pomades offer a medium to strong hold with a shiny finish, perfect for high-shine, slicked-back styles.",
                 "type": "recall"
@@ -19999,24 +18944,14 @@
               },
               {
                 "prompt": "Which product type is known for providing a light hold and natural finish?",
-                "choices": [
-                  "Gel",
-                  "Pomade",
-                  "Wax",
-                  "Cream"
-                ],
+                "choices": ["Gel", "Pomade", "Wax", "Cream"],
                 "answerIndex": 3,
                 "rationale": "Creams offer a light hold and natural finish, making them ideal for soft, flowing looks.",
                 "type": "recall"
               },
               {
                 "prompt": "A client wants a textured, tousled style with a matte finish. Which product should you use?",
-                "choices": [
-                  "Gel",
-                  "Pomade",
-                  "Wax",
-                  "Spray"
-                ],
+                "choices": ["Gel", "Pomade", "Wax", "Spray"],
                 "answerIndex": 2,
                 "rationale": "Wax provides a flexible hold with a matte or low-shine finish, suitable for textured, tousled styles.",
                 "type": "scenario"
@@ -20071,12 +19006,7 @@
               },
               {
                 "prompt": "During a consultation, a client expresses a preference for a natural look with minimal shine. Which product should you choose?",
-                "choices": [
-                  "Gel",
-                  "Pomade",
-                  "Wax",
-                  "Spray"
-                ],
+                "choices": ["Gel", "Pomade", "Wax", "Spray"],
                 "answerIndex": 2,
                 "rationale": "Wax provides a flexible hold with a matte or low-shine finish, ideal for a natural look with minimal shine.",
                 "type": "scenario"
@@ -20095,12 +19025,7 @@
               },
               {
                 "prompt": "What percentage of the Indiana State Board Exam for barbers focuses on styling and finishing?",
-                "choices": [
-                  "10%",
-                  "15%",
-                  "20%",
-                  "25%"
-                ],
+                "choices": ["10%", "15%", "20%", "25%"],
                 "answerIndex": 1,
                 "rationale": "The styling and finishing section accounts for approximately 15% of the total exam.",
                 "type": "recall"
@@ -20691,12 +19616,7 @@
               },
               {
                 "prompt": "Which of the following is a contraindication for performing a chemical texture service?",
-                "choices": [
-                  "Healthy scalp",
-                  "Scalp abrasions",
-                  "Thick hair",
-                  "Natural hair color"
-                ],
+                "choices": ["Healthy scalp", "Scalp abrasions", "Thick hair", "Natural hair color"],
                 "answerIndex": 1,
                 "rationale": "Scalp abrasions are a contraindication because chemical solutions can exacerbate irritation or damage.",
                 "type": "recall"
@@ -20715,12 +19635,7 @@
               },
               {
                 "prompt": "Which personal protective equipment (PPE) is essential for a barber performing chemical texture services?",
-                "choices": [
-                  "Gloves",
-                  "Hat",
-                  "Scarf",
-                  "Boots"
-                ],
+                "choices": ["Gloves", "Hat", "Scarf", "Boots"],
                 "answerIndex": 0,
                 "rationale": "Gloves are essential to prevent skin contact with chemicals, reducing the risk of irritation or allergic reactions.",
                 "type": "recall"
@@ -20763,12 +19678,7 @@
               },
               {
                 "prompt": "What factor should be considered when selecting a section of hair for a test curl?",
-                "choices": [
-                  "Visibility",
-                  "Scalp condition",
-                  "Hair color",
-                  "Hair length"
-                ],
+                "choices": ["Visibility", "Scalp condition", "Hair color", "Hair length"],
                 "answerIndex": 0,
                 "rationale": "A section from the back of the head is typically chosen for a test curl because it is less visible.",
                 "type": "recall"
@@ -21093,36 +20003,21 @@
             "questions": [
               {
                 "prompt": "What is the visible hard part of the nail that extends over the fingertip called?",
-                "choices": [
-                  "Nail plate",
-                  "Nail bed",
-                  "Lunula",
-                  "Cuticle"
-                ],
+                "choices": ["Nail plate", "Nail bed", "Lunula", "Cuticle"],
                 "answerIndex": 0,
                 "rationale": "The nail plate is the visible hard part of the nail that extends over the fingertip.",
                 "type": "recall"
               },
               {
                 "prompt": "Which part of the nail is responsible for protecting new keratin cells as they form?",
-                "choices": [
-                  "Nail plate",
-                  "Nail bed",
-                  "Lunula",
-                  "Cuticle"
-                ],
+                "choices": ["Nail plate", "Nail bed", "Lunula", "Cuticle"],
                 "answerIndex": 3,
                 "rationale": "The cuticle is the thin layer of skin that covers the base of the nail plate, protecting new keratin cells.",
                 "type": "recall"
               },
               {
                 "prompt": "A client presents with nails that are thickened, discolored, and brittle. What is the likely condition?",
-                "choices": [
-                  "Onychomycosis",
-                  "Paronychia",
-                  "Psoriasis",
-                  "Healthy nails"
-                ],
+                "choices": ["Onychomycosis", "Paronychia", "Psoriasis", "Healthy nails"],
                 "answerIndex": 0,
                 "rationale": "Onychomycosis is a fungal infection that causes nails to become thickened, discolored, and brittle.",
                 "type": "scenario"
@@ -21165,12 +20060,7 @@
               },
               {
                 "prompt": "Which part of the nail is the crescent-shaped whitish area often visible through the nail plate?",
-                "choices": [
-                  "Nail plate",
-                  "Nail bed",
-                  "Lunula",
-                  "Cuticle"
-                ],
+                "choices": ["Nail plate", "Nail bed", "Lunula", "Cuticle"],
                 "answerIndex": 2,
                 "rationale": "The lunula is the crescent-shaped whitish area at the base of the nail, visible through the nail plate.",
                 "type": "recall"
@@ -21225,12 +20115,7 @@
               },
               {
                 "prompt": "A client presents with pain and swelling around the nail. What condition might this indicate?",
-                "choices": [
-                  "Onychomycosis",
-                  "Paronychia",
-                  "Psoriasis",
-                  "Healthy nails"
-                ],
+                "choices": ["Onychomycosis", "Paronychia", "Psoriasis", "Healthy nails"],
                 "answerIndex": 1,
                 "rationale": "Pain and swelling around the nail are symptoms of paronychia, an infection of the skin around the nail.",
                 "type": "scenario"
@@ -21273,12 +20158,7 @@
               },
               {
                 "prompt": "A client requests a square nail shape during a manicure. What tool should you use?",
-                "choices": [
-                  "Cuticle pusher",
-                  "Nail file",
-                  "Buffer",
-                  "Disinfectant"
-                ],
+                "choices": ["Cuticle pusher", "Nail file", "Buffer", "Disinfectant"],
                 "answerIndex": 1,
                 "rationale": "A nail file is used to shape the free edge of the nails to the client's desired shape.",
                 "type": "recall"
@@ -21675,12 +20555,7 @@
             "questions": [
               {
                 "prompt": "What is the minimum passing score for the Indiana State Board written exam?",
-                "choices": [
-                  "70%",
-                  "75%",
-                  "80%",
-                  "85%"
-                ],
+                "choices": ["70%", "75%", "80%", "85%"],
                 "answerIndex": 1,
                 "rationale": "The written exam requires a minimum score of 75% to pass, ensuring candidates have a solid understanding of barbering concepts.",
                 "type": "recall"
@@ -21699,24 +20574,14 @@
               },
               {
                 "prompt": "During the practical exam, what skill is assessed when you perform a precise and smooth fade?",
-                "choices": [
-                  "Draping",
-                  "Sanitation",
-                  "Fade",
-                  "Shave"
-                ],
+                "choices": ["Draping", "Sanitation", "Fade", "Shave"],
                 "answerIndex": 2,
                 "rationale": "The fade is a staple in modern barbering, and your ability to execute it is evaluated during the practical exam.",
                 "type": "recall"
               },
               {
                 "prompt": "How many hours of on-the-job training (OJT) are required for the barber apprenticeship path in Indiana?",
-                "choices": [
-                  "1,500 hours",
-                  "2,000 hours",
-                  "2,500 hours",
-                  "3,000 hours"
-                ],
+                "choices": ["1,500 hours", "2,000 hours", "2,500 hours", "3,000 hours"],
                 "answerIndex": 1,
                 "rationale": "Indiana requires 2,000 hours of OJT as part of the apprenticeship path to ensure comprehensive hands-on experience.",
                 "type": "recall"
@@ -22030,12 +20895,7 @@
               },
               {
                 "prompt": "Which of the following is NOT a layer of the hair shaft?",
-                "choices": [
-                  "Cuticle",
-                  "Cortex",
-                  "Medulla",
-                  "Follicle"
-                ],
+                "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
                 "answerIndex": 3,
                 "rationale": "The follicle is not a layer of the hair shaft; it is the structure in the skin from which the hair grows.",
                 "type": "recall"
@@ -22066,12 +20926,7 @@
               },
               {
                 "prompt": "Which phase of the hair growth cycle lasts the longest?",
-                "choices": [
-                  "Anagen",
-                  "Catagen",
-                  "Telogen",
-                  "Exogen"
-                ],
+                "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
                 "answerIndex": 0,
                 "rationale": "The anagen phase is the growth stage and can last from 2 to 7 years, making it the longest phase of the hair growth cycle.",
                 "type": "recall"
@@ -22102,24 +20957,14 @@
               },
               {
                 "prompt": "Which layer of the hair shaft is responsible for its strength and elasticity?",
-                "choices": [
-                  "Cuticle",
-                  "Cortex",
-                  "Medulla",
-                  "Follicle"
-                ],
+                "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
                 "answerIndex": 1,
                 "rationale": "The cortex is the thickest layer of the hair shaft and is responsible for the hair's strength and elasticity.",
                 "type": "recall"
               },
               {
                 "prompt": "A client is concerned about hair damage. Which layer of the hair shaft should you focus on protecting?",
-                "choices": [
-                  "Cuticle",
-                  "Cortex",
-                  "Medulla",
-                  "Follicle"
-                ],
+                "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
                 "answerIndex": 0,
                 "rationale": "The cuticle is the outermost layer that protects the hair from environmental damage, so maintaining its integrity is crucial.",
                 "type": "scenario"
@@ -22138,12 +20983,7 @@
               },
               {
                 "prompt": "Which of the following is a transitional phase in the hair growth cycle?",
-                "choices": [
-                  "Anagen",
-                  "Catagen",
-                  "Telogen",
-                  "Medulla"
-                ],
+                "choices": ["Anagen", "Catagen", "Telogen", "Medulla"],
                 "answerIndex": 1,
                 "rationale": "The catagen phase is a short transitional period where hair growth slows, and the follicle shrinks.",
                 "type": "recall"
@@ -22162,24 +21002,14 @@
               },
               {
                 "prompt": "Which hair shaft layer is often absent in fine hair?",
-                "choices": [
-                  "Cuticle",
-                  "Cortex",
-                  "Medulla",
-                  "Follicle"
-                ],
+                "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
                 "answerIndex": 2,
                 "rationale": "The medulla is the innermost layer of the hair shaft and is often absent in fine hair.",
                 "type": "recall"
               },
               {
                 "prompt": "A client complains of hair breakage. Which layer of the hair shaft should you examine for damage?",
-                "choices": [
-                  "Cuticle",
-                  "Cortex",
-                  "Medulla",
-                  "Follicle"
-                ],
+                "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
                 "answerIndex": 1,
                 "rationale": "The cortex is responsible for the hair's strength and elasticity, so damage here could lead to breakage.",
                 "type": "scenario"
@@ -22222,12 +21052,7 @@
               },
               {
                 "prompt": "Which phase of the hair growth cycle involves the shedding of hair?",
-                "choices": [
-                  "Anagen",
-                  "Catagen",
-                  "Telogen",
-                  "Exogen"
-                ],
+                "choices": ["Anagen", "Catagen", "Telogen", "Exogen"],
                 "answerIndex": 2,
                 "rationale": "The telogen phase is the resting stage where hair is eventually shed, making way for new growth.",
                 "type": "recall"
@@ -22361,48 +21186,28 @@
             "questions": [
               {
                 "prompt": "What is the correct angle to hold a razor for a close shave?",
-                "choices": [
-                  "30 degrees",
-                  "45 degrees",
-                  "60 degrees",
-                  "90 degrees"
-                ],
+                "choices": ["30 degrees", "45 degrees", "60 degrees", "90 degrees"],
                 "answerIndex": 0,
                 "rationale": "Holding the razor at a 30-degree angle ensures a clean and close shave while minimizing the risk of cuts and irritation.",
                 "type": "recall"
               },
               {
                 "prompt": "How many hours are required for a barber apprenticeship in Indiana?",
-                "choices": [
-                  "1,000 hours",
-                  "1,500 hours",
-                  "2,000 hours",
-                  "2,500 hours"
-                ],
+                "choices": ["1,000 hours", "1,500 hours", "2,000 hours", "2,500 hours"],
                 "answerIndex": 2,
                 "rationale": "A barber apprenticeship in Indiana requires 2,000 hours of training to ensure adequate hands-on experience.",
                 "type": "recall"
               },
               {
                 "prompt": "What is the passing score for the Indiana State Board written exam?",
-                "choices": [
-                  "65%",
-                  "70%",
-                  "75%",
-                  "80%"
-                ],
+                "choices": ["65%", "70%", "75%", "80%"],
                 "answerIndex": 2,
                 "rationale": "A passing score of 75% on the written exam demonstrates a comprehensive understanding of barbering knowledge.",
                 "type": "recall"
               },
               {
                 "prompt": "Which of the following is a key reference point for creating seamless fades?",
-                "choices": [
-                  "Nape of the neck",
-                  "Parietal ridge",
-                  "Forehead",
-                  "Chin"
-                ],
+                "choices": ["Nape of the neck", "Parietal ridge", "Forehead", "Chin"],
                 "answerIndex": 1,
                 "rationale": "The parietal ridge is a key reference point for creating balanced and proportionate haircuts.",
                 "type": "recall"
@@ -22421,36 +21226,21 @@
               },
               {
                 "prompt": "What is the difference in training hours between a barber apprenticeship and a barber school program in Indiana?",
-                "choices": [
-                  "500 hours",
-                  "1,000 hours",
-                  "1,500 hours",
-                  "2,000 hours"
-                ],
+                "choices": ["500 hours", "1,000 hours", "1,500 hours", "2,000 hours"],
                 "answerIndex": 0,
                 "rationale": "A barber apprenticeship requires 2,000 hours, while a school program requires 1,500 hours, a difference of 500 hours.",
                 "type": "recall"
               },
               {
                 "prompt": "What percentage of the Indiana State Board Exam focuses on identifying key reference points and using the correct razor angle?",
-                "choices": [
-                  "10%",
-                  "15%",
-                  "20%",
-                  "25%"
-                ],
+                "choices": ["10%", "15%", "20%", "25%"],
                 "answerIndex": 3,
                 "rationale": "Approximately 25% of the exam focuses on foundational topics like key reference points and razor angle.",
                 "type": "recall"
               },
               {
                 "prompt": "Which of the following is NOT a focus of the Indiana State Board written exam?",
-                "choices": [
-                  "Sanitation",
-                  "Safety",
-                  "Hair coloring",
-                  "State laws"
-                ],
+                "choices": ["Sanitation", "Safety", "Hair coloring", "State laws"],
                 "answerIndex": 2,
                 "rationale": "While sanitation, safety, and state laws are covered, hair coloring is not a primary focus of the exam.",
                 "type": "recall"
@@ -22481,12 +21271,7 @@
               },
               {
                 "prompt": "A new client asks for a close shave. What angle should you hold the razor to ensure a clean result?",
-                "choices": [
-                  "10 degrees",
-                  "30 degrees",
-                  "50 degrees",
-                  "70 degrees"
-                ],
+                "choices": ["10 degrees", "30 degrees", "50 degrees", "70 degrees"],
                 "answerIndex": 1,
                 "rationale": "Holding the razor at a 30-degree angle ensures a clean shave while minimizing the risk of cuts.",
                 "type": "scenario"
@@ -22505,24 +21290,14 @@
               },
               {
                 "prompt": "A client with a round head shape requests a fade. Which reference point is crucial for achieving a flattering cut?",
-                "choices": [
-                  "Forehead",
-                  "Parietal ridge",
-                  "Chin",
-                  "Jawline"
-                ],
+                "choices": ["Forehead", "Parietal ridge", "Chin", "Jawline"],
                 "answerIndex": 1,
                 "rationale": "The parietal ridge is crucial for creating a balanced cut that complements the natural shape of the head.",
                 "type": "scenario"
               },
               {
                 "prompt": "During a haircut, you need to determine where to start the fade. Which reference point should you use?",
-                "choices": [
-                  "Nape of the neck",
-                  "Forehead",
-                  "Occipital bone",
-                  "Chin"
-                ],
+                "choices": ["Nape of the neck", "Forehead", "Occipital bone", "Chin"],
                 "answerIndex": 2,
                 "rationale": "The occipital bone helps determine where to start and end a fade, ensuring it complements the head's natural shape.",
                 "type": "scenario"
@@ -22710,12 +21485,7 @@
             "questions": [
               {
                 "prompt": "What is the first step in the sanitation sequence for barbering tools?",
-                "choices": [
-                  "Pre-clean",
-                  "Disinfect",
-                  "Contact time",
-                  "Rinse"
-                ],
+                "choices": ["Pre-clean", "Disinfect", "Contact time", "Rinse"],
                 "answerIndex": 0,
                 "rationale": "Pre-cleaning is the first step and involves removing visible debris to prepare items for effective disinfection.",
                 "type": "recall"
@@ -22734,48 +21504,28 @@
               },
               {
                 "prompt": "How much of the Indiana state board exam score is allocated to proper draping techniques?",
-                "choices": [
-                  "5%",
-                  "10%",
-                  "15%",
-                  "20%"
-                ],
+                "choices": ["5%", "10%", "15%", "20%"],
                 "answerIndex": 0,
                 "rationale": "Proper draping techniques account for approximately 5% of the total score on the Indiana state board exam.",
                 "type": "recall"
               },
               {
                 "prompt": "What is the ideal angle to hold a razor when performing a shave?",
-                "choices": [
-                  "15 degrees",
-                  "30 degrees",
-                  "45 degrees",
-                  "60 degrees"
-                ],
+                "choices": ["15 degrees", "30 degrees", "45 degrees", "60 degrees"],
                 "answerIndex": 1,
                 "rationale": "Holding the razor at a 30-degree angle minimizes the risk of cuts and irritation during a shave.",
                 "type": "recall"
               },
               {
                 "prompt": "What should be done after removing hair clippings from the work area?",
-                "choices": [
-                  "Store tools",
-                  "Apply disinfectant",
-                  "Rinse tools",
-                  "Sweep the floor"
-                ],
+                "choices": ["Store tools", "Apply disinfectant", "Rinse tools", "Sweep the floor"],
                 "answerIndex": 1,
                 "rationale": "After removing hair clippings, surfaces should be wiped down with a disinfectant to maintain hygiene.",
                 "type": "recall"
               },
               {
                 "prompt": "Which step is essential before applying disinfectant to tools?",
-                "choices": [
-                  "Drying tools",
-                  "Pre-cleaning",
-                  "Heating tools",
-                  "Applying oil"
-                ],
+                "choices": ["Drying tools", "Pre-cleaning", "Heating tools", "Applying oil"],
                 "answerIndex": 1,
                 "rationale": "Pre-cleaning is essential to remove visible debris, ensuring the disinfectant can work effectively.",
                 "type": "recall"
@@ -22794,12 +21544,7 @@
               },
               {
                 "prompt": "What percentage of the state board exam score is dedicated to sanitation procedures?",
-                "choices": [
-                  "5%",
-                  "10%",
-                  "15%",
-                  "20%"
-                ],
+                "choices": ["5%", "10%", "15%", "20%"],
                 "answerIndex": 2,
                 "rationale": "Sanitation procedures account for about 15% of the total score on the Indiana state board exam.",
                 "type": "recall"
@@ -23059,12 +21804,7 @@
               },
               {
                 "prompt": "Which thermal tool is typically used to create soft waves in hair?",
-                "choices": [
-                  "Curling iron",
-                  "Flat iron",
-                  "Blow dryer",
-                  "Crimping iron"
-                ],
+                "choices": ["Curling iron", "Flat iron", "Blow dryer", "Crimping iron"],
                 "answerIndex": 1,
                 "rationale": "A flat iron is commonly used to create soft waves by twisting the iron while gliding it down the hair.",
                 "type": "recall"
@@ -23083,24 +21823,14 @@
               },
               {
                 "prompt": "A client presents with fine hair and wants to add volume. Which product should the barber use?",
-                "choices": [
-                  "Smoothing serum",
-                  "Volumizing spray",
-                  "Heavy pomade",
-                  "Oil-based gel"
-                ],
+                "choices": ["Smoothing serum", "Volumizing spray", "Heavy pomade", "Oil-based gel"],
                 "answerIndex": 1,
                 "rationale": "A volumizing spray is designed to add lift and body to fine hair, enhancing volume.",
                 "type": "scenario"
               },
               {
                 "prompt": "During a service, you notice the client's hair is very coarse. What is the best temperature setting for thermal tools?",
-                "choices": [
-                  "Low",
-                  "Medium",
-                  "High",
-                  "Very high"
-                ],
+                "choices": ["Low", "Medium", "High", "Very high"],
                 "answerIndex": 2,
                 "rationale": "Coarse hair can withstand higher temperatures, so a medium to high setting is appropriate.",
                 "type": "scenario"
@@ -23215,12 +21945,7 @@
               },
               {
                 "prompt": "Which tool is most appropriate for achieving tight, defined curls?",
-                "choices": [
-                  "Flat iron",
-                  "Curling iron",
-                  "Blow dryer",
-                  "Crimping iron"
-                ],
+                "choices": ["Flat iron", "Curling iron", "Blow dryer", "Crimping iron"],
                 "answerIndex": 1,
                 "rationale": "A curling iron is specifically designed to create tight, defined curls.",
                 "type": "recall"
@@ -23465,12 +22190,7 @@
               },
               {
                 "prompt": "Which massage movement is characterized by tapping and rhythmic percussion?",
-                "choices": [
-                  "Effleurage",
-                  "Petrissage",
-                  "Tapotement",
-                  "Friction"
-                ],
+                "choices": ["Effleurage", "Petrissage", "Tapotement", "Friction"],
                 "answerIndex": 2,
                 "rationale": "Tapotement involves tapping and rhythmic percussion, which invigorates the skin and enhances its tone and texture.",
                 "type": "recall"
@@ -23513,12 +22233,7 @@
               },
               {
                 "prompt": "Which massage technique involves deep, circular movements to generate heat?",
-                "choices": [
-                  "Effleurage",
-                  "Petrissage",
-                  "Tapotement",
-                  "Friction"
-                ],
+                "choices": ["Effleurage", "Petrissage", "Tapotement", "Friction"],
                 "answerIndex": 3,
                 "rationale": "Friction involves deep, circular movements that generate heat and increase blood flow to the treated area.",
                 "type": "recall"
@@ -23561,12 +22276,7 @@
               },
               {
                 "prompt": "Which of the following is NOT a contraindication for facial massage?",
-                "choices": [
-                  "Severe acne",
-                  "Open wounds",
-                  "Psoriasis",
-                  "Normal, healthy skin"
-                ],
+                "choices": ["Severe acne", "Open wounds", "Psoriasis", "Normal, healthy skin"],
                 "answerIndex": 3,
                 "rationale": "Normal, healthy skin is not a contraindication for facial massage, whereas the other options are.",
                 "type": "recall"
@@ -23585,12 +22295,7 @@
               },
               {
                 "prompt": "What is the correct distance to position a facial steamer from a client's face?",
-                "choices": [
-                  "6 inches",
-                  "12 inches",
-                  "18 inches",
-                  "24 inches"
-                ],
+                "choices": ["6 inches", "12 inches", "18 inches", "24 inches"],
                 "answerIndex": 1,
                 "rationale": "The facial steamer should be positioned at least 12 inches away from the client’s face to avoid overheating or burning the skin.",
                 "type": "recall"
@@ -23645,12 +22350,7 @@
               },
               {
                 "prompt": "Which massage movement is primarily used to invigorate the skin?",
-                "choices": [
-                  "Effleurage",
-                  "Petrissage",
-                  "Tapotement",
-                  "Vibration"
-                ],
+                "choices": ["Effleurage", "Petrissage", "Tapotement", "Vibration"],
                 "answerIndex": 2,
                 "rationale": "Tapotement, characterized by tapping and rhythmic percussion, is used to invigorate the skin and enhance its tone and texture.",
                 "type": "recall"
@@ -23905,12 +22605,7 @@
               },
               {
                 "prompt": "Which form must a booth renter file to report their earnings and expenses?",
-                "choices": [
-                  "W-2",
-                  "1099-MISC",
-                  "Schedule C",
-                  "Form 940"
-                ],
+                "choices": ["W-2", "1099-MISC", "Schedule C", "Form 940"],
                 "answerIndex": 2,
                 "rationale": "Booth renters must file a Schedule C form to report their earnings and expenses as independent contractors.",
                 "type": "recall"
@@ -24204,12 +22899,7 @@
           },
           {
             "prompt": "Which of the following is a key characteristic of healthy hair?",
-            "choices": [
-              "Dull appearance",
-              "Brittle texture",
-              "Elasticity",
-              "Split ends"
-            ],
+            "choices": ["Dull appearance", "Brittle texture", "Elasticity", "Split ends"],
             "answerIndex": 2,
             "rationale": "Elasticity indicates that the hair can stretch and return to its original shape without breaking, a sign of healthy hair."
           },
@@ -24226,23 +22916,13 @@
           },
           {
             "prompt": "In Indiana, how often must a barber renew their license?",
-            "choices": [
-              "Every year",
-              "Every two years",
-              "Every three years",
-              "Every five years"
-            ],
+            "choices": ["Every year", "Every two years", "Every three years", "Every five years"],
             "answerIndex": 1,
             "rationale": "Barbers in Indiana are required to renew their licenses every two years to ensure they meet current standards and regulations."
           },
           {
             "prompt": "What is the most effective level of decontamination used in barbershops to prevent the spread of disease?",
-            "choices": [
-              "Sanitation",
-              "Disinfection",
-              "Sterilization",
-              "Cleaning"
-            ],
+            "choices": ["Sanitation", "Disinfection", "Sterilization", "Cleaning"],
             "answerIndex": 2,
             "rationale": "Sterilization is the most effective level of decontamination, eliminating all forms of microbial life."
           },
@@ -24303,12 +22983,7 @@
           },
           {
             "prompt": "Which of the following is a sign of a chemical burn during a hair coloring service?",
-            "choices": [
-              "Itching",
-              "Redness and blistering",
-              "Dryness",
-              "Dandruff"
-            ],
+            "choices": ["Itching", "Redness and blistering", "Dryness", "Dandruff"],
             "answerIndex": 1,
             "rationale": "Redness and blistering are signs of a chemical burn, indicating a severe reaction to the product."
           },
@@ -24325,45 +23000,25 @@
           },
           {
             "prompt": "In Indiana, what is the minimum age requirement to apply for a barber license?",
-            "choices": [
-              "16 years old",
-              "18 years old",
-              "21 years old",
-              "25 years old"
-            ],
+            "choices": ["16 years old", "18 years old", "21 years old", "25 years old"],
             "answerIndex": 1,
             "rationale": "The minimum age requirement to apply for a barber license in Indiana is 18 years old."
           },
           {
             "prompt": "What is the correct ratio of bleach to water for disinfecting surfaces in a barbershop?",
-            "choices": [
-              "1:10",
-              "1:5",
-              "1:20",
-              "1:100"
-            ],
+            "choices": ["1:10", "1:5", "1:20", "1:100"],
             "answerIndex": 0,
             "rationale": "A 1:10 ratio of bleach to water is commonly recommended for effective disinfection of surfaces."
           },
           {
             "prompt": "A client wants a style that requires significant volume. Which tool is best suited for this purpose?",
-            "choices": [
-              "Flat iron",
-              "Round brush",
-              "Straight comb",
-              "Thinning shears"
-            ],
+            "choices": ["Flat iron", "Round brush", "Straight comb", "Thinning shears"],
             "answerIndex": 1,
             "rationale": "A round brush is ideal for creating volume and lift when blow-drying hair."
           },
           {
             "prompt": "Which layer of the hair shaft is responsible for its strength and elasticity?",
-            "choices": [
-              "Cuticle",
-              "Cortex",
-              "Medulla",
-              "Follicle"
-            ],
+            "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
             "answerIndex": 1,
             "rationale": "The cortex is the middle layer of the hair shaft, providing strength and elasticity."
           },
@@ -24380,34 +23035,19 @@
           },
           {
             "prompt": "A client requests a fade haircut. Which tool is essential for achieving a smooth transition between lengths?",
-            "choices": [
-              "Razor",
-              "Scissors",
-              "Clippers",
-              "Comb"
-            ],
+            "choices": ["Razor", "Scissors", "Clippers", "Comb"],
             "answerIndex": 2,
             "rationale": "Clippers are essential for creating a smooth transition in a fade haircut."
           },
           {
             "prompt": "What is the maximum amount of time you should leave a chemical relaxer on the hair?",
-            "choices": [
-              "10 minutes",
-              "20 minutes",
-              "30 minutes",
-              "40 minutes"
-            ],
+            "choices": ["10 minutes", "20 minutes", "30 minutes", "40 minutes"],
             "answerIndex": 2,
             "rationale": "Leaving a relaxer on for more than 30 minutes can cause excessive damage to the hair."
           },
           {
             "prompt": "A client has fine, limp hair and wants more body. Which product should you recommend?",
-            "choices": [
-              "Heavy cream",
-              "Volumizing mousse",
-              "Leave-in conditioner",
-              "Oil serum"
-            ],
+            "choices": ["Heavy cream", "Volumizing mousse", "Leave-in conditioner", "Oil serum"],
             "answerIndex": 1,
             "rationale": "Volumizing mousse adds body and lift to fine, limp hair without weighing it down."
           },
@@ -24435,12 +23075,7 @@
           },
           {
             "prompt": "A client wants to cover their gray hair. Which type of hair color should you recommend?",
-            "choices": [
-              "Temporary",
-              "Semi-permanent",
-              "Permanent",
-              "Lightener"
-            ],
+            "choices": ["Temporary", "Semi-permanent", "Permanent", "Lightener"],
             "answerIndex": 2,
             "rationale": "Permanent hair color provides the best coverage for gray hair."
           },
@@ -24501,12 +23136,7 @@
           },
           {
             "prompt": "A client wants to lighten their hair several shades. Which product should you use?",
-            "choices": [
-              "Semi-permanent color",
-              "Permanent color",
-              "Lightener",
-              "Gloss"
-            ],
+            "choices": ["Semi-permanent color", "Permanent color", "Lightener", "Gloss"],
             "answerIndex": 2,
             "rationale": "Lightener is necessary to lift the hair several shades lighter."
           },
@@ -24545,12 +23175,7 @@
           },
           {
             "prompt": "In Indiana, what is the consequence of practicing barbering without a valid license?",
-            "choices": [
-              "A warning",
-              "A fine",
-              "License suspension",
-              "Community service"
-            ],
+            "choices": ["A warning", "A fine", "License suspension", "Community service"],
             "answerIndex": 1,
             "rationale": "Practicing without a valid license can result in a fine as a penalty."
           },
@@ -24567,12 +23192,7 @@
           },
           {
             "prompt": "Which type of hair is most prone to tangling?",
-            "choices": [
-              "Straight hair",
-              "Wavy hair",
-              "Curly hair",
-              "Coarse hair"
-            ],
+            "choices": ["Straight hair", "Wavy hair", "Curly hair", "Coarse hair"],
             "answerIndex": 2,
             "rationale": "Curly hair is more prone to tangling due to its texture and shape."
           },
@@ -24589,12 +23209,7 @@
           },
           {
             "prompt": "A client wants a haircut that requires minimal styling. Which option should you recommend?",
-            "choices": [
-              "Layered cut",
-              "Blunt cut",
-              "Textured cut",
-              "Undercut"
-            ],
+            "choices": ["Layered cut", "Blunt cut", "Textured cut", "Undercut"],
             "answerIndex": 1,
             "rationale": "A blunt cut is low maintenance and requires minimal styling."
           },
@@ -24633,12 +23248,7 @@
           },
           {
             "prompt": "A client has a heart-shaped face. Which haircut can help balance their features?",
-            "choices": [
-              "Short layers",
-              "Chin-length bob",
-              "Pixie cut",
-              "Long layers"
-            ],
+            "choices": ["Short layers", "Chin-length bob", "Pixie cut", "Long layers"],
             "answerIndex": 1,
             "rationale": "A chin-length bob helps balance a heart-shaped face by adding width at the jawline."
           },
@@ -24655,12 +23265,7 @@
           },
           {
             "prompt": "Which of the following is an indication of over-processed hair?",
-            "choices": [
-              "Shiny appearance",
-              "Elasticity",
-              "Brittle texture",
-              "Smooth cuticle"
-            ],
+            "choices": ["Shiny appearance", "Elasticity", "Brittle texture", "Smooth cuticle"],
             "answerIndex": 2,
             "rationale": "Brittle texture indicates that the hair has been over-processed and damaged."
           },
@@ -24677,23 +23282,13 @@
           },
           {
             "prompt": "In Indiana, what is the required number of hours for a barber apprenticeship program?",
-            "choices": [
-              "1000 hours",
-              "1200 hours",
-              "1500 hours",
-              "1800 hours"
-            ],
+            "choices": ["1000 hours", "1200 hours", "1500 hours", "1800 hours"],
             "answerIndex": 3,
             "rationale": "The state of Indiana requires 1800 hours for a barber apprenticeship program to ensure comprehensive training."
           },
           {
             "prompt": "A client wants to add highlights to their hair. Which technique should you use?",
-            "choices": [
-              "Balayage",
-              "Single-process color",
-              "Glossing",
-              "Toning"
-            ],
+            "choices": ["Balayage", "Single-process color", "Glossing", "Toning"],
             "answerIndex": 0,
             "rationale": "Balayage is a technique used to add natural-looking highlights to the hair."
           },
@@ -24732,12 +23327,7 @@
           },
           {
             "prompt": "What is the primary benefit of using a clarifying shampoo?",
-            "choices": [
-              "Adds moisture",
-              "Removes buildup",
-              "Protects color",
-              "Adds volume"
-            ],
+            "choices": ["Adds moisture", "Removes buildup", "Protects color", "Adds volume"],
             "answerIndex": 1,
             "rationale": "Clarifying shampoo is designed to remove product buildup and impurities from the hair."
           },
@@ -24787,12 +23377,7 @@
           },
           {
             "prompt": "In Indiana, what is the maximum fine for a first-time violation of barbering regulations?",
-            "choices": [
-              "A. $500",
-              "B. $1,000",
-              "C. $2,000",
-              "D. $5,000"
-            ],
+            "choices": ["A. $500", "B. $1,000", "C. $2,000", "D. $5,000"],
             "answerIndex": 1,
             "rationale": "Indiana state regulations specify that the maximum fine for a first-time violation is $1,000."
           },

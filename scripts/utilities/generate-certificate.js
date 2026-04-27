@@ -19,20 +19,14 @@ async function generateLicensePDF(email, productId, licenseKey, expiresAt) {
   doc.pipe(fs.createWriteStream(filePath));
 
   // Header
-  doc
-    .fontSize(24)
-    .fillColor('#667eea')
-    .text('🚀 ELEVATE LICENSE CERTIFICATE', { align: 'center' });
+  doc.fontSize(24).fillColor('#667eea').text('🚀 ELEVATE LICENSE CERTIFICATE', { align: 'center' });
   doc.moveDown();
 
   // Certificate border
   doc.rect(50, 100, 500, 600).stroke('#667eea');
 
   // Certificate content
-  doc
-    .fontSize(16)
-    .fillColor('#000')
-    .text('OFFICIAL LICENSE CERTIFICATE', { align: 'center' });
+  doc.fontSize(16).fillColor('#000').text('OFFICIAL LICENSE CERTIFICATE', { align: 'center' });
   doc.moveDown();
 
   doc.fontSize(12);
@@ -53,16 +47,8 @@ async function generateLicensePDF(email, productId, licenseKey, expiresAt) {
   // Footer
   doc
     .fontSize(8)
-    .text(
-      'This certificate validates your license to use Elevate Platform software.',
-      70,
-      600
-    );
-  doc.text(
-    'Keep this certificate secure and present when required for verification.',
-    70,
-    615
-  );
+    .text('This certificate validates your license to use Elevate Platform software.', 70, 600);
+  doc.text('Keep this certificate secure and present when required for verification.', 70, 615);
   doc.text('© 2025 Elevate for Humanity - All Rights Reserved', 70, 630);
 
   doc.end();

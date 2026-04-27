@@ -3,15 +3,14 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getAdminClient } from '@/lib/supabase/admin';
 import EligibilityPreQualifier from '@/components/enrollment/EligibilityPreQualifier';
-import {
-  CheckCircle, XCircle, AlertCircle, ArrowRight, Users,
-} from 'lucide-react';
+import { CheckCircle, XCircle, AlertCircle, ArrowRight, Users } from 'lucide-react';
 
 export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Eligibility | Funded Career Training | Elevate for Humanity',
-  description: 'Check your eligibility for WIOA, WRG, and FSSA-funded career training programs at Elevate for Humanity. Most participants qualify for no-cost training.',
+  description:
+    'Check your eligibility for WIOA, WRG, and FSSA-funded career training programs at Elevate for Humanity. Most participants qualify for no-cost training.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/eligibility' },
 };
 
@@ -82,14 +81,20 @@ export default async function EligibilityPage() {
       {/* Hero */}
       <section className="bg-slate-900 py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">Funded Career Training</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">
+            Funded Career Training
+          </p>
           <h1 className="text-4xl font-extrabold text-white mb-4">Check Your Eligibility</h1>
           <p className="text-slate-300 text-lg max-w-2xl mb-4">
-            Most participants qualify for no-cost or low-cost training through WIOA, WRG, or FSSA funding. Find out which programs you're eligible for.
+            Most participants qualify for no-cost or low-cost training through WIOA, WRG, or FSSA
+            funding. Find out which programs you're eligible for.
           </p>
           <div className="flex items-center gap-2 text-slate-300 text-sm">
             <Users className="w-4 h-4 text-brand-red-400" />
-            <span>{activeEnrollments ?? 'Hundreds of'} participants currently enrolled in funded programs</span>
+            <span>
+              {activeEnrollments ?? 'Hundreds of'} participants currently enrolled in funded
+              programs
+            </span>
           </div>
         </div>
       </section>
@@ -100,12 +105,19 @@ export default async function EligibilityPage() {
           <h2 className="text-xl font-bold text-slate-900 mb-6">Quick Eligibility Check</h2>
           <div className="space-y-3">
             {QUICK_CHECKS.map((c) => (
-              <div key={c.label} className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4">
-                {c.positive
-                  ? <CheckCircle className="w-5 h-5 text-green-500 shrink-0" />
-                  : <XCircle className="w-5 h-5 text-red-400 shrink-0" />}
+              <div
+                key={c.label}
+                className="flex items-center gap-3 rounded-xl border border-slate-200 bg-white p-4"
+              >
+                {c.positive ? (
+                  <CheckCircle className="w-5 h-5 text-green-500 shrink-0" />
+                ) : (
+                  <XCircle className="w-5 h-5 text-red-400 shrink-0" />
+                )}
                 <span className="text-sm text-slate-700">{c.label}</span>
-                <span className={`ml-auto text-xs font-semibold ${c.positive ? 'text-green-600' : 'text-red-500'}`}>
+                <span
+                  className={`ml-auto text-xs font-semibold ${c.positive ? 'text-green-600' : 'text-red-500'}`}
+                >
                   {c.positive ? 'Yes → Good' : 'Yes → May affect eligibility'}
                 </span>
               </div>
@@ -114,7 +126,8 @@ export default async function EligibilityPage() {
           <div className="mt-6 flex items-start gap-3 rounded-xl bg-amber-50 border border-amber-200 p-4">
             <AlertCircle className="w-5 h-5 text-amber-500 shrink-0 mt-0.5" />
             <p className="text-sm text-amber-800">
-              Final eligibility is determined by our enrollment team after reviewing your application. This quick check is not a guarantee of funding.
+              Final eligibility is determined by our enrollment team after reviewing your
+              application. This quick check is not a guarantee of funding.
             </p>
           </div>
         </div>
@@ -124,7 +137,9 @@ export default async function EligibilityPage() {
       <section className="py-14 px-4 bg-white">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Full Eligibility Pre-Qualifier</h2>
-          <p className="text-slate-600 mb-8">Answer a few questions to see which funding programs you may qualify for.</p>
+          <p className="text-slate-600 mb-8">
+            Answer a few questions to see which funding programs you may qualify for.
+          </p>
           <EligibilityPreQualifier />
         </div>
       </section>
@@ -167,7 +182,10 @@ export default async function EligibilityPage() {
           <div className="max-w-5xl mx-auto">
             <div className="flex items-center justify-between mb-8">
               <h2 className="text-2xl font-bold text-slate-900">Eligible Programs</h2>
-              <Link href="/programs" className="text-sm font-semibold text-brand-red-600 hover:underline flex items-center gap-1">
+              <Link
+                href="/programs"
+                className="text-sm font-semibold text-brand-red-600 hover:underline flex items-center gap-1"
+              >
                 All programs <ArrowRight className="w-4 h-4" />
               </Link>
             </div>
@@ -183,7 +201,9 @@ export default async function EligibilityPage() {
                   </p>
                   <h3 className="font-bold text-slate-900 text-sm">{p.title}</h3>
                   {p.short_description && (
-                    <p className="text-xs text-slate-500 mt-1 line-clamp-2">{p.short_description}</p>
+                    <p className="text-xs text-slate-500 mt-1 line-clamp-2">
+                      {p.short_description}
+                    </p>
                   )}
                 </Link>
               ))}
@@ -196,8 +216,14 @@ export default async function EligibilityPage() {
       <section className="py-14 px-4 bg-brand-red-600 text-white text-center">
         <div className="max-w-3xl mx-auto">
           <h2 className="text-2xl font-bold mb-3">Ready to Apply?</h2>
-          <p className="text-red-100 mb-8">Our enrollment team will confirm your eligibility and connect you with the right funding program.</p>
-          <Link href="/apply" className="rounded-lg bg-white px-8 py-3 font-bold text-brand-red-700 hover:bg-red-50 transition">
+          <p className="text-red-100 mb-8">
+            Our enrollment team will confirm your eligibility and connect you with the right funding
+            program.
+          </p>
+          <Link
+            href="/apply"
+            className="rounded-lg bg-white px-8 py-3 font-bold text-brand-red-700 hover:bg-red-50 transition"
+          >
             Start Your Application
           </Link>
         </div>

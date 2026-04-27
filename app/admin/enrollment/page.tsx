@@ -26,13 +26,13 @@ export default async function AdminEnrollmentPage() {
 
   const { data: enrollments } = await db
     .from('program_enrollments')
-    .select('id, full_name, email, program_id, status, enrolled_at, amount_paid_cents, funding_source')
+    .select(
+      'id, full_name, email, program_id, status, enrolled_at, amount_paid_cents, funding_source',
+    )
     .order('enrolled_at', { ascending: false })
     .limit(100);
 
-  const { data: programs } = await db
-    .from('programs')
-    .select('id, title');
+  const { data: programs } = await db.from('programs').select('id, title');
 
   const rows = enrollments ?? [];
   const programMap: Record<string, string> = {};
@@ -51,10 +51,7 @@ export default async function AdminEnrollmentPage() {
             <h1 className="text-2xl font-bold text-slate-900">Enrollment</h1>
             <p className="text-slate-500 text-sm mt-0.5">{rows.length} total enrollments</p>
           </div>
-          <Link
-            href="/admin/enrollments"
-            className="text-sm text-blue-600 hover:underline"
-          >
+          <Link href="/admin/enrollments" className="text-sm text-blue-600 hover:underline">
             Full enrollment manager →
           </Link>
         </div>
@@ -67,9 +64,17 @@ export default async function AdminEnrollmentPage() {
             { label: 'Active', value: activeCount, icon: CheckCircle, color: 'text-green-600' },
             { label: 'Pending', value: pendingCount, icon: Clock, color: 'text-yellow-600' },
             { label: 'Completed', value: completedCount, icon: TrendingUp, color: 'text-blue-600' },
-            { label: 'Revenue', value: `$${(totalRevenue / 100).toLocaleString()}`, icon: AlertTriangle, color: 'text-slate-700' },
+            {
+              label: 'Revenue',
+              value: `$${(totalRevenue / 100).toLocaleString()}`,
+              icon: AlertTriangle,
+              color: 'text-slate-700',
+            },
           ].map((s) => (
-            <div key={s.label} className="bg-white rounded-xl border border-slate-200 p-5 text-center">
+            <div
+              key={s.label}
+              className="bg-white rounded-xl border border-slate-200 p-5 text-center"
+            >
               <p className={`text-3xl font-bold ${s.color}`}>{s.value}</p>
               <p className="text-sm text-slate-500 mt-1">{s.label}</p>
             </div>
@@ -102,10 +107,14 @@ export default async function AdminEnrollmentPage() {
                         <div className="text-xs text-slate-400">{e.email}</div>
                       </td>
                       <td className="px-6 py-4 text-slate-600">
-                        {e.program_id ? (programMap[e.program_id] ?? e.program_id.slice(0, 8) + '…') : '—'}
+                        {e.program_id
+                          ? (programMap[e.program_id] ?? e.program_id.slice(0, 8) + '…')
+                          : '—'}
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[e.status] ?? 'bg-slate-100 text-slate-600'}`}>
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[e.status] ?? 'bg-slate-100 text-slate-600'}`}
+                        >
                           {e.status}
                         </span>
                       </td>
@@ -117,7 +126,10 @@ export default async function AdminEnrollmentPage() {
                         {new Date(e.enrolled_at).toLocaleDateString()}
                       </td>
                       <td className="px-6 py-4">
-                        <Link href={`/admin/enrollments/${e.id}`} className="text-blue-600 hover:underline text-sm">
+                        <Link
+                          href={`/admin/enrollments/${e.id}`}
+                          className="text-blue-600 hover:underline text-sm"
+                        >
                           View
                         </Link>
                       </td>

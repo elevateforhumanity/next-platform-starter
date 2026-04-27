@@ -16,7 +16,9 @@ async function _GET(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -37,7 +39,7 @@ async function _GET(request: Request) {
           description,
           duration_hours
         )
-      `
+      `,
       )
       .eq('user_id', user.id)
       .order('started_at', { ascending: false });
@@ -47,7 +49,7 @@ async function _GET(request: Request) {
     }
 
     return NextResponse.json({ enrollments });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
   }
 }
@@ -58,7 +60,9 @@ async function _POST(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -79,10 +83,7 @@ async function _POST(request: Request) {
       .maybeSingle();
 
     if (existing) {
-      return NextResponse.json(
-        { error: 'Already enrolled in this course' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Already enrolled in this course' }, { status: 400 });
     }
 
     // Create enrollment
@@ -103,7 +104,7 @@ async function _POST(request: Request) {
     }
 
     return NextResponse.json(enrollment, { status: 201 });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
   }
 }

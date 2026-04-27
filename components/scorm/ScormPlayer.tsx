@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -34,16 +34,21 @@ export function ScormPlayer({
     // Log SCORM attempt to database
     const logAttempt = async () => {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      
-      await supabase.from('scorm_attempts').upsert({
-        attempt_id: attemptId,
-        package_id: packageId,
-        user_id: user?.id,
-        scorm_version: version,
-        started_at: new Date().toISOString(),
-        status: 'in_progress',
-      }).catch(() => {});
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
+      await supabase
+        .from('scorm_attempts')
+        .upsert({
+          attempt_id: attemptId,
+          package_id: packageId,
+          user_id: user?.id,
+          scorm_version: version,
+          started_at: new Date().toISOString(),
+          status: 'in_progress',
+        })
+        .catch(() => {});
     };
     logAttempt();
 

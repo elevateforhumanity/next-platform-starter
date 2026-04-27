@@ -1,7 +1,16 @@
 'use client';
 
 import { useState, useEffect } from 'react';
-import { Activity, AlertCircle, Database, Server, TrendingUp, Users, Zap, Download } from 'lucide-react';
+import {
+  Activity,
+  AlertCircle,
+  Database,
+  Server,
+  TrendingUp,
+  Users,
+  Zap,
+  Download,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 interface SystemStatus {
@@ -29,8 +38,6 @@ interface RecentError {
   statusCode: number;
   ip: string;
 }
-
-
 
 export default function MonitoringDashboard() {
   const [status, setStatus] = useState<SystemStatus | null>(null);
@@ -146,10 +153,9 @@ export default function MonitoringDashboard() {
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-
-      {/* Hero Image */}
+        {/* Hero Image */}
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Monitoring" }]} />
+          <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Monitoring' }]} />
         </div>
         <div className="text-center">
           <Activity className="h-12 w-12 animate-spin text-brand-blue-600 mx-auto mb-4" />
@@ -161,9 +167,9 @@ export default function MonitoringDashboard() {
 
   return (
     <div className="min-h-screen bg-white p-6">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Monitoring" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Monitoring' }]} />
+      </div>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
         <div className="mb-8">
@@ -210,17 +216,26 @@ export default function MonitoringDashboard() {
         {bundleError && (
           <div className="mb-4 p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm flex items-center justify-between">
             <span>{bundleError}</span>
-            <button onClick={() => setBundleError(null)} className="text-red-400 hover:text-red-600 ml-4">✕</button>
+            <button
+              onClick={() => setBundleError(null)}
+              className="text-red-400 hover:text-red-600 ml-4"
+            >
+              ✕
+            </button>
           </div>
         )}
 
         {/* Overall Status */}
         {status && (
-          <div className={`mb-8 p-6 rounded-xl border-2 ${
-            status.overall === 'healthy' ? 'bg-brand-green-50 border-brand-green-200' :
-            status.overall === 'degraded' ? 'bg-yellow-50 border-yellow-200' :
-            'bg-brand-red-50 border-brand-red-200'
-          }`}>
+          <div
+            className={`mb-8 p-6 rounded-xl border-2 ${
+              status.overall === 'healthy'
+                ? 'bg-brand-green-50 border-brand-green-200'
+                : status.overall === 'degraded'
+                  ? 'bg-yellow-50 border-yellow-200'
+                  : 'bg-brand-red-50 border-brand-red-200'
+            }`}
+          >
             <div className="flex items-center justify-between">
               <div className="flex items-center gap-4">
                 {getStatusIcon(status.overall)}
@@ -250,7 +265,9 @@ export default function MonitoringDashboard() {
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <div className="flex items-center justify-between mb-4">
                 <Database className="h-11 w-11 text-brand-blue-600" />
-                <span className={`px-3 py-2 rounded-full text-sm font-medium ${getStatusColor(status.checks.database.status)}`}>
+                <span
+                  className={`px-3 py-2 rounded-full text-sm font-medium ${getStatusColor(status.checks.database.status)}`}
+                >
                   {status.checks.database.status}
                 </span>
               </div>
@@ -267,16 +284,16 @@ export default function MonitoringDashboard() {
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <div className="flex items-center justify-between mb-4">
                 <Zap className="h-11 w-11 text-brand-orange-600" />
-                <span className={`px-3 py-2 rounded-full text-sm font-medium ${getStatusColor(status.checks.redis.status)}`}>
+                <span
+                  className={`px-3 py-2 rounded-full text-sm font-medium ${getStatusColor(status.checks.redis.status)}`}
+                >
                   {status.checks.redis.status}
                 </span>
               </div>
               <h3 className="text-lg font-bold text-black mb-2">Redis Cache</h3>
               <div className="space-y-1 text-sm text-black">
                 <div>Status: {status.checks.redis.connected ? 'Connected' : 'Disconnected'}</div>
-                {status.checks.redis.latency && (
-                  <div>Latency: {status.checks.redis.latency}ms</div>
-                )}
+                {status.checks.redis.latency && <div>Latency: {status.checks.redis.latency}ms</div>}
               </div>
             </div>
 
@@ -284,13 +301,17 @@ export default function MonitoringDashboard() {
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <div className="flex items-center justify-between mb-4">
                 <Server className="h-11 w-11 text-brand-blue-600" />
-                <span className={`px-3 py-2 rounded-full text-sm font-medium ${getStatusColor(status.checks.stripe.status)}`}>
+                <span
+                  className={`px-3 py-2 rounded-full text-sm font-medium ${getStatusColor(status.checks.stripe.status)}`}
+                >
                   {status.checks.stripe.status}
                 </span>
               </div>
               <h3 className="text-lg font-bold text-black mb-2">Stripe</h3>
               <div className="space-y-1 text-sm text-black">
-                <div>Status: {status.checks.stripe.configured ? 'Configured' : 'Not Configured'}</div>
+                <div>
+                  Status: {status.checks.stripe.configured ? 'Configured' : 'Not Configured'}
+                </div>
               </div>
             </div>
 
@@ -298,13 +319,17 @@ export default function MonitoringDashboard() {
             <div className="bg-white rounded-xl border border-gray-200 p-6">
               <div className="flex items-center justify-between mb-4">
                 <Users className="h-11 w-11 text-brand-green-600" />
-                <span className={`px-3 py-2 rounded-full text-sm font-medium ${getStatusColor(status.checks.email.status)}`}>
+                <span
+                  className={`px-3 py-2 rounded-full text-sm font-medium ${getStatusColor(status.checks.email.status)}`}
+                >
                   {status.checks.email.status}
                 </span>
               </div>
               <h3 className="text-lg font-bold text-black mb-2">Email</h3>
               <div className="space-y-1 text-sm text-black">
-                <div>Status: {status.checks.email.configured ? 'Configured' : 'Not Configured'}</div>
+                <div>
+                  Status: {status.checks.email.configured ? 'Configured' : 'Not Configured'}
+                </div>
               </div>
             </div>
           </div>
@@ -322,19 +347,27 @@ export default function MonitoringDashboard() {
               <div className="space-y-3">
                 <div>
                   <div className="text-sm text-black">Total Requests</div>
-                  <div className="text-2xl font-bold text-black">{status.metrics.requests.total.toLocaleString()}</div>
+                  <div className="text-2xl font-bold text-black">
+                    {status.metrics.requests.total.toLocaleString()}
+                  </div>
                 </div>
                 <div>
                   <div className="text-sm text-black">Error Rate</div>
                   <div className="text-2xl font-bold text-brand-red-600">
                     {status.metrics.requests.total > 0
-                      ? ((status.metrics.requests.errors / status.metrics.requests.total) * 100).toFixed(2)
-                      : '0.00'}%
+                      ? (
+                          (status.metrics.requests.errors / status.metrics.requests.total) *
+                          100
+                        ).toFixed(2)
+                      : '0.00'}
+                    %
                   </div>
                 </div>
                 <div>
                   <div className="text-sm text-black">Requests/min</div>
-                  <div className="text-2xl font-bold text-black">{status.metrics.requests.rate.toFixed(1)}</div>
+                  <div className="text-2xl font-bold text-black">
+                    {status.metrics.requests.rate.toFixed(1)}
+                  </div>
                 </div>
               </div>
             </div>
@@ -348,18 +381,28 @@ export default function MonitoringDashboard() {
               <div className="space-y-3">
                 <div>
                   <div className="text-sm text-black">Blocked Requests</div>
-                  <div className="text-2xl font-bold text-brand-red-600">{status.metrics.rateLimits.blocked.toLocaleString()}</div>
+                  <div className="text-2xl font-bold text-brand-red-600">
+                    {status.metrics.rateLimits.blocked.toLocaleString()}
+                  </div>
                 </div>
                 <div>
                   <div className="text-sm text-black">Allowed Requests</div>
-                  <div className="text-2xl font-bold text-brand-green-600">{status.metrics.rateLimits.allowed.toLocaleString()}</div>
+                  <div className="text-2xl font-bold text-brand-green-600">
+                    {status.metrics.rateLimits.allowed.toLocaleString()}
+                  </div>
                 </div>
                 <div>
                   <div className="text-sm text-black">Block Rate</div>
                   <div className="text-2xl font-bold text-brand-orange-600">
-                    {(status.metrics.rateLimits.blocked + status.metrics.rateLimits.allowed) > 0
-                      ? ((status.metrics.rateLimits.blocked / (status.metrics.rateLimits.blocked + status.metrics.rateLimits.allowed)) * 100).toFixed(2)
-                      : '0.00'}%
+                    {status.metrics.rateLimits.blocked + status.metrics.rateLimits.allowed > 0
+                      ? (
+                          (status.metrics.rateLimits.blocked /
+                            (status.metrics.rateLimits.blocked +
+                              status.metrics.rateLimits.allowed)) *
+                          100
+                        ).toFixed(2)
+                      : '0.00'}
+                    %
                   </div>
                 </div>
               </div>
@@ -374,16 +417,25 @@ export default function MonitoringDashboard() {
               <div className="space-y-3">
                 <div>
                   <div className="text-sm text-black">Used</div>
-                  <div className="text-2xl font-bold text-black">{status.metrics.memory.used} MB</div>
+                  <div className="text-2xl font-bold text-black">
+                    {status.metrics.memory.used} MB
+                  </div>
                 </div>
                 <div>
                   <div className="text-sm text-black">Total</div>
-                  <div className="text-2xl font-bold text-black">{status.metrics.memory.total} MB</div>
+                  <div className="text-2xl font-bold text-black">
+                    {status.metrics.memory.total} MB
+                  </div>
                 </div>
                 <div>
                   <div className="text-sm text-black">Usage</div>
                   <div className="text-2xl font-bold text-brand-blue-600">
-                    {status.metrics.memory.total > 0 ? ((status.metrics.memory.used / status.metrics.memory.total) * 100).toFixed(1) : '0.0'}%
+                    {status.metrics.memory.total > 0
+                      ? ((status.metrics.memory.used / status.metrics.memory.total) * 100).toFixed(
+                          1,
+                        )
+                      : '0.0'}
+                    %
                   </div>
                 </div>
               </div>
@@ -398,7 +450,7 @@ export default function MonitoringDashboard() {
             <h3 className="text-lg font-bold text-black">Recent Errors</h3>
             <span className="ml-auto text-sm text-black">Last 10 errors</span>
           </div>
-          
+
           {errors.length === 0 ? (
             <div className="text-center py-8 text-slate-700">
               <span className="text-slate-400 flex-shrink-0">•</span>
@@ -409,7 +461,9 @@ export default function MonitoringDashboard() {
               <table className="w-full">
                 <thead>
                   <tr className="border-b border-gray-200">
-                    <th className="text-left py-3 px-4 text-sm font-medium text-black">Timestamp</th>
+                    <th className="text-left py-3 px-4 text-sm font-medium text-black">
+                      Timestamp
+                    </th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-black">Endpoint</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-black">Error</th>
                     <th className="text-left py-3 px-4 text-sm font-medium text-black">Status</th>
@@ -423,13 +477,19 @@ export default function MonitoringDashboard() {
                         {new Date(error.timestamp).toLocaleTimeString()}
                       </td>
                       <td className="py-3 px-4 text-sm font-mono text-black">{error.endpoint}</td>
-                      <td className="py-3 px-4 text-sm text-black max-w-md truncate">{error.error}</td>
+                      <td className="py-3 px-4 text-sm text-black max-w-md truncate">
+                        {error.error}
+                      </td>
                       <td className="py-3 px-4">
-                        <span className={`px-2 py-2 rounded text-xs font-medium ${
-                          error.statusCode >= 500 ? 'bg-brand-red-100 text-brand-red-700' :
-                          error.statusCode >= 400 ? 'bg-yellow-100 text-yellow-700' :
-                          'bg-gray-100 text-black'
-                        }`}>
+                        <span
+                          className={`px-2 py-2 rounded text-xs font-medium ${
+                            error.statusCode >= 500
+                              ? 'bg-brand-red-100 text-brand-red-700'
+                              : error.statusCode >= 400
+                                ? 'bg-yellow-100 text-yellow-700'
+                                : 'bg-gray-100 text-black'
+                          }`}
+                        >
                           {error.statusCode}
                         </span>
                       </td>

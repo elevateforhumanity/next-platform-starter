@@ -1,16 +1,17 @@
-"use client";
+'use client';
 
 import useSWR from 'swr';
 
-const fetcher = (url: string) => fetch(url, {
-  headers: {
-    'x-tenant-id': 'default' // implemented
-  }
-}).then((r) => r.json());
+const fetcher = (url: string) =>
+  fetch(url, {
+    headers: {
+      'x-tenant-id': 'default', // implemented
+    },
+  }).then((r) => r.json());
 
 export default function AnalyticsDashboard() {
   const { data, error, isLoading } = useSWR('/api/admin/analytics/overview', fetcher, {
-    refreshInterval: 15000 // Refresh every 15 seconds
+    refreshInterval: 15000, // Refresh every 15 seconds
   });
 
   if (isLoading) {

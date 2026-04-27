@@ -39,20 +39,10 @@ export function Section({
   noPadding = false,
   className,
 }: SectionProps) {
-  const content = fullBleed ? (
-    children
-  ) : (
-    <Container size={containerSize}>{children}</Container>
-  );
+  const content = fullBleed ? children : <Container size={containerSize}>{children}</Container>;
 
   return (
-    <section
-      className={cn(
-        variantClasses[variant],
-        !noPadding && 'py-10 md:py-16',
-        className
-      )}
-    >
+    <section className={cn(variantClasses[variant], !noPadding && 'py-10 md:py-16', className)}>
       {content}
     </section>
   );

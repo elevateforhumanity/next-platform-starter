@@ -13,7 +13,9 @@ export const metadata: Metadata = {
 
 export default async function EnrollmentSuccessPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) redirect('/login?redirect=/programs/tax-prep-financial-services/enrollment-success');
 
@@ -35,7 +37,10 @@ export default async function EnrollmentSuccessPage() {
       .limit(1)
       .maybeSingle();
     if (emailMatch) {
-      await supabase.from('program_enrollments').update({ user_id: user.id }).eq('id', emailMatch.id);
+      await supabase
+        .from('program_enrollments')
+        .update({ user_id: user.id })
+        .eq('id', emailMatch.id);
       enrollment = { ...emailMatch, user_id: user.id };
     }
   }
@@ -43,18 +48,23 @@ export default async function EnrollmentSuccessPage() {
   if (!enrollment) redirect('/programs/tax-prep-financial-services');
 
   if (enrollment.status === 'paid' || enrollment.status === 'approved') {
-    await supabase.from('program_enrollments')
+    await supabase
+      .from('program_enrollments')
       .update({ status: 'confirmed', enrollment_confirmed_at: new Date().toISOString() })
       .eq('id', enrollment.id);
   }
 
-  const programName = (enrollment.programs as { name?: string })?.name || 'Tax Prep & Financial Services';
+  const programName =
+    (enrollment.programs as { name?: string })?.name || 'Tax Prep & Financial Services';
   const enrolledDate = enrollment.enrolled_at ? new Date(enrollment.enrolled_at) : new Date();
   const daysUntilMonday = (8 - enrolledDate.getDay()) % 7 || 7;
   const startDate = new Date(enrolledDate);
   startDate.setDate(startDate.getDate() + daysUntilMonday);
   const formattedStartDate = startDate.toLocaleDateString('en-US', {
-    weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
   });
 
   return (
@@ -64,7 +74,9 @@ export default async function EnrollmentSuccessPage() {
           <div className="w-24 h-24 bg-emerald-500 rounded-full flex items-center justify-center mx-auto mb-6 shadow-2xl">
             <TrendingUp className="w-12 h-12 text-white" />
           </div>
-          <p className="text-emerald-400 font-bold text-sm uppercase tracking-widest mb-2">Financial Services Career Track</p>
+          <p className="text-emerald-400 font-bold text-sm uppercase tracking-widest mb-2">
+            Financial Services Career Track
+          </p>
           <h1 className="text-4xl font-black text-white mb-2">You're officially enrolled.</h1>
           <p className="text-slate-400">Welcome to the Tax Prep & Financial Services program.</p>
         </div>
@@ -81,7 +93,8 @@ export default async function EnrollmentSuccessPage() {
             <div className="flex justify-between items-center py-3 border-b border-slate-100">
               <span className="text-slate-600">Status</span>
               <span className="inline-flex items-center gap-1 px-3 py-1 bg-green-100 text-green-700 rounded-full font-bold text-sm">
-                <span className="w-2 h-2 bg-green-500 rounded-full" />Active
+                <span className="w-2 h-2 bg-green-500 rounded-full" />
+                Active
               </span>
             </div>
             <div className="flex justify-between items-center py-3 border-b border-slate-100">
@@ -106,10 +119,26 @@ export default async function EnrollmentSuccessPage() {
           <p className="text-white font-bold mb-4">Your next steps</p>
           <div className="space-y-3">
             {[
-              { n: 1, title: 'Start Tax Preparation track', desc: 'Federal tax law, 1040 preparation, deductions, and credits' },
-              { n: 2, title: 'Start Bookkeeping & QuickBooks track', desc: 'Accounts payable/receivable, payroll, financial statements' },
-              { n: 3, title: 'Obtain your IRS PTIN', desc: 'Required to prepare tax returns for compensation' },
-              { n: 4, title: 'Earn QuickBooks Certification', desc: 'Intuit-recognized credential — included in your program' },
+              {
+                n: 1,
+                title: 'Start Tax Preparation track',
+                desc: 'Federal tax law, 1040 preparation, deductions, and credits',
+              },
+              {
+                n: 2,
+                title: 'Start Bookkeeping & QuickBooks track',
+                desc: 'Accounts payable/receivable, payroll, financial statements',
+              },
+              {
+                n: 3,
+                title: 'Obtain your IRS PTIN',
+                desc: 'Required to prepare tax returns for compensation',
+              },
+              {
+                n: 4,
+                title: 'Earn QuickBooks Certification',
+                desc: 'Intuit-recognized credential — included in your program',
+              },
             ].map(({ n, title, desc }) => (
               <div key={n} className="flex items-start gap-3">
                 <div className="w-6 h-6 bg-emerald-500 rounded-full flex items-center justify-center flex-shrink-0 mt-0.5">
@@ -124,7 +153,10 @@ export default async function EnrollmentSuccessPage() {
           </div>
         </div>
 
-        <Link href="/learner/dashboard" className="block w-full bg-emerald-500 hover:bg-emerald-600 text-white text-center py-5 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] shadow-lg mb-3">
+        <Link
+          href="/learner/dashboard"
+          className="block w-full bg-emerald-500 hover:bg-emerald-600 text-white text-center py-5 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] shadow-lg mb-3"
+        >
           Start Your Coursework →
         </Link>
         <a
@@ -133,18 +165,28 @@ export default async function EnrollmentSuccessPage() {
           rel="noopener noreferrer"
           className="flex items-center justify-center gap-2 w-full bg-slate-700 hover:bg-slate-600 text-white text-center py-4 rounded-xl font-bold transition-all mb-3"
         >
-          <ExternalLink className="w-4 h-4" />IRS PTIN Application
+          <ExternalLink className="w-4 h-4" />
+          IRS PTIN Application
         </a>
-        <Link href="/supersonic" className="block w-full bg-slate-600 hover:bg-slate-500 text-white text-center py-4 rounded-xl font-bold transition-all mb-6">
-          <BookOpen className="inline w-4 h-4 mr-2" />SupersonicFastCash Tax Software
+        <Link
+          href="/supersonic"
+          className="block w-full bg-slate-600 hover:bg-slate-500 text-white text-center py-4 rounded-xl font-bold transition-all mb-6"
+        >
+          <BookOpen className="inline w-4 h-4 mr-2" />
+          SupersonicFastCash Tax Software
         </Link>
 
         <div className="text-center space-y-1">
           <p className="text-slate-400 text-sm flex items-center justify-center gap-2">
-            <Clock className="w-4 h-4" />Questions? Mon–Fri 9am–5pm ET
+            <Clock className="w-4 h-4" />
+            Questions? Mon–Fri 9am–5pm ET
           </p>
-          <a href="tel:317-314-3757" className="text-emerald-400 hover:underline text-sm flex items-center justify-center gap-1">
-            <Phone className="w-3 h-3" />317-314-3757
+          <a
+            href="tel:317-314-3757"
+            className="text-emerald-400 hover:underline text-sm flex items-center justify-center gap-1"
+          >
+            <Phone className="w-3 h-3" />
+            317-314-3757
           </a>
         </div>
       </div>

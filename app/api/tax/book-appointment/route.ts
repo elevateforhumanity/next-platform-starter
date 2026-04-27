@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@supabase/supabase-js';
@@ -18,7 +17,7 @@ const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
 async function _POST(req: Request) {
   try {
-  await hydrateProcessEnv();
+    await hydrateProcessEnv();
     const rateLimited = await applyRateLimit(req, 'contact');
     if (rateLimited) return rateLimited;
 
@@ -36,10 +35,7 @@ async function _POST(req: Request) {
       !appointmentData?.date ||
       !appointmentData?.time
     ) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Create Supabase client with service role key
@@ -47,26 +43,32 @@ async function _POST(req: Request) {
 
     // DB write is required — no fallthrough on failure
     const appointment = await requireDbWrite(
-      supabase.from('appointments').insert([{
-        service_type: appointmentData.serviceType,
-        appointment_type: appointmentData.appointmentType,
-        appointment_date: appointmentData.date,
-        appointment_time: appointmentData.time,
-        first_name: appointmentData.firstName,
-        last_name: appointmentData.lastName,
-        email: appointmentData.email,
-        phone: appointmentData.phone,
-        tax_situation: appointmentData.taxSituation || null,
-        has_w2: appointmentData.hasW2 || false,
-        has_1099: appointmentData.has1099 || false,
-        has_business_income: appointmentData.hasBusinessIncome || false,
-        has_rental_income: appointmentData.hasRentalIncome || false,
-        needs_refund_advance: appointmentData.needsRefundAdvance || false,
-        refund_advance_amount: appointmentData.refundAdvanceAmount || null,
-        location: appointmentData.location || null,
-        status: 'pending',
-      }]).select().single(),
-      'Failed to create appointment. Please call (317) 314-3757.'
+      supabase
+        .from('appointments')
+        .insert([
+          {
+            service_type: appointmentData.serviceType,
+            appointment_type: appointmentData.appointmentType,
+            appointment_date: appointmentData.date,
+            appointment_time: appointmentData.time,
+            first_name: appointmentData.firstName,
+            last_name: appointmentData.lastName,
+            email: appointmentData.email,
+            phone: appointmentData.phone,
+            tax_situation: appointmentData.taxSituation || null,
+            has_w2: appointmentData.hasW2 || false,
+            has_1099: appointmentData.has1099 || false,
+            has_business_income: appointmentData.hasBusinessIncome || false,
+            has_rental_income: appointmentData.hasRentalIncome || false,
+            needs_refund_advance: appointmentData.needsRefundAdvance || false,
+            refund_advance_amount: appointmentData.refundAdvanceAmount || null,
+            location: appointmentData.location || null,
+            status: 'pending',
+          },
+        ])
+        .select()
+        .single(),
+      'Failed to create appointment. Please call (317) 314-3757.',
     );
 
     // Send confirmation email to customer
@@ -91,8 +93,8 @@ async function _POST(req: Request) {
         `,
       });
     } catch (emailError) {
-        logger.error("Unhandled error", emailError instanceof Error ? emailError : undefined);
-      }
+      logger.error('Unhandled error', emailError instanceof Error ? emailError : undefined);
+    }
 
     // Send notification to staff
     try {
@@ -114,7 +116,9 @@ async function _POST(req: Request) {
           </ul>
         `,
       });
-    } catch { /* non-fatal */ }
+    } catch {
+      /* non-fatal */
+    }
 
     return success({ appointment });
   } catch (err: unknown) {

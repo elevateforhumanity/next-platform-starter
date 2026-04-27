@@ -6,14 +6,10 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 // AUTH: Intentionally public — no authentication required
 
-async function _GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ productId: string }> }
-) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const { productId } = await params;
+async function _GET(request: NextRequest, { params }: { params: Promise<{ productId: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const { productId } = await params;
 
   try {
     const [recommendations, salesMessage] = await Promise.all([
@@ -21,17 +17,20 @@ const { productId } = await params;
       getAvatarSalesMessage(productId),
     ]);
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       recommendations,
       salesMessage,
     });
   } catch (error) {
     logger.error('Recommendations API error:', error);
-    return NextResponse.json({ 
-      recommendations: [], 
-      salesMessage: null,
-      error: 'Failed to fetch recommendations' 
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        recommendations: [],
+        salesMessage: null,
+        error: 'Failed to fetch recommendations',
+      },
+      { status: 500 },
+    );
   }
 }
 export const GET = withApiAudit('/api/recommendations/[productId]', _GET);

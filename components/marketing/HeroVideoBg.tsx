@@ -45,10 +45,10 @@ export function HeroVideoBg({ src, poster, audioSrc }: HeroVideoBgProps) {
       a.play().catch(() => {});
       setMuted(false);
     };
-    window.addEventListener('click',      tryPlay, { once: true });
+    window.addEventListener('click', tryPlay, { once: true });
     window.addEventListener('touchstart', tryPlay, { once: true, passive: true });
     return () => {
-      window.removeEventListener('click',      tryPlay);
+      window.removeEventListener('click', tryPlay);
       window.removeEventListener('touchstart', tryPlay);
     };
   }, [audioSrc]);
@@ -57,10 +57,16 @@ export function HeroVideoBg({ src, poster, audioSrc }: HeroVideoBgProps) {
     const a = audioRef.current;
     if (muted) {
       // Resume from beginning — voiceover is a script, not synced to video
-      if (a) { a.currentTime = 0; a.play().catch(() => {}); }
+      if (a) {
+        a.currentTime = 0;
+        a.play().catch(() => {});
+      }
       setMuted(false);
     } else {
-      if (a) { a.pause(); a.currentTime = 0; }
+      if (a) {
+        a.pause();
+        a.currentTime = 0;
+      }
       setMuted(true);
     }
   }
@@ -105,9 +111,15 @@ export function HeroVideoBg({ src, poster, audioSrc }: HeroVideoBgProps) {
           className="absolute bottom-4 right-4 z-20 flex items-center gap-2 text-white/70 hover:text-white text-xs font-semibold px-2 py-1.5 rounded-full transition-colors"
         >
           {muted ? (
-            <><VolumeX className="w-4 h-4 flex-shrink-0" /><span className="hidden sm:inline">Tap to hear</span></>
+            <>
+              <VolumeX className="w-4 h-4 flex-shrink-0" />
+              <span className="hidden sm:inline">Tap to hear</span>
+            </>
           ) : (
-            <><Volume2 className="w-4 h-4 flex-shrink-0 text-brand-red-400" /><span className="hidden sm:inline">Mute</span></>
+            <>
+              <Volume2 className="w-4 h-4 flex-shrink-0 text-brand-red-400" />
+              <span className="hidden sm:inline">Mute</span>
+            </>
           )}
         </button>
       )}

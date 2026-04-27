@@ -13,7 +13,11 @@ const createProductSchema = z.object({
   repo: z.string().min(1).max(500),
   description: z.string().max(5000).optional(),
 });
-import { requireActiveLicense, LicenseError, licenseErrorResponse } from '@/lib/license/requireActiveLicense';
+import {
+  requireActiveLicense,
+  LicenseError,
+  licenseErrorResponse,
+} from '@/lib/license/requireActiveLicense';
 import { TenantContextError } from '@/lib/tenant';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -32,13 +36,16 @@ async function _POST(req: NextRequest) {
 
     // STEP 5B: Require active license for paid features
     await requireActiveLicense();
-    
+
     const body = await req.json();
     const parsed = createProductSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Invalid request', details: parsed.error.issues.map(i => `${i.path.join('.')}: ${i.message}`) },
-        { status: 400 }
+        {
+          error: 'Invalid request',
+          details: parsed.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`),
+        },
+        { status: 400 },
       );
     }
     const { title, price, repo, description } = parsed.data;
@@ -48,7 +55,7 @@ async function _POST(req: NextRequest) {
       title,
       Number(price),
       repo,
-      description
+      description,
     );
 
     // Store in Supabase
@@ -70,7 +77,7 @@ async function _POST(req: NextRequest) {
       logger.error('Supabase error:', error);
       return NextResponse.json(
         { error: 'Failed to save product', details: toErrorMessage(error) },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -87,17 +94,17 @@ async function _POST(req: NextRequest) {
     if (error instanceof TenantContextError) {
       return NextResponse.json({ error: 'Internal server error' }, { status: error.statusCode });
     }
-    
+
     logger.error(
       'Create product error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       {
         error: 'Failed to create product',
         message: toErrorMessage(error),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

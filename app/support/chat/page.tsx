@@ -21,12 +21,18 @@ const quickReplies = [
 ];
 
 const botResponses: Record<string, string> = {
-  'how do i apply': 'To apply for a program, visit our Apply page at /apply. You will need to provide basic information, select your program of interest, and complete the eligibility screening. The process takes about 10-15 minutes.',
-  'funding': 'We offer several funding options including WIOA (Workforce Innovation and Opportunity Act), WRG (Workforce Ready Grant), and Job Ready Indy funding. You can also choose self-pay options. Visit /funding to learn more about eligibility.',
-  'application status': 'To check your application status, log into your Student Portal at /student-portal. Your dashboard will show your current application status, any required documents, and next steps.',
-  'account': 'For account issues, you can reset your password at /forgot-password, or contact our support team at our contact form. You can also contact us at (317) 314-3757 during business hours.',
-  'contact': 'You can reach our support team by: Email: our contact form, Phone: (317) 314-3757 (Mon-Fri 9am-5pm EST), or submit a support ticket at /support.',
-  'default': 'Thank you for your message. For immediate assistance, please contact our support team at our contact form or call (317) 314-3757 during business hours (Mon-Fri 9am-5pm EST). You can also submit a support ticket at /support for a response within 24 hours.',
+  'how do i apply':
+    'To apply for a program, visit our Apply page at /apply. You will need to provide basic information, select your program of interest, and complete the eligibility screening. The process takes about 10-15 minutes.',
+  funding:
+    'We offer several funding options including WIOA (Workforce Innovation and Opportunity Act), WRG (Workforce Ready Grant), and Job Ready Indy funding. You can also choose self-pay options. Visit /funding to learn more about eligibility.',
+  'application status':
+    'To check your application status, log into your Student Portal at /student-portal. Your dashboard will show your current application status, any required documents, and next steps.',
+  account:
+    'For account issues, you can reset your password at /forgot-password, or contact our support team at our contact form. You can also contact us at (317) 314-3757 during business hours.',
+  contact:
+    'You can reach our support team by: Email: our contact form, Phone: (317) 314-3757 (Mon-Fri 9am-5pm EST), or submit a support ticket at /support.',
+  default:
+    'Thank you for your message. For immediate assistance, please contact our support team at our contact form or call (317) 314-3757 during business hours (Mon-Fri 9am-5pm EST). You can also submit a support ticket at /support for a response within 24 hours.',
 };
 
 function getBotResponse(message: string): string {
@@ -34,16 +40,32 @@ function getBotResponse(message: string): string {
   if (lower.includes('apply') || lower.includes('application') || lower.includes('enroll')) {
     return botResponses['how do i apply'];
   }
-  if (lower.includes('fund') || lower.includes('wioa') || lower.includes('pay') || lower.includes('cost') || lower.includes('tuition')) {
+  if (
+    lower.includes('fund') ||
+    lower.includes('wioa') ||
+    lower.includes('pay') ||
+    lower.includes('cost') ||
+    lower.includes('tuition')
+  ) {
     return botResponses['funding'];
   }
   if (lower.includes('status') || lower.includes('check') || lower.includes('where')) {
     return botResponses['application status'];
   }
-  if (lower.includes('account') || lower.includes('password') || lower.includes('login') || lower.includes('sign in')) {
+  if (
+    lower.includes('account') ||
+    lower.includes('password') ||
+    lower.includes('login') ||
+    lower.includes('sign in')
+  ) {
     return botResponses['account'];
   }
-  if (lower.includes('contact') || lower.includes('phone') || lower.includes('email') || lower.includes('reach')) {
+  if (
+    lower.includes('contact') ||
+    lower.includes('phone') ||
+    lower.includes('email') ||
+    lower.includes('reach')
+  ) {
     return botResponses['contact'];
   }
   return botResponses['default'];
@@ -54,7 +76,8 @@ export default function LiveChatPage() {
     {
       id: '1',
       role: 'assistant',
-      content: 'Hello! I am the Elevate support assistant. How can I help you today? You can ask about programs, funding, applications, or account issues.',
+      content:
+        'Hello! I am the Elevate support assistant. How can I help you today? You can ask about programs, funding, applications, or account issues.',
       timestamp: new Date(),
     },
   ]);
@@ -86,16 +109,19 @@ export default function LiveChatPage() {
     setIsTyping(true);
 
     // Simulate typing delay
-    setTimeout(() => {
-      const botMessage: Message = {
-        id: (Date.now() + 1).toString(),
-        role: 'assistant',
-        content: getBotResponse(messageText),
-        timestamp: new Date(),
-      };
-      setMessages((prev) => [...prev, botMessage]);
-      setIsTyping(false);
-    }, 1000 + Math.random() * 1000);
+    setTimeout(
+      () => {
+        const botMessage: Message = {
+          id: (Date.now() + 1).toString(),
+          role: 'assistant',
+          content: getBotResponse(messageText),
+          timestamp: new Date(),
+        };
+        setMessages((prev) => [...prev, botMessage]);
+        setIsTyping(false);
+      },
+      1000 + Math.random() * 1000,
+    );
   };
 
   const handleKeyPress = (e: React.KeyboardEvent) => {
@@ -107,10 +133,10 @@ export default function LiveChatPage() {
 
   return (
     <div className="min-h-screen bg-white flex flex-col">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Support", href: "/support" }, { label: "Chat" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Support', href: '/support' }, { label: 'Chat' }]} />
       </div>
-{/* Header */}
+      {/* Header */}
       <div className="bg-brand-blue-700 text-white py-4 px-4 shadow-md">
         <div className="max-w-3xl mx-auto flex items-center gap-4">
           <Link href="/support" className="p-2 hover:bg-brand-blue-700 rounded-lg transition">
@@ -176,9 +202,18 @@ export default function LiveChatPage() {
               </div>
               <div className="bg-white border border-gray-200 rounded-2xl rounded-tl-sm px-4 py-3">
                 <div className="flex gap-1">
-                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></span>
-                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></span>
-                  <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></span>
+                  <span
+                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                    style={{ animationDelay: '0ms' }}
+                  ></span>
+                  <span
+                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                    style={{ animationDelay: '150ms' }}
+                  ></span>
+                  <span
+                    className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                    style={{ animationDelay: '300ms' }}
+                  ></span>
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -99,13 +99,15 @@ export function AutoAttritionTracker() {
 
       if (enrollments) {
         const total = enrollments.length;
-        const active = enrollments.filter(e => e.status === 'active').length;
-        const completed = enrollments.filter(e => e.status === 'completed').length;
-        const dropped = enrollments.filter(e => e.status === 'dropped' || e.status === 'withdrawn').length;
+        const active = enrollments.filter((e) => e.status === 'active').length;
+        const completed = enrollments.filter((e) => e.status === 'completed').length;
+        const dropped = enrollments.filter(
+          (e) => e.status === 'dropped' || e.status === 'withdrawn',
+        ).length;
 
         // Group by program
         const programMap = new Map<string, any>();
-        enrollments.forEach(e => {
+        enrollments.forEach((e) => {
           const programName = (e.training_programs as any)?.name || 'Unknown';
           if (!programMap.has(programName)) {
             programMap.set(programName, { enrolled: 0, active: 0, completed: 0, dropped: 0 });
@@ -117,17 +119,25 @@ export function AutoAttritionTracker() {
           if (e.status === 'dropped' || e.status === 'withdrawn') p.dropped++;
         });
 
-        const byProgram: ProgramMetrics[] = Array.from(programMap.entries()).map(([name, data]) => ({
-          program: name,
-          enrolled: data.enrolled,
-          active: data.active,
-          completed: data.completed,
-          dropped: data.dropped,
-          attritionRate: data.enrolled > 0 ? (data.dropped / data.enrolled) * 100 : 0,
-          retentionRate: data.enrolled > 0 ? ((data.enrolled - data.dropped) / data.enrolled) * 100 : 100,
-          completionRate: data.enrolled > 0 ? (data.completed / data.enrolled) * 100 : 0,
-          riskLevel: data.dropped / data.enrolled > 0.15 ? 'high' : data.dropped / data.enrolled > 0.08 ? 'medium' : 'low',
-        }));
+        const byProgram: ProgramMetrics[] = Array.from(programMap.entries()).map(
+          ([name, data]) => ({
+            program: name,
+            enrolled: data.enrolled,
+            active: data.active,
+            completed: data.completed,
+            dropped: data.dropped,
+            attritionRate: data.enrolled > 0 ? (data.dropped / data.enrolled) * 100 : 0,
+            retentionRate:
+              data.enrolled > 0 ? ((data.enrolled - data.dropped) / data.enrolled) * 100 : 100,
+            completionRate: data.enrolled > 0 ? (data.completed / data.enrolled) * 100 : 0,
+            riskLevel:
+              data.dropped / data.enrolled > 0.15
+                ? 'high'
+                : data.dropped / data.enrolled > 0.08
+                  ? 'medium'
+                  : 'low',
+          }),
+        );
 
         // Fetch at-risk students (inactive for 7+ days)
         const sevenDaysAgo = new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString();
@@ -143,7 +153,10 @@ export function AutoAttritionTracker() {
           name: (s.profiles as any)?.full_name || `Student ${i + 1}`,
           program: (s.training_programs as any)?.name || 'Unknown',
           // Risk score: base 60 + up to 40 points for days inactive beyond 7
-          riskScore: Math.min(100, 60 + Math.floor((Date.now() - new Date(sevenDaysAgo).getTime()) / 86400000) * 5),
+          riskScore: Math.min(
+            100,
+            60 + Math.floor((Date.now() - new Date(sevenDaysAgo).getTime()) / 86400000) * 5,
+          ),
           riskFactors: ['Inactivity > 7 days'],
           lastActivity: sevenDaysAgo,
           interventionStatus: 'none' as const,
@@ -177,8 +190,14 @@ export function AutoAttritionTracker() {
       const supabase = createClient();
       const [totalRes, activeRes, droppedRes] = await Promise.all([
         supabase.from('program_enrollments').select('id', { count: 'exact', head: true }),
-        supabase.from('program_enrollments').select('id', { count: 'exact', head: true }).eq('status', 'active'),
-        supabase.from('program_enrollments').select('id', { count: 'exact', head: true }).eq('status', 'dropped'),
+        supabase
+          .from('program_enrollments')
+          .select('id', { count: 'exact', head: true })
+          .eq('status', 'active'),
+        supabase
+          .from('program_enrollments')
+          .select('id', { count: 'exact', head: true })
+          .eq('status', 'dropped'),
       ]);
       const total = totalRes.count ?? 0;
       const active = activeRes.count ?? 0;
@@ -447,9 +466,7 @@ export function AutoAttritionTracker() {
     return (
       <div className="text-center py-8">
         <div className="inline-block animate-spin rounded-full h-11 w-11 border-b-2 border-brand-blue-600" />
-        <p className="mt-4 text-brand-text-muted">
-          Loading attrition tracking data...
-        </p>
+        <p className="mt-4 text-brand-text-muted">Loading attrition tracking data...</p>
       </div>
     );
   }
@@ -462,8 +479,7 @@ export function AutoAttritionTracker() {
             📊 Automated Attrition & Retention Tracker
           </h2>
           <p className="text-brand-text-muted">
-            Real-time monitoring with predictive analytics and
-            au
+            Real-time monitoring with predictive analytics and au
           </p>
         </div>
         <div className="flex items-center space-x-4">
@@ -474,7 +490,9 @@ export function AutoAttritionTracker() {
             <input
               type="checkbox"
               checked={isTracking}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setIsTracking(e.target.checked)}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+              ) => setIsTracking(e.target.checked)}
               className="mr-2"
             />
             <span className="text-sm text-brand-text">Real-time Tracking</span>
@@ -486,12 +504,8 @@ export function AutoAttritionTracker() {
         <div className="bg-white border rounded-lg p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-brand-text-muted">
-                Total Students
-              </p>
-              <p className="text-3xl font-bold text-brand-text">
-                {metrics.overall.totalStudents}
-              </p>
+              <p className="text-sm font-medium text-brand-text-muted">Total Students</p>
+              <p className="text-3xl font-bold text-brand-text">{metrics.overall.totalStudents}</p>
             </div>
             <div className="text-2xl">👥</div>
           </div>
@@ -499,16 +513,12 @@ export function AutoAttritionTracker() {
         <div className="bg-white border rounded-lg p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-brand-text-muted">
-                Retention Rate
-              </p>
+              <p className="text-sm font-medium text-brand-text-muted">Retention Rate</p>
               <p className="text-3xl font-bold text-brand-success">
                 {metrics.overall.retentionRate.toFixed(1)}%
               </p>
             </div>
-            <div className="text-2xl">
-              {getTrendIcon(metrics.overall.trend)}
-            </div>
+            <div className="text-2xl">{getTrendIcon(metrics.overall.trend)}</div>
           </div>
           <div className="mt-2">
             <span
@@ -527,9 +537,7 @@ export function AutoAttritionTracker() {
         <div className="bg-white border rounded-lg p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-brand-text-muted">
-                Attrition Rate
-              </p>
+              <p className="text-sm font-medium text-brand-text-muted">Attrition Rate</p>
               <p className="text-3xl font-bold text-brand-orange-600">
                 {metrics.overall.attritionRate.toFixed(1)}%
               </p>
@@ -543,25 +551,17 @@ export function AutoAttritionTracker() {
         <div className="bg-white border rounded-lg p-6">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-sm font-medium text-brand-text-muted">
-                At-Risk Students
-              </p>
-              <p className="text-3xl font-bold text-brand-orange-600">
-                {atRiskStudents.length}
-              </p>
+              <p className="text-sm font-medium text-brand-text-muted">At-Risk Students</p>
+              <p className="text-3xl font-bold text-brand-orange-600">{atRiskStudents.length}</p>
             </div>
             <div className="text-2xl">🚨</div>
           </div>
-          <div className="mt-2 text-xs text-brand-text-light">
-            Requiring intervention
-          </div>
+          <div className="mt-2 text-xs text-brand-text-light">Requiring intervention</div>
         </div>
       </div>
       {/* Program-Specific Metrics */}
       <div className="mb-8">
-        <h3 className="text-lg font-semibold text-brand-text mb-4">
-          📚 Program Performance
-        </h3>
+        <h3 className="text-lg font-semibold text-brand-text mb-4">📚 Program Performance</h3>
         <div className="bg-white border rounded-lg overflow-hidden">
           <table className="min-w-full">
             <thead className="bg-brand-surface">
@@ -589,12 +589,8 @@ export function AutoAttritionTracker() {
             <tbody className="divide-y divide-gray-200">
               {metrics.byProgram.map((program, index) => (
                 <tr key={index}>
-                  <td className="px-6 py-4 font-medium text-brand-text">
-                    {program.program}
-                  </td>
-                  <td className="px-6 py-4 text-sm text-brand-text-muted">
-                    {program.enrolled}
-                  </td>
+                  <td className="px-6 py-4 font-medium text-brand-text">{program.program}</td>
+                  <td className="px-6 py-4 text-sm text-brand-text-muted">{program.enrolled}</td>
                   <td className="px-6 py-4">
                     <div className="flex items-center">
                       <div className="w-16 bg-brand-border rounded-full h-2 mr-2">
@@ -641,12 +637,8 @@ export function AutoAttritionTracker() {
             <div key={student.id} className="bg-white border rounded-lg p-6">
               <div className="flex items-start justify-between mb-4">
                 <div>
-                  <h4 className="font-semibold text-brand-text">
-                    {student.name}
-                  </h4>
-                  <p className="text-sm text-brand-text-muted">
-                    {student.program}
-                  </p>
+                  <h4 className="font-semibold text-brand-text">{student.name}</h4>
+                  <p className="text-sm text-brand-text-muted">{student.program}</p>
                   <p className="text-xs text-brand-text-light">
                     Last activity: {student.lastActivity}
                   </p>
@@ -655,15 +647,11 @@ export function AutoAttritionTracker() {
                   <div className="text-2xl font-bold text-brand-orange-600">
                     {student.riskScore}%
                   </div>
-                  <div className="text-xs text-brand-text-light">
-                    Risk Score
-                  </div>
+                  <div className="text-xs text-brand-text-light">Risk Score</div>
                 </div>
               </div>
               <div className="mb-4">
-                <div className="text-sm font-medium text-brand-text mb-2">
-                  Risk Factors:
-                </div>
+                <div className="text-sm font-medium text-brand-text mb-2">Risk Factors:</div>
                 <div className="flex flex-wrap gap-1">
                   {student.riskFactors.map((factor, index) => (
                     <span
@@ -677,9 +665,7 @@ export function AutoAttritionTracker() {
               </div>
               <div className="mb-4">
                 <div className="flex items-center justify-between mb-2">
-                  <span className="text-sm font-medium text-brand-text">
-                    Intervention Status:
-                  </span>
+                  <span className="text-sm font-medium text-brand-text">Intervention Status:</span>
                   <span
                     className={`text-xs px-2 py-2 rounded-full ${getInterventionStatusColor(student.interventionStatus)}`}
                   >
@@ -716,33 +702,21 @@ export function AutoAttritionTracker() {
       </div>
       {/* Risk Factors Analysis */}
       <div className="mb-8">
-        <h3 className="text-lg font-semibold text-brand-text mb-4">
-          🔍 Risk Factor Analysis
-        </h3>
+        <h3 className="text-lg font-semibold text-brand-text mb-4">🔍 Risk Factor Analysis</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           {metrics.riskFactors.map((factor, index) => (
             <div key={index} className="bg-white border rounded-lg p-6">
               <div className="flex items-start justify-between mb-3">
-                <h4 className="font-semibold text-brand-text">
-                  {factor.factor}
-                </h4>
-                <span className="text-lg font-bold text-brand-orange-600">
-                  {factor.impact}%
-                </span>
+                <h4 className="font-semibold text-brand-text">{factor.factor}</h4>
+                <span className="text-lg font-bold text-brand-orange-600">{factor.impact}%</span>
               </div>
-              <p className="text-sm text-brand-text-muted mb-3">
-                {factor.description}
-              </p>
+              <p className="text-sm text-brand-text-muted mb-3">{factor.description}</p>
               <div className="text-sm text-brand-text mb-3">
                 <strong>Affected Students:</strong> {factor.affectedStudents}
               </div>
               <div className="bg-brand-green-50 border border-brand-green-200 rounded p-3">
-                <div className="text-sm font-medium text-brand-success mb-1">
-                  🤖 Au
-                </div>
-                <div className="text-sm text-brand-green-700">
-                  {factor.autoIntervention}
-                </div>
+                <div className="text-sm font-medium text-brand-success mb-1">🤖 Au</div>
+                <div className="text-sm text-brand-green-700">{factor.autoIntervention}</div>
               </div>
             </div>
           ))}
@@ -756,26 +730,16 @@ export function AutoAttritionTracker() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
           {metrics.interventions.map((intervention, index) => (
             <div key={index} className="bg-white border rounded-lg p-6">
-              <h4 className="font-semibold text-brand-text mb-2">
-                {intervention.type}
-              </h4>
-              <p className="text-sm text-brand-text-muted mb-4">
-                {intervention.description}
-              </p>
+              <h4 className="font-semibold text-brand-text mb-2">{intervention.type}</h4>
+              <p className="text-sm text-brand-text-muted mb-4">{intervention.description}</p>
               <div className="space-y-2 text-sm">
                 <div className="flex justify-between">
                   <span className="text-brand-text-muted">Success Rate:</span>
-                  <span className="font-bold text-brand-success">
-                    {intervention.successRate}%
-                  </span>
+                  <span className="font-bold text-brand-success">{intervention.successRate}%</span>
                 </div>
                 <div className="flex justify-between">
-                  <span className="text-brand-text-muted">
-                    Students Helped:
-                  </span>
-                  <span className="font-medium">
-                    {intervention.studentsTargeted}
-                  </span>
+                  <span className="text-brand-text-muted">Students Helped:</span>
+                  <span className="font-medium">{intervention.studentsTargeted}</span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-brand-text-muted">Cost Savings:</span>
@@ -785,9 +749,7 @@ export function AutoAttritionTracker() {
                 </div>
                 <div className="flex justify-between">
                   <span className="text-brand-text-muted">Deployed:</span>
-                  <span className="text-brand-text-light">
-                    {intervention.deployed}
-                  </span>
+                  <span className="text-brand-text-light">{intervention.deployed}</span>
                 </div>
               </div>
             </div>

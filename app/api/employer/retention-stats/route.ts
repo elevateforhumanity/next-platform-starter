@@ -16,16 +16,16 @@ async function _GET(request: Request) {
 
     // Employer needs cross-user apprentice data; role gate is the auth boundary
     const db = auth.adminDb || auth.db;
-    
+
     // Get apprentice data by role/program
     const { data: apprentices } = await db
       .from('apprentices')
       .select('status, programs(title)')
       .limit(200);
-    
+
     // Aggregate by program
     const roleStats: Record<string, { total: number; retained: number }> = {};
-    
+
     (apprentices || []).forEach((a: any) => {
       const role = a.programs?.title || 'General';
       if (!roleStats[role]) {
@@ -36,7 +36,7 @@ async function _GET(request: Request) {
         roleStats[role].retained++;
       }
     });
-    
+
     const retention = Object.entries(roleStats)
       .slice(0, 4)
       .map(([role, data]) => ({
@@ -44,16 +44,14 @@ async function _GET(request: Request) {
         retention: data.total > 0 ? Math.round((data.retained / data.total) * 100) : 0,
         count: data.total,
       }));
-    
+
     // If no data, return defaults
     if (retention.length === 0) {
       return NextResponse.json({
-        retention: [
-          { role: 'Apprentice', retention: 85, count: 0 },
-        ]
+        retention: [{ role: 'Apprentice', retention: 85, count: 0 }],
       });
     }
-    
+
     return NextResponse.json({ retention });
   } catch (error) {
     logger.error('Retention stats error:', error);

@@ -5,17 +5,10 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
-import {
-
-  AlertCircle,
-  FileText,
-  Phone,
-  Mail,
-  Upload,
-CheckCircle, } from 'lucide-react';
+import { AlertCircle, FileText, Phone, Mail, Upload, CheckCircle } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Verification | Program Holder Portal',
@@ -42,7 +35,7 @@ export default async function VerificationPage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!profile || !['program_holder','admin','super_admin','staff'].includes(profile.role)) {
+  if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role)) {
     redirect('/login');
   }
 
@@ -66,18 +59,14 @@ export default async function VerificationPage() {
       label: 'Business License',
       description: 'Current business license or registration',
       required: true,
-      completed: documents?.some(
-        (d) => d.document_type === 'license' && d.status === 'approved'
-      ),
+      completed: documents?.some((d) => d.document_type === 'license' && d.status === 'approved'),
     },
     {
       id: 'insurance',
       label: 'Liability Insurance',
       description: 'Proof of general liability insurance',
       required: true,
-      completed: documents?.some(
-        (d) => d.document_type === 'insurance' && d.status === 'approved'
-      ),
+      completed: documents?.some((d) => d.document_type === 'insurance' && d.status === 'approved'),
     },
     {
       id: 'accreditation',
@@ -85,7 +74,7 @@ export default async function VerificationPage() {
       description: 'Relevant accreditation or certification documents',
       required: false,
       completed: documents?.some(
-        (d) => d.document_type === 'accreditation' && d.status === 'approved'
+        (d) => d.document_type === 'accreditation' && d.status === 'approved',
       ),
     },
     {
@@ -94,25 +83,26 @@ export default async function VerificationPage() {
       description: 'Background check authorization and results',
       required: true,
       completed: documents?.some(
-        (d) => d.document_type === 'background_check' && d.status === 'approved'
+        (d) => d.document_type === 'background_check' && d.status === 'approved',
       ),
     },
   ];
 
-  const requiredCompleted = requirements.filter(
-    (r) => r.required && r.completed
-  ).length;
+  const requiredCompleted = requirements.filter((r) => r.required && r.completed).length;
   const requiredTotal = requirements.filter((r) => r.required).length;
   const isVerified = programHolder?.status === 'approved';
   const verificationProgress = (requiredCompleted / requiredTotal) * 100;
 
   return (
     <div className="min-h-screen bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Program Holder", href: "/program-holder" }, { label: "Verification" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Program Holder', href: '/program-holder' }, { label: 'Verification' }]}
+        />
+      </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/program-holder-page-4.jpg"
           alt="Verification"
@@ -122,7 +112,6 @@ export default async function VerificationPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Content Section */}
@@ -139,8 +128,7 @@ export default async function VerificationPage() {
                       Verification Complete
                     </h3>
                     <p className="text-brand-green-800">
-                      Your program holder account has been verified and
-                      approved.
+                      Your program holder account has been verified and approved.
                     </p>
                   </div>
                 </div>
@@ -163,8 +151,7 @@ export default async function VerificationPage() {
                       />
                     </div>
                     <p className="text-sm text-brand-blue-700 mt-2">
-                      {requiredCompleted} of {requiredTotal} required items
-                      completed
+                      {requiredCompleted} of {requiredTotal} required items completed
                     </p>
                   </div>
                 </div>
@@ -173,9 +160,7 @@ export default async function VerificationPage() {
 
             {/* Verification Checklist */}
             <div className="bg-white rounded-lg shadow-sm border p-8 mb-8">
-              <h2 className="text-2xl font-bold text-black mb-6">
-                Verification Requirements
-              </h2>
+              <h2 className="text-2xl font-bold text-black mb-6">Verification Requirements</h2>
 
               <div className="space-y-4">
                 {requirements.map((req) => (
@@ -194,18 +179,14 @@ export default async function VerificationPage() {
                     )}
                     <div className="flex-1">
                       <div className="flex items-center gap-2">
-                        <h3 className="font-semibold text-black">
-                          {req.label}
-                        </h3>
+                        <h3 className="font-semibold text-black">{req.label}</h3>
                         {req.required && (
                           <span className="text-xs bg-brand-red-100 text-brand-red-800 px-2 py-0.5 rounded">
                             Required
                           </span>
                         )}
                       </div>
-                      <p className="text-sm text-black mt-1">
-                        {req.description}
-                      </p>
+                      <p className="text-sm text-black mt-1">{req.description}</p>
                       {req.completed && (
                         <p className="text-sm text-brand-green-700 font-medium mt-2">
                           • Document approved
@@ -236,9 +217,7 @@ export default async function VerificationPage() {
 
             {/* Help Section */}
             <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-brand-blue-900 mb-2">
-                Need Help?
-              </h3>
+              <h3 className="text-lg font-semibold text-brand-blue-900 mb-2">Need Help?</h3>
               <p className="text-brand-blue-800 mb-4">
                 Contact our team for assistance with the verification process.
               </p>

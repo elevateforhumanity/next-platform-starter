@@ -1,4 +1,3 @@
-
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -9,15 +8,12 @@ import { getStripe } from '@/lib/stripe/client';
 import { createClient } from '@/lib/supabase/server';
 import { toError, toErrorMessage } from '@/lib/safe';
 
-
 export async function POST(request: NextRequest) {
   const stripe = getStripe();
-  if (!stripe) return NextResponse.json({ error: "Payment system not configured." }, { status: 503 });
+  if (!stripe)
+    return NextResponse.json({ error: 'Payment system not configured.' }, { status: 503 });
   if (!stripe) {
-    return NextResponse.json(
-      { error: 'Payment system not configured' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
   }
 
   try {
@@ -30,10 +26,7 @@ export async function POST(request: NextRequest) {
     const { programId, paymentType = 'full' } = body;
 
     if (!programId) {
-      return NextResponse.json(
-        { error: 'Program ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Program ID is required' }, { status: 400 });
     }
 
     // Get program details
@@ -43,14 +36,16 @@ export async function POST(request: NextRequest) {
       .eq('id', programId)
       .single();
 
-    if (!program) { /* Condition handled */ }
+    if (!program) {
+      /* Condition handled */
+    }
 
     const price = program.tuition || 0;
 
     if (price === 0) {
       return NextResponse.json(
         { error: 'This program is free. No payment required.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -87,15 +82,14 @@ export async function POST(request: NextRequest) {
     }
 
     // Configure payment methods - Klarna, Afterpay, etc.
-    const paymentMethodTypes: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] =
-      [
-        'card',
-        'klarna',
-        'afterpay_clearpay',
-        'us_bank_account',
-        'cashapp',
-        'link',
-      ];
+    const paymentMethodTypes: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] = [
+      'card',
+      'klarna',
+      'afterpay_clearpay',
+      'us_bank_account',
+      'cashapp',
+      'link',
+    ];
 
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
@@ -208,12 +202,9 @@ export async function POST(request: NextRequest) {
     return NextResponse.json(
       {
         error: 'Failed to create checkout session',
-        details:
-          process.env.NODE_ENV === 'development'
-            ? toErrorMessage(err)
-            : undefined,
+        details: process.env.NODE_ENV === 'development' ? toErrorMessage(err) : undefined,
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -30,7 +30,6 @@ export async function searchPrograms(query: string) {
   const q = query.toLowerCase();
   return programs.filter(
     (p) =>
-      (p.title ?? '').toLowerCase().includes(q) ||
-      (p.description ?? '').toLowerCase().includes(q)
+      (p.title ?? '').toLowerCase().includes(q) || (p.description ?? '').toLowerCase().includes(q),
   );
 }

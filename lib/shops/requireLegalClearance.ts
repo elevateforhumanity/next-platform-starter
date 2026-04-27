@@ -18,9 +18,7 @@ export async function requireLegalClearance(shopId: string) {
 
   // Critical legal documents that MUST be approved
   const required = ['mou', 'nda', 'non_compete'];
-  const missing = required.filter(
-    (r) => !data?.find((d) => d.document_type === r && d.approved)
-  );
+  const missing = required.filter((r) => !data?.find((d) => d.document_type === r && d.approved));
 
   if (missing.length > 0) {
     const missingNames = missing
@@ -38,9 +36,7 @@ export async function requireLegalClearance(shopId: string) {
       })
       .join(', ');
 
-    throw new Error(
-      `Legal onboarding incomplete. Missing approved documents: ${missingNames}`
-    );
+    throw new Error(`Legal onboarding incomplete. Missing approved documents: ${missingNames}`);
   }
 
   return true;
@@ -64,9 +60,7 @@ export async function getLegalClearanceStatus(shopId: string) {
 
   const required = ['mou', 'nda', 'non_compete'];
   const approved = data?.filter((d) => d.approved) || [];
-  const pending = required.filter(
-    (r) => !data?.find((d) => d.document_type === r && d.approved)
-  );
+  const pending = required.filter((r) => !data?.find((d) => d.document_type === r && d.approved));
 
   return {
     cleared: pending.length === 0,

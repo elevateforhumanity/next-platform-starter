@@ -4,7 +4,16 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { LmsHeroBanner } from '@/components/lms/LmsHeroBanner';
-import { FileQuestion, Clock, Circle, AlertCircle, Play, Trophy, ChevronRight, BookOpen } from 'lucide-react';
+import {
+  FileQuestion,
+  Clock,
+  Circle,
+  AlertCircle,
+  Play,
+  Trophy,
+  ChevronRight,
+  BookOpen,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'My Quizzes | Student Portal',
@@ -16,7 +25,9 @@ export const dynamic = 'force-dynamic';
 export default async function QuizzesPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login');
@@ -33,12 +44,14 @@ export default async function QuizzesPage() {
       .eq('user_id', user.id)
       .eq('status', 'active');
 
-    const courseIds = enrollments?.map(e => e.course_id) || [];
+    const courseIds = enrollments?.map((e) => e.course_id) || [];
 
     if (courseIds.length > 0) {
       const { data: quizData } = await supabase
         .from('quizzes')
-        .select('id, title, description, course_id, time_limit, passing_score, is_published, created_at')
+        .select(
+          'id, title, description, course_id, time_limit, passing_score, is_published, created_at',
+        )
         .in('course_id', courseIds)
         .eq('is_published', true)
         .order('created_at', { ascending: false });
@@ -59,52 +72,67 @@ export default async function QuizzesPage() {
     }
 
     stats.available = quizzes.length;
-    const completedQuizIds = new Set(attempts.filter(a => a.completed_at).map(a => a.quiz_id));
+    const completedQuizIds = new Set(attempts.filter((a) => a.completed_at).map((a) => a.quiz_id));
     stats.completed = completedQuizIds.size;
-    
-    const passedAttempts = attempts.filter(a => a.score >= (quizzes.find(q => q.id === a.quiz_id)?.passing_score || 70));
-    stats.passed = new Set(passedAttempts.map(a => a.quiz_id)).size;
-    
+
+    const passedAttempts = attempts.filter(
+      (a) => a.score >= (quizzes.find((q) => q.id === a.quiz_id)?.passing_score || 70),
+    );
+    stats.passed = new Set(passedAttempts.map((a) => a.quiz_id)).size;
+
     if (attempts.length > 0) {
-      stats.avgScore = Math.round(attempts.reduce((sum, a) => sum + (a.score || 0), 0) / attempts.length);
+      stats.avgScore = Math.round(
+        attempts.reduce((sum, a) => sum + (a.score || 0), 0) / attempts.length,
+      );
     }
   } catch (error) {
     // Quiz data fetch failed — tables may not exist yet
   }
 
   const getQuizStatus = (quiz: any) => {
-    const quizAttempts = attempts.filter(a => a.quiz_id === quiz.id);
-    const bestAttempt = quizAttempts.reduce((best, a) => (!best || a.score > best.score) ? a : best, null);
-    
+    const quizAttempts = attempts.filter((a) => a.quiz_id === quiz.id);
+    const bestAttempt = quizAttempts.reduce(
+      (best, a) => (!best || a.score > best.score ? a : best),
+      null,
+    );
+
     if (!bestAttempt) {
       return { status: 'not_started', label: 'Not Started', color: 'bg-white text-slate-700' };
     }
-    
+
     if (bestAttempt.score >= (quiz.passing_score || 70)) {
-      return { status: 'passed', label: 'Passed', color: 'bg-brand-green-100 text-brand-green-700' };
+      return {
+        status: 'passed',
+        label: 'Passed',
+        color: 'bg-brand-green-100 text-brand-green-700',
+      };
     }
-    
+
     return { status: 'attempted', label: 'Attempted', color: 'bg-yellow-100 text-yellow-700' };
   };
 
   const getBestScore = (quizId: string) => {
-    const quizAttempts = attempts.filter(a => a.quiz_id === quizId);
+    const quizAttempts = attempts.filter((a) => a.quiz_id === quizId);
     if (quizAttempts.length === 0) return null;
-    return Math.max(...quizAttempts.map(a => a.score || 0));
+    return Math.max(...quizAttempts.map((a) => a.score || 0));
   };
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Quizzes" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Quizzes' }]} />
+      </div>
       <div className="max-w-7xl mx-auto px-4">
         <LmsHeroBanner
           title="Quizzes & Assessments"
           subtitle={`${stats.available} quizzes available. ${stats.completed} completed with ${stats.avgScore}% average score.`}
           image="/images/pages/training-classroom.jpg"
           eyebrow="Test Your Knowledge"
-          cta={stats.available > stats.completed ? { label: 'Start Next Quiz', href: '#available-quizzes' } : undefined}
+          cta={
+            stats.available > stats.completed
+              ? { label: 'Start Next Quiz', href: '#available-quizzes' }
+              : undefined
+          }
         />
 
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mb-8">
@@ -164,10 +192,14 @@ export default async function QuizzesPage() {
               {quizzes.map((quiz) => {
                 const statusInfo = getQuizStatus(quiz);
                 const bestScore = getBestScore(quiz.id);
-                const attemptCount = attempts.filter(a => a.quiz_id === quiz.id).length;
+                const attemptCount = attempts.filter((a) => a.quiz_id === quiz.id).length;
 
                 return (
-                  <Link key={quiz.id} href={`/lms/quizzes/${quiz.id}`} className="block p-6 hover:bg-white transition">
+                  <Link
+                    key={quiz.id}
+                    href={`/lms/quizzes/${quiz.id}`}
+                    className="block p-6 hover:bg-white transition"
+                  >
                     <div className="flex items-start justify-between">
                       <div className="flex items-start gap-4 flex-1 min-w-0">
                         <div className="w-12 h-12 bg-brand-blue-100 rounded-xl flex items-center justify-center flex-shrink-0">
@@ -176,7 +208,11 @@ export default async function QuizzesPage() {
                         <div className="flex-1 min-w-0">
                           <div className="flex items-center gap-3 mb-1">
                             <h3 className="font-bold text-slate-900 truncate">{quiz.title}</h3>
-                            <span className={`px-2 py-1 rounded text-xs font-medium ${statusInfo.color}`}>{statusInfo.label}</span>
+                            <span
+                              className={`px-2 py-1 rounded text-xs font-medium ${statusInfo.color}`}
+                            >
+                              {statusInfo.label}
+                            </span>
                           </div>
                           <p className="text-sm text-slate-600 mb-2">{quiz.courses?.title}</p>
                           <div className="flex flex-wrap items-center gap-4 text-sm text-slate-500">
@@ -189,11 +225,17 @@ export default async function QuizzesPage() {
                               <span>{quiz.time_limit || 30} minutes</span>
                             </div>
                             <div>Passing: {quiz.passing_score || 70}%</div>
-                            {attemptCount > 0 && <div>{attemptCount} attempt{attemptCount > 1 ? 's' : ''}</div>}
+                            {attemptCount > 0 && (
+                              <div>
+                                {attemptCount} attempt{attemptCount > 1 ? 's' : ''}
+                              </div>
+                            )}
                           </div>
                           {bestScore !== null && (
                             <div className="mt-3 inline-flex items-center gap-2 px-3 py-1 bg-brand-blue-50 rounded-lg">
-                              <span className="text-sm text-brand-blue-700">Best Score: <strong>{bestScore}%</strong></span>
+                              <span className="text-sm text-brand-blue-700">
+                                Best Score: <strong>{bestScore}%</strong>
+                              </span>
                             </div>
                           )}
                         </div>
@@ -217,8 +259,13 @@ export default async function QuizzesPage() {
             <div className="p-16 text-center">
               <BookOpen className="w-16 h-16 text-slate-300 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-slate-900 mb-2">No Quizzes Available</h3>
-              <p className="text-slate-600 mb-6">Quizzes from your enrolled courses will appear here.</p>
-              <Link href="/lms/courses" className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-blue-700 transition">
+              <p className="text-slate-600 mb-6">
+                Quizzes from your enrolled courses will appear here.
+              </p>
+              <Link
+                href="/lms/courses"
+                className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-6 py-3 rounded-xl font-bold hover:bg-brand-blue-700 transition"
+              >
                 Browse Courses
               </Link>
             </div>

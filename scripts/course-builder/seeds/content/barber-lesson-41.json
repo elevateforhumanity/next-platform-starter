@@ -4,12 +4,7 @@
     "questions": [
       {
         "prompt": "What is the typical commission percentage range for barbers in a commission-based model?",
-        "choices": [
-          "A) 20% to 30%",
-          "B) 40% to 60%",
-          "C) 60% to 80%",
-          "D) 80% to 100%"
-        ],
+        "choices": ["A) 20% to 30%", "B) 40% to 60%", "C) 60% to 80%", "D) 80% to 100%"],
         "answerIndex": 1,
         "rationale": "The typical commission percentage range for barbers is 40% to 60%, which allows them to earn a portion of the revenue generated from their services.",
         "type": "recall"
@@ -52,12 +47,7 @@
       },
       {
         "prompt": "What is the self-employment tax rate for barbers who are booth renters or owners?",
-        "choices": [
-          "A) 10.5%",
-          "B) 12.4%",
-          "C) 15.3%",
-          "D) 18.6%"
-        ],
+        "choices": ["A) 10.5%", "B) 12.4%", "C) 15.3%", "D) 18.6%"],
         "answerIndex": 2,
         "rationale": "The self-employment tax rate is 15.3%, covering both Social Security and Medicare, which self-employed barbers must pay.",
         "type": "recall"
@@ -100,12 +90,7 @@
       },
       {
         "prompt": "Which business model offers barbers the most control over their work environment and schedule?",
-        "choices": [
-          "A) Commission",
-          "B) Booth Rental",
-          "C) Employment",
-          "D) Internship"
-        ],
+        "choices": ["A) Commission", "B) Booth Rental", "C) Employment", "D) Internship"],
         "answerIndex": 1,
         "rationale": "Booth rental allows barbers to operate as independent contractors, giving them control over their work environment and schedule.",
         "type": "recall"
@@ -196,12 +181,7 @@
       },
       {
         "prompt": "Which business model requires barbers to set aside funds for self-employment taxes?",
-        "choices": [
-          "A) Commission",
-          "B) Booth Rental",
-          "C) Employment",
-          "D) Internship"
-        ],
+        "choices": ["A) Commission", "B) Booth Rental", "C) Employment", "D) Internship"],
         "answerIndex": 1,
         "rationale": "Booth rental requires barbers to manage their own taxes, including setting aside funds for self-employment taxes.",
         "type": "recall"

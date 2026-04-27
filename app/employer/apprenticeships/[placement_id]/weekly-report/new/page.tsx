@@ -1,11 +1,9 @@
-
 import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'Employer Apprenticeships Weekly Report New | Elevate For Humanity',
   description: 'Elevate For Humanity - Career training and workforce development',
 };
-
 
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
@@ -20,8 +18,9 @@ export default async function NewWeeklyReportPage({
 }) {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const { data: profile } = await supabase
@@ -61,15 +60,9 @@ export default async function NewWeeklyReportPage({
     <div className="min-h-screen bg-white py-12">
       <div className="max-w-2xl mx-auto px-4">
         <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-8">
-          <h1 className="text-3xl font-bold text-black mb-2">
-            Submit Weekly Report
-          </h1>
-          <p className="text-black mb-2">
-            Shop: {placement.shops?.name}
-          </p>
-          <p className="text-black mb-8">
-            Program: {placement.program_slug}
-          </p>
+          <h1 className="text-3xl font-bold text-black mb-2">Submit Weekly Report</h1>
+          <p className="text-black mb-2">Shop: {placement.shops?.name}</p>
+          <p className="text-black mb-8">Program: {placement.program_slug}</p>
 
           <form action={submitWeeklyReport} className="space-y-6">
             <input type="hidden" name="placement_id" value={params.placement_id} />
@@ -120,7 +113,10 @@ export default async function NewWeeklyReportPage({
               </div>
 
               <div>
-                <label htmlFor="hours_related" className="block text-sm font-semibold text-black mb-2">
+                <label
+                  htmlFor="hours_related"
+                  className="block text-sm font-semibold text-black mb-2"
+                >
                   Related Instruction Hours *
                 </label>
                 <input

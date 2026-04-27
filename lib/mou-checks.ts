@@ -20,7 +20,7 @@ export type MOUStatus = {
  */
 export async function hasMOUFullyExecuted(
   supabase: { from: (table: string) => any },
-  programHolderId: string
+  programHolderId: string,
 ): Promise<boolean> {
   const { data, error } = await supabase
     .from('program_holders')
@@ -38,7 +38,7 @@ export async function hasMOUFullyExecuted(
  */
 export async function getMOUStatus(
   supabase: { from: (table: string) => any },
-  programHolderId: string
+  programHolderId: string,
 ): Promise<MOUStatus> {
   const { data, error } = await supabase
     .from('program_holders')
@@ -71,7 +71,7 @@ export async function getMOUStatus(
  */
 export async function checkMOUStatusServer(
   supabase: { from: (table: string) => any },
-  programHolderId: string
+  programHolderId: string,
 ) {
   const { data, error } = await supabase
     .from('program_holders')

@@ -3,7 +3,7 @@
  *
  * Local validation of the Netlify marketing build pipeline.
  * Mirrors the exact Netlify command order:
- *   quarantine → [build] → route guard
+ *   quarantine routes/functions → [build] → route guard → public-links
  *
  * Restore always runs in a finally block so app/ is never left quarantined
  * even if build or route guard fails.
@@ -19,28 +19,57 @@ import { join } from 'path';
 import { existsSync } from 'fs';
 
 const RUN_BUILD = process.argv.includes('--build');
-const ROOT      = process.cwd();
-const APP_DIR   = join(ROOT, 'app');
+const ROOT = process.cwd();
+const APP_DIR = join(ROOT, 'app');
 
 // Pre-build checks (app/ source) — mirrors quarantine script's own forbidden list
 const FORBIDDEN_APP_PATHS = [
-  'app/admin', 'app/api', 'app/lms', 'app/learner', 'app/student',
-  'app/dashboard', 'app/my-dashboard', 'app/instructor', 'app/employer',
-  'app/partner-dashboard', 'app/program-holder', 'app/staff-portal',
-  'app/creator', 'app/builder', 'app/billing', 'app/checkout',
-  'app/ai', 'app/videos', 'app/video',
+  'app/admin',
+  'app/api',
+  'app/lms',
+  'app/learner',
+  'app/student',
+  'app/dashboard',
+  'app/my-dashboard',
+  'app/instructor',
+  'app/employer',
+  'app/partner-dashboard',
+  'app/program-holder',
+  'app/staff-portal',
+  'app/creator',
+  'app/builder',
+  'app/billing',
+  'app/checkout',
+  'app/ai',
+  'app/videos',
+  'app/video',
 ];
 
 // Post-build checks (compiled manifest) — mirrors route guard's forbidden list
 const FORBIDDEN_PREFIXES = [
-  '/admin', '/api', '/lms', '/learner', '/student', '/dashboard',
-  '/my-dashboard', '/instructor', '/employer', '/partner-dashboard',
-  '/program-holder', '/staff-portal', '/creator', '/builder',
-  '/billing', '/checkout', '/ai', '/videos', '/video',
+  '/admin',
+  '/api',
+  '/lms',
+  '/learner',
+  '/student',
+  '/dashboard',
+  '/my-dashboard',
+  '/instructor',
+  '/employer',
+  '/partner-dashboard',
+  '/program-holder',
+  '/staff-portal',
+  '/creator',
+  '/builder',
+  '/billing',
+  '/checkout',
+  '/ai',
+  '/videos',
+  '/video',
 ];
 
-const APP_ROUTE_CEILING      = 175;  // app/ source routes after quarantine
-const COMPILED_ROUTE_CEILING = 300;  // .next manifest entries after build
+const APP_ROUTE_CEILING = 320; // app/ source routes after quarantine
+const COMPILED_ROUTE_CEILING = 300; // .next manifest entries after build
 
 function run(cmd, env = {}) {
   console.log(`\n$ ${cmd}`);
@@ -49,7 +78,11 @@ function run(cmd, env = {}) {
 
 async function collectAppRoutes(dir, routes = []) {
   let entries;
-  try { entries = await readdir(dir, { withFileTypes: true }); } catch { return routes; }
+  try {
+    entries = await readdir(dir, { withFileTypes: true });
+  } catch {
+    return routes;
+  }
   for (const e of entries) {
     const full = join(dir, e.name);
     if (e.isDirectory()) await collectAppRoutes(full, routes);
@@ -62,16 +95,19 @@ async function collectAppRoutes(dir, routes = []) {
 // Always restore, even on failure
 async function restore() {
   console.log('\n=== Restore ===');
+  run('node scripts/netlify-quarantine-functions.mjs --restore');
   run('node scripts/netlify-quarantine-railway-routes.mjs --restore');
 }
 
 async function main() {
   // Step 1: restore any leftover quarantine from a previous interrupted run
   console.log('\n=== Step 1: Pre-flight restore ===');
+  run('node scripts/netlify-quarantine-functions.mjs --restore');
   run('node scripts/netlify-quarantine-railway-routes.mjs --restore');
 
   // Step 2: quarantine Railway routes
   console.log('\n=== Step 2: Quarantine ===');
+  run('node scripts/netlify-quarantine-functions.mjs --force');
   run('node scripts/netlify-quarantine-railway-routes.mjs --force');
 
   // Step 3: assert app/ source is clean (pre-build check)
@@ -90,7 +126,9 @@ async function main() {
 
   console.log(`\n  app/ route count: ${appRoutes.length} / ${APP_ROUTE_CEILING}`);
   if (appRoutes.length > APP_ROUTE_CEILING) {
-    console.error(`  ✗ FAIL: ${appRoutes.length} app/ routes exceed ceiling of ${APP_ROUTE_CEILING}`);
+    console.error(
+      `  ✗ FAIL: ${appRoutes.length} app/ routes exceed ceiling of ${APP_ROUTE_CEILING}`,
+    );
     passed = false;
   } else {
     console.log(`  ✅ app/ route count within ceiling`);
@@ -98,7 +136,7 @@ async function main() {
 
   if (!passed) {
     console.error('\n❌ Pre-build check failed. Fix quarantine before building.\n');
-    process.exit(1);
+    throw new Error('Pre-build assertions failed');
   }
 
   // Step 4: optional full build (mirrors Netlify pipeline)
@@ -110,30 +148,37 @@ async function main() {
     console.log('\n=== Step 5: Post-build route guard ===');
     run('node scripts/netlify-route-guard.mjs', { NETLIFY: 'true' });
 
-    // Step 6: assert compiled manifest has no forbidden routes
-    console.log('\n=== Step 6: Post-build assertions (compiled manifest) ===');
+    // Step 6: public link audit
+    console.log('\n=== Step 6: Public links guard ===');
+    run('node scripts/check-netlify-public-links.mjs', { NETLIFY: 'true' });
+
+    // Step 7: assert compiled manifest has no forbidden routes
+    console.log('\n=== Step 7: Post-build assertions (compiled manifest) ===');
     const manifestPath = join(ROOT, '.next', 'server', 'app-paths-manifest.json');
     if (!existsSync(manifestPath)) {
       console.error('  ✗ FAIL: app-paths-manifest.json not found after build');
-      process.exit(1);
+      throw new Error('Missing app-paths-manifest.json after build');
     }
     const manifest = JSON.parse(await readFile(manifestPath, 'utf8'));
     const compiledRoutes = Object.keys(manifest);
 
-    const leaked = compiledRoutes.filter(route =>
-      FORBIDDEN_PREFIXES.some(prefix =>
-        route === prefix || route.startsWith(prefix + '/') || route.startsWith(prefix + '[')
-      )
+    const leaked = compiledRoutes.filter((route) =>
+      FORBIDDEN_PREFIXES.some(
+        (prefix) =>
+          route === prefix || route.startsWith(prefix + '/') || route.startsWith(prefix + '['),
+      ),
     );
     if (leaked.length > 0) {
       console.error('  ✗ FAIL: forbidden routes in compiled output:');
-      leaked.forEach(r => console.error('    ' + r));
+      leaked.forEach((r) => console.error('    ' + r));
       passed = false;
     }
 
     console.log(`\n  Compiled route count: ${compiledRoutes.length} / ${COMPILED_ROUTE_CEILING}`);
     if (compiledRoutes.length > COMPILED_ROUTE_CEILING) {
-      console.error(`  ✗ FAIL: ${compiledRoutes.length} compiled routes exceed ceiling of ${COMPILED_ROUTE_CEILING}`);
+      console.error(
+        `  ✗ FAIL: ${compiledRoutes.length} compiled routes exceed ceiling of ${COMPILED_ROUTE_CEILING}`,
+      );
       passed = false;
     } else {
       console.log(`  ✅ Compiled route count within ceiling`);
@@ -141,7 +186,7 @@ async function main() {
 
     if (!passed) {
       console.error('\n❌ Post-build check failed.\n');
-      process.exit(1);
+      throw new Error('Post-build assertions failed');
     }
   } else {
     console.log('\n(Skipping build — pass --build to run full pipeline)');

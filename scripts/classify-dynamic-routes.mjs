@@ -35,18 +35,18 @@ const ONLY_SUMMARY = process.argv.includes('--summary');
 
 // ── Auth signals — any of these means the page reads per-user data ────────────
 const AUTH_SIGNALS = [
-  /createClient\(\s*\)\s*\n.*auth/s,          // createClient then .auth
+  /createClient\(\s*\)\s*\n.*auth/s, // createClient then .auth
   /supabase\.auth\.getUser/,
   /supabase\.auth\.getSession/,
-  /await\s+createClient\(\)/,                  // server client (implies auth context)
+  /await\s+createClient\(\)/, // server client (implies auth context)
   /from\('@\/lib\/supabase\/server'\)/,
   /from\("@\/lib\/supabase\/server"\)/,
   /apiAuthGuard/,
   /apiRequireAdmin/,
   /authGuard/,
   /getServerSession/,
-  /cookies\(\)/,                               // reading cookies = session-aware
-  /headers\(\)/,                               // reading headers = request-aware
+  /cookies\(\)/, // reading cookies = session-aware
+  /headers\(\)/, // reading headers = request-aware
 ];
 
 // ── Path segments that are always authenticated ───────────────────────────────
@@ -103,8 +103,15 @@ const ALWAYS_PUBLIC_PATHS = [
 
 // ── ISR TTL heuristics ────────────────────────────────────────────────────────
 const ISR_86400_SIGNALS = [
-  '/about/', '/team/', '/faq/', '/privacy/', '/terms/', '/accessibility/',
-  '/careers/', '/blog/', '/news/',
+  '/about/',
+  '/team/',
+  '/faq/',
+  '/privacy/',
+  '/terms/',
+  '/accessibility/',
+  '/careers/',
+  '/blog/',
+  '/news/',
 ];
 
 // ── Collect all files with force-dynamic ─────────────────────────────────────
@@ -122,7 +129,7 @@ function walk(dir, results = []) {
 }
 
 const allFiles = walk(join(ROOT, 'app'));
-const dynamicFiles = allFiles.filter(f => {
+const dynamicFiles = allFiles.filter((f) => {
   const content = readFileSync(f, 'utf8');
   return content.includes("'force-dynamic'") || content.includes('"force-dynamic"');
 });
@@ -133,12 +140,12 @@ function classify(filePath) {
   const content = readFileSync(filePath, 'utf8');
 
   // 1. Always-dynamic path segments
-  if (ALWAYS_DYNAMIC_PATHS.some(p => rel.includes(p))) {
+  if (ALWAYS_DYNAMIC_PATHS.some((p) => rel.includes(p))) {
     return { classification: 'DYNAMIC', reason: 'authenticated path segment' };
   }
 
   // 2. Auth signals in content
-  const hasAuthSignal = AUTH_SIGNALS.some(re => re.test(content));
+  const hasAuthSignal = AUTH_SIGNALS.some((re) => re.test(content));
   if (hasAuthSignal) {
     return { classification: 'DYNAMIC', reason: 'auth signal in content' };
   }
@@ -151,8 +158,8 @@ function classify(filePath) {
   }
 
   // 4. Always-public paths
-  if (ALWAYS_PUBLIC_PATHS.some(p => rel.includes(p))) {
-    const ttl = ISR_86400_SIGNALS.some(p => rel.includes(p)) ? 86400 : 3600;
+  if (ALWAYS_PUBLIC_PATHS.some((p) => rel.includes(p))) {
+    const ttl = ISR_86400_SIGNALS.some((p) => rel.includes(p)) ? 86400 : 3600;
     return { classification: `ISR_${ttl}`, reason: 'public path segment' };
   }
 
@@ -166,7 +173,7 @@ function classify(filePath) {
   return { classification: 'STATIC', reason: 'no db reads, no auth signal' };
 }
 
-const results = dynamicFiles.map(f => {
+const results = dynamicFiles.map((f) => {
   const rel = relative(ROOT, f).replace(/\\/g, '/');
   const { classification, reason } = classify(f);
   return { file: rel, classification, reason };
@@ -181,15 +188,16 @@ for (const r of results) {
 console.log('\n=== force-dynamic classification ===\n');
 console.log(`Total files scanned: ${dynamicFiles.length}`);
 console.log('');
-for (const [cls, count] of Object.entries(counts).sort((a,b) => b[1]-a[1])) {
-  const action = {
-    DYNAMIC:    '→ keep force-dynamic',
-    ISR_3600:   '→ revalidate = 3600',
-    ISR_86400:  '→ revalidate = 86400',
-    STATIC:     '→ remove force-dynamic',
-    API_PUBLIC: '→ add Cache-Control header',
-    REVIEW:     '→ needs human review',
-  }[cls] ?? '';
+for (const [cls, count] of Object.entries(counts).sort((a, b) => b[1] - a[1])) {
+  const action =
+    {
+      DYNAMIC: '→ keep force-dynamic',
+      ISR_3600: '→ revalidate = 3600',
+      ISR_86400: '→ revalidate = 86400',
+      STATIC: '→ remove force-dynamic',
+      API_PUBLIC: '→ add Cache-Control header',
+      REVIEW: '→ needs human review',
+    }[cls] ?? '';
   console.log(`  ${cls.padEnd(12)} ${String(count).padStart(5)}  ${action}`);
 }
 
@@ -201,7 +209,7 @@ console.log(`\nFull results written to scripts/classify-dynamic-routes.json`);
 if (!ONLY_SUMMARY) {
   // Print first 20 of each non-dynamic class
   for (const cls of ['STATIC', 'ISR_3600', 'ISR_86400', 'API_PUBLIC']) {
-    const group = results.filter(r => r.classification === cls).slice(0, 20);
+    const group = results.filter((r) => r.classification === cls).slice(0, 20);
     if (group.length === 0) continue;
     console.log(`\n--- ${cls} (first 20 of ${counts[cls] ?? 0}) ---`);
     for (const r of group) console.log(`  ${r.file}`);
@@ -229,11 +237,10 @@ if (APPLY) {
         skipped++;
       }
     } else if (r.classification === 'ISR_3600') {
-      const updated = content
-        .replace(
-          /export const dynamic = ['"]force-dynamic['"];/,
-          "export const revalidate = 3600;"
-        );
+      const updated = content.replace(
+        /export const dynamic = ['"]force-dynamic['"];/,
+        'export const revalidate = 3600;',
+      );
       if (updated !== content) {
         writeFileSync(fullPath, updated);
         applied++;
@@ -241,11 +248,10 @@ if (APPLY) {
         skipped++;
       }
     } else if (r.classification === 'ISR_86400') {
-      const updated = content
-        .replace(
-          /export const dynamic = ['"]force-dynamic['"];/,
-          "export const revalidate = 86400;"
-        );
+      const updated = content.replace(
+        /export const dynamic = ['"]force-dynamic['"];/,
+        'export const revalidate = 86400;',
+      );
       if (updated !== content) {
         writeFileSync(fullPath, updated);
         applied++;

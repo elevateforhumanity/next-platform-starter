@@ -53,11 +53,11 @@ export default function VideoUploadClient() {
       return;
     }
 
-    const { data: { publicUrl } } = supabase.storage
-      .from('course_videos')
-      .getPublicUrl(data.path);
+    const {
+      data: { publicUrl },
+    } = supabase.storage.from('course_videos').getPublicUrl(data.path);
 
-    setUploaded(prev => [...prev, { name: file.name, url: publicUrl, size: file.size }]);
+    setUploaded((prev) => [...prev, { name: file.name, url: publicUrl, size: file.size }]);
     setUploading(false);
     setProgress(100);
   };
@@ -91,7 +91,10 @@ export default function VideoUploadClient() {
           className={`border-2 border-dashed rounded-lg p-12 text-center transition-colors ${
             dragOver ? 'border-brand-blue-500 bg-brand-blue-50' : 'border-gray-300'
           }`}
-          onDragOver={(e) => { e.preventDefault(); setDragOver(true); }}
+          onDragOver={(e) => {
+            e.preventDefault();
+            setDragOver(true);
+          }}
           onDragLeave={() => setDragOver(false)}
           onDrop={handleDrop}
         >
@@ -136,7 +139,9 @@ export default function VideoUploadClient() {
         <div className="bg-white rounded-lg shadow-sm border divide-y">
           <div className="p-4">
             <h3 className="font-medium text-slate-900">Uploaded Videos</h3>
-            <p className="text-sm text-slate-700 mt-1">Copy the URL and paste it into a lesson&apos;s video field.</p>
+            <p className="text-sm text-slate-700 mt-1">
+              Copy the URL and paste it into a lesson&apos;s video field.
+            </p>
           </div>
           {uploaded.map((file, i) => (
             <div key={i} className="p-4 flex items-center gap-4">

@@ -30,11 +30,13 @@ export async function GET(request: NextRequest) {
   // Find payouts due within 2 days OR already overdue, not yet paid
   const { data: rawRows, error } = await db
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       id, user_id, program_slug,
       voucher_paid_date, payout_due_date, payout_status,
       program_holders:partner_id ( name, contact_name, contact_email )
-    `)
+    `,
+    )
     .in('payout_status', ['pending', 'due', 'overdue'])
     .not('payout_due_date', 'is', null)
     .lte('payout_due_date', twoDaysFromNow.toISOString());
@@ -57,8 +59,8 @@ export async function GET(request: NextRequest) {
 
   // Mark overdue in DB while we're here
   const overdueIds = rows
-    .filter(r => r.payout_due_date && new Date(r.payout_due_date) < now)
-    .map(r => r.id);
+    .filter((r) => r.payout_due_date && new Date(r.payout_due_date) < now)
+    .map((r) => r.id);
 
   if (overdueIds.length > 0) {
     await db
@@ -69,16 +71,19 @@ export async function GET(request: NextRequest) {
   }
 
   // Build email table rows
-  const tableRows = rows.map(row => {
-    const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles;
-    const partner = Array.isArray(row.program_holders) ? row.program_holders[0] : row.program_holders;
-    const dueDate = row.payout_due_date ? new Date(row.payout_due_date) : null;
-    const daysLeft = dueDate
-      ? Math.ceil((dueDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
-      : null;
-    const isOverdue = daysLeft !== null && daysLeft < 0;
+  const tableRows = rows
+    .map((row) => {
+      const profile = Array.isArray(row.profiles) ? row.profiles[0] : row.profiles;
+      const partner = Array.isArray(row.program_holders)
+        ? row.program_holders[0]
+        : row.program_holders;
+      const dueDate = row.payout_due_date ? new Date(row.payout_due_date) : null;
+      const daysLeft = dueDate
+        ? Math.ceil((dueDate.getTime() - now.getTime()) / (1000 * 60 * 60 * 24))
+        : null;
+      const isOverdue = daysLeft !== null && daysLeft < 0;
 
-    return `
+      return `
       <tr style="border-bottom:1px solid #e2e8f0;${isOverdue ? 'background:#fff5f5;' : ''}">
         <td style="padding:10px;font-size:13px;">${profile?.full_name ?? '—'}</td>
         <td style="padding:10px;font-size:13px;">${partner?.name ?? '—'}</td>
@@ -92,9 +97,12 @@ export async function GET(request: NextRequest) {
         <td style="padding:10px;font-size:13px;font-weight:bold;">$2,500</td>
       </tr>
     `;
-  }).join('');
+    })
+    .join('');
 
-  const overdueCount = rows.filter(r => r.payout_due_date && new Date(r.payout_due_date) < now).length;
+  const overdueCount = rows.filter(
+    (r) => r.payout_due_date && new Date(r.payout_due_date) < now,
+  ).length;
   const totalOwed = rows.length * 2500;
 
   await sendEmail({
@@ -107,11 +115,15 @@ export async function GET(request: NextRequest) {
     <p style="color:#94a3b8;margin:4px 0 0;font-size:13px;">Daily payout deadline check · ${now.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}</p>
   </div>
   <div style="background:#f8fafc;border:1px solid #e2e8f0;border-top:none;padding:24px;border-radius:0 0 8px 8px;">
-    ${overdueCount > 0 ? `
+    ${
+      overdueCount > 0
+        ? `
     <div style="background:#fef2f2;border:1px solid #fecaca;border-radius:8px;padding:14px;margin-bottom:20px;">
       <p style="margin:0;color:#991b1b;font-weight:bold;font-size:14px;">⚠️ ${overdueCount} payout${overdueCount > 1 ? 's are' : ' is'} overdue</p>
       <p style="margin:6px 0 0;color:#b91c1c;font-size:13px;">These must be processed immediately to comply with the MOU payment terms.</p>
-    </div>` : ''}
+    </div>`
+        : ''
+    }
     <p style="color:#475569;font-size:14px;margin-bottom:16px;">
       The following partner payouts are due within 2 days or are overdue. Per MOU Section 4, payment must be rendered within <strong>10 business days</strong> of voucher receipt.
     </p>

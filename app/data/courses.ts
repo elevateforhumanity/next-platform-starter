@@ -42,7 +42,8 @@ export const COURSES: Course[] = [
     slug: 'microsoft-word-certification',
     name: 'Microsoft Word Certification',
     shortDescription: 'Become a Microsoft Office Specialist in Word',
-    description: 'Master Microsoft Word and earn your official Microsoft Office Specialist (MOS) certification. This course covers document creation, formatting, collaboration features, and advanced tools used in professional environments. The MOS certification is recognized worldwide by employers as proof of your Office skills.',
+    description:
+      'Master Microsoft Word and earn your official Microsoft Office Specialist (MOS) certification. This course covers document creation, formatting, collaboration features, and advanced tools used in professional environments. The MOS certification is recognized worldwide by employers as proof of your Office skills.',
     provider: 'Certiport',
     category: 'Microsoft Office',
     price: 176,
@@ -78,7 +79,8 @@ export const COURSES: Course[] = [
     slug: 'microsoft-excel-certification',
     name: 'Microsoft Excel Certification',
     shortDescription: 'Become a Microsoft Office Specialist in Excel',
-    description: 'Master Microsoft Excel and earn your official Microsoft Office Specialist (MOS) certification. Learn spreadsheet creation, formulas, functions, data analysis, charts, and pivot tables. Excel skills are essential for virtually every office job and this certification proves your expertise.',
+    description:
+      'Master Microsoft Excel and earn your official Microsoft Office Specialist (MOS) certification. Learn spreadsheet creation, formulas, functions, data analysis, charts, and pivot tables. Excel skills are essential for virtually every office job and this certification proves your expertise.',
     provider: 'Certiport',
     category: 'Microsoft Office',
     price: 176,
@@ -114,7 +116,8 @@ export const COURSES: Course[] = [
     slug: 'microsoft-powerpoint-certification',
     name: 'Microsoft PowerPoint Certification',
     shortDescription: 'Become a Microsoft Office Specialist in PowerPoint',
-    description: 'Master Microsoft PowerPoint and earn your official Microsoft Office Specialist (MOS) certification. Learn to create compelling presentations with professional designs, animations, transitions, and multimedia. Essential for anyone who presents information in business settings.',
+    description:
+      'Master Microsoft PowerPoint and earn your official Microsoft Office Specialist (MOS) certification. Learn to create compelling presentations with professional designs, animations, transitions, and multimedia. Essential for anyone who presents information in business settings.',
     provider: 'Certiport',
     category: 'Microsoft Office',
     price: 176,
@@ -151,7 +154,8 @@ export const COURSES: Course[] = [
     slug: 'adobe-photoshop-certification',
     name: 'Adobe Photoshop Certification',
     shortDescription: 'Become an Adobe Certified Professional in Photoshop',
-    description: 'Master Adobe Photoshop and earn your Adobe Certified Professional credential. Learn image editing, photo manipulation, graphic design, and digital art creation. This industry-standard certification opens doors to careers in graphic design, marketing, photography, and digital media.',
+    description:
+      'Master Adobe Photoshop and earn your Adobe Certified Professional credential. Learn image editing, photo manipulation, graphic design, and digital art creation. This industry-standard certification opens doors to careers in graphic design, marketing, photography, and digital media.',
     provider: 'Certiport',
     category: 'Adobe Creative',
     price: 225,
@@ -173,11 +177,7 @@ export const COURSES: Course[] = [
       'Design for print and web',
       'Earn Adobe Certified Professional credential',
     ],
-    requirements: [
-      'Basic computer skills',
-      'Access to Adobe Photoshop CC',
-      'Internet connection',
-    ],
+    requirements: ['Basic computer skills', 'Access to Adobe Photoshop CC', 'Internet connection'],
     certification: 'Adobe Certified Professional: Photoshop',
     stripeProductId: 'prod_ToOcHPghEhBVxf',
     stripePriceId: 'price_1T6ZKFIRNf5vPH3AfxKrp4jd',
@@ -187,7 +187,8 @@ export const COURSES: Course[] = [
     slug: 'adobe-illustrator-certification',
     name: 'Adobe Illustrator Certification',
     shortDescription: 'Become an Adobe Certified Professional in Illustrator',
-    description: 'Master Adobe Illustrator and earn your Adobe Certified Professional credential. Learn vector graphics, logo design, illustration, and print design. Essential for graphic designers, brand specialists, and anyone creating scalable artwork for professional use.',
+    description:
+      'Master Adobe Illustrator and earn your Adobe Certified Professional credential. Learn vector graphics, logo design, illustration, and print design. Essential for graphic designers, brand specialists, and anyone creating scalable artwork for professional use.',
     provider: 'Certiport',
     category: 'Adobe Creative',
     price: 225,
@@ -224,7 +225,8 @@ export const COURSES: Course[] = [
     slug: 'cybersecurity-fundamentals',
     name: 'Cybersecurity Fundamentals',
     shortDescription: 'IT Specialist certification in Cybersecurity',
-    description: 'Learn the fundamentals of cybersecurity and earn your IT Specialist certification. Cover network security, threat detection, encryption, security protocols, and best practices for protecting digital assets. High-demand skills for the growing cybersecurity job market.',
+    description:
+      'Learn the fundamentals of cybersecurity and earn your IT Specialist certification. Cover network security, threat detection, encryption, security protocols, and best practices for protecting digital assets. High-demand skills for the growing cybersecurity job market.',
     provider: 'Certiport',
     category: 'IT & Cybersecurity',
     price: 176,
@@ -246,11 +248,7 @@ export const COURSES: Course[] = [
       'Protect networks and data',
       'Earn IT Specialist: Cybersecurity certification',
     ],
-    requirements: [
-      'Basic computer skills',
-      'Interest in IT security',
-      'Internet connection',
-    ],
+    requirements: ['Basic computer skills', 'Interest in IT security', 'Internet connection'],
     certification: 'IT Specialist: Cybersecurity',
     stripeProductId: 'prod_ToOcT7uUW4caek',
     stripePriceId: 'price_1T6ZKFIRNf5vPH3ACX5DMnTD',
@@ -260,7 +258,8 @@ export const COURSES: Course[] = [
     slug: 'python-programming',
     name: 'Python Programming',
     shortDescription: 'IT Specialist certification in Python',
-    description: 'Learn Python programming and earn your IT Specialist certification. Master programming fundamentals, data structures, functions, and object-oriented programming. Python is one of the most in-demand programming languages used in web development, data science, and automation.',
+    description:
+      'Learn Python programming and earn your IT Specialist certification. Master programming fundamentals, data structures, functions, and object-oriented programming. Python is one of the most in-demand programming languages used in web development, data science, and automation.',
     provider: 'Certiport',
     category: 'IT & Cybersecurity',
     price: 176,
@@ -297,7 +296,8 @@ export const COURSES: Course[] = [
     slug: 'cpr-aed-certification',
     name: 'CPR & AED Certification',
     shortDescription: '$130 · Live instructor · Mannequin shipped to you · Train from home',
-    description: 'Get certified in CPR and AED from the comfort of your own home. A training mannequin is shipped directly to you. A live instructor guides you through the course online. Covers adult CPR technique, AED operation, choking response, and emergency protocols. Nationally recognized 2-year certification. No classroom required.',
+    description:
+      'Get certified in CPR and AED from the comfort of your own home. A training mannequin is shipped directly to you. A live instructor guides you through the course online. Covers adult CPR technique, AED operation, choking response, and emergency protocols. Nationally recognized 2-year certification. No classroom required.',
     provider: 'HSI',
     category: 'Healthcare & Safety',
     price: 130,
@@ -320,10 +320,7 @@ export const COURSES: Course[] = [
       'Recognize cardiac arrest signs',
       'Earn 2-year CPR/AED certification',
     ],
-    requirements: [
-      'No prior experience needed',
-      'Physical ability to perform CPR compressions',
-    ],
+    requirements: ['No prior experience needed', 'Physical ability to perform CPR compressions'],
     certification: 'CPR/AED Certification (2 years)',
     stripeProductId: 'prod_ToOcJG15sZmjNF',
     stripePriceId: 'price_1T6ZKGIRNf5vPH3AeCoDLiXC',
@@ -333,7 +330,8 @@ export const COURSES: Course[] = [
     slug: 'first-aid-certification',
     name: 'First Aid Certification',
     shortDescription: 'Live instructor · Train from home · 2-year certification',
-    description: 'Learn essential first aid skills to respond to injuries and medical emergencies. Delivered online with a live instructor. Covers wound care, burns, fractures, allergic reactions, and more. Required for many workplace safety programs and childcare positions. Nationally recognized 2-year certification.',
+    description:
+      'Learn essential first aid skills to respond to injuries and medical emergencies. Delivered online with a live instructor. Covers wound care, burns, fractures, allergic reactions, and more. Required for many workplace safety programs and childcare positions. Nationally recognized 2-year certification.',
     provider: 'HSI',
     category: 'Healthcare & Safety',
     price: 130,
@@ -355,9 +353,7 @@ export const COURSES: Course[] = [
       'Provide emergency care',
       'Earn 2-year First Aid certification',
     ],
-    requirements: [
-      'No prior experience needed',
-    ],
+    requirements: ['No prior experience needed'],
     certification: 'First Aid Certification (2 years)',
     stripeProductId: 'prod_ToOcL7IHOZhrhv',
     stripePriceId: 'price_1T6ZKGIRNf5vPH3AlMuSskqA',
@@ -367,7 +363,8 @@ export const COURSES: Course[] = [
     slug: 'bls-healthcare-providers',
     name: 'BLS for Healthcare Providers',
     shortDescription: 'Basic Life Support certification for healthcare professionals',
-    description: 'Advanced CPR training designed for healthcare professionals. Delivered online with a live instructor. Covers adult, child, and infant CPR, bag-mask ventilation, team dynamics, and high-performance CPR. Required for nurses, EMTs, and other healthcare workers.',
+    description:
+      'Advanced CPR training designed for healthcare professionals. Delivered online with a live instructor. Covers adult, child, and infant CPR, bag-mask ventilation, team dynamics, and high-performance CPR. Required for nurses, EMTs, and other healthcare workers.',
     provider: 'HSI',
     category: 'Healthcare & Safety',
     price: 150,
@@ -389,10 +386,7 @@ export const COURSES: Course[] = [
       'Respond to all age groups',
       'Earn BLS Provider certification',
     ],
-    requirements: [
-      'Healthcare background recommended',
-      'Physical ability to perform CPR',
-    ],
+    requirements: ['Healthcare background recommended', 'Physical ability to perform CPR'],
     certification: 'BLS Provider Certification (2 years)',
     stripeProductId: 'prod_ToOck2oisCNMLC',
     stripePriceId: 'price_1T6ZKGIRNf5vPH3ATDxg6dHa',
@@ -403,7 +397,8 @@ export const COURSES: Course[] = [
     slug: 'quickbooks-certification',
     name: 'QuickBooks Certification',
     shortDescription: 'Intuit Certified QuickBooks User credential',
-    description: 'Master QuickBooks and earn your Intuit Certified QuickBooks User credential. Learn bookkeeping, invoicing, payroll, financial reporting, and business accounting. Essential for bookkeepers, office managers, and small business owners.',
+    description:
+      'Master QuickBooks and earn your Intuit Certified QuickBooks User credential. Learn bookkeeping, invoicing, payroll, financial reporting, and business accounting. Essential for bookkeepers, office managers, and small business owners.',
     provider: 'Certiport',
     category: 'Business & Accounting',
     price: 225,
@@ -425,11 +420,7 @@ export const COURSES: Course[] = [
       'Generate financial reports',
       'Earn QuickBooks User certification',
     ],
-    requirements: [
-      'Basic computer skills',
-      'Access to QuickBooks Online',
-      'Internet connection',
-    ],
+    requirements: ['Basic computer skills', 'Access to QuickBooks Online', 'Internet connection'],
     certification: 'Intuit Certified QuickBooks User',
     stripeProductId: 'prod_ToOcVoymakl9pB',
     stripePriceId: 'price_1T6ZKGIRNf5vPH3AG6wIHop5',
@@ -440,7 +431,8 @@ export const COURSES: Course[] = [
     slug: 'food-handler-certification',
     name: 'Food Handler Certification',
     shortDescription: 'Food safety training for food service workers',
-    description: 'Learn essential food safety practices and earn your Food Handler certification. Covers safe food handling, temperature control, cross-contamination prevention, and sanitation. Required for food service workers in most states.',
+    description:
+      'Learn essential food safety practices and earn your Food Handler certification. Covers safe food handling, temperature control, cross-contamination prevention, and sanitation. Required for food service workers in most states.',
     provider: 'HSI',
     category: 'Food Safety',
     price: 60,
@@ -462,10 +454,7 @@ export const COURSES: Course[] = [
       'Follow sanitation protocols',
       'Earn Food Handler certification',
     ],
-    requirements: [
-      'No prior experience needed',
-      'Internet connection',
-    ],
+    requirements: ['No prior experience needed', 'Internet connection'],
     certification: 'Food Handler Certification',
     stripeProductId: 'prod_ToOcD5LwZyA8ve',
     stripePriceId: 'price_1T6ZKHIRNf5vPH3AXAs4fjKf',
@@ -476,7 +465,8 @@ export const COURSES: Course[] = [
     slug: 'osha-10-general-industry',
     name: 'OSHA 10-Hour General Industry',
     shortDescription: 'OSHA safety training for general industry workers',
-    description: 'Complete the OSHA 10-Hour General Industry training and earn your DOL card. Covers workplace hazards, safety regulations, personal protective equipment, and employee rights. Required or preferred for many industrial and manufacturing jobs.',
+    description:
+      'Complete the OSHA 10-Hour General Industry training and earn your DOL card. Covers workplace hazards, safety regulations, personal protective equipment, and employee rights. Required or preferred for many industrial and manufacturing jobs.',
     provider: 'CareerSafe',
     category: 'Workplace Safety',
     price: 98,
@@ -498,10 +488,7 @@ export const COURSES: Course[] = [
       'Know your safety rights',
       'Earn OSHA 10-Hour card',
     ],
-    requirements: [
-      'No prior experience needed',
-      'Internet connection',
-    ],
+    requirements: ['No prior experience needed', 'Internet connection'],
     certification: 'OSHA 10-Hour General Industry Card',
     stripeProductId: 'prod_ToOciQSu0Uf8P8',
     stripePriceId: 'price_1T6ZKHIRNf5vPH3AghA9hs8d',
@@ -511,7 +498,8 @@ export const COURSES: Course[] = [
     slug: 'osha-30-general-industry',
     name: 'OSHA 30-Hour General Industry',
     shortDescription: 'Advanced OSHA safety training for supervisors',
-    description: 'Complete the OSHA 30-Hour General Industry training for supervisors and safety personnel. In-depth coverage of safety management, hazard analysis, regulatory compliance, and workplace safety programs. Required for many supervisor and safety coordinator positions.',
+    description:
+      'Complete the OSHA 30-Hour General Industry training for supervisors and safety personnel. In-depth coverage of safety management, hazard analysis, regulatory compliance, and workplace safety programs. Required for many supervisor and safety coordinator positions.',
     provider: 'CareerSafe',
     category: 'Workplace Safety',
     price: 203,
@@ -533,10 +521,7 @@ export const COURSES: Course[] = [
       'Train employees on safety',
       'Earn OSHA 30-Hour card',
     ],
-    requirements: [
-      'Some workplace experience recommended',
-      'Internet connection',
-    ],
+    requirements: ['Some workplace experience recommended', 'Internet connection'],
     certification: 'OSHA 30-Hour General Industry Card',
     stripeProductId: 'prod_ToOcBKwZWcroDG',
     stripePriceId: 'price_1T6ZKHIRNf5vPH3AkufLCdFF',
@@ -547,7 +532,8 @@ export const COURSES: Course[] = [
     slug: 'digital-literacy-certification',
     name: 'Digital Literacy Certification',
     shortDescription: 'IC3 Digital Literacy certification for computer fundamentals',
-    description: 'Build essential computer skills and earn your IC3 Digital Literacy certification. Covers computing fundamentals, key applications, and online living. Perfect for those new to computers or needing to prove basic digital skills for employment.',
+    description:
+      'Build essential computer skills and earn your IC3 Digital Literacy certification. Covers computing fundamentals, key applications, and online living. Perfect for those new to computers or needing to prove basic digital skills for employment.',
     provider: 'Certiport',
     category: 'Digital Literacy',
     price: 176,
@@ -569,11 +555,7 @@ export const COURSES: Course[] = [
       'Manage files and folders',
       'Earn IC3 Digital Literacy certification',
     ],
-    requirements: [
-      'No prior experience needed',
-      'Access to a computer',
-      'Internet connection',
-    ],
+    requirements: ['No prior experience needed', 'Access to a computer', 'Internet connection'],
     certification: 'IC3 Digital Literacy Certification',
     stripeProductId: 'prod_ToOcPREsNnbGes',
     stripePriceId: 'price_1T6ZKHIRNf5vPH3AKP0wIzMl',
@@ -585,7 +567,8 @@ export const COURSES: Course[] = [
     slug: 'epa-608-exam-voucher',
     name: 'EPA 608 Proctored Exam Voucher',
     shortDescription: 'Proctored EPA Section 608 certification exam access',
-    description: 'Proctored EPA Section 608 certification exam administered through EPA-approved certifying organizations (ESCO Institute and Mainstream Engineering). Includes all four sections (Core, Type I, Type II, Type III) for Universal certification. Certification does not expire and is recognized nationwide.',
+    description:
+      'Proctored EPA Section 608 certification exam administered through EPA-approved certifying organizations (ESCO Institute and Mainstream Engineering). Includes all four sections (Core, Type I, Type II, Type III) for Universal certification. Certification does not expire and is recognized nationwide.',
     provider: 'ESCO Institute & Mainstream Engineering (EPA-Approved Certifying Organizations)',
     category: 'HVAC & Trades',
     price: 41,
@@ -617,7 +600,8 @@ export const COURSES: Course[] = [
     slug: 'epa-608-prep-exam-bundle',
     name: 'EPA 608 Prep + Exam Bundle',
     shortDescription: '12-week certification prep course with proctored exam access',
-    description: 'Complete EPA Section 608 Universal certification pathway. 12-week structured prep course covering Core, Type I, Type II, and Type III sections. Study kit provided at no cost. Practice exams included. Proctored on-site through both ESCO Group (Proctor ID: 358010) and Mainstream Engineering.',
+    description:
+      'Complete EPA Section 608 Universal certification pathway. 12-week structured prep course covering Core, Type I, Type II, and Type III sections. Study kit provided at no cost. Practice exams included. Proctored on-site through both ESCO Group (Proctor ID: 358010) and Mainstream Engineering.',
     provider: 'Elevate for Humanity Career & Technical Institute',
     category: 'HVAC & Trades',
     price: 199,
@@ -638,11 +622,7 @@ export const COURSES: Course[] = [
       'Mastery of refrigerant handling regulations',
       'Qualification for HVAC employment',
     ],
-    requirements: [
-      'No prior experience needed',
-      'Access to a computer',
-      'Internet connection',
-    ],
+    requirements: ['No prior experience needed', 'Access to a computer', 'Internet connection'],
     certification: 'EPA Section 608 Universal Certification',
   },
   {
@@ -650,7 +630,8 @@ export const COURSES: Course[] = [
     slug: 'hvac-certification-pathway',
     name: 'HVAC Certification Pathway',
     shortDescription: 'EPA 608 prep + exam + study kit — full certification pathway',
-    description: 'Everything you need to go from zero to EPA 608 Universal certified. Includes the 12-week certification prep course, study kit, practice exams, and proctored exam through EPA-approved certifying organizations. Designed for students in the Elevate HVAC Technician program or anyone preparing for EPA 608 certification independently.',
+    description:
+      'Everything you need to go from zero to EPA 608 Universal certified. Includes the 12-week certification prep course, study kit, practice exams, and proctored exam through EPA-approved certifying organizations. Designed for students in the Elevate HVAC Technician program or anyone preparing for EPA 608 certification independently.',
     provider: 'Elevate for Humanity Career & Technical Institute',
     category: 'HVAC & Trades',
     price: 249,
@@ -684,7 +665,8 @@ export const COURSES: Course[] = [
     slug: 'hvac-technician-course-license',
     name: 'HVAC Technician Course License',
     shortDescription: 'License the full 640-hour HVAC Technician course for your organization',
-    description: 'License Elevate\'s complete HVAC Technician course for delivery at your workforce program, community college, or training center. Includes all 16 modules, 94 lessons, interactive diagrams, EPA 608 prep, OSHA 10, and CPR/AED content. Delivered through your branded Elevate LMS instance or integrated into your existing platform via SCORM/xAPI. Includes instructor guide, student workbooks, and assessment banks.',
+    description:
+      "License Elevate's complete HVAC Technician course for delivery at your workforce program, community college, or training center. Includes all 16 modules, 94 lessons, interactive diagrams, EPA 608 prep, OSHA 10, and CPR/AED content. Delivered through your branded Elevate LMS instance or integrated into your existing platform via SCORM/xAPI. Includes instructor guide, student workbooks, and assessment banks.",
     provider: 'Elevate for Humanity Career & Technical Institute',
     category: 'HVAC & Trades',
     price: 4500,
@@ -719,16 +701,17 @@ export const COURSES: Course[] = [
 
 // Helper functions
 export function getCourseBySlug(slug: string): Course | undefined {
-  return COURSES.find(c => c.slug === slug);
+  return COURSES.find((c) => c.slug === slug);
 }
 
 export function getCoursesByCategory(category: string): Course[] {
   if (category === 'All Courses') return COURSES;
-  return COURSES.filter(c => c.category === category);
+  return COURSES.filter((c) => c.category === category);
 }
 
 export function getRelatedCourses(course: Course, limit: number = 3): Course[] {
-  return COURSES
-    .filter(c => c.category === course.category && c.id !== course.id)
-    .slice(0, limit);
+  return COURSES.filter((c) => c.category === course.category && c.id !== course.id).slice(
+    0,
+    limit,
+  );
 }

@@ -19,14 +19,19 @@ export async function POST(request: NextRequest) {
     await hydrateProcessEnv();
 
     const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) return safeError('Unauthorized', 401);
 
     const db = await getAdminClient();
 
     const { data: sub } = await db
       .from('barber_subscriptions')
-      .select('id, stripe_customer_id, stripe_subscription_id, weekly_payment_cents, weeks_remaining, status')
+      .select(
+        'id, stripe_customer_id, stripe_subscription_id, weekly_payment_cents, weeks_remaining, status',
+      )
       .eq('user_id', user.id)
       .maybeSingle();
 
@@ -39,10 +44,16 @@ export async function POST(request: NextRequest) {
     if (!stripe) return safeError('Payment system unavailable', 503);
 
     // Get the default payment method saved via SetupIntent
-    const customer = await stripe.customers.retrieve(sub.stripe_customer_id) as any;
-    const paymentMethodId = customer?.invoice_settings?.default_payment_method
-      ?? (await stripe.paymentMethods.list({ customer: sub.stripe_customer_id, type: 'card', limit: 1 }))
-          .data[0]?.id;
+    const customer = (await stripe.customers.retrieve(sub.stripe_customer_id)) as any;
+    const paymentMethodId =
+      customer?.invoice_settings?.default_payment_method ??
+      (
+        await stripe.paymentMethods.list({
+          customer: sub.stripe_customer_id,
+          type: 'card',
+          limit: 1,
+        })
+      ).data[0]?.id;
 
     if (!paymentMethodId) {
       return safeError('No payment method found on customer. Complete card setup first.', 400);
@@ -69,17 +80,19 @@ export async function POST(request: NextRequest) {
       default_payment_method: paymentMethodId,
       billing_cycle_anchor: Math.floor(nextFriday.getTime() / 1000),
       proration_behavior: 'none',
-      items: [{
-        price_data: {
-          currency: 'usd',
-          product_data: {
-            name: 'Barber Apprenticeship — Weekly Tuition',
-            metadata: { program: 'barber-apprenticeship', user_id: user.id },
+      items: [
+        {
+          price_data: {
+            currency: 'usd',
+            product_data: {
+              name: 'Barber Apprenticeship — Weekly Tuition',
+              metadata: { program: 'barber-apprenticeship', user_id: user.id },
+            },
+            unit_amount: weeklyAmountCents,
+            recurring: { interval: 'week', interval_count: 1 },
           },
-          unit_amount: weeklyAmountCents,
-          recurring: { interval: 'week', interval_count: 1 },
         },
-      }],
+      ],
       metadata: {
         user_id: user.id,
         program: 'barber-apprenticeship',
@@ -88,20 +101,32 @@ export async function POST(request: NextRequest) {
     });
 
     // Update barber_subscriptions with Stripe subscription details
-    await db.from('barber_subscriptions').update({
-      stripe_subscription_id: stripeSubscription.id,
-      status: 'active',
-      billing_cycle_anchor: new Date(stripeSubscription.billing_cycle_anchor * 1000).toISOString(),
-      current_period_start: new Date((stripeSubscription as any).current_period_start * 1000).toISOString(),
-      current_period_end: new Date((stripeSubscription as any).current_period_end * 1000).toISOString(),
-      payment_status: 'current',
-    }).eq('id', sub.id);
+    await db
+      .from('barber_subscriptions')
+      .update({
+        stripe_subscription_id: stripeSubscription.id,
+        status: 'active',
+        billing_cycle_anchor: new Date(
+          stripeSubscription.billing_cycle_anchor * 1000,
+        ).toISOString(),
+        current_period_start: new Date(
+          (stripeSubscription as any).current_period_start * 1000,
+        ).toISOString(),
+        current_period_end: new Date(
+          (stripeSubscription as any).current_period_end * 1000,
+        ).toISOString(),
+        payment_status: 'current',
+      })
+      .eq('id', sub.id);
 
     // Mark profile onboarding complete
-    await db.from('profiles').update({
-      onboarding_completed: true,
-      onboarding_completed_at: new Date().toISOString(),
-    }).eq('id', user.id);
+    await db
+      .from('profiles')
+      .update({
+        onboarding_completed: true,
+        onboarding_completed_at: new Date().toISOString(),
+      })
+      .eq('id', user.id);
 
     logger.info('[activate-subscription] Subscription created', {
       userId: user.id,

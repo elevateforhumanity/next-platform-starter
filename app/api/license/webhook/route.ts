@@ -29,9 +29,8 @@ async function _POST(request: NextRequest) {
   try {
     const stripe = getStripe();
     // Use dedicated license webhook secret, fall back to generic
-    const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET_LICENSE
-      || process.env.STRIPE_WEBHOOK_SECRET
-      || '';
+    const webhookSecret =
+      process.env.STRIPE_WEBHOOK_SECRET_LICENSE || process.env.STRIPE_WEBHOOK_SECRET || '';
     event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
   } catch (err) {
     logger.error('[license-webhook] Signature verification failed:', err);
@@ -74,4 +73,6 @@ async function _POST(request: NextRequest) {
 
   return NextResponse.json({ received: true });
 }
-export const POST = withRuntime(withApiAudit('/api/license/webhook', _POST, { actor_type: 'webhook', skip_body: true }));
+export const POST = withRuntime(
+  withApiAudit('/api/license/webhook', _POST, { actor_type: 'webhook', skip_body: true }),
+);

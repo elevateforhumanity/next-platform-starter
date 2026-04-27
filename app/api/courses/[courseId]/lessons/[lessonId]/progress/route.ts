@@ -12,14 +12,14 @@ export const dynamic = 'force-dynamic';
 
 async function _POST(
   request: Request,
-  { params }: { params: Promise<{ courseId: string; lessonId: string }> }
+  { params }: { params: Promise<{ courseId: string; lessonId: string }> },
 ) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-      const { lessonId } = await params;
+    const { lessonId } = await params;
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -45,7 +45,7 @@ async function _POST(
         last_watched: new Date().toISOString(),
         updated_at: new Date().toISOString(),
       },
-      { onConflict: 'user_id,lesson_id' }
+      { onConflict: 'user_id,lesson_id' },
     );
 
     if (error) {
@@ -53,11 +53,8 @@ async function _POST(
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/courses/[courseId]/lessons/[lessonId]/progress', _POST);

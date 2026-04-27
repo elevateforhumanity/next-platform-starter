@@ -6,16 +6,23 @@ import { writeAdminAuditEvent, AuditActions } from '@/lib/audit';
 
 export async function markPayrollPaid(payrollId: string) {
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError) throw new Error(`Auth failed: ${authError.message}`);
   if (!user) throw new Error('Not authenticated');
 
   const db = await getAdminClient();
 
   const { data: profile, error: profileError } = await db
-    .from('profiles').select('role').eq('id', user.id).maybeSingle();
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (profileError) throw new Error('Profile fetch failed');
-  if (!['admin', 'super_admin', 'staff'].includes(profile?.role ?? '')) throw new Error('Forbidden');
+  if (!['admin', 'super_admin', 'staff'].includes(profile?.role ?? ''))
+    throw new Error('Forbidden');
 
   // Confirm the record exists before mutating.
   // Without this, a blind update on a non-existent ID returns success with 0 rows affected.

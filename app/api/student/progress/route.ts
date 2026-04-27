@@ -13,15 +13,15 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
+
     // Get authenticated user
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
@@ -29,17 +29,11 @@ async function _POST(request: NextRequest) {
 
     // Validate input
     if (!enrollmentId) {
-      return NextResponse.json(
-        { error: 'enrollmentId is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'enrollmentId is required' }, { status: 400 });
     }
 
     if (progress !== undefined && (progress < 0 || progress > 100)) {
-      return NextResponse.json(
-        { error: 'progress must be between 0 and 100' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'progress must be between 0 and 100' }, { status: 400 });
     }
 
     // Verify enrollment belongs to user
@@ -51,18 +45,15 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (enrollmentError || !enrollment) {
-      return NextResponse.json(
-        { error: 'Enrollment not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Enrollment not found' }, { status: 404 });
     }
 
     // Update progress
     const updates: any = {};
-    
+
     if (progress !== undefined) {
       updates.progress_percent = progress;
-      
+
       // Auto-complete if progress reaches 100%
       if (progress === 100 && enrollment.status !== 'completed') {
         updates.status = 'completed';
@@ -80,24 +71,22 @@ async function _POST(request: NextRequest) {
 
     if (updateError) {
       logger.error('[Progress Update] Failed:', updateError);
-      return NextResponse.json(
-        { error: 'Failed to update progress' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to update progress' }, { status: 500 });
     }
 
     // If moduleId provided, mark module as completed
     if (moduleId) {
-      const { error: completionError } = await supabase
-        .from('lesson_completions')
-        .upsert({
+      const { error: completionError } = await supabase.from('lesson_completions').upsert(
+        {
           user_id: user.id,
           course_id: enrollment.course_id,
           module_id: moduleId,
-          completed_at: new Date().toISOString()
-        }, {
-          onConflict: 'user_id,module_id'
-        });
+          completed_at: new Date().toISOString(),
+        },
+        {
+          onConflict: 'user_id,module_id',
+        },
+      );
 
       if (completionError) {
         logger.error('[Module Completion] Failed:', completionError);
@@ -108,20 +97,16 @@ async function _POST(request: NextRequest) {
       userId: user.id,
       enrollmentId,
       progress: updated.progress,
-      status: updated.status
+      status: updated.status,
     });
 
     return NextResponse.json({
       success: true,
-      enrollment: updated
+      enrollment: updated,
     });
-
   } catch (error) {
     logger.error('[Progress Update] Error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -132,30 +117,28 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { searchParams } = new URL(request.url);
     const enrollmentId = searchParams.get('enrollmentId');
 
     if (!enrollmentId) {
-      return NextResponse.json(
-        { error: 'enrollmentId is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'enrollmentId is required' }, { status: 400 });
     }
 
     // Get enrollment with course details
     const { data: enrollment, error } = await supabase
       .from('program_enrollments')
-      .select(`
+      .select(
+        `
         id,
         progress_percent,
         status,
@@ -167,16 +150,14 @@ async function _GET(request: NextRequest) {
           title,
           slug
         )
-      `)
+      `,
+      )
       .eq('id', enrollmentId)
       .eq('user_id', user.id)
       .maybeSingle();
 
     if (error || !enrollment) {
-      return NextResponse.json(
-        { error: 'Enrollment not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Enrollment not found' }, { status: 404 });
     }
 
     // Get completed modules
@@ -188,15 +169,11 @@ async function _GET(request: NextRequest) {
 
     return NextResponse.json({
       enrollment,
-      completedModules: completions || []
+      completedModules: completions || [],
     });
-
   } catch (error) {
     logger.error('[Progress Fetch] Error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/student/progress', _GET);

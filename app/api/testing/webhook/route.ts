@@ -29,9 +29,7 @@ export const runtime = 'nodejs';
 
 const FROM = TESTING_EMAIL.from;
 
-export const POST = withRuntime(
-  { secrets: [...ENV.STRIPE_TESTING_WEBHOOK] },
-  async (req, ctx) => {
+export const POST = withRuntime({ secrets: [...ENV.STRIPE_TESTING_WEBHOOK] }, async (req, ctx) => {
   const stripeKey = ctx.env.STRIPE_SECRET_KEY;
   const webhookSecret = ctx.env.STRIPE_TESTING_WEBHOOK_SECRET;
   const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
@@ -69,7 +67,7 @@ export const POST = withRuntime(
     // Validate metadata contract before any business logic
     const meta = parseWebhookMeta(TestingSessionMeta, session.metadata, event.id, logger);
     if (!meta) return NextResponse.json({ received: true }); // ack, skip malformed
-    const paymentIntentId = session.payment_intent as string ?? null;
+    const paymentIntentId = (session.payment_intent as string) ?? null;
 
     // Idempotency — skip if already processed for this payment intent
     if (paymentIntentId) {
@@ -90,14 +88,15 @@ export const POST = withRuntime(
       expand: ['customer_details'],
     });
     const customerEmail = fullSession.customer_details?.email ?? meta.email ?? '';
-    const customerName  = fullSession.customer_details?.name ?? '';
+    const customerName = fullSession.customer_details?.name ?? '';
     const [firstName, ...rest] = customerName.trim().split(' ');
     const lastName = rest.join(' ') || '';
 
     // Create the booking row now that payment is confirmed
     const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789';
-    const confirmationCode = Array.from({ length: 8 }, () =>
-      chars[Math.floor(Math.random() * chars.length)]
+    const confirmationCode = Array.from(
+      { length: 8 },
+      () => chars[Math.floor(Math.random() * chars.length)],
     ).join('');
 
     const hasAddOn = meta.add_on === 'true';
@@ -109,8 +108,8 @@ export const POST = withRuntime(
     try {
       const eventTypes = await getEventTypes();
       // Prefer the dedicated "testing" event type; fall back to the first active one
-      const testingEvent = eventTypes.find(e => e.slug === 'testing' || e.slug === '60min')
-        ?? eventTypes[0];
+      const testingEvent =
+        eventTypes.find((e) => e.slug === 'testing' || e.slug === '60min') ?? eventTypes[0];
       if (testingEvent) {
         calendlySchedulingUrl = await createSchedulingLink({ eventTypeUri: testingEvent.uri });
       }
@@ -132,27 +131,30 @@ export const POST = withRuntime(
         .maybeSingle();
       slotId = slotRow?.id ?? null;
       if (!slotId) {
-        logger.warn('[testing/webhook] slot_id in metadata not found or cancelled — booking without slot', { rawSlotId });
+        logger.warn(
+          '[testing/webhook] slot_id in metadata not found or cancelled — booking without slot',
+          { rawSlotId },
+        );
       }
     }
 
     const { error: insertErr } = await db.from('exam_bookings').insert({
-      exam_type:               meta.exam_type,
-      exam_name:               meta.exam_name,
-      booking_type:            meta.booking_type,
-      first_name:              firstName || 'Customer',
-      last_name:               lastName,
-      email:                   customerEmail,
-      participant_count:       meta.participant_count,
-      status:                  'pending',
-      payment_status:          'paid',
-      payment_intent_id:       paymentIntentId,
-      fee_cents:               session.amount_total,
-      confirmation_code:       confirmationCode,
-      add_on:                  hasAddOn,
-      add_on_paid:             hasAddOn, // payment confirmed — flip immediately
+      exam_type: meta.exam_type,
+      exam_name: meta.exam_name,
+      booking_type: meta.booking_type,
+      first_name: firstName || 'Customer',
+      last_name: lastName,
+      email: customerEmail,
+      participant_count: meta.participant_count,
+      status: 'pending',
+      payment_status: 'paid',
+      payment_intent_id: paymentIntentId,
+      fee_cents: session.amount_total,
+      confirmation_code: confirmationCode,
+      add_on: hasAddOn,
+      add_on_paid: hasAddOn, // payment confirmed — flip immediately
       calendly_scheduling_url: calendlySchedulingUrl,
-      slot_id:                 slotId,
+      slot_id: slotId,
     });
 
     if (insertErr) {
@@ -167,7 +169,12 @@ export const POST = withRuntime(
       });
     }
 
-    logger.info('[testing/webhook] Booking created after payment', { confirmationCode, hasAddOn, calendlySchedulingUrl, slotId });
+    logger.info('[testing/webhook] Booking created after payment', {
+      confirmationCode,
+      hasAddOn,
+      calendlySchedulingUrl,
+      slotId,
+    });
 
     if (customerEmail) {
       const emailJobs: Promise<unknown>[] = [];
@@ -199,7 +206,7 @@ export const POST = withRuntime(
     <p>Questions? Call <strong>${TESTING_CENTER.phone}</strong>.</p>
   </div>
 </body></html>`,
-        }).catch(err => logger.warn('[testing/webhook] Confirmation email failed', { err }))
+        }).catch((err) => logger.warn('[testing/webhook] Confirmation email failed', { err })),
       );
 
       // Add-on delivery — only when purchased and paid
@@ -227,7 +234,7 @@ export const POST = withRuntime(
     <p>Good luck,<br><strong>${TESTING_CENTER.coordinator.name}</strong><br>${TESTING_CENTER.coordinator.title}</p>
   </div>
 </body></html>`,
-          }).catch(err => logger.warn('[testing/webhook] Add-on email failed', { err }))
+          }).catch((err) => logger.warn('[testing/webhook] Add-on email failed', { err })),
         );
       }
 
@@ -239,7 +246,12 @@ export const POST = withRuntime(
 
   // ── Enforcement fee paid (no-show / retake / reschedule) ─────────────────
   if (session.metadata?.payment_type === 'testing_enforcement') {
-    const enforcementMeta = parseWebhookMeta(TestingSessionMeta, session.metadata, event.id, logger);
+    const enforcementMeta = parseWebhookMeta(
+      TestingSessionMeta,
+      session.metadata,
+      event.id,
+      logger,
+    );
     if (!enforcementMeta) return NextResponse.json({ received: true });
     const enforcementId = enforcementMeta.enforcement_id;
     const email = enforcementMeta.email;
@@ -253,7 +265,7 @@ export const POST = withRuntime(
       .from('testing_enforcement')
       .update({
         fee_paid: true,
-        payment_intent_id: session.payment_intent as string ?? null,
+        payment_intent_id: (session.payment_intent as string) ?? null,
         paid_at: new Date().toISOString(),
         unlocked_at: new Date().toISOString(),
       })
@@ -264,13 +276,19 @@ export const POST = withRuntime(
       return NextResponse.json({ received: true });
     }
 
-    logger.info('[testing/webhook] Enforcement fee cleared', { enforcementId, type: enforcementMeta.enforcement_type });
+    logger.info('[testing/webhook] Enforcement fee cleared', {
+      enforcementId,
+      type: enforcementMeta.enforcement_type,
+    });
 
     // Notify candidate that they can now rebook
     if (email) {
-      const label = enforcementMeta.enforcement_type === 'no_show' ? 'no-show rescheduling fee'
-        : enforcementMeta.enforcement_type === 'retake' ? 'retake fee'
-        : 'reschedule fee';
+      const label =
+        enforcementMeta.enforcement_type === 'no_show'
+          ? 'no-show rescheduling fee'
+          : enforcementMeta.enforcement_type === 'retake'
+            ? 'retake fee'
+            : 'reschedule fee';
 
       await sendEmail({
         to: email,
@@ -283,12 +301,11 @@ export const POST = withRuntime(
   <p><a href="${SITE_URL}/testing/book" style="background:#1E3A5F;color:#fff;padding:12px 24px;border-radius:6px;text-decoration:none;font-weight:bold;display:inline-block">Book Your Exam →</a></p>
   <p style="color:#64748b;font-size:13px">Questions? Call ${TESTING_CENTER.phone} or reply to this email.</p>
 </body></html>`,
-      }).catch(err => logger.warn('[testing/webhook] Email send failed', { err }));
+      }).catch((err) => logger.warn('[testing/webhook] Email send failed', { err }));
     }
 
     return NextResponse.json({ received: true });
   }
 
   return NextResponse.json({ received: true });
-  }
-);
+});

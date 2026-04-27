@@ -2,7 +2,19 @@ import { Metadata } from 'next';
 import Image from 'next/image';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
-import { Building, MapPin, Users, Globe, Phone, Mail, Edit, Camera, Award, Briefcase, AlertCircle } from 'lucide-react';
+import {
+  Building,
+  MapPin,
+  Users,
+  Globe,
+  Phone,
+  Mail,
+  Edit,
+  Camera,
+  Award,
+  Briefcase,
+  AlertCircle,
+} from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 
 export const dynamic = 'force-dynamic';
@@ -15,8 +27,10 @@ export const metadata: Metadata = {
 
 export default async function CompanyProfilePage() {
   const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     redirect('/login?redirect=/employer-portal/company');
   }
@@ -39,7 +53,7 @@ export default async function CompanyProfilePage() {
       .select('*', { count: 'exact', head: true })
       .eq('employer_id', employer.id)
       .eq('status', 'active');
-    
+
     activeJobs = jobCount || 0;
 
     // Count total hires (placements)
@@ -47,7 +61,7 @@ export default async function CompanyProfilePage() {
       .from('placements')
       .select('*', { count: 'exact', head: true })
       .eq('employer_id', employer.id);
-    
+
     totalHires = hireCount || 0;
   }
 
@@ -68,7 +82,8 @@ export default async function CompanyProfilePage() {
           </div>
           <h1 className="text-2xl font-bold text-slate-900 mb-4">Set Up Your Company Profile</h1>
           <p className="text-slate-700 mb-8">
-            Create your company profile to start posting jobs and connecting with qualified candidates.
+            Create your company profile to start posting jobs and connecting with qualified
+            candidates.
           </p>
           <Link
             href="/employer-portal/company/setup"
@@ -93,13 +108,16 @@ export default async function CompanyProfilePage() {
     website: employer.website || '',
     phone: employer.contact_phone || '',
     email: employer.contact_email || '',
-    address: [
-      employer.address_line1,
-      employer.address_line2,
-      employer.city,
-      employer.state,
-      employer.zip_code
-    ].filter(Boolean).join(', ') || 'Not specified',
+    address:
+      [
+        employer.address_line1,
+        employer.address_line2,
+        employer.city,
+        employer.state,
+        employer.zip_code,
+      ]
+        .filter(Boolean)
+        .join(', ') || 'Not specified',
     description: employer.description || 'No description provided.',
     benefits: employer.benefits || [],
     verified: employer.verified || false,
@@ -115,10 +133,11 @@ export default async function CompanyProfilePage() {
             alt="Company cover"
             fill
             className="object-cover"
-           sizes="100vw" />
+            sizes="100vw"
+          />
         )}
-        
-        <Link 
+
+        <Link
           href="/employer-portal/company/setup"
           className="absolute top-4 right-4 px-4 py-2 bg-white/90 rounded-lg hover:bg-white transition flex items-center gap-2 text-sm"
         >
@@ -136,7 +155,7 @@ export default async function CompanyProfilePage() {
                 <div className="w-[120px] h-[120px] rounded-xl border-4 border-white shadow-lg bg-white flex items-center justify-center">
                   <Building className="w-12 h-12 text-slate-700" />
                 </div>
-                <Link 
+                <Link
                   href="/employer-portal/company/setup"
                   className="absolute bottom-0 right-0 p-2 bg-brand-blue-600 text-white rounded-full hover:bg-brand-blue-700 transition"
                 >
@@ -247,7 +266,12 @@ export default async function CompanyProfilePage() {
                 {companyData.website && (
                   <div className="flex items-center gap-3">
                     <Globe className="w-5 h-5 text-slate-700" />
-                    <a href={`https://${companyData.website}`} target="_blank" rel="noopener noreferrer" className="text-brand-blue-600 hover:underline">
+                    <a
+                      href={`https://${companyData.website}`}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-brand-blue-600 hover:underline"
+                    >
                       {companyData.website}
                     </a>
                   </div>
@@ -255,7 +279,10 @@ export default async function CompanyProfilePage() {
                 {companyData.phone && (
                   <div className="flex items-center gap-3">
                     <Phone className="w-5 h-5 text-slate-700" />
-                    <a href={`tel:${companyData.phone}`} className="text-slate-900 hover:text-brand-blue-600">
+                    <a
+                      href={`tel:${companyData.phone}`}
+                      className="text-slate-900 hover:text-brand-blue-600"
+                    >
                       {companyData.phone}
                     </a>
                   </div>
@@ -263,7 +290,10 @@ export default async function CompanyProfilePage() {
                 {companyData.email && (
                   <div className="flex items-center gap-3">
                     <Mail className="w-5 h-5 text-slate-700" />
-                    <a href={`mailto:${companyData.email}`} className="text-slate-900 hover:text-brand-blue-600">
+                    <a
+                      href={`mailto:${companyData.email}`}
+                      className="text-slate-900 hover:text-brand-blue-600"
+                    >
                       {companyData.email}
                     </a>
                   </div>

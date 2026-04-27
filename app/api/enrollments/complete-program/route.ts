@@ -1,11 +1,9 @@
-
-
 /**
  * PROGRAM COMPLETION ENDPOINT
- * 
+ *
  * Triggered when a student completes all requirements for a program.
  * Delegates to the authoritative certificate issuance service.
- * 
+ *
  * This endpoint is for PROGRAM completion (finished training),
  * NOT enrollment completion (finished payment).
  */
@@ -33,7 +31,10 @@ async function _POST(req: NextRequest) {
     const supabase = await createClient();
 
     // Verify authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -42,10 +43,7 @@ async function _POST(req: NextRequest) {
     const { enrollment_id } = body;
 
     if (!enrollment_id) {
-      return NextResponse.json(
-        { error: 'Missing required field: enrollment_id' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required field: enrollment_id' }, { status: 400 });
     }
 
     logger.info('Starting program completion', { enrollment_id, user_id: user.id });
@@ -53,7 +51,8 @@ async function _POST(req: NextRequest) {
     // Get enrollment with program and student details
     const { data: enrollment, error: enrollmentError } = await supabase
       .from('program_enrollments')
-      .select(`
+      .select(
+        `
         id,
         user_id,
         program_id,
@@ -66,7 +65,8 @@ async function _POST(req: NextRequest) {
           slug,
           duration_hours
         )
-      `)
+      `,
+      )
       .eq('id', enrollment_id)
       .maybeSingle();
 
@@ -98,7 +98,8 @@ async function _POST(req: NextRequest) {
       return NextResponse.json({ error: 'Student profile not found' }, { status: 404 });
     }
 
-    const studentName = studentProfile.full_name || 
+    const studentName =
+      studentProfile.full_name ||
       `${studentProfile.first_name || ''} ${studentProfile.last_name || ''}`.trim() ||
       'Student';
     const programs = enrollment.programs as any;
@@ -139,10 +140,7 @@ async function _POST(req: NextRequest) {
     });
   } catch (error) {
     logger.error('Program completion error', { error });
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/enrollments/complete-program', _POST);

@@ -2,10 +2,9 @@
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { useState, useEffect } from 'react';
-import { 
-  
-  XCircle, 
-  Clock, 
+import {
+  XCircle,
+  Clock,
   AlertTriangle,
   User,
   Building2,
@@ -14,7 +13,7 @@ import {
   Signature,
   ChevronRight,
   Search,
-  Filter
+  Filter,
 } from 'lucide-react';
 
 // Funding pathway labels
@@ -35,8 +34,6 @@ const STATUS_COLORS = {
   completed: 'bg-brand-green-100 text-brand-green-700',
   rejected: 'bg-brand-red-100 text-brand-red-700',
 };
-
-
 
 export default function AdminIntakePage() {
   const [intakes, setIntakes] = useState<any[]>([]);
@@ -63,7 +60,7 @@ export default function AdminIntakePage() {
     setLoading(false);
   }
 
-  const filteredIntakes = intakes.filter(intake => {
+  const filteredIntakes = intakes.filter((intake) => {
     if (filter !== 'all' && intake.status !== filter) return false;
     if (search) {
       const searchLower = search.toLowerCase();
@@ -77,10 +74,9 @@ export default function AdminIntakePage() {
 
   return (
     <div className="min-h-screen bg-white p-6">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Intake" }]} />
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Intake' }]} />
       </div>
       <div className="max-w-7xl mx-auto">
         {/* Header */}
@@ -99,8 +95,8 @@ export default function AdminIntakePage() {
               <div className="flex-1">
                 <h3 className="font-semibold text-amber-800">Script Acknowledgment Required</h3>
                 <p className="text-sm text-amber-700 mt-1">
-                  Before processing intakes, you must acknowledge the admissions script.
-                  All conversations must follow the approved script exactly.
+                  Before processing intakes, you must acknowledge the admissions script. All
+                  conversations must follow the approved script exactly.
                 </p>
                 <button
                   onClick={() => setShowScript(true)}
@@ -119,17 +115,20 @@ export default function AdminIntakePage() {
             <div className="bg-white rounded-xl max-w-3xl w-full max-h-[90vh] overflow-y-auto">
               <div className="p-6 border-b border-gray-200">
                 <h2 className="text-xl font-bold text-slate-900">Admissions Funding Script</h2>
-                <p className="text-sm text-slate-700 mt-1">Required reading before processing intakes</p>
+                <p className="text-sm text-slate-700 mt-1">
+                  Required reading before processing intakes
+                </p>
               </div>
-              
+
               <div className="p-6 space-y-6">
                 {/* Opening */}
                 <div>
                   <h3 className="font-semibold text-slate-900 mb-2">Opening Statement</h3>
                   <div className="bg-gray-50 p-4 rounded-lg text-sm">
                     <p className="italic">
-                      "Thank you for your interest in [Program Name]. Before we discuss enrollment, 
-                      I need to walk you through our funding pathways to determine the best fit for your situation."
+                      "Thank you for your interest in [Program Name]. Before we discuss enrollment,
+                      I need to walk you through our funding pathways to determine the best fit for
+                      your situation."
                     </p>
                   </div>
                 </div>
@@ -141,23 +140,24 @@ export default function AdminIntakePage() {
                     <div className="bg-brand-green-50 p-4 rounded-lg">
                       <p className="font-medium text-brand-green-800">1. Workforce-Funded</p>
                       <p className="text-sm text-brand-green-700 mt-1">
-                        "Many students qualify for workforce funding that covers all or most of the program cost. 
-                        Let me ask a few questions to see if you might be eligible."
+                        "Many students qualify for workforce funding that covers all or most of the
+                        program cost. Let me ask a few questions to see if you might be eligible."
                       </p>
                     </div>
                     <div className="bg-brand-blue-50 p-4 rounded-lg">
                       <p className="font-medium text-brand-blue-800">2. Employer-Sponsored</p>
                       <p className="text-sm text-brand-blue-700 mt-1">
-                        "Some students enroll through employer partnerships. Does your employer offer 
-                        tuition reimbursement or training support?"
+                        "Some students enroll through employer partnerships. Does your employer
+                        offer tuition reimbursement or training support?"
                       </p>
                     </div>
                     <div className="bg-slate-50 p-4 rounded-lg">
                       <p className="font-medium text-slate-800">3. Structured Student Tuition</p>
                       <p className="text-sm text-slate-700 mt-1">
-                        "For students who don't qualify for workforce funding or employer sponsorship, 
-                        we offer a structured bridge plan: $500 down payment, $200 per month, 
-                        maximum three months. This is a short-term bridge, not a long-term payment plan."
+                        "For students who don't qualify for workforce funding or employer
+                        sponsorship, we offer a structured bridge plan: $500 down payment, $200 per
+                        month, maximum three months. This is a short-term bridge, not a long-term
+                        payment plan."
                       </p>
                     </div>
                   </div>
@@ -179,27 +179,29 @@ export default function AdminIntakePage() {
 
                 {/* Objection Handling */}
                 <div>
-                  <h3 className="font-semibold text-slate-900 mb-2">Objection Handling (Exact Responses)</h3>
+                  <h3 className="font-semibold text-slate-900 mb-2">
+                    Objection Handling (Exact Responses)
+                  </h3>
                   <div className="space-y-3 text-sm">
                     <div className="border border-gray-200 rounded-lg p-3">
                       <p className="font-medium">"I can only do $100 a month."</p>
                       <p className="text-slate-700 mt-1">
-                        → "At that level, a long-term payor is required. We would need to explore 
+                        → "At that level, a long-term payor is required. We would need to explore
                         workforce funding, employer sponsorship, or external financing."
                       </p>
                     </div>
                     <div className="border border-gray-200 rounded-lg p-3">
                       <p className="font-medium">"Other schools let me pay less."</p>
                       <p className="text-slate-700 mt-1">
-                        → "Each institution structures tuition differently. Our model is designed 
-                        to support completion and stability."
+                        → "Each institution structures tuition differently. Our model is designed to
+                        support completion and stability."
                       </p>
                     </div>
                     <div className="border border-gray-200 rounded-lg p-3">
                       <p className="font-medium">"Can you make an exception?"</p>
                       <p className="text-slate-700 mt-1">
-                        → "Our funding pathways are standardized. Exceptions are not handled 
-                        at the admissions level."
+                        → "Our funding pathways are standardized. Exceptions are not handled at the
+                        admissions level."
                       </p>
                     </div>
                   </div>
@@ -225,8 +227,8 @@ export default function AdminIntakePage() {
                     }}
                   />
                   <span className="text-sm text-slate-900">
-                    I have read and understand the admissions script. I will follow it exactly 
-                    and will not deviate from approved language or make unauthorized promises.
+                    I have read and understand the admissions script. I will follow it exactly and
+                    will not deviate from approved language or make unauthorized promises.
                   </span>
                 </label>
               </div>
@@ -294,7 +296,9 @@ export default function AdminIntakePage() {
                   <tr key={intake.id} className="hover:bg-gray-50">
                     <td className="px-6 py-4">
                       <div>
-                        <p className="font-medium text-slate-900">{intake.user_name || 'Unknown'}</p>
+                        <p className="font-medium text-slate-900">
+                          {intake.user_name || 'Unknown'}
+                        </p>
                         <p className="text-sm text-slate-700">{intake.user_email}</p>
                       </div>
                     </td>
@@ -302,7 +306,9 @@ export default function AdminIntakePage() {
                       {intake.program_name || 'Not selected'}
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[intake.status as keyof typeof STATUS_COLORS] || 'bg-gray-100'}`}>
+                      <span
+                        className={`inline-flex px-2 py-1 rounded-full text-xs font-medium ${STATUS_COLORS[intake.status as keyof typeof STATUS_COLORS] || 'bg-gray-100'}`}
+                      >
                         {intake.status?.replace(/_/g, ' ')}
                       </span>
                     </td>
@@ -316,7 +322,9 @@ export default function AdminIntakePage() {
                       )}
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-700">
-                      {new Date(intake.intake_started_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
+                      {new Date(intake.intake_started_at).toLocaleDateString('en-US', {
+                        timeZone: 'UTC',
+                      })}
                     </td>
                     <td className="px-6 py-4 text-right">
                       <button
@@ -349,13 +357,13 @@ export default function AdminIntakePage() {
 }
 
 // Intake Detail Modal Component
-function IntakeDetailModal({ 
-  intake, 
-  onClose, 
-  onUpdate 
-}: { 
-  intake: any; 
-  onClose: () => void; 
+function IntakeDetailModal({
+  intake,
+  onClose,
+  onUpdate,
+}: {
+  intake: any;
+  onClose: () => void;
   onUpdate: () => void;
 }) {
   const [activeStep, setActiveStep] = useState(intake.status);
@@ -364,11 +372,36 @@ function IntakeDetailModal({
 
   const steps = [
     { id: 'identity_pending', label: 'Identity', icon: User, completed: intake.identity_verified },
-    { id: 'workforce_screening', label: 'Workforce', icon: Building2, completed: intake.workforce_screening_completed },
-    { id: 'employer_screening', label: 'Employer', icon: Building2, completed: intake.employer_screening_completed },
-    { id: 'financial_readiness', label: 'Financial', icon: DollarSign, completed: intake.financial_readiness_completed },
-    { id: 'program_readiness', label: 'Program', icon: FileText, completed: intake.program_readiness_completed },
-    { id: 'pending_signature', label: 'Signature', icon: Signature, completed: intake.acknowledgment_signed },
+    {
+      id: 'workforce_screening',
+      label: 'Workforce',
+      icon: Building2,
+      completed: intake.workforce_screening_completed,
+    },
+    {
+      id: 'employer_screening',
+      label: 'Employer',
+      icon: Building2,
+      completed: intake.employer_screening_completed,
+    },
+    {
+      id: 'financial_readiness',
+      label: 'Financial',
+      icon: DollarSign,
+      completed: intake.financial_readiness_completed,
+    },
+    {
+      id: 'program_readiness',
+      label: 'Program',
+      icon: FileText,
+      completed: intake.program_readiness_completed,
+    },
+    {
+      id: 'pending_signature',
+      label: 'Signature',
+      icon: Signature,
+      completed: intake.acknowledgment_signed,
+    },
   ];
 
   async function updateStep(step: string, data: any) {
@@ -383,7 +416,7 @@ function IntakeDetailModal({
           data,
         }),
       });
-      
+
       if (res.ok) {
         onUpdate();
       }
@@ -405,7 +438,7 @@ function IntakeDetailModal({
           data: { pathway },
         }),
       });
-      
+
       if (res.ok) {
         onUpdate();
       }
@@ -417,7 +450,7 @@ function IntakeDetailModal({
 
   async function logDeviation() {
     if (!deviationNote.trim()) return;
-    
+
     try {
       await fetch('/api/admin/script-deviation', {
         method: 'POST',
@@ -439,9 +472,15 @@ function IntakeDetailModal({
         <div className="p-6 border-b border-gray-200 flex items-center justify-between">
           <div>
             <h2 className="text-xl font-bold text-slate-900">Process Intake</h2>
-            <p className="text-sm text-slate-700">{intake.user_name} - {intake.program_name}</p>
+            <p className="text-sm text-slate-700">
+              {intake.user_name} - {intake.program_name}
+            </p>
           </div>
-          <button onClick={onClose} aria-label="Close" className="text-slate-700 hover:text-slate-700">
+          <button
+            onClick={onClose}
+            aria-label="Close"
+            className="text-slate-700 hover:text-slate-700"
+          >
             <XCircle className="w-6 h-6" />
           </button>
         </div>
@@ -451,13 +490,15 @@ function IntakeDetailModal({
           <div className="flex items-center justify-between">
             {steps.map((step, index) => (
               <div key={step.id} className="flex items-center">
-                <div className={`flex items-center justify-center w-10 h-10 rounded-full ${
-                  step.completed 
-                    ? 'bg-brand-green-100 text-brand-green-600' 
-                    : activeStep === step.id 
-                    ? 'bg-brand-blue-100 text-brand-blue-600'
-                    : 'bg-gray-100 text-slate-700'
-                }`}>
+                <div
+                  className={`flex items-center justify-center w-10 h-10 rounded-full ${
+                    step.completed
+                      ? 'bg-brand-green-100 text-brand-green-600'
+                      : activeStep === step.id
+                        ? 'bg-brand-blue-100 text-brand-blue-600'
+                        : 'bg-gray-100 text-slate-700'
+                  }`}
+                >
                   {step.completed ? (
                     <span className="text-slate-400 flex-shrink-0">•</span>
                   ) : (
@@ -465,9 +506,11 @@ function IntakeDetailModal({
                   )}
                 </div>
                 {index < steps.length - 1 && (
-                  <div className={`w-12 h-0.5 mx-2 ${
-                    step.completed ? 'bg-brand-green-200' : 'bg-gray-200'
-                  }`} />
+                  <div
+                    className={`w-12 h-0.5 mx-2 ${
+                      step.completed ? 'bg-brand-green-200' : 'bg-gray-200'
+                    }`}
+                  />
                 )}
               </div>
             ))}
@@ -498,7 +541,7 @@ function IntakeDetailModal({
               <p className="font-medium text-slate-900">Workforce-Funded</p>
               <p className="text-xs text-slate-700 mt-1">WIOA, VR, Job Ready Indy, etc.</p>
             </button>
-            
+
             <button
               onClick={() => assignPathway('employer_sponsored')}
               disabled={saving || intake.funding_pathway === 'employer_sponsored'}
@@ -512,7 +555,7 @@ function IntakeDetailModal({
               <p className="font-medium text-slate-900">Employer-Sponsored</p>
               <p className="text-xs text-slate-700 mt-1">Post-hire reimbursement</p>
             </button>
-            
+
             <button
               onClick={() => assignPathway('structured_tuition')}
               disabled={saving || intake.funding_pathway === 'structured_tuition'}

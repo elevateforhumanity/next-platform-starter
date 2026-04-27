@@ -19,11 +19,11 @@ export const dynamic = 'force-dynamic';
 type ReviewAction = 'submit' | 'approve' | 'reject' | 'archive' | 'revert_to_draft';
 
 const TRANSITIONS: Record<ReviewAction, { from: string[]; to: string }> = {
-  submit:          { from: ['draft', 'rejected'],  to: 'in_review' },
-  approve:         { from: ['in_review'],           to: 'approved'  },
-  reject:          { from: ['in_review'],           to: 'rejected'  },
-  archive:         { from: ['draft', 'in_review', 'approved', 'published', 'rejected'], to: 'archived' },
-  revert_to_draft: { from: ['rejected', 'in_review'], to: 'draft'   },
+  submit: { from: ['draft', 'rejected'], to: 'in_review' },
+  approve: { from: ['in_review'], to: 'approved' },
+  reject: { from: ['in_review'], to: 'rejected' },
+  archive: { from: ['draft', 'in_review', 'approved', 'published', 'rejected'], to: 'archived' },
+  revert_to_draft: { from: ['rejected', 'in_review'], to: 'draft' },
 };
 
 export async function POST(
@@ -39,7 +39,7 @@ export async function POST(
   const { courseId } = await params;
   const body = await request.json().catch(() => ({}));
   const action = body.action as ReviewAction | undefined;
-  const notes  = body.notes as string | undefined;
+  const notes = body.notes as string | undefined;
 
   if (!action || !TRANSITIONS[action]) {
     return safeError(`action must be one of: ${Object.keys(TRANSITIONS).join(', ')}`, 400);
@@ -72,11 +72,11 @@ export async function POST(
 
   if (action === 'submit') {
     update.submitted_for_review_at = now;
-    update.submitted_by            = auth.user.id;
+    update.submitted_by = auth.user.id;
   }
   if (action === 'approve' || action === 'reject') {
-    update.reviewed_at  = now;
-    update.reviewed_by  = auth.user.id;
+    update.reviewed_at = now;
+    update.reviewed_by = auth.user.id;
     update.review_notes = notes ?? null;
   }
 
@@ -85,13 +85,13 @@ export async function POST(
 
   // Audit log — reuse program_review_log with course_id
   await db.from('program_review_log').insert({
-    course_id:   courseId,
-    action:      action === 'revert_to_draft' ? 'reverted_to_draft' : action,
+    course_id: courseId,
+    action: action === 'revert_to_draft' ? 'reverted_to_draft' : action,
     from_status: currentStatus,
-    to_status:   to,
-    actor_id:    auth.user.id,
-    notes:       notes ?? null,
-    created_at:  now,
+    to_status: to,
+    actor_id: auth.user.id,
+    notes: notes ?? null,
+    created_at: now,
   });
 
   return NextResponse.json({ ok: true, review_status: to });

@@ -1,4 +1,3 @@
-
 /**
  * Centralized content configuration for all 10 archetypes
  *
@@ -43,8 +42,7 @@ export const programTrainingContent: LocalizedContent = {
   en: {
     hero: {
       title: 'Program Overview',
-      purpose:
-        'This page explains who this program is for, what you will learn, and how to apply.',
+      purpose: 'This page explains who this program is for, what you will learn, and how to apply.',
       image: '/images/pages/training-classroom.jpg',
       imageAlt: 'Students in training program',
     },
@@ -80,8 +78,7 @@ export const programTrainingContent: LocalizedContent = {
   es: {
     hero: {
       title: 'Resumen del programa',
-      purpose:
-        'Esta página explica para quién es el programa, qué aprenderás y cómo aplicar.',
+      purpose: 'Esta página explica para quién es el programa, qué aprenderás y cómo aplicar.',
       image: '/images/pages/healthcare-classroom.jpg',
       imageAlt: 'Estudiantes en programa de capacitación',
     },
@@ -111,26 +108,22 @@ export const applicationEnrollmentContent: LocalizedContent = {
   en: {
     hero: {
       title: 'Program Application',
-      purpose:
-        'Use this page to apply and submit the information required for review.',
+      purpose: 'Use this page to apply and submit the information required for review.',
       image: '/images/pages/apply-employer-hero.jpg',
       imageAlt: 'Application form',
     },
     sections: {
       requiredInformation: {
         title: 'Required Information',
-        content:
-          'Complete all sections accurately. Missing information may delay review.',
+        content: 'Complete all sections accurately. Missing information may delay review.',
       },
       afterYouApply: {
         title: 'What Happens After You Apply',
-        content:
-          'Your application is reviewed by staff. You will see updates in your dashboard.',
+        content: 'Your application is reviewed by staff. You will see updates in your dashboard.',
       },
       needHelp: {
         title: 'Need Help?',
-        content:
-          'If you are unsure about a question, contact support before submitting.',
+        content: 'If you are unsure about a question, contact support before submitting.',
       },
     },
     cta: {
@@ -143,16 +136,14 @@ export const applicationEnrollmentContent: LocalizedContent = {
   es: {
     hero: {
       title: 'Solicitud del programa',
-      purpose:
-        'Usa esta página para aplicar y enviar la información requerida.',
+      purpose: 'Usa esta página para aplicar y enviar la información requerida.',
       image: '/images/pages/apply-employer-hero.jpg',
       imageAlt: 'Formulario de solicitud',
     },
     sections: {
       afterYouApply: {
         title: 'Después de aplicar',
-        content:
-          'El personal revisará tu solicitud y verás actualizaciones en tu panel.',
+        content: 'El personal revisará tu solicitud y verás actualizaciones en tu panel.',
       },
     },
     cta: {
@@ -178,14 +169,12 @@ export const dashboardPortalContent: LocalizedContent = {
     sections: {
       myStatus: {
         title: 'My Status',
-        content:
-          'This section reflects your real application and enrollment status.',
+        content: 'This section reflects your real application and enrollment status.',
       },
       myTasks: {
         title: 'My Tasks',
         content: 'Tasks appear here only when action is required from you.',
-        emptyState:
-          'No tasks appear because there are no actions required at this time.',
+        emptyState: 'No tasks appear because there are no actions required at this time.',
       },
       messages: {
         title: 'Messages',
@@ -196,8 +185,7 @@ export const dashboardPortalContent: LocalizedContent = {
       progress: {
         title: 'My Progress',
         content: 'Track your completion status and hours logged.',
-        emptyState:
-          'Your progress will appear here after you enroll in a program.',
+        emptyState: 'Your progress will appear here after you enroll in a program.',
       },
     },
     cta: {
@@ -217,8 +205,7 @@ export const dashboardPortalContent: LocalizedContent = {
     sections: {
       myTasks: {
         title: 'Mis tareas',
-        emptyState:
-          'No hay tareas porque no se requiere acción en este momento.',
+        emptyState: 'No hay tareas porque no se requiere acción en este momento.',
       },
       messages: {
         title: 'Mensajes',
@@ -242,22 +229,19 @@ export const directoryListingContent: LocalizedContent = {
   en: {
     hero: {
       title: 'Available Programs',
-      purpose:
-        'Browse and filter programs that are currently open for enrollment.',
+      purpose: 'Browse and filter programs that are currently open for enrollment.',
       image: '/images/pages/comp-universal-hero.jpg',
       imageAlt: 'Program directory',
     },
     sections: {
       filters: {
         title: 'Filters',
-        content:
-          'Use filters to narrow results by location, eligibility, or program type.',
+        content: 'Use filters to narrow results by location, eligibility, or program type.',
       },
       results: {
         title: 'Results',
         content: 'Select a program to view full details and apply.',
-        emptyState:
-          'No programs match your current filters. Try adjusting your search criteria.',
+        emptyState: 'No programs match your current filters. Try adjusting your search criteria.',
       },
     },
     cta: {
@@ -297,8 +281,7 @@ export const policyComplianceContent: LocalizedContent = {
   en: {
     hero: {
       title: 'Policy Information',
-      purpose:
-        'This page explains policies that apply to your use of this platform.',
+      purpose: 'This page explains policies that apply to your use of this platform.',
       image: '/images/pages/for-employers-page-1.jpg',
       imageAlt: 'Policy documentation',
     },
@@ -309,13 +292,11 @@ export const policyComplianceContent: LocalizedContent = {
       },
       yourResponsibilities: {
         title: 'Your Responsibilities',
-        content:
-          'By using this platform, you agree to follow these guidelines.',
+        content: 'By using this platform, you agree to follow these guidelines.',
       },
       contact: {
         title: 'Contact',
-        content:
-          'If you have questions, contact us using the information provided.',
+        content: 'If you have questions, contact us using the information provided.',
       },
     },
     cta: {
@@ -326,8 +307,7 @@ export const policyComplianceContent: LocalizedContent = {
   es: {
     hero: {
       title: 'Información de políticas',
-      purpose:
-        'Esta página explica las políticas que aplican al uso de la plataforma.',
+      purpose: 'Esta página explica las políticas que aplican al uso de la plataforma.',
       image: '/images/pages/business-sector.jpg',
       imageAlt: 'Documentación de políticas',
     },
@@ -345,8 +325,7 @@ export const partnerEmployerContent: LocalizedContent = {
   en: {
     hero: {
       title: 'Partner Information',
-      purpose:
-        'This page explains partnership opportunities and how to get started.',
+      purpose: 'This page explains partnership opportunities and how to get started.',
       image: '/images/partners/hero.jpg',
       imageAlt: 'Partnership opportunities',
     },
@@ -358,13 +337,11 @@ export const partnerEmployerContent: LocalizedContent = {
       },
       howToPartner: {
         title: 'How to Partner',
-        content:
-          'Review requirements and submit a partnership inquiry using the form below.',
+        content: 'Review requirements and submit a partnership inquiry using the form below.',
       },
       contact: {
         title: 'Contact',
-        content:
-          'For questions about partnership, use the contact information provided.',
+        content: 'For questions about partnership, use the contact information provided.',
       },
     },
     cta: {
@@ -377,8 +354,7 @@ export const partnerEmployerContent: LocalizedContent = {
   es: {
     hero: {
       title: 'Información para socios',
-      purpose:
-        'Esta página explica oportunidades de asociación y cómo comenzar.',
+      purpose: 'Esta página explica oportunidades de asociación y cómo comenzar.',
       image: '/images/partners/hero.jpg',
       imageAlt: 'Oportunidades de asociación',
     },
@@ -398,8 +374,7 @@ export const authAccountContent: LocalizedContent = {
   en: {
     hero: {
       title: 'Account Access',
-      purpose:
-        'Use this page to log in, create an account, or manage your profile.',
+      purpose: 'Use this page to log in, create an account, or manage your profile.',
       image: '/images/pages/healthcare-grad.jpg',
       imageAlt: 'Account login',
     },
@@ -427,8 +402,7 @@ export const authAccountContent: LocalizedContent = {
   es: {
     hero: {
       title: 'Acceso a cuenta',
-      purpose:
-        'Usa esta página para iniciar sesión, crear una cuenta o administrar tu perfil.',
+      purpose: 'Usa esta página para iniciar sesión, crear una cuenta o administrar tu perfil.',
       image: '/images/pages/career-counseling.jpg',
       imageAlt: 'Inicio de sesión',
     },
@@ -448,8 +422,7 @@ export const reportingAdminContent: LocalizedContent = {
   en: {
     hero: {
       title: 'Administrative Dashboard',
-      purpose:
-        'This page provides tools for reporting, management, and operations.',
+      purpose: 'This page provides tools for reporting, management, and operations.',
       image: '/images/pages/technology-sector.jpg',
       imageAlt: 'Administrative dashboard',
     },
@@ -477,8 +450,7 @@ export const reportingAdminContent: LocalizedContent = {
   es: {
     hero: {
       title: 'Panel administrativo',
-      purpose:
-        'Esta página proporciona herramientas para informes, gestión y operaciones.',
+      purpose: 'Esta página proporciona herramientas para informes, gestión y operaciones.',
       image: '/images/pages/cybersecurity-screen.jpg',
       imageAlt: 'Panel administrativo',
     },
@@ -505,13 +477,11 @@ export const marketingInformationalContent: LocalizedContent = {
     sections: {
       mission: {
         title: 'Our Mission',
-        content:
-          'We connect individuals with training and employment opportunities.',
+        content: 'We connect individuals with training and employment opportunities.',
       },
       howItWorks: {
         title: 'How It Works',
-        content:
-          'Browse programs, apply, complete training, and access job placement support.',
+        content: 'Browse programs, apply, complete training, and access job placement support.',
       },
       contact: {
         title: 'Contact Us',
@@ -555,13 +525,11 @@ export const systemUtilityContent: LocalizedContent = {
     sections: {
       whatHappened: {
         title: 'What Happened',
-        content:
-          'This page may have been removed, renamed, or is temporarily unavailable.',
+        content: 'This page may have been removed, renamed, or is temporarily unavailable.',
       },
       whatToDo: {
         title: 'What to Do Next',
-        content:
-          'Return to the homepage or use the navigation menu to find what you need.',
+        content: 'Return to the homepage or use the navigation menu to find what you need.',
       },
     },
     cta: {
@@ -593,8 +561,7 @@ export const systemUtilityContent: LocalizedContent = {
 export const universalTooltips = {
   en: {
     whyDoISeeThis: 'This shows what is required for your next step.',
-    whyIsThisEmpty:
-      'This will update after you complete the step listed above.',
+    whyIsThisEmpty: 'This will update after you complete the step listed above.',
     whatHappensIfISubmit: 'Your information is saved and reviewed by staff.',
     whyCantIAccessThis: 'This unlocks after required steps are completed.',
     whoCanSeeThis: 'Only you and authorized staff working with your program.',
@@ -603,10 +570,8 @@ export const universalTooltips = {
     whyDoISeeThis: 'Muestra lo que se requiere para el siguiente paso.',
     whyIsThisEmpty: 'Se actualizará después de completar el paso indicado.',
     whatHappensIfISubmit: 'Tu información se guarda y el personal la revisa.',
-    whyCantIAccessThis:
-      'Se desbloquea después de completar los pasos requeridos.',
-    whoCanSeeThis:
-      'Solo tú y el personal autorizado que trabaja con tu programa.',
+    whyCantIAccessThis: 'Se desbloquea después de completar los pasos requeridos.',
+    whoCanSeeThis: 'Solo tú y el personal autorizado que trabaja con tu programa.',
   },
 };
 
@@ -623,7 +588,7 @@ export const globalGuarantee = {
  */
 export function getArchetypeContent(
   archetype: string,
-  locale: 'en' | 'es' = 'en'
+  locale: 'en' | 'es' = 'en',
 ): ArchetypeContent {
   const contentMap: Record<string, LocalizedContent> = {
     program_training_detail: programTrainingContent,

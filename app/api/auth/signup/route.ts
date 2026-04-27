@@ -20,7 +20,7 @@ const _POST = withErrorHandling(async (request: NextRequest) => {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  
+
   // Parse request body
   const body = await request.json();
   const { email, password, firstName, lastName } = body;
@@ -37,7 +37,7 @@ const _POST = withErrorHandling(async (request: NextRequest) => {
       ErrorCode.VAL_OUT_OF_RANGE,
       400,
       passwordCheck.errors[0] || 'Password does not meet requirements',
-      { errors: passwordCheck.errors }
+      { errors: passwordCheck.errors },
     );
   }
 
@@ -74,7 +74,7 @@ const _POST = withErrorHandling(async (request: NextRequest) => {
   if (!data.user.email_confirmed_at) {
     const adminClient = createAdminClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
     );
     await adminClient.auth.admin.updateUserById(data.user.id, { email_confirm: true });
   }

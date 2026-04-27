@@ -40,24 +40,33 @@ export type ProgramHeroBannerConfig = HeroBannerConfig & {
   trustIndicators: string[];
   transcript: string;
 } & (
-  | { salaryExempt?: false; salaryRangeLabel: string }
-  | { salaryExempt: true; salaryNote: string; salaryRangeLabel?: string }
-);
+    | { salaryExempt?: false; salaryRangeLabel: string }
+    | { salaryExempt: true; salaryNote: string; salaryRangeLabel?: string }
+  );
 
 function getData(): Record<string, HeroBannerConfig> {
   return loadJsonOnce<Record<string, HeroBannerConfig>>('hero-banners.json');
 }
 
-const heroBanners: Record<string, HeroBannerConfig> = new Proxy({} as Record<string, HeroBannerConfig>, {
-  get(_t, key: string) { return getData()[key]; },
-  ownKeys() { return Object.keys(getData()); },
-  has(_t, key: string) { return key in getData(); },
-  getOwnPropertyDescriptor(_t, key: string) {
-    const d = getData();
-    if (key in d) return { configurable: true, enumerable: true, value: d[key] };
-    return undefined;
+const heroBanners: Record<string, HeroBannerConfig> = new Proxy(
+  {} as Record<string, HeroBannerConfig>,
+  {
+    get(_t, key: string) {
+      return getData()[key];
+    },
+    ownKeys() {
+      return Object.keys(getData());
+    },
+    has(_t, key: string) {
+      return key in getData();
+    },
+    getOwnPropertyDescriptor(_t, key: string) {
+      const d = getData();
+      if (key in d) return { configurable: true, enumerable: true, value: d[key] };
+      return undefined;
+    },
   },
-});
+);
 
 export default heroBanners;
 
@@ -68,12 +77,17 @@ export const internalProgramHeroBanners: Record<string, ProgramHeroBannerConfig>
       const e = getData()[key] as any;
       return e?.credentialLabel ? e : undefined;
     },
-    ownKeys() { return Object.keys(getData()).filter(k => (getData()[k] as any)?.credentialLabel); },
-    has(_t, key: string) { const e = getData()[key] as any; return !!e?.credentialLabel; },
+    ownKeys() {
+      return Object.keys(getData()).filter((k) => (getData()[k] as any)?.credentialLabel);
+    },
+    has(_t, key: string) {
+      const e = getData()[key] as any;
+      return !!e?.credentialLabel;
+    },
     getOwnPropertyDescriptor(_t, key: string) {
       const e = getData()[key] as any;
       if (e?.credentialLabel) return { configurable: true, enumerable: true, value: e };
       return undefined;
     },
-  }
+  },
 );

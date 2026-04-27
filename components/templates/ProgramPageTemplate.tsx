@@ -3,18 +3,17 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
-import { 
-  
-  XCircle, 
-  Clock, 
-  DollarSign, 
-  Award, 
-  Users, 
+import {
+  XCircle,
+  Clock,
+  DollarSign,
+  Award,
+  Users,
   MapPin,
   Calendar,
   ArrowRight,
   Phone,
-  FileText
+  FileText,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -24,31 +23,31 @@ export interface ProgramPageProps {
   subtitle?: string;
   description: string;
   slug: string;
-  
+
   // Hero
   heroImage: string;
   heroVideo?: string;
   badges: { text: string; color: string }[];
-  
+
   // At a Glance
   duration: string;
   format: string; // "In-Person", "Hybrid", "Online"
   location?: string;
   schedule?: string;
-  
+
   // Pricing
   price: number;
   paymentPlan?: string;
   fundingAvailable?: boolean;
   fundingTypes?: string[];
-  
+
   // What's Included / Not Included
   included: string[];
   notIncluded?: string[];
-  
+
   // Requirements
   requirements: string[];
-  
+
   // Outcomes
   outcomes: {
     credential?: string;
@@ -56,7 +55,7 @@ export interface ProgramPageProps {
     careerPaths?: string[];
     averageSalary?: string;
   };
-  
+
   // CTAs
   enrollLink?: string;
   applyLink?: string;
@@ -87,8 +86,6 @@ export function ProgramPageTemplate({
   applyLink,
   contactPhone = '(317) 314-3757',
 }: ProgramPageProps) {
-
-
   return (
     <div className="min-h-screen bg-white">
       {/* Breadcrumbs */}
@@ -107,13 +104,8 @@ export function ProgramPageTemplate({
             className="w-full h-full object-cover"
           />
         ) : (
-          <Image
-            src={heroImage}
-            alt={title}
-            fill
-            className="object-cover"
-            priority
-           sizes="100vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image src={heroImage} alt={title} fill className="object-cover" priority sizes="100vw" />
         )}
       </section>
 
@@ -184,7 +176,9 @@ export function ProgramPageTemplate({
             <div className="text-center p-4">
               <Award className="w-8 h-8 text-purple-600 mx-auto mb-2" />
               <p className="text-sm text-slate-700">Credential</p>
-              <p className="text-lg font-bold text-slate-900">{outcomes.credential || 'Certificate'}</p>
+              <p className="text-lg font-bold text-slate-900">
+                {outcomes.credential || 'Certificate'}
+              </p>
             </div>
           </div>
         </div>
@@ -197,7 +191,9 @@ export function ProgramPageTemplate({
             <div className="flex flex-col md:flex-row items-center justify-between gap-4">
               <div className="text-white">
                 <p className="font-bold text-lg">Funding May Be Available</p>
-                <p className="text-white">Eligible participants may qualify for {fundingTypes.join(', ')} funding</p>
+                <p className="text-white">
+                  Eligible participants may qualify for {fundingTypes.join(', ')} funding
+                </p>
               </div>
               <Link
                 href="/funding"
@@ -214,7 +210,7 @@ export function ProgramPageTemplate({
       <section className="py-16">
         <div className="mx-auto max-w-6xl px-6">
           <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">What's Included</h2>
-          
+
           <div className="grid md:grid-cols-2 gap-8">
             {/* Included */}
             <div className="bg-brand-green-50 border-2 border-brand-green-200 rounded-2xl p-8">
@@ -257,7 +253,7 @@ export function ProgramPageTemplate({
       <section className="py-16">
         <div className="mx-auto max-w-6xl px-6">
           <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">Requirements</h2>
-          
+
           <div className="max-w-3xl mx-auto">
             <div className="bg-purple-50 border-2 border-purple-200 rounded-2xl p-8">
               <ul className="space-y-4">
@@ -286,7 +282,9 @@ export function ProgramPageTemplate({
                 <h3 className="text-xl font-bold mb-4 text-slate-900">Certifications</h3>
                 <ul className="space-y-2">
                   {outcomes.certifications.map((cert, i) => (
-                    <li key={i} className="text-slate-600">• {cert}</li>
+                    <li key={i} className="text-slate-600">
+                      • {cert}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -297,7 +295,9 @@ export function ProgramPageTemplate({
                 <h3 className="text-xl font-bold mb-4 text-slate-900">Career Paths</h3>
                 <ul className="space-y-2">
                   {outcomes.careerPaths.map((path, i) => (
-                    <li key={i} className="text-slate-600">• {path}</li>
+                    <li key={i} className="text-slate-600">
+                      • {path}
+                    </li>
                   ))}
                 </ul>
               </div>
@@ -319,13 +319,13 @@ export function ProgramPageTemplate({
         <div className="mx-auto max-w-4xl px-6 text-center">
           <h2 className="text-3xl font-bold text-slate-900 mb-4">Investment</h2>
           <p className="text-slate-700 mb-8">Transparent pricing with flexible options</p>
-          
+
           <div className="border border-slate-200 rounded-2xl p-8">
             <p className="text-slate-500 text-sm uppercase tracking-wide mb-2">Program Tuition</p>
-            <p className="text-5xl font-black mb-4 text-slate-900">${price.toLocaleString('en-US')}</p>
-            {paymentPlan && (
-              <p className="text-slate-600 mb-6">{paymentPlan}</p>
-            )}
+            <p className="text-5xl font-black mb-4 text-slate-900">
+              ${price.toLocaleString('en-US')}
+            </p>
+            {paymentPlan && <p className="text-slate-600 mb-6">{paymentPlan}</p>}
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href={enrollLink || `/enroll/${slug}`}

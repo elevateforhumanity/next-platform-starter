@@ -28,10 +28,10 @@ interface ProductCardProps {
 export function ProductCard({ product, variant = 'default' }: ProductCardProps) {
   const [isWishlisted, setIsWishlisted] = useState(false);
   const Icon = product.icon;
-  
+
   if (variant === 'compact') {
     return (
-      <Link 
+      <Link
         href={`/store/apps/${product.slug}`}
         className="group bg-white rounded-xl border hover:shadow-lg transition-all duration-300 overflow-hidden"
       >
@@ -45,17 +45,23 @@ export function ProductCard({ product, variant = 'default' }: ProductCardProps) 
             loading="lazy"
           />
           {product.badge && (
-            <span className={`absolute top-3 left-3 px-2 py-1 text-xs font-bold rounded-full ${
-              product.badge === 'Best Seller' ? 'bg-brand-orange-500 text-white' :
-              product.badge === 'New' ? 'bg-brand-green-500 text-white' :
-              'bg-brand-blue-500 text-white'
-            }`}>
+            <span
+              className={`absolute top-3 left-3 px-2 py-1 text-xs font-bold rounded-full ${
+                product.badge === 'Best Seller'
+                  ? 'bg-brand-orange-500 text-white'
+                  : product.badge === 'New'
+                    ? 'bg-brand-green-500 text-white'
+                    : 'bg-brand-blue-500 text-white'
+              }`}
+            >
               {product.badge}
             </span>
           )}
         </div>
         <div className="p-4">
-          <h3 className="font-bold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition">{product.name}</h3>
+          <h3 className="font-bold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition">
+            {product.name}
+          </h3>
           <div className="flex items-center gap-2 mb-2">
             <div className="flex items-center gap-0.5">
               <Star className="w-4 h-4 fill-yellow-400 text-yellow-400" />
@@ -88,11 +94,15 @@ export function ProductCard({ product, variant = 'default' }: ProductCardProps) 
             loading="lazy"
           />
           {product.badge && (
-            <span className={`absolute top-3 left-3 px-2 py-1 text-xs font-bold rounded-full ${
-              product.badge === 'Best Seller' ? 'bg-brand-orange-500 text-white' :
-              product.badge === 'New' ? 'bg-brand-green-500 text-white' :
-              'bg-brand-blue-500 text-white'
-            }`}>
+            <span
+              className={`absolute top-3 left-3 px-2 py-1 text-xs font-bold rounded-full ${
+                product.badge === 'Best Seller'
+                  ? 'bg-brand-orange-500 text-white'
+                  : product.badge === 'New'
+                    ? 'bg-brand-green-500 text-white'
+                    : 'bg-brand-blue-500 text-white'
+              }`}
+            >
               {product.badge}
             </span>
           )}
@@ -100,11 +110,16 @@ export function ProductCard({ product, variant = 'default' }: ProductCardProps) 
         <div className="flex-1 p-5 flex flex-col">
           <div className="flex items-start justify-between mb-2">
             <div>
-              <h3 className="font-bold text-lg text-slate-900 group-hover:text-brand-blue-600 transition">{product.name}</h3>
+              <h3 className="font-bold text-lg text-slate-900 group-hover:text-brand-blue-600 transition">
+                {product.name}
+              </h3>
               <p className="text-brand-blue-600 text-sm font-medium">{product.tagline}</p>
             </div>
-            <button 
-              onClick={(e) => { e.preventDefault(); setIsWishlisted(!isWishlisted); }}
+            <button
+              onClick={(e) => {
+                e.preventDefault();
+                setIsWishlisted(!isWishlisted);
+              }}
               className={`p-2 rounded-lg transition ${isWishlisted ? 'text-brand-red-500' : 'text-slate-700 hover:text-slate-700'}`}
             >
               <Heart className={`w-5 h-5 ${isWishlisted ? 'fill-current' : ''}`} />
@@ -113,8 +128,11 @@ export function ProductCard({ product, variant = 'default' }: ProductCardProps) 
           <p className="text-slate-700 text-sm mb-3 line-clamp-2">{product.description}</p>
           <div className="flex items-center gap-4 mb-3">
             <div className="flex items-center gap-1">
-              {[1,2,3,4,5].map(i => (
-                <Star key={i} className={`w-4 h-4 ${i <= Math.floor(product.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-slate-700'}`} />
+              {[1, 2, 3, 4, 5].map((i) => (
+                <Star
+                  key={i}
+                  className={`w-4 h-4 ${i <= Math.floor(product.rating) ? 'fill-yellow-400 text-yellow-400' : 'text-slate-700'}`}
+                />
               ))}
               <span className="text-sm font-medium ml-1">{product.rating}</span>
             </div>
@@ -124,7 +142,9 @@ export function ProductCard({ product, variant = 'default' }: ProductCardProps) 
             <div>
               <span className="text-2xl font-black text-slate-900">${product.price}</span>
               {product.originalPrice && (
-                <span className="text-slate-700 line-through text-sm ml-2">${product.originalPrice}</span>
+                <span className="text-slate-700 line-through text-sm ml-2">
+                  ${product.originalPrice}
+                </span>
               )}
               <span className="text-slate-700 text-sm">/mo</span>
             </div>
@@ -162,32 +182,41 @@ export function ProductCard({ product, variant = 'default' }: ProductCardProps) 
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
           loading="lazy"
         />
-        
+
         {/* Badge */}
         {product.badge && (
           <div className="absolute top-4 left-4">
-            <span className={`px-3 py-1 text-xs font-bold rounded-full ${
-              product.badge === 'Best Seller' ? 'bg-brand-orange-500 text-white' :
-              product.badge === 'New' ? 'bg-brand-green-500 text-white' :
-              'bg-brand-blue-500 text-white'
-            }`}>
+            <span
+              className={`px-3 py-1 text-xs font-bold rounded-full ${
+                product.badge === 'Best Seller'
+                  ? 'bg-brand-orange-500 text-white'
+                  : product.badge === 'New'
+                    ? 'bg-brand-green-500 text-white'
+                    : 'bg-brand-blue-500 text-white'
+              }`}
+            >
               {product.badge}
             </span>
           </div>
         )}
-        
+
         {/* Wishlist */}
-        <button 
-          onClick={(e) => { e.preventDefault(); setIsWishlisted(!isWishlisted); }}
+        <button
+          onClick={(e) => {
+            e.preventDefault();
+            setIsWishlisted(!isWishlisted);
+          }}
           className={`absolute top-4 right-4 w-10 h-10 rounded-full flex items-center justify-center transition ${
-            isWishlisted ? 'bg-brand-red-500 text-white' : 'bg-white/90 text-slate-700 hover:bg-white'
+            isWishlisted
+              ? 'bg-brand-red-500 text-white'
+              : 'bg-white/90 text-slate-700 hover:bg-white'
           }`}
         >
           <Heart className={`w-5 h-5 ${isWishlisted ? 'fill-current' : ''}`} />
         </button>
-        
+
         {/* Play Demo Button */}
-        <Link 
+        <Link
           href={`/apps/${product.slug}`}
           className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity"
         >
@@ -195,11 +224,13 @@ export function ProductCard({ product, variant = 'default' }: ProductCardProps) 
             <Play className="w-8 h-8 text-slate-900 ml-1" />
           </div>
         </Link>
-        
+
         {/* Icon & Rating */}
         <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between">
           {Icon && (
-            <div className={`w-14 h-14 bg-white rounded-xl flex items-center justify-center shadow-lg`}>
+            <div
+              className={`w-14 h-14 bg-white rounded-xl flex items-center justify-center shadow-lg`}
+            >
               <Icon className={`w-8 h-8 text-${product.color || 'blue'}-600`} />
             </div>
           )}
@@ -210,13 +241,15 @@ export function ProductCard({ product, variant = 'default' }: ProductCardProps) 
           </div>
         </div>
       </div>
-      
+
       {/* Content */}
       <div className="p-6">
-        <h3 className="text-xl font-bold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition">{product.name}</h3>
+        <h3 className="text-xl font-bold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition">
+          {product.name}
+        </h3>
         <p className="text-brand-blue-600 font-medium text-sm mb-3">{product.tagline}</p>
         <p className="text-slate-700 text-sm mb-4 line-clamp-2">{product.description}</p>
-        
+
         {/* Features */}
         {product.features && product.features.length > 0 && (
           <div className="grid grid-cols-2 gap-2 mb-6">
@@ -228,7 +261,7 @@ export function ProductCard({ product, variant = 'default' }: ProductCardProps) 
             ))}
           </div>
         )}
-        
+
         {/* Price & CTA */}
         <div className="flex items-center justify-between pt-4 border-t">
           <div>

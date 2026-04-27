@@ -9,7 +9,8 @@ export const metadata: Metadata = {
   alternates: { canonical: 'https://www.supersonicfastermoney.com/tax/rise-up-foundation' },
   openGraph: {
     title: 'Rise Up Foundation — Free VITA Tax Help',
-    description: 'IRS-certified volunteers prepare your taxes for free. No income limit surprises — see if you qualify.',
+    description:
+      'IRS-certified volunteers prepare your taxes for free. No income limit surprises — see if you qualify.',
     url: 'https://www.supersonicfastermoney.com/tax/rise-up-foundation',
     type: 'website',
     images: [{ url: '/images/pages/subpage-tax-hero.jpg', width: 1200, height: 630 }],
@@ -34,7 +35,7 @@ const SERVICES = [
   {
     title: 'Required Documents',
     description:
-      'Know exactly what to bring before your appointment. You will need photo ID, Social Security cards for all household members, all W-2 and 1099 forms, last year\'s return if available, and bank account information for direct deposit.',
+      "Know exactly what to bring before your appointment. You will need photo ID, Social Security cards for all household members, all W-2 and 1099 forms, last year's return if available, and bank account information for direct deposit.",
     image: '/images/pages/admin-documents-hero.jpg',
     href: '/tax/rise-up-foundation/documents',
   },
@@ -95,7 +96,6 @@ const STEPS = [
 export default function RiseUpFoundationPage() {
   return (
     <div className="min-h-screen bg-white">
-
       {/* HERO — full bleed, no text overlay */}
       <section className="relative w-full h-[75vh] min-h-[500px]">
         <Image
@@ -115,14 +115,14 @@ export default function RiseUpFoundationPage() {
             Rise Up Foundation
           </h1>
           <p className="text-xl text-slate-600 max-w-3xl mx-auto mb-4 leading-relaxed">
-            Free tax preparation for qualifying individuals and families through the IRS
-            Volunteer Income Tax Assistance (VITA) program. IRS-certified volunteers
-            prepare your complete federal and state return at no cost.
+            Free tax preparation for qualifying individuals and families through the IRS Volunteer
+            Income Tax Assistance (VITA) program. IRS-certified volunteers prepare your complete
+            federal and state return at no cost.
           </p>
           <p className="text-slate-500 max-w-2xl mx-auto mb-10 leading-relaxed">
-            Rise Up Foundation is a 501(c)(3) nonprofit organization operating independently
-            from Supersonic Fast Cash paid tax services. All VITA services are provided by
-            trained volunteers at zero cost to qualifying taxpayers.
+            Rise Up Foundation is a 501(c)(3) nonprofit organization operating independently from
+            Supersonic Fast Cash paid tax services. All VITA services are provided by trained
+            volunteers at zero cost to qualifying taxpayers.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -146,24 +146,21 @@ export default function RiseUpFoundationPage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div>
-              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6">
-                What Is VITA?
-              </h2>
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6">What Is VITA?</h2>
               <p className="text-lg text-slate-700 mb-5 leading-relaxed">
-                The IRS Volunteer Income Tax Assistance program has helped millions of
-                Americans file their taxes for free since 1971. Volunteers are trained
-                and certified by the IRS to prepare basic to moderately complex returns.
+                The IRS Volunteer Income Tax Assistance program has helped millions of Americans
+                file their taxes for free since 1971. Volunteers are trained and certified by the
+                IRS to prepare basic to moderately complex returns.
               </p>
               <p className="text-slate-600 mb-5 leading-relaxed">
-                Rise Up Foundation operates VITA sites in Indianapolis and surrounding
-                communities. Every return is quality-reviewed by a second certified
-                volunteer before filing. There are no hidden fees, no upsells, and no
-                pressure to purchase any product.
+                Rise Up Foundation operates VITA sites in Indianapolis and surrounding communities.
+                Every return is quality-reviewed by a second certified volunteer before filing.
+                There are no hidden fees, no upsells, and no pressure to purchase any product.
               </p>
               <p className="text-slate-600 mb-8 leading-relaxed">
-                In addition to free filing, our volunteers screen every client for the
-                Earned Income Tax Credit, Child Tax Credit, and other credits that
-                many taxpayers miss when filing on their own.
+                In addition to free filing, our volunteers screen every client for the Earned Income
+                Tax Credit, Child Tax Credit, and other credits that many taxpayers miss when filing
+                on their own.
               </p>
               <Link
                 href="/tax/rise-up-foundation/free-tax-help"
@@ -191,8 +188,8 @@ export default function RiseUpFoundationPage() {
           <div className="mb-14">
             <h2 className="text-4xl font-black text-slate-900 mb-4">What We Offer</h2>
             <p className="text-xl text-slate-600 max-w-2xl leading-relaxed">
-              Free tax preparation, site locations, volunteer opportunities, and
-              everything you need to get your taxes done at no cost.
+              Free tax preparation, site locations, volunteer opportunities, and everything you need
+              to get your taxes done at no cost.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -211,9 +208,7 @@ export default function RiseUpFoundationPage() {
                   />
                 </div>
                 <div className="p-6 flex flex-col flex-1 bg-white">
-                  <h3 className="text-xl font-bold text-slate-900 mb-3">
-                    {service.title}
-                  </h3>
+                  <h3 className="text-xl font-bold text-slate-900 mb-3">{service.title}</h3>
                   <p className="text-slate-600 text-sm leading-relaxed flex-1">
                     {service.description}
                   </p>
@@ -236,8 +231,7 @@ export default function RiseUpFoundationPage() {
           <div className="mb-14">
             <h2 className="text-4xl font-black text-slate-900 mb-4">How It Works</h2>
             <p className="text-xl text-slate-600 max-w-2xl leading-relaxed">
-              From eligibility check to refund — here is what to expect when you use
-              a VITA site.
+              From eligibility check to refund — here is what to expect when you use a VITA site.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
@@ -277,24 +271,21 @@ export default function RiseUpFoundationPage() {
               />
             </div>
             <div>
-              <h2 className="text-4xl font-black text-slate-900 mb-6">
-                Become a VITA Volunteer
-              </h2>
+              <h2 className="text-4xl font-black text-slate-900 mb-6">Become a VITA Volunteer</h2>
               <p className="text-lg text-slate-600 mb-5 leading-relaxed">
-                No tax background required. Rise Up Foundation provides complete training
-                through the IRS Link & Learn certification program. You will learn
-                individual tax law, how to conduct intake interviews, and quality review
-                procedures — all online at your own pace.
+                No tax background required. Rise Up Foundation provides complete training through
+                the IRS Link & Learn certification program. You will learn individual tax law, how
+                to conduct intake interviews, and quality review procedures — all online at your own
+                pace.
               </p>
               <p className="text-slate-600 mb-5 leading-relaxed">
-                Volunteers commit to 4–6 hours per week during tax season, which runs
-                from late January through April 15. Sites are located throughout
-                Indianapolis at community centers, libraries, and partner organizations.
+                Volunteers commit to 4–6 hours per week during tax season, which runs from late
+                January through April 15. Sites are located throughout Indianapolis at community
+                centers, libraries, and partner organizations.
               </p>
               <p className="text-slate-600 mb-8 leading-relaxed">
-                Volunteering with VITA counts toward community service hours and provides
-                hands-on experience that supports careers in accounting, finance, and
-                social services.
+                Volunteering with VITA counts toward community service hours and provides hands-on
+                experience that supports careers in accounting, finance, and social services.
               </p>
               <div className="flex flex-col sm:flex-row gap-4">
                 <Link
@@ -329,15 +320,13 @@ export default function RiseUpFoundationPage() {
               />
             </div>
             <div>
-              <h3 className="text-xl font-bold text-slate-900 mb-3">
-                About Rise Up Foundation
-              </h3>
+              <h3 className="text-xl font-bold text-slate-900 mb-3">About Rise Up Foundation</h3>
               <p className="text-slate-600 text-sm leading-relaxed">
-                Rise Up Foundation is a 501(c)(3) nonprofit organization that operates
-                independently from Supersonic Fast Cash paid tax preparation services.
-                VITA services are funded through IRS grants and community partnerships.
-                All services are provided by IRS-certified volunteers at zero cost to
-                qualifying taxpayers. No products are sold at VITA sites.
+                Rise Up Foundation is a 501(c)(3) nonprofit organization that operates independently
+                from Supersonic Fast Cash paid tax preparation services. VITA services are funded
+                through IRS grants and community partnerships. All services are provided by
+                IRS-certified volunteers at zero cost to qualifying taxpayers. No products are sold
+                at VITA sites.
               </p>
             </div>
           </div>
@@ -359,8 +348,8 @@ export default function RiseUpFoundationPage() {
               Get Your Taxes Done Free
             </h2>
             <p className="text-xl text-emerald-100 mb-8 leading-relaxed">
-              IRS-certified volunteers. No cost. No hidden fees. Find a site near you
-              or schedule an appointment today.
+              IRS-certified volunteers. No cost. No hidden fees. Find a site near you or schedule an
+              appointment today.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -384,14 +373,13 @@ export default function RiseUpFoundationPage() {
       <section className="py-6 border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <p className="text-xs text-slate-500 leading-relaxed">
-            Rise Up Foundation VITA services are provided by IRS-certified volunteers.
-            Income eligibility limits apply. Not all return types are eligible for VITA preparation.
-            Rise Up Foundation is a 501(c)(3) nonprofit organization and operates independently
-            from Supersonic Fast Cash paid tax preparation services.
+            Rise Up Foundation VITA services are provided by IRS-certified volunteers. Income
+            eligibility limits apply. Not all return types are eligible for VITA preparation. Rise
+            Up Foundation is a 501(c)(3) nonprofit organization and operates independently from
+            Supersonic Fast Cash paid tax preparation services.
           </p>
         </div>
       </section>
-
     </div>
   );
 }

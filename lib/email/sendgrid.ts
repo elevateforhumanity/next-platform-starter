@@ -31,20 +31,31 @@ export async function sendEmail(options: EmailOptions) {
     process.env.EMAIL_FROM ||
     process.env.MAIL_FROM ||
     'Elevate for Humanity <info@elevateforhumanity.org>';
-  const REPLY_TO_EMAIL =
-    process.env.REPLY_TO_EMAIL || 'info@elevateforhumanity.org';
+  const REPLY_TO_EMAIL = process.env.REPLY_TO_EMAIL || 'info@elevateforhumanity.org';
 
   const from = options.from || FROM_EMAIL;
   const replyTo = options.replyTo ?? REPLY_TO_EMAIL;
   const toArr = Array.isArray(options.to) ? options.to : [options.to];
-  const bccArr = options.bcc ? (Array.isArray(options.bcc) ? options.bcc : [options.bcc]) : undefined;
+  const bccArr = options.bcc
+    ? Array.isArray(options.bcc)
+      ? options.bcc
+      : [options.bcc]
+    : undefined;
 
   return sendViaSendGrid(sendgridKey, { ...options, from, replyTo, to: toArr, bcc: bccArr });
 }
 
 async function sendViaSendGrid(
   apiKey: string,
-  opts: { to: string[]; from: string; subject: string; html: string; text?: string; replyTo: string; bcc?: string[] },
+  opts: {
+    to: string[];
+    from: string;
+    subject: string;
+    html: string;
+    text?: string;
+    replyTo: string;
+    bcc?: string[];
+  },
 ) {
   try {
     const personalization: Record<string, unknown> = {
@@ -75,7 +86,11 @@ async function sendViaSendGrid(
     if (!resp.ok) {
       const data = await resp.json().catch(() => ({}));
       logger.error(`[Email] SendGrid ${resp.status}:`, data);
-      return { success: false, error: `SendGrid error ${resp.status}: ${JSON.stringify(data)}`, from: opts.from };
+      return {
+        success: false,
+        error: `SendGrid error ${resp.status}: ${JSON.stringify(data)}`,
+        from: opts.from,
+      };
     }
 
     return { success: true, data: { provider: 'sendgrid' } };
@@ -96,7 +111,7 @@ function parseSendGridFrom(from: string): { email: string; name?: string } {
  * Fire-and-forget email send. Never throws.
  */
 export async function trySendEmail(
-  options: EmailOptions
+  options: EmailOptions,
 ): Promise<{ ok: boolean; error?: string }> {
   const result = await sendEmail(options);
   return { ok: result.success, error: result.error };
@@ -149,7 +164,11 @@ export async function sendCreatorApprovalEmail(params: { email: string; name: st
   });
 }
 
-export async function sendCreatorRejectionEmail(params: { email: string; name: string; reason: string }) {
+export async function sendCreatorRejectionEmail(params: {
+  email: string;
+  name: string;
+  reason: string;
+}) {
   return sendEmail({
     to: params.email,
     subject: 'Creator Application Update',
@@ -157,7 +176,12 @@ export async function sendCreatorRejectionEmail(params: { email: string; name: s
   });
 }
 
-export async function sendPayoutConfirmationEmail(params: { email: string; name: string; amount: number; payoutId: string }) {
+export async function sendPayoutConfirmationEmail(params: {
+  email: string;
+  name: string;
+  amount: number;
+  payoutId: string;
+}) {
   return sendEmail({
     to: params.email,
     subject: `Payout Processed: $${params.amount.toFixed(2)}`,
@@ -165,7 +189,11 @@ export async function sendPayoutConfirmationEmail(params: { email: string; name:
   });
 }
 
-export async function sendProductApprovalEmail(params: { email: string; name: string; productName: string }) {
+export async function sendProductApprovalEmail(params: {
+  email: string;
+  name: string;
+  productName: string;
+}) {
   return sendEmail({
     to: params.email,
     subject: `Product Approved: ${params.productName}`,
@@ -173,7 +201,12 @@ export async function sendProductApprovalEmail(params: { email: string; name: st
   });
 }
 
-export async function sendProductRejectionEmail(params: { email: string; name: string; productName: string; reason: string }) {
+export async function sendProductRejectionEmail(params: {
+  email: string;
+  name: string;
+  productName: string;
+  reason: string;
+}) {
   return sendEmail({
     to: params.email,
     subject: `Product Needs Revision: ${params.productName}`,
@@ -181,7 +214,13 @@ export async function sendProductRejectionEmail(params: { email: string; name: s
   });
 }
 
-export async function sendMarketplaceSaleNotification(params: { creatorEmail: string; creatorName: string; productName: string; amount: number; buyerName: string }) {
+export async function sendMarketplaceSaleNotification(params: {
+  creatorEmail: string;
+  creatorName: string;
+  productName: string;
+  amount: number;
+  buyerName: string;
+}) {
   return sendEmail({
     to: params.creatorEmail,
     subject: `New Sale: ${params.productName}`,
@@ -189,7 +228,11 @@ export async function sendMarketplaceSaleNotification(params: { creatorEmail: st
   });
 }
 
-export async function sendMarketplaceApplicationEmail(params: { adminEmail: string; applicantName: string; applicantEmail: string }) {
+export async function sendMarketplaceApplicationEmail(params: {
+  adminEmail: string;
+  applicantName: string;
+  applicantEmail: string;
+}) {
   return sendEmail({
     to: params.adminEmail,
     subject: 'New Creator Application',

@@ -6,8 +6,8 @@
 // Run with:  npx ts-node scripts/check-enterprise-features.ts
 // or add an npm script as shown below.
 
-import fs from "fs";
-import path from "path";
+import fs from 'fs';
+import path from 'path';
 
 type FeatureCheck = {
   name: string;
@@ -16,111 +16,84 @@ type FeatureCheck = {
 
 const featureChecks: FeatureCheck[] = [
   {
-    name: "LMS Shell & Dashboard",
+    name: 'LMS Shell & Dashboard',
+    files: ['app/lms/layout.tsx', 'app/lms/dashboard/page.tsx'],
+  },
+  {
+    name: 'Forums (UI + API)',
+    files: ['app/lms/forums/page.tsx', 'app/api/forums/route.ts'],
+  },
+  {
+    name: 'Study Groups (UI + API)',
+    files: ['app/lms/study-groups/page.tsx', 'app/api/study-groups/route.ts'],
+  },
+  {
+    name: 'Student Analytics',
+    files: ['app/lms/analytics/page.tsx', 'app/api/analytics/student/route.ts'],
+  },
+  {
+    name: 'Admin Analytics',
+    files: ['app/admin/analytics/page.tsx', 'app/api/analytics/admin/route.ts'],
+  },
+  {
+    name: 'Course Authoring',
+    files: ['app/admin/course-authoring/page.tsx', 'app/api/courses/authoring/route.ts'],
+  },
+  {
+    name: 'AI Tutor & AI Course Builder',
     files: [
-      "app/lms/layout.tsx",
-      "app/lms/dashboard/page.tsx",
+      'app/lms/chat/page.tsx',
+      'app/admin/ai-course-builder/page.tsx',
+      'app/api/ai/course-builder/route.ts',
     ],
   },
   {
-    name: "Forums (UI + API)",
+    name: 'xAPI + Video Meta',
     files: [
-      "app/lms/forums/page.tsx",
-      "app/api/forums/route.ts",
+      'lib/xapi/xapi-client.ts',
+      'app/api/xapi/route.ts',
+      'app/api/videos/[videoId]/meta/route.ts',
     ],
   },
   {
-    name: "Study Groups (UI + API)",
+    name: 'Certificates & Verification',
     files: [
-      "app/lms/study-groups/page.tsx",
-      "app/api/study-groups/route.ts",
+      'app/verify/[certificateId]/page.tsx',
+      'app/api/verify/certificate/[certificateId]/route.ts',
     ],
   },
   {
-    name: "Student Analytics",
-    files: [
-      "app/lms/analytics/page.tsx",
-      "app/api/analytics/student/route.ts",
-    ],
+    name: 'Program Holder Portal',
+    files: ['app/program-holder/dashboard/page.tsx'],
   },
   {
-    name: "Admin Analytics",
-    files: [
-      "app/admin/analytics/page.tsx",
-      "app/api/analytics/admin/route.ts",
-    ],
+    name: 'Mobile Summary API',
+    files: ['app/api/mobile/summary/route.ts'],
   },
   {
-    name: "Course Authoring",
-    files: [
-      "app/admin/course-authoring/page.tsx",
-      "app/api/courses/authoring/route.ts",
-    ],
+    name: 'Caseload Dashboard',
+    files: ['app/api/reports/caseload/route.ts', 'app/admin/reports/caseload/page.tsx'],
   },
   {
-    name: "AI Tutor & AI Course Builder",
-    files: [
-      "app/lms/chat/page.tsx",
-      "app/admin/ai-course-builder/page.tsx",
-      "app/api/ai/course-builder/route.ts",
-    ],
-  },
-  {
-    name: "xAPI + Video Meta",
-    files: [
-      "lib/xapi/xapi-client.ts",
-      "app/api/xapi/route.ts",
-      "app/api/videos/[videoId]/meta/route.ts",
-    ],
-  },
-  {
-    name: "Certificates & Verification",
-    files: [
-      "app/verify/[certificateId]/page.tsx",
-      "app/api/verify/certificate/[certificateId]/route.ts",
-    ],
-  },
-  {
-    name: "Program Holder Portal",
-    files: [
-      "app/program-holder/dashboard/page.tsx",
-    ],
-  },
-  {
-    name: "Mobile Summary API",
-    files: [
-      "app/api/mobile/summary/route.ts",
-    ],
-  },
-  {
-    name: "Caseload Dashboard",
-    files: [
-      "app/api/reports/caseload/route.ts",
-      "app/admin/reports/caseload/page.tsx",
-    ],
-  },
-  {
-    name: "Enrollment Applications",
-    files: [
-      "app/api/applications/enrollment/route.ts",
-    ],
+    name: 'Enrollment Applications',
+    files: ['app/api/applications/enrollment/route.ts'],
   },
 ];
 
 const requiredEnv = [
-  "SUPABASE_URL",
-  "SUPABASE_ANON_KEY",
-  "SUPABASE_SERVICE_ROLE_KEY",
-  "NEXT_PUBLIC_SITE_URL",
-  "OPENAI_API_KEY",
+  'SUPABASE_URL',
+  'SUPABASE_ANON_KEY',
+  'SUPABASE_SERVICE_ROLE_KEY',
+  'NEXT_PUBLIC_SITE_URL',
+  'OPENAI_API_KEY',
 ];
 
 const optionalEnv = [
-  "XAPI_ENDPOINT",
-  "XAPI_USERNAME",
-  "XAPI_PASSWORD",
-  "RESEND_API_KEY",
-  "STRIPE_SECRET_KEY",
+  'XAPI_ENDPOINT',
+  'XAPI_USERNAME',
+  'XAPI_PASSWORD',
+  'RESEND_API_KEY',
+  'STRIPE_SECRET_KEY',
 ];
 
 function fileExists(relativePath: string): boolean {
@@ -129,7 +102,6 @@ function fileExists(relativePath: string): boolean {
 }
 
 function main() {
-
   const results = featureChecks.map((feature) => {
     const missing: string[] = [];
     for (const f of feature.files) {
@@ -137,14 +109,14 @@ function main() {
     }
     return {
       feature: feature.name,
-      status: missing.length === 0 ? "OK" : "MISSING_FILES",
+      status: missing.length === 0 ? 'OK' : 'MISSING_FILES',
       missingFiles: missing,
     };
   });
 
-  let envFile = "";
+  let envFile = '';
   try {
-    envFile = fs.readFileSync(path.join(process.cwd(), ".env.local"), "utf8");
+    envFile = fs.readFileSync(path.join(process.cwd(), '.env.local'), 'utf8');
   } catch (error) {
     // .env.local missing is not fatal, just note it
   }
@@ -157,13 +129,13 @@ function main() {
     missingOptionalEnv.push(...optionalEnv);
   } else {
     for (const key of requiredEnv) {
-      const regex = new RegExp(`^${key}=`, "m");
+      const regex = new RegExp(`^${key}=`, 'm');
       if (!regex.test(envFile)) {
         missingEnv.push(key);
       }
     }
     for (const key of optionalEnv) {
-      const regex = new RegExp(`^${key}=`, "m");
+      const regex = new RegExp(`^${key}=`, 'm');
       if (!regex.test(envFile)) {
         missingOptionalEnv.push(key);
       }
@@ -173,7 +145,7 @@ function main() {
   const summary = {
     features: results,
     env: {
-      status: missingEnv.length === 0 ? "OK" : "MISSING_VARS",
+      status: missingEnv.length === 0 ? 'OK' : 'MISSING_VARS',
       missing: missingEnv,
       optional_missing: missingOptionalEnv,
     },
@@ -183,14 +155,13 @@ function main() {
 
   let allOk = true;
   for (const r of results) {
-    if (r.status === "OK") {
+    if (r.status === 'OK') {
     } else {
       allOk = false;
     }
   }
 
-
-  if (summary.env.status === "OK") {
+  if (summary.env.status === 'OK') {
   } else {
     allOk = false;
   }
@@ -198,11 +169,9 @@ function main() {
   if (summary.env.optional_missing.length > 0) {
   }
 
-
   if (allOk) {
   } else {
   }
-
 
   // JSON output for AI agents
 

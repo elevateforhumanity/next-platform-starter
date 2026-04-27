@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -40,10 +40,7 @@ export default function Terminal({ output, onClear }: TerminalProps) {
       </div>
 
       {/* Terminal Output */}
-      <div
-        ref={terminalRef}
-        className="flex-1 overflow-auto p-4 space-y-1"
-      >
+      <div ref={terminalRef} className="flex-1 overflow-auto p-4 space-y-1">
         {output.length === 0 ? (
           <div className="text-slate-700">
             $ Ready. Run commands or save files to see output here...

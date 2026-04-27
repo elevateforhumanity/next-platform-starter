@@ -1,9 +1,9 @@
 /**
  * Required Agreements by Role
- * 
+ *
  * Defines which agreements each role must sign before accessing protected routes.
  * This is the source of truth for compliance gating.
- * 
+ *
  * Indiana Workforce Posture - Minimum defensible set for WIOA/apprenticeship audits.
  */
 
@@ -17,7 +17,7 @@ export interface RequiredAgreement {
   documentUrl: string;
 }
 
-export type UserRole = 
+export type UserRole =
   | 'student'
   | 'program_holder'
   | 'employer'
@@ -34,7 +34,7 @@ export type UserRole =
  */
 /**
  * Required agreements by role.
- * 
+ *
  * Valid enum values in database:
  * - enrollment, handbook, program_holder_mou, employer_agreement, staff_agreement, license
  */
@@ -151,7 +151,7 @@ export function getRequiredAgreements(role: string): RequiredAgreement[] {
 export async function getMissingAgreements(
   supabase: any,
   userId: string,
-  role: string
+  role: string,
 ): Promise<RequiredAgreement[]> {
   const required = getRequiredAgreements(role);
 
@@ -166,13 +166,11 @@ export async function getMissingAgreements(
     .eq('user_id', userId);
 
   const signedSet = new Set(
-    (signed || []).map((s: any) => `${s.agreement_type}:${s.document_version}`)
+    (signed || []).map((s: any) => `${s.agreement_type}:${s.document_version}`),
   );
 
   // Find missing
-  return required.filter(
-    (req) => !signedSet.has(`${req.type}:${req.version}`)
-  );
+  return required.filter((req) => !signedSet.has(`${req.type}:${req.version}`));
 }
 
 /**
@@ -181,7 +179,7 @@ export async function getMissingAgreements(
 export async function hasSignedAllRequired(
   supabase: any,
   userId: string,
-  role: string
+  role: string,
 ): Promise<boolean> {
   const missing = await getMissingAgreements(supabase, userId, role);
   return missing.length === 0;

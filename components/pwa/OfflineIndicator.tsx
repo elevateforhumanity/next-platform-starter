@@ -27,7 +27,7 @@ export function OfflineIndicator() {
   if (!mounted || isOnline) return null;
 
   return (
-    <div 
+    <div
       className="fixed bottom-4 left-4 bg-amber-500 text-white px-4 py-2 rounded-lg shadow-lg flex items-center gap-2 z-50"
       role="alert"
       aria-live="polite"

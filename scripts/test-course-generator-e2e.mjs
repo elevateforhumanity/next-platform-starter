@@ -98,7 +98,10 @@ async function gate1_callRoute() {
         'Content-Type': 'application/json',
         'X-Internal-Service-Key': SERVICE_KEY,
       },
-      body: JSON.stringify({ prompt: PROMPT, ...(TEST_TEMPERATURE !== undefined ? { _testTemperature: TEST_TEMPERATURE } : {}) }),
+      body: JSON.stringify({
+        prompt: PROMPT,
+        ...(TEST_TEMPERATURE !== undefined ? { _testTemperature: TEST_TEMPERATURE } : {}),
+      }),
     });
   } catch (err) {
     fail('GATE1', `Network error — is the dev server running at ${BASE_URL}?`, err.message);
@@ -109,7 +112,10 @@ async function gate1_callRoute() {
   console.log(`   HTTP ${res.status} in ${elapsed}s`);
 
   if (res.status === 401 || res.status === 403) {
-    fail('GATE1', `Auth rejected (${res.status}). Route requires a valid session. Run dev server and pass a real session cookie.`);
+    fail(
+      'GATE1',
+      `Auth rejected (${res.status}). Route requires a valid session. Run dev server and pass a real session cookie.`,
+    );
     const body = await res.text();
     console.log(`   Body: ${body.substring(0, 200)}`);
     return null;
@@ -153,22 +159,36 @@ function gate2_validateShape(json) {
   if (!json.meta) {
     errors.push('Missing meta block');
   } else {
-    if (json.meta.gate_json_parse !== 'passed') errors.push(`meta.gate_json_parse = "${json.meta.gate_json_parse}" (expected "passed")`);
-    if (json.meta.gate_schema_validation !== 'passed') errors.push(`meta.gate_schema_validation = "${json.meta.gate_schema_validation}" (expected "passed")`);
-    if (json.meta.gate_compliance_status !== 'draft_for_human_review') errors.push(`meta.gate_compliance_status = "${json.meta.gate_compliance_status}"`);
-    if (json.meta.model !== 'gpt-4o') errors.push(`meta.model = "${json.meta.model}" (expected "gpt-4o")`);
-    log('GATE2', `meta block: json_parse=${json.meta.gate_json_parse}, schema=${json.meta.gate_schema_validation}, compliance=${json.meta.gate_compliance_status}, model=${json.meta.model}`);
+    if (json.meta.gate_json_parse !== 'passed')
+      errors.push(`meta.gate_json_parse = "${json.meta.gate_json_parse}" (expected "passed")`);
+    if (json.meta.gate_schema_validation !== 'passed')
+      errors.push(
+        `meta.gate_schema_validation = "${json.meta.gate_schema_validation}" (expected "passed")`,
+      );
+    if (json.meta.gate_compliance_status !== 'draft_for_human_review')
+      errors.push(`meta.gate_compliance_status = "${json.meta.gate_compliance_status}"`);
+    if (json.meta.model !== 'gpt-4o')
+      errors.push(`meta.model = "${json.meta.model}" (expected "gpt-4o")`);
+    log(
+      'GATE2',
+      `meta block: json_parse=${json.meta.gate_json_parse}, schema=${json.meta.gate_schema_validation}, compliance=${json.meta.gate_compliance_status}, model=${json.meta.model}`,
+    );
     if (json.meta.warnings?.length > 0) {
       console.log(`   ⚠️  Warnings: ${json.meta.warnings.join('; ')}`);
     }
   }
 
   const o = json.outline;
-  if (!o) { errors.push('Missing outline'); return errors; }
+  if (!o) {
+    errors.push('Missing outline');
+    return errors;
+  }
 
   // course
   if (o.course?.compliance_status !== 'draft_for_human_review') {
-    errors.push(`course.compliance_status = "${o.course?.compliance_status}" (must be draft_for_human_review)`);
+    errors.push(
+      `course.compliance_status = "${o.course?.compliance_status}" (must be draft_for_human_review)`,
+    );
   } else {
     log('GATE2', `compliance_status = "draft_for_human_review"`);
   }
@@ -180,41 +200,59 @@ function gate2_validateShape(json) {
 
   // counts
   const modCount = o.modules?.length ?? 0;
-  modCount === 5 ? log('GATE2', `5 modules`) : errors.push(`Module count: ${modCount} (expected 5)`);
+  modCount === 5
+    ? log('GATE2', `5 modules`)
+    : errors.push(`Module count: ${modCount} (expected 5)`);
 
-  const lessonCount = o.lessons?.filter(l => l.step_type === 'lesson').length ?? 0;
-  lessonCount >= 20 ? log('GATE2', `${lessonCount} lessons (≥20)`) : errors.push(`Lesson count: ${lessonCount} (expected ≥20)`);
+  const lessonCount = o.lessons?.filter((l) => l.step_type === 'lesson').length ?? 0;
+  lessonCount >= 20
+    ? log('GATE2', `${lessonCount} lessons (≥20)`)
+    : errors.push(`Lesson count: ${lessonCount} (expected ≥20)`);
 
   const cpCount = o.checkpoints?.length ?? 0;
-  cpCount === 3 ? log('GATE2', `3 checkpoints`) : errors.push(`Checkpoint count: ${cpCount} (expected 3)`);
+  cpCount === 3
+    ? log('GATE2', `3 checkpoints`)
+    : errors.push(`Checkpoint count: ${cpCount} (expected 3)`);
 
   const examQCount = o.exams?.[0]?.question_count ?? 0;
-  examQCount >= 25 ? log('GATE2', `Exam: ${examQCount} questions`) : errors.push(`Exam question count: ${examQCount} (expected ≥25)`);
+  examQCount >= 25
+    ? log('GATE2', `Exam: ${examQCount} questions`)
+    : errors.push(`Exam question count: ${examQCount} (expected ≥25)`);
 
   // order_index integrity
   if (o.lessons) {
-    const indices = o.lessons.map(l => l.order_index).sort((a, b) => a - b);
+    const indices = o.lessons.map((l) => l.order_index).sort((a, b) => a - b);
     const dupes = indices.filter((v, i) => indices.indexOf(v) !== i);
     const gaps = [];
     for (let i = 1; i < indices.length; i++) {
-      if (indices[i] - indices[i - 1] > 1) gaps.push(`${indices[i-1]}→${indices[i]}`);
+      if (indices[i] - indices[i - 1] > 1) gaps.push(`${indices[i - 1]}→${indices[i]}`);
     }
-    dupes.length === 0 ? log('GATE2', 'No duplicate order_index') : errors.push(`Duplicate order_index: ${dupes}`);
-    gaps.length === 0 ? log('GATE2', 'No gaps in order_index') : errors.push(`Gaps in order_index: ${gaps}`);
-    indices[0] === 1 ? log('GATE2', 'order_index starts at 1') : errors.push(`order_index starts at ${indices[0]}`);
+    dupes.length === 0
+      ? log('GATE2', 'No duplicate order_index')
+      : errors.push(`Duplicate order_index: ${dupes}`);
+    gaps.length === 0
+      ? log('GATE2', 'No gaps in order_index')
+      : errors.push(`Gaps in order_index: ${gaps}`);
+    indices[0] === 1
+      ? log('GATE2', 'order_index starts at 1')
+      : errors.push(`order_index starts at ${indices[0]}`);
   }
 
   // slug uniqueness
   if (o.lessons) {
-    const slugs = o.lessons.map(l => l.slug);
+    const slugs = o.lessons.map((l) => l.slug);
     const dupeSlugs = slugs.filter((v, i) => slugs.indexOf(v) !== i);
-    dupeSlugs.length === 0 ? log('GATE2', 'All slugs unique') : errors.push(`Duplicate slugs: ${dupeSlugs}`);
-    const badSlugs = slugs.filter(s => !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(s));
-    badSlugs.length === 0 ? log('GATE2', 'All slugs slug-safe') : errors.push(`Bad slugs: ${badSlugs}`);
+    dupeSlugs.length === 0
+      ? log('GATE2', 'All slugs unique')
+      : errors.push(`Duplicate slugs: ${dupeSlugs}`);
+    const badSlugs = slugs.filter((s) => !/^[a-z0-9]+(?:-[a-z0-9]+)*$/.test(s));
+    badSlugs.length === 0
+      ? log('GATE2', 'All slugs slug-safe')
+      : errors.push(`Bad slugs: ${badSlugs}`);
   }
 
   if (errors.length > 0) {
-    errors.forEach(e => fail('GATE2', e));
+    errors.forEach((e) => fail('GATE2', e));
   }
   return errors;
 }
@@ -233,14 +271,16 @@ function gate3_complianceCheck(json) {
   // Required Indiana CNA domain keys
   const REQUIRED_DOMAINS = ['patient_care', 'safety', 'infection_control', 'communication'];
   const blueprint = o.exams?.[0]?.domain_blueprint ?? [];
-  const blueprintDomains = blueprint.map(d => d.domain);
+  const blueprintDomains = blueprint.map((d) => d.domain);
 
   for (const domain of REQUIRED_DOMAINS) {
     if (blueprintDomains.includes(domain)) {
       log('GATE3', `Domain "${domain}" present in exam blueprint`);
     } else {
       // Warn but don't hard-fail — model may use slightly different keys
-      console.log(`   ⚠️  [GATE3] Domain "${domain}" not found in blueprint (got: ${blueprintDomains.join(', ')})`);
+      console.log(
+        `   ⚠️  [GATE3] Domain "${domain}" not found in blueprint (got: ${blueprintDomains.join(', ')})`,
+      );
     }
   }
 
@@ -253,10 +293,10 @@ function gate3_complianceCheck(json) {
   // Pass thresholds in valid range
   const cpThresh = o.course?.pass_threshold_checkpoints;
   const examThresh = o.course?.pass_threshold_final_exam;
-  (cpThresh >= 60 && cpThresh <= 100)
+  cpThresh >= 60 && cpThresh <= 100
     ? log('GATE3', `Checkpoint pass threshold: ${cpThresh}%`)
     : errors.push(`Checkpoint threshold ${cpThresh}% out of range (60–100)`);
-  (examThresh >= 60 && examThresh <= 100)
+  examThresh >= 60 && examThresh <= 100
     ? log('GATE3', `Exam pass threshold: ${examThresh}%`)
     : errors.push(`Exam threshold ${examThresh}% out of range (60–100)`);
 
@@ -266,7 +306,7 @@ function gate3_complianceCheck(json) {
     ? log('GATE3', `Total hours: ${hours} (Indiana minimum: 75)`)
     : console.log(`   ⚠️  [GATE3] total_hours = ${hours} (Indiana requires ≥75 — verify)`);
 
-  if (errors.length > 0) errors.forEach(e => fail('GATE3', e));
+  if (errors.length > 0) errors.forEach((e) => fail('GATE3', e));
   return errors;
 }
 
@@ -282,16 +322,19 @@ async function gate4_dbDryRun(json) {
   const o = json.outline;
 
   // Map lessons to course_lessons shape
-  const rows = (o.lessons ?? []).map(l => ({
+  const rows = (o.lessons ?? []).map((l) => ({
     // course_id would be assigned on real insert — omitted in dry-run
     slug: l.slug,
     title: l.title,
-    lesson_type: l.step_type,   // maps to lesson_type enum
+    lesson_type: l.step_type, // maps to lesson_type enum
     module_order: l.module_index,
     lesson_order: l.order_index,
-    passing_score: l.step_type === 'checkpoint' || l.step_type === 'exam'
-      ? (l.step_type === 'exam' ? o.course?.pass_threshold_final_exam : o.course?.pass_threshold_checkpoints)
-      : null,
+    passing_score:
+      l.step_type === 'checkpoint' || l.step_type === 'exam'
+        ? l.step_type === 'exam'
+          ? o.course?.pass_threshold_final_exam
+          : o.course?.pass_threshold_checkpoints
+        : null,
     activities: buildActivities(l.step_type),
     status: 'draft',
   }));
@@ -309,7 +352,15 @@ async function gate4_dbDryRun(json) {
   errors.length === 0 ? log('GATE4', 'No slug constraint violations (local)') : null;
 
   // Constraint: lesson_type enum values
-  const VALID_TYPES = ['lesson', 'checkpoint', 'exam', 'quiz', 'lab', 'assignment', 'certification'];
+  const VALID_TYPES = [
+    'lesson',
+    'checkpoint',
+    'exam',
+    'quiz',
+    'lab',
+    'assignment',
+    'certification',
+  ];
   for (const row of rows) {
     if (!VALID_TYPES.includes(row.lesson_type)) {
       errors.push(`Invalid lesson_type "${row.lesson_type}" for slug "${row.slug}"`);
@@ -327,7 +378,7 @@ async function gate4_dbDryRun(json) {
     const sorted = [...orders].sort((a, b) => a - b);
     const gaps = [];
     for (let i = 1; i < sorted.length; i++) {
-      if (sorted[i] - sorted[i-1] > 1) gaps.push(`${sorted[i-1]}→${sorted[i]}`);
+      if (sorted[i] - sorted[i - 1] > 1) gaps.push(`${sorted[i - 1]}→${sorted[i]}`);
     }
     gaps.length === 0
       ? log('GATE4', `Module ${mod}: lesson_order sequential (${sorted.join(',')})`)
@@ -337,26 +388,30 @@ async function gate4_dbDryRun(json) {
   // Live DB check: do any of these slugs already exist in course_lessons?
   if (SUPABASE_URL && SERVICE_KEY) {
     try {
-      const slugList = rows.map(r => r.slug);
+      const slugList = rows.map((r) => r.slug);
       const res = await fetch(
-        `${SUPABASE_URL}/rest/v1/course_lessons?select=slug&slug=in.(${slugList.map(s => `"${s}"`).join(',')})`,
+        `${SUPABASE_URL}/rest/v1/course_lessons?select=slug&slug=in.(${slugList.map((s) => `"${s}"`).join(',')})`,
         {
           headers: {
             apikey: SERVICE_KEY,
             Authorization: `Bearer ${SERVICE_KEY}`,
           },
-        }
+        },
       );
       if (res.ok) {
         const existing = await res.json();
         if (existing.length > 0) {
-          const existingSlugs = existing.map(r => r.slug);
-          errors.push(`DB collision: ${existingSlugs.length} slugs already exist in course_lessons: ${existingSlugs.join(', ')}`);
+          const existingSlugs = existing.map((r) => r.slug);
+          errors.push(
+            `DB collision: ${existingSlugs.length} slugs already exist in course_lessons: ${existingSlugs.join(', ')}`,
+          );
         } else {
           log('GATE4', 'No slug collisions in live course_lessons table');
         }
       } else {
-        console.log(`   ⚠️  [GATE4] Could not query live DB (${res.status}) — skipping live slug check`);
+        console.log(
+          `   ⚠️  [GATE4] Could not query live DB (${res.status}) — skipping live slug check`,
+        );
       }
     } catch (err) {
       console.log(`   ⚠️  [GATE4] Live DB check failed: ${err.message}`);
@@ -371,7 +426,7 @@ async function gate4_dbDryRun(json) {
     console.log(`   ${JSON.stringify(row)}`);
   }
 
-  if (errors.length > 0) errors.forEach(e => fail('GATE4', e));
+  if (errors.length > 0) errors.forEach((e) => fail('GATE4', e));
   return errors;
 }
 
@@ -407,16 +462,30 @@ console.log(`\n${'═'.repeat(60)}`);
 console.log('FINAL RESULT');
 console.log('═'.repeat(60));
 console.log(`Gate 1 (live route):       ✅ PASSED`);
-console.log(`Gate 2 (schema):           ${g2errors.length === 0 ? '✅ PASSED' : `❌ FAILED (${g2errors.length} errors)`}`);
-console.log(`Gate 3 (compliance):       ${g3errors.length === 0 ? '✅ PASSED' : `❌ FAILED (${g3errors.length} errors)`}`);
-console.log(`Gate 4 (DB dry-run):       ${g4errors.length === 0 ? '✅ PASSED' : `❌ FAILED (${g4errors.length} errors)`}`);
-console.log(`\nVerdict: ${totalErrors === 0 ? '✅ ALL GATES PASSED' : `❌ ${totalErrors} ERRORS — NOT PRODUCTION READY`}`);
+console.log(
+  `Gate 2 (schema):           ${g2errors.length === 0 ? '✅ PASSED' : `❌ FAILED (${g2errors.length} errors)`}`,
+);
+console.log(
+  `Gate 3 (compliance):       ${g3errors.length === 0 ? '✅ PASSED' : `❌ FAILED (${g3errors.length} errors)`}`,
+);
+console.log(
+  `Gate 4 (DB dry-run):       ${g4errors.length === 0 ? '✅ PASSED' : `❌ FAILED (${g4errors.length} errors)`}`,
+);
+console.log(
+  `\nVerdict: ${totalErrors === 0 ? '✅ ALL GATES PASSED' : `❌ ${totalErrors} ERRORS — NOT PRODUCTION READY`}`,
+);
 
 // Print real sample payload
 console.log('\n── Real payload sample (course + first lesson) ──');
-console.log(JSON.stringify({
-  course: json.outline?.course,
-  first_lesson: json.outline?.lessons?.[0],
-}, null, 2).substring(0, 1200));
+console.log(
+  JSON.stringify(
+    {
+      course: json.outline?.course,
+      first_lesson: json.outline?.lessons?.[0],
+    },
+    null,
+    2,
+  ).substring(0, 1200),
+);
 
 process.exit(totalErrors === 0 ? 0 : 1);

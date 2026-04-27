@@ -121,8 +121,7 @@ export const INDIANA_REPORTING_SCHEDULES = {
     ],
     submissionMethod: 'INTraining Portal',
     contactEmail: 'INTraining@dwd.in.gov',
-    lateSubmissionConsequence:
-      'Warning after 1st late submission, probation after 2nd',
+    lateSubmissionConsequence: 'Warning after 1st late submission, probation after 2nd',
   },
 
   // WIOA Performance - Required Quarterly
@@ -160,12 +159,7 @@ export const INDIANA_REPORTING_SCHEDULES = {
   completion_verification: {
     frequency: 'monthly' as const,
     dueDate: '10th day of following month',
-    requiredData: [
-      'Program completions',
-      'Credentials issued',
-      'Exit dates',
-      'Exit reasons',
-    ],
+    requiredData: ['Program completions', 'Credentials issued', 'Exit dates', 'Exit reasons'],
     submissionMethod: 'INTraining Portal',
     contactEmail: 'INTraining@dwd.in.gov',
     lateSubmissionConsequence: 'Warning after 2 consecutive late submissions',
@@ -527,7 +521,7 @@ INTraining Team
  */
 export function getIndianaReportsDue(
   programHolderId: string,
-  currentDate: Date
+  currentDate: Date,
 ): IndianaReportType[] {
   const reportsDue: IndianaReportType[] = [];
 
@@ -546,7 +540,7 @@ export function meetsIndianaETPLStandards(
   credentialRate: number,
   wageGain: number,
   enrollmentCount: number,
-  dataQuality: number
+  dataQuality: number,
 ): {
   meets: boolean;
   failures: string[];
@@ -555,13 +549,13 @@ export function meetsIndianaETPLStandards(
 
   if (employmentRate < INDIANA_ETPL_STANDARDS.minimumEmploymentRate) {
     failures.push(
-      `Employment rate ${(employmentRate * 100).toFixed(1)}% below minimum ${INDIANA_ETPL_STANDARDS.minimumEmploymentRate * 100}%`
+      `Employment rate ${(employmentRate * 100).toFixed(1)}% below minimum ${INDIANA_ETPL_STANDARDS.minimumEmploymentRate * 100}%`,
     );
   }
 
   if (credentialRate < INDIANA_ETPL_STANDARDS.minimumCredentialRate) {
     failures.push(
-      `Credential rate ${(credentialRate * 100).toFixed(1)}% below minimum ${INDIANA_ETPL_STANDARDS.minimumCredentialRate * 100}%`
+      `Credential rate ${(credentialRate * 100).toFixed(1)}% below minimum ${INDIANA_ETPL_STANDARDS.minimumCredentialRate * 100}%`,
     );
   }
 
@@ -571,13 +565,13 @@ export function meetsIndianaETPLStandards(
 
   if (enrollmentCount < INDIANA_ETPL_STANDARDS.minimumEnrollment) {
     failures.push(
-      `Enrollment count ${enrollmentCount} below minimum ${INDIANA_ETPL_STANDARDS.minimumEnrollment}`
+      `Enrollment count ${enrollmentCount} below minimum ${INDIANA_ETPL_STANDARDS.minimumEnrollment}`,
     );
   }
 
   if (dataQuality < INDIANA_ETPL_STANDARDS.dataQualityThreshold) {
     failures.push(
-      `Data quality ${(dataQuality * 100).toFixed(1)}% below minimum ${INDIANA_ETPL_STANDARDS.dataQualityThreshold * 100}%`
+      `Data quality ${(dataQuality * 100).toFixed(1)}% below minimum ${INDIANA_ETPL_STANDARDS.dataQualityThreshold * 100}%`,
     );
   }
 
@@ -592,7 +586,7 @@ export function meetsIndianaETPLStandards(
  */
 export function getNextIndianaReportDueDate(
   reportType: IndianaReportType,
-  currentDate: Date = new Date()
+  currentDate: Date = new Date(),
 ): Date {
   const schedule = INDIANA_REPORTING_SCHEDULES[reportType];
 

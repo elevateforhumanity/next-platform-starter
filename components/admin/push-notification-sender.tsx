@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -32,19 +32,19 @@ export function PushNotificationSender() {
 
   // Log push notification send to DB
   const logNotificationSend = async (status: 'sent' | 'failed', recipientCount?: number) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('push_notification_send_log')
-      .insert({
-        admin_id: user?.id,
-        title: form.title,
-        body: form.body,
-        broadcast: form.broadcast,
-        target_user_id: form.userId || null,
-        recipient_count: recipientCount,
-        status,
-        sent_at: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('push_notification_send_log').insert({
+      admin_id: user?.id,
+      title: form.title,
+      body: form.body,
+      broadcast: form.broadcast,
+      target_user_id: form.userId || null,
+      recipient_count: recipientCount,
+      status,
+      sent_at: new Date().toISOString(),
+    });
   };
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -100,7 +100,8 @@ export function PushNotificationSender() {
       } else {
         toast.error(data.error || 'Failed to send notification');
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       toast.error('Failed to send notification');
     } finally {
@@ -135,7 +136,7 @@ export function PushNotificationSender() {
     },
   ];
 
-  const applyTemplate = (template: typeof quickTemplates[0]) => {
+  const applyTemplate = (template: (typeof quickTemplates)[0]) => {
     setForm((prev) => ({
       ...prev,
       title: template.title,
@@ -146,14 +147,10 @@ export function PushNotificationSender() {
 
   return (
     <div className="bg-white rounded-lg shadow-sm border border-gray-200 p-6">
-      <h2 className="text-xl font-bold text-black mb-4">
-        Send Push Notification
-      </h2>
+      <h2 className="text-xl font-bold text-black mb-4">Send Push Notification</h2>
 
       <div className="mb-6">
-        <h3 className="text-sm font-semibold text-black mb-2">
-          Quick Templates
-        </h3>
+        <h3 className="text-sm font-semibold text-black mb-2">Quick Templates</h3>
         <div className="flex flex-wrap gap-2">
           {quickTemplates.map((template) => (
             <button
@@ -169,13 +166,13 @@ export function PushNotificationSender() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-black mb-1">
-            Title *
-          </label>
+          <label className="block text-sm font-medium text-black mb-1">Title *</label>
           <input
             type="text"
             value={form.title}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setForm({ ...form, title: e.target.value })}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setForm({ ...form, title: e.target.value })}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             placeholder="Notification title"
             required
@@ -183,12 +180,12 @@ export function PushNotificationSender() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-black mb-1">
-            Body *
-          </label>
+          <label className="block text-sm font-medium text-black mb-1">Body *</label>
           <textarea
             value={form.body}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setForm({ ...form, body: e.target.value })}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setForm({ ...form, body: e.target.value })}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             placeholder="Notification message"
             rows={3}
@@ -197,26 +194,26 @@ export function PushNotificationSender() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-black mb-1">
-            URL
-          </label>
+          <label className="block text-sm font-medium text-black mb-1">URL</label>
           <input
             type="text"
             value={form.url}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setForm({ ...form, url: e.target.value })}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setForm({ ...form, url: e.target.value })}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             placeholder="/student/courses"
           />
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-black mb-1">
-            Icon URL
-          </label>
+          <label className="block text-sm font-medium text-black mb-1">Icon URL</label>
           <input
             type="text"
             value={form.icon}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setForm({ ...form, icon: e.target.value })}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setForm({ ...form, icon: e.target.value })}
             className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             placeholder="/icon-192x192.png"
           />
@@ -227,15 +224,10 @@ export function PushNotificationSender() {
             type="checkbox"
             id="requireInteraction"
             checked={form.requireInteraction}
-            onChange={(e) =>
-              setForm({ ...form, requireInteraction: e.target.checked })
-            }
+            onChange={(e) => setForm({ ...form, requireInteraction: e.target.checked })}
             className="w-4 h-4 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
           />
-          <label
-            htmlFor="requireInteraction"
-            className="text-sm text-black"
-          >
+          <label htmlFor="requireInteraction" className="text-sm text-black">
             Require user interaction (notification stays until dismissed)
           </label>
         </div>
@@ -246,9 +238,7 @@ export function PushNotificationSender() {
               type="checkbox"
               id="broadcast"
               checked={form.broadcast}
-              onChange={(e) =>
-                setForm({ ...form, broadcast: e.target.checked })
-              }
+              onChange={(e) => setForm({ ...form, broadcast: e.target.checked })}
               className="w-4 h-4 text-brand-blue-600 border-gray-300 rounded focus:ring-brand-blue-500"
             />
             <label htmlFor="broadcast" className="text-sm font-medium text-black">
@@ -258,13 +248,13 @@ export function PushNotificationSender() {
 
           {!form.broadcast && (
             <div>
-              <label className="block text-sm font-medium text-black mb-1">
-                User ID *
-              </label>
+              <label className="block text-sm font-medium text-black mb-1">User ID *</label>
               <input
                 type="text"
                 value={form.userId}
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setForm({ ...form, userId: e.target.value })}
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+                ) => setForm({ ...form, userId: e.target.value })}
                 className="w-full px-3 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 placeholder="Enter user ID"
                 required={!form.broadcast}

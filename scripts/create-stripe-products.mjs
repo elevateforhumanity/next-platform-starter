@@ -7,7 +7,6 @@
 
 import Stripe from 'stripe';
 
-
 // Check for Stripe key
 const stripeKey = process.env.STRIPE_SECRET_KEY;
 
@@ -26,7 +25,8 @@ const PROGRAMS = [
   {
     id: 'barber',
     name: 'Barber Apprenticeship',
-    description: 'Complete barber training with Milady RISE certification. Includes hands-on apprenticeship placement, state board exam preparation, and AI instructor support 24/7.',
+    description:
+      'Complete barber training with Milady RISE certification. Includes hands-on apprenticeship placement, state board exam preparation, and AI instructor support 24/7.',
     price: 4890,
     features: [
       'Milady RISE online coursework',
@@ -38,7 +38,8 @@ const PROGRAMS = [
   {
     id: 'dsp',
     name: 'Direct Support Professional (DSP)',
-    description: 'Become a certified Direct Support Professional. Includes complete DSP certification, job placement assistance, and AI instructor support.',
+    description:
+      'Become a certified Direct Support Professional. Includes complete DSP certification, job placement assistance, and AI instructor support.',
     price: 4325,
     features: [
       'Complete DSP certification',
@@ -49,7 +50,8 @@ const PROGRAMS = [
   {
     id: 'hvac',
     name: 'HVAC Technician',
-    description: 'HVAC installation and repair certification. Includes EPA certification, hands-on training, and job placement assistance.',
+    description:
+      'HVAC installation and repair certification. Includes EPA certification, hands-on training, and job placement assistance.',
     price: 5000,
     features: [
       'EPA certification included',
@@ -61,18 +63,16 @@ const PROGRAMS = [
   {
     id: 'cpr',
     name: 'CPR Certification',
-    description: 'American Heart Association CPR certification. Same-day certification with digital certificate.',
+    description:
+      'American Heart Association CPR certification. Same-day certification with digital certificate.',
     price: 575,
-    features: [
-      'AHA CPR/AED certification',
-      'Same-day certification',
-      'Digital certificate',
-    ],
+    features: ['AHA CPR/AED certification', 'Same-day certification', 'Digital certificate'],
   },
   {
     id: 'ehst',
     name: 'Emergency Health & Safety Tech',
-    description: 'Emergency medical and safety technician training. Includes EMT-Basic certification prep and job placement assistance.',
+    description:
+      'Emergency medical and safety technician training. Includes EMT-Basic certification prep and job placement assistance.',
     price: 4950,
     features: [
       'EMT-Basic certification prep',
@@ -84,7 +84,8 @@ const PROGRAMS = [
   {
     id: 'esth',
     name: 'Professional Esthetician',
-    description: 'Licensed esthetician training and certification. Includes state board exam preparation and business startup guidance.',
+    description:
+      'Licensed esthetician training and certification. Includes state board exam preparation and business startup guidance.',
     price: 4575,
     features: [
       'State board exam preparation',
@@ -96,7 +97,8 @@ const PROGRAMS = [
   {
     id: 'prc',
     name: 'Peer Recovery Coach',
-    description: 'Certified peer recovery specialist training. Includes state certification and trauma-informed care training.',
+    description:
+      'Certified peer recovery specialist training. Includes state certification and trauma-informed care training.',
     price: 4750,
     features: [
       'State certification',
@@ -108,7 +110,8 @@ const PROGRAMS = [
   {
     id: 'tax',
     name: 'Tax Prep & Financial Services',
-    description: 'IRS-certified tax preparer training. Includes IRS PTIN certification and tax software training.',
+    description:
+      'IRS-certified tax preparer training. Includes IRS PTIN certification and tax software training.',
     price: 4950,
     features: [
       'IRS PTIN certification',
@@ -120,7 +123,8 @@ const PROGRAMS = [
   {
     id: 'biz',
     name: 'Business Startup & Marketing',
-    description: 'Launch and grow your business. Includes business plan development and digital marketing training.',
+    description:
+      'Launch and grow your business. Includes business plan development and digital marketing training.',
     price: 4550,
     features: [
       'Business plan development',
@@ -134,7 +138,6 @@ const PROGRAMS = [
 const results = [];
 
 async function createProduct(program) {
-
   try {
     // Create Product
     const product = await stripe.products.create({
@@ -146,7 +149,6 @@ async function createProduct(program) {
       },
     });
 
-
     // Create Price
     const price = await stripe.prices.create({
       product: product.id,
@@ -156,7 +158,6 @@ async function createProduct(program) {
         program_id: program.id,
       },
     });
-
 
     results.push({
       program: program.name,
@@ -179,39 +180,31 @@ async function createProduct(program) {
 }
 
 async function main() {
-
   for (const program of PROGRAMS) {
     await createProduct(program);
     // Small delay to avoid rate limits
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
   }
 
   // Summary
 
-  const successful = results.filter(r => r.price_id);
-  const failed = results.filter(r => r.error);
-
+  const successful = results.filter((r) => r.price_id);
+  const failed = results.filter((r) => r.error);
 
   if (successful.length > 0) {
-
-    successful.forEach(r => {
+    successful.forEach((r) => {
       const envVar = `STRIPE_PRICE_${r.program_id.toUpperCase()}`;
     });
 
-
-    successful.forEach(r => {
-    });
+    successful.forEach((r) => {});
   }
 
   if (failed.length > 0) {
-
-    failed.forEach(r => {
-    });
+    failed.forEach((r) => {});
   }
-
 }
 
-main().catch(error => {
+main().catch((error) => {
   console.error('❌ Script failed:', error);
   process.exit(1);
 });

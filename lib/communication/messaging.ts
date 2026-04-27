@@ -39,7 +39,7 @@ export interface MessageNotification {
  */
 export async function getOrCreateDirectConversation(
   user1_id: string,
-  user2_id: string
+  user2_id: string,
 ): Promise<Conversation> {
   const supabase = await createClient();
   // Check if conversation already exists
@@ -71,7 +71,7 @@ export async function getOrCreateDirectConversation(
 export async function createGroupConversation(
   name: string,
   creator_id: string,
-  participant_ids: string[]
+  participant_ids: string[],
 ): Promise<Conversation> {
   const supabase = await createClient();
   // Include creator in participants
@@ -96,7 +96,7 @@ export async function sendMessage(
   conversation_id: string,
   sender_id: string,
   content: string,
-  attachments?: string[]
+  attachments?: string[],
 ): Promise<Message> {
   const supabase = await createClient();
   // Verify sender is participant
@@ -129,7 +129,7 @@ export async function sendMessage(
     .update({ last_message_at: new Date().toISOString() })
     .eq('id', conversation_id);
   // Create notifications for other participants
-  const otherParticipants = conversation.participants.filter(p => p !== sender_id);
+  const otherParticipants = conversation.participants.filter((p) => p !== sender_id);
   await createMessageNotifications(message, otherParticipants);
   return message;
 }
@@ -139,7 +139,7 @@ export async function sendMessage(
 export async function editMessage(
   message_id: string,
   sender_id: string,
-  content: string
+  content: string,
 ): Promise<Message> {
   const supabase = await createClient();
   const { data: message, error } = await supabase
@@ -159,10 +159,7 @@ export async function editMessage(
 /**
  * Delete message (soft delete)
  */
-export async function deleteMessage(
-  message_id: string,
-  user_id: string
-): Promise<void> {
+export async function deleteMessage(message_id: string, user_id: string): Promise<void> {
   const supabase = await createClient();
   // Get current deleted_by array
   const { data: message } = await supabase
@@ -175,18 +172,12 @@ export async function deleteMessage(
   }
   // Add user to deleted_by array
   const deleted_by = [...message.deleted_by, user_id];
-  await supabase
-    .from('messages')
-    .update({ deleted_by })
-    .eq('id', message_id);
+  await supabase.from('messages').update({ deleted_by }).eq('id', message_id);
 }
 /**
  * Mark message as read
  */
-export async function markMessageRead(
-  message_id: string,
-  user_id: string
-): Promise<void> {
+export async function markMessageRead(message_id: string, user_id: string): Promise<void> {
   const supabase = await createClient();
   // Get current read_by array
   const { data: message } = await supabase
@@ -200,10 +191,7 @@ export async function markMessageRead(
   // Add user to read_by array if not already there
   if (!message.read_by.includes(user_id)) {
     const read_by = [...message.read_by, user_id];
-    await supabase
-      .from('messages')
-      .update({ read_by })
-      .eq('id', message_id);
+    await supabase.from('messages').update({ read_by }).eq('id', message_id);
   }
   // Mark notification as read
   await supabase
@@ -220,7 +208,7 @@ export async function markMessageRead(
  */
 export async function markConversationRead(
   conversation_id: string,
-  user_id: string
+  user_id: string,
 ): Promise<void> {
   const supabase = await createClient();
   // Get all unread messages
@@ -233,10 +221,7 @@ export async function markConversationRead(
   // Update each message
   for (const message of messages) {
     const read_by = [...message.read_by, user_id];
-    await supabase
-      .from('messages')
-      .update({ read_by })
-      .eq('id', message.id);
+    await supabase.from('messages').update({ read_by }).eq('id', message.id);
   }
   // Mark all notifications as read
   await supabase
@@ -256,7 +241,8 @@ export async function getUserConversations(user_id: string): Promise<Conversatio
   const supabase = await createClient();
   const { data: conversations } = await supabase
     .from('conversations')
-    .select(`
+    .select(
+      `
       *,
       messages(
         id,
@@ -265,7 +251,8 @@ export async function getUserConversations(user_id: string): Promise<Conversatio
         created_at,
         profiles(full_name, avatar_url)
       )
-    `)
+    `,
+    )
     .contains('participants', [user_id])
     .order('last_message_at', { ascending: false });
   return conversations || [];
@@ -279,7 +266,7 @@ export async function getConversationMessages(
   options?: {
     limit?: number;
     before?: string; // message_id for pagination
-  }
+  },
 ): Promise<Message[]> {
   const supabase = await createClient();
   // Verify user is participant
@@ -330,7 +317,7 @@ export async function getUnreadMessageCount(user_id: string): Promise<number> {
  * Get unread messages by conversation
  */
 export async function getUnreadMessagesByConversation(
-  user_id: string
+  user_id: string,
 ): Promise<Record<string, number>> {
   const supabase = await createClient();
   const { data: notifications } = await supabase
@@ -340,7 +327,7 @@ export async function getUnreadMessagesByConversation(
     .eq('read', false);
   if (!notifications) return {};
   const counts: Record<string, number> = {};
-  notifications.forEach(n => {
+  notifications.forEach((n) => {
     counts[n.conversation_id] = (counts[n.conversation_id] || 0) + 1;
   });
   return counts;
@@ -351,7 +338,7 @@ export async function getUnreadMessagesByConversation(
 export async function addParticipant(
   conversation_id: string,
   user_id: string,
-  added_by: string
+  added_by: string,
 ): Promise<Conversation> {
   const supabase = await createClient();
   // Verify conversation is group type
@@ -385,7 +372,7 @@ export async function addParticipant(
 export async function removeParticipant(
   conversation_id: string,
   user_id: string,
-  removed_by: string
+  removed_by: string,
 ): Promise<Conversation> {
   const supabase = await createClient();
   const { data: conversation } = await supabase
@@ -402,7 +389,7 @@ export async function removeParticipant(
     throw new Error('User is not authorized to remove participants');
   }
   // Remove participant
-  const participants = conversation.participants.filter(p => p !== user_id);
+  const participants = conversation.participants.filter((p) => p !== user_id);
   const { data: updated, error } = await supabase
     .from('conversations')
     .update({ participants })
@@ -418,7 +405,7 @@ export async function removeParticipant(
 export async function searchMessages(
   user_id: string,
   query: string,
-  conversation_id?: string
+  conversation_id?: string,
 ): Promise<Message[]> {
   const supabase = await createClient();
   let messageQuery = supabase
@@ -440,17 +427,15 @@ export async function searchMessages(
  */
 async function createMessageNotifications(
   message: Message,
-  recipient_ids: string[]
+  recipient_ids: string[],
 ): Promise<void> {
   const supabase = await createClient();
-  const notifications = recipient_ids.map(user_id => ({
+  const notifications = recipient_ids.map((user_id) => ({
     user_id,
     conversation_id: message.conversation_id,
     message_id: message.id,
     read: false,
   }));
-  await supabase
-    .from('message_notifications')
-    .insert(notifications);
+  await supabase.from('message_notifications').insert(notifications);
   // Send push/email notifications
 }

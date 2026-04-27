@@ -3,15 +3,7 @@
 import { useState } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import Link from 'next/link';
-import {
-  Upload,
-  FileText,
-  X,
-  Loader2,
-  CheckCircle,
-  AlertCircle,
-  ArrowLeft,
-} from 'lucide-react';
+import { Upload, FileText, X, Loader2, CheckCircle, AlertCircle, ArrowLeft } from 'lucide-react';
 
 const ALLOWED_TYPES = ['application/pdf', 'image/jpeg', 'image/png', 'image/webp'];
 const MAX_MB = 10;
@@ -37,7 +29,9 @@ export default function CertificateUploadPage() {
       return;
     }
     if (selected.size > MAX_BYTES) {
-      setError(`File must be under ${MAX_MB} MB. This file is ${(selected.size / 1024 / 1024).toFixed(1)} MB.`);
+      setError(
+        `File must be under ${MAX_MB} MB. This file is ${(selected.size / 1024 / 1024).toFixed(1)} MB.`,
+      );
       e.target.value = '';
       return;
     }
@@ -91,7 +85,8 @@ export default function CertificateUploadPage() {
           </div>
           <h1 className="text-2xl font-bold text-slate-900 mb-2">Certificate Uploaded</h1>
           <p className="text-slate-500 mb-6">
-            Your exam result has been submitted. Elevate staff will review it and notify you once verified — typically within 1 business day.
+            Your exam result has been submitted. Elevate staff will review it and notify you once
+            verified — typically within 1 business day.
           </p>
           <p className="text-sm text-slate-400">Redirecting to your dashboard…</p>
         </div>
@@ -114,7 +109,8 @@ export default function CertificateUploadPage() {
           <div className="mb-6">
             <h1 className="text-2xl font-bold text-slate-900 mb-1">Upload Exam Certificate</h1>
             <p className="text-slate-500 text-sm">
-              Upload a clear copy of your official exam result certificate (PDF or image). Elevate staff will review it within 1 business day.
+              Upload a clear copy of your official exam result certificate (PDF or image). Elevate
+              staff will review it within 1 business day.
             </p>
           </div>
 
@@ -131,7 +127,9 @@ export default function CertificateUploadPage() {
                   <span className="text-sm font-medium text-slate-600 group-hover:text-brand-blue-600 transition">
                     Click to select a file
                   </span>
-                  <span className="text-xs text-slate-400 mt-1">PDF, JPEG, PNG, or WebP — max {MAX_MB} MB</span>
+                  <span className="text-xs text-slate-400 mt-1">
+                    PDF, JPEG, PNG, or WebP — max {MAX_MB} MB
+                  </span>
                   <input
                     type="file"
                     accept=".pdf,.jpg,.jpeg,.png,.webp"
@@ -146,7 +144,9 @@ export default function CertificateUploadPage() {
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="text-sm font-medium text-slate-900 truncate">{file.name}</p>
-                    <p className="text-xs text-slate-500">{(file.size / 1024 / 1024).toFixed(2)} MB</p>
+                    <p className="text-xs text-slate-500">
+                      {(file.size / 1024 / 1024).toFixed(2)} MB
+                    </p>
                   </div>
                   <button
                     type="button"
@@ -199,7 +199,9 @@ export default function CertificateUploadPage() {
 
           <p className="mt-6 text-center text-xs text-slate-400">
             Questions? Call{' '}
-            <a href="tel:3173143757" className="text-slate-600 font-medium">(317) 314-3757</a>{' '}
+            <a href="tel:3173143757" className="text-slate-600 font-medium">
+              (317) 314-3757
+            </a>{' '}
             or email{' '}
             <a href="mailto:info@elevateforhumanity.org" className="text-slate-600 font-medium">
               info@elevateforhumanity.org

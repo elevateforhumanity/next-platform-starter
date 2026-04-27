@@ -8,7 +8,9 @@ import { setAuditContext } from '@/lib/audit-context';
 import { notifyGrantSubmitted } from './notification-system';
 import { logAuditEvent } from '@/lib/audit';
 
-function getDb() { return getAdminClient(); }
+function getDb() {
+  return getAdminClient();
+}
 
 export type SubmissionMethod = 'email' | 'portal' | 'mail' | 'other';
 export type SubmissionStatus =
@@ -49,7 +51,7 @@ export interface SubmissionTimelineEvent {
  * Record grant submission
  */
 export async function recordSubmission(
-  submission: Omit<SubmissionRecord, 'id' | 'timeline'>
+  submission: Omit<SubmissionRecord, 'id' | 'timeline'>,
 ): Promise<SubmissionRecord> {
   const db = getDb();
   await setAuditContext(db, { systemActor: 'grants_submission_tracker' }).catch(() => {});
@@ -102,7 +104,7 @@ export async function recordSubmission(
   await notifyGrantSubmitted(
     submission.applicationId,
     submission.submittedBy,
-    submission.confirmationNumber
+    submission.confirmationNumber,
   );
 
   return {
@@ -128,7 +130,7 @@ export async function recordSubmission(
  */
 export async function addTimelineEvent(
   submissionId: string,
-  event: Omit<SubmissionTimelineEvent, 'timestamp'>
+  event: Omit<SubmissionTimelineEvent, 'timestamp'>,
 ): Promise<void> {
   const db = getDb();
   await setAuditContext(db, { systemActor: 'grants_submission_tracker' }).catch(() => {});
@@ -148,10 +150,7 @@ export async function addTimelineEvent(
     ...event,
   });
 
-  await db
-    .from('grant_submissions')
-    .update({ timeline })
-    .eq('id', submissionId);
+  await db.from('grant_submissions').update({ timeline }).eq('id', submissionId);
 }
 
 /**
@@ -161,14 +160,11 @@ export async function updateSubmissionStatus(
   submissionId: string,
   status: SubmissionStatus,
   notes?: string,
-  performedBy?: string
+  performedBy?: string,
 ): Promise<void> {
   const db = getDb();
   await setAuditContext(db, { systemActor: 'grants_submission_tracker' }).catch(() => {});
-  await db
-    .from('grant_submissions')
-    .update({ status, notes })
-    .eq('id', submissionId);
+  await db.from('grant_submissions').update({ status, notes }).eq('id', submissionId);
 
   await addTimelineEvent(submissionId, {
     event: 'status_updated',
@@ -189,7 +185,7 @@ export async function recordEmailSubmission(
     subject: string;
     messageId?: string;
     attachments: string[];
-  }
+  },
 ): Promise<SubmissionRecord> {
   const { data: app } = await getDb()
     .from('grant_applications')
@@ -224,7 +220,7 @@ export async function recordPortalSubmission(
     portalUrl: string;
     confirmationNumber: string;
     confirmationReceipt?: string;
-  }
+  },
 ): Promise<SubmissionRecord> {
   const { data: app } = await getDb()
     .from('grant_applications')
@@ -254,7 +250,7 @@ export async function recordPortalSubmission(
  * Get submission history for an application
  */
 export async function getSubmissionHistory(
-  applicationId: string
+  applicationId: string,
 ): Promise<SubmissionRecord | null> {
   const { data, error }: any = await getDb()
     .from('grant_submissions')

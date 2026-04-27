@@ -1,5 +1,3 @@
-
-
 /**
  * Federal Forms API
  * Generate pre-filled federal grant forms
@@ -22,8 +20,7 @@ async function _POST(req: NextRequest) {
   try {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
-  const auth = await apiRequireAdmin(req);
-
+    const auth = await apiRequireAdmin(req);
 
     const body = await req.json();
     const { action, applicationId, entityId, grantId, formData } = body;
@@ -31,10 +28,7 @@ async function _POST(req: NextRequest) {
     switch (action) {
       case 'generate_all':
         if (!applicationId) {
-          return NextResponse.json(
-            { error: 'applicationId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'applicationId required' }, { status: 400 });
         }
         const allForms = await generateAllFederalForms(applicationId);
         return NextResponse.json(allForms);
@@ -43,7 +37,7 @@ async function _POST(req: NextRequest) {
         if (!entityId || !grantId || !formData) {
           return NextResponse.json(
             { error: 'entityId, grantId, and formData required' },
-            { status: 400 }
+            { status: 400 },
           );
         }
         const sf424 = await generateSF424(
@@ -51,7 +45,7 @@ async function _POST(req: NextRequest) {
           grantId,
           formData.projectTitle,
           formData.projectDates,
-          formData.funding
+          formData.funding,
         );
         return NextResponse.json(sf424);
 
@@ -59,22 +53,15 @@ async function _POST(req: NextRequest) {
         if (!entityId || !grantId || !formData) {
           return NextResponse.json(
             { error: 'entityId, grantId, and formData required' },
-            { status: 400 }
+            { status: 400 },
           );
         }
-        const sf424a = await generateSF424A(
-          entityId,
-          grantId,
-          formData.budgetCategories
-        );
+        const sf424a = await generateSF424A(entityId, grantId, formData.budgetCategories);
         return NextResponse.json(sf424a);
 
       case 'generate_sflll':
         if (!entityId || !grantId) {
-          return NextResponse.json(
-            { error: 'entityId and grantId required' },
-            { status: 400 }
-          );
+          return NextResponse.json({ error: 'entityId and grantId required' }, { status: 400 });
         }
         const sflll = await generateSFLLL(entityId, grantId);
         return NextResponse.json(sflll);
@@ -85,15 +72,12 @@ async function _POST(req: NextRequest) {
             error:
               'Invalid action. Use: generate_all, generate_sf424, generate_sf424a, or generate_sflll',
           },
-          { status: 400 }
+          { status: 400 },
         );
     }
-  } catch (error) { 
+  } catch (error) {
     logger.error('Federal forms error:', error);
-    return NextResponse.json(
-      { error: 'Operation failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Operation failed' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/grants/forms', _POST);

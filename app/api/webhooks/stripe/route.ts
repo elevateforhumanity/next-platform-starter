@@ -1,9 +1,9 @@
 /**
  * Canonical Stripe Webhook Handler
- * 
+ *
  * This is the ONLY webhook endpoint that should be registered in Stripe.
  * Path: /api/webhooks/stripe
- * 
+ *
  * Event handlers (line numbers approximate):
  *   checkout.session.completed:
  *     - kind=program_enrollment    → upserts student_enrollments
@@ -21,11 +21,11 @@
  *   invoice.payment_succeeded      → extends license period
  *   invoice.payment_failed         → flags license
  *   charge.refunded                → processes refund
- * 
+ *
  * Tables written: student_enrollments, program_enrollments, enrollments,
  *   licenses, license_events, donations, payments, payment_logs,
  *   audit_logs, tenants, applications
- * 
+ *
  */
 
 import type Stripe from 'stripe';
@@ -40,8 +40,8 @@ import { createEnrollmentCase, submitCaseForSignatures } from '@/lib/workflow/ca
 import { auditLog, AuditAction, AuditEntity } from '@/lib/logging/auditLog';
 import { createOrUpdateEnrollment, linkOrphanedEnrollments } from '@/lib/enrollment-service';
 import { handleCheckoutSessionCompleted } from '@/lib/stripe/handlers/checkout-session-completed';
-import { 
-  getBillingAuthority, 
+import {
+  getBillingAuthority,
   getUpdatableFields,
   isSubscriptionTier,
   assertSubscriptionData,
@@ -60,8 +60,6 @@ export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
-
-
 
 // Supabase admin client — resolved per-request to avoid frozen null at cold start.
 // Returns null if env vars are missing rather than throwing.
@@ -125,7 +123,10 @@ async function flagCertificatesForRefund(
 
     if (fetchErr) {
       // certificates table may use user_id instead of student_id in some rows
-      logger.warn('[webhook] Certificate lookup by student_id failed, trying user_id:', fetchErr.message);
+      logger.warn(
+        '[webhook] Certificate lookup by student_id failed, trying user_id:',
+        fetchErr.message,
+      );
       let fallbackQuery = db
         .from('certificates')
         .select('id, certificate_number, funding_status')
@@ -178,7 +179,9 @@ async function flagCertRows(
     logger.error('[webhook] Error updating certificate funding_status:', updateErr);
   } else {
     const certNumbers = certs.map((c) => c.certificate_number).filter(Boolean);
-    logger.info(`[webhook] Flagged ${certIds.length} certificate(s) as funding-refunded: ${certNumbers.join(', ')}`);
+    logger.info(
+      `[webhook] Flagged ${certIds.length} certificate(s) as funding-refunded: ${certNumbers.join(', ')}`,
+    );
   }
 }
 
@@ -191,7 +194,10 @@ async function _POST(request: NextRequest) {
   try {
     await hydrateProcessEnv();
   } catch (hydrateErr) {
-    logger.error('[webhook] hydrateProcessEnv failed — continuing with process.env as-is', hydrateErr as Error);
+    logger.error(
+      '[webhook] hydrateProcessEnv failed — continuing with process.env as-is',
+      hydrateErr as Error,
+    );
   }
 
   // Resolve per-request AFTER hydration — secrets are now in process.env.
@@ -214,15 +220,22 @@ async function _POST(request: NextRequest) {
   if (!webhookSecret) {
     // STRIPE_WEBHOOK_SECRET missing — alert loudly but return 200 so Stripe
     // does not keep retrying. This is a misconfiguration, not a bad request.
-    logger.error('[webhook] STRIPE_WEBHOOK_SECRET is not set — event dropped. Set this env var in Netlify immediately.');
-    Sentry.captureException(new Error('STRIPE_WEBHOOK_SECRET not set — webhook events are being dropped'), {
-      tags: { subsystem: 'stripe_webhook', failure: 'missing_secret' },
-    });
+    logger.error(
+      '[webhook] STRIPE_WEBHOOK_SECRET is not set — event dropped. Set this env var in Netlify immediately.',
+    );
+    Sentry.captureException(
+      new Error('STRIPE_WEBHOOK_SECRET not set — webhook events are being dropped'),
+      {
+        tags: { subsystem: 'stripe_webhook', failure: 'missing_secret' },
+      },
+    );
     return NextResponse.json({ received: true, warning: 'misconfigured' }, { status: 200 });
   }
 
   if (!stripeClient) {
-    logger.error('[webhook] Stripe client not initialized — STRIPE_SECRET_KEY missing after hydration');
+    logger.error(
+      '[webhook] Stripe client not initialized — STRIPE_SECRET_KEY missing after hydration',
+    );
     Sentry.captureException(new Error('Stripe client not initialized in webhook handler'), {
       tags: { subsystem: 'stripe_webhook', failure: 'missing_stripe_client' },
     });
@@ -231,7 +244,9 @@ async function _POST(request: NextRequest) {
   }
 
   if (!supabase) {
-    logger.error('[webhook] Supabase admin client not initialized — SUPABASE_SERVICE_ROLE_KEY missing');
+    logger.error(
+      '[webhook] Supabase admin client not initialized — SUPABASE_SERVICE_ROLE_KEY missing',
+    );
     Sentry.captureException(new Error('Supabase admin client not initialized in webhook handler'), {
       tags: { subsystem: 'stripe_webhook', failure: 'missing_supabase_client' },
     });
@@ -243,10 +258,7 @@ async function _POST(request: NextRequest) {
 
   if (!signature) {
     logger.error('[webhook] No stripe-signature header');
-    return NextResponse.json(
-      { error: 'No signature provided' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'No signature provided' }, { status: 400 });
   }
 
   let event: Stripe.Event;
@@ -306,19 +318,33 @@ async function _POST(request: NextRequest) {
       idempotencyAvailable = false;
       logger.error('[webhook] Idempotency check failed:', idempotencyErr);
       if (isDestructive) {
-        logger.error(`[webhook] FAIL-CLOSED: Skipping destructive event ${event.type} (${event.id}) — cannot verify idempotency`);
+        logger.error(
+          `[webhook] FAIL-CLOSED: Skipping destructive event ${event.type} (${event.id}) — cannot verify idempotency`,
+        );
         Sentry.captureException(idempotencyErr, {
-          tags: { subsystem: 'stripe_webhook', failure: 'idempotency_fail_closed', event_type: event.type },
+          tags: {
+            subsystem: 'stripe_webhook',
+            failure: 'idempotency_fail_closed',
+            event_type: event.type,
+          },
         });
         // Log the failed retry attempt
         try {
           await supabase.from('webhook_retry_log').insert({
-            provider: 'stripe', event_id: event.id, event_type: event.type,
+            provider: 'stripe',
+            event_id: event.id,
+            event_type: event.type,
             outcome: 'idempotency_failed',
             metadata: { error: String(idempotencyErr) },
           });
-        } catch (_) { /* best-effort */ }
-        return NextResponse.json({ received: true, skipped: true, reason: 'idempotency_unavailable' });
+        } catch (_) {
+          /* best-effort */
+        }
+        return NextResponse.json({
+          received: true,
+          skipped: true,
+          reason: 'idempotency_unavailable',
+        });
       }
       // Non-destructive: continue (fail-open)
       logger.warn('[webhook] Continuing without idempotency for non-destructive event');
@@ -329,11 +355,15 @@ async function _POST(request: NextRequest) {
       // Log the duplicate attempt for audit trail
       try {
         await supabase.from('webhook_retry_log').insert({
-          provider: 'stripe', event_id: event.id, event_type: event.type,
+          provider: 'stripe',
+          event_id: event.id,
+          event_type: event.type,
           outcome: 'duplicate_skipped',
           metadata: { original_status: existingEvent.status },
         });
-      } catch (_) { /* best-effort */ }
+      } catch (_) {
+        /* best-effort */
+      }
       return NextResponse.json({ received: true, duplicate: true });
     }
 
@@ -342,26 +372,24 @@ async function _POST(request: NextRequest) {
     // Falls back to minimal insert if those columns don't exist yet (42703 = undefined_column).
     let eventRecorded = false;
     try {
-      let insertError = (await supabase
-        .from('stripe_webhook_events')
-        .insert({
+      let insertError = (
+        await supabase.from('stripe_webhook_events').insert({
           stripe_event_id: event.id,
           event_type: event.type,
           status: 'processing',
           payload: event.data.object,
           metadata: { received_at: new Date().toISOString(), livemode: event.livemode },
-        })).error;
+        })
+      ).error;
 
       // Column doesn't exist yet (migration pending) — retry without optional columns
       if (insertError?.code === '42703') {
         logger.warn('[webhook] payload/metadata columns missing — retrying minimal insert');
-        const fallback = await supabase
-          .from('stripe_webhook_events')
-          .insert({
-            stripe_event_id: event.id,
-            event_type: event.type,
-            status: 'processing',
-          });
+        const fallback = await supabase.from('stripe_webhook_events').insert({
+          stripe_event_id: event.id,
+          event_type: event.type,
+          status: 'processing',
+        });
         insertError = fallback.error ?? null;
       }
 
@@ -371,11 +399,15 @@ async function _POST(request: NextRequest) {
           logger.info(`[webhook] Being processed by another instance: ${event.id}`);
           try {
             await supabase.from('webhook_retry_log').insert({
-              provider: 'stripe', event_id: event.id, event_type: event.type,
+              provider: 'stripe',
+              event_id: event.id,
+              event_type: event.type,
               outcome: 'duplicate_skipped',
               metadata: { reason: 'unique_constraint_race' },
             });
-          } catch (_) { /* best-effort */ }
+          } catch (_) {
+            /* best-effort */
+          }
           return NextResponse.json({ received: true, duplicate: true });
         }
         logger.warn('[webhook] Failed to record event:', insertError);
@@ -388,529 +420,565 @@ async function _POST(request: NextRequest) {
 
     // Fail-closed gate for destructive events: must have recorded the event
     if (isDestructive && !eventRecorded) {
-      logger.error(`[webhook] FAIL-CLOSED: Cannot record destructive event ${event.type} (${event.id}) — skipping to prevent duplicate mutations`);
-      Sentry.captureException(new Error(`Fail-closed: could not record destructive webhook ${event.type}`), {
-        tags: { subsystem: 'stripe_webhook', failure: 'record_fail_closed', event_type: event.type },
-      });
+      logger.error(
+        `[webhook] FAIL-CLOSED: Cannot record destructive event ${event.type} (${event.id}) — skipping to prevent duplicate mutations`,
+      );
+      Sentry.captureException(
+        new Error(`Fail-closed: could not record destructive webhook ${event.type}`),
+        {
+          tags: {
+            subsystem: 'stripe_webhook',
+            failure: 'record_fail_closed',
+            event_type: event.type,
+          },
+        },
+      );
       try {
         await supabase.from('webhook_retry_log').insert({
-          provider: 'stripe', event_id: event.id, event_type: event.type,
+          provider: 'stripe',
+          event_id: event.id,
+          event_type: event.type,
           outcome: 'record_failed',
           metadata: { reason: 'could_not_record_before_mutation' },
         });
-      } catch (_) { /* best-effort */ }
+      } catch (_) {
+        /* best-effort */
+      }
       return NextResponse.json({ received: true, skipped: true, reason: 'event_record_failed' });
     }
 
     // Handle the event - each case wrapped in its own try/catch
     try {
       switch (event.type) {
-    case 'checkout.session.completed': {
-      // Dispatched to lib/stripe/handlers/checkout-session-completed.ts
-      // All checkout.session.completed business logic lives there.
-      try {
-        await handleCheckoutSessionCompleted(event, { stripe: stripeClient, supabase });
-      } catch (err) {
-        Sentry.captureException(err, { tags: { subsystem: 'stripe_webhook', event_type: 'checkout.session.completed' } });
-        logger.error('[webhook] checkout.session.completed handler error:', err);
-      }
-      break;
-    }
-
-    // Async payment methods (Klarna, Afterpay) confirm funds here, not on session.completed
-    case 'checkout.session.async_payment_succeeded': {
-      const asyncSession = event.data.object as Stripe.Checkout.Session;
-      logger.info('[webhook] Async payment succeeded — processing enrollment', {
-        sessionId: asyncSession.id,
-        paymentStatus: asyncSession.payment_status,
-      });
-
-      // Re-dispatch to the same enrollment logic as checkout.session.completed
-      // by constructing a synthetic completed event and recursing through the switch
-      // Instead, directly handle the two enrollment paths:
-
-      if (asyncSession.metadata?.kind === 'program_enrollment') {
-        const enrollMeta = parseWebhookMeta(ProgramEnrollmentMeta, asyncSession.metadata, event.id, logger);
-        if (!enrollMeta) break;
-        const studentId = enrollMeta.student_id;
-        const programId = enrollMeta.program_id;
-        const programSlug = enrollMeta.program_slug;
-        const fundingSource = enrollMeta.funding_source;
-        const amountPaid = (asyncSession.amount_total || 0) / 100;
-
-        if (studentId && programId) {
-          const { data: enrollment, error: enrollError } = await supabase
-            .from('student_enrollments')
-            .upsert({
-              student_id: studentId,
-              program_id: programId,
-              program_slug: programSlug,
-              stripe_checkout_session_id: asyncSession.id,
-              status: 'active',
-              funding_source: fundingSource,
-              amount_paid: amountPaid,
-              started_at: new Date().toISOString(),
-            }, {
-              onConflict: 'student_id,program_slug',
-            })
-            .select('id')
-            .maybeSingle();
-
-          if (enrollError) {
-            logger.error('[webhook] Async payment: failed to upsert enrollment', enrollError);
-          } else {
-            await auditLog({
-              action: AuditAction.ENROLLMENT_CREATED,
-              entity: AuditEntity.ENROLLMENT,
-              entityId: enrollment?.id,
-              userId: studentId,
-              metadata: {
-                program_id: programId,
-                program_slug: programSlug,
-                funding_source: fundingSource,
-                amount_paid: amountPaid,
-                checkout_session_id: asyncSession.id,
-                payment_method: 'async_bnpl',
-                activated_by: 'webhook:async_payment_succeeded',
-              },
+        case 'checkout.session.completed': {
+          // Dispatched to lib/stripe/handlers/checkout-session-completed.ts
+          // All checkout.session.completed business logic lives there.
+          try {
+            await handleCheckoutSessionCompleted(event, { stripe: stripeClient, supabase });
+          } catch (err) {
+            Sentry.captureException(err, {
+              tags: { subsystem: 'stripe_webhook', event_type: 'checkout.session.completed' },
             });
-            logger.info(`✅ Async payment enrollment provisioned: ${programSlug} for ${studentId}`);
+            logger.error('[webhook] checkout.session.completed handler error:', err);
           }
-        }
-      }
-      break;
-    }
-
-    case 'checkout.session.async_payment_failed': {
-      const failedSession = event.data.object as Stripe.Checkout.Session;
-      logger.warn('[webhook] Async payment failed', {
-        sessionId: failedSession.id,
-        customerEmail: failedSession.customer_email,
-        metadata: failedSession.metadata,
-      });
-      // No enrollment to deactivate since we deferred on session.completed
-      break;
-    }
-
-    case 'payment_intent.succeeded': {
-      const paymentIntent = event.data.object as Stripe.PaymentIntent;
-      logger.info('PaymentIntent succeeded:', paymentIntent.id);
-      break;
-    }
-
-    case 'payment_intent.payment_failed': {
-      const failedPayment = event.data.object as Stripe.PaymentIntent;
-
-      // Handle enrollment payment failure
-      const enrollmentId = failedPayment.metadata?.enrollment_id;
-      if (enrollmentId) {
-        try {
-          const { error } = await supabase.rpc('fail_stripe_payment', {
-            p_enrollment_id: enrollmentId,
-            p_stripe_event_id: event.id,
-            p_error_message:
-              failedPayment.last_payment_error?.message || 'Payment failed',
-          });
-
-          if (error) {
-            logger.error('Error handling payment failure:', error);
-          } else {
-            logger.info(
-              `✅ Enrollment payment failure handled: ${enrollmentId}`
-            );
-          }
-        } catch (err: any) {
-          Sentry.captureException(err, { tags: { subsystem: 'stripe_webhook' } });
-          logger.error(
-            'Error processing payment failure:',
-            err instanceof Error ? err : new Error(String(err))
-          );
-        }
-      } else {
-        logger.info('Payment failed:', failedPayment.id);
-      }
-      break;
-    }
-
-    // LANE B: Store subscription events
-    case 'customer.subscription.created':
-    case 'customer.subscription.updated': {
-      const subscription = event.data.object as Stripe.Subscription;
-
-      // Only handle store subscriptions
-      if (subscription.metadata?.user_id) {
-        const lmsMeta = parseWebhookMeta(LmsSubscriptionMeta, subscription.metadata, event.id, logger);
-        if (!lmsMeta) break;
-        try {
-          const userId = lmsMeta.user_id;
-          const priceId = subscription.items.data[0]?.price.id;
-
-          if (!priceId) {
-            logger.error('No price ID in subscription');
-            break;
-          }
-
-          // Upsert subscription
-          const { data, error }: any = await supabase.rpc(
-            'upsert_store_subscription',
-            {
-              p_user_id: userId,
-              p_stripe_subscription_id: subscription.id,
-              p_stripe_customer_id: subscription.customer as string,
-              p_stripe_price_id: priceId,
-              p_status: subscription.status,
-              p_cancel_at_period_end: subscription.cancel_at_period_end,
-              p_current_period_start: new Date(
-                (subscription as any).current_period_start * 1000
-              ).toISOString(),
-              p_current_period_end: new Date(
-                (subscription as any).current_period_end * 1000
-              ).toISOString(),
-              p_canceled_at: subscription.canceled_at
-                ? new Date(subscription.canceled_at * 1000).toISOString()
-                : null,
-              p_ended_at: subscription.ended_at
-                ? new Date(subscription.ended_at * 1000).toISOString()
-                : null,
-              p_trial_start: subscription.trial_start
-                ? new Date(subscription.trial_start * 1000).toISOString()
-                : null,
-              p_trial_end: subscription.trial_end
-                ? new Date(subscription.trial_end * 1000).toISOString()
-                : null,
-              p_metadata: subscription.metadata,
-            }
-          );
-
-          if (error) {
-            logger.error('Error upserting subscription:', error);
-          } else {
-            logger.info(
-              `✅ Store subscription ${event.type}: ${subscription.id}`
-            );
-          }
-        } catch (err: any) {
-          Sentry.captureException(err, { tags: { subsystem: 'stripe_webhook' } });
-          logger.error(
-            'Error processing subscription event:',
-            err instanceof Error ? err : new Error(String(err))
-          );
-        }
-      }
-      break;
-    }
-
-    case 'customer.subscription.deleted': {
-      const subscription = event.data.object as Stripe.Subscription;
-
-      if (subscription.metadata?.user_id) {
-        try {
-          const userId = subscription.metadata.user_id;
-          const priceId = subscription.items.data[0]?.price.id;
-
-          if (!priceId) {
-            logger.error('No price ID in subscription');
-            break;
-          }
-
-          // Mark subscription as canceled
-          const { error } = await supabase.rpc('upsert_store_subscription', {
-            p_user_id: userId,
-            p_stripe_subscription_id: subscription.id,
-            p_stripe_customer_id: subscription.customer as string,
-            p_stripe_price_id: priceId,
-            p_status: 'canceled',
-            p_cancel_at_period_end: false,
-            p_current_period_start: new Date(
-              (subscription as any).current_period_start * 1000
-            ).toISOString(),
-            p_current_period_end: new Date(
-              (subscription as any).current_period_end * 1000
-            ).toISOString(),
-            p_canceled_at: subscription.canceled_at
-              ? new Date(subscription.canceled_at * 1000).toISOString()
-              : null,
-            p_ended_at: new Date().toISOString(),
-            p_trial_start: subscription.trial_start
-              ? new Date(subscription.trial_start * 1000).toISOString()
-              : null,
-            p_trial_end: subscription.trial_end
-              ? new Date(subscription.trial_end * 1000).toISOString()
-              : null,
-            p_metadata: subscription.metadata,
-          });
-
-          if (error) {
-            logger.error('Error canceling subscription:', error);
-          } else {
-            logger.info(`✅ Store subscription canceled: ${subscription.id}`);
-          }
-        } catch (err: any) {
-          Sentry.captureException(err, { tags: { subsystem: 'stripe_webhook' } });
-          logger.error(
-            'Error processing subscription deletion:',
-            err instanceof Error ? err : new Error(String(err))
-          );
-        }
-      }
-      break;
-    }
-
-    case 'invoice.payment_succeeded': {
-      const invoice = event.data.object as Stripe.Invoice;
-
-      // Log successful subscription payment
-      if ((invoice as any).subscription) {
-        logger.info(
-          `✅ Subscription payment succeeded: ${(invoice as any).subscription}`
-        );
-      }
-      break;
-    }
-
-    case 'invoice.payment_failed': {
-      const invoice = event.data.object as Stripe.Invoice;
-
-      // Handle failed subscription payment
-      if ((invoice as any).subscription) {
-        logger.error(
-          `❌ Subscription payment failed: ${(invoice as any).subscription}`
-        );
-
-        // Check if this is a license subscription and suspend if needed
-        try {
-          const { enforceSubscriptionStatus } = await import('@/lib/licensing/provisioning');
-          await enforceSubscriptionStatus((invoice as any).subscription);
-        } catch (err) {
-          logger.error('Error enforcing subscription status:', err);
-        }
-      }
-
-      // Handle failed apprenticeship installment payment
-      // Pause enrollment and lock portal access
-      if (invoice.metadata?.kind === 'apprenticeship_enrollment') {
-        const invoiceMeta = parseWebhookMeta(BarberInvoiceMeta, invoice.metadata, event.id, logger);
-        if (!invoiceMeta) break;
-        try {
-          const applicationId = invoiceMeta.application_id;
-          const studentId = invoiceMeta.student_id;
-
-          logger.info('[webhook] Apprenticeship payment failed, pausing enrollment', {
-            applicationId, studentId
-          });
-
-          // Update enrollment status to paused
-          const { error: pauseError } = await supabase
-            .from('program_enrollments')
-            .update({
-              status: 'paused',
-              paused_at: new Date().toISOString(),
-              pause_reason: 'payment_failed',
-            })
-            .eq('application_id', applicationId);
-
-          if (pauseError) {
-            logger.error('[webhook] Failed to pause enrollment', pauseError);
-          } else {
-            logger.warn(`⚠️ Apprenticeship enrollment paused due to payment failure: ${applicationId}`);
-            
-            // Audit log
-            await auditLog({
-              action: AuditAction.ENROLLMENT_UPDATED,
-              entity: AuditEntity.ENROLLMENT,
-              entityId: applicationId,
-              userId: studentId,
-              metadata: {
-                status: 'paused',
-                reason: 'payment_failed',
-                invoice_id: invoice.id,
-              },
-            });
-          }
-        } catch (err) {
-          logger.error('[webhook] Error handling apprenticeship payment failure:', err);
-        }
-      }
-      break;
-    }
-
-    case 'charge.refunded': {
-      const charge = event.data.object as Stripe.Charge;
-      logger.info('[webhook] Processing refund for charge:', charge.id);
-
-      try {
-        // Get payment intent to find metadata
-        const paymentIntentId = charge.payment_intent as string;
-        if (!paymentIntentId) {
-          logger.info('[webhook] No payment intent on charge, skipping');
           break;
         }
 
-        const paymentIntent = await stripeClient.paymentIntents.retrieve(paymentIntentId);
-        const userId = paymentIntent.metadata?.user_id;
-        const productId = paymentIntent.metadata?.product_id;
-        const enrollmentId = paymentIntent.metadata?.enrollment_id;
-        const programId = paymentIntent.metadata?.program_id;
+        // Async payment methods (Klarna, Afterpay) confirm funds here, not on session.completed
+        case 'checkout.session.async_payment_succeeded': {
+          const asyncSession = event.data.object as Stripe.Checkout.Session;
+          logger.info('[webhook] Async payment succeeded — processing enrollment', {
+            sessionId: asyncSession.id,
+            paymentStatus: asyncSession.payment_status,
+          });
 
-        if (!userId) {
-          logger.info('[webhook] No user_id in payment intent metadata, checking customer');
-          // Try to find user by customer ID
-          const customerId = charge.customer as string;
-          if (customerId) {
-            const { data: profile } = await supabase
-              .from('profiles')
-              .select('id')
-              .eq('stripe_customer_id', customerId)
-              .maybeSingle();
-            
-            if (profile) {
-              // Revoke all recent entitlements for this user from this charge
-              const { error: revokeError } = await supabase
-                .from('store_entitlements')
-                .update({ 
-                  revoked_at: new Date().toISOString(),
-                  revoke_reason: 'refund'
-                })
-                .eq('user_id', profile.id)
-                .eq('stripe_payment_intent_id', paymentIntentId);
+          // Re-dispatch to the same enrollment logic as checkout.session.completed
+          // by constructing a synthetic completed event and recursing through the switch
+          // Instead, directly handle the two enrollment paths:
 
-              if (revokeError) {
-                logger.error('[webhook] Error revoking entitlements:', revokeError);
+          if (asyncSession.metadata?.kind === 'program_enrollment') {
+            const enrollMeta = parseWebhookMeta(
+              ProgramEnrollmentMeta,
+              asyncSession.metadata,
+              event.id,
+              logger,
+            );
+            if (!enrollMeta) break;
+            const studentId = enrollMeta.student_id;
+            const programId = enrollMeta.program_id;
+            const programSlug = enrollMeta.program_slug;
+            const fundingSource = enrollMeta.funding_source;
+            const amountPaid = (asyncSession.amount_total || 0) / 100;
+
+            if (studentId && programId) {
+              const { data: enrollment, error: enrollError } = await supabase
+                .from('student_enrollments')
+                .upsert(
+                  {
+                    student_id: studentId,
+                    program_id: programId,
+                    program_slug: programSlug,
+                    stripe_checkout_session_id: asyncSession.id,
+                    status: 'active',
+                    funding_source: fundingSource,
+                    amount_paid: amountPaid,
+                    started_at: new Date().toISOString(),
+                  },
+                  {
+                    onConflict: 'student_id,program_slug',
+                  },
+                )
+                .select('id')
+                .maybeSingle();
+
+              if (enrollError) {
+                logger.error('[webhook] Async payment: failed to upsert enrollment', enrollError);
               } else {
-                logger.info('[webhook] Revoked entitlements for refunded charge');
+                await auditLog({
+                  action: AuditAction.ENROLLMENT_CREATED,
+                  entity: AuditEntity.ENROLLMENT,
+                  entityId: enrollment?.id,
+                  userId: studentId,
+                  metadata: {
+                    program_id: programId,
+                    program_slug: programSlug,
+                    funding_source: fundingSource,
+                    amount_paid: amountPaid,
+                    checkout_session_id: asyncSession.id,
+                    payment_method: 'async_bnpl',
+                    activated_by: 'webhook:async_payment_succeeded',
+                  },
+                });
+                logger.info(
+                  `✅ Async payment enrollment provisioned: ${programSlug} for ${studentId}`,
+                );
+              }
+            }
+          }
+          break;
+        }
+
+        case 'checkout.session.async_payment_failed': {
+          const failedSession = event.data.object as Stripe.Checkout.Session;
+          logger.warn('[webhook] Async payment failed', {
+            sessionId: failedSession.id,
+            customerEmail: failedSession.customer_email,
+            metadata: failedSession.metadata,
+          });
+          // No enrollment to deactivate since we deferred on session.completed
+          break;
+        }
+
+        case 'payment_intent.succeeded': {
+          const paymentIntent = event.data.object as Stripe.PaymentIntent;
+          logger.info('PaymentIntent succeeded:', paymentIntent.id);
+          break;
+        }
+
+        case 'payment_intent.payment_failed': {
+          const failedPayment = event.data.object as Stripe.PaymentIntent;
+
+          // Handle enrollment payment failure
+          const enrollmentId = failedPayment.metadata?.enrollment_id;
+          if (enrollmentId) {
+            try {
+              const { error } = await supabase.rpc('fail_stripe_payment', {
+                p_enrollment_id: enrollmentId,
+                p_stripe_event_id: event.id,
+                p_error_message: failedPayment.last_payment_error?.message || 'Payment failed',
+              });
+
+              if (error) {
+                logger.error('Error handling payment failure:', error);
+              } else {
+                logger.info(`✅ Enrollment payment failure handled: ${enrollmentId}`);
+              }
+            } catch (err: any) {
+              Sentry.captureException(err, { tags: { subsystem: 'stripe_webhook' } });
+              logger.error(
+                'Error processing payment failure:',
+                err instanceof Error ? err : new Error(String(err)),
+              );
+            }
+          } else {
+            logger.info('Payment failed:', failedPayment.id);
+          }
+          break;
+        }
+
+        // LANE B: Store subscription events
+        case 'customer.subscription.created':
+        case 'customer.subscription.updated': {
+          const subscription = event.data.object as Stripe.Subscription;
+
+          // Only handle store subscriptions
+          if (subscription.metadata?.user_id) {
+            const lmsMeta = parseWebhookMeta(
+              LmsSubscriptionMeta,
+              subscription.metadata,
+              event.id,
+              logger,
+            );
+            if (!lmsMeta) break;
+            try {
+              const userId = lmsMeta.user_id;
+              const priceId = subscription.items.data[0]?.price.id;
+
+              if (!priceId) {
+                logger.error('No price ID in subscription');
+                break;
               }
 
-              // Flag certificates for this user as funding-invalid
-              await flagCertificatesForRefund(supabase, profile.id, paymentIntentId, charge.id);
+              // Upsert subscription
+              const { data, error }: any = await supabase.rpc('upsert_store_subscription', {
+                p_user_id: userId,
+                p_stripe_subscription_id: subscription.id,
+                p_stripe_customer_id: subscription.customer as string,
+                p_stripe_price_id: priceId,
+                p_status: subscription.status,
+                p_cancel_at_period_end: subscription.cancel_at_period_end,
+                p_current_period_start: new Date(
+                  (subscription as any).current_period_start * 1000,
+                ).toISOString(),
+                p_current_period_end: new Date(
+                  (subscription as any).current_period_end * 1000,
+                ).toISOString(),
+                p_canceled_at: subscription.canceled_at
+                  ? new Date(subscription.canceled_at * 1000).toISOString()
+                  : null,
+                p_ended_at: subscription.ended_at
+                  ? new Date(subscription.ended_at * 1000).toISOString()
+                  : null,
+                p_trial_start: subscription.trial_start
+                  ? new Date(subscription.trial_start * 1000).toISOString()
+                  : null,
+                p_trial_end: subscription.trial_end
+                  ? new Date(subscription.trial_end * 1000).toISOString()
+                  : null,
+                p_metadata: subscription.metadata,
+              });
+
+              if (error) {
+                logger.error('Error upserting subscription:', error);
+              } else {
+                logger.info(`✅ Store subscription ${event.type}: ${subscription.id}`);
+              }
+            } catch (err: any) {
+              Sentry.captureException(err, { tags: { subsystem: 'stripe_webhook' } });
+              logger.error(
+                'Error processing subscription event:',
+                err instanceof Error ? err : new Error(String(err)),
+              );
             }
           }
           break;
         }
 
-        // Revoke entitlements for this payment
-        const { error: revokeError } = await supabase
-          .from('store_entitlements')
-          .update({ 
-            revoked_at: new Date().toISOString(),
-            revoke_reason: 'refund'
-          })
-          .eq('user_id', userId)
-          .eq('stripe_payment_intent_id', paymentIntentId);
+        case 'customer.subscription.deleted': {
+          const subscription = event.data.object as Stripe.Subscription;
 
-        if (revokeError) {
-          logger.error('[webhook] Error revoking entitlements:', revokeError);
-        } else {
-          logger.info(`[webhook] Revoked entitlements for user ${userId} due to refund on charge ${charge.id}`);
-        }
+          if (subscription.metadata?.user_id) {
+            try {
+              const userId = subscription.metadata.user_id;
+              const priceId = subscription.items.data[0]?.price.id;
 
-        // POLICY: Refund reverses funding, not training.
-        // A payment reversal is a fiscal event, not an instructional event.
-        // The student earned competency; access continues unless an admin
-        // explicitly terminates enrollment via a separate action.
-        //
-        // We update ONLY funding_status. Training status (status column)
-        // is untouched. If an admin later decides to terminate, they set
-        // status='cancelled' through the admin UI, which requires reason+actor.
-        if (enrollmentId) {
-          const { error: enrollError } = await supabase
-            .from('program_enrollments')
-            .update({ 
-              funding_status: 'refunded',
-              funding_status_changed_at: new Date().toISOString(),
-              funding_status_reason: `Stripe charge.refunded: ${charge.id}`,
-            })
-            .eq('id', enrollmentId);
+              if (!priceId) {
+                logger.error('No price ID in subscription');
+                break;
+              }
 
-          if (enrollError) {
-            logger.error('[webhook] Error updating enrollment funding_status:', enrollError);
-          } else {
-            logger.info(`[webhook] Marked enrollment ${enrollmentId} funding_status=refunded (training status unchanged)`);
-          }
-        }
+              // Mark subscription as canceled
+              const { error } = await supabase.rpc('upsert_store_subscription', {
+                p_user_id: userId,
+                p_stripe_subscription_id: subscription.id,
+                p_stripe_customer_id: subscription.customer as string,
+                p_stripe_price_id: priceId,
+                p_status: 'canceled',
+                p_cancel_at_period_end: false,
+                p_current_period_start: new Date(
+                  (subscription as any).current_period_start * 1000,
+                ).toISOString(),
+                p_current_period_end: new Date(
+                  (subscription as any).current_period_end * 1000,
+                ).toISOString(),
+                p_canceled_at: subscription.canceled_at
+                  ? new Date(subscription.canceled_at * 1000).toISOString()
+                  : null,
+                p_ended_at: new Date().toISOString(),
+                p_trial_start: subscription.trial_start
+                  ? new Date(subscription.trial_start * 1000).toISOString()
+                  : null,
+                p_trial_end: subscription.trial_end
+                  ? new Date(subscription.trial_end * 1000).toISOString()
+                  : null,
+                p_metadata: subscription.metadata,
+              });
 
-        // Flag certificates as funding-invalid (not revoked — credential was earned)
-        await flagCertificatesForRefund(supabase, userId, paymentIntentId, charge.id, enrollmentId, programId);
-
-        // Revoke LMS access if product grants course access
-        if (productId) {
-          const { data: product } = await supabase
-            .from('store_products')
-            .select('grants_course_access, course_id')
-            .eq('id', productId)
-            .maybeSingle();
-
-          if (product?.grants_course_access && product.course_id) {
-            const { error: lmsError } = await supabase
-              .from('course_enrollments')
-              .update({ 
-                status: 'revoked',
-                revoked_at: new Date().toISOString(),
-                revoke_reason: 'refund'
-              })
-              .eq('user_id', userId)
-              .eq('course_id', product.course_id);
-
-            if (lmsError) {
-              logger.error('[webhook] Error revoking LMS access:', lmsError);
-            } else {
-              logger.info(`[webhook] Revoked LMS access for course ${product.course_id}`);
+              if (error) {
+                logger.error('Error canceling subscription:', error);
+              } else {
+                logger.info(`✅ Store subscription canceled: ${subscription.id}`);
+              }
+            } catch (err: any) {
+              Sentry.captureException(err, { tags: { subsystem: 'stripe_webhook' } });
+              logger.error(
+                'Error processing subscription deletion:',
+                err instanceof Error ? err : new Error(String(err)),
+              );
             }
           }
+          break;
         }
 
-        // Cross-provider reconciliation record (post-mutation).
-        // Idempotency for Stripe is handled by stripe_webhook_events (pre-mutation).
-        // This table is for multi-provider reconciliation reporting only.
-        try {
-          await supabase.from('webhook_events_processed').insert({
-            provider: 'stripe',
-            event_id: event.id,
-            event_type: event.type,
-            payment_reference: paymentIntentId,
-            enrollment_id: enrollmentId || null,
-            status: 'processed',
-            metadata: {
-              charge_id: charge.id,
-              refund_amount: charge.amount_refunded,
-              user_id: userId,
-            },
-          });
-        } catch (logErr) {
-          logger.warn('[webhook] Failed to record in webhook_events_processed:', logErr);
-        }
+        case 'invoice.payment_succeeded': {
+          const invoice = event.data.object as Stripe.Invoice;
 
-        // Flag certificates issued to this student
-        await flagCertificatesOnRefund({
-          supabase,
-          studentId: userId,
-          enrollmentId: enrollmentId || undefined,
-          reason: 'refunded',
-          paymentProvider: 'stripe',
-          paymentReference: charge.id,
-        });
-
-        // Audit log the refund
-        await auditLog({
-          action: AuditAction.DELETE,
-          entity: AuditEntity.ENTITLEMENT,
-          entityId: paymentIntentId,
-          userId: userId,
-          metadata: {
-            charge_id: charge.id,
-            refund_amount: charge.amount_refunded,
-            reason: 'stripe_refund'
+          // Log successful subscription payment
+          if ((invoice as any).subscription) {
+            logger.info(`✅ Subscription payment succeeded: ${(invoice as any).subscription}`);
           }
-        });
+          break;
+        }
 
-      } catch (err) {
-        logger.error('[webhook] Error processing refund:', err);
-      }
-      break;
-    }
+        case 'invoice.payment_failed': {
+          const invoice = event.data.object as Stripe.Invoice;
 
-      default:
-        logger.info(`[webhook] Unhandled event type: ${event.type}`);
-        logger.info(`Unhandled event type: ${event.type}`);
+          // Handle failed subscription payment
+          if ((invoice as any).subscription) {
+            logger.error(`❌ Subscription payment failed: ${(invoice as any).subscription}`);
+
+            // Check if this is a license subscription and suspend if needed
+            try {
+              const { enforceSubscriptionStatus } = await import('@/lib/licensing/provisioning');
+              await enforceSubscriptionStatus((invoice as any).subscription);
+            } catch (err) {
+              logger.error('Error enforcing subscription status:', err);
+            }
+          }
+
+          // Handle failed apprenticeship installment payment
+          // Pause enrollment and lock portal access
+          if (invoice.metadata?.kind === 'apprenticeship_enrollment') {
+            const invoiceMeta = parseWebhookMeta(
+              BarberInvoiceMeta,
+              invoice.metadata,
+              event.id,
+              logger,
+            );
+            if (!invoiceMeta) break;
+            try {
+              const applicationId = invoiceMeta.application_id;
+              const studentId = invoiceMeta.student_id;
+
+              logger.info('[webhook] Apprenticeship payment failed, pausing enrollment', {
+                applicationId,
+                studentId,
+              });
+
+              // Update enrollment status to paused
+              const { error: pauseError } = await supabase
+                .from('program_enrollments')
+                .update({
+                  status: 'paused',
+                  paused_at: new Date().toISOString(),
+                  pause_reason: 'payment_failed',
+                })
+                .eq('application_id', applicationId);
+
+              if (pauseError) {
+                logger.error('[webhook] Failed to pause enrollment', pauseError);
+              } else {
+                logger.warn(
+                  `⚠️ Apprenticeship enrollment paused due to payment failure: ${applicationId}`,
+                );
+
+                // Audit log
+                await auditLog({
+                  action: AuditAction.ENROLLMENT_UPDATED,
+                  entity: AuditEntity.ENROLLMENT,
+                  entityId: applicationId,
+                  userId: studentId,
+                  metadata: {
+                    status: 'paused',
+                    reason: 'payment_failed',
+                    invoice_id: invoice.id,
+                  },
+                });
+              }
+            } catch (err) {
+              logger.error('[webhook] Error handling apprenticeship payment failure:', err);
+            }
+          }
+          break;
+        }
+
+        case 'charge.refunded': {
+          const charge = event.data.object as Stripe.Charge;
+          logger.info('[webhook] Processing refund for charge:', charge.id);
+
+          try {
+            // Get payment intent to find metadata
+            const paymentIntentId = charge.payment_intent as string;
+            if (!paymentIntentId) {
+              logger.info('[webhook] No payment intent on charge, skipping');
+              break;
+            }
+
+            const paymentIntent = await stripeClient.paymentIntents.retrieve(paymentIntentId);
+            const userId = paymentIntent.metadata?.user_id;
+            const productId = paymentIntent.metadata?.product_id;
+            const enrollmentId = paymentIntent.metadata?.enrollment_id;
+            const programId = paymentIntent.metadata?.program_id;
+
+            if (!userId) {
+              logger.info('[webhook] No user_id in payment intent metadata, checking customer');
+              // Try to find user by customer ID
+              const customerId = charge.customer as string;
+              if (customerId) {
+                const { data: profile } = await supabase
+                  .from('profiles')
+                  .select('id')
+                  .eq('stripe_customer_id', customerId)
+                  .maybeSingle();
+
+                if (profile) {
+                  // Revoke all recent entitlements for this user from this charge
+                  const { error: revokeError } = await supabase
+                    .from('store_entitlements')
+                    .update({
+                      revoked_at: new Date().toISOString(),
+                      revoke_reason: 'refund',
+                    })
+                    .eq('user_id', profile.id)
+                    .eq('stripe_payment_intent_id', paymentIntentId);
+
+                  if (revokeError) {
+                    logger.error('[webhook] Error revoking entitlements:', revokeError);
+                  } else {
+                    logger.info('[webhook] Revoked entitlements for refunded charge');
+                  }
+
+                  // Flag certificates for this user as funding-invalid
+                  await flagCertificatesForRefund(supabase, profile.id, paymentIntentId, charge.id);
+                }
+              }
+              break;
+            }
+
+            // Revoke entitlements for this payment
+            const { error: revokeError } = await supabase
+              .from('store_entitlements')
+              .update({
+                revoked_at: new Date().toISOString(),
+                revoke_reason: 'refund',
+              })
+              .eq('user_id', userId)
+              .eq('stripe_payment_intent_id', paymentIntentId);
+
+            if (revokeError) {
+              logger.error('[webhook] Error revoking entitlements:', revokeError);
+            } else {
+              logger.info(
+                `[webhook] Revoked entitlements for user ${userId} due to refund on charge ${charge.id}`,
+              );
+            }
+
+            // POLICY: Refund reverses funding, not training.
+            // A payment reversal is a fiscal event, not an instructional event.
+            // The student earned competency; access continues unless an admin
+            // explicitly terminates enrollment via a separate action.
+            //
+            // We update ONLY funding_status. Training status (status column)
+            // is untouched. If an admin later decides to terminate, they set
+            // status='cancelled' through the admin UI, which requires reason+actor.
+            if (enrollmentId) {
+              const { error: enrollError } = await supabase
+                .from('program_enrollments')
+                .update({
+                  funding_status: 'refunded',
+                  funding_status_changed_at: new Date().toISOString(),
+                  funding_status_reason: `Stripe charge.refunded: ${charge.id}`,
+                })
+                .eq('id', enrollmentId);
+
+              if (enrollError) {
+                logger.error('[webhook] Error updating enrollment funding_status:', enrollError);
+              } else {
+                logger.info(
+                  `[webhook] Marked enrollment ${enrollmentId} funding_status=refunded (training status unchanged)`,
+                );
+              }
+            }
+
+            // Flag certificates as funding-invalid (not revoked — credential was earned)
+            await flagCertificatesForRefund(
+              supabase,
+              userId,
+              paymentIntentId,
+              charge.id,
+              enrollmentId,
+              programId,
+            );
+
+            // Revoke LMS access if product grants course access
+            if (productId) {
+              const { data: product } = await supabase
+                .from('store_products')
+                .select('grants_course_access, course_id')
+                .eq('id', productId)
+                .maybeSingle();
+
+              if (product?.grants_course_access && product.course_id) {
+                const { error: lmsError } = await supabase
+                  .from('course_enrollments')
+                  .update({
+                    status: 'revoked',
+                    revoked_at: new Date().toISOString(),
+                    revoke_reason: 'refund',
+                  })
+                  .eq('user_id', userId)
+                  .eq('course_id', product.course_id);
+
+                if (lmsError) {
+                  logger.error('[webhook] Error revoking LMS access:', lmsError);
+                } else {
+                  logger.info(`[webhook] Revoked LMS access for course ${product.course_id}`);
+                }
+              }
+            }
+
+            // Cross-provider reconciliation record (post-mutation).
+            // Idempotency for Stripe is handled by stripe_webhook_events (pre-mutation).
+            // This table is for multi-provider reconciliation reporting only.
+            try {
+              await supabase.from('webhook_events_processed').insert({
+                provider: 'stripe',
+                event_id: event.id,
+                event_type: event.type,
+                payment_reference: paymentIntentId,
+                enrollment_id: enrollmentId || null,
+                status: 'processed',
+                metadata: {
+                  charge_id: charge.id,
+                  refund_amount: charge.amount_refunded,
+                  user_id: userId,
+                },
+              });
+            } catch (logErr) {
+              logger.warn('[webhook] Failed to record in webhook_events_processed:', logErr);
+            }
+
+            // Flag certificates issued to this student
+            await flagCertificatesOnRefund({
+              supabase,
+              studentId: userId,
+              enrollmentId: enrollmentId || undefined,
+              reason: 'refunded',
+              paymentProvider: 'stripe',
+              paymentReference: charge.id,
+            });
+
+            // Audit log the refund
+            await auditLog({
+              action: AuditAction.DELETE,
+              entity: AuditEntity.ENTITLEMENT,
+              entityId: paymentIntentId,
+              userId: userId,
+              metadata: {
+                charge_id: charge.id,
+                refund_amount: charge.amount_refunded,
+                reason: 'stripe_refund',
+              },
+            });
+          } catch (err) {
+            logger.error('[webhook] Error processing refund:', err);
+          }
+          break;
+        }
+
+        default:
+          logger.info(`[webhook] Unhandled event type: ${event.type}`);
+          logger.info(`Unhandled event type: ${event.type}`);
       }
     } catch (switchErr) {
       // Event handler threw - log but don't fail
@@ -932,22 +1000,22 @@ async function _POST(request: NextRequest) {
       logger.warn('[webhook] Failed to update status:', updateErr);
       logger.warn('Failed to update webhook status:', updateErr);
     }
-
   } catch (processingError: any) {
     // Outer catch - something unexpected happened
-    const errMsg = processingError instanceof Error ? processingError.message : String(processingError);
+    const errMsg =
+      processingError instanceof Error ? processingError.message : String(processingError);
     const errStack = processingError instanceof Error ? processingError.stack : undefined;
     logger.error('[webhook] Post-verify error:', errMsg);
     if (errStack) logger.error('[webhook] Stack:', errStack);
-    
+
     // Try to update webhook event status to failed
     try {
       await supabase
         .from('stripe_webhook_events')
-        .update({ 
-          status: 'failed', 
+        .update({
+          status: 'failed',
           error_message: errMsg,
-          processed_at: new Date().toISOString() 
+          processed_at: new Date().toISOString(),
         })
         .eq('stripe_event_id', event.id);
       finalizeWebhookEvent('stripe', event.id, 'errored', errMsg).catch(() => {});
@@ -965,4 +1033,7 @@ async function _POST(request: NextRequest) {
 // skip_body: Stripe body is already consumed by request.text() inside the handler.
 // critical omitted: audit failure must not override the 200 returned to Stripe —
 // the handler writes its own idempotency records to stripe_webhook_events.
-export const POST = withApiAudit('/api/webhooks/stripe', _POST, { actor_type: 'webhook', skip_body: true });
+export const POST = withApiAudit('/api/webhooks/stripe', _POST, {
+  actor_type: 'webhook',
+  skip_body: true,
+});

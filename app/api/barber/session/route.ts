@@ -19,7 +19,14 @@ const THEORY_CREDIT_RATE = 1.0;
 
 // Module theory caps (mirrors migration data)
 const MODULE_THEORY_CAPS: Record<number, number> = {
-  1: 150, 2: 150, 3: 100, 4: 100, 5: 50, 6: 100, 7: 90, 8: 100,
+  1: 150,
+  2: 150,
+  3: 100,
+  4: 100,
+  5: 50,
+  6: 100,
+  7: 90,
+  8: 100,
 };
 
 export async function POST(request: NextRequest) {
@@ -27,7 +34,9 @@ export async function POST(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return safeError('Unauthorized', 401);
 
   try {
@@ -40,7 +49,8 @@ export async function POST(request: NextRequest) {
     if (!db) return safeError('Service unavailable', 503);
 
     // Abandon any existing active session for this user
-    await db.from('barber_training_sessions')
+    await db
+      .from('barber_training_sessions')
       .update({ status: 'abandoned', ended_at: new Date().toISOString() })
       .eq('user_id', user.id)
       .eq('status', 'active');
@@ -69,7 +79,9 @@ export async function PATCH(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return safeError('Unauthorized', 401);
 
   try {
@@ -94,17 +106,22 @@ export async function PATCH(request: NextRequest) {
     const gapSeconds = Math.floor((now.getTime() - lastBeat.getTime()) / 1000);
     const additionalIdle = gapSeconds > IDLE_TIMEOUT_SECONDS ? gapSeconds : 0;
 
-    await db.from('barber_training_sessions').update({
-      last_heartbeat_at: now.toISOString(),
-      idle_seconds: session.idle_seconds + additionalIdle,
-      heartbeat_count: session.heartbeat_count + 1,
-      video_watch_seconds: db.rpc ? undefined : undefined, // incremented below
-      click_count: (session as any).click_count + (clicks ?? 0),
-    }).eq('id', session_id);
+    await db
+      .from('barber_training_sessions')
+      .update({
+        last_heartbeat_at: now.toISOString(),
+        idle_seconds: session.idle_seconds + additionalIdle,
+        heartbeat_count: session.heartbeat_count + 1,
+        video_watch_seconds: db.rpc ? undefined : undefined, // incremented below
+        click_count: (session as any).click_count + (clicks ?? 0),
+      })
+      .eq('id', session_id);
 
     if (video_seconds) {
-      await db.rpc('increment_session_video', { p_session_id: session_id, p_seconds: video_seconds })
-        .then(() => {}).catch(() => {}); // non-critical
+      await db
+        .rpc('increment_session_video', { p_session_id: session_id, p_seconds: video_seconds })
+        .then(() => {})
+        .catch(() => {}); // non-critical
     }
 
     return NextResponse.json({ ok: true, idle_gap: additionalIdle });
@@ -118,7 +135,9 @@ export async function DELETE(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return safeError('Unauthorized', 401);
 
   try {
@@ -153,33 +172,42 @@ export async function DELETE(request: NextRequest) {
 
     const currentTheory = (ledger as any)?.[`mod${session.module_number}_theory`] ?? 0;
     const cap = MODULE_THEORY_CAPS[session.module_number] ?? 100;
-    const theoryCredited = Math.min(activeHours * THEORY_CREDIT_RATE, Math.max(0, cap - currentTheory));
+    const theoryCredited = Math.min(
+      activeHours * THEORY_CREDIT_RATE,
+      Math.max(0, cap - currentTheory),
+    );
 
     // Update session record
-    await db.from('barber_training_sessions').update({
-      status: 'completed',
-      ended_at: now.toISOString(),
-      active_seconds: activeSeconds,
-      theory_hours_credited: theoryCredited,
-      practical_hours_credited: 0, // practical hours come from instructor approval only
-    }).eq('id', session_id);
+    await db
+      .from('barber_training_sessions')
+      .update({
+        status: 'completed',
+        ended_at: now.toISOString(),
+        active_seconds: activeSeconds,
+        theory_hours_credited: theoryCredited,
+        practical_hours_credited: 0, // practical hours come from instructor approval only
+      })
+      .eq('id', session_id);
 
     // Credit theory hours to ledger
     if (theoryCredited > 0) {
       const modCol = `mod${session.module_number}_theory`;
-      await db.from('barber_hour_ledger').upsert({
-        user_id: user.id,
-        program_id: BARBER_PROGRAM_ID,
-        [modCol]: theoryCredited,
-        theory_hours: theoryCredited,
-        total_hours: theoryCredited,
-        last_session_start: session.started_at,
-        last_session_end: now.toISOString(),
-        updated_at: now.toISOString(),
-      }, {
-        onConflict: 'user_id,program_id',
-        ignoreDuplicates: false,
-      });
+      await db.from('barber_hour_ledger').upsert(
+        {
+          user_id: user.id,
+          program_id: BARBER_PROGRAM_ID,
+          [modCol]: theoryCredited,
+          theory_hours: theoryCredited,
+          total_hours: theoryCredited,
+          last_session_start: session.started_at,
+          last_session_end: now.toISOString(),
+          updated_at: now.toISOString(),
+        },
+        {
+          onConflict: 'user_id,program_id',
+          ignoreDuplicates: false,
+        },
+      );
 
       // Audit event
       await db.from('barber_hour_events').insert({

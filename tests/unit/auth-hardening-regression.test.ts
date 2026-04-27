@@ -14,8 +14,12 @@ import { describe, it, expect, vi, beforeEach } from 'vitest';
 
 type Role = 'student' | 'instructor' | 'admin' | 'super_admin' | 'staff' | 'program_holder';
 
-interface MockUser { id: string; }
-interface MockProfile { role: Role; }
+interface MockUser {
+  id: string;
+}
+interface MockProfile {
+  role: Role;
+}
 
 function makeSupabaseMock(user: MockUser | null, authError?: string) {
   return {
@@ -47,8 +51,14 @@ function makeAdminDbMock(profile: MockProfile | null, profileError?: string) {
 
 // ── requireAdminActor logic (extracted from admin/users/actions.ts) ───────────
 
-async function requireAdminActor(supabase: ReturnType<typeof makeSupabaseMock>, db: ReturnType<typeof makeAdminDbMock>) {
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+async function requireAdminActor(
+  supabase: ReturnType<typeof makeSupabaseMock>,
+  db: ReturnType<typeof makeAdminDbMock>,
+) {
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError) throw new Error(`Auth failed: ${authError.message}`);
   if (!user) throw new Error('Not authenticated');
   if (!db) throw new Error('Admin client failed to initialize');
@@ -60,21 +70,34 @@ async function requireAdminActor(supabase: ReturnType<typeof makeSupabaseMock>, 
 
 // ── requireAdminOrStaff logic (extracted from admin/payroll/actions.ts) ───────
 
-async function requireAdminOrStaff(supabase: ReturnType<typeof makeSupabaseMock>, db: ReturnType<typeof makeAdminDbMock>) {
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+async function requireAdminOrStaff(
+  supabase: ReturnType<typeof makeSupabaseMock>,
+  db: ReturnType<typeof makeAdminDbMock>,
+) {
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError) throw new Error(`Auth failed: ${authError.message}`);
   if (!user) throw new Error('Not authenticated');
   if (!db) throw new Error('Admin client failed to initialize');
   const result = await db.from('profiles').select('role').eq('id', user.id).single();
   if (result.error) throw new Error(`Profile fetch failed: ${result.error.message}`);
-  if (!['admin', 'super_admin', 'staff'].includes(result.data?.role ?? '')) throw new Error('Forbidden');
+  if (!['admin', 'super_admin', 'staff'].includes(result.data?.role ?? ''))
+    throw new Error('Forbidden');
   return { user, db };
 }
 
 // ── requireAdminForVerification (extracted from program-holders/verification) ─
 
-async function requireAdminForVerification(supabase: ReturnType<typeof makeSupabaseMock>, db: ReturnType<typeof makeAdminDbMock>) {
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+async function requireAdminForVerification(
+  supabase: ReturnType<typeof makeSupabaseMock>,
+  db: ReturnType<typeof makeAdminDbMock>,
+) {
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError) throw new Error(`Auth failed: ${authError.message}`);
   if (!user) return { error: 'Not authenticated' };
   const result = await db.from('profiles').select('role').eq('id', user.id).single();
@@ -196,7 +219,9 @@ describe('program-holders/verification — requireAdminForVerification', () => {
   it('throws when profile lookup fails — fails closed', async () => {
     const supabase = makeSupabaseMock({ id: 'user-1' });
     const db = makeAdminDbMock(null, 'DB unavailable');
-    await expect(requireAdminForVerification(supabase, db)).rejects.toThrow('Actor profile fetch failed');
+    await expect(requireAdminForVerification(supabase, db)).rejects.toThrow(
+      'Actor profile fetch failed',
+    );
   });
 
   it('succeeds for admin', async () => {
@@ -222,7 +247,10 @@ describe('LMS actions — auth gate (session client only)', () => {
 
   async function simulateLmsAction(user: MockUser | null, authError?: string) {
     const supabase = makeSupabaseMock(user, authError);
-    const { data: { user: resolvedUser }, error } = await supabase.auth.getUser();
+    const {
+      data: { user: resolvedUser },
+      error,
+    } = await supabase.auth.getUser();
     if (error) throw new Error(`Auth failed: ${error.message}`);
     if (!resolvedUser) return { error: 'Not authenticated' };
     return { success: true, userId: resolvedUser.id };
@@ -249,7 +277,9 @@ describe('LMS actions — auth gate (session client only)', () => {
   });
 
   it('throws on auth error (not silently degrades)', async () => {
-    await expect(simulateLmsAction(null, 'token expired')).rejects.toThrow('Auth failed: token expired');
+    await expect(simulateLmsAction(null, 'token expired')).rejects.toThrow(
+      'Auth failed: token expired',
+    );
   });
 
   it('allows authenticated learner to proceed', async () => {

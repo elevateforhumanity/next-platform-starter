@@ -84,10 +84,10 @@ export async function fetchCareerOneStopData(
   return {
     soc_code: socCode,
     location: state,
-    certifications: [],       // /certificationfinder not available on this account
-    apprenticeship_count: 0,  // /apprenticeship not available on this account
+    certifications: [], // /certificationfinder not available on this account
+    apprenticeship_count: 0, // /apprenticeship not available on this account
     job_postings_count: jobPostings,
-    local_median_wage: null,  // use BLS OES wages instead
+    local_median_wage: null, // use BLS OES wages instead
     top_employers: [],
   };
 }

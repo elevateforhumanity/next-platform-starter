@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -111,7 +111,9 @@ export function AssignmentSubmission({
 
     try {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       if (!user) {
         alert('Please log in to submit assignments');
@@ -124,44 +126,58 @@ export function AssignmentSubmission({
       for (const file of files) {
         const fileExt = file.name.split('.').pop();
         const fileName = `${user.id}/${assignmentId}/${Date.now()}.${fileExt}`;
-        
+
         // Get the actual file blob from the object URL
         const response = await fetch(file.url);
         const blob = await response.blob();
-        
+
         const { data: uploadData, error: uploadError } = await supabase.storage
           .from('assignments')
           .upload(fileName, blob);
 
         if (!uploadError && uploadData) {
-          const { data: { publicUrl } } = supabase.storage
-            .from('assignments')
-            .getPublicUrl(fileName);
+          const {
+            data: { publicUrl },
+          } = supabase.storage.from('assignments').getPublicUrl(fileName);
           uploadedUrls.push(publicUrl);
         }
       }
 
       // Create submission record
-      const { error } = await supabase
-        .from('assignment_submissions')
-        .insert({
-          assignment_id: assignmentId,
-          user_id: user.id,
-          files: uploadedUrls.length > 0 ? uploadedUrls : files.map(f => f.name),
-          comment: comment || null,
-          submitted_at: new Date().toISOString(),
-          status: 'submitted',
-        });
+      const { error } = await supabase.from('assignment_submissions').insert({
+        assignment_id: assignmentId,
+        user_id: user.id,
+        files: uploadedUrls.length > 0 ? uploadedUrls : files.map((f) => f.name),
+        comment: comment || null,
+        submitted_at: new Date().toISOString(),
+        status: 'submitted',
+      });
 
       if (error) throw error;
 
       setSubmitted(true);
-      setSubmittedAt(new Date().toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }));
+      setSubmittedAt(
+        new Date().toLocaleString('en-US', {
+          timeZone: 'UTC',
+          month: 'short',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+        }),
+      );
     } catch (err) {
       console.error('Submission error:', err);
       // Still mark as submitted for demo purposes
       setSubmitted(true);
-      setSubmittedAt(new Date().toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }));
+      setSubmittedAt(
+        new Date().toLocaleString('en-US', {
+          timeZone: 'UTC',
+          month: 'short',
+          day: 'numeric',
+          hour: 'numeric',
+          minute: '2-digit',
+        }),
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -197,7 +213,17 @@ export function AssignmentSubmission({
         <CardContent>
           <div className="flex items-center gap-2 text-sm">
             <AlertCircle size={16} className="text-brand-orange-600" />
-            <span>Due: {new Date(dueDate).toLocaleString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric', hour: 'numeric', minute: '2-digit' })}</span>
+            <span>
+              Due:{' '}
+              {new Date(dueDate).toLocaleString('en-US', {
+                timeZone: 'UTC',
+                month: 'short',
+                day: 'numeric',
+                year: 'numeric',
+                hour: 'numeric',
+                minute: '2-digit',
+              })}
+            </span>
           </div>
         </CardContent>
       </Card>
@@ -221,22 +247,18 @@ export function AssignmentSubmission({
             }`}
           >
             <Upload className="w-12 h-12 text-slate-700 mx-auto mb-4" />
-            <div className="text-lg font-semibold mb-2">
-              Drop files here or click to browse
-            </div>
-            <div className="text-sm text-black">
-              Supported formats: {allowedTypes.join(', ')}
-            </div>
-            <div className="text-sm text-black">
-              Maximum file size: {maxFileSize}MB
-            </div>
+            <div className="text-lg font-semibold mb-2">Drop files here or click to browse</div>
+            <div className="text-sm text-black">Supported formats: {allowedTypes.join(', ')}</div>
+            <div className="text-sm text-black">Maximum file size: {maxFileSize}MB</div>
           </div>
 
           <input
             ref={fileInputRef}
             type="file"
             multiple
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => handleFileSelect(e.target.files)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => handleFileSelect(e.target.files)}
             className="hidden"
             accept={allowedTypes.map((t) => `.${t}`).join(',')}
           />
@@ -253,9 +275,7 @@ export function AssignmentSubmission({
                   {getFileIcon(file.type)}
                   <div className="flex-1 min-w-0">
                     <div className="font-medium truncate">{file.name}</div>
-                    <div className="text-sm text-black">
-                      {formatFileSize(file.size)}
-                    </div>
+                    <div className="text-sm text-black">{formatFileSize(file.size)}</div>
                   </div>
                   <button
                     onClick={() => removeFile(file.id)}
@@ -278,7 +298,9 @@ export function AssignmentSubmission({
         <CardContent>
           <textarea
             value={comment}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setComment(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setComment(e.target.value)}
             placeholder="Add any notes or comments for your instructor..."
             className="w-full px-4 py-3 border rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
             rows={4}

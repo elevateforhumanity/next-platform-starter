@@ -23,10 +23,10 @@ declare global {
 
 /**
  * Sezzle Banner Component
- * 
+ *
  * Displays a promotional banner showing "Pay in 4 interest-free payments"
  * Add to homepage or header to increase conversions.
- * 
+ *
  * Usage:
  * <SezzleBanner />
  * <SezzleBanner theme="black" />

@@ -5,8 +5,13 @@ import Image from 'next/image';
 import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
-  GraduationCap, ArrowRight, BookOpen, Award,
-  Phone, Mail, AlertTriangle,
+  GraduationCap,
+  ArrowRight,
+  BookOpen,
+  Award,
+  Phone,
+  Mail,
+  AlertTriangle,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -19,7 +24,9 @@ export const metadata: Metadata = {
 export default async function ParentDashboardPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     redirect('/login?redirect=/parent-portal/dashboard');
   }
@@ -64,18 +71,18 @@ export default async function ParentDashboardPage() {
   }
 
   const students = (links ?? []).map((row: any) => ({
-    id:           row.student_id as string,
-    fullName:     profileMap[row.student_id]?.full_name ?? 'Student',
-    email:        profileMap[row.student_id]?.email ?? null,
+    id: row.student_id as string,
+    fullName: profileMap[row.student_id]?.full_name ?? 'Student',
+    email: profileMap[row.student_id]?.email ?? null,
     relationship: row.relationship ?? 'guardian',
-    verified:     row.verified ?? false,
-    enrollments:  (enrollmentsByStudent[row.student_id] ?? []).map((e: any) => ({
-      id:              e.id,
-      status:          e.status,
+    verified: row.verified ?? false,
+    enrollments: (enrollmentsByStudent[row.student_id] ?? []).map((e: any) => ({
+      id: e.id,
+      status: e.status,
       progressPercent: e.progress_percent ?? 0,
-      enrolledAt:      e.enrolled_at,
-      programTitle:    (e.programs as any)?.title ?? 'Program',
-      programSlug:     (e.programs as any)?.slug ?? '',
+      enrolledAt: e.enrolled_at,
+      programTitle: (e.programs as any)?.title ?? 'Program',
+      programSlug: (e.programs as any)?.slug ?? '',
     })),
   }));
 
@@ -85,6 +92,7 @@ export default async function ParentDashboardPage() {
     <div className="min-h-screen bg-white">
       {/* Hero */}
       <section className="relative h-40 sm:h-56 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/about-career-training.jpg"
           alt=""
@@ -97,10 +105,9 @@ export default async function ParentDashboardPage() {
       </section>
 
       <div className="max-w-5xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[
-          { label: 'Parent Portal', href: '/parent-portal' },
-          { label: 'Dashboard' },
-        ]} />
+        <Breadcrumbs
+          items={[{ label: 'Parent Portal', href: '/parent-portal' }, { label: 'Dashboard' }]}
+        />
       </div>
 
       <div className="max-w-5xl mx-auto px-4 pb-20">
@@ -140,8 +147,11 @@ export default async function ParentDashboardPage() {
         ) : (
           /* Student cards */
           <div className="space-y-8">
-            {students.map(student => (
-              <div key={student.id} className="rounded-2xl border border-slate-200 bg-white overflow-hidden">
+            {students.map((student) => (
+              <div
+                key={student.id}
+                className="rounded-2xl border border-slate-200 bg-white overflow-hidden"
+              >
                 {/* Student header */}
                 <div className="flex items-center gap-4 px-6 py-5 border-b border-slate-100">
                   <div className="w-12 h-12 rounded-full bg-blue-100 flex items-center justify-center flex-shrink-0">
@@ -166,21 +176,29 @@ export default async function ParentDashboardPage() {
 
                 {/* Enrollments */}
                 {student.enrollments.length === 0 ? (
-                  <div className="px-6 py-6 text-sm text-slate-400">No active enrollments found.</div>
+                  <div className="px-6 py-6 text-sm text-slate-400">
+                    No active enrollments found.
+                  </div>
                 ) : (
                   <div className="divide-y divide-slate-100">
-                    {student.enrollments.map(enr => (
+                    {student.enrollments.map((enr) => (
                       <div key={enr.id} className="px-6 py-5">
                         <div className="flex items-start justify-between gap-4 mb-3">
                           <div className="flex items-center gap-2 min-w-0">
                             <BookOpen className="w-4 h-4 text-slate-400 flex-shrink-0" />
-                            <span className="text-sm font-semibold text-slate-800 truncate">{enr.programTitle}</span>
+                            <span className="text-sm font-semibold text-slate-800 truncate">
+                              {enr.programTitle}
+                            </span>
                           </div>
-                          <span className={`flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${
-                            enr.status === 'active'    ? 'bg-emerald-100 text-emerald-700' :
-                            enr.status === 'completed' ? 'bg-blue-100 text-blue-700' :
-                            'bg-slate-100 text-slate-600'
-                          }`}>
+                          <span
+                            className={`flex-shrink-0 text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${
+                              enr.status === 'active'
+                                ? 'bg-emerald-100 text-emerald-700'
+                                : enr.status === 'completed'
+                                  ? 'bg-blue-100 text-blue-700'
+                                  : 'bg-slate-100 text-slate-600'
+                            }`}
+                          >
                             {enr.status}
                           </span>
                         </div>
@@ -214,7 +232,9 @@ export default async function ParentDashboardPage() {
         <div className="mt-14 rounded-2xl border border-slate-200 bg-slate-50 px-6 py-8 flex flex-col sm:flex-row items-center justify-between gap-4">
           <div>
             <p className="font-bold text-slate-900">Need help?</p>
-            <p className="text-sm text-slate-500">Contact your student&apos;s program coordinator.</p>
+            <p className="text-sm text-slate-500">
+              Contact your student&apos;s program coordinator.
+            </p>
           </div>
           <div className="flex gap-3">
             <a

@@ -35,8 +35,7 @@ class VeteranServicesSystem {
           },
           chapter30: {
             name: 'Montgomery GI Bill (Chapter 30)',
-            description:
-              'Education benefits for veterans who contributed to MGIB during service',
+            description: 'Education benefits for veterans who contributed to MGIB during service',
             coverage: {
               monthly: '$2,122 per month for full-time training',
               duration: '36 months of benefits',
@@ -65,8 +64,7 @@ class VeteranServicesSystem {
               amount: 'Equal to monthly housing allowance',
               programs: 'High-demand occupations only',
             },
-            eligibility:
-              'Unemployed due to COVID-19, exhausted other GI Bill benefits',
+            eligibility: 'Unemployed due to COVID-19, exhausted other GI Bill benefits',
           },
         },
         state: {
@@ -91,8 +89,7 @@ class VeteranServicesSystem {
       services: {
         counseling: {
           name: 'Veteran Education Counseling',
-          description:
-            'Dedicated counselors specializing in veteran education benefits',
+          description: 'Dedicated counselors specializing in veteran education benefits',
           services: [
             'Benefits eligibility assessment',
             'Program selection guidance',
@@ -108,8 +105,7 @@ class VeteranServicesSystem {
         },
         accessibility: {
           name: 'Accessibility Services',
-          description:
-            'Comprehensive accommodations for veterans with disabilities',
+          description: 'Comprehensive accommodations for veterans with disabilities',
           services: [
             'Assistive technology training',
             'Alternative format materials',
@@ -126,8 +122,7 @@ class VeteranServicesSystem {
         },
         career: {
           name: 'Career Transition Services',
-          description:
-            'Specialized career services for military-to-civilian transition',
+          description: 'Specialized career services for military-to-civilian transition',
           services: [
             'Military skills translation',
             'Resume writing for civilian jobs',
@@ -139,8 +134,7 @@ class VeteranServicesSystem {
         },
         financial: {
           name: 'Financial Support Services',
-          description:
-            'Additional financial assistance beyond GI Bill benefits',
+          description: 'Additional financial assistance beyond GI Bill benefits',
           services: [
             'Emergency financial assistance',
             'Textbook and supply vouchers',
@@ -161,21 +155,14 @@ class VeteranServicesSystem {
           placement: {
             rate: 94,
             averageSalary: 75000,
-            employers: [
-              'Government contractors',
-              'Defense companies',
-              'Financial institutions',
-            ],
+            employers: ['Government contractors', 'Defense companies', 'Financial institutions'],
           },
         },
         dataScience: {
           name: 'Data Science and Analytics',
           duration: '8 months',
           format: 'Online with virtual labs',
-          certifications: [
-            'Google Data Analytics',
-            'Microsoft Azure Data Scientist',
-          ],
+          certifications: ['Google Data Analytics', 'Microsoft Azure Data Scientist'],
           veteranFriendly: true,
           placement: {
             rate: 89,
@@ -193,11 +180,7 @@ class VeteranServicesSystem {
           placement: {
             rate: 92,
             averageSalary: 72000,
-            employers: [
-              'All industries',
-              'Government contractors',
-              'Consulting firms',
-            ],
+            employers: ['All industries', 'Government contractors', 'Consulting firms'],
           },
         },
       },
@@ -205,57 +188,33 @@ class VeteranServicesSystem {
         va: {
           name: 'Department of Veterans Affairs',
           relationship: 'Approved education provider',
-          services: [
-            'GI Bill processing',
-            'VR&E coordination',
-            'Disability accommodations',
-          ],
+          services: ['GI Bill processing', 'VR&E coordination', 'Disability accommodations'],
         },
         sva: {
           name: 'Student Veterans of America',
           relationship: 'Chapter partner',
-          services: [
-            'Peer support',
-            'Networking events',
-            'Leadership development',
-          ],
+          services: ['Peer support', 'Networking events', 'Leadership development'],
         },
         corporatePartners: [
           {
             name: 'Lockheed Martin',
             type: 'Defense contractor',
-            opportunities: [
-              'Cybersecurity roles',
-              'Clearance positions',
-              'Apprenticeships',
-            ],
+            opportunities: ['Cybersecurity roles', 'Clearance positions', 'Apprenticeships'],
           },
           {
             name: 'Raytheon Technologies',
             type: 'Defense contractor',
-            opportunities: [
-              'Engineering roles',
-              'Project management',
-              'Technical positions',
-            ],
+            opportunities: ['Engineering roles', 'Project management', 'Technical positions'],
           },
           {
             name: 'Amazon Web Services',
             type: 'Technology',
-            opportunities: [
-              'Cloud computing',
-              'Data analytics',
-              'Technical support',
-            ],
+            opportunities: ['Cloud computing', 'Data analytics', 'Technical support'],
           },
           {
             name: 'Microsoft',
             type: 'Technology',
-            opportunities: [
-              'Software development',
-              'Data science',
-              'Cybersecurity',
-            ],
+            opportunities: ['Software development', 'Data science', 'Cybersecurity'],
           },
         ],
       },
@@ -286,52 +245,31 @@ class VeteranServicesSystem {
 
   setupRoutes() {
     // Veteran services overview
-    this.router.get(
-      '/api/veterans/services',
-      this.getVeteranServices.bind(this)
-    );
+    this.router.get('/api/veterans/services', this.getVeteranServices.bind(this));
 
     // GI Bill and benefits information
     this.router.get('/api/veterans/benefits', this.getBenefitsInfo.bind(this));
 
     // Veteran-friendly programs
-    this.router.get(
-      '/api/veterans/programs',
-      this.getVeteranPrograms.bind(this)
-    );
+    this.router.get('/api/veterans/programs', this.getVeteranPrograms.bind(this));
 
     // Accessibility services
-    this.router.get(
-      '/api/veterans/accessibility',
-      this.getAccessibilityServices.bind(this)
-    );
+    this.router.get('/api/veterans/accessibility', this.getAccessibilityServices.bind(this));
 
     // Career transition services
     this.router.get('/api/veterans/career', this.getCareerServices.bind(this));
 
     // Veteran statistics and outcomes
-    this.router.get(
-      '/api/veterans/statistics',
-      this.getVeteranStatistics.bind(this)
-    );
+    this.router.get('/api/veterans/statistics', this.getVeteranStatistics.bind(this));
 
     // Partner organizations
-    this.router.get(
-      '/api/veterans/partners',
-      this.getPartnerOrganizations.bind(this)
-    );
+    this.router.get('/api/veterans/partners', this.getPartnerOrganizations.bind(this));
 
     // Benefits eligibility check
-    this.router.post(
-      '/api/veterans/eligibility',
-      this.checkEligibility.bind(this)
-    );
+    this.router.post('/api/veterans/eligibility', this.checkEligibility.bind(this));
 
     // Request veteran services
-    this.router.post(
-      '/api/veterans/request-services',
-      this.requestServices.bind(this)
-    );
+    this.router.post('/api/veterans/request-services', this.requestServices.bind(this));
   }
 
   async getVeteranServices(req, res) {
@@ -340,8 +278,7 @@ class VeteranServicesSystem {
         overview: {
           mission:
             'Supporting veterans, active service members, and military families in their educational and career goals',
-          commitment:
-            'Dedicated veteran services with specialized support and accommodations',
+          commitment: 'Dedicated veteran services with specialized support and accommodations',
           certifications: [
             'VA-approved for GI Bill benefits',
             'VR&E approved training provider',
@@ -439,8 +376,7 @@ class VeteranServicesSystem {
         ],
         specializations: {
           cybersecurity: {
-            militaryRelevance:
-              'High demand for veterans with security clearances',
+            militaryRelevance: 'High demand for veterans with security clearances',
             careerPaths: [
               'Information Security Analyst',
               'Cybersecurity Specialist',
@@ -449,19 +385,12 @@ class VeteranServicesSystem {
             clearanceRequired: 'Many positions require security clearance',
           },
           dataScience: {
-            militaryRelevance:
-              'Analytical skills from military experience highly valued',
-            careerPaths: [
-              'Data Analyst',
-              'Business Intelligence Analyst',
-              'Data Scientist',
-            ],
-            governmentOpportunities:
-              'Strong demand in government and defense sectors',
+            militaryRelevance: 'Analytical skills from military experience highly valued',
+            careerPaths: ['Data Analyst', 'Business Intelligence Analyst', 'Data Scientist'],
+            governmentOpportunities: 'Strong demand in government and defense sectors',
           },
           projectManagement: {
-            militaryRelevance:
-              'Military leadership experience directly applicable',
+            militaryRelevance: 'Military leadership experience directly applicable',
             careerPaths: ['Project Manager', 'Program Manager', 'Scrum Master'],
             advancement: 'Fast track to senior management roles',
           },
@@ -513,8 +442,7 @@ class VeteranServicesSystem {
             'Coordinate with instructors',
             'Monitor and adjust as needed',
           ],
-          documentation:
-            'Medical, psychological, or educational documentation required',
+          documentation: 'Medical, psychological, or educational documentation required',
           confidentiality: 'All information kept strictly confidential',
         },
         compliance: {
@@ -625,11 +553,7 @@ class VeteranServicesSystem {
           dol: {
             name: 'Department of Labor',
             relationship: 'VETS program partner',
-            services: [
-              'Apprenticeship programs',
-              'Job placement assistance',
-              'Employer outreach',
-            ],
+            services: ['Apprenticeship programs', 'Job placement assistance', 'Employer outreach'],
           },
           sba: {
             name: 'Small Business Administration',
@@ -646,20 +570,12 @@ class VeteranServicesSystem {
           iava: {
             name: 'Iraq and Afghanistan Veterans of America',
             relationship: 'Advocacy partner',
-            services: [
-              'Policy advocacy',
-              'Community building',
-              'Leadership development',
-            ],
+            services: ['Policy advocacy', 'Community building', 'Leadership development'],
           },
           ves: {
             name: 'Veterans Education Success',
             relationship: 'Education advocacy partner',
-            services: [
-              'Policy research',
-              'Student advocacy',
-              'Educational resources',
-            ],
+            services: ['Policy research', 'Student advocacy', 'Educational resources'],
           },
         },
         corporate: this.veteranData.partnerships.corporatePartners,
@@ -681,13 +597,7 @@ class VeteranServicesSystem {
 
   async checkEligibility(req, res) {
     try {
-      const {
-        serviceType,
-        serviceLength,
-        dischargeType,
-        serviceConnected,
-        unemployed,
-      } = req.body;
+      const { serviceType, serviceLength, dischargeType, serviceConnected, unemployed } = req.body;
 
       const eligibility = {
         gibill: {
@@ -752,8 +662,7 @@ class VeteranServicesSystem {
         urgency,
         status: 'received',
         submittedAt: new Date().toISOString(),
-        expectedResponse:
-          urgency === 'urgent' ? '24 hours' : '2-3 business days',
+        expectedResponse: urgency === 'urgent' ? '24 hours' : '2-3 business days',
       };
 
       // Log the request (in production, save to database)
@@ -762,12 +671,10 @@ class VeteranServicesSystem {
         success: true,
         requestId: request.id,
         message:
-          'Your request has been received and will be processed within ' +
-          request.expectedResponse,
+          'Your request has been received and will be processed within ' + request.expectedResponse,
         nextSteps: [
           'You will receive a confirmation email shortly',
-          'A veteran services counselor will contact you within ' +
-            request.expectedResponse,
+          'A veteran services counselor will contact you within ' + request.expectedResponse,
           'Please have your DD-214 and any medical documentation ready',
           'Call 317-760-7908 ext. 101 if you have urgent questions',
         ],

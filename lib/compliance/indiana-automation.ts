@@ -101,11 +101,7 @@ export interface AlertToSend {
 
 export interface EnforcementAction {
   programHolderId: string;
-  action:
-    | 'block_enrollments'
-    | 'issue_strike'
-    | 'suspend_license'
-    | 'remove_from_etpl';
+  action: 'block_enrollments' | 'issue_strike' | 'suspend_license' | 'remove_from_etpl';
   reason: string;
   effectiveDate: Date;
   notificationSent: boolean;
@@ -136,9 +132,7 @@ export async function runDailyIndianaComplianceCheck(): Promise<{
 
     // Log to monitoring system instead of console
     if (process.env.NODE_ENV === 'development') {
-      logger.info(
-        `[Indiana Compliance] Found ${programHolders.length} program holders to check`
-      );
+      logger.info(`[Indiana Compliance] Found ${programHolders.length} program holders to check`);
     }
 
     // Process in batches
@@ -148,14 +142,12 @@ export async function runDailyIndianaComplianceCheck(): Promise<{
       const batch = batches[i];
       if (process.env.NODE_ENV === 'development') {
         logger.info(
-          `[Indiana Compliance] Processing batch ${i + 1}/${batches.length} (${batch.length} program holders)`
+          `[Indiana Compliance] Processing batch ${i + 1}/${batches.length} (${batch.length} program holders)`,
         );
       }
 
       // Process batch concurrently
-      const batchResults = await Promise.all(
-        batch.map((ph) => checkProgramHolderCompliance(ph))
-      );
+      const batchResults = await Promise.all(batch.map((ph) => checkProgramHolderCompliance(ph)));
 
       // Send alerts and execute enforcement actions
       for (const result of batchResults) {
@@ -166,10 +158,9 @@ export async function runDailyIndianaComplianceCheck(): Promise<{
           try {
             await sendAlert(alert);
             results.alertsSent++;
-          } catch (error) { /* Error handled silently */ 
-            results.errors.push(
-              `Failed to send alert to ${alert.programHolderId}: ${error}`
-            );
+          } catch (error) {
+            /* Error handled silently */
+            results.errors.push(`Failed to send alert to ${alert.programHolderId}: ${error}`);
           }
         }
 
@@ -178,9 +169,10 @@ export async function runDailyIndianaComplianceCheck(): Promise<{
           try {
             await executeEnforcementAction(action);
             results.enforcementActions++;
-          } catch (error) { /* Error handled silently */ 
+          } catch (error) {
+            /* Error handled silently */
             results.errors.push(
-              `Failed to execute enforcement action for ${action.programHolderId}: ${error}`
+              `Failed to execute enforcement action for ${action.programHolderId}: ${error}`,
             );
           }
         }
@@ -191,11 +183,9 @@ export async function runDailyIndianaComplianceCheck(): Promise<{
         await delay(BATCH_CONFIG.delayBetweenBatches);
       }
     }
-  } catch (error) { /* Error handled silently */ 
-    logger.error(
-      '[Indiana Compliance] Fatal error during compliance check:',
-      error
-    );
+  } catch (error) {
+    /* Error handled silently */
+    logger.error('[Indiana Compliance] Fatal error during compliance check:', error);
     results.errors.push(`Fatal error: ${error}`);
   }
 
@@ -205,9 +195,7 @@ export async function runDailyIndianaComplianceCheck(): Promise<{
 /**
  * CHECK INDIVIDUAL PROGRAM HOLDER COMPLIANCE
  */
-async function checkProgramHolderCompliance(
-  programHolder: any
-): Promise<ComplianceCheckResult> {
+async function checkProgramHolderCompliance(programHolder: any): Promise<ComplianceCheckResult> {
   const result: ComplianceCheckResult = {
     programHolderId: programHolder.id,
     programHolderName: programHolder.name,
@@ -242,20 +230,16 @@ async function checkProgramHolderCompliance(
   };
 
   // 1. Check reporting compliance
-  result.checks.reportingCompliance =
-    await checkReportingCompliance(programHolder);
+  result.checks.reportingCompliance = await checkReportingCompliance(programHolder);
 
   // 2. Check performance compliance
-  result.checks.performanceCompliance =
-    await checkPerformanceCompliance(programHolder);
+  result.checks.performanceCompliance = await checkPerformanceCompliance(programHolder);
 
   // 3. Check data quality compliance
-  result.checks.dataQualityCompliance =
-    await checkDataQualityCompliance(programHolder);
+  result.checks.dataQualityCompliance = await checkDataQualityCompliance(programHolder);
 
   // 4. Check ETPL renewal compliance
-  result.checks.etplRenewalCompliance =
-    await checkETPLRenewalCompliance(programHolder);
+  result.checks.etplRenewalCompliance = await checkETPLRenewalCompliance(programHolder);
 
   // 5. Generate alerts based on checks
   result.alertsToSend = generateAlertsFromChecks(result);
@@ -269,9 +253,7 @@ async function checkProgramHolderCompliance(
 /**
  * CHECK REPORTING COMPLIANCE
  */
-async function checkReportingCompliance(
-  programHolder: any
-): Promise<ReportingComplianceCheck[]> {
+async function checkReportingCompliance(programHolder: any): Promise<ReportingComplianceCheck[]> {
   const checks: ReportingComplianceCheck[] = [];
   const today = new Date();
 
@@ -290,16 +272,10 @@ async function checkReportingCompliance(
   for (const reportType of reportTypes) {
     // Get next due date for this report type
     const dueDate = getNextIndianaReportDueDate(reportType, today);
-    const daysUntilDue = Math.floor(
-      (dueDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-    );
+    const daysUntilDue = Math.floor((dueDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24));
 
     // Check if report has been submitted
-    const submitted = await isReportSubmitted(
-      programHolder.id,
-      reportType,
-      dueDate
-    );
+    const submitted = await isReportSubmitted(programHolder.id, reportType, dueDate);
 
     // Determine status
     let status: 'upcoming' | 'due_soon' | 'due_today' | 'overdue';
@@ -334,9 +310,7 @@ async function checkReportingCompliance(
 /**
  * CHECK PERFORMANCE COMPLIANCE
  */
-async function checkPerformanceCompliance(
-  programHolder: any
-): Promise<PerformanceComplianceCheck> {
+async function checkPerformanceCompliance(programHolder: any): Promise<PerformanceComplianceCheck> {
   // Get performance metrics from database
   const metrics = await getProgramHolderPerformanceMetrics(programHolder.id);
 
@@ -346,7 +320,7 @@ async function checkPerformanceCompliance(
     metrics.credentialRate,
     metrics.wageGain,
     metrics.enrollmentCount,
-    metrics.dataQuality
+    metrics.dataQuality,
   );
 
   // Check if alert is required
@@ -355,7 +329,7 @@ async function checkPerformanceCompliance(
     metrics.credentialRate,
     metrics.wageGain,
     metrics.enrollmentCount,
-    metrics.dataQuality
+    metrics.dataQuality,
   );
 
   return {
@@ -373,14 +347,11 @@ async function checkPerformanceCompliance(
 /**
  * CHECK DATA QUALITY COMPLIANCE
  */
-async function checkDataQualityCompliance(
-  programHolder: any
-): Promise<DataQualityComplianceCheck> {
+async function checkDataQualityCompliance(programHolder: any): Promise<DataQualityComplianceCheck> {
   // Get data quality score from database
   const dataQuality = await getProgramHolderDataQuality(programHolder.id);
 
-  const meetsThreshold =
-    dataQuality.score >= INDIANA_ETPL_STANDARDS.dataQualityThreshold;
+  const meetsThreshold = dataQuality.score >= INDIANA_ETPL_STANDARDS.dataQualityThreshold;
   const alertRequired = dataQuality.score < 0.9;
 
   let alertLevel: AlertLevel | undefined;
@@ -402,16 +373,13 @@ async function checkDataQualityCompliance(
 /**
  * CHECK ETPL RENEWAL COMPLIANCE
  */
-async function checkETPLRenewalCompliance(
-  programHolder: any
-): Promise<ETPLRenewalComplianceCheck> {
+async function checkETPLRenewalCompliance(programHolder: any): Promise<ETPLRenewalComplianceCheck> {
   // Get ETPL expiration date from database
   const etplData = await getProgramHolderETPLData(programHolder.id);
 
   const today = new Date();
   const daysUntilExpiration = Math.floor(
-    (etplData.expirationDate.getTime() - today.getTime()) /
-      (1000 * 60 * 60 * 24)
+    (etplData.expirationDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24),
   );
 
   const renewalWindowOpen = daysUntilExpiration <= 90;
@@ -440,18 +408,13 @@ async function checkETPLRenewalCompliance(
 /**
  * GENERATE ALERTS FROM CHECKS
  */
-function generateAlertsFromChecks(
-  result: ComplianceCheckResult
-): AlertToSend[] {
+function generateAlertsFromChecks(result: ComplianceCheckResult): AlertToSend[] {
   const alerts: AlertToSend[] = [];
 
   // Reporting compliance alerts
   for (const check of result.checks.reportingCompliance) {
     if (check.alertRequired && check.alertLevel) {
-      const alert = getIndianaAlertForReport(
-        check.reportType,
-        check.daysUntilDue
-      );
+      const alert = getIndianaAlertForReport(check.reportType, check.daysUntilDue);
       if (alert) {
         alerts.push({
           programHolderId: result.programHolderId,
@@ -535,25 +498,18 @@ function generateAlertsFromChecks(
 /**
  * GENERATE ENFORCEMENT ACTIONS FROM CHECKS
  */
-function generateEnforcementActionsFromChecks(
-  result: ComplianceCheckResult
-): EnforcementAction[] {
+function generateEnforcementActionsFromChecks(result: ComplianceCheckResult): EnforcementAction[] {
   const actions: EnforcementAction[] = [];
 
   // Check for federal reporting overdue (immediate removal)
   const federalReporting = result.checks.reportingCompliance.find(
-    (c) => c.reportType === 'federal_reporting'
+    (c) => c.reportType === 'federal_reporting',
   );
-  if (
-    federalReporting &&
-    federalReporting.status === 'overdue' &&
-    !federalReporting.submitted
-  ) {
+  if (federalReporting && federalReporting.status === 'overdue' && !federalReporting.submitted) {
     actions.push({
       programHolderId: result.programHolderId,
       action: 'remove_from_etpl',
-      reason:
-        'Federal reporting overdue - immediate removal per Indiana DWD policy',
+      reason: 'Federal reporting overdue - immediate removal per Indiana DWD policy',
       effectiveDate: new Date(),
       notificationSent: false,
     });
@@ -561,13 +517,9 @@ function generateEnforcementActionsFromChecks(
 
   // Check for student data submission 30+ days overdue (removal)
   const studentData = result.checks.reportingCompliance.find(
-    (c) => c.reportType === 'student_data_submission'
+    (c) => c.reportType === 'student_data_submission',
   );
-  if (
-    studentData &&
-    studentData.daysUntilDue <= -30 &&
-    !studentData.submitted
-  ) {
+  if (studentData && studentData.daysUntilDue <= -30 && !studentData.submitted) {
     actions.push({
       programHolderId: result.programHolderId,
       action: 'remove_from_etpl',
@@ -593,14 +545,12 @@ function generateEnforcementActionsFromChecks(
 
   // Check for critical performance failures (corrective action required)
   if (!result.checks.performanceCompliance.meetsStandards) {
-    const hasMultipleFailures =
-      result.checks.performanceCompliance.failures.length >= 2;
+    const hasMultipleFailures = result.checks.performanceCompliance.failures.length >= 2;
     if (hasMultipleFailures) {
       actions.push({
         programHolderId: result.programHolderId,
         action: 'block_enrollments',
-        reason:
-          'Multiple performance standards not met - corrective action plan required',
+        reason: 'Multiple performance standards not met - corrective action plan required',
         effectiveDate: new Date(),
         notificationSent: false,
       });
@@ -624,7 +574,7 @@ async function getProgramHoldersWithIndianaCredentials(): Promise<any[]> {
 async function isReportSubmitted(
   programHolderId: string,
   reportType: IndianaReportType,
-  dueDate: Date
+  dueDate: Date,
 ): Promise<boolean> {
   // Query database to check if report has been submitted
   // This would use Supabase client
@@ -632,9 +582,7 @@ async function isReportSubmitted(
   return false;
 }
 
-async function getProgramHolderPerformanceMetrics(
-  programHolderId: string
-): Promise<{
+async function getProgramHolderPerformanceMetrics(programHolderId: string): Promise<{
   employmentRate: number;
   credentialRate: number;
   wageGain: number;
@@ -689,9 +637,7 @@ async function sendAlert(alert: AlertToSend): Promise<void> {
   // Send alert via appropriate channels
   // This would integrate with email service, SMS service, etc.
   if (process.env.NODE_ENV === 'development') {
-    logger.info(
-      `[Alert] Sending ${alert.level} alert to ${alert.programHolderId}`
-    );
+    logger.info(`[Alert] Sending ${alert.level} alert to ${alert.programHolderId}`);
   }
 
   // Implementation needed:
@@ -701,14 +647,10 @@ async function sendAlert(alert: AlertToSend): Promise<void> {
   // - Make phone call via Twilio (for critical alerts)
 }
 
-async function executeEnforcementAction(
-  action: EnforcementAction
-): Promise<void> {
+async function executeEnforcementAction(action: EnforcementAction): Promise<void> {
   // Execute enforcement action
   if (process.env.NODE_ENV === 'development') {
-    logger.info(
-      `[Enforcement] Executing ${action.action} for ${action.programHolderId}`
-    );
+    logger.info(`[Enforcement] Executing ${action.action} for ${action.programHolderId}`);
   }
 
   // Implementation needed:

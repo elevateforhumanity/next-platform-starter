@@ -5,8 +5,15 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
-  Building, Briefcase, FileText, Shield, Upload, UserCheck,
-  CheckCircle, Clock, AlertCircle,
+  Building,
+  Briefcase,
+  FileText,
+  Shield,
+  Upload,
+  UserCheck,
+  CheckCircle,
+  Clock,
+  AlertCircle,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -29,7 +36,9 @@ interface OnboardingStep {
 
 export default async function EmployerOnboardingPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/onboarding/employer');
 
   // Try auto-activation before rendering (in case all docs are already uploaded)
@@ -78,13 +87,15 @@ export default async function EmployerOnboardingPage() {
   const employerId = employerRow?.id;
 
   // Get or create onboarding record (keyed by employers.id, not auth uid)
-  let { data: onboarding } = employerId ? await supabase
-    .from('employer_onboarding')
-    .select('*')
-    .eq('employer_id', employerId)
-    .order('created_at', { ascending: false })
-    .limit(1)
-    .maybeSingle() : { data: null };
+  let { data: onboarding } = employerId
+    ? await supabase
+        .from('employer_onboarding')
+        .select('*')
+        .eq('employer_id', employerId)
+        .order('created_at', { ascending: false })
+        .limit(1)
+        .maybeSingle()
+    : { data: null };
 
   if (!onboarding && employerId) {
     const { data: newRow } = await supabase
@@ -106,7 +117,7 @@ export default async function EmployerOnboardingPage() {
 
   const docTypes = new Set((documents || []).map((d: any) => d.document_type));
   const verifiedDocs = new Set(
-    (documents || []).filter((d: any) => d.status === 'approved').map((d: any) => d.document_type)
+    (documents || []).filter((d: any) => d.status === 'approved').map((d: any) => d.document_type),
   );
 
   // Get agreement status
@@ -153,7 +164,7 @@ export default async function EmployerOnboardingPage() {
     {
       id: 'insurance',
       title: 'Insurance Documentation',
-      description: 'Upload General Liability COI and Workers\' Compensation proof',
+      description: "Upload General Liability COI and Workers' Compensation proof",
       icon: Shield,
       href: '/employer/documents/upload',
       status: stepStatus(hasInsurance, [hasHiringNeeds]),
@@ -188,9 +199,9 @@ export default async function EmployerOnboardingPage() {
     },
   ];
 
-  const completedCount = steps.filter(s => s.status === 'complete').length;
-  const totalRequired = steps.filter(s => s.required).length;
-  const requiredComplete = steps.filter(s => s.required && s.status === 'complete').length;
+  const completedCount = steps.filter((s) => s.status === 'complete').length;
+  const totalRequired = steps.filter((s) => s.required).length;
+  const requiredComplete = steps.filter((s) => s.required && s.status === 'complete').length;
   const progressPercent = Math.round((requiredComplete / totalRequired) * 100);
 
   return (
@@ -210,7 +221,9 @@ export default async function EmployerOnboardingPage() {
         {/* Progress bar */}
         <div className="mb-8">
           <div className="flex items-center justify-between text-sm mb-2">
-            <span className="text-slate-700">{requiredComplete} of {totalRequired} required steps complete</span>
+            <span className="text-slate-700">
+              {requiredComplete} of {totalRequired} required steps complete
+            </span>
             <span className="font-medium text-slate-900">{progressPercent}%</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-2">
@@ -227,7 +240,10 @@ export default async function EmployerOnboardingPage() {
             <Clock className="w-5 h-5 text-yellow-600 mt-0.5 flex-shrink-0" />
             <div>
               <p className="font-medium text-yellow-800">Application Under Review</p>
-              <p className="text-sm text-yellow-700">Our team is reviewing your application. You&apos;ll receive an email when a decision is made (typically 2–3 business days).</p>
+              <p className="text-sm text-yellow-700">
+                Our team is reviewing your application. You&apos;ll receive an email when a decision
+                is made (typically 2–3 business days).
+              </p>
             </div>
           </div>
         )}
@@ -238,7 +254,9 @@ export default async function EmployerOnboardingPage() {
             <div>
               <p className="font-medium text-red-800">Application Not Approved</p>
               {onboarding.notes && <p className="text-sm text-red-700 mt-1">{onboarding.notes}</p>}
-              <p className="text-sm text-red-700 mt-1">Contact us at (317) 314-3757 if you have questions.</p>
+              <p className="text-sm text-red-700 mt-1">
+                Contact us at (317) 314-3757 if you have questions.
+              </p>
             </div>
           </div>
         )}
@@ -249,7 +267,10 @@ export default async function EmployerOnboardingPage() {
             <div>
               <p className="font-medium text-green-800">Onboarding Complete</p>
               <p className="text-sm text-green-700">Your employer portal is fully activated.</p>
-              <Link href="/employer/dashboard" className="text-sm font-medium text-green-800 underline mt-1 inline-block">
+              <Link
+                href="/employer/dashboard"
+                className="text-sm font-medium text-green-800 underline mt-1 inline-block"
+              >
                 Go to Dashboard →
               </Link>
             </div>
@@ -262,11 +283,15 @@ export default async function EmployerOnboardingPage() {
             const Icon = step.icon;
             return (
               <div key={step.id} className="p-6 flex items-center gap-4">
-                <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                  step.status === 'complete' ? 'bg-green-100' :
-                  step.status === 'current' ? 'bg-brand-blue-100' :
-                  'bg-slate-100'
-                }`}>
+                <div
+                  className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                    step.status === 'complete'
+                      ? 'bg-green-100'
+                      : step.status === 'current'
+                        ? 'bg-brand-blue-100'
+                        : 'bg-slate-100'
+                  }`}
+                >
                   {step.status === 'complete' ? (
                     <CheckCircle className="w-5 h-5 text-green-600" />
                   ) : step.status === 'current' ? (
@@ -279,7 +304,9 @@ export default async function EmployerOnboardingPage() {
                   <div className="flex items-center gap-2">
                     <h3 className="font-semibold text-slate-900">{step.title}</h3>
                     {step.required && step.status !== 'complete' && (
-                      <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full">Required</span>
+                      <span className="text-xs bg-red-100 text-red-700 px-2 py-0.5 rounded-full">
+                        Required
+                      </span>
                     )}
                   </div>
                   <p className="text-slate-700 text-sm">{step.description}</p>
@@ -310,7 +337,7 @@ export default async function EmployerOnboardingPage() {
             {[
               { label: 'Employer Partnership Agreement (MOU)', done: hasMOU },
               { label: 'General Liability COI ($1M/$2M)', done: false },
-              { label: 'Workers\' Compensation Proof', done: false },
+              { label: "Workers' Compensation Proof", done: false },
               { label: 'Business License or Registration', done: false },
               { label: 'Tax ID (EIN) Verification', done: false },
               { label: 'Supervisor Designation Form', done: false },

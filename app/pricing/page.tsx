@@ -34,8 +34,7 @@ export default async function PricingPage() {
             Choose Your Access Level
           </h1>
           <p className="text-base md:text-lg text-black max-w-3xl mx-auto">
-            The app is free to download. Some programs and services require paid
-            platform access.
+            The app is free to download. Some programs and services require paid platform access.
           </p>
           <p className="text-sm text-slate-500 mt-2">
             Payments are processed securely outside the app.
@@ -58,12 +57,8 @@ export default async function PricingPage() {
               )}
 
               <div className="mb-6">
-                <h2 className="text-2xl font-bold text-black mb-2">
-                  {product.name}
-                </h2>
-                <p className="text-black text-sm mb-4">
-                  {product.description}
-                </p>
+                <h2 className="text-2xl font-bold text-black mb-2">{product.name}</h2>
+                <p className="text-black text-sm mb-4">{product.description}</p>
                 <div className="flex items-baseline gap-2">
                   <span className="text-4xl font-bold text-black">
                     {product.priceDisplay.split('/')[0]}
@@ -77,10 +72,7 @@ export default async function PricingPage() {
               <ul className="space-y-3 mb-8">
                 {product.features.map((feature, idx) => (
                   <li key={idx} className="flex items-start gap-2">
-                    <Check
-                      className="text-brand-green-600 flex-shrink-0 mt-0.5"
-                      size={20}
-                    />
+                    <Check className="text-brand-green-600 flex-shrink-0 mt-0.5" size={20} />
                     <span className="text-black text-sm">{feature}</span>
                   </li>
                 ))}
@@ -127,28 +119,23 @@ export default async function PricingPage() {
 
         {/* Important Notes */}
         <div className="bg-white rounded-2xl shadow-lg p-8 max-w-4xl mx-auto">
-          <h2 className="text-2xl font-bold text-black mb-4">
-            Important Information
-          </h2>
+          <h2 className="text-2xl font-bold text-black mb-4">Important Information</h2>
           <div className="space-y-4 text-black">
             <p>
-              <strong>Platform Access:</strong> Prices apply to platform access
-              for enrolled learners. Training and services may be paid
-              separately through our website.
+              <strong>Platform Access:</strong> Prices apply to platform access for enrolled
+              learners. Training and services may be paid separately through our website.
             </p>
             <p>
-              <strong>Payment Processing:</strong> All payments are processed
-              securely through our website using Stripe. We do not process
-              payments through app store billing.
+              <strong>Payment Processing:</strong> All payments are processed securely through our
+              website using Stripe. We do not process payments through app store billing.
             </p>
             <p>
-              <strong>Enrollment:</strong> Student and Career Track access
-              requires enrollment in a program. Apply through our inquiry form
-              to get started.
+              <strong>Enrollment:</strong> Student and Career Track access requires enrollment in a
+              program. Apply through our inquiry form to get started.
             </p>
             <p>
-              <strong>Cancellation:</strong> You can cancel your subscription at
-              any time. Access continues until the end of your billing period.
+              <strong>Cancellation:</strong> You can cancel your subscription at any time. Access
+              continues until the end of your billing period.
             </p>
           </div>
         </div>
@@ -160,13 +147,10 @@ export default async function PricingPage() {
           </h2>
           <div className="space-y-6">
             <div className="bg-white rounded-xl p-6 shadow">
-              <h3 className="text-lg font-bold text-black mb-2">
-                Is the app really free?
-              </h3>
+              <h3 className="text-lg font-bold text-black mb-2">Is the app really free?</h3>
               <p className="text-black">
-                Yes! The app download is completely free. You can browse
-                programs, submit inquiries, and view public content without
-                paying anything.
+                Yes! The app download is completely free. You can browse programs, submit inquiries,
+                and view public content without paying anything.
               </p>
             </div>
 
@@ -175,31 +159,24 @@ export default async function PricingPage() {
                 What's included in Student Access?
               </h3>
               <p className="text-black">
-                Student Access ($39/month) gives you full LMS access, assigned
-                courses, progress tracking, and certificates. This is for
-                enrolled learners actively taking courses.
+                Student Access ($39/month) gives you full LMS access, assigned courses, progress
+                tracking, and certificates. This is for enrolled learners actively taking courses.
               </p>
             </div>
 
             <div className="bg-white rounded-xl p-6 shadow">
-              <h3 className="text-lg font-bold text-black mb-2">
-                How do I pay for access?
-              </h3>
+              <h3 className="text-lg font-bold text-black mb-2">How do I pay for access?</h3>
               <p className="text-black">
-                Payments are processed securely on our website through Stripe.
-                After enrolling, you'll receive a payment link to set up your
-                subscription.
+                Payments are processed securely on our website through Stripe. After enrolling,
+                you'll receive a payment link to set up your subscription.
               </p>
             </div>
 
             <div className="bg-white rounded-xl p-6 shadow">
-              <h3 className="text-lg font-bold text-black mb-2">
-                Can I try before I buy?
-              </h3>
+              <h3 className="text-lg font-bold text-black mb-2">Can I try before I buy?</h3>
               <p className="text-black">
-                Yes! Download the free app to explore programs and content. When
-                you're ready to enroll, submit an inquiry and we'll guide you
-                through the process.
+                Yes! Download the free app to explore programs and content. When you're ready to
+                enroll, submit an inquiry and we'll guide you through the process.
               </p>
             </div>
           </div>
@@ -207,9 +184,7 @@ export default async function PricingPage() {
 
         {/* CTA */}
         <div className="mt-16 text-center">
-          <h2 className="text-2xl font-bold text-black mb-4">
-            Ready to Get Started?
-          </h2>
+          <h2 className="text-2xl font-bold text-black mb-4">Ready to Get Started?</h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/mobile-app"

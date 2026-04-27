@@ -4,21 +4,21 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 
 interface InviteDetails {
-  email:             string;
-  role:              string;
+  email: string;
+  role: string;
   organization_name: string;
-  expires_at:        string;
+  expires_at: string;
 }
 
 interface Props {
-  token:       string;
-  invite:      InviteDetails;
-  isLoggedIn:  boolean;
-  userEmail:   string | null;
+  token: string;
+  invite: InviteDetails;
+  isLoggedIn: boolean;
+  userEmail: string | null;
 }
 
 export default function AcceptInviteClient({ token, invite, isLoggedIn, userEmail }: Props) {
-  const router  = useRouter();
+  const router = useRouter();
   const [state, setState] = useState<'idle' | 'loading' | 'success' | 'error'>('idle');
   const [error, setError] = useState('');
 
@@ -30,9 +30,9 @@ export default function AcceptInviteClient({ token, invite, isLoggedIn, userEmai
 
     try {
       const res = await fetch('/api/org/accept-invite', {
-        method:  'POST',
+        method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body:    JSON.stringify({ token }),
+        body: JSON.stringify({ token }),
       });
 
       const data = await res.json();
@@ -55,7 +55,12 @@ export default function AcceptInviteClient({ token, invite, isLoggedIn, userEmai
     return (
       <div className="text-center">
         <div className="mx-auto flex h-12 w-12 items-center justify-center rounded-full bg-green-100 mb-4">
-          <svg className="h-6 w-6 text-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+          <svg
+            className="h-6 w-6 text-green-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
           </svg>
         </div>
@@ -91,9 +96,7 @@ export default function AcceptInviteClient({ token, invite, isLoggedIn, userEmai
       {!isLoggedIn ? (
         /* Not logged in — send to login with return URL */
         <div className="space-y-3">
-          <p className="text-sm text-slate-700 text-center">
-            Sign in to accept this invitation.
-          </p>
+          <p className="text-sm text-slate-700 text-center">Sign in to accept this invitation.</p>
           <a
             href={`/login?redirect=${encodeURIComponent(`/accept-invite?token=${token}`)}`}
             className="block w-full rounded-md bg-brand-blue-600 px-4 py-2 text-center text-sm font-medium text-white hover:bg-brand-blue-700"
@@ -113,7 +116,8 @@ export default function AcceptInviteClient({ token, invite, isLoggedIn, userEmai
           {userEmail && userEmail.toLowerCase() !== invite.email.toLowerCase() && (
             <div className="rounded-md bg-yellow-50 border border-yellow-200 p-3 text-xs text-yellow-800">
               You are signed in as <strong>{userEmail}</strong>, but this invitation was sent to{' '}
-              <strong>{invite.email}</strong>. You can still accept, but make sure this is the right account.
+              <strong>{invite.email}</strong>. You can still accept, but make sure this is the right
+              account.
             </div>
           )}
 

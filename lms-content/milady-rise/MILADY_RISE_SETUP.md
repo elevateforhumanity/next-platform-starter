@@ -9,6 +9,7 @@
 3. **Infection Control** (2-hour course)
 
 **Benefits:**
+
 - ✅ FREE certification for all students
 - ✅ $500 RISE Scholarship eligibility (10 awards twice/year)
 - ✅ Client Well-Being & Safety Certification
@@ -31,24 +32,29 @@
 ## 📋 Student Enrollment Instructions
 
 ### Step 1: Direct Students to Registration Page
+
 Send students to: https://www.miladytraining.com/bundles/client-well-being-safety-certification
 
 ### Step 2: Create Account or Login
+
 - Click "Enroll Now"
 - Register for new account (or login if existing)
 - Fill out student information
 
 ### Step 3: Apply Promo Code at Checkout
+
 - Enter code: `efhcti-rise295`
 - **Important:** No spaces, periods, or commas before/after code
 - Complete enrollment (should show $0.00 with code)
 
 ### Step 4: Complete Courses
+
 - Domestic Violence Awareness
 - Human Trafficking Awareness
 - Infection Control (2 hours)
 
 ### Step 5: Receive Certification
+
 - Download certificate upon completion
 - Eligible to apply for $500 RISE Scholarship
 
@@ -64,6 +70,7 @@ Add to barber apprenticeship requirements:
 ## Barber Apprenticeship Requirements
 
 ### Phase 1: Foundation (Weeks 1-4)
+
 - ✅ Orientation and safety
 - ✅ **Milady RISE Certification** (REQUIRED)
   - Domestic Violence Awareness
@@ -293,6 +300,7 @@ export default function MiladyRISEPage() {
 ### Download Milady RISE Logos
 
 Milady provides logos to promote your partnership:
+
 - Download here: [Link provided by Jessica Boyd]
 - Use on your website, social media, and marketing materials
 - Shows you're a RISE Partner School
@@ -300,6 +308,7 @@ Milady provides logos to promote your partnership:
 ### Social Media Posts
 
 **Instagram/Facebook:**
+
 ```
 🎓 Exciting News! Elevate for Humanity is now a Milady RISE Partner School!
 
@@ -316,6 +325,7 @@ We're training barbers who don't just cut hair—they make a real difference in 
 ```
 
 **LinkedIn:**
+
 ```
 Proud to announce: Elevate for Humanity Career & Training Institute is now a Milady RISE Partner School.
 
@@ -338,9 +348,9 @@ Learn more about our programs: www.elevateforhumanity.org
 Create a tracking spreadsheet:
 
 | Student Name | Enrollment Date | Completion Date | Certificate Uploaded | Scholarship Applied |
-|--------------|----------------|-----------------|---------------------|---------------------|
-| John Doe     | 01/15/2025     | 01/20/2025      | ✅                  | ❌                  |
-| Jane Smith   | 01/15/2025     | Pending         | ❌                  | ❌                  |
+| ------------ | --------------- | --------------- | -------------------- | ------------------- |
+| John Doe     | 01/15/2025      | 01/20/2025      | ✅                   | ❌                  |
+| Jane Smith   | 01/15/2025      | Pending         | ❌                   | ❌                  |
 
 ### Monthly Report for Jessica Boyd
 
@@ -369,19 +379,25 @@ Elizabeth Greene
 ## 💡 Best Practices (From Jessica Boyd)
 
 ### 1. Lead by Example
+
 ✅ **Complete the certification yourself first**
+
 - Shows students it's important
 - You can speak from experience
 - Increases student completion rates
 
 ### 2. Make it Required, Not Optional
+
 ✅ **Integrate into curriculum**
+
 - Week 1 requirement
 - Part of orientation
 - Required for program completion
 
 ### 3. Maximize Downtime
+
 ✅ **Post instructions everywhere**
+
 - Breakroom poster
 - Student lounge
 - Bathroom mirror
@@ -392,10 +408,12 @@ Elizabeth Greene
 ## 📞 Support Contacts
 
 ### Milady RISE Program Support
+
 - **Email:** [RISE support email from Milady]
 - **Website:** https://www.milady.com/rise
 
 ### Your Milady Representative
+
 - **Name:** Jessica Boyd
 - **Title:** Senior Community and Insights Specialist
 - **Email:** jessica.boyd@cengage.com
@@ -403,6 +421,7 @@ Elizabeth Greene
 - **Time Zone:** Eastern
 
 ### Elevate Internal Contact
+
 - **Name:** Elizabeth Greene
 - **Title:** CEO
 - **Email:** Elizabethpowell6262@gmail.com
@@ -413,10 +432,12 @@ Elizabeth Greene
 ## 📅 Important Dates
 
 ### Scholarship Application Deadlines
+
 - **Spring Scholarship:** Applications due [TBD - check with Milady]
 - **Fall Scholarship:** Applications due [TBD - check with Milady]
 
 ### Annual Survey
+
 - Participate in yearly survey or focus group (up to 60 minutes)
 - Provides feedback on RISE program
 - Helps improve beauty education
@@ -426,6 +447,7 @@ Elizabeth Greene
 ## ✅ Implementation Checklist
 
 ### Week 1: Setup
+
 - [ ] Complete RISE certification yourself (Elizabeth)
 - [ ] Download Milady RISE logos
 - [ ] Create student portal page for RISE
@@ -433,6 +455,7 @@ Elizabeth Greene
 - [ ] Create tracking spreadsheet
 
 ### Week 2: Launch
+
 - [ ] Add RISE to barber apprenticeship curriculum
 - [ ] Email all current barber students
 - [ ] Post instructions in breakroom/study areas
@@ -440,12 +463,14 @@ Elizabeth Greene
 - [ ] Update website with RISE partner logo
 
 ### Week 3: Promote
+
 - [ ] Post on social media (Instagram, Facebook, LinkedIn)
 - [ ] Send email to prospective students
 - [ ] Add RISE to enrollment materials
 - [ ] Create poster for physical location
 
 ### Ongoing:
+
 - [ ] Track student completion weekly
 - [ ] Send monthly report to Jessica Boyd
 - [ ] Remind students about scholarship deadlines
@@ -457,12 +482,14 @@ Elizabeth Greene
 ## 🎉 Success Metrics
 
 ### Goals for Year 1
+
 - **100% of barber students** complete RISE certification
 - **At least 3 students** apply for RISE scholarship
 - **1-2 students** win $500 scholarship
 - **Promote RISE** on all marketing materials
 
 ### Long-term Impact
+
 - Students become community advocates
 - Enhanced professional reputation
 - Increased enrollment (students want comprehensive training)
@@ -473,6 +500,7 @@ Elizabeth Greene
 ## 📚 Additional Resources
 
 ### Milady Resources
+
 - **Milady Training:** https://www.miladytraining.com
 - **Milady RISE:** https://www.milady.com/rise
 - **Instagram:** @miladypro
@@ -480,6 +508,7 @@ Elizabeth Greene
 - **LinkedIn:** /company/milady
 
 ### Related Certifications
+
 - **OSHA Safety:** Already partnered with CareerSafe
 - **Barbering License:** State of Indiana requirements
 - **First Aid/CPR:** Consider adding to curriculum

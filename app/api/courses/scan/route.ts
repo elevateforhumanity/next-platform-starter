@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-
 import { gh, parseRepo } from '@/lib/github';
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
@@ -38,7 +37,7 @@ async function _GET(req: NextRequest) {
         (item) =>
           item.path?.startsWith('courses/') &&
           item.path.endsWith('metadata.json') &&
-          item.type === 'blob'
+          item.type === 'blob',
       ) || [];
 
     // Extract course slugs (folder names)
@@ -55,14 +54,11 @@ async function _GET(req: NextRequest) {
       count: uniqueCourses.length,
       files: metadataFiles.map((f) => f.path),
     });
-  } catch (error) { 
-    logger.error(
-      'Scan courses error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Scan courses error:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
       { error: 'Failed to scan courses', message: toErrorMessage(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

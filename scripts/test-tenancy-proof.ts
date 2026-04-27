@@ -53,8 +53,13 @@ async function main() {
   console.log('--- 1. Schema Proof ---\n');
 
   const tenantTables = [
-    'profiles', 'enrollments', 'certificates', 'lesson_progress',
-    'apprentice_placements', 'shops', 'shop_staff'
+    'profiles',
+    'enrollments',
+    'certificates',
+    'lesson_progress',
+    'apprentice_placements',
+    'shops',
+    'shop_staff',
   ];
 
   for (const table of tenantTables) {
@@ -65,7 +70,10 @@ async function main() {
   // Check for NULL tenant_id (should be 0 after backfill)
   console.log('');
   for (const table of tenantTables) {
-    const { count } = await svc.from(table).select('*', { count: 'exact', head: true }).is('tenant_id', null);
+    const { count } = await svc
+      .from(table)
+      .select('*', { count: 'exact', head: true })
+      .is('tenant_id', null);
     assert(`${table}: zero NULL tenant_id`, count === 0, `found ${count} NULLs`);
   }
 
@@ -76,10 +84,19 @@ async function main() {
 
   // Anon should NOT be able to read sensitive tables
   const blockedForAnon = [
-    'profiles', 'enrollments', 'lesson_progress',
-    'shops', 'shop_staff', 'apprentice_placements',
-    'licenses', 'audit_logs', 'sfc_tax_returns', 'sfc_tax_documents',
-    'organization_users', 'tenant_memberships', 'tenant_licenses'
+    'profiles',
+    'enrollments',
+    'lesson_progress',
+    'shops',
+    'shop_staff',
+    'apprentice_placements',
+    'licenses',
+    'audit_logs',
+    'sfc_tax_returns',
+    'sfc_tax_documents',
+    'organization_users',
+    'tenant_memberships',
+    'tenant_licenses',
   ];
 
   for (const table of blockedForAnon) {
@@ -89,12 +106,16 @@ async function main() {
   }
 
   // Anon CAN read public verification certificates
-  const { count: certCount } = await anon.from('certificates').select('*', { count: 'exact', head: true });
+  const { count: certCount } = await anon
+    .from('certificates')
+    .select('*', { count: 'exact', head: true });
   // This depends on whether certificates has a public read policy
   console.log(`  INFO: anon certificates count = ${certCount}`);
 
   // Anon CAN read active programs
-  const { count: progCount } = await anon.from('programs').select('*', { count: 'exact', head: true });
+  const { count: progCount } = await anon
+    .from('programs')
+    .select('*', { count: 'exact', head: true });
   assert('anon can read active programs', (progCount || 0) > 0, `got ${progCount}`);
 
   // ============================================================
@@ -103,7 +124,14 @@ async function main() {
   console.log('\n--- 3. Behavior Proof (Write Locks) ---\n');
 
   const fakeId = '00000000-0000-0000-0000-000000000000';
-  const writeLockTables = ['shops', 'shop_staff', 'apprentice_placements', 'profiles', 'enrollments', 'certificates'];
+  const writeLockTables = [
+    'shops',
+    'shop_staff',
+    'apprentice_placements',
+    'profiles',
+    'enrollments',
+    'certificates',
+  ];
 
   for (const table of writeLockTables) {
     const { error: insertErr } = await anon.from(table).insert({ id: fakeId });
@@ -134,8 +162,15 @@ async function main() {
 
   for (const table of ['profiles', 'enrollments', 'shops', 'shop_staff']) {
     const { count: total } = await svc.from(table).select('*', { count: 'exact', head: true });
-    const { count: tenanted } = await svc.from(table).select('*', { count: 'exact', head: true }).eq('tenant_id', ELEVATE_TENANT);
-    assert(`${table}: all rows belong to Elevate tenant`, total === tenanted, `total=${total} tenanted=${tenanted}`);
+    const { count: tenanted } = await svc
+      .from(table)
+      .select('*', { count: 'exact', head: true })
+      .eq('tenant_id', ELEVATE_TENANT);
+    assert(
+      `${table}: all rows belong to Elevate tenant`,
+      total === tenanted,
+      `total=${total} tenanted=${tenanted}`,
+    );
   }
 
   // ============================================================
@@ -146,7 +181,11 @@ async function main() {
   // Every placement's student should have a profile
   const { data: placements } = await svc.from('apprentice_placements').select('student_id');
   for (const p of placements || []) {
-    const { data: profile } = await svc.from('profiles').select('id').eq('id', p.student_id).single();
+    const { data: profile } = await svc
+      .from('profiles')
+      .select('id')
+      .eq('id', p.student_id)
+      .single();
     assert(`placement student ${p.student_id?.substring(0, 8)} has profile`, profile !== null);
   }
 
@@ -159,7 +198,11 @@ async function main() {
 
   // Every shop_staff's shop should exist
   for (const s of staff || []) {
-    const { data: shop } = await svc.from('shops').select('id').eq('id', (s as any).shop_id).single();
+    const { data: shop } = await svc
+      .from('shops')
+      .select('id')
+      .eq('id', (s as any).shop_id)
+      .single();
     // shop_id isn't in the select, re-query
   }
   const { data: staffFull } = await svc.from('shop_staff').select('shop_id, user_id');
@@ -184,7 +227,7 @@ async function main() {
   }
 }
 
-main().catch(e => {
+main().catch((e) => {
   console.error('Test suite error:', e.message);
   process.exit(1);
 });

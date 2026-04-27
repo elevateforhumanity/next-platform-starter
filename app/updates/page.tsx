@@ -2,7 +2,15 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import { Calendar, ArrowRight, Bell, Megaphone, GraduationCap, Building2, Users } from 'lucide-react';
+import {
+  Calendar,
+  ArrowRight,
+  Bell,
+  Megaphone,
+  GraduationCap,
+  Building2,
+  Users,
+} from 'lucide-react';
 
 export const revalidate = 3600;
 export const metadata: Metadata = {
@@ -17,7 +25,8 @@ const updates = [
   {
     date: 'January 2026',
     title: '2026 Program Calendar & Funding Pathways',
-    description: 'Upcoming cohorts for healthcare, skilled trades, and technology training programs. New funding options available through workforce partnerships.',
+    description:
+      'Upcoming cohorts for healthcare, skilled trades, and technology training programs. New funding options available through workforce partnerships.',
     href: '/updates/2026/01/program-calendar',
     category: 'Programs',
     icon: Calendar,
@@ -25,7 +34,8 @@ const updates = [
   {
     date: 'January 2026',
     title: 'New Employer Partnership Program',
-    description: 'Introducing employer-sponsored training with post-hire reimbursement. Companies can now sponsor student tuition with flexible payment terms.',
+    description:
+      'Introducing employer-sponsored training with post-hire reimbursement. Companies can now sponsor student tuition with flexible payment terms.',
     href: '/employers',
     category: 'Partnerships',
     icon: Building2,
@@ -33,7 +43,8 @@ const updates = [
   {
     date: 'January 2026',
     title: 'Healthcare Training Expansion',
-    description: 'New Medical Assistant and Phlebotomy cohorts starting February. WIOA funding available for eligible students.',
+    description:
+      'New Medical Assistant and Phlebotomy cohorts starting February. WIOA funding available for eligible students.',
     href: '/programs/healthcare',
     category: 'Programs',
     icon: GraduationCap,
@@ -41,7 +52,8 @@ const updates = [
   {
     date: 'December 2025',
     title: 'CDL Training Program Launch',
-    description: 'Commercial Driver License training now available. Class A and Class B certifications with job placement assistance.',
+    description:
+      'Commercial Driver License training now available. Class A and Class B certifications with job placement assistance.',
     href: '/programs/cdl-training',
     category: 'Programs',
     icon: GraduationCap,
@@ -49,7 +61,8 @@ const updates = [
   {
     date: 'December 2025',
     title: 'VITA Tax Preparation Services',
-    description: 'Free tax preparation services available for students and community members. IRS-certified volunteers ready to help.',
+    description:
+      'Free tax preparation services available for students and community members. IRS-certified volunteers ready to help.',
     href: '/tax',
     category: 'Services',
     icon: Users,
@@ -57,7 +70,8 @@ const updates = [
   {
     date: 'November 2025',
     title: 'Workforce Board Partnership Expansion',
-    description: 'New partnerships with regional workforce boards to expand funding access for adult learners and dislocated workers.',
+    description:
+      'New partnerships with regional workforce boards to expand funding access for adult learners and dislocated workers.',
     href: '/funding',
     category: 'Funding',
     icon: Building2,
@@ -67,7 +81,6 @@ const updates = [
 export default async function UpdatesPage() {
   const supabase = await createClient();
 
-  
   // Fetch updates
   const { data: dbUpdates } = await supabase
     .from('updates')
@@ -76,10 +89,10 @@ export default async function UpdatesPage() {
 
   return (
     <main className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Updates" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Updates' }]} />
       </div>
-{/* Header */}
+      {/* Header */}
       <div className="bg-white border-b">
         <div className="max-w-5xl mx-auto px-6 py-12">
           <div className="flex items-center gap-3 mb-4">
@@ -104,7 +117,9 @@ export default async function UpdatesPage() {
               <Bell className="w-6 h-6" />
               <div>
                 <p className="font-semibold">Get Updates Delivered</p>
-                <p className="text-white text-sm">Subscribe to receive program announcements and funding alerts</p>
+                <p className="text-white text-sm">
+                  Subscribe to receive program announcements and funding alerts
+                </p>
               </div>
             </div>
             <Link

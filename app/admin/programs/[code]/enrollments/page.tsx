@@ -8,13 +8,26 @@ export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = { title: 'Program Enrollments | Elevate Admin' };
 
-export default async function ProgramEnrollmentsPage({ params }: { params: Promise<{ code: string }> }) {
+export default async function ProgramEnrollmentsPage({
+  params,
+}: {
+  params: Promise<{ code: string }>;
+}) {
   const { code } = await params;
   await requireAdmin();
   const supabase = await createClient();
 
-  const { data: program } = await supabase.from('programs').select('id, title').or(`code.eq.${code},slug.eq.${code}`).maybeSingle();
-  if (!program) return <div className="p-8"><h1 className="text-2xl font-bold">Program not found</h1></div>;
+  const { data: program } = await supabase
+    .from('programs')
+    .select('id, title')
+    .or(`code.eq.${code},slug.eq.${code}`)
+    .maybeSingle();
+  if (!program)
+    return (
+      <div className="p-8">
+        <h1 className="text-2xl font-bold">Program not found</h1>
+      </div>
+    );
 
   const { data: enrollments } = await supabase
     .from('program_enrollments')
@@ -27,7 +40,10 @@ export default async function ProgramEnrollmentsPage({ params }: { params: Promi
   const userIds = [...new Set((enrollments || []).map((e: any) => e.user_id).filter(Boolean))];
   const profiles: Record<string, any> = {};
   if (userIds.length > 0) {
-    const { data: profs } = await supabase.from('profiles').select('id, first_name, last_name, email').in('id', userIds);
+    const { data: profs } = await supabase
+      .from('profiles')
+      .select('id, first_name, last_name, email')
+      .in('id', userIds);
     for (const p of profs || []) profiles[p.id] = p;
   }
 
@@ -43,9 +59,17 @@ export default async function ProgramEnrollmentsPage({ params }: { params: Promi
     <div className="max-w-7xl mx-auto px-4 py-8">
       <nav className="text-sm mb-4">
         <ol className="flex items-center space-x-2 text-slate-700">
-          <li><Link href="/admin/programs" className="hover:text-brand-blue-600">Programs</Link></li>
+          <li>
+            <Link href="/admin/programs" className="hover:text-brand-blue-600">
+              Programs
+            </Link>
+          </li>
           <li>/</li>
-          <li><Link href={`/admin/programs/${code}/dashboard`} className="hover:text-brand-blue-600">{program.title}</Link></li>
+          <li>
+            <Link href={`/admin/programs/${code}/dashboard`} className="hover:text-brand-blue-600">
+              {program.title}
+            </Link>
+          </li>
           <li>/</li>
           <li className="text-slate-900 font-medium">Enrollments</li>
         </ol>
@@ -53,11 +77,13 @@ export default async function ProgramEnrollmentsPage({ params }: { params: Promi
 
       <h1 className="text-2xl font-bold text-slate-900 mb-6">Enrollments — {program.title}</h1>
 
-      {(!enrollments || enrollments.length === 0) ? (
+      {!enrollments || enrollments.length === 0 ? (
         <div className="bg-white rounded-lg border p-12 text-center">
           <Users className="w-12 h-12 text-slate-700 mx-auto mb-4" />
           <h3 className="text-lg font-medium text-slate-900 mb-2">No enrollments yet</h3>
-          <p className="text-slate-700">Students will appear here once they enroll in this program.</p>
+          <p className="text-slate-700">
+            Students will appear here once they enroll in this program.
+          </p>
         </div>
       ) : (
         <div className="bg-white rounded-lg border overflow-hidden">
@@ -73,25 +99,36 @@ export default async function ProgramEnrollmentsPage({ params }: { params: Promi
             <tbody className="divide-y">
               {enrollments.map((e: any) => {
                 const p = profiles[e.user_id];
-                const name = p ? `${p.first_name || ''} ${p.last_name || ''}`.trim() || p.email : e.user_id?.slice(0, 8);
+                const name = p
+                  ? `${p.first_name || ''} ${p.last_name || ''}`.trim() || p.email
+                  : e.user_id?.slice(0, 8);
                 return (
                   <tr key={e.id} className="hover:bg-gray-50">
                     <td className="px-4 py-3 font-medium text-slate-900">{name}</td>
                     <td className="px-4 py-3">
-                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[e.status] || 'bg-gray-100 text-slate-700'}`}>
+                      <span
+                        className={`px-2 py-0.5 rounded-full text-xs font-medium ${statusColors[e.status] || 'bg-gray-100 text-slate-700'}`}
+                      >
                         {e.status || 'unknown'}
                       </span>
                     </td>
                     <td className="px-4 py-3">
                       <div className="flex items-center gap-2">
                         <div className="w-24 bg-gray-200 rounded-full h-2">
-                          <div className="bg-brand-blue-600 h-2 rounded-full" style={{ width: `${e.progress_percent || 0}%` }} />
+                          <div
+                            className="bg-brand-blue-600 h-2 rounded-full"
+                            style={{ width: `${e.progress_percent || 0}%` }}
+                          />
                         </div>
                         <span className="text-slate-700 text-xs">{e.progress_percent || 0}%</span>
                       </div>
                     </td>
                     <td className="px-4 py-3 text-slate-700">
-                      {e.enrolled_at ? new Date(e.enrolled_at).toLocaleDateString() : e.created_at ? new Date(e.created_at).toLocaleDateString() : '—'}
+                      {e.enrolled_at
+                        ? new Date(e.enrolled_at).toLocaleDateString()
+                        : e.created_at
+                          ? new Date(e.created_at).toLocaleDateString()
+                          : '—'}
                     </td>
                   </tr>
                 );

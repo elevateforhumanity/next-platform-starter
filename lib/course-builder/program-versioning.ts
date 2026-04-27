@@ -23,7 +23,7 @@ export type VersionSummary = {
   created_by: string | null;
 };
 
-export type PublishResult  = { ok: boolean; version?: number; error?: string };
+export type PublishResult = { ok: boolean; version?: number; error?: string };
 export type RollbackResult = { ok: boolean; rolledBackTo?: number; error?: string };
 
 // ── publishProgram ────────────────────────────────────────────────────────────
@@ -36,14 +36,16 @@ export async function publishProgram(
   // Load full program state for snapshot
   const { data: program, error: loadErr } = await db
     .from('programs')
-    .select(`
+    .select(
+      `
       *,
       program_outcomes(*),
       program_credentials(*),
       program_modules(*, program_lessons(*)),
       program_ctas(*),
       program_tracks(*)
-    `)
+    `,
+    )
     .eq('id', programId)
     .maybeSingle();
 
@@ -54,14 +56,15 @@ export async function publishProgram(
   const now = new Date().toISOString();
   const orgId = program.org_id;
 
-  if (!orgId) return { ok: false, error: 'Program has no org_id — apply migration 20260422000003 first' };
+  if (!orgId)
+    return { ok: false, error: 'Program has no org_id — apply migration 20260422000003 first' };
 
   // Write snapshot
   const { error: snapErr } = await db.from('program_versions').insert({
-    org_id:     orgId,
+    org_id: orgId,
     program_id: programId,
-    version:    nextVersion,
-    snapshot:   program,
+    version: nextVersion,
+    snapshot: program,
     created_by: publishedBy,
     created_at: now,
   });
@@ -72,18 +75,24 @@ export async function publishProgram(
   }
 
   // Update program: increment version, mark published
-  const { error: updateErr } = await db.from('programs').update({
-    version:      nextVersion,
-    published:    true,
-    published_at: now,
-    published_by: publishedBy,
-    status:       'published',
-    review_status: 'published',
-    updated_at:   now,
-  }).eq('id', programId);
+  const { error: updateErr } = await db
+    .from('programs')
+    .update({
+      version: nextVersion,
+      published: true,
+      published_at: now,
+      published_by: publishedBy,
+      status: 'published',
+      review_status: 'published',
+      updated_at: now,
+    })
+    .eq('id', programId);
 
   if (updateErr) {
-    logger.error('[program-versioning] publish update failed', { programId, error: updateErr.message });
+    logger.error('[program-versioning] publish update failed', {
+      programId,
+      error: updateErr.message,
+    });
     return { ok: false, error: updateErr.message };
   }
 
@@ -111,30 +120,37 @@ export async function publishCourse(
   const now = new Date().toISOString();
   const orgId = course.org_id;
 
-  if (!orgId) return { ok: false, error: 'Course has no org_id — apply migration 20260422000003 first' };
+  if (!orgId)
+    return { ok: false, error: 'Course has no org_id — apply migration 20260422000003 first' };
 
   const { error: snapErr } = await db.from('course_versions').insert({
-    org_id:    orgId,
+    org_id: orgId,
     course_id: courseId,
-    version:   nextVersion,
-    snapshot:  course,
+    version: nextVersion,
+    snapshot: course,
     created_by: publishedBy,
     created_at: now,
   });
 
   if (snapErr) {
-    logger.error('[program-versioning] course snapshot failed', { courseId, error: snapErr.message });
+    logger.error('[program-versioning] course snapshot failed', {
+      courseId,
+      error: snapErr.message,
+    });
     return { ok: false, error: snapErr.message };
   }
 
-  const { error: updateErr } = await db.from('courses').update({
-    version:      nextVersion,
-    status:       'published',
-    review_status: 'published',
-    published_at: now,
-    published_by: publishedBy,
-    updated_at:   now,
-  }).eq('id', courseId);
+  const { error: updateErr } = await db
+    .from('courses')
+    .update({
+      version: nextVersion,
+      status: 'published',
+      review_status: 'published',
+      published_at: now,
+      published_by: publishedBy,
+      updated_at: now,
+    })
+    .eq('id', courseId);
 
   if (updateErr) return { ok: false, error: updateErr.message };
 
@@ -163,19 +179,26 @@ export async function rollbackProgram(
   const s = snap.snapshot as any;
 
   // Restore core fields only — nested tables require separate restore
-  const { error: updateErr } = await db.from('programs').update({
-    title:           s.title,
-    description:     s.description,
-    short_description: s.short_description,
-    status:          'draft',
-    review_status:   'draft',
-    published:       false,
-    updated_at:      new Date().toISOString(),
-  }).eq('id', programId);
+  const { error: updateErr } = await db
+    .from('programs')
+    .update({
+      title: s.title,
+      description: s.description,
+      short_description: s.short_description,
+      status: 'draft',
+      review_status: 'draft',
+      published: false,
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', programId);
 
   if (updateErr) return { ok: false, error: updateErr.message };
 
-  logger.info('[program-versioning] program rolled back', { programId, targetVersion, rolledBackBy });
+  logger.info('[program-versioning] program rolled back', {
+    programId,
+    targetVersion,
+    rolledBackBy,
+  });
   return { ok: true, rolledBackTo: targetVersion };
 }
 
@@ -199,13 +222,16 @@ export async function rollbackCourse(
 
   const s = snap.snapshot as any;
 
-  const { error: updateErr } = await db.from('courses').update({
-    title:       s.title,
-    description: s.description,
-    status:      'draft',
-    review_status: 'draft',
-    updated_at:  new Date().toISOString(),
-  }).eq('id', courseId);
+  const { error: updateErr } = await db
+    .from('courses')
+    .update({
+      title: s.title,
+      description: s.description,
+      status: 'draft',
+      review_status: 'draft',
+      updated_at: new Date().toISOString(),
+    })
+    .eq('id', courseId);
 
   if (updateErr) return { ok: false, error: updateErr.message };
 
@@ -215,7 +241,10 @@ export async function rollbackCourse(
 
 // ── list helpers ──────────────────────────────────────────────────────────────
 
-export async function listProgramVersions(db: SupabaseClient, programId: string): Promise<VersionSummary[]> {
+export async function listProgramVersions(
+  db: SupabaseClient,
+  programId: string,
+): Promise<VersionSummary[]> {
   const { data } = await db
     .from('program_versions')
     .select('id, version, created_at, created_by')
@@ -224,7 +253,10 @@ export async function listProgramVersions(db: SupabaseClient, programId: string)
   return data ?? [];
 }
 
-export async function listCourseVersions(db: SupabaseClient, courseId: string): Promise<VersionSummary[]> {
+export async function listCourseVersions(
+  db: SupabaseClient,
+  courseId: string,
+): Promise<VersionSummary[]> {
   const { data } = await db
     .from('course_versions')
     .select('id, version, created_at, created_by')

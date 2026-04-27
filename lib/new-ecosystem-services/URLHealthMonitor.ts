@@ -190,7 +190,8 @@ export class URLHealthMonitor {
 
       this.healthStatus.set(url, check);
       return check;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       const check: URLCheck = {
         url,
         status: 'down',
@@ -244,7 +245,8 @@ export class URLHealthMonitor {
 
       this.healthStatus.set(endpointId, check);
       return check;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       const check: URLCheck = {
         url: endpoint.url,
         status: 'down',
@@ -274,7 +276,8 @@ export class URLHealthMonitor {
       try {
         const check = await this.checkEndpoint(id);
         checks.set(id, check);
-      } catch (error) { /* Error handled silently */ 
+      } catch (error) {
+        /* Error handled silently */
         logger.error(`Error checking endpoint ${id}`, error as Error, { endpointId: id });
       }
     }
@@ -306,35 +309,33 @@ export class URLHealthMonitor {
   /**
    * Get URL with fallback
    */
-  async getURLWithFallback(
-    primaryId: string,
-    fallbackId: string
-  ): Promise<string | null> {
+  async getURLWithFallback(primaryId: string, fallbackId: string): Promise<string | null> {
     const primaryURL = await this.getSafeURL(primaryId);
     if (primaryURL) {
       return primaryURL;
     }
 
-    logger.warn(
-      `Primary endpoint ${primaryId} is down, using fallback ${fallbackId}`,
-      { primaryId, fallbackId }
-    );
+    logger.warn(`Primary endpoint ${primaryId} is down, using fallback ${fallbackId}`, {
+      primaryId,
+      fallbackId,
+    });
     return await this.getSafeURL(fallbackId);
   }
 
   /**
    * Alert when critical service is down
    */
-  private alertCriticalServiceDown(
-    endpoint: ServiceEndpoint,
-    check: URLCheck
-  ): void {
-    logger.error(`🚨 CRITICAL SERVICE DOWN: ${endpoint.name}`, new Error(check.errorMessage || 'Unknown error'), {
-      endpointName: endpoint.name,
-      url: endpoint.url,
-      statusCode: check.statusCode || 'No response',
-      errorMessage: check.errorMessage || 'Unknown error'
-    });
+  private alertCriticalServiceDown(endpoint: ServiceEndpoint, check: URLCheck): void {
+    logger.error(
+      `🚨 CRITICAL SERVICE DOWN: ${endpoint.name}`,
+      new Error(check.errorMessage || 'Unknown error'),
+      {
+        endpointName: endpoint.name,
+        url: endpoint.url,
+        statusCode: check.statusCode || 'No response',
+        errorMessage: check.errorMessage || 'Unknown error',
+      },
+    );
 
     // In production, send alerts via email, Slack, PagerDuty, etc.
     this.sendAlert({
@@ -349,7 +350,14 @@ export class URLHealthMonitor {
   /**
    * Send alert (implement with your alerting system)
    */
-  private async sendAlert(alert: { type: string; severity: string; endpoint: string; message: string; timestamp: Date; error?: string }): Promise<void> {
+  private async sendAlert(alert: {
+    type: string;
+    severity: string;
+    endpoint: string;
+    message: string;
+    timestamp: Date;
+    error?: string;
+  }): Promise<void> {
     // Implement alerting logic here
     // Examples: Email, Slack, PagerDuty, Discord, etc.
     logger.info('ALERT', alert);
@@ -418,9 +426,7 @@ export class URLHealthMonitor {
   /**
    * Validate URL before displaying to user
    */
-  async validateBeforeDisplay(
-    url: string
-  ): Promise<{ valid: boolean; message?: string }> {
+  async validateBeforeDisplay(url: string): Promise<{ valid: boolean; message?: string }> {
     const check = await this.checkURL(url);
 
     if (check.status === 'healthy') {
@@ -458,18 +464,11 @@ export class URLHealthMonitor {
 
     for (const link of Array.from(links)) {
       const href = link.getAttribute('href');
-      if (
-        !href ||
-        href.startsWith('#') ||
-        href.startsWith('mailto:') ||
-        href.startsWith('tel:')
-      ) {
+      if (!href || href.startsWith('#') || href.startsWith('mailto:') || href.startsWith('tel:')) {
         continue;
       }
 
-      const fullURL = href.startsWith('http')
-        ? href
-        : new URL(href, window.location.origin).href;
+      const fullURL = href.startsWith('http') ? href : new URL(href, window.location.origin).href;
       const check = await this.checkURL(fullURL);
 
       if (check.status === 'down') {

@@ -3,6 +3,7 @@
 ## Elevate-lms (main LMS repo)
 
 ### Build fixes pushed
+
 - Removed custom splitChunks (was creating one chunk per npm package — OOM cause)
 - Webpack cache key changed from COMMIT_REF to stable 'elevate-lms-v1'
 - withSentryConfig bypassed entirely on Netlify (still runs at runtime)
@@ -12,14 +13,17 @@
 - onRouterTransitionStart export added to instrumentation-client.ts
 
 ### Pages restored to Elevate-lms
+
 - career-services, employer-portal, ferpa, funding, help, legal, license, policies, preview, pwa, support, docs
 - app/reels (redirect stub)
 
 ### Pages removed from Elevate-lms
-- app/supersonic, app/tax/supersonicfastcash, app/api/supersonic*, app/api/supersonic-cash
+
+- app/supersonic, app/tax/supersonicfastcash, app/api/supersonic\*, app/api/supersonic-cash
 - Test pages: sentry-test, test-enrollment, test-images, cache-diagnostic, demos, micro-classes
 
 ### Pending
+
 - Netlify build not yet confirmed passing (last error was metadata/use client — fixed)
 - Footer in next-platform-starter not yet committed with new sections
 
@@ -28,22 +32,26 @@
 ## next-platform-starter (marketing repo)
 
 ### Supabase
+
 - Project: jlqrfwxuhpzmuivdxvvz
 - URL: https://jlqrfwxuhpzmuivdxvvz.supabase.co
 - lib/supabase/client.ts and server.ts set up
 - .env.local has all 3 keys (gitignored)
 
 ### Sections present and wired into nav
+
 about, accreditation, alumni, apprenticeships, blog, career-training,
 community-services, consumer-education, donate, features, financial-aid,
 for-employers, hire-graduates, partnerships, pathways, philanthropy,
 programs, solutions, testimonials, training-providers, tuition, workforce-partners
 
 ### Sections NOT in starter (belong in Elevate-lms)
+
 career-services, employer-portal, ferpa, funding, help, legal, license,
 policies, preview, pwa, support, docs
 
 ### Pending
+
 - Footer not yet updated with all new sections (uncommitted)
 - Nav dropdown added (primary 5 + More dropdown for rest)
 - employee section — user asked to send back and wire up (not yet done)

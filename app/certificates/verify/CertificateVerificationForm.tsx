@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -28,9 +28,7 @@ export default function CertificateVerificationForm() {
     // Validate format (EFH-YYYY-XXXXXXXX)
     const formatRegex = /^EFH-\d{4}-[A-Z0-9]{8}$/;
     if (!formatRegex.test(cleanNumber)) {
-      setError(
-        'Invalid certificate number format. Expected format: EFH-YYYY-XXXXXXXX'
-      );
+      setError('Invalid certificate number format. Expected format: EFH-YYYY-XXXXXXXX');
       setLoading(false);
       return;
     }
@@ -57,12 +55,8 @@ export default function CertificateVerificationForm() {
             />
           </svg>
         </div>
-        <h2 className="text-2xl font-bold text-black">
-          Enter Certificate Number
-        </h2>
-        <p className="text-black mt-2">
-          Enter the certificate number to verify its authenticity
-        </p>
+        <h2 className="text-2xl font-bold text-black">Enter Certificate Number</h2>
+        <p className="text-black mt-2">Enter the certificate number to verify its authenticity</p>
       </div>
 
       {error && (
@@ -73,10 +67,7 @@ export default function CertificateVerificationForm() {
 
       <form onSubmit={handleVerify} className="space-y-4">
         <div>
-          <label
-            htmlFor="certificateNumber"
-            className="block text-sm font-medium text-black mb-2"
-          >
+          <label htmlFor="certificateNumber" className="block text-sm font-medium text-black mb-2">
             Certificate Number
           </label>
           <input
@@ -84,9 +75,7 @@ export default function CertificateVerificationForm() {
             id="certificateNumber"
             value={certificateNumber}
             onChange={(
-              e: React.ChangeEvent<
-                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-              >
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setCertificateNumber(e.target.value.toUpperCase())}
             placeholder="EFH-2024-XXXXXXXX"
             required
@@ -149,12 +138,10 @@ export default function CertificateVerificationForm() {
             />
           </svg>
           <div className="text-sm text-black">
-            <p className="font-semibold mb-1">
-              Verification is instant and secure
-            </p>
+            <p className="font-semibold mb-1">Verification is instant and secure</p>
             <p>
-              Our system will check the certificate against our database and
-              display the verification results immediately.
+              Our system will check the certificate against our database and display the
+              verification results immediately.
             </p>
           </div>
         </div>

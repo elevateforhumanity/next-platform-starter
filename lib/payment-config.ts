@@ -1,16 +1,16 @@
 /**
  * Payment Configuration
  * Defines pricing for all programs
- * 
+ *
  * BARBER APPRENTICESHIP PROGRAM FEE: $4,980 (FLAT FEE)
- * 
+ *
  * IMPORTANT COMPLIANCE NOTICE:
  * - This is a DOL Registered Apprenticeship overlay program
  * - The fee is FLAT regardless of transferred hours
  * - Transferred hours reduce time-in-program ONLY, NOT the fee
  * - This program is NOT a barber school
  * - This program does NOT sell clock hours or licensure eligibility
- * 
+ *
  * THE $4,980 FEE COVERS:
  * - DOL Registered Apprenticeship sponsorship
  * - Compliance and RAPIDS reporting
@@ -18,7 +18,7 @@
  * - Program monitoring and completion documentation
  * - Related Instruction: Elevate LMS theory curriculum
  * - Indiana IPLA State Board Exam Fee ($50)
- * 
+ *
  * THE $4,980 FEE DOES NOT COVER:
  * - Practical hands-on barber skills training
  * - State licensure-required instructional hours
@@ -94,7 +94,8 @@ export const PROGRAM_PAYMENTS: ProgramPaymentConfig[] = [
     isFlatFee: true,
     vendorName: 'none',
     vendorCost: 386,
-    description: 'Registered Barber Apprenticeship Sponsorship, Oversight & Related Instruction (Elevate LMS Theory). This program provides federal apprenticeship sponsorship, employer coordination, compliance reporting, and related instruction. Practical skills training and licensure-required instructional hours are provided by a licensed barber school. This program does not grant barber licensure or clock hours toward state exams.',
+    description:
+      'Registered Barber Apprenticeship Sponsorship, Oversight & Related Instruction (Elevate LMS Theory). This program provides federal apprenticeship sponsorship, employer coordination, compliance reporting, and related instruction. Practical skills training and licensure-required instructional hours are provided by a licensed barber school. This program does not grant barber licensure or clock hours toward state exams.',
     features: [
       'DOL Registered Apprenticeship sponsorship',
       'Compliance and RAPIDS reporting',
@@ -126,7 +127,8 @@ export const PROGRAM_PAYMENTS: ProgramPaymentConfig[] = [
     isFlatFee: true,
     vendorName: 'none',
     vendorCost: 200,
-    description: 'Registered Nail Technician Apprenticeship Sponsorship, Oversight & Related Instruction (Elevate LMS Theory). This program provides federal apprenticeship sponsorship, employer coordination, compliance reporting, and related instruction. Practical skills training and licensure-required instructional hours are provided by a licensed nail technician school. This program does not grant nail technician licensure or clock hours toward state exams.',
+    description:
+      'Registered Nail Technician Apprenticeship Sponsorship, Oversight & Related Instruction (Elevate LMS Theory). This program provides federal apprenticeship sponsorship, employer coordination, compliance reporting, and related instruction. Practical skills training and licensure-required instructional hours are provided by a licensed nail technician school. This program does not grant nail technician licensure or clock hours toward state exams.',
     features: [
       'DOL Registered Apprenticeship sponsorship',
       'Compliance and RAPIDS reporting',
@@ -156,7 +158,8 @@ export const PROGRAM_PAYMENTS: ProgramPaymentConfig[] = [
     isFlatFee: true,
     vendorName: 'none',
     vendorCost: 250,
-    description: 'Registered Esthetician Apprenticeship Sponsorship, Oversight & Related Instruction (Elevate LMS Theory). This program provides federal apprenticeship sponsorship, employer coordination, compliance reporting, and related instruction. Practical skills training and licensure-required instructional hours are provided by a licensed esthetician school. This program does not grant esthetician licensure or clock hours toward state exams.',
+    description:
+      'Registered Esthetician Apprenticeship Sponsorship, Oversight & Related Instruction (Elevate LMS Theory). This program provides federal apprenticeship sponsorship, employer coordination, compliance reporting, and related instruction. Practical skills training and licensure-required instructional hours are provided by a licensed esthetician school. This program does not grant esthetician licensure or clock hours toward state exams.',
     features: [
       'DOL Registered Apprenticeship sponsorship',
       'Compliance and RAPIDS reporting',
@@ -186,7 +189,8 @@ export const PROGRAM_PAYMENTS: ProgramPaymentConfig[] = [
     isFlatFee: true,
     vendorName: 'none',
     vendorCost: 386,
-    description: 'Registered Cosmetology Apprenticeship Sponsorship, Oversight & Related Instruction (Elevate LMS Theory). This program provides federal apprenticeship sponsorship, employer coordination, compliance reporting, and related instruction. Practical skills training and licensure-required instructional hours are provided by a licensed cosmetology school. This program does not grant cosmetology licensure or clock hours toward state exams.',
+    description:
+      'Registered Cosmetology Apprenticeship Sponsorship, Oversight & Related Instruction (Elevate LMS Theory). This program provides federal apprenticeship sponsorship, employer coordination, compliance reporting, and related instruction. Practical skills training and licensure-required instructional hours are provided by a licensed cosmetology school. This program does not grant cosmetology licensure or clock hours toward state exams.',
     features: [
       'DOL Registered Apprenticeship sponsorship',
       'Compliance and RAPIDS reporting',
@@ -253,11 +257,7 @@ export const PROGRAM_PAYMENTS: ProgramPaymentConfig[] = [
     vendorName: null,
     vendorCost: 0,
     description: 'American Heart Association CPR certification',
-    features: [
-      'AHA CPR/AED certification',
-      'Same-day certification',
-      'Digital certificate',
-    ],
+    features: ['AHA CPR/AED certification', 'Same-day certification', 'Digital certificate'],
     notIncluded: [],
     disclaimer: '',
   },
@@ -357,7 +357,7 @@ export const PROGRAM_PAYMENTS: ProgramPaymentConfig[] = [
  * Get payment configuration for a program
  */
 export function getPaymentConfig(programSlug: string): ProgramPaymentConfig | null {
-  return PROGRAM_PAYMENTS.find(p => p.slug === programSlug) || null;
+  return PROGRAM_PAYMENTS.find((p) => p.slug === programSlug) || null;
 }
 
 /**

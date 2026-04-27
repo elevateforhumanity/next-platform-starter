@@ -17,28 +17,28 @@ export type ExamDelivery = 'online' | 'in_person' | 'hybrid';
 
 export interface NhaProgramAgreement {
   /** Matches the key in NHA_PROGRAMS in nha-pricing.ts */
-  key:                  string;
-  label:                string;
+  key: string;
+  label: string;
   /** Credential abbreviation, e.g. "CCMA", "CPT" */
-  credential:           string;
-  pathway:              'training_program';
+  credential: string;
+  pathway: 'training_program';
   /** Who pays NHA for prep materials */
-  prepMaterialPayment:  PaymentResponsibility;
-  examDelivery:         ExamDelivery;
+  prepMaterialPayment: PaymentResponsibility;
+  examDelivery: ExamDelivery;
   /** Who pays NHA for the first exam attempt */
-  examAttemptPayment:   PaymentResponsibility;
+  examAttemptPayment: PaymentResponsibility;
   /** Who pays NHA for retakes — always candidate per the agreement */
-  retakePayment:        PaymentResponsibility;
+  retakePayment: PaymentResponsibility;
   /** Notes visible in admin only */
-  adminNotes?:          string;
+  adminNotes?: string;
 }
 
 /** Enriched view used in admin and checkout — agreement + live pricing */
 export interface NhaProgramWithPricing extends NhaProgramAgreement {
   /** Retail bundle price charged to student/funder (from nha-pricing.ts) */
-  bundleRetailPrice:    number | null;
+  bundleRetailPrice: number | null;
   /** Retake fee charged to candidate if they fail (from nha-pricing.ts) */
-  retakeFee:            number;
+  retakeFee: number;
   /** Gross margin on the bundle (retail - vendor base) / retail */
-  bundleMargin:         number | null;
+  bundleMargin: number | null;
 }

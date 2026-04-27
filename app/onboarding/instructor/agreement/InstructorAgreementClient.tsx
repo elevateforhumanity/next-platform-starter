@@ -11,7 +11,12 @@ interface Props {
   signedAt: string | null;
 }
 
-export default function InstructorAgreementClient({ userId, firstName, alreadySigned, signedAt }: Props) {
+export default function InstructorAgreementClient({
+  userId,
+  firstName,
+  alreadySigned,
+  signedAt,
+}: Props) {
   const router = useRouter();
   const [checked, setChecked] = useState(false);
   const [loading, setLoading] = useState(false);
@@ -26,7 +31,12 @@ export default function InstructorAgreementClient({ userId, firstName, alreadySi
             <p className="font-semibold">Agreement signed</p>
             {signedAt && (
               <p className="text-sm text-green-600">
-                Signed on {new Date(signedAt).toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+                Signed on{' '}
+                {new Date(signedAt).toLocaleDateString('en-US', {
+                  month: 'long',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
               </p>
             )}
           </div>
@@ -72,17 +82,17 @@ export default function InstructorAgreementClient({ userId, firstName, alreadySi
         <input
           type="checkbox"
           checked={checked}
-          onChange={e => setChecked(e.target.checked)}
+          onChange={(e) => setChecked(e.target.checked)}
           className="mt-1 w-4 h-4 rounded border-slate-300 text-brand-blue-700 focus:ring-brand-blue-500"
         />
         <span className="text-sm text-slate-700">
-          I, <strong>{firstName}</strong>, have read and agree to the Instructor Services Agreement above. I understand my obligations regarding student confidentiality, professional conduct, and curriculum standards.
+          I, <strong>{firstName}</strong>, have read and agree to the Instructor Services Agreement
+          above. I understand my obligations regarding student confidentiality, professional
+          conduct, and curriculum standards.
         </span>
       </label>
 
-      {error && (
-        <p className="mt-3 text-sm text-red-600">{error}</p>
-      )}
+      {error && <p className="mt-3 text-sm text-red-600">{error}</p>}
 
       <div className="mt-4 flex gap-3">
         <button

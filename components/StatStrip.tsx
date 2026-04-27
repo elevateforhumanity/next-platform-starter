@@ -2,24 +2,31 @@ interface StatStripProps {
   stats: Array<{
     value: string;
     label: string;
-    color?: "blue" | "green" | "orange" | "purple";
+    color?: 'blue' | 'green' | 'orange' | 'purple';
   }>;
-  background?: "white" | "slate" | "dark";
+  background?: 'white' | 'slate' | 'dark';
 }
 
-export function StatStrip({ stats, background = "slate" }: StatStripProps) {
+export function StatStrip({ stats, background = 'slate' }: StatStripProps) {
   const bgClass =
-    background === "white" ? "bg-white" :
-    background === "slate" ? "bg-slate-50" :
-    "bg-slate-900 text-white";
+    background === 'white'
+      ? 'bg-white'
+      : background === 'slate'
+        ? 'bg-slate-50'
+        : 'bg-slate-900 text-white';
 
   const getColorClass = (color?: string) => {
     switch (color) {
-      case "blue": return "text-brand-blue-600";
-      case "green": return "text-brand-green-600";
-      case "orange": return "text-brand-orange-600";
-      case "purple": return "text-purple-600";
-      default: return background === "dark" ? "text-brand-orange-400" : "text-brand-blue-600";
+      case 'blue':
+        return 'text-brand-blue-600';
+      case 'green':
+        return 'text-brand-green-600';
+      case 'orange':
+        return 'text-brand-orange-600';
+      case 'purple':
+        return 'text-purple-600';
+      default:
+        return background === 'dark' ? 'text-brand-orange-400' : 'text-brand-blue-600';
     }
   };
 
@@ -32,7 +39,7 @@ export function StatStrip({ stats, background = "slate" }: StatStripProps) {
               <div className={`text-4xl md:text-5xl font-bold mb-2 ${getColorClass(stat.color)}`}>
                 {stat.value}
               </div>
-              <p className={`text-sm ${background === "dark" ? "text-slate-300" : "text-black"}`}>
+              <p className={`text-sm ${background === 'dark' ? 'text-slate-300' : 'text-black'}`}>
                 {stat.label}
               </p>
             </div>

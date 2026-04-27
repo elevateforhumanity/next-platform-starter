@@ -11,21 +11,26 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/program-holder/grades',
   },
   title: 'Program Holder Grades | Elevate For Humanity',
-  description: 'Review and manage student grades, assessments, and academic progress across your programs.',
+  description:
+    'Review and manage student grades, assessments, and academic progress across your programs.',
 };
 
 export default async function GradesPage() {
   const { db, programIds } = await requireProgramHolder();
 
   // Fetch student enrollments scoped to owned programs
-  const { data: items, count } = programIds.length > 0
-    ? await db
-        .from('student_enrollments')
-        .select('id, student_id, program_id, progress, status, grade, created_at, profiles!student_enrollments_student_id_fkey(full_name, email)', { count: 'exact' })
-        .in('program_id', programIds)
-        .order('created_at', { ascending: false })
-        .limit(50)
-    : { data: [], count: 0 };
+  const { data: items, count } =
+    programIds.length > 0
+      ? await db
+          .from('student_enrollments')
+          .select(
+            'id, student_id, program_id, progress, status, grade, created_at, profiles!student_enrollments_student_id_fkey(full_name, email)',
+            { count: 'exact' },
+          )
+          .in('program_id', programIds)
+          .order('created_at', { ascending: false })
+          .limit(50)
+      : { data: [], count: 0 };
 
   const programNames: Record<string, string> = {};
   if (programIds.length > 0) {
@@ -33,16 +38,21 @@ export default async function GradesPage() {
       .from('programs')
       .select('id, name, title')
       .in('id', programIds);
-    (progDetails || []).forEach((p: any) => { programNames[p.id] = p.name || p.title || 'Untitled'; });
+    (progDetails || []).forEach((p: any) => {
+      programNames[p.id] = p.name || p.title || 'Untitled';
+    });
   }
 
   return (
     <div className="min-h-screen bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Program Holder", href: "/program-holder" }, { label: "Grades" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Program Holder', href: '/program-holder' }, { label: 'Grades' }]}
+        />
+      </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/program-holder-page-1.jpg"
           alt="Grades"
@@ -52,7 +62,6 @@ export default async function GradesPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Content Section */}
@@ -100,10 +109,16 @@ export default async function GradesPage() {
                         return (
                           <tr key={item.id} className="hover:bg-white">
                             <td className="py-3">
-                              <p className="font-medium text-slate-900">{studentProfile?.full_name || 'Unknown'}</p>
-                              <p className="text-xs text-slate-700">{studentProfile?.email || ''}</p>
+                              <p className="font-medium text-slate-900">
+                                {studentProfile?.full_name || 'Unknown'}
+                              </p>
+                              <p className="text-xs text-slate-700">
+                                {studentProfile?.email || ''}
+                              </p>
                             </td>
-                            <td className="py-3 text-slate-900">{programNames[item.program_id] || '—'}</td>
+                            <td className="py-3 text-slate-900">
+                              {programNames[item.program_id] || '—'}
+                            </td>
                             <td className="py-3 text-center">
                               <span className="font-medium">{item.progress || 0}%</span>
                             </td>
@@ -111,11 +126,17 @@ export default async function GradesPage() {
                               <span className="font-bold">{item.grade || '—'}</span>
                             </td>
                             <td className="py-3 text-center">
-                              <span className={`text-xs font-medium px-2 py-1 rounded ${
-                                item.status === 'completed' ? 'bg-brand-green-100 text-brand-green-800' :
-                                item.status === 'active' ? 'bg-brand-blue-100 text-brand-blue-800' :
-                                'bg-white text-slate-700'
-                              }`}>{item.status}</span>
+                              <span
+                                className={`text-xs font-medium px-2 py-1 rounded ${
+                                  item.status === 'completed'
+                                    ? 'bg-brand-green-100 text-brand-green-800'
+                                    : item.status === 'active'
+                                      ? 'bg-brand-blue-100 text-brand-blue-800'
+                                      : 'bg-white text-slate-700'
+                                }`}
+                              >
+                                {item.status}
+                              </span>
                             </td>
                           </tr>
                         );
@@ -124,7 +145,9 @@ export default async function GradesPage() {
                   </table>
                 </div>
               ) : (
-                <p className="text-slate-700 text-center py-8">No student enrollments found for your programs.</p>
+                <p className="text-slate-700 text-center py-8">
+                  No student enrollments found for your programs.
+                </p>
               )}
             </div>
           </div>
@@ -140,10 +163,16 @@ export default async function GradesPage() {
               Contact support for questions about grades, assessments, or student progress.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
-              <Link href="/program-holder/support" className="bg-white text-brand-blue-700 px-6 py-3 rounded-lg font-semibold hover:bg-white">
+              <Link
+                href="/program-holder/support"
+                className="bg-white text-brand-blue-700 px-6 py-3 rounded-lg font-semibold hover:bg-white"
+              >
                 Contact Support
               </Link>
-              <Link href="/program-holder/dashboard" className="bg-brand-blue-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-600 border-2 border-white">
+              <Link
+                href="/program-holder/dashboard"
+                className="bg-brand-blue-800 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-600 border-2 border-white"
+              >
                 Back to Dashboard
               </Link>
             </div>

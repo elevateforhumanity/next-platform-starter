@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which ingredient is commonly found in medicated shampoos for treating dandruff?",
-        "choices": [
-          "Zinc pyrithione",
-          "Aloe vera",
-          "Coconut oil",
-          "Argan oil"
-        ],
+        "choices": ["Zinc pyrithione", "Aloe vera", "Coconut oil", "Argan oil"],
         "answerIndex": 0,
         "rationale": "Medicated shampoos for dandruff often contain zinc pyrithione, which helps control the yeast-like fungus that can cause dandruff.",
         "type": "recall"
@@ -64,12 +59,7 @@
       },
       {
         "prompt": "Which scalp condition is characterized by overactive sebaceous glands?",
-        "choices": [
-          "Oily scalp",
-          "Dry scalp",
-          "Dandruff",
-          "Scalp psoriasis"
-        ],
+        "choices": ["Oily scalp", "Dry scalp", "Dandruff", "Scalp psoriasis"],
         "answerIndex": 0,
         "rationale": "An oily scalp results from overactive sebaceous glands, leading to greasy hair and scalp.",
         "type": "recall"
@@ -100,12 +90,7 @@
       },
       {
         "prompt": "A client presents with flaky, itchy skin on their scalp. What is the most likely condition?",
-        "choices": [
-          "Dandruff",
-          "Dry scalp",
-          "Oily scalp",
-          "Scalp psoriasis"
-        ],
+        "choices": ["Dandruff", "Dry scalp", "Oily scalp", "Scalp psoriasis"],
         "answerIndex": 0,
         "rationale": "Flaky, itchy skin on the scalp is a common symptom of dandruff.",
         "type": "scenario"

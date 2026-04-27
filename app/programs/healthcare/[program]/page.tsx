@@ -10,48 +10,45 @@ import {
   getRetailPrice,
   showPaymentPlan,
 } from '@/lib/testing/nha-pricing';
-import {
-  NHA_PROGRAM_AGREEMENTS,
-  formatResponsibility,
-} from '@/lib/testing/nha-programs';
+import { NHA_PROGRAM_AGREEMENTS, formatResponsibility } from '@/lib/testing/nha-programs';
 import { TESTING_CENTER } from '@/lib/testing/testing-config';
 
 // Maps URL slugs → nha-pricing.ts program keys
 const SLUG_TO_PROGRAM_KEY: Record<string, keyof typeof NHA_PROGRAMS> = {
-  'nha-medical-assistant':     'medicalAssistant',
-  'nha-pharmacy-technician':   'pharmacyTechnician',
-  'nha-phlebotomy':            'phlebotomy',
-  'nha-billing-coding':        'billingAndCoding',
+  'nha-medical-assistant': 'medicalAssistant',
+  'nha-pharmacy-technician': 'pharmacyTechnician',
+  'nha-phlebotomy': 'phlebotomy',
+  'nha-billing-coding': 'billingAndCoding',
   'nha-patient-care-technician': 'patientCareTechnician',
   'nha-medical-admin-assistant': 'medicalAdminAssistant',
-  'nha-ehr':                   'electronicHealthRecords',
-  'nha-ekg-technician':        'ekgTechnician',
+  'nha-ehr': 'electronicHealthRecords',
+  'nha-ekg-technician': 'ekgTechnician',
 };
 
 // Maps nha-pricing.ts keys → agreement keys
 const PROGRAM_TO_AGREEMENT_KEY: Record<string, string> = {
-  medicalAssistant:       'medical_assistant',
-  pharmacyTechnician:     'pharmacy',
-  phlebotomy:             'phlebotomy',
-  billingAndCoding:       'billing_coding',
-  patientCareTechnician:  'patient_care',
-  medicalAdminAssistant:  'medical_admin',
-  electronicHealthRecords:'ehr',
-  ekgTechnician:          'ekg',
+  medicalAssistant: 'medical_assistant',
+  pharmacyTechnician: 'pharmacy',
+  phlebotomy: 'phlebotomy',
+  billingAndCoding: 'billing_coding',
+  patientCareTechnician: 'patient_care',
+  medicalAdminAssistant: 'medical_admin',
+  electronicHealthRecords: 'ehr',
+  ekgTechnician: 'ekg',
 };
 
 export default function NhaProgramPage() {
-  const params   = useParams();
-  const slug     = typeof params.program === 'string' ? params.program : '';
-  const progKey  = SLUG_TO_PROGRAM_KEY[slug];
+  const params = useParams();
+  const slug = typeof params.program === 'string' ? params.program : '';
+  const progKey = SLUG_TO_PROGRAM_KEY[slug];
 
   if (!progKey) notFound();
 
-  const program      = NHA_PROGRAMS[progKey];
-  const bundlePrice  = getBundleRetailPrice(program);
-  const hasPayPlan   = showPaymentPlan(program);
+  const program = NHA_PROGRAMS[progKey];
+  const bundlePrice = getBundleRetailPrice(program);
+  const hasPayPlan = showPaymentPlan(program);
   const agreementKey = PROGRAM_TO_AGREEMENT_KEY[progKey];
-  const agreement    = NHA_PROGRAM_AGREEMENTS.find(a => a.key === agreementKey);
+  const agreement = NHA_PROGRAM_AGREEMENTS.find((a) => a.key === agreementKey);
 
   const [enrolling, setEnrolling] = useState(false);
 
@@ -69,7 +66,6 @@ export default function NhaProgramPage() {
 
   return (
     <main className="min-h-screen bg-white">
-
       {/* Header */}
       <div className="bg-emerald-800 text-white">
         <div className="max-w-5xl mx-auto px-6 py-10">
@@ -89,9 +85,7 @@ export default function NhaProgramPage() {
                 {program.label} Program
               </h1>
               {agreement && (
-                <p className="text-emerald-200 text-sm mt-2">
-                  Credential: {agreement.credential}
-                </p>
+                <p className="text-emerald-200 text-sm mt-2">Credential: {agreement.credential}</p>
               )}
             </div>
             {bundlePrice != null && (
@@ -111,14 +105,12 @@ export default function NhaProgramPage() {
       </div>
 
       <div className="max-w-5xl mx-auto px-6 py-12 grid lg:grid-cols-3 gap-10">
-
         {/* Left — program details */}
         <div className="lg:col-span-2 space-y-10">
-
           {/* Tagline */}
           <p className="text-slate-600 text-lg leading-relaxed">
-            {program.tagline}. Get trained, certified, and job-ready for a high-demand healthcare role.
-            No experience required.
+            {program.tagline}. Get trained, certified, and job-ready for a high-demand healthcare
+            role. No experience required.
           </p>
 
           {/* What's included */}
@@ -132,7 +124,7 @@ export default function NhaProgramPage() {
                 'Progress tracking and readiness reports',
                 'Support throughout your training',
                 'First exam attempt included',
-              ].map(item => (
+              ].map((item) => (
                 <li key={item} className="flex items-start gap-3">
                   <CheckCircle className="w-5 h-5 text-emerald-500 flex-shrink-0 mt-0.5" />
                   <span className="text-slate-700">{item}</span>
@@ -143,12 +135,13 @@ export default function NhaProgramPage() {
 
           {/* A la carte products */}
           <section>
-            <h2 className="text-xl font-extrabold text-slate-900 mb-4">
-              Program Components
-            </h2>
+            <h2 className="text-xl font-extrabold text-slate-900 mb-4">Program Components</h2>
             <div className="divide-y divide-slate-100 border border-slate-200 rounded-xl overflow-hidden">
-              {program.products.map(product => (
-                <div key={product.key} className="flex items-center justify-between px-5 py-3 bg-white hover:bg-slate-50">
+              {program.products.map((product) => (
+                <div
+                  key={product.key}
+                  className="flex items-center justify-between px-5 py-3 bg-white hover:bg-slate-50"
+                >
                   <div className="flex items-center gap-2">
                     <BookOpen className="w-4 h-4 text-slate-400 flex-shrink-0" />
                     <span className="text-slate-700 text-sm">{product.label}</span>
@@ -201,12 +194,10 @@ export default function NhaProgramPage() {
               </p>
             </section>
           )}
-
         </div>
 
         {/* Right — enrollment CTA */}
         <aside className="space-y-5">
-
           {/* Enroll card */}
           <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden sticky top-6">
             <div className="bg-emerald-700 px-6 py-4">
@@ -244,7 +235,8 @@ export default function NhaProgramPage() {
               ) : (
                 <>
                   <p className="text-slate-600 text-sm">
-                    This program is available a la carte. Contact admissions for pricing and enrollment.
+                    This program is available a la carte. Contact admissions for pricing and
+                    enrollment.
                   </p>
                   <Link
                     href={`/contact?program=${slug}`}
@@ -271,7 +263,6 @@ export default function NhaProgramPage() {
               {TESTING_CENTER.phone}
             </a>
           </div>
-
         </aside>
       </div>
 
@@ -281,7 +272,8 @@ export default function NhaProgramPage() {
           Start Your Healthcare Career Today
         </h2>
         <p className="text-slate-400 mb-8 max-w-xl mx-auto text-sm">
-          Choose your program, get certified, and take the next step toward a stable and in-demand career.
+          Choose your program, get certified, and take the next step toward a stable and in-demand
+          career.
         </p>
         <div className="flex flex-wrap justify-center gap-4">
           {bundlePrice != null ? (
@@ -300,7 +292,6 @@ export default function NhaProgramPage() {
           </Link>
         </div>
       </section>
-
     </main>
   );
 }

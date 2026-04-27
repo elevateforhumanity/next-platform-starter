@@ -42,7 +42,7 @@ export function HiringTrendsChart() {
     );
   }
 
-  const maxApps = Math.max(...data.map(d => d.applications), 50);
+  const maxApps = Math.max(...data.map((d) => d.applications), 50);
 
   return (
     <div>
@@ -135,5 +135,3 @@ export function RetentionByRoleChart() {
     </div>
   );
 }
-
-

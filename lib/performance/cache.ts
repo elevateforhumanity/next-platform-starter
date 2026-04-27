@@ -10,7 +10,8 @@ export function getRedisClient(): Redis | null {
   if (!redis) {
     try {
       redis = new Redis(process.env.REDIS_URL);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return null;
     }
@@ -23,17 +24,15 @@ export interface CacheOptions {
   prefix?: string;
 }
 // Get from cache
-export async function getCache<T>(
-  key: string,
-  options: CacheOptions = {}
-): Promise<T | null> {
+export async function getCache<T>(key: string, options: CacheOptions = {}): Promise<T | null> {
   const fullKey = options.prefix ? `${options.prefix}:${key}` : key;
   const client = getRedisClient();
   if (client) {
     try {
       const value = await client.get(fullKey);
       return value ? JSON.parse(value) : null;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }
@@ -48,7 +47,7 @@ export async function getCache<T>(
 export async function setCache<T>(
   key: string,
   value: T,
-  options: CacheOptions = {}
+  options: CacheOptions = {},
 ): Promise<void> {
   const fullKey = options.prefix ? `${options.prefix}:${key}` : key;
   const ttl = options.ttl || 300; // Default 5 minutes
@@ -57,7 +56,8 @@ export async function setCache<T>(
     try {
       await client.setex(fullKey, ttl, JSON.stringify(value));
       return;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }
@@ -68,16 +68,14 @@ export async function setCache<T>(
   });
 }
 // Delete from cache
-export async function deleteCache(
-  key: string,
-  options: CacheOptions = {}
-): Promise<void> {
+export async function deleteCache(key: string, options: CacheOptions = {}): Promise<void> {
   const fullKey = options.prefix ? `${options.prefix}:${key}` : key;
   const client = getRedisClient();
   if (client) {
     try {
       await client.del(fullKey);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }
@@ -92,7 +90,8 @@ export async function clearCacheByPrefix(prefix: string): Promise<void> {
       if (keys.length > 0) {
         await client.del(...keys);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }
@@ -108,7 +107,7 @@ export function cached<T extends (...args: any[]) => Promise<any>>(
   fn: T,
   options: CacheOptions & {
     keyGenerator?: (...args: Parameters<T>) => string;
-  } = {}
+  } = {},
 ): T {
   return (async (...args: Parameters<T>) => {
     const key = options.keyGenerator

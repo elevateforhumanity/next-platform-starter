@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * Module Progress List Component
@@ -39,7 +39,7 @@ interface ModuleProgressListProps {
 
 export default function ModuleProgressList({
   moduleProgress,
-  enrollmentId
+  enrollmentId,
 }: ModuleProgressListProps) {
   if (!moduleProgress || moduleProgress.length === 0) {
     return (
@@ -51,7 +51,7 @@ export default function ModuleProgressList({
 
   // Sort by order_index
   const sortedProgress = [...moduleProgress].sort(
-    (a, b) => a.module.order_index - b.module.order_index
+    (a, b) => a.module.order_index - b.module.order_index,
   );
 
   function getStatusColor(status: string) {
@@ -106,13 +106,9 @@ export default function ModuleProgressList({
           <div className="flex items-start justify-between mb-3">
             <div className="flex-1">
               <div className="flex items-center gap-3 mb-2">
-                <span className="text-2xl">
-                  {getStatusIcon(progress.status)}
-                </span>
+                <span className="text-2xl">{getStatusIcon(progress.status)}</span>
                 <div>
-                  <h4 className="text-white font-medium">
-                    {progress.module.title}
-                  </h4>
+                  <h4 className="text-white font-medium">{progress.module.title}</h4>
                   <div className="flex items-center gap-2 mt-1">
                     <span className="text-xs px-2 py-2 bg-slate-700 rounded text-slate-300">
                       {getContentTypeLabel(progress.module.content_type)}
@@ -132,26 +128,28 @@ export default function ModuleProgressList({
               </div>
             </div>
 
-            <span className={`badge ${
-              progress.status === 'completed' ? 'badge-success' :
-              progress.status === 'in_progress' ? 'badge-primary' :
-              progress.status === 'awaiting_proof' ? 'badge-warning' :
-              'text-slate-400'
-            }`}>
+            <span
+              className={`badge ${
+                progress.status === 'completed'
+                  ? 'badge-success'
+                  : progress.status === 'in_progress'
+                    ? 'badge-primary'
+                    : progress.status === 'awaiting_proof'
+                      ? 'badge-warning'
+                      : 'text-slate-400'
+              }`}
+            >
               {progress.status.replace('_', ' ')}
             </span>
           </div>
 
           {/* Module Details */}
           <div className="space-y-2 text-sm">
-
             {/* Score */}
             {progress.score !== null && progress.score !== undefined && (
               <div className="flex justify-between">
                 <span className="text-slate-400">Score:</span>
-                <span className="text-white font-medium">
-                  {progress.score}%
-                </span>
+                <span className="text-white font-medium">{progress.score}%</span>
               </div>
             )}
 
@@ -160,7 +158,12 @@ export default function ModuleProgressList({
               <div className="flex justify-between">
                 <span className="text-slate-400">Last Accessed:</span>
                 <span className="text-white">
-                  {new Date(progress.last_accessed_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                  {new Date(progress.last_accessed_at).toLocaleDateString('en-US', {
+                    timeZone: 'UTC',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
                 </span>
               </div>
             )}
@@ -170,7 +173,12 @@ export default function ModuleProgressList({
               <div className="flex justify-between">
                 <span className="text-slate-400">Completed:</span>
                 <span className="text-white">
-                  {new Date(progress.completed_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                  {new Date(progress.completed_at).toLocaleDateString('en-US', {
+                    timeZone: 'UTC',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
                 </span>
               </div>
             )}
@@ -195,7 +203,8 @@ export default function ModuleProgressList({
               <div className="flex justify-between">
                 <span className="text-slate-400">SCORM Package:</span>
                 <span className="text-white text-xs">
-                  {progress.module.scorm_packages[0].provider} - {progress.module.scorm_packages[0].title}
+                  {progress.module.scorm_packages[0].provider} -{' '}
+                  {progress.module.scorm_packages[0].title}
                 </span>
               </div>
             )}
@@ -214,7 +223,6 @@ export default function ModuleProgressList({
                 </a>
               </div>
             )}
-
           </div>
 
           {/* Actions */}
@@ -230,7 +238,6 @@ export default function ModuleProgressList({
               </div>
             </div>
           )}
-
         </div>
       ))}
 
@@ -238,32 +245,29 @@ export default function ModuleProgressList({
       <div className="mt-6 p-4 bg-slate-800/30 rounded-lg border border-slate-600">
         <div className="grid grid-cols-4 gap-4 text-center">
           <div>
-            <div className="text-2xl font-bold text-white">
-              {sortedProgress.length}
-            </div>
+            <div className="text-2xl font-bold text-white">{sortedProgress.length}</div>
             <div className="text-xs text-slate-400">Total</div>
           </div>
           <div>
             <div className="text-2xl font-bold text-brand-green-400">
-              {sortedProgress.filter(p => p.status === 'completed').length}
+              {sortedProgress.filter((p) => p.status === 'completed').length}
             </div>
             <div className="text-xs text-slate-400">Completed</div>
           </div>
           <div>
             <div className="text-2xl font-bold text-brand-blue-400">
-              {sortedProgress.filter(p => p.status === 'in_progress').length}
+              {sortedProgress.filter((p) => p.status === 'in_progress').length}
             </div>
             <div className="text-xs text-slate-400">In Progress</div>
           </div>
           <div>
             <div className="text-2xl font-bold text-slate-400">
-              {sortedProgress.filter(p => p.status === 'not_started').length}
+              {sortedProgress.filter((p) => p.status === 'not_started').length}
             </div>
             <div className="text-xs text-slate-400">Not Started</div>
           </div>
         </div>
       </div>
-
     </div>
   );
 }

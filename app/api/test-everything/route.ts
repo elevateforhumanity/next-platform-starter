@@ -44,7 +44,8 @@ export async function GET(request: Request) {
       });
       results.overall_summary.total_tests += data.summary?.total || 0;
       results.overall_summary.passed_tests += data.summary?.passed || 0;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.test_suites.push({
         id: 1,
         name: 'Multi-Tenant Isolation',
@@ -65,7 +66,8 @@ export async function GET(request: Request) {
       });
       results.overall_summary.total_tests += data.summary?.total || 0;
       results.overall_summary.passed_tests += data.summary?.passed || 0;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.test_suites.push({
         id: 2,
         name: 'License Enforcement',
@@ -86,7 +88,8 @@ export async function GET(request: Request) {
       });
       results.overall_summary.total_tests += data.summary?.total || 0;
       results.overall_summary.passed_tests += data.summary?.passed || 0;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.test_suites.push({
         id: 3,
         name: 'WIOA Compliance',
@@ -107,7 +110,8 @@ export async function GET(request: Request) {
       });
       results.overall_summary.total_tests += data.summary?.total_steps || 0;
       results.overall_summary.passed_tests += data.summary?.passed_steps || 0;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.test_suites.push({
         id: 4,
         name: 'User Flows (LMS/Enrollment/Stripe)',
@@ -126,7 +130,8 @@ export async function GET(request: Request) {
         status: data.summary?.all_required_working ? 'PASSED' : 'PARTIAL',
         ...data,
       });
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.test_suites.push({
         id: 5,
         name: 'Partner Integrations',
@@ -147,7 +152,8 @@ export async function GET(request: Request) {
       });
       results.overall_summary.total_tests += data.summary?.total_tests || 0;
       results.overall_summary.passed_tests += data.summary?.passed_tests || 0;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.test_suites.push({
         id: 6,
         name: 'SupersonicFastCash Tax Service',
@@ -168,7 +174,8 @@ export async function GET(request: Request) {
       });
       results.overall_summary.total_tests += data.summary?.total_tests || 0;
       results.overall_summary.passed_tests += data.summary?.passed_tests || 0;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       results.test_suites.push({
         id: 7,
         name: 'Admin Board & Dev Container',
@@ -180,13 +187,13 @@ export async function GET(request: Request) {
     // Calculate overall summary
     results.overall_summary.total_suites = results.test_suites.length;
     results.overall_summary.passed_suites = results.test_suites.filter(
-      (s: any) => s.status === 'PASSED'
+      (s: any) => s.status === 'PASSED',
     ).length;
     results.overall_summary.partial_suites = results.test_suites.filter(
-      (s: any) => s.status === 'PARTIAL'
+      (s: any) => s.status === 'PARTIAL',
     ).length;
     results.overall_summary.failed_suites = results.test_suites.filter(
-      (s: any) => s.status === 'FAILED' || s.status === 'ERROR'
+      (s: any) => s.status === 'FAILED' || s.status === 'ERROR',
     ).length;
 
     results.overall_summary.failed_tests =
@@ -263,14 +270,15 @@ export async function GET(request: Request) {
         'Content-Type': 'application/json',
       },
     });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return NextResponse.json(
       {
         error: error.message,
         stack: error.stack,
         timestamp: new Date().toISOString(),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

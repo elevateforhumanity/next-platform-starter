@@ -28,17 +28,14 @@ async function _POST(req: NextRequest) {
     const { name, slug, type } = body;
 
     if (!name || !slug) {
-      return NextResponse.json(
-        { error: 'Missing required fields: name, slug' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields: name, slug' }, { status: 400 });
     }
 
     // Validate slug format (lowercase, alphanumeric, hyphens only)
     if (!/^[a-z0-9-]+$/.test(slug)) {
       return NextResponse.json(
         { error: 'Slug must be lowercase alphanumeric with hyphens only' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -56,33 +53,26 @@ async function _POST(req: NextRequest) {
 
     if (orgError) {
       if (orgError.code === '23505') {
-        return NextResponse.json(
-          { error: 'Organization slug already exists' },
-          { status: 409 }
-        );
+        return NextResponse.json({ error: 'Organization slug already exists' }, { status: 409 });
       }
       throw orgError;
     }
 
     // Seed default settings
-    const { error: settingsError } = await supabase
-      .from('organization_settings')
-      .insert({
-        organization_id: org.id,
-      });
+    const { error: settingsError } = await supabase.from('organization_settings').insert({
+      organization_id: org.id,
+    });
 
     if (settingsError) {
       throw settingsError;
     }
 
     // Assign creator as org_admin
-    const { error: memberError } = await supabase
-      .from('organization_users')
-      .insert({
-        organization_id: org.id,
-        user_id: user.id,
-        role: 'org_admin',
-      });
+    const { error: memberError } = await supabase.from('organization_users').insert({
+      organization_id: org.id,
+      user_id: user.id,
+      role: 'org_admin',
+    });
 
     if (memberError) {
       throw memberError;
@@ -98,10 +88,9 @@ async function _POST(req: NextRequest) {
   } catch (err: any) {
     return NextResponse.json(
       {
-        err:
-          'Internal server error',
+        err: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -43,17 +43,17 @@ export const dynamic = 'force-dynamic';
 
 interface GenerateFromBlueprintRequest {
   blueprintId: string;
-  programId:   string;
-  mode?:       'replace' | 'missing-only';
+  programId: string;
+  mode?: 'replace' | 'missing-only';
 }
 
 interface LessonContent {
-  objective:      string;
-  content:        string;
+  objective: string;
+  content: string;
   quiz_questions: Array<{
-    question:    string;
-    options:     string[];
-    correct:     number;
+    question: string;
+    options: string[];
+    correct: number;
     explanation: string;
   }>;
 }
@@ -66,8 +66,8 @@ async function generateLessonContent(
   courseTitle: string,
   state: string,
 ): Promise<LessonContent> {
-  const isCheckpoint  = lesson.slug.includes('checkpoint');
-  const isExam        = lesson.slug.includes('exam') || lesson.slug.includes('final');
+  const isCheckpoint = lesson.slug.includes('checkpoint');
+  const isExam = lesson.slug.includes('exam') || lesson.slug.includes('final');
   const questionCount = isExam ? 10 : isCheckpoint ? 5 : 3;
 
   const prompt = `You are a curriculum architect writing premium workforce training content.
@@ -117,26 +117,26 @@ export async function POST(req: NextRequest) {
   }
 
   if (!body?.blueprintId) return safeError('blueprintId is required', 400);
-  if (!body?.programId)   return safeError('programId is required', 400);
+  if (!body?.programId) return safeError('programId is required', 400);
 
   const mode = body.mode ?? 'replace';
 
   // ── Step 1: Load blueprint ─────────────────────────────────────────────────
   const registry = await getAllBlueprints();
-  const blueprint = registry.find(b => b.id === body.blueprintId);
+  const blueprint = registry.find((b) => b.id === body.blueprintId);
   if (!blueprint) return safeError(`Blueprint "${body.blueprintId}" not found`, 404);
 
   const courseTitle = blueprint.credentialTitle;
-  const state       = blueprint.state ?? 'Indiana';
+  const state = blueprint.state ?? 'Indiana';
 
   // ── Step 2: Generate content for every lesson via GPT-4o ──────────────────
-  const enrichedBlueprint = { ...blueprint, modules: blueprint.modules.map(m => ({ ...m })) };
+  const enrichedBlueprint = { ...blueprint, modules: blueprint.modules.map((m) => ({ ...m })) };
   const generationLog: { slug: string; ok: boolean; error?: string }[] = [];
 
   for (const mod of enrichedBlueprint.modules) {
     const enrichedLessons: BlueprintLessonRef[] = [];
 
-    for (const lesson of (mod.lessons ?? [])) {
+    for (const lesson of mod.lessons ?? []) {
       // Skip if content already exists (missing-only mode)
       if (mode === 'missing-only' && lesson.content && lesson.objective) {
         enrichedLessons.push(lesson);
@@ -149,12 +149,12 @@ export async function POST(req: NextRequest) {
 
         enrichedLessons.push({
           ...lesson,
-          objective:      generated.objective,
-          content:        generated.content,
-          quizQuestions:  generated.quiz_questions.map(q => ({
-            question:    q.question,
-            options:     q.options,
-            correct:     q.correct,
+          objective: generated.objective,
+          content: generated.content,
+          quizQuestions: generated.quiz_questions.map((q) => ({
+            question: q.question,
+            options: q.options,
+            correct: q.correct,
             explanation: q.explanation,
           })),
         });
@@ -162,8 +162,8 @@ export async function POST(req: NextRequest) {
         generationLog.push({ slug: lesson.slug, ok: true });
       } catch (err) {
         generationLog.push({
-          slug:  lesson.slug,
-          ok:    false,
+          slug: lesson.slug,
+          ok: false,
           error: err instanceof Error ? err.message : String(err),
         });
         // Push lesson without content — seeder will skip it and report failure
@@ -171,13 +171,13 @@ export async function POST(req: NextRequest) {
       }
 
       // Throttle to avoid rate limits
-      await new Promise(r => setTimeout(r, 300));
+      await new Promise((r) => setTimeout(r, 300));
     }
 
     mod.lessons = enrichedLessons;
   }
 
-  const generationFailures = generationLog.filter(l => !l.ok);
+  const generationFailures = generationLog.filter((l) => !l.ok);
 
   // ── Step 3: Seed course from enriched blueprint ────────────────────────────
   const seedResult = await buildCanonicalCourseFromBlueprint({
@@ -203,25 +203,25 @@ export async function POST(req: NextRequest) {
       .select('id, slug, lesson_type, module_id')
       .eq('course_id', courseId);
 
-    for (const lesson of (lessons ?? [])) {
+    for (const lesson of lessons ?? []) {
       if (lesson.lesson_type === 'exam') {
         const result = await generateAndPersistFinalExam(db, {
-          lessonId:      lesson.id,
-          lessonSlug:    lesson.slug,
+          lessonId: lesson.id,
+          lessonSlug: lesson.slug,
           courseTitle,
           questionCount: 25,
-          passingScore:  80,
+          passingScore: 80,
         });
         assessmentsGenerated += result.writtenToDb;
       } else if (['checkpoint', 'quiz'].includes(lesson.lesson_type)) {
         const result = await generateAndPersistModuleQuiz(db, {
-          lessonId:    lesson.id,
-          lessonSlug:  lesson.slug,
-          moduleTitle: enrichedBlueprint.modules.find(m =>
-            m.lessons?.some(l => l.slug === lesson.slug)
-          )?.title ?? courseTitle,
+          lessonId: lesson.id,
+          lessonSlug: lesson.slug,
+          moduleTitle:
+            enrichedBlueprint.modules.find((m) => m.lessons?.some((l) => l.slug === lesson.slug))
+              ?.title ?? courseTitle,
           questionCount: 8,
-          passingScore:  70,
+          passingScore: 70,
         });
         assessmentsGenerated += result.writtenToDb;
       }
@@ -243,14 +243,18 @@ export async function POST(req: NextRequest) {
 
     const instructor = getInstructorForCourse(courseTitle);
     const VOICE_MAP: Record<string, string> = {
-      'dr-sarah-chen': 'nova', 'marcus-johnson': 'onyx',
-      'james-williams': 'echo', 'lisa-martinez': 'shimmer',
-      'robert-davis': 'fable', 'angela-thompson': 'alloy',
+      'dr-sarah-chen': 'nova',
+      'marcus-johnson': 'onyx',
+      'james-williams': 'echo',
+      'lisa-martinez': 'shimmer',
+      'robert-davis': 'fable',
+      'angela-thompson': 'alloy',
     };
     const voice = VOICE_MAP[instructor.id] ?? 'nova';
 
-    for (const lesson of (lessonRows ?? [])) {
-      const script = `Welcome to ${courseTitle}, lesson: ${lesson.title}. ${(lesson.content ?? '').replace(/<[^>]+>/g, '').substring(0, 300)}`.trim();
+    for (const lesson of lessonRows ?? []) {
+      const script =
+        `Welcome to ${courseTitle}, lesson: ${lesson.title}. ${(lesson.content ?? '').replace(/<[^>]+>/g, '').substring(0, 300)}`.trim();
       let videoUrl: string | null = null;
 
       // Synthesia first
@@ -258,7 +262,9 @@ export async function POST(req: NextRequest) {
         try {
           const r = await generateSynthesiaVideo(script, 'anna_costume1_cameraA');
           videoUrl = r.videoUrl;
-        } catch { /* fall through */ }
+        } catch {
+          /* fall through */
+        }
       }
 
       // D-ID second
@@ -268,7 +274,9 @@ export async function POST(req: NextRequest) {
           const audioDataUrl = `data:audio/mp3;base64,${audioBuffer.toString('base64')}`;
           const r = await generateDIDVideo(script, instructor.avatar, audioDataUrl);
           videoUrl = r.videoUrl;
-        } catch { /* fall through */ }
+        } catch {
+          /* fall through */
+        }
       }
 
       // TTS audio fallback
@@ -276,10 +284,14 @@ export async function POST(req: NextRequest) {
         try {
           const { audioBuffer } = await generateNaturalVoiceover(script, voice, instructor.id);
           const path = `course-videos/${courseId}/${lesson.id}.mp3`;
-          await db.storage.from('course-videos').upload(path, audioBuffer, { contentType: 'audio/mp3', upsert: true });
+          await db.storage
+            .from('course-videos')
+            .upload(path, audioBuffer, { contentType: 'audio/mp3', upsert: true });
           const { data: urlData } = db.storage.from('course-videos').getPublicUrl(path);
           videoUrl = urlData.publicUrl;
-        } catch { /* non-fatal */ }
+        } catch {
+          /* non-fatal */
+        }
       }
 
       if (videoUrl) {
@@ -293,17 +305,17 @@ export async function POST(req: NextRequest) {
 
   // ── Step 6: Audit log ─────────────────────────────────────────────────────
   await logAdminAudit({
-    action:     AdminAction.BULK_CONTENT_GENERATED,
-    actorId:    auth.id ?? '00000000-0000-0000-0000-000000000000',
+    action: AdminAction.BULK_CONTENT_GENERATED,
+    actorId: auth.id ?? '00000000-0000-0000-0000-000000000000',
     entityType: 'courses',
-    entityId:   courseId,
-    metadata:   {
-      blueprintId:          body.blueprintId,
-      programId:            body.programId,
+    entityId: courseId,
+    metadata: {
+      blueprintId: body.blueprintId,
+      programId: body.programId,
       mode,
-      lessonsInserted:      seedResult.lessonCount,
-      contentFailures:      seedResult.contentFailures?.length ?? 0,
-      generationFailures:   generationFailures.length,
+      lessonsInserted: seedResult.lessonCount,
+      contentFailures: seedResult.contentFailures?.length ?? 0,
+      generationFailures: generationFailures.length,
       assessmentsGenerated,
       videosQueued,
     },
@@ -311,17 +323,17 @@ export async function POST(req: NextRequest) {
   });
 
   return NextResponse.json({
-    ok:                   true,
+    ok: true,
     courseId,
-    blueprintId:          body.blueprintId,
-    title:                courseTitle,
-    modules:              enrichedBlueprint.modules.length,
-    lessonsInserted:      seedResult.lessonCount,
-    contentFailures:      seedResult.contentFailures ?? [],
+    blueprintId: body.blueprintId,
+    title: courseTitle,
+    modules: enrichedBlueprint.modules.length,
+    lessonsInserted: seedResult.lessonCount,
+    contentFailures: seedResult.contentFailures ?? [],
     generationFailures,
     assessmentsGenerated,
     videosQueued,
-    videoStudioUrl:       `/admin/video-generator?courseId=${courseId}`,
-    courseUrl:            `/admin/courses/${courseId}`,
+    videoStudioUrl: `/admin/video-generator?courseId=${courseId}`,
+    courseUrl: `/admin/courses/${courseId}`,
   });
 }

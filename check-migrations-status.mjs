@@ -3,16 +3,16 @@ import { createClient } from '@supabase/supabase-js';
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_ROLE_KEY
+  process.env.SUPABASE_SERVICE_ROLE_KEY,
 );
 
 async function checkMigrations() {
   console.info('Checking migration status...\n');
-  
+
   const { count, error: countError } = await supabase
     .from('_migrations')
     .select('*', { count: 'exact', head: true });
-  
+
   if (countError) {
     console.info('❌ Migration tracking table:', countError.message);
     console.info('\nThis means:');
@@ -20,32 +20,30 @@ async function checkMigrations() {
     console.info('  - OR the _migrations table does not exist');
     return;
   }
-  
+
   console.info('✅ Total migrations executed:', count);
-  
+
   const { data, error } = await supabase
     .from('_migrations')
     .select('filename')
     .order('executed_at', { ascending: false })
     .limit(10);
-  
+
   if (!error && data) {
     console.info('\nLast 10 migrations applied:');
-    data.forEach(m => console.info('  -', m.filename));
+    data.forEach((m) => console.info('  -', m.filename));
   }
-  
+
   // Check for duplicate migrations
-  const { data: allMigrations } = await supabase
-    .from('_migrations')
-    .select('filename');
-  
+  const { data: allMigrations } = await supabase.from('_migrations').select('filename');
+
   if (allMigrations) {
-    const filenames = allMigrations.map(m => m.filename);
+    const filenames = allMigrations.map((m) => m.filename);
     const duplicates = filenames.filter((item, index) => filenames.indexOf(item) !== index);
-    
+
     if (duplicates.length > 0) {
       console.info('\n⚠️  Duplicate migrations found:', duplicates.length);
-      duplicates.forEach(d => console.info('  -', d));
+      duplicates.forEach((d) => console.info('  -', d));
     } else {
       console.info('\n✅ No duplicate migrations');
     }

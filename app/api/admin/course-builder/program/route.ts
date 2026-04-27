@@ -9,7 +9,14 @@ const bodySchema = z.object({
   id: z.string().uuid().optional(),
   title: z.string().min(1),
   slug: z.string().min(1),
-  credentialTarget: z.enum(['INTERNAL', 'STATE_BOARD', 'IC&RC', 'NAADAC', 'CUSTOM', 'DOL_APPRENTICESHIP']),
+  credentialTarget: z.enum([
+    'INTERNAL',
+    'STATE_BOARD',
+    'IC&RC',
+    'NAADAC',
+    'CUSTOM',
+    'DOL_APPRENTICESHIP',
+  ]),
   minimumHours: z.number().positive(),
   requiresFinalExam: z.boolean(),
   finalExam: z.object({
@@ -30,7 +37,14 @@ const bodySchema = z.object({
   }),
   regulatory: z.object({
     complianceProfileKey: z.string().min(1),
-    credentialTarget: z.enum(['INTERNAL', 'STATE_BOARD', 'IC&RC', 'NAADAC', 'CUSTOM', 'DOL_APPRENTICESHIP']),
+    credentialTarget: z.enum([
+      'INTERNAL',
+      'STATE_BOARD',
+      'IC&RC',
+      'NAADAC',
+      'CUSTOM',
+      'DOL_APPRENTICESHIP',
+    ]),
     governingBody: z.string().nullable().optional(),
     governingRegion: z.string().nullable().optional(),
     governingStandardVersion: z.string().nullable().optional(),
@@ -63,7 +77,12 @@ export async function POST(req: NextRequest) {
     };
 
     if (body.id) {
-      const { data, error } = await db.from('courses').update(payload).eq('id', body.id).select('*').single();
+      const { data, error } = await db
+        .from('courses')
+        .update(payload)
+        .eq('id', body.id)
+        .select('*')
+        .single();
       if (error) throw error;
       return NextResponse.json({ ok: true, course: data });
     }

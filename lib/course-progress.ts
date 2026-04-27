@@ -3,14 +3,12 @@ import { createClient } from '@/lib/supabase/server';
 export async function updateLessonCompletion(userId: string, lessonId: string, completed: boolean) {
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .from('lesson_progress')
-    .upsert({
-      user_id: userId,
-      lesson_id: lessonId,
-      completed,
-      completed_at: completed ? new Date().toISOString() : null,
-    });
+  const { error } = await supabase.from('lesson_progress').upsert({
+    user_id: userId,
+    lesson_id: lessonId,
+    completed,
+    completed_at: completed ? new Date().toISOString() : null,
+  });
 
   return { error };
 }
@@ -18,14 +16,12 @@ export async function updateLessonCompletion(userId: string, lessonId: string, c
 export async function updateVideoProgress(userId: string, lessonId: string, progress: number) {
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .from('video_progress')
-    .upsert({
-      user_id: userId,
-      lesson_id: lessonId,
-      progress_seconds: progress,
-      last_watched: new Date().toISOString(),
-    });
+  const { error } = await supabase.from('video_progress').upsert({
+    user_id: userId,
+    lesson_id: lessonId,
+    progress_seconds: progress,
+    last_watched: new Date().toISOString(),
+  });
 
   return { error };
 }

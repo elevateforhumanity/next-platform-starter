@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
 import dynamic from 'next/dynamic';
 
 // Monaco is 75 MB — load only when the editor is actually rendered.
-const Editor = dynamic(
-  () => import('@monaco-editor/react').then(m => m.Editor),
-  { ssr: false, loading: () => <div className="h-full bg-[#1e1e1e] animate-pulse" /> }
-);
+const Editor = dynamic(() => import('@monaco-editor/react').then((m) => m.Editor), {
+  ssr: false,
+  loading: () => <div className="h-full bg-[#1e1e1e] animate-pulse" />,
+});
 
 interface CodeEditorProps {
   value: string;
@@ -15,7 +15,12 @@ interface CodeEditorProps {
   readOnly?: boolean;
 }
 
-export default function CodeEditor({ value, onChange, language = 'typescript', readOnly = false }: CodeEditorProps) {
+export default function CodeEditor({
+  value,
+  onChange,
+  language = 'typescript',
+  readOnly = false,
+}: CodeEditorProps) {
   return (
     <Editor
       height="100%"

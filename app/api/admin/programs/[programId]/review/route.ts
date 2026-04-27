@@ -30,11 +30,11 @@ export const dynamic = 'force-dynamic';
 type ReviewAction = 'submit' | 'approve' | 'reject' | 'archive' | 'revert_to_draft';
 
 const TRANSITIONS: Record<ReviewAction, { from: string[]; to: string }> = {
-  submit:          { from: ['draft', 'rejected'],  to: 'in_review' },
-  approve:         { from: ['in_review'],           to: 'approved'  },
-  reject:          { from: ['in_review'],           to: 'rejected'  },
-  archive:         { from: ['draft', 'in_review', 'approved', 'published', 'rejected'], to: 'archived' },
-  revert_to_draft: { from: ['rejected', 'in_review'], to: 'draft'   },
+  submit: { from: ['draft', 'rejected'], to: 'in_review' },
+  approve: { from: ['in_review'], to: 'approved' },
+  reject: { from: ['in_review'], to: 'rejected' },
+  archive: { from: ['draft', 'in_review', 'approved', 'published', 'rejected'], to: 'archived' },
+  revert_to_draft: { from: ['rejected', 'in_review'], to: 'draft' },
 };
 
 export async function POST(
@@ -50,7 +50,7 @@ export async function POST(
   const { programId } = await params;
   const body = await request.json().catch(() => ({}));
   const action = body.action as ReviewAction | undefined;
-  const notes  = body.notes as string | undefined;
+  const notes = body.notes as string | undefined;
 
   if (!action || !TRANSITIONS[action]) {
     return safeError(`action must be one of: ${Object.keys(TRANSITIONS).join(', ')}`, 400);
@@ -84,35 +84,32 @@ export async function POST(
   // Apply transition
   const update: Record<string, unknown> = {
     review_status: to,
-    updated_at:    now,
+    updated_at: now,
   };
 
   if (action === 'submit') {
     update.submitted_for_review_at = now;
-    update.submitted_by            = auth.user.id;
+    update.submitted_by = auth.user.id;
   }
   if (action === 'approve' || action === 'reject') {
-    update.reviewed_at  = now;
-    update.reviewed_by  = auth.user.id;
+    update.reviewed_at = now;
+    update.reviewed_by = auth.user.id;
     update.review_notes = notes ?? null;
   }
 
-  const { error: updateErr } = await db
-    .from('programs')
-    .update(update)
-    .eq('id', programId);
+  const { error: updateErr } = await db.from('programs').update(update).eq('id', programId);
 
   if (updateErr) return safeInternalError(updateErr, 'Failed to update review status');
 
   // Write immutable audit log entry
   await db.from('program_review_log').insert({
-    program_id:  programId,
-    action:      action === 'revert_to_draft' ? 'reverted_to_draft' : action,
+    program_id: programId,
+    action: action === 'revert_to_draft' ? 'reverted_to_draft' : action,
     from_status: currentStatus,
-    to_status:   to,
-    actor_id:    auth.user.id,
-    notes:       notes ?? null,
-    created_at:  now,
+    to_status: to,
+    actor_id: auth.user.id,
+    notes: notes ?? null,
+    created_at: now,
   });
 
   return NextResponse.json({ ok: true, review_status: to });

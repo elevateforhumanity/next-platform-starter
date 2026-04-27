@@ -12,7 +12,6 @@ if (!supabaseKey) {
 const supabase = createClient(supabaseUrl, supabaseKey);
 
 async function querySchema() {
-
   try {
     // Query marketplace tables to verify they exist
     const tables = ['marketplace_creators', 'marketplace_products', 'marketplace_sales'];
@@ -26,9 +25,7 @@ async function querySchema() {
       } else {
       }
     }
-
-  } catch (error) {
-  }
+  } catch (error) {}
 }
 
 querySchema();

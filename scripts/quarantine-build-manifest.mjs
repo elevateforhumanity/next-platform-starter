@@ -90,7 +90,7 @@ function appPathToRoute(filePath) {
 }
 
 function isQuarantined(filePath) {
-  return filePath.split('/').some(seg => seg.startsWith('__'));
+  return filePath.split('/').some((seg) => seg.startsWith('__'));
 }
 
 function quarantinedToLive(filePath) {
@@ -104,7 +104,7 @@ function liveToQuarantined(filePath) {
 }
 
 function isHighRisk(route) {
-  return HIGH_RISK_PREFIXES.some(prefix => route === prefix || route.startsWith(prefix + '/'));
+  return HIGH_RISK_PREFIXES.some((prefix) => route === prefix || route.startsWith(prefix + '/'));
 }
 
 // ── Collect all source files for ref scanning ───────────────────────────────
@@ -157,8 +157,7 @@ for (const file of allFiles) {
   for (const [ref, files] of refCounts) {
     // Match exact or if route is a prefix of ref (dynamic segment)
     const routeBase = route.replace(/\/\[[^\]]+\]/g, ''); // strip dynamic segments
-    if (ref === route || ref.startsWith(route + '/') ||
-        (routeBase && ref.startsWith(routeBase))) {
+    if (ref === route || ref.startsWith(route + '/') || (routeBase && ref.startsWith(routeBase))) {
       refCount += files.size;
       for (const f of files) refFiles.add(f);
     }
@@ -180,9 +179,7 @@ for (const file of allFiles) {
   // Build restore command
   const quarantinedPath = quarantined ? file : null;
   const livePath = quarantined ? liveFile : file;
-  const restoreCmd = quarantined
-    ? `pnpm quarantine:restore "${route}"`
-    : null;
+  const restoreCmd = quarantined ? `pnpm quarantine:restore "${route}"` : null;
 
   // Risk level
   let risk;
@@ -216,11 +213,11 @@ const manifest = {
   generatedAt: new Date().toISOString(),
   summary: {
     total: entries.length,
-    live: entries.filter(e => !e.quarantined).length,
-    quarantined: entries.filter(e => e.quarantined).length,
-    candidateQuarantine: entries.filter(e => e.classification === 'candidate-quarantine').length,
-    core: entries.filter(e => e.classification === 'core').length,
-    highRisk: entries.filter(e => e.highRisk).length,
+    live: entries.filter((e) => !e.quarantined).length,
+    quarantined: entries.filter((e) => e.quarantined).length,
+    candidateQuarantine: entries.filter((e) => e.classification === 'candidate-quarantine').length,
+    core: entries.filter((e) => e.classification === 'core').length,
+    highRisk: entries.filter((e) => e.highRisk).length,
   },
   highRiskPrefixes: HIGH_RISK_PREFIXES,
   routes: entries,

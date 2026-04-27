@@ -51,7 +51,13 @@ export default function ProgramLandingPage({
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Programs', href: '/programs' }, { label: category, href: `/programs/${category.toLowerCase().replace(/\s+/g, '-')}` }, { label: title }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Programs', href: '/programs' },
+              { label: category, href: `/programs/${category.toLowerCase().replace(/\s+/g, '-')}` },
+              { label: title },
+            ]}
+          />
         </div>
       </div>
 
@@ -102,7 +108,8 @@ export default function ProgramLandingPage({
               alt={imageAlt}
               fill
               className="rounded-2xl object-cover shadow-lg"
-             sizes="100vw" />
+              sizes="100vw"
+            />
           </div>
         </div>
       </section>
@@ -135,7 +142,10 @@ export default function ProgramLandingPage({
             <ol className="mt-2 space-y-2 text-sm text-black">
               {howItWorks.map((step) => (
                 <li key={step.step}>
-                  <span className="font-semibold">{step.step}. {step.title}.</span> {step.description}
+                  <span className="font-semibold">
+                    {step.step}. {step.title}.
+                  </span>{' '}
+                  {step.description}
                 </li>
               ))}
             </ol>
@@ -164,9 +174,7 @@ export default function ProgramLandingPage({
               <li key={idx}>• {option}</li>
             ))}
           </ul>
-          {fundingNote && (
-            <p className="mt-3 text-xs text-slate-500">{fundingNote}</p>
-          )}
+          {fundingNote && <p className="mt-3 text-xs text-slate-500">{fundingNote}</p>}
         </aside>
       </section>
     </main>

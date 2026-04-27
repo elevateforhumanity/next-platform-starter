@@ -9,9 +9,9 @@ import { useEffect } from 'react';
 export default function AdminPWAInit() {
   useEffect(() => {
     if ('serviceWorker' in navigator) {
-      navigator.serviceWorker
-        .register('/sw.js', { scope: '/' })
-        .catch(() => {/* SW registration is best-effort */});
+      navigator.serviceWorker.register('/sw.js', { scope: '/' }).catch(() => {
+        /* SW registration is best-effort */
+      });
     }
   }, []);
 

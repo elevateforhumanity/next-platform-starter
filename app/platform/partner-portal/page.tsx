@@ -1,64 +1,132 @@
-
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
-  Users, BarChart, FileText, Settings, ArrowRight,
-  GraduationCap, Shield, Clock, Globe,
+  Users,
+  BarChart,
+  FileText,
+  Settings,
+  ArrowRight,
+  GraduationCap,
+  Shield,
+  Clock,
+  Globe,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Partner Portal | Elevate For Humanity',
-  description: 'Manage students, track outcomes, and access reports through the partner portal. Tools for training providers, community organizations, and workforce partners.',
+  description:
+    'Manage students, track outcomes, and access reports through the partner portal. Tools for training providers, community organizations, and workforce partners.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/platform/partner-portal' },
   openGraph: {
     title: 'Partner Portal | Elevate For Humanity',
     description: 'Manage students, track outcomes, and access reports through the partner portal.',
     url: 'https://www.elevateforhumanity.org/platform/partner-portal',
     siteName: 'Elevate for Humanity',
-    images: [{ url: '/hero-images/pathways-hero.jpg', width: 1200, height: 630, alt: 'Partner Portal' }],
+    images: [
+      { url: '/hero-images/pathways-hero.jpg', width: 1200, height: 630, alt: 'Partner Portal' },
+    ],
     type: 'website',
   },
 };
 
 const features = [
-  { icon: Users, title: 'Student Management', description: 'Enroll students, track progress, manage records, and communicate with learners.' },
-  { icon: BarChart, title: 'Analytics Dashboard', description: 'Real-time performance metrics, completion rates, and outcome tracking.' },
-  { icon: FileText, title: 'Reporting', description: 'Generate compliance reports, outcome summaries, and funding documentation.' },
-  { icon: Settings, title: 'Program Settings', description: 'Configure your programs, courses, schedules, and enrollment requirements.' },
-  { icon: GraduationCap, title: 'Course Delivery', description: 'Deliver training through the built-in LMS with video, quizzes, and assignments.' },
-  { icon: Shield, title: 'Compliance Tools', description: 'Automated WIOA documentation, audit trails, and regulatory compliance.' },
+  {
+    icon: Users,
+    title: 'Student Management',
+    description: 'Enroll students, track progress, manage records, and communicate with learners.',
+  },
+  {
+    icon: BarChart,
+    title: 'Analytics Dashboard',
+    description: 'Real-time performance metrics, completion rates, and outcome tracking.',
+  },
+  {
+    icon: FileText,
+    title: 'Reporting',
+    description: 'Generate compliance reports, outcome summaries, and funding documentation.',
+  },
+  {
+    icon: Settings,
+    title: 'Program Settings',
+    description: 'Configure your programs, courses, schedules, and enrollment requirements.',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Course Delivery',
+    description: 'Deliver training through the built-in LMS with video, quizzes, and assignments.',
+  },
+  {
+    icon: Shield,
+    title: 'Compliance Tools',
+    description: 'Automated WIOA documentation, audit trails, and regulatory compliance.',
+  },
 ];
 
 const partnerTypes = [
-  { title: 'Training Providers', description: 'Deliver courses and programs to funded learners.', href: '/platform/training-providers' },
-  { title: 'Community Organizations', description: 'Refer participants and provide wraparound services.', href: '/partners/join' },
-  { title: 'Workforce Boards', description: 'Manage regional workforce development programs.', href: '/platform/workforce-boards' },
-  { title: 'Employers', description: 'Hire graduates and host apprentices.', href: '/platform/employer-portal' },
+  {
+    title: 'Training Providers',
+    description: 'Deliver courses and programs to funded learners.',
+    href: '/platform/training-providers',
+  },
+  {
+    title: 'Community Organizations',
+    description: 'Refer participants and provide wraparound services.',
+    href: '/partners/join',
+  },
+  {
+    title: 'Workforce Boards',
+    description: 'Manage regional workforce development programs.',
+    href: '/platform/workforce-boards',
+  },
+  {
+    title: 'Employers',
+    description: 'Hire graduates and host apprentices.',
+    href: '/platform/employer-portal',
+  },
 ];
 
 export default function PartnerPortalPage() {
-
   return (
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Platform', href: '/platform' }, { label: 'Partner Portal' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Platform', href: '/platform' }, { label: 'Partner Portal' }]}
+          />
         </div>
       </div>
-      <div class="max-w-6xl mx-auto px-4 pb-2"><p class="text-sm text-black font-medium">Part of the <a href="/platform" class="text-brand-red-600 hover:underline">Elevate Workforce Operating System</a></p></div>
+      <div class="max-w-6xl mx-auto px-4 pb-2">
+        <p class="text-sm text-black font-medium">
+          Part of the{' '}
+          <a href="/platform" class="text-brand-red-600 hover:underline">
+            Elevate Workforce Operating System
+          </a>
+        </p>
+      </div>
 
       {/* Hero */}
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-          <Image src="/hero-images/pathways-hero.jpg" alt="Partner Portal" fill className="object-cover" priority sizes="100vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src="/hero-images/pathways-hero.jpg"
+            alt="Partner Portal"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-white py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
             <h1 className="text-3xl md:text-4xl font-bold text-white mb-3">Partner Portal</h1>
-            <p className="text-lg text-white max-w-3xl mx-auto">Everything you need to manage your training programs, track student outcomes, and stay compliant.</p>
+            <p className="text-lg text-white max-w-3xl mx-auto">
+              Everything you need to manage your training programs, track student outcomes, and stay
+              compliant.
+            </p>
           </div>
         </div>
       </section>
@@ -74,7 +142,10 @@ export default function PartnerPortalPage() {
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {features.map((f, i) => (
-              <div key={i} className="bg-white rounded-xl p-6 shadow-sm border hover:shadow-md transition">
+              <div
+                key={i}
+                className="bg-white rounded-xl p-6 shadow-sm border hover:shadow-md transition"
+              >
                 <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center mb-4">
                   <f.icon className="w-6 h-6 text-brand-blue-600" />
                 </div>
@@ -91,16 +162,24 @@ export default function PartnerPortalPage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">Who Uses the Partner Portal</h2>
-            <p className="text-lg text-black">Tailored experiences for every type of workforce partner.</p>
+            <p className="text-lg text-black">
+              Tailored experiences for every type of workforce partner.
+            </p>
           </div>
           <div className="grid md:grid-cols-2 gap-6">
             {partnerTypes.map((p, i) => (
-              <Link key={i} href={p.href} className="bg-white rounded-xl p-6 border hover:shadow-md transition flex items-start gap-4 group">
+              <Link
+                key={i}
+                href={p.href}
+                className="bg-white rounded-xl p-6 border hover:shadow-md transition flex items-start gap-4 group"
+              >
                 <div className="w-10 h-10 bg-brand-blue-700 text-white rounded-lg flex items-center justify-center font-bold flex-shrink-0">
                   {i + 1}
                 </div>
                 <div>
-                  <h3 className="font-bold text-gray-900 mb-1 group-hover:text-brand-blue-600 transition">{p.title}</h3>
+                  <h3 className="font-bold text-gray-900 mb-1 group-hover:text-brand-blue-600 transition">
+                    {p.title}
+                  </h3>
                   <p className="text-black text-sm">{p.description}</p>
                 </div>
               </Link>
@@ -114,7 +193,13 @@ export default function PartnerPortalPage() {
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
             <div className="relative h-[400px] rounded-2xl overflow-hidden shadow-xl">
-              <Image src="/images/pages/platform-page-3.jpg" alt="Partner collaboration" fill sizes="100vw" className="object-cover" />
+              <Image
+                src="/images/pages/platform-page-3.jpg"
+                alt="Partner collaboration"
+                fill
+                sizes="100vw"
+                className="object-cover"
+              />
             </div>
             <div>
               <h2 className="text-3xl font-bold text-gray-900 mb-6">What Partners Get</h2>
@@ -144,12 +229,20 @@ export default function PartnerPortalPage() {
       <section className="py-20 bg-brand-blue-700 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Become a Partner</h2>
-          <p className="text-white text-lg mb-8">Join our network of training providers and community organizations.</p>
+          <p className="text-white text-lg mb-8">
+            Join our network of training providers and community organizations.
+          </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/partners/join" className="px-8 py-4 bg-white text-brand-blue-700 font-bold rounded-lg hover:bg-brand-blue-50 transition inline-flex items-center gap-2">
+            <Link
+              href="/partners/join"
+              className="px-8 py-4 bg-white text-brand-blue-700 font-bold rounded-lg hover:bg-brand-blue-50 transition inline-flex items-center gap-2"
+            >
               Apply Now <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link href="/partner/login" className="px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition">
+            <Link
+              href="/partner/login"
+              className="px-8 py-4 border-2 border-white text-white font-bold rounded-lg hover:bg-white/10 transition"
+            >
               Partner Sign In
             </Link>
           </div>

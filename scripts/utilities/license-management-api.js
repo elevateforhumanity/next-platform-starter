@@ -30,19 +30,14 @@ app.post('/api/generate-tiered-license', async (req, res) => {
       });
     }
 
-    const license = generateTieredLicense(
-      email,
-      packageId,
-      licenseType,
-      expiresInDays
-    );
+    const license = generateTieredLicense(email, packageId, licenseType, expiresInDays);
 
     // Generate PDF certificate
     const certificatePath = await generateLicensePDF(
       email,
       `${license.tierName} - ${packageId}`,
       license.licenseKey,
-      license.expiresAt
+      license.expiresAt,
     );
 
     res.json({
@@ -108,11 +103,7 @@ app.post('/api/track-download', (req, res) => {
       });
     }
 
-    const result = usageTracker.trackDownload(
-      licenseKey,
-      fileType,
-      userIP || req.ip
-    );
+    const result = usageTracker.trackDownload(licenseKey, fileType, userIP || req.ip);
 
     res.json(result);
   } catch (error) {
@@ -186,10 +177,7 @@ app.post('/api/upgrade-license', async (req, res) => {
       currentValidation.email,
       `upgraded_${currentValidation.productId}`,
       newTier,
-      Math.ceil(
-        (new Date(currentValidation.expiresAt) - new Date()) /
-          (1000 * 60 * 60 * 24)
-      )
+      Math.ceil((new Date(currentValidation.expiresAt) - new Date()) / (1000 * 60 * 60 * 24)),
     );
 
     // Generate new certificate
@@ -197,7 +185,7 @@ app.post('/api/upgrade-license', async (req, res) => {
       currentValidation.email,
       `${upgradedLicense.tierName} - Upgraded`,
       upgradedLicense.licenseKey,
-      upgradedLicense.expiresAt
+      upgradedLicense.expiresAt,
     );
 
     res.json({
@@ -261,12 +249,7 @@ app.post('/api/generate-bulk-licenses', async (req, res) => {
 
     for (const email of emails) {
       try {
-        const license = generateTieredLicense(
-          email,
-          packageId,
-          licenseType,
-          expiresInDays
-        );
+        const license = generateTieredLicense(email, packageId, licenseType, expiresInDays);
         licenses.push({
           email,
           licenseKey: license.licenseKey,
@@ -291,7 +274,6 @@ app.post('/api/generate-bulk-licenses', async (req, res) => {
 });
 
 const PORT = process.env.PORT || 3002;
-app.listen(PORT, () => {
-});
+app.listen(PORT, () => {});
 
 module.exports = app;

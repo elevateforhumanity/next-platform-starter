@@ -35,7 +35,7 @@ export async function POST(req: NextRequest) {
   if (!question || !userAnswer || !correctAnswer) {
     return NextResponse.json(
       { error: 'question, userAnswer, and correctAnswer are required' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -65,7 +65,7 @@ export async function POST(req: NextRequest) {
             `Learner answered: ${userAnswer}\n` +
             `Correct answer: ${correctAnswer}` +
             context +
-            '\n\nExplain why the learner\'s answer was incorrect and re-teach the concept simply.',
+            "\n\nExplain why the learner's answer was incorrect and re-teach the concept simply.",
         },
       ],
     });

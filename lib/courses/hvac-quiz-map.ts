@@ -37,7 +37,7 @@ import {
 export interface QuizConfig {
   questions: QuizQuestion[];
   passingScore: number; // percentage (0-100)
-  timeLimit?: number;   // minutes, optional
+  timeLimit?: number; // minutes, optional
 }
 
 // Lesson definition ID → quiz config
@@ -59,25 +59,76 @@ export const HVAC_QUIZ_MAP: Record<string, QuizConfig> = {
 
   // Module 6: EPA 608 Core — 25 main bank + 25 prep questions = 50q, 30 min
   // Prep questions (EPA608_PREP_CORE) have exam tips and cover different angles on the same topics
-  'hvac-06-08': { questions: [...EPA_608_CORE.slice(0, 25), ...EPA608_PREP_CORE], passingScore: 70, timeLimit: 30 },
+  'hvac-06-08': {
+    questions: [...EPA_608_CORE.slice(0, 25), ...EPA608_PREP_CORE],
+    passingScore: 70,
+    timeLimit: 30,
+  },
 
   // Module 7: EPA 608 Type I — 50q main bank + Type I prep questions, 60 min
-  'hvac-07-05': { questions: [...EPA_608_EXAM_TYPE_I, ...EPA608_PREP_TYPE1], passingScore: 70, timeLimit: 60 },
+  'hvac-07-05': {
+    questions: [...EPA_608_EXAM_TYPE_I, ...EPA608_PREP_TYPE1],
+    passingScore: 70,
+    timeLimit: 60,
+  },
 
   // Module 8: EPA 608 Type II — 50q main bank + Type II prep questions, 60 min
-  'hvac-08-07': { questions: [...EPA_608_EXAM_TYPE_II, ...EPA608_PREP_TYPE2], passingScore: 70, timeLimit: 60 },
+  'hvac-08-07': {
+    questions: [...EPA_608_EXAM_TYPE_II, ...EPA608_PREP_TYPE2],
+    passingScore: 70,
+    timeLimit: 60,
+  },
 
   // Module 9: EPA 608 Type III — 50q main bank + Type III prep questions, 60 min
-  'hvac-09-06': { questions: [...EPA_608_EXAM_TYPE_III, ...EPA608_PREP_TYPE3], passingScore: 70, timeLimit: 60 },
+  'hvac-09-06': {
+    questions: [...EPA_608_EXAM_TYPE_III, ...EPA608_PREP_TYPE3],
+    passingScore: 70,
+    timeLimit: 60,
+  },
 
   // Module 10: Final exam prep — 72% passing threshold (above real exam to build margin)
   // Uses questions 26–50 from each bank — different from module quizzes
-  'hvac-10-03': { questions: [...EPA_608_CORE.slice(25, 50), ...EPA608_PREP_CORE], passingScore: 72, timeLimit: 30 },
-  'hvac-10-04': { questions: [...EPA_608_CORE.slice(25, 50), ...EPA_608_TYPE_I.slice(25, 50), ...EPA608_PREP_CORE, ...EPA608_PREP_TYPE1], passingScore: 72, timeLimit: 60 },
-  'hvac-10-05': { questions: [...EPA_608_CORE.slice(25, 50), ...EPA_608_TYPE_II.slice(25, 50), ...EPA608_PREP_CORE, ...EPA608_PREP_TYPE2], passingScore: 72, timeLimit: 60 },
-  'hvac-10-06': { questions: [...EPA_608_CORE.slice(25, 50), ...EPA_608_TYPE_III.slice(25, 50), ...EPA608_PREP_CORE, ...EPA608_PREP_TYPE3], passingScore: 72, timeLimit: 60 },
+  'hvac-10-03': {
+    questions: [...EPA_608_CORE.slice(25, 50), ...EPA608_PREP_CORE],
+    passingScore: 72,
+    timeLimit: 30,
+  },
+  'hvac-10-04': {
+    questions: [
+      ...EPA_608_CORE.slice(25, 50),
+      ...EPA_608_TYPE_I.slice(25, 50),
+      ...EPA608_PREP_CORE,
+      ...EPA608_PREP_TYPE1,
+    ],
+    passingScore: 72,
+    timeLimit: 60,
+  },
+  'hvac-10-05': {
+    questions: [
+      ...EPA_608_CORE.slice(25, 50),
+      ...EPA_608_TYPE_II.slice(25, 50),
+      ...EPA608_PREP_CORE,
+      ...EPA608_PREP_TYPE2,
+    ],
+    passingScore: 72,
+    timeLimit: 60,
+  },
+  'hvac-10-06': {
+    questions: [
+      ...EPA_608_CORE.slice(25, 50),
+      ...EPA_608_TYPE_III.slice(25, 50),
+      ...EPA608_PREP_CORE,
+      ...EPA608_PREP_TYPE3,
+    ],
+    passingScore: 72,
+    timeLimit: 60,
+  },
   // Universal mock — main 100q + all 71 prep questions, 120 min
-  'hvac-10-07': { questions: [...HVAC_MOCK_EXAM, ...EPA608_PREP_ALL], passingScore: 70, timeLimit: 120 },
+  'hvac-10-07': {
+    questions: [...HVAC_MOCK_EXAM, ...EPA608_PREP_ALL],
+    passingScore: 70,
+    timeLimit: 120,
+  },
 
   // Module 11: Refrigeration Diagnostics
   'hvac-11-05': { questions: REFRIGERATION_DIAGNOSTICS_QUIZ, passingScore: 70 },

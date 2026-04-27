@@ -1,6 +1,6 @@
 /**
  * Email Templates for Notification System
- * 
+ *
  * Concise, compliant templates with HTML + text fallback.
  * Do not imply licensure approval; include disclaimer where relevant.
  */
@@ -560,7 +560,7 @@ Questions? Reply to this email or call ${SUPPORT_PHONE}`,
 
     case 'partner_approved':
       return {
-        subject: 'Partner Onboarding \u2014 You\'re Approved',
+        subject: "Partner Onboarding \u2014 You're Approved",
         html: baseTemplate(`
           <h2 style="color: #16a34a;">Welcome to the Elevate Apprenticeship Network</h2>
           <p>Hi ${data.owner_name || 'there'},</p>
@@ -657,10 +657,14 @@ Questions? Reply to this email or call ${SUPPORT_PHONE}`,
           <h2 style="color: #dc2626;">Program Needs Revision</h2>
           <p>Hi ${data.contact_name || 'there'},</p>
           <p><strong>${data.program_title || 'Your program'}</strong> was reviewed and requires changes before it can be published.</p>
-          ${data.review_notes ? `
+          ${
+            data.review_notes
+              ? `
           <div style="background: #fef2f2; border: 1px solid #fecaca; border-radius: 8px; padding: 16px; margin: 20px 0;">
             <p style="margin: 0;"><strong>Reviewer feedback:</strong><br>${data.review_notes}</p>
-          </div>` : ''}
+          </div>`
+              : ''
+          }
           <p>Update your program submission and resubmit for review.</p>
           ${button('Edit Program →', data.portal_link || 'https://www.elevateforhumanity.org/provider/programs')}
           <p style="font-size: 14px; color: #666;">Questions? Reply to this email or call ${SUPPORT_PHONE}.</p>

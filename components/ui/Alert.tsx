@@ -1,5 +1,5 @@
 import { ReactNode } from 'react';
-import { Info, AlertTriangle, XCircle, X, CheckCircle, } from 'lucide-react';
+import { Info, AlertTriangle, XCircle, X, CheckCircle } from 'lucide-react';
 
 interface AlertProps {
   type: 'info' | 'warning' | 'success' | 'error';
@@ -49,9 +49,7 @@ export function Alert({ type, title, message, dismissible, onDismiss }: AlertPro
       <div className="flex items-start gap-3">
         <Icon className={`w-5 h-5 flex-shrink-0 mt-0.5 ${config.iconColor}`} />
         <div className="flex-1">
-          {title && (
-            <h3 className={`font-semibold mb-1 ${config.text}`}>{title}</h3>
-          )}
+          {title && <h3 className={`font-semibold mb-1 ${config.text}`}>{title}</h3>}
           <div className={`text-sm ${config.text}`}>{message}</div>
         </div>
         {dismissible && onDismiss && (

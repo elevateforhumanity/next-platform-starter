@@ -4,7 +4,17 @@ import { useState, useEffect } from 'react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import VideoUploader from '@/components/admin/VideoUploader';
 import AdvancedVideoUploader from '@/components/admin/AdvancedVideoUploader';
-import { Check, Copy, FileText, Sparkles, Video, Trash2, RefreshCw, Search, ExternalLink } from 'lucide-react';
+import {
+  Check,
+  Copy,
+  FileText,
+  Sparkles,
+  Video,
+  Trash2,
+  RefreshCw,
+  Search,
+  ExternalLink,
+} from 'lucide-react';
 
 interface VideoRecord {
   id: string;
@@ -53,34 +63,47 @@ export default function VideoManagerPage() {
   };
 
   const allVideos = [
-    ...uploadedVideos.map((url, i) => ({ id: `new-${i}`, title: url.split('/').pop() || 'Uploaded', url, created_at: new Date().toISOString(), duration_minutes: null })),
+    ...uploadedVideos.map((url, i) => ({
+      id: `new-${i}`,
+      title: url.split('/').pop() || 'Uploaded',
+      url,
+      created_at: new Date().toISOString(),
+      duration_minutes: null,
+    })),
     ...videos,
   ];
 
-  const filtered = allVideos.filter((v) =>
-    (v.title || '').toLowerCase().includes(search.toLowerCase()) ||
-    (v.url || '').toLowerCase().includes(search.toLowerCase())
+  const filtered = allVideos.filter(
+    (v) =>
+      (v.title || '').toLowerCase().includes(search.toLowerCase()) ||
+      (v.url || '').toLowerCase().includes(search.toLowerCase()),
   );
 
   return (
     <div className="min-h-screen bg-white p-6">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto">
         <div className="mb-4">
-          <Breadcrumbs items={[
-            { label: 'Admin', href: '/admin/dashboard' },
-            { label: 'Videos', href: '/admin/videos' },
-            { label: 'Video Manager' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Admin', href: '/admin/dashboard' },
+              { label: 'Videos', href: '/admin/videos' },
+              { label: 'Video Manager' },
+            ]}
+          />
         </div>
 
         <div className="flex items-center justify-between mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Video Manager</h1>
-            <p className="text-sm text-slate-700 mt-1">Upload, manage, and organize lesson videos</p>
+            <p className="text-sm text-slate-700 mt-1">
+              Upload, manage, and organize lesson videos
+            </p>
           </div>
-          <button onClick={fetchVideos} className="p-2 text-slate-700 hover:text-slate-700 rounded-lg hover:bg-gray-100">
+          <button
+            onClick={fetchVideos}
+            className="p-2 text-slate-700 hover:text-slate-700 rounded-lg hover:bg-gray-100"
+          >
             <RefreshCw className={`w-4 h-4 ${loading ? 'animate-spin' : ''}`} />
           </button>
         </div>
@@ -120,18 +143,25 @@ export default function VideoManagerPage() {
           ) : filtered.length === 0 ? (
             <div className="px-6 py-12 text-center">
               <Video className="w-10 h-10 text-slate-700 mx-auto mb-3" />
-              <p className="text-sm text-slate-700">{search ? 'No matching videos.' : 'No videos uploaded yet.'}</p>
+              <p className="text-sm text-slate-700">
+                {search ? 'No matching videos.' : 'No videos uploaded yet.'}
+              </p>
             </div>
           ) : (
             <div className="divide-y divide-gray-100">
               {filtered.map((v) => (
-                <div key={v.id} className="px-6 py-3 flex items-center justify-between hover:bg-gray-50">
+                <div
+                  key={v.id}
+                  className="px-6 py-3 flex items-center justify-between hover:bg-gray-50"
+                >
                   <div className="flex items-center gap-3 flex-1 min-w-0">
                     <div className="w-8 h-8 rounded-lg bg-purple-100 flex items-center justify-center flex-shrink-0">
                       <Video className="w-4 h-4 text-purple-600" />
                     </div>
                     <div className="min-w-0">
-                      <div className="text-sm font-medium text-slate-900 truncate">{v.title || v.url.split('/').pop()}</div>
+                      <div className="text-sm font-medium text-slate-900 truncate">
+                        {v.title || v.url.split('/').pop()}
+                      </div>
                       <div className="text-xs text-slate-700 truncate">{v.url}</div>
                     </div>
                   </div>
@@ -139,13 +169,19 @@ export default function VideoManagerPage() {
                     {v.duration_minutes && (
                       <span className="text-xs text-slate-700">{v.duration_minutes}m</span>
                     )}
-                    <span className="text-xs text-slate-700">{new Date(v.created_at).toLocaleDateString()}</span>
+                    <span className="text-xs text-slate-700">
+                      {new Date(v.created_at).toLocaleDateString()}
+                    </span>
                     <button
                       onClick={() => copyToClipboard(v.url)}
                       className="p-1.5 text-slate-700 hover:text-slate-700 rounded"
                       title="Copy URL"
                     >
-                      {copiedUrl === v.url ? <Check className="w-3.5 h-3.5 text-brand-green-600" /> : <Copy className="w-3.5 h-3.5" />}
+                      {copiedUrl === v.url ? (
+                        <Check className="w-3.5 h-3.5 text-brand-green-600" />
+                      ) : (
+                        <Copy className="w-3.5 h-3.5" />
+                      )}
                     </button>
                   </div>
                 </div>

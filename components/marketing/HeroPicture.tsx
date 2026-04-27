@@ -75,9 +75,7 @@ export default function HeroPicture({
   const [transcriptOpen, setTranscriptOpen] = useState(false);
   const transcriptId = useId();
 
-  const frameStyle = heightStyle
-    ? undefined
-    : { height: 'clamp(260px, 40vw, 480px)' };
+  const frameStyle = heightStyle ? undefined : { height: 'clamp(260px, 40vw, 480px)' };
 
   return (
     <div className={`w-full ${className}`}>
@@ -87,6 +85,7 @@ export default function HeroPicture({
         style={frameStyle}
         aria-label={analyticsName ? `${analyticsName} hero` : 'Hero image'}
       >
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={src}
           alt={alt}

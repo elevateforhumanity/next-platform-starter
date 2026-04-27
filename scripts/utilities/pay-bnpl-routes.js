@@ -22,10 +22,7 @@ const stripe = require('stripe')(process.env.STRIPE_SECRET_KEY);
 const { createClient } = require('@supabase/supabase-js');
 
 const router = express.Router();
-const supabase = createClient(
-  process.env.SUPABASE_URL,
-  process.env.SUPABASE_SERVICE_KEY
-);
+const supabase = createClient(process.env.SUPABASE_URL, process.env.SUPABASE_SERVICE_KEY);
 
 // BNPL Payment Plans Configuration
 const BNPL_PLANS = {
@@ -214,9 +211,7 @@ router.post('/api/bnpl/checkout', async (req, res) => {
         installment_amount: installmentAmount / 100,
         total_amount: totalAmount / 100,
         first_payment_date: 'Today',
-        next_payment_date: new Date(
-          Date.now() + 30 * 24 * 60 * 60 * 1000
-        ).toLocaleDateString(),
+        next_payment_date: new Date(Date.now() + 30 * 24 * 60 * 60 * 1000).toLocaleDateString(),
       },
     });
   } catch (error) {
@@ -238,9 +233,7 @@ router.get('/api/bnpl/subscriptions/:customerEmail', async (req, res) => {
     const enrichedSubscriptions = await Promise.all(
       subscriptions.map(async (sub) => {
         try {
-          const stripeSubscription = await stripe.subscriptions.retrieve(
-            sub.subscription_id
-          );
+          const stripeSubscription = await stripe.subscriptions.retrieve(sub.subscription_id);
           return {
             ...sub,
             stripe_status: stripeSubscription.status,
@@ -250,7 +243,7 @@ router.get('/api/bnpl/subscriptions/:customerEmail', async (req, res) => {
         } catch (error) {
           return { ...sub, stripe_status: 'unknown' };
         }
-      })
+      }),
     );
 
     res.json({ subscriptions: enrichedSubscriptions });

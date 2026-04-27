@@ -27,20 +27,22 @@ export async function GET(request: NextRequest) {
 
   const { searchParams } = new URL(request.url);
   const orgId = searchParams.get('org_id');
-  const type  = searchParams.get('type');
+  const type = searchParams.get('type');
 
   const db = await getAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   let query = db
     .from('media_assets')
-    .select('id, org_id, storage_path, type, mime_type, duration_seconds, title, status, created_at')
+    .select(
+      'id, org_id, storage_path, type, mime_type, duration_seconds, title, status, created_at',
+    )
     .eq('status', 'active')
     .order('created_at', { ascending: false })
     .limit(200);
 
   if (orgId) query = query.eq('org_id', orgId);
-  if (type)  query = query.eq('type', type);
+  if (type) query = query.eq('type', type);
 
   const { data, error } = await query;
   if (error) return safeInternalError(error, 'Failed to list media assets');
@@ -49,13 +51,13 @@ export async function GET(request: NextRequest) {
 }
 
 const createSchema = z.object({
-  org_id:           z.string().uuid(),
-  storage_path:     z.string().min(1),
-  type:             z.enum(['video', 'audio', 'image', 'document', 'other']),
-  mime_type:        z.string().optional(),
+  org_id: z.string().uuid(),
+  storage_path: z.string().min(1),
+  type: z.enum(['video', 'audio', 'image', 'document', 'other']),
+  mime_type: z.string().optional(),
   duration_seconds: z.number().int().positive().optional(),
-  title:            z.string().optional(),
-  transcript:       z.string().optional(),
+  title: z.string().optional(),
+  transcript: z.string().optional(),
 });
 
 export async function POST(request: NextRequest) {

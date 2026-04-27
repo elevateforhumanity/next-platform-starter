@@ -1,14 +1,10 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import { X, ChevronRight, ChevronLeft, Check, Play, BookOpen } from 'lucide-react';
-import {
-  Tutorial,
-  TutorialStep,
-  TUTORIALS,
-} from '@/lib/onboarding-types';
+import { Tutorial, TutorialStep, TUTORIALS } from '@/lib/onboarding-types';
 
 interface TutorialSystemProps {
   tutorial?: Tutorial | null;
@@ -17,12 +13,7 @@ interface TutorialSystemProps {
   onClose?: () => void;
 }
 
-export function TutorialSystem({
-  tutorial,
-  userId,
-  onComplete,
-  onClose,
-}: TutorialSystemProps) {
+export function TutorialSystem({ tutorial, userId, onComplete, onClose }: TutorialSystemProps) {
   const [currentStepIndex, setCurrentStepIndex] = useState(0);
   const [completedSteps, setCompletedSteps] = useState<string[]>([]);
   const [isVisible, setIsVisible] = useState(true);
@@ -116,13 +107,9 @@ export function TutorialSystem({
           <div className="flex-1">
             <div className="flex items-center gap-2 mb-2">
               <BookOpen className="w-5 h-5 text-brand-blue-600" />
-              <span className="text-sm font-medium text-brand-blue-600">
-                {tutorial.category}
-              </span>
+              <span className="text-sm font-medium text-brand-blue-600">{tutorial.category}</span>
             </div>
-            <h2 className="text-2xl font-bold text-black">
-              {tutorial.title}
-            </h2>
+            <h2 className="text-2xl font-bold text-black">{tutorial.title}</h2>
             <p className="text-sm text-black mt-1">
               {tutorial.description} • {tutorial.duration} min
             </p>
@@ -159,9 +146,7 @@ export function TutorialSystem({
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6">
           <div className="mb-4">
-            <h3 className="text-xl font-semibold text-black mb-3">
-              {currentStep.title}
-            </h3>
+            <h3 className="text-xl font-semibold text-black mb-3">{currentStep.title}</h3>
 
             {/* Step type indicator */}
             <div className="inline-flex items-center gap-2 px-3 py-2 bg-brand-blue-100 text-brand-blue-700 rounded-full text-sm mb-4">
@@ -214,11 +199,10 @@ export function TutorialSystem({
                   !
                 </div>
                 <div className="flex-1">
-                  <h4 className="font-semibold text-brand-blue-900 mb-1">
-                    Try it yourself
-                  </h4>
+                  <h4 className="font-semibold text-brand-blue-900 mb-1">Try it yourself</h4>
                   <p className="text-sm text-brand-blue-700">
-                    {currentStep.action.type === 'click' && 'Click the highlighted element to continue'}
+                    {currentStep.action.type === 'click' &&
+                      'Click the highlighted element to continue'}
                     {currentStep.action.type === 'input' && 'Fill in the required field'}
                     {currentStep.action.type === 'navigate' && 'Navigate to the specified page'}
                   </p>
@@ -261,8 +245,8 @@ export function TutorialSystem({
                   index === currentStepIndex
                     ? 'bg-brand-blue-600 w-6'
                     : completedSteps.includes(tutorial.steps[index].id)
-                    ? 'bg-brand-blue-400'
-                    : 'bg-gray-300'
+                      ? 'bg-brand-blue-400'
+                      : 'bg-gray-300'
                 }`}
               />
             ))}
@@ -296,7 +280,7 @@ export function TutorialLibrary({ userId, userRole }: { userId: string; userRole
   const [completedTutorials, setCompletedTutorials] = useState<string[]>([]);
 
   // Filter tutorials by user role
-  const availableTutorials = Object.values(TUTORIALS).filter(tutorial => {
+  const availableTutorials = Object.values(TUTORIALS).filter((tutorial) => {
     if (tutorial.category === 'Instructor' && userRole !== 'instructor') {
       return false;
     }
@@ -304,20 +288,21 @@ export function TutorialLibrary({ userId, userRole }: { userId: string; userRole
   });
 
   // Group tutorials by category
-  const tutorialsByCategory = availableTutorials.reduce((acc, tutorial) => {
-    if (!acc[tutorial.category]) {
-      acc[tutorial.category] = [];
-    }
-    acc[tutorial.category].push(tutorial);
-    return acc;
-  }, {} as Record<string, Tutorial[]>);
+  const tutorialsByCategory = availableTutorials.reduce(
+    (acc, tutorial) => {
+      if (!acc[tutorial.category]) {
+        acc[tutorial.category] = [];
+      }
+      acc[tutorial.category].push(tutorial);
+      return acc;
+    },
+    {} as Record<string, Tutorial[]>,
+  );
 
   return (
     <div className="space-y-8">
       <div>
-        <h2 className="text-2xl font-bold text-black mb-2">
-          Interactive Tutorials
-        </h2>
+        <h2 className="text-2xl font-bold text-black mb-2">Interactive Tutorials</h2>
         <p className="text-black">
           Learn how to use all the features of the platform with step-by-step guides
         </p>
@@ -325,11 +310,9 @@ export function TutorialLibrary({ userId, userRole }: { userId: string; userRole
 
       {Object.entries(tutorialsByCategory).map(([category, tutorials]) => (
         <div key={category}>
-          <h3 className="text-lg font-semibold text-black mb-4">
-            {category}
-          </h3>
+          <h3 className="text-lg font-semibold text-black mb-4">{category}</h3>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-            {tutorials.map(tutorial => {
+            {tutorials.map((tutorial) => {
               const isCompleted = completedTutorials.includes(tutorial.id);
 
               return (
@@ -340,12 +323,8 @@ export function TutorialLibrary({ userId, userRole }: { userId: string; userRole
                 >
                   <div className="flex items-start justify-between mb-3">
                     <div className="flex-1">
-                      <h4 className="font-semibold text-black mb-1">
-                        {tutorial.title}
-                      </h4>
-                      <p className="text-sm text-black">
-                        {tutorial.description}
-                      </p>
+                      <h4 className="font-semibold text-black mb-1">{tutorial.title}</h4>
+                      <p className="text-sm text-black">{tutorial.description}</p>
                     </div>
                     {isCompleted && (
                       <Check className="w-5 h-5 text-brand-green-600 flex-shrink-0 ml-2" />
@@ -359,9 +338,7 @@ export function TutorialLibrary({ userId, userRole }: { userId: string; userRole
                   </div>
 
                   {tutorial.prerequisites && tutorial.prerequisites.length > 0 && (
-                    <div className="mt-3 text-xs text-amber-600">
-                      Prerequisites required
-                    </div>
+                    <div className="mt-3 text-xs text-amber-600">Prerequisites required</div>
                   )}
                 </button>
               );

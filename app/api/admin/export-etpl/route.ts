@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -26,10 +25,7 @@ async function _GET(req: Request) {
     const adminClient = await getAdminClient();
 
     if (!adminClient) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Check if user is admin
@@ -39,10 +35,7 @@ async function _GET(req: Request) {
       .eq('id', user.id)
       .maybeSingle();
 
-    if (
-      !profile ||
-      !['admin', 'super_admin', 'org_admin', 'staff'].includes(profile.role)
-    ) {
+    if (!profile || !['admin', 'super_admin', 'org_admin', 'staff'].includes(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -87,7 +80,7 @@ async function _GET(req: Request) {
           signed,
           signed_at
         )
-      `
+      `,
       )
       .order('created_at', { ascending: false });
 
@@ -117,22 +110,14 @@ async function _GET(req: Request) {
       status: item.status,
       advisor: item.advisor_email,
       application_date: item.created_at,
-      icc_account_created:
-        item.application_checklist?.[0]?.created_icc_account || false,
-      workone_scheduled:
-        item.application_checklist?.[0]?.scheduled_workone_appointment || false,
-      workone_date:
-        item.application_checklist?.[0]?.workone_appointment_date || null,
-      workone_location:
-        item.application_checklist?.[0]?.workone_location || null,
-      workone_attended:
-        item.application_checklist?.[0]?.attended_workone_appointment || false,
-      funding_verified:
-        item.application_checklist?.[0]?.funding_verified || false,
-      enrollment_started:
-        item.application_checklist?.[0]?.enrollment_started || false,
-      enrollment_completed:
-        item.application_checklist?.[0]?.enrollment_completed || false,
+      icc_account_created: item.application_checklist?.[0]?.created_icc_account || false,
+      workone_scheduled: item.application_checklist?.[0]?.scheduled_workone_appointment || false,
+      workone_date: item.application_checklist?.[0]?.workone_appointment_date || null,
+      workone_location: item.application_checklist?.[0]?.workone_location || null,
+      workone_attended: item.application_checklist?.[0]?.attended_workone_appointment || false,
+      funding_verified: item.application_checklist?.[0]?.funding_verified || false,
+      enrollment_started: item.application_checklist?.[0]?.enrollment_started || false,
+      enrollment_completed: item.application_checklist?.[0]?.enrollment_completed || false,
       employer: item.employer_sponsors?.[0]?.company_name || null,
       employer_contact: item.employer_sponsors?.[0]?.contact_name || null,
       wage_commitment: item.employer_sponsors?.[0]?.wage_commitment || null,
@@ -146,7 +131,7 @@ async function _GET(req: Request) {
       const csvRows = [
         headers.join(','),
         ...exportData.map((item: any) =>
-          headers.map((header) => JSON.stringify(item[header] || '')).join(',')
+          headers.map((header) => JSON.stringify(item[header] || '')).join(','),
         ),
       ];
       const csv = csvRows.join('\n');
@@ -165,7 +150,7 @@ async function _GET(req: Request) {
       record_count: exportData.length,
       data: exportData,
     });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json({ error: 'Export failed' }, { status: 500 });
   }
 }

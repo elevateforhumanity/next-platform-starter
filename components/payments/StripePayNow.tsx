@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -58,7 +58,8 @@ export default function StripePayNow({
       } else {
         throw new Error('No checkout URL returned');
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       const errorMessage = 'Failed to start checkout';
       toast.error(errorMessage);
@@ -99,9 +100,7 @@ export default function StripePayNow({
             <path d="M20 4H4c-1.11 0-1.99.89-1.99 2L2 18c0 1.11.89 2 2 2h16c1.11 0 2-.89 2-2V6c0-1.11-.89-2-2-2zm0 14H4v-6h16v6zm0-10H4V6h16v2z" />
           </svg>
           Pay Now
-          <span className="text-sm font-normal">
-            (${amount.toFixed(2)})
-          </span>
+          <span className="text-sm font-normal">(${amount.toFixed(2)})</span>
         </>
       )}
     </button>

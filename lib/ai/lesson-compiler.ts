@@ -18,7 +18,10 @@
 
 import { z } from 'zod';
 import { getOpenAIClient } from '@/lib/openai-client';
-import { LESSON_COMPILER_SYSTEM, buildLessonCompilerPrompt } from '@/lib/ai/prompts/lesson-compiler';
+import {
+  LESSON_COMPILER_SYSTEM,
+  buildLessonCompilerPrompt,
+} from '@/lib/ai/prompts/lesson-compiler';
 
 // ── Zod schemas ───────────────────────────────────────────────────────────────
 
@@ -78,17 +81,21 @@ export function validateCompiledLesson(lesson: CompiledLesson): void {
     if (!q.options.includes(q.correct_answer)) {
       throw new Error(
         `Quiz answer mismatch in lesson "${lesson.lesson_title}": ` +
-        `correct_answer "${q.correct_answer}" is not in options [${q.options.join(', ')}]`
+          `correct_answer "${q.correct_answer}" is not in options [${q.options.join(', ')}]`,
       );
     }
   }
 
   if (lesson.narration_script.length < 400) {
-    throw new Error(`Narration too short in lesson "${lesson.lesson_title}" (${lesson.narration_script.length} chars)`);
+    throw new Error(
+      `Narration too short in lesson "${lesson.lesson_title}" (${lesson.narration_script.length} chars)`,
+    );
   }
 
   if (lesson.estimated_minutes < 3) {
-    throw new Error(`Estimated minutes too low in lesson "${lesson.lesson_title}" (${lesson.estimated_minutes})`);
+    throw new Error(
+      `Estimated minutes too low in lesson "${lesson.lesson_title}" (${lesson.estimated_minutes})`,
+    );
   }
 
   // Duplicate bullet detection
@@ -96,7 +103,9 @@ export function validateCompiledLesson(lesson: CompiledLesson): void {
     const seen = new Set<string>();
     for (const bullet of slide.bullets) {
       if (seen.has(bullet)) {
-        throw new Error(`Duplicate bullet in slide ${slide.slide_number} of "${lesson.lesson_title}": "${bullet}"`);
+        throw new Error(
+          `Duplicate bullet in slide ${slide.slide_number} of "${lesson.lesson_title}": "${bullet}"`,
+        );
       }
       seen.add(bullet);
     }
@@ -116,7 +125,7 @@ export function renderLessonContent(compiled: CompiledLesson): string {
         `## Slide ${slide.slide_number}: ${slide.title}\n` +
         slide.bullets.map((b) => `- ${b}`).join('\n') +
         `\n\n**Speaker Notes**\n${slide.speaker_notes}` +
-        (slide.visual_suggestion ? `\n\n*Visual: ${slide.visual_suggestion}*` : '')
+        (slide.visual_suggestion ? `\n\n*Visual: ${slide.visual_suggestion}*` : ''),
     )
     .join('\n\n');
 
@@ -150,7 +159,7 @@ function parseJSON(raw: string): unknown {
       .replace(/^```json\s*/i, '')
       .replace(/^```\s*/i, '')
       .replace(/\s*```$/i, '')
-      .trim()
+      .trim(),
   );
 }
 
@@ -175,7 +184,9 @@ export async function compileLesson(args: CompileLessonArgs): Promise<CompiledLe
   const validated = CompiledLessonSchema.safeParse(parsed);
 
   if (!validated.success) {
-    const issues = validated.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ');
+    const issues = validated.error.issues
+      .map((i) => `${i.path.join('.')}: ${i.message}`)
+      .join('; ');
     throw new Error(`Lesson "${args.lessonTitle}" failed validation: ${issues}`);
   }
 
@@ -188,7 +199,7 @@ export async function compileLesson(args: CompileLessonArgs): Promise<CompiledLe
 async function mapWithConcurrency<T, R>(
   items: T[],
   limit: number,
-  worker: (item: T, index: number) => Promise<R>
+  worker: (item: T, index: number) => Promise<R>,
 ): Promise<R[]> {
   const results: R[] = new Array(items.length);
   let nextIndex = 0;
@@ -308,7 +319,7 @@ export async function compileAllLessons(args: CompileAllArgs): Promise<CompiledM
             instructor_notes: ['Content needs manual review before publishing.'],
           } satisfies CompiledLesson;
         }
-      }
+      },
     );
 
     compiledModules.push({

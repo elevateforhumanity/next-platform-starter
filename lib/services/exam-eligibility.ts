@@ -42,14 +42,13 @@ export interface EligibilityResult {
 export async function checkExamEligibility(
   learnerId: string,
   credentialId: string,
-  programId: string
+  programId: string,
 ): Promise<EligibilityResult> {
   const db = await getAdminClient();
   const evaluatedAt = new Date().toISOString();
 
   if (!db) {
-    return ineligible(learnerId, credentialId, programId, evaluatedAt,
-      'Database unavailable', []);
+    return ineligible(learnerId, credentialId, programId, evaluatedAt, 'Database unavailable', []);
   }
 
   try {
@@ -68,25 +67,35 @@ export async function checkExamEligibility(
     }
 
     // All other credentials: use v2 function
-    const { data: rows, error } = await db
-      .rpc('evaluate_exam_eligibility_v2', {
-        p_learner_id:    learnerId,
-        p_credential_id: credentialId,
-        p_program_id:    programId,
-      });
+    const { data: rows, error } = await db.rpc('evaluate_exam_eligibility_v2', {
+      p_learner_id: learnerId,
+      p_credential_id: credentialId,
+      p_program_id: programId,
+    });
 
     if (error) {
       logger.error('evaluate_exam_eligibility_v2 failed', { learnerId, credentialId, error });
-      return ineligible(learnerId, credentialId, programId, evaluatedAt,
-        'Eligibility check failed — contact support', []);
+      return ineligible(
+        learnerId,
+        credentialId,
+        programId,
+        evaluatedAt,
+        'Eligibility check failed — contact support',
+        [],
+      );
     }
 
     return parseV2Result(learnerId, credentialId, programId, evaluatedAt, rows ?? []);
-
   } catch (err) {
     logger.error('checkExamEligibility unexpected error', { learnerId, credentialId, err });
-    return ineligible(learnerId, credentialId, programId, evaluatedAt,
-      'Eligibility check failed — contact support', []);
+    return ineligible(
+      learnerId,
+      credentialId,
+      programId,
+      evaluatedAt,
+      'Eligibility check failed — contact support',
+      [],
+    );
   }
 }
 
@@ -97,36 +106,49 @@ async function checkEpaEligibility(
   learnerId: string,
   credentialId: string,
   programId: string,
-  evaluatedAt: string
+  evaluatedAt: string,
 ): Promise<EligibilityResult> {
-  const { data: rows, error } = await db!
-    .rpc('evaluate_exam_eligibility', {
-      p_learner_id:    learnerId,
-      p_credential_id: credentialId,
-    });
+  const { data: rows, error } = await db!.rpc('evaluate_exam_eligibility', {
+    p_learner_id: learnerId,
+    p_credential_id: credentialId,
+  });
 
   if (error) {
     logger.error('evaluate_exam_eligibility (EPA) failed', { learnerId, credentialId, error });
-    return ineligible(learnerId, credentialId, programId, evaluatedAt,
-      'EPA eligibility check failed — contact support', []);
+    return ineligible(
+      learnerId,
+      credentialId,
+      programId,
+      evaluatedAt,
+      'EPA eligibility check failed — contact support',
+      [],
+    );
   }
 
   const domains: DomainEligibility[] = (rows ?? []).map((r: any) => ({
-    domainKey:        r.domain_key,
-    domainName:       r.domain_key,   // EPA function doesn't return domain_name
-    weightPercent:    25,             // EPA 608: 4 domains × 25% each
-    lessonsRequired:  r.sims_required ?? 0,
-    lessonsCompleted: r.sims_passed   ?? 0,
-    isCovered:        r.is_eligible   ?? false,
-    blockingReason:   r.is_eligible ? null : `${r.sims_passed}/${r.sims_required} simulations passed`,
+    domainKey: r.domain_key,
+    domainName: r.domain_key, // EPA function doesn't return domain_name
+    weightPercent: 25, // EPA 608: 4 domains × 25% each
+    lessonsRequired: r.sims_required ?? 0,
+    lessonsCompleted: r.sims_passed ?? 0,
+    isCovered: r.is_eligible ?? false,
+    blockingReason: r.is_eligible ? null : `${r.sims_passed}/${r.sims_required} simulations passed`,
   }));
 
-  const isEligible = domains.length > 0 && domains.every(d => d.isCovered);
-  const blocking = isEligible ? null
-    : domains.filter(d => !d.isCovered).map(d => d.blockingReason).filter(Boolean).join('; ');
+  const isEligible = domains.length > 0 && domains.every((d) => d.isCovered);
+  const blocking = isEligible
+    ? null
+    : domains
+        .filter((d) => !d.isCovered)
+        .map((d) => d.blockingReason)
+        .filter(Boolean)
+        .join('; ');
 
   return {
-    learnerId, credentialId, programId, evaluatedAt,
+    learnerId,
+    credentialId,
+    programId,
+    evaluatedAt,
     isEligible,
     blockingReason: blocking || null,
     domains,
@@ -140,19 +162,19 @@ function parseV2Result(
   credentialId: string,
   programId: string,
   evaluatedAt: string,
-  rows: any[]
+  rows: any[],
 ): EligibilityResult {
-  const summaryRow = rows.find(r => r.out_domain_key === '__summary__');
-  const domainRows = rows.filter(r => r.out_domain_key !== '__summary__');
+  const summaryRow = rows.find((r) => r.out_domain_key === '__summary__');
+  const domainRows = rows.filter((r) => r.out_domain_key !== '__summary__');
 
-  const domains: DomainEligibility[] = domainRows.map(r => ({
-    domainKey:        r.out_domain_key,
-    domainName:       r.out_domain_name,
-    weightPercent:    r.out_weight_percent ?? 0,
-    lessonsRequired:  r.out_lessons_required ?? 0,
+  const domains: DomainEligibility[] = domainRows.map((r) => ({
+    domainKey: r.out_domain_key,
+    domainName: r.out_domain_name,
+    weightPercent: r.out_weight_percent ?? 0,
+    lessonsRequired: r.out_lessons_required ?? 0,
     lessonsCompleted: r.out_lessons_completed ?? 0,
-    isCovered:        r.out_is_domain_covered ?? false,
-    blockingReason:   r.out_blocking_reason ?? null,
+    isCovered: r.out_is_domain_covered ?? false,
+    blockingReason: r.out_blocking_reason ?? null,
   }));
 
   const isEligible = summaryRow?.out_is_domain_covered ?? false;
@@ -169,10 +191,17 @@ function ineligible(
   programId: string,
   evaluatedAt: string,
   reason: string,
-  domains: DomainEligibility[]
+  domains: DomainEligibility[],
 ): EligibilityResult {
-  return { learnerId, credentialId, programId, evaluatedAt,
-           isEligible: false, blockingReason: reason, domains };
+  return {
+    learnerId,
+    credentialId,
+    programId,
+    evaluatedAt,
+    isEligible: false,
+    blockingReason: reason,
+    domains,
+  };
 }
 
 // ─── Convenience: check + auto-create funding authorization ──────────────────
@@ -190,7 +219,7 @@ function ineligible(
 export async function checkEligibilityAndAuthorize(
   learnerId: string,
   credentialId: string,
-  programId: string
+  programId: string,
 ): Promise<EligibilityResult & { authorizationCreated: boolean }> {
   const result = await checkExamEligibility(learnerId, credentialId, programId);
 
@@ -238,17 +267,17 @@ export async function checkEligibilityAndAuthorize(
   // exam_funding_authorizations uses a simpler enum. Map non-self-pay sources to 'grant'
   // unless they map to a more specific value.
   const EFA_FUNDING_SOURCE_MAP: Record<string, string> = {
-    self_pay:              'self_pay',
-    employer_sponsored:    'employer',
-    scholarship:           'scholarship',
-    wioa_title_i:          'grant',
-    wioa_title_ii:         'grant',
+    self_pay: 'self_pay',
+    employer_sponsored: 'employer',
+    scholarship: 'scholarship',
+    wioa_title_i: 'grant',
+    wioa_title_ii: 'grant',
     workforce_ready_grant: 'grant',
-    jri:                   'grant',
-    job_ready_indy:        'grant',
-    dol_apprenticeship:    'grant',
-    pell_grant:            'grant',
-    other:                 'grant',
+    jri: 'grant',
+    job_ready_indy: 'grant',
+    dol_apprenticeship: 'grant',
+    pell_grant: 'grant',
+    other: 'grant',
   };
   const efaFundingSource = EFA_FUNDING_SOURCE_MAP[fundingSource] ?? 'grant';
 
@@ -257,9 +286,8 @@ export async function checkEligibilityAndAuthorize(
   // - approved enrollment funding record: pending (staff will authorize)
   // - no record or pending record: unresolved
   const efrApproved = efr?.status === 'approved' || efr?.status === 'disbursed';
-  const fundingStatus = efaFundingSource === 'self_pay'
-    ? 'unresolved'
-    : efrApproved ? 'pending' : 'unresolved';
+  const fundingStatus =
+    efaFundingSource === 'self_pay' ? 'unresolved' : efrApproved ? 'pending' : 'unresolved';
 
   // Use exam fee from program_credentials as the amount default.
   // This is a program-level default, not a per-learner override.
@@ -272,16 +300,14 @@ export async function checkEligibilityAndAuthorize(
 
   const amountCents = efr?.amount_cents ?? pc?.exam_fee_cents ?? null;
 
-  const { error } = await db
-    .from('exam_funding_authorizations')
-    .insert({
-      learner_id:          learnerId,
-      credential_id:       credentialId,
-      program_id:          programId,
-      funding_source:      efaFundingSource,
-      funding_status:      fundingStatus,
-      funded_amount_cents: amountCents,
-    });
+  const { error } = await db.from('exam_funding_authorizations').insert({
+    learner_id: learnerId,
+    credential_id: credentialId,
+    program_id: programId,
+    funding_source: efaFundingSource,
+    funding_status: fundingStatus,
+    funded_amount_cents: amountCents,
+  });
 
   if (error) {
     logger.error('Failed to create exam_funding_authorization', { learnerId, credentialId, error });
@@ -289,7 +315,9 @@ export async function checkEligibilityAndAuthorize(
   }
 
   logger.info('Exam funding authorization created', {
-    learnerId, credentialId, programId,
+    learnerId,
+    credentialId,
+    programId,
     fundingSource: efaFundingSource,
     fundingStatus,
   });

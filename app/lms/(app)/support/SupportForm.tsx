@@ -29,7 +29,9 @@ export function SupportForm() {
   return (
     <form id="support-form" action={handleSubmit} className="space-y-6">
       {message && (
-        <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-brand-green-50 text-brand-green-800 border border-brand-green-200' : 'bg-brand-red-50 text-brand-red-800 border border-brand-red-200'}`}>
+        <div
+          className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-brand-green-50 text-brand-green-800 border border-brand-green-200' : 'bg-brand-red-50 text-brand-red-800 border border-brand-red-200'}`}
+        >
           {message.text}
         </div>
       )}
@@ -90,7 +92,9 @@ export function SupportForm() {
           className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
         >
           <option value="low">Low - General question</option>
-          <option value="normal" selected>Normal - Need help soon</option>
+          <option value="normal" selected>
+            Normal - Need help soon
+          </option>
           <option value="high">High - Blocking my progress</option>
           <option value="urgent">Urgent - Cannot access my account</option>
         </select>

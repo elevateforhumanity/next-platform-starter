@@ -95,14 +95,20 @@ export default function StartForm() {
     return (
       <div className="rounded-3xl border border-gray-200 bg-white p-8 shadow-sm">
         <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-full bg-brand-green-100">
-          <svg className="h-6 w-6 text-brand-green-600" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2}>
+          <svg
+            className="h-6 w-6 text-brand-green-600"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+            strokeWidth={2}
+          >
             <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
           </svg>
         </div>
         <h2 className="text-2xl font-bold text-slate-900">You&apos;re in the system.</h2>
         <p className="mt-3 text-slate-900">
-          We received your intake. Your next steps depend on your funding status,
-          and we&apos;ll guide you through them.
+          We received your intake. Your next steps depend on your funding status, and we&apos;ll
+          guide you through them.
         </p>
 
         <div className="mt-6 rounded-2xl bg-gray-50 p-4">
@@ -174,7 +180,10 @@ export default function StartForm() {
         </div>
 
         <div>
-          <label htmlFor="program_interest" className="mb-1 block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="program_interest"
+            className="mb-1 block text-sm font-medium text-slate-900"
+          >
             Program interest
           </label>
           <select
@@ -193,15 +202,13 @@ export default function StartForm() {
         </div>
 
         <div>
-          <label htmlFor="funding_interest" className="mb-1 block text-sm font-medium text-slate-900">
+          <label
+            htmlFor="funding_interest"
+            className="mb-1 block text-sm font-medium text-slate-900"
+          >
             How do you plan to pay?
           </label>
-          <select
-            id="funding_interest"
-            name="funding_interest"
-            required
-            className={selectClass}
-          >
+          <select id="funding_interest" name="funding_interest" required className={selectClass}>
             {FUNDING_OPTIONS.map((opt) => (
               <option key={opt.value} value={opt.value}>
                 {opt.label}

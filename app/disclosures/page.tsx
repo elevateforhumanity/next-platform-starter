@@ -1,17 +1,16 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
-import { 
-  FileText, 
-  Shield, 
-  Scale, 
-  DollarSign, 
-  GraduationCap, 
-  Clock, 
-  Users, 
+import {
+  FileText,
+  Shield,
+  Scale,
+  DollarSign,
+  GraduationCap,
+  Clock,
+  Users,
   Lock,
   Accessibility,
   AlertCircle,
@@ -25,7 +24,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Student Consumer Information & Disclosures | Elevate for Humanity',
-  description: 'Required disclosures and consumer information for prospective and current students at Elevate for Humanity.',
+  description:
+    'Required disclosures and consumer information for prospective and current students at Elevate for Humanity.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/disclosures',
   },
@@ -43,13 +43,15 @@ export default function DisclosuresPage() {
 
       {/* Hero Banner */}
       <section className="relative min-h-48 md:h-64 flex items-center overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/disclosures-page-1.jpg"
           alt="Student Consumer Information"
           fill
           className="object-cover"
           priority
-         sizes="100vw" />
+          sizes="100vw"
+        />
       </section>
 
       {/* Quick Stats */}
@@ -87,18 +89,31 @@ export default function DisclosuresPage() {
                   alt="Our Institution"
                   fill
                   className="object-cover"
-                 sizes="100vw" />
+                  sizes="100vw"
+                />
                 <div className="absolute bottom-4 left-4">
                   <h3 className="text-2xl font-bold text-slate-900">About Our Institution</h3>
                 </div>
               </div>
               <div className="p-6">
                 <div className="space-y-3 text-slate-900">
-                  <p><span className="font-semibold text-slate-900">Legal Name:</span> 2Exclusive LLC-S (DBA Elevate for Humanity Career &amp; Technical Institute)</p>
-                  <p><span className="font-semibold text-slate-900">Location:</span> Indianapolis, Indiana</p>
-                  <p><span className="font-semibold text-slate-900">Phone:</span> (317) 314-3757</p>
-                  <p><span className="font-semibold text-slate-900">Email:</span> our contact form</p>
-                  <p><span className="font-semibold text-slate-900">RAPIDS #:</span> 2025-IN-132301</p>
+                  <p>
+                    <span className="font-semibold text-slate-900">Legal Name:</span> 2Exclusive
+                    LLC-S (DBA Elevate for Humanity Career &amp; Technical Institute)
+                  </p>
+                  <p>
+                    <span className="font-semibold text-slate-900">Location:</span> Indianapolis,
+                    Indiana
+                  </p>
+                  <p>
+                    <span className="font-semibold text-slate-900">Phone:</span> (317) 314-3757
+                  </p>
+                  <p>
+                    <span className="font-semibold text-slate-900">Email:</span> our contact form
+                  </p>
+                  <p>
+                    <span className="font-semibold text-slate-900">RAPIDS #:</span> 2025-IN-132301
+                  </p>
                 </div>
                 <Link
                   href="/about"
@@ -117,7 +132,8 @@ export default function DisclosuresPage() {
                   alt="Approvals"
                   fill
                   className="object-cover"
-                 sizes="100vw" />
+                  sizes="100vw"
+                />
                 <div className="absolute bottom-4 left-4">
                   <h3 className="text-2xl font-bold text-slate-900">Approvals & Registrations</h3>
                 </div>
@@ -128,7 +144,7 @@ export default function DisclosuresPage() {
                     'DOL Registered Apprenticeship Sponsor',
                     'WIOA Eligible Training Provider (pursuing ETPL)',
                     'Indiana Workforce Ready Grant Aligned',
-                    'Indiana DWD Partner'
+                    'Indiana DWD Partner',
                   ].map((item, i) => (
                     <div key={i} className="flex items-center gap-3">
                       <span className="text-slate-500 flex-shrink-0">•</span>
@@ -172,8 +188,18 @@ export default function DisclosuresPage() {
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-4">
               {[
                 { title: 'Privacy Policy', href: '/privacy-policy', icon: Lock, color: 'blue' },
-                { title: 'Terms of Service', href: '/terms-of-service', icon: FileText, color: 'blue' },
-                { title: 'Accessibility', href: '/accessibility', icon: Accessibility, color: 'blue' },
+                {
+                  title: 'Terms of Service',
+                  href: '/terms-of-service',
+                  icon: FileText,
+                  color: 'blue',
+                },
+                {
+                  title: 'Accessibility',
+                  href: '/accessibility',
+                  icon: Accessibility,
+                  color: 'blue',
+                },
                 { title: 'FERPA Policy', href: '/policies/ferpa', icon: Shield, color: 'blue' },
               ].map((policy) => {
                 const Icon = policy.icon;
@@ -210,7 +236,11 @@ export default function DisclosuresPage() {
               {[
                 { title: 'Admissions Policy', href: '/policies/admissions', icon: Users },
                 { title: 'Attendance Policy', href: '/policies/attendance', icon: Clock },
-                { title: 'Academic Progress', href: '/satisfactory-academic-progress', icon: GraduationCap },
+                {
+                  title: 'Academic Progress',
+                  href: '/satisfactory-academic-progress',
+                  icon: GraduationCap,
+                },
                 { title: 'Student Code', href: '/policies/student-code', icon: Scale },
               ].map((policy) => {
                 const Icon = policy.icon;
@@ -322,11 +352,14 @@ export default function DisclosuresPage() {
                   <AlertCircle className="w-6 h-6 text-amber-600" />
                 </div>
                 <div>
-                  <h3 className="font-bold text-slate-900 text-lg mb-2">Transferability of Credits</h3>
+                  <h3 className="font-bold text-slate-900 text-lg mb-2">
+                    Transferability of Credits
+                  </h3>
                   <p className="text-slate-900">
-                    Credits earned at Elevate for Humanity are not guaranteed to transfer to other institutions. 
-                    Our programs award industry certifications and Certificates of Completion, not academic degrees. 
-                    Contact receiving institutions directly about transfer policies.
+                    Credits earned at Elevate for Humanity are not guaranteed to transfer to other
+                    institutions. Our programs award industry certifications and Certificates of
+                    Completion, not academic degrees. Contact receiving institutions directly about
+                    transfer policies.
                   </p>
                 </div>
               </div>
@@ -339,9 +372,9 @@ export default function DisclosuresPage() {
                 <div>
                   <h3 className="font-bold text-slate-900 text-lg mb-2">Program Delivery</h3>
                   <p className="text-slate-900">
-                    Programs are delivered through hybrid format combining online coursework via our LMS 
-                    with in-person instruction and hands-on training at our Indianapolis facilities. 
-                    Specific requirements vary by program.
+                    Programs are delivered through hybrid format combining online coursework via our
+                    LMS with in-person instruction and hands-on training at our Indianapolis
+                    facilities. Specific requirements vary by program.
                   </p>
                 </div>
               </div>
@@ -357,7 +390,7 @@ export default function DisclosuresPage() {
             <div>
               <h2 className="text-3xl font-bold mb-4">Have a Concern?</h2>
               <p className="text-slate-600 text-lg mb-6">
-                We take all complaints seriously. If you have a concern about our programs, 
+                We take all complaints seriously. If you have a concern about our programs,
                 policies, or services, we want to hear from you.
               </p>
               <div className="space-y-4">
@@ -388,7 +421,8 @@ export default function DisclosuresPage() {
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8">
               <h3 className="text-xl font-bold mb-4">File a Grievance</h3>
               <p className="text-slate-600 mb-6">
-                Our formal grievance process ensures your concerns are addressed promptly and fairly.
+                Our formal grievance process ensures your concerns are addressed promptly and
+                fairly.
               </p>
               <Link
                 href="/grievance"
@@ -412,11 +446,10 @@ export default function DisclosuresPage() {
             This institution is an equal opportunity provider and employer.
           </p>
           <p className="text-slate-700 mt-2">
-            Auxiliary aids and services are available upon request to individuals with disabilities. TTY/TDD: 711 (Indiana Relay)
+            Auxiliary aids and services are available upon request to individuals with disabilities.
+            TTY/TDD: 711 (Indiana Relay)
           </p>
-          <p className="text-slate-700 text-sm mt-4">
-            Last Updated: January 2026
-          </p>
+          <p className="text-slate-700 text-sm mt-4">Last Updated: January 2026</p>
         </div>
       </section>
     </div>

@@ -44,7 +44,7 @@ export default async function FederalFundedProgramsPage() {
       </div>
     );
   }
-  
+
   // Fetch federal funded programs
   const { data: dbPrograms } = await supabase
     .from('programs')
@@ -56,19 +56,14 @@ export default async function FederalFundedProgramsPage() {
   return (
     <div className="bg-white">
       <Breadcrumbs
-        items={[
-          { label: 'Programs', href: '/programs' },
-          { label: 'Federal Funded Programs' },
-        ]}
+        items={[{ label: 'Programs', href: '/programs' }, { label: 'Federal Funded Programs' }]}
       />
       {/* Hero */}
       <section className="bg-white text-white px-6 sm:px-10 lg:px-12 py-20 lg:py-28">
         <div className="mx-auto max-w-5xl text-center">
           <div className="inline-flex items-center gap-2 bg-white/20 backdrop-blur-sm px-4 py-2 rounded-full mb-6">
             <Shield className="w-5 h-5" />
-            <span className="text-sm font-semibold">
-              Federal Funded Programs
-            </span>
+            <span className="text-sm font-semibold">Federal Funded Programs</span>
           </div>
 
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black leading-tight mb-6">
@@ -78,9 +73,8 @@ export default async function FederalFundedProgramsPage() {
           </h1>
 
           <p className="text-xl sm:text-2xl text-green-100 leading-relaxed max-w-3xl mx-auto">
-            These programs are fully funded by WIOA (Workforce Innovation and
-            Opportunity Act), ETPL (Eligible Training Provider List), and WRG
-            (Workforce Ready Grant). You pay nothing.
+            These programs are fully funded by WIOA (Workforce Innovation and Opportunity Act), ETPL
+            (Eligible Training Provider List), and WRG (Workforce Ready Grant). You pay nothing.
           </p>
         </div>
       </section>
@@ -94,25 +88,21 @@ export default async function FederalFundedProgramsPage() {
 
           <div className="space-y-6 text-lg text-black leading-relaxed">
             <p>
-              The federal government recognizes that workforce development is
-              essential for economic growth. That's why programs like WIOA
-              exist—to remove financial barriers and help people access the
-              training they need to succeed.
+              The federal government recognizes that workforce development is essential for economic
+              growth. That's why programs like WIOA exist—to remove financial barriers and help
+              people access the training they need to succeed.
             </p>
 
             <p>
-              <span className="font-bold text-black">
-                You don't pay tuition.
-              </span>{' '}
-              Federal and state workforce boards cover 100% of your training
-              costs. This includes instruction, materials, certifications, and
-              sometimes even transportation or childcare assistance.
+              <span className="font-bold text-black">You don't pay tuition.</span> Federal and state
+              workforce boards cover 100% of your training costs. This includes instruction,
+              materials, certifications, and sometimes even transportation or childcare assistance.
             </p>
 
             <p>
-              These aren't loans—there's nothing to pay back. The investment is
-              in you, because when you succeed, your community succeeds. You get
-              a better job, earn more money, and contribute to the economy.
+              These aren't loans—there's nothing to pay back. The investment is in you, because when
+              you succeed, your community succeeds. You get a better job, earn more money, and
+              contribute to the economy.
             </p>
 
             <p className="text-xl font-bold text-black">
@@ -133,8 +123,8 @@ export default async function FederalFundedProgramsPage() {
             <div className="bg-white rounded-xl border-2 border-green-200 p-8">
               <h3 className="text-2xl font-bold text-black mb-4">WIOA</h3>
               <p className="text-black mb-4">
-                Workforce Innovation and Opportunity Act provides funding for
-                job training and employment services.
+                Workforce Innovation and Opportunity Act provides funding for job training and
+                employment services.
               </p>
               <Link
                 href="/wioa-eligibility"
@@ -147,13 +137,10 @@ export default async function FederalFundedProgramsPage() {
             <div className="bg-white rounded-xl border-2 border-green-200 p-8">
               <h3 className="text-2xl font-bold text-black mb-4">ETPL</h3>
               <p className="text-black mb-4">
-                Eligible Training Provider List certifies quality training
-                programs approved for federal funding.
+                Eligible Training Provider List certifies quality training programs approved for
+                federal funding.
               </p>
-              <Link
-                href="/funding"
-                className="text-brand-green-600 font-semibold hover:underline"
-              >
+              <Link href="/funding" className="text-brand-green-600 font-semibold hover:underline">
                 Learn More →
               </Link>
             </div>
@@ -161,13 +148,10 @@ export default async function FederalFundedProgramsPage() {
             <div className="bg-white rounded-xl border-2 border-green-200 p-8">
               <h3 className="text-2xl font-bold text-black mb-4">WRG</h3>
               <p className="text-black mb-4">
-                Workforce Ready Grant supports training in high-demand
-                occupations with employer partnerships.
+                Workforce Ready Grant supports training in high-demand occupations with employer
+                partnerships.
               </p>
-              <Link
-                href="/funding"
-                className="text-brand-green-600 font-semibold hover:underline"
-              >
+              <Link href="/funding" className="text-brand-green-600 font-semibold hover:underline">
                 Learn More →
               </Link>
             </div>
@@ -178,9 +162,7 @@ export default async function FederalFundedProgramsPage() {
       {/* Benefits */}
       <section className="px-6 sm:px-10 lg:px-12 py-16 lg:py-20 bg-gray-50">
         <div className="mx-auto max-w-7xl">
-          <h2 className="text-3xl font-bold text-black text-center mb-12">
-            What's Covered
-          </h2>
+          <h2 className="text-3xl font-bold text-black text-center mb-12">What's Covered</h2>
 
           <div className="grid md:grid-cols-4 gap-8">
             <div className="text-center">
@@ -196,9 +178,7 @@ export default async function FederalFundedProgramsPage() {
                 <Award className="w-8 h-8" />
               </div>
               <h3 className="font-bold text-black mb-2">Certifications</h3>
-              <p className="text-black">
-                Exam fees and credentials included
-              </p>
+              <p className="text-black">Exam fees and credentials included</p>
             </div>
 
             <div className="text-center">
@@ -206,9 +186,7 @@ export default async function FederalFundedProgramsPage() {
                 <Users className="w-8 h-8" />
               </div>
               <h3 className="font-bold text-black mb-2">Support Services</h3>
-              <p className="text-black">
-                Career counseling and job placement
-              </p>
+              <p className="text-black">Career counseling and job placement</p>
             </div>
 
             <div className="text-center">
@@ -225,9 +203,7 @@ export default async function FederalFundedProgramsPage() {
       {/* Programs */}
       <section className="px-6 sm:px-10 lg:px-12 py-16 lg:py-20">
         <div className="mx-auto max-w-7xl">
-          <h2 className="text-3xl font-bold text-black text-center mb-12">
-            Available Programs
-          </h2>
+          <h2 className="text-3xl font-bold text-black text-center mb-12">Available Programs</h2>
 
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {federalPrograms.map((program: any) => (
@@ -237,6 +213,7 @@ export default async function FederalFundedProgramsPage() {
                 className="group block bg-white rounded-xl border border-gray-200 overflow-hidden hover:shadow-xl transition-all"
               >
                 <div className="relative h-48 w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     priority
                     src={program.heroImage}
@@ -248,9 +225,7 @@ export default async function FederalFundedProgramsPage() {
                   />
                 </div>
                 <div className="p-6">
-                  <h3 className="text-xl font-bold text-black mb-2">
-                    {program.name}
-                  </h3>
+                  <h3 className="text-xl font-bold text-black mb-2">{program.name}</h3>
                   <div className="flex flex-wrap gap-2 mb-3">
                     <span className="px-3 py-2 bg-brand-green-100 text-green-700 text-xs font-semibold rounded-full">
                       {program.duration}

@@ -16,37 +16,26 @@ import {
 export function calculateWeightedGrade(
   grades: Grade[],
   assignments: Assignment[],
-  categories: GradeCategory[]
+  categories: GradeCategory[],
 ): StudentGradeSummary {
   const categoryGrades: CategoryGrade[] = [];
 
   // Calculate grade for each category
   for (const category of categories) {
-    const categoryAssignments = assignments.filter(
-      (a) => a.categoryId === category.id
-    );
+    const categoryAssignments = assignments.filter((a) => a.categoryId === category.id);
     const categoryGradeData = grades.filter((g) =>
-      categoryAssignments.some((a) => a.id === g.assignmentId)
+      categoryAssignments.some((a) => a.id === g.assignmentId),
     );
 
     // Filter out excused and dropped grades
-    const validGrades = categoryGradeData.filter(
-      (g) => !g.isExcused && !g.isDropped
-    );
+    const validGrades = categoryGradeData.filter((g) => !g.isExcused && !g.isDropped);
 
     // Drop lowest if configured
-    const gradesToCount = dropLowestGrades(
-      validGrades,
-      category.dropLowest || 0
-    );
+    const gradesToCount = dropLowestGrades(validGrades, category.dropLowest || 0);
 
     const earnedPoints = gradesToCount.reduce((sum, g) => sum + g.points, 0);
-    const possiblePoints = gradesToCount.reduce(
-      (sum, g) => sum + g.maxPoints,
-      0
-    );
-    const percentage =
-      possiblePoints > 0 ? (earnedPoints / possiblePoints) * 100 : 0;
+    const possiblePoints = gradesToCount.reduce((sum, g) => sum + g.maxPoints, 0);
+    const percentage = possiblePoints > 0 ? (earnedPoints / possiblePoints) * 100 : 0;
 
     categoryGrades.push({
       categoryId: category.id,
@@ -55,9 +44,7 @@ export function calculateWeightedGrade(
       earnedPoints,
       possiblePoints,
       percentage,
-      droppedAssignments: categoryGradeData
-        .filter((g) => g.isDropped)
-        .map((g) => g.assignmentId),
+      droppedAssignments: categoryGradeData.filter((g) => g.isDropped).map((g) => g.assignmentId),
     });
   }
 
@@ -103,7 +90,7 @@ function dropLowestGrades(grades: Grade[], dropCount: number): Grade[] {
  */
 export function getLetterGrade(
   percentage: number,
-  scale: GradeScale = DEFAULT_GRADE_SCALE
+  scale: GradeScale = DEFAULT_GRADE_SCALE,
 ): string {
   if (percentage >= scale['A']) return 'A';
   if (percentage >= scale['A-']) return 'A-';
@@ -127,7 +114,7 @@ function calculateTrend(grades: Grade[]): 'improving' | 'declining' | 'stable' {
 
   // Sort by graded date
   const sorted = [...grades].sort(
-    (a, b) => new Date(a.gradedAt).getTime() - new Date(b.gradedAt).getTime()
+    (a, b) => new Date(a.gradedAt).getTime() - new Date(b.gradedAt).getTime(),
   );
 
   // Compare recent half vs older half
@@ -135,11 +122,8 @@ function calculateTrend(grades: Grade[]): 'improving' | 'declining' | 'stable' {
   const olderGrades = sorted.slice(0, midpoint);
   const recentGrades = sorted.slice(midpoint);
 
-  const olderAvg =
-    olderGrades.reduce((sum, g) => sum + g.percentage, 0) / olderGrades.length;
-  const recentAvg =
-    recentGrades.reduce((sum, g) => sum + g.percentage, 0) /
-    recentGrades.length;
+  const olderAvg = olderGrades.reduce((sum, g) => sum + g.percentage, 0) / olderGrades.length;
+  const recentAvg = recentGrades.reduce((sum, g) => sum + g.percentage, 0) / recentGrades.length;
 
   const diff = recentAvg - olderAvg;
 
@@ -151,14 +135,8 @@ function calculateTrend(grades: Grade[]): 'improving' | 'declining' | 'stable' {
 /**
  * Calculate rubric score
  */
-export function calculateRubricScore(
-  rubricScores: any[],
-  totalPoints: number
-): number {
-  const earnedPoints = rubricScores.reduce(
-    (sum, score) => sum + score.points,
-    0
-  );
+export function calculateRubricScore(rubricScores: any[], totalPoints: number): number {
+  const earnedPoints = rubricScores.reduce((sum, score) => sum + score.points, 0);
   return (earnedPoints / totalPoints) * 100;
 }
 
@@ -169,11 +147,9 @@ export function applyLatePenalty(
   points: number,
   dueDate: Date,
   submittedAt: Date,
-  penaltyPerDay: number
+  penaltyPerDay: number,
 ): number {
-  const daysLate = Math.ceil(
-    (submittedAt.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24)
-  );
+  const daysLate = Math.ceil((submittedAt.getTime() - dueDate.getTime()) / (1000 * 60 * 60 * 24));
 
   if (daysLate <= 0) return points;
 
@@ -192,7 +168,7 @@ export function calculateWhatIfGrade(
     maxPoints: number;
   },
   assignments: Assignment[],
-  categories: GradeCategory[]
+  categories: GradeCategory[],
 ): number {
   const allGrades = [
     ...currentGrades,
@@ -201,8 +177,7 @@ export function calculateWhatIfGrade(
       id: 'what-if',
       submissionId: 'what-if',
       studentId: currentGrades[0]?.studentId || '',
-      percentage:
-        (hypotheticalGrade.points / hypotheticalGrade.maxPoints) * 100,
+      percentage: (hypotheticalGrade.points / hypotheticalGrade.maxPoints) * 100,
       gradedBy: 'system',
       gradedAt: new Date(),
       isExcused: false,

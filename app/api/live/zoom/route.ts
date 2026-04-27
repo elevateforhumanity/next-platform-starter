@@ -1,8 +1,7 @@
-
 // app/api/live/zoom/route.ts
 // API endpoint for instructors to schedule Zoom live sessions
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from "@/lib/supabase/admin";
+import { getAdminClient } from '@/lib/supabase/admin';
 import { createZoomMeeting } from '@/lib/integrations/zoom';
 import { logAuditEvent, getRequestMetadata } from '@/lib/audit';
 import { logger } from '@/lib/logger';
@@ -13,31 +12,36 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 export async function POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   // Resolve authenticated user for audit attribution
   const supabase = await getAdminClient();
   let sessionUserId: string | null = null;
   try {
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     sessionUserId = user?.id ?? null;
-  } catch { /* non-fatal — audit will record null if session unavailable */ }
+  } catch {
+    /* non-fatal — audit will record null if session unavailable */
+  }
 
   try {
-    const { courseId, topic, startTime, durationMinutes, instructorZoomId, tenantId } = await request.json();
+    const { courseId, topic, startTime, durationMinutes, instructorZoomId, tenantId } =
+      await request.json();
 
     if (!courseId || !topic || !startTime || !durationMinutes) {
       return NextResponse.json(
         { error: 'courseId, topic, startTime, durationMinutes are required' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (!instructorZoomId) {
       return NextResponse.json(
         { error: 'Instructor must be linked to Zoom account' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -67,10 +71,7 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       logger.error('Database error:', error);
-      return NextResponse.json(
-        { error: 'Failed to save live session' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to save live session' }, { status: 500 });
     }
 
     // Log audit event
@@ -83,15 +84,12 @@ export async function POST(request: NextRequest) {
       resourceId: liveSession.id,
       metadata: { topic, provider: 'zoom', meetingId: meeting.id },
       ipAddress,
-      userAgent
+      userAgent,
     });
 
     return NextResponse.json({ liveSession, meeting });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Zoom meeting creation error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

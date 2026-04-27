@@ -1,17 +1,17 @@
 import { getStripeServer } from '@/lib/stripe/get-stripe-server';
 /**
  * CANONICAL PROGRAM ENROLLMENT CHECKOUT
- * 
+ *
  * This is the single, canonical endpoint for ALL program enrollments.
  * Every program (Barber, HVAC, CPR, etc.) must use this endpoint.
- * 
+ *
  * Metadata contract:
  *   kind: 'program_enrollment'
  *   program_id: UUID from programs.id
  *   student_id: auth user id
  *   program_slug: slug for routing
  *   funding_source: 'self_pay' | 'workone' | 'wioa' | 'grant' | 'employer'
- * 
+ *
  * The webhook handler provisions student_enrollments on checkout.session.completed.
  */
 
@@ -22,8 +22,6 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
-
-
 
 type FundingSource = 'self_pay' | 'workone' | 'wioa' | 'grant' | 'employer';
 
@@ -36,16 +34,16 @@ export async function POST(request: NextRequest) {
   try {
     const stripe = await getStripeServer();
     if (!stripe) {
-      return NextResponse.json(
-        { error: 'Payment system not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
     }
 
     const supabase = await createClient();
-    
+
     // Require authentication
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -54,19 +52,19 @@ export async function POST(request: NextRequest) {
     const { program_id, funding_source = 'self_pay' } = body;
 
     if (!program_id) {
-      return NextResponse.json(
-        { error: 'program_id is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'program_id is required' }, { status: 400 });
     }
 
     // Validate funding_source
-    const validFundingSources: FundingSource[] = ['self_pay', 'workone', 'wioa', 'grant', 'employer'];
+    const validFundingSources: FundingSource[] = [
+      'self_pay',
+      'workone',
+      'wioa',
+      'grant',
+      'employer',
+    ];
     if (!validFundingSources.includes(funding_source)) {
-      return NextResponse.json(
-        { error: 'Invalid funding_source' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid funding_source' }, { status: 400 });
     }
 
     // Get program details
@@ -83,7 +81,7 @@ export async function POST(request: NextRequest) {
     if (program.status !== 'active') {
       return NextResponse.json(
         { error: 'Program is not available for enrollment' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -99,7 +97,7 @@ export async function POST(request: NextRequest) {
     if (existingEnrollment) {
       return NextResponse.json(
         { error: 'You are already enrolled in this program' },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -170,13 +168,16 @@ export async function POST(request: NextRequest) {
         program_slug: program.slug,
         funding_source: funding_source,
       },
-      payment_intent_data: amountCents > 0 ? {
-        metadata: {
-          kind: 'program_enrollment',
-          program_id: program.id,
-          student_id: user.id,
-        },
-      } : undefined,
+      payment_intent_data:
+        amountCents > 0
+          ? {
+              metadata: {
+                kind: 'program_enrollment',
+                program_id: program.id,
+                student_id: user.id,
+              },
+            }
+          : undefined,
     };
 
     // Only add payment method types for paid checkouts
@@ -187,10 +188,7 @@ export async function POST(request: NextRequest) {
     const session = await stripe.checkout.sessions.create(sessionParams);
 
     if (!session.url) {
-      return NextResponse.json(
-        { error: 'Failed to create checkout session' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
     }
 
     logger.info('Program enrollment checkout created', {
@@ -208,11 +206,11 @@ export async function POST(request: NextRequest) {
       session_id: session.id,
     });
   } catch (error) {
-    logger.error('Program enrollment checkout error', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json(
-      { error: 'Failed to create checkout session' },
-      { status: 500 }
+    logger.error(
+      'Program enrollment checkout error',
+      error instanceof Error ? error : new Error(String(error)),
     );
+    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
   }
 }
 
@@ -227,13 +225,15 @@ export async function GET() {
     authentication: 'Required (user must be logged in)',
     request: {
       program_id: 'UUID - Required - The program ID from programs.id',
-      funding_source: 'Optional - One of: self_pay, workone, wioa, grant, employer (default: self_pay)',
+      funding_source:
+        'Optional - One of: self_pay, workone, wioa, grant, employer (default: self_pay)',
     },
     response: {
       success: 'boolean',
       url: 'Stripe checkout URL to redirect user',
       session_id: 'Stripe session ID for tracking',
     },
-    webhook_provisioning: 'On checkout.session.completed, student_enrollments is created with status=active',
+    webhook_provisioning:
+      'On checkout.session.completed, student_enrollments is created with status=active',
   });
 }

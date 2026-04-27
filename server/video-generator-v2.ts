@@ -62,14 +62,13 @@ export interface VideoGenerationResponse {
  * Generate complete video from scenes
  */
 export async function generateVideo(
-  request: VideoGenerationRequest
+  request: VideoGenerationRequest,
 ): Promise<VideoGenerationResponse> {
   const jobId = `video-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   const tempDir = path.join(process.cwd(), 'temp', jobId);
   const outputDir = path.join(process.cwd(), 'output');
 
   try {
-
     // Create directories
     await fs.mkdir(tempDir, { recursive: true });
     await fs.mkdir(outputDir, { recursive: true });
@@ -100,11 +99,7 @@ export async function generateVideo(
       let audioPath: string | undefined;
       if (request.settings.voiceOver && scene.voiceOver && scene.script) {
         const voice = request.settings.voice || 'alloy';
-        const audioBuffer = await generateTextToSpeech(
-          scene.script,
-          voice,
-          1.0
-        );
+        const audioBuffer = await generateTextToSpeech(scene.script, voice, 1.0);
         audioPath = path.join(tempDir, `scene-${i + 1}-audio.mp3`);
         await fs.writeFile(audioPath, audioBuffer);
       }
@@ -128,7 +123,6 @@ export async function generateVideo(
       await renderScene(renderSceneData, sceneVideoPath, renderOptions);
       sceneVideoPaths.push(sceneVideoPath);
       totalDuration += scene.duration;
-
     }
 
     // Concatenate all scenes
@@ -144,7 +138,7 @@ export async function generateVideo(
         concatenatedPath,
         request.settings.musicPath,
         finalVideoPath,
-        musicVolume
+        musicVolume,
       );
     } else {
       // Move concatenated video to output
@@ -155,7 +149,6 @@ export async function generateVideo(
     // Clean up temporary files
     await cleanupTempFiles(tempDir);
 
-
     return {
       jobId,
       status: 'completed',
@@ -164,7 +157,6 @@ export async function generateVideo(
       progress: 100,
     };
   } catch (error) {
-
     // Clean up on error
     await cleanupTempFiles(tempDir).catch(() => {});
 
@@ -253,10 +245,7 @@ export interface VideoJobStatus {
 // In-memory job tracking (in production, use Redis or database)
 const jobStatuses = new Map<string, VideoJobStatus>();
 
-export function updateJobStatus(
-  jobId: string,
-  status: Partial<VideoJobStatus>
-): void {
+export function updateJobStatus(jobId: string, status: Partial<VideoJobStatus>): void {
   const existing = jobStatuses.get(jobId) || {
     jobId,
     status: 'pending',

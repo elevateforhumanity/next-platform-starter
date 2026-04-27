@@ -22,21 +22,15 @@ const _GET = withAuth(
 
       if (error) {
         logger.error('Supabase query error:', error);
-        return NextResponse.json(
-          { error: 'Failed to fetch acknowledgements' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to fetch acknowledgements' }, { status: 500 });
       }
 
       return NextResponse.json({ acknowledgements: data || [] });
     } catch (err: any) {
-      logger.error(
-        'API error:',
-        err instanceof Error ? err : new Error(String(err))
-      );
+      logger.error('API error:', err instanceof Error ? err : new Error(String(err)));
       return NextResponse.json({ error: 'Unexpected error' }, { status: 500 });
     }
   },
-  { roles: ['admin', 'super_admin'] }
+  { roles: ['admin', 'super_admin'] },
 );
 export const GET = withApiAudit('/api/admin/program-holder-acknowledgements', _GET);

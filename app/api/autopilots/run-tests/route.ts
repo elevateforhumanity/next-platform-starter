@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-
 import { gh, parseRepo } from '@/lib/github';
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
@@ -40,9 +39,7 @@ async function _POST(req: NextRequest) {
     });
 
     const courseFiles =
-      tree.tree?.filter(
-        (file) => file.path?.includes('/courses/') && file.type === 'blob'
-      ) || [];
+      tree.tree?.filter((file) => file.path?.includes('/courses/') && file.type === 'blob') || [];
 
     // Check for metadata.json in each course folder
     const courseFolders = new Set<string>();
@@ -52,9 +49,7 @@ async function _POST(req: NextRequest) {
     });
 
     for (const folder of courseFolders) {
-      const hasMetadata = courseFiles.some(
-        (f) => f.path === `courses/${folder}/metadata.json`
-      );
+      const hasMetadata = courseFiles.some((f) => f.path === `courses/${folder}/metadata.json`);
 
       if (!hasMetadata) {
         results.missingMetadata.push(folder);
@@ -84,21 +79,17 @@ async function _POST(req: NextRequest) {
         total: totalTests,
         passed: results.passed,
         failed: results.failed,
-        passRate:
-          totalTests > 0 ? ((results.passed / totalTests) * 100).toFixed(1) : 0,
+        passRate: totalTests > 0 ? ((results.passed / totalTests) * 100).toFixed(1) : 0,
       },
     });
-  } catch (error) { 
-    logger.error(
-      'Run tests error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Run tests error:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
       {
         error: 'Failed to run tests',
         message: toErrorMessage(error),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

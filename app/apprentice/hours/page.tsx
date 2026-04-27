@@ -15,14 +15,17 @@ export const dynamic = 'force-dynamic';
 
 export default async function ApprenticeHoursPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) redirect('/login?redirect=/apprentice/hours');
 
   // Fetch hours from consolidated hour_entries table
   const { data: hoursData, error } = await supabase
     .from('hour_entries')
-    .select(`
+    .select(
+      `
       id,
       work_date,
       hours_claimed,
@@ -32,7 +35,8 @@ export default async function ApprenticeHoursPage() {
       source_type,
       category,
       created_at
-    `)
+    `,
+    )
     .eq('user_id', user.id)
     .order('work_date', { ascending: false })
     .limit(20);
@@ -57,11 +61,11 @@ export default async function ApprenticeHoursPage() {
     .maybeSingle();
 
   const PROGRAM_REQUIRED_HOURS: Record<string, number> = {
-    'barber-apprenticeship':            2000,
-    'cosmetology-apprenticeship':       2000,
-    'esthetician-apprenticeship':        700,
-    'nail-tech-apprenticeship':          450,
-    'nail-technician-apprenticeship':    450, // legacy alias
+    'barber-apprenticeship': 2000,
+    'cosmetology-apprenticeship': 2000,
+    'esthetician-apprenticeship': 700,
+    'nail-tech-apprenticeship': 450,
+    'nail-technician-apprenticeship': 450, // legacy alias
   };
   const requiredHours = PROGRAM_REQUIRED_HOURS[activeEnrollment?.program_slug ?? ''] ?? 2000;
   const progressPercent = Math.min(Math.round((approvedHours / requiredHours) * 100), 100);
@@ -115,10 +119,12 @@ export default async function ApprenticeHoursPage() {
         <div className="bg-white rounded-xl border p-6 mb-6">
           <div className="flex items-center justify-between mb-4">
             <h2 className="font-semibold text-slate-900">Apprenticeship Progress</h2>
-            <span className="text-sm text-slate-700">{approvedHours} / {requiredHours} hours</span>
+            <span className="text-sm text-slate-700">
+              {approvedHours} / {requiredHours} hours
+            </span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-4 mb-2">
-            <div 
+            <div
               className="bg-white h-4 rounded-full transition-all"
               style={{ width: `${progressPercent}%` }}
             />
@@ -191,17 +197,21 @@ export default async function ApprenticeHoursPage() {
                         day: 'numeric',
                       })}
                     </p>
-                    <p className="text-sm text-slate-700">{log.notes || log.source_type?.toUpperCase() || 'Apprenticeship work'}</p>
+                    <p className="text-sm text-slate-700">
+                      {log.notes || log.source_type?.toUpperCase() || 'Apprenticeship work'}
+                    </p>
                   </div>
                   <div className="flex items-center gap-4">
                     <span className="font-semibold text-slate-900">{log.hours_claimed} hrs</span>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      log.status === 'approved' 
-                        ? 'bg-brand-green-100 text-brand-green-700'
-                        : log.status === 'rejected'
-                        ? 'bg-brand-red-100 text-brand-red-700'
-                        : 'bg-yellow-100 text-yellow-700'
-                    }`}>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        log.status === 'approved'
+                          ? 'bg-brand-green-100 text-brand-green-700'
+                          : log.status === 'rejected'
+                            ? 'bg-brand-red-100 text-brand-red-700'
+                            : 'bg-yellow-100 text-yellow-700'
+                      }`}
+                    >
                       {log.status || 'Pending'}
                     </span>
                   </div>
@@ -209,7 +219,10 @@ export default async function ApprenticeHoursPage() {
               ))}
             </div>
             <div className="px-6 py-4 border-t bg-white">
-              <Link href="/apprentice/hours/history" className="text-brand-blue-600 hover:underline text-sm">
+              <Link
+                href="/apprentice/hours/history"
+                className="text-brand-blue-600 hover:underline text-sm"
+              >
                 View all entries →
               </Link>
             </div>
@@ -219,7 +232,7 @@ export default async function ApprenticeHoursPage() {
             <Clock className="w-16 h-16 text-slate-700 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-slate-900 mb-2">No hours logged yet</h2>
             <p className="text-slate-700 mb-6">Start tracking your apprenticeship hours.</p>
-            <Link 
+            <Link
               href="/apprentice/hours/log"
               className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700"
             >

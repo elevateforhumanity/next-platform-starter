@@ -21,13 +21,9 @@ import { getTenantContext, TenantContextError } from '@/lib/tenant';
 export async function GET() {
   try {
     const { tenantId, userId, role } = await getTenantContext();
-    
+
     // Query with tenant_id filter
-    const { data } = await supabase
-      .from('profiles')
-      .select('*')
-      .eq('tenant_id', tenantId);
-      
+    const { data } = await supabase.from('profiles').select('*').eq('tenant_id', tenantId);
   } catch (error) {
     if (error instanceof TenantContextError) {
       return NextResponse.json({ error: error.message }, { status: error.statusCode });
@@ -49,11 +45,11 @@ if (!context) {
 
 ## Files
 
-| File | Purpose |
-|------|---------|
+| File                  | Purpose                                |
+| --------------------- | -------------------------------------- |
 | `getTenantContext.ts` | Extract tenant from authenticated user |
-| `requireTenant.ts` | Extract tenant from request headers |
-| `index.ts` | Public exports |
+| `requireTenant.ts`    | Extract tenant from request headers    |
+| `index.ts`            | Public exports                         |
 
 ## Database
 

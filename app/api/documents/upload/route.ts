@@ -74,13 +74,7 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
   }
 
   // Validate file type
-  const allowedTypes = [
-    'application/pdf',
-    'image/jpeg',
-    'image/jpg',
-    'image/png',
-    'image/webp',
-  ];
+  const allowedTypes = ['application/pdf', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
   if (!allowedTypes.includes(file.type)) {
     throw APIErrors.badRequest('Invalid file type. Only PDF and images are allowed', {
       allowedTypes,
@@ -104,15 +98,19 @@ export const POST = withErrorHandling(async (request: NextRequest) => {
     throw APIErrors.external('Supabase Storage', 'Failed to upload file');
   }
 
-    // Bucket is private — do not use getPublicUrl().
-    // Store file_path only; generate signed URLs on-demand for viewing.
+  // Bucket is private — do not use getPublicUrl().
+  // Store file_path only; generate signed URLs on-demand for viewing.
 
   // Parse and validate metadata
   let parsedMetadata = {};
   if (metadata) {
     try {
       parsedMetadata = JSON.parse(metadata);
-      if (typeof parsedMetadata !== 'object' || parsedMetadata === null || Array.isArray(parsedMetadata)) {
+      if (
+        typeof parsedMetadata !== 'object' ||
+        parsedMetadata === null ||
+        Array.isArray(parsedMetadata)
+      ) {
         throw APIErrors.validation('metadata', 'Metadata must be a valid JSON object');
       }
     } catch (parseError) {

@@ -31,10 +31,7 @@ async function _GET(req: Request) {
       try {
         await requireRole(user.id, 'admin');
       } catch (error) {
-        return NextResponse.json(
-          { error: 'Insufficient permissions' },
-          { status: 403 }
-        );
+        return NextResponse.json({ error: 'Insufficient permissions' }, { status: 403 });
       }
     }
 
@@ -43,10 +40,7 @@ async function _GET(req: Request) {
       message: 'Access granted to secure admin endpoint',
     });
   } catch (err: any) {
-    return NextResponse.json(
-      { err: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ err: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/admin/secure', _GET);

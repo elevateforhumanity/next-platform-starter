@@ -83,14 +83,16 @@ export function GradebookClient({
 
     const avgQuiz =
       studentQuizzes.length > 0
-        ? studentQuizzes.reduce((sum, q) => sum + (q.max_score > 0 ? (q.score / q.max_score) * 100 : 0), 0) /
-          studentQuizzes.length
+        ? studentQuizzes.reduce(
+            (sum, q) => sum + (q.max_score > 0 ? (q.score / q.max_score) * 100 : 0),
+            0,
+          ) / studentQuizzes.length
         : null;
 
     const overall =
       avgAssignment !== null && avgQuiz !== null
         ? (avgAssignment + avgQuiz) / 2
-        : avgAssignment ?? avgQuiz ?? 0;
+        : (avgAssignment ?? avgQuiz ?? 0);
 
     return {
       ...enrollment,
@@ -112,7 +114,7 @@ export function GradebookClient({
     const rows = studentGrades
       .map(
         (s) =>
-          `"${s.profile.full_name}","${s.profile.email}",${s.progress}%,${s.assignmentAvg?.toFixed(1) ?? '-'},${s.quizAvg?.toFixed(1) ?? '-'},${s.overall}%,${s.letterGrade}`
+          `"${s.profile.full_name}","${s.profile.email}",${s.progress}%,${s.assignmentAvg?.toFixed(1) ?? '-'},${s.quizAvg?.toFixed(1) ?? '-'},${s.overall}%,${s.letterGrade}`,
       )
       .join('\n');
     const csv = header + rows;
@@ -164,7 +166,9 @@ export function GradebookClient({
           <button
             onClick={() => setTab('overview')}
             className={`px-4 py-2 rounded-lg text-sm font-medium ${
-              tab === 'overview' ? 'bg-brand-blue-600 text-white' : 'bg-white text-slate-900 hover:bg-gray-50'
+              tab === 'overview'
+                ? 'bg-brand-blue-600 text-white'
+                : 'bg-white text-slate-900 hover:bg-gray-50'
             }`}
           >
             Grade Overview
@@ -172,7 +176,9 @@ export function GradebookClient({
           <button
             onClick={() => setTab('speedgrader')}
             className={`px-4 py-2 rounded-lg text-sm font-medium ${
-              tab === 'speedgrader' ? 'bg-brand-blue-600 text-white' : 'bg-white text-slate-900 hover:bg-gray-50'
+              tab === 'speedgrader'
+                ? 'bg-brand-blue-600 text-white'
+                : 'bg-white text-slate-900 hover:bg-gray-50'
             }`}
           >
             SpeedGrader
@@ -302,7 +308,8 @@ export function GradebookClient({
                       studentId: s.user_id,
                       submittedAt: new Date(s.submitted_at),
                       content: s.content || '',
-                      status: (s.status as 'submitted' | 'graded' | 'returned' | 'late') || 'submitted',
+                      status:
+                        (s.status as 'submitted' | 'graded' | 'returned' | 'late') || 'submitted',
                       isLate: false,
                     }))}
                   assignment={{

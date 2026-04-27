@@ -1,7 +1,4 @@
-export function checkBrokenLinks(
-  treePaths: string[],
-  metadata: Record<string, any>
-) {
+export function checkBrokenLinks(treePaths: string[], metadata: Record<string, any>) {
   const missing: string[] = [];
   const found: string[] = [];
 
@@ -38,10 +35,7 @@ export function checkBrokenLinks(
   };
 }
 
-export function checkMetadataFile(
-  treePaths: string[],
-  courseSlug: string
-): boolean {
+export function checkMetadataFile(treePaths: string[], courseSlug: string): boolean {
   const metadataPath = `courses/${courseSlug}/metadata.json`;
   return treePaths.includes(metadataPath);
 }
@@ -64,9 +58,7 @@ export function checkCourseStructure(treePaths: string[], courseSlug: string) {
   });
 
   // Find all lessons
-  const lessonPattern = new RegExp(
-    `^courses/${courseSlug}/modules/[^/]+/(.+\\.(html|md))$`
-  );
+  const lessonPattern = new RegExp(`^courses/${courseSlug}/modules/[^/]+/(.+\\.(html|md))$`);
   treePaths.forEach((path) => {
     if (lessonPattern.test(path)) {
       structure.lessons.push(path);

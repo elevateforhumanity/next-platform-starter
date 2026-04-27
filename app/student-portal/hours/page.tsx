@@ -1,6 +1,4 @@
-
 export const revalidate = 3600;
-
 
 import Image from 'next/image';
 import { Metadata } from 'next';
@@ -13,20 +11,26 @@ export const metadata: Metadata = {
 };
 
 export default function HoursPage() {
-
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/student-portal-page-6.jpg" alt="Student portal" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/student-portal-page-6.jpg"
+          alt="Student portal"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs 
+        <Breadcrumbs
           items={[
             { label: 'Student Portal', href: '/student-portal' },
-            { label: 'Hours & Progress' }
-          ]} 
+            { label: 'Hours & Progress' },
+          ]}
         />
       </div>
 

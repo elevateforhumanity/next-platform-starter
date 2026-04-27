@@ -3,8 +3,16 @@
 import { useState, useEffect, useRef } from 'react';
 import Link from 'next/link';
 import {
-  FileText, Upload, Download, CheckCircle2, Clock,
-  XCircle, AlertTriangle, Trash2, RefreshCw, Info,
+  FileText,
+  Upload,
+  Download,
+  CheckCircle2,
+  Clock,
+  XCircle,
+  AlertTriangle,
+  Trash2,
+  RefreshCw,
+  Info,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -34,17 +42,19 @@ type UploadedDoc = {
 };
 
 const STATUS_CONFIG = {
-  pending:  { label: 'Under Review', icon: Clock,         cls: 'bg-amber-100 text-amber-800' },
-  approved: { label: 'Approved',     icon: CheckCircle2,  cls: 'bg-green-100 text-green-800' },
-  rejected: { label: 'Rejected',     icon: XCircle,       cls: 'bg-red-100 text-red-800' },
-  expired:  { label: 'Expired',      icon: AlertTriangle, cls: 'bg-slate-100 text-slate-600' },
+  pending: { label: 'Under Review', icon: Clock, cls: 'bg-amber-100 text-amber-800' },
+  approved: { label: 'Approved', icon: CheckCircle2, cls: 'bg-green-100 text-green-800' },
+  rejected: { label: 'Rejected', icon: XCircle, cls: 'bg-red-100 text-red-800' },
+  expired: { label: 'Expired', icon: AlertTriangle, cls: 'bg-slate-100 text-slate-600' },
 };
 
 function StatusBadge({ status }: { status: UploadedDoc['status'] }) {
   const cfg = STATUS_CONFIG[status] ?? STATUS_CONFIG.pending;
   const Icon = cfg.icon;
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${cfg.cls}`}>
+    <span
+      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-semibold ${cfg.cls}`}
+    >
       <Icon className="w-3 h-3" /> {cfg.label}
     </span>
   );
@@ -88,7 +98,9 @@ export default function DocumentsClient() {
     }
   };
 
-  useEffect(() => { load(); }, []);
+  useEffect(() => {
+    load();
+  }, []);
 
   // Map uploaded docs by document_type for quick lookup
   const uploadedByType: Record<string, UploadedDoc> = {};
@@ -98,27 +110,27 @@ export default function DocumentsClient() {
 
   const handleFileSelect = async (docType: DocType, file: File) => {
     const typeId = docType.id;
-    setUploadError(p => ({ ...p, [typeId]: '' }));
-    setUploadSuccess(p => ({ ...p, [typeId]: false }));
+    setUploadError((p) => ({ ...p, [typeId]: '' }));
+    setUploadSuccess((p) => ({ ...p, [typeId]: false }));
 
     // Client-side validation
     const ext = file.name.split('.').pop()?.toLowerCase() ?? '';
     if (!docType.accepted_formats.includes(ext)) {
-      setUploadError(p => ({
+      setUploadError((p) => ({
         ...p,
         [typeId]: `Invalid file type. Accepted: ${docType.accepted_formats.join(', ').toUpperCase()}`,
       }));
       return;
     }
     if (file.size > docType.max_file_size_mb * 1024 * 1024) {
-      setUploadError(p => ({
+      setUploadError((p) => ({
         ...p,
         [typeId]: `File too large. Maximum: ${docType.max_file_size_mb} MB`,
       }));
       return;
     }
 
-    setUploading(p => ({ ...p, [typeId]: true }));
+    setUploading((p) => ({ ...p, [typeId]: true }));
 
     try {
       const form = new FormData();
@@ -130,16 +142,16 @@ export default function DocumentsClient() {
       const data = await res.json();
 
       if (!res.ok) {
-        setUploadError(p => ({ ...p, [typeId]: data.error ?? 'Upload failed' }));
+        setUploadError((p) => ({ ...p, [typeId]: data.error ?? 'Upload failed' }));
         return;
       }
 
-      setUploadSuccess(p => ({ ...p, [typeId]: true }));
+      setUploadSuccess((p) => ({ ...p, [typeId]: true }));
       await load(); // Refresh list
     } catch {
-      setUploadError(p => ({ ...p, [typeId]: 'Upload failed. Please try again.' }));
+      setUploadError((p) => ({ ...p, [typeId]: 'Upload failed. Please try again.' }));
     } finally {
-      setUploading(p => ({ ...p, [typeId]: false }));
+      setUploading((p) => ({ ...p, [typeId]: false }));
       // Reset file input
       if (fileInputRefs.current[typeId]) {
         fileInputRefs.current[typeId]!.value = '';
@@ -149,7 +161,7 @@ export default function DocumentsClient() {
 
   const handleDelete = async (doc: UploadedDoc) => {
     if (!confirm(`Delete "${doc.file_name}"? This cannot be undone.`)) return;
-    setDeleting(p => ({ ...p, [doc.id]: true }));
+    setDeleting((p) => ({ ...p, [doc.id]: true }));
     try {
       const res = await fetch(`/api/apprentice/documents?id=${doc.id}`, { method: 'DELETE' });
       if (!res.ok) {
@@ -159,13 +171,15 @@ export default function DocumentsClient() {
       }
       await load();
     } finally {
-      setDeleting(p => ({ ...p, [doc.id]: false }));
+      setDeleting((p) => ({ ...p, [doc.id]: false }));
     }
   };
 
-  const required = docTypes.filter(d => d.is_required);
-  const optional = docTypes.filter(d => !d.is_required);
-  const requiredComplete = required.filter(d => uploadedByType[d.document_type]?.status === 'approved').length;
+  const required = docTypes.filter((d) => d.is_required);
+  const optional = docTypes.filter((d) => !d.is_required);
+  const requiredComplete = required.filter(
+    (d) => uploadedByType[d.document_type]?.status === 'approved',
+  ).length;
   const requiredTotal = required.length;
 
   if (loading) {
@@ -183,15 +197,13 @@ export default function DocumentsClient() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Apprentice Portal', href: '/apprentice' },
-            { label: 'Documents' },
-          ]} />
+          <Breadcrumbs
+            items={[{ label: 'Apprentice Portal', href: '/apprentice' }, { label: 'Documents' }]}
+          />
         </div>
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-8">
-
         {/* Header */}
         <div className="flex items-start justify-between gap-4 mb-6">
           <div>
@@ -220,18 +232,23 @@ export default function DocumentsClient() {
           <div className="bg-white rounded-xl border border-slate-200 p-5 mb-8">
             <div className="flex items-center justify-between mb-2">
               <span className="text-sm font-semibold text-slate-700">Required Documents</span>
-              <span className="text-sm text-slate-500">{requiredComplete} of {requiredTotal} approved</span>
+              <span className="text-sm text-slate-500">
+                {requiredComplete} of {requiredTotal} approved
+              </span>
             </div>
             <div className="w-full bg-slate-100 rounded-full h-2.5">
               <div
                 className="bg-brand-blue-600 h-2.5 rounded-full transition-all"
-                style={{ width: `${requiredTotal > 0 ? (requiredComplete / requiredTotal) * 100 : 0}%` }}
+                style={{
+                  width: `${requiredTotal > 0 ? (requiredComplete / requiredTotal) * 100 : 0}%`,
+                }}
               />
             </div>
             {requiredComplete < requiredTotal && (
               <p className="text-xs text-amber-700 mt-2 flex items-center gap-1">
                 <Info className="w-3.5 h-3.5" />
-                All required documents must be approved before your apprenticeship can be activated in RAPIDS.
+                All required documents must be approved before your apprenticeship can be activated
+                in RAPIDS.
               </p>
             )}
           </div>
@@ -245,7 +262,9 @@ export default function DocumentsClient() {
               <p className="font-semibold text-amber-900">Document list not yet configured</p>
               <p className="text-sm text-amber-700 mt-1">
                 Ask your program administrator to apply migration{' '}
-                <code className="font-mono text-xs bg-amber-100 px-1 rounded">20260527000003_apprentice_document_system.sql</code>{' '}
+                <code className="font-mono text-xs bg-amber-100 px-1 rounded">
+                  20260527000003_apprentice_document_system.sql
+                </code>{' '}
                 in the Supabase Dashboard.
               </p>
             </div>
@@ -259,7 +278,7 @@ export default function DocumentsClient() {
               Required ({required.length})
             </h2>
             <div className="space-y-3">
-              {required.map(dt => (
+              {required.map((dt) => (
                 <DocRow
                   key={dt.id}
                   docType={dt}
@@ -268,7 +287,9 @@ export default function DocumentsClient() {
                   uploadError={uploadError[dt.id] ?? ''}
                   uploadSuccess={uploadSuccess[dt.id] ?? false}
                   deleting={deleting}
-                  fileInputRef={(el) => { fileInputRefs.current[dt.id] = el; }}
+                  fileInputRef={(el) => {
+                    fileInputRefs.current[dt.id] = el;
+                  }}
                   onFileSelect={(f) => handleFileSelect(dt, f)}
                   onDelete={handleDelete}
                 />
@@ -284,7 +305,7 @@ export default function DocumentsClient() {
               Optional / Conditional ({optional.length})
             </h2>
             <div className="space-y-3">
-              {optional.map(dt => (
+              {optional.map((dt) => (
                 <DocRow
                   key={dt.id}
                   docType={dt}
@@ -293,7 +314,9 @@ export default function DocumentsClient() {
                   uploadError={uploadError[dt.id] ?? ''}
                   uploadSuccess={uploadSuccess[dt.id] ?? false}
                   deleting={deleting}
-                  fileInputRef={(el) => { fileInputRefs.current[dt.id] = el; }}
+                  fileInputRef={(el) => {
+                    fileInputRefs.current[dt.id] = el;
+                  }}
                   onFileSelect={(f) => handleFileSelect(dt, f)}
                   onDelete={handleDelete}
                 />
@@ -306,10 +329,18 @@ export default function DocumentsClient() {
         <div className="mt-10 bg-white rounded-xl border border-slate-200 p-5">
           <h3 className="font-semibold text-slate-900 text-sm mb-3">Quick Links</h3>
           <div className="flex flex-wrap gap-4 text-sm">
-            <Link href="/apprentice/handbook" className="text-brand-blue-600 hover:underline">Apprentice Handbook</Link>
-            <Link href="/apprentice/hours" className="text-brand-blue-600 hover:underline">Log Hours</Link>
-            <Link href="/apprentice/competencies" className="text-brand-blue-600 hover:underline">Competency Progress</Link>
-            <Link href="/apprentice/transfer-hours" className="text-brand-blue-600 hover:underline">Transfer Hours</Link>
+            <Link href="/apprentice/handbook" className="text-brand-blue-600 hover:underline">
+              Apprentice Handbook
+            </Link>
+            <Link href="/apprentice/hours" className="text-brand-blue-600 hover:underline">
+              Log Hours
+            </Link>
+            <Link href="/apprentice/competencies" className="text-brand-blue-600 hover:underline">
+              Competency Progress
+            </Link>
+            <Link href="/apprentice/transfer-hours" className="text-brand-blue-600 hover:underline">
+              Transfer Hours
+            </Link>
           </div>
         </div>
       </div>
@@ -340,24 +371,45 @@ function DocRow({
   onDelete: (doc: UploadedDoc) => void;
 }) {
   const hasApproved = existing?.status === 'approved';
-  const hasPending  = existing?.status === 'pending';
+  const hasPending = existing?.status === 'pending';
   const hasRejected = existing?.status === 'rejected';
 
   return (
-    <div className={`bg-white rounded-xl border shadow-sm p-5 ${
-      hasApproved ? 'border-green-200' :
-      hasRejected ? 'border-red-200' :
-      hasPending  ? 'border-amber-200' :
-      'border-slate-200'
-    }`}>
+    <div
+      className={`bg-white rounded-xl border shadow-sm p-5 ${
+        hasApproved
+          ? 'border-green-200'
+          : hasRejected
+            ? 'border-red-200'
+            : hasPending
+              ? 'border-amber-200'
+              : 'border-slate-200'
+      }`}
+    >
       <div className="flex items-start justify-between gap-4">
         <div className="flex items-start gap-3 flex-1 min-w-0">
-          <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${
-            hasApproved ? 'bg-green-100' : hasPending ? 'bg-amber-100' : hasRejected ? 'bg-red-100' : 'bg-slate-100'
-          }`}>
-            <FileText className={`w-5 h-5 ${
-              hasApproved ? 'text-green-600' : hasPending ? 'text-amber-600' : hasRejected ? 'text-red-600' : 'text-slate-400'
-            }`} />
+          <div
+            className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 mt-0.5 ${
+              hasApproved
+                ? 'bg-green-100'
+                : hasPending
+                  ? 'bg-amber-100'
+                  : hasRejected
+                    ? 'bg-red-100'
+                    : 'bg-slate-100'
+            }`}
+          >
+            <FileText
+              className={`w-5 h-5 ${
+                hasApproved
+                  ? 'text-green-600'
+                  : hasPending
+                    ? 'text-amber-600'
+                    : hasRejected
+                      ? 'text-red-600'
+                      : 'text-slate-400'
+              }`}
+            />
           </div>
           <div className="flex-1 min-w-0">
             <div className="flex items-center gap-2 flex-wrap">
@@ -371,7 +423,8 @@ function DocRow({
               <p className="text-xs text-slate-500 mt-1 leading-relaxed">{docType.description}</p>
             )}
             <p className="text-xs text-slate-400 mt-1">
-              Accepted: {docType.accepted_formats.map(f => f.toUpperCase()).join(', ')} · Max {docType.max_file_size_mb} MB
+              Accepted: {docType.accepted_formats.map((f) => f.toUpperCase()).join(', ')} · Max{' '}
+              {docType.max_file_size_mb} MB
             </p>
 
             {/* Existing file info */}
@@ -382,7 +435,13 @@ function DocRow({
                   {existing.file_size_bytes ? ` (${formatBytes(existing.file_size_bytes)})` : ''}
                 </span>
                 <span className="text-xs text-slate-400">
-                  Uploaded {new Date(existing.uploaded_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                  Uploaded{' '}
+                  {new Date(existing.uploaded_at).toLocaleDateString('en-US', {
+                    timeZone: 'UTC',
+                    month: 'short',
+                    day: 'numeric',
+                    year: 'numeric',
+                  })}
                 </span>
                 {existing.signed_url && (
                   <a
@@ -436,27 +495,35 @@ function DocRow({
 
           {/* Upload button — hidden if approved */}
           {!hasApproved && (
-            <label className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition ${
-              uploading
-                ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
-                : existing
-                ? 'bg-amber-50 border border-amber-300 text-amber-800 hover:bg-amber-100'
-                : 'bg-brand-blue-600 text-white hover:bg-brand-blue-700'
-            }`}>
+            <label
+              className={`inline-flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold cursor-pointer transition ${
+                uploading
+                  ? 'bg-slate-100 text-slate-400 cursor-not-allowed'
+                  : existing
+                    ? 'bg-amber-50 border border-amber-300 text-amber-800 hover:bg-amber-100'
+                    : 'bg-brand-blue-600 text-white hover:bg-brand-blue-700'
+              }`}
+            >
               {uploading ? (
-                <><RefreshCw className="w-3.5 h-3.5 animate-spin" /> Uploading…</>
+                <>
+                  <RefreshCw className="w-3.5 h-3.5 animate-spin" /> Uploading…
+                </>
               ) : existing ? (
-                <><Upload className="w-3.5 h-3.5" /> Replace</>
+                <>
+                  <Upload className="w-3.5 h-3.5" /> Replace
+                </>
               ) : (
-                <><Upload className="w-3.5 h-3.5" /> Upload</>
+                <>
+                  <Upload className="w-3.5 h-3.5" /> Upload
+                </>
               )}
               <input
                 type="file"
                 className="sr-only"
                 disabled={uploading}
-                accept={docType.accepted_formats.map(f => `.${f}`).join(',')}
+                accept={docType.accepted_formats.map((f) => `.${f}`).join(',')}
                 ref={fileInputRef}
-                onChange={e => {
+                onChange={(e) => {
                   const f = e.target.files?.[0];
                   if (f) onFileSelect(f);
                 }}
@@ -465,9 +532,7 @@ function DocRow({
           )}
 
           {/* Approved checkmark */}
-          {hasApproved && (
-            <CheckCircle2 className="w-5 h-5 text-green-600" />
-          )}
+          {hasApproved && <CheckCircle2 className="w-5 h-5 text-green-600" />}
         </div>
       </div>
     </div>

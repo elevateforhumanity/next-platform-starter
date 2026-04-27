@@ -13,21 +13,12 @@
     <meta name="author" content="Elevate for Humanity" />
     <meta name="robots" content="index, follow" />
     <meta property="og:type" content="website" />
-    <meta
-      property="og:title"
-      content="Elevate for Humanity - Workforce Development"
-    />
-    <meta
-      property="og:description"
-      content="Government-approved career training platform"
-    />
+    <meta property="og:title" content="Elevate for Humanity - Workforce Development" />
+    <meta property="og:description" content="Government-approved career training platform" />
     <meta property="twitter:card" content="summary_large_image" />
 
     <!-- Google Analytics -->
-    <script
-      async
-      src="https://www.googletagmanager.com/gtag/js?id=G-V9BC7WPMQC"
-    ></script>
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-V9BC7WPMQC"></script>
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
@@ -50,30 +41,20 @@
   </head>
   <body class="bg-gray-50 min-h-screen">
     <!-- Navigation Header -->
-    <nav
-      role="navigation"
-      class="bg-white border-b border-gray-200 sticky top-0 z-50"
-    >
+    <nav role="navigation" class="bg-white border-b border-gray-200 sticky top-0 z-50">
       <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div class="flex justify-between h-16">
           <div class="flex items-center">
             <a href="compliance.html" class="flex items-center">
-              <i
-                data-lucide="arrow-left"
-                class="h-5 w-5 mr-2 text-gray-600"
-              ></i>
+              <i data-lucide="arrow-left" class="h-5 w-5 mr-2 text-gray-600"></i>
               <span class="text-gray-600">Back to Compliance Portal</span>
             </a>
           </div>
           <div class="flex items-center">
-            <h1 class="text-xl font-bold text-gray-900">
-              PIRL Reporting System
-            </h1>
+            <h1 class="text-xl font-bold text-gray-900">PIRL Reporting System</h1>
           </div>
           <div class="flex items-center">
-            <div
-              class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium"
-            >
+            <div class="bg-green-100 text-green-800 px-3 py-1 rounded-full text-sm font-medium">
               🏛️ Federal Reporting
             </div>
           </div>
@@ -84,15 +65,9 @@
     <main role="main" class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
       <!-- Page Header -->
       <div class="mb-8">
-        <div
-          class="bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg p-6 text-white"
-        >
-          <h2 class="text-2xl font-bold mb-2">
-            PIRL (Participant Individual Record Layout)
-          </h2>
-          <p class="opacity-90">
-            Federal participant data reporting system for DOL/DWD compliance
-          </p>
+        <div class="bg-gradient-to-r from-green-600 to-emerald-600 rounded-lg p-6 text-white">
+          <h2 class="text-2xl font-bold mb-2">PIRL (Participant Individual Record Layout)</h2>
+          <p class="opacity-90">Federal participant data reporting system for DOL/DWD compliance</p>
           <div class="mt-4 grid grid-cols-1 md:grid-cols-4 gap-4">
             <div class="bg-white/20 rounded p-3">
               <div class="text-lg font-bold" id="total-reports">156</div>
@@ -123,9 +98,7 @@
         >
           <div class="flex items-center justify-between mb-4">
             <i data-lucide="file-plus" class="h-8 w-8 text-green-600"></i>
-            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs"
-              >New</span
-            >
+            <span class="bg-green-100 text-green-800 px-2 py-1 rounded text-xs">New</span>
           </div>
           <h3 class="text-lg font-semibold mb-2">Generate PIRL Report</h3>
           <p class="text-gray-600 text-sm">
@@ -140,14 +113,10 @@
         >
           <div class="flex items-center justify-between mb-4">
             <i data-lucide="upload" class="h-8 w-8 text-blue-600"></i>
-            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs"
-              >Submit</span
-            >
+            <span class="bg-blue-100 text-blue-800 px-2 py-1 rounded text-xs">Submit</span>
           </div>
           <h3 class="text-lg font-semibold mb-2">Bulk Submission</h3>
-          <p class="text-gray-600 text-sm">
-            Submit multiple reports to DOL/DWD systems
-          </p>
+          <p class="text-gray-600 text-sm">Submit multiple reports to DOL/DWD systems</p>
         </button>
 
         <button
@@ -157,15 +126,10 @@
         >
           <div class="flex items-center justify-between mb-4">
             <i data-lucide="archive" class="h-8 w-8 text-purple-600"></i>
-            <span
-              class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs"
-              >History</span
-            >
+            <span class="bg-purple-100 text-purple-800 px-2 py-1 rounded text-xs">History</span>
           </div>
           <h3 class="text-lg font-semibold mb-2">Report History</h3>
-          <p class="text-gray-600 text-sm">
-            View submitted reports and federal responses
-          </p>
+          <p class="text-gray-600 text-sm">View submitted reports and federal responses</p>
         </button>
       </div>
 
@@ -173,14 +137,8 @@
       <div class="bg-white rounded-lg border p-4 mb-6">
         <div class="flex flex-wrap items-center gap-4">
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
-              >Reporting Period</label
-            >
-            <select
-              id="period-filter"
-              onchange="filterReports()"
-              class="border rounded px-3 py-2"
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-1">Reporting Period</label>
+            <select id="period-filter" onchange="filterReports()" class="border rounded px-3 py-2">
               <option value="">All Periods</option>
               <option value="Q4-2024">Q4 2024</option>
               <option value="Q3-2024">Q3 2024</option>
@@ -189,14 +147,8 @@
             </select>
           </div>
           <div>
-            <label class="block text-sm font-medium text-gray-700 mb-1"
-              >Status</label
-            >
-            <select
-              id="status-filter"
-              onchange="filterReports()"
-              class="border rounded px-3 py-2"
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-1">Status</label>
+            <select id="status-filter" onchange="filterReports()" class="border rounded px-3 py-2">
               <option value="">All Status</option>
               <option value="draft">Draft</option>
               <option value="pending">Pending Review</option>
@@ -205,9 +157,7 @@
             </select>
           </div>
           <div class="flex-1">
-            <label class="block text-sm font-medium text-gray-700 mb-1"
-              >Search</label
-            >
+            <label class="block text-sm font-medium text-gray-700 mb-1">Search</label>
             <input
               type="text"
               id="search-reports"
@@ -267,10 +217,7 @@
                 </th>
               </tr>
             </thead>
-            <tbody
-              id="pirl-table-body"
-              class="bg-white divide-y divide-gray-200"
-            >
+            <tbody id="pirl-table-body" class="bg-white divide-y divide-gray-200">
               <!-- PIRL records will be loaded here -->
             </tbody>
           </table>
@@ -278,14 +225,9 @@
       </div>
 
       <!-- Generate PIRL Modal -->
-      <div
-        id="generate-pirl-modal"
-        class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50"
-      >
+      <div id="generate-pirl-modal" class="fixed inset-0 bg-gray-600 bg-opacity-50 hidden z-50">
         <div class="flex items-center justify-center min-h-screen p-4">
-          <div
-            class="bg-white rounded-lg max-w-4xl w-full max-h-screen overflow-y-auto"
-          >
+          <div class="bg-white rounded-lg max-w-4xl w-full max-h-screen overflow-y-auto">
             <div class="p-6">
               <div class="flex justify-between items-center mb-4">
                 <h3 class="text-lg font-semibold">Generate PIRL Report</h3>
@@ -303,13 +245,10 @@
                 <div class="space-y-6">
                   <!-- Report Information -->
                   <div class="bg-gray-50 p-4 rounded">
-                    <h4 class="font-medium text-gray-900 mb-3">
-                      Report Information
-                    </h4>
+                    <h4 class="font-medium text-gray-900 mb-3">Report Information</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label
-                          class="block text-sm font-medium text-gray-700 mb-1"
+                        <label class="block text-sm font-medium text-gray-700 mb-1"
                           >Reporting Period</label
                         >
                         <select
@@ -325,8 +264,7 @@
                         </select>
                       </div>
                       <div>
-                        <label
-                          class="block text-sm font-medium text-gray-700 mb-1"
+                        <label class="block text-sm font-medium text-gray-700 mb-1"
                           >Participant</label
                         >
                         <select
@@ -344,13 +282,10 @@
 
                   <!-- Participant Data -->
                   <div class="bg-gray-50 p-4 rounded">
-                    <h4 class="font-medium text-gray-900 mb-3">
-                      Participant Data (WIOA Elements)
-                    </h4>
+                    <h4 class="font-medium text-gray-900 mb-3">Participant Data (WIOA Elements)</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label
-                          class="block text-sm font-medium text-gray-700 mb-1"
+                        <label class="block text-sm font-medium text-gray-700 mb-1"
                           >Social Security Number</label
                         >
                         <input
@@ -362,8 +297,7 @@
                         />
                       </div>
                       <div>
-                        <label
-                          class="block text-sm font-medium text-gray-700 mb-1"
+                        <label class="block text-sm font-medium text-gray-700 mb-1"
                           >Date of Birth</label
                         >
                         <input
@@ -374,14 +308,8 @@
                         />
                       </div>
                       <div>
-                        <label
-                          class="block text-sm font-medium text-gray-700 mb-1"
-                          >Gender</label
-                        >
-                        <select
-                          name="gender"
-                          class="w-full border rounded px-3 py-2"
-                        >
+                        <label class="block text-sm font-medium text-gray-700 mb-1">Gender</label>
+                        <select name="gender" class="w-full border rounded px-3 py-2">
                           <option value="">Select Gender</option>
                           <option value="male">Male</option>
                           <option value="female">Female</option>
@@ -389,24 +317,16 @@
                         </select>
                       </div>
                       <div>
-                        <label
-                          class="block text-sm font-medium text-gray-700 mb-1"
+                        <label class="block text-sm font-medium text-gray-700 mb-1"
                           >Race/Ethnicity</label
                         >
-                        <select
-                          name="race_ethnicity"
-                          class="w-full border rounded px-3 py-2"
-                        >
+                        <select name="race_ethnicity" class="w-full border rounded px-3 py-2">
                           <option value="">Select Race/Ethnicity</option>
                           <option value="hispanic">Hispanic or Latino</option>
                           <option value="white">White</option>
-                          <option value="black">
-                            Black or African American
-                          </option>
+                          <option value="black">Black or African American</option>
                           <option value="asian">Asian</option>
-                          <option value="native_american">
-                            American Indian or Alaska Native
-                          </option>
+                          <option value="native_american">American Indian or Alaska Native</option>
                           <option value="pacific_islander">
                             Native Hawaiian or Pacific Islander
                           </option>
@@ -418,13 +338,10 @@
 
                   <!-- Employment Data -->
                   <div class="bg-gray-50 p-4 rounded">
-                    <h4 class="font-medium text-gray-900 mb-3">
-                      Employment Data
-                    </h4>
+                    <h4 class="font-medium text-gray-900 mb-3">Employment Data</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label
-                          class="block text-sm font-medium text-gray-700 mb-1"
+                        <label class="block text-sm font-medium text-gray-700 mb-1"
                           >Employment Status at Entry</label
                         >
                         <select
@@ -434,14 +351,11 @@
                           <option value="">Select Status</option>
                           <option value="employed">Employed</option>
                           <option value="unemployed">Unemployed</option>
-                          <option value="not_in_labor_force">
-                            Not in Labor Force
-                          </option>
+                          <option value="not_in_labor_force">Not in Labor Force</option>
                         </select>
                       </div>
                       <div>
-                        <label
-                          class="block text-sm font-medium text-gray-700 mb-1"
+                        <label class="block text-sm font-medium text-gray-700 mb-1"
                           >Employment Status at Exit</label
                         >
                         <select
@@ -451,14 +365,11 @@
                           <option value="">Select Status</option>
                           <option value="employed">Employed</option>
                           <option value="unemployed">Unemployed</option>
-                          <option value="not_in_labor_force">
-                            Not in Labor Force
-                          </option>
+                          <option value="not_in_labor_force">Not in Labor Force</option>
                         </select>
                       </div>
                       <div>
-                        <label
-                          class="block text-sm font-medium text-gray-700 mb-1"
+                        <label class="block text-sm font-medium text-gray-700 mb-1"
                           >Wages at Entry (Quarterly)</label
                         >
                         <input
@@ -471,8 +382,7 @@
                         />
                       </div>
                       <div>
-                        <label
-                          class="block text-sm font-medium text-gray-700 mb-1"
+                        <label class="block text-sm font-medium text-gray-700 mb-1"
                           >Wages at Exit (Quarterly)</label
                         >
                         <input
@@ -489,26 +399,16 @@
 
                   <!-- Education Data -->
                   <div class="bg-gray-50 p-4 rounded">
-                    <h4 class="font-medium text-gray-900 mb-3">
-                      Education Data
-                    </h4>
+                    <h4 class="font-medium text-gray-900 mb-3">Education Data</h4>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <label
-                          class="block text-sm font-medium text-gray-700 mb-1"
+                        <label class="block text-sm font-medium text-gray-700 mb-1"
                           >Highest Education Level</label
                         >
-                        <select
-                          name="education_level"
-                          class="w-full border rounded px-3 py-2"
-                        >
+                        <select name="education_level" class="w-full border rounded px-3 py-2">
                           <option value="">Select Level</option>
-                          <option value="less_than_high_school">
-                            Less than High School
-                          </option>
-                          <option value="high_school">
-                            High School Diploma/GED
-                          </option>
+                          <option value="less_than_high_school">Less than High School</option>
+                          <option value="high_school">High School Diploma/GED</option>
                           <option value="some_college">Some College</option>
                           <option value="associates">Associate's Degree</option>
                           <option value="bachelors">Bachelor's Degree</option>
@@ -517,14 +417,10 @@
                         </select>
                       </div>
                       <div>
-                        <label
-                          class="block text-sm font-medium text-gray-700 mb-1"
+                        <label class="block text-sm font-medium text-gray-700 mb-1"
                           >School Status</label
                         >
-                        <select
-                          name="school_status"
-                          class="w-full border rounded px-3 py-2"
-                        >
+                        <select name="school_status" class="w-full border rounded px-3 py-2">
                           <option value="">Select Status</option>
                           <option value="in_school">In School</option>
                           <option value="not_in_school">Not in School</option>
@@ -535,9 +431,7 @@
 
                   <!-- Demographic Data -->
                   <div class="bg-gray-50 p-4 rounded">
-                    <h4 class="font-medium text-gray-900 mb-3">
-                      Demographic Data
-                    </h4>
+                    <h4 class="font-medium text-gray-900 mb-3">Demographic Data</h4>
                     <div class="space-y-3">
                       <div>
                         <label class="flex items-center">
@@ -690,9 +584,7 @@
       }
 
       function showGeneratePIRLForm() {
-        document
-          .getElementById('generate-pirl-modal')
-          .classList.remove('hidden');
+        document.getElementById('generate-pirl-modal').classList.remove('hidden');
         loadParticipants();
       }
 
@@ -703,9 +595,7 @@
 
       async function loadParticipants() {
         try {
-          const response = await fetch(
-            '/api/compliance/eligibility?status=verified'
-          );
+          const response = await fetch('/api/compliance/eligibility?status=verified');
           const data = await response.json();
           const select = document.querySelector('select[name="user_id"]');
 
@@ -771,26 +661,18 @@
       }
 
       async function submitPIRL(pirlId) {
-        if (
-          !confirm(
-            'Are you sure you want to submit this PIRL report to DOL/DWD?'
-          )
-        )
-          return;
+        if (!confirm('Are you sure you want to submit this PIRL report to DOL/DWD?')) return;
 
         try {
-          const response = await fetch(
-            `/api/compliance/pirl/${pirlId}/submit`,
-            {
-              method: 'PUT',
-              headers: {
-                'Content-Type': 'application/json',
-              },
-              body: JSON.stringify({
-                submitted_by: 'current_user', // In real implementation, get from auth
-              }),
-            }
-          );
+          const response = await fetch(`/api/compliance/pirl/${pirlId}/submit`, {
+            method: 'PUT',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              submitted_by: 'current_user', // In real implementation, get from auth
+            }),
+          });
 
           if (response.ok) {
             loadPIRLReports();

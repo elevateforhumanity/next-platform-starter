@@ -14,17 +14,17 @@ const ALLOWED_ROLES = ['case_manager', 'admin', 'super_admin', 'staff'];
 
 export const dynamic = 'force-dynamic';
 
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
 
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user }, error: authErr } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authErr,
+  } = await supabase.auth.getUser();
   if (authErr || !user) return safeError('Unauthorized', 401);
 
   const db = await getAdminClient();
@@ -62,10 +62,10 @@ export async function POST(
     const { error } = await db
       .from('placement_records')
       .update({
-        status:      'verified',
+        status: 'verified',
         verified_at: new Date().toISOString(),
         verified_by: user.id,
-        updated_at:  new Date().toISOString(),
+        updated_at: new Date().toISOString(),
       })
       .eq('id', id);
 

@@ -15,16 +15,11 @@ export function success(data: Record<string, unknown> = {}, redirect?: string, r
  * Return a JSON error response, or a redirect with ?error=<slug> if redirect+req are provided.
  * Never expose raw error.message to the client — pass a safe message string.
  */
-export function failure(
-  message: string,
-  status: number = 500,
-  redirect?: string,
-  req?: Request
-) {
+export function failure(message: string, status: number = 500, redirect?: string, req?: Request) {
   if (redirect && req) {
     return NextResponse.redirect(
       new URL(`${redirect}?error=${encodeURIComponent(message)}`, req.url),
-      303
+      303,
     );
   }
   return NextResponse.json({ success: false, error: message }, { status });
@@ -42,7 +37,7 @@ export function failure(
  */
 export async function requireDbWrite<T>(
   operation: Promise<{ data: T | null; error: unknown }>,
-  errorMessage: string = 'Database operation failed'
+  errorMessage: string = 'Database operation failed',
 ): Promise<T> {
   const { data, error } = await operation;
 

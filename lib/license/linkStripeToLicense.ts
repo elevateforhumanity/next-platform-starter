@@ -35,25 +35,30 @@ export async function linkStripeToLicense(
   customerId: string | null,
   subscriptionId: string | null,
   metadata: LinkingMetadata,
-  currentPeriodEnd?: string
+  currentPeriodEnd?: string,
 ): Promise<LinkResult> {
   const supabase = await getAdminClient();
-  
+
   if (!supabase) {
     logger.error('[linkStripeToLicense] Supabase admin client not available');
     return { success: false, error: 'Database connection failed' };
   }
 
   await setAuditContext(supabase, { systemActor: 'stripe_license_linker', requestId: eventId });
-  
-  logger.info('[linkStripeToLicense] Starting with:', { eventId, customerId, subscriptionId, metadata });
+
+  logger.info('[linkStripeToLicense] Starting with:', {
+    eventId,
+    customerId,
+    subscriptionId,
+    metadata,
+  });
   const { license_id, tenant_id } = metadata;
 
   const updateData: Record<string, any> = {
     status: 'active',
     updated_at: new Date().toISOString(),
   };
-  
+
   // Only set stripe fields if they have values
   if (customerId) {
     updateData.stripe_customer_id = customerId;
@@ -64,7 +69,7 @@ export async function linkStripeToLicense(
   if (currentPeriodEnd) {
     updateData.current_period_end = currentPeriodEnd;
   }
-  
+
   logger.info('[linkStripeToLicense] Update data:', updateData);
 
   // PRIORITY 1: Update by license_id
@@ -140,7 +145,7 @@ export async function linkStripeToLicense(
  */
 export async function handleCheckoutCompleted(
   event: Stripe.Event,
-  session: Stripe.Checkout.Session
+  session: Stripe.Checkout.Session,
 ): Promise<LinkResult> {
   const metadata: LinkingMetadata = {
     license_id: session.metadata?.license_id,
@@ -177,7 +182,7 @@ export async function handleCheckoutCompleted(
  */
 export async function handleInvoicePaid(
   event: Stripe.Event,
-  invoice: Stripe.Invoice
+  invoice: Stripe.Invoice,
 ): Promise<LinkResult> {
   const customerId = invoice.customer as string;
   const subscriptionId = invoice.subscription as string | null;
@@ -209,7 +214,7 @@ export async function handleInvoicePaid(
  */
 export async function handleSubscriptionUpdated(
   event: Stripe.Event,
-  subscription: Stripe.Subscription
+  subscription: Stripe.Subscription,
 ): Promise<LinkResult> {
   const metadata: LinkingMetadata = {
     license_id: subscription.metadata?.license_id,
@@ -221,7 +226,10 @@ export async function handleSubscriptionUpdated(
   const currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString();
 
   const supabase = await getAdminClient();
-  await setAuditContext(supabase, { systemActor: 'stripe_subscription_handler', requestId: event.id });
+  await setAuditContext(supabase, {
+    systemActor: 'stripe_subscription_handler',
+    requestId: event.id,
+  });
 
   const status = mapSubscriptionStatus(subscription.status);
 
@@ -279,7 +287,7 @@ export async function handleSubscriptionUpdated(
  */
 export async function handleSubscriptionDeleted(
   event: Stripe.Event,
-  subscription: Stripe.Subscription
+  subscription: Stripe.Subscription,
 ): Promise<LinkResult> {
   const supabase = await getAdminClient();
   const subscriptionId = subscription.id;
@@ -307,7 +315,7 @@ export async function handleSubscriptionDeleted(
  */
 export async function handlePaymentFailed(
   event: Stripe.Event,
-  invoice: Stripe.Invoice
+  invoice: Stripe.Invoice,
 ): Promise<LinkResult> {
   const subscriptionId = invoice.subscription as string | null;
   if (!subscriptionId) {
@@ -338,7 +346,7 @@ async function updateTenant(
   supabase: ReturnType<typeof createAdminClient>,
   tenantId: string | undefined,
   customerId: string,
-  subscriptionId: string | null
+  subscriptionId: string | null,
 ): Promise<void> {
   if (!tenantId) return;
   await supabase
@@ -356,16 +364,18 @@ function logLinkingProof(
   eventId: string,
   result: LinkResult,
   customerId: string,
-  subscriptionId: string | null
+  subscriptionId: string | null,
 ): void {
-  logger.info(JSON.stringify({
-    event: 'LICENSE_LINKED',
-    event_id: eventId,
-    license_id: result.license_id,
-    tenant_id: result.tenant_id,
-    customer_id: customerId,
-    subscription_id: subscriptionId,
-  }));
+  logger.info(
+    JSON.stringify({
+      event: 'LICENSE_LINKED',
+      event_id: eventId,
+      license_id: result.license_id,
+      tenant_id: result.tenant_id,
+      customer_id: customerId,
+      subscription_id: subscriptionId,
+    }),
+  );
 }
 
 // Helper: Map Stripe subscription status to license status

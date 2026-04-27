@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -47,7 +45,7 @@ async function _GET(request: NextRequest) {
           id,
           name
         )
-      `
+      `,
       )
       .eq('status', 'active');
 
@@ -73,7 +71,7 @@ async function _GET(request: NextRequest) {
       const student = apprenticeship.student as any;
       const employer = apprenticeship.employer as any;
       const program = apprenticeship.program as any;
-      
+
       if (!todayLog && employer?.email) {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_SITE_URL}/api/apprentice/email-alerts`,
@@ -91,7 +89,7 @@ async function _GET(request: NextRequest) {
                 date: today,
               },
             }),
-          }
+          },
         );
 
         results.push({
@@ -107,12 +105,9 @@ async function _GET(request: NextRequest) {
       alerts_sent: results.length,
       results,
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Missed check-ins cron error:', error);
-    return NextResponse.json(
-      { error: 'Failed to check missed check-ins' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to check missed check-ins' }, { status: 500 });
   }
 }
 export const GET = withRuntime(withApiAudit('/api/cron/missed-checkins', _GET));

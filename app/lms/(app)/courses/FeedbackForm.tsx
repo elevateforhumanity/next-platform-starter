@@ -23,7 +23,7 @@ export function FeedbackForm({ courseId, courseName, onSubmit }: FeedbackFormPro
     setSubmitting(true);
 
     // Simulate API call
-    await new Promise(resolve => setTimeout(resolve, 1000));
+    await new Promise((resolve) => setTimeout(resolve, 1000));
 
     if (onSubmit) {
       onSubmit({ rating, feedback });
@@ -53,11 +53,9 @@ export function FeedbackForm({ courseId, courseName, onSubmit }: FeedbackFormPro
       <form onSubmit={handleSubmit} className="space-y-4">
         {/* Star Rating */}
         <div>
-          <label className="block text-sm font-medium text-slate-900 mb-2">
-            Your Rating
-          </label>
+          <label className="block text-sm font-medium text-slate-900 mb-2">Your Rating</label>
           <div className="flex gap-1">
-            {[1, 2, 3, 4, 5].map(star => (
+            {[1, 2, 3, 4, 5].map((star) => (
               <button
                 key={star}
                 type="button"
@@ -86,7 +84,7 @@ export function FeedbackForm({ courseId, courseName, onSubmit }: FeedbackFormPro
           <textarea
             id="feedback"
             value={feedback}
-            onChange={e => setFeedback(e.target.value)}
+            onChange={(e) => setFeedback(e.target.value)}
             rows={4}
             className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
             placeholder="What did you like? What could be improved?"

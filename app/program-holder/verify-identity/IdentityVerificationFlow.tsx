@@ -1,18 +1,11 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { createBrowserClient } from '@supabase/ssr';
-import {
-  Shield,
-  Upload,
-  Clock,
-  AlertCircle,
-  FileText,
-  Camera,
-CheckCircle, } from 'lucide-react';
+import { Shield, Upload, Clock, AlertCircle, FileText, Camera, CheckCircle } from 'lucide-react';
 
 interface IdentityVerificationFlowProps {
   userId: string;
@@ -30,9 +23,7 @@ export default function IdentityVerificationFlow({
   documents,
 }: IdentityVerificationFlowProps) {
   const router = useRouter();
-  const [verificationMethod, setVerificationMethod] = useState<
-    'stripe' | 'manual' | null
-  >(null);
+  const [verificationMethod, setVerificationMethod] = useState<'stripe' | 'manual' | null>(null);
   const [uploadedDocs, setUploadedDocs] = useState<{
     id?: File;
     ssn?: File;
@@ -82,7 +73,7 @@ export default function IdentityVerificationFlow({
     try {
       const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       );
 
       // Upload ID document
@@ -151,17 +142,15 @@ export default function IdentityVerificationFlow({
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
           <Clock className="w-16 h-16 mx-auto mb-4 text-brand-orange-600" />
-          <h1 className="text-2xl font-bold text-black mb-4">
-            Verification Pending
-          </h1>
+          <h1 className="text-2xl font-bold text-black mb-4">Verification Pending</h1>
           <p className="text-black mb-6">
-            Your documents have been submitted and are under review. Our team
-            will verify your identity within 24-48 hours.
+            Your documents have been submitted and are under review. Our team will verify your
+            identity within 24-48 hours.
           </p>
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 mb-6">
             <p className="text-sm text-brand-blue-800">
-              You'll receive an email at <strong>{email}</strong> once your
-              verification is complete.
+              You'll receive an email at <strong>{email}</strong> once your verification is
+              complete.
             </p>
           </div>
           <button
@@ -181,12 +170,10 @@ export default function IdentityVerificationFlow({
       <div className="min-h-screen bg-white flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
           <AlertCircle className="w-16 h-16 mx-auto mb-4 text-brand-red-600" />
-          <h1 className="text-2xl font-bold text-black mb-4">
-            Verification Failed
-          </h1>
+          <h1 className="text-2xl font-bold text-black mb-4">Verification Failed</h1>
           <p className="text-black mb-6">
-            We were unable to verify your identity. Please try again or contact
-            support for assistance.
+            We were unable to verify your identity. Please try again or contact support for
+            assistance.
           </p>
           {verification.notes && (
             <div className="bg-brand-red-50 border border-brand-red-200 rounded-lg p-4 mb-6 text-left">
@@ -213,12 +200,10 @@ export default function IdentityVerificationFlow({
         <div className="max-w-2xl w-full">
           <div className="text-center mb-8">
             <Shield className="w-16 h-16 mx-auto mb-4 text-brand-blue-600" />
-            <h1 className="text-3xl font-bold text-black mb-4">
-              Identity Verification
-            </h1>
+            <h1 className="text-3xl font-bold text-black mb-4">Identity Verification</h1>
             <p className="text-black">
-              To activate your program holder account, we need to verify your
-              identity. Choose your preferred verification method:
+              To activate your program holder account, we need to verify your identity. Choose your
+              preferred verification method:
             </p>
           </div>
 
@@ -228,17 +213,12 @@ export default function IdentityVerificationFlow({
               <div className="flex items-center gap-3 mb-4">
                 <Camera className="w-8 h-8 text-brand-blue-600" />
                 <div>
-                  <h3 className="text-lg font-bold text-black">
-                    Instant Verification
-                  </h3>
-                  <span className="text-xs text-brand-green-600 font-medium">
-                    RECOMMENDED
-                  </span>
+                  <h3 className="text-lg font-bold text-black">Instant Verification</h3>
+                  <span className="text-xs text-brand-green-600 font-medium">RECOMMENDED</span>
                 </div>
               </div>
               <p className="text-sm text-black mb-4">
-                Take a selfie and photo of your ID. Verification completes in
-                minutes.
+                Take a selfie and photo of your ID. Verification completes in minutes.
               </p>
               <ul className="text-sm text-black space-y-2 mb-6">
                 <li className="flex items-center gap-2">
@@ -267,17 +247,12 @@ export default function IdentityVerificationFlow({
               <div className="flex items-center gap-3 mb-4">
                 <Upload className="w-8 h-8 text-black" />
                 <div>
-                  <h3 className="text-lg font-bold text-black">
-                    Manual Upload
-                  </h3>
-                  <span className="text-xs text-black font-medium">
-                    24-48 HOURS
-                  </span>
+                  <h3 className="text-lg font-bold text-black">Manual Upload</h3>
+                  <span className="text-xs text-black font-medium">24-48 HOURS</span>
                 </div>
               </div>
               <p className="text-sm text-black mb-4">
-                Upload photos of your ID and Social Security Card for manual
-                review.
+                Upload photos of your ID and Social Security Card for manual review.
               </p>
               <ul className="text-sm text-black space-y-2 mb-6">
                 <li className="flex items-center gap-2">
@@ -304,8 +279,7 @@ export default function IdentityVerificationFlow({
 
           <div className="mt-8 text-center">
             <p className="text-sm text-black">
-              Your information is encrypted and secure. We comply with all
-              privacy regulations.
+              Your information is encrypted and secure. We comply with all privacy regulations.
             </p>
           </div>
         </div>
@@ -323,8 +297,8 @@ export default function IdentityVerificationFlow({
             Instant Identity Verification
           </h1>
           <p className="text-black mb-6 text-center">
-            You'll be redirected to our secure verification partner to complete
-            identity verification.
+            You'll be redirected to our secure verification partner to complete identity
+            verification.
           </p>
 
           {error && (
@@ -334,9 +308,7 @@ export default function IdentityVerificationFlow({
           )}
 
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4 mb-6">
-            <h3 className="font-semibold text-brand-blue-900 mb-2">
-              What you'll need:
-            </h3>
+            <h3 className="font-semibold text-brand-blue-900 mb-2">What you'll need:</h3>
             <ul className="text-sm text-brand-blue-800 space-y-1">
               <li>• Government-issued photo ID</li>
               <li>• Camera or smartphone</li>
@@ -373,8 +345,8 @@ export default function IdentityVerificationFlow({
             Upload Verification Documents
           </h1>
           <p className="text-black mb-6 text-center">
-            Upload clear photos of your ID and Social Security Card. Our team
-            will review within 24-48 hours.
+            Upload clear photos of your ID and Social Security Card. Our team will review within
+            24-48 hours.
           </p>
 
           {error && (
@@ -455,9 +427,8 @@ export default function IdentityVerificationFlow({
 
           <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-6">
             <p className="text-sm text-yellow-800">
-              <strong>Security:</strong> Your documents are encrypted and stored
-              securely. Only authorized administrators can access them for
-              verification purposes.
+              <strong>Security:</strong> Your documents are encrypted and stored securely. Only
+              authorized administrators can access them for verification purposes.
             </p>
           </div>
 

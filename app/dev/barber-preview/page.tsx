@@ -3,11 +3,36 @@
 import { useEffect, useRef, useState } from 'react';
 
 const LESSONS = [
-  { num: 1, slug: 'barber-lesson-1', title: 'Welcome to the Barber Apprenticeship',  module: 'Module 1 — Infection Control & Safety' },
-  { num: 2, slug: 'barber-lesson-2', title: 'Infection Control Fundamentals',         module: 'Module 1 — Infection Control & Safety' },
-  { num: 3, slug: 'barber-lesson-3', title: 'Bloodborne Pathogens & OSHA Standards',  module: 'Module 1 — Infection Control & Safety' },
-  { num: 4, slug: 'barber-lesson-4', title: 'Tool Disinfection Procedures',           module: 'Module 1 — Infection Control & Safety' },
-  { num: 5, slug: 'barber-lesson-5', title: 'Shop Sanitation & Client Safety',        module: 'Module 1 — Infection Control & Safety' },
+  {
+    num: 1,
+    slug: 'barber-lesson-1',
+    title: 'Welcome to the Barber Apprenticeship',
+    module: 'Module 1 — Infection Control & Safety',
+  },
+  {
+    num: 2,
+    slug: 'barber-lesson-2',
+    title: 'Infection Control Fundamentals',
+    module: 'Module 1 — Infection Control & Safety',
+  },
+  {
+    num: 3,
+    slug: 'barber-lesson-3',
+    title: 'Bloodborne Pathogens & OSHA Standards',
+    module: 'Module 1 — Infection Control & Safety',
+  },
+  {
+    num: 4,
+    slug: 'barber-lesson-4',
+    title: 'Tool Disinfection Procedures',
+    module: 'Module 1 — Infection Control & Safety',
+  },
+  {
+    num: 5,
+    slug: 'barber-lesson-5',
+    title: 'Shop Sanitation & Client Safety',
+    module: 'Module 1 — Infection Control & Safety',
+  },
 ];
 
 export default function BarberPreviewPage() {
@@ -28,12 +53,15 @@ export default function BarberPreviewPage() {
     v.play().catch(() => {});
   }, [idx]);
 
-  function prev() { if (idx > 0) setIdx(idx - 1); }
-  function next() { if (idx < LESSONS.length - 1) setIdx(idx + 1); }
+  function prev() {
+    if (idx > 0) setIdx(idx - 1);
+  }
+  function next() {
+    if (idx < LESSONS.length - 1) setIdx(idx + 1);
+  }
 
   return (
     <div className="min-h-screen bg-black flex flex-col">
-
       {/* Header */}
       <div className="flex items-center justify-between px-6 py-3 bg-slate-900 border-b border-slate-800">
         <span className="text-amber-500 font-bold text-sm tracking-widest uppercase">
@@ -82,7 +110,9 @@ export default function BarberPreviewPage() {
       {/* Info + nav */}
       <div className="bg-slate-900 border-t border-slate-800 px-6 py-5 flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
         <div>
-          <p className="text-amber-500 text-xs uppercase tracking-widest font-semibold mb-1">{lesson.module}</p>
+          <p className="text-amber-500 text-xs uppercase tracking-widest font-semibold mb-1">
+            {lesson.module}
+          </p>
           <h1 className="text-white text-2xl font-bold">{lesson.title}</h1>
         </div>
         <div className="flex gap-3 flex-shrink-0">
@@ -115,16 +145,19 @@ export default function BarberPreviewPage() {
                 : 'bg-slate-900 border-slate-800 hover:border-slate-600'
             }`}
           >
-            <p className={`text-xs font-bold uppercase tracking-widest mb-1 ${i === idx ? 'text-amber-400' : 'text-slate-600'}`}>
+            <p
+              className={`text-xs font-bold uppercase tracking-widest mb-1 ${i === idx ? 'text-amber-400' : 'text-slate-600'}`}
+            >
               Lesson {l.num}
             </p>
-            <p className={`text-sm font-medium leading-snug line-clamp-2 ${i === idx ? 'text-white' : 'text-slate-400'}`}>
+            <p
+              className={`text-sm font-medium leading-snug line-clamp-2 ${i === idx ? 'text-white' : 'text-slate-400'}`}
+            >
               {l.title}
             </p>
           </button>
         ))}
       </div>
-
     </div>
   );
 }

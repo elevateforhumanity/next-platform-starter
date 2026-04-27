@@ -27,24 +27,41 @@ const db = createClient(
 async function main() {
   const { data: lessons, error } = await db
     .from('course_lessons')
-    .select('id, slug, title, lesson_type, order_index, practical_required, passing_score, learning_objectives, competency_checks, quiz_questions, video_url')
+    .select(
+      'id, slug, title, lesson_type, order_index, practical_required, passing_score, learning_objectives, competency_checks, quiz_questions, video_url',
+    )
     .eq('course_id', BARBER_COURSE_ID)
     .order('order_index');
 
-  if (error) { console.error('DB error:', error.message); process.exit(1); }
-  if (!lessons?.length) { console.error('No lessons found for course', BARBER_COURSE_ID); process.exit(1); }
+  if (error) {
+    console.error('DB error:', error.message);
+    process.exit(1);
+  }
+  if (!lessons?.length) {
+    console.error('No lessons found for course', BARBER_COURSE_ID);
+    process.exit(1);
+  }
 
   console.log(`\nBarber Course Audit — ${lessons.length} lessons\n`);
-  console.log('Slug'.padEnd(26), 'Type'.padEnd(12), 'Obj', 'Vid', 'Quiz', 'Score', 'Checks', 'Issues');
+  console.log(
+    'Slug'.padEnd(26),
+    'Type'.padEnd(12),
+    'Obj',
+    'Vid',
+    'Quiz',
+    'Score',
+    'Checks',
+    'Issues',
+  );
   console.log('─'.repeat(90));
 
   const issues: { slug: string; problems: string[] }[] = [];
   const needsPassingScore: string[] = [];
 
   for (const l of lessons) {
-    const objs   = Array.isArray(l.learning_objectives) ? l.learning_objectives.length : 0;
-    const quiz   = Array.isArray(l.quiz_questions)      ? l.quiz_questions.length      : 0;
-    const checks = Array.isArray(l.competency_checks)   ? l.competency_checks.length   : 0;
+    const objs = Array.isArray(l.learning_objectives) ? l.learning_objectives.length : 0;
+    const quiz = Array.isArray(l.quiz_questions) ? l.quiz_questions.length : 0;
+    const checks = Array.isArray(l.competency_checks) ? l.competency_checks.length : 0;
     const hasVid = !!l.video_url;
     const hasScore = l.passing_score != null;
 
@@ -52,17 +69,22 @@ async function main() {
     const videoRequired = l.lesson_type !== 'checkpoint' && l.lesson_type !== 'exam';
 
     const problems: string[] = [];
-    if (!objs)                  problems.push('no objectives');
+    if (!objs) problems.push('no objectives');
     if (!hasVid && videoRequired) problems.push('no video');
-    if (!quiz)                  problems.push('no quiz_questions');
-    if (!hasScore && (l.lesson_type === 'checkpoint' || l.lesson_type === 'quiz' || l.lesson_type === 'exam' || l.practical_required))
-                                problems.push('no passing_score');
-    if (l.practical_required && !checks)
-                                problems.push('practical but no competency_checks');
+    if (!quiz) problems.push('no quiz_questions');
+    if (
+      !hasScore &&
+      (l.lesson_type === 'checkpoint' ||
+        l.lesson_type === 'quiz' ||
+        l.lesson_type === 'exam' ||
+        l.practical_required)
+    )
+      problems.push('no passing_score');
+    if (l.practical_required && !checks) problems.push('practical but no competency_checks');
 
     if (!hasScore && l.practical_required) needsPassingScore.push(l.id);
 
-    const flag = (v: boolean) => v ? '✅' : '❌';
+    const flag = (v: boolean) => (v ? '✅' : '❌');
     console.log(
       l.slug.padEnd(26),
       (l.lesson_type ?? '').padEnd(12),
@@ -88,7 +110,9 @@ async function main() {
   }
 
   if (PATCH_MODE && needsPassingScore.length) {
-    console.log(`\n[PATCH] Setting passing_score=70 on ${needsPassingScore.length} practical lessons...`);
+    console.log(
+      `\n[PATCH] Setting passing_score=70 on ${needsPassingScore.length} practical lessons...`,
+    );
     const { error: patchErr } = await db
       .from('course_lessons')
       .update({ passing_score: 70 })
@@ -96,8 +120,13 @@ async function main() {
     if (patchErr) console.error('[PATCH] Failed:', patchErr.message);
     else console.log('[PATCH] Done.');
   } else if (needsPassingScore.length) {
-    console.log(`\nRun with --patch to auto-set passing_score=70 on ${needsPassingScore.length} practical lessons.`);
+    console.log(
+      `\nRun with --patch to auto-set passing_score=70 on ${needsPassingScore.length} practical lessons.`,
+    );
   }
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

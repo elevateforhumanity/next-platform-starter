@@ -22,9 +22,9 @@ const db = createClient(
 type Check = { label: string; table: string };
 
 const REQUIRED: Check[] = [
-  { label: 'media',   table: 'program_media'   },
-  { label: 'CTAs',    table: 'program_ctas'    },
-  { label: 'tracks',  table: 'program_tracks'  },
+  { label: 'media', table: 'program_media' },
+  { label: 'CTAs', table: 'program_ctas' },
+  { label: 'tracks', table: 'program_tracks' },
   { label: 'modules', table: 'program_modules' },
 ];
 
@@ -35,8 +35,14 @@ async function main() {
     .eq('published', true)
     .order('title');
 
-  if (error) { console.error('Failed to fetch programs:', error.message); process.exit(1); }
-  if (!programs?.length) { console.log('No published programs found.'); return; }
+  if (error) {
+    console.error('Failed to fetch programs:', error.message);
+    process.exit(1);
+  }
+  if (!programs?.length) {
+    console.log('No published programs found.');
+    return;
+  }
 
   console.log(`Checking ${programs.length} published program(s)...\n`);
 
@@ -51,7 +57,10 @@ async function main() {
         .select('id', { count: 'exact', head: true })
         .eq('program_id', program.id);
 
-      if (cErr) { missing.push(`${check.label} (query error)`); continue; }
+      if (cErr) {
+        missing.push(`${check.label} (query error)`);
+        continue;
+      }
       if ((count ?? 0) === 0) missing.push(check.label);
     }
 
@@ -63,8 +72,13 @@ async function main() {
     }
   }
 
-  console.log(`\n${failures === 0 ? '✅ All programs complete.' : `❌ ${failures} program(s) incomplete.`}`);
+  console.log(
+    `\n${failures === 0 ? '✅ All programs complete.' : `❌ ${failures} program(s) incomplete.`}`,
+  );
   if (failures > 0) process.exit(1);
 }
 
-main().catch((err) => { console.error(err); process.exit(1); });
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

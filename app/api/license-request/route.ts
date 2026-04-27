@@ -1,6 +1,5 @@
 // PUBLIC ROUTE: public license request form
 
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { sendEmail } from '@/lib/email/sendgrid';
@@ -15,8 +14,8 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const formData = await req.formData();
 
@@ -37,18 +36,13 @@ async function _POST(req: Request) {
     !payload.launch_goal ||
     payload.agreement_ack !== 'Yes'
   ) {
-    return NextResponse.json(
-      { error: 'Incomplete or invalid submission.' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Incomplete or invalid submission.' }, { status: 400 });
   }
 
   const supabase = await createClient();
 
   // Insert into database
-  const { error: dbError } = await supabase
-    .from('license_requests')
-    .insert(payload);
+  const { error: dbError } = await supabase.from('license_requests').insert(payload);
 
   if (dbError) {
     // Error: $1
@@ -89,7 +83,10 @@ async function _POST(req: Request) {
         `<p>— Elevate for Humanity</p>`,
     });
   } catch (emailError) {
-    logger.error('[license-request] Email failed:', emailError instanceof Error ? emailError : undefined);
+    logger.error(
+      '[license-request] Email failed:',
+      emailError instanceof Error ? emailError : undefined,
+    );
   }
 
   return NextResponse.redirect(new URL('/licensing?submitted=true', req.url), {

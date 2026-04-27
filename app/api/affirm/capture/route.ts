@@ -1,14 +1,13 @@
 // PUBLIC ROUTE: Affirm payment capture — called by Affirm redirect
 /**
  * Affirm Capture/Authorize API
- * 
+ *
  * Called after customer completes Affirm checkout.
  * Affirm redirects here with checkout_token and order_id.
- * 
+ *
  * Security: All metadata is loaded from checkout_contexts table by order_id.
  * URL params (except checkout_token and order_id) are ignored to prevent tampering.
  */
-
 
 import { NextRequest, NextResponse } from 'next/server';
 import { affirm } from '@/lib/affirm/client';
@@ -19,10 +18,9 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
 
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-// Lazy config: re-read env vars if missed at module load
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  // Lazy config: re-read env vars if missed at module load
   affirm.tryLateConfig();
 
   const searchParams = request.nextUrl.searchParams;
@@ -32,12 +30,9 @@ async function _GET(request: NextRequest) {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
   const supabase = await getAdminClient();
 
-    if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
-    }
+  if (!supabase) {
+    return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
+  }
 
   // DIAGNOSTIC: Log all params received
   logger.info('Affirm capture called', {
@@ -54,11 +49,14 @@ async function _GET(request: NextRequest) {
       .from('checkout_contexts')
       .update({
         status: 'failed',
-        provider_response: { error: 'missing_checkout_token', received_params: Object.fromEntries(searchParams.entries()) },
+        provider_response: {
+          error: 'missing_checkout_token',
+          received_params: Object.fromEntries(searchParams.entries()),
+        },
       })
       .eq('order_id', orderId)
       .eq('provider', 'affirm');
-    
+
     logger.error('Affirm capture missing checkout_token', { orderId });
     return NextResponse.redirect(`${siteUrl}${fallbackPath}?canceled=true&provider=affirm`);
   }
@@ -94,10 +92,7 @@ async function _GET(request: NextRequest) {
   // Check expiration
   if (new Date(context.expires_at) < new Date()) {
     logger.error('Checkout context expired', { orderId, expiresAt: context.expires_at });
-    await supabase
-      .from('checkout_contexts')
-      .update({ status: 'expired' })
-      .eq('id', context.id);
+    await supabase.from('checkout_contexts').update({ status: 'expired' }).eq('id', context.id);
     return NextResponse.redirect(`${siteUrl}${programPath}?error=session_expired`);
   }
 
@@ -132,17 +127,14 @@ async function _GET(request: NextRequest) {
     return NextResponse.redirect(successUrl.toString());
   } catch (error) {
     logger.error('Affirm authorization failed:', error);
-    
+
     // Mark context as failed
-    await supabase
-      .from('checkout_contexts')
-      .update({ status: 'failed' })
-      .eq('id', context.id);
-    
+    await supabase.from('checkout_contexts').update({ status: 'failed' }).eq('id', context.id);
+
     const errorUrl = new URL(`${siteUrl}${programPath}`);
     errorUrl.searchParams.set('error', 'affirm_failed');
     errorUrl.searchParams.set('message', 'Authorization failed');
-    
+
     return NextResponse.redirect(errorUrl.toString());
   }
 }

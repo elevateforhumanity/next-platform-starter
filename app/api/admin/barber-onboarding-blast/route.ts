@@ -50,7 +50,8 @@ export async function POST(request: NextRequest) {
 
     if (error) {
       logger.error('[BarberBlast] Query error:', error.message);
-      logger.error('Request failed', error instanceof Error ? error : undefined); return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+      logger.error('Request failed', error instanceof Error ? error : undefined);
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
 
     if (!applicants?.length) {
@@ -58,7 +59,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Deduplicate by email (keep most recent)
-    const byEmail = new Map<string, typeof applicants[0]>();
+    const byEmail = new Map<string, (typeof applicants)[0]>();
     for (const a of applicants) {
       const email = (a.email || '').toLowerCase().trim();
       if (!email) continue;
@@ -87,10 +88,7 @@ export async function POST(request: NextRequest) {
       let token = applicant.submit_token;
       if (!token) {
         token = randomUUID();
-        await admin
-          .from('applications')
-          .update({ submit_token: token })
-          .eq('id', applicant.id);
+        await admin.from('applications').update({ submit_token: token }).eq('id', applicant.id);
       }
 
       const emailData = barberFullOnboardingEmail({

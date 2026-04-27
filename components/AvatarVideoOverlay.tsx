@@ -33,11 +33,11 @@ export default function AvatarVideoOverlay({
   useEffect(() => {
     const video = videoRef.current;
     if (!video) return;
-    
+
     // Always try to play with sound - user initiated
     video.muted = false;
     video.volume = 1;
-    
+
     if (autoPlay && isVisible) {
       video.play().catch(() => {
         // Autoplay blocked by browser - wait for user interaction
@@ -51,11 +51,11 @@ export default function AvatarVideoOverlay({
 
     setHasInteracted(true);
     setHasEnded(false);
-    
+
     // Ensure audio is on when user plays
     video.muted = false;
     video.volume = 1;
-    
+
     if (isPlaying) {
       video.pause();
     } else {
@@ -67,7 +67,7 @@ export default function AvatarVideoOverlay({
   const handleReplay = () => {
     const video = videoRef.current;
     if (!video) return;
-    
+
     video.currentTime = 0;
     video.play();
     setHasEnded(false);
@@ -78,8 +78,6 @@ export default function AvatarVideoOverlay({
     setIsPlaying(false);
     setHasEnded(true);
   };
-
-
 
   const handleClose = () => {
     const video = videoRef.current;
@@ -100,9 +98,9 @@ export default function AvatarVideoOverlay({
     'bottom-left': 'fixed bottom-4 left-4',
     'top-right': 'fixed top-20 right-4',
     'top-left': 'fixed top-20 left-4',
-    'inline': 'relative',
+    inline: 'relative',
   };
-  
+
   const isInline = position === 'inline';
 
   // Responsive sizes - larger for better visibility
@@ -144,8 +142,6 @@ export default function AvatarVideoOverlay({
           <source src={videoSrc} type="video/mp4" />
         </video>
 
-
-
         {/* Controls */}
         <div className="absolute bottom-0 left-0 right-0 p-3 flex items-center justify-between">
           <div className="flex items-center gap-2">
@@ -155,14 +151,8 @@ export default function AvatarVideoOverlay({
               className="p-2 bg-white/20 hover:bg-white/30 backdrop-blur-sm rounded-full text-white transition-all"
               aria-label={isPlaying ? 'Pause' : 'Play'}
             >
-              {isPlaying ? (
-                <Pause className="w-4 h-4" />
-              ) : (
-                <Play className="w-4 h-4" />
-              )}
+              {isPlaying ? <Pause className="w-4 h-4" /> : <Play className="w-4 h-4" />}
             </button>
-
-
           </div>
 
           {/* Avatar name */}

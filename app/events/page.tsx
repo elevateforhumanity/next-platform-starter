@@ -1,14 +1,7 @@
 import { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 import Link from 'next/link';
-import {
-  Calendar,
-  Clock,
-  MapPin,
-  Users,
-  ExternalLink,
-  Video,
-} from 'lucide-react';
+import { Calendar, Clock, MapPin, Users, ExternalLink, Video } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
 
 export const metadata: Metadata = {
@@ -49,12 +42,10 @@ export default async function EventsPage() {
               <Calendar className="w-5 h-5" />
               <span className="text-sm font-semibold">Upcoming Events</span>
             </div>
-            <h1 className="text-4xl md:text-6xl font-bold mb-6">
-              Events & Workshops
-            </h1>
+            <h1 className="text-4xl md:text-6xl font-bold mb-6">Events & Workshops</h1>
             <p className="text-base md:text-lg text-blue-100 leading-relaxed">
-              Join us for free information sessions, hiring events, workshops,
-              and open houses. All events are free and open to the community.
+              Join us for free information sessions, hiring events, workshops, and open houses. All
+              events are free and open to the community.
             </p>
           </div>
         </div>
@@ -65,12 +56,9 @@ export default async function EventsPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-5xl mx-auto">
             <div className="mb-12 text-center">
-              <h2 className="text-2xl md:text-3xl font-bold text-black mb-4">
-                Upcoming Events
-              </h2>
+              <h2 className="text-2xl md:text-3xl font-bold text-black mb-4">Upcoming Events</h2>
               <p className="text-lg text-black">
-                All events are free. Registration recommended but not required
-                for most events.
+                All events are free. Registration recommended but not required for most events.
               </p>
             </div>
 
@@ -84,17 +72,13 @@ export default async function EventsPage() {
                     {/* Date Box */}
                     <div className="flex-shrink-0">
                       <div className="bg-brand-blue-600 text-white rounded-lg p-4 text-center w-24">
-                        <div className="text-3xl font-bold">
-                          {new Date(event.date).getDate()}
-                        </div>
+                        <div className="text-3xl font-bold">{new Date(event.date).getDate()}</div>
                         <div className="text-sm uppercase">
                           {new Date(event.date).toLocaleDateString('en-US', {
                             month: 'short',
                           })}
                         </div>
-                        <div className="text-xs">
-                          {new Date(event.date).getFullYear()}
-                        </div>
+                        <div className="text-xs">{new Date(event.date).getFullYear()}</div>
                       </div>
                     </div>
 
@@ -106,9 +90,7 @@ export default async function EventsPage() {
                         </h3>
                         <span
                           className={`px-3 py-2 rounded-full text-sm font-semibold ${
-                            eventTypeColors[
-                              event.type as keyof typeof eventTypeColors
-                            ]
+                            eventTypeColors[event.type as keyof typeof eventTypeColors]
                           }`}
                         >
                           {event.type}
@@ -127,9 +109,7 @@ export default async function EventsPage() {
                             <MapPin className="w-5 h-5 text-slate-400 flex-shrink-0 mt-0.5" />
                           )}
                           <div>
-                            <div className="font-semibold">
-                              {event.location}
-                            </div>
+                            <div className="font-semibold">{event.location}</div>
                             {event.address !== 'Online' && (
                               <div className="text-sm">{event.address}</div>
                             )}
@@ -141,9 +121,7 @@ export default async function EventsPage() {
                         </div>
                       </div>
 
-                      <p className="text-black mb-4 leading-relaxed">
-                        {event.description}
-                      </p>
+                      <p className="text-black mb-4 leading-relaxed">{event.description}</p>
 
                       <Link
                         href={event.registration}
@@ -165,17 +143,13 @@ export default async function EventsPage() {
       <section className="py-16 bg-slate-50">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto">
-            <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">
-              Recurring Events
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold text-center mb-12">Recurring Events</h2>
             <div className="grid md:grid-cols-2 gap-6">
               <div className="bg-white rounded-lg p-6 shadow-sm">
-                <h3 className="text-lg font-bold mb-2">
-                  Monthly Info Sessions
-                </h3>
+                <h3 className="text-lg font-bold mb-2">Monthly Info Sessions</h3>
                 <p className="text-black mb-4">
-                  Second Tuesday of every month, 6:00 PM - 7:30 PM. Learn about
-                  all our programs and funding options.
+                  Second Tuesday of every month, 6:00 PM - 7:30 PM. Learn about all our programs and
+                  funding options.
                 </p>
                 <Link
                   href="/contact"
@@ -185,12 +159,9 @@ export default async function EventsPage() {
                 </Link>
               </div>
               <div className="bg-white rounded-lg p-6 shadow-sm">
-                <h3 className="text-lg font-bold mb-2">
-                  Quarterly Hiring Events
-                </h3>
+                <h3 className="text-lg font-bold mb-2">Quarterly Hiring Events</h3>
                 <p className="text-black mb-4">
-                  Third Thursday of Jan, Apr, Jul, Oct. Meet 20+ employers
-                  hiring our graduates.
+                  Third Thursday of Jan, Apr, Jul, Oct. Meet 20+ employers hiring our graduates.
                 </p>
                 <Link
                   href="/employers"
@@ -202,8 +173,8 @@ export default async function EventsPage() {
               <div className="bg-white rounded-lg p-6 shadow-sm">
                 <h3 className="text-lg font-bold mb-2">Weekly Open Hours</h3>
                 <p className="text-black mb-4">
-                  Every Wednesday, 4:00 PM - 6:00 PM. Drop in for questions,
-                  tours, or to start your application.
+                  Every Wednesday, 4:00 PM - 6:00 PM. Drop in for questions, tours, or to start your
+                  application.
                 </p>
                 <Link
                   href="/contact"
@@ -213,12 +184,10 @@ export default async function EventsPage() {
                 </Link>
               </div>
               <div className="bg-white rounded-lg p-6 shadow-sm">
-                <h3 className="text-lg font-bold mb-2">
-                  Graduation Ceremonies
-                </h3>
+                <h3 className="text-lg font-bold mb-2">Graduation Ceremonies</h3>
                 <p className="text-black mb-4">
-                  End of each quarter (Mar, Jun, Sep, Dec). Celebrate our
-                  graduates and their achievements!
+                  End of each quarter (Mar, Jun, Sep, Dec). Celebrate our graduates and their
+                  achievements!
                 </p>
                 <Link
                   href="/success-stories"
@@ -236,12 +205,9 @@ export default async function EventsPage() {
       <section className="py-16 bg-white text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6">
-              Can&apos;t Make an Event?
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-6">Can&apos;t Make an Event?</h2>
             <p className="text-base md:text-lg text-blue-100 mb-8">
-              Contact us anytime to schedule a personal tour or phone
-              consultation.
+              Contact us anytime to schedule a personal tour or phone consultation.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link

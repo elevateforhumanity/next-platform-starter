@@ -88,9 +88,7 @@ export default function EnhancedDashboard({ role, userId }: DashboardProps) {
         <div className="bg-white border border-slate-200 rounded-lg p-6">
           <div className="flex items-center justify-between mb-2">
             <Bell className="w-8 h-8 text-brand-orange-600" />
-            <span className="text-2xl font-bold text-black">
-              {stats.notifications}
-            </span>
+            <span className="text-2xl font-bold text-black">{stats.notifications}</span>
           </div>
           <p className="text-sm text-black">Unread Notifications</p>
         </div>
@@ -98,9 +96,7 @@ export default function EnhancedDashboard({ role, userId }: DashboardProps) {
         <div className="bg-white border border-slate-200 rounded-lg p-6">
           <div className="flex items-center justify-between mb-2">
             <MessageSquare className="w-8 h-8 text-brand-blue-600" />
-            <span className="text-2xl font-bold text-black">
-              {stats.messages}
-            </span>
+            <span className="text-2xl font-bold text-black">{stats.messages}</span>
           </div>
           <p className="text-sm text-black">New Messages</p>
         </div>
@@ -108,9 +104,7 @@ export default function EnhancedDashboard({ role, userId }: DashboardProps) {
         <div className="bg-white border border-slate-200 rounded-lg p-6">
           <div className="flex items-center justify-between mb-2">
             <Award className="w-8 h-8 text-purple-600" />
-            <span className="text-2xl font-bold text-black">
-              {stats.achievements}
-            </span>
+            <span className="text-2xl font-bold text-black">{stats.achievements}</span>
           </div>
           <p className="text-sm text-black">Achievements</p>
         </div>
@@ -118,9 +112,7 @@ export default function EnhancedDashboard({ role, userId }: DashboardProps) {
         <div className="bg-white border border-slate-200 rounded-lg p-6">
           <div className="flex items-center justify-between mb-2">
             <TrendingUp className="w-8 h-8 text-emerald-600" />
-            <span className="text-2xl font-bold text-black">
-              {stats.progress}
-            </span>
+            <span className="text-2xl font-bold text-black">{stats.progress}</span>
           </div>
           <p className="text-sm text-black">Total Points</p>
         </div>
@@ -135,9 +127,7 @@ export default function EnhancedDashboard({ role, userId }: DashboardProps) {
             className="flex flex-col items-center justify-center p-4 border-2 border-slate-200 rounded-lg hover:border-brand-orange-500 hover:bg-brand-orange-50 transition-colors"
           >
             <MessageSquare className="w-6 h-6 text-black mb-2" />
-            <span className="text-xs font-semibold text-black">
-              Messages
-            </span>
+            <span className="text-xs font-semibold text-black">Messages</span>
           </a>
 
           <a
@@ -145,9 +135,7 @@ export default function EnhancedDashboard({ role, userId }: DashboardProps) {
             className="flex flex-col items-center justify-center p-4 border-2 border-slate-200 rounded-lg hover:border-brand-orange-500 hover:bg-brand-orange-50 transition-colors"
           >
             <Calendar className="w-6 h-6 text-black mb-2" />
-            <span className="text-xs font-semibold text-black">
-              Calendar
-            </span>
+            <span className="text-xs font-semibold text-black">Calendar</span>
           </a>
 
           <a
@@ -155,9 +143,7 @@ export default function EnhancedDashboard({ role, userId }: DashboardProps) {
             className="flex flex-col items-center justify-center p-4 border-2 border-slate-200 rounded-lg hover:border-brand-orange-500 hover:bg-brand-orange-50 transition-colors"
           >
             <Upload className="w-6 h-6 text-black mb-2" />
-            <span className="text-xs font-semibold text-black">
-              Documents
-            </span>
+            <span className="text-xs font-semibold text-black">Documents</span>
           </a>
 
           <a
@@ -165,9 +151,7 @@ export default function EnhancedDashboard({ role, userId }: DashboardProps) {
             className="flex flex-col items-center justify-center p-4 border-2 border-slate-200 rounded-lg hover:border-brand-orange-500 hover:bg-brand-orange-50 transition-colors"
           >
             <Award className="w-6 h-6 text-black mb-2" />
-            <span className="text-xs font-semibold text-black">
-              Achievements
-            </span>
+            <span className="text-xs font-semibold text-black">Achievements</span>
           </a>
 
           <a
@@ -183,31 +167,22 @@ export default function EnhancedDashboard({ role, userId }: DashboardProps) {
             className="flex flex-col items-center justify-center p-4 border-2 border-slate-200 rounded-lg hover:border-brand-orange-500 hover:bg-brand-orange-50 transition-colors"
           >
             <BarChart3 className="w-6 h-6 text-black mb-2" />
-            <span className="text-xs font-semibold text-black">
-              Reports
-            </span>
+            <span className="text-xs font-semibold text-black">Reports</span>
           </a>
         </div>
       </div>
 
       {/* Recent Activity */}
       <div className="bg-white border border-slate-200 rounded-lg p-6">
-        <h2 className="text-lg font-bold text-black mb-4">
-          Recent Activity
-        </h2>
+        <h2 className="text-lg font-bold text-black mb-4">Recent Activity</h2>
         {recentActivity.length === 0 ? (
           <p className="text-slate-500 text-center py-8">No recent activity</p>
         ) : (
           <div className="space-y-3">
             {recentActivity.map((activity) => (
-              <div
-                key={activity.id}
-                className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg"
-              >
+              <div key={activity.id} className="flex items-start gap-3 p-3 bg-slate-50 rounded-lg">
                 <div className="flex-1">
-                  <p className="font-semibold text-black text-sm">
-                    {activity.title}
-                  </p>
+                  <p className="font-semibold text-black text-sm">{activity.title}</p>
                   <p className="text-sm text-black">{activity.message}</p>
                   <p className="text-xs text-slate-400 mt-1">
                     {new Date(activity.created_at).toLocaleString()}

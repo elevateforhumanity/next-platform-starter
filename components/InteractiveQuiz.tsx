@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -101,8 +101,12 @@ export function InteractiveQuiz({ questions, onComplete }: InteractiveQuizProps)
         </div>
 
         {showFeedback && (
-          <div className={`p-4 rounded-lg ${isCorrect ? 'bg-brand-green-50 border border-brand-green-200' : 'bg-brand-red-50 border border-brand-red-200'}`}>
-            <p className={`font-semibold mb-2 ${isCorrect ? 'text-brand-green-800' : 'text-brand-red-800'}`}>
+          <div
+            className={`p-4 rounded-lg ${isCorrect ? 'bg-brand-green-50 border border-brand-green-200' : 'bg-brand-red-50 border border-brand-red-200'}`}
+          >
+            <p
+              className={`font-semibold mb-2 ${isCorrect ? 'text-brand-green-800' : 'text-brand-red-800'}`}
+            >
               {isCorrect ? '• Correct!' : '✗ Incorrect'}
             </p>
             <p className="text-sm text-black">{question.explanation}</p>
@@ -123,10 +127,7 @@ export function InteractiveQuiz({ questions, onComplete }: InteractiveQuizProps)
               Submit Answer
             </Button>
           ) : (
-            <Button
-              onClick={handleNext}
-              className="bg-brand-orange-600 hover:bg-brand-orange-700"
-            >
+            <Button onClick={handleNext} className="bg-brand-orange-600 hover:bg-brand-orange-700">
               {isLastQuestion ? 'Finish Quiz' : 'Next Question'}
             </Button>
           )}

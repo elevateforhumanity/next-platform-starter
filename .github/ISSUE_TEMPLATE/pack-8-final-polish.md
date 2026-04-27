@@ -9,6 +9,7 @@ assignees: ''
 ## 🎯 Goal
 
 Complete the final polish features to bring the LMS to 100% of planned functionality:
+
 - ✅ Subtitles / captions for video lessons
 - ✅ Leaderboards (course-level + global)
 - ✅ Advanced charts for instructor analytics
@@ -32,6 +33,7 @@ Complete the final polish features to bring the LMS to 100% of planned functiona
 - [ ] Verify RLS policies active
 
 **Acceptance Criteria:**
+
 - Table exists with columns: `id`, `lesson_id`, `language_code`, `label`, `src_url`, `is_default`
 - RLS enabled
 - Anyone can view captions
@@ -72,6 +74,7 @@ VALUES (
 - [ ] Test TypeScript compiles
 
 **Acceptance Criteria:**
+
 - Props accept captions array
 - Track elements render for each caption
 - CC button appears when captions exist
@@ -90,6 +93,7 @@ VALUES (
 - [ ] Test page loads without errors
 
 **Acceptance Criteria:**
+
 - Captions fetch successfully
 - Captions pass to video player
 - CC button appears on video player
@@ -110,6 +114,7 @@ VALUES (
 - [ ] Test views return data
 
 **Acceptance Criteria:**
+
 - `course_leaderboard` view shows per-course progress
 - `global_leaderboard` view shows average progress
 - Views calculate percentages correctly
@@ -127,6 +132,7 @@ VALUES (
 - [ ] Test with Postman/curl
 
 **Acceptance Criteria:**
+
 - GET returns leaderboard array
 - Each row has: rank, userId, name, progress
 - Ordered by progress (descending)
@@ -146,6 +152,7 @@ VALUES (
 - [ ] Test renders correctly
 
 **Acceptance Criteria:**
+
 - Component loads without errors
 - Shows "Loading..." initially
 - Shows leaderboard when data exists
@@ -165,6 +172,7 @@ VALUES (
 - [ ] Verify leaderboard displays
 
 **Acceptance Criteria:**
+
 - Leaderboard appears on course page
 - Shows real data when available
 - Responsive on mobile
@@ -186,6 +194,7 @@ VALUES (
 - [ ] Test with Postman/curl
 
 **Acceptance Criteria:**
+
 - GET returns leaderboard array
 - Each row has: rank, userId, name, avgProgress, isYou
 - Current user row marked correctly
@@ -206,6 +215,7 @@ VALUES (
 - [ ] Test renders correctly
 
 **Acceptance Criteria:**
+
 - Component loads without errors
 - Shows "Loading..." initially
 - Shows leaderboard when data exists
@@ -224,6 +234,7 @@ VALUES (
 - [ ] Verify leaderboard displays
 
 **Acceptance Criteria:**
+
 - Leaderboard appears on dashboard
 - Shows real data when available
 - Current user highlighted
@@ -258,6 +269,7 @@ yarn add recharts
 - [ ] Test renders without errors
 
 **Acceptance Criteria:**
+
 - Line chart shows enrollments and completions over time
 - Bar chart shows enrolled vs completed counts
 - Charts responsive
@@ -277,6 +289,7 @@ yarn add recharts
 - [ ] Test page loads
 
 **Acceptance Criteria:**
+
 - Page loads without errors
 - Only course instructor can access
 - Stat cards show correct numbers
@@ -294,6 +307,7 @@ yarn add recharts
 - [ ] Test navigation works
 
 **Acceptance Criteria:**
+
 - Analytics link visible on each course
 - Clicking link navigates to analytics page
 - Back button works
@@ -313,6 +327,7 @@ yarn add recharts
 - [ ] Test on mobile
 
 **Acceptance Criteria:**
+
 - Captions toggle on/off correctly
 - Captions display properly
 - No video playback issues
@@ -323,6 +338,7 @@ yarn add recharts
 ### Task 5.2: Leaderboards Testing
 
 **Course Leaderboard:**
+
 - [ ] Navigate to course page
 - [ ] Verify leaderboard displays
 - [ ] Check rank order is correct
@@ -330,6 +346,7 @@ yarn add recharts
 - [ ] Test with no data (empty state)
 
 **Global Leaderboard:**
+
 - [ ] Navigate to student dashboard
 - [ ] Verify global leaderboard displays
 - [ ] Check current user is highlighted
@@ -337,6 +354,7 @@ yarn add recharts
 - [ ] Test with no data (empty state)
 
 **Acceptance Criteria:**
+
 - Both leaderboards display correctly
 - Data is accurate
 - Empty states work
@@ -354,6 +372,7 @@ yarn add recharts
 - [ ] Test responsive behavior
 
 **Acceptance Criteria:**
+
 - Charts render without errors
 - Data is accurate
 - Charts responsive
@@ -371,6 +390,7 @@ yarn add recharts
 - [ ] Mobile Safari: Responsive
 
 **Acceptance Criteria:**
+
 - Works in all browsers
 - No browser-specific bugs
 - Responsive on all devices
@@ -432,18 +452,21 @@ yarn add recharts
 ## 💬 Notes
 
 **Design Guidelines:**
+
 - Follow existing Tailwind patterns
 - Use rounded-xl for cards
 - Use shadow-sm for elevation
 - Match existing color scheme
 
 **Technical Notes:**
+
 - Recharts is client-side only
 - Captions must be WebVTT format (.vtt)
 - Leaderboard views update automatically
 - Charts aggregate data by day
 
 **Future Enhancements:**
+
 - Multiple caption language selector
 - Leaderboard filters (by date range)
 - More chart types (pie, area)
@@ -454,6 +477,7 @@ yarn add recharts
 ## 🎉 Success Criteria
 
 **Pack 8 is complete when:**
+
 - ✅ Videos have working captions with CC button
 - ✅ Course pages show leaderboards
 - ✅ Student dashboard shows global leaderboard
@@ -462,6 +486,7 @@ yarn add recharts
 - ✅ Platform is 100% feature complete
 
 **Platform Status After Pack 8:**
+
 - 🎯 100% of planned features complete
 - 🚀 Production ready
 - 📊 Full analytics

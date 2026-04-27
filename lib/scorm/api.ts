@@ -92,14 +92,13 @@ export class ScormAPI {
 
   private async loadData() {
     try {
-      const response = await fetch(
-        `/api/scorm/attempts/${this.attemptId}/data`
-      );
+      const response = await fetch(`/api/scorm/attempts/${this.attemptId}/data`);
       if (response.ok) {
         const json = await response.json();
         this.data = new Map(Object.entries(json.data || {}));
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }
@@ -112,7 +111,8 @@ export class ScormAPI {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ data: dataObj }),
       });
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }

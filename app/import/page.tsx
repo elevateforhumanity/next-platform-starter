@@ -4,10 +4,18 @@ import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { useState } from 'react';
 import Link from 'next/link';
-import { 
-  Globe, ArrowRight, Loader2, Circle, 
-  Palette, FileText, Image as ImageIcon, Navigation, Sparkles,
-  AlertCircle, ExternalLink
+import {
+  Globe,
+  ArrowRight,
+  Loader2,
+  Circle,
+  Palette,
+  FileText,
+  Image as ImageIcon,
+  Navigation,
+  Sparkles,
+  AlertCircle,
+  ExternalLink,
 } from 'lucide-react';
 
 type Step = 'url' | 'analyzing' | 'review' | 'customize' | 'preview';
@@ -50,7 +58,7 @@ export default function ImportSitePage() {
 
   const handleImport = async () => {
     if (!url) return;
-    
+
     setError('');
     setAnalyzing(true);
     setStep('analyzing');
@@ -82,7 +90,7 @@ export default function ImportSitePage() {
 
   const handleCustomize = (field: string, value: string) => {
     if (!config) return;
-    
+
     setConfig({
       ...config,
       branding: {
@@ -94,10 +102,10 @@ export default function ImportSitePage() {
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Import" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Import' }]} />
       </div>
-{/* Header */}
+      {/* Header */}
       <header className="border-b border-white/10">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2 text-white">
@@ -119,23 +127,23 @@ export default function ImportSitePage() {
                 Import Your Existing Website
               </h1>
               <p className="text-slate-600 text-lg">
-                We'll analyze your current site and recreate it on Elevate LMS - 
-                keeping your branding, content, and style.
+                We'll analyze your current site and recreate it on Elevate LMS - keeping your
+                branding, content, and style.
               </p>
             </div>
 
             <div className="bg-white/5 backdrop-blur rounded-2xl p-8 space-y-6">
               <div>
-                <label className="block text-white font-medium mb-2">
-                  Your Website URL
-                </label>
+                <label className="block text-white font-medium mb-2">Your Website URL</label>
                 <div className="flex gap-2">
                   <div className="flex-1 flex items-center bg-white/10 rounded-lg overflow-hidden border border-white/20 focus-within:border-brand-green-500">
                     <span className="pl-4 text-slate-500">https://</span>
                     <input
                       type="text"
                       value={url.replace(/^https?:\/\//, '')}
-                      onChange={(e) => setUrl(`https://${e.target.value.replace(/^https?:\/\//, '')}`)}
+                      onChange={(e) =>
+                        setUrl(`https://${e.target.value.replace(/^https?:\/\//, '')}`)
+                      }
                       placeholder="www.yoursite.com"
                       className="flex-1 bg-transparent px-2 py-4 text-white placeholder-slate-500 outline-none"
                     />
@@ -216,12 +224,8 @@ export default function ImportSitePage() {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-6">
               <Loader2 className="w-10 h-10 text-brand-green-400 animate-spin" />
             </div>
-            <h2 className="text-3xl font-black text-slate-900 mb-4">
-              Analyzing Your Website...
-            </h2>
-            <p className="text-slate-600 mb-8">
-              {url}
-            </p>
+            <h2 className="text-3xl font-black text-slate-900 mb-4">Analyzing Your Website...</h2>
+            <p className="text-slate-600 mb-8">{url}</p>
             <div className="space-y-3 text-sm text-slate-500 max-w-xs mx-auto text-left">
               <p className="flex items-center gap-2">
                 <Loader2 className="w-4 h-4 animate-spin" />
@@ -251,9 +255,7 @@ export default function ImportSitePage() {
                 <Circle className="w-4 h-4" />
                 Import Successful!
               </div>
-              <h1 className="text-4xl font-black text-slate-900 mb-4">
-                We Found Your Site
-              </h1>
+              <h1 className="text-4xl font-black text-slate-900 mb-4">We Found Your Site</h1>
               <p className="text-slate-600">
                 Review what we extracted and customize before launching.
               </p>
@@ -264,11 +266,16 @@ export default function ImportSitePage() {
               <div className="flex items-center gap-3 mb-4">
                 <Globe className="w-5 h-5 text-brand-green-400" />
                 <span className="text-white font-medium">{url}</span>
-                <a href={url} target="_blank" rel="noopener noreferrer" className="text-slate-400 hover:text-white">
+                <a
+                  href={url}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-slate-400 hover:text-white"
+                >
                   <ExternalLink className="w-4 h-4" />
                 </a>
               </div>
-              
+
               <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
                 <div className="bg-white/5 rounded-lg p-4 text-center">
                   <FileText className="w-6 h-6 text-brand-blue-400 mx-auto mb-2" />
@@ -282,7 +289,9 @@ export default function ImportSitePage() {
                 </div>
                 <div className="bg-white/5 rounded-lg p-4 text-center">
                   <Palette className="w-6 h-6 text-pink-400 mx-auto mb-2" />
-                  <p className="text-2xl font-bold text-slate-900">{extracted.colorsDetected.length}</p>
+                  <p className="text-2xl font-bold text-slate-900">
+                    {extracted.colorsDetected.length}
+                  </p>
                   <p className="text-slate-500 text-sm">Colors</p>
                 </div>
                 <div className="bg-white/5 rounded-lg p-4 text-center">
@@ -314,7 +323,7 @@ export default function ImportSitePage() {
                 <Palette className="w-5 h-5 text-pink-400" />
                 Customize Branding
               </h3>
-              
+
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
                   <label className="block text-slate-500 text-sm mb-1">Site Name</label>
@@ -401,7 +410,9 @@ export default function ImportSitePage() {
                       <Circle className="w-5 h-5 text-brand-green-400" />
                       <div>
                         <p className="text-slate-900 font-medium">{program.name}</p>
-                        <p className="text-slate-500 text-sm">{program.description.slice(0, 80)}...</p>
+                        <p className="text-slate-500 text-sm">
+                          {program.description.slice(0, 80)}...
+                        </p>
                       </div>
                     </div>
                   ))}

@@ -12,10 +12,7 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  req: Request,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
+async function _GET(req: Request, { params }: { params: Promise<{ courseId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
@@ -37,10 +34,7 @@ async function _GET(
       .eq('id', user.id)
       .maybeSingle();
 
-    if (
-      !profile ||
-      !['admin', 'super_admin', 'instructor'].includes(profile.role)
-    ) {
+    if (!profile || !['admin', 'super_admin', 'instructor'].includes(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -60,10 +54,7 @@ async function _GET(
 
     return NextResponse.json(analytics);
   } catch (err: any) {
-    return NextResponse.json(
-      { error: 'Failed to fetch analytics' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch analytics' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/admin/course-analytics/[courseId]', _GET);

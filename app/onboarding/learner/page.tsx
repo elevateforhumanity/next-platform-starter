@@ -4,7 +4,19 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import { BookOpen, FileText, CreditCard, Calendar, User, ArrowRight, Phone, Mail, HelpCircle, ClipboardCheck, Clock } from 'lucide-react';
+import {
+  BookOpen,
+  FileText,
+  CreditCard,
+  Calendar,
+  User,
+  ArrowRight,
+  Phone,
+  Mail,
+  HelpCircle,
+  ClipboardCheck,
+  Clock,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
 import { logger } from '@/lib/logger';
@@ -41,7 +53,8 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
   {
     id: 'documents',
     title: 'Upload Required Documents',
-    description: 'Submit your government-issued ID, proof of Indiana residency, and proof of income (if applying for WIOA funding).',
+    description:
+      'Submit your government-issued ID, proof of Indiana residency, and proof of income (if applying for WIOA funding).',
     href: '/onboarding/learner/documents',
     icon: FileText,
     image: '/images/pages/career-services-page-2.jpg',
@@ -51,7 +64,8 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
   {
     id: 'funding',
     title: 'Confirm Funding Source',
-    description: 'Review and confirm how your training will be funded — WIOA, Workforce Ready Grant, employer sponsorship, or self-pay.',
+    description:
+      'Review and confirm how your training will be funded — WIOA, Workforce Ready Grant, employer sponsorship, or self-pay.',
     href: '/funding/confirm',
     icon: CreditCard,
     image: '/images/pages/career-services-page-2.jpg',
@@ -61,7 +75,8 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
   {
     id: 'schedule',
     title: 'Select Your Schedule',
-    description: 'Choose your cohort start date and class schedule. Day and evening options available.',
+    description:
+      'Choose your cohort start date and class schedule. Day and evening options available.',
     href: '/schedule/select',
     icon: Calendar,
     image: '/images/pages/career-services-page-2.jpg',
@@ -71,7 +86,8 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
   {
     id: 'agreements',
     title: 'Sign Enrollment Agreement',
-    description: 'Review and sign your enrollment agreement covering program terms, attendance policy, and your rights as a student.',
+    description:
+      'Review and sign your enrollment agreement covering program terms, attendance policy, and your rights as a student.',
     href: '/onboarding/learner/agreements',
     icon: ClipboardCheck,
     image: '/images/pages/career-services-page-2.jpg',
@@ -81,7 +97,8 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
   {
     id: 'handbook',
     title: 'Acknowledge Student Handbook',
-    description: 'Read and acknowledge the student handbook covering attendance, dress code, conduct, and grievance procedures.',
+    description:
+      'Read and acknowledge the student handbook covering attendance, dress code, conduct, and grievance procedures.',
     href: '/onboarding/learner/handbook',
     icon: BookOpen,
     image: '/images/pages/career-services-page-2.jpg',
@@ -91,7 +108,8 @@ const ONBOARDING_STEPS: OnboardingStep[] = [
   {
     id: 'orientation',
     title: 'Complete Orientation',
-    description: 'Review program policies and complete your orientation to get ready for your first day.',
+    description:
+      'Review program policies and complete your orientation to get ready for your first day.',
     href: '/onboarding/learner/orientation',
     icon: BookOpen,
     image: '/images/pages/career-services-page-2.jpg',
@@ -108,7 +126,9 @@ export default async function LearnerOnboardingPage({
   const { checkout } = await searchParams;
   const sessionClient = await createClient();
 
-  const { data: { user } } = await sessionClient.auth.getUser();
+  const {
+    data: { user },
+  } = await sessionClient.auth.getUser();
   if (!user) {
     redirect('/login?redirect=/onboarding/learner');
   }
@@ -146,44 +166,43 @@ export default async function LearnerOnboardingPage({
     idDocResult,
     orientationResult,
   ] = await Promise.all([
-    supabase.from('profiles')
-      .select('*, onboarding_completed, funding_confirmed, funding_source, orientation_completed, schedule_selected, enrollment_status, full_name, first_name, last_name, phone, address')
+    supabase
+      .from('profiles')
+      .select(
+        '*, onboarding_completed, funding_confirmed, funding_source, orientation_completed, schedule_selected, enrollment_status, full_name, first_name, last_name, phone, address',
+      )
       .eq('id', user.id)
       .maybeSingle(),
-    supabase.from('program_enrollments')
+    supabase
+      .from('program_enrollments')
       .select('id, program_id, program_slug, status, enrollment_state')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle(),
     // Check application approval status — onboarding is locked until approved
-    supabase.from('applications')
+    supabase
+      .from('applications')
       .select('id, status, program_interest')
       .eq('user_id', user.id)
       .order('created_at', { ascending: false })
       .limit(1)
       .maybeSingle(),
-    supabase.from('documents')
-      .select('document_type', { count: 'exact' })
-      .eq('user_id', user.id),
-    supabase.from('license_agreement_acceptances')
+    supabase.from('documents').select('document_type', { count: 'exact' }).eq('user_id', user.id),
+    supabase
+      .from('license_agreement_acceptances')
       .select('agreement_key:agreement_type')
       .eq('user_id', user.id),
-    supabase.from('handbook_acknowledgments')
-      .select('id')
-      .eq('user_id', user.id)
-      .limit(1),
+    supabase.from('handbook_acknowledgments').select('id').eq('user_id', user.id).limit(1),
     // Check identity via documents table (id_verifications has no user_id column)
-    supabase.from('documents')
+    supabase
+      .from('documents')
       .select('id, status')
       .eq('user_id', user.id)
       .eq('document_type', 'photo_id')
       .limit(1)
       .maybeSingle(),
-    supabase.from('orientation_completions')
-      .select('id')
-      .eq('user_id', user.id)
-      .limit(1),
+    supabase.from('orientation_completions').select('id').eq('user_id', user.id).limit(1),
   ]);
 
   const profile = profileResult.data;
@@ -203,7 +222,14 @@ export default async function LearnerOnboardingPage({
 
   // Gate: onboarding is only available after the application is approved.
   // Statuses that mean "not yet approved":
-  const PENDING_STATUSES = new Set(['submitted', 'in_review', 'under_review', 'pending_workone', 'waitlisted', 'funding_review']);
+  const PENDING_STATUSES = new Set([
+    'submitted',
+    'in_review',
+    'under_review',
+    'pending_workone',
+    'waitlisted',
+    'funding_review',
+  ]);
   // paid/ready_to_enroll/approved all mean payment received — do not block
   const applicationPending = application && PENDING_STATUSES.has(application.status);
   // No application on record at all — user navigated here directly without applying
@@ -214,7 +240,8 @@ export default async function LearnerOnboardingPage({
   const handbookAcknowledged = (handbookResult.data?.length || 0) > 0;
   // Identity verified if user has uploaded a photo_id document
   const identityVerified = !!idDocResult.data;
-  const orientationDone = !!profile?.orientation_completed || (orientationResult.data?.length || 0) > 0;
+  const orientationDone =
+    !!profile?.orientation_completed || (orientationResult.data?.length || 0) > 0;
 
   // Resolve program display name — try programs table first (canonical), then
   // apprenticeship_programs (FK target for older enrollments), then fall back to slug.
@@ -295,10 +322,13 @@ export default async function LearnerOnboardingPage({
       // sendEmail suppressed — admin triggers manually
 
       // Mark onboarding complete — does NOT grant LMS access
-      await supabase.from('profiles').update({
-        onboarding_completed: true,
-        onboarding_completed_at: new Date().toISOString(),
-      }).eq('id', user.id);
+      await supabase
+        .from('profiles')
+        .update({
+          onboarding_completed: true,
+          onboarding_completed_at: new Date().toISOString(),
+        })
+        .eq('id', user.id);
 
       justCompleted = true;
 
@@ -325,7 +355,9 @@ export default async function LearnerOnboardingPage({
         to: adminEmail,
         subject: `New student onboarding complete — ${firstName}`,
         html: `<p><strong>${firstName}</strong> (${emailAddr}) has completed all onboarding steps for <strong>${resolvedProgramName}</strong> and is awaiting LMS access.</p><p><a href="${siteUrlInner}/admin/enrollments">Review in Admin →</a></p>`,
-      }).catch((err: Error) => logger.warn('[onboarding] Admin notification failed (non-fatal)', err));
+      }).catch((err: Error) =>
+        logger.warn('[onboarding] Admin notification failed (non-fatal)', err),
+      );
     } catch (err) {
       logger.error('[onboarding] Completion failed', err as Error);
     }
@@ -336,11 +368,13 @@ export default async function LearnerOnboardingPage({
   const programName = enrollmentProgramName || 'your selected program';
 
   // Find next incomplete step
-  const nextStep = ONBOARDING_STEPS.find(s => !completedSteps.includes(s.id));
+  const nextStep = ONBOARDING_STEPS.find((s) => !completedSteps.includes(s.id));
 
   return (
     <div className="min-h-screen bg-white">
-      <Breadcrumbs items={[{ label: 'Onboarding', href: '/onboarding' }, { label: 'Student Onboarding' }]} />
+      <Breadcrumbs
+        items={[{ label: 'Onboarding', href: '/onboarding' }, { label: 'Student Onboarding' }]}
+      />
 
       {/* Payment confirmation banner — shown after Stripe checkout redirect */}
       {checkout === 'success' && (
@@ -350,7 +384,8 @@ export default async function LearnerOnboardingPage({
             <div>
               <p className="font-bold text-lg leading-tight">Payment received — thank you!</p>
               <p className="text-green-100 text-sm mt-0.5">
-                Your enrollment is confirmed. Complete the steps below, then our team will review your documents and grant your LMS access — usually within 1 business day.
+                Your enrollment is confirmed. Complete the steps below, then our team will review
+                your documents and grant your LMS access — usually within 1 business day.
               </p>
             </div>
           </div>
@@ -358,7 +393,10 @@ export default async function LearnerOnboardingPage({
       )}
 
       {/* VIDEO HERO — full bleed, no text on top */}
-      <div className="relative w-full overflow-hidden" style={{ height: '55vh', minHeight: 280, maxHeight: 500 }}>
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ height: '55vh', minHeight: 280, maxHeight: 500 }}
+      >
         <CanonicalVideo
           src="/videos/getting-started-hero.mp4"
           poster="/images/pages/onboarding-page-2.jpg"
@@ -385,7 +423,9 @@ export default async function LearnerOnboardingPage({
             {/* Progress */}
             <div className="max-w-md mt-4">
               <div className="flex items-center justify-between text-sm mb-2">
-                <span className="text-slate-500">{completedSteps.length} of {ONBOARDING_STEPS.length} steps complete</span>
+                <span className="text-slate-500">
+                  {completedSteps.length} of {ONBOARDING_STEPS.length} steps complete
+                </span>
                 <span className="font-bold text-slate-700">{progress}%</span>
               </div>
               <div className="h-2 bg-slate-100 rounded-full overflow-hidden">
@@ -400,7 +440,6 @@ export default async function LearnerOnboardingPage({
       </section>
 
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-8 sm:py-12">
-
         {/* Gate: no application on record */}
         {noApplication && (
           <div className="max-w-lg mx-auto text-center py-16">
@@ -409,8 +448,8 @@ export default async function LearnerOnboardingPage({
             </div>
             <h2 className="text-2xl font-bold text-slate-900 mb-3">Start with an application</h2>
             <p className="text-slate-500 mb-8">
-              You need to submit an application and have it approved before you can begin onboarding.
-              It only takes a few minutes.
+              You need to submit an application and have it approved before you can begin
+              onboarding. It only takes a few minutes.
             </p>
             <Link
               href="/apply/student"
@@ -451,187 +490,228 @@ export default async function LearnerOnboardingPage({
             </Link>
             <p className="text-sm text-slate-400 mt-6">
               Questions? Call{' '}
-              <a href="tel:+13173143757" className="underline">(317) 314-3757</a>
+              <a href="tel:+13173143757" className="underline">
+                (317) 314-3757
+              </a>
             </p>
           </div>
         )}
 
         {/* Main onboarding content — only shown when application is approved */}
-        {!noApplication && !applicationPending && <>
-
-        {/* Enrollment approved — student can access courses */}
-        {profile?.enrollment_status === 'active' && (
-          <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 mb-10 flex flex-col sm:flex-row items-center gap-6">
-            <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden flex-shrink-0">
-              <Image src="/images/pages/onboarding-page-1.jpg" alt="Enrollment approved" width={80} height={80} className="w-full h-full object-cover" />
-            </div>
-            <div className="flex-1 text-center sm:text-left">
-              <h2 className="text-xl font-black text-slate-900 mb-1">Enrollment Approved</h2>
-              <p className="text-slate-500 text-sm">Your enrollment has been approved. Access your courses and begin training.</p>
-            </div>
-            <Link href="/learner/dashboard" className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-xl font-bold hover:bg-brand-blue-700 transition flex-shrink-0">
-              Go to Student Portal <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        )}
-
-        {/* All steps just completed — pending admin review */}
-        {justCompleted && (
-          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 sm:p-8 mb-10 flex flex-col sm:flex-row items-center gap-6">
-            <div className="w-16 h-16 rounded-2xl bg-amber-100 flex items-center justify-center flex-shrink-0">
-              <ClipboardCheck className="w-8 h-8 text-amber-600" />
-            </div>
-            <div className="flex-1 text-center sm:text-left">
-              <h2 className="text-xl font-black text-slate-900 mb-1">Onboarding Complete — Pending Review</h2>
-              <p className="text-slate-500 text-sm">All steps are done. Our team is reviewing your documents and will grant access within 1 business day. Check your email for confirmation.</p>
-            </div>
-            <Link href="/learner/dashboard" className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-700 transition flex-shrink-0">
-              View Dashboard <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        )}
-
-        {/* Already completed — still waiting for access */}
-        {!justCompleted && isOnboardingComplete && (
-          <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 sm:p-8 mb-10 flex flex-col sm:flex-row items-center gap-6">
-            <div className="w-16 h-16 rounded-2xl bg-amber-100 flex items-center justify-center flex-shrink-0">
-              <ClipboardCheck className="w-8 h-8 text-amber-600" />
-            </div>
-            <div className="flex-1 text-center sm:text-left">
-              <h2 className="text-xl font-black text-slate-900 mb-1">Onboarding Complete</h2>
-              <p className="text-slate-500 text-sm">Your documents are under review. You'll receive an email once access is granted. Questions? Call (317) 314-3757.</p>
-            </div>
-            <Link href="/learner/dashboard" className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-700 transition flex-shrink-0">
-              View Dashboard <ArrowRight className="w-4 h-4" />
-            </Link>
-          </div>
-        )}
-
-        {/* Not yet complete — info banner */}
-        {!isOnboardingComplete && (
-          <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-4 sm:p-5 mb-8 flex items-start gap-3">
-            <div className="w-8 h-8 rounded-lg bg-brand-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
-              <BookOpen className="w-4 h-4 text-brand-blue-600" />
-            </div>
-            <div>
-              <p className="text-brand-blue-900 font-semibold text-sm">Complete all steps to begin training</p>
-              <p className="text-brand-blue-700 text-sm mt-0.5">
-                Each step takes 2-5 minutes. Once all steps are done, you&apos;ll be automatically enrolled.
-              </p>
-            </div>
-          </div>
-        )}
-
-        {/* Onboarding Steps */}
-        <div className="space-y-3">
-          {ONBOARDING_STEPS.map((step, index) => {
-            const isComplete = completedSteps.includes(step.id);
-            const isNext = nextStep?.id === step.id;
-            const Icon = step.icon;
-
-            return (
-              <div
-                key={step.id}
-                className={`group overflow-hidden rounded-2xl border transition-all bg-white ${
-                  isNext ? 'border-brand-blue-300 shadow-sm' : 'border-slate-200'
-                }`}
-              >
-                <div className="flex flex-col sm:flex-row">
-                  {/* Step image */}
-                  <div className="relative w-full sm:w-44 h-36 sm:h-auto flex-shrink-0 overflow-hidden">
-                    <Image
-                      src={step.image}
-                      alt={step.imageAlt}
-                      fill
-                      sizes="(max-width: 640px) 100vw, 176px"
-                      className={`object-cover ${isComplete ? 'opacity-50 grayscale' : ''}`}
+        {
+          !noApplication && !applicationPending && (
+            <>
+              {/* Enrollment approved — student can access courses */}
+              {profile?.enrollment_status === 'active' && (
+                <div className="bg-white border border-slate-200 rounded-2xl p-6 sm:p-8 mb-10 flex flex-col sm:flex-row items-center gap-6">
+                  <div className="w-16 h-16 sm:w-20 sm:h-20 rounded-2xl overflow-hidden flex-shrink-0">
+                    <Image sizes="100vw"
+                      src="/images/pages/onboarding-page-1.jpg"
+                      alt="Enrollment approved"
+                      width={80}
+                      height={80}
+                      className="w-full h-full object-cover"
                     />
-                    {/* Step number — plain white pill, no color */}
-                    <div className="absolute top-3 left-3 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-xs font-bold text-slate-700">
-                      {index + 1}
-                    </div>
                   </div>
+                  <div className="flex-1 text-center sm:text-left">
+                    <h2 className="text-xl font-black text-slate-900 mb-1">Enrollment Approved</h2>
+                    <p className="text-slate-500 text-sm">
+                      Your enrollment has been approved. Access your courses and begin training.
+                    </p>
+                  </div>
+                  <Link
+                    href="/learner/dashboard"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white rounded-xl font-bold hover:bg-brand-blue-700 transition flex-shrink-0"
+                  >
+                    Go to Student Portal <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              )}
 
-                  {/* Step content */}
-                  <div className="flex-1 p-5 flex flex-col justify-center">
-                    <div className="flex items-start gap-3">
-                      <div className="hidden sm:flex w-9 h-9 rounded-xl bg-white items-center justify-center flex-shrink-0">
-                        <Icon className="w-4 h-4 text-slate-500" />
-                      </div>
-                      <div className="flex-1">
-                        <div className="flex items-center gap-2 mb-1">
-                          <h3 className="font-bold text-slate-900">{step.title}</h3>
-                          {isComplete && (
-                            <span className="text-[10px] font-semibold uppercase tracking-wider bg-white text-slate-500 px-2 py-0.5 rounded-full">Done</span>
-                          )}
+              {/* All steps just completed — pending admin review */}
+              {justCompleted && (
+                <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 sm:p-8 mb-10 flex flex-col sm:flex-row items-center gap-6">
+                  <div className="w-16 h-16 rounded-2xl bg-amber-100 flex items-center justify-center flex-shrink-0">
+                    <ClipboardCheck className="w-8 h-8 text-amber-600" />
+                  </div>
+                  <div className="flex-1 text-center sm:text-left">
+                    <h2 className="text-xl font-black text-slate-900 mb-1">
+                      Onboarding Complete — Pending Review
+                    </h2>
+                    <p className="text-slate-500 text-sm">
+                      All steps are done. Our team is reviewing your documents and will grant access
+                      within 1 business day. Check your email for confirmation.
+                    </p>
+                  </div>
+                  <Link
+                    href="/learner/dashboard"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-700 transition flex-shrink-0"
+                  >
+                    View Dashboard <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              )}
+
+              {/* Already completed — still waiting for access */}
+              {!justCompleted && isOnboardingComplete && (
+                <div className="bg-amber-50 border border-amber-200 rounded-2xl p-6 sm:p-8 mb-10 flex flex-col sm:flex-row items-center gap-6">
+                  <div className="w-16 h-16 rounded-2xl bg-amber-100 flex items-center justify-center flex-shrink-0">
+                    <ClipboardCheck className="w-8 h-8 text-amber-600" />
+                  </div>
+                  <div className="flex-1 text-center sm:text-left">
+                    <h2 className="text-xl font-black text-slate-900 mb-1">Onboarding Complete</h2>
+                    <p className="text-slate-500 text-sm">
+                      Your documents are under review. You'll receive an email once access is
+                      granted. Questions? Call (317) 314-3757.
+                    </p>
+                  </div>
+                  <Link
+                    href="/learner/dashboard"
+                    className="inline-flex items-center gap-2 px-6 py-3 bg-slate-900 text-white rounded-xl font-bold hover:bg-slate-700 transition flex-shrink-0"
+                  >
+                    View Dashboard <ArrowRight className="w-4 h-4" />
+                  </Link>
+                </div>
+              )}
+
+              {/* Not yet complete — info banner */}
+              {!isOnboardingComplete && (
+                <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-4 sm:p-5 mb-8 flex items-start gap-3">
+                  <div className="w-8 h-8 rounded-lg bg-brand-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">
+                    <BookOpen className="w-4 h-4 text-brand-blue-600" />
+                  </div>
+                  <div>
+                    <p className="text-brand-blue-900 font-semibold text-sm">
+                      Complete all steps to begin training
+                    </p>
+                    <p className="text-brand-blue-700 text-sm mt-0.5">
+                      Each step takes 2-5 minutes. Once all steps are done, you&apos;ll be
+                      automatically enrolled.
+                    </p>
+                  </div>
+                </div>
+              )}
+
+              {/* Onboarding Steps */}
+              <div className="space-y-3">
+                {ONBOARDING_STEPS.map((step, index) => {
+                  const isComplete = completedSteps.includes(step.id);
+                  const isNext = nextStep?.id === step.id;
+                  const Icon = step.icon;
+
+                  return (
+                    <div
+                      key={step.id}
+                      className={`group overflow-hidden rounded-2xl border transition-all bg-white ${
+                        isNext ? 'border-brand-blue-300 shadow-sm' : 'border-slate-200'
+                      }`}
+                    >
+                      <div className="flex flex-col sm:flex-row">
+                        {/* Step image */}
+                        <div className="relative w-full sm:w-44 h-36 sm:h-auto flex-shrink-0 overflow-hidden">
+                          <Image
+                            src={step.image}
+                            alt={step.imageAlt}
+                            fill
+                            sizes="(max-width: 640px) 100vw, 176px"
+                            className={`object-cover ${isComplete ? 'opacity-50 grayscale' : ''}`}
+                          />
+                          {/* Step number — plain white pill, no color */}
+                          <div className="absolute top-3 left-3 w-7 h-7 rounded-full bg-white/90 backdrop-blur-sm flex items-center justify-center text-xs font-bold text-slate-700">
+                            {index + 1}
+                          </div>
                         </div>
-                        <p className="text-slate-500 text-sm leading-relaxed mb-3">{step.description}</p>
 
-                        {!isComplete && (
-                          <Link
-                            href={step.href}
-                            className={`inline-flex items-center gap-2 text-sm font-semibold transition-colors ${
-                              isNext
-                                ? 'bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700'
-                                : 'text-brand-blue-600 hover:text-brand-blue-800'
-                            }`}
-                          >
-                            {isNext ? 'Start' : 'Complete'}
-                            <ArrowRight className="w-4 h-4" />
-                          </Link>
-                        )}
+                        {/* Step content */}
+                        <div className="flex-1 p-5 flex flex-col justify-center">
+                          <div className="flex items-start gap-3">
+                            <div className="hidden sm:flex w-9 h-9 rounded-xl bg-white items-center justify-center flex-shrink-0">
+                              <Icon className="w-4 h-4 text-slate-500" />
+                            </div>
+                            <div className="flex-1">
+                              <div className="flex items-center gap-2 mb-1">
+                                <h3 className="font-bold text-slate-900">{step.title}</h3>
+                                {isComplete && (
+                                  <span className="text-[10px] font-semibold uppercase tracking-wider bg-white text-slate-500 px-2 py-0.5 rounded-full">
+                                    Done
+                                  </span>
+                                )}
+                              </div>
+                              <p className="text-slate-500 text-sm leading-relaxed mb-3">
+                                {step.description}
+                              </p>
+
+                              {!isComplete && (
+                                <Link
+                                  href={step.href}
+                                  className={`inline-flex items-center gap-2 text-sm font-semibold transition-colors ${
+                                    isNext
+                                      ? 'bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700'
+                                      : 'text-brand-blue-600 hover:text-brand-blue-800'
+                                  }`}
+                                >
+                                  {isNext ? 'Start' : 'Complete'}
+                                  <ArrowRight className="w-4 h-4" />
+                                </Link>
+                              )}
+                            </div>
+                          </div>
+                        </div>
                       </div>
+                    </div>
+                  );
+                })}
+              </div>
+
+              {/* Help Section */}
+              <section className="mt-12 sm:mt-16">
+                <div className="relative overflow-hidden rounded-2xl bg-white aspect-[4/3]">
+                  <div className="absolute inset-0">
+                    <Image
+                      src="/images/pages/onboarding.jpg"
+                      alt="Contact Elevate for Humanity support"
+                      fill
+                      className="object-cover opacity-20"
+                      sizes="100vw"
+                    />
+                  </div>
+                  <div className="relative p-6 sm:p-10 text-center">
+                    <h3 className="text-xl sm:text-2xl font-black text-slate-900 mb-2">
+                      Need Help?
+                    </h3>
+                    <p className="text-slate-600 mb-6 max-w-lg mx-auto">
+                      Our enrollment team is available Monday through Friday to help you complete
+                      your onboarding.
+                    </p>
+                    <div className="flex flex-col sm:flex-row justify-center gap-3">
+                      <Link
+                        href="/contact"
+                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-brand-blue-600 text-white rounded-xl hover:bg-brand-blue-700 font-semibold transition"
+                      >
+                        <Mail className="w-4 h-4" />
+                        Contact Support
+                      </Link>
+                      <a
+                        href="tel:+13173143757"
+                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/10 text-white rounded-xl hover:bg-white/20 font-semibold transition backdrop-blur-sm"
+                      >
+                        <Phone className="w-4 h-4" />
+                        (317) 314-3757
+                      </a>
+                      <Link
+                        href="/support/help"
+                        className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/10 text-white rounded-xl hover:bg-white/20 font-semibold transition backdrop-blur-sm"
+                      >
+                        <HelpCircle className="w-4 h-4" />
+                        Help Center
+                      </Link>
                     </div>
                   </div>
                 </div>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Help Section */}
-        <section className="mt-12 sm:mt-16">
-          <div className="relative overflow-hidden rounded-2xl bg-white aspect-[4/3]">
-            <div className="absolute inset-0">
-              <Image
-                src="/images/pages/onboarding.jpg"
-                alt="Contact Elevate for Humanity support"
-                fill
-                className="object-cover opacity-20"
-               sizes="100vw" />
-            </div>
-            <div className="relative p-6 sm:p-10 text-center">
-              <h3 className="text-xl sm:text-2xl font-black text-slate-900 mb-2">Need Help?</h3>
-              <p className="text-slate-600 mb-6 max-w-lg mx-auto">
-                Our enrollment team is available Monday through Friday to help you complete your onboarding.
-              </p>
-              <div className="flex flex-col sm:flex-row justify-center gap-3">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-brand-blue-600 text-white rounded-xl hover:bg-brand-blue-700 font-semibold transition"
-                >
-                  <Mail className="w-4 h-4" />
-                  Contact Support
-                </Link>
-                <a
-                  href="tel:+13173143757"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/10 text-white rounded-xl hover:bg-white/20 font-semibold transition backdrop-blur-sm"
-                >
-                  <Phone className="w-4 h-4" />
-                  (317) 314-3757
-                </a>
-                <Link
-                  href="/support/help"
-                  className="inline-flex items-center justify-center gap-2 px-5 py-3 bg-white/10 text-white rounded-xl hover:bg-white/20 font-semibold transition backdrop-blur-sm"
-                >
-                  <HelpCircle className="w-4 h-4" />
-                  Help Center
-                </Link>
-              </div>
-            </div>
-          </div>
-        </section>
-        </> /* end: !noApplication && !applicationPending */}
+              </section>
+            </>
+          ) /* end: !noApplication && !applicationPending */
+        }
       </div>
     </div>
   );

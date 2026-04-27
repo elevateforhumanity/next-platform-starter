@@ -15,8 +15,6 @@ export default async function UsersPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   // Fetch all users
   const { data: users } = await supabase
     .from('profiles')
@@ -27,16 +25,15 @@ export default async function UsersPage() {
   const allUsers = users || [];
   const stats = {
     total: allUsers.length,
-    active: allUsers.filter(u => u.is_active !== false).length,
-    students: allUsers.filter(u => u.role === 'student').length,
-    instructors: allUsers.filter(u => u.role === 'instructor').length,
-    admins: allUsers.filter(u => u.role === 'admin' || u.role === 'super_admin').length,
-    employers: allUsers.filter(u => u.role === 'employer').length,
+    active: allUsers.filter((u) => u.is_active !== false).length,
+    students: allUsers.filter((u) => u.role === 'student').length,
+    instructors: allUsers.filter((u) => u.role === 'instructor').length,
+    admins: allUsers.filter((u) => u.role === 'admin' || u.role === 'super_admin').length,
+    employers: allUsers.filter((u) => u.role === 'employer').length,
   };
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">

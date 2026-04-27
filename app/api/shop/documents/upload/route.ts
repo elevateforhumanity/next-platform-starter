@@ -29,10 +29,7 @@ async function _POST(req: Request) {
     const shopId = formData.get('shop_id') as string;
 
     if (!file || !documentType || !shopId) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Verify user is staff at this shop
@@ -44,10 +41,7 @@ async function _POST(req: Request) {
       .maybeSingle();
 
     if (!staff) {
-      return NextResponse.json(
-        { error: 'Not authorized for this shop' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Not authorized for this shop' }, { status: 403 });
     }
 
     // Upload to storage
@@ -78,10 +72,7 @@ async function _POST(req: Request) {
     return NextResponse.json({ success: true });
   } catch (err: any) {
     // Error: $1
-    return NextResponse.json(
-      { err: toErrorMessage(err) || 'Upload failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ err: toErrorMessage(err) || 'Upload failed' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/shop/documents/upload', _POST);

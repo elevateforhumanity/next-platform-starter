@@ -180,7 +180,10 @@ export const INDIANA_CNA_COMPLIANCE: ComplianceMap = {
 export function buildIndianaCompliancePromptFragment(): string {
   const map = INDIANA_CNA_COMPLIANCE;
   const domainList = map.domains
-    .map((d) => `  - ${d.name} (min ${d.min_hours}h): ${d.required_competencies.slice(0, 3).join('; ')}`)
+    .map(
+      (d) =>
+        `  - ${d.name} (min ${d.min_hours}h): ${d.required_competencies.slice(0, 3).join('; ')}`,
+    )
     .join('\n');
 
   return `

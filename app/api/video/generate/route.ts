@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import { v4 as uuidv4 } from 'uuid';
@@ -35,7 +34,7 @@ interface VideoRequest {
 
 /**
  * Video Generation API
- * 
+ *
  * Two modes:
  * 1. Course video with AI instructor voiceover (courseName, lessonTitle, etc.)
  * 2. Scene-based video generation (scenes array)
@@ -46,22 +45,22 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const body = await request.json();
-    
+
     // Check if this is a course video request (AI instructor mode)
     if (body.courseName && body.lessonTitle) {
       return handleCourseVideoGeneration(request, body);
     }
-    
+
     // Otherwise, handle scene-based video generation
     return handleSceneVideoGeneration(body);
   } catch (error) {
     logger.error(
       'Video generation error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to generate video' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
@@ -71,7 +70,9 @@ async function _POST(request: NextRequest) {
  */
 async function handleCourseVideoGeneration(request: NextRequest, body: any) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // Allow unauthenticated for testing, but log it
   if (!user) {
@@ -91,7 +92,7 @@ async function handleCourseVideoGeneration(request: NextRequest, body: any) {
   if (!courseName || !lessonTitle || !lessonContent) {
     return NextResponse.json(
       { error: 'Missing required fields: courseName, lessonTitle, lessonContent' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
@@ -99,11 +100,11 @@ async function handleCourseVideoGeneration(request: NextRequest, body: any) {
   const services = getAvailableServices();
   if (!services.openai && !services.synthesia && !services.did) {
     return NextResponse.json(
-      { 
+      {
         error: 'No video generation service configured',
-        hint: 'Add OPENAI_API_KEY for voiceovers, or SYNTHESIA_API_KEY/DID_API_KEY for avatar videos'
+        hint: 'Add OPENAI_API_KEY for voiceovers, or SYNTHESIA_API_KEY/DID_API_KEY for avatar videos',
       },
-      { status: 503 }
+      { status: 503 },
     );
   }
 
@@ -125,10 +126,7 @@ async function handleCourseVideoGeneration(request: NextRequest, body: any) {
   });
 
   if (!result.success) {
-    return NextResponse.json(
-      { error: result.error || 'Video generation failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: result.error || 'Video generation failed' }, { status: 500 });
   }
 
   return NextResponse.json({
@@ -153,14 +151,11 @@ async function handleSceneVideoGeneration(body: VideoRequest) {
   const { scenes, format = '16:9', resolution = '1080p' } = body;
 
   if (!scenes || scenes.length === 0) {
-    return NextResponse.json(
-      { error: 'At least one scene is required' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'At least one scene is required' }, { status: 400 });
   }
 
   const videoId = uuidv4();
-  
+
   // Select placeholder video based on content
   const placeholderVideos = [
     '/videos/hero-home.mp4',
@@ -170,13 +165,28 @@ async function handleSceneVideoGeneration(body: VideoRequest) {
   ];
 
   let selectedVideo = placeholderVideos[0];
-  const scriptContent = scenes.map(s => s.script).join(' ').toLowerCase();
-  
-  if (scriptContent.includes('barber') || scriptContent.includes('hair') || scriptContent.includes('beauty')) {
+  const scriptContent = scenes
+    .map((s) => s.script)
+    .join(' ')
+    .toLowerCase();
+
+  if (
+    scriptContent.includes('barber') ||
+    scriptContent.includes('hair') ||
+    scriptContent.includes('beauty')
+  ) {
     selectedVideo = '/videos/barber-hero-final.mp4';
-  } else if (scriptContent.includes('hvac') || scriptContent.includes('trade') || scriptContent.includes('technician')) {
+  } else if (
+    scriptContent.includes('hvac') ||
+    scriptContent.includes('trade') ||
+    scriptContent.includes('technician')
+  ) {
     selectedVideo = '/videos/hvac-hero-final.mp4';
-  } else if (scriptContent.includes('career') || scriptContent.includes('job') || scriptContent.includes('placement')) {
+  } else if (
+    scriptContent.includes('career') ||
+    scriptContent.includes('job') ||
+    scriptContent.includes('placement')
+  ) {
     selectedVideo = '/videos/career-services-hero.mp4';
   }
 
@@ -201,24 +211,20 @@ async function handleSceneVideoGeneration(body: VideoRequest) {
  * Get video generation status
  */
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const { searchParams } = new URL(request.url);
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const { searchParams } = new URL(request.url);
   const videoId = searchParams.get('id');
 
   if (!videoId) {
-    return NextResponse.json(
-      { error: 'Video ID is required' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Video ID is required' }, { status: 400 });
   }
 
   // Video generation is synchronous — the POST response includes the final URL.
   // No async status polling is available.
   return NextResponse.json(
     { error: 'Video generation is synchronous. Status is returned in the POST response.' },
-    { status: 404 }
+    { status: 404 },
   );
 }
 export const GET = withRuntime(withApiAudit('/api/video/generate', _GET));

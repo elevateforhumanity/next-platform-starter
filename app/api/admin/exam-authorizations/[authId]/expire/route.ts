@@ -10,10 +10,7 @@ import { safeError, safeDbError } from '@/lib/api/safe-error';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export async function POST(
-  request: Request,
-  { params }: { params: Promise<{ authId: string }> }
-) {
+export async function POST(request: Request, { params }: { params: Promise<{ authId: string }> }) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
 
@@ -41,9 +38,9 @@ export async function POST(
   const { error: updateErr } = await db
     .from('exam_authorizations')
     .update({
-      status:     'expired',
+      status: 'expired',
       updated_at: new Date().toISOString(),
-      notes:      `Manually expired by staff (${auth.id}) on ${new Date().toISOString().slice(0, 10)}${reason ? ': ' + reason : ''}.`,
+      notes: `Manually expired by staff (${auth.id}) on ${new Date().toISOString().slice(0, 10)}${reason ? ': ' + reason : ''}.`,
     })
     .eq('id', authId);
 

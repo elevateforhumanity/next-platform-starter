@@ -107,12 +107,12 @@ export default function HeroVideo({
       a.play().catch(() => {});
       setMuted(false);
     };
-    window.addEventListener('click',      tryPlay, { once: true });
-    window.addEventListener('scroll',     tryPlay, { once: true, passive: true });
+    window.addEventListener('click', tryPlay, { once: true });
+    window.addEventListener('scroll', tryPlay, { once: true, passive: true });
     window.addEventListener('touchstart', tryPlay, { once: true, passive: true });
     return () => {
-      window.removeEventListener('click',      tryPlay);
-      window.removeEventListener('scroll',     tryPlay);
+      window.removeEventListener('click', tryPlay);
+      window.removeEventListener('scroll', tryPlay);
       window.removeEventListener('touchstart', tryPlay);
     };
   }, [voiceoverSrc]);
@@ -152,10 +152,14 @@ export default function HeroVideo({
 
         {/* Hidden audio element for voiceover */}
         {voiceoverSrc && (
-          <audio ref={audioRef} src={voiceoverSrc} preload="none" aria-hidden="true" className="hidden" />
+          <audio
+            ref={audioRef}
+            src={voiceoverSrc}
+            preload="none"
+            aria-hidden="true"
+            className="hidden"
+          />
         )}
-
-
 
         {/* ON-VIDEO ELEMENTS (only these three are allowed) */}
 
@@ -188,14 +192,19 @@ export default function HeroVideo({
               className="flex items-center gap-2 text-white/70 hover:text-white text-xs font-semibold px-2 py-1.5 rounded-full transition-colors"
             >
               {muted ? (
-                <><VolumeX className="w-4 h-4 flex-shrink-0" /><span className="hidden sm:inline">Tap to hear</span></>
+                <>
+                  <VolumeX className="w-4 h-4 flex-shrink-0" />
+                  <span className="hidden sm:inline">Tap to hear</span>
+                </>
               ) : (
-                <><Volume2 className="w-4 h-4 flex-shrink-0 text-brand-red-400" /><span className="hidden sm:inline">Mute</span></>
+                <>
+                  <Volume2 className="w-4 h-4 flex-shrink-0 text-brand-red-400" />
+                  <span className="hidden sm:inline">Mute</span>
+                </>
               )}
             </button>
           </div>
         )}
-
       </section>
 
       {/* BELOW-HERO CONTENT */}
@@ -237,7 +246,10 @@ export default function HeroVideo({
                 {trustIndicators && trustIndicators.length > 0 && (
                   <ul className="flex flex-wrap gap-x-6 gap-y-1.5 mt-2">
                     {trustIndicators.map((item) => (
-                      <li key={item} className="flex items-center gap-1.5 text-slate-900 text-sm font-medium">
+                      <li
+                        key={item}
+                        className="flex items-center gap-1.5 text-slate-900 text-sm font-medium"
+                      >
                         <span className="w-1 h-1 rounded-full bg-brand-red-400 flex-shrink-0" />
                         {item}
                       </li>

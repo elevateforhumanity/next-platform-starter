@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { useEffect, useState } from 'react';
@@ -36,7 +36,8 @@ export function InvisibleWatermark({
       if (typeof window !== 'undefined') {
         setClientTimestamp(timestamp || new Date().toISOString());
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
     }
   }, [timestamp]);
 
@@ -57,42 +58,43 @@ export function InvisibleWatermark({
       hiddenDiv.setAttribute('aria-hidden', 'true');
       hiddenDiv.textContent = watermarkText;
       document.body.appendChild(hiddenDiv);
-    // Method 2: Add to console (visible to developers who copy)
-    // Method 3: Add invisible text throughout the page
-    const addInvisibleMarkers = () => {
-      const markers = [
-        `<!--ORIGINAL-SITE-${siteId}-->`,
-        `<!--COPYRIGHT-${owner}-->`,
-        `<!--TIMESTAMP-${clientTimestamp}-->`,
-        `<!--DO-NOT-COPY-LEGAL-ACTION-WILL-BE-TAKEN-->`,
-      ];
-      markers.forEach((marker) => {
-        const comment = document.createComment(marker);
-        document.body.appendChild(comment);
-      });
-    };
-    addInvisibleMarkers();
-    // Method 4: Add to localStorage (persists across sessions)
-    try {
-      localStorage.setItem('site_original_owner', owner);
-      localStorage.setItem('site_original_id', siteId);
-      localStorage.setItem('site_original_timestamp', clientTimestamp);
-    } catch (e) {
-      // Ignore if localStorage is disabled
-    }
-    // Method 5: Detect if site is being viewed in iframe (common scraping technique)
-    if (window.self !== window.top) {
-      // Error logged
-      // Optionally break out of iframe
-      // window.top.location = window.self.location;
-    }
+      // Method 2: Add to console (visible to developers who copy)
+      // Method 3: Add invisible text throughout the page
+      const addInvisibleMarkers = () => {
+        const markers = [
+          `<!--ORIGINAL-SITE-${siteId}-->`,
+          `<!--COPYRIGHT-${owner}-->`,
+          `<!--TIMESTAMP-${clientTimestamp}-->`,
+          `<!--DO-NOT-COPY-LEGAL-ACTION-WILL-BE-TAKEN-->`,
+        ];
+        markers.forEach((marker) => {
+          const comment = document.createComment(marker);
+          document.body.appendChild(comment);
+        });
+      };
+      addInvisibleMarkers();
+      // Method 4: Add to localStorage (persists across sessions)
+      try {
+        localStorage.setItem('site_original_owner', owner);
+        localStorage.setItem('site_original_id', siteId);
+        localStorage.setItem('site_original_timestamp', clientTimestamp);
+      } catch (e) {
+        // Ignore if localStorage is disabled
+      }
+      // Method 5: Detect if site is being viewed in iframe (common scraping technique)
+      if (window.self !== window.top) {
+        // Error logged
+        // Optionally break out of iframe
+        // window.top.location = window.self.location;
+      }
       // Method 6: Add fingerprint to page
       const fingerprint = generateFingerprint();
       const fpDiv = document.createElement('div');
       fpDiv.style.display = 'none';
       fpDiv.setAttribute('data-fp', fingerprint);
       document.body.appendChild(fpDiv);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
     }
   }, [owner, siteId, clientTimestamp]);
   try {
@@ -104,16 +106,12 @@ export function InvisibleWatermark({
         {/* Hidden meta tags for ownership - these don't render visibly */}
         <meta name="site-owner" content={owner} />
         <meta name="site-id" content={siteId} />
-        {clientTimestamp && (
-          <meta name="original-timestamp" content={clientTimestamp} />
-        )}
-        <meta
-          name="copyright"
-          content={`© 2025 ${owner}. All Rights Reserved.`}
-        />
+        {clientTimestamp && <meta name="original-timestamp" content={clientTimestamp} />}
+        <meta name="copyright" content={`© 2025 ${owner}. All Rights Reserved.`} />
       </>
     );
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return null;
   }
 }
@@ -140,7 +138,8 @@ function generateFingerprint(): string {
       hash = hash & hash;
     }
     return 'EFH-' + Math.abs(hash).toString(36).toUpperCase();
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return 'EFH-ERROR';
   }
 }
@@ -175,13 +174,9 @@ export function VisibleWatermark({
       }}
     >
       <div style={{ fontWeight: 'bold', marginBottom: '4px' }}>{text}</div>
-      {email && (
-        <div style={{ fontSize: '10px', opacity: 0.8 }}>Viewer: {email}</div>
-      )}
+      {email && <div style={{ fontSize: '10px', opacity: 0.8 }}>Viewer: {email}</div>}
       {showTimestamp && (
-        <div style={{ fontSize: '9px', opacity: 0.6, marginTop: '4px' }}>
-          {timestamp}
-        </div>
+        <div style={{ fontSize: '9px', opacity: 0.6, marginTop: '4px' }}>{timestamp}</div>
       )}
       <div style={{ fontSize: '9px', opacity: 0.6, marginTop: '4px' }}>
         © 2025 Elevate for Humanity

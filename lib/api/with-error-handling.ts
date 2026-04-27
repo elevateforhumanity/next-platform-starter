@@ -64,11 +64,14 @@ function logError(error: any, context: Record<string, any>) {
   const errorInfo = {
     timestamp,
     ...context,
-    error: error instanceof Error ? {
-      name: error.name,
-      message: 'Internal server error',
-      stack: error.stack,
-    } : String(error),
+    error:
+      error instanceof Error
+        ? {
+            name: error.name,
+            message: 'Internal server error',
+            stack: error.stack,
+          }
+        : String(error),
   };
 
   logger.error('[API Error]', JSON.stringify(errorInfo, null, 2));
@@ -83,7 +86,7 @@ function logError(error: any, context: Record<string, any>) {
  * Higher-order function that wraps API route handlers with error handling
  */
 export function withErrorHandling<T = any>(
-  handler: (request: NextRequest, context?: any) => Promise<NextResponse<T>>
+  handler: (request: NextRequest, context?: any) => Promise<NextResponse<T>>,
 ) {
   return async (request: NextRequest, context?: any): Promise<NextResponse> => {
     const startTime = Date.now();
@@ -92,17 +95,17 @@ export function withErrorHandling<T = any>(
 
     try {
       const response = await handler(request, context);
-      
+
       // Log successful requests in development
       if (process.env.NODE_ENV === 'development') {
         const duration = Date.now() - startTime;
         logger.info(`[API] ${method} ${route} - ${response.status} (${duration}ms)`);
       }
-      
+
       return response;
     } catch (error) {
       const duration = Date.now() - startTime;
-      
+
       // Handle APIError
       if (error instanceof APIError) {
         logError(error, {
@@ -113,10 +116,7 @@ export function withErrorHandling<T = any>(
           duration,
         });
 
-        return NextResponse.json(
-          error.toJSON(),
-          { status: error.statusCode }
-        );
+        return NextResponse.json(error.toJSON(), { status: error.statusCode });
       }
 
       // Handle unknown errors
@@ -133,7 +133,7 @@ export function withErrorHandling<T = any>(
           error: sanitized.message,
           code: sanitized.code,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   };
@@ -143,31 +143,25 @@ export function withErrorHandling<T = any>(
  * Async wrapper for route handlers with params
  */
 export function withErrorHandlingParams<T = any>(
-  handler: (
-    request: NextRequest,
-    context: { params: Promise<any> }
-  ) => Promise<NextResponse<T>>
+  handler: (request: NextRequest, context: { params: Promise<any> }) => Promise<NextResponse<T>>,
 ) {
-  return async (
-    request: NextRequest,
-    context: { params: Promise<any> }
-  ): Promise<NextResponse> => {
+  return async (request: NextRequest, context: { params: Promise<any> }): Promise<NextResponse> => {
     const startTime = Date.now();
     const route = request.nextUrl.pathname;
     const method = request.method;
 
     try {
       const response = await handler(request, context);
-      
+
       if (process.env.NODE_ENV === 'development') {
         const duration = Date.now() - startTime;
         logger.info(`[API] ${method} ${route} - ${response.status} (${duration}ms)`);
       }
-      
+
       return response;
     } catch (error) {
       const duration = Date.now() - startTime;
-      
+
       if (error instanceof APIError) {
         logError(error, {
           route,
@@ -177,10 +171,7 @@ export function withErrorHandlingParams<T = any>(
           duration,
         });
 
-        return NextResponse.json(
-          error.toJSON(),
-          { status: error.statusCode }
-        );
+        return NextResponse.json(error.toJSON(), { status: error.statusCode });
       }
 
       logError(error, {
@@ -196,7 +187,7 @@ export function withErrorHandlingParams<T = any>(
           error: sanitized.message,
           code: sanitized.code,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   };

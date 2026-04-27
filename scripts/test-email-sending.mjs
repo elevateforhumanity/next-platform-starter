@@ -7,7 +7,6 @@
 
 import { Resend } from 'resend';
 
-
 // Test 1: Environment Variable
 const apiKey = process.env.RESEND_API_KEY;
 
@@ -47,18 +46,14 @@ if (testEmail) {
     if (error) {
       process.exit(1);
     }
-
   } catch (error) {
     process.exit(1);
   }
 } else {
 }
 
-
 if (testEmail) {
 } else {
 }
-
-
 
 process.exit(0);

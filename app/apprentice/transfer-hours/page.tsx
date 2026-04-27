@@ -14,7 +14,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function TransferHoursPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/apprentice/transfer-hours');
@@ -59,22 +61,21 @@ export default async function TransferHoursPage() {
   return (
     <div className="min-h-screen bg-white">
       <Breadcrumbs
-        items={[
-          { label: 'Apprentice Portal', href: '/apprentice' },
-          { label: 'Transfer Hours' },
-        ]}
+        items={[{ label: 'Apprentice Portal', href: '/apprentice' }, { label: 'Transfer Hours' }]}
       />
       <div className="max-w-4xl mx-auto px-4 py-8">
         <div className="mb-8">
           <h1 className="text-2xl font-bold">Transfer Hours</h1>
-          <p className="text-slate-700">Request to transfer hours from previous training or employment</p>
+          <p className="text-slate-700">
+            Request to transfer hours from previous training or employment
+          </p>
         </div>
 
         {/* Info Box */}
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6 mb-8">
           <h3 className="font-semibold text-brand-blue-800 mb-2">About Hour Transfers</h3>
           <p className="text-brand-blue-700 text-sm mb-4">
-            You may be eligible to transfer hours from previous related work experience or training. 
+            You may be eligible to transfer hours from previous related work experience or training.
             Transfers are subject to approval and verification of documentation.
           </p>
           <ul className="text-sm text-brand-blue-700 space-y-1">
@@ -88,8 +89,8 @@ export default async function TransferHoursPage() {
         <div className="bg-white rounded-xl shadow-sm border p-6 mb-8">
           <h2 className="text-lg font-semibold mb-4">Submit a Transfer Request</h2>
           <p className="text-slate-700 mb-6">
-            To request a transfer of hours, you'll need to provide documentation of your 
-            previous experience and complete the transfer request form.
+            To request a transfer of hours, you'll need to provide documentation of your previous
+            experience and complete the transfer request form.
           </p>
           <Link
             href="/apprentice/transfer-hours/request"
@@ -121,7 +122,9 @@ export default async function TransferHoursPage() {
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(request.status)}`}>
+                    <span
+                      className={`px-3 py-1 rounded-full text-sm font-medium ${getStatusColor(request.status)}`}
+                    >
                       {request.status}
                     </span>
                     {getStatusIcon(request.status)}

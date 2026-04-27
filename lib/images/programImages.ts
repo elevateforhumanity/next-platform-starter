@@ -24,7 +24,6 @@ interface ProgramImageEntry {
 }
 
 export const PROGRAM_IMAGES: Record<string, ProgramImageEntry> = {
-
   // ── HVAC ─────────────────────────────────────────────────────────────────
   'hvac-technician': {
     card: `${P}/hvac-unit.jpg`,
@@ -45,21 +44,21 @@ export const PROGRAM_IMAGES: Record<string, ProgramImageEntry> = {
   },
 
   // ── Electrical ───────────────────────────────────────────────────────────
-  'electrical': {
+  electrical: {
     card: `${P}/electrical-panel.jpg`,
     hero: `${P}/electrical-conduit.jpg`,
     alt: 'Electrician wiring a breaker panel during installation',
   },
 
   // ── Welding ──────────────────────────────────────────────────────────────
-  'welding': {
+  welding: {
     card: `${P}/welding-sparks.jpg`,
     hero: `${P}/welding-torch.jpg`,
     alt: 'Welder producing sparks on a metal workpiece in a fabrication shop',
   },
 
   // ── Plumbing ─────────────────────────────────────────────────────────────
-  'plumbing': {
+  plumbing: {
     card: `${P}/plumbing-pipes.jpg`,
     hero: `${P}/plumbing-tools.jpg`,
     alt: 'Plumber installing pipes during a commercial plumbing job',
@@ -73,7 +72,7 @@ export const PROGRAM_IMAGES: Record<string, ProgramImageEntry> = {
   },
 
   // ── CNA / Healthcare ─────────────────────────────────────────────────────
-  'cna': {
+  cna: {
     card: `${P}/cna-patient-care.jpg`,
     hero: `${P}/cna-vitals.jpg`,
     alt: 'CNA student checking patient vitals in a clinical simulation lab',
@@ -83,7 +82,7 @@ export const PROGRAM_IMAGES: Record<string, ProgramImageEntry> = {
     hero: `${P}/medical-assistant-real.jpg`,
     alt: 'Medical assistant working in a clinical setting',
   },
-  'phlebotomy': {
+  phlebotomy: {
     card: `${P}/phlebotomy-draw.jpg`,
     hero: `${P}/phlebotomy-real.jpg`,
     alt: 'Phlebotomist performing a blood draw procedure',
@@ -171,7 +170,7 @@ export const PROGRAM_IMAGES: Record<string, ProgramImageEntry> = {
     hero: `${P}/tax-preparation.jpg`,
     alt: 'Tax preparer working with a client on financial documents',
   },
-  'bookkeeping': {
+  bookkeeping: {
     card: `${P}/bookkeeping-ledger.jpg`,
     hero: `${P}/bookkeeping.jpg`,
     alt: 'Bookkeeping student working with financial records',
@@ -181,12 +180,12 @@ export const PROGRAM_IMAGES: Record<string, ProgramImageEntry> = {
     hero: `${P}/bookkeeping-ledger.jpg`,
     alt: 'Finance and accounting student reviewing financial statements',
   },
-  'entrepreneurship': {
+  entrepreneurship: {
     card: `${P}/entrepreneurship.jpg`,
     hero: `${P}/business-sector.jpg`,
     alt: 'Entrepreneur working on a business plan',
   },
-  'business': {
+  business: {
     card: `${P}/business-sector.jpg`,
     hero: `${P}/entrepreneurship.jpg`,
     alt: 'Business administration student in a professional setting',
@@ -210,7 +209,7 @@ export const PROGRAM_IMAGES: Record<string, ProgramImageEntry> = {
   },
 
   // ── Forklift ─────────────────────────────────────────────────────────────
-  'forklift': {
+  forklift: {
     card: `${P}/forklift.jpg`,
     hero: `${P}/cdl-loading-dock.jpg`,
     alt: 'Forklift operator certification training',

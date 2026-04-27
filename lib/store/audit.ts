@@ -26,7 +26,7 @@ interface ProvisioningLogEntry {
  */
 export async function logProvisioningStep(
   supabase: SupabaseClient,
-  entry: ProvisioningLogEntry
+  entry: ProvisioningLogEntry,
 ): Promise<void> {
   try {
     const { error } = await supabase.from('provisioning_events').insert({
@@ -53,7 +53,7 @@ export async function logProvisioningStep(
  */
 export async function getProvisioningHistory(
   supabase: SupabaseClient,
-  paymentIntentId: string
+  paymentIntentId: string,
 ): Promise<ProvisioningLogEntry[]> {
   const { data, error } = await supabase
     .from('provisioning_events')
@@ -74,10 +74,10 @@ export async function getProvisioningHistory(
  */
 export async function isProvisioningComplete(
   supabase: SupabaseClient,
-  paymentIntentId: string
+  paymentIntentId: string,
 ): Promise<boolean> {
   const history = await getProvisioningHistory(supabase, paymentIntentId);
-  
+
   const requiredSteps: ProvisioningStep[] = [
     'payment_received',
     'tenant_created',
@@ -86,9 +86,7 @@ export async function isProvisioningComplete(
     'email_sent',
   ];
 
-  const completedSteps = history
-    .filter(e => e.status === 'completed')
-    .map(e => e.step);
+  const completedSteps = history.filter((e) => e.status === 'completed').map((e) => e.step);
 
-  return requiredSteps.every(step => completedSteps.includes(step));
+  return requiredSteps.every((step) => completedSteps.includes(step));
 }

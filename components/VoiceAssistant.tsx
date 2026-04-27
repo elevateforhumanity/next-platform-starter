@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -8,9 +8,7 @@ import { MessageCircle, X, Mic } from 'lucide-react';
 
 export function VoiceAssistant() {
   const [isOpen, setIsOpen] = useState(false);
-  const [messages, setMessages] = useState<
-    Array<{ text: string; isUser: boolean }>
-  >([
+  const [messages, setMessages] = useState<Array<{ text: string; isUser: boolean }>>([
     {
       text: "Hi! I'm your voice assistant. Click the microphone and say commands like 'go to dashboard' or 'show my courses'. Say 'help' to see all commands.",
       isUser: false,
@@ -99,15 +97,10 @@ export function VoiceAssistant() {
           </div>
           {/* Quick Commands */}
           <div className="p-4 border-t border-gray-200 bg-gray-50">
-            <p className="text-xs font-semibold text-black mb-2">
-              Try these commands:
-            </p>
+            <p className="text-xs font-semibold text-black mb-2">Try these commands:</p>
             <div className="space-y-1 max-h-32 overflow-y-auto">
               {voiceCommands.slice(0, 5).map((cmd, index) => (
-                <div
-                  key={index}
-                  className="text-xs text-black flex items-start gap-2"
-                >
+                <div key={index} className="text-xs text-black flex items-start gap-2">
                   <span className="text-brand-orange-600">•</span>
                   <span>
                     <strong>"{cmd.command}"</strong> - {cmd.description}

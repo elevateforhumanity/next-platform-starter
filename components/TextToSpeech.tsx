@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -13,7 +13,12 @@ interface TextToSpeechProps {
   contentId?: string;
 }
 
-export default function TextToSpeech({ text, autoPlay = false, className = '', contentId }: TextToSpeechProps) {
+export default function TextToSpeech({
+  text,
+  autoPlay = false,
+  className = '',
+  contentId,
+}: TextToSpeechProps) {
   const [isPlaying, setIsPlaying] = useState(false);
   const [isPaused, setIsPaused] = useState(false);
   const [voices, setVoices] = useState<SpeechSynthesisVoice[]>([]);
@@ -27,7 +32,9 @@ export default function TextToSpeech({ text, autoPlay = false, className = '', c
   // Load user TTS preferences from DB
   useEffect(() => {
     async function loadPreferences() {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (user) {
         const { data } = await supabase
           .from('accessibility_preferences')
@@ -46,15 +53,15 @@ export default function TextToSpeech({ text, autoPlay = false, className = '', c
 
   // Log TTS usage for analytics
   const logTTSUsage = async () => {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('tts_usage_log')
-      .insert({
-        user_id: user?.id,
-        content_id: contentId,
-        text_length: text.length,
-        used_at: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('tts_usage_log').insert({
+      user_id: user?.id,
+      content_id: contentId,
+      text_length: text.length,
+      used_at: new Date().toISOString(),
+    });
   };
 
   useEffect(() => {
@@ -64,9 +71,10 @@ export default function TextToSpeech({ text, autoPlay = false, className = '', c
         setVoices(availableVoices);
 
         // Prefer English voices
-        const englishVoice = availableVoices.find(voice =>
-          voice.lang.startsWith('en') && voice.name.includes('Google')
-        ) || availableVoices.find(voice => voice.lang.startsWith('en'));
+        const englishVoice =
+          availableVoices.find(
+            (voice) => voice.lang.startsWith('en') && voice.name.includes('Google'),
+          ) || availableVoices.find((voice) => voice.lang.startsWith('en'));
 
         setSelectedVoice(englishVoice || availableVoices[0]);
       };
@@ -191,7 +199,11 @@ export default function TextToSpeech({ text, autoPlay = false, className = '', c
           title="Stop"
         >
           <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
-            <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z" clipRule="evenodd" />
+            <path
+              fillRule="evenodd"
+              d="M10 18a8 8 0 100-16 8 8 0 000 16zM8 7a1 1 0 00-1 1v4a1 1 0 001 1h4a1 1 0 001-1V8a1 1 0 00-1-1H8z"
+              clipRule="evenodd"
+            />
           </svg>
         </button>
       )}
@@ -221,17 +233,19 @@ export default function TextToSpeech({ text, autoPlay = false, className = '', c
           <select
             value={selectedVoice?.name || ''}
             onChange={(e) => {
-              const voice = voices.find(v => v.name === e.target.value);
+              const voice = voices.find((v) => v.name === e.target.value);
               setSelectedVoice(voice || null);
             }}
             className="text-xs px-2 py-2 border border-slate-300 rounded bg-white max-w-[150px]"
             disabled={isPlaying}
           >
-            {voices.filter(v => v.lang.startsWith('en')).map((voice) => (
-              <option key={voice.name} value={voice.name}>
-                {voice.name.split(' ').slice(0, 2).join(' ')}
-              </option>
-            ))}
+            {voices
+              .filter((v) => v.lang.startsWith('en'))
+              .map((voice) => (
+                <option key={voice.name} value={voice.name}>
+                  {voice.name.split(' ').slice(0, 2).join(' ')}
+                </option>
+              ))}
           </select>
         </div>
       )}

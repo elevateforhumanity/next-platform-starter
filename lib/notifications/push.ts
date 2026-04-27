@@ -42,7 +42,8 @@ export class PushService {
         return true;
       }
       return false;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return false;
     }
@@ -51,7 +52,7 @@ export class PushService {
   async sendMessageNotification(
     userId: string,
     senderName: string,
-    messagePreview: string
+    messagePreview: string,
   ): Promise<boolean> {
     return this.send(userId, {
       title: `New message from ${senderName}`,
@@ -68,7 +69,7 @@ export class PushService {
   async sendGradeNotification(
     userId: string,
     assignmentName: string,
-    grade: number
+    grade: number,
   ): Promise<boolean> {
     return this.send(userId, {
       title: 'Assignment Graded',
@@ -79,10 +80,7 @@ export class PushService {
     });
   }
   // New course available
-  async sendNewCourseNotification(
-    userId: string,
-    courseName: string
-  ): Promise<boolean> {
+  async sendNewCourseNotification(userId: string, courseName: string): Promise<boolean> {
     return this.send(userId, {
       title: 'New Course Available',
       body: `Check out ${courseName}`,
@@ -105,10 +103,7 @@ export class PushService {
     });
   }
   // Achievement unlocked
-  async sendAchievementNotification(
-    userId: string,
-    achievementName: string
-  ): Promise<boolean> {
+  async sendAchievementNotification(userId: string, achievementName: string): Promise<boolean> {
     return this.send(userId, {
       title: '🏆 Achievement Unlocked!',
       body: achievementName,
@@ -121,7 +116,7 @@ export class PushService {
   async sendLiveClassNotification(
     userId: string,
     className: string,
-    startTime: string
+    startTime: string,
   ): Promise<boolean> {
     return this.send(userId, {
       title: 'Live Class Starting Soon',

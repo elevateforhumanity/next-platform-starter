@@ -37,7 +37,7 @@ function mergePosts(staticPosts: BlogPost[], dbPosts: BlogPost[]): BlogPost[] {
   const dbSlugs = new Set(dbPosts.map((p) => p.slug));
   const filtered = staticPosts.filter((p) => !dbSlugs.has(p.slug));
   return [...dbPosts, ...filtered].sort(
-    (a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime()
+    (a, b) => new Date(b.published_at).getTime() - new Date(a.published_at).getTime(),
   );
 }
 
@@ -47,21 +47,22 @@ export default async function BlogPage() {
   const [featured, ...rest] = posts;
 
   return (
-    <div className="min-h-screen bg-white">      <div className="bg-white border-b">
+    <div className="min-h-screen bg-white">
+      {' '}
+      <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <Breadcrumbs items={[{ label: 'Blog' }]} />
         </div>
       </div>
-
       <div className="bg-brand-blue-700 text-white py-16">
         <div className="max-w-6xl mx-auto px-6">
           <h1 className="text-4xl md:text-5xl font-extrabold mb-3">Blog</h1>
           <p className="text-lg text-slate-600 max-w-2xl">
-            Workforce funding guides, credential explainers, and career training insights from Elevate for Humanity.
+            Workforce funding guides, credential explainers, and career training insights from
+            Elevate for Humanity.
           </p>
         </div>
       </div>
-
       <div className="max-w-6xl mx-auto px-6 py-14">
         {featured && (
           <div className="mb-14">
@@ -95,7 +96,9 @@ export default async function BlogPage() {
                   <span className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
                     {new Date(featured.published_at).toLocaleDateString('en-US', {
-                      year: 'numeric', month: 'long', day: 'numeric',
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric',
                     })}
                   </span>
                 </div>
@@ -136,12 +139,15 @@ export default async function BlogPage() {
                     <p className="text-slate-500 text-sm line-clamp-2 mb-4">{post.excerpt}</p>
                     <div className="flex items-center justify-between text-xs text-slate-400">
                       <span className="flex items-center gap-1">
-                        <User className="w-3 h-3" />{post.author_name}
+                        <User className="w-3 h-3" />
+                        {post.author_name}
                       </span>
                       <span className="flex items-center gap-1">
                         <Calendar className="w-3 h-3" />
                         {new Date(post.published_at).toLocaleDateString('en-US', {
-                          month: 'short', day: 'numeric', year: 'numeric',
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
                         })}
                       </span>
                     </div>
@@ -152,16 +158,23 @@ export default async function BlogPage() {
           </>
         )}
       </div>
-
       <section className="bg-brand-blue-700 text-white py-14">
         <div className="max-w-3xl mx-auto px-6 text-center">
           <h2 className="text-2xl md:text-3xl font-extrabold mb-3">Ready to Start Your Career?</h2>
-          <p className="text-slate-500 mb-7">Check your eligibility for funded career training programs in Indiana.</p>
+          <p className="text-slate-500 mb-7">
+            Check your eligibility for funded career training programs in Indiana.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/start" className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-8 py-3.5 rounded-lg font-bold transition-colors">
+            <Link
+              href="/start"
+              className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-8 py-3.5 rounded-lg font-bold transition-colors"
+            >
               Apply Now
             </Link>
-            <Link href="/programs" className="border border-slate-600 text-white px-8 py-3.5 rounded-lg font-bold hover:bg-slate-800 transition-colors">
+            <Link
+              href="/programs"
+              className="border border-slate-600 text-white px-8 py-3.5 rounded-lg font-bold hover:bg-slate-800 transition-colors"
+            >
               Browse Programs
             </Link>
           </div>

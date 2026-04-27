@@ -2,14 +2,14 @@
 
 ---
 
-**This Mutual Non-Disclosure Agreement ("Agreement")** is entered into as of _________________ ("Effective Date") by and between:
+**This Mutual Non-Disclosure Agreement ("Agreement")** is entered into as of ********\_******** ("Effective Date") by and between:
 
 **Party A:** 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute  
 Address: [Company Address]  
 ("Elevate")
 
-**Party B:** _________________________________  
-Address: _________________________________  
+**Party B:** ****************\_****************  
+Address: ****************\_****************  
 ("Recipient Organization")
 
 Collectively referred to as the "Parties" and individually as a "Party."
@@ -125,26 +125,26 @@ The Parties acknowledge that unauthorized disclosure of Confidential Information
 
 **ELEVATE FOR HUMANITY, INC.**
 
-Signature: _________________________________
+Signature: ****************\_****************
 
-Name: _________________________________
+Name: ****************\_****************
 
-Title: _________________________________
+Title: ****************\_****************
 
-Date: _________________________________
+Date: ****************\_****************
 
 ---
 
 **[RECIPIENT ORGANIZATION]**
 
-Signature: _________________________________
+Signature: ****************\_****************
 
-Name: _________________________________
+Name: ****************\_****************
 
-Title: _________________________________
+Title: ****************\_****************
 
-Date: _________________________________
+Date: ****************\_****************
 
 ---
 
-*This NDA template is provided for informational purposes. Please consult with legal counsel before execution.*
+_This NDA template is provided for informational purposes. Please consult with legal counsel before execution._

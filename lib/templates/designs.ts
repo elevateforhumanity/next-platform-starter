@@ -1,6 +1,6 @@
 /**
  * Production-Ready Template Designs
- * 
+ *
  * Each template is a complete, polished design system
  */
 
@@ -9,7 +9,7 @@ export interface TemplateDesign {
   name: string;
   description: string;
   preview: string; // Preview image URL
-  
+
   // Typography
   fonts: {
     heading: string;
@@ -17,7 +17,7 @@ export interface TemplateDesign {
     accent?: string;
     googleFontsUrl: string;
   };
-  
+
   // Colors
   colors: {
     primary: string;
@@ -35,7 +35,7 @@ export interface TemplateDesign {
     warning: string;
     error: string;
   };
-  
+
   // Styling
   style: {
     borderRadius: 'none' | 'sm' | 'md' | 'lg' | 'xl' | 'full';
@@ -46,7 +46,7 @@ export interface TemplateDesign {
     heroStyle: 'centered' | 'split' | 'fullscreen' | 'minimal' | 'angled';
     spacing: 'compact' | 'comfortable' | 'spacious';
   };
-  
+
   // Best for
   industries: string[];
   orgTypes: string[];
@@ -59,13 +59,15 @@ export const TEMPLATE_DESIGNS: TemplateDesign[] = [
   {
     id: 'modern-tech',
     name: 'Modern Tech',
-    description: 'Clean, minimal design with subtle gradients. Perfect for tech-forward training providers.',
+    description:
+      'Clean, minimal design with subtle gradients. Perfect for tech-forward training providers.',
     preview: '/templates/modern-tech.jpg',
     fonts: {
       heading: 'Inter',
       body: 'Inter',
       accent: 'JetBrains Mono',
-      googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap',
+      googleFontsUrl:
+        'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap',
     },
     colors: {
       primary: '#6366f1',
@@ -107,7 +109,8 @@ export const TEMPLATE_DESIGNS: TemplateDesign[] = [
     fonts: {
       heading: 'Playfair Display',
       body: 'Source Sans 3',
-      googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap',
+      googleFontsUrl:
+        'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Sans+3:wght@400;500;600;700&display=swap',
     },
     colors: {
       primary: '#1e3a5f',
@@ -144,12 +147,14 @@ export const TEMPLATE_DESIGNS: TemplateDesign[] = [
   {
     id: 'bold-energy',
     name: 'Bold Energy',
-    description: 'High-contrast, energetic design. Great for youth programs and creative industries.',
+    description:
+      'High-contrast, energetic design. Great for youth programs and creative industries.',
     preview: '/templates/bold-energy.jpg',
     fonts: {
       heading: 'Space Grotesk',
       body: 'DM Sans',
-      googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap',
+      googleFontsUrl:
+        'https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=DM+Sans:wght@400;500;600;700&display=swap',
     },
     colors: {
       primary: '#000000',
@@ -191,7 +196,8 @@ export const TEMPLATE_DESIGNS: TemplateDesign[] = [
     fonts: {
       heading: 'Nunito',
       body: 'Nunito',
-      googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap',
+      googleFontsUrl:
+        'https://fonts.googleapis.com/css2?family=Nunito:wght@400;500;600;700;800&display=swap',
     },
     colors: {
       primary: '#ea580c',
@@ -234,7 +240,8 @@ export const TEMPLATE_DESIGNS: TemplateDesign[] = [
       heading: 'Oswald',
       body: 'Roboto',
       accent: 'Roboto Mono',
-      googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@500&display=swap',
+      googleFontsUrl:
+        'https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@500&display=swap',
     },
     colors: {
       primary: '#1c1917',
@@ -276,7 +283,8 @@ export const TEMPLATE_DESIGNS: TemplateDesign[] = [
     fonts: {
       heading: 'Plus Jakarta Sans',
       body: 'Plus Jakarta Sans',
-      googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap',
+      googleFontsUrl:
+        'https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap',
     },
     colors: {
       primary: '#0891b2',
@@ -318,7 +326,8 @@ export const TEMPLATE_DESIGNS: TemplateDesign[] = [
     fonts: {
       heading: 'Merriweather',
       body: 'Lato',
-      googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Lato:wght@400;700&display=swap',
+      googleFontsUrl:
+        'https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Lato:wght@400;700&display=swap',
     },
     colors: {
       primary: '#1e3a5f',
@@ -360,7 +369,8 @@ export const TEMPLATE_DESIGNS: TemplateDesign[] = [
     fonts: {
       heading: 'Outfit',
       body: 'Outfit',
-      googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap',
+      googleFontsUrl:
+        'https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&display=swap',
     },
     colors: {
       primary: '#7c3aed',
@@ -396,7 +406,7 @@ export const TEMPLATE_DESIGNS: TemplateDesign[] = [
  * Get template by ID
  */
 export function getTemplateById(id: string): TemplateDesign | undefined {
-  return TEMPLATE_DESIGNS.find(t => t.id === id);
+  return TEMPLATE_DESIGNS.find((t) => t.id === id);
 }
 
 /**
@@ -407,23 +417,23 @@ export function getRecommendedTemplate(industry: string, orgType: string): Templ
   const orgTypeLower = orgType.toLowerCase();
 
   // Score each template
-  const scored = TEMPLATE_DESIGNS.map(template => {
+  const scored = TEMPLATE_DESIGNS.map((template) => {
     let score = 0;
-    
+
     // Industry match
-    template.industries.forEach(ind => {
+    template.industries.forEach((ind) => {
       if (industryLower.includes(ind.toLowerCase()) || ind.toLowerCase().includes(industryLower)) {
         score += 10;
       }
     });
-    
+
     // Org type match
-    template.orgTypes.forEach(org => {
+    template.orgTypes.forEach((org) => {
       if (orgTypeLower.includes(org.toLowerCase()) || org.toLowerCase().includes(orgTypeLower)) {
         score += 5;
       }
     });
-    
+
     return { template, score };
   });
 
@@ -437,7 +447,7 @@ export function getRecommendedTemplate(industry: string, orgType: string): Templ
  */
 export function generateCSSFromTemplate(template: TemplateDesign): string {
   const { colors, style } = template;
-  
+
   const radiusMap = {
     none: '0',
     sm: '0.25rem',

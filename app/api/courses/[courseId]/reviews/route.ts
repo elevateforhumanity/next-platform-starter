@@ -10,13 +10,10 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  req: NextRequest,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+async function _GET(req: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
   const { courseId } = await params;
 
   const { data, error }: any = await supabase
@@ -29,7 +26,7 @@ const supabase = await createClient();
       body,
       created_at,
       user_id
-    `
+    `,
     )
     .eq('course_id', courseId)
     .order('created_at', { ascending: false });
@@ -50,7 +47,7 @@ const supabase = await createClient();
     profiles?.map((p) => [
       p.user_id,
       `${p.first_name || ''} ${p.last_name || ''}`.trim() || 'Student',
-    ])
+    ]),
   );
 
   const reviewsWithNames = data?.map((r) => ({
@@ -74,17 +71,13 @@ const supabase = await createClient();
   });
 }
 
-async function _POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+async function _POST(req: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const user = await getCurrentUser();
-  if (!user)
-    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+  if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const { courseId } = await params;
   const body = await req.json();
@@ -92,10 +85,7 @@ async function _POST(
 
   const ratingNum = Number(rating);
   if (!ratingNum || ratingNum < 1 || ratingNum > 5) {
-    return NextResponse.json(
-      { error: 'Rating must be between 1 and 5' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Rating must be between 1 and 5' }, { status: 400 });
   }
 
   const { data, error }: any = await supabase
@@ -108,7 +98,7 @@ async function _POST(
         title: title || null,
         body: text || body || null,
       },
-      { onConflict: 'course_id,user_id' }
+      { onConflict: 'course_id,user_id' },
     )
     .select()
     .maybeSingle();

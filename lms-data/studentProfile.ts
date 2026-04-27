@@ -1,13 +1,13 @@
-import { allPrograms } from "@/lms-data/programs";
-import { getTuitionForProgram } from "@/lms-data/tuition";
-import { getCoursesForProgram } from "@/lms-data/courses";
+import { allPrograms } from '@/lms-data/programs';
+import { getTuitionForProgram } from '@/lms-data/tuition';
+import { getCoursesForProgram } from '@/lms-data/courses';
 
 export type ProgramEngagementStatus =
-  | "interested"
-  | "applied"
-  | "enrolled"
-  | "in-progress"
-  | "completed";
+  | 'interested'
+  | 'applied'
+  | 'enrolled'
+  | 'in-progress'
+  | 'completed';
 
 export interface StudentProgramStatus {
   programId: string;
@@ -24,25 +24,25 @@ export interface DemoStudentProfile {
 }
 
 export const demoStudentProfile: DemoStudentProfile = {
-  id: "demo-student",
-  firstName: "Sample",
-  lastName: "Learner",
-  email: "student@example.com",
+  id: 'demo-student',
+  firstName: 'Sample',
+  lastName: 'Learner',
+  email: 'student@example.com',
   programs: [
     {
-      programId: "prog-cna",
-      status: "interested",
-      notes: "Wants to explore CNA & healthcare options.",
+      programId: 'prog-cna',
+      status: 'interested',
+      notes: 'Wants to explore CNA & healthcare options.',
     },
     {
-      programId: "prog-barber",
-      status: "enrolled",
-      notes: "Barber apprenticeship with shop partner.",
+      programId: 'prog-barber',
+      status: 'enrolled',
+      notes: 'Barber apprenticeship with shop partner.',
     },
     {
-      programId: "prog-tax-vita",
-      status: "applied",
-      notes: "Tax/VITA as a way into office roles.",
+      programId: 'prog-tax-vita',
+      status: 'applied',
+      notes: 'Tax/VITA as a way into office roles.',
     },
   ],
 };

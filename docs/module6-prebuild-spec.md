@@ -1,4 +1,5 @@
 # Module 6 — Prebuild Lock Spec
+
 **Status:** SPEC — do not begin lesson prose until this spec is approved  
 **Domain:** Chemical Services (Relaxers & Color)  
 **Failure cost:** HIGH — bad content in this domain creates unsafe execution logic  
@@ -21,13 +22,13 @@ Every lesson in this module must teach **when to stop** with the same weight as 
 
 ## Lesson Map
 
-| Lesson # | Slug | Title | Core Skill | Primary Risk |
-|----------|------|-------|-----------|--------------|
-| 35 | `barber-lesson-35` | Chemical Services Overview & Safety | Contraindication assessment, PPE, ventilation | Proceeding without assessment |
-| 36 | `barber-lesson-36` | Relaxers — Application & Processing | Strand test, base application, timing, neutralization | Over-processing, scalp burns |
-| 37 | `barber-lesson-37` | Hair Color — Theory & Application | Color wheel, developer selection, patch test, application | Allergic reaction, color on compromised hair |
-| 38 | `barber-lesson-38` | Chemical Service Corrections & Aftercare | Identifying over-processing, damage assessment, client education | Compounding damage with correction |
-| 39 | `barber-module-6-checkpoint` | Module 6 Checkpoint: Chemical Services | Transfer and synthesis across all four lessons | — |
+| Lesson # | Slug                         | Title                                    | Core Skill                                                       | Primary Risk                                 |
+| -------- | ---------------------------- | ---------------------------------------- | ---------------------------------------------------------------- | -------------------------------------------- |
+| 35       | `barber-lesson-35`           | Chemical Services Overview & Safety      | Contraindication assessment, PPE, ventilation                    | Proceeding without assessment                |
+| 36       | `barber-lesson-36`           | Relaxers — Application & Processing      | Strand test, base application, timing, neutralization            | Over-processing, scalp burns                 |
+| 37       | `barber-lesson-37`           | Hair Color — Theory & Application        | Color wheel, developer selection, patch test, application        | Allergic reaction, color on compromised hair |
+| 38       | `barber-lesson-38`           | Chemical Service Corrections & Aftercare | Identifying over-processing, damage assessment, client education | Compounding damage with correction           |
+| 39       | `barber-module-6-checkpoint` | Module 6 Checkpoint: Chemical Services   | Transfer and synthesis across all four lessons                   | —                                            |
 
 ---
 
@@ -37,15 +38,16 @@ Every lesson in this module must teach **when to stop** with the same weight as 
 **Question count:** 10  
 **Distribution target:**
 
-| Lesson | Questions | Topics |
-|--------|-----------|--------|
-| L35 | 2 | Contraindication identification, PPE/ventilation requirement |
-| L36 | 3 | Strand test interpretation, timing decision, neutralization sequence |
-| L37 | 2 | Developer volume selection, patch test protocol |
-| L38 | 2 | Over-processing diagnosis, correction decision |
-| Cross-module | 1 | Concept: chemical service decision hierarchy (assess → test → apply → monitor → stop) |
+| Lesson       | Questions | Topics                                                                                |
+| ------------ | --------- | ------------------------------------------------------------------------------------- |
+| L35          | 2         | Contraindication identification, PPE/ventilation requirement                          |
+| L36          | 3         | Strand test interpretation, timing decision, neutralization sequence                  |
+| L37          | 2         | Developer volume selection, patch test protocol                                       |
+| L38          | 2         | Over-processing diagnosis, correction decision                                        |
+| Cross-module | 1         | Concept: chemical service decision hierarchy (assess → test → apply → monitor → stop) |
 
 **Type distribution — non-negotiable minimums:**
+
 - Scenario (client condition → decision): **≥4**
 - Stop-or-proceed judgment (explicit go/no-go under realistic conditions): **≥2** (subset of scenario)
 - Failure analysis (what went wrong and why): **≥1**
@@ -60,7 +62,9 @@ Every lesson in this module must teach **when to stop** with the same weight as 
 Every lesson in this module must contain all of the following. These are in addition to the standard Module 4 schema requirements.
 
 ### 1. Contraindication Section (hard requirement)
+
 A dedicated section listing conditions that require the service to be refused or modified:
+
 - Scalp abrasions, open sores, active dermatitis
 - Recent chemical service (timing conflicts)
 - Compromised or previously over-processed hair
@@ -70,7 +74,9 @@ A dedicated section listing conditions that require the service to be refused or
 **Format:** Table with columns: Condition | Risk | Decision (Refuse / Modify / Proceed with caution)
 
 ### 2. Strand Test Protocol (L36, L37)
+
 Must include:
+
 - When to perform (before every chemical service)
 - How to read the result (elasticity, color lift, breakage)
 - What each result means for the service decision
@@ -79,7 +85,9 @@ Must include:
 **This is not optional.** A lesson that teaches relaxer application without strand test protocol is incomplete and unsafe.
 
 ### 3. Timing Decision Rules (L36)
+
 Must include:
+
 - How to determine processing time (hair texture, previous chemical history, target result)
 - How to monitor during processing (visual and tactile checks)
 - When to rinse early (over-processing indicators)
@@ -88,7 +96,9 @@ Must include:
 **Format:** IF/THEN decision rules + a timing monitoring checklist
 
 ### 4. Stop Conditions (all lessons — elevated requirement)
+
 Chemical services have more stop conditions than haircutting. Each lesson must include at minimum:
+
 - Pre-service stop conditions (contraindications)
 - Mid-service stop conditions (client discomfort, unexpected reaction, timing exceeded)
 - Post-service stop conditions (damage assessment before proceeding to next step)
@@ -96,7 +106,9 @@ Chemical services have more stop conditions than haircutting. Each lesson must i
 **The stop condition section must be more prominent in this module than in Module 4.** It belongs in the execution standard, not just the critical thinking layer.
 
 ### 5. PPE and Ventilation (L35, L36, L37)
+
 Must include:
+
 - Gloves (type and when to change)
 - Protective cape and barrier cream
 - Ventilation requirements (Indiana shop standards)
@@ -105,14 +117,18 @@ Must include:
 **Indiana state board tests this.** It must appear in the service order and the state board alignment section.
 
 ### 6. Neutralization Sequence (L36)
+
 Must include:
+
 - Why neutralization is required (pH chemistry — brief, not academic)
 - Correct neutralization timing
 - What happens if neutralization is skipped or rushed
 - How to confirm neutralization is complete
 
 ### 7. Patch Test Protocol (L37)
+
 Must include:
+
 - When to perform (48 hours before service)
 - How to read the result
 - What a positive result means (refuse service — no exceptions)
@@ -126,7 +142,8 @@ The following checks must be added to `lib/curriculum/lesson-schema.ts` before a
 
 ```ts
 // Chemical services — contraindication table required
-const hasContraindicationTable = /contraindication|Contraindication/i.test(content) && /<table/i.test(content);
+const hasContraindicationTable =
+  /contraindication|Contraindication/i.test(content) && /<table/i.test(content);
 if (isChemicalLesson && !hasContraindicationTable) {
   errors.push('Chemical lesson missing contraindication table — required for all Module 6 lessons');
 }
@@ -189,6 +206,7 @@ Before writing any Module 6 lesson prose:
 This lesson sets the foundation for the entire module. If a student skips or rushes this lesson, every subsequent chemical lesson is built on an unsafe base.
 
 **Must teach:**
+
 - What chemical services are and why they carry higher risk than mechanical services
 - The assessment sequence that must happen before every chemical service
 - Contraindications — full table
@@ -197,6 +215,7 @@ This lesson sets the foundation for the entire module. If a student skips or rus
 - The decision hierarchy: Assess → Test → Apply → Monitor → Stop
 
 **Must not teach:**
+
 - Specific application techniques (those belong in L36/L37)
 - Product brand recommendations
 - Shortcuts or time-saving modifications to the safety protocol
@@ -210,6 +229,7 @@ This lesson sets the foundation for the entire module. If a student skips or rus
 This is the highest-risk lesson in the module. Over-processing is irreversible. Scalp burns are painful and a liability.
 
 **Must teach:**
+
 - Relaxer chemistry (lye vs. no-lye — brief, practical, not academic)
 - Strand test protocol — before every service, no exceptions
 - Base vs. no-base application — when and why
@@ -221,6 +241,7 @@ This is the highest-risk lesson in the module. Over-processing is irreversible. 
 - Post-service assessment — damage check before client leaves
 
 **Stop conditions (must be explicit):**
+
 - Positive strand test → refuse service
 - Client reports burning or stinging → rinse immediately, do not wait
 - Hair begins to break during processing → rinse immediately
@@ -234,6 +255,7 @@ This is the highest-risk lesson in the module. Over-processing is irreversible. 
 ## Lesson 37 — Detailed Spec (Hair Color)
 
 **Must teach:**
+
 - Color wheel — primary, secondary, complementary (practical application only)
 - Level system — 1–10, what it means for developer selection
 - Developer volume selection — 10/20/30/40 vol, when each is appropriate
@@ -243,6 +265,7 @@ This is the highest-risk lesson in the module. Over-processing is irreversible. 
 - Color on compromised hair — why it is contraindicated
 
 **Stop conditions:**
+
 - Positive patch test → refuse service, no exceptions
 - Hair is over-processed or breaking → refuse color service
 - Client reports scalp burning during processing → rinse immediately
@@ -255,6 +278,7 @@ This is the highest-risk lesson in the module. Over-processing is irreversible. 
 ## Lesson 38 — Detailed Spec (Corrections & Aftercare)
 
 **Must teach:**
+
 - How to identify over-processing (elasticity test, visual assessment)
 - What can and cannot be corrected after a chemical service
 - The rule: do not compound damage — if hair is compromised, stop
@@ -263,6 +287,7 @@ This is the highest-risk lesson in the module. Over-processing is irreversible. 
 - When to refer to a specialist
 
 **Must not teach:**
+
 - That over-processing can always be fixed — it cannot
 - That additional chemical services can correct a bad chemical service — they usually cannot
 

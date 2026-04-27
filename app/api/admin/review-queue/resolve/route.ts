@@ -13,7 +13,9 @@ export async function POST(req: Request) {
     const supabase = await createClient();
 
     // Check auth
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -30,13 +32,7 @@ export async function POST(req: Request) {
     }
 
     const body = await req.json();
-    const {
-      queue_item_id,
-      action,
-      approved_hours,
-      selected_shop_id,
-      reject_reason,
-    } = body;
+    const { queue_item_id, action, approved_hours, selected_shop_id, reject_reason } = body;
 
     if (!queue_item_id || !action) {
       return NextResponse.json({ error: 'queue_item_id and action required' }, { status: 400 });
@@ -69,7 +65,7 @@ export async function POST(req: Request) {
       // Handle transcript review - update transfer_hours
       if (item.queue_type === 'transcript_review' && approved_hours !== undefined) {
         inputSnapshot.approved_hours = approved_hours;
-        
+
         await supabase
           .from('transfer_hours')
           .update({
@@ -79,7 +75,7 @@ export async function POST(req: Request) {
             reviewed_at: new Date().toISOString(),
           })
           .eq('id', item.subject_id);
-        
+
         reasonCodes.push('TRANSFER_HOURS_SET');
       }
 
@@ -139,7 +135,6 @@ export async function POST(req: Request) {
 
         reasonCodes.push('DOCUMENT_APPROVED');
       }
-
     } else if (action === 'reject') {
       if (!reject_reason) {
         return NextResponse.json({ error: 'reject_reason required' }, { status: 400 });
@@ -168,7 +163,6 @@ export async function POST(req: Request) {
           })
           .eq('id', item.subject_id);
       }
-
     } else if (action === 'request_reupload') {
       reasonCodes.push('REUPLOAD_REQUESTED');
 
@@ -185,7 +179,8 @@ export async function POST(req: Request) {
     await supabase.from('automated_decisions').insert({
       subject_type: item.subject_type,
       subject_id: item.subject_id,
-      decision: action === 'approve' ? 'approved' : action === 'reject' ? 'rejected' : 'needs_review',
+      decision:
+        action === 'approve' ? 'approved' : action === 'reject' ? 'rejected' : 'needs_review',
       reason_codes: reasonCodes,
       input_snapshot: inputSnapshot,
       ruleset_version: 'human_review',
@@ -221,9 +216,6 @@ export async function POST(req: Request) {
     return NextResponse.json({ success: true, action, reason_codes: reasonCodes });
   } catch (error) {
     logger.error('Review resolve error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

@@ -1,6 +1,5 @@
 // PUBLIC ROUTE: public partner inquiry form
 
-
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { createClient } from '@/lib/supabase/server';
@@ -78,16 +77,16 @@ async function _POST(request: NextRequest) {
           `<p>— Elevate for Humanity</p>`,
       });
     } catch (emailError) {
-      logger.error('[partner-inquiry] Email failed:', emailError instanceof Error ? emailError : undefined);
+      logger.error(
+        '[partner-inquiry] Email failed:',
+        emailError instanceof Error ? emailError : undefined,
+      );
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) { 
+  } catch (error) {
     // Error: $1
-    return NextResponse.json(
-      { error: 'Failed to process inquiry' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to process inquiry' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/partner-inquiry', _POST);

@@ -15,11 +15,13 @@ import {
   DollarSign,
   Phone,
   MapPin,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Job Ready Indy | Funded Career Training | Elevate for Humanity',
-  description: 'Indiana Job Ready Indy program provides funded career training for justice-involved individuals. Get certified in healthcare, skilled trades, and more.',
+  description:
+    'Indiana Job Ready Indy program provides funded career training for justice-involved individuals. Get certified in healthcare, skilled trades, and more.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/jri',
   },
@@ -36,38 +38,39 @@ export default function JRIPage() {
   ];
 
   const programBenefits = [
-    { 
-      title: 'Fully Funded Training', 
-      description: 'Tuition, books, supplies, uniforms, and certification exams covered for eligible participants.',
+    {
+      title: 'Fully Funded Training',
+      description:
+        'Tuition, books, supplies, uniforms, and certification exams covered for eligible participants.',
       image: '/images/pages/funding-page-1.jpg',
       alt: 'Funded workforce training program',
     },
-    { 
-      title: 'Career Counseling', 
+    {
+      title: 'Career Counseling',
       description: 'Work one-on-one with a dedicated career coach who understands your situation.',
       image: '/images/pages/comp-pathway-classroom.jpg',
       alt: 'One-on-one career counseling session',
     },
-    { 
-      title: 'Job Placement', 
+    {
+      title: 'Job Placement',
       description: 'We connect you with employers committed to second-chance hiring.',
       image: '/images/pages/about-employer-partners.jpg',
       alt: 'Job placement and employer connections',
     },
-    { 
-      title: 'Support Services', 
+    {
+      title: 'Support Services',
       description: 'Transportation, childcare support, work clothing, and more.',
       image: '/images/pages/comp-home-pathways-support.jpg',
       alt: 'Supportive services for workforce participants',
     },
-    { 
-      title: 'Flexible Scheduling', 
+    {
+      title: 'Flexible Scheduling',
       description: 'Day and evening classes to work around your commitments.',
       image: '/images/pages/comp-pathway-healthcare.jpg',
       alt: 'Flexible day and evening class scheduling',
     },
-    { 
-      title: 'Ongoing Mentorship', 
+    {
+      title: 'Ongoing Mentorship',
       description: 'Stay connected with mentors even after graduation.',
       image: '/images/pages/mentorship-page-1.jpg',
       alt: 'Ongoing mentorship after graduation',
@@ -121,25 +124,28 @@ export default function JRIPage() {
   ];
 
   return (
-    <div className="bg-white">      {/* Breadcrumbs */}
+    <div className="bg-white">
+      {' '}
+      {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Funding', href: '/funding' }, { label: 'Job Ready Indy' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Funding', href: '/funding' }, { label: 'Job Ready Indy' }]}
+          />
         </div>
       </div>
-
       {/* Hero Section */}
       <section className="relative min-h-48 md:h-64 flex items-center overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/jri-hero.jpg"
           alt="Job Ready Indy Program participants"
           fill
           className="object-cover"
           priority
-         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
-        
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
       </section>
-
       {/* Stats Section */}
       <section className="py-10">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -157,26 +163,32 @@ export default function JRIPage() {
           </div>
         </div>
       </section>
-
       {/* What is Job Ready Indy */}
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="max-w-3xl mx-auto text-center mb-12">
-            <h2 className="text-3xl font-bold text-gray-900 mb-4">
-              What is the Job Ready Indy?
-            </h2>
+            <h2 className="text-3xl font-bold text-gray-900 mb-4">What is the Job Ready Indy?</h2>
             <p className="text-lg text-gray-600">
-              Job Ready Indy is an Indiana state-funded program designed to reduce recidivism by investing in 
-              workforce training and support services. Instead of cycling people back through the 
-              criminal justice system, Job Ready Indy helps build sustainable careers.
+              Job Ready Indy is an Indiana state-funded program designed to reduce recidivism by
+              investing in workforce training and support services. Instead of cycling people back
+              through the criminal justice system, Job Ready Indy helps build sustainable careers.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {programBenefits.map((benefit, index) => (
-              <div key={index} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+              <div
+                key={index}
+                className="bg-white rounded-xl border border-slate-200 overflow-hidden"
+              >
                 <div className="relative w-full aspect-[4/3]" style={{ aspectRatio: '16/10' }}>
-                  <Image src={benefit.image} alt={benefit.alt} fill className="object-cover" sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                  <Image
+                    src={benefit.image}
+                    alt={benefit.alt}
+                    fill
+                    className="object-cover"
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                 </div>
                 <div className="p-5">
                   <h3 className="text-lg font-bold text-slate-900 mb-2">{benefit.title}</h3>
@@ -187,7 +199,6 @@ export default function JRIPage() {
           </div>
         </div>
       </section>
-
       {/* Eligibility */}
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -197,9 +208,10 @@ export default function JRIPage() {
                 Do You Qualify for Job Ready Indy?
               </h2>
               <p className="text-lg text-gray-600 mb-8">
-                Job Ready Indy funding is available to Indiana residents who meet the following criteria.
+                Job Ready Indy funding is available to Indiana residents who meet the following
+                criteria.
               </p>
-              
+
               <ul className="space-y-4">
                 {eligibilityRequirements.map((req, index) => (
                   <li key={index} className="flex items-start gap-3">
@@ -208,15 +220,15 @@ export default function JRIPage() {
                   </li>
                 ))}
               </ul>
-              
+
               <div className="mt-8 p-4 bg-yellow-50 border border-yellow-200 rounded-lg">
                 <p className="text-yellow-800 text-sm">
-                  <strong>Note:</strong> Even if you don&apos;t meet all criteria, you may qualify 
+                  <strong>Note:</strong> Even if you don&apos;t meet all criteria, you may qualify
                   for other funding programs like WIOA or SNAP E&T.
                 </p>
               </div>
             </div>
-            
+
             <div className="bg-white rounded-2xl p-8 shadow-lg border border-gray-200">
               <h3 className="text-2xl font-bold text-gray-900 mb-6">Check Your Eligibility</h3>
               <p className="text-gray-600 mb-6">
@@ -240,7 +252,6 @@ export default function JRIPage() {
           </div>
         </div>
       </section>
-
       {/* Available Programs */}
       <section className="py-16">
         <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -249,16 +260,22 @@ export default function JRIPage() {
               Job Ready Indy-Approved Training Programs
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Choose from high-demand career paths. All programs are fully funded through Job Ready Indy.
+              Choose from high-demand career paths. All programs are fully funded through Job Ready
+              Indy.
             </p>
           </div>
-          
+
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {availablePrograms.map((program, index) => (
-              <div key={index} className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition">
+              <div
+                key={index}
+                className="bg-white rounded-xl border border-gray-200 p-6 hover:shadow-lg transition"
+              >
                 <div className="flex items-center gap-2 mb-3">
                   <BookOpen className="w-5 h-5 text-brand-green-600" />
-                  <span className="text-xs text-brand-green-600 font-semibold uppercase">Job Ready Indy Approved</span>
+                  <span className="text-xs text-brand-green-600 font-semibold uppercase">
+                    Job Ready Indy Approved
+                  </span>
                 </div>
                 <h3 className="text-xl font-bold text-gray-900 mb-2">{program.name}</h3>
                 <p className="text-gray-600 text-sm mb-4">{program.description}</p>
@@ -275,7 +292,7 @@ export default function JRIPage() {
               </div>
             ))}
           </div>
-          
+
           <div className="text-center mt-10">
             <Link
               href="/programs"
@@ -286,27 +303,62 @@ export default function JRIPage() {
           </div>
         </div>
       </section>
-
       {/* FAQ */}
       <section className="py-16">
         <div className="max-w-3xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">Job Ready Indy Program FAQ</h2>
+          <h2 className="text-2xl font-bold text-gray-900 mb-8 text-center">
+            Job Ready Indy Program FAQ
+          </h2>
           <div className="space-y-4">
             {[
-              { q: 'What is Job Ready Indy funding?', a: 'Job Ready Indy is Indiana state funding that provides free career training to justice-involved individuals. It covers tuition, materials, certifications, and supportive services.' },
-              { q: 'Do I qualify if I have a felony?', a: 'Yes. Job Ready Indy is specifically designed for people with criminal records, including felonies. Your conviction type does not automatically disqualify you.' },
-              { q: 'How recent does my involvement need to be?', a: 'Generally, you should have been released from incarceration or supervision within the past 3 years. Contact us to discuss your specific situation.' },
-              { q: 'What programs can I use Job Ready Indy for?', a: 'Job Ready Indy covers approved training programs including healthcare (CNA), skilled trades (HVAC, welding), technology, CDL, and more. See the list above for current options.' },
-              { q: 'Is Job Ready Indy really free?', a: 'Yes. Job Ready Indy covers 100% of training costs for eligible participants. There are no hidden fees or repayment requirements.' },
-              { q: 'How long does the application take?', a: 'The initial application takes about 10 minutes. Eligibility verification typically takes 1-2 weeks. You can start training as soon as you\'re approved.' },
-              { q: 'What if I don\'t qualify for Job Ready Indy?', a: 'You may still qualify for other funding programs like WIOA or SNAP E&T. Our team will help identify all available options for you.' },
-              { q: 'Will employers hire me with a record?', a: 'Yes. Many employers actively hire our graduates. We work with employers who believe in second chances and understand the value of trained, motivated workers.' },
+              {
+                q: 'What is Job Ready Indy funding?',
+                a: 'Job Ready Indy is Indiana state funding that provides free career training to justice-involved individuals. It covers tuition, materials, certifications, and supportive services.',
+              },
+              {
+                q: 'Do I qualify if I have a felony?',
+                a: 'Yes. Job Ready Indy is specifically designed for people with criminal records, including felonies. Your conviction type does not automatically disqualify you.',
+              },
+              {
+                q: 'How recent does my involvement need to be?',
+                a: 'Generally, you should have been released from incarceration or supervision within the past 3 years. Contact us to discuss your specific situation.',
+              },
+              {
+                q: 'What programs can I use Job Ready Indy for?',
+                a: 'Job Ready Indy covers approved training programs including healthcare (CNA), skilled trades (HVAC, welding), technology, CDL, and more. See the list above for current options.',
+              },
+              {
+                q: 'Is Job Ready Indy really free?',
+                a: 'Yes. Job Ready Indy covers 100% of training costs for eligible participants. There are no hidden fees or repayment requirements.',
+              },
+              {
+                q: 'How long does the application take?',
+                a: "The initial application takes about 10 minutes. Eligibility verification typically takes 1-2 weeks. You can start training as soon as you're approved.",
+              },
+              {
+                q: "What if I don't qualify for Job Ready Indy?",
+                a: 'You may still qualify for other funding programs like WIOA or SNAP E&T. Our team will help identify all available options for you.',
+              },
+              {
+                q: 'Will employers hire me with a record?',
+                a: 'Yes. Many employers actively hire our graduates. We work with employers who believe in second chances and understand the value of trained, motivated workers.',
+              },
             ].map((faq, i) => (
               <details key={i} className="bg-white rounded-xl overflow-hidden shadow-sm group">
                 <summary className="p-5 cursor-pointer font-semibold text-slate-900 flex justify-between items-center">
                   {faq.q}
-                  <svg className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <svg
+                    className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </summary>
                 <div className="px-5 pb-5 text-slate-600">{faq.a}</div>
@@ -315,7 +367,6 @@ export default function JRIPage() {
           </div>
         </div>
       </section>
-
       {/* CTA Section */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">

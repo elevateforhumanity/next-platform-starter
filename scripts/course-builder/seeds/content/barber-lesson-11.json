@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which scalp condition is highly contagious and requires immediate cessation of services?",
-        "choices": [
-          "Dandruff",
-          "Psoriasis",
-          "Tinea capitis",
-          "Alopecia areata"
-        ],
+        "choices": ["Dandruff", "Psoriasis", "Tinea capitis", "Alopecia areata"],
         "answerIndex": 2,
         "rationale": "Tinea capitis is a fungal infection that is highly contagious, necessitating an immediate halt to services to prevent spreading.",
         "type": "recall"
@@ -64,12 +59,7 @@
       },
       {
         "prompt": "Which condition is characterized by sudden hair loss in round patches and is not contagious?",
-        "choices": [
-          "Dandruff",
-          "Seborrheic dermatitis",
-          "Alopecia areata",
-          "Tinea capitis"
-        ],
+        "choices": ["Dandruff", "Seborrheic dermatitis", "Alopecia areata", "Tinea capitis"],
         "answerIndex": 2,
         "rationale": "Alopecia areata causes sudden hair loss in round patches and is an autoimmune disorder, not a contagious condition.",
         "type": "recall"
@@ -112,12 +102,7 @@
       },
       {
         "prompt": "Which scalp condition requires immediate referral to a physician due to its contagious nature?",
-        "choices": [
-          "Dandruff",
-          "Psoriasis",
-          "Tinea capitis",
-          "Alopecia areata"
-        ],
+        "choices": ["Dandruff", "Psoriasis", "Tinea capitis", "Alopecia areata"],
         "answerIndex": 2,
         "rationale": "Tinea capitis is a contagious fungal infection that requires immediate referral to prevent spreading.",
         "type": "recall"
@@ -136,24 +121,14 @@
       },
       {
         "prompt": "Which condition is characterized by red, scaly patches and is more severe than dandruff?",
-        "choices": [
-          "Psoriasis",
-          "Seborrheic dermatitis",
-          "Tinea capitis",
-          "Alopecia areata"
-        ],
+        "choices": ["Psoriasis", "Seborrheic dermatitis", "Tinea capitis", "Alopecia areata"],
         "answerIndex": 1,
         "rationale": "Seborrheic dermatitis presents as red, scaly patches and is more severe than dandruff, often requiring medical intervention.",
         "type": "recall"
       },
       {
         "prompt": "A client presents with flaky, itchy scalp. Which condition is most likely?",
-        "choices": [
-          "Psoriasis",
-          "Dandruff",
-          "Tinea capitis",
-          "Alopecia areata"
-        ],
+        "choices": ["Psoriasis", "Dandruff", "Tinea capitis", "Alopecia areata"],
         "answerIndex": 1,
         "rationale": "Flaky, itchy scalp is a common symptom of dandruff, a non-contagious condition that can be managed with over-the-counter treatments.",
         "type": "scenario"
@@ -232,12 +207,7 @@
       },
       {
         "prompt": "Which of the following conditions is characterized by red, scaly patches and may extend beyond the scalp?",
-        "choices": [
-          "Dandruff",
-          "Seborrheic dermatitis",
-          "Alopecia areata",
-          "Tinea capitis"
-        ],
+        "choices": ["Dandruff", "Seborrheic dermatitis", "Alopecia areata", "Tinea capitis"],
         "answerIndex": 1,
         "rationale": "Seborrheic dermatitis presents as red, scaly patches that can extend beyond the scalp, requiring careful management and possibly medical evaluation.",
         "type": "recall"

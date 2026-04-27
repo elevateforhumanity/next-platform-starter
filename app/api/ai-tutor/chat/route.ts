@@ -30,7 +30,10 @@ const FALLBACK_RESPONSES: Record<string, string[]> = {
   ],
 };
 
-async function callGemini(messages: Array<{ role: string; content: string }>, systemPrompt: string) {
+async function callGemini(
+  messages: Array<{ role: string; content: string }>,
+  systemPrompt: string,
+) {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
 
@@ -143,10 +146,7 @@ async function _POST(request: NextRequest) {
 
     // Fall back to OpenAI if Gemini fails and key exists
     if (!aiContent && openaiKey) {
-      const openaiMessages = [
-        { role: 'system', content: systemPrompt },
-        ...messages,
-      ];
+      const openaiMessages = [{ role: 'system', content: systemPrompt }, ...messages];
 
       const response = await fetch('https://api.openai.com/v1/chat/completions', {
         method: 'POST',
@@ -209,13 +209,10 @@ async function _POST(request: NextRequest) {
       conversationId: newConversationId,
     });
   } catch (error) {
-    logger.error(
-      'AI Tutor error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+    logger.error('AI Tutor error:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to process request' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

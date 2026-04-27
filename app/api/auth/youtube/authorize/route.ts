@@ -13,17 +13,13 @@ export const maxDuration = 60;
  * Redirects user to Google for authorization
  */
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const clientId = process.env.GOOGLE_CLIENT_ID;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const clientId = process.env.GOOGLE_CLIENT_ID;
   const redirectUri = `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/youtube/callback`;
 
   if (!clientId) {
-    return NextResponse.json(
-      { error: 'Google Client ID not configured' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Google Client ID not configured' }, { status: 500 });
   }
 
   // Google OAuth scopes for YouTube

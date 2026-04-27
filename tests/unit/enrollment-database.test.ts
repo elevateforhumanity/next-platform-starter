@@ -1,6 +1,6 @@
 /**
  * Enrollment Database State Tests
- * 
+ *
  * Tests database operations and state transitions for enrollments
  */
 
@@ -49,12 +49,14 @@ class MockDatabase {
   enrollments: Map<string, EnrollmentRecord> = new Map();
   courseProgress: Map<string, CourseProgressRecord> = new Map();
   auditLogs: AuditLogRecord[] = [];
-  
+
   private generateId(): string {
     return `${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
   }
 
-  async insertEnrollment(data: Omit<EnrollmentRecord, 'id' | 'created_at' | 'updated_at'>): Promise<EnrollmentRecord> {
+  async insertEnrollment(
+    data: Omit<EnrollmentRecord, 'id' | 'created_at' | 'updated_at'>,
+  ): Promise<EnrollmentRecord> {
     const now = new Date().toISOString();
     const record: EnrollmentRecord = {
       ...data,
@@ -70,7 +72,10 @@ class MockDatabase {
     return this.enrollments.get(id) || null;
   }
 
-  async getEnrollmentByUserAndCourse(userId: string, courseId: string): Promise<EnrollmentRecord | null> {
+  async getEnrollmentByUserAndCourse(
+    userId: string,
+    courseId: string,
+  ): Promise<EnrollmentRecord | null> {
     for (const enrollment of this.enrollments.values()) {
       if (enrollment.user_id === userId && enrollment.course_id === courseId) {
         return enrollment;
@@ -79,10 +84,13 @@ class MockDatabase {
     return null;
   }
 
-  async updateEnrollment(id: string, updates: Partial<EnrollmentRecord>): Promise<EnrollmentRecord | null> {
+  async updateEnrollment(
+    id: string,
+    updates: Partial<EnrollmentRecord>,
+  ): Promise<EnrollmentRecord | null> {
     const existing = this.enrollments.get(id);
     if (!existing) return null;
-    
+
     const updated: EnrollmentRecord = {
       ...existing,
       ...updates,
@@ -92,7 +100,9 @@ class MockDatabase {
     return updated;
   }
 
-  async insertCourseProgress(data: Omit<CourseProgressRecord, 'id'>): Promise<CourseProgressRecord> {
+  async insertCourseProgress(
+    data: Omit<CourseProgressRecord, 'id'>,
+  ): Promise<CourseProgressRecord> {
     const record: CourseProgressRecord = {
       ...data,
       id: this.generateId(),
@@ -110,7 +120,10 @@ class MockDatabase {
     return null;
   }
 
-  async updateCourseProgress(enrollmentId: string, updates: Partial<CourseProgressRecord>): Promise<CourseProgressRecord | null> {
+  async updateCourseProgress(
+    enrollmentId: string,
+    updates: Partial<CourseProgressRecord>,
+  ): Promise<CourseProgressRecord | null> {
     for (const [id, progress] of this.courseProgress.entries()) {
       if (progress.enrollment_id === enrollmentId) {
         const updated = { ...progress, ...updates };
@@ -132,7 +145,7 @@ class MockDatabase {
   }
 
   async getAuditLogs(userId: string, action?: string): Promise<AuditLogRecord[]> {
-    return this.auditLogs.filter(log => {
+    return this.auditLogs.filter((log) => {
       if (log.user_id !== userId) return false;
       if (action && log.action !== action) return false;
       return true;
@@ -288,12 +301,12 @@ describe('Enrollment Database Operations', () => {
         payment_status: 'completed',
       });
 
-      const updated = await db.updateEnrollment(created.id, { 
+      const updated = await db.updateEnrollment(created.id, {
         status: 'completed',
         completed_at: new Date().toISOString(),
         progress: 100,
       });
-      
+
       expect(updated?.status).toBe('completed');
       expect(updated?.completed_at).toBeDefined();
       expect(updated?.progress).toBe(100);
@@ -310,10 +323,10 @@ describe('Enrollment Database Operations', () => {
       });
 
       const originalUpdatedAt = created.updated_at;
-      
+
       // Small delay to ensure timestamp difference
-      await new Promise(resolve => setTimeout(resolve, 10));
-      
+      await new Promise((resolve) => setTimeout(resolve, 10));
+
       const updated = await db.updateEnrollment(created.id, { progress: 25 });
       expect(updated?.updated_at).not.toBe(originalUpdatedAt);
     });

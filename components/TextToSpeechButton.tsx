@@ -1,20 +1,20 @@
-"use client";
+'use client';
 
 import React from 'react';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 type Props = {
   text: string;
   label?: string;
 };
 
-export function TextToSpeechButton({ text, label = "Listen to this section" }: Props) {
+export function TextToSpeechButton({ text, label = 'Listen to this section' }: Props) {
   const [isSupported, setIsSupported] = useState(false);
   const [isSpeaking, setIsSpeaking] = useState(false);
 
   useEffect(() => {
-    if (typeof window !== "undefined" && "speechSynthesis" in window) {
+    if (typeof window !== 'undefined' && 'speechSynthesis' in window) {
       setIsSupported(true);
     }
   }, []);
@@ -50,8 +50,8 @@ export function TextToSpeechButton({ text, label = "Listen to this section" }: P
       onClick={handleClick}
       className="inline-flex items-center gap-2 rounded-full border border-slate-300 bg-white px-4 py-2 text-xs font-medium text-black shadow-sm hover:bg-slate-50 transition-colors"
     >
-      <span aria-hidden="true">{isSpeaking ? "⏹️" : "▶️"}</span>
-      <span>{isSpeaking ? "Stop audio" : label}</span>
+      <span aria-hidden="true">{isSpeaking ? '⏹️' : '▶️'}</span>
+      <span>{isSpeaking ? 'Stop audio' : label}</span>
     </button>
   );
 }

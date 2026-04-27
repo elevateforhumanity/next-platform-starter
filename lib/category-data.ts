@@ -93,7 +93,7 @@ export const categoryData: Record<string, CategoryData> = {
   },
   'cdl-transportation': {
     title: 'CDL & Transportation Programs',
-    description: 'Commercial driver\'s license and transportation industry training',
+    description: "Commercial driver's license and transportation industry training",
     badges: [
       { text: 'Free with funding', color: 'green' },
       { text: 'High demand', color: 'orange' },
@@ -116,7 +116,9 @@ export async function getCategoryPrograms(category: string) {
   const supabase = await createClient();
   const { data } = await supabase
     .from('programs')
-    .select('id, slug, title, description, short_description, image_url, hero_image_url, category, is_active')
+    .select(
+      'id, slug, title, description, short_description, image_url, hero_image_url, category, is_active',
+    )
     .eq('is_active', true)
     .ilike('category', `%${category}%`)
     .order('title');

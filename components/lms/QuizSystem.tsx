@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -19,15 +19,9 @@ interface QuizSystemProps {
   passingScore?: number;
 }
 
-export function QuizSystem({
-  questions,
-  onComplete,
-  passingScore = 70,
-}: QuizSystemProps) {
+export function QuizSystem({ questions, onComplete, passingScore = 70 }: QuizSystemProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<number[]>(
-    new Array(questions.length).fill(-1)
-  );
+  const [answers, setAnswers] = useState<number[]>(new Array(questions.length).fill(-1));
   const [showResults, setShowResults] = useState(false);
   const [timeElapsed, setTimeElapsed] = useState(0);
 
@@ -76,7 +70,7 @@ export function QuizSystem({
     const score = calculateScore();
     const passed = score >= passingScore;
     const correctCount = answers.filter(
-      (answer, index) => answer === questions[index].correctAnswer
+      (answer, index) => answer === questions[index].correctAnswer,
     ).length;
 
     return (
@@ -95,8 +89,7 @@ export function QuizSystem({
             {passed ? 'Congratulations!' : 'Keep Trying!'}
           </h2>
           <p className="text-black mb-4">
-            You scored {score}% ({correctCount} out of {questions.length}{' '}
-            correct)
+            You scored {score}% ({correctCount} out of {questions.length} correct)
           </p>
           <p className="text-sm text-slate-500">
             {passed
@@ -148,9 +141,7 @@ export function QuizSystem({
                       </p>
                     )}
                     {question.explanation && (
-                      <p className="text-sm text-black mt-2 italic">
-                        {question.explanation}
-                      </p>
+                      <p className="text-sm text-black mt-2 italic">{question.explanation}</p>
                     )}
                   </div>
                 </div>
@@ -245,8 +236,7 @@ export function QuizSystem({
         </button>
 
         <div className="text-sm text-black">
-          {answers.filter((a) => a !== -1).length} of {questions.length}{' '}
-          answered
+          {answers.filter((a) => a !== -1).length} of {questions.length} answered
         </div>
 
         {currentQuestion === questions.length - 1 ? (

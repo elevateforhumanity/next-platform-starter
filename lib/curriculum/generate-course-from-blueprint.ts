@@ -21,12 +21,12 @@ import {
 
 export type GenerateCourseArgs = {
   /** courses.id of an existing course to populate, or omit to create/upsert by slug */
-  courseId?:     string;
+  courseId?: string;
   /** Blueprint ID (e.g. 'bookkeeping-quickbooks-v1') or program slug (e.g. 'bookkeeping') */
   blueprintSlug: string;
   /** programs.id to link the course to */
-  programId:     string;
-  mode:          'full' | 'missing-only';
+  programId: string;
+  mode: 'full' | 'missing-only';
 };
 
 export type GenerateCourseResult = BuildCanonicalCourseResult;
@@ -42,17 +42,15 @@ export async function generateCourseFromBlueprint(
     (await getBlueprintByProgramSlug(args.blueprintSlug));
 
   if (!blueprint) {
-    throw new Error(
-      `generateCourseFromBlueprint: no blueprint found for '${args.blueprintSlug}'`,
-    );
+    throw new Error(`generateCourseFromBlueprint: no blueprint found for '${args.blueprintSlug}'`);
   }
 
   const buildMode: BuildMode = args.mode === 'full' ? 'replace' : 'missing-only';
 
   return buildCanonicalCourseFromBlueprint({
     blueprint,
-    programId:  args.programId,
+    programId: args.programId,
     courseSlug: blueprint.programSlug,
-    mode:       buildMode,
+    mode: buildMode,
   });
 }

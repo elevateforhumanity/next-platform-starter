@@ -6,7 +6,7 @@
  * Rendered below the hero in the CPR page.
  * Uses the shared block system. All content sourced from CPR_FIRST_AID data.
  *
- * HSI: partnerProvider = 'hsi', 
+ * HSI: partnerProvider = 'hsi',
  * Images: cpr-mannequin.jpg (real), cpr-training-real.jpg (real)
  * Video: /videos/cpr-training.mp4 — placeholder path, falls back to image
  */
@@ -30,8 +30,12 @@ function FactsStrip() {
         <div className="grid grid-cols-2 sm:grid-cols-4 divide-x divide-slate-700">
           {facts.map((f, i) => (
             <div key={i} className="px-4 py-5 sm:px-6 sm:py-6 text-center">
-              <div className="text-xl sm:text-2xl font-extrabold text-white leading-tight">{f.value}</div>
-              <div className="text-xs font-semibold uppercase tracking-widest mt-1 text-slate-400">{f.label}</div>
+              <div className="text-xl sm:text-2xl font-extrabold text-white leading-tight">
+                {f.value}
+              </div>
+              <div className="text-xs font-semibold uppercase tracking-widest mt-1 text-slate-400">
+                {f.label}
+              </div>
             </div>
           ))}
         </div>
@@ -45,6 +49,7 @@ function FactsStrip() {
 function FullBleedImage({ src, alt }: { src: string; alt: string }) {
   return (
     <div className="relative w-full h-[420px] sm:h-[520px] overflow-hidden border-y border-slate-200">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
       <Image
         src={src}
         alt={alt}
@@ -82,12 +87,17 @@ function SplitBlock() {
         {/* Copy side */}
         <div className="bg-white flex items-center">
           <div className="px-8 py-10 lg:px-12 lg:py-14 max-w-xl">
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-3">What you receive</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-3">
+              What you receive
+            </p>
             <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight mb-4">
               Everything You Need, Delivered to Your Door
             </h2>
             <p className="text-slate-600 text-base leading-relaxed mb-6">
-              A training mannequin ships directly to your address. You join a live instructor-led session online and complete your hands-on skills practice at home — compression technique, AED operation, and first aid response — with real-time guidance from a certified instructor.
+              A training mannequin ships directly to your address. You join a live instructor-led
+              session online and complete your hands-on skills practice at home — compression
+              technique, AED operation, and first aid response — with real-time guidance from a
+              certified instructor.
             </p>
             <ul className="space-y-3 mb-8">
               {[
@@ -128,11 +138,15 @@ function StatsBand() {
   return (
     <div className="bg-white border-y-4 border-slate-900 py-10 sm:py-14">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
-        <p className="text-xs font-bold uppercase tracking-widest text-slate-400 text-center mb-8">Program at a glance</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-slate-400 text-center mb-8">
+          Program at a glance
+        </p>
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
           {stats.map((s, i) => (
             <div key={i} className="text-center">
-              <div className="text-4xl sm:text-5xl font-extrabold text-slate-900 leading-none">{s.value}</div>
+              <div className="text-4xl sm:text-5xl font-extrabold text-slate-900 leading-none">
+                {s.value}
+              </div>
               <div className="text-sm font-bold text-slate-700 mt-2">{s.label}</div>
               <div className="text-xs text-slate-400 mt-1">{s.note}</div>
             </div>
@@ -173,7 +187,9 @@ function WhatComesWithIt() {
     <div className="bg-slate-50 border-y border-slate-200 py-12 sm:py-16">
       <div className="max-w-6xl mx-auto px-4 sm:px-6">
         <div className="mb-10">
-          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">What comes with it</h2>
+          <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 mb-2">
+            What comes with it
+          </h2>
           <p className="text-slate-500 text-base max-w-2xl">
             Everything included in the $130 enrollment. No hidden fees. No equipment to source.
           </p>
@@ -198,11 +214,15 @@ function HSIBand() {
     <div className="bg-white border-y border-slate-200 py-8">
       <div className="max-w-4xl mx-auto px-4 sm:px-6 flex flex-col sm:flex-row items-center gap-4 sm:gap-8">
         <div className="flex-shrink-0 bg-slate-100 border border-slate-200 rounded-lg px-6 py-3">
-          <p className="text-xs font-bold uppercase tracking-widest text-slate-500">Training Partner</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-slate-500">
+            Training Partner
+          </p>
           <p className="text-base font-extrabold text-slate-900 mt-0.5">our training partner</p>
         </div>
         <p className="text-slate-600 text-sm leading-relaxed text-center sm:text-left">
-          This program is delivered through a nationally recognized CPR, AED, and first aid training provider. Certifications are accepted by healthcare, construction, childcare, and fitness employers nationwide.
+          This program is delivered through a nationally recognized CPR, AED, and first aid training
+          provider. Certifications are accepted by healthcare, construction, childcare, and fitness
+          employers nationwide.
         </p>
       </div>
     </div>
@@ -257,7 +277,9 @@ function FAQAccordion() {
                   {open === i ? '−' : '+'}
                 </span>
               </button>
-              <div className={`overflow-hidden transition-all duration-200 ${open === i ? 'max-h-96' : 'max-h-0'}`}>
+              <div
+                className={`overflow-hidden transition-all duration-200 ${open === i ? 'max-h-96' : 'max-h-0'}`}
+              >
                 <div className="px-6 pb-5 text-slate-600 text-sm leading-relaxed border-t border-slate-100 pt-4">
                   {item.a}
                 </div>
@@ -313,7 +335,8 @@ function FinalCTA() {
           Start Your CPR Training from Home
         </h2>
         <p className="text-slate-300 text-base mb-8 max-w-xl mx-auto">
-          Get the materials, join live instruction, and complete hands-on CPR training with a clear path to your certification card.
+          Get the materials, join live instruction, and complete hands-on CPR training with a clear
+          path to your certification card.
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
           <Link
@@ -329,7 +352,9 @@ function FinalCTA() {
             Request Information
           </Link>
         </div>
-        <p className="text-slate-500 text-xs mt-6">Included free with any Elevate training program enrollment.</p>
+        <p className="text-slate-500 text-xs mt-6">
+          Included free with any Elevate training program enrollment.
+        </p>
       </div>
     </div>
   );
@@ -341,10 +366,7 @@ export default function CprPageBlocks() {
   return (
     <>
       <FactsStrip />
-      <FullBleedImage
-        src="/images/pages/cpr-first-aid.jpg"
-        alt="CPR and first aid training"
-      />
+      <FullBleedImage src="/images/pages/cpr-first-aid.jpg" alt="CPR and first aid training" />
       <SplitBlock />
       <StatsBand />
       <WhatComesWithIt />

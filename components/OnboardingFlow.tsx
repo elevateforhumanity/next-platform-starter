@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -22,7 +22,7 @@ export function OnboardingFlow({ steps, onComplete }: OnboardingFlowProps) {
   const [completedSteps, setCompletedSteps] = useState<Set<number>>(new Set());
 
   const handleNext = () => {
-    setCompletedSteps(prev => new Set(prev).add(currentStep));
+    setCompletedSteps((prev) => new Set(prev).add(currentStep));
 
     if (currentStep < steps.length - 1) {
       setCurrentStep(currentStep + 1);
@@ -49,13 +49,8 @@ export function OnboardingFlow({ steps, onComplete }: OnboardingFlowProps) {
         {/* Header */}
         <div className="p-6 border-b border-slate-200">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-black">
-              Welcome to Elevate for Humanity
-            </h2>
-            <button
-              onClick={handleSkip}
-              className="text-sm text-slate-500 hover:text-black"
-            >
+            <h2 className="text-2xl font-bold text-black">Welcome to Elevate for Humanity</h2>
+            <button onClick={handleSkip} className="text-sm text-slate-500 hover:text-black">
               Skip tour
             </button>
           </div>
@@ -76,8 +71,8 @@ export function OnboardingFlow({ steps, onComplete }: OnboardingFlowProps) {
                     index === currentStep
                       ? 'text-brand-orange-600 font-semibold'
                       : completedSteps.has(index)
-                      ? 'text-brand-orange-600'
-                      : 'text-slate-400'
+                        ? 'text-brand-orange-600'
+                        : 'text-slate-400'
                   }`}
                 >
                   {completedSteps.has(index) ? (
@@ -97,16 +92,10 @@ export function OnboardingFlow({ steps, onComplete }: OnboardingFlowProps) {
         {/* Content */}
         <div className="flex-1 overflow-y-auto p-6">
           <div className="mb-4">
-            <h3 className="text-xl font-semibold text-black mb-2">
-              {steps[currentStep].title}
-            </h3>
-            <p className="text-black">
-              {steps[currentStep].description}
-            </p>
+            <h3 className="text-xl font-semibold text-black mb-2">{steps[currentStep].title}</h3>
+            <p className="text-black">{steps[currentStep].description}</p>
           </div>
-          <div className="mt-6">
-            {steps[currentStep].content}
-          </div>
+          <div className="mt-6">{steps[currentStep].content}</div>
         </div>
 
         {/* Footer */}
@@ -143,7 +132,7 @@ export function StudentOnboarding({ onComplete }: { onComplete: () => void }) {
     {
       id: 'welcome',
       title: 'Welcome',
-      description: 'Let\'s get you started with your learning journey',
+      description: "Let's get you started with your learning journey",
       content: (
         <div className="space-y-4">
           <div className="bg-brand-red-50 rounded-lg p-6 text-center">
@@ -177,9 +166,7 @@ export function StudentOnboarding({ onComplete }: { onComplete: () => void }) {
       description: 'Navigate your learning hub',
       content: (
         <div className="space-y-4">
-          <p className="text-black">
-            Your dashboard is your home base. Here you can:
-          </p>
+          <p className="text-black">Your dashboard is your home base. Here you can:</p>
           <ul className="space-y-3">
             <li className="flex items-start gap-3">
               <Check className="w-5 h-5 text-brand-orange-600 flex-shrink-0 mt-0.5" />
@@ -207,13 +194,13 @@ export function StudentOnboarding({ onComplete }: { onComplete: () => void }) {
       description: 'Find the perfect program for you',
       content: (
         <div className="space-y-4">
-          <p className="text-black">
-            Explore our programs in:
-          </p>
+          <p className="text-black">Explore our programs in:</p>
           <div className="grid grid-cols-2 gap-3">
             <div className="bg-brand-blue-50 rounded-lg p-4">
               <div className="font-semibold text-brand-blue-900">Healthcare</div>
-              <div className="text-sm text-brand-blue-700">Medical Assistant, CNA, Home Health Aide</div>
+              <div className="text-sm text-brand-blue-700">
+                Medical Assistant, CNA, Home Health Aide
+              </div>
             </div>
             <div className="bg-purple-50 rounded-lg p-4">
               <div className="font-semibold text-purple-900">Skilled Trades</div>
@@ -234,12 +221,10 @@ export function StudentOnboarding({ onComplete }: { onComplete: () => void }) {
     {
       id: 'support',
       title: 'Get Support',
-      description: 'We\'re here to help you succeed',
+      description: "We're here to help you succeed",
       content: (
         <div className="space-y-4">
-          <p className="text-black">
-            Need help? We've got you covered:
-          </p>
+          <p className="text-black">Need help? We've got you covered:</p>
           <div className="space-y-3">
             <div className="bg-slate-50 rounded-lg p-4">
               <div className="font-semibold text-black mb-1">💬 Live Chat</div>
@@ -268,7 +253,7 @@ export function InstructorOnboarding({ onComplete }: { onComplete: () => void })
     {
       id: 'welcome',
       title: 'Welcome Instructor',
-      description: 'Let\'s set up your teaching environment',
+      description: "Let's set up your teaching environment",
       content: (
         <div className="space-y-4">
           <div className="bg-brand-blue-50 rounded-lg p-6 text-center">
@@ -315,7 +300,9 @@ export function InstructorOnboarding({ onComplete }: { onComplete: () => void })
           <p className="text-black">Streamlined grading tools:</p>
           <div className="bg-slate-50 rounded-lg p-4">
             <div className="font-semibold text-black mb-2">Quick Grading</div>
-            <div className="text-sm text-black">Grade assignments with rubrics and provide detailed feedback</div>
+            <div className="text-sm text-black">
+              Grade assignments with rubrics and provide detailed feedback
+            </div>
           </div>
         </div>
       ),

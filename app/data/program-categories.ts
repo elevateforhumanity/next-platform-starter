@@ -26,12 +26,7 @@ export const programCategories: ProgramCategory[] = [
     slug: 'healthcare',
     name: 'Healthcare',
     description: 'Nationally credentialed healthcare training programs',
-    programs: [
-      'cna',
-      'medical-assistant',
-      'peer-recovery-specialist',
-      'cpr-first-aid',
-    ],
+    programs: ['cna', 'medical-assistant', 'peer-recovery-specialist', 'cpr-first-aid'],
   },
   {
     slug: 'trades',
@@ -61,9 +56,7 @@ export const programCategories: ProgramCategory[] = [
     slug: 'transportation',
     name: 'Transportation & Logistics',
     description: 'CDL and commercial driving certification',
-    programs: [
-      'cdl-training',
-    ],
+    programs: ['cdl-training'],
   },
   {
     slug: 'business',
@@ -85,8 +78,6 @@ export function getCategoryBySlug(slug: string): ProgramCategory | undefined {
   return programCategories.find((cat) => cat.slug === slug);
 }
 
-export function getCategoryForProgram(
-  programSlug: string
-): ProgramCategory | undefined {
+export function getCategoryForProgram(programSlug: string): ProgramCategory | undefined {
   return programCategories.find((cat) => cat.programs.includes(programSlug));
 }

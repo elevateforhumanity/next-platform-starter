@@ -135,13 +135,16 @@ export async function POST(
 
   try {
     // ── Phase 1: mark generating ──────────────────────────────────────────
-    await db.from('courses').update({
-      generation_status:   'generating',
-      generation_progress: 5,
-      generation_paused:   false,
-      generator_prompt:    prompt,
-      last_generated_at:   new Date().toISOString(),
-    }).eq('id', courseId);
+    await db
+      .from('courses')
+      .update({
+        generation_status: 'generating',
+        generation_progress: 5,
+        generation_paused: false,
+        generator_prompt: prompt,
+        last_generated_at: new Date().toISOString(),
+      })
+      .eq('id', courseId);
 
     const openai = getOpenAI();
 
@@ -159,15 +162,15 @@ export async function POST(
     for (const item of outline) {
       if (existingTitles.has(item.title)) continue;
       await db.from('course_lessons').insert({
-        course_id:         courseId,
-        title:             item.title,
-        content:           '',
-        order_index:       item.sort_order,
+        course_id: courseId,
+        title: item.title,
+        content: '',
+        order_index: item.sort_order,
         generation_status: 'queued',
-        ai_generated:      true,
-        approved:          false,
-        locked:            false,
-        generator_prompt:  item.description,
+        ai_generated: true,
+        approved: false,
+        locked: false,
+        generator_prompt: item.description,
       });
     }
 
@@ -195,16 +198,20 @@ export async function POST(
         .single();
 
       if (fresh?.generation_paused) {
-        await db.from('courses').update({
-          generation_status:   'review',
-          generation_progress: 20 + Math.round((i / fillable.length) * 75),
-        }).eq('id', courseId);
+        await db
+          .from('courses')
+          .update({
+            generation_status: 'review',
+            generation_progress: 20 + Math.round((i / fillable.length) * 75),
+          })
+          .eq('id', courseId);
         logger.info('Course generation paused', { courseId, lessonIndex: i });
         return NextResponse.json({ paused: true, completedLessons: i });
       }
 
       // Mark this lesson generating
-      await db.from('course_lessons')
+      await db
+        .from('course_lessons')
         .update({ generation_status: 'generating' })
         .eq('id', lesson.id);
 
@@ -215,31 +222,40 @@ export async function POST(
         lesson.generator_prompt ?? lesson.title,
       );
 
-      await db.from('course_lessons').update({
-        content,
-        generation_status:  'generated',
-        last_generated_at:  new Date().toISOString(),
-      }).eq('id', lesson.id);
+      await db
+        .from('course_lessons')
+        .update({
+          content,
+          generation_status: 'generated',
+          last_generated_at: new Date().toISOString(),
+        })
+        .eq('id', lesson.id);
 
       const pct = 20 + Math.round(((i + 1) / fillable.length) * 75);
       await db.from('courses').update({ generation_progress: pct }).eq('id', courseId);
     }
 
     // ── Phase 4: mark ready for review ────────────────────────────────────
-    await db.from('courses').update({
-      generation_status:   'review',
-      generation_progress: 100,
-    }).eq('id', courseId);
+    await db
+      .from('courses')
+      .update({
+        generation_status: 'review',
+        generation_progress: 100,
+      })
+      .eq('id', courseId);
 
     logger.info('Course generation complete', { courseId, lessons: fillable.length });
     return NextResponse.json({ ok: true, lessons: fillable.length });
-
   } catch (err) {
     // On failure, reset to draft so admin can retry
-    await db.from('courses').update({
-      generation_status:   'draft',
-      generation_progress: 0,
-    }).eq('id', courseId).catch(() => {});
+    await db
+      .from('courses')
+      .update({
+        generation_status: 'draft',
+        generation_progress: 0,
+      })
+      .eq('id', courseId)
+      .catch(() => {});
 
     logger.error('Incremental generation failed', { courseId, err });
     return safeInternalError(err, 'Generation failed');

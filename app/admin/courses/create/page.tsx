@@ -13,7 +13,9 @@ export const metadata: Metadata = {
 
 export default async function CreateCoursePage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/admin/courses/create');
 
   const { data: profile } = await supabase
@@ -37,9 +39,17 @@ export default async function CreateCoursePage() {
       <div className="max-w-4xl mx-auto px-4 py-8">
         <nav className="text-sm mb-6">
           <ol className="flex items-center space-x-2 text-slate-700">
-            <li><Link href="/admin" className="hover:text-brand-blue-600">Admin</Link></li>
+            <li>
+              <Link href="/admin" className="hover:text-brand-blue-600">
+                Admin
+              </Link>
+            </li>
             <li>/</li>
-            <li><Link href="/admin/courses" className="hover:text-brand-blue-600">Courses</Link></li>
+            <li>
+              <Link href="/admin/courses" className="hover:text-brand-blue-600">
+                Courses
+              </Link>
+            </li>
             <li>/</li>
             <li className="text-slate-900 font-medium">Create</li>
           </ol>
@@ -48,7 +58,8 @@ export default async function CreateCoursePage() {
         <div className="mb-8">
           <h1 className="text-2xl font-bold text-slate-900">Create New Course</h1>
           <p className="text-slate-700 mt-1">
-            Describe what you want, or upload a syllabus, script, or document. The AI compiler builds the draft.
+            Describe what you want, or upload a syllabus, script, or document. The AI compiler
+            builds the draft.
           </p>
         </div>
 

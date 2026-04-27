@@ -22,7 +22,7 @@ export const dynamic = 'force-dynamic';
 
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: Promise<{ programId: string }> }
+  { params }: { params: Promise<{ programId: string }> },
 ) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
@@ -51,19 +51,22 @@ export async function PATCH(
 
   try {
     // ── 1. Core program fields ──────────────────────────────────────────────
-    const { error: programErr } = await db.from('programs').update({
-      title:           body.title           ?? undefined,
-      slug:            body.slug            ?? undefined,
-      category:        body.category        ?? undefined,
-      description:     body.description     ?? undefined,
-      hero_image_url:  body.hero_image_url  ?? undefined,
-      estimated_weeks: body.estimated_weeks ?? undefined,
-      estimated_hours: body.estimated_hours ?? undefined,
-      delivery_method: body.delivery_method ?? undefined,
-      wioa_approved:   body.wioa_approved   ?? undefined,
-      dol_registered:  body.dol_registered  ?? undefined,
-      updated_at:      new Date().toISOString(),
-    }).eq('id', programId);
+    const { error: programErr } = await db
+      .from('programs')
+      .update({
+        title: body.title ?? undefined,
+        slug: body.slug ?? undefined,
+        category: body.category ?? undefined,
+        description: body.description ?? undefined,
+        hero_image_url: body.hero_image_url ?? undefined,
+        estimated_weeks: body.estimated_weeks ?? undefined,
+        estimated_hours: body.estimated_hours ?? undefined,
+        delivery_method: body.delivery_method ?? undefined,
+        wioa_approved: body.wioa_approved ?? undefined,
+        dol_registered: body.dol_registered ?? undefined,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', programId);
 
     if (programErr) return safeInternalError(programErr, 'program-builder: program update failed');
 
@@ -72,8 +75,8 @@ export async function PATCH(
       await db.from('program_outcomes').delete().eq('program_id', programId);
       if (body.outcomes.length > 0) {
         const rows = body.outcomes.map((o: any, i: number) => ({
-          program_id:    programId,
-          outcome:       o.text,
+          program_id: programId,
+          outcome: o.text,
           outcome_order: i,
         }));
         const { error } = await db.from('program_outcomes').insert(rows);
@@ -86,10 +89,10 @@ export async function PATCH(
       await db.from('program_credentials').delete().eq('program_id', programId);
       if (body.credentials.length > 0) {
         const rows = body.credentials.map((c: any, i: number) => ({
-          program_id:    programId,
+          program_id: programId,
           credential_id: c.credential_id,
-          is_required:   c.is_required ?? true,
-          sort_order:    i,
+          is_required: c.is_required ?? true,
+          sort_order: i,
         }));
         const { error } = await db.from('program_credentials').insert(rows);
         if (error) return safeInternalError(error, 'program-builder: credentials save failed');
@@ -111,15 +114,23 @@ export async function PATCH(
         if (isNewPhase) {
           const { data: newPhase } = await db
             .from('program_phases')
-            .insert({ program_id: programId, title: phase.title, sort_order: phase.sort_order ?? 0 })
+            .insert({
+              program_id: programId,
+              title: phase.title,
+              sort_order: phase.sort_order ?? 0,
+            })
             .select('id')
             .single();
           phaseId = newPhase?.id ?? null;
         } else {
-          await db.from('program_phases').update({
-            title:      phase.title,
-            sort_order: phase.sort_order ?? 0,
-          }).eq('id', phase.id).eq('program_id', programId);
+          await db
+            .from('program_phases')
+            .update({
+              title: phase.title,
+              sort_order: phase.sort_order ?? 0,
+            })
+            .eq('id', phase.id)
+            .eq('program_id', programId);
           phaseId = phase.id;
         }
 
@@ -132,10 +143,10 @@ export async function PATCH(
             const { data: newMod } = await db
               .from('program_modules')
               .insert({
-                program_id:    programId,
-                phase_id:      phaseId,
-                title:         mod.title,
-                sort_order:    mod.sort_order ?? 0,
+                program_id: programId,
+                phase_id: phaseId,
+                title: mod.title,
+                sort_order: mod.sort_order ?? 0,
                 module_number: mod.sort_order ?? 0,
               })
               .select('id')
@@ -144,11 +155,15 @@ export async function PATCH(
             incomingModuleIds.push(newMod.id);
             await upsertLessons(db, newMod.id, mod.lessons ?? []);
           } else {
-            await db.from('program_modules').update({
-              phase_id:   phaseId,
-              title:      mod.title,
-              sort_order: mod.sort_order ?? 0,
-            }).eq('id', mod.id).eq('program_id', programId);
+            await db
+              .from('program_modules')
+              .update({
+                phase_id: phaseId,
+                title: mod.title,
+                sort_order: mod.sort_order ?? 0,
+              })
+              .eq('id', mod.id)
+              .eq('program_id', programId);
             incomingModuleIds.push(mod.id);
             await upsertLessons(db, mod.id, mod.lessons ?? []);
           }
@@ -157,18 +172,22 @@ export async function PATCH(
 
       // Delete removed phases
       if (incomingPhaseIds.length > 0) {
-        await db.from('program_phases').delete()
+        await db
+          .from('program_phases')
+          .delete()
           .eq('program_id', programId)
-          .not('id', 'in', `(${incomingPhaseIds.map(id => `'${id}'`).join(',')})`);
+          .not('id', 'in', `(${incomingPhaseIds.map((id) => `'${id}'`).join(',')})`);
       } else {
         await db.from('program_phases').delete().eq('program_id', programId);
       }
 
       // Delete removed modules
       if (incomingModuleIds.length > 0) {
-        await db.from('program_modules').delete()
+        await db
+          .from('program_modules')
+          .delete()
           .eq('program_id', programId)
-          .not('id', 'in', `(${incomingModuleIds.map(id => `'${id}'`).join(',')})`);
+          .not('id', 'in', `(${incomingModuleIds.map((id) => `'${id}'`).join(',')})`);
       } else {
         await db.from('program_modules').delete().eq('program_id', programId);
       }
@@ -179,13 +198,13 @@ export async function PATCH(
       await db.from('program_ctas').delete().eq('program_id', programId);
       if (body.ctas.length > 0) {
         const rows = body.ctas.map((c: any, i: number) => ({
-          program_id:    programId,
-          cta_type:      c.cta_type,
-          label:         c.label,
-          href:          c.href,
+          program_id: programId,
+          cta_type: c.cta_type,
+          label: c.label,
+          href: c.href,
           style_variant: c.style_variant ?? 'primary',
-          is_external:   c.cta_type === 'external',
-          sort_order:    i,
+          is_external: c.cta_type === 'external',
+          sort_order: i,
         }));
         const { error } = await db.from('program_ctas').insert(rows);
         if (error) return safeInternalError(error, 'program-builder: CTAs save failed');
@@ -197,13 +216,13 @@ export async function PATCH(
       await db.from('program_tracks').delete().eq('program_id', programId);
       if (body.tracks.length > 0) {
         const rows = body.tracks.map((t: any, i: number) => ({
-          program_id:   programId,
-          track_code:   t.track_code,
-          title:        t.title,
+          program_id: programId,
+          track_code: t.track_code,
+          title: t.title,
           funding_type: t.funding_type,
-          cost_cents:   t.cost_cents ?? null,
-          available:    t.available ?? true,
-          sort_order:   i,
+          cost_cents: t.cost_cents ?? null,
+          available: t.available ?? true,
+          sort_order: i,
         }));
         const { error } = await db.from('program_tracks').insert(rows);
         if (error) return safeInternalError(error, 'program-builder: tracks save failed');
@@ -227,25 +246,29 @@ async function upsertLessons(db: any, moduleId: string, lessons: any[]) {
       const { data: newLesson } = await db
         .from('program_lessons')
         .insert({
-          module_id:        moduleId,
-          title:            lesson.title,
-          lesson_type:      normalizeLessonType(lesson.lesson_type),
-          sort_order:       lesson.sort_order ?? 0,
-          lesson_number:    lesson.sort_order ?? 0,
+          module_id: moduleId,
+          title: lesson.title,
+          lesson_type: normalizeLessonType(lesson.lesson_type),
+          sort_order: lesson.sort_order ?? 0,
+          lesson_number: lesson.sort_order ?? 0,
           duration_minutes: lesson.duration_minutes ?? null,
-          is_published:     lesson.is_published ?? false,
+          is_published: lesson.is_published ?? false,
         })
         .select('id')
         .maybeSingle();
       if (newLesson) incomingIds.push(newLesson.id);
     } else {
-      await db.from('program_lessons').update({
-        title:            lesson.title,
-        lesson_type:      normalizeLessonType(lesson.lesson_type),
-        sort_order:       lesson.sort_order ?? 0,
-        duration_minutes: lesson.duration_minutes ?? null,
-        is_published:     lesson.is_published ?? false,
-      }).eq('id', lesson.id).eq('module_id', moduleId);
+      await db
+        .from('program_lessons')
+        .update({
+          title: lesson.title,
+          lesson_type: normalizeLessonType(lesson.lesson_type),
+          sort_order: lesson.sort_order ?? 0,
+          duration_minutes: lesson.duration_minutes ?? null,
+          is_published: lesson.is_published ?? false,
+        })
+        .eq('id', lesson.id)
+        .eq('module_id', moduleId);
       incomingIds.push(lesson.id);
     }
   }
@@ -256,7 +279,7 @@ async function upsertLessons(db: any, moduleId: string, lessons: any[]) {
       .from('program_lessons')
       .delete()
       .eq('module_id', moduleId)
-      .not('id', 'in', `(${incomingIds.map(id => `'${id}'`).join(',')})`);
+      .not('id', 'in', `(${incomingIds.map((id) => `'${id}'`).join(',')})`);
   } else {
     await db.from('program_lessons').delete().eq('module_id', moduleId);
   }

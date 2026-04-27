@@ -50,7 +50,7 @@ const migrationsDir = join(rootDir, 'supabase/migrations');
 let migrationFiles;
 try {
   migrationFiles = readdirSync(migrationsDir)
-    .filter(f => f.endsWith('.sql'))
+    .filter((f) => f.endsWith('.sql'))
     .sort();
 } catch (err) {
   console.error('❌ Could not read migrations directory:', err.message);
@@ -87,9 +87,9 @@ await client.query(`
 
 // Get already-executed migrations
 const { rows: executed } = await client.query(
-  `SELECT filename FROM _migrations WHERE success = TRUE`
+  `SELECT filename FROM _migrations WHERE success = TRUE`,
 );
-const executedSet = new Set(executed.map(r => r.filename));
+const executedSet = new Set(executed.map((r) => r.filename));
 
 let successCount = 0;
 let skipCount = 0;
@@ -114,7 +114,7 @@ for (const filename of migrationFiles) {
     // Record success
     await client.query(
       `INSERT INTO _migrations (filename, success) VALUES ($1, TRUE) ON CONFLICT (filename) DO UPDATE SET success = TRUE, executed_at = NOW()`,
-      [filename]
+      [filename],
     );
 
     successCount++;
@@ -123,10 +123,12 @@ for (const filename of migrationFiles) {
     await client.query('ROLLBACK').catch(() => {});
 
     // Record failure
-    await client.query(
-      `INSERT INTO _migrations (filename, success, error_message) VALUES ($1, FALSE, $2) ON CONFLICT (filename) DO UPDATE SET success = FALSE, error_message = $2, executed_at = NOW()`,
-      [filename, err.message]
-    ).catch(() => {});
+    await client
+      .query(
+        `INSERT INTO _migrations (filename, success, error_message) VALUES ($1, FALSE, $2) ON CONFLICT (filename) DO UPDATE SET success = FALSE, error_message = $2, executed_at = NOW()`,
+        [filename, err.message],
+      )
+      .catch(() => {});
 
     errorCount++;
     console.error(`  ❌ ${filename}: ${err.message}`);

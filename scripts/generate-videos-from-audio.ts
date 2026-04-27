@@ -1,9 +1,9 @@
 /**
  * Generate Video Files from Audio
- * 
+ *
  * Creates MP4 video files by combining audio with a branded background
  * Uses canvas to generate frames and combines with audio
- * 
+ *
  * Run with: npx tsx scripts/generate-videos-from-audio.ts
  */
 
@@ -22,7 +22,7 @@ const VIDEO_SPECS = [
     textColor: '#ffffff',
   },
   {
-    audioFile: 'program-hero.mp3', 
+    audioFile: 'program-hero.mp3',
     videoFile: 'program-hero.mp4',
     title: 'Career Programs',
     subtitle: 'Training That Leads to Jobs',
@@ -53,7 +53,7 @@ async function generateVideoFrame(
   title: string,
   subtitle: string,
   bgColor: string,
-  textColor: string
+  textColor: string,
 ): Promise<Buffer> {
   const canvas = createCanvas(width, height);
   const ctx = canvas.getContext('2d');
@@ -100,9 +100,9 @@ async function main() {
 
   for (const spec of VIDEO_SPECS) {
     console.log(`\nProcessing: ${spec.videoFile}`);
-    
+
     const audioPath = path.join(videosDir, spec.audioFile);
-    
+
     // Check if audio exists
     try {
       await fs.access(audioPath);
@@ -115,11 +115,12 @@ async function main() {
     // Generate a single frame as placeholder
     // In production, this would be a full video with the audio
     const frame = await generateVideoFrame(
-      1920, 1080,
+      1920,
+      1080,
       spec.title,
       spec.subtitle,
       spec.bgColor,
-      spec.textColor
+      spec.textColor,
     );
 
     // Save as PNG (video generation requires ffmpeg which isn't available)

@@ -1,10 +1,17 @@
-
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { 
-  ArrowLeft, FileText, Shield, Scale, BookOpen, 
-  CreditCard, Receipt, Users, Download, ExternalLink 
+import {
+  ArrowLeft,
+  FileText,
+  Shield,
+  Scale,
+  BookOpen,
+  CreditCard,
+  Receipt,
+  Users,
+  Download,
+  ExternalLink,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -13,19 +20,19 @@ import { createClient } from '@/lib/supabase/server';
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Authoritative Documents | Governance | Elevate for Humanity',
-  description: 'The seven governing documents that define platform operations for website, LMS, Store, and tax services.',
+  description:
+    'The seven governing documents that define platform operations for website, LMS, Store, and tax services.',
   robots: {
     index: true,
     follow: true,
   },
 };
 
-
 export default async function AuthoritativeDocsPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
   const supabase = await createClient();
   const { data: dbRows } = await supabase.from('compliance_documents').select('*').limit(50);
-const documents = (dbRows as any[]) || [];
+  const documents = (dbRows as any[]) || [];
 
   const currentDate = new Date().toLocaleDateString('en-US', {
     year: 'numeric',
@@ -35,7 +42,6 @@ const documents = (dbRows as any[]) || [];
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <Breadcrumbs
         items={[
@@ -46,12 +52,10 @@ const documents = (dbRows as any[]) || [];
       {/* Header */}
       <div className="bg-slate-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">
-            Authoritative Documentation Index
-          </h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">Authoritative Documentation Index</h1>
           <p className="text-slate-300 text-lg max-w-2xl">
-            These seven documents define how the platform operates. They are designed to 
-            stand alone during buyer review, regulatory review, or payment processor review.
+            These seven documents define how the platform operates. They are designed to stand alone
+            during buyer review, regulatory review, or payment processor review.
           </p>
           <div className="mt-6 text-sm text-slate-500">
             Version: 1.0 • Last reviewed: {currentDate} • Owner: Platform Governance
@@ -64,10 +68,21 @@ const documents = (dbRows as any[]) || [];
         <section className="mb-12 bg-brand-blue-50 rounded-xl p-6 border border-brand-blue-100">
           <h2 className="text-xl font-bold text-slate-900 mb-4">How to Use This Index</h2>
           <ul className="space-y-2 text-slate-700">
-            <li><strong>Users:</strong> Reference these documents to understand how services work.</li>
-            <li><strong>Partners & Buyers:</strong> Use this index to locate governing materials for diligence.</li>
-            <li><strong>Auditors & Reviewers:</strong> Each document includes scope, controls, and versioning.</li>
-            <li><strong>Internal Teams:</strong> Product copy, features, and workflows must align with these documents.</li>
+            <li>
+              <strong>Users:</strong> Reference these documents to understand how services work.
+            </li>
+            <li>
+              <strong>Partners & Buyers:</strong> Use this index to locate governing materials for
+              diligence.
+            </li>
+            <li>
+              <strong>Auditors & Reviewers:</strong> Each document includes scope, controls, and
+              versioning.
+            </li>
+            <li>
+              <strong>Internal Teams:</strong> Product copy, features, and workflows must align with
+              these documents.
+            </li>
           </ul>
           <p className="mt-4 text-slate-600 italic">
             Website pages summarize. These documents govern.
@@ -79,8 +94,8 @@ const documents = (dbRows as any[]) || [];
           <h2 className="text-2xl font-bold text-slate-900 mb-6">Document Set</h2>
           <div className="space-y-6">
             {documents.map((doc) => (
-              <div 
-                key={doc.number} 
+              <div
+                key={doc.number}
                 className="border border-slate-200 rounded-xl p-6 hover:border-slate-300 transition-colors"
               >
                 <div className="flex items-start gap-4">
@@ -89,17 +104,15 @@ const documents = (dbRows as any[]) || [];
                   </div>
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className="text-sm font-medium text-slate-500">Document {doc.number}</span>
+                      <span className="text-sm font-medium text-slate-500">
+                        Document {doc.number}
+                      </span>
                     </div>
-                    <h3 className="text-xl font-bold text-slate-900 mb-2">
-                      {doc.title}
-                    </h3>
+                    <h3 className="text-xl font-bold text-slate-900 mb-2">{doc.title}</h3>
                     <p className="text-sm text-slate-600 mb-3">
                       <strong>Covers:</strong> {doc.covers}
                     </p>
-                    <p className="text-slate-700 mb-4">
-                      {doc.description}
-                    </p>
+                    <p className="text-slate-700 mb-4">{doc.description}</p>
                     <div className="mb-4">
                       <p className="text-sm font-medium text-slate-900 mb-2">Governs:</p>
                       <ul className="list-disc list-inside text-sm text-slate-600 space-y-1">
@@ -109,7 +122,7 @@ const documents = (dbRows as any[]) || [];
                       </ul>
                     </div>
                     {doc.link && (
-                      <Link 
+                      <Link
                         href={doc.link}
                         className="inline-flex items-center gap-2 text-brand-blue-600 text-sm font-medium hover:text-brand-blue-700"
                       >
@@ -138,8 +151,8 @@ const documents = (dbRows as any[]) || [];
         <section className="text-center py-8 border-t border-slate-200">
           <h2 className="text-xl font-bold text-slate-900 mb-4">Request Full Documents</h2>
           <p className="text-slate-600 mb-6">
-            For PDF versions of these documents or additional diligence materials, 
-            contact our governance team.
+            For PDF versions of these documents or additional diligence materials, contact our
+            governance team.
           </p>
           <Link
             href="/admin/governance/contact"

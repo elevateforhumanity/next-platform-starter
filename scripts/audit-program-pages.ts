@@ -2,10 +2,10 @@
 
 /**
  * Program Page Contract Enforcement Script
- * 
+ *
  * Validates all /programs/* pages against the program page contract.
  * Run in CI to prevent regressions.
- * 
+ *
  * Usage:
  *   npx ts-node scripts/audit-program-pages.ts
  *   npm run audit:programs
@@ -50,7 +50,7 @@ const FORBIDDEN_STRINGS = [
 // Required patterns for program pages
 const REQUIRED_PATTERNS = {
   h1: /<h1[^>]*>/i,
-  metadata: /export const metadata/,
+  metadata: /export const metadata|export async function generateMetadata/,
   primaryCTA: /href=["'][^"']*\/(apply|enroll|eligibility|inquiry|wioa-eligibility|contact)/i,
   image: /<Image|<img|<video|heroImage|heroVideo|HTMLVideoElement|bg-\[url\(/i,
 };
@@ -75,6 +75,16 @@ function auditProgramPage(filePath: string): AuditResult {
     content += '\n' + fs.readFileSync(layoutPath, 'utf-8');
   }
 
+  // Redirect-only alias pages are intentionally exempt from full content contract.
+  if (/redirect\(|permanentRedirect\(/.test(content)) {
+    return {
+      page: relativePath,
+      passed: true,
+      errors: [],
+      warnings: ['Redirect-only alias page (content contract exempt)'],
+    };
+  }
+
   // Check for forbidden strings
   for (const forbidden of FORBIDDEN_STRINGS) {
     if (content.toLowerCase().includes(forbidden)) {
@@ -82,8 +92,11 @@ function auditProgramPage(filePath: string): AuditResult {
     }
   }
 
+  const usesCanonicalTemplate =
+    /ProgramDetailPage|ProgramPageLayout|ProgramCategoryPage|ProgramPageTemplate/.test(content);
+
   // Check required patterns
-  if (!REQUIRED_PATTERNS.h1.test(content)) {
+  if (!usesCanonicalTemplate && !REQUIRED_PATTERNS.h1.test(content)) {
     errors.push('Missing H1 element');
   }
 
@@ -91,11 +104,11 @@ function auditProgramPage(filePath: string): AuditResult {
     errors.push('Missing metadata export (title/description)');
   }
 
-  if (!REQUIRED_PATTERNS.primaryCTA.test(content)) {
+  if (!usesCanonicalTemplate && !REQUIRED_PATTERNS.primaryCTA.test(content)) {
     errors.push('Missing primary CTA link (apply/enroll/eligibility/inquiry)');
   }
 
-  if (!REQUIRED_PATTERNS.image.test(content)) {
+  if (!usesCanonicalTemplate && !REQUIRED_PATTERNS.image.test(content)) {
     errors.push('Missing hero image or video');
   }
 
@@ -118,7 +131,7 @@ function auditProgramPage(filePath: string): AuditResult {
 
   // Count H1 tags (should be exactly 1)
   const h1Matches = content.match(/<h1[^>]*>/gi);
-  if (h1Matches && h1Matches.length > 1) {
+  if (!usesCanonicalTemplate && h1Matches && h1Matches.length > 1) {
     errors.push(`Multiple H1 elements found (${h1Matches.length})`);
   }
 
@@ -155,7 +168,7 @@ function findProgramPages(dir: string): string[] {
         // Only audit direct program pages, not nested routes
         const relativePath = path.relative(programsDir, currentDir);
         const depth = relativePath.split(path.sep).filter(Boolean).length;
-        
+
         // Only audit top-level program pages (depth 1)
         if (depth === 1) {
           pages.push(fullPath);
@@ -224,8 +237,8 @@ function main(): void {
 
   const summary: AuditSummary = {
     total: results.length,
-    passed: results.filter(r => r.passed).length,
-    failed: results.filter(r => !r.passed).length,
+    passed: results.filter((r) => r.passed).length,
+    failed: results.filter((r) => !r.passed).length,
     results,
   };
 

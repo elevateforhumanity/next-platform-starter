@@ -2,11 +2,11 @@ import { logger } from '@/lib/logger';
 
 // Forward map: local-part of recipient address → destination Gmail
 export const FORWARD_MAP: Record<string, string> = {
-  info:       'elevate4humanityedu@gmail.com',
-  support:    'elevate4humanityedu@gmail.com',
+  info: 'elevate4humanityedu@gmail.com',
+  support: 'elevate4humanityedu@gmail.com',
   admissions: 'elevate4humanityedu@gmail.com',
   enrollment: 'elevate4humanityedu@gmail.com',
-  contact:    'elevate4humanityedu@gmail.com',
+  contact: 'elevate4humanityedu@gmail.com',
 };
 export const DEFAULT_FORWARD = 'elevate4humanityedu@gmail.com';
 
@@ -15,11 +15,11 @@ export const DEFAULT_FORWARD = 'elevate4humanityedu@gmail.com';
  * This parses the relevant fields from the FormData.
  */
 export interface ParsedInboundEmail {
-  from:    string;
-  to:      string;
+  from: string;
+  to: string;
   subject: string;
-  html:    string;
-  text:    string;
+  html: string;
+  text: string;
   replyTo: string;
   eventId: string; // SHA-256 of from+to+subject+timestamp for dedup
 }
@@ -28,11 +28,11 @@ export async function parseInboundEmail(request: Request): Promise<ParsedInbound
   try {
     const formData = await request.formData();
 
-    const from    = String(formData.get('from')    ?? '');
-    const to      = String(formData.get('to')      ?? '');
+    const from = String(formData.get('from') ?? '');
+    const to = String(formData.get('to') ?? '');
     const subject = String(formData.get('subject') ?? '(no subject)');
-    const html    = String(formData.get('html')    ?? '');
-    const text    = String(formData.get('text')    ?? '');
+    const html = String(formData.get('html') ?? '');
+    const text = String(formData.get('text') ?? '');
     const replyTo = String(formData.get('reply-to') ?? from);
     const timestamp = String(formData.get('timestamp') ?? Date.now());
 

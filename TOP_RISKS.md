@@ -145,12 +145,12 @@ Combined with any XSS vector, this enables full script injection.
 
 ## Before/After Summary
 
-| Metric | Before (main) | After (fix branch) |
-|--------|---------------|-------------------|
-| Routes with auth | 493 | 738 |
-| Routes without auth | 429 | 184 (intentionally public) |
-| eval() in source | 1 (formula-engine) | 0 |
-| getSession() in auth modules | 15 | 4 (backward-compat only, after getUser()) |
-| unsafe-eval in CSP | yes | no |
-| Debug/test endpoints gated | 1 | 22 |
-| Error messages leaked to clients | 173 | 0 |
+| Metric                           | Before (main)      | After (fix branch)                        |
+| -------------------------------- | ------------------ | ----------------------------------------- |
+| Routes with auth                 | 493                | 738                                       |
+| Routes without auth              | 429                | 184 (intentionally public)                |
+| eval() in source                 | 1 (formula-engine) | 0                                         |
+| getSession() in auth modules     | 15                 | 4 (backward-compat only, after getUser()) |
+| unsafe-eval in CSP               | yes                | no                                        |
+| Debug/test endpoints gated       | 1                  | 22                                        |
+| Error messages leaked to clients | 173                | 0                                         |

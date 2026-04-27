@@ -20,9 +20,7 @@ export interface AuditExportData {
 /**
  * Generate audit export for a program
  */
-export async function generateProgramAuditExport(
-  programId: string
-): Promise<string> {
+export async function generateProgramAuditExport(programId: string): Promise<string> {
   const supabase = await createClient();
 
   // Fetch all enrollments for the program with related data
@@ -55,7 +53,7 @@ export async function generateProgramAuditExport(
         overdue_count,
         last_activity_date
       )
-    `
+    `,
     )
     .eq('program_id', programId);
 
@@ -66,8 +64,7 @@ export async function generateProgramAuditExport(
   // Transform data for export
   const exportData: AuditExportData[] = enrollments.map((enrollment: any) => {
     const riskStatus = enrollment.student_risk_status?.[0];
-    const funding =
-      enrollment.student_funding_assignments?.[0]?.funding_sources;
+    const funding = enrollment.student_funding_assignments?.[0]?.funding_sources;
 
     return {
       student_id: enrollment.student_id,
@@ -92,9 +89,7 @@ export async function generateProgramAuditExport(
 /**
  * Generate audit export for a funding source
  */
-export async function generateFundingSourceAuditExport(
-  fundingSourceCode: string
-): Promise<string> {
+export async function generateFundingSourceAuditExport(fundingSourceCode: string): Promise<string> {
   const supabase = await createClient();
 
   // Get funding source ID
@@ -136,7 +131,7 @@ export async function generateFundingSourceAuditExport(
           last_activity_date
         )
       )
-    `
+    `,
     )
     .eq('funding_source_id', fundingSource.id);
 
@@ -172,9 +167,7 @@ export async function generateFundingSourceAuditExport(
 /**
  * Generate detailed requirement evidence export for a student
  */
-export async function generateStudentEvidenceExport(
-  enrollmentId: string
-): Promise<string> {
+export async function generateStudentEvidenceExport(enrollmentId: string): Promise<string> {
   const supabase = await createClient();
 
   const { data: requirements } = await supabase
@@ -192,7 +185,7 @@ export async function generateStudentEvidenceExport(
           name
         )
       )
-    `
+    `,
     )
     .eq('enrollment_id', enrollmentId)
     .order('created_at', { ascending: true });
@@ -247,18 +240,13 @@ export async function generateComplianceReport(): Promise<string> {
     const enrollments = program.enrollments || [];
     const total = enrollments.length;
     const active = enrollments.filter((e: any) => e.status === 'active').length;
-    const completed = enrollments.filter(
-      (e: any) => e.status === 'completed'
-    ).length;
-    const dropped = enrollments.filter(
-      (e: any) => e.status === 'dropped'
-    ).length;
+    const completed = enrollments.filter((e: any) => e.status === 'completed').length;
+    const dropped = enrollments.filter((e: any) => e.status === 'dropped').length;
     const atRisk = enrollments.filter(
-      (e: any) => e.student_risk_status?.[0]?.status === 'at_risk'
+      (e: any) => e.student_risk_status?.[0]?.status === 'at_risk',
     ).length;
 
-    const completionRate =
-      total > 0 ? Math.round((completed / total) * 100) : 0;
+    const completionRate = total > 0 ? Math.round((completed / total) * 100) : 0;
     const dropoutRate = total > 0 ? Math.round((dropped / total) * 100) : 0;
 
     return {

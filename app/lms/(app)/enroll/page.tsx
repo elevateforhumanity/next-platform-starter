@@ -4,13 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
-import {
-  BookOpen,
-  Clock,
-  Award,
-  Search,
-  ArrowRight,
-CheckCircle, } from 'lucide-react';
+import { BookOpen, Clock, Award, Search, ArrowRight, CheckCircle } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -27,11 +21,12 @@ export default async function EnrollPage({ searchParams }: Props) {
   const params = await searchParams;
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    const redirectUrl = params.course 
+    const redirectUrl = params.course
       ? `/login?redirect=/lms/enroll?course=${params.course}`
       : '/login?redirect=/lms/enroll';
     redirect(redirectUrl);
@@ -48,7 +43,7 @@ export default async function EnrollPage({ searchParams }: Props) {
     .select('course_id')
     .eq('user_id', user.id);
 
-  const enrolledCourseIds = new Set(enrollments?.map(e => e.course_id) || []);
+  const enrolledCourseIds = new Set(enrollments?.map((e) => e.course_id) || []);
 
   // Fetch available courses (not enrolled)
   const { data: courses } = await supabase
@@ -57,18 +52,20 @@ export default async function EnrollPage({ searchParams }: Props) {
     .eq('is_published', true)
     .order('created_at', { ascending: false });
 
-  const availableCourses = courses?.filter(c => !enrolledCourseIds.has(c.id)) || [];
+  const availableCourses = courses?.filter((c) => !enrolledCourseIds.has(c.id)) || [];
 
   // Fetch partner courses
   const { data: partnerCourses } = await supabase
     .from('partner_lms_courses')
-    .select(`
+    .select(
+      `
       *,
       partner_lms_providers (
         provider_name,
         provider_type
       )
-    `)
+    `,
+    )
     .eq('active', true)
     .order('course_name');
 
@@ -78,14 +75,15 @@ export default async function EnrollPage({ searchParams }: Props) {
     .select('course_id')
     .eq('student_id', user.id);
 
-  const enrolledPartnerIds = new Set(partnerEnrollments?.map(e => e.course_id) || []);
-  const availablePartnerCourses = partnerCourses?.filter(c => !enrolledPartnerIds.has(c.id)) || [];
+  const enrolledPartnerIds = new Set(partnerEnrollments?.map((e) => e.course_id) || []);
+  const availablePartnerCourses =
+    partnerCourses?.filter((c) => !enrolledPartnerIds.has(c.id)) || [];
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Enroll" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Enroll' }]} />
+      </div>
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
@@ -115,7 +113,8 @@ export default async function EnrollPage({ searchParams }: Props) {
                           alt={course.course_name}
                           fill
                           className="object-cover"
-                         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                        />
                       </div>
                     ) : (
                       <div className="h-40 bg-brand-blue-600 flex items-center justify-center">
@@ -153,7 +152,9 @@ export default async function EnrollPage({ searchParams }: Props) {
                           {isFree ? (
                             <span className="text-lg font-bold text-brand-green-600">FREE</span>
                           ) : (
-                            <span className="text-lg font-bold text-slate-900">${course.price}</span>
+                            <span className="text-lg font-bold text-slate-900">
+                              ${course.price}
+                            </span>
                           )}
                         </div>
                         <Link
@@ -178,7 +179,10 @@ export default async function EnrollPage({ searchParams }: Props) {
             <h2 className="text-xl font-bold text-slate-900 mb-6">Short-Term Courses</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {availablePartnerCourses.map((course) => {
-                const provider = course.partner_lms_providers as { provider_name: string; provider_type: string } | null;
+                const provider = course.partner_lms_providers as {
+                  provider_name: string;
+                  provider_type: string;
+                } | null;
                 const price = course.price || 0;
                 return (
                   <div
@@ -263,7 +267,8 @@ export default async function EnrollPage({ searchParams }: Props) {
             </div>
             <h2 className="text-xl font-bold text-slate-900 mb-2">All Caught Up!</h2>
             <p className="text-slate-600 mb-6">
-              You&apos;re enrolled in all available courses. New courses will appear here when added to your program.
+              You&apos;re enrolled in all available courses. New courses will appear here when added
+              to your program.
             </p>
             <Link
               href="/lms/courses"
@@ -282,7 +287,8 @@ export default async function EnrollPage({ searchParams }: Props) {
               <div>
                 <h3 className="font-bold text-brand-blue-900">Already Enrolled</h3>
                 <p className="text-brand-blue-700 text-sm">
-                  You&apos;re enrolled in {enrolledCourseIds.size} course{enrolledCourseIds.size !== 1 ? 's' : ''}.
+                  You&apos;re enrolled in {enrolledCourseIds.size} course
+                  {enrolledCourseIds.size !== 1 ? 's' : ''}.
                 </p>
               </div>
               <Link

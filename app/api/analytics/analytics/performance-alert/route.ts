@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { logger } from '@/lib/logger';
@@ -51,7 +50,7 @@ async function _POST(request: Request) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) { 
+  } catch (error) {
     logger.error('[Performance Alert] Error:', error);
     return NextResponse.json({ error: 'Failed to log alert' }, { status: 500 });
   }

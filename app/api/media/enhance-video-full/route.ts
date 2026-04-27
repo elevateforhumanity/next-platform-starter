@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { writeFile, mkdir } from 'fs/promises';
 import { existsSync } from 'fs';
@@ -28,9 +27,7 @@ const MAX_AUDIO_SIZE = 50 * 1024 * 1024; // 50MB
  */
 function sanitizeText(text: string): string {
   // Remove shell metacharacters and limit length
-  return text
-    .replace(/[`$\\;"'|&<>]/g, '')
-    .slice(0, 5000);
+  return text.replace(/[`$\\;"'|&<>]/g, '').slice(0, 5000);
 }
 
 /**
@@ -51,13 +48,13 @@ async function _POST(request: Request) {
 
     // Authentication check - require admin role
     const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
     // Check admin role
@@ -68,10 +65,7 @@ async function _POST(request: Request) {
       .maybeSingle();
 
     if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
-      return NextResponse.json(
-        { error: 'Admin access required' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Admin access required' }, { status: 403 });
     }
 
     const formData = await request.formData();
@@ -83,24 +77,21 @@ async function _POST(request: Request) {
     const voiceoverVolume = sanitizeVolume(formData.get('voiceoverVolume') as string, 1.0);
 
     if (!videoFile) {
-      return NextResponse.json(
-        { error: 'No video file provided' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'No video file provided' }, { status: 400 });
     }
 
     // Validate video file
     if (!ALLOWED_VIDEO_TYPES.includes(videoFile.type)) {
       return NextResponse.json(
         { error: 'Invalid video type. Allowed: MP4, WebM, QuickTime' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     if (videoFile.size > MAX_VIDEO_SIZE) {
       return NextResponse.json(
         { error: 'Video too large. Maximum size is 500MB' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -109,13 +100,13 @@ async function _POST(request: Request) {
       if (!ALLOWED_AUDIO_TYPES.includes(voiceoverFile.type)) {
         return NextResponse.json(
           { error: 'Invalid voiceover type. Allowed: MP3, WAV, OGG' },
-          { status: 400 }
+          { status: 400 },
         );
       }
       if (voiceoverFile.size > MAX_AUDIO_SIZE) {
         return NextResponse.json(
           { error: 'Voiceover too large. Maximum size is 50MB' },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -124,13 +115,13 @@ async function _POST(request: Request) {
       if (!ALLOWED_AUDIO_TYPES.includes(musicFile.type)) {
         return NextResponse.json(
           { error: 'Invalid music type. Allowed: MP3, WAV, OGG' },
-          { status: 400 }
+          { status: 400 },
         );
       }
       if (musicFile.size > MAX_AUDIO_SIZE) {
         return NextResponse.json(
           { error: 'Music file too large. Maximum size is 50MB' },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -172,9 +163,12 @@ async function _POST(request: Request) {
       try {
         // Use execFile with arguments array to prevent command injection
         await execFileAsync('edge-tts', [
-          '--text', sanitizedText,
-          '--write-media', voiceoverPath,
-          '--voice', 'en-US-GuyNeural'
+          '--text',
+          sanitizedText,
+          '--write-media',
+          voiceoverPath,
+          '--voice',
+          'en-US-GuyNeural',
         ]);
         generatedVoiceover = true;
       } catch (ttsError) {
@@ -198,7 +192,7 @@ async function _POST(request: Request) {
 
     // Build FFmpeg arguments array (safe from injection)
     const ffmpegArgs: string[] = ['-i', videoPath];
-    
+
     // Track audio inputs
     const hasVoiceover = voiceoverPath && existsSync(voiceoverPath);
     const hasMusic = musicPath && existsSync(musicPath);
@@ -236,19 +230,25 @@ async function _POST(request: Request) {
 
     ffmpegArgs.push('-filter_complex', filterComplex);
     ffmpegArgs.push('-map', '[v]');
-    
+
     if (audioInputs > 0) {
       ffmpegArgs.push('-map', '[a]');
     }
 
     // Output settings
     ffmpegArgs.push(
-      '-c:v', 'libx264',
-      '-preset', 'slow',
-      '-crf', '18',
-      '-b:v', '8M',
-      '-maxrate', '10M',
-      '-bufsize', '16M'
+      '-c:v',
+      'libx264',
+      '-preset',
+      'slow',
+      '-crf',
+      '18',
+      '-b:v',
+      '8M',
+      '-maxrate',
+      '10M',
+      '-bufsize',
+      '16M',
     );
 
     if (audioInputs > 0) {
@@ -291,14 +291,17 @@ async function _POST(request: Request) {
           details: err?.message || 'Unknown error',
           originalUrl: `/uploads/videos/${videoFilename}`,
         },
-        { status: 500 }
+        { status: 500 },
       );
     }
   } catch (error) {
-    logger.error('Video processing error:', error instanceof Error ? error : new Error(String(error)));
+    logger.error(
+      'Video processing error:',
+      error instanceof Error ? error : new Error(String(error)),
+    );
     return NextResponse.json(
       { error: 'Failed to process video', details: toErrorMessage(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -67,12 +67,19 @@ async function _POST(req: NextRequest) {
       .eq('course_id', courseId)
       .maybeSingle();
 
-    const accessStates = ['active', 'in_progress', 'enrolled', 'confirmed', 'pending_funding_verification'];
-    if (!enrollment || (!accessStates.includes(enrollment.status) && !accessStates.includes(enrollment.enrollment_state))) {
-      return NextResponse.json(
-        { error: 'Not enrolled in this course' },
-        { status: 403 },
-      );
+    const accessStates = [
+      'active',
+      'in_progress',
+      'enrolled',
+      'confirmed',
+      'pending_funding_verification',
+    ];
+    if (
+      !enrollment ||
+      (!accessStates.includes(enrollment.status) &&
+        !accessStates.includes(enrollment.enrollment_state))
+    ) {
+      return NextResponse.json({ error: 'Not enrolled in this course' }, { status: 403 });
     }
 
     // ── COMPLETION GATE ──────────────────────────────────────────────
@@ -83,14 +90,17 @@ async function _POST(req: NextRequest) {
     const completionStatus = await checkCourseCompletion(user.id, courseId);
 
     if (!completionStatus.isComplete) {
-      return NextResponse.json({
-        error: 'Course requirements not met',
-        missingRequirements: completionStatus.missingRequirements,
-        progress: {
-          internalLessons: `${completionStatus.completedInternalLessons}/${completionStatus.totalInternalLessons}`,
-          externalModules: `${completionStatus.completedExternalModules}/${completionStatus.totalExternalModules}`,
+      return NextResponse.json(
+        {
+          error: 'Course requirements not met',
+          missingRequirements: completionStatus.missingRequirements,
+          progress: {
+            internalLessons: `${completionStatus.completedInternalLessons}/${completionStatus.totalInternalLessons}`,
+            externalModules: `${completionStatus.completedExternalModules}/${completionStatus.totalExternalModules}`,
+          },
         },
-      }, { status: 403 });
+        { status: 403 },
+      );
     }
 
     // ── QUIZ PASS VERIFICATION ───────────────────────────────────────
@@ -100,11 +110,15 @@ async function _POST(req: NextRequest) {
 
     const quizCheck = await verifyQuizzesPassed(db, user.id, courseId);
     if (!quizCheck.allPassed) {
-      return NextResponse.json({
-        error: 'Not all required quizzes have been passed',
-        failedQuizzes: quizCheck.failedQuizzes,
-        message: 'A passing score of 70% or higher is required on all quizzes before course completion.',
-      }, { status: 403 });
+      return NextResponse.json(
+        {
+          error: 'Not all required quizzes have been passed',
+          failedQuizzes: quizCheck.failedQuizzes,
+          message:
+            'A passing score of 70% or higher is required on all quizzes before course completion.',
+        },
+        { status: 403 },
+      );
     }
 
     // ── GATHER COMPETENCY EVIDENCE ───────────────────────────────────
@@ -132,34 +146,44 @@ async function _POST(req: NextRequest) {
       const { provider, examName, requiredResult } = requirements.examRequirement;
 
       if (!examSession || examSession.result !== requiredResult) {
-        return NextResponse.json({
-          error: 'Proctored exam requirement not met',
-          examRequirement: {
-            examName,
-            provider,
-            requiredResult,
-            currentStatus: examSession
-              ? `Exam logged but result is "${examSession.result}" (requires "${requiredResult}")`
-              : 'No proctored exam session found for this student',
+        return NextResponse.json(
+          {
+            error: 'Proctored exam requirement not met',
+            examRequirement: {
+              examName,
+              provider,
+              requiredResult,
+              currentStatus: examSession
+                ? `Exam logged but result is "${examSession.result}" (requires "${requiredResult}")`
+                : 'No proctored exam session found for this student',
+            },
+            message: `This course requires a passing ${examName} proctored exam before a certificate can be issued. Contact your proctor to schedule the exam.`,
           },
-          message: `This course requires a passing ${examName} proctored exam before a certificate can be issued. Contact your proctor to schedule the exam.`,
-        }, { status: 403 });
+          { status: 403 },
+        );
       }
     }
 
     // ── SEAT TIME GATE ───────────────────────────────────────────────
     // Enforce minimum LMS theory hours. This covers the online portion;
     // in-person lab/shop hours are tracked separately via hour_entries.
-    if (requirements.minimumSeatTimeHours && seatTime.totalHours < requirements.minimumSeatTimeHours) {
-      return NextResponse.json({
-        error: 'Minimum seat time requirement not met',
-        seatTimeRequirement: {
-          required: requirements.minimumSeatTimeHours,
-          recorded: seatTime.totalHours,
-          deficit: Math.round((requirements.minimumSeatTimeHours - seatTime.totalHours) * 10) / 10,
+    if (
+      requirements.minimumSeatTimeHours &&
+      seatTime.totalHours < requirements.minimumSeatTimeHours
+    ) {
+      return NextResponse.json(
+        {
+          error: 'Minimum seat time requirement not met',
+          seatTimeRequirement: {
+            required: requirements.minimumSeatTimeHours,
+            recorded: seatTime.totalHours,
+            deficit:
+              Math.round((requirements.minimumSeatTimeHours - seatTime.totalHours) * 10) / 10,
+          },
+          message: `This course requires at least ${requirements.minimumSeatTimeHours} hours of instructional time. You have ${seatTime.totalHours} hours recorded. Continue engaging with lesson content to meet this requirement.`,
         },
-        message: `This course requires at least ${requirements.minimumSeatTimeHours} hours of instructional time. You have ${seatTime.totalHours} hours recorded. Continue engaging with lesson content to meet this requirement.`,
-      }, { status: 403 });
+        { status: 403 },
+      );
     }
 
     // Update progress to completed
@@ -176,7 +200,7 @@ async function _POST(req: NextRequest) {
       },
       {
         onConflict: 'user_id,course_id',
-      }
+      },
     );
 
     if (error) {
@@ -195,7 +219,13 @@ async function _POST(req: NextRequest) {
       })
       .eq('user_id', user.id)
       .eq('course_id', courseId)
-      .in('status', ['active', 'in_progress', 'enrolled', 'confirmed', 'pending_funding_verification']);
+      .in('status', [
+        'active',
+        'in_progress',
+        'enrolled',
+        'confirmed',
+        'pending_funding_verification',
+      ]);
 
     // Get user profile for certificate
     const { data: profile } = await db
@@ -217,7 +247,7 @@ async function _POST(req: NextRequest) {
         .update({ points: (currentProfile?.points || 0) + 100 })
         .eq('id', user.id);
     } catch (pointsErr) {
-      logger.error("Points award failed", pointsErr instanceof Error ? pointsErr : undefined);
+      logger.error('Points award failed', pointsErr instanceof Error ? pointsErr : undefined);
     }
 
     // Generate certificate with competency evidence
@@ -247,7 +277,10 @@ async function _POST(req: NextRequest) {
         },
       });
     } catch (certError) {
-      logger.error("Certificate generation failed", certError instanceof Error ? certError : undefined);
+      logger.error(
+        'Certificate generation failed',
+        certError instanceof Error ? certError : undefined,
+      );
       certIssued = false;
     }
 
@@ -270,7 +303,7 @@ async function _POST(req: NextRequest) {
         const result = await startCredentialAttempt(
           user.id,
           courseCredential.credential_id,
-          courseCredential.program_id ?? null
+          courseCredential.program_id ?? null,
         );
         if ('attemptId' in result) {
           credentialAttemptId = result.attemptId;
@@ -279,7 +312,10 @@ async function _POST(req: NextRequest) {
       }
     } catch (pipelineErr) {
       // Pipeline failure must not block completion — log and continue
-      logger.error('Credential pipeline trigger failed', pipelineErr instanceof Error ? pipelineErr : undefined);
+      logger.error(
+        'Credential pipeline trigger failed',
+        pipelineErr instanceof Error ? pipelineErr : undefined,
+      );
     }
 
     // Redirect if form submission, JSON response if API call
@@ -287,9 +323,7 @@ async function _POST(req: NextRequest) {
       contentType?.includes('application/x-www-form-urlencoded') ||
       contentType?.includes('multipart/form-data')
     ) {
-      return NextResponse.redirect(
-        new URL(`/lms/courses/${courseId}`, req.url)
-      );
+      return NextResponse.redirect(new URL(`/lms/courses/${courseId}`, req.url));
     }
 
     return NextResponse.json({
@@ -304,10 +338,7 @@ async function _POST(req: NextRequest) {
       }),
     });
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -322,7 +353,7 @@ async function _POST(req: NextRequest) {
 async function verifyQuizzesPassed(
   db: any,
   userId: string,
-  courseId: string
+  courseId: string,
 ): Promise<{ allPassed: boolean; failedQuizzes: string[]; scores: Record<string, number> }> {
   // Get all quiz-type lessons for this course (quiz, checkpoint, exam)
   const { data: quizLessons } = await db
@@ -410,7 +441,7 @@ async function verifyQuizzesPassed(
 async function getSeatTimeHours(
   db: any,
   userId: string,
-  courseId: string
+  courseId: string,
 ): Promise<{ totalSeconds: number; totalHours: number }> {
   const { data } = await db
     .from('lesson_progress')
@@ -420,7 +451,7 @@ async function getSeatTimeHours(
 
   const totalSeconds = (data || []).reduce(
     (sum: number, row: any) => sum + (row.time_spent_seconds || 0),
-    0
+    0,
   );
 
   return {
@@ -433,14 +464,10 @@ async function getSeatTimeHours(
 async function getLatestExamSession(
   db: any,
   userId: string,
-  courseId: string
+  courseId: string,
 ): Promise<any | null> {
   // Look up the course slug to match against exam_sessions.program_slug
-  const { data: course } = await db
-    .from('courses')
-    .select('slug')
-    .eq('id', courseId)
-    .maybeSingle();
+  const { data: course } = await db.from('courses').select('slug').eq('id', courseId).maybeSingle();
 
   if (!course?.slug) return null;
 
@@ -457,4 +484,7 @@ async function getLatestExamSession(
   return session;
 }
 
-export const POST = withApiAudit('/api/lms/progress/complete', _POST as unknown as (req: Request, ...args: any[]) => Promise<Response>);
+export const POST = withApiAudit(
+  '/api/lms/progress/complete',
+  _POST as unknown as (req: Request, ...args: any[]) => Promise<Response>,
+);

@@ -26,10 +26,10 @@ interface JobRow {
 }
 
 const STATUS_STYLES: Record<string, string> = {
-  pending:    'bg-amber-50 text-amber-700',
+  pending: 'bg-amber-50 text-amber-700',
   processing: 'bg-brand-blue-50 text-brand-blue-700',
-  completed:  'bg-green-50 text-green-700',
-  failed:     'bg-red-50 text-red-700',
+  completed: 'bg-green-50 text-green-700',
+  failed: 'bg-red-50 text-red-700',
 };
 
 function formatDate(iso: string | null): string {
@@ -39,9 +39,10 @@ function formatDate(iso: string | null): string {
 
 export default async function SystemJobsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-
 
   const db = await getAdminClient();
   const { data: profile } = await supabase
@@ -76,8 +77,8 @@ export default async function SystemJobsPage() {
     .limit(20);
 
   const pending = (pendingJobs ?? []) as JobRow[];
-  const failed  = (failedJobs  ?? []) as JobRow[];
-  const recent  = (recentCompleted ?? []) as JobRow[];
+  const failed = (failedJobs ?? []) as JobRow[];
+  const recent = (recentCompleted ?? []) as JobRow[];
 
   const breadcrumbs = [
     { label: 'Admin', href: '/admin' },
@@ -93,8 +94,8 @@ export default async function SystemJobsPage() {
         <div>
           <h1 className="text-2xl font-bold text-slate-900">Background Jobs</h1>
           <p className="text-sm text-slate-500 mt-1">
-            Certificate emails, notifications, and other async side effects.
-            Processed by <code className="text-xs bg-slate-100 px-1 py-0.5 rounded">/api/jobs/process</code>.
+            Certificate emails, notifications, and other async side effects. Processed by{' '}
+            <code className="text-xs bg-slate-100 px-1 py-0.5 rounded">/api/jobs/process</code>.
           </p>
         </div>
         <div className="flex gap-3 text-sm">
@@ -124,7 +125,9 @@ export default async function SystemJobsPage() {
               <thead className="bg-red-50 text-red-800">
                 <tr>
                   {['Type', 'Certificate', 'Attempts', 'Created', 'Error', ''].map((h) => (
-                    <th key={h} className="text-left px-4 py-2.5 font-medium">{h}</th>
+                    <th key={h} className="text-left px-4 py-2.5 font-medium">
+                      {h}
+                    </th>
                   ))}
                 </tr>
               </thead>
@@ -136,8 +139,13 @@ export default async function SystemJobsPage() {
                       {(job.payload?.certificateId as string | undefined)?.slice(0, 8) ?? '—'}
                     </td>
                     <td className="px-4 py-3 text-slate-700">{job.attempts}</td>
-                    <td className="px-4 py-3 text-slate-500 whitespace-nowrap">{formatDate(job.created_at)}</td>
-                    <td className="px-4 py-3 text-red-600 text-xs max-w-xs truncate" title={job.last_error ?? ''}>
+                    <td className="px-4 py-3 text-slate-500 whitespace-nowrap">
+                      {formatDate(job.created_at)}
+                    </td>
+                    <td
+                      className="px-4 py-3 text-red-600 text-xs max-w-xs truncate"
+                      title={job.last_error ?? ''}
+                    >
                       {job.last_error ?? '—'}
                     </td>
                     <td className="px-4 py-3 text-right">
@@ -163,9 +171,13 @@ export default async function SystemJobsPage() {
             <table className="w-full text-sm">
               <thead className="bg-slate-50 text-slate-600">
                 <tr>
-                  {['Type', 'Status', 'Certificate', 'Attempts', 'Run after', 'Created'].map((h) => (
-                    <th key={h} className="text-left px-4 py-2.5 font-medium">{h}</th>
-                  ))}
+                  {['Type', 'Status', 'Certificate', 'Attempts', 'Run after', 'Created'].map(
+                    (h) => (
+                      <th key={h} className="text-left px-4 py-2.5 font-medium">
+                        {h}
+                      </th>
+                    ),
+                  )}
                 </tr>
               </thead>
               <tbody className="divide-y divide-slate-100 bg-white">
@@ -173,7 +185,9 @@ export default async function SystemJobsPage() {
                   <tr key={job.id} className="hover:bg-slate-50">
                     <td className="px-4 py-3 font-mono text-xs text-slate-600">{job.type}</td>
                     <td className="px-4 py-3">
-                      <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_STYLES[job.status] ?? 'bg-slate-100 text-slate-600'}`}>
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded-full font-medium ${STATUS_STYLES[job.status] ?? 'bg-slate-100 text-slate-600'}`}
+                      >
                         {job.status}
                       </span>
                     </td>
@@ -181,8 +195,12 @@ export default async function SystemJobsPage() {
                       {(job.payload?.certificateId as string | undefined)?.slice(0, 8) ?? '—'}
                     </td>
                     <td className="px-4 py-3 text-slate-700">{job.attempts}</td>
-                    <td className="px-4 py-3 text-slate-500 whitespace-nowrap">{formatDate(job.run_after)}</td>
-                    <td className="px-4 py-3 text-slate-500 whitespace-nowrap">{formatDate(job.created_at)}</td>
+                    <td className="px-4 py-3 text-slate-500 whitespace-nowrap">
+                      {formatDate(job.run_after)}
+                    </td>
+                    <td className="px-4 py-3 text-slate-500 whitespace-nowrap">
+                      {formatDate(job.created_at)}
+                    </td>
                   </tr>
                 ))}
               </tbody>
@@ -204,7 +222,9 @@ export default async function SystemJobsPage() {
               <thead className="bg-slate-50 text-slate-600">
                 <tr>
                   {['Type', 'Certificate', 'Attempts', 'Completed'].map((h) => (
-                    <th key={h} className="text-left px-4 py-2.5 font-medium">{h}</th>
+                    <th key={h} className="text-left px-4 py-2.5 font-medium">
+                      {h}
+                    </th>
                   ))}
                 </tr>
               </thead>
@@ -216,7 +236,9 @@ export default async function SystemJobsPage() {
                       {(job.payload?.certificateId as string | undefined)?.slice(0, 8) ?? '—'}
                     </td>
                     <td className="px-4 py-3 text-slate-700">{job.attempts}</td>
-                    <td className="px-4 py-3 text-slate-500 whitespace-nowrap">{formatDate(job.processed_at)}</td>
+                    <td className="px-4 py-3 text-slate-500 whitespace-nowrap">
+                      {formatDate(job.processed_at)}
+                    </td>
                   </tr>
                 ))}
               </tbody>

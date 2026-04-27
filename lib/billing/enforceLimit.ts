@@ -1,4 +1,3 @@
-
 import { OrgConfig } from '@/lib/org/getOrgConfig';
 
 export type LimitType = 'students' | 'staff' | 'programs';
@@ -8,11 +7,7 @@ export type LimitType = 'students' | 'staff' | 'programs';
  * Throws error if limit exceeded
  * Used in creation/invite flows only
  */
-export function enforceLimit(
-  config: OrgConfig,
-  current: number,
-  type: LimitType
-): void {
+export function enforceLimit(config: OrgConfig, current: number, type: LimitType): void {
   const max = config?.license?.limits?.[`max_${type}`];
 
   // No limit set = unlimited
@@ -22,7 +17,7 @@ export function enforceLimit(
 
   if (current >= max) {
     throw new Error(
-      `License limit reached: ${type} (${current}/${max}). Please upgrade your plan.`
+      `License limit reached: ${type} (${current}/${max}). Please upgrade your plan.`,
     );
   }
 }
@@ -30,11 +25,7 @@ export function enforceLimit(
 /**
  * Check if limit would be exceeded without throwing
  */
-export function wouldExceedLimit(
-  config: OrgConfig,
-  current: number,
-  type: LimitType
-): boolean {
+export function wouldExceedLimit(config: OrgConfig, current: number, type: LimitType): boolean {
   const max = config?.license?.limits?.[`max_${type}`];
 
   if (!max || max === null) {

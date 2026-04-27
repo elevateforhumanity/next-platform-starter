@@ -5,7 +5,7 @@ import { AlertTriangle, Info, Shield, Calendar } from 'lucide-react';
 
 /**
  * Compliance Guardrails Components
- * 
+ *
  * These components provide standardized compliance language and disclaimers
  * to be used throughout the platform for regulatory compliance.
  */
@@ -25,9 +25,9 @@ export function NoGuaranteeDisclaimer({ className = '' }: DisclaimerProps) {
         <div className="text-sm text-amber-800">
           <p className="font-semibold mb-1">No Guarantees</p>
           <p>
-            Results vary based on individual circumstances. We do not guarantee job placement, 
-            income levels, certification pass rates, or funding approval. Your outcomes depend 
-            on your effort, market conditions, and other factors beyond our control.
+            Results vary based on individual circumstances. We do not guarantee job placement,
+            income levels, certification pass rates, or funding approval. Your outcomes depend on
+            your effort, market conditions, and other factors beyond our control.
           </p>
         </div>
       </div>
@@ -46,11 +46,14 @@ export function FundingDisclaimer({ className = '' }: DisclaimerProps) {
         <div className="text-sm text-brand-blue-800">
           <p className="font-semibold mb-1">Funding Eligibility</p>
           <p>
-            Eligibility for WIOA, WRG, or other funding programs is determined by 
-            WorkOne / Indiana Career Connect, not by Elevate for Humanity. Submitting 
-            an application does not guarantee funding approval.
+            Eligibility for WIOA, WRG, or other funding programs is determined by WorkOne / Indiana
+            Career Connect, not by Elevate for Humanity. Submitting an application does not
+            guarantee funding approval.
           </p>
-          <Link href="/check-eligibility" className="text-brand-blue-700 hover:underline mt-2 inline-block">
+          <Link
+            href="/check-eligibility"
+            className="text-brand-blue-700 hover:underline mt-2 inline-block"
+          >
             Check eligibility requirements →
           </Link>
         </div>
@@ -70,9 +73,9 @@ export function NotAdviceDisclaimer({ className = '' }: DisclaimerProps) {
         <div className="text-sm text-slate-900">
           <p className="font-semibold mb-1">Not Professional Advice</p>
           <p>
-            Information provided is for general educational purposes only and does not 
-            constitute legal, financial, tax, or medical advice. Consult qualified 
-            professionals for advice specific to your situation.
+            Information provided is for general educational purposes only and does not constitute
+            legal, financial, tax, or medical advice. Consult qualified professionals for advice
+            specific to your situation.
           </p>
         </div>
       </div>
@@ -83,19 +86,21 @@ export function NotAdviceDisclaimer({ className = '' }: DisclaimerProps) {
 /**
  * Verification Date Badge - Shows when information was last verified
  */
-export function VerificationDate({ 
-  date, 
+export function VerificationDate({
+  date,
   label = 'Information verified',
-  className = '' 
-}: { 
-  date: string; 
+  className = '',
+}: {
+  date: string;
   label?: string;
   className?: string;
 }) {
   return (
     <div className={`inline-flex items-center gap-2 text-xs text-slate-700 ${className}`}>
       <Calendar className="w-3 h-3" />
-      <span>{label}: {date}</span>
+      <span>
+        {label}: {date}
+      </span>
     </div>
   );
 }
@@ -103,10 +108,10 @@ export function VerificationDate({
 /**
  * Program Accreditation Notice
  */
-export function AccreditationNotice({ 
+export function AccreditationNotice({
   accreditingBody,
-  className = '' 
-}: { 
+  className = '',
+}: {
   accreditingBody?: string;
   className?: string;
 }) {
@@ -114,13 +119,13 @@ export function AccreditationNotice({
     <div className={`text-sm text-slate-700 ${className}`}>
       {accreditingBody ? (
         <p>
-          This program is accredited by <strong>{accreditingBody}</strong>. 
-          Accreditation status is subject to change. Verify current status before enrolling.
+          This program is accredited by <strong>{accreditingBody}</strong>. Accreditation status is
+          subject to change. Verify current status before enrolling.
         </p>
       ) : (
         <p>
-          This program may not be accredited. Check with relevant licensing boards 
-          to verify if this training meets requirements in your jurisdiction.
+          This program may not be accredited. Check with relevant licensing boards to verify if this
+          training meets requirements in your jurisdiction.
         </p>
       )}
     </div>
@@ -133,9 +138,9 @@ export function AccreditationNotice({
 export function TestimonialDisclaimer({ className = '' }: DisclaimerProps) {
   return (
     <p className={`text-xs text-slate-700 italic ${className}`}>
-      * Individual results vary. Testimonials represent individual experiences and 
-      are not guarantees of future performance. Your results may differ based on 
-      effort, market conditions, and other factors.
+      * Individual results vary. Testimonials represent individual experiences and are not
+      guarantees of future performance. Your results may differ based on effort, market conditions,
+      and other factors.
     </p>
   );
 }
@@ -143,20 +148,20 @@ export function TestimonialDisclaimer({ className = '' }: DisclaimerProps) {
 /**
  * Income/Salary Disclaimer - Required when showing salary information
  */
-export function SalaryDisclaimer({ 
+export function SalaryDisclaimer({
   source,
   date,
-  className = '' 
-}: { 
+  className = '',
+}: {
   source?: string;
   date?: string;
   className?: string;
 }) {
   return (
     <p className={`text-xs text-slate-700 ${className}`}>
-      Salary data {source ? `from ${source}` : 'shown'} is for informational purposes only 
-      and represents averages or ranges. Actual earnings depend on location, experience, 
-      employer, and market conditions.
+      Salary data {source ? `from ${source}` : 'shown'} is for informational purposes only and
+      represents averages or ranges. Actual earnings depend on location, experience, employer, and
+      market conditions.
       {date && <span className="block mt-1">Data as of {date}.</span>}
     </p>
   );
@@ -165,11 +170,11 @@ export function SalaryDisclaimer({
 /**
  * Pre-Application Consent Checkbox
  */
-export function ApplicationConsent({ 
+export function ApplicationConsent({
   checked,
   onChange,
-  className = '' 
-}: { 
+  className = '',
+}: {
   checked: boolean;
   onChange: (checked: boolean) => void;
   className?: string;
@@ -184,15 +189,16 @@ export function ApplicationConsent({
         required
       />
       <span className="text-sm text-slate-900">
-        I understand that submitting this application does not guarantee eligibility, 
-        funding approval, or enrollment. I acknowledge that I have read and agree to the{' '}
+        I understand that submitting this application does not guarantee eligibility, funding
+        approval, or enrollment. I acknowledge that I have read and agree to the{' '}
         <Link href="/terms-of-service" className="text-brand-blue-600 hover:underline">
           Terms of Service
         </Link>{' '}
         and{' '}
         <Link href="/legal/disclosures" className="text-brand-blue-600 hover:underline">
           Disclosures
-        </Link>.
+        </Link>
+        .
       </span>
     </label>
   );
@@ -205,10 +211,18 @@ export function ComplianceFooterLinks({ className = '' }: DisclaimerProps) {
   return (
     <div className={`text-xs text-slate-700 ${className}`}>
       <div className="flex flex-wrap gap-x-4 gap-y-1">
-        <Link href="/legal/disclosures" className="hover:underline">Disclosures</Link>
-        <Link href="/terms-of-service" className="hover:underline">Terms of Service</Link>
-        <Link href="/privacy-policy" className="hover:underline">Privacy Policy</Link>
-        <Link href="/legal/acceptable-use" className="hover:underline">Acceptable Use</Link>
+        <Link href="/legal/disclosures" className="hover:underline">
+          Disclosures
+        </Link>
+        <Link href="/terms-of-service" className="hover:underline">
+          Terms of Service
+        </Link>
+        <Link href="/privacy-policy" className="hover:underline">
+          Privacy Policy
+        </Link>
+        <Link href="/legal/acceptable-use" className="hover:underline">
+          Acceptable Use
+        </Link>
       </div>
       <p className="mt-2">
         © {new Date().getFullYear()} Elevate for Humanity. All rights reserved.
@@ -220,12 +234,12 @@ export function ComplianceFooterLinks({ className = '' }: DisclaimerProps) {
 /**
  * Combined Compliance Banner for program pages
  */
-export function ProgramComplianceBanner({ 
+export function ProgramComplianceBanner({
   showFunding = true,
   showNoGuarantee = true,
   verificationDate,
-  className = '' 
-}: { 
+  className = '',
+}: {
   showFunding?: boolean;
   showNoGuarantee?: boolean;
   verificationDate?: string;

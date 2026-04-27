@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
@@ -21,25 +21,25 @@ interface RealTimeCollaborationProps {
   currentUser: CollaborationUser;
 }
 
-export function RealTimeCollaboration({
-  roomId,
-  currentUser,
-}: RealTimeCollaborationProps) {
+export function RealTimeCollaboration({ roomId, currentUser }: RealTimeCollaborationProps) {
   const [activeUsers, setActiveUsers] = useState<CollaborationUser[]>([]);
   const [messages, setMessages] = useState<Array<{ user: string; text: string; time: string }>>([]);
   const [newMessage, setNewMessage] = useState('');
 
   const fetchRoomData = useCallback(async () => {
     const supabase = createClient();
-    
+
     // Update presence
-    await supabase.from('collaboration_presence').upsert({
-      room_id: roomId,
-      user_id: currentUser.id,
-      user_name: currentUser.name,
-      status: 'online',
-      last_seen: new Date().toISOString(),
-    }).catch(() => {});
+    await supabase
+      .from('collaboration_presence')
+      .upsert({
+        room_id: roomId,
+        user_id: currentUser.id,
+        user_name: currentUser.name,
+        status: 'online',
+        last_seen: new Date().toISOString(),
+      })
+      .catch(() => {});
 
     // Fetch active users
     const { data: presence } = await supabase
@@ -49,7 +49,7 @@ export function RealTimeCollaboration({
       .gte('last_seen', new Date(Date.now() - 5 * 60 * 1000).toISOString());
 
     if (presence) {
-      const users: CollaborationUser[] = presence.map(p => ({
+      const users: CollaborationUser[] = presence.map((p) => ({
         id: p.user_id,
         name: p.user_name,
         avatar: p.avatar_url || '/media/avatars/default.jpg',
@@ -68,11 +68,15 @@ export function RealTimeCollaboration({
       .limit(50);
 
     if (msgs) {
-      setMessages(msgs.map(m => ({
-        user: m.user_name,
-        text: m.content,
-        time: new Date(m.created_at).toLocaleTimeString(),
-      })).reverse());
+      setMessages(
+        msgs
+          .map((m) => ({
+            user: m.user_name,
+            text: m.content,
+            time: new Date(m.created_at).toLocaleTimeString(),
+          }))
+          .reverse(),
+      );
     }
   }, [roomId, currentUser]);
 
@@ -84,7 +88,7 @@ export function RealTimeCollaboration({
 
   const sendMessage = async () => {
     if (!newMessage.trim()) return;
-    
+
     const supabase = createClient();
     await supabase.from('collaboration_messages').insert({
       room_id: roomId,
@@ -92,7 +96,7 @@ export function RealTimeCollaboration({
       user_name: currentUser.name,
       content: newMessage,
     });
-    
+
     setNewMessage('');
     fetchRoomData();
   };
@@ -147,9 +151,7 @@ export function RealTimeCollaboration({
                 </div>
                 <div className="flex-1">
                   <div className="font-semibold">{user.name}</div>
-                  {user.currentPage && (
-                    <div className="text-xs text-black">{user.currentPage}</div>
-                  )}
+                  {user.currentPage && <div className="text-xs text-black">{user.currentPage}</div>}
                 </div>
                 <Button variant="outline" size="sm">
                   <MessageCircle size={14} />
@@ -196,12 +198,17 @@ export function RealTimeCollaboration({
               <input
                 type="text"
                 value={newMessage}
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setNewMessage(e.target.value)}
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+                ) => setNewMessage(e.target.value)}
                 onKeyPress={(e) => e.key === 'Enter' && sendMessage()}
                 placeholder="Type a message..."
                 className="flex-1 px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
               />
-              <Button onClick={sendMessage} className="bg-brand-orange-600 hover:bg-brand-orange-700">
+              <Button
+                onClick={sendMessage}
+                className="bg-brand-orange-600 hover:bg-brand-orange-700"
+              >
                 Send
               </Button>
             </div>

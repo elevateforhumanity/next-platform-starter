@@ -24,7 +24,7 @@ type SignatureMethod = 'checkbox' | 'typed' | 'drawn';
 
 /**
  * AgreementSignature - Legally binding signature capture component
- * 
+ *
  * Features:
  * - Three signature methods: checkbox, typed, drawn
  * - Email validation against authenticated user
@@ -84,9 +84,11 @@ export function AgreementSignature({
 
       // Load existing agreements via API (bypasses RLS)
       fetch('/api/compliance/record?type=agreements')
-        .then(res => res.json())
-        .then(result => {
-          const matching = (result.data || []).filter((a: any) => a.agreement_type === agreementType);
+        .then((res) => res.json())
+        .then((result) => {
+          const matching = (result.data || []).filter(
+            (a: any) => a.agreement_type === agreementType,
+          );
           if (matching.length) setExistingAgreements(matching);
         })
         .catch(() => {});
@@ -205,7 +207,8 @@ export function AgreementSignature({
         }, 1500);
       }
     } catch (err) {
-      const errorMessage = err instanceof Error ? err.message : 'An error occurred. Please try again.';
+      const errorMessage =
+        err instanceof Error ? err.message : 'An error occurred. Please try again.';
       setError(errorMessage);
       onError?.(errorMessage);
     } finally {
@@ -233,9 +236,7 @@ export function AgreementSignature({
         <p className="text-brand-green-700">
           Your signature has been recorded. A copy has been saved to your account.
         </p>
-        {redirectOnSuccess && (
-          <p className="text-sm text-brand-green-600 mt-2">Redirecting...</p>
-        )}
+        {redirectOnSuccess && <p className="text-sm text-brand-green-600 mt-2">Redirecting...</p>}
       </div>
     );
   }
@@ -256,7 +257,7 @@ export function AgreementSignature({
       {/* Signer Information */}
       <div className="space-y-4">
         <h3 className="text-lg font-semibold text-slate-900">Signer Information</h3>
-        
+
         <div>
           <label className="block text-sm font-medium text-slate-700 mb-1">
             Full Legal Name <span className="text-brand-red-500">*</span>
@@ -297,7 +298,7 @@ export function AgreementSignature({
       {/* Signature Method Selection */}
       <div className="space-y-4">
         <h3 className="text-lg font-semibold text-slate-900">Signature Method</h3>
-        
+
         <div className="grid grid-cols-3 gap-3">
           <button
             type="button"
@@ -308,12 +309,16 @@ export function AgreementSignature({
                 : 'border-slate-200 hover:border-slate-300'
             }`}
           >
-            <CheckSquare className={`w-6 h-6 mx-auto mb-2 ${
-              signatureMethod === 'checkbox' ? 'text-brand-blue-600' : 'text-slate-400'
-            }`} />
-            <span className={`text-sm font-medium ${
-              signatureMethod === 'checkbox' ? 'text-brand-blue-900' : 'text-slate-600'
-            }`}>
+            <CheckSquare
+              className={`w-6 h-6 mx-auto mb-2 ${
+                signatureMethod === 'checkbox' ? 'text-brand-blue-600' : 'text-slate-400'
+              }`}
+            />
+            <span
+              className={`text-sm font-medium ${
+                signatureMethod === 'checkbox' ? 'text-brand-blue-900' : 'text-slate-600'
+              }`}
+            >
               Checkbox
             </span>
           </button>
@@ -327,12 +332,16 @@ export function AgreementSignature({
                 : 'border-slate-200 hover:border-slate-300'
             }`}
           >
-            <Type className={`w-6 h-6 mx-auto mb-2 ${
-              signatureMethod === 'typed' ? 'text-brand-blue-600' : 'text-slate-400'
-            }`} />
-            <span className={`text-sm font-medium ${
-              signatureMethod === 'typed' ? 'text-brand-blue-900' : 'text-slate-600'
-            }`}>
+            <Type
+              className={`w-6 h-6 mx-auto mb-2 ${
+                signatureMethod === 'typed' ? 'text-brand-blue-600' : 'text-slate-400'
+              }`}
+            />
+            <span
+              className={`text-sm font-medium ${
+                signatureMethod === 'typed' ? 'text-brand-blue-900' : 'text-slate-600'
+              }`}
+            >
               Type Name
             </span>
           </button>
@@ -346,12 +355,16 @@ export function AgreementSignature({
                 : 'border-slate-200 hover:border-slate-300'
             }`}
           >
-            <Pen className={`w-6 h-6 mx-auto mb-2 ${
-              signatureMethod === 'drawn' ? 'text-brand-blue-600' : 'text-slate-400'
-            }`} />
-            <span className={`text-sm font-medium ${
-              signatureMethod === 'drawn' ? 'text-brand-blue-900' : 'text-slate-600'
-            }`}>
+            <Pen
+              className={`w-6 h-6 mx-auto mb-2 ${
+                signatureMethod === 'drawn' ? 'text-brand-blue-600' : 'text-slate-400'
+              }`}
+            />
+            <span
+              className={`text-sm font-medium ${
+                signatureMethod === 'drawn' ? 'text-brand-blue-900' : 'text-slate-600'
+              }`}
+            >
               Draw
             </span>
           </button>
@@ -406,7 +419,7 @@ export function AgreementSignature({
       <div className="bg-slate-50 border border-slate-200 rounded-lg p-4">
         <h4 className="font-medium text-slate-900 mb-2">Legal Acknowledgment</h4>
         <p className="text-sm text-slate-600 mb-4">{INTENT_STATEMENT}</p>
-        
+
         <label className="flex items-start gap-3 cursor-pointer">
           <input
             type="checkbox"
@@ -415,7 +428,8 @@ export function AgreementSignature({
             className="mt-1 w-4 h-4 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
           />
           <span className="text-sm text-slate-700">
-            I understand and agree to the above statement <span className="text-brand-red-500">*</span>
+            I understand and agree to the above statement{' '}
+            <span className="text-brand-red-500">*</span>
           </span>
         </label>
       </div>
@@ -431,7 +445,12 @@ export function AgreementSignature({
         <span className="text-sm text-slate-700">
           I have read and agree to the terms of this {agreementType.replace(/_/g, ' ')} agreement{' '}
           {documentUrl && (
-            <a href={documentUrl} target="_blank" rel="noopener noreferrer" className="text-brand-blue-600 hover:underline">
+            <a
+              href={documentUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="text-brand-blue-600 hover:underline"
+            >
               (view document)
             </a>
           )}
@@ -461,8 +480,8 @@ export function AgreementSignature({
 
       {/* Audit Notice */}
       <p className="text-xs text-slate-500 text-center">
-        Your signature, IP address, and timestamp will be recorded for audit purposes.
-        This record cannot be modified or deleted.
+        Your signature, IP address, and timestamp will be recorded for audit purposes. This record
+        cannot be modified or deleted.
       </p>
     </form>
   );

@@ -21,9 +21,15 @@ export default function AdminApprenticeships() {
   // Role guard — admin/super_admin/staff only
   useEffect(() => {
     supabase.auth.getUser().then(async ({ data: { user } }) => {
-      if (!user) { router.replace('/login?redirect=/admin/apprenticeships'); return; }
+      if (!user) {
+        router.replace('/login?redirect=/admin/apprenticeships');
+        return;
+      }
       const { data: profile } = await supabase
-        .from('profiles').select('role').eq('id', user.id).maybeSingle();
+        .from('profiles')
+        .select('role')
+        .eq('id', user.id)
+        .maybeSingle();
       if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
         router.replace('/unauthorized');
         return;
@@ -45,7 +51,7 @@ export default function AdminApprenticeships() {
         *,
         student:profiles!apprenticeship_enrollments_student_id_fkey(full_name, email),
         program:programs(name, title, slug)
-      `
+      `,
       )
       .order('created_at', { ascending: false });
 
@@ -64,7 +70,7 @@ export default function AdminApprenticeships() {
         *,
         student:profiles!ojt_hours_log_student_id_fkey(full_name),
         apprenticeship:apprenticeship_enrollments(employer_name)
-      `
+      `,
       )
       .eq('approved', false)
       .order('work_date', { ascending: false })
@@ -75,10 +81,10 @@ export default function AdminApprenticeships() {
   }
 
   async function approveHours(logId: string) {
-    const res = await fetch(
-      `/api/admin/apprenticeships/hours/${logId}/approve`,
-      { method: 'POST', credentials: 'include' },
-    );
+    const res = await fetch(`/api/admin/apprenticeships/hours/${logId}/approve`, {
+      method: 'POST',
+      credentials: 'include',
+    });
     if (res.ok) {
       await loadData();
     }
@@ -90,13 +96,13 @@ export default function AdminApprenticeships() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Apprenticeships" }]} />
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Apprenticeships' }]} />
       </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-apprenticeships-classroom.jpg"
           alt="Apprenticeships"
@@ -106,15 +112,12 @@ export default function AdminApprenticeships() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-6">
           <h1 className="text-3xl font-bold">Apprenticeship Management</h1>
-          <p className="text-black mt-2">
-            Monitor and manage all apprenticeships
-          </p>
+          <p className="text-black mt-2">Monitor and manage all apprenticeships</p>
         </div>
       </div>
 
@@ -133,9 +136,7 @@ export default function AdminApprenticeships() {
           </div>
           <div className="bg-white rounded-lg shadow p-6">
             <p className="text-sm text-black">Pending Approvals</p>
-            <p className="text-3xl font-bold text-brand-orange-600">
-              {pendingApprovals.length}
-            </p>
+            <p className="text-3xl font-bold text-brand-orange-600">{pendingApprovals.length}</p>
           </div>
           <div className="bg-white rounded-lg shadow p-6">
             <p className="text-sm text-black">Completed</p>
@@ -153,23 +154,16 @@ export default function AdminApprenticeships() {
             </div>
             <div className="divide-y">
               {pendingApprovals.map((log) => (
-                <div
-                  key={log.id}
-                  className="p-6 flex justify-between items-center"
-                >
+                <div key={log.id} className="p-6 flex justify-between items-center">
                   <div>
                     <p className="font-semibold">{log.student?.full_name}</p>
-                    <p className="text-sm text-black">
-                      {log.apprenticeship?.employer_name}
-                    </p>
+                    <p className="text-sm text-black">{log.apprenticeship?.employer_name}</p>
                     <p className="text-sm text-black">
                       {new Date(log.work_date).toLocaleDateString('en-US', { timeZone: 'UTC' })} -{' '}
                       {log.total_hours?.toFixed(1)} hours
                     </p>
                     {log.student_notes && (
-                      <p className="text-sm text-black mt-2">
-                        Notes: {log.student_notes}
-                      </p>
+                      <p className="text-sm text-black mt-2">Notes: {log.student_notes}</p>
                     )}
                   </div>
                   <button
@@ -238,19 +232,14 @@ export default function AdminApprenticeships() {
               <tbody className="divide-y">
                 {apprenticeships.map((apprenticeship) => {
                   const progress =
-                    (apprenticeship.total_hours_completed /
-                      apprenticeship.total_hours_required) *
+                    (apprenticeship.total_hours_completed / apprenticeship.total_hours_required) *
                     100;
                   return (
                     <tr key={apprenticeship.id} className="hover:bg-gray-50">
                       <td className="px-6 py-4">
                         <div>
-                          <p className="font-semibold">
-                            {apprenticeship.student?.full_name}
-                          </p>
-                          <p className="text-sm text-black">
-                            {apprenticeship.student?.email}
-                          </p>
+                          <p className="font-semibold">{apprenticeship.student?.full_name}</p>
+                          <p className="text-sm text-black">{apprenticeship.student?.email}</p>
                         </div>
                       </td>
                       <td className="px-6 py-4">
@@ -260,12 +249,8 @@ export default function AdminApprenticeships() {
                       </td>
                       <td className="px-6 py-4">
                         <div>
-                          <p className="font-medium">
-                            {apprenticeship.employer_name}
-                          </p>
-                          <p className="text-sm text-black">
-                            {apprenticeship.supervisor_name}
-                          </p>
+                          <p className="font-medium">{apprenticeship.employer_name}</p>
+                          <p className="text-sm text-black">{apprenticeship.supervisor_name}</p>
                         </div>
                       </td>
                       <td className="px-6 py-4">
@@ -283,9 +268,7 @@ export default function AdminApprenticeships() {
                             style={{ width: `${Math.min(progress, 100)}%` }}
                           />
                         </div>
-                        <p className="text-xs text-black mt-1">
-                          {progress.toFixed(0)}%
-                        </p>
+                        <p className="text-xs text-black mt-1">{progress.toFixed(0)}%</p>
                       </td>
                       <td className="px-6 py-4">
                         <span
@@ -326,10 +309,9 @@ export default function AdminApprenticeships() {
                     Your Journey Starts Here
                   </h2>
                   <p className="text-lg text-black mb-6 leading-relaxed">
-                    Every great career begins with a single step. Whether you're
-                    looking to change careers, upgrade your skills, or enter the
-                    workforce for the first time, we're here to help you
-                    succeed. Our programs are Funded, government-funded, and
+                    Every great career begins with a single step. Whether you're looking to change
+                    careers, upgrade your skills, or enter the workforce for the first time, we're
+                    here to help you succeed. Our programs are Funded, government-funded, and
                     designed to get you hired fast.
                   </p>
                   <ul className="space-y-4">
@@ -353,9 +335,7 @@ export default function AdminApprenticeships() {
                     </li>
                     <li className="flex items-start">
                       <span className="text-slate-400 flex-shrink-0">•</span>
-                      <span className="text-black">
-                        Flexible scheduling for working adults
-                      </span>
+                      <span className="text-black">Flexible scheduling for working adults</span>
                     </li>
                   </ul>
                 </div>
@@ -379,23 +359,23 @@ export default function AdminApprenticeships() {
           <div className="container mx-auto px-4">
             <div className="max-w-4xl mx-auto text-center">
               <h2 className="text-2xl md:text-3xl font-bold mb-6">
-              Manage Apprenticeship Programs
-                          </h2>
+                Manage Apprenticeship Programs
+              </h2>
               <p className="text-base md:text-lg mb-8 text-brand-blue-100">
-              Track hours, assign mentors, and monitor apprentice progress.
-                          </p>
+                Track hours, assign mentors, and monitor apprentice progress.
+              </p>
               <div className="flex flex-col sm:flex-row gap-4 justify-center">
                 <Link
                   href="/admin/apprenticeships"
                   className="bg-white text-brand-blue-700 px-8 py-4 rounded-lg font-bold hover:bg-gray-50 text-lg shadow-2xl transition-all"
                 >
-                View Apprenticeships
+                  View Apprenticeships
                 </Link>
                 <Link
                   href="/admin/reports"
                   className="bg-brand-blue-800 text-white px-8 py-4 rounded-lg font-bold hover:bg-brand-blue-600 border-2 border-white text-lg shadow-2xl transition-all"
                 >
-                View Reports
+                  View Reports
                 </Link>
               </div>
             </div>

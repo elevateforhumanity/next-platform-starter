@@ -14,7 +14,8 @@ import {
   Download,
   Building2,
   MapPin,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import { ReviewActions } from './ReviewActions';
 
 export const metadata: Metadata = {
@@ -24,16 +25,13 @@ export const metadata: Metadata = {
 
 export const dynamic = 'force-dynamic';
 
-export default async function ReviewDetailPage({
-  params,
-}: {
-  params: Promise<{ id: string }>;
-}) {
+export default async function ReviewDetailPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-
 
   // Check admin role
   const { data: profile } = await supabase
@@ -163,7 +161,6 @@ export default async function ReviewDetailPage({
 
   return (
     <div className="p-6 max-w-5xl mx-auto">
-
       {/* Hero Image */}
       {/* Header */}
       <div className="mb-6">
@@ -183,7 +180,9 @@ export default async function ReviewDetailPage({
               {item.subject_type}: {item.subject_id.slice(0, 8)}...
             </p>
           </div>
-          <span className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[item.status]}`}>
+          <span
+            className={`px-3 py-1 rounded-full text-sm font-medium ${statusColors[item.status]}`}
+          >
             {item.status}
           </span>
         </div>
@@ -201,7 +200,9 @@ export default async function ReviewDetailPage({
               </h3>
               <ul className="space-y-1">
                 {item.reasons.map((reason: string, i: number) => (
-                  <li key={i} className="text-brand-red-700 text-sm">• {reason}</li>
+                  <li key={i} className="text-brand-red-700 text-sm">
+                    • {reason}
+                  </li>
                 ))}
               </ul>
             </div>
@@ -215,9 +216,15 @@ export default async function ReviewDetailPage({
                 Document
               </h3>
               <div className="space-y-2 text-sm">
-                <p><strong>Type:</strong> {document.document_type}</p>
-                <p><strong>Status:</strong> {document.status}</p>
-                <p><strong>Uploaded:</strong> {new Date(document.created_at).toLocaleString()}</p>
+                <p>
+                  <strong>Type:</strong> {document.document_type}
+                </p>
+                <p>
+                  <strong>Status:</strong> {document.status}
+                </p>
+                <p>
+                  <strong>Uploaded:</strong> {new Date(document.created_at).toLocaleString()}
+                </p>
                 {document.file_url && (
                   <a
                     href={document.file_url}
@@ -247,16 +254,22 @@ export default async function ReviewDetailPage({
                         style={{ width: `${(extraction.confidence || 0) * 100}%` }}
                       />
                     </div>
-                    <span className="font-medium">{((extraction.confidence || 0) * 100).toFixed(1)}%</span>
+                    <span className="font-medium">
+                      {((extraction.confidence || 0) * 100).toFixed(1)}%
+                    </span>
                   </div>
                 </div>
                 <div className="flex items-center gap-4 text-sm">
                   <span className="text-slate-700">Status:</span>
-                  <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                    extraction.status === 'passed' ? 'bg-brand-green-100 text-brand-green-700' :
-                    extraction.status === 'failed' ? 'bg-brand-red-100 text-brand-red-700' :
-                    'bg-yellow-100 text-yellow-700'
-                  }`}>
+                  <span
+                    className={`px-2 py-0.5 rounded text-xs font-medium ${
+                      extraction.status === 'passed'
+                        ? 'bg-brand-green-100 text-brand-green-700'
+                        : extraction.status === 'failed'
+                          ? 'bg-brand-red-100 text-brand-red-700'
+                          : 'bg-yellow-100 text-yellow-700'
+                    }`}
+                  >
                     {extraction.status}
                   </span>
                 </div>
@@ -265,7 +278,9 @@ export default async function ReviewDetailPage({
                     <span className="text-slate-700 text-sm">Validation Errors:</span>
                     <ul className="mt-1 space-y-1">
                       {extraction.validation_errors.map((err: string, i: number) => (
-                        <li key={i} className="text-brand-red-600 text-xs">• {err}</li>
+                        <li key={i} className="text-brand-red-600 text-xs">
+                          • {err}
+                        </li>
                       ))}
                     </ul>
                   </div>
@@ -314,10 +329,15 @@ export default async function ReviewDetailPage({
               </h3>
               <div className="space-y-3">
                 {routingScores.map((score: any, i: number) => (
-                  <div key={score.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div
+                    key={score.id}
+                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                  >
                     <div>
                       <p className="font-medium">{score.shops?.name || 'Unknown Shop'}</p>
-                      <p className="text-sm text-slate-700">{score.shops?.address}, {score.shops?.city}</p>
+                      <p className="text-sm text-slate-700">
+                        {score.shops?.address}, {score.shops?.city}
+                      </p>
                     </div>
                     <div className="text-right">
                       <p className="font-bold text-lg">{(score.total_score * 100).toFixed(0)}%</p>
@@ -339,11 +359,15 @@ export default async function ReviewDetailPage({
                 {decisions.map((decision: any) => (
                   <div key={decision.id} className="border-l-2 border-gray-200 pl-4 py-2">
                     <div className="flex items-center gap-2">
-                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${
-                        decision.decision === 'approved' ? 'bg-brand-green-100 text-brand-green-700' :
-                        decision.decision === 'rejected' ? 'bg-brand-red-100 text-brand-red-700' :
-                        'bg-yellow-100 text-yellow-700'
-                      }`}>
+                      <span
+                        className={`px-2 py-0.5 rounded text-xs font-medium ${
+                          decision.decision === 'approved'
+                            ? 'bg-brand-green-100 text-brand-green-700'
+                            : decision.decision === 'rejected'
+                              ? 'bg-brand-red-100 text-brand-red-700'
+                              : 'bg-yellow-100 text-yellow-700'
+                        }`}
+                      >
                         {decision.decision}
                       </span>
                       <span className="text-xs text-slate-700">
@@ -382,7 +406,9 @@ export default async function ReviewDetailPage({
               </div>
               <div className="flex justify-between">
                 <span className="text-slate-700">Created:</span>
-                <span className="font-medium">{new Date(item.created_at).toLocaleDateString()}</span>
+                <span className="font-medium">
+                  {new Date(item.created_at).toLocaleDateString()}
+                </span>
               </div>
               {item.assigned_to && (
                 <div className="flex justify-between">

@@ -100,14 +100,14 @@ export default function TestimonialsSection({
                   <Star key={i} className="w-5 h-5 text-yellow-400 fill-yellow-400" />
                 ))}
               </div>
-              
+
               {/* Quote */}
               <p className="text-slate-900 mb-6">&ldquo;{testimonial.quote}&rdquo;</p>
-              
+
               {/* Author */}
               <div className="flex items-center gap-3">
                 {testimonial.image_url && (
-                  <Image
+                  <Image sizes="100vw"
                     src={testimonial.image_url}
                     alt={testimonial.name}
                     width={48}
@@ -117,9 +117,7 @@ export default function TestimonialsSection({
                 )}
                 <div>
                   <p className="font-bold text-slate-900">{testimonial.name}</p>
-                  {testimonial.role && (
-                    <p className="text-sm text-slate-700">{testimonial.role}</p>
-                  )}
+                  {testimonial.role && <p className="text-sm text-slate-700">{testimonial.role}</p>}
                   {testimonial.location && (
                     <p className="text-xs text-slate-700">{testimonial.location}</p>
                   )}

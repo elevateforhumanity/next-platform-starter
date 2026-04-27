@@ -18,17 +18,25 @@ import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
-export type BuilderAccess = {
-  error: null;
-  user: { id: string; email: string };
-  orgId: string | null;
-  isPlatformAdmin: boolean;
-} | {
-  error: NextResponse;
-};
+export type BuilderAccess =
+  | {
+      error: null;
+      user: { id: string; email: string };
+      orgId: string | null;
+      isPlatformAdmin: boolean;
+    }
+  | {
+      error: NextResponse;
+    };
 
 const PLATFORM_ADMIN_ROLES = ['admin', 'super_admin', 'staff'] as const;
-const BUILDER_ORG_ROLES    = ['org_owner', 'org_admin', 'program_manager', 'editor', 'reviewer'] as const;
+const BUILDER_ORG_ROLES = [
+  'org_owner',
+  'org_admin',
+  'program_manager',
+  'editor',
+  'reviewer',
+] as const;
 
 /**
  * Guards a builder route.
@@ -44,7 +52,10 @@ export async function builderGuard(
   resourceOrgId: string | null,
 ): Promise<BuilderAccess> {
   const supabase = await createClient();
-  const { data: { user }, error: authErr } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authErr,
+  } = await supabase.auth.getUser();
 
   if (authErr || !user) {
     return { error: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) };
@@ -65,7 +76,12 @@ export async function builderGuard(
   const isPlatformAdmin = PLATFORM_ADMIN_ROLES.includes(profile?.role as any);
 
   if (isPlatformAdmin) {
-    return { error: null, user: { id: user.id, email: user.email! }, orgId: resourceOrgId, isPlatformAdmin: true };
+    return {
+      error: null,
+      user: { id: user.id, email: user.email! },
+      orgId: resourceOrgId,
+      isPlatformAdmin: true,
+    };
   }
 
   // Not a platform admin — check org membership
@@ -90,7 +106,9 @@ export async function builderGuard(
   }
 
   logger.info('[builder-guard] org member access granted', {
-    userId: user.id, orgId: resourceOrgId, role: membership.role,
+    userId: user.id,
+    orgId: resourceOrgId,
+    role: membership.role,
   });
 
   return {

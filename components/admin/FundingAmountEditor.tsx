@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -25,7 +25,7 @@ interface FundingAmountEditorProps {
 
 export default function FundingAmountEditor({
   enrollmentId,
-  currentValues
+  currentValues,
 }: FundingAmountEditorProps) {
   const [isEditing, setIsEditing] = useState(false);
   const [saving, setSaving] = useState(false);
@@ -34,16 +34,16 @@ export default function FundingAmountEditor({
 
   // Log funding amount changes for audit
   const logFundingChange = async (oldValues: any, newValues: any) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('funding_change_audit')
-      .insert({
-        admin_id: user?.id,
-        enrollment_id: enrollmentId,
-        old_values: oldValues,
-        new_values: newValues,
-        changed_at: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('funding_change_audit').insert({
+      admin_id: user?.id,
+      enrollment_id: enrollmentId,
+      old_values: oldValues,
+      new_values: newValues,
+      changed_at: new Date().toISOString(),
+    });
   };
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>) {
@@ -62,7 +62,7 @@ export default function FundingAmountEditor({
       wage_rate_hour: wageRate ? parseFloat(wageRate) : undefined,
       stipend_total_amount: stipend ? parseFloat(stipend) : undefined,
       tuition_covered_amount: tuition ? parseFloat(tuition) : undefined,
-      external_case_id: caseId || undefined
+      external_case_id: caseId || undefined,
     });
 
     setSaving(false);
@@ -78,10 +78,7 @@ export default function FundingAmountEditor({
 
   if (!isEditing) {
     return (
-      <button
-        onClick={() => setIsEditing(true)}
-        className="glow-btn-secondary w-full"
-      >
+      <button onClick={() => setIsEditing(true)} className="glow-btn-secondary w-full">
         Edit Funding Amounts
       </button>
     );
@@ -89,20 +86,15 @@ export default function FundingAmountEditor({
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4 mt-4 pt-4 border-t border-slate-700">
-
       <div className="text-sm text-slate-300 mb-4">
         💡 Leave fields blank if amounts are not yet determined
       </div>
 
       {/* Hourly Wage */}
       <div>
-        <label className="block text-sm text-slate-400 mb-2">
-          Hourly Wage Rate
-        </label>
+        <label className="block text-sm text-slate-400 mb-2">Hourly Wage Rate</label>
         <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-            $
-          </span>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
           <input
             type="number"
             name="wage_rate_hour"
@@ -121,13 +113,9 @@ export default function FundingAmountEditor({
 
       {/* Stipend Amount */}
       <div>
-        <label className="block text-sm text-slate-400 mb-2">
-          Total Stipend Amount
-        </label>
+        <label className="block text-sm text-slate-400 mb-2">Total Stipend Amount</label>
         <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-            $
-          </span>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
           <input
             type="number"
             name="stipend_total_amount"
@@ -142,13 +130,9 @@ export default function FundingAmountEditor({
 
       {/* Tuition Coverage */}
       <div>
-        <label className="block text-sm text-slate-400 mb-2">
-          Tuition Coverage Amount
-        </label>
+        <label className="block text-sm text-slate-400 mb-2">Tuition Coverage Amount</label>
         <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
-            $
-          </span>
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">$</span>
           <input
             type="number"
             name="tuition_covered_amount"
@@ -177,11 +161,7 @@ export default function FundingAmountEditor({
 
       {/* Actions */}
       <div className="flex gap-3 pt-4">
-        <button
-          type="submit"
-          disabled={saving}
-          className="glow-btn flex-1"
-        >
+        <button type="submit" disabled={saving} className="glow-btn flex-1">
           {saving ? 'Saving...' : 'Save Amounts'}
         </button>
         <button
@@ -193,7 +173,6 @@ export default function FundingAmountEditor({
           Cancel
         </button>
       </div>
-
     </form>
   );
 }

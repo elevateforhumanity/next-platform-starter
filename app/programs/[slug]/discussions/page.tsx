@@ -7,7 +7,7 @@ import Link from 'next/link';
 import { Plus, MessageSquare, ThumbsUp, Clock, User } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 interface Thread {
@@ -25,7 +25,7 @@ export default function ProgramDiscussionsPage() {
   const params = useParams();
   const router = useRouter();
   const slug = params.slug as string;
-  
+
   const [program, setProgram] = useState<any>(null);
   const [threads, setThreads] = useState<Thread[]>([]);
   const [loading, setLoading] = useState(true);
@@ -42,9 +42,11 @@ export default function ProgramDiscussionsPage() {
 
   async function loadData() {
     const supabase = createClient();
-    
+
     // Check auth
-    const { data: { user: authUser } } = await supabase.auth.getUser();
+    const {
+      data: { user: authUser },
+    } = await supabase.auth.getUser();
     setUser(authUser);
 
     // Load program by slug
@@ -68,7 +70,7 @@ export default function ProgramDiscussionsPage() {
         .select('*', { count: 'exact', head: true })
         .eq('program_id', programData.id)
         .eq('user_id', authUser.id);
-      
+
       setIsEnrolled((count || 0) > 0);
     }
 
@@ -76,14 +78,16 @@ export default function ProgramDiscussionsPage() {
     // Note: program_discussions table requires migration - using existing forum system
     const { data: threadsData, error: threadsError } = await supabase
       .from('forum_threads')
-      .select(`
+      .select(
+        `
         id,
         title,
         created_at,
         pinned,
         views,
         author_id
-      `)
+      `,
+      )
       .order('pinned', { ascending: false })
       .order('created_at', { ascending: false })
       .limit(20);
@@ -102,14 +106,14 @@ export default function ProgramDiscussionsPage() {
           .from('forum_posts')
           .select('*', { count: 'exact', head: true })
           .eq('thread_id', thread.id);
-        
+
         // Get author profile
         const { data: authorData } = await supabase
           .from('profiles')
           .select('full_name, avatar_url')
           .eq('id', thread.author_id)
           .single();
-        
+
         return {
           ...thread,
           content: '', // forum_threads doesn't have content field
@@ -117,7 +121,7 @@ export default function ProgramDiscussionsPage() {
           reply_count: count || 0,
           author: authorData || { full_name: 'Anonymous' },
         };
-      })
+      }),
     );
 
     setThreads(threadsWithReplies);
@@ -127,18 +131,16 @@ export default function ProgramDiscussionsPage() {
   async function createThread(e: React.FormEvent) {
     e.preventDefault();
     if (!title.trim() || !content.trim() || !user) return;
-    
+
     setPosting(true);
     const supabase = createClient();
 
-    const { error } = await supabase
-      .from('program_discussions')
-      .insert({
-        program_id: program.id,
-        author_id: user.id,
-        title,
-        content,
-      });
+    const { error } = await supabase.from('program_discussions').insert({
+      program_id: program.id,
+      author_id: user.id,
+      title,
+      content,
+    });
 
     if (!error) {
       setTitle('');
@@ -148,7 +150,7 @@ export default function ProgramDiscussionsPage() {
     } else {
       alert('Failed to create discussion');
     }
-    
+
     setPosting(false);
   }
 
@@ -193,7 +195,10 @@ export default function ProgramDiscussionsPage() {
         {!user && (
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6 mb-8">
             <p className="text-brand-blue-800">
-              <Link href="/login" className="font-semibold underline">Sign in</Link> to participate in discussions.
+              <Link href="/login" className="font-semibold underline">
+                Sign in
+              </Link>{' '}
+              to participate in discussions.
             </p>
           </div>
         )}
@@ -201,7 +206,10 @@ export default function ProgramDiscussionsPage() {
         {user && !isEnrolled && (
           <div className="bg-yellow-50 border border-yellow-200 rounded-xl p-6 mb-8">
             <p className="text-yellow-800">
-              <Link href={`/enroll/${program.id}`} className="font-semibold underline">Enroll in this program</Link> to participate in discussions.
+              <Link href={`/enroll/${program.id}`} className="font-semibold underline">
+                Enroll in this program
+              </Link>{' '}
+              to participate in discussions.
             </p>
           </div>
         )}
@@ -212,9 +220,7 @@ export default function ProgramDiscussionsPage() {
             <h2 className="text-xl font-bold text-slate-900 mb-4">Start a New Discussion</h2>
             <form onSubmit={createThread} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-800 mb-2">
-                  Topic Title
-                </label>
+                <label className="block text-sm font-medium text-slate-800 mb-2">Topic Title</label>
                 <input
                   type="text"
                   value={title}
@@ -274,9 +280,13 @@ export default function ProgramDiscussionsPage() {
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-2">
                       {thread.pinned && (
-                        <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded">Pinned</span>
+                        <span className="text-xs bg-yellow-100 text-yellow-700 px-2 py-0.5 rounded">
+                          Pinned
+                        </span>
                       )}
-                      <h3 className="text-lg font-semibold text-slate-900 truncate">{thread.title}</h3>
+                      <h3 className="text-lg font-semibold text-slate-900 truncate">
+                        {thread.title}
+                      </h3>
                     </div>
                     <p className="text-black mt-1 line-clamp-2">{thread.content}</p>
                     <div className="flex items-center gap-4 mt-3 text-sm text-black">

@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { calculateSiteMetrics } from '@/lib/reporting/enterprise-dashboard';
 import { logger } from '@/lib/logger';
@@ -18,12 +16,9 @@ async function _GET(request: Request) {
 
     const metrics = await calculateSiteMetrics();
     return NextResponse.json(metrics);
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error fetching site metrics:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch site metrics' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch site metrics' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/analytics/metrics/site-metrics', _GET);

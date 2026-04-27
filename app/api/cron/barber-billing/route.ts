@@ -27,9 +27,7 @@ export const maxDuration = 60;
 
 const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 
-export const GET = withRuntime(
-  { cron: 'bearer' },
-  async () => {
+export const GET = withRuntime({ cron: 'bearer' }, async () => {
   const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 
   const db = await getAdminClient();
@@ -44,7 +42,9 @@ export const GET = withRuntime(
     // Find past_due subscriptions whose grace period has expired
     const { data: overdue, error } = await db
       .from('barber_subscriptions')
-      .select('id, user_id, customer_email, customer_name, stripe_subscription_id, suspension_deadline')
+      .select(
+        'id, user_id, customer_email, customer_name, stripe_subscription_id, suspension_deadline',
+      )
       .eq('payment_status', 'past_due')
       .lt('suspension_deadline', now);
 
@@ -85,7 +85,7 @@ export const GET = withRuntime(
               updateUrl: `${SITE_URL}/billing-required`,
             }),
           }).catch((err) =>
-            logger.error('[barber-billing cron] suspension email failed', { id: sub.id, err })
+            logger.error('[barber-billing cron] suspension email failed', { id: sub.id, err }),
           );
         }
 
@@ -113,8 +113,7 @@ export const GET = withRuntime(
     logger.error('[barber-billing cron] fatal', err);
     return NextResponse.json({ error: 'Cron failed', details: String(err) }, { status: 500 });
   }
-  }
-);
+});
 
 function suspensionEmailHtml({ name, updateUrl }: { name: string; updateUrl: string }) {
   return `

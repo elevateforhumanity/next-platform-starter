@@ -63,7 +63,7 @@ You'll receive a follow-up shortly with scheduling details.
 —
 Rise Up Foundation
 Free Community Tax Services
-    `
+    `,
   },
 
   /**
@@ -72,12 +72,7 @@ Free Community Tax Services
   appointmentConfirmed: {
     from: 'noreply@riseupfoundation.org',
     subject: 'Your free tax appointment is scheduled',
-    getHtml: (data: {
-      firstName: string;
-      date: string;
-      time: string;
-      location: string
-    }) => `
+    getHtml: (data: { firstName: string; date: string; time: string; location: string }) => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <p>Hello ${data.firstName},</p>
 
@@ -108,12 +103,7 @@ Free Community Tax Services
         </p>
       </div>
     `,
-    getText: (data: {
-      firstName: string;
-      date: string;
-      time: string;
-      location: string
-    }) => `
+    getText: (data: { firstName: string; date: string; time: string; location: string }) => `
 Hello ${data.firstName},
 
 Your free tax appointment is confirmed.
@@ -132,7 +122,7 @@ All services are provided by trained volunteers following IRS VITA/TCE guideline
 
 —
 Rise Up Foundation
-    `
+    `,
   },
 
   /**
@@ -169,8 +159,8 @@ Thank you for allowing us to support you.
 
 —
 Rise Up Foundation
-    `
-  }
+    `,
+  },
 };
 
 // ============================================================================
@@ -222,7 +212,7 @@ No charges will be processed until services are reviewed and approved.
 
 —
 SupersonicFastCash
-    `
+    `,
   },
 
   /**
@@ -235,7 +225,7 @@ SupersonicFastCash
       firstName: string;
       amount: string;
       scopeSummary: string;
-      stripeInvoiceLink: string
+      stripeInvoiceLink: string;
     }) => `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto; padding: 20px;">
         <p>Hello ${data.firstName},</p>
@@ -269,7 +259,7 @@ SupersonicFastCash
       firstName: string;
       amount: string;
       scopeSummary: string;
-      stripeInvoiceLink: string
+      stripeInvoiceLink: string;
     }) => `
 Hello ${data.firstName},
 
@@ -287,7 +277,7 @@ Please review our refund and service policies before submitting payment.
 —
 SupersonicFastCash
 Professional Tax Preparation Services
-    `
+    `,
   },
 
   /**
@@ -334,6 +324,6 @@ We'll keep you updated throughout the process.
 
 —
 SupersonicFastCash
-    `
-  }
+    `,
+  },
 };

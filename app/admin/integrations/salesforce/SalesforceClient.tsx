@@ -2,7 +2,17 @@
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { ArrowLeft, CheckCircle2, XCircle, RefreshCw, Settings, Users, Database, Zap, AlertTriangle } from 'lucide-react';
+import {
+  ArrowLeft,
+  CheckCircle2,
+  XCircle,
+  RefreshCw,
+  Settings,
+  Users,
+  Database,
+  Zap,
+  AlertTriangle,
+} from 'lucide-react';
 
 interface SyncStatus {
   contacts: number;
@@ -12,7 +22,12 @@ interface SyncStatus {
 }
 
 export default function SalesforceClient() {
-  const [status, setStatus] = useState<SyncStatus>({ contacts: 0, leads: 0, lastSync: null, connected: false });
+  const [status, setStatus] = useState<SyncStatus>({
+    contacts: 0,
+    leads: 0,
+    lastSync: null,
+    connected: false,
+  });
   const [loading, setLoading] = useState(true);
   const [syncing, setSyncing] = useState(false);
 
@@ -53,7 +68,11 @@ export default function SalesforceClient() {
   }
 
   const configFields = [
-    { label: 'Salesforce Instance URL', placeholder: 'https://yourorg.my.salesforce.com', type: 'url' },
+    {
+      label: 'Salesforce Instance URL',
+      placeholder: 'https://yourorg.my.salesforce.com',
+      type: 'url',
+    },
     { label: 'Client ID', placeholder: 'Connected App Consumer Key', type: 'text' },
     { label: 'Client Secret', placeholder: '••••••••', type: 'password' },
     { label: 'Callback URL', placeholder: '/api/integrations/salesforce/callback', type: 'text' },
@@ -61,18 +80,22 @@ export default function SalesforceClient() {
 
   return (
     <div className="min-h-screen bg-white p-6">
-
       {/* Hero Image */}
       <div className="max-w-4xl mx-auto">
         <div className="mb-4">
-          <Breadcrumbs items={[
-            { label: 'Admin', href: '/admin/dashboard' },
-            { label: 'Integrations', href: '/admin/integrations' },
-            { label: 'Salesforce' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Admin', href: '/admin/dashboard' },
+              { label: 'Integrations', href: '/admin/integrations' },
+              { label: 'Salesforce' },
+            ]}
+          />
         </div>
 
-        <Link href="/admin/integrations" className="text-sm text-brand-blue-600 hover:text-brand-blue-700 flex items-center gap-1 mb-4">
+        <Link
+          href="/admin/integrations"
+          className="text-sm text-brand-blue-600 hover:text-brand-blue-700 flex items-center gap-1 mb-4"
+        >
           <ArrowLeft className="w-4 h-4" /> Back to Integrations
         </Link>
 
@@ -82,7 +105,9 @@ export default function SalesforceClient() {
           </div>
           <div>
             <h1 className="text-2xl font-bold text-gray-900">Salesforce Integration</h1>
-            <p className="text-sm text-gray-500">Sync contacts, leads, and enrollment data with Salesforce CRM</p>
+            <p className="text-sm text-gray-500">
+              Sync contacts, leads, and enrollment data with Salesforce CRM
+            </p>
           </div>
         </div>
 
@@ -119,7 +144,9 @@ export default function SalesforceClient() {
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-gray-600">Last Sync</span>
-                <span className="text-sm text-gray-500">{status.lastSync ? new Date(status.lastSync).toLocaleString() : 'Never'}</span>
+                <span className="text-sm text-gray-500">
+                  {status.lastSync ? new Date(status.lastSync).toLocaleString() : 'Never'}
+                </span>
               </div>
               {status.connected && (
                 <button
@@ -143,7 +170,9 @@ export default function SalesforceClient() {
           <div className="space-y-4">
             {configFields.map((field) => (
               <div key={field.label}>
-                <label className="block text-sm font-medium text-gray-700 mb-1">{field.label}</label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  {field.label}
+                </label>
                 <input
                   type={field.type}
                   placeholder={field.placeholder}
@@ -154,7 +183,8 @@ export default function SalesforceClient() {
             <div className="flex items-start gap-2 p-3 bg-amber-50 border border-amber-200 rounded-lg">
               <AlertTriangle className="w-4 h-4 text-amber-600 flex-shrink-0 mt-0.5" />
               <p className="text-xs text-amber-700">
-                Store credentials securely. Use environment variables for production deployments. Never commit secrets to source control.
+                Store credentials securely. Use environment variables for production deployments.
+                Never commit secrets to source control.
               </p>
             </div>
             <button className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700">

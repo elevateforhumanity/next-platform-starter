@@ -28,7 +28,7 @@ export function CourseStructuredData({ course }: CourseStructuredDataProps) {
     },
     ...(course.duration && { timeRequired: course.duration }),
     ...(course.image_url && { image: course.image_url }),
-    ...(course.category && { 
+    ...(course.category && {
       courseCode: course.category,
       educationalCredentialAwarded: 'Certificate of Completion',
     }),
@@ -44,8 +44,8 @@ export function CourseStructuredData({ course }: CourseStructuredDataProps) {
       priceCurrency: 'USD',
       availability: 'https://schema.org/InStock',
       url: `${siteConfig.url}/courses/${course.id}`,
-      ...(course.price === 0 && { 
-        description: 'Free with WIOA funding' 
+      ...(course.price === 0 && {
+        description: 'Free with WIOA funding',
       }),
     },
     hasCourseInstance: {
@@ -103,12 +103,12 @@ export function ProgramStructuredData({ program }: ProgramStructuredDataProps) {
       programPrerequisites: 'High school diploma or GED preferred',
     }),
     ...(program.image_url && { image: program.image_url }),
-    ...(program.category && { 
+    ...(program.category && {
       occupationalCategory: program.category,
       educationalProgramMode: 'full-time',
     }),
     ...(program.outcomes && {
-      occupationalCredentialAwarded: program.outcomes.map(outcome => ({
+      occupationalCredentialAwarded: program.outcomes.map((outcome) => ({
         '@type': 'EducationalOccupationalCredential',
         credentialCategory: 'certificate',
         name: outcome,
@@ -143,7 +143,7 @@ export function FAQStructuredData({ faqs }: FAQStructuredDataProps) {
   const schema = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: faqs.map(faq => ({
+    mainEntity: faqs.map((faq) => ({
       '@type': 'Question',
       name: faq.question,
       acceptedAnswer: {

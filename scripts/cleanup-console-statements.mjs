@@ -12,7 +12,6 @@ import { join } from 'path';
 const DRY_RUN = process.argv.includes('--dry-run');
 const VERBOSE = process.argv.includes('--verbose');
 
-
 if (DRY_RUN) {
 }
 
@@ -21,7 +20,7 @@ function findFilesWithConsole() {
   try {
     const output = execSync(
       `grep -r "console\\." app/ lib/ components/ --include="*.ts" --include="*.tsx" --include="*.js" --include="*.jsx" 2>/dev/null | grep -v node_modules | grep -v ".next" | cut -d: -f1 | sort | uniq`,
-      { encoding: 'utf-8', maxBuffer: 10 * 1024 * 1024 }
+      { encoding: 'utf-8', maxBuffer: 10 * 1024 * 1024 },
     );
     return output.trim().split('\n').filter(Boolean);
   } catch (error) {
@@ -52,11 +51,11 @@ const ERROR_PATTERNS = [
 ];
 
 function shouldKeepLine(line) {
-  return KEEP_PATTERNS.some(pattern => pattern.test(line));
+  return KEEP_PATTERNS.some((pattern) => pattern.test(line));
 }
 
 function shouldRemoveLine(line) {
-  return REMOVE_PATTERNS.some(pattern => pattern.test(line));
+  return REMOVE_PATTERNS.some((pattern) => pattern.test(line));
 }
 
 function processFile(filePath) {
@@ -150,10 +149,8 @@ for (const file of files) {
   }
 }
 
-
 if (results.length > 0 && !VERBOSE) {
-  results.slice(0, 20).forEach(({ file, removed }) => {
-  });
+  results.slice(0, 20).forEach(({ file, removed }) => {});
   if (results.length > 20) {
   }
 }
@@ -161,4 +158,3 @@ if (results.length > 0 && !VERBOSE) {
 if (DRY_RUN) {
 } else {
 }
-

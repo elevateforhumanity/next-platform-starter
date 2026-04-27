@@ -15,7 +15,11 @@
  * Never read course_lessons.content or content_structured raw — always normalize first.
  */
 
-import { LessonContentSchema, emptyLessonContent, type LessonContent } from './lesson-content-schema';
+import {
+  LessonContentSchema,
+  emptyLessonContent,
+  type LessonContent,
+} from './lesson-content-schema';
 import { logger } from '@/lib/logger';
 
 /**
@@ -56,7 +60,7 @@ export function normalizeLessonContent(raw: unknown): LessonContent {
 
       // Partial parse — fill defaults for invalid fields
       logger.warn('[normalize-lesson-content] Partial validation failure, applying defaults', {
-        errors: result.error.issues.map(i => i.message),
+        errors: result.error.issues.map((i) => i.message),
       });
       return LessonContentSchema.parse({ version: 1, ...obj });
     }
@@ -65,19 +69,20 @@ export function normalizeLessonContent(raw: unknown): LessonContent {
     const hydrated: Record<string, unknown> = { version: 1 };
 
     // Legacy curriculum_lessons fields
-    if (typeof obj.script_text === 'string')       hydrated.instructionalContent = obj.script_text;
-    if (typeof obj.content === 'string')            hydrated.instructionalContent = obj.content;
-    if (typeof obj.summary_text === 'string')       hydrated.summary = obj.summary_text;
-    if (typeof obj.reflection_prompt === 'string')  hydrated.activityInstructions = obj.reflection_prompt;
-    if (Array.isArray(obj.objectives))              hydrated.objectives = obj.objectives;
-    if (Array.isArray(obj.materials))               hydrated.materials = obj.materials;
-    if (typeof obj.transcript === 'string')         hydrated.transcript = obj.transcript;
+    if (typeof obj.script_text === 'string') hydrated.instructionalContent = obj.script_text;
+    if (typeof obj.content === 'string') hydrated.instructionalContent = obj.content;
+    if (typeof obj.summary_text === 'string') hydrated.summary = obj.summary_text;
+    if (typeof obj.reflection_prompt === 'string')
+      hydrated.activityInstructions = obj.reflection_prompt;
+    if (Array.isArray(obj.objectives)) hydrated.objectives = obj.objectives;
+    if (Array.isArray(obj.materials)) hydrated.materials = obj.materials;
+    if (typeof obj.transcript === 'string') hydrated.transcript = obj.transcript;
 
     // Legacy video fields
     if (typeof obj.video_file === 'string' || typeof obj.videoFile === 'string') {
       hydrated.video = {
-        videoFile:    obj.video_file ?? obj.videoFile,
-        transcript:   obj.transcript ?? '',
+        videoFile: obj.video_file ?? obj.videoFile,
+        transcript: obj.transcript ?? '',
         runtimeSeconds: obj.video_runtime_seconds ?? obj.runtimeSeconds ?? 0,
         completionThresholdPercent: 90,
       };
@@ -96,7 +101,7 @@ export function normalizeLessonContent(raw: unknown): LessonContent {
  */
 export function mergeLessonContent(
   existing: LessonContent,
-  patch: Partial<LessonContent>
+  patch: Partial<LessonContent>,
 ): LessonContent {
   return LessonContentSchema.parse({ ...existing, ...patch, version: 1 });
 }
@@ -112,5 +117,8 @@ export function extractInstructionalText(raw: unknown): string {
     content.summary,
     content.activityInstructions,
     content.transcript,
-  ].filter(Boolean).join('\n').trim();
+  ]
+    .filter(Boolean)
+    .join('\n')
+    .trim();
 }

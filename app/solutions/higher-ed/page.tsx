@@ -1,10 +1,19 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { University, BookOpen, Award, ArrowRight, CheckCircle, Users, FileText } from 'lucide-react';
+import {
+  University,
+  BookOpen,
+  Award,
+  ArrowRight,
+  CheckCircle,
+  Users,
+  FileText,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Higher Education Solutions | Elevate for Humanity',
-  description: 'Workforce development partnerships for community colleges and universities. Stackable credentials, registered apprenticeships, and employer-connected training.',
+  description:
+    'Workforce development partnerships for community colleges and universities. Stackable credentials, registered apprenticeships, and employer-connected training.',
 };
 
 const PARTNERSHIP_MODELS = [
@@ -44,7 +53,6 @@ const BENEFITS = [
 export default function HigherEdSolutionsPage() {
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero */}
       <section className="bg-gradient-to-br from-violet-900 to-violet-700 text-white py-24 px-6">
         <div className="max-w-4xl mx-auto text-center">
@@ -53,16 +61,26 @@ export default function HigherEdSolutionsPage() {
             Higher Education Partnerships
           </div>
           <h1 className="text-5xl font-black mb-6 leading-tight">
-            Workforce credentials that<br />complement your degrees.
+            Workforce credentials that
+            <br />
+            complement your degrees.
           </h1>
           <p className="text-xl text-violet-100 mb-10 max-w-2xl mx-auto">
-            Elevate partners with community colleges and universities to deliver employer-connected career credentials that stack into your existing degree programs — increasing enrollment, retention, and graduate employment rates.
+            Elevate partners with community colleges and universities to deliver employer-connected
+            career credentials that stack into your existing degree programs — increasing
+            enrollment, retention, and graduate employment rates.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/partners/training" className="bg-white text-violet-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-violet-50 transition-colors">
+            <Link
+              href="/partners/training"
+              className="bg-white text-violet-900 px-8 py-4 rounded-xl font-bold text-lg hover:bg-violet-50 transition-colors"
+            >
               Explore Partnership Models
             </Link>
-            <Link href="/contact" className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-violet-800 transition-colors">
+            <Link
+              href="/contact"
+              className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold text-lg hover:bg-violet-800 transition-colors"
+            >
               Schedule a Meeting
             </Link>
           </div>
@@ -90,10 +108,15 @@ export default function HigherEdSolutionsPage() {
       <section className="py-20 px-6">
         <div className="max-w-4xl mx-auto">
           <h2 className="text-3xl font-black text-slate-900 mb-3">Partnership models</h2>
-          <p className="text-slate-600 mb-10">Choose the model that fits your institution's goals, or combine multiple approaches.</p>
+          <p className="text-slate-600 mb-10">
+            Choose the model that fits your institution's goals, or combine multiple approaches.
+          </p>
           <div className="grid md:grid-cols-2 gap-6">
             {PARTNERSHIP_MODELS.map(({ title, desc, icon: Icon }) => (
-              <div key={title} className="border border-slate-200 rounded-xl p-6 hover:border-violet-300 hover:shadow-md transition-all">
+              <div
+                key={title}
+                className="border border-slate-200 rounded-xl p-6 hover:border-violet-300 hover:shadow-md transition-all"
+              >
                 <div className="w-10 h-10 bg-violet-100 rounded-lg flex items-center justify-center mb-4">
                   <Icon className="w-5 h-5 text-violet-600" />
                 </div>
@@ -125,18 +148,26 @@ export default function HigherEdSolutionsPage() {
         <div className="max-w-2xl mx-auto text-center">
           <University className="w-12 h-12 text-violet-300 mx-auto mb-6" />
           <h2 className="text-3xl font-black mb-4">Let's build a pathway together.</h2>
-          <p className="text-violet-200 mb-8">We work with your academic affairs and workforce development teams to design a partnership that fits your accreditation requirements and student population.</p>
+          <p className="text-violet-200 mb-8">
+            We work with your academic affairs and workforce development teams to design a
+            partnership that fits your accreditation requirements and student population.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/partners/training" className="bg-white text-violet-900 px-10 py-4 rounded-xl font-bold text-lg hover:bg-violet-50 transition-colors">
+            <Link
+              href="/partners/training"
+              className="bg-white text-violet-900 px-10 py-4 rounded-xl font-bold text-lg hover:bg-violet-50 transition-colors"
+            >
               Start a Partnership →
             </Link>
-            <Link href="/contact" className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-violet-800 transition-colors">
+            <Link
+              href="/contact"
+              className="border-2 border-white text-white px-8 py-4 rounded-xl font-bold hover:bg-violet-800 transition-colors"
+            >
               Contact Us
             </Link>
           </div>
         </div>
       </section>
-
     </div>
   );
 }

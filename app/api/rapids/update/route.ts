@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -19,21 +18,12 @@ async function _POST(req: Request) {
     if (auth.error) return auth.error;
 
     const body = await req.json();
-    const {
-      apprentice_id,
-      rapids_id,
-      status,
-      registration_date,
-      completion_date,
-    } = body;
+    const { apprentice_id, rapids_id, status, registration_date, completion_date } = body;
 
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     const updateData: any = {
@@ -72,11 +62,8 @@ async function _POST(req: Request) {
     }
 
     return NextResponse.json({ success: true, rapids: data });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -97,11 +84,8 @@ async function _GET(request: Request) {
     }
 
     return NextResponse.json({ rapids: data });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/rapids/update', _GET, { critical: true });

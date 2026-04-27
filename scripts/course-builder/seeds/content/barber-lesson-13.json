@@ -52,12 +52,7 @@
       },
       {
         "prompt": "What should be used to disinfect the shampoo bowl between clients?",
-        "choices": [
-          "Warm water",
-          "An EPA-registered disinfectant",
-          "A damp cloth",
-          "A hairdryer"
-        ],
+        "choices": ["Warm water", "An EPA-registered disinfectant", "A damp cloth", "A hairdryer"],
         "answerIndex": 1,
         "rationale": "An EPA-registered disinfectant is required to effectively prevent the spread of bacteria and ensure safety.",
         "type": "recall"

@@ -29,7 +29,7 @@ for (const line of envLines) {
 }
 
 const SUPABASE_URL = env['NEXT_PUBLIC_SUPABASE_URL'];
-const SERVICE_KEY  = env['SUPABASE_SERVICE_ROLE_KEY'];
+const SERVICE_KEY = env['SUPABASE_SERVICE_ROLE_KEY'];
 const HVAC_COURSE_ID = '0ba9a61c-1f1b-4019-be6f-90e92eba2bc0';
 
 if (!SUPABASE_URL || !SERVICE_KEY || SUPABASE_URL.length < 10) {
@@ -72,17 +72,24 @@ async function getColumns(table) {
     .select('column_name')
     .eq('table_schema', 'public')
     .eq('table_name', table);
-  return new Set((data ?? []).map(r => r.column_name));
+  return new Set((data ?? []).map((r) => r.column_name));
 }
 
 // ─── 1. Required tables ───────────────────────────────────────────────────────
 async function checkTables() {
   console.log('\n── 1. Required Tables ─────────────────────────────────────────');
   const required = [
-    'courses', 'course_modules', 'course_lessons',
-    'program_enrollments', 'lesson_progress', 'checkpoint_scores',
-    'course_versions', 'course_version_modules', 'course_version_lessons',
-    'module_completion_rules', 'student_module_progress',
+    'courses',
+    'course_modules',
+    'course_lessons',
+    'program_enrollments',
+    'lesson_progress',
+    'checkpoint_scores',
+    'course_versions',
+    'course_version_modules',
+    'course_version_lessons',
+    'module_completion_rules',
+    'student_module_progress',
     'program_completion_certificates',
   ];
   for (const t of required) {
@@ -96,8 +103,17 @@ async function checkColumns() {
   console.log('\n── 2. Required Columns ────────────────────────────────────────');
 
   const peColumns = await getColumns('program_enrollments');
-  const requiredPE = ['id', 'user_id', 'course_id', 'program_id', 'course_version_id',
-    'status', 'progress_percent', 'enrolled_at', 'funding_source'];
+  const requiredPE = [
+    'id',
+    'user_id',
+    'course_id',
+    'program_id',
+    'course_version_id',
+    'status',
+    'progress_percent',
+    'enrolled_at',
+    'funding_source',
+  ];
   for (const col of requiredPE) {
     peColumns.has(col)
       ? pass(`program_enrollments.${col}`)
@@ -105,7 +121,16 @@ async function checkColumns() {
   }
 
   const csColumns = await getColumns('checkpoint_scores');
-  const requiredCS = ['id', 'user_id', 'lesson_id', 'course_id', 'score', 'passing_score', 'passed', 'attempt_number'];
+  const requiredCS = [
+    'id',
+    'user_id',
+    'lesson_id',
+    'course_id',
+    'score',
+    'passing_score',
+    'passed',
+    'attempt_number',
+  ];
   for (const col of requiredCS) {
     csColumns.has(col)
       ? pass(`checkpoint_scores.${col}`)
@@ -121,7 +146,15 @@ async function checkColumns() {
   }
 
   const clColumns = await getColumns('course_lessons');
-  const requiredCL = ['id', 'course_id', 'module_id', 'title', 'lesson_type', 'order_index', 'passing_score'];
+  const requiredCL = [
+    'id',
+    'course_id',
+    'module_id',
+    'title',
+    'lesson_type',
+    'order_index',
+    'passing_score',
+  ];
   for (const col of requiredCL) {
     clColumns.has(col)
       ? pass(`course_lessons.${col}`)
@@ -144,7 +177,9 @@ async function checkHvacCourse() {
     return;
   }
   pass('HVAC course exists', `"${course.title}"`);
-  course.status === 'published' ? pass('HVAC status = published') : fail('HVAC status = published', `actual: ${course.status}`);
+  course.status === 'published'
+    ? pass('HVAC status = published')
+    : fail('HVAC status = published', `actual: ${course.status}`);
   course.is_active ? pass('HVAC is_active = true') : fail('HVAC is_active = true', 'false');
 
   // Lesson count
@@ -152,7 +187,7 @@ async function checkHvacCourse() {
     .from('course_lessons')
     .select('id', { count: 'exact', head: true })
     .eq('course_id', HVAC_COURSE_ID);
-  
+
   const { count: lessonCount } = await db
     .from('course_lessons')
     .select('*', { count: 'exact', head: true })
@@ -216,7 +251,10 @@ async function checkVersionSnapshot() {
     fail('Published course_versions snapshot exists', 'none found — run snapshot_course_version()');
     return;
   }
-  pass('Published course_versions snapshot exists', `v${version.version_number} @ ${version.snapshot_at}`);
+  pass(
+    'Published course_versions snapshot exists',
+    `v${version.version_number} @ ${version.snapshot_at}`,
+  );
 
   const { count: vmCount } = await db
     .from('course_version_modules')
@@ -289,12 +327,12 @@ async function checkEnrollmentWrite() {
   const { data: enrollment, error: enrollErr } = await db
     .from('program_enrollments')
     .insert({
-      user_id:           userId,
-      course_id:         HVAC_COURSE_ID,
+      user_id: userId,
+      course_id: HVAC_COURSE_ID,
       course_version_id: version?.id ?? null,
-      status:            'active',
-      progress_percent:  0,
-      enrolled_at:       new Date().toISOString(),
+      status: 'active',
+      progress_percent: 0,
+      enrolled_at: new Date().toISOString(),
     })
     .select('id, course_version_id, status')
     .single();
@@ -325,7 +363,10 @@ async function checkLessonFlow(userId, enrollmentId) {
     .limit(1)
     .maybeSingle();
 
-  if (!firstModule) { fail('First module exists'); return; }
+  if (!firstModule) {
+    fail('First module exists');
+    return;
+  }
   pass('First module exists', firstModule.title);
 
   const { data: firstLesson } = await db
@@ -337,12 +378,15 @@ async function checkLessonFlow(userId, enrollmentId) {
     .limit(1)
     .maybeSingle();
 
-  if (!firstLesson) { fail('First lesson in module 1 exists'); return; }
+  if (!firstLesson) {
+    fail('First lesson in module 1 exists');
+    return;
+  }
   pass('First lesson in module 1 exists', firstLesson.title);
 
   // can_access_lesson() for module 1 lesson — should be true
   const { data: canAccess1, error: ca1Err } = await db.rpc('can_access_lesson', {
-    p_user_id:   userId,
+    p_user_id: userId,
     p_lesson_id: firstLesson.id,
   });
   if (ca1Err) {
@@ -374,35 +418,39 @@ async function checkLessonFlow(userId, enrollmentId) {
 
     if (firstLessonM2) {
       const { data: canAccess2 } = await db.rpc('can_access_lesson', {
-        p_user_id:   userId,
+        p_user_id: userId,
         p_lesson_id: firstLessonM2.id,
       });
       canAccess2 === false
         ? pass('can_access_lesson() module 2 = false (locked before module 1 complete)')
-        : fail('can_access_lesson() module 2 = false', `returned: ${canAccess2} — gating not enforced`);
+        : fail(
+            'can_access_lesson() module 2 = false',
+            `returned: ${canAccess2} — gating not enforced`,
+          );
     }
   }
 
   // Write lesson_progress for first lesson
-  const { error: lpErr } = await db
-    .from('lesson_progress')
-    .upsert({
-      user_id:       userId,
-      lesson_id:     firstLesson.id,
-      course_id:     HVAC_COURSE_ID,
+  const { error: lpErr } = await db.from('lesson_progress').upsert(
+    {
+      user_id: userId,
+      lesson_id: firstLesson.id,
+      course_id: HVAC_COURSE_ID,
       enrollment_id: enrollmentId,
-      completed:     true,
-      completed_at:  new Date().toISOString(),
+      completed: true,
+      completed_at: new Date().toISOString(),
       time_spent_seconds: 120,
-      updated_at:    new Date().toISOString(),
-    }, { onConflict: 'user_id,lesson_id' });
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: 'user_id,lesson_id' },
+  );
 
   lpErr
     ? fail('Write lesson_progress row', lpErr.message)
     : pass('Write lesson_progress row', firstLesson.id);
 
   // Verify progress_percent updated on program_enrollments
-  await new Promise(r => setTimeout(r, 1500)); // allow trigger to fire
+  await new Promise((r) => setTimeout(r, 1500)); // allow trigger to fire
   const { data: updatedEnrollment } = await db
     .from('program_enrollments')
     .select('progress_percent')
@@ -431,7 +479,10 @@ async function checkCheckpointUnlock(userId, enrollmentId) {
     .limit(1)
     .maybeSingle();
 
-  if (!firstModule) { fail('Module 1 for checkpoint test'); return; }
+  if (!firstModule) {
+    fail('Module 1 for checkpoint test');
+    return;
+  }
 
   const { data: checkpoint } = await db
     .from('course_lessons')
@@ -450,37 +501,38 @@ async function checkCheckpointUnlock(userId, enrollmentId) {
   pass('Checkpoint lesson found in module 1', checkpoint.title);
 
   // Write passing checkpoint score
-  const { error: csErr } = await db
-    .from('checkpoint_scores')
-    .insert({
-      user_id:        userId,
-      lesson_id:      checkpoint.id,
-      course_id:      HVAC_COURSE_ID,
-      score:          85,
-      passing_score:  checkpoint.passing_score ?? 70,
-      passed:         true,
-      attempt_number: 1,
-      answers:        {},
-    });
+  const { error: csErr } = await db.from('checkpoint_scores').insert({
+    user_id: userId,
+    lesson_id: checkpoint.id,
+    course_id: HVAC_COURSE_ID,
+    score: 85,
+    passing_score: checkpoint.passing_score ?? 70,
+    passed: true,
+    attempt_number: 1,
+    answers: {},
+  });
 
   csErr
     ? fail('Write checkpoint_scores row', csErr.message)
     : pass('Write checkpoint_scores row', `score=85, passed=true`);
 
   // Mark checkpoint lesson complete
-  await db.from('lesson_progress').upsert({
-    user_id:       userId,
-    lesson_id:     checkpoint.id,
-    course_id:     HVAC_COURSE_ID,
-    enrollment_id: enrollmentId,
-    completed:     true,
-    completed_at:  new Date().toISOString(),
-    time_spent_seconds: 60,
-    updated_at:    new Date().toISOString(),
-  }, { onConflict: 'user_id,lesson_id' });
+  await db.from('lesson_progress').upsert(
+    {
+      user_id: userId,
+      lesson_id: checkpoint.id,
+      course_id: HVAC_COURSE_ID,
+      enrollment_id: enrollmentId,
+      completed: true,
+      completed_at: new Date().toISOString(),
+      time_spent_seconds: 60,
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: 'user_id,lesson_id' },
+  );
 
   // Wait for trigger
-  await new Promise(r => setTimeout(r, 2000));
+  await new Promise((r) => setTimeout(r, 2000));
 
   // Check student_module_progress for module 1
   const { data: smp } = await db
@@ -492,7 +544,10 @@ async function checkCheckpointUnlock(userId, enrollmentId) {
 
   smp
     ? pass('student_module_progress row exists for module 1', `status=${smp.status}`)
-    : fail('student_module_progress row exists for module 1', 'not found — trigger may not have fired');
+    : fail(
+        'student_module_progress row exists for module 1',
+        'not found — trigger may not have fired',
+      );
 
   // Check module 2 unlock
   const { data: secondModule } = await db
@@ -513,7 +568,10 @@ async function checkCheckpointUnlock(userId, enrollmentId) {
 
     smp2?.is_unlocked
       ? pass('Module 2 unlocked after module 1 checkpoint pass')
-      : fail('Module 2 unlocked after module 1 checkpoint pass', smp2 ? 'is_unlocked=false' : 'no row');
+      : fail(
+          'Module 2 unlocked after module 1 checkpoint pass',
+          smp2 ? 'is_unlocked=false' : 'no row',
+        );
   }
 }
 
@@ -527,22 +585,27 @@ async function checkCertificate(userId, enrollmentId) {
     .select('id')
     .eq('course_id', HVAC_COURSE_ID);
 
-  if (!allLessons?.length) { fail('course_lessons exist for cert test'); return; }
+  if (!allLessons?.length) {
+    fail('course_lessons exist for cert test');
+    return;
+  }
 
-  const rows = allLessons.map(l => ({
-    user_id:       userId,
-    lesson_id:     l.id,
-    course_id:     HVAC_COURSE_ID,
+  const rows = allLessons.map((l) => ({
+    user_id: userId,
+    lesson_id: l.id,
+    course_id: HVAC_COURSE_ID,
     enrollment_id: enrollmentId,
-    completed:     true,
-    completed_at:  new Date().toISOString(),
+    completed: true,
+    completed_at: new Date().toISOString(),
     time_spent_seconds: 60,
-    updated_at:    new Date().toISOString(),
+    updated_at: new Date().toISOString(),
   }));
 
   // Batch upsert in chunks of 50
   for (let i = 0; i < rows.length; i += 50) {
-    await db.from('lesson_progress').upsert(rows.slice(i, i + 50), { onConflict: 'user_id,lesson_id' });
+    await db
+      .from('lesson_progress')
+      .upsert(rows.slice(i, i + 50), { onConflict: 'user_id,lesson_id' });
   }
   pass('All lessons marked complete (accelerated)', `${allLessons.length} lessons`);
 
@@ -555,17 +618,20 @@ async function checkCertificate(userId, enrollmentId) {
 
   if (checkpoints?.length) {
     const cpRows = checkpoints.map((cp, i) => ({
-      user_id:        userId,
-      lesson_id:      cp.id,
-      course_id:      HVAC_COURSE_ID,
-      score:          85,
-      passing_score:  cp.passing_score ?? 70,
-      passed:         true,
+      user_id: userId,
+      lesson_id: cp.id,
+      course_id: HVAC_COURSE_ID,
+      score: 85,
+      passing_score: cp.passing_score ?? 70,
+      passed: true,
       attempt_number: 1,
-      answers:        {},
+      answers: {},
     }));
     for (let i = 0; i < cpRows.length; i += 50) {
-      await db.from('checkpoint_scores').upsert(cpRows.slice(i, i + 50), { onConflict: 'user_id,lesson_id' }).then(() => {});
+      await db
+        .from('checkpoint_scores')
+        .upsert(cpRows.slice(i, i + 50), { onConflict: 'user_id,lesson_id' })
+        .then(() => {});
     }
     pass('All checkpoint scores seeded as passing', `${checkpoints.length} checkpoints`);
   } else {
@@ -574,18 +640,16 @@ async function checkCertificate(userId, enrollmentId) {
 
   // Attempt certificate issuance via the engine
   const certNumber = `EFH-VERIFY-${Date.now().toString(36).toUpperCase()}`;
-  const { error: certErr } = await db
-    .from('program_completion_certificates')
-    .insert({
-      user_id:            userId,
-      course_id:          HVAC_COURSE_ID,
-      enrollment_id:      enrollmentId,
-      certificate_number: certNumber,
-      completion_date:    new Date().toISOString().split('T')[0],
-      verification_url:   `/verify/${certNumber}`,
-      checkpoints_passed: checkpoints?.length ?? 0,
-      total_checkpoints:  checkpoints?.length ?? 0,
-    });
+  const { error: certErr } = await db.from('program_completion_certificates').insert({
+    user_id: userId,
+    course_id: HVAC_COURSE_ID,
+    enrollment_id: enrollmentId,
+    certificate_number: certNumber,
+    completion_date: new Date().toISOString().split('T')[0],
+    verification_url: `/verify/${certNumber}`,
+    checkpoints_passed: checkpoints?.length ?? 0,
+    total_checkpoints: checkpoints?.length ?? 0,
+  });
 
   certErr
     ? fail('Write program_completion_certificates row', certErr.message)
@@ -668,7 +732,7 @@ async function main() {
   process.exit(failed > 0 ? 1 : 0);
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Verification error:', err);
   process.exit(1);
 });

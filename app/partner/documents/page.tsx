@@ -2,16 +2,15 @@
 import Image from 'next/image';
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
-import { 
-  FileText, 
-  Upload, 
-  
-  AlertCircle, 
+import {
+  FileText,
+  Upload,
+  AlertCircle,
   Clock,
   ArrowRight,
   Loader2,
   X,
-  Building2
+  Building2,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -122,19 +121,29 @@ export default function PartnerDocumentsPage() {
     );
   }
 
-  const requiredDocs = documents.filter(d => d.is_required);
-  const completedDocs = requiredDocs.filter(d => d.status === 'accepted');
-  const progress = requiredDocs.length > 0 ? Math.round((completedDocs.length / requiredDocs.length) * 100) : 0;
+  const requiredDocs = documents.filter((d) => d.is_required);
+  const completedDocs = requiredDocs.filter((d) => d.status === 'accepted');
+  const progress =
+    requiredDocs.length > 0 ? Math.round((completedDocs.length / requiredDocs.length) * 100) : 0;
 
   return (
     <div>
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden rounded-xl mb-6 -mx-4 sm:-mx-6 lg:-mx-8">
-        <Image src="/images/pages/partner-page-5.jpg" alt="Partner documents" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/partner-page-5.jpg"
+          alt="Partner documents"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="mb-6">
-        <Breadcrumbs items={[{ label: 'Partner', href: '/partner/attendance' }, { label: 'Documents' }]} />
+        <Breadcrumbs
+          items={[{ label: 'Partner', href: '/partner/attendance' }, { label: 'Documents' }]}
+        />
       </div>
 
       <div className="max-w-3xl">
@@ -156,7 +165,7 @@ export default function PartnerDocumentsPage() {
             <span className="text-sm font-bold text-brand-blue-600">{progress}%</span>
           </div>
           <div className="w-full bg-slate-200 rounded-full h-3">
-            <div 
+            <div
               className={`h-3 rounded-full transition-all ${allComplete ? 'bg-brand-green-500' : 'bg-brand-blue-600'}`}
               style={{ width: `${progress}%` }}
             />
@@ -182,12 +191,14 @@ export default function PartnerDocumentsPage() {
         {/* Documents List */}
         <div className="space-y-4">
           {documents.map((doc) => (
-            <div 
-              key={doc.id} 
+            <div
+              key={doc.id}
               className={`bg-white rounded-xl p-6 border ${
-                doc.status === 'accepted' ? 'border-brand-green-200' : 
-                doc.status === 'rejected' ? 'border-brand-red-200' : 
-                'border-slate-200'
+                doc.status === 'accepted'
+                  ? 'border-brand-green-200'
+                  : doc.status === 'rejected'
+                    ? 'border-brand-red-200'
+                    : 'border-slate-200'
               }`}
             >
               <div className="flex items-start justify-between mb-4">
@@ -201,7 +212,9 @@ export default function PartnerDocumentsPage() {
                     <p className="text-sm text-slate-500">{doc.description}</p>
                   </div>
                 </div>
-                <span className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusBadge(doc.status)}`}>
+                <span
+                  className={`text-xs px-2 py-1 rounded-full font-medium ${getStatusBadge(doc.status)}`}
+                >
                   {doc.status === 'missing' ? 'Not Uploaded' : doc.status}
                 </span>
               </div>
@@ -215,9 +228,9 @@ export default function PartnerDocumentsPage() {
               {doc.document && doc.status === 'accepted' && (
                 <div className="mb-4 p-3 bg-brand-green-50 rounded-lg flex items-center justify-between">
                   <span className="text-sm text-brand-green-700">{doc.document.file_name}</span>
-                  <a 
-                    href={doc.document.file_url} 
-                    target="_blank" 
+                  <a
+                    href={doc.document.file_url}
+                    target="_blank"
                     rel="noopener noreferrer"
                     className="text-sm text-brand-green-600 hover:underline"
                   >
@@ -227,7 +240,9 @@ export default function PartnerDocumentsPage() {
               )}
 
               {/* Upload Section */}
-              {(doc.status === 'missing' || doc.status === 'rejected' || doc.status === 'expired') && (
+              {(doc.status === 'missing' ||
+                doc.status === 'rejected' ||
+                doc.status === 'expired') && (
                 <div className="mt-4">
                   <label className="block">
                     <div className="flex items-center justify-center w-full h-32 border-2 border-dashed border-slate-300 rounded-lg cursor-pointer hover:border-brand-blue-400 hover:bg-brand-blue-50 transition-colors">
@@ -240,7 +255,9 @@ export default function PartnerDocumentsPage() {
                         <div className="text-center">
                           <Upload className="w-8 h-8 text-slate-400 mx-auto mb-2" />
                           <p className="text-sm text-slate-600">Click to upload or drag and drop</p>
-                          <p className="text-xs text-slate-500 mt-1">PDF, JPEG, or PNG (max 10MB)</p>
+                          <p className="text-xs text-slate-500 mt-1">
+                            PDF, JPEG, or PNG (max 10MB)
+                          </p>
                         </div>
                       )}
                     </div>

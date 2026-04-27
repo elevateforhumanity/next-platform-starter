@@ -25,29 +25,29 @@ export interface ApplicationRow {
 }
 
 const STATUS_LABELS: Record<string, string> = {
-  pending:          'Pending',
-  submitted:        'Submitted',
-  in_review:        'In Review',
-  under_review:     'Under Review',
-  approved:         'Approved',
-  ready_to_enroll:  'Ready to Enroll',
-  enrolled:         'Enrolled',
-  rejected:         'Rejected',
-  waitlisted:       'Waitlisted',
-  pending_workone:  'Pending WorkOne',
+  pending: 'Pending',
+  submitted: 'Submitted',
+  in_review: 'In Review',
+  under_review: 'Under Review',
+  approved: 'Approved',
+  ready_to_enroll: 'Ready to Enroll',
+  enrolled: 'Enrolled',
+  rejected: 'Rejected',
+  waitlisted: 'Waitlisted',
+  pending_workone: 'Pending WorkOne',
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  pending:          'bg-yellow-100 text-yellow-800',
-  submitted:        'bg-blue-100 text-blue-800',
-  in_review:        'bg-indigo-100 text-indigo-800',
-  under_review:     'bg-violet-100 text-violet-800',
-  approved:         'bg-emerald-100 text-emerald-800',
-  ready_to_enroll:  'bg-cyan-100 text-cyan-800',
-  enrolled:         'bg-teal-100 text-teal-800',
-  rejected:         'bg-red-100 text-red-800',
-  waitlisted:       'bg-purple-100 text-purple-800',
-  pending_workone:  'bg-orange-100 text-orange-800',
+  pending: 'bg-yellow-100 text-yellow-800',
+  submitted: 'bg-blue-100 text-blue-800',
+  in_review: 'bg-indigo-100 text-indigo-800',
+  under_review: 'bg-violet-100 text-violet-800',
+  approved: 'bg-emerald-100 text-emerald-800',
+  ready_to_enroll: 'bg-cyan-100 text-cyan-800',
+  enrolled: 'bg-teal-100 text-teal-800',
+  rejected: 'bg-red-100 text-red-800',
+  waitlisted: 'bg-purple-100 text-purple-800',
+  pending_workone: 'bg-orange-100 text-orange-800',
 };
 
 function ActionButton({
@@ -67,13 +67,13 @@ function ActionButton({
 
   const labels = { approved: 'Approve', rejected: 'Reject', in_review: 'Review' };
   const styles = {
-    approved:  'bg-emerald-100 text-emerald-700 hover:bg-emerald-200',
-    rejected:  'bg-red-100 text-red-700 hover:bg-red-200',
+    approved: 'bg-emerald-100 text-emerald-700 hover:bg-emerald-200',
+    rejected: 'bg-red-100 text-red-700 hover:bg-red-200',
     in_review: 'bg-indigo-100 text-indigo-700 hover:bg-indigo-200',
   };
   const icons = {
-    approved:  <CheckCircle className="w-2.5 h-2.5" />,
-    rejected:  <XCircle className="w-2.5 h-2.5" />,
+    approved: <CheckCircle className="w-2.5 h-2.5" />,
+    rejected: <XCircle className="w-2.5 h-2.5" />,
     in_review: <Eye className="w-2.5 h-2.5" />,
   };
 
@@ -91,7 +91,10 @@ function ActionButton({
           onDone(appId, action);
         } else {
           const body = await res.json().catch(() => null);
-          onError(appId, body?.error ?? `Failed to ${labels[action].toLowerCase()} (${res.status})`);
+          onError(
+            appId,
+            body?.error ?? `Failed to ${labels[action].toLowerCase()} (${res.status})`,
+          );
         }
       } catch {
         onError(appId, 'Network error — please try again');
@@ -111,19 +114,27 @@ function ActionButton({
   );
 }
 
-export default function ApplicationsTableClient({ applications }: { applications: ApplicationRow[] }) {
+export default function ApplicationsTableClient({
+  applications,
+}: {
+  applications: ApplicationRow[];
+}) {
   const router = useRouter();
   const [overrides, setOverrides] = useState<Record<string, string>>({});
   const [rowError, setRowError] = useState<Record<string, string>>({});
 
   function handleStatusChange(id: string, newStatus: string) {
-    setOverrides(prev => ({ ...prev, [id]: newStatus }));
-    setRowError(prev => { const n = { ...prev }; delete n[id]; return n; });
+    setOverrides((prev) => ({ ...prev, [id]: newStatus }));
+    setRowError((prev) => {
+      const n = { ...prev };
+      delete n[id];
+      return n;
+    });
     router.refresh();
   }
 
   function handleStatusError(id: string, msg: string) {
-    setRowError(prev => ({ ...prev, [id]: msg }));
+    setRowError((prev) => ({ ...prev, [id]: msg }));
   }
 
   return (
@@ -131,22 +142,41 @@ export default function ApplicationsTableClient({ applications }: { applications
       <table className="w-full">
         <thead className="bg-gray-50 border-b">
           <tr>
-            <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">Applicant</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">Contact</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">Program</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">Status</th>
-            <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">Submitted</th>
-            <th className="px-4 py-3 text-right text-xs font-medium text-slate-700 uppercase tracking-wider">Actions</th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+              Applicant
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+              Contact
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+              Program
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+              Status
+            </th>
+            <th className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider">
+              Submitted
+            </th>
+            <th className="px-4 py-3 text-right text-xs font-medium text-slate-700 uppercase tracking-wider">
+              Actions
+            </th>
           </tr>
         </thead>
         <tbody className="divide-y divide-gray-200">
-          {applications.map(app => {
+          {applications.map((app) => {
             const displayName =
               [app.first_name, app.last_name].filter(Boolean).join(' ') ||
               app.full_name ||
               'Unknown';
             const status = overrides[app.id] ?? app.status;
-            const isActionable = ['pending', 'submitted', 'in_review', 'under_review', 'pending_workone', 'waitlisted'].includes(status);
+            const isActionable = [
+              'pending',
+              'submitted',
+              'in_review',
+              'under_review',
+              'pending_workone',
+              'waitlisted',
+            ].includes(status);
             const canMoveToReview = ['submitted', 'pending'].includes(status);
 
             return (
@@ -154,7 +184,10 @@ export default function ApplicationsTableClient({ applications }: { applications
                 <td className="px-4 py-3 whitespace-nowrap">
                   <div className="font-medium text-sm text-slate-900">{displayName}</div>
                   {app.city && (
-                    <div className="text-xs text-slate-700">{app.city}{app.zip ? `, ${app.zip}` : ''}</div>
+                    <div className="text-xs text-slate-700">
+                      {app.city}
+                      {app.zip ? `, ${app.zip}` : ''}
+                    </div>
                   )}
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
@@ -164,14 +197,18 @@ export default function ApplicationsTableClient({ applications }: { applications
                 <td className="px-4 py-3 whitespace-nowrap text-sm text-slate-900">
                   {app.program_interest || <span className="text-slate-700">Not specified</span>}
                   {!app.program_id && !['rejected', 'waitlisted'].includes(status) && (
-                    <div className="text-[10px] text-amber-600 font-medium mt-0.5">⚠ No program linked</div>
+                    <div className="text-[10px] text-amber-600 font-medium mt-0.5">
+                      ⚠ No program linked
+                    </div>
                   )}
                   {app.source && (
                     <div className="text-xs text-slate-700">{app.source.replace(/-/g, ' ')}</div>
                   )}
                 </td>
                 <td className="px-4 py-3 whitespace-nowrap">
-                  <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${STATUS_COLORS[status] || 'bg-gray-100 text-slate-900'}`}>
+                  <span
+                    className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${STATUS_COLORS[status] || 'bg-gray-100 text-slate-900'}`}
+                  >
                     {STATUS_LABELS[status] || status}
                   </span>
                   {rowError[app.id] && (
@@ -191,12 +228,30 @@ export default function ApplicationsTableClient({ applications }: { applications
                     </Link>
                     {isActionable && (
                       <>
-                        <ActionButton appId={app.id} action="approved" currentStatus={status} onDone={handleStatusChange} onError={handleStatusError} />
-                        <ActionButton appId={app.id} action="rejected" currentStatus={status} onDone={handleStatusChange} onError={handleStatusError} />
+                        <ActionButton
+                          appId={app.id}
+                          action="approved"
+                          currentStatus={status}
+                          onDone={handleStatusChange}
+                          onError={handleStatusError}
+                        />
+                        <ActionButton
+                          appId={app.id}
+                          action="rejected"
+                          currentStatus={status}
+                          onDone={handleStatusChange}
+                          onError={handleStatusError}
+                        />
                       </>
                     )}
                     {canMoveToReview && (
-                      <ActionButton appId={app.id} action="in_review" currentStatus={status} onDone={handleStatusChange} onError={handleStatusError} />
+                      <ActionButton
+                        appId={app.id}
+                        action="in_review"
+                        currentStatus={status}
+                        onDone={handleStatusChange}
+                        onError={handleStatusError}
+                      />
                     )}
                   </div>
                 </td>

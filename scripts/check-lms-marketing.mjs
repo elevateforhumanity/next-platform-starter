@@ -2,7 +2,6 @@
 import { readdir, readFile, access } from 'fs/promises';
 import { join } from 'path';
 
-
 // Check LMS pages
 
 const lmsPages = [
@@ -22,7 +21,8 @@ for (const page of lmsPages) {
   try {
     const content = await readFile(page, 'utf-8');
     const lines = content.split('\n').length;
-    const hasMetadata = content.includes('export const metadata') || content.includes('generateMetadata');
+    const hasMetadata =
+      content.includes('export const metadata') || content.includes('generateMetadata');
     const hasExport = content.includes('export default');
 
     const status = hasExport && lines > 20 ? '✅' : '⚠️';
@@ -31,10 +31,8 @@ for (const page of lmsPages) {
     if (hasExport && lines > 20) lmsComplete++;
 
     const pageName = page.split('/').pop().replace('.tsx', '');
-  } catch (err) {
-  }
+  } catch (err) {}
 }
-
 
 // Check marketing pages
 
@@ -57,18 +55,16 @@ for (const { path, name } of marketingPages) {
   try {
     const content = await readFile(path, 'utf-8');
     const lines = content.split('\n').length;
-    const hasMetadata = content.includes('export const metadata') || content.includes('generateMetadata');
+    const hasMetadata =
+      content.includes('export const metadata') || content.includes('generateMetadata');
     const hasExport = content.includes('export default');
 
     const status = hasExport && lines > 20 ? '✅' : '⚠️';
     const metaStatus = hasMetadata ? '✅' : '❌';
 
     if (hasExport && lines > 20) marketingComplete++;
-
-  } catch (err) {
-  }
+  } catch (err) {}
 }
-
 
 // Check for missing features
 
@@ -91,18 +87,15 @@ for (const { name, path, category } of features) {
   try {
     await access(path);
     featuresPresent++;
-  } catch (err) {
-  }
+  } catch (err) {}
 }
-
 
 // Overall assessment
 
-const lmsScore = Math.round(lmsComplete/lmsTotal*100);
-const marketingScore = Math.round(marketingComplete/marketingTotal*100);
-const featureScore = Math.round(featuresPresent/featuresTotal*100);
+const lmsScore = Math.round((lmsComplete / lmsTotal) * 100);
+const marketingScore = Math.round((marketingComplete / marketingTotal) * 100);
+const featureScore = Math.round((featuresPresent / featuresTotal) * 100);
 const overallScore = Math.round((lmsScore + marketingScore + featureScore) / 3);
-
 
 // Recommendations
 
@@ -114,6 +107,5 @@ if (marketingScore < 100) {
 
 if (featureScore < 100) {
 }
-
 
 process.exit(overallScore >= 90 ? 0 : 1);

@@ -1,4 +1,3 @@
-
 /**
  * Monitoring and Analytics for API Routes
  * Tracks auth failures, admin actions, rate limits, and errors
@@ -41,11 +40,13 @@ export function logEvent(event: Omit<MonitoringEvent, 'timestamp'>) {
   }
 
   // Log to console in development
-  if (process.env.NODE_ENV === 'development') { /* Condition handled */ }
+  if (process.env.NODE_ENV === 'development') {
+    /* Condition handled */
+  }
 
   // In production, send to external service
   if (process.env.NODE_ENV === 'production') {
-        // Example: sendToDatadog(fullEvent);
+    // Example: sendToDatadog(fullEvent);
   }
 }
 
@@ -57,7 +58,7 @@ export function logAuthFailure(
   statusCode: 401 | 403,
   ip?: string,
   userId?: string,
-  reason?: string
+  reason?: string,
 ) {
   logEvent({
     type: 'auth_failure',
@@ -76,7 +77,7 @@ export function logAdminAction(
   endpoint: string,
   userId: string,
   action: string,
-  metadata?: Record<string, any>
+  metadata?: Record<string, any>,
 ) {
   logEvent({
     type: 'admin_action',
@@ -104,12 +105,7 @@ export function logRateLimit(endpoint: string, ip: string) {
 /**
  * Log error
  */
-export function logError(
-  endpoint: string,
-  statusCode: number,
-  error: any,
-  userId?: string
-) {
+export function logError(endpoint: string, statusCode: number, error: any, userId?: string) {
   logEvent({
     type: 'error',
     endpoint,
@@ -127,7 +123,7 @@ export function logSuccess(
   endpoint: string,
   statusCode: number,
   userId?: string,
-  metadata?: Record<string, any>
+  metadata?: Record<string, any>,
 ) {
   logEvent({
     type: 'success',
@@ -235,7 +231,11 @@ export function getFailedLoginsByIP(timeWindowMs: number = 3600000) {
 /**
  * Check if IP should be blocked (too many failed attempts)
  */
-export function shouldBlockIP(ip: string, maxFailures: number = 10, timeWindowMs: number = 3600000): boolean {
+export function shouldBlockIP(
+  ip: string,
+  maxFailures: number = 10,
+  timeWindowMs: number = 3600000,
+): boolean {
   const failures = getFailedLoginsByIP(timeWindowMs);
   const ipFailures = failures.find((f) => f.ip === ip);
   return ipFailures ? ipFailures.count >= maxFailures : false;
@@ -244,15 +244,14 @@ export function shouldBlockIP(ip: string, maxFailures: number = 10, timeWindowMs
 /**
  * Middleware to add monitoring to API routes
  */
-export function withMonitoring(
-  handler: (data: any) => Promise<NextResponse>
-) {
+export function withMonitoring(handler: (data: any) => Promise<NextResponse>) {
   return async (data: any): Promise<NextResponse> => {
     const startTime = Date.now();
     const endpoint = new URL(req.url).pathname;
-    const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-                req.headers.get('x-real-ip') ||
-                'unknown';
+    const ip =
+      req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+      req.headers.get('x-real-ip') ||
+      'unknown';
 
     try {
       const response = await handler(req, context);
@@ -270,7 +269,8 @@ export function withMonitoring(
       }
 
       return response;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       const duration = Date.now() - startTime;
       logError(endpoint, 500, error);
       throw error;
@@ -285,7 +285,7 @@ export function createMonitoringEndpoint() {
   return async (req: Request) => {
     // Only allow in development or with admin auth
     if (process.env.NODE_ENV === 'production') {
-            return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
+      return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
     const url = new URL(req.url);

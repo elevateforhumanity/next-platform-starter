@@ -1,5 +1,3 @@
-
-
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
@@ -35,17 +33,14 @@ async function _POST(request: Request) {
     if (!amount || !donor_name || !donor_email) {
       return NextResponse.json(
         { error: 'Amount, donor name, and email are required' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Validate amount
     const donationAmount = parseFloat(amount);
     if (isNaN(donationAmount) || donationAmount < 1) {
-      return NextResponse.json(
-        { error: 'Amount must be at least $1' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Amount must be at least $1' }, { status: 400 });
     }
 
     // Get current user if logged in
@@ -73,10 +68,7 @@ async function _POST(request: Request) {
       .maybeSingle();
 
     if (donationError) {
-      return NextResponse.json(
-        { error: 'Donation processing failed' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Donation processing failed' }, { status: 500 });
     }
 
     // Create Stripe checkout session
@@ -133,11 +125,8 @@ async function _POST(request: Request) {
       url: session.url,
       donation_id: donation.id,
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/donations/create-checkout', _POST);

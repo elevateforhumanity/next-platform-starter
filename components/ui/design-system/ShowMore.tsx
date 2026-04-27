@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { ReactNode, useState } from 'react';
 import { ChevronDown, ChevronUp } from 'lucide-react';
@@ -35,23 +35,19 @@ export function ShowMore({
   const [isExpanded, setIsExpanded] = useState(defaultExpanded);
 
   const shouldShowButton =
-    !alwaysExpandedOnDesktop ||
-    typeof window === 'undefined' ||
-    window.innerWidth < 768;
+    !alwaysExpandedOnDesktop || typeof window === 'undefined' || window.innerWidth < 768;
 
   return (
     <div className={cn('relative', className)}>
       {/* Preview or truncated content */}
       {!isExpanded && preview ? (
-        <div className={alwaysExpandedOnDesktop ? 'md:hidden' : ''}>
-          {preview}
-        </div>
+        <div className={alwaysExpandedOnDesktop ? 'md:hidden' : ''}>{preview}</div>
       ) : !isExpanded && previewLines ? (
         <div
           className={cn(
             'overflow-hidden',
             alwaysExpandedOnDesktop ? 'md:hidden' : '',
-            `line-clamp-${previewLines}`
+            `line-clamp-${previewLines}`,
           )}
         >
           {children}
@@ -59,12 +55,7 @@ export function ShowMore({
       ) : null}
 
       {/* Full content */}
-      <div
-        className={cn(
-          isExpanded ? 'block' : 'hidden',
-          alwaysExpandedOnDesktop && 'md:block'
-        )}
-      >
+      <div className={cn(isExpanded ? 'block' : 'hidden', alwaysExpandedOnDesktop && 'md:block')}>
         {children}
       </div>
 
@@ -77,7 +68,7 @@ export function ShowMore({
             'mt-4 inline-flex items-center gap-2',
             'text-brand-blue-600 hover:text-brand-blue-700 font-semibold',
             'transition-colors',
-            alwaysExpandedOnDesktop && 'md:hidden'
+            alwaysExpandedOnDesktop && 'md:hidden',
           )}
         >
           <span>{isExpanded ? 'Show Less' : 'Show More'}</span>

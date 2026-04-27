@@ -28,7 +28,12 @@ export interface SupersonicTaxReturn {
     ssn: string;
     dateOfBirth: string;
   };
-  filingStatus: 'single' | 'married_joint' | 'married_separate' | 'head_of_household' | 'qualifying_widow';
+  filingStatus:
+    | 'single'
+    | 'married_joint'
+    | 'married_separate'
+    | 'head_of_household'
+    | 'qualifying_widow';
   taxYear: number;
   income: {
     w2: Array<{
@@ -137,22 +142,31 @@ class SupersonicTaxEngine {
   async calculateTax(returnId: string): Promise<SupersonicCalculationResult> {
     const db = await this.getDb();
     if (db) {
-      await db.from('sfc_tax_returns')
+      await db
+        .from('sfc_tax_returns')
         .update({ status: 'pending_review', updated_at: new Date().toISOString() })
         .eq('tracking_id', returnId);
     }
     // Calculation engine TBD — returns placeholder until SupersonicFastCash engine is built
     return {
-      totalIncome: 0, adjustedGrossIncome: 0, taxableIncome: 0,
-      federalTax: 0, stateTax: 0, totalTax: 0,
-      federalWithholding: 0, stateWithholding: 0, refundOrOwed: 0, isRefund: false,
+      totalIncome: 0,
+      adjustedGrossIncome: 0,
+      taxableIncome: 0,
+      federalTax: 0,
+      stateTax: 0,
+      totalTax: 0,
+      federalWithholding: 0,
+      stateWithholding: 0,
+      refundOrOwed: 0,
+      isRefund: false,
     };
   }
 
   async generateForm1040(returnId: string): Promise<{ pdfUrl: string }> {
     const db = await this.getDb();
     if (db) {
-      await db.from('sfc_tax_returns')
+      await db
+        .from('sfc_tax_returns')
         .update({ status: 'generating_forms', updated_at: new Date().toISOString() })
         .eq('tracking_id', returnId);
     }
@@ -163,7 +177,8 @@ class SupersonicTaxEngine {
     const submissionId = `SFC-EFILE-${Date.now()}`;
     const db = await this.getDb();
     if (db) {
-      await db.from('sfc_tax_returns')
+      await db
+        .from('sfc_tax_returns')
         .update({
           status: 'queued_for_efile',
           efile_submission_id: submissionId,
@@ -183,7 +198,8 @@ class SupersonicTaxEngine {
   async getAcknowledgmentStatus(submissionId: string): Promise<SupersonicEFileResult> {
     const db = await this.getDb();
     if (db) {
-      const { data } = await db.from('sfc_tax_returns')
+      const { data } = await db
+        .from('sfc_tax_returns')
         .select('status, updated_at')
         .eq('efile_submission_id', submissionId)
         .maybeSingle();
@@ -196,13 +212,18 @@ class SupersonicTaxEngine {
         };
       }
     }
-    return { success: false, submissionId, acknowledgmentStatus: 'pending', submittedAt: new Date() };
+    return {
+      success: false,
+      submissionId,
+      acknowledgmentStatus: 'pending',
+      submittedAt: new Date(),
+    };
   }
 
   async uploadDocument(
     returnId: string,
     _file: File,
-    documentType: 'w2' | '1099' | 'receipt' | 'other'
+    documentType: 'w2' | '1099' | 'receipt' | 'other',
   ): Promise<{ documentId: string; ocrData?: any }> {
     const documentId = `SFC-DOC-${Date.now()}`;
     const db = await this.getDb();
@@ -225,14 +246,20 @@ class SupersonicTaxEngine {
   }> {
     const db = await this.getDb();
     if (db) {
-      const { data } = await db.from('sfc_tax_returns')
+      const { data } = await db
+        .from('sfc_tax_returns')
         .select('status, updated_at, preparer')
         .eq('tracking_id', returnId)
         .maybeSingle();
       if (data) {
         const statusMap: Record<string, string> = {
-          received: 'draft', pending_review: 'review', generating_forms: 'review',
-          queued_for_efile: 'ready', filed: 'filed', accepted: 'accepted', rejected: 'rejected',
+          received: 'draft',
+          pending_review: 'review',
+          generating_forms: 'review',
+          queued_for_efile: 'ready',
+          filed: 'filed',
+          accepted: 'accepted',
+          rejected: 'rejected',
         };
         return {
           status: (statusMap[data.status] || 'draft') as any,

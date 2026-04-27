@@ -10,7 +10,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 /**
  * POST /api/licenses/checkout
- * 
+ *
  * Creates a Stripe Checkout session for license purchase.
  * After successful payment, the webhook at /api/licenses/webhook
  * will activate the license.
@@ -22,13 +22,15 @@ async function _POST(request: NextRequest) {
 
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await request.json();
-    const { 
+    const {
       plan_id,
       organization_name,
       organization_type = 'training_provider',
@@ -41,10 +43,14 @@ async function _POST(request: NextRequest) {
 
     // Find the license product from DB (with hardcoded fallback)
     let license: Awaited<ReturnType<typeof getCatalogProduct>> = null;
-    try { license = await getCatalogProduct(plan_id); } catch { /* DB unavailable */ }
+    try {
+      license = await getCatalogProduct(plan_id);
+    } catch {
+      /* DB unavailable */
+    }
     if (!license) {
       const { ALL_PRODUCTS } = await import('@/app/data/store-products');
-      const legacy = ALL_PRODUCTS.find(l => l.slug === plan_id || l.id === plan_id);
+      const legacy = ALL_PRODUCTS.find((l) => l.slug === plan_id || l.id === plan_id);
       if (legacy) {
         license = {
           id: legacy.id,
@@ -52,7 +58,7 @@ async function _POST(request: NextRequest) {
           name: legacy.name,
           description: legacy.description,
           price: legacy.price,
-          billingType: legacy.billingType as any || 'one_time',
+          billingType: (legacy.billingType as any) || 'one_time',
           licenseType: legacy.licenseType as any,
           features: legacy.features || [],
           appsIncluded: legacy.appsIncluded,
@@ -70,7 +76,7 @@ async function _POST(request: NextRequest) {
 
     // Get or create Stripe customer
     let stripeCustomerId: string;
-    
+
     const { data: profile } = await supabase
       .from('profiles')
       .select('stripe_customer_id, email, full_name')
@@ -99,7 +105,7 @@ async function _POST(request: NextRequest) {
 
     // Get or create organization
     let organizationId: string;
-    
+
     const { data: existingOrg } = await supabase
       .from('organizations')
       .select('id')
@@ -119,14 +125,11 @@ async function _POST(request: NextRequest) {
         })
         .select('id')
         .maybeSingle();
-      
+
       organizationId = newOrg?.id;
 
       // Link user to organization
-      await supabase
-        .from('profiles')
-        .update({ organization_id: organizationId })
-        .eq('id', user.id);
+      await supabase.from('profiles').update({ organization_id: organizationId }).eq('id', user.id);
     }
 
     // Create Checkout Session
@@ -137,19 +140,23 @@ async function _POST(request: NextRequest) {
       line_items: [
         {
           price: license.stripePriceId || undefined,
-          price_data: !license.stripePriceId ? {
-            currency: 'usd',
-            product_data: {
-              name: license.name,
-              description: license.description,
-            },
-            unit_amount: license.price, // already in cents
-            ...(license.billingType === 'subscription' ? {
-              recurring: {
-                interval: 'year',
-              },
-            } : {}),
-          } : undefined,
+          price_data: !license.stripePriceId
+            ? {
+                currency: 'usd',
+                product_data: {
+                  name: license.name,
+                  description: license.description,
+                },
+                unit_amount: license.price, // already in cents
+                ...(license.billingType === 'subscription'
+                  ? {
+                      recurring: {
+                        interval: 'year',
+                      },
+                    }
+                  : {}),
+              }
+            : undefined,
           quantity: 1,
         },
       ],
@@ -169,23 +176,19 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     logger.error('License checkout error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 /**
  * GET /api/licenses/checkout
- * 
+ *
  * Get checkout session status
  */
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const { searchParams } = new URL(request.url);
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const { searchParams } = new URL(request.url);
   const sessionId = searchParams.get('session_id');
 
   if (!sessionId) {
@@ -203,10 +206,7 @@ const { searchParams } = new URL(request.url);
       plan_id: session.metadata?.plan_id,
     });
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Failed to retrieve session' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to retrieve session' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/licenses/checkout', _GET);

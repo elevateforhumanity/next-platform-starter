@@ -11,11 +11,7 @@
  *   instructor_or_admin — instructor | admin | super_admin | staff
  */
 
-export type AccessPolicy =
-  | 'public'
-  | 'authenticated'
-  | 'admin'
-  | 'instructor_or_admin';
+export type AccessPolicy = 'public' | 'authenticated' | 'admin' | 'instructor_or_admin';
 
 export const ROUTE_POLICY: Record<string, AccessPolicy> = {
   // ── Admin ──────────────────────────────────────────────────────────────────

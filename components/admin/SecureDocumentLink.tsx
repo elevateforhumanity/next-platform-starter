@@ -24,7 +24,7 @@ export function SecureDocumentLink({
     setLoading(true);
     try {
       const res = await fetch(
-        `/api/admin/documents/signed-url?id=${encodeURIComponent(documentId)}`
+        `/api/admin/documents/signed-url?id=${encodeURIComponent(documentId)}`,
       );
       if (!res.ok) return;
       const { url } = await res.json();

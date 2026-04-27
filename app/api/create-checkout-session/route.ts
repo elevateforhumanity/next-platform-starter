@@ -1,4 +1,3 @@
-
 import { getStripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
@@ -11,28 +10,21 @@ import { withRuntime } from '@/lib/api/withRuntime';
 export const runtime = 'nodejs';
 export const maxDuration = 60;
 
-
-
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-    const auth = await requireAuth(request);
-    if (auth.error) return auth.error;
-
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const auth = await requireAuth(request);
+  if (auth.error) return auth.error;
 
   // Log for debugging (remove in production)
 
   if (!stripe) {
     return NextResponse.json(
       {
-        error:
-          'Payment system not configured. Please contact support at 317-314-3757',
-        debug:
-          process.env.NODE_ENV === 'development'
-            ? 'STRIPE_SECRET_KEY not set'
-            : undefined,
+        error: 'Payment system not configured. Please contact support at 317-314-3757',
+        debug: process.env.NODE_ENV === 'development' ? 'STRIPE_SECRET_KEY not set' : undefined,
       },
-      { status: 503 }
+      { status: 503 },
     );
   }
 
@@ -59,9 +51,7 @@ async function _POST(request: NextRequest) {
     ];
 
     // Get RAPIDS metadata for registered apprenticeship programs
-    const rapidsMetadata = isRAPIDSProgram(programSlug) 
-      ? getRAPIDSMetadata(programSlug) 
-      : null;
+    const rapidsMetadata = isRAPIDSProgram(programSlug) ? getRAPIDSMetadata(programSlug) : null;
 
     let sessionConfig: any = {
       payment_method_types: paymentMethods,
@@ -113,12 +103,12 @@ async function _POST(request: NextRequest) {
     } else {
       // One-time payment
       // Use proper naming for barber program
-      const displayName = programSlug === 'barber-apprenticeship' 
-        ? 'Barber Training Program (Indiana)'
-        : programName;
-      const displayDescription = programSlug === 'barber-apprenticeship'
-        ? 'Fee-based apprenticeship-aligned training program'
-        : `Enrollment in ${programName} training program`;
+      const displayName =
+        programSlug === 'barber-apprenticeship' ? 'Barber Training Program (Indiana)' : programName;
+      const displayDescription =
+        programSlug === 'barber-apprenticeship'
+          ? 'Fee-based apprenticeship-aligned training program'
+          : `Enrollment in ${programName} training program`;
 
       sessionConfig = {
         ...sessionConfig,
@@ -142,12 +132,9 @@ async function _POST(request: NextRequest) {
     const session = await stripe.checkout.sessions.create(sessionConfig);
 
     return NextResponse.json({ url: session.url });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Stripe error:', error);
-    return NextResponse.json(
-      { error: 'Error creating checkout session' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Error creating checkout session' }, { status: 500 });
   }
 }
 export const POST = withRuntime(withApiAudit('/api/create-checkout-session', _POST));

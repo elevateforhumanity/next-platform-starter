@@ -15,10 +15,9 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const checks: Record<string, any> = {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const checks: Record<string, any> = {
     status: 'healthy',
     timestamp: new Date().toISOString(),
     version: getAppVersion(),
@@ -32,8 +31,7 @@ const checks: Record<string, any> = {
     supabase_anon_key: !!process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY,
     service_role_key: !!process.env.SUPABASE_SERVICE_ROLE_KEY,
     status:
-      process.env.NEXT_PUBLIC_SUPABASE_URL &&
-      process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
+      process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
         ? 'pass'
         : 'fail',
   };
@@ -41,11 +39,19 @@ const checks: Record<string, any> = {
   // Check 2: Database Connection
   try {
     if (!process.env.NEXT_PUBLIC_SUPABASE_URL || !process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY) {
-      checks.checks.database = { connected: false, status: 'warn', error: 'Missing Supabase credentials' };
+      checks.checks.database = {
+        connected: false,
+        status: 'warn',
+        error: 'Missing Supabase credentials',
+      };
     } else {
       const db = await getAdminClient();
       if (!db) {
-        checks.checks.database = { connected: false, status: 'warn', error: 'Missing service role key' };
+        checks.checks.database = {
+          connected: false,
+          status: 'warn',
+          error: 'Missing service role key',
+        };
       } else {
         const { error } = await db.from('programs').select('count').limit(1);
         checks.checks.database = {
@@ -73,12 +79,9 @@ const checks: Record<string, any> = {
   // Check 4: Stripe (optional)
   if (process.env.STRIPE_SECRET_KEY) {
     try {
-      const response = await fetch(
-        'https://api.stripe.com/v1/customers?limit=1',
-        {
-          headers: { Authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}` },
-        }
-      );
+      const response = await fetch('https://api.stripe.com/v1/customers?limit=1', {
+        headers: { Authorization: `Bearer ${process.env.STRIPE_SECRET_KEY}` },
+      });
       checks.checks.stripe = {
         ok: response.ok,
         status: response.ok ? 'pass' : 'warn',
@@ -140,9 +143,8 @@ const checks: Record<string, any> = {
       // TODO(security): missing immutability triggers are a hardening gap, not
       //   a healthy final state. Apply 20260424000004_audit_ddl_events_immutability_trigger.sql
       //   in Supabase Dashboard to promote this from warn → pass.
-      const integrityStatus = disabledCount > 0 ? 'fail'
-        : missingTables.length > 0 ? 'warn'
-        : 'pass';
+      const integrityStatus =
+        disabledCount > 0 ? 'fail' : missingTables.length > 0 ? 'warn' : 'pass';
       checks.checks.audit_integrity = {
         status: integrityStatus,
         disabled_triggers: disabledCount,
@@ -155,11 +157,9 @@ const checks: Record<string, any> = {
   }
 
   // Overall Status — 'fail' is reserved for hard errors, 'warn' for degraded
-  const allPassed = Object.values(checks.checks).every(
-    (check: any) => check.status === 'pass'
-  );
+  const allPassed = Object.values(checks.checks).every((check: any) => check.status === 'pass');
   const hasCriticalFailure = Object.values(checks.checks).some(
-    (check: any) => check.status === 'fail'
+    (check: any) => check.status === 'fail',
   );
 
   checks.status = allPassed ? 'healthy' : hasCriticalFailure ? 'degraded' : 'healthy';

@@ -35,7 +35,7 @@ const _GET = withAuth(
         completed_at,
         created_at,
         programs ( title, slug )
-      `
+      `,
       );
 
       // Apply filters
@@ -85,9 +85,7 @@ const _GET = withAuth(
         ]);
 
         const csv =
-          header.join(',') +
-          '\n' +
-          rows.map((r) => r.map(escapeCsvField).join(',')).join('\n');
+          header.join(',') + '\n' + rows.map((r) => r.map(escapeCsvField).join(',')).join('\n');
 
         const timestamp = new Date().toISOString().split('T')[0];
         const filename = `enrollments_report_${timestamp}.csv`;
@@ -108,13 +106,10 @@ const _GET = withAuth(
       return NextResponse.json({ enrollments, count: enrollments.length });
     } catch (err) {
       logger.error('Export enrollments error:', err);
-      return NextResponse.json(
-        { error: 'Failed to export enrollments' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to export enrollments' }, { status: 500 });
     }
   },
-  { roles: ['admin', 'super_admin'] }
+  { roles: ['admin', 'super_admin'] },
 );
 
 function escapeCsvField(field: any): string {

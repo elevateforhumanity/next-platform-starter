@@ -88,7 +88,7 @@ export const emailTemplates = {
     studentName: string,
     courseName: string,
     daysSinceLogin: number,
-    loginUrl: string
+    loginUrl: string,
   ) => `
     <!DOCTYPE html>
     <html>
@@ -165,7 +165,7 @@ export const emailTemplates = {
     studentName: string,
     courseName: string,
     certificateUrl: string,
-    dashboardUrl: string
+    dashboardUrl: string,
   ) => `
     <!DOCTYPE html>
     <html>
@@ -253,7 +253,7 @@ export const emailTemplates = {
     studentName: string,
     courseName: string,
     certificateNumber: string,
-    verificationUrl: string
+    verificationUrl: string,
   ) => `
     <!DOCTYPE html>
     <html>
@@ -337,7 +337,7 @@ export const emailTemplates = {
     courseName: string,
     quizTitle: string,
     dueDate: string,
-    quizUrl: string
+    quizUrl: string,
   ) => `
     <!DOCTYPE html>
     <html>

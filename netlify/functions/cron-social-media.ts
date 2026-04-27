@@ -47,7 +47,7 @@ export default async function handler() {
 
   console.log(
     `[cron-social-media] Posted ${body.posted ?? 0} times — slot: ${body.slot ?? 'unknown'}`,
-    body.results ?? []
+    body.results ?? [],
   );
 
   return { statusCode: 200 };

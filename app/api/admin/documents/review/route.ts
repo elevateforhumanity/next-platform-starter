@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { sendEmail } from '@/lib/email';
@@ -23,14 +22,10 @@ async function _POST(request: NextRequest) {
     const supabase = await createClient();
     const db = await getAdminClient();
 
-    const { documentId, action, rejectionReason, adminId } =
-      await request.json();
+    const { documentId, action, rejectionReason, adminId } = await request.json();
 
     if (!documentId || !action) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const status = action === 'approve' ? 'approved' : 'rejected';
@@ -55,10 +50,7 @@ async function _POST(request: NextRequest) {
     });
 
     if (updateError) {
-      return NextResponse.json(
-        { error: 'Failed to update document' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to update document' }, { status: 500 });
     }
 
     // Fetch document record
@@ -74,7 +66,11 @@ async function _POST(request: NextRequest) {
 
     // Hydrate profile separately (documents.user_id has no FK to profiles)
     const { data: docUserProfile } = document.user_id
-      ? await supabase.from('profiles').select('id, full_name, email').eq('id', document.user_id).maybeSingle()
+      ? await supabase
+          .from('profiles')
+          .select('id, full_name, email')
+          .eq('id', document.user_id)
+          .maybeSingle()
       : { data: null };
     const userProfile = docUserProfile as any;
     const studentUserId = document.user_id;
@@ -123,10 +119,7 @@ async function _POST(request: NextRequest) {
 
     return NextResponse.json({ success: true, document, employerActivated });
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/admin/documents/review', _POST, { critical: true });

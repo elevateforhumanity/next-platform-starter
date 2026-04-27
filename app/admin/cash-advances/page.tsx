@@ -31,8 +31,7 @@ export default async function CashAdvancesAdminPage() {
     approved: applications?.filter((a) => a.status === 'approved').length || 0,
     funded: applications?.filter((a) => a.status === 'funded').length || 0,
     denied: applications?.filter((a) => a.status === 'denied').length || 0,
-    totalAmount:
-      applications?.reduce((sum, a) => sum + (a.requested_amount || 0), 0) || 0,
+    totalAmount: applications?.reduce((sum, a) => sum + (a.requested_amount || 0), 0) || 0,
     approvedAmount:
       applications
         ?.filter((a) => a.status === 'approved' || a.status === 'funded')
@@ -41,48 +40,31 @@ export default async function CashAdvancesAdminPage() {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-
       {/* Hero Image */}
       <div className="mb-8">
-        <h1 className="text-3xl font-bold text-black mb-2">
-          Cash Advance Management
-        </h1>
-        <p className="text-black">
-          Manage Supersonic Cash advance applications and approvals
-        </p>
+        <h1 className="text-3xl font-bold text-black mb-2">Cash Advance Management</h1>
+        <p className="text-black">Manage Supersonic Cash advance applications and approvals</p>
       </div>
 
       {/* Stats Grid */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-8">
         <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
-          <div className="text-sm font-medium text-black mb-1">
-            Total Applications
-          </div>
+          <div className="text-sm font-medium text-black mb-1">Total Applications</div>
           <div className="text-3xl font-bold text-black">{stats.total}</div>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
-          <div className="text-sm font-medium text-black mb-1">
-            Pending Review
-          </div>
-          <div className="text-3xl font-bold text-brand-orange-600">
-            {stats.pending}
-          </div>
+          <div className="text-sm font-medium text-black mb-1">Pending Review</div>
+          <div className="text-3xl font-bold text-brand-orange-600">{stats.pending}</div>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
-          <div className="text-sm font-medium text-black mb-1">
-            Approved
-          </div>
-          <div className="text-3xl font-bold text-brand-green-600">
-            {stats.approved}
-          </div>
+          <div className="text-sm font-medium text-black mb-1">Approved</div>
+          <div className="text-3xl font-bold text-brand-green-600">{stats.approved}</div>
         </div>
 
         <div className="bg-white p-6 rounded-lg shadow-sm border border-slate-200">
-          <div className="text-sm font-medium text-black mb-1">
-            Total Funded
-          </div>
+          <div className="text-sm font-medium text-black mb-1">Total Funded</div>
           <div className="text-3xl font-bold text-brand-blue-600">
             ${stats.approvedAmount.toLocaleString()}
           </div>
@@ -120,16 +102,10 @@ export default async function CashAdvancesAdminPage() {
           <h2 className="text-lg font-semibold">Recent Applications</h2>
         </div>
 
-        {error && (
-          <div className="p-6 text-brand-orange-600">
-            Error loading applications
-          </div>
-        )}
+        {error && <div className="p-6 text-brand-orange-600">Error loading applications</div>}
 
         {!error && applications && applications.length === 0 && (
-          <div className="p-12 text-center text-slate-500">
-            No applications yet
-          </div>
+          <div className="p-12 text-center text-slate-500">No applications yet</div>
         )}
 
         {!error && applications && applications.length > 0 && (
@@ -208,10 +184,16 @@ export default async function CashAdvancesAdminPage() {
                       </Link>
                       {app.status === 'pending' && (
                         <>
-                          <button className="text-brand-green-600 hover:text-brand-green-900 mr-4" aria-label="Action button">
+                          <button
+                            className="text-brand-green-600 hover:text-brand-green-900 mr-4"
+                            aria-label="Action button"
+                          >
                             Approve
                           </button>
-                          <button className="text-brand-orange-600 hover:text-brand-red-900" aria-label="Action button">
+                          <button
+                            className="text-brand-orange-600 hover:text-brand-red-900"
+                            aria-label="Action button"
+                          >
                             Deny
                           </button>
                         </>
@@ -229,12 +211,8 @@ export default async function CashAdvancesAdminPage() {
       <div className="mt-8    text-white rounded-lg p-6">
         <div className="flex items-start justify-between mb-4">
           <div>
-            <h3 className="text-lg font-bold mb-2">
-              🏦 EPS Financial Partnership
-            </h3>
-            <p className="text-brand-blue-100 mb-1">
-              Powered by Pathward®, N.A. | www.epstax.net
-            </p>
+            <h3 className="text-lg font-bold mb-2">🏦 EPS Financial Partnership</h3>
+            <p className="text-brand-blue-100 mb-1">Powered by Pathward®, N.A. | www.epstax.net</p>
             <p className="text-sm text-brand-blue-200">
               Industry-leading refund advances and cash advance solutions
             </p>
@@ -251,8 +229,7 @@ export default async function CashAdvancesAdminPage() {
               <DollarSign className="w-5 h-5 inline-block" /> E-Advance
             </h4>
             <p className="text-sm text-brand-blue-100">
-              No cost taxpayer advance loan program with no in-season marketing
-              fees
+              No cost taxpayer advance loan program with no in-season marketing fees
             </p>
           </div>
           <div className="bg-white/10 backdrop-blur rounded-lg p-4">
@@ -325,11 +302,10 @@ export default async function CashAdvancesAdminPage() {
                   Your Journey Starts Here
                 </h2>
                 <p className="text-lg text-black mb-6 leading-relaxed">
-                  Every great career begins with a single step. Whether you're
-                  looking to change careers, upgrade your skills, or enter the
-                  workforce for the first time, we're here to help you succeed.
-                  Our programs are Funded, government-funded, and designed to
-                  get you hired fast.
+                  Every great career begins with a single step. Whether you're looking to change
+                  careers, upgrade your skills, or enter the workforce for the first time, we're
+                  here to help you succeed. Our programs are Funded, government-funded, and designed
+                  to get you hired fast.
                 </p>
                 <ul className="space-y-4">
                   <li className="flex items-start">
@@ -346,19 +322,16 @@ export default async function CashAdvancesAdminPage() {
                   </li>
                   <li className="flex items-start">
                     <span className="text-slate-400 flex-shrink-0">•</span>
-                    <span className="text-black">
-                      Job placement assistance and career support
-                    </span>
+                    <span className="text-black">Job placement assistance and career support</span>
                   </li>
                   <li className="flex items-start">
                     <span className="text-slate-400 flex-shrink-0">•</span>
-                    <span className="text-black">
-                      Flexible scheduling for working adults
-                    </span>
+                    <span className="text-black">Flexible scheduling for working adults</span>
                   </li>
                 </ul>
               </div>
               <div className="relative h-[60vh] min-h-[400px] max-h-[720px] rounded-2xl overflow-hidden shadow-2xl">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                 <Image
                   priority
                   src="/images/pages/admin-cash-advances-office.jpg"
@@ -378,12 +351,10 @@ export default async function CashAdvancesAdminPage() {
       <section className="py-16    text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-6">
-              Process Cash Advance Requests
-                        </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-6">Process Cash Advance Requests</h2>
             <p className="text-base md:text-lg mb-8 text-brand-blue-100">
               Review and approve student emergency fund requests.
-                        </p>
+            </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/admin/cash-advances"

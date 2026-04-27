@@ -6,17 +6,13 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ userId: string }> }
-) {
+async function _GET(request: NextRequest, { params }: { params: Promise<{ userId: string }> }) {
   const auth = await apiAuthGuard(request);
   if (auth.error) return auth.error;
 
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const { userId } = await params;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const { userId } = await params;
   const supabase = await createClient();
 
   // Fetch user badges/achievements

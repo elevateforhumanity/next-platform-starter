@@ -1,5 +1,3 @@
-
-
 // app/api/cm/learners/[id]/route.ts - Get learner details for case manager
 import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -13,13 +11,9 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+async function _GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
   try {
     const supabaseAdmin = await getAdminClient();
     const { id } = await params;
@@ -29,7 +23,7 @@ async function _GET(
     if (!user || (user.role as string) !== 'case_manager') {
       return NextResponse.json(
         { error: 'Unauthorized - Case manager access required' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -48,7 +42,7 @@ async function _GET(
     if (!assignment) {
       return NextResponse.json(
         { error: 'Access denied - Learner not assigned to you' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -74,7 +68,7 @@ async function _GET(
         started_at,
         completed_at,
         programs (title, slug)
-      `
+      `,
       )
       .eq('user_id', learnerId)
       .order('created_at', { ascending: false });
@@ -90,9 +84,7 @@ async function _GET(
       const totalLessons = progress?.length || 0;
       const completedLessons = progress?.filter((p) => p.completed).length || 0;
       const percentComplete =
-        totalLessons > 0
-          ? Math.round((completedLessons / totalLessons) * 100)
-          : 0;
+        totalLessons > 0 ? Math.round((completedLessons / totalLessons) * 100) : 0;
 
       // Check for certificate
       const programs = enrollment.programs as any;
@@ -126,7 +118,7 @@ async function _GET(
         note,
         created_at,
         case_manager_id
-      `
+      `,
       )
       .eq('learner_id', learnerId)
       .order('created_at', { ascending: false });
@@ -145,9 +137,7 @@ async function _GET(
         note_type: note.note_type,
         note: note.note,
         created_at: note.created_at,
-        case_manager_name: cmProfile
-          ? `${cmProfile.first_name} ${cmProfile.last_name}`
-          : 'Unknown',
+        case_manager_name: cmProfile ? `${cmProfile.first_name} ${cmProfile.last_name}` : 'Unknown',
       });
     }
 
@@ -167,10 +157,7 @@ async function _GET(
     });
   } catch (err) {
     logger.error('Get learner error:', err);
-    return NextResponse.json(
-      { error: 'Failed to load learner' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to load learner' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/cm/learners/[id]', _GET);

@@ -5,7 +5,8 @@ import { TEAM } from '@/data/team';
 
 export const metadata: Metadata = {
   title: 'Our Team | Elevate for Humanity',
-  description: 'Meet the Elevate for Humanity team — educators, workforce specialists, and community advocates.',
+  description:
+    'Meet the Elevate for Humanity team — educators, workforce specialists, and community advocates.',
 };
 
 export default function TeamPage() {
@@ -19,7 +20,7 @@ export default function TeamPage() {
         {TEAM.map((member) => (
           <article key={member.id} className="flex gap-4 rounded border p-6 hover:bg-slate-50">
             {member.headshotSrc && (
-              <Image
+              <Image sizes="100vw"
                 src={member.headshotSrc}
                 alt={member.name}
                 width={72}

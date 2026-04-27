@@ -2,38 +2,89 @@ import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Users, Building, GraduationCap, Briefcase, Heart, ArrowRight,
-  Phone, Globe, Handshake, Target, Layers,
+import {
+  Users,
+  Building,
+  GraduationCap,
+  Briefcase,
+  Heart,
+  ArrowRight,
+  Phone,
+  Globe,
+  Handshake,
+  Target,
+  Layers,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Our Ecosystem | Elevate For Humanity',
-  description: 'Explore the Elevate ecosystem connecting learners, employers, training providers, and workforce boards.',
+  description:
+    'Explore the Elevate ecosystem connecting learners, employers, training providers, and workforce boards.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/ecosystem',
   },
   openGraph: {
     title: 'Our Ecosystem | Elevate For Humanity',
-    description: 'A connected network of learners, employers, and partners working together to transform careers.',
+    description:
+      'A connected network of learners, employers, and partners working together to transform careers.',
     url: 'https://www.elevateforhumanity.org/ecosystem',
     siteName: 'Elevate for Humanity',
-    images: [{ url: '/hero-images/pathways-hero.jpg', width: 1200, height: 630, alt: 'Elevate Ecosystem' }],
+    images: [
+      { url: '/hero-images/pathways-hero.jpg', width: 1200, height: 630, alt: 'Elevate Ecosystem' },
+    ],
     type: 'website',
   },
 };
 
 const partners = [
-  { icon: GraduationCap, title: 'Training Providers', count: '50+', description: 'Accredited programs and certifications across healthcare, trades, technology, and business.' },
-  { icon: Building, title: 'Employer Partners', count: '200+', description: 'Companies actively hiring our graduates with competitive wages and benefits.' },
-  { icon: Users, title: 'Workforce Boards', count: '15+', description: 'Regional workforce development boards providing funding and oversight.' },
-  { icon: Heart, title: 'Community Partners', count: '30+', description: 'Nonprofits and support organizations providing wraparound services.' },
+  {
+    icon: GraduationCap,
+    title: 'Training Providers',
+    count: '50+',
+    description:
+      'Accredited programs and certifications across healthcare, trades, technology, and business.',
+  },
+  {
+    icon: Building,
+    title: 'Employer Partners',
+    count: '200+',
+    description: 'Companies actively hiring our graduates with competitive wages and benefits.',
+  },
+  {
+    icon: Users,
+    title: 'Workforce Boards',
+    count: '15+',
+    description: 'Regional workforce development boards providing funding and oversight.',
+  },
+  {
+    icon: Heart,
+    title: 'Community Partners',
+    count: '30+',
+    description: 'Nonprofits and support organizations providing wraparound services.',
+  },
 ];
 
 const howItConnects = [
-  { icon: Target, title: 'Learners', description: 'Access free training, earn certifications, and get placed in careers.' },
-  { icon: Building, title: 'Employers', description: 'Hire skilled, certified workers and access tax credits.' },
-  { icon: GraduationCap, title: 'Training Providers', description: 'Deliver programs, receive funded students, and track outcomes.' },
-  { icon: Globe, title: 'Workforce Boards', description: 'Monitor compliance, track performance, and manage providers.' },
+  {
+    icon: Target,
+    title: 'Learners',
+    description: 'Access free training, earn certifications, and get placed in careers.',
+  },
+  {
+    icon: Building,
+    title: 'Employers',
+    description: 'Hire skilled, certified workers and access tax credits.',
+  },
+  {
+    icon: GraduationCap,
+    title: 'Training Providers',
+    description: 'Deliver programs, receive funded students, and track outcomes.',
+  },
+  {
+    icon: Globe,
+    title: 'Workforce Boards',
+    description: 'Monitor compliance, track performance, and manage providers.',
+  },
 ];
 
 export default function EcosystemPage() {
@@ -49,12 +100,25 @@ export default function EcosystemPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-          <Image src="/hero-images/pathways-hero.jpg" alt="Elevate Ecosystem" fill className="object-cover" priority sizes="100vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src="/hero-images/pathways-hero.jpg"
+            alt="Elevate Ecosystem"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-white py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">The Elevate Ecosystem</h1>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">A connected network of learners, employers, training providers, and workforce boards working together to transform careers and communities.</p>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">
+              The Elevate Ecosystem
+            </h1>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              A connected network of learners, employers, training providers, and workforce boards
+              working together to transform careers and communities.
+            </p>
           </div>
         </div>
       </section>
@@ -80,7 +144,8 @@ export default function EcosystemPage() {
           <div className="text-center mb-14">
             <h2 className="text-3xl font-bold text-gray-900 mb-4">How the Ecosystem Works</h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Every participant in the ecosystem benefits. The platform connects all stakeholders through a single system.
+              Every participant in the ecosystem benefits. The platform connects all stakeholders
+              through a single system.
             </p>
           </div>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
@@ -100,8 +165,14 @@ export default function EcosystemPage() {
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold mb-4">Join Our Network</h2>
-          <p className="text-gray-600 mb-8">Whether you are a training provider, employer, or community organization, there is a place for you in our ecosystem.</p>
-          <Link href="/partners/join" className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-brand-blue-700">
+          <p className="text-gray-600 mb-8">
+            Whether you are a training provider, employer, or community organization, there is a
+            place for you in our ecosystem.
+          </p>
+          <Link
+            href="/partners/join"
+            className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-8 py-4 rounded-lg font-semibold hover:bg-brand-blue-700"
+          >
             Become a Partner <ArrowRight className="w-5 h-5" />
           </Link>
         </div>
@@ -110,7 +181,9 @@ export default function EcosystemPage() {
       <section className="bg-brand-blue-700 text-white py-12">
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Your Career?</h2>
-          <p className="text-white mb-6">Check your eligibility for funded career training programs.</p>
+          <p className="text-white mb-6">
+            Check your eligibility for funded career training programs.
+          </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/start"

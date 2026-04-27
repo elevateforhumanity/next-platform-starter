@@ -151,8 +151,7 @@ class PhilanthropySystem {
             type: 'monthly',
             name: 'Fund a Learner',
             amount: 49,
-            description:
-              'Monthly sponsorship covering essential costs for one learner',
+            description: 'Monthly sponsorship covering essential costs for one learner',
             impact: 'Provides ongoing support throughout training program',
           },
           {
@@ -172,13 +171,7 @@ class PhilanthropySystem {
           {
             type: 'inKind',
             name: 'In-Kind Donations',
-            items: [
-              'Laptops',
-              'Tools',
-              'Uniforms',
-              'Textbooks',
-              'Software licenses',
-            ],
+            items: ['Laptops', 'Tools', 'Uniforms', 'Textbooks', 'Software licenses'],
             description: 'Donate equipment and materials directly to learners',
             impact: 'Reduces program costs and barriers to entry',
           },
@@ -238,10 +231,7 @@ class PhilanthropySystem {
 
   setupRoutes() {
     // Philanthropy overview
-    this.router.get(
-      '/api/philanthropy/overview',
-      this.getPhilanthropyOverview.bind(this)
-    );
+    this.router.get('/api/philanthropy/overview', this.getPhilanthropyOverview.bind(this));
 
     // Grant opportunities and types
     this.router.get('/api/philanthropy/grants', this.getGrantTypes.bind(this));
@@ -250,40 +240,22 @@ class PhilanthropySystem {
     this.router.get('/api/philanthropy/impact', this.getImpactData.bind(this));
 
     // Giving options
-    this.router.get(
-      '/api/philanthropy/giving',
-      this.getGivingOptions.bind(this)
-    );
+    this.router.get('/api/philanthropy/giving', this.getGivingOptions.bind(this));
 
     // Corporate partnerships
-    this.router.get(
-      '/api/philanthropy/corporate',
-      this.getCorporatePartnerships.bind(this)
-    );
+    this.router.get('/api/philanthropy/corporate', this.getCorporatePartnerships.bind(this));
 
     // Grant application
-    this.router.post(
-      '/api/philanthropy/apply',
-      this.submitGrantApplication.bind(this)
-    );
+    this.router.post('/api/philanthropy/apply', this.submitGrantApplication.bind(this));
 
     // Donation processing
-    this.router.post(
-      '/api/philanthropy/donate',
-      this.processDonation.bind(this)
-    );
+    this.router.post('/api/philanthropy/donate', this.processDonation.bind(this));
 
     // Volunteer opportunities
-    this.router.get(
-      '/api/philanthropy/volunteer',
-      this.getVolunteerOpportunities.bind(this)
-    );
+    this.router.get('/api/philanthropy/volunteer', this.getVolunteerOpportunities.bind(this));
 
     // Annual reports
-    this.router.get(
-      '/api/philanthropy/reports',
-      this.getAnnualReports.bind(this)
-    );
+    this.router.get('/api/philanthropy/reports', this.getAnnualReports.bind(this));
   }
 
   async getPhilanthropyOverview(req, res) {
@@ -292,12 +264,10 @@ class PhilanthropySystem {
         mission: this.philanthropyData.mission,
         priorities: this.philanthropyData.priorities,
         quickStats: {
-          learnersSupported:
-            this.philanthropyData.impact.current.learnersSupported,
+          learnersSupported: this.philanthropyData.impact.current.learnersSupported,
           totalFunding: this.philanthropyData.impact.current.totalFunding,
           placementRate: this.philanthropyData.impact.current.placementRate,
-          averageWageIncrease:
-            this.philanthropyData.impact.current.averageWageIncrease,
+          averageWageIncrease: this.philanthropyData.impact.current.averageWageIncrease,
         },
         featuredStory: this.philanthropyData.impact.stories[0],
         callToAction: {
@@ -443,20 +413,12 @@ class PhilanthropySystem {
             {
               name: 'Benefactor',
               amount: 10000,
-              benefits: [
-                'Named scholarship',
-                'Annual dinner invitation',
-                'Impact report',
-              ],
+              benefits: ['Named scholarship', 'Annual dinner invitation', 'Impact report'],
             },
             {
               name: 'Patron',
               amount: 5000,
-              benefits: [
-                'Quarterly updates',
-                'Facility tour',
-                'Recognition wall',
-              ],
+              benefits: ['Quarterly updates', 'Facility tour', 'Recognition wall'],
             },
             {
               name: 'Advocate',
@@ -484,8 +446,7 @@ class PhilanthropySystem {
             'Salesforce',
             'Many others - check with your HR department',
           ],
-          process:
-            "Submit your donation receipt to your employer's matching gift program",
+          process: "Submit your donation receipt to your employer's matching gift program",
         },
         planned: {
           options: [
@@ -573,14 +534,7 @@ class PhilanthropySystem {
 
   async submitGrantApplication(req, res) {
     try {
-      const {
-        applicantType,
-        grantType,
-        amount,
-        applicantInfo,
-        projectInfo,
-        budget,
-      } = req.body;
+      const { applicantType, grantType, amount, applicantInfo, projectInfo, budget } = req.body;
 
       const application = {
         id: 'GRANT-' + Date.now(),
@@ -603,8 +557,7 @@ class PhilanthropySystem {
         message: 'Your grant application has been received',
         nextSteps: [
           'You will receive a confirmation email within 24 hours',
-          'Initial review will be completed within ' +
-            application.reviewTimeline,
+          'Initial review will be completed within ' + application.reviewTimeline,
           'You may be contacted for additional information',
           'Final decision will be communicated via email',
         ],
@@ -621,8 +574,7 @@ class PhilanthropySystem {
 
   async processDonation(req, res) {
     try {
-      const { amount, frequency, donorInfo, designation, paymentMethod } =
-        req.body;
+      const { amount, frequency, donorInfo, designation, paymentMethod } = req.body;
 
       const donation = {
         id: 'DON-' + Date.now(),
@@ -671,8 +623,7 @@ class PhilanthropySystem {
         opportunities: [
           {
             title: 'Mentor',
-            description:
-              'One-on-one mentoring for students in career transition',
+            description: 'One-on-one mentoring for students in career transition',
             timeCommitment: '2-4 hours per month',
             skills: 'Professional experience, good communication',
             impact: 'Direct support for student success',
@@ -700,8 +651,7 @@ class PhilanthropySystem {
           },
           {
             title: 'Event Support',
-            description:
-              'Help with graduation ceremonies, job fairs, fundraising events',
+            description: 'Help with graduation ceremonies, job fairs, fundraising events',
             timeCommitment: 'Varies by event',
             skills: 'Enthusiasm, reliability',
             impact: 'Community building and celebration',
@@ -769,8 +719,7 @@ class PhilanthropySystem {
         upcoming: {
           year: 2025,
           expectedRelease: 'March 2026',
-          preview:
-            'Projected to support 1,500+ learners with expanded programming',
+          preview: 'Projected to support 1,500+ learners with expanded programming',
         },
       };
 

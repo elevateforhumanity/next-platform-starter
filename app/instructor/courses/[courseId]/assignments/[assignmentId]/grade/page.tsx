@@ -1,4 +1,3 @@
-
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
@@ -18,8 +17,9 @@ export default async function SpeedGraderPage({ params }: { params: Params }) {
   const { courseId, assignmentId } = await params;
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   // Verify instructor role
@@ -60,21 +60,26 @@ export default async function SpeedGraderPage({ params }: { params: Params }) {
     .order('submitted_at', { ascending: true });
 
   // Hydrate profiles separately (assignment_submissions has no FK to profiles)
-  const gradeStudentIds = [...new Set((rawGradeSubmissions ?? []).map((s: any) => s.student_id).filter(Boolean))];
+  const gradeStudentIds = [
+    ...new Set((rawGradeSubmissions ?? []).map((s: any) => s.student_id).filter(Boolean)),
+  ];
   const { data: gradeStudentProfiles } = gradeStudentIds.length
     ? await supabase.from('profiles').select('id, full_name, email').in('id', gradeStudentIds)
     : { data: [] };
-  const gradeStudentMap = Object.fromEntries((gradeStudentProfiles ?? []).map((p: any) => [p.id, p]));
-  const submissions = (rawGradeSubmissions ?? []).map((s: any) => ({ ...s, profiles: gradeStudentMap[s.student_id] ?? null }));
+  const gradeStudentMap = Object.fromEntries(
+    (gradeStudentProfiles ?? []).map((p: any) => [p.id, p]),
+  );
+  const submissions = (rawGradeSubmissions ?? []).map((s: any) => ({
+    ...s,
+    profiles: gradeStudentMap[s.student_id] ?? null,
+  }));
 
   // Fetch existing grades for these submissions
   const submissionIds = (submissions || []).map((s: any) => s.id);
-  const { data: existingGrades } = submissionIds.length > 0
-    ? await supabase
-        .from('grades')
-        .select('*')
-        .in('submission_id', submissionIds)
-    : { data: [] };
+  const { data: existingGrades } =
+    submissionIds.length > 0
+      ? await supabase.from('grades').select('*').in('submission_id', submissionIds)
+      : { data: [] };
 
   const gradeMap = new Map((existingGrades || []).map((g: any) => [g.submission_id, g]));
 
@@ -88,24 +93,38 @@ export default async function SpeedGraderPage({ params }: { params: Params }) {
     submittedAt: s.submitted_at,
     content: s.content || '',
     attachments: s.file_urls || [],
-    status: gradeMap.has(s.id) ? 'graded' as const : s.is_late ? 'late' as const : 'submitted' as const,
+    status: gradeMap.has(s.id)
+      ? ('graded' as const)
+      : s.is_late
+        ? ('late' as const)
+        : ('submitted' as const),
     isLate: s.is_late || false,
     existingGrade: gradeMap.get(s.id) || null,
   }));
 
   // Transform rubric if present
-  const rubric = rubricLink?.rubrics ? {
-    id: (rubricLink.rubrics as any).id,
-    name: (rubricLink.rubrics as any).name,
-    criteria: (rubricLink.rubrics as any).criteria || [],
-    totalPoints: (rubricLink.rubrics as any).total_points || assignment.max_points,
-  } : undefined;
+  const rubric = rubricLink?.rubrics
+    ? {
+        id: (rubricLink.rubrics as any).id,
+        name: (rubricLink.rubrics as any).name,
+        criteria: (rubricLink.rubrics as any).criteria || [],
+        totalPoints: (rubricLink.rubrics as any).total_points || assignment.max_points,
+      }
+    : undefined;
 
   return (
     <>
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/instructor-page-4.jpg" alt="Instructor portal" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/instructor-page-4.jpg"
+          alt="Instructor portal"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <SpeedGraderWrapper
         courseId={courseId}

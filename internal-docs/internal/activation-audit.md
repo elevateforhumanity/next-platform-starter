@@ -14,38 +14,43 @@ This document summarizes the activation status of routes, features, and integrat
 
 ## Status Definitions
 
-| Status | Definition |
-|--------|------------|
-| **ACTIVE** | Route reachable, uses real database, no errors, verified in production |
-| **PARTIAL** | Page loads but has: mock data, incomplete flows, missing nav entry, or missing DB writes |
-| **INACTIVE** | Code exists but not reachable, not wired to real data, or gated behind placeholders |
-| **DEAD** | Route broken (404/500), build errors, redirect loop, or links to non-existent routes |
+| Status       | Definition                                                                               |
+| ------------ | ---------------------------------------------------------------------------------------- |
+| **ACTIVE**   | Route reachable, uses real database, no errors, verified in production                   |
+| **PARTIAL**  | Page loads but has: mock data, incomplete flows, missing nav entry, or missing DB writes |
+| **INACTIVE** | Code exists but not reachable, not wired to real data, or gated behind placeholders      |
+| **DEAD**     | Route broken (404/500), build errors, redirect loop, or links to non-existent routes     |
 
 ## Route Categories
 
 ### Authentication (4 routes)
+
 - `/login` - User login with Supabase Auth
 - `/signup` - User registration
 - `/forgot-password` - Password reset flow
 - `/admin/login` - Admin authentication
 
 ### Application Flow (4 routes)
+
 - `/apply` - Main application form
 - `/apply/student` - Student-specific application
 - `/apply/success` - Post-submission confirmation
 - `/enroll` - Enrollment landing page
 
 ### Student Portal (4 routes)
+
 - `/student-portal` - Student portal landing
 - `/lms` - LMS landing page
 - `/lms/dashboard` - Student dashboard with enrollments
 - `/certificates` - Certificate management
 
 ### Partner Portal (2 routes)
+
 - `/partner` - Partner information page
 - `/program-holder` - Program holder portal
 
 ### Admin (8 routes)
+
 - `/admin` - Admin mega dashboard
 - `/admin/students` - Student management
 - `/admin/applications` - Application management
@@ -56,6 +61,7 @@ This document summarizes the activation status of routes, features, and integrat
 - `/admin/system-status` - This audit page
 
 ### Marketing/Public (6 routes)
+
 - `/` - Homepage
 - `/programs` - Programs listing
 - `/courses` - Course catalog
@@ -64,12 +70,14 @@ This document summarizes the activation status of routes, features, and integrat
 - `/contact` - Contact page
 
 ### Payments (2 routes)
+
 - `/checkout` - Stripe checkout integration
 - `/donate` - Donation page with Stripe
 
 ## Database Tables
 
 Critical tables monitored:
+
 - `profiles` - User profiles
 - `programs` - Training programs
 - `courses` - Course content
@@ -87,6 +95,7 @@ Critical tables monitored:
 ## Environment Variables
 
 Required for full functionality:
+
 - `NEXT_PUBLIC_SUPABASE_URL` - Supabase project URL
 - `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous key
 - `SUPABASE_SERVICE_ROLE_KEY` - Supabase service role key
@@ -111,6 +120,7 @@ Required for full functionality:
 ## Maintenance
 
 The System Status page automatically:
+
 - Queries all critical database tables
 - Checks environment variable configuration
 - Determines route status based on data availability

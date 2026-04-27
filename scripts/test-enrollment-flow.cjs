@@ -4,12 +4,12 @@ const fs = require('fs');
 const path = require('path');
 
 console.log('🔍 Testing Enrollment Flow Implementation\n');
-console.log('=' .repeat(60));
+console.log('='.repeat(60));
 
 const results = {
   passed: [],
   failed: [],
-  warnings: []
+  warnings: [],
 };
 
 // Test 1: Check enrollment pages exist
@@ -22,7 +22,7 @@ const enrollmentPages = [
   'app/courses/partners/[courseId]/success/page.tsx',
 ];
 
-enrollmentPages.forEach(page => {
+enrollmentPages.forEach((page) => {
   const fullPath = path.join(process.cwd(), page);
   if (fs.existsSync(fullPath)) {
     const content = fs.readFileSync(fullPath, 'utf8');
@@ -40,24 +40,24 @@ console.log('\n🗄️  Test 2: Database Integration');
 const dbIntegrationChecks = [
   {
     file: 'app/courses/[courseId]/enroll/page.tsx',
-    patterns: ['createClient', 'enrollments', 'courses']
+    patterns: ['createClient', 'enrollments', 'courses'],
   },
   {
     file: 'app/courses/partners/[courseId]/enroll/page.tsx',
-    patterns: ['createClient', 'partner_enrollments', 'partner_courses']
+    patterns: ['createClient', 'partner_enrollments', 'partner_courses'],
   },
   {
     file: 'app/courses/partners/[courseId]/success/page.tsx',
-    patterns: ['createClient', 'partner_enrollments']
-  }
+    patterns: ['createClient', 'partner_enrollments'],
+  },
 ];
 
-dbIntegrationChecks.forEach(check => {
+dbIntegrationChecks.forEach((check) => {
   const fullPath = path.join(process.cwd(), check.file);
   if (fs.existsSync(fullPath)) {
     const content = fs.readFileSync(fullPath, 'utf8');
-    const missingPatterns = check.patterns.filter(p => !content.includes(p));
-    
+    const missingPatterns = check.patterns.filter((p) => !content.includes(p));
+
     if (missingPatterns.length === 0) {
       console.log(`  ✅ ${check.file} - All DB patterns found`);
       results.passed.push(`DB integration: ${check.file}`);
@@ -73,20 +73,20 @@ console.log('\n📝 Test 3: Enrollment Form Fields');
 const formChecks = [
   {
     file: 'app/courses/[courseId]/enroll/InternalEnrollmentForm.tsx',
-    fields: ['programHolder', 'fundingSource', 'agreedToTerms', 'handleSubmit']
+    fields: ['programHolder', 'fundingSource', 'agreedToTerms', 'handleSubmit'],
   },
   {
     file: 'app/courses/partners/[courseId]/enroll/EnrollmentForm.tsx',
-    fields: ['programHolder', 'fundingSource', 'agreedToTerms', 'handleSubmit']
-  }
+    fields: ['programHolder', 'fundingSource', 'agreedToTerms', 'handleSubmit'],
+  },
 ];
 
-formChecks.forEach(check => {
+formChecks.forEach((check) => {
   const fullPath = path.join(process.cwd(), check.file);
   if (fs.existsSync(fullPath)) {
     const content = fs.readFileSync(fullPath, 'utf8');
-    const missingFields = check.fields.filter(f => !content.includes(f));
-    
+    const missingFields = check.fields.filter((f) => !content.includes(f));
+
     if (missingFields.length === 0) {
       console.log(`  ✅ ${check.file} - All fields present`);
       results.passed.push(`Form fields: ${check.file}`);
@@ -99,17 +99,15 @@ formChecks.forEach(check => {
 
 // Test 4: Check catalog pages have enroll buttons
 console.log('\n🔘 Test 4: Enroll Buttons in Catalogs');
-const catalogPages = [
-  'app/courses/catalog/page.tsx',
-  'app/courses/partners/page.tsx'
-];
+const catalogPages = ['app/courses/catalog/page.tsx', 'app/courses/partners/page.tsx'];
 
-catalogPages.forEach(page => {
+catalogPages.forEach((page) => {
   const fullPath = path.join(process.cwd(), page);
   if (fs.existsSync(fullPath)) {
     const content = fs.readFileSync(fullPath, 'utf8');
-    const hasEnrollButton = content.includes('/enroll') && (content.includes('Enroll') || content.includes('enroll'));
-    
+    const hasEnrollButton =
+      content.includes('/enroll') && (content.includes('Enroll') || content.includes('enroll'));
+
     if (hasEnrollButton) {
       console.log(`  ✅ ${page} - Enroll buttons found`);
       results.passed.push(`Enroll buttons: ${page}`);
@@ -127,9 +125,10 @@ const fullPath = path.join(process.cwd(), studentCoursePage);
 
 if (fs.existsSync(fullPath)) {
   const content = fs.readFileSync(fullPath, 'utf8');
-  const hasEnrollmentQuery = content.includes('enrollments') || content.includes('partner_enrollments');
+  const hasEnrollmentQuery =
+    content.includes('enrollments') || content.includes('partner_enrollments');
   const hasProgressTracking = content.includes('progress');
-  
+
   if (hasEnrollmentQuery && hasProgressTracking) {
     console.log(`  ✅ ${studentCoursePage} - Enrollment tracking implemented`);
     results.passed.push('Student enrollment display');
@@ -144,20 +143,20 @@ console.log('\n🔀 Test 6: Enrollment Flow Redirects');
 const redirectChecks = [
   {
     file: 'app/courses/[courseId]/enroll/page.tsx',
-    redirects: ['redirect', 'existingEnrollment']
+    redirects: ['redirect', 'existingEnrollment'],
   },
   {
     file: 'app/courses/partners/[courseId]/enroll/page.tsx',
-    redirects: ['redirect', 'existingEnrollment']
-  }
+    redirects: ['redirect', 'existingEnrollment'],
+  },
 ];
 
-redirectChecks.forEach(check => {
+redirectChecks.forEach((check) => {
   const fullPath = path.join(process.cwd(), check.file);
   if (fs.existsSync(fullPath)) {
     const content = fs.readFileSync(fullPath, 'utf8');
-    const hasAllRedirects = check.redirects.every(r => content.includes(r));
-    
+    const hasAllRedirects = check.redirects.every((r) => content.includes(r));
+
     if (hasAllRedirects) {
       console.log(`  ✅ ${check.file} - Redirect logic present`);
       results.passed.push(`Redirects: ${check.file}`);
@@ -177,12 +176,12 @@ console.log(`⚠️  Warnings: ${results.warnings.length}`);
 
 if (results.failed.length > 0) {
   console.log('\n❌ Failed Tests:');
-  results.failed.forEach(f => console.log(`  - ${f}`));
+  results.failed.forEach((f) => console.log(`  - ${f}`));
 }
 
 if (results.warnings.length > 0) {
   console.log('\n⚠️  Warnings:');
-  results.warnings.forEach(w => console.log(`  - ${w}`));
+  results.warnings.forEach((w) => console.log(`  - ${w}`));
 }
 
 console.log('\n' + '='.repeat(60));

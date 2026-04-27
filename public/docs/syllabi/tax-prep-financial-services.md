@@ -1,4 +1,5 @@
 # Tax Preparation & Financial Services
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** TAX-PREP-FS  
 **Duration:** 10 Weeks (150 Hours)  
 **Delivery Method:** Hybrid (Online + In-Person Practicum)  
-**Funding:** WIOA • WRG • Earn and Learn  
+**Funding:** WIOA • WRG • Earn and Learn
 
 ---
 
@@ -34,6 +35,7 @@ Upon successful completion, students will be able to:
 ## Course Outline
 
 ### Module 1: Program Orientation & Workplace Readiness (10 hours)
+
 - Welcome and program expectations
 - Career pathways in financial services
 - Professional communication and customer service
@@ -41,6 +43,7 @@ Upon successful completion, students will be able to:
 - Digital literacy fundamentals
 
 ### Module 2: Federal Tax Law & Preparation (40 hours)
+
 - Tax filing status and exemptions
 - Income types and reporting (W-2, 1099, Schedule C)
 - Standard vs. itemized deductions
@@ -50,6 +53,7 @@ Upon successful completion, students will be able to:
 - State tax law (Indiana IT-40)
 
 ### Module 3: IRS VITA/TCE Certification (20 hours)
+
 - VITA program standards and procedures
 - Intake and interview techniques
 - Quality review and accuracy
@@ -59,6 +63,7 @@ Upon successful completion, students will be able to:
 - VITA certification exam preparation
 
 ### Module 4: QuickBooks Pro Advisor Training (30 hours)
+
 - QuickBooks Online setup and navigation
 - Chart of accounts and financial statements
 - Accounts payable and receivable
@@ -68,6 +73,7 @@ Upon successful completion, students will be able to:
 - QuickBooks ProAdvisor certification exam
 
 ### Module 5: Microsoft 365 Essentials (20 hours)
+
 - Word: Business documents and mail merge
 - Excel: Formulas, functions, and data analysis
 - Outlook: Email management and calendaring
@@ -75,6 +81,7 @@ Upon successful completion, students will be able to:
 - OneDrive: Cloud storage and file sharing
 
 ### Module 6: Financial Literacy & Client Education (10 hours)
+
 - Budgeting and money management
 - Credit scores and reports
 - Banking products and services
@@ -83,6 +90,7 @@ Upon successful completion, students will be able to:
 - Identity theft protection
 
 ### Module 7: Supervised Practicum at VITA Site (20 hours)
+
 - Client intake and interview
 - Tax return preparation under supervision
 - Quality review process
@@ -128,6 +136,7 @@ Upon successful completion, students will be able to:
 ## Instructor Qualifications
 
 All instructors hold:
+
 - IRS VITA/TCE certification and site coordinator experience
 - QuickBooks ProAdvisor certification
 - Minimum 3 years tax preparation experience
@@ -148,6 +157,7 @@ All instructors hold:
 ## Career Outcomes
 
 Graduates are prepared for positions including:
+
 - Tax Preparer (seasonal and year-round)
 - Bookkeeping Assistant
 - Financial Service Specialist
@@ -203,7 +213,7 @@ WorkOne Indianapolis: (317) 314-3757
 
 ---
 
-*This syllabus is subject to updates to reflect current tax law and industry standards. Students will be notified of any changes.*
+_This syllabus is subject to updates to reflect current tax law and industry standards. Students will be notified of any changes._
 
 **Last Updated:** November 2024  
 **ETPL Approved:** Yes  

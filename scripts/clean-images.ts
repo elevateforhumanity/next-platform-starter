@@ -1,31 +1,30 @@
-import fs from "node:fs";
-import path from "node:path";
-import crypto from "node:crypto";
-import { glob } from "glob";
+import fs from 'node:fs';
+import path from 'node:path';
+import crypto from 'node:crypto';
+import { glob } from 'glob';
 
-const IMG_DIRS = ["public"];
+const IMG_DIRS = ['public'];
 const TRASH_PATTERNS = [
-  "**/placeholder*",
-  "**/stock*",
-  "**/*hero-splash*",
-  "**/*unsplash*",
-  "**/*pexels*",
-  "**/*test*",
-  "**/*demo*",
-  "**/*gradient*",
-  "**/*overlay*",
-  "**/*-copy.*",
+  '**/placeholder*',
+  '**/stock*',
+  '**/*hero-splash*',
+  '**/*unsplash*',
+  '**/*pexels*',
+  '**/*test*',
+  '**/*demo*',
+  '**/*gradient*',
+  '**/*overlay*',
+  '**/*-copy.*',
 ];
 
 function hash(buf: Buffer): string {
-  return crypto.createHash("sha256").update(buf).digest("hex");
+  return crypto.createHash('sha256').update(buf).digest('hex');
 }
 
 async function run() {
-
   // 1) Deduplicate by content hash
-  const files = await glob("**/*.{png,jpg,jpeg,webp}", {
-    cwd: "public",
+  const files = await glob('**/*.{png,jpg,jpeg,webp}', {
+    cwd: 'public',
     dot: false,
     absolute: false,
   });
@@ -34,7 +33,7 @@ async function run() {
   let duplicatesRemoved = 0;
 
   for (const rel of files) {
-    const p = path.join("public", rel);
+    const p = path.join('public', rel);
     if (!fs.existsSync(p)) continue;
 
     const buf = fs.readFileSync(p);
@@ -48,7 +47,6 @@ async function run() {
     }
   }
 
-
   // 2) Remove obvious junk/gradients
   let junkRemoved = 0;
 
@@ -61,8 +59,6 @@ async function run() {
       }
     }
   }
-
-
 }
 
 run().catch((err) => {

@@ -55,8 +55,14 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
         type: 'object',
         properties: {
           topic: { type: 'string', description: 'Course topic or title' },
-          program_id: { type: 'string', description: 'Program UUID to attach the course to (optional)' },
-          blueprint: { type: 'string', description: 'Blueprint ID if using an existing blueprint (optional)' },
+          program_id: {
+            type: 'string',
+            description: 'Program UUID to attach the course to (optional)',
+          },
+          blueprint: {
+            type: 'string',
+            description: 'Blueprint ID if using an existing blueprint (optional)',
+          },
         },
         required: ['topic'],
       },
@@ -87,7 +93,16 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
         properties: {
           type: {
             type: 'string',
-            enum: ['daily', 'enrollment', 'financial', 'leads', 'partners', 'users', 'cohort-outcomes', 'reconciliation'],
+            enum: [
+              'daily',
+              'enrollment',
+              'financial',
+              'leads',
+              'partners',
+              'users',
+              'cohort-outcomes',
+              'reconciliation',
+            ],
             description: 'Report type',
           },
         },
@@ -111,7 +126,11 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
       parameters: {
         type: 'object',
         properties: {
-          status: { type: 'string', enum: ['pending', 'approved', 'rejected', 'all'], description: 'Filter by status' },
+          status: {
+            type: 'string',
+            enum: ['pending', 'approved', 'rejected', 'all'],
+            description: 'Filter by status',
+          },
           limit: { type: 'number', description: 'Max results (default 20)' },
         },
         required: [],
@@ -179,7 +198,10 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
         properties: {
           application_id: { type: 'string', description: 'Application UUID to approve' },
           program_id: { type: 'string', description: 'Program UUID to enroll into (optional)' },
-          funding_type: { type: 'string', description: 'Funding type e.g. wioa, self_pay, employer (optional)' },
+          funding_type: {
+            type: 'string',
+            description: 'Funding type e.g. wioa, self_pay, employer (optional)',
+          },
         },
         required: ['application_id'],
       },
@@ -209,7 +231,11 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
       parameters: {
         type: 'object',
         properties: {
-          enrollment_ids: { type: 'array', items: { type: 'string' }, description: 'List of enrollment UUIDs' },
+          enrollment_ids: {
+            type: 'array',
+            items: { type: 'string' },
+            description: 'List of enrollment UUIDs',
+          },
           template_id: { type: 'string', description: 'Certificate template UUID' },
           signed_by: { type: 'string', description: 'Name of the signing authority (optional)' },
         },
@@ -240,7 +266,11 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
       parameters: {
         type: 'object',
         properties: {
-          status: { type: 'string', enum: ['pending', 'approved', 'denied', 'all'], description: 'Filter by status' },
+          status: {
+            type: 'string',
+            enum: ['pending', 'approved', 'denied', 'all'],
+            description: 'Filter by status',
+          },
           limit: { type: 'number', description: 'Max results (default 20)' },
         },
         required: [],
@@ -255,7 +285,11 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
       parameters: {
         type: 'object',
         properties: {
-          type: { type: 'string', enum: ['students', 'enrollments', 'weekly-hours'], description: 'Export type' },
+          type: {
+            type: 'string',
+            enum: ['students', 'enrollments', 'weekly-hours'],
+            description: 'Export type',
+          },
         },
         required: ['type'],
       },
@@ -269,7 +303,11 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
       parameters: {
         type: 'object',
         properties: {
-          status: { type: 'string', enum: ['published', 'draft', 'all'], description: 'Filter by status' },
+          status: {
+            type: 'string',
+            enum: ['published', 'draft', 'all'],
+            description: 'Filter by status',
+          },
         },
         required: [],
       },
@@ -298,7 +336,10 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
       parameters: {
         type: 'object',
         properties: {
-          user_id: { type: 'string', description: 'Student user UUID (optional — omit to send to all inactive)' },
+          user_id: {
+            type: 'string',
+            description: 'Student user UUID (optional — omit to send to all inactive)',
+          },
           message: { type: 'string', description: 'Custom reminder message (optional)' },
         },
         required: [],
@@ -327,7 +368,11 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
       parameters: {
         type: 'object',
         properties: {
-          enrollment_ids: { type: 'array', items: { type: 'string' }, description: 'Enrollment UUIDs to mark paid' },
+          enrollment_ids: {
+            type: 'array',
+            items: { type: 'string' },
+            description: 'Enrollment UUIDs to mark paid',
+          },
         },
         required: ['enrollment_ids'],
       },
@@ -344,7 +389,10 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
           to: { type: 'string', description: 'Recipient email address' },
           subject: { type: 'string', description: 'Email subject line' },
           body: { type: 'string', description: 'Email body — plain text or HTML' },
-          from_name: { type: 'string', description: 'Sender display name (optional, defaults to Elevate for Humanity)' },
+          from_name: {
+            type: 'string',
+            description: 'Sender display name (optional, defaults to Elevate for Humanity)',
+          },
         },
         required: ['to', 'subject', 'body'],
       },
@@ -354,7 +402,8 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
     type: 'function',
     function: {
       name: 'send_document_for_sign',
-      description: 'Generate and send a document (W-9, ACH, MOU, grant form) for e-signature via email',
+      description:
+        'Generate and send a document (W-9, ACH, MOU, grant form) for e-signature via email',
       parameters: {
         type: 'object',
         properties: {
@@ -374,7 +423,8 @@ const TOOLS: OpenAI.Chat.ChatCompletionTool[] = [
     type: 'function',
     function: {
       name: 'ask_question',
-      description: 'Answer a general question about the platform, data, or operations without running an action',
+      description:
+        'Answer a general question about the platform, data, or operations without running an action',
       parameters: {
         type: 'object',
         properties: {
@@ -419,7 +469,11 @@ async function executeAction(
         const res = await fetch(`${baseUrl}/api/admin/courses/generate`, {
           method: 'POST',
           headers,
-          body: JSON.stringify({ topic: args.topic, program_id: args.program_id, blueprint: args.blueprint }),
+          body: JSON.stringify({
+            topic: args.topic,
+            program_id: args.program_id,
+            blueprint: args.blueprint,
+          }),
         });
         const data = await res.json().catch(() => ({}));
         if (res.ok) {
@@ -518,7 +572,9 @@ async function executeAction(
           const apps = Array.isArray(data) ? data : (data.applications ?? []);
           write(`\x1b[32m✓  ${apps.length} application(s)\x1b[0m`);
           apps.slice(0, 10).forEach((a: Record<string, unknown>) => {
-            write(`   ${a.first_name ?? ''} ${a.last_name ?? ''} — ${a.status ?? ''} — ${a.program_interest ?? ''}`);
+            write(
+              `   ${a.first_name ?? ''} ${a.last_name ?? ''} — ${a.status ?? ''} — ${a.program_interest ?? ''}`,
+            );
           });
           if (apps.length > 10) write(`   ... and ${apps.length - 10} more`);
           write(`   Full list: /admin/applications`);
@@ -569,7 +625,9 @@ async function executeAction(
           const enrollments = Array.isArray(data) ? data : (data.enrollments ?? []);
           write(`\x1b[32m✓  ${enrollments.length} enrollment(s)\x1b[0m`);
           enrollments.slice(0, 10).forEach((e: Record<string, unknown>) => {
-            write(`   ${e.student_name ?? e.user_id ?? ''} — ${e.program_name ?? e.program_id ?? ''} — ${e.status ?? ''}`);
+            write(
+              `   ${e.student_name ?? e.user_id ?? ''} — ${e.program_name ?? e.program_id ?? ''} — ${e.status ?? ''}`,
+            );
           });
           if (enrollments.length > 10) write(`   ... and ${enrollments.length - 10} more`);
           write(`   Full list: /admin/enrollments`);
@@ -591,7 +649,10 @@ async function executeAction(
           write('\x1b[32m✓  Health check complete\x1b[0m');
           for (const [k, v] of Object.entries(data)) {
             if (typeof v === 'string' || typeof v === 'number' || typeof v === 'boolean') {
-              const icon = v === true || v === 'ok' || v === 'healthy' ? '\x1b[32m✓\x1b[0m' : '\x1b[33m⚠\x1b[0m';
+              const icon =
+                v === true || v === 'ok' || v === 'healthy'
+                  ? '\x1b[32m✓\x1b[0m'
+                  : '\x1b[33m⚠\x1b[0m';
               write(`   ${icon} ${k}: ${v}`);
             }
           }
@@ -627,11 +688,14 @@ async function executeAction(
     case 'approve_application': {
       write(`\x1b[33m⚙  Approving application ${args.application_id}...\x1b[0m`);
       try {
-        const res = await fetch(`${baseUrl}/api/admin/applications/${args.application_id}/approve`, {
-          method: 'POST',
-          headers,
-          body: JSON.stringify({ program_id: args.program_id, funding_type: args.funding_type }),
-        });
+        const res = await fetch(
+          `${baseUrl}/api/admin/applications/${args.application_id}/approve`,
+          {
+            method: 'POST',
+            headers,
+            body: JSON.stringify({ program_id: args.program_id, funding_type: args.funding_type }),
+          },
+        );
         const data = await res.json().catch(() => ({}));
         if (res.ok) {
           write('\x1b[32m✓  Application approved\x1b[0m');
@@ -652,7 +716,11 @@ async function executeAction(
         const res = await fetch(`${baseUrl}/api/admin/enrollments`, {
           method: 'POST',
           headers,
-          body: JSON.stringify({ user_id: args.user_id, course_id: args.course_id, program_id: args.program_id }),
+          body: JSON.stringify({
+            user_id: args.user_id,
+            course_id: args.course_id,
+            program_id: args.program_id,
+          }),
         });
         const data = await res.json().catch(() => ({}));
         if (res.ok) {
@@ -846,7 +914,9 @@ async function executeAction(
           const queue = Array.isArray(data) ? data : (data.queue ?? data.data ?? []);
           write(`\x1b[32m✓  ${queue.length} payout(s) pending\x1b[0m`);
           queue.slice(0, 10).forEach((p: Record<string, unknown>) => {
-            write(`   ${p.student_name ?? p.user_id ?? ''} — $${p.amount ?? '?'} — ${p.program_name ?? ''}`);
+            write(
+              `   ${p.student_name ?? p.user_id ?? ''} — $${p.amount ?? '?'} — ${p.program_name ?? ''}`,
+            );
           });
           write(`   Full queue: /admin/payout-queue`);
         } else {
@@ -890,7 +960,9 @@ async function executeAction(
           body: JSON.stringify({
             to: args.to,
             subject: args.subject,
-            html: String(args.body).includes('<') ? args.body : `<p>${String(args.body).replace(/\n/g, '<br/>')}</p>`,
+            html: String(args.body).includes('<')
+              ? args.body
+              : `<p>${String(args.body).replace(/\n/g, '<br/>')}</p>`,
             fromName: args.from_name || 'Elevate for Humanity',
           }),
         });
@@ -921,7 +993,9 @@ async function executeAction(
         });
         const data = await res.json().catch(() => ({}));
         if (res.ok) {
-          write(`\x1b[32m✓  ${args.document_type?.toString().toUpperCase()} generated and sent\x1b[0m`);
+          write(
+            `\x1b[32m✓  ${args.document_type?.toString().toUpperCase()} generated and sent\x1b[0m`,
+          );
           write(`   Sent to: ${args.recipient_email}`);
           if (data.messageId) write(`   Message ID: ${data.messageId}`);
         } else {
@@ -965,7 +1039,11 @@ export async function POST(req: NextRequest) {
   const stream = new ReadableStream({
     async start(controller) {
       const write = (line: string) => {
-        try { controller.enqueue(encode(line)); } catch { /* stream closed */ }
+        try {
+          controller.enqueue(encode(line));
+        } catch {
+          /* stream closed */
+        }
       };
 
       try {
@@ -1010,7 +1088,11 @@ Be decisive. If the intent is clear, act. If ambiguous, use ask_question to clar
         // Write a safe message to the terminal — never expose raw error details
         write('\x1b[31m✗  An error occurred. Check server logs for details.\x1b[0m');
       } finally {
-        try { controller.enqueue(encodeDone()); } catch { /* already closed */ }
+        try {
+          controller.enqueue(encodeDone());
+        } catch {
+          /* already closed */
+        }
         controller.close();
       }
     },

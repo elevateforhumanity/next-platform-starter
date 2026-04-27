@@ -14,22 +14,22 @@ Artifacts: `/tmp/stability-2026-04-19/*.log`
 
 ## Current baseline (pass/fail)
 
-| Check | Result | Notes |
-|---|---|---|
-| Schema refs audit | ✅ Pass | 1 gap: `student_practical_progress` (5 refs, not in migrations) |
-| Auth gaps audit | ⚠️ Fail | 7 routes with no auth check; 1 error leak route |
-| Env var audit | ✅ Pass | 0 undocumented env vars |
-| Redirect conflict check | ✅ Pass | No redirect conflicts |
-| SEO governance check | ❌ Fail | 46 errors (missing metadata, blocked-route indexing, whitelist drift) |
-| Lint | ❌ Fail | 91 errors, 182 warnings |
-| Typecheck | ❌ Fail | Multiple TS errors + invalid `tsconfig` key (`tsbuildInfoFile`) |
-| Build | ❌ Fail | Non-async `await` in `lib/supabaseAdmin.ts`; Google font fetch warning |
-| Unit tests (`pnpm test`) | ❌ Fail | 8 failed tests (course creation contract + top-risk auth-guard assertions) |
-| Link integrity | ❌ Fail | 3 broken links: `/employer/applications`, `/partners/cosmetology-apprenticeship/(onboarding)/sign-mou`, `/logout` |
-| Hero banner audit | ✅ Pass | 38/38 banners pass |
-| Program page contract audit | ❌ Fail | 46/49 program pages fail required contract checks |
-| E2E critical flows | ❌ Fail | Dev server fails startup due duplicate route paths under barber partner onboarding |
-| RLS audit script | ❌ Fail | Script parse error at `scripts/audit-rls.ts:221` |
+| Check                       | Result  | Notes                                                                                                             |
+| --------------------------- | ------- | ----------------------------------------------------------------------------------------------------------------- |
+| Schema refs audit           | ✅ Pass | 1 gap: `student_practical_progress` (5 refs, not in migrations)                                                   |
+| Auth gaps audit             | ⚠️ Fail | 7 routes with no auth check; 1 error leak route                                                                   |
+| Env var audit               | ✅ Pass | 0 undocumented env vars                                                                                           |
+| Redirect conflict check     | ✅ Pass | No redirect conflicts                                                                                             |
+| SEO governance check        | ❌ Fail | 46 errors (missing metadata, blocked-route indexing, whitelist drift)                                             |
+| Lint                        | ❌ Fail | 91 errors, 182 warnings                                                                                           |
+| Typecheck                   | ❌ Fail | Multiple TS errors + invalid `tsconfig` key (`tsbuildInfoFile`)                                                   |
+| Build                       | ❌ Fail | Non-async `await` in `lib/supabaseAdmin.ts`; Google font fetch warning                                            |
+| Unit tests (`pnpm test`)    | ❌ Fail | 8 failed tests (course creation contract + top-risk auth-guard assertions)                                        |
+| Link integrity              | ❌ Fail | 3 broken links: `/employer/applications`, `/partners/cosmetology-apprenticeship/(onboarding)/sign-mou`, `/logout` |
+| Hero banner audit           | ✅ Pass | 38/38 banners pass                                                                                                |
+| Program page contract audit | ❌ Fail | 46/49 program pages fail required contract checks                                                                 |
+| E2E critical flows          | ❌ Fail | Dev server fails startup due duplicate route paths under barber partner onboarding                                |
+| RLS audit script            | ❌ Fail | Script parse error at `scripts/audit-rls.ts:221`                                                                  |
 
 ---
 
@@ -71,17 +71,17 @@ Artifacts: `/tmp/stability-2026-04-19/*.log`
 
 ## Daily prioritized backlog (owners + next actions)
 
-| Priority | Owner | Action | Target |
-|---|---|---|---|
-| P0 | LMS/App Routing | Remove duplicate partner onboarding page path collisions and keep a single canonical route tree | Next daily cycle |
-| P0 | Platform API | Fix `lib/supabaseAdmin.ts` async bug and clear current build-blocking TS/build errors | Next daily cycle |
-| P0 | Security/API | Patch 7 `NO_AUTH` routes with canonical guards (`apiAuthGuard`/`apiRequireAdmin`/`apiRequireInstructor`) and remove `error.message` leak | Next daily cycle |
-| P1 | SEO/Growth Eng | Resolve 46 `seo:check` errors (metadata, whitelist, blocked-route indexing) | 48h |
-| P1 | Program Pages Team | Fix failing program page contract items (H1, metadata, CTA, hero, canonical, funding block) starting with top-traffic program pages | 72h |
-| P1 | Web Platform | Fix 3 broken internal links or add route-safe redirects | 24h |
-| P1 | QA | Re-run `pnpm test` after P0 fixes; stabilize failing course-creation and auth-guard tests | 48h |
-| P2 | Data/Security | Repair `scripts/audit-rls.ts` parse error so daily RLS checks can run | 72h |
-| P2 | Architecture | Continue programs-vs-courses canonicalization plan via central route helpers (`lib/lms/routes.ts`) and staged redirects | Planned migration track |
+| Priority | Owner              | Action                                                                                                                                   | Target                  |
+| -------- | ------------------ | ---------------------------------------------------------------------------------------------------------------------------------------- | ----------------------- |
+| P0       | LMS/App Routing    | Remove duplicate partner onboarding page path collisions and keep a single canonical route tree                                          | Next daily cycle        |
+| P0       | Platform API       | Fix `lib/supabaseAdmin.ts` async bug and clear current build-blocking TS/build errors                                                    | Next daily cycle        |
+| P0       | Security/API       | Patch 7 `NO_AUTH` routes with canonical guards (`apiAuthGuard`/`apiRequireAdmin`/`apiRequireInstructor`) and remove `error.message` leak | Next daily cycle        |
+| P1       | SEO/Growth Eng     | Resolve 46 `seo:check` errors (metadata, whitelist, blocked-route indexing)                                                              | 48h                     |
+| P1       | Program Pages Team | Fix failing program page contract items (H1, metadata, CTA, hero, canonical, funding block) starting with top-traffic program pages      | 72h                     |
+| P1       | Web Platform       | Fix 3 broken internal links or add route-safe redirects                                                                                  | 24h                     |
+| P1       | QA                 | Re-run `pnpm test` after P0 fixes; stabilize failing course-creation and auth-guard tests                                                | 48h                     |
+| P2       | Data/Security      | Repair `scripts/audit-rls.ts` parse error so daily RLS checks can run                                                                    | 72h                     |
+| P2       | Architecture       | Continue programs-vs-courses canonicalization plan via central route helpers (`lib/lms/routes.ts`) and staged redirects                  | Planned migration track |
 
 ---
 

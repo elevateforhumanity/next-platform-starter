@@ -41,7 +41,7 @@ export async function getTaxReturnById(returnId: string) {
 export async function updateTaxReturnStatus(
   returnId: string,
   status: ReturnLifecycleStatus,
-  actorUserId?: string
+  actorUserId?: string,
 ) {
   const supabase = await createClient();
 
@@ -76,7 +76,7 @@ export async function updateTaxReturnStatus(
 export async function updateTaxReturnJson(
   returnId: string,
   returnJson: Return1040,
-  actorUserId?: string
+  actorUserId?: string,
 ) {
   const supabase = await createClient();
   const { data, error } = await supabase

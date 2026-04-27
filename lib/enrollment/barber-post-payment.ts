@@ -12,7 +12,7 @@ import { logger } from '@/lib/logger';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
 const BARBER_PROGRAM_SLUG = 'barber-apprenticeship';
-const BARBER_COURSE_ID    = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
+const BARBER_COURSE_ID = '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17';
 
 export interface BarberPostPaymentInput {
   db: SupabaseClient;
@@ -51,14 +51,17 @@ export async function runBarberPostPayment(
     .maybeSingle();
 
   if (appErr || !app) {
-    logger.error('[barber-post-payment] Step 1 failed: application update', { applicationId, error: appErr?.message });
+    logger.error('[barber-post-payment] Step 1 failed: application update', {
+      applicationId,
+      error: appErr?.message,
+    });
     return { success: false, error: `Application update failed: ${appErr?.message}`, steps };
   }
   steps['mark_paid'] = 'ok';
 
   const studentEmail = app.email;
-  const studentName  = [app.first_name, app.last_name].filter(Boolean).join(' ') || studentEmail;
-  const firstName    = app.first_name || 'there';
+  const studentName = [app.first_name, app.last_name].filter(Boolean).join(' ') || studentEmail;
+  const firstName = app.first_name || 'there';
 
   // ── Step 2: Find or create program_enrollment (CRITICAL) ─────────────────
   let enrollmentId: string | undefined = app.enrollment_id ?? undefined;
@@ -73,7 +76,10 @@ export async function runBarberPostPayment(
 
     if (!profile?.id) {
       // No profile yet — enrollment will be created on admin approval when profile exists
-      logger.warn('[barber-post-payment] No profile found for paid application — enrollment deferred', { studentEmail });
+      logger.warn(
+        '[barber-post-payment] No profile found for paid application — enrollment deferred',
+        { studentEmail },
+      );
       steps['create_enrollment'] = 'skipped';
     } else {
       const profileId = profile.id;
@@ -88,7 +94,9 @@ export async function runBarberPostPayment(
         .maybeSingle();
 
       if (!program?.id) {
-        logger.error('[barber-post-payment] Barber program not found in apprenticeship_programs table');
+        logger.error(
+          '[barber-post-payment] Barber program not found in apprenticeship_programs table',
+        );
         steps['create_enrollment'] = 'failed';
       } else {
         // Upsert enrollment
@@ -106,28 +114,30 @@ export async function runBarberPostPayment(
           const { data: newEnrollment, error: enrollErr } = await db
             .from('program_enrollments')
             .insert({
-              student_id:                  profileId,
-              user_id:                     profileId,
-              program_id:                  program.id,
-              program_slug:                BARBER_PROGRAM_SLUG,
-              course_id:                   BARBER_COURSE_ID,
-              email:                       studentEmail,
-              full_name:                   studentName,
-              phone:                       app.phone ?? null,
+              student_id: profileId,
+              user_id: profileId,
+              program_id: program.id,
+              program_slug: BARBER_PROGRAM_SLUG,
+              course_id: BARBER_COURSE_ID,
+              email: studentEmail,
+              full_name: studentName,
+              phone: app.phone ?? null,
               // Payment received — hold at pending_review until admin grants access.
-              status:                      'pending_review',
-              enrollment_state:            'enrolled',
-              funding_source:              'self_pay',
-              amount_paid_cents:           amountPaidCents,
-              stripe_checkout_session_id:  stripeSessionId,
-              stripe_payment_intent_id:    stripePaymentIntentId ?? null,
-              enrolled_at:                 new Date().toISOString(),
+              status: 'pending_review',
+              enrollment_state: 'enrolled',
+              funding_source: 'self_pay',
+              amount_paid_cents: amountPaidCents,
+              stripe_checkout_session_id: stripeSessionId,
+              stripe_payment_intent_id: stripePaymentIntentId ?? null,
+              enrolled_at: new Date().toISOString(),
             })
             .select('id')
             .maybeSingle();
 
           if (enrollErr || !newEnrollment) {
-            logger.error('[barber-post-payment] Enrollment creation failed', { error: enrollErr?.message });
+            logger.error('[barber-post-payment] Enrollment creation failed', {
+              error: enrollErr?.message,
+            });
             steps['create_enrollment'] = 'failed';
           } else {
             enrollmentId = newEnrollment.id;
@@ -139,7 +149,11 @@ export async function runBarberPostPayment(
         if (enrollmentId) {
           await db
             .from('applications')
-            .update({ enrollment_id: enrollmentId, status: 'approved', updated_at: new Date().toISOString() })
+            .update({
+              enrollment_id: enrollmentId,
+              status: 'approved',
+              updated_at: new Date().toISOString(),
+            })
             .eq('id', applicationId);
         }
       }
@@ -158,12 +172,12 @@ export async function runBarberPostPayment(
       .maybeSingle();
 
     await db.from('follow_up_reminders').insert({
-      due_at:         new Date(Date.now() + 4 * 60 * 60 * 1000).toISOString(), // 4 hours
-      status:         'pending',
-      type:           'enrollment-followup',
-      lead_id:        lead?.id ?? null,
+      due_at: new Date(Date.now() + 4 * 60 * 60 * 1000).toISOString(), // 4 hours
+      status: 'pending',
+      type: 'enrollment-followup',
+      lead_id: lead?.id ?? null,
       application_id: applicationId,
-      note:           `Paid barber student ${studentName} (${studentEmail}) — confirm host shop and start date.`,
+      note: `Paid barber student ${studentName} (${studentEmail}) — confirm host shop and start date.`,
     });
 
     // Advance CRM lead stage
@@ -171,11 +185,11 @@ export async function runBarberPostPayment(
       await db
         .from('crm_leads')
         .update({
-          stage:             'paid_awaiting_approval',
-          priority:          'urgent',
+          stage: 'paid_awaiting_approval',
+          priority: 'urgent',
           self_pay_interest: true,
-          application_id:    applicationId,
-          updated_at:        new Date().toISOString(),
+          application_id: applicationId,
+          updated_at: new Date().toISOString(),
         })
         .eq('id', lead.id);
     }
@@ -190,8 +204,8 @@ export async function runBarberPostPayment(
   try {
     const { sendEmail } = await import('@/lib/email/sendgrid');
     const onboardingUrl = `${siteUrl}/onboarding/barber-apprenticeship`;
-    const dashboardUrl  = `${siteUrl}/learner/dashboard`;
-    const loginUrl      = `${siteUrl}/login`;
+    const dashboardUrl = `${siteUrl}/learner/dashboard`;
+    const loginUrl = `${siteUrl}/login`;
 
     await sendEmail({
       to: studentEmail,
@@ -253,7 +267,10 @@ export async function runBarberPostPayment(
     // Mark onboarding email sent
     await db
       .from('applications')
-      .update({ onboarding_sent_at: new Date().toISOString(), updated_at: new Date().toISOString() })
+      .update({
+        onboarding_sent_at: new Date().toISOString(),
+        updated_at: new Date().toISOString(),
+      })
       .eq('id', applicationId);
 
     steps['student_email'] = 'ok';

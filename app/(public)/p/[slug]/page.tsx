@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { getPage } from '@/lib/data/pages';

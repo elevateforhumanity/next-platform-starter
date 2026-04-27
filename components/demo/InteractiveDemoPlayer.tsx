@@ -3,8 +3,14 @@
 import { useRef, useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import {
-  Play, Pause, Volume2, VolumeX, RotateCcw,
-  ChevronRight, ArrowLeft, Maximize2,
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  RotateCcw,
+  ChevronRight,
+  ArrowLeft,
+  Maximize2,
 } from 'lucide-react';
 
 // ---------------------------------------------------------------------------
@@ -46,14 +52,14 @@ export default function InteractiveDemoPlayer({
   portalLabel,
   trialHref = '/store/trial',
 }: InteractiveDemoPlayerProps) {
-  const sceneMap = Object.fromEntries(scenes.map(s => [s.id, s]));
+  const sceneMap = Object.fromEntries(scenes.map((s) => [s.id, s]));
 
-  const [currentId, setCurrentId]   = useState(startSceneId);
-  const [history, setHistory]       = useState<string[]>([]);
-  const [playing, setPlaying]       = useState(false);
-  const [muted, setMuted]           = useState(true);
-  const [ended, setEnded]           = useState(false);
-  const [loaded, setLoaded]         = useState(false);
+  const [currentId, setCurrentId] = useState(startSceneId);
+  const [history, setHistory] = useState<string[]>([]);
+  const [playing, setPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
+  const [ended, setEnded] = useState(false);
+  const [loaded, setLoaded] = useState(false);
   const [videoError, setVideoError] = useState(false);
   const [showChoices, setShowChoices] = useState(false);
   const videoRef = useRef<HTMLVideoElement>(null);
@@ -70,19 +76,24 @@ export default function InteractiveDemoPlayer({
     const v = videoRef.current;
     if (v) {
       v.load();
-      v.play().then(() => setPlaying(true)).catch(() => {});
+      v.play()
+        .then(() => setPlaying(true))
+        .catch(() => {});
     }
   }, [currentId]);
 
-  const goToScene = useCallback((id: string) => {
-    setHistory(h => [...h, currentId]);
-    setCurrentId(id);
-  }, [currentId]);
+  const goToScene = useCallback(
+    (id: string) => {
+      setHistory((h) => [...h, currentId]);
+      setCurrentId(id);
+    },
+    [currentId],
+  );
 
   const goBack = () => {
     if (history.length === 0) return;
     const prev = history[history.length - 1];
-    setHistory(h => h.slice(0, -1));
+    setHistory((h) => h.slice(0, -1));
     setCurrentId(prev);
   };
 
@@ -94,8 +105,14 @@ export default function InteractiveDemoPlayer({
   const togglePlay = () => {
     const v = videoRef.current;
     if (!v) return;
-    if (v.paused) { v.play().then(() => setPlaying(true)).catch(() => {}); }
-    else { v.pause(); setPlaying(false); }
+    if (v.paused) {
+      v.play()
+        .then(() => setPlaying(true))
+        .catch(() => {});
+    } else {
+      v.pause();
+      setPlaying(false);
+    }
   };
 
   const toggleMute = () => {
@@ -111,7 +128,6 @@ export default function InteractiveDemoPlayer({
 
   return (
     <div className="w-full max-w-4xl mx-auto">
-
       {/* Scene label + back */}
       <div className="flex items-center justify-between mb-3">
         <div className="flex items-center gap-2 text-sm text-slate-500">
@@ -148,8 +164,15 @@ export default function InteractiveDemoPlayer({
           onLoadedData={() => setLoaded(true)}
           onPlay={() => setPlaying(true)}
           onPause={() => setPlaying(false)}
-          onEnded={() => { setPlaying(false); setEnded(true); setShowChoices(true); }}
-          onError={() => { setVideoError(true); setLoaded(true); }}
+          onEnded={() => {
+            setPlaying(false);
+            setEnded(true);
+            setShowChoices(true);
+          }}
+          onError={() => {
+            setVideoError(true);
+            setLoaded(true);
+          }}
         >
           <source src={scene.videoSrc} type="video/mp4" />
         </video>
@@ -158,7 +181,11 @@ export default function InteractiveDemoPlayer({
         {videoError && (
           <div className="absolute inset-0 bg-slate-900">
             {scene.poster && (
-              <img src={scene.poster} alt={scene.title} className="absolute inset-0 w-full h-full object-cover" />
+              <img
+                src={scene.poster}
+                alt={scene.title}
+                className="absolute inset-0 w-full h-full object-cover"
+              />
             )}
           </div>
         )}
@@ -200,7 +227,9 @@ export default function InteractiveDemoPlayer({
                 >
                   <span>{choice.label}</span>
                   {choice.description && (
-                    <span className="text-xs opacity-75 font-normal mt-0.5">{choice.description}</span>
+                    <span className="text-xs opacity-75 font-normal mt-0.5">
+                      {choice.description}
+                    </span>
                   )}
                 </button>
               ))}
@@ -219,14 +248,34 @@ export default function InteractiveDemoPlayer({
         {/* Controls bar — visible on hover while playing */}
         {loaded && !showChoices && (
           <div className="absolute bottom-0 inset-x-0 p-3 flex items-center justify-between bg-gradient-to-t from-black/60 to-transparent opacity-0 group-hover:opacity-100 transition-opacity">
-            <button onClick={togglePlay} className="p-1.5 bg-black/50 hover:bg-black/70 rounded-full transition" aria-label={playing ? 'Pause' : 'Play'}>
-              {playing ? <Pause className="w-4 h-4 text-white" /> : <Play className="w-4 h-4 text-white" />}
+            <button
+              onClick={togglePlay}
+              className="p-1.5 bg-black/50 hover:bg-black/70 rounded-full transition"
+              aria-label={playing ? 'Pause' : 'Play'}
+            >
+              {playing ? (
+                <Pause className="w-4 h-4 text-white" />
+              ) : (
+                <Play className="w-4 h-4 text-white" />
+              )}
             </button>
             <div className="flex gap-2">
-              <button onClick={toggleMute} className="p-1.5 bg-black/50 hover:bg-black/70 rounded-full transition" aria-label={muted ? 'Unmute' : 'Mute'}>
-                {muted ? <VolumeX className="w-4 h-4 text-white" /> : <Volume2 className="w-4 h-4 text-white" />}
+              <button
+                onClick={toggleMute}
+                className="p-1.5 bg-black/50 hover:bg-black/70 rounded-full transition"
+                aria-label={muted ? 'Unmute' : 'Mute'}
+              >
+                {muted ? (
+                  <VolumeX className="w-4 h-4 text-white" />
+                ) : (
+                  <Volume2 className="w-4 h-4 text-white" />
+                )}
               </button>
-              <button onClick={fullscreen} className="p-1.5 bg-black/50 hover:bg-black/70 rounded-full transition" aria-label="Fullscreen">
+              <button
+                onClick={fullscreen}
+                className="p-1.5 bg-black/50 hover:bg-black/70 rounded-full transition"
+                aria-label="Fullscreen"
+              >
                 <Maximize2 className="w-4 h-4 text-white" />
               </button>
             </div>
@@ -243,7 +292,7 @@ export default function InteractiveDemoPlayer({
         {/* Allow skipping ahead without watching */}
         {!showChoices && scene.choices.length > 0 && (
           <div className="flex flex-wrap gap-2">
-            {scene.choices.map(choice => (
+            {scene.choices.map((choice) => (
               <button
                 key={choice.nextScene}
                 onClick={() => goToScene(choice.nextScene)}
@@ -263,9 +312,7 @@ export default function InteractiveDemoPlayer({
             <span
               key={`${id}-${i}`}
               className={`rounded-full transition-all ${
-                i === history.length
-                  ? 'w-4 h-2 bg-brand-red-600'
-                  : 'w-2 h-2 bg-slate-300'
+                i === history.length ? 'w-4 h-2 bg-brand-red-600' : 'w-2 h-2 bg-slate-300'
               }`}
             />
           ))}
@@ -276,7 +323,9 @@ export default function InteractiveDemoPlayer({
       <div className="mt-6 bg-slate-900 rounded-2xl p-5 flex flex-col sm:flex-row items-center justify-between gap-4">
         <div>
           <p className="text-white font-bold text-sm">Ready to run this for your organization?</p>
-          <p className="text-slate-400 text-xs mt-0.5">14-day free trial. No credit card. Full platform access.</p>
+          <p className="text-slate-400 text-xs mt-0.5">
+            14-day free trial. No credit card. Full platform access.
+          </p>
         </div>
         <Link
           href={trialHref}

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
@@ -51,10 +51,12 @@ export function AdvancedSearch({ onSearch }: AdvancedSearchProps) {
 
     try {
       const supabase = createClient();
-      
+
       let queryBuilder = supabase
         .from('training_programs')
-        .select('id, name, slug, category, duration_weeks, skill_level, price, image_url, description')
+        .select(
+          'id, name, slug, category, duration_weeks, skill_level, price, image_url, description',
+        )
         .eq('is_active', true);
 
       // Apply text search
@@ -77,18 +79,18 @@ export function AdvancedSearch({ onSearch }: AdvancedSearchProps) {
       if (error) throw error;
 
       // Get enrollment counts
-      const programIds = programs?.map(p => p.id) || [];
+      const programIds = programs?.map((p) => p.id) || [];
       const { data: enrollmentCounts } = await supabase
         .from('program_enrollments')
         .select('program_id')
         .in('program_id', programIds);
 
       const countMap: Record<string, number> = {};
-      enrollmentCounts?.forEach(e => {
+      enrollmentCounts?.forEach((e) => {
         countMap[e.program_id] = (countMap[e.program_id] || 0) + 1;
       });
 
-      const searchResults: SearchResult[] = (programs || []).map(p => ({
+      const searchResults: SearchResult[] = (programs || []).map((p) => ({
         id: p.id,
         title: p.name,
         category: p.category || 'General',
@@ -111,7 +113,7 @@ export function AdvancedSearch({ onSearch }: AdvancedSearchProps) {
 
   const toggleFilter = (filterType: keyof SearchFilters, value: string) => {
     setFilters((prev) => {
-      const currentValues = prev[filterType] as string[] || [];
+      const currentValues = (prev[filterType] as string[]) || [];
       const newValues = currentValues.includes(value)
         ? currentValues.filter((v) => v !== value)
         : [...currentValues, value];
@@ -128,7 +130,7 @@ export function AdvancedSearch({ onSearch }: AdvancedSearchProps) {
   };
 
   const activeFilterCount = Object.values(filters).filter(
-    (v) => v && (Array.isArray(v) ? v.length > 0 : true)
+    (v) => v && (Array.isArray(v) ? v.length > 0 : true),
   ).length;
 
   return (
@@ -136,21 +138,22 @@ export function AdvancedSearch({ onSearch }: AdvancedSearchProps) {
       {/* Search Bar */}
       <div className="flex gap-4">
         <div className="flex-1 relative">
-          <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-700" size={20} />
+          <Search
+            className="absolute left-4 top-1/2 transform -translate-y-1/2 text-slate-700"
+            size={20}
+          />
           <input
             type="text"
             value={query}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setQuery(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setQuery(e.target.value)}
             onKeyPress={(e) => e.key === 'Enter' && handleSearch()}
             placeholder="Search courses, programs, skills..."
             className="w-full pl-12 pr-4 py-3 border-2 border-gray-200 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
           />
         </div>
-        <Button
-          onClick={() => setShowFilters(!showFilters)}
-          variant="outline"
-          className="border-2"
-        >
+        <Button onClick={() => setShowFilters(!showFilters)} variant="outline" className="border-2">
           <SlidersHorizontal size={20} className="mr-2" />
           Filters
           {activeFilterCount > 0 && (
@@ -159,7 +162,11 @@ export function AdvancedSearch({ onSearch }: AdvancedSearchProps) {
             </span>
           )}
         </Button>
-        <Button onClick={handleSearch} disabled={loading} className="bg-brand-orange-600 hover:bg-brand-orange-700">
+        <Button
+          onClick={handleSearch}
+          disabled={loading}
+          className="bg-brand-orange-600 hover:bg-brand-orange-700"
+        >
           {loading ? <Loader2 className="animate-spin" size={20} /> : 'Search'}
         </Button>
       </div>

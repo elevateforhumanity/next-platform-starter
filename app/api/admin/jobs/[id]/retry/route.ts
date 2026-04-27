@@ -12,13 +12,10 @@ export const dynamic = 'force-dynamic';
 
 /**
  * STEP 6E: Retry dead letter job
- * 
+ *
  * POST /api/admin/jobs/:id/retry
  */
-async function _POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function _POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -52,7 +49,7 @@ async function _POST(
     if (job.status !== 'dead' && job.status !== 'failed') {
       return NextResponse.json(
         { error: 'Only dead or failed jobs can be retried' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -72,7 +69,7 @@ async function _POST(
       job.tenant_id,
       'retry_dead_letter_job',
       'provisioning_jobs',
-      `Retried job ${jobId} of type ${job.job_type}`
+      `Retried job ${jobId} of type ${job.job_type}`,
     );
 
     logger.info('Dead letter job retried', {
@@ -82,7 +79,14 @@ async function _POST(
       correlationId: job.correlation_id,
     });
 
-    await logAdminAudit({ action: AdminAction.JOB_RETRIED, actorId: tenantContext.userId, entityType: 'dead_letter_jobs', entityId: jobId, metadata: { job_type: job.job_type }, req: request });
+    await logAdminAudit({
+      action: AdminAction.JOB_RETRIED,
+      actorId: tenantContext.userId,
+      entityType: 'dead_letter_jobs',
+      entityId: jobId,
+      metadata: { job_type: job.job_type },
+      req: request,
+    });
 
     return NextResponse.json({
       success: true,
@@ -90,7 +94,10 @@ async function _POST(
       message: 'Job queued for retry',
     });
   } catch (error) {
-    logger.error('Retry job endpoint error', error instanceof Error ? error : new Error(String(error)));
+    logger.error(
+      'Retry job endpoint error',
+      error instanceof Error ? error : new Error(String(error)),
+    );
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

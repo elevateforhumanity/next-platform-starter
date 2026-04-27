@@ -1,6 +1,6 @@
 /**
  * Render 3D HVAC condenser walkthrough video using Puppeteer + Three.js
- * 
+ *
  * Captures frames from a headless browser rendering the GLB model,
  * with animated camera movements, component highlighting, and labels.
  * Then composites with FFmpeg + TTS audio.
@@ -28,10 +28,34 @@ const SCENES = [
     duration: 28.4, // seconds
     segments: [
       // Slow orbit showing the full unit
-      { t: 0, camera: [3, 2.5, 3], lookAt: [0, 0.6, 0], highlight: null, label: 'HVAC Condenser Unit' },
-      { t: 7, camera: [3, 1.5, 0], lookAt: [0, 0.6, 0], highlight: null, label: 'Outdoor Condenser' },
-      { t: 14, camera: [0, 2.5, 3], lookAt: [0, 0.6, 0], highlight: null, label: 'Split AC System' },
-      { t: 21, camera: [-2, 2, 2.5], lookAt: [0, 0.6, 0], highlight: null, label: '6 Key Components Inside' },
+      {
+        t: 0,
+        camera: [3, 2.5, 3],
+        lookAt: [0, 0.6, 0],
+        highlight: null,
+        label: 'HVAC Condenser Unit',
+      },
+      {
+        t: 7,
+        camera: [3, 1.5, 0],
+        lookAt: [0, 0.6, 0],
+        highlight: null,
+        label: 'Outdoor Condenser',
+      },
+      {
+        t: 14,
+        camera: [0, 2.5, 3],
+        lookAt: [0, 0.6, 0],
+        highlight: null,
+        label: 'Split AC System',
+      },
+      {
+        t: 21,
+        camera: [-2, 2, 2.5],
+        lookAt: [0, 0.6, 0],
+        highlight: null,
+        label: '6 Key Components Inside',
+      },
     ],
   },
   {
@@ -39,11 +63,41 @@ const SCENES = [
     audio: '02-condenser-overview.mp3',
     duration: 18.4,
     segments: [
-      { t: 0, camera: [2.5, 2, 2.5], lookAt: [0, 0.6, 0], highlight: 'Casing', label: 'Condenser Cabinet' },
-      { t: 5, camera: [1.5, 1.5, 1.5], lookAt: [0, 0.6, 0], highlight: null, label: '6 Components' },
-      { t: 9, camera: [1, 0.8, 1.5], lookAt: [0.15, 0.3, 0.1], highlight: 'Compressor', label: 'Compressor' },
-      { t: 12, camera: [0, 2, 1.5], lookAt: [0, 1.35, 0], highlight: 'FanMotor', label: 'Fan Motor' },
-      { t: 15, camera: [-1, 0.8, 1], lookAt: [-0.35, 0.35, 0.15], highlight: 'Capacitor', label: 'Capacitor' },
+      {
+        t: 0,
+        camera: [2.5, 2, 2.5],
+        lookAt: [0, 0.6, 0],
+        highlight: 'Casing',
+        label: 'Condenser Cabinet',
+      },
+      {
+        t: 5,
+        camera: [1.5, 1.5, 1.5],
+        lookAt: [0, 0.6, 0],
+        highlight: null,
+        label: '6 Components',
+      },
+      {
+        t: 9,
+        camera: [1, 0.8, 1.5],
+        lookAt: [0.15, 0.3, 0.1],
+        highlight: 'Compressor',
+        label: 'Compressor',
+      },
+      {
+        t: 12,
+        camera: [0, 2, 1.5],
+        lookAt: [0, 1.35, 0],
+        highlight: 'FanMotor',
+        label: 'Fan Motor',
+      },
+      {
+        t: 15,
+        camera: [-1, 0.8, 1],
+        lookAt: [-0.35, 0.35, 0.15],
+        highlight: 'Capacitor',
+        label: 'Capacitor',
+      },
     ],
   },
   {
@@ -52,16 +106,64 @@ const SCENES = [
     duration: 37.8,
     segments: [
       // Zoom into compressor
-      { t: 0, camera: [1, 0.5, 1], lookAt: [0.15, 0.3, 0.1], highlight: 'Compressor', label: 'COMPRESSOR — Heart of the System' },
-      { t: 5, camera: [0.8, 0.3, 0.6], lookAt: [0.15, 0.3, 0.1], highlight: 'Compressor', label: 'Compresses Low-Pressure Gas' },
-      { t: 10, camera: [0.6, 0.4, 0.8], lookAt: [0.15, 0.3, 0.1], highlight: 'Compressor', label: 'Most Expensive Component' },
+      {
+        t: 0,
+        camera: [1, 0.5, 1],
+        lookAt: [0.15, 0.3, 0.1],
+        highlight: 'Compressor',
+        label: 'COMPRESSOR — Heart of the System',
+      },
+      {
+        t: 5,
+        camera: [0.8, 0.3, 0.6],
+        lookAt: [0.15, 0.3, 0.1],
+        highlight: 'Compressor',
+        label: 'Compresses Low-Pressure Gas',
+      },
+      {
+        t: 10,
+        camera: [0.6, 0.4, 0.8],
+        lookAt: [0.15, 0.3, 0.1],
+        highlight: 'Compressor',
+        label: 'Most Expensive Component',
+      },
       // Pan to condenser coil (casing)
-      { t: 15, camera: [1.5, 1, 0], lookAt: [0, 0.6, 0], highlight: 'Casing', label: 'CONDENSER COIL — Copper + Aluminum Fins' },
-      { t: 20, camera: [1.8, 0.8, 0.5], lookAt: [0, 0.6, 0], highlight: 'Casing', label: 'Rejects Heat to Outdoor Air' },
-      { t: 25, camera: [0, 0.8, 1.8], lookAt: [0, 0.6, 0], highlight: 'Casing', label: 'Clean Fins = Good Airflow' },
+      {
+        t: 15,
+        camera: [1.5, 1, 0],
+        lookAt: [0, 0.6, 0],
+        highlight: 'Casing',
+        label: 'CONDENSER COIL — Copper + Aluminum Fins',
+      },
+      {
+        t: 20,
+        camera: [1.8, 0.8, 0.5],
+        lookAt: [0, 0.6, 0],
+        highlight: 'Casing',
+        label: 'Rejects Heat to Outdoor Air',
+      },
+      {
+        t: 25,
+        camera: [0, 0.8, 1.8],
+        lookAt: [0, 0.6, 0],
+        highlight: 'Casing',
+        label: 'Clean Fins = Good Airflow',
+      },
       // Show fan motor
-      { t: 30, camera: [0.5, 2.2, 1], lookAt: [0, 1.35, 0], highlight: 'FanMotor', label: 'FAN MOTOR — Pulls Air Through Coil' },
-      { t: 34, camera: [-0.5, 2, 1.2], lookAt: [0, 1.35, 0], highlight: 'TopGrille', label: 'Check: Blade Spins Freely' },
+      {
+        t: 30,
+        camera: [0.5, 2.2, 1],
+        lookAt: [0, 1.35, 0],
+        highlight: 'FanMotor',
+        label: 'FAN MOTOR — Pulls Air Through Coil',
+      },
+      {
+        t: 34,
+        camera: [-0.5, 2, 1.2],
+        lookAt: [0, 1.35, 0],
+        highlight: 'TopGrille',
+        label: 'Check: Blade Spins Freely',
+      },
     ],
   },
   {
@@ -70,16 +172,64 @@ const SCENES = [
     duration: 38.6,
     segments: [
       // Zoom to capacitor
-      { t: 0, camera: [-0.8, 0.5, 0.8], lookAt: [-0.35, 0.35, 0.15], highlight: 'Capacitor', label: 'CAPACITOR — #1 Failure Point' },
-      { t: 5, camera: [-0.6, 0.4, 0.6], lookAt: [-0.35, 0.35, 0.15], highlight: 'Capacitor', label: 'Stores Electrical Energy' },
-      { t: 10, camera: [-0.7, 0.3, 0.5], lookAt: [-0.35, 0.35, 0.15], highlight: 'Capacitor', label: 'Test with Multimeter (µF)' },
-      { t: 15, camera: [-0.5, 0.5, 0.7], lookAt: [-0.35, 0.35, 0.15], highlight: 'Capacitor', label: 'Replace if >10% Below Rating' },
+      {
+        t: 0,
+        camera: [-0.8, 0.5, 0.8],
+        lookAt: [-0.35, 0.35, 0.15],
+        highlight: 'Capacitor',
+        label: 'CAPACITOR — #1 Failure Point',
+      },
+      {
+        t: 5,
+        camera: [-0.6, 0.4, 0.6],
+        lookAt: [-0.35, 0.35, 0.15],
+        highlight: 'Capacitor',
+        label: 'Stores Electrical Energy',
+      },
+      {
+        t: 10,
+        camera: [-0.7, 0.3, 0.5],
+        lookAt: [-0.35, 0.35, 0.15],
+        highlight: 'Capacitor',
+        label: 'Test with Multimeter (µF)',
+      },
+      {
+        t: 15,
+        camera: [-0.5, 0.5, 0.7],
+        lookAt: [-0.35, 0.35, 0.15],
+        highlight: 'Capacitor',
+        label: 'Replace if >10% Below Rating',
+      },
       // Pan to contactor
-      { t: 20, camera: [-0.5, 0.7, 1], lookAt: [-0.15, 0.45, 0.45], highlight: 'Contactor', label: 'CONTACTOR — Electromagnetic Switch' },
-      { t: 25, camera: [-0.3, 0.5, 1.2], lookAt: [-0.15, 0.45, 0.45], highlight: 'Contactor', label: '24V Coil → Closes 240V Contacts' },
-      { t: 30, camera: [-0.4, 0.6, 0.9], lookAt: [-0.15, 0.45, 0.45], highlight: 'Contactor', label: 'Check for Pitted/Burned Contacts' },
+      {
+        t: 20,
+        camera: [-0.5, 0.7, 1],
+        lookAt: [-0.15, 0.45, 0.45],
+        highlight: 'Contactor',
+        label: 'CONTACTOR — Electromagnetic Switch',
+      },
+      {
+        t: 25,
+        camera: [-0.3, 0.5, 1.2],
+        lookAt: [-0.15, 0.45, 0.45],
+        highlight: 'Contactor',
+        label: '24V Coil → Closes 240V Contacts',
+      },
+      {
+        t: 30,
+        camera: [-0.4, 0.6, 0.9],
+        lookAt: [-0.15, 0.45, 0.45],
+        highlight: 'Contactor',
+        label: 'Check for Pitted/Burned Contacts',
+      },
       // Show service valves (ref lines)
-      { t: 34, camera: [1.2, 0.5, 0.5], lookAt: [0.45, 0.35, 0], highlight: 'RefLine1', label: 'SERVICE VALVES — Gauge Ports' },
+      {
+        t: 34,
+        camera: [1.2, 0.5, 0.5],
+        lookAt: [0.45, 0.35, 0],
+        highlight: 'RefLine1',
+        label: 'SERVICE VALVES — Gauge Ports',
+      },
     ],
   },
   {
@@ -88,17 +238,65 @@ const SCENES = [
     duration: 36.3,
     segments: [
       // Full unit view for inspection overview
-      { t: 0, camera: [3, 2, 2], lookAt: [0, 0.6, 0], highlight: null, label: 'STEP 1: Visual Inspection' },
-      { t: 5, camera: [2.5, 1, 2.5], lookAt: [0, 0.6, 0], highlight: 'Casing', label: 'Check for Debris, Damage, Oil Stains' },
+      {
+        t: 0,
+        camera: [3, 2, 2],
+        lookAt: [0, 0.6, 0],
+        highlight: null,
+        label: 'STEP 1: Visual Inspection',
+      },
+      {
+        t: 5,
+        camera: [2.5, 1, 2.5],
+        lookAt: [0, 0.6, 0],
+        highlight: 'Casing',
+        label: 'Check for Debris, Damage, Oil Stains',
+      },
       // Airflow check - top view
-      { t: 10, camera: [0.5, 3, 0.5], lookAt: [0, 1.35, 0], highlight: 'TopGrille', label: 'STEP 2: Check Airflow' },
-      { t: 15, camera: [0, 2.5, 1], lookAt: [0, 1.35, 0], highlight: 'FanMotor', label: 'Feel for Strong Warm Air at Top' },
+      {
+        t: 10,
+        camera: [0.5, 3, 0.5],
+        lookAt: [0, 1.35, 0],
+        highlight: 'TopGrille',
+        label: 'STEP 2: Check Airflow',
+      },
+      {
+        t: 15,
+        camera: [0, 2.5, 1],
+        lookAt: [0, 1.35, 0],
+        highlight: 'FanMotor',
+        label: 'Feel for Strong Warm Air at Top',
+      },
       // Capacitor test
-      { t: 20, camera: [-0.8, 0.5, 0.8], lookAt: [-0.35, 0.35, 0.15], highlight: 'Capacitor', label: 'STEP 3: Test Capacitor' },
-      { t: 25, camera: [-0.6, 0.4, 0.6], lookAt: [-0.35, 0.35, 0.15], highlight: 'Capacitor', label: 'Multimeter → Microfarad Setting' },
+      {
+        t: 20,
+        camera: [-0.8, 0.5, 0.8],
+        lookAt: [-0.35, 0.35, 0.15],
+        highlight: 'Capacitor',
+        label: 'STEP 3: Test Capacitor',
+      },
+      {
+        t: 25,
+        camera: [-0.6, 0.4, 0.6],
+        lookAt: [-0.35, 0.35, 0.15],
+        highlight: 'Capacitor',
+        label: 'Multimeter → Microfarad Setting',
+      },
       // Gauges on service valves
-      { t: 28, camera: [1.5, 0.5, 0.5], lookAt: [0.45, 0.35, 0], highlight: 'RefLine1', label: 'STEP 4: Connect Manifold Gauges' },
-      { t: 32, camera: [1.2, 0.4, 0.8], lookAt: [0.45, 0.35, 0], highlight: 'RefLine2', label: 'Compare Pressures to Specs' },
+      {
+        t: 28,
+        camera: [1.5, 0.5, 0.5],
+        lookAt: [0.45, 0.35, 0],
+        highlight: 'RefLine1',
+        label: 'STEP 4: Connect Manifold Gauges',
+      },
+      {
+        t: 32,
+        camera: [1.2, 0.4, 0.8],
+        lookAt: [0.45, 0.35, 0],
+        highlight: 'RefLine2',
+        label: 'Compare Pressures to Specs',
+      },
     ],
   },
   {
@@ -107,14 +305,62 @@ const SCENES = [
     duration: 28.9,
     segments: [
       // Orbit showing all components one more time
-      { t: 0, camera: [2.5, 2, 2.5], lookAt: [0, 0.6, 0], highlight: null, label: 'MODULE 1 COMPLETE' },
-      { t: 5, camera: [1, 0.5, 1.5], lookAt: [0.15, 0.3, 0.1], highlight: 'Compressor', label: '✓ Compressor' },
-      { t: 8, camera: [1.5, 1, 0], lookAt: [0, 0.6, 0], highlight: 'Casing', label: '✓ Condenser Coil' },
-      { t: 11, camera: [0, 2.2, 1], lookAt: [0, 1.35, 0], highlight: 'FanMotor', label: '✓ Fan Motor' },
-      { t: 14, camera: [-0.8, 0.5, 0.8], lookAt: [-0.35, 0.35, 0.15], highlight: 'Capacitor', label: '✓ Capacitor' },
-      { t: 17, camera: [-0.5, 0.7, 1], lookAt: [-0.15, 0.45, 0.45], highlight: 'Contactor', label: '✓ Contactor' },
-      { t: 20, camera: [1.2, 0.5, 0.5], lookAt: [0.45, 0.35, 0], highlight: 'RefLine1', label: '✓ Service Valves' },
-      { t: 23, camera: [3, 2.5, 3], lookAt: [0, 0.6, 0], highlight: null, label: 'Now Try the 3D Lab + Quiz ↓' },
+      {
+        t: 0,
+        camera: [2.5, 2, 2.5],
+        lookAt: [0, 0.6, 0],
+        highlight: null,
+        label: 'MODULE 1 COMPLETE',
+      },
+      {
+        t: 5,
+        camera: [1, 0.5, 1.5],
+        lookAt: [0.15, 0.3, 0.1],
+        highlight: 'Compressor',
+        label: '✓ Compressor',
+      },
+      {
+        t: 8,
+        camera: [1.5, 1, 0],
+        lookAt: [0, 0.6, 0],
+        highlight: 'Casing',
+        label: '✓ Condenser Coil',
+      },
+      {
+        t: 11,
+        camera: [0, 2.2, 1],
+        lookAt: [0, 1.35, 0],
+        highlight: 'FanMotor',
+        label: '✓ Fan Motor',
+      },
+      {
+        t: 14,
+        camera: [-0.8, 0.5, 0.8],
+        lookAt: [-0.35, 0.35, 0.15],
+        highlight: 'Capacitor',
+        label: '✓ Capacitor',
+      },
+      {
+        t: 17,
+        camera: [-0.5, 0.7, 1],
+        lookAt: [-0.15, 0.45, 0.45],
+        highlight: 'Contactor',
+        label: '✓ Contactor',
+      },
+      {
+        t: 20,
+        camera: [1.2, 0.5, 0.5],
+        lookAt: [0.45, 0.35, 0],
+        highlight: 'RefLine1',
+        label: '✓ Service Valves',
+      },
+      {
+        t: 23,
+        camera: [3, 2.5, 3],
+        lookAt: [0, 0.6, 0],
+        highlight: null,
+        label: 'Now Try the 3D Lab + Quiz ↓',
+      },
     ],
   },
 ];
@@ -122,7 +368,7 @@ const SCENES = [
 // HTML page that Three.js renders in the browser
 function buildHTML() {
   const glbBase64 = fs.readFileSync(GLB_PATH).toString('base64');
-  
+
   return `<!DOCTYPE html>
 <html>
 <head>
@@ -305,7 +551,7 @@ async function main() {
   console.log('Model loaded.');
 
   // Clear frame directory
-  const existingFrames = fs.readdirSync(FRAME_DIR).filter(f => f.endsWith('.png'));
+  const existingFrames = fs.readdirSync(FRAME_DIR).filter((f) => f.endsWith('.png'));
   for (const f of existingFrames) fs.unlinkSync(path.join(FRAME_DIR, f));
 
   let globalFrame = 0;
@@ -313,7 +559,9 @@ async function main() {
   for (let sceneIdx = 0; sceneIdx < SCENES.length; sceneIdx++) {
     const sc = SCENES[sceneIdx];
     const totalFrames = Math.ceil(sc.duration * FPS);
-    console.log(`\nScene ${sceneIdx + 1}/${SCENES.length}: ${sc.id} (${sc.duration}s, ${totalFrames} frames)`);
+    console.log(
+      `\nScene ${sceneIdx + 1}/${SCENES.length}: ${sc.id} (${sc.duration}s, ${totalFrames} frames)`,
+    );
 
     for (let f = 0; f < totalFrames; f++) {
       const t = f / FPS; // current time in scene
@@ -326,13 +574,14 @@ async function main() {
 
       const seg = sc.segments[segIdx];
       const nextSeg = sc.segments[segIdx + 1] || seg;
-      const segDuration = (nextSeg === seg) ? (sc.duration - seg.t) : (nextSeg.t - seg.t);
+      const segDuration = nextSeg === seg ? sc.duration - seg.t : nextSeg.t - seg.t;
       const segProgress = Math.min(1, (t - seg.t) / segDuration);
 
       // Smooth easing
-      const ease = segProgress < 0.5
-        ? 2 * segProgress * segProgress
-        : 1 - Math.pow(-2 * segProgress + 2, 2) / 2;
+      const ease =
+        segProgress < 0.5
+          ? 2 * segProgress * segProgress
+          : 1 - Math.pow(-2 * segProgress + 2, 2) / 2;
 
       // Interpolate camera
       const cx = lerp(seg.camera[0], nextSeg.camera[0], ease);
@@ -347,10 +596,15 @@ async function main() {
           window.setFrame(cx, cy, cz, lx, ly, lz, hl, label, scLabel);
           window.renderFrame();
         },
-        cx, cy, cz, lx, ly, lz,
+        cx,
+        cy,
+        cz,
+        lx,
+        ly,
+        lz,
         seg.highlight,
         seg.label,
-        `Module 1 — Scene ${sceneIdx + 1}`
+        `Module 1 — Scene ${sceneIdx + 1}`,
       );
 
       // Capture frame
@@ -373,21 +627,21 @@ async function main() {
   // First, create video from frames
   execSync(
     `ffmpeg -y -framerate ${FPS} -i ${FRAME_DIR}/frame_%06d.png -c:v libx264 -pix_fmt yuv420p -preset fast -crf 23 ${OUTPUT_DIR}/3d-video-noaudio.mp4`,
-    { stdio: 'inherit' }
+    { stdio: 'inherit' },
   );
 
   // Concatenate all audio files
-  const audioConcat = SCENES.map(s => `file '${AUDIO_DIR}/${s.audio}'`).join('\n');
+  const audioConcat = SCENES.map((s) => `file '${AUDIO_DIR}/${s.audio}'`).join('\n');
   fs.writeFileSync(`${OUTPUT_DIR}/audio-concat.txt`, audioConcat);
   execSync(
     `ffmpeg -y -f concat -safe 0 -i ${OUTPUT_DIR}/audio-concat.txt -c:a aac -b:a 192k ${OUTPUT_DIR}/narration.aac`,
-    { stdio: 'inherit' }
+    { stdio: 'inherit' },
   );
 
   // Merge video + audio
   execSync(
     `ffmpeg -y -i ${OUTPUT_DIR}/3d-video-noaudio.mp4 -i ${OUTPUT_DIR}/narration.aac -c:v copy -c:a copy -shortest ${OUTPUT_DIR}/hvac-module1-lesson1-3d.mp4`,
-    { stdio: 'inherit' }
+    { stdio: 'inherit' },
   );
 
   const stats = fs.statSync(`${OUTPUT_DIR}/hvac-module1-lesson1-3d.mp4`);
@@ -395,6 +649,11 @@ async function main() {
   console.log('Output: temp/hvac-video/hvac-module1-lesson1-3d.mp4');
 }
 
-function lerp(a, b, t) { return a + (b - a) * t; }
+function lerp(a, b, t) {
+  return a + (b - a) * t;
+}
 
-main().catch(e => { console.error('FATAL:', e.message); process.exit(1); });
+main().catch((e) => {
+  console.error('FATAL:', e.message);
+  process.exit(1);
+});

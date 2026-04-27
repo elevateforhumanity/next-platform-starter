@@ -1,4 +1,4 @@
-import Link from "next/link";
+import Link from 'next/link';
 
 type Lesson = {
   id: string;
@@ -20,10 +20,7 @@ type CourseContentAccordionProps = {
   modules: Module[];
 };
 
-export function CourseContentAccordion({
-  courseSlug,
-  modules,
-}: CourseContentAccordionProps) {
+export function CourseContentAccordion({ courseSlug, modules }: CourseContentAccordionProps) {
   if (!modules.length) {
     return (
       <div className="rounded-xl border bg-white p-4 text-sm text-black">
@@ -36,9 +33,8 @@ export function CourseContentAccordion({
     <div className="rounded-xl border bg-white p-4 shadow-sm">
       <h2 className="text-sm font-semibold">Course content</h2>
       <p className="mt-1 text-xs text-slate-500">
-        {modules.length} modules •{" "}
-        {modules.reduce((total, m) => total + (m.lessons?.length || 0), 0)}{" "}
-        lessons
+        {modules.length} modules •{' '}
+        {modules.reduce((total, m) => total + (m.lessons?.length || 0), 0)} lessons
       </p>
 
       <div className="mt-3 divide-y">
@@ -54,13 +50,11 @@ export function CourseContentAccordion({
               <summary className="flex cursor-pointer items-center justify-between gap-2 text-xs font-semibold text-black">
                 <span className="flex items-center gap-2">
                   <span className="rounded-full bg-slate-100 px-2 py-0.5 text-[10px] font-semibold text-black">
-                    Module {module.order_index ?? ""}
+                    Module {module.order_index ?? ''}
                   </span>
                   <span>{module.title}</span>
                 </span>
-                <span className="text-[10px] text-slate-500">
-                  {module.lessons.length} lessons
-                </span>
+                <span className="text-[10px] text-slate-500">{module.lessons.length} lessons</span>
               </summary>
 
               <ul className="mt-2 space-y-1 text-xs">
@@ -82,9 +76,7 @@ export function CourseContentAccordion({
                         </Link>
                       </div>
                       <div className="flex items-center gap-2 text-[10px] text-slate-500">
-                        {lesson.duration_minutes && (
-                          <span>{lesson.duration_minutes} min</span>
-                        )}
+                        {lesson.duration_minutes && <span>{lesson.duration_minutes} min</span>}
                         {lesson.completed && (
                           <span className="rounded-full bg-brand-red-50 px-2 py-0.5 text-[9px] font-semibold text-brand-red-700">
                             Done

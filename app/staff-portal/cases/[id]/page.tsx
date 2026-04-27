@@ -1,15 +1,25 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { loadCaseFile } from '@/lib/case-file/loader';
-import { 
-  User, FileText, GraduationCap, Briefcase, Shield, 
-  Clock, AlertCircle, XCircle, ChevronRight,
-  Phone, Mail, MapPin, Calendar,
-CheckCircle, } from 'lucide-react';
+import {
+  User,
+  FileText,
+  GraduationCap,
+  Briefcase,
+  Shield,
+  Clock,
+  AlertCircle,
+  XCircle,
+  ChevronRight,
+  Phone,
+  Mail,
+  MapPin,
+  Calendar,
+  CheckCircle,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Participant Case File | Staff Portal',
@@ -34,7 +44,9 @@ function StatusBadge({ status }: { status: string }) {
   const Icon = c.icon;
 
   return (
-    <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${c.bg} ${c.text}`}>
+    <span
+      className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${c.bg} ${c.text}`}
+    >
       <Icon className="w-3 h-3" />
       {status.replace(/_/g, ' ').toUpperCase()}
     </span>
@@ -42,7 +54,15 @@ function StatusBadge({ status }: { status: string }) {
 }
 
 // Section component
-function Section({ title, icon: Icon, children }: { title: string; icon: typeof User; children: React.ReactNode }) {
+function Section({
+  title,
+  icon: Icon,
+  children,
+}: {
+  title: string;
+  icon: typeof User;
+  children: React.ReactNode;
+}) {
   return (
     <section className="rounded-xl border border-slate-200 overflow-hidden">
       <div className="bg-white px-6 py-4 border-b border-slate-200 flex items-center gap-3">
@@ -81,7 +101,9 @@ export default async function CaseFilePage({ params }: { params: Promise<{ id: s
               <div className="text-sm text-slate-500 mb-1">Case File</div>
               <h1 className="text-2xl font-bold text-slate-900">{caseFile.profile.fullName}</h1>
               <div className="flex items-center gap-4 mt-2 text-sm text-slate-600">
-                <span className="font-mono bg-white px-2 py-0.5 rounded">{caseFile.caseNumber}</span>
+                <span className="font-mono bg-white px-2 py-0.5 rounded">
+                  {caseFile.caseNumber}
+                </span>
                 <StatusBadge status={caseFile.caseStatus.status} />
               </div>
             </div>
@@ -94,7 +116,6 @@ export default async function CaseFilePage({ params }: { params: Promise<{ id: s
       </header>
 
       <div className="max-w-6xl mx-auto px-4 py-8 space-y-6">
-
         {/* Profile & Contact */}
         <Section title="Participant Profile" icon={User}>
           <div className="grid md:grid-cols-2 gap-6">
@@ -111,12 +132,17 @@ export default async function CaseFilePage({ params }: { params: Promise<{ id: s
                 <div className="flex items-start gap-2 text-slate-700">
                   <MapPin className="w-4 h-4 text-slate-400 mt-0.5" />
                   <div>
-                    {caseFile.profile.address.street && <div>{caseFile.profile.address.street}</div>}
+                    {caseFile.profile.address.street && (
+                      <div>{caseFile.profile.address.street}</div>
+                    )}
                     <div>
-                      {caseFile.profile.address.city}, {caseFile.profile.address.state} {caseFile.profile.address.zip}
+                      {caseFile.profile.address.city}, {caseFile.profile.address.state}{' '}
+                      {caseFile.profile.address.zip}
                     </div>
                     {caseFile.profile.address.county && (
-                      <div className="text-sm text-slate-500">{caseFile.profile.address.county} County</div>
+                      <div className="text-sm text-slate-500">
+                        {caseFile.profile.address.county} County
+                      </div>
                     )}
                   </div>
                 </div>
@@ -126,16 +152,24 @@ export default async function CaseFilePage({ params }: { params: Promise<{ id: s
               <div className="text-sm font-medium text-slate-500 mb-2">Demographics</div>
               <div className="flex flex-wrap gap-2">
                 {caseFile.profile.demographics?.veteran && (
-                  <span className="bg-brand-blue-100 text-brand-blue-700 px-2 py-0.5 rounded text-xs">Veteran</span>
+                  <span className="bg-brand-blue-100 text-brand-blue-700 px-2 py-0.5 rounded text-xs">
+                    Veteran
+                  </span>
                 )}
                 {caseFile.profile.demographics?.justiceInvolved && (
-                  <span className="bg-brand-blue-100 text-brand-blue-700 px-2 py-0.5 rounded text-xs">Justice-Involved</span>
+                  <span className="bg-brand-blue-100 text-brand-blue-700 px-2 py-0.5 rounded text-xs">
+                    Justice-Involved
+                  </span>
                 )}
                 {caseFile.profile.demographics?.disability && (
-                  <span className="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-xs">Disability</span>
+                  <span className="bg-amber-100 text-amber-700 px-2 py-0.5 rounded text-xs">
+                    Disability
+                  </span>
                 )}
                 {caseFile.profile.demographics?.publicAssistance && (
-                  <span className="bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded text-xs">Public Assistance</span>
+                  <span className="bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded text-xs">
+                    Public Assistance
+                  </span>
                 )}
               </div>
             </div>
@@ -176,19 +210,24 @@ export default async function CaseFilePage({ params }: { params: Promise<{ id: s
             <div className="text-slate-500 text-sm">No enrollments</div>
           ) : (
             <div className="space-y-3">
-              {caseFile.enrollments.map(enrollment => (
-                <div key={enrollment.id} className="flex items-center justify-between p-3 bg-white rounded-lg">
+              {caseFile.enrollments.map((enrollment) => (
+                <div
+                  key={enrollment.id}
+                  className="flex items-center justify-between p-3 bg-white rounded-lg"
+                >
                   <div>
                     <div className="font-medium text-slate-900">{enrollment.programName}</div>
                     <div className="text-sm text-slate-500">
                       Enrolled: {formatDate(enrollment.enrolledAt)}
-                      {enrollment.completedAt && ` • Completed: ${formatDate(enrollment.completedAt)}`}
+                      {enrollment.completedAt &&
+                        ` • Completed: ${formatDate(enrollment.completedAt)}`}
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     {enrollment.paymentOption && (
                       <span className="text-xs text-slate-500">
-                        {enrollment.paymentOption} {enrollment.amountPaid ? `($${enrollment.amountPaid})` : ''}
+                        {enrollment.paymentOption}{' '}
+                        {enrollment.amountPaid ? `($${enrollment.amountPaid})` : ''}
                       </span>
                     )}
                     <StatusBadge status={enrollment.status} />
@@ -205,8 +244,11 @@ export default async function CaseFilePage({ params }: { params: Promise<{ id: s
             <div className="text-slate-500 text-sm">No documents uploaded</div>
           ) : (
             <div className="space-y-2">
-              {caseFile.documents.map(doc => (
-                <div key={doc.id} className="flex items-center justify-between p-3 bg-white rounded-lg">
+              {caseFile.documents.map((doc) => (
+                <div
+                  key={doc.id}
+                  className="flex items-center justify-between p-3 bg-white rounded-lg"
+                >
                   <div>
                     <div className="font-medium text-slate-900">{doc.name}</div>
                     <div className="text-sm text-slate-500">
@@ -226,8 +268,11 @@ export default async function CaseFilePage({ params }: { params: Promise<{ id: s
             <div className="text-slate-500 text-sm">No credentials issued</div>
           ) : (
             <div className="space-y-2">
-              {caseFile.credentials.map(cred => (
-                <div key={cred.id} className="flex items-center justify-between p-3 bg-white rounded-lg">
+              {caseFile.credentials.map((cred) => (
+                <div
+                  key={cred.id}
+                  className="flex items-center justify-between p-3 bg-white rounded-lg"
+                >
                   <div>
                     <div className="font-medium text-slate-900">{cred.name}</div>
                     <div className="text-sm text-slate-500">
@@ -242,7 +287,10 @@ export default async function CaseFilePage({ params }: { params: Promise<{ id: s
                       </span>
                     )}
                     {cred.verificationUrl && (
-                      <Link href={cred.verificationUrl} className="text-brand-blue-600 text-sm hover:underline">
+                      <Link
+                        href={cred.verificationUrl}
+                        className="text-brand-blue-600 text-sm hover:underline"
+                      >
                         View
                       </Link>
                     )}
@@ -281,7 +329,7 @@ export default async function CaseFilePage({ params }: { params: Promise<{ id: s
             <div className="text-slate-500 text-sm">No activity recorded</div>
           ) : (
             <div className="space-y-2 max-h-64 overflow-y-auto">
-              {caseFile.activityLog.slice(0, 20).map(log => (
+              {caseFile.activityLog.slice(0, 20).map((log) => (
                 <div key={log.id} className="flex items-start gap-3 text-sm">
                   <div className="text-slate-400 w-32 flex-shrink-0">
                     {formatDate(log.performedAt)}
@@ -293,7 +341,6 @@ export default async function CaseFilePage({ params }: { params: Promise<{ id: s
             </div>
           )}
         </Section>
-
       </div>
 
       {/* Footer */}

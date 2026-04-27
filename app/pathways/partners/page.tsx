@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -6,10 +5,12 @@ import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 export const metadata: Metadata = {
   title: 'Partners & Cohort Training | Career Pathways | Elevate for Humanity',
-  description: 'How workforce boards, community organizations, and employers partner with Elevate for custom cohort training, progress reporting, and credentialed placement.',
+  description:
+    'How workforce boards, community organizations, and employers partner with Elevate for custom cohort training, progress reporting, and credentialed placement.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/pathways/partners' },
 };
 
@@ -18,29 +19,44 @@ export default function PartnersPage() {
     <div className="bg-white min-h-screen">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Career Pathways', href: '/pathways' }, { label: 'Partners & Cohort Training' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Career Pathways', href: '/pathways' },
+              { label: 'Partners & Cohort Training' },
+            ]}
+          />
         </div>
       </div>
 
       {/* Visual hero */}
       <section className="relative h-[280px] sm:h-[360px] overflow-hidden">
-        <Image src="/images/pages/pathways-page-3.jpg" alt="Employer and workforce partnership meeting" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/pathways-page-3.jpg"
+          alt="Employer and workforce partnership meeting"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
 
       {/* Intro */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">Partners &amp; Cohort Training</h1>
+          <h1 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-6">
+            Partners &amp; Cohort Training
+          </h1>
           <div className="text-slate-900 space-y-4">
             <p>
               Elevate runs custom training cohorts for workforce boards, community organizations,
-              employers, and government agencies. This page explains exactly how it works — what
-              you get, how long it takes, what reports you receive, and what it costs.
+              employers, and government agencies. This page explains exactly how it works — what you
+              get, how long it takes, what reports you receive, and what it costs.
             </p>
             <p>
               If you are a case manager at WorkOne, a program director at a community organization
-              like Goodwill or a community organization, an HR director at a company that needs trained workers, or
-              a grant administrator evaluating training providers — this page is for you.
+              like Goodwill or a community organization, an HR director at a company that needs
+              trained workers, or a grant administrator evaluating training providers — this page is
+              for you.
             </p>
           </div>
         </div>
@@ -51,8 +67,8 @@ export default function PartnersPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-2xl font-bold text-slate-900 mb-3">How a Custom Cohort Works</h2>
           <p className="text-black mb-8">
-            This is the process from first conversation to final outcome report. Most cohorts
-            are up and running within 2–3 weeks of initial contact.
+            This is the process from first conversation to final outcome report. Most cohorts are up
+            and running within 2–3 weeks of initial contact.
           </p>
 
           <div className="space-y-6">
@@ -100,10 +116,19 @@ export default function PartnersPage() {
                 desc: 'Our career services team helps participants with resume building, interview preparation, and direct employer introductions. We track employment outcomes at 6 months and 12 months. You receive a final cohort report with credential attainment rates, employment rates, employer names, job titles, and wage data.',
               },
             ].map((s) => (
-              <div key={s.step} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div
+                key={s.step}
+                className="bg-white rounded-xl border border-gray-200 overflow-hidden"
+              >
                 <div className="flex flex-col sm:flex-row">
                   <div className="relative h-48 sm:h-auto sm:w-56 flex-shrink-0 overflow-hidden">
-                    <Image src={s.image} alt={s.title} fill sizes="(max-width: 640px) 100vw, 224px" className="object-cover" />
+                    <Image
+                      src={s.image}
+                      alt={s.title}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 224px"
+                      className="object-cover"
+                    />
                     <div className="absolute top-3 left-3 w-8 h-8 bg-brand-blue-700 rounded-full flex items-center justify-center text-white font-bold text-sm shadow">
                       {s.step}
                     </div>
@@ -111,7 +136,9 @@ export default function PartnersPage() {
                   <div className="p-5 flex-1">
                     <div className="flex items-start justify-between mb-2">
                       <h3 className="font-bold text-slate-900">{s.title}</h3>
-                      <span className="text-xs text-black font-medium whitespace-nowrap ml-3">{s.time}</span>
+                      <span className="text-xs text-black font-medium whitespace-nowrap ml-3">
+                        {s.time}
+                      </span>
                     </div>
                     <p className="text-sm text-slate-900">{s.desc}</p>
                   </div>
@@ -136,34 +163,43 @@ export default function PartnersPage() {
             {[
               {
                 name: 'Weekly or Biweekly Progress Report',
-                includes: 'Attendance records for each session, lesson completion percentage per participant, assessment and quiz scores, flags for participants who are falling behind or have missed sessions.',
+                includes:
+                  'Attendance records for each session, lesson completion percentage per participant, assessment and quiz scores, flags for participants who are falling behind or have missed sessions.',
                 when: 'Sent on the schedule you choose — every Friday, every other Monday, or any cadence that works for your team.',
               },
               {
                 name: 'Credential Report',
-                includes: 'Exam dates for each participant, pass or fail result, credential name and issuing authority, credential issue date, and any retake scheduling.',
+                includes:
+                  'Exam dates for each participant, pass or fail result, credential name and issuing authority, credential issue date, and any retake scheduling.',
                 when: 'Sent within 5 business days of exam completion.',
               },
               {
                 name: 'Employment Outcome Report',
-                includes: 'Employer name, job title, start date, starting wage, and employment verification. Tracked at 6 months (Q2) and 12 months (Q4) after program exit.',
+                includes:
+                  'Employer name, job title, start date, starting wage, and employment verification. Tracked at 6 months (Q2) and 12 months (Q4) after program exit.',
                 when: 'Sent at Q2 and Q4 milestones. Interim updates available on request.',
               },
               {
                 name: 'Final Cohort Summary',
-                includes: 'Total enrollment count, completion rate, credential attainment rate, employment rate, average starting wage, and participant-level detail as needed for funder compliance (WIOA performance indicators).',
+                includes:
+                  'Total enrollment count, completion rate, credential attainment rate, employment rate, average starting wage, and participant-level detail as needed for funder compliance (WIOA performance indicators).',
                 when: 'Sent within 30 days of cohort completion.',
               },
               {
                 name: 'Apprenticeship Report (for apprenticeship programs)',
-                includes: 'On-the-job training hours logged per apprentice, wage progression, RAPIDS registration status, classroom instruction completion, and projected completion date.',
+                includes:
+                  'On-the-job training hours logged per apprentice, wage progression, RAPIDS registration status, classroom instruction completion, and projected completion date.',
                 when: 'Sent monthly.',
               },
             ].map((r) => (
               <div key={r.name} className="bg-white rounded-lg border border-gray-200 p-5">
                 <h3 className="font-bold text-slate-900 mb-2">{r.name}</h3>
-                <p className="text-sm text-slate-900 mb-2"><span className="font-semibold">What it includes:</span> {r.includes}</p>
-                <p className="text-sm text-slate-900"><span className="font-semibold">When you get it:</span> {r.when}</p>
+                <p className="text-sm text-slate-900 mb-2">
+                  <span className="font-semibold">What it includes:</span> {r.includes}
+                </p>
+                <p className="text-sm text-slate-900">
+                  <span className="font-semibold">When you get it:</span> {r.when}
+                </p>
               </div>
             ))}
           </div>
@@ -179,7 +215,8 @@ export default function PartnersPage() {
             {[
               {
                 type: 'Workforce Boards & Government Agencies',
-                examples: 'WorkOne centers, Indiana DWD, regional workforce boards, county agencies',
+                examples:
+                  'WorkOne centers, Indiana DWD, regional workforce boards, county agencies',
                 image: '/images/pages/career-counseling.jpg',
                 what: [
                   'WIOA-eligible training programs listed on the Eligible Training Provider List (ETPL)',
@@ -191,7 +228,8 @@ export default function PartnersPage() {
               },
               {
                 type: 'Community Organizations',
-                examples: 'Goodwill, community centers, reentry programs, faith-based organizations',
+                examples:
+                  'Goodwill, community centers, reentry programs, faith-based organizations',
                 image: '/images/pages/career-counseling.jpg',
                 what: [
                   'Custom cohorts designed for your participant population and their specific needs',
@@ -204,7 +242,8 @@ export default function PartnersPage() {
               },
               {
                 type: 'Employers',
-                examples: 'HVAC contractors, healthcare facilities, trucking companies, barbershops, IT firms',
+                examples:
+                  'HVAC contractors, healthcare facilities, trucking companies, barbershops, IT firms',
                 image: '/images/pages/career-counseling.jpg',
                 what: [
                   'Apprenticeship host site opportunities — we handle DOL registration, RAPIDS paperwork, and compliance',
@@ -217,7 +256,8 @@ export default function PartnersPage() {
               },
               {
                 type: 'Educational Institutions',
-                examples: 'Community colleges, career centers, high schools, adult education programs',
+                examples:
+                  'Community colleges, career centers, high schools, adult education programs',
                 image: '/images/pages/pathways-page-1.jpg',
                 what: [
                   'Articulation and credit transfer discussions for students moving between programs',
@@ -227,10 +267,19 @@ export default function PartnersPage() {
                 ],
               },
             ].map((p) => (
-              <div key={p.type} className="bg-white rounded-xl border border-gray-200 overflow-hidden">
+              <div
+                key={p.type}
+                className="bg-white rounded-xl border border-gray-200 overflow-hidden"
+              >
                 <div className="flex flex-col sm:flex-row">
                   <div className="relative h-48 sm:h-auto sm:w-56 flex-shrink-0 overflow-hidden">
-                    <Image src={p.image} alt={p.type} fill sizes="(max-width: 640px) 100vw, 224px" className="object-cover" />
+                    <Image
+                      src={p.image}
+                      alt={p.type}
+                      fill
+                      sizes="(max-width: 640px) 100vw, 224px"
+                      className="object-cover"
+                    />
                   </div>
                   <div className="p-5 flex-1">
                     <h3 className="text-lg font-bold text-slate-900 mb-1">{p.type}</h3>
@@ -238,7 +287,8 @@ export default function PartnersPage() {
                     <ul className="space-y-2 text-sm text-slate-900">
                       {p.what.map((item) => (
                         <li key={item} className="flex items-start gap-2">
-                          <span className="text-brand-blue-600 mt-0.5 flex-shrink-0">•</span>{item}
+                          <span className="text-brand-blue-600 mt-0.5 flex-shrink-0">•</span>
+                          {item}
                         </li>
                       ))}
                     </ul>
@@ -253,7 +303,9 @@ export default function PartnersPage() {
       {/* Available programs quick reference */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-slate-900 mb-3">Programs Available for Custom Cohorts</h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-3">
+            Programs Available for Custom Cohorts
+          </h2>
           <p className="text-black mb-6 text-sm">
             Any of these programs can be configured as a dedicated cohort for your organization.
             Click any program for full details.
@@ -265,22 +317,79 @@ export default function PartnersPage() {
                   <th className="text-left px-4 py-3 font-semibold text-slate-900">Program</th>
                   <th className="text-left px-4 py-3 font-semibold text-slate-900">Duration</th>
                   <th className="text-left px-4 py-3 font-semibold text-slate-900">Credential</th>
-                  <th className="text-left px-4 py-3 font-semibold text-slate-900 hidden sm:table-cell">Funding</th>
+                  <th className="text-left px-4 py-3 font-semibold text-slate-900 hidden sm:table-cell">
+                    Funding
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
                 {[
-                  { name: 'CNA Certification', href: '/programs/cna', duration: '4–6 weeks', credential: 'CNA (Indiana ISDH)', funding: 'WIOA, Job Ready Indy, Self-Pay' },
-                  { name: 'CDL Class A/B', href: '/programs/cdl-training', duration: '4–6 weeks', credential: 'CDL (Indiana BMV)', funding: 'WIOA, WRG, Self-Pay' },
-                  { name: 'HVAC Technician', href: '/programs/hvac-technician', duration: '12 weeks', credential: 'EPA 608 + OSHA 10', funding: 'WIOA, WRG, Employer' },
-                  { name: 'Electrical', href: '/programs/electrical', duration: '12–16 weeks', credential: 'OSHA 10 + NCCER Level 1', funding: 'WIOA, WRG, Employer' },
-                  { name: 'Welding', href: '/programs/welding', duration: '12–16 weeks', credential: 'AWS + OSHA 10', funding: 'WIOA, WRG, Employer' },
-                  { name: 'IT Help Desk Technician', href: '/programs/it-help-desk', duration: '8 weeks', credential: 'Certiport IT Specialist', funding: 'WIOA, Job Ready Indy, Self-Pay' },
-                  { name: 'Cybersecurity Analyst', href: '/programs/cybersecurity-analyst', duration: '12 weeks', credential: 'Certiport IT Specialist — Cybersecurity', funding: 'WIOA, Job Ready Indy, Self-Pay' },
-                  { name: 'Barber Apprenticeship', href: '/programs/barber-apprenticeship', duration: '~18 months', credential: 'Indiana Barber License', funding: 'State Grant, Employer' },
+                  {
+                    name: 'CNA Certification',
+                    href: canonicalRoutes.programs.certifiedNursingAssistant,
+                    duration: '4–6 weeks',
+                    credential: 'CNA (Indiana ISDH)',
+                    funding: 'WIOA, Job Ready Indy, Self-Pay',
+                  },
+                  {
+                    name: 'CDL Class A/B',
+                    href: '/programs/cdl-training',
+                    duration: '4–6 weeks',
+                    credential: 'CDL (Indiana BMV)',
+                    funding: 'WIOA, WRG, Self-Pay',
+                  },
+                  {
+                    name: 'HVAC Technician',
+                    href: canonicalRoutes.programs.hvacTechnician,
+                    duration: '12 weeks',
+                    credential: 'EPA 608 + OSHA 10',
+                    funding: 'WIOA, WRG, Employer',
+                  },
+                  {
+                    name: 'Electrical',
+                    href: '/programs/electrical',
+                    duration: '12–16 weeks',
+                    credential: 'OSHA 10 + NCCER Level 1',
+                    funding: 'WIOA, WRG, Employer',
+                  },
+                  {
+                    name: 'Welding',
+                    href: '/programs/welding',
+                    duration: '12–16 weeks',
+                    credential: 'AWS + OSHA 10',
+                    funding: 'WIOA, WRG, Employer',
+                  },
+                  {
+                    name: 'IT Help Desk Technician',
+                    href: '/programs/it-help-desk',
+                    duration: '8 weeks',
+                    credential: 'Certiport IT Specialist',
+                    funding: 'WIOA, Job Ready Indy, Self-Pay',
+                  },
+                  {
+                    name: 'Cybersecurity Analyst',
+                    href: '/programs/cybersecurity-analyst',
+                    duration: '12 weeks',
+                    credential: 'Certiport IT Specialist — Cybersecurity',
+                    funding: 'WIOA, Job Ready Indy, Self-Pay',
+                  },
+                  {
+                    name: 'Barber Apprenticeship',
+                    href: '/programs/barber-apprenticeship',
+                    duration: '~18 months',
+                    credential: 'Indiana Barber License',
+                    funding: 'State Grant, Employer',
+                  },
                 ].map((r) => (
                   <tr key={r.name} className="hover:bg-white">
-                    <td className="px-4 py-3"><Link href={r.href} className="font-medium text-brand-blue-600 hover:text-brand-blue-700">{r.name}</Link></td>
+                    <td className="px-4 py-3">
+                      <Link
+                        href={r.href}
+                        className="font-medium text-brand-blue-600 hover:text-brand-blue-700"
+                      >
+                        {r.name}
+                      </Link>
+                    </td>
                     <td className="px-4 py-3 text-black">{r.duration}</td>
                     <td className="px-4 py-3 text-black">{r.credential}</td>
                     <td className="px-4 py-3 text-black hidden sm:table-cell">{r.funding}</td>
@@ -297,14 +406,20 @@ export default function PartnersPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Set Up a Cohort?</h2>
           <p className="text-lg text-white mb-8 max-w-2xl mx-auto">
-            Tell us about your organization, your participants, and your timeline.
-            We typically have a cohort plan ready within one week.
+            Tell us about your organization, your participants, and your timeline. We typically have
+            a cohort plan ready within one week.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link href="/contact" className="bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition inline-flex items-center">
+            <Link
+              href="/contact"
+              className="bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-8 py-4 rounded-lg text-lg font-bold transition inline-flex items-center"
+            >
               Contact Us to Start <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
-            <Link href="/pathways" className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg text-lg font-bold transition border-2 border-white/30">
+            <Link
+              href="/pathways"
+              className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg text-lg font-bold transition border-2 border-white/30"
+            >
               Back to Career Pathways
             </Link>
           </div>

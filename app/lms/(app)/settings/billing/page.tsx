@@ -12,11 +12,12 @@ import {
   AlertCircle,
   Loader2,
   ExternalLink,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 import { createClient } from '@/lib/supabase/client';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 interface PaymentMethod {
@@ -47,8 +48,10 @@ export default function BillingSettingsPage() {
 
   const loadBillingData = useCallback(async () => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       router.push('/login?redirect=/lms/settings/billing');
       return;
@@ -116,7 +119,8 @@ export default function BillingSettingsPage() {
   };
 
   const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString('en-US', { timeZone: 'UTC',
+    return new Date(dateStr).toLocaleDateString('en-US', {
+      timeZone: 'UTC',
       year: 'numeric',
       month: 'short',
       day: 'numeric',
@@ -136,7 +140,13 @@ export default function BillingSettingsPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'LMS', href: '/lms' }, { label: 'Settings', href: '/lms/settings' }, { label: 'Billing' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'LMS', href: '/lms' },
+              { label: 'Settings', href: '/lms/settings' },
+              { label: 'Billing' },
+            ]}
+          />
         </div>
       </div>
 
@@ -178,7 +188,10 @@ export default function BillingSettingsPage() {
           {paymentMethods.length > 0 ? (
             <div className="space-y-3">
               {paymentMethods.map((method) => (
-                <div key={method.id} className="flex items-center justify-between p-4 bg-white rounded-lg">
+                <div
+                  key={method.id}
+                  className="flex items-center justify-between p-4 bg-white rounded-lg"
+                >
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 bg-white rounded-lg border flex items-center justify-center">
                       <CreditCard className="w-5 h-5 text-slate-700" />
@@ -230,18 +243,24 @@ export default function BillingSettingsPage() {
                     <p className="text-sm text-slate-700">{formatDate(invoice.date)}</p>
                   </div>
                   <div className="flex items-center gap-4">
-                    <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
-                      invoice.status === 'paid'
-                        ? 'bg-brand-green-100 text-brand-green-700'
-                        : invoice.status === 'pending'
-                        ? 'bg-yellow-100 text-yellow-700'
-                        : 'bg-brand-red-100 text-brand-red-700'
-                    }`}>
-                      {invoice.status === 'paid' && <span className="text-slate-400 flex-shrink-0">•</span>}
+                    <span
+                      className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${
+                        invoice.status === 'paid'
+                          ? 'bg-brand-green-100 text-brand-green-700'
+                          : invoice.status === 'pending'
+                            ? 'bg-yellow-100 text-yellow-700'
+                            : 'bg-brand-red-100 text-brand-red-700'
+                      }`}
+                    >
+                      {invoice.status === 'paid' && (
+                        <span className="text-slate-400 flex-shrink-0">•</span>
+                      )}
                       {invoice.status === 'failed' && <AlertCircle className="w-3 h-3" />}
                       {invoice.status.charAt(0).toUpperCase() + invoice.status.slice(1)}
                     </span>
-                    <span className="font-semibold text-slate-900">${invoice.amount.toFixed(2)}</span>
+                    <span className="font-semibold text-slate-900">
+                      ${invoice.amount.toFixed(2)}
+                    </span>
                     {invoice.invoice_url && (
                       <a
                         href={invoice.invoice_url}

@@ -32,7 +32,6 @@ function BillingRequiredContent() {
   return (
     <div className="min-h-screen bg-white flex items-center justify-center p-6">
       <div className="max-w-lg w-full">
-
         {updated ? (
           /* Payment updated confirmation */
           <div className="bg-white rounded-2xl shadow-lg p-8 text-center">
@@ -41,7 +40,8 @@ function BillingRequiredContent() {
             </div>
             <h1 className="text-2xl font-black text-slate-900 mb-2">Payment Method Updated</h1>
             <p className="text-slate-600 mb-6">
-              Your payment method has been updated. Access is restored after the past-due balance is successfully processed.
+              Your payment method has been updated. Access is restored after the past-due balance is
+              successfully processed.
             </p>
             <a
               href="/learner/dashboard"
@@ -62,12 +62,16 @@ function BillingRequiredContent() {
 
             <div className="p-6 space-y-5">
               <p className="text-slate-700">
-                Your barber apprenticeship access has been suspended because a weekly tuition payment could not be processed.
+                Your barber apprenticeship access has been suspended because a weekly tuition
+                payment could not be processed.
               </p>
 
               <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-800 space-y-1">
                 <p className="font-semibold">Your progress is safe.</p>
-                <p>All logged hours, competency records, and course progress are preserved. Access is restored immediately once payment is updated.</p>
+                <p>
+                  All logged hours, competency records, and course progress are preserved. Access is
+                  restored immediately once payment is updated.
+                </p>
               </div>
 
               {error && (
@@ -115,7 +119,6 @@ function BillingRequiredContent() {
             </div>
           </div>
         )}
-
       </div>
     </div>
   );
@@ -123,11 +126,13 @@ function BillingRequiredContent() {
 
 export default function BillingRequiredPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen bg-white flex items-center justify-center">
-        <Loader2 className="w-8 h-8 animate-spin text-slate-400" />
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <Loader2 className="w-8 h-8 animate-spin text-slate-400" />
+        </div>
+      }
+    >
       <BillingRequiredContent />
     </Suspense>
   );

@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
 import React from 'react';
 
-import { useState } from "react";
-import { ShoppingCart, CreditCard } from "lucide-react";
+import { useState } from 'react';
+import { ShoppingCart, CreditCard } from 'lucide-react';
 
 interface BuyNowButtonProps {
   programName: string;
@@ -17,8 +17,8 @@ export function BuyNowButton({
   programName,
   programSlug,
   price,
-  className = "",
-  showPaymentPlan = true
+  className = '',
+  showPaymentPlan = true,
 }: BuyNowButtonProps) {
   const [loading, setLoading] = useState(false);
   const [showOptions, setShowOptions] = useState(false);
@@ -45,7 +45,8 @@ export function BuyNowButton({
       if (url) {
         window.location.href = url;
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('Something went wrong. Please try again or contact us.');
     } finally {

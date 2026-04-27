@@ -33,11 +33,7 @@ export const emailTemplates = {
       </div>
     `,
   }),
-  certificateReady: (
-    name: string,
-    courseName: string,
-    certificateUrl: string
-  ) => ({
+  certificateReady: (name: string, courseName: string, certificateUrl: string) => ({
     subject: `Your Certificate is Ready: ${courseName}`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">
@@ -66,11 +62,7 @@ export const emailTemplates = {
       </div>
     `,
   }),
-  assignmentReminder: (
-    name: string,
-    assignmentName: string,
-    dueDate: string
-  ) => ({
+  assignmentReminder: (name: string, assignmentName: string, dueDate: string) => ({
     subject: `Reminder: ${assignmentName} Due Soon`,
     html: `
       <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

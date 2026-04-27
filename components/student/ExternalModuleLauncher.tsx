@@ -29,9 +29,7 @@ export default function ExternalModuleLauncher({
   const [uploading, setUploading] = useState(false);
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const supabase = createClient();
-  async function handleCertificateUpload(
-    e: React.ChangeEvent<HTMLInputElement>
-  ) {
+  async function handleCertificateUpload(e: React.ChangeEvent<HTMLInputElement>) {
     const file = e.target.files?.[0];
     if (!file || !progressId) return;
     try {
@@ -61,9 +59,7 @@ export default function ExternalModuleLauncher({
         throw updateError;
       }
       setUploadSuccess(true);
-      alert(
-        'Certificate uploaded successfully! Your instructor will review it soon.'
-      );
+      alert('Certificate uploaded successfully! Your instructor will review it soon.');
     } catch (err: any) {
       // Error: $1
       alert('Upload failed');
@@ -77,16 +73,12 @@ export default function ExternalModuleLauncher({
       <div className="text-center mb-8">
         <h2 className="text-3xl font-bold text-white mb-4">{module.title}</h2>
         {module.description && (
-          <p className="text-slate-300 mb-6 max-w-2xl mx-auto">
-            {module.description}
-          </p>
+          <p className="text-slate-300 mb-6 max-w-2xl mx-auto">{module.description}</p>
         )}
         {module.partner_name && (
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/50 rounded-lg">
             <span className="text-slate-400 text-sm">Partner:</span>
-            <span className="text-white font-medium">
-              {module.partner_name}
-            </span>
+            <span className="text-white font-medium">{module.partner_name}</span>
           </div>
         )}
       </div>
@@ -120,9 +112,7 @@ export default function ExternalModuleLauncher({
       <div className="bg-white/50 rounded-lg p-6 mb-8">
         <h3 className="text-white font-semibold mb-3">📋 Instructions</h3>
         <ol className="text-slate-300 text-sm space-y-2 list-decimal list-inside">
-          <li>
-            Click the button above to open the short-term course in a new tab
-          </li>
+          <li>Click the button above to open the short-term course in a new tab</li>
           <li>Complete all required activities on the partner platform</li>
           <li>Download your completion certificate from the partner site</li>
           <li>Return here and upload your certificate below</li>
@@ -140,9 +130,7 @@ export default function ExternalModuleLauncher({
               <div className="text-brand-green-500 text-5xl mb-4 text-3xl md:text-4xl lg:text-5xl">
                 •
               </div>
-              <p className="text-white font-medium mb-2">
-                Certificate Uploaded!
-              </p>
+              <p className="text-white font-medium mb-2">Certificate Uploaded!</p>
               <p className="text-slate-400 text-sm">
                 Your instructor will review and approve your completion.
               </p>
@@ -165,15 +153,9 @@ export default function ExternalModuleLauncher({
                     </div>
                   ) : (
                     <div>
-                      <div className="text-4xl mb-2 text-2xl md:text-3xl lg:text-4xl">
-                        📄
-                      </div>
-                      <p className="text-white font-medium mb-1">
-                        Click to upload certificate
-                      </p>
-                      <p className="text-slate-400 text-sm">
-                        PDF, JPG, or PNG (max 10MB)
-                      </p>
+                      <div className="text-4xl mb-2 text-2xl md:text-3xl lg:text-4xl">📄</div>
+                      <p className="text-white font-medium mb-1">Click to upload certificate</p>
+                      <p className="text-slate-400 text-sm">PDF, JPG, or PNG (max 10MB)</p>
                     </div>
                   )}
                 </div>

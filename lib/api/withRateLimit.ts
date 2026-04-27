@@ -1,5 +1,14 @@
 import { NextResponse } from 'next/server';
-import { contactRateLimit, strictRateLimit, apiRateLimit, authRateLimit, paymentRateLimit, publicRateLimit, pageLoadRateLimit, createRateLimitHeaders } from '@/lib/rate-limit';
+import {
+  contactRateLimit,
+  strictRateLimit,
+  apiRateLimit,
+  authRateLimit,
+  paymentRateLimit,
+  publicRateLimit,
+  pageLoadRateLimit,
+  createRateLimitHeaders,
+} from '@/lib/rate-limit';
 
 type Tier = 'strict' | 'contact' | 'api' | 'auth' | 'payment' | 'public' | 'pageLoad';
 
@@ -7,21 +16,23 @@ type Tier = 'strict' | 'contact' | 'api' | 'auth' | 'payment' | 'public' | 'page
 const FAIL_CLOSED_TIERS: Set<Tier> = new Set(['auth', 'payment', 'strict']);
 
 const limiters: Record<Tier, { get: () => any }> = {
-  strict: strictRateLimit,     // 3 req / 5 min
-  contact: contactRateLimit,   // 3 req / 1 min
-  api: apiRateLimit,           // 60 req / 1 min
-  auth: authRateLimit,         // 5 req / 1 min
-  payment: paymentRateLimit,   // 10 req / 1 min
-  public: publicRateLimit,     // 5 req / 1 min (public AI tutor)
+  strict: strictRateLimit, // 3 req / 5 min
+  contact: contactRateLimit, // 3 req / 1 min
+  api: apiRateLimit, // 60 req / 1 min
+  auth: authRateLimit, // 5 req / 1 min
+  payment: paymentRateLimit, // 10 req / 1 min
+  public: publicRateLimit, // 5 req / 1 min (public AI tutor)
   pageLoad: pageLoadRateLimit, // 30 req / 1 min (public content endpoints)
 };
 
 function getIP(request: Request): string {
   const h = request.headers;
-  return h.get('x-forwarded-for')?.split(',')[0]?.trim()
-    || h.get('x-real-ip')
-    || h.get('cf-connecting-ip')
-    || 'unknown';
+  return (
+    h.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    h.get('x-real-ip') ||
+    h.get('cf-connecting-ip') ||
+    'unknown'
+  );
 }
 
 /**
@@ -34,7 +45,7 @@ function getIP(request: Request): string {
  */
 export async function applyRateLimit(
   request: Request,
-  tier: Tier = 'contact'
+  tier: Tier = 'contact',
 ): Promise<NextResponse | null> {
   const limiter = limiters[tier]?.get();
   if (!limiter) {
@@ -42,7 +53,7 @@ export async function applyRateLimit(
     if (FAIL_CLOSED_TIERS.has(tier)) {
       return NextResponse.json(
         { error: 'Rate limiting service unavailable. Please try again later.' },
-        { status: 503 }
+        { status: 503 },
       );
     }
     return null; // Other tiers: fail open
@@ -62,7 +73,7 @@ export async function applyRateLimit(
             ...createRateLimitHeaders(result),
             'Retry-After': String(Math.ceil((result.reset - Date.now()) / 1000)),
           },
-        }
+        },
       );
     }
   } catch {
@@ -70,7 +81,7 @@ export async function applyRateLimit(
     if (FAIL_CLOSED_TIERS.has(tier)) {
       return NextResponse.json(
         { error: 'Rate limiting service unavailable. Please try again later.' },
-        { status: 503 }
+        { status: 503 },
       );
     }
     return null;

@@ -49,7 +49,10 @@ export interface AffiliateStats {
  * Generate unique referral code
  */
 function generateReferralCode(userId: string): string {
-  const hash = crypto.createHash('sha256').update(userId + Date.now()).digest('hex');
+  const hash = crypto
+    .createHash('sha256')
+    .update(userId + Date.now())
+    .digest('hex');
   return hash.substring(0, 8).toUpperCase();
 }
 
@@ -65,7 +68,7 @@ export async function createReferralCode(
     commissionPercentage?: number;
     maxUses?: number;
     expiresAt?: string;
-  }
+  },
 ): Promise<ReferralCode> {
   const supabase = await createClient();
 
@@ -154,14 +157,11 @@ export async function getUserReferralCodes(userId: string): Promise<ReferralCode
  */
 export async function updateReferralCode(
   codeId: string,
-  updates: Partial<ReferralCode>
+  updates: Partial<ReferralCode>,
 ): Promise<void> {
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .from('referral_codes')
-    .update(updates)
-    .eq('id', codeId);
+  const { error } = await supabase.from('referral_codes').update(updates).eq('id', codeId);
 
   if (error) throw error;
 }
@@ -182,7 +182,7 @@ export async function disableReferralCode(codeId: string): Promise<void> {
  */
 export async function trackReferral(
   referralCode: string,
-  referredUserId: string
+  referredUserId: string,
 ): Promise<Referral> {
   const supabase = await createClient();
 
@@ -232,10 +232,7 @@ export async function trackReferral(
 /**
  * Complete referral (when referred user completes action)
  */
-export async function completeReferral(
-  referralId: string,
-  rewardAmount?: number
-): Promise<void> {
+export async function completeReferral(referralId: string, rewardAmount?: number): Promise<void> {
   const supabase = await createClient();
 
   const { data: referral } = await supabase
@@ -266,15 +263,13 @@ export async function completeReferral(
     .eq('id', referralId);
 
   // Create notification for referrer
-  await supabase
-    .from('notifications')
-    .insert({
-      user_id: referral.referrer_id,
-      type: 'referral_completed',
-      title: 'Referral Completed!',
-      message: `Your referral has completed their enrollment. You've earned $${finalReward}!`,
-      link: `/referrals`,
-    });
+  await supabase.from('notifications').insert({
+    user_id: referral.referrer_id,
+    type: 'referral_completed',
+    title: 'Referral Completed!',
+    message: `Your referral has completed their enrollment. You've earned $${finalReward}!`,
+    link: `/referrals`,
+  });
 }
 
 /**
@@ -296,16 +291,18 @@ export async function cancelReferral(referralId: string): Promise<void> {
  */
 export async function getUserReferrals(
   userId: string,
-  status?: 'pending' | 'completed' | 'cancelled'
+  status?: 'pending' | 'completed' | 'cancelled',
 ): Promise<Referral[]> {
   const supabase = await createClient();
 
   let query = supabase
     .from('referrals')
-    .select(`
+    .select(
+      `
       *,
       referred_user:profiles!referred_id(first_name, last_name, email)
-    `)
+    `,
+    )
     .eq('referrer_id', userId)
     .order('created_at', { ascending: false });
 
@@ -334,35 +331,30 @@ export async function applyForAffiliate(
     socialMedia?: string;
     audience?: string;
     reason?: string;
-  }
+  },
 ): Promise<void> {
   const supabase = await createClient();
 
-  await supabase
-    .from('affiliate_applications')
-    .insert({
-      user_id: userId,
-      ...applicationData,
-      status: 'pending',
-    });
+  await supabase.from('affiliate_applications').insert({
+    user_id: userId,
+    ...applicationData,
+    status: 'pending',
+  });
 
   // Notify admins
-  const { data: admins } = await supabase
-    .from('profiles')
-    .select('id')
-    .eq('role', 'admin');
+  const { data: admins } = await supabase.from('profiles').select('id').eq('role', 'admin');
 
   if (admins) {
     await Promise.all(
-      admins.map(admin =>
+      admins.map((admin) =>
         supabase.from('notifications').insert({
           user_id: admin.id,
           type: 'affiliate_application',
           title: 'New Affiliate Application',
           message: 'A user has applied to become an affiliate',
           link: `/admin/affiliates`,
-        })
-      )
+        }),
+      ),
     );
   }
 }
@@ -372,7 +364,7 @@ export async function applyForAffiliate(
  */
 export async function approveAffiliateApplication(
   applicationId: string,
-  commissionPercentage: number = 20
+  commissionPercentage: number = 20,
 ): Promise<void> {
   const supabase = await createClient();
 
@@ -402,15 +394,13 @@ export async function approveAffiliateApplication(
   });
 
   // Notify user
-  await supabase
-    .from('notifications')
-    .insert({
-      user_id: application.user_id,
-      type: 'affiliate_approved',
-      title: 'Affiliate Application Approved!',
-      message: `Congratulations! You're now an affiliate with ${commissionPercentage}% commission.`,
-      link: `/referrals`,
-    });
+  await supabase.from('notifications').insert({
+    user_id: application.user_id,
+    type: 'affiliate_approved',
+    title: 'Affiliate Application Approved!',
+    message: `Congratulations! You're now an affiliate with ${commissionPercentage}% commission.`,
+    link: `/referrals`,
+  });
 }
 
 /**
@@ -426,8 +416,8 @@ export async function getAffiliateStats(userId: string): Promise<AffiliateStats>
 
   const stats: AffiliateStats = {
     totalReferrals: referrals?.length || 0,
-    completedReferrals: referrals?.filter(r => r.status === 'completed').length || 0,
-    pendingReferrals: referrals?.filter(r => r.status === 'pending').length || 0,
+    completedReferrals: referrals?.filter((r) => r.status === 'completed').length || 0,
+    pendingReferrals: referrals?.filter((r) => r.status === 'pending').length || 0,
     totalEarnings: 0,
     paidEarnings: 0,
     pendingEarnings: 0,
@@ -436,18 +426,17 @@ export async function getAffiliateStats(userId: string): Promise<AffiliateStats>
 
   if (referrals) {
     stats.totalEarnings = referrals
-      .filter(r => r.status === 'completed')
+      .filter((r) => r.status === 'completed')
       .reduce((sum, r) => sum + (r.reward_amount || 0), 0);
 
     stats.paidEarnings = referrals
-      .filter(r => r.status === 'completed' && r.reward_paid)
+      .filter((r) => r.status === 'completed' && r.reward_paid)
       .reduce((sum, r) => sum + (r.reward_amount || 0), 0);
 
     stats.pendingEarnings = stats.totalEarnings - stats.paidEarnings;
 
-    stats.conversionRate = stats.totalReferrals > 0
-      ? (stats.completedReferrals / stats.totalReferrals) * 100
-      : 0;
+    stats.conversionRate =
+      stats.totalReferrals > 0 ? (stats.completedReferrals / stats.totalReferrals) * 100 : 0;
   }
 
   return stats;
@@ -460,7 +449,7 @@ export async function processAffiliatePayout(
   userId: string,
   amount: number,
   paymentMethod: string,
-  paymentDetails: any
+  paymentDetails: any,
 ): Promise<void> {
   const supabase = await createClient();
 
@@ -502,59 +491,61 @@ export async function processAffiliatePayout(
 
     const rewardAmount = referral.reward_amount || 0;
     if (rewardAmount <= remainingAmount) {
-      await supabase
-        .from('referrals')
-        .update({ reward_paid: true })
-        .eq('id', referral.id);
+      await supabase.from('referrals').update({ reward_paid: true }).eq('id', referral.id);
 
       remainingAmount -= rewardAmount;
     }
   }
 
   // Notify user
-  await supabase
-    .from('notifications')
-    .insert({
-      user_id: userId,
-      type: 'payout_requested',
-      title: 'Payout Requested',
-      message: `Your payout of $${amount} has been requested and will be processed soon.`,
-      link: `/referrals/payouts`,
-    });
+  await supabase.from('notifications').insert({
+    user_id: userId,
+    type: 'payout_requested',
+    title: 'Payout Requested',
+    message: `Your payout of $${amount} has been requested and will be processed soon.`,
+    link: `/referrals/payouts`,
+  });
 }
 
 /**
  * Get affiliate leaderboard
  */
-export async function getAffiliateLeaderboard(limit: number = 10): Promise<Array<{
-  user_id: string;
-  user_name: string;
-  total_referrals: number;
-  total_earnings: number;
-}>> {
+export async function getAffiliateLeaderboard(limit: number = 10): Promise<
+  Array<{
+    user_id: string;
+    user_name: string;
+    total_referrals: number;
+    total_earnings: number;
+  }>
+> {
   const supabase = await createClient();
 
   const { data, error }: any = await supabase
     .from('referrals')
-    .select(`
+    .select(
+      `
       referrer_id,
       status,
       reward_amount,
       referrer:profiles!referrer_id(first_name, last_name)
-    `)
+    `,
+    )
     .eq('status', 'completed');
 
   if (error) throw error;
 
   // Aggregate by referrer
-  const leaderboard = new Map<string, {
-    user_id: string;
-    user_name: string;
-    total_referrals: number;
-    total_earnings: number;
-  }>();
+  const leaderboard = new Map<
+    string,
+    {
+      user_id: string;
+      user_name: string;
+      total_referrals: number;
+      total_earnings: number;
+    }
+  >();
 
-  data?.forEach(referral => {
+  data?.forEach((referral) => {
     const userId = referral.referrer_id;
     const existing = leaderboard.get(userId);
 
@@ -587,7 +578,7 @@ export async function getAffiliateLeaderboard(limit: number = 10): Promise<Array
  */
 export async function applyReferralDiscount(
   referralCode: string,
-  originalAmount: number
+  originalAmount: number,
 ): Promise<{
   discountAmount: number;
   finalAmount: number;
@@ -618,7 +609,7 @@ export async function applyReferralDiscount(
  */
 export async function calculateAffiliateCommission(
   referralCode: string,
-  saleAmount: number
+  saleAmount: number,
 ): Promise<number> {
   const code = await getReferralCodeByCode(referralCode);
 

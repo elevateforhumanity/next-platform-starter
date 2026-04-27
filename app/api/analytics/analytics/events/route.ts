@@ -1,4 +1,3 @@
-
 // app/api/analytics/events/route.ts
 // Track user activity events
 import { NextRequest, NextResponse } from 'next/server';
@@ -12,11 +11,11 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(req: NextRequest) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
-    const auth = await apiAuthGuard(req);
-    if (auth.error) return auth.error;
+  const auth = await apiAuthGuard(req);
+  if (auth.error) return auth.error;
 
   const supabase = await getAdminClient();
   const { tenantId, eventType, payload, path } = await req.json();
@@ -27,9 +26,10 @@ async function _POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
 
-  const ipAddress = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-                    req.headers.get('x-real-ip') ||
-                    null;
+  const ipAddress =
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    req.headers.get('x-real-ip') ||
+    null;
   const userAgent = req.headers.get('user-agent') || null;
   const referrer = req.headers.get('referer') || null;
 
@@ -41,7 +41,7 @@ async function _POST(req: NextRequest) {
     path,
     referrer,
     user_agent: userAgent,
-    ip_address: ipAddress
+    ip_address: ipAddress,
   });
 
   return NextResponse.json({ status: 'ok' });

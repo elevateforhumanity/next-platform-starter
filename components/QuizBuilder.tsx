@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -48,7 +48,7 @@ export function QuizBuilder() {
   };
 
   const removeQuestion = (id: string) => {
-    setQuestions(questions.filter(q => q.id !== id));
+    setQuestions(questions.filter((q) => q.id !== id));
   };
 
   const updateOption = (index: number, value: string) => {
@@ -62,11 +62,13 @@ export function QuizBuilder() {
 
   const saveQuiz = async () => {
     if (!quizTitle.trim() || questions.length === 0) return;
-    
+
     setSaving(true);
     try {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       const { data: quiz, error } = await supabase
         .from('quizzes')
@@ -127,7 +129,11 @@ export function QuizBuilder() {
                   <input
                     type="text"
                     value={quizTitle}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setQuizTitle(e.target.value)}
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
+                    ) => setQuizTitle(e.target.value)}
                     placeholder="e.g., JavaScript Fundamentals Quiz"
                     className="w-full px-4 py-2 border rounded-lg"
                   />
@@ -142,7 +148,16 @@ export function QuizBuilder() {
                   <label className="block text-sm font-medium mb-2">Question Type</label>
                   <select
                     value={currentQuestion.type}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setCurrentQuestion({ ...currentQuestion, type: e.target.value as Question['type'] })}
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
+                    ) =>
+                      setCurrentQuestion({
+                        ...currentQuestion,
+                        type: e.target.value as Question['type'],
+                      })
+                    }
                     className="w-full px-4 py-2 border rounded-lg"
                   >
                     <option value="multiple-choice">Multiple Choice</option>
@@ -156,7 +171,11 @@ export function QuizBuilder() {
                   <label className="block text-sm font-medium mb-2">Question</label>
                   <textarea
                     value={currentQuestion.question}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setCurrentQuestion({ ...currentQuestion, question: e.target.value })}
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
+                    ) => setCurrentQuestion({ ...currentQuestion, question: e.target.value })}
                     placeholder="Enter your question..."
                     className="w-full px-4 py-2 border rounded-lg h-24"
                   />
@@ -172,12 +191,18 @@ export function QuizBuilder() {
                             type="radio"
                             name="correct-answer"
                             checked={currentQuestion.correctAnswer === index}
-                            onChange={() => setCurrentQuestion({ ...currentQuestion, correctAnswer: index })}
+                            onChange={() =>
+                              setCurrentQuestion({ ...currentQuestion, correctAnswer: index })
+                            }
                           />
                           <input
                             type="text"
                             value={option}
-                            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => updateOption(index, e.target.value)}
+                            onChange={(
+                              e: React.ChangeEvent<
+                                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                              >,
+                            ) => updateOption(index, e.target.value)}
                             placeholder={`Option ${index + 1}`}
                             className="flex-1 px-4 py-2 border rounded-lg"
                           />
@@ -196,7 +221,9 @@ export function QuizBuilder() {
                           type="radio"
                           name="tf-answer"
                           checked={currentQuestion.correctAnswer === 'true'}
-                          onChange={() => setCurrentQuestion({ ...currentQuestion, correctAnswer: 'true' })}
+                          onChange={() =>
+                            setCurrentQuestion({ ...currentQuestion, correctAnswer: 'true' })
+                          }
                         />
                         <span>True</span>
                       </label>
@@ -205,7 +232,9 @@ export function QuizBuilder() {
                           type="radio"
                           name="tf-answer"
                           checked={currentQuestion.correctAnswer === 'false'}
-                          onChange={() => setCurrentQuestion({ ...currentQuestion, correctAnswer: 'false' })}
+                          onChange={() =>
+                            setCurrentQuestion({ ...currentQuestion, correctAnswer: 'false' })
+                          }
                         />
                         <span>False</span>
                       </label>
@@ -218,7 +247,16 @@ export function QuizBuilder() {
                   <input
                     type="number"
                     value={currentQuestion.points}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setCurrentQuestion({ ...currentQuestion, points: parseInt(e.target.value) || 1 })}
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
+                    ) =>
+                      setCurrentQuestion({
+                        ...currentQuestion,
+                        points: parseInt(e.target.value) || 1,
+                      })
+                    }
                     min="1"
                     className="w-full px-4 py-2 border rounded-lg"
                   />
@@ -252,8 +290,12 @@ export function QuizBuilder() {
                           {q.options && (
                             <ul className="space-y-1 text-sm">
                               {q.options.map((opt, i) => (
-                                <li key={i} className={`${q.correctAnswer === i ? 'text-brand-green-600 font-semibold' : 'text-black'}`}>
-                                  {q.correctAnswer === i && '• '}{opt}
+                                <li
+                                  key={i}
+                                  className={`${q.correctAnswer === i ? 'text-brand-green-600 font-semibold' : 'text-black'}`}
+                                >
+                                  {q.correctAnswer === i && '• '}
+                                  {opt}
                                 </li>
                               ))}
                             </ul>
@@ -289,25 +331,25 @@ export function QuizBuilder() {
                 <div className="flex justify-between">
                   <span className="text-black">Multiple Choice:</span>
                   <span className="font-semibold">
-                    {questions.filter(q => q.type === 'multiple-choice').length}
+                    {questions.filter((q) => q.type === 'multiple-choice').length}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-black">True/False:</span>
                   <span className="font-semibold">
-                    {questions.filter(q => q.type === 'true-false').length}
+                    {questions.filter((q) => q.type === 'true-false').length}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-black">Short Answer:</span>
                   <span className="font-semibold">
-                    {questions.filter(q => q.type === 'short-answer').length}
+                    {questions.filter((q) => q.type === 'short-answer').length}
                   </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-black">Essay:</span>
                   <span className="font-semibold">
-                    {questions.filter(q => q.type === 'essay').length}
+                    {questions.filter((q) => q.type === 'essay').length}
                   </span>
                 </div>
               </div>
@@ -316,7 +358,11 @@ export function QuizBuilder() {
             <Card className="p-6">
               <h3 className="font-bold mb-4">Actions</h3>
               <div className="space-y-2">
-                <Button className="w-full" disabled={questions.length === 0 || saving} onClick={saveQuiz}>
+                <Button
+                  className="w-full"
+                  disabled={questions.length === 0 || saving}
+                  onClick={saveQuiz}
+                >
                   {saving ? 'Saving...' : 'Save Quiz'}
                 </Button>
                 <Button variant="secondary" className="w-full">

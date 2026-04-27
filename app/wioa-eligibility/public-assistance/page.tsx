@@ -6,13 +6,13 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'WIOA Eligibility - Public Assistance Recipients | Elevate for Humanity',
-  description: 'SNAP, TANF, and SSI recipients automatically qualify for WIOA-funded career training.',
+  description:
+    'SNAP, TANF, and SSI recipients automatically qualify for WIOA-funded career training.',
 };
 
 export const revalidate = 3600;
 export default async function PublicAssistancePage() {
   const supabase = await createClient();
-
 
   // Get programs
   const { data: programs } = await supabase
@@ -44,16 +44,19 @@ export default async function PublicAssistancePage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'WIOA Eligibility', href: '/wioa-eligibility' }, { label: 'Public Assistance' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'WIOA Eligibility', href: '/wioa-eligibility' },
+              { label: 'Public Assistance' },
+            ]}
+          />
         </div>
       </div>
 
       <section className="bg-brand-blue-700 text-white py-16">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <DollarSign className="w-16 h-16 mx-auto mb-4" />
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Public Assistance Recipients
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Public Assistance Recipients</h1>
           <p className="text-xl text-white">
             If you receive public assistance, you automatically qualify for WIOA funding
           </p>
@@ -61,7 +64,10 @@ export default async function PublicAssistancePage() {
       </section>
 
       <div className="max-w-4xl mx-auto px-6 py-12">
-        <Link href="/wioa-eligibility" className="text-brand-blue-600 hover:underline mb-6 inline-block">
+        <Link
+          href="/wioa-eligibility"
+          className="text-brand-blue-600 hover:underline mb-6 inline-block"
+        >
           ← Back to WIOA Eligibility
         </Link>
 
@@ -69,13 +75,15 @@ export default async function PublicAssistancePage() {
         <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
           <h2 className="text-2xl font-bold mb-6">Qualifying Assistance Programs</h2>
           <p className="text-slate-700 mb-6">
-            If you currently receive any of the following, you automatically meet 
-            WIOA income eligibility requirements:
+            If you currently receive any of the following, you automatically meet WIOA income
+            eligibility requirements:
           </p>
           <div className="grid md:grid-cols-2 gap-4">
             {qualifyingPrograms.map((program, index) => (
               <div key={index} className="bg-brand-green-50 rounded-lg p-4">
-                <div className="font-bold text-brand-green-700">{program.title || program.name}</div>
+                <div className="font-bold text-brand-green-700">
+                  {program.title || program.name}
+                </div>
                 <div className="text-sm text-slate-700">{program.full}</div>
               </div>
             ))}
@@ -131,7 +139,9 @@ export default async function PublicAssistancePage() {
                 >
                   <h3 className="font-semibold">{program.title || program.name}</h3>
                   {program.description && (
-                    <p className="text-sm text-slate-700 mt-1 line-clamp-2">{program.description}</p>
+                    <p className="text-sm text-slate-700 mt-1 line-clamp-2">
+                      {program.description}
+                    </p>
                   )}
                 </Link>
               ))}

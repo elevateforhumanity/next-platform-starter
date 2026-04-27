@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -11,7 +11,8 @@ import {
   AlertCircle,
   Loader2,
   Info,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 interface PaymentMethod {
   id: string;
@@ -38,7 +39,7 @@ export default function UnifiedPaymentFlow({
   programSlug,
   price,
   onSuccess,
-  onError
+  onError,
 }: UnifiedPaymentFlowProps) {
   const [paymentType, setPaymentType] = useState<'full' | 'plan'>('full');
   const [selectedMethod, setSelectedMethod] = useState<string>('card');
@@ -53,7 +54,7 @@ export default function UnifiedPaymentFlow({
       name: 'Credit/Debit Card',
       description: 'Pay with any major credit or debit card',
       icon: '💳',
-      available: true
+      available: true,
     },
     {
       id: 'klarna',
@@ -62,7 +63,7 @@ export default function UnifiedPaymentFlow({
       icon: '🛍️',
       available: price >= 35 && price <= 1000,
       minAmount: 35,
-      maxAmount: 1000
+      maxAmount: 1000,
     },
     {
       id: 'zip',
@@ -71,7 +72,7 @@ export default function UnifiedPaymentFlow({
       icon: '💜',
       available: price >= 35 && price <= 1500,
       minAmount: 35,
-      maxAmount: 1500
+      maxAmount: 1500,
     },
     {
       id: 'afterpay',
@@ -80,14 +81,14 @@ export default function UnifiedPaymentFlow({
       icon: '💰',
       available: price >= 35 && price <= 1000,
       minAmount: 35,
-      maxAmount: 1000
+      maxAmount: 1000,
     },
     {
       id: 'us_bank_account',
       name: 'Bank Account (ACH)',
       description: 'Direct debit from your bank account',
       icon: '🏦',
-      available: true
+      available: true,
     },
     {
       id: 'cashapp',
@@ -95,15 +96,15 @@ export default function UnifiedPaymentFlow({
       description: 'Pay with Cash App',
       icon: '💵',
       available: price <= 7500,
-      maxAmount: 7500
+      maxAmount: 7500,
     },
     {
       id: 'paypal',
       name: 'PayPal',
       description: 'Pay with your PayPal account',
       icon: '🅿️',
-      available: true
-    }
+      available: true,
+    },
   ];
 
   const handleCheckout = async () => {
@@ -119,7 +120,7 @@ export default function UnifiedPaymentFlow({
         body: JSON.stringify({
           programId,
           paymentType,
-          preferredMethod: selectedMethod
+          preferredMethod: selectedMethod,
         }),
       });
 
@@ -148,9 +149,7 @@ export default function UnifiedPaymentFlow({
     <div className="max-w-4xl mx-auto">
       {/* Payment Type Selection */}
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
-        <h2 className="text-2xl font-bold text-black mb-4">
-          Choose Your Payment Option
-        </h2>
+        <h2 className="text-2xl font-bold text-black mb-4">Choose Your Payment Option</h2>
 
         <div className="grid md:grid-cols-2 gap-4">
           {/* Full Payment */}
@@ -166,19 +165,11 @@ export default function UnifiedPaymentFlow({
               <div className="p-2 bg-brand-blue-100 rounded-lg">
                 <DollarSign className="w-6 h-6 text-brand-blue-600" />
               </div>
-              {paymentType === 'full' && (
-                <span className="text-slate-500 flex-shrink-0">•</span>
-              )}
+              {paymentType === 'full' && <span className="text-slate-500 flex-shrink-0">•</span>}
             </div>
-            <h3 className="text-lg font-bold text-black mb-2">
-              Pay in Full
-            </h3>
-            <p className="text-3xl font-bold text-black mb-2">
-              ${price.toLocaleString('en-US')}
-            </p>
-            <p className="text-sm text-black">
-              One-time payment. Start immediately.
-            </p>
+            <h3 className="text-lg font-bold text-black mb-2">Pay in Full</h3>
+            <p className="text-3xl font-bold text-black mb-2">${price.toLocaleString('en-US')}</p>
+            <p className="text-sm text-black">One-time payment. Start immediately.</p>
           </button>
 
           {/* Payment Plan */}
@@ -195,19 +186,14 @@ export default function UnifiedPaymentFlow({
                 <div className="p-2 bg-brand-green-100 rounded-lg">
                   <Calendar className="w-6 h-6 text-brand-green-600" />
                 </div>
-                {paymentType === 'plan' && (
-                  <span className="text-slate-500 flex-shrink-0">•</span>
-                )}
+                {paymentType === 'plan' && <span className="text-slate-500 flex-shrink-0">•</span>}
               </div>
-              <h3 className="text-lg font-bold text-black mb-2">
-                Payment Plan
-              </h3>
+              <h3 className="text-lg font-bold text-black mb-2">Payment Plan</h3>
               <p className="text-3xl font-bold text-black mb-2">
-                ${monthlyPayment.toLocaleString('en-US')}<span className="text-lg text-black">/mo</span>
+                ${monthlyPayment.toLocaleString('en-US')}
+                <span className="text-lg text-black">/mo</span>
               </p>
-              <p className="text-sm text-black">
-                4 monthly payments. Start immediately.
-              </p>
+              <p className="text-sm text-black">4 monthly payments. Start immediately.</p>
             </button>
           )}
         </div>
@@ -232,9 +218,7 @@ export default function UnifiedPaymentFlow({
 
       {/* Payment Method Selection */}
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
-        <h2 className="text-2xl font-bold text-black mb-4">
-          Select Payment Method
-        </h2>
+        <h2 className="text-2xl font-bold text-black mb-4">Select Payment Method</h2>
 
         <div className="grid md:grid-cols-2 gap-3">
           {paymentMethods.map((method) => (
@@ -246,8 +230,8 @@ export default function UnifiedPaymentFlow({
                 selectedMethod === method.id
                   ? 'border-brand-blue-600 bg-brand-blue-50'
                   : method.available
-                  ? 'border-slate-200 hover:border-slate-300'
-                  : 'border-slate-100 bg-slate-50 opacity-50 cursor-not-allowed'
+                    ? 'border-slate-200 hover:border-slate-300'
+                    : 'border-slate-100 bg-slate-50 opacity-50 cursor-not-allowed'
               }`}
             >
               <div className="flex items-start gap-3">
@@ -262,9 +246,11 @@ export default function UnifiedPaymentFlow({
                   <p className="text-sm text-black">{method.description}</p>
                   {!method.available && (
                     <p className="text-xs text-brand-orange-600 mt-1">
-                      {method.minAmount && price < method.minAmount &&
+                      {method.minAmount &&
+                        price < method.minAmount &&
                         `Minimum $${method.minAmount} required`}
-                      {method.maxAmount && price > method.maxAmount &&
+                      {method.maxAmount &&
+                        price > method.maxAmount &&
                         `Maximum $${method.maxAmount} allowed`}
                     </p>
                   )}
@@ -277,9 +263,7 @@ export default function UnifiedPaymentFlow({
 
       {/* Order Summary */}
       <div className="bg-white rounded-xl shadow-sm border border-slate-200 p-6 mb-6">
-        <h2 className="text-2xl font-bold text-black mb-4">
-          Order Summary
-        </h2>
+        <h2 className="text-2xl font-bold text-black mb-4">Order Summary</h2>
 
         <div className="space-y-3">
           <div className="flex justify-between items-center">
@@ -323,8 +307,8 @@ export default function UnifiedPaymentFlow({
           <div className="text-sm text-black">
             <p className="font-semibold mb-1">Secure Payment Processing</p>
             <p>
-              Your payment is processed securely through Stripe. We never store your payment information.
-              All transactions are encrypted and PCI-DSS compliant.
+              Your payment is processed securely through Stripe. We never store your payment
+              information. All transactions are encrypted and PCI-DSS compliant.
             </p>
           </div>
         </div>

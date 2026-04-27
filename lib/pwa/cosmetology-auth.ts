@@ -9,7 +9,7 @@ import { SupabaseClient } from '@supabase/supabase-js';
 
 export async function requireCosmetologyEnrollment(
   supabase: SupabaseClient,
-  userId: string
+  userId: string,
 ): Promise<{ id: string; enrolled_at: string } | null> {
   const { data } = await supabase
     .from('program_enrollments')

@@ -14,7 +14,9 @@ export const metadata: Metadata = {
 
 export default async function AccountLicensesPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/account/licenses');
@@ -66,7 +68,8 @@ export default async function AccountLicensesPage() {
                       {license.license_type || 'Platform License'}
                     </h3>
                     <p className="text-slate-700 text-sm mt-1">
-                      License Key: <code className="bg-white px-2 py-1 rounded">{license.license_key}</code>
+                      License Key:{' '}
+                      <code className="bg-white px-2 py-1 rounded">{license.license_key}</code>
                     </p>
                   </div>
                   <div className="flex items-center gap-2">
@@ -86,7 +89,10 @@ export default async function AccountLicensesPage() {
                 <div className="mt-4 flex items-center gap-4 text-sm text-slate-700">
                   <span className="flex items-center gap-1">
                     <Calendar className="w-4 h-4" />
-                    Expires: {license.expires_at ? new Date(license.expires_at).toLocaleDateString() : 'Never'}
+                    Expires:{' '}
+                    {license.expires_at
+                      ? new Date(license.expires_at).toLocaleDateString()
+                      : 'Never'}
                   </span>
                 </div>
               </div>

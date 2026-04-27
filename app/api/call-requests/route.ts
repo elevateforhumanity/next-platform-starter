@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: public callback request form
 
-import { NextResponse } from "next/server";
-import { createClient } from "@/lib/supabase/server";
+import { NextResponse } from 'next/server';
+import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -18,40 +18,31 @@ async function _POST(req: Request) {
     const { phoneNumber, name, requestedAt } = await req.json();
 
     if (!phoneNumber) {
-      return NextResponse.json(
-        { error: "Phone number is required" },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Phone number is required' }, { status: 400 });
     }
 
     const supabase = await createClient();
 
     const { data, error }: any = await supabase
-      .from("call_requests")
+      .from('call_requests')
       .insert({
         phone_number: phoneNumber,
         name,
-        status: "pending",
+        status: 'pending',
         requested_at: requestedAt,
       })
       .select()
       .maybeSingle();
 
     if (error) {
-      logger.error("Database error:", error);
-      return NextResponse.json(
-        { error: "Failed to save request" },
-        { status: 500 }
-      );
+      logger.error('Database error:', error);
+      return NextResponse.json({ error: 'Failed to save request' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, id: data.id });
-  } catch (error) { 
-    logger.error("API error:", error);
-    return NextResponse.json(
-      { error: "Server error" },
-      { status: 500 }
-    );
+  } catch (error) {
+    logger.error('API error:', error);
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
 
@@ -64,10 +55,10 @@ async function _GET(request: Request) {
     const supabase = await createClient();
 
     const { data, error }: any = await supabase
-      .from("call_requests")
-      .select("*")
-      .eq("status", "pending")
-      .order("requested_at", { ascending: false })
+      .from('call_requests')
+      .select('*')
+      .eq('status', 'pending')
+      .order('requested_at', { ascending: false })
       .limit(50);
 
     if (error) {
@@ -75,12 +66,9 @@ async function _GET(request: Request) {
     }
 
     return NextResponse.json({ requests: data || [] });
-  } catch (error) { 
-    logger.error("API error:", error);
-    return NextResponse.json(
-      { error: "Server error" },
-      { status: 500 }
-    );
+  } catch (error) {
+    logger.error('API error:', error);
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/call-requests', _GET);

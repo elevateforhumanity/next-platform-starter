@@ -29,10 +29,10 @@ export function ApplicationsClient({ applications }: { applications: Application
 
   const counts = {
     Total: applications.length,
-    New: applications.filter(a => a.status === 'New').length,
-    'In Review': applications.filter(a => a.status === 'Reviewed').length,
-    Interview: applications.filter(a => a.status === 'Interview').length,
-    Offered: applications.filter(a => a.status === 'Offered').length,
+    New: applications.filter((a) => a.status === 'New').length,
+    'In Review': applications.filter((a) => a.status === 'Reviewed').length,
+    Interview: applications.filter((a) => a.status === 'Interview').length,
+    Offered: applications.filter((a) => a.status === 'Offered').length,
   };
 
   const statColors: Record<string, string> = {
@@ -43,14 +43,16 @@ export function ApplicationsClient({ applications }: { applications: Application
     Offered: 'text-brand-green-600',
   };
 
-  const filtered = applications.filter(a => {
-    const matchesStatus = statusFilter === 'All'
-      || a.status === statusFilter
-      || (statusFilter === 'In Review' && a.status === 'Reviewed');
-    const matchesSearch = !search
-      || a.candidate.name.toLowerCase().includes(search.toLowerCase())
-      || a.position.toLowerCase().includes(search.toLowerCase())
-      || a.location.toLowerCase().includes(search.toLowerCase());
+  const filtered = applications.filter((a) => {
+    const matchesStatus =
+      statusFilter === 'All' ||
+      a.status === statusFilter ||
+      (statusFilter === 'In Review' && a.status === 'Reviewed');
+    const matchesSearch =
+      !search ||
+      a.candidate.name.toLowerCase().includes(search.toLowerCase()) ||
+      a.position.toLowerCase().includes(search.toLowerCase()) ||
+      a.location.toLowerCase().includes(search.toLowerCase());
     return matchesStatus && matchesSearch;
   });
 
@@ -86,7 +88,7 @@ export function ApplicationsClient({ applications }: { applications: Application
             <input
               type="text"
               value={search}
-              onChange={e => setSearch(e.target.value)}
+              onChange={(e) => setSearch(e.target.value)}
               placeholder="Search by name, position, or location..."
               className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
             />
@@ -98,7 +100,9 @@ export function ApplicationsClient({ applications }: { applications: Application
       <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           {filtered.length === 0 ? (
-            <div className="text-center py-16 text-slate-700">No applications match your filter.</div>
+            <div className="text-center py-16 text-slate-700">
+              No applications match your filter.
+            </div>
           ) : (
             <div className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden">
               {filtered.map((app, index) => (
@@ -112,14 +116,22 @@ export function ApplicationsClient({ applications }: { applications: Application
                   <div className="flex-1 min-w-0">
                     <div className="flex items-center gap-3">
                       <h3 className="font-semibold text-slate-900">{app.candidate.name}</h3>
-                      <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[app.status] ?? 'bg-slate-100 text-slate-600'}`}>
+                      <span
+                        className={`px-2 py-0.5 rounded-full text-xs font-medium ${STATUS_COLORS[app.status] ?? 'bg-slate-100 text-slate-600'}`}
+                      >
                         {app.status}
                       </span>
                     </div>
                     <p className="text-slate-700 text-sm">{app.position}</p>
                     <div className="flex items-center gap-4 mt-1 text-sm text-slate-700">
-                      <span className="flex items-center gap-1"><MapPin className="w-3 h-3" />{app.location}</span>
-                      <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{app.appliedDate}</span>
+                      <span className="flex items-center gap-1">
+                        <MapPin className="w-3 h-3" />
+                        {app.location}
+                      </span>
+                      <span className="flex items-center gap-1">
+                        <Clock className="w-3 h-3" />
+                        {app.appliedDate}
+                      </span>
                     </div>
                   </div>
                   <div className="flex items-center gap-2">

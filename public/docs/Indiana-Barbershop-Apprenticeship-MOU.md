@@ -1,14 +1,17 @@
 # MEMORANDUM OF UNDERSTANDING
+
 ## Indiana Barbershop Apprenticeship Program
+
 ### Worksite Partner Agreement
 
 ---
 
 **Between:**
-- **Sponsor:** 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute ("Sponsor")
-- **Worksite Partner:** _________________________________ ("Shop")
 
-**Effective Date:** _________________
+- **Sponsor:** 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute ("Sponsor")
+- **Worksite Partner:** ****************\_**************** ("Shop")
+
+**Effective Date:** ********\_********
 
 ---
 
@@ -19,6 +22,7 @@ This Memorandum of Understanding ("MOU") establishes the terms and conditions un
 ## 2. PROGRAM OVERVIEW
 
 The Indiana Barbershop Apprenticeship Program is a structured training program that combines:
+
 - **2,000 hours** of on-the-job training (OJT) at the worksite
 - **Related Technical Instruction (RTI)** coordinated by the Sponsor
 - Progressive skill development tracked through competency assessments
@@ -93,9 +97,9 @@ The Shop may compensate the apprentice using one of the following models:
 - **Commission:** Percentage of services performed (must meet minimum wage when averaged)
 - **Hybrid:** Base hourly rate plus commission on services
 
-**Selected Model:** ☐ Hourly  ☐ Commission  ☐ Hybrid
+**Selected Model:** ☐ Hourly ☐ Commission ☐ Hybrid
 
-**Agreed Rate/Terms:** _________________________________________________
+**Agreed Rate/Terms:** ************************\_************************
 
 **IMPORTANT:** All compensation structures must comply with applicable federal and Indiana wage and labor laws. Commission-based models must ensure the apprentice earns at least minimum wage when averaged over the pay period.
 
@@ -139,43 +143,43 @@ This MOU constitutes the entire agreement between the parties regarding the subj
 
 **SPONSOR: 2Exclusive LLC-S d/b/a Elevate for Humanity Career & Technical Institute**
 
-Signature: _________________________________
+Signature: ****************\_****************
 
-Printed Name: _________________________________
+Printed Name: ****************\_****************
 
-Title: _________________________________
+Title: ****************\_****************
 
-Date: _________________________________
+Date: ****************\_****************
 
 ---
 
 **WORKSITE PARTNER:**
 
-Shop Name: _________________________________
+Shop Name: ****************\_****************
 
-Signature: _________________________________
+Signature: ****************\_****************
 
-Printed Name: _________________________________
+Printed Name: ****************\_****************
 
-Title: _________________________________
+Title: ****************\_****************
 
-Date: _________________________________
+Date: ****************\_****************
 
 ---
 
 **SUPERVISING BARBER:**
 
-Signature: _________________________________
+Signature: ****************\_****************
 
-Printed Name: _________________________________
+Printed Name: ****************\_****************
 
-Indiana License #: _________________________________
+Indiana License #: ****************\_****************
 
-Date: _________________________________
+Date: ****************\_****************
 
 ---
 
-*This document is a template. The official MOU will be provided for electronic signature upon application approval.*
+_This document is a template. The official MOU will be provided for electronic signature upon application approval._
 
 **Questions?** Contact: apprenticeships@elevateforhumanity.org | (317) 314-3757
 

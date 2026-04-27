@@ -5,7 +5,11 @@ import { CheckCircle, XCircle, Clock, RotateCcw, ChevronRight, AlertTriangle } f
 // Data loaded by server parent and passed as props — not imported directly
 type EPA608Question = any;
 
-interface EPA608SectionDef { id: string; label: string; description?: string; }
+interface EPA608SectionDef {
+  id: string;
+  label: string;
+  description?: string;
+}
 
 interface EPA608PracticeExamProps {
   questions?: EPA608Question[];
@@ -15,7 +19,10 @@ interface EPA608PracticeExamProps {
 type ExamSection = string;
 type ExamPhase = 'select' | 'exam' | 'review';
 
-export default function EPA608PracticeExam({ questions: EPA608_QUESTIONS = [], sections: EPA608_SECTIONS = [] }: EPA608PracticeExamProps) {
+export default function EPA608PracticeExam({
+  questions: EPA608_QUESTIONS = [],
+  sections: EPA608_SECTIONS = [],
+}: EPA608PracticeExamProps) {
   const getQuestionsBySection = (sectionId: string) =>
     EPA608_QUESTIONS.filter((q: any) => q.section === sectionId || q.sectionId === sectionId);
   const [phase, setPhase] = useState<ExamPhase>('select');
@@ -52,7 +59,9 @@ export default function EPA608PracticeExam({ questions: EPA608_QUESTIONS = [], s
         return prev - 1;
       });
     }, 1000);
-    return () => { if (timerRef.current) clearInterval(timerRef.current); };
+    return () => {
+      if (timerRef.current) clearInterval(timerRef.current);
+    };
   }, [phase]);
 
   const selectAnswer = (qId: string, optIdx: number) => {
@@ -80,7 +89,9 @@ export default function EPA608PracticeExam({ questions: EPA608_QUESTIONS = [], s
       <div className="space-y-6">
         <div>
           <h3 className="text-lg font-bold text-slate-900">EPA 608 Practice Exam</h3>
-          <p className="text-sm text-slate-500">Select a section to begin. Pass all four for Universal certification.</p>
+          <p className="text-sm text-slate-500">
+            Select a section to begin. Pass all four for Universal certification.
+          </p>
         </div>
         <div className="grid sm:grid-cols-2 gap-4">
           {EPA608_SECTIONS.map((sec) => {
@@ -94,9 +105,15 @@ export default function EPA608PracticeExam({ questions: EPA608_QUESTIONS = [], s
                 <h4 className="font-bold text-slate-800">{sec.title}</h4>
                 <p className="text-xs text-slate-500 mt-1 leading-relaxed">{sec.description}</p>
                 <div className="flex items-center gap-3 mt-3">
-                  <span className="text-xs bg-brand-blue-50 text-brand-blue-700 px-2 py-0.5 rounded-full font-medium">{qs.length} questions</span>
-                  <span className="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full font-medium">{sec.passingScore}% to pass</span>
-                  <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-medium">{qs.length * 2} min</span>
+                  <span className="text-xs bg-brand-blue-50 text-brand-blue-700 px-2 py-0.5 rounded-full font-medium">
+                    {qs.length} questions
+                  </span>
+                  <span className="text-xs bg-amber-50 text-amber-700 px-2 py-0.5 rounded-full font-medium">
+                    {sec.passingScore}% to pass
+                  </span>
+                  <span className="text-xs bg-slate-100 text-slate-600 px-2 py-0.5 rounded-full font-medium">
+                    {qs.length * 2} min
+                  </span>
                 </div>
               </button>
             );
@@ -125,7 +142,9 @@ export default function EPA608PracticeExam({ questions: EPA608_QUESTIONS = [], s
     return (
       <div className="space-y-6">
         {/* Score Card */}
-        <div className={`rounded-xl p-6 text-center ${passing ? 'bg-green-50 border-2 border-green-300' : 'bg-red-50 border-2 border-red-300'}`}>
+        <div
+          className={`rounded-xl p-6 text-center ${passing ? 'bg-green-50 border-2 border-green-300' : 'bg-red-50 border-2 border-red-300'}`}
+        >
           <div className="text-5xl font-black mb-2">{percentage}%</div>
           <p className={`text-lg font-bold ${passing ? 'text-green-700' : 'text-red-700'}`}>
             {passing ? 'PASS' : 'FAIL'} — {correctCount} of {questions.length} correct
@@ -139,17 +158,30 @@ export default function EPA608PracticeExam({ questions: EPA608_QUESTIONS = [], s
             const studentAnswer = answers[q.id];
             const isCorrect = studentAnswer === q.answer;
             return (
-              <div key={q.id} className={`border rounded-xl p-4 ${isCorrect ? 'border-green-200 bg-green-50/50' : 'border-red-200 bg-red-50/50'}`}>
+              <div
+                key={q.id}
+                className={`border rounded-xl p-4 ${isCorrect ? 'border-green-200 bg-green-50/50' : 'border-red-200 bg-red-50/50'}`}
+              >
                 <div className="flex items-start gap-2">
-                  {isCorrect ? <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" /> : <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />}
+                  {isCorrect ? (
+                    <CheckCircle className="w-5 h-5 text-green-600 flex-shrink-0 mt-0.5" />
+                  ) : (
+                    <XCircle className="w-5 h-5 text-red-600 flex-shrink-0 mt-0.5" />
+                  )}
                   <div className="flex-1">
-                    <p className="text-sm font-medium text-slate-800">{i + 1}. {q.question}</p>
+                    <p className="text-sm font-medium text-slate-800">
+                      {i + 1}. {q.question}
+                    </p>
                     {!isCorrect && (
                       <div className="mt-2 space-y-1">
                         {studentAnswer !== undefined && (
-                          <p className="text-xs text-red-600">Your answer: {q.options[studentAnswer]}</p>
+                          <p className="text-xs text-red-600">
+                            Your answer: {q.options[studentAnswer]}
+                          </p>
                         )}
-                        <p className="text-xs text-green-700 font-medium">Correct: {q.options[q.answer]}</p>
+                        <p className="text-xs text-green-700 font-medium">
+                          Correct: {q.options[q.answer]}
+                        </p>
                       </div>
                     )}
                     <p className="text-xs text-slate-500 mt-2">{q.explanation}</p>
@@ -166,10 +198,16 @@ export default function EPA608PracticeExam({ questions: EPA608_QUESTIONS = [], s
         </div>
 
         <div className="flex gap-3">
-          <button onClick={() => setPhase('select')} className="flex-1 bg-slate-800 text-white font-bold py-3 rounded-lg hover:bg-slate-900 transition flex items-center justify-center gap-2">
+          <button
+            onClick={() => setPhase('select')}
+            className="flex-1 bg-slate-800 text-white font-bold py-3 rounded-lg hover:bg-slate-900 transition flex items-center justify-center gap-2"
+          >
             <RotateCcw className="w-5 h-5" /> Try Another Section
           </button>
-          <button onClick={() => startExam(section)} className="flex-1 bg-brand-blue-600 text-white font-bold py-3 rounded-lg hover:bg-brand-blue-700 transition">
+          <button
+            onClick={() => startExam(section)}
+            className="flex-1 bg-brand-blue-600 text-white font-bold py-3 rounded-lg hover:bg-brand-blue-700 transition"
+          >
             Retake This Section
           </button>
         </div>
@@ -183,12 +221,19 @@ export default function EPA608PracticeExam({ questions: EPA608_QUESTIONS = [], s
       {/* Progress Bar */}
       <div className="flex items-center justify-between">
         <div className="flex items-center gap-3">
-          <span className="text-sm font-bold text-slate-700">Question {currentIdx + 1} of {questions.length}</span>
+          <span className="text-sm font-bold text-slate-700">
+            Question {currentIdx + 1} of {questions.length}
+          </span>
           <div className="w-32 bg-slate-200 rounded-full h-2">
-            <div className="bg-white h-2 rounded-full transition-all" style={{ width: `${(totalAnswered / questions.length) * 100}%` }} />
+            <div
+              className="bg-white h-2 rounded-full transition-all"
+              style={{ width: `${(totalAnswered / questions.length) * 100}%` }}
+            />
           </div>
         </div>
-        <div className={`flex items-center gap-1.5 text-sm font-bold ${timeLeft < 120 ? 'text-red-600' : 'text-slate-600'}`}>
+        <div
+          className={`flex items-center gap-1.5 text-sm font-bold ${timeLeft < 120 ? 'text-red-600' : 'text-slate-600'}`}
+        >
           <Clock className="w-4 h-4" />
           {mins}:{secs.toString().padStart(2, '0')}
         </div>
@@ -212,9 +257,13 @@ export default function EPA608PracticeExam({ questions: EPA608_QUESTIONS = [], s
                   }`}
                 >
                   <div className="flex items-center gap-3">
-                    <span className={`w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold flex-shrink-0 ${
-                      selected ? 'border-brand-blue-500 bg-brand-blue-500 text-white' : 'border-slate-300 text-slate-400'
-                    }`}>
+                    <span
+                      className={`w-7 h-7 rounded-full border-2 flex items-center justify-center text-xs font-bold flex-shrink-0 ${
+                        selected
+                          ? 'border-brand-blue-500 bg-brand-blue-500 text-white'
+                          : 'border-slate-300 text-slate-400'
+                      }`}
+                    >
                       {String.fromCharCode(65 + optIdx)}
                     </span>
                     <span className="text-sm">{opt}</span>

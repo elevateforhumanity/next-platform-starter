@@ -1,6 +1,6 @@
 /**
  * Legal Module Exports
- * 
+ *
  * Canonical agreement handling for compliance enforcement.
  */
 

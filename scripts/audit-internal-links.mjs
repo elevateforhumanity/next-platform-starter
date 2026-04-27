@@ -18,7 +18,7 @@ if (!fs.existsSync(manifestPath)) {
 }
 const manifest = JSON.parse(fs.readFileSync(manifestPath, 'utf8'));
 const compiled = new Set(
-  Object.keys(manifest).map(k => k.replace(/\/page$/, '').replace(/\([^)]*\)\//g, '') || '/')
+  Object.keys(manifest).map((k) => k.replace(/\/page$/, '').replace(/\([^)]*\)\//g, '') || '/'),
 );
 
 // ── Load redirect sources from next.config.mjs ────────────────────────────────
@@ -55,13 +55,23 @@ function routeExists(href) {
 }
 
 const SKIP_PREFIXES = [
-  '/api/', '/_next', '/images/', '/img/', '/icons/', '/fonts/',
-  '/favicon', '/robots', '/sitemap', '/public/', '/static/',
+  '/api/',
+  '/_next',
+  '/images/',
+  '/img/',
+  '/icons/',
+  '/fonts/',
+  '/favicon',
+  '/robots',
+  '/sitemap',
+  '/public/',
+  '/static/',
   // Static file extensions served from public/
 ];
 
 // Static file extensions — not routes
-const STATIC_EXT = /\.(png|jpg|jpeg|gif|svg|ico|webp|pdf|mp4|mp3|woff|woff2|ttf|eot|css|js|json|xml|txt)$/i;
+const STATIC_EXT =
+  /\.(png|jpg|jpeg|gif|svg|ico|webp|pdf|mp4|mp3|woff|woff2|ttf|eot|css|js|json|xml|txt)$/i;
 
 const hrefRe = /href=["'`](\/[a-z0-9][^"'`\s>]*)/gi;
 const pushRe = /router\.(?:push|replace)\(["'`](\/[a-z0-9][^"'`\s]*)/gi;
@@ -71,7 +81,11 @@ const seen = new Set();
 
 function scanFile(filePath) {
   let src;
-  try { src = fs.readFileSync(filePath, 'utf8'); } catch (e) { return; }
+  try {
+    src = fs.readFileSync(filePath, 'utf8');
+  } catch (e) {
+    return;
+  }
   const lines = src.split('\n');
   for (let i = 0; i < lines.length; i++) {
     const line = lines[i];
@@ -81,7 +95,7 @@ function scanFile(filePath) {
       while ((match = re.exec(line)) !== null) {
         const raw = match[1];
         const href = raw.split('?')[0].split('#')[0];
-        if (SKIP_PREFIXES.some(p => href.startsWith(p))) continue;
+        if (SKIP_PREFIXES.some((p) => href.startsWith(p))) continue;
         if (STATIC_EXT.test(href)) continue;
         if (href.includes('[') || href.includes('{') || href.includes('$')) continue;
         if (href.length < 2) continue;
@@ -97,10 +111,13 @@ function scanFile(filePath) {
 }
 
 // Load quarantine allowlist — only scan Netlify-compiled app dirs
-const quarantineSrc = fs.readFileSync(path.join(root, 'scripts/netlify-quarantine-railway-routes.mjs'), 'utf8');
+const quarantineSrc = fs.readFileSync(
+  path.join(root, 'scripts/netlify-quarantine-railway-routes.mjs'),
+  'utf8',
+);
 const allowedMatch = quarantineSrc.match(/const ALLOWED_TOP_LEVEL\s*=\s*new Set\(\[([^\]]+)\]\)/s);
 const ALLOWED_TOP_LEVEL = allowedMatch
-  ? new Set(allowedMatch[1].match(/'([^']+)'/g).map(s => s.replace(/'/g, '')))
+  ? new Set(allowedMatch[1].match(/'([^']+)'/g).map((s) => s.replace(/'/g, '')))
   : null;
 
 function walk(dir, isAppRoot = false) {

@@ -26,8 +26,15 @@ const REDIRECT_REQUIRED_ROUTES = [
 
 const BANNED_IN_PERSISTENCE_ROUTES = [
   // success:true inside a catch or error-if block — not in the normal success return
-  { pattern: /(?:catch\s*[\(\{][^}]{0,600}?|if\s*\([^)]*error[^)]*\)\s*\{[^}]{0,600}?)success\s*:\s*true/gs, label: 'success:true inside catch/error block' },
-  { pattern: /don'?t block flow|continue even if database insert fails|still return success/gi, label: 'banned comment' },
+  {
+    pattern:
+      /(?:catch\s*[\(\{][^}]{0,600}?|if\s*\([^)]*error[^)]*\)\s*\{[^}]{0,600}?)success\s*:\s*true/gs,
+    label: 'success:true inside catch/error block',
+  },
+  {
+    pattern: /don'?t block flow|continue even if database insert fails|still return success/gi,
+    label: 'banned comment',
+  },
   { pattern: /[`'"][A-Z]+-\$\{Date\.now\(\)\}[`'"]/g, label: 'timestamp fake ID' },
 ];
 
@@ -55,7 +62,9 @@ for (const file of PERSISTENCE_REQUIRED_ROUTES) {
   if (!isIntentionalDegradation) {
     const hasHardFailure = /requireDbWrite\(|throw new Error|return failure\(/.test(content);
     if (!hasHardFailure) {
-      findings.push(`${file}: no hard-failure pattern found (requireDbWrite / throw / failure()). DB errors must not fall through.`);
+      findings.push(
+        `${file}: no hard-failure pattern found (requireDbWrite / throw / failure()). DB errors must not fall through.`,
+      );
     }
   }
 }
@@ -69,7 +78,9 @@ for (const file of REDIRECT_REQUIRED_ROUTES) {
   const content = fs.readFileSync(file, 'utf8');
 
   if (!/NextResponse\.redirect\(/.test(content)) {
-    findings.push(`${file}: must use NextResponse.redirect() on error paths — raw JSON responses strand users on native form POST flows`);
+    findings.push(
+      `${file}: must use NextResponse.redirect() on error paths — raw JSON responses strand users on native form POST flows`,
+    );
   }
 }
 

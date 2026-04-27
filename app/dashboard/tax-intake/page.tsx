@@ -14,7 +14,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function TaxIntakePage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/dashboard/tax-intake');
@@ -33,7 +35,8 @@ export default async function TaxIntakePage() {
   // Fetch tax intake records
   const { data: intakes } = await supabase
     .from('tax_intake')
-    .select(`
+    .select(
+      `
       id,
       status,
       appointment_date,
@@ -41,7 +44,8 @@ export default async function TaxIntakePage() {
       created_at,
       client:profiles!tax_intake_client_id_fkey(id, full_name, email, phone),
       preparer:profiles!tax_intake_preparer_id_fkey(full_name)
-    `)
+    `,
+    )
     .order('appointment_date', { ascending: true })
     .limit(50);
 
@@ -68,11 +72,16 @@ export default async function TaxIntakePage() {
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'completed': return 'bg-brand-green-100 text-brand-green-700';
-      case 'in_progress': return 'bg-brand-blue-100 text-brand-blue-700';
-      case 'pending': return 'bg-yellow-100 text-yellow-700';
-      case 'cancelled': return 'bg-brand-red-100 text-brand-red-700';
-      default: return 'bg-white text-slate-900';
+      case 'completed':
+        return 'bg-brand-green-100 text-brand-green-700';
+      case 'in_progress':
+        return 'bg-brand-blue-100 text-brand-blue-700';
+      case 'pending':
+        return 'bg-yellow-100 text-yellow-700';
+      case 'cancelled':
+        return 'bg-brand-red-100 text-brand-red-700';
+      default:
+        return 'bg-white text-slate-900';
     }
   };
 
@@ -80,9 +89,13 @@ export default async function TaxIntakePage() {
     <div className="min-h-screen bg-white py-8">
       <div className="max-w-7xl mx-auto px-4">
         <nav className="flex items-center gap-2 text-sm text-slate-700 mb-6">
-          <Link href="/" className="hover:text-brand-orange-600">Home</Link>
+          <Link href="/" className="hover:text-brand-orange-600">
+            Home
+          </Link>
           <ChevronRight className="w-4 h-4" />
-          <Link href="/admin" className="hover:text-brand-orange-600">Admin</Link>
+          <Link href="/admin" className="hover:text-brand-orange-600">
+            Admin
+          </Link>
           <ChevronRight className="w-4 h-4" />
           <span className="text-slate-900">Tax Intake</span>
         </nav>
@@ -92,8 +105,10 @@ export default async function TaxIntakePage() {
             <h1 className="text-3xl font-bold text-slate-900">VITA Tax Intake</h1>
             <p className="text-slate-700">Manage tax preparation appointments</p>
           </div>
-          <Link href="/tax"
-            className="px-4 py-2 bg-brand-orange-500 text-white rounded-lg hover:bg-brand-orange-600">
+          <Link
+            href="/tax"
+            className="px-4 py-2 bg-brand-orange-500 text-white rounded-lg hover:bg-brand-orange-600"
+          >
             Schedule Appointment
           </Link>
         </div>
@@ -127,8 +142,11 @@ export default async function TaxIntakePage() {
           <div className="flex flex-col md:flex-row gap-4">
             <div className="relative flex-1">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-slate-700" />
-              <input type="text" placeholder="Search clients..."
-                className="w-full pl-10 pr-4 py-2 border rounded-lg" />
+              <input
+                type="text"
+                placeholder="Search clients..."
+                className="w-full pl-10 pr-4 py-2 border rounded-lg"
+              />
             </div>
             <select className="px-3 py-2 border rounded-lg">
               <option value="">All Statuses</option>
@@ -147,7 +165,9 @@ export default async function TaxIntakePage() {
             <thead className="bg-white">
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">Client</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">Appointment</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">
+                  Appointment
+                </th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">Preparer</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">Status</th>
                 <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">Actions</th>
@@ -163,7 +183,9 @@ export default async function TaxIntakePage() {
                     </td>
                     <td className="px-4 py-4">
                       <p className="font-medium">
-                        {intake.appointment_date ? new Date(intake.appointment_date).toLocaleDateString() : 'Not scheduled'}
+                        {intake.appointment_date
+                          ? new Date(intake.appointment_date).toLocaleDateString()
+                          : 'Not scheduled'}
                       </p>
                       <p className="text-sm text-slate-700">{intake.appointment_time || ''}</p>
                     </td>
@@ -171,13 +193,17 @@ export default async function TaxIntakePage() {
                       {intake.preparer?.full_name || 'Unassigned'}
                     </td>
                     <td className="px-4 py-4">
-                      <span className={`px-2 py-1 rounded text-xs ${getStatusColor(intake.status)}`}>
+                      <span
+                        className={`px-2 py-1 rounded text-xs ${getStatusColor(intake.status)}`}
+                      >
                         {intake.status}
                       </span>
                     </td>
                     <td className="px-4 py-4">
-                      <Link href={`/dashboard/tax-intake/${intake.id}`}
-                        className="text-brand-orange-600 hover:text-brand-orange-700 text-sm">
+                      <Link
+                        href={`/dashboard/tax-intake/${intake.id}`}
+                        className="text-brand-orange-600 hover:text-brand-orange-700 text-sm"
+                      >
                         View Details
                       </Link>
                     </td>
@@ -188,7 +214,9 @@ export default async function TaxIntakePage() {
                   <td colSpan={5} className="px-4 py-12 text-center">
                     <FileText className="w-12 h-12 text-slate-700 mx-auto mb-3" />
                     <p className="font-medium text-slate-900">No intake records</p>
-                    <p className="text-sm text-slate-700">Tax intake appointments will appear here</p>
+                    <p className="text-sm text-slate-700">
+                      Tax intake appointments will appear here
+                    </p>
                   </td>
                 </tr>
               )}

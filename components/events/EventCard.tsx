@@ -34,7 +34,7 @@ export default function EventCard({ event, href, compact = false }: EventCardPro
             {event.title}
           </p>
           <p className="text-xs text-slate-500 mt-0.5">
-            {event.is_virtual ? 'Virtual' : event.location ?? 'Indianapolis, IN'}
+            {event.is_virtual ? 'Virtual' : (event.location ?? 'Indianapolis, IN')}
           </p>
         </div>
       </Link>
@@ -59,7 +59,9 @@ export default function EventCard({ event, href, compact = false }: EventCardPro
           </span>
         </div>
         <div className="min-w-0">
-          <span className={`inline-block text-[11px] font-semibold px-2.5 py-0.5 rounded-full mb-1 ${eventTypeBadgeColor(event.event_type)}`}>
+          <span
+            className={`inline-block text-[11px] font-semibold px-2.5 py-0.5 rounded-full mb-1 ${eventTypeBadgeColor(event.event_type)}`}
+          >
             {eventTypeLabel(event.event_type)}
           </span>
           <p className="text-xs text-slate-500 flex items-center gap-1">

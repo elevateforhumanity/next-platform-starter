@@ -37,24 +37,14 @@ const sourceMapTagged = files.filter((file) => {
 if (mapFiles.length || sourceMapTagged.length) {
   if (mapFiles.length) {
     console.error('❌ Source map files detected in dist:');
-    mapFiles.forEach((file) =>
-      console.error(`   • ${path.relative(process.cwd(), file)}`)
-    );
+    mapFiles.forEach((file) => console.error(`   • ${path.relative(process.cwd(), file)}`));
   }
   if (sourceMapTagged.length) {
-    console.error(
-      '\n❌ Files referencing source maps (likely an inline map reference):'
-    );
-    sourceMapTagged.forEach((file) =>
-      console.error(`   • ${path.relative(process.cwd(), file)}`)
-    );
+    console.error('\n❌ Files referencing source maps (likely an inline map reference):');
+    sourceMapTagged.forEach((file) => console.error(`   • ${path.relative(process.cwd(), file)}`));
   }
-  console.error(
-    '\nFix: disable sourcemaps for production builds or remove the offending files.'
-  );
+  console.error('\nFix: disable sourcemaps for production builds or remove the offending files.');
   process.exit(1);
 }
 
-console.log(
-  '✅ no-source-maps: dist contains no .map files or sourceMappingURL references.'
-);
+console.log('✅ no-source-maps: dist contains no .map files or sourceMappingURL references.');

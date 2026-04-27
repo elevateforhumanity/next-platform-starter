@@ -16,12 +16,12 @@ const REPLACEMENTS = {
   'Under Development': 'In Progress',
   'work in progress': 'in development',
   'Work in Progress': 'In Development',
-  'tbd': 'to be confirmed',
-  'TBD': 'To Be Confirmed',
+  tbd: 'to be confirmed',
+  TBD: 'To Be Confirmed',
   'to be determined': 'to be confirmed',
   'To Be Determined': 'To Be Confirmed',
-  'placeholder': 'content',
-  'Placeholder': 'Content',
+  placeholder: 'content',
+  Placeholder: 'Content',
   'lorem ipsum': 'text',
   'Lorem Ipsum': 'Text',
   'sample content': 'content',
@@ -106,11 +106,7 @@ if (!fs.existsSync(filesPath)) {
   process.exit(1);
 }
 
-const files = fs.readFileSync(filesPath, 'utf8')
-  .trim()
-  .split('\n')
-  .filter(Boolean);
-
+const files = fs.readFileSync(filesPath, 'utf8').trim().split('\n').filter(Boolean);
 
 let totalReplacements = 0;
 
@@ -139,4 +135,3 @@ for (const file of files) {
     totalReplacements += fileReplacements;
   }
 }
-

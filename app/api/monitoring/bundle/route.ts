@@ -18,7 +18,7 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return Promise.race([
     promise,
     new Promise<T>((_, reject) =>
-      setTimeout(() => reject(new Error(`Query timed out after ${ms}ms`)), ms)
+      setTimeout(() => reject(new Error(`Query timed out after ${ms}ms`)), ms),
     ),
   ]);
 }
@@ -27,7 +27,7 @@ async function safeQuery(
   db: any,
   table: string,
   select = '*',
-  options?: { limit?: number; order?: string }
+  options?: { limit?: number; order?: string },
 ) {
   try {
     let query = db.from(table).select(select, { count: 'exact' });
@@ -47,7 +47,9 @@ async function _GET(req: Request) {
 
     // Auth check
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { data: profile } = await supabase
@@ -86,12 +88,19 @@ async function _GET(req: Request) {
       safeQuery(db, 'programs', 'id, title, slug, published, is_active, status'),
       safeQuery(db, 'course_modules', 'id, title, course_id'),
       safeQuery(db, 'course_lessons', 'id, title, lesson_type, course_id', { limit: 2000 }),
-      safeQuery(db, 'curriculum_lessons', 'id, lesson_title, step_type, status, video_file', { limit: 2000 }),
-      safeQuery(db, 'program_enrollments', 'id, user_id, program_id, status, enrolled_at', { limit: 200, order: 'enrolled_at' }),
+      safeQuery(db, 'curriculum_lessons', 'id, lesson_title, step_type, status, video_file', {
+        limit: 2000,
+      }),
+      safeQuery(db, 'program_enrollments', 'id, user_id, program_id, status, enrolled_at', {
+        limit: 200,
+        order: 'enrolled_at',
+      }),
       safeQuery(db, 'lesson_progress', 'id, user_id, lesson_id, completed', { limit: 200 }),
       safeQuery(db, 'checkpoint_scores', 'id, user_id, passed'),
       safeQuery(db, 'step_submissions', 'id, user_id, status'),
-      safeQuery(db, 'program_completion_certificates', 'id, user_id, program_id, issued_at', { limit: 100 }),
+      safeQuery(db, 'program_completion_certificates', 'id, user_id, program_id, issued_at', {
+        limit: 100,
+      }),
       safeQuery(db, 'exam_funding_authorizations', 'id, learner_id, funding_status'),
       safeQuery(db, 'profiles', 'id, role, created_at', { limit: 1 }),
       safeQuery(db, 'credentials', 'id, name, type', { limit: 50 }),
@@ -104,13 +113,15 @@ async function _GET(req: Request) {
 
     // Program breakdown
     const publishedPrograms = programs.data.filter(
-      (p: any) => p.published && p.is_active && p.status !== 'archived'
+      (p: any) => p.published && p.is_active && p.status !== 'archived',
     ).length;
 
     // Lesson media coverage (curriculum_lessons is canonical, column is video_file)
-    const lessonsWithMp4 = curriculumLessons.data.filter((l: any) => l.video_file?.includes('.mp4')).length;
+    const lessonsWithMp4 = curriculumLessons.data.filter((l: any) =>
+      l.video_file?.includes('.mp4'),
+    ).length;
     const lessonsWithMp3 = curriculumLessons.data.filter(
-      (l: any) => l.video_file?.includes('.mp3') && !l.video_file?.includes('.mp4')
+      (l: any) => l.video_file?.includes('.mp3') && !l.video_file?.includes('.mp4'),
     ).length;
     const lessonsNoMedia = curriculumLessons.count - lessonsWithMp4 - lessonsWithMp3;
 
@@ -132,9 +143,10 @@ async function _GET(req: Request) {
 
     // Checkpoint pass rate
     const checkpointsPassed = checkpointScores.data.filter((c: any) => c.passed).length;
-    const checkpointPassRate = checkpointScores.count > 0
-      ? Math.round((checkpointsPassed / checkpointScores.count) * 100)
-      : null;
+    const checkpointPassRate =
+      checkpointScores.count > 0
+        ? Math.round((checkpointsPassed / checkpointScores.count) * 100)
+        : null;
 
     // Surface any query errors in the bundle for transparency
     const queryErrors: Record<string, string | null> = {
@@ -157,7 +169,7 @@ async function _GET(req: Request) {
       rapids_submissions: rapidsSubmissions.error,
     };
     const activeErrors = Object.fromEntries(
-      Object.entries(queryErrors).filter(([, v]) => v !== null)
+      Object.entries(queryErrors).filter(([, v]) => v !== null),
     );
 
     // MeF readiness — run in a race against a 3s timeout so xmllint check
@@ -186,9 +198,10 @@ async function _GET(req: Request) {
         lessons_with_mp4: lessonsWithMp4,
         lessons_with_mp3_only: lessonsWithMp3,
         lessons_no_media: lessonsNoMedia,
-        video_coverage_pct: curriculumLessons.count > 0
-          ? Math.round((lessonsWithMp4 / curriculumLessons.count) * 100)
-          : 0,
+        video_coverage_pct:
+          curriculumLessons.count > 0
+            ? Math.round((lessonsWithMp4 / curriculumLessons.count) * 100)
+            : 0,
         // Enrollments & progress
         total_profiles: profiles.count,
         total_enrollments: programEnrollments.count,
@@ -224,10 +237,7 @@ async function _GET(req: Request) {
     return NextResponse.json(bundle);
   } catch (error) {
     logger.error('Support bundle generation failed:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate support bundle' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to generate support bundle' }, { status: 500 });
   }
 }
 

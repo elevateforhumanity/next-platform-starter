@@ -21,11 +21,7 @@ const navItems = [
   { href: '/partner/settings', label: 'Settings' },
 ];
 
-export default async function PartnerLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function PartnerLayout({ children }: { children: React.ReactNode }) {
   await requireUser({ allowedRoles: ['partner', 'admin', 'super_admin', 'org_admin', 'staff'] });
   return (
     <div className="min-h-screen bg-gray-50">
@@ -33,19 +29,25 @@ export default async function PartnerLayout({
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between h-14">
             <div className="flex items-center gap-6">
-              <Link href="/partner/attendance" className="text-lg font-bold text-brand-orange-600">Partner Portal</Link>
+              <Link href="/partner/attendance" className="text-lg font-bold text-brand-orange-600">
+                Partner Portal
+              </Link>
               <div className="hidden md:flex items-center gap-4">
                 {navItems.map((item) => (
-                  <Link key={item.href} href={item.href} className="text-sm text-slate-700 hover:text-brand-blue-700">{item.label}</Link>
+                  <Link
+                    key={item.href}
+                    href={item.href}
+                    className="text-sm text-slate-700 hover:text-brand-blue-700"
+                  >
+                    {item.label}
+                  </Link>
                 ))}
               </div>
             </div>
           </div>
         </div>
       </nav>
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
-        {children}
-      </div>
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">{children}</div>
     </div>
   );
 }

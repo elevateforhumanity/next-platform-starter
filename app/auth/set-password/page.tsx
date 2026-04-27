@@ -8,16 +8,16 @@ import { createClient } from '@/lib/supabase/client';
 // Role → portal mapping — must stay in sync with lib/auth/role-destinations.ts
 // program_holder goes to onboarding (not dashboard) — they haven't completed setup yet
 const ROLE_DESTINATIONS: Record<string, string> = {
-  admin:          '/admin/dashboard',
-  super_admin:    '/admin/dashboard',
-  staff:          '/staff-portal/dashboard',
-  instructor:     '/instructor/dashboard',
-  mentor:         '/mentor/dashboard',
+  admin: '/admin/dashboard',
+  super_admin: '/admin/dashboard',
+  staff: '/staff-portal/dashboard',
+  instructor: '/instructor/dashboard',
+  mentor: '/mentor/dashboard',
   program_holder: '/program-holder/onboarding',
-  partner:        '/partner/dashboard',
-  employer:       '/employer/dashboard',
-  student:        '/learner/dashboard',
-  learner:        '/learner/dashboard',
+  partner: '/partner/dashboard',
+  employer: '/employer/dashboard',
+  student: '/learner/dashboard',
+  learner: '/learner/dashboard',
 };
 
 function portalFor(role: string | null | undefined): string {
@@ -26,19 +26,18 @@ function portalFor(role: string | null | undefined): string {
 }
 
 export default function SetPasswordPage() {
-  const [password, setPassword]       = useState('');
-  const [confirm, setConfirm]         = useState('');
+  const [password, setPassword] = useState('');
+  const [confirm, setConfirm] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [loading, setLoading]         = useState(false);
-  const [success, setSuccess]         = useState(false);
-  const [portal, setPortal]           = useState('/learner/dashboard');
-  const [userRole, setUserRole]       = useState<string | null>(null);
-  const [error, setError]             = useState('');
+  const [loading, setLoading] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const [portal, setPortal] = useState('/learner/dashboard');
+  const [userRole, setUserRole] = useState<string | null>(null);
+  const [error, setError] = useState('');
 
   // ?next= param overrides role-based destination (e.g. from enrollment email)
-  const nextParam = typeof window !== 'undefined'
-    ? new URLSearchParams(window.location.search).get('next')
-    : null;
+  const nextParam =
+    typeof window !== 'undefined' ? new URLSearchParams(window.location.search).get('next') : null;
   const [sessionReady, setSessionReady] = useState<boolean | null>(null);
 
   useEffect(() => {
@@ -51,14 +50,16 @@ export default function SetPasswordPage() {
         setSessionReady(true);
         return;
       }
-      const { data: { subscription: sub } } = supabase.auth.onAuthStateChange((event) => {
+      const {
+        data: { subscription: sub },
+      } = supabase.auth.onAuthStateChange((event) => {
         if (event === 'PASSWORD_RECOVERY' || event === 'SIGNED_IN') {
           setSessionReady(true);
         }
       });
       subscription = sub;
       timeout = setTimeout(() => {
-        setSessionReady(prev => prev === null ? false : prev);
+        setSessionReady((prev) => (prev === null ? false : prev));
       }, 4000);
     });
 
@@ -72,17 +73,28 @@ export default function SetPasswordPage() {
     e.preventDefault();
     setError('');
 
-    if (password.length < 8) { setError('Password must be at least 8 characters.'); return; }
-    if (password !== confirm) { setError('Passwords do not match.'); return; }
+    if (password.length < 8) {
+      setError('Password must be at least 8 characters.');
+      return;
+    }
+    if (password !== confirm) {
+      setError('Passwords do not match.');
+      return;
+    }
 
     setLoading(true);
     try {
       const supabase = createClient();
       const { error: updateError } = await supabase.auth.updateUser({ password });
-      if (updateError) { setError(updateError.message); return; }
+      if (updateError) {
+        setError(updateError.message);
+        return;
+      }
 
       // Read role to redirect to the correct portal
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (user) {
         const { data: profile } = await supabase
           .from('profiles')
@@ -115,8 +127,8 @@ export default function SetPasswordPage() {
             {userRole === 'program_holder'
               ? 'Your account is ready. Complete your onboarding steps to activate your portal.'
               : nextParam?.includes('onboarding')
-              ? 'Your account is ready. Complete your onboarding to access your courses.'
-              : 'Your account is ready. Click below to go to your dashboard.'}
+                ? 'Your account is ready. Complete your onboarding to access your courses.'
+                : 'Your account is ready. Click below to go to your dashboard.'}
           </p>
           <a
             href={portal}
@@ -125,8 +137,8 @@ export default function SetPasswordPage() {
             {userRole === 'program_holder'
               ? 'Start Onboarding →'
               : nextParam?.includes('onboarding')
-              ? 'Start Onboarding →'
-              : 'Go to My Dashboard'}
+                ? 'Start Onboarding →'
+                : 'Go to My Dashboard'}
           </a>
         </div>
       </div>
@@ -143,7 +155,8 @@ export default function SetPasswordPage() {
           </div>
           <h1 className="text-3xl font-extrabold text-black mb-3">Link Expired</h1>
           <p className="text-slate-700 mb-8">
-            This invitation link has expired or already been used. Contact your coordinator to send a new one.
+            This invitation link has expired or already been used. Contact your coordinator to send
+            a new one.
           </p>
           <Link
             href="/login"
@@ -153,7 +166,9 @@ export default function SetPasswordPage() {
           </Link>
           <p className="mt-4 text-sm text-slate-700">
             Need help?{' '}
-            <a href="tel:3173143757" className="text-brand-blue-600 hover:underline">(317) 314-3757</a>
+            <a href="tel:3173143757" className="text-brand-blue-600 hover:underline">
+              (317) 314-3757
+            </a>
           </p>
         </div>
       </div>
@@ -195,7 +210,7 @@ export default function SetPasswordPage() {
                   required
                   minLength={8}
                   value={password}
-                  onChange={e => setPassword(e.target.value)}
+                  onChange={(e) => setPassword(e.target.value)}
                   className="w-full px-4 py-3 pr-11 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black text-base"
                   placeholder="Minimum 8 characters"
                   autoComplete="new-password"
@@ -203,7 +218,7 @@ export default function SetPasswordPage() {
                 />
                 <button
                   type="button"
-                  onClick={() => setShowPassword(v => !v)}
+                  onClick={() => setShowPassword((v) => !v)}
                   className="absolute right-3 top-1/2 -translate-y-1/2 text-slate-700 hover:text-slate-700"
                   tabIndex={-1}
                 >
@@ -219,7 +234,7 @@ export default function SetPasswordPage() {
                 required
                 minLength={8}
                 value={confirm}
-                onChange={e => setConfirm(e.target.value)}
+                onChange={(e) => setConfirm(e.target.value)}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-black text-base"
                 placeholder="Re-enter your password"
                 autoComplete="new-password"
@@ -239,7 +254,13 @@ export default function SetPasswordPage() {
               disabled={loading}
               className="w-full py-4 bg-brand-red-600 text-white font-bold rounded-lg text-lg hover:bg-brand-red-700 transition disabled:opacity-50 disabled:cursor-not-allowed flex items-center justify-center gap-2"
             >
-              {loading ? <><Loader2 className="w-5 h-5 animate-spin" /> Creating...</> : 'Create Password'}
+              {loading ? (
+                <>
+                  <Loader2 className="w-5 h-5 animate-spin" /> Creating...
+                </>
+              ) : (
+                'Create Password'
+              )}
             </button>
           </form>
         </div>

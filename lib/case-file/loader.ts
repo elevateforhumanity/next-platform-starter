@@ -1,6 +1,6 @@
 /**
  * Case File Loader
- * 
+ *
  * Aggregates all participant data into a unified case file view.
  */
 
@@ -67,7 +67,7 @@ export async function loadCaseFile(participantId: string): Promise<ParticipantCa
     .eq('user_id', participantId);
 
   const totalCourses = courseProgress?.length || 0;
-  const completedCourses = courseProgress?.filter(c => c.completed_at)?.length || 0;
+  const completedCourses = courseProgress?.filter((c) => c.completed_at)?.length || 0;
 
   // Get latest activity timestamp
   const timestamps = [
@@ -77,10 +77,11 @@ export async function loadCaseFile(participantId: string): Promise<ParticipantCa
     documents?.[0]?.created_at,
     activityLog?.[0]?.created_at,
   ].filter(Boolean);
-  
-  const lastActivityAt = timestamps.length > 0 
-    ? new Date(Math.max(...timestamps.map(t => new Date(t).getTime()))).toISOString()
-    : profile.created_at;
+
+  const lastActivityAt =
+    timestamps.length > 0
+      ? new Date(Math.max(...timestamps.map((t) => new Date(t).getTime()))).toISOString()
+      : profile.created_at;
 
   // Build case file
   const caseFile: ParticipantCaseFile = {
@@ -91,17 +92,22 @@ export async function loadCaseFile(participantId: string): Promise<ParticipantCa
 
     profile: {
       id: profile.id,
-      fullName: profile.full_name || `${profile.first_name || ''} ${profile.last_name || ''}`.trim() || 'Unknown',
+      fullName:
+        profile.full_name ||
+        `${profile.first_name || ''} ${profile.last_name || ''}`.trim() ||
+        'Unknown',
       email: profile.email || '',
       phone: profile.phone,
       dateOfBirth: profile.date_of_birth,
-      address: profile.address ? {
-        street: profile.address.street,
-        city: profile.address.city,
-        state: profile.address.state,
-        zip: profile.address.zip,
-        county: profile.address.county,
-      } : undefined,
+      address: profile.address
+        ? {
+            street: profile.address.street,
+            city: profile.address.city,
+            state: profile.address.state,
+            zip: profile.address.zip,
+            county: profile.address.county,
+          }
+        : undefined,
       demographics: {
         veteran: profile.is_veteran,
         justiceInvolved: profile.is_justice_involved,
@@ -119,7 +125,7 @@ export async function loadCaseFile(participantId: string): Promise<ParticipantCa
       notes: applications?.[0]?.advisor_notes,
     },
 
-    applications: (applications || []).map(app => ({
+    applications: (applications || []).map((app) => ({
       id: app.id,
       programSlug: app.program_slug || app.program_id,
       programName: app.program_name || app.program_slug || 'Unknown Program',
@@ -129,7 +135,7 @@ export async function loadCaseFile(participantId: string): Promise<ParticipantCa
       reviewedBy: app.reviewed_by,
     })),
 
-    enrollments: (enrollments || []).map(enr => ({
+    enrollments: (enrollments || []).map((enr) => ({
       id: enr.id,
       programSlug: enr.program_slug || '',
       programName: enr.program_slug || 'Unknown Program',
@@ -142,7 +148,7 @@ export async function loadCaseFile(participantId: string): Promise<ParticipantCa
       amountPaid: enr.amount_paid,
     })),
 
-    documents: (documents || []).map(doc => ({
+    documents: (documents || []).map((doc) => ({
       id: doc.id,
       type: doc.document_type || doc.type || 'other',
       name: doc.name || doc.file_name || 'Document',
@@ -161,7 +167,7 @@ export async function loadCaseFile(participantId: string): Promise<ParticipantCa
       lastActivityAt: courseProgress?.[0]?.updated_at,
     },
 
-    credentials: (certificates || []).map(cert => ({
+    credentials: (certificates || []).map((cert) => ({
       id: cert.id,
       type: cert.type || 'certificate',
       name: cert.program_name || cert.title || 'Certificate',
@@ -179,7 +185,7 @@ export async function loadCaseFile(participantId: string): Promise<ParticipantCa
       wageRange: profile.wage_range,
     },
 
-    activityLog: (activityLog || []).map(log => ({
+    activityLog: (activityLog || []).map((log) => ({
       id: log.id,
       action: log.action,
       description: log.description || log.action,
@@ -189,8 +195,11 @@ export async function loadCaseFile(participantId: string): Promise<ParticipantCa
     })),
 
     caseStatus: {
-      status: enrollments?.some(e => e.status === 'active') ? 'active' : 
-              enrollments?.some(e => e.status === 'completed') ? 'closed' : 'active',
+      status: enrollments?.some((e) => e.status === 'active')
+        ? 'active'
+        : enrollments?.some((e) => e.status === 'completed')
+          ? 'closed'
+          : 'active',
       assignedAdvisor: applications?.[0]?.advisor_assigned,
       nextAction: applications?.[0]?.next_step,
       nextActionDueDate: applications?.[0]?.next_step_due_date,
@@ -208,14 +217,15 @@ export async function loadCaseFileSummaries(
     status?: 'active' | 'closed' | 'archived';
     limit?: number;
     offset?: number;
-  } = {}
+  } = {},
 ): Promise<CaseFileSummary[]> {
   const supabase = await createClient();
   const { limit = 50, offset = 0 } = options;
 
   const { data: profiles } = await supabase
     .from('profiles')
-    .select(`
+    .select(
+      `
       id,
       full_name,
       first_name,
@@ -223,14 +233,15 @@ export async function loadCaseFileSummaries(
       email,
       created_at,
       updated_at
-    `)
+    `,
+    )
     .order('updated_at', { ascending: false })
     .range(offset, offset + limit - 1);
 
   if (!profiles) return [];
 
   // Get enrollments for these profiles
-  const profileIds = profiles.map(p => p.id);
+  const profileIds = profiles.map((p) => p.id);
   const { data: enrollments } = await supabase
     .from('student_enrollments')
     .select('student_id, program_slug, status, updated_at')
@@ -245,21 +256,28 @@ export async function loadCaseFileSummaries(
     .order('updated_at', { ascending: false });
 
   // Build summaries
-  return profiles.map(profile => {
-    const enrollment = enrollments?.find(e => e.student_id === profile.id);
-    const application = applications?.find(a => a.user_id === profile.id);
+  return profiles.map((profile) => {
+    const enrollment = enrollments?.find((e) => e.student_id === profile.id);
+    const application = applications?.find((a) => a.user_id === profile.id);
 
     return {
       id: profile.id,
       caseNumber: generateCaseNumber(profile.id, new Date(profile.created_at)),
-      participantName: profile.full_name || `${profile.first_name || ''} ${profile.last_name || ''}`.trim() || 'Unknown',
+      participantName:
+        profile.full_name ||
+        `${profile.first_name || ''} ${profile.last_name || ''}`.trim() ||
+        'Unknown',
       email: profile.email || '',
       currentProgram: enrollment?.program_slug,
       enrollmentStatus: enrollment?.status,
       eligibilityStatus: application?.eligibility_status || 'pending',
       lastActivityAt: profile.updated_at || profile.created_at,
-      caseStatus: enrollment?.status === 'active' ? 'active' : 
-                  enrollment?.status === 'completed' ? 'closed' : 'active',
+      caseStatus:
+        enrollment?.status === 'active'
+          ? 'active'
+          : enrollment?.status === 'completed'
+            ? 'closed'
+            : 'active',
     };
   });
 }

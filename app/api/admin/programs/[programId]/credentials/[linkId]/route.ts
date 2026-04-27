@@ -6,14 +6,14 @@ import { logger } from '@/lib/logger';
 
 const PatchSchema = z.object({
   is_required: z.boolean().optional(),
-  sort_order:  z.number().int().min(0).optional(),
-  notes:       z.string().optional().nullable(),
+  sort_order: z.number().int().min(0).optional(),
+  notes: z.string().optional().nullable(),
 });
 
 // PATCH /api/admin/programs/[programId]/credentials/[linkId]
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ programId: string; linkId: string }> }
+  { params }: { params: Promise<{ programId: string; linkId: string }> },
 ) {
   const { programId, linkId } = await params;
   const auth = await apiRequireAdmin(req);
@@ -36,7 +36,7 @@ export async function PATCH(
 
   if (error) {
     logger.error('PATCH program_credentials error', error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 
   return NextResponse.json({ link: data });
@@ -45,7 +45,7 @@ export async function PATCH(
 // DELETE /api/admin/programs/[programId]/credentials/[linkId]
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ programId: string; linkId: string }> }
+  { params }: { params: Promise<{ programId: string; linkId: string }> },
 ) {
   const { programId, linkId } = await params;
   const auth = await apiRequireAdmin(req);
@@ -60,7 +60,7 @@ export async function DELETE(
 
   if (error) {
     logger.error('DELETE program_credentials error', error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 
   logger.info('Credential unlinked from program', { programId, linkId });

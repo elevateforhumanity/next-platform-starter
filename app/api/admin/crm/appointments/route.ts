@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { requireAdmin } from '@/lib/auth';
@@ -21,9 +20,15 @@ async function _POST(request: NextRequest) {
   try {
     const body = await request.json();
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-    const { data: _roleProfile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    const { data: _roleProfile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
     if (!_roleProfile || !['admin', 'super_admin', 'staff'].includes(_roleProfile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
@@ -45,7 +50,15 @@ async function _POST(request: NextRequest) {
 
     if (error) throw error;
 
-    if (user) await logAdminAudit({ action: AdminAction.CRM_APPOINTMENT_CREATED, actorId: user.id, entityType: 'crm_appointments', entityId: data.id, metadata: { contact_id: body.contact_id }, req: request });
+    if (user)
+      await logAdminAudit({
+        action: AdminAction.CRM_APPOINTMENT_CREATED,
+        actorId: user.id,
+        entityType: 'crm_appointments',
+        entityId: data.id,
+        metadata: { contact_id: body.contact_id },
+        req: request,
+      });
 
     return NextResponse.json({ data }, { status: 201 });
   } catch (error) {

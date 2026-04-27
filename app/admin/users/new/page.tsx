@@ -14,11 +14,8 @@ export default async function NewUserPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   return (
     <div className="min-h-screen bg-white py-8">
-
       {/* Hero Image */}
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
@@ -37,18 +34,14 @@ export default async function NewUserPage() {
         {/* Create User Form */}
         <div className="bg-white rounded-lg shadow">
           <div className="px-6 py-4 border-b border-gray-200">
-            <h2 className="text-lg font-semibold text-black">
-              User Information
-            </h2>
+            <h2 className="text-lg font-semibold text-black">User Information</h2>
           </div>
 
           <div className="p-6 space-y-6">
             {/* Basic Information */}
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-black mb-2">
-                  First Name *
-                </label>
+                <label className="block text-sm font-medium text-black mb-2">First Name *</label>
                 <input
                   type="text"
                   required
@@ -57,9 +50,7 @@ export default async function NewUserPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-black mb-2">
-                  Last Name *
-                </label>
+                <label className="block text-sm font-medium text-black mb-2">Last Name *</label>
                 <input
                   type="text"
                   required
@@ -70,9 +61,7 @@ export default async function NewUserPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-black mb-2">
-                Email Address *
-              </label>
+              <label className="block text-sm font-medium text-black mb-2">Email Address *</label>
               <input
                 type="email"
                 required
@@ -86,9 +75,7 @@ export default async function NewUserPage() {
 
             <div className="grid md:grid-cols-2 gap-4">
               <div>
-                <label className="block text-sm font-medium text-black mb-2">
-                  Phone Number
-                </label>
+                <label className="block text-sm font-medium text-black mb-2">Phone Number</label>
                 <input
                   type="tel"
                   placeholder="(317) 314-3757"
@@ -96,9 +83,7 @@ export default async function NewUserPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-black mb-2">
-                  Date of Birth
-                </label>
+                <label className="block text-sm font-medium text-black mb-2">Date of Birth</label>
                 <input
                   type="date"
                   className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
@@ -108,9 +93,7 @@ export default async function NewUserPage() {
 
             {/* Role Selection */}
             <div>
-              <label className="block text-sm font-medium text-black mb-2">
-                User Role *
-              </label>
+              <label className="block text-sm font-medium text-black mb-2">User Role *</label>
               <select
                 required
                 className="w-full rounded-md border-gray-300 shadow-sm focus:border-brand-blue-500 focus:ring-brand-blue-500"
@@ -147,34 +130,16 @@ export default async function NewUserPage() {
             {/* Additional Options */}
             <div className="space-y-3 pt-4 border-t border-gray-200">
               <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="rounded text-brand-blue-600"
-                />
-                <span className="text-sm text-black">
-                  Send welcome email
-                </span>
+                <input type="checkbox" defaultChecked className="rounded text-brand-blue-600" />
+                <span className="text-sm text-black">Send welcome email</span>
               </label>
               <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="rounded text-brand-blue-600"
-                />
-                <span className="text-sm text-black">
-                  Require password change on first login
-                </span>
+                <input type="checkbox" defaultChecked className="rounded text-brand-blue-600" />
+                <span className="text-sm text-black">Require password change on first login</span>
               </label>
               <label className="flex items-center gap-2">
-                <input
-                  type="checkbox"
-                  defaultChecked
-                  className="rounded text-brand-blue-600"
-                />
-                <span className="text-sm text-black">
-                  Account active immediately
-                </span>
+                <input type="checkbox" defaultChecked className="rounded text-brand-blue-600" />
+                <span className="text-sm text-black">Account active immediately</span>
               </label>
             </div>
 
@@ -213,7 +178,10 @@ export default async function NewUserPage() {
               >
                 Cancel
               </Link>
-              <button className="px-6 py-2 bg-brand-blue-600 text-white rounded-md hover:bg-brand-blue-700 font-semibold" aria-label="Action button">
+              <button
+                className="px-6 py-2 bg-brand-blue-600 text-white rounded-md hover:bg-brand-blue-700 font-semibold"
+                aria-label="Action button"
+              >
                 Create User
               </button>
             </div>
@@ -222,18 +190,11 @@ export default async function NewUserPage() {
 
         {/* Help Text */}
         <div className="mt-6 bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
-          <h3 className="text-sm font-semibold text-brand-blue-900 mb-2">
-            Creating User Accounts
-          </h3>
+          <h3 className="text-sm font-semibold text-brand-blue-900 mb-2">Creating User Accounts</h3>
           <ul className="text-sm text-brand-blue-800 space-y-1">
-            <li>
-              • Users will receive a verification email to activate their
-              account
-            </li>
+            <li>• Users will receive a verification email to activate their account</li>
             <li>• Temporary passwords must be changed on first login</li>
-            <li>
-              • Role determines what features and data the user can access
-            </li>
+            <li>• Role determines what features and data the user can access</li>
             <li>• You can edit user details and permissions after creation</li>
           </ul>
         </div>

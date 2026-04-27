@@ -39,7 +39,10 @@ async function _POST(request: NextRequest) {
       .eq('id', user.id)
       .maybeSingle();
 
-    if (!staffProfile || !['admin', 'super_admin', 'instructor', 'staff'].includes(staffProfile.role)) {
+    if (
+      !staffProfile ||
+      !['admin', 'super_admin', 'instructor', 'staff'].includes(staffProfile.role)
+    ) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -68,7 +71,7 @@ async function _POST(request: NextRequest) {
     if (!firstName || !lastName || !email) {
       return NextResponse.json(
         { error: 'First name, last name, and email are required' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -113,44 +116,39 @@ async function _POST(request: NextRequest) {
 
       if (profileError) {
         logger.error('Profile creation error:', profileError);
-        return NextResponse.json(
-          { error: 'Failed to create student profile' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to create student profile' }, { status: 500 });
       }
 
       profileId = newProfile.id;
     }
 
     // Create or update student record
-    await supabase
-      .from('students')
-      .upsert({
-        id: profileId,
-        date_of_birth: dateOfBirth || null,
-        address: address || null,
-        city: city || null,
-        state: state || null,
-        zip_code: zipCode || null,
-        county: county || null,
-        funding_type: fundingType || null,
-        case_manager_name: caseManagerName || null,
-        case_manager_email: caseManagerEmail || null,
-        case_manager_phone: caseManagerPhone || null,
-        notes: notes || null,
-      });
+    await supabase.from('students').upsert({
+      id: profileId,
+      date_of_birth: dateOfBirth || null,
+      address: address || null,
+      city: city || null,
+      state: state || null,
+      zip_code: zipCode || null,
+      county: county || null,
+      funding_type: fundingType || null,
+      case_manager_name: caseManagerName || null,
+      case_manager_email: caseManagerEmail || null,
+      case_manager_phone: caseManagerPhone || null,
+      notes: notes || null,
+    });
 
     // Get program info
     let programName = 'Barber Apprenticeship';
     let totalHours = 2000;
-    
+
     if (programId) {
       const { data: program } = await supabase
         .from('programs')
         .select('title, total_hours')
         .eq('id', programId)
         .maybeSingle();
-      
+
       if (program) {
         programName = program.name;
         totalHours = program.total_hours || 2000;
@@ -175,25 +173,20 @@ async function _POST(request: NextRequest) {
 
     if (enrollmentError) {
       logger.error('Enrollment creation error:', enrollmentError);
-      return NextResponse.json(
-        { error: 'Failed to create enrollment' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to create enrollment' }, { status: 500 });
     }
 
     // Create apprentice record for hour logging
-    await supabase
-      .from('apprentices')
-      .upsert({
-        user_id: profileId,
-        program_id: programId || null,
-        program_name: programName,
-        status: 'active',
-        total_hours_required: totalHours,
-        hours_completed: 0,
-        transfer_hours_credited: 0,
-        enrollment_date: new Date().toISOString().split('T')[0],
-      });
+    await supabase.from('apprentices').upsert({
+      user_id: profileId,
+      program_id: programId || null,
+      program_name: programName,
+      status: 'active',
+      total_hours_required: totalHours,
+      hours_completed: 0,
+      transfer_hours_credited: 0,
+      enrollment_date: new Date().toISOString().split('T')[0],
+    });
 
     // Link uploaded documents to user
     if (documentIds && documentIds.length > 0) {
@@ -241,10 +234,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error: any) {
     logger.error('Staff enrollment error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/staff/enroll-student', _POST);

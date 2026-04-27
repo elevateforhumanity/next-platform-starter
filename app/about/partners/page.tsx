@@ -1,4 +1,3 @@
-
 import Image from 'next/image';
 import Link from 'next/link';
 import { Metadata } from 'next';
@@ -10,7 +9,8 @@ export const revalidate = 600;
 
 export const metadata: Metadata = {
   title: 'Our Partners | Elevate for Humanity',
-  description: 'Elevate for Humanity partners with workforce boards, employers, credential providers, and government agencies to deliver funded credential pathway programs in Indianapolis.',
+  description:
+    'Elevate for Humanity partners with workforce boards, employers, credential providers, and government agencies to deliver funded credential pathway programs in Indianapolis.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/about/partners',
   },
@@ -27,35 +27,46 @@ export default async function PartnersPage() {
     .order('display_order');
 
   const partners = allPartners || [];
-  
-  const governmentPartners = partners.filter(p => p.partner_type === 'government');
-  const certificationPartners = partners.filter(p => p.partner_type === 'certification');
-  const trainingPartners = partners.filter(p => p.partner_type === 'training');
-  const employerPartners = partners.filter(p => p.partner_type === 'employer');
-  const workforcePartners = partners.filter(p => p.partner_type === 'workforce');
+
+  const governmentPartners = partners.filter((p) => p.partner_type === 'government');
+  const certificationPartners = partners.filter((p) => p.partner_type === 'certification');
+  const trainingPartners = partners.filter((p) => p.partner_type === 'training');
+  const employerPartners = partners.filter((p) => p.partner_type === 'employer');
+  const workforcePartners = partners.filter((p) => p.partner_type === 'workforce');
 
   return (
-    <div className="min-h-screen bg-white">      {/* Breadcrumbs */}
+    <div className="min-h-screen bg-white">
+      {' '}
+      {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <Breadcrumbs items={[{ label: 'About', href: '/about' }, { label: 'Partners' }]} />
         </div>
       </div>
-      
       {/* Hero Section */}
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
-          <Image src="/images/pages/about-partners-hero.jpg" alt="Partners background" fill className="object-cover" priority sizes="100vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src="/images/pages/about-partners-hero.jpg"
+            alt="Partners background"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-white py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
             <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Our Partners</h1>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">We collaborate with government agencies, employers, and credential providers to deliver funded credential pathway programs.</p>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              We collaborate with government agencies, employers, and credential providers to
+              deliver funded credential pathway programs.
+            </p>
           </div>
         </div>
       </section>
-
       {/* Government Partners */}
       {(governmentPartners.length > 0 || workforcePartners.length > 0) && (
         <section className="py-16">
@@ -66,7 +77,10 @@ export default async function PartnersPage() {
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
               {[...governmentPartners, ...workforcePartners].map((partner: any) => (
-                <div key={partner.id} className="bg-white border rounded-xl p-6 shadow-sm hover:shadow-md transition">
+                <div
+                  key={partner.id}
+                  className="bg-white border rounded-xl p-6 shadow-sm hover:shadow-md transition"
+                >
                   {partner.logo_url && (
                     <div className="h-16 flex items-center justify-center mb-4">
                       <Image
@@ -88,7 +102,6 @@ export default async function PartnersPage() {
           </div>
         </section>
       )}
-
       {/* Certification Partners */}
       {certificationPartners.length > 0 && (
         <section className="py-16">
@@ -121,7 +134,6 @@ export default async function PartnersPage() {
           </div>
         </section>
       )}
-
       {/* Training Partners */}
       {trainingPartners.length > 0 && (
         <section className="py-16">
@@ -138,7 +150,12 @@ export default async function PartnersPage() {
                     <p className="text-sm text-black mb-3">{partner.description}</p>
                   )}
                   {partner.website_url && (
-                    <a href={partner.website_url} target="_blank" rel="noopener noreferrer" className="text-brand-blue-600 text-sm hover:underline">
+                    <a
+                      href={partner.website_url}
+                      target="_blank"
+                      rel="noopener noreferrer"
+                      className="text-brand-blue-600 text-sm hover:underline"
+                    >
                       Visit Website
                     </a>
                   )}
@@ -148,7 +165,6 @@ export default async function PartnersPage() {
           </div>
         </section>
       )}
-
       {/* Employer Partners */}
       {employerPartners.length > 0 && (
         <section className="py-16">
@@ -158,7 +174,8 @@ export default async function PartnersPage() {
               <h2 className="text-3xl font-bold text-slate-900">Employer Partners</h2>
             </div>
             <p className="text-black mb-8">
-              Our graduates are hired by leading employers across healthcare, skilled trades, and professional services.
+              Our graduates are hired by leading employers across healthcare, skilled trades, and
+              professional services.
             </p>
             <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
               {employerPartners.map((partner: any) => (
@@ -170,7 +187,6 @@ export default async function PartnersPage() {
           </div>
         </section>
       )}
-
       {/* CTA */}
       <section className="py-16 bg-brand-blue-700 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">

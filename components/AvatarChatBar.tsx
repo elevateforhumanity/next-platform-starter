@@ -1,7 +1,17 @@
 'use client';
 
 import { useState, useRef, useEffect } from 'react';
-import { Play, Pause, Volume2, VolumeX, MessageCircle, Send, X, ChevronUp, ChevronDown } from 'lucide-react';
+import {
+  Play,
+  Pause,
+  Volume2,
+  VolumeX,
+  MessageCircle,
+  Send,
+  X,
+  ChevronUp,
+  ChevronDown,
+} from 'lucide-react';
 import { usePathname } from 'next/navigation';
 
 interface Message {
@@ -11,33 +21,88 @@ interface Message {
 
 // Avatar video mapping based on page
 const getAvatarConfig = (pathname: string) => {
-  if (pathname.includes('/programs/healthcare') || pathname.includes('/cna') || pathname.includes('/medical')) {
-    return { video: '/videos/avatars/healthcare-guide.mp4', name: 'Healthcare Guide', message: 'Interested in healthcare careers? I can help you explore CNA, Medical Assistant, and more!' };
+  if (
+    pathname.includes('/programs/healthcare') ||
+    pathname.includes('/cna') ||
+    pathname.includes('/medical')
+  ) {
+    return {
+      video: '/videos/avatars/healthcare-guide.mp4',
+      name: 'Healthcare Guide',
+      message:
+        'Interested in healthcare careers? I can help you explore CNA, Medical Assistant, and more!',
+    };
   }
   if (pathname.includes('/programs/barber') || pathname.includes('/cosmetology')) {
-    return { video: '/videos/avatars/barber-guide.mp4', name: 'Barber Apprenticeship Guide', message: 'Ready to start your career in barbering? Let me show you how the apprenticeship works!' };
+    return {
+      video: '/videos/avatars/barber-guide.mp4',
+      name: 'Barber Apprenticeship Guide',
+      message:
+        'Ready to start your career in barbering? Let me show you how the apprenticeship works!',
+    };
   }
-  if (pathname.includes('/programs/skilled-trades') || pathname.includes('/hvac') || pathname.includes('/electrical')) {
-    return { video: '/videos/avatars/trades-guide.mp4', name: 'Trades Guide', message: 'Skilled trades offer great careers! Ask me about HVAC, electrical, welding, and more.' };
+  if (
+    pathname.includes('/programs/skilled-trades') ||
+    pathname.includes('/hvac') ||
+    pathname.includes('/electrical')
+  ) {
+    return {
+      video: '/videos/avatars/trades-guide.mp4',
+      name: 'Trades Guide',
+      message:
+        'Skilled trades offer great careers! Ask me about HVAC, electrical, welding, and more.',
+    };
   }
   if (pathname.includes('/store') || pathname.includes('/shop')) {
-    return { video: '/videos/avatars/store-assistant.mp4', name: 'Store Assistant', message: 'Looking for courses, licenses, or tools? I can help you find what you need!' };
+    return {
+      video: '/videos/avatars/store-assistant.mp4',
+      name: 'Store Assistant',
+      message: 'Looking for courses, licenses, or tools? I can help you find what you need!',
+    };
   }
   // Tax preparation pages - separate from financial aid
   if (pathname.includes('/tax') || pathname.includes('/supersonic-fast-cash')) {
-    return { video: '/videos/avatars/financial-guide.mp4', name: 'Tax Guide', message: 'Need help with tax preparation? I can guide you through free VITA services or Supersonic Fast Cash options!' };
+    return {
+      video: '/videos/avatars/financial-guide.mp4',
+      name: 'Tax Guide',
+      message:
+        'Need help with tax preparation? I can guide you through free VITA services or Supersonic Fast Cash options!',
+    };
   }
   // Financial aid and funding pages
-  if (pathname.includes('/financial-aid') || pathname.includes('/funding') || pathname.includes('/wioa') || pathname.includes('/grants')) {
-    return { video: '/videos/avatars/financial-guide.mp4', name: 'Funding Guide', message: 'Looking for free training? I can help you understand WIOA funding, grants, and financial aid options!' };
+  if (
+    pathname.includes('/financial-aid') ||
+    pathname.includes('/funding') ||
+    pathname.includes('/wioa') ||
+    pathname.includes('/grants')
+  ) {
+    return {
+      video: '/videos/avatars/financial-guide.mp4',
+      name: 'Funding Guide',
+      message:
+        'Looking for free training? I can help you understand WIOA funding, grants, and financial aid options!',
+    };
   }
   if (pathname.includes('/onboarding') || pathname.includes('/orientation')) {
-    return { video: '/videos/avatars/orientation-guide.mp4', name: 'Orientation Guide', message: 'Welcome! Let me help you get started with your training journey.' };
+    return {
+      video: '/videos/avatars/orientation-guide.mp4',
+      name: 'Orientation Guide',
+      message: 'Welcome! Let me help you get started with your training journey.',
+    };
   }
   if (pathname.includes('/lms') || pathname.includes('/courses') || pathname.includes('/learn')) {
-    return { video: '/videos/avatars/ai-tutor.mp4', name: 'AI Tutor', message: 'Need help with your coursework? I\'m your AI tutor - ask me anything!' };
+    return {
+      video: '/videos/avatars/ai-tutor.mp4',
+      name: 'AI Tutor',
+      message: "Need help with your coursework? I'm your AI tutor - ask me anything!",
+    };
   }
-  return { video: '/videos/avatars/home-welcome.mp4', name: 'Elevate Guide', message: 'Hi! I\'m here to help you find the right career training program. What are you interested in?' };
+  return {
+    video: '/videos/avatars/home-welcome.mp4',
+    name: 'Elevate Guide',
+    message:
+      "Hi! I'm here to help you find the right career training program. What are you interested in?",
+  };
 };
 
 // Pages that should NOT show the avatar/chat bar
@@ -57,7 +122,7 @@ export default function AvatarChatBar() {
   const pathname = usePathname();
   const videoRef = useRef<HTMLVideoElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
+
   const [isPlaying, setIsPlaying] = useState(true);
   const [isMuted, setIsMuted] = useState(false);
   const [isChatExpanded, setIsChatExpanded] = useState(false);
@@ -69,7 +134,7 @@ export default function AvatarChatBar() {
   const { video, name, message: welcomeMessage } = getAvatarConfig(pathname);
 
   // Don't show on excluded pages
-  const isExcluded = excludedPatterns.some(pattern => pattern.test(pathname));
+  const isExcluded = excludedPatterns.some((pattern) => pattern.test(pathname));
 
   // Initialize welcome message
   useEffect(() => {
@@ -94,7 +159,7 @@ export default function AvatarChatBar() {
   const togglePlay = () => {
     const videoEl = videoRef.current;
     if (!videoEl) return;
-    
+
     if (isPlaying) {
       videoEl.pause();
     } else {
@@ -120,7 +185,7 @@ export default function AvatarChatBar() {
 
     const userMessage = input.trim();
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
 
     try {
@@ -135,11 +200,17 @@ export default function AvatarChatBar() {
       });
 
       const data = await response.json();
-      
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: data.message || data.response || "I'm here to help! Please try again or call (317) 314-3757.",
-      }]);
+
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content:
+            data.message ||
+            data.response ||
+            "I'm here to help! Please try again or call (317) 314-3757.",
+        },
+      ]);
 
       // Play video when assistant responds
       if (videoRef.current) {
@@ -148,10 +219,13 @@ export default function AvatarChatBar() {
         setIsPlaying(true);
       }
     } catch {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: "Connection issue. Please call (317) 314-3757 for immediate help.",
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: 'Connection issue. Please call (317) 314-3757 for immediate help.',
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -174,7 +248,7 @@ export default function AvatarChatBar() {
                 muted={isMuted}
                 playsInline
               />
-              
+
               {/* Play/Pause Overlay */}
               <button
                 onClick={togglePlay}
@@ -221,7 +295,11 @@ export default function AvatarChatBar() {
                     onClick={() => setIsChatExpanded(!isChatExpanded)}
                     className="p-1.5 hover:bg-white/20 rounded-full transition-colors lg:hidden"
                   >
-                    {isChatExpanded ? <ChevronDown className="w-5 h-5" /> : <ChevronUp className="w-5 h-5" />}
+                    {isChatExpanded ? (
+                      <ChevronDown className="w-5 h-5" />
+                    ) : (
+                      <ChevronUp className="w-5 h-5" />
+                    )}
                   </button>
                   <button
                     onClick={() => setIsDismissed(true)}
@@ -256,8 +334,14 @@ export default function AvatarChatBar() {
                       <div className="bg-white px-4 py-2 rounded-xl border border-slate-200 shadow-sm">
                         <div className="flex gap-1">
                           <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" />
-                          <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                          <span className="w-2 h-2 bg-slate-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                          <span
+                            className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
+                            style={{ animationDelay: '150ms' }}
+                          />
+                          <span
+                            className="w-2 h-2 bg-slate-400 rounded-full animate-bounce"
+                            style={{ animationDelay: '300ms' }}
+                          />
                         </div>
                       </div>
                     </div>
@@ -294,7 +378,9 @@ export default function AvatarChatBar() {
               </div>
 
               {/* Mobile: Show input even when collapsed */}
-              <div className={`${isChatExpanded ? 'hidden' : 'block'} lg:hidden p-3 border-t border-slate-200 bg-white`}>
+              <div
+                className={`${isChatExpanded ? 'hidden' : 'block'} lg:hidden p-3 border-t border-slate-200 bg-white`}
+              >
                 <button
                   onClick={() => setIsChatExpanded(true)}
                   className="w-full py-2 text-brand-blue-600 text-sm font-medium flex items-center justify-center gap-2"

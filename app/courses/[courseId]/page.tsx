@@ -53,7 +53,9 @@ export async function generateMetadata({
 
   return {
     title: `${course.course_name} | Elevate for Humanity`,
-    description: course.description || `Learn ${course.course_name} with Elevate for Humanity workforce training programs.`,
+    description:
+      course.description ||
+      `Learn ${course.course_name} with Elevate for Humanity workforce training programs.`,
     alternates: {
       canonical: `https://www.elevateforhumanity.org/courses/${courseId}`,
     },
@@ -180,7 +182,7 @@ export default async function CourseDetailPage({
   // Group lessons by module
   const moduleGroups = (modules || []).map((mod: any) => {
     const moduleLessons = (lessons || []).filter(
-      (l: any) => getModuleForLesson(l.lesson_number) === mod.order_index
+      (l: any) => getModuleForLesson(l.lesson_number) === mod.order_index,
     );
     const completedCount = moduleLessons.filter((l: any) => completedLessonIds.has(l.id)).length;
     return { ...mod, lessons: moduleLessons, completedCount };
@@ -202,7 +204,8 @@ export default async function CourseDetailPage({
       {/* Hero Banner */}
       <section className="relative overflow-hidden bg-slate-900">
         <div className="absolute inset-0">
-          <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image sizes="100vw"
             src={heroImage}
             alt={`${course.course_name} training program`}
             fill
@@ -273,7 +276,9 @@ export default async function CourseDetailPage({
             {isEnrolled && (
               <div className="max-w-md mt-6">
                 <div className="flex items-center justify-between text-sm text-slate-400 mb-2">
-                  <span>{completedLessonIds.size} of {lessons?.length || 0} lessons complete</span>
+                  <span>
+                    {completedLessonIds.size} of {lessons?.length || 0} lessons complete
+                  </span>
                   <span className="font-bold text-white">{progressPercent}%</span>
                 </div>
                 <div className="w-full bg-white/10 rounded-full h-2.5">
@@ -297,7 +302,8 @@ export default async function CourseDetailPage({
               Course Curriculum
             </h2>
             <p className="text-slate-500 mb-8">
-              15-week program &middot; {lessons?.length || 0} lessons &middot; EPA 608 Universal + OSHA 30 + CPR
+              15-week program &middot; {lessons?.length || 0} lessons &middot; EPA 608 Universal +
+              OSHA 30 + CPR
             </p>
 
             <div className="space-y-3">
@@ -314,16 +320,20 @@ export default async function CourseDetailPage({
                   >
                     <summary className="flex items-center gap-4 p-4 sm:p-5 cursor-pointer list-none [&::-webkit-details-marker]:hidden">
                       {/* Module number badge */}
-                      <div className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center font-bold text-sm sm:text-base ${
-                        allDone
-                          ? 'bg-brand-green-100 text-brand-green-700'
-                          : 'bg-brand-blue-100 text-brand-blue-700'
-                      }`}>
+                      <div
+                        className={`flex-shrink-0 w-10 h-10 sm:w-12 sm:h-12 rounded-xl flex items-center justify-center font-bold text-sm sm:text-base ${
+                          allDone
+                            ? 'bg-brand-green-100 text-brand-green-700'
+                            : 'bg-brand-blue-100 text-brand-blue-700'
+                        }`}
+                      >
                         {allDone ? '✓' : mod.order_index}
                       </div>
 
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-bold text-slate-900 text-sm sm:text-base">{mod.title}</h3>
+                        <h3 className="font-bold text-slate-900 text-sm sm:text-base">
+                          {mod.title}
+                        </h3>
                         <p className="text-xs sm:text-sm text-slate-500 mt-0.5">
                           {mod.lessons.length} lessons
                           {isEnrolled && ` · ${mod.completedCount}/${mod.lessons.length} complete`}
@@ -335,9 +345,22 @@ export default async function CourseDetailPage({
                         <div className="hidden sm:flex items-center gap-2">
                           <div className="w-8 h-8 relative">
                             <svg className="w-8 h-8 -rotate-90" viewBox="0 0 32 32">
-                              <circle cx="16" cy="16" r="14" fill="none" stroke="currentColor" strokeWidth="3" className="text-slate-200" />
                               <circle
-                                cx="16" cy="16" r="14" fill="none" stroke="currentColor" strokeWidth="3"
+                                cx="16"
+                                cy="16"
+                                r="14"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="3"
+                                className="text-slate-200"
+                              />
+                              <circle
+                                cx="16"
+                                cy="16"
+                                r="14"
+                                fill="none"
+                                stroke="currentColor"
+                                strokeWidth="3"
                                 className={allDone ? 'text-brand-green-500' : 'text-brand-blue-500'}
                                 strokeDasharray={`${(mod.completedCount / mod.lessons.length) * 88} 88`}
                                 strokeLinecap="round"
@@ -371,16 +394,20 @@ export default async function CourseDetailPage({
                                 : 'hover:bg-slate-50'
                             }`}
                           >
-                            <div className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
-                              isCompleted
-                                ? 'bg-brand-green-200 text-brand-green-700'
-                                : 'bg-slate-100 text-slate-500'
-                            }`}>
+                            <div
+                              className={`flex-shrink-0 w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold ${
+                                isCompleted
+                                  ? 'bg-brand-green-200 text-brand-green-700'
+                                  : 'bg-slate-100 text-slate-500'
+                              }`}
+                            >
                               {isCompleted ? '✓' : idx + 1}
                             </div>
-                            <span className={`flex-1 text-sm font-medium truncate ${
-                              isCompleted ? 'text-brand-green-800' : 'text-slate-700'
-                            }`}>
+                            <span
+                              className={`flex-1 text-sm font-medium truncate ${
+                                isCompleted ? 'text-brand-green-800' : 'text-slate-700'
+                              }`}
+                            >
                               {lesson.title}
                             </span>
                             {lesson.duration_minutes && (
@@ -411,7 +438,9 @@ export default async function CourseDetailPage({
               {isEnrolled && (
                 <div className="mb-6">
                   <div className="flex items-center justify-between text-sm mb-2">
-                    <span className="text-slate-600">{completedLessonIds.size}/{lessons?.length || 0} lessons</span>
+                    <span className="text-slate-600">
+                      {completedLessonIds.size}/{lessons?.length || 0} lessons
+                    </span>
                     <span className="font-bold text-brand-blue-600">{progressPercent}%</span>
                   </div>
                   <div className="w-full bg-slate-200 rounded-full h-3">
@@ -430,7 +459,9 @@ export default async function CourseDetailPage({
                   </div>
                   <div>
                     <div className="font-bold text-slate-900 text-sm">Duration</div>
-                    <div className="text-sm text-slate-500">15 weeks &middot; {course.duration_hours || 375} hours</div>
+                    <div className="text-sm text-slate-500">
+                      15 weeks &middot; {course.duration_hours || 375} hours
+                    </div>
                   </div>
                 </div>
 
@@ -440,7 +471,9 @@ export default async function CourseDetailPage({
                   </div>
                   <div>
                     <div className="font-bold text-slate-900 text-sm">Lessons</div>
-                    <div className="text-sm text-slate-500">{lessons?.length || 0} video lessons + quizzes</div>
+                    <div className="text-sm text-slate-500">
+                      {lessons?.length || 0} video lessons + quizzes
+                    </div>
                   </div>
                 </div>
 
@@ -481,7 +514,9 @@ export default async function CourseDetailPage({
                     href={`/courses/${courseId}/lessons/${(isEnrolled && nextLesson ? nextLesson : firstLesson).id}`}
                     className="block w-full text-center bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-6 py-4 rounded-xl font-bold transition-colors"
                   >
-                    {isEnrolled && completedLessonIds.size > 0 ? 'Continue Learning' : 'Start Course'}
+                    {isEnrolled && completedLessonIds.size > 0
+                      ? 'Continue Learning'
+                      : 'Start Course'}
                   </Link>
                 )}
                 {isEnrolled && (

@@ -35,10 +35,7 @@
       "name": "Individual with a Disability",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -46,10 +43,7 @@
       "name": "Ethnicity Hispanic/Latino",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -57,10 +51,7 @@
       "name": "American Indian or Alaska Native",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -68,10 +59,7 @@
       "name": "Asian",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -79,10 +67,7 @@
       "name": "Black or African American",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -90,10 +75,7 @@
       "name": "Native Hawaiian or Other Pacific Islander",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -101,10 +83,7 @@
       "name": "White",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -112,10 +91,7 @@
       "name": "Gender",
       "type": "IN",
       "length": 1,
-      "enum": [
-        1,
-        2
-      ],
+      "enum": [1, 2],
       "required": false
     },
     {
@@ -123,10 +99,7 @@
       "name": "Veteran Status",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -134,11 +107,7 @@
       "name": "Employment Status at Participation",
       "type": "IN",
       "length": 1,
-      "enum": [
-        1,
-        2,
-        3
-      ],
+      "enum": [1, 2, 3],
       "required": false
     },
     {
@@ -146,25 +115,7 @@
       "name": "Highest School Grade Completed",
       "type": "IN",
       "length": 2,
-      "enum": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10,
-        11,
-        12,
-        13,
-        14,
-        15,
-        16
-      ],
+      "enum": [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16],
       "required": false
     },
     {
@@ -193,10 +144,7 @@
       "name": "WIOA Title I Adult",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -204,10 +152,7 @@
       "name": "WIOA Title I Dislocated Worker",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -215,10 +160,7 @@
       "name": "WIOA Title I Youth",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -226,10 +168,7 @@
       "name": "WIOA Title III Wagner-Peyser",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -237,10 +176,7 @@
       "name": "Received Training",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -262,13 +198,7 @@
       "name": "Employed in 1st Quarter After Exit",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1,
-        2,
-        3,
-        9
-      ],
+      "enum": [0, 1, 2, 3, 9],
       "required": false
     },
     {
@@ -276,13 +206,7 @@
       "name": "Employed in 2nd Quarter After Exit",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1,
-        2,
-        3,
-        9
-      ],
+      "enum": [0, 1, 2, 3, 9],
       "required": false
     },
     {
@@ -290,13 +214,7 @@
       "name": "Employed in 4th Quarter After Exit",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1,
-        2,
-        3,
-        9
-      ],
+      "enum": [0, 1, 2, 3, 9],
       "required": false
     },
     {
@@ -311,15 +229,7 @@
       "name": "Type of Recognized Credential",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1,
-        2,
-        3,
-        4,
-        5,
-        6
-      ],
+      "enum": [0, 1, 2, 3, 4, 5, 6],
       "required": false
     },
     {
@@ -334,10 +244,7 @@
       "name": "Measurable Skill Gains - Educational Functioning Level",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -345,10 +252,7 @@
       "name": "Measurable Skill Gains - Secondary Diploma",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -356,10 +260,7 @@
       "name": "Measurable Skill Gains - Transcript/Report Card",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -367,10 +268,7 @@
       "name": "Measurable Skill Gains - Training Milestone",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -378,10 +276,7 @@
       "name": "Measurable Skill Gains - Skills Progression",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1
-      ],
+      "enum": [0, 1],
       "required": false
     },
     {
@@ -389,12 +284,7 @@
       "name": "Youth 2nd Quarter Placement",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1,
-        2,
-        3
-      ],
+      "enum": [0, 1, 2, 3],
       "required": false
     },
     {
@@ -402,12 +292,7 @@
       "name": "Youth 4th Quarter Placement",
       "type": "IN",
       "length": 1,
-      "enum": [
-        0,
-        1,
-        2,
-        3
-      ],
+      "enum": [0, 1, 2, 3],
       "required": false
     }
   ]

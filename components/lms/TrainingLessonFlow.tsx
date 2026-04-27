@@ -19,7 +19,15 @@
  */
 
 import React, { useState, useEffect, useRef } from 'react';
-import { Play, BookOpen, AlertTriangle, CheckCircle, RotateCcw, ChevronDown, ChevronUp } from 'lucide-react';
+import {
+  Play,
+  BookOpen,
+  AlertTriangle,
+  CheckCircle,
+  RotateCcw,
+  ChevronDown,
+  ChevronUp,
+} from 'lucide-react';
 import { sanitizeRichHtml } from '@/lib/security/sanitize-html';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
@@ -106,7 +114,7 @@ export default function TrainingLessonFlow({
 
   const handleAnswerSelect = (questionId: string, answerIndex: number) => {
     if (quizPhase === 'submitted' || quizPhase === 'passed') return;
-    setSelectedAnswers(prev => ({ ...prev, [questionId]: answerIndex }));
+    setSelectedAnswers((prev) => ({ ...prev, [questionId]: answerIndex }));
     if (quizPhase === 'idle') setQuizPhase('answering');
   };
 
@@ -115,9 +123,7 @@ export default function TrainingLessonFlow({
     const answered = Object.keys(selectedAnswers).length;
     if (answered < quizQuestions.length) return; // all questions required
 
-    const correct = quizQuestions.filter(
-      q => selectedAnswers[q.id] === q.correctAnswer
-    ).length;
+    const correct = quizQuestions.filter((q) => selectedAnswers[q.id] === q.correctAnswer).length;
     const pct = Math.round((correct / quizQuestions.length) * 100);
 
     setScore(pct);
@@ -134,7 +140,7 @@ export default function TrainingLessonFlow({
   const handleRetry = () => {
     setSelectedAnswers({});
     setScore(null);
-    setAttemptNumber(prev => prev + 1);
+    setAttemptNumber((prev) => prev + 1);
     setQuizPhase('idle');
     // Scroll back to scenario so learner re-reads before retrying
     quizRef.current?.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -146,7 +152,6 @@ export default function TrainingLessonFlow({
 
   return (
     <div className="max-w-3xl mx-auto px-4 py-8 space-y-10">
-
       {/* 1. VIDEO DEMO */}
       {hasVideo && (
         <section aria-label="Lesson video">
@@ -159,7 +164,9 @@ export default function TrainingLessonFlow({
           <div className="rounded-xl overflow-hidden bg-slate-900 aspect-video">
             {videoUrl!.includes('youtube.com') || videoUrl!.includes('youtu.be') ? (
               <iframe
-                src={videoUrl!.replace('watch?v=', 'embed/').replace('youtu.be/', 'www.youtube.com/embed/')}
+                src={videoUrl!
+                  .replace('watch?v=', 'embed/')
+                  .replace('youtu.be/', 'www.youtube.com/embed/')}
                 className="w-full h-full"
                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                 allowFullScreen
@@ -178,9 +185,7 @@ export default function TrainingLessonFlow({
             )}
           </div>
           {!videoWatched && (
-            <p className="text-xs text-slate-500 mt-2">
-              Watch the demo before continuing.
-            </p>
+            <p className="text-xs text-slate-500 mt-2">Watch the demo before continuing.</p>
           )}
         </section>
       )}
@@ -202,8 +207,8 @@ export default function TrainingLessonFlow({
             <span className="font-medium">Lesson content not yet published</span>
           </div>
           <p className="text-amber-600 text-sm">
-            This lesson is part of the course structure but its content has not been
-            published yet. Check back soon or contact your instructor.
+            This lesson is part of the course structure but its content has not been published yet.
+            Check back soon or contact your instructor.
           </p>
         </div>
       )}
@@ -212,7 +217,7 @@ export default function TrainingLessonFlow({
       {hasKeyTerms && (
         <section aria-label="Key terms">
           <button
-            onClick={() => setTermsExpanded(e => !e)}
+            onClick={() => setTermsExpanded((e) => !e)}
             className="w-full flex items-center justify-between p-4 bg-slate-50 border border-slate-200 rounded-xl hover:bg-slate-100 transition"
           >
             <div className="flex items-center gap-2">
@@ -221,10 +226,11 @@ export default function TrainingLessonFlow({
                 Key Terms ({keyTerms.length})
               </span>
             </div>
-            {termsExpanded
-              ? <ChevronUp className="w-4 h-4 text-slate-400" />
-              : <ChevronDown className="w-4 h-4 text-slate-400" />
-            }
+            {termsExpanded ? (
+              <ChevronUp className="w-4 h-4 text-slate-400" />
+            ) : (
+              <ChevronDown className="w-4 h-4 text-slate-400" />
+            )}
           </button>
           {termsExpanded && (
             <div className="mt-2 border border-slate-200 rounded-xl divide-y divide-slate-100 overflow-hidden">
@@ -267,9 +273,7 @@ export default function TrainingLessonFlow({
               <span className="font-bold text-slate-800 text-sm">
                 Quick Check — {quizQuestions.length} Questions
               </span>
-              <span className="text-xs text-slate-500">
-                Pass {passingScore}% to continue
-              </span>
+              <span className="text-xs text-slate-500">Pass {passingScore}% to continue</span>
             </div>
 
             <div className="divide-y divide-slate-100">
@@ -277,7 +281,8 @@ export default function TrainingLessonFlow({
                 const selected = selectedAnswers[q.id];
                 const isSubmitted = quizPhase === 'submitted' || quizPhase === 'failed';
                 const isCorrect = isSubmitted && selected === q.correctAnswer;
-                const isWrong = isSubmitted && selected !== undefined && selected !== q.correctAnswer;
+                const isWrong =
+                  isSubmitted && selected !== undefined && selected !== q.correctAnswer;
 
                 return (
                   <div key={q.id} className="p-5">
@@ -299,10 +304,10 @@ export default function TrainingLessonFlow({
                               showCorrect
                                 ? 'bg-green-50 border-green-400 text-green-800 font-medium'
                                 : showWrong
-                                ? 'bg-red-50 border-red-400 text-red-800'
-                                : isSelected
-                                ? 'bg-brand-blue-50 border-brand-blue-400 text-brand-blue-900'
-                                : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50'
+                                  ? 'bg-red-50 border-red-400 text-red-800'
+                                  : isSelected
+                                    ? 'bg-brand-blue-50 border-brand-blue-400 text-brand-blue-900'
+                                    : 'bg-white border-slate-200 text-slate-700 hover:border-slate-300 hover:bg-slate-50'
                             }`}
                           >
                             {opt}
@@ -312,12 +317,13 @@ export default function TrainingLessonFlow({
                     </div>
                     {/* Explanation shown after submit */}
                     {isSubmitted && q.explanation && (
-                      <p className={`mt-3 text-xs px-3 py-2 rounded-lg ${
-                        isCorrect
-                          ? 'bg-green-50 text-green-700'
-                          : 'bg-red-50 text-red-700'
-                      }`}>
-                        {isCorrect ? '✓ ' : '✗ '}{q.explanation}
+                      <p
+                        className={`mt-3 text-xs px-3 py-2 rounded-lg ${
+                          isCorrect ? 'bg-green-50 text-green-700' : 'bg-red-50 text-red-700'
+                        }`}
+                      >
+                        {isCorrect ? '✓ ' : '✗ '}
+                        {q.explanation}
                       </p>
                     )}
                   </div>
@@ -390,7 +396,6 @@ export default function TrainingLessonFlow({
           No quiz for this lesson — mark complete using the button above.
         </div>
       )}
-
     </div>
   );
 }

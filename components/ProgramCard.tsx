@@ -1,6 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
-import { Clock, DollarSign, ArrowRight } from "lucide-react";
+import Image from 'next/image';
+import Link from 'next/link';
+import { Clock, DollarSign, ArrowRight } from 'lucide-react';
 
 interface ProgramCardProps {
   title: string;
@@ -19,19 +19,13 @@ export function ProgramCard({
   salary,
   image,
   link,
-  badge = "FREE",
+  badge = 'FREE',
 }: ProgramCardProps) {
   return (
     <div className="bg-white rounded-xl overflow-hidden shadow-md border border-slate-200 hover:shadow-xl transition-all">
       {/* Image */}
       <div className="relative aspect-video overflow-hidden">
-        <Image
-          src={image}
-          alt={title}
-          fill
-          className="object-cover"
-          quality={100}
-        />
+        <Image sizes="100vw" src={image} alt={title} fill className="object-cover" quality={100} />
         {badge && (
           <div className="absolute top-4 right-4 bg-brand-green-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
             {badge}
@@ -41,9 +35,7 @@ export function ProgramCard({
 
       {/* Content */}
       <div className="p-6">
-        <h3 className="text-xl font-bold text-black mb-3">
-          {title}
-        </h3>
+        <h3 className="text-xl font-bold text-black mb-3">{title}</h3>
         <p className="text-black mb-4 line-clamp-2">{description}</p>
 
         {/* Stats */}

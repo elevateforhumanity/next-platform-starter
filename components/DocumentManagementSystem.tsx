@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -56,9 +56,7 @@ export function DocumentManagementSystem() {
       version: 'v1.0',
       lastModified: '2024-01-12',
       author: 'Graduate',
-      versions: [
-        { version: 'v1.0', date: '2024-01-12', author: 'Graduate' },
-      ],
+      versions: [{ version: 'v1.0', date: '2024-01-12', author: 'Graduate' }],
     },
   ];
 
@@ -66,7 +64,9 @@ export function DocumentManagementSystem() {
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Document Management</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Document Management
+          </h1>
           <p className="text-white">Organize and version control your files</p>
         </div>
       </div>
@@ -86,7 +86,9 @@ export function DocumentManagementSystem() {
                     key={doc.id}
                     onClick={() => setSelectedDoc(doc)}
                     className={`p-4 rounded-lg cursor-pointer transition-colors ${
-                      selectedDoc?.id === doc.id ? 'bg-brand-red-50 border-2 border-brand-red-600' : 'bg-gray-50 hover:bg-gray-100'
+                      selectedDoc?.id === doc.id
+                        ? 'bg-brand-red-50 border-2 border-brand-red-600'
+                        : 'bg-gray-50 hover:bg-gray-100'
                     }`}
                   >
                     <div className="flex items-start justify-between">
@@ -102,7 +104,9 @@ export function DocumentManagementSystem() {
                           </p>
                         </div>
                       </div>
-                      <Button size="sm" variant="secondary">Download</Button>
+                      <Button size="sm" variant="secondary">
+                        Download
+                      </Button>
                     </div>
                   </div>
                 ))}
@@ -119,7 +123,9 @@ export function DocumentManagementSystem() {
                     <div key={version.version} className="p-3 bg-gray-50 rounded">
                       <div className="flex justify-between items-start mb-1">
                         <span className="font-semibold">{version.version}</span>
-                        <Button size="sm" variant="secondary">Restore</Button>
+                        <Button size="sm" variant="secondary">
+                          Restore
+                        </Button>
                       </div>
                       <p className="text-xs text-black">{version.date}</p>
                       <p className="text-xs text-slate-700">by {version.author}</p>

@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
 import React, { useEffect } from 'react';
 
-import { useState } from "react";
-import { ThumbsUp, MessageSquare } from "lucide-react";
+import { useState } from 'react';
+import { ThumbsUp, MessageSquare } from 'lucide-react';
 
 interface Reply {
   id: string;
@@ -38,7 +38,7 @@ export function ThreadView({
   onReply,
   onUpvote,
 }: ThreadViewProps) {
-  const [replyContent, setReplyContent] = useState("");
+  const [replyContent, setReplyContent] = useState('');
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [replies, setReplies] = useState<Reply[]>(initialReplies);
   const supabase = createClient();
@@ -46,30 +46,34 @@ export function ThreadView({
   // Load replies from DB and track thread view
   useEffect(() => {
     async function loadThreadData() {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       // Load fresh replies from DB
       const { data: replyData } = await supabase
         .from('forum_replies')
-        .select('id, user_id, content, upvotes, is_solution, created_at, profiles:user_id (full_name)')
+        .select(
+          'id, user_id, content, upvotes, is_solution, created_at, profiles:user_id (full_name)',
+        )
         .eq('thread_id', threadId)
         .order('created_at', { ascending: true });
 
       if (replyData) {
-        setReplies(replyData.map((r: any) => ({
-          ...r,
-          author_name: r.profiles?.full_name || 'Anonymous'
-        })));
+        setReplies(
+          replyData.map((r: any) => ({
+            ...r,
+            author_name: r.profiles?.full_name || 'Anonymous',
+          })),
+        );
       }
 
       // Log thread view
-      await supabase
-        .from('forum_thread_views')
-        .insert({
-          thread_id: threadId,
-          user_id: user?.id,
-          viewed_at: new Date().toISOString()
-        });
+      await supabase.from('forum_thread_views').insert({
+        thread_id: threadId,
+        user_id: user?.id,
+        viewed_at: new Date().toISOString(),
+      });
     }
     loadThreadData();
   }, [threadId, supabase]);
@@ -81,24 +85,26 @@ export function ThreadView({
     setIsSubmitting(true);
     try {
       // Direct DB insert for reply
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       const { data: newReply } = await supabase
         .from('forum_replies')
         .insert({
           thread_id: threadId,
           user_id: user?.id,
           content: replyContent.trim(),
-          created_at: new Date().toISOString()
+          created_at: new Date().toISOString(),
         })
         .select('id, user_id, content, upvotes, is_solution, created_at')
         .single();
 
       if (newReply) {
-        setReplies(prev => [...prev, { ...newReply, author_name: 'You' }]);
+        setReplies((prev) => [...prev, { ...newReply, author_name: 'You' }]);
       }
 
       await onReply(replyContent);
-      setReplyContent("");
+      setReplyContent('');
     } finally {
       setIsSubmitting(false);
     }
@@ -112,7 +118,14 @@ export function ThreadView({
         <div className="flex items-center gap-2 text-sm text-slate-400 mb-4">
           <span>{authorName}</span>
           <span>•</span>
-          <span>{new Date(createdAt).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}</span>
+          <span>
+            {new Date(createdAt).toLocaleDateString('en-US', {
+              timeZone: 'UTC',
+              month: 'short',
+              day: 'numeric',
+              year: 'numeric',
+            })}
+          </span>
         </div>
         <div className="prose prose-invert max-w-none">
           <p className="text-slate-600">{content}</p>
@@ -130,7 +143,7 @@ export function ThreadView({
           <div
             key={reply.id}
             className={`bg-slate-800 rounded-lg p-4 ${
-              reply.is_solution ? "border-2 border-brand-green-500" : ""
+              reply.is_solution ? 'border-2 border-brand-green-500' : ''
             }`}
           >
             <div className="flex items-start gap-4">
@@ -144,7 +157,12 @@ export function ThreadView({
                     </span>
                   )}
                   <span className="text-xs text-slate-500">
-                    {new Date(reply.created_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                    {new Date(reply.created_at).toLocaleDateString('en-US', {
+                      timeZone: 'UTC',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                   </span>
                 </div>
                 <p className="text-slate-600 mb-3">{reply.content}</p>
@@ -167,7 +185,9 @@ export function ThreadView({
         <form onSubmit={handleSubmit} className="space-y-4">
           <textarea
             value={replyContent}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setReplyContent(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setReplyContent(e.target.value)}
             placeholder="Share your thoughts..."
             className="w-full bg-slate-900 text-white rounded-lg p-4 min-h-[120px] focus:outline-none focus:ring-2 focus:ring-brand-orange-500"
             disabled={isSubmitting}
@@ -177,7 +197,7 @@ export function ThreadView({
             disabled={isSubmitting || !replyContent.trim()}
             className="px-6 py-2 bg-brand-orange-500 text-white rounded-lg font-medium hover:bg-brand-orange-600 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
           >
-            {isSubmitting ? "Posting..." : "Post Reply"}
+            {isSubmitting ? 'Posting...' : 'Post Reply'}
           </button>
         </form>
       </div>

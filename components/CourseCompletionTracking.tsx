@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -59,14 +59,16 @@ export function CourseCompletionTracking() {
   ];
 
   const overallProgress = Math.round(
-    milestones.reduce((sum, m) => sum + m.progress, 0) / milestones.length
+    milestones.reduce((sum, m) => sum + m.progress, 0) / milestones.length,
   );
 
   return (
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Course Completion</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Course Completion
+          </h1>
           <p className="text-white">Track your progress through milestones</p>
         </div>
       </div>
@@ -84,7 +86,8 @@ export function CourseCompletionTracking() {
             />
           </div>
           <p className="text-sm text-black mt-2">
-            {milestones.filter(m => m.completed).length} of {milestones.length} milestones completed
+            {milestones.filter((m) => m.completed).length} of {milestones.length} milestones
+            completed
           </p>
         </Card>
 
@@ -92,11 +95,15 @@ export function CourseCompletionTracking() {
           {milestones.map((milestone, index) => (
             <Card key={milestone.id} className="p-6">
               <div className="flex items-start gap-4">
-                <div className={`w-12 h-12 rounded-full flex items-center justify-center font-bold flex-shrink-0 ${
-                  milestone.completed ? 'bg-brand-green-500 text-white' :
-                  milestone.progress > 0 ? 'bg-brand-blue-500 text-white' :
-                  'bg-gray-300 text-black'
-                }`}>
+                <div
+                  className={`w-12 h-12 rounded-full flex items-center justify-center font-bold flex-shrink-0 ${
+                    milestone.completed
+                      ? 'bg-brand-green-500 text-white'
+                      : milestone.progress > 0
+                        ? 'bg-brand-blue-500 text-white'
+                        : 'bg-gray-300 text-black'
+                  }`}
+                >
                   {milestone.completed ? '•' : index + 1}
                 </div>
 
@@ -107,7 +114,9 @@ export function CourseCompletionTracking() {
                       <p className="text-sm text-black">{milestone.description}</p>
                       <p className="text-xs text-slate-700 mt-1">Due: {milestone.dueDate}</p>
                     </div>
-                    <span className="text-2xl font-bold text-brand-orange-600">{milestone.progress}%</span>
+                    <span className="text-2xl font-bold text-brand-orange-600">
+                      {milestone.progress}%
+                    </span>
                   </div>
 
                   <div className="w-full bg-gray-200 rounded-full h-2 mb-3">
@@ -121,7 +130,9 @@ export function CourseCompletionTracking() {
                     <Button size="sm">Continue</Button>
                   )}
                   {!milestone.completed && milestone.progress === 0 && (
-                    <Button size="sm" variant="secondary">Start</Button>
+                    <Button size="sm" variant="secondary">
+                      Start
+                    </Button>
                   )}
                 </div>
               </div>

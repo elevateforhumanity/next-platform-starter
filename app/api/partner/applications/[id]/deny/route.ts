@@ -9,10 +9,7 @@ export const runtime = 'nodejs';
 
 export const dynamic = 'force-dynamic';
 
-async function _POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function _POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -25,10 +22,7 @@ async function _POST(
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Get the application
@@ -72,11 +66,15 @@ async function _POST(
               <p>Thank you for your interest in becoming a Partner Shop with Elevate for Humanity.</p>
               <p>After reviewing your application for <strong>${application.shop_name}</strong>, we are unable to approve it at this time.</p>
               
-              ${reason ? `
+              ${
+                reason
+                  ? `
               <div style="background: #f9fafb; border: 1px solid #e5e7eb; border-radius: 8px; padding: 16px; margin: 20px 0;">
                 <p style="margin: 0;"><strong>Reason:</strong> ${reason}</p>
               </div>
-              ` : ''}
+              `
+                  : ''
+              }
               
               <p>If you believe this decision was made in error or if your circumstances have changed, please feel free to:</p>
               <ul>

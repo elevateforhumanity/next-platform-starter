@@ -30,10 +30,7 @@ function log(level: LogLevel, message: string, meta?: Record<string, any>) {
 }
 
 export const logger = {
-  info: (message: string, meta?: Record<string, any>) =>
-    log('info', message, meta),
-  warn: (message: string, meta?: Record<string, any>) =>
-    log('warn', message, meta),
-  error: (message: string, meta?: Record<string, any>) =>
-    log('error', message, meta),
+  info: (message: string, meta?: Record<string, any>) => log('info', message, meta),
+  warn: (message: string, meta?: Record<string, any>) => log('warn', message, meta),
+  error: (message: string, meta?: Record<string, any>) => log('error', message, meta),
 };

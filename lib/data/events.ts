@@ -128,8 +128,12 @@ export async function getEvent(idOrSlug: string): Promise<ElevateEvent | null> {
 export function formatEventDate(start: string, end?: string | null): string {
   const s = new Date(start);
   const opts: Intl.DateTimeFormatOptions = {
-    weekday: 'short', month: 'short', day: 'numeric',
-    hour: 'numeric', minute: '2-digit', timeZoneName: 'short',
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+    timeZoneName: 'short',
   };
   const startStr = s.toLocaleString('en-US', opts);
   if (!end) return startStr;
@@ -153,7 +157,7 @@ export function eventTypeLabel(type: string): string {
     community: 'Community',
     fundraiser: 'Fundraiser',
   };
-  return map[type] ?? type.replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+  return map[type] ?? type.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase());
 }
 
 export function eventTypeBadgeColor(type: string): string {

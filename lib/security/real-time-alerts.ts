@@ -64,7 +64,8 @@ export async function sendSecurityAlert(alert: SecurityAlert): Promise<void> {
       // SMS for critical alerts only
       alert.severity === AlertSeverity.CRITICAL && sendSMSAlert(alert, channels.sms),
     ]);
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     // Fallback: Log to console at minimum
     // Error logged
@@ -151,7 +152,8 @@ async function sendEmailAlert(alert: SecurityAlert, emails?: string[]): Promise<
     if (!response.ok) {
       throw new Error(`SendGrid API error: ${response.statusText}`);
     }
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
   }
 }
@@ -183,7 +185,8 @@ async function sendSlackAlert(alert: SecurityAlert, webhookUrl?: string): Promis
         ],
       }),
     });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
   }
 }
@@ -206,7 +209,8 @@ async function sendWebhookAlert(alert: SecurityAlert, webhookUrl?: string): Prom
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(alert),
     });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
   }
 }
@@ -240,34 +244,50 @@ function formatEmailBody(alert: SecurityAlert): string {
             <div class="label">Message:</div>
             <div class="value">${alert.message}</div>
           </div>
-          ${alert.userId ? `
+          ${
+            alert.userId
+              ? `
           <div class="field">
             <div class="label">User ID:</div>
             <div class="value">${alert.userId}</div>
           </div>
-          ` : ''}
-          ${alert.ipAddress ? `
+          `
+              : ''
+          }
+          ${
+            alert.ipAddress
+              ? `
           <div class="field">
             <div class="label">IP Address:</div>
             <div class="value">${alert.ipAddress}</div>
           </div>
-          ` : ''}
-          ${alert.userAgent ? `
+          `
+              : ''
+          }
+          ${
+            alert.userAgent
+              ? `
           <div class="field">
             <div class="label">User Agent:</div>
             <div class="value">${alert.userAgent}</div>
           </div>
-          ` : ''}
+          `
+              : ''
+          }
           <div class="field">
             <div class="label">Timestamp:</div>
             <div class="value">${alert.timestamp.toISOString()}</div>
           </div>
-          ${alert.metadata ? `
+          ${
+            alert.metadata
+              ? `
           <div class="field">
             <div class="label">Additional Details:</div>
             <div class="value"><pre>${JSON.stringify(alert.metadata, null, 2)}</pre></div>
           </div>
-          ` : ''}
+          `
+              : ''
+          }
         </div>
         <div class="footer">
           <p>This is an automated security alert from Elevate for Humanity.</p>
@@ -344,7 +364,7 @@ export async function monitorFailedLogins(userId: string, ipAddress: string): Pr
 export async function monitorUnauthorizedAccess(
   userId: string,
   resource: string,
-  ipAddress: string
+  ipAddress: string,
 ): Promise<void> {
   await sendSecurityAlert({
     type: AlertType.UNAUTHORIZED_ACCESS,
@@ -363,7 +383,7 @@ export async function monitorSuspiciousActivity(
   userId: string,
   activity: string,
   score: number,
-  ipAddress: string
+  ipAddress: string,
 ): Promise<void> {
   if (score >= ALERT_THRESHOLDS.suspiciousActivityScore) {
     await sendSecurityAlert({
@@ -384,7 +404,7 @@ export async function monitorDataBreach(
   userId: string,
   dataType: string,
   recordCount: number,
-  ipAddress: string
+  ipAddress: string,
 ): Promise<void> {
   await sendSecurityAlert({
     type: AlertType.DATA_BREACH,
@@ -402,7 +422,7 @@ export async function monitorDataBreach(
 export async function monitorRateLimitExceeded(
   ipAddress: string,
   endpoint: string,
-  requestCount: number
+  requestCount: number,
 ): Promise<void> {
   if (requestCount >= ALERT_THRESHOLDS.rateLimitExceeded) {
     await sendSecurityAlert({
@@ -421,7 +441,7 @@ export async function monitorRateLimitExceeded(
 export async function monitorSQLInjection(
   userId: string | undefined,
   query: string,
-  ipAddress: string
+  ipAddress: string,
 ): Promise<void> {
   await sendSecurityAlert({
     type: AlertType.SQL_INJECTION,
@@ -439,7 +459,7 @@ export async function monitorSQLInjection(
 export async function monitorXSSAttempt(
   userId: string | undefined,
   input: string,
-  ipAddress: string
+  ipAddress: string,
 ): Promise<void> {
   await sendSecurityAlert({
     type: AlertType.XSS_ATTEMPT,

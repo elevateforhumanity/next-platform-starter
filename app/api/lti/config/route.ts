@@ -9,10 +9,9 @@ export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const toolUrl = process.env.LTI_TOOL_URL || 'https://www.elevateforhumanity.org';
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const toolUrl = process.env.LTI_TOOL_URL || 'https://www.elevateforhumanity.org';
 
   const config = {
     title: 'Elevate for Humanity LMS',

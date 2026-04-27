@@ -1,4 +1,3 @@
-
 import { OrgConfig } from '@/lib/org/getOrgConfig';
 
 /**

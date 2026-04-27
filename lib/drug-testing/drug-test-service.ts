@@ -13,7 +13,9 @@ import type { DrugTest, DrugTestOrder, DrugTestResult, CollectionSite } from './
 export async function createDrugTest(order: DrugTestOrder): Promise<string | null> {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return null;
 
   // Get organization from enrollment
@@ -120,7 +122,7 @@ export async function getPendingDrugTests(studentId: string): Promise<DrugTest[]
 export async function updateDrugTestStatus(
   testId: string,
   status: DrugTest['status'],
-  notes?: string
+  notes?: string,
 ): Promise<boolean> {
   const supabase = await createClient();
 
@@ -147,9 +149,12 @@ export async function updateDrugTestStatus(
 export async function recordDrugTestResult(result: DrugTestResult): Promise<boolean> {
   const supabase = await createClient();
 
-  const status = result.result === 'positive' ? 'positive' :
-                 result.result === 'negative' ? 'negative' :
-                 'completed';
+  const status =
+    result.result === 'positive'
+      ? 'positive'
+      : result.result === 'negative'
+        ? 'negative'
+        : 'completed';
 
   const { error } = await supabase
     .from('drug_tests')
@@ -198,7 +203,7 @@ export async function getCollectionSites(state: string): Promise<CollectionSite[
  */
 export async function getCollectionSitesByCity(
   state: string,
-  city: string
+  city: string,
 ): Promise<CollectionSite[]> {
   const supabase = await createClient();
 
@@ -223,7 +228,7 @@ export async function getCollectionSitesByCity(
 export async function getNearestCollectionSites(
   latitude: number,
   longitude: number,
-  limit: number = 10
+  limit: number = 10,
 ): Promise<CollectionSite[]> {
   const supabase = await createClient();
 
@@ -298,10 +303,12 @@ export async function getDrugTestHistory(testId: string) {
 
   const { data, error }: any = await supabase
     .from('drug_test_history')
-    .select(`
+    .select(
+      `
       *,
       profiles:performed_by(first_name, last_name)
-    `)
+    `,
+    )
     .eq('drug_test_id', testId)
     .order('performed_at', { ascending: false });
 
@@ -347,10 +354,12 @@ export async function checkDrugTestRequired(enrollmentId: string): Promise<{
   // Get enrollment with program
   const { data: enrollment } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       *,
       programs(id, name)
-    `)
+    `,
+    )
     .eq('id', enrollmentId)
     .maybeSingle();
 
@@ -411,10 +420,12 @@ export async function getDrugTestStatistics(organizationId: string) {
 
   const stats = {
     total: tests.length,
-    completed: tests.filter(t => ['completed', 'positive', 'negative'].includes(t.status)).length,
-    pending: tests.filter(t => ['scheduled', 'pending_collection', 'collected', 'in_lab'].includes(t.status)).length,
-    positive: tests.filter(t => t.result === 'positive').length,
-    negative: tests.filter(t => t.result === 'negative').length,
+    completed: tests.filter((t) => ['completed', 'positive', 'negative'].includes(t.status)).length,
+    pending: tests.filter((t) =>
+      ['scheduled', 'pending_collection', 'collected', 'in_lab'].includes(t.status),
+    ).length,
+    positive: tests.filter((t) => t.result === 'positive').length,
+    negative: tests.filter((t) => t.result === 'negative').length,
     byType: tests.reduce((acc: any, test) => {
       acc[test.test_type] = (acc[test.test_type] || 0) + 1;
       return acc;

@@ -10,7 +10,8 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Press & Media | Elevate for Humanity',
-  description: 'Press coverage, media resources, and contact information for journalists covering Elevate for Humanity workforce development programs.',
+  description:
+    'Press coverage, media resources, and contact information for journalists covering Elevate for Humanity workforce development programs.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/press' },
 };
 
@@ -34,7 +35,7 @@ export default async function PressPage() {
     .order('published_at', { ascending: false })
     .limit(6);
 
-  const posts = (pressItems && pressItems.length > 0) ? pressItems : (recentNews ?? []);
+  const posts = pressItems && pressItems.length > 0 ? pressItems : (recentNews ?? []);
 
   return (
     <div className="min-h-screen bg-white">
@@ -47,10 +48,13 @@ export default async function PressPage() {
       {/* Hero */}
       <section className="bg-slate-900 py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">Media Center</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">
+            Media Center
+          </p>
           <h1 className="text-4xl font-extrabold text-white mb-4">Press &amp; Media</h1>
           <p className="text-slate-300 text-lg max-w-2xl">
-            Resources for journalists, media professionals, and partners covering workforce development in Indiana.
+            Resources for journalists, media professionals, and partners covering workforce
+            development in Indiana.
           </p>
         </div>
       </section>
@@ -66,7 +70,9 @@ export default async function PressPage() {
             <div className="rounded-2xl border border-dashed border-slate-300 py-16 px-8 text-center">
               <Newspaper className="w-10 h-10 text-slate-300 mx-auto mb-3" />
               <p className="text-slate-600 font-medium">No press items published yet.</p>
-              <p className="text-slate-500 text-sm mt-1">For media inquiries, contact us directly.</p>
+              <p className="text-slate-500 text-sm mt-1">
+                For media inquiries, contact us directly.
+              </p>
             </div>
           ) : (
             <div className="grid gap-6 sm:grid-cols-2">
@@ -78,6 +84,7 @@ export default async function PressPage() {
                 >
                   {post.featured_image && (
                     <div className="relative aspect-[16/9] overflow-hidden bg-slate-100">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                       <Image
                         src={post.featured_image}
                         alt={post.title}
@@ -170,22 +177,38 @@ export default async function PressPage() {
             <h3 className="font-bold text-slate-900 mb-3">Social &amp; Video</h3>
             <ul className="space-y-2 text-sm">
               <li>
-                <Link href="/reels" className="text-brand-red-600 hover:underline flex items-center gap-1">
+                <Link
+                  href="/reels"
+                  className="text-brand-red-600 hover:underline flex items-center gap-1"
+                >
                   <ArrowRight className="w-3.5 h-3.5" /> Watch our Reels
                 </Link>
               </li>
               <li>
-                <a href="https://www.instagram.com/elevateforhumanity" target="_blank" rel="noopener noreferrer" className="text-brand-red-600 hover:underline flex items-center gap-1">
+                <a
+                  href="https://www.instagram.com/elevateforhumanity"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-brand-red-600 hover:underline flex items-center gap-1"
+                >
                   <ArrowRight className="w-3.5 h-3.5" /> Instagram
                 </a>
               </li>
               <li>
-                <a href="https://www.tiktok.com/@elevateforhumanity" target="_blank" rel="noopener noreferrer" className="text-brand-red-600 hover:underline flex items-center gap-1">
+                <a
+                  href="https://www.tiktok.com/@elevateforhumanity"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-brand-red-600 hover:underline flex items-center gap-1"
+                >
                   <ArrowRight className="w-3.5 h-3.5" /> TikTok
                 </a>
               </li>
               <li>
-                <Link href="/share" className="text-brand-red-600 hover:underline flex items-center gap-1">
+                <Link
+                  href="/share"
+                  className="text-brand-red-600 hover:underline flex items-center gap-1"
+                >
                   <ArrowRight className="w-3.5 h-3.5" /> Share with someone
                 </Link>
               </li>

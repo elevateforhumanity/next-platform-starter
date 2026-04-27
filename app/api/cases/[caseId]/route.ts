@@ -2,7 +2,12 @@ import { logger } from '@/lib/logger';
 
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getCaseTimeline, getCaseTasks, transitionCaseStatus, checkSignatureCompleteness } from '@/lib/workflow/case-management';
+import {
+  getCaseTimeline,
+  getCaseTasks,
+  transitionCaseStatus,
+  checkSignatureCompleteness,
+} from '@/lib/workflow/case-management';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
@@ -15,8 +20,11 @@ async function _GET(req: Request, { params }: { params: Promise<{ caseId: string
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user }, error: authErr } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error: authErr,
+    } = await supabase.auth.getUser();
+
     if (authErr || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -33,15 +41,17 @@ async function _GET(req: Request, { params }: { params: Promise<{ caseId: string
       return NextResponse.json({ error: 'Case not found' }, { status: 404 });
     }
 
-    if (enrollmentCase.student_id !== user.id && 
-        enrollmentCase.program_holder_id !== user.id && 
-        enrollmentCase.employer_id !== user.id) {
+    if (
+      enrollmentCase.student_id !== user.id &&
+      enrollmentCase.program_holder_id !== user.id &&
+      enrollmentCase.employer_id !== user.id
+    ) {
       const { data: profile } = await supabase
         .from('profiles')
         .select('role')
         .eq('id', user.id)
         .maybeSingle();
-      
+
       if (!profile || !['admin', 'staff'].includes(profile.role)) {
         return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
       }
@@ -71,8 +81,11 @@ async function _PATCH(req: Request, { params }: { params: Promise<{ caseId: stri
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user }, error: authErr } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error: authErr,
+    } = await supabase.auth.getUser();
+
     if (authErr || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

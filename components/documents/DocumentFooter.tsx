@@ -28,13 +28,11 @@ export function DocumentFooter({ confidential, notice }: Props) {
       </div>
       {confidential && (
         <p className="text-[10px] text-slate-400 mt-4 text-center">
-          CONFIDENTIAL — This document contains proprietary information intended solely for the named recipient.
-          Unauthorized distribution or reproduction is prohibited.
+          CONFIDENTIAL — This document contains proprietary information intended solely for the
+          named recipient. Unauthorized distribution or reproduction is prohibited.
         </p>
       )}
-      {notice && (
-        <p className="text-[10px] text-slate-400 mt-2 text-center">{notice}</p>
-      )}
+      {notice && <p className="text-[10px] text-slate-400 mt-2 text-center">{notice}</p>}
     </footer>
   );
 }

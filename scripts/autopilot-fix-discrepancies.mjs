@@ -17,18 +17,16 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const rootDir = path.resolve(__dirname, '..');
 
-
 const fixes = [];
 
 // ============================================================================
 // FIX 1: User Registration - Add Compliance (Policy Links)
 // ============================================================================
 
-
 const signupPaths = [
   'app/(auth)/signup/page.tsx',
   'app/signup/page.tsx',
-  'app/(auth)/register/page.tsx'
+  'app/(auth)/register/page.tsx',
 ];
 
 let signupPath = null;
@@ -44,7 +42,11 @@ if (signupPath) {
   let content = fs.readFileSync(fullPath, 'utf8');
 
   // Check if policy links already exist
-  if (!content.includes('/policies') && !content.includes('privacy') && !content.includes('terms')) {
+  if (
+    !content.includes('/policies') &&
+    !content.includes('privacy') &&
+    !content.includes('terms')
+  ) {
     // Add policy notice before the form submit button
     const policyNotice = `
           <p className="text-sm text-gray-600 mt-4">
@@ -63,7 +65,7 @@ if (signupPath) {
     if (content.includes('type="submit"')) {
       content = content.replace(
         /(<button[^>]*type="submit"[^>]*>)/,
-        `${policyNotice}\n          $1`
+        `${policyNotice}\n          $1`,
       );
 
       fs.writeFileSync(fullPath, content);
@@ -78,11 +80,9 @@ if (signupPath) {
   fixes.push('⚠️  Signup page not found');
 }
 
-
 // ============================================================================
 // FIX 2: Blog Posts - Add Enforcement (Editorial Workflow)
 // ============================================================================
-
 
 const blogAdminPath = 'app/admin/blog/page.tsx';
 const fullBlogAdminPath = path.join(rootDir, blogAdminPath);
@@ -148,16 +148,11 @@ export default function BlogAdminPage() {
   fixes.push('✅ Blog editorial workflow already exists');
 }
 
-
 // ============================================================================
 // FIX 3: Forums - Add Failure Handling
 // ============================================================================
 
-
-const forumPaths = [
-  'app/forums/page.tsx',
-  'app/community/forums/page.tsx'
-];
+const forumPaths = ['app/forums/page.tsx', 'app/community/forums/page.tsx'];
 
 let forumPath = null;
 for (const p of forumPaths) {
@@ -181,11 +176,9 @@ if (forumPath) {
   fixes.push('⚠️  Forum page not found');
 }
 
-
 // ============================================================================
 // FIX 4: Forums - Add Compliance (Policy Links)
 // ============================================================================
-
 
 if (forumPath) {
   const fullPath = path.join(rootDir, forumPath);
@@ -199,11 +192,9 @@ if (forumPath) {
   }
 }
 
-
 // ============================================================================
 // FIX 5: Forums - Add Monitoring (Moderation Dashboard)
 // ============================================================================
-
 
 const moderationPath = 'app/admin/moderation/page.tsx';
 const fullModerationPath = path.join(rootDir, moderationPath);
@@ -266,12 +257,9 @@ export default function ModerationPage() {
   fixes.push('✅ Moderation dashboard already exists');
 }
 
-
 // ============================================================================
 // SUMMARY
 // ============================================================================
 
-
 for (const fix of fixes) {
 }
-

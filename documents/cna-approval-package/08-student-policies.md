@@ -1,4 +1,5 @@
 # CNA PROGRAM — STUDENT POLICIES AND HANDBOOK
+
 ## Elevate for Humanity LLC
 
 **Effective Date:** Upon program approval
@@ -38,6 +39,7 @@ Students must demonstrate satisfactory performance on all required skills. Each 
 A passing final grade requires: (1) minimum 75% on all written assessments, (2) satisfactory performance on all skills, and (3) completion of all clinical hours with a satisfactory clinical evaluation.
 
 **Grading Scale:**
+
 - 90–100%: A
 - 80–89%: B
 - 75–79%: C (minimum passing)
@@ -147,6 +149,6 @@ Students will not be retaliated against for filing a good-faith complaint or gri
 
 By enrolling in the CNA program at Elevate for Humanity LLC, students acknowledge that they have read, understood, and agree to abide by all policies in this handbook. Students acknowledge that violations of these policies may result in dismissal from the program.
 
-**Student Signature:** ___________________________________ **Date:** ___________
-**Print Name:** ___________________________________
-**Program Director Signature:** ___________________________________ **Date:** ___________
+**Student Signature:** ****************\_\_\_**************** **Date:** ****\_\_\_****
+**Print Name:** ****************\_\_\_****************
+**Program Director Signature:** ****************\_\_\_**************** **Date:** ****\_\_\_****

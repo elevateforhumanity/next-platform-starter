@@ -25,34 +25,41 @@ export const dynamic = 'force-dynamic';
 export default async function FerpaHelpPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/ferpa/help');
 
   const faqs = [
     {
       question: 'What is FERPA?',
-      answer: 'FERPA (Family Educational Rights and Privacy Act) is a federal law that protects the privacy of student education records. It applies to all schools that receive funds from the U.S. Department of Education.',
+      answer:
+        'FERPA (Family Educational Rights and Privacy Act) is a federal law that protects the privacy of student education records. It applies to all schools that receive funds from the U.S. Department of Education.',
     },
     {
       question: 'Who can access student records?',
-      answer: 'Generally, schools must have written permission from the student (or parent if under 18) to release any information from a student\'s education record. However, FERPA allows schools to disclose records without consent to school officials with legitimate educational interest, other schools to which a student is transferring, and certain other parties under specific conditions.',
+      answer:
+        "Generally, schools must have written permission from the student (or parent if under 18) to release any information from a student's education record. However, FERPA allows schools to disclose records without consent to school officials with legitimate educational interest, other schools to which a student is transferring, and certain other parties under specific conditions.",
     },
     {
       question: 'What is directory information?',
-      answer: 'Directory information is information that is generally not considered harmful if disclosed. It may include name, address, telephone number, email, date of birth, enrollment status, and similar information. Students can opt out of directory information disclosure.',
+      answer:
+        'Directory information is information that is generally not considered harmful if disclosed. It may include name, address, telephone number, email, date of birth, enrollment status, and similar information. Students can opt out of directory information disclosure.',
     },
     {
       question: 'How long do we have to respond to a records request?',
-      answer: 'Under FERPA, schools must provide access to education records within 45 days of receiving a request. However, best practice is to respond as quickly as possible.',
+      answer:
+        'Under FERPA, schools must provide access to education records within 45 days of receiving a request. However, best practice is to respond as quickly as possible.',
     },
     {
       question: 'What training is required for staff?',
-      answer: 'All staff members who have access to student education records should receive FERPA training. This includes understanding what constitutes an education record, who can access records, and how to properly handle and protect student information.',
+      answer:
+        'All staff members who have access to student education records should receive FERPA training. This includes understanding what constitutes an education record, who can access records, and how to properly handle and protect student information.',
     },
     {
       question: 'How do I report a FERPA violation?',
-      answer: 'If you believe there has been a FERPA violation, report it immediately to the FERPA Officer or administration. Violations can also be reported to the U.S. Department of Education\'s Student Privacy Policy Office.',
+      answer:
+        "If you believe there has been a FERPA violation, report it immediately to the FERPA Officer or administration. Violations can also be reported to the U.S. Department of Education's Student Privacy Policy Office.",
     },
   ];
 
@@ -79,15 +86,24 @@ export default async function FerpaHelpPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/ferpa-page-4.jpg" alt="FERPA compliance" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/ferpa-page-4.jpg"
+          alt="FERPA compliance"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-slate-700 mb-4">
-            <Link href="/ferpa" className="hover:text-slate-900">FERPA Portal</Link>
+            <Link href="/ferpa" className="hover:text-slate-900">
+              FERPA Portal
+            </Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-slate-900 font-medium">Help</span>
           </nav>
@@ -130,9 +146,7 @@ export default async function FerpaHelpPage() {
                       <span className="font-medium text-slate-900">{faq.question}</span>
                       <ChevronDown className="w-5 h-5 text-slate-700 group-open:rotate-180 transition-transform" />
                     </summary>
-                    <div className="px-6 pb-4 text-slate-700">
-                      {faq.answer}
-                    </div>
+                    <div className="px-6 pb-4 text-slate-700">{faq.answer}</div>
                   </details>
                 ))}
               </div>

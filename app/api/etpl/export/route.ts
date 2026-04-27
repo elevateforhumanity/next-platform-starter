@@ -1,7 +1,6 @@
 import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 
-
 import { createClient } from '@/lib/supabase/server';
 import { auditExport } from '@/lib/auditLog';
 import { logger } from '@/lib/logger';
@@ -18,13 +17,13 @@ export async function GET(req: Request) {
 
     // Authentication check
     const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
     // Check admin or sponsor role
@@ -37,17 +36,14 @@ export async function GET(req: Request) {
     if (!profile || !['admin', 'super_admin', 'sponsor', 'staff'].includes(profile.role)) {
       return NextResponse.json(
         { error: 'Access denied. Admin or sponsor role required.' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
     const adminSupabase = await getAdminClient();
 
     if (!adminSupabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Get ETPL metrics
@@ -62,12 +58,7 @@ export async function GET(req: Request) {
     }
 
     // Log the export
-    await auditExport(
-      'audit_snapshot',
-      user.id,
-      profile.role,
-      req
-    );
+    await auditExport('audit_snapshot', user.id, profile.role, req);
 
     logger.info('ETPL metrics exported', { userId: user.id, recordCount: metrics?.length || 0 });
 
@@ -77,9 +68,6 @@ export async function GET(req: Request) {
     });
   } catch (error) {
     logger.error('ETPL export error:', error instanceof Error ? error : new Error(String(error)));
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

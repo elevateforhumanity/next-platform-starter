@@ -13,14 +13,28 @@ export default async function ProgramMediaPage({ params }: { params: Promise<{ c
   await requireAdmin();
   const supabase = await createClient();
 
-  const { data: program } = await supabase.from('programs').select('id, title').or(`code.eq.${code},slug.eq.${code}`).maybeSingle();
-  if (!program) return <div className="p-8"><h1 className="text-2xl font-bold">Program not found</h1></div>;
+  const { data: program } = await supabase
+    .from('programs')
+    .select('id, title')
+    .or(`code.eq.${code},slug.eq.${code}`)
+    .maybeSingle();
+  if (!program)
+    return (
+      <div className="p-8">
+        <h1 className="text-2xl font-bold">Program not found</h1>
+      </div>
+    );
 
   // Count lessons with video URLs
   const { data: lessons } = await supabase
     .from('training_lessons')
     .select('id, title, video_url')
-    .eq('course_id', (await supabase.from('training_courses').select('id').eq('program_id', program.id).limit(50)).data?.map((c: any) => c.id)?.[0] || '')
+    .eq(
+      'course_id',
+      (
+        await supabase.from('training_courses').select('id').eq('program_id', program.id).limit(50)
+      ).data?.map((c: any) => c.id)?.[0] || '',
+    )
     .limit(200);
 
   const withVideo = lessons?.filter((l: any) => l.video_url) || [];
@@ -30,9 +44,17 @@ export default async function ProgramMediaPage({ params }: { params: Promise<{ c
     <div className="max-w-7xl mx-auto px-4 py-8">
       <nav className="text-sm mb-4">
         <ol className="flex items-center space-x-2 text-slate-700">
-          <li><Link href="/admin/programs" className="hover:text-brand-blue-600">Programs</Link></li>
+          <li>
+            <Link href="/admin/programs" className="hover:text-brand-blue-600">
+              Programs
+            </Link>
+          </li>
           <li>/</li>
-          <li><Link href={`/admin/programs/${code}/dashboard`} className="hover:text-brand-blue-600">{program.title}</Link></li>
+          <li>
+            <Link href={`/admin/programs/${code}/dashboard`} className="hover:text-brand-blue-600">
+              {program.title}
+            </Link>
+          </li>
           <li>/</li>
           <li className="text-slate-900 font-medium">Media</li>
         </ol>
@@ -47,7 +69,7 @@ export default async function ProgramMediaPage({ params }: { params: Promise<{ c
             <h3 className="font-medium text-slate-900">Lesson Videos</h3>
           </div>
           <p className="text-3xl font-bold text-slate-900">{withVideo.length}</p>
-          <p className="text-sm text-slate-700">of {(lessons?.length || 0)} lessons have video</p>
+          <p className="text-sm text-slate-700">of {lessons?.length || 0} lessons have video</p>
         </div>
         <div className="bg-white rounded-lg border p-6">
           <div className="flex items-center gap-3 mb-2">
@@ -66,7 +88,9 @@ export default async function ProgramMediaPage({ params }: { params: Promise<{ c
           </div>
           <ul className="divide-y max-h-96 overflow-y-auto">
             {withoutVideo.map((l: any) => (
-              <li key={l.id} className="px-4 py-3 text-sm text-slate-900">{l.title || l.id}</li>
+              <li key={l.id} className="px-4 py-3 text-sm text-slate-900">
+                {l.title || l.id}
+              </li>
             ))}
           </ul>
         </div>
@@ -81,7 +105,9 @@ export default async function ProgramMediaPage({ params }: { params: Promise<{ c
             {withVideo.map((l: any) => (
               <li key={l.id} className="px-4 py-3 text-sm flex items-center justify-between">
                 <span className="text-slate-900">{l.title || l.id}</span>
-                <span className="text-xs text-slate-700 font-mono truncate max-w-xs">{l.video_url?.slice(0, 60)}...</span>
+                <span className="text-xs text-slate-700 font-mono truncate max-w-xs">
+                  {l.video_url?.slice(0, 60)}...
+                </span>
               </li>
             ))}
           </ul>

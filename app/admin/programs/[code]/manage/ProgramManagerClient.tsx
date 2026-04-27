@@ -3,15 +3,26 @@
 import { useState, useCallback } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  Plus, Trash2, ExternalLink, BookOpen, GripVertical,
-  ChevronDown, ChevronUp, Save, Loader2, AlertCircle,
-  CheckCircle2, Link2, Edit2, X,
+  Plus,
+  Trash2,
+  ExternalLink,
+  BookOpen,
+  GripVertical,
+  ChevronDown,
+  ChevronUp,
+  Save,
+  Loader2,
+  AlertCircle,
+  CheckCircle2,
+  Link2,
+  Edit2,
+  X,
 } from 'lucide-react';
 
 // ── Types ─────────────────────────────────────────────────────────────────────
 
 interface InternalCourseLink {
-  id: string;           // program_courses.id
+  id: string; // program_courses.id
   sort_order: number;
   is_required: boolean;
   course: {
@@ -67,14 +78,18 @@ function courseLabel(c: AvailableCourse) {
 
 function Alert({ msg, type }: { msg: string; type: 'error' | 'success' }) {
   return (
-    <div className={`flex items-start gap-2 rounded-lg px-4 py-3 text-sm ${
-      type === 'error'
-        ? 'bg-red-50 border border-red-200 text-red-700'
-        : 'bg-green-50 border border-green-200 text-green-700'
-    }`}>
-      {type === 'error'
-        ? <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
-        : <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" />}
+    <div
+      className={`flex items-start gap-2 rounded-lg px-4 py-3 text-sm ${
+        type === 'error'
+          ? 'bg-red-50 border border-red-200 text-red-700'
+          : 'bg-green-50 border border-green-200 text-green-700'
+      }`}
+    >
+      {type === 'error' ? (
+        <AlertCircle className="w-4 h-4 mt-0.5 shrink-0" />
+      ) : (
+        <CheckCircle2 className="w-4 h-4 mt-0.5 shrink-0" />
+      )}
       <span>{msg}</span>
     </div>
   );
@@ -102,17 +117,17 @@ const BLANK_EXTERNAL: Omit<ExternalItem, 'id'> = {
 // Selecting one will trigger the guard on the API if a protected credential exists.
 const COMPETENCY_AREAS = [
   { value: '', label: '— None / not applicable —' },
-  { value: 'hvac_refrigeration',  label: 'HVAC / Refrigeration' },
+  { value: 'hvac_refrigeration', label: 'HVAC / Refrigeration' },
   { value: 'construction_safety', label: 'Construction Safety' },
-  { value: 'workplace_safety',    label: 'Workplace Safety' },
-  { value: 'customer_service',    label: 'Customer Service' },
-  { value: 'digital_skills',      label: 'Digital Skills' },
+  { value: 'workplace_safety', label: 'Workplace Safety' },
+  { value: 'customer_service', label: 'Customer Service' },
+  { value: 'digital_skills', label: 'Digital Skills' },
   { value: 'workforce_readiness', label: 'Workforce Readiness' },
-  { value: 'workplace_assessment',label: 'Workplace Assessment (WorkKeys)' },
+  { value: 'workplace_assessment', label: 'Workplace Assessment (WorkKeys)' },
   { value: 'healthcare_clinical', label: 'Healthcare / Clinical' },
   { value: 'information_technology', label: 'Information Technology' },
-  { value: 'business_finance',    label: 'Business / Finance' },
-  { value: 'skilled_trades',      label: 'Skilled Trades' },
+  { value: 'business_finance', label: 'Business / Finance' },
+  { value: 'skilled_trades', label: 'Skilled Trades' },
 ];
 
 function ExternalItemForm({
@@ -127,7 +142,7 @@ function ExternalItemForm({
   saving: boolean;
 }) {
   const [form, setForm] = useState(initial);
-  const set = (k: keyof typeof form, v: unknown) => setForm(f => ({ ...f, [k]: v }));
+  const set = (k: keyof typeof form, v: unknown) => setForm((f) => ({ ...f, [k]: v }));
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -137,15 +152,20 @@ function ExternalItemForm({
     onSave(form);
   };
 
-  const field = (label: string, key: keyof typeof form, opts?: { placeholder?: string; multiline?: boolean; required?: boolean }) => (
+  const field = (
+    label: string,
+    key: keyof typeof form,
+    opts?: { placeholder?: string; multiline?: boolean; required?: boolean },
+  ) => (
     <div>
       <label className="block text-xs font-medium text-slate-600 mb-1">
-        {label}{opts?.required && <span className="text-red-500 ml-0.5">*</span>}
+        {label}
+        {opts?.required && <span className="text-red-500 ml-0.5">*</span>}
       </label>
       {opts?.multiline ? (
         <textarea
           value={form[key] as string}
-          onChange={e => set(key, e.target.value)}
+          onChange={(e) => set(key, e.target.value)}
           rows={2}
           placeholder={opts.placeholder}
           className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent resize-none"
@@ -154,7 +174,7 @@ function ExternalItemForm({
         <input
           type="text"
           value={form[key] as string}
-          onChange={e => set(key, e.target.value)}
+          onChange={(e) => set(key, e.target.value)}
           placeholder={opts?.placeholder}
           required={opts?.required}
           className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent"
@@ -164,10 +184,19 @@ function ExternalItemForm({
   );
 
   return (
-    <form onSubmit={handleSubmit} className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-4">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-slate-50 border border-slate-200 rounded-xl p-5 space-y-4"
+    >
       <div className="grid sm:grid-cols-2 gap-4">
-        {field('Partner Name', 'partner_name', { placeholder: 'e.g. OSHA, Coursera, CareerSafe', required: true })}
-        {field('Course / Training Title', 'title', { placeholder: 'e.g. OSHA 10-Hour General Industry', required: true })}
+        {field('Partner Name', 'partner_name', {
+          placeholder: 'e.g. OSHA, Coursera, CareerSafe',
+          required: true,
+        })}
+        {field('Course / Training Title', 'title', {
+          placeholder: 'e.g. OSHA 10-Hour General Industry',
+          required: true,
+        })}
       </div>
       <div>
         <label className="block text-xs font-medium text-slate-600 mb-1">
@@ -176,16 +205,21 @@ function ExternalItemForm({
         <input
           type="url"
           value={form.external_url}
-          onChange={e => set('external_url', e.target.value)}
+          onChange={(e) => set('external_url', e.target.value)}
           placeholder="https://..."
           required
           className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent"
         />
       </div>
-      {field('Description', 'description', { placeholder: 'What learners will do or learn', multiline: true })}
+      {field('Description', 'description', {
+        placeholder: 'What learners will do or learn',
+        multiline: true,
+      })}
       <div className="grid sm:grid-cols-3 gap-4">
         {field('Duration', 'duration_display', { placeholder: 'e.g. 10 hours, 2 weeks' })}
-        {field('Credential Type', 'credential_type', { placeholder: 'e.g. Certificate, Badge, CEU' })}
+        {field('Credential Type', 'credential_type', {
+          placeholder: 'e.g. Certificate, Badge, CEU',
+        })}
         {field('Credential Name', 'credential_name', { placeholder: 'e.g. OSHA 10-Hour Card' })}
       </div>
       {field('Enrollment Instructions', 'enrollment_instructions', {
@@ -195,15 +229,19 @@ function ExternalItemForm({
       <div>
         <label className="block text-xs font-medium text-slate-600 mb-1">
           Competency Area
-          <span className="ml-1 text-slate-400 font-normal">(used to enforce Elevate proctor authority)</span>
+          <span className="ml-1 text-slate-400 font-normal">
+            (used to enforce Elevate proctor authority)
+          </span>
         </label>
         <select
           value={form.competency_area ?? ''}
-          onChange={e => set('competency_area', e.target.value || null)}
+          onChange={(e) => set('competency_area', e.target.value || null)}
           className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent bg-white"
         >
-          {COMPETENCY_AREAS.map(opt => (
-            <option key={opt.value} value={opt.value}>{opt.label}</option>
+          {COMPETENCY_AREAS.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
           ))}
         </select>
       </div>
@@ -212,7 +250,7 @@ function ExternalItemForm({
           <input
             type="checkbox"
             checked={form.opens_in_new_tab}
-            onChange={e => set('opens_in_new_tab', e.target.checked)}
+            onChange={(e) => set('opens_in_new_tab', e.target.checked)}
             className="w-4 h-4 rounded border-slate-300 text-brand-blue-600"
           />
           Opens in new tab
@@ -221,7 +259,7 @@ function ExternalItemForm({
           <input
             type="checkbox"
             checked={form.is_required}
-            onChange={e => set('is_required', e.target.checked)}
+            onChange={(e) => set('is_required', e.target.checked)}
             className="w-4 h-4 rounded border-slate-300 text-brand-blue-600"
           />
           Required for program completion
@@ -230,7 +268,7 @@ function ExternalItemForm({
           <input
             type="checkbox"
             checked={form.manual_completion_enabled}
-            onChange={e => set('manual_completion_enabled', e.target.checked)}
+            onChange={(e) => set('manual_completion_enabled', e.target.checked)}
             className="w-4 h-4 rounded border-slate-300 text-brand-blue-600"
           />
           Admin can mark complete manually
@@ -291,8 +329,8 @@ export default function ProgramManagerClient({
 
   // ── Internal course attach ──────────────────────────────────────────────────
 
-  const attachedCourseIds = new Set(internalLinks.map(l => l.course.id));
-  const unattachedCourses = availableCourses.filter(c => !attachedCourseIds.has(c.id));
+  const attachedCourseIds = new Set(internalLinks.map((l) => l.course.id));
+  const unattachedCourses = availableCourses.filter((c) => !attachedCourseIds.has(c.id));
 
   const handleAttachInternal = useCallback(async () => {
     if (!selectedCourseId) return;
@@ -323,83 +361,106 @@ export default function ProgramManagerClient({
     }
   }, [selectedCourseId, programId, internalLinks.length]);
 
-  const handleDetachInternal = useCallback(async (linkId: string) => {
-    if (!confirm('Remove this course from the program?')) return;
-    setBusy(true);
-    try {
-      const res = await fetch(`/api/admin/programs/${programId}/courses/${linkId}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Failed to detach');
-      setInternalLinks(prev => prev.filter(l => l.id !== linkId));
-      flash('Course removed', 'success');
-    } catch (err: any) {
-      flash(err.message, 'error');
-    } finally {
-      setBusy(false);
-    }
-  }, [programId]);
+  const handleDetachInternal = useCallback(
+    async (linkId: string) => {
+      if (!confirm('Remove this course from the program?')) return;
+      setBusy(true);
+      try {
+        const res = await fetch(`/api/admin/programs/${programId}/courses/${linkId}`, {
+          method: 'DELETE',
+        });
+        if (!res.ok) throw new Error('Failed to detach');
+        setInternalLinks((prev) => prev.filter((l) => l.id !== linkId));
+        flash('Course removed', 'success');
+      } catch (err: any) {
+        flash(err.message, 'error');
+      } finally {
+        setBusy(false);
+      }
+    },
+    [programId],
+  );
 
-  const handleToggleRequired = useCallback(async (link: InternalCourseLink) => {
-    const res = await fetch(`/api/admin/programs/${programId}/courses/${link.id}`, {
-      method: 'PATCH',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ is_required: !link.is_required }),
-    });
-    if (res.ok) {
-      setInternalLinks(prev => prev.map(l => l.id === link.id ? { ...l, is_required: !l.is_required } : l));
-    }
-  }, [programId]);
+  const handleToggleRequired = useCallback(
+    async (link: InternalCourseLink) => {
+      const res = await fetch(`/api/admin/programs/${programId}/courses/${link.id}`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ is_required: !link.is_required }),
+      });
+      if (res.ok) {
+        setInternalLinks((prev) =>
+          prev.map((l) => (l.id === link.id ? { ...l, is_required: !l.is_required } : l)),
+        );
+      }
+    },
+    [programId],
+  );
 
   // ── External item CRUD ──────────────────────────────────────────────────────
 
-  const handleSaveExternal = useCallback(async (data: Omit<ExternalItem, 'id'>) => {
-    setSavingExternal(true);
-    try {
-      if (editingExternal) {
-        // Update
-        const res = await fetch(`/api/admin/programs/${programId}/external-courses/${editingExternal.id}`, {
-          method: 'PATCH',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify(data),
-        });
-        const json = await res.json();
-        if (!res.ok) throw new Error(json.error || 'Update failed');
-        setExternalItems(prev => prev.map(i => i.id === editingExternal.id ? json.item : i));
-        flash('Partner training updated', 'success');
-      } else {
-        // Create
-        const res = await fetch(`/api/admin/programs/${programId}/external-courses`, {
-          method: 'POST',
-          headers: { 'Content-Type': 'application/json' },
-          body: JSON.stringify({ ...data, sort_order: externalItems.length }),
-        });
-        const json = await res.json();
-        if (!res.ok) throw new Error(json.error || 'Create failed');
-        setExternalItems(prev => [...prev, json.item]);
-        flash('Partner training added', 'success');
+  const handleSaveExternal = useCallback(
+    async (data: Omit<ExternalItem, 'id'>) => {
+      setSavingExternal(true);
+      try {
+        if (editingExternal) {
+          // Update
+          const res = await fetch(
+            `/api/admin/programs/${programId}/external-courses/${editingExternal.id}`,
+            {
+              method: 'PATCH',
+              headers: { 'Content-Type': 'application/json' },
+              body: JSON.stringify(data),
+            },
+          );
+          const json = await res.json();
+          if (!res.ok) throw new Error(json.error || 'Update failed');
+          setExternalItems((prev) =>
+            prev.map((i) => (i.id === editingExternal.id ? json.item : i)),
+          );
+          flash('Partner training updated', 'success');
+        } else {
+          // Create
+          const res = await fetch(`/api/admin/programs/${programId}/external-courses`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ ...data, sort_order: externalItems.length }),
+          });
+          const json = await res.json();
+          if (!res.ok) throw new Error(json.error || 'Create failed');
+          setExternalItems((prev) => [...prev, json.item]);
+          flash('Partner training added', 'success');
+        }
+        setShowExternalForm(false);
+        setEditingExternal(null);
+      } catch (err: any) {
+        flash(err.message, 'error');
+      } finally {
+        setSavingExternal(false);
       }
-      setShowExternalForm(false);
-      setEditingExternal(null);
-    } catch (err: any) {
-      flash(err.message, 'error');
-    } finally {
-      setSavingExternal(false);
-    }
-  }, [programId, editingExternal, externalItems.length]);
+    },
+    [programId, editingExternal, externalItems.length],
+  );
 
-  const handleDeleteExternal = useCallback(async (itemId: string) => {
-    if (!confirm('Remove this partner training item?')) return;
-    setBusy(true);
-    try {
-      const res = await fetch(`/api/admin/programs/${programId}/external-courses/${itemId}`, { method: 'DELETE' });
-      if (!res.ok) throw new Error('Delete failed');
-      setExternalItems(prev => prev.filter(i => i.id !== itemId));
-      flash('Partner training removed', 'success');
-    } catch (err: any) {
-      flash(err.message, 'error');
-    } finally {
-      setBusy(false);
-    }
-  }, [programId]);
+  const handleDeleteExternal = useCallback(
+    async (itemId: string) => {
+      if (!confirm('Remove this partner training item?')) return;
+      setBusy(true);
+      try {
+        const res = await fetch(`/api/admin/programs/${programId}/external-courses/${itemId}`, {
+          method: 'DELETE',
+        });
+        if (!res.ok) throw new Error('Delete failed');
+        setExternalItems((prev) => prev.filter((i) => i.id !== itemId));
+        flash('Partner training removed', 'success');
+      } catch (err: any) {
+        flash(err.message, 'error');
+      } finally {
+        setBusy(false);
+      }
+    },
+    [programId],
+  );
 
   const handleEditExternal = (item: ExternalItem) => {
     setEditingExternal(item);
@@ -415,7 +476,6 @@ export default function ProgramManagerClient({
 
   return (
     <div className="space-y-8">
-
       {notice && <Alert msg={notice.msg} type={notice.type} />}
 
       {/* Section 1: Internal LMS Courses */}
@@ -436,13 +496,14 @@ export default function ProgramManagerClient({
         <div className="flex gap-3 mb-4">
           <select
             value={selectedCourseId}
-            onChange={e => setSelectedCourseId(e.target.value)}
+            onChange={(e) => setSelectedCourseId(e.target.value)}
             className="flex-1 border border-slate-200 rounded-lg px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-400 focus:border-transparent bg-white"
           >
             <option value="">— Select a course to attach —</option>
-            {unattachedCourses.map(c => (
+            {unattachedCourses.map((c) => (
               <option key={c.id} value={c.id}>
-                {courseLabel(c)}{c.status === 'draft' ? ' (draft)' : ''}
+                {courseLabel(c)}
+                {c.status === 'draft' ? ' (draft)' : ''}
                 {c.category ? ` · ${c.category}` : ''}
               </option>
             ))}
@@ -452,7 +513,11 @@ export default function ProgramManagerClient({
             disabled={!selectedCourseId || attachingInternal}
             className="flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700 disabled:opacity-40"
           >
-            {attachingInternal ? <Loader2 className="w-4 h-4 animate-spin" /> : <Plus className="w-4 h-4" />}
+            {attachingInternal ? (
+              <Loader2 className="w-4 h-4 animate-spin" />
+            ) : (
+              <Plus className="w-4 h-4" />
+            )}
             Attach
           </button>
         </div>
@@ -482,7 +547,9 @@ export default function ProgramManagerClient({
                       {c.category ?? 'No category'}
                       {c.duration_hours ? ` · ${c.duration_hours}h` : ''}
                       {' · '}
-                      <span className={c.status === 'published' ? 'text-green-600' : 'text-amber-600'}>
+                      <span
+                        className={c.status === 'published' ? 'text-green-600' : 'text-amber-600'}
+                      >
                         {c.status ?? 'draft'}
                       </span>
                     </p>
@@ -529,13 +596,16 @@ export default function ProgramManagerClient({
               External Partner Training
             </h2>
             <p className="text-sm text-slate-500 mt-0.5">
-              Training hosted by partners. Learners click through to the partner site.
-              No API integration required.
+              Training hosted by partners. Learners click through to the partner site. No API
+              integration required.
             </p>
           </div>
           {!showExternalForm && (
             <button
-              onClick={() => { setEditingExternal(null); setShowExternalForm(true); }}
+              onClick={() => {
+                setEditingExternal(null);
+                setShowExternalForm(true);
+              }}
               className="flex items-center gap-2 px-4 py-2 bg-teal-600 text-white rounded-lg text-sm font-medium hover:bg-teal-700"
             >
               <Plus className="w-4 h-4" />
@@ -547,9 +617,10 @@ export default function ProgramManagerClient({
         {showExternalForm && (
           <div className="mb-4">
             <ExternalItemForm
-              initial={editingExternal
-                ? { ...editingExternal }
-                : { ...BLANK_EXTERNAL, sort_order: externalItems.length }
+              initial={
+                editingExternal
+                  ? { ...editingExternal }
+                  : { ...BLANK_EXTERNAL, sort_order: externalItems.length }
               }
               onSave={handleSaveExternal}
               onCancel={handleCancelExternal}
@@ -593,11 +664,13 @@ export default function ProgramManagerClient({
                   </a>
                 </div>
                 <div className="flex items-center gap-2 shrink-0">
-                  <span className={`text-xs px-2 py-0.5 rounded-full font-medium ${
-                    item.is_required
-                      ? 'bg-slate-100 text-slate-600'
-                      : 'bg-amber-50 text-amber-700'
-                  }`}>
+                  <span
+                    className={`text-xs px-2 py-0.5 rounded-full font-medium ${
+                      item.is_required
+                        ? 'bg-slate-100 text-slate-600'
+                        : 'bg-amber-50 text-amber-700'
+                    }`}
+                  >
                     {item.is_required ? 'Required' : 'Optional'}
                   </span>
                   {item.manual_completion_enabled && (

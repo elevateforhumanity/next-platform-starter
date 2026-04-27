@@ -30,13 +30,23 @@ const BOOTSTRAP_KEYS = new Set([
 ]);
 
 const SECRET_PATTERNS = [
-  /key$/i, /secret$/i, /token$/i, /password$/i, /pass$/i,
-  /api_key/i, /private/i, /auth/i, /sid$/i, /dsn$/i,
-  /salt$/i, /encryption/i, /webhook/i,
+  /key$/i,
+  /secret$/i,
+  /token$/i,
+  /password$/i,
+  /pass$/i,
+  /api_key/i,
+  /private/i,
+  /auth/i,
+  /sid$/i,
+  /dsn$/i,
+  /salt$/i,
+  /encryption/i,
+  /webhook/i,
 ];
 
 function isSecret(key: string): boolean {
-  return SECRET_PATTERNS.some(p => p.test(key));
+  return SECRET_PATTERNS.some((p) => p.test(key));
 }
 
 async function main() {
@@ -80,12 +90,12 @@ async function main() {
   if (!force) {
     const { data } = await db.from('platform_settings').select('key');
     existingKeys = new Set((data ?? []).map((r: { key: string }) => r.key));
-    console.log(`${existingKeys.size} keys already in platform_settings (use --force to overwrite)`);
+    console.log(
+      `${existingKeys.size} keys already in platform_settings (use --force to overwrite)`,
+    );
   }
 
-  const toUpsert = force
-    ? entries
-    : entries.filter(([key]) => !existingKeys.has(key));
+  const toUpsert = force ? entries : entries.filter(([key]) => !existingKeys.has(key));
 
   if (toUpsert.length === 0) {
     console.log('✅ Nothing to seed — all keys already present');
@@ -108,9 +118,7 @@ async function main() {
       updated_at: new Date().toISOString(),
     }));
 
-    const { error } = await db
-      .from('platform_settings')
-      .upsert(chunk, { onConflict: 'key' });
+    const { error } = await db.from('platform_settings').upsert(chunk, { onConflict: 'key' });
 
     if (error) {
       console.error(`❌ Chunk ${i / CHUNK + 1} failed:`, error.message);
@@ -124,7 +132,7 @@ async function main() {
   console.log(`\n✅ Done — ${inserted} seeded, ${failed} failed`);
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Fatal:', err);
   process.exit(1);
 });

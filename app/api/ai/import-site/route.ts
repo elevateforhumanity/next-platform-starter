@@ -17,9 +17,9 @@ function getOpenAI() {
 
 /**
  * POST /api/ai/import-site
- * 
+ *
  * Imports an existing website and recreates it on Elevate LMS platform.
- * 
+ *
  * Flow:
  * 1. Scrape the provided URL
  * 2. Extract content, colors, structure
@@ -51,11 +51,11 @@ async function _POST(request: NextRequest) {
 
     // Scrape the main page
     const scrapedData = await scrapeSite(parsedUrl.origin, includePages);
-    
+
     if (!scrapedData.success) {
       return NextResponse.json(
         { error: scrapedData.error || 'Failed to scrape site' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -88,10 +88,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Import error:', error);
-    return NextResponse.json(
-      { error: 'Failed to import site' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to import site' }, { status: 500 });
   }
 }
 
@@ -152,9 +149,10 @@ async function scrapeSite(baseUrl: string, pages: string[]): Promise<ScrapedData
 
     // Extract basic info
     result.title = $('title').text().trim() || $('h1').first().text().trim();
-    result.description = $('meta[name="description"]').attr('content') || 
-                         $('meta[property="og:description"]').attr('content') || 
-                         $('p').first().text().trim().slice(0, 200);
+    result.description =
+      $('meta[name="description"]').attr('content') ||
+      $('meta[property="og:description"]').attr('content') ||
+      $('p').first().text().trim().slice(0, 200);
 
     // Extract logo
     result.logo = $('img[alt*="logo" i], img[class*="logo" i], header img').first().attr('src');
@@ -171,13 +169,19 @@ async function scrapeSite(baseUrl: string, pages: string[]): Promise<ScrapedData
       }
     });
     // Dedupe navigation
-    result.navigation = result.navigation.filter((item, index, self) =>
-      index === self.findIndex(t => t.label === item.label)
-    ).slice(0, 8);
+    result.navigation = result.navigation
+      .filter((item, index, self) => index === self.findIndex((t) => t.label === item.label))
+      .slice(0, 8);
 
     // Extract colors from inline styles and stylesheets
     const colorRegex = /#[0-9A-Fa-f]{6}|#[0-9A-Fa-f]{3}|rgb\([^)]+\)|rgba\([^)]+\)/g;
-    const styleContent = $('style').text() + ' ' + $('[style]').map((_, el) => $(el).attr('style')).get().join(' ');
+    const styleContent =
+      $('style').text() +
+      ' ' +
+      $('[style]')
+        .map((_, el) => $(el).attr('style'))
+        .get()
+        .join(' ');
     const foundColors = styleContent.match(colorRegex) || [];
     result.colors = [...new Set(foundColors)].slice(0, 10);
 
@@ -196,8 +200,8 @@ async function scrapeSite(baseUrl: string, pages: string[]): Promise<ScrapedData
     // Extract potential programs/courses/services
     $('h2, h3, .card-title, .program-title, .course-title, .service-title').each((_, el) => {
       const name = $(el).text().trim();
-      const description = $(el).next('p').text().trim() || 
-                         $(el).parent().find('p').first().text().trim();
+      const description =
+        $(el).next('p').text().trim() || $(el).parent().find('p').first().text().trim();
       if (name && name.length > 3 && name.length < 100) {
         result.programs.push({ name, description: description.slice(0, 200) });
       }
@@ -212,28 +216,39 @@ async function scrapeSite(baseUrl: string, pages: string[]): Promise<ScrapedData
     if (phoneMatch) result.contactInfo.phone = phoneMatch[0];
 
     // Scrape additional pages
-    for (const pagePath of pages.slice(1, 5)) { // Limit to 5 pages
+    for (const pagePath of pages.slice(1, 5)) {
+      // Limit to 5 pages
       try {
         const pageUrl = new URL(pagePath, baseUrl).href;
         const pageResponse = await fetch(pageUrl, {
           headers: { 'User-Agent': 'Mozilla/5.0 (compatible; ElevateLMS-Importer/1.0)' },
         });
-        
+
         if (pageResponse.ok) {
           const pageHtml = await pageResponse.text();
           const page$ = cheerio.load(pageHtml);
-          
+
           result.pages.push({
             url: pageUrl,
             title: page$('title').text().trim() || page$('h1').first().text().trim(),
-            headings: page$('h1, h2, h3').map((_, el) => page$(el).text().trim()).get().slice(0, 10),
-            paragraphs: page$('p').map((_, el) => page$(el).text().trim()).get().filter(p => p.length > 50).slice(0, 5),
-            images: page$('img').map((_, el) => page$(el).attr('src')).get().slice(0, 5),
+            headings: page$('h1, h2, h3')
+              .map((_, el) => page$(el).text().trim())
+              .get()
+              .slice(0, 10),
+            paragraphs: page$('p')
+              .map((_, el) => page$(el).text().trim())
+              .get()
+              .filter((p) => p.length > 50)
+              .slice(0, 5),
+            images: page$('img')
+              .map((_, el) => page$(el).attr('src'))
+              .get()
+              .slice(0, 5),
           });
         }
       } catch (err) {
-          logger.error("Unhandled error", err instanceof Error ? err : undefined);
-        }
+        logger.error('Unhandled error', err instanceof Error ? err : undefined);
+      }
     }
 
     result.success = true;
@@ -254,7 +269,7 @@ Scraped Data:
 - Colors found: ${scrapedData.colors.join(', ')}
 - Programs/Services: ${JSON.stringify(scrapedData.programs.slice(0, 5))}
 - Contact: ${JSON.stringify(scrapedData.contactInfo)}
-- Page titles: ${scrapedData.pages.map(p => p.title).join(', ')}
+- Page titles: ${scrapedData.pages.map((p) => p.title).join(', ')}
 
 Generate a JSON config with:
 1. branding: { primaryColor (pick from their colors or suggest), secondaryColor, accentColor, logoText (from title), tagline }
@@ -274,7 +289,7 @@ Return ONLY valid JSON.`;
       model: 'gpt-4.1',
       messages: [
         { role: 'system', content: 'You are a website migration expert. Return only valid JSON.' },
-        { role: 'user', content: prompt }
+        { role: 'user', content: prompt },
       ],
       temperature: 0.5,
       max_tokens: 2000,
@@ -303,7 +318,7 @@ Return ONLY valid JSON.`;
           { title: 'Career Success', description: 'Job placement assistance' },
         ],
       },
-      programs: scrapedData.programs.slice(0, 6).map(p => ({
+      programs: scrapedData.programs.slice(0, 6).map((p) => ({
         name: p.name,
         description: p.description || 'Professional training program',
         duration: '8 weeks',

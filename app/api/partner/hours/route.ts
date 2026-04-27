@@ -38,7 +38,9 @@ async function _GET(request: NextRequest) {
     .eq('partner_id', partnerUser.partner_id)
     .eq('status', 'active');
 
-  const apprenticeIds = (apprenticeships || []).map((a: { apprentice_id: string }) => a.apprentice_id);
+  const apprenticeIds = (apprenticeships || []).map(
+    (a: { apprentice_id: string }) => a.apprentice_id,
+  );
 
   if (apprenticeIds.length === 0) {
     return NextResponse.json({ hours: [] });

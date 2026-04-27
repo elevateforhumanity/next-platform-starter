@@ -3,7 +3,7 @@
   "_comment": "Pages explicitly approved for indexing. All other pages default to noindex.",
   "_lastReviewed": "2025-01-20",
   "_reviewedBy": "Platform Governance",
-  
+
   "indexed_pages": [
     "/",
     "/about",
@@ -60,13 +60,13 @@
     "/resources/tax-refund-timeline-explained",
     "/resources/how-refund-advances-work"
   ],
-  
+
   "pending_review": [
     "/resources/understanding-tax-prep-fees",
     "/resources/workforce-training-structure",
     "/resources/program-funding-explained"
   ],
-  
+
   "explicitly_noindex": [
     "/login",
     "/signup",

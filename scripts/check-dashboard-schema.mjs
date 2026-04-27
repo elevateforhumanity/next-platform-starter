@@ -17,7 +17,8 @@ const __dirname = dirname(__filename);
 config({ path: join(__dirname, '..', '.env.local') });
 
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
-const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
+const supabaseKey =
+  process.env.SUPABASE_SERVICE_ROLE_KEY || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseKey) {
   console.error('❌ Missing Supabase credentials');
@@ -26,7 +27,6 @@ if (!supabaseUrl || !supabaseKey) {
 }
 
 const supabase = createClient(supabaseUrl, supabaseKey);
-
 
 // Check profiles table
 const { data: profilesData, error: profilesError } = await supabase
@@ -42,7 +42,7 @@ if (profilesError) {
 
     // Check for required columns
     const requiredColumns = ['id', 'email', 'role', 'full_name'];
-    const missingColumns = requiredColumns.filter(col => !columns.includes(col));
+    const missingColumns = requiredColumns.filter((col) => !columns.includes(col));
     if (missingColumns.length > 0) {
     }
   }
@@ -62,7 +62,7 @@ if (enrollmentsError) {
 
     // Check for required columns
     const requiredColumns = ['id', 'user_id', 'program_id', 'status'];
-    const missingColumns = requiredColumns.filter(col => !columns.includes(col));
+    const missingColumns = requiredColumns.filter((col) => !columns.includes(col));
     if (missingColumns.length > 0) {
     }
   }
@@ -79,17 +79,13 @@ const requiredTables = [
   'compliance_reports',
   'compliance_scores',
   'student_verifications',
-  'apprenticeship_programs'
+  'apprenticeship_programs',
 ];
 
 for (const table of requiredTables) {
-  const { data, error } = await supabase
-    .from(table)
-    .select('*')
-    .limit(1);
+  const { data, error } = await supabase.from(table).select('*').limit(1);
 
   if (error) {
   } else {
   }
 }
-

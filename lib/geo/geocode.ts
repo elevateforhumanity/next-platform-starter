@@ -139,7 +139,7 @@ export function calculateDistanceMiles(
   lat1: number,
   lon1: number,
   lat2: number,
-  lon2: number
+  lon2: number,
 ): number {
   const R = 3959; // Earth's radius in miles
   const dLat = toRadians(lat2 - lat1);
@@ -147,10 +147,7 @@ export function calculateDistanceMiles(
 
   const a =
     Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-    Math.cos(toRadians(lat1)) *
-      Math.cos(toRadians(lat2)) *
-      Math.sin(dLon / 2) *
-      Math.sin(dLon / 2);
+    Math.cos(toRadians(lat1)) * Math.cos(toRadians(lat2)) * Math.sin(dLon / 2) * Math.sin(dLon / 2);
 
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
   return R * c;
@@ -163,6 +160,8 @@ function toRadians(degrees: number): number {
 /**
  * Check if geocoding result is valid.
  */
-export function isGeocodingResult(result: GeocodingResult | GeocodingError): result is GeocodingResult {
+export function isGeocodingResult(
+  result: GeocodingResult | GeocodingError,
+): result is GeocodingResult {
   return 'latitude' in result && 'longitude' in result;
 }

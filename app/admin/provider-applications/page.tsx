@@ -17,9 +17,10 @@ export default async function ProviderApplicationsPage({
   searchParams: Promise<{ status?: string }>;
 }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-
 
   const db = await getAdminClient();
   if (!db) return <div className="p-8 text-red-600">Database unavailable</div>;
@@ -38,9 +39,7 @@ export default async function ProviderApplicationsPage({
   const activeFilter = filterStatus ?? 'pending';
 
   // Counts per status for tab badges
-  const { data: counts } = await supabase
-    .from('provider_applications')
-    .select('status');
+  const { data: counts } = await supabase.from('provider_applications').select('status');
 
   const statusCounts = (counts ?? []).reduce<Record<string, number>>((acc, row) => {
     acc[row.status] = (acc[row.status] ?? 0) + 1;
@@ -62,10 +61,9 @@ export default async function ProviderApplicationsPage({
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[
-          { label: 'Admin', href: '/admin/dashboard' },
-          { label: 'Provider Applications' },
-        ]} />
+        <Breadcrumbs
+          items={[{ label: 'Admin', href: '/admin/dashboard' }, { label: 'Provider Applications' }]}
+        />
       </div>
 
       <div className="max-w-6xl mx-auto px-4 pb-16">

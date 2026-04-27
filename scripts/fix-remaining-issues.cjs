@@ -15,10 +15,7 @@ function fixAssetPaths() {
     let modified = false;
 
     // Fix relative asset paths
-    if (
-      content.includes('./assets/index.css') ||
-      content.includes('./assets/index.js')
-    ) {
+    if (content.includes('./assets/index.css') || content.includes('./assets/index.js')) {
       content = content.replace(/\.\/assets\//g, '/assets/');
       modified = true;
     }
@@ -52,9 +49,7 @@ body { margin: 0; font-family: system-ui, -apple-system, sans-serif; }
   if (!fs.existsSync(path.join(assetsDir, 'index.js'))) {
     // Find the actual bundle file
     const assetFiles = fs.readdirSync(assetsDir);
-    const jsBundle = assetFiles.find(
-      (f) => f.startsWith('index-') && f.endsWith('.js')
-    );
+    const jsBundle = assetFiles.find((f) => f.startsWith('index-') && f.endsWith('.js'));
 
     if (jsBundle) {
       // Create symlink or copy
@@ -85,8 +80,7 @@ function fixComponentImports() {
       }
 
       // Add default export if missing
-      const hasExport =
-        content.includes('export default') || content.includes('export {');
+      const hasExport = content.includes('export default') || content.includes('export {');
       const hasFunction = content.match(/(?:function|const|class)\s+(\w+)/);
 
       if (!hasExport && hasFunction) {
@@ -116,16 +110,9 @@ function findFiles(dir, ...exts) {
   const entries = fs.readdirSync(dir, { withFileTypes: true });
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
-    if (
-      entry.isDirectory() &&
-      !entry.name.startsWith('.') &&
-      entry.name !== 'node_modules'
-    ) {
+    if (entry.isDirectory() && !entry.name.startsWith('.') && entry.name !== 'node_modules') {
       results = results.concat(findFiles(fullPath, ...exts));
-    } else if (
-      exts.length === 0 ||
-      exts.some((ext) => entry.name.endsWith(ext))
-    ) {
+    } else if (exts.length === 0 || exts.some((ext) => entry.name.endsWith(ext))) {
       results.push(fullPath);
     }
   }

@@ -46,8 +46,7 @@ const industries = [
     id: 'transportation',
     name: 'Transportation & Logistics',
     icon: Truck,
-    description:
-      'Get your CDL and start a career in trucking, delivery, or logistics.',
+    description: 'Get your CDL and start a career in trucking, delivery, or logistics.',
     programs: ['CDL Class A', 'CDL Class B', 'Forklift Operator'],
     href: '/programs/cdl-transportation',
   },
@@ -66,42 +65,35 @@ const industries = [
     icon: Building2,
     description:
       'Develop professional skills for office administration, customer service, and business operations.',
-    programs: [
-      'Office Administration',
-      'Customer Service',
-      'Bookkeeping',
-      'QuickBooks',
-    ],
+    programs: ['Office Administration', 'Customer Service', 'Bookkeeping', 'QuickBooks'],
     href: '/programs',
   },
   {
     id: 'hospitality',
     name: 'Hospitality & Food Service',
     icon: Utensils,
-    description:
-      'Start your career in restaurants, hotels, and food service management.',
-    programs: [
-      'Food Handler Certification',
-      'ServSafe',
-      'Hospitality Management',
-    ],
+    description: 'Start your career in restaurants, hotels, and food service management.',
+    programs: ['Food Handler Certification', 'ServSafe', 'Hospitality Management'],
     href: '/programs',
   },
   {
     id: 'technology',
     name: 'Information Technology',
     icon: Laptop,
-    description:
-      'Get certified in IT support, networking, cybersecurity, and more.',
-    programs: ['IT Specialist — Device Config', 'IT Specialist — Networking', 'IT Specialist — Cybersecurity', 'IT Help Desk'],
+    description: 'Get certified in IT support, networking, cybersecurity, and more.',
+    programs: [
+      'IT Specialist — Device Config',
+      'IT Specialist — Networking',
+      'IT Specialist — Cybersecurity',
+      'IT Help Desk',
+    ],
     href: '/programs',
   },
   {
     id: 'education',
     name: 'Education & Childcare',
     icon: GraduationCap,
-    description:
-      'Train to work with children in daycare, preschool, and educational settings.',
+    description: 'Train to work with children in daycare, preschool, and educational settings.',
     programs: ['Child Development Associate', 'Teacher Assistant', 'Daycare'],
     href: '/programs',
   },
@@ -110,10 +102,10 @@ const industries = [
 export default function IndustriesPage() {
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Industries" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Industries' }]} />
       </div>
-<ModernLandingHero
+      <ModernLandingHero
         badge="8 High-Demand Industries"
         headline="Industries"
         accentText="We Serve"
@@ -121,18 +113,18 @@ export default function IndustriesPage() {
         description="Explore programs in healthcare, skilled trades, transportation, technology, and more. All programs are 100% funded for eligible students with industry-recognized credentials."
         imageSrc="/images/pages/workforce-training.jpg"
         imageAlt="Industries We Serve"
-        primaryCTA={{ text: "Explore Programs", href: "#industries" }}
-        secondaryCTA={{ text: "Apply Now", href: "/apply" }}
+        primaryCTA={{ text: 'Explore Programs', href: '#industries' }}
+        secondaryCTA={{ text: 'Apply Now', href: '/apply' }}
         features={[
-          "8 high-demand industries • 20+ career programs",
-          "100% funded training for eligible students",
-          "Industry-recognized credentials and certifications"
+          '8 high-demand industries • 20+ career programs',
+          '100% funded training for eligible students',
+          'Industry-recognized credentials and certifications',
         ]}
         imageOnRight={true}
       />
 
       {/* Industries Grid */}
-      <section id="industries"className="py-20">
+      <section id="industries" className="py-20">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
             {industries.map((industry) => {
@@ -157,15 +149,10 @@ export default function IndustriesPage() {
                   <p className="text-black mb-6">{industry.description}</p>
 
                   <div className="mb-6">
-                    <h3 className="text-sm font-bold text-black mb-2">
-                      Programs Available:
-                    </h3>
+                    <h3 className="text-sm font-bold text-black mb-2">Programs Available:</h3>
                     <ul className="space-y-1">
                       {industry.programs.map((program: any) => (
-                        <li
-                          key={program}
-                          className="text-sm text-black flex items-center gap-2"
-                        >
+                        <li key={program} className="text-sm text-black flex items-center gap-2">
                           <span className="text-brand-green-600">•</span>
                           {program}
                         </li>
@@ -191,8 +178,7 @@ export default function IndustriesPage() {
             Ready to Start Your Career?
           </h2>
           <p className="text-xl text-black mb-8">
-            Apply today and we'll help you find the right program for your
-            goals.
+            Apply today and we'll help you find the right program for your goals.
           </p>
           <Link
             href="/start"

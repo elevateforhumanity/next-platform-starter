@@ -1,4 +1,5 @@
 # Certified Peer Support Professional
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** PEER-SUPPORT  
 **Duration:** 6-8 Weeks (120-160 Hours)  
 **Delivery Method:** Hybrid (Classroom + Practicum)  
-**Funding:** WIOA • JRI  
+**Funding:** WIOA • JRI
 
 ---
 
@@ -32,6 +33,7 @@ Make a difference in recovery! Train to provide peer support services in behavio
 ## Course Outline
 
 ### Module 1: Introduction to Peer Support (20 hours)
+
 - History and philosophy of peer support
 - Recovery-oriented systems of care
 - Peer support core competencies
@@ -40,6 +42,7 @@ Make a difference in recovery! Train to provide peer support services in behavio
 - Cultural competency
 
 ### Module 2: Mental Health & Behavioral Health (25 hours)
+
 - Mental health conditions overview
 - Co-occurring disorders
 - Trauma and its effects
@@ -48,6 +51,7 @@ Make a difference in recovery! Train to provide peer support services in behavio
 - Person-centered care
 
 ### Module 3: Trauma-Informed Care (20 hours)
+
 - Understanding trauma
 - Trauma-informed principles
 - Creating safe environments
@@ -56,6 +60,7 @@ Make a difference in recovery! Train to provide peer support services in behavio
 - Resilience and healing
 
 ### Module 4: Peer Support Skills (25 hours)
+
 - Active listening and empathy
 - Motivational interviewing basics
 - Goal setting and action planning
@@ -64,6 +69,7 @@ Make a difference in recovery! Train to provide peer support services in behavio
 - Recovery planning
 
 ### Module 5: Crisis Intervention (20 hours)
+
 - Recognizing crisis situations
 - De-escalation techniques
 - Safety assessment
@@ -72,6 +78,7 @@ Make a difference in recovery! Train to provide peer support services in behavio
 - Emergency resources
 
 ### Module 6: Community Resources & Navigation (15 hours)
+
 - Mental health services
 - Substance use treatment
 - Housing and employment resources
@@ -80,6 +87,7 @@ Make a difference in recovery! Train to provide peer support services in behavio
 - Support groups and recovery communities
 
 ### Module 7: Professional Practice (15 hours)
+
 - HIPAA and confidentiality
 - Documentation and record keeping
 - Working within treatment teams
@@ -88,6 +96,7 @@ Make a difference in recovery! Train to provide peer support services in behavio
 - Certification requirements
 
 ### Module 8: Supervised Practicum (20-40 hours)
+
 - Observation of peer support services
 - Supervised client interactions
 - Case study discussions
@@ -110,6 +119,7 @@ Make a difference in recovery! Train to provide peer support services in behavio
 ## Certification Preparation
 
 Program prepares students for:
+
 - **Indiana Certified Peer Support Specialist** - Indiana DMHA
 - **National Certified Peer Specialist (NCPS)** - Mental Health America
 
@@ -171,6 +181,7 @@ Program prepares students for:
 ## Indiana Certification Requirements
 
 To apply for state certification, candidates must:
+
 1. Be at least 18 years old
 2. Have high school diploma or equivalent
 3. Have lived experience with mental health or recovery

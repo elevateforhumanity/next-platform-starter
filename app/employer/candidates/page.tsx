@@ -14,9 +14,10 @@ export const dynamic = 'force-dynamic';
 export default async function CandidatesPage() {
   const supabase = await createClient();
 
-
   // Auth check
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const { data: profile } = await supabase
@@ -32,7 +33,8 @@ export default async function CandidatesPage() {
   // Get completed/graduated candidates only — not all students
   const { data: enrollments } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       id,
       user_id,
       progress_percent,
@@ -41,7 +43,8 @@ export default async function CandidatesPage() {
         id,
         title
       )
-    `)
+    `,
+    )
     .eq('progress_percent', 100)
     .order('completed_at', { ascending: false })
     .limit(50);
@@ -49,7 +52,10 @@ export default async function CandidatesPage() {
   // Hydrate profiles separately (user_id → auth.users, no FK to profiles)
   const userIds = [...new Set((enrollments ?? []).map((e: any) => e.user_id).filter(Boolean))];
   const { data: profileRows } = userIds.length
-    ? await supabase.from('profiles').select('id, full_name, email, phone, city, state').in('id', userIds)
+    ? await supabase
+        .from('profiles')
+        .select('id, full_name, email, phone, city, state')
+        .in('id', userIds)
     : { data: [] };
   const profileMap = Object.fromEntries((profileRows ?? []).map((p: any) => [p.id, p]));
 
@@ -155,7 +161,7 @@ export default async function CandidatesPage() {
                       )}
                     </div>
                   </div>
-                  
+
                   <div className="flex gap-2">
                     {profile.verified ? (
                       <>

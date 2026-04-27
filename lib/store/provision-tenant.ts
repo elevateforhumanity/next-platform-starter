@@ -48,7 +48,9 @@ function generateSlug(name: string): string {
  * Provision a new tenant after license purchase
  * Creates: tenant record, admin user, sends credentials
  */
-export async function provisionTenant(params: ProvisionTenantParams): Promise<TenantProvisioningResult> {
+export async function provisionTenant(
+  params: ProvisionTenantParams,
+): Promise<TenantProvisioningResult> {
   const { email, organizationName, productId, licenseId, stripeEventId } = params;
   const supabase = await getAdminClient();
 
@@ -63,7 +65,10 @@ export async function provisionTenant(params: ProvisionTenantParams): Promise<Te
       .maybeSingle();
 
     if (existingProfile?.tenant_id) {
-      logger.info('Tenant already exists for email', { email, tenantId: existingProfile.tenant_id });
+      logger.info('Tenant already exists for email', {
+        email,
+        tenantId: existingProfile.tenant_id,
+      });
       return {
         success: true,
         tenantId: existingProfile.tenant_id,
@@ -96,10 +101,7 @@ export async function provisionTenant(params: ProvisionTenantParams): Promise<Te
     }
 
     // Update license with tenant_id
-    await supabase
-      .from('licenses')
-      .update({ tenant_id: tenant.id })
-      .eq('id', licenseId);
+    await supabase.from('licenses').update({ tenant_id: tenant.id }).eq('id', licenseId);
 
     // Check if user already exists in auth
     const { data: existingUser } = await supabase.auth.admin.getUserByEmail(email);
@@ -110,7 +112,7 @@ export async function provisionTenant(params: ProvisionTenantParams): Promise<Te
     if (existingUser?.user) {
       // User exists - update their profile with tenant
       adminUserId = existingUser.user.id;
-      
+
       await supabase
         .from('profiles')
         .update({
@@ -118,7 +120,6 @@ export async function provisionTenant(params: ProvisionTenantParams): Promise<Te
           role: 'admin',
         })
         .eq('id', adminUserId);
-
     } else {
       // Create new admin user
       temporaryPassword = generateTemporaryPassword();
@@ -173,9 +174,9 @@ export async function provisionTenant(params: ProvisionTenantParams): Promise<Te
       await fetch(`${process.env.NEXT_PUBLIC_SITE_URL}/api/email/send`, {
         method: 'POST',
         headers: {
-        'Content-Type': 'application/json',
-        'x-internal-secret': process.env.CRON_SECRET ?? '',
-      },
+          'Content-Type': 'application/json',
+          'x-internal-secret': process.env.CRON_SECRET ?? '',
+        },
         body: JSON.stringify({
           to: email,
           subject: 'Your Elevate Platform is Ready',
@@ -207,7 +208,6 @@ export async function provisionTenant(params: ProvisionTenantParams): Promise<Te
       adminUserId,
       temporaryPassword,
     };
-
   } catch (error) {
     logger.error('Tenant provisioning failed', error as Error);
     return {
@@ -227,6 +227,6 @@ export async function isLicenseProvisioned(licenseId: string): Promise<boolean> 
     .select('tenant_id')
     .eq('id', licenseId)
     .maybeSingle();
-  
+
   return !!data?.tenant_id;
 }

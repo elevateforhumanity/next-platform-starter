@@ -16,36 +16,21 @@
       },
       {
         "prompt": "How many hours of apprenticeship are required to become a licensed barber in Indiana?",
-        "choices": [
-          "1000 hours",
-          "1200 hours",
-          "1500 hours",
-          "2000 hours"
-        ],
+        "choices": ["1000 hours", "1200 hours", "1500 hours", "2000 hours"],
         "answerIndex": 2,
         "rationale": "Indiana requires a 1500-hour apprenticeship program to ensure comprehensive training for aspiring barbers.",
         "type": "recall"
       },
       {
         "prompt": "How often must a barber renew their license in Indiana?",
-        "choices": [
-          "Every two years",
-          "Every three years",
-          "Every four years",
-          "Every five years"
-        ],
+        "choices": ["Every two years", "Every three years", "Every four years", "Every five years"],
         "answerIndex": 2,
         "rationale": "Barber licenses in Indiana must be renewed every four years, along with completing the required continuing education.",
         "type": "recall"
       },
       {
         "prompt": "Which of the following services is outside the scope of practice for a licensed barber in Indiana?",
-        "choices": [
-          "Hair cutting",
-          "Shaving",
-          "Chemical hair treatments",
-          "Styling"
-        ],
+        "choices": ["Hair cutting", "Shaving", "Chemical hair treatments", "Styling"],
         "answerIndex": 2,
         "rationale": "Chemical hair treatments require additional licensure or certification and are outside the scope of practice for barbers.",
         "type": "recall"

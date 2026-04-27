@@ -38,7 +38,7 @@ export async function getActivePositions(): Promise<JobPosition[]> {
       `
       *,
       department:departments(name)
-    `
+    `,
     )
     .eq('is_active', true)
     .order('created_at', { ascending: false });
@@ -63,7 +63,7 @@ export async function getPositionById(id: string): Promise<JobPosition | null> {
       `
       *,
       department:departments(name)
-    `
+    `,
     )
     .eq('id', id)
     .eq('is_active', true)
@@ -80,9 +80,7 @@ export async function getPositionById(id: string): Promise<JobPosition | null> {
 /**
  * Get positions by department
  */
-export async function getPositionsByDepartment(
-  departmentId: string
-): Promise<JobPosition[]> {
+export async function getPositionsByDepartment(departmentId: string): Promise<JobPosition[]> {
   const supabase = await createClient();
 
   const { data, error }: any = await supabase
@@ -91,7 +89,7 @@ export async function getPositionsByDepartment(
       `
       *,
       department:departments(name)
-    `
+    `,
     )
     .eq('department_id', departmentId)
     .eq('is_active', true)
@@ -108,9 +106,7 @@ export async function getPositionsByDepartment(
 /**
  * Get positions by employment type
  */
-export async function getPositionsByType(
-  employmentType: string
-): Promise<JobPosition[]> {
+export async function getPositionsByType(employmentType: string): Promise<JobPosition[]> {
   const supabase = await createClient();
 
   const { data, error }: any = await supabase
@@ -119,7 +115,7 @@ export async function getPositionsByType(
       `
       *,
       department:departments(name)
-    `
+    `,
     )
     .eq('employment_type', employmentType)
     .eq('is_active', true)
@@ -136,10 +132,7 @@ export async function getPositionsByType(
 /**
  * Format salary range
  */
-export function formatSalaryRange(
-  minSalary: number | null,
-  maxSalary: number | null
-): string {
+export function formatSalaryRange(minSalary: number | null, maxSalary: number | null): string {
   if (!minSalary && !maxSalary) return 'Competitive';
 
   const formatter = new Intl.NumberFormat('en-US', {

@@ -27,7 +27,7 @@ describe('Indiana ETPL Standards', () => {
       0.65, // 65% credential rate
       5000, // $5,000 wage gain
       25, // 25 students
-      0.95 // 95% data quality
+      0.95, // 95% data quality
     );
 
     expect(result.meets).toBe(true);
@@ -40,12 +40,12 @@ describe('Indiana ETPL Standards', () => {
       0.65, // 65% credential rate
       5000, // $5,000 wage gain
       25, // 25 students
-      0.95 // 95% data quality
+      0.95, // 95% data quality
     );
 
     expect(result.meets).toBe(false);
     expect(result.failures).toEqual(
-      expect.arrayContaining([expect.stringContaining('Employment rate')])
+      expect.arrayContaining([expect.stringContaining('Employment rate')]),
     );
   });
 
@@ -55,12 +55,12 @@ describe('Indiana ETPL Standards', () => {
       0.55, // 55% credential rate (below 60% minimum)
       5000, // $5,000 wage gain
       25, // 25 students
-      0.95 // 95% data quality
+      0.95, // 95% data quality
     );
 
     expect(result.meets).toBe(false);
     expect(result.failures).toEqual(
-      expect.arrayContaining([expect.stringContaining('Credential rate')])
+      expect.arrayContaining([expect.stringContaining('Credential rate')]),
     );
   });
 
@@ -70,7 +70,7 @@ describe('Indiana ETPL Standards', () => {
       0.45, // 45% credential rate (below 60%)
       -1000, // Negative wage gain
       5, // 5 students (below 10 minimum)
-      0.75 // 75% data quality (below 90%)
+      0.75, // 75% data quality (below 90%)
     );
 
     expect(result.meets).toBe(false);
@@ -85,7 +85,7 @@ describe('Indiana Performance Alerts', () => {
       0.45, // 45% credential rate (critically below 50%)
       -1000, // Negative wage gain
       5, // 5 students
-      0.75 // 75% data quality (critically below 80%)
+      0.75, // 75% data quality (critically below 80%)
     );
 
     expect(result.needsAlert).toBe(true);
@@ -99,7 +99,7 @@ describe('Indiana Performance Alerts', () => {
       0.58, // 58% credential rate (below 60% but above 50%)
       5000, // Positive wage gain
       25, // 25 students
-      0.92 // 92% data quality (above 90% threshold)
+      0.92, // 92% data quality (above 90% threshold)
     );
 
     expect(result.needsAlert).toBe(true);
@@ -112,7 +112,7 @@ describe('Indiana Performance Alerts', () => {
       0.7, // 70% credential rate
       8000, // $8,000 wage gain
       50, // 50 students
-      0.95 // 95% data quality
+      0.95, // 95% data quality
     );
 
     expect(result.needsAlert).toBe(false);
@@ -205,26 +205,14 @@ describe('Indiana Reporting Schedules', () => {
 describe('Indiana Alert Scenarios', () => {
   test('Scenario 1: New program holder - all compliant', () => {
     // Program holder just started, all metrics good
-    const performanceCheck = checkIndianaPerformanceStandards(
-      0.8,
-      0.7,
-      8000,
-      30,
-      0.95
-    );
+    const performanceCheck = checkIndianaPerformanceStandards(0.8, 0.7, 8000, 30, 0.95);
 
     expect(performanceCheck.needsAlert).toBe(false);
   });
 
   test('Scenario 2: Program holder with declining performance', () => {
     // Employment rate dropping below threshold
-    const performanceCheck = checkIndianaPerformanceStandards(
-      0.68,
-      0.65,
-      5000,
-      25,
-      0.92
-    );
+    const performanceCheck = checkIndianaPerformanceStandards(0.68, 0.65, 5000, 25, 0.92);
 
     expect(performanceCheck.needsAlert).toBe(true);
     expect(performanceCheck.alertLevel).toBe('warning');
@@ -232,13 +220,7 @@ describe('Indiana Alert Scenarios', () => {
 
   test('Scenario 3: Program holder with critical performance', () => {
     // Multiple metrics critically low
-    const performanceCheck = checkIndianaPerformanceStandards(
-      0.55,
-      0.45,
-      -500,
-      8,
-      0.75
-    );
+    const performanceCheck = checkIndianaPerformanceStandards(0.55, 0.45, -500, 8, 0.75);
 
     expect(performanceCheck.needsAlert).toBe(true);
     expect(performanceCheck.alertLevel).toBe('critical');
@@ -294,9 +276,7 @@ describe('Mass Scale Processing', () => {
 
   test('Can process 500 program holders in batches', () => {
     const totalProgramHolders = 500;
-    const expectedBatches = Math.ceil(
-      totalProgramHolders / BATCH_CONFIG.batchSize
-    );
+    const expectedBatches = Math.ceil(totalProgramHolders / BATCH_CONFIG.batchSize);
 
     expect(expectedBatches).toBe(10); // 500 / 50 = 10 batches
   });
@@ -304,38 +284,30 @@ describe('Mass Scale Processing', () => {
 
 describe('Indiana Email Templates', () => {
   test('Student data submission reminder template exists', () => {
-    expect(
-      INDIANA_EMAIL_TEMPLATES.student_data_submission_reminder
-    ).toBeDefined();
-    expect(
-      INDIANA_EMAIL_TEMPLATES.student_data_submission_reminder.subject
-    ).toContain('Student Data');
-    expect(
-      INDIANA_EMAIL_TEMPLATES.student_data_submission_reminder.body
-    ).toContain('INTraining Portal');
+    expect(INDIANA_EMAIL_TEMPLATES.student_data_submission_reminder).toBeDefined();
+    expect(INDIANA_EMAIL_TEMPLATES.student_data_submission_reminder.subject).toContain(
+      'Student Data',
+    );
+    expect(INDIANA_EMAIL_TEMPLATES.student_data_submission_reminder.body).toContain(
+      'INTraining Portal',
+    );
   });
 
   test('ETPL renewal reminder template exists', () => {
     expect(INDIANA_EMAIL_TEMPLATES.etpl_renewal_reminder).toBeDefined();
-    expect(INDIANA_EMAIL_TEMPLATES.etpl_renewal_reminder.body).toContain(
-      '70% employment rate'
-    );
-    expect(INDIANA_EMAIL_TEMPLATES.etpl_renewal_reminder.body).toContain(
-      '60% credential rate'
-    );
+    expect(INDIANA_EMAIL_TEMPLATES.etpl_renewal_reminder.body).toContain('70% employment rate');
+    expect(INDIANA_EMAIL_TEMPLATES.etpl_renewal_reminder.body).toContain('60% credential rate');
   });
 
   test('Performance below threshold template exists', () => {
     expect(INDIANA_EMAIL_TEMPLATES.performance_below_threshold).toBeDefined();
     expect(INDIANA_EMAIL_TEMPLATES.performance_below_threshold.body).toContain(
-      'Corrective Action Plan'
+      'Corrective Action Plan',
     );
   });
 
   test('Federal reporting overdue template exists', () => {
     expect(INDIANA_EMAIL_TEMPLATES.federal_reporting_overdue).toBeDefined();
-    expect(INDIANA_EMAIL_TEMPLATES.federal_reporting_overdue.body).toContain(
-      'immediate removal'
-    );
+    expect(INDIANA_EMAIL_TEMPLATES.federal_reporting_overdue.body).toContain('immediate removal');
   });
 });

@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
@@ -27,10 +26,9 @@ function progressFromRow(r: any) {
 }
 
 async function _GET(req: Request) {
-  
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -38,7 +36,11 @@ const supabase = await createClient();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  const { data: _roleProfile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: _roleProfile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!_roleProfile || !['admin', 'super_admin', 'staff'].includes(_roleProfile.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
@@ -57,15 +59,10 @@ const supabase = await createClient();
     .eq('id', user.id)
     .maybeSingle();
 
-  if (profErr)
-    return NextResponse.json({ error: 'Operation failed' }, { status: 500 });
+  if (profErr) return NextResponse.json({ error: 'Operation failed' }, { status: 500 });
 
   const orgId = prof?.organization_id;
-  if (!orgId)
-    return NextResponse.json(
-      { error: 'No active organization found' },
-      { status: 400 }
-    );
+  if (!orgId) return NextResponse.json({ error: 'No active organization found' }, { status: 400 });
 
   let query = adminClient
     .from('student_next_steps')
@@ -76,8 +73,7 @@ const supabase = await createClient();
   if (status) query = query.eq('funding_status', status);
 
   const { data: rawNextSteps, error } = await query;
-  if (error)
-    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
 
   // Hydrate profiles separately (user_id has no FK to profiles)
   const nsUserIds = [...new Set((rawNextSteps ?? []).map((r: any) => r.user_id).filter(Boolean))];
@@ -85,7 +81,10 @@ const supabase = await createClient();
     ? await adminClient.from('profiles').select('id, full_name, email').in('id', nsUserIds)
     : { data: [] };
   const nsProfileMap = Object.fromEntries((nsProfiles ?? []).map((p: any) => [p.id, p]));
-  const data = (rawNextSteps ?? []).map((r: any) => ({ ...r, profiles: nsProfileMap[r.user_id] ?? null }));
+  const data = (rawNextSteps ?? []).map((r: any) => ({
+    ...r,
+    profiles: nsProfileMap[r.user_id] ?? null,
+  }));
 
   let rows = data.map((r: any) => ({
     ...r,
@@ -99,9 +98,7 @@ const supabase = await createClient();
   if (q) {
     const ql = q.toLowerCase();
     rows = rows.filter((r: any) =>
-      `${r.student_name} ${r.student_email} ${r.program_name}`
-        .toLowerCase()
-        .includes(ql)
+      `${r.student_name} ${r.student_email} ${r.program_name}`.toLowerCase().includes(ql),
     );
   }
 
@@ -118,17 +115,11 @@ const supabase = await createClient();
   // Summary counts
   const summary = {
     total: rows.length,
-    funding_pending: rows.filter((r: any) => r.funding_status === 'pending')
-      .length,
-    funding_approved: rows.filter((r: any) => r.funding_status === 'approved')
-      .length,
-    funding_denied: rows.filter((r: any) => r.funding_status === 'denied')
-      .length,
-    appt_missing: rows.filter((r: any) => !r.workone_appointment_scheduled)
-      .length,
-    onboarding_missing: rows.filter(
-      (r: any) => !r.efh_onboarding_call_completed
-    ).length,
+    funding_pending: rows.filter((r: any) => r.funding_status === 'pending').length,
+    funding_approved: rows.filter((r: any) => r.funding_status === 'approved').length,
+    funding_denied: rows.filter((r: any) => r.funding_status === 'denied').length,
+    appt_missing: rows.filter((r: any) => !r.workone_appointment_scheduled).length,
+    onboarding_missing: rows.filter((r: any) => !r.efh_onboarding_call_completed).length,
     start_missing: rows.filter((r: any) => !r.program_start_confirmed).length,
   };
 

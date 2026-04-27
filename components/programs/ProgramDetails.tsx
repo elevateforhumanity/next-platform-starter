@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import type { Program } from '@/lib/types/program';
 import Link from 'next/link';
@@ -10,7 +10,6 @@ import ProgramFAQ from '@/components/program/ProgramFAQ';
 import CanonicalVideo from '@/components/video/CanonicalVideo';
 
 export function ProgramDetails({ program }: { program: Program }) {
-
   const isBarberProgram = program.slug === 'barber-apprenticeship';
   const programPrice = program.price || 0; // Use program price from data
 
@@ -25,9 +24,7 @@ export function ProgramDetails({ program }: { program: Program }) {
             {/* Appointment-Based Enrollment Banner */}
             <ProgramAppointmentBanner />
 
-            <h2 className="text-xl font-bold text-black mt-8">
-              What You&apos;ll Learn
-            </h2>
+            <h2 className="text-xl font-bold text-black mt-8">What You&apos;ll Learn</h2>
             <ul className="mt-3 list-disc space-y-2 pl-5 text-sm text-black">
               {program.whatYouLearn?.map((item, idx) => (
                 <li key={idx}>{item}</li>
@@ -58,9 +55,7 @@ export function ProgramDetails({ program }: { program: Program }) {
             <div className="space-y-2">
               <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-xs text-black">Duration</span>
-                <span className="text-sm font-semibold text-black">
-                  {program.duration}
-                </span>
+                <span className="text-sm font-semibold text-black">{program.duration}</span>
               </div>
               <div className="flex justify-between items-center py-2 border-b border-slate-100">
                 <span className="text-xs text-black">Cost</span>
@@ -74,15 +69,11 @@ export function ProgramDetails({ program }: { program: Program }) {
               </div>
               <div className="flex justify-between items-center py-2">
                 <span className="text-xs text-black">Level</span>
-                <span className="text-sm font-semibold text-black">
-                  Entry
-                </span>
+                <span className="text-sm font-semibold text-black">Entry</span>
               </div>
             </div>
 
-            <p className="text-xs text-slate-500 italic">
-              *No cost for most eligible students
-            </p>
+            <p className="text-xs text-slate-500 italic">*No cost for most eligible students</p>
 
             {isBarberProgram && (
               <div className="bg-brand-green-50 border border-brand-green-200 rounded-lg p-3 mt-4">
@@ -103,9 +94,8 @@ export function ProgramDetails({ program }: { program: Program }) {
                       Earn While You Learn
                     </p>
                     <p className="text-xs text-brand-green-800">
-                      Work in a real barbershop and get paid while completing
-                      your training. You can attend school while working at the
-                      shop!
+                      Work in a real barbershop and get paid while completing your training. You can
+                      attend school while working at the shop!
                     </p>
                   </div>
                 </div>
@@ -113,9 +103,7 @@ export function ProgramDetails({ program }: { program: Program }) {
             )}
 
             <div className="border-t border-slate-200 pt-4 mt-4">
-              <h4 className="text-xs font-bold text-black mb-3">
-                Ready to Apply?
-              </h4>
+              <h4 className="text-xs font-bold text-black mb-3">Ready to Apply?</h4>
               <a
                 href={`/apply?program=${program.slug}`}
                 className="block text-center rounded-lg bg-brand-orange-500 px-6 py-3 text-sm font-bold text-white hover:bg-brand-orange-600 transition-colors"
@@ -160,8 +148,8 @@ export function ProgramDetails({ program }: { program: Program }) {
                         {`Can't Wait for Funding? Pay in 4 with ${BNPL_PROVIDER_NAMES}`}
                       </p>
                       <p className="text-xs text-brand-blue-800">
-                        Start training immediately and split your payment into
-                        easy monthly installments with 0% APR options available.
+                        Start training immediately and split your payment into easy monthly
+                        installments with 0% APR options available.
                       </p>
                     </div>
                   </div>
@@ -237,19 +225,13 @@ export function ProgramDetails({ program }: { program: Program }) {
                     <div className="text-3xl font-bold text-brand-blue-600 mb-1">
                       ${programPrice.toLocaleString('en-US')}
                     </div>
-                    <div className="text-sm text-black">
-                      Total Program Cost
-                    </div>
+                    <div className="text-sm text-black">Total Program Cost</div>
                   </div>
                   <Link
                     href="/pay"
                     className="w-full inline-flex items-center justify-center gap-2 rounded-lg bg-emerald-600 px-6 py-4 text-base font-bold text-white hover:bg-emerald-700 transition-all shadow-lg hover:shadow-xl"
                   >
-                    <svg
-                      className="w-5 h-5"
-                      fill="currentColor"
-                      viewBox="0 0 20 20"
-                    >
+                    <svg className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20">
                       <path d="M4 4a2 2 0 00-2 2v1h16V6a2 2 0 00-2-2H4z" />
                       <path
                         fillRule="evenodd"
@@ -273,21 +255,17 @@ export function ProgramDetails({ program }: { program: Program }) {
                     >
                       <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z" />
                     </svg>
-                    <p className="text-xs font-bold text-purple-900">
-                      Premium Adaptive Checkout™
-                    </p>
+                    <p className="text-xs font-bold text-purple-900">Premium Adaptive Checkout™</p>
                   </div>
                   <p className="text-xs text-black mb-2">
                     <strong>Flexible Payment Options:</strong>
                   </p>
                   <ul className="text-xs text-black space-y-1 pl-4 list-disc">
                     <li>
-                      <strong>Pay in 4:</strong> Split into 4 interest-free
-                      payments
+                      <strong>Pay in 4:</strong> Split into 4 interest-free payments
                     </li>
                     <li>
-                      <strong>Monthly:</strong> 3-24 months at 0% APR (qualified
-                      buyers)
+                      <strong>Monthly:</strong> 3-24 months at 0% APR (qualified buyers)
                     </li>
                     <li>
                       <strong>Extended:</strong> Up to 36 months with low rates
@@ -295,7 +273,8 @@ export function ProgramDetails({ program }: { program: Program }) {
                   </ul>
                   <div className="mt-2 pt-2 border-t border-purple-200">
                     <p className="text-xs text-black">
-                      <strong>How it works:</strong> Click &quot;Pay Now&quot; → Select your BNPL provider at checkout → Get instant approval → Start training today
+                      <strong>How it works:</strong> Click &quot;Pay Now&quot; → Select your BNPL
+                      provider at checkout → Get instant approval → Start training today
                     </p>
                   </div>
                   <p className="text-xs text-slate-500 mt-2">

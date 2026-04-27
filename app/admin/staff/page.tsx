@@ -51,7 +51,10 @@ export default async function AdminStaffPage() {
         {/* Role breakdown */}
         <div className="flex flex-wrap gap-3">
           {Object.entries(byRole).map(([role, count]) => (
-            <span key={role} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-sm font-medium">
+            <span
+              key={role}
+              className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-sm font-medium"
+            >
               <Shield className="w-3.5 h-3.5" />
               {role} <span className="text-slate-400">({count})</span>
             </span>
@@ -84,27 +87,41 @@ export default async function AdminStaffPage() {
                         </Link>
                       </td>
                       <td className="px-6 py-4 text-slate-500">
-                        <a href={`mailto:${s.email}`} className="inline-flex items-center gap-1 hover:text-blue-600">
-                          <Mail className="w-3.5 h-3.5" />{s.email}
+                        <a
+                          href={`mailto:${s.email}`}
+                          className="inline-flex items-center gap-1 hover:text-blue-600"
+                        >
+                          <Mail className="w-3.5 h-3.5" />
+                          {s.email}
                         </a>
                       </td>
                       <td className="px-6 py-4">
                         <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-xs font-medium bg-purple-100 text-purple-700">
-                          <Shield className="w-3 h-3" />{s.role}
+                          <Shield className="w-3 h-3" />
+                          {s.role}
                         </span>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          s.is_active !== false ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'
-                        }`}>
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            s.is_active !== false
+                              ? 'bg-green-100 text-green-700'
+                              : 'bg-slate-100 text-slate-500'
+                          }`}
+                        >
                           {s.is_active !== false ? 'Active' : 'Inactive'}
                         </span>
                       </td>
                       <td className="px-6 py-4 text-slate-400 text-xs">
-                        {s.last_sign_in_at ? new Date(s.last_sign_in_at).toLocaleDateString() : 'Never'}
+                        {s.last_sign_in_at
+                          ? new Date(s.last_sign_in_at).toLocaleDateString()
+                          : 'Never'}
                       </td>
                       <td className="px-6 py-4">
-                        <Link href={`/admin/users/${s.id}`} className="text-blue-600 hover:underline text-sm">
+                        <Link
+                          href={`/admin/users/${s.id}`}
+                          className="text-blue-600 hover:underline text-sm"
+                        >
                           Manage
                         </Link>
                       </td>

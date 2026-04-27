@@ -16,8 +16,8 @@ export const maxDuration = 60;
  */
 
 export async function POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const {
@@ -41,10 +41,7 @@ export async function POST(request: NextRequest) {
 
   // Validate required fields
   if (!ssn || !firstName || !lastName || !dateOfBirth) {
-    return NextResponse.json(
-      { error: 'Missing required fields' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
 
   try {
@@ -85,10 +82,7 @@ export async function POST(request: NextRequest) {
       .maybeSingle();
 
     if (error) {
-      return NextResponse.json(
-        { error: 'Failed to save verification' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to save verification' }, { status: 500 });
     }
 
     // Update program holder verification status if SSN verified
@@ -107,9 +101,6 @@ export async function POST(request: NextRequest) {
       verification_id: verification.id,
     });
   } catch (error) {
-    return NextResponse.json(
-      { error: 'Verification failed. Please try again.' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Verification failed. Please try again.' }, { status: 500 });
   }
 }

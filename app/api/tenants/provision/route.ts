@@ -1,4 +1,3 @@
-
 import { getAdminClient } from '@/lib/supabase/admin';
 
 // app/api/tenants/provision/route.ts
@@ -14,8 +13,8 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(request: Request) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await getAdminClient();
   const session = await requireApiAuth();
@@ -23,20 +22,11 @@ async function _POST(request: Request) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const {
-    name,
-    slug,
-    primaryDomain,
-    maxActiveLearners,
-    maxCourses,
-    maxStorageGb,
-  } = await request.json();
+  const { name, slug, primaryDomain, maxActiveLearners, maxCourses, maxStorageGb } =
+    await request.json();
 
   if (!name || !slug) {
-    return NextResponse.json(
-      { error: 'name and slug are required' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'name and slug are required' }, { status: 400 });
   }
 
   const { data: tenant, error } = await supabase
@@ -53,10 +43,7 @@ async function _POST(request: Request) {
     .maybeSingle();
 
   if (error) {
-    return NextResponse.json(
-      { error: 'Failed to create tenant' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create tenant' }, { status: 500 });
   }
 
   await sendSlackMessage({

@@ -9,10 +9,7 @@ import { logAuditEvent, AuditActions } from '@/lib/audit';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export async function GET(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function GET(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
 
@@ -24,12 +21,14 @@ export async function GET(
 
   const { data, error } = await db
     .from('placement_records')
-    .select(`
+    .select(
+      `
       *, 
       learner:profiles!learner_id(id, full_name, email),
       employer:employers!employer_id(id, business_name, contact_name, email),
       program:programs!program_id(id, title, slug)
-    `)
+    `,
+    )
     .eq('id', id)
     .maybeSingle();
 
@@ -38,10 +37,7 @@ export async function GET(
   return NextResponse.json({ placement: data });
 }
 
-export async function PATCH(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
 
@@ -64,8 +60,15 @@ export async function PATCH(
 
   // Allowed update fields
   const allowed = [
-    'status', 'verification_source', 'verified_at', 'hourly_wage',
-    'annual_salary', 'employed_q2', 'employed_q4', 'median_earnings_q2', 'notes',
+    'status',
+    'verification_source',
+    'verified_at',
+    'hourly_wage',
+    'annual_salary',
+    'employed_q2',
+    'employed_q4',
+    'median_earnings_q2',
+    'notes',
   ];
   const updates: Record<string, any> = {};
   for (const key of allowed) {

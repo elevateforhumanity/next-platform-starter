@@ -6,9 +6,15 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 async function guardAdmin() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
@@ -16,10 +22,9 @@ async function guardAdmin() {
 }
 
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const denied = await guardAdmin();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const denied = await guardAdmin();
   if (denied) return denied;
   const { searchParams } = new URL(request.url);
   const format = searchParams.get('format') || 'html';
@@ -173,23 +178,33 @@ function generateCatalogHtml(programList: any[]) {
     <div class="toc">
       <h2>Table of Contents</h2>
       <ul>
-        ${programList.map((p, i) => `
+        ${programList
+          .map(
+            (p, i) => `
           <li><a href="#program-${i}">${p.name}</a></li>
-        `).join('')}
+        `,
+          )
+          .join('')}
       </ul>
     </div>
     
     <div class="page-break"></div>
     
-    ${programList.map((program, i) => `
+    ${programList
+      .map(
+        (program, i) => `
       <div class="program" id="program-${i}">
         <h2>${program.title || program.name || ''}</h2>
         <div class="program-meta">
-          ${program.clock_hours ? `
+          ${
+            program.clock_hours
+              ? `
           <div class="meta-item">
             <div class="meta-label">Clock Hours</div>
             <div class="meta-value highlight">${program.clock_hours} hours</div>
-          </div>` : ''}
+          </div>`
+              : ''
+          }
           <div class="meta-item">
             <div class="meta-label">Credential</div>
             <div class="meta-value">${program.credential || 'Certificate of Completion'}</div>
@@ -200,7 +215,9 @@ function generateCatalogHtml(programList: any[]) {
         </div>
       </div>
       ${(i + 1) % 2 === 0 ? '<div class="page-break"></div>' : ''}
-    `).join('')}
+    `,
+      )
+      .join('')}
     
     <div class="footer">
       <p><strong>Elevate For Humanity</strong></p>

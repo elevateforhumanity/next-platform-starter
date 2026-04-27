@@ -58,7 +58,7 @@ export default function SupportForm() {
   return (
     <div className="bg-white rounded-xl shadow-sm border p-8">
       <h2 className="text-xl font-bold mb-6">Submit a Support Request</h2>
-      
+
       {status === 'error' && (
         <div className="mb-4 p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg flex items-start gap-3">
           <AlertCircle className="w-5 h-5 text-brand-red-500 flex-shrink-0 mt-0.5" />

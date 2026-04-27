@@ -37,7 +37,7 @@ async function _POST(request: NextRequest) {
     if (!profile || profile.role !== 'program_holder') {
       return NextResponse.json(
         { error: 'Forbidden - Program holder access required' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -49,10 +49,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (phError || !programHolder) {
-      return NextResponse.json(
-        { error: 'Program holder record not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Program holder record not found' }, { status: 404 });
     }
 
     // Parse request body
@@ -60,10 +57,7 @@ async function _POST(request: NextRequest) {
     const { enrollment_id } = body;
 
     if (!enrollment_id) {
-      return NextResponse.json(
-        { error: 'Missing required field: enrollment_id' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required field: enrollment_id' }, { status: 400 });
     }
 
     // Verify the enrollment belongs to this program holder
@@ -75,10 +69,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (enrollmentError || !enrollment) {
-      return NextResponse.json(
-        { error: 'Enrollment not found or access denied' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Enrollment not found or access denied' }, { status: 404 });
     }
 
     // Update enrollment status to active
@@ -94,10 +85,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (updateError) {
-      return NextResponse.json(
-        { error: 'Failed to accept student' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to accept student' }, { status: 500 });
     }
 
     // Log the action
@@ -130,7 +118,7 @@ async function _POST(request: NextRequest) {
       sendStudentAcceptanceNotification(
         studentProfile.email,
         studentProfile.full_name || 'Student',
-        phProfile?.full_name || 'Program Holder'
+        phProfile?.full_name || 'Program Holder',
       ).catch(() => {});
     }
 
@@ -140,13 +128,10 @@ async function _POST(request: NextRequest) {
         message: 'Student accepted successfully',
         enrollment: updated,
       },
-      { status: 200 }
+      { status: 200 },
     );
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/program-holder/students/accept', _POST);

@@ -8,12 +8,10 @@ import { BookOpen, Award, Briefcase } from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: {
-    canonical:
-      'https://www.elevateforhumanity.org/workforce-board/supportive-services',
+    canonical: 'https://www.elevateforhumanity.org/workforce-board/supportive-services',
   },
   title: 'Supportive Services | Elevate For Humanity',
-  description:
-    'Manage supportive services for program participants.',
+  description: 'Manage supportive services for program participants.',
 };
 
 export default function SupportiveServicesPage() {
@@ -21,11 +19,17 @@ export default function SupportiveServicesPage() {
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Workforce Board", href: "/workforce-board" }, { label: "Supportive Services" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[
+            { label: 'Workforce Board', href: '/workforce-board' },
+            { label: 'Supportive Services' },
+          ]}
+        />
       </div>
-{/* Hero Section */}
+      {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/workforce-board-page-6.jpg"
           alt="Supportive Services"
@@ -47,8 +51,8 @@ export default function SupportiveServicesPage() {
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Supportive Services</h2>
                 <p className="text-black mb-6">
                   Supportive services help remove barriers to participation — including
-                  transportation assistance, childcare support, and emergency funds for
-                  eligible workforce training participants.
+                  transportation assistance, childcare support, and emergency funds for eligible
+                  workforce training participants.
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start">
@@ -107,8 +111,8 @@ export default function SupportiveServicesPage() {
               Need Supportive Services?
             </h2>
             <p className="text-base md:text-lg text-white/90 mb-8">
-              Contact our team to learn about available supportive services
-              or apply for workforce training assistance.
+              Contact our team to learn about available supportive services or apply for workforce
+              training assistance.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link

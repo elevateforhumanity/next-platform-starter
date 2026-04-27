@@ -14,7 +14,12 @@ export const dynamic = 'force-dynamic';
 
 export const POST = withAuth(
   async (req: NextRequest, ctx) => {
-    const auditBase = { endpoint: '/api/admin/fix-enrollment-policies', method: 'POST', actor_type: 'user' as const, actor_id: ctx?.user?.id ?? null };
+    const auditBase = {
+      endpoint: '/api/admin/fix-enrollment-policies',
+      method: 'POST',
+      actor_type: 'user' as const,
+      actor_id: ctx?.user?.id ?? null,
+    };
     try {
       const supabase = await createClient();
 
@@ -64,14 +69,23 @@ export const POST = withAuth(
 
       if (error) {
         logger.error('Policy fix error:', error);
-        await writeApiAuditEvent({ ...auditBase, result: 'error', status_code: 500, error_summary: error.message?.slice(0, 200) });
-        return NextResponse.json(
-          { error: 'Internal server error' },
-          { status: 500 }
-        );
+        await writeApiAuditEvent({
+          ...auditBase,
+          result: 'error',
+          status_code: 500,
+          error_summary: error.message?.slice(0, 200),
+        });
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
       }
 
-      await logAdminAudit({ action: AdminAction.ENROLLMENT_POLICIES_FIXED, actorId: ctx?.user?.id, entityType: 'rls_policies', entityId: BULK_ENTITY_ID, metadata: {}, req });
+      await logAdminAudit({
+        action: AdminAction.ENROLLMENT_POLICIES_FIXED,
+        actorId: ctx?.user?.id,
+        entityType: 'rls_policies',
+        entityId: BULK_ENTITY_ID,
+        metadata: {},
+        req,
+      });
       await writeApiAuditEvent({ ...auditBase, result: 'success', status_code: 200 });
       return NextResponse.json({
         success: true,
@@ -79,12 +93,14 @@ export const POST = withAuth(
       });
     } catch (err: any) {
       logger.error('Fix enrollment policies error:', err);
-      await writeApiAuditEvent({ ...auditBase, result: 'error', status_code: 500, error_summary: err?.message?.slice(0, 200) });
-      return NextResponse.json(
-        { error: 'Internal server error' },
-        { status: 500 }
-      );
+      await writeApiAuditEvent({
+        ...auditBase,
+        result: 'error',
+        status_code: 500,
+        error_summary: err?.message?.slice(0, 200),
+      });
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
     }
   },
-  { roles: ['admin', 'super_admin'] }
+  { roles: ['admin', 'super_admin'] },
 );

@@ -1,4 +1,4 @@
-import { logger } from "@/lib/logger";
+import { logger } from '@/lib/logger';
 import { NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
@@ -36,7 +36,10 @@ async function _POST(request: Request) {
     }
 
     if (snapshot.status === 'no_new_rows') {
-      return NextResponse.json({ status: 'no_new_rows', message: 'No new audit entries since last export' });
+      return NextResponse.json({
+        status: 'no_new_rows',
+        message: 'No new audit entries since last export',
+      });
     }
 
     // Step 2: Fetch the actual rows
@@ -93,10 +96,7 @@ async function _POST(request: Request) {
     });
   } catch (e) {
     logger.error('Audit export failed', e instanceof Error ? e : undefined);
-    return NextResponse.json(
-      { error: 'Export failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Export failed' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/admin/audit-export', _POST);

@@ -88,9 +88,15 @@ import { TaxReturn } from './types';
 const taxReturn: TaxReturn = {
   taxYear: 2024,
   filingStatus: 'single',
-  taxpayer: { /* ... */ },
-  w2Income: [{ /* ... */ }],
-  deductionType: 'standard'
+  taxpayer: {
+    /* ... */
+  },
+  w2Income: [
+    {
+      /* ... */
+    },
+  ],
+  deductionType: 'standard',
 };
 
 const result = calculateForm1040(taxReturn);
@@ -145,25 +151,25 @@ console.log(formatCertificationReport(report));
 
 ### 2024 Tax Brackets (Single)
 
-| Income Range | Rate | Base Tax |
-|-------------|------|----------|
-| $0 - $11,600 | 10% | $0 |
-| $11,600 - $47,150 | 12% | $1,160 |
-| $47,150 - $100,525 | 22% | $5,426 |
-| $100,525 - $191,950 | 24% | $17,168.50 |
-| $191,950 - $243,725 | 32% | $39,110.50 |
-| $243,725 - $609,350 | 35% | $55,678.50 |
-| $609,350+ | 37% | $183,647.25 |
+| Income Range        | Rate | Base Tax    |
+| ------------------- | ---- | ----------- |
+| $0 - $11,600        | 10%  | $0          |
+| $11,600 - $47,150   | 12%  | $1,160      |
+| $47,150 - $100,525  | 22%  | $5,426      |
+| $100,525 - $191,950 | 24%  | $17,168.50  |
+| $191,950 - $243,725 | 32%  | $39,110.50  |
+| $243,725 - $609,350 | 35%  | $55,678.50  |
+| $609,350+           | 37%  | $183,647.25 |
 
 ### 2024 Standard Deductions
 
-| Filing Status | Deduction |
-|--------------|-----------|
-| Single | $14,600 |
-| Married Filing Jointly | $29,200 |
-| Married Filing Separately | $14,600 |
-| Head of Household | $21,900 |
-| Qualifying Surviving Spouse | $29,200 |
+| Filing Status               | Deduction |
+| --------------------------- | --------- |
+| Single                      | $14,600   |
+| Married Filing Jointly      | $29,200   |
+| Married Filing Separately   | $14,600   |
+| Head of Household           | $21,900   |
+| Qualifying Surviving Spouse | $29,200   |
 
 ## IRS Rejection Codes
 

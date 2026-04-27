@@ -20,25 +20,22 @@ async function _POST(request: NextRequest) {
 
     // Option 1: ElevenLabs API (Premium, best quality)
     if (process.env.ELEVENLABS_API_KEY) {
-      const response = await fetch(
-        `https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`,
-        {
-          method: 'POST',
-          headers: {
-            Accept: 'audio/mpeg',
-            'Content-Type': 'application/json',
-            'xi-api-key': process.env.ELEVENLABS_API_KEY,
+      const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
+        method: 'POST',
+        headers: {
+          Accept: 'audio/mpeg',
+          'Content-Type': 'application/json',
+          'xi-api-key': process.env.ELEVENLABS_API_KEY,
+        },
+        body: JSON.stringify({
+          text,
+          model_id: 'eleven_monolingual_v1',
+          voice_settings: {
+            stability: 0.5,
+            similarity_boost: 0.5,
           },
-          body: JSON.stringify({
-            text,
-            model_id: 'eleven_monolingual_v1',
-            voice_settings: {
-              stability: 0.5,
-              similarity_boost: 0.5,
-            },
-          }),
-        }
-      );
+        }),
+      });
 
       if (!response.ok) {
         return NextResponse.json({ error: 'ElevenLabs API error' }, { status: 500 });
@@ -74,7 +71,7 @@ async function _POST(request: NextRequest) {
               pitch: 0,
             },
           }),
-        }
+        },
       );
 
       const data = await response.json();
@@ -98,12 +95,12 @@ async function _POST(request: NextRequest) {
           'No TTS API configured. Add ELEVENLABS_API_KEY or GOOGLE_CLOUD_API_KEY to environment variables.',
         fallback: 'Browser speech synthesis will be used instead.',
       },
-      { status: 503 }
+      { status: 503 },
     );
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Text-to-speech error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
   }

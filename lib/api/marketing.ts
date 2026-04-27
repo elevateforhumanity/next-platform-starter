@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 
 /**
  * Marketing Page API
- * 
+ *
  * Strict rendering rules:
  * - 404 if page not published
  * - Error if hero missing (dev), 404 (prod)
@@ -43,7 +43,8 @@ export async function getMarketingPageBySlug(slug: string): Promise<MarketingPag
 
   const { data: page, error } = await supabase
     .from('marketing_pages')
-    .select(`
+    .select(
+      `
       id,
       slug,
       title,
@@ -54,7 +55,8 @@ export async function getMarketingPageBySlug(slug: string): Promise<MarketingPag
       hero_video_src,
       meta_title,
       meta_description
-    `)
+    `,
+    )
     .eq('slug', slug)
     .eq('published', true)
     .maybeSingle();

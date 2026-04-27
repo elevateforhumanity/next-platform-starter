@@ -9,7 +9,10 @@ const ADMIN_ROLES = ['admin', 'super_admin', 'staff'];
 export async function reviewDocument(docId: string, approved: boolean, notes?: string) {
   // ── 1. AUTH ────────────────────────────────────────────────────────
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError) throw new Error('Auth failed');
   if (!user) return { error: 'Not authenticated' };
 
@@ -70,12 +73,17 @@ export async function reviewDocument(docId: string, approved: boolean, notes?: s
  * Generate a signed URL for a program_holder_documents file.
  * Calls the dedicated API endpoint which handles auth, audit, and storage access.
  */
-export async function getSignedDocumentUrl(filePath: string): Promise<{ url: string | null; error: string | null }> {
+export async function getSignedDocumentUrl(
+  filePath: string,
+): Promise<{ url: string | null; error: string | null }> {
   const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
   try {
     const { cookies } = await import('next/headers');
     const cookieStore = await cookies();
-    const cookieHeader = cookieStore.getAll().map(c => `${c.name}=${c.value}`).join('; ');
+    const cookieHeader = cookieStore
+      .getAll()
+      .map((c) => `${c.name}=${c.value}`)
+      .join('; ');
 
     const res = await fetch(`${siteUrl}/api/admin/program-holder-documents/signed-url`, {
       method: 'POST',

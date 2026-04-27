@@ -3,7 +3,7 @@ import { CorrelationContext } from './correlation';
 
 /**
  * STEP 6D: Sentry integration for observability
- * 
+ *
  * Tags all events with:
  * - tenant_id
  * - payment_intent_id
@@ -25,15 +25,12 @@ interface JobErrorContext {
 /**
  * Capture job failure with full context
  */
-export function captureJobError(
-  error: Error,
-  context: JobErrorContext
-): void {
+export function captureJobError(error: Error, context: JobErrorContext): void {
   Sentry.withScope((scope) => {
     // Set tags for filtering
     scope.setTag('job_type', context.jobType);
     scope.setTag('correlation_id', context.correlationId);
-    
+
     if (context.tenantId) {
       scope.setTag('tenant_id', context.tenantId);
     }
@@ -43,18 +40,14 @@ export function captureJobError(
     if (context.stripeEventId) {
       scope.setTag('stripe_event_id', context.stripeEventId);
     }
-    
+
     // Set extra context
     scope.setExtra('job_id', context.jobId);
     scope.setExtra('attempt', context.attempt || 1);
-    
+
     // Set fingerprint for grouping
-    scope.setFingerprint([
-      context.jobType,
-      error.name,
-      error.message.substring(0, 50),
-    ]);
-    
+    scope.setFingerprint([context.jobType, error.name, error.message.substring(0, 50)]);
+
     Sentry.captureException(error);
   });
 }
@@ -65,12 +58,12 @@ export function captureJobError(
 export function captureWebhookError(
   error: Error,
   correlation: CorrelationContext,
-  eventType: string
+  eventType: string,
 ): void {
   Sentry.withScope((scope) => {
     scope.setTag('webhook_event_type', eventType);
     scope.setTag('correlation_id', correlation.correlationId);
-    
+
     if (correlation.stripeEventId) {
       scope.setTag('stripe_event_id', correlation.stripeEventId);
     }
@@ -80,9 +73,9 @@ export function captureWebhookError(
     if (correlation.tenantId) {
       scope.setTag('tenant_id', correlation.tenantId);
     }
-    
+
     scope.setFingerprint(['webhook', eventType, error.name]);
-    
+
     Sentry.captureException(error);
   });
 }
@@ -96,18 +89,15 @@ export function captureDeadLetter(context: JobErrorContext): void {
     scope.setTag('dead_letter', 'true');
     scope.setTag('job_type', context.jobType);
     scope.setTag('correlation_id', context.correlationId);
-    
+
     if (context.tenantId) {
       scope.setTag('tenant_id', context.tenantId);
     }
-    
+
     scope.setExtra('job_id', context.jobId);
     scope.setExtra('max_attempts_reached', true);
-    
-    Sentry.captureMessage(
-      `Dead letter: ${context.jobType} job failed after max attempts`,
-      'error'
-    );
+
+    Sentry.captureMessage(`Dead letter: ${context.jobType} job failed after max attempts`, 'error');
   });
 }
 
@@ -117,7 +107,7 @@ export function captureDeadLetter(context: JobErrorContext): void {
 export function addBreadcrumb(
   message: string,
   category: string,
-  data?: Record<string, unknown>
+  data?: Record<string, unknown>,
 ): void {
   Sentry.addBreadcrumb({
     message,

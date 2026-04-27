@@ -67,7 +67,7 @@ export async function createWebhook(
   options?: {
     description?: string;
     headers?: Record<string, string>;
-  }
+  },
 ): Promise<Webhook> {
   const supabase = await createClient();
 
@@ -100,10 +100,7 @@ export async function createWebhook(
 export async function getWebhooks(enabledOnly: boolean = false): Promise<Webhook[]> {
   const supabase = await createClient();
 
-  let query = supabase
-    .from('webhooks')
-    .select('*')
-    .order('created_at', { ascending: false });
+  let query = supabase.from('webhooks').select('*').order('created_at', { ascending: false });
 
   if (enabledOnly) {
     query = query.eq('enabled', true);
@@ -136,16 +133,10 @@ export async function getWebhook(webhookId: string): Promise<Webhook | null> {
 /**
  * Update webhook
  */
-export async function updateWebhook(
-  webhookId: string,
-  updates: Partial<Webhook>
-): Promise<void> {
+export async function updateWebhook(webhookId: string, updates: Partial<Webhook>): Promise<void> {
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .from('webhooks')
-    .update(updates)
-    .eq('id', webhookId);
+  const { error } = await supabase.from('webhooks').update(updates).eq('id', webhookId);
 
   if (error) throw error;
 }
@@ -156,10 +147,7 @@ export async function updateWebhook(
 export async function deleteWebhook(webhookId: string): Promise<void> {
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .from('webhooks')
-    .delete()
-    .eq('id', webhookId);
+  const { error } = await supabase.from('webhooks').delete().eq('id', webhookId);
 
   if (error) throw error;
 }
@@ -184,10 +172,7 @@ export async function toggleWebhook(webhookId: string): Promise<void> {
  * Generate webhook signature
  */
 function generateSignature(payload: string, secret: string): string {
-  return crypto
-    .createHmac('sha256', secret)
-    .update(payload)
-    .digest('hex');
+  return crypto.createHmac('sha256', secret).update(payload).digest('hex');
 }
 
 /**
@@ -196,13 +181,10 @@ function generateSignature(payload: string, secret: string): string {
 export function verifyWebhookSignature(
   payload: string,
   signature: string,
-  secret: string
+  secret: string,
 ): boolean {
   const expectedSignature = generateSignature(payload, secret);
-  return crypto.timingSafeEqual(
-    Buffer.from(signature),
-    Buffer.from(expectedSignature)
-  );
+  return crypto.timingSafeEqual(Buffer.from(signature), Buffer.from(expectedSignature));
 }
 
 /**
@@ -210,19 +192,15 @@ export function verifyWebhookSignature(
  */
 export async function triggerWebhook(
   event: WebhookEvent,
-  data: Record<string, any>
+  data: Record<string, any>,
 ): Promise<void> {
   const webhooks = await getWebhooks(true);
 
   // Filter webhooks that listen to this event
-  const relevantWebhooks = webhooks.filter(webhook =>
-    webhook.events.includes(event)
-  );
+  const relevantWebhooks = webhooks.filter((webhook) => webhook.events.includes(event));
 
   // Trigger all relevant webhooks
-  await Promise.all(
-    relevantWebhooks.map(webhook => deliverWebhook(webhook, event, data))
-  );
+  await Promise.all(relevantWebhooks.map((webhook) => deliverWebhook(webhook, event, data)));
 }
 
 /**
@@ -231,7 +209,7 @@ export async function triggerWebhook(
 async function deliverWebhook(
   webhook: Webhook,
   event: WebhookEvent,
-  data: Record<string, any>
+  data: Record<string, any>,
 ): Promise<void> {
   const supabase = await createClient();
 
@@ -298,7 +276,8 @@ async function deliverWebhook(
     if (!response.ok) {
       throw new Error(`Webhook delivery failed with status ${response.status}`);
     }
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
 
     // Update delivery record with error
@@ -319,10 +298,7 @@ async function deliverWebhook(
 
     // Disable webhook if too many failures
     if (webhook.retry_count >= 10) {
-      await supabase
-        .from('webhooks')
-        .update({ enabled: true })
-        .eq('id', webhook.id);
+      await supabase.from('webhooks').update({ enabled: true }).eq('id', webhook.id);
     }
   }
 }
@@ -351,7 +327,7 @@ export async function retryWebhookDelivery(deliveryId: string): Promise<void> {
  */
 export async function getWebhookDeliveries(
   webhookId?: string,
-  limit: number = 50
+  limit: number = 50,
 ): Promise<WebhookDelivery[]> {
   const supabase = await createClient();
 
@@ -391,8 +367,11 @@ export async function getWebhookStats(webhookId: string): Promise<{
 
   const stats = {
     totalDeliveries: deliveries?.length || 0,
-    successfulDeliveries: deliveries?.filter(d => d.response_status && d.response_status < 400).length || 0,
-    failedDeliveries: deliveries?.filter(d => d.error || (d.response_status && d.response_status >= 400)).length || 0,
+    successfulDeliveries:
+      deliveries?.filter((d) => d.response_status && d.response_status < 400).length || 0,
+    failedDeliveries:
+      deliveries?.filter((d) => d.error || (d.response_status && d.response_status >= 400))
+        .length || 0,
     averageResponseTime: 0,
     lastDelivery: deliveries?.[0]?.created_at,
   };
@@ -407,7 +386,10 @@ export async function getWebhookStats(webhookId: string): Promise<{
 /**
  * Trigger user created webhook
  */
-export async function triggerUserCreated(userId: string, userData: Record<string, any> = {}): Promise<void> {
+export async function triggerUserCreated(
+  userId: string,
+  userData: Record<string, any> = {},
+): Promise<void> {
   await triggerWebhook('user.created', {
     user_id: userId,
     ...userData,
@@ -420,7 +402,7 @@ export async function triggerUserCreated(userId: string, userData: Record<string
 export async function triggerEnrollmentCreated(
   enrollmentId: string,
   userId: string,
-  courseId: string
+  courseId: string,
 ): Promise<void> {
   await triggerWebhook('enrollment.created', {
     enrollment_id: enrollmentId,
@@ -436,7 +418,7 @@ export async function triggerEnrollmentCompleted(
   enrollmentId: string,
   userId: string,
   courseId: string,
-  grade?: number
+  grade?: number,
 ): Promise<void> {
   await triggerWebhook('enrollment.completed', {
     enrollment_id: enrollmentId,
@@ -451,7 +433,7 @@ export async function triggerEnrollmentCompleted(
  */
 export async function triggerCoursePublished(
   courseId: string,
-  courseData: Record<string, any> = {}
+  courseData: Record<string, any> = {},
 ): Promise<void> {
   await triggerWebhook('course.published', {
     course_id: courseId,
@@ -465,7 +447,7 @@ export async function triggerCoursePublished(
 export async function triggerAssignmentSubmitted(
   submissionId: string,
   assignmentId: string,
-  userId: string
+  userId: string,
 ): Promise<void> {
   await triggerWebhook('assignment.submitted', {
     submission_id: submissionId,
@@ -481,7 +463,7 @@ export async function triggerAssignmentGraded(
   submissionId: string,
   assignmentId: string,
   userId: string,
-  grade: number
+  grade: number,
 ): Promise<void> {
   await triggerWebhook('assignment.graded', {
     submission_id: submissionId,
@@ -497,7 +479,7 @@ export async function triggerAssignmentGraded(
 export async function triggerCertificateIssued(
   certificateId: string,
   userId: string,
-  courseId: string
+  courseId: string,
 ): Promise<void> {
   await triggerWebhook('certificate.issued', {
     certificate_id: certificateId,
@@ -513,7 +495,7 @@ export async function triggerPaymentCompleted(
   paymentId: string,
   userId: string,
   amount: number,
-  courseId?: string
+  courseId?: string,
 ): Promise<void> {
   await triggerWebhook('payment.completed', {
     payment_id: paymentId,
@@ -569,7 +551,8 @@ export async function testWebhook(webhookId: string): Promise<{
       success: response.ok,
       status: response.status,
     };
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
       error: 'Operation failed',

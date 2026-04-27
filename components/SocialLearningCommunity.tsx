@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -39,24 +39,28 @@ export function SocialLearningCommunity() {
       // Load posts
       const { data: posts } = await supabase
         .from('community_posts')
-        .select(`
+        .select(
+          `
           id, content, created_at, likes_count, comments_count, tags,
           profiles:user_id (full_name, avatar_url)
-        `)
+        `,
+        )
         .order('created_at', { ascending: false })
         .limit(20);
 
       if (posts) {
-        setDbPosts(posts.map((p: any) => ({
-          id: p.id,
-          author: p.profiles?.full_name || 'Anonymous',
-          avatar: p.profiles?.avatar_url || '👤',
-          content: p.content,
-          timestamp: p.created_at,
-          likes: p.likes_count || 0,
-          comments: p.comments_count || 0,
-          tags: p.tags || []
-        })));
+        setDbPosts(
+          posts.map((p: any) => ({
+            id: p.id,
+            author: p.profiles?.full_name || 'Anonymous',
+            avatar: p.profiles?.avatar_url || '👤',
+            content: p.content,
+            timestamp: p.created_at,
+            likes: p.likes_count || 0,
+            comments: p.comments_count || 0,
+            tags: p.tags || [],
+          })),
+        );
       }
 
       // Load study groups
@@ -66,13 +70,15 @@ export function SocialLearningCommunity() {
         .limit(10);
 
       if (groups) {
-        setDbGroups(groups.map((g: any) => ({
-          id: g.id,
-          name: g.name,
-          members: g.study_group_members?.[0]?.count || 0,
-          topic: g.topic,
-          nextSession: g.next_session
-        })));
+        setDbGroups(
+          groups.map((g: any) => ({
+            id: g.id,
+            name: g.name,
+            members: g.study_group_members?.[0]?.count || 0,
+            topic: g.topic,
+            nextSession: g.next_session,
+          })),
+        );
       }
     }
     loadCommunityData();
@@ -83,7 +89,8 @@ export function SocialLearningCommunity() {
       id: '1',
       author: 'Sarah Chen',
       avatar: '👩‍💻',
-      content: 'Just completed the React Hooks module! The useEffect cleanup pattern finally clicked for me. Anyone else struggled with this?',
+      content:
+        'Just completed the React Hooks module! The useEffect cleanup pattern finally clicked for me. Anyone else struggled with this?',
       timestamp: '2 hours ago',
       likes: 24,
       comments: 8,
@@ -93,7 +100,8 @@ export function SocialLearningCommunity() {
       id: '2',
       author: 'Graduate',
       avatar: '👨‍🎓',
-      content: 'Looking for study partners for the upcoming Node.js certification exam. Planning to meet virtually every Tuesday evening.',
+      content:
+        'Looking for study partners for the upcoming Node.js certification exam. Planning to meet virtually every Tuesday evening.',
       timestamp: '5 hours ago',
       likes: 15,
       comments: 12,
@@ -138,7 +146,9 @@ export function SocialLearningCommunity() {
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Learning Community</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Learning Community
+          </h1>
           <p className="text-white">Connect, collaborate, and learn together</p>
         </div>
       </div>
@@ -151,7 +161,9 @@ export function SocialLearningCommunity() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`py-4 px-2 border-b-2 font-medium capitalize ${
-                  activeTab === tab ? 'border-brand-red-600 text-brand-orange-600' : 'border-transparent text-slate-700'
+                  activeTab === tab
+                    ? 'border-brand-red-600 text-brand-orange-600'
+                    : 'border-transparent text-slate-700'
                 }`}
               >
                 {tab}
@@ -201,7 +213,10 @@ export function SocialLearningCommunity() {
                       <p className="text-black mb-3">{post.content}</p>
                       <div className="flex flex-wrap gap-2 mb-3">
                         {post.tags.map((tag) => (
-                          <span key={tag} className="px-2 py-2 bg-brand-orange-100 text-brand-orange-700 text-xs rounded">
+                          <span
+                            key={tag}
+                            className="px-2 py-2 bg-brand-orange-100 text-brand-orange-700 text-xs rounded"
+                          >
                             #{tag}
                           </span>
                         ))}
@@ -221,12 +236,16 @@ export function SocialLearningCommunity() {
               <Card className="p-6">
                 <h3 className="font-bold mb-4">Trending Topics</h3>
                 <div className="space-y-2">
-                  {['#React', '#JavaScript', '#WebDevelopment', '#NodeJS', '#TypeScript'].map((tag) => (
-                    <div key={tag} className="flex justify-between items-center">
-                      <span className="text-brand-blue-600 hover:underline cursor-pointer">{tag}</span>
-                      <span className="text-sm text-slate-700">245 posts</span>
-                    </div>
-                  ))}
+                  {['#React', '#JavaScript', '#WebDevelopment', '#NodeJS', '#TypeScript'].map(
+                    (tag) => (
+                      <div key={tag} className="flex justify-between items-center">
+                        <span className="text-brand-blue-600 hover:underline cursor-pointer">
+                          {tag}
+                        </span>
+                        <span className="text-sm text-slate-700">245 posts</span>
+                      </div>
+                    ),
+                  )}
                 </div>
               </Card>
 
@@ -242,7 +261,9 @@ export function SocialLearningCommunity() {
                           <p className="text-xs text-slate-700">Full-Stack Developer</p>
                         </div>
                       </div>
-                      <Button size="sm" variant="secondary">Follow</Button>
+                      <Button size="sm" variant="secondary">
+                        Follow
+                      </Button>
                     </div>
                   ))}
                 </div>
@@ -266,7 +287,9 @@ export function SocialLearningCommunity() {
                     <p>👥 {group.members} members</p>
                     <p>📅 Next: {group.nextSession}</p>
                   </div>
-                  <Button className="w-full" size="sm">Join Group</Button>
+                  <Button className="w-full" size="sm">
+                    Join Group
+                  </Button>
                 </Card>
               ))}
             </div>
@@ -281,18 +304,30 @@ export function SocialLearningCommunity() {
             </div>
             <Card className="p-6">
               <h3 className="text-lg font-bold mb-2">How to handle state in large React apps?</h3>
-              <p className="text-sm text-black mb-3">Posted by Alex Chen • 24 replies • Last activity 1 hour ago</p>
+              <p className="text-sm text-black mb-3">
+                Posted by Alex Chen • 24 replies • Last activity 1 hour ago
+              </p>
               <div className="flex gap-2">
-                <span className="px-2 py-2 bg-brand-blue-100 text-brand-blue-700 text-xs rounded">#React</span>
-                <span className="px-2 py-2 bg-purple-100 text-purple-700 text-xs rounded">#StateManagement</span>
+                <span className="px-2 py-2 bg-brand-blue-100 text-brand-blue-700 text-xs rounded">
+                  #React
+                </span>
+                <span className="px-2 py-2 bg-purple-100 text-purple-700 text-xs rounded">
+                  #StateManagement
+                </span>
               </div>
             </Card>
             <Card className="p-6">
               <h3 className="text-lg font-bold mb-2">Best practices for API error handling</h3>
-              <p className="text-sm text-black mb-3">Posted by Sarah Lee • 18 replies • Last activity 3 hours ago</p>
+              <p className="text-sm text-black mb-3">
+                Posted by Sarah Lee • 18 replies • Last activity 3 hours ago
+              </p>
               <div className="flex gap-2">
-                <span className="px-2 py-2 bg-brand-green-100 text-brand-green-700 text-xs rounded">#Backend</span>
-                <span className="px-2 py-2 bg-brand-orange-100 text-brand-orange-700 text-xs rounded">#BestPractices</span>
+                <span className="px-2 py-2 bg-brand-green-100 text-brand-green-700 text-xs rounded">
+                  #Backend
+                </span>
+                <span className="px-2 py-2 bg-brand-orange-100 text-brand-orange-700 text-xs rounded">
+                  #BestPractices
+                </span>
               </div>
             </Card>
           </div>

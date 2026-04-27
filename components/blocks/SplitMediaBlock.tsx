@@ -73,7 +73,9 @@ export default function SplitMediaBlock({
   const CopyPanel = (
     <div className={`${copyBgClass} flex items-center`}>
       <div className="px-8 py-10 lg:px-12 lg:py-14 max-w-xl">
-        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight mb-4">{headline}</h2>
+        <h2 className="text-2xl sm:text-3xl font-extrabold text-slate-900 leading-tight mb-4">
+          {headline}
+        </h2>
         <p className="text-slate-600 text-base leading-relaxed mb-5">{body}</p>
         {bullets && bullets.length > 0 && (
           <ul className="space-y-2 mb-6">
@@ -100,7 +102,17 @@ export default function SplitMediaBlock({
   return (
     <section className="border-y border-slate-200">
       <div className={`grid lg:grid-cols-2 ${mediaFirst ? '' : 'lg:[&>*:first-child]:order-2'}`}>
-        {mediaFirst ? <>{MediaPanel}{CopyPanel}</> : <>{CopyPanel}{MediaPanel}</>}
+        {mediaFirst ? (
+          <>
+            {MediaPanel}
+            {CopyPanel}
+          </>
+        ) : (
+          <>
+            {CopyPanel}
+            {MediaPanel}
+          </>
+        )}
       </div>
     </section>
   );

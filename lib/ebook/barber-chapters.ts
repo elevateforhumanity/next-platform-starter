@@ -50,14 +50,19 @@ const CHAPTER_MAP: Array<{
   color: string;
   accentBg: string;
 }> = [
-  { id: 'infection-control',   moduleSlug: 'barber-module-1', color: '#dc2626', accentBg: '#fef2f2' },
-  { id: 'hair-science',        moduleSlug: 'barber-module-2', color: '#d97706', accentBg: '#fffbeb' },
-  { id: 'tools-equipment',     moduleSlug: 'barber-module-3', color: '#ea580c', accentBg: '#fff7ed' },
-  { id: 'haircutting',         moduleSlug: 'barber-module-4', color: '#334155', accentBg: '#f8fafc' },
-  { id: 'shaving-beard',       moduleSlug: 'barber-module-5', color: '#44403c', accentBg: '#fafaf9' },
-  { id: 'chemical-services',   moduleSlug: 'barber-module-6', color: '#6d28d9', accentBg: '#f5f3ff' },
-  { id: 'professional-skills', moduleSlug: 'barber-module-7', color: '#1d4ed8', accentBg: '#eff6ff' },
-  { id: 'state-board-prep',    moduleSlug: 'barber-module-8', color: '#15803d', accentBg: '#f0fdf4' },
+  { id: 'infection-control', moduleSlug: 'barber-module-1', color: '#dc2626', accentBg: '#fef2f2' },
+  { id: 'hair-science', moduleSlug: 'barber-module-2', color: '#d97706', accentBg: '#fffbeb' },
+  { id: 'tools-equipment', moduleSlug: 'barber-module-3', color: '#ea580c', accentBg: '#fff7ed' },
+  { id: 'haircutting', moduleSlug: 'barber-module-4', color: '#334155', accentBg: '#f8fafc' },
+  { id: 'shaving-beard', moduleSlug: 'barber-module-5', color: '#44403c', accentBg: '#fafaf9' },
+  { id: 'chemical-services', moduleSlug: 'barber-module-6', color: '#6d28d9', accentBg: '#f5f3ff' },
+  {
+    id: 'professional-skills',
+    moduleSlug: 'barber-module-7',
+    color: '#1d4ed8',
+    accentBg: '#eff6ff',
+  },
+  { id: 'state-board-prep', moduleSlug: 'barber-module-8', color: '#15803d', accentBg: '#f0fdf4' },
 ];
 
 function stripModulePrefix(title: string): string {
@@ -87,21 +92,16 @@ function buildChapter(
   color: string,
   accentBg: string,
 ): EbookChapter | null {
-  const module = barberApprenticeshipBlueprint.modules.find(m => m.slug === moduleSlug);
+  const module = barberApprenticeshipBlueprint.modules.find((m) => m.slug === moduleSlug);
   if (!module) return null;
 
   const lessons = module.lessons.map(lessonFromRef);
-  const contentLessons = lessons.filter(l => !l.isCheckpoint);
-  const checkpoint = lessons.find(l => l.isCheckpoint);
+  const contentLessons = lessons.filter((l) => !l.isCheckpoint);
+  const checkpoint = lessons.find((l) => l.isCheckpoint);
 
-  const allQuizQuestions: BlueprintQuizQuestion[] = lessons.flatMap(
-    l => l.quizQuestions ?? [],
-  );
+  const allQuizQuestions: BlueprintQuizQuestion[] = lessons.flatMap((l) => l.quizQuestions ?? []);
 
-  const totalDurationMinutes = lessons.reduce(
-    (sum, l) => sum + (l.durationMinutes ?? 0),
-    0,
-  );
+  const totalDurationMinutes = lessons.reduce((sum, l) => sum + (l.durationMinutes ?? 0), 0);
 
   return {
     id,
@@ -126,14 +126,14 @@ export const EBOOK_CHAPTERS: EbookChapter[] = CHAPTER_MAP.flatMap(
 );
 
 export function getChapterById(id: string): EbookChapter | undefined {
-  return EBOOK_CHAPTERS.find(c => c.id === id);
+  return EBOOK_CHAPTERS.find((c) => c.id === id);
 }
 
 export function getAdjacentChapters(id: string): {
   prev: EbookChapter | null;
   next: EbookChapter | null;
 } {
-  const idx = EBOOK_CHAPTERS.findIndex(c => c.id === id);
+  const idx = EBOOK_CHAPTERS.findIndex((c) => c.id === id);
   return {
     prev: idx > 0 ? EBOOK_CHAPTERS[idx - 1] : null,
     next: idx < EBOOK_CHAPTERS.length - 1 ? EBOOK_CHAPTERS[idx + 1] : null,

@@ -52,7 +52,7 @@ export function Card({
         variantClasses[variant],
         paddingClasses[padding],
         onClick && 'cursor-pointer hover:border-brand-blue-600',
-        className
+        className,
       )}
     >
       {children}

@@ -14,7 +14,9 @@ const SCAN_DIRS = ['app', 'components/site', 'components/marketing', 'components
 // appear in the manifest on the first build after being allowlisted.
 // These are verified clean pages with no quarantined imports.
 const KNOWN_GOOD_ROUTES = new Set([
-  '/fssa', '/fssa/snap-et', '/fssa/partnership-request',
+  '/fssa',
+  '/fssa/snap-et',
+  '/fssa/partnership-request',
   '/enrollment-agreement',
 ]);
 const EXTENSIONS = new Set(['.tsx', '.ts', '.jsx', '.js', '.mdx']);
@@ -106,7 +108,7 @@ const FORBIDDEN_PUBLIC_PREFIXES = [
 const SKIP_PATH_PATTERNS = [
   /\/node_modules\//,
   /\/\.next\//,
-  /\/__/,                               // __-prefixed (disabled) pages
+  /\/__/, // __-prefixed (disabled) pages
   /\/app\/\(auth\)\//,
   /\/app\/\(dashboard\)\//,
   /\/app\/\(partner\)\//,
@@ -156,7 +158,7 @@ function readManifestRoutes() {
         clean = clean.replace(/\/\([^)]+\)/g, '');
         return normalizeRoute(clean);
       })
-      .filter(Boolean)
+      .filter(Boolean),
   );
 
   // Also load next.config.mjs redirect sources so the checker knows about them.
@@ -242,7 +244,7 @@ function routeExists(href, compiledRoutes) {
     // Exact dynamic segment match (Next.js [param] routes)
     if (routeParts.length === hrefParts.length) {
       const matches = routeParts.every((part, i) =>
-        part.startsWith('[') && part.endsWith(']') ? true : part === hrefParts[i]
+        part.startsWith('[') && part.endsWith(']') ? true : part === hrefParts[i],
       );
       if (matches) return true;
     }
@@ -273,11 +275,7 @@ function walkFiles(dir) {
       const full = path.join(current, entry.name);
 
       if (entry.isDirectory()) {
-        if (
-          entry.name === 'node_modules' ||
-          entry.name === '.next' ||
-          entry.name.startsWith('.')
-        ) {
+        if (entry.name === 'node_modules' || entry.name === '.next' || entry.name.startsWith('.')) {
           continue;
         }
         walk(full);
@@ -299,10 +297,7 @@ function extractHrefs(filePath) {
   const source = fs.readFileSync(filePath, 'utf8');
   const hrefs = [];
 
-  const patterns = [
-    /href\s*=\s*["']([^"']+)["']/g,
-    /href\s*:\s*["'](\/[^"']+)["']/g,
-  ];
+  const patterns = [/href\s*=\s*["']([^"']+)["']/g, /href\s*:\s*["'](\/[^"']+)["']/g];
 
   for (const pattern of patterns) {
     let match;
@@ -386,7 +381,9 @@ function main() {
   }
 
   console.log(`[public-links] ✅ All public hrefs resolve inside Netlify marketing build.`);
-  console.log(`[public-links] Checked ${files.length} files against ${compiledRoutes.size} compiled routes.`);
+  console.log(
+    `[public-links] Checked ${files.length} files against ${compiledRoutes.size} compiled routes.`,
+  );
 }
 
 main();

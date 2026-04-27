@@ -1,15 +1,15 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
 import React from 'react';
 
-import { useEffect, useRef, useState } from "react";
-import { sendVideoStatement } from "@/lib/xapi/video";
+import { useEffect, useRef, useState } from 'react';
+import { sendVideoStatement } from '@/lib/xapi/video';
 
 type EnhancedVideoPlayerProps = {
   videoId: string;
-  provider: "vimeo" | "file" | "youtube";
+  provider: 'vimeo' | 'file' | 'youtube';
   title: string;
   courseId: string;
   moduleId?: string;
@@ -26,7 +26,7 @@ export function EnhancedVideoPlayer(props: EnhancedVideoPlayerProps) {
   useEffect(() => {
     // On mount: send "initialized"
     sendVideoStatement({
-      verb: "initialized",
+      verb: 'initialized',
       videoId: props.videoId,
       courseId: props.courseId,
       lessonId: props.lessonId,
@@ -37,13 +37,16 @@ export function EnhancedVideoPlayer(props: EnhancedVideoPlayerProps) {
     // Log video view to database
     const logVideoView = async () => {
       const supabase = createClient();
-      await supabase.from('video_views').insert({
-        video_id: props.videoId,
-        user_id: props.learnerId,
-        course_id: props.courseId,
-        lesson_id: props.lessonId,
-        started_at: new Date().toISOString(),
-      }).catch(() => {});
+      await supabase
+        .from('video_views')
+        .insert({
+          video_id: props.videoId,
+          user_id: props.learnerId,
+          course_id: props.courseId,
+          lesson_id: props.lessonId,
+          started_at: new Date().toISOString(),
+        })
+        .catch(() => {});
     };
     logVideoView();
 
@@ -54,7 +57,7 @@ export function EnhancedVideoPlayer(props: EnhancedVideoPlayerProps) {
     if (!started) {
       setStarted(true);
       sendVideoStatement({
-        verb: "played",
+        verb: 'played',
         videoId: props.videoId,
         courseId: props.courseId,
         lessonId: props.lessonId,
@@ -66,7 +69,7 @@ export function EnhancedVideoPlayer(props: EnhancedVideoPlayerProps) {
 
   function handlePause() {
     sendVideoStatement({
-      verb: "paused",
+      verb: 'paused',
       videoId: props.videoId,
       courseId: props.courseId,
       lessonId: props.lessonId,
@@ -79,7 +82,7 @@ export function EnhancedVideoPlayer(props: EnhancedVideoPlayerProps) {
     if (!completed) {
       setCompleted(true);
       sendVideoStatement({
-        verb: "completed",
+        verb: 'completed',
         videoId: props.videoId,
         courseId: props.courseId,
         lessonId: props.lessonId,
@@ -90,11 +93,11 @@ export function EnhancedVideoPlayer(props: EnhancedVideoPlayerProps) {
   }
 
   const src =
-    props.provider === "vimeo"
-      ? `${process.env.NEXT_PUBLIC_VIMEO_BASE_URL ?? "https://player.vimeo.com/video"}/${props.videoId}?autoplay=0&title=0&byline=0&portrait=0`
-      : props.provider === "youtube"
-      ? `https://www.youtube.com/embed/${props.videoId}?rel=0&modestbranding=1`
-      : props.videoId; // direct file URL
+    props.provider === 'vimeo'
+      ? `${process.env.NEXT_PUBLIC_VIMEO_BASE_URL ?? 'https://player.vimeo.com/video'}/${props.videoId}?autoplay=0&title=0&byline=0&portrait=0`
+      : props.provider === 'youtube'
+        ? `https://www.youtube.com/embed/${props.videoId}?rel=0&modestbranding=1`
+        : props.videoId; // direct file URL
 
   return (
     <div className="space-y-3">
@@ -119,7 +122,11 @@ export function EnhancedVideoPlayer(props: EnhancedVideoPlayerProps) {
         {completed ? (
           <span className="text-brand-green-600 font-semibold flex items-center gap-1">
             <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 20 20">
-              <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
+              <path
+                fillRule="evenodd"
+                d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z"
+                clipRule="evenodd"
+              />
             </svg>
             Completed
           </span>
@@ -137,7 +144,7 @@ export function EnhancedVideoPlayer(props: EnhancedVideoPlayerProps) {
       {/* Video Controls Info */}
       <div className="text-xs text-slate-500 space-y-1">
         <p>💡 Tip: Use keyboard shortcuts - Space to play/pause, ← → to skip</p>
-        {props.provider === "vimeo" && (
+        {props.provider === 'vimeo' && (
           <p>🎬 Powered by Vimeo - Professional video hosting with analytics</p>
         )}
       </div>

@@ -23,8 +23,7 @@ export const homePageMeta: Metadata = {
   ],
   openGraph: {
     title: 'Free Job Training Programs | Elevate for Humanity',
-    description:
-      'Get trained for free in high-demand careers. No debt. Real careers.',
+    description: 'Get trained for free in high-demand careers. No debt. Real careers.',
     url: baseUrl,
     siteName,
     images: [{ url: defaultImage }],
@@ -91,11 +90,7 @@ export function generateBlogMeta(post: {
   return {
     title,
     description,
-    keywords: [
-      post.category || 'workforce development',
-      'career training',
-      'job training',
-    ],
+    keywords: [post.category || 'workforce development', 'career training', 'job training'],
     authors: [{ name: post.author }],
     openGraph: {
       title: post.title,
@@ -145,8 +140,7 @@ export const contactPageMeta: Metadata = {
     "Get in touch with Elevate for Humanity. Questions about programs, enrollment, or funding? We're here to help.",
   openGraph: {
     title: 'Contact Us | Elevate for Humanity',
-    description:
-      "Questions about programs, enrollment, or funding? We're here to help.",
+    description: "Questions about programs, enrollment, or funding? We're here to help.",
     url: `${baseUrl}/contact`,
     siteName,
     type: 'website',
@@ -203,19 +197,13 @@ export function generatePolicyMeta(policy: {
 }
 
 // Helper: Truncate description to optimal length
-export function truncateDescription(
-  text: string,
-  maxLength: number = 160
-): string {
+export function truncateDescription(text: string, maxLength: number = 160): string {
   if (text.length <= maxLength) return text;
   return text.substring(0, maxLength - 3) + '...';
 }
 
 // Helper: Generate keywords from text
-export function generateKeywords(
-  text: string,
-  baseKeywords: string[] = []
-): string[] {
+export function generateKeywords(text: string, baseKeywords: string[] = []): string[] {
   const commonWords = [
     'the',
     'a',

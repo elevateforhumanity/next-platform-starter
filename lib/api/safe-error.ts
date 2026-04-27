@@ -30,10 +30,7 @@ export function safeOk(data: Record<string, unknown> = {}): NextResponse {
  * Return a safe error response with a caller-controlled message.
  * Use for expected errors (not found, validation, auth).
  */
-export function safeError(
-  message: string,
-  status: number = 400
-): NextResponse {
+export function safeError(message: string, status: number = 400): NextResponse {
   return NextResponse.json({ error: message }, { status });
 }
 
@@ -48,7 +45,7 @@ export function safeError(
 export function safeInternalError(
   err: unknown,
   context: string,
-  publicMessage = 'Internal server error'
+  publicMessage = 'Internal server error',
 ): NextResponse {
   const message = err instanceof Error ? err.message : String(err);
   logger.error(context, { error: message });
@@ -62,7 +59,7 @@ export function safeInternalError(
 export function safeDbError(
   error: { message?: string; code?: string; details?: string } | null,
   context: string,
-  publicMessage = 'Database operation failed'
+  publicMessage = 'Database operation failed',
 ): NextResponse {
   if (error) {
     logger.error(context, {

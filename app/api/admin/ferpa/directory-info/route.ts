@@ -21,9 +21,16 @@ export async function POST(request: NextRequest) {
 
   // Validate all keys are ferpa_dir_* to prevent arbitrary platform_settings writes
   const allowed = new Set([
-    'ferpa_dir_name', 'ferpa_dir_address', 'ferpa_dir_phone', 'ferpa_dir_email',
-    'ferpa_dir_photo', 'ferpa_dir_enrollment', 'ferpa_dir_program',
-    'ferpa_dir_dates', 'ferpa_dir_degrees', 'ferpa_dir_honors',
+    'ferpa_dir_name',
+    'ferpa_dir_address',
+    'ferpa_dir_phone',
+    'ferpa_dir_email',
+    'ferpa_dir_photo',
+    'ferpa_dir_enrollment',
+    'ferpa_dir_program',
+    'ferpa_dir_dates',
+    'ferpa_dir_degrees',
+    'ferpa_dir_honors',
   ]);
   for (const key of Object.keys(settings)) {
     if (!allowed.has(key)) {
@@ -40,9 +47,7 @@ export async function POST(request: NextRequest) {
     updated_by: auth.user.id,
   }));
 
-  const { error } = await db
-    .from('platform_settings')
-    .upsert(upserts, { onConflict: 'key' });
+  const { error } = await db.from('platform_settings').upsert(upserts, { onConflict: 'key' });
 
   if (error) return safeInternalError(error, 'Failed to save directory info settings');
 

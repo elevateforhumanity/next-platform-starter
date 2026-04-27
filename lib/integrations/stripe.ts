@@ -1,7 +1,5 @@
 import { getStripe } from '@/lib/stripe/client';
 
-
-
 export async function createCheckoutSession(params: {
   amount: number;
   customerEmail: string;
@@ -30,10 +28,6 @@ export async function createCheckoutSession(params: {
   });
 }
 
-export async function constructWebhookEvent(
-  body: string,
-  signature: string,
-  secret: string
-) {
+export async function constructWebhookEvent(body: string, signature: string, secret: string) {
   return getStripe().webhooks.constructEvent(body, signature, secret);
 }

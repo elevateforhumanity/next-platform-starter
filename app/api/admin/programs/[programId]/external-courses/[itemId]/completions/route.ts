@@ -14,10 +14,9 @@ import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
 
-
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ programId: string; itemId: string }> }
+  { params }: { params: Promise<{ programId: string; itemId: string }> },
 ) {
   const { programId, itemId } = await params;
   const auth = await apiRequireAdmin(req);
@@ -26,28 +25,30 @@ export async function GET(
   const db = await getAdminClient();
   const { data, error } = await db
     .from('program_external_completions')
-    .select(`
+    .select(
+      `
       id, completed_at, notes, proof_url,
       learner:profiles!program_external_completions_user_id_fkey(id, full_name, email),
       marked_by_profile:profiles!program_external_completions_marked_by_fkey(id, full_name)
-    `)
+    `,
+    )
     .eq('external_course_id', itemId)
     .eq('program_id', programId)
     .order('completed_at', { ascending: false });
 
-  if (error) return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   return NextResponse.json({ completions: data ?? [] });
 }
 
 const MarkCompleteSchema = z.object({
-  user_id:   z.string().uuid('Must be a valid user UUID'),
-  notes:     z.string().optional().default(''),
+  user_id: z.string().uuid('Must be a valid user UUID'),
+  notes: z.string().optional().default(''),
   proof_url: z.string().url().optional().or(z.literal('')),
 });
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ programId: string; itemId: string }> }
+  { params }: { params: Promise<{ programId: string; itemId: string }> },
 ) {
   const { programId, itemId } = await params;
   const auth = await apiRequireAdmin(req);
@@ -67,30 +68,34 @@ export async function POST(
     .upsert(
       {
         external_course_id: itemId,
-        program_id:         programId,
-        user_id:            parsed.data.user_id,
-        marked_by:          auth.id,
-        notes:              parsed.data.notes || null,
-        proof_url:          parsed.data.proof_url || null,
-        completed_at:       new Date().toISOString(),
+        program_id: programId,
+        user_id: parsed.data.user_id,
+        marked_by: auth.id,
+        notes: parsed.data.notes || null,
+        proof_url: parsed.data.proof_url || null,
+        completed_at: new Date().toISOString(),
       },
-      { onConflict: 'external_course_id,user_id', ignoreDuplicates: false }
+      { onConflict: 'external_course_id,user_id', ignoreDuplicates: false },
     )
     .select()
     .maybeSingle();
 
   if (error) {
     logger.error('Mark external complete error', error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 
-  logger.info('External training marked complete', { itemId, userId: parsed.data.user_id, adminId: auth.id });
+  logger.info('External training marked complete', {
+    itemId,
+    userId: parsed.data.user_id,
+    adminId: auth.id,
+  });
   return NextResponse.json({ completion: data }, { status: 201 });
 }
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ programId: string; itemId: string }> }
+  { params }: { params: Promise<{ programId: string; itemId: string }> },
 ) {
   const { itemId } = await params;
   const auth = await apiRequireAdmin(req);
@@ -107,6 +112,6 @@ export async function DELETE(
     .eq('external_course_id', itemId)
     .eq('user_id', userId);
 
-  if (error) return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   return NextResponse.json({ ok: true });
 }

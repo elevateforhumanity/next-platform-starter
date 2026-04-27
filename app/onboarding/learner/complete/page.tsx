@@ -13,17 +13,13 @@ export const metadata: Metadata = {
 };
 
 // Funding sources that require Indiana Career Connect registration
-const WIOA_SOURCES = new Set([
-  'wioa',
-  'workone',
-  'workforce_ready_grant',
-  'wrg',
-  'jri',
-]);
+const WIOA_SOURCES = new Set(['wioa', 'workone', 'workforce_ready_grant', 'wrg', 'jri']);
 
 export default async function OrientationCompletePage() {
   const sessionClient = await createClient();
-  const { data: { user } } = await sessionClient.auth.getUser();
+  const {
+    data: { user },
+  } = await sessionClient.auth.getUser();
   if (!user) redirect('/login');
 
   let supabase: Awaited<ReturnType<typeof getAdminClient>>;
@@ -44,8 +40,7 @@ export default async function OrientationCompletePage() {
     redirect('/onboarding/learner/orientation');
   }
 
-  const firstName =
-    profile.first_name || profile.full_name?.split(' ')[0] || 'there';
+  const firstName = profile.first_name || profile.full_name?.split(' ')[0] || 'there';
 
   // Check funding source from most recent active enrollment
   const { data: enrollment } = await supabase
@@ -57,16 +52,13 @@ export default async function OrientationCompletePage() {
     .maybeSingle();
 
   const fundingSource =
-    enrollment?.funding_source ||
-    enrollment?.requested_funding_source ||
-    'self_pay';
+    enrollment?.funding_source || enrollment?.requested_funding_source || 'self_pay';
 
   const needsICC = WIOA_SOURCES.has(fundingSource.toLowerCase());
 
   return (
     <div className="min-h-screen bg-white flex flex-col items-center justify-center px-4 py-16">
       <div className="max-w-lg w-full">
-
         {/* Success mark */}
         <div className="flex justify-center mb-6">
           <div className="w-16 h-16 rounded-full bg-emerald-50 flex items-center justify-center">
@@ -88,11 +80,9 @@ export default async function OrientationCompletePage() {
               Action required — Indiana Career Connect
             </h2>
             <p className="text-xs text-amber-800 leading-relaxed mb-4">
-              Because your training is funded through WIOA or a workforce grant,
-              you must create a free account at{' '}
-              <strong>IndianaCareerConnect.com</strong> and schedule an
-              appointment with your local WorkOne office before your funding can
-              be confirmed.
+              Because your training is funded through WIOA or a workforce grant, you must create a
+              free account at <strong>IndianaCareerConnect.com</strong> and schedule an appointment
+              with your local WorkOne office before your funding can be confirmed.
             </p>
 
             <ol className="space-y-2 mb-4">
@@ -136,9 +126,7 @@ export default async function OrientationCompletePage() {
 
         {/* Next steps card */}
         <div className="rounded-xl border border-gray-200 bg-gray-50 p-5 mb-6">
-          <h2 className="text-sm font-semibold text-slate-900 mb-3">
-            What happens next
-          </h2>
+          <h2 className="text-sm font-semibold text-slate-900 mb-3">What happens next</h2>
           <ul className="space-y-2">
             {[
               'Your first lesson is ready in your dashboard',

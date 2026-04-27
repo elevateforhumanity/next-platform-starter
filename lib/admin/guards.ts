@@ -1,7 +1,7 @@
 /**
  * Admin Route Guards - Netlify Context Aware
  * Controls access to dev/test tools and sensitive admin features
- * 
+ *
  * Required Netlify env vars:
  * - Production: ENABLE_ADMIN_DEVTOOLS=false
  * - Deploy Previews: ENABLE_ADMIN_DEVTOOLS=true (optional)
@@ -21,11 +21,11 @@ const netlifyContext = process.env.CONTEXT; // Netlify deploy context
 /**
  * Environment detection - Netlify-aware
  */
-export const isProd = isNetlify 
-  ? netlifyContext === 'production' 
+export const isProd = isNetlify
+  ? netlifyContext === 'production'
   : process.env.NODE_ENV === 'production';
 
-export const isPreview = isNetlify 
+export const isPreview = isNetlify
   ? netlifyContext === 'deploy-preview' || netlifyContext === 'branch-deploy'
   : false;
 
@@ -46,12 +46,12 @@ export function isSuperAdmin(role: string | null | undefined): boolean {
 
 /**
  * Guard for dev/test routes - STRICT
- * 
+ *
  * Rules:
  * 1. Production context → ALWAYS 404 (no exceptions)
  * 2. Non-production + ENABLE_ADMIN_DEVTOOLS=false → 404
  * 3. Non-production + ENABLE_ADMIN_DEVTOOLS=true → super_admin only
- * 
+ *
  * Usage in layout.tsx:
  *   const { role } = await requireAdmin();
  *   requireDevToolsAccess(role);
@@ -81,7 +81,7 @@ export function requireSensitiveFeatureAccess(role: string | null | undefined): 
   if (isProd && !isSuperAdmin(role)) {
     notFound();
   }
-  
+
   if (!['admin', 'super_admin'].includes(role || '')) {
     notFound();
   }
@@ -108,7 +108,7 @@ export function shouldShowDevToolsInNav(role: string | null | undefined): boolea
   if (isProd) {
     return false;
   }
-  
+
   // Non-prod: require both flag and super_admin
   return allowDevTools && isSuperAdmin(role);
 }
@@ -193,7 +193,12 @@ export async function apiAuthGuard(_req?: Request): Promise<GuardedUser> {
       .maybeSingle();
 
     if (profileError) {
-      return { id: user.id, email: user.email ?? null, role: null, error: serverError('PROFILE_LOOKUP_FAILED') };
+      return {
+        id: user.id,
+        email: user.email ?? null,
+        role: null,
+        error: serverError('PROFILE_LOOKUP_FAILED'),
+      };
     }
 
     return {

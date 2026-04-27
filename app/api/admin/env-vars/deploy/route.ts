@@ -33,7 +33,9 @@ export async function POST(req: NextRequest) {
     logger.info('[env-vars/deploy] Redeploy triggered', { userId: auth.user.id });
     return NextResponse.json({ triggered: true });
   } catch (err) {
-    logger.error('[env-vars/deploy] Hook request failed', { error: err instanceof Error ? err.message : String(err) });
+    logger.error('[env-vars/deploy] Hook request failed', {
+      error: err instanceof Error ? err.message : String(err),
+    });
     return safeError('Deploy hook request failed', 502);
   }
 }

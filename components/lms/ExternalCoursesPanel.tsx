@@ -14,8 +14,17 @@
 import { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
 import {
-  ExternalLink, CheckCircle, Circle, ChevronDown, ChevronUp,
-  Upload, Loader2, X, AlertCircle, CreditCard, ShieldCheck,
+  ExternalLink,
+  CheckCircle,
+  Circle,
+  ChevronDown,
+  ChevronUp,
+  Upload,
+  Loader2,
+  X,
+  AlertCircle,
+  CreditCard,
+  ShieldCheck,
 } from 'lucide-react';
 
 interface ExternalCourse {
@@ -49,40 +58,51 @@ interface Props {
 }
 
 const ELEVATE_SPONSORED_SOURCES = new Set([
-  'wioa', 'wioa_title_i', 'wioa_title_ii',
-  'workone', 'workforce_ready_grant', 'jri', 'job_ready_indy',
+  'wioa',
+  'wioa_title_i',
+  'wioa_title_ii',
+  'workone',
+  'workforce_ready_grant',
+  'jri',
+  'job_ready_indy',
 ]);
 
-export default function ExternalCoursesPanel({ programSlug, requiredOnly = false, fundingSource }: Props) {
-  const [courses, setCourses]         = useState<ExternalCourse[]>([]);
-  const [expanded, setExpanded]       = useState<Record<string, boolean>>({});
+export default function ExternalCoursesPanel({
+  programSlug,
+  requiredOnly = false,
+  fundingSource,
+}: Props) {
+  const [courses, setCourses] = useState<ExternalCourse[]>([]);
+  const [expanded, setExpanded] = useState<Record<string, boolean>>({});
   const [completions, setCompletions] = useState<Record<string, Completion>>({});
-  const [uploading, setUploading]     = useState<string | null>(null);
-  const [attesting, setAttesting]     = useState<string | null>(null);
+  const [uploading, setUploading] = useState<string | null>(null);
+  const [attesting, setAttesting] = useState<string | null>(null);
   const [checkingOut, setCheckingOut] = useState<string | null>(null);
   const [uploadError, setUploadError] = useState<string | null>(null);
-  const [loading, setLoading]         = useState(true);
+  const [loading, setLoading] = useState(true);
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
   const isElevateSponsored = fundingSource ? ELEVATE_SPONSORED_SOURCES.has(fundingSource) : false;
 
   useEffect(() => {
     fetch(`/api/programs/${programSlug}/external-courses`)
-      .then(r => r.json())
-      .then(data => {
+      .then((r) => r.json())
+      .then((data) => {
         const list: ExternalCourse[] = (data.courses ?? [])
           .filter((c: ExternalCourse) => !requiredOnly || c.is_required)
           .sort((a: ExternalCourse, b: ExternalCourse) => a.sort_order - b.sort_order);
         setCourses(list);
       })
-      .catch(() => { /* non-critical */ })
+      .catch(() => {
+        /* non-critical */
+      })
       .finally(() => setLoading(false));
   }, [programSlug, requiredOnly]);
 
   if (loading || courses.length === 0) return null;
 
   function toggleExpand(id: string) {
-    setExpanded(prev => ({ ...prev, [id]: !prev[id] }));
+    setExpanded((prev) => ({ ...prev, [id]: !prev[id] }));
   }
 
   async function submitCompletion(courseId: string, file?: File) {
@@ -100,18 +120,19 @@ export default function ExternalCoursesPanel({ programSlug, requiredOnly = false
       headers = { 'Content-Type': 'application/json' };
     }
 
-    const res = await fetch(
-      `/api/programs/${programSlug}/external-courses/${courseId}/complete`,
-      { method: 'POST', body, headers },
-    );
+    const res = await fetch(`/api/programs/${programSlug}/external-courses/${courseId}/complete`, {
+      method: 'POST',
+      body,
+      headers,
+    });
 
     if (!res.ok) {
       const json = await res.json().catch(() => ({}));
       throw new Error((json as { error?: string }).error ?? 'Request failed');
     }
 
-    const json = await res.json() as { ok: boolean; certificate_url: string | null };
-    setCompletions(prev => ({
+    const json = (await res.json()) as { ok: boolean; certificate_url: string | null };
+    setCompletions((prev) => ({
       ...prev,
       [courseId]: { courseId, certificate_url: json.certificate_url },
     }));
@@ -136,7 +157,12 @@ export default function ExternalCoursesPanel({ programSlug, requiredOnly = false
         `/api/programs/${programSlug}/external-courses/${courseId}/checkout`,
         { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: '{}' },
       );
-      const json = await res.json() as { ok: boolean; payer?: string; url?: string; message?: string };
+      const json = (await res.json()) as {
+        ok: boolean;
+        payer?: string;
+        url?: string;
+        message?: string;
+      };
       if (!res.ok) throw new Error((json as { error?: string }).error ?? 'Checkout failed');
 
       if (json.payer === 'elevate') {
@@ -181,21 +207,22 @@ export default function ExternalCoursesPanel({ programSlug, requiredOnly = false
       )}
 
       <div className="divide-y divide-amber-100">
-        {courses.map(course => {
-          const done        = !!completions[course.id];
-          const open        = expanded[course.id];
+        {courses.map((course) => {
+          const done = !!completions[course.id];
+          const open = expanded[course.id];
           const isUploading = uploading === course.id;
           const isAttesting = attesting === course.id;
-          const certUrl     = completions[course.id]?.certificate_url;
+          const certUrl = completions[course.id]?.certificate_url;
 
           return (
             <div key={course.id} className="p-4">
               <div className="flex items-start gap-3">
                 <div className="mt-0.5 shrink-0">
-                  {done
-                    ? <CheckCircle className="w-5 h-5 text-emerald-600" />
-                    : <Circle className="w-5 h-5 text-amber-400" />
-                  }
+                  {done ? (
+                    <CheckCircle className="w-5 h-5 text-emerald-600" />
+                  ) : (
+                    <Circle className="w-5 h-5 text-amber-400" />
+                  )}
                 </div>
 
                 <div className="flex-1 min-w-0">
@@ -241,24 +268,34 @@ export default function ExternalCoursesPanel({ programSlug, requiredOnly = false
                       onClick={() => toggleExpand(course.id)}
                       className="inline-flex items-center gap-1 text-xs text-slate-500 hover:text-slate-700 transition"
                     >
-                      Enrollment steps {open ? <ChevronUp className="w-3 h-3" /> : <ChevronDown className="w-3 h-3" />}
+                      Enrollment steps{' '}
+                      {open ? (
+                        <ChevronUp className="w-3 h-3" />
+                      ) : (
+                        <ChevronDown className="w-3 h-3" />
+                      )}
                     </button>
 
                     {!done && (
                       <>
                         {/* Payment sponsorship row */}
-                        {course.cost_cents > 0 && (
-                          isElevateSponsored ? (
+                        {course.cost_cents > 0 &&
+                          (isElevateSponsored ? (
                             /* Elevate covers it — show status, trigger sponsored checkout */
                             <button
                               onClick={() => handleCheckout(course.id)}
                               disabled={checkingOut === course.id}
                               className="inline-flex items-center gap-1.5 text-xs font-semibold bg-emerald-600 hover:bg-emerald-700 text-white px-3 py-1.5 rounded-lg transition disabled:opacity-50"
                             >
-                              {checkingOut === course.id
-                                ? <><Loader2 className="w-3 h-3 animate-spin" /> Processing…</>
-                                : <><ShieldCheck className="w-3 h-3" /> Elevate-sponsored — Enroll</>
-                              }
+                              {checkingOut === course.id ? (
+                                <>
+                                  <Loader2 className="w-3 h-3 animate-spin" /> Processing…
+                                </>
+                              ) : (
+                                <>
+                                  <ShieldCheck className="w-3 h-3" /> Elevate-sponsored — Enroll
+                                </>
+                              )}
                             </button>
                           ) : (
                             /* Student pays — Stripe checkout */
@@ -267,21 +304,28 @@ export default function ExternalCoursesPanel({ programSlug, requiredOnly = false
                               disabled={checkingOut === course.id}
                               className="inline-flex items-center gap-1.5 text-xs font-semibold bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-3 py-1.5 rounded-lg transition disabled:opacity-50"
                             >
-                              {checkingOut === course.id
-                                ? <><Loader2 className="w-3 h-3 animate-spin" /> Redirecting…</>
-                                : <><CreditCard className="w-3 h-3" /> Pay &amp; Enroll (${(course.cost_cents / 100).toFixed(2)})</>
-                              }
+                              {checkingOut === course.id ? (
+                                <>
+                                  <Loader2 className="w-3 h-3 animate-spin" /> Redirecting…
+                                </>
+                              ) : (
+                                <>
+                                  <CreditCard className="w-3 h-3" /> Pay &amp; Enroll ($
+                                  {(course.cost_cents / 100).toFixed(2)})
+                                </>
+                              )}
                             </button>
-                          )
-                        )}
+                          ))}
 
                         {/* Upload certificate after completing */}
                         <input
-                          ref={el => { fileRefs.current[course.id] = el; }}
+                          ref={(el) => {
+                            fileRefs.current[course.id] = el;
+                          }}
                           type="file"
                           accept=".pdf,.jpg,.jpeg,.png,.webp"
                           className="hidden"
-                          onChange={e => {
+                          onChange={(e) => {
                             const file = e.target.files?.[0];
                             if (file) handleFileChange(course.id, file);
                             e.target.value = '';
@@ -292,10 +336,15 @@ export default function ExternalCoursesPanel({ programSlug, requiredOnly = false
                           disabled={isUploading || isAttesting}
                           className="inline-flex items-center gap-1.5 text-xs font-semibold bg-amber-600 hover:bg-amber-700 text-white px-3 py-1.5 rounded-lg transition disabled:opacity-50"
                         >
-                          {isUploading
-                            ? <><Loader2 className="w-3 h-3 animate-spin" /> Uploading…</>
-                            : <><Upload className="w-3 h-3" /> Upload Wallet Card / Certificate</>
-                          }
+                          {isUploading ? (
+                            <>
+                              <Loader2 className="w-3 h-3 animate-spin" /> Uploading…
+                            </>
+                          ) : (
+                            <>
+                              <Upload className="w-3 h-3" /> Upload Wallet Card / Certificate
+                            </>
+                          )}
                         </button>
 
                         <button
@@ -324,8 +373,8 @@ export default function ExternalCoursesPanel({ programSlug, requiredOnly = false
       <div className="px-5 py-3 bg-amber-100 border-t border-amber-200">
         <p className="text-xs text-amber-800">
           <strong>How to submit:</strong> Complete the course on the partner site, then upload your
-          DOL wallet card or completion certificate (PDF, JPG, or PNG, max 10 MB).
-          Staff will verify your submission within 1–2 business days.
+          DOL wallet card or completion certificate (PDF, JPG, or PNG, max 10 MB). Staff will verify
+          your submission within 1–2 business days.
         </p>
       </div>
     </div>

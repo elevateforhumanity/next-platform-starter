@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { createClient } from '@/lib/supabase/server';
@@ -15,7 +14,6 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-
 /**
  * AUTOMATED TENANT PROVISIONING
  *
@@ -29,7 +27,7 @@ export const dynamic = 'force-dynamic';
 
 async function _POST(request: NextRequest) {
   try {
-  await hydrateProcessEnv();
+    await hydrateProcessEnv();
     const rateLimited = await applyRateLimit(request, 'strict');
     if (rateLimited) return rateLimited;
 
@@ -39,17 +37,17 @@ async function _POST(request: NextRequest) {
     const isInternalCall = cronSecret && authHeader === `Bearer ${cronSecret}`;
     if (!isInternalCall) {
       const { apiRequireAdmin } = await import('@/lib/admin/guards');
-      try { await apiRequireAdmin(request); } catch (e) { return e instanceof Response ? e : NextResponse.json({ error: 'Unauthorized' }, { status: 401 }); }
+      try {
+        await apiRequireAdmin(request);
+      } catch (e) {
+        return e instanceof Response
+          ? e
+          : NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+      }
     }
 
     const body = await parseBody<Record<string, any>>(request);
-    const {
-      organizationName,
-      contactName,
-      contactEmail,
-      licenseType,
-      paymentIntentId,
-    } = body;
+    const { organizationName, contactName, contactEmail, licenseType, paymentIntentId } = body;
 
     const supabase = await createClient();
 
@@ -89,17 +87,16 @@ async function _POST(request: NextRequest) {
     const tempPassword = generateSecurePassword();
 
     // Create admin user in Supabase Auth
-    const { data: authUser, error: authError } =
-      await supabase.auth.admin.createUser({
-        email: contactEmail,
-        password: tempPassword,
-        email_confirm: true,
-        user_metadata: {
-          full_name: contactName,
-          organization: organizationName,
-          tenant_id: tenant.id,
-        },
-      });
+    const { data: authUser, error: authError } = await supabase.auth.admin.createUser({
+      email: contactEmail,
+      password: tempPassword,
+      email_confirm: true,
+      user_metadata: {
+        full_name: contactName,
+        organization: organizationName,
+        tenant_id: tenant.id,
+      },
+    });
 
     if (authError || !authUser) {
       return NextResponse.json({ error: 'Failed to create admin user' }, { status: 500 });
@@ -156,7 +153,7 @@ async function _POST(request: NextRequest) {
           }),
         });
       },
-      5 * 60 * 1000
+      5 * 60 * 1000,
     ); // 5 minutes
 
     return NextResponse.json({
@@ -176,10 +173,9 @@ async function _POST(request: NextRequest) {
   } catch (err: any) {
     return NextResponse.json(
       {
-        err:
-          'Internal server error',
+        err: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

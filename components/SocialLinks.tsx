@@ -3,8 +3,8 @@ import { SOCIAL_LINKS } from '@/config/social-links';
 export function SocialLinks() {
   const platforms = [
     { key: 'facebook' as const, label: 'Facebook' },
-    { key: 'youtube'  as const, label: 'YouTube'  },
-    { key: 'linkedin' as const, label: 'LinkedIn'  },
+    { key: 'youtube' as const, label: 'YouTube' },
+    { key: 'linkedin' as const, label: 'LinkedIn' },
   ] as const;
 
   return (

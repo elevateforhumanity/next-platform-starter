@@ -23,16 +23,14 @@ export default function HeroAvatarGuide({
 }: HeroAvatarGuideProps) {
   const videoRef = useRef<HTMLVideoElement>(null);
   const messagesEndRef = useRef<HTMLDivElement>(null);
-  
+
   const [isPlaying, setIsPlaying] = useState(false);
   const [isMuted, setIsMuted] = useState(false);
   const [isDismissed, setIsDismissed] = useState(false);
   const [showChat, setShowChat] = useState(false);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState<Message[]>([
-    { role: 'assistant', content: message },
-  ]);
+  const [messages, setMessages] = useState<Message[]>([{ role: 'assistant', content: message }]);
 
   // Auto-play video on mount WITH SOUND - with fallback to muted for browsers that block unmuted autoplay
   useEffect(() => {
@@ -43,7 +41,7 @@ export default function HeroAvatarGuide({
       video.playsInline = true;
       video.setAttribute('playsinline', '');
       video.setAttribute('webkit-playsinline', '');
-      
+
       // First try unmuted autoplay
       video.muted = false;
       try {
@@ -72,7 +70,7 @@ export default function HeroAvatarGuide({
     };
 
     playVideo();
-    
+
     // Also try on visibility change
     const handleVisibility = () => {
       if (document.visibilityState === 'visible' && !isPlaying) {
@@ -80,7 +78,7 @@ export default function HeroAvatarGuide({
       }
     };
     document.addEventListener('visibilitychange', handleVisibility);
-    
+
     return () => {
       document.removeEventListener('visibilitychange', handleVisibility);
     };
@@ -125,12 +123,12 @@ export default function HeroAvatarGuide({
 
     const userMessage = input.trim();
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
 
     try {
       const currentRoute = typeof window !== 'undefined' ? window.location.pathname : '/';
-      
+
       const response = await fetch('/api/chat/avatar-assistant', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -145,22 +143,31 @@ export default function HeroAvatarGuide({
       const data = await response.json();
 
       if (data.error) {
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          content: "I'm sorry, I encountered an issue. Please try again or call (317) 314-3757.",
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'assistant',
+            content: "I'm sorry, I encountered an issue. Please try again or call (317) 314-3757.",
+          },
+        ]);
       } else {
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          content: data.message,
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'assistant',
+            content: data.message,
+          },
+        ]);
         playVideo();
       }
     } catch {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: "Connection issue. Please try again.",
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: 'Connection issue. Please try again.',
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -185,7 +192,7 @@ export default function HeroAvatarGuide({
                 onPlay={() => setIsPlaying(true)}
                 onPause={() => setIsPlaying(false)}
               />
-              
+
               {/* Play/Pause Overlay - Always visible */}
               <div className="absolute inset-0 flex items-center justify-center">
                 <button
@@ -292,8 +299,14 @@ export default function HeroAvatarGuide({
                       <div className="bg-white px-4 py-3 rounded-2xl rounded-bl-md border border-gray-200 shadow-sm">
                         <div className="flex gap-1">
                           <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" />
-                          <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                          <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                          <span
+                            className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                            style={{ animationDelay: '150ms' }}
+                          />
+                          <span
+                            className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                            style={{ animationDelay: '300ms' }}
+                          />
                         </div>
                       </div>
                     </div>

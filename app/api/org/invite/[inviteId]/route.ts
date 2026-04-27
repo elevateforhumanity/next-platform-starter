@@ -14,13 +14,16 @@ export const dynamic = 'force-dynamic';
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ inviteId: string }> }
+  { params }: { params: Promise<{ inviteId: string }> },
 ) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError || !user) return safeError('Unauthorized', 401);
 
   const { inviteId } = await params;
@@ -45,12 +48,10 @@ export async function DELETE(
     return res as NextResponse;
   }
 
-  const { error: deleteError } = await db
-    .from('org_invites')
-    .delete()
-    .eq('id', inviteId);
+  const { error: deleteError } = await db.from('org_invites').delete().eq('id', inviteId);
 
-  if (deleteError) return safeInternalError(deleteError, 'DELETE /api/org/invite/[inviteId] delete');
+  if (deleteError)
+    return safeInternalError(deleteError, 'DELETE /api/org/invite/[inviteId] delete');
 
   return NextResponse.json({ ok: true });
 }

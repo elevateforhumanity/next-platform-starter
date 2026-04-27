@@ -24,22 +24,22 @@ const deploymentOptions: DeploymentOption[] = [
     type: 'ai_tutor',
     name: 'AI Tutor',
     description: 'Personalized learning assistance for students',
-    features: ['24/7 availability', 'Multi-language support', 'Course-specific knowledge']
+    features: ['24/7 availability', 'Multi-language support', 'Course-specific knowledge'],
   },
   {
     id: 'assistant',
     type: 'admin_assistant',
     name: 'Admin Assistant',
     description: 'Help with administrative tasks and reporting',
-    features: ['Report generation', 'Data analysis', 'Task automation']
+    features: ['Report generation', 'Data analysis', 'Task automation'],
   },
   {
     id: 'support',
     type: 'support_bot',
     name: 'Support Bot',
     description: 'Automated support for common inquiries',
-    features: ['FAQ handling', 'Ticket routing', 'Self-service support']
-  }
+    features: ['FAQ handling', 'Ticket routing', 'Self-service support'],
+  },
 ];
 
 export default function DeployClient() {
@@ -70,7 +70,9 @@ export default function DeployClient() {
   };
 
   const getDeploymentStatus = (type: string): Deployment | undefined => {
-    return deployments.find(d => d.copilot_type === type && (d.status === 'active' || d.status === 'deploying'));
+    return deployments.find(
+      (d) => d.copilot_type === type && (d.status === 'active' || d.status === 'deploying'),
+    );
   };
 
   const handleDeploy = async (option: DeploymentOption) => {
@@ -102,7 +104,7 @@ export default function DeployClient() {
       }
 
       setMessage({ type: 'success', text: `${option.name} deployment initiated!` });
-      
+
       // Refresh deployments after a delay to get updated status
       setTimeout(fetchDeployments, 2500);
     } catch (error) {
@@ -114,7 +116,7 @@ export default function DeployClient() {
 
   const handleToggle = async (deployment: Deployment) => {
     const action = deployment.status === 'active' ? 'stop' : 'start';
-    
+
     try {
       const res = await fetch('/api/admin/copilot/deploy', {
         method: 'PATCH',
@@ -171,7 +173,9 @@ export default function DeployClient() {
     <div className="space-y-6">
       {/* Message Banner */}
       {message && (
-        <div className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-brand-green-50 text-brand-green-800 border border-brand-green-200' : 'bg-brand-red-50 text-brand-red-800 border border-brand-red-200'}`}>
+        <div
+          className={`p-4 rounded-lg ${message.type === 'success' ? 'bg-brand-green-50 text-brand-green-800 border border-brand-green-200' : 'bg-brand-red-50 text-brand-red-800 border border-brand-red-200'}`}
+        >
           {message.text}
         </div>
       )}
@@ -180,28 +184,44 @@ export default function DeployClient() {
       {deploymentOptions.map((option) => {
         const deployment = getDeploymentStatus(option.type);
         const isDeploying = deploying === option.type;
-        
+
         return (
           <div key={option.id} className="bg-white rounded-lg shadow-sm border p-6">
             <div className="flex items-start justify-between">
               <div className="flex items-start gap-4">
                 <div className="w-12 h-12 bg-brand-blue-100 rounded-lg flex items-center justify-center">
-                  <svg className="w-6 h-6 text-brand-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  <svg
+                    className="w-6 h-6 text-brand-blue-600"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"
+                    />
                   </svg>
                 </div>
                 <div>
                   <div className="flex items-center gap-2">
                     <h3 className="text-lg font-semibold">{option.name}</h3>
                     {deployment && (
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        deployment.status === 'active' 
-                          ? 'bg-brand-green-100 text-brand-green-700' 
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs ${
+                          deployment.status === 'active'
+                            ? 'bg-brand-green-100 text-brand-green-700'
+                            : deployment.status === 'deploying'
+                              ? 'bg-yellow-100 text-yellow-700'
+                              : 'bg-gray-100 text-slate-700'
+                        }`}
+                      >
+                        {deployment.status === 'active'
+                          ? 'Active'
                           : deployment.status === 'deploying'
-                          ? 'bg-yellow-100 text-yellow-700'
-                          : 'bg-gray-100 text-slate-700'
-                      }`}>
-                        {deployment.status === 'active' ? 'Active' : deployment.status === 'deploying' ? 'Deploying...' : 'Stopped'}
+                            ? 'Deploying...'
+                            : 'Stopped'}
                       </span>
                     )}
                   </div>
@@ -219,7 +239,7 @@ export default function DeployClient() {
               <div className="flex gap-2">
                 {deployment ? (
                   <>
-                    <button 
+                    <button
                       onClick={() => handleToggle(deployment)}
                       className={`px-4 py-2 rounded-lg font-medium ${
                         deployment.status === 'active'
@@ -229,7 +249,7 @@ export default function DeployClient() {
                     >
                       {deployment.status === 'active' ? 'Stop' : 'Start'}
                     </button>
-                    <button 
+                    <button
                       onClick={() => handleRemove(deployment.id)}
                       className="px-4 py-2 rounded-lg font-medium bg-brand-red-100 text-brand-red-700 hover:bg-brand-red-200"
                     >
@@ -237,7 +257,7 @@ export default function DeployClient() {
                     </button>
                   </>
                 ) : (
-                  <button 
+                  <button
                     onClick={() => handleDeploy(option)}
                     disabled={isDeploying}
                     className={`px-4 py-2 rounded-lg font-medium ${
@@ -260,11 +280,9 @@ export default function DeployClient() {
         <h2 className="text-lg font-semibold mb-4">Deployment Configuration</h2>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-900 mb-2">
-              API Key
-            </label>
-            <input 
-              type="password" 
+            <label className="block text-sm font-medium text-slate-900 mb-2">API Key</label>
+            <input
+              type="password"
               className="w-full border rounded-lg px-3 py-2"
               placeholder="Enter your OpenAI API key"
               value={config.apiKey}
@@ -273,10 +291,8 @@ export default function DeployClient() {
             <p className="text-xs text-slate-700 mt-1">Required for AI features</p>
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-900 mb-2">
-              Model Selection
-            </label>
-            <select 
+            <label className="block text-sm font-medium text-slate-900 mb-2">Model Selection</label>
+            <select
               className="w-full border rounded-lg px-3 py-2"
               value={config.model}
               onChange={(e) => setConfig({ ...config, model: e.target.value })}
@@ -286,9 +302,9 @@ export default function DeployClient() {
             </select>
           </div>
           <div className="flex items-center gap-2">
-            <input 
-              type="checkbox" 
-              id="logging" 
+            <input
+              type="checkbox"
+              id="logging"
               className="w-4 h-4 rounded"
               checked={config.enableLogging}
               onChange={(e) => setConfig({ ...config, enableLogging: e.target.checked })}
@@ -318,16 +334,23 @@ export default function DeployClient() {
                   <tr key={d.id} className="border-b">
                     <td className="py-2 px-3 capitalize">{d.copilot_type.replace('_', ' ')}</td>
                     <td className="py-2 px-3">
-                      <span className={`px-2 py-1 rounded-full text-xs ${
-                        d.status === 'active' ? 'bg-brand-green-100 text-brand-green-700' :
-                        d.status === 'stopped' ? 'bg-gray-100 text-slate-700' :
-                        d.status === 'deploying' ? 'bg-yellow-100 text-yellow-700' :
-                        'bg-brand-red-100 text-brand-red-700'
-                      }`}>
+                      <span
+                        className={`px-2 py-1 rounded-full text-xs ${
+                          d.status === 'active'
+                            ? 'bg-brand-green-100 text-brand-green-700'
+                            : d.status === 'stopped'
+                              ? 'bg-gray-100 text-slate-700'
+                              : d.status === 'deploying'
+                                ? 'bg-yellow-100 text-yellow-700'
+                                : 'bg-brand-red-100 text-brand-red-700'
+                        }`}
+                      >
                         {d.status}
                       </span>
                     </td>
-                    <td className="py-2 px-3">{new Date(d.deployed_at).toLocaleString('en-US', { timeZone: 'UTC' })}</td>
+                    <td className="py-2 px-3">
+                      {new Date(d.deployed_at).toLocaleString('en-US', { timeZone: 'UTC' })}
+                    </td>
                   </tr>
                 ))}
               </tbody>

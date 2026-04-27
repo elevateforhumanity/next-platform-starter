@@ -137,16 +137,17 @@ export function validateProgram(state: ProgramBuilderState): ProgramDerivedState
   if (!state.delivery_method) missing.push('Delivery mode');
 
   const totalModules = state.phases.reduce((n, p) => n + p.modules.length, 0);
-  const allLessons = state.phases.flatMap(p => p.modules.flatMap(m => m.lessons));
+  const allLessons = state.phases.flatMap((p) => p.modules.flatMap((m) => m.lessons));
   const totalLessons = allLessons.length;
-  const emptyLessons = allLessons.filter(l => !l.has_video && !l.has_reading).length;
-  const lessonsMissingVideo = allLessons.filter(l => !l.has_video).length;
-  const lessonsMissingReading = allLessons.filter(l => !l.has_reading).length;
+  const emptyLessons = allLessons.filter((l) => !l.has_video && !l.has_reading).length;
+  const lessonsMissingVideo = allLessons.filter((l) => !l.has_video).length;
+  const lessonsMissingReading = allLessons.filter((l) => !l.has_reading).length;
 
   if (state.phases.length < 1) missing.push('At least 1 curriculum phase');
   if (totalModules < 3) missing.push(`Modules (${totalModules}/3 minimum)`);
   if (totalLessons < 10) missing.push(`Lessons (${totalLessons}/10 minimum)`);
-  if (emptyLessons > 0) missing.push(`${emptyLessons} lesson${emptyLessons > 1 ? 's' : ''} with no content`);
+  if (emptyLessons > 0)
+    missing.push(`${emptyLessons} lesson${emptyLessons > 1 ? 's' : ''} with no content`);
 
   // Completion score: 8 required items
   const REQUIRED_ITEMS = 8;

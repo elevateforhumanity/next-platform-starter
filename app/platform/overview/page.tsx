@@ -14,7 +14,8 @@ import {
   TrendingUp,
   Users,
   Zap,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 export const metadata = {
   title: 'Platform Overview | Licensing Models | Elevate Workforce OS',
@@ -28,11 +29,20 @@ export const metadata = {
 export default function PlatformLicensingPage() {
   return (
     <div className="bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Platform", href: "/platform" }, { label: "Overview" }]} />
-        <p className="text-sm text-black mt-1">Part of the <a href="/platform" className="text-brand-red-600 font-medium hover:underline">Elevate Workforce Operating System</a>. <a href="/store/licensing" className="hover:underline">View pricing →</a></p>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Platform', href: '/platform' }, { label: 'Overview' }]} />
+        <p className="text-sm text-black mt-1">
+          Part of the{' '}
+          <a href="/platform" className="text-brand-red-600 font-medium hover:underline">
+            Elevate Workforce Operating System
+          </a>
+          .{' '}
+          <a href="/store/licensing" className="hover:underline">
+            View pricing →
+          </a>
+        </p>
       </div>
-{/* Hero */}
+      {/* Hero */}
       <section className="bg-brand-blue-700    text-white py-20 md:py-32">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="text-center max-w-4xl mx-auto">
@@ -43,8 +53,7 @@ export default function PlatformLicensingPage() {
               Choose How You Want to License
             </h1>
             <p className="text-2xl text-white mb-8 leading-relaxed">
-              Program Holder Network. Independent Platform. Apprenticeship Only.
-              Or Build Your Own.
+              Program Holder Network. Independent Platform. Apprenticeship Only. Or Build Your Own.
             </p>
             <div className="bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl p-6 mb-8">
               <div className="grid md:grid-cols-4 gap-4 text-center text-sm">
@@ -113,17 +122,13 @@ export default function PlatformLicensingPage() {
                   <span className="text-black flex-shrink-0">•</span>
                   <div>
                     <div className="font-semibold">WIOA Eligible Provider</div>
-                    <div className="text-black">
-                      Federal funding approved
-                    </div>
+                    <div className="text-black">Federal funding approved</div>
                   </div>
                 </div>
               </div>
               <div className="mt-6 pt-6 border-t border-slate-200">
                 <div className="text-xs text-black">Value</div>
-                <div className="text-lg font-bold text-black">
-                  $150K-$300K
-                </div>
+                <div className="text-lg font-bold text-black">$150K-$300K</div>
                 <div className="text-xs text-black">+ 18-30 months</div>
               </div>
             </div>
@@ -157,9 +162,7 @@ export default function PlatformLicensingPage() {
               </div>
               <div className="mt-6 pt-6 border-t border-slate-200">
                 <div className="text-xs text-black">Value</div>
-                <div className="text-lg font-bold text-black">
-                  $100K-$200K
-                </div>
+                <div className="text-lg font-bold text-black">$100K-$200K</div>
                 <div className="text-xs text-black">+ 12-24 months</div>
               </div>
             </div>
@@ -173,9 +176,7 @@ export default function PlatformLicensingPage() {
                   <span className="text-black flex-shrink-0">•</span>
                   <div>
                     <div className="font-semibold">Job Ready Indy Partner</div>
-                    <div className="text-black">
-                      Justice-involved approved
-                    </div>
+                    <div className="text-black">Justice-involved approved</div>
                   </div>
                 </div>
                 <div className="flex items-start gap-2">
@@ -195,9 +196,7 @@ export default function PlatformLicensingPage() {
               </div>
               <div className="mt-6 pt-6 border-t border-slate-200">
                 <div className="text-xs text-black">Value</div>
-                <div className="text-lg font-bold text-black">
-                  $50K-$150K
-                </div>
+                <div className="text-lg font-bold text-black">$50K-$150K</div>
                 <div className="text-xs text-black">+ 9-18 months</div>
               </div>
             </div>
@@ -205,19 +204,17 @@ export default function PlatformLicensingPage() {
 
           <div className="bg-brand-blue-700   rounded-2xl p-8 text-white text-center">
             <div className="text-5xl font-bold mb-2">$300K - $650K</div>
-            <div className="text-xl mb-4">
-              Total Credential Value + 4-8 Years Saved
-            </div>
+            <div className="text-xl mb-4">Total Credential Value + 4-8 Years Saved</div>
             <p className="text-white max-w-2xl mx-auto">
-              These credentials would take 4-8 years and $300K-$650K to obtain
-              yourself. License our platform and use them immediately.
+              These credentials would take 4-8 years and $300K-$650K to obtain yourself. License our
+              platform and use them immediately.
             </p>
           </div>
         </div>
       </section>
 
       {/* License Types */}
-      <section id="license-types"className="py-20">
+      <section id="license-types" className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
@@ -252,29 +249,24 @@ export default function PlatformLicensingPage() {
                 <div className="text-4xl font-bold mb-2">
                   $4,000<span className="text-xl text-black">/mo</span>
                 </div>
-                <div className="text-black">
-                  Starting price (500 students)
-                </div>
+                <div className="text-black">Starting price (500 students)</div>
               </div>
 
               <div className="bg-white/10 backdrop-blur-sm rounded-xl p-4 mb-6">
                 <div className="font-bold mb-2">Use OUR Credentials:</div>
                 <div className="space-y-1 text-sm">
                   <div>
-                    <span className="text-black flex-shrink-0">•</span> ETPL
-                    Provider: 10000949
+                    <span className="text-black flex-shrink-0">•</span> ETPL Provider: 10000949
                   </div>
                   <div>
-                    <span className="text-black flex-shrink-0">•</span> DOL RAPIDS:
-                    2025-IN-132301
+                    <span className="text-black flex-shrink-0">•</span> DOL RAPIDS: 2025-IN-132301
                   </div>
                   <div>
-                    <span className="text-black flex-shrink-0">•</span> INTraining:
-                    10004621
+                    <span className="text-black flex-shrink-0">•</span> INTraining: 10004621
                   </div>
                   <div>
-                    <span className="text-black flex-shrink-0">•</span> WIOA, WRG,
-                    Job Ready Indy, WorkOne, SNAP E&T
+                    <span className="text-black flex-shrink-0">•</span> WIOA, WRG, Job Ready Indy,
+                    WorkOne, SNAP E&T
                   </div>
                 </div>
               </div>
@@ -300,12 +292,11 @@ export default function PlatformLicensingPage() {
 
               <div className="bg-white/20 backdrop-blur-sm rounded-lg p-4 mb-6 text-sm">
                 <div className="font-bold mb-1">
-                  <AlertTriangle className="w-5 h-5 inline-block" />{' '}
-                  Requirements:
+                  <AlertTriangle className="w-5 h-5 inline-block" /> Requirements:
                 </div>
                 <div className="text-white">
-                  Application required. MOU agreement. Our approval needed.
-                  Indiana only (expanding soon).
+                  Application required. MOU agreement. Our approval needed. Indiana only (expanding
+                  soon).
                 </div>
               </div>
 
@@ -324,12 +315,8 @@ export default function PlatformLicensingPage() {
                   <Building2 className="w-8 h-8 text-black" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-black">
-                    Independent Platform
-                  </h3>
-                  <p className="text-black">
-                    Platform only, your credentials
-                  </p>
+                  <h3 className="text-2xl font-bold text-black">Independent Platform</h3>
+                  <p className="text-black">Platform only, your credentials</p>
                 </div>
               </div>
 
@@ -337,9 +324,7 @@ export default function PlatformLicensingPage() {
                 <div className="text-4xl font-bold text-black mb-2">
                   $2,000<span className="text-xl text-black">/mo</span>
                 </div>
-                <div className="text-black">
-                  Starting price (500 students)
-                </div>
+                <div className="text-black">Starting price (500 students)</div>
               </div>
 
               <div className="bg-white rounded-xl p-4 mb-6">
@@ -375,8 +360,7 @@ export default function PlatformLicensingPage() {
                   <span className="text-black flex-shrink-0">•</span> Best For:
                 </div>
                 <div className="text-brand-green-800">
-                  Organizations with existing credentials or willing to get
-                  their own.
+                  Organizations with existing credentials or willing to get their own.
                 </div>
               </div>
 
@@ -395,9 +379,7 @@ export default function PlatformLicensingPage() {
                   <Shield className="w-8 h-8 text-brand-blue-600" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-black">
-                    Apprenticeship Licensing
-                  </h3>
+                  <h3 className="text-2xl font-bold text-black">Apprenticeship Licensing</h3>
                   <p className="text-black">RAPIDS infrastructure only</p>
                 </div>
               </div>
@@ -406,9 +388,7 @@ export default function PlatformLicensingPage() {
                 <div className="text-4xl font-bold text-black mb-2">
                   $750<span className="text-xl text-black">/mo</span>
                 </div>
-                <div className="text-black">
-                  Starting price (5 employers, 25 apprentices)
-                </div>
+                <div className="text-black">Starting price (5 employers, 25 apprentices)</div>
               </div>
 
               <div className="bg-brand-blue-50 rounded-xl p-4 mb-6">
@@ -464,9 +444,7 @@ export default function PlatformLicensingPage() {
                   <Package className="w-8 h-8 text-brand-orange-600" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-bold text-black">
-                    Build Your Own
-                  </h3>
+                  <h3 className="text-2xl font-bold text-black">Build Your Own</h3>
                   <p className="text-black">À la carte modules</p>
                 </div>
               </div>
@@ -479,9 +457,7 @@ export default function PlatformLicensingPage() {
               </div>
 
               <div className="bg-brand-orange-50 rounded-xl p-4 mb-6">
-                <div className="font-bold text-brand-orange-900 mb-2">
-                  Pick & Choose:
-                </div>
+                <div className="font-bold text-brand-orange-900 mb-2">Pick & Choose:</div>
                 <div className="space-y-1 text-sm text-brand-orange-800">
                   <div>• Core Platform: $2K/mo</div>
                   <div>• + WIOA Module: +$1.5K/mo</div>
@@ -531,7 +507,7 @@ export default function PlatformLicensingPage() {
       </section>
 
       {/* Original Pricing Tiers Section (Keep for reference) */}
-      <section id="tiers"className="py-20">
+      <section id="tiers" className="py-20">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-16">
             <h2 className="text-4xl md:text-5xl font-bold text-black mb-4">
@@ -559,9 +535,7 @@ export default function PlatformLicensingPage() {
                 <div className="text-3xl font-bold text-black mb-1">
                   $2,000<span className="text-lg text-black">/mo</span>
                 </div>
-                <div className="text-sm text-black">
-                  Small (500 students)
-                </div>
+                <div className="text-sm text-black">Small (500 students)</div>
               </div>
 
               <div className="space-y-2 mb-6 text-sm">
@@ -585,9 +559,7 @@ export default function PlatformLicensingPage() {
 
               <div className="bg-white rounded-lg p-3 mb-4 text-xs">
                 <div className="font-semibold mb-1">No Credentials</div>
-                <div className="text-black">
-                  For private training providers
-                </div>
+                <div className="text-black">For private training providers</div>
               </div>
 
               <Link
@@ -612,9 +584,7 @@ export default function PlatformLicensingPage() {
                   <Shield className="w-6 h-6 text-white" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-slate-900">
-                    Government Approved
-                  </h3>
+                  <h3 className="text-xl font-bold text-slate-900">Government Approved</h3>
                   <p className="text-sm text-black">WIOA/ETPL/WRG</p>
                 </div>
               </div>
@@ -623,9 +593,7 @@ export default function PlatformLicensingPage() {
                 <div className="text-3xl font-bold text-white mb-1">
                   $4,000<span className="text-lg text-black">/mo</span>
                 </div>
-                <div className="text-sm text-black">
-                  Small (500 students)
-                </div>
+                <div className="text-sm text-black">Small (500 students)</div>
               </div>
 
               <div className="space-y-2 mb-6 text-sm text-white">
@@ -649,9 +617,7 @@ export default function PlatformLicensingPage() {
 
               <div className="bg-white/20 backdrop-blur-sm rounded-lg p-3 mb-4 text-xs text-white">
                 <div className="font-semibold mb-1">$110K-$225K Value</div>
-                <div className="text-black">
-                  ETPL + WIOA + State approvals
-                </div>
+                <div className="text-black">ETPL + WIOA + State approvals</div>
               </div>
 
               <Link
@@ -669,9 +635,7 @@ export default function PlatformLicensingPage() {
                   <Users className="w-6 h-6 text-brand-blue-600" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-black">
-                    Federal Contractor
-                  </h3>
+                  <h3 className="text-xl font-bold text-black">Federal Contractor</h3>
                   <p className="text-sm text-black">DOL/RAPIDS</p>
                 </div>
               </div>
@@ -680,9 +644,7 @@ export default function PlatformLicensingPage() {
                 <div className="text-3xl font-bold text-black mb-1">
                   $6,000<span className="text-lg text-black">/mo</span>
                 </div>
-                <div className="text-sm text-black">
-                  Small (500 students)
-                </div>
+                <div className="text-sm text-black">Small (500 students)</div>
               </div>
 
               <div className="space-y-2 mb-6 text-sm">
@@ -706,9 +668,7 @@ export default function PlatformLicensingPage() {
 
               <div className="bg-brand-blue-50 rounded-lg p-3 mb-4 text-xs">
                 <div className="font-semibold mb-1">$285K-$575K Value</div>
-                <div className="text-black">
-                  All Gov + DOL + Multi-State
-                </div>
+                <div className="text-black">All Gov + DOL + Multi-State</div>
               </div>
 
               <Link
@@ -726,9 +686,7 @@ export default function PlatformLicensingPage() {
                   <Globe className="w-6 h-6 text-brand-orange-600" />
                 </div>
                 <div>
-                  <h3 className="text-xl font-bold text-black">
-                    Enterprise
-                  </h3>
+                  <h3 className="text-xl font-bold text-black">Enterprise</h3>
                   <p className="text-sm text-black">Everything</p>
                 </div>
               </div>
@@ -737,9 +695,7 @@ export default function PlatformLicensingPage() {
                 <div className="text-3xl font-bold text-black mb-1">
                   $25,000<span className="text-lg text-black">/mo</span>
                 </div>
-                <div className="text-sm text-black">
-                  Regional (5K students)
-                </div>
+                <div className="text-sm text-black">Regional (5K students)</div>
               </div>
 
               <div className="space-y-2 mb-6 text-sm">
@@ -763,9 +719,7 @@ export default function PlatformLicensingPage() {
 
               <div className="bg-brand-orange-50 rounded-lg p-3 mb-4 text-xs">
                 <div className="font-semibold mb-1">$705K-$1.1M Value</div>
-                <div className="text-black">
-                  All credentials + custom dev
-                </div>
+                <div className="text-black">All credentials + custom dev</div>
               </div>
 
               <Link
@@ -779,9 +733,7 @@ export default function PlatformLicensingPage() {
 
           {/* Size Pricing Table */}
           <div className="mt-12 bg-white rounded-2xl p-8">
-            <h3 className="text-2xl font-bold text-center mb-8">
-              Pricing by Size
-            </h3>
+            <h3 className="text-2xl font-bold text-center mb-8">Pricing by Size</h3>
             <div className="overflow-x-auto">
               <table className="w-full text-sm">
                 <thead>
@@ -796,54 +748,30 @@ export default function PlatformLicensingPage() {
                 <tbody>
                   <tr className="border-b border-slate-200">
                     <td className="py-3 px-4">Small (500)</td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $2,000/mo
-                    </td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $4,000/mo
-                    </td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $6,000/mo
-                    </td>
+                    <td className="text-right py-3 px-4 font-semibold">$2,000/mo</td>
+                    <td className="text-right py-3 px-4 font-semibold">$4,000/mo</td>
+                    <td className="text-right py-3 px-4 font-semibold">$6,000/mo</td>
                     <td className="text-right py-3 px-4 text-black">-</td>
                   </tr>
                   <tr className="border-b border-slate-200">
                     <td className="py-3 px-4">Medium (2,500)</td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $4,000/mo
-                    </td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $8,000/mo
-                    </td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $12,000/mo
-                    </td>
+                    <td className="text-right py-3 px-4 font-semibold">$4,000/mo</td>
+                    <td className="text-right py-3 px-4 font-semibold">$8,000/mo</td>
+                    <td className="text-right py-3 px-4 font-semibold">$12,000/mo</td>
                     <td className="text-right py-3 px-4 text-black">-</td>
                   </tr>
                   <tr className="border-b border-slate-200">
                     <td className="py-3 px-4">Large (10,000)</td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $8,000/mo
-                    </td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $16,000/mo
-                    </td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $24,000/mo
-                    </td>
+                    <td className="text-right py-3 px-4 font-semibold">$8,000/mo</td>
+                    <td className="text-right py-3 px-4 font-semibold">$16,000/mo</td>
+                    <td className="text-right py-3 px-4 font-semibold">$24,000/mo</td>
                     <td className="text-right py-3 px-4 text-black">-</td>
                   </tr>
                   <tr className="border-b border-slate-200">
                     <td className="py-3 px-4">Enterprise (Unlimited)</td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $15,000/mo
-                    </td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $30,000/mo
-                    </td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $50,000/mo
-                    </td>
+                    <td className="text-right py-3 px-4 font-semibold">$15,000/mo</td>
+                    <td className="text-right py-3 px-4 font-semibold">$30,000/mo</td>
+                    <td className="text-right py-3 px-4 font-semibold">$50,000/mo</td>
                     <td className="text-right py-3 px-4 text-black">-</td>
                   </tr>
                   <tr>
@@ -851,27 +779,21 @@ export default function PlatformLicensingPage() {
                     <td className="text-right py-3 px-4 text-black">-</td>
                     <td className="text-right py-3 px-4 text-black">-</td>
                     <td className="text-right py-3 px-4 text-black">-</td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $25,000/mo
-                    </td>
+                    <td className="text-right py-3 px-4 font-semibold">$25,000/mo</td>
                   </tr>
                   <tr>
                     <td className="py-3 px-4">Statewide (25K)</td>
                     <td className="text-right py-3 px-4 text-black">-</td>
                     <td className="text-right py-3 px-4 text-black">-</td>
                     <td className="text-right py-3 px-4 text-black">-</td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $50,000/mo
-                    </td>
+                    <td className="text-right py-3 px-4 font-semibold">$50,000/mo</td>
                   </tr>
                   <tr>
                     <td className="py-3 px-4">Multi-State (100K)</td>
                     <td className="text-right py-3 px-4 text-black">-</td>
                     <td className="text-right py-3 px-4 text-black">-</td>
                     <td className="text-right py-3 px-4 text-black">-</td>
-                    <td className="text-right py-3 px-4 font-semibold">
-                      $100,000/mo
-                    </td>
+                    <td className="text-right py-3 px-4 font-semibold">$100,000/mo</td>
                   </tr>
                 </tbody>
               </table>
@@ -886,12 +808,8 @@ export default function PlatformLicensingPage() {
       {/* CTA */}
       <section className="py-16 bg-brand-blue-700   text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Ready to License Our Platform?
-          </h2>
-          <p className="text-xl text-white mb-8">
-            Schedule a demo and see your tier in action.
-          </p>
+          <h2 className="text-3xl font-bold mb-4">Ready to License Our Platform?</h2>
+          <p className="text-xl text-white mb-8">Schedule a demo and see your tier in action.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"

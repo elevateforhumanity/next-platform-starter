@@ -11,7 +11,7 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ courseId: string; lessonId: string }> }
+  { params }: { params: Promise<{ courseId: string; lessonId: string }> },
 ) {
   const { lessonId } = await params;
 

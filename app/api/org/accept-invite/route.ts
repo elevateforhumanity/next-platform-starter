@@ -36,12 +36,14 @@ async function _GET(req: NextRequest) {
   try {
     const { data: invite, error } = await db
       .from('org_invites')
-      .select(`
+      .select(
+        `
         email,
         role,
         expires_at,
         organizations:organization_id ( name )
-      `)
+      `,
+      )
       .eq('token', token)
       .gt('expires_at', new Date().toISOString())
       .maybeSingle();
@@ -51,9 +53,9 @@ async function _GET(req: NextRequest) {
 
     return NextResponse.json({
       invite: {
-        email:             invite.email,
-        role:              invite.role,
-        expires_at:        invite.expires_at,
+        email: invite.email,
+        role: invite.role,
+        expires_at: invite.expires_at,
         organization_name: (invite.organizations as any)?.name ?? '',
       },
     });
@@ -69,7 +71,10 @@ async function _POST(req: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError || !user) return safeError('Unauthorized', 401);
 
   let body: any;
@@ -94,7 +99,7 @@ async function _POST(req: NextRequest) {
       .maybeSingle();
 
     if (inviteError) return safeInternalError(inviteError, 'POST /api/org/accept-invite fetch');
-    if (!invite)     return safeError('Invalid or expired invitation', 404);
+    if (!invite) return safeError('Invalid or expired invitation', 404);
 
     if (invite.accepted_at) {
       return safeError('This invitation has already been accepted', 409);
@@ -117,33 +122,30 @@ async function _POST(req: NextRequest) {
     }
 
     // Add to organization_users
-    const { error: memberError } = await db
-      .from('organization_users')
-      .insert({
-        organization_id: invite.organization_id,
-        user_id:         user.id,
-        role:            invite.role,
-        status:          'active',
-      });
+    const { error: memberError } = await db.from('organization_users').insert({
+      organization_id: invite.organization_id,
+      user_id: user.id,
+      role: invite.role,
+      status: 'active',
+    });
 
-    if (memberError) return safeInternalError(memberError, 'POST /api/org/accept-invite insert member');
+    if (memberError)
+      return safeInternalError(memberError, 'POST /api/org/accept-invite insert member');
 
     // Bind profile.organization_id
     await bindUserToOrg(supabase, user.id, invite.organization_id);
 
     // Optional cohort enrollment
     if (invite.cohort_id) {
-      await db
-        .from('cohort_enrollments')
-        .upsert(
-          {
-            cohort_id:         invite.cohort_id,
-            learner_id:        user.id,
-            enrollment_status: 'active',
-            enrolled_at:       new Date().toISOString(),
-          },
-          { onConflict: 'cohort_id,learner_id' }
-        );
+      await db.from('cohort_enrollments').upsert(
+        {
+          cohort_id: invite.cohort_id,
+          learner_id: user.id,
+          enrollment_status: 'active',
+          enrolled_at: new Date().toISOString(),
+        },
+        { onConflict: 'cohort_id,learner_id' },
+      );
     }
 
     // Mark accepted
@@ -153,14 +155,14 @@ async function _POST(req: NextRequest) {
       .eq('id', invite.id);
 
     return NextResponse.json({
-      success:        true,
+      success: true,
       organizationId: invite.organization_id,
-      role:           invite.role,
+      role: invite.role,
     });
   } catch (err) {
     return safeInternalError(err, 'POST /api/org/accept-invite');
   }
 }
 
-export const GET  = withApiAudit('/api/org/accept-invite', _GET);
+export const GET = withApiAudit('/api/org/accept-invite', _GET);
 export const POST = withApiAudit('/api/org/accept-invite', _POST);

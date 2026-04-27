@@ -6,7 +6,6 @@ import { execSync } from 'node:child_process';
 
 const ROOT = 'deploy';
 
-
 // 1. Ensure all page directories have proper structure
 const pageDirectories = [
   {
@@ -93,7 +92,7 @@ function optimizeHTML(filePath) {
         '<head>',
         `<head>
     <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>`,
       );
     }
 
@@ -101,7 +100,7 @@ function optimizeHTML(filePath) {
     if (!content.includes('viewport')) {
       content = content.replace(
         '<head>',
-        '<head>\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">'
+        '<head>\n    <meta name="viewport" content="width=device-width, initial-scale=1.0">',
       );
     }
 
@@ -145,7 +144,6 @@ htmlFiles.forEach((file) => {
     optimizedCount++;
   }
 });
-
 
 // 4. Create .htaccess for Apache servers (if needed)
 const htaccess = `# Elevate for Humanity - Apache Configuration
@@ -207,6 +205,5 @@ const deploymentSummary = {
 
 fs.writeFileSync(
   path.join(ROOT, 'deployment-summary.json'),
-  JSON.stringify(deploymentSummary, null, 2)
+  JSON.stringify(deploymentSummary, null, 2),
 );
-

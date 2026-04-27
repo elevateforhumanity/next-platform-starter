@@ -89,7 +89,9 @@ describe('Bugs C & D — temp passwords: crypto.randomBytes', () => {
 // ─── Bug E — gdpr.ts anonymizeUserData: Promise.all errors checked ────────────
 
 describe('Bug E — gdpr anonymizeUserData: error propagation', () => {
-  interface DbResult { error: { code: string } | null }
+  interface DbResult {
+    error: { code: string } | null;
+  }
 
   function processAnonymizeResults(
     profileResult: DbResult,
@@ -104,11 +106,7 @@ describe('Bug E — gdpr anonymizeUserData: error propagation', () => {
   }
 
   it('returns success when all updates succeed', () => {
-    const result = processAnonymizeResults(
-      { error: null },
-      { error: null },
-      { error: null },
-    );
+    const result = processAnonymizeResults({ error: null }, { error: null }, { error: null });
     expect(result.success).toBe(true);
   });
 
@@ -178,7 +176,9 @@ describe('Bug G — course-builder routes: safe error responses', () => {
   }
 
   it('does not include error.message in the response', () => {
-    const dbError = new Error('duplicate key value violates unique constraint "course_modules_slug_key"');
+    const dbError = new Error(
+      'duplicate key value violates unique constraint "course_modules_slug_key"',
+    );
     const response = safeErrorResponse(dbError, 'save module');
     expect(response.error).not.toContain('duplicate key');
     expect(response.error).not.toContain('course_modules_slug_key');
@@ -186,7 +186,9 @@ describe('Bug G — course-builder routes: safe error responses', () => {
   });
 
   it('returns a fixed string regardless of error type', () => {
-    expect(safeErrorResponse(new Error('secret'), 'save lesson').error).toBe('Failed to save lesson');
+    expect(safeErrorResponse(new Error('secret'), 'save lesson').error).toBe(
+      'Failed to save lesson',
+    );
     expect(safeErrorResponse('string error', 'save program').error).toBe('Failed to save program');
     expect(safeErrorResponse(null, 'publish course').error).toBe('Failed to publish course');
   });

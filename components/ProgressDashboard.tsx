@@ -1,9 +1,9 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 import { useState, useEffect } from 'react';
-import { TrendingUp, Award, Clock, Target, BookOpen, CheckCircle, } from 'lucide-react';
+import { TrendingUp, Award, Clock, Target, BookOpen, CheckCircle } from 'lucide-react';
 
 interface ProgressData {
   overall_progress: number;
@@ -43,7 +43,8 @@ export function ProgressDashboard({ userId }: { userId: string }) {
         setData(result.progress);
         setCourses(result.courses || []);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     } finally {
       setLoading(false);
@@ -118,11 +119,10 @@ export function ProgressDashboard({ userId }: { userId: string }) {
         {stats.map((stat, idx) => {
           const Icon = stat.icon;
           return (
-            <div
-              key={idx}
-              className="bg-white rounded-lg border border-slate-200 p-4"
-            >
-              <div className={`w-10 h-10 rounded-lg ${stat.bgColor} flex items-center justify-center mb-3`}>
+            <div key={idx} className="bg-white rounded-lg border border-slate-200 p-4">
+              <div
+                className={`w-10 h-10 rounded-lg ${stat.bgColor} flex items-center justify-center mb-3`}
+              >
                 <Icon className={`w-5 h-5 ${stat.color}`} />
               </div>
               <p className="text-2xl font-bold text-black">{stat.value}</p>
@@ -136,9 +136,7 @@ export function ProgressDashboard({ userId }: { userId: string }) {
       <div className="bg-white rounded-lg border border-slate-200 p-6">
         <div className="flex items-center justify-between mb-4">
           <h3 className="text-lg font-semibold text-black">Overall Progress</h3>
-          <span className="text-2xl font-bold text-brand-orange-600">
-            {data.overall_progress}%
-          </span>
+          <span className="text-2xl font-bold text-brand-orange-600">{data.overall_progress}%</span>
         </div>
         <div className="h-4 bg-slate-200 rounded-full overflow-hidden">
           <div
@@ -162,13 +160,17 @@ export function ProgressDashboard({ userId }: { userId: string }) {
                 <div className="flex-1">
                   <h4 className="font-medium text-black">{course.course_name}</h4>
                   <p className="text-xs text-slate-500 mt-1">
-                    Last accessed: {new Date(course.last_accessed).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                    Last accessed:{' '}
+                    {new Date(course.last_accessed).toLocaleDateString('en-US', {
+                      timeZone: 'UTC',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                   </p>
                 </div>
                 <div className="text-right ml-4">
-                  <p className="text-lg font-bold text-brand-orange-600">
-                    {course.progress}%
-                  </p>
+                  <p className="text-lg font-bold text-brand-orange-600">{course.progress}%</p>
                   {course.grade !== undefined && (
                     <p className="text-xs text-black">Grade: {course.grade}%</p>
                   )}

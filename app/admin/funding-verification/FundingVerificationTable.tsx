@@ -14,7 +14,7 @@ type QueueRow = {
   funding_source: string | null;
   enrolled_at: string;
   due_at: string | null;
-  days_until_due: number | null;   // negative = overdue
+  days_until_due: number | null; // negative = overdue
   days_since_enrollment: number;
   sla_status: 'on_track' | 'due_soon' | 'overdue' | 'critical' | 'no_deadline';
   has_open_escalation: boolean;
@@ -24,17 +24,17 @@ type QueueRow = {
 type FilterKey = 'all' | 'critical' | 'overdue' | 'due_soon' | 'on_track';
 
 const SLA_BADGE: Record<string, string> = {
-  critical:   'bg-red-200 text-red-900',
-  overdue:    'bg-red-100 text-red-800',
-  due_soon:   'bg-amber-100 text-amber-800',
-  on_track:   'bg-green-100 text-green-800',
-  no_deadline:'bg-gray-100 text-slate-700',
+  critical: 'bg-red-200 text-red-900',
+  overdue: 'bg-red-100 text-red-800',
+  due_soon: 'bg-amber-100 text-amber-800',
+  on_track: 'bg-green-100 text-green-800',
+  no_deadline: 'bg-gray-100 text-slate-700',
 };
 
 const FILTER_LABELS: Record<FilterKey, string> = {
-  all:      'All',
+  all: 'All',
   critical: 'Critical',
-  overdue:  'Overdue',
+  overdue: 'Overdue',
   due_soon: 'Due Soon',
   on_track: 'On Track',
 };
@@ -49,7 +49,7 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
   const [noteOpen, setNoteOpen] = useState<string | null>(null);
   const [notes, setNotes] = useState<Record<string, string>>({});
 
-  const filtered = filter === 'all' ? rows : rows.filter(r => r.sla_status === filter);
+  const filtered = filter === 'all' ? rows : rows.filter((r) => r.sla_status === filter);
 
   function getNote(id: string) {
     return notes[id] ?? '';
@@ -61,7 +61,11 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
     startTransition(async () => {
       try {
         await verifyFunding(id, getNote(id));
-        setNotes(prev => { const n = { ...prev }; delete n[id]; return n; });
+        setNotes((prev) => {
+          const n = { ...prev };
+          delete n[id];
+          return n;
+        });
         setNoteOpen(null);
       } catch (e) {
         setActionError(e instanceof Error ? e.message : 'Verify failed');
@@ -83,7 +87,11 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
     startTransition(async () => {
       try {
         await rejectFunding(id, reason);
-        setNotes(prev => { const n = { ...prev }; delete n[id]; return n; });
+        setNotes((prev) => {
+          const n = { ...prev };
+          delete n[id];
+          return n;
+        });
         setNoteOpen(null);
       } catch (e) {
         setActionError(e instanceof Error ? e.message : 'Reject failed');
@@ -104,7 +112,7 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
     <div>
       {/* Filter tabs */}
       <div className="flex flex-wrap gap-2 mb-4">
-        {(Object.keys(FILTER_LABELS) as FilterKey[]).map(f => (
+        {(Object.keys(FILTER_LABELS) as FilterKey[]).map((f) => (
           <button
             key={f}
             onClick={() => setFilter(f)}
@@ -117,7 +125,7 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
             {FILTER_LABELS[f]}
             {f !== 'all' && (
               <span className="ml-1.5 text-xs opacity-75">
-                ({rows.filter(r => r.sla_status === f).length})
+                ({rows.filter((r) => r.sla_status === f).length})
               </span>
             )}
           </button>
@@ -137,7 +145,7 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
           <table className="min-w-full divide-y divide-gray-200 text-sm">
             <thead className="bg-gray-50">
               <tr>
-                {['Student', 'Program', 'Enrolled', 'SLA', 'Deadline', ''].map(h => (
+                {['Student', 'Program', 'Enrolled', 'SLA', 'Deadline', ''].map((h) => (
                   <th
                     key={h}
                     className="px-4 py-3 text-left text-xs font-medium text-slate-700 uppercase tracking-wider last:text-right"
@@ -148,7 +156,7 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {filtered.map(row => (
+              {filtered.map((row) => (
                 <React.Fragment key={row.enrollment_id}>
                   <tr className={row.has_open_escalation ? 'bg-red-50' : 'hover:bg-gray-50'}>
                     <td className="px-4 py-3">
@@ -181,13 +189,13 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
                         {row.sla_status.replace('_', ' ')}
                       </span>
                     </td>
-                    <td className="px-4 py-3 text-slate-900 text-xs">
-                      {daysLabel(row)}
-                    </td>
+                    <td className="px-4 py-3 text-slate-900 text-xs">{daysLabel(row)}</td>
                     <td className="px-4 py-3">
                       <div className="flex justify-end gap-2">
                         <button
-                          onClick={() => setNoteOpen(noteOpen === row.enrollment_id ? null : row.enrollment_id)}
+                          onClick={() =>
+                            setNoteOpen(noteOpen === row.enrollment_id ? null : row.enrollment_id)
+                          }
                           className="px-2 py-1 rounded border border-gray-300 text-slate-700 hover:bg-gray-50 text-xs"
                         >
                           {noteOpen === row.enrollment_id ? 'Close' : 'Note'}
@@ -214,13 +222,12 @@ export default function FundingVerificationTable({ rows }: { rows: QueueRow[] })
                     <tr className="bg-gray-50">
                       <td colSpan={6} className="px-4 py-2">
                         <label className="block text-xs text-slate-700 mb-1">
-                          Note / reason{' '}
-                          <span className="text-red-500">(required for Reject)</span>
+                          Note / reason <span className="text-red-500">(required for Reject)</span>
                         </label>
                         <textarea
                           value={getNote(row.enrollment_id)}
-                          onChange={e =>
-                            setNotes(prev => ({ ...prev, [row.enrollment_id]: e.target.value }))
+                          onChange={(e) =>
+                            setNotes((prev) => ({ ...prev, [row.enrollment_id]: e.target.value }))
                           }
                           placeholder="Document funding source, reference number, or rejection reason…"
                           rows={2}

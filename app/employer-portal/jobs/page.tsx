@@ -5,8 +5,17 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
-  Briefcase, Plus, Edit, Trash2, Users, Clock,
-  MapPin, DollarSign, MoreVertical, Search, Filter,
+  Briefcase,
+  Plus,
+  Edit,
+  Trash2,
+  Users,
+  Clock,
+  MapPin,
+  DollarSign,
+  MoreVertical,
+  Search,
+  Filter,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -25,7 +34,9 @@ export default async function JobPostingsPage() {
     redirect('/login?redirect=/employer-portal/jobs');
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/employer-portal/jobs');
@@ -34,18 +45,24 @@ export default async function JobPostingsPage() {
   // Fetch real job postings for this employer
   const { data: jobPostings } = await db
     .from('job_postings')
-    .select('id, job_title, job_description, location, employment_type, salary_min, salary_max, status, positions_available, positions_filled, created_at')
+    .select(
+      'id, job_title, job_description, location, employment_type, salary_min, salary_max, status, positions_available, positions_filled, created_at',
+    )
     .eq('employer_id', user.id)
     .order('created_at', { ascending: false });
 
-  const jobs = (jobPostings || []).map(j => {
-    const salaryDisplay = j.salary_min && j.salary_max
-      ? `$${j.salary_min.toLocaleString()} - $${j.salary_max.toLocaleString()}`
-      : j.salary_min ? `From $${j.salary_min.toLocaleString()}` : 'Not specified';
+  const jobs = (jobPostings || []).map((j) => {
+    const salaryDisplay =
+      j.salary_min && j.salary_max
+        ? `$${j.salary_min.toLocaleString()} - $${j.salary_max.toLocaleString()}`
+        : j.salary_min
+          ? `From $${j.salary_min.toLocaleString()}`
+          : 'Not specified';
 
     const posted = new Date(j.created_at);
     const daysAgo = Math.floor((Date.now() - posted.getTime()) / (1000 * 60 * 60 * 24));
-    const postedLabel = daysAgo === 0 ? 'Today' : daysAgo === 1 ? '1 day ago' : `${daysAgo} days ago`;
+    const postedLabel =
+      daysAgo === 0 ? 'Today' : daysAgo === 1 ? '1 day ago' : `${daysAgo} days ago`;
 
     return {
       id: j.id,
@@ -62,7 +79,9 @@ export default async function JobPostingsPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-      <Breadcrumbs items={[{ label: "Employer Portal", href: "/employer-portal" }, { label: "Jobs" }]} />
+      <Breadcrumbs
+        items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'Jobs' }]}
+      />
 
       {/* Header */}
       <section className="bg-white border-b">
@@ -70,7 +89,9 @@ export default async function JobPostingsPage() {
           <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4">
             <div>
               <h1 className="text-3xl font-bold text-gray-900">Job Postings</h1>
-              <p className="text-gray-600 mt-1">Manage your open positions and track applications</p>
+              <p className="text-gray-600 mt-1">
+                Manage your open positions and track applications
+              </p>
             </div>
             <Link
               href="/employer-portal/jobs/new"
@@ -117,17 +138,24 @@ export default async function JobPostingsPage() {
           {jobs.length > 0 ? (
             <div className="space-y-4">
               {jobs.map((job) => (
-                <div key={job.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow">
+                <div
+                  key={job.id}
+                  className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-md transition-shadow"
+                >
                   <div className="p-6">
                     <div className="flex items-start justify-between">
                       <div>
                         <div className="flex items-center gap-3 mb-2">
                           <h3 className="text-xl font-bold text-gray-900">{job.title}</h3>
-                          <span className={`px-3 py-1 rounded-full text-xs font-medium ${
-                            job.status === 'active' ? 'bg-brand-green-100 text-brand-green-700' :
-                            job.status === 'paused' ? 'bg-yellow-100 text-yellow-700' :
-                            'bg-gray-100 text-gray-700'
-                          }`}>
+                          <span
+                            className={`px-3 py-1 rounded-full text-xs font-medium ${
+                              job.status === 'active'
+                                ? 'bg-brand-green-100 text-brand-green-700'
+                                : job.status === 'paused'
+                                  ? 'bg-yellow-100 text-yellow-700'
+                                  : 'bg-gray-100 text-gray-700'
+                            }`}
+                          >
                             {job.status}
                           </span>
                         </div>
@@ -190,7 +218,9 @@ export default async function JobPostingsPage() {
             <div className="text-center py-16">
               <Briefcase className="w-16 h-16 text-gray-300 mx-auto mb-4" />
               <h3 className="text-xl font-semibold text-gray-900 mb-2">No job postings yet</h3>
-              <p className="text-gray-600 mb-6">Create your first job posting to start receiving applications.</p>
+              <p className="text-gray-600 mb-6">
+                Create your first job posting to start receiving applications.
+              </p>
               <Link
                 href="/employer-portal/jobs/new"
                 className="inline-flex items-center gap-2 px-6 py-3 bg-brand-blue-600 text-white font-semibold rounded-lg hover:bg-brand-blue-700 transition-colors"

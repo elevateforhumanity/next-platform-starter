@@ -24,7 +24,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function StudentBillingPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/student/billing');
@@ -42,10 +44,12 @@ export default async function StudentBillingPage() {
   // Fetch tuition subscription if exists
   const { data: tuitionSub } = await supabase
     .from('tuition_subscriptions')
-    .select(`
+    .select(
+      `
       *,
       programs:program_id (name, title)
-    `)
+    `,
+    )
     .eq('student_id', user.id)
     .order('created_at', { ascending: false })
     .limit(1)
@@ -70,10 +74,12 @@ export default async function StudentBillingPage() {
   // Fetch enrollment info for program name and funding type
   const { data: enrollment } = await supabase
     .from('program_enrollments')
-    .select(`
+    .select(
+      `
       *,
       programs:program_id (name, title)
-    `)
+    `,
+    )
     .eq('student_id', user.id)
     .order('created_at', { ascending: false })
     .limit(1)
@@ -82,10 +88,12 @@ export default async function StudentBillingPage() {
   // Also check enrollments table (alternate table name)
   const { data: altEnrollment } = await supabase
     .from('enrollments')
-    .select(`
+    .select(
+      `
       *,
       programs:program_id (name, title)
-    `)
+    `,
+    )
     .eq('user_id', user.id)
     .order('created_at', { ascending: false })
     .limit(1)
@@ -93,18 +101,21 @@ export default async function StudentBillingPage() {
 
   const activeEnrollment = enrollment || altEnrollment;
   const fundingType = activeEnrollment?.funding_type || activeEnrollment?.funding_source || null;
-  const isFunded = fundingType && ['wioa', 'wrg', 'pell', 'grant', 'scholarship', 'employer'].includes(fundingType.toLowerCase());
+  const isFunded =
+    fundingType &&
+    ['wioa', 'wrg', 'pell', 'grant', 'scholarship', 'employer'].includes(fundingType.toLowerCase());
 
   // Build payment plan from actual database data
   let paymentPlan = null;
-  
+
   if (subscription) {
     paymentPlan = {
       id: subscription.id,
       program_name: activeEnrollment?.programs?.name || activeEnrollment?.programs?.title || null,
-      total_amount: subscription.weekly_amount && subscription.total_weeks 
-        ? subscription.weekly_amount * subscription.total_weeks 
-        : null,
+      total_amount:
+        subscription.weekly_amount && subscription.total_weeks
+          ? subscription.weekly_amount * subscription.total_weeks
+          : null,
       weekly_amount: subscription.weekly_amount,
       total_weeks: subscription.total_weeks,
       weeks_paid: subscription.weeks_paid || 0,
@@ -119,9 +130,10 @@ export default async function StudentBillingPage() {
     paymentPlan = {
       id: tuitionSub.id,
       program_name: tuitionSub.programs?.name || tuitionSub.programs?.title || null,
-      total_amount: tuitionSub.monthly_amount && tuitionSub.total_installments
-        ? tuitionSub.monthly_amount * tuitionSub.total_installments
-        : null,
+      total_amount:
+        tuitionSub.monthly_amount && tuitionSub.total_installments
+          ? tuitionSub.monthly_amount * tuitionSub.total_installments
+          : null,
       weekly_amount: tuitionSub.monthly_amount,
       total_weeks: tuitionSub.total_installments,
       weeks_paid: tuitionSub.installments_paid || 0,
@@ -137,11 +149,11 @@ export default async function StudentBillingPage() {
     paymentPlan = {
       id: activeEnrollment.id,
       program_name: activeEnrollment.programs?.name || activeEnrollment.programs?.title || null,
-      total_amount: isFunded ? 0 : (activeEnrollment.tuition_amount || null),
+      total_amount: isFunded ? 0 : activeEnrollment.tuition_amount || null,
       weekly_amount: isFunded ? 0 : null,
       total_weeks: null,
       weeks_paid: 0,
-      status: isFunded ? 'funded' : (activeEnrollment.status || 'active'),
+      status: isFunded ? 'funded' : activeEnrollment.status || 'active',
       next_payment_date: null,
       start_date: activeEnrollment.created_at || activeEnrollment.enrolled_at,
       stripe_subscription_id: null,
@@ -152,7 +164,7 @@ export default async function StudentBillingPage() {
 
   // Combine and dedupe payment history
   const paymentMap = new Map();
-  
+
   (studentPayments || []).forEach((p: any) => {
     paymentMap.set(p.id, {
       id: p.id,
@@ -175,31 +187,34 @@ export default async function StudentBillingPage() {
     }
   });
 
-  const allPayments = Array.from(paymentMap.values())
-    .sort((a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime());
+  const allPayments = Array.from(paymentMap.values()).sort(
+    (a, b) => new Date(b.created_at).getTime() - new Date(a.created_at).getTime(),
+  );
 
   // Calculate totals from actual payments
   const totalPaid = allPayments
-    .filter(p => p.status === 'completed')
+    .filter((p) => p.status === 'completed')
     .reduce((sum, p) => sum + (p.amount || 0), 0);
 
-  const remainingBalance = paymentPlan?.total_amount 
+  const remainingBalance = paymentPlan?.total_amount
     ? Math.max(0, paymentPlan.total_amount - totalPaid)
     : null;
 
-  const progressPercent = paymentPlan?.total_weeks && paymentPlan.total_weeks > 0
-    ? Math.round((paymentPlan.weeks_paid / paymentPlan.total_weeks) * 100)
-    : 0;
+  const progressPercent =
+    paymentPlan?.total_weeks && paymentPlan.total_weeks > 0
+      ? Math.round((paymentPlan.weeks_paid / paymentPlan.total_weeks) * 100)
+      : 0;
 
   // Generate upcoming schedule from actual data
-  const upcomingPayments = paymentPlan && paymentPlan.status === 'active' && paymentPlan.weekly_amount
-    ? generateUpcomingSchedule(
-        paymentPlan.weeks_paid,
-        paymentPlan.total_weeks,
-        paymentPlan.weekly_amount,
-        paymentPlan.next_payment_date
-      )
-    : [];
+  const upcomingPayments =
+    paymentPlan && paymentPlan.status === 'active' && paymentPlan.weekly_amount
+      ? generateUpcomingSchedule(
+          paymentPlan.weeks_paid,
+          paymentPlan.total_weeks,
+          paymentPlan.weekly_amount,
+          paymentPlan.next_payment_date,
+        )
+      : [];
 
   return (
     <div className="min-h-screen bg-slate-50">
@@ -260,8 +275,11 @@ export default async function StudentBillingPage() {
                   <div className="w-full bg-gray-200 rounded-full h-3">
                     <div
                       className={`h-3 rounded-full transition-all ${
-                        paymentPlan.status === 'completed' ? 'bg-green-500' :
-                        paymentPlan.status === 'past_due' ? 'bg-red-500' : 'bg-blue-600'
+                        paymentPlan.status === 'completed'
+                          ? 'bg-green-500'
+                          : paymentPlan.status === 'past_due'
+                            ? 'bg-red-500'
+                            : 'bg-blue-600'
                       }`}
                       style={{ width: `${progressPercent}%` }}
                     />
@@ -284,30 +302,47 @@ export default async function StudentBillingPage() {
                   </p>
                 </div>
 
-                <div className={`rounded-lg p-4 ${paymentPlan.is_funded ? 'bg-emerald-50' : 'bg-green-50'}`}>
+                <div
+                  className={`rounded-lg p-4 ${paymentPlan.is_funded ? 'bg-emerald-50' : 'bg-green-50'}`}
+                >
                   <div className="flex items-center gap-2 mb-1">
-                    <CheckCircle className={`w-4 h-4 ${paymentPlan.is_funded ? 'text-emerald-600' : 'text-green-600'}`} />
-                    <span className={`text-xs ${paymentPlan.is_funded ? 'text-emerald-700' : 'text-green-700'}`}>
+                    <CheckCircle
+                      className={`w-4 h-4 ${paymentPlan.is_funded ? 'text-emerald-600' : 'text-green-600'}`}
+                    />
+                    <span
+                      className={`text-xs ${paymentPlan.is_funded ? 'text-emerald-700' : 'text-green-700'}`}
+                    >
                       {paymentPlan.is_funded ? 'Funded Amount' : 'Total Paid'}
                     </span>
                   </div>
-                  <p className={`text-xl font-bold ${paymentPlan.is_funded ? 'text-emerald-700' : 'text-green-700'}`}>
-                    ${paymentPlan.is_funded ? (paymentPlan.total_amount || 0).toLocaleString() : totalPaid.toLocaleString()}
+                  <p
+                    className={`text-xl font-bold ${paymentPlan.is_funded ? 'text-emerald-700' : 'text-green-700'}`}
+                  >
+                    $
+                    {paymentPlan.is_funded
+                      ? (paymentPlan.total_amount || 0).toLocaleString()
+                      : totalPaid.toLocaleString()}
                   </p>
                 </div>
 
-                <div className={`rounded-lg p-4 ${paymentPlan.is_funded ? 'bg-emerald-50' : 'bg-orange-50'}`}>
+                <div
+                  className={`rounded-lg p-4 ${paymentPlan.is_funded ? 'bg-emerald-50' : 'bg-orange-50'}`}
+                >
                   <div className="flex items-center gap-2 mb-1">
                     {paymentPlan.is_funded ? (
                       <CheckCircle className="w-4 h-4 text-emerald-600" />
                     ) : (
                       <Clock className="w-4 h-4 text-orange-600" />
                     )}
-                    <span className={`text-xs ${paymentPlan.is_funded ? 'text-emerald-700' : 'text-orange-700'}`}>
+                    <span
+                      className={`text-xs ${paymentPlan.is_funded ? 'text-emerald-700' : 'text-orange-700'}`}
+                    >
                       {paymentPlan.is_funded ? 'Your Cost' : 'Remaining'}
                     </span>
                   </div>
-                  <p className={`text-xl font-bold ${paymentPlan.is_funded ? 'text-emerald-700' : 'text-orange-700'}`}>
+                  <p
+                    className={`text-xl font-bold ${paymentPlan.is_funded ? 'text-emerald-700' : 'text-orange-700'}`}
+                  >
                     ${paymentPlan.is_funded ? '0' : (remainingBalance || 0).toLocaleString()}
                   </p>
                 </div>
@@ -320,27 +355,30 @@ export default async function StudentBillingPage() {
                     </span>
                   </div>
                   <p className="text-xl font-bold text-blue-700">
-                    ${paymentPlan.is_funded ? '0' : (paymentPlan.weekly_amount || 0)}
+                    ${paymentPlan.is_funded ? '0' : paymentPlan.weekly_amount || 0}
                   </p>
                 </div>
               </div>
 
               {/* Next Payment Alert */}
-              {paymentPlan.status === 'active' && paymentPlan.next_payment_date && paymentPlan.weekly_amount && (
-                <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
-                  <div className="flex items-center gap-3">
-                    <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
-                      <Calendar className="w-5 h-5 text-blue-600" />
-                    </div>
-                    <div>
-                      <p className="font-medium text-blue-900">Next Payment</p>
-                      <p className="text-sm text-blue-700">
-                        ${paymentPlan.weekly_amount} on {formatDate(paymentPlan.next_payment_date)}
-                      </p>
+              {paymentPlan.status === 'active' &&
+                paymentPlan.next_payment_date &&
+                paymentPlan.weekly_amount && (
+                  <div className="mt-6 bg-blue-50 border border-blue-200 rounded-lg p-4">
+                    <div className="flex items-center gap-3">
+                      <div className="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                        <Calendar className="w-5 h-5 text-blue-600" />
+                      </div>
+                      <div>
+                        <p className="font-medium text-blue-900">Next Payment</p>
+                        <p className="text-sm text-blue-700">
+                          ${paymentPlan.weekly_amount} on{' '}
+                          {formatDate(paymentPlan.next_payment_date)}
+                        </p>
+                      </div>
                     </div>
                   </div>
-                </div>
-              )}
+                )}
 
               {paymentPlan.status === 'past_due' && (
                 <div className="mt-6 bg-red-50 border border-red-200 rounded-lg p-4">
@@ -351,7 +389,8 @@ export default async function StudentBillingPage() {
                     <div className="flex-1">
                       <p className="font-medium text-red-900">Payment Past Due</p>
                       <p className="text-sm text-red-700">
-                        Please update your payment method to avoid interruption to your course access.
+                        Please update your payment method to avoid interruption to your course
+                        access.
                       </p>
                     </div>
                     <Link
@@ -386,8 +425,8 @@ export default async function StudentBillingPage() {
             <DollarSign className="w-12 h-12 text-gray-300 mx-auto mb-4" />
             <h2 className="text-lg font-semibold text-gray-900 mb-2">No Active Payment Plan</h2>
             <p className="text-gray-600 mb-4">
-              You don&apos;t have an active payment plan. If you&apos;re enrolled in a program with tuition,
-              your payment plan will appear here.
+              You don&apos;t have an active payment plan. If you&apos;re enrolled in a program with
+              tuition, your payment plan will appear here.
             </p>
             <Link
               href="/programs"
@@ -410,9 +449,11 @@ export default async function StudentBillingPage() {
               {upcomingPayments.slice(0, 8).map((payment, index) => (
                 <div key={index} className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`w-8 h-8 rounded-full flex items-center justify-center ${
-                      index === 0 ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-500'
-                    }`}>
+                    <div
+                      className={`w-8 h-8 rounded-full flex items-center justify-center ${
+                        index === 0 ? 'bg-blue-100 text-blue-600' : 'bg-gray-100 text-gray-500'
+                      }`}
+                    >
                       {paymentPlan!.weeks_paid + index + 1}
                     </div>
                     <div>
@@ -453,10 +494,15 @@ export default async function StudentBillingPage() {
               {allPayments.map((payment) => (
                 <div key={payment.id} className="p-4 flex items-center justify-between">
                   <div className="flex items-center gap-3">
-                    <div className={`w-10 h-10 rounded-full flex items-center justify-center ${
-                      payment.status === 'completed' ? 'bg-green-100' :
-                      payment.status === 'failed' ? 'bg-red-100' : 'bg-yellow-100'
-                    }`}>
+                    <div
+                      className={`w-10 h-10 rounded-full flex items-center justify-center ${
+                        payment.status === 'completed'
+                          ? 'bg-green-100'
+                          : payment.status === 'failed'
+                            ? 'bg-red-100'
+                            : 'bg-yellow-100'
+                      }`}
+                    >
                       {payment.status === 'completed' ? (
                         <CheckCircle className="w-5 h-5 text-green-600" />
                       ) : payment.status === 'failed' ? (
@@ -467,27 +513,41 @@ export default async function StudentBillingPage() {
                     </div>
                     <div>
                       <p className="font-medium text-gray-900">
-                        {payment.type === 'weekly_payment' ? 'Weekly Payment' :
-                         payment.type === 'setup_fee' ? 'Enrollment Deposit' :
-                         payment.type === 'one_time' ? 'One-time Payment' :
-                         payment.type || 'Payment'}
+                        {payment.type === 'weekly_payment'
+                          ? 'Weekly Payment'
+                          : payment.type === 'setup_fee'
+                            ? 'Enrollment Deposit'
+                            : payment.type === 'one_time'
+                              ? 'One-time Payment'
+                              : payment.type || 'Payment'}
                       </p>
                       <p className="text-sm text-gray-500">{formatDate(payment.created_at)}</p>
                     </div>
                   </div>
                   <div className="text-right">
-                    <p className={`font-semibold ${
-                      payment.status === 'completed' ? 'text-green-600' :
-                      payment.status === 'failed' ? 'text-red-600' : 'text-gray-900'
-                    }`}>
+                    <p
+                      className={`font-semibold ${
+                        payment.status === 'completed'
+                          ? 'text-green-600'
+                          : payment.status === 'failed'
+                            ? 'text-red-600'
+                            : 'text-gray-900'
+                      }`}
+                    >
                       ${(payment.amount || 0).toFixed(2)}
                     </p>
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${
-                      payment.status === 'completed' ? 'bg-green-100 text-green-700' :
-                      payment.status === 'failed' ? 'bg-red-100 text-red-700' :
-                      'bg-yellow-100 text-yellow-700'
-                    }`}>
-                      {payment.status ? payment.status.charAt(0).toUpperCase() + payment.status.slice(1) : 'Unknown'}
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded-full ${
+                        payment.status === 'completed'
+                          ? 'bg-green-100 text-green-700'
+                          : payment.status === 'failed'
+                            ? 'bg-red-100 text-red-700'
+                            : 'bg-yellow-100 text-yellow-700'
+                      }`}
+                    >
+                      {payment.status
+                        ? payment.status.charAt(0).toUpperCase() + payment.status.slice(1)
+                        : 'Unknown'}
                     </span>
                   </div>
                 </div>
@@ -553,10 +613,16 @@ function StatusBadge({ status, isFunded }: { status: string; isFunded?: boolean 
     );
   }
 
-  const { bg, text, label } = config[status] || { bg: 'bg-gray-100', text: 'text-gray-700', label: status };
+  const { bg, text, label } = config[status] || {
+    bg: 'bg-gray-100',
+    text: 'text-gray-700',
+    label: status,
+  };
 
   return (
-    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${bg} ${text}`}>
+    <span
+      className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-sm font-medium ${bg} ${text}`}
+    >
       {status === 'active' && <span className="w-2 h-2 bg-green-500 rounded-full animate-pulse" />}
       {label}
     </span>
@@ -576,7 +642,7 @@ function generateUpcomingSchedule(
   weeksPaid: number,
   totalWeeks: number,
   weeklyAmount: number,
-  nextPaymentDate: string | null
+  nextPaymentDate: string | null,
 ): { date: string; amount: number }[] {
   const schedule: { date: string; amount: number }[] = [];
   const remainingWeeks = totalWeeks - weeksPaid;
@@ -587,7 +653,7 @@ function generateUpcomingSchedule(
 
   for (let i = 0; i < remainingWeeks; i++) {
     const paymentDate = new Date(startDate);
-    paymentDate.setDate(paymentDate.getDate() + (i * 7));
+    paymentDate.setDate(paymentDate.getDate() + i * 7);
 
     schedule.push({
       date: paymentDate.toISOString(),

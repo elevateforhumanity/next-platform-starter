@@ -62,11 +62,7 @@ async function run() {
 
   // Step 1: Find a course to enroll in
   await step('Find a course', async () => {
-    const { data, error } = await supabase
-      .from('courses')
-      .select('id, title')
-      .limit(1)
-      .single();
+    const { data, error } = await supabase.from('courses').select('id, title').limit(1).single();
 
     if (error || !data) throw new Error('No courses found in database.');
     courseId = data.id;

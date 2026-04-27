@@ -27,12 +27,12 @@ export function usePrograms(category?: string) {
   useEffect(() => {
     async function fetchPrograms() {
       try {
-        const url = category 
+        const url = category
           ? `/api/programs?category=${encodeURIComponent(category)}`
           : '/api/programs';
         const res = await fetch(url);
         const data = await res.json();
-        
+
         if (data.status === 'success' && data.programs) {
           setPrograms(data.programs);
         } else if (data.error) {
@@ -53,6 +53,6 @@ export function usePrograms(category?: string) {
 
 export function useProgramNames() {
   const { programs, loading, error } = usePrograms();
-  const names = programs.map(p => p.name || p.title || p.slug);
+  const names = programs.map((p) => p.name || p.title || p.slug);
   return { programNames: names, loading, error };
 }

@@ -16,36 +16,21 @@
       },
       {
         "prompt": "Which elevation angle is used to achieve a graduated effect in a haircut?",
-        "choices": [
-          "0°",
-          "45°",
-          "90°",
-          "180°"
-        ],
+        "choices": ["0°", "45°", "90°", "180°"],
         "answerIndex": 1,
         "rationale": "A 45° elevation creates a graduated effect by adding volume and movement to the hair.",
         "type": "recall"
       },
       {
         "prompt": "A client presents with fine, flat hair and desires more volume. Which elevation should you use?",
-        "choices": [
-          "0°",
-          "45°",
-          "90°",
-          "180°"
-        ],
+        "choices": ["0°", "45°", "90°", "180°"],
         "answerIndex": 2,
         "rationale": "90° elevation adds layers and texture, reducing weight and increasing volume.",
         "type": "scenario"
       },
       {
         "prompt": "During a service, you notice the client has uneven hair length on one side. How can overdirection help?",
-        "choices": [
-          "Create symmetry",
-          "Add volume",
-          "Reduce weight",
-          "Create a blunt cut"
-        ],
+        "choices": ["Create symmetry", "Add volume", "Reduce weight", "Create a blunt cut"],
         "answerIndex": 0,
         "rationale": "Overdirection can help create symmetry by adjusting the length on one side.",
         "type": "scenario"
@@ -64,24 +49,14 @@
       },
       {
         "prompt": "A new client asks for a style with a longer front and shorter back. Which technique should you use?",
-        "choices": [
-          "0° elevation",
-          "45° elevation",
-          "Overdirection",
-          "90° elevation"
-        ],
+        "choices": ["0° elevation", "45° elevation", "Overdirection", "90° elevation"],
         "answerIndex": 2,
         "rationale": "Overdirection can create a longer front and shorter back by shifting the hair before cutting.",
         "type": "scenario"
       },
       {
         "prompt": "Which of the following is NOT a primary elevation angle used in haircutting?",
-        "choices": [
-          "0°",
-          "30°",
-          "45°",
-          "90°"
-        ],
+        "choices": ["0°", "30°", "45°", "90°"],
         "answerIndex": 1,
         "rationale": "30° is not a standard primary elevation angle in haircutting.",
         "type": "recall"
@@ -100,120 +75,70 @@
       },
       {
         "prompt": "A client wants a haircut that maintains weight at the ends but still has some movement. Which elevation is best?",
-        "choices": [
-          "0°",
-          "45°",
-          "90°",
-          "180°"
-        ],
+        "choices": ["0°", "45°", "90°", "180°"],
         "answerIndex": 1,
         "rationale": "45° elevation maintains weight while adding movement through a graduated effect.",
         "type": "scenario"
       },
       {
         "prompt": "During a haircut, you need to reduce weight and add texture. Which elevation should you choose?",
-        "choices": [
-          "0°",
-          "45°",
-          "90°",
-          "180°"
-        ],
+        "choices": ["0°", "45°", "90°", "180°"],
         "answerIndex": 2,
         "rationale": "90° elevation is ideal for reducing weight and adding texture through layering.",
         "type": "scenario"
       },
       {
         "prompt": "Which technique is essential for creating asymmetrical hairstyles?",
-        "choices": [
-          "Elevation",
-          "Overdirection",
-          "Texturizing",
-          "Thinning"
-        ],
+        "choices": ["Elevation", "Overdirection", "Texturizing", "Thinning"],
         "answerIndex": 1,
         "rationale": "Overdirection is key for creating asymmetrical styles by altering the natural fall of hair.",
         "type": "recall"
       },
       {
         "prompt": "A client requests a sleek, polished bob. Which elevation should you use?",
-        "choices": [
-          "0°",
-          "45°",
-          "90°",
-          "180°"
-        ],
+        "choices": ["0°", "45°", "90°", "180°"],
         "answerIndex": 0,
         "rationale": "0° elevation is used for blunt cuts like a sleek bob, concentrating weight at the ends.",
         "type": "scenario"
       },
       {
         "prompt": "What is the best approach to add volume to a client's hair without significantly reducing length?",
-        "choices": [
-          "0° elevation",
-          "45° elevation",
-          "90° elevation",
-          "Overdirection"
-        ],
+        "choices": ["0° elevation", "45° elevation", "90° elevation", "Overdirection"],
         "answerIndex": 1,
         "rationale": "45° elevation adds volume and movement without significantly reducing length.",
         "type": "applied"
       },
       {
         "prompt": "Which elevation angle is most suitable for creating a layered effect?",
-        "choices": [
-          "0°",
-          "45°",
-          "90°",
-          "180°"
-        ],
+        "choices": ["0°", "45°", "90°", "180°"],
         "answerIndex": 2,
         "rationale": "90° elevation creates layers by lifting the hair perpendicular to the scalp.",
         "type": "recall"
       },
       {
         "prompt": "A client wants a natural, airy style. Which elevation technique should you apply?",
-        "choices": [
-          "0°",
-          "45°",
-          "90°",
-          "Overdirection"
-        ],
+        "choices": ["0°", "45°", "90°", "Overdirection"],
         "answerIndex": 2,
         "rationale": "90° elevation is best for a natural, airy style by removing weight and adding texture.",
         "type": "scenario"
       },
       {
         "prompt": "What is the BEST approach to create a haircut with a longer front and shorter back?",
-        "choices": [
-          "0° elevation",
-          "45° elevation",
-          "90° elevation",
-          "Overdirection"
-        ],
+        "choices": ["0° elevation", "45° elevation", "90° elevation", "Overdirection"],
         "answerIndex": 3,
         "rationale": "Overdirection is the best approach to control the length and shape for a longer front and shorter back.",
         "type": "applied"
       },
       {
         "prompt": "Which elevation angle is used to maintain the most weight at the ends of the hair?",
-        "choices": [
-          "0°",
-          "45°",
-          "90°",
-          "180°"
-        ],
+        "choices": ["0°", "45°", "90°", "180°"],
         "answerIndex": 0,
         "rationale": "0° elevation maintains the most weight at the ends, resulting in a blunt cut.",
         "type": "recall"
       },
       {
         "prompt": "A client wants a style that is both voluminous and structured. Which elevation should you consider?",
-        "choices": [
-          "0°",
-          "45°",
-          "90°",
-          "180°"
-        ],
+        "choices": ["0°", "45°", "90°", "180°"],
         "answerIndex": 1,
         "rationale": "45° elevation adds volume and structure through a graduated effect.",
         "type": "scenario"

@@ -17,9 +17,21 @@ type Item = {
 };
 
 const STATUS_CONFIG: Record<Status, { label: string; icon: React.ReactNode; cls: string }> = {
-  todo:        { label: 'To do',       icon: <Circle      className="w-5 h-5 text-slate-300" />,   cls: 'bg-slate-50 border-slate-200' },
-  in_progress: { label: 'In progress', icon: <Clock       className="w-5 h-5 text-amber-500" />,   cls: 'bg-amber-50 border-amber-200' },
-  done:        { label: 'Done',        icon: <CheckCircle className="w-5 h-5 text-emerald-500" />, cls: 'bg-emerald-50 border-emerald-200' },
+  todo: {
+    label: 'To do',
+    icon: <Circle className="w-5 h-5 text-slate-300" />,
+    cls: 'bg-slate-50 border-slate-200',
+  },
+  in_progress: {
+    label: 'In progress',
+    icon: <Clock className="w-5 h-5 text-amber-500" />,
+    cls: 'bg-amber-50 border-amber-200',
+  },
+  done: {
+    label: 'Done',
+    icon: <CheckCircle className="w-5 h-5 text-emerald-500" />,
+    cls: 'bg-emerald-50 border-emerald-200',
+  },
 };
 
 interface Props {
@@ -34,10 +46,10 @@ interface Props {
 }
 
 export default function WorkOneChecklist({ fundingSource, pendingWorkone = false }: Props) {
-  const [items, setItems]     = useState<Item[]>([]);
+  const [items, setItems] = useState<Item[]>([]);
   const [loading, setLoading] = useState(true);
   const [expanded, setExpanded] = useState<string | null>(null);
-  const [saving, setSaving]   = useState<string | null>(null);
+  const [saving, setSaving] = useState<string | null>(null);
   const supabase = createClient();
 
   async function seed() {
@@ -52,8 +64,13 @@ export default function WorkOneChecklist({ fundingSource, pendingWorkone = false
 
   async function load() {
     setLoading(true);
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { setLoading(false); return; }
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      setLoading(false);
+      return;
+    }
 
     const { data } = await supabase
       .from('workone_checklist')
@@ -68,7 +85,7 @@ export default function WorkOneChecklist({ fundingSource, pendingWorkone = false
 
   async function setStatus(id: string, status: Status) {
     setSaving(id);
-    setItems(prev => prev.map(it => it.id === id ? { ...it, status } : it));
+    setItems((prev) => prev.map((it) => (it.id === id ? { ...it, status } : it)));
     await fetch(`/api/workone/${id}`, {
       method: 'PATCH',
       headers: { 'Content-Type': 'application/json' },
@@ -86,14 +103,17 @@ export default function WorkOneChecklist({ fundingSource, pendingWorkone = false
   }
 
   useEffect(() => {
-    (async () => { await seed(); await load(); })();
+    (async () => {
+      await seed();
+      await load();
+    })();
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Don't render for learners who are not in pending_workone status
   if (!pendingWorkone) return null;
 
-  const doneCount = items.filter(i => i.status === 'done').length;
+  const doneCount = items.filter((i) => i.status === 'done').length;
   const pct = items.length ? Math.round((doneCount / items.length) * 100) : 0;
 
   return (
@@ -108,7 +128,9 @@ export default function WorkOneChecklist({ fundingSource, pendingWorkone = false
         </div>
         {!loading && items.length > 0 && (
           <div className="text-right shrink-0">
-            <div className="text-sm font-bold text-slate-900">{doneCount}/{items.length}</div>
+            <div className="text-sm font-bold text-slate-900">
+              {doneCount}/{items.length}
+            </div>
             <div className="text-xs text-slate-500">steps done</div>
           </div>
         )}
@@ -135,34 +157,46 @@ export default function WorkOneChecklist({ fundingSource, pendingWorkone = false
           const isOpen = expanded === item.id;
 
           return (
-            <div key={item.id} className={`transition-colors ${item.status === 'done' ? 'bg-emerald-50/40' : ''}`}>
+            <div
+              key={item.id}
+              className={`transition-colors ${item.status === 'done' ? 'bg-emerald-50/40' : ''}`}
+            >
               <div className="px-4 py-3 flex items-start gap-3">
                 {/* Step number / status icon */}
                 <div className="shrink-0 mt-0.5">
-                  {item.status === 'done'
-                    ? <CheckCircle className="w-5 h-5 text-emerald-500" />
-                    : item.status === 'in_progress'
-                    ? <Clock className="w-5 h-5 text-amber-500" />
-                    : <div className="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center">
-                        <span className="text-[10px] font-bold text-slate-400">{idx + 1}</span>
-                      </div>
-                  }
+                  {item.status === 'done' ? (
+                    <CheckCircle className="w-5 h-5 text-emerald-500" />
+                  ) : item.status === 'in_progress' ? (
+                    <Clock className="w-5 h-5 text-amber-500" />
+                  ) : (
+                    <div className="w-5 h-5 rounded-full border-2 border-slate-300 flex items-center justify-center">
+                      <span className="text-[10px] font-bold text-slate-400">{idx + 1}</span>
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex-1 min-w-0">
-                  <p className={`text-sm font-medium leading-snug ${item.status === 'done' ? 'line-through text-slate-400' : 'text-slate-900'}`}>
+                  <p
+                    className={`text-sm font-medium leading-snug ${item.status === 'done' ? 'line-through text-slate-400' : 'text-slate-900'}`}
+                  >
                     {item.step_label}
                   </p>
                   {item.completed_at && (
                     <p className="text-xs text-emerald-600 mt-0.5">
-                      Completed {new Date(item.completed_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                      Completed{' '}
+                      {new Date(item.completed_at).toLocaleDateString('en-US', {
+                        timeZone: 'UTC',
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
                     </p>
                   )}
                 </div>
 
                 {/* Status buttons */}
                 <div className="flex items-center gap-1.5 shrink-0">
-                  {(['todo', 'in_progress', 'done'] as Status[]).map(s => (
+                  {(['todo', 'in_progress', 'done'] as Status[]).map((s) => (
                     <button
                       key={s}
                       onClick={() => setStatus(item.id, s)}
@@ -172,8 +206,8 @@ export default function WorkOneChecklist({ fundingSource, pendingWorkone = false
                           ? s === 'done'
                             ? 'bg-emerald-600 text-white border-emerald-600'
                             : s === 'in_progress'
-                            ? 'bg-amber-500 text-white border-amber-500'
-                            : 'bg-slate-200 text-slate-700 border-slate-200'
+                              ? 'bg-amber-500 text-white border-amber-500'
+                              : 'bg-slate-200 text-slate-700 border-slate-200'
                           : 'bg-white text-slate-500 border-slate-200 hover:border-slate-300'
                       }`}
                     >
@@ -187,7 +221,11 @@ export default function WorkOneChecklist({ fundingSource, pendingWorkone = false
                     className="ml-1 text-slate-400 hover:text-slate-600 transition"
                     aria-label="Toggle notes"
                   >
-                    {isOpen ? <ChevronUp className="w-4 h-4" /> : <ChevronDown className="w-4 h-4" />}
+                    {isOpen ? (
+                      <ChevronUp className="w-4 h-4" />
+                    ) : (
+                      <ChevronDown className="w-4 h-4" />
+                    )}
                   </button>
                 </div>
               </div>
@@ -200,12 +238,14 @@ export default function WorkOneChecklist({ fundingSource, pendingWorkone = false
                   </label>
                   <textarea
                     defaultValue={item.notes ?? ''}
-                    onBlur={e => saveNotes(item.id, e.target.value)}
+                    onBlur={(e) => saveNotes(item.id, e.target.value)}
                     rows={3}
                     className="w-full text-sm border border-slate-200 rounded-lg px-3 py-2 focus:ring-2 focus:ring-emerald-500 focus:border-transparent resize-none"
                     placeholder="e.g. Appointment Jan 8 at 10:30am — WorkOne Indy North, ask for Maria. Auth code: WO-2025-XXXXX"
                   />
-                  <p className="text-xs text-slate-400 mt-1">Saves when you click outside the box.</p>
+                  <p className="text-xs text-slate-400 mt-1">
+                    Saves when you click outside the box.
+                  </p>
                 </div>
               )}
             </div>

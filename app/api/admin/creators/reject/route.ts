@@ -15,7 +15,8 @@ export const dynamic = 'force-dynamic';
 // Input validation schema
 const rejectCreatorSchema = z.object({
   creatorId: z.string().uuid('Invalid creator ID'),
-  reason: z.string()
+  reason: z
+    .string()
     .min(10, 'Rejection reason must be at least 10 characters')
     .max(500, 'Rejection reason must be less than 500 characters'),
 });
@@ -43,8 +44,14 @@ async function _POST(req: Request) {
       .maybeSingle();
 
     if (!profile || (profile.role !== 'admin' && profile.role !== 'super_admin')) {
-      logger.warn('[Creator Rejection] Unauthorized attempt', { userId: user.id, role: profile?.role });
-      return NextResponse.json({ error: 'Forbidden', code: 'INSUFFICIENT_PERMISSIONS' }, { status: 403 });
+      logger.warn('[Creator Rejection] Unauthorized attempt', {
+        userId: user.id,
+        role: profile?.role,
+      });
+      return NextResponse.json(
+        { error: 'Forbidden', code: 'INSUFFICIENT_PERMISSIONS' },
+        { status: 403 },
+      );
     }
 
     // 3. Input validation
@@ -53,12 +60,12 @@ async function _POST(req: Request) {
 
     if (!validation.success) {
       return NextResponse.json(
-        { 
-          error: 'Invalid input', 
+        {
+          error: 'Invalid input',
           code: 'VALIDATION_ERROR',
-          details: validation.error.issues 
+          details: validation.error.issues,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -68,10 +75,7 @@ async function _POST(req: Request) {
     const adminSupabase = await getAdminClient();
 
     if (!adminSupabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // 5. Check if creator exists and get details
@@ -85,7 +89,7 @@ async function _POST(req: Request) {
       logger.warn('[Creator Rejection] Creator not found', { creatorId });
       return NextResponse.json(
         { error: 'Creator not found', code: 'CREATOR_NOT_FOUND' },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -93,7 +97,7 @@ async function _POST(req: Request) {
     if (creator.status === 'rejected') {
       return NextResponse.json(
         { error: 'Creator already rejected', code: 'ALREADY_REJECTED' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -117,7 +121,7 @@ async function _POST(req: Request) {
     // 8. Send rejection email
     const creatorProfile = creator.profiles as any;
     let emailSent = false;
-    
+
     if (creatorProfile?.email) {
       try {
         const result = await sendCreatorRejectionEmail({
@@ -125,9 +129,9 @@ async function _POST(req: Request) {
           name: creatorProfile.full_name || 'Applicant',
           reason,
         });
-        
+
         emailSent = result.success;
-        
+
         if (!result.success) {
           logger.error('[Creator Rejection] Email failed', {
             creatorId,
@@ -170,17 +174,16 @@ async function _POST(req: Request) {
         ? 'Creator rejected and notified via email'
         : 'Creator rejected but email notification failed',
     });
-
   } catch (err: any) {
     logger.error('[Creator Rejection] Failed', err);
-    
+
     return NextResponse.json(
       {
         error: 'Failed to reject creator',
         code: 'REJECTION_FAILED',
         message: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

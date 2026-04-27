@@ -1,4 +1,3 @@
-
 import { z } from 'zod';
 
 /**
@@ -12,10 +11,10 @@ import { z } from 'zod';
 
 export const emailSchema = z.string().email('Invalid email address').toLowerCase();
 
-export const phoneSchema = z.string().regex(
-  /^[\d\s\-()+ ]+$/,
-  'Invalid phone number format'
-).min(10, 'Phone number must be at least 10 digits');
+export const phoneSchema = z
+  .string()
+  .regex(/^[\d\s\-()+ ]+$/, 'Invalid phone number format')
+  .min(10, 'Phone number must be at least 10 digits');
 
 export const urlSchema = z.string().url('Invalid URL format');
 
@@ -38,7 +37,8 @@ export const signInSchema = z.object({
 
 export const signUpSchema = z.object({
   email: emailSchema,
-  password: z.string()
+  password: z
+    .string()
     .min(8, 'Password must be at least 8 characters')
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
@@ -54,7 +54,8 @@ export const resetPasswordSchema = z.object({
 
 export const updatePasswordSchema = z.object({
   currentPassword: z.string().min(1, 'Current password is required'),
-  newPassword: z.string()
+  newPassword: z
+    .string()
     .min(8, 'Password must be at least 8 characters')
     .regex(/[A-Z]/, 'Password must contain at least one uppercase letter')
     .regex(/[a-z]/, 'Password must contain at least one lowercase letter')
@@ -108,7 +109,10 @@ export const enrollmentApprovalSchema = z.object({
 export const createCourseSchema = z.object({
   title: z.string().min(3, 'Title must be at least 3 characters').max(200),
   description: z.string().min(10, 'Description must be at least 10 characters').max(5000),
-  slug: z.string().regex(/^[a-z0-9-]+$/, 'Slug must be lowercase with hyphens').optional(),
+  slug: z
+    .string()
+    .regex(/^[a-z0-9-]+$/, 'Slug must be lowercase with hyphens')
+    .optional(),
   price: z.number().min(0, 'Price must be non-negative').optional(),
   duration: z.string().optional(),
   level: z.enum(['beginner', 'intermediate', 'advanced']).optional(),
@@ -147,10 +151,12 @@ export const updateProgressSchema = z.object({
 
 export const submitQuizSchema = z.object({
   quizId: uuidSchema,
-  answers: z.array(z.object({
-    questionId: uuidSchema,
-    answer: z.union([z.string(), z.array(z.string())]),
-  })),
+  answers: z.array(
+    z.object({
+      questionId: uuidSchema,
+      answer: z.union([z.string(), z.array(z.string())]),
+    }),
+  ),
 });
 
 // ============================================
@@ -180,7 +186,15 @@ export const createUserSchema = z.object({
   password: z.string().min(8),
   firstName: z.string().min(2).max(50),
   lastName: z.string().min(2).max(50),
-  role: z.enum(['admin', 'staff', 'student', 'program_holder', 'partner', 'delegate', 'workforce_board']),
+  role: z.enum([
+    'admin',
+    'staff',
+    'student',
+    'program_holder',
+    'partner',
+    'delegate',
+    'workforce_board',
+  ]),
   phone: phoneSchema.optional(),
 });
 
@@ -189,7 +203,9 @@ export const updateUserSchema = z.object({
   email: emailSchema.optional(),
   firstName: z.string().min(2).max(50).optional(),
   lastName: z.string().min(2).max(50).optional(),
-  role: z.enum(['admin', 'staff', 'student', 'program_holder', 'partner', 'delegate', 'workforce_board']).optional(),
+  role: z
+    .enum(['admin', 'staff', 'student', 'program_holder', 'partner', 'delegate', 'workforce_board'])
+    .optional(),
   phone: phoneSchema.optional(),
   status: z.enum(['active', 'inactive', 'suspended']).optional(),
 });
@@ -230,7 +246,10 @@ export const complianceReportSchema = z.object({
 export const fileUploadSchema = z.object({
   fileName: z.string().min(1, 'File name is required').max(255),
   fileType: z.string().regex(/^[a-z]+\/[a-z0-9+.-]+$/, 'Invalid MIME type'),
-  fileSize: z.number().positive().max(10 * 1024 * 1024, 'File size must be less than 10MB'),
+  fileSize: z
+    .number()
+    .positive()
+    .max(10 * 1024 * 1024, 'File size must be less than 10MB'),
   category: z.enum(['document', 'image', 'video', 'other']).optional(),
 });
 
@@ -242,17 +261,14 @@ export const fileUploadSchema = z.object({
  * Validates request body against schema
  * Returns parsed data or throws validation error
  */
-export async function validateRequestBody<T>(
-  request: Request,
-  schema: z.ZodSchema<T>
-): Promise<T> {
+export async function validateRequestBody<T>(request: Request, schema: z.ZodSchema<T>): Promise<T> {
   try {
     const body = await request.json();
     return schema.parse(body);
   } catch (error) {
     if (error instanceof z.ZodError) {
       throw new Error(
-        `Validation failed: ${error.issues.map(e => `${e.path.join('.')}: ${e.message}`).join(', ')}`
+        `Validation failed: ${error.issues.map((e) => `${e.path.join('.')}: ${e.message}`).join(', ')}`,
       );
     }
     throw error;
@@ -262,10 +278,7 @@ export async function validateRequestBody<T>(
 /**
  * Validates query parameters against schema
  */
-export function validateQueryParams<T>(
-  url: URL,
-  schema: z.ZodSchema<T>
-): T {
+export function validateQueryParams<T>(url: URL, schema: z.ZodSchema<T>): T {
   const params = Object.fromEntries(url.searchParams.entries());
   return schema.parse(params);
 }

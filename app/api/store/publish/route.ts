@@ -1,4 +1,3 @@
-
 import Stripe from 'stripe';
 import { getStripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
@@ -32,10 +31,7 @@ async function _POST(req: NextRequest) {
       data: { user },
     } = await supabase.auth.getUser();
     if (!user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const product: ProductInput = await req.json();
@@ -70,11 +66,11 @@ async function _POST(req: NextRequest) {
   } catch (error) {
     logger.error(
       'Failed to publish product:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: 'Failed to publish product', message: toErrorMessage(error) },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

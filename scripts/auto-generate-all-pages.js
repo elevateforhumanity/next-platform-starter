@@ -8,12 +8,11 @@
 const fs = require('fs');
 const path = require('path');
 
-
 // Page template with Durable design
 const pageTemplate = (
   title,
   content,
-  hasHero = true
+  hasHero = true,
 ) => `export default function ${title.replace(/[^a-zA-Z0-9]/g, '')}Page() {
   return (
     <div className="relative">
@@ -156,4 +155,3 @@ pages.forEach((page) => {
   fs.writeFileSync(fullPath, pageContent);
   generated++;
 });
-

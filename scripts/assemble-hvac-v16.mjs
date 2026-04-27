@@ -41,25 +41,32 @@ const FB = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
 const FR = '/usr/share/fonts/truetype/dejavu/DejaVuSans.ttf';
 
 // Layout constants (match V16b)
-const W = 1280, H = 720;
+const W = 1280,
+  H = 720;
 const BG = '0A1628';
 const GREEN = '00FF88';
 
 // Brandon PiP
-const PIP_W = 350, PIP_H = 504;
-const PIP_X = 30, PIP_Y = 130;
+const PIP_W = 350,
+  PIP_H = 504;
+const PIP_X = 30,
+  PIP_Y = 130;
 const PIP_CROP_W = 500; // crop center 500px from 1920px wide clip
 
 // Diagram
-const DIAG_W = 820, DIAG_H = 580;
-const DIAG_X = 430, DIAG_Y = 80;
+const DIAG_W = 820,
+  DIAG_H = 580;
+const DIAG_X = 430,
+  DIAG_Y = 80;
 
 // Title bar
 const TITLE_H = 65;
 
 // Label columns on diagram side
-const LABEL_W = 260, LABEL_H = 44;
-const LABEL_COL1_X = 450, LABEL_COL2_X = 730;
+const LABEL_W = 260,
+  LABEL_H = 44;
+const LABEL_COL1_X = 450,
+  LABEL_COL2_X = 730;
 const LABEL_START_Y = 110;
 const LABEL_SPACING = 80;
 
@@ -80,19 +87,23 @@ function esc(s) {
 
 function probeDuration(filePath) {
   const r = spawnSync('ffprobe', [
-    '-v', 'quiet', '-show_entries', 'format=duration', '-of', 'csv=p=0', filePath,
+    '-v',
+    'quiet',
+    '-show_entries',
+    'format=duration',
+    '-of',
+    'csv=p=0',
+    filePath,
   ]);
   return parseFloat(r.stdout?.toString().trim()) || 90;
 }
 
 // Fetch lesson data from DB
 async function fetchLessons(lessonNumbers) {
-  const filter = lessonNumbers
-    ? `lesson_number=in.(${lessonNumbers.join(',')})&`
-    : '';
+  const filter = lessonNumbers ? `lesson_number=in.(${lessonNumbers.join(',')})&` : '';
   const res = await fetch(
     `${SUPABASE_URL}/rest/v1/training_lessons?course_id_uuid=eq.${HVAC_COURSE_ID}&${filter}select=lesson_number,title,id&order=lesson_number`,
-    { headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` } }
+    { headers: { apikey: SERVICE_KEY, Authorization: `Bearer ${SERVICE_KEY}` } },
   );
   const rows = await res.json();
   const map = {};
@@ -137,7 +148,7 @@ function buildFilterComplex(lessonNum, title, keyTerms, audioDur) {
   // 2. Brandon PiP: crop center 500px from 1920-wide clip, scale to 350x504
   const cropX = Math.round((1920 - PIP_CROP_W) / 2);
   filters.push(
-    `[0:v]crop=${PIP_CROP_W}:1080:${cropX}:0,scale=${PIP_W}:${PIP_H}:force_original_aspect_ratio=increase,crop=${PIP_W}:${PIP_H},setsar=1[pip]`
+    `[0:v]crop=${PIP_CROP_W}:1080:${cropX}:0,scale=${PIP_W}:${PIP_H}:force_original_aspect_ratio=increase,crop=${PIP_W}:${PIP_H},setsar=1[pip]`,
   );
 
   // 3. Overlay Brandon on canvas
@@ -145,44 +156,42 @@ function buildFilterComplex(lessonNum, title, keyTerms, audioDur) {
 
   // 4. White border around PiP
   filters.push(
-    `[withpip]drawbox=x=${PIP_X - 2}:y=${PIP_Y - 2}:w=${PIP_W + 4}:h=${PIP_H + 4}:color=white@1.0:t=2[pipborder]`
+    `[withpip]drawbox=x=${PIP_X - 2}:y=${PIP_Y - 2}:w=${PIP_W + 4}:h=${PIP_H + 4}:color=white@1.0:t=2[pipborder]`,
   );
 
   // 5. Diagram: scale to 820x580, overlay at (430, 80)
   filters.push(
-    `[1:v]scale=${DIAG_W}:${DIAG_H}:force_original_aspect_ratio=increase,crop=${DIAG_W}:${DIAG_H},setsar=1[diag]`
+    `[1:v]scale=${DIAG_W}:${DIAG_H}:force_original_aspect_ratio=increase,crop=${DIAG_W}:${DIAG_H},setsar=1[diag]`,
   );
   filters.push(`[pipborder][diag]overlay=x=${DIAG_X}:y=${DIAG_Y}[withdiag]`);
 
   // 6. Slate border around diagram
   filters.push(
-    `[withdiag]drawbox=x=${DIAG_X - 1}:y=${DIAG_Y - 1}:w=${DIAG_W + 2}:h=${DIAG_H + 2}:color=#334155@1.0:t=1[diagborder]`
+    `[withdiag]drawbox=x=${DIAG_X - 1}:y=${DIAG_Y - 1}:w=${DIAG_W + 2}:h=${DIAG_H + 2}:color=#334155@1.0:t=1[diagborder]`,
   );
 
   // 7. Title bar: dark overlay top 65px
-  filters.push(
-    `[diagborder]drawbox=x=0:y=0:w=${W}:h=${TITLE_H}:color=black@0.85:t=fill[titlebar]`
-  );
+  filters.push(`[diagborder]drawbox=x=0:y=0:w=${W}:h=${TITLE_H}:color=black@0.85:t=fill[titlebar]`);
 
   // 8. "Lesson N" left in green
   filters.push(
-    `[titlebar]drawtext=text='${esc(lessonLabel)}':fontcolor=#${GREEN}:fontsize=16:x=20:y=24:fontfile=${FB}[withlabel]`
+    `[titlebar]drawtext=text='${esc(lessonLabel)}':fontcolor=#${GREEN}:fontsize=16:x=20:y=24:fontfile=${FB}[withlabel]`,
   );
 
   // 9. Lesson title centered in white
   filters.push(
-    `[withlabel]drawtext=text='${safeTitle}':fontcolor=white:fontsize=22:x=(${W}-text_w)/2:y=20:fontfile=${FB}[withtitle]`
+    `[withlabel]drawtext=text='${safeTitle}':fontcolor=white:fontsize=22:x=(${W}-text_w)/2:y=20:fontfile=${FB}[withtitle]`,
   );
 
   // 10. Name tag below Brandon PiP
   const nameTagY = PIP_Y + PIP_H + 8;
   filters.push(
-    `[withtitle]drawtext=text='Brandon \\u2014 HVAC Instructor':fontcolor=white:fontsize=14:x=${PIP_X}:y=${nameTagY}:fontfile=${FR}[withnametag]`
+    `[withtitle]drawtext=text='Brandon \\u2014 HVAC Instructor':fontcolor=white:fontsize=14:x=${PIP_X}:y=${nameTagY}:fontfile=${FR}[withnametag]`,
   );
 
   // 11. ELEVATE branding bottom-right
   filters.push(
-    `[withnametag]drawtext=text='ELEVATE FOR HUMANITY':fontcolor=#${GREEN}:fontsize=14:x=1060:y=698:fontfile=${FR}[withbrand]`
+    `[withnametag]drawtext=text='ELEVATE FOR HUMANITY':fontcolor=#${GREEN}:fontsize=14:x=1060:y=698:fontfile=${FR}[withbrand]`,
   );
 
   // 12. Fade-in labels + arrows for each key term
@@ -209,18 +218,18 @@ function buildFilterComplex(lessonNum, title, keyTerms, audioDur) {
 
     // Pill background
     filters.push(
-      `[${current}]drawbox=x=${lx}:y=${ly}:w=${LABEL_W}:h=${LABEL_H}:color=black@0.80:t=fill:enable='${enableExpr}'[${outBox}]`
+      `[${current}]drawbox=x=${lx}:y=${ly}:w=${LABEL_W}:h=${LABEL_H}:color=black@0.80:t=fill:enable='${enableExpr}'[${outBox}]`,
     );
 
     // Label text
     filters.push(
-      `[${outBox}]drawtext=text='${esc(term)}':fontcolor=#${GREEN}:fontsize=20:fontfile=${FB}:x=${lx + 8}:y=${ly + 12}:alpha='${alphaExpr}':enable='${enableExpr}'[${outText}]`
+      `[${outBox}]drawtext=text='${esc(term)}':fontcolor=#${GREEN}:fontsize=20:fontfile=${FB}:x=${lx + 8}:y=${ly + 12}:alpha='${alphaExpr}':enable='${enableExpr}'[${outText}]`,
     );
 
     // Arrow: horizontal line from Brandon edge to pill
     const arrowY = ly + Math.floor(LABEL_H / 2);
     filters.push(
-      `[${outText}]drawbox=x=${ARROW_X}:y=${arrowY - 1}:w=${lx - ARROW_X}:h=2:color=#${GREEN}@0.9:t=fill:enable='${enableExpr}'[${outArrow}]`
+      `[${outText}]drawbox=x=${ARROW_X}:y=${arrowY - 1}:w=${lx - ARROW_X}:h=2:color=#${GREEN}@0.9:t=fill:enable='${enableExpr}'[${outArrow}]`,
     );
 
     current = outArrow;
@@ -232,7 +241,7 @@ function buildFilterComplex(lessonNum, title, keyTerms, audioDur) {
 }
 
 async function assembleLesson(lessonNum, lessonData, manifest) {
-  const entry = manifest.find(x => x.lessonNumber === lessonNum);
+  const entry = manifest.find((x) => x.lessonNumber === lessonNum);
   if (!entry) {
     console.error(`No manifest entry for lesson ${lessonNum}`);
     return null;
@@ -267,29 +276,53 @@ async function assembleLesson(lessonNum, lessonData, manifest) {
   const keyTerms = defId ? getKeyTerms(defId) : [];
   const audioDur = probeDuration(mp3Path);
 
-  console.log(`  Building lesson ${lessonNum}: "${title}" (${Math.round(audioDur)}s, ${keyTerms.length} labels)`);
+  console.log(
+    `  Building lesson ${lessonNum}: "${title}" (${Math.round(audioDur)}s, ${keyTerms.length} labels)`,
+  );
 
   const filterComplex = buildFilterComplex(lessonNum, title, keyTerms, audioDur);
 
   const cmd = [
-    'ffmpeg', '-y',
-    '-stream_loop', '-1', '-i', brandonClip,   // [0:v] Brandon (looped)
-    '-loop', '1', '-i', diagramBackground,      // [1:v] Diagram (static)
-    '-i', mp3Path,                              // [2:a] Marcus audio
-    '-filter_complex', filterComplex,
-    '-map', '[out]',
-    '-map', '2:a',
-    '-t', String(audioDur),
-    '-c:v', 'libx264',
-    '-profile:v', 'baseline',
-    '-level', '3.1',
-    '-preset', 'medium',
-    '-crf', '22',
-    '-pix_fmt', 'yuv420p',
-    '-c:a', 'aac',
-    '-b:a', '128k',
-    '-ar', '44100',
-    '-movflags', '+faststart',
+    'ffmpeg',
+    '-y',
+    '-stream_loop',
+    '-1',
+    '-i',
+    brandonClip, // [0:v] Brandon (looped)
+    '-loop',
+    '1',
+    '-i',
+    diagramBackground, // [1:v] Diagram (static)
+    '-i',
+    mp3Path, // [2:a] Marcus audio
+    '-filter_complex',
+    filterComplex,
+    '-map',
+    '[out]',
+    '-map',
+    '2:a',
+    '-t',
+    String(audioDur),
+    '-c:v',
+    'libx264',
+    '-profile:v',
+    'baseline',
+    '-level',
+    '3.1',
+    '-preset',
+    'medium',
+    '-crf',
+    '22',
+    '-pix_fmt',
+    'yuv420p',
+    '-c:a',
+    'aac',
+    '-b:a',
+    '128k',
+    '-ar',
+    '44100',
+    '-movflags',
+    '+faststart',
     outPath,
   ];
 
@@ -344,7 +377,7 @@ async function uploadAndUpdateDB(lessonNum, localPath) {
         Prefer: 'return=minimal',
       },
       body: JSON.stringify({ video_url: publicUrl }),
-    }
+    },
   );
 
   if (!updateRes.ok) {
@@ -372,10 +405,13 @@ const manifest = JSON.parse(fs.readFileSync('data/hvac-lesson-manifest.json', 'u
 
 let lessonNumbers;
 if (allArg) {
-  lessonNumbers = manifest.map(x => x.lessonNumber).filter(Boolean);
+  lessonNumbers = manifest.map((x) => x.lessonNumber).filter(Boolean);
 } else {
   const n = parseInt(args[lessonArg + 1], 10);
-  if (isNaN(n)) { console.error('Invalid lesson number'); process.exit(1); }
+  if (isNaN(n)) {
+    console.error('Invalid lesson number');
+    process.exit(1);
+  }
   lessonNumbers = [n];
 }
 
@@ -383,11 +419,15 @@ console.log(`\n=== HVAC V16 Assembler — ${lessonNumbers.length} lesson(s) ===\
 
 const lessonData = await fetchLessons(lessonNumbers);
 
-let built = 0, failed = 0;
+let built = 0,
+  failed = 0;
 for (const num of lessonNumbers) {
   console.log(`\nLesson ${num}:`);
   const localPath = await assembleLesson(num, lessonData[num], manifest);
-  if (!localPath) { failed++; continue; }
+  if (!localPath) {
+    failed++;
+    continue;
+  }
 
   const url = await uploadAndUpdateDB(num, localPath);
   if (url) {

@@ -26,7 +26,7 @@ export async function recordStepCompletion(
   lessonId: string,
   courseId: string,
   enrollmentId: string,
-  timeSpentSeconds: number = 0
+  timeSpentSeconds: number = 0,
 ): Promise<StepCompletionResult> {
   const db = await getAdminClient();
 
@@ -34,31 +34,29 @@ export async function recordStepCompletion(
   // The DB trigger trg_enforce_lesson_progress_checkpoint_gate fires here.
   // If the gate blocks, Postgres raises ERRCODE 23514 — normalize it to a
   // structured CheckpointGateError so callers get a consistent domain error.
-  const { error: progressError } = await db
-    .from('lesson_progress')
-    .upsert(
-      {
-        user_id:            userId,
-        lesson_id:          lessonId,
-        course_id:          courseId,
-        enrollment_id:      enrollmentId,
-        completed:          true,
-        completed_at:       new Date().toISOString(),
-        time_spent_seconds: Math.max(0, timeSpentSeconds),
-        updated_at:         new Date().toISOString(),
-      },
-      { onConflict: 'user_id,lesson_id' }
-    );
+  const { error: progressError } = await db.from('lesson_progress').upsert(
+    {
+      user_id: userId,
+      lesson_id: lessonId,
+      course_id: courseId,
+      enrollment_id: enrollmentId,
+      completed: true,
+      completed_at: new Date().toISOString(),
+      time_spent_seconds: Math.max(0, timeSpentSeconds),
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: 'user_id,lesson_id' },
+  );
 
   if (progressError) {
     if (isCheckpointGateError(progressError)) {
       const gateErr: CheckpointGateError = {
-        code:               'CHECKPOINT_NOT_PASSED',
-        message:            'You must pass the required checkpoint before continuing.',
+        code: 'CHECKPOINT_NOT_PASSED',
+        message: 'You must pass the required checkpoint before continuing.',
         checkpointLessonId: '',
-        checkpointTitle:    '',
-        requiredScore:      80,
-        bestScore:          null,
+        checkpointTitle: '',
+        requiredScore: 80,
+        bestScore: null,
       };
       throw gateErr;
     }
@@ -68,11 +66,16 @@ export async function recordStepCompletion(
   // Recalculate progress % — canonical table: course_lessons
   const [{ data: allLessons }, { data: completedLessons }] = await Promise.all([
     db.from('course_lessons').select('id').eq('course_id', courseId),
-    db.from('lesson_progress').select('id').eq('user_id', userId).eq('course_id', courseId).eq('completed', true),
+    db
+      .from('lesson_progress')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('course_id', courseId)
+      .eq('completed', true),
   ]);
 
-  const totalLessons    = allLessons?.length ?? 0;
-  const completedCount  = completedLessons?.length ?? 0;
+  const totalLessons = allLessons?.length ?? 0;
+  const completedCount = completedLessons?.length ?? 0;
   const progressPercent = calcProgressPercent(completedCount, totalLessons);
   const courseCompleted = isCourseComplete(progressPercent, totalLessons);
 
@@ -128,16 +131,16 @@ export async function recordStepCompletion(
 export async function recordStepUncompletion(
   userId: string,
   lessonId: string,
-  courseId: string
+  courseId: string,
 ): Promise<{ progressPercent: number }> {
   const db = await getAdminClient();
 
   const { error } = await db
     .from('lesson_progress')
     .update({
-      completed:    false,
+      completed: false,
       completed_at: null,
-      updated_at:   new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     })
     .eq('user_id', userId)
     .eq('lesson_id', lessonId);
@@ -147,11 +150,16 @@ export async function recordStepUncompletion(
   // Recalculate progress % — canonical table: course_lessons
   const [{ data: allLessons }, { data: completedLessons }] = await Promise.all([
     db.from('course_lessons').select('id').eq('course_id', courseId),
-    db.from('lesson_progress').select('id').eq('user_id', userId).eq('course_id', courseId).eq('completed', true),
+    db
+      .from('lesson_progress')
+      .select('id')
+      .eq('user_id', userId)
+      .eq('course_id', courseId)
+      .eq('completed', true),
   ]);
 
-  const totalLessons    = allLessons?.length ?? 0;
-  const completedCount  = completedLessons?.length ?? 0;
+  const totalLessons = allLessons?.length ?? 0;
+  const completedCount = completedLessons?.length ?? 0;
   const progressPercent = calcProgressPercent(completedCount, totalLessons);
 
   // Persist progress % — canonical table: program_enrollments
@@ -189,7 +197,7 @@ export async function recordCheckpointAttempt(
   moduleOrder: number,
   score: number,
   passingScore: number,
-  answers: Record<string, number> = {}
+  answers: Record<string, number> = {},
 ): Promise<CheckpointAttemptResult> {
   const db = await getAdminClient();
 
@@ -221,12 +229,12 @@ export async function recordCheckpointAttempt(
   // NOTE: checkpoint_scores.passed is a generated column (score >= passing_score).
   // Do NOT include it in the insert — Postgres computes it automatically.
   const { error } = await db.from('checkpoint_scores').insert({
-    user_id:        userId,
-    lesson_id:      lessonId,
-    course_id:      courseId,
-    module_order:   resolvedModuleOrder,
+    user_id: userId,
+    lesson_id: lessonId,
+    course_id: courseId,
+    module_order: resolvedModuleOrder,
     score,
-    passing_score:  passingScore,
+    passing_score: passingScore,
     attempt_number: attemptNumber,
     answers,
   });

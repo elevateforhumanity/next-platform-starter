@@ -79,7 +79,8 @@ export default function StructuredData() {
           itemOffered: {
             '@type': 'Course',
             name: 'HVAC Technician Training',
-            description: 'EPA 608 certification prep and HVAC fundamentals. WIOA and Workforce Ready Grant eligible.',
+            description:
+              'EPA 608 certification prep and HVAC fundamentals. WIOA and Workforce Ready Grant eligible.',
             url: 'https://www.elevateforhumanity.org/programs/hvac-technician',
             provider: { '@id': 'https://www.elevateforhumanity.org/#organization' },
           },
@@ -89,7 +90,8 @@ export default function StructuredData() {
           itemOffered: {
             '@type': 'Course',
             name: 'Barber Apprenticeship',
-            description: 'DOL-registered apprenticeship — 1,500 OJT hours. RAPIDS program 2025-IN-132301.',
+            description:
+              'DOL-registered apprenticeship — 1,500 OJT hours. RAPIDS program 2025-IN-132301.',
             url: 'https://www.elevateforhumanity.org/programs/barber-apprenticeship',
             provider: { '@id': 'https://www.elevateforhumanity.org/#organization' },
           },
@@ -99,7 +101,8 @@ export default function StructuredData() {
           itemOffered: {
             '@type': 'Course',
             name: 'CNA Training',
-            description: 'Indiana state-approved Certified Nursing Assistant training. WIOA eligible.',
+            description:
+              'Indiana state-approved Certified Nursing Assistant training. WIOA eligible.',
             url: 'https://www.elevateforhumanity.org/programs/cna',
             provider: { '@id': 'https://www.elevateforhumanity.org/#organization' },
           },
@@ -144,7 +147,8 @@ export default function StructuredData() {
     '@id': 'https://www.elevateforhumanity.org/#website',
     url: 'https://www.elevateforhumanity.org',
     name: 'Elevate for Humanity',
-    description: 'Career training at no cost to eligible Indiana residents. WIOA and state-funded programs in healthcare, trades, technology, and business.',
+    description:
+      'Career training at no cost to eligible Indiana residents. WIOA and state-funded programs in healthcare, trades, technology, and business.',
     publisher: {
       '@id': 'https://www.elevateforhumanity.org/#organization',
     },
@@ -152,8 +156,7 @@ export default function StructuredData() {
       '@type': 'SearchAction',
       target: {
         '@type': 'EntryPoint',
-        urlTemplate:
-          'https://www.elevateforhumanity.org/search?q={search_term_string}',
+        urlTemplate: 'https://www.elevateforhumanity.org/search?q={search_term_string}',
       },
       'query-input': 'required name=search_term_string',
     },

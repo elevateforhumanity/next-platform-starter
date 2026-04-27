@@ -26,17 +26,17 @@ export const metadata: Metadata = {
 // ── Status badge helpers ──────────────────────────────────────────────────────
 
 const COURSE_STATUS_COLORS: Record<string, string> = {
-  draft:      'bg-slate-100 text-slate-600',
+  draft: 'bg-slate-100 text-slate-600',
   generating: 'bg-amber-100 text-amber-700',
-  review:     'bg-blue-100 text-blue-700',
-  published:  'bg-emerald-100 text-emerald-700',
+  review: 'bg-blue-100 text-blue-700',
+  published: 'bg-emerald-100 text-emerald-700',
 };
 
 const LESSON_STATUS_COLORS: Record<string, string> = {
-  queued:     'bg-slate-100 text-slate-500',
+  queued: 'bg-slate-100 text-slate-500',
   generating: 'bg-amber-100 text-amber-700',
-  generated:  'bg-blue-100 text-blue-700',
-  approved:   'bg-emerald-100 text-emerald-700',
+  generated: 'bg-blue-100 text-blue-700',
+  approved: 'bg-emerald-100 text-emerald-700',
 };
 
 // ── Data fetch ────────────────────────────────────────────────────────────────
@@ -46,11 +46,13 @@ async function getCourseWithLessons(courseId: string) {
 
   const { data: course, error } = await db
     .from('courses')
-    .select(`
+    .select(
+      `
       id, title, slug, description, published, status,
       generation_status, generation_progress, generation_paused,
       generator_prompt, last_generated_at, updated_at
-    `)
+    `,
+    )
     .eq('id', courseId)
     .maybeSingle();
 
@@ -58,11 +60,13 @@ async function getCourseWithLessons(courseId: string) {
 
   const { data: lessons } = await db
     .from('course_lessons')
-    .select(`
+    .select(
+      `
       id, title, content, order_index,
       generation_status, locked, approved, ai_generated,
       generator_prompt, last_generated_at, updated_at
-    `)
+    `,
+    )
     .eq('course_id', courseId)
     .order('order_index', { ascending: true });
 
@@ -83,30 +87,28 @@ export default async function CourseBuilderPage({
 
   const { course, lessons } = detail;
 
-  const genStatus    = (course as any).generation_status ?? 'draft';
-  const genProgress  = (course as any).generation_progress ?? 0;
-  const genPaused    = (course as any).generation_paused ?? false;
+  const genStatus = (course as any).generation_status ?? 'draft';
+  const genProgress = (course as any).generation_progress ?? 0;
+  const genPaused = (course as any).generation_paused ?? false;
   const isGenerating = genStatus === 'generating' && !genPaused;
 
   const approvedCount = lessons.filter((l: any) => l.approved).length;
-  const allApproved   = lessons.length > 0 && approvedCount === lessons.length;
+  const allApproved = lessons.length > 0 && approvedCount === lessons.length;
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Header */}
       <div className="bg-brand-blue-700 text-white py-6 px-4">
         <div className="max-w-5xl mx-auto flex flex-wrap items-start justify-between gap-4">
           <div>
-            <Link
-              href="/admin/courses"
-              className="text-brand-blue-200 hover:text-white text-sm"
-            >
+            <Link href="/admin/courses" className="text-brand-blue-200 hover:text-white text-sm">
               ← Courses
             </Link>
             <h1 className="text-xl font-bold mt-1">{course.title}</h1>
             <div className="flex items-center gap-2 mt-1 flex-wrap">
-              <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${COURSE_STATUS_COLORS[genStatus] ?? 'bg-slate-100 text-slate-600'}`}>
+              <span
+                className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${COURSE_STATUS_COLORS[genStatus] ?? 'bg-slate-100 text-slate-600'}`}
+              >
                 {genStatus}
               </span>
               {course.published && (
@@ -157,7 +159,6 @@ export default async function CourseBuilderPage({
       </div>
 
       <div className="max-w-5xl mx-auto px-4 py-8 space-y-8">
-
         {/* Generation progress bar */}
         {(isGenerating || genStatus === 'generating') && (
           <div className="bg-white rounded-xl border p-4 space-y-2">
@@ -228,9 +229,7 @@ export default async function CourseBuilderPage({
           <div className="flex items-center justify-between">
             <h2 className="text-lg font-semibold text-slate-900">
               Lessons
-              <span className="ml-2 text-sm font-normal text-slate-400">
-                ({lessons.length})
-              </span>
+              <span className="ml-2 text-sm font-normal text-slate-400">({lessons.length})</span>
             </h2>
             {allApproved && lessons.length > 0 && (
               <span className="text-xs text-emerald-600 font-medium">
@@ -261,7 +260,9 @@ export default async function CourseBuilderPage({
                       <span className="text-xs text-slate-400 tabular-nums">
                         #{lesson.order_index}
                       </span>
-                      <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${LESSON_STATUS_COLORS[lStatus] ?? 'bg-slate-100 text-slate-500'}`}>
+                      <span
+                        className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${LESSON_STATUS_COLORS[lStatus] ?? 'bg-slate-100 text-slate-500'}`}
+                      >
                         {lStatus}
                       </span>
                       {lesson.locked && (
@@ -283,7 +284,7 @@ export default async function CourseBuilderPage({
                     <form action={toggleLessonLock}>
                       <input type="hidden" name="lessonId" value={lesson.id} />
                       <input type="hidden" name="courseId" value={courseId} />
-                      <input type="hidden" name="locked"   value={lesson.locked ? 'false' : 'true'} />
+                      <input type="hidden" name="locked" value={lesson.locked ? 'false' : 'true'} />
                       <button className="rounded-lg border border-slate-200 px-3 py-1.5 text-xs font-medium hover:bg-slate-50">
                         {lesson.locked ? 'Unlock' : 'Lock'}
                       </button>

@@ -49,7 +49,7 @@ interface CalendlyEvent {
 // Post-booking confirmation email with "What Happens Next" checklist
 async function sendBookingConfirmation(invitee: CalendlyEvent['payload']['invitee']) {
   const firstName = invitee.first_name || invitee.name.split(' ')[0];
-  
+
   const emailContent = `Hi ${firstName},
 
 Thanks for scheduling time.
@@ -144,7 +144,7 @@ Ona`;
 // 24-hour reminder email
 async function sendReminder(invitee: CalendlyEvent['payload']['invitee'], scheduledTime: string) {
   const firstName = invitee.first_name || invitee.name.split(' ')[0];
-  
+
   const emailContent = `Hi ${firstName},
 
 Looking forward to our conversation tomorrow.
@@ -156,7 +156,7 @@ Ona`;
   // Schedule the reminder for 24 hours before the meeting
   const meetingTime = new Date(scheduledTime);
   const reminderTime = new Date(meetingTime.getTime() - 24 * 60 * 60 * 1000);
-  
+
   // Only send if reminder time is in the future
   if (reminderTime > new Date()) {
     // Note: Resend doesn't support scheduled sends natively
@@ -177,7 +177,7 @@ Ona`;
 // Internal notification
 async function notifyInternal(payload: CalendlyEvent['payload']) {
   const internalEmail = process.env.LEAD_NOTIFICATION_EMAIL || 'elevate4humanityedu@gmail.com';
-  
+
   const meetingTime = new Date(payload.scheduled_event.start_time);
   const formattedTime = meetingTime.toLocaleString('en-US', {
     weekday: 'long',
@@ -188,12 +188,12 @@ async function notifyInternal(payload: CalendlyEvent['payload']) {
     minute: '2-digit',
     timeZoneName: 'short',
   });
-  
+
   // Extract any custom questions/answers
   const qaSection = payload.questions_and_answers?.length
-    ? payload.questions_and_answers.map(qa => `${qa.question}: ${qa.answer}`).join('\n')
+    ? payload.questions_and_answers.map((qa) => `${qa.question}: ${qa.answer}`).join('\n')
     : 'No additional information provided';
-  
+
   const emailContent = `
 ━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
 NEW SCOPE CALL BOOKED
@@ -241,42 +241,49 @@ export async function POST(request: NextRequest) {
     // Verify webhook signature (Calendly uses a signing key)
     const signature = request.headers.get('calendly-webhook-signature');
     // In production, verify this signature against CALENDLY_WEBHOOK_SECRET
-    
+
     const event: CalendlyEvent = await request.json();
-    
+
     logger.info('[Calendly Webhook] Received event:', event.event);
-    
+
     if (!process.env.RESEND_API_KEY) {
       logger.warn('[Calendly Webhook] RESEND_API_KEY not configured');
-      return NextResponse.json({ 
-        success: true, 
-        warning: 'Email not sent - RESEND_API_KEY not configured' 
+      return NextResponse.json({
+        success: true,
+        warning: 'Email not sent - RESEND_API_KEY not configured',
       });
     }
-    
+
     // Persist booking to DB regardless of email status
     const db = await getAdminClient();
     if (db) {
       const p = event.payload;
-      await db.from('calendly_bookings').upsert({
-        event_type: event.event,
-        invitee_name: p.invitee.name,
-        invitee_email: p.invitee.email,
-        invitee_timezone: p.invitee.timezone ?? null,
-        event_name: p.scheduled_event.name,
-        start_time: p.scheduled_event.start_time,
-        end_time: p.scheduled_event.end_time,
-        location: p.scheduled_event.location?.location ?? p.scheduled_event.location?.type ?? null,
-        utm_source: p.tracking?.utm_source ?? null,
-        utm_medium: p.tracking?.utm_medium ?? null,
-        utm_campaign: p.tracking?.utm_campaign ?? null,
-        questions: p.questions_and_answers ?? null,
-        status: event.event === 'invitee.canceled' ? 'canceled' : 'scheduled',
-        raw_payload: p,
-        updated_at: new Date().toISOString(),
-      }, { onConflict: 'invitee_email,start_time', ignoreDuplicates: false }).catch(err => {
-        logger.error('[Calendly Webhook] DB upsert failed', err);
-      });
+      await db
+        .from('calendly_bookings')
+        .upsert(
+          {
+            event_type: event.event,
+            invitee_name: p.invitee.name,
+            invitee_email: p.invitee.email,
+            invitee_timezone: p.invitee.timezone ?? null,
+            event_name: p.scheduled_event.name,
+            start_time: p.scheduled_event.start_time,
+            end_time: p.scheduled_event.end_time,
+            location:
+              p.scheduled_event.location?.location ?? p.scheduled_event.location?.type ?? null,
+            utm_source: p.tracking?.utm_source ?? null,
+            utm_medium: p.tracking?.utm_medium ?? null,
+            utm_campaign: p.tracking?.utm_campaign ?? null,
+            questions: p.questions_and_answers ?? null,
+            status: event.event === 'invitee.canceled' ? 'canceled' : 'scheduled',
+            raw_payload: p,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: 'invitee_email,start_time', ignoreDuplicates: false },
+        )
+        .catch((err) => {
+          logger.error('[Calendly Webhook] DB upsert failed', err);
+        });
     }
 
     switch (event.event) {
@@ -287,25 +294,24 @@ export async function POST(request: NextRequest) {
           notifyInternal(event.payload),
           sendReminder(event.payload.invitee, event.payload.scheduled_event.start_time),
         ]);
-        logger.info('[Calendly Webhook] Booking confirmation sent to:', event.payload.invitee.email);
+        logger.info(
+          '[Calendly Webhook] Booking confirmation sent to:',
+          event.payload.invitee.email,
+        );
         break;
 
       case 'invitee.canceled':
         logger.info('[Calendly Webhook] Booking canceled:', event.payload.invitee.email);
         break;
-        
+
       default:
         logger.info('[Calendly Webhook] Unhandled event type:', event.event);
     }
-    
+
     return NextResponse.json({ success: true });
-    
   } catch (error) {
     logger.error('[Calendly Webhook] Error:', error);
-    return NextResponse.json(
-      { error: 'Failed to process webhook' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to process webhook' }, { status: 500 });
   }
 }
 

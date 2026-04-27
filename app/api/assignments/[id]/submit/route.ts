@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { createServerSupabaseClient, getCurrentUser } from '@/lib/auth';
@@ -11,12 +10,9 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 // POST /api/assignments/[id]/submit - Submit assignment
-async function _POST(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-    const rateLimited = await applyRateLimit(request, 'strict');
-    if (rateLimited) return rateLimited;
+async function _POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'strict');
+  if (rateLimited) return rateLimited;
 
   const { id } = await params;
   try {
@@ -81,19 +77,13 @@ async function _POST(
 
     if (error) {
       logger.error('Error submitting assignment:', error);
-      return NextResponse.json(
-        { error: 'Failed to submit assignment' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to submit assignment' }, { status: 500 });
     }
 
     return NextResponse.json({ submission }, { status: 201 });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error in POST /api/assignments/[id]/submit:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/assignments/[id]/submit', _POST);

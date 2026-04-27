@@ -3,9 +3,16 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  Video, Plus, Calendar, Clock, Users, 
-  ExternalLink, Copy, Settings, ChevronRight
+import {
+  Video,
+  Plus,
+  Calendar,
+  Clock,
+  Users,
+  ExternalLink,
+  Copy,
+  Settings,
+  ChevronRight,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -19,8 +26,9 @@ export const metadata: Metadata = {
 export default async function MeetingsPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/lms/collaborate/meetings');
@@ -52,11 +60,13 @@ export default async function MeetingsPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'LMS', href: '/lms/dashboard' },
-            { label: 'Collaborate', href: '/lms/collaborate' },
-            { label: 'Meetings' }
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'LMS', href: '/lms/dashboard' },
+              { label: 'Collaborate', href: '/lms/collaborate' },
+              { label: 'Meetings' },
+            ]}
+          />
         </div>
       </div>
 
@@ -69,9 +79,7 @@ export default async function MeetingsPage() {
             </div>
             <div>
               <h1 className="text-3xl font-bold">Video Meetings</h1>
-              <p className="text-brand-green-100 mt-1">
-                Schedule and join virtual study sessions
-              </p>
+              <p className="text-brand-green-100 mt-1">Schedule and join virtual study sessions</p>
             </div>
           </div>
           <div className="flex gap-4 mt-6">
@@ -95,11 +103,14 @@ export default async function MeetingsPage() {
             <div className="bg-white rounded-xl shadow-sm border">
               <div className="p-6 border-b flex items-center justify-between">
                 <h2 className="font-semibold text-slate-900">Upcoming Meetings</h2>
-                <Link href="/lms/collaborate/meetings" className="text-brand-green-600 hover:text-brand-green-700 text-sm font-medium">
+                <Link
+                  href="/lms/collaborate/meetings"
+                  className="text-brand-green-600 hover:text-brand-green-700 text-sm font-medium"
+                >
                   View Calendar
                 </Link>
               </div>
-              
+
               {upcomingMeetings.length > 0 ? (
                 <div className="divide-y">
                   {upcomingMeetings.map((meeting: any) => (
@@ -119,7 +130,10 @@ export default async function MeetingsPage() {
                               </span>
                               <span className="flex items-center gap-1">
                                 <Clock className="w-4 h-4" />
-                                {new Date(meeting.scheduled_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' })}
+                                {new Date(meeting.scheduled_at).toLocaleTimeString([], {
+                                  hour: '2-digit',
+                                  minute: '2-digit',
+                                })}
                               </span>
                             </div>
                           </div>
@@ -134,7 +148,9 @@ export default async function MeetingsPage() {
               ) : (
                 <div className="p-12 text-center">
                   <Calendar className="w-16 h-16 text-slate-700 mx-auto mb-4" />
-                  <h3 className="text-lg font-semibold text-slate-900 mb-2">No upcoming meetings</h3>
+                  <h3 className="text-lg font-semibold text-slate-900 mb-2">
+                    No upcoming meetings
+                  </h3>
                   <p className="text-slate-700 mb-6">
                     Schedule a study session with your classmates or join an existing one.
                   </p>
@@ -217,8 +233,8 @@ export default async function MeetingsPage() {
             </div>
 
             {/* Settings Link */}
-            <Link 
-              href="/account/settings" 
+            <Link
+              href="/account/settings"
               className="flex items-center justify-between p-4 bg-white rounded-xl shadow-sm border hover:border-gray-300"
             >
               <div className="flex items-center gap-3">

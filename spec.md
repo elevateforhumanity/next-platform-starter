@@ -41,6 +41,7 @@ and a full hamburger slide-in panel matching the public marketing site pattern.
 Replace the current redirect with a real page that looks like the public home page but shows admin data.
 
 **Sections (top to bottom):**
+
 1. **Hero** — full-bleed image (`/images/pages/admin-dashboard-hero.jpg`), greeting + name below, urgent CTA if pending applications
 2. **Quick stats** — 4 large typographic numbers (Applications waiting, Active enrollments, Revenue this month, Certificates issued) as a ruled list — each links to its section
 3. **Quick nav grid** — all 10 nav sections as large clickable tiles (Operations, Students, Programs, Build, AI, Funding, Partners, Marketing, Compliance, System) — each tile shows section name, icon, and count of items
@@ -54,6 +55,7 @@ All data fetched server-side from Supabase. Auth-guarded with `requireAdmin()`.
 ## Requirement 2 — Admin Nav (full rebuild)
 
 ### Desktop nav
+
 - Sticky top bar, `z-50`, `h-16`, `bg-white border-b border-slate-200`
 - Logo left: Elevate "E" mark + "Elevate Admin" text
 - 10 nav groups as dropdown buttons — each dropdown has **section header labels** (styled like the public site: red uppercase label, `bg-brand-red-50 border-l-3 border-brand-red-500`) separating sub-groups
@@ -148,6 +150,7 @@ System
 ```
 
 ### Mobile hamburger panel
+
 - Slides in from right, `w-[85vw] max-w-sm`
 - Each of the 10 sections is an accordion — tap to expand, shows section headers + links inside
 - Section headers styled same as desktop (red uppercase label)
@@ -163,49 +166,53 @@ System
 
 Every page below rewritten as a production server component:
 
-| Page | Primary tables | Key UI |
-|------|---------------|--------|
-| `audit-logs` | `audit_logs`, `profiles` | Paginated log, filter by action/user/date, 24h summary |
-| `monitoring` | `audit_logs`, `program_enrollments`, `profiles` | Recent events, error counts, active sessions |
-| `system-monitor` | `audit_logs` | Event counts by type, last 24h chart data |
-| `site-health` | `programs`, `courses`, `curriculum_lessons` | Unpublished content, missing videos, broken slugs |
-| `url-health` | `programs`, `courses`, `curriculum_lessons` | Duplicate/missing slugs list |
-| `compliance-audit` | `audit_logs`, `documents`, `program_enrollments` | Compliance checklist, missing docs |
-| `incentives` | `incentives`, `profiles`, `program_enrollments` | Incentive CRUD, filter by program/student |
-| `intake` | `intake_submissions`, `profiles`, `programs` | Intake submissions list, link to enrollment |
-| `next-steps` | `next_steps`, `profiles`, `program_enrollments` | Next-step assignments, create/assign/track |
-| `promo-codes` | `promo_codes` | Promo code CRUD, usage counts, toggle active |
-| `hours-export` | `ojt_hours_log`, `apprenticeship_enrollments`, `profiles` | Filter + CSV export |
-| `support` | `support_tickets`, `profiles` | Ticket list, status, reply link |
-| `settings` | `profiles`, `tenants`, `features` | Profile edit, tenant config, feature flags |
-| `governance` | `governance_documents`, `board_members` | Docs list, board directory |
-| `content-automation` | `automation_rules`, `course_generation_logs` | Rule list, last run, toggle |
-| `import` | `profiles`, `program_enrollments`, `programs` | CSV upload, preview, confirm |
-| `page-builder` | `pages` | CMS page list, create/edit/publish |
-| `advanced-tools` | `audit_logs`, `programs`, `courses` | Bulk ops, data repair, cache clear |
-| `dev-studio` | `course_generation_logs`, `automation_rules` | Generation logs, automation debug |
-| `ai-studio` | `course_generation_logs`, `ai_tutor_logs` | AI job queue, tutor session logs |
+| Page                 | Primary tables                                            | Key UI                                                 |
+| -------------------- | --------------------------------------------------------- | ------------------------------------------------------ |
+| `audit-logs`         | `audit_logs`, `profiles`                                  | Paginated log, filter by action/user/date, 24h summary |
+| `monitoring`         | `audit_logs`, `program_enrollments`, `profiles`           | Recent events, error counts, active sessions           |
+| `system-monitor`     | `audit_logs`                                              | Event counts by type, last 24h chart data              |
+| `site-health`        | `programs`, `courses`, `curriculum_lessons`               | Unpublished content, missing videos, broken slugs      |
+| `url-health`         | `programs`, `courses`, `curriculum_lessons`               | Duplicate/missing slugs list                           |
+| `compliance-audit`   | `audit_logs`, `documents`, `program_enrollments`          | Compliance checklist, missing docs                     |
+| `incentives`         | `incentives`, `profiles`, `program_enrollments`           | Incentive CRUD, filter by program/student              |
+| `intake`             | `intake_submissions`, `profiles`, `programs`              | Intake submissions list, link to enrollment            |
+| `next-steps`         | `next_steps`, `profiles`, `program_enrollments`           | Next-step assignments, create/assign/track             |
+| `promo-codes`        | `promo_codes`                                             | Promo code CRUD, usage counts, toggle active           |
+| `hours-export`       | `ojt_hours_log`, `apprenticeship_enrollments`, `profiles` | Filter + CSV export                                    |
+| `support`            | `support_tickets`, `profiles`                             | Ticket list, status, reply link                        |
+| `settings`           | `profiles`, `tenants`, `features`                         | Profile edit, tenant config, feature flags             |
+| `governance`         | `governance_documents`, `board_members`                   | Docs list, board directory                             |
+| `content-automation` | `automation_rules`, `course_generation_logs`              | Rule list, last run, toggle                            |
+| `import`             | `profiles`, `program_enrollments`, `programs`             | CSV upload, preview, confirm                           |
+| `page-builder`       | `pages`                                                   | CMS page list, create/edit/publish                     |
+| `advanced-tools`     | `audit_logs`, `programs`, `courses`                       | Bulk ops, data repair, cache clear                     |
+| `dev-studio`         | `course_generation_logs`, `automation_rules`              | Generation logs, automation debug                      |
+| `ai-studio`          | `course_generation_logs`, `ai_tutor_logs`                 | AI job queue, tutor session logs                       |
 
 ---
 
 ## Requirement 4 — Course Builder (full creation flow)
 
 ### 4a. Create program from scratch
+
 - Form: title, slug (auto-generated from title), description, category, status
 - POST to `programs` table
 - Redirect to program detail in builder on save
 
 ### 4b. Module management
+
 - Add module: title, order, description → writes to `modules` table
 - Reorder with up/down buttons → updates `module_order`
 - Delete module (with confirmation)
 
 ### 4c. Lesson management
+
 - Add lesson: title, `step_type`, order → writes to `curriculum_lessons`
 - `step_type` options: lesson, quiz, checkpoint, lab, assignment, exam, certification
 - Delete lesson (with confirmation)
 
 ### 4d. Lesson content editor (inline, tabbed)
+
 - **Content tab** — rich text editor for reading content
 - **Video tab** — attach video (see §5)
 - **Quiz tab** — add/edit/delete questions + answer choices, set `passing_score`
@@ -217,23 +224,27 @@ Every page below rewritten as a production server component:
 ## Requirement 5 — Video Management
 
 ### 5a. Upload (Supabase Storage)
+
 - Drag-and-drop or file picker (MP4, MOV, WebM)
 - Uploads to `course-videos` bucket: `programs/{programId}/{lessonId}/{filename}`
 - Progress bar during upload
 - On complete → writes URL to `curriculum_lessons.video_url`
 
 ### 5b. D-ID Generation
+
 - Form: lesson select, script text, avatar (default: instructor-trades.jpg)
 - POST to D-ID API via existing integration
 - Polls job status → writes result to `curriculum_lessons.video_url`
 - Job status tracked in `video_generation_jobs` table
 
 ### 5c. External URL
+
 - Input: paste YouTube, Vimeo, or direct MP4 URL
 - URL format validation
 - Writes to `curriculum_lessons.video_url`
 
 ### 5d. Video Manager page
+
 - Lists all lessons where `video_url IS NOT NULL`
 - Columns: lesson, program, video type (upload/did/external), preview link, replace, remove
 - Filter by program

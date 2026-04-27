@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { ReactNode } from 'react';
 import { ScrollReveal } from './ScrollReveal';
 
@@ -13,7 +13,7 @@ export function StaggeredReveal({
   children,
   staggerDelay = 100,
   className = '',
-  direction = 'up'
+  direction = 'up',
 }: StaggeredRevealProps) {
   return (
     <>

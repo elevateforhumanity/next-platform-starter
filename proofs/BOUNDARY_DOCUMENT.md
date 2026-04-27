@@ -13,6 +13,7 @@ This protects both sides.
 ### 1. We Provide a Governed Operational Core
 
 We deliver a production-ready system that enforces:
+
 - enrollment lifecycles,
 - eligibility and approval paths,
 - document intake and review,
@@ -27,6 +28,7 @@ We deliver a production-ready system that enforces:
 ### 2. We Enforce Lifecycle Boundaries
 
 The platform intentionally separates:
+
 - enrollment,
 - training,
 - completion,
@@ -39,6 +41,7 @@ The platform intentionally separates:
 ### 3. We Support Institution-Specific Configuration
 
 You control:
+
 - programs and offerings,
 - branding and communications,
 - funding and eligibility rules,
@@ -61,6 +64,7 @@ Staff intervene only when judgment is required.
 ### 5. We Support Safe, Intentional Extension
 
 When needs evolve, we support:
+
 - controlled extensions,
 - feature-flagged changes,
 - and scoped enhancements.
@@ -74,6 +78,7 @@ When needs evolve, we support:
 ### 1. We Do Not Customize the Governed Core Ad Hoc
 
 We do not modify core lifecycle logic:
+
 - mid-launch,
 - per program,
 - or in response to one-off requests.
@@ -93,6 +98,7 @@ Running some programs "inside the system" and others manually undermines governa
 ### 3. We Do Not Replace Program Ownership
 
 You own:
+
 - curriculum,
 - instructional delivery,
 - staffing,
@@ -115,6 +121,7 @@ This is a licensed platform, not a bespoke build.
 Some constraints are intentional.
 
 They exist to prevent:
+
 - audit risk,
 - reporting disputes,
 - manual workarounds,
@@ -126,10 +133,10 @@ They exist to prevent:
 
 All change requests fall into one of three categories:
 
-| Category | Handling |
-|----------|----------|
-| **Configuration** | Supported immediately |
-| **Extension** | Scoped, reviewed, and scheduled |
+| Category                  | Handling                               |
+| ------------------------- | -------------------------------------- |
+| **Configuration**         | Supported immediately                  |
+| **Extension**             | Scoped, reviewed, and scheduled        |
 | **Core Lifecycle Change** | Evaluated strategically. Never rushed. |
 
 **This ensures predictability for both parties.**
@@ -162,6 +169,7 @@ Then stop talking.
 ## Final Note
 
 If a buyer resists this document, they are signaling one of two things:
+
 1. They want bespoke development, or
 2. They are not ready for governed operations.
 

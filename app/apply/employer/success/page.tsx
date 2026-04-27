@@ -15,7 +15,11 @@ export const metadata: Metadata = {
 export default async function EmployerApplicationSuccess() {
   const supabase = await createClient();
   // Best-effort page view log — ignore errors
-  await supabase.from('page_views').insert({ page: 'employer_application_success' }).then(() => null).catch(() => null);
+  await supabase
+    .from('page_views')
+    .insert({ page: 'employer_application_success' })
+    .then(() => null)
+    .catch(() => null);
 
   return (
     <div className="min-h-screen bg-slate-50 flex items-center justify-center px-4 py-12">
@@ -23,12 +27,10 @@ export default async function EmployerApplicationSuccess() {
         {/* Success card */}
         <div className="bg-white border border-slate-200 rounded-2xl p-8 text-center mb-6 shadow-sm">
           <CheckCircle className="w-16 h-16 text-brand-green-600 mx-auto mb-4" />
-          <h1 className="text-3xl font-bold text-slate-900 mb-3">
-            Application Submitted!
-          </h1>
+          <h1 className="text-3xl font-bold text-slate-900 mb-3">Application Submitted!</h1>
           <p className="text-lg text-slate-600 mb-6">
-            Thank you for your interest in partnering with us. We&apos;ll review your
-            application and contact you within 1–2 business days.
+            Thank you for your interest in partnering with us. We&apos;ll review your application
+            and contact you within 1–2 business days.
           </p>
 
           {/* What's next */}
@@ -38,7 +40,10 @@ export default async function EmployerApplicationSuccess() {
               {[
                 { icon: Building2, text: 'Our team verifies your company information' },
                 { icon: Users, text: 'You receive an email with your account credentials' },
-                { icon: BookOpen, text: 'Once approved, complete onboarding to access your employer dashboard' },
+                {
+                  icon: BookOpen,
+                  text: 'Once approved, complete onboarding to access your employer dashboard',
+                },
               ].map(({ icon: Icon, text }, i) => (
                 <li key={i} className="flex items-start gap-3">
                   <div className="w-7 h-7 rounded-full bg-brand-blue-100 flex items-center justify-center flex-shrink-0 mt-0.5">

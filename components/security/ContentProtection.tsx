@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import React from 'react';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 interface ContentProtectionProps {
   children: React.ReactNode;
@@ -16,21 +16,18 @@ interface ContentProtectionProps {
  * - Blocks common keyboard shortcuts for copying
  * - Shows warning message when protection is triggered
  */
-export function ContentProtection({
-  children,
-  showWarning = true,
-}: ContentProtectionProps) {
+export function ContentProtection({ children, showWarning = true }: ContentProtectionProps) {
   const [warningVisible, setWarningVisible] = useState(false);
 
   useEffect(() => {
     const handleKeyDown = (e: KeyboardEvent) => {
       // Block Ctrl+C, Ctrl+X, Ctrl+S, Ctrl+P, F12, Ctrl+Shift+I
       if (
-        (e.ctrlKey && (e.key === "c" || e.key === "x" || e.key === "s" || e.key === "p")) ||
-        e.key === "F12" ||
-        (e.ctrlKey && e.shiftKey && e.key === "I") ||
-        (e.ctrlKey && e.shiftKey && e.key === "J") ||
-        (e.ctrlKey && e.key === "u")
+        (e.ctrlKey && (e.key === 'c' || e.key === 'x' || e.key === 's' || e.key === 'p')) ||
+        e.key === 'F12' ||
+        (e.ctrlKey && e.shiftKey && e.key === 'I') ||
+        (e.ctrlKey && e.shiftKey && e.key === 'J') ||
+        (e.ctrlKey && e.key === 'u')
       ) {
         e.preventDefault();
         if (showWarning) {
@@ -56,14 +53,14 @@ export function ContentProtection({
       }
     };
 
-    document.addEventListener("keydown", handleKeyDown);
-    document.addEventListener("contextmenu", handleContextMenu);
-    document.addEventListener("copy", handleCopy);
+    document.addEventListener('keydown', handleKeyDown);
+    document.addEventListener('contextmenu', handleContextMenu);
+    document.addEventListener('copy', handleCopy);
 
     return () => {
-      document.removeEventListener("keydown", handleKeyDown);
-      document.removeEventListener("contextmenu", handleContextMenu);
-      document.removeEventListener("copy", handleCopy);
+      document.removeEventListener('keydown', handleKeyDown);
+      document.removeEventListener('contextmenu', handleContextMenu);
+      document.removeEventListener('copy', handleCopy);
     };
   }, [showWarning]);
 
@@ -76,12 +73,7 @@ export function ContentProtection({
         <div className="fixed bottom-4 right-4 z-[9999] animate-slide-up">
           <div className="rounded-lg bg-brand-blue-700 px-6 py-4 text-white shadow-xl">
             <div className="flex items-center gap-3">
-              <svg
-                className="h-10 w-10"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
+              <svg className="h-10 w-10" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
@@ -91,9 +83,7 @@ export function ContentProtection({
               </svg>
               <div>
                 <p className="font-semibold">Content Protected</p>
-                <p className="text-sm">
-                  © Elevate for Humanity - All Rights Reserved
-                </p>
+                <p className="text-sm">© Elevate for Humanity - All Rights Reserved</p>
               </div>
             </div>
           </div>

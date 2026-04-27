@@ -16,12 +16,8 @@ export function EligibilityModal({ isOpen, onClose, onContinue }: EligibilityMod
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       {/* Backdrop */}
-      <div 
-        className="absolute inset-0 bg-black/50" 
-        onClick={onClose}
-        aria-hidden="true"
-      />
-      
+      <div className="absolute inset-0 bg-black/50" onClick={onClose} aria-hidden="true" />
+
       {/* Modal */}
       <div className="relative bg-white rounded-2xl shadow-2xl max-w-md w-full max-h-[90vh] overflow-y-auto">
         {/* Close button */}
@@ -44,11 +40,12 @@ export function EligibilityModal({ isOpen, onClose, onContinue }: EligibilityMod
 
           {/* Content */}
           <p className="text-slate-700 mb-4">
-            Most programs require approval through <strong>WorkOne / Indiana Career Connect</strong>.
+            Most programs require approval through <strong>WorkOne / Indiana Career Connect</strong>
+            .
           </p>
 
           <p className="text-slate-900 font-medium mb-3">Before applying, confirm you:</p>
-          
+
           <ul className="space-y-2 mb-4">
             {[
               'Are 18+',
@@ -117,11 +114,7 @@ export function useEligibilityModal() {
     closeModal,
     handleContinue,
     Modal: () => (
-      <EligibilityModal
-        isOpen={isOpen}
-        onClose={closeModal}
-        onContinue={handleContinue}
-      />
+      <EligibilityModal isOpen={isOpen} onClose={closeModal} onContinue={handleContinue} />
     ),
   };
 }

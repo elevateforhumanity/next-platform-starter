@@ -7,7 +7,9 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 import { getEntityByUEI } from '@/lib/integrations/sam-gov';
 
-function getDb() { return getAdminClient(); }
+function getDb() {
+  return getAdminClient();
+}
 
 export interface SF424Data {
   // 1. Type of Submission
@@ -174,7 +176,13 @@ export interface SFLLLData {
   // Disclosure of Lobbying Activities
 
   // 1. Type of Federal Action
-  federalActionType: 'contract' | 'grant' | 'cooperative_agreement' | 'loan' | 'loan_guarantee' | 'loan_insurance';
+  federalActionType:
+    | 'contract'
+    | 'grant'
+    | 'cooperative_agreement'
+    | 'loan'
+    | 'loan_guarantee'
+    | 'loan_insurance';
 
   // 2. Status of Federal Action
   federalActionStatus: 'bid_offer_application' | 'initial_award' | 'post_award';
@@ -249,7 +257,7 @@ export async function generateSF424(
   grantId: string,
   projectTitle: string,
   projectDates: { start: string; end: string },
-  funding: SF424Data['funding']
+  funding: SF424Data['funding'],
 ): Promise<SF424Data> {
   const { data: entity, error: entityError } = await getDb()
     .from('entities')
@@ -275,7 +283,8 @@ export async function generateSF424(
   if (entity.uei) {
     try {
       samData = await getEntityByUEI(entity.uei);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }
@@ -329,7 +338,7 @@ export async function generateSF424(
 export async function generateSF424A(
   entityId: string,
   grantId: string,
-  budgetData: SF424AData['sections']['budgetCategories']
+  budgetData: SF424AData['sections']['budgetCategories'],
 ): Promise<SF424AData> {
   const { data: grant } = await getDb()
     .from('grant_opportunities')
@@ -360,9 +369,19 @@ export async function generateSF424A(
         total: 0,
       },
       cashNeeds: {
-        federal: [budgetData.total / 4, budgetData.total / 4, budgetData.total / 4, budgetData.total / 4],
+        federal: [
+          budgetData.total / 4,
+          budgetData.total / 4,
+          budgetData.total / 4,
+          budgetData.total / 4,
+        ],
         nonFederal: [0, 0, 0, 0],
-        total: [budgetData.total / 4, budgetData.total / 4, budgetData.total / 4, budgetData.total / 4],
+        total: [
+          budgetData.total / 4,
+          budgetData.total / 4,
+          budgetData.total / 4,
+          budgetData.total / 4,
+        ],
       },
       federalFundsNeeded: {
         firstYear: budgetData.total,
@@ -375,10 +394,7 @@ export async function generateSF424A(
 /**
  * Generate SF-LLL Lobbying Disclosure form
  */
-export async function generateSFLLL(
-  entityId: string,
-  grantId: string
-): Promise<SFLLLData> {
+export async function generateSFLLL(entityId: string, grantId: string): Promise<SFLLLData> {
   const { data: entity } = await getDb()
     .from('entities')
     .select('*')
@@ -422,9 +438,7 @@ export async function generateSFLLL(
 /**
  * Generate all federal forms for a grant application
  */
-export async function generateAllFederalForms(
-  applicationId: string
-): Promise<{
+export async function generateAllFederalForms(applicationId: string): Promise<{
   sf424: SF424Data;
   sf424a: SF424AData;
   sflll: SFLLLData;
@@ -443,9 +457,7 @@ export async function generateAllFederalForms(
 
   const projectDates = {
     start: new Date().toISOString().split('T')[0],
-    end: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000)
-      .toISOString()
-      .split('T')[0],
+    end: new Date(Date.now() + 365 * 24 * 60 * 60 * 1000).toISOString().split('T')[0],
   };
 
   const funding = {
@@ -477,14 +489,10 @@ export async function generateAllFederalForms(
     app.grant_id,
     app.draft_title || 'Workforce Development Project',
     projectDates,
-    funding
+    funding,
   );
 
-  const sf424a = await generateSF424A(
-    app.entity_id,
-    app.grant_id,
-    budgetCategories
-  );
+  const sf424a = await generateSF424A(app.entity_id, app.grant_id, budgetCategories);
 
   const sflll = await generateSFLLL(app.entity_id, app.grant_id);
 
@@ -496,7 +504,7 @@ export async function generateAllFederalForms(
       sflll_data: sflll,
       generated_at: new Date().toISOString(),
     },
-    { onConflict: 'application_id' }
+    { onConflict: 'application_id' },
   );
 
   return {

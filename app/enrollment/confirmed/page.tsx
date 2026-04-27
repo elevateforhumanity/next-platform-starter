@@ -24,23 +24,27 @@ function EnrollmentConfirmedContent() {
   useEffect(() => {
     async function fetchEnrollment() {
       const supabase = createClient();
-      
-      const { data: { user } } = await supabase.auth.getUser();
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
         router.push('/login?redirect=' + encodeURIComponent(window.location.pathname));
         return;
       }
 
       const programId = searchParams.get('program_id');
-      
+
       let query = supabase
         .from('program_enrollments')
-        .select(`
+        .select(
+          `
           id,
           enrollment_state,
           enrollment_confirmed_at,
           training_programs(name)
-        `)
+        `,
+        )
         .eq('user_id', user.id);
 
       if (programId) {
@@ -116,11 +120,11 @@ function EnrollmentConfirmedContent() {
     }
   }
 
-  const confirmDate = enrollment.enrollment_confirmed_at 
+  const confirmDate = enrollment.enrollment_confirmed_at
     ? new Date(enrollment.enrollment_confirmed_at).toLocaleDateString('en-US', {
         month: 'long',
         day: 'numeric',
-        year: 'numeric'
+        year: 'numeric',
       })
     : new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' });
 
@@ -137,7 +141,8 @@ function EnrollmentConfirmedContent() {
           </h1>
           {isApproved && (
             <p className="text-slate-700 mt-2">
-              Your application has been approved. Review the details below and confirm to begin onboarding.
+              Your application has been approved. Review the details below and confirm to begin
+              onboarding.
             </p>
           )}
         </div>
@@ -157,7 +162,9 @@ function EnrollmentConfirmedContent() {
               <Calendar className="w-5 h-5 text-brand-blue-600 mt-0.5" />
               <div>
                 <p className="text-sm text-slate-700">Status</p>
-                <p className={`font-semibold ${isApproved ? 'text-amber-600' : 'text-brand-green-600'}`}>
+                <p
+                  className={`font-semibold ${isApproved ? 'text-amber-600' : 'text-brand-green-600'}`}
+                >
                   {isApproved ? 'Approved — Awaiting Confirmation' : 'Confirmed'}
                 </p>
               </div>
@@ -177,7 +184,9 @@ function EnrollmentConfirmedContent() {
               <Building2 className="w-5 h-5 text-brand-blue-600 mt-0.5" />
               <div>
                 <p className="text-sm text-slate-700">Sponsor</p>
-                <p className="font-semibold text-slate-900">Elevate for Humanity (USDOL Registered)</p>
+                <p className="font-semibold text-slate-900">
+                  Elevate for Humanity (USDOL Registered)
+                </p>
               </div>
             </div>
           </div>
@@ -203,7 +212,8 @@ function EnrollmentConfirmedContent() {
 
         {/* Helper Text */}
         <p className="text-center text-sm text-slate-700 mt-4">
-          This program is sponsor-managed. Orientation and required documents must be completed before course access is unlocked.
+          This program is sponsor-managed. Orientation and required documents must be completed
+          before course access is unlocked.
         </p>
       </div>
     </div>
@@ -212,11 +222,13 @@ function EnrollmentConfirmedContent() {
 
 export default function EnrollmentConfirmedPage() {
   return (
-    <Suspense fallback={
-      <div className="min-h-screen flex items-center justify-center">
-        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-blue-600"></div>
-      </div>
-    }>
+    <Suspense
+      fallback={
+        <div className="min-h-screen flex items-center justify-center">
+          <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-brand-blue-600"></div>
+        </div>
+      }
+    >
       <EnrollmentConfirmedContent />
     </Suspense>
   );

@@ -25,10 +25,10 @@ function buildFullPage(pageInfo) {
   const parts = route.split('/').filter(Boolean);
   const section = parts[0] || 'root';
   const pageName = parts[parts.length - 1] || 'index';
-  
+
   // Build based on section type
   let code = '';
-  
+
   if (section === 'admin') {
     code = buildAdminPage(pageInfo, pageName);
   } else if (section === 'student') {
@@ -44,13 +44,15 @@ function buildFullPage(pageInfo) {
   } else {
     code = buildMarketingPage(pageInfo, pageName);
   }
-  
+
   fs.writeFileSync(pageInfo.file, code, 'utf8');
   completed++;
-  
-  const percent = (completed / pages.length * 100).toFixed(1);
+
+  const percent = ((completed / pages.length) * 100).toFixed(1);
   const elapsed = ((Date.now() - startTime) / 1000).toFixed(1);
-  process.stdout.write(`\r[${percent}%] ${completed}/${pages.length} | ${elapsed}s | Worker: ${section}`);
+  process.stdout.write(
+    `\r[${percent}%] ${completed}/${pages.length} | ${elapsed}s | Worker: ${section}`,
+  );
 }
 
 // ADMIN PAGE BUILDER - Full dashboard with data

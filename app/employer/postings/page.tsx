@@ -16,50 +16,52 @@ export default async function EmployerPostingsPage() {
   try {
     const supabase = await createClient();
 
-  if (!supabase) {
-    return (
-      <div className="min-h-screen bg-gray-50 flex items-center justify-center">
-        <div className="text-center">
-          <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
-          <p className="text-gray-600">Please try again later.</p>
+    if (!supabase) {
+      return (
+        <div className="min-h-screen bg-gray-50 flex items-center justify-center">
+          <div className="text-center">
+            <h1 className="text-2xl font-bold text-gray-900 mb-4">Service Unavailable</h1>
+            <p className="text-gray-600">Please try again later.</p>
+          </div>
         </div>
-      </div>
-    );
-  }
-    
+      );
+    }
+
     try {
       const { data: authData, error: authError } = await supabase.auth.getUser();
-      
+
       if (!authError && authData.user) {
         user = authData.user;
-        
+
         const { data, error: queryError } = await supabase
           .from('job_postings')
           .select('*')
           .eq('employer_id', user.id)
           .order('created_at', { ascending: false });
-        
+
         if (!queryError) {
           postings = data;
         }
       }
-    } catch (error) { /* Error handled silently */ }
-  } catch (error) { /* Error handled silently */ }
+    } catch (error) {
+      /* Error handled silently */
+    }
+  } catch (error) {
+    /* Error handled silently */
+  }
 
   return (
     <div className="container mx-auto px-4 py-8">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Employer", href: "/employer" }, { label: "Postings" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Employer', href: '/employer' }, { label: 'Postings' }]} />
       </div>
-<div className="flex justify-between items-center mb-6">
+      <div className="flex justify-between items-center mb-6">
         <h1 className="text-3xl font-bold">Job Postings</h1>
       </div>
 
       {!user ? (
         <div className="bg-blue-50 border border-blue-200 rounded-lg p-6">
-          <p className="text-blue-900 mb-4">
-            Please log in to view and manage your job postings.
-          </p>
+          <p className="text-blue-900 mb-4">Please log in to view and manage your job postings.</p>
           <a
             href="/login"
             className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700 transition-colors"
@@ -94,7 +96,11 @@ export default async function EmployerPostingsPage() {
             Post a Job
           </a>
           <p className="text-slate-500 text-sm mt-4">
-            Or contact us at <a href="tel:317-314-3757" className="text-blue-600 hover:underline">317-314-3757</a> for assistance
+            Or contact us at{' '}
+            <a href="tel:317-314-3757" className="text-blue-600 hover:underline">
+              317-314-3757
+            </a>{' '}
+            for assistance
           </p>
         </div>
       ) : (

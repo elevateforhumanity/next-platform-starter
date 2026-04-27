@@ -42,7 +42,13 @@ const SUBSCRIPTION_TIERS = {
     priceEnvVar: 'STRIPE_PRICE_MANAGED_ANNUAL',
     tier: 'managed_annual',
     interval: 'year',
-    features: ['Up to 50 users', 'Role-based access', 'Domain isolation', 'Priority support', 'Save 20%'],
+    features: [
+      'Up to 50 users',
+      'Role-based access',
+      'Domain isolation',
+      'Priority support',
+      'Save 20%',
+    ],
   },
 } as const;
 
@@ -50,7 +56,7 @@ type SubscriptionTierId = keyof typeof SUBSCRIPTION_TIERS;
 
 /**
  * POST /api/license/upgrade
- * 
+ *
  * Creates a Stripe Checkout session for upgrading from trial to paid subscription.
  * Preserves tenant_id and previous_license_id for webhook processing.
  */
@@ -60,18 +66,15 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const body = await request.json();
-    const { 
+    const {
       tierId,
-      licenseId,      // Current trial license being upgraded
-      tenantId,       // Tenant to attach subscription to
+      licenseId, // Current trial license being upgraded
+      tenantId, // Tenant to attach subscription to
     } = body;
 
     // Validate tier
     if (!tierId || !SUBSCRIPTION_TIERS[tierId as SubscriptionTierId]) {
-      return NextResponse.json(
-        { error: 'Invalid subscription tier' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid subscription tier' }, { status: 400 });
     }
 
     const tierConfig = SUBSCRIPTION_TIERS[tierId as SubscriptionTierId];
@@ -79,21 +82,18 @@ async function _POST(request: NextRequest) {
 
     if (!priceId) {
       logger.error(`Missing price ID for tier ${tierId}: ${tierConfig.priceEnvVar}`);
-      return NextResponse.json(
-        { error: 'Subscription tier not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Subscription tier not configured' }, { status: 503 });
     }
 
     // Get current user
     const supabase = await createClient();
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
 
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Authentication required' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
     }
 
     // Verify license exists and belongs to tenant
@@ -105,16 +105,13 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (licenseError || !license) {
-      return NextResponse.json(
-        { error: 'License not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'License not found' }, { status: 404 });
     }
 
     if (tenantId && license.tenant_id !== tenantId) {
       return NextResponse.json(
         { error: 'License does not belong to specified tenant' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -150,7 +147,7 @@ async function _POST(request: NextRequest) {
 
     // Create Checkout Session for subscription
     const baseUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-    
+
     const session = await stripe.checkout.sessions.create({
       customer: customerId,
       mode: 'subscription',
@@ -182,30 +179,25 @@ async function _POST(request: NextRequest) {
       allow_promotion_codes: true,
     });
 
-    return NextResponse.json({ 
+    return NextResponse.json({
       sessionId: session.id,
       url: session.url,
     });
-
   } catch (error) {
     logger.error('[license/upgrade] Error:', error);
-    return NextResponse.json(
-      { error: 'Failed to create checkout session' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
   }
 }
 
 /**
  * GET /api/license/upgrade
- * 
+ *
  * Returns available subscription tiers for upgrade
  */
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const tiers = Object.entries(SUBSCRIPTION_TIERS).map(([id, config]) => ({
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const tiers = Object.entries(SUBSCRIPTION_TIERS).map(([id, config]) => ({
     id,
     name: config.name,
     tier: config.tier,

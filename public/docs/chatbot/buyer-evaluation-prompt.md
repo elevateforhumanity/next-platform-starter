@@ -75,7 +75,7 @@ This document helps you evaluate whether Elevate for Humanity—or any workforce
    - [ ] Automated compliance reporting
    - [ ] Mobile access for learners
    - [ ] AI-powered tutoring or support
-   - [ ] Integration with existing systems (specify: _________)
+   - [ ] Integration with existing systems (specify: ****\_****)
    - [ ] Multi-site or multi-organization management
 
 ---
@@ -121,6 +121,7 @@ This document helps you evaluate whether Elevate for Humanity—or any workforce
 ### Score Your Answers
 
 **High fit indicators (Elevate likely a good match):**
+
 - Manual tracking or basic LMS currently
 - WIOA/FERPA compliance required
 - 100+ learners expected
@@ -129,6 +130,7 @@ This document helps you evaluate whether Elevate for Humanity—or any workforce
 - Budget $10,000+
 
 **Lower fit indicators (may need different solution):**
+
 - Under 50 learners total
 - No compliance requirements
 - Only need basic course hosting
@@ -178,15 +180,19 @@ Use these questions when evaluating Elevate or any alternative:
 Based on your self-assessment:
 
 ### If High Fit:
+
 Schedule a 15-minute scope confirmation call to:
+
 - Validate your requirements
 - Get specific pricing
 - Discuss implementation timeline
 
 ### If Uncertain:
+
 Request a demo to see the platform in action before committing to a deeper conversation.
 
 ### If Lower Fit:
+
 We're happy to recommend alternatives that might better serve your needs. Our goal is your success, not a sale.
 
 ---
@@ -199,4 +205,4 @@ We're happy to recommend alternatives that might better serve your needs. Our go
 
 ---
 
-*This evaluation prompt is provided to help you make an informed decision. There is no obligation, and we respect whatever conclusion you reach.*
+_This evaluation prompt is provided to help you make an informed decision. There is no obligation, and we respect whatever conclusion you reach._

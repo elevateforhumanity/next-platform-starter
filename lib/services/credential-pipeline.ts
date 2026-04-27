@@ -49,7 +49,7 @@ export async function resolvePaymentResponsibility(
   learnerId: string,
   credentialId: string,
   programId: string | null,
-  credentialAttemptId?: string | null
+  credentialAttemptId?: string | null,
 ): Promise<FundingDecision> {
   const db = await getAdminClient();
   if (!db) {
@@ -154,12 +154,13 @@ export async function resolvePaymentResponsibility(
 export async function getLearnerCredentialLifecycle(
   learnerId: string,
   credentialId: string,
-  programId?: string | null
+  programId?: string | null,
 ): Promise<{ state: CredentialLifecycleState; input: LifecycleInput; funding: FundingDecision }> {
   const db = await getAdminClient();
 
   const [eligibilityRes, attemptRes, fundingRes, scheduleRes, lcRes, certRes] = await Promise.all([
-    db?.from('learner_exam_eligibility')
+    db
+      ?.from('learner_exam_eligibility')
       .select('*')
       .eq('learner_id', learnerId)
       .eq('credential_id', credentialId)
@@ -167,7 +168,8 @@ export async function getLearnerCredentialLifecycle(
       .limit(1)
       .maybeSingle(),
 
-    db?.from('credential_attempts')
+    db
+      ?.from('credential_attempts')
       .select('*')
       .eq('learner_id', learnerId)
       .eq('credential_id', credentialId)
@@ -175,7 +177,8 @@ export async function getLearnerCredentialLifecycle(
       .limit(1)
       .maybeSingle(),
 
-    db?.from('exam_funding_authorizations')
+    db
+      ?.from('exam_funding_authorizations')
       .select('*')
       .eq('learner_id', learnerId)
       .eq('credential_id', credentialId)
@@ -183,7 +186,8 @@ export async function getLearnerCredentialLifecycle(
       .limit(1)
       .maybeSingle(),
 
-    db?.from('exam_schedule_requests')
+    db
+      ?.from('exam_schedule_requests')
       .select('status')
       .eq('learner_id', learnerId)
       .eq('credential_id', credentialId)
@@ -191,14 +195,16 @@ export async function getLearnerCredentialLifecycle(
       .limit(1)
       .maybeSingle(),
 
-    db?.from('learner_credentials')
+    db
+      ?.from('learner_credentials')
       .select('*')
       .eq('learner_id', learnerId)
       .eq('credential_id', credentialId)
       .eq('status', 'active')
       .maybeSingle(),
 
-    db?.from('certificates')
+    db
+      ?.from('certificates')
       .select('id')
       .eq('user_id', learnerId)
       .eq('program_id', programId ?? '')
@@ -218,7 +224,9 @@ export async function getLearnerCredentialLifecycle(
     eligibility,
     attempt,
     funding: fundingAuth,
-    scheduleRequest: scheduleRequest as { status: import('@/lib/domain/credentials').ExamScheduleStatus } | null,
+    scheduleRequest: scheduleRequest as {
+      status: import('@/lib/domain/credentials').ExamScheduleStatus;
+    } | null,
     learnerCredential,
     hasCertificate,
   };
@@ -229,7 +237,7 @@ export async function getLearnerCredentialLifecycle(
     learnerId,
     credentialId,
     programId ?? null,
-    attempt?.id ?? null
+    attempt?.id ?? null,
   );
 
   return { state, input, funding };
@@ -246,7 +254,7 @@ export async function getLearnerCredentialLifecycle(
 export async function startCredentialAttempt(
   learnerId: string,
   credentialId: string,
-  programId: string | null
+  programId: string | null,
 ): Promise<{ attemptId: string; funding: FundingDecision } | { error: string }> {
   const db = await getAdminClient();
   if (!db) return { error: 'Database unavailable' };
@@ -292,7 +300,7 @@ export async function startCredentialAttempt(
     learnerId,
     credentialId,
     programId,
-    attempt.id
+    attempt.id,
   );
 
   // If program default is non-self-pay, create a pending authorization record
@@ -314,7 +322,7 @@ export async function startCredentialAttempt(
       learnerId,
       credentialId,
       programId,
-      attempt.id
+      attempt.id,
     );
     return { attemptId: attempt.id, funding: updatedFunding };
   }
@@ -331,7 +339,7 @@ export async function startCredentialAttempt(
 
 export async function markPaymentSucceeded(
   stripeCheckoutSessionId: string,
-  stripePaymentIntentId: string
+  stripePaymentIntentId: string,
 ): Promise<{ ok: boolean; error?: string }> {
   const db = await getAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
@@ -359,7 +367,7 @@ export async function markPaymentSucceeded(
 export async function approveFundingAuthorization(
   authorizationId: string,
   approvedBy: string,
-  notes?: string
+  notes?: string,
 ): Promise<{ ok: boolean; error?: string }> {
   const db = await getAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
@@ -371,7 +379,10 @@ export async function approveFundingAuthorization(
     .maybeSingle();
 
   if (auth?.funding_source === 'self_pay') {
-    return { ok: false, error: 'Cannot approve a self_pay authorization — learner must pay via checkout' };
+    return {
+      ok: false,
+      error: 'Cannot approve a self_pay authorization — learner must pay via checkout',
+    };
   }
 
   const { error } = await db
@@ -405,7 +416,7 @@ export async function queueCredentialDelivery(
   providerId: string,
   providerName: string,
   studentEmail: string,
-  studentName: string
+  studentName: string,
 ): Promise<{ ok: boolean; error?: string }> {
   const db = await getAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
@@ -446,7 +457,7 @@ export async function verifyLearnerCredential(
     examDate?: string;
     badgeUrl?: string;
     certificateUrl?: string;
-  } = {}
+  } = {},
 ): Promise<{ ok: boolean; learnerCredentialId?: string; error?: string }> {
   const db = await getAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
@@ -483,10 +494,7 @@ export async function verifyLearnerCredential(
   if (lcError || !lc) return { ok: false, error: 'Failed to create learner credential record' };
 
   // Link attempt to issued credential
-  await db
-    .from('credential_attempts')
-    .update({ credential_issued_id: lc.id })
-    .eq('id', attemptId);
+  await db.from('credential_attempts').update({ credential_issued_id: lc.id }).eq('id', attemptId);
 
   return { ok: true, learnerCredentialId: lc.id };
 }
@@ -505,7 +513,7 @@ export async function issueCompletionCertificate(
   courseName: string,
   programName: string,
   hoursCompleted: number,
-  issuedBy: string = 'Elevate for Humanity'
+  issuedBy: string = 'Elevate for Humanity',
 ): Promise<{ ok: boolean; certificateId?: string; error?: string }> {
   const db = await getAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
@@ -565,7 +573,7 @@ export async function issueCompletionCertificate(
 
 export async function checkCertificateIssuanceEligibility(
   learnerId: string,
-  programId: string
+  programId: string,
 ): Promise<{ eligible: boolean; reason?: string }> {
   const db = await getAdminClient();
   if (!db) return { eligible: false, reason: 'Database unavailable' };
@@ -621,7 +629,8 @@ export async function checkCertificateIssuanceEligibility(
     if (!attempt) {
       return {
         eligible: false,
-        reason: 'Primary credential exam has not been passed. Pass the exam before requesting a certificate.',
+        reason:
+          'Primary credential exam has not been passed. Pass the exam before requesting a certificate.',
       };
     }
   }

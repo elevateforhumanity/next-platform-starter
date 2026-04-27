@@ -18,10 +18,12 @@ export default async function StudentCodePage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Policies", href: "/policies" }, { label: "Student Code" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Policies', href: '/policies' }, { label: 'Student Code' }]}
+        />
       </div>
-<div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
         <article className="bg-white rounded-xl shadow-sm p-8 md:p-12">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-black mb-4">Student Code of Conduct</h1>
@@ -31,10 +33,10 @@ export default async function StudentCodePage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
-              The Student Code of Conduct establishes behavioral expectations and standards for all students at 
-              Elevate for Humanity. This code promotes a safe, respectful, and productive learning environment 
-              where all community members can thrive. Violations may result in disciplinary action up to and 
-              including dismissal from programs.
+              The Student Code of Conduct establishes behavioral expectations and standards for all
+              students at Elevate for Humanity. This code promotes a safe, respectful, and
+              productive learning environment where all community members can thrive. Violations may
+              result in disciplinary action up to and including dismissal from programs.
             </p>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Core Values</h2>
@@ -42,7 +44,8 @@ export default async function StudentCodePage() {
               <div className="bg-brand-blue-50 rounded-lg p-6 border-2 border-brand-blue-200">
                 <h3 className="text-xl font-bold text-black mb-3">Respect</h3>
                 <p className="text-black">
-                  Treat all individuals with dignity, courtesy, and consideration regardless of differences.
+                  Treat all individuals with dignity, courtesy, and consideration regardless of
+                  differences.
                 </p>
               </div>
 
@@ -69,30 +72,54 @@ export default async function StudentCodePage() {
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Expected Behaviors</h2>
-            
+
             <div className="bg-brand-green-50 rounded-xl p-6 border-2 border-brand-green-200 mb-6">
               <h3 className="text-xl font-bold text-black mb-4">Students Are Expected To:</h3>
               <ul className="list-disc pl-6 text-black space-y-2">
-                <li><strong>Attend Regularly:</strong> Maintain required attendance and arrive on time</li>
-                <li><strong>Participate Actively:</strong> Engage in classes, discussions, and activities</li>
-                <li><strong>Complete Work:</strong> Submit assignments and assessments on time</li>
-                <li><strong>Communicate Respectfully:</strong> Use appropriate language and tone</li>
-                <li><strong>Follow Instructions:</strong> Comply with instructor and staff directions</li>
-                <li><strong>Respect Property:</strong> Care for facilities, equipment, and materials</li>
-                <li><strong>Maintain Professionalism:</strong> Dress and behave appropriately</li>
-                <li><strong>Support Peers:</strong> Help create a positive learning environment</li>
-                <li><strong>Report Concerns:</strong> Notify staff of safety or conduct issues</li>
-                <li><strong>Follow Policies:</strong> Comply with all institutional policies</li>
+                <li>
+                  <strong>Attend Regularly:</strong> Maintain required attendance and arrive on time
+                </li>
+                <li>
+                  <strong>Participate Actively:</strong> Engage in classes, discussions, and
+                  activities
+                </li>
+                <li>
+                  <strong>Complete Work:</strong> Submit assignments and assessments on time
+                </li>
+                <li>
+                  <strong>Communicate Respectfully:</strong> Use appropriate language and tone
+                </li>
+                <li>
+                  <strong>Follow Instructions:</strong> Comply with instructor and staff directions
+                </li>
+                <li>
+                  <strong>Respect Property:</strong> Care for facilities, equipment, and materials
+                </li>
+                <li>
+                  <strong>Maintain Professionalism:</strong> Dress and behave appropriately
+                </li>
+                <li>
+                  <strong>Support Peers:</strong> Help create a positive learning environment
+                </li>
+                <li>
+                  <strong>Report Concerns:</strong> Notify staff of safety or conduct issues
+                </li>
+                <li>
+                  <strong>Follow Policies:</strong> Comply with all institutional policies
+                </li>
               </ul>
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Prohibited Conduct</h2>
-            
+
             <div className="bg-brand-red-50 border-l-4 border-brand-red-400 p-6 mb-6">
               <h3 className="text-lg font-bold text-black mb-3">Harassment and Discrimination</h3>
               <p className="text-black mb-2">Strictly prohibited:</p>
               <ul className="list-disc pl-6 text-black space-y-1">
-                <li>Harassment based on race, color, national origin, sex, disability, age, religion, sexual orientation, or gender identity</li>
+                <li>
+                  Harassment based on race, color, national origin, sex, disability, age, religion,
+                  sexual orientation, or gender identity
+                </li>
                 <li>Sexual harassment or unwelcome sexual advances</li>
                 <li>Bullying, intimidation, or threatening behavior</li>
                 <li>Hate speech or discriminatory language</li>
@@ -140,7 +167,14 @@ export default async function StudentCodePage() {
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Academic Misconduct</h3>
             <p className="text-black mb-4">
-              See <a href="/policies/academic-integrity" className="text-brand-blue-600 hover:underline">Academic Integrity Policy</a> for:
+              See{' '}
+              <a
+                href="/policies/academic-integrity"
+                className="text-brand-blue-600 hover:underline"
+              >
+                Academic Integrity Policy
+              </a>{' '}
+              for:
             </p>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
               <li>Cheating and plagiarism</li>
@@ -151,7 +185,11 @@ export default async function StudentCodePage() {
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Technology Misuse</h3>
             <p className="text-black mb-4">
-              See <a href="/policies/acceptable-use" className="text-brand-blue-600 hover:underline">Acceptable Use Policy</a> for:
+              See{' '}
+              <a href="/policies/acceptable-use" className="text-brand-blue-600 hover:underline">
+                Acceptable Use Policy
+              </a>{' '}
+              for:
             </p>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
               <li>Unauthorized access to systems</li>
@@ -173,14 +211,17 @@ export default async function StudentCodePage() {
             </ul>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Disciplinary Process</h2>
-            
+
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Reporting Violations</h3>
-            <p className="text-black mb-4">
-              Violations can be reported by:
-            </p>
+            <p className="text-black mb-4">Violations can be reported by:</p>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
               <li>Students, staff, or instructors</li>
-              <li>Email: <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
+              <li>
+                Email:{' '}
+                <a href="/contact" className="text-brand-blue-600 hover:underline">
+                  Contact Us
+                </a>
+              </li>
               <li>Phone: (317) 314-3757</li>
               <li>In-person to any staff member</li>
               <li>Anonymous reporting through student portal</li>
@@ -208,7 +249,8 @@ export default async function StudentCodePage() {
                   <div>
                     <h4 className="text-lg font-bold text-black mb-2">Notification</h4>
                     <p className="text-black">
-                      Student notified of allegations and rights. Interim measures may be implemented.
+                      Student notified of allegations and rights. Interim measures may be
+                      implemented.
                     </p>
                   </div>
                 </div>
@@ -244,7 +286,8 @@ export default async function StudentCodePage() {
                   <div>
                     <h4 className="text-lg font-bold text-black mb-2">Decision</h4>
                     <p className="text-black">
-                      Determination made and sanctions imposed if violation found. Student notified in writing.
+                      Determination made and sanctions imposed if violation found. Student notified
+                      in writing.
                     </p>
                   </div>
                 </div>
@@ -252,7 +295,7 @@ export default async function StudentCodePage() {
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Sanctions</h2>
-            
+
             <div className="bg-yellow-50 border-l-4 border-yellow-400 p-6 mb-6">
               <h3 className="text-lg font-bold text-black mb-2">Minor Violations</h3>
               <ul className="list-disc pl-6 text-black space-y-1">
@@ -295,9 +338,7 @@ export default async function StudentCodePage() {
               <li>New evidence not available during investigation</li>
               <li>Sanction disproportionate to violation</li>
             </ul>
-            <p className="text-black mb-4">
-              Appeal process:
-            </p>
+            <p className="text-black mb-4">Appeal process:</p>
             <ol className="list-decimal pl-6 mb-6 text-black space-y-2">
               <li>Submit written appeal within 5 business days</li>
               <li>Include grounds for appeal and supporting evidence</li>
@@ -322,14 +363,23 @@ export default async function StudentCodePage() {
             </ul>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Contact Information</h2>
-            <p className="text-black mb-4">
-              For questions or to report conduct violations:
-            </p>
+            <p className="text-black mb-4">For questions or to report conduct violations:</p>
             <ul className="list-none mb-6 text-black space-y-2">
-              <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
-              <li><strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST</li>
-              <li><strong>Emergency:</strong> Call 911, then (317) 314-3757 ext. 911</li>
+              <li>
+                <strong>Email:</strong>{' '}
+                <a href="/contact" className="text-brand-blue-600 hover:underline">
+                  Contact Us
+                </a>
+              </li>
+              <li>
+                <strong>Phone:</strong> (317) 314-3757
+              </li>
+              <li>
+                <strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST
+              </li>
+              <li>
+                <strong>Emergency:</strong> Call 911, then (317) 314-3757 ext. 911
+              </li>
             </ul>
 
             <div className="bg-brand-blue-50 border-l-4 border-brand-blue-400 p-6 mt-8">
@@ -337,10 +387,35 @@ export default async function StudentCodePage() {
                 <strong>Related Policies:</strong>
               </p>
               <ul className="list-disc pl-6 text-black space-y-1">
-                <li><a href="/policies/academic-integrity" className="text-brand-blue-600 hover:underline">Academic Integrity Policy</a></li>
-                <li><a href="/policies/community-guidelines" className="text-brand-blue-600 hover:underline">Community Guidelines</a></li>
-                <li><a href="/policies/acceptable-use" className="text-brand-blue-600 hover:underline">Acceptable Use Policy</a></li>
-                <li><a href="/policies/attendance" className="text-brand-blue-600 hover:underline">Attendance Policy</a></li>
+                <li>
+                  <a
+                    href="/policies/academic-integrity"
+                    className="text-brand-blue-600 hover:underline"
+                  >
+                    Academic Integrity Policy
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/policies/community-guidelines"
+                    className="text-brand-blue-600 hover:underline"
+                  >
+                    Community Guidelines
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/policies/acceptable-use"
+                    className="text-brand-blue-600 hover:underline"
+                  >
+                    Acceptable Use Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="/policies/attendance" className="text-brand-blue-600 hover:underline">
+                    Attendance Policy
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

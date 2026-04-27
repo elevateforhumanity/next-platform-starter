@@ -36,7 +36,19 @@ export interface Dependent {
   firstName: string;
   lastName: string;
   ssn: string;
-  relationship: 'son' | 'daughter' | 'stepchild' | 'foster_child' | 'brother' | 'sister' | 'parent' | 'grandparent' | 'grandchild' | 'niece' | 'nephew' | 'other';
+  relationship:
+    | 'son'
+    | 'daughter'
+    | 'stepchild'
+    | 'foster_child'
+    | 'brother'
+    | 'sister'
+    | 'parent'
+    | 'grandparent'
+    | 'grandchild'
+    | 'niece'
+    | 'nephew'
+    | 'other';
   dateOfBirth: string;
   monthsLivedWithYou: number;
   childTaxCredit: boolean;
@@ -204,18 +216,23 @@ export interface TaxReturn {
   efin: string;
   softwareId?: string;
   returnId: string;
-  
+
   // Taxpayer Info
   taxpayer: Taxpayer;
   address: Address;
-  filingStatus: 'single' | 'married_filing_jointly' | 'married_filing_separately' | 'head_of_household' | 'qualifying_surviving_spouse';
-  
+  filingStatus:
+    | 'single'
+    | 'married_filing_jointly'
+    | 'married_filing_separately'
+    | 'head_of_household'
+    | 'qualifying_surviving_spouse';
+
   // Spouse (if applicable)
   spouse?: Spouse;
-  
+
   // Dependents
   dependents: Dependent[];
-  
+
   // Income
   w2Income: W2Income[];
   form1099INT?: Form1099INT[];
@@ -224,7 +241,7 @@ export interface TaxReturn {
   form1099NEC?: Form1099NEC[];
   scheduleCBusiness?: ScheduleCBusiness[];
   otherIncome?: number;
-  
+
   // Adjustments
   adjustments?: {
     educatorExpenses?: number;
@@ -235,35 +252,35 @@ export interface TaxReturn {
     studentLoanInterest?: number;
     alimonyPaid?: number;
   };
-  
+
   // Deductions
   deductionType: 'standard' | 'itemized';
   itemizedDeductions?: ItemizedDeductions;
   qualifiedBusinessIncomeDeduction?: number;
-  
+
   // Tax Calculation
   totalIncome: number;
   adjustedGrossIncome: number;
   taxableIncome: number;
   taxBeforeCredits: number;
-  
+
   // Credits
   credits: TaxCredits;
   totalCredits: number;
-  
+
   // Payments
   federalWithholding: number;
   estimatedTaxPayments?: number;
-  
+
   // Result
   totalTax: number;
   totalPayments: number;
   refundAmount?: number;
   amountOwed?: number;
-  
+
   // Direct Deposit
   directDeposit?: BankAccount;
-  
+
   // Identity verification (required for self-select PIN)
   // priorYearAGI: use 0 for first-time filers or if prior return was not filed
   priorYearAGI?: number;

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -28,7 +28,9 @@ interface Collaboration {
 }
 
 export default function IndustryPartnershipPortal() {
-  const [activeTab, setActiveTab] = useState<'overview' | 'partners' | 'collaborations' | 'opportunities'>('overview');
+  const [activeTab, setActiveTab] = useState<
+    'overview' | 'partners' | 'collaborations' | 'opportunities'
+  >('overview');
 
   const partners: Partner[] = [
     {
@@ -80,7 +82,9 @@ export default function IndustryPartnershipPortal() {
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Industry Partnership Portal</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Industry Partnership Portal
+          </h1>
           <p className="text-white">Collaborate with industry leaders</p>
         </div>
       </div>
@@ -93,7 +97,9 @@ export default function IndustryPartnershipPortal() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`py-4 px-2 border-b-2 font-medium ${
-                  activeTab === tab ? 'border-brand-red-600 text-brand-orange-600' : 'border-transparent text-slate-700'
+                  activeTab === tab
+                    ? 'border-brand-red-600 text-brand-orange-600'
+                    : 'border-transparent text-slate-700'
                 }`}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -130,11 +136,17 @@ export default function IndustryPartnershipPortal() {
                   <div className="flex-1">
                     <h3 className="text-xl font-bold">{partner.name}</h3>
                     <p className="text-black">{partner.industry}</p>
-                    <p className="text-sm text-slate-700 mt-2">{partner.contactPerson} • {partner.email}</p>
+                    <p className="text-sm text-slate-700 mt-2">
+                      {partner.contactPerson} • {partner.email}
+                    </p>
                   </div>
-                  <span className={`px-3 py-2 rounded text-sm ${
-                    partner.status === 'active' ? 'bg-brand-green-100 text-brand-green-700' : 'bg-gray-100 text-black'
-                  }`}>
+                  <span
+                    className={`px-3 py-2 rounded text-sm ${
+                      partner.status === 'active'
+                        ? 'bg-brand-green-100 text-brand-green-700'
+                        : 'bg-gray-100 text-black'
+                    }`}
+                  >
                     {partner.status}
                   </span>
                 </div>

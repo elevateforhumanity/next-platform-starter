@@ -87,7 +87,9 @@ export default async function ApprenticeHandbookPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Apprentice', href: '/apprentice' }, { label: 'Handbook' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Apprentice', href: '/apprentice' }, { label: 'Handbook' }]}
+          />
         </div>
       </div>
 
@@ -96,9 +98,7 @@ export default async function ApprenticeHandbookPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <BookOpen className="w-16 h-16 mx-auto mb-6" />
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Apprentice Handbook</h1>
-          <p className="text-xl text-white">
-            Your complete guide to the apprenticeship program
-          </p>
+          <p className="text-xl text-white">Your complete guide to the apprenticeship program</p>
         </div>
       </section>
 

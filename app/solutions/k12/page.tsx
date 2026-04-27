@@ -5,8 +5,15 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
-  GraduationCap, Award, Users, CheckCircle,
-  ArrowRight, School, BarChart3, Lightbulb, Shield,
+  GraduationCap,
+  Award,
+  Users,
+  CheckCircle,
+  ArrowRight,
+  School,
+  BarChart3,
+  Lightbulb,
+  Shield,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -17,44 +24,80 @@ export const metadata: Metadata = {
 };
 
 const programs = [
-  { title: 'HVAC Technician', credential: 'EPA 608', href: '/programs/hvac-technician', sector: 'Skilled Trades' },
-  { title: 'IT Help Desk', credential: 'CompTIA A+', href: '/programs/it-help-desk', sector: 'Technology' },
-  { title: 'Medical Assistant', credential: 'NCMA', href: '/programs/medical-assistant', sector: 'Healthcare' },
-  { title: 'Cybersecurity Analyst', credential: 'CompTIA Security+', href: '/programs/cybersecurity-analyst', sector: 'Technology' },
-  { title: 'Entrepreneurship', credential: 'Certiport ESB', href: '/programs/entrepreneurship', sector: 'Business' },
-  { title: 'Web Development', credential: 'Adobe Certified', href: '/programs/web-development', sector: 'Technology' },
+  {
+    title: 'HVAC Technician',
+    credential: 'EPA 608',
+    href: '/programs/hvac-technician',
+    sector: 'Skilled Trades',
+  },
+  {
+    title: 'IT Help Desk',
+    credential: 'CompTIA A+',
+    href: '/programs/it-help-desk',
+    sector: 'Technology',
+  },
+  {
+    title: 'Medical Assistant',
+    credential: 'NCMA',
+    href: '/programs/medical-assistant',
+    sector: 'Healthcare',
+  },
+  {
+    title: 'Cybersecurity Analyst',
+    credential: 'CompTIA Security+',
+    href: '/programs/cybersecurity-analyst',
+    sector: 'Technology',
+  },
+  {
+    title: 'Entrepreneurship',
+    credential: 'Certiport ESB',
+    href: '/programs/entrepreneurship',
+    sector: 'Business',
+  },
+  {
+    title: 'Web Development',
+    credential: 'Adobe Certified',
+    href: '/programs/web-development',
+    sector: 'Technology',
+  },
 ];
 
 const features = [
   {
     icon: Award,
     title: 'Industry-Recognized Credentials',
-    description: 'Students earn nationally recognized certifications — EPA 608, CompTIA, NCMA, Certiport — that count toward employment and post-secondary credit.',
+    description:
+      'Students earn nationally recognized certifications — EPA 608, CompTIA, NCMA, Certiport — that count toward employment and post-secondary credit.',
   },
   {
     icon: School,
     title: 'Dual Enrollment Pathways',
-    description: 'Partner with Elevate to offer dual enrollment credit. Students complete workforce training that counts toward high school graduation and college credit simultaneously.',
+    description:
+      'Partner with Elevate to offer dual enrollment credit. Students complete workforce training that counts toward high school graduation and college credit simultaneously.',
   },
   {
     icon: Users,
     title: 'Work-Based Learning',
-    description: 'Structured internships, job shadows, and pre-apprenticeship programs connect students to local employers before graduation.',
+    description:
+      'Structured internships, job shadows, and pre-apprenticeship programs connect students to local employers before graduation.',
   },
   {
     icon: BarChart3,
     title: 'Outcome Reporting',
-    description: 'Detailed placement and credential attainment data for Perkins V compliance reporting, school board presentations, and grant applications.',
+    description:
+      'Detailed placement and credential attainment data for Perkins V compliance reporting, school board presentations, and grant applications.',
   },
   {
     icon: Lightbulb,
     title: 'Curriculum Alignment',
-    description: 'All programs align to Indiana Academic Standards for CTE and IDOE-approved program of study frameworks.',
+    description:
+      'All programs align to Indiana Academic Standards for CTE and IDOE-approved program of study frameworks.',
   },
   {
     icon: Shield,
     title: 'FERPA-Compliant Data Handling',
-    description: 'Student data is handled in full compliance with FERPA. No student information is shared with third parties without written consent.',
+    description:
+      'Student data is handled in full compliance with FERPA. No student information is shared with third parties without written consent.',
   },
 ];
 
@@ -71,17 +114,15 @@ export default function K12SolutionsPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Solutions', href: '/solutions' },
-            { label: 'K-12' },
-          ]} />
+          <Breadcrumbs items={[{ label: 'Solutions', href: '/solutions' }, { label: 'K-12' }]} />
         </div>
       </div>
 
       {/* Hero */}
       <section className="relative">
         <div className="relative h-[45vh] sm:h-[50vh] md:h-[55vh] min-h-[280px] w-full overflow-hidden">
-          <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image sizes="100vw"
             src="/images/pages/k12-hero.jpg"
             alt="K-12 students in a career and technical education classroom"
             fill
@@ -98,7 +139,8 @@ export default function K12SolutionsPage() {
                 Career Readiness for Every Student
               </h1>
               <p className="text-lg text-white/90 max-w-2xl">
-                Industry-recognized credentials, dual enrollment, and work-based learning — built for Indiana K-12 schools and CTE programs.
+                Industry-recognized credentials, dual enrollment, and work-based learning — built
+                for Indiana K-12 schools and CTE programs.
               </p>
             </div>
           </div>
@@ -125,7 +167,9 @@ export default function K12SolutionsPage() {
               Built for CTE Directors and School Counselors
             </h2>
             <p className="text-lg text-slate-600 max-w-3xl mx-auto">
-              Elevate for Humanity is an ETPL-approved, Perkins V-eligible training provider. We handle curriculum, credentialing, and employer connections — so your staff can focus on students.
+              Elevate for Humanity is an ETPL-approved, Perkins V-eligible training provider. We
+              handle curriculum, credentialing, and employer connections — so your staff can focus
+              on students.
             </p>
           </div>
 
@@ -151,7 +195,8 @@ export default function K12SolutionsPage() {
               Programs Available for K-12 Partnerships
             </h2>
             <p className="text-slate-600">
-              All programs lead to industry-recognized credentials and align to IDOE CTE program of study frameworks.
+              All programs lead to industry-recognized credentials and align to IDOE CTE program of
+              study frameworks.
             </p>
           </div>
 
@@ -193,11 +238,31 @@ export default function K12SolutionsPage() {
           </h2>
           <div className="space-y-6">
             {[
-              { step: '1', title: 'Discovery Call', desc: 'We meet with your CTE director or counselor to understand your student population, existing programs, and Perkins V goals.' },
-              { step: '2', title: 'Program Selection', desc: 'Together we select programs that align to your program of study frameworks and local employer demand.' },
-              { step: '3', title: 'MOU & Funding Setup', desc: 'We execute a Memorandum of Understanding and identify Perkins V, WIOA, or grant funding to cover program costs.' },
-              { step: '4', title: 'Delivery & Credentialing', desc: 'Students complete training and earn industry-recognized credentials. We handle all exam registration and proctoring.' },
-              { step: '5', title: 'Outcome Reporting', desc: 'We provide placement data, credential attainment rates, and employer feedback for your Perkins V annual report.' },
+              {
+                step: '1',
+                title: 'Discovery Call',
+                desc: 'We meet with your CTE director or counselor to understand your student population, existing programs, and Perkins V goals.',
+              },
+              {
+                step: '2',
+                title: 'Program Selection',
+                desc: 'Together we select programs that align to your program of study frameworks and local employer demand.',
+              },
+              {
+                step: '3',
+                title: 'MOU & Funding Setup',
+                desc: 'We execute a Memorandum of Understanding and identify Perkins V, WIOA, or grant funding to cover program costs.',
+              },
+              {
+                step: '4',
+                title: 'Delivery & Credentialing',
+                desc: 'Students complete training and earn industry-recognized credentials. We handle all exam registration and proctoring.',
+              },
+              {
+                step: '5',
+                title: 'Outcome Reporting',
+                desc: 'We provide placement data, credential attainment rates, and employer feedback for your Perkins V annual report.',
+              },
             ].map((item) => (
               <div key={item.step} className="flex gap-5">
                 <div className="flex-shrink-0 w-10 h-10 bg-brand-blue-600 text-white rounded-full flex items-center justify-center font-bold text-sm">
@@ -248,7 +313,8 @@ export default function K12SolutionsPage() {
             Ready to Build a K-12 Partnership?
           </h2>
           <p className="text-slate-600 mb-8">
-            Contact our partnerships team to schedule a discovery call. We work with CTE directors, school counselors, and district administrators across Indiana.
+            Contact our partnerships team to schedule a discovery call. We work with CTE directors,
+            school counselors, and district administrators across Indiana.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

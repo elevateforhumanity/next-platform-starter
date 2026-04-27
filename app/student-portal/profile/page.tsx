@@ -57,8 +57,13 @@ export default function StudentProfilePage() {
   useEffect(() => {
     async function load() {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { router.push('/signin'); return; }
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/signin');
+        return;
+      }
 
       const { data: profile } = await supabase
         .from('profiles')
@@ -89,10 +94,11 @@ export default function StudentProfilePage() {
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     const { name, value } = e.target;
-    setForm(prev => {
+    setForm((prev) => {
       const updated = { ...prev, [name]: value };
       if (name === 'first_name' || name === 'last_name') {
-        updated.full_name = `${name === 'first_name' ? value : prev.first_name} ${name === 'last_name' ? value : prev.last_name}`.trim();
+        updated.full_name =
+          `${name === 'first_name' ? value : prev.first_name} ${name === 'last_name' ? value : prev.last_name}`.trim();
       }
       return updated;
     });
@@ -104,15 +110,26 @@ export default function StudentProfilePage() {
     setMessage(null);
 
     // Validate required fields
-    if (!form.first_name || !form.last_name || !form.phone || !form.emergency_contact_name || !form.emergency_contact_phone) {
+    if (
+      !form.first_name ||
+      !form.last_name ||
+      !form.phone ||
+      !form.emergency_contact_name ||
+      !form.emergency_contact_phone
+    ) {
       setMessage({ type: 'error', text: 'Please fill in all required fields.' });
       setSaving(false);
       return;
     }
 
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) { router.push('/signin'); return; }
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    if (!user) {
+      router.push('/signin');
+      return;
+    }
 
     try {
       // Update profile
@@ -138,13 +155,14 @@ export default function StudentProfilePage() {
       if (profileError) throw profileError;
 
       // Mark profile step complete in onboarding_progress
-      await supabase
-        .from('onboarding_progress')
-        .upsert({
+      await supabase.from('onboarding_progress').upsert(
+        {
           user_id: user.id,
           profile_completed: true,
           status: 'in_progress',
-        }, { onConflict: 'user_id' });
+        },
+        { onConflict: 'user_id' },
+      );
 
       setMessage({ type: 'success', text: 'Profile saved! Redirecting to onboarding...' });
       setTimeout(() => router.push('/onboarding/learner'), 1500);
@@ -167,21 +185,40 @@ export default function StudentProfilePage() {
     <div className="min-h-screen bg-white">
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/student-portal-page-8.jpg" alt="Student profile" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/student-portal-page-8.jpg"
+          alt="Student profile"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
 
       <div className="max-w-2xl mx-auto px-4 py-8">
-        <Link href="/onboarding/learner" className="inline-flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-700 mb-6">
+        <Link
+          href="/onboarding/learner"
+          className="inline-flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-700 mb-6"
+        >
           <ArrowLeft className="w-4 h-4" />
           Back to Onboarding
         </Link>
 
         <h1 className="text-2xl font-bold text-slate-900 mb-2">Complete Your Profile</h1>
-        <p className="text-slate-600 mb-8">Fill in your personal information and emergency contact. All fields marked * are required.</p>
+        <p className="text-slate-600 mb-8">
+          Fill in your personal information and emergency contact. All fields marked * are required.
+        </p>
 
         {message && (
-          <div className={`flex items-center gap-2 p-4 rounded-lg mb-6 ${message.type === 'success' ? 'bg-brand-green-50 text-brand-green-800' : 'bg-brand-red-50 text-brand-red-800'}`}>
-            {message.type === 'success' ? <CheckCircle className="w-5 h-5" /> : <AlertCircle className="w-5 h-5" />}
+          <div
+            className={`flex items-center gap-2 p-4 rounded-lg mb-6 ${message.type === 'success' ? 'bg-brand-green-50 text-brand-green-800' : 'bg-brand-red-50 text-brand-red-800'}`}
+          >
+            {message.type === 'success' ? (
+              <CheckCircle className="w-5 h-5" />
+            ) : (
+              <AlertCircle className="w-5 h-5" />
+            )}
             {message.text}
           </div>
         )}
@@ -195,20 +232,66 @@ export default function StudentProfilePage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
-                <label htmlFor="first_name" className="block text-sm font-medium text-slate-700 mb-1">First Name *</label>
-                <input id="first_name" name="first_name" value={form.first_name} onChange={handleChange} required className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" />
+                <label
+                  htmlFor="first_name"
+                  className="block text-sm font-medium text-slate-700 mb-1"
+                >
+                  First Name *
+                </label>
+                <input
+                  id="first_name"
+                  name="first_name"
+                  value={form.first_name}
+                  onChange={handleChange}
+                  required
+                  className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                />
               </div>
               <div>
-                <label htmlFor="last_name" className="block text-sm font-medium text-slate-700 mb-1">Last Name *</label>
-                <input id="last_name" name="last_name" value={form.last_name} onChange={handleChange} required className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" />
+                <label
+                  htmlFor="last_name"
+                  className="block text-sm font-medium text-slate-700 mb-1"
+                >
+                  Last Name *
+                </label>
+                <input
+                  id="last_name"
+                  name="last_name"
+                  value={form.last_name}
+                  onChange={handleChange}
+                  required
+                  className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                />
               </div>
               <div>
-                <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1">Phone *</label>
-                <input id="phone" name="phone" type="tel" value={form.phone} onChange={handleChange} required className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" />
+                <label htmlFor="phone" className="block text-sm font-medium text-slate-700 mb-1">
+                  Phone *
+                </label>
+                <input
+                  id="phone"
+                  name="phone"
+                  type="tel"
+                  value={form.phone}
+                  onChange={handleChange}
+                  required
+                  className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                />
               </div>
               <div>
-                <label htmlFor="date_of_birth" className="block text-sm font-medium text-slate-700 mb-1">Date of Birth</label>
-                <input id="date_of_birth" name="date_of_birth" type="date" value={form.date_of_birth} onChange={handleChange} className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" />
+                <label
+                  htmlFor="date_of_birth"
+                  className="block text-sm font-medium text-slate-700 mb-1"
+                >
+                  Date of Birth
+                </label>
+                <input
+                  id="date_of_birth"
+                  name="date_of_birth"
+                  type="date"
+                  value={form.date_of_birth}
+                  onChange={handleChange}
+                  className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                />
               </div>
             </div>
           </div>
@@ -221,21 +304,53 @@ export default function StudentProfilePage() {
             </div>
             <div className="space-y-4">
               <div>
-                <label htmlFor="address" className="block text-sm font-medium text-slate-700 mb-1">Street Address</label>
-                <input id="address" name="address" value={form.address} onChange={handleChange} className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" />
+                <label htmlFor="address" className="block text-sm font-medium text-slate-700 mb-1">
+                  Street Address
+                </label>
+                <input
+                  id="address"
+                  name="address"
+                  value={form.address}
+                  onChange={handleChange}
+                  className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                />
               </div>
               <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
                 <div>
-                  <label htmlFor="city" className="block text-sm font-medium text-slate-700 mb-1">City</label>
-                  <input id="city" name="city" value={form.city} onChange={handleChange} className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" />
+                  <label htmlFor="city" className="block text-sm font-medium text-slate-700 mb-1">
+                    City
+                  </label>
+                  <input
+                    id="city"
+                    name="city"
+                    value={form.city}
+                    onChange={handleChange}
+                    className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="state" className="block text-sm font-medium text-slate-700 mb-1">State</label>
-                  <input id="state" name="state" value={form.state} onChange={handleChange} className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" />
+                  <label htmlFor="state" className="block text-sm font-medium text-slate-700 mb-1">
+                    State
+                  </label>
+                  <input
+                    id="state"
+                    name="state"
+                    value={form.state}
+                    onChange={handleChange}
+                    className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  />
                 </div>
                 <div>
-                  <label htmlFor="zip" className="block text-sm font-medium text-slate-700 mb-1">ZIP</label>
-                  <input id="zip" name="zip" value={form.zip} onChange={handleChange} className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" />
+                  <label htmlFor="zip" className="block text-sm font-medium text-slate-700 mb-1">
+                    ZIP
+                  </label>
+                  <input
+                    id="zip"
+                    name="zip"
+                    value={form.zip}
+                    onChange={handleChange}
+                    className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                  />
                 </div>
               </div>
             </div>
@@ -249,16 +364,52 @@ export default function StudentProfilePage() {
             </div>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div className="sm:col-span-2">
-                <label htmlFor="emergency_contact_name" className="block text-sm font-medium text-slate-700 mb-1">Contact Name *</label>
-                <input id="emergency_contact_name" name="emergency_contact_name" value={form.emergency_contact_name} onChange={handleChange} required className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" />
+                <label
+                  htmlFor="emergency_contact_name"
+                  className="block text-sm font-medium text-slate-700 mb-1"
+                >
+                  Contact Name *
+                </label>
+                <input
+                  id="emergency_contact_name"
+                  name="emergency_contact_name"
+                  value={form.emergency_contact_name}
+                  onChange={handleChange}
+                  required
+                  className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                />
               </div>
               <div>
-                <label htmlFor="emergency_contact_phone" className="block text-sm font-medium text-slate-700 mb-1">Contact Phone *</label>
-                <input id="emergency_contact_phone" name="emergency_contact_phone" type="tel" value={form.emergency_contact_phone} onChange={handleChange} required className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500" />
+                <label
+                  htmlFor="emergency_contact_phone"
+                  className="block text-sm font-medium text-slate-700 mb-1"
+                >
+                  Contact Phone *
+                </label>
+                <input
+                  id="emergency_contact_phone"
+                  name="emergency_contact_phone"
+                  type="tel"
+                  value={form.emergency_contact_phone}
+                  onChange={handleChange}
+                  required
+                  className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                />
               </div>
               <div>
-                <label htmlFor="emergency_contact_relationship" className="block text-sm font-medium text-slate-700 mb-1">Relationship</label>
-                <select id="emergency_contact_relationship" name="emergency_contact_relationship" value={form.emergency_contact_relationship} onChange={handleChange} className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500">
+                <label
+                  htmlFor="emergency_contact_relationship"
+                  className="block text-sm font-medium text-slate-700 mb-1"
+                >
+                  Relationship
+                </label>
+                <select
+                  id="emergency_contact_relationship"
+                  name="emergency_contact_relationship"
+                  value={form.emergency_contact_relationship}
+                  onChange={handleChange}
+                  className="w-full border border-slate-300 rounded-lg p-3 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+                >
                   <option value="">Select...</option>
                   <option value="spouse">Spouse</option>
                   <option value="parent">Parent</option>

@@ -14,14 +14,7 @@ import Link from 'next/link';
 
 export const revalidate = 0;
 
-import {
-
-  Building2,
-  Clock,
-  XCircle,
-  FileText,
-  Users,
-CheckCircle, } from 'lucide-react';
+import { Building2, Clock, XCircle, FileText, Users, CheckCircle } from 'lucide-react';
 
 export default async function AdminShopsPage() {
   await requireRole(['admin', 'super_admin']);
@@ -38,7 +31,7 @@ export default async function AdminShopsPage() {
       shop_onboarding(*),
       shop_staff(count),
       apprentice_placements(count)
-    `
+    `,
     )
     .order('created_at', { ascending: false });
 
@@ -64,11 +57,9 @@ export default async function AdminShopsPage() {
         ...shop,
         docsRequired: requiredDocs.length,
         docsApproved: approvedDocs.length,
-        docsComplete:
-          requiredDocs.length > 0 &&
-          approvedDocs.length === requiredDocs.length,
+        docsComplete: requiredDocs.length > 0 && approvedDocs.length === requiredDocs.length,
       };
-    })
+    }),
   );
 
   function getShopStatus(shop: any) {
@@ -84,22 +75,17 @@ export default async function AdminShopsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Shops" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Shops' }]} />
+      </div>
       {/* Header */}
       <div className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 py-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-black">
-                Shop Management
-              </h1>
-              <p className="mt-1 text-black">
-                Manage shop partners and onboarding
-              </p>
+              <h1 className="text-3xl font-bold text-black">Shop Management</h1>
+              <p className="mt-1 text-black">Manage shop partners and onboarding</p>
             </div>
             <div className="flex items-center gap-3">
               <Link
@@ -121,9 +107,7 @@ export default async function AdminShopsPage() {
             <div className="flex items-center gap-3">
               <Building2 className="w-8 h-8 text-brand-blue-600" />
               <div>
-                <div className="text-2xl font-bold text-black">
-                  {shops?.length || 0}
-                </div>
+                <div className="text-2xl font-bold text-black">{shops?.length || 0}</div>
                 <div className="text-sm text-black">Total Shops</div>
               </div>
             </div>
@@ -145,12 +129,8 @@ export default async function AdminShopsPage() {
             <div className="flex items-center gap-3">
               <Clock className="w-8 h-8 text-yellow-600" />
               <div>
-                <div className="text-2xl font-bold text-black">
-                  {applications?.length || 0}
-                </div>
-                <div className="text-sm text-black">
-                  Pending Applications
-                </div>
+                <div className="text-2xl font-bold text-black">{applications?.length || 0}</div>
+                <div className="text-sm text-black">Pending Applications</div>
               </div>
             </div>
           </div>
@@ -161,9 +141,8 @@ export default async function AdminShopsPage() {
               <div>
                 <div className="text-2xl font-bold text-black">
                   {shopsWithDocs.reduce(
-                    (sum, s) =>
-                      sum + (s.apprentice_placements?.[0]?.count || 0),
-                    0
+                    (sum, s) => sum + (s.apprentice_placements?.[0]?.count || 0),
+                    0,
                   )}
                 </div>
                 <div className="text-sm text-black">Active Placements</div>
@@ -175,9 +154,7 @@ export default async function AdminShopsPage() {
         {/* Pending Applications */}
         {applications && applications.length > 0 && (
           <div className="bg-white rounded-xl shadow-md border border-slate-200 p-6 mb-8">
-            <h2 className="text-xl font-bold text-black mb-4">
-              Pending Applications
-            </h2>
+            <h2 className="text-xl font-bold text-black mb-4">Pending Applications</h2>
             <div className="space-y-3">
               {applications.map((app) => (
                 <div
@@ -185,9 +162,7 @@ export default async function AdminShopsPage() {
                   className="border border-slate-200 rounded-lg p-4 flex items-center justify-between"
                 >
                   <div>
-                    <div className="font-semibold text-black">
-                      {app.shop_name}
-                    </div>
+                    <div className="font-semibold text-black">{app.shop_name}</div>
                     <div className="text-sm text-black">
                       {app.owner_name} • {app.email}
                     </div>
@@ -219,16 +194,11 @@ export default async function AdminShopsPage() {
               const StatusIcon = status.icon;
 
               return (
-                <div
-                  key={shop.id}
-                  className="border border-slate-200 rounded-lg p-4"
-                >
+                <div key={shop.id} className="border border-slate-200 rounded-lg p-4">
                   <div className="flex items-start justify-between gap-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
-                        <div className="font-bold text-black">
-                          {shop.name}
-                        </div>
+                        <div className="font-bold text-black">{shop.name}</div>
                         <div
                           className={`flex items-center gap-1 px-2 py-2 rounded-full text-xs font-semibold ${
                             status.color === 'green'
@@ -264,8 +234,7 @@ export default async function AdminShopsPage() {
                         <div className="flex items-center gap-1">
                           <Users className="w-4 h-4 text-slate-400" />
                           <span className="text-black">
-                            Apprentices:{' '}
-                            {shop.apprentice_placements?.[0]?.count || 0}
+                            Apprentices: {shop.apprentice_placements?.[0]?.count || 0}
                           </span>
                         </div>
                       </div>

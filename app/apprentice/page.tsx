@@ -2,7 +2,15 @@ import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { GraduationCap, Clock, FileText, Award, BookOpen, ArrowRight, Scissors } from 'lucide-react';
+import {
+  GraduationCap,
+  Clock,
+  FileText,
+  Award,
+  BookOpen,
+  ArrowRight,
+  Scissors,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { getNextRequiredAction } from '@/lib/enrollment/gate';
 
@@ -18,10 +26,11 @@ export const dynamic = 'force-dynamic';
 
 export default async function ApprenticePortalPage() {
   const supabase = await createClient();
-  
 
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) {
     redirect('/login?redirect=/apprentice');
   }
@@ -76,7 +85,7 @@ export default async function ApprenticePortalPage() {
         documents_submitted_at: null,
         course_id: null,
         programs: Array.isArray(progEnrollment.programs)
-          ? progEnrollment.programs[0] ?? null
+          ? (progEnrollment.programs[0] ?? null)
           : (progEnrollment.programs as { slug: string; title?: string } | null),
       };
     }
@@ -95,12 +104,14 @@ export default async function ApprenticePortalPage() {
   }
 
   // Get next required action based on real enrollment state
-  const nextAction = enrollment ? getNextRequiredAction({
-    status: enrollment.status,
-    orientation_completed_at: enrollment.orientation_completed_at,
-    documents_submitted_at: enrollment.documents_submitted_at,
-    program_slug: enrollment.programs?.slug,
-  }) : { label: 'Apply to a Program', href: '/programs', description: 'Start your journey' };
+  const nextAction = enrollment
+    ? getNextRequiredAction({
+        status: enrollment.status,
+        orientation_completed_at: enrollment.orientation_completed_at,
+        documents_submitted_at: enrollment.documents_submitted_at,
+        program_slug: enrollment.programs?.slug,
+      })
+    : { label: 'Apply to a Program', href: '/programs', description: 'Start your journey' };
 
   // Active programs list — pull from both tables and merge
   const { data: trainingEnrollments } = await supabase
@@ -118,12 +129,14 @@ export default async function ApprenticePortalPage() {
   const enrollments = [
     ...(trainingEnrollments || []),
     // Only include program_enrollments rows that don't already have a training_enrollments record
-    ...(trainingEnrollments && trainingEnrollments.length > 0 ? [] : (programEnrollments || []).map((pe) => ({
-      id: pe.id,
-      status: pe.status,
-      progress: 0,
-      course_id: null,
-    }))),
+    ...(trainingEnrollments && trainingEnrollments.length > 0
+      ? []
+      : (programEnrollments || []).map((pe) => ({
+          id: pe.id,
+          status: pe.status,
+          progress: 0,
+          course_id: null,
+        }))),
   ];
 
   // Hours source — barber/cosmetology students use hour_entries (approved).
@@ -133,7 +146,8 @@ export default async function ApprenticePortalPage() {
     .select('hours_logged')
     .eq('enrollment_id', enrollment?.id ?? '');
 
-  const attendanceHours = attendanceHoursData?.reduce((sum, h) => sum + (h.hours_logged || 0), 0) || 0;
+  const attendanceHours =
+    attendanceHoursData?.reduce((sum, h) => sum + (h.hours_logged || 0), 0) || 0;
 
   let totalHours = attendanceHours;
 
@@ -154,27 +168,82 @@ export default async function ApprenticePortalPage() {
   }
 
   const PROGRAM_REQUIRED_HOURS: Record<string, number> = {
-    'barber-apprenticeship':            2000,
-    'cosmetology-apprenticeship':       2000,
-    'esthetician-apprenticeship':        700,
-    'nail-tech-apprenticeship':          450,
-    'nail-technician-apprenticeship':    450, // legacy alias
+    'barber-apprenticeship': 2000,
+    'cosmetology-apprenticeship': 2000,
+    'esthetician-apprenticeship': 700,
+    'nail-tech-apprenticeship': 450,
+    'nail-technician-apprenticeship': 450, // legacy alias
   };
   const programSlugForHours = enrollment?.programs?.slug ?? 'barber-apprenticeship';
   const requiredHours = PROGRAM_REQUIRED_HOURS[programSlugForHours] ?? 2000;
 
   const quickLinks = [
-    { name: 'Timeclock', href: '/apprentice/timeclock', icon: Clock, description: 'Clock in / out at your work site' },
-    { name: 'Shift History', href: '/apprentice/timeclock/history', icon: Clock, description: 'View all recorded shifts' },
-    { name: 'Log Hours', href: '/apprentice/hours/log', icon: Clock, description: 'Manually record OJL & RTI hours' },
-    { name: 'Hours History', href: '/apprentice/hours', icon: Clock, description: 'Review submitted hour entries' },
-    { name: 'Competency Log', href: '/apprentice/competencies/log', icon: Scissors, description: 'Log a service for WPS credit' },
-    { name: 'Competency Progress', href: '/apprentice/competencies', icon: Scissors, description: 'Track cuts, shaves & WPS skills' },
-    { name: 'Documents', href: '/apprentice/documents', icon: FileText, description: 'View required documents' },
-    { name: 'Skills Checklist', href: '/apprentice/skills', icon: Award, description: 'Track skill competencies' },
-    { name: 'Handbook', href: '/apprentice/handbook', icon: BookOpen, description: 'Apprenticeship guidelines' },
-    { name: 'Transfer Hours', href: '/apprentice/transfer-hours', icon: ArrowRight, description: 'Request hour transfers' },
-    { name: 'State Board', href: '/apprentice/state-board', icon: GraduationCap, description: 'Exam preparation' },
+    {
+      name: 'Timeclock',
+      href: '/apprentice/timeclock',
+      icon: Clock,
+      description: 'Clock in / out at your work site',
+    },
+    {
+      name: 'Shift History',
+      href: '/apprentice/timeclock/history',
+      icon: Clock,
+      description: 'View all recorded shifts',
+    },
+    {
+      name: 'Log Hours',
+      href: '/apprentice/hours/log',
+      icon: Clock,
+      description: 'Manually record OJL & RTI hours',
+    },
+    {
+      name: 'Hours History',
+      href: '/apprentice/hours',
+      icon: Clock,
+      description: 'Review submitted hour entries',
+    },
+    {
+      name: 'Competency Log',
+      href: '/apprentice/competencies/log',
+      icon: Scissors,
+      description: 'Log a service for WPS credit',
+    },
+    {
+      name: 'Competency Progress',
+      href: '/apprentice/competencies',
+      icon: Scissors,
+      description: 'Track cuts, shaves & WPS skills',
+    },
+    {
+      name: 'Documents',
+      href: '/apprentice/documents',
+      icon: FileText,
+      description: 'View required documents',
+    },
+    {
+      name: 'Skills Checklist',
+      href: '/apprentice/skills',
+      icon: Award,
+      description: 'Track skill competencies',
+    },
+    {
+      name: 'Handbook',
+      href: '/apprentice/handbook',
+      icon: BookOpen,
+      description: 'Apprenticeship guidelines',
+    },
+    {
+      name: 'Transfer Hours',
+      href: '/apprentice/transfer-hours',
+      icon: ArrowRight,
+      description: 'Request hour transfers',
+    },
+    {
+      name: 'State Board',
+      href: '/apprentice/state-board',
+      icon: GraduationCap,
+      description: 'Exam preparation',
+    },
   ];
 
   return (
@@ -191,7 +260,9 @@ export default async function ApprenticePortalPage() {
         <div className="bg-brand-blue-700 text-white rounded-xl p-6 mb-8 shadow-lg">
           <div className="flex items-center justify-between">
             <div>
-              <p className="text-white text-sm font-medium uppercase tracking-wide mb-1">Next Required Action</p>
+              <p className="text-white text-sm font-medium uppercase tracking-wide mb-1">
+                Next Required Action
+              </p>
               <h2 className="text-2xl font-bold">{nextAction.label}</h2>
               <p className="text-white mt-1">{nextAction.description}</p>
             </div>
@@ -209,9 +280,7 @@ export default async function ApprenticePortalPage() {
           <h1 className="text-3xl font-bold text-slate-900">
             Welcome, {profile?.full_name || 'Apprentice'}
           </h1>
-          <p className="text-slate-700 mt-2">
-            Track your apprenticeship journey and progress
-          </p>
+          <p className="text-slate-700 mt-2">Track your apprenticeship journey and progress</p>
         </div>
 
         {/* Progress Overview */}
@@ -220,7 +289,7 @@ export default async function ApprenticePortalPage() {
           <div className="flex items-center gap-4">
             <div className="flex-1">
               <div className="h-4 bg-gray-200 rounded-full overflow-hidden">
-                <div 
+                <div
                   className="h-full bg-white rounded-full transition-all"
                   style={{ width: `${Math.min((totalHours / requiredHours) * 100, 100)}%` }}
                 />
@@ -253,13 +322,18 @@ export default async function ApprenticePortalPage() {
             <h2 className="text-xl font-semibold text-slate-900 mb-4">Active Programs</h2>
             <div className="space-y-4">
               {enrollments.map((enrollment) => (
-                <div key={enrollment.id} className="flex items-center justify-between p-4 bg-white rounded-lg">
+                <div
+                  key={enrollment.id}
+                  className="flex items-center justify-between p-4 bg-white rounded-lg"
+                >
                   <div>
                     <p className="font-medium text-slate-900">Program #{enrollment.course_id}</p>
                     <p className="text-sm text-slate-700">Status: {enrollment.status}</p>
                   </div>
                   <div className="text-right">
-                    <p className="text-lg font-semibold text-brand-blue-600">{enrollment.progress || 0}%</p>
+                    <p className="text-lg font-semibold text-brand-blue-600">
+                      {enrollment.progress || 0}%
+                    </p>
                     <p className="text-sm text-slate-700">Complete</p>
                   </div>
                 </div>

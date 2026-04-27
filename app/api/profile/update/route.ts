@@ -11,9 +11,13 @@ async function _POST(request: NextRequest) {
   try {
     const supabase = await createClient();
     const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+    if (!db)
+      return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -26,10 +30,13 @@ async function _POST(request: NextRequest) {
     }
 
     // Only allow updating own profile, add updated_at
-    const { error } = await db.from('profiles').update({
-      ...fields,
-      updated_at: new Date().toISOString(),
-    }).eq('id', user.id);
+    const { error } = await db
+      .from('profiles')
+      .update({
+        ...fields,
+        updated_at: new Date().toISOString(),
+      })
+      .eq('id', user.id);
 
     if (error) {
       logger.error('[Profile] Update failed:', error.message);
@@ -55,14 +62,19 @@ async function _GET(request: NextRequest) {
   try {
     const supabase = await createClient();
     const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+    if (!db)
+      return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const { data: profile, error } = await db.from('profiles')
+    const { data: profile, error } = await db
+      .from('profiles')
       .select('*')
       .eq('id', user.id)
       .maybeSingle();

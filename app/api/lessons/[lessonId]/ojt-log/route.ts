@@ -27,8 +27,10 @@ export async function POST(
 
     const lesson = await resolveLessonOjt(db, lessonId);
     if (!lesson) return safeError('Lesson not found', 404);
-    if (lesson.lesson_type !== 'lab') return safeError('This lesson does not require OJT logging', 400);
-    if (!lesson.required_skill_id) return safeError('No skill requirement configured for this lesson', 400);
+    if (lesson.lesson_type !== 'lab')
+      return safeError('This lesson does not require OJT logging', 400);
+    if (!lesson.required_skill_id)
+      return safeError('No skill requirement configured for this lesson', 400);
 
     // Resolve program_id from enrollment
     const { data: enrollment } = await db
@@ -41,20 +43,18 @@ export async function POST(
 
     const count = Math.min(Math.max(1, parseInt(serviceCount) || 1), 20);
 
-    const { error: insertErr } = await db
-      .from('competency_log')
-      .insert({
-        apprentice_id: user.id,
-        skill_id: lesson.required_skill_id,
-        program_id: enrollment?.program_id ?? null,
-        work_date: new Date().toISOString().split('T')[0],
-        service_count: count,
-        hours_credited: 0,
-        notes: notes ?? null,
-        supervisor_name: supervisorName ?? null,
-        supervisor_verified: false,
-        status: 'pending',
-      });
+    const { error: insertErr } = await db.from('competency_log').insert({
+      apprentice_id: user.id,
+      skill_id: lesson.required_skill_id,
+      program_id: enrollment?.program_id ?? null,
+      work_date: new Date().toISOString().split('T')[0],
+      service_count: count,
+      hours_credited: 0,
+      notes: notes ?? null,
+      supervisor_name: supervisorName ?? null,
+      supervisor_verified: false,
+      status: 'pending',
+    });
 
     if (insertErr) return safeDbError(insertErr, 'Failed to log attempt');
 

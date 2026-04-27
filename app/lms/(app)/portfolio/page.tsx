@@ -3,9 +3,19 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  Briefcase, Award, FileText, Plus, ExternalLink, 
-  Download, Share2, Eye, Calendar, Trophy, Flame, Star
+import {
+  Briefcase,
+  Award,
+  FileText,
+  Plus,
+  ExternalLink,
+  Download,
+  Share2,
+  Eye,
+  Calendar,
+  Trophy,
+  Flame,
+  Star,
 } from 'lucide-react';
 import { StreakTracker } from '@/components/gamification/StreakTracker';
 import { PointsDisplay } from '@/components/gamification/PointsDisplay';
@@ -21,8 +31,9 @@ export const metadata: Metadata = {
 export default async function PortfolioPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/lms/portfolio');
@@ -49,22 +60,31 @@ export default async function PortfolioPage() {
     .eq('status', 'completed')
     .order('completed_at', { ascending: false });
 
-  const completedCourseIds = [...new Set((rawCompleted || []).map((e: any) => e.course_id).filter(Boolean))];
+  const completedCourseIds = [
+    ...new Set((rawCompleted || []).map((e: any) => e.course_id).filter(Boolean)),
+  ];
   const { data: completedCoursesData } = completedCourseIds.length
-    ? await supabase.from('courses').select('id, title, description, thumbnail_url, slug').in('id', completedCourseIds)
+    ? await supabase
+        .from('courses')
+        .select('id, title, description, thumbnail_url, slug')
+        .in('id', completedCourseIds)
     : { data: [] };
-  const completedCourseMap = Object.fromEntries((completedCoursesData || []).map((c: any) => [c.id, c]));
-  const completedCourses = (rawCompleted || []).map((e: any) => ({ ...e, course: completedCourseMap[e.course_id] ?? null }));
+  const completedCourseMap = Object.fromEntries(
+    (completedCoursesData || []).map((c: any) => [c.id, c]),
+  );
+  const completedCourses = (rawCompleted || []).map((e: any) => ({
+    ...e,
+    course: completedCourseMap[e.course_id] ?? null,
+  }));
 
   return (
     <div className="min-h-screen bg-white">
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'LMS', href: '/lms/dashboard' },
-            { label: 'My Portfolio' }
-          ]} />
+          <Breadcrumbs
+            items={[{ label: 'LMS', href: '/lms/dashboard' }, { label: 'My Portfolio' }]}
+          />
         </div>
       </div>
 
@@ -100,9 +120,7 @@ export default async function PortfolioPage() {
                 <Award className="w-6 h-6 text-brand-green-600" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-slate-900">
-                  {certificates?.length || 0}
-                </div>
+                <div className="text-2xl font-bold text-slate-900">{certificates?.length || 0}</div>
                 <div className="text-slate-700 text-sm">Certificates Earned</div>
               </div>
             </div>
@@ -156,9 +174,7 @@ export default async function PortfolioPage() {
                               <Calendar className="w-4 h-4" />
                               Issued {new Date(cert.issued_at).toLocaleDateString()}
                             </span>
-                            {cert.credential_id && (
-                              <span>ID: {cert.credential_id}</span>
-                            )}
+                            {cert.credential_id && <span>ID: {cert.credential_id}</span>}
                           </div>
                         </div>
                         <div className="flex gap-2">
@@ -228,9 +244,7 @@ export default async function PortfolioPage() {
                 <div className="p-12 text-center">
                   <span className="text-slate-400 flex-shrink-0">•</span>
                   <h3 className="font-medium text-slate-900 mb-2">No completed courses</h3>
-                  <p className="text-slate-700 text-sm">
-                    Your completed courses will appear here
-                  </p>
+                  <p className="text-slate-700 text-sm">Your completed courses will appear here</p>
                 </div>
               )}
             </div>
@@ -290,7 +304,10 @@ export default async function PortfolioPage() {
                   <Trophy className="w-5 h-5 text-yellow-600" />
                   Recent Badges
                 </h2>
-                <Link href="/lms/badges" className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-medium">
+                <Link
+                  href="/lms/badges"
+                  className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-medium"
+                >
                   View All
                 </Link>
               </div>

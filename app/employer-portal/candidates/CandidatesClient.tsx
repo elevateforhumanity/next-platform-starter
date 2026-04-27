@@ -8,13 +8,13 @@ import { Users, Search, MapPin, Briefcase, GraduationCap, MessageSquare } from '
 const FILTERS = ['All Candidates', 'Healthcare', 'Skilled Trades', 'Transportation', 'Business'];
 
 const PROGRAM_TO_FILTER: Record<string, string> = {
-  'CNA': 'Healthcare',
+  CNA: 'Healthcare',
   'Certified Nursing Assistant': 'Healthcare',
-  'HVAC': 'Skilled Trades',
+  HVAC: 'Skilled Trades',
   'HVAC Technician': 'Skilled Trades',
-  'CDL': 'Transportation',
+  CDL: 'Transportation',
   'CDL Class A': 'Transportation',
-  'Barber': 'Business',
+  Barber: 'Business',
   'Barber Apprenticeship': 'Business',
 };
 
@@ -34,14 +34,16 @@ export function CandidatesClient({ candidates }: { candidates: Candidate[] }) {
   const [activeFilter, setActiveFilter] = useState('All Candidates');
   const [search, setSearch] = useState('');
 
-  const filtered = candidates.filter(c => {
-    const matchesFilter = activeFilter === 'All Candidates'
-      || PROGRAM_TO_FILTER[c.program] === activeFilter
-      || c.title.toLowerCase().includes(activeFilter.toLowerCase());
-    const matchesSearch = !search
-      || c.name.toLowerCase().includes(search.toLowerCase())
-      || c.program.toLowerCase().includes(search.toLowerCase())
-      || c.location.toLowerCase().includes(search.toLowerCase());
+  const filtered = candidates.filter((c) => {
+    const matchesFilter =
+      activeFilter === 'All Candidates' ||
+      PROGRAM_TO_FILTER[c.program] === activeFilter ||
+      c.title.toLowerCase().includes(activeFilter.toLowerCase());
+    const matchesSearch =
+      !search ||
+      c.name.toLowerCase().includes(search.toLowerCase()) ||
+      c.program.toLowerCase().includes(search.toLowerCase()) ||
+      c.location.toLowerCase().includes(search.toLowerCase());
     return matchesFilter && matchesSearch;
   });
 
@@ -56,14 +58,14 @@ export function CandidatesClient({ candidates }: { candidates: Candidate[] }) {
               <input
                 type="text"
                 value={search}
-                onChange={e => setSearch(e.target.value)}
+                onChange={(e) => setSearch(e.target.value)}
                 placeholder="Search by name, skill, or location..."
                 className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-green-500"
               />
             </div>
           </div>
           <div className="flex gap-2 mt-4 overflow-x-auto pb-2">
-            {FILTERS.map(filter => (
+            {FILTERS.map((filter) => (
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
@@ -83,17 +85,28 @@ export function CandidatesClient({ candidates }: { candidates: Candidate[] }) {
       {/* Candidates Grid */}
       <section className="py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <p className="text-slate-700 mb-6">{filtered.length} candidate{filtered.length !== 1 ? 's' : ''} found</p>
+          <p className="text-slate-700 mb-6">
+            {filtered.length} candidate{filtered.length !== 1 ? 's' : ''} found
+          </p>
 
           {filtered.length > 0 ? (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {filtered.map(candidate => (
-                <div key={candidate.id} className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow">
+              {filtered.map((candidate) => (
+                <div
+                  key={candidate.id}
+                  className="bg-white rounded-xl shadow-sm border border-gray-100 overflow-hidden hover:shadow-lg transition-shadow"
+                >
                   <div className="p-6">
                     <div className="flex items-start gap-4">
                       <div className="relative w-16 h-16 rounded-full overflow-hidden flex-shrink-0">
                         {candidate.image ? (
-                          <Image src={candidate.image} alt={candidate.name} fill className="object-cover"  sizes="100vw" />
+                          <Image
+                            src={candidate.image}
+                            alt={candidate.name}
+                            fill
+                            className="object-cover"
+                            sizes="100vw"
+                          />
                         ) : (
                           <div className="w-full h-full bg-brand-blue-700 flex items-center justify-center text-white text-xl font-bold">
                             {candidate.name.charAt(0)}
@@ -108,13 +121,16 @@ export function CandidatesClient({ candidates }: { candidates: Candidate[] }) {
 
                     <div className="mt-4 space-y-2">
                       <div className="flex items-center gap-2 text-sm text-slate-700">
-                        <MapPin className="w-4 h-4" />{candidate.location}
+                        <MapPin className="w-4 h-4" />
+                        {candidate.location}
                       </div>
                       <div className="flex items-center gap-2 text-sm text-slate-700">
-                        <Briefcase className="w-4 h-4" />{candidate.experience}
+                        <Briefcase className="w-4 h-4" />
+                        {candidate.experience}
                       </div>
                       <div className="flex items-center gap-2 text-sm text-slate-700">
-                        <GraduationCap className="w-4 h-4" />{candidate.program}
+                        <GraduationCap className="w-4 h-4" />
+                        {candidate.program}
                       </div>
                     </div>
 
@@ -141,7 +157,9 @@ export function CandidatesClient({ candidates }: { candidates: Candidate[] }) {
             <div className="bg-white rounded-xl shadow-sm p-12 text-center">
               <Users className="w-16 h-16 text-slate-700 mx-auto mb-4" />
               <h3 className="text-xl font-bold text-slate-900 mb-2">
-                {search || activeFilter !== 'All Candidates' ? 'No matching candidates' : 'No Candidates Yet'}
+                {search || activeFilter !== 'All Candidates'
+                  ? 'No matching candidates'
+                  : 'No Candidates Yet'}
               </h3>
               <p className="text-slate-700">
                 {search || activeFilter !== 'All Candidates'

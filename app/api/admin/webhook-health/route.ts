@@ -36,7 +36,9 @@ interface WebhookEvent {
 
 async function requireAdmin() {
   const userSupabase = await createClient();
-  const { data: { user } } = await userSupabase.auth.getUser();
+  const {
+    data: { user },
+  } = await userSupabase.auth.getUser();
   if (!user) return { error: 'Unauthorized', status: 401 as const };
 
   const adminDb = await getAdminClient();
@@ -92,11 +94,30 @@ async function handleSummary(adminDb: NonNullable<SupabaseClient>) {
     { count: errored24h },
     { count: skipped24h },
   ] = await Promise.all([
-    adminDb.from('webhook_events_processed').select('id', { count: 'exact', head: true }).gte('received_at', last24h),
-    adminDb.from('webhook_events_processed').select('id', { count: 'exact', head: true }).eq('status', 'processed').gte('received_at', last24h),
-    adminDb.from('webhook_events_processed').select('id', { count: 'exact', head: true }).eq('status', 'failed').gte('received_at', last24h),
-    adminDb.from('webhook_events_processed').select('id', { count: 'exact', head: true }).eq('status', 'errored').gte('received_at', last24h),
-    adminDb.from('webhook_events_processed').select('id', { count: 'exact', head: true }).eq('status', 'skipped').gte('received_at', last24h),
+    adminDb
+      .from('webhook_events_processed')
+      .select('id', { count: 'exact', head: true })
+      .gte('received_at', last24h),
+    adminDb
+      .from('webhook_events_processed')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'processed')
+      .gte('received_at', last24h),
+    adminDb
+      .from('webhook_events_processed')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'failed')
+      .gte('received_at', last24h),
+    adminDb
+      .from('webhook_events_processed')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'errored')
+      .gte('received_at', last24h),
+    adminDb
+      .from('webhook_events_processed')
+      .select('id', { count: 'exact', head: true })
+      .eq('status', 'skipped')
+      .gte('received_at', last24h),
   ]);
 
   const providerHealth: ProviderHealth[] = [];
@@ -109,10 +130,28 @@ async function handleSummary(adminDb: NonNullable<SupabaseClient>) {
       { data: statusRows },
       { data: lastEvent },
     ] = await Promise.all([
-      adminDb.from('webhook_events_processed').select('id', { count: 'exact', head: true }).eq('provider', provider).gte('received_at', last24h),
-      adminDb.from('webhook_events_processed').select('id', { count: 'exact', head: true }).eq('provider', provider).gte('received_at', last7d),
-      adminDb.from('webhook_events_processed').select('status').eq('provider', provider).gte('received_at', last24h),
-      adminDb.from('webhook_events_processed').select('received_at').eq('provider', provider).order('received_at', { ascending: false }).limit(1).maybeSingle(),
+      adminDb
+        .from('webhook_events_processed')
+        .select('id', { count: 'exact', head: true })
+        .eq('provider', provider)
+        .gte('received_at', last24h),
+      adminDb
+        .from('webhook_events_processed')
+        .select('id', { count: 'exact', head: true })
+        .eq('provider', provider)
+        .gte('received_at', last7d),
+      adminDb
+        .from('webhook_events_processed')
+        .select('status')
+        .eq('provider', provider)
+        .gte('received_at', last24h),
+      adminDb
+        .from('webhook_events_processed')
+        .select('received_at')
+        .eq('provider', provider)
+        .order('received_at', { ascending: false })
+        .limit(1)
+        .maybeSingle(),
     ]);
 
     const statusBreakdown: Record<string, number> = {};
@@ -123,19 +162,19 @@ async function handleSummary(adminDb: NonNullable<SupabaseClient>) {
     const recent = recentCount || 0;
     const baseline = baselineCount || 0;
     const baselineDailyAvg = baseline / 7;
-    const ratio = baselineDailyAvg > 0 ? recent / baselineDailyAvg : (recent > 0 ? 1 : 0);
+    const ratio = baselineDailyAvg > 0 ? recent / baselineDailyAvg : recent > 0 ? 1 : 0;
     const healthy = baselineDailyAvg === 0 || ratio >= VOLUME_DROP_THRESHOLD;
 
     if (!healthy) {
       alerts.push(
-        `${provider}: ${recent} events in last 24h vs ${baselineDailyAvg.toFixed(1)} daily avg (${(ratio * 100).toFixed(0)}% of baseline)`
+        `${provider}: ${recent} events in last 24h vs ${baselineDailyAvg.toFixed(1)} daily avg (${(ratio * 100).toFixed(0)}% of baseline)`,
       );
     }
 
     const errorCount = (statusBreakdown['errored'] || 0) + (statusBreakdown['failed'] || 0);
     if (recent > 0 && errorCount / recent > 0.2) {
       alerts.push(
-        `${provider}: ${errorCount}/${recent} events errored/failed in last 24h (${((errorCount / recent) * 100).toFixed(0)}%)`
+        `${provider}: ${errorCount}/${recent} events errored/failed in last 24h (${((errorCount / recent) * 100).toFixed(0)}%)`,
       );
     }
 
@@ -154,7 +193,8 @@ async function handleSummary(adminDb: NonNullable<SupabaseClient>) {
   const [paidNotEnrolled, enrolledNotPaid, openFlags] = await Promise.all([
     adminDb.from('v_paid_not_enrolled').select('session_id', { count: 'exact', head: true }),
     adminDb.from('v_enrolled_not_paid').select('enrollment_id', { count: 'exact', head: true }),
-    adminDb.from('payment_integrity_flags')
+    adminDb
+      .from('payment_integrity_flags')
       .select('id', { count: 'exact', head: true })
       .is('resolved_at', null),
   ]);
@@ -163,23 +203,29 @@ async function handleSummary(adminDb: NonNullable<SupabaseClient>) {
   if ((paidNotEnrolled.count ?? 0) > 0)
     integrityAlerts.push(`CRITICAL: ${paidNotEnrolled.count} paid sessions with no enrollment`);
   if ((enrolledNotPaid.count ?? 0) > 0)
-    integrityAlerts.push(`CRITICAL: ${enrolledNotPaid.count} active enrollments with no payment evidence`);
+    integrityAlerts.push(
+      `CRITICAL: ${enrolledNotPaid.count} active enrollments with no payment evidence`,
+    );
   if ((openFlags.count ?? 0) > 0)
     integrityAlerts.push(`WARNING: ${openFlags.count} unresolved payment integrity flags`);
 
   const allAlerts = [...alerts, ...integrityAlerts];
 
   // Persist health snapshot for trend tracking
-  adminDb.from('webhook_health_log').insert({
-    provider: 'stripe',
-    endpoint_status: allAlerts.some(a => a.includes('CRITICAL')) ? 'degraded' : 'enabled',
-    events_last_24h: total24h ?? 0,
-    events_failed: failed24h ?? 0,
-    events_processed: processed24h ?? 0,
-    unprocessed_paid_sessions: paidNotEnrolled.count ?? 0,
-    enrolled_not_paid: enrolledNotPaid.count ?? 0,
-    metadata: { alerts: allAlerts },
-  }).then(() => {}).catch(() => {});
+  adminDb
+    .from('webhook_health_log')
+    .insert({
+      provider: 'stripe',
+      endpoint_status: allAlerts.some((a) => a.includes('CRITICAL')) ? 'degraded' : 'enabled',
+      events_last_24h: total24h ?? 0,
+      events_failed: failed24h ?? 0,
+      events_processed: processed24h ?? 0,
+      unprocessed_paid_sessions: paidNotEnrolled.count ?? 0,
+      enrolled_not_paid: enrolledNotPaid.count ?? 0,
+      metadata: { alerts: allAlerts },
+    })
+    .then(() => {})
+    .catch(() => {});
 
   return NextResponse.json({
     healthy: allAlerts.length === 0,
@@ -194,18 +240,15 @@ async function handleSummary(adminDb: NonNullable<SupabaseClient>) {
     },
     providers: providerHealth,
     integrity: {
-      paid_not_enrolled:  paidNotEnrolled.count  ?? 0,
-      enrolled_not_paid:  enrolledNotPaid.count   ?? 0,
-      open_flags:         openFlags.count          ?? 0,
+      paid_not_enrolled: paidNotEnrolled.count ?? 0,
+      enrolled_not_paid: enrolledNotPaid.count ?? 0,
+      open_flags: openFlags.count ?? 0,
     },
     alerts: allAlerts,
   });
 }
 
-async function handleEventsList(
-  adminDb: NonNullable<SupabaseClient>,
-  params: URLSearchParams
-) {
+async function handleEventsList(adminDb: NonNullable<SupabaseClient>, params: URLSearchParams) {
   const provider = params.get('provider');
   const status = params.get('status');
   const eventType = params.get('event_type');
@@ -216,7 +259,10 @@ async function handleEventsList(
 
   let query = adminDb
     .from('webhook_events_processed')
-    .select('id, provider, event_id, event_type, status, payment_reference, error_message, metadata, received_at', { count: 'exact' })
+    .select(
+      'id, provider, event_id, event_type, status, payment_reference, error_message, metadata, received_at',
+      { count: 'exact' },
+    )
     .order('received_at', { ascending: false })
     .range(offset, offset + PAGE_SIZE - 1);
 

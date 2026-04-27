@@ -28,7 +28,10 @@ async function _GET(request: NextRequest) {
       .eq('id', user.id)
       .maybeSingle();
 
-    if (!profile || !['program_holder', 'program_owner', 'admin', 'super_admin', 'staff'].includes(profile.role)) {
+    if (
+      !profile ||
+      !['program_holder', 'program_owner', 'admin', 'super_admin', 'staff'].includes(profile.role)
+    ) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -74,10 +77,9 @@ async function _GET(request: NextRequest) {
   } catch (err: any) {
     return NextResponse.json(
       {
-        err:
-          'Internal server error',
+        err: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

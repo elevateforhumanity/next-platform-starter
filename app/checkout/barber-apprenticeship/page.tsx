@@ -21,7 +21,7 @@ export default function BarberCheckoutPage() {
   const [error, setError] = useState('');
 
   function update(field: keyof typeof form, value: string) {
-    setForm(prev => ({ ...prev, [field]: value }));
+    setForm((prev) => ({ ...prev, [field]: value }));
   }
 
   const isValid = form.name.trim().length > 1 && /\S+@\S+\.\S+/.test(form.email);
@@ -94,7 +94,6 @@ export default function BarberCheckoutPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-lg mx-auto px-4 py-10">
-
         {/* Back link */}
         <Link
           href="/programs/barber-apprenticeship"
@@ -104,8 +103,12 @@ export default function BarberCheckoutPage() {
         </Link>
 
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm p-6 sm:p-8">
-          <h1 className="text-2xl font-bold text-slate-900 mb-1">Barber Apprenticeship Enrollment</h1>
-          <p className="text-slate-500 text-sm mb-6">Self-pay enrollment. Your application is created before payment — no surprises.</p>
+          <h1 className="text-2xl font-bold text-slate-900 mb-1">
+            Barber Apprenticeship Enrollment
+          </h1>
+          <p className="text-slate-500 text-sm mb-6">
+            Self-pay enrollment. Your application is created before payment — no surprises.
+          </p>
 
           {/* Payment option selector */}
           <div className="grid grid-cols-2 gap-3 mb-6">
@@ -115,7 +118,9 @@ export default function BarberCheckoutPage() {
               className={`rounded-xl border-2 p-4 text-left transition-all ${paymentType === 'payment_plan' ? 'border-brand-red-600 bg-brand-red-50' : 'border-slate-200 hover:border-slate-300'}`}
             >
               <div className="font-bold text-slate-900 text-sm mb-0.5">Payment Plan</div>
-              <div className="text-xs text-slate-500">${BARBER_PRICING.minDownPayment} down, then ${weeklyPayment}/wk</div>
+              <div className="text-xs text-slate-500">
+                ${BARBER_PRICING.minDownPayment} down, then ${weeklyPayment}/wk
+              </div>
             </button>
             <button
               type="button"
@@ -123,17 +128,21 @@ export default function BarberCheckoutPage() {
               className={`rounded-xl border-2 p-4 text-left transition-all ${paymentType === 'pay_in_full' ? 'border-brand-red-600 bg-brand-red-50' : 'border-slate-200 hover:border-slate-300'}`}
             >
               <div className="font-bold text-slate-900 text-sm mb-0.5">Pay in Full</div>
-              <div className="text-xs text-slate-500">${BARBER_PRICING.fullPrice.toLocaleString()} total</div>
+              <div className="text-xs text-slate-500">
+                ${BARBER_PRICING.fullPrice.toLocaleString()} total
+              </div>
             </button>
           </div>
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Full name <span className="text-red-500">*</span></label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Full name <span className="text-red-500">*</span>
+              </label>
               <input
                 type="text"
                 value={form.name}
-                onChange={e => update('name', e.target.value)}
+                onChange={(e) => update('name', e.target.value)}
                 placeholder="First and last name"
                 required
                 className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-500 focus:border-transparent"
@@ -141,11 +150,13 @@ export default function BarberCheckoutPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Email address <span className="text-red-500">*</span></label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Email address <span className="text-red-500">*</span>
+              </label>
               <input
                 type="email"
                 value={form.email}
-                onChange={e => update('email', e.target.value)}
+                onChange={(e) => update('email', e.target.value)}
                 placeholder="you@example.com"
                 required
                 className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-500 focus:border-transparent"
@@ -153,11 +164,13 @@ export default function BarberCheckoutPage() {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Phone <span className="text-slate-400 font-normal">(optional)</span></label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Phone <span className="text-slate-400 font-normal">(optional)</span>
+              </label>
               <input
                 type="tel"
                 value={form.phone}
-                onChange={e => update('phone', e.target.value)}
+                onChange={(e) => update('phone', e.target.value)}
                 placeholder="(317) 555-0100"
                 className="w-full px-4 py-2.5 border border-slate-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-500 focus:border-transparent"
               />
@@ -175,7 +188,9 @@ export default function BarberCheckoutPage() {
               className="w-full bg-brand-red-600 hover:bg-brand-red-700 disabled:opacity-40 disabled:cursor-not-allowed text-white font-bold py-3 rounded-xl transition-colors flex items-center justify-center gap-2"
             >
               {loading ? (
-                <><Loader2 className="w-4 h-4 animate-spin" /> Creating your application…</>
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" /> Creating your application…
+                </>
               ) : (
                 `Continue to Payment — $${paymentType === 'pay_in_full' ? BARBER_PRICING.fullPrice.toLocaleString() : BARBER_PRICING.minDownPayment} today`
               )}
@@ -184,13 +199,19 @@ export default function BarberCheckoutPage() {
 
           <div className="mt-5 flex items-start gap-2 text-xs text-slate-400">
             <ShieldCheck className="w-4 h-4 flex-shrink-0 mt-0.5" />
-            <span>Your application is created before payment. Paid applicants are reviewed and approved before onboarding begins. Payments processed securely by Stripe.</span>
+            <span>
+              Your application is created before payment. Paid applicants are reviewed and approved
+              before onboarding begins. Payments processed securely by Stripe.
+            </span>
           </div>
         </div>
 
         <p className="text-center text-xs text-slate-400 mt-4">
           Not ready to pay?{' '}
-          <Link href="/funding?program=barber-apprenticeship" className="text-brand-red-600 hover:underline">
+          <Link
+            href="/funding?program=barber-apprenticeship"
+            className="text-brand-red-600 hover:underline"
+          >
             Check if you qualify for funded training
           </Link>
         </p>

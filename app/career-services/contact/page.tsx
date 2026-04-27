@@ -2,15 +2,7 @@ export const dynamic = 'force-dynamic';
 
 import { Metadata } from 'next';
 import Link from 'next/link';
-import {
-  Phone,
-  Mail,
-  MapPin,
-  Clock,
-  Calendar,
-  MessageSquare,
-  ArrowRight,
-} from 'lucide-react';
+import { Phone, Mail, MapPin, Clock, Calendar, MessageSquare, ArrowRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { createClient } from '@/lib/supabase/server';
@@ -32,16 +24,16 @@ export default async function CareerServicesContactPage() {
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Career Services', href: '/career-services' }, { label: 'Contact' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Career Services', href: '/career-services' }, { label: 'Contact' }]}
+          />
         </div>
       </div>
 
       {/* Header */}
       <section className="py-16 bg-brand-blue-900 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Contact Career Services
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Contact Career Services</h1>
           <p className="text-xl text-brand-blue-100">
             We are here to help you succeed in your career journey
           </p>
@@ -106,9 +98,7 @@ export default async function CareerServicesContactPage() {
       {/* Office Location */}
       <section className="py-16 bg-gray-50">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">
-            Visit Our Office
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Visit Our Office</h2>
 
           <div className="bg-white rounded-xl shadow-md overflow-hidden">
             <div className="md:flex">
@@ -118,7 +108,8 @@ export default async function CareerServicesContactPage() {
                   <div>
                     <h3 className="font-bold text-gray-900 mb-1">Career Services Center</h3>
                     <p className="text-gray-600">
-                      8888 Keystone Xing Suite 1300<br />
+                      8888 Keystone Xing Suite 1300
+                      <br />
                       Indianapolis, IN 46240
                     </p>
                   </div>
@@ -129,8 +120,10 @@ export default async function CareerServicesContactPage() {
                   <div>
                     <h3 className="font-bold text-gray-900 mb-1">Office Hours</h3>
                     <p className="text-gray-600">
-                      Monday - Friday: 9:00 AM - 5:00 PM<br />
-                      Saturday: By appointment<br />
+                      Monday - Friday: 9:00 AM - 5:00 PM
+                      <br />
+                      Saturday: By appointment
+                      <br />
                       Sunday: Closed
                     </p>
                   </div>
@@ -141,7 +134,8 @@ export default async function CareerServicesContactPage() {
                   <div>
                     <h3 className="font-bold text-gray-900 mb-1">Walk-ins Welcome</h3>
                     <p className="text-gray-600">
-                      No appointment needed for quick questions. For in-depth sessions, please schedule ahead.
+                      No appointment needed for quick questions. For in-depth sessions, please
+                      schedule ahead.
                     </p>
                   </div>
                 </div>
@@ -245,28 +239,32 @@ export default async function CareerServicesContactPage() {
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <h3 className="font-bold text-gray-900 mb-2">Are career services free?</h3>
               <p className="text-gray-600">
-                Yes, all career services are free for current students and program participants. Alumni also have access to many services.
+                Yes, all career services are free for current students and program participants.
+                Alumni also have access to many services.
               </p>
             </div>
 
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <h3 className="font-bold text-gray-900 mb-2">Do I need an appointment?</h3>
               <p className="text-gray-600">
-                Walk-ins are welcome for quick questions. For resume reviews, mock interviews, or counseling sessions, we recommend scheduling an appointment.
+                Walk-ins are welcome for quick questions. For resume reviews, mock interviews, or
+                counseling sessions, we recommend scheduling an appointment.
               </p>
             </div>
 
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <h3 className="font-bold text-gray-900 mb-2">Can I get help virtually?</h3>
               <p className="text-gray-600">
-                Absolutely! We offer all services via video call. Schedule a virtual appointment through our booking system.
+                Absolutely! We offer all services via video call. Schedule a virtual appointment
+                through our booking system.
               </p>
             </div>
 
             <div className="bg-white rounded-lg p-6 shadow-sm">
               <h3 className="font-bold text-gray-900 mb-2">How long are appointments?</h3>
               <p className="text-gray-600">
-                Initial consultations are 30 minutes. Resume reviews and mock interviews are typically 60 minutes. Career counseling sessions can be 60-90 minutes.
+                Initial consultations are 30 minutes. Resume reviews and mock interviews are
+                typically 60 minutes. Career counseling sessions can be 60-90 minutes.
               </p>
             </div>
           </div>
@@ -276,9 +274,7 @@ export default async function CareerServicesContactPage() {
       {/* CTA */}
       <section className="py-16 bg-brand-blue-900 text-white">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-6">
-            Ready to Take the Next Step?
-          </h2>
+          <h2 className="text-3xl font-bold mb-6">Ready to Take the Next Step?</h2>
           <p className="text-xl mb-8 text-brand-blue-100">
             Our career services team is here to support your success.
           </p>

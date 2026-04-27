@@ -7,10 +7,10 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 /**
  * GET /api/announcements
- * 
+ *
  * Fetches published announcements for the specified audience.
  * Returns empty array if no announcements (strict - no fake data).
- * 
+ *
  * Query params:
  * - audience: 'student' | 'staff' | 'partner' | 'admin' | 'all'
  * - limit: number (default 10)

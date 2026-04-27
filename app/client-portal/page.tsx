@@ -5,7 +5,8 @@ import { Building2, Users, BarChart3, FileText, ArrowRight, Shield } from 'lucid
 
 export const metadata: Metadata = {
   title: 'Client Portal | Elevate For Humanity',
-  description: 'Access your organization\'s training dashboard, track employee progress, and manage your workforce development programs.',
+  description:
+    "Access your organization's training dashboard, track employee progress, and manage your workforce development programs.",
 };
 
 const features = [
@@ -17,7 +18,8 @@ const features = [
   {
     icon: BarChart3,
     title: 'Analytics Dashboard',
-    description: 'Real-time insights into training outcomes, ROI, and workforce development metrics.',
+    description:
+      'Real-time insights into training outcomes, ROI, and workforce development metrics.',
   },
   {
     icon: FileText,
@@ -43,10 +45,10 @@ const benefits = [
 export default function ClientPortalPage() {
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Client Portal" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Client Portal' }]} />
       </div>
-{/* Hero */}
+      {/* Hero */}
       <section className="pt-24 pb-16 lg:pt-32 lg:pb-24 bg-brand-blue-700 text-white">
         <div className="max-w-7xl mx-auto px-6">
           <div className="max-w-3xl">
@@ -54,11 +56,10 @@ export default function ClientPortalPage() {
               <Building2 className="w-4 h-4" />
               For Organizations
             </div>
-            <h1 className="text-4xl sm:text-5xl font-bold mb-6">
-              Client Portal
-            </h1>
+            <h1 className="text-4xl sm:text-5xl font-bold mb-6">Client Portal</h1>
             <p className="text-xl text-white mb-8">
-              Manage your organization's workforce development programs. Track employee progress, access reports, and maximize your training investment.
+              Manage your organization's workforce development programs. Track employee progress,
+              access reports, and maximize your training investment.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -85,7 +86,10 @@ export default function ClientPortalPage() {
           <h2 className="text-3xl font-bold text-center mb-12">Portal Features</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
             {features.map((feature) => (
-              <div key={feature.title} className="bg-white border rounded-xl p-6 hover:shadow-lg transition-shadow">
+              <div
+                key={feature.title}
+                className="bg-white border rounded-xl p-6 hover:shadow-lg transition-shadow"
+              >
                 <feature.icon className="w-10 h-10 text-brand-blue-600 mb-4" />
                 <h3 className="text-lg font-semibold mb-2">{feature.title}</h3>
                 <p className="text-gray-600 text-sm">{feature.description}</p>
@@ -102,7 +106,8 @@ export default function ClientPortalPage() {
             <div>
               <h2 className="text-3xl font-bold mb-6">Everything You Need to Manage Training</h2>
               <p className="text-gray-600 mb-8">
-                Our client portal gives you complete visibility into your workforce development programs with powerful tools to track, report, and optimize.
+                Our client portal gives you complete visibility into your workforce development
+                programs with powerful tools to track, report, and optimize.
               </p>
               <ul className="space-y-4">
                 {benefits.map((benefit) => (

@@ -26,9 +26,18 @@ const AUDIENCES = [
       { value: '100+', label: 'Hiring employer partners' },
     ],
     objections: [
-      { q: 'Is this actually free?', a: 'WIOA, WRG, and JRI can cover tuition, books, and supplies for eligible students. Eligibility varies by program.' },
-      { q: 'Will I get hired?', a: 'We connect graduates directly with hiring employers through our career services team. Employment outcomes vary by program and market conditions.' },
-      { q: 'How fast can I start?', a: 'Most students begin training within 2–4 weeks of eligibility verification.' },
+      {
+        q: 'Is this actually free?',
+        a: 'WIOA, WRG, and JRI can cover tuition, books, and supplies for eligible students. Eligibility varies by program.',
+      },
+      {
+        q: 'Will I get hired?',
+        a: 'We connect graduates directly with hiring employers through our career services team. Employment outcomes vary by program and market conditions.',
+      },
+      {
+        q: 'How fast can I start?',
+        a: 'Most students begin training within 2–4 weeks of eligibility verification.',
+      },
     ],
   },
   {
@@ -51,15 +60,24 @@ const AUDIENCES = [
       { value: '2–4', label: 'Weeks to fill roles' },
     ],
     objections: [
-      { q: 'What screening do you do?', a: 'Credential verification and skills assessment for all candidates. Background checks and drug screening where required by the program or employer.' },
-      { q: 'What guarantees?', a: 'If a hire doesn\'t work out within 90 days, we replace them at no cost.' },
-      { q: 'How fast can you staff?', a: 'Active candidate pool. Most roles filled within 2–4 weeks.' },
+      {
+        q: 'What screening do you do?',
+        a: 'Credential verification and skills assessment for all candidates. Background checks and drug screening where required by the program or employer.',
+      },
+      {
+        q: 'What guarantees?',
+        a: "If a hire doesn't work out within 90 days, we replace them at no cost.",
+      },
+      {
+        q: 'How fast can you staff?',
+        a: 'Active candidate pool. Most roles filled within 2–4 weeks.',
+      },
     ],
   },
   {
     id: 'partner',
     icon: Landmark,
-    label: 'I\'m a workforce partner',
+    label: "I'm a workforce partner",
     headline: 'Auditable outcomes. Measurable ROI. Compliance-ready infrastructure.',
     subtext: 'ETPL-approved. WIOA/WRG/JRI aligned. Real-time reporting.',
     proof: 'Serving 6 Indiana workforce regions with tracked outcomes',
@@ -76,16 +94,25 @@ const AUDIENCES = [
       { value: 'ETPL', label: 'Approved provider' },
     ],
     objections: [
-      { q: 'Are you auditable?', a: 'Full WIOA compliance tracking, FERPA-compliant data handling, and exportable reports.' },
-      { q: 'What outcomes do you track?', a: 'Enrollment, completion, credential attainment, employment, wage gains — all in real-time.' },
-      { q: 'Do you boost local metrics?', a: 'Our programs directly improve WIOA performance indicators for your region.' },
+      {
+        q: 'Are you auditable?',
+        a: 'Full WIOA compliance tracking, FERPA-compliant data handling, and exportable reports.',
+      },
+      {
+        q: 'What outcomes do you track?',
+        a: 'Enrollment, completion, credential attainment, employment, wage gains — all in real-time.',
+      },
+      {
+        q: 'Do you boost local metrics?',
+        a: 'Our programs directly improve WIOA performance indicators for your region.',
+      },
     ],
   },
 ];
 
 export default function AudienceRouter() {
   const [selected, setSelected] = useState<string | null>(null);
-  const audience = AUDIENCES.find(a => a.id === selected);
+  const audience = AUDIENCES.find((a) => a.id === selected);
 
   return (
     <section className="relative">
@@ -109,18 +136,24 @@ export default function AudienceRouter() {
                       : 'border-slate-200 bg-white text-slate-900 hover:border-slate-400 hover:shadow-md'
                   }`}
                 >
-                  <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
-                    isActive ? 'bg-white/20' : 'bg-slate-100 group-hover:bg-slate-200'
-                  }`}>
+                  <div
+                    className={`w-12 h-12 rounded-xl flex items-center justify-center transition-colors ${
+                      isActive ? 'bg-white/20' : 'bg-slate-100 group-hover:bg-slate-200'
+                    }`}
+                  >
                     <Icon className={`w-6 h-6 ${isActive ? 'text-white' : 'text-slate-700'}`} />
                   </div>
                   <div className="flex-1">
                     <p className="font-bold text-lg">{aud.label}</p>
-                    <p className={`text-sm mt-0.5 ${isActive ? 'text-slate-500' : 'text-slate-500'}`}>
+                    <p
+                      className={`text-sm mt-0.5 ${isActive ? 'text-slate-500' : 'text-slate-500'}`}
+                    >
                       {aud.proof}
                     </p>
                   </div>
-                  <ChevronRight className={`w-5 h-5 transition-transform ${isActive ? 'rotate-90 text-slate-400' : 'text-slate-400'}`} />
+                  <ChevronRight
+                    className={`w-5 h-5 transition-transform ${isActive ? 'rotate-90 text-slate-400' : 'text-slate-400'}`}
+                  />
                 </button>
               );
             })}
@@ -142,9 +175,7 @@ export default function AudienceRouter() {
                   <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold leading-tight mb-6">
                     {audience.headline}
                   </h2>
-                  <p className="text-xl text-slate-600 mb-8">
-                    {audience.subtext}
-                  </p>
+                  <p className="text-xl text-slate-600 mb-8">{audience.subtext}</p>
 
                   {/* Stats row */}
                   <div className="grid grid-cols-3 gap-6 mb-10">
@@ -187,7 +218,10 @@ export default function AudienceRouter() {
                   </div>
                   <div className="space-y-3">
                     {audience.objections.map((obj, i) => (
-                      <div key={i} className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10">
+                      <div
+                        key={i}
+                        className="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/10"
+                      >
                         <p className="font-semibold text-white/90 text-sm">{obj.q}</p>
                         <p className="text-slate-500 text-sm mt-1">{obj.a}</p>
                       </div>

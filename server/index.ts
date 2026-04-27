@@ -21,7 +21,7 @@ app.use((req, res, next) => {
   res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, DELETE, OPTIONS');
   res.header(
     'Access-Control-Allow-Headers',
-    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization',
   );
 
   if (req.method === 'OPTIONS') {
@@ -53,22 +53,14 @@ app.get('/', (req, res) => {
 });
 
 // Error handling
-app.use(
-  (
-    err: Error,
-    req: express.Request,
-    res: express.Response,
-    next: express.NextFunction
-  ) => {
-    res.status(500).json({
-      error: 'Internal server error',
-      message: err.message,
-    });
-  }
-);
+app.use((err: Error, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  res.status(500).json({
+    error: 'Internal server error',
+    message: err.message,
+  });
+});
 
 // Start server
-app.listen(PORT, '0.0.0.0', () => {
-});
+app.listen(PORT, '0.0.0.0', () => {});
 
 export default app;

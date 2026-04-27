@@ -5,7 +5,6 @@ import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
 
-
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
@@ -18,18 +17,16 @@ export const metadata: Metadata = {
 
 const ALLOWED_ROLES = ['staff', 'admin', 'super_admin', 'advisor'];
 
-export default async function StaffPortalLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default async function StaffPortalLayout({ children }: { children: React.ReactNode }) {
   // Auth check — unauthenticated users see the page without staff chrome.
   // proxy.ts handles redirect for protected sub-routes; this layout adds
   // defense-in-depth by verifying role for authenticated users.
   const supabase = await createClient();
   const db = await getAdminClient();
   if (!db) throw new Error('Admin client failed to initialize');
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     // Not logged in — render children (landing page is public, sub-pages
@@ -50,14 +47,14 @@ export default async function StaffPortalLayout({
   const isAdmin = ['admin', 'super_admin'].includes(profile.role);
 
   const staffNavItems = [
-    { href: '/staff-portal/dashboard',        label: 'Dashboard' },
-    { href: '/staff-portal/students',          label: 'Students' },
-    { href: '/staff-portal/cases',             label: 'Cases' },
+    { href: '/staff-portal/dashboard', label: 'Dashboard' },
+    { href: '/staff-portal/students', label: 'Students' },
+    { href: '/staff-portal/cases', label: 'Cases' },
     { href: '/staff-portal/attendance/record', label: 'Attendance' },
-    { href: '/staff-portal/courses',           label: 'Courses' },
-    { href: '/staff-portal/campaigns',         label: 'Campaigns' },
-    { href: '/staff-portal/booth-renters',     label: 'Booth Renters' },
-    { href: '/staff-portal/reports',           label: 'Reports' },
+    { href: '/staff-portal/courses', label: 'Courses' },
+    { href: '/staff-portal/campaigns', label: 'Campaigns' },
+    { href: '/staff-portal/booth-renters', label: 'Booth Renters' },
+    { href: '/staff-portal/reports', label: 'Reports' },
     ...(isAdmin ? [{ href: '/admin/hr/employees', label: 'HR & Payroll' }] : []),
   ];
 
@@ -71,7 +68,13 @@ export default async function StaffPortalLayout({
               <span className="text-lg font-bold text-brand-blue-700">Staff Portal</span>
               <div className="hidden md:flex items-center gap-4">
                 {staffNavItems.map((item) => (
-                  <a key={item.href} href={item.href} className="text-sm text-slate-700 hover:text-brand-blue-700">{item.label}</a>
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="text-sm text-slate-700 hover:text-brand-blue-700"
+                  >
+                    {item.label}
+                  </a>
                 ))}
               </div>
             </div>

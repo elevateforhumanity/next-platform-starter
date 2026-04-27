@@ -12,12 +12,11 @@ export const dynamic = 'force-dynamic';
 
 // GET /api/wioa/support-services - Get support service requests
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 'super_admin']);
-    if (_authCheck instanceof NextResponse) return _authCheck;
-    const supabase = _authCheck.adminDb;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 'super_admin']);
+  if (_authCheck instanceof NextResponse) return _authCheck;
+  const supabase = _authCheck.adminDb;
   try {
     const { searchParams } = new URL(request.url);
     const userId = searchParams.get('userId');
@@ -38,25 +37,25 @@ const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 's
     if (error) throw error;
 
     return NextResponse.json({ success: true, data });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
         success: false,
         error: { code: 'SERVER_ERROR', message: toErrorMessage(error) },
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 // POST /api/wioa/support-services - Request support service
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 'super_admin']);
-    if (_authCheck instanceof NextResponse) return _authCheck;
-    const supabase = _authCheck.adminDb;
+  if (_authCheck instanceof NextResponse) return _authCheck;
+  const supabase = _authCheck.adminDb;
   try {
     const body = await parseBody<Record<string, any>>(request);
     const {
@@ -96,13 +95,13 @@ async function _POST(request: NextRequest) {
     if (error) throw error;
 
     return NextResponse.json({ success: true, data }, { status: 201 });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
         success: false,
         error: { code: 'SERVER_ERROR', message: toErrorMessage(error) },
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -65,7 +65,7 @@ interface GeneratedLesson {
 // ── Helpers ─────────────────────────────────────────────────────────────
 
 function sleep(ms: number) {
-  return new Promise(r => setTimeout(r, ms));
+  return new Promise((r) => setTimeout(r, ms));
 }
 
 function ensureDir(dir: string) {
@@ -77,7 +77,7 @@ function ensureDir(dir: string) {
 async function generateLessonContent(
   lessonNumber: number,
   title: string,
-  allLessons: LessonRow[]
+  allLessons: LessonRow[],
 ): Promise<GeneratedLesson> {
   // Determine context: what module, what came before
   const moduleNum = Math.ceil(lessonNumber / 6); // approximate
@@ -149,10 +149,7 @@ ${isCareerLesson ? 'This is a career readiness lesson. Focus on practical job-se
 
 // ── Step 2: Generate DALL-E diagram ─────────────────────────────────────
 
-async function generateDiagram(
-  prompt: string,
-  lessonNumber: number
-): Promise<string> {
+async function generateDiagram(prompt: string, lessonNumber: number): Promise<string> {
   const outPath = path.join(OUT_DIR, `lesson-${lessonNumber}`, 'diagram.png');
 
   if (fs.existsSync(outPath)) {
@@ -177,17 +174,16 @@ async function generateDiagram(
 
   // Scale to 1280x720 for video
   const scaledPath = path.join(OUT_DIR, `lesson-${lessonNumber}`, 'diagram-720.png');
-  execSync(`ffmpeg -y -i "${outPath}" -vf "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2:color=0x0A1628" "${scaledPath}" 2>/dev/null`);
+  execSync(
+    `ffmpeg -y -i "${outPath}" -vf "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2:color=0x0A1628" "${scaledPath}" 2>/dev/null`,
+  );
 
   return scaledPath;
 }
 
 // ── Step 3: Generate TTS audio ──────────────────────────────────────────
 
-async function generateTTS(
-  script: string,
-  lessonNumber: number
-): Promise<string> {
+async function generateTTS(script: string, lessonNumber: number): Promise<string> {
   const outPath = path.join(OUT_DIR, `lesson-${lessonNumber}`, 'audio.mp3');
 
   if (fs.existsSync(outPath)) {
@@ -214,7 +210,7 @@ function compositeVideo(
   diagramPath: string | null,
   labels: { text: string; fadeInSec: number }[],
   title: string,
-  lessonNumber: number
+  lessonNumber: number,
 ): string {
   const outPath = path.join(OUT_DIR, `lesson-${lessonNumber}`, 'video.mp4');
 
@@ -224,7 +220,11 @@ function compositeVideo(
   }
 
   // Get audio duration
-  const durStr = execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${audioPath}"`).toString().trim();
+  const durStr = execSync(
+    `ffprobe -v error -show_entries format=duration -of csv=p=0 "${audioPath}"`,
+  )
+    .toString()
+    .trim();
   const duration = parseFloat(durStr);
 
   // Sanitize title for ffmpeg (remove special chars)
@@ -277,7 +277,7 @@ function compositeVideo(
     fc += `[out]`;
 
     execSync(
-      `ffmpeg -y ${inputs} -filter_complex "${fc}" -map "[out]" -map 2:a -c:v libx264 -preset fast -crf 22 -c:a aac -b:a 128k -shortest "${outPath}" 2>/dev/null`
+      `ffmpeg -y ${inputs} -filter_complex "${fc}" -map "[out]" -map 2:a -c:v libx264 -preset fast -crf 22 -c:a aac -b:a 128k -shortest "${outPath}" 2>/dev/null`,
     );
   } else {
     // No diagram — Brandon full frame with text overlays
@@ -300,7 +300,7 @@ function compositeVideo(
     fc += `[out]`;
 
     execSync(
-      `ffmpeg -y ${inputs} -filter_complex "${fc}" -map "[out]" -map 1:a -c:v libx264 -preset fast -crf 22 -c:a aac -b:a 128k -shortest "${outPath}" 2>/dev/null`
+      `ffmpeg -y ${inputs} -filter_complex "${fc}" -map "[out]" -map 1:a -c:v libx264 -preset fast -crf 22 -c:a aac -b:a 128k -shortest "${outPath}" 2>/dev/null`,
     );
   }
 
@@ -311,7 +311,7 @@ function compositeVideo(
 
 async function transcribeAudio(
   audioPath: string,
-  lessonNumber: number
+  lessonNumber: number,
 ): Promise<{ start: number; end: number; text: string }[]> {
   const outPath = path.join(OUT_DIR, `lesson-${lessonNumber}`, 'captions.json');
 
@@ -342,7 +342,7 @@ async function transcribeAudio(
 async function uploadVideo(
   videoPath: string,
   lessonId: string,
-  lessonNumber: number
+  lessonNumber: number,
 ): Promise<string> {
   const file = fs.readFileSync(videoPath);
   const storagePath = `hvac/hvac-lesson-${String(lessonNumber).padStart(3, '0')}.mp4`;
@@ -357,10 +357,7 @@ async function uploadVideo(
   const publicUrl = urlData.publicUrl;
 
   // Update lesson record
-  await supabase
-    .from('training_lessons')
-    .update({ video_url: publicUrl })
-    .eq('id', lessonId);
+  await supabase.from('training_lessons').update({ video_url: publicUrl }).eq('id', lessonId);
 
   return publicUrl;
 }
@@ -392,12 +389,12 @@ async function main() {
   // Filter
   let toProcess = lessons as LessonRow[];
   if (filterLesson) {
-    toProcess = toProcess.filter(l => l.lesson_number === filterLesson);
+    toProcess = toProcess.filter((l) => l.lesson_number === filterLesson);
   } else if (filterModule) {
     // Approximate module boundaries (6 lessons per module)
     const start = (filterModule - 1) * 6 + 1;
     const end = filterModule * 8; // generous range
-    toProcess = toProcess.filter(l => l.lesson_number >= start && l.lesson_number <= end);
+    toProcess = toProcess.filter((l) => l.lesson_number >= start && l.lesson_number <= end);
   }
 
   console.log(`\n=== HVAC Lesson Generation Pipeline ===`);
@@ -416,7 +413,9 @@ async function main() {
     // Check if already fully generated
     const videoExists = fs.existsSync(path.join(lessonDir, 'video.mp4'));
     if (videoExists && lesson.video_url && !args.includes('--force')) {
-      console.log(`[${lesson.lesson_number}/${lessons.length}] ${lesson.title} — SKIP (already done)`);
+      console.log(
+        `[${lesson.lesson_number}/${lessons.length}] ${lesson.title} — SKIP (already done)`,
+      );
       skipped++;
       continue;
     }
@@ -464,14 +463,16 @@ async function main() {
         diagramPath,
         content.labels,
         lesson.title,
-        lesson.lesson_number
+        lesson.lesson_number,
       );
 
       // Step 5: Transcribe
       console.log(`  5. Transcribing captions...`);
       const captions = await transcribeAudio(audioPath, lesson.lesson_number);
       const audioDur = parseFloat(
-        execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${audioPath}"`).toString().trim()
+        execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${audioPath}"`)
+          .toString()
+          .trim(),
       );
       totalCost += (audioDur / 60) * 0.006;
 

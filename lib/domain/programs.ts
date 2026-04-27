@@ -11,7 +11,7 @@
 export interface RawProgramRow {
   id: string;
   name: string | null;
-  title: string | null;           // some rows use title instead of name
+  title: string | null; // some rows use title instead of name
   slug: string | null;
   code: string | null;
   description: string | null;

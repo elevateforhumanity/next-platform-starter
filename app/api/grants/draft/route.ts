@@ -1,4 +1,3 @@
-
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
@@ -30,14 +29,8 @@ async function _POST(req: NextRequest) {
   const auth = await apiAuthGuard(req);
   if (auth.error) return auth.error;
 
-  if (
-    !process.env.OPENAI_API_KEY ||
-    process.env.OPENAI_API_KEY === 'Content-key'
-  ) {
-    return NextResponse.json(
-      { error: 'AI features not configured' },
-      { status: 503 }
-    );
+  if (!process.env.OPENAI_API_KEY || process.env.OPENAI_API_KEY === 'Content-key') {
+    return NextResponse.json({ error: 'AI features not configured' }, { status: 503 });
   }
   try {
     const supabaseAdmin = await getAdminClient();
@@ -45,10 +38,7 @@ async function _POST(req: NextRequest) {
     const { grantId, entityId } = body as { grantId: string; entityId: string };
 
     if (!grantId || !entityId) {
-      return NextResponse.json(
-        { error: 'grantId and entityId are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'grantId and entityId are required' }, { status: 400 });
     }
 
     const { data: grant, error: grantError } = await supabaseAdmin
@@ -135,17 +125,14 @@ Focus on workforce, community impact, and elevation if applicable.
           draft_narrative: content,
           status: 'draft',
         },
-        { onConflict: 'grant_id,entity_id' }
+        { onConflict: 'grant_id,entity_id' },
       )
       .select()
       .single();
 
     if (appError || !app) {
       logger.error(appError);
-      return NextResponse.json(
-        { error: 'Failed to save grant application' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to save grant application' }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -155,10 +142,7 @@ Focus on workforce, community impact, and elevation if applicable.
     });
   } catch (err) {
     logger.error(err);
-    return NextResponse.json(
-      { error: 'Unexpected error while drafting grant' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Unexpected error while drafting grant' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/grants/draft', _POST);

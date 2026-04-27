@@ -19,7 +19,7 @@ const ALLOWED_PREFIXES = ['NEXT_PUBLIC_'];
  * Validate that an env var name is safe to inject
  */
 function isAllowedEnvVar(name: string): boolean {
-  return ALLOWED_PREFIXES.some(prefix => name.startsWith(prefix));
+  return ALLOWED_PREFIXES.some((prefix) => name.startsWith(prefix));
 }
 
 /**
@@ -27,13 +27,13 @@ function isAllowedEnvVar(name: string): boolean {
  */
 function filterEnvConfig(config: Record<string, string | undefined>): Record<string, string> {
   const filtered: Record<string, string> = {};
-  
+
   for (const [key, value] of Object.entries(config)) {
     if (isAllowedEnvVar(key) && value !== undefined) {
       filtered[key] = value;
     }
   }
-  
+
   return filtered;
 }
 
@@ -44,7 +44,7 @@ function generateEnvFileContent(config: Record<string, string>): string {
   const lines = Object.entries(config)
     .map(([key, value]) => `${key}=${value}`)
     .sort();
-  
+
   return lines.join('\n') + '\n';
 }
 
@@ -54,14 +54,14 @@ function generateEnvFileContent(config: Record<string, string>): string {
  */
 export async function injectEnvVars(config: DevStudioEnvConfig): Promise<void> {
   const runtime = getRuntime();
-  
+
   if (!runtime.isReady()) {
     throw new Error('WebContainer not ready');
   }
-  
+
   const safeConfig = filterEnvConfig(config as Record<string, string | undefined>);
   const envContent = generateEnvFileContent(safeConfig);
-  
+
   await runtime.writeFile('.env.local', envContent);
 }
 
@@ -83,7 +83,7 @@ export function getDefaultEnvConfig(): DevStudioEnvConfig {
  */
 export function loadStoredEnvConfig(): DevStudioEnvConfig | null {
   if (typeof window === 'undefined') return null;
-  
+
   try {
     const stored = localStorage.getItem('devstudio_env');
     if (stored) {
@@ -93,7 +93,7 @@ export function loadStoredEnvConfig(): DevStudioEnvConfig | null {
   } catch {
     // Invalid stored config
   }
-  
+
   return null;
 }
 
@@ -102,7 +102,7 @@ export function loadStoredEnvConfig(): DevStudioEnvConfig | null {
  */
 export function saveEnvConfig(config: DevStudioEnvConfig): void {
   if (typeof window === 'undefined') return;
-  
+
   const safeConfig = filterEnvConfig(config as Record<string, string | undefined>);
   localStorage.setItem('devstudio_env', JSON.stringify(safeConfig));
 }

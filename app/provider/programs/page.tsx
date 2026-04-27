@@ -16,16 +16,24 @@ const STATUS_COLORS: Record<string, string> = {
 
 export default async function ProviderProgramsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/provider/programs');
 
   const db = await getAdminClient();
-  const { data: profile } = await supabase.from('profiles').select('tenant_id').eq('id', user.id).maybeSingle();
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('tenant_id')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!profile?.tenant_id) redirect('/unauthorized');
 
   const { data: programs } = await supabase
     .from('programs')
-    .select('id, title, status, published, is_active, created_at, next_start_date, seats_available, credential_name')
+    .select(
+      'id, title, status, published, is_active, created_at, next_start_date, seats_available, credential_name',
+    )
     .eq('tenant_id', profile.tenant_id)
     .order('created_at', { ascending: false });
 
@@ -57,9 +65,9 @@ export default async function ProviderProgramsPage() {
         </div>
       ) : (
         <div className="bg-white rounded-xl border border-slate-200 divide-y divide-slate-100">
-          {(programs ?? []).map(prog => {
-            const displayStatus = prog.published && prog.is_active ? 'published'
-              : prog.status ?? 'draft';
+          {(programs ?? []).map((prog) => {
+            const displayStatus =
+              prog.published && prog.is_active ? 'published' : (prog.status ?? 'draft');
             return (
               <div key={prog.id} className="flex items-center justify-between px-5 py-4">
                 <div>
@@ -72,7 +80,9 @@ export default async function ProviderProgramsPage() {
                     {prog.seats_available != null && <span>{prog.seats_available} seats</span>}
                   </div>
                 </div>
-                <span className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_COLORS[displayStatus] ?? 'bg-white text-slate-500'}`}>
+                <span
+                  className={`text-xs font-semibold px-2.5 py-1 rounded-full capitalize ${STATUS_COLORS[displayStatus] ?? 'bg-white text-slate-500'}`}
+                >
                   {displayStatus.replace('_', ' ')}
                 </span>
               </div>

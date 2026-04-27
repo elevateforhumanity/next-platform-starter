@@ -18,7 +18,9 @@ export const dynamic = 'force-dynamic';
  */
 export default async function PartnerDashboardPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) redirect('/partner/login');
 
@@ -48,7 +50,9 @@ export default async function PartnerDashboardPage() {
   // Resolve partner record via partner_users join (partners has no user_id column)
   const { data: partnerLink } = await db
     .from('partner_users')
-    .select('partner_id, status, partners(id, partner_type, approval_status, status, onboarding_completed, mou_signed, documents_verified)')
+    .select(
+      'partner_id, status, partners(id, partner_type, approval_status, status, onboarding_completed, mou_signed, documents_verified)',
+    )
     .eq('user_id', user.id)
     .eq('status', 'active')
     .maybeSingle();
@@ -78,7 +82,8 @@ export default async function PartnerDashboardPage() {
   // table — the new flow writes mou_signed_at to barbershop_partner_applications, not
   // partners.mou_signed, so we must check both to avoid looping approved partners back
   // to the old onboarding page.
-  const isTrainingSite = partner.partner_type === 'training_site' || partner.partner_type === 'barber';
+  const isTrainingSite =
+    partner.partner_type === 'training_site' || partner.partner_type === 'barber';
   if (isTrainingSite || !partner.onboarding_completed) {
     // Check new-flow MOU status via barbershop_partner_applications
     const { data: bpa } = await db

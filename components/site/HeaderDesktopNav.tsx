@@ -55,12 +55,12 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
           ) : (
             <span className="text-slate-700 font-medium text-sm py-2">{item.name}</span>
           )}
-          
+
           {/* Dropdown - visible on hover or keyboard focus-within */}
           {item.subItems && item.subItems.length > 0 && (
             <div className="absolute top-full left-0 pt-2 opacity-0 invisible group-hover:opacity-100 group-hover:visible group-focus-within:opacity-100 group-focus-within:visible transition-all duration-200">
               <div className="bg-white rounded-lg shadow-lg border border-slate-200 py-2 min-w-[220px] max-h-[70vh] overflow-y-auto">
-                {item.subItems.map((subItem) => (
+                {item.subItems.map((subItem) =>
                   subItem.isHeader ? (
                     <div
                       key={subItem.name}
@@ -81,8 +81,8 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
                     >
                       {subItem.name}
                     </Link>
-                  )
-                ))}
+                  ),
+                )}
               </div>
             </div>
           )}

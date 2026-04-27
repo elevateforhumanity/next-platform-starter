@@ -34,7 +34,14 @@ export type AuditEntity =
   | 'payroll'
   | 'pii';
 
-export type ActorRole = 'sponsor' | 'employer' | 'workone' | 'admin' | 'system' | 'staff' | 'preparer';
+export type ActorRole =
+  | 'sponsor'
+  | 'employer'
+  | 'workone'
+  | 'admin'
+  | 'system'
+  | 'staff'
+  | 'preparer';
 
 export interface AuditLogParams {
   actor_user_id?: string;
@@ -96,7 +103,8 @@ export async function auditLog({
       logger.error('Failed to write audit log:', error);
       // Don't throw - audit logging should never break the main flow
     }
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('Audit log exception:', error);
     // Silent fail - audit logging is critical but shouldn't break operations
   }
@@ -127,7 +135,7 @@ interface GetAuditLogsResult {
 export async function getAuditLogs(
   params: GetAuditLogsParams | AuditEntity,
   entity_id?: string,
-  limit = 100
+  limit = 100,
 ): Promise<GetAuditLogsResult> {
   const supabase = await getAdminClient();
 
@@ -183,10 +191,7 @@ export async function getAuditLogs(
 /**
  * Query audit logs by actor
  */
-export async function getAuditLogsByActor(
-  actor_user_id: string,
-  limit = 100
-) {
+export async function getAuditLogsByActor(actor_user_id: string, limit = 100) {
   const supabase = await getAdminClient();
 
   const { data, error }: any = await supabase
@@ -250,7 +255,7 @@ export async function getAuditStats(days = 30) {
  * Helper to log before/after changes
  */
 export async function auditChange(
-  params: Omit<AuditLogParams, 'action'> & { action?: AuditAction }
+  params: Omit<AuditLogParams, 'action'> & { action?: AuditAction },
 ) {
   return auditLog({
     ...params,
@@ -265,7 +270,7 @@ export async function auditExport(
   entity: AuditEntity,
   actor_user_id?: string,
   actor_role: ActorRole = 'workone',
-  req?: Request
+  req?: Request,
 ) {
   return auditLog({
     actor_user_id,
@@ -307,4 +312,3 @@ export async function auditPiiAccess({
     metadata,
   });
 }
-

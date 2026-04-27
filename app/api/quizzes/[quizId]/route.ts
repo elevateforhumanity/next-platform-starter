@@ -12,21 +12,19 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 // GET /api/quizzes/[quizId] - Load quiz with questions
-async function _GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ quizId: string }> }
-) {
+async function _GET(request: NextRequest, { params }: { params: Promise<{ quizId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
     // Auth: require authenticated user
     const { createClient: createAuthClient } = await import('@/lib/supabase/server');
     const authSupabase = await createAuthClient();
-    const { data: { session: authSession } } = await authSupabase.auth.getSession();
+    const {
+      data: { session: authSession },
+    } = await authSupabase.auth.getSession();
     if (!authSession) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-
 
     const supabase = await getAdminClient();
     const { quizId } = await params;
@@ -58,19 +56,16 @@ async function _GET(
       quiz,
       questions: finalQuestions,
     });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to load quiz' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 // POST /api/quizzes/[quizId] - Submit quiz attempt
-async function _POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ quizId: string }> }
-) {
+async function _POST(request: NextRequest, { params }: { params: Promise<{ quizId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -78,7 +73,9 @@ async function _POST(
     // Require auth and derive userId from session — never trust caller-supplied userId.
     const { createClient: createAuthClient } = await import('@/lib/supabase/server');
     const authSupabase = await createAuthClient();
-    const { data: { session: authSession } } = await authSupabase.auth.getSession();
+    const {
+      data: { session: authSession },
+    } = await authSupabase.auth.getSession();
     if (!authSession) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -148,8 +145,7 @@ async function _POST(
       const userAnswer = answers[question.id];
       const correctAnswer = question.correct_answer;
 
-      const isCorrect =
-        JSON.stringify(userAnswer) === JSON.stringify(correctAnswer);
+      const isCorrect = JSON.stringify(userAnswer) === JSON.stringify(correctAnswer);
       if (isCorrect) correctCount++;
 
       feedback[question.id] = {
@@ -162,7 +158,7 @@ async function _POST(
 
     const totalPoints = questions.reduce(
       (sum: number, q: { points?: number }) => sum + (q.points || 1),
-      0
+      0,
     );
     const score = correctCount;
     const percentage = (score / questions.length) * 100;
@@ -178,16 +174,11 @@ async function _POST(
       .limit(1);
 
     const attemptNumber =
-      previousAttempts && previousAttempts.length > 0
-        ? previousAttempts[0].attempt_number + 1
-        : 1;
+      previousAttempts && previousAttempts.length > 0 ? previousAttempts[0].attempt_number + 1 : 1;
 
     // Check max attempts
     if (quiz.max_attempts && attemptNumber > quiz.max_attempts) {
-      return NextResponse.json(
-        { error: 'Maximum attempts exceeded' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Maximum attempts exceeded' }, { status: 400 });
     }
 
     // Save attempt
@@ -219,10 +210,10 @@ async function _POST(
       attemptNumber,
       maxAttempts: quiz.max_attempts,
     });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to submit quiz' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

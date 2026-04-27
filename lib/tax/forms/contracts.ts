@@ -89,22 +89,20 @@ export class FormRegistry {
 
   find(taxYear: number, jurisdiction: string, formCode: string): FormRegistryEntry | undefined {
     return this.entries.find(
-      e => e.taxYear === taxYear &&
-           e.jurisdiction === jurisdiction &&
-           e.formCode === formCode
+      (e) => e.taxYear === taxYear && e.jurisdiction === jurisdiction && e.formCode === formCode,
     );
   }
 
   listByYear(taxYear: number): FormRegistryEntry[] {
-    return this.entries.filter(e => e.taxYear === taxYear);
+    return this.entries.filter((e) => e.taxYear === taxYear);
   }
 
   listFederal(taxYear: number): FormRegistryEntry[] {
-    return this.entries.filter(e => e.taxYear === taxYear && e.jurisdiction === 'federal');
+    return this.entries.filter((e) => e.taxYear === taxYear && e.jurisdiction === 'federal');
   }
 
   listState(taxYear: number, stateCode: string): FormRegistryEntry[] {
-    return this.entries.filter(e => e.taxYear === taxYear && e.jurisdiction === stateCode);
+    return this.entries.filter((e) => e.taxYear === taxYear && e.jurisdiction === stateCode);
   }
 }
 

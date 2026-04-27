@@ -1,6 +1,6 @@
 /**
  * Generate Missing Media Files
- * 
+ *
  * Creates the 6 missing video/audio files using OpenAI TTS
  * Run with: npx tsx scripts/generate-missing-media.ts
  */
@@ -37,7 +37,7 @@ Your next chapter starts here. Let's get you where you want to go.`,
   },
   {
     filename: 'homepage-hero-new.mp3',
-    type: 'audio', 
+    type: 'audio',
     voice: 'onyx',
     description: 'Homepage hero background narration',
     script: `Build your future with Elevate for Humanity.
@@ -53,7 +53,7 @@ Start your journey today.`,
   {
     filename: 'program-hero.mp3',
     type: 'audio',
-    voice: 'shimmer', 
+    voice: 'shimmer',
     description: 'Programs overview narration',
     script: `Our programs are designed for people ready to work.
 
@@ -105,7 +105,7 @@ async function generateAudio(spec: MediaSpec): Promise<void> {
   console.log(`\nGenerating: ${spec.filename}`);
   console.log(`Voice: ${spec.voice}`);
   console.log(`Script length: ${spec.script.length} characters`);
-  
+
   try {
     const response = await openai.audio.speech.create({
       model: 'tts-1-hd',
@@ -116,9 +116,9 @@ async function generateAudio(spec: MediaSpec): Promise<void> {
 
     const buffer = Buffer.from(await response.arrayBuffer());
     const outputPath = path.join(process.cwd(), 'public', 'videos', spec.filename);
-    
+
     await fs.writeFile(outputPath, buffer);
-    
+
     const stats = await fs.stat(outputPath);
     console.log(`✅ Created: ${spec.filename} (${Math.round(stats.size / 1024)}KB)`);
   } catch (error) {
@@ -131,29 +131,29 @@ async function main() {
   console.log('='.repeat(60));
   console.log('GENERATING MISSING MEDIA FILES');
   console.log('='.repeat(60));
-  
+
   // Ensure output directory exists
   const outputDir = path.join(process.cwd(), 'public', 'videos');
   await fs.mkdir(outputDir, { recursive: true });
-  
+
   let successCount = 0;
   let failCount = 0;
-  
+
   for (const spec of MEDIA_SPECS) {
     try {
       await generateAudio(spec);
       successCount++;
       // Rate limit: wait 1 second between requests
-      await new Promise(resolve => setTimeout(resolve, 1000));
+      await new Promise((resolve) => setTimeout(resolve, 1000));
     } catch (error) {
       failCount++;
     }
   }
-  
+
   console.log('\n' + '='.repeat(60));
   console.log(`COMPLETE: ${successCount} succeeded, ${failCount} failed`);
   console.log('='.repeat(60));
-  
+
   if (failCount > 0) {
     process.exit(1);
   }

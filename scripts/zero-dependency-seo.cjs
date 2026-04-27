@@ -266,17 +266,11 @@ function analyzeHTML(html) {
     hasOG: /<meta\s+property=["']og:/.test(html),
     hasTwitter: /<meta\s+property=["']twitter:/.test(html),
     hasCanonical: /<link\s+rel=["']canonical["']/.test(html),
-    hasStructuredData: /<script\s+type=["']application\/ld\+json["']>/.test(
-      html
-    ),
-    hasKeywords: CONFIG.keywords.some((k) =>
-      html.toLowerCase().includes(k.toLowerCase())
-    ),
+    hasStructuredData: /<script\s+type=["']application\/ld\+json["']>/.test(html),
+    hasKeywords: CONFIG.keywords.some((k) => html.toLowerCase().includes(k.toLowerCase())),
     titleContent: (html.match(/<title>(.*?)<\/title>/i) || [])[1] || '',
     metaDescContent:
-      (html.match(
-        /<meta\s+name=["']description["']\s+content=["'](.*?)["']/i
-      ) || [])[1] || '',
+      (html.match(/<meta\s+name=["']description["']\s+content=["'](.*?)["']/i) || [])[1] || '',
   };
 }
 
@@ -311,10 +305,7 @@ function injectSEOHead(html) {
   const seoHead = generateSEOHead();
 
   // Remove old SEO tags
-  let updated = html.replace(
-    /<!-- SEO Meta Tags - Auto-generated -->[\s\S]*?<\/script>/g,
-    ''
-  );
+  let updated = html.replace(/<!-- SEO Meta Tags - Auto-generated -->[\s\S]*?<\/script>/g, '');
 
   // Inject before </head>
   if (updated.includes('</head>')) {
@@ -433,11 +424,7 @@ function main() {
   // Step 5: Test sitemap accessibility
   console.log('🧪 Step 5: Testing generated files...');
 
-  const testFiles = [
-    './dist/sitemap.xml',
-    './dist/robots.txt',
-    './dist/index.html',
-  ];
+  const testFiles = ['./dist/sitemap.xml', './dist/robots.txt', './dist/index.html'];
 
   let allTestsPassed = true;
   testFiles.forEach((filepath) => {
@@ -459,9 +446,7 @@ function main() {
   console.log(`  Files processed: ${results.filesProcessed}`);
   console.log(`  Files updated:   ${results.filesUpdated}`);
   console.log(`  Errors:          ${results.errors.length}`);
-  console.log(
-    `  Tests passed:    ${allTestsPassed ? '✅ All' : '❌ Some failed'}`
-  );
+  console.log(`  Tests passed:    ${allTestsPassed ? '✅ All' : '❌ Some failed'}`);
   console.log('');
 
   if (results.errors.length > 0) {

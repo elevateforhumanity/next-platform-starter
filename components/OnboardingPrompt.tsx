@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -14,7 +14,10 @@ interface OnboardingPromptProps {
 }
 
 export default function OnboardingPrompt({ userId, userRole }: OnboardingPromptProps) {
-  const { recommendedFlows, loading, startFlow, skipFlow, hasRecommendedFlows } = useOnboarding(userId, userRole);
+  const { recommendedFlows, loading, startFlow, skipFlow, hasRecommendedFlows } = useOnboarding(
+    userId,
+    userRole,
+  );
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [selectedFlow, setSelectedFlow] = useState<string | null>(null);
   const [dismissed, setDismissed] = useState(false);
@@ -64,12 +67,10 @@ export default function OnboardingPrompt({ userId, userRole }: OnboardingPromptP
             <Rocket className="w-6 h-6 text-white" />
           </div>
           <div className="flex-1">
-            <h3 className="text-xl font-bold text-white mb-2">
-              {primaryFlow.name}
-            </h3>
+            <h3 className="text-xl font-bold text-white mb-2">{primaryFlow.name}</h3>
             <p className="text-white mb-4">
-              Take a quick tour to learn how to make the most of your experience.
-              It only takes a few minutes!
+              Take a quick tour to learn how to make the most of your experience. It only takes a
+              few minutes!
             </p>
             <div className="flex flex-wrap gap-3">
               <button

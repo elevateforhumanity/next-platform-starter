@@ -7,16 +7,41 @@ import { Bot, MessageCircle, BookOpen, Clock, Lightbulb, Shield } from 'lucide-r
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/ai-tutor' },
   title: 'AI Tutor | Elevate For Humanity',
-  description: 'Get personalized learning support from our AI tutor. Available 24/7 to help with coursework, exam prep, and study questions.',
+  description:
+    'Get personalized learning support from our AI tutor. Available 24/7 to help with coursework, exam prep, and study questions.',
 };
 
 const FEATURES = [
-  { title: '24/7 Availability', desc: 'Get help anytime — evenings, weekends, and holidays. No scheduling required.', icon: Clock },
-  { title: 'Course-Specific Help', desc: 'The AI tutor understands your program curriculum and can answer questions about your specific coursework.', icon: BookOpen },
-  { title: 'Exam Preparation', desc: 'Practice questions, concept explanations, and study strategies tailored to your certification exam.', icon: Lightbulb },
-  { title: 'Conversational Learning', desc: 'Ask questions in plain language and get clear, step-by-step explanations.', icon: MessageCircle },
-  { title: 'Safe & Private', desc: 'Your conversations are private. The AI tutor does not share your data with other students or third parties.', icon: Shield },
-  { title: 'Supplement, Not Replace', desc: 'The AI tutor supports your learning alongside your instructor — it does not replace classroom instruction.', icon: Bot },
+  {
+    title: '24/7 Availability',
+    desc: 'Get help anytime — evenings, weekends, and holidays. No scheduling required.',
+    icon: Clock,
+  },
+  {
+    title: 'Course-Specific Help',
+    desc: 'The AI tutor understands your program curriculum and can answer questions about your specific coursework.',
+    icon: BookOpen,
+  },
+  {
+    title: 'Exam Preparation',
+    desc: 'Practice questions, concept explanations, and study strategies tailored to your certification exam.',
+    icon: Lightbulb,
+  },
+  {
+    title: 'Conversational Learning',
+    desc: 'Ask questions in plain language and get clear, step-by-step explanations.',
+    icon: MessageCircle,
+  },
+  {
+    title: 'Safe & Private',
+    desc: 'Your conversations are private. The AI tutor does not share your data with other students or third parties.',
+    icon: Shield,
+  },
+  {
+    title: 'Supplement, Not Replace',
+    desc: 'The AI tutor supports your learning alongside your instructor — it does not replace classroom instruction.',
+    icon: Bot,
+  },
 ];
 
 export default function AiTutorPage() {
@@ -30,12 +55,22 @@ export default function AiTutorPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
-          <Image src="/images/pages/ai-tutor-page-1.jpg" alt="AI Tutor" fill className="object-cover" priority sizes="100vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src="/images/pages/ai-tutor-page-1.jpg"
+            alt="AI Tutor"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-white py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
             <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">AI Tutor</h1>
-            <p className="text-lg text-slate-600 max-w-3xl mx-auto">Personalized learning support available around the clock.</p>
+            <p className="text-lg text-slate-600 max-w-3xl mx-auto">
+              Personalized learning support available around the clock.
+            </p>
           </div>
         </div>
       </section>
@@ -63,11 +98,22 @@ export default function AiTutorPage() {
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-xl font-bold text-gray-900 mb-4">How to Access</h2>
           <p className="text-gray-600 mb-6">
-            The AI Tutor is available to enrolled students through the student portal. Log in to start a conversation.
+            The AI Tutor is available to enrolled students through the student portal. Log in to
+            start a conversation.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
-            <Link href="/login" className="bg-brand-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition">Student Login</Link>
-            <Link href="/programs" className="bg-white text-brand-blue-600 border border-brand-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-50 transition">Browse Programs</Link>
+            <Link
+              href="/login"
+              className="bg-brand-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition"
+            >
+              Student Login
+            </Link>
+            <Link
+              href="/programs"
+              className="bg-white text-brand-blue-600 border border-brand-blue-600 px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-50 transition"
+            >
+              Browse Programs
+            </Link>
           </div>
         </div>
       </section>

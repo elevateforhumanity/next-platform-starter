@@ -152,14 +152,16 @@ async function main() {
 
   console.log(`\n📧 Sending reapply emails to ${recipients.length} HVAC applicants\n`);
 
-  let sent = 0, failed = 0;
+  let sent = 0,
+    failed = 0;
 
   for (const r of recipients) {
     process.stdout.write(`  ${r.email} ... `);
     const ok = await sendEmail(r.email, r.firstName);
     console.log(ok ? '✅' : '❌');
-    if (ok) sent++; else failed++;
-    await new Promise(res => setTimeout(res, 400));
+    if (ok) sent++;
+    else failed++;
+    await new Promise((res) => setTimeout(res, 400));
   }
 
   console.log(`\n─────────────────────────────────`);
@@ -170,4 +172,7 @@ async function main() {
   if (failed > 0) process.exit(1);
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e);
+  process.exit(1);
+});

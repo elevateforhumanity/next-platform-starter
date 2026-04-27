@@ -1,6 +1,6 @@
 /**
  * @deprecated Use @/lib/licensing instead. This module will be removed in a future version.
- * 
+ *
  * Migration guide:
  * - getTenantLicense -> import { getTenantLicense } from '@/lib/licensing'
  * - enforceLimits -> import { checkUsageLimits, requireValidLicense } from '@/lib/licensing'
@@ -23,9 +23,7 @@ export interface TenantLicense {
  * Get tenant license details
  * @deprecated Use getTenantLicense from '@/lib/licensing' instead
  */
-export async function getTenantLicense(
-  tenantId: string
-): Promise<TenantLicense | null> {
+export async function getTenantLicense(tenantId: string): Promise<TenantLicense | null> {
   const supabase = await getAdminClient();
 
   const { data, error }: any = await supabase
@@ -48,7 +46,7 @@ export async function getTenantLicense(
 export async function enforceLimits(
   tenantId: string,
   type: 'employers' | 'apprentices',
-  current: number
+  current: number,
 ): Promise<void> {
   const license = await getTenantLicense(tenantId);
 
@@ -71,7 +69,7 @@ export async function enforceLimits(
 
   if (current >= max) {
     throw new Error(
-      `License limit reached: ${current}/${max} ${type}. Upgrade your plan to add more.`
+      `License limit reached: ${current}/${max} ${type}. Upgrade your plan to add more.`,
     );
   }
 }
@@ -143,16 +141,12 @@ export async function getLicenseUsage(tenantId: string) {
     employers: {
       current: employersResult.count || 0,
       max: license.max_employers,
-      percentage: Math.round(
-        ((employersResult.count || 0) / license.max_employers) * 100
-      ),
+      percentage: Math.round(((employersResult.count || 0) / license.max_employers) * 100),
     },
     apprentices: {
       current: apprenticesResult.count || 0,
       max: license.max_apprentices,
-      percentage: Math.round(
-        ((apprenticesResult.count || 0) / license.max_apprentices) * 100
-      ),
+      percentage: Math.round(((apprenticesResult.count || 0) / license.max_apprentices) * 100),
     },
   };
 }
@@ -185,7 +179,7 @@ export const PLAN_LIMITS = {
 export async function updateTenantLicense(
   tenantId: string,
   plan: 'starter' | 'pro' | 'enterprise',
-  expiresAt?: string
+  expiresAt?: string,
 ): Promise<TenantLicense | null> {
   const supabase = await getAdminClient();
   const limits = PLAN_LIMITS[plan];

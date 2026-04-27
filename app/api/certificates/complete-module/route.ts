@@ -15,7 +15,9 @@ async function _POST(request: NextRequest) {
 
   try {
     const supabase = await createRouteHandlerClient({ cookies });
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const { module_id, enrollment_id } = await request.json();
@@ -36,14 +38,15 @@ async function _POST(request: NextRequest) {
     }
 
     // Record module completion in lesson_progress or similar
-    const { error: progressError } = await supabase
-      .from('lesson_progress')
-      .upsert({
+    const { error: progressError } = await supabase.from('lesson_progress').upsert(
+      {
         user_id: user.id,
         lesson_id: module_id,
         completed: true,
         completed_at: new Date().toISOString(),
-      }, { onConflict: 'user_id,lesson_id' });
+      },
+      { onConflict: 'user_id,lesson_id' },
+    );
 
     if (progressError) {
       if (isCheckpointGateError(progressError)) return checkpointGateResponse();

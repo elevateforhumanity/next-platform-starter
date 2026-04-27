@@ -5,7 +5,9 @@ import { readFileSync } from 'fs';
 import path from 'path';
 
 function loadCourseDefinitions(): any[] {
-  return JSON.parse(readFileSync(path.join(process.cwd(), 'public/data/course-definitions.json'), 'utf8'));
+  return JSON.parse(
+    readFileSync(path.join(process.cwd(), 'public/data/course-definitions.json'), 'utf8'),
+  );
 }
 import { HVAC_LESSON_UUID, HVAC_MODULE_UUID } from '@/lib/courses/hvac-legacy-maps';
 
@@ -30,7 +32,10 @@ const MODULE_ID_TO_UUID: Record<string, Record<string, string>> = {
 };
 // Quiz questions are now served from course_lessons.quiz_questions in the DB.
 // The local fallback returns null for quiz fields — enrolled users get the DB path.
-const QUIZ_MAPS: Record<string, Record<string, { questions: any[]; passingScore: number; timeLimit?: number }>> = {};
+const QUIZ_MAPS: Record<
+  string,
+  Record<string, { questions: any[]; passingScore: number; timeLimit?: number }>
+> = {};
 
 /**
  * Build lesson/module response from local CourseDefinition when Supabase
@@ -67,12 +72,14 @@ function buildLocalFallback(courseId: string, slug: string, COURSE_DEFINITIONS: 
       const quiz = quizMap[lesson.id];
       const lessonUuid = lessonUuids[lesson.id] || lesson.id;
       // Auto-resolve audio URL for video/lab lessons when no explicit contentUrl
-      const resolvedVideoUrl = lesson.contentUrl
-        || (lesson.type === 'video' || lesson.type === 'lab'
+      const resolvedVideoUrl =
+        lesson.contentUrl ||
+        (lesson.type === 'video' || lesson.type === 'lab'
           ? `/hvac/audio/lesson-${lessonUuid}.mp3`
           : null);
       // Use rich generated content instead of one-line description
-      const richContent = slug === 'hvac-technician' ? buildLessonContent(lesson.id) : (lesson.description || '');
+      const richContent =
+        slug === 'hvac-technician' ? buildLessonContent(lesson.id) : lesson.description || '';
       return {
         id: lessonUuid,
         course_id: courseId,
@@ -81,7 +88,9 @@ function buildLocalFallback(courseId: string, slug: string, COURSE_DEFINITIONS: 
         video_url: resolvedVideoUrl,
         lesson_number: lessonNumber,
         order_index: li + 1,
-        duration_minutes: lesson.durationMinutes || (lesson.type === 'reading' ? 15 : lesson.type === 'assignment' ? 30 : 20),
+        duration_minutes:
+          lesson.durationMinutes ||
+          (lesson.type === 'reading' ? 15 : lesson.type === 'assignment' ? 30 : 20),
         is_required: true,
         is_published: true,
         content_type: lesson.type,
@@ -116,10 +125,7 @@ function buildLocalFallback(courseId: string, slug: string, COURSE_DEFINITIONS: 
  * Falls back to local course definitions (lib/courses/definitions.ts)
  * when the course hasn't been seeded into Supabase.
  */
-async function _GET(
-  _request: NextRequest,
-  { params }: { params: Promise<{ courseId: string }> },
-) {
+async function _GET(_request: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
   const limited = await applyRateLimit(_request, 'pageLoad');
   if (limited) return limited;
 
@@ -140,7 +146,9 @@ async function _GET(
   }
 
   // Check auth + enrollment status
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   let isEnrolled = false;
   const isAuthenticated = !!user;
@@ -179,7 +187,11 @@ async function _GET(
       const fallback = buildLocalFallback(courseId, slug, COURSE_DEFINITIONS);
       if (fallback) {
         // Known courses serve full content publicly
-        return NextResponse.json({ ...fallback, enrolled: isEnrolled, authenticated: isAuthenticated });
+        return NextResponse.json({
+          ...fallback,
+          enrolled: isEnrolled,
+          authenticated: isAuthenticated,
+        });
       }
     }
     return NextResponse.json({ error: 'Course not found' }, { status: 404 });
@@ -190,7 +202,9 @@ async function _GET(
     .from('course_lessons')
     // Select syllabus fields only — sensitive fields (quiz_questions, passing_score,
     // video_url, content) are added below only when the user is enrolled.
-    .select('id, course_id, title, description, topics, lesson_number, order_index, duration_minutes, is_required, is_published, content_type, quiz_id')
+    .select(
+      'id, course_id, title, description, topics, lesson_number, order_index, duration_minutes, is_required, is_published, content_type, quiz_id',
+    )
     .eq('course_id', courseId)
     .eq('is_published', true)
     .order('lesson_number');

@@ -19,7 +19,7 @@ What would you like to know?`;
 
 const BARBER_FAQ: Record<string, string> = {
   // Program basics
-  'hours': `The Barber Apprenticeship requires **2,000 hours** of training:
+  hours: `The Barber Apprenticeship requires **2,000 hours** of training:
 • On-the-job training (OJT) at a licensed barbershop
 • Related instruction (Elevate LMS theory curriculum)
 
@@ -28,12 +28,12 @@ At 30 hours/week, it takes about 67 weeks (15-18 months).`,
 
   'cost|price|tuition|fee': `**Program Cost: $4,980**
 
-• Setup Fee (35%): $1,743 - due at enrollment
-• Remaining Balance: $3,237 - paid weekly
+• Minimum Down Payment: $600 - due at enrollment
+• Remaining Balance: $4,380 - paid weekly
 
-Weekly payment examples:
-• 40 hrs/week: ~$64.74/week for 50 weeks
-• 30 hrs/week: ~$48.31/week for 67 weeks
+Weekly payment examples (29-week plan):
+• $600 down: ~$151.03/week
+• $1,000 down: ~$137.24/week
 
 Payment plans are available. Contact us for employer-sponsored funding options.`,
 
@@ -42,7 +42,7 @@ Payment plans are available. Contact us for employer-sponsored funding options.`
 **Payment Options:**
 • Pay in full: $4,980 (card or bank transfer)
 • Affirm/Klarna/Afterpay: Split into payments (terms set by lender)
-• Setup fee + weekly: $1,743 setup fee, then weekly payments until complete
+• Minimum down + weekly: start at $600, then weekly payments until complete
 
 Payment is collected after your enrollment is approved.
 
@@ -109,7 +109,7 @@ export default function BarberChatAssistant() {
   ]);
   const [input, setInput] = useState('');
   const [isLoading, setIsLoading] = useState(false);
-  
+
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -118,10 +118,10 @@ export default function BarberChatAssistant() {
 
   const findAnswer = (question: string): string | null => {
     const q = question.toLowerCase();
-    
+
     for (const [keywords, answer] of Object.entries(BARBER_FAQ)) {
       const keywordList = keywords.split('|');
-      if (keywordList.some(kw => q.includes(kw))) {
+      if (keywordList.some((kw) => q.includes(kw))) {
         return answer;
       }
     }
@@ -133,15 +133,15 @@ export default function BarberChatAssistant() {
 
     const userMessage = input.trim();
     setInput('');
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
     setIsLoading(true);
 
     // Check FAQ first
     const faqAnswer = findAnswer(userMessage);
-    
+
     if (faqAnswer) {
       setTimeout(() => {
-        setMessages(prev => [...prev, { role: 'assistant', content: faqAnswer }]);
+        setMessages((prev) => [...prev, { role: 'assistant', content: faqAnswer }]);
         setIsLoading(false);
       }, 500);
       return;
@@ -162,21 +162,32 @@ export default function BarberChatAssistant() {
       const data = await response.json();
 
       if (data.error) {
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          content: "I'm not sure about that. For specific questions, please contact us at (317) 314-3757 or email our contact form.",
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'assistant',
+            content:
+              "I'm not sure about that. For specific questions, please contact us at (317) 314-3757 or email our contact form.",
+          },
+        ]);
       } else {
-        setMessages(prev => [...prev, {
-          role: 'assistant',
-          content: data.message,
-        }]);
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'assistant',
+            content: data.message,
+          },
+        ]);
       }
     } catch {
-      setMessages(prev => [...prev, {
-        role: 'assistant',
-        content: "I'm having trouble connecting. Please try again or contact us at (317) 314-3757.",
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content:
+            "I'm having trouble connecting. Please try again or contact us at (317) 314-3757.",
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -262,9 +273,18 @@ export default function BarberChatAssistant() {
               <div className="flex justify-start">
                 <div className="bg-white text-black px-4 py-2 rounded-2xl rounded-bl-md border border-slate-200 shadow-sm">
                   <div className="flex gap-1">
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0ms' }} />
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '150ms' }} />
-                    <span className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '300ms' }} />
+                    <span
+                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                      style={{ animationDelay: '0ms' }}
+                    />
+                    <span
+                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                      style={{ animationDelay: '150ms' }}
+                    />
+                    <span
+                      className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"
+                      style={{ animationDelay: '300ms' }}
+                    />
                   </div>
                 </div>
               </div>

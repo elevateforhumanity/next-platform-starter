@@ -1,5 +1,3 @@
-
-
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -9,14 +7,10 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const { id } = await params;
+async function _GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const { id } = await params;
   try {
     const supabase = await createClient();
 
@@ -35,10 +29,7 @@ const { id } = await params;
       .eq('id', user.id)
       .maybeSingle();
 
-    if (
-      !profile ||
-      !['admin', 'super_admin', 'staff', 'advisor'].includes(profile.role)
-    ) {
+    if (!profile || !['admin', 'super_admin', 'staff', 'advisor'].includes(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -58,17 +49,12 @@ const { id } = await params;
 
     // Sort steps by step_number
     if (process.process_steps) {
-      process.process_steps.sort(
-        (a: any, b: any) => a.step_number - b.step_number
-      );
+      process.process_steps.sort((a: any, b: any) => a.step_number - b.step_number);
     }
 
     return NextResponse.json({ process });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/staff/processes/[id]', _GET);

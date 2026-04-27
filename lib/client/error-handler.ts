@@ -1,5 +1,5 @@
 import { logger } from '@/lib/logger';
-'use client';
+('use client');
 
 /**
  * Client-side error handling utilities
@@ -35,7 +35,7 @@ export async function parseErrorResponse(response: Response): Promise<ErrorRespo
  */
 export async function handleFetchError(
   error: any,
-  showToast: (message: string, type: 'error' | 'success') => void
+  showToast: (message: string, type: 'error' | 'success') => void,
 ): Promise<string> {
   let message = 'An unexpected error occurred';
 
@@ -58,18 +58,18 @@ export async function handleFetchError(
 export async function fetchWithErrorHandling<T = any>(
   url: string,
   options?: RequestInit,
-  showToast?: (message: string, type: 'error' | 'success') => void
+  showToast?: (message: string, type: 'error' | 'success') => void,
 ): Promise<T> {
   try {
     const response = await fetch(url, options);
 
     if (!response.ok) {
       const errorData = await parseErrorResponse(response);
-      
+
       if (showToast) {
         showToast(errorData.error, 'error');
       }
-      
+
       throw new Error(errorData.error);
     }
 
@@ -91,7 +91,7 @@ export function setupGlobalErrorHandler() {
   // Handle unhandled promise rejections
   window.addEventListener('unhandledrejection', (event) => {
     logger.error('[Unhandled Promise Rejection]', event.reason);
-    
+
     // Send to Sentry
     if (window.Sentry) {
       window.Sentry.captureException(event.reason, {
@@ -103,7 +103,7 @@ export function setupGlobalErrorHandler() {
   // Handle global errors
   window.addEventListener('error', (event) => {
     logger.error('[Global Error]', event.error);
-    
+
     // Send to Sentry
     if (window.Sentry) {
       window.Sentry.captureException(event.error, {
@@ -118,7 +118,7 @@ export function setupGlobalErrorHandler() {
  */
 export function logError(error: Error, context?: Record<string, any>) {
   logger.error('[Client Error]', error, context);
-  
+
   if (typeof window !== 'undefined' && window.Sentry) {
     window.Sentry.captureException(error, {
       extra: context,

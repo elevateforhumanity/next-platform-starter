@@ -53,9 +53,11 @@ export default function ResendOnboardingButton({ holderId }: { holderId: string 
       className="inline-flex items-center gap-1 text-amber-600 hover:text-amber-800 text-sm font-medium disabled:opacity-50"
       title="Resend onboarding link"
     >
-      {state === 'sending'
-        ? <Loader2 className="w-3.5 h-3.5 animate-spin" />
-        : <Send className="w-3.5 h-3.5" />}
+      {state === 'sending' ? (
+        <Loader2 className="w-3.5 h-3.5 animate-spin" />
+      ) : (
+        <Send className="w-3.5 h-3.5" />
+      )}
       {state === 'sending' ? 'Sending…' : 'Resend Link'}
     </button>
   );

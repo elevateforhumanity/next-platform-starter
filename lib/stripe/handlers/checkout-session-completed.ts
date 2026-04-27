@@ -51,8 +51,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
       const courseId = session.metadata?.course_id ?? undefined;
       const fundingSource = session.metadata?.funding_source ?? 'self_pay';
       const amountPaidCents = session.amount_total ?? 0;
-      const customerEmail =
-        session.customer_email ?? session.customer_details?.email ?? undefined;
+      const customerEmail = session.customer_email ?? session.customer_details?.email ?? undefined;
 
       if (!userId || !programId) {
         logger.error('[webhook/checkout] program_enrollment missing required metadata', {
@@ -94,7 +93,9 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
         },
       });
 
-      logger.info(`[webhook/checkout] program_enrollment ${result.action}: ${programSlug} for ${userId}`);
+      logger.info(
+        `[webhook/checkout] program_enrollment ${result.action}: ${programSlug} for ${userId}`,
+      );
 
       // Send enrollment confirmation email
       if (customerEmail && result.action !== 'already_active') {
@@ -105,21 +106,19 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
             .eq('id', userId)
             .maybeSingle();
 
-          const firstName =
-            profile?.first_name ?? profile?.full_name?.split(' ')[0] ?? 'there';
+          const firstName = profile?.first_name ?? profile?.full_name?.split(' ')[0] ?? 'there';
           const programTitle = (programSlug ?? '')
             .replace(/-/g, ' ')
             .replace(/\b\w/g, (c: string) => c.toUpperCase());
-          const siteUrl =
-            process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
+          const siteUrl = process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org';
           const isDeposit = amountPaidCents < 500_000; // < $5,000 = deposit
 
           await fetch(`${siteUrl}/api/email/send`, {
             method: 'POST',
             headers: {
-        'Content-Type': 'application/json',
-        'x-internal-secret': process.env.CRON_SECRET ?? '',
-      },
+              'Content-Type': 'application/json',
+              'x-internal-secret': process.env.CRON_SECRET ?? '',
+            },
             body: JSON.stringify({
               to: customerEmail,
               subject: `Enrollment confirmed — ${programTitle}`,
@@ -141,8 +140,7 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
   if (session.metadata?.type === 'donation') {
     try {
       const amount = parseFloat(session.metadata.amount ?? '0');
-      const donorEmail =
-        session.customer_email ?? session.customer_details?.email;
+      const donorEmail = session.customer_email ?? session.customer_details?.email;
 
       await supabase.from('donations').insert({
         stripe_session_id: session.id,
@@ -152,7 +150,9 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
         created_at: new Date().toISOString(),
       });
 
-      logger.info(`[webhook/checkout] Donation recorded: $${amount} from ${donorEmail ?? 'anonymous'}`);
+      logger.info(
+        `[webhook/checkout] Donation recorded: $${amount} from ${donorEmail ?? 'anonymous'}`,
+      );
     } catch (err) {
       Sentry.captureException(err, { tags: { subsystem: 'stripe_webhook', kind: 'donation' } });
       logger.error('[webhook/checkout] Error processing donation:', err);
@@ -166,14 +166,16 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
       const studentId = session.metadata?.student_id;
       const externalCourseId = session.metadata?.external_course_id;
       const programId = session.metadata?.program_id;
-      const studentEmail =
-        session.metadata?.student_email ?? session.customer_email ?? undefined;
+      const studentEmail = session.metadata?.student_email ?? session.customer_email ?? undefined;
       const partnerName = session.metadata?.partner_name;
       const courseTitle = session.metadata?.course_title;
       const programSlug = session.metadata?.program_slug;
 
       if (!studentId || !externalCourseId || !programId) {
-        logger.error('[webhook/checkout] external_course_purchase missing metadata', session.metadata);
+        logger.error(
+          '[webhook/checkout] external_course_purchase missing metadata',
+          session.metadata,
+        );
         return;
       }
 
@@ -195,16 +197,21 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
       if (upsertErr) {
         logger.error('[webhook/checkout] external_course_purchase upsert failed', upsertErr);
       } else {
-        logger.info(`[webhook/checkout] External course purchase recorded: ${courseTitle} for ${studentId}`);
+        logger.info(
+          `[webhook/checkout] External course purchase recorded: ${courseTitle} for ${studentId}`,
+        );
       }
 
       try {
-        const { sendAdminExternalCoursePurchaseAlert } = await import(
-          '@/lib/email/external-course'
-        );
+        const { sendAdminExternalCoursePurchaseAlert } =
+          await import('@/lib/email/external-course');
         const [{ data: profile }, { data: course }, { data: program }] = await Promise.all([
           supabase.from('profiles').select('full_name').eq('id', studentId).maybeSingle(),
-          supabase.from('program_external_courses').select('external_url').eq('id', externalCourseId).maybeSingle(),
+          supabase
+            .from('program_external_courses')
+            .select('external_url')
+            .eq('id', externalCourseId)
+            .maybeSingle(),
           supabase.from('programs').select('title').eq('id', programId).maybeSingle(),
         ]);
 
@@ -236,9 +243,8 @@ export const handleCheckoutSessionCompleted: StripeEventHandler = async (
     try {
       const applicationId = session.metadata?.application_id;
       const amountPaidCents = session.amount_total ?? 0;
-      const paymentIntentId = typeof session.payment_intent === 'string'
-        ? session.payment_intent
-        : null;
+      const paymentIntentId =
+        typeof session.payment_intent === 'string' ? session.payment_intent : null;
 
       if (!applicationId) {
         logger.error('[webhook/checkout] apprenticeship_enrollment missing application_id', {

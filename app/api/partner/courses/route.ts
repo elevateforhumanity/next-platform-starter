@@ -27,27 +27,14 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (!profile || !['partner', 'program_holder'].includes(profile.role)) {
-      return NextResponse.json(
-        { error: 'Forbidden: Partner access required' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Forbidden: Partner access required' }, { status: 403 });
     }
 
     const body = await request.json();
-    const {
-      course_name,
-      course_code,
-      description,
-      duration_hours,
-      capacity,
-      license_id,
-    } = body;
+    const { course_name, course_code, description, duration_hours, capacity, license_id } = body;
 
     if (!course_name) {
-      return NextResponse.json(
-        { error: 'Course name is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Course name is required' }, { status: 400 });
     }
 
     // Validate license if provided
@@ -64,24 +51,18 @@ async function _POST(request: NextRequest) {
       }
 
       if (license.status !== 'active') {
-        return NextResponse.json(
-          { error: 'License is not active' },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: 'License is not active' }, { status: 400 });
       }
 
       if (!license.can_create_courses) {
         return NextResponse.json(
           { error: 'License does not allow course creation' },
-          { status: 403 }
+          { status: 403 },
         );
       }
 
       if (license.expires_at && new Date(license.expires_at) < new Date()) {
-        return NextResponse.json(
-          { error: 'License has expired' },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: 'License has expired' }, { status: 400 });
       }
     }
 
@@ -113,10 +94,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Create course error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -149,10 +127,7 @@ async function _GET(request: NextRequest) {
     return NextResponse.json({ success: true, courses });
   } catch (error) {
     logger.error('Get courses error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/partner/courses', _GET);

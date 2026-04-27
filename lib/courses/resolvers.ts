@@ -27,11 +27,7 @@ export async function resolveCourseId(slug: string): Promise<string | null> {
   if (courseIdCache.has(slug)) return courseIdCache.get(slug)!;
 
   const supabase = (await getAdminClient()) ?? (await createClient());
-  const { data } = await supabase
-    .from('courses')
-    .select('id')
-    .eq('slug', slug)
-    .maybeSingle();
+  const { data } = await supabase.from('courses').select('id').eq('slug', slug).maybeSingle();
 
   if (data?.id) {
     courseIdCache.set(slug, data.id);
@@ -48,11 +44,7 @@ export async function resolveProgramId(slug: string): Promise<string | null> {
   if (programIdCache.has(slug)) return programIdCache.get(slug)!;
 
   const supabase = (await getAdminClient()) ?? (await createClient());
-  const { data } = await supabase
-    .from('programs')
-    .select('id')
-    .eq('slug', slug)
-    .maybeSingle();
+  const { data } = await supabase.from('programs').select('id').eq('slug', slug).maybeSingle();
 
   if (data?.id) {
     programIdCache.set(slug, data.id);
@@ -67,8 +59,7 @@ export async function resolveProgramId(slug: string): Promise<string | null> {
  */
 export async function resolveHvacCourseId(): Promise<string> {
   return (
-    (await resolveCourseId('hvac-technician')) ??
-    '0ba9a61c-1f1b-4019-be6f-90e92eba2bc0' // fallback — stable in prod DB
+    (await resolveCourseId('hvac-technician')) ?? '0ba9a61c-1f1b-4019-be6f-90e92eba2bc0' // fallback — stable in prod DB
   );
 }
 
@@ -77,7 +68,6 @@ export async function resolveHvacCourseId(): Promise<string> {
  */
 export async function resolveHvacProgramId(): Promise<string> {
   return (
-    (await resolveProgramId('hvac-technician')) ??
-    '4226f7f6-fbc1-44b5-83e8-b12ea149e4c7' // fallback — stable in prod DB
+    (await resolveProgramId('hvac-technician')) ?? '4226f7f6-fbc1-44b5-83e8-b12ea149e4c7' // fallback — stable in prod DB
   );
 }

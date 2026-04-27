@@ -14,21 +14,26 @@ export function FAQSearch({ onSearch }: FAQSearchProps) {
   // Log search queries for analytics
   const logSearch = useCallback(async (searchQuery: string) => {
     if (searchQuery.length < 3) return;
-    
+
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
-    await supabase.from('faq_search_analytics').insert({
-      user_id: user?.id || null,
-      search_query: searchQuery,
-      searched_at: new Date().toISOString(),
-    }).catch(() => {});
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
+    await supabase
+      .from('faq_search_analytics')
+      .insert({
+        user_id: user?.id || null,
+        search_query: searchQuery,
+        searched_at: new Date().toISOString(),
+      })
+      .catch(() => {});
   }, []);
 
   const handleSearch = (value: string) => {
     setQuery(value);
     onSearch(value);
-    
+
     // Debounced logging
     if (value.length >= 3) {
       setTimeout(() => logSearch(value), 1000);

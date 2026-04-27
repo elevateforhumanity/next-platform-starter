@@ -13,10 +13,9 @@ export const dynamic = 'force-dynamic';
 // Use Node.js runtime for file uploads
 
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -42,8 +41,8 @@ const supabase = await createClient();
 }
 
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const {
@@ -100,10 +99,9 @@ async function _POST(request: NextRequest) {
 }
 
 async function _DELETE(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -132,11 +130,7 @@ const supabase = await createClient();
   }
 
   // Delete from database
-  const { error } = await supabase
-    .from('files')
-    .delete()
-    .eq('id', id)
-    .eq('user_id', user.id);
+  const { error } = await supabase.from('files').delete().eq('id', id).eq('user_id', user.id);
 
   if (error) {
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });

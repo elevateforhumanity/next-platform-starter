@@ -1,4 +1,3 @@
-
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
@@ -87,7 +86,6 @@ const INCLUDED = [
 export default function TrainingPage() {
   return (
     <div className="min-h-screen bg-white">
-
       {/* Breadcrumb */}
       <div className="bg-white border-b border-slate-100">
         <div className="max-w-6xl mx-auto px-4 py-3">
@@ -97,6 +95,7 @@ export default function TrainingPage() {
 
       {/* Hero — clean image, no text overlay */}
       <section className="relative h-[45vh] min-h-[280px] max-h-[560px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/training-page-3.jpg"
           alt="Career training programs at Elevate for Humanity"
@@ -174,10 +173,12 @@ export default function TrainingPage() {
                   <p className="text-slate-600 text-sm leading-relaxed mb-3">{area.desc}</p>
                   <div className="space-y-1">
                     <p className="text-xs text-slate-500">
-                      <span className="font-semibold text-slate-700">Duration:</span> {area.duration}
+                      <span className="font-semibold text-slate-700">Duration:</span>{' '}
+                      {area.duration}
                     </p>
                     <p className="text-xs text-slate-500">
-                      <span className="font-semibold text-slate-700">Credentials:</span> {area.credential}
+                      <span className="font-semibold text-slate-700">Credentials:</span>{' '}
+                      {area.credential}
                     </p>
                   </div>
                 </div>
@@ -248,10 +249,22 @@ export default function TrainingPage() {
             </div>
             <div className="space-y-3">
               {[
-                { label: 'WIOA', desc: 'Federal funding for adults, dislocated workers, and youth. Covers tuition, books, and support services.' },
-                { label: 'Workforce Ready Grant (WRG)', desc: 'Indiana state grant for high-demand certificate programs. No repayment required.' },
-                { label: 'Job Ready Indy', desc: 'Funding for justice-involved individuals. Covers training and support services.' },
-                { label: 'Self-Pay / BNPL', desc: 'Flexible payment plans and buy-now-pay-later options for students who do not qualify for funding.' },
+                {
+                  label: 'WIOA',
+                  desc: 'Federal funding for adults, dislocated workers, and youth. Covers tuition, books, and support services.',
+                },
+                {
+                  label: 'Workforce Ready Grant (WRG)',
+                  desc: 'Indiana state grant for high-demand certificate programs. No repayment required.',
+                },
+                {
+                  label: 'Job Ready Indy',
+                  desc: 'Funding for justice-involved individuals. Covers training and support services.',
+                },
+                {
+                  label: 'Self-Pay / BNPL',
+                  desc: 'Flexible payment plans and buy-now-pay-later options for students who do not qualify for funding.',
+                },
               ].map((f) => (
                 <div key={f.label} className="bg-slate-50 rounded-xl border border-slate-200 p-4">
                   <p className="font-bold text-slate-900 text-sm mb-1">{f.label}</p>
@@ -268,8 +281,8 @@ export default function TrainingPage() {
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-extrabold text-white mb-3">Ready to Start Training?</h2>
           <p className="text-slate-300 text-base leading-relaxed mb-8 max-w-xl mx-auto">
-            Apply in minutes. Attend an orientation to learn about programs and check your eligibility
-            for funded training.
+            Apply in minutes. Attend an orientation to learn about programs and check your
+            eligibility for funded training.
           </p>
           <div className="flex flex-col sm:flex-row items-center justify-center gap-4">
             <Link
@@ -287,7 +300,6 @@ export default function TrainingPage() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }

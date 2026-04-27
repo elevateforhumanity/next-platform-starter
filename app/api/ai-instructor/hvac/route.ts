@@ -9,7 +9,11 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
-import { buildLessonContext, buildMarcusSystemPrompt, lessonContextSummary } from '@/lib/ai-instructor/hvac-instructor-prompt';
+import {
+  buildLessonContext,
+  buildMarcusSystemPrompt,
+  lessonContextSummary,
+} from '@/lib/ai-instructor/hvac-instructor-prompt';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -20,10 +24,7 @@ interface ChatMessage {
   content: string;
 }
 
-async function callGemini(
-  messages: ChatMessage[],
-  systemPrompt: string,
-): Promise<string | null> {
+async function callGemini(messages: ChatMessage[], systemPrompt: string): Promise<string | null> {
   const apiKey = process.env.GEMINI_API_KEY;
   if (!apiKey) return null;
 
@@ -44,7 +45,11 @@ async function callGemini(
     try {
       const res = await fetch(
         `https://generativelanguage.googleapis.com/v1beta/models/${model}:generateContent?key=${apiKey}`,
-        { method: 'POST', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(body) },
+        {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body),
+        },
       );
       if (!res.ok) {
         if (res.status === 429) continue; // rate limited — try next model
@@ -65,7 +70,9 @@ export async function POST(req: NextRequest) {
   // Require authenticated session — prevents open AI quota drain
   const { createClient } = await import('@/lib/supabase/server');
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -88,7 +95,10 @@ export async function POST(req: NextRequest) {
     } = body;
 
     if (!lessonNumber || !lessonTitle) {
-      return NextResponse.json({ error: 'lessonNumber and lessonTitle are required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'lessonNumber and lessonTitle are required' },
+        { status: 400 },
+      );
     }
 
     const ctx = buildLessonContext(lessonNumber, lessonTitle);
@@ -98,7 +108,12 @@ export async function POST(req: NextRequest) {
 
     // For the opening message, send a trigger so Marcus introduces himself
     const conversationMessages: ChatMessage[] = isOpening
-      ? [{ role: 'user', content: `[LESSON START] I am starting Lesson ${lessonNumber}: ${lessonTitle}. Please introduce yourself and this lesson.` }]
+      ? [
+          {
+            role: 'user',
+            content: `[LESSON START] I am starting Lesson ${lessonNumber}: ${lessonTitle}. Please introduce yourself and this lesson.`,
+          },
+        ]
       : messages;
 
     if (!conversationMessages.length) {

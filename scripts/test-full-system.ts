@@ -18,7 +18,9 @@ if (!supabaseServiceKey) {
 const supabaseKey = supabaseServiceKey || process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '';
 
 if (!supabaseKey) {
-  console.error('❌ No Supabase key available. Set NEXT_PUBLIC_SUPABASE_ANON_KEY or SUPABASE_SERVICE_ROLE_KEY');
+  console.error(
+    '❌ No Supabase key available. Set NEXT_PUBLIC_SUPABASE_ANON_KEY or SUPABASE_SERVICE_ROLE_KEY',
+  );
   console.log('\nTo run tests:');
   console.log('  export SUPABASE_SERVICE_ROLE_KEY=your_service_role_key');
   console.log('  npx tsx scripts/test-full-system.ts');
@@ -243,7 +245,10 @@ async function testLicensingTables() {
   });
 
   await test('license_agreement_acceptances table exists', async () => {
-    const { data, error } = await supabase.from('license_agreement_acceptances').select('id').limit(1);
+    const { data, error } = await supabase
+      .from('license_agreement_acceptances')
+      .select('id')
+      .limit(1);
     if (error) throw error;
   });
 }
@@ -368,8 +373,8 @@ async function main() {
   console.log('📊 TEST SUMMARY');
   console.log('='.repeat(60));
 
-  const passed = results.filter(r => r.passed).length;
-  const failed = results.filter(r => !r.passed).length;
+  const passed = results.filter((r) => r.passed).length;
+  const failed = results.filter((r) => !r.passed).length;
   const total = results.length;
 
   console.log(`\nTotal Tests: ${total}`);
@@ -379,9 +384,11 @@ async function main() {
 
   if (failed > 0) {
     console.log('\n❌ FAILED TESTS:');
-    results.filter(r => !r.passed).forEach(r => {
-      console.log(`  - ${r.name}: ${r.error}`);
-    });
+    results
+      .filter((r) => !r.passed)
+      .forEach((r) => {
+        console.log(`  - ${r.name}: ${r.error}`);
+      });
   }
 
   if (passed === total) {

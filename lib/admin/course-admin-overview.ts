@@ -40,15 +40,14 @@ export async function getAdminCoursesOverview(): Promise<AdminCourseOverview[]> 
   // Build blueprint index keyed by programSlug for O(1) lookup
   const blueprints = await loadAllBlueprints();
   const bpByProgramSlug = new Map(
-    blueprints
-      .filter(bp => bp.programSlug)
-      .map(bp => [bp.programSlug, bp])
+    blueprints.filter((bp) => bp.programSlug).map((bp) => [bp.programSlug, bp]),
   );
 
   // Load all courses from the canonical table with their linked program slug
   const { data: courses, error } = await supabase
     .from('courses')
-    .select(`
+    .select(
+      `
       id,
       slug,
       title,
@@ -57,29 +56,28 @@ export async function getAdminCoursesOverview(): Promise<AdminCourseOverview[]> 
       status,
       updated_at,
       programs ( slug )
-    `)
+    `,
+    )
     .order('title', { ascending: true });
 
   if (error) {
     // Log but don't throw — a broken courses panel must not crash the dashboard
-    logger.error('[getAdminCoursesOverview] query failed', error instanceof Error ? error : undefined);
+    logger.error(
+      '[getAdminCoursesOverview] query failed',
+      error instanceof Error ? error : undefined,
+    );
     return [];
   }
 
   // Load lesson counts from course_lessons (the table lms_lessons view reads from)
-  const { data: lessonRows } = await supabase
-    .from('course_lessons')
-    .select('course_id');
+  const { data: lessonRows } = await supabase.from('course_lessons').select('course_id');
 
   const lessonCountByCourseId = new Map<string, number>();
   for (const row of lessonRows ?? []) {
-    lessonCountByCourseId.set(
-      row.course_id,
-      (lessonCountByCourseId.get(row.course_id) ?? 0) + 1
-    );
+    lessonCountByCourseId.set(row.course_id, (lessonCountByCourseId.get(row.course_id) ?? 0) + 1);
   }
 
-  return (courses ?? []).map(c => {
+  return (courses ?? []).map((c) => {
     const programSlug = (c.programs as { slug: string } | null)?.slug ?? null;
     const bp = programSlug ? bpByProgramSlug.get(programSlug) : undefined;
     const actualLessons = lessonCountByCourseId.get(c.id) ?? 0;

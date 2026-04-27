@@ -109,10 +109,10 @@ export function StudentTimeclockCard({
             {timeclock.gpsError
               ? timeclock.gpsError
               : timeclock.gpsPosition
-              ? timeclock.withinGeofence
-                ? 'On-site'
-                : 'Off-site'
-              : 'Acquiring GPS...'}
+                ? timeclock.withinGeofence
+                  ? 'On-site'
+                  : 'Off-site'
+                : 'Acquiring GPS...'}
           </span>
         </div>
         {timeclock.gpsPosition && (
@@ -137,9 +137,7 @@ export function StudentTimeclockCard({
       {/* Auto Clock-Out Message */}
       {autoClockOutMessage && (
         <div className="mb-4 p-3 rounded-md bg-brand-red-50 border border-brand-red-200">
-          <p className="text-sm text-brand-red-800 font-medium">
-            Shift Ended Automatically
-          </p>
+          <p className="text-sm text-brand-red-800 font-medium">Shift Ended Automatically</p>
           <p className="text-xs text-brand-red-700 mt-1">{autoClockOutMessage}</p>
           <p className="text-xs text-brand-red-700 mt-2">
             You may clock in again to start a new shift.

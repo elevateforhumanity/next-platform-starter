@@ -14,18 +14,18 @@ interface WebVitalsMetric {
 
 // Thresholds based on Google's Core Web Vitals
 const THRESHOLDS = {
-  LCP: { good: 2500, poor: 4000 },   // Largest Contentful Paint
-  FID: { good: 100, poor: 300 },     // First Input Delay
-  CLS: { good: 0.1, poor: 0.25 },    // Cumulative Layout Shift
-  FCP: { good: 1800, poor: 3000 },   // First Contentful Paint
-  TTFB: { good: 800, poor: 1800 },   // Time to First Byte
-  INP: { good: 200, poor: 500 },     // Interaction to Next Paint
+  LCP: { good: 2500, poor: 4000 }, // Largest Contentful Paint
+  FID: { good: 100, poor: 300 }, // First Input Delay
+  CLS: { good: 0.1, poor: 0.25 }, // Cumulative Layout Shift
+  FCP: { good: 1800, poor: 3000 }, // First Contentful Paint
+  TTFB: { good: 800, poor: 1800 }, // Time to First Byte
+  INP: { good: 200, poor: 500 }, // Interaction to Next Paint
 };
 
 function getRating(name: string, value: number): 'good' | 'needs-improvement' | 'poor' {
   const threshold = THRESHOLDS[name as keyof typeof THRESHOLDS];
   if (!threshold) return 'good';
-  
+
   if (value <= threshold.good) return 'good';
   if (value <= threshold.poor) return 'needs-improvement';
   return 'poor';
@@ -34,7 +34,7 @@ function getRating(name: string, value: number): 'good' | 'needs-improvement' | 
 export function WebVitals() {
   useReportWebVitals((metric) => {
     const rating = getRating(metric.name, metric.value);
-    
+
     // Send to analytics
     if (typeof window !== 'undefined' && window.gtag) {
       window.gtag('event', metric.name, {
@@ -102,7 +102,8 @@ export function usePerformanceObserver() {
     const longTaskObserver = new PerformanceObserver((list) => {
       for (const entry of list.getEntries()) {
         if (entry.duration > 50) {
-          if (process.env.NODE_ENV === 'development') (console as any).debug?.('[Performance] Long task:', entry.duration.toFixed(2), 'ms'); // ci-ignore
+          if (process.env.NODE_ENV === 'development')
+            (console as any).debug?.('[Performance] Long task:', entry.duration.toFixed(2), 'ms'); // ci-ignore
         }
       }
     });

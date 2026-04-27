@@ -83,8 +83,8 @@ export async function lessonToScenes(input: LessonInput): Promise<{
     script: scene.script,
     voiceOver: true,
     background: '#0f172a',
-    textPosition: scene.type === 'title' ? 'center' as const : 'top' as const,
-    animation: i === 0 ? 'fade' as const : 'slide' as const,
+    textPosition: scene.type === 'title' ? ('center' as const) : ('top' as const),
+    animation: i === 0 ? ('fade' as const) : ('slide' as const),
     image: imagePaths[i],
     textStyle: {
       fontSize: scene.type === 'title' ? 64 : 48,
@@ -106,9 +106,10 @@ async function planScenes(input: LessonInput, plainContent: string): Promise<Sce
     model: 'gpt-4.1',
     temperature: 0.5,
     max_tokens: 4000,
-    messages: [{
-      role: 'user',
-      content: `You are a video producer for a workforce training program. Break this lesson into 5-6 video scenes.
+    messages: [
+      {
+        role: 'user',
+        content: `You are a video producer for a workforce training program. Break this lesson into 5-6 video scenes.
 
 COURSE: ${input.courseName}
 MODULE: ${input.moduleName}
@@ -142,12 +143,16 @@ Return JSON only:
       "duration": 15
     }
   ]
-}`
-    }],
+}`,
+      },
+    ],
   });
 
   const raw = res.choices[0].message.content || '';
-  const cleaned = raw.replace(/^```json?\s*/i, '').replace(/\s*```$/i, '').trim();
+  const cleaned = raw
+    .replace(/^```json?\s*/i, '')
+    .replace(/\s*```$/i, '')
+    .trim();
   return JSON.parse(cleaned) as ScenePlan;
 }
 

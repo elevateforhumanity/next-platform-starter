@@ -92,7 +92,7 @@ html = html.replace(
         </ul>
         <p><strong>Contact:</strong> Visit elevateforhumanity.org with JavaScript enabled for full details.</p>
       </div>
-    </noscript>`
+    </noscript>`,
 );
 
 fs.writeFileSync(distIndexPath, html);

@@ -9,7 +9,7 @@ import { logAuditEvent } from '@/lib/audit';
 export async function switchOrg(
   supabase: SupabaseClient,
   userId: string,
-  orgId: string
+  orgId: string,
 ): Promise<void> {
   // Verify user has access to this org
   const { data: membership, error: membershipError } = await supabase

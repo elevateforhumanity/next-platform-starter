@@ -2,9 +2,17 @@
 
 import { useState, useRef, useEffect } from 'react';
 import Link from 'next/link';
-import { 
-  Send, Loader2, Briefcase, GraduationCap, TrendingUp, 
-  Target, ChevronRight, Sparkles, User, Bot
+import {
+  Send,
+  Loader2,
+  Briefcase,
+  GraduationCap,
+  TrendingUp,
+  Target,
+  ChevronRight,
+  Sparkles,
+  User,
+  Bot,
 } from 'lucide-react';
 
 interface Message {
@@ -35,14 +43,29 @@ export default function AICareerCounseling() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
   const skillOptions = [
-    'Communication', 'Problem Solving', 'Technical Skills', 'Customer Service',
-    'Physical Labor', 'Attention to Detail', 'Leadership', 'Computer Skills',
-    'Math/Numbers', 'Creativity', 'Teamwork', 'Time Management'
+    'Communication',
+    'Problem Solving',
+    'Technical Skills',
+    'Customer Service',
+    'Physical Labor',
+    'Attention to Detail',
+    'Leadership',
+    'Computer Skills',
+    'Math/Numbers',
+    'Creativity',
+    'Teamwork',
+    'Time Management',
   ];
 
   const interestOptions = [
-    'Healthcare', 'Technology', 'Construction', 'Transportation',
-    'Beauty/Cosmetology', 'Business', 'Manufacturing', 'Education'
+    'Healthcare',
+    'Technology',
+    'Construction',
+    'Transportation',
+    'Beauty/Cosmetology',
+    'Business',
+    'Manufacturing',
+    'Education',
   ];
 
   useEffect(() => {
@@ -50,20 +73,20 @@ export default function AICareerCounseling() {
   }, [messages]);
 
   const toggleSkill = (skill: string) => {
-    setProfile(prev => ({
+    setProfile((prev) => ({
       ...prev,
       skills: prev.skills.includes(skill)
-        ? prev.skills.filter(s => s !== skill)
-        : [...prev.skills, skill]
+        ? prev.skills.filter((s) => s !== skill)
+        : [...prev.skills, skill],
     }));
   };
 
   const toggleInterest = (interest: string) => {
-    setProfile(prev => ({
+    setProfile((prev) => ({
       ...prev,
       interests: prev.interests.includes(interest)
-        ? prev.interests.filter(i => i !== interest)
-        : [...prev.interests, interest]
+        ? prev.interests.filter((i) => i !== interest)
+        : [...prev.interests, interest],
     }));
   };
 
@@ -86,10 +109,13 @@ export default function AICareerCounseling() {
       setMessages([{ role: 'assistant', content: data.message }]);
       setSuggestions(data.suggestions || []);
     } catch (error) {
-      setMessages([{ 
-        role: 'assistant', 
-        content: "Welcome! I'm your AI Career Counselor. Based on your profile, I'd love to help you explore career paths. What specific questions do you have about your career journey?" 
-      }]);
+      setMessages([
+        {
+          role: 'assistant',
+          content:
+            "Welcome! I'm your AI Career Counselor. Based on your profile, I'd love to help you explore career paths. What specific questions do you have about your career journey?",
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -99,7 +125,7 @@ export default function AICareerCounseling() {
     const text = messageText || input.trim();
     if (!text || isLoading) return;
 
-    setMessages(prev => [...prev, { role: 'user', content: text }]);
+    setMessages((prev) => [...prev, { role: 'user', content: text }]);
     setInput('');
     setIsLoading(true);
 
@@ -116,13 +142,16 @@ export default function AICareerCounseling() {
 
       const data = await response.json();
       if (data.conversationId) setConversationId(data.conversationId);
-      setMessages(prev => [...prev, { role: 'assistant', content: data.message }]);
+      setMessages((prev) => [...prev, { role: 'assistant', content: data.message }]);
       setSuggestions(data.suggestions || []);
     } catch (error) {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: "I'm here to help with your career planning. Could you rephrase your question?" 
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content: "I'm here to help with your career planning. Could you rephrase your question?",
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -141,7 +170,8 @@ export default function AICareerCounseling() {
               AI Career Counseling
             </h1>
             <p className="text-xl text-slate-700 max-w-2xl mx-auto">
-              Get personalized career guidance powered by AI. Discover career paths that match your skills, interests, and goals.
+              Get personalized career guidance powered by AI. Discover career paths that match your
+              skills, interests, and goals.
             </p>
           </div>
 
@@ -149,17 +179,23 @@ export default function AICareerCounseling() {
             <div className="bg-white rounded-xl p-6 shadow-sm">
               <Target className="w-10 h-10 text-brand-blue-600 mb-4" />
               <h3 className="font-bold text-lg mb-2">Personalized Guidance</h3>
-              <p className="text-slate-700 text-sm">Get career recommendations tailored to your unique skills and interests.</p>
+              <p className="text-slate-700 text-sm">
+                Get career recommendations tailored to your unique skills and interests.
+              </p>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-sm">
               <TrendingUp className="w-10 h-10 text-brand-green-600 mb-4" />
               <h3 className="font-bold text-lg mb-2">Salary Insights</h3>
-              <p className="text-slate-700 text-sm">Learn about earning potential and job market trends in your field.</p>
+              <p className="text-slate-700 text-sm">
+                Learn about earning potential and job market trends in your field.
+              </p>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-sm">
               <GraduationCap className="w-10 h-10 text-brand-orange-600 mb-4" />
               <h3 className="font-bold text-lg mb-2">Training Paths</h3>
-              <p className="text-slate-700 text-sm">Discover FREE training programs to help you reach your career goals.</p>
+              <p className="text-slate-700 text-sm">
+                Discover FREE training programs to help you reach your career goals.
+              </p>
             </div>
           </div>
 
@@ -171,7 +207,9 @@ export default function AICareerCounseling() {
               Start Career Assessment
               <ChevronRight className="w-5 h-5" />
             </button>
-            <p className="text-sm text-slate-700 mt-4">Free • No account required • Takes 2 minutes</p>
+            <p className="text-sm text-slate-700 mt-4">
+              Free • No account required • Takes 2 minutes
+            </p>
           </div>
         </div>
       </div>
@@ -185,7 +223,7 @@ export default function AICareerCounseling() {
         <div className="max-w-2xl mx-auto px-4">
           <div className="bg-white rounded-2xl shadow-xl p-8">
             <h2 className="text-2xl font-bold text-slate-900 mb-6">Tell us about yourself</h2>
-            
+
             <div className="space-y-8">
               {/* Skills */}
               <div>
@@ -193,7 +231,7 @@ export default function AICareerCounseling() {
                   What are your strongest skills? (Select all that apply)
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  {skillOptions.map(skill => (
+                  {skillOptions.map((skill) => (
                     <button
                       key={skill}
                       onClick={() => toggleSkill(skill)}
@@ -215,10 +253,10 @@ export default function AICareerCounseling() {
                   What's your experience level?
                 </label>
                 <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
-                  {['No experience', 'Some experience', '1-3 years', '3+ years'].map(level => (
+                  {['No experience', 'Some experience', '1-3 years', '3+ years'].map((level) => (
                     <button
                       key={level}
-                      onClick={() => setProfile(prev => ({ ...prev, level }))}
+                      onClick={() => setProfile((prev) => ({ ...prev, level }))}
                       className={`px-4 py-3 rounded-lg text-sm font-medium transition-all ${
                         profile.level === level
                           ? 'bg-brand-blue-600 text-white'
@@ -243,11 +281,11 @@ export default function AICareerCounseling() {
                     'Increase my salary',
                     'Learn new skills',
                     'Change industries',
-                    'Start my own business'
-                  ].map(goal => (
+                    'Start my own business',
+                  ].map((goal) => (
                     <button
                       key={goal}
-                      onClick={() => setProfile(prev => ({ ...prev, goal }))}
+                      onClick={() => setProfile((prev) => ({ ...prev, goal }))}
                       className={`px-4 py-3 rounded-lg text-sm font-medium text-left transition-all ${
                         profile.goal === goal
                           ? 'bg-brand-blue-600 text-white'
@@ -266,7 +304,7 @@ export default function AICareerCounseling() {
                   What industries interest you?
                 </label>
                 <div className="flex flex-wrap gap-2">
-                  {interestOptions.map(interest => (
+                  {interestOptions.map((interest) => (
                     <button
                       key={interest}
                       onClick={() => toggleInterest(interest)}
@@ -316,7 +354,9 @@ export default function AICareerCounseling() {
             </div>
             <div>
               <h1 className="font-bold text-slate-900">AI Career Counselor</h1>
-              <p className="text-xs text-slate-700">Personalized guidance for your career journey</p>
+              <p className="text-xs text-slate-700">
+                Personalized guidance for your career journey
+              </p>
             </div>
           </div>
           <Link href="/programs" className="text-sm text-brand-blue-600 hover:underline">
@@ -329,17 +369,22 @@ export default function AICareerCounseling() {
       <div className="flex-1 overflow-y-auto">
         <div className="max-w-3xl mx-auto px-4 py-6 space-y-6">
           {messages.map((message, index) => (
-            <div key={index} className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}>
+            <div
+              key={index}
+              className={`flex gap-3 ${message.role === 'user' ? 'justify-end' : ''}`}
+            >
               {message.role === 'assistant' && (
                 <div className="bg-brand-blue-100 rounded-full p-2 h-fit">
                   <Bot className="w-5 h-5 text-brand-blue-600" />
                 </div>
               )}
-              <div className={`max-w-[80%] rounded-2xl px-4 py-3 ${
-                message.role === 'user'
-                  ? 'bg-brand-blue-600 text-white'
-                  : 'bg-white shadow-sm border'
-              }`}>
+              <div
+                className={`max-w-[80%] rounded-2xl px-4 py-3 ${
+                  message.role === 'user'
+                    ? 'bg-brand-blue-600 text-white'
+                    : 'bg-white shadow-sm border'
+                }`}
+              >
                 <p className="text-sm whitespace-pre-line">{message.content}</p>
               </div>
               {message.role === 'user' && (
@@ -397,7 +442,11 @@ export default function AICareerCounseling() {
             disabled={!input.trim() || isLoading}
             className="bg-brand-blue-600 text-white rounded-full p-3 hover:bg-brand-blue-700 disabled:opacity-50"
           >
-            {isLoading ? <Loader2 className="w-5 h-5 animate-spin" /> : <Send className="w-5 h-5" />}
+            {isLoading ? (
+              <Loader2 className="w-5 h-5 animate-spin" />
+            ) : (
+              <Send className="w-5 h-5" />
+            )}
           </button>
         </div>
       </div>

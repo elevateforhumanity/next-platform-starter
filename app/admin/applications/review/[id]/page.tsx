@@ -47,14 +47,14 @@ export default async function ReviewApplicationPage({
 
   // Use admin client — applications table RLS restricts session-based reads.
   let db: Awaited<ReturnType<typeof getAdminClient>> | null = null;
-  try { db = await getAdminClient(); } catch (_) { /* notFound() below handles null db */ }
+  try {
+    db = await getAdminClient();
+  } catch (_) {
+    /* notFound() below handles null db */
+  }
   if (!db) notFound();
 
-  const { data: app, error } = await db
-    .from('applications')
-    .select('*')
-    .eq('id', id)
-    .maybeSingle();
+  const { data: app, error } = await db.from('applications').select('*').eq('id', id).maybeSingle();
 
   if (error || !app) notFound();
 
@@ -71,7 +71,8 @@ export default async function ReviewApplicationPage({
   // Priority: application.program_id (already resolved) → resolveProgram utility.
   const resolvedProgram = await resolveProgram(db!, app.program_interest);
   const resolvedProgramId: string | null = app.program_id ?? resolvedProgram?.id ?? null;
-  const programSlug: string = app.program_slug ?? resolvedProgram?.slug ?? app.program_interest ?? '';
+  const programSlug: string =
+    app.program_slug ?? resolvedProgram?.slug ?? app.program_interest ?? '';
 
   // Parse support_notes for structured data
   const notes = (app.support_notes || '') as string;
@@ -79,13 +80,13 @@ export default async function ReviewApplicationPage({
 
   return (
     <div className="min-h-screen bg-slate-50 pb-24">
-
       {/* HERO */}
       <div className="relative w-full h-[220px] sm:h-[280px]">
-        <Image
+        <Image sizes="100vw"
           src="/images/pages/admin-applicants-detail.jpg"
           alt="Review Application"
-          fill priority
+          fill
+          priority
           className="object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-b from-slate-900/50 via-slate-900/40 to-slate-900/80" />
@@ -100,15 +101,24 @@ export default async function ReviewApplicationPage({
           />
           <div className="flex flex-col sm:flex-row sm:items-end sm:justify-between gap-3">
             <div>
-              <p className="text-brand-blue-300 text-xs font-semibold tracking-widest uppercase mb-1">Application Review</p>
-              <h1 className="text-2xl sm:text-4xl font-extrabold text-white leading-tight drop-shadow">{displayName}</h1>
+              <p className="text-brand-blue-300 text-xs font-semibold tracking-widest uppercase mb-1">
+                Application Review
+              </p>
+              <h1 className="text-2xl sm:text-4xl font-extrabold text-white leading-tight drop-shadow">
+                {displayName}
+              </h1>
               <p className="text-slate-300 text-sm mt-1">{app.email}</p>
             </div>
             <div className="flex items-center gap-3">
-              <span className={`inline-flex px-3 py-1.5 text-sm font-bold rounded-full border ${statusColors[effectiveStatus] || 'bg-gray-100 text-slate-900 border-gray-300'}`}>
-                {effectiveStatus === 'revoked' ? 'Revoked' : (statusLabels[app.status] || app.status)}
+              <span
+                className={`inline-flex px-3 py-1.5 text-sm font-bold rounded-full border ${statusColors[effectiveStatus] || 'bg-gray-100 text-slate-900 border-gray-300'}`}
+              >
+                {effectiveStatus === 'revoked' ? 'Revoked' : statusLabels[app.status] || app.status}
               </span>
-              <Link href="/admin/applications" className="inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white text-sm font-semibold px-4 py-2 rounded-xl backdrop-blur-sm transition-colors">
+              <Link
+                href="/admin/applications"
+                className="inline-flex items-center gap-1.5 bg-white/10 hover:bg-white/20 text-white text-sm font-semibold px-4 py-2 rounded-xl backdrop-blur-sm transition-colors"
+              >
                 <ArrowLeft className="w-4 h-4" /> Back
               </Link>
             </div>
@@ -118,10 +128,8 @@ export default async function ReviewApplicationPage({
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 mt-8">
         <div className="grid grid-cols-1 lg:grid-cols-3 gap-6">
-
           {/* MAIN CONTENT */}
           <div className="lg:col-span-2 space-y-6">
-
             {/* Contact */}
             <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
               <h2 className="text-base font-bold text-slate-900 mb-5">Contact Information</h2>
@@ -130,30 +138,46 @@ export default async function ReviewApplicationPage({
                   <Mail className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="text-xs font-medium text-slate-500 mb-0.5">Email</p>
-                    <a href={`mailto:${app.email}`} className="text-sm text-brand-blue-600 hover:underline">{app.email || 'Not provided'}</a>
+                    <a
+                      href={`mailto:${app.email}`}
+                      className="text-sm text-brand-blue-600 hover:underline"
+                    >
+                      {app.email || 'Not provided'}
+                    </a>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Phone className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="text-xs font-medium text-slate-500 mb-0.5">Phone</p>
-                    {app.phone
-                      ? <a href={`tel:${app.phone}`} className="text-sm text-brand-blue-600 hover:underline">{app.phone}</a>
-                      : <span className="text-sm text-slate-400">Not provided</span>}
+                    {app.phone ? (
+                      <a
+                        href={`tel:${app.phone}`}
+                        className="text-sm text-brand-blue-600 hover:underline"
+                      >
+                        {app.phone}
+                      </a>
+                    ) : (
+                      <span className="text-sm text-slate-400">Not provided</span>
+                    )}
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <MapPin className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="text-xs font-medium text-slate-500 mb-0.5">Location</p>
-                    <p className="text-sm text-slate-800">{[app.city, app.zip].filter(Boolean).join(', ') || 'Not provided'}</p>
+                    <p className="text-sm text-slate-800">
+                      {[app.city, app.zip].filter(Boolean).join(', ') || 'Not provided'}
+                    </p>
                   </div>
                 </div>
                 <div className="flex items-start gap-3">
                   <Calendar className="w-4 h-4 text-slate-400 mt-0.5 flex-shrink-0" />
                   <div>
                     <p className="text-xs font-medium text-slate-500 mb-0.5">Submitted</p>
-                    <p className="text-sm text-slate-800">{new Date(app.created_at).toLocaleString('en-US')}</p>
+                    <p className="text-sm text-slate-800">
+                      {new Date(app.created_at).toLocaleString('en-US')}
+                    </p>
                   </div>
                 </div>
               </div>
@@ -165,10 +189,13 @@ export default async function ReviewApplicationPage({
               <div className="flex items-start gap-3">
                 <BookOpen className="w-4 h-4 text-brand-blue-500 mt-0.5 flex-shrink-0" />
                 <div>
-                  <p className="text-sm font-semibold text-slate-900">{app.program_interest || 'Not specified'}</p>
+                  <p className="text-sm font-semibold text-slate-900">
+                    {app.program_interest || 'Not specified'}
+                  </p>
                   {app.source && (
                     <p className="text-xs text-slate-500 mt-1 flex items-center gap-1">
-                      <Tag className="w-3 h-3" /> Source: {(app.source as string).replace(/-/g, ' ')}
+                      <Tag className="w-3 h-3" /> Source:{' '}
+                      {(app.source as string).replace(/-/g, ' ')}
                     </p>
                   )}
                 </div>
@@ -197,7 +224,6 @@ export default async function ReviewApplicationPage({
 
           {/* SIDEBAR */}
           <div className="space-y-6">
-
             {/* Actions */}
             <div className="bg-white rounded-2xl shadow-sm border border-slate-100 p-6">
               <h2 className="text-base font-bold text-slate-900 mb-4">Actions</h2>
@@ -223,13 +249,17 @@ export default async function ReviewApplicationPage({
                 {app.updated_at && (
                   <div>
                     <dt className="text-xs font-medium text-slate-500">Last Updated</dt>
-                    <dd className="text-sm text-slate-800">{new Date(app.updated_at).toLocaleString('en-US')}</dd>
+                    <dd className="text-sm text-slate-800">
+                      {new Date(app.updated_at).toLocaleString('en-US')}
+                    </dd>
                   </div>
                 )}
                 {app.revoked_at && (
                   <div className="pt-3 border-t border-rose-100">
                     <dt className="text-xs font-semibold text-rose-600">Revoked</dt>
-                    <dd className="text-sm text-rose-700 mt-0.5">{new Date(app.revoked_at).toLocaleString('en-US')}</dd>
+                    <dd className="text-sm text-rose-700 mt-0.5">
+                      {new Date(app.revoked_at).toLocaleString('en-US')}
+                    </dd>
                   </div>
                 )}
               </dl>

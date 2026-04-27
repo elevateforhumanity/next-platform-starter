@@ -70,7 +70,9 @@ export default function PartnerSettingsForm({ initialData }: { initialData: Sett
         </div>
       )}
       {error && (
-        <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">{error}</div>
+        <div className="p-4 bg-red-50 border border-red-200 rounded-lg text-red-700 text-sm">
+          {error}
+        </div>
       )}
 
       {/* Organization Info */}
@@ -83,29 +85,45 @@ export default function PartnerSettingsForm({ initialData }: { initialData: Sett
         </div>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-medium text-slate-900 mb-1">Organization Name</label>
-            <input type="text" value={settings.orgName}
+            <label className="block text-sm font-medium text-slate-900 mb-1">
+              Organization Name
+            </label>
+            <input
+              type="text"
+              value={settings.orgName}
               onChange={(e) => setSettings({ ...settings, orgName: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">Street Address</label>
-            <input type="text" value={settings.address}
+            <input
+              type="text"
+              value={settings.address}
               onChange={(e) => setSettings({ ...settings, address: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            />
           </div>
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-slate-900 mb-1">City</label>
-              <input type="text" value={settings.city}
+              <input
+                type="text"
+                value={settings.city}
                 onChange={(e) => setSettings({ ...settings, city: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+              />
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-900 mb-1">State</label>
-              <input type="text" value={settings.state} maxLength={2} placeholder="IN"
+              <input
+                type="text"
+                value={settings.state}
+                maxLength={2}
+                placeholder="IN"
                 onChange={(e) => setSettings({ ...settings, state: e.target.value })}
-                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+                className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+              />
             </div>
           </div>
         </div>
@@ -122,21 +140,30 @@ export default function PartnerSettingsForm({ initialData }: { initialData: Sett
         <div className="grid md:grid-cols-2 gap-4">
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">Contact Name</label>
-            <input type="text" value={settings.contactName}
+            <input
+              type="text"
+              value={settings.contactName}
               onChange={(e) => setSettings({ ...settings, contactName: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">Email</label>
-            <input type="email" value={settings.contactEmail}
+            <input
+              type="email"
+              value={settings.contactEmail}
               onChange={(e) => setSettings({ ...settings, contactEmail: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            />
           </div>
           <div>
             <label className="block text-sm font-medium text-slate-900 mb-1">Phone</label>
-            <input type="tel" value={settings.contactPhone}
+            <input
+              type="tel"
+              value={settings.contactPhone}
               onChange={(e) => setSettings({ ...settings, contactPhone: e.target.value })}
-              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent" />
+              className="w-full px-4 py-2 border rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
+            />
           </div>
         </div>
       </div>
@@ -150,21 +177,43 @@ export default function PartnerSettingsForm({ initialData }: { initialData: Sett
           <h2 className="text-lg font-semibold text-slate-900">Notification Preferences</h2>
         </div>
         <div className="space-y-4">
-          {([
-            { key: 'emailNotifications'    as const, label: 'Email Notifications',    desc: 'Receive updates via email' },
-            { key: 'weeklyDigest'          as const, label: 'Weekly Digest',          desc: 'Summary of referral activity' },
-            { key: 'outcomeAlerts'         as const, label: 'Outcome Alerts',         desc: 'When students complete or exit programs' },
-            { key: 'referralConfirmations' as const, label: 'Referral Confirmations', desc: 'Confirmation when referrals are received' },
-          ]).map((item) => (
-            <div key={item.key} className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
+          {[
+            {
+              key: 'emailNotifications' as const,
+              label: 'Email Notifications',
+              desc: 'Receive updates via email',
+            },
+            {
+              key: 'weeklyDigest' as const,
+              label: 'Weekly Digest',
+              desc: 'Summary of referral activity',
+            },
+            {
+              key: 'outcomeAlerts' as const,
+              label: 'Outcome Alerts',
+              desc: 'When students complete or exit programs',
+            },
+            {
+              key: 'referralConfirmations' as const,
+              label: 'Referral Confirmations',
+              desc: 'Confirmation when referrals are received',
+            },
+          ].map((item) => (
+            <div
+              key={item.key}
+              className="flex items-center justify-between p-3 bg-slate-50 rounded-lg"
+            >
               <div>
                 <p className="font-medium text-slate-900">{item.label}</p>
                 <p className="text-sm text-slate-700">{item.desc}</p>
               </div>
               <label className="relative inline-flex items-center cursor-pointer">
-                <input type="checkbox" checked={settings[item.key]}
+                <input
+                  type="checkbox"
+                  checked={settings[item.key]}
                   onChange={(e) => setSettings({ ...settings, [item.key]: e.target.checked })}
-                  className="sr-only peer" />
+                  className="sr-only peer"
+                />
                 <div className="w-11 h-6 bg-gray-200 peer-focus:ring-2 peer-focus:ring-brand-blue-300 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border after:rounded-full after:h-5 after:w-5 after:transition-all peer-checked:bg-brand-blue-600" />
               </label>
             </div>
@@ -173,8 +222,11 @@ export default function PartnerSettingsForm({ initialData }: { initialData: Sett
       </div>
 
       <div className="flex justify-end">
-        <button onClick={handleSave} disabled={saving}
-          className="flex items-center gap-2 px-6 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:opacity-50 transition-colors">
+        <button
+          onClick={handleSave}
+          disabled={saving}
+          className="flex items-center gap-2 px-6 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 disabled:opacity-50 transition-colors"
+        >
           <Save className="w-4 h-4" />
           {saving ? 'Saving…' : 'Save Settings'}
         </button>

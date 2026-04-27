@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -115,14 +115,15 @@ export function CourseCatalog() {
     },
   ];
 
-  const categories = ['all', ...Array.from(new Set(courses.map(c => c.category)))];
+  const categories = ['all', ...Array.from(new Set(courses.map((c) => c.category)))];
   const levels = ['all', 'beginner', 'intermediate', 'advanced'];
 
-  const filteredCourses = courses.filter(course => {
+  const filteredCourses = courses.filter((course) => {
     const matchesCategory = selectedCategory === 'all' || course.category === selectedCategory;
     const matchesLevel = selectedLevel === 'all' || course.level === selectedLevel;
-    const matchesSearch = course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
-                         course.description.toLowerCase().includes(searchQuery.toLowerCase());
+    const matchesSearch =
+      course.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
+      course.description.toLowerCase().includes(searchQuery.toLowerCase());
     return matchesCategory && matchesLevel && matchesSearch;
   });
 
@@ -140,7 +141,9 @@ export function CourseCatalog() {
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Course Catalog</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Course Catalog
+          </h1>
           <p className="text-white">Explore our comprehensive training programs</p>
         </div>
       </div>
@@ -154,16 +157,20 @@ export function CourseCatalog() {
                 type="text"
                 placeholder="Search courses..."
                 value={searchQuery}
-                onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setSearchQuery(e.target.value)}
+                onChange={(
+                  e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+                ) => setSearchQuery(e.target.value)}
                 className="w-full px-4 py-2 border rounded-lg"
               />
             </div>
             <select
               value={selectedCategory}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setSelectedCategory(e.target.value)}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+              ) => setSelectedCategory(e.target.value)}
               className="px-4 py-2 border rounded-lg"
             >
-              {categories.map(cat => (
+              {categories.map((cat) => (
                 <option key={cat} value={cat}>
                   {cat === 'all' ? 'All Categories' : cat}
                 </option>
@@ -171,10 +178,12 @@ export function CourseCatalog() {
             </select>
             <select
               value={selectedLevel}
-              onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setSelectedLevel(e.target.value)}
+              onChange={(
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+              ) => setSelectedLevel(e.target.value)}
               className="px-4 py-2 border rounded-lg"
             >
-              {levels.map(level => (
+              {levels.map((level) => (
                 <option key={level} value={level}>
                   {level === 'all' ? 'All Levels' : level.charAt(0).toUpperCase() + level.slice(1)}
                 </option>
@@ -190,7 +199,9 @@ export function CourseCatalog() {
           </p>
           <select
             value={sortBy}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setSortBy(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setSortBy(e.target.value)}
             className="px-4 py-2 border rounded-lg"
           >
             <option value="popular">Most Popular</option>
@@ -202,7 +213,7 @@ export function CourseCatalog() {
 
         {/* Course Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
-          {filteredCourses.map(course => (
+          {filteredCourses.map((course) => (
             <Card key={course.id} className="overflow-hidden hover:shadow-xl transition-shadow">
               <div className="   h-48 flex items-center justify-center text-7xl">
                 {course.thumbnail}
@@ -212,11 +223,15 @@ export function CourseCatalog() {
                   <span className="px-2 py-2 bg-brand-orange-100 text-brand-orange-700 text-xs rounded">
                     {course.category}
                   </span>
-                  <span className={`px-2 py-2 text-xs rounded ${
-                    course.level === 'beginner' ? 'bg-brand-blue-100 text-brand-blue-700' :
-                    course.level === 'intermediate' ? 'bg-purple-100 text-purple-700' :
-                    'bg-brand-red-100 text-brand-red-700'
-                  }`}>
+                  <span
+                    className={`px-2 py-2 text-xs rounded ${
+                      course.level === 'beginner'
+                        ? 'bg-brand-blue-100 text-brand-blue-700'
+                        : course.level === 'intermediate'
+                          ? 'bg-purple-100 text-purple-700'
+                          : 'bg-brand-red-100 text-brand-red-700'
+                    }`}
+                  >
                     {course.level}
                   </span>
                 </div>
@@ -240,8 +255,11 @@ export function CourseCatalog() {
                 <div className="mb-4">
                   <p className="text-xs font-semibold text-black mb-2">Skills:</p>
                   <div className="flex flex-wrap gap-1">
-                    {course.skills.slice(0, 3).map(skill => (
-                      <span key={skill} className="px-2 py-0.5 bg-gray-100 text-black text-xs rounded">
+                    {course.skills.slice(0, 3).map((skill) => (
+                      <span
+                        key={skill}
+                        className="px-2 py-0.5 bg-gray-100 text-black text-xs rounded"
+                      >
                         {skill}
                       </span>
                     ))}

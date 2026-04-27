@@ -16,24 +16,14 @@
       },
       {
         "prompt": "A client presents with a flaky, itchy scalp. What condition might this indicate?",
-        "choices": [
-          "Psoriasis",
-          "Dandruff",
-          "Alopecia",
-          "Eczema"
-        ],
+        "choices": ["Psoriasis", "Dandruff", "Alopecia", "Eczema"],
         "answerIndex": 1,
         "rationale": "Dandruff is characterized by a flaky, itchy scalp and is a common condition that barbers encounter.",
         "type": "scenario"
       },
       {
         "prompt": "Which muscle is primarily responsible for the movement of the jaw during chewing?",
-        "choices": [
-          "Masseter",
-          "Temporalis",
-          "Orbicularis Oculi",
-          "Frontalis"
-        ],
+        "choices": ["Masseter", "Temporalis", "Orbicularis Oculi", "Frontalis"],
         "answerIndex": 0,
         "rationale": "The masseter muscle plays a key role in jaw movement and chewing.",
         "type": "recall"
@@ -52,12 +42,7 @@
       },
       {
         "prompt": "Which cranial nerve is responsible for facial sensation and motor functions such as biting and chewing?",
-        "choices": [
-          "Facial Nerve",
-          "Trigeminal Nerve",
-          "Vagus Nerve",
-          "Accessory Nerve"
-        ],
+        "choices": ["Facial Nerve", "Trigeminal Nerve", "Vagus Nerve", "Accessory Nerve"],
         "answerIndex": 1,
         "rationale": "The trigeminal nerve is responsible for facial sensation and motor functions like biting and chewing.",
         "type": "recall"
@@ -76,12 +61,7 @@
       },
       {
         "prompt": "Which bone is important to consider when creating seamless fades and tapers in haircuts?",
-        "choices": [
-          "Frontal Bone",
-          "Parietal Bone",
-          "Occipital Bone",
-          "Zygomatic Bone"
-        ],
+        "choices": ["Frontal Bone", "Parietal Bone", "Occipital Bone", "Zygomatic Bone"],
         "answerIndex": 2,
         "rationale": "The occipital bone's curvature guides barbers in creating seamless fades and tapers.",
         "type": "recall"
@@ -100,12 +80,7 @@
       },
       {
         "prompt": "Which muscle surrounds the eye and is responsible for closing the eyelids?",
-        "choices": [
-          "Masseter",
-          "Temporalis",
-          "Orbicularis Oculi",
-          "Frontalis"
-        ],
+        "choices": ["Masseter", "Temporalis", "Orbicularis Oculi", "Frontalis"],
         "answerIndex": 2,
         "rationale": "The orbicularis oculi muscle surrounds the eye and controls eyelid movement.",
         "type": "recall"
@@ -124,12 +99,7 @@
       },
       {
         "prompt": "Which part of the hair structure is the outermost layer that protects the inner layers?",
-        "choices": [
-          "Cuticle",
-          "Cortex",
-          "Medulla",
-          "Follicle"
-        ],
+        "choices": ["Cuticle", "Cortex", "Medulla", "Follicle"],
         "answerIndex": 0,
         "rationale": "The cuticle is the outermost layer of hair that protects the cortex and medulla.",
         "type": "recall"
@@ -160,24 +130,14 @@
       },
       {
         "prompt": "A client reports discomfort during a shave. Which cranial nerve might be irritated?",
-        "choices": [
-          "Facial Nerve",
-          "Trigeminal Nerve",
-          "Vagus Nerve",
-          "Accessory Nerve"
-        ],
+        "choices": ["Facial Nerve", "Trigeminal Nerve", "Vagus Nerve", "Accessory Nerve"],
         "answerIndex": 1,
         "rationale": "The trigeminal nerve is involved in facial sensation and might be irritated if the client reports discomfort.",
         "type": "scenario"
       },
       {
         "prompt": "Which bone forms the lower jaw and is important for facial hair sculpting?",
-        "choices": [
-          "Mandible",
-          "Maxilla",
-          "Zygomatic",
-          "Frontal"
-        ],
+        "choices": ["Mandible", "Maxilla", "Zygomatic", "Frontal"],
         "answerIndex": 0,
         "rationale": "The mandible forms the lower jaw and is crucial for sculpting facial hair to complement natural features.",
         "type": "recall"
@@ -220,12 +180,7 @@
       },
       {
         "prompt": "Which muscle is located on the side of the head and assists in chewing?",
-        "choices": [
-          "Masseter",
-          "Temporalis",
-          "Orbicularis Oculi",
-          "Frontalis"
-        ],
+        "choices": ["Masseter", "Temporalis", "Orbicularis Oculi", "Frontalis"],
         "answerIndex": 1,
         "rationale": "The temporalis muscle is located on the side of the head and assists in the chewing process.",
         "type": "recall"

@@ -1,24 +1,24 @@
 /**
  * Apprenticeship Access Control
- * 
+ *
  * Enforces the enrollment state model:
  * - applied: No access to anything
  * - enrolled_pending_approval: Payment received, waiting for approval
  * - active: Full access to portal, hours, LMS
  * - paused: Access suspended (payment failed, compliance issue)
- * 
+ *
  * CRITICAL: Stripe payment does NOT grant training access.
  * Only admin approval moves status to 'active'.
  */
 
 import { createClient } from '@/lib/supabase/server';
 
-export type EnrollmentStatus = 
-  | 'applied' 
-  | 'enrolled_pending_approval' 
-  | 'active' 
-  | 'paused' 
-  | 'withdrawn' 
+export type EnrollmentStatus =
+  | 'applied'
+  | 'enrolled_pending_approval'
+  | 'active'
+  | 'paused'
+  | 'withdrawn'
   | 'completed';
 
 export interface EnrollmentAccess {
@@ -37,7 +37,7 @@ export interface EnrollmentAccess {
  */
 export async function checkEnrollmentAccess(
   userId: string,
-  programSlug?: string
+  programSlug?: string,
 ): Promise<EnrollmentAccess> {
   const supabase = await createClient();
 
@@ -94,7 +94,8 @@ export async function checkEnrollmentAccess(
         canMessageAdvisor: true,
         canUploadDocuments: true,
         status,
-        message: 'Payment received. Waiting for shop assignment and approval. Training access unlocks after approval.',
+        message:
+          'Payment received. Waiting for shop assignment and approval. Training access unlocks after approval.',
       };
 
     case 'active':
@@ -107,8 +108,8 @@ export async function checkEnrollmentAccess(
         canMessageAdvisor: true,
         canUploadDocuments: true,
         status,
-        message: enrollment.agreement_signed 
-          ? 'Full access granted.' 
+        message: enrollment.agreement_signed
+          ? 'Full access granted.'
           : 'Sign the enrollment agreement to access training materials.',
       };
 
@@ -134,9 +135,8 @@ export async function checkEnrollmentAccess(
         canMessageAdvisor: false,
         canUploadDocuments: false,
         status,
-        message: status === 'completed' 
-          ? 'Program completed. Congratulations!' 
-          : 'Enrollment withdrawn.',
+        message:
+          status === 'completed' ? 'Program completed. Congratulations!' : 'Enrollment withdrawn.',
       };
 
     default:
@@ -156,12 +156,9 @@ export async function checkEnrollmentAccess(
 /**
  * Require active enrollment - throws if not active
  */
-export async function requireActiveEnrollment(
-  userId: string,
-  programSlug?: string
-): Promise<void> {
+export async function requireActiveEnrollment(userId: string, programSlug?: string): Promise<void> {
   const access = await checkEnrollmentAccess(userId, programSlug);
-  
+
   if (access.status !== 'active') {
     throw new Error(access.message);
   }
@@ -170,12 +167,9 @@ export async function requireActiveEnrollment(
 /**
  * Require portal access - throws if not allowed
  */
-export async function requirePortalAccess(
-  userId: string,
-  programSlug?: string
-): Promise<void> {
+export async function requirePortalAccess(userId: string, programSlug?: string): Promise<void> {
   const access = await checkEnrollmentAccess(userId, programSlug);
-  
+
   if (!access.canAccessPortal) {
     throw new Error(access.message);
   }
@@ -184,12 +178,9 @@ export async function requirePortalAccess(
 /**
  * Require hours tracking access - throws if not allowed
  */
-export async function requireHoursAccess(
-  userId: string,
-  programSlug?: string
-): Promise<void> {
+export async function requireHoursAccess(userId: string, programSlug?: string): Promise<void> {
   const access = await checkEnrollmentAccess(userId, programSlug);
-  
+
   if (!access.canTrackHours) {
     throw new Error(access.message);
   }
@@ -198,12 +189,9 @@ export async function requireHoursAccess(
 /**
  * Require LMS access — throws if not allowed
  */
-export async function requireLmsAccess(
-  userId: string,
-  programSlug?: string
-): Promise<void> {
+export async function requireLmsAccess(userId: string, programSlug?: string): Promise<void> {
   const access = await checkEnrollmentAccess(userId, programSlug);
-  
+
   if (!access.canAccessLms) {
     throw new Error(access.message);
   }
@@ -214,7 +202,7 @@ export async function requireLmsAccess(
  */
 export async function hasSubmittedApplication(
   userId: string,
-  programSlug: string
+  programSlug: string,
 ): Promise<{ hasApplication: boolean; applicationId: string | null }> {
   const supabase = await createClient();
 
@@ -240,7 +228,7 @@ export async function hasSubmittedApplication(
  */
 export async function approveEnrollment(
   enrollmentId: string,
-  approvedBy: string
+  approvedBy: string,
 ): Promise<{ success: boolean; error?: string }> {
   const supabase = await createClient();
 
@@ -255,9 +243,9 @@ export async function approveEnrollment(
   }
 
   if (enrollment.status !== 'enrolled_pending_approval') {
-    return { 
-      success: false, 
-      error: `Cannot approve enrollment with status: ${enrollment.status}` 
+    return {
+      success: false,
+      error: `Cannot approve enrollment with status: ${enrollment.status}`,
     };
   }
 

@@ -9,7 +9,8 @@ export const revalidate = 300; // 5-minute ISR
 
 export const metadata: Metadata = {
   title: 'Provider Network | Elevate for Humanity',
-  description: 'Vetted training organizations, workforce agencies, and employers operating on the Elevate workforce hub.',
+  description:
+    'Vetted training organizations, workforce agencies, and employers operating on the Elevate workforce hub.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/network' },
 };
 
@@ -25,24 +26,23 @@ export default async function NetworkPage() {
     .order('name');
 
   // For each tenant, get their org profile and program count from catalog index
-  const tenantIds = (tenants ?? []).map(t => t.id);
+  const tenantIds = (tenants ?? []).map((t) => t.id);
 
   const [{ data: orgs }, { data: catalogCounts }] = await Promise.all([
     tenantIds.length > 0
       ? supabase
           .from('organizations')
-          .select('tenant_id, name, tagline, logo_url, support_email, website, city, state, service_area_counties')
+          .select(
+            'tenant_id, name, tagline, logo_url, support_email, website, city, state, service_area_counties',
+          )
           .in('tenant_id', tenantIds)
       : Promise.resolve({ data: [] }),
     tenantIds.length > 0
-      ? supabase
-          .from('program_catalog_index')
-          .select('tenant_id')
-          .in('tenant_id', tenantIds)
+      ? supabase.from('program_catalog_index').select('tenant_id').in('tenant_id', tenantIds)
       : Promise.resolve({ data: [] }),
   ]);
 
-  const orgByTenant = Object.fromEntries((orgs ?? []).map(o => [o.tenant_id, o]));
+  const orgByTenant = Object.fromEntries((orgs ?? []).map((o) => [o.tenant_id, o]));
   const programCountByTenant = (catalogCounts ?? []).reduce<Record<string, number>>((acc, row) => {
     acc[row.tenant_id] = (acc[row.tenant_id] ?? 0) + 1;
     return acc;
@@ -59,8 +59,8 @@ export default async function NetworkPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-3">Provider Network</h1>
           <p className="text-slate-600 text-lg max-w-2xl mx-auto">
-            Vetted training organizations, workforce agencies, and employers operating on the Elevate hub.
-            Every provider is reviewed, approved, and held to outcome standards.
+            Vetted training organizations, workforce agencies, and employers operating on the
+            Elevate hub. Every provider is reviewed, approved, and held to outcome standards.
           </p>
           <div className="flex flex-wrap gap-4 justify-center mt-8">
             <Link
@@ -84,10 +84,19 @@ export default async function NetworkPage() {
         <div className="max-w-4xl mx-auto px-4">
           <div className="grid sm:grid-cols-3 gap-6 text-center">
             {[
-              { label: 'Approval Required', desc: 'Every provider is reviewed before publishing programs.' },
-              { label: 'Outcome Tracked', desc: 'Completion, credential, and placement rates are monitored.' },
-              { label: 'Compliance Verified', desc: 'MOU, insurance, and licensing documents on file.' },
-            ].map(item => (
+              {
+                label: 'Approval Required',
+                desc: 'Every provider is reviewed before publishing programs.',
+              },
+              {
+                label: 'Outcome Tracked',
+                desc: 'Completion, credential, and placement rates are monitored.',
+              },
+              {
+                label: 'Compliance Verified',
+                desc: 'MOU, insurance, and licensing documents on file.',
+              },
+            ].map((item) => (
               <div key={item.label} className="flex flex-col items-center gap-2">
                 <CheckCircle className="w-5 h-5 text-brand-blue-600" />
                 <div className="font-semibold text-slate-900 text-sm">{item.label}</div>
@@ -105,20 +114,27 @@ export default async function NetworkPage() {
             <div className="text-center py-16">
               <Building2 className="w-10 h-10 text-slate-600 mx-auto mb-3" />
               <p className="text-slate-500">No providers listed yet.</p>
-              <Link href="/partners/apply" className="mt-4 inline-block text-sm text-brand-blue-600 hover:underline">
+              <Link
+                href="/partners/apply"
+                className="mt-4 inline-block text-sm text-brand-blue-600 hover:underline"
+              >
                 Apply to be the first →
               </Link>
             </div>
           ) : (
             <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-              {(tenants ?? []).map(tenant => {
+              {(tenants ?? []).map((tenant) => {
                 const org = orgByTenant[tenant.id];
                 const programCount = programCountByTenant[tenant.id] ?? 0;
                 return (
-                  <div key={tenant.id} className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-md transition group">
+                  <div
+                    key={tenant.id}
+                    className="bg-white border border-slate-200 rounded-xl overflow-hidden hover:shadow-md transition group"
+                  >
                     {/* Logo / placeholder */}
                     <div className="h-28 bg-white flex items-center justify-center border-b border-slate-100">
                       {org?.logo_url ? (
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                         <Image
                           src={org.logo_url}
                           alt={`${tenant.name} logo`}
@@ -186,8 +202,8 @@ export default async function NetworkPage() {
         <div className="max-w-3xl mx-auto px-4 text-center">
           <h2 className="text-2xl font-bold text-slate-900 mb-3">Join the Network</h2>
           <p className="text-slate-600 mb-6">
-            Training organizations, workforce agencies, and employers can apply to operate on the Elevate hub.
-            Approval is required. Admission is controlled.
+            Training organizations, workforce agencies, and employers can apply to operate on the
+            Elevate hub. Approval is required. Admission is controlled.
           </p>
           <Link
             href="/partners/apply"

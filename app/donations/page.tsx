@@ -9,7 +9,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
   title: 'Donate | Elevate for Humanity',
-  description: 'Support workforce development and help transform lives. Your donation helps provide training, certifications, and career opportunities.',
+  description:
+    'Support workforce development and help transform lives. Your donation helps provide training, certifications, and career opportunities.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/donations' },
 };
 
@@ -42,13 +43,25 @@ export default async function DonationsPage() {
       </div>
 
       <section className="relative h-[400px] flex items-center justify-center text-white overflow-hidden">
-        <Image src="/images/hero/hero-community.jpg" alt="Donate" fill className="object-cover" priority sizes="100vw" />
-        
+        <Image
+          src="/images/hero/hero-community.jpg"
+          alt="Donate"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
+
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
           <Heart className="w-16 h-16 mx-auto mb-4 text-white/80" />
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Transform Lives Through Giving</h1>
-          <p className="text-xl text-brand-red-100 mb-8">Your donation helps provide career training and opportunities to those who need it most</p>
-          <a href="#donate" className="bg-white hover:bg-gray-100 text-brand-red-700 px-8 py-4 rounded-lg text-lg font-bold transition inline-flex items-center">
+          <p className="text-xl text-brand-red-100 mb-8">
+            Your donation helps provide career training and opportunities to those who need it most
+          </p>
+          <a
+            href="#donate"
+            className="bg-white hover:bg-gray-100 text-brand-red-700 px-8 py-4 rounded-lg text-lg font-bold transition inline-flex items-center"
+          >
             Donate Now <Heart className="ml-2 w-5 h-5" />
           </a>
         </div>
@@ -70,27 +83,37 @@ export default async function DonationsPage() {
       <section id="donate" className="py-16 bg-white">
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-3xl font-bold text-gray-900 mb-8 text-center">Make a Donation</h2>
-          
+
           <div className="bg-gray-50 rounded-xl p-8">
             <div className="grid grid-cols-2 md:grid-cols-5 gap-4 mb-8">
               {donationLevels.map((level, i) => (
-                <button key={i} className="bg-white border-2 border-gray-200 hover:border-brand-red-500 rounded-lg p-4 text-center transition">
+                <button
+                  key={i}
+                  className="bg-white border-2 border-gray-200 hover:border-brand-red-500 rounded-lg p-4 text-center transition"
+                >
                   <p className="text-2xl font-bold text-gray-900">${level.amount}</p>
                 </button>
               ))}
             </div>
-            
+
             <div className="mb-6">
               <label className="block text-sm font-medium text-gray-700 mb-2">Custom Amount</label>
               <div className="relative">
                 <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-                <input type="number" placeholder="Enter amount" className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-red-500" />
+                <input
+                  type="number"
+                  placeholder="Enter amount"
+                  className="w-full pl-10 pr-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-red-500"
+                />
               </div>
             </div>
 
             <div className="mb-6">
               <label className="flex items-center">
-                <input type="checkbox" className="w-4 h-4 text-brand-red-600 border-gray-300 rounded focus:ring-brand-red-500" />
+                <input
+                  type="checkbox"
+                  className="w-4 h-4 text-brand-red-600 border-gray-300 rounded focus:ring-brand-red-500"
+                />
                 <span className="ml-2 text-gray-700">Make this a monthly donation</span>
               </label>
             </div>
@@ -132,12 +155,16 @@ export default async function DonationsPage() {
             <div className="bg-white/10 rounded-lg p-6">
               <Users className="w-10 h-10 mx-auto mb-4" />
               <h3 className="font-bold mb-2">Volunteer</h3>
-              <p className="text-brand-red-100 text-sm">Share your expertise as a mentor or instructor</p>
+              <p className="text-brand-red-100 text-sm">
+                Share your expertise as a mentor or instructor
+              </p>
             </div>
             <div className="bg-white/10 rounded-lg p-6">
               <Award className="w-10 h-10 mx-auto mb-4" />
               <h3 className="font-bold mb-2">Corporate Sponsorship</h3>
-              <p className="text-brand-red-100 text-sm">Partner with us to support workforce development</p>
+              <p className="text-brand-red-100 text-sm">
+                Partner with us to support workforce development
+              </p>
             </div>
             <div className="bg-white/10 rounded-lg p-6">
               <Heart className="w-10 h-10 mx-auto mb-4" />
@@ -145,7 +172,10 @@ export default async function DonationsPage() {
               <p className="text-brand-red-100 text-sm">Include Elevate in your estate planning</p>
             </div>
           </div>
-          <Link href="/contact" className="mt-8 inline-block bg-white hover:bg-gray-100 text-brand-red-700 px-8 py-4 rounded-lg text-lg font-bold transition">
+          <Link
+            href="/contact"
+            className="mt-8 inline-block bg-white hover:bg-gray-100 text-brand-red-700 px-8 py-4 rounded-lg text-lg font-bold transition"
+          >
             Contact Us to Learn More
           </Link>
         </div>

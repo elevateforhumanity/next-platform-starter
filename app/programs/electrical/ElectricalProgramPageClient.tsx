@@ -7,11 +7,27 @@ import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { FundingBadge } from '@/components/programs/FundingBadge';
-import { 
-  Clock, DollarSign, TrendingUp, ArrowRight, 
-  Zap, Award, Users, Calendar, ChevronDown, ChevronUp, 
-  Play, Phone, GraduationCap, Briefcase, Shield, Building,
-  Lightbulb, Gauge, Home, Factory
+import {
+  Clock,
+  DollarSign,
+  TrendingUp,
+  ArrowRight,
+  Zap,
+  Award,
+  Users,
+  Calendar,
+  ChevronDown,
+  ChevronUp,
+  Play,
+  Phone,
+  GraduationCap,
+  Briefcase,
+  Shield,
+  Building,
+  Lightbulb,
+  Gauge,
+  Home,
+  Factory,
 } from 'lucide-react';
 
 export function ElectricalProgramPageClient({ enrollmentCount }: { enrollmentCount: number }) {
@@ -19,95 +35,139 @@ export function ElectricalProgramPageClient({ enrollmentCount }: { enrollmentCou
 
   const faqs = [
     {
-      question: "Do I need experience to become an electrician?",
-      answer: "No prior experience is needed. Our program teaches you from the ground up — starting with basic electrical theory, safety, and the National Electrical Code. You'll progress through wiring principles, troubleshooting methodology, and employer site visits where you observe real installations."
+      question: 'Do I need experience to become an electrician?',
+      answer:
+        "No prior experience is needed. Our program teaches you from the ground up — starting with basic electrical theory, safety, and the National Electrical Code. You'll progress through wiring principles, troubleshooting methodology, and employer site visits where you observe real installations.",
     },
     {
       question: "What's the difference between residential and commercial electrical work?",
-      answer: "Residential work focuses on homes - 120/240V systems, outlets, lighting, and panels. Commercial work involves larger 277/480V systems, three-phase power, motor controls, and complex distribution. Our program covers both so you can work in either field."
+      answer:
+        'Residential work focuses on homes - 120/240V systems, outlets, lighting, and panels. Commercial work involves larger 277/480V systems, three-phase power, motor controls, and complex distribution. Our program covers both so you can work in either field.',
     },
     {
-      question: "What career path does this program prepare me for?",
-      answer: "This program prepares you for entry-level electrical helper and apprentice positions. Indiana requires 8,000 hours (about 4 years) of supervised work experience plus passing the journeyman exam. Our program gives you the foundation and employer connections to start that apprenticeship. Many employers sponsor apprentices and pay for continued education."
+      question: 'What career path does this program prepare me for?',
+      answer:
+        'This program prepares you for entry-level electrical helper and apprentice positions. Indiana requires 8,000 hours (about 4 years) of supervised work experience plus passing the journeyman exam. Our program gives you the foundation and employer connections to start that apprenticeship. Many employers sponsor apprentices and pay for continued education.',
     },
     {
-      question: "What credentials will I earn?",
-      answer: "You'll complete OSHA 10 Safety training (via CareerSafe) and receive a program completion credential documenting your instructional hours and competencies. You'll also be prepared to register as an Indiana Electrical Apprentice and begin your career pathway."
+      question: 'What credentials will I earn?',
+      answer:
+        "You'll complete OSHA 10 Safety training (via CareerSafe) and receive a program completion credential documenting your instructional hours and competencies. You'll also be prepared to register as an Indiana Electrical Apprentice and begin your career pathway.",
     },
     {
-      question: "Is electrical work dangerous?",
-      answer: "Electricity demands respect, but proper training makes it safe. We emphasize safety from day one - lockout/tagout procedures, PPE, testing equipment, and the NEC safety requirements. Professional electricians have excellent safety records because they follow protocols."
+      question: 'Is electrical work dangerous?',
+      answer:
+        'Electricity demands respect, but proper training makes it safe. We emphasize safety from day one - lockout/tagout procedures, PPE, testing equipment, and the NEC safety requirements. Professional electricians have excellent safety records because they follow protocols.',
     },
     {
-      question: "What tools will I need?",
-      answer: "Basic hand tools are provided during training. As you progress in your career, you'll build your own tool collection. Essential tools include multimeters, wire strippers, lineman's pliers, screwdrivers, and fish tape. Most apprentices invest $500-1,000 in quality tools."
+      question: 'What tools will I need?',
+      answer:
+        "Basic hand tools are provided during training. As you progress in your career, you'll build your own tool collection. Essential tools include multimeters, wire strippers, lineman's pliers, screwdrivers, and fish tape. Most apprentices invest $500-1,000 in quality tools.",
     },
     {
-      question: "Can electricians work for themselves?",
-      answer: "Yes! After becoming a licensed journeyman or master electrician, many start their own contracting businesses. Residential service work is especially suited for self-employment. You'll need a contractor's license and insurance, but the earning potential is significant."
+      question: 'Can electricians work for themselves?',
+      answer:
+        "Yes! After becoming a licensed journeyman or master electrician, many start their own contracting businesses. Residential service work is especially suited for self-employment. You'll need a contractor's license and insurance, but the earning potential is significant.",
     },
     {
       question: "What's the job outlook for electricians?",
-      answer: "Excellent. The Bureau of Labor Statistics projects 6% growth through 2032. Electric vehicle charging infrastructure, solar installations, smart home technology, and aging electrical systems all drive demand. Skilled electricians are consistently in short supply."
-    }
+      answer:
+        'Excellent. The Bureau of Labor Statistics projects 6% growth through 2032. Electric vehicle charging infrastructure, solar installations, smart home technology, and aging electrical systems all drive demand. Skilled electricians are consistently in short supply.',
+    },
   ];
 
   const curriculum = [
     {
-      week: "Weeks 1-2",
-      title: "Electrical Fundamentals",
-      topics: ["Electrical theory (voltage, current, resistance)", "Ohm's Law and power calculations", "AC vs DC electricity", "Electrical safety and OSHA requirements"],
-      project: "Build and test basic circuits"
+      week: 'Weeks 1-2',
+      title: 'Electrical Fundamentals',
+      topics: [
+        'Electrical theory (voltage, current, resistance)',
+        "Ohm's Law and power calculations",
+        'AC vs DC electricity',
+        'Electrical safety and OSHA requirements',
+      ],
+      project: 'Build and test basic circuits',
     },
     {
-      week: "Weeks 3-4",
-      title: "National Electrical Code (NEC)",
-      topics: ["NEC structure and how to use it", "Wiring methods and materials", "Box fill calculations", "Conductor sizing and ampacity"],
-      project: "Complete NEC code lookup exercises"
+      week: 'Weeks 3-4',
+      title: 'National Electrical Code (NEC)',
+      topics: [
+        'NEC structure and how to use it',
+        'Wiring methods and materials',
+        'Box fill calculations',
+        'Conductor sizing and ampacity',
+      ],
+      project: 'Complete NEC code lookup exercises',
     },
     {
-      week: "Weeks 5-6",
-      title: "Residential Wiring",
-      topics: ["Service entrance and panels", "Branch circuit installation", "Outlet and switch wiring", "GFCI and AFCI protection"],
-      project: "Wire a complete room with outlets, switches, and lights"
+      week: 'Weeks 5-6',
+      title: 'Residential Wiring',
+      topics: [
+        'Service entrance and panels',
+        'Branch circuit installation',
+        'Outlet and switch wiring',
+        'GFCI and AFCI protection',
+      ],
+      project: 'Wire a complete room with outlets, switches, and lights',
     },
     {
-      week: "Weeks 7-8",
-      title: "Lighting Systems",
-      topics: ["Lighting circuit design", "Three-way and four-way switches", "Dimmer installation", "LED and fluorescent systems"],
-      project: "Install multi-location lighting control"
+      week: 'Weeks 7-8',
+      title: 'Lighting Systems',
+      topics: [
+        'Lighting circuit design',
+        'Three-way and four-way switches',
+        'Dimmer installation',
+        'LED and fluorescent systems',
+      ],
+      project: 'Install multi-location lighting control',
     },
     {
-      week: "Weeks 9-10",
-      title: "Commercial Electrical",
-      topics: ["Three-phase power systems", "Commercial panel boards", "Conduit bending and installation", "Motor circuits and controls"],
-      project: "Install conduit run with proper bends"
+      week: 'Weeks 9-10',
+      title: 'Commercial Electrical',
+      topics: [
+        'Three-phase power systems',
+        'Commercial panel boards',
+        'Conduit bending and installation',
+        'Motor circuits and controls',
+      ],
+      project: 'Install conduit run with proper bends',
     },
     {
-      week: "Weeks 11-12",
-      title: "Troubleshooting & Career Readiness",
-      topics: ["Multimeter and megger usage", "Systematic troubleshooting", "Circuit tracing techniques", "Apprenticeship requirements", "Resume and interview preparation"],
-      project: "Complete apprenticeship application portfolio"
-    }
+      week: 'Weeks 11-12',
+      title: 'Troubleshooting & Career Readiness',
+      topics: [
+        'Multimeter and megger usage',
+        'Systematic troubleshooting',
+        'Circuit tracing techniques',
+        'Apprenticeship requirements',
+        'Resume and interview preparation',
+      ],
+      project: 'Complete apprenticeship application portfolio',
+    },
   ];
 
   const stats = [
-    { value: "3★", label: "Indiana Top Jobs Rating", icon: Briefcase },
-    { value: "$56K", label: "Average Starting Salary", icon: DollarSign },
-    { value: "12", label: "Weeks Training", icon: Calendar },
-    { value: enrollmentCount > 0 ? enrollmentCount.toLocaleString() : "—", label: "Active Learners", icon: Users }
+    { value: '3★', label: 'Indiana Top Jobs Rating', icon: Briefcase },
+    { value: '$56K', label: 'Average Starting Salary', icon: DollarSign },
+    { value: '12', label: 'Weeks Training', icon: Calendar },
+    {
+      value: enrollmentCount > 0 ? enrollmentCount.toLocaleString() : '—',
+      label: 'Active Learners',
+      icon: Users,
+    },
   ];
 
   return (
     <>
-      
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Programs', href: '/programs' },
-            { label: 'Skilled Trades', href: '/programs/skilled-trades' },
-            { label: 'Electrical Technology' }
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Programs', href: '/programs' },
+              { label: 'Skilled Trades', href: '/programs/skilled-trades' },
+              { label: 'Electrical Technology' },
+            ]}
+          />
         </div>
       </div>
 
@@ -118,7 +178,12 @@ export function ElectricalProgramPageClient({ enrollmentCount }: { enrollmentCou
         microLabel={heroBanners['electrical'].microLabel}
         belowHeroHeadline={heroBanners['electrical'].belowHeroHeadline}
         belowHeroSubheadline={heroBanners['electrical'].belowHeroSubheadline}
-        ctas={[heroBanners['electrical'].primaryCta, ...(heroBanners['electrical'].secondaryCta ? [heroBanners['electrical'].secondaryCta] : [])]}
+        ctas={[
+          heroBanners['electrical'].primaryCta,
+          ...(heroBanners['electrical'].secondaryCta
+            ? [heroBanners['electrical'].secondaryCta]
+            : []),
+        ]}
         trustIndicators={heroBanners['electrical'].trustIndicators}
         transcript={heroBanners['electrical'].transcript}
         analyticsName={heroBanners['electrical'].analyticsName}
@@ -156,7 +221,8 @@ export function ElectricalProgramPageClient({ enrollmentCount }: { enrollmentCou
               Delivery Model: Classroom + LMS + Employer Site Days
             </h2>
             <p className="text-lg text-gray-600 max-w-3xl mx-auto">
-              A hybrid workforce pathway combining evening classroom instruction, self-paced LMS coursework, and supervised employer site days with OJT exposure.
+              A hybrid workforce pathway combining evening classroom instruction, self-paced LMS
+              coursework, and supervised employer site days with OJT exposure.
             </p>
           </div>
 
@@ -167,24 +233,39 @@ export function ElectricalProgramPageClient({ enrollmentCount }: { enrollmentCou
                 <GraduationCap className="w-7 h-7 text-yellow-600" />
               </div>
               <div className="text-3xl font-bold text-gray-900 mb-1">72</div>
-              <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Classroom Hours (RTI)</div>
-              <p className="text-gray-600 text-sm">Evening classroom instruction covering electrical theory, NEC code, wiring principles, safety protocols, and troubleshooting methodology.</p>
+              <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+                Classroom Hours (RTI)
+              </div>
+              <p className="text-gray-600 text-sm">
+                Evening classroom instruction covering electrical theory, NEC code, wiring
+                principles, safety protocols, and troubleshooting methodology.
+              </p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm text-center">
               <div className="w-14 h-14 bg-yellow-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Briefcase className="w-7 h-7 text-yellow-600" />
               </div>
               <div className="text-3xl font-bold text-gray-900 mb-1">36</div>
-              <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">Employer Site Days (OJT Exposure)</div>
-              <p className="text-gray-600 text-sm">6 supervised visits to electrical contractor job sites. Observe residential rough-ins, panel installations, and commercial wiring. Meet hiring managers.</p>
+              <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+                Employer Site Days (OJT Exposure)
+              </div>
+              <p className="text-gray-600 text-sm">
+                6 supervised visits to electrical contractor job sites. Observe residential
+                rough-ins, panel installations, and commercial wiring. Meet hiring managers.
+              </p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm text-center">
               <div className="w-14 h-14 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Gauge className="w-7 h-7 text-brand-green-600" />
               </div>
               <div className="text-3xl font-bold text-gray-900 mb-1">36</div>
-              <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">LMS Coursework</div>
-              <p className="text-gray-600 text-sm">Self-paced online modules with progress tracking, quizzes, and bi-weekly reporting dashboards. Complete on your own schedule.</p>
+              <div className="text-sm font-semibold text-gray-500 uppercase tracking-wide mb-3">
+                LMS Coursework
+              </div>
+              <p className="text-gray-600 text-sm">
+                Self-paced online modules with progress tracking, quizzes, and bi-weekly reporting
+                dashboards. Complete on your own schedule.
+              </p>
             </div>
           </div>
 
@@ -195,33 +276,56 @@ export function ElectricalProgramPageClient({ enrollmentCount }: { enrollmentCou
                 <Briefcase className="w-6 h-6 text-yellow-600" />
               </div>
               <h3 className="text-xl font-bold mb-3">Employer Site Days</h3>
-              <p className="text-gray-600 mb-3">Structured visits to electrical contractor job sites. Observe real installations, meet hiring managers, and build employer connections.</p>
-              <p className="text-sm text-brand-blue-600 font-semibold">All site day hours documented for apprenticeship application portfolios.</p>
+              <p className="text-gray-600 mb-3">
+                Structured visits to electrical contractor job sites. Observe real installations,
+                meet hiring managers, and build employer connections.
+              </p>
+              <p className="text-sm text-brand-blue-600 font-semibold">
+                All site day hours documented for apprenticeship application portfolios.
+              </p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm">
               <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
                 <Calendar className="w-6 h-6 text-yellow-600" />
               </div>
               <h3 className="text-xl font-bold mb-3">Flexible Cohort Scheduling</h3>
-              <p className="text-gray-600 mb-3">Cohort-based scheduling with evening and adult-friendly options available. Final schedule customized per partner cohort.</p>
-              <p className="text-sm text-gray-500"><strong>Format:</strong> 12 weeks, 144 total instructional hours</p>
-              <p className="text-sm text-gray-500"><strong>Cohort size:</strong> 8–20 participants</p>
+              <p className="text-gray-600 mb-3">
+                Cohort-based scheduling with evening and adult-friendly options available. Final
+                schedule customized per partner cohort.
+              </p>
+              <p className="text-sm text-gray-500">
+                <strong>Format:</strong> 12 weeks, 144 total instructional hours
+              </p>
+              <p className="text-sm text-gray-500">
+                <strong>Cohort size:</strong> 8–20 participants
+              </p>
             </div>
             <div className="bg-white rounded-2xl p-8 shadow-sm">
               <div className="w-12 h-12 bg-yellow-100 rounded-lg flex items-center justify-center mb-4">
                 <Users className="w-6 h-6 text-yellow-600" />
               </div>
               <h3 className="text-xl font-bold mb-3">Bilingual Support</h3>
-              <p className="text-gray-600 mb-3">Bilingual (English/Spanish) instructional assistants available for cohort groups. Written materials available in Spanish upon request.</p>
-              <p className="text-sm text-gray-500"><strong>Admission:</strong> 18+, valid ID, no experience required</p>
+              <p className="text-gray-600 mb-3">
+                Bilingual (English/Spanish) instructional assistants available for cohort groups.
+                Written materials available in Spanish upon request.
+              </p>
+              <p className="text-sm text-gray-500">
+                <strong>Admission:</strong> 18+, valid ID, no experience required
+              </p>
             </div>
           </div>
 
           {/* Funding */}
           <div className="mt-12 bg-white rounded-2xl p-8 shadow-sm text-center">
             <h3 className="text-xl font-bold mb-3">Funding Options</h3>
-            <p className="text-gray-600 mb-4">Workforce-funded cohorts, employer-sponsored training, grant-funded programs, and custom organizational cohorts supported.</p>
-            <p className="text-sm text-gray-500">Cohort-based and workforce-funded pricing available. Custom pricing provided per partner cohort and program scope.</p>
+            <p className="text-gray-600 mb-4">
+              Workforce-funded cohorts, employer-sponsored training, grant-funded programs, and
+              custom organizational cohorts supported.
+            </p>
+            <p className="text-sm text-gray-500">
+              Cohort-based and workforce-funded pricing available. Custom pricing provided per
+              partner cohort and program scope.
+            </p>
           </div>
         </div>
       </section>
@@ -237,7 +341,8 @@ export function ElectricalProgramPageClient({ enrollmentCount }: { enrollmentCou
               A Career That Powers Everything
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Every building, every device, every system needs electricity. Electricians are essential to modern life.
+              Every building, every device, every system needs electricity. Electricians are
+              essential to modern life.
             </p>
           </div>
 
@@ -245,34 +350,40 @@ export function ElectricalProgramPageClient({ enrollmentCount }: { enrollmentCou
             {[
               {
                 icon: Home,
-                title: "Residential Opportunities",
-                description: "New home construction, renovations, service upgrades, and repairs. Homeowners always need qualified electricians."
+                title: 'Residential Opportunities',
+                description:
+                  'New home construction, renovations, service upgrades, and repairs. Homeowners always need qualified electricians.',
               },
               {
                 icon: Building,
-                title: "Commercial & Industrial",
-                description: "Office buildings, factories, hospitals, and data centers require complex electrical systems and ongoing maintenance."
+                title: 'Commercial & Industrial',
+                description:
+                  'Office buildings, factories, hospitals, and data centers require complex electrical systems and ongoing maintenance.',
               },
               {
                 icon: Zap,
-                title: "Green Energy Growth",
-                description: "Solar installations, EV charging stations, and battery storage systems are creating new specializations and higher pay."
+                title: 'Green Energy Growth',
+                description:
+                  'Solar installations, EV charging stations, and battery storage systems are creating new specializations and higher pay.',
               },
               {
                 icon: DollarSign,
-                title: "Strong Earning Potential",
-                description: "Apprentices start at $35-45K. Journeymen earn $55-75K. Master electricians and contractors can exceed $100K."
+                title: 'Strong Earning Potential',
+                description:
+                  'Apprentices start at $35-45K. Journeymen earn $55-75K. Master electricians and contractors can exceed $100K.',
               },
               {
                 icon: Shield,
-                title: "Apprenticeship Ready",
-                description: "This pathway prepares you to register as an Indiana Electrical Apprentice and begin earning while you learn under licensed electricians."
+                title: 'Apprenticeship Ready',
+                description:
+                  'This pathway prepares you to register as an Indiana Electrical Apprentice and begin earning while you learn under licensed electricians.',
               },
               {
                 icon: Lightbulb,
-                title: "Problem-Solving Work",
-                description: "Every job is different. You'll use your brain and hands to solve electrical challenges and see immediate results."
-              }
+                title: 'Problem-Solving Work',
+                description:
+                  "Every job is different. You'll use your brain and hands to solve electrical challenges and see immediate results.",
+              },
             ].map((item, index) => (
               <motion.div
                 key={index}
@@ -303,7 +414,8 @@ export function ElectricalProgramPageClient({ enrollmentCount }: { enrollmentCou
               12-Week Electrical Curriculum
             </h2>
             <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Comprehensive training covering NEC code, residential and commercial wiring, and troubleshooting.
+              Comprehensive training covering NEC code, residential and commercial wiring, and
+              troubleshooting.
             </p>
           </div>
 
@@ -333,7 +445,9 @@ export function ElectricalProgramPageClient({ enrollmentCount }: { enrollmentCou
                       ))}
                     </div>
                     <div className="bg-white rounded-lg p-4 mt-4">
-                      <span className="text-sm font-semibold text-yellow-700">Applied Exercise:</span>
+                      <span className="text-sm font-semibold text-yellow-700">
+                        Applied Exercise:
+                      </span>
                       <span className="text-sm text-yellow-600 ml-2">{module.project}</span>
                     </div>
                   </div>
@@ -351,17 +465,35 @@ export function ElectricalProgramPageClient({ enrollmentCount }: { enrollmentCou
             <span className="inline-block bg-white/10 text-yellow-300 text-sm font-semibold px-4 py-1 rounded-full mb-4">
               Career Progression
             </span>
-            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-              Your Path to Master Electrician
-            </h2>
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">Your Path to Master Electrician</h2>
           </div>
 
           <div className="grid md:grid-cols-4 gap-6">
             {[
-              { title: "Training Graduate", salary: "$35-45K", time: "12 weeks", desc: "Complete our program" },
-              { title: "Electrical Apprentice", salary: "$40-55K", time: "4 years", desc: "8,000 hours supervised work" },
-              { title: "Journeyman Electrician", salary: "$55-75K", time: "Licensed", desc: "Work independently" },
-              { title: "Master Electrician", salary: "$75-100K+", time: "2+ years", desc: "Supervise and train others" }
+              {
+                title: 'Training Graduate',
+                salary: '$35-45K',
+                time: '12 weeks',
+                desc: 'Complete our program',
+              },
+              {
+                title: 'Electrical Apprentice',
+                salary: '$40-55K',
+                time: '4 years',
+                desc: '8,000 hours supervised work',
+              },
+              {
+                title: 'Journeyman Electrician',
+                salary: '$55-75K',
+                time: 'Licensed',
+                desc: 'Work independently',
+              },
+              {
+                title: 'Master Electrician',
+                salary: '$75-100K+',
+                time: '2+ years',
+                desc: 'Supervise and train others',
+              },
             ].map((step, index) => (
               <motion.div
                 key={index}
@@ -430,11 +562,10 @@ export function ElectricalProgramPageClient({ enrollmentCount }: { enrollmentCou
       {/* CTA */}
       <section className="py-20 bg-white0 text-slate-900">
         <div className="max-w-4xl mx-auto px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-6">
-            Ready to Power Your Future?
-          </h2>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-6">Ready to Power Your Future?</h2>
           <p className="text-xl text-yellow-900 mb-8 max-w-2xl mx-auto">
-            Start your journey to becoming a licensed electrician. Check your eligibility for free WIOA-funded training.
+            Start your journey to becoming a licensed electrician. Check your eligibility for free
+            WIOA-funded training.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

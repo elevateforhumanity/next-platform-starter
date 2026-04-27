@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -22,14 +22,15 @@ export function MiladyOrientationTracker({
     const markOrientation = async () => {
       try {
         // Direct DB update for Milady orientation completion
-        const { error } = await supabase
-          .from('milady_orientation_status')
-          .upsert({
+        const { error } = await supabase.from('milady_orientation_status').upsert(
+          {
             user_id: userId,
             completed: true,
             completed_at: new Date().toISOString(),
-            engagement_seconds: 3
-          }, { onConflict: 'user_id' });
+            engagement_seconds: 3,
+          },
+          { onConflict: 'user_id' },
+        );
 
         if (!error) {
           // Also update the student's onboarding progress
@@ -39,13 +40,11 @@ export function MiladyOrientationTracker({
             .eq('user_id', userId);
 
           // Log the completion event
-          await supabase
-            .from('onboarding_events')
-            .insert({
-              user_id: userId,
-              event_type: 'milady_orientation_completed',
-              timestamp: new Date().toISOString()
-            });
+          await supabase.from('onboarding_events').insert({
+            user_id: userId,
+            event_type: 'milady_orientation_completed',
+            timestamp: new Date().toISOString(),
+          });
 
           setMarked(true);
         }
@@ -56,7 +55,8 @@ export function MiladyOrientationTracker({
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify({ userId }),
         });
-      } catch (error) { /* Error handled silently */ 
+      } catch (error) {
+        /* Error handled silently */
         // Error: $1
       }
     };

@@ -3,7 +3,8 @@ import type { ProgramSchema } from '@/lib/programs/program-schema';
 export const CNA: ProgramSchema = {
   slug: 'cna',
   title: 'Certified Nursing Assistant (CNA)',
-  subtitle: 'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed healthcare facilities. State exam proctored on-site. WIOA and Workforce Ready Grant funding available for eligible Indiana residents.',
+  subtitle:
+    'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed healthcare facilities. State exam proctored on-site. WIOA and Workforce Ready Grant funding available for eligible Indiana residents.',
   sector: 'healthcare',
   category: 'Healthcare',
 
@@ -23,7 +24,8 @@ export const CNA: ProgramSchema = {
   },
   schedule: 'Mon–Fri, 30–40 hours per week',
   cohortSize: '8–12 participants per cohort',
-  fundingStatement: 'WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Covers tuition, books, and state exam fees when approved. Eligibility is not guaranteed. Self-pay: $1,800.',
+  fundingStatement:
+    'WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Covers tuition, books, and state exam fees when approved. Eligibility is not guaranteed. Self-pay: $1,800.',
   selfPayCost: '$1,800',
   badge: 'WIOA Eligible',
   badgeColor: 'green',
@@ -32,44 +34,109 @@ export const CNA: ProgramSchema = {
     {
       name: 'Indiana State CNA Certification',
       issuer: 'Indiana State Department of Health',
-      description: 'State-issued certification required to work as a nursing assistant in Indiana. Listed on the Indiana Nurse Aide Registry.',
+      description:
+        'State-issued certification required to work as a nursing assistant in Indiana. Listed on the Indiana Nurse Aide Registry.',
       validity: 'Renewable every 2 years with documented work hours',
     },
     {
       name: 'CPR/AED Certification',
       issuer: 'American Red Cross',
-      description: 'Required for all healthcare workers. Covers adult, child, and infant CPR plus AED operation.',
+      description:
+        'Required for all healthcare workers. Covers adult, child, and infant CPR plus AED operation.',
       validity: '2 years',
     },
     {
       name: 'Bloodborne Pathogens Certification',
       issuer: 'OSHA',
-      description: 'Required training for all healthcare workers who may be exposed to blood or bodily fluids.',
+      description:
+        'Required training for all healthcare workers who may be exposed to blood or bodily fluids.',
       validity: 'Annual renewal recommended',
     },
   ],
 
   outcomes: [
-    { statement: 'Measure and document vital signs — temperature, pulse, respiration, and blood pressure — within clinical accuracy standards', assessedAt: 'Week 2' },
-    { statement: 'Perform a complete bed bath, oral hygiene, and grooming on a skills lab mannequin to state exam standards', assessedAt: 'Week 3' },
-    { statement: 'Assist a patient with ambulation using a gait belt, transfer from bed to wheelchair, and reposition in bed', assessedAt: 'Week 4' },
-    { statement: 'Complete supervised clinical rotations at a licensed Indiana healthcare facility with documented competency sign-offs', assessedAt: 'Week 5' },
-    { statement: 'Pass the Indiana state CNA written and skills exam — proctored on-site at Elevate', assessedAt: 'Week 6' },
-    { statement: 'Document patient care observations accurately in a simulated medical record', assessedAt: 'Week 4' },
+    {
+      statement:
+        'Measure and document vital signs — temperature, pulse, respiration, and blood pressure — within clinical accuracy standards',
+      assessedAt: 'Week 2',
+    },
+    {
+      statement:
+        'Perform a complete bed bath, oral hygiene, and grooming on a skills lab mannequin to state exam standards',
+      assessedAt: 'Week 3',
+    },
+    {
+      statement:
+        'Assist a patient with ambulation using a gait belt, transfer from bed to wheelchair, and reposition in bed',
+      assessedAt: 'Week 4',
+    },
+    {
+      statement:
+        'Complete supervised clinical rotations at a licensed Indiana healthcare facility with documented competency sign-offs',
+      assessedAt: 'Week 5',
+    },
+    {
+      statement:
+        'Pass the Indiana state CNA written and skills exam — proctored on-site at Elevate',
+      assessedAt: 'Week 6',
+    },
+    {
+      statement: 'Document patient care observations accurately in a simulated medical record',
+      assessedAt: 'Week 4',
+    },
   ],
 
   careerPathway: [
-    { title: 'Certified Nursing Assistant', timeframe: '0–3 months', requirements: 'Indiana CNA certification', salaryRange: '$16–$20/hr' },
-    { title: 'Senior CNA / Lead Aide', timeframe: '1–2 years', requirements: 'CNA + 1 year experience', salaryRange: '$19–$23/hr' },
-    { title: 'Medical Assistant', timeframe: '1–2 years', requirements: 'CNA + MA certification', salaryRange: '$18–$25/hr' },
-    { title: 'Licensed Practical Nurse (LPN)', timeframe: '2–3 years', requirements: 'CNA + LPN program completion', salaryRange: '$24–$32/hr' },
-    { title: 'Registered Nurse (RN)', timeframe: '4–6 years', requirements: 'LPN + RN bridge or BSN', salaryRange: '$35–$50/hr' },
+    {
+      title: 'Certified Nursing Assistant',
+      timeframe: '0–3 months',
+      requirements: 'Indiana CNA certification',
+      salaryRange: '$16–$20/hr',
+    },
+    {
+      title: 'Senior CNA / Lead Aide',
+      timeframe: '1–2 years',
+      requirements: 'CNA + 1 year experience',
+      salaryRange: '$19–$23/hr',
+    },
+    {
+      title: 'Medical Assistant',
+      timeframe: '1–2 years',
+      requirements: 'CNA + MA certification',
+      salaryRange: '$18–$25/hr',
+    },
+    {
+      title: 'Licensed Practical Nurse (LPN)',
+      timeframe: '2–3 years',
+      requirements: 'CNA + LPN program completion',
+      salaryRange: '$24–$32/hr',
+    },
+    {
+      title: 'Registered Nurse (RN)',
+      timeframe: '4–6 years',
+      requirements: 'LPN + RN bridge or BSN',
+      salaryRange: '$35–$50/hr',
+    },
   ],
 
   weeklySchedule: [
-    { week: 'Weeks 1–2', title: 'Foundations of Patient Care', competencyMilestone: 'Accurately measure and document all four vital signs within clinical tolerance' },
-    { week: 'Weeks 3–4', title: 'Clinical Skills Lab', competencyMilestone: 'Complete bed bath, transfer, ambulation, and catheter care to state exam standards' },
-    { week: 'Weeks 5–6', title: 'Clinical Rotations & State Exam', competencyMilestone: 'Pass Indiana state CNA written and skills exam proctored on-site' },
+    {
+      week: 'Weeks 1–2',
+      title: 'Foundations of Patient Care',
+      competencyMilestone:
+        'Accurately measure and document all four vital signs within clinical tolerance',
+    },
+    {
+      week: 'Weeks 3–4',
+      title: 'Clinical Skills Lab',
+      competencyMilestone:
+        'Complete bed bath, transfer, ambulation, and catheter care to state exam standards',
+    },
+    {
+      week: 'Weeks 5–6',
+      title: 'Clinical Rotations & State Exam',
+      competencyMilestone: 'Pass Indiana state CNA written and skills exam proctored on-site',
+    },
   ],
 
   curriculum: [
@@ -104,10 +171,26 @@ export const CNA: ProgramSchema = {
   ],
 
   complianceAlignment: [
-    { standard: 'Indiana State Department of Health — CNA Curriculum', description: "Program meets Indiana's minimum 75-hour CNA training requirement including required clinical hours." },
-    { standard: 'OBRA 1987 (Omnibus Budget Reconciliation Act)', description: 'Federal law establishing minimum training and competency standards for nursing assistants in Medicare/Medicaid facilities.' },
-    { standard: 'WIOA Title I', description: 'Eligible training provider under the Workforce Innovation and Opportunity Act for adult and dislocated worker funding.' },
-    { standard: 'Indiana Workforce Ready Grant', description: 'Program approved for WRG funding for eligible Indiana residents pursuing high-demand healthcare careers.' },
+    {
+      standard: 'Indiana State Department of Health — CNA Curriculum',
+      description:
+        "Program meets Indiana's minimum 75-hour CNA training requirement including required clinical hours.",
+    },
+    {
+      standard: 'OBRA 1987 (Omnibus Budget Reconciliation Act)',
+      description:
+        'Federal law establishing minimum training and competency standards for nursing assistants in Medicare/Medicaid facilities.',
+    },
+    {
+      standard: 'WIOA Title I',
+      description:
+        'Eligible training provider under the Workforce Innovation and Opportunity Act for adult and dislocated worker funding.',
+    },
+    {
+      standard: 'Indiana Workforce Ready Grant',
+      description:
+        'Program approved for WRG funding for eligible Indiana residents pursuing high-demand healthcare careers.',
+    },
   ],
 
   laborMarket: {
@@ -135,23 +218,28 @@ export const CNA: ProgramSchema = {
   faqs: [
     {
       question: 'Do I need prior healthcare experience?',
-      answer: 'No. The program starts from the beginning. You need a high school diploma or GED, a clean background check, and the ability to pass a physical exam.',
+      answer:
+        'No. The program starts from the beginning. You need a high school diploma or GED, a clean background check, and the ability to pass a physical exam.',
     },
     {
       question: 'Is the state exam included?',
-      answer: 'Yes. The Indiana state CNA written and skills exam is proctored on-site at Elevate during Week 6. The exam fee is included in tuition or covered by funding when applicable.',
+      answer:
+        'Yes. The Indiana state CNA written and skills exam is proctored on-site at Elevate during Week 6. The exam fee is included in tuition or covered by funding when applicable.',
     },
     {
       question: 'What funding is available?',
-      answer: 'WIOA and Indiana Workforce Ready Grant funding are available for eligible residents. Many students pay $0. Eligibility is determined by your local WorkOne office. Self-pay tuition is $1,800.',
+      answer:
+        'WIOA and Indiana Workforce Ready Grant funding are available for eligible residents. Many students pay $0. Eligibility is determined by your local WorkOne office. Self-pay tuition is $1,800.',
     },
     {
       question: 'Where are the clinical rotations?',
-      answer: 'Clinical rotations are completed at licensed Indiana healthcare facilities partnered with Elevate. Specific sites are assigned based on cohort scheduling and facility availability.',
+      answer:
+        'Clinical rotations are completed at licensed Indiana healthcare facilities partnered with Elevate. Specific sites are assigned based on cohort scheduling and facility availability.',
     },
     {
       question: 'How quickly can I get a job after graduating?',
-      answer: 'Most Elevate CNA graduates receive job offers before or immediately after completing the program. Indianapolis-area healthcare employers actively recruit from our cohorts.',
+      answer:
+        'Most Elevate CNA graduates receive job offers before or immediately after completing the program. Indianapolis-area healthcare employers actively recruit from our cohorts.',
     },
   ],
 
@@ -167,7 +255,8 @@ export const CNA: ProgramSchema = {
   },
 
   metaTitle: 'CNA Program — Indiana State Certification in 6 Weeks | Elevate for Humanity',
-  metaDescription: 'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed facilities. State exam proctored on-site. WIOA and Workforce Ready Grant funding available. Indianapolis.',
+  metaDescription:
+    'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed facilities. State exam proctored on-site. WIOA and Workforce Ready Grant funding available. Indianapolis.',
 
   enrollmentType: 'internal',
   deliveryModel: 'internal',

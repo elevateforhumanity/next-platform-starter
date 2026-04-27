@@ -20,8 +20,7 @@ class BlogSystem {
     return [
       {
         id: 'ai-careers-2025',
-        title:
-          'AI Careers in 2025: Complete Guide to High-Paying Opportunities',
+        title: 'AI Careers in 2025: Complete Guide to High-Paying Opportunities',
         slug: 'ai-careers-2025-complete-guide',
         excerpt:
           'Discover the hottest AI career paths, required skills, and salary expectations for 2025. From machine learning engineers to AI ethics specialists.',
@@ -83,12 +82,7 @@ class BlogSystem {
         author: 'David Kim',
         publishedAt: '2025-09-03',
         updatedAt: '2025-09-08',
-        tags: [
-          'apprenticeships',
-          'tech careers',
-          'paid training',
-          'workforce development',
-        ],
+        tags: ['apprenticeships', 'tech careers', 'paid training', 'workforce development'],
         category: 'Training Programs',
         featured: false,
         readTime: 10,
@@ -250,10 +244,7 @@ class BlogSystem {
     this.router.get('/api/blog/posts/:slug', this.getPost.bind(this));
 
     // Get posts by category
-    this.router.get(
-      '/api/blog/category/:category',
-      this.getPostsByCategory.bind(this)
-    );
+    this.router.get('/api/blog/category/:category', this.getPostsByCategory.bind(this));
 
     // Get posts by tag
     this.router.get('/api/blog/tag/:tag', this.getPostsByTag.bind(this));
@@ -271,24 +262,13 @@ class BlogSystem {
     this.router.post('/api/blog/posts/:id/share', this.sharePost.bind(this));
 
     // Durable injection worker endpoint
-    this.router.post(
-      '/api/blog/durable-inject',
-      this.handleDurableInjection.bind(this)
-    );
-    this.router.get(
-      '/api/blog/durable-status',
-      this.checkDurableStatus.bind(this)
-    );
+    this.router.post('/api/blog/durable-inject', this.handleDurableInjection.bind(this));
+    this.router.get('/api/blog/durable-status', this.checkDurableStatus.bind(this));
   }
 
   async getAllPosts(req, res) {
     try {
-      const {
-        page = 1,
-        limit = 10,
-        sortBy = 'publishedAt',
-        order = 'desc',
-      } = req.query;
+      const { page = 1, limit = 10, sortBy = 'publishedAt', order = 'desc' } = req.query;
 
       const posts = [...this.blogPosts];
 
@@ -351,7 +331,7 @@ class BlogSystem {
     try {
       const { category } = req.params;
       const posts = this.blogPosts.filter(
-        (post) => post.category.toLowerCase() === category.toLowerCase()
+        (post) => post.category.toLowerCase() === category.toLowerCase(),
       );
 
       res.json({ posts, category });
@@ -364,7 +344,7 @@ class BlogSystem {
     try {
       const { tag } = req.params;
       const posts = this.blogPosts.filter((post) =>
-        post.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
+        post.tags.some((t) => t.toLowerCase() === tag.toLowerCase()),
       );
 
       res.json({ posts, tag });
@@ -387,21 +367,19 @@ class BlogSystem {
             post.title.toLowerCase().includes(searchTerm) ||
             post.excerpt.toLowerCase().includes(searchTerm) ||
             post.content.toLowerCase().includes(searchTerm) ||
-            post.tags.some((tag) => tag.toLowerCase().includes(searchTerm))
+            post.tags.some((tag) => tag.toLowerCase().includes(searchTerm)),
         );
       }
 
       // Filter by category
       if (category) {
-        posts = posts.filter(
-          (post) => post.category.toLowerCase() === category.toLowerCase()
-        );
+        posts = posts.filter((post) => post.category.toLowerCase() === category.toLowerCase());
       }
 
       // Filter by tag
       if (tag) {
         posts = posts.filter((post) =>
-          post.tags.some((t) => t.toLowerCase() === tag.toLowerCase())
+          post.tags.some((t) => t.toLowerCase() === tag.toLowerCase()),
         );
       }
 
@@ -419,8 +397,7 @@ class BlogSystem {
         totalLikes: this.blogPosts.reduce((sum, post) => sum + post.likes, 0),
         totalShares: this.blogPosts.reduce((sum, post) => sum + post.shares, 0),
         averageReadTime: Math.round(
-          this.blogPosts.reduce((sum, post) => sum + post.readTime, 0) /
-            this.blogPosts.length
+          this.blogPosts.reduce((sum, post) => sum + post.readTime, 0) / this.blogPosts.length,
         ),
         topPosts: this.blogPosts
           .sort((a, b) => b.views - a.views)
@@ -497,9 +474,7 @@ class BlogSystem {
   }
 
   getCategories() {
-    const categories = [
-      ...new Set(this.blogPosts.map((post) => post.category)),
-    ];
+    const categories = [...new Set(this.blogPosts.map((post) => post.category))];
     return categories.map((category) => ({
       name: category,
       count: this.blogPosts.filter((post) => post.category === category).length,
@@ -522,7 +497,6 @@ class BlogSystem {
   // Durable injection handler - triggered via Zapier
   async handleDurableInjection(req, res) {
     try {
-
       // Call Netlify function to inject enrollment script
       const netlifyFunctionUrl =
         'https://elevateforhumanityfix2.netlify.app/.netlify/functions/durable-inject';
@@ -539,7 +513,6 @@ class BlogSystem {
       });
 
       const data = await response.json();
-
 
       res.json({
         success: data.success || false,
@@ -558,13 +531,11 @@ class BlogSystem {
   // Check if enrollment script is present on Durable site
   async checkDurableStatus(req, res) {
     try {
-
       const siteResponse = await fetch('https://elevateforhumanity.org');
       const html = await siteResponse.text();
 
       const hasEnrollmentScript =
-        html.includes('enrollment-injector.js') ||
-        html.includes('Enroll in Our Programs');
+        html.includes('enrollment-injector.js') || html.includes('Enroll in Our Programs');
 
       res.json({
         success: true,

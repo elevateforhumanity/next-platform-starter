@@ -20,19 +20,23 @@ function getSupabaseAdmin() {
   return createClient(url, key);
 }
 
-async function verifyAdminAuth(request: NextRequest): Promise<{ isAdmin: boolean; userId?: string }> {
+async function verifyAdminAuth(
+  request: NextRequest,
+): Promise<{ isAdmin: boolean; userId?: string }> {
   try {
     const serverClient = await createServerClient();
-    const { data: { user } } = await serverClient.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await serverClient.auth.getUser();
+
     if (!user) return { isAdmin: false };
-    
+
     const { data: profile } = await serverClient
       .from('profiles')
       .select('role')
       .eq('id', user.id)
       .maybeSingle();
-    
+
     const isAdmin = profile?.role === 'admin' || profile?.role === 'super_admin';
     return { isAdmin, userId: user.id };
   } catch {
@@ -40,14 +44,18 @@ async function verifyAdminAuth(request: NextRequest): Promise<{ isAdmin: boolean
   }
 }
 
-async function sendWelcomeEmail(email: string, orgName: string, subdomain: string, dashboardUrl: string) {
+async function sendWelcomeEmail(
+  email: string,
+  orgName: string,
+  subdomain: string,
+  dashboardUrl: string,
+) {
   const sendgridKey = process.env.SENDGRID_API_KEY;
   if (!sendgridKey) {
     logger.warn('SENDGRID_API_KEY not configured, skipping welcome email');
     return;
   }
-  
-  
+
   await resend.emails.send({
     from: 'Elevate LMS <noreply@elevateforhumanity.org>',
     to: email,
@@ -71,7 +79,7 @@ async function sendWelcomeEmail(email: string, orgName: string, subdomain: strin
 
 /**
  * POST /api/provisioning/tenant
- * 
+ *
  * Provisions a new white-label tenant:
  * 1. Creates organization record
  * 2. Creates license record
@@ -80,15 +88,15 @@ async function sendWelcomeEmail(email: string, orgName: string, subdomain: strin
  */
 async function _POST(request: NextRequest) {
   try {
-  await hydrateProcessEnv();
+    await hydrateProcessEnv();
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
     // Verify admin or webhook secret
     const webhookSecret = request.headers.get('x-webhook-secret');
-    
+
     let authorized = false;
-    
+
     // Check webhook secret first
     if (webhookSecret === process.env.PROVISIONING_WEBHOOK_SECRET) {
       authorized = true;
@@ -97,7 +105,7 @@ async function _POST(request: NextRequest) {
       const { isAdmin } = await verifyAdminAuth(request);
       authorized = isAdmin;
     }
-    
+
     if (!authorized) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -118,15 +126,16 @@ async function _POST(request: NextRequest) {
 
     // Validate required fields
     if (!organizationName || !contactEmail || !planId) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Generate subdomain if not provided
-    const tenantSubdomain = subdomain || 
-      organizationName.toLowerCase().replace(/[^a-z0-9]/g, '-').slice(0, 30);
+    const tenantSubdomain =
+      subdomain ||
+      organizationName
+        .toLowerCase()
+        .replace(/[^a-z0-9]/g, '-')
+        .slice(0, 30);
 
     const supabase = getSupabaseAdmin();
     if (!supabase) {
@@ -141,10 +150,7 @@ async function _POST(request: NextRequest) {
       .maybeSingle();
 
     if (existing) {
-      return NextResponse.json(
-        { error: 'Subdomain already taken' },
-        { status: 409 }
-      );
+      return NextResponse.json({ error: 'Subdomain already taken' }, { status: 409 });
     }
 
     // Create organization
@@ -165,10 +171,7 @@ async function _POST(request: NextRequest) {
 
     if (orgError) {
       logger.error('Org creation error:', orgError);
-      return NextResponse.json(
-        { error: 'Failed to create organization' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to create organization' }, { status: 500 });
     }
 
     // Create license
@@ -193,10 +196,7 @@ async function _POST(request: NextRequest) {
       logger.error('License creation error:', licenseError);
       // Rollback org creation
       await supabase.from('organizations').delete().eq('id', org.id);
-      return NextResponse.json(
-        { error: 'Failed to create license' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to create license' }, { status: 500 });
     }
 
     // Log provisioning event
@@ -217,7 +217,7 @@ async function _POST(request: NextRequest) {
         contactEmail,
         organizationName,
         tenantSubdomain,
-        `https://${tenantSubdomain}.elevatelms.com/admin`
+        `https://${tenantSubdomain}.elevatelms.com/admin`,
       );
     } catch (emailError) {
       logger.error('Failed to send welcome email:', emailError);
@@ -245,30 +245,26 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Provisioning error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
 /**
  * GET /api/provisioning/tenant?subdomain=xxx
- * 
+ *
  * Check if subdomain is available
  */
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const subdomain = request.nextUrl.searchParams.get('subdomain');
-  
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const subdomain = request.nextUrl.searchParams.get('subdomain');
+
   if (!subdomain) {
     return NextResponse.json({ error: 'Subdomain required' }, { status: 400 });
   }
 
   const normalized = subdomain.toLowerCase().replace(/[^a-z0-9-]/g, '');
-  
+
   // Reserved subdomains
   const reserved = ['www', 'app', 'api', 'admin', 'dashboard', 'mail', 'support', 'help', 'docs'];
   if (reserved.includes(normalized)) {
@@ -286,7 +282,7 @@ const subdomain = request.nextUrl.searchParams.get('subdomain');
     .eq('slug', normalized)
     .maybeSingle();
 
-  return NextResponse.json({ 
+  return NextResponse.json({
     available: !data,
     subdomain: normalized,
     domain: `${normalized}.elevatelms.com`,

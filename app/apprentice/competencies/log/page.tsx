@@ -49,7 +49,10 @@ function LogCompetencyForm() {
         .eq('slug', 'barber-apprenticeship')
         .maybeSingle();
 
-      if (!program) { setLoadingSkills(false); return; }
+      if (!program) {
+        setLoadingSkills(false);
+        return;
+      }
 
       const { data: cats } = await supabase
         .from('skill_categories')
@@ -64,7 +67,8 @@ function LogCompetencyForm() {
         .order('order', { ascending: true });
 
       const catMap: Record<string, { name: string; order: number }> = {};
-      for (const c of cats ?? []) catMap[(c as any).id] = { name: (c as any).name, order: (c as any).order };
+      for (const c of cats ?? [])
+        catMap[(c as any).id] = { name: (c as any).name, order: (c as any).order };
 
       const enriched: Skill[] = (rawSkills ?? []).map((s: any) => ({
         id: s.id,
@@ -78,33 +82,50 @@ function LogCompetencyForm() {
       setLoadingSkills(false);
     }
     loadSkills();
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   // Auto-set hours to 0 for RTI skills (theory modules, not OJL hours)
-  const selectedSkill = skills.find(s => s.id === formData.skillId);
+  const selectedSkill = skills.find((s) => s.id === formData.skillId);
   const isRTI = selectedSkill?.is_rti ?? false;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
 
-    if (!formData.skillId) { setError('Please select a competency.'); return; }
-    if (!formData.workDate) { setError('Please enter the date.'); return; }
+    if (!formData.skillId) {
+      setError('Please select a competency.');
+      return;
+    }
+    if (!formData.workDate) {
+      setError('Please enter the date.');
+      return;
+    }
 
     const count = parseInt(formData.serviceCount);
     const hours = parseFloat(formData.hoursCredited);
 
-    if (isNaN(count) || count < 1) { setError('Service count must be at least 1.'); return; }
-    if (!isRTI && (isNaN(hours) || hours < 0)) { setError('Please enter valid hours.'); return; }
+    if (isNaN(count) || count < 1) {
+      setError('Service count must be at least 1.');
+      return;
+    }
+    if (!isRTI && (isNaN(hours) || hours < 0)) {
+      setError('Please enter valid hours.');
+      return;
+    }
 
     setSubmitting(true);
 
     try {
       if (!supabase) throw new Error('Not connected');
 
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) { router.push('/login?redirect=/apprentice/competencies/log'); return; }
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (!user) {
+        router.push('/login?redirect=/apprentice/competencies/log');
+        return;
+      }
 
       const { data: program } = await supabase
         .from('programs')
@@ -112,20 +133,18 @@ function LogCompetencyForm() {
         .eq('slug', 'barber-apprenticeship')
         .maybeSingle();
 
-      const { error: insertError } = await supabase
-        .from('competency_log')
-        .insert({
-          apprentice_id: user.id,
-          skill_id: formData.skillId,
-          program_id: program?.id ?? null,
-          work_date: formData.workDate,
-          service_count: count,
-          hours_credited: isRTI ? 0 : hours,
-          supervisor_name: formData.supervisorName.trim() || null,
-          notes: formData.notes.trim() || null,
-          status: 'pending',
-          supervisor_verified: false,
-        });
+      const { error: insertError } = await supabase.from('competency_log').insert({
+        apprentice_id: user.id,
+        skill_id: formData.skillId,
+        program_id: program?.id ?? null,
+        work_date: formData.workDate,
+        service_count: count,
+        hours_credited: isRTI ? 0 : hours,
+        supervisor_name: formData.supervisorName.trim() || null,
+        notes: formData.notes.trim() || null,
+        status: 'pending',
+        supervisor_verified: false,
+      });
 
       if (insertError) throw insertError;
 
@@ -163,11 +182,13 @@ function LogCompetencyForm() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-2xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Apprentice Portal', href: '/apprentice' },
-            { label: 'Competency Progress', href: '/apprentice/competencies' },
-            { label: 'Log Service' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Apprentice Portal', href: '/apprentice' },
+              { label: 'Competency Progress', href: '/apprentice/competencies' },
+              { label: 'Log Service' },
+            ]}
+          />
         </div>
       </div>
 
@@ -180,10 +201,16 @@ function LogCompetencyForm() {
             <ArrowLeft className="w-4 h-4" /> Back to Competencies
           </Link>
           <div className="flex items-center gap-2 text-xs">
-            <Link href="/apprentice/timeclock" className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-900 rounded-lg transition">
+            <Link
+              href="/apprentice/timeclock"
+              className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-900 rounded-lg transition"
+            >
               <Clock className="w-3.5 h-3.5" /> Timeclock
             </Link>
-            <Link href="/apprentice/hours" className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-900 rounded-lg transition">
+            <Link
+              href="/apprentice/hours"
+              className="inline-flex items-center gap-1 px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-900 rounded-lg transition"
+            >
               <History className="w-3.5 h-3.5" /> Hours
             </Link>
           </div>
@@ -196,7 +223,9 @@ function LogCompetencyForm() {
             </div>
             <div>
               <h1 className="text-xl font-bold text-slate-900">Log Competency Entry</h1>
-              <p className="text-sm text-slate-500">Indiana WPS — record a service or RTI module completed</p>
+              <p className="text-sm text-slate-500">
+                Indiana WPS — record a service or RTI module completed
+              </p>
             </div>
           </div>
 
@@ -208,7 +237,6 @@ function LogCompetencyForm() {
           )}
 
           <form onSubmit={handleSubmit} className="space-y-5">
-
             {/* Competency selector */}
             <div>
               <label className="block text-sm font-semibold text-slate-700 mb-1.5">
@@ -222,25 +250,30 @@ function LogCompetencyForm() {
                 <select
                   required
                   value={formData.skillId}
-                  onChange={e => setFormData(p => ({ ...p, skillId: e.target.value }))}
+                  onChange={(e) => setFormData((p) => ({ ...p, skillId: e.target.value }))}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg bg-white text-slate-900 focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500 text-sm"
                 >
                   <option value="">— Select a competency —</option>
                   {Object.entries(grouped).map(([catName, catSkills]) => (
                     <optgroup key={catName} label={catName}>
-                      {catSkills.map(s => (
-                        <option key={s.id} value={s.id}>{s.name}</option>
+                      {catSkills.map((s) => (
+                        <option key={s.id} value={s.id}>
+                          {s.name}
+                        </option>
                       ))}
                     </optgroup>
                   ))}
                 </select>
               )}
               {selectedSkill?.description && (
-                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">{selectedSkill.description}</p>
+                <p className="text-xs text-slate-500 mt-1.5 leading-relaxed">
+                  {selectedSkill.description}
+                </p>
               )}
               {isRTI && (
                 <p className="text-xs text-amber-700 bg-amber-50 border border-amber-200 rounded px-3 py-2 mt-2">
-                  RTI theory module — no OJL hours credited. Mark complete when you finish this module in your coursework.
+                  RTI theory module — no OJL hours credited. Mark complete when you finish this
+                  module in your coursework.
                 </p>
               )}
             </div>
@@ -255,7 +288,7 @@ function LogCompetencyForm() {
                 required
                 max={new Date().toISOString().split('T')[0]}
                 value={formData.workDate}
-                onChange={e => setFormData(p => ({ ...p, workDate: e.target.value }))}
+                onChange={(e) => setFormData((p) => ({ ...p, workDate: e.target.value }))}
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 text-sm"
               />
             </div>
@@ -272,7 +305,7 @@ function LogCompetencyForm() {
                   min="1"
                   max="50"
                   value={formData.serviceCount}
-                  onChange={e => setFormData(p => ({ ...p, serviceCount: e.target.value }))}
+                  onChange={(e) => setFormData((p) => ({ ...p, serviceCount: e.target.value }))}
                   className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 text-sm"
                   placeholder="1"
                 />
@@ -291,7 +324,7 @@ function LogCompetencyForm() {
                     max="12"
                     step="0.5"
                     value={formData.hoursCredited}
-                    onChange={e => setFormData(p => ({ ...p, hoursCredited: e.target.value }))}
+                    onChange={(e) => setFormData((p) => ({ ...p, hoursCredited: e.target.value }))}
                     className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 text-sm"
                     placeholder="0.5"
                   />
@@ -308,7 +341,7 @@ function LogCompetencyForm() {
               <input
                 type="text"
                 value={formData.supervisorName}
-                onChange={e => setFormData(p => ({ ...p, supervisorName: e.target.value }))}
+                onChange={(e) => setFormData((p) => ({ ...p, supervisorName: e.target.value }))}
                 placeholder="Name of licensed supervising barber"
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 text-sm"
               />
@@ -325,7 +358,7 @@ function LogCompetencyForm() {
               <textarea
                 rows={3}
                 value={formData.notes}
-                onChange={e => setFormData(p => ({ ...p, notes: e.target.value }))}
+                onChange={(e) => setFormData((p) => ({ ...p, notes: e.target.value }))}
                 placeholder="Describe what you practiced, any techniques used, client feedback…"
                 className="w-full px-4 py-3 border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 text-sm resize-none"
               />
@@ -334,7 +367,10 @@ function LogCompetencyForm() {
             {/* Compliance notice */}
             <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-4">
               <p className="text-xs text-brand-blue-800 leading-relaxed">
-                <strong>DOL Compliance:</strong> All entries are submitted as <em>pending</em> until your supervising barber verifies them. Only verified entries count toward your official 2,000-hour OJL record in the federal RAPIDS system. Falsifying entries is a violation of your apprenticeship agreement.
+                <strong>DOL Compliance:</strong> All entries are submitted as <em>pending</em> until
+                your supervising barber verifies them. Only verified entries count toward your
+                official 2,000-hour OJL record in the federal RAPIDS system. Falsifying entries is a
+                violation of your apprenticeship agreement.
               </p>
             </div>
 
@@ -353,7 +389,9 @@ function LogCompetencyForm() {
                 {submitting ? (
                   <>Saving…</>
                 ) : (
-                  <><Save className="w-4 h-4" /> Save Entry</>
+                  <>
+                    <Save className="w-4 h-4" /> Save Entry
+                  </>
                 )}
               </button>
             </div>

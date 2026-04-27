@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
@@ -12,7 +12,8 @@ import {
   File,
   AlertCircle,
   Loader2,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 interface UploadFile {
   id: string;
@@ -99,14 +100,12 @@ export function AdvancedFileUpload({
         uploadSingleFile(uploadFile);
       });
     },
-    [files.length, maxFiles, maxSize]
+    [files.length, maxFiles, maxSize],
   );
 
   const uploadSingleFile = async (uploadFile: UploadFile) => {
     setFiles((prev) =>
-      prev.map((f) =>
-        f.id === uploadFile.id ? { ...f, status: 'uploading' } : f
-      )
+      prev.map((f) => (f.id === uploadFile.id ? { ...f, status: 'uploading' } : f)),
     );
 
     try {
@@ -121,9 +120,7 @@ export function AdvancedFileUpload({
       xhr.upload.addEventListener('progress', (e) => {
         if (e.lengthComputable) {
           const progress = Math.round((e.loaded / e.total) * 100);
-          setFiles((prev) =>
-            prev.map((f) => (f.id === uploadFile.id ? { ...f, progress } : f))
-          );
+          setFiles((prev) => prev.map((f) => (f.id === uploadFile.id ? { ...f, progress } : f)));
         }
       });
 
@@ -135,16 +132,14 @@ export function AdvancedFileUpload({
             prev.map((f) =>
               f.id === uploadFile.id
                 ? { ...f, status: 'success', progress: 100, url: response.url }
-                : f
-            )
+                : f,
+            ),
           );
         } else {
           setFiles((prev) =>
             prev.map((f) =>
-              f.id === uploadFile.id
-                ? { ...f, status: 'error', error: 'Upload failed' }
-                : f
-            )
+              f.id === uploadFile.id ? { ...f, status: 'error', error: 'Upload failed' } : f,
+            ),
           );
         }
       });
@@ -153,22 +148,19 @@ export function AdvancedFileUpload({
       xhr.addEventListener('error', () => {
         setFiles((prev) =>
           prev.map((f) =>
-            f.id === uploadFile.id
-              ? { ...f, status: 'error', error: 'Network error' }
-              : f
-          )
+            f.id === uploadFile.id ? { ...f, status: 'error', error: 'Network error' } : f,
+          ),
         );
       });
 
       xhr.open('POST', '/api/media/upload');
       xhr.send(formData);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       setFiles((prev) =>
         prev.map((f) =>
-          f.id === uploadFile.id
-            ? { ...f, status: 'error', error: 'Upload failed' }
-            : f
-        )
+          f.id === uploadFile.id ? { ...f, status: 'error', error: 'Upload failed' } : f,
+        ),
       );
     }
   };
@@ -241,9 +233,7 @@ export function AdvancedFileUpload({
         `}
       >
         <Upload className="h-12 w-12 mx-auto mb-4 text-slate-400" />
-        <p className="text-lg font-medium text-black mb-2">
-          Drop files here or click to browse
-        </p>
+        <p className="text-lg font-medium text-black mb-2">Drop files here or click to browse</p>
         <p className="text-sm text-slate-500">
           Maximum {maxFiles} files, up to {maxSize}MB each
         </p>
@@ -269,9 +259,7 @@ export function AdvancedFileUpload({
           {uploadingCount > 0 && (
             <span className="text-brand-blue-600">↑ {uploadingCount} uploading</span>
           )}
-          {errorCount > 0 && (
-            <span className="text-brand-red-600">✗ {errorCount} failed</span>
-          )}
+          {errorCount > 0 && <span className="text-brand-red-600">✗ {errorCount} failed</span>}
         </div>
       )}
 
@@ -289,7 +277,7 @@ export function AdvancedFileUpload({
                 {/* Preview or Icon */}
                 <div className="flex-shrink-0">
                   {uploadFile.preview ? (
-                    <Image
+                    <Image sizes="100vw"
                       src={uploadFile.preview}
                       alt={uploadFile.file.name}
                       width={48}
@@ -305,12 +293,8 @@ export function AdvancedFileUpload({
 
                 {/* File Info */}
                 <div className="flex-1 min-w-0">
-                  <p className="text-sm font-medium text-black truncate">
-                    {uploadFile.file.name}
-                  </p>
-                  <p className="text-xs text-slate-500">
-                    {formatFileSize(uploadFile.file.size)}
-                  </p>
+                  <p className="text-sm font-medium text-black truncate">{uploadFile.file.name}</p>
+                  <p className="text-xs text-slate-500">{formatFileSize(uploadFile.file.size)}</p>
 
                   {/* Progress Bar */}
                   {uploadFile.status === 'uploading' && (
@@ -321,17 +305,13 @@ export function AdvancedFileUpload({
                           style={{ width: `${uploadFile.progress}%` }}
                         />
                       </div>
-                      <p className="text-xs text-slate-500 mt-1">
-                        {uploadFile.progress}%
-                      </p>
+                      <p className="text-xs text-slate-500 mt-1">{uploadFile.progress}%</p>
                     </div>
                   )}
 
                   {/* Error Message */}
                   {uploadFile.status === 'error' && (
-                    <p className="text-xs text-brand-red-600 mt-1">
-                      {uploadFile.error}
-                    </p>
+                    <p className="text-xs text-brand-red-600 mt-1">{uploadFile.error}</p>
                   )}
                 </div>
 

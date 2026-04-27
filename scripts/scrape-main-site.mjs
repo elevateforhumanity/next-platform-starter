@@ -58,9 +58,7 @@ function extractContent(html, pageName) {
   }
 
   // Extract meta description
-  const descMatch = html.match(
-    /<meta name="description"[^>]*content="([^"]*)"/
-  );
+  const descMatch = html.match(/<meta name="description"[^>]*content="([^"]*)"/);
   if (descMatch) {
     content.description = descMatch[1];
   }
@@ -102,9 +100,7 @@ function extractContent(html, pageName) {
   });
 
   // Extract images
-  const imgMatches = [
-    ...html.matchAll(/<img[^>]*alt="([^"]*)"[^>]*src="([^"]*)"/g),
-  ];
+  const imgMatches = [...html.matchAll(/<img[^>]*alt="([^"]*)"[^>]*src="([^"]*)"/g)];
   imgMatches.forEach((match) => {
     const [, alt, src] = match;
     if (src && !src.includes('data:image')) {
@@ -123,7 +119,6 @@ function extractContent(html, pageName) {
  * Main scraper
  */
 async function scrapePages() {
-
   // Create output directory
   if (!fs.existsSync(OUTPUT_DIR)) {
     fs.mkdirSync(OUTPUT_DIR, { recursive: true });

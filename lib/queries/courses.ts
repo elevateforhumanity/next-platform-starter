@@ -24,7 +24,7 @@ export interface Course {
  * Get all active courses
  */
 export async function getAllCourses(supabase?: SupabaseClient) {
-  const client = supabase || await createClient();
+  const client = supabase || (await createClient());
 
   const { data, error } = await client
     .from('training_courses')
@@ -43,11 +43,8 @@ export async function getAllCourses(supabase?: SupabaseClient) {
 /**
  * Get courses by program ID
  */
-export async function getCoursesByProgram(
-  programId: string,
-  supabase?: SupabaseClient
-) {
-  const client = supabase || await createClient();
+export async function getCoursesByProgram(programId: string, supabase?: SupabaseClient) {
+  const client = supabase || (await createClient());
 
   const { data, error } = await client
     .from('training_courses')
@@ -68,7 +65,7 @@ export async function getCoursesByProgram(
  * Get course by ID
  */
 export async function getCourseById(id: string, supabase?: SupabaseClient) {
-  const client = supabase || await createClient();
+  const client = supabase || (await createClient());
 
   const { data, error } = await client
     .from('training_courses')
@@ -89,7 +86,7 @@ export async function getCourseById(id: string, supabase?: SupabaseClient) {
  * Get course count
  */
 export async function getCourseCount(supabase?: SupabaseClient) {
-  const client = supabase || await createClient();
+  const client = supabase || (await createClient());
 
   const { count, error } = await client
     .from('training_courses')

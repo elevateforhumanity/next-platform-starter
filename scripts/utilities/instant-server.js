@@ -2,14 +2,9 @@ const http = require('http');
 const fs = require('fs');
 
 const server = http.createServer((req, res) => {
-
   res.setHeader('Access-Control-Allow-Origin', '*');
 
-  if (
-    req.url === '/' ||
-    req.url.startsWith('/?') ||
-    req.url === '/index.html'
-  ) {
+  if (req.url === '/' || req.url.startsWith('/?') || req.url === '/index.html') {
     fs.readFile('index.html', (err, data) => {
       if (err) {
         res.writeHead(500);
@@ -125,5 +120,4 @@ const server = http.createServer((req, res) => {
   }
 });
 
-server.listen(9000, '0.0.0.0', () => {
-});
+server.listen(9000, '0.0.0.0', () => {});

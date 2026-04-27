@@ -47,7 +47,9 @@ async function _POST(req: NextRequest) {
     const supabase = await createClient();
     const db = await getAdminClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -69,7 +71,7 @@ async function _POST(req: NextRequest) {
     if (!audioUrl && (!audioUrls || !Array.isArray(audioUrls) || audioUrls.length === 0)) {
       return NextResponse.json(
         { error: 'Provide either audioUrl (single file) or audioUrls (array of chunks)' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -85,7 +87,7 @@ async function _POST(req: NextRequest) {
         if (!allowedOrigins.has(origin)) {
           return NextResponse.json(
             { error: `Audio URL must be from elevateforhumanity.org, got: ${origin}` },
-            { status: 400 }
+            { status: 400 },
           );
         }
       } catch {
@@ -118,7 +120,13 @@ async function _POST(req: NextRequest) {
     }
 
     // Chunked mode — generate one talk per audio chunk
-    const results: Array<{ part: number; talkId: string; status: string; resultUrl?: string; error?: string }> = [];
+    const results: Array<{
+      part: number;
+      talkId: string;
+      status: string;
+      resultUrl?: string;
+      error?: string;
+    }> = [];
 
     for (let i = 0; i < audioUrls.length; i++) {
       try {
@@ -151,14 +159,15 @@ async function _POST(req: NextRequest) {
 
     // Build concat instructions
     const successParts = results.filter((r) => r.resultUrl);
-    const concatInstructions = successParts.length > 1
-      ? [
-          'Download all MP4s, then concatenate:',
-          '1. Create concat.txt with lines: file \'part-000.mp4\' etc.',
-          '2. ffmpeg -f concat -safe 0 -i concat.txt -c copy orientation-guide.mp4',
-          '3. Replace public/videos/avatars/orientation-guide.mp4',
-        ]
-      : ['Download the single MP4 → replace public/videos/avatars/orientation-guide.mp4'];
+    const concatInstructions =
+      successParts.length > 1
+        ? [
+            'Download all MP4s, then concatenate:',
+            "1. Create concat.txt with lines: file 'part-000.mp4' etc.",
+            '2. ffmpeg -f concat -safe 0 -i concat.txt -c copy orientation-guide.mp4',
+            '3. Replace public/videos/avatars/orientation-guide.mp4',
+          ]
+        : ['Download the single MP4 → replace public/videos/avatars/orientation-guide.mp4'];
 
     return NextResponse.json({
       mode: 'chunked',
@@ -170,10 +179,7 @@ async function _POST(req: NextRequest) {
     });
   } catch (error) {
     logger.error('Avatar video generation failed', error instanceof Error ? error : undefined);
-    return NextResponse.json(
-      { error: 'Generation failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Generation failed' }, { status: 500 });
   }
 }
 

@@ -33,7 +33,8 @@ export async function logEmailDelivery(log: EmailLog): Promise<void> {
       sent_at: log.sent_at || new Date().toISOString(),
       created_at: new Date().toISOString(),
     });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Don't fail the email send if logging fails
     logger.error('[Email Monitor] Failed to log email:', error);
   }
@@ -56,9 +57,9 @@ export async function getEmailStats(timeframe: '24h' | '7d' | '30d' = '24h') {
   if (!logs) return null;
 
   const total = logs.length;
-  const sent = logs.filter(l => l.status === 'sent').length;
-  const failed = logs.filter(l => l.status === 'failed').length;
-  const pending = logs.filter(l => l.status === 'pending').length;
+  const sent = logs.filter((l) => l.status === 'sent').length;
+  const failed = logs.filter((l) => l.status === 'failed').length;
+  const pending = logs.filter((l) => l.status === 'pending').length;
 
   return {
     total,
@@ -68,9 +69,9 @@ export async function getEmailStats(timeframe: '24h' | '7d' | '30d' = '24h') {
     successRate: total > 0 ? ((sent / total) * 100).toFixed(2) : '0',
     failureRate: total > 0 ? ((failed / total) * 100).toFixed(2) : '0',
     byProvider: {
-      sendgrid: logs.filter(l => l.provider === 'sendgrid').length,
-      sendgrid: logs.filter(l => l.provider === 'sendgrid').length,
-      fallback: logs.filter(l => l.provider === 'fallback').length,
+      sendgrid: logs.filter((l) => l.provider === 'sendgrid').length,
+      sendgrid: logs.filter((l) => l.provider === 'sendgrid').length,
+      fallback: logs.filter((l) => l.provider === 'fallback').length,
     },
   };
 }
@@ -110,6 +111,9 @@ export async function checkEmailHealth() {
   } else if (failureRate < 10) {
     return { status: 'warning', message: `${failureRate}% failure rate - investigate` };
   } else {
-    return { status: 'critical', message: `${failureRate}% failure rate - immediate action needed` };
+    return {
+      status: 'critical',
+      message: `${failureRate}% failure rate - immediate action needed`,
+    };
   }
 }

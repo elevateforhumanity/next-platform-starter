@@ -37,7 +37,7 @@ interface ApplicationData {
   numberOfEmployees?: string;
   // EIN
   ein?: string;
-  einFileData?: string;   // base64 data URL
+  einFileData?: string; // base64 data URL
   einFileName?: string;
   einQaNotes?: string;
   // Employer acceptance agreement
@@ -90,14 +90,17 @@ function validatePhone(phone: string): boolean {
 }
 
 function hashIP(ip: string): string {
-  return crypto.createHash('sha256').update(ip + process.env.IP_HASH_SALT || 'efh-salt').digest('hex').slice(0, 16);
+  return crypto
+    .createHash('sha256')
+    .update(ip + process.env.IP_HASH_SALT || 'efh-salt')
+    .digest('hex')
+    .slice(0, 16);
 }
 
 async function _POST(req: Request) {
   try {
     const rateLimited = await applyRateLimit(req, 'contact');
     if (rateLimited) return rateLimited;
-
 
     const body: ApplicationData = await req.json();
 
@@ -109,10 +112,7 @@ async function _POST(req: Request) {
     // Validate required fields
     for (const field of REQUIRED_FIELDS) {
       if (!body[field] || String(body[field]).trim() === '') {
-        return NextResponse.json(
-          { error: `Missing required field: ${field}` },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: `Missing required field: ${field}` }, { status: 400 });
       }
     }
 
@@ -129,8 +129,11 @@ async function _POST(req: Request) {
     // Validate payroll confirmation — apprentices must be on shop payroll
     if (body.apprenticesOnPayroll !== 'yes') {
       return NextResponse.json(
-        { error: 'Apprentices must be added to your payroll. Shops that cannot add apprentices to payroll are not eligible to host registered apprenticeship OJL.' },
-        { status: 400 }
+        {
+          error:
+            'Apprentices must be added to your payroll. Shops that cannot add apprentices to payroll are not eligible to host registered apprenticeship OJL.',
+        },
+        { status: 400 },
       );
     }
 
@@ -143,7 +146,7 @@ async function _POST(req: Request) {
     if (body.hasGeneralLiability !== 'yes') {
       return NextResponse.json(
         { error: 'General Liability insurance is required to host apprentices at your worksite.' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -156,8 +159,11 @@ async function _POST(req: Request) {
     // WC hard gate: shops with employees on payroll must have WC or valid exemption
     if (wcStatus === 'none') {
       return NextResponse.json(
-        { error: 'Elevate cannot register apprentices in the federal RAPIDS system under a partner worksite that does not meet minimum insurance and compliance standards. Workers\' Compensation insurance (or a valid state exemption) is required.' },
-        { status: 400 }
+        {
+          error:
+            "Elevate cannot register apprentices in the federal RAPIDS system under a partner worksite that does not meet minimum insurance and compliance standards. Workers' Compensation insurance (or a valid state exemption) is required.",
+        },
+        { status: 400 },
       );
     }
 
@@ -165,17 +171,14 @@ async function _POST(req: Request) {
     if (!body.mouAcknowledged || !body.consentAcknowledged) {
       return NextResponse.json(
         { error: 'You must acknowledge both the MOU and consent checkboxes' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     const supabase = await getAdminClient();
     if (!supabase) {
       logger.error('Supabase admin client not available');
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable' }, { status: 503 });
     }
 
     // Check for duplicate submissions (same email + license in last 24 hours)
@@ -190,8 +193,11 @@ async function _POST(req: Request) {
 
     if (existing && existing.length > 0) {
       return NextResponse.json(
-        { error: 'An application with this email and license number was already submitted recently. Please contact us if you need to update your application.' },
-        { status: 400 }
+        {
+          error:
+            'An application with this email and license number was already submitted recently. Please contact us if you need to update your application.',
+        },
+        { status: 400 },
       );
     }
 
@@ -214,9 +220,10 @@ async function _POST(req: Request) {
       }
     }
 
-    const ipRaw = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim()
-      || req.headers.get('x-real-ip')
-      || 'unknown';
+    const ipRaw =
+      req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+      req.headers.get('x-real-ip') ||
+      'unknown';
 
     // Insert application
     const { data, error } = await supabase
@@ -237,7 +244,9 @@ async function _POST(req: Request) {
         indiana_shop_license_number: body.indianaShopLicenseNumber.trim(),
         supervisor_name: body.supervisorName.trim(),
         supervisor_license_number: body.supervisorLicenseNumber.trim(),
-        supervisor_years_licensed: body.supervisorYearsLicensed ? parseInt(body.supervisorYearsLicensed) : null,
+        supervisor_years_licensed: body.supervisorYearsLicensed
+          ? parseInt(body.supervisorYearsLicensed)
+          : null,
         apprentices_on_payroll: body.apprenticesOnPayroll === 'yes',
         compensation_model: body.compensationModel,
         number_of_employees: body.numberOfEmployees ? parseInt(body.numberOfEmployees) : null,
@@ -279,7 +288,7 @@ async function _POST(req: Request) {
       logger.error('Failed to insert barbershop partner application', error);
       return NextResponse.json(
         { error: 'Failed to submit application. Please try again.' },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -312,7 +321,7 @@ async function _POST(req: Request) {
       to: process.env.PARTNER_NOTIFICATION_EMAIL || 'elevate4humanityedu@gmail.com',
       subject: `New Barbershop Partner Application: ${body.shopLegalName}`,
       html: internalEmailHtml,
-    }).catch(err => logger.error('Failed to send internal notification', err));
+    }).catch((err) => logger.error('Failed to send internal notification', err));
 
     // Send partner welcome email to applicant (+ admin copy)
     const shopDisplayName = body.shopDbaName || body.shopLegalName;
@@ -409,26 +418,25 @@ async function _POST(req: Request) {
       to: body.contactEmail,
       subject: `Welcome to the Barbershop Partner Program — ${shopDisplayName}`,
       html: partnerWelcomeHtml,
-    }).catch(err => logger.error('Failed to send partner welcome email', err));
+    }).catch((err) => logger.error('Failed to send partner welcome email', err));
 
     // Send copy to admin
     await sendEmail({
       to: process.env.PARTNER_NOTIFICATION_EMAIL || 'elevate4humanityedu@gmail.com',
       subject: `[Copy] Welcome to the Barbershop Partner Program — ${shopDisplayName}`,
       html: partnerWelcomeHtml,
-    }).catch(err => logger.error('Failed to send admin copy of partner welcome email', err));
+    }).catch((err) => logger.error('Failed to send admin copy of partner welcome email', err));
 
     return NextResponse.json({
       success: true,
       message: 'Application submitted successfully',
       applicationId: data.id,
     });
-
   } catch (error) {
     logger.error('Barbershop partner application error', error as Error);
     return NextResponse.json(
       { error: 'An unexpected error occurred. Please try again.' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

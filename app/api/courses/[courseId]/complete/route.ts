@@ -10,10 +10,7 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
+async function _POST(request: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -25,7 +22,6 @@ async function _POST(
 
     const { courseId } = await params;
     const supabase = await createClient();
-
 
     // Get course info
     const { data: course, error: courseError } = await supabase
@@ -47,10 +43,7 @@ async function _POST(
       .maybeSingle();
 
     if (enrollmentError || !enrollment) {
-      return NextResponse.json(
-        { error: 'Not enrolled in this course' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Not enrolled in this course' }, { status: 403 });
     }
 
     // Check if all lessons are completed
@@ -77,7 +70,7 @@ async function _POST(
           totalLessons,
           remainingLessons: totalLessons - completedCount,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -89,18 +82,24 @@ async function _POST(
 
     const completionStatus = await checkCourseCompletion(user.id, courseId);
     if (!completionStatus.isComplete) {
-      return NextResponse.json({
-        error: 'Course requirements not met',
-        missingRequirements: completionStatus.missingRequirements,
-      }, { status: 403 });
+      return NextResponse.json(
+        {
+          error: 'Course requirements not met',
+          missingRequirements: completionStatus.missingRequirements,
+        },
+        { status: 403 },
+      );
     }
 
     // Quiz pass verification
     if (!completionStatus.quizzesPassed && completionStatus.totalQuizzes > 0) {
-      return NextResponse.json({
-        error: 'Not all required quizzes have been passed',
-        failedQuizzes: completionStatus.failedQuizTitles,
-      }, { status: 403 });
+      return NextResponse.json(
+        {
+          error: 'Not all required quizzes have been passed',
+          failedQuizzes: completionStatus.failedQuizTitles,
+        },
+        { status: 403 },
+      );
     }
 
     // Proctored exam gate (course-specific)
@@ -125,9 +124,12 @@ async function _POST(
         .maybeSingle();
 
       if (!session) {
-        return NextResponse.json({
-          error: `Proctored ${requirements.examRequirement.examName} exam must be passed before certificate issuance.`,
-        }, { status: 403 });
+        return NextResponse.json(
+          {
+            error: `Proctored ${requirements.examRequirement.examName} exam must be passed before certificate issuance.`,
+          },
+          { status: 403 },
+        );
       }
       examSession = session;
     }
@@ -145,10 +147,7 @@ async function _POST(
 
     if (updateError) {
       logger.error('Course completion error:', updateError);
-      return NextResponse.json(
-        { error: 'Failed to complete course' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to complete course' }, { status: 500 });
     }
 
     // Gather seat time
@@ -157,20 +156,26 @@ async function _POST(
       .select('time_spent_seconds')
       .eq('user_id', user.id)
       .eq('course_id', courseId);
-    const totalSeconds = (seatTimeData || []).reduce((s: number, r: any) => s + (r.time_spent_seconds || 0), 0);
+    const totalSeconds = (seatTimeData || []).reduce(
+      (s: number, r: any) => s + (r.time_spent_seconds || 0),
+      0,
+    );
     const totalHours = Math.round((totalSeconds / 3600) * 10) / 10;
 
     // Seat time gate
     if (requirements.minimumSeatTimeHours && totalHours < requirements.minimumSeatTimeHours) {
-      return NextResponse.json({
-        error: 'Minimum seat time requirement not met',
-        seatTimeRequirement: {
-          required: requirements.minimumSeatTimeHours,
-          recorded: totalHours,
-          deficit: Math.round((requirements.minimumSeatTimeHours - totalHours) * 10) / 10,
+      return NextResponse.json(
+        {
+          error: 'Minimum seat time requirement not met',
+          seatTimeRequirement: {
+            required: requirements.minimumSeatTimeHours,
+            recorded: totalHours,
+            deficit: Math.round((requirements.minimumSeatTimeHours - totalHours) * 10) / 10,
+          },
+          message: `This course requires at least ${requirements.minimumSeatTimeHours} hours of instructional time. You have ${totalHours} hours recorded.`,
         },
-        message: `This course requires at least ${requirements.minimumSeatTimeHours} hours of instructional time. You have ${totalHours} hours recorded.`,
-      }, { status: 403 });
+        { status: 403 },
+      );
     }
 
     // Issue certificate with full competency evidence
@@ -234,17 +239,11 @@ async function _POST(
     });
   } catch (error) {
     logger.error('Course complete API error:', error);
-    return NextResponse.json(
-      { error: 'Failed to complete course' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to complete course' }, { status: 500 });
   }
 }
 
-async function _GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
+async function _GET(request: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -293,16 +292,12 @@ async function _GET(
       lessonsCompleted: completedLessons?.length || 0,
       totalLessons: lessons?.length || 0,
       canComplete:
-        (lessons?.length || 0) > 0 &&
-        (completedLessons?.length || 0) === (lessons?.length || 0),
+        (lessons?.length || 0) > 0 && (completedLessons?.length || 0) === (lessons?.length || 0),
       certificate: certificate || null,
     });
   } catch (error) {
     logger.error('Course completion status error:', error);
-    return NextResponse.json(
-      { error: 'Failed to get completion status' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to get completion status' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/courses/[courseId]/complete', _GET);

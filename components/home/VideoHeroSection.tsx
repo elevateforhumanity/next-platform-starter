@@ -13,7 +13,7 @@ export default function VideoHeroSection() {
   useEffect(() => {
     // Trigger content animation after mount
     setTimeout(() => setShowContent(true), 100);
-    
+
     const video = videoRef.current;
     if (!video) return undefined;
 
@@ -35,7 +35,10 @@ export default function VideoHeroSection() {
 
     const handleInteraction = () => {
       if (!isPlaying && video.paused) {
-        video.play().then(() => setIsPlaying(true)).catch(() => {});
+        video
+          .play()
+          .then(() => setIsPlaying(true))
+          .catch(() => {});
       }
     };
 
@@ -52,14 +55,15 @@ export default function VideoHeroSection() {
   return (
     <section className="relative w-full min-h-[400px] sm:min-h-[500px] md:min-h-[600px] lg:min-h-[700px] flex items-end bg-slate-900 overflow-hidden">
       {/* Fallback Image - always present for mobile */}
-      <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+      <Image sizes="100vw"
         src="/images/programs/efh-cna-hero.jpg"
         alt="Career Training"
         fill
         className="object-cover"
         priority
       />
-      
+
       {/* Video Background - only on larger screens */}
       <video
         ref={videoRef}
@@ -74,22 +78,21 @@ export default function VideoHeroSection() {
       </video>
 
       {/* Subtle overlay for text readability */}
-      
 
       {/* Content */}
       <div className="relative w-full pb-12 md:pb-16">
         <div className="max-w-7xl mx-auto px-4 md:px-6">
           {/* Headline with animation */}
-          <h1 
+          <h1
             className={`text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-4 max-w-3xl transition-all duration-700 ${
               showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
           >
             Free Career Training for Indiana
           </h1>
-          
+
           {/* Subheadline with delayed animation */}
-          <p 
+          <p
             className={`text-lg sm:text-xl text-white/90 mb-8 max-w-xl transition-all duration-700 delay-200 ${
               showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}
@@ -98,7 +101,7 @@ export default function VideoHeroSection() {
           </p>
 
           {/* CTA buttons with delayed animation */}
-          <div 
+          <div
             className={`flex flex-col sm:flex-row gap-3 transition-all duration-700 delay-400 ${
               showContent ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'
             }`}

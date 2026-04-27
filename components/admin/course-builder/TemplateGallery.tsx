@@ -10,17 +10,31 @@
 import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import {
-  Search, Loader2, CheckCircle, ArrowRight,
-  BookOpen, Stethoscope, Wrench, Truck, Scissors,
-  Laptop, DollarSign, Heart, Shield, Zap, Star,
-  ChevronDown, ChevronUp, Play,
+  Search,
+  Loader2,
+  CheckCircle,
+  ArrowRight,
+  BookOpen,
+  Stethoscope,
+  Wrench,
+  Truck,
+  Scissors,
+  Laptop,
+  DollarSign,
+  Heart,
+  Shield,
+  Zap,
+  Star,
+  ChevronDown,
+  ChevronUp,
+  Play,
 } from 'lucide-react';
 
 // ── Template data ─────────────────────────────────────────────────────────────
 
 export interface CourseTemplate {
   id: string;
-  blueprintId?: string;       // if backed by a real blueprint
+  blueprintId?: string; // if backed by a real blueprint
   name: string;
   tagline: string;
   category: string;
@@ -29,11 +43,11 @@ export interface CourseTemplate {
   lessons: number;
   durationWeeks: number;
   fundingEligible: boolean;
-  color: string;              // tailwind bg class for card accent
+  color: string; // tailwind bg class for card accent
   icon: React.ElementType;
   features: string[];
-  previewModules: string[];   // first 3 module titles for preview
-  isBlueprint: boolean;       // true = real blueprint, false = starter scaffold
+  previewModules: string[]; // first 3 module titles for preview
+  isBlueprint: boolean; // true = real blueprint, false = starter scaffold
 }
 
 const TEMPLATES: CourseTemplate[] = [
@@ -52,7 +66,11 @@ const TEMPLATES: CourseTemplate[] = [
     color: 'bg-blue-500',
     icon: DollarSign,
     features: ['QuickBooks Online', 'Payroll basics', 'Financial statements', 'Checkpoint quizzes'],
-    previewModules: ['Accounting Fundamentals', 'QuickBooks Setup & Navigation', 'Invoicing & Payments'],
+    previewModules: [
+      'Accounting Fundamentals',
+      'QuickBooks Setup & Navigation',
+      'Invoicing & Payments',
+    ],
     isBlueprint: true,
   },
   {
@@ -119,8 +137,17 @@ const TEMPLATES: CourseTemplate[] = [
     fundingEligible: true,
     color: 'bg-red-500',
     icon: Stethoscope,
-    features: ['Clinical skills modules', 'Checkpoint quizzes', 'Lab sign-off', 'Certificate pathway'],
-    previewModules: ['Patient Care Fundamentals', 'Clinical Procedures', 'Safety & Infection Control'],
+    features: [
+      'Clinical skills modules',
+      'Checkpoint quizzes',
+      'Lab sign-off',
+      'Certificate pathway',
+    ],
+    previewModules: [
+      'Patient Care Fundamentals',
+      'Clinical Procedures',
+      'Safety & Infection Control',
+    ],
     isBlueprint: false,
   },
   {
@@ -194,13 +221,28 @@ const TEMPLATES: CourseTemplate[] = [
     fundingEligible: false,
     color: 'bg-slate-400',
     icon: BookOpen,
-    features: ['No pre-built content', 'Add your own modules', 'Full customization', 'Any credential type'],
+    features: [
+      'No pre-built content',
+      'Add your own modules',
+      'Full customization',
+      'Any credential type',
+    ],
     previewModules: [],
     isBlueprint: false,
   },
 ];
 
-const CATEGORIES = ['All', 'Healthcare', 'Trades', 'Business', 'Cosmetology', 'Transportation', 'Technology', 'Professional', 'Custom'];
+const CATEGORIES = [
+  'All',
+  'Healthcare',
+  'Trades',
+  'Business',
+  'Cosmetology',
+  'Transportation',
+  'Technology',
+  'Professional',
+  'Custom',
+];
 
 // ── Component ─────────────────────────────────────────────────────────────────
 
@@ -219,9 +261,12 @@ export default function TemplateGallery() {
   const [fundingEligible, setFundingEligible] = useState(true);
   const [durationWeeks, setDurationWeeks] = useState('');
 
-  const filtered = TEMPLATES.filter(t => {
+  const filtered = TEMPLATES.filter((t) => {
     const matchCat = category === 'All' || t.category === category;
-    const matchSearch = !search || t.name.toLowerCase().includes(search.toLowerCase()) || t.tagline.toLowerCase().includes(search.toLowerCase());
+    const matchSearch =
+      !search ||
+      t.name.toLowerCase().includes(search.toLowerCase()) ||
+      t.tagline.toLowerCase().includes(search.toLowerCase());
     return matchCat && matchSearch;
   });
 
@@ -254,7 +299,9 @@ export default function TemplateGallery() {
             code: programCode || template.id.toUpperCase().replace(/-/g, '_'),
             title: programName || template.name,
             funding_eligible: fundingEligible,
-            duration_weeks: durationWeeks ? parseInt(durationWeeks) : template.durationWeeks || null,
+            duration_weeks: durationWeeks
+              ? parseInt(durationWeeks)
+              : template.durationWeeks || null,
             status: 'draft',
             category: template.category,
           }),
@@ -292,14 +339,16 @@ export default function TemplateGallery() {
 
   return (
     <div className="min-h-screen bg-slate-50">
-
       {/* Header */}
       <div className="bg-white border-b border-slate-200 px-6 py-8">
         <div className="max-w-6xl mx-auto">
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-500 mb-1">Course Builder</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-500 mb-1">
+            Course Builder
+          </p>
           <h1 className="text-2xl font-extrabold text-slate-900 mb-1">Choose a template</h1>
           <p className="text-slate-500 text-sm">
-            Start with a blueprint to seed a fully structured course, or pick a scaffold to customize from scratch.
+            Start with a blueprint to seed a fully structured course, or pick a scaffold to
+            customize from scratch.
           </p>
 
           {/* Search + filter */}
@@ -310,12 +359,12 @@ export default function TemplateGallery() {
                 type="text"
                 placeholder="Search templates..."
                 value={search}
-                onChange={e => setSearch(e.target.value)}
+                onChange={(e) => setSearch(e.target.value)}
                 className="w-full pl-9 pr-4 py-2 border border-slate-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-400"
               />
             </div>
             <div className="flex flex-wrap gap-2">
-              {CATEGORIES.map(cat => (
+              {CATEGORIES.map((cat) => (
                 <button
                   key={cat}
                   onClick={() => setCategory(cat)}
@@ -356,7 +405,7 @@ export default function TemplateGallery() {
 
       {/* Template grid */}
       <div className="max-w-6xl mx-auto px-6 py-4 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5 pb-16">
-        {filtered.map(template => {
+        {filtered.map((template) => {
           const Icon = template.icon;
           const isExpanded = expandedId === template.id;
           const isSeeding = seeding === template.id;
@@ -373,7 +422,9 @@ export default function TemplateGallery() {
               <div className="p-5 flex flex-col flex-1">
                 {/* Icon + badges */}
                 <div className="flex items-start justify-between mb-3">
-                  <div className={`w-10 h-10 rounded-xl ${template.color} bg-opacity-10 flex items-center justify-center flex-shrink-0`}>
+                  <div
+                    className={`w-10 h-10 rounded-xl ${template.color} bg-opacity-10 flex items-center justify-center flex-shrink-0`}
+                  >
                     <Icon className={`w-5 h-5 ${template.color.replace('bg-', 'text-')}`} />
                   </div>
                   <div className="flex items-center gap-1.5 flex-wrap justify-end">
@@ -422,7 +473,11 @@ export default function TemplateGallery() {
                   onClick={() => setExpandedId(isExpanded ? null : template.id)}
                   className="flex items-center gap-1 text-xs text-slate-400 hover:text-slate-600 mb-3 transition-colors"
                 >
-                  {isExpanded ? <ChevronUp className="w-3.5 h-3.5" /> : <ChevronDown className="w-3.5 h-3.5" />}
+                  {isExpanded ? (
+                    <ChevronUp className="w-3.5 h-3.5" />
+                  ) : (
+                    <ChevronDown className="w-3.5 h-3.5" />
+                  )}
                   {isExpanded ? 'Hide details' : 'Preview structure'}
                 </button>
 
@@ -431,9 +486,11 @@ export default function TemplateGallery() {
                   <div className="mb-4 space-y-3">
                     {/* Features */}
                     <div>
-                      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Includes</p>
+                      <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+                        Includes
+                      </p>
                       <ul className="space-y-1">
-                        {template.features.map(f => (
+                        {template.features.map((f) => (
                           <li key={f} className="flex items-center gap-2 text-xs text-slate-600">
                             <CheckCircle className="w-3 h-3 text-green-500 flex-shrink-0" />
                             {f}
@@ -445,7 +502,9 @@ export default function TemplateGallery() {
                     {/* Preview modules */}
                     {template.previewModules.length > 0 && (
                       <div>
-                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">Sample Modules</p>
+                        <p className="text-[10px] font-bold uppercase tracking-widest text-slate-400 mb-1.5">
+                          Sample Modules
+                        </p>
                         <ol className="space-y-1">
                           {template.previewModules.map((m, i) => (
                             <li key={m} className="flex items-center gap-2 text-xs text-slate-600">
@@ -473,31 +532,37 @@ export default function TemplateGallery() {
                       New Program Details
                     </p>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-600 mb-1">Program Name</label>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">
+                        Program Name
+                      </label>
                       <input
                         type="text"
                         value={programName}
-                        onChange={e => setProgramName(e.target.value)}
+                        onChange={(e) => setProgramName(e.target.value)}
                         className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-400"
                         placeholder="e.g. HVAC Technician"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-600 mb-1">Program Code</label>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">
+                        Program Code
+                      </label>
                       <input
                         type="text"
                         value={programCode}
-                        onChange={e => setProgramCode(e.target.value.toUpperCase())}
+                        onChange={(e) => setProgramCode(e.target.value.toUpperCase())}
                         className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm font-mono focus:outline-none focus:ring-2 focus:ring-brand-red-400"
                         placeholder="e.g. HVAC_TECH"
                       />
                     </div>
                     <div>
-                      <label className="block text-xs font-semibold text-slate-600 mb-1">Duration (weeks)</label>
+                      <label className="block text-xs font-semibold text-slate-600 mb-1">
+                        Duration (weeks)
+                      </label>
                       <input
                         type="number"
                         value={durationWeeks}
-                        onChange={e => setDurationWeeks(e.target.value)}
+                        onChange={(e) => setDurationWeeks(e.target.value)}
                         className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-red-400"
                         placeholder="e.g. 12"
                         min={1}
@@ -507,7 +572,7 @@ export default function TemplateGallery() {
                       <input
                         type="checkbox"
                         checked={fundingEligible}
-                        onChange={e => setFundingEligible(e.target.checked)}
+                        onChange={(e) => setFundingEligible(e.target.checked)}
                         className="w-4 h-4 rounded"
                       />
                       WIOA / WRG funding eligible
@@ -530,13 +595,22 @@ export default function TemplateGallery() {
                     } disabled:opacity-60`}
                   >
                     {isSeeding ? (
-                      <><Loader2 className="w-4 h-4 animate-spin" /> Creating program &amp; seeding course...</>
+                      <>
+                        <Loader2 className="w-4 h-4 animate-spin" /> Creating program &amp; seeding
+                        course...
+                      </>
                     ) : isShowingForm ? (
-                      <><Play className="w-4 h-4" /> Create Program &amp; Seed Course</>
+                      <>
+                        <Play className="w-4 h-4" /> Create Program &amp; Seed Course
+                      </>
                     ) : template.isBlueprint ? (
-                      <><Zap className="w-4 h-4" /> Seed from Blueprint</>
+                      <>
+                        <Zap className="w-4 h-4" /> Seed from Blueprint
+                      </>
                     ) : (
-                      <><ArrowRight className="w-4 h-4" /> Use Template</>
+                      <>
+                        <ArrowRight className="w-4 h-4" /> Use Template
+                      </>
                     )}
                   </button>
                   {template.isBlueprint && !isShowingForm && (

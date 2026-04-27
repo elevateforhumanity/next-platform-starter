@@ -12,10 +12,10 @@
  */
 
 export const ENV = {
-  STRIPE:   ['STRIPE_SECRET_KEY'] as const,
+  STRIPE: ['STRIPE_SECRET_KEY'] as const,
   STRIPE_WEBHOOK: ['STRIPE_SECRET_KEY', 'STRIPE_WEBHOOK_SECRET'] as const,
   STRIPE_TESTING_WEBHOOK: ['STRIPE_SECRET_KEY', 'STRIPE_TESTING_WEBHOOK_SECRET'] as const,
   CALENDLY: ['CALENDLY_WEBHOOK_SECRET'] as const,
-  CRON:     ['CRON_SECRET'] as const,
+  CRON: ['CRON_SECRET'] as const,
   SENDGRID: ['SENDGRID_API_KEY'] as const,
 } satisfies Record<string, readonly string[]>;

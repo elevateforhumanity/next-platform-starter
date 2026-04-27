@@ -110,7 +110,9 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
               Your application for <strong>{programName}</strong> is under review.
             </p>
             <p className="text-slate-700 text-sm mb-8">
-              Access to your courses will be granted once your full application is approved by our admissions team. You'll receive an email at <strong>{user.email}</strong> as soon as access is granted — typically within 1 business day.
+              Access to your courses will be granted once your full application is approved by our
+              admissions team. You'll receive an email at <strong>{user.email}</strong> as soon as
+              access is granted — typically within 1 business day.
             </p>
             <div className="bg-amber-50 border border-amber-200 rounded-xl p-5 text-left mb-8">
               <p className="text-sm font-semibold text-amber-800 mb-2">What happens next</p>
@@ -121,8 +123,14 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
               </ol>
             </div>
             <p className="text-sm text-slate-700 mb-6">
-              Questions? Call <a href="tel:3173143757" className="text-slate-900 font-semibold">(317) 314-3757</a> or email{' '}
-              <a href="mailto:info@elevateforhumanity.org" className="text-slate-900 font-semibold">info@elevateforhumanity.org</a>
+              Questions? Call{' '}
+              <a href="tel:3173143757" className="text-slate-900 font-semibold">
+                (317) 314-3757
+              </a>{' '}
+              or email{' '}
+              <a href="mailto:info@elevateforhumanity.org" className="text-slate-900 font-semibold">
+                info@elevateforhumanity.org
+              </a>
             </p>
             <div className="border-t pt-6 text-left">
               <p className="text-sm text-slate-700 mb-1">Need another sign-in link?</p>
@@ -174,22 +182,104 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
 
   // INTraining / ETPL official funded programs (2Exclusive LLC-S / Elevate for Humanity Training Center)
   const FUNDED_PROGRAMS = [
-    { name: 'Barber Apprenticeship', id: '#10004637', duration: '15 months', cost: '$4,890', credentials: ['Registered Barber License', 'Rise Up Certificate'], href: '/programs/barber-apprenticeship' },
-    { name: 'Beauty & Career Educator Training', id: '#10004648', duration: '84 days', cost: '$4,730', credentials: ['CPR', 'OSHA 10', 'Rise Up Certificate'], href: '/programs/beauty-educator' },
-    { name: 'Bookkeeping, Accounting & Auditing Clerk', id: '#10004627', duration: '8 weeks', cost: '$4,925', credentials: ['QuickBooks Certified User', 'Microsoft Office Specialist'], href: '/programs/bookkeeping' },
-    { name: 'Business Management', id: '#10004645', duration: '5 weeks', cost: '$4,900', credentials: ['Business of Retail Certified Specialist', 'Certified Business Professional'], href: '/programs/business-management' },
-    { name: 'CPR, AED & First Aid', id: '#10004674', duration: '1 day', cost: '$575', credentials: ['CPR Certification'], href: '/programs/cpr-aed' },
-    { name: 'Emergency Health & Safety Technician', id: '#10004621', duration: '4 weeks', cost: '$4,950', credentials: ['CPR', 'EMR', 'OSHA 10'], href: '/programs/emergency-health' },
-    { name: 'Home Health Aide', id: '#10004626', duration: '4 weeks', cost: '$4,700', credentials: ['HHA License', 'CCHW', 'CPR', 'Rise Up Certificate'], href: '/programs/home-health-aide' },
-    { name: 'HVAC Technician', id: '#10004322', duration: '12 weeks', cost: '$5,000', credentials: ['Residential HVAC Cert 1 & 2', 'EPA 608', 'OSHA 30', 'CPR', 'Rise Up Certificate'], href: '/programs/hvac-technician' },
-    { name: 'Medical Assistant', id: '#10004639', duration: '21 days', cost: '$4,325', credentials: ['CCHW', 'CPR', 'Rise Up Certificate'], href: '/programs/medical-assistant' },
-    { name: 'Professional Esthetician & Client Services', id: '#10004628', duration: '5 weeks', cost: '$4,575', credentials: ['OSHA 10', 'Business of Retail Certified Specialist'], href: '/programs/esthetician' },
-    { name: 'Public Safety Reentry Specialist', id: '#10004666', duration: '45 days', cost: '$4,750', credentials: ['CPRC', 'CPSP', 'CCHW', 'CPR', 'Rise Up Certificate'], href: '/programs/reentry-specialist' },
+    {
+      name: 'Barber Apprenticeship',
+      id: '#10004637',
+      duration: '15 months',
+      cost: '$4,890',
+      credentials: ['Registered Barber License', 'Rise Up Certificate'],
+      href: '/programs/barber-apprenticeship',
+    },
+    {
+      name: 'Beauty & Career Educator Training',
+      id: '#10004648',
+      duration: '84 days',
+      cost: '$4,730',
+      credentials: ['CPR', 'OSHA 10', 'Rise Up Certificate'],
+      href: '/programs/beauty-educator',
+    },
+    {
+      name: 'Bookkeeping, Accounting & Auditing Clerk',
+      id: '#10004627',
+      duration: '8 weeks',
+      cost: '$4,925',
+      credentials: ['QuickBooks Certified User', 'Microsoft Office Specialist'],
+      href: '/programs/bookkeeping',
+    },
+    {
+      name: 'Business Management',
+      id: '#10004645',
+      duration: '5 weeks',
+      cost: '$4,900',
+      credentials: ['Business of Retail Certified Specialist', 'Certified Business Professional'],
+      href: '/programs/business-management',
+    },
+    {
+      name: 'CPR, AED & First Aid',
+      id: '#10004674',
+      duration: '1 day',
+      cost: '$575',
+      credentials: ['CPR Certification'],
+      href: '/programs/cpr-aed',
+    },
+    {
+      name: 'Emergency Health & Safety Technician',
+      id: '#10004621',
+      duration: '4 weeks',
+      cost: '$4,950',
+      credentials: ['CPR', 'EMR', 'OSHA 10'],
+      href: '/programs/emergency-health',
+    },
+    {
+      name: 'Home Health Aide',
+      id: '#10004626',
+      duration: '4 weeks',
+      cost: '$4,700',
+      credentials: ['HHA License', 'CCHW', 'CPR', 'Rise Up Certificate'],
+      href: '/programs/home-health-aide',
+    },
+    {
+      name: 'HVAC Technician',
+      id: '#10004322',
+      duration: '12 weeks',
+      cost: '$5,000',
+      credentials: [
+        'Residential HVAC Cert 1 & 2',
+        'EPA 608',
+        'OSHA 30',
+        'CPR',
+        'Rise Up Certificate',
+      ],
+      href: '/programs/hvac-technician',
+    },
+    {
+      name: 'Medical Assistant',
+      id: '#10004639',
+      duration: '21 days',
+      cost: '$4,325',
+      credentials: ['CCHW', 'CPR', 'Rise Up Certificate'],
+      href: '/programs/medical-assistant',
+    },
+    {
+      name: 'Professional Esthetician & Client Services',
+      id: '#10004628',
+      duration: '5 weeks',
+      cost: '$4,575',
+      credentials: ['OSHA 10', 'Business of Retail Certified Specialist'],
+      href: '/programs/esthetician',
+    },
+    {
+      name: 'Public Safety Reentry Specialist',
+      id: '#10004666',
+      duration: '45 days',
+      cost: '$4,750',
+      credentials: ['CPRC', 'CPSP', 'CCHW', 'CPR', 'Rise Up Certificate'],
+      href: '/programs/reentry-specialist',
+    },
   ];
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Header */}
       <header className="bg-white border-b border-gray-200 sticky top-0 z-10">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -230,7 +320,10 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
           microLabel={heroBanners.learner.microLabel}
           belowHeroHeadline={heroBanners.learner.belowHeroHeadline}
           belowHeroSubheadline={heroBanners.learner.belowHeroSubheadline}
-          ctas={[heroBanners.learner.primaryCta, ...(heroBanners.learner.secondaryCta ? [heroBanners.learner.secondaryCta] : [])]}
+          ctas={[
+            heroBanners.learner.primaryCta,
+            ...(heroBanners.learner.secondaryCta ? [heroBanners.learner.secondaryCta] : []),
+          ]}
           trustIndicators={heroBanners.learner.trustIndicators}
           transcript={heroBanners.learner.transcript}
           analyticsName={heroBanners.learner.analyticsName}
@@ -240,9 +333,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
       <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Welcome + How to use */}
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-slate-900 mb-1">
-            Welcome back, {userName}
-          </h1>
+          <h1 className="text-2xl font-bold text-slate-900 mb-1">Welcome back, {userName}</h1>
           {activeEnrollments.length > 0 ? (
             <p className="text-slate-700 text-sm mb-6">
               {activeEnrollments.length === 1
@@ -250,21 +341,43 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                 : `${activeEnrollments.length} active programs — ${averageProgress}% average progress`}
             </p>
           ) : (
-            <p className="text-slate-700 text-sm mb-6">No active programs yet — see available programs below.</p>
+            <p className="text-slate-700 text-sm mb-6">
+              No active programs yet — see available programs below.
+            </p>
           )}
 
           {/* How to use your dashboard */}
           <div className="bg-brand-blue-50 border border-brand-blue-100 rounded-xl p-5">
-            <h2 className="text-sm font-bold text-brand-blue-900 mb-3">How to use your dashboard</h2>
+            <h2 className="text-sm font-bold text-brand-blue-900 mb-3">
+              How to use your dashboard
+            </h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3">
               {[
-                { step: '1', title: 'My Programs', desc: 'Your active enrollments are listed below. Click Continue to pick up where you left off.' },
-                { step: '2', title: 'Track Progress', desc: 'Your completion percentage updates automatically as you finish lessons and pass checkpoints.' },
-                { step: '3', title: 'Earn Certificates', desc: 'Complete all lessons and pass every checkpoint to unlock your credential certificate.' },
-                { step: '4', title: 'Get Help', desc: 'Use Quick Actions below to view attendance, contact your advisor, or find your certificates.' },
+                {
+                  step: '1',
+                  title: 'My Programs',
+                  desc: 'Your active enrollments are listed below. Click Continue to pick up where you left off.',
+                },
+                {
+                  step: '2',
+                  title: 'Track Progress',
+                  desc: 'Your completion percentage updates automatically as you finish lessons and pass checkpoints.',
+                },
+                {
+                  step: '3',
+                  title: 'Earn Certificates',
+                  desc: 'Complete all lessons and pass every checkpoint to unlock your credential certificate.',
+                },
+                {
+                  step: '4',
+                  title: 'Get Help',
+                  desc: 'Use Quick Actions below to view attendance, contact your advisor, or find your certificates.',
+                },
               ].map(({ step, title, desc }) => (
                 <div key={step} className="flex gap-3">
-                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-brand-blue-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">{step}</span>
+                  <span className="flex-shrink-0 w-6 h-6 rounded-full bg-brand-blue-600 text-white text-xs font-bold flex items-center justify-center mt-0.5">
+                    {step}
+                  </span>
                   <div>
                     <p className="text-xs font-semibold text-brand-blue-900">{title}</p>
                     <p className="text-xs text-brand-blue-700 mt-0.5 leading-relaxed">{desc}</p>
@@ -282,25 +395,34 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
               <div>
                 <h2 className="text-lg font-bold text-amber-900 mb-1">Complete Your Onboarding</h2>
                 <p className="text-amber-800 text-sm">
-                  {pendingOnboarding.enrollment_state === 'approved' && 'Confirm your enrollment to proceed to orientation.'}
-                  {pendingOnboarding.enrollment_state === 'confirmed' && 'Complete your orientation to unlock document upload.'}
-                  {pendingOnboarding.enrollment_state === 'orientation_complete' && 'Upload your required documents to activate your enrollment.'}
-                  {pendingOnboarding.enrollment_state === 'documents_complete' && 'Your documents are being reviewed. You\'ll be activated shortly.'}
-                  {pendingOnboarding.enrollment_state === 'applied' && 'Your application is being reviewed. We\'ll notify you when it\'s approved.'}
+                  {pendingOnboarding.enrollment_state === 'approved' &&
+                    'Confirm your enrollment to proceed to orientation.'}
+                  {pendingOnboarding.enrollment_state === 'confirmed' &&
+                    'Complete your orientation to unlock document upload.'}
+                  {pendingOnboarding.enrollment_state === 'orientation_complete' &&
+                    'Upload your required documents to activate your enrollment.'}
+                  {pendingOnboarding.enrollment_state === 'documents_complete' &&
+                    "Your documents are being reviewed. You'll be activated shortly."}
+                  {pendingOnboarding.enrollment_state === 'applied' &&
+                    "Your application is being reviewed. We'll notify you when it's approved."}
                 </p>
               </div>
               <Link
                 href={
-                  pendingOnboarding.enrollment_state === 'approved' ? '/enrollment/confirmed' :
-                  pendingOnboarding.enrollment_state === 'confirmed' ? '/enrollment/orientation' :
-                  pendingOnboarding.enrollment_state === 'orientation_complete' ? '/enrollment/documents' :
-                  '/enrollment/confirmed'
+                  pendingOnboarding.enrollment_state === 'approved'
+                    ? '/enrollment/confirmed'
+                    : pendingOnboarding.enrollment_state === 'confirmed'
+                      ? '/enrollment/orientation'
+                      : pendingOnboarding.enrollment_state === 'orientation_complete'
+                        ? '/enrollment/documents'
+                        : '/enrollment/confirmed'
                 }
                 className="inline-flex items-center gap-2 bg-amber-600 hover:bg-amber-700 text-white font-semibold px-5 py-2.5 rounded-lg text-sm transition-colors whitespace-nowrap"
               >
                 {pendingOnboarding.enrollment_state === 'approved' && 'Confirm Enrollment'}
                 {pendingOnboarding.enrollment_state === 'confirmed' && 'Start Orientation'}
-                {pendingOnboarding.enrollment_state === 'orientation_complete' && 'Upload Documents'}
+                {pendingOnboarding.enrollment_state === 'orientation_complete' &&
+                  'Upload Documents'}
                 {pendingOnboarding.enrollment_state === 'documents_complete' && 'View Status'}
                 {pendingOnboarding.enrollment_state === 'applied' && 'View Status'}
                 <ChevronRight className="w-4 h-4" />
@@ -367,60 +489,73 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             <div className="bg-white rounded-xl shadow-sm border border-gray-200">
               <div className="p-6 border-b border-gray-200">
                 <h2 className="text-lg font-semibold text-slate-900">My Programs</h2>
-                <p className="text-xs text-slate-700 mt-0.5">Programs you are currently enrolled in</p>
+                <p className="text-xs text-slate-700 mt-0.5">
+                  Programs you are currently enrolled in
+                </p>
               </div>
               <div className="divide-y divide-gray-200">
                 {activeEnrollments.length > 0 ? (
                   activeEnrollments.map((enrollment: any) => {
-                    const course = Array.isArray(enrollment.courses) ? enrollment.courses[0] : enrollment.courses;
+                    const course = Array.isArray(enrollment.courses)
+                      ? enrollment.courses[0]
+                      : enrollment.courses;
                     return (
-                    <div key={enrollment.id} className="p-6">
-                      <div className="flex gap-4">
-                        <div className="w-20 h-20 bg-white rounded-lg overflow-hidden flex-shrink-0">
+                      <div key={enrollment.id} className="p-6">
+                        <div className="flex gap-4">
+                          <div className="w-20 h-20 bg-white rounded-lg overflow-hidden flex-shrink-0">
                             <div className="w-full h-full flex items-center justify-center">
                               <GraduationCap className="w-8 h-8 text-slate-700" />
                             </div>
-                        </div>
-                        <div className="flex-1">
-                          <h3 className="font-semibold text-slate-900 mb-1">
-                            {course?.title || 'Course'}
-                          </h3>
-                          <p className="text-sm text-slate-700 mb-3 line-clamp-1">
-                            {course?.description || 'No description available'}
-                          </p>
-                          <div className="flex items-center gap-4">
-                            <div className="flex-1">
-                              <div className="flex items-center justify-between text-sm mb-1">
-                                <span className="text-slate-700">Progress</span>
-                                <span className="font-medium text-slate-900">{enrollment.progress || 0}%</span>
+                          </div>
+                          <div className="flex-1">
+                            <h3 className="font-semibold text-slate-900 mb-1">
+                              {course?.title || 'Course'}
+                            </h3>
+                            <p className="text-sm text-slate-700 mb-3 line-clamp-1">
+                              {course?.description || 'No description available'}
+                            </p>
+                            <div className="flex items-center gap-4">
+                              <div className="flex-1">
+                                <div className="flex items-center justify-between text-sm mb-1">
+                                  <span className="text-slate-700">Progress</span>
+                                  <span className="font-medium text-slate-900">
+                                    {enrollment.progress || 0}%
+                                  </span>
+                                </div>
+                                <div className="w-full bg-gray-200 rounded-full h-2">
+                                  <div
+                                    className="bg-brand-orange-500 h-2 rounded-full transition-all"
+                                    style={{ width: `${enrollment.progress || 0}%` }}
+                                  />
+                                </div>
                               </div>
-                              <div className="w-full bg-gray-200 rounded-full h-2">
-                                <div
-                                  className="bg-brand-orange-500 h-2 rounded-full transition-all"
-                                  style={{ width: `${enrollment.progress || 0}%` }}
-                                />
-                              </div>
+                              <Link
+                                href={
+                                  enrollment._isApprenticeship
+                                    ? `/programs/${enrollment.program_slug || 'barber-apprenticeship'}`
+                                    : `/lms/courses/${enrollment.course_id}`
+                                }
+                                className="px-4 py-2 bg-brand-orange-600 text-white text-sm font-medium rounded-lg hover:bg-brand-orange-700 transition flex items-center gap-2"
+                              >
+                                <Play className="w-4 h-4" />
+                                {enrollment._isApprenticeship ? 'View Program' : 'Continue'}
+                              </Link>
                             </div>
-                            <Link
-                              href={enrollment._isApprenticeship
-                                ? `/programs/${enrollment.program_slug || 'barber-apprenticeship'}`
-                                : `/lms/courses/${enrollment.course_id}`}
-                              className="px-4 py-2 bg-brand-orange-600 text-white text-sm font-medium rounded-lg hover:bg-brand-orange-700 transition flex items-center gap-2"
-                            >
-                              <Play className="w-4 h-4" />
-                              {enrollment._isApprenticeship ? 'View Program' : 'Continue'}
-                            </Link>
                           </div>
                         </div>
                       </div>
-                    </div>
-                  );})
-                  
+                    );
+                  })
                 ) : (
                   <div className="p-10 text-center">
                     <BookOpen className="w-10 h-10 text-slate-700 mx-auto mb-3" />
-                    <h3 className="text-base font-medium text-slate-900 mb-1">No active programs yet</h3>
-                    <p className="text-sm text-slate-700">Once you enroll, your programs will appear here. See the WIOA-Funded Programs section below to get started.</p>
+                    <h3 className="text-base font-medium text-slate-900 mb-1">
+                      No active programs yet
+                    </h3>
+                    <p className="text-sm text-slate-700">
+                      Once you enroll, your programs will appear here. See the WIOA-Funded Programs
+                      section below to get started.
+                    </p>
                   </div>
                 )}
               </div>
@@ -448,9 +583,7 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                               Start date: {new Date(ext.start_date).toLocaleDateString()}
                             </p>
                           )}
-                          {ext.notes && (
-                            <p className="text-sm text-slate-700 mb-3">{ext.notes}</p>
-                          )}
+                          {ext.notes && <p className="text-sm text-slate-700 mb-3">{ext.notes}</p>}
                           <div className="flex flex-wrap gap-2 mt-2">
                             <Link
                               href={`/programs/${ext.program_slug}`}
@@ -484,12 +617,36 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
               <h2 className="text-lg font-semibold text-slate-900 mb-4">Quick Actions</h2>
               <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-3">
                 {[
-                  { href: '/lms/courses',      icon: <BookOpen className="w-7 h-7 text-brand-blue-600" />,    label: 'My Courses' },
-                  { href: '/lms/certificates', icon: <Award className="w-7 h-7 text-emerald-600" />,          label: 'Certificates' },
-                  { href: '/lms/attendance',   icon: <Calendar className="w-7 h-7 text-amber-600" />,         label: 'Attendance' },
-                  { href: '/credentials',      icon: <FileText className="w-7 h-7 text-brand-orange-600" />,  label: 'Credentials' },
-                  { href: '/transcript',       icon: <ScrollText className="w-7 h-7 text-slate-600" />,       label: 'Transcript' },
-                  { href: '/support/contact',  icon: <MessageSquare className="w-7 h-7 text-brand-blue-600" />, label: 'Get Help' },
+                  {
+                    href: '/lms/courses',
+                    icon: <BookOpen className="w-7 h-7 text-brand-blue-600" />,
+                    label: 'My Courses',
+                  },
+                  {
+                    href: '/lms/certificates',
+                    icon: <Award className="w-7 h-7 text-emerald-600" />,
+                    label: 'Certificates',
+                  },
+                  {
+                    href: '/lms/attendance',
+                    icon: <Calendar className="w-7 h-7 text-amber-600" />,
+                    label: 'Attendance',
+                  },
+                  {
+                    href: '/credentials',
+                    icon: <FileText className="w-7 h-7 text-brand-orange-600" />,
+                    label: 'Credentials',
+                  },
+                  {
+                    href: '/transcript',
+                    icon: <ScrollText className="w-7 h-7 text-slate-600" />,
+                    label: 'Transcript',
+                  },
+                  {
+                    href: '/support/contact',
+                    icon: <MessageSquare className="w-7 h-7 text-brand-blue-600" />,
+                    label: 'Get Help',
+                  },
                 ].map(({ href, icon, label }) => (
                   <Link
                     key={href}
@@ -497,7 +654,9 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                     className="flex flex-col items-center p-4 rounded-lg border border-gray-100 hover:bg-gray-50 transition"
                   >
                     {icon}
-                    <span className="text-xs font-medium text-slate-900 mt-2 text-center">{label}</span>
+                    <span className="text-xs font-medium text-slate-900 mt-2 text-center">
+                      {label}
+                    </span>
                   </Link>
                 ))}
               </div>
@@ -517,7 +676,10 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
               <div className="p-6 border-b border-gray-200">
                 <div className="flex items-center justify-between">
                   <h2 className="text-lg font-semibold text-slate-900">Recent Achievements</h2>
-                  <Link href="/achievements" className="text-sm text-brand-orange-600 hover:text-brand-orange-700">
+                  <Link
+                    href="/achievements"
+                    className="text-sm text-brand-orange-600 hover:text-brand-orange-700"
+                  >
                     View All
                   </Link>
                 </div>
@@ -563,7 +725,9 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                         <div className="w-2 h-2 bg-brand-blue-500 rounded-full mt-2 flex-shrink-0" />
                         <div>
                           <p className="font-medium text-slate-900 text-sm">{notification.title}</p>
-                          <p className="text-xs text-slate-700 line-clamp-2">{notification.message}</p>
+                          <p className="text-xs text-slate-700 line-clamp-2">
+                            {notification.message}
+                          </p>
                         </div>
                       </div>
                     ))}
@@ -598,7 +762,10 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                 <div className="p-6 border-b border-gray-200">
                   <div className="flex items-center justify-between">
                     <h2 className="text-lg font-semibold text-slate-900">Certification Progress</h2>
-                    <Link href="/lms/certificates" className="text-sm text-brand-orange-600 hover:text-brand-orange-700">
+                    <Link
+                      href="/lms/certificates"
+                      className="text-sm text-brand-orange-600 hover:text-brand-orange-700"
+                    >
                       View All
                     </Link>
                   </div>
@@ -607,16 +774,49 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                   {certRequests.map((req: any) => {
                     const pathway = req.program_certification_pathways;
                     const body = pathway?.certification_bodies;
-                    const credName = pathway?.credential_name ?? req.credential_registry?.name ?? 'Certification';
-                    const credAbbr = pathway?.credential_abbreviation ?? req.credential_registry?.abbreviation ?? '';
+                    const credName =
+                      pathway?.credential_name ?? req.credential_registry?.name ?? 'Certification';
+                    const credAbbr =
+                      pathway?.credential_abbreviation ??
+                      req.credential_registry?.abbreviation ??
+                      '';
 
                     // Step indicators
                     const steps = [
-                      { key: 'training',   label: 'Training Complete',        done: true },
-                      { key: 'payment',    label: 'Exam Fee Paid',            done: ['exam_authorized','exam_forwarded','awaiting_upload','upload_pending','upload_rejected','certificate_issued'].includes(req.status) },
-                      { key: 'authorized', label: 'Exam Authorization Sent',  done: ['exam_forwarded','awaiting_upload','upload_pending','upload_rejected','certificate_issued'].includes(req.status) },
-                      { key: 'upload',     label: 'Result Uploaded',          done: ['upload_pending','certificate_issued'].includes(req.status) },
-                      { key: 'issued',     label: 'Certificate Issued',       done: req.status === 'certificate_issued' },
+                      { key: 'training', label: 'Training Complete', done: true },
+                      {
+                        key: 'payment',
+                        label: 'Exam Fee Paid',
+                        done: [
+                          'exam_authorized',
+                          'exam_forwarded',
+                          'awaiting_upload',
+                          'upload_pending',
+                          'upload_rejected',
+                          'certificate_issued',
+                        ].includes(req.status),
+                      },
+                      {
+                        key: 'authorized',
+                        label: 'Exam Authorization Sent',
+                        done: [
+                          'exam_forwarded',
+                          'awaiting_upload',
+                          'upload_pending',
+                          'upload_rejected',
+                          'certificate_issued',
+                        ].includes(req.status),
+                      },
+                      {
+                        key: 'upload',
+                        label: 'Result Uploaded',
+                        done: ['upload_pending', 'certificate_issued'].includes(req.status),
+                      },
+                      {
+                        key: 'issued',
+                        label: 'Certificate Issued',
+                        done: req.status === 'certificate_issued',
+                      },
                     ];
 
                     return (
@@ -642,10 +842,11 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                         <ol className="space-y-1.5 mb-4">
                           {steps.map((step) => (
                             <li key={step.key} className="flex items-center gap-2 text-xs">
-                              {step.done
-                                ? <CheckCircle className="w-3.5 h-3.5 text-green-500 shrink-0" />
-                                : <div className="w-3.5 h-3.5 rounded-full border-2 border-gray-300 shrink-0" />
-                              }
+                              {step.done ? (
+                                <CheckCircle className="w-3.5 h-3.5 text-green-500 shrink-0" />
+                              ) : (
+                                <div className="w-3.5 h-3.5 rounded-full border-2 border-gray-300 shrink-0" />
+                              )}
                               <span className={step.done ? 'text-slate-900' : 'text-slate-700'}>
                                 {step.label}
                               </span>
@@ -657,7 +858,8 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                         {req.status === 'awaiting_payment' && (
                           <div className="flex items-center gap-2 text-xs text-yellow-700 bg-yellow-50 rounded p-2">
                             <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                            Exam fee processing — you will receive an email when your authorization is ready.
+                            Exam fee processing — you will receive an email when your authorization
+                            is ready.
                           </div>
                         )}
 
@@ -671,10 +873,13 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                         {(req.status === 'exam_authorized' || req.status === 'exam_forwarded') && (
                           <div className="text-xs text-brand-blue-700 bg-brand-blue-50 rounded p-2 space-y-1">
                             <p className="font-medium">Your exam authorization is on its way.</p>
-                            <p className="text-brand-blue-600">Check your email for instructions from Elevate staff.</p>
+                            <p className="text-brand-blue-600">
+                              Check your email for instructions from Elevate staff.
+                            </p>
                             {req.authorization_expires_at && (
                               <p className="text-slate-700">
-                                Authorization expires: {new Date(req.authorization_expires_at).toLocaleDateString()}
+                                Authorization expires:{' '}
+                                {new Date(req.authorization_expires_at).toLocaleDateString()}
                               </p>
                             )}
                           </div>
@@ -685,7 +890,8 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                             {req.status === 'upload_rejected' && (
                               <div className="flex items-center gap-2 text-xs text-red-700 bg-red-50 rounded p-2">
                                 <AlertCircle className="w-3.5 h-3.5 shrink-0" />
-                                Your upload was not accepted. Please re-upload a clear copy of your certificate.
+                                Your upload was not accepted. Please re-upload a clear copy of your
+                                certificate.
                               </div>
                             )}
                             <Link
@@ -701,7 +907,8 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                         {req.status === 'upload_pending' && (
                           <div className="flex items-center gap-2 text-xs text-slate-700 bg-gray-50 rounded p-2">
                             <FileCheck className="w-3.5 h-3.5 shrink-0 text-slate-700" />
-                            Certificate uploaded — Elevate is reviewing it. You will be notified when verified.
+                            Certificate uploaded — Elevate is reviewing it. You will be notified
+                            when verified.
                           </div>
                         )}
 
@@ -716,17 +923,20 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                         )}
 
                         {/* External body link for reference */}
-                        {body?.website && !['certificate_issued', 'upload_pending', 'awaiting_upload'].includes(req.status) && (
-                          <a
-                            href={body.website}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="flex items-center gap-1 text-xs text-slate-700 hover:text-slate-700 mt-2"
-                          >
-                            <ExternalLink className="w-3 h-3" />
-                            {body.name}
-                          </a>
-                        )}
+                        {body?.website &&
+                          !['certificate_issued', 'upload_pending', 'awaiting_upload'].includes(
+                            req.status,
+                          ) && (
+                            <a
+                              href={body.website}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="flex items-center gap-1 text-xs text-slate-700 hover:text-slate-700 mt-2"
+                            >
+                              <ExternalLink className="w-3 h-3" />
+                              {body.name}
+                            </a>
+                          )}
                       </div>
                     );
                   })}
@@ -744,24 +954,35 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
                   <div className="space-y-3">
                     <div className="flex justify-between text-sm">
                       <span className="text-slate-700">Total Hours Logged</span>
-                      <span className="font-semibold text-slate-900">{attendanceHours.toFixed(1)}h</span>
+                      <span className="font-semibold text-slate-900">
+                        {attendanceHours.toFixed(1)}h
+                      </span>
                     </div>
                     <div className="flex justify-between text-sm">
                       <span className="text-slate-700">Sessions This Month</span>
                       <span className="font-semibold text-slate-900">
-                        {attendanceData.filter((a: any) => {
-                          const d = new Date(a.date);
-                          const now = new Date();
-                          return d.getMonth() === now.getMonth() && d.getFullYear() === now.getFullYear();
-                        }).length}
+                        {
+                          attendanceData.filter((a: any) => {
+                            const d = new Date(a.date);
+                            const now = new Date();
+                            return (
+                              d.getMonth() === now.getMonth() &&
+                              d.getFullYear() === now.getFullYear()
+                            );
+                          }).length
+                        }
                       </span>
                     </div>
                     <div className="border-t pt-3 mt-3">
                       <p className="text-xs text-slate-700 mb-2">Recent Sessions</p>
                       {attendanceData.slice(0, 3).map((a: any, i: number) => (
                         <div key={i} className="flex justify-between text-xs py-1">
-                          <span className="text-slate-700">{new Date(a.date).toLocaleDateString()}</span>
-                          <span className="text-slate-900 font-medium">{a.hours_logged}h ({a.type})</span>
+                          <span className="text-slate-700">
+                            {new Date(a.date).toLocaleDateString()}
+                          </span>
+                          <span className="text-slate-900 font-medium">
+                            {a.hours_logged}h ({a.type})
+                          </span>
                         </div>
                       ))}
                     </div>
@@ -783,7 +1004,8 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
             <div>
               <h2 className="text-lg font-bold text-slate-900">Browse Available Programs</h2>
               <p className="text-sm text-slate-700 mt-0.5">
-                All programs are listed on Indiana&apos;s Eligible Training Provider List (ETPL) — most students pay $0 through WIOA or the Workforce Ready Grant.
+                All programs are listed on Indiana&apos;s Eligible Training Provider List (ETPL) —
+                most students pay $0 through WIOA or the Workforce Ready Grant.
               </p>
             </div>
             <a
@@ -799,20 +1021,36 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
 
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {FUNDED_PROGRAMS.map((prog) => (
-              <div key={prog.id} className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col gap-3">
+              <div
+                key={prog.id}
+                className="bg-white rounded-xl border border-gray-200 p-5 flex flex-col gap-3"
+              >
                 <div className="flex items-start justify-between gap-2">
                   <h3 className="font-semibold text-slate-900 text-sm leading-snug">{prog.name}</h3>
-                  <span className="flex-shrink-0 text-[10px] font-mono text-slate-700 bg-gray-50 border border-gray-100 rounded px-1.5 py-0.5">{prog.id}</span>
+                  <span className="flex-shrink-0 text-[10px] font-mono text-slate-700 bg-gray-50 border border-gray-100 rounded px-1.5 py-0.5">
+                    {prog.id}
+                  </span>
                 </div>
 
                 <div className="flex items-center gap-3 text-xs text-slate-700">
-                  <span className="flex items-center gap-1"><Clock className="w-3 h-3" />{prog.duration}</span>
-                  <span className="flex items-center gap-1"><FileCheck className="w-3 h-3" />{prog.cost} total</span>
+                  <span className="flex items-center gap-1">
+                    <Clock className="w-3 h-3" />
+                    {prog.duration}
+                  </span>
+                  <span className="flex items-center gap-1">
+                    <FileCheck className="w-3 h-3" />
+                    {prog.cost} total
+                  </span>
                 </div>
 
                 <div className="flex flex-wrap gap-1">
                   {prog.credentials.map((c) => (
-                    <span key={c} className="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2 py-0.5 font-medium">{c}</span>
+                    <span
+                      key={c}
+                      className="text-[10px] bg-emerald-50 text-emerald-700 border border-emerald-100 rounded-full px-2 py-0.5 font-medium"
+                    >
+                      {c}
+                    </span>
                   ))}
                 </div>
 
@@ -832,11 +1070,18 @@ export default async function LearnerDashboardPage({ searchParams }: Props) {
           </div>
 
           <p className="text-xs text-slate-700 mt-4 text-center">
-            Provider: 2Exclusive LLC-S · Elevate for Humanity Training Center · Indianapolis, Indiana (Marion County) ·{' '}
-            <a href="https://www.nextleveljobs.org" target="_blank" rel="noopener noreferrer" className="underline">NextLevelJobs.org</a>
+            Provider: 2Exclusive LLC-S · Elevate for Humanity Training Center · Indianapolis,
+            Indiana (Marion County) ·{' '}
+            <a
+              href="https://www.nextleveljobs.org"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="underline"
+            >
+              NextLevelJobs.org
+            </a>
           </p>
         </div>
-
       </main>
     </div>
   );

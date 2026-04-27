@@ -12,7 +12,12 @@
 
 import path from 'path';
 import fs from 'fs';
-import { validateLesson, validateCheckpoint, type LessonContract, type CheckpointContract } from '../lib/curriculum/lesson-schema';
+import {
+  validateLesson,
+  validateCheckpoint,
+  type LessonContract,
+  type CheckpointContract,
+} from '../lib/curriculum/lesson-schema';
 
 const args = process.argv.slice(2);
 
@@ -32,12 +37,13 @@ function resolveTargets(args: string[]): string[] {
     return files;
   }
 
-  return args.flatMap(arg => {
+  return args.flatMap((arg) => {
     const full = path.resolve(process.cwd(), arg);
     if (fs.existsSync(full) && fs.statSync(full).isDirectory()) {
-      return fs.readdirSync(full)
-        .filter(f => f.endsWith('.ts'))
-        .map(f => path.join(full, f));
+      return fs
+        .readdirSync(full)
+        .filter((f) => f.endsWith('.ts'))
+        .map((f) => path.join(full, f));
     }
     return [full];
   });
@@ -46,7 +52,13 @@ function resolveTargets(args: string[]): string[] {
 async function validateFile(filePath: string): Promise<boolean> {
   const rel = path.relative(process.cwd(), filePath);
 
-  let mod: { slug?: string; title?: string; content?: string; quizQuestions?: unknown[]; videoUrl?: string };
+  let mod: {
+    slug?: string;
+    title?: string;
+    content?: string;
+    quizQuestions?: unknown[];
+    videoUrl?: string;
+  };
   try {
     mod = await import(filePath);
   } catch (e) {
@@ -74,9 +86,9 @@ async function validateFile(filePath: string): Promise<boolean> {
       console.log(`\n✓ ${rel} (checkpoint)`);
     } else {
       console.log(`\n✗ ${rel} (checkpoint)`);
-      result.errors.forEach(e => console.log(`  ERROR: ${e}`));
+      result.errors.forEach((e) => console.log(`  ERROR: ${e}`));
     }
-    result.warnings.forEach(w => console.log(`  WARN:  ${w}`));
+    result.warnings.forEach((w) => console.log(`  WARN:  ${w}`));
     return result.valid;
   } else {
     const result = validateLesson({
@@ -88,12 +100,14 @@ async function validateFile(filePath: string): Promise<boolean> {
     });
 
     if (result.valid) {
-      console.log(`\n✓ ${rel} — ${mod.content.length.toLocaleString()} chars, ${mod.quizQuestions.length} questions`);
+      console.log(
+        `\n✓ ${rel} — ${mod.content.length.toLocaleString()} chars, ${mod.quizQuestions.length} questions`,
+      );
     } else {
       console.log(`\n✗ ${rel}`);
-      result.errors.forEach(e => console.log(`  ERROR: ${e}`));
+      result.errors.forEach((e) => console.log(`  ERROR: ${e}`));
     }
-    result.warnings.forEach(w => console.log(`  WARN:  ${w}`));
+    result.warnings.forEach((w) => console.log(`  WARN:  ${w}`));
     return result.valid;
   }
 }
@@ -117,7 +131,8 @@ async function main() {
 
   for (const target of targets) {
     const ok = await validateFile(target);
-    if (ok) passed++; else failed++;
+    if (ok) passed++;
+    else failed++;
   }
 
   console.log(`\n${'─'.repeat(50)}`);
@@ -129,4 +144,7 @@ async function main() {
   }
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

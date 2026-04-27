@@ -10,16 +10,12 @@ const fetcher = async (url: string): Promise<AuthResponse> => {
 };
 
 export function useUser() {
-  const { data, error, isLoading, mutate } = useSWR<AuthResponse>(
-    '/api/auth/me',
-    fetcher,
-    {
-      revalidateOnFocus: false,
-      revalidateOnReconnect: false,
-      dedupingInterval: 300000,
-      shouldRetryOnError: false,
-    }
-  );
+  const { data, error, isLoading, mutate } = useSWR<AuthResponse>('/api/auth/me', fetcher, {
+    revalidateOnFocus: false,
+    revalidateOnReconnect: false,
+    dedupingInterval: 300000,
+    shouldRetryOnError: false,
+  });
 
   return {
     user: data?.user ?? null,

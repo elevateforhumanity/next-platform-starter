@@ -16,24 +16,18 @@ export const metadata: Metadata = {
 export default async function PaymentPage() {
   const supabase = await createClient();
 
-  
   // Fetch payment options
-  const { data: options } = await supabase
-    .from('payment_options')
-    .select('*')
-    .order('order_index');
+  const { data: options } = await supabase.from('payment_options').select('*').order('order_index');
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Payment" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Payment' }]} />
       </div>
-{/* Hero Section */}
+      {/* Hero Section */}
       <section className="bg-brand-blue-700 text-white py-16">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h1 className="text-4xl md:text-5xl font-bold mb-6">
-              Payment Options
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-6">Payment Options</h1>
             <p className="text-lg text-white">
               Flexible payment solutions to help you invest in your future.
             </p>
@@ -50,8 +44,7 @@ export default async function PaymentPage() {
               <div className="bg-white rounded-lg shadow-sm border p-8">
                 <h2 className="text-2xl font-bold mb-4">Pay in Full</h2>
                 <p className="text-slate-700 mb-6">
-                  Pay the full tuition amount upfront and get started
-                  immediately.
+                  Pay the full tuition amount upfront and get started immediately.
                 </p>
                 <ul className="space-y-3 mb-6">
                   <li className="flex items-center">
@@ -79,13 +72,12 @@ export default async function PaymentPage() {
               <div className="bg-white rounded-lg shadow-sm border p-8">
                 <h2 className="text-2xl font-bold mb-4">Pay in 4</h2>
                 <p className="text-slate-700 mb-6">
-                  Split your payment into 4 interest-free installments with
-                  Klarna, Afterpay, or Zip.
+                  Split your payment into 4 interest-free installments with Klarna, Afterpay, or
+                  Zip.
                 </p>
                 <ul className="space-y-3 mb-6">
                   <li className="flex items-center">
-                    <span className="text-slate-500 flex-shrink-0">•</span>
-                    4 interest-free payments
+                    <span className="text-slate-500 flex-shrink-0">•</span>4 interest-free payments
                   </li>
                   <li className="flex items-center">
                     <span className="text-slate-500 flex-shrink-0">•</span>
@@ -109,11 +101,10 @@ export default async function PaymentPage() {
             <div className="mt-12 bg-gradient-to-r from-brand-orange-500 to-brand-orange-600 rounded-lg shadow-lg p-8 text-white">
               <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-6">
                 <div>
-                  <h2 className="text-2xl font-bold mb-2">
-                    Barber Apprenticeship Program
-                  </h2>
+                  <h2 className="text-2xl font-bold mb-2">Barber Apprenticeship Program</h2>
                   <p className="text-white mb-4">
-                    Start your career as a licensed barber. USDOL registered apprenticeship with flexible payment options.
+                    Start your career as a licensed barber. USDOL registered apprenticeship with
+                    flexible payment options.
                   </p>
                   <ul className="space-y-2 text-sm">
                     <li className="flex items-center gap-2">
@@ -149,12 +140,10 @@ export default async function PaymentPage() {
 
             {/* Funding Options */}
             <div className="mt-12 bg-white rounded-lg shadow-sm border p-8">
-              <h2 className="text-2xl font-bold mb-4 text-center">
-                Additional Funding Options
-              </h2>
+              <h2 className="text-2xl font-bold mb-4 text-center">Additional Funding Options</h2>
               <p className="text-slate-700 text-center mb-8">
-                You may qualify for free or reduced-cost training through
-                workforce development programs.
+                You may qualify for free or reduced-cost training through workforce development
+                programs.
               </p>
               <div className="grid md:grid-cols-3 gap-6">
                 <Link
@@ -171,18 +160,14 @@ export default async function PaymentPage() {
                   className="text-center p-4 rounded-lg hover:bg-white transition-colors border"
                 >
                   <h3 className="font-semibold mb-2">Grants</h3>
-                  <p className="text-sm text-slate-700">
-                    Available grants and scholarships
-                  </p>
+                  <p className="text-sm text-slate-700">Available grants and scholarships</p>
                 </Link>
                 <Link
                   href="/check-eligibility"
                   className="text-center p-4 rounded-lg hover:bg-white transition-colors border"
                 >
                   <h3 className="font-semibold mb-2">Check Eligibility</h3>
-                  <p className="text-sm text-slate-700">
-                    See if you qualify for free training
-                  </p>
+                  <p className="text-sm text-slate-700">See if you qualify for free training</p>
                 </Link>
               </div>
             </div>
@@ -196,8 +181,7 @@ export default async function PaymentPage() {
           <div className="max-w-4xl mx-auto text-center">
             <h2 className="text-2xl font-bold mb-4">Need Help?</h2>
             <p className="text-slate-700 mb-6">
-              Our team is here to help you find the best payment option for your
-              situation.
+              Our team is here to help you find the best payment option for your situation.
             </p>
             <Link
               href="/contact"

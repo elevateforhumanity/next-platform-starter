@@ -1,6 +1,6 @@
 /**
  * Media Optimization Utilities
- * 
+ *
  * Image optimization has been moved to Netlify function: /.netlify/functions/image-optimize
  * This file provides URL helpers and client-side utilities that don't require Sharp.
  */
@@ -26,7 +26,7 @@ export function getOptimizedImageUrl(
     width?: number;
     height?: number;
     quality?: number;
-  } = {}
+  } = {},
 ): string {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const bucket = 'images';
@@ -47,11 +47,9 @@ export function getOptimizedImageUrl(
  */
 export function generateSrcSet(
   path: string,
-  widths: number[] = [320, 640, 768, 1024, 1280, 1920]
+  widths: number[] = [320, 640, 768, 1024, 1280, 1920],
 ): string {
-  return widths
-    .map((width) => `${getOptimizedImageUrl(path, { width })} ${width}w`)
-    .join(', ');
+  return widths.map((width) => `${getOptimizedImageUrl(path, { width })} ${width}w`).join(', ');
 }
 
 // =====================================================
@@ -69,7 +67,7 @@ export interface VideoOptimizationOptions {
  * Get video optimization settings
  */
 export function getVideoOptimizationSettings(
-  resolution: '360p' | '480p' | '720p' | '1080p' = '720p'
+  resolution: '360p' | '480p' | '720p' | '1080p' = '720p',
 ): {
   width: number;
   height: number;
@@ -153,9 +151,7 @@ export function generatePreloadLinks(images: Array<{ src: string; type?: string 
   return images
     .map(
       (img) =>
-        `<link rel="preload" as="image" href="${img.src}" ${
-          img.type ? `type="${img.type}"` : ''
-        }>`
+        `<link rel="preload" as="image" href="${img.src}" ${img.type ? `type="${img.type}"` : ''}>`,
     )
     .join('\n');
 }
@@ -164,9 +160,7 @@ export function generatePreloadLinks(images: Array<{ src: string; type?: string 
  * Generate prefetch link tags for images
  */
 export function generatePrefetchLinks(images: string[]): string {
-  return images
-    .map((src) => `<link rel="prefetch" as="image" href="${src}">`)
-    .join('\n');
+  return images.map((src) => `<link rel="prefetch" as="image" href="${src}">`).join('\n');
 }
 
 // =====================================================
@@ -181,10 +175,10 @@ export function generatePrefetchLinks(images: string[]): string {
  */
 export async function optimizeImage(
   buffer: Buffer,
-  options: ImageOptimizationOptions = {}
+  options: ImageOptimizationOptions = {},
 ): Promise<Buffer> {
   const base64 = buffer.toString('base64');
-  
+
   const response = await fetch(`${process.env.URL || ''}/.netlify/functions/image-optimize`, {
     method: 'POST',
     headers: { 'Content-Type': 'application/json' },

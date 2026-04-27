@@ -20,7 +20,7 @@ const CATEGORIES = {
   dashboard: ['/dashboard', '/student/', '/instructor/', '/admin/', '/portal/'],
   policy: ['/privacy', '/terms', '/accessibility', '/ferpa', '/legal/'],
   directory: ['/directory', '/search', '/opportunities', '/all-pages'],
-  marketing: ['/', '/about', '/contact', '/blog/', '/faq', '/impact']
+  marketing: ['/', '/about', '/contact', '/blog/', '/faq', '/impact'],
 };
 
 function getAllPages() {
@@ -48,14 +48,14 @@ function fileToRoute(file) {
   parts.pop(); // Remove page.tsx
 
   const cleaned = parts
-    .filter(seg => !seg.startsWith('(') || !seg.endsWith(')'))
-    .filter(seg => !seg.startsWith('@'));
+    .filter((seg) => !seg.startsWith('(') || !seg.endsWith(')'))
+    .filter((seg) => !seg.startsWith('@'));
 
   return '/' + cleaned.join('/');
 }
 
 function matchesCategory(route, patterns) {
-  return patterns.some(pattern => route.includes(pattern));
+  return patterns.some((pattern) => route.includes(pattern));
 }
 
 function samplePages(pages, count = 10) {
@@ -64,7 +64,7 @@ function samplePages(pages, count = 10) {
     dashboard: [],
     policy: [],
     directory: [],
-    marketing: []
+    marketing: [],
   };
 
   // Categorize all pages
@@ -96,12 +96,16 @@ function checkArchetypeIntegrity(file) {
   const checks = {
     hasArchetypeImport: /import.*from.*archetype/i.test(content),
     hasInlineLayout: /<div[^>]*className="[^"]*hero[^"]*"/.test(content) && !/<Hero/.test(content),
-    hasInlineCopy: content.split('\n').filter(line =>
-      line.includes('className=') &&
-      line.includes('>') &&
-      !line.includes('import') &&
-      !line.includes('//')
-    ).length > 20
+    hasInlineCopy:
+      content
+        .split('\n')
+        .filter(
+          (line) =>
+            line.includes('className=') &&
+            line.includes('>') &&
+            !line.includes('import') &&
+            !line.includes('//'),
+        ).length > 20,
   };
 
   return checks;
@@ -115,7 +119,7 @@ function checkForbiddenPhrases(file) {
     'tbd',
     'lorem ipsum',
     'under development',
-    'work in progress'
+    'work in progress',
   ];
 
   const found = [];
@@ -131,7 +135,9 @@ function checkForbiddenPhrases(file) {
 function checkMetadata(file) {
   const content = fs.readFileSync(file, 'utf8');
 
-  const hasMetadata = /export\s+(const\s+metadata|async\s+function\s+generateMetadata)/.test(content);
+  const hasMetadata = /export\s+(const\s+metadata|async\s+function\s+generateMetadata)/.test(
+    content,
+  );
 
   let title = null;
   const titleMatch = content.match(/title:\s*['"`]([^'"`]+)['"`]/);
@@ -142,10 +148,8 @@ function checkMetadata(file) {
   return { hasMetadata, title };
 }
 
-
 const allPages = getAllPages();
 const samples = samplePages(allPages);
-
 
 let failures = 0;
 
@@ -182,19 +186,16 @@ for (let i = 0; i < samples.length; i++) {
   }
 }
 
-
 try {
   execSync('npm run archetype:check', {
     encoding: 'utf8',
-    stdio: 'inherit'
+    stdio: 'inherit',
   });
 } catch (error) {
   failures++;
 }
 
-
 if (failures === 0) {
 } else {
   process.exit(1);
 }
-

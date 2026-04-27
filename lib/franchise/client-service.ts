@@ -10,11 +10,11 @@ import { TaxClient, CreateClientInput } from './types';
 function getServiceClient(): SupabaseClient {
   const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
   const supabaseServiceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-  
+
   if (!supabaseUrl || !supabaseServiceKey) {
     throw new Error('Missing Supabase environment variables');
   }
-  
+
   return createClient(supabaseUrl, supabaseServiceKey);
 }
 
@@ -84,7 +84,7 @@ export class ClientService {
       ssn_last_four: getLastFour(cleanSSN),
       preferred_preparer_id: input.preferred_preparer_id,
       status: 'active',
-      notes: input.notes
+      notes: input.notes,
     };
 
     // Handle spouse SSN if provided
@@ -106,13 +106,13 @@ export class ClientService {
       .single();
 
     if (error) throw new Error(`Failed to create client`);
-    
-    await this.logAudit('client_created', 'franchise_client', data.id, null, { 
-      ...data, 
+
+    await this.logAudit('client_created', 'franchise_client', data.id, null, {
+      ...data,
       ssn_encrypted: '[REDACTED]',
-      spouse_ssn_encrypted: '[REDACTED]'
+      spouse_ssn_encrypted: '[REDACTED]',
     });
-    
+
     return data as TaxClient;
   }
 
@@ -130,20 +130,22 @@ export class ClientService {
       if (error.code === 'PGRST116') return null;
       throw new Error(`Failed to get client`);
     }
-    
+
     return data as TaxClient;
   }
 
   /**
    * Get client with decrypted SSN (use carefully)
    */
-  async getClientWithSSN(clientId: string): Promise<TaxClient & { ssn: string; spouse_ssn?: string } | null> {
+  async getClientWithSSN(
+    clientId: string,
+  ): Promise<(TaxClient & { ssn: string; spouse_ssn?: string }) | null> {
     const client = await this.getClient(clientId);
     if (!client) return null;
 
     const result: TaxClient & { ssn: string; spouse_ssn?: string } = {
       ...client,
-      ssn: client.ssn_encrypted ? decryptSSN(client.ssn_encrypted) : ''
+      ssn: client.ssn_encrypted ? decryptSSN(client.ssn_encrypted) : '',
     };
 
     if (client.spouse_ssn_encrypted) {
@@ -158,7 +160,7 @@ export class ClientService {
    */
   async findClientBySSN(officeId: string, ssn: string): Promise<TaxClient | null> {
     const lastFour = getLastFour(ssn);
-    
+
     // First filter by last four (indexed)
     const { data, error } = await this.supabase
       .from('franchise_clients')
@@ -167,7 +169,7 @@ export class ClientService {
       .eq('ssn_last_four', lastFour);
 
     if (error) throw new Error(`Failed to search clients`);
-    
+
     // Then verify full SSN match
     for (const client of data || []) {
       if (client.ssn_encrypted) {
@@ -177,7 +179,7 @@ export class ClientService {
         }
       }
     }
-    
+
     return null;
   }
 
@@ -194,19 +196,22 @@ export class ClientService {
       .limit(50);
 
     if (error) throw new Error(`Failed to search clients`);
-    
+
     return data as TaxClient[];
   }
 
   /**
    * List clients for an office
    */
-  async listClientsByOffice(officeId: string, filters?: {
-    status?: string;
-    preparerId?: string;
-    limit?: number;
-    offset?: number;
-  }): Promise<{ clients: TaxClient[]; total: number }> {
+  async listClientsByOffice(
+    officeId: string,
+    filters?: {
+      status?: string;
+      preparerId?: string;
+      limit?: number;
+      offset?: number;
+    },
+  ): Promise<{ clients: TaxClient[]; total: number }> {
     let query = this.supabase
       .from('franchise_clients')
       .select('*', { count: 'exact' })
@@ -231,10 +236,10 @@ export class ClientService {
     const { data, error, count } = await query;
 
     if (error) throw new Error(`Failed to list clients`);
-    
+
     return {
       clients: data as TaxClient[],
-      total: count || 0
+      total: count || 0,
     };
   }
 
@@ -246,7 +251,7 @@ export class ClientService {
     if (!current) throw new Error('Client not found');
 
     const updateData: Record<string, unknown> = {
-      updated_at: new Date().toISOString()
+      updated_at: new Date().toISOString(),
     };
 
     // Handle non-sensitive fields
@@ -259,8 +264,10 @@ export class ClientService {
     if (updates.address_state !== undefined) updateData.address_state = updates.address_state;
     if (updates.address_zip !== undefined) updateData.address_zip = updates.address_zip;
     if (updates.filing_status !== undefined) updateData.filing_status = updates.filing_status;
-    if (updates.dependents_count !== undefined) updateData.dependents_count = updates.dependents_count;
-    if (updates.preferred_preparer_id !== undefined) updateData.preferred_preparer_id = updates.preferred_preparer_id;
+    if (updates.dependents_count !== undefined)
+      updateData.dependents_count = updates.dependents_count;
+    if (updates.preferred_preparer_id !== undefined)
+      updateData.preferred_preparer_id = updates.preferred_preparer_id;
     if (updates.notes !== undefined) updateData.notes = updates.notes;
 
     // Handle SSN update (rare but possible)
@@ -274,8 +281,10 @@ export class ClientService {
     }
 
     // Handle spouse updates
-    if (updates.spouse_first_name !== undefined) updateData.spouse_first_name = updates.spouse_first_name;
-    if (updates.spouse_last_name !== undefined) updateData.spouse_last_name = updates.spouse_last_name;
+    if (updates.spouse_first_name !== undefined)
+      updateData.spouse_first_name = updates.spouse_first_name;
+    if (updates.spouse_last_name !== undefined)
+      updateData.spouse_last_name = updates.spouse_last_name;
     if (updates.spouse_ssn) {
       const cleanSpouseSSN = updates.spouse_ssn.replace(/\D/g, '');
       if (cleanSpouseSSN.length !== 9) {
@@ -293,12 +302,15 @@ export class ClientService {
       .single();
 
     if (error) throw new Error(`Failed to update client`);
-    
-    await this.logAudit('client_updated', 'franchise_client', clientId, 
+
+    await this.logAudit(
+      'client_updated',
+      'franchise_client',
+      clientId,
       { ...current, ssn_encrypted: '[REDACTED]', spouse_ssn_encrypted: '[REDACTED]' },
-      { ...data, ssn_encrypted: '[REDACTED]', spouse_ssn_encrypted: '[REDACTED]' }
+      { ...data, ssn_encrypted: '[REDACTED]', spouse_ssn_encrypted: '[REDACTED]' },
     );
-    
+
     return data as TaxClient;
   }
 
@@ -316,7 +328,7 @@ export class ClientService {
         total_fees_paid: (client.total_fees_paid || 0) + fee,
         last_return_date: new Date().toISOString().split('T')[0],
         last_return_id: returnId,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', clientId);
   }
@@ -330,16 +342,16 @@ export class ClientService {
       .update({
         status: 'do_not_serve',
         notes: reason,
-        updated_at: new Date().toISOString()
+        updated_at: new Date().toISOString(),
       })
       .eq('id', clientId)
       .select()
       .maybeSingle();
 
     if (error) throw new Error(`Failed to update client`);
-    
+
     await this.logAudit('client_marked_dns', 'franchise_client', clientId, null, { reason });
-    
+
     return data as TaxClient;
   }
 
@@ -351,7 +363,7 @@ export class ClientService {
     entityType: string,
     entityId: string,
     oldValues: unknown,
-    newValues: unknown
+    newValues: unknown,
   ): Promise<void> {
     await this.supabase.from('franchise_audit_log').insert({
       action: eventType,
@@ -359,7 +371,7 @@ export class ClientService {
       entity_id: entityId,
       old_values: oldValues,
       new_values: newValues,
-      created_at: new Date().toISOString()
+      created_at: new Date().toISOString(),
     });
   }
 }

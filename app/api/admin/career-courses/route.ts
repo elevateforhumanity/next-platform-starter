@@ -10,9 +10,15 @@ export const dynamic = 'force-dynamic';
 async function guardAdmin() {
   const supabase = await createClient();
   if (!supabase) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
@@ -21,27 +27,25 @@ async function guardAdmin() {
 
 // GET - Fetch all career courses with modules
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const denied = await guardAdmin();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const denied = await guardAdmin();
   if (denied) return denied;
   try {
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     const { data: courses, error } = await supabase
       .from('career_courses')
-      .select(`
+      .select(
+        `
         *,
         modules:career_course_modules(*)
-      `)
+      `,
+      )
       .eq('is_active', true)
       .eq('is_bundle', false)
       .order('title');
@@ -58,8 +62,8 @@ const denied = await guardAdmin();
 
 // POST - Create Stripe products for career courses
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const denied = await guardAdmin();
   if (denied) return denied;
@@ -69,12 +73,9 @@ async function _POST(req: Request) {
     if (action === 'sync-stripe') {
       const supabase = await getAdminClient();
 
-    if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
-    }
+      if (!supabase) {
+        return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
+      }
 
       // Get all courses without Stripe IDs
       const { data: courses, error } = await supabase
@@ -139,8 +140,18 @@ async function _POST(req: Request) {
         }
       }
 
-      const { data: { user } } = await supabase.auth.getUser();
-      if (user) await logAdminAudit({ action: AdminAction.CAREER_COURSE_UPDATED, actorId: user.id, entityType: 'career_courses', entityId: BULK_ENTITY_ID, metadata: { action: 'sync_stripe', count: results.length }, req: request });
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      if (user)
+        await logAdminAudit({
+          action: AdminAction.CAREER_COURSE_UPDATED,
+          actorId: user.id,
+          entityType: 'career_courses',
+          entityId: BULK_ENTITY_ID,
+          metadata: { action: 'sync_stripe', count: results.length },
+          req: request,
+        });
 
       return NextResponse.json({ results });
     }

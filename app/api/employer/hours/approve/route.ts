@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { toErrorMessage } from '@/lib/safe';
@@ -19,10 +17,7 @@ async function _POST(req: Request) {
     const { hour_id } = await req.json();
 
     if (!hour_id) {
-      return NextResponse.json(
-        { error: 'Hour ID is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Hour ID is required' }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -44,7 +39,7 @@ async function _POST(req: Request) {
     if (!profile || !['employer', 'admin', 'sponsor'].includes(profile.role)) {
       return NextResponse.json(
         { error: 'Forbidden - requires employer/admin/sponsor role' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -60,11 +55,13 @@ async function _POST(req: Request) {
     }
 
     // Employer cannot approve RTI hours
-    const isRti = ['rti', 'in_state_barber_school', 'continuing_education'].includes(hourRecord.source_type);
+    const isRti = ['rti', 'in_state_barber_school', 'continuing_education'].includes(
+      hourRecord.source_type,
+    );
     if (isRti && profile.role === 'employer') {
       return NextResponse.json(
         { error: 'Employers cannot approve RTI hours — requires sponsor or admin' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -79,7 +76,7 @@ async function _POST(req: Request) {
       if (studentProfile?.employer_id !== profile.employer_id) {
         return NextResponse.json(
           { error: "Forbidden - can only approve your own students' hours" },
-          { status: 403 }
+          { status: 403 },
         );
       }
     }
@@ -106,10 +103,7 @@ async function _POST(req: Request) {
     });
 
     if (error) {
-      return NextResponse.json(
-        { error: 'Failed to approve hours' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to approve hours' }, { status: 500 });
     }
 
     return NextResponse.json({ success: true });
@@ -117,7 +111,7 @@ async function _POST(req: Request) {
     // Error: $1
     return NextResponse.json(
       { err: toErrorMessage(err) || 'Failed to approve hours' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

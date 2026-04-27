@@ -229,7 +229,7 @@ function buildManifest(
 function main() {
   const args = process.argv.slice(2);
   const dryRun = args.includes('--dry-run');
-  const lessonArg = args.find(a => a.startsWith('--lesson='));
+  const lessonArg = args.find((a) => a.startsWith('--lesson='));
   const singleLesson = lessonArg ? parseInt(lessonArg.split('=')[1], 10) : null;
 
   // Load configs
@@ -241,11 +241,13 @@ function main() {
   // hvac-01-01 is lesson 1, hvac-01-02 is lesson 2, etc.
   const defIds = Object.keys(uuids).sort();
   const defIdToNum: Record<string, number> = {};
-  defIds.forEach((id, i) => { defIdToNum[id] = i + 1; });
+  defIds.forEach((id, i) => {
+    defIdToNum[id] = i + 1;
+  });
 
   // Filter to single lesson if requested
   const targetDefIds = singleLesson
-    ? defIds.filter(id => defIdToNum[id] === singleLesson)
+    ? defIds.filter((id) => defIdToNum[id] === singleLesson)
     : defIds;
 
   if (!dryRun) {
@@ -284,12 +286,12 @@ function main() {
   console.log(`\n=== Manifest Generation ===`);
   console.log(`Total lessons: ${targetDefIds.length}`);
   console.log(`Manifests built: ${manifests.length}`);
-  console.log(`With diagrams: ${manifests.filter(m => m.diagram).length}`);
+  console.log(`With diagrams: ${manifests.filter((m) => m.diagram).length}`);
   console.log(`Missing/skipped: ${missing.length}`);
 
   if (missing.length > 0) {
     console.log(`\nMissing assets:`);
-    missing.forEach(m => console.log(`  ⚠️  ${m}`));
+    missing.forEach((m) => console.log(`  ⚠️  ${m}`));
   }
 
   if (dryRun) {
@@ -307,10 +309,7 @@ function main() {
     const courseIndex = buildCourseIndex(manifests, titles);
     const indexDir = 'output/course-index';
     fs.mkdirSync(indexDir, { recursive: true });
-    fs.writeFileSync(
-      path.join(indexDir, 'hvac-course.json'),
-      JSON.stringify(courseIndex, null, 2),
-    );
+    fs.writeFileSync(path.join(indexDir, 'hvac-course.json'), JSON.stringify(courseIndex, null, 2));
     console.log(`Course index written to: ${indexDir}/hvac-course.json`);
   }
 }
@@ -344,7 +343,7 @@ function buildCourseIndex(manifests: LessonManifest[], titles: Record<string, st
       title: modTitles[modId] || modId,
       lessons: lessons
         .sort((a, b) => a.lessonNumber - b.lessonNumber)
-        .map(l => ({
+        .map((l) => ({
           lessonId: l.lessonDefId,
           lessonNumber: l.lessonNumber,
           uuid: l.lessonUuid,

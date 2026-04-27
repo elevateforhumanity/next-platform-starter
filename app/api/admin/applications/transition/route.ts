@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { createClient } from '@/lib/supabase/server';
@@ -13,15 +12,15 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 const VALID_TRANSITIONS: Record<string, string[]> = {
-  submitted:       ['in_review', 'under_review', 'rejected'],
-  in_review:       ['under_review', 'approved', 'rejected'],
-  under_review:    ['approved', 'rejected'],
-  approved:        ['ready_to_enroll', 'rejected'],
+  submitted: ['in_review', 'under_review', 'rejected'],
+  in_review: ['under_review', 'approved', 'rejected'],
+  under_review: ['approved', 'rejected'],
+  approved: ['ready_to_enroll', 'rejected'],
   ready_to_enroll: ['enrolled', 'rejected'],
-  rejected:        [],
-  enrolled:        [],
+  rejected: [],
+  enrolled: [],
   pending_workone: ['in_review', 'under_review', 'rejected'],
-  waitlisted:      ['in_review', 'under_review', 'rejected'],
+  waitlisted: ['in_review', 'under_review', 'rejected'],
 };
 
 export async function POST(req: NextRequest) {
@@ -49,16 +48,15 @@ export async function POST(req: NextRequest) {
   }
 
   if (!application_id || !next_status) {
-    return NextResponse.json(
-      { error: 'application_id and next_status required' },
-      { status: 400 },
-    );
+    return NextResponse.json({ error: 'application_id and next_status required' }, { status: 400 });
   }
 
   // Fetch application
   const { data: application, error: fetchError } = await db
     .from('applications')
-    .select('id, status, user_id, program_slug, program_interest, email, first_name, last_name, full_name, funding_verified, payment_received_at, eligibility_status, has_workone_approval')
+    .select(
+      'id, status, user_id, program_slug, program_interest, email, first_name, last_name, full_name, funding_verified, payment_received_at, eligibility_status, has_workone_approval',
+    )
     .eq('id', application_id)
     .maybeSingle();
 
@@ -69,7 +67,9 @@ export async function POST(req: NextRequest) {
   const currentStatus = application.status;
   const previousStatus = currentStatus; // alias for reversal logic below
   const firstName = application.first_name || application.full_name?.split(' ')[0] || 'there';
-  const isBarber = (application.program_slug ?? application.program_interest ?? '').includes('barber');
+  const isBarber = (application.program_slug ?? application.program_interest ?? '').includes(
+    'barber',
+  );
 
   // Validate transition
   if (!VALID_TRANSITIONS[currentStatus]?.includes(next_status)) {
@@ -93,7 +93,8 @@ export async function POST(req: NextRequest) {
     if (!isFunded) {
       return NextResponse.json(
         {
-          error: 'FUNDING_NOT_VERIFIED: cannot move to ready_to_enroll until payment or funding eligibility is confirmed.',
+          error:
+            'FUNDING_NOT_VERIFIED: cannot move to ready_to_enroll until payment or funding eligibility is confirmed.',
           funding_state: {
             funding_verified: application.funding_verified,
             payment_received_at: application.payment_received_at,
@@ -109,7 +110,10 @@ export async function POST(req: NextRequest) {
   // Hard block: enrolled requires user_id
   if (next_status === 'enrolled' && !application.user_id) {
     return NextResponse.json(
-      { error: 'Cannot enroll: no user account exists. Run /approve first to create the account, then transition to enrolled.' },
+      {
+        error:
+          'Cannot enroll: no user account exists. Run /approve first to create the account, then transition to enrolled.',
+      },
       { status: 422 },
     );
   }
@@ -150,10 +154,7 @@ export async function POST(req: NextRequest) {
 
       if (enrollError) {
         logger.error('[transition] enrollment insert failed', enrollError);
-        await db
-          .from('applications')
-          .update({ status: currentStatus })
-          .eq('id', application_id);
+        await db.from('applications').update({ status: currentStatus }).eq('id', application_id);
         return safeInternalError(enrollError, 'Enrollment creation failed');
       }
       enrollment_id = enrolled?.id ?? null;
@@ -173,10 +174,14 @@ export async function POST(req: NextRequest) {
           applicantEmail: application.email,
         });
         await sendEmail({ to: application.email, subject: tpl.subject, html: tpl.html });
-        await db.from('applications').update({ onboarding_sent_at: new Date().toISOString() }).eq('id', application_id);
+        await db
+          .from('applications')
+          .update({ onboarding_sent_at: new Date().toISOString() })
+          .eq('id', application_id);
       } else if (next_status === 'rejected') {
         // Rejection email — all program types
-        const programName = application.program_slug || application.program_interest || 'the program';
+        const programName =
+          application.program_slug || application.program_interest || 'the program';
         await sendEmail({
           to: [application.email],
           from: 'Elevate for Humanity <info@elevateforhumanity.org>',
@@ -206,7 +211,10 @@ export async function POST(req: NextRequest) {
       }
     } catch (emailErr) {
       // Email failure must not roll back the status change
-      logger.error('[transition] email send failed', emailErr as Error, { application_id, next_status });
+      logger.error('[transition] email send failed', emailErr as Error, {
+        application_id,
+        next_status,
+      });
     }
   }
 
@@ -215,14 +223,22 @@ export async function POST(req: NextRequest) {
     // Void LMS enrollment
     await db
       .from('program_enrollments')
-      .update({ enrollment_state: 'voided', status: 'inactive', updated_at: new Date().toISOString() })
+      .update({
+        enrollment_state: 'voided',
+        status: 'inactive',
+        updated_at: new Date().toISOString(),
+      })
       .eq('user_id', application.user_id)
       .eq('program_slug', application.program_slug);
 
     // Void external enrollment
     await db
       .from('external_program_enrollments')
-      .update({ enrollment_state: 'voided', voided_at: new Date().toISOString(), voided_reason: `Application moved to ${next_status}` })
+      .update({
+        enrollment_state: 'voided',
+        voided_at: new Date().toISOString(),
+        voided_reason: `Application moved to ${next_status}`,
+      })
       .eq('user_id', application.user_id)
       .eq('program_slug', application.program_slug);
   }

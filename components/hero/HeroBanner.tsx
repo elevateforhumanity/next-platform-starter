@@ -47,7 +47,10 @@ export default function HeroBanner({
 
   return (
     <section className="relative w-full overflow-hidden rounded-3xl">
-      <div ref={wrapperRef} className="relative h-[50svh] sm:h-[55svh] md:h-[60svh] lg:h-[65svh] min-h-[320px] w-full">
+      <div
+        ref={wrapperRef}
+        className="relative h-[50svh] sm:h-[55svh] md:h-[60svh] lg:h-[65svh] min-h-[320px] w-full"
+      >
         {type === 'video' ? (
           <CanonicalVideo
             src={videoSrc}
@@ -56,7 +59,15 @@ export default function HeroBanner({
             autoPlayOnMount
           />
         ) : (
-          <Image src={heroImageSrc} alt={heroImageAlt} fill priority sizes="100vw" className="object-cover" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src={heroImageSrc}
+            alt={heroImageAlt}
+            fill
+            priority
+            sizes="100vw"
+            className="object-cover"
+          />
         )}
 
         {/* Mute button — only for video type */}
@@ -91,17 +102,25 @@ export default function HeroBanner({
 
       <div className="bg-white py-10">
         <div className="mx-auto w-full max-w-5xl px-4 md:px-8 text-center">
-          <h1 className="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">{title}</h1>
+          <h1 className="text-3xl font-semibold tracking-tight text-slate-900 md:text-4xl">
+            {title}
+          </h1>
           <p className="mt-3 text-base text-slate-600 md:text-lg max-w-3xl mx-auto">{subtitle}</p>
           {(primaryCta || secondaryCta) && (
             <div className="mt-6 flex flex-wrap justify-center gap-3">
               {primaryCta && (
-                <Link href={primaryCta.href} className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3 rounded-lg transition-colors text-sm">
+                <Link
+                  href={primaryCta.href}
+                  className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-7 py-3 rounded-lg transition-colors text-sm"
+                >
                   {primaryCta.label}
                 </Link>
               )}
               {secondaryCta && (
-                <Link href={secondaryCta.href} className="border border-slate-300 text-slate-700 font-bold px-7 py-3 rounded-lg hover:bg-slate-50 transition-colors text-sm">
+                <Link
+                  href={secondaryCta.href}
+                  className="border border-slate-300 text-slate-700 font-bold px-7 py-3 rounded-lg hover:bg-slate-50 transition-colors text-sm"
+                >
                   {secondaryCta.label}
                 </Link>
               )}

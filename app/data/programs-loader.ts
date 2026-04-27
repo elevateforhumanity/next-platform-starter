@@ -26,7 +26,7 @@ export async function loadPrograms(): Promise<Program[]> {
  */
 export async function loadProgramBySlug(slug: string): Promise<Program | undefined> {
   const programs = await loadPrograms();
-  return programs.find(p => p.slug === slug);
+  return programs.find((p) => p.slug === slug);
 }
 
 /**

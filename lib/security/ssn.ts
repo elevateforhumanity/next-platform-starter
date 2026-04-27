@@ -16,7 +16,10 @@ export function hashSSN(ssn: string): string {
     throw new Error('SSN_SALT environment variable is required for SSN operations.');
   }
   const cleaned = ssn.replace(/\D/g, '');
-  return crypto.createHash('sha256').update(cleaned + SSN_SALT).digest('hex');
+  return crypto
+    .createHash('sha256')
+    .update(cleaned + SSN_SALT)
+    .digest('hex');
 }
 
 /**

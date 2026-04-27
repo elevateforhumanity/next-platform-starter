@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -23,7 +23,7 @@ export function SMSNotificationSystem() {
 
   const fetchTemplates = useCallback(async () => {
     const supabase = createClient();
-    
+
     const { data } = await supabase
       .from('sms_templates')
       .select('*')
@@ -31,18 +31,35 @@ export function SMSNotificationSystem() {
       .order('name');
 
     if (data) {
-      setTemplates(data.map(t => ({
-        id: t.id,
-        name: t.name,
-        message: t.template_text,
-        type: t.template_type || 'notification',
-      })));
+      setTemplates(
+        data.map((t) => ({
+          id: t.id,
+          name: t.name,
+          message: t.template_text,
+          type: t.template_type || 'notification',
+        })),
+      );
     } else {
       // Fallback templates
       setTemplates([
-        { id: '1', name: 'Assignment Reminder', message: 'Hi {name}, your assignment is due in 24 hours. Complete it at {link}', type: 'reminder' },
-        { id: '2', name: 'Class Starting', message: 'Your class "{course}" starts in 15 minutes. Join now: {link}', type: 'alert' },
-        { id: '3', name: 'Certificate Ready', message: 'Congratulations! Your certificate is ready. Download it here: {link}', type: 'notification' },
+        {
+          id: '1',
+          name: 'Assignment Reminder',
+          message: 'Hi {name}, your assignment is due in 24 hours. Complete it at {link}',
+          type: 'reminder',
+        },
+        {
+          id: '2',
+          name: 'Class Starting',
+          message: 'Your class "{course}" starts in 15 minutes. Join now: {link}',
+          type: 'alert',
+        },
+        {
+          id: '3',
+          name: 'Certificate Ready',
+          message: 'Congratulations! Your certificate is ready. Download it here: {link}',
+          type: 'notification',
+        },
       ]);
     }
 
@@ -62,11 +79,13 @@ export function SMSNotificationSystem() {
 
   const sendSMS = async () => {
     if (!phoneNumber || !message) return;
-    
+
     setSending(true);
     try {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       // Log the SMS (actual sending would be via Twilio/etc)
       await supabase.from('sms_messages').insert({
@@ -99,7 +118,9 @@ export function SMSNotificationSystem() {
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">SMS Notifications</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            SMS Notifications
+          </h1>
           <p className="text-white">Send instant text messages to students</p>
         </div>
       </div>
@@ -115,7 +136,11 @@ export function SMSNotificationSystem() {
                   <input
                     type="tel"
                     value={phoneNumber}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setPhoneNumber(e.target.value)}
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
+                    ) => setPhoneNumber(e.target.value)}
                     placeholder="+1 (317) 314-3757"
                     className="w-full px-4 py-2 border rounded-lg"
                   />
@@ -125,14 +150,16 @@ export function SMSNotificationSystem() {
                   <label className="block text-sm font-medium mb-2">Message</label>
                   <textarea
                     value={message}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setMessage(e.target.value)}
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
+                    ) => setMessage(e.target.value)}
                     placeholder="Type your message..."
                     className="w-full px-4 py-2 border rounded-lg h-32"
                     maxLength={160}
                   />
-                  <p className="text-sm text-slate-700 mt-1">
-                    {message.length}/160 characters
-                  </p>
+                  <p className="text-sm text-slate-700 mt-1">{message.length}/160 characters</p>
                 </div>
 
                 <Button className="w-full">Send SMS</Button>

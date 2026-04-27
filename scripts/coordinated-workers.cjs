@@ -16,21 +16,24 @@ console.log('╚═════════════════════�
 
 // WORKER ASSIGNMENTS - Each with specific responsibility
 const WORKERS = {
-  
   // WORKER 1: Admin User Management
   'admin-users': {
     pages: ['app/admin/users/page.tsx', 'app/admin/profiles/page.tsx'],
     task: 'Build complete user management with table, search, filters, edit, delete',
     components: ['UserManagementTable', 'UserEditModal', 'UserFilters'],
-    features: ['Search users', 'Filter by role/status', 'Edit roles', 'Delete users', 'Pagination']
+    features: ['Search users', 'Filter by role/status', 'Edit roles', 'Delete users', 'Pagination'],
   },
 
   // WORKER 2: Admin Analytics
   'admin-analytics': {
-    pages: ['app/admin/analytics/page.tsx', 'app/admin/analytics/engagement/page.tsx', 'app/admin/analytics/learning/page.tsx'],
+    pages: [
+      'app/admin/analytics/page.tsx',
+      'app/admin/analytics/engagement/page.tsx',
+      'app/admin/analytics/learning/page.tsx',
+    ],
     task: 'Build analytics dashboards with charts, metrics, and data visualization',
     components: ['AnalyticsDashboard', 'MetricsCards', 'ChartComponents'],
-    features: ['Real-time metrics', 'Charts', 'Export data', 'Date filters']
+    features: ['Real-time metrics', 'Charts', 'Export data', 'Date filters'],
   },
 
   // WORKER 3: Admin Reports
@@ -38,15 +41,19 @@ const WORKERS = {
     pages: ['app/admin/reports/page.tsx', 'app/admin/reports/generate/page.tsx'],
     task: 'Build report generation with filters, export, and scheduling',
     components: ['ReportBuilder', 'ReportFilters', 'ExportOptions'],
-    features: ['Generate reports', 'Export PDF/CSV', 'Schedule reports', 'Custom filters']
+    features: ['Generate reports', 'Export PDF/CSV', 'Schedule reports', 'Custom filters'],
   },
 
   // WORKER 4: Admin Courses
   'admin-courses': {
-    pages: ['app/admin/courses/page.tsx', 'app/admin/courses/create/page.tsx', 'app/admin/lessons/page.tsx'],
+    pages: [
+      'app/admin/courses/page.tsx',
+      'app/admin/courses/create/page.tsx',
+      'app/admin/lessons/page.tsx',
+    ],
     task: 'Build course management with CRUD operations',
     components: ['CourseTable', 'CourseForm', 'LessonBuilder'],
-    features: ['List courses', 'Create/edit courses', 'Manage lessons', 'Course settings']
+    features: ['List courses', 'Create/edit courses', 'Manage lessons', 'Course settings'],
   },
 
   // WORKER 5: Student Dashboard
@@ -54,7 +61,7 @@ const WORKERS = {
     pages: ['app/student/dashboard/page.tsx'],
     task: 'Build complete student dashboard with progress, courses, assignments',
     components: ['StudentDashboardContent', 'ProgressCards', 'CourseList'],
-    features: ['Progress tracking', 'Course overview', 'Upcoming assignments', 'Quick links']
+    features: ['Progress tracking', 'Course overview', 'Upcoming assignments', 'Quick links'],
   },
 
   // WORKER 6: Student Courses
@@ -62,7 +69,7 @@ const WORKERS = {
     pages: ['app/student/courses/page.tsx', 'app/student/courses/[courseId]/page.tsx'],
     task: 'Build course viewing with lessons, progress, and navigation',
     components: ['CourseViewer', 'LessonList', 'ProgressTracker'],
-    features: ['View courses', 'Access lessons', 'Track progress', 'Course materials']
+    features: ['View courses', 'Access lessons', 'Track progress', 'Course materials'],
   },
 
   // WORKER 7: Student Assignments
@@ -70,7 +77,7 @@ const WORKERS = {
     pages: ['app/student/assignments/page.tsx', 'app/student/assignments/[id]/page.tsx'],
     task: 'Build assignment viewing and submission',
     components: ['AssignmentList', 'AssignmentSubmission', 'GradeDisplay'],
-    features: ['View assignments', 'Submit work', 'See grades', 'Due dates']
+    features: ['View assignments', 'Submit work', 'See grades', 'Due dates'],
   },
 
   // WORKER 8: LMS Dashboard
@@ -78,7 +85,7 @@ const WORKERS = {
     pages: ['app/lms/dashboard/page.tsx', 'app/lms/page.tsx'],
     task: 'Build LMS hub with course overview and navigation',
     components: ['LMSDashboard', 'CourseGrid', 'QuickActions'],
-    features: ['Course catalog', 'Learning paths', 'Progress overview', 'Resources']
+    features: ['Course catalog', 'Learning paths', 'Progress overview', 'Resources'],
   },
 
   // WORKER 9: LMS Courses
@@ -86,22 +93,22 @@ const WORKERS = {
     pages: ['app/lms/courses/page.tsx', 'app/lms/courses/[id]/page.tsx'],
     task: 'Build course delivery system with content and interactions',
     components: ['CoursePlayer', 'ContentViewer', 'InteractiveElements'],
-    features: ['Video player', 'Content display', 'Quizzes', 'Discussions']
+    features: ['Video player', 'Content display', 'Quizzes', 'Discussions'],
   },
 
   // WORKER 10: Program Pages
-  'programs': {
+  programs: {
     pages: ['app/programs/cna/page.tsx', 'app/programs/cdl/page.tsx', 'app/programs/hvac/page.tsx'],
     task: 'Build program marketing pages with details and enrollment',
     components: ['ProgramHero', 'ProgramDetails', 'EnrollmentCTA'],
-    features: ['Program overview', 'Curriculum', 'Pricing', 'Apply button']
+    features: ['Program overview', 'Curriculum', 'Pricing', 'Apply button'],
   },
 
   // Add more workers...
 };
 
 console.log('WORKER ASSIGNMENTS:\n');
-Object.keys(WORKERS).forEach(workerName => {
+Object.keys(WORKERS).forEach((workerName) => {
   const worker = WORKERS[workerName];
   console.log(`\n${workerName.toUpperCase()}:`);
   console.log(`  Task: ${worker.task}`);
@@ -113,10 +120,9 @@ console.log('\n\nStarting coordinated build...\n');
 
 // BUILD INSTRUCTIONS FOR EACH WORKER
 const buildInstructions = {
-  
   'admin-users': () => {
     console.log('Worker: admin-users - Building user management...');
-    
+
     // Build admin users page
     const usersPage = `import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
@@ -166,7 +172,7 @@ export default async function AdminUsersPage() {
 
   'admin-analytics': () => {
     console.log('Worker: admin-analytics - Building analytics dashboard...');
-    
+
     const analyticsPage = `import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
@@ -233,7 +239,7 @@ export default async function AdminAnalyticsPage() {
 let completed = 0;
 const total = Object.keys(buildInstructions).length;
 
-Object.keys(buildInstructions).forEach(workerName => {
+Object.keys(buildInstructions).forEach((workerName) => {
   try {
     buildInstructions[workerName]();
     completed++;

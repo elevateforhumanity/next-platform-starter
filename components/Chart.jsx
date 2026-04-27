@@ -44,9 +44,7 @@ const Chart = ({ data, type = 'line', title }) => {
   return (
     <div className="chart-container">
       <h3>{title}</h3>
-      <div className="chart-Content">
-        Chart visualization will be implemented here
-      </div>
+      <div className="chart-Content">Chart visualization will be implemented here</div>
     </div>
   );
 };

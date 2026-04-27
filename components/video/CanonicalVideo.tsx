@@ -58,7 +58,16 @@ type Props = {
   loop?: boolean;
 };
 
-export default function CanonicalVideo({ src, poster, className, threshold = 0.1, playThrough = true, autoPlayOnMount = false, preloadFull = false, loop = false }: Props) {
+export default function CanonicalVideo({
+  src,
+  poster,
+  className,
+  threshold = 0.1,
+  playThrough = true,
+  autoPlayOnMount = false,
+  preloadFull = false,
+  loop = false,
+}: Props) {
   const ref = useRef<HTMLVideoElement | null>(null);
   const [failed, setFailed] = useState(false);
   const [reducedMotion, setReducedMotion] = useState(false);
@@ -129,7 +138,9 @@ export default function CanonicalVideo({ src, poster, className, threshold = 0.1
     if (video.readyState >= 2) {
       video.play().catch(() => {});
     } else {
-      const onReady = () => { video.play().catch(() => {}); };
+      const onReady = () => {
+        video.play().catch(() => {});
+      };
       video.addEventListener('canplay', onReady, { once: true });
       return () => video.removeEventListener('canplay', onReady);
     }
@@ -160,7 +171,7 @@ export default function CanonicalVideo({ src, poster, className, threshold = 0.1
           started = false;
         }
       },
-      { threshold }
+      { threshold },
     );
 
     observer.observe(video);
@@ -169,7 +180,8 @@ export default function CanonicalVideo({ src, poster, className, threshold = 0.1
 
   // Reduced-motion or error: render poster only (or transparent placeholder so layout doesn't collapse)
   if (reducedMotion || failed) {
-    if (!poster) return <div className={className} style={{ background: '#0f172a' }} aria-hidden="true" />;
+    if (!poster)
+      return <div className={className} style={{ background: '#0f172a' }} aria-hidden="true" />;
     return (
       <img
         src={poster}
@@ -207,10 +219,24 @@ export default function CanonicalVideo({ src, poster, className, threshold = 0.1
           decoding="async"
           className={`${className} transition-opacity duration-700 ${
             autoPlayOnMount
-              ? playing && !ended ? 'opacity-0 pointer-events-none' : ended ? 'opacity-100' : 'opacity-0'
-              : playing && !ended ? 'opacity-0 pointer-events-none' : 'opacity-100'
+              ? playing && !ended
+                ? 'opacity-0 pointer-events-none'
+                : ended
+                  ? 'opacity-100'
+                  : 'opacity-0'
+              : playing && !ended
+                ? 'opacity-0 pointer-events-none'
+                : 'opacity-100'
           }`}
-          style={{ objectFit: 'cover', objectPosition: 'center', zIndex: 1, position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+          style={{
+            objectFit: 'cover',
+            objectPosition: 'center',
+            zIndex: 1,
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+          }}
         />
         {/* Video — z-2, fades in once onPlaying fires (first real frame on screen).
             When loop=true (hero videos), onEnded never fires so the poster stays
@@ -232,7 +258,15 @@ export default function CanonicalVideo({ src, poster, className, threshold = 0.1
           onError={handleError}
           onStalled={handleStalled}
           onWaiting={handleStalled}
-          style={{ zIndex: 2, position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center' }}
+          style={{
+            zIndex: 2,
+            position: 'absolute',
+            inset: 0,
+            width: '100%',
+            height: '100%',
+            objectFit: 'cover',
+            objectPosition: 'center',
+          }}
         />
       </>
     );

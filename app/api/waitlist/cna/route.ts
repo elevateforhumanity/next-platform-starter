@@ -18,7 +18,8 @@ export async function POST(req: NextRequest) {
     return safeError('Invalid request body', 400);
   }
 
-  const { full_name, email, phone, preferred_start_date, city_state, employed_in_healthcare } = body;
+  const { full_name, email, phone, preferred_start_date, city_state, employed_in_healthcare } =
+    body;
 
   if (!full_name || !email || !phone || !preferred_start_date || !city_state) {
     return safeError('Missing required fields', 400);
@@ -28,7 +29,9 @@ export async function POST(req: NextRequest) {
     `Preferred start: ${preferred_start_date}`,
     `Location: ${city_state}`,
     employed_in_healthcare ? `Currently in healthcare: ${employed_in_healthcare}` : null,
-  ].filter(Boolean).join(' | ');
+  ]
+    .filter(Boolean)
+    .join(' | ');
 
   const db = await getAdminClient();
   const { error } = await db.from('waitlist').insert({

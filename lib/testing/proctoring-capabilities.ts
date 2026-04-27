@@ -1,9 +1,9 @@
-import { EPA608_FEES }     from './providers/epa608-pricing';
-import { CERTIPORT_FEES }  from './providers/certiport-pricing';
-import { WORKKEYS_FEES }   from './providers/workkeys-pricing';
-import { NRF_FEES }        from './providers/nrf-riseup';
+import { EPA608_FEES } from './providers/epa608-pricing';
+import { CERTIPORT_FEES } from './providers/certiport-pricing';
+import { WORKKEYS_FEES } from './providers/workkeys-pricing';
+import { NRF_FEES } from './providers/nrf-riseup';
 import { CAREERSAFE_FEES } from './providers/careersafe-pricing';
-import { MIDLAND_FEES }    from './providers/midland-pricing';
+import { MIDLAND_FEES } from './providers/midland-pricing';
 
 /**
  * Proctoring capability model for Elevate's testing center.
@@ -89,12 +89,21 @@ export interface CertProvider {
     amountCents: number;
     includes: string[];
   };
+  ncrcJobProfiles?: Array<{
+    level: string;
+    score: string;
+    color: string;
+    jobs: Array<{
+      title: string;
+      note?: string;
+    }>;
+  }>;
 }
 
 export interface ProctoringOptions {
   inPerson: boolean;
-  remoteProvider: boolean;  // provider controls the remote system
-  remoteCenter: boolean;    // Elevate runs live online proctoring
+  remoteProvider: boolean; // provider controls the remote system
+  remoteCenter: boolean; // Elevate runs live online proctoring
 }
 
 export const CERT_PROVIDERS: Record<string, CertProvider> = {
@@ -102,35 +111,41 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
     key: 'esco',
     name: 'EPA Section 608 (ESCO Institute)',
     capability: 'IN_PERSON_ONLY',
-    description: 'Federal refrigerant handling certification required by the EPA Clean Air Act. It is illegal to purchase or handle refrigerants without this certification. Elevate is a nationally authorized proctor site for both ESCO Group and Mainstream Engineering. Required for any HVAC technician who services, maintains, or disposes of equipment containing refrigerants.',
+    description:
+      'Federal refrigerant handling certification required by the EPA Clean Air Act. It is illegal to purchase or handle refrigerants without this certification. Elevate is a nationally authorized proctor site for both ESCO Group and Mainstream Engineering. Required for any HVAC technician who services, maintains, or disposes of equipment containing refrigerants.',
     exams: [
       {
         name: 'Core',
-        description: 'Covers EPA regulations, refrigerant safety, environmental impact of ozone-depleting substances, and proper handling procedures. Required as part of every certification type. Must pass Core to earn any Section 608 certificate.',
+        description:
+          'Covers EPA regulations, refrigerant safety, environmental impact of ozone-depleting substances, and proper handling procedures. Required as part of every certification type. Must pass Core to earn any Section 608 certificate.',
         durationMinutes: 20,
         questionCount: 25,
       },
       {
         name: 'Type I — Small Appliances',
-        description: 'Covers equipment containing 5 lbs or less of refrigerant — window AC units, refrigerators, freezers, and dehumidifiers. Focuses on safe recovery techniques for sealed systems.',
+        description:
+          'Covers equipment containing 5 lbs or less of refrigerant — window AC units, refrigerators, freezers, and dehumidifiers. Focuses on safe recovery techniques for sealed systems.',
         durationMinutes: 20,
         questionCount: 25,
       },
       {
         name: 'Type II — High-Pressure',
-        description: 'Covers high-pressure systems using refrigerants like R-22 and R-410A — residential and commercial AC, heat pumps, and refrigeration equipment. The most common certification for residential HVAC technicians.',
+        description:
+          'Covers high-pressure systems using refrigerants like R-22 and R-410A — residential and commercial AC, heat pumps, and refrigeration equipment. The most common certification for residential HVAC technicians.',
         durationMinutes: 20,
         questionCount: 25,
       },
       {
         name: 'Type III — Low-Pressure',
-        description: 'Covers low-pressure systems using refrigerants like R-11 and R-123 — large commercial chillers found in office buildings, hospitals, and industrial facilities.',
+        description:
+          'Covers low-pressure systems using refrigerants like R-11 and R-123 — large commercial chillers found in office buildings, hospitals, and industrial facilities.',
         durationMinutes: 20,
         questionCount: 25,
       },
       {
         name: 'Universal (All Sections)',
-        description: 'Passes all four sections — Core, Type I, Type II, and Type III — in a single sitting. Required for technicians who work across residential, commercial, and industrial systems. Most employers require Universal certification.',
+        description:
+          'Passes all four sections — Core, Type I, Type II, and Type III — in a single sitting. Required for technicians who work across residential, commercial, and industrial systems. Most employers require Universal certification.',
         durationMinutes: 80,
         questionCount: 100,
       },
@@ -164,7 +179,10 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         score: 'Low-Pressure Systems',
         color: 'blue',
         jobs: [
-          { title: 'Commercial Chiller Technician', note: 'Office buildings, hospitals, industrial' },
+          {
+            title: 'Commercial Chiller Technician',
+            note: 'Office buildings, hospitals, industrial',
+          },
           { title: 'Building Engineer', note: 'Large facility HVAC systems' },
         ],
       },
@@ -173,9 +191,15 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         score: 'All Systems',
         color: 'yellow',
         jobs: [
-          { title: 'HVAC/R Technician (Full)', note: 'Residential, commercial, and industrial — required by most employers' },
+          {
+            title: 'HVAC/R Technician (Full)',
+            note: 'Residential, commercial, and industrial — required by most employers',
+          },
           { title: 'HVAC Service Manager', note: 'Supervises technicians across all system types' },
-          { title: 'Union HVAC Apprentice', note: 'Sheet Metal Workers, UA Plumbers — Universal required at entry' },
+          {
+            title: 'Union HVAC Apprentice',
+            note: 'Sheet Metal Workers, UA Plumbers — Universal required at entry',
+          },
           { title: 'Facilities Engineer', note: 'Hospitals, universities, manufacturing plants' },
         ],
       },
@@ -185,23 +209,27 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
     key: 'nrf',
     name: 'NRF RISE Up (National Retail Federation)',
     capability: 'IN_PERSON_ONLY',
-    description: 'NRF RISE Up credentials are nationally recognized workforce certifications for customer service, retail, and business roles. Issued by the National Retail Federation Foundation — the largest retail trade association in the world. Recognized by major employers including Walmart, Target, Macy\'s, and thousands of small businesses.',
+    description:
+      "NRF RISE Up credentials are nationally recognized workforce certifications for customer service, retail, and business roles. Issued by the National Retail Federation Foundation — the largest retail trade association in the world. Recognized by major employers including Walmart, Target, Macy's, and thousands of small businesses.",
     exams: [
       {
         name: 'Retail Industry Fundamentals',
-        description: 'Entry-level credential covering the basics of working in retail — store operations, customer interaction, product handling, and workplace safety. Designed for first-time job seekers and career changers entering retail or service industries.',
+        description:
+          'Entry-level credential covering the basics of working in retail — store operations, customer interaction, product handling, and workplace safety. Designed for first-time job seekers and career changers entering retail or service industries.',
         durationMinutes: 60,
         questionCount: 60,
       },
       {
         name: 'Customer Service & Sales',
-        description: 'Covers professional customer service skills, sales techniques, handling complaints, building customer loyalty, and meeting sales goals. Validates readiness for customer-facing roles across retail, hospitality, and service industries.',
+        description:
+          'Covers professional customer service skills, sales techniques, handling complaints, building customer loyalty, and meeting sales goals. Validates readiness for customer-facing roles across retail, hospitality, and service industries.',
         durationMinutes: 60,
         questionCount: 60,
       },
       {
         name: 'Business of Retail: Operations & Profit',
-        description: 'Covers retail business operations — inventory management, merchandising, loss prevention, financial basics, and store performance metrics. Designed for candidates moving into supervisory or management roles.',
+        description:
+          'Covers retail business operations — inventory management, merchandising, loss prevention, financial basics, and store performance metrics. Designed for candidates moving into supervisory or management roles.',
         durationMinutes: 60,
         questionCount: 60,
       },
@@ -250,47 +278,55 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
     key: 'certiport',
     name: 'Certiport Authorized Testing Center',
     capability: 'IN_PERSON_OR_PROVIDER_REMOTE',
-    description: 'Elevate is an authorized Certiport testing center. Certiport delivers performance-based certification exams for Microsoft, Adobe, CompTIA, Intuit, and IC3. Exams are taken on a computer and test real-world skills — not just memorization. Credentials are issued by the respective technology company and recognized globally by employers.',
+    description:
+      'Elevate is an authorized Certiport testing center. Certiport delivers performance-based certification exams for Microsoft, Adobe, CompTIA, Intuit, and IC3. Exams are taken on a computer and test real-world skills — not just memorization. Credentials are issued by the respective technology company and recognized globally by employers.',
     exams: [
       {
         name: 'Microsoft Office Specialist (MOS)',
-        description: 'Validates hands-on proficiency in Microsoft Office applications. Exams available for Word, Excel, PowerPoint, Outlook, and Access. Performance-based — you complete real tasks inside the application during the exam. Recognized by employers for administrative, accounting, and office roles.',
+        description:
+          'Validates hands-on proficiency in Microsoft Office applications. Exams available for Word, Excel, PowerPoint, Outlook, and Access. Performance-based — you complete real tasks inside the application during the exam. Recognized by employers for administrative, accounting, and office roles.',
         questionCount: 35,
         durationMinutes: 50,
       },
       {
         name: 'IT Specialist',
-        description: 'Entry-level IT certification series covering foundational programming and networking concepts. Exams available in Python, Java, HTML/CSS, JavaScript, Networking, Databases, and Cybersecurity. Ideal for students and career changers entering IT without prior experience.',
+        description:
+          'Entry-level IT certification series covering foundational programming and networking concepts. Exams available in Python, Java, HTML/CSS, JavaScript, Networking, Databases, and Cybersecurity. Ideal for students and career changers entering IT without prior experience.',
         durationMinutes: 45,
         questionCount: 40,
       },
       {
         name: 'Intuit QuickBooks Certified User',
-        description: 'Validates proficiency in QuickBooks Online — the most widely used small business accounting software. Covers invoicing, payroll, bank reconciliation, reporting, and financial management. Required or preferred by many bookkeeping and accounting employers.',
+        description:
+          'Validates proficiency in QuickBooks Online — the most widely used small business accounting software. Covers invoicing, payroll, bank reconciliation, reporting, and financial management. Required or preferred by many bookkeeping and accounting employers.',
         durationMinutes: 50,
         questionCount: 50,
       },
       {
         name: 'Entrepreneurship & Small Business (ESB)',
-        description: 'Covers the fundamentals of starting and running a small business — business planning, marketing, financial management, and operations. Recognized by the Kauffman Foundation. Useful for aspiring entrepreneurs and small business employees.',
+        description:
+          'Covers the fundamentals of starting and running a small business — business planning, marketing, financial management, and operations. Recognized by the Kauffman Foundation. Useful for aspiring entrepreneurs and small business employees.',
         durationMinutes: 50,
         questionCount: 50,
       },
       {
         name: 'IC3 Digital Literacy',
-        description: 'Globally recognized digital literacy certification covering computer hardware, software, internet use, and online communication. Three modules: Computing Fundamentals, Key Applications, and Living Online. Widely accepted as proof of basic computer competency for employment and education.',
+        description:
+          'Globally recognized digital literacy certification covering computer hardware, software, internet use, and online communication. Three modules: Computing Fundamentals, Key Applications, and Living Online. Widely accepted as proof of basic computer competency for employment and education.',
         durationMinutes: 45,
         questionCount: 45,
       },
       {
         name: 'Adobe Certified Professional',
-        description: 'Validates creative skills in Adobe applications — Photoshop, Illustrator, InDesign, Premiere Pro, and After Effects. Performance-based exam completed inside the Adobe application. Recognized by creative agencies, marketing departments, and media companies.',
+        description:
+          'Validates creative skills in Adobe applications — Photoshop, Illustrator, InDesign, Premiere Pro, and After Effects. Performance-based exam completed inside the Adobe application. Recognized by creative agencies, marketing departments, and media companies.',
         durationMinutes: 50,
         questionCount: 40,
       },
       {
         name: 'CompTIA A+ · Network+ · Security+',
-        description: 'Industry-standard IT certifications. A+ covers hardware and OS troubleshooting (entry-level IT support). Network+ covers networking concepts, protocols, and infrastructure. Security+ covers cybersecurity fundamentals and is DoD 8570 approved — required for many federal IT roles.',
+        description:
+          'Industry-standard IT certifications. A+ covers hardware and OS troubleshooting (entry-level IT support). Network+ covers networking concepts, protocols, and infrastructure. Security+ covers cybersecurity fundamentals and is DoD 8570 approved — required for many federal IT roles.',
         durationMinutes: 90,
         questionCount: 90,
       },
@@ -331,7 +367,10 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
           { title: 'Network Administrator', note: 'LAN/WAN, switches, routers, VPN' },
           { title: 'Cybersecurity Analyst (entry)', note: 'SOC Tier 1, threat monitoring' },
           { title: 'Systems Administrator', note: 'Servers, Active Directory, cloud basics' },
-          { title: 'Federal IT Contractor', note: 'Security+ is DoD 8570 approved — required for many federal roles' },
+          {
+            title: 'Federal IT Contractor',
+            note: 'Security+ is DoD 8570 approved — required for many federal roles',
+          },
         ],
       },
       {
@@ -340,8 +379,14 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         color: 'yellow',
         jobs: [
           { title: 'Bookkeeper', note: 'A/R, A/P, payroll, bank reconciliation' },
-          { title: 'Accounting Clerk', note: 'QuickBooks required by most small business employers' },
-          { title: 'Small Business Owner', note: 'ESB credential validates business planning skills' },
+          {
+            title: 'Accounting Clerk',
+            note: 'QuickBooks required by most small business employers',
+          },
+          {
+            title: 'Small Business Owner',
+            note: 'ESB credential validates business planning skills',
+          },
           { title: 'Tax Preparer', note: 'QuickBooks + tax software common pairing' },
         ],
       },
@@ -362,41 +407,48 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
     key: 'nha',
     name: 'NHA — National Healthcareer Association',
     capability: 'IN_PERSON_ONLY',
-    description: 'NHA Authorized Testing Center. NHA is one of the largest allied health certification bodies in the United States. Credentials are nationally recognized by hospitals, clinics, physician offices, and long-term care facilities. All exams are computer-based and proctored in person.',
+    description:
+      'NHA Authorized Testing Center. NHA is one of the largest allied health certification bodies in the United States. Credentials are nationally recognized by hospitals, clinics, physician offices, and long-term care facilities. All exams are computer-based and proctored in person.',
     exams: [
       {
         name: 'Certified Phlebotomy Technician (CPT)',
-        description: 'Validates skills in venipuncture, capillary puncture, specimen handling, and patient interaction. Phlebotomists draw blood for lab testing in hospitals, clinics, blood banks, and doctor\'s offices. One of the fastest paths into healthcare — training typically 4–8 weeks.',
+        description:
+          "Validates skills in venipuncture, capillary puncture, specimen handling, and patient interaction. Phlebotomists draw blood for lab testing in hospitals, clinics, blood banks, and doctor's offices. One of the fastest paths into healthcare — training typically 4–8 weeks.",
         durationMinutes: 120,
         questionCount: 100,
       },
       {
         name: 'Certified Clinical Medical Assistant (CCMA)',
-        description: 'Covers clinical and administrative duties — taking vital signs, preparing patients for exams, assisting with procedures, EKG, phlebotomy, and managing patient records. Medical assistants work in physician offices, urgent care, and outpatient clinics. One of the most in-demand healthcare credentials.',
+        description:
+          'Covers clinical and administrative duties — taking vital signs, preparing patients for exams, assisting with procedures, EKG, phlebotomy, and managing patient records. Medical assistants work in physician offices, urgent care, and outpatient clinics. One of the most in-demand healthcare credentials.',
         durationMinutes: 120,
         questionCount: 150,
       },
       {
         name: 'Certified EKG Technician (CET)',
-        description: 'Validates the ability to perform electrocardiograms (EKGs/ECGs), Holter monitor setup, stress testing, and basic cardiac rhythm interpretation. EKG technicians work in hospitals, cardiology offices, and diagnostic centers.',
+        description:
+          'Validates the ability to perform electrocardiograms (EKGs/ECGs), Holter monitor setup, stress testing, and basic cardiac rhythm interpretation. EKG technicians work in hospitals, cardiology offices, and diagnostic centers.',
         durationMinutes: 90,
         questionCount: 100,
       },
       {
         name: 'Certified Patient Care Technician/Assistant (CPCT/A)',
-        description: 'Covers direct patient care skills — vital signs, phlebotomy, EKG, catheter care, wound care, and patient mobility. Patient care techs work in hospitals and long-term care facilities, often as a stepping stone to RN or LPN programs.',
+        description:
+          'Covers direct patient care skills — vital signs, phlebotomy, EKG, catheter care, wound care, and patient mobility. Patient care techs work in hospitals and long-term care facilities, often as a stepping stone to RN or LPN programs.',
         durationMinutes: 120,
         questionCount: 150,
       },
       {
         name: 'Certified Medical Administrative Assistant (CMAA)',
-        description: 'Covers front-office healthcare operations — scheduling, insurance verification, medical billing basics, HIPAA compliance, and patient communication. Medical administrative assistants work in physician offices, hospitals, and health systems.',
+        description:
+          'Covers front-office healthcare operations — scheduling, insurance verification, medical billing basics, HIPAA compliance, and patient communication. Medical administrative assistants work in physician offices, hospitals, and health systems.',
         durationMinutes: 90,
         questionCount: 110,
       },
       {
         name: 'Certified Pharmacy Technician — ExCPT',
-        description: 'Validates pharmacy technician skills — prescription processing, drug dispensing, inventory management, compounding basics, and pharmacy law. ExCPT is accepted by most retail and hospital pharmacies. Required for licensure in many states.',
+        description:
+          'Validates pharmacy technician skills — prescription processing, drug dispensing, inventory management, compounding basics, and pharmacy law. ExCPT is accepted by most retail and hospital pharmacies. Required for licensure in many states.',
         durationMinutes: 110,
         questionCount: 120,
       },
@@ -406,12 +458,36 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
     // All NHA exams: $149 exam voucher (pass-through) + $94 testing & administration = $243 total.
     // Pricing locked per owner decision — do not modify without approval.
     fees: [
-      { label: 'CPT — Phlebotomy',              amount: 243, note: '$149 NHA exam + $94 testing & administration' },
-      { label: 'CCMA — Medical Assistant',       amount: 243, note: '$149 NHA exam + $94 testing & administration' },
-      { label: 'CET — EKG Technician',           amount: 243, note: '$149 NHA exam + $94 testing & administration' },
-      { label: 'ExCPT — Pharmacy Technician',    amount: 243, note: '$149 NHA exam + $94 testing & administration' },
-      { label: 'CPCT/A — Patient Care Tech',     amount: 243, note: '$149 NHA exam + $94 testing & administration' },
-      { label: 'CMAA — Medical Admin Assistant', amount: 243, note: '$149 NHA exam + $94 testing & administration' },
+      {
+        label: 'CPT — Phlebotomy',
+        amount: 243,
+        note: '$149 NHA exam + $94 testing & administration',
+      },
+      {
+        label: 'CCMA — Medical Assistant',
+        amount: 243,
+        note: '$149 NHA exam + $94 testing & administration',
+      },
+      {
+        label: 'CET — EKG Technician',
+        amount: 243,
+        note: '$149 NHA exam + $94 testing & administration',
+      },
+      {
+        label: 'ExCPT — Pharmacy Technician',
+        amount: 243,
+        note: '$149 NHA exam + $94 testing & administration',
+      },
+      {
+        label: 'CPCT/A — Patient Care Tech',
+        amount: 243,
+        note: '$149 NHA exam + $94 testing & administration',
+      },
+      {
+        label: 'CMAA — Medical Admin Assistant',
+        amount: 243,
+        note: '$149 NHA exam + $94 testing & administration',
+      },
     ],
     groupDiscount: 'Groups of 5+ — contact us for cohort pricing',
     ncrcJobProfiles: [
@@ -430,10 +506,16 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         score: 'Clinical Care',
         color: 'amber',
         jobs: [
-          { title: 'Medical Assistant', note: 'Physician offices, urgent care, outpatient clinics' },
+          {
+            title: 'Medical Assistant',
+            note: 'Physician offices, urgent care, outpatient clinics',
+          },
           { title: 'Patient Care Technician', note: 'Hospital floors, med-surg, telemetry units' },
           { title: 'Clinical Support Specialist', note: 'Multi-specialty clinics, health systems' },
-          { title: 'Home Health Aide (advanced)', note: 'In-home patient care with clinical skills' },
+          {
+            title: 'Home Health Aide (advanced)',
+            note: 'In-home patient care with clinical skills',
+          },
         ],
       },
       {
@@ -443,8 +525,14 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         jobs: [
           { title: 'Medical Receptionist', note: 'Front desk, scheduling, insurance verification' },
           { title: 'Medical Billing Specialist', note: 'Claims processing, A/R, coding support' },
-          { title: 'Health Unit Coordinator', note: 'Hospital floor administration, orders management' },
-          { title: 'Prior Authorization Specialist', note: 'Insurance approvals, referral management' },
+          {
+            title: 'Health Unit Coordinator',
+            note: 'Hospital floor administration, orders management',
+          },
+          {
+            title: 'Prior Authorization Specialist',
+            note: 'Insurance approvals, referral management',
+          },
         ],
       },
       {
@@ -452,7 +540,10 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         score: 'Pharmacy',
         color: 'yellow',
         jobs: [
-          { title: 'Pharmacy Technician', note: 'Retail pharmacy — CVS, Walgreens, Walmart, independent' },
+          {
+            title: 'Pharmacy Technician',
+            note: 'Retail pharmacy — CVS, Walgreens, Walmart, independent',
+          },
           { title: 'Hospital Pharmacy Tech', note: 'Inpatient dispensing, IV compounding' },
           { title: 'Mail-Order Pharmacy Tech', note: 'High-volume prescription processing' },
           { title: 'Pharmacy Tech Supervisor', note: 'With experience — team lead, training' },
@@ -475,36 +566,42 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
     key: 'workkeys',
     name: 'ACT WorkKeys / NCRC',
     capability: 'IN_PERSON_ONLY',
-    description: 'The National Career Readiness Certificate (NCRC) is a portable, evidence-based credential recognized by 22,000+ employers nationwide. Earned by passing three ACT WorkKeys assessments. Elevate is an authorized ACT testing site. Scores are valid for 5 years.',
+    description:
+      'The National Career Readiness Certificate (NCRC) is a portable, evidence-based credential recognized by 22,000+ employers nationwide. Earned by passing three ACT WorkKeys assessments. Elevate is an authorized ACT testing site. Scores are valid for 5 years.',
     exams: [
       {
         name: 'Applied Math',
-        description: 'Measures the math skills workers use on the job — reading charts and graphs, calculating measurements, handling money, and solving multi-step problems. Tests levels 3–7. Most jobs require Level 5 or higher. No algebra required; a calculator is provided.',
+        description:
+          'Measures the math skills workers use on the job — reading charts and graphs, calculating measurements, handling money, and solving multi-step problems. Tests levels 3–7. Most jobs require Level 5 or higher. No algebra required; a calculator is provided.',
         ncrcLevel: 'Bronze (3–4) · Silver (5) · Gold (6) · Platinum (7)',
         durationMinutes: 55,
         questionCount: 33,
       },
       {
         name: 'Workplace Documents',
-        description: 'Measures the ability to read and use workplace documents — forms, charts, policies, schedules, and instructions. Tests whether a candidate can find information, follow multi-step directions, and apply what they read to real job tasks. Tests levels 3–7.',
+        description:
+          'Measures the ability to read and use workplace documents — forms, charts, policies, schedules, and instructions. Tests whether a candidate can find information, follow multi-step directions, and apply what they read to real job tasks. Tests levels 3–7.',
         ncrcLevel: 'Bronze (3–4) · Silver (5) · Gold (6) · Platinum (7)',
         durationMinutes: 55,
         questionCount: 35,
       },
       {
         name: 'Graphic Literacy',
-        description: 'Measures the ability to read and interpret workplace graphics — charts, graphs, diagrams, tables, and maps — and use that information to make decisions or solve problems. Tests levels 3–7.',
+        description:
+          'Measures the ability to read and interpret workplace graphics — charts, graphs, diagrams, tables, and maps — and use that information to make decisions or solve problems. Tests levels 3–7.',
         ncrcLevel: 'Bronze (3–4) · Silver (5) · Gold (6) · Platinum (7)',
         durationMinutes: 55,
         questionCount: 38,
       },
       {
         name: 'National Career Readiness Certificate (NCRC)',
-        description: 'Earned by completing all three WorkKeys assessments (Applied Math, Workplace Documents, Graphic Literacy). The NCRC level — Bronze, Silver, Gold, or Platinum — is determined by the lowest score across the three tests. Recognized by employers, workforce agencies, and state governments as proof of job readiness.',
+        description:
+          'Earned by completing all three WorkKeys assessments (Applied Math, Workplace Documents, Graphic Literacy). The NCRC level — Bronze, Silver, Gold, or Platinum — is determined by the lowest score across the three tests. Recognized by employers, workforce agencies, and state governments as proof of job readiness.',
         ncrcLevel: 'Bronze · Silver · Gold · Platinum',
       },
     ],
-    verifyUrl: 'https://www.act.org/content/act/en/products-and-services/workkeys-for-job-seekers.html',
+    verifyUrl:
+      'https://www.act.org/content/act/en/products-and-services/workkeys-for-job-seekers.html',
     status: 'active',
     fees: [...WORKKEYS_FEES],
     groupDiscount: 'Groups of 5+ — $30/assessment. Contact us for employer or cohort scheduling.',
@@ -548,8 +645,14 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         score: 'Level 6',
         color: 'yellow',
         jobs: [
-          { title: 'Firefighter', note: 'Municipal fire departments — many require Gold NCRC or equivalent' },
-          { title: 'Police Officer / Corrections Officer', note: 'Law enforcement entry — written exam also required' },
+          {
+            title: 'Firefighter',
+            note: 'Municipal fire departments — many require Gold NCRC or equivalent',
+          },
+          {
+            title: 'Police Officer / Corrections Officer',
+            note: 'Law enforcement entry — written exam also required',
+          },
           { title: 'EMT / Paramedic', note: 'Emergency medical services' },
           { title: 'Surgical Technologist', note: 'Operating room support' },
           { title: 'Phlebotomist (CPT)', note: 'Clinical blood draw — NHA CPT exam also required' },
@@ -565,10 +668,19 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         score: 'Level 7',
         color: 'blue',
         jobs: [
-          { title: 'Union Trades (Ironworker, Pipefitter, Boilermaker)', note: 'Many union apprenticeship programs require Platinum' },
-          { title: 'Registered Nurse (RN)', note: 'NCLEX also required — Platinum demonstrates academic readiness' },
+          {
+            title: 'Union Trades (Ironworker, Pipefitter, Boilermaker)',
+            note: 'Many union apprenticeship programs require Platinum',
+          },
+          {
+            title: 'Registered Nurse (RN)',
+            note: 'NCLEX also required — Platinum demonstrates academic readiness',
+          },
           { title: 'Dental Hygienist', note: 'State licensure also required' },
-          { title: 'Network / Systems Administrator', note: 'IT infrastructure, server management' },
+          {
+            title: 'Network / Systems Administrator',
+            note: 'IT infrastructure, server management',
+          },
           { title: 'Engineering Technician', note: 'Civil, mechanical, electrical support roles' },
           { title: 'Financial Services Rep', note: 'Banking, insurance, Series 6/63 often paired' },
           { title: 'Project Manager (entry)', note: 'PMP or CAPM often pursued alongside' },
@@ -584,26 +696,31 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
     key: 'careersafe',
     name: 'OSHA Outreach Training',
     capability: 'CENTER_REMOTE_ALLOWED',
-    description: 'OSHA Outreach Training Program certifications issued through the U.S. Department of Labor. The OSHA 10 and OSHA 30 are the most widely recognized workplace safety credentials in the country. Required by many construction employers, union apprenticeship programs, and federal contractors. A DOL wallet card is issued upon completion — valid for life.',
+    description:
+      'OSHA Outreach Training Program certifications issued through the U.S. Department of Labor. The OSHA 10 and OSHA 30 are the most widely recognized workplace safety credentials in the country. Required by many construction employers, union apprenticeship programs, and federal contractors. A DOL wallet card is issued upon completion — valid for life.',
     exams: [
       {
         name: 'OSHA 10-Hour — General Industry',
-        description: 'Covers workplace safety fundamentals for non-construction environments — manufacturing, warehousing, healthcare, retail, and service industries. Topics include hazard recognition, electrical safety, PPE, fire safety, and OSHA rights. Required by many employers for entry-level workers. DOL wallet card issued.',
+        description:
+          'Covers workplace safety fundamentals for non-construction environments — manufacturing, warehousing, healthcare, retail, and service industries. Topics include hazard recognition, electrical safety, PPE, fire safety, and OSHA rights. Required by many employers for entry-level workers. DOL wallet card issued.',
         durationMinutes: 600,
       },
       {
         name: 'OSHA 10-Hour — Construction',
-        description: 'Covers construction site safety — fall protection, scaffolding, electrical hazards, struck-by and caught-in hazards, and OSHA standards for the construction industry. Required by many general contractors and union apprenticeship programs for all workers on site. DOL wallet card issued.',
+        description:
+          'Covers construction site safety — fall protection, scaffolding, electrical hazards, struck-by and caught-in hazards, and OSHA standards for the construction industry. Required by many general contractors and union apprenticeship programs for all workers on site. DOL wallet card issued.',
         durationMinutes: 600,
       },
       {
         name: 'OSHA 30-Hour — General Industry',
-        description: 'Advanced safety training for supervisors and workers with safety responsibilities in general industry. Covers all OSHA 10 topics in greater depth plus additional modules on ergonomics, machine guarding, hazardous materials, and safety program management. Required for safety officers and site supervisors in many industries.',
+        description:
+          'Advanced safety training for supervisors and workers with safety responsibilities in general industry. Covers all OSHA 10 topics in greater depth plus additional modules on ergonomics, machine guarding, hazardous materials, and safety program management. Required for safety officers and site supervisors in many industries.',
         durationMinutes: 1800,
       },
       {
         name: 'OSHA 30-Hour — Construction',
-        description: 'Advanced construction safety training for foremen, supervisors, and safety personnel. Covers all OSHA 10-Construction topics plus excavation, cranes, rigging, concrete, steel erection, and safety program development. Required by many union trades and federal construction contracts.',
+        description:
+          'Advanced construction safety training for foremen, supervisors, and safety personnel. Covers all OSHA 10-Construction topics plus excavation, cranes, rigging, concrete, steel erection, and safety program development. Required by many union trades and federal construction contracts.',
         durationMinutes: 1800,
       },
     ],
@@ -632,11 +749,26 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         score: 'Supervisory / Safety Roles',
         color: 'yellow',
         jobs: [
-          { title: 'Construction Foreman / Superintendent', note: 'Site safety oversight, crew management' },
-          { title: 'Safety Officer / EHS Coordinator', note: 'Environmental health and safety compliance' },
-          { title: 'Union Journeyman (trades)', note: 'OSHA 30 required for journeyman status in many locals' },
-          { title: 'Federal Contractor', note: 'Davis-Bacon and federal construction contracts often require OSHA 30' },
-          { title: 'Plant / Facilities Manager', note: 'Manufacturing and industrial facility oversight' },
+          {
+            title: 'Construction Foreman / Superintendent',
+            note: 'Site safety oversight, crew management',
+          },
+          {
+            title: 'Safety Officer / EHS Coordinator',
+            note: 'Environmental health and safety compliance',
+          },
+          {
+            title: 'Union Journeyman (trades)',
+            note: 'OSHA 30 required for journeyman status in many locals',
+          },
+          {
+            title: 'Federal Contractor',
+            note: 'Davis-Bacon and federal construction contracts often require OSHA 30',
+          },
+          {
+            title: 'Plant / Facilities Manager',
+            note: 'Manufacturing and industrial facility oversight',
+          },
         ],
       },
     ],
@@ -645,35 +777,41 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
     key: 'midland',
     name: 'Midland Testing — HVAC/R Certifications',
     capability: 'IN_PERSON_ONLY',
-    description: 'Elevate is an authorized Midland testing partner for HVAC/R trade certifications. Midland provides nationally recognized written and practical assessments for heating, ventilation, air conditioning, and refrigeration technicians. Credentials are issued by Midland upon passing and are recognized by employers, contractors, and state licensing boards across the country.',
+    description:
+      'Elevate is an authorized Midland testing partner for HVAC/R trade certifications. Midland provides nationally recognized written and practical assessments for heating, ventilation, air conditioning, and refrigeration technicians. Credentials are issued by Midland upon passing and are recognized by employers, contractors, and state licensing boards across the country.',
     exams: [
       {
         name: 'HVAC/R Technician — Core',
-        description: 'Covers foundational HVAC/R knowledge: electrical theory, refrigeration cycle, tools and safety, system components, and basic troubleshooting. Required before any specialty track assessment.',
+        description:
+          'Covers foundational HVAC/R knowledge: electrical theory, refrigeration cycle, tools and safety, system components, and basic troubleshooting. Required before any specialty track assessment.',
         durationMinutes: 60,
         questionCount: 60,
       },
       {
         name: 'Air Conditioning & Heat Pumps',
-        description: 'Validates skills in residential and light commercial A/C and heat pump systems — system installation, charging, diagnosing faults, and heat pump reversing valve operation.',
+        description:
+          'Validates skills in residential and light commercial A/C and heat pump systems — system installation, charging, diagnosing faults, and heat pump reversing valve operation.',
         durationMinutes: 60,
         questionCount: 60,
       },
       {
         name: 'Gas & Oil Heating',
-        description: 'Covers installation, service, and troubleshooting of forced-air gas furnaces, oil burners, and hydronic heating systems. Includes combustion analysis, venting, and safety controls.',
+        description:
+          'Covers installation, service, and troubleshooting of forced-air gas furnaces, oil burners, and hydronic heating systems. Includes combustion analysis, venting, and safety controls.',
         durationMinutes: 60,
         questionCount: 60,
       },
       {
         name: 'Commercial Refrigeration',
-        description: 'Tests knowledge of commercial refrigeration systems — reach-in cases, walk-in coolers and freezers, condensing units, and supermarket systems. Includes system design, leak detection, and recovery procedures.',
+        description:
+          'Tests knowledge of commercial refrigeration systems — reach-in cases, walk-in coolers and freezers, condensing units, and supermarket systems. Includes system design, leak detection, and recovery procedures.',
         durationMinutes: 60,
         questionCount: 60,
       },
       {
         name: 'Light Commercial HVAC/R',
-        description: 'Covers rooftop units, split systems, packaged equipment, and light commercial refrigeration. Bridges the gap between residential service and full commercial systems.',
+        description:
+          'Covers rooftop units, split systems, packaged equipment, and light commercial refrigeration. Bridges the gap between residential service and full commercial systems.',
         durationMinutes: 75,
         questionCount: 75,
       },
@@ -682,7 +820,11 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
     status: 'active',
     fees: [
       { label: 'Core assessment', amount: 50, note: 'Includes exam + Midland registration' },
-      { label: 'Specialty track assessment', amount: 60, note: 'Includes exam + Midland registration' },
+      {
+        label: 'Specialty track assessment',
+        amount: 60,
+        note: 'Includes exam + Midland registration',
+      },
     ],
     groupDiscount: 'Groups of 5+ — contact us for employer or cohort pricing',
     ncrcJobProfiles: [
@@ -691,9 +833,18 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         score: 'Entry HVAC/R',
         color: 'amber',
         jobs: [
-          { title: 'HVAC/R Installer Helper', note: 'Assists journeyman techs on residential installs' },
-          { title: 'Maintenance Technician', note: 'Preventive maintenance, filter changes, basic service' },
-          { title: 'Refrigeration Apprentice', note: 'Entry-level food service and cold storage work' },
+          {
+            title: 'HVAC/R Installer Helper',
+            note: 'Assists journeyman techs on residential installs',
+          },
+          {
+            title: 'Maintenance Technician',
+            note: 'Preventive maintenance, filter changes, basic service',
+          },
+          {
+            title: 'Refrigeration Apprentice',
+            note: 'Entry-level food service and cold storage work',
+          },
         ],
       },
       {
@@ -701,8 +852,14 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         score: 'Residential Service',
         color: 'blue',
         jobs: [
-          { title: 'Residential HVAC Technician', note: 'Full-service residential installs and repairs' },
-          { title: 'HVAC Service Tech', note: 'Seasonal tune-ups, warranty service, emergency calls' },
+          {
+            title: 'Residential HVAC Technician',
+            note: 'Full-service residential installs and repairs',
+          },
+          {
+            title: 'HVAC Service Tech',
+            note: 'Seasonal tune-ups, warranty service, emergency calls',
+          },
           { title: 'Heat Pump Specialist', note: 'Inverter and variable-speed heat pump systems' },
         ],
       },
@@ -711,9 +868,18 @@ export const CERT_PROVIDERS: Record<string, CertProvider> = {
         score: 'Commercial Tech',
         color: 'yellow',
         jobs: [
-          { title: 'Commercial Refrigeration Technician', note: 'Grocery stores, restaurants, cold storage facilities' },
-          { title: 'Light Commercial HVAC Tech', note: 'Rooftop units, small commercial split systems' },
-          { title: 'Facilities HVAC Tech', note: 'Office buildings, schools, healthcare facilities' },
+          {
+            title: 'Commercial Refrigeration Technician',
+            note: 'Grocery stores, restaurants, cold storage facilities',
+          },
+          {
+            title: 'Light Commercial HVAC Tech',
+            note: 'Rooftop units, small commercial split systems',
+          },
+          {
+            title: 'Facilities HVAC Tech',
+            note: 'Office buildings, schools, healthcare facilities',
+          },
         ],
       },
     ],
@@ -755,9 +921,9 @@ export function getProctoringLabels(providerKey: string): string[] {
   const options = getProctoringOptions(providerKey);
   const labels: string[] = [];
 
-  if (options.inPerson)       labels.push('In-person at Elevate Testing Center');
+  if (options.inPerson) labels.push('In-person at Elevate Testing Center');
   if (options.remoteProvider) labels.push('Remote — provider-controlled system');
-  if (options.remoteCenter)   labels.push('Live online — Elevate-proctored');
+  if (options.remoteCenter) labels.push('Live online — Elevate-proctored');
 
   return labels;
 }
@@ -782,7 +948,7 @@ export function getProvidersByCapability(): Record<ProctoringCapability, CertPro
 
 /** Active providers only — for public-facing pages */
 export const ACTIVE_PROVIDERS = Object.values(CERT_PROVIDERS).filter(
-  (p) => p.status === 'active' && p.publicVisible !== false
+  (p) => p.status === 'active' && p.publicVisible !== false,
 );
 
 /** All providers — for admin/scheduling views */

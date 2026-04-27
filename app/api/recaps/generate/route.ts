@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -29,10 +27,7 @@ async function _POST(req: Request) {
     const adminClient = await getAdminClient();
 
     if (!adminClient) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Get user's organization
@@ -43,10 +38,7 @@ async function _POST(req: Request) {
       .maybeSingle();
 
     if (!profile?.organization_id) {
-      return NextResponse.json(
-        { error: 'No organization found' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'No organization found' }, { status: 400 });
     }
 
     const body = await req.json();
@@ -58,18 +50,12 @@ async function _POST(req: Request) {
     };
 
     if (!title || !transcript) {
-      return NextResponse.json(
-        { error: 'Missing title or transcript' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing title or transcript' }, { status: 400 });
     }
 
     // Check if OpenAI API key is configured
     if (!process.env.OPENAI_API_KEY) {
-      return NextResponse.json(
-        { error: 'OpenAI API key not configured' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'OpenAI API key not configured' }, { status: 500 });
     }
 
     // Call OpenAI to generate recap
@@ -103,10 +89,7 @@ ${transcript}
 
     if (!response.ok) {
       const error = await response.text();
-      return NextResponse.json(
-        { error: 'Failed to generate recap' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to generate recap' }, { status: 500 });
     }
 
     const completion = await response.json();
@@ -120,9 +103,7 @@ ${transcript}
         created_by: user.id,
         attendee_email: attendee_email || null,
         title,
-        meeting_date: meeting_date
-          ? new Date(meeting_date).toISOString()
-          : null,
+        meeting_date: meeting_date ? new Date(meeting_date).toISOString() : null,
         transcript,
         summary: data.summary || null,
         key_points: data.key_points || [],
@@ -140,27 +121,26 @@ ${transcript}
     // Insert action items
     const items = Array.isArray(data.action_items) ? data.action_items : [];
     if (items.length) {
-      const { error: itemsErr } = await adminClient
-        .from('meeting_action_items')
-        .insert(
-          items.map((item: any) => ({
-            recap_id: recap.id,
-            label: String(it.label || '').slice(0, 500),
-            due_date: it.due_date ? String(it.due_date) : null,
-          }))
-        );
+      const { error: itemsErr } = await adminClient.from('meeting_action_items').insert(
+        items.map((item: any) => ({
+          recap_id: recap.id,
+          label: String(it.label || '').slice(0, 500),
+          due_date: it.due_date ? String(it.due_date) : null,
+        })),
+      );
 
-      if (itemsErr) { /* Condition handled */ }
+      if (itemsErr) {
+        /* Condition handled */
+      }
     }
 
     return NextResponse.json({ recap_id: recap.id }, { status: 200 });
   } catch (err: any) {
     return NextResponse.json(
       {
-        err:
-          'Internal server error',
+        err: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

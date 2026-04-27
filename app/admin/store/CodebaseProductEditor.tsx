@@ -1,12 +1,10 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { useState } from 'react';
 
 export default function CodebaseProductEditor() {
-  const [title, setTitle] = useState(
-    'Elevate LMS + Workforce Suite (Clone License)'
-  );
+  const [title, setTitle] = useState('Elevate LMS + Workforce Suite (Clone License)');
   const [price, setPrice] = useState('150000');
 
   async function publish() {
@@ -24,9 +22,7 @@ export default function CodebaseProductEditor() {
         className="w-full bg-[#222] p-2 rounded text-white"
         value={title}
         onChange={(
-          e: React.ChangeEvent<
-            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-          >
+          e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
         ) => setTitle(e.target.value)}
       />
 
@@ -34,9 +30,7 @@ export default function CodebaseProductEditor() {
         className="w-full bg-[#222] p-2 rounded text-white"
         value={price}
         onChange={(
-          e: React.ChangeEvent<
-            HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-          >
+          e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
         ) => setPrice(e.target.value)}
       />
 

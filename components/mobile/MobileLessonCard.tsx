@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Circle, Lock, PlayCircle } from 'lucide-react';
 
@@ -24,8 +24,7 @@ export default function MobileLessonCard({
   const getIcon = () => {
     if (locked) return <Lock size={20} className="text-slate-700" />;
     if (completed) return <span className="text-slate-400 flex-shrink-0">•</span>;
-    if (type === 'video')
-      return <PlayCircle size={20} className="text-brand-blue-500" />;
+    if (type === 'video') return <PlayCircle size={20} className="text-brand-blue-500" />;
     return <Circle size={20} className="text-slate-700" />;
   };
 
@@ -60,11 +59,7 @@ export default function MobileLessonCard({
       <div className="flex-1 text-left">
         <h4
           className={`font-medium text-sm mb-1 ${
-            locked
-              ? 'text-slate-700'
-              : completed
-                ? 'text-black'
-                : 'text-black'
+            locked ? 'text-slate-700' : completed ? 'text-black' : 'text-black'
           }`}
         >
           {title}

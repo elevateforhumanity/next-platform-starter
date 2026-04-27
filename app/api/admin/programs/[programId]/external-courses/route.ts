@@ -14,26 +14,25 @@ import { logger } from '@/lib/logger';
 export const dynamic = 'force-dynamic';
 
 const ExternalCourseSchema = z.object({
-  partner_name:             z.string().min(1, 'Partner name required'),
-  title:                    z.string().min(1, 'Title required'),
-  external_url:             z.string().url('Must be a valid URL (https://...)'),
-  description:              z.string().optional().default(''),
-  duration_display:         z.string().optional().default(''),
-  credential_type:          z.string().optional().default(''),
-  credential_name:          z.string().optional().default(''),
-  enrollment_instructions:  z.string().optional().default(''),
-  opens_in_new_tab:         z.boolean().default(true),
-  is_required:              z.boolean().default(true),
-  sort_order:               z.number().int().min(0).default(0),
+  partner_name: z.string().min(1, 'Partner name required'),
+  title: z.string().min(1, 'Title required'),
+  external_url: z.string().url('Must be a valid URL (https://...)'),
+  description: z.string().optional().default(''),
+  duration_display: z.string().optional().default(''),
+  credential_type: z.string().optional().default(''),
+  credential_name: z.string().optional().default(''),
+  enrollment_instructions: z.string().optional().default(''),
+  opens_in_new_tab: z.boolean().default(true),
+  is_required: z.boolean().default(true),
+  sort_order: z.number().int().min(0).default(0),
   manual_completion_enabled: z.boolean().default(true),
   // Competency area — used for proctor-authority guard (replaces keyword matching)
-  competency_area:          z.string().optional().nullable(),
+  competency_area: z.string().optional().nullable(),
 });
-
 
 export async function GET(
   req: NextRequest,
-  { params }: { params: Promise<{ programId: string }> }
+  { params }: { params: Promise<{ programId: string }> },
 ) {
   const { programId } = await params;
   const auth = await apiRequireAdmin(req);
@@ -49,14 +48,14 @@ export async function GET(
 
   if (error) {
     logger.error('GET external courses error', error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
   return NextResponse.json({ items: data ?? [] });
 }
 
 export async function POST(
   req: NextRequest,
-  { params }: { params: Promise<{ programId: string }> }
+  { params }: { params: Promise<{ programId: string }> },
 ) {
   const { programId } = await params;
   const auth = await apiRequireAdmin(req);
@@ -89,12 +88,16 @@ export async function POST(
 
     const conflict = conflicting?.[0];
     if (conflict) {
-      return NextResponse.json({
-        error: `Elevate holds proctor authority for "${conflict.name}" (${conflict.abbreviation}) ` +
-               `in the "${competencyArea}" competency area. ` +
-               `Attach an internal LMS course instead of an external partner link for this credential.`,
-        conflict_credential: conflict,
-      }, { status: 409 });
+      return NextResponse.json(
+        {
+          error:
+            `Elevate holds proctor authority for "${conflict.name}" (${conflict.abbreviation}) ` +
+            `in the "${competencyArea}" competency area. ` +
+            `Attach an internal LMS course instead of an external partner link for this credential.`,
+          conflict_credential: conflict,
+        },
+        { status: 409 },
+      );
     }
   }
 
@@ -106,7 +109,7 @@ export async function POST(
 
   if (error) {
     logger.error('POST external course error', error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 
   logger.info('External course created', { programId, title: parsed.data.title, userId: auth.id });

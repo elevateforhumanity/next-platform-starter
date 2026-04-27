@@ -37,21 +37,23 @@ dotenv.config({ path: resolve(process.cwd(), '.env.local') });
 // ── Config ────────────────────────────────────────────────────────────────────
 
 const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL!;
-const SERVICE_KEY  = process.env.SUPABASE_SERVICE_ROLE_KEY!;
+const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY!;
 
-const COSMETOLOGY_PROGRAM_ID  = '0661bc6d-c748-4655-b11b-6d418a4ace4a';
+const COSMETOLOGY_PROGRAM_ID = '0661bc6d-c748-4655-b11b-6d418a4ace4a';
 const COSMETOLOGY_PROGRAM_SLUG = 'cosmetology-apprenticeship';
-const PARTNER_ID               = '8420fefa-3228-4ec7-9ea7-265b045aa93d'; // Mesmerized by Beauty
-const PROGRAM_HOLDER_ID        = '4bc589d3-bd39-4a50-a724-73e50506c1f1';
+const PARTNER_ID = '8420fefa-3228-4ec7-9ea7-265b045aa93d'; // Mesmerized by Beauty
+const PROGRAM_HOLDER_ID = '4bc589d3-bd39-4a50-a724-73e50506c1f1';
 
 // ── Arg parsing ───────────────────────────────────────────────────────────────
 
 const args = process.argv.slice(2);
-const fileArg  = args[args.indexOf('--file') + 1];
-const dryRun   = args.includes('--dry-run');
+const fileArg = args[args.indexOf('--file') + 1];
+const dryRun = args.includes('--dry-run');
 
 if (!fileArg) {
-  console.error('Usage: pnpm tsx scripts/import-memoed-students.ts --file ./students.csv [--dry-run]');
+  console.error(
+    'Usage: pnpm tsx scripts/import-memoed-students.ts --file ./students.csv [--dry-run]',
+  );
   process.exit(1);
 }
 
@@ -121,25 +123,34 @@ async function main() {
   if (dryRun) console.log('DRY RUN — no writes will occur\n');
 
   const results: ImportResult[] = [];
-  let created = 0, skipped = 0, errors = 0;
+  let created = 0,
+    skipped = 0,
+    errors = 0;
 
   for (const rawRow of records) {
     const row = normalizeHeaders(rawRow);
 
     if (!row.email || !row.first_name || !row.last_name) {
-      results.push({ email: row.email || '(missing)', action: 'error', reason: 'Missing required fields: first_name, last_name, email' });
+      results.push({
+        email: row.email || '(missing)',
+        action: 'error',
+        reason: 'Missing required fields: first_name, last_name, email',
+      });
       errors++;
       continue;
     }
 
     const email = row.email.toLowerCase();
     const hoursCompleted = parseHours(row.hours_completed);
-    const transferHours  = parseHours(row.transfer_hours);
-    const startDate      = parseDate(row.start_date);
-    const enrollStatus   = (row.status || 'active').toLowerCase() === 'inactive' ? 'inactive' : 'active';
+    const transferHours = parseHours(row.transfer_hours);
+    const startDate = parseDate(row.start_date);
+    const enrollStatus =
+      (row.status || 'active').toLowerCase() === 'inactive' ? 'inactive' : 'active';
 
     if (dryRun) {
-      console.log(`  [DRY RUN] Would import: ${row.first_name} ${row.last_name} <${email}> — ${hoursCompleted}h completed`);
+      console.log(
+        `  [DRY RUN] Would import: ${row.first_name} ${row.last_name} <${email}> — ${hoursCompleted}h completed`,
+      );
       results.push({ email, action: 'created' });
       created++;
       continue;
@@ -148,7 +159,7 @@ async function main() {
     try {
       // 1. Check if auth user already exists
       const { data: existingList } = await supabase.auth.admin.listUsers();
-      const existing = existingList?.users?.find(u => u.email === email);
+      const existing = existingList?.users?.find((u) => u.email === email);
       let userId: string;
 
       if (existing) {
@@ -156,14 +167,17 @@ async function main() {
         console.log(`  [SKIP AUTH] ${email} — auth user already exists`);
       } else {
         // Create auth user via invite (no password — they'll set one on first login)
-        const { data: invited, error: inviteErr } = await supabase.auth.admin.inviteUserByEmail(email, {
-          data: {
-            first_name: row.first_name,
-            last_name: row.last_name,
-            role: 'student',
-            source: 'memo_ed_import',
+        const { data: invited, error: inviteErr } = await supabase.auth.admin.inviteUserByEmail(
+          email,
+          {
+            data: {
+              first_name: row.first_name,
+              last_name: row.last_name,
+              role: 'student',
+              source: 'memo_ed_import',
+            },
           },
-        });
+        );
         if (inviteErr || !invited?.user) {
           throw new Error(`Auth invite failed: ${inviteErr?.message}`);
         }
@@ -172,9 +186,8 @@ async function main() {
       }
 
       // 2. Upsert profile
-      const { error: profileErr } = await supabase
-        .from('profiles')
-        .upsert({
+      const { error: profileErr } = await supabase.from('profiles').upsert(
+        {
           id: userId,
           first_name: row.first_name,
           last_name: row.last_name,
@@ -182,7 +195,9 @@ async function main() {
           phone: row.phone || null,
           role: 'student',
           updated_at: new Date().toISOString(),
-        }, { onConflict: 'id' });
+        },
+        { onConflict: 'id' },
+      );
 
       if (profileErr) throw new Error(`Profile upsert failed: ${profileErr.message}`);
 
@@ -195,27 +210,25 @@ async function main() {
         .maybeSingle();
 
       if (!existingEnrollment) {
-        const { error: enrollErr } = await supabase
-          .from('program_enrollments')
-          .insert({
-            user_id: userId,
-            student_id: userId,
-            program_id: COSMETOLOGY_PROGRAM_ID,
-            program_slug: COSMETOLOGY_PROGRAM_SLUG,
-            email,
-            full_name: `${row.first_name} ${row.last_name}`,
-            phone: row.phone || null,
-            status: enrollStatus,
-            enrollment_state: 'enrolled',
-            program_holder_id: PROGRAM_HOLDER_ID,
-            organization_id: PARTNER_ID,
-            funding_source: 'self_pay',
-            payment_status: 'not_required',
-            enrolled_at: startDate || new Date().toISOString(),
-            enrollment_confirmed_at: new Date().toISOString(),
-            created_at: new Date().toISOString(),
-            updated_at: new Date().toISOString(),
-          });
+        const { error: enrollErr } = await supabase.from('program_enrollments').insert({
+          user_id: userId,
+          student_id: userId,
+          program_id: COSMETOLOGY_PROGRAM_ID,
+          program_slug: COSMETOLOGY_PROGRAM_SLUG,
+          email,
+          full_name: `${row.first_name} ${row.last_name}`,
+          phone: row.phone || null,
+          status: enrollStatus,
+          enrollment_state: 'enrolled',
+          program_holder_id: PROGRAM_HOLDER_ID,
+          organization_id: PARTNER_ID,
+          funding_source: 'self_pay',
+          payment_status: 'not_required',
+          enrolled_at: startDate || new Date().toISOString(),
+          enrollment_confirmed_at: new Date().toISOString(),
+          created_at: new Date().toISOString(),
+          updated_at: new Date().toISOString(),
+        });
 
         if (enrollErr) throw new Error(`Enrollment insert failed: ${enrollErr.message}`);
       } else {
@@ -234,20 +247,18 @@ async function main() {
           .maybeSingle();
 
         if (!existingHours) {
-          const { error: hoursErr } = await supabase
-            .from('apprentice_hours')
-            .insert({
-              user_id: userId,
-              discipline: 'cosmetology',
-              date: startDate ? startDate.split('T')[0] : new Date().toISOString().split('T')[0],
-              hours: totalTransferHours,
-              minutes: 0,
-              total_minutes: Math.round(totalTransferHours * 60),
-              category: 'memo_ed_transfer',
-              notes: `Hours transferred from Memo Ed. Original hours: ${hoursCompleted}, transfer credit: ${transferHours}`,
-              status: 'approved',
-              submitted_at: new Date().toISOString(),
-            });
+          const { error: hoursErr } = await supabase.from('apprentice_hours').insert({
+            user_id: userId,
+            discipline: 'cosmetology',
+            date: startDate ? startDate.split('T')[0] : new Date().toISOString().split('T')[0],
+            hours: totalTransferHours,
+            minutes: 0,
+            total_minutes: Math.round(totalTransferHours * 60),
+            category: 'memo_ed_transfer',
+            notes: `Hours transferred from Memo Ed. Original hours: ${hoursCompleted}, transfer credit: ${transferHours}`,
+            status: 'approved',
+            submitted_at: new Date().toISOString(),
+          });
 
           if (hoursErr) throw new Error(`Hours insert failed: ${hoursErr.message}`);
           console.log(`  [HOURS] ${email} — ${totalTransferHours}h logged as approved transfer`);
@@ -276,15 +287,17 @@ async function main() {
 
   if (errors > 0) {
     console.log('Errors:');
-    results.filter(r => r.action === 'error').forEach(r => {
-      console.log(`  ${r.email}: ${r.reason}`);
-    });
+    results
+      .filter((r) => r.action === 'error')
+      .forEach((r) => {
+        console.log(`  ${r.email}: ${r.reason}`);
+      });
   }
 
   process.exit(errors > 0 ? 1 : 0);
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Fatal:', err);
   process.exit(1);
 });

@@ -1,9 +1,8 @@
 /**
  * Compliance Audit API
- * 
+ *
  * Generates and manages monthly compliance audits with auto-flagging.
  */
-
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
@@ -16,12 +15,13 @@ export const dynamic = 'force-dynamic';
 
 // GET: Get audit for specific month/year or list all
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -50,7 +50,8 @@ const supabase = await createClient();
     query = query.eq('audit_month', parseInt(month)).eq('audit_year', parseInt(year));
   }
 
-  const { data, error } = await query.order('audit_year', { ascending: false })
+  const { data, error } = await query
+    .order('audit_year', { ascending: false })
     .order('audit_month', { ascending: false });
 
   if (error) {
@@ -62,12 +63,14 @@ const supabase = await createClient();
 
 // POST: Generate new audit for month/year
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -99,10 +102,13 @@ async function _POST(request: NextRequest) {
     .maybeSingle();
 
   if (existing) {
-    return NextResponse.json({ 
-      error: 'Audit already exists for this period',
-      auditId: existing.id 
-    }, { status: 409 });
+    return NextResponse.json(
+      {
+        error: 'Audit already exists for this period',
+        auditId: existing.id,
+      },
+      { status: 409 },
+    );
   }
 
   // Calculate date range for the audit period
@@ -117,17 +123,19 @@ async function _POST(request: NextRequest) {
     .lte('created_at', endDate.toISOString());
 
   const totalEnrollments = enrollments?.length || 0;
-  const completedIntakes = enrollments?.filter(e => e.intake_completed).length || 0;
-  const enrollmentsWithoutIntake = enrollments?.filter(e => !e.intake_completed && e.status !== 'pending').length || 0;
+  const completedIntakes = enrollments?.filter((e) => e.intake_completed).length || 0;
+  const enrollmentsWithoutIntake =
+    enrollments?.filter((e) => !e.intake_completed && e.status !== 'pending').length || 0;
 
   // Count by funding pathway
-  const workforceFunded = enrollments?.filter(e => e.funding_pathway === 'workforce_funded').length || 0;
-  const employerSponsored = enrollments?.filter(e => e.funding_pathway === 'employer_sponsored').length || 0;
-  const structuredTuition = enrollments?.filter(e => e.funding_pathway === 'structured_tuition').length || 0;
+  const workforceFunded =
+    enrollments?.filter((e) => e.funding_pathway === 'workforce_funded').length || 0;
+  const employerSponsored =
+    enrollments?.filter((e) => e.funding_pathway === 'employer_sponsored').length || 0;
+  const structuredTuition =
+    enrollments?.filter((e) => e.funding_pathway === 'structured_tuition').length || 0;
 
-  const lane3Percentage = totalEnrollments > 0 
-    ? (structuredTuition / totalEnrollments) * 100 
-    : 0;
+  const lane3Percentage = totalEnrollments > 0 ? (structuredTuition / totalEnrollments) * 100 : 0;
 
   // Check payment plans
   const { data: paymentPlans } = await supabase
@@ -136,17 +144,19 @@ async function _POST(request: NextRequest) {
     .gte('created_at', startDate.toISOString())
     .lte('created_at', endDate.toISOString());
 
-  const accountsCurrent = paymentPlans?.filter(p => p.status === 'active' && !p.academic_access_paused).length || 0;
-  const accountsMissedPayment = paymentPlans?.filter(p => p.academic_access_paused).length || 0;
-  const accountsPaused = paymentPlans?.filter(p => p.status === 'paused').length || 0;
-  
+  const accountsCurrent =
+    paymentPlans?.filter((p) => p.status === 'active' && !p.academic_access_paused).length || 0;
+  const accountsMissedPayment = paymentPlans?.filter((p) => p.academic_access_paused).length || 0;
+  const accountsPaused = paymentPlans?.filter((p) => p.status === 'paused').length || 0;
+
   // Check for plans beyond 90 days
   const ninetyDaysAgo = new Date();
   ninetyDaysAgo.setDate(ninetyDaysAgo.getDate() - 90);
-  const accountsBeyond90Days = paymentPlans?.filter(p => {
-    const startDate = new Date(p.plan_start_date);
-    return startDate < ninetyDaysAgo && p.balance_remaining > 0;
-  }).length || 0;
+  const accountsBeyond90Days =
+    paymentPlans?.filter((p) => {
+      const startDate = new Date(p.plan_start_date);
+      return startDate < ninetyDaysAgo && p.balance_remaining > 0;
+    }).length || 0;
 
   // Auto-flag issues
   const autoFlaggedIssues: Array<{ type: string; description: string; enrollmentId?: string }> = [];
@@ -203,8 +213,8 @@ async function _POST(request: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 
-  return NextResponse.json({ 
-    success: true, 
+  return NextResponse.json({
+    success: true,
     auditId: audit.id,
     summary: {
       totalEnrollments,
@@ -212,18 +222,19 @@ async function _POST(request: NextRequest) {
       enrollmentsWithoutIntake,
       lane3Percentage: lane3Percentage.toFixed(1),
       flaggedIssues: autoFlaggedIssues.length,
-    }
+    },
   });
 }
 
 // PATCH: Update audit (manual entries, sign-offs)
 async function _PATCH(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -310,10 +321,7 @@ const supabase = await createClient();
       return NextResponse.json({ error: 'Invalid action' }, { status: 400 });
   }
 
-  const { error } = await supabase
-    .from('compliance_audits')
-    .update(updateData)
-    .eq('id', auditId);
+  const { error } = await supabase.from('compliance_audits').update(updateData).eq('id', auditId);
 
   if (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

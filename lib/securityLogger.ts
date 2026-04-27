@@ -1,4 +1,3 @@
-
 // lib/securityLogger.ts - Security event logging
 import { logger } from '@/lib/logger';
 

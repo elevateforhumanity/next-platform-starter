@@ -3,7 +3,8 @@ import type { ProgramSchema } from '@/lib/programs/program-schema';
 export const HVAC_TECHNICIAN: ProgramSchema = {
   slug: 'hvac-technician',
   title: 'HVAC Technician',
-  subtitle: 'Install, service, and repair heating and cooling systems. EPA 608 Universal certification proctored on-site. 12 weeks. WIOA and Workforce Ready Grant funding available for eligible Indiana residents.',
+  subtitle:
+    'Install, service, and repair heating and cooling systems. EPA 608 Universal certification proctored on-site. 12 weeks. WIOA and Workforce Ready Grant funding available for eligible Indiana residents.',
   sector: 'skilled-trades',
   category: 'Skilled Trades',
 
@@ -23,7 +24,8 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
   },
   schedule: 'Mon–Fri, 30–40 hours per week',
   cohortSize: '8–12 participants per cohort',
-  fundingStatement: 'WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Covers tuition, tools, and EPA 608 exam fees when approved. Eligibility is not guaranteed. Self-pay: $4,200.',
+  fundingStatement:
+    'WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Covers tuition, tools, and EPA 608 exam fees when approved. Eligibility is not guaranteed. Self-pay: $4,200.',
   selfPayCost: '$4,200',
   badge: 'WRG Funded',
   badgeColor: 'green',
@@ -32,7 +34,8 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
     {
       name: 'EPA 608 Universal Certification',
       issuer: 'U.S. Environmental Protection Agency',
-      description: 'Required by federal law to purchase and handle refrigerants. Universal covers all equipment types.',
+      description:
+        'Required by federal law to purchase and handle refrigerants. Universal covers all equipment types.',
       validity: 'Lifetime',
     },
     {
@@ -50,30 +53,104 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
   ],
 
   outcomes: [
-    { statement: 'Wire a 24V thermostat control circuit and verify operation on a live unit', assessedAt: 'Week 4' },
-    { statement: 'Recover, evacuate to 500 microns, and recharge a system to manufacturer superheat spec', assessedAt: 'Week 6' },
-    { statement: 'Install a split-system AC and gas furnace from line set to commissioning', assessedAt: 'Week 8' },
-    { statement: 'Diagnose 5 distinct fault scenarios using a systematic electrical fault tree', assessedAt: 'Week 10' },
-    { statement: 'Pass the EPA 608 Universal exam — all four sections — proctored on-site', assessedAt: 'Week 11' },
-    { statement: 'Write a complete service ticket with parts, labor time, and customer explanation', assessedAt: 'Week 10' },
+    {
+      statement: 'Wire a 24V thermostat control circuit and verify operation on a live unit',
+      assessedAt: 'Week 4',
+    },
+    {
+      statement:
+        'Recover, evacuate to 500 microns, and recharge a system to manufacturer superheat spec',
+      assessedAt: 'Week 6',
+    },
+    {
+      statement: 'Install a split-system AC and gas furnace from line set to commissioning',
+      assessedAt: 'Week 8',
+    },
+    {
+      statement: 'Diagnose 5 distinct fault scenarios using a systematic electrical fault tree',
+      assessedAt: 'Week 10',
+    },
+    {
+      statement: 'Pass the EPA 608 Universal exam — all four sections — proctored on-site',
+      assessedAt: 'Week 11',
+    },
+    {
+      statement: 'Write a complete service ticket with parts, labor time, and customer explanation',
+      assessedAt: 'Week 10',
+    },
   ],
 
   careerPathway: [
-    { title: 'HVAC Helper / Apprentice', timeframe: '0–6 months', requirements: 'EPA 608 + OSHA 10', salaryRange: '$18–$22/hr' },
-    { title: 'HVAC Installer', timeframe: '6–18 months', requirements: 'EPA 608 + 1 year field experience', salaryRange: '$22–$28/hr' },
-    { title: 'HVAC Service Technician', timeframe: '2–4 years', requirements: 'EPA 608 + diagnostic experience', salaryRange: '$28–$38/hr' },
-    { title: 'Lead Technician / Foreman', timeframe: '4–7 years', requirements: 'Journeyman license + team lead experience', salaryRange: '$38–$50/hr' },
-    { title: 'HVAC Business Owner', timeframe: '7+ years', requirements: 'Contractor license + business plan', salaryRange: '$60,000–$150,000+/yr' },
+    {
+      title: 'HVAC Helper / Apprentice',
+      timeframe: '0–6 months',
+      requirements: 'EPA 608 + OSHA 10',
+      salaryRange: '$18–$22/hr',
+    },
+    {
+      title: 'HVAC Installer',
+      timeframe: '6–18 months',
+      requirements: 'EPA 608 + 1 year field experience',
+      salaryRange: '$22–$28/hr',
+    },
+    {
+      title: 'HVAC Service Technician',
+      timeframe: '2–4 years',
+      requirements: 'EPA 608 + diagnostic experience',
+      salaryRange: '$28–$38/hr',
+    },
+    {
+      title: 'Lead Technician / Foreman',
+      timeframe: '4–7 years',
+      requirements: 'Journeyman license + team lead experience',
+      salaryRange: '$38–$50/hr',
+    },
+    {
+      title: 'HVAC Business Owner',
+      timeframe: '7+ years',
+      requirements: 'Contractor license + business plan',
+      salaryRange: '$60,000–$150,000+/yr',
+    },
   ],
 
   weeklySchedule: [
-    { week: 'Weeks 1–2', title: 'HVAC Fundamentals', competencyMilestone: 'Identify all major system components and explain heat transfer principles' },
-    { week: 'Weeks 3–4', title: 'Electrical Systems', competencyMilestone: 'Read wiring diagrams and safely test circuits with a multimeter' },
-    { week: 'Weeks 5–6', title: 'Refrigeration Cycle', competencyMilestone: 'Explain the refrigeration cycle and pass EPA 608 Core practice exam at 80%+' },
-    { week: 'Weeks 7–8', title: 'System Installation & Repair', competencyMilestone: 'Install a split-system AC unit to manufacturer specification' },
-    { week: 'Weeks 9–10', title: 'Advanced Diagnostics', competencyMilestone: 'Diagnose 5 common fault scenarios using systematic troubleshooting' },
-    { week: 'Week 11', title: 'EPA 608 Exam Prep', competencyMilestone: 'Pass EPA 608 Universal proctored exam on-site' },
-    { week: 'Week 12', title: 'Career Placement', competencyMilestone: 'Complete resume, interview prep, and employer introductions' },
+    {
+      week: 'Weeks 1–2',
+      title: 'HVAC Fundamentals',
+      competencyMilestone:
+        'Identify all major system components and explain heat transfer principles',
+    },
+    {
+      week: 'Weeks 3–4',
+      title: 'Electrical Systems',
+      competencyMilestone: 'Read wiring diagrams and safely test circuits with a multimeter',
+    },
+    {
+      week: 'Weeks 5–6',
+      title: 'Refrigeration Cycle',
+      competencyMilestone:
+        'Explain the refrigeration cycle and pass EPA 608 Core practice exam at 80%+',
+    },
+    {
+      week: 'Weeks 7–8',
+      title: 'System Installation & Repair',
+      competencyMilestone: 'Install a split-system AC unit to manufacturer specification',
+    },
+    {
+      week: 'Weeks 9–10',
+      title: 'Advanced Diagnostics',
+      competencyMilestone: 'Diagnose 5 common fault scenarios using systematic troubleshooting',
+    },
+    {
+      week: 'Week 11',
+      title: 'EPA 608 Exam Prep',
+      competencyMilestone: 'Pass EPA 608 Universal proctored exam on-site',
+    },
+    {
+      week: 'Week 12',
+      title: 'Career Placement',
+      competencyMilestone: 'Complete resume, interview prep, and employer introductions',
+    },
   ],
 
   curriculum: [
@@ -140,10 +217,26 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
   ],
 
   complianceAlignment: [
-    { standard: 'EPA Section 608', description: 'Federal refrigerant handling certification — required by law for all technicians who purchase or handle refrigerants.' },
-    { standard: 'OSHA 29 CFR 1910', description: 'General industry safety standards covering lockout/tagout, electrical safety, and PPE.' },
-    { standard: 'Indiana Workforce Ready Grant', description: 'Program approved for WRG funding for eligible Indiana residents pursuing high-demand technical careers.' },
-    { standard: 'WIOA Title I', description: 'Eligible training provider under the Workforce Innovation and Opportunity Act for adult and dislocated worker funding.' },
+    {
+      standard: 'EPA Section 608',
+      description:
+        'Federal refrigerant handling certification — required by law for all technicians who purchase or handle refrigerants.',
+    },
+    {
+      standard: 'OSHA 29 CFR 1910',
+      description:
+        'General industry safety standards covering lockout/tagout, electrical safety, and PPE.',
+    },
+    {
+      standard: 'Indiana Workforce Ready Grant',
+      description:
+        'Program approved for WRG funding for eligible Indiana residents pursuing high-demand technical careers.',
+    },
+    {
+      standard: 'WIOA Title I',
+      description:
+        'Eligible training provider under the Workforce Innovation and Opportunity Act for adult and dislocated worker funding.',
+    },
   ],
 
   laborMarket: {
@@ -171,23 +264,28 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
   faqs: [
     {
       question: 'Do I need prior experience to enroll?',
-      answer: 'No prior HVAC experience is required. Basic math skills and the ability to work with hand tools are helpful. We start from fundamentals.',
+      answer:
+        'No prior HVAC experience is required. Basic math skills and the ability to work with hand tools are helpful. We start from fundamentals.',
     },
     {
       question: 'Is the EPA 608 exam included?',
-      answer: 'Yes. The EPA 608 Universal exam is proctored on-site at Elevate during Week 11. The exam fee is included in tuition (or covered by funding when applicable).',
+      answer:
+        'Yes. The EPA 608 Universal exam is proctored on-site at Elevate during Week 11. The exam fee is included in tuition (or covered by funding when applicable).',
     },
     {
       question: 'What funding is available?',
-      answer: 'WIOA and Indiana Workforce Ready Grant funding are available for eligible residents. Eligibility is determined by your local WorkOne office. Many students pay $0. Self-pay tuition is $4,200.',
+      answer:
+        'WIOA and Indiana Workforce Ready Grant funding are available for eligible residents. Eligibility is determined by your local WorkOne office. Many students pay $0. Self-pay tuition is $4,200.',
     },
     {
       question: 'What tools will I need?',
-      answer: 'A basic tool kit is provided during training. Graduates are expected to purchase their own professional tool set before starting employment. We provide a recommended list.',
+      answer:
+        'A basic tool kit is provided during training. Graduates are expected to purchase their own professional tool set before starting employment. We provide a recommended list.',
     },
     {
       question: 'Is there job placement assistance?',
-      answer: 'Yes. Week 12 is dedicated to career placement: resume review, interview preparation, and direct introductions to our employer partners in the Indianapolis area.',
+      answer:
+        'Yes. Week 12 is dedicated to career placement: resume review, interview preparation, and direct introductions to our employer partners in the Indianapolis area.',
     },
   ],
 
@@ -203,7 +301,8 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
   },
 
   metaTitle: 'HVAC Technician Training | EPA 608 Proctored On-Site | Indianapolis',
-  metaDescription: '12-week HVAC program in Indianapolis. EPA 608 Universal proctored on-site. WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Small cohorts, hands-on lab.',
+  metaDescription:
+    '12-week HVAC program in Indianapolis. EPA 608 Universal proctored on-site. WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Small cohorts, hands-on lab.',
 
   enrollmentType: 'internal',
   deliveryModel: 'internal',

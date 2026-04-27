@@ -1,4 +1,10 @@
-export type ExamProvider = 'esco_epa608' | 'mainstream_epa608' | 'certiport' | 'act_workkeys' | 'careersafe_osha' | 'other';
+export type ExamProvider =
+  | 'esco_epa608'
+  | 'mainstream_epa608'
+  | 'certiport'
+  | 'act_workkeys'
+  | 'careersafe_osha'
+  | 'other';
 export type ExamSessionStatus = 'checked_in' | 'in_progress' | 'completed' | 'voided' | 'no_show';
 export type ExamResult = 'pass' | 'fail' | 'incomplete' | 'pending';
 export type IdType = 'drivers_license' | 'state_id' | 'passport' | 'military_id' | 'other';
@@ -76,6 +82,6 @@ export const EPA_EXAMS = [
   'EPA 608 — Universal',
 ];
 
-export const DEFAULT_PROCTOR_NAME  = 'Elizabeth Greene';
-export const ESCO_PROCTOR_ID       = '358010';   // ESCO Group
+export const DEFAULT_PROCTOR_NAME = 'Elizabeth Greene';
+export const ESCO_PROCTOR_ID = '358010'; // ESCO Group
 export const MAINSTREAM_PROCTOR_ID = 'SYZXYXSE'; // Mainstream Engineering

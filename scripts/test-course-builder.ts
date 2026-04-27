@@ -1,6 +1,6 @@
 /**
  * Course Builder Test Script
- * 
+ *
  * Tests all components of the course builder:
  * 1. Course outline generation (GPT-4)
  * 2. Image generation (DALL-E 3)
@@ -34,20 +34,21 @@ const results: TestResult[] = [];
 async function testCourseGeneration(): Promise<TestResult> {
   console.log('📚 Test 1: Course Outline Generation (GPT-4)');
   const start = Date.now();
-  
+
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'gpt-4',
         messages: [
           {
             role: 'system',
-            content: 'You are a course curriculum designer. Create structured course outlines in JSON format.'
+            content:
+              'You are a course curriculum designer. Create structured course outlines in JSON format.',
           },
           {
             role: 'user',
@@ -65,8 +66,8 @@ async function testCourseGeneration(): Promise<TestResult> {
       ]
     }
   ]
-}`
-          }
+}`,
+          },
         ],
         temperature: 0.7,
         max_tokens: 2000,
@@ -74,14 +75,14 @@ async function testCourseGeneration(): Promise<TestResult> {
     });
 
     const data = await response.json();
-    
+
     if (!response.ok) {
       throw new Error(data.error?.message || 'API error');
     }
 
     const content = data.choices[0].message.content;
     let courseOutline;
-    
+
     try {
       // Extract JSON from response
       const jsonMatch = content.match(/\{[\s\S]*\}/);
@@ -96,7 +97,7 @@ async function testCourseGeneration(): Promise<TestResult> {
     console.log(`   ✅ Success in ${duration}ms`);
     console.log(`   📖 Generated: "${courseOutline.title || 'Course'}"`);
     console.log(`   📦 Modules: ${courseOutline.modules?.length || 0}`);
-    
+
     return {
       name: 'Course Generation',
       success: true,
@@ -120,17 +121,18 @@ async function testImageGeneration(): Promise<TestResult> {
   console.log('');
   console.log('🖼️  Test 2: Image Generation (DALL-E 3)');
   const start = Date.now();
-  
+
   try {
     const response = await fetch('https://api.openai.com/v1/images/generations', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'dall-e-3',
-        prompt: 'Professional healthcare training classroom with diverse students learning CNA skills, modern medical equipment, bright and welcoming atmosphere, corporate photography style',
+        prompt:
+          'Professional healthcare training classroom with diverse students learning CNA skills, modern medical equipment, bright and welcoming atmosphere, corporate photography style',
         n: 1,
         size: '1024x1024',
         quality: 'standard',
@@ -138,17 +140,17 @@ async function testImageGeneration(): Promise<TestResult> {
     });
 
     const data = await response.json();
-    
+
     if (!response.ok) {
       throw new Error(data.error?.message || 'API error');
     }
 
     const imageUrl = data.data[0].url;
     const duration = Date.now() - start;
-    
+
     console.log(`   ✅ Success in ${duration}ms`);
     console.log(`   🔗 Image URL: ${imageUrl.substring(0, 80)}...`);
-    
+
     return {
       name: 'Image Generation',
       success: true,
@@ -172,7 +174,7 @@ async function testVoiceoverGeneration(): Promise<TestResult> {
   console.log('');
   console.log('🎙️  Test 3: Voiceover Generation (TTS)');
   const start = Date.now();
-  
+
   try {
     const script = `Welcome to Introduction to CNA Training. I'm Dr. Sarah Chen, your instructor. 
 In this course, you'll learn the fundamental skills needed to become a Certified Nursing Assistant. 
@@ -183,7 +185,7 @@ Let's begin your journey to a rewarding healthcare career.`;
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'tts-1-hd',
@@ -201,11 +203,11 @@ Let's begin your journey to a rewarding healthcare career.`;
     const audioBuffer = await response.arrayBuffer();
     const duration = Date.now() - start;
     const audioSize = audioBuffer.byteLength;
-    
+
     console.log(`   ✅ Success in ${duration}ms`);
     console.log(`   📁 Audio size: ${(audioSize / 1024).toFixed(1)} KB`);
-    console.log(`   ⏱️  Estimated duration: ~${Math.ceil(script.split(' ').length / 150 * 60)}s`);
-    
+    console.log(`   ⏱️  Estimated duration: ~${Math.ceil((script.split(' ').length / 150) * 60)}s`);
+
     return {
       name: 'Voiceover Generation',
       success: true,
@@ -229,20 +231,21 @@ async function testLessonContentGeneration(): Promise<TestResult> {
   console.log('');
   console.log('📝 Test 4: Lesson Content Generation');
   const start = Date.now();
-  
+
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'gpt-4',
         messages: [
           {
             role: 'system',
-            content: 'You are an expert healthcare educator creating lesson content for CNA training.'
+            content:
+              'You are an expert healthcare educator creating lesson content for CNA training.',
           },
           {
             role: 'user',
@@ -253,8 +256,8 @@ async function testLessonContentGeneration(): Promise<TestResult> {
 4. Common mistakes to avoid
 5. Practice quiz questions (3 multiple choice)
 
-Format as structured text suitable for an LMS.`
-          }
+Format as structured text suitable for an LMS.`,
+          },
         ],
         temperature: 0.7,
         max_tokens: 1500,
@@ -262,18 +265,18 @@ Format as structured text suitable for an LMS.`
     });
 
     const data = await response.json();
-    
+
     if (!response.ok) {
       throw new Error(data.error?.message || 'API error');
     }
 
     const content = data.choices[0].message.content;
     const duration = Date.now() - start;
-    
+
     console.log(`   ✅ Success in ${duration}ms`);
     console.log(`   📄 Content length: ${content.length} characters`);
     console.log(`   📋 Preview: "${content.substring(0, 100)}..."`);
-    
+
     return {
       name: 'Lesson Content Generation',
       success: true,
@@ -297,20 +300,21 @@ async function testQuizGeneration(): Promise<TestResult> {
   console.log('');
   console.log('❓ Test 5: Quiz Generation');
   const start = Date.now();
-  
+
   try {
     const response = await fetch('https://api.openai.com/v1/chat/completions', {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${OPENAI_API_KEY}`,
+        Authorization: `Bearer ${OPENAI_API_KEY}`,
       },
       body: JSON.stringify({
         model: 'gpt-4',
         messages: [
           {
             role: 'system',
-            content: 'You are a quiz creator for healthcare training. Create quizzes in JSON format.'
+            content:
+              'You are a quiz creator for healthcare training. Create quizzes in JSON format.',
           },
           {
             role: 'user',
@@ -325,8 +329,8 @@ async function testQuizGeneration(): Promise<TestResult> {
       "explanation": "Why this is correct"
     }
   ]
-}`
-          }
+}`,
+          },
         ],
         temperature: 0.7,
         max_tokens: 1500,
@@ -334,14 +338,14 @@ async function testQuizGeneration(): Promise<TestResult> {
     });
 
     const data = await response.json();
-    
+
     if (!response.ok) {
       throw new Error(data.error?.message || 'API error');
     }
 
     const content = data.choices[0].message.content;
     let quiz;
-    
+
     try {
       const jsonMatch = content.match(/\{[\s\S]*\}/);
       if (jsonMatch) {
@@ -352,11 +356,11 @@ async function testQuizGeneration(): Promise<TestResult> {
     }
 
     const duration = Date.now() - start;
-    
+
     console.log(`   ✅ Success in ${duration}ms`);
     console.log(`   📋 Quiz: "${quiz.title || 'Quiz'}"`);
     console.log(`   ❓ Questions: ${quiz.questions?.length || 0}`);
-    
+
     return {
       name: 'Quiz Generation',
       success: true,
@@ -395,8 +399,8 @@ async function runTests() {
   console.log('═══════════════════════════════════════════════════════════');
   console.log('');
 
-  const passed = results.filter(r => r.success).length;
-  const failed = results.filter(r => !r.success).length;
+  const passed = results.filter((r) => r.success).length;
+  const failed = results.filter((r) => !r.success).length;
   const totalTime = results.reduce((sum, r) => sum + r.duration, 0);
 
   for (const result of results) {

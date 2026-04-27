@@ -1,12 +1,21 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { 
-  Video, FileText, BookOpen, HelpCircle, Users, 
-  Eye, EyeOff, GripVertical, Loader2, Plus, 
-  ExternalLink, Clock 
+import {
+  Video,
+  FileText,
+  BookOpen,
+  HelpCircle,
+  Users,
+  Eye,
+  EyeOff,
+  GripVertical,
+  Loader2,
+  Plus,
+  ExternalLink,
+  Clock,
 } from 'lucide-react';
 
 interface CourseModule {
@@ -49,11 +58,11 @@ const TYPE_LABELS = {
   lesson: 'Lesson',
 };
 
-export function ModuleListForProgram({ 
-  programId, 
+export function ModuleListForProgram({
+  programId,
   modules: initialModules,
   editable = false,
-  onModuleUpdate 
+  onModuleUpdate,
 }: Props) {
   const [modules, setModules] = useState<CourseModule[]>(initialModules || []);
   const [loading, setLoading] = useState(!initialModules);
@@ -94,7 +103,7 @@ export function ModuleListForProgram({
 
   // Toggle publish status
   const togglePublish = async (moduleId: string) => {
-    const module = modules.find(m => m.id === moduleId);
+    const module = modules.find((m) => m.id === moduleId);
     if (!module) return;
 
     setSaving(moduleId);
@@ -105,9 +114,9 @@ export function ModuleListForProgram({
 
       const { error: updateError } = await supabase
         .from('program_modules')
-        .update({ 
+        .update({
           is_published: newStatus,
-          updated_at: new Date().toISOString()
+          updated_at: new Date().toISOString(),
         })
         .eq('id', moduleId);
 
@@ -115,19 +124,24 @@ export function ModuleListForProgram({
 
       // Update local state
       const updatedModule = { ...module, is_published: newStatus };
-      setModules(prev => prev.map(m => m.id === moduleId ? updatedModule : m));
+      setModules((prev) => prev.map((m) => (m.id === moduleId ? updatedModule : m)));
       onModuleUpdate?.(updatedModule);
 
       // Log activity
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (user) {
-        await supabase.from('admin_activity_log').insert({
-          user_id: user.id,
-          action: newStatus ? 'module_published' : 'module_unpublished',
-          entity_type: 'program_module',
-          entity_id: moduleId,
-          metadata: { program_id: programId, module_title: module.title },
-        }).catch(() => {});
+        await supabase
+          .from('admin_activity_log')
+          .insert({
+            user_id: user.id,
+            action: newStatus ? 'module_published' : 'module_unpublished',
+            entity_type: 'program_module',
+            entity_id: moduleId,
+            metadata: { program_id: programId, module_title: module.title },
+          })
+          .catch(() => {});
       }
     } catch (err: any) {
       console.error('Error updating module:', err);
@@ -139,7 +153,7 @@ export function ModuleListForProgram({
 
   // Reorder modules (drag and drop would be implemented with a library)
   const moveModule = async (moduleId: string, direction: 'up' | 'down') => {
-    const index = modules.findIndex(m => m.id === moduleId);
+    const index = modules.findIndex((m) => m.id === moduleId);
     if (index === -1) return;
     if (direction === 'up' && index === 0) return;
     if (direction === 'down' && index === modules.length - 1) return;
@@ -185,9 +199,7 @@ export function ModuleListForProgram({
       {modules.length === 0 ? (
         <div className="text-center py-8 bg-slate-50 rounded-lg">
           <BookOpen className="w-12 h-12 text-slate-300 mx-auto mb-4" />
-          <p className="text-slate-500 mb-4">
-            No modules defined for this program yet.
-          </p>
+          <p className="text-slate-500 mb-4">No modules defined for this program yet.</p>
           {editable && (
             <Link
               href={`/admin/programs/${programId}/modules/new`}
@@ -208,8 +220,8 @@ export function ModuleListForProgram({
               <li
                 key={module.id}
                 className={`rounded-lg border p-4 transition-all ${
-                  module.is_published 
-                    ? 'bg-white border-slate-200' 
+                  module.is_published
+                    ? 'bg-white border-slate-200'
                     : 'bg-slate-50 border-slate-300 opacity-75'
                 }`}
               >
@@ -236,12 +248,16 @@ export function ModuleListForProgram({
                   )}
 
                   {/* Module Icon */}
-                  <div className={`p-3 rounded-lg ${
-                    module.is_published ? 'bg-brand-blue-100' : 'bg-slate-200'
-                  }`}>
-                    <Icon className={`w-5 h-5 ${
-                      module.is_published ? 'text-brand-blue-600' : 'text-slate-500'
-                    }`} />
+                  <div
+                    className={`p-3 rounded-lg ${
+                      module.is_published ? 'bg-brand-blue-100' : 'bg-slate-200'
+                    }`}
+                  >
+                    <Icon
+                      className={`w-5 h-5 ${
+                        module.is_published ? 'text-brand-blue-600' : 'text-slate-500'
+                      }`}
+                    />
                   </div>
 
                   {/* Module Info */}
@@ -250,11 +266,13 @@ export function ModuleListForProgram({
                       <span className="text-xs font-medium text-slate-500">
                         Module {module.order_index}
                       </span>
-                      <span className={`text-xs px-2 py-0.5 rounded-full ${
-                        module.is_published 
-                          ? 'bg-brand-green-100 text-brand-green-700' 
-                          : 'bg-slate-200 text-slate-600'
-                      }`}>
+                      <span
+                        className={`text-xs px-2 py-0.5 rounded-full ${
+                          module.is_published
+                            ? 'bg-brand-green-100 text-brand-green-700'
+                            : 'bg-slate-200 text-slate-600'
+                        }`}
+                      >
                         {module.is_published ? 'Published' : 'Draft'}
                       </span>
                     </div>
@@ -326,9 +344,7 @@ export function ModuleListForProgram({
                   <div className="mt-4 pt-4 border-t border-slate-100 grid md:grid-cols-3 gap-3 text-xs">
                     <div className="bg-slate-50 rounded-lg p-3">
                       <p className="font-semibold text-slate-700 mb-1">Teaching Notes</p>
-                      <p className="text-slate-500">
-                        Add instructor guidance for this module.
-                      </p>
+                      <p className="text-slate-500">Add instructor guidance for this module.</p>
                     </div>
                     <div className="bg-slate-50 rounded-lg p-3">
                       <p className="font-semibold text-slate-700 mb-1">Attachments</p>
@@ -338,9 +354,7 @@ export function ModuleListForProgram({
                     </div>
                     <div className="bg-slate-50 rounded-lg p-3">
                       <p className="font-semibold text-slate-700 mb-1">Completion</p>
-                      <p className="text-slate-500">
-                        Track student progress here.
-                      </p>
+                      <p className="text-slate-500">Track student progress here.</p>
                     </div>
                   </div>
                 )}
@@ -361,8 +375,8 @@ export function ModuleListForProgram({
       )}
 
       <p className="text-xs text-slate-500 mt-4">
-        {modules.length} module{modules.length !== 1 ? 's' : ''} • 
-        {modules.filter(m => m.is_published).length} published
+        {modules.length} module{modules.length !== 1 ? 's' : ''} •
+        {modules.filter((m) => m.is_published).length} published
       </p>
     </div>
   );

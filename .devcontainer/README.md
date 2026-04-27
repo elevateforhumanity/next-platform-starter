@@ -4,10 +4,10 @@ This project uses a standard `.devcontainer/devcontainer.json` that works with b
 
 ## Active files
 
-| File | Purpose |
-|------|---------|
+| File                              | Purpose                                                                 |
+| --------------------------------- | ----------------------------------------------------------------------- |
 | `.devcontainer/devcontainer.json` | Container image, port forwarding, VS Code extensions, postCreateCommand |
-| `.ona/automations.yaml` | Ona-specific startup tasks and dev server service |
+| `.ona/automations.yaml`           | Ona-specific startup tasks and dev server service                       |
 
 ## Container
 
@@ -26,16 +26,16 @@ This project uses a standard `.devcontainer/devcontainer.json` that works with b
 
 Set these as repository-level Codespaces secrets (Settings → Secrets → Codespaces):
 
-| Secret | Description |
-|--------|-------------|
-| `NEXT_PUBLIC_SUPABASE_URL` | Supabase project URL |
-| `NEXT_PUBLIC_SUPABASE_ANON_KEY` | Supabase anon/public key |
-| `SUPABASE_SERVICE_ROLE_KEY` | Supabase service role key (server-side only) |
-| `NEXTAUTH_SECRET` | Random 32-byte hex string (`openssl rand -hex 32`) |
-| `STRIPE_SECRET_KEY` | Stripe secret key (use test key for dev) |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key |
-| `OPENAI_API_KEY` | Optional — AI features only |
-| `SENDGRID_API_KEY` | Optional — email features only |
+| Secret                               | Description                                        |
+| ------------------------------------ | -------------------------------------------------- |
+| `NEXT_PUBLIC_SUPABASE_URL`           | Supabase project URL                               |
+| `NEXT_PUBLIC_SUPABASE_ANON_KEY`      | Supabase anon/public key                           |
+| `SUPABASE_SERVICE_ROLE_KEY`          | Supabase service role key (server-side only)       |
+| `NEXTAUTH_SECRET`                    | Random 32-byte hex string (`openssl rand -hex 32`) |
+| `STRIPE_SECRET_KEY`                  | Stripe secret key (use test key for dev)           |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Stripe publishable key                             |
+| `OPENAI_API_KEY`                     | Optional — AI features only                        |
+| `SENDGRID_API_KEY`                   | Optional — email features only                     |
 
 All other variables in `.env.example` are optional for local development. Fill them in `.env.local` as needed.
 

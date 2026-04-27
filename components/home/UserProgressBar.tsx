@@ -29,7 +29,7 @@ export default function UserProgressBar() {
 
     // Fire both requests in parallel instead of sequentially
     Promise.all([
-      fetch('/api/auth/me',             { credentials: 'include', signal: controller.signal }),
+      fetch('/api/auth/me', { credentials: 'include', signal: controller.signal }),
       fetch('/api/student/enrollments', { credentials: 'include', signal: controller.signal }),
     ])
       .then(async ([authRes, enrollRes]) => {
@@ -38,7 +38,9 @@ export default function UserProgressBar() {
         const active = enrollData?.enrollments?.find((e: Enrollment) => e.status === 'active');
         if (active) setActiveEnrollment(active);
       })
-      .catch(() => { /* network error or abort — render nothing */ })
+      .catch(() => {
+        /* network error or abort — render nothing */
+      })
       .finally(() => clearTimeout(timeoutId));
 
     return () => {
@@ -58,7 +60,8 @@ export default function UserProgressBar() {
               Your Learning Progress
             </h2>
             <p className="text-sm text-slate-600">
-              {activeEnrollment.courses?.title || 'Current Program'} • {activeEnrollment.progress || 0}% complete
+              {activeEnrollment.courses?.title || 'Current Program'} •{' '}
+              {activeEnrollment.progress || 0}% complete
             </p>
           </div>
           <div className="flex items-center gap-4">

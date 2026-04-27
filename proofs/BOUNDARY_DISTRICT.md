@@ -39,11 +39,11 @@
 
 ## How Changes Are Handled
 
-| Category | Handling |
-|----------|----------|
-| **Configuration** | Immediate |
-| **Extension** | Scoped and scheduled |
-| **Core changes** | Evaluated district-wide, never rushed |
+| Category          | Handling                              |
+| ----------------- | ------------------------------------- |
+| **Configuration** | Immediate                             |
+| **Extension**     | Scoped and scheduled                  |
+| **Core changes**  | Evaluated district-wide, never rushed |
 
 ---
 

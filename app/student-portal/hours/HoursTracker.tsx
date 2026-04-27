@@ -1,14 +1,7 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { 
-  Clock, 
-  
-  AlertCircle,
-  Calendar,
-  User,
-  FileText
-} from 'lucide-react';
+import { Clock, AlertCircle, Calendar, User, FileText } from 'lucide-react';
 
 type HourEntry = {
   id: string;
@@ -93,7 +86,8 @@ export default function HoursTracker() {
         <Clock className="w-12 h-12 text-slate-700 mx-auto mb-4" />
         <h2 className="text-xl font-semibold text-slate-900 mb-2">No Hours Logged</h2>
         <p className="text-slate-700">
-          You don&apos;t have any hours logged yet. Hours will appear here once you start logging time in your program.
+          You don&apos;t have any hours logged yet. Hours will appear here once you start logging
+          time in your program.
         </p>
       </div>
     );
@@ -102,12 +96,15 @@ export default function HoursTracker() {
   return (
     <div className="space-y-8">
       {enrollments.map((enrollment) => {
-        const progress = enrollment.required_hours 
+        const progress = enrollment.required_hours
           ? Math.min(100, (enrollment.verified_total / enrollment.required_hours) * 100)
           : 0;
 
         return (
-          <div key={enrollment.enrollment_id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden">
+          <div
+            key={enrollment.enrollment_id}
+            className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden"
+          >
             {/* Header */}
             <div className="bg-white px-6 py-4 border-b border-gray-200">
               <h2 className="text-xl font-bold text-slate-900">{enrollment.program_name}</h2>
@@ -146,9 +143,7 @@ export default function HoursTracker() {
                     <FileText className="w-5 h-5" />
                     <span className="text-sm font-medium">Progress</span>
                   </div>
-                  <p className="text-3xl font-bold text-brand-blue-800">
-                    {progress.toFixed(0)}%
-                  </p>
+                  <p className="text-3xl font-bold text-brand-blue-800">{progress.toFixed(0)}%</p>
                 </div>
               )}
             </div>
@@ -158,7 +153,9 @@ export default function HoursTracker() {
               <div className="px-6 py-4 border-b border-gray-100">
                 <div className="flex items-center justify-between text-sm text-slate-700 mb-2">
                   <span>Progress toward {enrollment.required_hours} hours</span>
-                  <span>{enrollment.verified_total.toFixed(1)} / {enrollment.required_hours}</span>
+                  <span>
+                    {enrollment.verified_total.toFixed(1)} / {enrollment.required_hours}
+                  </span>
                 </div>
                 <div className="h-3 bg-white rounded-full overflow-hidden">
                   <div
@@ -172,7 +169,7 @@ export default function HoursTracker() {
             {/* Hours Log */}
             <div className="p-6">
               <h3 className="text-lg font-semibold text-slate-900 mb-4">Hours Log</h3>
-              
+
               {enrollment.entries.length === 0 ? (
                 <p className="text-slate-700 text-center py-4">No hours logged yet.</p>
               ) : (
@@ -193,7 +190,9 @@ export default function HoursTracker() {
                           <td className="py-3">
                             <div className="flex items-center gap-2 text-slate-900">
                               <Calendar className="w-4 h-4 text-slate-700" />
-                              {new Date(entry.logged_date).toLocaleDateString('en-US', { timeZone: 'UTC' })}
+                              {new Date(entry.logged_date).toLocaleDateString('en-US', {
+                                timeZone: 'UTC',
+                              })}
                             </div>
                           </td>
                           <td className="py-3 font-medium text-slate-900">
@@ -219,7 +218,9 @@ export default function HoursTracker() {
                             {entry.verified && entry.verified_at ? (
                               <div className="flex items-center gap-1">
                                 <User className="w-3 h-3" />
-                                {new Date(entry.verified_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
+                                {new Date(entry.verified_at).toLocaleDateString('en-US', {
+                                  timeZone: 'UTC',
+                                })}
                               </div>
                             ) : (
                               '-'

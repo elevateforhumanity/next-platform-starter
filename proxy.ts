@@ -17,8 +17,6 @@ const LEARN_SUBDOMAIN = 'learn.elevateforhumanity.org';
 // When unset, all routes are handled locally (dev + fallback).
 const RAILWAY_LMS_URL = process.env.RAILWAY_LMS_URL ?? '';
 
-
-
 // Supersonic Fast Cash domain - routes to /supersonic-fast-cash paths
 const SUPERSONIC_DOMAIN = 'supersonicfastermoney.com';
 
@@ -94,14 +92,25 @@ const PUBLIC_DASHBOARD_LANDINGS = [
   '/partner-portal',
 ];
 
-
-
 // Internal paths that should not be indexed by search engines
 const NOINDEX_PREFIXES = [
-  '/admin', '/staff-portal', '/instructor', '/partner-portal', '/partner/',
-  '/employer-portal', '/employer/', '/program-holder', '/workforce-board',
-  '/student-portal', '/client-portal', '/lms', '/dashboard', '/settings',
-  '/api/', '/enrollment/', '/onboarding',
+  '/admin',
+  '/staff-portal',
+  '/instructor',
+  '/partner-portal',
+  '/partner/',
+  '/employer-portal',
+  '/employer/',
+  '/program-holder',
+  '/workforce-board',
+  '/student-portal',
+  '/client-portal',
+  '/lms',
+  '/dashboard',
+  '/settings',
+  '/api/',
+  '/enrollment/',
+  '/onboarding',
 ];
 
 // Partner routes that require active partner status
@@ -111,34 +120,47 @@ const PARTNER_ONBOARDING_ROUTES = ['/partner/documents', '/partner/onboarding'];
 
 // Routes that require authentication (any role)
 const AUTH_REQUIRED_ROUTES = [
-  '/student', '/learner', '/my-courses', '/my-progress', '/settings',
-  '/onboarding/learner', '/onboarding/employer', '/onboarding/partner',
-  '/onboarding/staff', '/onboarding/school',
-  '/franchise', '/program-holder',
-  '/tax-self-prep', '/supersonic-fast-cash/portal',
+  '/student',
+  '/learner',
+  '/my-courses',
+  '/my-progress',
+  '/settings',
+  '/onboarding/learner',
+  '/onboarding/employer',
+  '/onboarding/partner',
+  '/onboarding/staff',
+  '/onboarding/school',
+  '/franchise',
+  '/program-holder',
+  '/tax-self-prep',
+  '/supersonic-fast-cash/portal',
   '/supersonic-fast-cash/diy-taxes',
 ];
 
 // Routes that require onboarding completion
-const ONBOARDING_REQUIRED_ROUTES = ['/hub', '/lms', '/student-portal', '/my-courses', '/my-progress'];
+const ONBOARDING_REQUIRED_ROUTES = [
+  '/hub',
+  '/lms',
+  '/student-portal',
+  '/my-courses',
+  '/my-progress',
+];
 
 // Routes that require active enrollment (enrollment_state = 'active' or 'documents_complete')
 const ENROLLMENT_REQUIRED_ROUTES = ['/dashboard', '/courses', '/learn', '/lms/courses'];
 
 // Enrollment flow routes (don't redirect these)
-const ENROLLMENT_FLOW_ROUTES = ['/enrollment/confirmed', '/enrollment/orientation', '/enrollment/documents'];
+const ENROLLMENT_FLOW_ROUTES = [
+  '/enrollment/confirmed',
+  '/enrollment/orientation',
+  '/enrollment/documents',
+];
 
 // Super admin emails - full platform access (platform owner)
-const SUPER_ADMIN_EMAILS = [
-  'elizabethpowell6262@gmail.com',
-  'elevate4humanityedu@gmail.com',
-];
+const SUPER_ADMIN_EMAILS = ['elizabethpowell6262@gmail.com', 'elevate4humanityedu@gmail.com'];
 
 // Admin emails that bypass onboarding requirement (includes super admins)
-const ADMIN_EMAILS = [
-  'elizabethpowell6262@gmail.com',
-  'elevate4humanityedu@gmail.com',
-];
+const ADMIN_EMAILS = ['elizabethpowell6262@gmail.com', 'elevate4humanityedu@gmail.com'];
 
 // Webhook paths that bypass auth entirely (Stripe signature verification handles security)
 // CANONICAL WEBHOOK PATHS (bypass auth)
@@ -146,12 +168,12 @@ const ADMIN_EMAILS = [
 // 1. /api/webhooks/stripe - All learner payments
 // 2. /api/license/webhook - License lifecycle only
 const WEBHOOK_PATHS = [
-  '/api/webhooks/stripe',      // Canonical learner webhook
-  '/api/license/webhook',      // Canonical license webhook
-  '/api/stripe/webhook',       // Deprecated - forwards to canonical
-  '/api/store/webhook',        // Deprecated - forwards to canonical
+  '/api/webhooks/stripe', // Canonical learner webhook
+  '/api/license/webhook', // Canonical license webhook
+  '/api/stripe/webhook', // Deprecated - forwards to canonical
+  '/api/store/webhook', // Deprecated - forwards to canonical
   '/api/store/licenses/webhook', // Deprecated - forwards to canonical
-  '/api/donations/webhook',    // Donations (separate product)
+  '/api/donations/webhook', // Donations (separate product)
 ];
 
 // Next.js 16.2 renamed middleware.ts → proxy.ts and requires the handler to be
@@ -171,8 +193,7 @@ export async function proxy(request: NextRequest) {
   requestHeaders.set('x-pathname', pathname);
 
   // Helper: NextResponse.next() that always forwards x-pathname to the page.
-  const nextWithPathname = () =>
-    NextResponse.next({ request: { headers: requestHeaders } });
+  const nextWithPathname = () => NextResponse.next({ request: { headers: requestHeaders } });
 
   // ── BYPASS POLICY ────────────────────────────────────────────────────────────
   // Single definition. No other branch in this file references SKIP_ADMIN_AUTH.
@@ -180,8 +201,7 @@ export async function proxy(request: NextRequest) {
   // 'production' by Next.js at build time on Netlify, making this unreachable
   // regardless of any env var that may be set in the deployment environment.
   const isDevelopment = process.env.NODE_ENV === 'development';
-  const allowDevAdminBypass =
-    isDevelopment && process.env.SKIP_ADMIN_AUTH === 'true';
+  const allowDevAdminBypass = isDevelopment && process.env.SKIP_ADMIN_AUTH === 'true';
 
   // Gitpod preview domains — treat as development for routing purposes
   const isGitpodPreview = host.includes('.gitpod.dev') || host.includes('gitpod.io');
@@ -192,7 +212,7 @@ export async function proxy(request: NextRequest) {
   if (!isDevelopment && process.env.SKIP_ADMIN_AUTH) {
     console.error(
       '[SECURITY] SKIP_ADMIN_AUTH is set in a non-development environment. ' +
-      'Bypass is disabled (NODE_ENV !== development), but this configuration is invalid and must be removed.'
+        'Bypass is disabled (NODE_ENV !== development), but this configuration is invalid and must be removed.',
     );
   }
   // ─────────────────────────────────────────────────────────────────────────────
@@ -201,7 +221,7 @@ export async function proxy(request: NextRequest) {
   // WEBHOOK BYPASS (PATCH 4.1)
   // Stripe webhooks use signature verification, not auth
   // ============================================
-  if (WEBHOOK_PATHS.some(path => pathname.startsWith(path))) {
+  if (WEBHOOK_PATHS.some((path) => pathname.startsWith(path))) {
     return nextWithPathname();
   }
 
@@ -222,7 +242,8 @@ export async function proxy(request: NextRequest) {
       return new NextResponse(null, {
         status: 204,
         headers: {
-          'Access-Control-Allow-Origin': origin && allowedOrigins.includes(origin) ? origin : allowedOrigins[0],
+          'Access-Control-Allow-Origin':
+            origin && allowedOrigins.includes(origin) ? origin : allowedOrigins[0],
           'Access-Control-Allow-Methods': 'GET, POST, PUT, DELETE, OPTIONS',
           'Access-Control-Allow-Headers': 'Content-Type, Authorization',
           'Access-Control-Max-Age': '86400',
@@ -271,11 +292,11 @@ export async function proxy(request: NextRequest) {
       '/api/auth',
       '/api/cron',
     ];
-    const isPublicApiOverride = PUBLIC_API_OVERRIDES.some(prefix =>
-      pathname === prefix || pathname.startsWith(prefix + '/')
+    const isPublicApiOverride = PUBLIC_API_OVERRIDES.some(
+      (prefix) => pathname === prefix || pathname.startsWith(prefix + '/'),
     );
-    const isProtectedApi = !isPublicApiOverride &&
-      PROTECTED_API_PREFIXES.some(prefix => pathname.startsWith(prefix));
+    const isProtectedApi =
+      !isPublicApiOverride && PROTECTED_API_PREFIXES.some((prefix) => pathname.startsWith(prefix));
 
     if (isProtectedApi && !isWebhook) {
       const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
@@ -287,12 +308,18 @@ export async function proxy(request: NextRequest) {
 
       const apiSupabase = createServerClient(supabaseUrl, supabaseKey, {
         cookies: {
-          getAll() { return request.cookies.getAll(); },
-          setAll() { /* read-only for API auth check */ },
+          getAll() {
+            return request.cookies.getAll();
+          },
+          setAll() {
+            /* read-only for API auth check */
+          },
         },
       });
 
-      const { data: { user: apiUser } } = await apiSupabase.auth.getUser();
+      const {
+        data: { user: apiUser },
+      } = await apiSupabase.auth.getUser();
       if (!apiUser) {
         return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }
@@ -305,7 +332,10 @@ export async function proxy(request: NextRequest) {
           .eq('id', apiUser.id)
           .single();
 
-        if (!apiProfile?.role || !['admin', 'super_admin', 'org_admin', 'staff'].includes(apiProfile.role)) {
+        if (
+          !apiProfile?.role ||
+          !['admin', 'super_admin', 'org_admin', 'staff'].includes(apiProfile.role)
+        ) {
           return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
       }
@@ -318,7 +348,10 @@ export async function proxy(request: NextRequest) {
           .eq('id', apiUser.id)
           .single();
 
-        if (!apiProfile?.role || !['instructor', 'admin', 'super_admin'].includes(apiProfile.role)) {
+        if (
+          !apiProfile?.role ||
+          !['instructor', 'admin', 'super_admin'].includes(apiProfile.role)
+        ) {
           return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
       }
@@ -339,7 +372,10 @@ export async function proxy(request: NextRequest) {
   // ============================================
 
   // Dead legacy path — /student-portal/education never existed, redirect to student portal
-  if (pathname === '/student-portal/education' || pathname.startsWith('/student-portal/education/')) {
+  if (
+    pathname === '/student-portal/education' ||
+    pathname.startsWith('/student-portal/education/')
+  ) {
     return NextResponse.redirect(new URL('/student-portal', request.url), 301);
   }
 
@@ -352,7 +388,7 @@ export async function proxy(request: NextRequest) {
 
   if (RAILWAY_ADMIN_URL) {
     const ADMIN_PREFIXES = ['/admin', '/instructor', '/api/admin'];
-    if (ADMIN_PREFIXES.some(prefix => pathname.startsWith(prefix))) {
+    if (ADMIN_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
       const target = new URL(pathname, RAILWAY_ADMIN_URL);
       target.search = request.nextUrl.search;
       return NextResponse.rewrite(target, {
@@ -364,12 +400,17 @@ export async function proxy(request: NextRequest) {
   if (RAILWAY_LMS_URL) {
     // All /api/* routes go to Railway LMS — Netlify has no API routes (quarantined).
     // Webhooks are excluded: they must hit Netlify's own function handlers.
-    const WEBHOOK_BYPASS = ['/api/webhooks/', '/api/stripe/webhook', '/api/license/webhook',
-      '/api/store/webhook', '/api/donations/webhook'];
-    const isWebhookPath = WEBHOOK_BYPASS.some(p => pathname.startsWith(p));
+    const WEBHOOK_BYPASS = [
+      '/api/webhooks/',
+      '/api/stripe/webhook',
+      '/api/license/webhook',
+      '/api/store/webhook',
+      '/api/donations/webhook',
+    ];
+    const isWebhookPath = WEBHOOK_BYPASS.some((p) => pathname.startsWith(p));
 
     const LMS_PREFIXES = ['/lms', '/learner', '/api/'];
-    if (!isWebhookPath && LMS_PREFIXES.some(prefix => pathname.startsWith(prefix))) {
+    if (!isWebhookPath && LMS_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
       const target = new URL(pathname, RAILWAY_LMS_URL);
       target.search = request.nextUrl.search;
       return NextResponse.rewrite(target, {
@@ -414,11 +455,7 @@ export async function proxy(request: NextRequest) {
   // Supersonic Fast Cash domain routing (supersonicfastermoney.com -> /supersonic-fast-cash)
   if (host.includes(SUPERSONIC_DOMAIN)) {
     // Skip for static files and API routes
-    if (
-      pathname.startsWith('/_next') ||
-      pathname.startsWith('/api') ||
-      pathname.includes('.')
-    ) {
+    if (pathname.startsWith('/_next') || pathname.startsWith('/api') || pathname.includes('.')) {
       return nextWithPathname();
     }
 
@@ -444,11 +481,7 @@ export async function proxy(request: NextRequest) {
   // Platform subdomain routing (platform.elevateforhumanity.org -> /platform/licensing)
   if (host === PLATFORM_SUBDOMAIN || host === 'platform.elevateforhumanity.org') {
     // Skip for static files and API routes
-    if (
-      pathname.startsWith('/_next') ||
-      pathname.startsWith('/api') ||
-      pathname.includes('.')
-    ) {
+    if (pathname.startsWith('/_next') || pathname.startsWith('/api') || pathname.includes('.')) {
       return nextWithPathname();
     }
 
@@ -494,7 +527,7 @@ export async function proxy(request: NextRequest) {
   // Dashboard landing pages are PUBLIC (exact match only)
   // This allows marketing/preview of dashboard features
   const isPublicDashboardLanding = PUBLIC_DASHBOARD_LANDINGS.some(
-    (landing) => pathname === landing || pathname === `${landing}/`
+    (landing) => pathname === landing || pathname === `${landing}/`,
   );
 
   if (isPublicDashboardLanding) {
@@ -509,8 +542,7 @@ export async function proxy(request: NextRequest) {
   // /admin (exact) is intentionally public — it redirects to /admin/dashboard
   // and is listed in PUBLIC_DASHBOARD_LANDINGS above, so it never reaches here.
   // All sub-routes (/admin/*) are protected below.
-  const isAdminNamespace =
-    pathname === '/admin' || pathname.startsWith('/admin/');
+  const isAdminNamespace = pathname === '/admin' || pathname.startsWith('/admin/');
 
   if (isAdminNamespace) {
     if (allowDevAdminBypass) {
@@ -534,13 +566,15 @@ export async function proxy(request: NextRequest) {
           // Preserve requestHeaders (x-pathname) when refreshing cookies
           adminResponse = NextResponse.next({ request: { headers: requestHeaders } });
           cookiesToSet.forEach(({ name, value, options }) =>
-            adminResponse.cookies.set(name, value, options)
+            adminResponse.cookies.set(name, value, options),
           );
         },
       },
     });
 
-    const { data: { user } } = await adminSupabase.auth.getUser();
+    const {
+      data: { user },
+    } = await adminSupabase.auth.getUser();
 
     if (!user) {
       const loginUrl = new URL('/login', request.url);
@@ -595,8 +629,8 @@ export async function proxy(request: NextRequest) {
     }
 
     if (profile.role === 'staff') {
-      const allowed = STAFF_ALLOWED_PREFIXES.some((prefix) =>
-        pathname === prefix || pathname.startsWith(prefix + '/')
+      const allowed = STAFF_ALLOWED_PREFIXES.some(
+        (prefix) => pathname === prefix || pathname.startsWith(prefix + '/'),
       );
       if (!allowed) {
         return NextResponse.redirect(new URL('/unauthorized', request.url), { status: 307 });
@@ -611,12 +645,8 @@ export async function proxy(request: NextRequest) {
   // ── END ADMIN NAMESPACE PROTECTION ──────────────────────────────────────────
 
   // Check if route requires protection (non-admin routes)
-  const protectedRoute = Object.keys(PROTECTED_ROUTES).find((route) =>
-    pathname.startsWith(route)
-  );
-  const authRequired = AUTH_REQUIRED_ROUTES.some((route) =>
-    pathname.startsWith(route)
-  );
+  const protectedRoute = Object.keys(PROTECTED_ROUTES).find((route) => pathname.startsWith(route));
+  const authRequired = AUTH_REQUIRED_ROUTES.some((route) => pathname.startsWith(route));
 
   if (!protectedRoute && !authRequired) {
     return nextWithPathname();
@@ -646,13 +676,15 @@ export async function proxy(request: NextRequest) {
         // Preserve requestHeaders (which carries x-pathname) when refreshing cookies
         response = NextResponse.next({ request: { headers: requestHeaders } });
         cookiesToSet.forEach(({ name, value, options }) =>
-          response.cookies.set(name, value, options)
+          response.cookies.set(name, value, options),
         );
       },
     },
   });
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // Not authenticated - redirect to login with return URL
   if (!user) {
@@ -681,7 +713,7 @@ export async function proxy(request: NextRequest) {
 
   if (lastActivity) {
     const lastActivityTime = parseInt(lastActivity, 10);
-    if (!isNaN(lastActivityTime) && (now - lastActivityTime) > IDLE_TIMEOUT_MS) {
+    if (!isNaN(lastActivityTime) && now - lastActivityTime > IDLE_TIMEOUT_MS) {
       // Session expired due to inactivity — redirect to login with reason=idle.
       // Do NOT call supabase.auth.signOut() here: middleware cannot write the
       // Set-Cookie header that clears the Supabase session token, so the call
@@ -714,9 +746,7 @@ export async function proxy(request: NextRequest) {
   }
 
   // Check onboarding completion for restricted routes
-  const requiresOnboarding = ONBOARDING_REQUIRED_ROUTES.some((route) =>
-    pathname.startsWith(route)
-  );
+  const requiresOnboarding = ONBOARDING_REQUIRED_ROUTES.some((route) => pathname.startsWith(route));
 
   if (requiresOnboarding) {
     // Skip onboarding check for the onboarding pages themselves
@@ -749,14 +779,12 @@ export async function proxy(request: NextRequest) {
   // ENROLLMENT + PARTNER CHECKS (parallel)
   // Both queries run simultaneously — no sequential waterfall.
   // ============================================
-  const requiresEnrollment = ENROLLMENT_REQUIRED_ROUTES.some((route) =>
-    pathname.startsWith(route)
-  );
-  const isEnrollmentFlowRoute = ENROLLMENT_FLOW_ROUTES.some((route) =>
-    pathname.startsWith(route)
-  );
+  const requiresEnrollment = ENROLLMENT_REQUIRED_ROUTES.some((route) => pathname.startsWith(route));
+  const isEnrollmentFlowRoute = ENROLLMENT_FLOW_ROUTES.some((route) => pathname.startsWith(route));
   const isPartnerRoute = PARTNER_ROUTES.some((route) => pathname.startsWith(route));
-  const isPartnerOnboardingRoute = PARTNER_ONBOARDING_ROUTES.some((route) => pathname.startsWith(route));
+  const isPartnerOnboardingRoute = PARTNER_ONBOARDING_ROUTES.some((route) =>
+    pathname.startsWith(route),
+  );
 
   const needsEnrollment = requiresEnrollment && !isEnrollmentFlowRoute;
   const needsPartner = isPartnerRoute || isPartnerOnboardingRoute;
@@ -772,11 +800,7 @@ export async function proxy(request: NextRequest) {
           .maybeSingle()
       : Promise.resolve({ data: null }),
     needsPartner
-      ? supabase
-          .from('partner_applications')
-          .select('status')
-          .eq('user_id', user.id)
-          .maybeSingle()
+      ? supabase.from('partner_applications').select('status').eq('user_id', user.id).maybeSingle()
       : Promise.resolve({ data: null }),
   ]);
 
@@ -796,7 +820,10 @@ export async function proxy(request: NextRequest) {
       return NextResponse.redirect(new URL('/partner/apply', request.url), { status: 307 });
     }
     if (isPartnerRoute && partnerApp.status !== 'active') {
-      if (partnerApp.status === 'pending_documents' || partnerApp.status === 'documents_submitted') {
+      if (
+        partnerApp.status === 'pending_documents' ||
+        partnerApp.status === 'documents_submitted'
+      ) {
         return NextResponse.redirect(new URL('/partner/documents', request.url), { status: 307 });
       }
       return NextResponse.redirect(new URL('/partner/onboarding', request.url), { status: 307 });
@@ -823,7 +850,7 @@ export async function proxy(request: NextRequest) {
   // NOINDEX FOR INTERNAL PAGES
   // Prevent search engines from indexing portals, admin, and auth-gated routes
   // ============================================
-  if (NOINDEX_PREFIXES.some(prefix => pathname.startsWith(prefix))) {
+  if (NOINDEX_PREFIXES.some((prefix) => pathname.startsWith(prefix))) {
     response.headers.set('X-Robots-Tag', 'noindex, nofollow');
   }
 

@@ -4,8 +4,8 @@
  * https://developers.cloudflare.com/stream/
  */
 
-import fs from 'fs/promises';
-import { createReadStream } from 'fs';
+import { readFile } from 'node:fs/promises';
+import * as path from 'node:path';
 
 export interface CloudflareStreamConfig {
   accountId: string;
@@ -96,11 +96,14 @@ export class CloudflareStreamService {
       requireSignedURLs?: boolean;
       allowedOrigins?: string[];
       thumbnailTimestampPct?: number;
-    }
+    },
   ): Promise<StreamVideo> {
     try {
+      const fileBuffer = await readFile(videoPath);
+      const fileName = path.basename(videoPath);
+      const fileBlob = new Blob([fileBuffer]);
       const form = new FormData();
-      form.append('file', createReadStream(videoPath));
+      form.append('file', fileBlob, fileName);
 
       // Add metadata
       const meta: Record<string, string> = {
@@ -120,32 +123,28 @@ export class CloudflareStreamService {
       }
 
       if (metadata.thumbnailTimestampPct !== undefined) {
-        form.append(
-          'thumbnailTimestampPct',
-          metadata.thumbnailTimestampPct.toString()
-        );
+        form.append('thumbnailTimestampPct', metadata.thumbnailTimestampPct.toString());
       }
 
       const response = await fetch(this.baseUrl, {
         method: 'POST',
         headers: {
           Authorization: `Bearer ${this.apiToken}`,
-          ...form.getHeaders(),
         },
-        body: form as any as BodyInit,
+        body: form,
       });
 
       const data = (await response.json()) as StreamUploadResponse;
 
       if (!data.success) {
-        throw new Error(
-          `Upload failed: ${data.errors.map((e) => e.message).join(', ')}`
-        );
+        throw new Error(`Upload failed: ${data.errors.map((e) => e.message).join(', ')}`);
       }
 
       return data.result;
     } catch (error) {
-      throw new Error(`Video upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `Video upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
     }
   }
 
@@ -160,7 +159,7 @@ export class CloudflareStreamService {
       userId?: string;
       requireSignedURLs?: boolean;
       allowedOrigins?: string[];
-    }
+    },
   ): Promise<StreamVideo> {
     try {
       const meta: Record<string, string> = {
@@ -186,14 +185,14 @@ export class CloudflareStreamService {
       const data = (await response.json()) as StreamUploadResponse;
 
       if (!data.success) {
-        throw new Error(
-          `Upload failed: ${data.errors.map((e) => e.message).join(', ')}`
-        );
+        throw new Error(`Upload failed: ${data.errors.map((e) => e.message).join(', ')}`);
       }
 
       return data.result;
     } catch (error) {
-      throw new Error(`URL upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      throw new Error(
+        `URL upload failed: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
     }
   }
 
@@ -251,9 +250,7 @@ export class CloudflareStreamService {
       const data = (await response.json()) as StreamListResponse;
 
       if (!data.success) {
-        throw new Error(
-          `List failed: ${data.errors.map((e) => e.message).join(', ')}`
-        );
+        throw new Error(`List failed: ${data.errors.map((e) => e.message).join(', ')}`);
       }
 
       return {
@@ -301,7 +298,7 @@ export class CloudflareStreamService {
       allowedOrigins?: string[];
       thumbnailTimestampPct?: number;
       meta?: Record<string, string>;
-    }
+    },
   ): Promise<StreamVideo | null> {
     try {
       const response = await fetch(`${this.baseUrl}/${videoId}`, {
@@ -316,9 +313,7 @@ export class CloudflareStreamService {
       const data = (await response.json()) as StreamUploadResponse;
 
       if (!data.success) {
-        throw new Error(
-          `Update failed: ${data.errors.map((e) => e.message).join(', ')}`
-        );
+        throw new Error(`Update failed: ${data.errors.map((e) => e.message).join(', ')}`);
       }
 
       return data.result;
@@ -338,7 +333,7 @@ export class CloudflareStreamService {
       muted?: boolean;
       preload?: 'auto' | 'metadata' | 'none';
       controls?: boolean;
-    }
+    },
   ): string {
     const params = new URLSearchParams();
     if (options?.autoplay) params.append('autoplay', 'true');
@@ -364,7 +359,7 @@ export class CloudflareStreamService {
       muted?: boolean;
       preload?: 'auto' | 'metadata' | 'none';
       controls?: boolean;
-    }
+    },
   ): string {
     const params = new URLSearchParams();
     if (options?.autoplay) params.append('autoplay', 'true');
@@ -402,7 +397,7 @@ export class CloudflareStreamService {
       width?: number;
       height?: number;
       fit?: 'crop' | 'clip' | 'scale';
-    }
+    },
   ): string {
     const params = new URLSearchParams();
     if (options?.time) params.append('time', options.time);
@@ -418,10 +413,7 @@ export class CloudflareStreamService {
   /**
    * Generate signed URL for private videos
    */
-  async generateSignedUrl(
-    videoId: string,
-    expiresIn: number = 3600
-  ): Promise<string> {
+  async generateSignedUrl(videoId: string, expiresIn: number = 3600): Promise<string> {
     // Note: Signed URLs require additional setup with Cloudflare Stream
     // This is a placeholder - actual implementation requires token generation
     const expiry = Math.floor(Date.now() / 1000) + expiresIn;
@@ -441,7 +433,7 @@ export class CloudflareStreamService {
             Authorization: `Bearer ${this.apiToken}`,
             'Content-Type': 'application/json',
           },
-        }
+        },
       );
 
       const data = (await response.json()) as { result?: any };
@@ -465,7 +457,7 @@ export class CloudflareStreamService {
   async waitForVideoReady(
     videoId: string,
     maxWaitTime: number = 300000, // 5 minutes
-    pollInterval: number = 5000 // 5 seconds
+    pollInterval: number = 5000, // 5 seconds
   ): Promise<boolean> {
     const startTime = Date.now();
 
@@ -488,8 +480,7 @@ export class CloudflareStreamService {
  */
 export function createCloudflareStream(): CloudflareStreamService | null {
   const accountId = process.env.CLOUDFLARE_ACCOUNT_ID;
-  const apiToken =
-    process.env.CLOUDFLARE_STREAM_API_TOKEN || process.env.CLOUDFLARE_API_TOKEN;
+  const apiToken = process.env.CLOUDFLARE_STREAM_API_TOKEN || process.env.CLOUDFLARE_API_TOKEN;
 
   if (!accountId || !apiToken) {
     return null;

@@ -16,24 +16,14 @@
       },
       {
         "prompt": "Which process uses chemical agents to kill bacteria, viruses, and fungi on non-porous surfaces?",
-        "choices": [
-          "Sanitation",
-          "Disinfection",
-          "Sterilization",
-          "Decontamination"
-        ],
+        "choices": ["Sanitation", "Disinfection", "Sterilization", "Decontamination"],
         "answerIndex": 1,
         "rationale": "Disinfection involves using chemical agents to kill pathogens on surfaces.",
         "type": "recall"
       },
       {
         "prompt": "What is the most thorough form of decontamination in a barber shop?",
-        "choices": [
-          "Sanitation",
-          "Disinfection",
-          "Sterilization",
-          "Cleaning"
-        ],
+        "choices": ["Sanitation", "Disinfection", "Sterilization", "Cleaning"],
         "answerIndex": 2,
         "rationale": "Sterilization eliminates all forms of microbial life, making it the most thorough decontamination method.",
         "type": "recall"
@@ -76,12 +66,7 @@
       },
       {
         "prompt": "Which step is critical to ensure disinfectants work effectively on tools?",
-        "choices": [
-          "Pre-cleaning",
-          "Contact time",
-          "Storage",
-          "Rinsing"
-        ],
+        "choices": ["Pre-cleaning", "Contact time", "Storage", "Rinsing"],
         "answerIndex": 1,
         "rationale": "Allowing the disinfectant to remain on the surface for the recommended contact time is crucial for effectiveness.",
         "type": "recall"
@@ -124,12 +109,7 @@
       },
       {
         "prompt": "Which of the following is NOT a part of the disinfection process?",
-        "choices": [
-          "Pre-cleaning",
-          "Contact time",
-          "Rinsing",
-          "Storage"
-        ],
+        "choices": ["Pre-cleaning", "Contact time", "Rinsing", "Storage"],
         "answerIndex": 2,
         "rationale": "Rinsing is not part of the disinfection process; it involves pre-cleaning, contact time, and storage.",
         "type": "recall"
@@ -232,12 +212,7 @@
       },
       {
         "prompt": "What is the BEST way to handle tools after they have been used on a client with a known infection?",
-        "choices": [
-          "Sanitize them",
-          "Disinfect them",
-          "Sterilize them",
-          "Store them immediately"
-        ],
+        "choices": ["Sanitize them", "Disinfect them", "Sterilize them", "Store them immediately"],
         "answerIndex": 2,
         "rationale": "Sterilizing tools is the best way to ensure all microbial life is eliminated, preventing the spread of infection.",
         "type": "applied"

@@ -64,12 +64,7 @@
       },
       {
         "prompt": "Which over-the-counter treatment can barbers recommend for certain types of hair loss?",
-        "choices": [
-          "Minoxidil",
-          "Finasteride",
-          "Corticosteroids",
-          "Anthralin"
-        ],
+        "choices": ["Minoxidil", "Finasteride", "Corticosteroids", "Anthralin"],
         "answerIndex": 0,
         "rationale": "Minoxidil is an over-the-counter topical treatment that barbers can recommend for certain types of hair loss.",
         "type": "recall"

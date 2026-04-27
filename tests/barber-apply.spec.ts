@@ -6,7 +6,9 @@ test.describe('Barber apprenticeship apply page', () => {
   test('deposit field is typeable and calculator updates', async ({ page }) => {
     await page.goto(`${APP_URL}/programs/barber-apprenticeship/apply?type=apprentice`);
 
-    const depositInput = page.locator('input[name="customAmount"], input[inputmode="numeric"]').first();
+    const depositInput = page
+      .locator('input[name="customAmount"], input[inputmode="numeric"]')
+      .first();
     await expect(depositInput).toBeVisible();
 
     await depositInput.click();

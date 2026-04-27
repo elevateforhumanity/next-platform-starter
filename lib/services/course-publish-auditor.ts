@@ -30,19 +30,19 @@ import { extractInstructionalText } from '@/lib/curriculum/normalize-lesson-cont
 export type AuditSeverity = 'fatal' | 'blocking' | 'warning';
 
 export interface AuditIssue {
-  severity:   AuditSeverity;
-  code:       string;
+  severity: AuditSeverity;
+  code: string;
   entityType: 'course' | 'module' | 'lesson';
-  entityId?:  string;
+  entityId?: string;
   entityName?: string;
-  message:    string;
+  message: string;
 }
 
 export interface CoursePublishAudit {
-  courseId:    string;
+  courseId: string;
   publishable: boolean;
-  issues:      AuditIssue[];
-  auditedAt:   string;
+  issues: AuditIssue[];
+  auditedAt: string;
 }
 
 // ─── Auditor ──────────────────────────────────────────────────────────────────
@@ -61,25 +61,48 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
 
   if (!course) {
     return {
-      courseId, publishable: false, auditedAt: new Date().toISOString(),
-      issues: [{ severity: 'fatal', code: 'COURSE_NOT_FOUND', entityType: 'course',
-        message: `Course ${courseId} not found.` }],
+      courseId,
+      publishable: false,
+      auditedAt: new Date().toISOString(),
+      issues: [
+        {
+          severity: 'fatal',
+          code: 'COURSE_NOT_FOUND',
+          entityType: 'course',
+          message: `Course ${courseId} not found.`,
+        },
+      ],
     };
   }
 
   // ── Course-level checks ─────────────────────────────────────────────────────
 
   if (!course.title?.trim()) {
-    add({ severity: 'fatal', code: 'COURSE_NO_TITLE', entityType: 'course',
-      entityId: courseId, message: 'Course has no title.' });
+    add({
+      severity: 'fatal',
+      code: 'COURSE_NO_TITLE',
+      entityType: 'course',
+      entityId: courseId,
+      message: 'Course has no title.',
+    });
   }
   if (!course.slug?.trim()) {
-    add({ severity: 'fatal', code: 'COURSE_NO_SLUG', entityType: 'course',
-      entityId: courseId, message: 'Course has no slug.' });
+    add({
+      severity: 'fatal',
+      code: 'COURSE_NO_SLUG',
+      entityType: 'course',
+      entityId: courseId,
+      message: 'Course has no slug.',
+    });
   }
   if (!course.description?.trim()) {
-    add({ severity: 'blocking', code: 'COURSE_NO_DESCRIPTION', entityType: 'course',
-      entityId: courseId, message: 'Course has no description.' });
+    add({
+      severity: 'blocking',
+      code: 'COURSE_NO_DESCRIPTION',
+      entityType: 'course',
+      entityId: courseId,
+      message: 'Course has no description.',
+    });
   }
 
   // Course objectives
@@ -89,8 +112,13 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
     .eq('course_id', courseId);
 
   if (!courseObjectives?.length) {
-    add({ severity: 'blocking', code: 'COURSE_NO_OBJECTIVES', entityType: 'course',
-      entityId: courseId, message: 'Course has no learning objectives.' });
+    add({
+      severity: 'blocking',
+      code: 'COURSE_NO_OBJECTIVES',
+      entityType: 'course',
+      entityId: courseId,
+      message: 'Course has no learning objectives.',
+    });
   }
 
   // ── Fetch modules ───────────────────────────────────────────────────────────
@@ -101,16 +129,26 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
     .order('order_index');
 
   if (!modules?.length) {
-    add({ severity: 'fatal', code: 'COURSE_NO_MODULES', entityType: 'course',
-      entityId: courseId, message: 'Course has no modules.' });
+    add({
+      severity: 'fatal',
+      code: 'COURSE_NO_MODULES',
+      entityType: 'course',
+      entityId: courseId,
+      message: 'Course has no modules.',
+    });
     return finalize(courseId, issues);
   }
 
   // Duplicate module order indexes
-  const moduleOrders = modules.map(m => m.order_index);
+  const moduleOrders = modules.map((m) => m.order_index);
   if (new Set(moduleOrders).size !== moduleOrders.length) {
-    add({ severity: 'blocking', code: 'DUPLICATE_MODULE_ORDER', entityType: 'course',
-      entityId: courseId, message: 'Duplicate module order_index values detected.' });
+    add({
+      severity: 'blocking',
+      code: 'DUPLICATE_MODULE_ORDER',
+      entityType: 'course',
+      entityId: courseId,
+      message: 'Duplicate module order_index values detected.',
+    });
   }
 
   // ── Fetch all lessons ───────────────────────────────────────────────────────
@@ -118,36 +156,51 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
     .from('course_lessons')
     .select(
       'id, slug, title, lesson_type, order_index, module_id, ' +
-      'passing_score, quiz_questions, content, content_structured, ' +
-      'video_file, video_transcript, video_runtime_seconds, ' +
-      'requires_evidence, requires_signoff, requires_evaluator, ' +
-      'is_required'
+        'passing_score, quiz_questions, content, content_structured, ' +
+        'video_file, video_transcript, video_runtime_seconds, ' +
+        'requires_evidence, requires_signoff, requires_evaluator, ' +
+        'is_required',
     )
     .eq('course_id', courseId);
 
   if (!lessons?.length) {
-    add({ severity: 'fatal', code: 'COURSE_NO_LESSONS', entityType: 'course',
-      entityId: courseId, message: 'Course has no lessons.' });
+    add({
+      severity: 'fatal',
+      code: 'COURSE_NO_LESSONS',
+      entityType: 'course',
+      entityId: courseId,
+      message: 'Course has no lessons.',
+    });
     return finalize(courseId, issues);
   }
 
   // Duplicate lesson slugs
-  const slugs = lessons.map(l => l.slug);
+  const slugs = lessons.map((l) => l.slug);
   if (new Set(slugs).size !== slugs.length) {
-    add({ severity: 'fatal', code: 'DUPLICATE_LESSON_SLUGS', entityType: 'course',
-      entityId: courseId, message: 'Duplicate lesson slugs detected within course.' });
+    add({
+      severity: 'fatal',
+      code: 'DUPLICATE_LESSON_SLUGS',
+      entityType: 'course',
+      entityId: courseId,
+      message: 'Duplicate lesson slugs detected within course.',
+    });
   }
 
   // Duplicate lesson order indexes
-  const lessonOrders = lessons.map(l => l.order_index);
+  const lessonOrders = lessons.map((l) => l.order_index);
   if (new Set(lessonOrders).size !== lessonOrders.length) {
-    add({ severity: 'blocking', code: 'DUPLICATE_LESSON_ORDER', entityType: 'course',
-      entityId: courseId, message: 'Duplicate lesson order_index values detected.' });
+    add({
+      severity: 'blocking',
+      code: 'DUPLICATE_LESSON_ORDER',
+      entityType: 'course',
+      entityId: courseId,
+      message: 'Duplicate lesson order_index values detected.',
+    });
   }
 
   // ── Fetch objectives/competencies in bulk ───────────────────────────────────
-  const moduleIds = modules.map(m => m.id);
-  const lessonIds = lessons.map(l => l.id);
+  const moduleIds = modules.map((m) => m.id);
+  const lessonIds = lessons.map((l) => l.id);
 
   const [
     { data: moduleObjectives },
@@ -161,43 +214,82 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
     db.from('lesson_objectives').select('lesson_id').in('lesson_id', lessonIds),
     db.from('module_competencies').select('module_id').in('module_id', moduleIds),
     db.from('lesson_competency_map').select('lesson_id').in('lesson_id', lessonIds),
-    db.from('practical_requirements').select('lesson_id, required_hours, required_attempts, requires_evaluator_approval, rubric_json, instructions').in('lesson_id', lessonIds) as Promise<{ data: Array<{ lesson_id: string; instructions: string | null; requires_evaluator_approval: boolean; rubric_json: unknown[] | null }> | null }>,
+    db
+      .from('practical_requirements')
+      .select(
+        'lesson_id, required_hours, required_attempts, requires_evaluator_approval, rubric_json, instructions',
+      )
+      .in('lesson_id', lessonIds) as Promise<{
+      data: Array<{
+        lesson_id: string;
+        instructions: string | null;
+        requires_evaluator_approval: boolean;
+        rubric_json: unknown[] | null;
+      }> | null;
+    }>,
     db.from('module_completion_rules').select('module_id').eq('course_id', courseId),
   ]);
 
-  const moduleObjectiveSet   = new Set((moduleObjectives ?? []).map((r: any) => r.module_id));
-  const lessonObjectiveSet   = new Set((lessonObjectives ?? []).map((r: any) => r.lesson_id));
-  const moduleCompetencySet  = new Set((moduleCompetencies ?? []).map((r: any) => r.module_id));
-  const lessonCompetencySet  = new Set((lessonCompetencyMap ?? []).map((r: any) => r.lesson_id));
-  type PracticalReqRow = { lesson_id: string; instructions: string | null; requires_evaluator_approval: boolean; rubric_json: unknown[] | null };
-  const practicalMap = new Map<string, PracticalReqRow>((practicalRequirements ?? []).map((r) => [r.lesson_id, r]));
-  const completionRuleSet    = new Set((completionRules ?? []).map((r: any) => r.module_id));
+  const moduleObjectiveSet = new Set((moduleObjectives ?? []).map((r: any) => r.module_id));
+  const lessonObjectiveSet = new Set((lessonObjectives ?? []).map((r: any) => r.lesson_id));
+  const moduleCompetencySet = new Set((moduleCompetencies ?? []).map((r: any) => r.module_id));
+  const lessonCompetencySet = new Set((lessonCompetencyMap ?? []).map((r: any) => r.lesson_id));
+  type PracticalReqRow = {
+    lesson_id: string;
+    instructions: string | null;
+    requires_evaluator_approval: boolean;
+    rubric_json: unknown[] | null;
+  };
+  const practicalMap = new Map<string, PracticalReqRow>(
+    (practicalRequirements ?? []).map((r) => [r.lesson_id, r]),
+  );
+  const completionRuleSet = new Set((completionRules ?? []).map((r: any) => r.module_id));
 
   // ── Module-level checks ─────────────────────────────────────────────────────
   for (const mod of modules) {
-    const modLessons = lessons.filter(l => l.module_id === mod.id);
+    const modLessons = lessons.filter((l) => l.module_id === mod.id);
 
     if (!mod.title?.trim()) {
-      add({ severity: 'blocking', code: 'MODULE_NO_TITLE', entityType: 'module',
-        entityId: mod.id, message: `Module (order ${mod.order_index}) has no title.` });
+      add({
+        severity: 'blocking',
+        code: 'MODULE_NO_TITLE',
+        entityType: 'module',
+        entityId: mod.id,
+        message: `Module (order ${mod.order_index}) has no title.`,
+      });
     }
 
     if (!modLessons.length) {
-      add({ severity: 'fatal', code: 'MODULE_NO_LESSONS', entityType: 'module',
-        entityId: mod.id, entityName: mod.title,
-        message: `Module "${mod.title}" has no lessons.` });
+      add({
+        severity: 'fatal',
+        code: 'MODULE_NO_LESSONS',
+        entityType: 'module',
+        entityId: mod.id,
+        entityName: mod.title,
+        message: `Module "${mod.title}" has no lessons.`,
+      });
     }
 
     if (!moduleObjectiveSet.has(mod.id)) {
-      add({ severity: 'blocking', code: 'MODULE_NO_OBJECTIVES', entityType: 'module',
-        entityId: mod.id, entityName: mod.title,
-        message: `Module "${mod.title}" has no learning objectives.` });
+      add({
+        severity: 'blocking',
+        code: 'MODULE_NO_OBJECTIVES',
+        entityType: 'module',
+        entityId: mod.id,
+        entityName: mod.title,
+        message: `Module "${mod.title}" has no learning objectives.`,
+      });
     }
 
     if (!moduleCompetencySet.has(mod.id)) {
-      add({ severity: 'blocking', code: 'MODULE_NO_COMPETENCIES', entityType: 'module',
-        entityId: mod.id, entityName: mod.title,
-        message: `Module "${mod.title}" has no competency mappings.` });
+      add({
+        severity: 'blocking',
+        code: 'MODULE_NO_COMPETENCIES',
+        entityType: 'module',
+        entityId: mod.id,
+        entityName: mod.title,
+        message: `Module "${mod.title}" has no competency mappings.`,
+      });
     }
   }
 
@@ -205,9 +297,14 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
   if (modules.length > 1) {
     for (const mod of modules.slice(1)) {
       if (!completionRuleSet.has(mod.id)) {
-        add({ severity: 'blocking', code: 'MODULE_NO_COMPLETION_RULE', entityType: 'module',
-          entityId: mod.id, entityName: mod.title,
-          message: `Module "${mod.title}" has no completion/unlock rule (required when course has >1 module).` });
+        add({
+          severity: 'blocking',
+          code: 'MODULE_NO_COMPLETION_RULE',
+          entityType: 'module',
+          entityId: mod.id,
+          entityName: mod.title,
+          message: `Module "${mod.title}" has no completion/unlock rule (required when course has >1 module).`,
+        });
       }
     }
   }
@@ -218,53 +315,93 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
     const name = lesson.title || lesson.slug || lesson.id;
 
     if (!lesson.title?.trim()) {
-      add({ severity: 'fatal', code: 'LESSON_NO_TITLE', entityType: 'lesson',
-        entityId: lesson.id, message: `Lesson (order ${lesson.order_index}) has no title.` });
+      add({
+        severity: 'fatal',
+        code: 'LESSON_NO_TITLE',
+        entityType: 'lesson',
+        entityId: lesson.id,
+        message: `Lesson (order ${lesson.order_index}) has no title.`,
+      });
     }
     if (!lesson.slug?.trim()) {
-      add({ severity: 'fatal', code: 'LESSON_NO_SLUG', entityType: 'lesson',
-        entityId: lesson.id, entityName: name,
-        message: `Lesson "${name}" has no slug.` });
+      add({
+        severity: 'fatal',
+        code: 'LESSON_NO_SLUG',
+        entityType: 'lesson',
+        entityId: lesson.id,
+        entityName: name,
+        message: `Lesson "${name}" has no slug.`,
+      });
     }
     if (!lesson.lesson_type) {
-      add({ severity: 'fatal', code: 'LESSON_NO_TYPE', entityType: 'lesson',
-        entityId: lesson.id, entityName: name,
-        message: `Lesson "${name}" has no lesson_type.` });
+      add({
+        severity: 'fatal',
+        code: 'LESSON_NO_TYPE',
+        entityType: 'lesson',
+        entityId: lesson.id,
+        entityName: name,
+        message: `Lesson "${name}" has no lesson_type.`,
+      });
     }
 
     // Objectives required for all non-certification lessons
     if (lt !== 'certification' && !lessonObjectiveSet.has(lesson.id)) {
-      add({ severity: 'blocking', code: 'LESSON_NO_OBJECTIVES', entityType: 'lesson',
-        entityId: lesson.id, entityName: name,
-        message: `Lesson "${name}" (${lt}) has no learning objectives.` });
+      add({
+        severity: 'blocking',
+        code: 'LESSON_NO_OBJECTIVES',
+        entityType: 'lesson',
+        entityId: lesson.id,
+        entityName: name,
+        message: `Lesson "${name}" (${lt}) has no learning objectives.`,
+      });
     }
 
     // Content check — reading/assignment/lab must have instructional content
     if (['reading', 'lab', 'assignment', 'capstone'].includes(lt)) {
       const text = extractInstructionalText(lesson.content_structured ?? lesson.content);
       if (text.length < 50) {
-        add({ severity: 'blocking', code: 'LESSON_EMPTY_CONTENT', entityType: 'lesson',
-          entityId: lesson.id, entityName: name,
-          message: `Lesson "${name}" (${lt}) has insufficient instructional content (< 50 chars).` });
+        add({
+          severity: 'blocking',
+          code: 'LESSON_EMPTY_CONTENT',
+          entityType: 'lesson',
+          entityId: lesson.id,
+          entityName: name,
+          message: `Lesson "${name}" (${lt}) has insufficient instructional content (< 50 chars).`,
+        });
       }
     }
 
     // Video lessons: require video_file + transcript + runtime
     if (VIDEO_LESSON_TYPES.includes(lt)) {
       if (!lesson.video_file?.trim()) {
-        add({ severity: 'fatal', code: 'VIDEO_NO_FILE', entityType: 'lesson',
-          entityId: lesson.id, entityName: name,
-          message: `Video lesson "${name}" has no video_file.` });
+        add({
+          severity: 'fatal',
+          code: 'VIDEO_NO_FILE',
+          entityType: 'lesson',
+          entityId: lesson.id,
+          entityName: name,
+          message: `Video lesson "${name}" has no video_file.`,
+        });
       }
       if (!lesson.video_transcript?.trim()) {
-        add({ severity: 'blocking', code: 'VIDEO_NO_TRANSCRIPT', entityType: 'lesson',
-          entityId: lesson.id, entityName: name,
-          message: `Video lesson "${name}" has no transcript.` });
+        add({
+          severity: 'blocking',
+          code: 'VIDEO_NO_TRANSCRIPT',
+          entityType: 'lesson',
+          entityId: lesson.id,
+          entityName: name,
+          message: `Video lesson "${name}" has no transcript.`,
+        });
       }
       if (!lesson.video_runtime_seconds || lesson.video_runtime_seconds === 0) {
-        add({ severity: 'blocking', code: 'VIDEO_NO_RUNTIME', entityType: 'lesson',
-          entityId: lesson.id, entityName: name,
-          message: `Video lesson "${name}" has runtime_seconds = 0.` });
+        add({
+          severity: 'blocking',
+          code: 'VIDEO_NO_RUNTIME',
+          entityType: 'lesson',
+          entityId: lesson.id,
+          entityName: name,
+          message: `Video lesson "${name}" has runtime_seconds = 0.`,
+        });
       }
     }
 
@@ -272,51 +409,86 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
     if (ASSESSMENT_LESSON_TYPES.includes(lt)) {
       const questions = lesson.quiz_questions;
       if (!questions || !Array.isArray(questions) || questions.length === 0) {
-        add({ severity: 'fatal', code: 'ASSESSMENT_NO_QUESTIONS', entityType: 'lesson',
-          entityId: lesson.id, entityName: name,
-          message: `Assessment lesson "${name}" (${lt}) has no quiz_questions.` });
+        add({
+          severity: 'fatal',
+          code: 'ASSESSMENT_NO_QUESTIONS',
+          entityType: 'lesson',
+          entityId: lesson.id,
+          entityName: name,
+          message: `Assessment lesson "${name}" (${lt}) has no quiz_questions.`,
+        });
       }
       if (!lesson.passing_score || lesson.passing_score <= 0) {
-        add({ severity: 'blocking', code: 'ASSESSMENT_NO_PASSING_SCORE', entityType: 'lesson',
-          entityId: lesson.id, entityName: name,
-          message: `Assessment lesson "${name}" (${lt}) has no passing_score.` });
+        add({
+          severity: 'blocking',
+          code: 'ASSESSMENT_NO_PASSING_SCORE',
+          entityType: 'lesson',
+          entityId: lesson.id,
+          entityName: name,
+          message: `Assessment lesson "${name}" (${lt}) has no passing_score.`,
+        });
       }
     }
 
     // Evidence-required lesson types: must have requires_evidence = true + practical_requirements row
     if (EVIDENCE_LESSON_TYPES.includes(lt)) {
       if (!lesson.requires_evidence) {
-        add({ severity: 'blocking', code: 'PRACTICAL_NO_EVIDENCE_FLAG', entityType: 'lesson',
-          entityId: lesson.id, entityName: name,
-          message: `Practical lesson "${name}" (${lt}) has requires_evidence = false. Configure evidence before publishing.` });
+        add({
+          severity: 'blocking',
+          code: 'PRACTICAL_NO_EVIDENCE_FLAG',
+          entityType: 'lesson',
+          entityId: lesson.id,
+          entityName: name,
+          message: `Practical lesson "${name}" (${lt}) has requires_evidence = false. Configure evidence before publishing.`,
+        });
       }
 
       const pr = practicalMap.get(lesson.id) ?? null;
       if (!pr) {
-        add({ severity: 'blocking', code: 'PRACTICAL_NO_REQUIREMENTS_ROW', entityType: 'lesson',
-          entityId: lesson.id, entityName: name,
-          message: `Practical lesson "${name}" (${lt}) has no practical_requirements row.` });
+        add({
+          severity: 'blocking',
+          code: 'PRACTICAL_NO_REQUIREMENTS_ROW',
+          entityType: 'lesson',
+          entityId: lesson.id,
+          entityName: name,
+          message: `Practical lesson "${name}" (${lt}) has no practical_requirements row.`,
+        });
       } else {
         if (!pr.instructions?.trim()) {
-          add({ severity: 'blocking', code: 'PRACTICAL_NO_INSTRUCTIONS', entityType: 'lesson',
-            entityId: lesson.id, entityName: name,
-            message: `Practical lesson "${name}" (${lt}) has no instructions in practical_requirements.` });
+          add({
+            severity: 'blocking',
+            code: 'PRACTICAL_NO_INSTRUCTIONS',
+            entityType: 'lesson',
+            entityId: lesson.id,
+            entityName: name,
+            message: `Practical lesson "${name}" (${lt}) has no instructions in practical_requirements.`,
+          });
         }
         if (pr.requires_evaluator_approval) {
           const rubric = Array.isArray(pr.rubric_json) ? pr.rubric_json : [];
           if (rubric.length === 0) {
-            add({ severity: 'blocking', code: 'PRACTICAL_NO_RUBRIC', entityType: 'lesson',
-              entityId: lesson.id, entityName: name,
-              message: `Practical lesson "${name}" requires evaluator approval but has no rubric criteria.` });
+            add({
+              severity: 'blocking',
+              code: 'PRACTICAL_NO_RUBRIC',
+              entityType: 'lesson',
+              entityId: lesson.id,
+              entityName: name,
+              message: `Practical lesson "${name}" requires evaluator approval but has no rubric criteria.`,
+            });
           }
         }
       }
 
       // Competency mapping required for evaluated lessons
       if (!lessonCompetencySet.has(lesson.id)) {
-        add({ severity: 'blocking', code: 'PRACTICAL_NO_COMPETENCY_MAP', entityType: 'lesson',
-          entityId: lesson.id, entityName: name,
-          message: `Practical lesson "${name}" (${lt}) has no competency mappings.` });
+        add({
+          severity: 'blocking',
+          code: 'PRACTICAL_NO_COMPETENCY_MAP',
+          entityType: 'lesson',
+          entityId: lesson.id,
+          entityName: name,
+          message: `Practical lesson "${name}" (${lt}) has no competency mappings.`,
+        });
       }
     }
   }
@@ -329,18 +501,30 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
     .maybeSingle();
 
   if (meta?.requires_final_exam) {
-    const hasFinalExam = lessons.some(l => l.lesson_type === 'final_exam');
+    const hasFinalExam = lessons.some((l) => l.lesson_type === 'final_exam');
     if (!hasFinalExam) {
-      add({ severity: 'blocking', code: 'MISSING_FINAL_EXAM', entityType: 'course',
-        entityId: courseId, message: 'Course accreditation metadata requires a final_exam lesson, but none exists.' });
+      add({
+        severity: 'blocking',
+        code: 'MISSING_FINAL_EXAM',
+        entityType: 'course',
+        entityId: courseId,
+        message: 'Course accreditation metadata requires a final_exam lesson, but none exists.',
+      });
     }
   }
 
   if (meta?.requires_practical) {
-    const hasPractical = lessons.some(l => EVIDENCE_LESSON_TYPES.includes(l.lesson_type as LessonType));
+    const hasPractical = lessons.some((l) =>
+      EVIDENCE_LESSON_TYPES.includes(l.lesson_type as LessonType),
+    );
     if (!hasPractical) {
-      add({ severity: 'blocking', code: 'MISSING_PRACTICAL', entityType: 'course',
-        entityId: courseId, message: 'Course accreditation metadata requires a practical lesson, but none exists.' });
+      add({
+        severity: 'blocking',
+        code: 'MISSING_PRACTICAL',
+        entityType: 'course',
+        entityId: courseId,
+        message: 'Course accreditation metadata requires a practical lesson, but none exists.',
+      });
     }
   }
 
@@ -348,7 +532,7 @@ export async function auditCourseForPublish(courseId: string): Promise<CoursePub
 }
 
 function finalize(courseId: string, issues: AuditIssue[]): CoursePublishAudit {
-  const publishable = !issues.some(i => i.severity === 'fatal' || i.severity === 'blocking');
+  const publishable = !issues.some((i) => i.severity === 'fatal' || i.severity === 'blocking');
   return { courseId, publishable, issues, auditedAt: new Date().toISOString() };
 }
 
@@ -358,17 +542,17 @@ function finalize(courseId: string, issues: AuditIssue[]): CoursePublishAudit {
  */
 export async function runAndPersistAudit(
   courseId: string,
-  auditorUserId?: string
+  auditorUserId?: string,
 ): Promise<CoursePublishAudit> {
   const audit = await auditCourseForPublish(courseId);
 
   try {
     const db = createAdminClient();
     await db.from('course_publish_audits').insert({
-      course_id:   courseId,
+      course_id: courseId,
       publishable: audit.publishable,
       issues_json: audit.issues,
-      audited_by:  auditorUserId ?? null,
+      audited_by: auditorUserId ?? null,
     });
   } catch (err) {
     logger.error('[course-publish-auditor] Failed to persist audit result', err);

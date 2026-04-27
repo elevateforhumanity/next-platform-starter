@@ -1,5 +1,7 @@
 # CNA PROGRAM — FULL LESSON CONTENT
+
 ## Modules 4–6
+
 ### Elevate for Humanity LLC
 
 ---
@@ -27,6 +29,7 @@ The right to self-determination — residents have the right to make their own d
 The right to be free from abuse, neglect, and exploitation. This is the right CNAs are most directly responsible for protecting and most directly at risk of violating.
 
 **Types of Abuse:**
+
 - Physical abuse: hitting, slapping, pinching, rough handling, improper use of restraints
 - Verbal/emotional abuse: yelling, threatening, humiliating, ignoring, name-calling
 - Sexual abuse: any non-consensual sexual contact or exposure
@@ -165,6 +168,7 @@ Sequence: Face (no soap unless patient prefers), neck, ears, far arm, near arm, 
 **Skin Assessment During Bathing:** Every bath is a skin assessment. Inspect all bony prominences: heels, sacrum, coccyx, hips, elbows, shoulder blades, back of head. Look for redness that does not blanch (does not turn white when pressed) — this is a Stage 1 pressure injury and must be reported immediately. Also report any open areas, blisters, bruising, rashes, or skin tears.
 
 **Pressure Injury Staging:**
+
 - Stage 1: Non-blanchable redness of intact skin
 - Stage 2: Partial thickness skin loss — shallow open ulcer or blister
 - Stage 3: Full thickness skin loss — subcutaneous tissue visible

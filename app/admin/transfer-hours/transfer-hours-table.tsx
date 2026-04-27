@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -29,32 +29,23 @@ interface TransferHour {
   };
 }
 
-export function TransferHoursTable({
-  transferHours,
-}: {
-  transferHours: TransferHour[];
-}) {
+export function TransferHoursTable({ transferHours }: { transferHours: TransferHour[] }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState<
-    'all' | 'pending' | 'approved' | 'denied'
-  >('all');
-  const [selectedRequest, setSelectedRequest] = useState<TransferHour | null>(
-    null
+  const [filterStatus, setFilterStatus] = useState<'all' | 'pending' | 'approved' | 'denied'>(
+    'all',
   );
+  const [selectedRequest, setSelectedRequest] = useState<TransferHour | null>(null);
   const [approvalHours, setApprovalHours] = useState('');
   const [approvalNotes, setApprovalNotes] = useState('');
   const [loading, setLoading] = useState(false);
 
   const filteredRequests = transferHours.filter((request) => {
-    const studentName =
-      request.enrollment?.student?.full_name?.toLowerCase() || '';
+    const studentName = request.enrollment?.student?.full_name?.toLowerCase() || '';
     const programName = request.enrollment?.program?.name?.toLowerCase() || '';
     const searchLower = searchTerm.toLowerCase();
 
-    const matchesSearch =
-      studentName.includes(searchLower) || programName.includes(searchLower);
-    const matchesFilter =
-      filterStatus === 'all' || request.status === filterStatus;
+    const matchesSearch = studentName.includes(searchLower) || programName.includes(searchLower);
+    const matchesFilter = filterStatus === 'all' || request.status === filterStatus;
 
     return matchesSearch && matchesFilter;
   });
@@ -80,13 +71,14 @@ export function TransferHoursTable({
       await approveTransferHours(
         selectedRequest.id,
         parseFloat(approvalHours) || selectedRequest.hours_requested,
-        approvalNotes
+        approvalNotes,
       );
       setSelectedRequest(null);
       setApprovalHours('');
       setApprovalNotes('');
       window.location.reload();
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       alert('Failed to approve request');
     } finally {
       setLoading(false);
@@ -102,7 +94,8 @@ export function TransferHoursTable({
       setSelectedRequest(null);
       setApprovalNotes('');
       window.location.reload();
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       alert('Failed to deny request');
     } finally {
       setLoading(false);
@@ -120,18 +113,14 @@ export function TransferHoursTable({
               placeholder="Search by student or program..."
               value={searchTerm}
               onChange={(
-                e: React.ChangeEvent<
-                  HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-                >
+                e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
               ) => setSearchTerm(e.target.value)}
               className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
             />
             <select
               value={filterStatus}
               onChange={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                setFilterStatus(
-                  e.target.value as 'all' | 'pending' | 'approved' | 'denied'
-                )
+                setFilterStatus(e.target.value as 'all' | 'pending' | 'approved' | 'denied')
               }
               className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
             >
@@ -177,10 +166,7 @@ export function TransferHoursTable({
             <tbody className="bg-white divide-y divide-gray-200">
               {filteredRequests.length === 0 ? (
                 <tr>
-                  <td
-                    colSpan={8}
-                    className="px-6 py-12 text-center text-black"
-                  >
+                  <td colSpan={8} className="px-6 py-12 text-center text-black">
                     No transfer hour requests found
                   </td>
                 </tr>
@@ -207,9 +193,7 @@ export function TransferHoursTable({
                       {request.hours_requested}h
                     </td>
                     <td className="px-6 py-4 text-sm text-black">
-                      {request.hours_approved
-                        ? `${request.hours_approved}h`
-                        : '-'}
+                      {request.hours_approved ? `${request.hours_approved}h` : '-'}
                     </td>
                     <td className="px-6 py-4">
                       <span
@@ -219,7 +203,9 @@ export function TransferHoursTable({
                       </span>
                     </td>
                     <td className="px-6 py-4 text-sm text-black">
-                      {new Date(request.created_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
+                      {new Date(request.created_at).toLocaleDateString('en-US', {
+                        timeZone: 'UTC',
+                      })}
                     </td>
                     <td className="px-6 py-4 text-right text-sm font-medium">
                       <button
@@ -239,8 +225,7 @@ export function TransferHoursTable({
         {/* Pagination info */}
         <div className="px-6 py-4 border-t bg-gray-50">
           <p className="text-sm text-black">
-            Showing{' '}
-            <span className="font-medium">{filteredRequests.length}</span> of{' '}
+            Showing <span className="font-medium">{filteredRequests.length}</span> of{' '}
             <span className="font-medium">{transferHours.length}</span> requests
           </p>
         </div>
@@ -251,57 +236,44 @@ export function TransferHoursTable({
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
           <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto">
             <div className="p-6 border-b">
-              <h2 className="text-2xl font-bold text-black">
-                Review Transfer Hours Request
-              </h2>
+              <h2 className="text-2xl font-bold text-black">Review Transfer Hours Request</h2>
             </div>
 
             <div className="p-6 space-y-4">
               {/* Student Info */}
               <div>
-                <h3 className="font-semibold text-black mb-2">
-                  Student Information
-                </h3>
-                <p className="text-black">
-                  {selectedRequest.enrollment?.student?.full_name}
-                </p>
-                <p className="text-sm text-black">
-                  {selectedRequest.enrollment?.student?.email}
-                </p>
+                <h3 className="font-semibold text-black mb-2">Student Information</h3>
+                <p className="text-black">{selectedRequest.enrollment?.student?.full_name}</p>
+                <p className="text-sm text-black">{selectedRequest.enrollment?.student?.email}</p>
               </div>
 
               {/* Program Info */}
               <div>
                 <h3 className="font-semibold text-black mb-2">Program</h3>
                 <p className="text-black">
-                  {selectedRequest.enrollment?.program?.title || selectedRequest.enrollment?.program?.name}
+                  {selectedRequest.enrollment?.program?.title ||
+                    selectedRequest.enrollment?.program?.name}
                 </p>
               </div>
 
               {/* Request Details */}
               <div className="grid grid-cols-2 gap-4">
                 <div>
-                  <h3 className="font-semibold text-black mb-1">
-                    Hours Requested
-                  </h3>
+                  <h3 className="font-semibold text-black mb-1">Hours Requested</h3>
                   <p className="text-2xl font-bold text-brand-blue-600">
                     {selectedRequest.hours_requested}h
                   </p>
                 </div>
                 <div>
                   <h3 className="font-semibold text-black mb-1">Category</h3>
-                  <p className="text-black">
-                    {selectedRequest.category || 'General'}
-                  </p>
+                  <p className="text-black">{selectedRequest.category || 'General'}</p>
                 </div>
               </div>
 
               {/* Evidence */}
               {selectedRequest.evidence_description && (
                 <div>
-                  <h3 className="font-semibold text-black mb-2">
-                    Evidence Description
-                  </h3>
+                  <h3 className="font-semibold text-black mb-2">Evidence Description</h3>
                   <p className="text-black whitespace-pre-wrap">
                     {selectedRequest.evidence_description}
                   </p>
@@ -310,9 +282,7 @@ export function TransferHoursTable({
 
               {selectedRequest.evidence_file_url && (
                 <div>
-                  <h3 className="font-semibold text-black mb-2">
-                    Evidence File
-                  </h3>
+                  <h3 className="font-semibold text-black mb-2">Evidence File</h3>
                   <a
                     href={selectedRequest.evidence_file_url}
                     target="_blank"
@@ -337,13 +307,13 @@ export function TransferHoursTable({
                       max={selectedRequest.hours_requested}
                       step="0.5"
                       value={approvalHours}
-                      onChange={(e: React.ChangeEvent<HTMLInputElement>) => setApprovalHours(e.target.value)}
+                      onChange={(e: React.ChangeEvent<HTMLInputElement>) =>
+                        setApprovalHours(e.target.value)
+                      }
                       placeholder={`Max: ${selectedRequest.hours_requested}`}
                       className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                     />
-                    <p className="text-sm text-black mt-1">
-                      Leave empty to approve full amount
-                    </p>
+                    <p className="text-sm text-black mt-1">Leave empty to approve full amount</p>
                   </div>
 
                   <div>
@@ -354,10 +324,8 @@ export function TransferHoursTable({
                       value={approvalNotes}
                       onChange={(
                         e: React.ChangeEvent<
-                          | HTMLInputElement
-                          | HTMLSelectElement
-                          | HTMLTextAreaElement
-                        >
+                          HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                        >,
                       ) => setApprovalNotes(e.target.value)}
                       rows={3}
                       className="w-full px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
@@ -370,9 +338,7 @@ export function TransferHoursTable({
               {/* Existing Review */}
               {selectedRequest.status !== 'pending' && (
                 <div className="pt-4 border-t">
-                  <h3 className="font-semibold text-black mb-2">
-                    Review Decision
-                  </h3>
+                  <h3 className="font-semibold text-black mb-2">Review Decision</h3>
                   <p className="text-black">
                     <span className="font-medium">Status:</span>{' '}
                     <span
@@ -389,14 +355,15 @@ export function TransferHoursTable({
                   )}
                   {selectedRequest.notes && (
                     <p className="text-black mt-2">
-                      <span className="font-medium">Notes:</span>{' '}
-                      {selectedRequest.notes}
+                      <span className="font-medium">Notes:</span> {selectedRequest.notes}
                     </p>
                   )}
                   {selectedRequest.reviewed_at && (
                     <p className="text-sm text-black mt-2">
                       Reviewed on{' '}
-                      {new Date(selectedRequest.reviewed_at).toLocaleString('en-US', { timeZone: 'UTC' })}
+                      {new Date(selectedRequest.reviewed_at).toLocaleString('en-US', {
+                        timeZone: 'UTC',
+                      })}
                     </p>
                   )}
                 </div>

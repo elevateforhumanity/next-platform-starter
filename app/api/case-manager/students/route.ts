@@ -32,7 +32,7 @@ async function _GET(request: Request) {
     if (!profile || profile.role !== 'case_manager') {
       return NextResponse.json(
         { error: 'Forbidden - requires case_manager role' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -47,17 +47,14 @@ async function _GET(request: Request) {
         email,
         phone,
         created_at
-      `
+      `,
       )
       .eq('case_manager_id', user.id)
       .eq('role', 'student');
 
     if (error) {
       // Error: $1
-      return NextResponse.json(
-        { error: 'Failed to load students' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to load students' }, { status: 500 });
     }
 
     // Get enrollment and hours data for each student
@@ -75,12 +72,14 @@ async function _GET(request: Request) {
           .select('hours_claimed, accepted_hours, status')
           .eq('user_id', student.user_id);
 
-        const totalHours =
-          hours?.reduce((sum, h) => sum + (Number(h.hours_claimed) || 0), 0) || 0;
+        const totalHours = hours?.reduce((sum, h) => sum + (Number(h.hours_claimed) || 0), 0) || 0;
         const approvedHours =
           hours
             ?.filter((h) => h.status === 'approved')
-            .reduce((sum, h) => sum + (Number(h.accepted_hours) || Number(h.hours_claimed) || 0), 0) || 0;
+            .reduce(
+              (sum, h) => sum + (Number(h.accepted_hours) || Number(h.hours_claimed) || 0),
+              0,
+            ) || 0;
 
         // Get exam readiness
         const { data: readiness } = await supabase
@@ -99,7 +98,7 @@ async function _GET(request: Request) {
           },
           exam_readiness: readiness,
         };
-      })
+      }),
     );
 
     return NextResponse.json({ students: studentsWithData });
@@ -107,7 +106,7 @@ async function _GET(request: Request) {
     // Error: $1
     return NextResponse.json(
       { err: toErrorMessage(err) || 'Failed to load students' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

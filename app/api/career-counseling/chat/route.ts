@@ -1,7 +1,7 @@
 import { logger } from '@/lib/logger';
 /**
  * AI Career Counseling Chat API
- * 
+ *
  * Provides personalized career guidance based on user's skills, goals, and interests.
  */
 
@@ -51,7 +51,9 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     // Get or create conversation
     let convId = conversationId;
@@ -106,7 +108,8 @@ export async function POST(req: NextRequest) {
       max_tokens: 500,
     });
 
-    const assistantMessage = completion.choices[0]?.message?.content || 
+    const assistantMessage =
+      completion.choices[0]?.message?.content ||
       "I'd love to help you explore career options. Could you tell me more about your interests and current skills?";
 
     // Generate suggestions based on response
@@ -126,13 +129,17 @@ export async function POST(req: NextRequest) {
       suggestions,
       conversationId: convId,
     });
-
   } catch (error) {
     logger.error('Career counseling error:', error);
     return NextResponse.json({
       success: true,
-      message: "I'm here to help with your career planning. What skills or interests would you like to explore?",
-      suggestions: ['Explore healthcare careers', 'Learn about skilled trades', 'Technology career paths'],
+      message:
+        "I'm here to help with your career planning. What skills or interests would you like to explore?",
+      suggestions: [
+        'Explore healthcare careers',
+        'Learn about skilled trades',
+        'Technology career paths',
+      ],
       conversationId: null,
     });
   }
@@ -140,9 +147,9 @@ export async function POST(req: NextRequest) {
 
 function generateSuggestions(response: string, profile: any): string[] {
   const suggestions: string[] = [];
-  
+
   const responseLower = response.toLowerCase();
-  
+
   if (responseLower.includes('healthcare') || responseLower.includes('medical')) {
     suggestions.push('Tell me about CNA training');
     suggestions.push('Medical Assistant requirements');
@@ -151,7 +158,11 @@ function generateSuggestions(response: string, profile: any): string[] {
     suggestions.push('IT Support certification');
     suggestions.push('Cybersecurity career path');
   }
-  if (responseLower.includes('trade') || responseLower.includes('hvac') || responseLower.includes('electrical')) {
+  if (
+    responseLower.includes('trade') ||
+    responseLower.includes('hvac') ||
+    responseLower.includes('electrical')
+  ) {
     suggestions.push('HVAC technician training');
     suggestions.push('Electrical apprenticeship');
   }
@@ -159,13 +170,13 @@ function generateSuggestions(response: string, profile: any): string[] {
     suggestions.push('Compare salaries by field');
     suggestions.push('Highest paying entry-level jobs');
   }
-  
+
   if (suggestions.length === 0) {
     suggestions.push('What careers match my skills?');
     suggestions.push('Show me training programs');
     suggestions.push('Help me create a career plan');
   }
-  
+
   return suggestions.slice(0, 4);
 }
 

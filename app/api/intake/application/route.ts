@@ -1,6 +1,5 @@
 // PUBLIC ROUTE: public intake application form
 
-
 // =====================================================
 // INTAKE STAGE 3: APPLICATION
 // Full application submission after eligibility confirmed
@@ -32,7 +31,16 @@ const ApplicationSchema = z.object({
     phone: z.string().min(10),
   }),
   education: z.object({
-    highestLevel: z.enum(['none', 'some_high_school', 'high_school', 'some_college', 'associates', 'bachelors', 'masters', 'doctorate']),
+    highestLevel: z.enum([
+      'none',
+      'some_high_school',
+      'high_school',
+      'some_college',
+      'associates',
+      'bachelors',
+      'masters',
+      'doctorate',
+    ]),
     schoolName: z.string().optional(),
     graduationYear: z.number().optional(),
   }),
@@ -41,11 +49,15 @@ const ApplicationSchema = z.object({
     position: z.string().optional(),
     yearsExperience: z.number().optional(),
   }),
-  documents: z.array(z.object({
-    type: z.enum(['id', 'ssn', 'diploma', 'transcript', 'resume', 'other']),
-    url: z.string().url(),
-    name: z.string(),
-  })).optional(),
+  documents: z
+    .array(
+      z.object({
+        type: z.enum(['id', 'ssn', 'diploma', 'transcript', 'resume', 'other']),
+        url: z.string().url(),
+        name: z.string(),
+      }),
+    )
+    .optional(),
   additionalInfo: z.string().optional(),
 });
 
@@ -60,7 +72,7 @@ async function _POST(req: NextRequest) {
     if (!parsed.success) {
       return NextResponse.json(
         { error: 'Invalid request', details: parsed.error.issues },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -75,17 +87,11 @@ async function _POST(req: NextRequest) {
       .maybeSingle();
 
     if (leadError || !lead) {
-      return NextResponse.json(
-        { error: 'Lead not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Lead not found' }, { status: 404 });
     }
 
     if (lead.stage !== 'ELIGIBLE') {
-      return NextResponse.json(
-        { error: 'Must complete eligibility check first' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Must complete eligibility check first' }, { status: 400 });
     }
 
     // Verify program exists and is active
@@ -96,10 +102,7 @@ async function _POST(req: NextRequest) {
       .maybeSingle();
 
     if (programError || !program || program.status !== 'ACTIVE') {
-      return NextResponse.json(
-        { error: 'Program not available' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Program not available' }, { status: 400 });
     }
 
     // Update lead with application data
@@ -123,32 +126,33 @@ async function _POST(req: NextRequest) {
 
     if (updateError) {
       logger.error('Failed to submit application', { error: updateError, leadId: data.leadId });
-      return NextResponse.json(
-        { error: 'Failed to submit application' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to submit application' }, { status: 500 });
     }
 
     // Also insert into applications table so admin dashboard sees intake applicants
     const intakeEmail = (lead.email || '').toLowerCase().trim();
-    await supabase.from('applications').insert({
-      first_name: lead.first_name || '',
-      last_name: lead.last_name || '',
-      email: lead.email || '',
-      phone: lead.phone || '',
-      normalized_email: intakeEmail,
-      normalized_phone: (lead.phone || '').replace(/\D/g, ''),
-      city: 'Not provided',
-      zip: '00000',
-      state: 'IN',
-      program_interest: program.title,
-      program_id: program.id,
-      status: 'submitted',
-      source: 'intake-funnel',
-      support_notes: `Lead ID: ${data.leadId} | ${data.additionalInfo || ''}`.trim(),
-    }).then(({ error: appErr }) => {
-      if (appErr) logger.error('Intake: failed to mirror to applications table', { error: appErr });
-    });
+    await supabase
+      .from('applications')
+      .insert({
+        first_name: lead.first_name || '',
+        last_name: lead.last_name || '',
+        email: lead.email || '',
+        phone: lead.phone || '',
+        normalized_email: intakeEmail,
+        normalized_phone: (lead.phone || '').replace(/\D/g, ''),
+        city: 'Not provided',
+        zip: '00000',
+        state: 'IN',
+        program_interest: program.title,
+        program_id: program.id,
+        status: 'submitted',
+        source: 'intake-funnel',
+        support_notes: `Lead ID: ${data.leadId} | ${data.additionalInfo || ''}`.trim(),
+      })
+      .then(({ error: appErr }) => {
+        if (appErr)
+          logger.error('Intake: failed to mirror to applications table', { error: appErr });
+      });
 
     // Log event
     await supabase.from('audit_logs').insert({
@@ -171,15 +175,13 @@ async function _POST(req: NextRequest) {
       status: 'submitted',
       nextStep: 'advisor-review',
       expectedResponse: '3-5 business days',
-      message: 'Your application has been submitted successfully! An advisor will review it and contact you within 3-5 business days.',
+      message:
+        'Your application has been submitted successfully! An advisor will review it and contact you within 3-5 business days.',
       applicationId: data.leadId,
     });
   } catch (error) {
     logger.error('Application submission error', { error });
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/intake/application', _POST);

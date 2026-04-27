@@ -56,14 +56,97 @@ const patches = [
 </ul>
 <p>This apprenticeship model is recognized by the DOL as equivalent to traditional barber school. Your certificate of completion carries the same legal weight as a school diploma for licensing purposes.</p>`,
     quiz_questions: [
-      { id: 'l1q1', question: 'What does the red stripe on the barber pole historically represent?', options: ['Red dye used in hair coloring', 'Blood from surgical procedures', 'The color of the barber\'s uniform', 'A warning to approaching customers'], correctAnswer: 1, explanation: 'The red stripe represents blood from the bloodletting procedures barbers performed during the Middle Ages.' },
-      { id: 'l1q2', question: 'In what year did the British Parliament formally separate barbers from surgeons?', options: ['1492', '1620', '1745', '1893'], correctAnswer: 2, explanation: 'The British Parliament separated the two professions in 1745, though barbers retained their iconic pole.' },
-      { id: 'l1q3', question: 'What was the social role of the Black barbershop in American history?', options: ['Primarily a luxury service for wealthy clients', 'A space for political organizing, mentorship, and cultural identity', 'A training ground exclusively for cosmetologists', 'A government-regulated health facility'], correctAnswer: 1, explanation: 'The Black barbershop became a cornerstone community institution, especially after Reconstruction.' },
-      { id: 'l1q4', question: 'How many OJT hours are required to complete an Indiana barber apprenticeship?', options: ['500', '1,000', '1,500', '2,000'], correctAnswer: 3, explanation: 'Indiana requires a minimum of 2,000 on-the-job training hours under a licensed sponsor barber.' },
-      { id: 'l1q5', question: 'Which of the following is NOT a recognized career pathway for a licensed barber?', options: ['Booth rental operator', 'Platform artist', 'Registered nurse', 'Film and TV barber'], correctAnswer: 2, explanation: 'Registered nursing requires a separate medical degree and license — it is not a barbering career pathway.' },
-      { id: 'l1q6', question: 'What does RTI stand for in the context of a DOL apprenticeship?', options: ['Registered Trade Instruction', 'Related Technical Instruction', 'Required Training Index', 'Regulated Trade Integration'], correctAnswer: 1, explanation: 'RTI stands for Related Technical Instruction — the classroom/coursework component of an apprenticeship.' },
-      { id: 'l1q7', question: 'The first barber school in the United States opened in which city?', options: ['New York', 'Atlanta', 'Chicago', 'Philadelphia'], correctAnswer: 2, explanation: 'The first American barber school opened in Chicago in 1893.' },
-      { id: 'l1q8', question: 'What is the primary legal difference between a barber apprenticeship certificate and a barber school diploma for Indiana licensing purposes?', options: ['The school diploma is worth more hours', 'The apprenticeship requires more written exams', 'They carry equivalent legal weight for licensing', 'The apprenticeship does not qualify for the state board exam'], correctAnswer: 2, explanation: 'A DOL-registered apprenticeship certificate carries the same legal weight as a school diploma for Indiana licensing purposes.' },
+      {
+        id: 'l1q1',
+        question: 'What does the red stripe on the barber pole historically represent?',
+        options: [
+          'Red dye used in hair coloring',
+          'Blood from surgical procedures',
+          "The color of the barber's uniform",
+          'A warning to approaching customers',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'The red stripe represents blood from the bloodletting procedures barbers performed during the Middle Ages.',
+      },
+      {
+        id: 'l1q2',
+        question:
+          'In what year did the British Parliament formally separate barbers from surgeons?',
+        options: ['1492', '1620', '1745', '1893'],
+        correctAnswer: 2,
+        explanation:
+          'The British Parliament separated the two professions in 1745, though barbers retained their iconic pole.',
+      },
+      {
+        id: 'l1q3',
+        question: 'What was the social role of the Black barbershop in American history?',
+        options: [
+          'Primarily a luxury service for wealthy clients',
+          'A space for political organizing, mentorship, and cultural identity',
+          'A training ground exclusively for cosmetologists',
+          'A government-regulated health facility',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'The Black barbershop became a cornerstone community institution, especially after Reconstruction.',
+      },
+      {
+        id: 'l1q4',
+        question: 'How many OJT hours are required to complete an Indiana barber apprenticeship?',
+        options: ['500', '1,000', '1,500', '2,000'],
+        correctAnswer: 3,
+        explanation:
+          'Indiana requires a minimum of 2,000 on-the-job training hours under a licensed sponsor barber.',
+      },
+      {
+        id: 'l1q5',
+        question:
+          'Which of the following is NOT a recognized career pathway for a licensed barber?',
+        options: [
+          'Booth rental operator',
+          'Platform artist',
+          'Registered nurse',
+          'Film and TV barber',
+        ],
+        correctAnswer: 2,
+        explanation:
+          'Registered nursing requires a separate medical degree and license — it is not a barbering career pathway.',
+      },
+      {
+        id: 'l1q6',
+        question: 'What does RTI stand for in the context of a DOL apprenticeship?',
+        options: [
+          'Registered Trade Instruction',
+          'Related Technical Instruction',
+          'Required Training Index',
+          'Regulated Trade Integration',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'RTI stands for Related Technical Instruction — the classroom/coursework component of an apprenticeship.',
+      },
+      {
+        id: 'l1q7',
+        question: 'The first barber school in the United States opened in which city?',
+        options: ['New York', 'Atlanta', 'Chicago', 'Philadelphia'],
+        correctAnswer: 2,
+        explanation: 'The first American barber school opened in Chicago in 1893.',
+      },
+      {
+        id: 'l1q8',
+        question:
+          'What is the primary legal difference between a barber apprenticeship certificate and a barber school diploma for Indiana licensing purposes?',
+        options: [
+          'The school diploma is worth more hours',
+          'The apprenticeship requires more written exams',
+          'They carry equivalent legal weight for licensing',
+          'The apprenticeship does not qualify for the state board exam',
+        ],
+        correctAnswer: 2,
+        explanation:
+          'A DOL-registered apprenticeship certificate carries the same legal weight as a school diploma for Indiana licensing purposes.',
+      },
     ],
   },
   {
@@ -125,14 +208,114 @@ const patches = [
   <li>Handling client complaints calmly and professionally, escalating to the shop owner when necessary</li>
 </ul>`,
     quiz_questions: [
-      { id: 'l2q1', question: 'Which Indiana agency has authority over barber licensing and discipline?', options: ['Indiana Department of Health', 'Indiana Professional Licensing Agency', 'Indiana Department of Labor', 'Indiana Secretary of State'], correctAnswer: 1, explanation: 'The Indiana Professional Licensing Agency (IPLA) administers the State Board of Cosmetology and Barber Licensing.' },
-      { id: 'l2q2', question: 'A barber in Indiana is legally authorized to perform which of the following?', options: ['Nail extensions', 'Straight razor shaves', 'Full-body waxing', 'Medical scalp treatments'], correctAnswer: 1, explanation: 'Straight razor shaves are within the Indiana barber scope of practice. Nail and waxing services require cosmetology licensure.' },
-      { id: 'l2q3', question: 'A client tells you in confidence that they are going through a divorce. The next client asks about them. What is the ethical response?', options: ['Share the information since it is not health-related', 'Decline to discuss other clients\' personal information', 'Tell the next client only general details', 'Ask the first client if it is okay to share'], correctAnswer: 1, explanation: 'Client confidentiality applies to all personal information shared in the chair, not just health information.' },
-      { id: 'l2q4', question: 'Which of the following is grounds for license revocation in Indiana?', options: ['Charging higher prices than competitors', 'Allowing an unlicensed person to practice barbering', 'Refusing to perform a service you are not trained in', 'Closing the shop early on a slow day'], correctAnswer: 1, explanation: 'Allowing an unlicensed person to practice is a serious violation that can result in license revocation.' },
-      { id: 'l2q5', question: 'A client presents with a suspicious scalp lesion you have not seen before. What should you do?', options: ['Apply a medicated treatment from the supply room', 'Proceed with the service and monitor it', 'Refer the client to a dermatologist or physician', 'Ask other barbers in the shop for their diagnosis'], correctAnswer: 2, explanation: 'Diagnosing or treating medical conditions is outside a barber\'s scope of practice. Refer to the appropriate medical professional.' },
-      { id: 'l2q6', question: 'Before performing a chemical relaxer service, what is the barber\'s ethical obligation?', options: ['Obtain informed consent by explaining the process, risks, and expected results', 'Simply proceed if the client has had the service before', 'Check the client\'s credit before starting', 'Require a written waiver for all chemical services'], correctAnswer: 0, explanation: 'Informed consent requires explaining the process, risks, and expected results before any chemical service.' },
-      { id: 'l2q7', question: 'Non-discrimination in barbering means:', options: ['Charging all clients the same price regardless of service', 'Serving all clients regardless of race, religion, gender, or disability', 'Treating all hair types with the same products', 'Applying the same technique to every client'], correctAnswer: 1, explanation: 'Barbers must serve all clients regardless of protected characteristics. Refusal based on these characteristics violates ethics and federal law.' },
-      { id: 'l2q8', question: 'Your sponsor barber is legally responsible for your work as an apprentice because:', options: ['You are not yet old enough to hold a license', 'You are operating under their license during the apprenticeship', 'The DOL requires all apprentices to have a co-signer', 'Indiana law requires two licensed barbers per shop'], correctAnswer: 1, explanation: 'As an apprentice, you operate under your sponsor\'s license. The sponsor is legally responsible for your work.' },
+      {
+        id: 'l2q1',
+        question: 'Which Indiana agency has authority over barber licensing and discipline?',
+        options: [
+          'Indiana Department of Health',
+          'Indiana Professional Licensing Agency',
+          'Indiana Department of Labor',
+          'Indiana Secretary of State',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'The Indiana Professional Licensing Agency (IPLA) administers the State Board of Cosmetology and Barber Licensing.',
+      },
+      {
+        id: 'l2q2',
+        question: 'A barber in Indiana is legally authorized to perform which of the following?',
+        options: [
+          'Nail extensions',
+          'Straight razor shaves',
+          'Full-body waxing',
+          'Medical scalp treatments',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'Straight razor shaves are within the Indiana barber scope of practice. Nail and waxing services require cosmetology licensure.',
+      },
+      {
+        id: 'l2q3',
+        question:
+          'A client tells you in confidence that they are going through a divorce. The next client asks about them. What is the ethical response?',
+        options: [
+          'Share the information since it is not health-related',
+          "Decline to discuss other clients' personal information",
+          'Tell the next client only general details',
+          'Ask the first client if it is okay to share',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'Client confidentiality applies to all personal information shared in the chair, not just health information.',
+      },
+      {
+        id: 'l2q4',
+        question: 'Which of the following is grounds for license revocation in Indiana?',
+        options: [
+          'Charging higher prices than competitors',
+          'Allowing an unlicensed person to practice barbering',
+          'Refusing to perform a service you are not trained in',
+          'Closing the shop early on a slow day',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'Allowing an unlicensed person to practice is a serious violation that can result in license revocation.',
+      },
+      {
+        id: 'l2q5',
+        question:
+          'A client presents with a suspicious scalp lesion you have not seen before. What should you do?',
+        options: [
+          'Apply a medicated treatment from the supply room',
+          'Proceed with the service and monitor it',
+          'Refer the client to a dermatologist or physician',
+          'Ask other barbers in the shop for their diagnosis',
+        ],
+        correctAnswer: 2,
+        explanation:
+          "Diagnosing or treating medical conditions is outside a barber's scope of practice. Refer to the appropriate medical professional.",
+      },
+      {
+        id: 'l2q6',
+        question:
+          "Before performing a chemical relaxer service, what is the barber's ethical obligation?",
+        options: [
+          'Obtain informed consent by explaining the process, risks, and expected results',
+          'Simply proceed if the client has had the service before',
+          "Check the client's credit before starting",
+          'Require a written waiver for all chemical services',
+        ],
+        correctAnswer: 0,
+        explanation:
+          'Informed consent requires explaining the process, risks, and expected results before any chemical service.',
+      },
+      {
+        id: 'l2q7',
+        question: 'Non-discrimination in barbering means:',
+        options: [
+          'Charging all clients the same price regardless of service',
+          'Serving all clients regardless of race, religion, gender, or disability',
+          'Treating all hair types with the same products',
+          'Applying the same technique to every client',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'Barbers must serve all clients regardless of protected characteristics. Refusal based on these characteristics violates ethics and federal law.',
+      },
+      {
+        id: 'l2q8',
+        question:
+          'Your sponsor barber is legally responsible for your work as an apprentice because:',
+        options: [
+          'You are not yet old enough to hold a license',
+          'You are operating under their license during the apprenticeship',
+          'The DOL requires all apprentices to have a co-signer',
+          'Indiana law requires two licensed barbers per shop',
+        ],
+        correctAnswer: 1,
+        explanation:
+          "As an apprentice, you operate under your sponsor's license. The sponsor is legally responsible for your work.",
+      },
     ],
   },
   {
@@ -196,14 +379,107 @@ const patches = [
   <li>Document the incident in the shop's exposure log.</li>
 </ol>`,
     quiz_questions: [
-      { id: 'l3q1', question: 'Which pathogen type is responsible for tinea capitis (ringworm of the scalp)?', options: ['Bacteria', 'Virus', 'Fungus', 'Parasite'], correctAnswer: 2, explanation: 'Tinea capitis is a fungal infection. It presents as circular, scaly patches and can spread through contaminated tools.' },
-      { id: 'l3q2', question: 'What must happen BEFORE disinfecting a tool?', options: ['Sterilizing it in an autoclave', 'Cleaning it to remove organic matter', 'Soaking it in alcohol for 5 minutes', 'Rinsing it in hot water only'], correctAnswer: 1, explanation: 'Organic matter neutralizes disinfectants. Tools must be cleaned before disinfection is effective.' },
-      { id: 'l3q3', question: 'HIV and hepatitis B are classified as:', options: ['Bacterial infections', 'Fungal infections', 'Bloodborne viruses', 'Airborne parasites'], correctAnswer: 2, explanation: 'HIV and hepatitis B are bloodborne viruses transmitted through blood-to-blood contact.' },
-      { id: 'l3q4', question: 'Under OSHA\'s Universal Precautions standard, how should a barber treat all blood?', options: ['As safe unless the client discloses a condition', 'As potentially infectious regardless of the client\'s apparent health', 'As a concern only for clients over 60', 'As requiring sterilization only if visible'], correctAnswer: 1, explanation: 'Universal precautions require treating all blood and body fluids as potentially infectious.' },
-      { id: 'l3q5', question: 'Where must used razor blades be disposed of?', options: ['Regular trash can', 'Recycling bin', 'Puncture-resistant sharps container', 'Barbicide solution'], correctAnswer: 2, explanation: 'OSHA requires sharps disposal in a puncture-resistant container to prevent needlestick injuries.' },
-      { id: 'l3q6', question: 'What is the difference between disinfecting and sterilizing?', options: ['They are the same process with different names', 'Disinfecting kills most pathogens; sterilizing destroys all microbial life including spores', 'Sterilizing is faster than disinfecting', 'Disinfecting requires an autoclave; sterilizing uses chemical solutions'], correctAnswer: 1, explanation: 'Disinfecting kills most pathogens. Sterilizing destroys all microbial life including spores, typically using an autoclave.' },
-      { id: 'l3q7', question: 'A client arrives with visible circular, scaly patches on their scalp. What should you do?', options: ['Proceed with the service using extra disinfectant', 'Apply a medicated shampoo and continue', 'Decline the service and refer the client to a physician', 'Use a fresh set of tools and proceed normally'], correctAnswer: 2, explanation: 'Active fungal infections are contagious. Do not perform services — refer the client to a physician for treatment.' },
-      { id: 'l3q8', question: 'After nicking a client and drawing blood, what is the FIRST action to take?', options: ['Apply a styptic pencil immediately', 'Stop the service and apply pressure with clean gauze', 'Disinfect the tool that caused the nick', 'Ask the client if they have any bloodborne conditions'], correctAnswer: 1, explanation: 'Stop the service and apply pressure first to control bleeding. Gloves, styptic, and tool disinfection follow.' },
+      {
+        id: 'l3q1',
+        question: 'Which pathogen type is responsible for tinea capitis (ringworm of the scalp)?',
+        options: ['Bacteria', 'Virus', 'Fungus', 'Parasite'],
+        correctAnswer: 2,
+        explanation:
+          'Tinea capitis is a fungal infection. It presents as circular, scaly patches and can spread through contaminated tools.',
+      },
+      {
+        id: 'l3q2',
+        question: 'What must happen BEFORE disinfecting a tool?',
+        options: [
+          'Sterilizing it in an autoclave',
+          'Cleaning it to remove organic matter',
+          'Soaking it in alcohol for 5 minutes',
+          'Rinsing it in hot water only',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'Organic matter neutralizes disinfectants. Tools must be cleaned before disinfection is effective.',
+      },
+      {
+        id: 'l3q3',
+        question: 'HIV and hepatitis B are classified as:',
+        options: [
+          'Bacterial infections',
+          'Fungal infections',
+          'Bloodborne viruses',
+          'Airborne parasites',
+        ],
+        correctAnswer: 2,
+        explanation:
+          'HIV and hepatitis B are bloodborne viruses transmitted through blood-to-blood contact.',
+      },
+      {
+        id: 'l3q4',
+        question:
+          "Under OSHA's Universal Precautions standard, how should a barber treat all blood?",
+        options: [
+          'As safe unless the client discloses a condition',
+          "As potentially infectious regardless of the client's apparent health",
+          'As a concern only for clients over 60',
+          'As requiring sterilization only if visible',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'Universal precautions require treating all blood and body fluids as potentially infectious.',
+      },
+      {
+        id: 'l3q5',
+        question: 'Where must used razor blades be disposed of?',
+        options: [
+          'Regular trash can',
+          'Recycling bin',
+          'Puncture-resistant sharps container',
+          'Barbicide solution',
+        ],
+        correctAnswer: 2,
+        explanation:
+          'OSHA requires sharps disposal in a puncture-resistant container to prevent needlestick injuries.',
+      },
+      {
+        id: 'l3q6',
+        question: 'What is the difference between disinfecting and sterilizing?',
+        options: [
+          'They are the same process with different names',
+          'Disinfecting kills most pathogens; sterilizing destroys all microbial life including spores',
+          'Sterilizing is faster than disinfecting',
+          'Disinfecting requires an autoclave; sterilizing uses chemical solutions',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'Disinfecting kills most pathogens. Sterilizing destroys all microbial life including spores, typically using an autoclave.',
+      },
+      {
+        id: 'l3q7',
+        question:
+          'A client arrives with visible circular, scaly patches on their scalp. What should you do?',
+        options: [
+          'Proceed with the service using extra disinfectant',
+          'Apply a medicated shampoo and continue',
+          'Decline the service and refer the client to a physician',
+          'Use a fresh set of tools and proceed normally',
+        ],
+        correctAnswer: 2,
+        explanation:
+          'Active fungal infections are contagious. Do not perform services — refer the client to a physician for treatment.',
+      },
+      {
+        id: 'l3q8',
+        question: 'After nicking a client and drawing blood, what is the FIRST action to take?',
+        options: [
+          'Apply a styptic pencil immediately',
+          'Stop the service and apply pressure with clean gauze',
+          'Disinfect the tool that caused the nick',
+          'Ask the client if they have any bloodborne conditions',
+        ],
+        correctAnswer: 1,
+        explanation:
+          'Stop the service and apply pressure first to control bleeding. Gloves, styptic, and tool disinfection follow.',
+      },
     ],
   },
 ];
@@ -213,11 +489,11 @@ async function main() {
     const { error } = await db
       .from('course_lessons')
       .update({
-        title:               patch.title,
+        title: patch.title,
         learning_objectives: patch.learning_objectives,
-        content:             patch.content,
-        quiz_questions:      patch.quiz_questions,
-        updated_at:          new Date().toISOString(),
+        content: patch.content,
+        quiz_questions: patch.quiz_questions,
+        updated_at: new Date().toISOString(),
       })
       .eq('course_id', COURSE_ID)
       .eq('slug', patch.slug);
@@ -225,9 +501,14 @@ async function main() {
     if (error) {
       console.error(`❌ ${patch.slug}:`, error.message);
     } else {
-      console.log(`✅ ${patch.slug} — ${patch.learning_objectives.length} objectives, ${patch.quiz_questions.length} questions`);
+      console.log(
+        `✅ ${patch.slug} — ${patch.learning_objectives.length} objectives, ${patch.quiz_questions.length} questions`,
+      );
     }
   }
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

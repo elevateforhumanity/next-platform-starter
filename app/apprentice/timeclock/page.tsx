@@ -3,11 +3,11 @@
 import { useState, useEffect, useCallback, useRef } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { 
-  Clock, 
-  MapPin, 
-  AlertTriangle, 
-  Coffee, 
+import {
+  Clock,
+  MapPin,
+  AlertTriangle,
+  Coffee,
   LogOut,
   Loader2,
   ArrowLeft,
@@ -67,15 +67,15 @@ interface GeofenceState {
 export default function TimeclockPage() {
   const router = useRouter();
   const heartbeatRef = useRef<NodeJS.Timeout | null>(null);
-  
+
   // Context from API (replaces placeholder IDs)
   const [context, setContext] = useState<TimeclockContext | null>(null);
   const [contextLoading, setContextLoading] = useState(true);
   const [contextError, setContextError] = useState<string | null>(null);
-  
+
   // Selected site (from allowedSites)
   const [selectedSiteId, setSelectedSiteId] = useState<string | null>(null);
-  
+
   const [shift, setShift] = useState<ShiftState>({
     entryId: null,
     clockInAt: null,
@@ -83,7 +83,7 @@ export default function TimeclockPage() {
     lunchEndAt: null,
     clockOutAt: null,
   });
-  
+
   const [location, setLocation] = useState<LocationState>({
     lat: null,
     lng: null,
@@ -91,26 +91,28 @@ export default function TimeclockPage() {
     error: null,
     loading: false,
   });
-  
+
   const [geofence, setGeofence] = useState<GeofenceState>({
     withinGeofence: null,
     distance: null,
     lastCheck: null,
   });
-  
+
   const [actionLoading, setActionLoading] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
   // Recent shift history
-  const [recentShifts, setRecentShifts] = useState<{
-    id: string;
-    work_date: string;
-    clock_in_at: string | null;
-    clock_out_at: string | null;
-    hours_worked: number | null;
-    status: string | null;
-    auto_clocked_out: boolean | null;
-  }[]>([]);
+  const [recentShifts, setRecentShifts] = useState<
+    {
+      id: string;
+      work_date: string;
+      clock_in_at: string | null;
+      clock_out_at: string | null;
+      hours_worked: number | null;
+      status: string | null;
+      auto_clocked_out: boolean | null;
+    }[]
+  >([]);
   const [historyLoading, setHistoryLoading] = useState(false);
 
   // Fetch timeclock context on mount
@@ -119,10 +121,12 @@ export default function TimeclockPage() {
       try {
         const response = await fetch('/api/timeclock/context');
         const data = await response.json();
-        
+
         if (!response.ok) {
           if (data.code === 'NO_APPRENTICESHIP') {
-            setContextError('You do not have an active apprenticeship. Please contact your program coordinator.');
+            setContextError(
+              'You do not have an active apprenticeship. Please contact your program coordinator.',
+            );
           } else if (response.status === 401) {
             router.push('/login?redirect=/apprentice/timeclock');
             return;
@@ -131,10 +135,10 @@ export default function TimeclockPage() {
           }
           return;
         }
-        
+
         setContext(data);
         setSelectedSiteId(data.defaultSiteId);
-        
+
         // If there's an active shift, restore it
         if (data.activeShift) {
           setShift({
@@ -151,7 +155,7 @@ export default function TimeclockPage() {
         setContextLoading(false);
       }
     }
-    
+
     fetchContext();
   }, [router]);
 
@@ -180,9 +184,9 @@ export default function TimeclockPage() {
         reject(new Error('Geolocation not supported'));
         return;
       }
-      
-      setLocation(prev => ({ ...prev, loading: true, error: null }));
-      
+
+      setLocation((prev) => ({ ...prev, loading: true, error: null }));
+
       navigator.geolocation.getCurrentPosition(
         (position) => {
           setLocation({
@@ -195,19 +199,20 @@ export default function TimeclockPage() {
           resolve(position);
         },
         (err) => {
-          const errorMsg = err.code === 1 
-            ? 'Location permission denied. Please enable location access.'
-            : err.code === 2 
-            ? 'Location unavailable. Please try again.'
-            : 'Location request timed out.';
-          setLocation(prev => ({ ...prev, error: errorMsg, loading: false }));
+          const errorMsg =
+            err.code === 1
+              ? 'Location permission denied. Please enable location access.'
+              : err.code === 2
+                ? 'Location unavailable. Please try again.'
+                : 'Location request timed out.';
+          setLocation((prev) => ({ ...prev, error: errorMsg, loading: false }));
           reject(new Error(errorMsg));
         },
         {
           enableHighAccuracy: true,
           timeout: LOCATION_TIMEOUT_MS,
           maximumAge: 0,
-        }
+        },
       );
     });
   }, []);
@@ -215,10 +220,10 @@ export default function TimeclockPage() {
   // Send heartbeat
   const sendHeartbeat = useCallback(async () => {
     if (!shift.entryId) return;
-    
+
     try {
       const position = await getLocation();
-      
+
       const response = await fetch('/api/timeclock/heartbeat', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -229,9 +234,9 @@ export default function TimeclockPage() {
           accuracy_m: position.coords.accuracy,
         }),
       });
-      
+
       const data = await response.json();
-      
+
       if (response.ok) {
         setGeofence({
           withinGeofence: data.within_geofence,
@@ -249,10 +254,10 @@ export default function TimeclockPage() {
     if (heartbeatRef.current) {
       clearInterval(heartbeatRef.current);
     }
-    
+
     // Send immediately
     sendHeartbeat();
-    
+
     // Then poll every 2 minutes
     heartbeatRef.current = setInterval(sendHeartbeat, HEARTBEAT_INTERVAL_MS);
   }, [sendHeartbeat]);
@@ -277,7 +282,7 @@ export default function TimeclockPage() {
         sendHeartbeat();
       }
     };
-    
+
     document.addEventListener('visibilitychange', handleVisibilityChange);
     return () => document.removeEventListener('visibilitychange', handleVisibilityChange);
   }, [shift.entryId, shift.clockOutAt, sendHeartbeat]);
@@ -285,26 +290,28 @@ export default function TimeclockPage() {
   // Timeclock action handler
   const handleAction = async (action: 'clock_in' | 'lunch_start' | 'lunch_end' | 'clock_out') => {
     if (!context) return;
-    
+
     setActionLoading(action);
     setError(null);
-    
+
     try {
       const position = await getLocation();
-      
+
       if (position.coords.accuracy > MAX_ACCURACY_M) {
-        setError(`GPS accuracy too low (${Math.round(position.coords.accuracy)}m). Please wait for better signal.`);
+        setError(
+          `GPS accuracy too low (${Math.round(position.coords.accuracy)}m). Please wait for better signal.`,
+        );
         setActionLoading(null);
         return;
       }
-      
+
       // Require site selection for clock-in
       if (action === 'clock_in' && !selectedSiteId) {
         setError('Please select a work site before clocking in.');
         setActionLoading(null);
         return;
       }
-      
+
       const response = await fetch('/api/timeclock/action', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -320,15 +327,15 @@ export default function TimeclockPage() {
           accuracy_m: position.coords.accuracy,
         }),
       });
-      
+
       const data = await response.json();
-      
+
       if (!response.ok) {
         setError(data.error || 'Action failed');
         setActionLoading(null);
         return;
       }
-      
+
       // Update shift state based on action
       switch (action) {
         case 'clock_in':
@@ -341,17 +348,17 @@ export default function TimeclockPage() {
           });
           startHeartbeat();
           break;
-          
+
         case 'lunch_start':
-          setShift(prev => ({ ...prev, lunchStartAt: data.lunch_start_at }));
+          setShift((prev) => ({ ...prev, lunchStartAt: data.lunch_start_at }));
           break;
-          
+
         case 'lunch_end':
-          setShift(prev => ({ ...prev, lunchEndAt: data.lunch_end_at }));
+          setShift((prev) => ({ ...prev, lunchEndAt: data.lunch_end_at }));
           break;
-          
+
         case 'clock_out':
-          setShift(prev => ({ ...prev, clockOutAt: data.clock_out_at }));
+          setShift((prev) => ({ ...prev, clockOutAt: data.clock_out_at }));
           stopHeartbeat();
           break;
       }
@@ -382,8 +389,8 @@ export default function TimeclockPage() {
     return (
       <div className="min-h-screen bg-white py-8">
         <div className="max-w-md mx-auto px-4">
-          <Link 
-            href="/apprentice" 
+          <Link
+            href="/apprentice"
             className="inline-flex items-center text-slate-700 hover:text-slate-900 mb-6"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -393,7 +400,9 @@ export default function TimeclockPage() {
             <div className="text-center">
               <AlertTriangle className="w-12 h-12 text-brand-red-500 mx-auto mb-4" />
               <h2 className="text-xl font-bold text-slate-900 mb-2">Cannot Access Timeclock</h2>
-              <p className="text-slate-700 mb-4">{contextError || 'Unable to load timeclock context'}</p>
+              <p className="text-slate-700 mb-4">
+                {contextError || 'Unable to load timeclock context'}
+              </p>
               <button
                 onClick={() => window.location.reload()}
                 className="inline-flex items-center px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700"
@@ -413,18 +422,30 @@ export default function TimeclockPage() {
       <div className="max-w-md mx-auto px-4">
         {/* Nav strip */}
         <div className="flex items-center justify-between mb-6">
-          <Link href="/apprentice" className="inline-flex items-center text-slate-700 hover:text-slate-900">
+          <Link
+            href="/apprentice"
+            className="inline-flex items-center text-slate-700 hover:text-slate-900"
+          >
             <ArrowLeft className="w-4 h-4 mr-2" />
             Dashboard
           </Link>
           <div className="flex items-center gap-2 text-xs">
-            <Link href="/apprentice/timeclock/history" className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-900 rounded-lg transition">
+            <Link
+              href="/apprentice/timeclock/history"
+              className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-900 rounded-lg transition"
+            >
               Shift Log
             </Link>
-            <Link href="/apprentice/hours" className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-900 rounded-lg transition">
+            <Link
+              href="/apprentice/hours"
+              className="px-3 py-1.5 bg-gray-100 hover:bg-gray-200 text-slate-900 rounded-lg transition"
+            >
               Hours
             </Link>
-            <Link href="/apprentice/competencies/log" className="px-3 py-1.5 bg-brand-blue-50 hover:bg-brand-blue-100 text-brand-blue-700 rounded-lg font-medium transition">
+            <Link
+              href="/apprentice/competencies/log"
+              className="px-3 py-1.5 bg-brand-blue-50 hover:bg-brand-blue-100 text-brand-blue-700 rounded-lg font-medium transition"
+            >
               + Competency
             </Link>
           </div>
@@ -436,17 +457,21 @@ export default function TimeclockPage() {
             Timeclock
           </h1>
           <p className="text-sm text-slate-700 mb-6">{context.programName}</p>
-          
+
           {/* Hours Progress */}
           <div className="mb-6 p-3 bg-brand-blue-50 rounded-lg">
             <div className="flex justify-between text-sm mb-1">
               <span className="text-brand-blue-700 font-medium">Hours Progress</span>
-              <span className="text-brand-blue-700">{context.hoursCompleted} / {context.hoursRequired}</span>
+              <span className="text-brand-blue-700">
+                {context.hoursCompleted} / {context.hoursRequired}
+              </span>
             </div>
             <div className="w-full bg-brand-blue-200 rounded-full h-2">
-              <div 
+              <div
                 className="bg-white h-2 rounded-full transition-all"
-                style={{ width: `${Math.min(100, (context.hoursCompleted / context.hoursRequired) * 100)}%` }}
+                style={{
+                  width: `${Math.min(100, (context.hoursCompleted / context.hoursRequired) * 100)}%`,
+                }}
               />
             </div>
           </div>
@@ -454,9 +479,7 @@ export default function TimeclockPage() {
           {/* Site Selection (only show if not clocked in and has multiple sites) */}
           {!isClockedIn && context.allowedSites.length > 0 && (
             <div className="mb-6">
-              <label className="block text-sm font-medium text-slate-900 mb-2">
-                Work Site
-              </label>
+              <label className="block text-sm font-medium text-slate-900 mb-2">Work Site</label>
               {context.allowedSites.length === 1 ? (
                 <div className="p-3 bg-white rounded-lg text-sm text-slate-900">
                   {context.allowedSites[0].name}
@@ -469,13 +492,15 @@ export default function TimeclockPage() {
                 >
                   <option value="">Select a site...</option>
                   {context.allowedSites.map((site) => (
-                    <option key={site.id} value={site.id}>{site.name}</option>
+                    <option key={site.id} value={site.id}>
+                      {site.name}
+                    </option>
                   ))}
                 </select>
               )}
             </div>
           )}
-          
+
           {/* No site assigned warning */}
           {!isClockedIn && context.allowedSites.length === 0 && (
             <div className="mb-6 p-4 bg-yellow-50 rounded-lg">
@@ -492,41 +517,52 @@ export default function TimeclockPage() {
           <div className="mb-6 p-4 bg-white rounded-lg">
             <div className="flex items-center justify-between">
               <div className="flex items-center">
-                <MapPin className={`w-5 h-5 mr-2 ${location.error ? 'text-brand-red-500' : 'text-brand-green-500'}`} />
+                <MapPin
+                  className={`w-5 h-5 mr-2 ${location.error ? 'text-brand-red-500' : 'text-brand-green-500'}`}
+                />
                 <span className="text-sm font-medium">
-                  {location.loading ? 'Getting location...' : 
-                   location.error ? 'Location error' :
-                   location.lat ? `${location.lat.toFixed(4)}, ${location.lng?.toFixed(4)}` :
-                   'Location not available'}
+                  {location.loading
+                    ? 'Getting location...'
+                    : location.error
+                      ? 'Location error'
+                      : location.lat
+                        ? `${location.lat.toFixed(4)}, ${location.lng?.toFixed(4)}`
+                        : 'Location not available'}
                 </span>
               </div>
               {location.accuracy && (
-                <span className={`text-xs px-2 py-1 rounded ${
-                  location.accuracy <= MAX_ACCURACY_M ? 'bg-brand-green-100 text-brand-green-700' : 'bg-yellow-100 text-yellow-700'
-                }`}>
+                <span
+                  className={`text-xs px-2 py-1 rounded ${
+                    location.accuracy <= MAX_ACCURACY_M
+                      ? 'bg-brand-green-100 text-brand-green-700'
+                      : 'bg-yellow-100 text-yellow-700'
+                  }`}
+                >
                   ±{Math.round(location.accuracy)}m
                 </span>
               )}
             </div>
-            {location.error && (
-              <p className="text-sm text-brand-red-600 mt-2">{location.error}</p>
-            )}
+            {location.error && <p className="text-sm text-brand-red-600 mt-2">{location.error}</p>}
           </div>
 
           {/* Geofence Status */}
           {geofence.withinGeofence !== null && (
-            <div className={`mb-6 p-4 rounded-lg ${
-              geofence.withinGeofence ? 'bg-brand-green-50' : 'bg-brand-red-50'
-            }`}>
+            <div
+              className={`mb-6 p-4 rounded-lg ${
+                geofence.withinGeofence ? 'bg-brand-green-50' : 'bg-brand-red-50'
+              }`}
+            >
               <div className="flex items-center">
                 {geofence.withinGeofence ? (
                   <span className="text-slate-500 flex-shrink-0">•</span>
                 ) : (
                   <AlertTriangle className="w-5 h-5 mr-2 text-brand-red-600" />
                 )}
-                <span className={`text-sm font-medium ${
-                  geofence.withinGeofence ? 'text-brand-green-700' : 'text-brand-red-700'
-                }`}>
+                <span
+                  className={`text-sm font-medium ${
+                    geofence.withinGeofence ? 'text-brand-green-700' : 'text-brand-red-700'
+                  }`}
+                >
                   {geofence.withinGeofence ? 'Within work site' : 'Outside work site'}
                   {geofence.distance && ` (${Math.round(geofence.distance)}m away)`}
                 </span>
@@ -552,7 +588,8 @@ export default function TimeclockPage() {
               </p>
               {shift.lunchStartAt && (
                 <p className="text-sm text-brand-blue-700 mt-1">
-                  <strong>Lunch started:</strong> {new Date(shift.lunchStartAt).toLocaleTimeString()}
+                  <strong>Lunch started:</strong>{' '}
+                  {new Date(shift.lunchStartAt).toLocaleTimeString()}
                 </p>
               )}
               {shift.lunchEndAt && (
@@ -594,7 +631,7 @@ export default function TimeclockPage() {
                     Start Lunch
                   </button>
                 )}
-                
+
                 {isOnLunch && (
                   <button
                     onClick={() => handleAction('lunch_end')}
@@ -609,7 +646,7 @@ export default function TimeclockPage() {
                     End Lunch
                   </button>
                 )}
-                
+
                 <button
                   onClick={() => handleAction('clock_out')}
                   disabled={actionLoading !== null || isOnLunch}
@@ -654,7 +691,10 @@ export default function TimeclockPage() {
                   const hrs = s.hours_worked ?? 0;
                   const isToday = s.work_date === new Date().toISOString().slice(0, 10);
                   return (
-                    <div key={s.id} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg text-sm">
+                    <div
+                      key={s.id}
+                      className="flex items-center justify-between p-3 bg-gray-50 rounded-lg text-sm"
+                    >
                       <div className="flex items-center gap-2">
                         {s.auto_clocked_out ? (
                           <XCircle className="w-4 h-4 text-amber-500 flex-shrink-0" />
@@ -665,23 +705,47 @@ export default function TimeclockPage() {
                         )}
                         <div>
                           <p className="font-medium text-slate-900">
-                            {isToday ? 'Today' : new Date(s.work_date + 'T12:00:00').toLocaleDateString('en-US', { weekday: 'short', month: 'short', day: 'numeric' })}
+                            {isToday
+                              ? 'Today'
+                              : new Date(s.work_date + 'T12:00:00').toLocaleDateString('en-US', {
+                                  weekday: 'short',
+                                  month: 'short',
+                                  day: 'numeric',
+                                })}
                           </p>
                           <p className="text-xs text-slate-700">
-                            {s.clock_in_at ? new Date(s.clock_in_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : '—'}
+                            {s.clock_in_at
+                              ? new Date(s.clock_in_at).toLocaleTimeString([], {
+                                  hour: '2-digit',
+                                  minute: '2-digit',
+                                })
+                              : '—'}
                             {' → '}
-                            {s.clock_out_at ? new Date(s.clock_out_at).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : s.clock_in_at ? 'Active' : '—'}
+                            {s.clock_out_at
+                              ? new Date(s.clock_out_at).toLocaleTimeString([], {
+                                  hour: '2-digit',
+                                  minute: '2-digit',
+                                })
+                              : s.clock_in_at
+                                ? 'Active'
+                                : '—'}
                             {s.auto_clocked_out && ' (auto)'}
                           </p>
                         </div>
                       </div>
                       <div className="text-right">
                         <p className="font-semibold text-slate-900">{hrs.toFixed(1)}h</p>
-                        <p className={`text-xs capitalize ${
-                          s.status === 'approved' ? 'text-brand-green-600' :
-                          s.status === 'rejected' ? 'text-brand-red-600' :
-                          'text-slate-700'
-                        }`}>{s.status ?? 'pending'}</p>
+                        <p
+                          className={`text-xs capitalize ${
+                            s.status === 'approved'
+                              ? 'text-brand-green-600'
+                              : s.status === 'rejected'
+                                ? 'text-brand-red-600'
+                                : 'text-slate-700'
+                          }`}
+                        >
+                          {s.status ?? 'pending'}
+                        </p>
                       </div>
                     </div>
                   );

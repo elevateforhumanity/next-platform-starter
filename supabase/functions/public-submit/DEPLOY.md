@@ -89,8 +89,15 @@ curl -X POST \
 ```
 
 Expected (201):
+
 ```json
-{"ok":true,"id":"uuid","application_type":"student","created_at":"...","message":"Application received. You will be contacted within 2 business days."}
+{
+  "ok": true,
+  "id": "uuid",
+  "application_type": "student",
+  "created_at": "...",
+  "message": "Application received. You will be contacted within 2 business days."
+}
 ```
 
 ### Career application with program_id
@@ -149,6 +156,7 @@ curl -X POST \
 ### Error cases
 
 Missing required field (400):
+
 ```bash
 curl -X POST \
   'https://cuxzzpsyufcewtmicszk.supabase.co/functions/v1/public-submit' \
@@ -157,6 +165,7 @@ curl -X POST \
 ```
 
 Invalid type (400):
+
 ```bash
 curl -X POST \
   'https://cuxzzpsyufcewtmicszk.supabase.co/functions/v1/public-submit' \
@@ -165,6 +174,7 @@ curl -X POST \
 ```
 
 Honeypot (silent 200):
+
 ```bash
 curl -X POST \
   'https://cuxzzpsyufcewtmicszk.supabase.co/functions/v1/public-submit' \
@@ -175,6 +185,7 @@ curl -X POST \
 ## Step 6 — Run the processor
 
 Manual:
+
 ```bash
 curl -X POST \
   'https://cuxzzpsyufcewtmicszk.supabase.co/functions/v1/process-intake' \
@@ -182,6 +193,7 @@ curl -X POST \
 ```
 
 Schedule (pg_cron):
+
 ```sql
 SELECT cron.schedule(
   'process-intake-every-5-min',
@@ -216,14 +228,14 @@ FROM application_intake WHERE status = 'rejected' ORDER BY created_at DESC;
 
 ## Files
 
-| File | Purpose |
-|------|---------|
-| `supabase/migrations/20260216_application_intake.sql` | Intake buffer table, RLS, rate-limit function |
-| `supabase/migrations/20260216_seal_workflow_table_inserts.sql` | Locks 15 workflow tables from anon inserts |
-| `supabase/functions/public-submit/index.ts` | Public Edge Function (anonymous POST) |
-| `supabase/functions/public-submit/application-types.ts` | Per-type routing config (required/allowed fields) |
-| `supabase/functions/process-intake/index.ts` | Processor: intake → workflow tables |
-| `supabase/functions/public-submit/DEPLOY.md` | This file |
+| File                                                           | Purpose                                           |
+| -------------------------------------------------------------- | ------------------------------------------------- |
+| `supabase/migrations/20260216_application_intake.sql`          | Intake buffer table, RLS, rate-limit function     |
+| `supabase/migrations/20260216_seal_workflow_table_inserts.sql` | Locks 15 workflow tables from anon inserts        |
+| `supabase/functions/public-submit/index.ts`                    | Public Edge Function (anonymous POST)             |
+| `supabase/functions/public-submit/application-types.ts`        | Per-type routing config (required/allowed fields) |
+| `supabase/functions/process-intake/index.ts`                   | Processor: intake → workflow tables               |
+| `supabase/functions/public-submit/DEPLOY.md`                   | This file                                         |
 
 ## Supported application types (14)
 

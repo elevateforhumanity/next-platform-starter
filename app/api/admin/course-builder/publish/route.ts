@@ -33,9 +33,6 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ ok: result.success, audit, result });
   } catch (error) {
     console.error('[course-builder/publish]', error);
-    return NextResponse.json(
-      { ok: false, error: 'Failed to publish course' },
-      { status: 500 },
-    );
+    return NextResponse.json({ ok: false, error: 'Failed to publish course' }, { status: 500 });
   }
 }

@@ -1,6 +1,4 @@
-
 export const revalidate = 3600;
-
 
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
@@ -10,7 +8,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Operational Controls | Governance | Elevate for Humanity',
-  description: 'How quality, integrity, and risk controls are enforced across the platform including audits, CI gates, and deployment controls.',
+  description:
+    'How quality, integrity, and risk controls are enforced across the platform including audits, CI gates, and deployment controls.',
   robots: {
     index: true,
     follow: true,
@@ -59,7 +58,6 @@ export default async function OperationalControlsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <Breadcrumbs
         items={[
@@ -73,12 +71,10 @@ export default async function OperationalControlsPage() {
           <div className="flex items-center gap-3 mb-4">
             <Settings className="w-8 h-8 text-brand-blue-400" />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">
-            Operational Controls
-          </h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">Operational Controls</h1>
           <p className="text-slate-300 text-lg max-w-2xl">
-            This page summarizes how quality, integrity, and risk controls are enforced 
-            across the platform.
+            This page summarizes how quality, integrity, and risk controls are enforced across the
+            platform.
           </p>
           <div className="mt-6 text-sm text-slate-500">
             Last reviewed: {currentDate} • Owner: Platform Governance
@@ -149,9 +145,7 @@ export default async function OperationalControlsPage() {
             </div>
             <h2 className="text-2xl font-bold text-slate-900">Deployment Controls</h2>
           </div>
-          <p className="text-slate-700 mb-4">
-            Deploys are gated by CI checks that validate:
-          </p>
+          <p className="text-slate-700 mb-4">Deploys are gated by CI checks that validate:</p>
           <div className="bg-slate-50 rounded-xl p-6 border border-slate-200">
             <div className="grid md:grid-cols-2 gap-3">
               {deploymentChecks.map((item, index) => (
@@ -173,15 +167,21 @@ export default async function OperationalControlsPage() {
           <div className="space-y-4">
             <div>
               <p className="font-medium text-slate-900">Weekly</p>
-              <p className="text-slate-600 text-sm">Search Console coverage, index count verification, broken link checks</p>
+              <p className="text-slate-600 text-sm">
+                Search Console coverage, index count verification, broken link checks
+              </p>
             </div>
             <div>
               <p className="font-medium text-slate-900">Monthly</p>
-              <p className="text-slate-600 text-sm">Full indexed page inventory, metadata audit, canonical verification</p>
+              <p className="text-slate-600 text-sm">
+                Full indexed page inventory, metadata audit, canonical verification
+              </p>
             </div>
             <div>
               <p className="font-medium text-slate-900">Quarterly</p>
-              <p className="text-slate-600 text-sm">LMS course audit, Store product audit, compliance language review</p>
+              <p className="text-slate-600 text-sm">
+                LMS course audit, Store product audit, compliance language review
+              </p>
             </div>
           </div>
         </section>

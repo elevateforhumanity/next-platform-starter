@@ -76,27 +76,30 @@ export function ScenarioBlock({ scenario, onComplete, showContinue = true }: Pro
     setTimeout(() => feedbackRef.current?.focus(), 50);
   }, []);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent, idx: number) => {
-    const count = currentNode.choices.length;
-    if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
-      e.preventDefault();
-      const next = (idx + 1) % count;
-      setFocusedIdx(next);
-      choiceRefs.current[next]?.focus();
-    } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
-      e.preventDefault();
-      const prev = (idx - 1 + count) % count;
-      setFocusedIdx(prev);
-      choiceRefs.current[prev]?.focus();
-    } else if (e.key === 'Escape') {
-      handleReset();
-    }
-  }, [currentNode.choices.length]); // eslint-disable-line react-hooks/exhaustive-deps
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent, idx: number) => {
+      const count = currentNode.choices.length;
+      if (e.key === 'ArrowDown' || e.key === 'ArrowRight') {
+        e.preventDefault();
+        const next = (idx + 1) % count;
+        setFocusedIdx(next);
+        choiceRefs.current[next]?.focus();
+      } else if (e.key === 'ArrowUp' || e.key === 'ArrowLeft') {
+        e.preventDefault();
+        const prev = (idx - 1 + count) % count;
+        setFocusedIdx(prev);
+        choiceRefs.current[prev]?.focus();
+      } else if (e.key === 'Escape') {
+        handleReset();
+      }
+    },
+    [currentNode.choices.length],
+  ); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleContinue = useCallback(() => {
     if (!selectedChoice) return;
     if (selectedChoice.branch) {
-      setHistory(h => [...h, currentNode]);
+      setHistory((h) => [...h, currentNode]);
       setCurrentNode(selectedChoice.branch!);
       setPhase('choosing');
       setSelectedChoice(null);
@@ -149,24 +152,24 @@ export function ScenarioBlock({ scenario, onComplete, showContinue = true }: Pro
 
         {/* Choices */}
         {phase === 'choosing' && (
-          <div
-            role="radiogroup"
-            aria-labelledby={promptId}
-            className="space-y-2"
-          >
+          <div role="radiogroup" aria-labelledby={promptId} className="space-y-2">
             {currentNode.choices.map((choice, idx) => (
               <button
                 key={choice.id}
-                ref={el => { choiceRefs.current[idx] = el; }}
+                ref={(el) => {
+                  choiceRefs.current[idx] = el;
+                }}
                 role="radio"
                 aria-checked={focusedIdx === idx}
                 tabIndex={focusedIdx === idx ? 0 : -1}
                 onClick={() => handleSelect(choice, idx)}
-                onKeyDown={e => handleKeyDown(e, idx)}
+                onKeyDown={(e) => handleKeyDown(e, idx)}
                 className={`w-full text-left rounded-lg border px-4 py-3 text-sm transition-all
-                  ${focusedIdx === idx
-                    ? 'border-brand-blue-400 bg-brand-blue-50 ring-2 ring-brand-blue-200'
-                    : 'border-slate-200 bg-slate-50 hover:border-brand-blue-300 hover:bg-brand-blue-50'}
+                  ${
+                    focusedIdx === idx
+                      ? 'border-brand-blue-400 bg-brand-blue-50 ring-2 ring-brand-blue-200'
+                      : 'border-slate-200 bg-slate-50 hover:border-brand-blue-300 hover:bg-brand-blue-50'
+                  }
                   focus:outline-none focus:ring-2 focus:ring-brand-blue-400`}
               >
                 <span className="font-semibold text-brand-blue-700 mr-2">
@@ -191,21 +194,21 @@ export function ScenarioBlock({ scenario, onComplete, showContinue = true }: Pro
             aria-atomic="true"
             tabIndex={-1}
             className={`rounded-lg border p-4 mb-4 focus:outline-none
-              ${isCorrect
-                ? 'border-emerald-200 bg-emerald-50'
-                : 'border-amber-200 bg-amber-50'}`}
+              ${isCorrect ? 'border-emerald-200 bg-emerald-50' : 'border-amber-200 bg-amber-50'}`}
           >
             <div className="flex items-start gap-2 mb-2">
-              {isCorrect
-                ? <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" aria-hidden />
-                : <XCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" aria-hidden />}
-              <p className={`text-sm font-semibold ${isCorrect ? 'text-emerald-800' : 'text-amber-800'}`}>
+              {isCorrect ? (
+                <CheckCircle className="w-4 h-4 text-emerald-600 shrink-0 mt-0.5" aria-hidden />
+              ) : (
+                <XCircle className="w-4 h-4 text-amber-600 shrink-0 mt-0.5" aria-hidden />
+              )}
+              <p
+                className={`text-sm font-semibold ${isCorrect ? 'text-emerald-800' : 'text-amber-800'}`}
+              >
                 {isCorrect ? 'Good choice.' : 'Not the best option.'}
               </p>
             </div>
-            <p className="text-sm text-slate-700 leading-relaxed">
-              {selectedChoice.feedback}
-            </p>
+            <p className="text-sm text-slate-700 leading-relaxed">{selectedChoice.feedback}</p>
           </div>
         )}
 

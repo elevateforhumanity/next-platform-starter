@@ -19,7 +19,7 @@ export default function InstructorAnnouncementsPage() {
   const params = useParams();
   const router = useRouter();
   const courseId = params.courseId as string;
-  
+
   const [course, setCourse] = useState<any>(null);
   const [announcements, setAnnouncements] = useState<Announcement[]>([]);
   const [loading, setLoading] = useState(true);
@@ -35,9 +35,11 @@ export default function InstructorAnnouncementsPage() {
 
   async function loadData() {
     const supabase = createClient();
-    
+
     // Check auth
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       router.push('/login?redirect=' + encodeURIComponent(window.location.pathname));
       return;
@@ -69,7 +71,7 @@ export default function InstructorAnnouncementsPage() {
       .from('program_enrollments')
       .select('*', { count: 'exact', head: true })
       .eq('course_id', courseId);
-    
+
     setEnrolledCount(count || 0);
     setLoading(false);
   }
@@ -77,9 +79,9 @@ export default function InstructorAnnouncementsPage() {
   async function postAnnouncement(e: React.FormEvent) {
     e.preventDefault();
     if (!title.trim() || !message.trim()) return;
-    
+
     setPosting(true);
-    
+
     const res = await fetch(`/api/courses/${courseId}/announcements`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -95,18 +97,25 @@ export default function InstructorAnnouncementsPage() {
       const data = await res.json();
       alert(data.error || 'Failed to post announcement');
     }
-    
+
     setPosting(false);
   }
 
   if (loading) {
     return (
       <div className="min-h-screen bg-white flex items-center justify-center">
-
-      {/* Hero Image */}
-      <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/instructor-page-3.jpg" alt="Instructor portal" fill sizes="100vw" className="object-cover" priority />
-      </section>
+        {/* Hero Image */}
+        <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src="/images/pages/instructor-page-3.jpg"
+            alt="Instructor portal"
+            fill
+            sizes="100vw"
+            className="object-cover"
+            priority
+          />
+        </section>
         <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-brand-blue-600" />
       </div>
     );
@@ -114,13 +123,15 @@ export default function InstructorAnnouncementsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Instructor", href: "/instructor" }, { label: "Announcements" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Instructor', href: '/instructor' }, { label: 'Announcements' }]}
+        />
       </div>
-<div className="max-w-4xl mx-auto px-4 py-8">
+      <div className="max-w-4xl mx-auto px-4 py-8">
         {/* Header */}
         <div className="mb-8">
-          <Link 
+          <Link
             href={`/instructor/courses/${courseId}`}
             className="inline-flex items-center text-brand-blue-600 hover:text-brand-blue-700 mb-4"
           >
@@ -174,9 +185,7 @@ export default function InstructorAnnouncementsPage() {
             <h2 className="text-xl font-bold text-slate-900 mb-4">Post New Announcement</h2>
             <form onSubmit={postAnnouncement} className="space-y-4">
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-2">
-                  Title
-                </label>
+                <label className="block text-sm font-medium text-slate-900 mb-2">Title</label>
                 <input
                   type="text"
                   value={title}
@@ -187,9 +196,7 @@ export default function InstructorAnnouncementsPage() {
                 />
               </div>
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-2">
-                  Message
-                </label>
+                <label className="block text-sm font-medium text-slate-900 mb-2">Message</label>
                 <textarea
                   value={message}
                   onChange={(e) => setMessage(e.target.value)}
@@ -233,12 +240,14 @@ export default function InstructorAnnouncementsPage() {
                     <h3 className="text-lg font-semibold text-slate-900">{announcement.title}</h3>
                     <p className="text-slate-700 mt-2 whitespace-pre-wrap">{announcement.body}</p>
                     <p className="text-sm text-slate-500 mt-4">
-                      Posted {new Date(announcement.created_at).toLocaleDateString('en-US', { timeZone: 'UTC',
+                      Posted{' '}
+                      {new Date(announcement.created_at).toLocaleDateString('en-US', {
+                        timeZone: 'UTC',
                         year: 'numeric',
                         month: 'long',
                         day: 'numeric',
                         hour: '2-digit',
-                        minute: '2-digit'
+                        minute: '2-digit',
                       })}
                     </p>
                   </div>

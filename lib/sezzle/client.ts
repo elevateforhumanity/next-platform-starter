@@ -1,10 +1,10 @@
 import { logger } from '@/lib/logger';
 /**
  * Sezzle BNPL Integration - V2 API
- * 
+ *
  * Sezzle allows customers to split purchases into 4 interest-free payments.
  * API Documentation: https://docs.sezzle.com/
- * 
+ *
  * Flow:
  * 1. Create session with order details
  * 2. Redirect customer to checkout_url
@@ -153,9 +153,7 @@ class SezzleClient {
 
   private getBaseUrl(): string {
     if (!this.config) throw new Error('Sezzle not configured');
-    return this.config.environment === 'production' 
-      ? SEZZLE_PRODUCTION_URL 
-      : SEZZLE_SANDBOX_URL;
+    return this.config.environment === 'production' ? SEZZLE_PRODUCTION_URL : SEZZLE_SANDBOX_URL;
   }
 
   configure(config: SezzleConfig) {
@@ -217,7 +215,7 @@ class SezzleClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(request),
     });
@@ -240,7 +238,7 @@ class SezzleClient {
     const response = await fetch(`${this.getBaseUrl()}/v2/session/${sessionUuid}`, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -262,7 +260,7 @@ class SezzleClient {
     const response = await fetch(`${this.getBaseUrl()}/v2/order/${orderUuid}`, {
       method: 'GET',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -279,13 +277,17 @@ class SezzleClient {
    * POST /v2/order/{order_uuid}/capture
    * Use after customer completes checkout if intent was AUTH
    */
-  async captureOrder(orderUuid: string, amountInCents?: number, partialCapture: boolean = false): Promise<any> {
+  async captureOrder(
+    orderUuid: string,
+    amountInCents?: number,
+    partialCapture: boolean = false,
+  ): Promise<any> {
     const token = await this.authenticate();
 
     const body: any = {
       partial_capture: partialCapture,
     };
-    
+
     if (amountInCents !== undefined) {
       body.capture_amount = {
         amount_in_cents: amountInCents,
@@ -297,7 +299,7 @@ class SezzleClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify(body),
     });
@@ -321,7 +323,7 @@ class SezzleClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         amount: {
@@ -350,7 +352,7 @@ class SezzleClient {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         amount: {
@@ -379,7 +381,7 @@ class SezzleClient {
       method: 'PATCH',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
       body: JSON.stringify({
         reference_id: referenceId,
@@ -404,7 +406,7 @@ class SezzleClient {
     const response = await fetch(`${this.getBaseUrl()}/v2/order/${orderUuid}/checkout`, {
       method: 'DELETE',
       headers: {
-        'Authorization': `Bearer ${token}`,
+        Authorization: `Bearer ${token}`,
       },
     });
 
@@ -423,11 +425,13 @@ let _apiKeys: Record<string, string> = {};
 try {
   const raw = process.env.API_KEYS_JSON;
   if (raw) _apiKeys = JSON.parse(raw);
-} catch { /* invalid JSON — fall through */ }
+} catch {
+  /* invalid JSON — fall through */
+}
 
 const _sezzlePub = _apiKeys['SEZZLE_PUBLIC_KEY'] || process.env.SEZZLE_PUBLIC_KEY;
 const _sezzlePriv = _apiKeys['SEZZLE_PRIVATE_KEY'] || process.env.SEZZLE_PRIVATE_KEY;
-const _sezzleEnv = process.env.SEZZLE_ENVIRONMENT as 'sandbox' | 'production' || 'production';
+const _sezzleEnv = (process.env.SEZZLE_ENVIRONMENT as 'sandbox' | 'production') || 'production';
 
 if (_sezzlePub && _sezzlePriv) {
   sezzle.configure({ publicKey: _sezzlePub, privateKey: _sezzlePriv, environment: _sezzleEnv });

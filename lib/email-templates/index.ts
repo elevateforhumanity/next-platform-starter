@@ -72,7 +72,9 @@ export const emailTemplates = {
   // Welcome email
   welcome: (data: { name: string; loginUrl: string }) => ({
     subject: 'Welcome to Elevate for Humanity',
-    html: wrapEmail('Welcome to Elevate for Humanity', `
+    html: wrapEmail(
+      'Welcome to Elevate for Humanity',
+      `
           <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">Dear ${data.name},</p>
           <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">Your account has been created. You now have access to the Elevate for Humanity training platform.</p>
 
@@ -99,14 +101,22 @@ export const emailTemplates = {
           </div>
 
           ${signatureBlock()}
-    `),
+    `,
+    ),
     text: `Dear ${data.name},\n\nYour account has been created. You now have access to the Elevate for Humanity training platform.\n\nNext Steps:\n1. Complete your profile\n2. Browse available training programs\n3. Check your WIOA eligibility\n4. Connect with a career advisor\n\nAccess your dashboard: ${data.loginUrl}\n\n${ORG_NAME}\n${ORG_EMAIL} | ${ORG_PHONE}\n${ORG_WEBSITE}`,
   }),
 
   // Course enrollment
-  courseEnrollment: (data: { name: string; courseName: string; startDate: string; courseUrl: string }) => ({
+  courseEnrollment: (data: {
+    name: string;
+    courseName: string;
+    startDate: string;
+    courseUrl: string;
+  }) => ({
     subject: `Enrollment Confirmed — ${data.courseName}`,
-    html: wrapEmail(`Enrollment Confirmed — ${data.courseName}`, `
+    html: wrapEmail(
+      `Enrollment Confirmed — ${data.courseName}`,
+      `
           <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">Dear ${data.name},</p>
           <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">Your enrollment in <strong>${data.courseName}</strong> has been confirmed.</p>
 
@@ -127,14 +137,23 @@ export const emailTemplates = {
           <a href="${data.courseUrl}" style="${buttonStyle}">Access Course</a>
 
           ${signatureBlock()}
-    `),
+    `,
+    ),
     text: `Dear ${data.name},\n\nYour enrollment in ${data.courseName} has been confirmed.\n\nStart Date: ${data.startDate}\n\nNext Steps:\n1. Access your course materials\n2. Complete the orientation module\n3. Join your cohort study group\n4. Begin coursework\n\nAccess course: ${data.courseUrl}\n\n${ORG_NAME}\n${ORG_EMAIL} | ${ORG_PHONE}\n${ORG_WEBSITE}`,
   }),
 
   // Assignment due reminder
-  assignmentReminder: (data: { name: string; assignmentName: string; courseName: string; dueDate: string; assignmentUrl: string }) => ({
+  assignmentReminder: (data: {
+    name: string;
+    assignmentName: string;
+    courseName: string;
+    dueDate: string;
+    assignmentUrl: string;
+  }) => ({
     subject: `Assignment Reminder — ${data.assignmentName}`,
-    html: wrapEmail(`Assignment Reminder — ${data.assignmentName}`, `
+    html: wrapEmail(
+      `Assignment Reminder — ${data.assignmentName}`,
+      `
       <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">Dear ${data.name},</p>
       <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">This is a reminder about an upcoming assignment deadline.</p>
       <div style="border: 1px solid #e2e8f0; border-radius: 6px; padding: 16px; margin: 16px 0;">
@@ -144,14 +163,22 @@ export const emailTemplates = {
       </div>
       <a href="${data.assignmentUrl}" style="${buttonStyle}">View Assignment</a>
       ${signatureBlock()}
-    `),
+    `,
+    ),
     text: `Dear ${data.name},\n\nReminder: ${data.assignmentName} for ${data.courseName} is due ${data.dueDate}.\n\nView assignment: ${data.assignmentUrl}\n\n${ORG_NAME}\n${ORG_EMAIL} | ${ORG_PHONE}`,
   }),
 
   // Certificate issued
-  certificateIssued: (data: { name: string; courseName: string; certificateUrl: string; linkedInUrl: string }) => ({
+  certificateIssued: (data: {
+    name: string;
+    courseName: string;
+    certificateUrl: string;
+    linkedInUrl: string;
+  }) => ({
     subject: `Certificate Issued — ${data.courseName}`,
-    html: wrapEmail(`Certificate Issued — ${data.courseName}`, `
+    html: wrapEmail(
+      `Certificate Issued — ${data.courseName}`,
+      `
       <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">Dear ${data.name},</p>
       <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">Congratulations on completing <strong>${data.courseName}</strong>. Your certificate is now available for download.</p>
       <div style="border: 1px solid #e2e8f0; border-radius: 6px; padding: 20px; margin: 20px 0; text-align: center;">
@@ -161,14 +188,23 @@ export const emailTemplates = {
       <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">You may also share this credential on LinkedIn to demonstrate your qualifications to employers.</p>
       <a href="${data.linkedInUrl}" style="${buttonStyle} background: #0077b5;">Share on LinkedIn</a>
       ${signatureBlock()}
-    `),
+    `,
+    ),
     text: `Dear ${data.name},\n\nCongratulations on completing ${data.courseName}. Your certificate is available at: ${data.certificateUrl}\n\n${ORG_NAME}\n${ORG_EMAIL} | ${ORG_PHONE}`,
   }),
 
   // Achievement unlocked
-  achievementUnlocked: (data: { name: string; achievementName: string; achievementDescription: string; points: number; achievementsUrl: string }) => ({
+  achievementUnlocked: (data: {
+    name: string;
+    achievementName: string;
+    achievementDescription: string;
+    points: number;
+    achievementsUrl: string;
+  }) => ({
     subject: `Achievement Earned — ${data.achievementName}`,
-    html: wrapEmail(`Achievement Earned — ${data.achievementName}`, `
+    html: wrapEmail(
+      `Achievement Earned — ${data.achievementName}`,
+      `
       <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">Dear ${data.name},</p>
       <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">You have earned a new achievement in your training program.</p>
       <div style="border: 1px solid #e2e8f0; border-radius: 6px; padding: 20px; margin: 20px 0; text-align: center;">
@@ -178,14 +214,23 @@ export const emailTemplates = {
       </div>
       <a href="${data.achievementsUrl}" style="${buttonStyle}">View Achievements</a>
       ${signatureBlock()}
-    `),
+    `,
+    ),
     text: `Dear ${data.name},\n\nYou earned the ${data.achievementName} achievement (+${data.points} points).\n\nView achievements: ${data.achievementsUrl}\n\n${ORG_NAME}\n${ORG_EMAIL} | ${ORG_PHONE}`,
   }),
 
   // Job placement notification
-  jobPlacement: (data: { name: string; jobTitle: string; company: string; salary: string; startDate: string }) => ({
+  jobPlacement: (data: {
+    name: string;
+    jobTitle: string;
+    company: string;
+    salary: string;
+    startDate: string;
+  }) => ({
     subject: `Employment Placement Confirmation — ${data.jobTitle}`,
-    html: wrapEmail(`Employment Placement Confirmation`, `
+    html: wrapEmail(
+      `Employment Placement Confirmation`,
+      `
       <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">Dear ${data.name},</p>
       <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">Congratulations on your employment placement. Below are the details of your new position.</p>
       <div style="border: 1px solid #e2e8f0; border-radius: 6px; padding: 16px; margin: 16px 0;">
@@ -196,14 +241,24 @@ export const emailTemplates = {
       </div>
       <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">We encourage you to stay connected through our alumni network. Your experience can help guide future participants.</p>
       ${signatureBlock()}
-    `),
+    `,
+    ),
     text: `Dear ${data.name},\n\nCongratulations on your placement as ${data.jobTitle} at ${data.company}.\nCompensation: ${data.salary}\nStart Date: ${data.startDate}\n\n${ORG_NAME}\n${ORG_EMAIL} | ${ORG_PHONE}`,
   }),
 
   // Weekly progress report
-  weeklyProgress: (data: { name: string; coursesInProgress: number; lessonsCompleted: number; quizScore: number; studyStreak: number; dashboardUrl: string }) => ({
+  weeklyProgress: (data: {
+    name: string;
+    coursesInProgress: number;
+    lessonsCompleted: number;
+    quizScore: number;
+    studyStreak: number;
+    dashboardUrl: string;
+  }) => ({
     subject: `Weekly Progress Report`,
-    html: wrapEmail(`Weekly Progress Report`, `
+    html: wrapEmail(
+      `Weekly Progress Report`,
+      `
       <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">Dear ${data.name},</p>
       <p style="margin: 0 0 14px 0; line-height: 1.6; color: #334155; font-size: 14px;">Below is a summary of your training activity for the past week.</p>
       <table width="100%" cellpadding="0" cellspacing="8" style="margin: 16px 0;">
@@ -218,7 +273,8 @@ export const emailTemplates = {
       </table>
       <a href="${data.dashboardUrl}" style="${buttonStyle}">View Dashboard</a>
       ${signatureBlock()}
-    `),
+    `,
+    ),
     text: `Dear ${data.name},\n\nWeekly Progress:\n- Courses active: ${data.coursesInProgress}\n- Lessons completed: ${data.lessonsCompleted}\n- Avg quiz score: ${data.quizScore}%\n- Day streak: ${data.studyStreak}\n\nView dashboard: ${data.dashboardUrl}\n\n${ORG_NAME}\n${ORG_EMAIL} | ${ORG_PHONE}`,
   }),
 };

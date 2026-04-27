@@ -31,8 +31,8 @@ const BASE = 'https://api.bls.gov/publicAPI/v2';
 export interface BlsWageData {
   soc_code: string;
   median_annual_wage: number | null;
-  entry_wage: number | null;        // 10th percentile annual (derived from hourly * 2080)
-  experienced_wage: number | null;  // 75th percentile annual (derived from hourly * 2080)
+  entry_wage: number | null; // 10th percentile annual (derived from hourly * 2080)
+  experienced_wage: number | null; // 75th percentile annual (derived from hourly * 2080)
   employment_count: number | null;
   year: number;
 }
@@ -59,8 +59,8 @@ export interface BlsOccupationData {
  */
 function socToOeunSegment(socCode: string): string {
   const digits = socCode.replace(/[-.]/g, '').slice(0, 6); // e.g. '499021'
-  const padded = digits.padEnd(7, '0');                      // e.g. '4990210'
-  return '0' + padded;                                       // e.g. '04990210'
+  const padded = digits.padEnd(7, '0'); // e.g. '4990210'
+  return '0' + padded; // e.g. '04990210'
 }
 
 function oeunSeries(socCode: string, dataType: string): string {
@@ -111,17 +111,17 @@ export async function fetchBlsWages(socCode: string): Promise<BlsWageData> {
   try {
     const data = await blsPost(ids);
     const byId: Record<string, any> = {};
-    for (const s of (data?.Results?.series ?? [])) byId[s.seriesID] = s;
+    for (const s of data?.Results?.series ?? []) byId[s.seriesID] = s;
 
-    const entryHourly     = extractLatestValue(byId[ids[2]]);
+    const entryHourly = extractLatestValue(byId[ids[2]]);
     const experiencedHourly = extractLatestValue(byId[ids[3]]);
 
     return {
       soc_code: socCode,
-      employment_count:   extractLatestValue(byId[ids[0]]),
+      employment_count: extractLatestValue(byId[ids[0]]),
       median_annual_wage: extractLatestValue(byId[ids[1]]),
-      entry_wage:         entryHourly     != null ? Math.round(entryHourly * 2080)      : null,
-      experienced_wage:   experiencedHourly != null ? Math.round(experiencedHourly * 2080) : null,
+      entry_wage: entryHourly != null ? Math.round(entryHourly * 2080) : null,
+      experienced_wage: experiencedHourly != null ? Math.round(experiencedHourly * 2080) : null,
       year: 2024,
     };
   } catch {

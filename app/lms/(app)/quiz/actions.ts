@@ -6,7 +6,10 @@ import { revalidatePath } from 'next/cache';
 export async function submitQuiz(formData: FormData) {
   // Session client — RLS enforces row ownership on quiz_attempts.
   const supabase = await createClient();
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
   if (authError) throw new Error(`Auth failed: ${authError.message}`);
   if (!user) return { error: 'Not authenticated' };
 

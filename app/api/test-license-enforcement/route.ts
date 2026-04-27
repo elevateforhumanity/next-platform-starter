@@ -3,11 +3,7 @@ import { NextResponse } from 'next/server';
 
 export const runtime = 'nodejs';
 export const maxDuration = 60;
-import {
-  getLicense,
-  isFeatureEnabled,
-  checkUsageLimits,
-} from '@/lib/license-guard';
+import { getLicense, isFeatureEnabled, checkUsageLimits } from '@/lib/license-guard';
 
 /**
  * Test License Enforcement
@@ -54,20 +50,14 @@ export async function GET(request: NextRequest) {
     });
 
     // Test 4: Feature gating - White label (only enterprise)
-    const whiteLabelEnabled1 = await isFeatureEnabled(
-      'test-tenant-1',
-      'white_label'
-    );
+    const whiteLabelEnabled1 = await isFeatureEnabled('test-tenant-1', 'white_label');
     results.tests.push({
       name: 'Tenant 1 - White Label Disabled (Professional)',
       passed: whiteLabelEnabled1 === false,
       data: { enabled: whiteLabelEnabled1 },
     });
 
-    const whiteLabelEnabled2 = await isFeatureEnabled(
-      'test-tenant-2',
-      'white_label'
-    );
+    const whiteLabelEnabled2 = await isFeatureEnabled('test-tenant-2', 'white_label');
     results.tests.push({
       name: 'Tenant 2 - White Label Enabled (Enterprise)',
       passed: whiteLabelEnabled2 === true,
@@ -128,10 +118,8 @@ export async function GET(request: NextRequest) {
     results.enforcement_working = failedTests === 0;
 
     return NextResponse.json(results);
-  } catch (error) { /* Error handled silently */ 
-    return NextResponse.json(
-      { error: error.message, stack: error.stack },
-      { status: 500 }
-    );
+  } catch (error) {
+    /* Error handled silently */
+    return NextResponse.json({ error: error.message, stack: error.stack }, { status: 500 });
   }
 }

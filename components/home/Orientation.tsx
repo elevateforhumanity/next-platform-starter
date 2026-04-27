@@ -7,12 +7,12 @@ export default function Orientation() {
         </h2>
         <div className="space-y-4 md:space-y-6 text-base md:text-xl text-black leading-relaxed">
           <p>
-            If you have been unsure where to start, who to trust, or what actually 
-            leads to a job, this organization is built to make the next step clear.
+            If you have been unsure where to start, who to trust, or what actually leads to a job,
+            this organization is built to make the next step clear.
           </p>
           <p>
-            You do not need to understand the system before you begin. You just need 
-            a real pathway and a place that will not waste your time.
+            You do not need to understand the system before you begin. You just need a real pathway
+            and a place that will not waste your time.
           </p>
         </div>
       </div>

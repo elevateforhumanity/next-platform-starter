@@ -33,7 +33,7 @@ async function _POST(req: NextRequest) {
     if (!stripe) {
       return NextResponse.json(
         { error: 'Stripe is not configured on the server.' },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -41,8 +41,8 @@ async function _POST(req: NextRequest) {
     const parsed = checkoutSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Invalid request', fields: parsed.error.issues.map(i => i.path.join('.')) },
-        { status: 400 }
+        { error: 'Invalid request', fields: parsed.error.issues.map((i) => i.path.join('.')) },
+        { status: 400 },
       );
     }
     const { programId, planType, successUrl, cancelUrl, customerEmail, metadata } = parsed.data;
@@ -51,23 +51,20 @@ async function _POST(req: NextRequest) {
     if (!config) {
       return NextResponse.json(
         { error: `No billing config found for programId=${programId}` },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
     const chosenPlan = planType ?? config.defaultPlan;
 
-    const priceId =
-      chosenPlan === 'payment-plan'
-        ? config.stripePricePlan
-        : config.stripePriceFull;
+    const priceId = chosenPlan === 'payment-plan' ? config.stripePricePlan : config.stripePriceFull;
 
     if (!priceId) {
       return NextResponse.json(
         {
           error: `No Stripe price configured for ${chosenPlan} on program ${config.label}.`,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -76,9 +73,7 @@ async function _POST(req: NextRequest) {
         ? new URL(successUrl).origin
         : (req.headers.get('origin') ??
           process.env.NEXT_PUBLIC_SITE_URL ??
-          (process.env.URL
-            ? `https://${process.env.URL}`
-            : 'http://localhost:3000'));
+          (process.env.URL ? `https://${process.env.URL}` : 'http://localhost:3000'));
 
     // Build session options
     const sessionOptions: Stripe.Checkout.SessionCreateParams = {
@@ -90,11 +85,9 @@ async function _POST(req: NextRequest) {
         },
       ],
       success_url:
-        successUrl ??
-        `${origin}/enroll/thank-you?programId=${encodeURIComponent(programId)}`,
+        successUrl ?? `${origin}/enroll/thank-you?programId=${encodeURIComponent(programId)}`,
       cancel_url:
-        cancelUrl ??
-        `${origin}/enroll/${encodeURIComponent(programId)}?checkout=cancelled`,
+        cancelUrl ?? `${origin}/enroll/${encodeURIComponent(programId)}?checkout=cancelled`,
       metadata: {
         programId,
         planType: chosenPlan,
@@ -116,12 +109,9 @@ async function _POST(req: NextRequest) {
   } catch (err: any) {
     logger.error(
       '[Elevate] Error in /api/checkout:',
-      err instanceof Error ? err : new Error(String(err))
+      err instanceof Error ? err : new Error(String(err)),
     );
-    return NextResponse.json(
-      { error: 'Unable to create checkout session.' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Unable to create checkout session.' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/checkout', _POST);

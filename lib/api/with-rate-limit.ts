@@ -8,7 +8,7 @@ type RateLimiterGetter = { get: () => Ratelimit | null };
 
 /**
  * Rate limit middleware for API routes
- * 
+ *
  * Usage:
  * export const POST = withRateLimit(handler, { limiter: authRateLimit });
  */
@@ -17,15 +17,16 @@ export function withRateLimit<T = any>(
   options: {
     limiter: Ratelimit | null | RateLimiterGetter;
     skipOnMissing?: boolean; // Skip rate limiting if Redis not configured
-  }
+  },
 ) {
   return async (request: NextRequest, context?: any): Promise<NextResponse> => {
     const { skipOnMissing = true } = options;
-    
+
     // Get limiter (support both direct and getter patterns)
-    const limiter = typeof (options.limiter as any)?.get === 'function' 
-      ? (options.limiter as RateLimiterGetter).get() 
-      : options.limiter as Ratelimit | null;
+    const limiter =
+      typeof (options.limiter as any)?.get === 'function'
+        ? (options.limiter as RateLimiterGetter).get()
+        : (options.limiter as Ratelimit | null);
 
     // Skip if rate limiter not configured
     if (!limiter) {
@@ -33,10 +34,7 @@ export function withRateLimit<T = any>(
         logger.warn('⚠️ Rate limiting skipped - Redis not configured');
         return handler(request, context);
       } else {
-        return NextResponse.json(
-          { error: 'Rate limiting not configured' },
-          { status: 503 }
-        );
+        return NextResponse.json({ error: 'Rate limiting not configured' }, { status: 503 });
       }
     }
 
@@ -64,7 +62,7 @@ export function withRateLimit<T = any>(
               ...headers,
               'Retry-After': Math.ceil((result.reset - Date.now()) / 1000).toString(),
             },
-          }
+          },
         );
       }
 
@@ -79,15 +77,12 @@ export function withRateLimit<T = any>(
       return response;
     } catch (error) {
       logger.error('Rate limit error:', error);
-      
+
       // On error, allow request but log
       if (skipOnMissing) {
         return handler(request, context);
       } else {
-        return NextResponse.json(
-          { error: 'Rate limiting error' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'Rate limiting error' }, { status: 500 });
       }
     }
   };
@@ -102,21 +97,21 @@ export function withRateLimitAndAuth<T = any>(
     limiter: Ratelimit | null;
     roles?: string[];
     skipOnMissing?: boolean;
-  }
+  },
 ) {
   return withRateLimit(
     async (request: NextRequest, context: any) => {
       // Import auth check
       const { createClient } = await import('@/lib/supabase/server');
       const supabase = await createClient();
-      
-      const { data: { user }, error } = await supabase.auth.getUser();
+
+      const {
+        data: { user },
+        error,
+      } = await supabase.auth.getUser();
 
       if (error || !user) {
-        return NextResponse.json(
-          { error: 'Unauthorized' },
-          { status: 401 }
-        );
+        return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
       }
 
       // Check roles if specified
@@ -128,10 +123,7 @@ export function withRateLimitAndAuth<T = any>(
           .maybeSingle();
 
         if (!profile?.role || !options.roles.includes(profile.role)) {
-          return NextResponse.json(
-            { error: 'Forbidden' },
-            { status: 403 }
-          );
+          return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
         }
       }
 
@@ -140,6 +132,6 @@ export function withRateLimitAndAuth<T = any>(
     {
       limiter: options.limiter,
       skipOnMissing: options.skipOnMissing,
-    }
+    },
   );
 }

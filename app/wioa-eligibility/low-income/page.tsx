@@ -13,7 +13,6 @@ export const revalidate = 3600;
 export default async function LowIncomePage() {
   const supabase = await createClient();
 
-
   // Get programs
   const { data: programs } = await supabase
     .from('programs')
@@ -48,16 +47,19 @@ export default async function LowIncomePage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'WIOA Eligibility', href: '/wioa-eligibility' }, { label: 'Low Income' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'WIOA Eligibility', href: '/wioa-eligibility' },
+              { label: 'Low Income' },
+            ]}
+          />
         </div>
       </div>
 
       <section className="bg-brand-blue-700 text-white py-16">
         <div className="max-w-4xl mx-auto px-6 text-center">
           <DollarSign className="w-16 h-16 mx-auto mb-4" />
-          <h1 className="text-4xl md:text-5xl font-bold mb-4">
-            Low Income Guidelines
-          </h1>
+          <h1 className="text-4xl md:text-5xl font-bold mb-4">Low Income Guidelines</h1>
           <p className="text-xl text-white">
             Check if your household income qualifies you for free training
           </p>
@@ -65,7 +67,10 @@ export default async function LowIncomePage() {
       </section>
 
       <div className="max-w-4xl mx-auto px-6 py-12">
-        <Link href="/wioa-eligibility" className="text-brand-blue-600 hover:underline mb-6 inline-block">
+        <Link
+          href="/wioa-eligibility"
+          className="text-brand-blue-600 hover:underline mb-6 inline-block"
+        >
           ← Back to WIOA Eligibility
         </Link>
 
@@ -73,10 +78,10 @@ export default async function LowIncomePage() {
         <div className="bg-white rounded-lg shadow-lg p-8 mb-8">
           <h2 className="text-2xl font-bold mb-6">2024 Income Guidelines</h2>
           <p className="text-slate-700 mb-6">
-            You may qualify for WIOA funding if your household income is at or below 
-            these levels (based on 70% of Lower Living Standard Income Level):
+            You may qualify for WIOA funding if your household income is at or below these levels
+            (based on 70% of Lower Living Standard Income Level):
           </p>
-          
+
           <div className="overflow-x-auto">
             <table className="w-full">
               <thead>
@@ -106,7 +111,7 @@ export default async function LowIncomePage() {
               </tbody>
             </table>
           </div>
-          
+
           <p className="text-sm text-slate-700 mt-4">
             * For households larger than 6, add $5,380 per additional person.
           </p>
@@ -170,7 +175,9 @@ export default async function LowIncomePage() {
                 >
                   <h3 className="font-semibold">{program.title || program.name}</h3>
                   {program.description && (
-                    <p className="text-sm text-slate-700 mt-1 line-clamp-2">{program.description}</p>
+                    <p className="text-sm text-slate-700 mt-1 line-clamp-2">
+                      {program.description}
+                    </p>
                   )}
                 </Link>
               ))}

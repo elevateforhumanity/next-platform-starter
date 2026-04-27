@@ -1,4 +1,4 @@
-import { logger } from "@/lib/logger";
+import { logger } from '@/lib/logger';
 /**
  * Runtime secrets fetched from Supabase `app_secrets` table and merged
  * into process.env so existing code continues to work unchanged.
@@ -46,7 +46,9 @@ function getBootstrapClient(): SupabaseClient | null {
       fetch: (input, init) => {
         const controller = new AbortController();
         const timer = setTimeout(() => controller.abort(), SECRETS_FETCH_TIMEOUT_MS);
-        return fetch(input, { ...init, signal: controller.signal }).finally(() => clearTimeout(timer));
+        return fetch(input, { ...init, signal: controller.signal }).finally(() =>
+          clearTimeout(timer),
+        );
       },
     },
   });
@@ -69,10 +71,7 @@ async function loadSecrets(): Promise<Record<string, string>> {
   let error: unknown = null;
 
   try {
-    const result = await client
-      .from('app_secrets')
-      .select('key, value')
-      .eq('scope', 'runtime');
+    const result = await client.from('app_secrets').select('key, value').eq('scope', 'runtime');
     data = result.data;
     error = result.error;
   } catch (e) {
@@ -121,7 +120,7 @@ export async function getSecret(key: string): Promise<string | undefined> {
 
 /** Get multiple secrets. Falls back to process.env per key. */
 export async function getSecrets<K extends string>(
-  keys: K[]
+  keys: K[],
 ): Promise<Record<K, string | undefined>> {
   const secrets = await loadSecrets();
   const result = {} as Record<K, string | undefined>;

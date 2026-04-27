@@ -1,15 +1,35 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { ArrowRight, Mail, Phone, Calendar, CheckCircle, UserCheck, FileText, BookOpen, ExternalLink, DollarSign } from 'lucide-react';
+import {
+  ArrowRight,
+  Mail,
+  Phone,
+  Calendar,
+  CheckCircle,
+  UserCheck,
+  FileText,
+  BookOpen,
+  ExternalLink,
+  DollarSign,
+} from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ResendMagicLinkForm } from '@/components/auth/ResendMagicLinkForm';
 
 // Funding sources that require Indiana Career Connect / WorkOne referral
-const WORKFORCE_FUNDING = ['wioa', 'workone', 'workforce ready grant', 'employindy', 'impact', 'dwd', 'workforce', 'fssa'];
+const WORKFORCE_FUNDING = [
+  'wioa',
+  'workone',
+  'workforce ready grant',
+  'employindy',
+  'impact',
+  'dwd',
+  'workforce',
+  'fssa',
+];
 function needsCareerConnect(funding: string | null): boolean {
   if (!funding) return false;
   const f = funding.toLowerCase();
-  return WORKFORCE_FUNDING.some(k => f.includes(k));
+  return WORKFORCE_FUNDING.some((k) => f.includes(k));
 }
 
 export const metadata: Metadata = {
@@ -26,69 +46,119 @@ const STUDENT_STEPS = [
   {
     icon: <Mail className="w-5 h-5 text-brand-blue-600" />,
     title: 'Check your email',
-    description: 'We sent a secure sign-in link to your email address. Use it to access your account, upload documents, and track your application. Check spam if you don\'t see it within a few minutes.',
+    description:
+      "We sent a secure sign-in link to your email address. Use it to access your account, upload documents, and track your application. Check spam if you don't see it within a few minutes.",
   },
   {
     icon: <UserCheck className="w-5 h-5 text-brand-blue-600" />,
     title: 'Log in and complete your profile',
-    description: 'Once you set your password, log in to your student dashboard. You\'ll be guided through your profile, agreements, and handbook.',
+    description:
+      "Once you set your password, log in to your student dashboard. You'll be guided through your profile, agreements, and handbook.",
     link: '/login',
     linkLabel: 'Sign In',
   },
   {
     icon: <FileText className="w-5 h-5 text-brand-blue-600" />,
     title: 'Upload required documents',
-    description: 'Upload your government-issued photo ID and proof of residence. These are required before enrollment is activated.',
+    description:
+      'Upload your government-issued photo ID and proof of residence. These are required before enrollment is activated.',
   },
   {
     icon: <BookOpen className="w-5 h-5 text-brand-blue-600" />,
     title: 'Complete orientation',
-    description: 'A short orientation (about 10 minutes) covers program expectations, your responsibilities, and what we handle for you.',
+    description:
+      'A short orientation (about 10 minutes) covers program expectations, your responsibilities, and what we handle for you.',
   },
 ];
 
-const ROLE_CONFIG: Record<string, {
-  title: string;
-  message: string;
-  steps: typeof STUDENT_STEPS;
-  primaryLink: string;
-  primaryLabel: string;
-}> = {
+const ROLE_CONFIG: Record<
+  string,
+  {
+    title: string;
+    message: string;
+    steps: typeof STUDENT_STEPS;
+    primaryLink: string;
+    primaryLabel: string;
+  }
+> = {
   student: {
     title: 'Application Received',
-    message: 'Your application has been received. We sent a secure sign-in link to your email — use it to access your account and complete onboarding.',
+    message:
+      'Your application has been received. We sent a secure sign-in link to your email — use it to access your account and complete onboarding.',
     steps: STUDENT_STEPS,
     primaryLink: '/login?redirect=/onboarding/learner',
     primaryLabel: 'Sign In',
   },
   'program-holder': {
     title: 'Partnership Application Submitted',
-    message: 'Our team will review your organization details and contact you within 2 business days to discuss partnership options.',
+    message:
+      'Our team will review your organization details and contact you within 2 business days to discuss partnership options.',
     steps: [
-      { icon: <Mail className="w-5 h-5 text-brand-blue-600" />, title: 'Check your email', description: 'We sent a confirmation with your reference number.' },
-      { icon: <UserCheck className="w-5 h-5 text-brand-blue-600" />, title: 'Team review', description: 'Our partnerships team will review your submission and reach out to discuss licensing and platform access.' },
-      { icon: <Calendar className="w-5 h-5 text-brand-blue-600" />, title: 'Schedule a call', description: 'You can also schedule a meeting with our team to discuss your program goals.', link: '/booking', linkLabel: 'Book a Meeting' },
+      {
+        icon: <Mail className="w-5 h-5 text-brand-blue-600" />,
+        title: 'Check your email',
+        description: 'We sent a confirmation with your reference number.',
+      },
+      {
+        icon: <UserCheck className="w-5 h-5 text-brand-blue-600" />,
+        title: 'Team review',
+        description:
+          'Our partnerships team will review your submission and reach out to discuss licensing and platform access.',
+      },
+      {
+        icon: <Calendar className="w-5 h-5 text-brand-blue-600" />,
+        title: 'Schedule a call',
+        description: 'You can also schedule a meeting with our team to discuss your program goals.',
+        link: '/booking',
+        linkLabel: 'Book a Meeting',
+      },
     ],
     primaryLink: '/programs',
     primaryLabel: 'Browse Programs',
   },
   employer: {
     title: 'Employer Application Submitted',
-    message: 'Our employer relations team will review your submission and contact you within 2 business days.',
+    message:
+      'Our employer relations team will review your submission and contact you within 2 business days.',
     steps: [
-      { icon: <Mail className="w-5 h-5 text-brand-blue-600" />, title: 'Check your email', description: 'We sent a confirmation with your reference number.' },
-      { icon: <UserCheck className="w-5 h-5 text-brand-blue-600" />, title: 'Team review', description: 'Our employer relations team will contact you to discuss hiring needs, WOTC credits, and OJT reimbursement.' },
-      { icon: <Calendar className="w-5 h-5 text-brand-blue-600" />, title: 'Schedule a call', description: 'You can also schedule a meeting to discuss your workforce needs.', link: '/booking', linkLabel: 'Book a Meeting' },
+      {
+        icon: <Mail className="w-5 h-5 text-brand-blue-600" />,
+        title: 'Check your email',
+        description: 'We sent a confirmation with your reference number.',
+      },
+      {
+        icon: <UserCheck className="w-5 h-5 text-brand-blue-600" />,
+        title: 'Team review',
+        description:
+          'Our employer relations team will contact you to discuss hiring needs, WOTC credits, and OJT reimbursement.',
+      },
+      {
+        icon: <Calendar className="w-5 h-5 text-brand-blue-600" />,
+        title: 'Schedule a call',
+        description: 'You can also schedule a meeting to discuss your workforce needs.',
+        link: '/booking',
+        linkLabel: 'Book a Meeting',
+      },
     ],
     primaryLink: '/employer',
     primaryLabel: 'Employer Resources',
   },
   staff: {
     title: 'Staff Application Submitted',
-    message: 'HR will review your application. Qualified candidates will be contacted for interviews.',
+    message:
+      'HR will review your application. Qualified candidates will be contacted for interviews.',
     steps: [
-      { icon: <Mail className="w-5 h-5 text-brand-blue-600" />, title: 'Check your email', description: 'We sent a confirmation with your reference number.' },
-      { icon: <UserCheck className="w-5 h-5 text-brand-blue-600" />, title: 'HR review', description: 'Our HR team will review your application and contact qualified candidates for interviews.' },
+      {
+        icon: <Mail className="w-5 h-5 text-brand-blue-600" />,
+        title: 'Check your email',
+        description: 'We sent a confirmation with your reference number.',
+      },
+      {
+        icon: <UserCheck className="w-5 h-5 text-brand-blue-600" />,
+        title: 'HR review',
+        description:
+          'Our HR team will review your application and contact qualified candidates for interviews.',
+      },
     ],
     primaryLink: '/',
     primaryLabel: 'Return Home',
@@ -97,12 +167,35 @@ const ROLE_CONFIG: Record<string, {
 
 const ENROLLED_CONFIG = {
   title: "You're Approved — Let's Get Started!",
-  message: "Your enrollment has been approved. Create your account now to access your courses and complete onboarding.",
+  message:
+    'Your enrollment has been approved. Create your account now to access your courses and complete onboarding.',
   steps: [
-    { icon: <UserCheck className="w-5 h-5 text-brand-green-600" />, title: 'Create your account', description: 'Click "Create My Account" below to set your password and activate your student profile. This takes less than 2 minutes.', link: '/signup?redirect=/onboarding/learner', linkLabel: 'Create My Account →' },
-    { icon: <FileText className="w-5 h-5 text-brand-blue-600" />, title: 'Complete onboarding', description: 'Upload your government-issued ID, sign your enrollment agreement, and complete a short 10-minute orientation module.' },
-    { icon: <BookOpen className="w-5 h-5 text-brand-blue-600" />, title: 'Start your courses', description: 'Once onboarding is complete your courses unlock immediately in your student dashboard.' },
-    { icon: <Mail className="w-5 h-5 text-slate-400" />, title: 'Check your email too', description: 'We also sent a one-click login link to your email. Either method works — whichever is faster for you.' },
+    {
+      icon: <UserCheck className="w-5 h-5 text-brand-green-600" />,
+      title: 'Create your account',
+      description:
+        'Click "Create My Account" below to set your password and activate your student profile. This takes less than 2 minutes.',
+      link: '/signup?redirect=/onboarding/learner',
+      linkLabel: 'Create My Account →',
+    },
+    {
+      icon: <FileText className="w-5 h-5 text-brand-blue-600" />,
+      title: 'Complete onboarding',
+      description:
+        'Upload your government-issued ID, sign your enrollment agreement, and complete a short 10-minute orientation module.',
+    },
+    {
+      icon: <BookOpen className="w-5 h-5 text-brand-blue-600" />,
+      title: 'Start your courses',
+      description:
+        'Once onboarding is complete your courses unlock immediately in your student dashboard.',
+    },
+    {
+      icon: <Mail className="w-5 h-5 text-slate-400" />,
+      title: 'Check your email too',
+      description:
+        'We also sent a one-click login link to your email. Either method works — whichever is faster for you.',
+    },
   ],
   primaryLink: '/signup?redirect=/onboarding/learner',
   primaryLabel: 'Create My Account',
@@ -111,7 +204,14 @@ const ENROLLED_CONFIG = {
 export default async function ApplicationSuccessPage({
   searchParams,
 }: {
-  searchParams: Promise<{ role?: string; ref?: string; enrolled?: string; pw?: string; funding?: string; program?: string }>;
+  searchParams: Promise<{
+    role?: string;
+    ref?: string;
+    enrolled?: string;
+    pw?: string;
+    funding?: string;
+    program?: string;
+  }>;
 }) {
   const params = await searchParams;
   const role = params.role || 'student';
@@ -122,7 +222,7 @@ export default async function ApplicationSuccessPage({
   // pw=1 means the student set a password on the application form — skip the "set password" step
   const hasPassword = params.pw === '1';
 
-  let config = isEnrolled ? ENROLLED_CONFIG : (ROLE_CONFIG[role] || ROLE_CONFIG.student);
+  let config = isEnrolled ? ENROLLED_CONFIG : ROLE_CONFIG[role] || ROLE_CONFIG.student;
 
   // Replace "Set your password" step with "Log in directly" when password was set on the form
   if (!isEnrolled && role === 'student' && hasPassword) {
@@ -133,11 +233,12 @@ export default async function ApplicationSuccessPage({
           ? {
               ...step,
               title: 'Log in to your account',
-              description: 'Use the email and password you just created to sign in and start your onboarding.',
+              description:
+                'Use the email and password you just created to sign in and start your onboarding.',
               link: '/login?redirect=/onboarding/learner',
               linkLabel: 'Sign In Now',
             }
-          : step
+          : step,
       ),
       primaryLink: '/login?redirect=/onboarding/learner',
       primaryLabel: 'Sign In Now',
@@ -160,9 +261,7 @@ export default async function ApplicationSuccessPage({
             <div className="inline-flex items-center justify-center w-20 h-20 bg-brand-green-100 rounded-full mb-6">
               <CheckCircle className="w-10 h-10 text-brand-green-600" />
             </div>
-            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">
-              {config.title}
-            </h1>
+            <h1 className="text-3xl md:text-4xl font-bold text-slate-900 mb-4">{config.title}</h1>
             <p className="text-lg text-black">{config.message}</p>
             {referenceNumber && (
               <div className="mt-4 inline-block bg-brand-green-50 border border-brand-green-200 rounded-lg px-4 py-2">
@@ -174,7 +273,9 @@ export default async function ApplicationSuccessPage({
 
           {/* Next Steps */}
           <div className="bg-white rounded-xl shadow-sm border p-6 sm:p-8 mb-6">
-            <h2 className="text-xl font-bold mb-6">{isEnrolled ? 'Next Steps' : 'Complete Your Onboarding'}</h2>
+            <h2 className="text-xl font-bold mb-6">
+              {isEnrolled ? 'Next Steps' : 'Complete Your Onboarding'}
+            </h2>
             <ol className="space-y-5">
               {config.steps.map((step, index) => (
                 <li key={index} className="flex items-start gap-4">
@@ -207,19 +308,34 @@ export default async function ApplicationSuccessPage({
               <div className="flex items-start gap-3 mb-3">
                 <DollarSign className="w-6 h-6 text-amber-600 flex-shrink-0 mt-0.5" />
                 <div>
-                  <h3 className="font-bold text-amber-900 text-base">Action Required — Register on Indiana Career Connect</h3>
+                  <h3 className="font-bold text-amber-900 text-base">
+                    Action Required — Register on Indiana Career Connect
+                  </h3>
                   <p className="text-amber-800 text-sm mt-1 leading-relaxed">
-                    You selected a workforce funding source ({funding}). To receive WIOA, Workforce Ready Grant, or WorkOne funding,
-                    you <strong>must be registered on Indiana Career Connect</strong> and have an active case with your local WorkOne office
-                    before enrollment can be finalized.
+                    You selected a workforce funding source ({funding}). To receive WIOA, Workforce
+                    Ready Grant, or WorkOne funding, you{' '}
+                    <strong>must be registered on Indiana Career Connect</strong> and have an active
+                    case with your local WorkOne office before enrollment can be finalized.
                   </p>
                 </div>
               </div>
               <ol className="space-y-2 text-sm text-amber-900 mb-4 ml-9">
-                <li className="flex items-start gap-2"><span className="font-bold flex-shrink-0">1.</span> Create or log in to your Indiana Career Connect account</li>
-                <li className="flex items-start gap-2"><span className="font-bold flex-shrink-0">2.</span> Complete your profile and upload your résumé</li>
-                <li className="flex items-start gap-2"><span className="font-bold flex-shrink-0">3.</span> Contact your local WorkOne office and mention Elevate for Humanity</li>
-                <li className="flex items-start gap-2"><span className="font-bold flex-shrink-0">4.</span> Ask your case manager to approve Elevate training under your IEP/ITA</li>
+                <li className="flex items-start gap-2">
+                  <span className="font-bold flex-shrink-0">1.</span> Create or log in to your
+                  Indiana Career Connect account
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="font-bold flex-shrink-0">2.</span> Complete your profile and
+                  upload your résumé
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="font-bold flex-shrink-0">3.</span> Contact your local WorkOne
+                  office and mention Elevate for Humanity
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="font-bold flex-shrink-0">4.</span> Ask your case manager to
+                  approve Elevate training under your IEP/ITA
+                </li>
               </ol>
               <div className="flex flex-col sm:flex-row gap-3 ml-9">
                 <a
@@ -247,8 +363,16 @@ export default async function ApplicationSuccessPage({
             <div className="bg-slate-50 border border-slate-200 rounded-xl p-5 mb-6">
               <h3 className="font-semibold text-slate-800 mb-1">Funding Verification</h3>
               <p className="text-slate-600 text-sm leading-relaxed">
-                If you plan to use WIOA, WorkOne, or Workforce Ready Grant funding, you must register on{' '}
-                <a href="https://www.indianacareerconnect.com" target="_blank" rel="noopener noreferrer" className="text-brand-blue-600 underline font-semibold">Indiana Career Connect</a>{' '}
+                If you plan to use WIOA, WorkOne, or Workforce Ready Grant funding, you must
+                register on{' '}
+                <a
+                  href="https://www.indianacareerconnect.com"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="text-brand-blue-600 underline font-semibold"
+                >
+                  Indiana Career Connect
+                </a>{' '}
                 and have written approval from your funding agency before enrollment is finalized.
               </p>
             </div>
@@ -286,15 +410,27 @@ export default async function ApplicationSuccessPage({
           {isEnrolled && (
             <div className="bg-brand-green-50 border-2 border-brand-green-400 rounded-xl p-6 mb-4 text-center">
               <CheckCircle className="w-10 h-10 text-brand-green-600 mx-auto mb-3" />
-              <h3 className="text-lg font-bold text-brand-green-900 mb-1">Your enrollment is confirmed</h3>
-              <p className="text-brand-green-800 text-sm mb-4">Create your account to unlock your courses and start learning today.</p>
+              <h3 className="text-lg font-bold text-brand-green-900 mb-1">
+                Your enrollment is confirmed
+              </h3>
+              <p className="text-brand-green-800 text-sm mb-4">
+                Create your account to unlock your courses and start learning today.
+              </p>
               <Link
                 href="/signup?redirect=/onboarding/learner"
                 className="inline-flex items-center gap-2 bg-brand-green-600 hover:bg-brand-green-700 text-white font-bold px-8 py-3 rounded-xl text-base transition-colors shadow-sm"
               >
                 Create My Account <ArrowRight className="w-5 h-5" />
               </Link>
-              <p className="text-xs text-brand-green-700 mt-3">Already have an account? <Link href="/login?redirect=/onboarding/learner" className="underline font-semibold">Sign in instead</Link></p>
+              <p className="text-xs text-brand-green-700 mt-3">
+                Already have an account?{' '}
+                <Link
+                  href="/login?redirect=/onboarding/learner"
+                  className="underline font-semibold"
+                >
+                  Sign in instead
+                </Link>
+              </p>
             </div>
           )}
 
@@ -323,10 +459,7 @@ export default async function ApplicationSuccessPage({
               <p className="text-sm text-slate-500 mb-1">
                 Didn&apos;t receive the sign-in email? Check spam, or request another link:
               </p>
-              <ResendMagicLinkForm
-                next="/onboarding/learner"
-                label="Resend sign-in link"
-              />
+              <ResendMagicLinkForm next="/onboarding/learner" label="Resend sign-in link" />
             </div>
           )}
 

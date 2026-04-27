@@ -68,7 +68,7 @@ export default function HvacLessonVideo({
     // Priority 1: assembled V16 video from DB (mobile-safe H.264 baseline)
     if (dbVideoUrl) {
       fetch(dbVideoUrl, { method: 'HEAD' })
-        .then(r => {
+        .then((r) => {
           if (r.ok) {
             setMp4Url(dbVideoUrl);
             setMode('mp4');
@@ -84,9 +84,12 @@ export default function HvacLessonVideo({
     function checkLocalPaths() {
       // Priority 0: assembled lesson video by UUID — canonical path /hvac/videos/
       const assembledPath = resolvedUuid ? `/hvac/videos/lesson-${resolvedUuid}.mp4` : null;
-      if (!assembledPath) { checkUuidPaths(); return; }
+      if (!assembledPath) {
+        checkUuidPaths();
+        return;
+      }
       fetch(assembledPath, { method: 'HEAD' })
-        .then(r => {
+        .then((r) => {
           if (r.ok) {
             setMp4Url(assembledPath);
             setMode('mp4');
@@ -105,31 +108,31 @@ export default function HvacLessonVideo({
         // Canonical audio path
         const audioPath = `/hvac/audio/lesson-${resolvedUuid}.mp3`;
 
-      fetch(audioPath, { method: 'HEAD' })
-        .then(r => {
-          if (r.ok) {
-            setMp3Url(audioPath);
-            setMode('mp3+avatar');
-            return;
-          }
-          return Promise.resolve()
-            .then(() => {
+        fetch(audioPath, { method: 'HEAD' })
+          .then((r) => {
+            if (r.ok) {
+              setMp3Url(audioPath);
+              setMode('mp3+avatar');
+              return;
+            }
+            return Promise.resolve()
+              .then(() => {
                 setMode('broll');
-            })
-            .catch(() => setMode('broll'));
-        })
-        .catch(() => {
-          fetch(audioPath, { method: 'HEAD' })
-            .then(r => {
-              if (r.ok) {
-                setMp3Url(audioPath);
-                setMode('mp3+avatar');
-              } else {
-                setMode('broll');
-              }
-            })
-            .catch(() => setMode('broll'));
-        });
+              })
+              .catch(() => setMode('broll'));
+          })
+          .catch(() => {
+            fetch(audioPath, { method: 'HEAD' })
+              .then((r) => {
+                if (r.ok) {
+                  setMp3Url(audioPath);
+                  setMode('mp3+avatar');
+                } else {
+                  setMode('broll');
+                }
+              })
+              .catch(() => setMode('broll'));
+          });
       } // end checkUuidPaths
     } // end checkLocalPaths
   }, [lessonDefId, dbVideoUrl]);
@@ -268,8 +271,18 @@ export default function HvacLessonVideo({
             aria-label="Replay lesson"
           >
             <div className="flex h-16 w-16 items-center justify-center rounded-full bg-white/90 shadow-lg">
-              <svg className="h-6 w-6 text-slate-900" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+              <svg
+                className="h-6 w-6 text-slate-900"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                />
               </svg>
             </div>
           </button>
@@ -279,7 +292,7 @@ export default function HvacLessonVideo({
       <div className="bg-slate-900 px-4 py-3 space-y-2">
         <div
           className="w-full bg-white/10 rounded-full h-1.5 cursor-pointer"
-          onClick={e => {
+          onClick={(e) => {
             const rect = e.currentTarget.getBoundingClientRect();
             const pct = (e.clientX - rect.left) / rect.width;
             const aud = audioRef.current;
@@ -294,9 +307,24 @@ export default function HvacLessonVideo({
 
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
-            <button type="button" onClick={() => seek(-10)} className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white" aria-label="Back 10 seconds">
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.333 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z" />
+            <button
+              type="button"
+              onClick={() => seek(-10)}
+              className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white"
+              aria-label="Back 10 seconds"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M12.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0019 16V8a1 1 0 00-1.6-.8l-5.333 4zM4.066 11.2a1 1 0 000 1.6l5.334 4A1 1 0 0011 16V8a1 1 0 00-1.6-.8l-5.334 4z"
+                />
               </svg>
             </button>
 
@@ -308,8 +336,18 @@ export default function HvacLessonVideo({
               aria-label={ended ? 'Replay' : isPlaying ? 'Pause' : 'Play'}
             >
               {ended ? (
-                <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+                <svg
+                  className="h-4 w-4"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth={2}
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15"
+                  />
                 </svg>
               ) : isPlaying ? (
                 <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24">
@@ -322,9 +360,24 @@ export default function HvacLessonVideo({
               )}
             </button>
 
-            <button type="button" onClick={() => seek(10)} className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white" aria-label="Forward 10 seconds">
-              <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth={2} viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z" />
+            <button
+              type="button"
+              onClick={() => seek(10)}
+              className="rounded-full p-1.5 text-white/60 hover:bg-white/10 hover:text-white"
+              aria-label="Forward 10 seconds"
+            >
+              <svg
+                className="h-4 w-4"
+                fill="none"
+                stroke="currentColor"
+                strokeWidth={2}
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M11.933 12.8a1 1 0 000-1.6L6.6 7.2A1 1 0 005 8v8a1 1 0 001.6.8l5.333-4zM19.933 12.8a1 1 0 000-1.6l-5.333-4A1 1 0 0013 8v8a1 1 0 001.6.8l5.333-4z"
+                />
               </svg>
             </button>
 

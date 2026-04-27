@@ -65,7 +65,8 @@ const nextRules = [];
 
 // Parse only uncommented redirect lines from next.config.mjs
 const nextLines = nextContent.split('\n');
-const redirectRegex = /\{\s*source:\s*'([^']+)',\s*destination:\s*'([^']+)',\s*permanent:\s*(true|false)/;
+const redirectRegex =
+  /\{\s*source:\s*'([^']+)',\s*destination:\s*'([^']+)',\s*permanent:\s*(true|false)/;
 for (const line of nextLines) {
   const trimmed = line.trim();
   // Skip commented-out lines
@@ -99,8 +100,8 @@ for (const nr of netlifyRules) {
       const sameDest = nr.to === xr.to;
       console.error(
         `CONFLICT: "${nr.from}" in Netlify (→ ${nr.to}, ${nr.status}) ` +
-        `and "${xr.from}" in next.config (→ ${xr.to}, ${xr.status})` +
-        (sameDest ? ' [same dest — remove one]' : ' [DIFFERENT dests — fix now]')
+          `and "${xr.from}" in next.config (→ ${xr.to}, ${xr.status})` +
+          (sameDest ? ' [same dest — remove one]' : ' [DIFFERENT dests — fix now]'),
       );
     }
   }
@@ -110,8 +111,8 @@ for (const nr of netlifyRules) {
 console.log('\n--- Wildcard/base overlap check ---');
 
 function checkOverlaps(rules, layerName) {
-  const wildcards = rules.filter(r => isWildcard(r.from));
-  const bases = rules.filter(r => !isWildcard(r.from));
+  const wildcards = rules.filter((r) => isWildcard(r.from));
+  const bases = rules.filter((r) => !isWildcard(r.from));
 
   for (const wc of wildcards) {
     const wcBase = normalize(wc.from);
@@ -130,17 +131,17 @@ function checkOverlaps(rules, layerName) {
         conflicts++;
         console.error(
           `OVERLAP [${layerName}]: wildcard "${wc.from}" (→ ${wc.to}) appears before ` +
-          `base "${base.from}" (→ ${base.to}). Move base rule above wildcard.`
+            `base "${base.from}" (→ ${base.to}). Move base rule above wildcard.`,
         );
       } else if (netlifyStyle && baseFirst) {
         // Base rule is first — Netlify matches it before the wildcard. Safe.
         console.log(
-          `  OK [${layerName}]: "${base.from}" precedes "${wc.from}" (base matches first).`
+          `  OK [${layerName}]: "${base.from}" precedes "${wc.from}" (base matches first).`,
         );
       } else {
         // Next.js :path* requires a segment, so /portal and /portal/:path* don't overlap.
         console.log(
-          `  OK [${layerName}]: "${wc.from}" and "${base.from}" coexist (:path* requires a segment).`
+          `  OK [${layerName}]: "${wc.from}" and "${base.from}" coexist (:path* requires a segment).`,
         );
       }
     }
@@ -165,8 +166,11 @@ console.log('\n--- In-page redirect() usage by top-level directory ---');
 try {
   const grepOutput = execSync(
     `find app -name "page.tsx" -not -path "*/node_modules/*" -not -path "*/_archived/*" -exec grep -l "redirect(" {} \\;`,
-    { encoding: 'utf8' }
-  ).trim().split('\n').filter(Boolean);
+    { encoding: 'utf8' },
+  )
+    .trim()
+    .split('\n')
+    .filter(Boolean);
 
   const dirCounts = {};
   for (const file of grepOutput) {

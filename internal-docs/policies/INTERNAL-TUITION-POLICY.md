@@ -1,4 +1,5 @@
 # Internal Tuition Collection Policy
+
 ## Elevate for Humanity Career and Training Institute
 
 **INTERNAL DOCUMENT — NOT FOR STUDENT DISTRIBUTION**
@@ -12,6 +13,7 @@
 ## Purpose
 
 This policy governs tuition collection for students who are NOT covered by:
+
 - WIOA or other workforce funding
 - Employer sponsorship
 - Grant programs
@@ -33,17 +35,20 @@ All marketing, enrollment conversations, and documentation must reflect this dis
 ## Payment Options (In Order of Preference)
 
 ### 1. Third-Party Financing (PREFERRED)
+
 - **Providers:** Affirm, Klarna
 - **How it works:** Student applies at checkout, provider approves, we receive payment upfront
 - **Default risk:** Carried by provider, NOT by us
 - **Staff action:** Always offer this first
 
 ### 2. Pay in Full
+
 - **When:** At enrollment
 - **Methods:** Credit card, debit card, ACH bank transfer
 - **Staff action:** Process immediately
 
 ### 3. Internal Payment Plan (LAST RESORT)
+
 - **Use only when:** Options 1 and 2 are not viable
 - **Terms:** See below — NO EXCEPTIONS
 
@@ -55,19 +60,20 @@ All marketing, enrollment conversations, and documentation must reflect this dis
 
 This is a **bridge**, not a long-term solution. It gets the student started while transitioning to a permanent payor.
 
-| Term | Requirement |
-|------|-------------|
-| **Down Payment** | $500 (fixed) |
-| **Monthly Payment** | $200 minimum |
-| **Maximum Term** | 3 months (90 days) — **HARD STOP** |
-| **Total Collected Internally** | $1,100 maximum ($500 + $200×3) |
-| **Payment Method** | Autopay ONLY |
-| **Late Fee** | $50 per missed payment |
-| **Grace Period** | 7 days from due date |
+| Term                           | Requirement                        |
+| ------------------------------ | ---------------------------------- |
+| **Down Payment**               | $500 (fixed)                       |
+| **Monthly Payment**            | $200 minimum                       |
+| **Maximum Term**               | 3 months (90 days) — **HARD STOP** |
+| **Total Collected Internally** | $1,100 maximum ($500 + $200×3)     |
+| **Payment Method**             | Autopay ONLY                       |
+| **Late Fee**                   | $50 per missed payment             |
+| **Grace Period**               | 7 days from due date               |
 
 ### Day 90 Transition Requirement
 
 At Day 90, the student MUST transition to one of:
+
 1. Employer reimbursement
 2. Third-party financing (Affirm/Klarna)
 3. Pay remaining balance in full
@@ -77,23 +83,25 @@ At Day 90, the student MUST transition to one of:
 ### Lane 3B: Long-Term Payments (External Only)
 
 For any payment need that requires:
+
 - Monthly payments below $200, OR
 - Terms beyond 90 days
 
 **Elevate for Humanity does NOT carry these balances.**
 
 Student must use:
+
 - Third-party financing (Affirm/Klarna)
 - Employer sponsorship
 
 ### Enforcement (Automatic — No Exceptions)
 
-| Event | Action |
-|-------|--------|
-| Payment fails | Student notified, 7-day grace period begins |
-| Grace period expires | **Academic pause** — no course access, no lab access |
-| 2nd missed payment | Enrollment termination review |
-| Day 90 without transition | **Academic pause** until transition secured |
+| Event                      | Action                                                                  |
+| -------------------------- | ----------------------------------------------------------------------- |
+| Payment fails              | Student notified, 7-day grace period begins                             |
+| Grace period expires       | **Academic pause** — no course access, no lab access                    |
+| 2nd missed payment         | Enrollment termination review                                           |
+| Day 90 without transition  | **Academic pause** until transition secured                             |
 | Balance > $0 at completion | **Credential hold** — no certificates, transcripts, or letters released |
 
 ---
@@ -183,13 +191,14 @@ All documents must be stored in the student's file and the LMS.
 
 ## Refund Policy
 
-| Timing | Refund |
-|--------|--------|
+| Timing               | Refund                                  |
+| -------------------- | --------------------------------------- |
 | Before program start | Full refund minus $150 registration fee |
-| After program start | Prorated based on completion percentage |
-| After 50% completion | No refund |
+| After program start  | Prorated based on completion percentage |
+| After 50% completion | No refund                               |
 
 **Non-refundable items:**
+
 - Registration fee ($150)
 - Materials already issued
 - Certification exam fees paid to third parties
@@ -198,13 +207,13 @@ All documents must be stored in the student's file and the LMS.
 
 ## Tuition by Program
 
-| Program | Tuition | Min Down | Monthly (6 mo) |
-|---------|---------|----------|----------------|
-| CNA | $2,200 | $500 | $283 |
-| HVAC | $4,800 | $1,000 | $633 |
-| CDL | $5,200 | $1,040 | $693 |
-| Business Support | $3,500 | $700 | $467 |
-| Esthetics | $4,200 | $840 | $560 |
+| Program          | Tuition | Min Down | Monthly (6 mo) |
+| ---------------- | ------- | -------- | -------------- |
+| CNA              | $2,200  | $500     | $283           |
+| HVAC             | $4,800  | $1,000   | $633           |
+| CDL              | $5,200  | $1,040   | $693           |
+| Business Support | $3,500  | $700     | $467           |
+| Esthetics        | $4,200  | $840     | $560           |
 
 ---
 
@@ -222,6 +231,7 @@ If a student requests an exception to this policy:
 ## Policy Review
 
 This policy will be reviewed annually or when:
+
 - Tuition amounts change
 - New programs are added
 - Regulatory requirements change
@@ -231,4 +241,4 @@ This policy will be reviewed annually or when:
 
 ---
 
-*This document is confidential and for internal use only.*
+_This document is confidential and for internal use only._

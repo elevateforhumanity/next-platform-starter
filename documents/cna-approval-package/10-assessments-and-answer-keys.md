@@ -1,13 +1,15 @@
 # CNA PROGRAM — WRITTEN ASSESSMENTS AND ANSWER KEYS
+
 ## Elevate for Humanity LLC
 
 ---
 
 # EXAM 1: INFECTION CONTROL, SAFETY, AND PATIENT RIGHTS
+
 ## Modules 1–4 | 15 Questions | 75% Passing Score Required
 
-**Student Name:** ___________________________________ **Date:** ___________
-**Score:** _______ / 15 = _______ %  ☐ PASS  ☐ FAIL
+**Student Name:** ****************\_\_\_**************** **Date:** ****\_\_\_****
+**Score:** **\_\_\_** / 15 = **\_\_\_** % ☐ PASS ☐ FAIL
 
 ---
 
@@ -120,31 +122,32 @@ D) 16 hours
 
 ### EXAM 1 ANSWER KEY
 
-| Q | Answer | Rationale |
-|---|--------|-----------|
-| 1 | B | Hand hygiene is the single most effective infection prevention measure |
-| 2 | C | Contact precautions require gown and gloves |
-| 3 | C | Minimum 20 seconds of scrubbing required |
-| 4 | B | Alcohol does not kill C. diff spores — soap and water required |
-| 5 | B | Gloves first (most contaminated), then gown, then mask |
-| 6 | B | Residents have the right to refuse care; refusal must be documented and reported |
-| 7 | B | OBRA 1987 guarantees freedom from abuse, neglect, and exploitation |
-| 8 | B | Verbal abuse must be stopped and reported immediately |
-| 9 | B | Leaving a patient in a soiled brief for extended time is neglect |
-| 10 | B | HIPAA requires referral to the appropriate licensed provider |
-| 11 | C | PPE interrupts the mode of transmission link |
-| 12 | C | Never perform care without appropriate PPE |
-| 13 | B | Medication administration is outside CNA scope of practice |
-| 14 | B | CNA must call for nurse immediately and honor the DNR |
-| 15 | B | 8 hours every 24 months required per Indiana registry rules |
+| Q   | Answer | Rationale                                                                        |
+| --- | ------ | -------------------------------------------------------------------------------- |
+| 1   | B      | Hand hygiene is the single most effective infection prevention measure           |
+| 2   | C      | Contact precautions require gown and gloves                                      |
+| 3   | C      | Minimum 20 seconds of scrubbing required                                         |
+| 4   | B      | Alcohol does not kill C. diff spores — soap and water required                   |
+| 5   | B      | Gloves first (most contaminated), then gown, then mask                           |
+| 6   | B      | Residents have the right to refuse care; refusal must be documented and reported |
+| 7   | B      | OBRA 1987 guarantees freedom from abuse, neglect, and exploitation               |
+| 8   | B      | Verbal abuse must be stopped and reported immediately                            |
+| 9   | B      | Leaving a patient in a soiled brief for extended time is neglect                 |
+| 10  | B      | HIPAA requires referral to the appropriate licensed provider                     |
+| 11  | C      | PPE interrupts the mode of transmission link                                     |
+| 12  | C      | Never perform care without appropriate PPE                                       |
+| 13  | B      | Medication administration is outside CNA scope of practice                       |
+| 14  | B      | CNA must call for nurse immediately and honor the DNR                            |
+| 15  | B      | 8 hours every 24 months required per Indiana registry rules                      |
 
 ---
 
 # EXAM 2: VITAL SIGNS, PERSONAL CARE, AND MOBILITY
+
 ## Modules 5–7 | 15 Questions | 75% Passing Score Required
 
-**Student Name:** ___________________________________ **Date:** ___________
-**Score:** _______ / 15 = _______ %  ☐ PASS  ☐ FAIL
+**Student Name:** ****************\_\_\_**************** **Date:** ****\_\_\_****
+**Score:** **\_\_\_** / 15 = **\_\_\_** % ☐ PASS ☐ FAIL
 
 ---
 
@@ -257,31 +260,32 @@ D) Inflate the lift to maximum height before positioning the patient
 
 ### EXAM 2 ANSWER KEY
 
-| Q | Answer | Rationale |
-|---|--------|-----------|
-| 1 | B | Normal BP is less than 120/80 mmHg |
-| 2 | B | Tachycardia with irregular rhythm requires immediate reporting |
-| 3 | C | Bare arm, 1 inch above antecubital fossa is correct placement |
-| 4 | C | Normal SpO2 is 95–100% |
-| 5 | C | Fever above 100.4°F requires immediate reporting |
-| 6 | B | Face to perineum — clean to dirty sequence |
-| 7 | C | Non-blanchable redness is a Stage 1 pressure injury — report immediately |
-| 8 | B | Weaker side dressed first, undressed last |
-| 9 | B | Over clothing, snugly around waist |
-| 10 | C | 45 degrees on stronger side for stand-pivot transfer |
-| 11 | C | Guide to floor — never try to catch or hold up a falling patient |
-| 12 | B | PROM prevents contractures and maintains flexibility |
-| 13 | C | Minimum every 2 hours for immobile patients |
-| 14 | B | Stage 2 = partial thickness loss, shallow ulcer or blister |
-| 15 | B | Sling size, positioning, and lift function must be verified before use |
+| Q   | Answer | Rationale                                                                |
+| --- | ------ | ------------------------------------------------------------------------ |
+| 1   | B      | Normal BP is less than 120/80 mmHg                                       |
+| 2   | B      | Tachycardia with irregular rhythm requires immediate reporting           |
+| 3   | C      | Bare arm, 1 inch above antecubital fossa is correct placement            |
+| 4   | C      | Normal SpO2 is 95–100%                                                   |
+| 5   | C      | Fever above 100.4°F requires immediate reporting                         |
+| 6   | B      | Face to perineum — clean to dirty sequence                               |
+| 7   | C      | Non-blanchable redness is a Stage 1 pressure injury — report immediately |
+| 8   | B      | Weaker side dressed first, undressed last                                |
+| 9   | B      | Over clothing, snugly around waist                                       |
+| 10  | C      | 45 degrees on stronger side for stand-pivot transfer                     |
+| 11  | C      | Guide to floor — never try to catch or hold up a falling patient         |
+| 12  | B      | PROM prevents contractures and maintains flexibility                     |
+| 13  | C      | Minimum every 2 hours for immobile patients                              |
+| 14  | B      | Stage 2 = partial thickness loss, shallow ulcer or blister               |
+| 15  | B      | Sling size, positioning, and lift function must be verified before use   |
 
 ---
 
 # EXAM 3: NUTRITION, DEMENTIA, CHRONIC CONDITIONS, AND DOCUMENTATION
+
 ## Modules 8–12 | 15 Questions | 75% Passing Score Required
 
-**Student Name:** ___________________________________ **Date:** ___________
-**Score:** _______ / 15 = _______ %  ☐ PASS  ☐ FAIL
+**Student Name:** ****************\_\_\_**************** **Date:** ****\_\_\_****
+**Score:** **\_\_\_** / 15 = **\_\_\_** % ☐ PASS ☐ FAIL
 
 ---
 
@@ -394,42 +398,43 @@ D) Ask the family to perform personal care
 
 ### EXAM 3 ANSWER KEY
 
-| Q | Answer | Rationale |
-|---|--------|-----------|
-| 1 | B | Giving thin liquids to a patient ordered thickened liquids is a diet order violation and aspiration risk |
-| 2 | B | Normal urine output is approximately 30 mL/hour |
-| 3 | B | Weight gain of 2+ lbs in 24 hours in CHF requires immediate reporting |
-| 4 | C | Validation therapy acknowledges the emotion, not the factual content |
-| 5 | A | Sundowning = increased confusion/agitation in late afternoon/evening |
-| 6 | B | Shakiness, sweating, confusion, pale skin = hypoglycemia |
-| 7 | C | Fowler's/semi-Fowler's maximizes lung expansion for COPD patients |
-| 8 | A | Walk on the weaker side to provide support where it is needed |
-| 9 | C | Objective documentation describes observable facts without interpretation |
-| 10 | B | No urine output for 4+ hours requires immediate reporting |
-| 11 | C | Urine output DECREASES (not increases) as death approaches |
-| 12 | B | Post-mortem care = care of the body after death is pronounced |
-| 13 | B | MDS is a federal resident assessment tool used in nursing facilities |
-| 14 | C | Single line, "error," initials, correct information — never use correction fluid |
-| 15 | B | Continue full dignified care — hearing may persist; speak to the patient |
+| Q   | Answer | Rationale                                                                                                |
+| --- | ------ | -------------------------------------------------------------------------------------------------------- |
+| 1   | B      | Giving thin liquids to a patient ordered thickened liquids is a diet order violation and aspiration risk |
+| 2   | B      | Normal urine output is approximately 30 mL/hour                                                          |
+| 3   | B      | Weight gain of 2+ lbs in 24 hours in CHF requires immediate reporting                                    |
+| 4   | C      | Validation therapy acknowledges the emotion, not the factual content                                     |
+| 5   | A      | Sundowning = increased confusion/agitation in late afternoon/evening                                     |
+| 6   | B      | Shakiness, sweating, confusion, pale skin = hypoglycemia                                                 |
+| 7   | C      | Fowler's/semi-Fowler's maximizes lung expansion for COPD patients                                        |
+| 8   | A      | Walk on the weaker side to provide support where it is needed                                            |
+| 9   | C      | Objective documentation describes observable facts without interpretation                                |
+| 10  | B      | No urine output for 4+ hours requires immediate reporting                                                |
+| 11  | C      | Urine output DECREASES (not increases) as death approaches                                               |
+| 12  | B      | Post-mortem care = care of the body after death is pronounced                                            |
+| 13  | B      | MDS is a federal resident assessment tool used in nursing facilities                                     |
+| 14  | C      | Single line, "error," initials, correct information — never use correction fluid                         |
+| 15  | B      | Continue full dignified care — hearing may persist; speak to the patient                                 |
 
 ---
 
 # FINAL WRITTEN EXAMINATION
+
 ## All Modules | 50 Questions | 75% Passing Score (38/50) Required
 
-*The final examination draws from all module content. Questions are distributed as follows:*
+_The final examination draws from all module content. Questions are distributed as follows:_
 
-| Content Area | Questions |
-|-------------|-----------|
-| Role of the CNA / Professionalism | 5 |
-| Infection Control | 8 |
-| Safety and Emergency Procedures | 5 |
-| Patient Rights and Communication | 6 |
-| Vital Signs | 6 |
-| Personal Care Skills | 6 |
-| Mobility and Transfers | 5 |
-| Nutrition and Elimination | 5 |
-| Dementia and Mental Health | 4 |
-| **Total** | **50** |
+| Content Area                      | Questions |
+| --------------------------------- | --------- |
+| Role of the CNA / Professionalism | 5         |
+| Infection Control                 | 8         |
+| Safety and Emergency Procedures   | 5         |
+| Patient Rights and Communication  | 6         |
+| Vital Signs                       | 6         |
+| Personal Care Skills              | 6         |
+| Mobility and Transfers            | 5         |
+| Nutrition and Elimination         | 5         |
+| Dementia and Mental Health        | 4         |
+| **Total**                         | **50**    |
 
-*Full 50-question final examination available as a separate document. Answer key maintained by program director in secure program files.*
+_Full 50-question final examination available as a separate document. Answer key maintained by program director in secure program files._

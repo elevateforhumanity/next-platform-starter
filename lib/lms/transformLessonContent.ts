@@ -75,7 +75,7 @@ function escapeHtml(str: string): string {
  */
 function toQuizQuestion(aq: AssessmentQuestion, id: string): QuizQuestion {
   const ORDER: Array<'a' | 'b' | 'c' | 'd'> = ['a', 'b', 'c', 'd'];
-  const options = ORDER.map(k => aq.choices[k]);
+  const options = ORDER.map((k) => aq.choices[k]);
   const correct_index = ORDER.indexOf(aq.correct);
   return {
     id,
@@ -104,18 +104,19 @@ function expandToQuizArray(aq: AssessmentQuestion, lessonSlug: string): QuizQues
  * Output is safe to pass through sanitizeRichHtml before rendering.
  */
 function buildHtml(blob: LessonContentBlob): string {
-  const points = (blob.learning_points ?? []).filter(p => p?.trim());
+  const points = (blob.learning_points ?? []).filter((p) => p?.trim());
   const scenario = blob.scenario?.trim() ?? '';
   const notice = blob.compliance_notice?.trim() ?? '';
 
-  const pointsHtml = points.length > 0
-    ? `<section class="lesson-key-concepts">
+  const pointsHtml =
+    points.length > 0
+      ? `<section class="lesson-key-concepts">
         <h2>Key Concepts</h2>
         <ul>
-          ${points.map(p => `<li>${escapeHtml(p)}</li>`).join('\n          ')}
+          ${points.map((p) => `<li>${escapeHtml(p)}</li>`).join('\n          ')}
         </ul>
       </section>`
-    : '';
+      : '';
 
   const scenarioHtml = scenario
     ? `<section class="lesson-scenario">

@@ -33,13 +33,27 @@ export interface ExamSession {
 }
 
 export const EXAM_PROVIDERS: Record<ExamProvider, { label: string; description: string }> = {
-  certiport: { label: 'Certiport', description: 'Microsoft, IC3, Adobe, and other Certiport exams' },
-  esco_epa608: { label: 'EPA 608 (ESCO)', description: 'EPA Section 608 refrigerant handling certification' },
-  careersafe_osha: { label: 'CareerSafe OSHA', description: 'OSHA 10 and OSHA 30 safety certifications' },
+  certiport: {
+    label: 'Certiport',
+    description: 'Microsoft, IC3, Adobe, and other Certiport exams',
+  },
+  esco_epa608: {
+    label: 'EPA 608 (ESCO)',
+    description: 'EPA Section 608 refrigerant handling certification',
+  },
+  careersafe_osha: {
+    label: 'CareerSafe OSHA',
+    description: 'OSHA 10 and OSHA 30 safety certifications',
+  },
   other: { label: 'Other', description: 'Other proctored certification exams' },
 };
 
-export const EXAM_PRESETS: { provider: ExamProvider; name: string; code?: string; duration: number }[] = [
+export const EXAM_PRESETS: {
+  provider: ExamProvider;
+  name: string;
+  code?: string;
+  duration: number;
+}[] = [
   { provider: 'esco_epa608', name: 'EPA 608 Universal', duration: 180 },
   { provider: 'esco_epa608', name: 'EPA 608 Core', duration: 180 },
   { provider: 'esco_epa608', name: 'EPA 608 Type I (Small Appliances)', duration: 180 },

@@ -9,9 +9,9 @@ Auditor: Ona
 
 Two program delivery paths coexist in the codebase:
 
-| Path | Description | Status |
-|------|-------------|--------|
-| **DB-driven LMS** | `curriculum_lessons` + `lms_lessons` view + `step_type` routing | **Canonical — use for all new programs** |
+| Path               | Description                                                                             | Status                                   |
+| ------------------ | --------------------------------------------------------------------------------------- | ---------------------------------------- |
+| **DB-driven LMS**  | `curriculum_lessons` + `lms_lessons` view + `step_type` routing                         | **Canonical — use for all new programs** |
 | **HVAC hardcoded** | `lib/courses/hvac-*.ts` + `HVAC_QUIZ_MAP` + `HVAC_LESSON_UUID` + `buildLessonContent()` | **Legacy — HVAC only, do not replicate** |
 
 ---
@@ -22,37 +22,37 @@ These 32+ files are HVAC-specific. They exist because HVAC was built before the 
 
 ### Lesson Content
 
-| File | Purpose |
-|------|---------|
-| `lib/courses/hvac-content-builder.ts` | Builds rich HTML lesson content from static definitions |
-| `lib/courses/hvac-quiz-map.ts` | Hardcoded quiz questions keyed by lesson definition ID |
-| `lib/courses/hvac-uuids.ts` | Maps lesson definition IDs to Supabase UUIDs |
-| `lib/courses/hvac-quick-checks.ts` | Quick-check questions keyed by lesson UUID |
-| `lib/courses/hvac-captions.ts` | Lesson captions |
-| `lib/courses/hvac-recaps.ts` | Module recap content |
-| `lib/courses/hvac-epa608-prep.ts` | EPA 608 exam prep content |
-| `lib/courses/hvac-lesson-content.ts` | Static lesson content definitions |
-| `lib/courses/hvac-lesson-definitions.ts` | Lesson definition objects |
-| `lib/courses/hvac-module-definitions.ts` | Module definition objects |
-| `lib/courses/hvac-completion-workflow.ts` | HVAC-specific credential advancement on completion |
+| File                                      | Purpose                                                 |
+| ----------------------------------------- | ------------------------------------------------------- |
+| `lib/courses/hvac-content-builder.ts`     | Builds rich HTML lesson content from static definitions |
+| `lib/courses/hvac-quiz-map.ts`            | Hardcoded quiz questions keyed by lesson definition ID  |
+| `lib/courses/hvac-uuids.ts`               | Maps lesson definition IDs to Supabase UUIDs            |
+| `lib/courses/hvac-quick-checks.ts`        | Quick-check questions keyed by lesson UUID              |
+| `lib/courses/hvac-captions.ts`            | Lesson captions                                         |
+| `lib/courses/hvac-recaps.ts`              | Module recap content                                    |
+| `lib/courses/hvac-epa608-prep.ts`         | EPA 608 exam prep content                               |
+| `lib/courses/hvac-lesson-content.ts`      | Static lesson content definitions                       |
+| `lib/courses/hvac-lesson-definitions.ts`  | Lesson definition objects                               |
+| `lib/courses/hvac-module-definitions.ts`  | Module definition objects                               |
+| `lib/courses/hvac-completion-workflow.ts` | HVAC-specific credential advancement on completion      |
 
 ### LMS Enrichment
 
-| File | Purpose |
-|------|---------|
-| `lib/lms/hvac-enrichment.ts` | Enriches lesson data with HVAC-specific content |
-| `lib/lms/hvac-simulations.ts` | Maps lesson UUIDs to 3D simulation keys |
+| File                          | Purpose                                         |
+| ----------------------------- | ----------------------------------------------- |
+| `lib/lms/hvac-enrichment.ts`  | Enriches lesson data with HVAC-specific content |
+| `lib/lms/hvac-simulations.ts` | Maps lesson UUIDs to 3D simulation keys         |
 
 ### AI / Instructor
 
-| File | Purpose |
-|------|---------|
+| File                                          | Purpose                                   |
+| --------------------------------------------- | ----------------------------------------- |
 | `lib/ai-instructor/hvac-instructor-prompt.ts` | HVAC-specific AI instructor system prompt |
 
 ### Hardcoded Pages
 
-| Route | File | Problem |
-|-------|------|---------|
+| Route                           | File                                        | Problem                                                                                                          |
+| ------------------------------- | ------------------------------------------- | ---------------------------------------------------------------------------------------------------------------- |
 | `/courses/hvac/module1/lesson1` | `app/courses/hvac/module1/lesson1/page.tsx` | Standalone lesson page. Imports `@/courses/hvac/module1/quiz1`. Not part of LMS engine. Not linked from LMS nav. |
 
 ---

@@ -31,11 +31,13 @@ export default async function RequestInfoPage({ params }: Props) {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-3xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Programs', href: '/programs' },
-            { label: program.title, href: programPageHref },
-            { label: 'Request Information' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Programs', href: '/programs' },
+              { label: program.title, href: programPageHref },
+              { label: 'Request Information' },
+            ]}
+          />
         </div>
       </div>
 
@@ -50,10 +52,13 @@ export default async function RequestInfoPage({ params }: Props) {
 
         {/* Header */}
         <div className="mb-8">
-          <p className="text-brand-blue-600 font-semibold text-sm uppercase tracking-wide mb-1">{program.category}</p>
+          <p className="text-brand-blue-600 font-semibold text-sm uppercase tracking-wide mb-1">
+            {program.category}
+          </p>
           <h1 className="text-3xl font-bold text-slate-900 mb-2">Request Information</h1>
           <p className="text-black text-lg">
-            Get answers about the <strong>{program.title}</strong> program — funding, schedule, credentials, and how to enroll.
+            Get answers about the <strong>{program.title}</strong> program — funding, schedule,
+            credentials, and how to enroll.
           </p>
         </div>
 
@@ -71,7 +76,9 @@ export default async function RequestInfoPage({ params }: Props) {
           <div className="space-y-4">
             {/* Program quick facts */}
             <div className="bg-white rounded-xl border border-slate-200 p-5">
-              <h3 className="font-bold text-slate-900 mb-3 text-sm uppercase tracking-wide">Program Details</h3>
+              <h3 className="font-bold text-slate-900 mb-3 text-sm uppercase tracking-wide">
+                Program Details
+              </h3>
               <dl className="space-y-2 text-sm">
                 <div>
                   <dt className="text-black">Duration</dt>
@@ -79,7 +86,9 @@ export default async function RequestInfoPage({ params }: Props) {
                 </div>
                 <div>
                   <dt className="text-black">Hours/Week</dt>
-                  <dd className="font-semibold text-slate-800">{program.hoursPerWeekMin}–{program.hoursPerWeekMax} hrs</dd>
+                  <dd className="font-semibold text-slate-800">
+                    {program.hoursPerWeekMin}–{program.hoursPerWeekMax} hrs
+                  </dd>
                 </div>
                 {program.credentials?.[0] && (
                   <div>
@@ -90,7 +99,9 @@ export default async function RequestInfoPage({ params }: Props) {
                 {program.enrollmentTracks?.[0]?.nextCohortDate && (
                   <div>
                     <dt className="text-black">Next Start</dt>
-                    <dd className="font-semibold text-slate-800">{program.enrollmentTracks[0].nextCohortDate}</dd>
+                    <dd className="font-semibold text-slate-800">
+                      {program.enrollmentTracks[0].nextCohortDate}
+                    </dd>
                   </div>
                 )}
               </dl>
@@ -114,10 +125,7 @@ export default async function RequestInfoPage({ params }: Props) {
                 <Phone className="w-4 h-4 text-black" />
                 <h3 className="font-bold text-slate-900 text-sm">Prefer to call?</h3>
               </div>
-              <a
-                href="tel:3173143757"
-                className="text-brand-blue-600 font-bold hover:underline"
-              >
+              <a href="tel:3173143757" className="text-brand-blue-600 font-bold hover:underline">
                 (317) 314-3757
               </a>
               <div className="flex items-center gap-1.5 mt-1">

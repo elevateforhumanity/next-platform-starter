@@ -10,9 +10,12 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -64,20 +67,18 @@ async function _POST(request: NextRequest) {
     const totalMinutes = durationMinutes % 60;
     const totalHoursInt = Math.floor(durationMinutes / 60);
 
-    const { error: entryError } = await supabase
-      .from('apprentice_hours')
-      .insert({
-        user_id: user.id,
-        shop_id: session.shop_id ?? null,
-        discipline: 'barber',
-        date: checkinTime.toISOString().split('T')[0],
-        hours: totalHoursInt,
-        minutes: totalMinutes,
-        category: 'practical',
-        notes: `Auto-logged from check-in at shop`,
-        status: 'pending',
-        submitted_at: checkoutTime.toISOString(),
-      });
+    const { error: entryError } = await supabase.from('apprentice_hours').insert({
+      user_id: user.id,
+      shop_id: session.shop_id ?? null,
+      discipline: 'barber',
+      date: checkinTime.toISOString().split('T')[0],
+      hours: totalHoursInt,
+      minutes: totalMinutes,
+      category: 'practical',
+      notes: `Auto-logged from check-in at shop`,
+      status: 'pending',
+      submitted_at: checkoutTime.toISOString(),
+    });
 
     if (entryError) {
       logger.error('Error creating hour entry:', entryError);

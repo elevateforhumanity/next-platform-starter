@@ -9,10 +9,7 @@ import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error'
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export async function POST(
-  request: Request,
-  { params }: { params: Promise<{ authId: string }> }
-) {
+export async function POST(request: Request, { params }: { params: Promise<{ authId: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
@@ -40,12 +37,12 @@ export async function POST(
 
   // Insert scheduling record
   const { error: schedErr } = await db.from('exam_scheduling').insert({
-    authorization_id:    authId,
-    user_id:             existing.user_id,
-    program_id:          existing.program_id,
+    authorization_id: authId,
+    user_id: existing.user_id,
+    program_id: existing.program_id,
     scheduled_date,
-    scheduled_time:      scheduled_time || null,
-    testing_center:      testing_center || null,
+    scheduled_time: scheduled_time || null,
+    testing_center: testing_center || null,
     confirmation_number: confirmation_number || null,
   });
 

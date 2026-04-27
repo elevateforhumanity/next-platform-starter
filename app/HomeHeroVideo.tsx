@@ -15,10 +15,14 @@ export default function HomeHeroVideo() {
 
   // Track any user interaction so browser unlocks audio playback
   useEffect(() => {
-    const mark = () => { userInteractedRef.current = true; };
+    const mark = () => {
+      userInteractedRef.current = true;
+    };
     const events = ['click', 'touchstart', 'scroll', 'keydown'] as const;
-    events.forEach(e => window.addEventListener(e, mark, { once: true, passive: true }));
-    return () => { events.forEach(e => window.removeEventListener(e, mark)); };
+    events.forEach((e) => window.addEventListener(e, mark, { once: true, passive: true }));
+    return () => {
+      events.forEach((e) => window.removeEventListener(e, mark));
+    };
   }, []);
 
   // Autoplay silent video
@@ -26,7 +30,12 @@ export default function HomeHeroVideo() {
     const video = videoRef.current;
     if (!video) return;
     const play = async () => {
-      try { await video.play(); setIsPlaying(true); } catch { /* poster visible */ }
+      try {
+        await video.play();
+        setIsPlaying(true);
+      } catch {
+        /* poster visible */
+      }
     };
     if (video.readyState >= 2) play();
     else video.addEventListener('loadeddata', play, { once: true });
@@ -38,7 +47,8 @@ export default function HomeHeroVideo() {
     if (!audio || hasPlayedRef.current) return;
     hasPlayedRef.current = true;
     audio.currentTime = 0;
-    audio.play()
+    audio
+      .play()
       .then(() => setVoiceActive(true))
       .catch(() => {
         // Browser blocked — reset so manual tap still works
@@ -56,7 +66,7 @@ export default function HomeHeroVideo() {
           playVoiceover();
         }
       },
-      { threshold: 0 }
+      { threshold: 0 },
     );
     observer.observe(el);
     return () => observer.disconnect();
@@ -74,10 +84,13 @@ export default function HomeHeroVideo() {
     if (!audio) return;
     if (!voiceActive) {
       audio.currentTime = 0;
-      audio.play().then(() => {
-        setVoiceActive(true);
-        hasPlayedRef.current = true;
-      }).catch(() => {});
+      audio
+        .play()
+        .then(() => {
+          setVoiceActive(true);
+          hasPlayedRef.current = true;
+        })
+        .catch(() => {});
     } else {
       audio.pause();
       setVoiceActive(false);
@@ -86,12 +99,33 @@ export default function HomeHeroVideo() {
 
   return (
     <div ref={containerRef} className="relative w-full h-full">
-      <Image src="/images/hero-poster.webp" alt="Elevate for Humanity career training" fill priority sizes="100vw" className="object-cover z-0" />
-      <video ref={videoRef} className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-700 ${isPlaying ? 'opacity-100' : 'opacity-0'}`} loop muted playsInline autoPlay preload="metadata">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+      <Image
+        src="/images/hero-poster.webp"
+        alt="Elevate for Humanity career training"
+        fill
+        priority
+        sizes="100vw"
+        className="object-cover z-0"
+      />
+      <video
+        ref={videoRef}
+        className={`absolute inset-0 w-full h-full object-cover z-10 transition-opacity duration-700 ${isPlaying ? 'opacity-100' : 'opacity-0'}`}
+        loop
+        muted
+        playsInline
+        autoPlay
+        preload="metadata"
+      >
         <source src="/videos/homepage-hero-montage.mp4" type="video/mp4" />
       </video>
 
-      <audio ref={voiceoverRef} src="/audio/welcome-voiceover.mp3" preload="none" onEnded={() => setVoiceActive(false)} />
+      <audio
+        ref={voiceoverRef}
+        src="/audio/welcome-voiceover.mp3"
+        preload="none"
+        onEnded={() => setVoiceActive(false)}
+      />
 
       {isPlaying && (
         <>
@@ -101,8 +135,12 @@ export default function HomeHeroVideo() {
             className="absolute z-20 bottom-4 left-4 flex items-center gap-2 backdrop-blur-sm text-white rounded-full shadow-lg px-4 py-2.5 bg-black/60 hover:bg-black/80 transition-all"
             aria-label={isMuted ? 'Unmute video' : 'Mute video'}
           >
-            <span className="text-lg leading-none" aria-hidden="true">{isMuted ? '\u{1F507}' : '\u{1F50A}'}</span>
-            <span className="text-sm font-semibold hidden sm:inline">{isMuted ? 'Unmute' : 'Muted'}</span>
+            <span className="text-lg leading-none" aria-hidden="true">
+              {isMuted ? '\u{1F507}' : '\u{1F50A}'}
+            </span>
+            <span className="text-sm font-semibold hidden sm:inline">
+              {isMuted ? 'Unmute' : 'Muted'}
+            </span>
           </button>
 
           {/* Narration button — bottom right */}
@@ -117,12 +155,16 @@ export default function HomeHeroVideo() {
           >
             {voiceActive ? (
               <>
-                <span className="text-lg leading-none" aria-hidden="true">&#x1F3A4;</span>
+                <span className="text-lg leading-none" aria-hidden="true">
+                  &#x1F3A4;
+                </span>
                 <span className="text-sm font-semibold hidden sm:inline">Narration On</span>
               </>
             ) : (
               <>
-                <span className="text-lg leading-none" aria-hidden="true">&#x1F3A4;</span>
+                <span className="text-lg leading-none" aria-hidden="true">
+                  &#x1F3A4;
+                </span>
                 <span className="text-sm font-semibold hidden sm:inline">Narration</span>
               </>
             )}

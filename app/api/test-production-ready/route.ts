@@ -39,7 +39,7 @@ export async function GET() {
       { path: '/accessibility', name: 'Accessibility' },
     ];
 
-    publicPages.forEach(page => {
+    publicPages.forEach((page) => {
       marketing.tests.push({
         test: `${page.name} accessible`,
         passed: true,
@@ -168,7 +168,7 @@ export async function GET() {
     if (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY) {
       const supabase = createClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL,
-        process.env.SUPABASE_SERVICE_ROLE_KEY
+        process.env.SUPABASE_SERVICE_ROLE_KEY,
       );
 
       // Test key tables exist
@@ -205,7 +205,8 @@ export async function GET() {
       });
     }
 
-    database.passed = database.tests.filter((t: any) => t.passed).length >= database.tests.length - 1;
+    database.passed =
+      database.tests.filter((t: any) => t.passed).length >= database.tests.length - 1;
     results.categories.push(database);
 
     // ============================================
@@ -538,7 +539,7 @@ export async function GET() {
     const totalTests = results.categories.reduce((sum: number, c: any) => sum + c.tests.length, 0);
     const passedTests = results.categories.reduce(
       (sum: number, c: any) => sum + c.tests.filter((t: any) => t.passed).length,
-      0
+      0,
     );
 
     results.summary = {
@@ -571,10 +572,8 @@ export async function GET() {
     };
 
     return NextResponse.json(results);
-  } catch (error) { /* Error handled silently */ 
-    return NextResponse.json(
-      { error: error.message, stack: error.stack },
-      { status: 500 }
-    );
+  } catch (error) {
+    /* Error handled silently */
+    return NextResponse.json({ error: error.message, stack: error.stack }, { status: 500 });
   }
 }

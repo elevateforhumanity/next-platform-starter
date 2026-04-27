@@ -11,10 +11,17 @@ import { WhatYouWillLearn } from '@/components/WhatYouWillLearn';
 import ProgramPaymentOptions from '@/components/ProgramPaymentOptions';
 
 // Apprenticeship programs hide pricing until after application
-const APPRENTICESHIP_SLUGS = ['barber', 'barber-apprenticeship', 'cosmetology-apprenticeship', 'esthetician-apprenticeship', 'nail-technician-apprenticeship'];
+const APPRENTICESHIP_SLUGS = [
+  'barber',
+  'barber-apprenticeship',
+  'cosmetology-apprenticeship',
+  'esthetician-apprenticeship',
+  'nail-technician-apprenticeship',
+];
 
 export function ProgramTemplate({ program }: { program: Program }) {
-  const isApprenticeship = APPRENTICESHIP_SLUGS.includes(program.slug) || 
+  const isApprenticeship =
+    APPRENTICESHIP_SLUGS.includes(program.slug) ||
     program.name?.toLowerCase().includes('apprenticeship') ||
     program.category?.toLowerCase().includes('apprenticeship');
 
@@ -23,7 +30,12 @@ export function ProgramTemplate({ program }: { program: Program }) {
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Programs', href: '/programs' }, { label: program.heroTitle || program.name || 'Program' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Programs', href: '/programs' },
+              { label: program.heroTitle || program.name || 'Program' },
+            ]}
+          />
         </div>
       </div>
 
@@ -104,16 +116,10 @@ export function ProgramTemplate({ program }: { program: Program }) {
         <div className="grid md:grid-cols-3 gap-12">
           {/* Left: Overview + Outcomes */}
           <div className="md:col-span-2">
-            <h2 className="text-3xl font-bold mb-6 text-black">
-              Program Overview
-            </h2>
-            <p className="text-lg text-black mb-8 leading-relaxed">
-              {program.shortDescription}
-            </p>
+            <h2 className="text-3xl font-bold mb-6 text-black">Program Overview</h2>
+            <p className="text-lg text-black mb-8 leading-relaxed">{program.shortDescription}</p>
 
-            <h3 className="text-xl font-bold mb-4 text-black">
-              What You'll Achieve
-            </h3>
+            <h3 className="text-xl font-bold mb-4 text-black">What You'll Achieve</h3>
             <ul className="space-y-3">
               {program.outcomes
                 .filter((outcome) => outcome && outcome.trim())
@@ -135,7 +141,12 @@ export function ProgramTemplate({ program }: { program: Program }) {
             {/* Payment Options */}
             {!isApprenticeship && (
               <div className="mt-8">
-                <ProgramPaymentOptions programName={program.name} programSlug={program.slug} price={program.price || 0} duration={program.duration || '8-12 weeks'} />
+                <ProgramPaymentOptions
+                  programName={program.name}
+                  programSlug={program.slug}
+                  price={program.price || 0}
+                  duration={program.duration || '8-12 weeks'}
+                />
               </div>
             )}
 
@@ -144,7 +155,7 @@ export function ProgramTemplate({ program }: { program: Program }) {
               <h3 className="text-xl font-bold mb-4 text-brand-blue-900 flex items-center gap-2">
                 <span className="text-2xl">🎓</span> Credentials You'll Earn
               </h3>
-              
+
               {/* Certificate of Completion */}
               <div className="mb-4 bg-white rounded-xl p-4 border border-brand-blue-100">
                 <div className="flex items-start gap-3">
@@ -169,9 +180,7 @@ export function ProgramTemplate({ program }: { program: Program }) {
                     </div>
                     <div>
                       <h4 className="font-bold text-slate-900">Industry Certification</h4>
-                      <p className="text-sm text-slate-600 mb-2">
-                        {program.credential}
-                      </p>
+                      <p className="text-sm text-slate-600 mb-2">{program.credential}</p>
                       <p className="text-xs text-slate-500">
                         Third-party certification recognized by employers nationwide
                       </p>
@@ -182,7 +191,9 @@ export function ProgramTemplate({ program }: { program: Program }) {
 
               {/* Post-Completion Pathway */}
               <div className="mt-4 pt-4 border-t border-brand-blue-200">
-                <h4 className="font-semibold text-brand-blue-900 mb-2">What Happens After Completion?</h4>
+                <h4 className="font-semibold text-brand-blue-900 mb-2">
+                  What Happens After Completion?
+                </h4>
                 <ul className="space-y-2 text-sm text-slate-700">
                   <li className="flex items-center gap-2">
                     <span className="text-brand-green-500">→</span>
@@ -203,24 +214,17 @@ export function ProgramTemplate({ program }: { program: Program }) {
 
           {/* Middle: What You'll Learn */}
           <div className="md:col-span-2">
-            <h2 className="text-3xl font-bold mb-6 text-black">
-              What You'll Learn
-            </h2>
+            <h2 className="text-3xl font-bold mb-6 text-black">What You'll Learn</h2>
 
             {/* Show specializations for programs with multiple tracks */}
             {program.slug === 'drug-alcohol-specimen-collector' && (
               <div className="mb-8">
-                <h3 className="text-xl font-bold mb-4 text-black">
-                  Program Specializations:
-                </h3>
+                <h3 className="text-xl font-bold mb-4 text-black">Program Specializations:</h3>
                 <div className="grid md:grid-cols-2 gap-4 mb-6">
                   <div className="bg-brand-orange-50 border-2 border-brand-orange-200 rounded-xl p-4">
-                    <h4 className="font-bold text-brand-orange-900 mb-2">
-                      DOT Urine Drug Testing
-                    </h4>
+                    <h4 className="font-bold text-brand-orange-900 mb-2">DOT Urine Drug Testing</h4>
                     <p className="text-sm text-black">
-                      Department of Transportation certified collection
-                      procedures
+                      Department of Transportation certified collection procedures
                     </p>
                   </div>
                   <div className="bg-brand-orange-50 border-2 border-brand-orange-200 rounded-xl p-4">
@@ -232,28 +236,20 @@ export function ProgramTemplate({ program }: { program: Program }) {
                     </p>
                   </div>
                   <div className="bg-brand-orange-50 border-2 border-brand-orange-200 rounded-xl p-4">
-                    <h4 className="font-bold text-brand-orange-900 mb-2">
-                      Non-DOT Testing
-                    </h4>
+                    <h4 className="font-bold text-brand-orange-900 mb-2">Non-DOT Testing</h4>
                     <p className="text-sm text-black">
                       Workplace and employer-mandated testing programs
                     </p>
                   </div>
                   <div className="bg-brand-orange-50 border-2 border-brand-orange-200 rounded-xl p-4">
-                    <h4 className="font-bold text-brand-orange-900 mb-2">
-                      Oral Fluid Testing
-                    </h4>
-                    <p className="text-sm text-black">
-                      Saliva-based drug testing procedures
-                    </p>
+                    <h4 className="font-bold text-brand-orange-900 mb-2">Oral Fluid Testing</h4>
+                    <p className="text-sm text-black">Saliva-based drug testing procedures</p>
                   </div>
                 </div>
               </div>
             )}
 
-            <h3 className="text-xl font-bold mb-4 text-black">
-              Training Curriculum:
-            </h3>
+            <h3 className="text-xl font-bold mb-4 text-black">Training Curriculum:</h3>
             <div className="space-y-4">
               {program.whatYouLearn.map((item, i) => (
                 <div
@@ -288,15 +284,10 @@ export function ProgramTemplate({ program }: { program: Program }) {
       {program.highlights && program.highlights.length > 0 && (
         <section className="bg-slate-50 py-12">
           <div className="max-w-6xl mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-8 text-black text-center">
-              Why This Program
-            </h2>
+            <h2 className="text-3xl font-bold mb-8 text-black text-center">Why This Program</h2>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
               {program.highlights.map((highlight, i) => (
-                <div
-                  key={i}
-                  className="bg-white border border-slate-200 rounded-xl p-6"
-                >
+                <div key={i} className="bg-white border border-slate-200 rounded-xl p-6">
                   <div className="flex items-start gap-3">
                     <span className="text-2xl">⭐</span>
                     <p className="text-black">{highlight}</p>
@@ -327,29 +318,42 @@ export function ProgramTemplate({ program }: { program: Program }) {
       {isApprenticeship && (
         <section className="max-w-4xl mx-auto px-4 py-12">
           <div className="bg-slate-50 border border-slate-200 rounded-2xl p-8">
-            <h2 className="text-2xl font-bold mb-6 text-slate-900">What Unlocks After Enrollment</h2>
+            <h2 className="text-2xl font-bold mb-6 text-slate-900">
+              What Unlocks After Enrollment
+            </h2>
             <p className="text-slate-600 mb-6">
-              Payment secures your enrollment. Training access unlocks after approval and shop assignment.
+              Payment secures your enrollment. Training access unlocks after approval and shop
+              assignment.
             </p>
             <div className="space-y-4">
               <div className="flex items-center gap-3">
-                <span className="w-6 h-6 rounded-full bg-brand-blue-100 text-brand-blue-600 flex items-center justify-center text-sm font-bold">1</span>
+                <span className="w-6 h-6 rounded-full bg-brand-blue-100 text-brand-blue-600 flex items-center justify-center text-sm font-bold">
+                  1
+                </span>
                 <span className="text-slate-700">Application submitted</span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="w-6 h-6 rounded-full bg-brand-blue-100 text-brand-blue-600 flex items-center justify-center text-sm font-bold">2</span>
+                <span className="w-6 h-6 rounded-full bg-brand-blue-100 text-brand-blue-600 flex items-center justify-center text-sm font-bold">
+                  2
+                </span>
                 <span className="text-slate-700">Payment received (if self-pay)</span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-sm">⏳</span>
+                <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-sm">
+                  ⏳
+                </span>
                 <span className="text-slate-700">Shop assignment</span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-sm">⏳</span>
+                <span className="w-6 h-6 rounded-full bg-amber-100 text-amber-600 flex items-center justify-center text-sm">
+                  ⏳
+                </span>
                 <span className="text-slate-700">Compliance approval</span>
               </div>
               <div className="flex items-center gap-3">
-                <span className="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-sm">🔒</span>
+                <span className="w-6 h-6 rounded-full bg-slate-200 text-slate-500 flex items-center justify-center text-sm">
+                  🔒
+                </span>
                 <span className="text-slate-500">Training access (unlocks after approval)</span>
               </div>
             </div>
@@ -367,9 +371,7 @@ export function ProgramTemplate({ program }: { program: Program }) {
 
       {/* HOW TO ENROLL */}
       <section className="max-w-6xl mx-auto px-4 py-12">
-        <h2 className="text-3xl font-bold mb-8 text-black text-center">
-          How to Enroll
-        </h2>
+        <h2 className="text-3xl font-bold mb-8 text-black text-center">How to Enroll</h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-5 gap-6">
           <Step
             n={1}
@@ -403,9 +405,7 @@ export function ProgramTemplate({ program }: { program: Program }) {
       {program.requirements && program.requirements.length > 0 && (
         <section className="bg-slate-50 py-12">
           <div className="max-w-4xl mx-auto px-4">
-            <h2 className="text-3xl font-bold mb-6 text-black">
-              Who This Is For
-            </h2>
+            <h2 className="text-3xl font-bold mb-6 text-black">Who This Is For</h2>
             <ul className="space-y-3">
               {program.requirements.map((req, i) => (
                 <li key={i} className="flex items-start gap-3">
@@ -421,9 +421,7 @@ export function ProgramTemplate({ program }: { program: Program }) {
       {/* FUNDING OPTIONS */}
       {program.fundingOptions && program.fundingOptions.length > 0 && (
         <section className="max-w-6xl mx-auto px-4 py-12">
-          <h2 className="text-3xl font-bold mb-6 text-black">
-            Funding Options
-          </h2>
+          <h2 className="text-3xl font-bold mb-6 text-black">Funding Options</h2>
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-8">
             <ul className="space-y-3">
               {program.fundingOptions.map((option, i) => (
@@ -452,19 +450,22 @@ export function ProgramTemplate({ program }: { program: Program }) {
             <div className="bg-white rounded-2xl p-6 border border-slate-200">
               <h3 className="text-lg font-bold text-slate-900 mb-2">Career Services</h3>
               <p className="text-slate-600 text-sm leading-relaxed">
-                Resume review, interview prep, and job search assistance from our career services team.
+                Resume review, interview prep, and job search assistance from our career services
+                team.
               </p>
             </div>
             <div className="bg-white rounded-2xl p-6 border border-slate-200">
               <h3 className="text-lg font-bold text-slate-900 mb-2">Employer Connections</h3>
               <p className="text-slate-600 text-sm leading-relaxed">
-                Direct introductions to hiring employers in our partner network actively seeking graduates.
+                Direct introductions to hiring employers in our partner network actively seeking
+                graduates.
               </p>
             </div>
             <div className="bg-white rounded-2xl p-6 border border-slate-200">
               <h3 className="text-lg font-bold text-slate-900 mb-2">Career Advancement</h3>
               <p className="text-slate-600 text-sm leading-relaxed">
-                Pathways to advanced certifications, specializations, and leadership roles in your field.
+                Pathways to advanced certifications, specializations, and leadership roles in your
+                field.
               </p>
             </div>
           </div>
@@ -482,7 +483,9 @@ export function ProgramTemplate({ program }: { program: Program }) {
       {/* FINAL CTA */}
       <section className="bg-slate-900 py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">Ready to Get Started?</h2>
+          <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-4">
+            Ready to Get Started?
+          </h2>
           <p className="text-slate-300 text-base leading-relaxed mb-10 max-w-xl mx-auto">
             Apply now and we will guide you step-by-step through the enrollment process.
           </p>
@@ -516,13 +519,23 @@ export function ProgramTemplate({ program }: { program: Program }) {
 
 function Card({ title, value, highlight }: { title: string; value: string; highlight?: boolean }) {
   return (
-    <div className={`rounded-xl p-6 shadow-sm ${
-      highlight 
-        ? 'bg-brand-blue-50 border-2 border-brand-blue-200' 
-        : 'bg-white border border-slate-200'
-    }`}>
-      <div className={`text-sm mb-2 ${highlight ? 'text-brand-blue-600 font-medium' : 'text-slate-500'}`}>{title}</div>
-      <div className={`text-base font-semibold ${highlight ? 'text-brand-blue-900' : 'text-black'}`}>{value}</div>
+    <div
+      className={`rounded-xl p-6 shadow-sm ${
+        highlight
+          ? 'bg-brand-blue-50 border-2 border-brand-blue-200'
+          : 'bg-white border border-slate-200'
+      }`}
+    >
+      <div
+        className={`text-sm mb-2 ${highlight ? 'text-brand-blue-600 font-medium' : 'text-slate-500'}`}
+      >
+        {title}
+      </div>
+      <div
+        className={`text-base font-semibold ${highlight ? 'text-brand-blue-900' : 'text-black'}`}
+      >
+        {value}
+      </div>
     </div>
   );
 }

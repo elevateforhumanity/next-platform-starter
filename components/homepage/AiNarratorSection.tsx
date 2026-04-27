@@ -1,7 +1,6 @@
-"use client";
+'use client';
 
-import { aiNarrator } from "@/content/homepage/aiInstructor";
-
+import { aiNarrator } from '@/content/homepage/aiInstructor';
 
 export function AiNarratorSection() {
   return (
@@ -16,11 +15,10 @@ export function AiNarratorSection() {
             Let our AI guide explain Elevate for Humanity
           </h2>
           <p className="text-sm text-black">
-            This short AI-narrated overview introduces Elevate for Humanity and
-            the Elevate for Humanity. It explains how our programs connect
-            to federal and state workforce funding streams like WIOA, Workforce
-            Ready Grants, and other local initiatives so that eligible learners
-            may attend at little or no cost.
+            This short AI-narrated overview introduces Elevate for Humanity and the Elevate for
+            Humanity. It explains how our programs connect to federal and state workforce funding
+            streams like WIOA, Workforce Ready Grants, and other local initiatives so that eligible
+            learners may attend at little or no cost.
           </p>
 
           <ul className="mt-3 space-y-2 text-sm text-black list-disc pl-4">
@@ -30,12 +28,10 @@ export function AiNarratorSection() {
           </ul>
 
           <p className="mt-4 text-xs text-slate-500">
-            The full script for this overview is stored at:{" "}
-            <code className="rounded bg-slate-100 px-1 py-0.5">
-              {aiNarrator.scriptFile}
-            </code>
-            . Your video generation pipeline can read that file and update the
-            video URL below when the AI video is ready.
+            The full script for this overview is stored at:{' '}
+            <code className="rounded bg-slate-100 px-1 py-0.5">{aiNarrator.scriptFile}</code>. Your
+            video generation pipeline can read that file and update the video URL below when the AI
+            video is ready.
           </p>
         </div>
 
@@ -52,13 +48,10 @@ export function AiNarratorSection() {
             />
           ) : (
             <div className="flex h-full w-full flex-col items-center justify-center gap-2 px-4 text-center text-xs text-slate-300">
-              <span className="font-medium">
-                AI narrator video Available Now
-              </span>
+              <span className="font-medium">AI narrator video Available Now</span>
               <span className="text-[11px] text-slate-400">
-                Once your AI video is generated from the script file, set{" "}
-                <code>aiNarrator.videoUrl</code> in{" "}
-                <code>content/homepage/aiInstructor.ts</code>.
+                Once your AI video is generated from the script file, set{' '}
+                <code>aiNarrator.videoUrl</code> in <code>content/homepage/aiInstructor.ts</code>.
               </span>
             </div>
           )}

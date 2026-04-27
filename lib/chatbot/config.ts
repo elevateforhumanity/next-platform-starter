@@ -1,6 +1,6 @@
 /**
  * Tidio AI Chatbot Configuration
- * 
+ *
  * This file contains the system prompt and configuration for the
  * Program Fit Assistant chatbot integration.
  */
@@ -8,10 +8,10 @@
 export const CHATBOT_CONFIG = {
   name: 'Program Fit Assistant',
   provider: 'tidio',
-  
+
   // Tidio Public Key - Set this in environment variables
   publicKey: process.env.NEXT_PUBLIC_TIDIO_KEY || '',
-  
+
   // Welcome message shown when chat opens
   welcomeMessage: `Hi — I'm an AI assistant for Elevate for Humanity.
 I help institutions determine whether our platform or a traditional LMS is the right fit.
@@ -21,12 +21,12 @@ Would you like to continue?`,
 
   // Quick reply buttons for welcome
   welcomeButtons: [
-    { label: 'Yes, let\'s continue', value: 'continue' },
+    { label: "Yes, let's continue", value: 'continue' },
     { label: 'Not right now', value: 'decline' },
   ],
 
   // Response when user declines
-  declineResponse: 'No problem. If your needs change, I\'m here.',
+  declineResponse: "No problem. If your needs change, I'm here.",
 
   // LMS keyword triggers
   lmsKeywords: [
@@ -232,13 +232,7 @@ export const INTAKE_QUESTIONS = [
   {
     id: 'learner_volume',
     question: 'How many learners do you expect to serve annually?',
-    options: [
-      'Under 100',
-      '100-500',
-      '500-2,000',
-      '2,000-10,000',
-      'Over 10,000',
-    ],
+    options: ['Under 100', '100-500', '500-2,000', '2,000-10,000', 'Over 10,000'],
     required: true,
   },
   {

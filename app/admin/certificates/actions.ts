@@ -10,10 +10,16 @@ export async function issueCertificate(formData: FormData) {
   const db = await getAdminClient();
   if (!db) throw new Error('Admin client failed to initialize');
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (profile?.role !== 'admin' && profile?.role !== 'super_admin') redirect('/unauthorized');
 
   const recipientName = formData.get('recipientName') as string;
@@ -57,13 +63,16 @@ export async function issueCertificate(formData: FormData) {
   }
 
   // Log to audit
-  await db.from('audit_logs').insert({
-    user_id: user.id,
-    action: 'certificate_issued',
-    resource_type: 'certificate',
-    resource_id: cert?.id || null,
-    details: { recipientName, email, certNumber, courseId: courseId || null },
-  }).then(() => {});
+  await db
+    .from('audit_logs')
+    .insert({
+      user_id: user.id,
+      action: 'certificate_issued',
+      resource_type: 'certificate',
+      resource_id: cert?.id || null,
+      details: { recipientName, email, certNumber, courseId: courseId || null },
+    })
+    .then(() => {});
 
   redirect('/admin/certificates?success=issued&cert=' + certNumber);
 }
@@ -73,7 +82,9 @@ export async function revokeCertificate(formData: FormData) {
   const db = await getAdminClient();
   if (!db) throw new Error('Admin client failed to initialize');
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const certId = formData.get('certId') as string;
@@ -92,17 +103,21 @@ export async function revokeCertificate(formData: FormData) {
     ? `${existing.description} | Revoked: ${reason}`
     : `Revoked: ${reason}`;
 
-  await db.from('issued_certificates')
+  await db
+    .from('issued_certificates')
     .update({ status: 'revoked', description: desc })
     .eq('id', certId);
 
-  await db.from('audit_logs').insert({
-    user_id: user.id,
-    action: 'certificate_revoked',
-    resource_type: 'certificate',
-    resource_id: certId,
-    details: { reason },
-  }).then(() => {});
+  await db
+    .from('audit_logs')
+    .insert({
+      user_id: user.id,
+      action: 'certificate_revoked',
+      resource_type: 'certificate',
+      resource_id: certId,
+      details: { reason },
+    })
+    .then(() => {});
 
   redirect('/admin/certificates?success=revoked');
 }

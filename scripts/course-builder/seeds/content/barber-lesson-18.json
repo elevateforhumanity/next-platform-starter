@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which guard number would leave the shortest length of hair?",
-        "choices": [
-          "1",
-          "3",
-          "5",
-          "7"
-        ],
+        "choices": ["1", "3", "5", "7"],
         "answerIndex": 0,
         "rationale": "Smaller guard numbers leave shorter hair, with guard number 1 leaving the shortest length.",
         "type": "recall"
@@ -76,12 +71,7 @@
       },
       {
         "prompt": "What is the recommended time to let disinfectant sit on clipper blades?",
-        "choices": [
-          "Immediately wipe off",
-          "30 seconds",
-          "A few minutes",
-          "10 minutes"
-        ],
+        "choices": ["Immediately wipe off", "30 seconds", "A few minutes", "10 minutes"],
         "answerIndex": 2,
         "rationale": "Allowing the disinfectant to sit for a few minutes ensures effective germ killing.",
         "type": "recall"
@@ -124,12 +114,7 @@
       },
       {
         "prompt": "A new client asks for a very short buzz cut. Which guard should you likely use?",
-        "choices": [
-          "Guard #1",
-          "Guard #3",
-          "Guard #5",
-          "Guard #7"
-        ],
+        "choices": ["Guard #1", "Guard #3", "Guard #5", "Guard #7"],
         "answerIndex": 0,
         "rationale": "Guard #1 is typically used for very short buzz cuts as it leaves the shortest length.",
         "type": "scenario"

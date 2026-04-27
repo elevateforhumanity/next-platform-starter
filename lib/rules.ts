@@ -39,7 +39,7 @@ export async function getStateRules(state: string): Promise<StateRules | null> {
  */
 export async function validateFundingSource(
   state: string,
-  fundingSource: 'WIOA' | 'WRG' | 'OJT' | 'JRI'
+  fundingSource: 'WIOA' | 'WRG' | 'OJT' | 'JRI',
 ): Promise<boolean> {
   const rules = await getStateRules(state);
 
@@ -82,10 +82,7 @@ export async function isRapidsRequired(state: string): Promise<boolean> {
 export async function getAllStateRules(): Promise<StateRules[]> {
   const supabase = await getAdminClient();
 
-  const { data, error }: any = await supabase
-    .from('state_rules')
-    .select('*')
-    .order('state');
+  const { data, error }: any = await supabase.from('state_rules').select('*').order('state');
 
   if (error) {
     logger.error('Failed to fetch all state rules:', error);
@@ -100,7 +97,7 @@ export async function getAllStateRules(): Promise<StateRules[]> {
  */
 export async function updateStateRules(
   state: string,
-  rules: Partial<Omit<StateRules, 'state'>>
+  rules: Partial<Omit<StateRules, 'state'>>,
 ): Promise<StateRules | null> {
   const supabase = await getAdminClient();
 

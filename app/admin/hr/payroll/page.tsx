@@ -15,8 +15,6 @@ export default async function PayrollPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   const { count: staffCount } = await supabase
     .from('profiles')
     .select('*', { count: 'exact', head: true })
@@ -24,7 +22,9 @@ export default async function PayrollPage() {
 
   const { data: payrollRuns } = await supabase
     .from('payroll_runs')
-    .select('id, pay_period_start, pay_period_end, pay_date, status, total_gross, total_net, total_taxes, employee_count, created_at')
+    .select(
+      'id, pay_period_start, pay_period_end, pay_date, status, total_gross, total_net, total_taxes, employee_count, created_at',
+    )
     .order('pay_date', { ascending: false })
     .limit(50);
 

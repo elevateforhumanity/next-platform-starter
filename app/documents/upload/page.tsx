@@ -74,9 +74,9 @@ export default function DocumentUploadPage() {
     }
   }
 
-  const requiredComplete = REQUIRED_DOCUMENTS
-    .filter((d) => d.required)
-    .every((d) => uploadedTypes.includes(d.type));
+  const requiredComplete = REQUIRED_DOCUMENTS.filter((d) => d.required).every((d) =>
+    uploadedTypes.includes(d.type),
+  );
 
   const handleUpload = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -100,7 +100,9 @@ export default function DocumentUploadPage() {
       const result = await res.json();
       if (!res.ok) throw new Error(result.error || 'Upload failed');
 
-      setSuccess(`${REQUIRED_DOCUMENTS.find((d) => d.type === documentType)?.label || 'Document'} uploaded.`);
+      setSuccess(
+        `${REQUIRED_DOCUMENTS.find((d) => d.type === documentType)?.label || 'Document'} uploaded.`,
+      );
       setFile(null);
       setDocumentType('');
       setDescription('');
@@ -121,7 +123,12 @@ export default function DocumentUploadPage() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-3xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Onboarding', href: '/onboarding/learner' }, { label: 'Upload Documents' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Onboarding', href: '/onboarding/learner' },
+              { label: 'Upload Documents' },
+            ]}
+          />
         </div>
       </div>
 
@@ -131,13 +138,16 @@ export default function DocumentUploadPage() {
           <div className="flex items-center gap-3 mb-6">
             <div className="w-1 h-10 bg-brand-red-600 rounded-full flex-shrink-0" />
             <div>
-              <p className="text-xs font-bold text-brand-red-600 uppercase tracking-widest">Enrollment Step</p>
+              <p className="text-xs font-bold text-brand-red-600 uppercase tracking-widest">
+                Enrollment Step
+              </p>
               <h1 className="text-2xl font-bold text-slate-900">Upload Required Documents</h1>
             </div>
           </div>
           <p className="text-slate-700 mb-8">
-            Upload each document below. Required items must be submitted before your enrollment can be finalized.
-            Documents are stored securely and only accessible to authorized Elevate staff.
+            Upload each document below. Required items must be submitted before your enrollment can
+            be finalized. Documents are stored securely and only accessible to authorized Elevate
+            staff.
           </p>
 
           {/* Checklist */}
@@ -157,20 +167,32 @@ export default function DocumentUploadPage() {
                           : 'bg-white border-gray-200'
                     }`}
                   >
-                    <FileText className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
-                      isUploaded ? 'text-brand-green-600' : doc.required ? 'text-yellow-600' : 'text-slate-700'
-                    }`} />
+                    <FileText
+                      className={`w-5 h-5 mt-0.5 flex-shrink-0 ${
+                        isUploaded
+                          ? 'text-brand-green-600'
+                          : doc.required
+                            ? 'text-yellow-600'
+                            : 'text-slate-700'
+                      }`}
+                    />
                     <div>
                       <div className="flex items-center gap-2">
                         <span className="font-medium text-slate-900">{doc.label}</span>
                         {doc.required && !isUploaded && (
-                          <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full">Required</span>
+                          <span className="text-xs bg-yellow-100 text-yellow-800 px-2 py-0.5 rounded-full">
+                            Required
+                          </span>
                         )}
                         {isUploaded && (
-                          <span className="text-xs bg-brand-green-100 text-brand-green-800 px-2 py-0.5 rounded-full">Uploaded</span>
+                          <span className="text-xs bg-brand-green-100 text-brand-green-800 px-2 py-0.5 rounded-full">
+                            Uploaded
+                          </span>
                         )}
                         {!doc.required && !isUploaded && (
-                          <span className="text-xs bg-white text-slate-700 px-2 py-0.5 rounded-full">Optional</span>
+                          <span className="text-xs bg-white text-slate-700 px-2 py-0.5 rounded-full">
+                            Optional
+                          </span>
                         )}
                       </div>
                       <p className="text-sm text-slate-700">{doc.description}</p>
@@ -190,10 +212,14 @@ export default function DocumentUploadPage() {
           {/* Social Security Number */}
           <div className="bg-white rounded-lg shadow-sm border p-6 mb-8">
             <h2 className="text-lg font-semibold mb-1">Social Security Number</h2>
-            <p className="text-sm text-slate-700 mb-4">Enter your SSN. It is stored securely and never displayed after submission.</p>
+            <p className="text-sm text-slate-700 mb-4">
+              Enter your SSN. It is stored securely and never displayed after submission.
+            </p>
             <div className="flex gap-3 items-end">
               <div className="flex-1">
-                <label htmlFor="ssn" className="block text-sm font-medium text-slate-900 mb-1">SSN *</label>
+                <label htmlFor="ssn" className="block text-sm font-medium text-slate-900 mb-1">
+                  SSN *
+                </label>
                 <input
                   id="ssn"
                   type="text"
@@ -211,22 +237,49 @@ export default function DocumentUploadPage() {
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-orange-500 font-mono tracking-wider disabled:bg-white"
                 />
               </div>
-              <Button type="button" className="px-6 py-2" disabled={ssnSaved} onClick={async () => {
-                if (!isValidSsn(ssnDigits)) { setError('Enter a valid 9-digit SSN (e.g. 123-45-6789).'); return; }
-                try {
-                  const supabase = createClient();
-                  const { data: { user } } = await supabase.auth.getUser();
-                  if (!user) { setError('Please log in.'); return; }
-                  const { error: err } = await supabase.from('secure_identity').upsert({ user_id: user.id, ssn_last4: ssnDigits.slice(-4), updated_at: new Date().toISOString() }, { onConflict: 'user_id' });
-                  if (err) { setError('Failed to save SSN. Please try again or contact support.'); return; }
-                  setSuccess('SSN saved securely.');
-                  setError(null);
-                  setSsnDisplay('***-**-' + ssnDigits.slice(-4));
-                  setSsnSaved(true);
-                } catch {
-                  setError('Failed to save SSN. Please try again or contact support.');
-                }
-              }}>Save</Button>
+              <Button
+                type="button"
+                className="px-6 py-2"
+                disabled={ssnSaved}
+                onClick={async () => {
+                  if (!isValidSsn(ssnDigits)) {
+                    setError('Enter a valid 9-digit SSN (e.g. 123-45-6789).');
+                    return;
+                  }
+                  try {
+                    const supabase = createClient();
+                    const {
+                      data: { user },
+                    } = await supabase.auth.getUser();
+                    if (!user) {
+                      setError('Please log in.');
+                      return;
+                    }
+                    const { error: err } = await supabase
+                      .from('secure_identity')
+                      .upsert(
+                        {
+                          user_id: user.id,
+                          ssn_last4: ssnDigits.slice(-4),
+                          updated_at: new Date().toISOString(),
+                        },
+                        { onConflict: 'user_id' },
+                      );
+                    if (err) {
+                      setError('Failed to save SSN. Please try again or contact support.');
+                      return;
+                    }
+                    setSuccess('SSN saved securely.');
+                    setError(null);
+                    setSsnDisplay('***-**-' + ssnDigits.slice(-4));
+                    setSsnSaved(true);
+                  } catch {
+                    setError('Failed to save SSN. Please try again or contact support.');
+                  }
+                }}
+              >
+                Save
+              </Button>
             </div>
           </div>
 

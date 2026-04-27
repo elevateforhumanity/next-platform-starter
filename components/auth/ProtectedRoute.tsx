@@ -41,12 +41,8 @@ export default function ProtectedRoute({ children, requireRole }: Props) {
       <div className="section">
         <div className="container">
           <div className="card p-6 text-center">
-            <h2 className="text-xl font-semibold text-brand-orange-600">
-              Access Denied
-            </h2>
-            <p className="mt-2 text-black">
-              You don't have permission to access this page.
-            </p>
+            <h2 className="text-xl font-semibold text-brand-orange-600">Access Denied</h2>
+            <p className="mt-2 text-black">You don't have permission to access this page.</p>
             <a href="/lms/dashboard" className="btn mt-4">
               Go to Dashboard
             </a>

@@ -19,7 +19,7 @@ interface Item {
 }
 
 interface RowState {
-  cost_cents: string;   // string for controlled input
+  cost_cents: string; // string for controlled input
   payer_rule: PayerRule;
   syncing: boolean;
   synced: boolean;
@@ -27,7 +27,7 @@ interface RowState {
 }
 
 const PAYER_LABELS: Record<PayerRule, string> = {
-  sponsored:      'Elevate-sponsored',
+  sponsored: 'Elevate-sponsored',
   always_student: 'Student pays',
   always_elevate: 'Elevate always pays',
 };
@@ -48,7 +48,7 @@ export default function ExternalCourseStripeTable({ items }: { items: Item[] }) 
   });
 
   function update(id: string, patch: Partial<RowState>) {
-    setRows(prev => ({ ...prev, [id]: { ...prev[id], ...patch } }));
+    setRows((prev) => ({ ...prev, [id]: { ...prev[id], ...patch } }));
   }
 
   async function syncRow(item: Item) {
@@ -80,9 +80,7 @@ export default function ExternalCourseStripeTable({ items }: { items: Item[] }) 
 
   if (items.length === 0) {
     return (
-      <div className="text-center py-16 text-slate-400">
-        No active external courses found.
-      </div>
+      <div className="text-center py-16 text-slate-400">No active external courses found.</div>
     );
   }
 
@@ -101,7 +99,7 @@ export default function ExternalCourseStripeTable({ items }: { items: Item[] }) 
           </tr>
         </thead>
         <tbody className="divide-y divide-slate-100">
-          {items.map(item => {
+          {items.map((item) => {
             const row = rows[item.id];
             const isSynced = !!item.stripe_product_id || row.synced;
 
@@ -120,10 +118,13 @@ export default function ExternalCourseStripeTable({ items }: { items: Item[] }) 
 
                 {/* Required */}
                 <td className="px-4 py-3 text-center">
-                  {item.is_required
-                    ? <span className="text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">Required</span>
-                    : <span className="text-xs text-slate-400">Optional</span>
-                  }
+                  {item.is_required ? (
+                    <span className="text-xs font-semibold text-red-600 bg-red-50 px-2 py-0.5 rounded-full">
+                      Required
+                    </span>
+                  ) : (
+                    <span className="text-xs text-slate-400">Optional</span>
+                  )}
                 </td>
 
                 {/* Cost in cents */}
@@ -135,7 +136,9 @@ export default function ExternalCourseStripeTable({ items }: { items: Item[] }) 
                       min={0}
                       step={1}
                       value={row.cost_cents}
-                      onChange={e => update(item.id, { cost_cents: e.target.value, synced: false })}
+                      onChange={(e) =>
+                        update(item.id, { cost_cents: e.target.value, synced: false })
+                      }
                       className="w-24 border border-slate-300 rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                     />
                   </div>
@@ -150,11 +153,15 @@ export default function ExternalCourseStripeTable({ items }: { items: Item[] }) 
                 <td className="px-4 py-3">
                   <select
                     value={row.payer_rule}
-                    onChange={e => update(item.id, { payer_rule: e.target.value as PayerRule, synced: false })}
+                    onChange={(e) =>
+                      update(item.id, { payer_rule: e.target.value as PayerRule, synced: false })
+                    }
                     className="border border-slate-300 rounded-lg px-2 py-1 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                   >
-                    {(Object.keys(PAYER_LABELS) as PayerRule[]).map(k => (
-                      <option key={k} value={k}>{PAYER_LABELS[k]}</option>
+                    {(Object.keys(PAYER_LABELS) as PayerRule[]).map((k) => (
+                      <option key={k} value={k}>
+                        {PAYER_LABELS[k]}
+                      </option>
                     ))}
                   </select>
                 </td>
@@ -194,10 +201,15 @@ export default function ExternalCourseStripeTable({ items }: { items: Item[] }) 
                     disabled={row.syncing}
                     className="inline-flex items-center gap-1.5 text-xs font-semibold bg-brand-blue-700 hover:bg-brand-blue-800 text-white px-3 py-1.5 rounded-lg transition disabled:opacity-50"
                   >
-                    {row.syncing
-                      ? <><Loader2 className="w-3 h-3 animate-spin" /> Syncing…</>
-                      : <><RefreshCw className="w-3 h-3" /> Sync to Stripe</>
-                    }
+                    {row.syncing ? (
+                      <>
+                        <Loader2 className="w-3 h-3 animate-spin" /> Syncing…
+                      </>
+                    ) : (
+                      <>
+                        <RefreshCw className="w-3 h-3" /> Sync to Stripe
+                      </>
+                    )}
                   </button>
                 </td>
               </tr>

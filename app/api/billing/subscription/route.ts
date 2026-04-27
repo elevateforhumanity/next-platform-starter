@@ -32,16 +32,10 @@ async function _GET(req: NextRequest) {
 
     // Only org_admin and super_admin can view billing
     if (!['org_admin', 'super_admin'].includes(ctx.role)) {
-      return NextResponse.json(
-        { error: 'Insufficient permissions' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Insufficient permissions' }, { status: 403 });
     }
 
-    const subscription = await getOrgSubscription(
-      supabase,
-      ctx.organization_id
-    );
+    const subscription = await getOrgSubscription(supabase, ctx.organization_id);
     const licenseStatus = getLicenseStatus(subscription);
 
     return NextResponse.json({
@@ -51,10 +45,9 @@ async function _GET(req: NextRequest) {
   } catch (err: any) {
     return NextResponse.json(
       {
-        err:
-          'Internal server error',
+        err: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -41,16 +41,26 @@ export const POST = withRateLimit(
           funding: formData.get('funding'),
         };
       }
-      
+
       const validatedData = applicationSchema.parse(data);
 
       const { program, funding, name, email, phone, pathway_slug, source } = validatedData;
       const eligible = funding !== 'Self Pay' && program !== 'Not Sure';
 
       // Funding sources that require WorkOne / Indiana Career Connect intake first
-      const WORKFORCE_FUNDING_KEYS = ['wioa', 'workone', 'workforce ready', 'workforce_ready', 'fssa', 'employindy', 'employ_indy', 'impact', 'dwd'];
-      const needsWorkOneIntake = WORKFORCE_FUNDING_KEYS.some(k =>
-        (funding ?? '').toLowerCase().includes(k)
+      const WORKFORCE_FUNDING_KEYS = [
+        'wioa',
+        'workone',
+        'workforce ready',
+        'workforce_ready',
+        'fssa',
+        'employindy',
+        'employ_indy',
+        'impact',
+        'dwd',
+      ];
+      const needsWorkOneIntake = WORKFORCE_FUNDING_KEYS.some((k) =>
+        (funding ?? '').toLowerCase().includes(k),
       );
 
       // Split name into first and last
@@ -60,13 +70,10 @@ export const POST = withRateLimit(
 
       const supabase = await getAdminClient();
 
-    if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
-    }
-    
+      if (!supabase) {
+        return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
+      }
+
       // Resolve program_id from slug or title so the review page can approve without guessing
       const resolvedProgramId = await resolveProgramId(supabase, program);
 
@@ -94,11 +101,15 @@ export const POST = withRateLimit(
           ...insertData,
           pathway_slug: pathway_slug || null,
           source: source || 'direct',
-        }).select('id').maybeSingle();
+        })
+          .select('id')
+          .maybeSingle();
 
         if (result.error?.message?.includes('column') || result.error?.code === '42703') {
           // Columns don't exist yet, insert without them
-          const fallback = await insertWithPreAuthCheck(supabase, 'applications', insertData).select('id').maybeSingle();
+          const fallback = await insertWithPreAuthCheck(supabase, 'applications', insertData)
+            .select('id')
+            .maybeSingle();
           application = fallback.data;
           error = fallback.error;
         } else {
@@ -115,7 +126,7 @@ export const POST = withRateLimit(
         logger.error('Supabase insert error:', error);
         return NextResponse.json(
           { error: 'Failed to submit application. Please call 317-314-3757 for assistance.' },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -133,7 +144,7 @@ export const POST = withRateLimit(
         'New Application Received',
         `**${firstName} ${lastName}** applied for **${program ?? 'Unknown program'}**.`,
         { Email: email, Program: program ?? 'Unknown', Funding: funding ?? 'Unknown' },
-      ).catch(err => logger.error('[apply] Teams notification failed', err));
+      ).catch((err) => logger.error('[apply] Teams notification failed', err));
 
       if (process.env.AUTOMATION_ENABLE_TRIGGERS !== 'false' && application?.id) {
         if (program?.toLowerCase().includes('apprentice')) {
@@ -210,22 +221,21 @@ export const POST = withRateLimit(
       return NextResponse.redirect(dest, { status: 303 });
     } catch (err: any) {
       logger.error('Apply route error:', err);
-      
+
       // Handle validation errors specifically
       if (err?.name === 'ZodError' || err?.issues) {
         const issues = err.issues || err.errors || [];
-        const fieldErrors = issues.map((e: any) => `${e.path?.join('.') || 'field'}: ${e.message}`).join(', ');
-        return NextResponse.json(
-          { error: `Please fix: ${fieldErrors}` },
-          { status: 400 }
-        );
+        const fieldErrors = issues
+          .map((e: any) => `${e.path?.join('.') || 'field'}: ${e.message}`)
+          .join(', ');
+        return NextResponse.json({ error: `Please fix: ${fieldErrors}` }, { status: 400 });
       }
-      
+
       return NextResponse.json(
         { error: 'Submission failed. Please call 317-314-3757.' },
-        { status: 500 }
+        { status: 500 },
       );
     }
   },
-  { limiter: contactRateLimit, skipOnMissing: true }
+  { limiter: contactRateLimit, skipOnMissing: true },
 );

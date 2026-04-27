@@ -1,5 +1,7 @@
 # CERTIFIED NURSING ASSISTANT (CNA) PROGRAM
+
 ## Program Overview Document
+
 ### Elevate for Humanity LLC
 
 ---
@@ -30,15 +32,16 @@ Indiana NATCEP Administrative Standards require a minimum of 75 total training h
 
 Elevate for Humanity LLC meets these requirements as follows:
 
-| Component | Indiana Minimum | This Program |
-|-----------|----------------|--------------|
-| Classroom / Theory Instruction | 30 hours | 30 hours |
-| Skills Laboratory (part of clinical bucket) | up to 21 hours | 21 hours |
-| Licensed LTC Facility Clinical | 24 hours minimum | 24 hours |
-| **Total Clinical (Lab + LTC combined)** | **45 hours** | **45 hours** |
-| **Total Program Hours** | **75 hours** | **75 hours** |
+| Component                                   | Indiana Minimum  | This Program |
+| ------------------------------------------- | ---------------- | ------------ |
+| Classroom / Theory Instruction              | 30 hours         | 30 hours     |
+| Skills Laboratory (part of clinical bucket) | up to 21 hours   | 21 hours     |
+| Licensed LTC Facility Clinical              | 24 hours minimum | 24 hours     |
+| **Total Clinical (Lab + LTC combined)**     | **45 hours**     | **45 hours** |
+| **Total Program Hours**                     | **75 hours**     | **75 hours** |
 
 **Important distinctions:**
+
 - Skills laboratory hours are counted within the 45-hour clinical requirement, not as a separate third category.
 - The 21 lab hours are conducted at Elevate for Humanity LLC's on-site skills lab, 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240.
 - The 24 LTC facility hours are conducted at a licensed long-term care facility under a signed clinical affiliation agreement, under direct supervision of a qualified RN instructor.

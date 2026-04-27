@@ -30,9 +30,9 @@ const PROGRAM_DETAILS: Record<string, { name: string; totalPrice: number }> = {
   hvac: { name: 'HVAC Technician', totalPrice: 5000 },
   'medical-assistant': { name: 'Medical Assistant', totalPrice: 4325 },
   cdl: { name: 'CDL Training', totalPrice: 5000 },
-  'bookkeeping': { name: 'Bookkeeping / Accounting Clerk', totalPrice: 4925 },
+  bookkeeping: { name: 'Bookkeeping / Accounting Clerk', totalPrice: 4925 },
   'business-management': { name: 'Business Management', totalPrice: 4900 },
-  'esthetician': { name: 'Professional Esthetician & Client Services', totalPrice: 4575 },
+  esthetician: { name: 'Professional Esthetician & Client Services', totalPrice: 4575 },
   'emergency-health': { name: 'Emergency Health & Safety Technician', totalPrice: 4950 },
   'home-health-aide': { name: 'Home Health Aide', totalPrice: 4700 },
   'reentry-specialist': { name: 'Public Safety Reentry Specialist', totalPrice: 4750 },
@@ -54,7 +54,7 @@ async function _POST(req: Request) {
         if (!success) {
           return NextResponse.json(
             { error: 'Too many payment requests. Please try again later.' },
-            { status: 429 }
+            { status: 429 },
           );
         }
       }
@@ -64,7 +64,7 @@ async function _POST(req: Request) {
     if (!stripe) {
       return NextResponse.json(
         { error: 'Payment system not configured. Please contact support.' },
-        { status: 503 }
+        { status: 503 },
       );
     }
 
@@ -72,25 +72,24 @@ async function _POST(req: Request) {
     const parsed = enrollPaymentSchema.safeParse(rawBody);
     if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Invalid request', fields: parsed.error.issues.map(i => i.path.join('.')) },
-        { status: 400 }
+        { error: 'Invalid request', fields: parsed.error.issues.map((i) => i.path.join('.')) },
+        { status: 400 },
       );
     }
     const { amount, program, paymentType, description, successUrl, cancelUrl } = parsed.data;
 
     if (!amount || !program || !successUrl || !cancelUrl) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
-    const programInfo = PROGRAM_DETAILS[program] || { 
-      name: program.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()), 
-      totalPrice: amount 
+    const programInfo = PROGRAM_DETAILS[program] || {
+      name: program.replace(/-/g, ' ').replace(/\b\w/g, (l: string) => l.toUpperCase()),
+      totalPrice: amount,
     };
 
     // Create Stripe Checkout session
@@ -103,7 +102,9 @@ async function _POST(req: Request) {
             currency: 'usd',
             product_data: {
               name: programInfo.name,
-              description: description || `${paymentType === 'down-payment' ? 'Down Payment' : 'Full Payment'} for ${programInfo.name}`,
+              description:
+                description ||
+                `${paymentType === 'down-payment' ? 'Down Payment' : 'Full Payment'} for ${programInfo.name}`,
             },
             unit_amount: amount * 100, // Convert to cents
           },
@@ -128,10 +129,7 @@ async function _POST(req: Request) {
     });
 
     if (!session.url) {
-      return NextResponse.json(
-        { error: 'Failed to create checkout session' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
     }
 
     return NextResponse.json({ url: session.url });
@@ -139,7 +137,7 @@ async function _POST(req: Request) {
     logger.error('Enrollment payment error:', error);
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Payment processing failed' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

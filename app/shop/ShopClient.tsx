@@ -44,9 +44,8 @@ export function ShopClient({ products, categories }: ShopClientProps) {
     // Add to cart logic here
   };
 
-  const filteredProducts = activeCategory === 'All' 
-    ? products 
-    : products.filter(p => p.category === activeCategory);
+  const filteredProducts =
+    activeCategory === 'All' ? products : products.filter((p) => p.category === activeCategory);
 
   return (
     <div className="max-w-7xl mx-auto px-4 py-8">
@@ -55,7 +54,7 @@ export function ShopClient({ products, categories }: ShopClientProps) {
           <Filter className="w-5 h-5 text-gray-500" />
           <div className="flex flex-wrap gap-2">
             {categories.map((cat) => (
-              <button 
+              <button
                 key={cat}
                 onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-2 rounded-lg text-sm ${activeCategory === cat ? 'bg-brand-blue-600 text-white' : 'bg-white text-gray-700 hover:bg-white'}`}
@@ -68,30 +67,37 @@ export function ShopClient({ products, categories }: ShopClientProps) {
         <div className="flex items-center gap-4">
           <form onSubmit={handleSearch} className="relative">
             <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 w-5 h-5 text-gray-400" />
-            <input 
-              type="text" 
-              placeholder="Search products..." 
+            <input
+              type="text"
+              placeholder="Search products..."
               value={searchQuery}
               onChange={(e) => setSearchQuery(e.target.value)}
               className="pl-10 pr-4 py-2 border border-gray-300 rounded-lg w-full md:w-64"
               aria-label="Search products"
             />
           </form>
-          <Link href="/shop/cart" className="relative p-2 text-gray-600 hover:text-brand-blue-600" aria-label="Shopping cart" data-tour="shop-cart">
+          <Link
+            href="/shop/cart"
+            className="relative p-2 text-gray-600 hover:text-brand-blue-600"
+            aria-label="Shopping cart"
+            data-tour="shop-cart"
+          >
             <ShoppingCart className="w-6 h-6" />
-            <span className="absolute -top-1 -right-1 w-5 h-5 bg-brand-blue-600 text-white text-xs rounded-full flex items-center justify-center">0</span>
+            <span className="absolute -top-1 -right-1 w-5 h-5 bg-brand-blue-600 text-white text-xs rounded-full flex items-center justify-center">
+              0
+            </span>
           </Link>
         </div>
       </div>
 
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
         {filteredProducts.map((product, index) => (
-          <Link 
-            key={product.id} 
-            href={`/shop/product/${product.slug || product.id}`} 
+          <Link
+            key={product.id}
+            href={`/shop/product/${product.slug || product.id}`}
             className="bg-white rounded-xl shadow-sm overflow-hidden hover:shadow-md transition-shadow"
             onClick={() => handleProductClick(product)}
-            data-tour={index === 0 ? "shop-product" : undefined}
+            data-tour={index === 0 ? 'shop-product' : undefined}
           >
             <div className="relative aspect-square">
               <Image
@@ -99,7 +105,8 @@ export function ShopClient({ products, categories }: ShopClientProps) {
                 alt={product.name}
                 fill
                 className="object-cover"
-               sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+              />
             </div>
             <div className="p-6">
               <span className="text-xs text-brand-blue-600 font-medium">{product.category}</span>
@@ -113,7 +120,7 @@ export function ShopClient({ products, categories }: ShopClientProps) {
               </div>
               <div className="flex items-center justify-between mt-4">
                 <span className="text-xl font-bold text-gray-900">${product.price}</span>
-                <button 
+                <button
                   onClick={(e) => handleAddToCart(e, product)}
                   className="bg-brand-blue-600 text-white px-4 py-2 rounded-lg text-sm hover:bg-brand-blue-700"
                 >

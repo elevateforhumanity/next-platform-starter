@@ -8,12 +8,12 @@ When you license Elevate, you likely have existing data — students, courses, e
 
 ## Import Options Overview
 
-| Method | Best For | Skill Level | Speed |
-|--------|----------|-------------|-------|
-| **CSV Upload** | Small batches, one-time imports | Non-technical | Minutes |
-| **REST API** | Ongoing sync, automation | Developer | Real-time |
-| **Bulk Import API** | Large initial migrations | Developer | Fast |
-| **Direct Database** | Enterprise self-hosted only | DBA | Fastest |
+| Method              | Best For                        | Skill Level   | Speed     |
+| ------------------- | ------------------------------- | ------------- | --------- |
+| **CSV Upload**      | Small batches, one-time imports | Non-technical | Minutes   |
+| **REST API**        | Ongoing sync, automation        | Developer     | Real-time |
+| **Bulk Import API** | Large initial migrations        | Developer     | Fast      |
+| **Direct Database** | Enterprise self-hosted only     | DBA           | Fastest   |
 
 ---
 
@@ -22,6 +22,7 @@ When you license Elevate, you likely have existing data — students, courses, e
 **Best for:** Non-technical users, small imports (<1000 records)
 
 ### How It Works
+
 1. Go to **Admin → Import Data**
 2. Download the CSV template
 3. Fill in your data
@@ -29,6 +30,7 @@ When you license Elevate, you likely have existing data — students, courses, e
 5. Review and confirm
 
 ### Supported CSV Imports
+
 - Students/Participants
 - Courses/Programs
 - Enrollments
@@ -38,6 +40,7 @@ When you license Elevate, you likely have existing data — students, courses, e
 ### CSV Templates
 
 #### Students CSV
+
 ```csv
 email,first_name,last_name,phone,external_id
 john@example.com,John,Doe,555-123-4567,EMP001
@@ -45,6 +48,7 @@ jane@example.com,Jane,Smith,555-987-6543,EMP002
 ```
 
 #### Courses CSV
+
 ```csv
 name,code,description,duration_weeks
 CNA Training,CNA101,Certified Nursing Assistant program,8
@@ -52,6 +56,7 @@ Welding Basics,WELD101,Introduction to welding,12
 ```
 
 #### Enrollments CSV
+
 ```csv
 student_email,course_code,status,enrolled_at
 john@example.com,CNA101,active,2024-01-15
@@ -65,7 +70,9 @@ jane@example.com,WELD101,completed,2024-02-01
 **Best for:** Ongoing sync with existing systems, developers
 
 ### Authentication
+
 All API requests require an API key:
+
 ```
 x-api-key: your-api-key-here
 ```
@@ -73,6 +80,7 @@ x-api-key: your-api-key-here
 Get your API key from **Admin → Settings → API Keys**
 
 ### Base URL
+
 ```
 https://your-domain.com/api/v1
 ```
@@ -80,11 +88,13 @@ https://your-domain.com/api/v1
 ### Endpoints
 
 #### List Users
+
 ```bash
 GET /api/v1/users?page=1&limit=50
 ```
 
 #### Create User
+
 ```bash
 POST /api/v1/users
 Content-Type: application/json
@@ -98,11 +108,13 @@ Content-Type: application/json
 ```
 
 #### List Courses
+
 ```bash
 GET /api/v1/courses
 ```
 
 #### Create Enrollment
+
 ```bash
 POST /api/v1/enrollments
 Content-Type: application/json
@@ -121,11 +133,13 @@ Content-Type: application/json
 **Best for:** Initial data migration, thousands of records
 
 ### Endpoint
+
 ```
 POST /api/v1/import
 ```
 
 ### Import Students (Bulk)
+
 ```bash
 curl -X POST https://your-domain.com/api/v1/import \
   -H "x-api-key: your-api-key" \
@@ -144,6 +158,7 @@ curl -X POST https://your-domain.com/api/v1/import \
 ```
 
 ### Import Courses (Bulk)
+
 ```bash
 curl -X POST https://your-domain.com/api/v1/import \
   -H "x-api-key: your-api-key" \
@@ -158,6 +173,7 @@ curl -X POST https://your-domain.com/api/v1/import \
 ```
 
 ### Import Enrollments (Bulk)
+
 ```bash
 curl -X POST https://your-domain.com/api/v1/import \
   -H "x-api-key: your-api-key" \
@@ -172,15 +188,13 @@ curl -X POST https://your-domain.com/api/v1/import \
 ```
 
 ### Response
+
 ```json
 {
   "success": true,
   "imported": 150,
   "failed": 3,
-  "errors": [
-    "john@invalid: Invalid email format",
-    "missing@example.com: Course not found"
-  ],
+  "errors": ["john@invalid: Invalid email format", "missing@example.com: Course not found"],
   "total_errors": 3
 }
 ```
@@ -233,6 +247,7 @@ enrollments (
 ```
 
 ### Direct Import Example (PostgreSQL)
+
 ```sql
 -- Import students from CSV
 COPY profiles (email, full_name, phone, role, tenant_id, created_at)
@@ -250,14 +265,18 @@ WITH (FORMAT csv, HEADER true);
 ## Integration Options
 
 ### Zapier / Make.com
+
 Connect Elevate to 5000+ apps:
+
 - Import from Google Sheets
 - Sync with Salesforce
 - Connect to your CRM
 - Automate from form submissions
 
 ### Webhooks (Outbound)
+
 Elevate can notify your systems when events happen:
+
 - New enrollment
 - Course completion
 - Certificate issued
@@ -266,14 +285,14 @@ Configure at **Admin → Settings → Webhooks**
 
 ### Common Integrations
 
-| System | Integration Method |
-|--------|-------------------|
-| **Salesforce** | REST API sync |
-| **HubSpot** | REST API or Zapier |
-| **Google Sheets** | Zapier or CSV export/import |
-| **Workday** | REST API |
-| **ADP** | REST API |
-| **Custom CRM** | REST API |
+| System            | Integration Method                  |
+| ----------------- | ----------------------------------- |
+| **Salesforce**    | REST API sync                       |
+| **HubSpot**       | REST API or Zapier                  |
+| **Google Sheets** | Zapier or CSV export/import         |
+| **Workday**       | REST API                            |
+| **ADP**           | REST API                            |
+| **Custom CRM**    | REST API                            |
 | **State Systems** | Custom API integration (Enterprise) |
 
 ---
@@ -281,6 +300,7 @@ Configure at **Admin → Settings → Webhooks**
 ## Migration Checklist
 
 ### Before You Start
+
 - [ ] Export data from your current system
 - [ ] Clean up duplicates and invalid emails
 - [ ] Map your fields to Elevate fields
@@ -288,11 +308,13 @@ Configure at **Admin → Settings → Webhooks**
 - [ ] Test with a small batch first
 
 ### Import Order (Important!)
+
 1. **Courses/Programs first** — These must exist before enrollments
 2. **Students/Users second** — Create all user accounts
 3. **Enrollments last** — Link students to courses
 
 ### After Import
+
 - [ ] Verify record counts match
 - [ ] Spot-check a few records
 - [ ] Test student login
@@ -303,47 +325,54 @@ Configure at **Admin → Settings → Webhooks**
 ## Field Mapping Reference
 
 ### Student Fields
-| Your Field | Elevate Field | Required |
-|------------|---------------|----------|
-| Email | `email` | ✅ Yes |
-| Name | `full_name` or `first_name` + `last_name` | ✅ Yes |
-| Phone | `phone` | No |
-| Your ID | `external_id` | No |
+
+| Your Field | Elevate Field                             | Required |
+| ---------- | ----------------------------------------- | -------- |
+| Email      | `email`                                   | ✅ Yes   |
+| Name       | `full_name` or `first_name` + `last_name` | ✅ Yes   |
+| Phone      | `phone`                                   | No       |
+| Your ID    | `external_id`                             | No       |
 
 ### Course Fields
-| Your Field | Elevate Field | Required |
-|------------|---------------|----------|
-| Course Name | `name` | ✅ Yes |
-| Course Code | `code` | No (auto-generated) |
-| Description | `description` | No |
-| Duration | `duration_weeks` | No |
+
+| Your Field  | Elevate Field    | Required            |
+| ----------- | ---------------- | ------------------- |
+| Course Name | `name`           | ✅ Yes              |
+| Course Code | `code`           | No (auto-generated) |
+| Description | `description`    | No                  |
+| Duration    | `duration_weeks` | No                  |
 
 ### Enrollment Fields
-| Your Field | Elevate Field | Required |
-|------------|---------------|----------|
-| Student Email | `student_email` | ✅ Yes |
-| Course Code | `course_code` | ✅ Yes |
-| Status | `status` | No (default: active) |
-| Start Date | `enrolled_at` | No |
-| Progress % | `progress` | No |
+
+| Your Field    | Elevate Field   | Required             |
+| ------------- | --------------- | -------------------- |
+| Student Email | `student_email` | ✅ Yes               |
+| Course Code   | `course_code`   | ✅ Yes               |
+| Status        | `status`        | No (default: active) |
+| Start Date    | `enrolled_at`   | No                   |
+| Progress %    | `progress`      | No                   |
 
 ---
 
 ## Troubleshooting
 
 ### "Email already exists"
+
 - Use `upsert: true` option to update existing records
 - Or clean duplicates before import
 
 ### "Course not found"
+
 - Import courses BEFORE enrollments
 - Check course code matches exactly
 
 ### "Invalid API key"
+
 - Regenerate key in Admin → Settings → API Keys
 - Check key hasn't expired
 
 ### Import is slow
+
 - Use bulk import API instead of individual calls
 - Import in batches of 500-1000 records
 - For very large imports (10K+), contact support

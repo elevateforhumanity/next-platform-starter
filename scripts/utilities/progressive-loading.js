@@ -43,8 +43,7 @@ class ProgressiveLoader {
 
         // Small delay between loads to prevent blocking
         await this.delay(50);
-      } catch (error) {
-      }
+      } catch (error) {}
     }
   }
 
@@ -107,8 +106,7 @@ class ProgressiveLoader {
   init() {
     // Find all videos and add to queue
     document.querySelectorAll('video').forEach((video) => {
-      const isAboveFold =
-        video.getBoundingClientRect().top < window.innerHeight;
+      const isAboveFold = video.getBoundingClientRect().top < window.innerHeight;
       const priority = isAboveFold ? 'critical' : 'lazy';
       this.addResource(video, priority);
     });

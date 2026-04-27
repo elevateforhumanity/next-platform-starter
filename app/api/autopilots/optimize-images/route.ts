@@ -1,6 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-
 import { gh, parseRepo } from '@/lib/github';
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
@@ -33,9 +32,7 @@ async function _POST(req: NextRequest) {
 
     const imageFiles =
       tree.tree?.filter(
-        (file) =>
-          file.type === 'blob' &&
-          /\.(jpg|jpeg|png|gif|webp)$/i.test(file.path || '')
+        (file) => file.type === 'blob' && /\.(jpg|jpeg|png|gif|webp)$/i.test(file.path || ''),
       ) || [];
 
     // In production, you would:
@@ -63,17 +60,17 @@ async function _POST(req: NextRequest) {
       totalSavings,
       details: optimized,
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Optimize images error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       {
         error: 'Failed to optimize images',
         message: toErrorMessage(error),
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -22,7 +22,7 @@ export interface TourProgress {
  */
 export function getProgress(userId: string, tourId: DemoLicenseType): TourProgress | null {
   if (typeof window === 'undefined') return null;
-  
+
   try {
     const key = `${STORAGE_KEY_PREFIX}${userId}_${tourId}`;
     const stored = localStorage.getItem(key);
@@ -39,7 +39,7 @@ export function getProgress(userId: string, tourId: DemoLicenseType): TourProgre
 export function initProgress(userId: string, tourId: DemoLicenseType): TourProgress {
   const existing = getProgress(userId, tourId);
   if (existing) return existing;
-  
+
   const newProgress: TourProgress = {
     tourId,
     currentStep: 1,
@@ -47,7 +47,7 @@ export function initProgress(userId: string, tourId: DemoLicenseType): TourProgr
     startedAt: new Date().toISOString(),
     lastUpdatedAt: new Date().toISOString(),
   };
-  
+
   saveProgress(userId, newProgress);
   return newProgress;
 }
@@ -57,7 +57,7 @@ export function initProgress(userId: string, tourId: DemoLicenseType): TourProgr
  */
 export function saveProgress(userId: string, progress: TourProgress): void {
   if (typeof window === 'undefined') return;
-  
+
   try {
     const key = `${STORAGE_KEY_PREFIX}${userId}_${progress.tourId}`;
     progress.lastUpdatedAt = new Date().toISOString();
@@ -70,13 +70,17 @@ export function saveProgress(userId: string, progress: TourProgress): void {
 /**
  * Mark a step as complete
  */
-export function setStepComplete(userId: string, tourId: DemoLicenseType, stepId: string): TourProgress {
+export function setStepComplete(
+  userId: string,
+  tourId: DemoLicenseType,
+  stepId: string,
+): TourProgress {
   const progress = getProgress(userId, tourId) || initProgress(userId, tourId);
-  
+
   if (!progress.completedSteps.includes(stepId)) {
     progress.completedSteps.push(stepId);
   }
-  
+
   saveProgress(userId, progress);
   return progress;
 }
@@ -84,13 +88,18 @@ export function setStepComplete(userId: string, tourId: DemoLicenseType, stepId:
 /**
  * Advance to next step
  */
-export function advanceStep(userId: string, tourId: DemoLicenseType, currentStepId: string, totalSteps: number): TourProgress {
+export function advanceStep(
+  userId: string,
+  tourId: DemoLicenseType,
+  currentStepId: string,
+  totalSteps: number,
+): TourProgress {
   const progress = setStepComplete(userId, tourId, currentStepId);
-  
+
   if (progress.currentStep < totalSteps) {
     progress.currentStep += 1;
   }
-  
+
   saveProgress(userId, progress);
   return progress;
 }
@@ -106,7 +115,7 @@ export function resetProgress(userId: string, tourId: DemoLicenseType): TourProg
     startedAt: new Date().toISOString(),
     lastUpdatedAt: new Date().toISOString(),
   };
-  
+
   saveProgress(userId, newProgress);
   return newProgress;
 }
@@ -116,22 +125,26 @@ export function resetProgress(userId: string, tourId: DemoLicenseType): TourProg
  */
 export function getAllProgress(userId: string): TourProgress[] {
   if (typeof window === 'undefined') return [];
-  
+
   const tours: DemoLicenseType[] = ['institution_admin', 'partner_employer', 'workforce_program'];
   const progress: TourProgress[] = [];
-  
+
   for (const tourId of tours) {
     const p = getProgress(userId, tourId);
     if (p) progress.push(p);
   }
-  
+
   return progress;
 }
 
 /**
  * Check if a tour is complete
  */
-export function isTourComplete(userId: string, tourId: DemoLicenseType, totalSteps: number): boolean {
+export function isTourComplete(
+  userId: string,
+  tourId: DemoLicenseType,
+  totalSteps: number,
+): boolean {
   const progress = getProgress(userId, tourId);
   if (!progress) return false;
   return progress.completedSteps.length >= totalSteps;
@@ -140,7 +153,11 @@ export function isTourComplete(userId: string, tourId: DemoLicenseType, totalSte
 /**
  * Get completion percentage for a tour
  */
-export function getTourCompletionPercent(userId: string, tourId: DemoLicenseType, totalSteps: number): number {
+export function getTourCompletionPercent(
+  userId: string,
+  tourId: DemoLicenseType,
+  totalSteps: number,
+): number {
   const progress = getProgress(userId, tourId);
   if (!progress || totalSteps === 0) return 0;
   return Math.round((progress.completedSteps.length / totalSteps) * 100);

@@ -23,17 +23,14 @@ export default async function ComplianceDashboardPage() {
   const db = getAdminClient();
 
   const [alertsRes, resolvedRes, wioaRes] = await Promise.all([
-    db.from('compliance_alerts')
+    db
+      .from('compliance_alerts')
       .select('id, alert_type, severity, title, description, entity_type, resolved, created_at')
       .eq('resolved', false)
       .order('created_at', { ascending: false })
       .limit(50),
-    db.from('compliance_alerts')
-      .select('id', { count: 'exact', head: true })
-      .eq('resolved', true),
-    db.from('wioa_participants')
-      .select('id, status', { count: 'exact' })
-      .limit(1),
+    db.from('compliance_alerts').select('id', { count: 'exact', head: true }).eq('resolved', true),
+    db.from('wioa_participants').select('id, status', { count: 'exact' }).limit(1),
   ]);
 
   const alerts = alertsRes.data ?? [];
@@ -57,9 +54,14 @@ export default async function ComplianceDashboardPage() {
             <h1 className="text-2xl font-bold text-slate-900 flex items-center gap-2">
               <Shield className="w-6 h-6 text-blue-600" /> Compliance Dashboard
             </h1>
-            <p className="text-slate-500 text-sm mt-0.5">Active alerts, WIOA status, and regulatory overview</p>
+            <p className="text-slate-500 text-sm mt-0.5">
+              Active alerts, WIOA status, and regulatory overview
+            </p>
           </div>
-          <Link href="/admin/compliance" className="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:underline">
+          <Link
+            href="/admin/compliance"
+            className="inline-flex items-center gap-1.5 text-sm text-blue-600 hover:underline"
+          >
             Full compliance center <ArrowRight className="w-3.5 h-3.5" />
           </Link>
         </div>
@@ -69,12 +71,27 @@ export default async function ComplianceDashboardPage() {
         {/* Stats */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
           {[
-            { label: 'Open Alerts', value: alerts.length, color: alerts.length > 0 ? 'text-red-600' : 'text-green-600' },
-            { label: 'Critical', value: criticalCount, color: criticalCount > 0 ? 'text-red-600' : 'text-slate-400' },
-            { label: 'High', value: highCount, color: highCount > 0 ? 'text-orange-600' : 'text-slate-400' },
+            {
+              label: 'Open Alerts',
+              value: alerts.length,
+              color: alerts.length > 0 ? 'text-red-600' : 'text-green-600',
+            },
+            {
+              label: 'Critical',
+              value: criticalCount,
+              color: criticalCount > 0 ? 'text-red-600' : 'text-slate-400',
+            },
+            {
+              label: 'High',
+              value: highCount,
+              color: highCount > 0 ? 'text-orange-600' : 'text-slate-400',
+            },
             { label: 'Resolved (All Time)', value: resolvedCount, color: 'text-green-600' },
           ].map((s) => (
-            <div key={s.label} className="bg-white rounded-xl border border-slate-200 p-5 text-center">
+            <div
+              key={s.label}
+              className="bg-white rounded-xl border border-slate-200 p-5 text-center"
+            >
               <p className={`text-3xl font-bold ${s.color}`}>{s.value}</p>
               <p className="text-sm text-slate-500 mt-1">{s.label}</p>
             </div>
@@ -86,9 +103,13 @@ export default async function ComplianceDashboardPage() {
           <div className="bg-blue-50 border border-blue-200 rounded-xl px-6 py-4 flex items-center justify-between">
             <div className="flex items-center gap-3">
               <CheckCircle className="w-5 h-5 text-blue-600" />
-              <span className="font-medium text-blue-900">{wioaTotal} WIOA participants tracked</span>
+              <span className="font-medium text-blue-900">
+                {wioaTotal} WIOA participants tracked
+              </span>
             </div>
-            <Link href="/admin/compliance" className="text-sm text-blue-600 hover:underline">View WIOA →</Link>
+            <Link href="/admin/compliance" className="text-sm text-blue-600 hover:underline">
+              View WIOA →
+            </Link>
           </div>
         )}
 
@@ -104,24 +125,38 @@ export default async function ComplianceDashboardPage() {
             const group = bySeverity[severity];
             if (!group?.length) return null;
             return (
-              <div key={severity} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
+              <div
+                key={severity}
+                className="bg-white rounded-xl border border-slate-200 overflow-hidden"
+              >
                 <div className="px-6 py-4 border-b border-slate-100 flex items-center gap-2">
-                  <AlertTriangle className={`w-4 h-4 ${severity === 'critical' ? 'text-red-500' : severity === 'high' ? 'text-orange-500' : 'text-yellow-500'}`} />
-                  <h2 className="font-semibold text-slate-800 capitalize">{severity} ({group.length})</h2>
+                  <AlertTriangle
+                    className={`w-4 h-4 ${severity === 'critical' ? 'text-red-500' : severity === 'high' ? 'text-orange-500' : 'text-yellow-500'}`}
+                  />
+                  <h2 className="font-semibold text-slate-800 capitalize">
+                    {severity} ({group.length})
+                  </h2>
                 </div>
                 <div className="divide-y divide-slate-100">
                   {group.map((alert) => (
-                    <div key={alert.id} className="px-6 py-4 flex items-start justify-between gap-4">
+                    <div
+                      key={alert.id}
+                      className="px-6 py-4 flex items-start justify-between gap-4"
+                    >
                       <div>
                         <div className="font-medium text-slate-900">{alert.title}</div>
-                        {alert.description && <div className="text-sm text-slate-500 mt-0.5">{alert.description}</div>}
+                        {alert.description && (
+                          <div className="text-sm text-slate-500 mt-0.5">{alert.description}</div>
+                        )}
                         <div className="text-xs text-slate-400 mt-1 flex items-center gap-2">
                           <Clock className="w-3 h-3" />
                           {new Date(alert.created_at).toLocaleDateString()}
                           {alert.entity_type && <span>· {alert.entity_type}</span>}
                         </div>
                       </div>
-                      <span className={`shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${SEVERITY_COLORS[alert.severity] ?? 'bg-slate-100 text-slate-600'}`}>
+                      <span
+                        className={`shrink-0 inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${SEVERITY_COLORS[alert.severity] ?? 'bg-slate-100 text-slate-600'}`}
+                      >
                         {alert.severity}
                       </span>
                     </div>

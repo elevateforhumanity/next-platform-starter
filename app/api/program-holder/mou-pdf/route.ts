@@ -14,7 +14,9 @@ async function _GET(request: NextRequest) {
 
   try {
     const supabase = await createRouteHandlerClient({ cookies });
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     // Get the user's MOU signature

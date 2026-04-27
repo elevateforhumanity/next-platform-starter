@@ -44,12 +44,7 @@ const PERMISSIONS: Record<TaxRole, string[]> = {
     'documents:upload',
     'documents:read',
   ],
-  reviewer: [
-    'returns:read',
-    'returns:review',
-    'returns:approve',
-    'documents:read',
-  ],
+  reviewer: ['returns:read', 'returns:review', 'returns:approve', 'documents:read'],
   transmitter: [
     'returns:read',
     'returns:transmit',
@@ -57,11 +52,7 @@ const PERMISSIONS: Record<TaxRole, string[]> = {
     'transmissions:create',
     'ack:read',
   ],
-  support: [
-    'clients:read',
-    'returns:read',
-    'documents:read',
-  ],
+  support: ['clients:read', 'returns:read', 'documents:read'],
 };
 
 /**

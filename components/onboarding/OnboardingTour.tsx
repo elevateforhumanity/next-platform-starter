@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { X, ChevronRight, ChevronLeft, Sparkles } from 'lucide-react';
@@ -25,13 +25,13 @@ type OnboardingTourProps = {
   delay?: number;
 };
 
-export function OnboardingTour({ 
-  steps, 
-  tourKey, 
-  onComplete, 
+export function OnboardingTour({
+  steps,
+  tourKey,
+  onComplete,
   onSkip,
   autoStart = true,
-  delay = 1000 
+  delay = 1000,
 }: OnboardingTourProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isVisible, setIsVisible] = useState(false);
@@ -41,13 +41,15 @@ export function OnboardingTour({
   // Check if user has completed this tour
   const checkTourStatus = useCallback(async () => {
     const supabase = createClient();
-    
+
     try {
-      const { data: { user } } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+
       if (user) {
         setUserId(user.id);
-        
+
         // Check database for tour completion
         const { data: tourRecord } = await supabase
           .from('user_onboarding')
@@ -105,11 +107,14 @@ export function OnboardingTour({
         });
 
         // Log activity
-        await supabase.from('user_activity').insert({
-          user_id: userId,
-          activity_type: skipped ? 'tour_skipped' : 'tour_completed',
-          metadata: { tour_key: tourKey, steps_viewed: currentStep + 1 },
-        }).catch(() => {});
+        await supabase
+          .from('user_activity')
+          .insert({
+            user_id: userId,
+            activity_type: skipped ? 'tour_skipped' : 'tour_completed',
+            metadata: { tour_key: tourKey, steps_viewed: currentStep + 1 },
+          })
+          .catch(() => {});
       } else {
         // Save to localStorage for non-authenticated users
         localStorage.setItem(`tour_${tourKey}_completed`, 'true');
@@ -165,8 +170,8 @@ export function OnboardingTour({
   return (
     <>
       {/* Overlay */}
-      <div 
-        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998] animate-in fade-in duration-300" 
+      <div
+        className="fixed inset-0 bg-black/60 backdrop-blur-sm z-[9998] animate-in fade-in duration-300"
         onClick={skipTour}
       />
 
@@ -175,7 +180,7 @@ export function OnboardingTour({
         <div className="bg-white rounded-2xl shadow-2xl overflow-hidden mx-4">
           {/* Progress Bar */}
           <div className="h-1 bg-gray-100">
-            <div 
+            <div
               className="h-full bg-gradient-to-r from-brand-blue-500 to-indigo-600 transition-all duration-500"
               style={{ width: `${progress}%` }}
             />
@@ -237,8 +242,8 @@ export function OnboardingTour({
                     index === currentStep
                       ? 'w-8 bg-brand-blue-600'
                       : index < currentStep
-                      ? 'bg-brand-blue-400'
-                      : 'bg-gray-200 hover:bg-gray-300'
+                        ? 'bg-brand-blue-400'
+                        : 'bg-gray-200 hover:bg-gray-300'
                   }`}
                   aria-label={`Go to step ${index + 1}`}
                 />
@@ -293,17 +298,20 @@ export const dashboardTour: TourStep[] = [
   {
     target: 'welcome',
     title: 'Welcome to Your Dashboard!',
-    description: 'This is your learning hub. Here you can see your progress, continue courses, and access all learning resources.',
+    description:
+      'This is your learning hub. Here you can see your progress, continue courses, and access all learning resources.',
   },
   {
     target: 'progress',
     title: 'Track Your Progress',
-    description: 'View your active courses, certificates earned, and average scores at a glance. Your learning journey is visualized here.',
+    description:
+      'View your active courses, certificates earned, and average scores at a glance. Your learning journey is visualized here.',
   },
   {
     target: 'continue-learning',
     title: 'Continue Where You Left Off',
-    description: 'Quickly resume your courses right where you stopped. Click the play button to jump back in.',
+    description:
+      'Quickly resume your courses right where you stopped. Click the play button to jump back in.',
     action: {
       label: 'View My Courses',
       href: '/lms/courses',
@@ -312,12 +320,14 @@ export const dashboardTour: TourStep[] = [
   {
     target: 'quick-access',
     title: 'Quick Access Tools',
-    description: 'Access forums, study groups, AI tutor, and analytics with one click. These tools help you learn more effectively.',
+    description:
+      'Access forums, study groups, AI tutor, and analytics with one click. These tools help you learn more effectively.',
   },
   {
     target: 'notifications',
     title: 'Stay Updated',
-    description: 'Check your notifications for course updates, messages from instructors, and important announcements.',
+    description:
+      'Check your notifications for course updates, messages from instructors, and important announcements.',
   },
 ];
 
@@ -325,17 +335,20 @@ export const coursesTour: TourStep[] = [
   {
     target: 'search',
     title: 'Find Your Perfect Course',
-    description: 'Use the search bar to find courses by name, topic, or instructor. Our catalog has hundreds of courses to choose from.',
+    description:
+      'Use the search bar to find courses by name, topic, or instructor. Our catalog has hundreds of courses to choose from.',
   },
   {
     target: 'filters',
     title: 'Filter and Sort',
-    description: 'Narrow down courses by category, level, duration, and more. Find exactly what you need.',
+    description:
+      'Narrow down courses by category, level, duration, and more. Find exactly what you need.',
   },
   {
     target: 'enroll',
     title: 'Enroll in Courses',
-    description: 'Click on any course to see details and enroll. Most courses are free with WIOA funding!',
+    description:
+      'Click on any course to see details and enroll. Most courses are free with WIOA funding!',
     action: {
       label: 'Browse Programs',
       href: '/programs',
@@ -347,12 +360,14 @@ export const forumsTour: TourStep[] = [
   {
     target: 'forums',
     title: 'Join the Discussion',
-    description: 'Connect with fellow learners, ask questions, and share knowledge in course-specific forums.',
+    description:
+      'Connect with fellow learners, ask questions, and share knowledge in course-specific forums.',
   },
   {
     target: 'create-thread',
     title: 'Start a Conversation',
-    description: 'Create new discussion threads to ask questions or share insights. Our community is here to help.',
+    description:
+      'Create new discussion threads to ask questions or share insights. Our community is here to help.',
   },
   {
     target: 'notifications',
@@ -365,22 +380,26 @@ export const enrollmentTour: TourStep[] = [
   {
     target: 'eligibility',
     title: 'Check Your Eligibility',
-    description: 'First, we\'ll check if you qualify for free training through WIOA, JRI, or other funding programs.',
+    description:
+      "First, we'll check if you qualify for free training through WIOA, JRI, or other funding programs.",
   },
   {
     target: 'program-selection',
     title: 'Choose Your Program',
-    description: 'Select from 50+ career training programs in healthcare, skilled trades, technology, and more.',
+    description:
+      'Select from 50+ career training programs in healthcare, skilled trades, technology, and more.',
   },
   {
     target: 'documents',
     title: 'Upload Documents',
-    description: 'Provide required documents like ID and proof of eligibility. We\'ll guide you through each step.',
+    description:
+      "Provide required documents like ID and proof of eligibility. We'll guide you through each step.",
   },
   {
     target: 'orientation',
     title: 'Complete Orientation',
-    description: 'Watch a short orientation video to learn about program expectations and support services.',
+    description:
+      'Watch a short orientation video to learn about program expectations and support services.',
   },
 ];
 

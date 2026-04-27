@@ -7,10 +7,10 @@ import { ArrowLeft, Loader2, CreditCard, Scissors, Sparkles, Flower2, Hand } fro
 import { BOOTH_RENTAL_TIERS, type BoothRentalDiscipline } from '@/lib/programs/pricing';
 
 const DISCIPLINE_ICONS: Record<BoothRentalDiscipline, React.ReactNode> = {
-  barber:        <Scissors className="w-5 h-5" />,
+  barber: <Scissors className="w-5 h-5" />,
   cosmetologist: <Sparkles className="w-5 h-5" />,
-  esthetician:   <Flower2 className="w-5 h-5" />,
-  nail_tech:     <Hand className="w-5 h-5" />,
+  esthetician: <Flower2 className="w-5 h-5" />,
+  nail_tech: <Hand className="w-5 h-5" />,
 };
 
 const DISCIPLINES = Object.values(BOOTH_RENTAL_TIERS);
@@ -42,11 +42,14 @@ function BoothRentalApplyInner() {
   const tier = discipline ? BOOTH_RENTAL_TIERS[discipline] : null;
 
   const updateField = (field: string, value: string | boolean) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handleSubmit = async () => {
-    if (!discipline) { setError('Please select your discipline.'); return; }
+    if (!discipline) {
+      setError('Please select your discipline.');
+      return;
+    }
     if (!formData.firstName || !formData.lastName || !formData.email || !formData.phone) {
       setError('Please fill in all required fields.');
       return;
@@ -65,7 +68,11 @@ function BoothRentalApplyInner() {
         body: JSON.stringify({ discipline, ...formData }),
       });
       const data = await res.json();
-      if (!res.ok) { setError(data.error || 'Something went wrong.'); setLoading(false); return; }
+      if (!res.ok) {
+        setError(data.error || 'Something went wrong.');
+        setLoading(false);
+        return;
+      }
       if (data.url) window.location.href = data.url;
     } catch {
       setError('Network error. Please try again.');
@@ -82,14 +89,15 @@ function BoothRentalApplyInner() {
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div>
-            <h1 className="text-lg font-bold text-slate-900">Booth &amp; Suite Rental Application</h1>
+            <h1 className="text-lg font-bold text-slate-900">
+              Booth &amp; Suite Rental Application
+            </h1>
             <p className="text-sm text-slate-500">Elevate for Humanity — Indianapolis, IN</p>
           </div>
         </div>
       </div>
 
       <div className="max-w-2xl mx-auto px-4 py-8 space-y-6">
-
         {/* Discipline selector */}
         <div className="bg-white rounded-xl border border-slate-200 p-6">
           <h2 className="font-bold text-slate-900 mb-4">Select Your Discipline</h2>
@@ -104,7 +112,9 @@ function BoothRentalApplyInner() {
                     : 'border-slate-200 hover:border-slate-300 text-slate-700'
                 }`}
               >
-                <span className={discipline === t.discipline ? 'text-brand-blue-600' : 'text-slate-400'}>
+                <span
+                  className={discipline === t.discipline ? 'text-brand-blue-600' : 'text-slate-400'}
+                >
                   {DISCIPLINE_ICONS[t.discipline]}
                 </span>
                 <div>
@@ -119,11 +129,15 @@ function BoothRentalApplyInner() {
         {/* Pricing summary — shown once discipline selected */}
         {tier && (
           <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-5">
-            <h3 className="font-bold text-brand-blue-900 mb-3">{tier.label} {tier.spaceType} — Rate Summary</h3>
+            <h3 className="font-bold text-brand-blue-900 mb-3">
+              {tier.label} {tier.spaceType} — Rate Summary
+            </h3>
             <div className="space-y-2 text-sm">
               <div className="flex justify-between">
                 <span className="text-brand-blue-700">Weekly rent</span>
-                <span className="font-bold text-brand-blue-900">${tier.weeklyRateDollars}/week</span>
+                <span className="font-bold text-brand-blue-900">
+                  ${tier.weeklyRateDollars}/week
+                </span>
               </div>
               {tier.depositDollars > 0 && (
                 <div className="flex justify-between">
@@ -145,8 +159,8 @@ function BoothRentalApplyInner() {
                 </span>
               </div>
               <p className="text-xs text-brand-blue-600 mt-2">
-                Weekly rent of ${tier.weeklyRateDollars} charged automatically every Friday.
-                Card on file required. $25 late fee + $10/day after 5 days past due.
+                Weekly rent of ${tier.weeklyRateDollars} charged automatically every Friday. Card on
+                file required. $25 late fee + $10/day after 5 days past due.
               </p>
             </div>
           </div>
@@ -161,9 +175,9 @@ function BoothRentalApplyInner() {
               <input
                 type="text"
                 value={formData.firstName}
-                onChange={e => updateField('firstName', e.target.value)}
+                onChange={(e) => updateField('firstName', e.target.value)}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                placeholder="First"
+                placeholder="Enter your first name as it appears on your license"
               />
             </div>
             <div>
@@ -171,9 +185,9 @@ function BoothRentalApplyInner() {
               <input
                 type="text"
                 value={formData.lastName}
-                onChange={e => updateField('lastName', e.target.value)}
+                onChange={(e) => updateField('lastName', e.target.value)}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                placeholder="Last"
+                placeholder="Enter your last name as it appears on your license"
               />
             </div>
           </div>
@@ -182,9 +196,9 @@ function BoothRentalApplyInner() {
             <input
               type="email"
               value={formData.email}
-              onChange={e => updateField('email', e.target.value)}
+              onChange={(e) => updateField('email', e.target.value)}
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-              placeholder="you@email.com"
+              placeholder="name@domain.com"
             />
           </div>
           <div>
@@ -192,9 +206,9 @@ function BoothRentalApplyInner() {
             <input
               type="tel"
               value={formData.phone}
-              onChange={e => updateField('phone', e.target.value)}
+              onChange={(e) => updateField('phone', e.target.value)}
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-              placeholder="(317) 000-0000"
+              placeholder="(317) 555-0123"
             />
           </div>
         </div>
@@ -202,23 +216,27 @@ function BoothRentalApplyInner() {
         {/* License info */}
         <div className="bg-white rounded-xl border border-slate-200 p-6 space-y-4">
           <h2 className="font-bold text-slate-900">State License</h2>
-          <p className="text-sm text-slate-500">A valid, active state license is required to rent a booth or suite.</p>
+          <p className="text-sm text-slate-500">
+            A valid, active state license is required to rent a booth or suite.
+          </p>
           <div className="grid grid-cols-3 gap-4">
             <div className="col-span-2">
-              <label className="block text-sm font-medium text-slate-700 mb-1">License Number *</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                License Number *
+              </label>
               <input
                 type="text"
                 value={formData.licenseNumber}
-                onChange={e => updateField('licenseNumber', e.target.value)}
+                onChange={(e) => updateField('licenseNumber', e.target.value)}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                placeholder="IN-XXXXXXXX"
+                placeholder="Enter your active state license number"
               />
             </div>
             <div>
               <label className="block text-sm font-medium text-slate-700 mb-1">State</label>
               <select
                 value={formData.licenseState}
-                onChange={e => updateField('licenseState', e.target.value)}
+                onChange={(e) => updateField('licenseState', e.target.value)}
                 className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
               >
                 <option value="IN">Indiana</option>
@@ -230,13 +248,15 @@ function BoothRentalApplyInner() {
             </div>
           </div>
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">Booth / Station Preference (optional)</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">
+              Booth / Station Preference (optional)
+            </label>
             <input
               type="text"
               value={formData.boothPreference}
-              onChange={e => updateField('boothPreference', e.target.value)}
+              onChange={(e) => updateField('boothPreference', e.target.value)}
               className="w-full border border-slate-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-              placeholder="e.g. near window, station 3, no preference"
+              placeholder="Share any station preference (location, number, or no preference)"
             />
           </div>
         </div>
@@ -247,11 +267,13 @@ function BoothRentalApplyInner() {
             <input
               type="checkbox"
               checked={formData.smsConsent}
-              onChange={e => updateField('smsConsent', e.target.checked)}
+              onChange={(e) => updateField('smsConsent', e.target.checked)}
               className="mt-0.5 w-4 h-4 rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
             />
             <span className="text-sm text-slate-600">
-              I agree to receive SMS notifications about my rental account, payment reminders, and important notices from Elevate for Humanity. Message and data rates may apply. Reply STOP to opt out.
+              I agree to receive SMS notifications about my rental account, payment reminders, and
+              important notices from Elevate for Humanity. Message and data rates may apply. Reply
+              STOP to opt out.
             </span>
           </label>
         </div>
@@ -270,15 +292,20 @@ function BoothRentalApplyInner() {
           className="w-full bg-brand-blue-700 hover:bg-brand-blue-800 disabled:opacity-50 disabled:cursor-not-allowed text-white font-bold py-4 rounded-xl flex items-center justify-center gap-2 transition-colors"
         >
           {loading ? (
-            <><Loader2 className="w-5 h-5 animate-spin" /> Processing…</>
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" /> Processing…
+            </>
           ) : (
-            <><CreditCard className="w-5 h-5" /> Continue to Payment</>
+            <>
+              <CreditCard className="w-5 h-5" /> Continue to Payment
+            </>
           )}
         </button>
 
         <p className="text-xs text-center text-slate-400">
-          By continuing you agree to the Booth Rental Agreement. Your card will be saved for automatic weekly billing.
-          You will review and sign the rental agreement before your first charge.
+          By continuing you agree to the Booth Rental Agreement. Your card will be saved for
+          automatic weekly billing. You will review and sign the rental agreement before your first
+          charge.
         </p>
       </div>
     </div>
@@ -287,7 +314,13 @@ function BoothRentalApplyInner() {
 
 export default function BoothRentalApplyPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center"><Loader2 className="w-6 h-6 animate-spin text-slate-400" /></div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <Loader2 className="w-6 h-6 animate-spin text-slate-400" />
+        </div>
+      }
+    >
       <BoothRentalApplyInner />
     </Suspense>
   );

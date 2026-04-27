@@ -9,10 +9,9 @@ export const runtime = 'nodejs';
 export const maxDuration = 60;
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-// Replace with actual generated key material
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  // Replace with actual generated key material
   const jwks = {
     keys: [
       {

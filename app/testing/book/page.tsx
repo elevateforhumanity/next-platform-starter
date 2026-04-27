@@ -3,7 +3,15 @@
 import { useState, useEffect, useRef, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import Link from 'next/link';
-import { ChevronRight, MapPinned, Monitor, Phone, AlertTriangle, CreditCard, CheckCircle } from 'lucide-react';
+import {
+  ChevronRight,
+  MapPinned,
+  Monitor,
+  Phone,
+  AlertTriangle,
+  CreditCard,
+  CheckCircle,
+} from 'lucide-react';
 import {
   ALL_PROVIDERS,
   getProctoringOptions,
@@ -21,9 +29,9 @@ const ORG_TYPES = [
 ];
 
 const PROCTORING_MODE_LABELS: Record<string, string> = {
-  inPerson:       'In-person at Elevate Testing Center',
+  inPerson: 'In-person at Elevate Testing Center',
   remoteProvider: 'Remote — provider-controlled system',
-  remoteCenter:   'Live online — Elevate-proctored',
+  remoteCenter: 'Live online — Elevate-proctored',
 };
 
 function BookingForm() {
@@ -43,7 +51,16 @@ function BookingForm() {
   const [notes, setNotes] = useState('');
   const [addOnSelected, setAddOnSelected] = useState(false);
   const [leadCaptured, setLeadCaptured] = useState(false);
-  const [slots, setSlots] = useState<{ id: string; examType: string; startTime: string; endTime: string; location: string; spotsRemaining: number }[]>([]);
+  const [slots, setSlots] = useState<
+    {
+      id: string;
+      examType: string;
+      startTime: string;
+      endTime: string;
+      location: string;
+      spotsRemaining: number;
+    }[]
+  >([]);
   const [selectedSlotId, setSelectedSlotId] = useState('');
   const [slotsLoading, setSlotsLoading] = useState(false);
   const [submitted, setSubmitted] = useState(false);
@@ -51,7 +68,9 @@ function BookingForm() {
   const [paid, setPaid] = useState(false);
   const [paidSessionId, setPaidSessionId] = useState('');
   const [enforcementHold, setEnforcementHold] = useState<{
-    id: string; enforcement_type: string; fee_cents: number;
+    id: string;
+    enforcement_type: string;
+    fee_cents: number;
   } | null>(null);
   const [checkingHold, setCheckingHold] = useState(false);
   const [payingFee, setPayingFee] = useState(false);
@@ -99,10 +118,9 @@ function BookingForm() {
       enforcementAbortRef.current = controller;
       setCheckingHold(true);
       try {
-        const res = await fetch(
-          `/api/testing/enforcement?email=${encodeURIComponent(emailVal)}`,
-          { signal: controller.signal }
-        );
+        const res = await fetch(`/api/testing/enforcement?email=${encodeURIComponent(emailVal)}`, {
+          signal: controller.signal,
+        });
         const data = await res.json();
         setEnforcementHold(data.hasHold ? data.holds[0] : null);
       } catch (err: any) {
@@ -137,7 +155,7 @@ function BookingForm() {
   useEffect(() => {
     const providerParam = searchParams.get('provider') ?? '';
     if (providerParam) {
-      const match = ALL_PROVIDERS.find(p => p.key === providerParam);
+      const match = ALL_PROVIDERS.find((p) => p.key === providerParam);
       if (match) setSelectedProvider(match);
     }
   }, []);
@@ -145,16 +163,16 @@ function BookingForm() {
   // Pre-select org type from URL param
   useEffect(() => {
     if (typeParam === 'employer-testing') setOrgType('Employer / Company');
-    if (typeParam === 'agency-testing')   setOrgType('Workforce Agency / WorkOne Center');
-    if (typeParam === 'school-testing')   setOrgType('Training School or Program');
+    if (typeParam === 'agency-testing') setOrgType('Workforce Agency / WorkOne Center');
+    if (typeParam === 'school-testing') setOrgType('Training School or Program');
     if (typeParam === 'individual-testing') setOrgType('Individual');
-    if (typeParam === 'group-testing')    setOrgType('Employer / Company');
+    if (typeParam === 'group-testing') setOrgType('Employer / Company');
   }, [typeParam]);
 
   // Pre-select provider from ?exam= param (set by /testing/[provider] Book button)
   useEffect(() => {
     if (!examParam) return;
-    const match = ALL_PROVIDERS.find(p => p.key === examParam);
+    const match = ALL_PROVIDERS.find((p) => p.key === examParam);
     if (match && match.status !== 'coming_soon') setSelectedProvider(match);
   }, [examParam]);
 
@@ -167,8 +185,8 @@ function BookingForm() {
     if (!selectedProvider) return;
     setSlotsLoading(true);
     fetch(`/api/testing/slots/public?examType=${encodeURIComponent(selectedProvider.key)}`)
-      .then(r => r.json())
-      .then(data => setSlots(data.slots ?? []))
+      .then((r) => r.json())
+      .then((data) => setSlots(data.slots ?? []))
       .catch(() => setSlots([]))
       .finally(() => setSlotsLoading(false));
   }, [selectedProvider]);
@@ -188,21 +206,23 @@ function BookingForm() {
         if (data.phone) setPhone(data.phone);
         if (data.notes) setNotes(data.notes);
         if (data.examType) {
-          const match = ALL_PROVIDERS.find(p => p.key === data.examType);
+          const match = ALL_PROVIDERS.find((p) => p.key === data.examType);
           if (match) setSelectedProvider(match);
         }
         if (data.proctoringMode) setProctoringMode(data.proctoringMode);
         if (data.addOnSelected) setAddOnSelected(data.addOnSelected);
       }
-    } catch { /* ignore */ }
+    } catch {
+      /* ignore */
+    }
   }, [searchParams]);
 
-  const proctoringOptions = selectedProvider
-    ? getProctoringOptions(selectedProvider.key)
-    : null;
+  const proctoringOptions = selectedProvider ? getProctoringOptions(selectedProvider.key) : null;
 
   const availableModes = proctoringOptions
-    ? (Object.entries(proctoringOptions) as [string, boolean][]).filter(([, v]) => v).map(([k]) => k)
+    ? (Object.entries(proctoringOptions) as [string, boolean][])
+        .filter(([, v]) => v)
+        .map(([k]) => k)
     : [];
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -223,7 +243,7 @@ function BookingForm() {
       // Orgs pay qty × per-seat fee. No booking is confirmed without payment.
       const fee = selectedProvider.fees?.[0];
       if (fee) {
-        const addOnCents = (!isOrg && addOnSelected) ? (selectedProvider.addOn?.amountCents ?? 0) : 0;
+        const addOnCents = !isOrg && addOnSelected ? (selectedProvider.addOn?.amountCents ?? 0) : 0;
         const res = await fetch('/api/testing/checkout', {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
@@ -246,19 +266,28 @@ function BookingForm() {
             headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({ email, examType: selectedProvider.key }),
           }).catch(() => {});
-          sessionStorage.setItem('pendingBooking', JSON.stringify({
-            examType: selectedProvider.key,
-            examName: selectedProvider.name,
-            bookingType: isOrg ? 'organization' : 'individual',
-            firstName, lastName, name, email, phone,
-            organization: org, participantCount: isOrg ? qty : 1,
-            preferredDate, preferredTime: '',
-            slotId: selectedSlotId || null,
-            notes,
-            addOn: !isOrg && addOnSelected,
-            proctoringMode,
-            addOnSelected,
-          }));
+          sessionStorage.setItem(
+            'pendingBooking',
+            JSON.stringify({
+              examType: selectedProvider.key,
+              examName: selectedProvider.name,
+              bookingType: isOrg ? 'organization' : 'individual',
+              firstName,
+              lastName,
+              name,
+              email,
+              phone,
+              organization: org,
+              participantCount: isOrg ? qty : 1,
+              preferredDate,
+              preferredTime: '',
+              slotId: selectedSlotId || null,
+              notes,
+              addOn: !isOrg && addOnSelected,
+              proctoringMode,
+              addOnSelected,
+            }),
+          );
           window.location.href = data.url;
           return;
         }
@@ -272,7 +301,9 @@ function BookingForm() {
           examType: selectedProvider.key,
           examName: selectedProvider.name,
           bookingType: isOrg ? 'organization' : 'individual',
-          firstName, lastName, email,
+          firstName,
+          lastName,
+          email,
           phone: phone || null,
           organization: org || null,
           participantCount: qty,
@@ -310,11 +341,20 @@ function BookingForm() {
           </div>
           <h1 className="text-2xl font-extrabold text-slate-900 mb-3">Request Received</h1>
           <p className="text-slate-500 mb-6">
-            We will contact you within 1 business day to confirm your testing session.
-            If you need to reach us sooner, call{' '}
-            <a href={`tel:${TESTING_CENTER.phoneTel}`} className="text-brand-blue-600 font-semibold">{TESTING_CENTER.phone}</a>.
+            We will contact you within 1 business day to confirm your testing session. If you need
+            to reach us sooner, call{' '}
+            <a
+              href={`tel:${TESTING_CENTER.phoneTel}`}
+              className="text-brand-blue-600 font-semibold"
+            >
+              {TESTING_CENTER.phone}
+            </a>
+            .
           </p>
-          <Link href="/testing" className="inline-flex items-center gap-2 text-sm font-semibold text-brand-blue-600 hover:text-brand-blue-800">
+          <Link
+            href="/testing"
+            className="inline-flex items-center gap-2 text-sm font-semibold text-brand-blue-600 hover:text-brand-blue-800"
+          >
             ← Back to Testing Center
           </Link>
         </div>
@@ -327,12 +367,18 @@ function BookingForm() {
       {/* Header */}
       <div className="bg-brand-blue-700 text-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8">
-          <Link href="/testing" className="text-xs text-slate-400 hover:text-white mb-4 inline-flex items-center gap-1">
+          <Link
+            href="/testing"
+            className="text-xs text-slate-400 hover:text-white mb-4 inline-flex items-center gap-1"
+          >
             ← Testing Center
           </Link>
-          <h1 className="text-2xl sm:text-3xl font-extrabold text-white mb-2">Book a Testing Session</h1>
+          <h1 className="text-2xl sm:text-3xl font-extrabold text-white mb-2">
+            Book a Testing Session
+          </h1>
           <p className="text-white/80 text-sm">
-            Complete the form below to reserve your exam seat. Payment is required to confirm your booking.
+            Complete the form below to reserve your exam seat. Payment is required to confirm your
+            booking.
           </p>
         </div>
       </div>
@@ -340,31 +386,60 @@ function BookingForm() {
       {/* Server-rendered booking summary — visible without JS, helps crawlers and screen readers */}
       <div className="bg-slate-50 border-b border-slate-200">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-5">
-          <h2 className="font-bold text-slate-900 mb-3 text-sm uppercase tracking-wide">How Booking Works</h2>
+          <h2 className="font-bold text-slate-900 mb-3 text-sm uppercase tracking-wide">
+            How Booking Works
+          </h2>
           <ol className="grid sm:grid-cols-2 gap-x-8 gap-y-1 text-sm text-slate-600 list-none">
-            <li><span className="font-semibold text-slate-800">1.</span> Select your exam provider and type</li>
-            <li><span className="font-semibold text-slate-800">2.</span> Enter your contact information</li>
-            <li className="flex items-center gap-1.5"><span className="font-semibold text-slate-800">3.</span> <span className="font-bold text-brand-blue-700">Complete payment</span> <span className="text-[10px] bg-brand-blue-100 text-brand-blue-700 font-bold px-1.5 py-0.5 rounded">Required before scheduling</span></li>
-            <li><span className="font-semibold text-slate-800">4.</span> Choose your exam date and time</li>
-            <li><span className="font-semibold text-slate-800">5.</span> Receive email confirmation within 1 business day</li>
+            <li>
+              <span className="font-semibold text-slate-800">1.</span> Select your exam provider and
+              type
+            </li>
+            <li>
+              <span className="font-semibold text-slate-800">2.</span> Enter your contact
+              information
+            </li>
+            <li className="flex items-center gap-1.5">
+              <span className="font-semibold text-slate-800">3.</span>{' '}
+              <span className="font-bold text-brand-blue-700">Complete payment</span>{' '}
+              <span className="text-[10px] bg-brand-blue-100 text-brand-blue-700 font-bold px-1.5 py-0.5 rounded">
+                Required before scheduling
+              </span>
+            </li>
+            <li>
+              <span className="font-semibold text-slate-800">4.</span> Choose your exam date and
+              time
+            </li>
+            <li>
+              <span className="font-semibold text-slate-800">5.</span> Receive email confirmation
+              within 1 business day
+            </li>
           </ol>
           <div className="mt-3 pt-3 border-t border-slate-200 text-xs text-slate-500 space-y-0.5">
-            <p>• <strong>Appointments required</strong> — walk-ins are not accepted</p>
-            <p>• <strong>Arrive 15 minutes early</strong> with a valid government-issued photo ID</p>
-            <p>• <strong>Cancellations:</strong> reschedule with at least 24 hours&apos; notice — fees are non-refundable once reserved</p>
+            <p>
+              • <strong>Appointments required</strong> — walk-ins are not accepted
+            </p>
+            <p>
+              • <strong>Arrive 15 minutes early</strong> with a valid government-issued photo ID
+            </p>
+            <p>
+              • <strong>Cancellations:</strong> reschedule with at least 24 hours&apos; notice —
+              fees are non-refundable once reserved
+            </p>
             <p>• Exam fees are set by the credentialing provider and may change without notice</p>
           </div>
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 sm:px-6 py-10">
-
         {/* Calendly quick-schedule option */}
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-2xl p-5 mb-8 flex flex-col sm:flex-row items-start sm:items-center gap-4">
           <div className="flex-1">
-            <p className="font-bold text-brand-blue-900 text-sm mb-1">Schedule directly on our calendar</p>
+            <p className="font-bold text-brand-blue-900 text-sm mb-1">
+              Schedule directly on our calendar
+            </p>
             <p className="text-brand-blue-700 text-xs leading-relaxed">
-              Pick a date and time that works for you. We'll confirm your exam and send instructions.
+              Pick a date and time that works for you. We'll confirm your exam and send
+              instructions.
             </p>
           </div>
           <a
@@ -379,16 +454,19 @@ function BookingForm() {
 
         <div className="flex items-center gap-3 mb-8">
           <div className="flex-1 h-px bg-slate-200" />
-          <span className="text-xs text-slate-400 font-medium">or fill out the request form below</span>
+          <span className="text-xs text-slate-400 font-medium">
+            or fill out the request form below
+          </span>
           <div className="flex-1 h-px bg-slate-200" />
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-8">
-
           {/* Step 1 — Select exam */}
           <div className="bg-white rounded-2xl border border-slate-200 p-6">
             <h2 className="font-extrabold text-slate-900 mb-1">1. Which exam do you need?</h2>
-            <p className="text-xs text-slate-500 mb-4">Select a certification provider. Available proctoring modes will update automatically.</p>
+            <p className="text-xs text-slate-500 mb-4">
+              Select a certification provider. Available proctoring modes will update automatically.
+            </p>
             <div className="grid sm:grid-cols-2 gap-3">
               {ALL_PROVIDERS.map((provider) => (
                 <button
@@ -403,14 +481,18 @@ function BookingForm() {
                   disabled={provider.status === 'coming_soon'}
                 >
                   <div className="flex items-start justify-between gap-2">
-                    <span className="font-bold text-sm text-slate-900 leading-snug">{provider.name}</span>
+                    <span className="font-bold text-sm text-slate-900 leading-snug">
+                      {provider.name}
+                    </span>
                     {provider.status !== 'active' && (
                       <span className="text-[10px] font-bold text-amber-600 bg-amber-50 px-1.5 py-0.5 rounded flex-shrink-0">
                         {provider.status === 'coming_soon' ? 'Launching' : 'Partner'}
                       </span>
                     )}
                   </div>
-                  <p className="text-xs text-slate-500 mt-1 leading-relaxed line-clamp-2">{provider.description}</p>
+                  <p className="text-xs text-slate-500 mt-1 leading-relaxed line-clamp-2">
+                    {provider.description}
+                  </p>
                 </button>
               ))}
             </div>
@@ -421,9 +503,14 @@ function BookingForm() {
             <div className="bg-amber-50 border border-amber-200 rounded-2xl p-5 flex items-start gap-3">
               <AlertTriangle className="w-5 h-5 text-amber-600 shrink-0 mt-0.5" />
               <div>
-                <p className="font-bold text-amber-900 text-sm">Testing Accommodations — 30-Day Deadline</p>
+                <p className="font-bold text-amber-900 text-sm">
+                  Testing Accommodations — 30-Day Deadline
+                </p>
                 <p className="text-amber-800 text-xs mt-1 leading-relaxed">
-                  If you require testing accommodations (extended time, screen reader, etc.), NHA requires requests to be submitted <strong>at least 30 days before your exam date</strong>. Submit your request early to avoid delays or missed testing opportunities.
+                  If you require testing accommodations (extended time, screen reader, etc.), NHA
+                  requires requests to be submitted{' '}
+                  <strong>at least 30 days before your exam date</strong>. Submit your request early
+                  to avoid delays or missed testing opportunities.
                 </p>
                 <a
                   href="/testing/accommodations"
@@ -442,13 +529,15 @@ function BookingForm() {
                 <span className="text-brand-blue-600">$</span> Fees for {selectedProvider.name}
               </h2>
               <div className="space-y-2 mb-3">
-                {selectedProvider.fees.map(fee => (
+                {selectedProvider.fees.map((fee) => (
                   <div key={fee.label} className="flex items-start justify-between gap-4">
                     <div>
                       <p className="text-sm font-semibold text-slate-800">{fee.label}</p>
                       {fee.note && <p className="text-xs text-slate-500">{fee.note}</p>}
                     </div>
-                    <span className="text-brand-red-600 font-black text-xl shrink-0">${fee.amount}</span>
+                    <span className="text-brand-red-600 font-black text-xl shrink-0">
+                      ${fee.amount}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -457,7 +546,9 @@ function BookingForm() {
                   {selectedProvider.groupDiscount}
                 </p>
               )}
-              <p className="text-xs text-slate-400 mt-3">Payment due at time of booking confirmation.</p>
+              <p className="text-xs text-slate-400 mt-3">
+                Payment due at time of booking confirmation.
+              </p>
             </div>
           )}
 
@@ -471,17 +562,21 @@ function BookingForm() {
                 <input
                   type="checkbox"
                   checked={addOnSelected}
-                  onChange={e => setAddOnSelected(e.target.checked)}
+                  onChange={(e) => setAddOnSelected(e.target.checked)}
                   className="mt-1 w-4 h-4 accent-amber-600 flex-shrink-0"
                 />
                 <div>
                   <p className="font-bold text-slate-900 text-sm">
                     {selectedProvider.addOn.label}{' '}
-                    <span className="text-amber-700">+${(selectedProvider.addOn.amountCents / 100).toFixed(0)}</span>
+                    <span className="text-amber-700">
+                      +${(selectedProvider.addOn.amountCents / 100).toFixed(0)}
+                    </span>
                   </p>
-                  <p className="text-slate-500 text-xs mt-0.5">{selectedProvider.addOn.description}</p>
+                  <p className="text-slate-500 text-xs mt-0.5">
+                    {selectedProvider.addOn.description}
+                  </p>
                   <ul className="mt-2 space-y-1">
-                    {selectedProvider.addOn.includes.map(item => (
+                    {selectedProvider.addOn.includes.map((item) => (
                       <li key={item} className="flex items-start gap-1.5 text-xs text-slate-600">
                         <CheckCircle className="w-3 h-3 text-amber-500 shrink-0 mt-0.5" />
                         {item}
@@ -494,78 +589,96 @@ function BookingForm() {
           )}
 
           {/* Dynamic price summary — shown for all org types once provider is selected */}
-          {selectedProvider?.fees && selectedProvider.fees.length > 0 && (() => {
-            const fee = selectedProvider.fees![0];
-            const isOrgType = orgType !== 'Individual' && orgType !== '';
-            const qty = parseInt(participantCount, 10) || 1;
-            const addOnCents = (!isOrgType && addOnSelected && selectedProvider.addOn)
-              ? selectedProvider.addOn.amountCents : 0;
-            const total = isOrgType ? fee.amount * qty : fee.amount + addOnCents / 100;
+          {selectedProvider?.fees &&
+            selectedProvider.fees.length > 0 &&
+            (() => {
+              const fee = selectedProvider.fees![0];
+              const isOrgType = orgType !== 'Individual' && orgType !== '';
+              const qty = parseInt(participantCount, 10) || 1;
+              const addOnCents =
+                !isOrgType && addOnSelected && selectedProvider.addOn
+                  ? selectedProvider.addOn.amountCents
+                  : 0;
+              const total = isOrgType ? fee.amount * qty : fee.amount + addOnCents / 100;
 
-            // NHA fees have a breakdown note: "$149 NHA exam + $94 testing & administration"
-            const nhaBreakdown = !isOrgType
-              ? fee.note?.match(/\$(\d+)\s+(.+?)\s*\+\s*\$(\d+)\s+(.+)/)
-              : null;
+              // NHA fees have a breakdown note: "$149 NHA exam + $94 testing & administration"
+              const nhaBreakdown = !isOrgType
+                ? fee.note?.match(/\$(\d+)\s+(.+?)\s*\+\s*\$(\d+)\s+(.+)/)
+                : null;
 
-            return (
-              <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
-                <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">Order Summary</p>
-                <div className="space-y-2 text-sm">
-                  {isOrgType ? (
-                    <>
+              return (
+                <div className="rounded-2xl border border-slate-200 bg-slate-50 px-5 py-4">
+                  <p className="text-xs font-semibold text-slate-500 uppercase tracking-wide mb-3">
+                    Order Summary
+                  </p>
+                  <div className="space-y-2 text-sm">
+                    {isOrgType ? (
+                      <>
+                        <div className="flex justify-between text-slate-700">
+                          <span>
+                            {fee.label} × {qty} seat{qty !== 1 ? 's' : ''}
+                          </span>
+                          <span className="font-semibold">${(fee.amount * qty).toFixed(0)}</span>
+                        </div>
+                      </>
+                    ) : nhaBreakdown ? (
+                      <>
+                        <div className="flex justify-between text-slate-700">
+                          <span>{nhaBreakdown[2]}</span>
+                          <span className="font-semibold">${nhaBreakdown[1]}</span>
+                        </div>
+                        <div className="flex justify-between text-slate-700">
+                          <span>{nhaBreakdown[4]}</span>
+                          <span className="font-semibold">${nhaBreakdown[3]}</span>
+                        </div>
+                      </>
+                    ) : (
                       <div className="flex justify-between text-slate-700">
-                        <span>{fee.label} × {qty} seat{qty !== 1 ? 's' : ''}</span>
-                        <span className="font-semibold">${(fee.amount * qty).toFixed(0)}</span>
+                        <span>{fee.label}</span>
+                        <span className="font-semibold">${fee.amount.toFixed(0)}</span>
                       </div>
-                    </>
-                  ) : nhaBreakdown ? (
-                    <>
-                      <div className="flex justify-between text-slate-700">
-                        <span>{nhaBreakdown[2]}</span>
-                        <span className="font-semibold">${nhaBreakdown[1]}</span>
+                    )}
+                    {!isOrgType && addOnSelected && selectedProvider.addOn && (
+                      <div className="flex justify-between text-amber-700">
+                        <span>{selectedProvider.addOn.label}</span>
+                        <span className="font-semibold">
+                          +${(selectedProvider.addOn.amountCents / 100).toFixed(0)}
+                        </span>
                       </div>
-                      <div className="flex justify-between text-slate-700">
-                        <span>{nhaBreakdown[4]}</span>
-                        <span className="font-semibold">${nhaBreakdown[3]}</span>
-                      </div>
-                    </>
-                  ) : (
-                    <div className="flex justify-between text-slate-700">
-                      <span>{fee.label}</span>
-                      <span className="font-semibold">${fee.amount.toFixed(0)}</span>
+                    )}
+                    <div className="border-t border-slate-200 pt-2 flex justify-between font-extrabold text-slate-900 text-base">
+                      <span>Total</span>
+                      <span>${total.toFixed(0)}</span>
                     </div>
-                  )}
-                  {!isOrgType && addOnSelected && selectedProvider.addOn && (
-                    <div className="flex justify-between text-amber-700">
-                      <span>{selectedProvider.addOn.label}</span>
-                      <span className="font-semibold">+${(selectedProvider.addOn.amountCents / 100).toFixed(0)}</span>
-                    </div>
-                  )}
-                  <div className="border-t border-slate-200 pt-2 flex justify-between font-extrabold text-slate-900 text-base">
-                    <span>Total</span>
-                    <span>${total.toFixed(0)}</span>
                   </div>
+                  <p className="text-xs text-slate-400 mt-3">
+                    Secure checkout — Instant confirmation — No hidden fees
+                  </p>
                 </div>
-                <p className="text-xs text-slate-400 mt-3">Secure checkout — Instant confirmation — No hidden fees</p>
-              </div>
-            );
-          })()}
+              );
+            })()}
 
           {/* Step 2 — Proctoring mode (driven by capability) */}
           {selectedProvider && availableModes.length > 0 && (
             <div className="bg-white rounded-2xl border border-slate-200 p-6">
               <h2 className="font-extrabold text-slate-900 mb-1">2. How would you like to test?</h2>
               <p className="text-xs text-slate-500 mb-4">
-                Available modes for <strong>{selectedProvider.name}</strong> based on provider requirements.
+                Available modes for <strong>{selectedProvider.name}</strong> based on provider
+                requirements.
               </p>
               <div className="flex flex-col gap-3">
                 {availableModes.map((mode) => {
                   const label = PROCTORING_MODE_LABELS[mode];
                   const Icon = mode === 'inPerson' ? MapPinned : Monitor;
                   return (
-                    <label key={mode} className={`flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
-                      proctoringMode === mode ? 'border-brand-blue-500 bg-brand-blue-50' : 'border-slate-200 hover:border-slate-300'
-                    }`}>
+                    <label
+                      key={mode}
+                      className={`flex items-start gap-3 p-4 rounded-xl border-2 cursor-pointer transition-all ${
+                        proctoringMode === mode
+                          ? 'border-brand-blue-500 bg-brand-blue-50'
+                          : 'border-slate-200 hover:border-slate-300'
+                      }`}
+                    >
                       <input
                         type="radio"
                         name="proctoringMode"
@@ -582,10 +695,16 @@ function BookingForm() {
                           <p className="text-xs text-slate-500 mt-0.5">{TESTING_CENTER.address}</p>
                         )}
                         {mode === 'remoteProvider' && (
-                          <p className="text-xs text-slate-500 mt-0.5">The certifying organization controls the remote testing system. We facilitate access.</p>
+                          <p className="text-xs text-slate-500 mt-0.5">
+                            The certifying organization controls the remote testing system. We
+                            facilitate access.
+                          </p>
                         )}
                         {mode === 'remoteCenter' && (
-                          <p className="text-xs text-slate-500 mt-0.5">Elevate staff proctor the session live via video. Participants can test from any location.</p>
+                          <p className="text-xs text-slate-500 mt-0.5">
+                            Elevate staff proctor the session live via video. Participants can test
+                            from any location.
+                          </p>
                         )}
                       </div>
                     </label>
@@ -602,47 +721,90 @@ function BookingForm() {
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">Your name *</label>
-                  <input required value={name} onChange={e => setName(e.target.value)}
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
+                    Your name *
+                  </label>
+                  <input
+                    required
+                    value={name}
+                    onChange={(e) => setName(e.target.value)}
                     className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                    placeholder="Full name" />
+                    placeholder="Full name"
+                  />
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">Organization</label>
-                  <input value={org} onChange={e => setOrg(e.target.value)}
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
+                    Organization
+                  </label>
+                  <input
+                    value={org}
+                    onChange={(e) => setOrg(e.target.value)}
                     className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                    placeholder="Company or program name" />
+                    placeholder="Company or program name"
+                  />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1">Email *</label>
-                  <input required type="email" value={email}
-                    onChange={e => { setEmail(e.target.value); setEnforcementHold(null); }}
-                    onBlur={e => { checkEnforcementHold(e.target.value); captureLead(e.target.value); }}
+                  <input
+                    required
+                    type="email"
+                    value={email}
+                    onChange={(e) => {
+                      setEmail(e.target.value);
+                      setEnforcementHold(null);
+                    }}
+                    onBlur={(e) => {
+                      checkEnforcementHold(e.target.value);
+                      captureLead(e.target.value);
+                    }}
                     className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                    placeholder="you@example.com" />
+                    placeholder="you@example.com"
+                  />
                 </div>
                 <div>
                   <label className="block text-xs font-semibold text-slate-600 mb-1">Phone</label>
-                  <input type="tel" value={phone} onChange={e => setPhone(e.target.value)}
+                  <input
+                    type="tel"
+                    value={phone}
+                    onChange={(e) => setPhone(e.target.value)}
                     className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
-                    placeholder="(317) 000-0000" />
+                    placeholder="(317) 000-0000"
+                  />
                 </div>
               </div>
 
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">Organization type *</label>
-                  <select required value={orgType} onChange={e => setOrgType(e.target.value)}
-                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500">
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
+                    Organization type *
+                  </label>
+                  <select
+                    required
+                    value={orgType}
+                    onChange={(e) => setOrgType(e.target.value)}
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                  >
                     <option value="">Select...</option>
-                    {ORG_TYPES.map(t => <option key={t} value={t}>{t}</option>)}
+                    {ORG_TYPES.map((t) => (
+                      <option key={t} value={t}>
+                        {t}
+                      </option>
+                    ))}
                   </select>
                 </div>
                 <div>
-                  <label className="block text-xs font-semibold text-slate-600 mb-1">Number of participants *</label>
-                  <input required type="number" min="1" max="20" value={participantCount}
-                    onChange={e => setParticipantCount(e.target.value)}
-                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500" />
+                  <label className="block text-xs font-semibold text-slate-600 mb-1">
+                    Number of participants *
+                  </label>
+                  <input
+                    required
+                    type="number"
+                    min="1"
+                    max="20"
+                    value={participantCount}
+                    onChange={(e) => setParticipantCount(e.target.value)}
+                    className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
+                  />
                 </div>
               </div>
 
@@ -654,8 +816,10 @@ function BookingForm() {
                       ⚠️ Payment required before scheduling
                     </p>
                     <p className="text-brand-blue-800 text-xs leading-relaxed">
-                      Your exam fee of <strong>${(enforcementHold.fee_cents / 100).toFixed(0)}</strong> must be paid before you can select a date and time.
-                      Your spot will be confirmed immediately after payment.
+                      Your exam fee of{' '}
+                      <strong>${(enforcementHold.fee_cents / 100).toFixed(0)}</strong> must be paid
+                      before you can select a date and time. Your spot will be confirmed immediately
+                      after payment.
                     </p>
                   </div>
                   <button
@@ -665,7 +829,9 @@ function BookingForm() {
                     className="flex-shrink-0 inline-flex items-center gap-2 bg-brand-blue-600 hover:bg-brand-blue-700 disabled:opacity-60 text-white font-bold px-5 py-2.5 rounded-lg text-sm transition-colors"
                   >
                     <CreditCard className="w-4 h-4" />
-                    {payingFee ? 'Redirecting...' : `Pay $${(enforcementHold.fee_cents / 100).toFixed(0)} Now`}
+                    {payingFee
+                      ? 'Redirecting...'
+                      : `Pay $${(enforcementHold.fee_cents / 100).toFixed(0)} Now`}
                   </button>
                 </div>
               )}
@@ -674,10 +840,19 @@ function BookingForm() {
               {!paid && !enforcementHold && (
                 <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl px-4 py-4 text-sm text-brand-blue-800">
                   <p className="font-bold mb-1">Payment required before scheduling</p>
-                  <p className="text-xs text-brand-blue-700">Complete your details above and click <strong>Pay &amp; Continue</strong> to select your testing slot after payment is confirmed.</p>
+                  <p className="text-xs text-brand-blue-700">
+                    Complete your details above and click <strong>Pay &amp; Continue</strong> to
+                    select your testing slot after payment is confirmed.
+                  </p>
                 </div>
               )}
-              <div className={(!paid && !enforcementHold) || (enforcementHold && !enforcementHold.paid) ? 'hidden' : ''}>
+              <div
+                className={
+                  (!paid && !enforcementHold) || (enforcementHold && !enforcementHold.paid)
+                    ? 'hidden'
+                    : ''
+                }
+              >
                 <label className="block text-xs font-semibold text-slate-600 mb-1">
                   Select a testing date &amp; time *
                 </label>
@@ -685,25 +860,41 @@ function BookingForm() {
                   <p className="text-xs text-slate-400 py-2">Loading available slots...</p>
                 ) : slots.length === 0 ? (
                   <div className="bg-amber-50 border border-amber-200 rounded-lg px-4 py-3">
-                    <p className="text-xs text-amber-800 font-medium">No slots currently available online.</p>
+                    <p className="text-xs text-amber-800 font-medium">
+                      No slots currently available online.
+                    </p>
                     <p className="text-xs text-amber-700 mt-0.5">
-                      Call <a href={`tel:${TESTING_CENTER.phoneTel}`} className="font-semibold underline">{TESTING_CENTER.phone}</a> to schedule directly.
+                      Call{' '}
+                      <a
+                        href={`tel:${TESTING_CENTER.phoneTel}`}
+                        className="font-semibold underline"
+                      >
+                        {TESTING_CENTER.phone}
+                      </a>{' '}
+                      to schedule directly.
                     </p>
                   </div>
                 ) : (
                   <div className="space-y-2">
-                    {slots.map(slot => {
+                    {slots.map((slot) => {
                       const start = new Date(slot.startTime);
-                      const end   = new Date(slot.endTime);
-                      const dateLabel = start.toLocaleDateString('en-US', { timeZone: 'UTC', weekday: 'long', month: 'long', day: 'numeric' });
+                      const end = new Date(slot.endTime);
+                      const dateLabel = start.toLocaleDateString('en-US', {
+                        timeZone: 'UTC',
+                        weekday: 'long',
+                        month: 'long',
+                        day: 'numeric',
+                      });
                       const timeLabel = `${start.toLocaleTimeString('en-US', { timeZone: 'UTC', hour: 'numeric', minute: '2-digit' })} – ${end.toLocaleTimeString('en-US', { timeZone: 'UTC', hour: 'numeric', minute: '2-digit' })}`;
-                      const selected  = selectedSlotId === slot.id;
+                      const selected = selectedSlotId === slot.id;
                       const almostFull = slot.spotsRemaining <= 2;
                       return (
                         <label
                           key={slot.id}
                           className={`flex items-start gap-3 p-3 rounded-xl border-2 cursor-pointer transition-all ${
-                            selected ? 'border-brand-blue-500 bg-brand-blue-50' : 'border-slate-200 hover:border-slate-300'
+                            selected
+                              ? 'border-brand-blue-500 bg-brand-blue-50'
+                              : 'border-slate-200 hover:border-slate-300'
                           }`}
                         >
                           <input
@@ -722,9 +913,11 @@ function BookingForm() {
                             <p className="text-sm font-semibold text-slate-900">{dateLabel}</p>
                             <p className="text-xs text-slate-500">{timeLabel}</p>
                           </div>
-                          <span className={`text-xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${
-                            almostFull ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
-                          }`}>
+                          <span
+                            className={`text-xs font-semibold px-2 py-0.5 rounded-full flex-shrink-0 ${
+                              almostFull ? 'bg-red-100 text-red-700' : 'bg-green-100 text-green-700'
+                            }`}
+                          >
                             {slot.spotsRemaining} spot{slot.spotsRemaining !== 1 ? 's' : ''} left
                           </span>
                         </label>
@@ -735,10 +928,16 @@ function BookingForm() {
               </div>
 
               <div>
-                <label className="block text-xs font-semibold text-slate-600 mb-1">Additional notes</label>
-                <textarea value={notes} onChange={e => setNotes(e.target.value)} rows={3}
+                <label className="block text-xs font-semibold text-slate-600 mb-1">
+                  Additional notes
+                </label>
+                <textarea
+                  value={notes}
+                  onChange={(e) => setNotes(e.target.value)}
+                  rows={3}
                   className="w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-brand-blue-500 resize-none"
-                  placeholder="Specific exam types, accessibility needs, or other details" />
+                  placeholder="Specific exam types, accessibility needs, or other details"
+                />
               </div>
 
               {/* Enforcement hold — must pay fee before booking */}
@@ -754,11 +953,12 @@ function BookingForm() {
                         {enforcementHold.enforcement_type === 'no_show'
                           ? 'Missed Appointment Fee Required'
                           : enforcementHold.enforcement_type === 'retake'
-                          ? 'Retake Fee Required'
-                          : 'Reschedule Fee Required'}
+                            ? 'Retake Fee Required'
+                            : 'Reschedule Fee Required'}
                       </p>
                       <p className="text-red-700 text-xs mt-1">
-                        A ${(enforcementHold.fee_cents / 100).toFixed(0)} fee must be paid before you can book a new session.
+                        A ${(enforcementHold.fee_cents / 100).toFixed(0)} fee must be paid before
+                        you can book a new session.
                       </p>
                       <button
                         type="button"
@@ -767,7 +967,9 @@ function BookingForm() {
                         className="mt-3 inline-flex items-center gap-2 bg-red-600 hover:bg-red-700 disabled:opacity-60 text-white text-xs font-bold px-4 py-2 rounded-lg transition-colors"
                       >
                         <CreditCard className="w-3.5 h-3.5" />
-                        {payingFee ? 'Redirecting...' : `Pay $${(enforcementHold.fee_cents / 100).toFixed(0)} to Unlock Booking`}
+                        {payingFee
+                          ? 'Redirecting...'
+                          : `Pay $${(enforcementHold.fee_cents / 100).toFixed(0)} to Unlock Booking`}
                       </button>
                     </div>
                   </div>
@@ -776,34 +978,47 @@ function BookingForm() {
 
               <button
                 type="submit"
-                disabled={submitting || (!!enforcementHold && !enforcementHold.paid) || checkingHold || (paid && !selectedSlotId)}
+                disabled={
+                  submitting ||
+                  (!!enforcementHold && !enforcementHold.paid) ||
+                  checkingHold ||
+                  (paid && !selectedSlotId)
+                }
                 className="w-full bg-brand-red-600 hover:bg-brand-red-700 disabled:opacity-60 text-white font-bold py-3 rounded-xl transition-colors text-sm"
               >
                 {submitting
                   ? 'Processing...'
                   : paid
-                  ? selectedSlotId
-                    ? 'Confirm Booking'
-                    : 'Select a time slot above'
-                  : selectedProvider?.fees?.length
-                  ? (() => {
-                      const isOrgType = orgType !== 'Individual' && orgType !== '';
-                      const qty = parseInt(participantCount, 10) || 1;
-                      const base = selectedProvider.fees![0].amount;
-                      const addOn = (!isOrgType && addOnSelected && selectedProvider.addOn)
-                        ? selectedProvider.addOn.amountCents / 100 : 0;
-                      const total = isOrgType ? base * qty : base + addOn;
-                      return `Pay & Continue — $${total.toFixed(0)}${isOrgType && qty > 1 ? ` (${qty} seats)` : ''}`;
-                    })()
-                  : 'Continue to Payment'}
+                    ? selectedSlotId
+                      ? 'Confirm Booking'
+                      : 'Select a time slot above'
+                    : selectedProvider?.fees?.length
+                      ? (() => {
+                          const isOrgType = orgType !== 'Individual' && orgType !== '';
+                          const qty = parseInt(participantCount, 10) || 1;
+                          const base = selectedProvider.fees![0].amount;
+                          const addOn =
+                            !isOrgType && addOnSelected && selectedProvider.addOn
+                              ? selectedProvider.addOn.amountCents / 100
+                              : 0;
+                          const total = isOrgType ? base * qty : base + addOn;
+                          return `Pay & Continue — $${total.toFixed(0)}${isOrgType && qty > 1 ? ` (${qty} seats)` : ''}`;
+                        })()
+                      : 'Continue to Payment'}
               </button>
 
               <p className="text-xs text-slate-500 text-center">
-                Or call us directly: <a href={`tel:${TESTING_CENTER.phoneTel}`} className="text-brand-blue-600 font-semibold inline-flex items-center gap-1"><Phone className="w-3 h-3" />{TESTING_CENTER.phone}</a>
+                Or call us directly:{' '}
+                <a
+                  href={`tel:${TESTING_CENTER.phoneTel}`}
+                  className="text-brand-blue-600 font-semibold inline-flex items-center gap-1"
+                >
+                  <Phone className="w-3 h-3" />
+                  {TESTING_CENTER.phone}
+                </a>
               </p>
             </div>
           )}
-
         </form>
       </div>
     </main>
@@ -812,7 +1027,13 @@ function BookingForm() {
 
 export default function BookTestingPage() {
   return (
-    <Suspense fallback={<div className="min-h-screen bg-white flex items-center justify-center"><p className="text-slate-500 text-sm">Loading...</p></div>}>
+    <Suspense
+      fallback={
+        <div className="min-h-screen bg-white flex items-center justify-center">
+          <p className="text-slate-500 text-sm">Loading...</p>
+        </div>
+      }
+    >
       <BookingForm />
     </Suspense>
   );

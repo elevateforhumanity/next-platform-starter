@@ -6,12 +6,13 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 // GET - Fetch user's messages/conversations
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -24,12 +25,16 @@ const supabase = await createClient();
     // Get messages in a specific conversation
     const { data: messages, error } = await supabase
       .from('messages')
-      .select(`
+      .select(
+        `
         *,
         sender:profiles!messages_sender_id_fkey(id, full_name, avatar_url),
         recipient:profiles!messages_recipient_id_fkey(id, full_name, avatar_url)
-      `)
-      .or(`and(sender_id.eq.${user.id},recipient_id.eq.${conversationWith}),and(sender_id.eq.${conversationWith},recipient_id.eq.${user.id})`)
+      `,
+      )
+      .or(
+        `and(sender_id.eq.${user.id},recipient_id.eq.${conversationWith}),and(sender_id.eq.${conversationWith},recipient_id.eq.${user.id})`,
+      )
       .order('created_at', { ascending: true });
 
     if (error) {
@@ -51,11 +56,13 @@ const supabase = await createClient();
   // Get all conversations (grouped by other participant)
   const { data: messages, error } = await supabase
     .from('messages')
-    .select(`
+    .select(
+      `
       *,
       sender:profiles!messages_sender_id_fkey(id, full_name, avatar_url),
       recipient:profiles!messages_recipient_id_fkey(id, full_name, avatar_url)
-    `)
+    `,
+    )
     .or(`sender_id.eq.${user.id},recipient_id.eq.${user.id}`)
     .order('created_at', { ascending: false });
 
@@ -66,11 +73,11 @@ const supabase = await createClient();
 
   // Group into conversations
   const conversationMap = new Map();
-  
+
   for (const msg of messages || []) {
     const otherId = msg.sender_id === user.id ? msg.recipient_id : msg.sender_id;
     const other = msg.sender_id === user.id ? msg.recipient : msg.sender;
-    
+
     if (!conversationMap.has(otherId)) {
       conversationMap.set(otherId, {
         id: otherId,
@@ -90,12 +97,14 @@ const supabase = await createClient();
 
 // POST - Send a new message
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -135,11 +144,13 @@ async function _POST(request: NextRequest) {
       subject: subject || null,
       created_at: new Date().toISOString(),
     })
-    .select(`
+    .select(
+      `
       *,
       sender:profiles!messages_sender_id_fkey(id, full_name, avatar_url),
       recipient:profiles!messages_recipient_id_fkey(id, full_name, avatar_url)
-    `)
+    `,
+    )
     .maybeSingle();
 
   if (error) {

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 
@@ -34,15 +34,11 @@ interface GuideStep {
 
 export function CopilotDeployment() {
   const [copilotFeatures, setCopilotFeatures] = useState<CopilotFeature[]>([]);
-  const [stepByStepGuides, setStepByStepGuides] = useState<StepByStepGuide[]>(
-    []
-  );
+  const [stepByStepGuides, setStepByStepGuides] = useState<StepByStepGuide[]>([]);
   const [deploymentStatus, setDeploymentStatus] = useState<
     'ready' | 'deploying' | 'deployed' | 'error'
   >('ready');
-  const [selectedGuide, setSelectedGuide] = useState<StepByStepGuide | null>(
-    null
-  );
+  const [selectedGuide, setSelectedGuide] = useState<StepByStepGuide | null>(null);
 
   useEffect(() => {
     loadCopilotFeatures();
@@ -54,8 +50,7 @@ export function CopilotDeployment() {
       {
         id: 'data_processor',
         name: 'Intelligent Data Processor',
-        description:
-          'AI-powered copy/paste data processing with smart format detection',
+        description: 'AI-powered copy/paste data processing with smart format detection',
         status: 'active',
         lastUpdated: new Date().toISOString(),
         usage: 94,
@@ -64,8 +59,7 @@ export function CopilotDeployment() {
       {
         id: 'barrier_analyzer',
         name: 'Learning Barrier Analyzer',
-        description:
-          'Automatic identification and remediation of learning challenges',
+        description: 'Automatic identification and remediation of learning challenges',
         status: 'active',
         lastUpdated: new Date().toISOString(),
         usage: 87,
@@ -74,8 +68,7 @@ export function CopilotDeployment() {
       {
         id: 'attrition_tracker',
         name: 'Attrition & Retention Tracker',
-        description:
-          'Real-time monitoring with predictive analytics and interventions',
+        description: 'Real-time monitoring with predictive analytics and interventions',
         status: 'active',
         lastUpdated: new Date().toISOString(),
         usage: 91,
@@ -84,8 +77,7 @@ export function CopilotDeployment() {
       {
         id: 'program_generator',
         name: 'Auto Program Generator',
-        description:
-          'AI-powered creation and nationwide deployment of training programs',
+        description: 'AI-powered creation and nationwide deployment of training programs',
         status: 'active',
         lastUpdated: new Date().toISOString(),
         usage: 76,
@@ -94,8 +86,7 @@ export function CopilotDeployment() {
       {
         id: 'excel_generator',
         name: 'Excel Chart Generator',
-        description:
-          'Automatic pie chart and report generation for Excel export',
+        description: 'Automatic pie chart and report generation for Excel export',
         status: 'active',
         lastUpdated: new Date().toISOString(),
         usage: 88,
@@ -127,8 +118,7 @@ export function CopilotDeployment() {
           {
             stepNumber: 1,
             title: 'Prepare Your Data',
-            description:
-              'Copy student data from Excel, Google Sheets, or any source',
+            description: 'Copy student data from Excel, Google Sheets, or any source',
             action: 'Copy your student data (Ctrl+C or Cmd+C)',
             tips: [
               'Any format works - CSV, tab-separated, or even messy text',
@@ -139,8 +129,7 @@ export function CopilotDeployment() {
           {
             stepNumber: 2,
             title: 'Open the Data Processor',
-            description:
-              'Navigate to the Intelligent Data Processor in your admin dashboard',
+            description: 'Navigate to the Intelligent Data Processor in your admin dashboard',
             action: 'Click "🤖 Intelligent Data Processor" in the sidebar',
             tips: [
               'Look for the robot icon in your admin menu',
@@ -160,8 +149,7 @@ export function CopilotDeployment() {
           {
             stepNumber: 4,
             title: 'Let AI Analyze',
-            description:
-              'Click "🤖 Process & Create Everything" to start AI analysis',
+            description: 'Click "🤖 Process & Create Everything" to start AI analysis',
             action: 'Click the blue "Process & Create Everything" button',
             tips: [
               'AI will detect format, fix errors, and generate missing info',
@@ -172,8 +160,7 @@ export function CopilotDeployment() {
           {
             stepNumber: 5,
             title: 'Review Results',
-            description:
-              'Check the processed data and au analytics',
+            description: 'Check the processed data and au analytics',
             action: 'Review the parsed student records and generated charts',
             tips: [
               'AI automatically creates flow charts and analytics',
@@ -184,8 +171,7 @@ export function CopilotDeployment() {
           {
             stepNumber: 6,
             title: 'Activate Tracking',
-            description:
-              'Confirm to activate automatic attrition and retention tracking',
+            description: 'Confirm to activate automatic attrition and retention tracking',
             action: 'Click "Activate Tracking" to start monitoring',
             tips: [
               'Real-time tracking starts immediately',
@@ -237,8 +223,7 @@ export function CopilotDeployment() {
           {
             stepNumber: 4,
             title: 'Generate Excel File',
-            description:
-              'Click to automatically generate professional Excel workbook',
+            description: 'Click to automatically generate professional Excel workbook',
             action: 'Click "📊 Generate Excel with Charts"',
             tips: [
               'AI creates multiple worksheets with charts and data',
@@ -258,8 +243,7 @@ export function CopilotDeployment() {
           {
             stepNumber: 1,
             title: 'Access Program Generator',
-            description:
-              'Open the Auto Program Generator for AI-powered curriculum creation',
+            description: 'Open the Auto Program Generator for AI-powered curriculum creation',
             action: 'Navigate to "🤖 Auto Program Generator"',
             tips: [
               'AI analyzes current job market demand',
@@ -270,8 +254,7 @@ export function CopilotDeployment() {
           {
             stepNumber: 2,
             title: 'Generate New Program',
-            description:
-              'Let AI create a complete training program automatically',
+            description: 'Let AI create a complete training program automatically',
             action: 'Click "🤖 Generate New Program"',
             tips: [
               'AI considers industry trends and salary data',
@@ -282,8 +265,7 @@ export function CopilotDeployment() {
           {
             stepNumber: 3,
             title: 'Review Program Details',
-            description:
-              'Examine the AI-generated curriculum, labs, and outcomes',
+            description: 'Examine the AI-generated curriculum, labs, and outcomes',
             action: 'Click "📊 View Details" on the generated program',
             tips: [
               'All modules include learning objectives and assessments',
@@ -294,8 +276,7 @@ export function CopilotDeployment() {
           {
             stepNumber: 4,
             title: 'Deploy Nationally',
-            description:
-              'Scale the program across multiple states and institutions',
+            description: 'Scale the program across multiple states and institutions',
             action: 'Click "🚀 Deploy Nationally" to expand availability',
             tips: [
               'AI identifies optimal partner institutions',
@@ -317,9 +298,7 @@ export function CopilotDeployment() {
     for (let i = 0; i < copilotFeatures.length; i++) {
       await new Promise((resolve) => setTimeout(resolve, 1000));
       setCopilotFeatures((prev) =>
-        prev.map((feature, index) =>
-          index === i ? { ...feature, status: 'active' } : feature
-        )
+        prev.map((feature, index) => (index === i ? { ...feature, status: 'active' } : feature)),
       );
     }
 
@@ -358,9 +337,7 @@ export function CopilotDeployment() {
     <div className="copilot-deployment">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-brand-text">
-            🚀 Copilot Deployment Center
-          </h2>
+          <h2 className="text-2xl font-bold text-brand-text">🚀 Copilot Deployment Center</h2>
           <p className="text-brand-text-muted">
             Deploy and manage AI-powered assistance for your staff
           </p>
@@ -370,9 +347,7 @@ export function CopilotDeployment() {
           disabled={deploymentStatus === 'deploying'}
           className="bg-brand-info text-white px-6 py-3 rounded-lg hover:bg-brand-info-hover disabled:opacity-50 font-medium"
         >
-          {deploymentStatus === 'deploying'
-            ? '🔄 Deploying...'
-            : '🚀 Deploy All Features'}
+          {deploymentStatus === 'deploying' ? '🔄 Deploying...' : '🚀 Deploy All Features'}
         </button>
       </div>
       {/* Deployment Status */}
@@ -393,25 +368,19 @@ export function CopilotDeployment() {
       )}
       {/* Copilot Features */}
       <div className="mb-8">
-        <h3 className="text-lg font-semibold text-brand-text mb-4">
-          🤖 Active Copilot Features
-        </h3>
+        <h3 className="text-lg font-semibold text-brand-text mb-4">🤖 Active Copilot Features</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
           {copilotFeatures.map((feature) => (
             <div key={feature.id} className="bg-white border rounded-lg p-6">
               <div className="flex items-start justify-between mb-4">
-                <h4 className="font-semibold text-brand-text">
-                  {feature.name}
-                </h4>
+                <h4 className="font-semibold text-brand-text">{feature.name}</h4>
                 <span
                   className={`px-2 py-2 text-xs font-medium rounded-full ${getStatusColor(feature.status)}`}
                 >
                   {feature.status.toUpperCase()}
                 </span>
               </div>
-              <p className="text-sm text-brand-text-muted mb-4">
-                {feature.description}
-              </p>
+              <p className="text-sm text-brand-text-muted mb-4">{feature.description}</p>
               <div className="space-y-2">
                 <div className="flex justify-between text-sm">
                   <span className="text-brand-text-muted">Usage Rate:</span>
@@ -425,9 +394,7 @@ export function CopilotDeployment() {
                 </div>
                 <div className="flex justify-between text-sm">
                   <span className="text-brand-text-muted">Effectiveness:</span>
-                  <span className="font-medium text-brand-success">
-                    {feature.effectiveness}%
-                  </span>
+                  <span className="font-medium text-brand-success">{feature.effectiveness}%</span>
                 </div>
                 <div className="w-full bg-brand-border rounded-full h-2">
                   <div
@@ -491,22 +458,16 @@ export function CopilotDeployment() {
                     <div className="w-8 h-8 bg-brand-blue-500 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
                       {step.stepNumber}
                     </div>
-                    <h4 className="font-semibold text-brand-text">
-                      {step.title}
-                    </h4>
+                    <h4 className="font-semibold text-brand-text">{step.title}</h4>
                   </div>
                   <p className="text-brand-text mb-2">{step.description}</p>
                   <div className="bg-brand-blue-50 border border-brand-blue-200 rounded p-3 mb-3">
-                    <div className="font-medium text-brand-blue-900 mb-1">
-                      🎯 Action:
-                    </div>
+                    <div className="font-medium text-brand-blue-900 mb-1">🎯 Action:</div>
                     <div className="text-brand-info">{step.action}</div>
                   </div>
                   {step.tips.length > 0 && (
                     <div className="bg-brand-green-50 border border-brand-green-200 rounded p-3">
-                      <div className="font-medium text-brand-green-900 mb-1">
-                        💡 Tips:
-                      </div>
+                      <div className="font-medium text-brand-green-900 mb-1">💡 Tips:</div>
                       <ul className="text-brand-success text-sm space-y-1">
                         {step.tips.map((tip, tipIndex) => (
                           <li key={tipIndex}>{tip}</li>
@@ -527,8 +488,7 @@ export function CopilotDeployment() {
             🎉 Copilot Successfully Deployed!
           </h3>
           <p className="text-brand-success mb-4">
-            All AI-powered features are now active and ready to assist your
-            staff with:
+            All AI-powered features are now active and ready to assist your staff with:
           </p>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-sm text-brand-green-700">
             <div>

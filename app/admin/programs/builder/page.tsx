@@ -20,23 +20,18 @@ export default async function ProgramBuilderPage({
 
   const db = getAdminClient();
 
-  const [
-    { data: programs },
-    { data: courses },
-    { data: dbPrograms },
-  ] = await Promise.all([
-    db.from('programs')
+  const [{ data: programs }, { data: courses }, { data: dbPrograms }] = await Promise.all([
+    db
+      .from('programs')
       .select('id, title, slug, category, is_active, published, status, created_at, updated_at')
       .order('updated_at', { ascending: false })
       .limit(50),
-    db.from('courses')
+    db
+      .from('courses')
       .select('id, title, program_id, status, created_at')
       .order('created_at', { ascending: false })
       .limit(100),
-    db.from('programs')
-      .select('id, title, category')
-      .eq('is_active', true)
-      .order('title'),
+    db.from('programs').select('id, title, category').eq('is_active', true).order('title'),
   ]);
 
   const programRows = programs ?? [];

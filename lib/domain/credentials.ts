@@ -36,16 +36,22 @@ export type CredentialLifecycleState =
   | 'certificate_issued';
 
 const LIFECYCLE_ORDER: CredentialLifecycleState[] = [
-  'not_eligible', 'eligible', 'payment_required', 'payment_pending',
-  'payment_approved', 'scheduled', 'attempted', 'passed', 'failed',
-  'credential_pending_verification', 'credential_verified', 'certificate_issued',
+  'not_eligible',
+  'eligible',
+  'payment_required',
+  'payment_pending',
+  'payment_approved',
+  'scheduled',
+  'attempted',
+  'passed',
+  'failed',
+  'credential_pending_verification',
+  'credential_verified',
+  'certificate_issued',
 ];
 
 /** Returns true if `from` can legally advance to `to`. */
-export function canAdvance(
-  from: CredentialLifecycleState,
-  to: CredentialLifecycleState
-): boolean {
+export function canAdvance(from: CredentialLifecycleState, to: CredentialLifecycleState): boolean {
   if (from === 'failed' && to === 'eligible') return true; // retry path
   const fi = LIFECYCLE_ORDER.indexOf(from);
   const ti = LIFECYCLE_ORDER.indexOf(to);
@@ -69,13 +75,7 @@ export type FundingSource =
   | 'partner'
   | 'scholarship';
 
-export type FundingStatus =
-  | 'unresolved'
-  | 'pending'
-  | 'approved'
-  | 'denied'
-  | 'paid'
-  | 'waived';
+export type FundingStatus = 'unresolved' | 'pending' | 'approved' | 'denied' | 'paid' | 'waived';
 
 export interface FundingDecision {
   fundingSource: FundingSource;
@@ -268,7 +268,12 @@ export interface LearnerCredentialRecord {
 }
 
 export type ExamScheduleStatus =
-  | 'pending' | 'scheduled' | 'confirmed' | 'completed' | 'cancelled' | 'no_show';
+  | 'pending'
+  | 'scheduled'
+  | 'confirmed'
+  | 'completed'
+  | 'cancelled'
+  | 'no_show';
 
 export interface CredentialAttemptRecord {
   id: string;
@@ -322,7 +327,9 @@ export interface ExamFundingAuthorization {
 // ─────────────────────────────────────────────────────────────────────────────
 
 const VALID_ISSUER_TYPES: IssuerType[] = [
-  'elevate_issued', 'elevate_proctored', 'partner_delivered',
+  'elevate_issued',
+  'elevate_proctored',
+  'partner_delivered',
 ];
 
 function normalizeIssuerType(raw: string | null): IssuerType {
@@ -331,16 +338,25 @@ function normalizeIssuerType(raw: string | null): IssuerType {
 }
 
 const VALID_LEARNER_STATUSES: LearnerCredentialStatus[] = [
-  'active', 'expired', 'revoked', 'suspended',
+  'active',
+  'expired',
+  'revoked',
+  'suspended',
 ];
 
 function normalizeLearnerStatus(raw: string | null): LearnerCredentialStatus {
-  if (raw && (VALID_LEARNER_STATUSES as string[]).includes(raw)) return raw as LearnerCredentialStatus;
+  if (raw && (VALID_LEARNER_STATUSES as string[]).includes(raw))
+    return raw as LearnerCredentialStatus;
   return 'active';
 }
 
 const VALID_FUNDING_SOURCES: FundingSource[] = [
-  'self_pay', 'elevate', 'grant', 'employer', 'partner', 'scholarship',
+  'self_pay',
+  'elevate',
+  'grant',
+  'employer',
+  'partner',
+  'scholarship',
 ];
 
 export function normalizeFundingSource(raw: string | null): FundingSource {
@@ -349,7 +365,12 @@ export function normalizeFundingSource(raw: string | null): FundingSource {
 }
 
 const VALID_FUNDING_STATUSES: FundingStatus[] = [
-  'unresolved', 'pending', 'approved', 'denied', 'paid', 'waived',
+  'unresolved',
+  'pending',
+  'approved',
+  'denied',
+  'paid',
+  'waived',
 ];
 
 export function normalizeFundingStatus(raw: string | null): FundingStatus {
@@ -443,7 +464,7 @@ export function mapExamEligibilityRow(row: RawExamEligibilityRow): ExamEligibili
 }
 
 export function mapExamFundingAuthorizationRow(
-  row: RawExamFundingAuthorizationRow
+  row: RawExamFundingAuthorizationRow,
 ): ExamFundingAuthorization {
   return {
     id: row.id,
@@ -483,7 +504,8 @@ export interface LifecycleInput {
  * This is the single translation point — routes and UI read this, not raw tables.
  */
 export function resolveLifecycleState(input: LifecycleInput): CredentialLifecycleState {
-  const { eligibility, attempt, funding, scheduleRequest, learnerCredential, hasCertificate } = input;
+  const { eligibility, attempt, funding, scheduleRequest, learnerCredential, hasCertificate } =
+    input;
 
   if (hasCertificate) return 'certificate_issued';
   if (learnerCredential?.status === 'active') return 'credential_verified';
@@ -500,11 +522,14 @@ export function resolveLifecycleState(input: LifecycleInput): CredentialLifecycl
   // Eligible — resolve funding
   if (!funding) return 'payment_required';
 
-  if (funding.fundingStatus === 'paid' || funding.fundingStatus === 'waived') return 'payment_approved';
+  if (funding.fundingStatus === 'paid' || funding.fundingStatus === 'waived')
+    return 'payment_approved';
 
-  if (funding.fundingSource !== 'self_pay' && funding.fundingStatus === 'approved') return 'payment_approved';
+  if (funding.fundingSource !== 'self_pay' && funding.fundingStatus === 'approved')
+    return 'payment_approved';
 
-  if (funding.fundingStatus === 'pending' && funding.fundingSource !== 'self_pay') return 'payment_pending';
+  if (funding.fundingStatus === 'pending' && funding.fundingSource !== 'self_pay')
+    return 'payment_pending';
 
   return 'payment_required';
 }
@@ -515,18 +540,30 @@ export function resolveLifecycleState(input: LifecycleInput): CredentialLifecycl
  */
 export function getNextAction(state: CredentialLifecycleState): string {
   switch (state) {
-    case 'not_eligible':                    return 'Complete required training modules and simulations.';
-    case 'eligible':                        return 'You are eligible. Proceed to exam registration.';
-    case 'payment_required':                return 'Pay your exam fee to schedule your exam.';
-    case 'payment_pending':                 return 'Your funding request is under review. Check back soon.';
-    case 'payment_approved':                return 'Payment confirmed. Schedule your exam.';
-    case 'scheduled':                       return 'Your exam is scheduled. Review your study materials.';
-    case 'attempted':                       return 'Exam submitted. Awaiting results.';
-    case 'passed':                          return 'You passed. Upload your credential proof.';
-    case 'failed':                          return 'Exam not passed. Review materials and retry when ready.';
-    case 'credential_pending_verification': return 'Credential uploaded. Awaiting staff verification.';
-    case 'credential_verified':             return 'Credential verified. Your certificate is being issued.';
-    case 'certificate_issued':              return 'Complete. Your certificate is available.';
+    case 'not_eligible':
+      return 'Complete required training modules and simulations.';
+    case 'eligible':
+      return 'You are eligible. Proceed to exam registration.';
+    case 'payment_required':
+      return 'Pay your exam fee to schedule your exam.';
+    case 'payment_pending':
+      return 'Your funding request is under review. Check back soon.';
+    case 'payment_approved':
+      return 'Payment confirmed. Schedule your exam.';
+    case 'scheduled':
+      return 'Your exam is scheduled. Review your study materials.';
+    case 'attempted':
+      return 'Exam submitted. Awaiting results.';
+    case 'passed':
+      return 'You passed. Upload your credential proof.';
+    case 'failed':
+      return 'Exam not passed. Review materials and retry when ready.';
+    case 'credential_pending_verification':
+      return 'Credential uploaded. Awaiting staff verification.';
+    case 'credential_verified':
+      return 'Credential verified. Your certificate is being issued.';
+    case 'certificate_issued':
+      return 'Complete. Your certificate is available.';
   }
 }
 

@@ -16,7 +16,9 @@ export const metadata: Metadata = {
 
 export default async function PartnerSettingsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/partner/settings');
 
   const { data: partnerUser } = await supabase
@@ -32,7 +34,9 @@ export default async function PartnerSettingsPage() {
   const { data: org } = orgId
     ? await supabase
         .from('partners')
-        .select('name, city, state, address, contact_name, contact_email, contact_phone, notification_preferences')
+        .select(
+          'name, city, state, address, contact_name, contact_email, contact_phone, notification_preferences',
+        )
         .eq('id', orgId)
         .maybeSingle()
     : { data: null };
@@ -45,26 +49,35 @@ export default async function PartnerSettingsPage() {
 
   const initialData = {
     orgId,
-    orgName:               org?.name              ?? '',
-    address:               org?.address            ?? '',
-    city:                  org?.city               ?? '',
-    state:                 org?.state              ?? '',
-    contactName:           org?.contact_name       ?? profile?.full_name ?? '',
-    contactEmail:          org?.contact_email      ?? profile?.email     ?? user.email ?? '',
-    contactPhone:          org?.contact_phone      ?? '',
-    emailNotifications:    org?.notification_preferences?.email                 ?? true,
-    weeklyDigest:          org?.notification_preferences?.weekly_digest          ?? true,
-    outcomeAlerts:         org?.notification_preferences?.outcome_alerts         ?? true,
+    orgName: org?.name ?? '',
+    address: org?.address ?? '',
+    city: org?.city ?? '',
+    state: org?.state ?? '',
+    contactName: org?.contact_name ?? profile?.full_name ?? '',
+    contactEmail: org?.contact_email ?? profile?.email ?? user.email ?? '',
+    contactPhone: org?.contact_phone ?? '',
+    emailNotifications: org?.notification_preferences?.email ?? true,
+    weeklyDigest: org?.notification_preferences?.weekly_digest ?? true,
+    outcomeAlerts: org?.notification_preferences?.outcome_alerts ?? true,
     referralConfirmations: org?.notification_preferences?.referral_confirmations ?? true,
   };
 
   return (
     <div>
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden rounded-xl mb-6 -mx-4 sm:-mx-6 lg:-mx-8">
-        <Image src="/images/pages/partner-page-13.jpg" alt="Partner settings" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/partner-page-13.jpg"
+          alt="Partner settings"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="mb-6">
-        <Breadcrumbs items={[{ label: 'Partner', href: '/partner/attendance' }, { label: 'Settings' }]} />
+        <Breadcrumbs
+          items={[{ label: 'Partner', href: '/partner/attendance' }, { label: 'Settings' }]}
+        />
       </div>
       <div className="max-w-3xl">
         <div className="flex items-center justify-between mb-8">

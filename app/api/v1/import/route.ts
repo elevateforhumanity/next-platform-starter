@@ -57,16 +57,13 @@ export async function POST(request: NextRequest) {
     if (!apiKey) {
       return NextResponse.json(
         { error: 'Missing API key. Include x-api-key header.' },
-        { status: 401 }
+        { status: 401 },
       );
     }
 
     const validation = await validateApiKey(apiKey);
     if (!validation.valid) {
-      return NextResponse.json(
-        { error: 'Invalid or expired API key' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Invalid or expired API key' }, { status: 401 });
     }
 
     const tenantId = validation.tenantId;
@@ -75,7 +72,7 @@ export async function POST(request: NextRequest) {
     if (!body.type || !body.data || !Array.isArray(body.data)) {
       return NextResponse.json(
         { error: 'Invalid request. Required: type (students|courses|enrollments) and data array' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -88,19 +85,34 @@ export async function POST(request: NextRequest) {
 
     switch (body.type) {
       case 'students':
-        await importStudents(supabase, tenantId!, body.data as ImportStudent[], results, body.options);
+        await importStudents(
+          supabase,
+          tenantId!,
+          body.data as ImportStudent[],
+          results,
+          body.options,
+        );
         break;
       case 'courses':
-        await importCourses(supabase, tenantId!, body.data as ImportCourse[], results, body.options);
+        await importCourses(
+          supabase,
+          tenantId!,
+          body.data as ImportCourse[],
+          results,
+          body.options,
+        );
         break;
       case 'enrollments':
-        await importEnrollments(supabase, tenantId!, body.data as ImportEnrollment[], results, body.options);
+        await importEnrollments(
+          supabase,
+          tenantId!,
+          body.data as ImportEnrollment[],
+          results,
+          body.options,
+        );
         break;
       default:
-        return NextResponse.json(
-          { error: `Unknown import type: ${body.type}` },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: `Unknown import type: ${body.type}` }, { status: 400 });
     }
 
     return NextResponse.json({
@@ -110,13 +122,9 @@ export async function POST(request: NextRequest) {
       errors: results.errors.slice(0, 10), // Limit error messages
       total_errors: results.errors.length,
     });
-
   } catch (error) {
     logger.error('Import error:', error);
-    return NextResponse.json(
-      { error: 'Import failed' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Import failed' }, { status: 500 });
   }
 }
 
@@ -125,7 +133,7 @@ async function importStudents(
   tenantId: string,
   students: ImportStudent[],
   results: { success: number; failed: number; errors: string[] },
-  options?: { upsert?: boolean; skip_errors?: boolean }
+  options?: { upsert?: boolean; skip_errors?: boolean },
 ) {
   for (const student of students) {
     try {
@@ -135,7 +143,8 @@ async function importStudents(
         continue;
       }
 
-      const fullName = student.full_name || 
+      const fullName =
+        student.full_name ||
         [student.first_name, student.last_name].filter(Boolean).join(' ') ||
         student.email.split('@')[0];
 
@@ -191,7 +200,9 @@ async function importStudents(
       results.success++;
     } catch (error) {
       results.failed++;
-      results.errors.push(`${student.email}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      results.errors.push(
+        `${student.email}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
       if (!options?.skip_errors) throw error;
     }
   }
@@ -202,7 +213,7 @@ async function importCourses(
   tenantId: string,
   courses: ImportCourse[],
   results: { success: number; failed: number; errors: string[] },
-  options?: { upsert?: boolean; skip_errors?: boolean }
+  options?: { upsert?: boolean; skip_errors?: boolean },
 ) {
   for (const course of courses) {
     try {
@@ -212,7 +223,8 @@ async function importCourses(
         continue;
       }
 
-      const courseCode = course.code || course.name.toUpperCase().replace(/\s+/g, '_').substring(0, 20);
+      const courseCode =
+        course.code || course.name.toUpperCase().replace(/\s+/g, '_').substring(0, 20);
 
       // Check if course exists
       const { data: existing } = await supabase
@@ -252,7 +264,9 @@ async function importCourses(
       results.success++;
     } catch (error) {
       results.failed++;
-      results.errors.push(`${course.name}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      results.errors.push(
+        `${course.name}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
       if (!options?.skip_errors) throw error;
     }
   }
@@ -263,7 +277,7 @@ async function importEnrollments(
   tenantId: string,
   enrollments: ImportEnrollment[],
   results: { success: number; failed: number; errors: string[] },
-  options?: { upsert?: boolean; skip_errors?: boolean }
+  options?: { upsert?: boolean; skip_errors?: boolean },
 ) {
   for (const enrollment of enrollments) {
     try {
@@ -311,7 +325,9 @@ async function importEnrollments(
 
       if (existing && !options?.upsert) {
         results.failed++;
-        results.errors.push(`Enrollment already exists: ${enrollment.student_email} in ${enrollment.course_code}`);
+        results.errors.push(
+          `Enrollment already exists: ${enrollment.student_email} in ${enrollment.course_code}`,
+        );
         continue;
       }
 
@@ -336,7 +352,9 @@ async function importEnrollments(
       results.success++;
     } catch (error) {
       results.failed++;
-      results.errors.push(`${enrollment.student_email}: ${error instanceof Error ? error.message : 'Unknown error'}`);
+      results.errors.push(
+        `${enrollment.student_email}: ${error instanceof Error ? error.message : 'Unknown error'}`,
+      );
       if (!options?.skip_errors) throw error;
     }
   }
@@ -375,20 +393,21 @@ export async function GET(request: NextRequest) {
           students: {
             type: 'students',
             data: [
-              { email: 'john@example.com', first_name: 'John', last_name: 'Doe', phone: '555-1234' },
+              {
+                email: 'john@example.com',
+                first_name: 'John',
+                last_name: 'Doe',
+                phone: '555-1234',
+              },
             ],
           },
           courses: {
             type: 'courses',
-            data: [
-              { name: 'CNA Training', code: 'CNA101', duration_weeks: 8 },
-            ],
+            data: [{ name: 'CNA Training', code: 'CNA101', duration_weeks: 8 }],
           },
           enrollments: {
             type: 'enrollments',
-            data: [
-              { student_email: 'john@example.com', course_code: 'CNA101', status: 'active' },
-            ],
+            data: [{ student_email: 'john@example.com', course_code: 'CNA101', status: 'active' }],
           },
         },
       },

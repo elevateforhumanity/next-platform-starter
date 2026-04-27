@@ -5,7 +5,6 @@ import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
 import {
-
   FileText,
   Users,
   Check,
@@ -16,9 +15,8 @@ import {
   ChevronRight,
 } from 'lucide-react';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
-
 
 interface AgreementStats {
   agreement_type: string;
@@ -55,7 +53,9 @@ export function AdminAgreementsPageClient() {
 
     try {
       // Verify admin access
-      const { data: { user } } = await supabase!.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase!.auth.getUser();
       if (!user) {
         router.push('/login');
         return;
@@ -105,7 +105,9 @@ export function AdminAgreementsPageClient() {
       // Get recent acceptances
       const { data: recent } = await supabase!
         .from('license_agreement_acceptances')
-        .select('id, user_id, agreement_type, document_version, signer_name, signer_email, signature_method, accepted_at, ip_address')
+        .select(
+          'id, user_id, agreement_type, document_version, signer_name, signer_email, signature_method, accepted_at, ip_address',
+        )
         .order('accepted_at', { ascending: false })
         .limit(20);
 
@@ -150,16 +152,13 @@ export function AdminAgreementsPageClient() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="flex items-center justify-between mb-8">
           <div>
             <h1 className="text-3xl font-bold text-slate-900">Agreement Acceptances</h1>
-            <p className="text-slate-600 mt-1">
-              Monitor and audit agreement signing compliance
-            </p>
+            <p className="text-slate-600 mt-1">Monitor and audit agreement signing compliance</p>
           </div>
           <div className="flex gap-3">
             <button
@@ -213,9 +212,11 @@ export function AdminAgreementsPageClient() {
               <div>
                 <p className="text-sm text-slate-500">Today's Signings</p>
                 <p className="text-3xl font-bold text-slate-900">
-                  {recentAcceptances.filter(
-                    (a) => new Date(a.accepted_at).toDateString() === new Date().toDateString()
-                  ).length}
+                  {
+                    recentAcceptances.filter(
+                      (a) => new Date(a.accepted_at).toDateString() === new Date().toDateString(),
+                    ).length
+                  }
                 </p>
               </div>
             </div>
@@ -225,9 +226,7 @@ export function AdminAgreementsPageClient() {
         {/* Stats by Agreement Type */}
         <div className="bg-white rounded-xl shadow-sm mb-8">
           <div className="p-6 border-b border-slate-200">
-            <h2 className="text-lg font-semibold text-slate-900">
-              Acceptances by Agreement Type
-            </h2>
+            <h2 className="text-lg font-semibold text-slate-900">Acceptances by Agreement Type</h2>
           </div>
           <div className="p-6">
             {stats.length === 0 ? (
@@ -243,7 +242,9 @@ export function AdminAgreementsPageClient() {
                   >
                     <div>
                       <p className="font-medium text-slate-900">
-                        {stat.agreement_type.replace(/_/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase())}
+                        {stat.agreement_type
+                          .replace(/_/g, ' ')
+                          .replace(/\b\w/g, (c) => c.toUpperCase())}
                       </p>
                       <p className="text-sm text-slate-500">Version {stat.document_version}</p>
                     </div>
@@ -261,15 +262,11 @@ export function AdminAgreementsPageClient() {
         {/* Recent Acceptances */}
         <div className="bg-white rounded-xl shadow-sm">
           <div className="p-6 border-b border-slate-200">
-            <h2 className="text-lg font-semibold text-slate-900">
-              Recent Acceptances
-            </h2>
+            <h2 className="text-lg font-semibold text-slate-900">Recent Acceptances</h2>
           </div>
           <div className="overflow-x-auto">
             {recentAcceptances.length === 0 ? (
-              <p className="text-slate-500 text-center py-8">
-                No recent acceptances.
-              </p>
+              <p className="text-slate-500 text-center py-8">No recent acceptances.</p>
             ) : (
               <table className="w-full">
                 <thead className="bg-slate-50">
@@ -299,19 +296,19 @@ export function AdminAgreementsPageClient() {
                         <p className="text-sm text-slate-500">{acc.signer_email}</p>
                       </td>
                       <td className="px-6 py-4">
-                        <p className="text-slate-900">
-                          {acc.agreement_type.replace(/_/g, ' ')}
-                        </p>
+                        <p className="text-slate-900">{acc.agreement_type.replace(/_/g, ' ')}</p>
                         <p className="text-sm text-slate-500">v{acc.document_version}</p>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
-                          acc.signature_method === 'drawn'
-                            ? 'bg-brand-blue-100 text-brand-blue-700'
-                            : acc.signature_method === 'typed'
-                            ? 'bg-brand-blue-100 text-brand-blue-700'
-                            : 'bg-slate-100 text-slate-700'
-                        }`}>
+                        <span
+                          className={`inline-flex px-2 py-1 text-xs font-medium rounded-full ${
+                            acc.signature_method === 'drawn'
+                              ? 'bg-brand-blue-100 text-brand-blue-700'
+                              : acc.signature_method === 'typed'
+                                ? 'bg-brand-blue-100 text-brand-blue-700'
+                                : 'bg-slate-100 text-slate-700'
+                          }`}
+                        >
                           {acc.signature_method}
                         </span>
                       </td>
@@ -333,7 +330,7 @@ export function AdminAgreementsPageClient() {
         <div className="mt-8 bg-slate-800 rounded-xl p-6">
           <h3 className="text-white font-semibold mb-4">Audit Query</h3>
           <pre className="text-brand-green-400 text-sm overflow-x-auto">
-{`SELECT agreement_type, document_version, COUNT(*)
+            {`SELECT agreement_type, document_version, COUNT(*)
 FROM public.license_agreement_acceptances
 GROUP BY 1, 2
 ORDER BY 1, 2;`}

@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { NextRequest } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
@@ -20,14 +18,14 @@ async function _POST(req: NextRequest) {
   if (auth.error) return auth.error;
 
   try {
-  await hydrateProcessEnv();
+    await hydrateProcessEnv();
     const rateLimited = await applyRateLimit(req, 'strict');
     if (rateLimited) return rateLimited;
 
     if (!resend) {
       return NextResponse.json(
         { success: false, error: 'Email service not configured' },
-        { status: 503 }
+        { status: 503 },
       );
     }
 
@@ -38,10 +36,7 @@ async function _POST(req: NextRequest) {
     const recipients = await getRecipients(supabase, body.recipientList);
 
     if (recipients.length === 0) {
-      return NextResponse.json(
-        { success: false, error: 'No recipients found' },
-        { status: 400 }
-      );
+      return NextResponse.json({ success: false, error: 'No recipients found' }, { status: 400 });
     }
 
     // Send emails
@@ -88,10 +83,10 @@ async function _POST(req: NextRequest) {
           status: 'sent',
           sent_at: new Date().toISOString(),
         });
-      } catch (error) { 
+      } catch (error) {
         logger.error(
           `Error sending to ${recipient.email}:`,
-          error instanceof Error ? error : new Error(String(error))
+          error instanceof Error ? error : new Error(String(error)),
         );
         results.push({
           email: recipient.email,
@@ -132,15 +127,12 @@ async function _POST(req: NextRequest) {
         failed: results.filter((r) => !r.success).length,
       },
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Error sending campaign:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json(
-      { success: false, error: toErrorMessage(error) },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
   }
 }
 
@@ -182,18 +174,14 @@ async function getRecipients(supabase: any, listType: string) {
     case 'employers':
       query = supabase
         .from('employers')
-        .select(
-          'id, email, contact_name as first_name, company_name as last_name'
-        )
+        .select('id, email, contact_name as first_name, company_name as last_name')
         .not('email', 'is', null);
       break;
 
     case 'workone':
       query = supabase
         .from('partners')
-        .select(
-          'id, email, contact_name as first_name, organization as last_name'
-        )
+        .select('id, email, contact_name as first_name, organization as last_name')
         .eq('type', 'workone')
         .not('email', 'is', null);
       break;

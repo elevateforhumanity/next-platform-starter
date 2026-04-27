@@ -1,4 +1,3 @@
-
 // Using Node.js runtime for SendGrid
 
 import { z } from 'zod';
@@ -7,10 +6,7 @@ import { NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
 import { createClient } from '@/lib/supabase/server';
 import { orchestrateEnrollment } from '@/lib/enrollment/orchestrate-enrollment';
-import {
-  sendApplicationConfirmation,
-  sendAdminApplicationNotification,
-} from '@/lib/email/service';
+import { sendApplicationConfirmation, sendAdminApplicationNotification } from '@/lib/email/service';
 import { checkRateLimit, verifyTurnstileToken } from '@/lib/turnstile';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -22,7 +18,11 @@ const enrollApplySchema = z.object({
   firstName: z.string().min(1).max(100).trim(),
   lastName: z.string().min(1).max(100).trim(),
   email: z.string().email().toLowerCase(),
-  phone: z.string().regex(/^[\d\s\-()+ ]+$/).min(10).optional(),
+  phone: z
+    .string()
+    .regex(/^[\d\s\-()+ ]+$/)
+    .min(10)
+    .optional(),
   preferredProgramId: z.string().min(1),
   fundingInterest: z.string().max(200).optional(),
   fundingSource: z.string().max(200).optional(),
@@ -40,8 +40,8 @@ async function _POST(req: Request) {
     const parsed = enrollApplySchema.safeParse(rawBody);
     if (!parsed.success) {
       return NextResponse.json(
-        { message: 'Validation failed', fields: parsed.error.issues.map(i => i.path.join('.')) },
-        { status: 400 }
+        { message: 'Validation failed', fields: parsed.error.issues.map((i) => i.path.join('.')) },
+        { status: 400 },
       );
     }
     const body = parsed.data;
@@ -54,7 +54,7 @@ async function _POST(req: Request) {
           {
             message: 'Too many requests. Please try again in a minute.',
           },
-          { status: 429 }
+          { status: 429 },
         );
       }
     }
@@ -67,7 +67,7 @@ async function _POST(req: Request) {
           {
             message: verification.error || 'Verification failed',
           },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -86,13 +86,10 @@ async function _POST(req: Request) {
       // Use admin client to bypass RLS for public form submission
       const adminClient = await getAdminClient();
 
-    if (!adminClient) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
-    }
-      
+      if (!adminClient) {
+        return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
+      }
+
       // Store as partner inquiry for now (can be migrated to dedicated applications table)
       const { data: inquiry, error: inquiryError } = await adminClient
         .from('partner_inquiries')
@@ -138,7 +135,7 @@ async function _POST(req: Request) {
             message:
               'You must be approved for enrollment before you can enroll. Please contact your program coordinator.',
           },
-          { status: 403 }
+          { status: 403 },
         );
       }
 
@@ -148,7 +145,7 @@ async function _POST(req: Request) {
           {
             message: 'No program holder assigned. Please contact support.',
           },
-          { status: 403 }
+          { status: 403 },
         );
       }
 
@@ -164,15 +161,13 @@ async function _POST(req: Request) {
       if (!orchestrationResult.success) {
         logger.error(
           '[Enroll Apply] Orchestration failed:',
-          new Error(orchestrationResult.error || 'Unknown error')
+          new Error(orchestrationResult.error || 'Unknown error'),
         );
         return NextResponse.json(
           {
-            message:
-              orchestrationResult.error ||
-              'Enrollment failed. Please try again.',
+            message: orchestrationResult.error || 'Enrollment failed. Please try again.',
           },
-          { status: 500 }
+          { status: 500 },
         );
       }
 
@@ -190,17 +185,15 @@ async function _POST(req: Request) {
     sendApplicationConfirmation(
       body.email,
       `${body.firstName} ${body.lastName}`,
-      body.preferredProgramId
-    ).catch((err) =>
-      logger.error('[Email] Application confirmation failed:', err)
-    );
+      body.preferredProgramId,
+    ).catch((err) => logger.error('[Email] Application confirmation failed:', err));
 
     // Send notification to admin team (non-blocking)
     sendAdminApplicationNotification(
       `${body.firstName} ${body.lastName}`,
       body.email,
       body.preferredProgramId,
-      studentId || 'pending'
+      studentId || 'pending',
     ).catch((err) => logger.error('[Email] Admin notification failed:', err));
 
     return NextResponse.json(
@@ -208,7 +201,7 @@ async function _POST(req: Request) {
         message:
           'Application received. A member of the Elevate team will follow up within 24 hours.',
       },
-      { status: 200 }
+      { status: 200 },
     );
   } catch (err: unknown) {
     const error = err instanceof Error ? err : new Error(String(err));
@@ -218,7 +211,7 @@ async function _POST(req: Request) {
         message:
           'Something went wrong submitting your application. Please try again or call (317) 314-3757.',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

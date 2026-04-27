@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getCurrentUser } from '@/lib/auth';
@@ -11,14 +9,10 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  _req: NextRequest,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+async function _GET(_req: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
   const { courseId } = await params;
 
   const { data, error }: any = await supabase
@@ -35,12 +29,9 @@ const supabase = await createClient();
   return NextResponse.json({ announcements: data || [] });
 }
 
-async function _POST(
-  req: NextRequest,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+async function _POST(req: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const user = await getCurrentUser();
@@ -54,10 +45,7 @@ async function _POST(
   const { title, message } = body;
 
   if (!title || !message) {
-    return NextResponse.json(
-      { error: 'title and message are required' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'title and message are required' }, { status: 400 });
   }
 
   // Optional: verify user is instructor for this course
@@ -75,19 +63,17 @@ async function _POST(
   if (course.instructor_id && course.instructor_id !== user.id) {
     return NextResponse.json(
       { error: 'Only the instructor can post announcements' },
-      { status: 403 }
+      { status: 403 },
     );
   }
 
   // Insert announcement
-  const { error: insertError } = await supabase
-    .from('course_announcements')
-    .insert({
-      course_id: courseId,
-      author_id: user.id,
-      title,
-      body: message,
-    });
+  const { error: insertError } = await supabase.from('course_announcements').insert({
+    course_id: courseId,
+    author_id: user.id,
+    title,
+    body: message,
+  });
 
   if (insertError) {
     logger.error('announcements POST error', insertError);
@@ -109,9 +95,7 @@ async function _POST(
       url: `/lms/courses/${courseId}`,
     }));
 
-    const { error: notifError } = await supabase
-      .from('notifications')
-      .insert(notifications);
+    const { error: notifError } = await supabase.from('notifications').insert(notifications);
 
     if (notifError) {
       logger.error('notifications error', notifError);

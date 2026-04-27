@@ -94,19 +94,19 @@ export function CourseMetaPanel({
       {instructor && (
         <div className="flex items-start gap-3 border-t pt-4">
           {instructor.avatar_url ? (
-            <Image
+            <Image sizes="100vw"
               src={instructor.avatar_url}
-              alt={instructor.full_name || "Instructor"}
+              alt={instructor.full_name || 'Instructor'}
               width={40}
               height={40}
               className="rounded-full object-cover"
             />
           ) : (
             <div className="flex h-10 w-10 items-center justify-center rounded-full bg-slate-200 text-xs font-semibold">
-              {(instructor.full_name || "EFH")
-                .split(" ")
+              {(instructor.full_name || 'EFH')
+                .split(' ')
                 .map((p) => p[0])
-                .join("")
+                .join('')
                 .slice(0, 2)
                 .toUpperCase()}
             </div>
@@ -114,13 +114,9 @@ export function CourseMetaPanel({
 
           <div className="space-y-1">
             <p className="text-sm font-semibold">
-              {instructor.full_name || "Elevate For Humanity Instructor"}
+              {instructor.full_name || 'Elevate For Humanity Instructor'}
             </p>
-            {instructor.bio && (
-              <p className="line-clamp-3 text-xs text-black">
-                {instructor.bio}
-              </p>
-            )}
+            {instructor.bio && <p className="line-clamp-3 text-xs text-black">{instructor.bio}</p>}
           </div>
         </div>
       )}

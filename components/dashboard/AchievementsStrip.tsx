@@ -14,8 +14,7 @@ export function AchievementsStrip({ achievements }: Props) {
   if (!achievements.length) {
     return (
       <p className="text-xs text-slate-500">
-        Start a course and complete your first lesson to unlock your first
-        badge.
+        Start a course and complete your first lesson to unlock your first badge.
       </p>
     );
   }
@@ -29,15 +28,15 @@ export function AchievementsStrip({ achievements }: Props) {
         >
           <div className="flex items-center gap-2">
             <span className="flex h-7 w-7 items-center justify-center rounded-full bg-brand-orange-100 text-xs">
-              {a.icon ?? "⭐"}
+              {a.icon ?? '⭐'}
             </span>
             <span className="font-medium text-black">{a.name}</span>
           </div>
           <span className="text-[11px] text-slate-500">
-            Earned{" "}
+            Earned{' '}
             {new Date(a.earned_at).toLocaleDateString(undefined, {
-              month: "short",
-              day: "numeric",
+              month: 'short',
+              day: 'numeric',
             })}
           </span>
         </div>

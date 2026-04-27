@@ -4,14 +4,25 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
-  Building2, Database, Paperclip, BookOpen, FileText,
-  Award, ShieldCheck, Users, AlertTriangle, ScrollText,
-  DollarSign, ArrowRight, Target,
+  Building2,
+  Database,
+  Paperclip,
+  BookOpen,
+  FileText,
+  Award,
+  ShieldCheck,
+  Users,
+  AlertTriangle,
+  ScrollText,
+  DollarSign,
+  ArrowRight,
+  Target,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Submissions OS | Admin | Elevate for Humanity',
-  description: 'External Submissions Operating System — grants, contracts, bids, vendor registrations.',
+  description:
+    'External Submissions Operating System — grants, contracts, bids, vendor registrations.',
 };
 
 export const dynamic = 'force-dynamic';
@@ -19,7 +30,8 @@ export const dynamic = 'force-dynamic';
 const SCREENS = [
   {
     title: 'Opportunities',
-    description: 'Pipeline of grants, RFPs, contracts, and bids — ingest from URL, profile, and track status.',
+    description:
+      'Pipeline of grants, RFPs, contracts, and bids — ingest from URL, profile, and track status.',
     href: '/admin/submissions/opportunities',
     icon: Target,
     color: 'bg-brand-blue-50 text-brand-blue-600',
@@ -47,7 +59,8 @@ const SCREENS = [
   },
   {
     title: 'Content Library',
-    description: 'Approved prose blocks — mission, org overview, program summaries, equity statement.',
+    description:
+      'Approved prose blocks — mission, org overview, program summaries, equity statement.',
     href: '/admin/submissions/content',
     icon: BookOpen,
     color: 'bg-green-50 text-green-600',
@@ -75,7 +88,8 @@ const SCREENS = [
   },
   {
     title: 'Partner Entities',
-    description: 'Approved subcontractors, MOU partners, co-applicants, letter-of-support providers.',
+    description:
+      'Approved subcontractors, MOU partners, co-applicants, letter-of-support providers.',
     href: '/admin/submissions/partners',
     icon: Users,
     color: 'bg-indigo-50 text-indigo-600',
@@ -98,7 +112,9 @@ const SCREENS = [
 
 export default async function SubmissionsOSPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const db = await getAdminClient();
@@ -121,11 +137,23 @@ export default async function SubmissionsOSPage() {
     { count: exceptionsCount },
     { count: oppsCount },
   ] = await Promise.all([
-    db.from('sos_organization_facts').select('*', { count: 'exact', head: true }).eq('status', 'approved'),
-    db.from('sos_attachment_library').select('*', { count: 'exact', head: true }).eq('status', 'approved'),
-    db.from('sos_content_blocks').select('*', { count: 'exact', head: true }).eq('status', 'approved'),
+    db
+      .from('sos_organization_facts')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'approved'),
+    db
+      .from('sos_attachment_library')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'approved'),
+    db
+      .from('sos_content_blocks')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'approved'),
     db.from('sos_review_tasks').select('*', { count: 'exact', head: true }).eq('status', 'open'),
-    db.from('sos_opportunities').select('*', { count: 'exact', head: true }).not('status', 'in', '("submitted","archived")'),
+    db
+      .from('sos_opportunities')
+      .select('*', { count: 'exact', head: true })
+      .not('status', 'in', '("submitted","archived")'),
   ]);
 
   // Also load legacy grant counts
@@ -144,7 +172,6 @@ export default async function SubmissionsOSPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-6xl mx-auto px-4 py-8">
-
         {/* Header */}
         <div className="mb-8">
           <div className="flex items-center gap-3 mb-2">
@@ -153,7 +180,9 @@ export default async function SubmissionsOSPage() {
             </div>
             <div>
               <h1 className="text-2xl font-bold text-slate-900">External Submissions OS</h1>
-              <p className="text-slate-500 text-sm">Grants · Contracts · Bids · Vendor Registrations · Applications</p>
+              <p className="text-slate-500 text-sm">
+                Grants · Contracts · Bids · Vendor Registrations · Applications
+              </p>
             </div>
           </div>
         </div>
@@ -165,8 +194,11 @@ export default async function SubmissionsOSPage() {
             <div>
               <p className="font-semibold text-amber-900">Database migrations pending</p>
               <p className="text-sm text-amber-700 mt-1">
-                Apply migrations <code className="font-mono text-xs bg-amber-100 px-1 rounded">20260527000005</code> through{' '}
-                <code className="font-mono text-xs bg-amber-100 px-1 rounded">20260527000010</code> in the Supabase Dashboard SQL Editor to activate the Submissions OS.
+                Apply migrations{' '}
+                <code className="font-mono text-xs bg-amber-100 px-1 rounded">20260527000005</code>{' '}
+                through{' '}
+                <code className="font-mono text-xs bg-amber-100 px-1 rounded">20260527000010</code>{' '}
+                in the Supabase Dashboard SQL Editor to activate the Submissions OS.
               </p>
             </div>
           </div>
@@ -175,12 +207,37 @@ export default async function SubmissionsOSPage() {
         {/* Stats strip */}
         <div className="grid grid-cols-2 md:grid-cols-5 gap-3 mb-8">
           {[
-            { label: 'Active Opportunities', value: (oppsCount ?? 0) + (grantOppsCount ?? 0), icon: DollarSign, color: 'text-brand-blue-600' },
-            { label: 'Grant Applications', value: grantAppsCount ?? 0, icon: FileText, color: 'text-purple-600' },
-            { label: 'Approved Facts', value: factsCount ?? 0, icon: Database, color: 'text-green-600' },
-            { label: 'Approved Attachments', value: attachmentsCount ?? 0, icon: Paperclip, color: 'text-amber-600' },
-            { label: 'Open Exceptions', value: exceptionsCount ?? 0, icon: AlertTriangle, color: exceptionsCount ? 'text-red-600' : 'text-slate-400' },
-          ].map(s => (
+            {
+              label: 'Active Opportunities',
+              value: (oppsCount ?? 0) + (grantOppsCount ?? 0),
+              icon: DollarSign,
+              color: 'text-brand-blue-600',
+            },
+            {
+              label: 'Grant Applications',
+              value: grantAppsCount ?? 0,
+              icon: FileText,
+              color: 'text-purple-600',
+            },
+            {
+              label: 'Approved Facts',
+              value: factsCount ?? 0,
+              icon: Database,
+              color: 'text-green-600',
+            },
+            {
+              label: 'Approved Attachments',
+              value: attachmentsCount ?? 0,
+              icon: Paperclip,
+              color: 'text-amber-600',
+            },
+            {
+              label: 'Open Exceptions',
+              value: exceptionsCount ?? 0,
+              icon: AlertTriangle,
+              color: exceptionsCount ? 'text-red-600' : 'text-slate-400',
+            },
+          ].map((s) => (
             <div key={s.label} className="bg-white rounded-xl border border-slate-200 p-4">
               <s.icon className={`w-5 h-5 ${s.color} mb-2`} />
               <p className="text-2xl font-black text-slate-900">{s.value}</p>
@@ -200,7 +257,7 @@ export default async function SubmissionsOSPage() {
               { label: 'Workflow', href: '/admin/grants/workflow' },
               { label: 'Submissions Log', href: '/admin/grants/submissions' },
               { label: 'Revenue Tracking', href: '/admin/grants/revenue' },
-            ].map(l => (
+            ].map((l) => (
               <Link
                 key={l.href}
                 href={l.href}
@@ -217,7 +274,7 @@ export default async function SubmissionsOSPage() {
           Submissions OS — Data Vault & Controls
         </h2>
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-          {SCREENS.map(screen => {
+          {SCREENS.map((screen) => {
             const Icon = screen.icon;
             return (
               <Link
@@ -226,14 +283,18 @@ export default async function SubmissionsOSPage() {
                 className="bg-white rounded-xl border border-slate-200 p-5 hover:border-brand-blue-300 hover:shadow-sm transition group"
               >
                 <div className="flex items-start gap-3">
-                  <div className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${screen.color}`}>
+                  <div
+                    className={`w-9 h-9 rounded-lg flex items-center justify-center flex-shrink-0 ${screen.color}`}
+                  >
                     <Icon className="w-5 h-5" />
                   </div>
                   <div className="flex-1 min-w-0">
                     <p className="font-semibold text-slate-900 text-sm group-hover:text-brand-blue-700 transition">
                       {screen.title}
                     </p>
-                    <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">{screen.description}</p>
+                    <p className="text-xs text-slate-500 mt-0.5 leading-relaxed">
+                      {screen.description}
+                    </p>
                   </div>
                   <ArrowRight className="w-4 h-4 text-slate-300 group-hover:text-brand-blue-500 flex-shrink-0 mt-0.5 transition" />
                 </div>
@@ -246,12 +307,14 @@ export default async function SubmissionsOSPage() {
         <div className="mt-8 bg-slate-900 rounded-xl p-5 text-slate-300 text-xs leading-relaxed">
           <p className="font-semibold text-white mb-2">System Rule</p>
           <p>
-            Only fill and submit information traceable to approved organizational facts, approved attachments, or approved content blocks.
-            If any required item involves missing data, judgment, legal attestation, signature, budget commitment, or custom narrative
-            beyond approved content — <span className="text-amber-400 font-semibold">halt and create a review task</span> instead of inventing an answer.
+            Only fill and submit information traceable to approved organizational facts, approved
+            attachments, or approved content blocks. If any required item involves missing data,
+            judgment, legal attestation, signature, budget commitment, or custom narrative beyond
+            approved content —{' '}
+            <span className="text-amber-400 font-semibold">halt and create a review task</span>{' '}
+            instead of inventing an answer.
           </p>
         </div>
-
       </div>
     </div>
   );

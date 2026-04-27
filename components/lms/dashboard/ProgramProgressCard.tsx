@@ -32,11 +32,15 @@ export function ProgramProgressCard({
         <h4 className="font-semibold text-slate-900 group-hover:text-brand-blue-600 transition">
           {programTitle}
         </h4>
-        <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-          isActive   ? 'bg-brand-green-100 text-brand-green-700' :
-          isComplete ? 'bg-brand-blue-100 text-brand-blue-700' :
-                       'bg-amber-100 text-amber-700'
-        }`}>
+        <span
+          className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+            isActive
+              ? 'bg-brand-green-100 text-brand-green-700'
+              : isComplete
+                ? 'bg-brand-blue-100 text-brand-blue-700'
+                : 'bg-amber-100 text-amber-700'
+          }`}
+        >
           {isActive ? 'Active' : isComplete ? 'Completed' : 'Pending'}
         </span>
       </div>

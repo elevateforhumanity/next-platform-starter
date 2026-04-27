@@ -150,12 +150,8 @@ function main() {
     console.log(`⏭️  Skipped ${skipped} existing covers`);
   }
 
-  console.log(
-    '💡 To customize a cover, replace the SVG file with your own image'
-  );
-  console.log(
-    '   Example: public/course-covers/barber-apprenticeship/cover.jpg'
-  );
+  console.log('💡 To customize a cover, replace the SVG file with your own image');
+  console.log('   Example: public/course-covers/barber-apprenticeship/cover.jpg');
 }
 
 main();

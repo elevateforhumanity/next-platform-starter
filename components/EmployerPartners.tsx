@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -49,24 +49,42 @@ const industryColors: Record<string, string> = {
 
 const DEFAULT_PARTNERS: Partner[] = [
   { id: '1', name: 'IU Health', industry: 'Healthcare', hiring_rate: 95, is_featured: true },
-  { id: '2', name: 'Community Health Network', industry: 'Healthcare', hiring_rate: 92, is_featured: true },
+  {
+    id: '2',
+    name: 'Community Health Network',
+    industry: 'Healthcare',
+    hiring_rate: 92,
+    is_featured: true,
+  },
   { id: '3', name: 'Carrier', industry: 'HVAC', hiring_rate: 93, is_featured: true },
   { id: '4', name: 'Great Clips', industry: 'Beauty', hiring_rate: 94, is_featured: true },
   { id: '5', name: 'Schneider', industry: 'Transportation', hiring_rate: 96, is_featured: true },
   { id: '6', name: 'Amazon', industry: 'Technology', hiring_rate: 88, is_featured: true },
-  { id: '7', name: 'Roche Diagnostics', industry: 'Healthcare / Manufacturing', hiring_rate: 91, is_featured: true },
-  { id: '8', name: 'Rolls-Royce', industry: 'Aerospace / Manufacturing', hiring_rate: 90, is_featured: true },
+  {
+    id: '7',
+    name: 'Roche Diagnostics',
+    industry: 'Healthcare / Manufacturing',
+    hiring_rate: 91,
+    is_featured: true,
+  },
+  {
+    id: '8',
+    name: 'Rolls-Royce',
+    industry: 'Aerospace / Manufacturing',
+    hiring_rate: 90,
+    is_featured: true,
+  },
   { id: '9', name: 'FedEx', industry: 'Logistics', hiring_rate: 90, is_featured: false },
   { id: '10', name: 'Marriott', industry: 'Hospitality', hiring_rate: 89, is_featured: false },
   { id: '11', name: 'JPMorgan Chase', industry: 'Finance', hiring_rate: 87, is_featured: false },
   { id: '12', name: 'Target', industry: 'Retail', hiring_rate: 87, is_featured: false },
 ];
 
-export default function EmployerPartners({ 
-  limit, 
-  showStats = true, 
+export default function EmployerPartners({
+  limit,
+  showStats = true,
   showCTA = true,
-  variant = 'full' 
+  variant = 'full',
 }: Props) {
   const [partners, setPartners] = useState<Partner[]>(DEFAULT_PARTNERS);
   const [stats, setStats] = useState<Stats>({
@@ -98,7 +116,7 @@ export default function EmployerPartners({
         const { data: employerData, error } = await query;
 
         if (!error && employerData && employerData.length > 0) {
-          const formattedPartners: Partner[] = employerData.map(e => ({
+          const formattedPartners: Partner[] = employerData.map((e) => ({
             id: e.id,
             name: e.company_name,
             industry: e.industry || 'Other',
@@ -110,7 +128,7 @@ export default function EmployerPartners({
           setPartners(formattedPartners);
 
           // Extract unique industries
-          const uniqueIndustries = [...new Set(formattedPartners.map(p => p.industry))];
+          const uniqueIndustries = [...new Set(formattedPartners.map((p) => p.industry))];
           setIndustries(uniqueIndustries);
         }
 
@@ -135,12 +153,11 @@ export default function EmployerPartners({
             avgSalary: parsedStats.avgSalary || 52000,
           });
         } else {
-          setStats(prev => ({
+          setStats((prev) => ({
             ...prev,
             totalPartners: partnerCount || prev.totalPartners,
           }));
         }
-
       } catch (err) {
         console.error('Error fetching employer data:', err);
       } finally {
@@ -174,8 +191,8 @@ export default function EmployerPartners({
             <p className="text-slate-700">{stats.totalPartners}+ companies hire our graduates</p>
           </div>
           <div className="flex flex-wrap justify-center gap-4">
-            {displayPartners.slice(0, 8).map(partner => (
-              <div 
+            {displayPartners.slice(0, 8).map((partner) => (
+              <div
                 key={partner.id}
                 className="px-4 py-2 bg-gray-50 rounded-lg text-sm font-medium text-slate-900"
               >
@@ -206,8 +223,8 @@ export default function EmployerPartners({
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {displayPartners.map(partner => (
-              <div 
+            {displayPartners.map((partner) => (
+              <div
                 key={partner.id}
                 className="bg-white rounded-xl p-4 shadow-sm hover:shadow-md transition-shadow"
               >
@@ -217,7 +234,9 @@ export default function EmployerPartners({
                   </div>
                   <div>
                     <h3 className="font-semibold text-slate-900 text-sm">{partner.name}</h3>
-                    <span className={`text-xs px-2 py-0.5 rounded-full ${industryColors[partner.industry] || 'bg-gray-100 text-slate-900'}`}>
+                    <span
+                      className={`text-xs px-2 py-0.5 rounded-full ${industryColors[partner.industry] || 'bg-gray-100 text-slate-900'}`}
+                    >
                       {partner.industry}
                     </span>
                   </div>
@@ -252,19 +271,27 @@ export default function EmployerPartners({
         {showStats && (
           <div className="grid md:grid-cols-4 gap-6 mb-16">
             <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-              <div className="text-4xl font-bold text-brand-blue-600 mb-2">{stats.totalPartners}+</div>
+              <div className="text-4xl font-bold text-brand-blue-600 mb-2">
+                {stats.totalPartners}+
+              </div>
               <div className="text-slate-900 font-semibold">Employer Partners</div>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-              <div className="text-4xl font-bold text-brand-green-600 mb-2">{stats.placementRate}%</div>
+              <div className="text-4xl font-bold text-brand-green-600 mb-2">
+                {stats.placementRate}%
+              </div>
               <div className="text-slate-900 font-semibold">Placement Rate</div>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-              <div className="text-4xl font-bold text-purple-600 mb-2">{stats.graduatesHired.toLocaleString('en-US')}+</div>
+              <div className="text-4xl font-bold text-purple-600 mb-2">
+                {stats.graduatesHired.toLocaleString('en-US')}+
+              </div>
               <div className="text-slate-900 font-semibold">Graduates Hired</div>
             </div>
             <div className="bg-white rounded-xl p-6 shadow-lg text-center">
-              <div className="text-4xl font-bold text-brand-orange-600 mb-2">${(stats.avgSalary / 1000).toFixed(0)}K</div>
+              <div className="text-4xl font-bold text-brand-orange-600 mb-2">
+                ${(stats.avgSalary / 1000).toFixed(0)}K
+              </div>
               <div className="text-slate-900 font-semibold">Avg. Starting Salary</div>
             </div>
           </div>
@@ -281,12 +308,20 @@ export default function EmployerPartners({
                 <div className="flex items-center justify-between mb-3">
                   <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
                     {partner.logo_url ? (
-                      <Image src={partner.logo_url} alt={partner.name} width={32} height={32} className="rounded" />
+                      <Image
+                        src={partner.logo_url}
+                        alt={partner.name}
+                        width={32}
+                        height={32}
+                        className="rounded"
+                      />
                     ) : (
                       <Building2 className="w-6 h-6 text-white" />
                     )}
                   </div>
-                  <span className={`text-xs px-2 py-1 rounded-full ${industryColors[partner.industry] || 'bg-gray-100 text-slate-900'}`}>
+                  <span
+                    className={`text-xs px-2 py-1 rounded-full ${industryColors[partner.industry] || 'bg-gray-100 text-slate-900'}`}
+                  >
                     {partner.industry}
                   </span>
                 </div>
@@ -313,12 +348,20 @@ export default function EmployerPartners({
                 <div className="flex items-center justify-between mb-3">
                   <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center">
                     {partner.logo_url ? (
-                      <Image src={partner.logo_url} alt={partner.name} width={32} height={32} className="rounded" />
+                      <Image
+                        src={partner.logo_url}
+                        alt={partner.name}
+                        width={32}
+                        height={32}
+                        className="rounded"
+                      />
                     ) : (
                       <Briefcase className="w-6 h-6 text-white" />
                     )}
                   </div>
-                  <span className={`text-xs px-2 py-1 rounded-full ${industryColors[partner.industry] || 'bg-gray-100 text-slate-900'}`}>
+                  <span
+                    className={`text-xs px-2 py-1 rounded-full ${industryColors[partner.industry] || 'bg-gray-100 text-slate-900'}`}
+                  >
                     {partner.industry}
                   </span>
                 </div>
@@ -340,7 +383,7 @@ export default function EmployerPartners({
             Industries We Serve
           </h3>
           <div className="grid md:grid-cols-3 lg:grid-cols-4 gap-4">
-            {Object.keys(industryColors).map(industry => (
+            {Object.keys(industryColors).map((industry) => (
               <div
                 key={industry}
                 className={`${industryColors[industry]} rounded-lg p-4 text-center font-semibold hover:scale-105 transition-transform cursor-pointer`}
@@ -381,12 +424,20 @@ export default function EmployerPartners({
 
       <style jsx>{`
         @keyframes scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
+          0% {
+            transform: translateX(0);
+          }
+          100% {
+            transform: translateX(-50%);
+          }
         }
         @keyframes scroll-reverse {
-          0% { transform: translateX(-50%); }
-          100% { transform: translateX(0); }
+          0% {
+            transform: translateX(-50%);
+          }
+          100% {
+            transform: translateX(0);
+          }
         }
         .animate-scroll {
           animation: scroll 40s linear infinite;

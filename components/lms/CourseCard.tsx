@@ -1,8 +1,8 @@
-import Link from "next/link";
-import Image from "next/image";
-import { StarRating } from "./StarRating";
-import { ProgressBar } from "./ProgressBar";
-import { Clock, Users } from "lucide-react";
+import Link from 'next/link';
+import Image from 'next/image';
+import { StarRating } from './StarRating';
+import { ProgressBar } from './ProgressBar';
+import { Clock, Users } from 'lucide-react';
 
 type CourseCardProps = {
   slug: string;
@@ -43,23 +43,20 @@ export function CourseCard(props: CourseCardProps) {
             alt={title}
             fill
             className="object-cover transition-transform duration-500 ease-smooth group-hover:scale-105"
-           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
         </div>
       )}
 
       <div className="flex flex-1 flex-col gap-3 p-5">
         <div className="space-y-2">
           <p className="text-xs font-semibold uppercase tracking-wide text-accent-500">
-            {provider ?? "Elevate for Humanity"}
+            {provider ?? 'Elevate for Humanity'}
           </p>
           <h3 className="line-clamp-2 text-base font-semibold text-black group-hover:text-brand-600 transition-colors">
             {title}
           </h3>
-          {level && (
-            <span className="badge badge-primary text-xs">
-              {level}
-            </span>
-          )}
+          {level && <span className="badge badge-primary text-xs">{level}</span>}
         </div>
 
         <div className="flex items-center justify-between text-xs text-slate-500">
@@ -83,7 +80,7 @@ export function CourseCard(props: CourseCardProps) {
           </div>
         )}
 
-        {typeof progress === "number" && (
+        {typeof progress === 'number' && (
           <div className="mt-auto pt-3 border-t border-slate-100">
             <ProgressBar progress={progress} size="sm" />
           </div>

@@ -14,8 +14,6 @@ export default async function NewModulePage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   // Fetch programs for selection
   const { data: programs } = await supabase
     .from('programs')
@@ -25,7 +23,6 @@ export default async function NewModulePage() {
 
   return (
     <div className="min-h-screen bg-white p-8">
-
       {/* Hero Image */}
       <div className="max-w-4xl mx-auto">
         <div className="mb-8">

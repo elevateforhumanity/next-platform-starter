@@ -97,9 +97,7 @@
         ].slice(0, limit);
 
         const html =
-          layout === 'grid'
-            ? renderProgramsGrid(programs)
-            : renderProgramsList(programs);
+          layout === 'grid' ? renderProgramsGrid(programs) : renderProgramsList(programs);
 
         container.querySelector('.efh-programs-widget').innerHTML = html;
       }, 500);
@@ -224,7 +222,7 @@
         >
           ${link.text} →
         </a>
-      `
+      `,
         )
         .join('');
 
@@ -269,7 +267,7 @@
           ${program.duration}
         </div>
       </div>
-    `
+    `,
       )
       .join('');
 
@@ -314,7 +312,7 @@
           ${program.duration}
         </div>
       </div>
-    `
+    `,
       )
       .join('');
 

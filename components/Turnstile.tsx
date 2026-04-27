@@ -31,16 +31,16 @@ export default function Turnstile({ onVerify, onError, onExpire, formId }: Turns
 
   // Log turnstile verification to DB
   const logTurnstileEvent = async (eventType: 'verified' | 'error' | 'expired', token?: string) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('turnstile_verifications')
-      .insert({
-        user_id: user?.id,
-        form_id: formId,
-        event_type: eventType,
-        token_prefix: token?.substring(0, 20),
-        timestamp: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('turnstile_verifications').insert({
+      user_id: user?.id,
+      form_id: formId,
+      event_type: eventType,
+      token_prefix: token?.substring(0, 20),
+      timestamp: new Date().toISOString(),
+    });
   };
 
   const handleVerify = (token: string) => {
@@ -60,7 +60,7 @@ export default function Turnstile({ onVerify, onError, onExpire, formId }: Turns
 
   const renderWidget = useCallback(() => {
     if (!containerRef.current || !window.turnstile || !SITE_KEY) return;
-    
+
     // Remove existing widget if any
     if (widgetIdRef.current) {
       window.turnstile.remove(widgetIdRef.current);
@@ -90,7 +90,7 @@ export default function Turnstile({ onVerify, onError, onExpire, formId }: Turns
       script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?onload=onTurnstileLoad';
       script.async = true;
       script.defer = true;
-      
+
       window.onTurnstileLoad = renderWidget;
       document.head.appendChild(script);
     } else if (window.turnstile) {

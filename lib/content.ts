@@ -86,13 +86,13 @@ export async function getTestimonials(options?: {
   limit?: number;
 }): Promise<Testimonial[]> {
   const supabase = await createClient();
-  
+
   let query = supabase
     .from('testimonials')
     .select('*')
     .eq('approved', true)
     .order('display_order', { ascending: true });
-  
+
   if (options?.serviceType) {
     query = query.eq('service_type', options.serviceType);
   }
@@ -105,14 +105,14 @@ export async function getTestimonials(options?: {
   if (options?.limit) {
     query = query.limit(options.limit);
   }
-  
+
   const { data, error } = await query;
-  
+
   if (error) {
     logger.error('Error fetching testimonials:', error);
     return [];
   }
-  
+
   return data || [];
 }
 
@@ -122,27 +122,27 @@ export async function getTeamMembers(options?: {
   limit?: number;
 }): Promise<TeamMember[]> {
   const supabase = await createClient();
-  
+
   let query = supabase
     .from('team_members')
     .select('*')
     .eq('is_active', true)
     .order('display_order', { ascending: true });
-  
+
   if (options?.department) {
     query = query.eq('department', options.department);
   }
   if (options?.limit) {
     query = query.limit(options.limit);
   }
-  
+
   const { data, error } = await query;
-  
+
   if (error) {
     logger.error('Error fetching team members:', error);
     return [];
   }
-  
+
   return data || [];
 }
 
@@ -152,27 +152,27 @@ export async function getSuccessStories(options?: {
   limit?: number;
 }): Promise<SuccessStory[]> {
   const supabase = await createClient();
-  
+
   let query = supabase
     .from('success_stories')
     .select('*')
     .eq('approved', true)
     .order('display_order', { ascending: true });
-  
+
   if (options?.featured) {
     query = query.eq('featured', true);
   }
   if (options?.limit) {
     query = query.limit(options.limit);
   }
-  
+
   const { data, error } = await query;
-  
+
   if (error) {
     logger.error('Error fetching success stories:', error);
     return [];
   }
-  
+
   return data || [];
 }
 
@@ -183,13 +183,13 @@ export async function getFAQs(options?: {
   limit?: number;
 }): Promise<FAQ[]> {
   const supabase = await createClient();
-  
+
   let query = supabase
     .from('faqs')
     .select('*')
     .eq('is_active', true)
     .order('display_order', { ascending: true });
-  
+
   if (options?.category) {
     query = query.eq('category', options.category);
   }
@@ -199,32 +199,32 @@ export async function getFAQs(options?: {
   if (options?.limit) {
     query = query.limit(options.limit);
   }
-  
+
   const { data, error } = await query;
-  
+
   if (error) {
     logger.error('Error fetching FAQs:', error);
     return [];
   }
-  
+
   return data || [];
 }
 
 // Fetch locations
 export async function getLocations(): Promise<Location[]> {
   const supabase = await createClient();
-  
+
   const { data, error } = await supabase
     .from('locations')
     .select('*')
     .eq('is_active', true)
     .order('is_main_office', { ascending: false });
-  
+
   if (error) {
     logger.error('Error fetching locations:', error);
     return [];
   }
-  
+
   return data || [];
 }
 
@@ -235,13 +235,13 @@ export async function getPartners(options?: {
   limit?: number;
 }): Promise<Partner[]> {
   const supabase = await createClient();
-  
+
   let query = supabase
     .from('partners')
     .select('*')
     .eq('is_active', true)
     .order('display_order', { ascending: true });
-  
+
   if (options?.partnerType) {
     query = query.eq('partner_type', options.partnerType);
   }
@@ -251,32 +251,32 @@ export async function getPartners(options?: {
   if (options?.limit) {
     query = query.limit(options.limit);
   }
-  
+
   const { data, error } = await query;
-  
+
   if (error) {
     logger.error('Error fetching partners:', error);
     return [];
   }
-  
+
   return data || [];
 }
 
 // Get main office location
 export async function getMainOffice(): Promise<Location | null> {
   const supabase = await createClient();
-  
+
   const { data, error } = await supabase
     .from('locations')
     .select('*')
     .eq('is_main_office', true)
     .eq('is_active', true)
     .maybeSingle();
-  
+
   if (error) {
     logger.error('Error fetching main office:', error);
     return null;
   }
-  
+
   return data;
 }

@@ -4,10 +4,8 @@ export default function Start() {
   return (
     <section className="py-16">
       <div className="max-w-3xl mx-auto px-6 text-center">
-        <h2 className="text-3xl font-bold text-brand-red-600 mb-8">
-          Start with clarity
-        </h2>
-        
+        <h2 className="text-3xl font-bold text-brand-red-600 mb-8">Start with clarity</h2>
+
         <div className="flex flex-col sm:flex-row gap-4 justify-center mb-8">
           <Link
             href="/programs"
@@ -22,7 +20,7 @@ export default function Start() {
             Check Eligibility
           </Link>
         </div>
-        
+
         <p className="text-black text-base">
           You are not signing up for a promise. You are entering a framework designed to work.
         </p>

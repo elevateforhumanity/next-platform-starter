@@ -1,28 +1,26 @@
-"use client";
+'use client';
 
 import React from 'react';
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from 'react';
 
 type Msg = {
-  role: "student" | "assistant";
+  role: 'student' | 'assistant';
   content: string;
   created_at?: string;
   audioUrl?: string;
 };
 
-export function AIChatPanel(props: {
-  programSlug: string;
-}) {
+export function AIChatPanel(props: { programSlug: string }) {
   const [messages, setMessages] = useState<Msg[]>([]);
-  const [input, setInput] = useState("");
+  const [input, setInput] = useState('');
   const [sending, setSending] = useState(false);
   const [voiceEnabled, setVoiceEnabled] = useState(true);
   const bottomRef = useRef<HTMLDivElement | null>(null);
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
-    bottomRef.current?.scrollIntoView({ behavior: "smooth" });
+    bottomRef.current?.scrollIntoView({ behavior: 'smooth' });
   }, [messages]);
 
   async function send() {
@@ -30,12 +28,12 @@ export function AIChatPanel(props: {
     if (!text || sending) return;
 
     setSending(true);
-    setInput("");
-    setMessages((m) => [...m, { role: "student", content: text }]);
+    setInput('');
+    setMessages((m) => [...m, { role: 'student', content: text }]);
 
-    const res = await fetch("/api/ai/chat", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
+    const res = await fetch('/api/ai/chat', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({ programSlug: props.programSlug, message: text }),
     });
 
@@ -45,9 +43,8 @@ export function AIChatPanel(props: {
       setMessages((m) => [
         ...m,
         {
-          role: "assistant",
-          content:
-            "I couldn't respond right now. Please try again, or contact support if urgent.",
+          role: 'assistant',
+          content: "I couldn't respond right now. Please try again, or contact support if urgent.",
         },
       ]);
       setSending(false);
@@ -55,9 +52,9 @@ export function AIChatPanel(props: {
     }
 
     const assistantMsg: Msg = {
-      role: "assistant",
-      content: data.reply ?? "Okay.",
-      audioUrl: data.audioUrl
+      role: 'assistant',
+      content: data.reply ?? 'Okay.',
+      audioUrl: data.audioUrl,
     };
 
     setMessages((m) => [...m, assistantMsg]);
@@ -93,9 +90,9 @@ export function AIChatPanel(props: {
           <button
             onClick={() => setVoiceEnabled(!voiceEnabled)}
             className="text-xs px-3 py-2.5 rounded-lg border border-zinc-200 hover:bg-zinc-50 transition"
-            title={voiceEnabled ? "Voice enabled" : "Voice disabled"}
+            title={voiceEnabled ? 'Voice enabled' : 'Voice disabled'}
           >
-            {voiceEnabled ? "🔊 Voice On" : "🔇 Voice Off"}
+            {voiceEnabled ? '🔊 Voice On' : '🔇 Voice Off'}
           </button>
         </div>
       </div>
@@ -112,21 +109,17 @@ export function AIChatPanel(props: {
         {messages.map((m, idx) => (
           <div
             key={idx}
-            className={
-              m.role === "student"
-                ? "flex justify-end"
-                : "flex justify-start"
-            }
+            className={m.role === 'student' ? 'flex justify-end' : 'flex justify-start'}
           >
             <div
               className={
-                m.role === "student"
-                  ? "max-w-[80%] rounded-2xl bg-zinc-900 text-white px-4 py-2 text-sm"
-                  : "max-w-[80%] rounded-2xl bg-zinc-100 text-zinc-900 px-4 py-2 text-sm"
+                m.role === 'student'
+                  ? 'max-w-[80%] rounded-2xl bg-zinc-900 text-white px-4 py-2 text-sm'
+                  : 'max-w-[80%] rounded-2xl bg-zinc-100 text-zinc-900 px-4 py-2 text-sm'
               }
             >
               <div>{m.content}</div>
-              {m.role === "assistant" && m.audioUrl && (
+              {m.role === 'assistant' && m.audioUrl && (
                 <button
                   onClick={() => playAudio(m.audioUrl!)}
                   className="mt-2 text-xs text-zinc-600 hover:text-zinc-900 flex items-center gap-1"
@@ -144,7 +137,7 @@ export function AIChatPanel(props: {
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}
-          onKeyDown={(e) => (e.key === "Enter" ? send() : null)}
+          onKeyDown={(e) => (e.key === 'Enter' ? send() : null)}
           placeholder="Type your question…"
           className="flex-1 rounded-xl border border-zinc-300 px-3 py-2 text-sm outline-none focus:ring-2 focus:ring-zinc-300"
         />

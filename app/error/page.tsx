@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -12,7 +11,7 @@ export const metadata: Metadata = {
 
 const ERROR_MESSAGES: Record<string, string> = {
   'service-unavailable': 'This service is temporarily unavailable. Please try again later.',
-  'unauthorized': 'You do not have permission to access this page.',
+  unauthorized: 'You do not have permission to access this page.',
   'not-found': 'The page you are looking for does not exist.',
 };
 
@@ -23,7 +22,8 @@ export default async function ErrorPage({
 }) {
   const params = await searchParams;
   const messageKey = params.message || '';
-  const displayMessage = ERROR_MESSAGES[messageKey] || 'An unexpected error occurred. Please try again.';
+  const displayMessage =
+    ERROR_MESSAGES[messageKey] || 'An unexpected error occurred. Please try again.';
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center px-4">

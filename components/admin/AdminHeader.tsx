@@ -96,21 +96,25 @@ const NAV_SECTIONS = [
 // Environment detection for badge
 const isNetlify = process.env.NEXT_PUBLIC_NETLIFY === 'true';
 const netlifyContext = process.env.NEXT_PUBLIC_CONTEXT;
-const isProd = isNetlify 
-  ? netlifyContext === 'production' 
-  : process.env.NODE_ENV === 'production';
-const isPreview = isNetlify 
+const isProd = isNetlify ? netlifyContext === 'production' : process.env.NODE_ENV === 'production';
+const isPreview = isNetlify
   ? netlifyContext === 'deploy-preview' || netlifyContext === 'branch-deploy'
   : false;
 
 function getEnvBadge(): { label: string; color: string } {
   if (isProd) {
-    return { label: 'PRODUCTION', color: 'bg-brand-red-100 text-brand-red-800 border-brand-red-200' };
+    return {
+      label: 'PRODUCTION',
+      color: 'bg-brand-red-100 text-brand-red-800 border-brand-red-200',
+    };
   }
   if (isPreview) {
     return { label: 'PREVIEW', color: 'bg-yellow-100 text-yellow-800 border-yellow-200' };
   }
-  return { label: 'DEVELOPMENT', color: 'bg-brand-blue-100 text-brand-blue-800 border-brand-blue-200' };
+  return {
+    label: 'DEVELOPMENT',
+    color: 'bg-brand-blue-100 text-brand-blue-800 border-brand-blue-200',
+  };
 }
 
 export default function AdminHeader() {
@@ -147,7 +151,7 @@ export default function AdminHeader() {
           <Shield className="w-8 h-8 text-brand-blue-400" />
           <span className="font-bold text-lg hidden sm:block">Admin Panel</span>
         </Link>
-        
+
         {/* Environment Badge */}
         <EnvironmentBadge label={envBadge.label} color={envBadge.color} />
 
@@ -169,7 +173,9 @@ export default function AdminHeader() {
                 </Link>
               ) : (
                 <button
-                  onClick={() => setOpenDropdown(openDropdown === section.name ? null : section.name)}
+                  onClick={() =>
+                    setOpenDropdown(openDropdown === section.name ? null : section.name)
+                  }
                   className={`flex items-center gap-1 px-3 py-2 rounded-md text-sm font-medium transition-colors ${
                     section.items?.some((item) => pathname.startsWith(item.href))
                       ? 'bg-slate-700 text-white'
@@ -294,7 +300,11 @@ export default function AdminHeader() {
               disabled={deploying}
               className="w-full flex items-center justify-center gap-2 px-3 py-2 bg-brand-green-600 hover:bg-brand-green-700 rounded-md text-sm font-medium mt-4"
             >
-              {deploying ? <RefreshCw className="w-4 h-4 animate-spin" /> : <Rocket className="w-4 h-4" />}
+              {deploying ? (
+                <RefreshCw className="w-4 h-4 animate-spin" />
+              ) : (
+                <Rocket className="w-4 h-4" />
+              )}
               {deploying ? 'Deploying...' : 'Deploy to Production'}
             </button>
           </div>

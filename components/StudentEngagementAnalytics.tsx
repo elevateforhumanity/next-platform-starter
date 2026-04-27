@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -37,7 +37,9 @@ export default function StudentEngagementAnalytics() {
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Student Engagement Analytics</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Student Engagement Analytics
+          </h1>
           <p className="text-white">Monitor and improve student participation</p>
         </div>
       </div>
@@ -47,7 +49,9 @@ export default function StudentEngagementAnalytics() {
           <h2 className="text-2xl font-bold">Engagement Overview</h2>
           <select
             value={timeRange}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setTimeRange(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setTimeRange(e.target.value)}
             className="px-4 py-2 border rounded"
           >
             <option value="7">Last 7 days</option>
@@ -59,7 +63,9 @@ export default function StudentEngagementAnalytics() {
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-8">
           <Card className="p-6">
             <h3 className="text-sm text-black mb-2">Active Students</h3>
-            <p className="text-3xl font-bold text-brand-orange-600">{metrics.activeStudents.toLocaleString('en-US')}</p>
+            <p className="text-3xl font-bold text-brand-orange-600">
+              {metrics.activeStudents.toLocaleString('en-US')}
+            </p>
             <p className="text-sm text-brand-green-600">↑ 8% from last period</p>
           </Card>
 
@@ -102,13 +108,12 @@ export default function StudentEngagementAnalytics() {
                 <div key={trend.week}>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="font-medium">{trend.week}</span>
-                    <span className="text-black">{trend.rate}% • {trend.active} active</span>
+                    <span className="text-black">
+                      {trend.rate}% • {trend.active} active
+                    </span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="   h-2 rounded-full"
-                      style={{ width: `${trend.rate}%` }}
-                    />
+                    <div className="   h-2 rounded-full" style={{ width: `${trend.rate}%` }} />
                   </div>
                 </div>
               ))}
@@ -132,7 +137,9 @@ export default function StudentEngagementAnalytics() {
                       />
                     </div>
                   </div>
-                  <span className="ml-4 text-sm font-semibold text-brand-blue-600">{activity.percentage}%</span>
+                  <span className="ml-4 text-sm font-semibold text-brand-blue-600">
+                    {activity.percentage}%
+                  </span>
                 </div>
               ))}
             </div>
@@ -145,7 +152,9 @@ export default function StudentEngagementAnalytics() {
             <p className="text-sm text-black">
               42 students haven't logged in for 7+ days. Consider sending re-engagement emails.
             </p>
-            <Button size="sm" className="mt-3 w-full">Send Reminders</Button>
+            <Button size="sm" className="mt-3 w-full">
+              Send Reminders
+            </Button>
           </Card>
 
           <Card className="p-6   ">

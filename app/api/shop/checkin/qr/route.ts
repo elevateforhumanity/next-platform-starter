@@ -15,9 +15,12 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -65,14 +68,12 @@ async function _GET(request: NextRequest) {
     const code = generateCode();
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString(); // 24 hours
 
-    const { error: insertError } = await supabase
-      .from('shop_checkin_codes')
-      .insert({
-        shop_id: shop.id,
-        code: code,
-        expires_at: expiresAt,
-        created_by: user.id,
-      });
+    const { error: insertError } = await supabase.from('shop_checkin_codes').insert({
+      shop_id: shop.id,
+      code: code,
+      expires_at: expiresAt,
+      created_by: user.id,
+    });
 
     if (insertError) {
       logger.error('Error creating code:', insertError);
@@ -93,15 +94,18 @@ async function _GET(request: NextRequest) {
 }
 
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   // Force generate new code
   try {
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -128,14 +132,12 @@ async function _POST(request: NextRequest) {
     const code = generateCode();
     const expiresAt = new Date(Date.now() + 24 * 60 * 60 * 1000).toISOString();
 
-    const { error: insertError } = await supabase
-      .from('shop_checkin_codes')
-      .insert({
-        shop_id: shop.id,
-        code: code,
-        expires_at: expiresAt,
-        created_by: user.id,
-      });
+    const { error: insertError } = await supabase.from('shop_checkin_codes').insert({
+      shop_id: shop.id,
+      code: code,
+      expires_at: expiresAt,
+      created_by: user.id,
+    });
 
     if (insertError) {
       logger.error('Error creating code:', insertError);

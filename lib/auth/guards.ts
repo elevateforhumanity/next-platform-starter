@@ -49,9 +49,7 @@ import { requireApiRole } from '@/lib/auth/require-api-role';
 import type { ApiAuthResult } from '@/lib/auth/require-api-role';
 import { NextResponse } from 'next/server';
 
-export async function apiRequireAuth(
-  req?: Request,
-): Promise<ApiAuthResult | NextResponse> {
+export async function apiRequireAuth(req?: Request): Promise<ApiAuthResult | NextResponse> {
   return requireApiRole([
     'student',
     'admin',
@@ -66,9 +64,7 @@ export async function apiRequireAuth(
   ] as any);
 }
 
-export async function apiRequireAdmin(
-  req?: Request,
-): Promise<ApiAuthResult | NextResponse> {
+export async function apiRequireAdmin(req?: Request): Promise<ApiAuthResult | NextResponse> {
   return requireApiRole(['admin', 'super_admin', 'staff'] as any);
 }
 

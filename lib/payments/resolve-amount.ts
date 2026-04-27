@@ -21,9 +21,9 @@ interface ProgramPricing {
 /** Canonical price map per program. Add new programs here. */
 const PROGRAM_PRICING: Record<string, ProgramPricing> = {
   'barber-apprenticeship': {
-    deposit: BARBER_PRICING.setupFee,   // $1,743
-    full: BARBER_PRICING.fullPrice,     // $4,980
-    max: BARBER_PRICING.fullPrice,      // Cap at full tuition
+    deposit: BARBER_PRICING.setupFee, // $1,743
+    full: BARBER_PRICING.fullPrice, // $4,980
+    max: BARBER_PRICING.fullPrice, // Cap at full tuition
   },
   'hvac-technician': {
     deposit: 1750,
@@ -32,18 +32,20 @@ const PROGRAM_PRICING: Record<string, ProgramPricing> = {
   },
 };
 
-export type AmountResolution = {
-  ok: true;
-  requiredAmount: number;
-  paidAmount: number;
-  overpayAmount: number;
-  paymentOption: PaymentOption;
-  programSlug: string;
-} | {
-  ok: false;
-  error: string;
-  status: number;
-};
+export type AmountResolution =
+  | {
+      ok: true;
+      requiredAmount: number;
+      paidAmount: number;
+      overpayAmount: number;
+      paymentOption: PaymentOption;
+      programSlug: string;
+    }
+  | {
+      ok: false;
+      error: string;
+      status: number;
+    };
 
 /**
  * Resolve and validate a BNPL payment amount.
@@ -69,7 +71,11 @@ export function resolvePaymentAmount(
       return { ok: false, error: `Minimum payment is $${providerMin}`, status: 400 };
     }
     if (providerMax && clientAmount > providerMax) {
-      return { ok: false, error: `Maximum payment is $${providerMax.toLocaleString()}`, status: 400 };
+      return {
+        ok: false,
+        error: `Maximum payment is $${providerMax.toLocaleString()}`,
+        status: 400,
+      };
     }
     return {
       ok: true,
@@ -83,9 +89,7 @@ export function resolvePaymentAmount(
 
   // Normalize payment_option
   const option: PaymentOption =
-    paymentOption === 'full' ? 'full' :
-    paymentOption === 'deposit' ? 'deposit' :
-    'deposit'; // Default to deposit for BNPL (safest)
+    paymentOption === 'full' ? 'full' : paymentOption === 'deposit' ? 'deposit' : 'deposit'; // Default to deposit for BNPL (safest)
 
   const requiredAmount = option === 'full' ? pricing.full : pricing.deposit;
 

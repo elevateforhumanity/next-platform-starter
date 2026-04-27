@@ -40,31 +40,37 @@ import type { LessonSeed, CheckpointSeed } from '../../lib/curriculum/course-bui
 
 const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-const DRY_RUN       = process.argv.includes('--dry-run');
-const FORCE         = process.argv.includes('--force');
-const CONTENT_ONLY  = process.argv.includes('--content-only');
-const QUIZ_ONLY     = process.argv.includes('--quiz-only');
-const MODULE_FILTER = (() => { const i = process.argv.indexOf('--module'); return i !== -1 ? parseInt(process.argv[i + 1]) : null; })();
-const SLUG_FILTER   = (() => { const i = process.argv.indexOf('--slug');   return i !== -1 ? process.argv[i + 1] : null; })();
+const DRY_RUN = process.argv.includes('--dry-run');
+const FORCE = process.argv.includes('--force');
+const CONTENT_ONLY = process.argv.includes('--content-only');
+const QUIZ_ONLY = process.argv.includes('--quiz-only');
+const MODULE_FILTER = (() => {
+  const i = process.argv.indexOf('--module');
+  return i !== -1 ? parseInt(process.argv[i + 1]) : null;
+})();
+const SLUG_FILTER = (() => {
+  const i = process.argv.indexOf('--slug');
+  return i !== -1 ? process.argv[i + 1] : null;
+})();
 
-const MIN_CONTENT_WORDS  = 800;
+const MIN_CONTENT_WORDS = 800;
 const MIN_QUIZ_QUESTIONS = 20;
-const MIN_FLASHCARDS     = 15;
-const MIN_SCENARIO_Q     = 8;
+const MIN_FLASHCARDS = 15;
+const MIN_SCENARIO_Q = 8;
 
 const QUESTION_OVERRIDES: Record<string, number> = {
   'barber-indiana-state-board-exam': 60,
 };
 
 const DOMAIN_WEIGHTS: Record<string, string> = {
-  SAFETY_SANITATION:     '25% of Indiana barber written exam',
-  HAIR_SCALP:            '20% of Indiana barber written exam',
-  HAIRCUTTING:           '25% of Indiana barber written exam',
-  CHEMICAL_SERVICES:     '15% of Indiana barber written exam',
-  TOOLS_EQUIPMENT:       'subset of haircutting domain',
-  SHAVING:               'practical exam component',
+  SAFETY_SANITATION: '25% of Indiana barber written exam',
+  HAIR_SCALP: '20% of Indiana barber written exam',
+  HAIRCUTTING: '25% of Indiana barber written exam',
+  CHEMICAL_SERVICES: '15% of Indiana barber written exam',
+  TOOLS_EQUIPMENT: 'subset of haircutting domain',
+  SHAVING: 'practical exam component',
   BUSINESS_PROFESSIONAL: 'professional skills',
-  STATE_BOARD_PREP:      'exam preparation — covers all domains',
+  STATE_BOARD_PREP: 'exam preparation — covers all domains',
 };
 
 // ── Prompt builders ───────────────────────────────────────────────────────────
@@ -78,7 +84,7 @@ DOMAIN: ${lesson.domain} (${DOMAIN_WEIGHTS[lesson.domain] ?? ''})
 ${lesson.miladyChapter ? `MILADY REFERENCE: ${lesson.miladyChapter}` : ''}
 
 COMPETENCY CHECKS (students must demonstrate):
-${lesson.competencyChecks.map(c => `- ${c.description}`).join('\n')}
+${lesson.competencyChecks.map((c) => `- ${c.description}`).join('\n')}
 
 Write a complete lesson body of 900–1,100 words. Requirements:
 - Open with 2–3 sentences explaining why this topic matters to a working barber in Indiana
@@ -104,7 +110,7 @@ CONTENT:
 ${content}
 
 COMPETENCY CHECKS:
-${lesson.competencyChecks.map(c => `- ${c.description}`).join('\n')}
+${lesson.competencyChecks.map((c) => `- ${c.description}`).join('\n')}
 
 Generate exactly 20 multiple-choice quiz questions.
 
@@ -201,40 +207,62 @@ async function callGPTText(prompt: string, label: string): Promise<string> {
   process.stdout.write(`    GPT-4o → ${label} ... `);
   try {
     const res = await openai.chat.completions.create({
-      model: 'gpt-4o', temperature: 0.5,
+      model: 'gpt-4o',
+      temperature: 0.5,
       messages: [{ role: 'user', content: prompt }],
     });
     const text = res.choices[0]?.message?.content?.trim() ?? '';
     const words = text.split(/\s+/).length;
     console.log(`${words}w`);
     return text;
-  } catch (err) { console.log(`FAILED: ${err}`); return ''; }
+  } catch (err) {
+    console.log(`FAILED: ${err}`);
+    return '';
+  }
 }
 
 async function callGPTJSON(prompt: string, label: string): Promise<unknown[]> {
   process.stdout.write(`    GPT-4o → ${label} ... `);
   try {
     const res = await openai.chat.completions.create({
-      model: 'gpt-4o', temperature: 0.4,
+      model: 'gpt-4o',
+      temperature: 0.4,
       messages: [{ role: 'user', content: prompt }],
     });
     const raw = res.choices[0]?.message?.content?.trim() ?? '';
-    const json = raw.replace(/^```(?:json)?\n?/, '').replace(/\n?```$/, '').trim();
+    const json = raw
+      .replace(/^```(?:json)?\n?/, '')
+      .replace(/\n?```$/, '')
+      .trim();
     const parsed = JSON.parse(json);
     if (!Array.isArray(parsed)) throw new Error('not an array');
     console.log(`${parsed.length} items`);
     return parsed;
-  } catch (err) { console.log(`FAILED: ${err}`); return []; }
+  } catch (err) {
+    console.log(`FAILED: ${err}`);
+    return [];
+  }
 }
 
-async function callGPTJSONWithTopUp(prompt: string, label: string, target: number): Promise<unknown[]> {
+async function callGPTJSONWithTopUp(
+  prompt: string,
+  label: string,
+  target: number,
+): Promise<unknown[]> {
   let results = await callGPTJSON(prompt, label);
   if (!results.length) return [];
   let attempts = 0;
   while (results.length < target && attempts < 3) {
     const missing = target - results.length;
     const topUp = prompt.replace(/Generate exactly \d+/, `Generate exactly ${missing} additional`);
-    const extra = await callGPTJSON(topUp + `\n\nDo NOT repeat: ${(results as Array<{prompt?:string}>).slice(0,5).map(q=>q.prompt).join(' | ')}`, `${label} top-up`);
+    const extra = await callGPTJSON(
+      topUp +
+        `\n\nDo NOT repeat: ${(results as Array<{ prompt?: string }>)
+          .slice(0, 5)
+          .map((q) => q.prompt)
+          .join(' | ')}`,
+      `${label} top-up`,
+    );
     if (!extra.length) break;
     results = [...results, ...extra];
     attempts++;
@@ -249,13 +277,20 @@ const SIDECAR_DIR = path.resolve(process.cwd(), 'scripts/course-builder/seeds/co
 function loadSidecar(slug: string): Record<string, unknown> {
   const p = path.join(SIDECAR_DIR, `${slug}.json`);
   if (!fs.existsSync(p)) return {};
-  try { return JSON.parse(fs.readFileSync(p, 'utf8')); } catch { return {}; }
+  try {
+    return JSON.parse(fs.readFileSync(p, 'utf8'));
+  } catch {
+    return {};
+  }
 }
 
 function writeSidecar(slug: string, data: Record<string, unknown>): void {
   fs.mkdirSync(SIDECAR_DIR, { recursive: true });
   const existing = loadSidecar(slug);
-  fs.writeFileSync(path.join(SIDECAR_DIR, `${slug}.json`), JSON.stringify({ ...existing, ...data }, null, 2));
+  fs.writeFileSync(
+    path.join(SIDECAR_DIR, `${slug}.json`),
+    JSON.stringify({ ...existing, ...data }, null, 2),
+  );
 }
 
 function sidecarWordCount(slug: string): number {
@@ -265,27 +300,36 @@ function sidecarWordCount(slug: string): number {
 
 function sidecarQuizCount(slug: string): number {
   const s = loadSidecar(slug);
-  return ((s.quiz as {questions?:unknown[]})?.questions?.length) ?? 0;
+  return (s.quiz as { questions?: unknown[] })?.questions?.length ?? 0;
 }
 
 function sidecarFlashcardCount(slug: string): number {
-  return ((loadSidecar(slug).flashcards as unknown[])?.length) ?? 0;
+  return (loadSidecar(slug).flashcards as unknown[])?.length ?? 0;
 }
 
 function countScenarioQuestions(questions: unknown[]): number {
-  return (questions as Array<Record<string,unknown>>).filter(q => {
+  return (questions as Array<Record<string, unknown>>).filter((q) => {
     const p = String(q.prompt ?? q.question ?? '').toLowerCase();
     const t = String(q.type ?? '').toLowerCase();
-    return t === 'scenario' || t === 'applied' ||
-      p.startsWith('a client') || p.startsWith('during a') || p.startsWith('a new client') ||
-      p.startsWith('you notice') || p.startsWith('while performing') || p.includes('presents with');
+    return (
+      t === 'scenario' ||
+      t === 'applied' ||
+      p.startsWith('a client') ||
+      p.startsWith('during a') ||
+      p.startsWith('a new client') ||
+      p.startsWith('you notice') ||
+      p.startsWith('while performing') ||
+      p.includes('presents with')
+    );
   }).length;
 }
 
 // ── Main ──────────────────────────────────────────────────────────────────────
 
 async function main() {
-  let processed = 0, skipped = 0, failed = 0;
+  let processed = 0,
+    skipped = 0,
+    failed = 0;
 
   for (const mod of barberCourse.modules) {
     if (MODULE_FILTER !== null && mod.order !== MODULE_FILTER) continue;
@@ -295,48 +339,65 @@ async function main() {
       if (SLUG_FILTER && lesson.slug !== SLUG_FILTER) continue;
 
       // Determine what's needed
-      const seedWords   = lesson.content?.trim().split(/\s+/).length ?? 0;
+      const seedWords = lesson.content?.trim().split(/\s+/).length ?? 0;
       const existingWords = Math.max(seedWords, sidecarWordCount(lesson.slug));
-      const existingQ   = lesson.quiz?.questions?.length  ?? sidecarQuizCount(lesson.slug);
-      const existingFC  = lesson.flashcards?.length       ?? sidecarFlashcardCount(lesson.slug);
+      const existingQ = lesson.quiz?.questions?.length ?? sidecarQuizCount(lesson.slug);
+      const existingFC = lesson.flashcards?.length ?? sidecarFlashcardCount(lesson.slug);
 
-      const needsContent    = !QUIZ_ONLY  && (FORCE || existingWords < MIN_CONTENT_WORDS);
-      const needsQuiz       = !CONTENT_ONLY && (FORCE || existingQ < MIN_QUIZ_QUESTIONS);
+      const needsContent = !QUIZ_ONLY && (FORCE || existingWords < MIN_CONTENT_WORDS);
+      const needsQuiz = !CONTENT_ONLY && (FORCE || existingQ < MIN_QUIZ_QUESTIONS);
       const needsFlashcards = !CONTENT_ONLY && (FORCE || existingFC < MIN_FLASHCARDS);
       const isLab = ['lab', 'practical'].includes(lesson.ojtCategory?.toLowerCase() ?? '');
-      const needsProcedures = !CONTENT_ONLY && !QUIZ_ONLY && isLab &&
-        !loadSidecar(lesson.slug).procedures;
+      const needsProcedures =
+        !CONTENT_ONLY && !QUIZ_ONLY && isLab && !loadSidecar(lesson.slug).procedures;
 
       if (!needsContent && !needsQuiz && !needsFlashcards && !needsProcedures) {
         console.log(`  ✅ ${lesson.slug} (${existingWords}w, ${existingQ}q, ${existingFC}fc)`);
-        skipped++; continue;
+        skipped++;
+        continue;
       }
 
       const missing = [
-        needsContent    ? `content(${existingWords}w→${MIN_CONTENT_WORDS}w)` : '',
-        needsQuiz       ? `quiz(${existingQ}→${MIN_QUIZ_QUESTIONS}q)` : '',
+        needsContent ? `content(${existingWords}w→${MIN_CONTENT_WORDS}w)` : '',
+        needsQuiz ? `quiz(${existingQ}→${MIN_QUIZ_QUESTIONS}q)` : '',
         needsFlashcards ? `flashcards(${existingFC}→${MIN_FLASHCARDS}fc)` : '',
         needsProcedures ? 'procedures' : '',
-      ].filter(Boolean).join(', ');
+      ]
+        .filter(Boolean)
+        .join(', ');
       console.log(`  → ${lesson.slug} — needs: ${missing}`);
 
-      if (DRY_RUN) { processed++; continue; }
+      if (DRY_RUN) {
+        processed++;
+        continue;
+      }
 
       const sidecarData: Record<string, unknown> = {};
 
       // 1. Content
-      let contentToUse = existingWords >= MIN_CONTENT_WORDS
-        ? (loadSidecar(lesson.slug).content as string ?? lesson.content)
-        : '';
+      let contentToUse =
+        existingWords >= MIN_CONTENT_WORDS
+          ? ((loadSidecar(lesson.slug).content as string) ?? lesson.content)
+          : '';
 
       if (needsContent) {
         const text = await callGPTText(buildContentPrompt(lesson), 'content');
-        if (!text) { failed++; continue; }
+        if (!text) {
+          failed++;
+          continue;
+        }
         const words = text.trim().split(/\s+/).length;
         if (words < MIN_CONTENT_WORDS) {
           console.log(`    ⚠️  Only ${words}w — re-requesting`);
-          const retry = await callGPTText(buildContentPrompt(lesson) + '\n\nIMPORTANT: You MUST write at least 900 words. Previous attempt was too short.', 'content retry');
-          if (!retry) { failed++; continue; }
+          const retry = await callGPTText(
+            buildContentPrompt(lesson) +
+              '\n\nIMPORTANT: You MUST write at least 900 words. Previous attempt was too short.',
+            'content retry',
+          );
+          if (!retry) {
+            failed++;
+            continue;
+          }
           sidecarData.content = retry;
           contentToUse = retry;
         } else {
@@ -348,17 +409,28 @@ async function main() {
       // 2. Quiz (uses content for better questions)
       if (needsQuiz) {
         const sourceContent = contentToUse || lesson.content;
-        let quiz = await callGPTJSONWithTopUp(buildQuizPrompt(lesson, sourceContent), 'quiz', MIN_QUIZ_QUESTIONS);
-        if (!quiz.length) { failed++; continue; }
+        let quiz = await callGPTJSONWithTopUp(
+          buildQuizPrompt(lesson, sourceContent),
+          'quiz',
+          MIN_QUIZ_QUESTIONS,
+        );
+        if (!quiz.length) {
+          failed++;
+          continue;
+        }
         // Enforce scenario count
         const scenarioCount = countScenarioQuestions(quiz);
         if (scenarioCount < MIN_SCENARIO_Q) {
           console.log(`    ⚠️  Only ${scenarioCount} scenario questions — requesting more`);
           const scenarioPrompt = buildQuizPrompt(lesson, sourceContent).replace(
             '- 8 scenario questions',
-            `- ${MIN_SCENARIO_Q - scenarioCount} MORE scenario questions (already have ${scenarioCount})`
+            `- ${MIN_SCENARIO_Q - scenarioCount} MORE scenario questions (already have ${scenarioCount})`,
           );
-          const extra = await callGPTJSONWithTopUp(scenarioPrompt, 'scenario top-up', MIN_SCENARIO_Q - scenarioCount);
+          const extra = await callGPTJSONWithTopUp(
+            scenarioPrompt,
+            'scenario top-up',
+            MIN_SCENARIO_Q - scenarioCount,
+          );
           quiz = [...quiz, ...extra].slice(0, MIN_QUIZ_QUESTIONS + extra.length);
         }
         sidecarData.quiz = { passingScore: 70, questions: quiz };
@@ -367,15 +439,25 @@ async function main() {
       // 3. Flashcards
       if (needsFlashcards) {
         const sourceContent = contentToUse || lesson.content;
-        const flashcards = await callGPTJSONWithTopUp(buildFlashcardPrompt(lesson, sourceContent), 'flashcards', MIN_FLASHCARDS);
-        if (!flashcards.length) { failed++; continue; }
+        const flashcards = await callGPTJSONWithTopUp(
+          buildFlashcardPrompt(lesson, sourceContent),
+          'flashcards',
+          MIN_FLASHCARDS,
+        );
+        if (!flashcards.length) {
+          failed++;
+          continue;
+        }
         sidecarData.flashcards = flashcards;
       }
 
       // 4. Procedures (lab lessons)
       if (needsProcedures) {
         const sourceContent = contentToUse || lesson.content;
-        const procedures = await callGPTJSON(buildProcedurePrompt(lesson, sourceContent), 'procedures');
+        const procedures = await callGPTJSON(
+          buildProcedurePrompt(lesson, sourceContent),
+          'procedures',
+        );
         if (procedures.length) sidecarData.procedures = procedures;
       }
 
@@ -391,22 +473,30 @@ async function main() {
       if (CONTENT_ONLY) continue;
 
       const requiredCount = QUESTION_OVERRIDES[cp.slug] ?? MIN_QUIZ_QUESTIONS;
-      const existingCpQ   = cp.questions?.length ?? sidecarQuizCount(cp.slug);
-      const needsQuiz     = FORCE || existingCpQ < requiredCount;
+      const existingCpQ = cp.questions?.length ?? sidecarQuizCount(cp.slug);
+      const needsQuiz = FORCE || existingCpQ < requiredCount;
 
       if (!needsQuiz) {
         console.log(`  ✅ ${cp.slug} (${existingCpQ}q)`);
-        skipped++; continue;
+        skipped++;
+        continue;
       }
 
       console.log(`  → ${cp.slug} — needs: quiz(${existingCpQ}→${requiredCount}q)`);
-      if (DRY_RUN) { processed++; continue; }
+      if (DRY_RUN) {
+        processed++;
+        continue;
+      }
 
       const quiz = await callGPTJSONWithTopUp(
         buildCheckpointQuizPrompt(cp, mod.title, requiredCount),
-        'checkpoint quiz', requiredCount
+        'checkpoint quiz',
+        requiredCount,
       );
-      if (!quiz.length) { failed++; continue; }
+      if (!quiz.length) {
+        failed++;
+        continue;
+      }
 
       writeSidecar(cp.slug, { quiz: { passingScore: cp.passingScore, questions: quiz } });
       console.log(`    ✅ Sidecar written`);
@@ -415,10 +505,16 @@ async function main() {
   }
 
   console.log(`\n── Done: processed=${processed}  skipped=${skipped}  failed=${failed}`);
-  if (failed > 0) { console.log('Re-run to retry failed lessons.'); process.exit(1); }
+  if (failed > 0) {
+    console.log('Re-run to retry failed lessons.');
+    process.exit(1);
+  }
   if (!DRY_RUN && processed > 0) {
     console.log('\nNext: pnpm course:validate && pnpm tsx scripts/apply-barber-content.ts');
   }
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

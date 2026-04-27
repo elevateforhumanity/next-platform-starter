@@ -19,15 +19,12 @@ import { getAdminClient } from '@/lib/supabase/admin';
  * Throws 'LESSON_NOT_FOUND' if the lesson does not exist.
  * Throws the raw DB error on infrastructure failure.
  */
-export async function assertLessonAccess(
-  userId: string,
-  lessonId: string,
-): Promise<void> {
+export async function assertLessonAccess(userId: string, lessonId: string): Promise<void> {
   const db = await getAdminClient();
   if (!db) throw new Error('DB_UNAVAILABLE');
 
   const { data, error } = await db.rpc('can_access_lesson', {
-    p_user_id:  userId,
+    p_user_id: userId,
     p_lesson_id: lessonId,
   });
 
@@ -51,7 +48,7 @@ export async function assertModuleAccess(
   if (!db) throw new Error('DB_UNAVAILABLE');
 
   const { data, error } = await db.rpc('check_module_unlock', {
-    p_user_id:   userId,
+    p_user_id: userId,
     p_course_id: courseId,
     p_module_id: moduleId,
   });

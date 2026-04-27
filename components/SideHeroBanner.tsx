@@ -1,6 +1,6 @@
-import Image from "next/image";
-import Link from "next/link";
-import { ArrowRight } from "lucide-react";
+import Image from 'next/image';
+import Link from 'next/link';
+import { ArrowRight } from 'lucide-react';
 
 export default function SideHeroBanner() {
   return (
@@ -17,7 +17,8 @@ export default function SideHeroBanner() {
               Your Career Starts Here
             </h2>
             <p className="text-xl text-black mb-8 leading-relaxed">
-              Our dedicated team connects you with employers before you even graduate. Real training, real credentials, real jobs waiting.
+              Our dedicated team connects you with employers before you even graduate. Real
+              training, real credentials, real jobs waiting.
             </p>
             <div className="flex flex-col sm:flex-row gap-4">
               <Link
@@ -38,11 +39,14 @@ export default function SideHeroBanner() {
 
           {/* Right Side - Image */}
           <div className="relative h-[500px] rounded-2xl overflow-hidden shadow-2xl">
-            <Image alt="Program hero banner" loading="lazy"
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+            <Image
+              alt="Program hero banner"
+              loading="lazy"
               src="/images/pages/side-hero-banner.jpg"
               alt="Elevate For Humanity - Career Training Center"
               fill
-          sizes="100vw"
+              sizes="100vw"
               className="object-cover"
               quality={100}
             />

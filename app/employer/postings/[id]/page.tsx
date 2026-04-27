@@ -2,7 +2,7 @@ import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 type Props = {
@@ -13,7 +13,9 @@ export default async function EmployerPostingDetailPage({ params }: Props) {
   const { id } = await params;
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const { data: posting } = await supabase
@@ -43,9 +45,17 @@ export default async function EmployerPostingDetailPage({ params }: Props) {
       <div className="max-w-4xl mx-auto px-6 py-10 space-y-6">
         <nav className="text-sm text-slate-700">
           <ol className="flex items-center gap-2">
-            <li><Link href="/employer/dashboard" className="hover:text-slate-900">Employer</Link></li>
+            <li>
+              <Link href="/employer/dashboard" className="hover:text-slate-900">
+                Employer
+              </Link>
+            </li>
             <li>/</li>
-            <li><Link href="/employer/jobs" className="hover:text-slate-900">Jobs</Link></li>
+            <li>
+              <Link href="/employer/jobs" className="hover:text-slate-900">
+                Jobs
+              </Link>
+            </li>
             <li>/</li>
             <li className="text-slate-900 font-medium">{posting.job_title}</li>
           </ol>
@@ -80,7 +90,10 @@ export default async function EmployerPostingDetailPage({ params }: Props) {
           ) : (
             <div className="space-y-3">
               {(applications ?? []).map((app: any) => (
-                <div key={app.id} className="flex items-center justify-between rounded-lg border p-4">
+                <div
+                  key={app.id}
+                  className="flex items-center justify-between rounded-lg border p-4"
+                >
                   <div>
                     <p className="font-medium text-slate-900">
                       {app.applicant_name || 'Applicant'}
@@ -92,7 +105,9 @@ export default async function EmployerPostingDetailPage({ params }: Props) {
                       {new Date(app.created_at).toLocaleDateString()}
                     </p>
                   </div>
-                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusColors[app.status] ?? 'bg-gray-100 text-slate-700'}`}>
+                  <span
+                    className={`text-xs font-semibold px-2.5 py-1 rounded-full ${statusColors[app.status] ?? 'bg-gray-100 text-slate-700'}`}
+                  >
                     {app.status ?? 'pending'}
                   </span>
                 </div>

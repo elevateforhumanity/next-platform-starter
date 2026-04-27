@@ -21,12 +21,14 @@ export function NotificationBell() {
   const dropdownRef = useRef<HTMLDivElement>(null);
   const supabase = createClient();
 
-  const unreadCount = notifications.filter(n => !n.read).length;
+  const unreadCount = notifications.filter((n) => !n.read).length;
 
   // Load notifications from DB
   useEffect(() => {
     async function loadNotifications() {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) return;
 
       const { data } = await supabase
@@ -36,13 +38,15 @@ export function NotificationBell() {
         .order('created_at', { ascending: false })
         .limit(20);
 
-      setNotifications((data || []).map(n => ({
-        id: n.id,
-        title: n.title,
-        message: n.message,
-        read: n.read,
-        createdAt: n.created_at
-      })));
+      setNotifications(
+        (data || []).map((n) => ({
+          id: n.id,
+          title: n.title,
+          message: n.message,
+          read: n.read,
+          createdAt: n.created_at,
+        })),
+      );
     }
     loadNotifications();
   }, [supabase]);
@@ -59,9 +63,7 @@ export function NotificationBell() {
   }, []);
 
   const markAsRead = async (id: string) => {
-    setNotifications(prev => 
-      prev.map(n => n.id === id ? { ...n, read: true } : n)
-    );
+    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, read: true } : n)));
     // Update in DB
     await supabase
       .from('notifications')
@@ -70,9 +72,11 @@ export function NotificationBell() {
   };
 
   const markAllAsRead = async () => {
-    setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+    setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
     // Update all in DB
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (user) {
       await supabase
         .from('notifications')
@@ -83,12 +87,9 @@ export function NotificationBell() {
   };
 
   const dismissNotification = async (id: string) => {
-    setNotifications(prev => prev.filter(n => n.id !== id));
+    setNotifications((prev) => prev.filter((n) => n.id !== id));
     // Delete from DB
-    await supabase
-      .from('notifications')
-      .delete()
-      .eq('id', id);
+    await supabase.from('notifications').delete().eq('id', id);
   };
 
   return (
@@ -131,7 +132,7 @@ export function NotificationBell() {
                 <p>{t('notifications.noNotifications')}</p>
               </div>
             ) : (
-              notifications.map(notification => (
+              notifications.map((notification) => (
                 <div
                   key={notification.id}
                   className={`px-4 py-3 border-b border-gray-50 hover:bg-gray-50 transition-colors ${
@@ -140,12 +141,12 @@ export function NotificationBell() {
                 >
                   <div className="flex items-start gap-3">
                     <div className="flex-1 min-w-0">
-                      <p className={`text-sm font-medium ${!notification.read ? 'text-gray-900' : 'text-gray-700'}`}>
+                      <p
+                        className={`text-sm font-medium ${!notification.read ? 'text-gray-900' : 'text-gray-700'}`}
+                      >
                         {notification.title}
                       </p>
-                      <p className="text-sm text-gray-500 truncate">
-                        {notification.message}
-                      </p>
+                      <p className="text-sm text-gray-500 truncate">{notification.message}</p>
                     </div>
                     <div className="flex items-center gap-1">
                       {!notification.read && (

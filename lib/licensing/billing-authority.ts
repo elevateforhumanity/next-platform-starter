@@ -1,13 +1,13 @@
 import { logger } from '@/lib/logger';
 /**
  * Billing Authority Rules
- * 
+ *
  * SINGLE SOURCE OF TRUTH for license access decisions.
- * 
+ *
  * Two billing authorities:
  * 1. DB-Authoritative: Access controlled by expires_at (trial, lifetime, one_time)
  * 2. Stripe-Authoritative: Access controlled by current_period_end (subscriptions)
- * 
+ *
  * Rules:
  * - Subscription tiers MUST have stripe_subscription_id AND current_period_end
  * - Trial tiers MUST have expires_at (no perpetual trials)
@@ -36,12 +36,7 @@ const SUBSCRIPTION_TIERS = new Set([
 ]);
 
 // DB tiers that MUST have expires_at (time-boxed)
-const TIERS_REQUIRING_EXPIRY = new Set([
-  'trial',
-  'pilot',
-  'grant',
-  'demo',
-]);
+const TIERS_REQUIRING_EXPIRY = new Set(['trial', 'pilot', 'grant', 'demo']);
 
 // DB tiers where expires_at can be null (perpetual allowed)
 const TIERS_ALLOWING_PERPETUAL = new Set([
@@ -135,10 +130,10 @@ function toDate(d: string | Date | null | undefined): Date | null {
 
 /**
  * CANONICAL LICENSE ACCESS CHECK
- * 
+ *
  * This is THE function that decides if a license grants access.
  * All other access checks should delegate to this.
- * 
+ *
  * Rules (in order of evaluation):
  * 1. No license = DENY
  * 2. canceled_at or suspended_at set = DENY (regardless of status)
@@ -150,7 +145,7 @@ function toDate(d: string | Date | null | undefined): Date | null {
  */
 export function isLicenseActiveNow(
   license: License | null | undefined,
-  now: Date = new Date()
+  now: Date = new Date(),
 ): AccessResult {
   // Rule 1: No license = deny
   if (!license) {
@@ -181,9 +176,9 @@ export function isLicenseActiveNow(
 
   // Rule 3: Status must be 'active'
   if (license.status !== 'active') {
-    return { 
-      ok: false, 
-      reason: `status_${license.status || 'null'}`, 
+    return {
+      ok: false,
+      reason: `status_${license.status || 'null'}`,
       authority: getBillingAuthority(license.tier),
       expiresAt: null,
     };
@@ -214,9 +209,9 @@ export function isLicenseActiveNow(
         tier,
         licenseId: license.id,
       });
-      return { 
-        ok: false, 
-        reason: 'missing_subscription_id', 
+      return {
+        ok: false,
+        reason: 'missing_subscription_id',
         authority: 'stripe',
         expiresAt: null,
       };
@@ -229,9 +224,9 @@ export function isLicenseActiveNow(
         tier,
         licenseId: license.id,
       });
-      return { 
-        ok: false, 
-        reason: 'missing_current_period_end', 
+      return {
+        ok: false,
+        reason: 'missing_current_period_end',
         authority: 'stripe',
         expiresAt: null,
       };
@@ -239,17 +234,17 @@ export function isLicenseActiveNow(
 
     // current_period_end must be strictly in the future (> not >=)
     if (cpe <= now) {
-      return { 
-        ok: false, 
-        reason: 'subscription_expired', 
+      return {
+        ok: false,
+        reason: 'subscription_expired',
         authority: 'stripe',
         expiresAt: cpe,
       };
     }
 
-    return { 
-      ok: true, 
-      reason: 'subscription_active', 
+    return {
+      ok: true,
+      reason: 'subscription_active',
       authority: 'stripe',
       expiresAt: cpe,
     };
@@ -274,18 +269,18 @@ export function isLicenseActiveNow(
 
   // If expires_at is set, it must be strictly in the future (> not >=)
   if (exp && exp <= now) {
-    return { 
-      ok: false, 
-      reason: 'license_expired', 
+    return {
+      ok: false,
+      reason: 'license_expired',
       authority: 'database',
       expiresAt: exp,
     };
   }
 
   // Rule 7: Perpetual allowed (lifetime, one_time, etc.) or has valid expiry
-  return { 
-    ok: true, 
-    reason: exp ? 'db_active' : 'db_perpetual', 
+  return {
+    ok: true,
+    reason: exp ? 'db_active' : 'db_perpetual',
     authority: 'database',
     expiresAt: exp,
   };
@@ -309,7 +304,9 @@ export function validateLicenseIntegrity(license: License): string[] {
   } else {
     // DB-authoritative with subscription fields is suspicious but not invalid
     if (license.stripe_subscription_id && !license.expires_at) {
-      warnings.push(`DB tier "${tier}" has subscription_id but no expires_at - may grant perpetual access`);
+      warnings.push(
+        `DB tier "${tier}" has subscription_id but no expires_at - may grant perpetual access`,
+      );
     }
   }
 
@@ -322,7 +319,7 @@ export function validateLicenseIntegrity(license: License): string[] {
 export function getDaysRemaining(license: License, now: Date = new Date()): number | null {
   const result = isLicenseActiveNow(license, now);
   if (!result.expiresAt) return null;
-  
+
   const diffMs = result.expiresAt.getTime() - now.getTime();
   return Math.ceil(diffMs / (1000 * 60 * 60 * 24));
 }
@@ -353,7 +350,7 @@ export function getStripeUpdatableFields(
     current_period_end?: string;
     stripe_subscription_id?: string;
     stripe_customer_id?: string;
-  }
+  },
 ): Record<string, unknown> {
   const updates: Record<string, unknown> = {
     updated_at: new Date().toISOString(),
@@ -368,7 +365,8 @@ export function getStripeUpdatableFields(
     // Stripe controls lifecycle for subscription tiers
     if (stripeData.status) updates.status = stripeData.status;
     if (stripeData.current_period_end) updates.current_period_end = stripeData.current_period_end;
-    if (stripeData.stripe_subscription_id) updates.stripe_subscription_id = stripeData.stripe_subscription_id;
+    if (stripeData.stripe_subscription_id)
+      updates.stripe_subscription_id = stripeData.stripe_subscription_id;
   } else {
     // DB-authoritative: Stripe should NOT update status or expiration
     logger.info('[billing-authority] Skipping Stripe lifecycle fields for DB tier', { tier });
@@ -393,19 +391,14 @@ export const getUpdatableFields = getStripeUpdatableFields;
 // ACCESS MODE (for graceful degradation on expiry)
 // ============================================================================
 
-export type AccessMode = 
-  | 'full'                    // Active license, full access
-  | 'admin_readonly_hold'     // Expired trial, admin can view but not mutate
-  | 'blocked'                 // Expired, non-admin - no access
-  | 'blocked_billing_issue';  // Subscription billing problem
+export type AccessMode =
+  | 'full' // Active license, full access
+  | 'admin_readonly_hold' // Expired trial, admin can view but not mutate
+  | 'blocked' // Expired, non-admin - no access
+  | 'blocked_billing_issue'; // Subscription billing problem
 
 // Roles that get admin-level access during billing hold
-const ADMIN_ROLES = new Set([
-  'super_admin',
-  'admin', 
-  'org_admin',
-  'executive',
-]);
+const ADMIN_ROLES = new Set(['super_admin', 'admin', 'org_admin', 'executive']);
 
 export function isAdminRole(role: string | null | undefined): boolean {
   return !!role && ADMIN_ROLES.has(role);
@@ -422,7 +415,7 @@ export interface AccessModeResult {
 
 /**
  * Determine access mode based on license status and user role
- * 
+ *
  * This enables graceful degradation:
  * - Admins get read-only access during billing hold
  * - Non-admins get blocked with "contact admin" message
@@ -430,7 +423,7 @@ export interface AccessModeResult {
 export function getLicenseAccessMode(
   license: License | null | undefined,
   userRole: string | null | undefined,
-  now: Date = new Date()
+  now: Date = new Date(),
 ): AccessModeResult {
   const accessResult = isLicenseActiveNow(license, now);
   const isAdmin = isAdminRole(userRole);
@@ -476,22 +469,19 @@ export function getLicenseAccessMode(
   }
 
   // Determine if this is a trial expiry or subscription issue
-  const isTrialExpiry = 
-    accessResult.reason === 'license_expired' || 
-    accessResult.reason === 'missing_expires_at';
-  
-  const isSubscriptionIssue = 
+  const isTrialExpiry =
+    accessResult.reason === 'license_expired' || accessResult.reason === 'missing_expires_at';
+
+  const isSubscriptionIssue =
     accessResult.reason === 'subscription_expired' ||
     accessResult.reason === 'missing_subscription_id' ||
     accessResult.reason === 'missing_current_period_end';
 
-  const isCanceled = 
-    accessResult.reason === 'license_canceled' ||
-    accessResult.reason === 'status_canceled';
+  const isCanceled =
+    accessResult.reason === 'license_canceled' || accessResult.reason === 'status_canceled';
 
   const isSuspended =
-    accessResult.reason === 'license_suspended' ||
-    accessResult.reason === 'status_suspended';
+    accessResult.reason === 'license_suspended' || accessResult.reason === 'status_suspended';
 
   // Billing issues (canceled, suspended) - block everyone
   if (isCanceled || isSuspended) {
@@ -501,7 +491,7 @@ export function getLicenseAccessMode(
       canMutate: false,
       reason: accessResult.reason,
       redirectTo: `/admin/licenses?reason=${isCanceled ? 'canceled' : 'suspended'}&license_id=${license.id}`,
-      message: isCanceled 
+      message: isCanceled
         ? 'Your subscription has been canceled. Please resubscribe to restore access.'
         : 'Your license is suspended due to a billing issue. Please update your payment method.',
     };

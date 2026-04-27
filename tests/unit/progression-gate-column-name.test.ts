@@ -70,7 +70,7 @@ function evalCompletePreviousModulePure(params: {
     return { unlocked: true };
   }
 
-  const incomplete = prevLessons.filter(l => !completedLessonIds.has(l.id));
+  const incomplete = prevLessons.filter((l) => !completedLessonIds.has(l.id));
 
   if (incomplete.length > 0) {
     return {
@@ -102,12 +102,12 @@ function buildLessonUpsertPayload(params: {
   order: number;
 }): LessonUpsertPayload {
   return {
-    course_id:    params.courseId,
-    module_id:    params.moduleId,   // fixed: was course_module_id
-    slug:         params.slug,
-    title:        params.title,
-    lesson_type:  params.lessonType,
-    order_index:  params.order,
+    course_id: params.courseId,
+    module_id: params.moduleId, // fixed: was course_module_id
+    slug: params.slug,
+    title: params.title,
+    lesson_type: params.lessonType,
+    order_index: params.order,
   };
 }
 
@@ -118,15 +118,25 @@ describe('progression-gate: evalCompletePreviousModule', () => {
   const mod1: ModuleRow = { id: 'mod-1', order_index: 1, course_id: courseId };
   const mod2: ModuleRow = { id: 'mod-2', order_index: 2, course_id: courseId };
 
-  const lessonInMod1: LessonRow = { id: 'lesson-1a', module_id: 'mod-1', order_index: 1, course_id: courseId };
-  const lessonInMod2: LessonRow = { id: 'lesson-2a', module_id: 'mod-2', order_index: 1, course_id: courseId };
+  const lessonInMod1: LessonRow = {
+    id: 'lesson-1a',
+    module_id: 'mod-1',
+    order_index: 1,
+    course_id: courseId,
+  };
+  const lessonInMod2: LessonRow = {
+    id: 'lesson-2a',
+    module_id: 'mod-2',
+    order_index: 1,
+    course_id: courseId,
+  };
 
   it('unlocks first-module lessons unconditionally', () => {
     const result = evalCompletePreviousModulePure({
-      lesson:             lessonInMod1,
-      currentMod:         mod1,
-      prevMod:            null,
-      prevLessons:        null,
+      lesson: lessonInMod1,
+      currentMod: mod1,
+      prevMod: null,
+      prevLessons: null,
       completedLessonIds: new Set(),
     });
     expect(result.unlocked).toBe(true);
@@ -134,10 +144,10 @@ describe('progression-gate: evalCompletePreviousModule', () => {
 
   it('blocks second-module lesson when prior module has incomplete required lessons', () => {
     const result = evalCompletePreviousModulePure({
-      lesson:             lessonInMod2,
-      currentMod:         mod2,
-      prevMod:            mod1,
-      prevLessons:        [{ id: 'lesson-1a' }, { id: 'lesson-1b' }],
+      lesson: lessonInMod2,
+      currentMod: mod2,
+      prevMod: mod1,
+      prevLessons: [{ id: 'lesson-1a' }, { id: 'lesson-1b' }],
       completedLessonIds: new Set(['lesson-1a']), // lesson-1b not completed
     });
     expect(result.unlocked).toBe(false);
@@ -146,10 +156,10 @@ describe('progression-gate: evalCompletePreviousModule', () => {
 
   it('unlocks second-module lesson when all prior required lessons are complete', () => {
     const result = evalCompletePreviousModulePure({
-      lesson:             lessonInMod2,
-      currentMod:         mod2,
-      prevMod:            mod1,
-      prevLessons:        [{ id: 'lesson-1a' }, { id: 'lesson-1b' }],
+      lesson: lessonInMod2,
+      currentMod: mod2,
+      prevMod: mod1,
+      prevLessons: [{ id: 'lesson-1a' }, { id: 'lesson-1b' }],
       completedLessonIds: new Set(['lesson-1a', 'lesson-1b']),
     });
     expect(result.unlocked).toBe(true);
@@ -157,10 +167,10 @@ describe('progression-gate: evalCompletePreviousModule', () => {
 
   it('unlocks when previous module has no required lessons', () => {
     const result = evalCompletePreviousModulePure({
-      lesson:             lessonInMod2,
-      currentMod:         mod2,
-      prevMod:            mod1,
-      prevLessons:        [],
+      lesson: lessonInMod2,
+      currentMod: mod2,
+      prevMod: mod1,
+      prevLessons: [],
       completedLessonIds: new Set(),
     });
     expect(result.unlocked).toBe(true);
@@ -168,10 +178,10 @@ describe('progression-gate: evalCompletePreviousModule', () => {
 
   it('unlocks when no previous module exists', () => {
     const result = evalCompletePreviousModulePure({
-      lesson:             lessonInMod2,
-      currentMod:         mod2,
-      prevMod:            null,
-      prevLessons:        null,
+      lesson: lessonInMod2,
+      currentMod: mod2,
+      prevMod: null,
+      prevLessons: null,
       completedLessonIds: new Set(),
     });
     expect(result.unlocked).toBe(true);
@@ -190,21 +200,21 @@ describe('progression-gate: evalCompletePreviousModule', () => {
     };
     expect(() =>
       evalCompletePreviousModulePure({
-        lesson:             lessonWithNullModuleId,
-        currentMod:         mod2,
-        prevMod:            mod1,
-        prevLessons:        [{ id: 'lesson-1a' }],
+        lesson: lessonWithNullModuleId,
+        currentMod: mod2,
+        prevMod: mod1,
+        prevLessons: [{ id: 'lesson-1a' }],
         completedLessonIds: new Set(),
-      })
+      }),
     ).toThrow('progression-gate: lesson lookup failed');
   });
 
   it('counts all incomplete lessons in the reason string', () => {
     const result = evalCompletePreviousModulePure({
-      lesson:             lessonInMod2,
-      currentMod:         mod2,
-      prevMod:            mod1,
-      prevLessons:        [{ id: 'l1' }, { id: 'l2' }, { id: 'l3' }],
+      lesson: lessonInMod2,
+      currentMod: mod2,
+      prevMod: mod1,
+      prevLessons: [{ id: 'l1' }, { id: 'l2' }, { id: 'l3' }],
       completedLessonIds: new Set(), // none completed
     });
     expect(result.unlocked).toBe(false);
@@ -217,12 +227,12 @@ describe('progression-gate: evalCompletePreviousModule', () => {
 describe('course-builder/pipeline: lesson upsert uses module_id not course_module_id', () => {
   it('payload contains module_id key', () => {
     const payload = buildLessonUpsertPayload({
-      courseId:   'course-abc',
-      moduleId:   'mod-xyz',
-      slug:       'intro-lesson',
-      title:      'Introduction',
+      courseId: 'course-abc',
+      moduleId: 'mod-xyz',
+      slug: 'intro-lesson',
+      title: 'Introduction',
       lessonType: 'lesson',
-      order:      1,
+      order: 1,
     });
 
     expect(payload).toHaveProperty('module_id', 'mod-xyz');
@@ -230,12 +240,12 @@ describe('course-builder/pipeline: lesson upsert uses module_id not course_modul
 
   it('payload does not contain course_module_id key', () => {
     const payload = buildLessonUpsertPayload({
-      courseId:   'course-abc',
-      moduleId:   'mod-xyz',
-      slug:       'intro-lesson',
-      title:      'Introduction',
+      courseId: 'course-abc',
+      moduleId: 'mod-xyz',
+      slug: 'intro-lesson',
+      title: 'Introduction',
       lessonType: 'lesson',
-      order:      1,
+      order: 1,
     });
 
     expect(payload).not.toHaveProperty('course_module_id');
@@ -244,12 +254,12 @@ describe('course-builder/pipeline: lesson upsert uses module_id not course_modul
   it('module_id is set to the provided moduleId value', () => {
     const moduleId = 'mod-00000000-0000-0000-0000-000000000001';
     const payload = buildLessonUpsertPayload({
-      courseId:   'course-1',
+      courseId: 'course-1',
       moduleId,
-      slug:       'test-slug',
-      title:      'Test',
+      slug: 'test-slug',
+      title: 'Test',
       lessonType: 'checkpoint',
-      order:      5,
+      order: 5,
     });
 
     expect(payload.module_id).toBe(moduleId);
@@ -257,12 +267,12 @@ describe('course-builder/pipeline: lesson upsert uses module_id not course_modul
 
   it('all required fields are present in the payload', () => {
     const payload = buildLessonUpsertPayload({
-      courseId:   'c1',
-      moduleId:   'm1',
-      slug:       'slug-1',
-      title:      'Title',
+      courseId: 'c1',
+      moduleId: 'm1',
+      slug: 'slug-1',
+      title: 'Title',
       lessonType: 'quiz',
-      order:      2,
+      order: 2,
     });
 
     expect(payload.course_id).toBe('c1');

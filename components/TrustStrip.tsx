@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 /**
  * TrustStrip — static stat display. No DB queries on render.
@@ -31,7 +31,9 @@ function fmt(num: number) {
 export default function TrustStrip({ variant = 'default', className }: Props) {
   if (variant === 'compact') {
     return (
-      <section className={`py-8 bg-gradient-to-r from-brand-red-600 to-brand-red-700 text-white ${className || ''}`}>
+      <section
+        className={`py-8 bg-gradient-to-r from-brand-red-600 to-brand-red-700 text-white ${className || ''}`}
+      >
         <div className="container mx-auto px-4">
           <div className="flex flex-wrap justify-center items-center gap-8 md:gap-16">
             <div className="text-center">
@@ -64,7 +66,9 @@ export default function TrustStrip({ variant = 'default', className }: Props) {
           <div className="grid gap-8 md:grid-cols-3 lg:grid-cols-6 max-w-6xl mx-auto">
             <div className="text-center p-6 rounded-xl bg-blue-50 hover:bg-blue-100 transition">
               <Users className="w-8 h-8 text-blue-600 mx-auto mb-3" />
-              <div className="text-3xl font-bold text-slate-900">{fmt(STATS.studentsEnrolled)}+</div>
+              <div className="text-3xl font-bold text-slate-900">
+                {fmt(STATS.studentsEnrolled)}+
+              </div>
               <div className="text-sm text-slate-700">Students Enrolled</div>
             </div>
             <div className="text-center p-6 rounded-xl bg-green-50 hover:bg-green-100 transition">
@@ -79,7 +83,9 @@ export default function TrustStrip({ variant = 'default', className }: Props) {
             </div>
             <div className="text-center p-6 rounded-xl bg-orange-50 hover:bg-orange-100 transition">
               <Award className="w-8 h-8 text-orange-600 mx-auto mb-3" />
-              <div className="text-3xl font-bold text-slate-900">{fmt(STATS.certificatesIssued)}</div>
+              <div className="text-3xl font-bold text-slate-900">
+                {fmt(STATS.certificatesIssued)}
+              </div>
               <div className="text-sm text-slate-700">Certificates Issued</div>
             </div>
             <div className="text-center p-6 rounded-xl bg-indigo-50 hover:bg-indigo-100 transition">
@@ -111,7 +117,9 @@ export default function TrustStrip({ variant = 'default', className }: Props) {
             <div className="text-slate-700">Funded Programs</div>
           </div>
           <div>
-            <div className="text-3xl font-extrabold text-blue-600">{fmt(STATS.studentsEnrolled)}+</div>
+            <div className="text-3xl font-extrabold text-blue-600">
+              {fmt(STATS.studentsEnrolled)}+
+            </div>
             <div className="text-slate-700">Students Trained</div>
           </div>
           <div>

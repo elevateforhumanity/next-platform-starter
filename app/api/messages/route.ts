@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { createServerSupabaseClient, getCurrentUser } from '@/lib/auth';
@@ -49,7 +48,7 @@ async function _GET(request: Request) {
             full_name
           )
         )
-      `
+      `,
       )
       .order('created_at', { ascending: false });
 
@@ -63,19 +62,13 @@ async function _GET(request: Request) {
 
     if (error) {
       logger.error('Error fetching messages:', error);
-      return NextResponse.json(
-        { error: 'Failed to fetch messages' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to fetch messages' }, { status: 500 });
     }
 
     return NextResponse.json({ messages });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error in GET /api/messages:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -96,7 +89,7 @@ async function _POST(request: Request) {
     if (!recipientId || !subject || !messageBody) {
       return NextResponse.json(
         { error: 'Missing required fields: recipientId, subject, messageBody' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -115,19 +108,13 @@ async function _POST(request: Request) {
 
     if (error) {
       logger.error('Error sending message:', error);
-      return NextResponse.json(
-        { error: 'Failed to send message' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to send message' }, { status: 500 });
     }
 
     return NextResponse.json({ message }, { status: 201 });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error in POST /api/messages:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/messages', _GET);

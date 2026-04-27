@@ -27,7 +27,7 @@ interface ProgramAuditRow {
   applyHref: string;
   requestInfoHref: string;
   deliveryModel: string;
-  dbSlug?: string | null;   // populated if --db
+  dbSlug?: string | null; // populated if --db
   dbCourseId?: string | null;
   status: 'OK' | 'MISMATCH' | 'MISSING_PAGE' | 'MISSING_REGISTRY' | 'MISSING_LMS_SLUG';
   issues: string[];
@@ -51,19 +51,26 @@ for (const p of ALL_PROGRAMS) {
   // Checks
   if (!pageExists) issues.push('NO_PAGE');
   if (!registrySlug) issues.push('NOT_IN_REGISTRY');
-  if (registrySlug && registrySlug !== p.slug) issues.push(`REGISTRY_SLUG_MISMATCH: registry=${registrySlug}`);
-  if ((p as any).deliveryModel === 'internal' && !lmsCourseSlug) issues.push('INTERNAL_MISSING_LMS_SLUG');
-  if ((p as any).deliveryModel === 'hybrid' && !lmsCourseSlug) issues.push('HYBRID_MISSING_LMS_SLUG');
-  if (lmsCourseSlug && lmsCourseSlug !== p.slug) issues.push(`LMS_SLUG_DIFFERS: lmsCourseSlug=${lmsCourseSlug}`);
+  if (registrySlug && registrySlug !== p.slug)
+    issues.push(`REGISTRY_SLUG_MISMATCH: registry=${registrySlug}`);
+  if ((p as any).deliveryModel === 'internal' && !lmsCourseSlug)
+    issues.push('INTERNAL_MISSING_LMS_SLUG');
+  if ((p as any).deliveryModel === 'hybrid' && !lmsCourseSlug)
+    issues.push('HYBRID_MISSING_LMS_SLUG');
+  if (lmsCourseSlug && lmsCourseSlug !== p.slug)
+    issues.push(`LMS_SLUG_DIFFERS: lmsCourseSlug=${lmsCourseSlug}`);
 
   const applyHref = p.cta?.applyHref ?? '';
   if (applyHref === '/apply' || applyHref === '') issues.push('BARE_APPLY_HREF');
 
   let status: ProgramAuditRow['status'] = 'OK';
-  if (issues.some(i => i.startsWith('LMS_SLUG_DIFFERS') || i.startsWith('REGISTRY_SLUG_MISMATCH'))) status = 'MISMATCH';
+  if (
+    issues.some((i) => i.startsWith('LMS_SLUG_DIFFERS') || i.startsWith('REGISTRY_SLUG_MISMATCH'))
+  )
+    status = 'MISMATCH';
   else if (issues.includes('NO_PAGE')) status = 'MISSING_PAGE';
   else if (issues.includes('NOT_IN_REGISTRY')) status = 'MISSING_REGISTRY';
-  else if (issues.some(i => i.includes('MISSING_LMS_SLUG'))) status = 'MISSING_LMS_SLUG';
+  else if (issues.some((i) => i.includes('MISSING_LMS_SLUG'))) status = 'MISSING_LMS_SLUG';
 
   rows.push({
     programFileSlug: p.slug,
@@ -85,7 +92,7 @@ if (CHECK_DB) {
   const db = createClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
     process.env.SUPABASE_SERVICE_ROLE_KEY!,
-    { auth: { persistSession: false } }
+    { auth: { persistSession: false } },
   );
 
   const { data: courses } = await db
@@ -119,19 +126,28 @@ if (CHECK_DB) {
 // ── 3. Output ─────────────────────────────────────────────────────────────────
 
 const ACTIVE_SLUGS = [
-  'hvac-technician', 'bookkeeping', 'peer-recovery-specialist',
-  'barber-apprenticeship', 'beauty-career-educator', 'business-administration',
-  'cpr-first-aid', 'emergency-health-safety', 'home-health-aide',
-  'medical-assistant', 'esthetician', 'cosmetology-apprenticeship',
+  'hvac-technician',
+  'bookkeeping',
+  'peer-recovery-specialist',
+  'barber-apprenticeship',
+  'beauty-career-educator',
+  'business-administration',
+  'cpr-first-aid',
+  'emergency-health-safety',
+  'home-health-aide',
+  'medical-assistant',
+  'esthetician',
+  'cosmetology-apprenticeship',
 ];
 
-let okCount = 0, issueCount = 0;
+let okCount = 0,
+  issueCount = 0;
 
 console.log('\n=== SLUG AUDIT REPORT ===\n');
 console.log('Priority programs (11 active):\n');
 
 for (const slug of ACTIVE_SLUGS) {
-  const row = rows.find(r => r.programFileSlug === slug);
+  const row = rows.find((r) => r.programFileSlug === slug);
   if (!row) {
     console.log(`PROGRAM: ${slug}`);
     console.log(`  status: ❌ NOT IN CATALOG`);
@@ -166,7 +182,9 @@ function printRow(row: ProgramAuditRow) {
   console.log(`  program file slug : ${row.programFileSlug}`);
   console.log(`  lmsCourseSlug     : ${row.lmsCourseSlug ?? '(none)'}`);
   console.log(`  registry slug     : ${row.registrySlug ?? '(not registered)'}`);
-  console.log(`  page              : ${row.pageExists ? '/programs/' + row.programFileSlug : '❌ MISSING'}`);
+  console.log(
+    `  page              : ${row.pageExists ? '/programs/' + row.programFileSlug : '❌ MISSING'}`,
+  );
   console.log(`  deliveryModel     : ${row.deliveryModel}`);
   console.log(`  applyHref         : ${row.applyHref}`);
   if (row.dbSlug !== undefined) {

@@ -1,4 +1,5 @@
 # Program Selection — Locked
+
 ## Elevate for Humanity Career and Training Institute
 
 **INTERNAL DOCUMENT**
@@ -11,6 +12,7 @@
 ## Funded Programs (Active Enrollment)
 
 These programs have:
+
 - ✅ Clear WIOA/ETPL eligibility
 - ✅ Active employer hiring partners
 - ✅ Trackable outcomes
@@ -18,12 +20,13 @@ These programs have:
 
 ### Tier 1: Primary Focus (Full Marketing & Enrollment)
 
-| Program | Funding Status | Employer Demand | Priority |
-|---------|---------------|-----------------|----------|
-| **CNA Training** | WIOA-eligible, WRG-eligible | HIGH — Healthcare always hiring | **#1** |
-| **CDL Training** | WIOA-eligible | HIGH — Logistics shortage | **#2** |
+| Program          | Funding Status              | Employer Demand                 | Priority |
+| ---------------- | --------------------------- | ------------------------------- | -------- |
+| **CNA Training** | WIOA-eligible, WRG-eligible | HIGH — Healthcare always hiring | **#1**   |
+| **CDL Training** | WIOA-eligible               | HIGH — Logistics shortage       | **#2**   |
 
 **These two programs receive:**
+
 - Full marketing budget
 - Priority enrollment staff time
 - Active employer outreach
@@ -31,23 +34,25 @@ These programs have:
 
 ### Tier 2: Secondary Focus (Limited Marketing)
 
-| Program | Funding Status | Employer Demand | Priority |
-|---------|---------------|-----------------|----------|
-| **HVAC Technician** | WIOA-eligible | MEDIUM — Seasonal demand | **#3** |
-| **Business Support Apprenticeship** | Apprenticeship-eligible | MEDIUM — Employer-dependent | **#4** |
+| Program                             | Funding Status          | Employer Demand             | Priority |
+| ----------------------------------- | ----------------------- | --------------------------- | -------- |
+| **HVAC Technician**                 | WIOA-eligible           | MEDIUM — Seasonal demand    | **#3**   |
+| **Business Support Apprenticeship** | Apprenticeship-eligible | MEDIUM — Employer-dependent | **#4**   |
 
 **These programs receive:**
+
 - Maintenance marketing only
 - Enrollment when demand exists
 - Employer-sponsored cohorts prioritized
 
 ### Tier 3: Limited Availability (No Active Marketing)
 
-| Program | Status | Notes |
-|---------|--------|-------|
+| Program                      | Status                    | Notes                                  |
+| ---------------------------- | ------------------------- | -------------------------------------- |
 | **Esthetics Apprenticeship** | Paused for new enrollment | Resume when employer partner confirmed |
 
 **These programs:**
+
 - No marketing spend
 - Enrollment only for employer-sponsored cohorts
 - May be discontinued if no demand in 6 months
@@ -64,6 +69,7 @@ To avoid confusion, we explicitly do NOT offer:
 - ❌ Any program not on Indiana ETPL
 
 **If asked about these, staff response:**
+
 > "That program isn't available at this time. Let me tell you about our CNA and CDL programs, which have strong job placement."
 
 ---
@@ -84,15 +90,16 @@ Before ANY new program is considered, it must meet ALL of these:
 
 ## Enrollment Targets (Q1 2025)
 
-| Program | Monthly Target | Funding Mix |
-|---------|---------------|-------------|
-| CNA | 15-20 students | 70% WIOA, 20% Employer, 10% Self-pay |
-| CDL | 8-10 students | 60% WIOA, 30% Employer, 10% Self-pay |
-| HVAC | 5-8 students | 50% WIOA, 40% Employer, 10% Self-pay |
+| Program | Monthly Target | Funding Mix                          |
+| ------- | -------------- | ------------------------------------ |
+| CNA     | 15-20 students | 70% WIOA, 20% Employer, 10% Self-pay |
+| CDL     | 8-10 students  | 60% WIOA, 30% Employer, 10% Self-pay |
+| HVAC    | 5-8 students   | 50% WIOA, 40% Employer, 10% Self-pay |
 
 **Self-pay should never exceed 15% of any cohort.**
 
 If self-pay exceeds 15%, we are either:
+
 - Not marketing to the right population
 - Not connecting students to funding
 - Accepting students who shouldn't be enrolled yet
@@ -104,15 +111,19 @@ If self-pay exceeds 15%, we are either:
 When discussing programs with prospective students:
 
 **Lead with CNA or CDL:**
+
 > "Our most popular programs are CNA and CDL. Both have strong job placement and are usually covered by workforce funding. Which field interests you?"
 
 **If student asks about other programs:**
+
 > "We also offer HVAC training. Let me check if that program has availability and what funding options exist for you."
 
 **If student asks about programs we don't offer:**
+
 > "We don't offer that program currently. Based on your interests, CNA/CDL might be a good fit. Would you like to learn more?"
 
 **Never say:**
+
 - "We're working on adding that"
 - "Maybe in the future"
 - "Let me see what I can do"
@@ -122,6 +133,7 @@ When discussing programs with prospective students:
 ## Review Schedule
 
 Program selection will be reviewed:
+
 - **Quarterly:** Enrollment numbers, completion rates, placement rates
 - **Annually:** Full program viability assessment
 
@@ -129,4 +141,4 @@ Program selection will be reviewed:
 
 ---
 
-*This document is final. Changes require Executive Director approval and documented justification.*
+_This document is final. Changes require Executive Director approval and documented justification._

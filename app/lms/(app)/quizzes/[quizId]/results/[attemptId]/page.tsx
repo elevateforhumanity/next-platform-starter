@@ -11,7 +11,8 @@ import {
   Clock,
   Target,
   Award,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -30,8 +31,9 @@ export default async function QuizResultsPage({ params }: Props) {
   const { quizId, attemptId } = await params;
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/lms/quizzes/' + quizId + '/results/' + attemptId);
@@ -40,13 +42,15 @@ export default async function QuizResultsPage({ params }: Props) {
   // Fetch attempt with quiz details (quizzes has no FK to courses — hydrate separately)
   const { data: attempt, error: attemptError } = await supabase
     .from('quiz_attempts')
-    .select(`
+    .select(
+      `
       *,
       quizzes (
         id, title, description,
         passing_score, show_correct_answers, max_attempts, course_id
       )
-    `)
+    `,
+    )
     .eq('id', attemptId)
     .eq('user_id', user.id)
     .maybeSingle();
@@ -67,7 +71,8 @@ export default async function QuizResultsPage({ params }: Props) {
   // Fetch attempt answers with question details
   const { data: attemptAnswers } = await supabase
     .from('quiz_attempt_answers')
-    .select(`
+    .select(
+      `
       *,
       quiz_questions (
         id,
@@ -79,7 +84,8 @@ export default async function QuizResultsPage({ params }: Props) {
           is_correct
         )
       )
-    `)
+    `,
+    )
     .eq('attempt_id', attemptId)
     .order('created_at', { ascending: true });
 
@@ -127,26 +133,22 @@ export default async function QuizResultsPage({ params }: Props) {
         </Link>
 
         {/* Results Header */}
-        <div className={`rounded-2xl p-8 mb-8 ${
-          passed
-            ? 'bg-emerald-700'
-            : 'bg-brand-red-700'
-        } text-white`}>
+        <div
+          className={`rounded-2xl p-8 mb-8 ${
+            passed ? 'bg-emerald-700' : 'bg-brand-red-700'
+          } text-white`}
+        >
           <div className="flex items-center justify-between mb-6">
             <div>
               <h1 className="text-3xl font-bold mb-2">{quiz.title}</h1>
-              {quiz.courses && (
-                <p className="text-white/80">{quiz.courses.title}</p>
-              )}
+              {quiz.courses && <p className="text-white/80">{quiz.courses.title}</p>}
             </div>
-            <div className={`w-20 h-20 rounded-full flex items-center justify-center ${
-              passed ? 'bg-emerald-600' : 'bg-brand-red-600'
-            }`}>
-              {passed ? (
-                <Trophy className="w-10 h-10" />
-              ) : (
-                <XCircle className="w-10 h-10" />
-              )}
+            <div
+              className={`w-20 h-20 rounded-full flex items-center justify-center ${
+                passed ? 'bg-emerald-600' : 'bg-brand-red-600'
+              }`}
+            >
+              {passed ? <Trophy className="w-10 h-10" /> : <XCircle className="w-10 h-10" />}
             </div>
           </div>
 
@@ -164,14 +166,18 @@ export default async function QuizResultsPage({ params }: Props) {
               <div className="flex items-center justify-center gap-2 mb-1">
                 <Target className="w-5 h-5" />
               </div>
-              <p className="text-2xl font-bold">{attempt.points_earned || 0}/{attempt.points_possible || 0}</p>
+              <p className="text-2xl font-bold">
+                {attempt.points_earned || 0}/{attempt.points_possible || 0}
+              </p>
               <p className="text-sm text-white/80">Points Earned</p>
             </div>
             <div className="text-center">
               <div className="flex items-center justify-center gap-2 mb-1">
                 <Clock className="w-5 h-5" />
               </div>
-              <p className="text-2xl font-bold">{timeTakenMinutes}:{timeTakenSeconds.toString().padStart(2, '0')}</p>
+              <p className="text-2xl font-bold">
+                {timeTakenMinutes}:{timeTakenSeconds.toString().padStart(2, '0')}
+              </p>
               <p className="text-sm text-white/80">Time Taken</p>
             </div>
             <div className="text-center">
@@ -223,10 +229,10 @@ export default async function QuizResultsPage({ params }: Props) {
                 if (!question) return null;
 
                 const selectedAnswer = question.quiz_answers?.find(
-                  (a: { id: string }) => a.id === answer.selected_answer_id
+                  (a: { id: string }) => a.id === answer.selected_answer_id,
                 );
                 const correctAnswer = question.quiz_answers?.find(
-                  (a: { is_correct: boolean }) => a.is_correct
+                  (a: { is_correct: boolean }) => a.is_correct,
                 );
 
                 return (
@@ -239,9 +245,11 @@ export default async function QuizResultsPage({ params }: Props) {
                     }`}
                   >
                     <div className="flex items-start gap-3 mb-3">
-                      <div className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                        answer.is_correct ? 'bg-brand-green-500' : 'bg-brand-red-500'
-                      } text-white font-bold text-sm`}>
+                      <div
+                        className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
+                          answer.is_correct ? 'bg-brand-green-500' : 'bg-brand-red-500'
+                        } text-white font-bold text-sm`}
+                      >
                         {index + 1}
                       </div>
                       <div className="flex-1">
@@ -258,13 +266,19 @@ export default async function QuizResultsPage({ params }: Props) {
                     </div>
 
                     <div className="ml-11 space-y-2">
-                      <div className={`p-3 rounded-lg ${
-                        answer.is_correct
-                          ? 'bg-brand-green-100 border border-brand-green-300'
-                          : 'bg-brand-red-100 border border-brand-red-300'
-                      }`}>
+                      <div
+                        className={`p-3 rounded-lg ${
+                          answer.is_correct
+                            ? 'bg-brand-green-100 border border-brand-green-300'
+                            : 'bg-brand-red-100 border border-brand-red-300'
+                        }`}
+                      >
                         <p className="text-sm font-medium text-slate-700">Your answer:</p>
-                        <p className={answer.is_correct ? 'text-brand-green-800' : 'text-brand-red-800'}>
+                        <p
+                          className={
+                            answer.is_correct ? 'text-brand-green-800' : 'text-brand-red-800'
+                          }
+                        >
                           {selectedAnswer?.answer_text || 'No answer selected'}
                         </p>
                       </div>
@@ -286,9 +300,7 @@ export default async function QuizResultsPage({ params }: Props) {
         {/* If answers not shown */}
         {!quiz.show_correct_answers && (
           <div className="bg-white rounded-2xl border border-slate-200 p-8 text-center">
-            <p className="text-slate-600">
-              Detailed answer review is not available for this quiz.
-            </p>
+            <p className="text-slate-600">Detailed answer review is not available for this quiz.</p>
           </div>
         )}
       </div>

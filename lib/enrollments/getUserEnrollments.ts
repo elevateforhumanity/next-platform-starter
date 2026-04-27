@@ -5,7 +5,12 @@
  */
 
 import { createClient } from '@/lib/supabase/server';
-import { resolveDeliveryMode, getContinueLearningUrl, DeliveryMode, EnrollmentSource } from '@/lib/delivery/resolveDeliveryMode';
+import {
+  resolveDeliveryMode,
+  getContinueLearningUrl,
+  DeliveryMode,
+  EnrollmentSource,
+} from '@/lib/delivery/resolveDeliveryMode';
 
 export type NormalizedEnrollment = {
   source_table: EnrollmentSource;
@@ -38,7 +43,7 @@ export type EnrollmentQueryResult = {
  */
 export async function getUserEnrollments(userId: string): Promise<EnrollmentQueryResult> {
   const supabase = await createClient();
-  
+
   if (!supabase) {
     return { enrollments: [], error: 'Database not configured' };
   }
@@ -48,15 +53,17 @@ export async function getUserEnrollments(userId: string): Promise<EnrollmentQuer
   // Query training_enrollments directly (bypasses VIEW permission issues)
   const { data: enrollments } = await supabase
     .from('training_enrollments')
-    .select(`
+    .select(
+      `
       id, user_id, course_id, program_id, status, progress, created_at, updated_at,
       course:training_courses (id, course_name, description)
-    `)
+    `,
+    )
     .eq('user_id', userId);
 
   if (enrollments) {
     // Fetch programs separately if program_ids exist
-    const programIds = enrollments.map(e => e.program_id).filter(Boolean);
+    const programIds = enrollments.map((e) => e.program_id).filter(Boolean);
     const programMap: Record<string, any> = {};
     if (programIds.length > 0) {
       const { data: programs } = await supabase
@@ -72,7 +79,7 @@ export async function getUserEnrollments(userId: string): Promise<EnrollmentQuer
       const program = e.program_id ? programMap[e.program_id] : null;
       const course = e.course as any;
       const { mode, inferred } = resolveDeliveryMode('enrollments', program);
-      
+
       const enrollment: NormalizedEnrollment = {
         source_table: 'enrollments',
         enrollment_id: e.id,
@@ -100,11 +107,13 @@ export async function getUserEnrollments(userId: string): Promise<EnrollmentQuer
   // Query partner_lms_enrollments table (external providers)
   const { data: partnerEnrollments } = await supabase
     .from('partner_lms_enrollments')
-    .select(`
+    .select(
+      `
       id, student_id, course_name, status, progress, created_at, updated_at,
       partner_lms_courses (id, title, slug),
       partner_lms_providers (id, name, portal_url)
-    `)
+    `,
+    )
     .eq('student_id', userId);
 
   if (partnerEnrollments) {
@@ -112,7 +121,7 @@ export async function getUserEnrollments(userId: string): Promise<EnrollmentQuer
       const course = e.partner_lms_courses as any;
       const provider = e.partner_lms_providers as any;
       const { mode, inferred } = resolveDeliveryMode('partner_lms_enrollments', null);
-      
+
       const enrollment: NormalizedEnrollment = {
         source_table: 'partner_lms_enrollments',
         enrollment_id: e.id,
@@ -146,7 +155,7 @@ export async function getUserEnrollments(userId: string): Promise<EnrollmentQuer
   if (studentEnrollments) {
     for (const e of studentEnrollments) {
       const { mode, inferred } = resolveDeliveryMode('student_enrollments', null);
-      
+
       const enrollment: NormalizedEnrollment = {
         source_table: 'student_enrollments',
         enrollment_id: e.id,
@@ -183,7 +192,7 @@ export async function getUserEnrollments(userId: string): Promise<EnrollmentQuer
 function formatProgramSlug(slug: string): string {
   return slug
     .split('-')
-    .map(word => word.charAt(0).toUpperCase() + word.slice(1))
+    .map((word) => word.charAt(0).toUpperCase() + word.slice(1))
     .join(' ');
 }
 
@@ -192,14 +201,14 @@ function formatProgramSlug(slug: string): string {
  */
 export async function getActiveEnrollments(userId: string): Promise<EnrollmentQueryResult> {
   const result = await getUserEnrollments(userId);
-  
+
   if (result.error) {
     return result;
   }
 
   const activeStatuses = ['active', 'enrolled', 'in_progress', 'pending'];
-  const activeEnrollments = result.enrollments.filter(e => 
-    activeStatuses.includes(e.status.toLowerCase())
+  const activeEnrollments = result.enrollments.filter((e) =>
+    activeStatuses.includes(e.status.toLowerCase()),
   );
 
   return { enrollments: activeEnrollments, error: null };

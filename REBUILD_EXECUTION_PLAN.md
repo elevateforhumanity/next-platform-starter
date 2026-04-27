@@ -11,6 +11,7 @@
 **Current State:** READ only (0 create, 0 update, 0 delete)
 
 **Required:**
+
 - [ ] Create `/api/admin/programs` route (POST, GET)
 - [ ] Create `/api/admin/programs/[id]` route (GET, PATCH, DELETE)
 - [ ] Create `lib/validators/program.ts` with Zod schemas
@@ -20,6 +21,7 @@
 - [ ] Add soft delete (archive) functionality
 
 **Schema:**
+
 ```typescript
 ProgramCreateSchema = {
   code: string (unique, e.g., "BARBER-2024")
@@ -39,6 +41,7 @@ ProgramCreateSchema = {
 **Current State:** CREATE exists, no UPDATE/workflow
 
 **Required:**
+
 - [ ] Create `/api/admin/applications` route
 - [ ] Create `/api/admin/applications/[id]` route
 - [ ] Add application status workflow: submitted → under_review → approved/rejected → enrolled
@@ -47,6 +50,7 @@ ProgramCreateSchema = {
 - [ ] Link approved applications to enrollments
 
 **Schema:**
+
 ```typescript
 ApplicationUpdateSchema = {
   status: "submitted" | "under_review" | "approved" | "rejected" | "enrolled"
@@ -61,12 +65,14 @@ ApplicationUpdateSchema = {
 **Current State:** Table exists, not used
 
 **Required:**
+
 - [ ] Create `lib/audit.ts` with logging functions
 - [ ] Add audit logging to all admin CRUD operations
 - [ ] Create `/admin/audit-logs/page.tsx` with real data
 - [ ] Log: actor, action, resource, before_state, after_state, timestamp
 
 **Implementation:**
+
 ```typescript
 async function logAudit(params: {
   actor_id: string;
@@ -75,7 +81,7 @@ async function logAudit(params: {
   resource_id: string;
   before_state?: object;
   after_state?: object;
-})
+});
 ```
 
 ---
@@ -141,32 +147,38 @@ CREATE TABLE public.attendance_hours (
 ### Flow: Marketing → Intake → Application → Enrollment → Hours → Completion
 
 **Step 1: Marketing CTA**
+
 - [ ] Homepage "Get Started" → `/programs/barber`
 - [ ] Barber page "Apply Now" → intake form
 - [ ] Intake form writes to `intakes` table
 
 **Step 2: Intake to Application**
+
 - [ ] Admin reviews intakes at `/admin/intakes`
 - [ ] "Convert to Application" creates application record
 - [ ] Applicant receives email with application link
 
 **Step 3: Application Processing**
+
 - [ ] Applicant completes full application
 - [ ] Admin reviews at `/admin/applications`
 - [ ] Approve → creates enrollment
 - [ ] Reject → sends rejection email
 
 **Step 4: Enrollment & Cohort Assignment**
+
 - [ ] Admin assigns to cohort at `/admin/cohorts`
 - [ ] Student sees enrollment at `/student/enrollments`
 - [ ] Student uploads required documents
 
 **Step 5: Attendance Tracking**
+
 - [ ] Instructor logs hours at `/instructor/attendance`
 - [ ] Student views hours at `/student/hours`
 - [ ] Admin monitors at `/admin/attendance`
 
 **Step 6: Completion**
+
 - [ ] System checks: hours >= required, all docs uploaded
 - [ ] Admin marks complete
 - [ ] Certificate generated
@@ -177,6 +189,7 @@ CREATE TABLE public.attendance_hours (
 ## PHASE 4: HVAC PROGRAM (Week 3)
 
 Same pattern as Barber, different:
+
 - Program requirements
 - Hour requirements
 - Certification type
@@ -219,6 +232,7 @@ Same pattern as Barber, different:
 ## ACCEPTANCE TESTS
 
 ### Admin Core
+
 - [ ] Can create a new program
 - [ ] Can edit program details
 - [ ] Can archive (soft delete) a program
@@ -228,6 +242,7 @@ Same pattern as Barber, different:
 - [ ] All admin actions logged to audit_logs
 
 ### Barber Flow
+
 - [ ] Visitor submits intake form → record in intakes
 - [ ] Admin converts intake → application created
 - [ ] Applicant completes application → status updated
@@ -237,6 +252,7 @@ Same pattern as Barber, different:
 - [ ] Student completes → certificate generated
 
 ### Security
+
 - [ ] Student cannot access admin routes
 - [ ] Partner cannot see other partners' data
 - [ ] Instructor cannot modify enrollments
@@ -246,12 +262,12 @@ Same pattern as Barber, different:
 
 ## TIMELINE
 
-| Week | Focus | Deliverable |
-|------|-------|-------------|
-| 1 | Admin Core | Programs, Applications, Audit CRUD |
-| 2 | Barber E2E | Full intake → completion flow |
-| 3 | HVAC E2E | Same pattern, different config |
-| 4 | Cleanup | Remove broken pages, fix remaining |
+| Week | Focus      | Deliverable                        |
+| ---- | ---------- | ---------------------------------- |
+| 1    | Admin Core | Programs, Applications, Audit CRUD |
+| 2    | Barber E2E | Full intake → completion flow      |
+| 3    | HVAC E2E   | Same pattern, different config     |
+| 4    | Cleanup    | Remove broken pages, fix remaining |
 
 ---
 

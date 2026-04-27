@@ -8,10 +8,12 @@ export function BarberHero() {
     <>
       {/* Hero — image only, no text on frame */}
       <section className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/programs-barber-hero-new.jpg"
           alt="Barber apprentice cutting hair in a licensed barbershop"
-          fill sizes="100vw"
+          fill
+          sizes="100vw"
           className="object-cover"
           priority
         />
@@ -20,8 +22,13 @@ export function BarberHero() {
       {/* Headline — below the image frame */}
       <section className="pt-8 pb-2">
         <div className="max-w-5xl mx-auto px-4">
-          <h1 className="text-3xl md:text-5xl font-black text-slate-900 mb-2">Barber Apprenticeship Program</h1>
-          <p className="text-black text-lg max-w-2xl">2,000-hour licensed training. Earn while you learn. Funding and payment options available.</p>
+          <h1 className="text-3xl md:text-5xl font-black text-slate-900 mb-2">
+            Barber Apprenticeship Program
+          </h1>
+          <p className="text-black text-lg max-w-2xl">
+            2,000-hour licensed training. Earn while you learn. Funding and payment options
+            available.
+          </p>
         </div>
       </section>
 
@@ -30,10 +37,14 @@ export function BarberHero() {
         <div className="max-w-5xl mx-auto px-4 py-4 flex flex-col sm:flex-row items-start sm:items-center gap-3">
           <div className="flex items-center gap-2 flex-shrink-0">
             <span className="w-2.5 h-2.5 bg-amber-500 rounded-full animate-pulse" />
-            <span className="font-bold text-amber-900 text-sm uppercase tracking-wide">Waitlist Open</span>
+            <span className="font-bold text-amber-900 text-sm uppercase tracking-wide">
+              Waitlist Open
+            </span>
           </div>
           <p className="text-amber-800 text-sm leading-snug">
-            We are actively matching apprentices with licensed host barbershops in the Indianapolis area. Spots are limited — join the waitlist and we will contact you as soon as a placement is confirmed.
+            We are actively matching apprentices with licensed host barbershops in the Indianapolis
+            area. Spots are limited — join the waitlist and we will contact you as soon as a
+            placement is confirmed.
           </p>
         </div>
       </section>
@@ -42,10 +53,16 @@ export function BarberHero() {
       <section className="py-6 border-b">
         <div className="max-w-5xl mx-auto px-4">
           <div className="flex flex-col sm:flex-row gap-3">
-            <Link href="/funding?program=barber-apprenticeship" className="inline-flex items-center justify-center rounded-lg bg-red-600 px-6 py-3 text-base font-semibold text-white hover:bg-red-700 transition-colors">
+            <Link
+              href="/funding?program=barber-apprenticeship"
+              className="inline-flex items-center justify-center rounded-lg bg-red-600 px-6 py-3 text-base font-semibold text-white hover:bg-red-700 transition-colors"
+            >
               Check Eligibility
             </Link>
-            <Link href="/checkout/barber-apprenticeship" className="inline-flex items-center justify-center rounded-lg border-2 border-gray-300 px-6 py-3 text-base font-semibold text-slate-900 hover:bg-gray-50 transition-colors">
+            <Link
+              href="/checkout/barber-apprenticeship"
+              className="inline-flex items-center justify-center rounded-lg border-2 border-gray-300 px-6 py-3 text-base font-semibold text-slate-900 hover:bg-gray-50 transition-colors"
+            >
               Self-Pay Enrollment
             </Link>
           </div>
@@ -67,17 +84,26 @@ export function BarberHero() {
       </section>
 
       {/* Section 1 — Program Overview */}
-      <section id="program-overview"className="py-16">
+      <section id="program-overview" className="py-16">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-start">
             <div>
-              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6">Program Overview</h2>
+              <h2 className="text-3xl md:text-4xl font-black text-slate-900 mb-6">
+                Program Overview
+              </h2>
               <p className="text-slate-700 leading-relaxed text-lg mb-6">
-                The Barber Apprenticeship Program is a competency-based workforce training program designed to prepare participants for employment in the barbering industry through structured Related Technical Instruction (RTI) and supervised On-the-Job Training (OJT) in licensed barbershop environments. This program follows an apprenticeship-style training model combining classroom instruction, LMS-based modules, and real-world client service under licensed supervision.
+                The Barber Apprenticeship Program is a competency-based workforce training program
+                designed to prepare participants for employment in the barbering industry through
+                structured Related Technical Instruction (RTI) and supervised On-the-Job Training
+                (OJT) in licensed barbershop environments. This program follows an
+                apprenticeship-style training model combining classroom instruction, LMS-based
+                modules, and real-world client service under licensed supervision.
               </p>
               <div className="bg-white border border-slate-200 rounded-xl p-6">
                 <p className="text-sm text-black leading-relaxed italic">
-                  INTraining Program ID: #10004637 &middot; Provider: 2Exclusive LLC-S &middot; Location: Elevate for Humanity Training Center, Indianapolis, Indiana (Marion County)
+                  INTraining Program ID: #10004637 &middot; Provider: 2Exclusive LLC-S &middot;
+                  Location: Elevate for Humanity Training Center, Indianapolis, Indiana (Marion
+                  County)
                 </p>
               </div>
             </div>
@@ -85,7 +111,8 @@ export function BarberHero() {
               <Image
                 src="/images/pages/programs-barber-training.jpg"
                 alt="Barber apprentice training in licensed shop"
-                fill sizes="(max-width: 1024px) 100vw, 50vw"
+                fill
+                sizes="(max-width: 1024px) 100vw, 50vw"
                 className="object-cover"
               />
             </div>

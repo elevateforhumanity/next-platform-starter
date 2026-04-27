@@ -1,10 +1,5 @@
 import React from 'react';
-import {
-  Clock,
-  FileCheck,
-  GraduationCap,
-  Phone,
-CheckCircle, } from 'lucide-react';
+import { Clock, FileCheck, GraduationCap, Phone, CheckCircle } from 'lucide-react';
 
 interface Step {
   number: number;
@@ -26,8 +21,7 @@ const STEPS: Step[] = [
     number: 2,
     title: 'We Call You',
     duration: '24 hours',
-    description:
-      'An advisor reviews your application and calls to explain next steps',
+    description: 'An advisor reviews your application and calls to explain next steps',
     icon: <Phone className="h-10 w-10" />,
   },
   {
@@ -48,8 +42,7 @@ const STEPS: Step[] = [
     number: 5,
     title: 'Earn Credential',
     duration: 'Varies by program',
-    description:
-      'Complete training, pass certification exam, launch your new career',
+    description: 'Complete training, pass certification exam, launch your new career',
     icon: <GraduationCap className="h-10 w-10" />,
   },
 ];
@@ -74,9 +67,7 @@ export function JourneyChecklist() {
                 <div className="flex items-start justify-between mb-3">
                   <div className="flex items-center gap-3">
                     <div className="text-brand-blue-600">{step.icon}</div>
-                    <h3 className="text-xl font-bold text-black">
-                      {step.title}
-                    </h3>
+                    <h3 className="text-xl font-bold text-black">{step.title}</h3>
                   </div>
                   <div className="flex items-center gap-2 text-black text-sm">
                     <Clock className="h-4 w-4" />
@@ -96,8 +87,7 @@ export function JourneyChecklist() {
           Total Timeline: 2-4 Weeks to Start
         </h4>
         <p className="text-brand-blue-900 text-lg">
-          From application to first day of training, most students start within
-          2-4 weeks.
+          From application to first day of training, most students start within 2-4 weeks.
         </p>
       </div>
     </div>

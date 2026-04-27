@@ -1,10 +1,4 @@
-export const RAPIDS_STATUSES = [
-  'pending',
-  'registered',
-  'active',
-  'completed',
-  'exited',
-] as const;
+export const RAPIDS_STATUSES = ['pending', 'registered', 'active', 'completed', 'exited'] as const;
 
 export type RapidsStatus = (typeof RAPIDS_STATUSES)[number];
 
@@ -42,10 +36,7 @@ export function getRapidsStatusLabel(status: RapidsStatus): string {
   return labels[status] || status;
 }
 
-export function canTransitionRapidsStatus(
-  from: RapidsStatus,
-  to: RapidsStatus
-): boolean {
+export function canTransitionRapidsStatus(from: RapidsStatus, to: RapidsStatus): boolean {
   // Define valid status transitions
   const validTransitions: Record<RapidsStatus, RapidsStatus[]> = {
     pending: ['registered', 'exited'],

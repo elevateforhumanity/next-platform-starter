@@ -1,6 +1,6 @@
 # MUTUAL NON-DISCLOSURE AGREEMENT
 
-*(Short-Form, Procurement-Safe)*
+_(Short-Form, Procurement-Safe)_
 
 This Mutual Non-Disclosure Agreement ("Agreement") is entered into as of **[Effective Date]** by and between:
 
@@ -104,21 +104,21 @@ This Agreement constitutes the entire understanding between the Parties regardin
 
 ### Provider
 
-| Field | Value |
-|-------|-------|
-| Name | __________________________ |
-| Title | _________________________ |
-| Signature | _____________________ |
-| Date | _________________________ |
+| Field     | Value                        |
+| --------- | ---------------------------- |
+| Name      | ************\_\_************ |
+| Title     | ************\_************   |
+| Signature | **********\_**********       |
+| Date      | ************\_************   |
 
 ### Client
 
-| Field | Value |
-|-------|-------|
-| Name | __________________________ |
-| Title | _________________________ |
-| Signature | _____________________ |
-| Date | _________________________ |
+| Field     | Value                        |
+| --------- | ---------------------------- |
+| Name      | ************\_\_************ |
+| Title     | ************\_************   |
+| Signature | **********\_**********       |
+| Date      | ************\_************   |
 
 ---
 
@@ -131,6 +131,7 @@ Introduce it with one sentence only:
 Then stop talking.
 
 **Why this NDA works:**
+
 - It's mutual (low resistance)
 - It's short (legal teams don't stall)
 - It protects demos, pricing, and process

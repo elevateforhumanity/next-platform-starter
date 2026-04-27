@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { useState, useEffect } from 'react';
 import Link from 'next/link';
@@ -13,15 +13,15 @@ interface NavItem {
 
 const navItems: NavItem[] = [
   { label: 'Home', href: '/' },
-  { 
-    label: 'Programs', 
+  {
+    label: 'Programs',
     href: '/programs',
     children: [
       { label: 'Healthcare', href: '/programs/healthcare' },
       { label: 'Skilled Trades', href: '/programs/skilled-trades' },
       { label: 'Business', href: '/programs/business' },
       { label: 'HVAC Technician', href: '/programs/hvac-technician' },
-    ]
+    ],
   },
   { label: 'About', href: '/about' },
   { label: 'Contact', href: '/contact' },
@@ -51,10 +51,8 @@ export function MobileMenu() {
   }, [isOpen]);
 
   const toggleExpanded = (label: string) => {
-    setExpandedItems(prev => 
-      prev.includes(label) 
-        ? prev.filter(item => item !== label)
-        : [...prev, label]
+    setExpandedItems((prev) =>
+      prev.includes(label) ? prev.filter((item) => item !== label) : [...prev, label],
     );
   };
 
@@ -88,7 +86,10 @@ export function MobileMenu() {
           </div>
 
           {/* Navigation */}
-          <nav className="p-4 overflow-y-auto max-h-[calc(100vh-80px)]" aria-label="Mobile navigation">
+          <nav
+            className="p-4 overflow-y-auto max-h-[calc(100vh-80px)]"
+            aria-label="Mobile navigation"
+          >
             <ul className="space-y-2">
               {navItems.map((item) => (
                 <li key={item.href}>

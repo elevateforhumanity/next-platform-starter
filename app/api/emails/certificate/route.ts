@@ -33,7 +33,7 @@ async function _POST(request: NextRequest) {
             return cookieStore.get(name)?.value;
           },
         },
-      }
+      },
     );
 
     // Fetch certificate details
@@ -49,16 +49,13 @@ async function _POST(request: NextRequest) {
         profiles!certificates_student_id_fkey!inner (
           email
         )
-      `
+      `,
       )
       .eq('id', certificateId)
       .maybeSingle();
 
     if (!certificate) {
-      return NextResponse.json(
-        { error: 'Certificate not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Certificate not found' }, { status: 404 });
     }
 
     // Type guard: Extract profile from array
@@ -72,7 +69,7 @@ async function _POST(request: NextRequest) {
       certificate.student_name,
       certificate.course_title,
       certificate.certificate_number,
-      verificationUrl
+      verificationUrl,
     );
 
     await sendEmail({
@@ -82,12 +79,9 @@ async function _POST(request: NextRequest) {
     });
 
     return NextResponse.json({ success: true });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error sending certificate email:', error);
-    return NextResponse.json(
-      { error: 'Failed to send email' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to send email' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/emails/certificate', _POST);

@@ -22,11 +22,7 @@ async function _GET(request: Request) {
     const search = searchParams.get('search');
     const isActive = searchParams.get('active') !== 'false';
 
-    let query = db
-      .from('programs')
-      .select('*')
-      .eq('is_active', isActive)
-      .order('name');
+    let query = db.from('programs').select('*').eq('is_active', isActive).order('name');
 
     // Filter by category
     if (category) {
@@ -37,7 +33,9 @@ async function _GET(request: Request) {
     // Filter by search term
     if (search) {
       const sanitizedSearch = sanitizeSearchInput(search);
-      query = query.or(`name.ilike.%${sanitizedSearch}%,description.ilike.%${sanitizedSearch}%,slug.ilike.%${sanitizedSearch}%`);
+      query = query.or(
+        `name.ilike.%${sanitizedSearch}%,description.ilike.%${sanitizedSearch}%,slug.ilike.%${sanitizedSearch}%`,
+      );
     }
 
     const { data: programs, error } = await query;
@@ -46,7 +44,7 @@ async function _GET(request: Request) {
       logger.error('Error fetching programs from database:', error);
       return NextResponse.json(
         { status: 'error', error: 'Failed to fetch programs' },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
@@ -56,13 +54,13 @@ async function _GET(request: Request) {
         count: programs?.length || 0,
         programs: programs || [],
       },
-      { headers: { 'Cache-Control': 's-maxage=60, stale-while-revalidate=300' } }
+      { headers: { 'Cache-Control': 's-maxage=60, stale-while-revalidate=300' } },
     );
   } catch (error) {
     logger.error('Error in programs API:', error);
     return NextResponse.json(
       { status: 'error', error: 'Failed to fetch programs' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

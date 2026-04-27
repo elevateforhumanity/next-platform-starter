@@ -40,14 +40,16 @@ interface AlumniProfile {
 export default async function AlumniDirectoryPage() {
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/lms/alumni/directory');
 
   // Fetch alumni profiles (users who have completed at least one program)
   const { data: alumni } = await supabase
     .from('profiles')
-    .select(`
+    .select(
+      `
       id,
       full_name,
       email,
@@ -57,7 +59,8 @@ export default async function AlumniDirectoryPage() {
       linkedin_url,
       job_title,
       company
-    `)
+    `,
+    )
     .not('full_name', 'is', null)
     .order('full_name')
     .limit(50);
@@ -73,9 +76,13 @@ export default async function AlumniDirectoryPage() {
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6">
           <nav className="flex items-center gap-2 text-sm text-slate-700 mb-4">
-            <Link href="/lms/dashboard" className="hover:text-slate-900">LMS</Link>
+            <Link href="/lms/dashboard" className="hover:text-slate-900">
+              LMS
+            </Link>
             <ChevronRight className="w-4 h-4" />
-            <Link href="/lms/alumni" className="hover:text-slate-900">Alumni</Link>
+            <Link href="/lms/alumni" className="hover:text-slate-900">
+              Alumni
+            </Link>
             <ChevronRight className="w-4 h-4" />
             <span className="text-slate-900 font-medium">Directory</span>
           </nav>
@@ -144,7 +151,10 @@ export default async function AlumniDirectoryPage() {
         {alumni && alumni.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {(alumni as AlumniProfile[]).map((person) => (
-              <div key={person.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow">
+              <div
+                key={person.id}
+                className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 hover:shadow-md transition-shadow"
+              >
                 <div className="flex items-start gap-4">
                   <div className="w-16 h-16 bg-gray-200 rounded-full flex items-center justify-center flex-shrink-0">
                     {person.avatar_url ? (
@@ -203,7 +213,9 @@ export default async function AlumniDirectoryPage() {
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
             <GraduationCap className="w-12 h-12 text-slate-700 mx-auto mb-4" />
             <p className="text-slate-700">No alumni profiles available yet</p>
-            <p className="text-sm text-slate-700 mt-1">Complete a program to join the alumni network</p>
+            <p className="text-sm text-slate-700 mt-1">
+              Complete a program to join the alumni network
+            </p>
           </div>
         )}
 

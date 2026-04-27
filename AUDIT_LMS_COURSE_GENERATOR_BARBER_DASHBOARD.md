@@ -24,6 +24,7 @@ When a user selects the default "weekly" payment option (no `custom_setup_fee` s
 **Result:** Every payment plan checkout silently charges $1,743 instead of the advertised $600. The Stripe session is created for the wrong amount. This is a P0 revenue/trust issue.
 
 **Fix required:**
+
 - Change `minSetupFee` in the API to `BARBER_PRICING.minDownPayment` ($600), not 35%.
 - Remove the `Math.max(minSetupFee, ...)` clamp that overrides the user's chosen amount.
 - The `setupFeeRate: 0.35` and `setupFeeRate: 0.12` constants in two different files are contradictory — consolidate to `lib/programs/pricing.ts` as the single source.
@@ -79,6 +80,7 @@ The "Funding Sources" subsection lists WIOA and JRI as options alongside self-pa
 **File:** `app/lms/(app)/dashboard/page.tsx` — line 1: `// @ts-nocheck`
 
 The lesson page is a single 1,520-line client component. All data fetching happens client-side via `useEffect` + `fetch`. This means:
+
 - No SSR — blank flash on every lesson load
 - No streaming — full JS bundle must load before any content renders
 - Auth is checked client-side (race condition window before redirect fires)
@@ -117,10 +119,12 @@ Per AGENTS.md, migration `20260401000005_curriculum_lessons_quiz_questions.sql` 
 
 ### P4-3 — Course landing page auth uses `?redirect=` but lesson page uses inline redirect
 
-**File:** `app/lms/(app)/courses/[courseId]/page.tsx` line 63  
+**File:** `app/lms/(app)/courses/[courseId]/page.tsx` line 63
+
 ```ts
 redirect('/login?redirect=/lms/courses/' + courseId);
 ```
+
 This is correct. But the lesson page does auth client-side with no redirect param — unauthenticated users land on `/login` with no return path.
 
 ---
@@ -132,6 +136,7 @@ This is correct. But the lesson page does auth client-side with no redirect para
 **File:** `lib/curriculum/blueprints/index.ts`
 
 The registry contains: `prs-indiana`, `hvac-epa608-v1`, `bookkeeping-quickbooks-v1`. There is **no blueprint for barber-apprenticeship**. This means:
+
 - The barber program cannot use the canonical DB-driven course engine
 - No `course_lessons` rows exist for barber (no seeder has been run)
 - Barber learners have no LMS course to navigate to after enrollment
@@ -183,6 +188,7 @@ The seeder calls `buildCanonicalCourseFromBlueprint` but does not call `auditAga
 ### P2-6 — Two separate learner dashboards exist with overlapping data fetches
 
 **Files:**
+
 - `app/learner/dashboard/page.tsx` — 843 lines, server component, fetches from 3 enrollment tables
 - `app/lms/(app)/dashboard/page.tsx` — 502 lines, `@ts-nocheck`, fetches from 2 enrollment tables
 
@@ -235,6 +241,7 @@ Per AGENTS.md tracked debt: "Programs" vs "Courses" terminology split. The dashb
 **File:** `app/admin/dashboard/page.tsx` and `DashboardClient.tsx`
 
 Revenue is pulled from `payments.amount_cents` as a single aggregate total. There is no breakdown by payment provider (Stripe, Sezzle, Affirm). Admin cannot see:
+
 - How many barber enrollments used Sezzle vs Affirm vs Stripe card
 - BNPL approval rates
 - Failed/abandoned BNPL sessions
@@ -288,40 +295,42 @@ Clicking "Revenue Collected" goes to `/admin/payroll` (employee payroll), not a 
 
 ## SUMMARY TABLE
 
-| ID | Severity | Area | Issue | File |
-|----|----------|------|-------|------|
-| P0-1 | **P0** | Barber / Payments | $600 deposit overridden to $1,743 by API | `app/api/barber/checkout/public/route.ts:120` |
-| P2-1 | P2 | Barber / BNPL | 5 BNPL providers shown, only 2 wired | `lib/bnpl-config.ts` |
-| P2-2 | P2 | LMS Engine | Lesson page 1,520-line client component; LMS dashboard `@ts-nocheck` | `app/lms/(app)/courses/[courseId]/lessons/[lessonId]/page.tsx` |
-| P2-3 | P2 | LMS Engine | Checkpoint gating skipped for non-canonical lessons | lesson page line 404 |
-| P2-4 | P2 | Course Generator | No barber blueprint registered — no LMS course for barber | `lib/curriculum/blueprints/index.ts` |
-| P2-5 | P2 | Course Generator | `getBlueprintForProgram` returns null for most programs | `lib/curriculum/builders/getBlueprintForProgram.ts` |
-| P2-6 | P2 | Student Dashboard | Two separate learner dashboards, no canonical | `app/learner/dashboard/` vs `app/lms/(app)/dashboard/` |
-| P2-7 | P2 | Student Dashboard | 3-table enrollment merge with silent dedup | `app/learner/dashboard/page.tsx:88` |
-| P2-8 | P2 | Student Dashboard | WorkOne checklist not guarded by program slug | `app/learner/dashboard/page.tsx:231` |
-| P2-9 | P2 | Admin Dashboard | No BNPL payment provider breakdown | `app/admin/dashboard/page.tsx` |
-| P2-10 | P2 | Admin Dashboard | Sezzle/Affirm have no health check in admin | `app/admin/test-payments/page.tsx` |
-| P3-1 | P3 | Barber / Payments | Duplicate PRICING constant with contradictory `setupFeeRate` | `ApprenticeForm.tsx` vs `lib/programs/pricing.ts` |
-| P3-2 | P3 | LMS Engine | HVAC legacy path runs in parallel on every lesson load | lesson page imports |
-| P3-3 | P3 | LMS Engine | `lms_lessons` view depends on unapplied migration | migration `20260401000005` |
-| P3-4 | P3 | Course Generator | Two builder files; old one may still be imported | `lib/curriculum/builders/` |
-| P3-5 | P3 | Student Dashboard | Stripe repair runs as page-load side effect | `app/learner/dashboard/page.tsx:195` |
-| P3-6 | P3 | Admin Dashboard | Sezzle/Affirm missing from integrations page | `app/admin/integrations/page.tsx` |
-| P3-7 | P3 | Admin Dashboard | Revenue page shows hardcoded placeholder data | `app/admin/grants/revenue/page.tsx` |
-| P4-1 | P4 | Barber Page | Indiana Career Connect block must be removed (self-pay program) | `BarberApprenticeshipClient.tsx:201` |
-| P4-2 | P4 | Barber Page | WIOA/JRI funding copy must be removed (self-pay only) | `BarberEnrollment.tsx:~60` |
-| P4-3 | P4 | LMS Engine | Lesson page auth redirect loses return path | lesson page |
-| P4-4 | P4 | Course Generator | Blueprint auditor not called after seeding | `scripts/seed-course-from-blueprint.ts` |
-| P4-5 | P4 | Student Dashboard | Dashboard links use `/lms/courses/` not `/lms/programs/` | `app/learner/dashboard/page.tsx:432` |
-| P4-6 | P4 | Admin Dashboard | Revenue card links to `/admin/payroll` instead of payments | `DashboardClient.tsx:158` |
-| N/A | INFO | JVA Program | No "JVA" program exists in codebase — likely means JRI | — |
+| ID    | Severity | Area              | Issue                                                                | File                                                           |
+| ----- | -------- | ----------------- | -------------------------------------------------------------------- | -------------------------------------------------------------- |
+| P0-1  | **P0**   | Barber / Payments | $600 deposit overridden to $1,743 by API                             | `app/api/barber/checkout/public/route.ts:120`                  |
+| P2-1  | P2       | Barber / BNPL     | 5 BNPL providers shown, only 2 wired                                 | `lib/bnpl-config.ts`                                           |
+| P2-2  | P2       | LMS Engine        | Lesson page 1,520-line client component; LMS dashboard `@ts-nocheck` | `app/lms/(app)/courses/[courseId]/lessons/[lessonId]/page.tsx` |
+| P2-3  | P2       | LMS Engine        | Checkpoint gating skipped for non-canonical lessons                  | lesson page line 404                                           |
+| P2-4  | P2       | Course Generator  | No barber blueprint registered — no LMS course for barber            | `lib/curriculum/blueprints/index.ts`                           |
+| P2-5  | P2       | Course Generator  | `getBlueprintForProgram` returns null for most programs              | `lib/curriculum/builders/getBlueprintForProgram.ts`            |
+| P2-6  | P2       | Student Dashboard | Two separate learner dashboards, no canonical                        | `app/learner/dashboard/` vs `app/lms/(app)/dashboard/`         |
+| P2-7  | P2       | Student Dashboard | 3-table enrollment merge with silent dedup                           | `app/learner/dashboard/page.tsx:88`                            |
+| P2-8  | P2       | Student Dashboard | WorkOne checklist not guarded by program slug                        | `app/learner/dashboard/page.tsx:231`                           |
+| P2-9  | P2       | Admin Dashboard   | No BNPL payment provider breakdown                                   | `app/admin/dashboard/page.tsx`                                 |
+| P2-10 | P2       | Admin Dashboard   | Sezzle/Affirm have no health check in admin                          | `app/admin/test-payments/page.tsx`                             |
+| P3-1  | P3       | Barber / Payments | Duplicate PRICING constant with contradictory `setupFeeRate`         | `ApprenticeForm.tsx` vs `lib/programs/pricing.ts`              |
+| P3-2  | P3       | LMS Engine        | HVAC legacy path runs in parallel on every lesson load               | lesson page imports                                            |
+| P3-3  | P3       | LMS Engine        | `lms_lessons` view depends on unapplied migration                    | migration `20260401000005`                                     |
+| P3-4  | P3       | Course Generator  | Two builder files; old one may still be imported                     | `lib/curriculum/builders/`                                     |
+| P3-5  | P3       | Student Dashboard | Stripe repair runs as page-load side effect                          | `app/learner/dashboard/page.tsx:195`                           |
+| P3-6  | P3       | Admin Dashboard   | Sezzle/Affirm missing from integrations page                         | `app/admin/integrations/page.tsx`                              |
+| P3-7  | P3       | Admin Dashboard   | Revenue page shows hardcoded placeholder data                        | `app/admin/grants/revenue/page.tsx`                            |
+| P4-1  | P4       | Barber Page       | Indiana Career Connect block must be removed (self-pay program)      | `BarberApprenticeshipClient.tsx:201`                           |
+| P4-2  | P4       | Barber Page       | WIOA/JRI funding copy must be removed (self-pay only)                | `BarberEnrollment.tsx:~60`                                     |
+| P4-3  | P4       | LMS Engine        | Lesson page auth redirect loses return path                          | lesson page                                                    |
+| P4-4  | P4       | Course Generator  | Blueprint auditor not called after seeding                           | `scripts/seed-course-from-blueprint.ts`                        |
+| P4-5  | P4       | Student Dashboard | Dashboard links use `/lms/courses/` not `/lms/programs/`             | `app/learner/dashboard/page.tsx:432`                           |
+| P4-6  | P4       | Admin Dashboard   | Revenue card links to `/admin/payroll` instead of payments           | `DashboardClient.tsx:158`                                      |
+| N/A   | INFO     | JVA Program       | No "JVA" program exists in codebase — likely means JRI               | —                                                              |
 
 ---
 
 ## IMMEDIATE ACTION ITEMS (P0 + P4 content fixes)
 
 ### 1. Fix the $600 deposit (P0-1)
+
 In `app/api/barber/checkout/public/route.ts`, change line 120:
+
 ```ts
 // BEFORE (broken — charges $1,743 minimum)
 const minSetupFee = Math.round(adjustedFullPrice * 0.35);
@@ -329,10 +338,12 @@ const minSetupFee = Math.round(adjustedFullPrice * 0.35);
 // AFTER (correct — $600 minimum as advertised)
 const minSetupFee = BARBER_PRICING.minDownPayment; // $600
 ```
+
 And change line 140–141:
+
 ```ts
 // BEFORE
-const setupFee = custom_setup_fee 
+const setupFee = custom_setup_fee
   ? Math.max(minSetupFee, Math.min(custom_setup_fee, adjustedFullPrice))
   : Math.round(adjustedFullPrice * 0.35);
 
@@ -343,7 +354,9 @@ const setupFee = custom_setup_fee
 ```
 
 ### 2. Remove Indiana Career Connect (P4-1)
+
 Remove lines 201–214 from `BarberApprenticeshipClient.tsx` (the blue box with the Indiana Career Connect button).
 
 ### 3. Remove WIOA/JRI funding copy (P4-2)
+
 Remove the WIOA and JRI paragraphs from the "Funding Sources" section in `BarberEnrollment.tsx`. Replace with a single sentence: "This program is self-pay. Payment plans and BNPL financing available."

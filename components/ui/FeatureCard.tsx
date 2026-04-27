@@ -16,10 +16,15 @@ interface FeatureCardProps {
  * Standard marketing card with a required image as the primary visual.
  * Icons are not used as primary visuals — use small utility icons in description text only.
  */
-export function FeatureCard({ image, alt, title, description, href, ratio = 'feature' }: FeatureCardProps) {
-  const aspectStyle = ratio === 'program'
-    ? { aspectRatio: '4/3' }
-    : { aspectRatio: '16/10' };
+export function FeatureCard({
+  image,
+  alt,
+  title,
+  description,
+  href,
+  ratio = 'feature',
+}: FeatureCardProps) {
+  const aspectStyle = ratio === 'program' ? { aspectRatio: '4/3' } : { aspectRatio: '16/10' };
 
   const inner = (
     <div className="bg-white rounded-xl border border-slate-200 overflow-hidden hover:shadow-md transition h-full flex flex-col">
@@ -48,7 +53,11 @@ export function FeatureCard({ image, alt, title, description, href, ratio = 'fea
   );
 
   if (href) {
-    return <Link href={href} className="block h-full">{inner}</Link>;
+    return (
+      <Link href={href} className="block h-full">
+        {inner}
+      </Link>
+    );
   }
   return inner;
 }

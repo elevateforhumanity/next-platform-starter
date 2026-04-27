@@ -39,7 +39,7 @@ export async function getTenantCompliance(tenantId: string): Promise<TenantCompl
 
 export async function updateTenantCompliance(
   tenantId: string,
-  compliance: Partial<TenantCompliance>
+  compliance: Partial<TenantCompliance>,
 ): Promise<void> {
   const supabase = getSupabaseAdmin();
   await setAuditContext(supabase, { systemActor: 'tenant_compliance' });
@@ -50,8 +50,5 @@ export async function updateTenantCompliance(
   if (compliance.ferpa !== undefined) updates.compliance_ferpa = compliance.ferpa;
   if (compliance.hipaa !== undefined) updates.compliance_hipaa = compliance.hipaa;
 
-  await supabase
-    .from('tenants')
-    .update(updates)
-    .eq('id', tenantId);
+  await supabase.from('tenants').update(updates).eq('id', tenantId);
 }

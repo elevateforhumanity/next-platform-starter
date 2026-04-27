@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import Image from 'next/image';
@@ -23,17 +23,14 @@ interface DiscussionForumProps {
   posts?: ForumPost[];
 }
 
-export function DiscussionForum({
-  courseId,
-  posts = [],
-}: DiscussionForumProps) {
+export function DiscussionForum({ courseId, posts = [] }: DiscussionForumProps) {
   const [newPost, setNewPost] = useState('');
   const [forumPosts, setForumPosts] = useState<ForumPost[]>(posts);
   const [loading, setLoading] = useState(true);
 
   const fetchPosts = useCallback(async () => {
     const supabase = createClient();
-    
+
     try {
       const { data } = await supabase
         .from('forum_posts')
@@ -42,7 +39,7 @@ export function DiscussionForum({
         .order('created_at', { ascending: false });
 
       if (data) {
-        const formatted: ForumPost[] = data.map(p => ({
+        const formatted: ForumPost[] = data.map((p) => ({
           id: p.id,
           author: p.profiles?.full_name || 'Anonymous',
           avatar: p.profiles?.avatar_url || '/images/team/elizabeth-greene.jpg',
@@ -68,7 +65,9 @@ export function DiscussionForum({
     if (!newPost.trim()) return;
 
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     const { data, error } = await supabase
       .from('forum_posts')
@@ -106,9 +105,7 @@ export function DiscussionForum({
           <textarea
             value={newPost}
             onChange={(
-              e: React.ChangeEvent<
-                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-              >
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setNewPost(e.target.value)}
             placeholder="Share your thoughts, ask a question, or start a discussion..."
             className="w-full p-4 border rounded-lg min-h-[120px] focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"

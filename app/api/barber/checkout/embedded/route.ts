@@ -6,11 +6,7 @@ import { logger } from '@/lib/logger';
 import { getStripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { BARBER_PRICING, calculateWeeklyPayment } from '@/lib/programs/pricing';
-import {
-  TUITION_CENTS,
-  PAYMENT_TERM_WEEKS,
-  remainingHoursDisplay,
-} from '@/lib/barber/pricing';
+import { TUITION_CENTS, PAYMENT_TERM_WEEKS, remainingHoursDisplay } from '@/lib/barber/pricing';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 /**
@@ -45,7 +41,10 @@ export async function POST(request: NextRequest) {
     }
 
     if (hours_per_week < 20 || hours_per_week > 50) {
-      return NextResponse.json({ error: 'Hours per week must be between 20 and 50' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'Hours per week must be between 20 and 50' },
+        { status: 400 },
+      );
     }
 
     // Transfer hours do not affect price (policy: progress credit only, tuition fixed).
@@ -60,10 +59,7 @@ export async function POST(request: NextRequest) {
     // ─────────────────────────────────────────────────────────────────────────
     const checkoutAmountCents = TUITION_CENTS;
 
-    const calculation = calculateWeeklyPayment(
-      hours_per_week,
-      transferred_hours_verified,
-    );
+    const calculation = calculateWeeklyPayment(hours_per_week, transferred_hours_verified);
 
     // Find or create Stripe customer
     const customers = await stripe.customers.list({ email: customer_email, limit: 1 });
@@ -141,9 +137,6 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ clientSecret: session.client_secret });
   } catch (error) {
     logger.error('Barber embedded checkout error:', error);
-    return NextResponse.json(
-      { error: 'Failed to create checkout session' },
-      { status: 500 },
-    );
+    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
   }
 }

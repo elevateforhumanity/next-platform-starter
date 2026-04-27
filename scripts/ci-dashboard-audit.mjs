@@ -1,19 +1,27 @@
 // scripts/ci-dashboard-audit.mjs
 // Heuristic audit for admin dashboard files.
 // Catches broken JSX (errors) and structural smells (warnings).
-import fs from "node:fs";
-import path from "node:path";
+import fs from 'node:fs';
+import path from 'node:path';
 
 const ROOT = process.cwd();
 const TARGETS = [
-  "app/admin/dashboard",
-  "components/admin",
-  "components/dashboard",
-  "lib/admin",
+  'app/admin/dashboard',
+  'components/admin',
+  'components/dashboard',
+  'lib/admin',
 ].filter((p) => fs.existsSync(path.join(ROOT, p)));
 
-const EXTENSIONS = new Set([".ts", ".tsx", ".js", ".jsx"]);
-const IGNORE_DIRS = new Set(["node_modules", ".git", ".next", "dist", "build", "coverage", ".turbo"]);
+const EXTENSIONS = new Set(['.ts', '.tsx', '.js', '.jsx']);
+const IGNORE_DIRS = new Set([
+  'node_modules',
+  '.git',
+  '.next',
+  'dist',
+  'build',
+  'coverage',
+  '.turbo',
+]);
 
 // Matches dashboard page/layout files only — NOT reusable widget components.
 // components/dashboard/* are intentional client widgets; 'use client' and fetch() are correct there.
@@ -21,35 +29,35 @@ const DASHBOARD_PAGE_RE = /app\/[^/]*dashboard/i;
 
 const checks = [
   {
-    name: "Broken Link href",
-    severity: "error",
+    name: 'Broken Link href',
+    severity: 'error',
     regex: /<Link[^>]*\bhref=\{\}/g,
   },
   {
-    name: "Undefined/null href target",
-    severity: "error",
+    name: 'Undefined/null href target',
+    severity: 'error',
     regex: /\bhref=\{[^}]*\b(undefined|null)\b[^}]*\}/g,
   },
   {
-    name: "Empty JSX prop",
-    severity: "error",
+    name: 'Empty JSX prop',
+    severity: 'error',
     regex: /\b(href|src|className|style|id|value|defaultValue|title|alt|role)=\{\}/g,
   },
   {
-    name: "Client dashboard root",
-    severity: "warn",
+    name: 'Client dashboard root',
+    severity: 'warn',
     regex: /^['"]use client['"];?/gm,
     appliesTo: DASHBOARD_PAGE_RE,
   },
   {
-    name: "Direct fetch in dashboard client",
-    severity: "warn",
+    name: 'Direct fetch in dashboard client',
+    severity: 'warn',
     regex: /\bfetch\s*\(/g,
     appliesTo: DASHBOARD_PAGE_RE,
   },
   {
-    name: "Multiple Supabase queries in one file",
-    severity: "warn",
+    name: 'Multiple Supabase queries in one file',
+    severity: 'warn',
     // Threshold 30: flags files with an unreasonable query count (e.g. get-admin-dashboard-data.ts
     // with 28). Dedicated data-fetching modules legitimately have 4-6 queries each.
     regex: /\.from\s*\(\s*['"`][^'"`]+['"`]\s*\)/g,
@@ -57,44 +65,44 @@ const checks = [
     threshold: 30,
   },
   {
-    name: "Multiple awaited fetches in one file",
-    severity: "warn",
+    name: 'Multiple awaited fetches in one file',
+    severity: 'warn',
     regex: /\bawait\s+fetch\s*\(/g,
     aggregate: true,
     threshold: 6,
   },
   {
-    name: "Router push in dashboard list/cards",
-    severity: "warn",
+    name: 'Router push in dashboard list/cards',
+    severity: 'warn',
     regex: /\brouter\.(push|replace)\(/g,
     appliesTo: /Dashboard|dashboard|Card|Table|List/i,
   },
   {
-    name: "Console/debug leftovers",
-    severity: "warn",
+    name: 'Console/debug leftovers',
+    severity: 'warn',
     // Only flag console.log/debug — console.warn/error are legitimate in error boundaries.
     regex: /\b(console\.(log|debug)\(|debugger;)/g,
   },
   {
-    name: "TODO/HACK placeholders",
-    severity: "warn",
+    name: 'TODO/HACK placeholders',
+    severity: 'warn',
     // 'placeholder' and 'coming soon' excluded — match HTML attributes and schema comments (false positives)
     regex: /\b(TODO|FIXME|TBD|HACK|BROKEN|REVISIT|temporary fix)\b/g,
   },
   {
-    name: "Likely duplicated KPI fetch pattern",
-    severity: "warn",
+    name: 'Likely duplicated KPI fetch pattern',
+    severity: 'warn',
     regex: /\b(useEffect|useSWR)\b[\s\S]{0,500}\b(fetch|axios|get[A-Z])/g,
     appliesTo: /Card|Stats|Metric|KPI/i,
   },
   {
-    name: "Suspicious map with unstable key",
-    severity: "warn",
+    name: 'Suspicious map with unstable key',
+    severity: 'warn',
     regex: /\.map\([^)]*=>[\s\S]{0,200}key=\{(index|i)\}/g,
   },
   {
-    name: "Loading spinner with no empty/error state nearby",
-    severity: "warn",
+    name: 'Loading spinner with no empty/error state nearby',
+    severity: 'warn',
     regex: /\b(isLoading|loading)\b[\s\S]{0,250}(Spinner|Loader|animate-spin)/g,
     appliesTo: DASHBOARD_PAGE_RE,
   },
@@ -115,14 +123,19 @@ function lineCol(text, index) {
   let line = 1;
   let col = 1;
   for (let i = 0; i < index; i++) {
-    if (text[i] === "\n") { line++; col = 1; } else { col++; }
+    if (text[i] === '\n') {
+      line++;
+      col = 1;
+    } else {
+      col++;
+    }
   }
   return { line, col };
 }
 
 function snippet(text, index) {
-  const start = text.lastIndexOf("\n", index) + 1;
-  const endIdx = text.indexOf("\n", index);
+  const start = text.lastIndexOf('\n', index) + 1;
+  const endIdx = text.indexOf('\n', index);
   const end = endIdx === -1 ? text.length : endIdx;
   return text.slice(start, end).trim();
 }
@@ -132,7 +145,7 @@ let errors = 0;
 let warns = 0;
 
 for (const file of files) {
-  const text = fs.readFileSync(file, "utf8");
+  const text = fs.readFileSync(file, 'utf8');
   const rel = path.relative(ROOT, file);
   const basename = path.basename(file);
 
@@ -147,10 +160,10 @@ for (const file of files) {
       if (matches.length >= check.threshold) {
         const first = matches[0];
         const { line, col } = lineCol(text, first.index);
-        const tag = check.severity === "error" ? "ERROR" : "WARN ";
+        const tag = check.severity === 'error' ? 'ERROR' : 'WARN ';
         console.log(`${tag} [${check.name}] ${rel}:${line}:${col}`);
         console.log(`  Count: ${matches.length} (threshold ${check.threshold})`);
-        if (check.severity === "error") errors++;
+        if (check.severity === 'error') errors++;
         else warns++;
       }
       continue;
@@ -159,10 +172,10 @@ for (const file of files) {
     for (const match of matches) {
       const { line, col } = lineCol(text, match.index);
       const s = snippet(text, match.index);
-      const tag = check.severity === "error" ? "ERROR" : "WARN ";
+      const tag = check.severity === 'error' ? 'ERROR' : 'WARN ';
       console.log(`${tag} [${check.name}] ${rel}:${line}:${col}`);
       console.log(`  ${s}`);
-      if (check.severity === "error") errors++;
+      if (check.severity === 'error') errors++;
       else warns++;
     }
   }
@@ -170,6 +183,6 @@ for (const file of files) {
 
 console.log(`\nDashboard audit summary: ${errors} error(s), ${warns} warning(s)`);
 if (errors > 0) {
-  console.log("\nFix all errors above before pushing.");
+  console.log('\nFix all errors above before pushing.');
   process.exit(1);
 }

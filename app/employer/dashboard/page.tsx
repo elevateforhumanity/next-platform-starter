@@ -11,19 +11,8 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { safeFormatDate } from '@/lib/format-utils';
 import { getEmployerState } from '@/lib/orchestration/state-machine';
-import {
-  StateAwareDashboard,
-  SectionCard,
-} from '@/components/dashboards/StateAwareDashboard';
-import {
-  Briefcase,
-  Users,
-  FileText,
-  Shield,
-  Building2,
-  TrendingUp,
-  BarChart3,
-} from 'lucide-react';
+import { StateAwareDashboard, SectionCard } from '@/components/dashboards/StateAwareDashboard';
+import { Briefcase, Users, FileText, Shield, Building2, TrendingUp, BarChart3 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
@@ -68,16 +57,24 @@ export default async function EmployerDashboardOrchestrated() {
           </div>
           <h1 className="text-2xl font-bold text-slate-900 mb-2">Application Under Review</h1>
           <p className="text-slate-600 mb-6">
-            Your employer application has been received. Our team will review it and activate your account within 1–2 business days.
+            Your employer application has been received. Our team will review it and activate your
+            account within 1–2 business days.
           </p>
           <p className="text-sm text-slate-500 mb-6">
-            You will receive an email at <strong>{profile?.email}</strong> when your account is approved.
+            You will receive an email at <strong>{profile?.email}</strong> when your account is
+            approved.
           </p>
           <div className="flex flex-col gap-3">
-            <Link href="/for-employers" className="inline-flex items-center justify-center gap-2 bg-brand-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition">
+            <Link
+              href="/for-employers"
+              className="inline-flex items-center justify-center gap-2 bg-brand-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition"
+            >
               Learn About Employer Partnership
             </Link>
-            <a href="tel:3173143757" className="inline-flex items-center justify-center gap-2 border border-slate-300 text-slate-700 px-6 py-3 rounded-lg font-semibold hover:bg-slate-50 transition">
+            <a
+              href="tel:3173143757"
+              className="inline-flex items-center justify-center gap-2 border border-slate-300 text-slate-700 px-6 py-3 rounded-lg font-semibold hover:bg-slate-50 transition"
+            >
               Call (317) 314-3757
             </a>
           </div>
@@ -130,9 +127,7 @@ export default async function EmployerDashboardOrchestrated() {
             <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
               <div className="flex items-center justify-between mb-2">
                 <Briefcase className="h-11 w-11 text-brand-blue-600" />
-                <span className="text-3xl font-bold text-black">
-                  {postings?.length || 0}
-                </span>
+                <span className="text-3xl font-bold text-black">{postings?.length || 0}</span>
               </div>
               <div className="text-sm text-black">Active Job Postings</div>
             </div>
@@ -147,16 +142,12 @@ export default async function EmployerDashboardOrchestrated() {
               <div className="flex items-center justify-between mb-2">
                 <Users
                   className={`h-11 w-11 ${
-                    (applications?.length || 0) > 0
-                      ? 'text-brand-green-600'
-                      : 'text-slate-400'
+                    (applications?.length || 0) > 0 ? 'text-brand-green-600' : 'text-slate-400'
                   }`}
                 />
                 <span
                   className={`text-3xl font-bold ${
-                    (applications?.length || 0) > 0
-                      ? 'text-brand-green-900'
-                      : 'text-black'
+                    (applications?.length || 0) > 0 ? 'text-brand-green-900' : 'text-black'
                   }`}
                 >
                   {applications?.length || 0}
@@ -164,9 +155,7 @@ export default async function EmployerDashboardOrchestrated() {
               </div>
               <div
                 className={`text-sm ${
-                  (applications?.length || 0) > 0
-                    ? 'text-brand-green-900'
-                    : 'text-black'
+                  (applications?.length || 0) > 0 ? 'text-brand-green-900' : 'text-black'
                 }`}
               >
                 Pending Applications
@@ -206,9 +195,7 @@ export default async function EmployerDashboardOrchestrated() {
 
           {/* Available Sections */}
           <div>
-            <h3 className="text-2xl font-bold text-black mb-6">
-              Available Actions
-            </h3>
+            <h3 className="text-2xl font-bold text-black mb-6">Available Actions</h3>
             <div className="grid md:grid-cols-2 gap-4">
               {stateData.availableSections.includes('verification') && (
                 <SectionCard
@@ -236,9 +223,7 @@ export default async function EmployerDashboardOrchestrated() {
                   href="/employer/candidates"
                   icon={<Users className="h-10 w-10" />}
                   badge={
-                    (applications?.length || 0) > 0
-                      ? `${applications?.length} New`
-                      : undefined
+                    (applications?.length || 0) > 0 ? `${applications?.length} New` : undefined
                   }
                 />
               )}
@@ -246,9 +231,7 @@ export default async function EmployerDashboardOrchestrated() {
               {stateData.availableSections.includes('apprenticeship') && (
                 <SectionCard
                   title={
-                    apprenticeshipProgram
-                      ? 'Manage Apprenticeship'
-                      : 'Start Apprenticeship Program'
+                    apprenticeshipProgram ? 'Manage Apprenticeship' : 'Start Apprenticeship Program'
                   }
                   description={
                     apprenticeshipProgram
@@ -284,9 +267,7 @@ export default async function EmployerDashboardOrchestrated() {
           {/* Recent Postings */}
           {(postings?.length || 0) > 0 && (
             <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-              <h3 className="text-xl font-bold text-black mb-4">
-                Active Job Postings
-              </h3>
+              <h3 className="text-xl font-bold text-black mb-4">Active Job Postings</h3>
               <div className="space-y-3">
                 {postings?.slice(0, 5).map((posting) => (
                   <div
@@ -294,12 +275,9 @@ export default async function EmployerDashboardOrchestrated() {
                     className="flex items-center justify-between p-3 bg-white rounded-lg"
                   >
                     <div>
-                      <div className="font-semibold text-black">
-                        {posting.title}
-                      </div>
+                      <div className="font-semibold text-black">{posting.title}</div>
                       <div className="text-sm text-black">
-                        Posted:{' '}
-                        {safeFormatDate(posting.created_at)}
+                        Posted: {safeFormatDate(posting.created_at)}
                       </div>
                     </div>
                     <a
@@ -322,18 +300,12 @@ export default async function EmployerDashboardOrchestrated() {
             <div className="flex items-center gap-3 mb-4">
               <Building2 className="h-11 w-11 text-brand-blue-600" />
               <div>
-                <h3 className="font-bold text-black">
-                  {profile.company_name || 'Your Company'}
-                </h3>
+                <h3 className="font-bold text-black">{profile.company_name || 'Your Company'}</h3>
                 <div className="text-sm text-black">
                   {profile.verified ? (
-                    <span className="text-brand-green-600 font-semibold">
-                      • Verified
-                    </span>
+                    <span className="text-brand-green-600 font-semibold">• Verified</span>
                   ) : (
-                    <span className="text-yellow-600 font-semibold">
-                      Pending Verification
-                    </span>
+                    <span className="text-yellow-600 font-semibold">Pending Verification</span>
                   )}
                 </div>
               </div>
@@ -342,9 +314,7 @@ export default async function EmployerDashboardOrchestrated() {
 
           {/* Quick Actions */}
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
-            <h3 className="text-lg font-bold text-black mb-4">
-              Quick Actions
-            </h3>
+            <h3 className="text-lg font-bold text-black mb-4">Quick Actions</h3>
             <div className="space-y-3">
               {profile.verified && (
                 <a
@@ -370,8 +340,7 @@ export default async function EmployerDashboardOrchestrated() {
                 Build Your Talent Pipeline
               </h3>
               <p className="text-brand-blue-800 mb-4 text-sm">
-                Start an apprenticeship program and train workers specifically
-                for your needs.
+                Start an apprenticeship program and train workers specifically for your needs.
               </p>
               <a
                 href="/employer/apprenticeship"
@@ -398,9 +367,7 @@ export default async function EmployerDashboardOrchestrated() {
 
           {/* Employer Tools */}
           <div className="mt-8">
-            <h3 className="text-lg font-semibold text-black mb-4">
-              Employer Tools
-            </h3>
+            <h3 className="text-lg font-semibold text-black mb-4">Employer Tools</h3>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-3">
               <Link
                 href="/employer/jobs"
@@ -471,7 +438,9 @@ export default async function EmployerDashboardOrchestrated() {
               </div>
             </div>
             {!profile.verified && (
-              <p className="text-xs text-slate-700 mt-4">Complete verification to access full workforce analytics.</p>
+              <p className="text-xs text-slate-700 mt-4">
+                Complete verification to access full workforce analytics.
+              </p>
             )}
           </div>
         </div>

@@ -1,11 +1,11 @@
-"use client";
+'use client';
 
 import React from 'react';
 
-import { useEffect, useState } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import type { HeroImage } from "@/lms-data/media";
+import { useEffect, useState } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import type { HeroImage } from '@/lms-data/media';
 
 interface HomeHeroProps {
   images: HeroImage[];
@@ -31,6 +31,7 @@ export function HomeHero({ images }: HomeHeroProps) {
         <div className="md:hidden">
           <div className="relative mx-auto w-full max-w-md aspect-[4/3]">
             <div className="relative w-full overflow-hidden rounded-2xl border border-slate-800 bg-white aspect-[4/3]">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
               <Image
                 src={current.src}
                 alt={current.alt}
@@ -51,12 +52,8 @@ export function HomeHero({ images }: HomeHeroProps) {
                 {current.badge}
               </span>
             )}
-            <h1 className="text-xl font-bold leading-snug md:text-3xl">
-              {current.headline}
-            </h1>
-            <p className="text-xs text-slate-200 md:text-sm">
-              {current.subheadline}
-            </p>
+            <h1 className="text-xl font-bold leading-snug md:text-3xl">{current.headline}</h1>
+            <p className="text-xs text-slate-200 md:text-sm">{current.subheadline}</p>
             <div className="mt-2 flex flex-wrap gap-2 text-[11px]">
               {current.ctaHref && current.ctaLabel && (
                 <Link
@@ -74,8 +71,8 @@ export function HomeHero({ images }: HomeHeroProps) {
               </Link>
             </div>
             <p className="mt-1 text-[10px] text-slate-500">
-              JRI, WRG, WEX, OJT, apprenticeships, and employer sponsorship are
-              braided together so you can focus on learning and earning.
+              JRI, WRG, WEX, OJT, apprenticeships, and employer sponsorship are braided together so
+              you can focus on learning and earning.
             </p>
           </div>
 
@@ -104,8 +101,7 @@ export function HomeHero({ images }: HomeHeroProps) {
                 key={img.id}
                 onClick={() => setIndex(i)}
                 className={
-                  "h-1.5 w-6 rounded-full " +
-                  (i === index ? "bg-brand-orange-500" : "bg-slate-700")
+                  'h-1.5 w-6 rounded-full ' + (i === index ? 'bg-brand-orange-500' : 'bg-slate-700')
                 }
                 aria-label={`Show hero image ${i + 1}`}
               />

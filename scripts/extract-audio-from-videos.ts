@@ -47,24 +47,24 @@ async function uploadAudio(localPath: string, storagePath: string): Promise<stri
 
 async function updateLesson(lessonId: string, audioUrl: string) {
   // Store audio URL in video_url — the lesson player detects .mp3 and renders audio player
-  const res = await fetch(
-    `${SUPABASE_URL}/rest/v1/training_lessons?id=eq.${lessonId}`,
-    {
-      method: 'PATCH',
-      headers: {
-        apikey: SUPABASE_KEY,
-        Authorization: `Bearer ${SUPABASE_KEY}`,
-        'Content-Type': 'application/json',
-        Prefer: 'return=minimal',
-      },
-      body: JSON.stringify({ video_url: audioUrl }),
+  const res = await fetch(`${SUPABASE_URL}/rest/v1/training_lessons?id=eq.${lessonId}`, {
+    method: 'PATCH',
+    headers: {
+      apikey: SUPABASE_KEY,
+      Authorization: `Bearer ${SUPABASE_KEY}`,
+      'Content-Type': 'application/json',
+      Prefer: 'return=minimal',
     },
-  );
+    body: JSON.stringify({ video_url: audioUrl }),
+  });
   if (!res.ok) throw new Error(`Update failed: ${await res.text()}`);
 }
 
 async function main() {
-  if (!SUPABASE_KEY) { console.error('SUPABASE_SERVICE_ROLE_KEY not set'); process.exit(1); }
+  if (!SUPABASE_KEY) {
+    console.error('SUPABASE_SERVICE_ROLE_KEY not set');
+    process.exit(1);
+  }
 
   const lessons = await fetchVideoLessons();
   console.log(`Extracting audio from ${lessons.length} video lessons\n`);
@@ -91,7 +91,10 @@ async function main() {
       execSync(`curl -s -o "${localVideo}" "${lesson.video_url}"`, { timeout: 60000 });
 
       // Extract audio
-      execSync(`ffmpeg -y -i "${localVideo}" -vn -acodec libmp3lame -ab 128k -ar 44100 "${localAudio}" 2>/dev/null`, { timeout: 30000 });
+      execSync(
+        `ffmpeg -y -i "${localVideo}" -vn -acodec libmp3lame -ab 128k -ar 44100 "${localAudio}" 2>/dev/null`,
+        { timeout: 30000 },
+      );
 
       const stat = await fs.stat(localAudio);
       const sizeMB = (stat.size / 1024 / 1024).toFixed(1);
@@ -120,4 +123,7 @@ async function main() {
   console.log(`\nDone: ${done} extracted, ${failed} failed`);
 }
 
-main().catch(err => { console.error('Fatal:', err); process.exit(1); });
+main().catch((err) => {
+  console.error('Fatal:', err);
+  process.exit(1);
+});

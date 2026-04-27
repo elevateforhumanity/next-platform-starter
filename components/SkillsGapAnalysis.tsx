@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -120,8 +120,8 @@ export default function SkillsGapAnalysis() {
             <div>
               <h3 className="text-xl font-bold mb-2">Automated Skills Assessment</h3>
               <p className="text-black mb-3">
-                Our AI analyzes your team's current skills against industry requirements and job descriptions
-                to identify critical gaps and recommend targeted training.
+                Our AI analyzes your team's current skills against industry requirements and job
+                descriptions to identify critical gaps and recommend targeted training.
               </p>
               <div className="flex gap-4 text-sm">
                 <div className="flex items-center gap-2">
@@ -153,7 +153,7 @@ export default function SkillsGapAnalysis() {
           <Card className="p-6">
             <h3 className="text-sm text-black mb-2">Critical Gaps</h3>
             <p className="text-3xl font-bold text-brand-orange-600">
-              {skillGaps.filter(g => g.priority === 'high').length}
+              {skillGaps.filter((g) => g.priority === 'high').length}
             </p>
             <p className="text-sm text-black">Require immediate attention</p>
           </Card>
@@ -183,11 +183,15 @@ export default function SkillsGapAnalysis() {
                 <div className="flex justify-between items-start mb-3">
                   <div>
                     <h4 className="text-lg font-bold">{gap.skill}</h4>
-                    <span className={`inline-block mt-1 px-3 py-2 rounded text-xs font-medium ${
-                      gap.priority === 'high' ? 'bg-brand-red-100 text-brand-red-700' :
-                      gap.priority === 'medium' ? 'bg-yellow-100 text-yellow-700' :
-                      'bg-brand-blue-100 text-brand-blue-700'
-                    }`}>
+                    <span
+                      className={`inline-block mt-1 px-3 py-2 rounded text-xs font-medium ${
+                        gap.priority === 'high'
+                          ? 'bg-brand-red-100 text-brand-red-700'
+                          : gap.priority === 'medium'
+                            ? 'bg-yellow-100 text-yellow-700'
+                            : 'bg-brand-blue-100 text-brand-blue-700'
+                      }`}
+                    >
                       {gap.priority.toUpperCase()} PRIORITY
                     </span>
                   </div>
@@ -259,7 +263,7 @@ export default function SkillsGapAnalysis() {
                     <td className="py-3 px-4 font-medium">{member.name}</td>
                     <td className="py-3 px-4 text-sm text-black">{member.role}</td>
                     {['JavaScript', 'React', 'TypeScript', 'AWS'].map((skillName) => {
-                      const skill = member.skills.find(s => s.name === skillName);
+                      const skill = member.skills.find((s) => s.name === skillName);
                       const level = skill?.level || 0;
                       return (
                         <td key={skillName} className="py-3 px-4">
@@ -267,9 +271,11 @@ export default function SkillsGapAnalysis() {
                             <div className="w-16 bg-gray-200 rounded-full h-2">
                               <div
                                 className={`h-2 rounded-full ${
-                                  level >= 70 ? 'bg-brand-green-600' :
-                                  level >= 50 ? 'bg-yellow-600' :
-                                  'bg-brand-orange-600'
+                                  level >= 70
+                                    ? 'bg-brand-green-600'
+                                    : level >= 50
+                                      ? 'bg-yellow-600'
+                                      : 'bg-brand-orange-600'
                                 }`}
                                 style={{ width: `${level}%` }}
                               />
@@ -305,7 +311,9 @@ export default function SkillsGapAnalysis() {
                 </ul>
               </div>
               <div className="p-4 bg-brand-blue-50 rounded">
-                <h4 className="font-semibold text-brand-blue-900 mb-2">🔵 Long-term (6-12 months)</h4>
+                <h4 className="font-semibold text-brand-blue-900 mb-2">
+                  🔵 Long-term (6-12 months)
+                </h4>
                 <ul className="text-sm text-brand-blue-700 space-y-1">
                   <li>• Advanced testing certification</li>
                   <li>• Continuous skill assessment</li>

@@ -91,21 +91,23 @@ export function mapReturn1040ToXmlDto(ret: Return1040): F1040XmlDto {
       dob: ret.taxpayer.dob,
       ipPin: ret.taxpayer.ipPin,
     },
-    spouse: ret.spouse ? {
-      firstName: ret.spouse.firstName,
-      lastName: ret.spouse.lastName,
-      ssn: ret.spouse.ssn.replace(/\D/g, ''),
-      dob: ret.spouse.dob,
-      ipPin: ret.spouse.ipPin,
-    } : undefined,
+    spouse: ret.spouse
+      ? {
+          firstName: ret.spouse.firstName,
+          lastName: ret.spouse.lastName,
+          ssn: ret.spouse.ssn.replace(/\D/g, ''),
+          dob: ret.spouse.dob,
+          ipPin: ret.spouse.ipPin,
+        }
+      : undefined,
     address: ret.address,
-    dependents: ret.dependents.map(d => ({
+    dependents: ret.dependents.map((d) => ({
       firstName: d.firstName,
       lastName: d.lastName,
       ssn: d.ssn.replace(/\D/g, ''),
       relationship: d.relationship,
     })),
-    w2s: ret.w2s.map(w => ({
+    w2s: ret.w2s.map((w) => ({
       ein: w.ein,
       employerName: w.employerName,
       wages: w.wages,
@@ -124,12 +126,15 @@ export function mapReturn1040ToXmlDto(ret: Return1040): F1040XmlDto {
     taxpayerPin: ret.taxpayerSignature?.pin ?? '',
     spousePin: ret.spouseSignature?.pin,
     signedAt: ret.taxpayerSignature?.signedAt ?? new Date().toISOString().split('T')[0],
-    preparer: ret.preparer && !ret.preparer.selfPrepared ? {
-      ptin: ret.preparer.ptin,
-      name: ret.preparer.name,
-      firmName: ret.preparer.firmName,
-      firmEIN: ret.preparer.firmEIN,
-    } : undefined,
+    preparer:
+      ret.preparer && !ret.preparer.selfPrepared
+        ? {
+            ptin: ret.preparer.ptin,
+            name: ret.preparer.name,
+            firmName: ret.preparer.firmName,
+            firmEIN: ret.preparer.firmEIN,
+          }
+        : undefined,
     efin: process.env.IRS_EFIN ?? '',
     softwareId: process.env.IRS_SOFTWARE_ID ?? 'PENDING',
   };

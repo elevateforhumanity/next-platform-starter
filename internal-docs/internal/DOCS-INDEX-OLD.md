@@ -95,12 +95,14 @@
 ### For Developers
 
 **Getting Started:**
+
 1. Read [README.md](../README.md) for overview
 2. Follow [SETUP.md](./SETUP.md) for installation
 3. Review [ARCHITECTURE.md](./ARCHITECTURE.md) for system design
 4. Reference [API_DOCUMENTATION.md](./API_DOCUMENTATION.md) for API details
 
 **Key Files:**
+
 - `package.json` - Dependencies and scripts
 - `tsconfig.json` - TypeScript configuration
 - `next.config.mjs` - Next.js configuration
@@ -109,11 +111,13 @@
 ### For Product Managers
 
 **Understanding the Platform:**
+
 1. Read [README.md](../README.md) for business model
 2. Review [USER_FLOWS.md](./USER_FLOWS.md) for user journeys
 3. Check [WHAT_YOU_NEED.md](../WHAT_YOU_NEED.md) for priorities
 
 **Key Metrics:**
+
 - Enrollment rate
 - Completion rate
 - Employment outcomes
@@ -123,12 +127,14 @@
 ### For Partners
 
 **Getting Started:**
+
 1. Visit `/partner` page on platform
 2. Review partner benefits
 3. Complete application
 4. Access partner portal
 
 **Resources:**
+
 - Partner dashboard: `/partner/dashboard`
 - Help center: `/partner/help`
 - Support: partners@www.elevateforhumanity.org
@@ -136,11 +142,13 @@
 ### For Administrators
 
 **Platform Management:**
+
 1. Access admin panel: `/admin/dashboard`
 2. Review [USER_FLOWS.md](./USER_FLOWS.md) for admin workflows
 3. Generate reports: `/admin/reports`
 
 **Key Responsibilities:**
+
 - Application approvals
 - Compliance reporting
 - User management
@@ -153,18 +161,21 @@
 ### Documentation Standards
 
 **Format:**
+
 - Use Markdown (.md files)
 - Include table of contents for long documents
 - Use code blocks with language specification
 - Include examples where applicable
 
 **Structure:**
+
 - Clear headings and subheadings
 - Logical flow of information
 - Links to related documentation
 - Version and date at top
 
 **Content:**
+
 - Be concise and clear
 - Focus on "why" not just "what"
 - Include troubleshooting tips
@@ -193,11 +204,13 @@
 ## External Resources
 
 ### Platform
+
 - **Website:** https://www.elevateforhumanity.org
 - **Support:** support@www.elevateforhumanity.org
 - **Phone:** 317-314-3757
 
 ### Technology Documentation
+
 - **Next.js:** https://nextjs.org/docs
 - **React:** https://react.dev
 - **TypeScript:** https://www.typescriptlang.org/docs
@@ -206,6 +219,7 @@
 - **Tailwind CSS:** https://tailwindcss.com/docs
 
 ### Community
+
 - **GitHub:** https://github.com/elevateforhumanity/Elevate-lms
 - **Issues:** https://github.com/elevateforhumanity/Elevate-lms/issues
 
@@ -214,6 +228,7 @@
 ## Documentation Roadmap
 
 ### Completed ✅
+
 - [x] README.md - Platform overview
 - [x] SETUP.md - Installation guide
 - [x] ARCHITECTURE.md - Technical architecture
@@ -221,12 +236,14 @@
 - [x] USER_FLOWS.md - User journeys
 
 ### In Progress 🚧
+
 - [ ] CONTRIBUTING.md - Contribution guidelines
 - [ ] DEPLOYMENT.md - Deployment guide
 - [ ] TESTING.md - Testing guide
 - [ ] SECURITY.md - Security practices
 
 ### Planned 📋
+
 - [ ] CHANGELOG.md - Version history
 - [ ] TROUBLESHOOTING.md - Common issues
 - [ ] PERFORMANCE.md - Performance optimization
@@ -240,6 +257,7 @@
 ### Documentation Issues
 
 If you find issues with documentation:
+
 1. Check if issue already exists
 2. Create new issue with "documentation" label
 3. Provide specific details about the problem
@@ -248,6 +266,7 @@ If you find issues with documentation:
 ### Questions
 
 For questions about:
+
 - **Setup:** See [SETUP.md](./SETUP.md) troubleshooting section
 - **Architecture:** See [ARCHITECTURE.md](./ARCHITECTURE.md)
 - **API:** See [API_DOCUMENTATION.md](./API_DOCUMENTATION.md)

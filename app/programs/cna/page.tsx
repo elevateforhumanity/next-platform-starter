@@ -8,7 +8,7 @@ export const revalidate = 86400;
 export const metadata: Metadata = {
   title: CNA.metaTitle ?? `${CNA.title} | Elevate for Humanity`,
   description: CNA.metaDescription ?? CNA.subtitle,
-  alternates: { canonical: '/programs/cna' },
+  alternates: { canonical: '/programs/certified-nursing-assistant' },
 };
 
 export default function Page() {

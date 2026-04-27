@@ -1,6 +1,6 @@
 /**
  * Funding Pathway Enforcement Tests
- * 
+ *
  * These tests verify that policy constraints are enforced in code.
  * Tests MUST FAIL if policy violations are possible.
  */
@@ -21,7 +21,9 @@ describe('Bridge Payment Plan Enforcement', () => {
     it('MUST reject down payment below $500', () => {
       const result = validateBridgePlanTerms(400, 200, 3);
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain(`Down payment must be at least $${BRIDGE_PLAN_CONSTRAINTS.MIN_DOWN_PAYMENT}`);
+      expect(result.errors).toContain(
+        `Down payment must be at least $${BRIDGE_PLAN_CONSTRAINTS.MIN_DOWN_PAYMENT}`,
+      );
     });
 
     it('MUST accept down payment of exactly $500', () => {
@@ -39,7 +41,9 @@ describe('Bridge Payment Plan Enforcement', () => {
     it('MUST reject monthly payment below $200', () => {
       const result = validateBridgePlanTerms(500, 100, 3);
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain(`Monthly payment must be at least $${BRIDGE_PLAN_CONSTRAINTS.MIN_MONTHLY_PAYMENT}`);
+      expect(result.errors).toContain(
+        `Monthly payment must be at least $${BRIDGE_PLAN_CONSTRAINTS.MIN_MONTHLY_PAYMENT}`,
+      );
     });
 
     it('MUST accept monthly payment of exactly $200', () => {
@@ -57,7 +61,9 @@ describe('Bridge Payment Plan Enforcement', () => {
     it('MUST reject term longer than 3 months', () => {
       const result = validateBridgePlanTerms(500, 200, 4);
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain(`Payment plan cannot exceed ${BRIDGE_PLAN_CONSTRAINTS.MAX_TERM_MONTHS} months`);
+      expect(result.errors).toContain(
+        `Payment plan cannot exceed ${BRIDGE_PLAN_CONSTRAINTS.MAX_TERM_MONTHS} months`,
+      );
     });
 
     it('MUST reject term of 6 months', () => {
@@ -101,13 +107,17 @@ describe('Employer Sponsorship Enforcement', () => {
     it('MUST reject reimbursement below $250', () => {
       const result = validateEmployerSponsorshipTerms(200, 16);
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain(`Monthly reimbursement must be at least $${EMPLOYER_SPONSORSHIP_CONSTRAINTS.MIN_MONTHLY_REIMBURSEMENT}`);
+      expect(result.errors).toContain(
+        `Monthly reimbursement must be at least $${EMPLOYER_SPONSORSHIP_CONSTRAINTS.MIN_MONTHLY_REIMBURSEMENT}`,
+      );
     });
 
     it('MUST reject reimbursement above $400', () => {
       const result = validateEmployerSponsorshipTerms(500, 16);
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain(`Monthly reimbursement cannot exceed $${EMPLOYER_SPONSORSHIP_CONSTRAINTS.MAX_MONTHLY_REIMBURSEMENT}`);
+      expect(result.errors).toContain(
+        `Monthly reimbursement cannot exceed $${EMPLOYER_SPONSORSHIP_CONSTRAINTS.MAX_MONTHLY_REIMBURSEMENT}`,
+      );
     });
 
     it('MUST accept reimbursement of $250', () => {
@@ -130,13 +140,17 @@ describe('Employer Sponsorship Enforcement', () => {
     it('MUST reject term below 12 months', () => {
       const result = validateEmployerSponsorshipTerms(300, 6);
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain(`Term must be at least ${EMPLOYER_SPONSORSHIP_CONSTRAINTS.MIN_TERM_MONTHS} months`);
+      expect(result.errors).toContain(
+        `Term must be at least ${EMPLOYER_SPONSORSHIP_CONSTRAINTS.MIN_TERM_MONTHS} months`,
+      );
     });
 
     it('MUST reject term above 20 months', () => {
       const result = validateEmployerSponsorshipTerms(300, 24);
       expect(result.valid).toBe(false);
-      expect(result.errors).toContain(`Term cannot exceed ${EMPLOYER_SPONSORSHIP_CONSTRAINTS.MAX_TERM_MONTHS} months`);
+      expect(result.errors).toContain(
+        `Term cannot exceed ${EMPLOYER_SPONSORSHIP_CONSTRAINTS.MAX_TERM_MONTHS} months`,
+      );
     });
 
     it('MUST accept term of 12 months', () => {

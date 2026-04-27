@@ -54,19 +54,23 @@ export async function getAllBlueprints(): Promise<CredentialBlueprint[]> {
   return _registry;
 }
 
-export async function getBlueprintByCredentialSlug(credentialSlug: string): Promise<CredentialBlueprint | null> {
+export async function getBlueprintByCredentialSlug(
+  credentialSlug: string,
+): Promise<CredentialBlueprint | null> {
   const registry = await getAllBlueprints();
-  return registry.find(bp => bp.credentialSlug === credentialSlug) ?? null;
+  return registry.find((bp) => bp.credentialSlug === credentialSlug) ?? null;
 }
 
 export async function getBlueprintById(id: string): Promise<CredentialBlueprint | null> {
   const registry = await getAllBlueprints();
-  return registry.find(bp => bp.id === id) ?? null;
+  return registry.find((bp) => bp.id === id) ?? null;
 }
 
-export async function getBlueprintByProgramSlug(programSlug: string): Promise<CredentialBlueprint | null> {
+export async function getBlueprintByProgramSlug(
+  programSlug: string,
+): Promise<CredentialBlueprint | null> {
   const registry = await getAllBlueprints();
-  return registry.find(bp => bp.programSlug === programSlug) ?? null;
+  return registry.find((bp) => bp.programSlug === programSlug) ?? null;
 }
 
 /** @deprecated Use getBlueprintById('hvac-epa608-v1') instead */

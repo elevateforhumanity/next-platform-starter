@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { useRef, useState, useEffect, useCallback } from 'react';
@@ -9,10 +9,7 @@ interface SignatureCanvasProps {
   height?: number;
 }
 
-export function SignatureCanvas({
-  onSignatureChange,
-  height = 200,
-}: SignatureCanvasProps) {
+export function SignatureCanvas({ onSignatureChange, height = 200 }: SignatureCanvasProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
   const isDrawingRef = useRef(false);
   const [isEmpty, setIsEmpty] = useState(true);
@@ -46,9 +43,7 @@ export function SignatureCanvas({
     return () => window.removeEventListener('resize', setupCanvas);
   }, [setupCanvas]);
 
-  const getPos = (
-    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
-  ) => {
+  const getPos = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     const canvas = canvasRef.current!;
     const rect = canvas.getBoundingClientRect();
     if ('touches' in e) {
@@ -61,7 +56,7 @@ export function SignatureCanvas({
   };
 
   const startDrawing = (
-    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
+    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>,
   ) => {
     const ctx = canvasRef.current?.getContext('2d');
     if (!ctx) return;
@@ -72,9 +67,7 @@ export function SignatureCanvas({
     ctx.moveTo(x, y);
   };
 
-  const draw = (
-    e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>
-  ) => {
+  const draw = (e: React.MouseEvent<HTMLCanvasElement> | React.TouchEvent<HTMLCanvasElement>) => {
     if (!isDrawingRef.current) return;
     const ctx = canvasRef.current?.getContext('2d');
     if (!ctx) return;

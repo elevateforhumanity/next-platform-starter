@@ -23,6 +23,7 @@ Best,
 [Your name]
 
 **Why this works:**
+
 - Assumes fit
 - Frames pricing as mechanical
 - No selling language
@@ -45,6 +46,7 @@ Best,
 [Your name]
 
 **Why this works:**
+
 - Removes you from internal politics
 - Keeps momentum without chasing
 
@@ -64,6 +66,7 @@ Best of luck with the evaluation,
 [Your name]
 
 **Why this works:**
+
 - Graceful exit
 - Preserves authority
 - No discounting, no persuasion
@@ -72,8 +75,8 @@ Best of luck with the evaluation,
 
 ## When to Use Each
 
-| Signal | Email |
-|--------|-------|
-| Strong fit, ready to move | Email 1 |
+| Signal                               | Email   |
+| ------------------------------------ | ------- |
+| Strong fit, ready to move            | Email 1 |
 | Fit confirmed, needs internal buy-in | Email 2 |
-| Build-leaning, not ready | Email 3 |
+| Build-leaning, not ready             | Email 3 |

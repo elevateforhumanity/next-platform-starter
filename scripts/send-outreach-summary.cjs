@@ -30,38 +30,254 @@ const LOGO_ATTACHMENT = {
 
 const ALL_CONTACTS = [
   // Batch 1 — CNA Outreach (original 3)
-  { batch: 'Batch 1 — CNA Clinical Outreach', facility: 'Greenwood Village South (Executive Director)', name: 'Jordan Morrow', email: 'jmorrow@gvsnet.org', phone: '317-859-4441', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 1 — CNA Clinical Outreach', facility: 'Bloom at Eagle Creek', name: 'Administration', email: 'admin@bloomateaglecreek.com', phone: '', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 1 — CNA Clinical Outreach', facility: 'Bloom at Willow', name: 'Administration', email: 'admin@bloomatwillow.com', phone: '', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
+  {
+    batch: 'Batch 1 — CNA Clinical Outreach',
+    facility: 'Greenwood Village South (Executive Director)',
+    name: 'Jordan Morrow',
+    email: 'jmorrow@gvsnet.org',
+    phone: '317-859-4441',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 1 — CNA Clinical Outreach',
+    facility: 'Bloom at Eagle Creek',
+    name: 'Administration',
+    email: 'admin@bloomateaglecreek.com',
+    phone: '',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 1 — CNA Clinical Outreach',
+    facility: 'Bloom at Willow',
+    name: 'Administration',
+    email: 'admin@bloomatwillow.com',
+    phone: '',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
 
   // Batch 2 — Verified contacts
-  { batch: 'Batch 2 — Verified Contacts', facility: 'Greenwood Village South (Executive Director)', name: 'Jordan Morrow', email: 'jmorrow@gvsnet.org', phone: '317-859-4441', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 2 — Verified Contacts', facility: 'Greenwood Village South (Director of Nursing)', name: 'Alexa Ulrey, RN', email: 'aulrey@gvsnet.org', phone: '317-859-4441', type: 'Director of Nursing', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 2 — Verified Contacts', facility: 'Bloom at Eagle Creek', name: 'Administration', email: 'admin@bloomateaglecreek.com', phone: '', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 2 — Verified Contacts', facility: 'Indiana Department of Health — Long Term Care Division', name: 'Suzanne Williams', email: 'SuWilliams@health.in.gov', phone: '', type: 'State Agency', sent: 'March 9, 2026', status: '✅ Delivered' },
+  {
+    batch: 'Batch 2 — Verified Contacts',
+    facility: 'Greenwood Village South (Executive Director)',
+    name: 'Jordan Morrow',
+    email: 'jmorrow@gvsnet.org',
+    phone: '317-859-4441',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 2 — Verified Contacts',
+    facility: 'Greenwood Village South (Director of Nursing)',
+    name: 'Alexa Ulrey, RN',
+    email: 'aulrey@gvsnet.org',
+    phone: '317-859-4441',
+    type: 'Director of Nursing',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 2 — Verified Contacts',
+    facility: 'Bloom at Eagle Creek',
+    name: 'Administration',
+    email: 'admin@bloomateaglecreek.com',
+    phone: '',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 2 — Verified Contacts',
+    facility: 'Indiana Department of Health — Long Term Care Division',
+    name: 'Suzanne Williams',
+    email: 'SuWilliams@health.in.gov',
+    phone: '',
+    type: 'State Agency',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
 
   // Batch 3 — Indianapolis Facilities
-  { batch: 'Batch 3 — Indianapolis Facilities', facility: 'American Village', name: 'Administration', email: 'info@americanvillage.com', phone: '', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 3 — Indianapolis Facilities', facility: 'Robin Run Village', name: 'Administration', email: 'robinrun@americareusa.net', phone: '', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 3 — Indianapolis Facilities', facility: 'Hoosier Village Retirement Community', name: 'Administration', email: 'info@hoosiervillage.com', phone: '', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 3 — Indianapolis Facilities', facility: 'Allison Pointe Healthcare Center', name: 'Administration', email: 'info@allisonpointehc.com', phone: '', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 3 — Indianapolis Facilities', facility: 'Spring Mill Meadows', name: 'Administration', email: 'springmillmeadows@american-senior.com', phone: '', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 3 — Indianapolis Facilities', facility: 'Rosewalk Village at Indiana Masonic Home', name: 'Administration', email: 'info@rosewalkvillage.com', phone: '', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 3 — Indianapolis Facilities', facility: 'Greenwood Health and Living Community', name: 'Administration', email: 'info@greenwoodhealthliving.com', phone: '', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 3 — Indianapolis Facilities', facility: 'Forest Creek Village', name: 'Administration', email: 'info@forestcreekvillage.com', phone: '', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 3 — Indianapolis Facilities', facility: 'Eagle Valley Meadows', name: 'Administration', email: 'info@eaglevalleymeadows.com', phone: '', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 3 — Indianapolis Facilities', facility: 'Westside Village Health Center', name: 'Administration', email: 'info@westsidevillagehc.com', phone: '', type: 'Long-Term Care Facility', sent: 'March 9, 2026', status: '✅ Delivered' },
+  {
+    batch: 'Batch 3 — Indianapolis Facilities',
+    facility: 'American Village',
+    name: 'Administration',
+    email: 'info@americanvillage.com',
+    phone: '',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 3 — Indianapolis Facilities',
+    facility: 'Robin Run Village',
+    name: 'Administration',
+    email: 'robinrun@americareusa.net',
+    phone: '',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 3 — Indianapolis Facilities',
+    facility: 'Hoosier Village Retirement Community',
+    name: 'Administration',
+    email: 'info@hoosiervillage.com',
+    phone: '',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 3 — Indianapolis Facilities',
+    facility: 'Allison Pointe Healthcare Center',
+    name: 'Administration',
+    email: 'info@allisonpointehc.com',
+    phone: '',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 3 — Indianapolis Facilities',
+    facility: 'Spring Mill Meadows',
+    name: 'Administration',
+    email: 'springmillmeadows@american-senior.com',
+    phone: '',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 3 — Indianapolis Facilities',
+    facility: 'Rosewalk Village at Indiana Masonic Home',
+    name: 'Administration',
+    email: 'info@rosewalkvillage.com',
+    phone: '',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 3 — Indianapolis Facilities',
+    facility: 'Greenwood Health and Living Community',
+    name: 'Administration',
+    email: 'info@greenwoodhealthliving.com',
+    phone: '',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 3 — Indianapolis Facilities',
+    facility: 'Forest Creek Village',
+    name: 'Administration',
+    email: 'info@forestcreekvillage.com',
+    phone: '',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 3 — Indianapolis Facilities',
+    facility: 'Eagle Valley Meadows',
+    name: 'Administration',
+    email: 'info@eaglevalleymeadows.com',
+    phone: '',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 3 — Indianapolis Facilities',
+    facility: 'Westside Village Health Center',
+    name: 'Administration',
+    email: 'info@westsidevillagehc.com',
+    phone: '',
+    type: 'Long-Term Care Facility',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
 
   // Batch 3 — Home Care Agencies
-  { batch: 'Batch 3 — Home Care Agencies', facility: 'Home Instead Indianapolis', name: 'Administration', email: 'info.indy@homeinstead.com', phone: '', type: 'Home Care Agency', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 3 — Home Care Agencies', facility: 'Visiting Angels Indianapolis', name: 'Administration', email: 'indy@visitingangels.com', phone: '', type: 'Home Care Agency', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 3 — Home Care Agencies', facility: 'Comfort Keepers Indianapolis', name: 'Administration', email: 'indy@comfortkeepers.com', phone: '', type: 'Home Care Agency', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 3 — Home Care Agencies', facility: 'Senior Helpers Indianapolis', name: 'Administration', email: 'indianapolis@seniorhelpers.com', phone: '', type: 'Home Care Agency', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 3 — Home Care Agencies', facility: 'Right at Home Indianapolis', name: 'Administration', email: 'info@rahindy.net', phone: '', type: 'Home Care Agency', sent: 'March 9, 2026', status: '✅ Delivered' },
+  {
+    batch: 'Batch 3 — Home Care Agencies',
+    facility: 'Home Instead Indianapolis',
+    name: 'Administration',
+    email: 'info.indy@homeinstead.com',
+    phone: '',
+    type: 'Home Care Agency',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 3 — Home Care Agencies',
+    facility: 'Visiting Angels Indianapolis',
+    name: 'Administration',
+    email: 'indy@visitingangels.com',
+    phone: '',
+    type: 'Home Care Agency',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 3 — Home Care Agencies',
+    facility: 'Comfort Keepers Indianapolis',
+    name: 'Administration',
+    email: 'indy@comfortkeepers.com',
+    phone: '',
+    type: 'Home Care Agency',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 3 — Home Care Agencies',
+    facility: 'Senior Helpers Indianapolis',
+    name: 'Administration',
+    email: 'indianapolis@seniorhelpers.com',
+    phone: '',
+    type: 'Home Care Agency',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 3 — Home Care Agencies',
+    facility: 'Right at Home Indianapolis',
+    name: 'Administration',
+    email: 'info@rahindy.net',
+    phone: '',
+    type: 'Home Care Agency',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
 
   // Batch 4 — IMPACT/FSSA
-  { batch: 'Batch 4 — IMPACT / FSSA Partnership', facility: 'Koehler Partners / FSSA', name: 'Lesley Brown', email: 'Lesley.Brown@koehlerpartners.com', phone: '', type: 'Workforce Partner', sent: 'March 9, 2026', status: '✅ Delivered' },
-  { batch: 'Batch 4 — IMPACT / FSSA Partnership', facility: 'FSSA — IMPACT Program', name: 'Joe Gilles', email: 'william.gilles@fssa.in.gov', phone: '', type: 'State Workforce Agency', sent: 'March 9, 2026', status: '✅ Delivered' },
+  {
+    batch: 'Batch 4 — IMPACT / FSSA Partnership',
+    facility: 'Koehler Partners / FSSA',
+    name: 'Lesley Brown',
+    email: 'Lesley.Brown@koehlerpartners.com',
+    phone: '',
+    type: 'Workforce Partner',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
+  {
+    batch: 'Batch 4 — IMPACT / FSSA Partnership',
+    facility: 'FSSA — IMPACT Program',
+    name: 'Joe Gilles',
+    email: 'william.gilles@fssa.in.gov',
+    phone: '',
+    type: 'State Workforce Agency',
+    sent: 'March 9, 2026',
+    status: '✅ Delivered',
+  },
 ];
 
 function buildHtml(contacts) {
@@ -83,7 +299,9 @@ function buildHtml(contacts) {
   let batchHtml = '';
   for (const [batchName, rows] of Object.entries(batches)) {
     const color = batchColors[batchName] || '#1e293b';
-    const rowsHtml = rows.map(r => `
+    const rowsHtml = rows
+      .map(
+        (r) => `
       <tr style="border-bottom:1px solid #f1f5f9;">
         <td style="padding:10px 12px;font-size:13px;color:#1e293b;font-weight:600;">${r.facility}</td>
         <td style="padding:10px 12px;font-size:13px;color:#475569;">${r.name}</td>
@@ -91,7 +309,9 @@ function buildHtml(contacts) {
         <td style="padding:10px 12px;font-size:13px;color:#475569;">${r.phone || '—'}</td>
         <td style="padding:10px 12px;font-size:13px;color:#475569;">${r.type}</td>
         <td style="padding:10px 12px;font-size:13px;color:#16a34a;font-weight:600;">${r.status}</td>
-      </tr>`).join('');
+      </tr>`,
+      )
+      .join('');
 
     batchHtml += `
       <tr>
@@ -199,15 +419,21 @@ function buildHtml(contacts) {
 
 async function main() {
   const payload = JSON.stringify({
-    personalizations: [{ to: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }] }],
+    personalizations: [
+      { to: [{ email: 'elevate4humanityedu@gmail.com', name: 'Elizabeth Greene' }] },
+    ],
     from: { email: FROM, name: FROM_NAME },
     reply_to: { email: REPLY_TO, name: 'Elizabeth Greene' },
     subject: `Outreach Report — ${ALL_CONTACTS.length} Emails Delivered | Elevate for Humanity`,
     content: [
       {
         type: 'text/plain',
-        value: `OUTREACH DELIVERY REPORT — Elevate for Humanity\nGenerated: March 9, 2026\nTotal Delivered: ${ALL_CONTACTS.length}/24 | 4 Batches | 0 Failed\n\n` +
-          ALL_CONTACTS.map(c => `${c.batch}\n${c.facility} | ${c.name} | ${c.email} | ${c.phone || 'No phone'} | ${c.status}`).join('\n') +
+        value:
+          `OUTREACH DELIVERY REPORT — Elevate for Humanity\nGenerated: March 9, 2026\nTotal Delivered: ${ALL_CONTACTS.length}/24 | 4 Batches | 0 Failed\n\n` +
+          ALL_CONTACTS.map(
+            (c) =>
+              `${c.batch}\n${c.facility} | ${c.name} | ${c.email} | ${c.phone || 'No phone'} | ${c.status}`,
+          ).join('\n') +
           '\n\nFOLLOW-UP: Call each facility within 24 hours. Ask for Director of Nursing or Staff Development Coordinator.',
       },
       { type: 'text/html', value: buildHtml(ALL_CONTACTS) },
@@ -229,11 +455,15 @@ async function main() {
           'Content-Length': Buffer.byteLength(payload),
         },
       },
-      res => {
+      (res) => {
         let body = '';
-        res.on('data', c => body += c);
-        res.on('end', () => res.statusCode === 202 ? resolve({ ok: true }) : resolve({ ok: false, status: res.statusCode, body }));
-      }
+        res.on('data', (c) => (body += c));
+        res.on('end', () =>
+          res.statusCode === 202
+            ? resolve({ ok: true })
+            : resolve({ ok: false, status: res.statusCode, body }),
+        );
+      },
     );
     req.on('error', reject);
     req.write(payload);
@@ -249,7 +479,7 @@ async function main() {
   }
 }
 
-main().catch(err => {
+main().catch((err) => {
   console.error('Fatal:', err);
   process.exit(1);
 });

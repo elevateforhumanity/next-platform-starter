@@ -42,7 +42,7 @@ export async function POST(req: NextRequest) {
 
   const openai = new OpenAI({ apiKey: process.env.OPENAI_API_KEY });
 
-  const isExpand = !!(existingContent?.trim());
+  const isExpand = !!existingContent?.trim();
   const systemPrompt = `You are an expert instructional designer for Elevate for Humanity, a workforce development LMS.
 Write practical, specific lesson content for adult learners. Use clear markdown formatting.
 

@@ -9,11 +9,14 @@ const fs = require('fs');
 const path = require('path');
 
 const API_KEY = process.env.SENDGRID_API_KEY;
-if (!API_KEY) { console.error('SENDGRID_API_KEY not set'); process.exit(1); }
+if (!API_KEY) {
+  console.error('SENDGRID_API_KEY not set');
+  process.exit(1);
+}
 
-const logoBase64 = fs.readFileSync(
-  path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg')
-).toString('base64');
+const logoBase64 = fs
+  .readFileSync(path.join(__dirname, '../public/images/Elevate_for_Humanity_logo_81bf0fab.jpg'))
+  .toString('base64');
 
 const LOGO_ATTACHMENT = {
   content: logoBase64,
@@ -60,8 +63,12 @@ elevate4humanityedu@gmail.com
 }
 
 function buildHtml(text) {
-  const paras = text.split('\n\n').filter(p => p.trim())
-    .map(p => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`)
+  const paras = text
+    .split('\n\n')
+    .filter((p) => p.trim())
+    .map(
+      (p) => `<p style="margin:0 0 16px 0;color:#1e293b;">${p.trim().replace(/\n/g, '<br>')}</p>`,
+    )
     .join('');
   return `<!DOCTYPE html><html><head><meta charset="utf-8"></head>
 <body style="margin:0;padding:0;background:#f8fafc;font-family:Arial,sans-serif;">
@@ -87,12 +94,30 @@ function buildHtml(text) {
 // All major systems route workforce/partnership inquiries through HR portals or contact forms
 // No direct general emails published for IU Health, Community Health, Ascension, Labcorp, Quest, AHN
 const MANUAL = [
-  { org: 'Indiana University Health',      note: 'Call (317) 962-2000 | iuhealth.org — ask for Workforce Development or HR Partnerships' },
-  { org: 'Community Health Network',       note: 'Call (317) 621-6262 | ecommunity.com — ask for HR or Workforce Development' },
-  { org: 'Ascension St. Vincent',          note: 'Call (317) 338-2345 | healthcare.ascension.org — ask for HR or Education Partnerships' },
-  { org: 'Labcorp',                        note: 'Call (800) 845-6167 | labcorp.com — ask for Regional Recruiting or Workforce Partnerships' },
-  { org: 'Quest Diagnostics',              note: 'Call (866) 697-8378 | questdiagnostics.com — ask for Regional HR or Training Partnerships' },
-  { org: 'American Health Network',        note: 'Contact form: ahni.com — ask for HR or Practice Operations' },
+  {
+    org: 'Indiana University Health',
+    note: 'Call (317) 962-2000 | iuhealth.org — ask for Workforce Development or HR Partnerships',
+  },
+  {
+    org: 'Community Health Network',
+    note: 'Call (317) 621-6262 | ecommunity.com — ask for HR or Workforce Development',
+  },
+  {
+    org: 'Ascension St. Vincent',
+    note: 'Call (317) 338-2345 | healthcare.ascension.org — ask for HR or Education Partnerships',
+  },
+  {
+    org: 'Labcorp',
+    note: 'Call (800) 845-6167 | labcorp.com — ask for Regional Recruiting or Workforce Partnerships',
+  },
+  {
+    org: 'Quest Diagnostics',
+    note: 'Call (866) 697-8378 | questdiagnostics.com — ask for Regional HR or Training Partnerships',
+  },
+  {
+    org: 'American Health Network',
+    note: 'Contact form: ahni.com — ask for HR or Practice Operations',
+  },
 ];
 
 async function main() {
@@ -100,7 +125,7 @@ async function main() {
   console.log('All major healthcare systems route partnership inquiries through HR portals.');
   console.log('Direct calls to HR or Workforce Development are the fastest path.\n');
   console.log('--- Call List ---');
-  MANUAL.forEach(m => console.log(`  ${m.org}:\n    ${m.note}\n`));
+  MANUAL.forEach((m) => console.log(`  ${m.org}:\n    ${m.note}\n`));
   console.log('Call script:');
   console.log('"Hi, this is Elizabeth Greene, Executive Director of Elevate for Humanity.');
   console.log('We run Medical Assistant and Phlebotomy training programs in Indianapolis');

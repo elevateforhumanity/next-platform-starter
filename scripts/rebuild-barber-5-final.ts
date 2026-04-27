@@ -14,7 +14,7 @@ import os from 'os';
 import { execSync } from 'child_process';
 import { generateTextToSpeech } from '../server/tts-service';
 
-const OUT  = path.join(process.cwd(), 'public/videos/barber-lessons');
+const OUT = path.join(process.cwd(), 'public/videos/barber-lessons');
 const BROLL = path.join(process.cwd(), 'public/videos');
 
 const LESSONS = [
@@ -122,15 +122,20 @@ Your reputation is built one client at a time. A clean shop, clean tools, and pr
 
 function getAudioDuration(p: string): number {
   try {
-    const out = execSync(`ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${p}"`, { encoding: 'utf8' });
+    const out = execSync(
+      `ffprobe -v error -show_entries format=duration -of default=noprint_wrappers=1:nokey=1 "${p}"`,
+      { encoding: 'utf8' },
+    );
     return parseFloat(out.trim()) || 60;
-  } catch { return 60; }
+  } catch {
+    return 60;
+  }
 }
 
-async function buildLesson(lesson: typeof LESSONS[0]) {
+async function buildLesson(lesson: (typeof LESSONS)[0]) {
   const outputPath = path.join(OUT, `${lesson.slug}.mp4`);
-  const brollPath  = path.join(BROLL, lesson.broll);
-  const tmp        = fs.mkdtempSync(path.join(os.tmpdir(), 'barber-'));
+  const brollPath = path.join(BROLL, lesson.broll);
+  const tmp = fs.mkdtempSync(path.join(os.tmpdir(), 'barber-'));
 
   try {
     // 1. TTS
@@ -139,14 +144,14 @@ async function buildLesson(lesson: typeof LESSONS[0]) {
     const audioPath = path.join(tmp, 'narration.mp3');
     fs.writeFileSync(audioPath, audioBuffer);
     const audioDur = getAudioDuration(audioPath);
-    console.log(` ${Math.round(audioDur)}s (${(audioBuffer.length/1024/1024).toFixed(1)}MB)`);
+    console.log(` ${Math.round(audioDur)}s (${(audioBuffer.length / 1024 / 1024).toFixed(1)}MB)`);
 
     // 2. Loop b-roll to narration length
     process.stdout.write(`  → Looping ${lesson.broll}...`);
     const loopedPath = path.join(tmp, 'looped.mp4');
     execSync(
       `ffmpeg -y -stream_loop -1 -i "${brollPath}" -t ${audioDur.toFixed(2)} -c:v libx264 -preset fast -crf 20 -an "${loopedPath}"`,
-      { stdio: 'pipe' }
+      { stdio: 'pipe' },
     );
     console.log(` done`);
 
@@ -154,11 +159,10 @@ async function buildLesson(lesson: typeof LESSONS[0]) {
     process.stdout.write(`  → Muxing...`);
     execSync(
       `ffmpeg -y -i "${loopedPath}" -i "${audioPath}" -c:v copy -c:a aac -b:a 128k -shortest "${outputPath}"`,
-      { stdio: 'pipe' }
+      { stdio: 'pipe' },
     );
     const size = (fs.statSync(outputPath).size / 1024 / 1024).toFixed(1);
     console.log(` ✅ ${size}MB → ${outputPath}`);
-
   } finally {
     fs.rmSync(tmp, { recursive: true, force: true });
   }
@@ -172,13 +176,19 @@ async function main() {
   for (let i = 0; i < LESSONS.length; i++) {
     const l = LESSONS[i];
     const words = l.script.split(/\s+/).length;
-    console.log(`[${i+1}/5] ${l.title}`);
-    console.log(`  B-roll: ${l.broll} | Script: ${words} words (~${Math.round(words/140)} min)`);
-    if (dryRun) { console.log('  [dry-run]\n'); continue; }
+    console.log(`[${i + 1}/5] ${l.title}`);
+    console.log(`  B-roll: ${l.broll} | Script: ${words} words (~${Math.round(words / 140)} min)`);
+    if (dryRun) {
+      console.log('  [dry-run]\n');
+      continue;
+    }
     await buildLesson(l);
     console.log();
   }
   console.log('Done.');
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e);
+  process.exit(1);
+});

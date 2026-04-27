@@ -11,10 +11,7 @@ interface CopyrightProps {
  * Renders the copyright year client-side to avoid server/client hydration
  * mismatch from new Date().getFullYear() differing across render environments.
  */
-export default function Copyright({
-  entity = 'Elevate for Humanity',
-  className,
-}: CopyrightProps) {
+export default function Copyright({ entity = 'Elevate for Humanity', className }: CopyrightProps) {
   const [year, setYear] = useState<number | null>(null);
 
   useEffect(() => {

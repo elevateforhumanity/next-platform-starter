@@ -9,11 +9,13 @@ import { ArrowRight, Clock, DollarSign, Award, Phone } from 'lucide-react';
 export const revalidate = 3600;
 export const metadata: Metadata = {
   title: 'Free Career Counseling | Elevate for Humanity',
-  description: 'Get free personalized career guidance. Explore career paths, identify skill gaps, and find the right training program. AI-powered counseling available 24/7.',
+  description:
+    'Get free personalized career guidance. Explore career paths, identify skill gaps, and find the right training program. AI-powered counseling available 24/7.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/career-counseling' },
   openGraph: {
     title: 'Free Career Counseling | Elevate for Humanity',
-    description: 'Get free personalized career guidance powered by AI. Explore career paths and find the right training program.',
+    description:
+      'Get free personalized career guidance powered by AI. Explore career paths and find the right training program.',
   },
 };
 
@@ -39,20 +41,25 @@ export default async function CareerCounselingPage() {
       {/* Hero — standard size, title below */}
       <section className="relative w-full">
         <div className="relative h-[50vh] sm:h-[55vh] md:h-[60vh] lg:h-[65vh] min-h-[320px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src="/images/pages/career-counseling-page-1.jpg"
             alt="Career counseling and guidance"
-            fill sizes="100vw"
+            fill
+            sizes="100vw"
             className="object-cover object-center"
             priority
           />
         </div>
         <div className="bg-white border-t py-10 text-center px-4">
-          <p className="text-brand-blue-600 font-bold text-xs uppercase tracking-widest mb-3">Free Service</p>
+          <p className="text-brand-blue-600 font-bold text-xs uppercase tracking-widest mb-3">
+            Free Service
+          </p>
           <h1 className="text-4xl md:text-5xl font-black text-black mb-4">Career Counseling</h1>
           <p className="text-black text-lg max-w-2xl mx-auto mb-8">
-            Not sure which program is right for you? Our AI career counselor helps you explore options,
-            understand funding, and find the path that fits your goals — available 24/7 at no cost.
+            Not sure which program is right for you? Our AI career counselor helps you explore
+            options, understand funding, and find the path that fits your goals — available 24/7 at
+            no cost.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <a
@@ -124,8 +131,8 @@ export default async function CareerCounselingPage() {
         <div className="max-w-5xl mx-auto px-4 pt-12 pb-4">
           <h2 className="text-3xl font-black text-black text-center mb-3">AI Career Counselor</h2>
           <p className="text-black text-center mb-8 max-w-xl mx-auto">
-            Answer a few questions and get personalized program recommendations based on your skills,
-            goals, and background. Free, private, no account required.
+            Answer a few questions and get personalized program recommendations based on your
+            skills, goals, and background. Free, private, no account required.
           </p>
         </div>
         <AICareerCounseling />
@@ -135,8 +142,8 @@ export default async function CareerCounselingPage() {
       <section className="py-14 bg-slate-900 text-center px-4">
         <h2 className="text-2xl font-black text-white mb-3">Prefer to Talk to a Person?</h2>
         <p className="text-white mb-6 max-w-xl mx-auto">
-          Our enrollment advisors are available Monday–Friday, 9 AM–5 PM Eastern.
-          No appointment needed.
+          Our enrollment advisors are available Monday–Friday, 9 AM–5 PM Eastern. No appointment
+          needed.
         </p>
         <div className="flex flex-wrap gap-4 justify-center">
           <a

@@ -3,9 +3,19 @@
 import { useState } from 'react';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/client';
-import { 
-  Building2, Bell, Settings, Plus, Upload, Download, RefreshCw,
-  Clock, AlertTriangle, ChevronRight, X, FileText
+import {
+  Building2,
+  Bell,
+  Settings,
+  Plus,
+  Upload,
+  Download,
+  RefreshCw,
+  Clock,
+  AlertTriangle,
+  ChevronRight,
+  X,
+  FileText,
 } from 'lucide-react';
 
 interface Props {
@@ -17,9 +27,18 @@ interface Props {
   trialDaysRemaining: number;
 }
 
-export function SamGovApp({ user, subscription, entities: initialEntities, documents, alerts, trialDaysRemaining }: Props) {
+export function SamGovApp({
+  user,
+  subscription,
+  entities: initialEntities,
+  documents,
+  alerts,
+  trialDaysRemaining,
+}: Props) {
   const [entities, setEntities] = useState(initialEntities);
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'entities' | 'compliance' | 'documents'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'entities' | 'compliance' | 'documents'>(
+    'dashboard',
+  );
   const [showNewModal, setShowNewModal] = useState(false);
   const [loading, setLoading] = useState(false);
   const supabase = createClient();
@@ -27,7 +46,7 @@ export function SamGovApp({ user, subscription, entities: initialEntities, docum
   const createEntity = async (name: string) => {
     if (!supabase) return;
     setLoading(true);
-    
+
     const { data, error } = await supabase
       .from('sam_entities')
       .insert({ user_id: user.id, legal_name: name, registration_status: 'draft', current_step: 1 })
@@ -35,7 +54,7 @@ export function SamGovApp({ user, subscription, entities: initialEntities, docum
       .single();
 
     if (!error && data) {
-      setEntities(prev => [data, ...prev]);
+      setEntities((prev) => [data, ...prev]);
       setShowNewModal(false);
     }
     setLoading(false);
@@ -46,8 +65,10 @@ export function SamGovApp({ user, subscription, entities: initialEntities, docum
       {/* Trial Banner */}
       {subscription.status === 'trial' && trialDaysRemaining > 0 && (
         <div className="bg-white text-yellow-900 px-4 py-2 text-center text-sm font-medium">
-          Trial: {trialDaysRemaining} days remaining. 
-          <Link href="/store/apps/sam-gov?upgrade=true" className="underline ml-2">Upgrade now</Link>
+          Trial: {trialDaysRemaining} days remaining.
+          <Link href="/store/apps/sam-gov?upgrade=true" className="underline ml-2">
+            Upgrade now
+          </Link>
         </div>
       )}
 
@@ -67,7 +88,9 @@ export function SamGovApp({ user, subscription, entities: initialEntities, docum
             {alerts.length > 0 && (
               <div className="relative">
                 <Bell className="w-5 h-5" />
-                <span className="absolute -top-1 -right-1 w-4 h-4 bg-brand-red-500 rounded-full text-xs flex items-center justify-center">{alerts.length}</span>
+                <span className="absolute -top-1 -right-1 w-4 h-4 bg-brand-red-500 rounded-full text-xs flex items-center justify-center">
+                  {alerts.length}
+                </span>
               </div>
             )}
             <Link href="/apps/sam-gov" className="p-2 hover:bg-brand-blue-800 rounded-lg">
@@ -76,7 +99,7 @@ export function SamGovApp({ user, subscription, entities: initialEntities, docum
           </div>
         </div>
         <div className="max-w-7xl mx-auto px-4 flex gap-1">
-          {['dashboard', 'entities', 'compliance', 'documents'].map(tab => (
+          {['dashboard', 'entities', 'compliance', 'documents'].map((tab) => (
             <button
               key={tab}
               onClick={() => setActiveTab(tab as any)}
@@ -105,14 +128,21 @@ export function SamGovApp({ user, subscription, entities: initialEntities, docum
                   <span className="text-gray-500 text-sm">Active</span>
                   <span className="text-slate-500 flex-shrink-0">•</span>
                 </div>
-                <p className="text-3xl font-bold text-brand-green-600">{entities.filter(e => e.registration_status === 'active').length}</p>
+                <p className="text-3xl font-bold text-brand-green-600">
+                  {entities.filter((e) => e.registration_status === 'active').length}
+                </p>
               </div>
               <div className="bg-white rounded-xl p-6 border">
                 <div className="flex items-center justify-between mb-2">
                   <span className="text-gray-500 text-sm">Pending</span>
                   <Clock className="w-5 h-5 text-yellow-500" />
                 </div>
-                <p className="text-3xl font-bold text-yellow-600">{entities.filter(e => ['pending', 'draft'].includes(e.registration_status)).length}</p>
+                <p className="text-3xl font-bold text-yellow-600">
+                  {
+                    entities.filter((e) => ['pending', 'draft'].includes(e.registration_status))
+                      .length
+                  }
+                </p>
               </div>
               <div className="bg-white rounded-xl p-6 border">
                 <div className="flex items-center justify-between mb-2">
@@ -125,7 +155,10 @@ export function SamGovApp({ user, subscription, entities: initialEntities, docum
 
             {/* Quick Actions */}
             <div className="grid md:grid-cols-4 gap-4">
-              <button onClick={() => setShowNewModal(true)} className="bg-white rounded-xl p-6 border hover:shadow-lg transition text-left">
+              <button
+                onClick={() => setShowNewModal(true)}
+                className="bg-white rounded-xl p-6 border hover:shadow-lg transition text-left"
+              >
                 <Plus className="w-8 h-8 text-brand-blue-600 mb-3" />
                 <h3 className="font-bold">New Registration</h3>
                 <p className="text-sm text-gray-500 mt-1">Start a new SAM.gov registration</p>
@@ -157,24 +190,35 @@ export function SamGovApp({ user, subscription, entities: initialEntities, docum
                   <Building2 className="w-12 h-12 text-gray-300 mx-auto mb-4" />
                   <h3 className="font-bold mb-2">No entities yet</h3>
                   <p className="text-gray-500 mb-4">Start by creating a new SAM.gov registration</p>
-                  <button onClick={() => setShowNewModal(true)} className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg">
+                  <button
+                    onClick={() => setShowNewModal(true)}
+                    className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg"
+                  >
                     Create First Entity
                   </button>
                 </div>
               ) : (
                 <div className="divide-y">
-                  {entities.map(entity => (
-                    <Link key={entity.id} href={`/apps/sam-gov/entity/${entity.id}`} className="p-4 hover:bg-white flex items-center justify-between">
+                  {entities.map((entity) => (
+                    <Link
+                      key={entity.id}
+                      href={`/apps/sam-gov/entity/${entity.id}`}
+                      className="p-4 hover:bg-white flex items-center justify-between"
+                    >
                       <div>
                         <h3 className="font-medium">{entity.legal_name}</h3>
                         <p className="text-sm text-gray-500">{entity.uei || 'UEI not assigned'}</p>
                       </div>
                       <div className="flex items-center gap-3">
-                        <span className={`px-3 py-1 rounded-full text-xs font-bold ${
-                          entity.registration_status === 'active' ? 'bg-brand-green-100 text-brand-green-800' :
-                          entity.registration_status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                          'bg-white text-gray-800'
-                        }`}>
+                        <span
+                          className={`px-3 py-1 rounded-full text-xs font-bold ${
+                            entity.registration_status === 'active'
+                              ? 'bg-brand-green-100 text-brand-green-800'
+                              : entity.registration_status === 'pending'
+                                ? 'bg-yellow-100 text-yellow-800'
+                                : 'bg-white text-gray-800'
+                          }`}
+                        >
                           {entity.registration_status}
                         </span>
                         <ChevronRight className="w-5 h-5 text-gray-400" />
@@ -194,10 +238,16 @@ export function SamGovApp({ user, subscription, entities: initialEntities, docum
               <p className="text-gray-500">No entities. Create one from the dashboard.</p>
             ) : (
               <div className="space-y-4">
-                {entities.map(entity => (
-                  <Link key={entity.id} href={`/apps/sam-gov/entity/${entity.id}`} className="block p-4 border rounded-lg hover:bg-white">
+                {entities.map((entity) => (
+                  <Link
+                    key={entity.id}
+                    href={`/apps/sam-gov/entity/${entity.id}`}
+                    className="block p-4 border rounded-lg hover:bg-white"
+                  >
                     <h3 className="font-bold">{entity.legal_name}</h3>
-                    <p className="text-sm text-gray-500">Status: {entity.registration_status} | Step: {entity.current_step}/7</p>
+                    <p className="text-sm text-gray-500">
+                      Status: {entity.registration_status} | Step: {entity.current_step}/7
+                    </p>
                   </Link>
                 ))}
               </div>
@@ -212,13 +262,21 @@ export function SamGovApp({ user, subscription, entities: initialEntities, docum
               <p className="text-gray-500">No entities to monitor.</p>
             ) : (
               <div className="grid md:grid-cols-2 gap-4">
-                {entities.map(entity => (
+                {entities.map((entity) => (
                   <div key={entity.id} className="border rounded-lg p-4">
                     <h3 className="font-bold">{entity.legal_name}</h3>
                     <div className="mt-2 space-y-2 text-sm">
                       <div className="flex justify-between">
                         <span className="text-gray-500">Status</span>
-                        <span className={entity.registration_status === 'active' ? 'text-brand-green-600' : 'text-yellow-600'}>{entity.registration_status}</span>
+                        <span
+                          className={
+                            entity.registration_status === 'active'
+                              ? 'text-brand-green-600'
+                              : 'text-yellow-600'
+                          }
+                        >
+                          {entity.registration_status}
+                        </span>
                       </div>
                       {entity.sam_expiration_date && (
                         <div className="flex justify-between">
@@ -241,7 +299,7 @@ export function SamGovApp({ user, subscription, entities: initialEntities, docum
               <p className="text-gray-500">No documents uploaded yet.</p>
             ) : (
               <div className="space-y-2">
-                {documents.map(doc => (
+                {documents.map((doc) => (
                   <div key={doc.id} className="flex items-center gap-3 p-3 border rounded-lg">
                     <FileText className="w-5 h-5 text-gray-400" />
                     <div>
@@ -262,16 +320,39 @@ export function SamGovApp({ user, subscription, entities: initialEntities, docum
           <div className="bg-white rounded-xl max-w-md w-full p-6">
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-xl font-bold">New Entity</h3>
-              <button onClick={() => setShowNewModal(false)} aria-label="Close"><X className="w-5 h-5" /></button>
+              <button onClick={() => setShowNewModal(false)} aria-label="Close">
+                <X className="w-5 h-5" />
+              </button>
             </div>
-            <form onSubmit={(e) => { e.preventDefault(); const name = (e.target as any).legalName.value; createEntity(name); }}>
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                const name = (e.target as any).legalName.value;
+                createEntity(name);
+              }}
+            >
               <div className="mb-4">
                 <label className="block text-sm font-medium mb-2">Legal Business Name</label>
-                <input name="legalName" required className="w-full px-4 py-3 border rounded-lg" placeholder="Enter legal business name" />
+                <input
+                  name="legalName"
+                  required
+                  className="w-full px-4 py-3 border rounded-lg"
+                  placeholder="Enter legal business name"
+                />
               </div>
               <div className="flex gap-3">
-                <button type="button" onClick={() => setShowNewModal(false)} className="flex-1 px-4 py-3 border rounded-lg">Cancel</button>
-                <button type="submit" disabled={loading} className="flex-1 px-4 py-3 bg-brand-blue-600 text-white rounded-lg disabled:opacity-50">
+                <button
+                  type="button"
+                  onClick={() => setShowNewModal(false)}
+                  className="flex-1 px-4 py-3 border rounded-lg"
+                >
+                  Cancel
+                </button>
+                <button
+                  type="submit"
+                  disabled={loading}
+                  className="flex-1 px-4 py-3 bg-brand-blue-600 text-white rounded-lg disabled:opacity-50"
+                >
                   {loading ? 'Creating...' : 'Create'}
                 </button>
               </div>

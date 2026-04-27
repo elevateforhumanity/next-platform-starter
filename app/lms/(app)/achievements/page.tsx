@@ -7,7 +7,6 @@ import { redirect } from 'next/navigation';
 import { AchievementsBadges } from '@/components/AchievementsBadges';
 import MicroCredentialsBadges from '@/components/MicroCredentialsBadges';
 import {
-
   Trophy,
   Star,
   Award,
@@ -19,7 +18,8 @@ import {
   Crown,
   TrendingUp,
   Calendar,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: {
@@ -52,12 +52,20 @@ export default async function AchievementsPage() {
     .select('id, status, course_id, progress_percent, created_at')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false });
-  const achCourseIds = [...new Set((rawAchEnrollments || []).map((e: any) => e.course_id).filter(Boolean))];
+  const achCourseIds = [
+    ...new Set((rawAchEnrollments || []).map((e: any) => e.course_id).filter(Boolean)),
+  ];
   const { data: achCourses } = achCourseIds.length
-    ? await supabase.from('courses').select('id, title, description, thumbnail_url').in('id', achCourseIds)
+    ? await supabase
+        .from('courses')
+        .select('id, title, description, thumbnail_url')
+        .in('id', achCourseIds)
     : { data: [] };
   const achCourseMap = Object.fromEntries((achCourses || []).map((c: any) => [c.id, c]));
-  const enrollments = (rawAchEnrollments || []).map((e: any) => ({ ...e, courses: achCourseMap[e.course_id] ?? null }));
+  const enrollments = (rawAchEnrollments || []).map((e: any) => ({
+    ...e,
+    courses: achCourseMap[e.course_id] ?? null,
+  }));
 
   // Fetch completed courses
   const { count: completedCourses } = await supabase
@@ -97,20 +105,20 @@ export default async function AchievementsPage() {
     coursesCompleted: completedCourses || 0,
     lessonsCompleted: completedLessons || 0,
     quizzesCompleted: quizAttempts?.length || 0,
-    perfectQuizzes: quizAttempts?.filter(q => q.score === 100).length || 0,
+    perfectQuizzes: quizAttempts?.filter((q) => q.score === 100).length || 0,
     certificatesEarned: certificatesEarned || 0,
     badgesEarned: userBadges?.length || 0,
     totalPoints: 0,
   };
 
   // Calculate total points
-  stats.totalPoints = 
-    (stats.coursesCompleted * 100) + 
-    (stats.lessonsCompleted * 10) + 
-    (stats.quizzesCompleted * 25) + 
-    (stats.perfectQuizzes * 50) + 
-    (stats.certificatesEarned * 200) +
-    (stats.badgesEarned * 25);
+  stats.totalPoints =
+    stats.coursesCompleted * 100 +
+    stats.lessonsCompleted * 10 +
+    stats.quizzesCompleted * 25 +
+    stats.perfectQuizzes * 50 +
+    stats.certificatesEarned * 200 +
+    stats.badgesEarned * 25;
 
   // Define milestones
   const milestones = [
@@ -196,9 +204,9 @@ export default async function AchievementsPage() {
     },
   ];
 
-  const completedMilestones = milestones.filter(m => m.current >= m.target);
-  const inProgressMilestones = milestones.filter(m => m.current < m.target && m.current > 0);
-  const lockedMilestones = milestones.filter(m => m.current === 0);
+  const completedMilestones = milestones.filter((m) => m.current >= m.target);
+  const inProgressMilestones = milestones.filter((m) => m.current < m.target && m.current > 0);
+  const lockedMilestones = milestones.filter((m) => m.current === 0);
 
   const colorMap: Record<string, { bg: string; text: string }> = {
     blue: { bg: 'bg-brand-blue-100', text: 'text-brand-blue-600' },
@@ -213,9 +221,9 @@ export default async function AchievementsPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Achievements" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Achievements' }]} />
+      </div>
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-8">
@@ -306,7 +314,7 @@ export default async function AchievementsPage() {
               Completed Milestones
             </h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {completedMilestones.map(milestone => {
+              {completedMilestones.map((milestone) => {
                 const IconComponent = milestone.icon;
                 const colors = colorMap[milestone.color];
                 return (
@@ -314,14 +322,15 @@ export default async function AchievementsPage() {
                     key={milestone.id}
                     className="bg-white rounded-xl border-2 border-brand-green-200 p-6 text-center"
                   >
-                    <div className={`w-14 h-14 ${colors.bg} rounded-full flex items-center justify-center mx-auto mb-3`}>
+                    <div
+                      className={`w-14 h-14 ${colors.bg} rounded-full flex items-center justify-center mx-auto mb-3`}
+                    >
                       <IconComponent className={`w-7 h-7 ${colors.text}`} />
                     </div>
                     <h3 className="font-bold text-slate-900 mb-1">{milestone.title}</h3>
                     <p className="text-sm text-slate-600 mb-2">{milestone.description}</p>
                     <div className="flex items-center justify-center gap-1 text-brand-green-600 font-semibold">
-                      <Star className="w-4 h-4" />
-                      +{milestone.points} pts
+                      <Star className="w-4 h-4" />+{milestone.points} pts
                     </div>
                   </div>
                 );
@@ -338,7 +347,7 @@ export default async function AchievementsPage() {
               In Progress
             </h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {inProgressMilestones.map(milestone => {
+              {inProgressMilestones.map((milestone) => {
                 const IconComponent = milestone.icon;
                 const colors = colorMap[milestone.color];
                 const progress = Math.round((milestone.current / milestone.target) * 100);
@@ -347,7 +356,9 @@ export default async function AchievementsPage() {
                     key={milestone.id}
                     className="bg-white rounded-xl border border-slate-200 p-6 text-center"
                   >
-                    <div className={`w-14 h-14 ${colors.bg} rounded-full flex items-center justify-center mx-auto mb-3`}>
+                    <div
+                      className={`w-14 h-14 ${colors.bg} rounded-full flex items-center justify-center mx-auto mb-3`}
+                    >
                       <IconComponent className={`w-7 h-7 ${colors.text}`} />
                     </div>
                     <h3 className="font-bold text-slate-900 mb-1">{milestone.title}</h3>
@@ -378,7 +389,7 @@ export default async function AchievementsPage() {
               Upcoming Milestones
             </h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {lockedMilestones.map(milestone => {
+              {lockedMilestones.map((milestone) => {
                 const IconComponent = milestone.icon;
                 return (
                   <div
@@ -431,7 +442,10 @@ export default async function AchievementsPage() {
 
         {/* Back Link */}
         <div className="mt-8 text-center">
-          <Link href="/lms/dashboard" className="text-brand-blue-600 hover:text-brand-blue-700 font-medium">
+          <Link
+            href="/lms/dashboard"
+            className="text-brand-blue-600 hover:text-brand-blue-700 font-medium"
+          >
             ← Back to Dashboard
           </Link>
         </div>

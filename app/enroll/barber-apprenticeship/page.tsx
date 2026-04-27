@@ -20,10 +20,8 @@ export default function BarberEnrollEntryPage() {
   return (
     <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
       <div className="max-w-md w-full bg-white rounded-2xl shadow-xl p-8 text-center">
-        <h1 className="text-2xl font-bold text-gray-900 mb-4">
-          Barber Apprenticeship Enrollment
-        </h1>
-        
+        <h1 className="text-2xl font-bold text-gray-900 mb-4">Barber Apprenticeship Enrollment</h1>
+
         {checking ? (
           <div className="py-8">
             <Loader2 className="w-8 h-8 animate-spin text-purple-600 mx-auto mb-4" />
@@ -51,7 +49,7 @@ export default function BarberEnrollEntryPage() {
                 <LogIn className="w-5 h-5" />
                 Log In & Continue
               </Link>
-              
+
               <Link
                 href={`/signup?next=${encodeURIComponent(ENROLLMENT_PATH)}`}
                 className="w-full flex items-center justify-center gap-2 px-6 py-4 bg-white border-2 border-purple-600 text-purple-600 font-bold rounded-lg hover:bg-purple-50 transition-all"
@@ -63,7 +61,10 @@ export default function BarberEnrollEntryPage() {
 
             <p className="mt-6 text-gray-500 text-sm">
               Have questions first?{' '}
-              <Link href="/forms/barber-apprenticeship-inquiry" className="text-purple-600 underline">
+              <Link
+                href="/forms/barber-apprenticeship-inquiry"
+                className="text-purple-600 underline"
+              >
                 Talk to us
               </Link>
             </p>

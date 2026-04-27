@@ -57,12 +57,10 @@ export const GET = withAuth(
           error: lessonsError?.message,
         },
       });
-    } catch (error) { /* Error handled silently */ 
-      return NextResponse.json(
-        { error: toErrorMessage(error) },
-        { status: 500 }
-      );
+    } catch (error) {
+      /* Error handled silently */
+      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
     }
   },
-  { roles: ['admin', 'super_admin'] }
+  { roles: ['admin', 'super_admin'] },
 );

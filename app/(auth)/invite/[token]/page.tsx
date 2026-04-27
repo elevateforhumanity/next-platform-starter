@@ -14,13 +14,7 @@ interface InviteData {
   expiresAt: string;
 }
 
-
-
-export default function AcceptInvitePage({
-  params,
-}: {
-  params: { token: string };
-}) {
+export default function AcceptInvitePage({ params }: { params: { token: string } }) {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [accepting, setAccepting] = useState(false);
@@ -115,9 +109,7 @@ export default function AcceptInvitePage({
       // Success - redirect to organization dashboard
       router.push('/dashboard');
     } catch (err) {
-      setError(
-        err instanceof Error ? err.message : 'Failed to accept invitation'
-      );
+      setError(err instanceof Error ? err.message : 'Failed to accept invitation');
       setAccepting(false);
     }
   }
@@ -153,9 +145,7 @@ export default function AcceptInvitePage({
                 />
               </svg>
             </div>
-            <h2 className="mt-4 text-2xl font-bold text-black">
-              Invalid Invitation
-            </h2>
+            <h2 className="mt-4 text-2xl font-bold text-black">Invalid Invitation</h2>
             <p className="mt-2 text-black">{error}</p>
             <button
               onClick={() => router.push('/')}
@@ -192,22 +182,17 @@ export default function AcceptInvitePage({
               />
             </svg>
           </div>
-          <h2 className="mt-4 text-2xl font-bold text-black">
-            You're Invited!
-          </h2>
+          <h2 className="mt-4 text-2xl font-bold text-black">You're Invited!</h2>
           <p className="mt-2 text-black">
             {invite.inviterName ? (
               <>
-                <span className="font-semibold">{invite.inviterName}</span> has
-                invited you to join
+                <span className="font-semibold">{invite.inviterName}</span> has invited you to join
               </>
             ) : (
               'You have been invited to join'
             )}
           </p>
-          <p className="mt-1 text-xl font-semibold text-black">
-            {invite.organizationName}
-          </p>
+          <p className="mt-1 text-xl font-semibold text-black">{invite.organizationName}</p>
 
           <div className="mt-6 bg-gray-50 rounded-md p-4">
             <p className="text-sm text-black">

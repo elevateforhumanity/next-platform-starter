@@ -31,12 +31,13 @@ interface AuditMutationParams {
  */
 export async function auditMutation(
   request: Request | null,
-  params: AuditMutationParams
+  params: AuditMutationParams,
 ): Promise<void> {
   try {
-    const ip = request?.headers?.get('x-forwarded-for')?.split(',')[0]?.trim()
-      ?? request?.headers?.get('x-real-ip')
-      ?? null;
+    const ip =
+      request?.headers?.get('x-forwarded-for')?.split(',')[0]?.trim() ??
+      request?.headers?.get('x-real-ip') ??
+      null;
     const userAgent = request?.headers?.get('user-agent') ?? null;
 
     await logAuditEvent({

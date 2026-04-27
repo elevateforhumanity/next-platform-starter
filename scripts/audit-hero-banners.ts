@@ -14,9 +14,16 @@ import { internalProgramHeroBanners } from '../content/heroBanners';
 import type { ProgramHeroBannerConfig } from '../content/heroBanners';
 
 const BANNED_PHRASES = [
-  'rewarding career', 'exciting future', 'in-demand', 'career-ready',
-  'next step', 'start your journey', 'launch your career', 'transform your life',
-  'bright future', 'take the next step',
+  'rewarding career',
+  'exciting future',
+  'in-demand',
+  'career-ready',
+  'next step',
+  'start your journey',
+  'launch your career',
+  'transform your life',
+  'bright future',
+  'take the next step',
 ];
 
 function auditBanner(slug: string, b: ProgramHeroBannerConfig): string[] {
@@ -25,13 +32,12 @@ function auditBanner(slug: string, b: ProgramHeroBannerConfig): string[] {
   const exempt = b.salaryExempt === true;
 
   if (!b.credentialLabel?.trim()) issues.push('credentialLabel is empty');
-  if (!b.durationLabel?.trim())   issues.push('durationLabel is empty');
+  if (!b.durationLabel?.trim()) issues.push('durationLabel is empty');
   if (!/\d+/.test(b.durationLabel ?? ''))
     issues.push(`durationLabel "${b.durationLabel}" has no numeric value`);
 
   if (exempt) {
-    if (!b.salaryNote?.trim())
-      issues.push('salaryExempt:true requires a non-empty salaryNote');
+    if (!b.salaryNote?.trim()) issues.push('salaryExempt:true requires a non-empty salaryNote');
   } else {
     const sal = b.salaryRangeLabel ?? '';
     if (!sal.trim())
@@ -84,7 +90,7 @@ for (const [slug, b] of entries) {
   } else {
     console.log(
       `OK   ${slug.padEnd(42)} ${b.transcript.length}c` +
-      `  "${b.credentialLabel}" / ${b.durationLabel} / ${salDisplay}`
+        `  "${b.credentialLabel}" / ${b.durationLabel} / ${salDisplay}`,
     );
   }
 }

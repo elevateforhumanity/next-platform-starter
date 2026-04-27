@@ -17,7 +17,7 @@ const ROUTES_TO_REMOVE = [
 ];
 
 function shouldRemove(name) {
-  return ROUTES_TO_REMOVE.some(pattern => {
+  return ROUTES_TO_REMOVE.some((pattern) => {
     const regex = new RegExp('^' + pattern.replace('*', '.*') + '$');
     return regex.test(name);
   });

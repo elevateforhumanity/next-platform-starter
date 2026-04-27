@@ -41,7 +41,9 @@ export default function OjtCompletionPanel({ lessonId, courseId, lessonTitle, on
     }
   }, [lessonId]);
 
-  useEffect(() => { fetchStatus(); }, [fetchStatus]);
+  useEffect(() => {
+    fetchStatus();
+  }, [fetchStatus]);
 
   const logAttempt = async () => {
     setLogging(true);
@@ -132,7 +134,9 @@ export default function OjtCompletionPanel({ lessonId, courseId, lessonTitle, on
         <div className="mb-3">
           <div className="flex justify-between text-xs text-slate-600 mb-1">
             <span>Supervisor-verified reps</span>
-            <span className="font-semibold">{status.verifiedReps} / {status.requiredReps}</span>
+            <span className="font-semibold">
+              {status.verifiedReps} / {status.requiredReps}
+            </span>
           </div>
           <div className="h-2.5 bg-slate-200 rounded-full overflow-hidden">
             <div
@@ -183,7 +187,9 @@ export default function OjtCompletionPanel({ lessonId, courseId, lessonTitle, on
               min={1}
               max={20}
               value={logForm.serviceCount}
-              onChange={e => setLogForm(f => ({ ...f, serviceCount: parseInt(e.target.value) || 1 }))}
+              onChange={(e) =>
+                setLogForm((f) => ({ ...f, serviceCount: parseInt(e.target.value) || 1 }))
+              }
               className="w-full border border-slate-300 rounded-lg px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
             />
           </div>
@@ -196,7 +202,7 @@ export default function OjtCompletionPanel({ lessonId, courseId, lessonTitle, on
               type="text"
               placeholder="e.g. Marcus Johnson"
               value={logForm.supervisorName}
-              onChange={e => setLogForm(f => ({ ...f, supervisorName: e.target.value }))}
+              onChange={(e) => setLogForm((f) => ({ ...f, supervisorName: e.target.value }))}
               className="w-full border border-slate-300 rounded-lg px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
             />
           </div>
@@ -209,7 +215,7 @@ export default function OjtCompletionPanel({ lessonId, courseId, lessonTitle, on
               rows={3}
               placeholder="What did you work on? Any feedback from your supervisor?"
               value={logForm.notes}
-              onChange={e => setLogForm(f => ({ ...f, notes: e.target.value }))}
+              onChange={(e) => setLogForm((f) => ({ ...f, notes: e.target.value }))}
               className="w-full border border-slate-300 rounded-lg px-4 py-3 text-base focus:outline-none focus:ring-2 focus:ring-brand-blue-500 resize-none"
             />
           </div>
@@ -227,11 +233,18 @@ export default function OjtCompletionPanel({ lessonId, courseId, lessonTitle, on
               disabled={logging}
               className="flex-1 flex items-center justify-center gap-2 bg-brand-blue-600 text-white px-5 py-4 rounded-xl text-base font-semibold hover:bg-brand-blue-700 disabled:opacity-50 transition-colors min-h-[52px]"
             >
-              {logging ? <Loader2 className="w-5 h-5 animate-spin" /> : <Plus className="w-5 h-5" />}
+              {logging ? (
+                <Loader2 className="w-5 h-5 animate-spin" />
+              ) : (
+                <Plus className="w-5 h-5" />
+              )}
               {logging ? 'Saving…' : 'Save Attempt'}
             </button>
             <button
-              onClick={() => { setShowLogForm(false); setError(null); }}
+              onClick={() => {
+                setShowLogForm(false);
+                setError(null);
+              }}
               className="flex-1 sm:flex-none px-5 py-4 rounded-xl text-base font-medium text-slate-600 hover:bg-slate-100 transition-colors min-h-[52px]"
             >
               Cancel
@@ -256,20 +269,24 @@ export default function OjtCompletionPanel({ lessonId, courseId, lessonTitle, on
             disabled={completing}
             className="w-full flex items-center justify-center gap-2 bg-green-600 text-white py-3.5 rounded-xl font-semibold hover:bg-green-700 disabled:opacity-50 transition-colors"
           >
-            {completing
-              ? <><Loader2 className="w-5 h-5 animate-spin" /> Marking complete…</>
-              : <><CheckCircle className="w-5 h-5" /> Mark Lab Complete</>
-            }
+            {completing ? (
+              <>
+                <Loader2 className="w-5 h-5 animate-spin" /> Marking complete…
+              </>
+            ) : (
+              <>
+                <CheckCircle className="w-5 h-5" /> Mark Lab Complete
+              </>
+            )}
           </button>
         ) : (
           <div className="w-full flex items-center justify-center gap-2 bg-slate-100 text-slate-400 py-3.5 rounded-xl font-semibold cursor-not-allowed text-sm">
             <Clock className="w-5 h-5" />
-            Complete {Math.max(0, status.requiredReps - status.verifiedReps)} more verified rep{status.requiredReps - status.verifiedReps !== 1 ? 's' : ''} to unlock
+            Complete {Math.max(0, status.requiredReps - status.verifiedReps)} more verified rep
+            {status.requiredReps - status.verifiedReps !== 1 ? 's' : ''} to unlock
           </div>
         )}
-        {error && !showLogForm && (
-          <p className="text-sm text-red-600 mt-2 text-center">{error}</p>
-        )}
+        {error && !showLogForm && <p className="text-sm text-red-600 mt-2 text-center">{error}</p>}
       </div>
     </div>
   );

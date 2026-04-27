@@ -3,15 +3,15 @@
 import { useState, useEffect } from 'react';
 import { createClient } from '@/lib/supabase/client';
 import Link from 'next/link';
-import { 
-  MessageSquare, 
-  Heart, 
-  Award, 
-  BookOpen, 
-  Users, 
+import {
+  MessageSquare,
+  Heart,
+  Award,
+  BookOpen,
+  Users,
   Calendar,
   Loader2,
-  RefreshCw
+  RefreshCw,
 } from 'lucide-react';
 
 interface Activity {
@@ -84,7 +84,12 @@ export default function ActivityFeed() {
     if (minutes < 60) return `${minutes}m ago`;
     if (hours < 24) return `${hours}h ago`;
     if (days < 7) return `${days}d ago`;
-    return date.toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' });
+    return date.toLocaleDateString('en-US', {
+      timeZone: 'UTC',
+      month: 'short',
+      day: 'numeric',
+      year: 'numeric',
+    });
   };
 
   if (loading) {
@@ -119,22 +124,17 @@ export default function ActivityFeed() {
           {activities.map((activity) => (
             <div key={activity.id} className="p-4 hover:bg-gray-50 transition">
               <div className="flex gap-3">
-                <div className="flex-shrink-0 mt-1">
-                  {getActivityIcon(activity.type)}
-                </div>
+                <div className="flex-shrink-0 mt-1">{getActivityIcon(activity.type)}</div>
                 <div className="flex-1 min-w-0">
                   <p className="text-sm text-slate-900">
-                    <span className="font-medium">{activity.user_name}</span>{' '}
-                    {activity.title}
+                    <span className="font-medium">{activity.user_name}</span> {activity.title}
                   </p>
                   {activity.description && (
                     <p className="text-sm text-slate-700 mt-1 line-clamp-2">
                       {activity.description}
                     </p>
                   )}
-                  <p className="text-xs text-slate-700 mt-1">
-                    {formatTime(activity.created_at)}
-                  </p>
+                  <p className="text-xs text-slate-700 mt-1">{formatTime(activity.created_at)}</p>
                 </div>
                 {activity.link && (
                   <Link
@@ -151,10 +151,7 @@ export default function ActivityFeed() {
       )}
 
       <div className="p-4 border-t">
-        <Link
-          href="/community"
-          className="text-brand-blue-600 text-sm font-medium hover:underline"
-        >
+        <Link href="/community" className="text-brand-blue-600 text-sm font-medium hover:underline">
           View all activity →
         </Link>
       </div>

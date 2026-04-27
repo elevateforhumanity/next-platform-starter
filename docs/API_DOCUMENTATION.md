@@ -69,6 +69,7 @@ Authentication uses Supabase Auth with JWT tokens stored in HTTP-only cookies.
 **Endpoint:** `POST /api/auth/login`
 
 **Request:**
+
 ```json
 {
   "email": "user@example.com",
@@ -77,6 +78,7 @@ Authentication uses Supabase Auth with JWT tokens stored in HTTP-only cookies.
 ```
 
 **Response:**
+
 ```json
 {
   "user": {
@@ -96,6 +98,7 @@ Authentication uses Supabase Auth with JWT tokens stored in HTTP-only cookies.
 **Endpoint:** `POST /api/auth/signup`
 
 **Request:**
+
 ```json
 {
   "email": "user@example.com",
@@ -106,6 +109,7 @@ Authentication uses Supabase Auth with JWT tokens stored in HTTP-only cookies.
 ```
 
 **Response:**
+
 ```json
 {
   "user": {
@@ -121,6 +125,7 @@ Authentication uses Supabase Auth with JWT tokens stored in HTTP-only cookies.
 **Endpoint:** `POST /api/auth/logout`
 
 **Response:**
+
 ```json
 {
   "message": "Logged out successfully"
@@ -132,6 +137,7 @@ Authentication uses Supabase Auth with JWT tokens stored in HTTP-only cookies.
 **Endpoint:** `GET /api/auth/session`
 
 **Response:**
+
 ```json
 {
   "user": {
@@ -156,17 +162,20 @@ Authentication uses Supabase Auth with JWT tokens stored in HTTP-only cookies.
 **Endpoint:** `GET /api/courses`
 
 **Query Parameters:**
+
 - `status` - Filter by status (published, draft, archived)
 - `level` - Filter by level (beginner, intermediate, advanced)
 - `page` - Page number (default: 1)
 - `limit` - Items per page (default: 20)
 
 **Request:**
+
 ```http
 GET /api/courses?status=published&level=beginner&page=1&limit=20
 ```
 
 **Response:**
+
 ```json
 {
   "courses": [
@@ -201,6 +210,7 @@ GET /api/courses?status=published&level=beginner&page=1&limit=20
 **Endpoint:** `GET /api/courses/[courseId]`
 
 **Response:**
+
 ```json
 {
   "course": {
@@ -233,6 +243,7 @@ GET /api/courses?status=published&level=beginner&page=1&limit=20
 **Endpoint:** `POST /api/courses`
 
 **Request:**
+
 ```json
 {
   "title": "New Course",
@@ -247,6 +258,7 @@ GET /api/courses?status=published&level=beginner&page=1&limit=20
 ```
 
 **Response:**
+
 ```json
 {
   "course": {
@@ -266,6 +278,7 @@ GET /api/courses?status=published&level=beginner&page=1&limit=20
 **Endpoint:** `GET /api/enrollments`
 
 **Response:**
+
 ```json
 {
   "enrollments": [
@@ -291,6 +304,7 @@ GET /api/courses?status=published&level=beginner&page=1&limit=20
 **Endpoint:** `POST /api/enrollments`
 
 **Request:**
+
 ```json
 {
   "courseId": "uuid"
@@ -298,6 +312,7 @@ GET /api/courses?status=published&level=beginner&page=1&limit=20
 ```
 
 **Response:**
+
 ```json
 {
   "id": "uuid",
@@ -310,6 +325,7 @@ GET /api/courses?status=published&level=beginner&page=1&limit=20
 ```
 
 **Error Response (Already Enrolled):**
+
 ```json
 {
   "error": "Already enrolled in this course"
@@ -323,6 +339,7 @@ GET /api/courses?status=published&level=beginner&page=1&limit=20
 **Endpoint:** `GET /api/progress?userId=uuid&courseId=uuid`
 
 **Response:**
+
 ```json
 {
   "userId": "uuid",
@@ -350,6 +367,7 @@ GET /api/courses?status=published&level=beginner&page=1&limit=20
 **Endpoint:** `POST /api/progress`
 
 **Request:**
+
 ```json
 {
   "userId": "uuid",
@@ -360,6 +378,7 @@ GET /api/courses?status=published&level=beginner&page=1&limit=20
 ```
 
 **Response:**
+
 ```json
 {
   "userId": "uuid",
@@ -377,6 +396,7 @@ GET /api/courses?status=published&level=beginner&page=1&limit=20
 **Endpoint:** `POST /api/stripe/create-checkout-session`
 
 **Request:**
+
 ```json
 {
   "courseId": "uuid",
@@ -387,6 +407,7 @@ GET /api/courses?status=published&level=beginner&page=1&limit=20
 ```
 
 **Response:**
+
 ```json
 {
   "sessionId": "cs_test_xxx",
@@ -399,17 +420,20 @@ GET /api/courses?status=published&level=beginner&page=1&limit=20
 **Endpoint:** `POST /api/stripe/webhook`
 
 **Headers:**
+
 ```
 stripe-signature: t=xxx,v1=xxx
 ```
 
 **Events Handled:**
+
 - `checkout.session.completed`
 - `payment_intent.succeeded`
 - `payment_intent.failed`
 - `charge.refunded`
 
 **Response:**
+
 ```json
 {
   "received": true
@@ -423,6 +447,7 @@ stripe-signature: t=xxx,v1=xxx
 **Endpoint:** `POST /api/partner/enroll`
 
 **Request:**
+
 ```json
 {
   "studentEmail": "student@example.com",
@@ -432,6 +457,7 @@ stripe-signature: t=xxx,v1=xxx
 ```
 
 **Response:**
+
 ```json
 {
   "enrollment": {
@@ -449,6 +475,7 @@ stripe-signature: t=xxx,v1=xxx
 **Endpoint:** `POST /api/partner/attendance`
 
 **Request:**
+
 ```json
 {
   "enrollmentId": "uuid",
@@ -459,6 +486,7 @@ stripe-signature: t=xxx,v1=xxx
 ```
 
 **Response:**
+
 ```json
 {
   "attendance": {
@@ -478,12 +506,14 @@ stripe-signature: t=xxx,v1=xxx
 **Endpoint:** `GET /api/admin/students`
 
 **Query Parameters:**
+
 - `page` - Page number
 - `limit` - Items per page
 - `search` - Search by name or email
 - `status` - Filter by status
 
 **Response:**
+
 ```json
 {
   "students": [
@@ -508,6 +538,7 @@ stripe-signature: t=xxx,v1=xxx
 **Endpoint:** `POST /api/admin/reports/generate`
 
 **Request:**
+
 ```json
 {
   "type": "wioa_compliance",
@@ -518,6 +549,7 @@ stripe-signature: t=xxx,v1=xxx
 ```
 
 **Response:**
+
 ```json
 {
   "report": {
@@ -643,19 +675,17 @@ if (response.status === 429) {
 **Endpoint:** `POST /api/stripe/webhook`
 
 **Events:**
+
 - `checkout.session.completed` - Payment successful
 - `payment_intent.succeeded` - Payment processed
 - `payment_intent.failed` - Payment failed
 - `charge.refunded` - Refund processed
 
 **Verification:**
+
 ```javascript
 const signature = request.headers.get('stripe-signature');
-const event = stripe.webhooks.constructEvent(
-  body,
-  signature,
-  process.env.STRIPE_WEBHOOK_SECRET
-);
+const event = stripe.webhooks.constructEvent(body, signature, process.env.STRIPE_WEBHOOK_SECRET);
 ```
 
 ### Custom Webhooks
@@ -663,12 +693,14 @@ const event = stripe.webhooks.constructEvent(
 **Endpoint:** `POST /api/webhooks/[provider]`
 
 **Headers:**
+
 ```
 X-Webhook-Signature: signature
 X-Webhook-Timestamp: timestamp
 ```
 
 **Verification:**
+
 ```javascript
 const signature = request.headers.get('X-Webhook-Signature');
 const timestamp = request.headers.get('X-Webhook-Timestamp');
@@ -685,16 +717,16 @@ const isValid = verifyWebhookSignature(body, signature, timestamp);
 // Initialize client
 const client = {
   baseUrl: 'https://www.elevateforhumanity.org/api',
-  token: 'your_jwt_token'
+  token: 'your_jwt_token',
 };
 
 // Get courses
 async function getCourses() {
   const response = await fetch(`${client.baseUrl}/courses`, {
     headers: {
-      'Authorization': `Bearer ${client.token}`,
-      'Content-Type': 'application/json'
-    }
+      Authorization: `Bearer ${client.token}`,
+      'Content-Type': 'application/json',
+    },
   });
   return response.json();
 }
@@ -704,10 +736,10 @@ async function createEnrollment(courseId: string) {
   const response = await fetch(`${client.baseUrl}/enrollments`, {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${client.token}`,
-      'Content-Type': 'application/json'
+      Authorization: `Bearer ${client.token}`,
+      'Content-Type': 'application/json',
     },
-    body: JSON.stringify({ courseId })
+    body: JSON.stringify({ courseId }),
   });
   return response.json();
 }
@@ -726,14 +758,14 @@ class ElevateClient:
             'Authorization': f'Bearer {token}',
             'Content-Type': 'application/json'
         }
-    
+
     def get_courses(self):
         response = requests.get(
             f'{self.base_url}/courses',
             headers=self.headers
         )
         return response.json()
-    
+
     def create_enrollment(self, course_id):
         response = requests.post(
             f'{self.base_url}/enrollments',
@@ -785,6 +817,7 @@ Admin:
 ### Postman Collection
 
 Import the Postman collection:
+
 ```
 https://www.elevateforhumanity.org/api/postman-collection.json
 ```
@@ -794,6 +827,7 @@ https://www.elevateforhumanity.org/api/postman-collection.json
 ## Changelog
 
 ### Version 2.0.0 (2026-01-04)
+
 - Initial API documentation
 - 200+ endpoints documented
 - Authentication flow documented

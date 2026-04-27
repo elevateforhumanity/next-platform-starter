@@ -34,10 +34,7 @@ async function _GET(request: NextRequest) {
   const orgId = partnerUser.organization_id;
 
   // Get completions for this org/program
-  const query = db
-    .from('partner_completions')
-    .select('*')
-    .eq('organization_id', orgId);
+  const query = db.from('partner_completions').select('*').eq('organization_id', orgId);
 
   if (program) {
     query.eq('program_type', program);

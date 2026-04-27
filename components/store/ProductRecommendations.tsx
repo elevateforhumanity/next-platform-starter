@@ -4,7 +4,11 @@ import { useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, Sparkles, TrendingUp, Package, ChevronUp, X } from 'lucide-react';
-import { getRecommendations, Recommendation, AVATAR_SALES_MESSAGES } from '@/lib/store/recommendations';
+import {
+  getRecommendations,
+  Recommendation,
+  AVATAR_SALES_MESSAGES,
+} from '@/lib/store/recommendations';
 
 interface ProductRecommendationsProps {
   productId: string;
@@ -32,14 +36,17 @@ const typeColors = {
   bundle: 'bg-purple-600',
 };
 
-export default function ProductRecommendations({ productId, showAvatar = true }: ProductRecommendationsProps) {
+export default function ProductRecommendations({
+  productId,
+  showAvatar = true,
+}: ProductRecommendationsProps) {
   const [isExpanded, setIsExpanded] = useState(true);
   const [dismissedIds, setDismissedIds] = useState<string[]>([]);
-  
+
   const recommendations = getRecommendations(productId).filter(
-    rec => !dismissedIds.includes(rec.product.id)
+    (rec) => !dismissedIds.includes(rec.product.id),
   );
-  
+
   const avatarMessage = AVATAR_SALES_MESSAGES[productId];
 
   if (recommendations.length === 0 && !avatarMessage) return null;
@@ -49,10 +56,10 @@ export default function ProductRecommendations({ productId, showAvatar = true }:
   };
 
   // Group by type for better organization
-  const upgrades = recommendations.filter(r => r.type === 'upgrade');
-  const upsells = recommendations.filter(r => r.type === 'upsell');
-  const crossSells = recommendations.filter(r => r.type === 'cross-sell');
-  const bundles = recommendations.filter(r => r.type === 'bundle');
+  const upgrades = recommendations.filter((r) => r.type === 'upgrade');
+  const upsells = recommendations.filter((r) => r.type === 'upsell');
+  const crossSells = recommendations.filter((r) => r.type === 'cross-sell');
+  const bundles = recommendations.filter((r) => r.type === 'bundle');
 
   return (
     <div className="bg-gradient-to-br from-slate-50 to-brand-orange-50 rounded-2xl border border-brand-orange-200 overflow-hidden">
@@ -66,7 +73,9 @@ export default function ProductRecommendations({ productId, showAvatar = true }:
           <span className="font-bold text-black">Recommended For You</span>
           <span className="text-sm text-slate-700">({recommendations.length} suggestions)</span>
         </div>
-        <ChevronUp className={`w-5 h-5 text-slate-700 transition-transform ${isExpanded ? '' : 'rotate-180'}`} />
+        <ChevronUp
+          className={`w-5 h-5 text-slate-700 transition-transform ${isExpanded ? '' : 'rotate-180'}`}
+        />
       </button>
 
       {isExpanded && (
@@ -76,7 +85,7 @@ export default function ProductRecommendations({ productId, showAvatar = true }:
             <div className="bg-white rounded-xl p-4 border border-gray-200 flex gap-4">
               <div className="flex-shrink-0">
                 <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-brand-orange-500">
-                  <Image
+                  <Image sizes="100vw"
                     src="/images/pages/store-recommendations.jpg"
                     alt="Sales Guide"
                     width={48}
@@ -94,9 +103,9 @@ export default function ProductRecommendations({ productId, showAvatar = true }:
 
           {/* Upgrade Recommendation (Priority) */}
           {upgrades.map((rec) => (
-            <RecommendationCard 
-              key={rec.product.id} 
-              recommendation={rec} 
+            <RecommendationCard
+              key={rec.product.id}
+              recommendation={rec}
               onDismiss={() => handleDismiss(rec.product.id)}
               priority
             />
@@ -104,18 +113,18 @@ export default function ProductRecommendations({ productId, showAvatar = true }:
 
           {/* Upsells */}
           {upsells.map((rec) => (
-            <RecommendationCard 
-              key={rec.product.id} 
-              recommendation={rec} 
+            <RecommendationCard
+              key={rec.product.id}
+              recommendation={rec}
               onDismiss={() => handleDismiss(rec.product.id)}
             />
           ))}
 
           {/* Bundles */}
           {bundles.map((rec) => (
-            <RecommendationCard 
-              key={`bundle-${rec.product.id}`} 
-              recommendation={rec} 
+            <RecommendationCard
+              key={`bundle-${rec.product.id}`}
+              recommendation={rec}
               onDismiss={() => handleDismiss(rec.product.id)}
             />
           ))}
@@ -126,8 +135,8 @@ export default function ProductRecommendations({ productId, showAvatar = true }:
               <p className="text-sm font-medium text-slate-700 mb-2">You might also need:</p>
               <div className="grid sm:grid-cols-2 gap-3">
                 {crossSells.map((rec) => (
-                  <SmallRecommendationCard 
-                    key={rec.product.id} 
+                  <SmallRecommendationCard
+                    key={rec.product.id}
                     recommendation={rec}
                     onDismiss={() => handleDismiss(rec.product.id)}
                   />
@@ -142,12 +151,12 @@ export default function ProductRecommendations({ productId, showAvatar = true }:
 }
 
 // Full recommendation card for upgrades and upsells
-function RecommendationCard({ 
-  recommendation, 
+function RecommendationCard({
+  recommendation,
   onDismiss,
-  priority = false 
-}: { 
-  recommendation: Recommendation; 
+  priority = false,
+}: {
+  recommendation: Recommendation;
   onDismiss: () => void;
   priority?: boolean;
 }) {
@@ -156,7 +165,9 @@ function RecommendationCard({
   const color = typeColors[recommendation.type];
 
   return (
-    <div className={`bg-white rounded-xl overflow-hidden border-2 ${priority ? 'border-brand-green-500 shadow-lg' : 'border-gray-200'} relative group`}>
+    <div
+      className={`bg-white rounded-xl overflow-hidden border-2 ${priority ? 'border-brand-green-500 shadow-lg' : 'border-gray-200'} relative group`}
+    >
       <button
         onClick={onDismiss}
         className="absolute top-2 right-2 p-1 bg-gray-100 hover:bg-gray-200 rounded-full opacity-0 group-hover:opacity-100 transition z-10"
@@ -173,8 +184,11 @@ function RecommendationCard({
             alt={recommendation.product.name}
             fill
             className="object-cover"
-           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
-          <div className={`absolute top-2 left-2 ${color} text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1`}>
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
+          <div
+            className={`absolute top-2 left-2 ${color} text-white text-xs font-bold px-2 py-1 rounded-full flex items-center gap-1`}
+          >
             <Icon className="w-3 h-3" />
             {label}
           </div>
@@ -184,12 +198,16 @@ function RecommendationCard({
         <div className="flex-1 p-4">
           <h4 className="font-bold text-black mb-1">{recommendation.product.name}</h4>
           <p className="text-sm text-slate-700 mb-2 line-clamp-2">{recommendation.reason}</p>
-          
+
           <div className="flex items-center justify-between">
             <div>
-              <span className="text-lg font-black text-black">{recommendation.product.priceDisplay}</span>
+              <span className="text-lg font-black text-black">
+                {recommendation.product.priceDisplay}
+              </span>
               {recommendation.savings && (
-                <span className="ml-2 text-sm text-brand-green-600 font-medium">{recommendation.savings}</span>
+                <span className="ml-2 text-sm text-brand-green-600 font-medium">
+                  {recommendation.savings}
+                </span>
               )}
             </div>
             <Link
@@ -207,10 +225,10 @@ function RecommendationCard({
 }
 
 // Smaller card for cross-sells
-function SmallRecommendationCard({ 
+function SmallRecommendationCard({
   recommendation,
-  onDismiss 
-}: { 
+  onDismiss,
+}: {
   recommendation: Recommendation;
   onDismiss: () => void;
 }) {
@@ -225,10 +243,13 @@ function SmallRecommendationCard({
           alt={recommendation.product.name}
           fill
           className="object-cover"
-         sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+          sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+        />
       </div>
       <div className="flex-1 min-w-0">
-        <p className="font-medium text-black text-sm truncate">{recommendation.product.shortName}</p>
+        <p className="font-medium text-black text-sm truncate">
+          {recommendation.product.shortName}
+        </p>
         <p className="text-xs text-slate-700">{recommendation.product.priceDisplay}</p>
       </div>
       <ArrowRight className="w-4 h-4 text-slate-700 group-hover:text-brand-orange-600 transition" />

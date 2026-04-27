@@ -14,7 +14,9 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -30,11 +32,13 @@ async function _GET(request: NextRequest) {
     // Get certificate data
     const { data: certificate, error } = await supabase
       .from('certificates')
-      .select(`
+      .select(
+        `
         *,
         profiles:user_id (full_name, email),
         programs:program_id (name, title, credential)
-      `)
+      `,
+      )
       .eq('id', certificateId)
       .maybeSingle();
 
@@ -62,23 +66,22 @@ async function _GET(request: NextRequest) {
       certificate: {
         id: certificate.id,
         recipientName: certificate.profiles?.full_name || 'Student',
-        programName: certificate.programs?.title || certificate.programs?.name || certificate.certificate_type,
+        programName:
+          certificate.programs?.title || certificate.programs?.name || certificate.certificate_type,
         credential: certificate.programs?.credential || 'Certificate of Completion',
         issuedAt: certificate.issued_at,
-        certificateNumber: certificate.certificate_number || certificate.id.slice(0, 8).toUpperCase(),
+        certificateNumber:
+          certificate.certificate_number || certificate.id.slice(0, 8).toUpperCase(),
         verificationUrl: `${process.env.NEXT_PUBLIC_SITE_URL}/verify-credential?id=${certificate.id}`,
       },
       downloadUrl: certificate.pdf_url || null,
-      message: certificate.pdf_url 
-        ? 'Certificate ready for download' 
+      message: certificate.pdf_url
+        ? 'Certificate ready for download'
         : 'Use client-side PDF generation with the certificate data',
     });
   } catch (error) {
     logger.error('Certificate download error:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch certificate' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch certificate' }, { status: 500 });
   }
 }
 
@@ -88,7 +91,9 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });

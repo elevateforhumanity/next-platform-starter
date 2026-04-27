@@ -25,10 +25,7 @@ async function _PATCH(req: Request, { params }: { params: Params }) {
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Get current record before update (need contact info for email)
@@ -70,16 +67,16 @@ async function _PATCH(req: Request, { params }: { params: Params }) {
           }),
         });
       } catch (err) {
-        logger.error('Failed to send employer decision email', err instanceof Error ? err : undefined);
+        logger.error(
+          'Failed to send employer decision email',
+          err instanceof Error ? err : undefined,
+        );
       }
     }
 
     return NextResponse.json({ success: true, onboarding: data });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const PATCH = withApiAudit('/api/employers/onboard/[id]', _PATCH);

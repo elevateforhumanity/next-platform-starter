@@ -6,12 +6,7 @@ const LICENSE_TIERS = {
   starter: {
     name: 'Starter License',
     maxDeployments: 1,
-    features: [
-      'basic_lms',
-      'payment_integration',
-      'workbooks_access',
-      'email_support',
-    ],
+    features: ['basic_lms', 'payment_integration', 'workbooks_access', 'email_support'],
     restrictions: {
       whiteLabel: false,
       governmentCompliance: false,
@@ -78,23 +73,14 @@ const LICENSE_TIERS = {
 };
 
 // Enhanced License Generator with Tier Support
-function generateTieredLicense(
-  email,
-  packageId,
-  licenseType,
-  expiresInDays = 365
-) {
+function generateTieredLicense(email, packageId, licenseType, expiresInDays = 365) {
   const tier = LICENSE_TIERS[licenseType];
   if (!tier) {
     throw new Error(`Invalid license type: ${licenseType}`);
   }
 
   // Generate base license
-  const { licenseKey, expiresAt } = generateLicense(
-    email,
-    packageId,
-    expiresInDays
-  );
+  const { licenseKey, expiresAt } = generateLicense(email, packageId, expiresInDays);
 
   // Create enhanced license object with tier information
   const enhancedLicense = {
@@ -158,12 +144,9 @@ function extractTierFromProductId(productId) {
   if (productId.includes('enterprise_emergency')) return 'enterprise';
 
   // Default mappings
-  if (productId.includes('starter') || productId.includes('basic'))
-    return 'starter';
-  if (productId.includes('business') || productId.includes('professional'))
-    return 'business';
-  if (productId.includes('enterprise') || productId.includes('unlimited'))
-    return 'enterprise';
+  if (productId.includes('starter') || productId.includes('basic')) return 'starter';
+  if (productId.includes('business') || productId.includes('professional')) return 'business';
+  if (productId.includes('enterprise') || productId.includes('unlimited')) return 'enterprise';
 
   return 'starter'; // Default fallback
 }
@@ -202,9 +185,7 @@ class LicenseUsageTracker {
     return {
       allowed: true,
       remainingDownloads:
-        limits.maxDownloads === -1
-          ? 'unlimited'
-          : limits.maxDownloads - usage.downloads,
+        limits.maxDownloads === -1 ? 'unlimited' : limits.maxDownloads - usage.downloads,
     };
   }
 
@@ -236,9 +217,7 @@ class LicenseUsageTracker {
     return {
       allowed: true,
       remainingDeployments:
-        maxDeployments === -1
-          ? 'unlimited'
-          : maxDeployments - usage.deployments.length,
+        maxDeployments === -1 ? 'unlimited' : maxDeployments - usage.deployments.length,
     };
   }
 
@@ -270,17 +249,11 @@ class LicenseUsageTracker {
       downloads: {
         used: usage.downloads,
         limit: limits.maxDownloads === -1 ? 'unlimited' : limits.maxDownloads,
-        remaining:
-          limits.maxDownloads === -1
-            ? 'unlimited'
-            : limits.maxDownloads - usage.downloads,
+        remaining: limits.maxDownloads === -1 ? 'unlimited' : limits.maxDownloads - usage.downloads,
       },
       deployments: {
         used: usage.deployments.length,
-        limit:
-          validation.maxDeployments === -1
-            ? 'unlimited'
-            : validation.maxDeployments,
+        limit: validation.maxDeployments === -1 ? 'unlimited' : validation.maxDeployments,
         remaining:
           validation.maxDeployments === -1
             ? 'unlimited'

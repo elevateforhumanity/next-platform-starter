@@ -8,6 +8,7 @@ import LogoImage from '@/components/site/LogoImage';
 import { ALL_PROGRAMS } from '@/data/programs/catalog';
 import HeaderMobileMenu from './HeaderMobileMenu.client';
 import HeaderDesktopNav from './HeaderDesktopNav';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 // Marketing site navigation.
 //
@@ -29,7 +30,10 @@ export const NAV_ITEMS = [
     href: '/programs',
     subItems: [
       { name: '— Healthcare —', href: '/programs/healthcare', isHeader: true },
-      { name: 'CNA / Nursing Assistant', href: '/programs/cna' },
+      {
+        name: 'CNA / Nursing Assistant',
+        href: canonicalRoutes.programs.certifiedNursingAssistant,
+      },
       { name: 'Medical Assistant', href: '/programs/medical-assistant' },
       { name: 'Peer Recovery Specialist', href: '/programs/peer-recovery-specialist' },
       { name: 'Pharmacy Technician', href: '/programs/pharmacy-technician' },
@@ -40,7 +44,7 @@ export const NAV_ITEMS = [
       { name: 'Home Health Aide', href: '/programs/home-health-aide' },
       { name: 'All Healthcare Programs', href: '/programs/healthcare' },
       { name: '— Skilled Trades —', href: '/programs/skilled-trades', isHeader: true },
-      { name: 'HVAC Technician', href: '/programs/hvac-technician' },
+      { name: 'HVAC Technician', href: canonicalRoutes.programs.hvacTechnician },
 
       { name: 'Electrical', href: '/programs/electrical' },
       { name: 'Welding', href: '/programs/welding' },
@@ -89,7 +93,11 @@ export const NAV_ITEMS = [
     name: 'Partners',
     href: '/partners',
     subItems: [
-      { name: '— Apprenticeship Hosts —', href: '/partners/barbershop-apprenticeship', isHeader: true },
+      {
+        name: '— Apprenticeship Hosts —',
+        href: '/partners/barbershop-apprenticeship',
+        isHeader: true,
+      },
       { name: 'Barbershop Partners', href: '/partners/barbershop-apprenticeship' },
       { name: 'Cosmetology & Salon Partners', href: '/partners/cosmetology-apprenticeship' },
       { name: 'Training Sites & Facilities', href: '/partners/training-sites' },
@@ -99,13 +107,10 @@ export const NAV_ITEMS = [
       { name: 'WorkOne / WIOA Referrals', href: '/partners/workforce' },
       { name: 'Reentry Organizations', href: '/partners/reentry' },
       { name: 'Job Ready Indy (JRI)', href: '/partners/jri' },
-      { name: '— Employers —', href: '/employers', isHeader: true },
-      { name: 'For Employers', href: '/for-employers' },
-      { name: 'Hire Our Graduates', href: '/hire-graduates' },
-      { name: 'Talent Pipeline', href: '/employers/talent-pipeline' },
+      { name: '— Employer & Staff Portals —', href: '/for-employers', isHeader: true },
+      { name: 'Employer, Staff & Program Holder Portals', href: '/for-employers' },
       { name: '— Training Providers —', href: '/partners/training-provider', isHeader: true },
       { name: 'Training Providers', href: '/partners/training-provider' },
-      { name: 'Program Holders', href: '/apply/program-holder' },
       { name: 'Apply as a Provider', href: '/partners/apply' },
       { name: '— Resources —', href: '/partners/join', isHeader: true },
       { name: 'Partner Overview', href: '/partners' },
@@ -163,7 +168,6 @@ export const NAV_ITEMS = [
       { name: '— More —', href: '/about', isHeader: true },
       { name: 'Careers', href: '/careers' },
       { name: 'Contact Us', href: '/contact' },
-
     ],
   },
   {
@@ -173,27 +177,27 @@ export const NAV_ITEMS = [
 ];
 
 const PROGRAM_APPLY_LINKS = Object.fromEntries(
-  ALL_PROGRAMS
-    .filter((program) => Boolean(program.cta?.applyHref))
-    .map((program) => [program.slug, program.cta.applyHref])
+  ALL_PROGRAMS.filter((program) => Boolean(program.cta?.applyHref)).map((program) => [
+    program.slug,
+    program.cta.applyHref,
+  ]),
 );
 
 export default function Header() {
   return (
-    <header className="fixed top-0 left-0 right-0 h-[70px] bg-white z-[9999] shadow-md" role="banner">
+    <header
+      className="fixed top-0 left-0 right-0 h-[70px] bg-white z-[9999] shadow-md"
+      role="banner"
+    >
       <div className="max-w-7xl mx-auto w-full h-full flex items-center justify-between px-4 sm:px-6">
         {/* Logo - Always visible */}
-        <Link href="/" className="flex items-center gap-2 flex-shrink-0" aria-label="Elevate for Humanity home">
-          <LogoImage
-            alt="Elevate"
-            width={40}
-            height={60}
-            className="w-auto h-10"
-            priority
-          />
-          <span className="font-bold text-lg text-slate-900 hidden sm:block">
-            Elevate
-          </span>
+        <Link
+          href="/"
+          className="flex items-center gap-2 flex-shrink-0"
+          aria-label="Elevate for Humanity home"
+        >
+          <LogoImage alt="Elevate" width={40} height={60} className="w-auto h-10" priority />
+          <span className="font-bold text-lg text-slate-900 hidden sm:block">Elevate</span>
         </Link>
 
         {/* Desktop Navigation - Server rendered */}

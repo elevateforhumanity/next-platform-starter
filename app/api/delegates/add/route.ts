@@ -13,8 +13,8 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(req: NextRequest) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createRouteHandlerClient({ cookies });
   const {
@@ -60,7 +60,8 @@ async function _POST(req: NextRequest) {
     });
 
     if (delError) {
-      logger.error('Delegate add failed', undefined, { detail: delError.message }); return new Response('Internal server error', { status: 500 });
+      logger.error('Delegate add failed', undefined, { detail: delError.message });
+      return new Response('Internal server error', { status: 500 });
     }
 
     // Update user profile with program holder and partner role
@@ -72,11 +73,11 @@ async function _POST(req: NextRequest) {
       },
       {
         onConflict: 'user_id',
-      }
+      },
     );
 
     return Response.json({ ok: true });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error adding delegate:', error);
     return new Response('Failed to add delegate', { status: 500 });
   }

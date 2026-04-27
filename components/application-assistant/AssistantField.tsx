@@ -54,7 +54,9 @@ export function AssistantField({
         >
           <option value="">Select...</option>
           {options.map((o) => (
-            <option key={o} value={o}>{o}</option>
+            <option key={o} value={o}>
+              {o}
+            </option>
           ))}
         </select>
       ) : (

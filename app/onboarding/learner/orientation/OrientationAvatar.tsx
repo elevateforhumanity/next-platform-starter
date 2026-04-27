@@ -58,14 +58,22 @@ export default function OrientationAvatar() {
         {/* Mute/unmute button — bottom right */}
         {playing && (
           <button
-            onClick={(e) => { e.stopPropagation(); toggleMute(); }}
+            onClick={(e) => {
+              e.stopPropagation();
+              toggleMute();
+            }}
             aria-label={muted ? 'Unmute' : 'Mute'}
             className="absolute bottom-3 right-3 z-10 flex items-center gap-1.5 bg-black/60 hover:bg-black/80 text-white text-xs font-semibold px-3 py-2 rounded-full transition-colors backdrop-blur-sm border border-white/20"
           >
-            {muted
-              ? <><VolumeX className="w-3.5 h-3.5" /> Unmute</>
-              : <><Volume2 className="w-3.5 h-3.5 text-emerald-400" /> Mute</>
-            }
+            {muted ? (
+              <>
+                <VolumeX className="w-3.5 h-3.5" /> Unmute
+              </>
+            ) : (
+              <>
+                <Volume2 className="w-3.5 h-3.5 text-emerald-400" /> Mute
+              </>
+            )}
           </button>
         )}
 

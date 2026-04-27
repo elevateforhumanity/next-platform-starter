@@ -9,14 +9,15 @@ export const dynamic = 'force-dynamic';
 
 export default async function StudentCoursesPage() {
   const supabase = await createClient();
-  if (!supabase) { redirect("/login"); }
-  const { data: { user } } = await supabase.auth.getUser();
+  if (!supabase) {
+    redirect('/login');
+  }
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   // Fetch courses from database
-  const { data: dbCourses } = await supabase
-    .from('courses')
-    .select('*')
-    .limit(10);
+  const { data: dbCourses } = await supabase.from('courses').select('*').limit(10);
 
   const courses = (dbCourses || []).map((c: any, i: number) => ({
     id: c.id,
@@ -32,9 +33,13 @@ export default async function StudentCoursesPage() {
       <div className="bg-white border-b">
         <div className="max-w-7xl mx-auto px-4 py-3">
           <nav className="flex items-center text-sm text-gray-600">
-            <Link href="/" className="hover:text-blue-600">Home</Link>
+            <Link href="/" className="hover:text-blue-600">
+              Home
+            </Link>
             <span className="mx-2">/</span>
-            <Link href="/student" className="hover:text-blue-600">Student Portal</Link>
+            <Link href="/student" className="hover:text-blue-600">
+              Student Portal
+            </Link>
             <span className="mx-2">/</span>
             <span className="text-gray-900 font-medium">My Courses</span>
           </nav>
@@ -60,11 +65,27 @@ export default async function StudentCoursesPage() {
                     <span className="font-medium">{course.progress}%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div className={`h-2 rounded-full ${course.progress === 100 ? 'bg-green-600' : 'bg-blue-600'}`} style={{ width: `${course.progress}%` }} />
+                    <div
+                      className={`h-2 rounded-full ${course.progress === 100 ? 'bg-green-600' : 'bg-blue-600'}`}
+                      style={{ width: `${course.progress}%` }}
+                    />
                   </div>
                 </div>
-                <Link href={`/lms/courses/${course.id}`} className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium flex items-center justify-center">
-                  {course.progress === 100 ? <><Award className="w-4 h-4 mr-2" />View Certificate</> : <><Play className="w-4 h-4 mr-2" />Continue</>}
+                <Link
+                  href={`/lms/courses/${course.id}`}
+                  className="w-full bg-blue-600 hover:bg-blue-700 text-white py-2 rounded-lg font-medium flex items-center justify-center"
+                >
+                  {course.progress === 100 ? (
+                    <>
+                      <Award className="w-4 h-4 mr-2" />
+                      View Certificate
+                    </>
+                  ) : (
+                    <>
+                      <Play className="w-4 h-4 mr-2" />
+                      Continue
+                    </>
+                  )}
                 </Link>
               </div>
             </div>

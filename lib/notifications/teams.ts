@@ -1,11 +1,7 @@
 // lib/notifications/teams.ts
 // Microsoft Teams webhook notifications
 const TEAMS_WEBHOOK_URL = process.env.TEAMS_WEBHOOK_URL;
-export async function sendTeamsMessage(
-  title: string,
-  text: string,
-  context?: Record<string, any>
-) {
+export async function sendTeamsMessage(title: string, text: string, context?: Record<string, any>) {
   if (!TEAMS_WEBHOOK_URL) {
     return;
   }
@@ -36,7 +32,8 @@ export async function sendTeamsMessage(
       }),
     });
     //
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
   }
 }

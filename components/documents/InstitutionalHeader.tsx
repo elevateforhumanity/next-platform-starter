@@ -67,9 +67,7 @@ export function InstitutionalHeader({
       </h1>
 
       {subtitle && (
-        <p className="text-base text-slate-600 text-center mt-2 max-w-3xl mx-auto">
-          {subtitle}
-        </p>
+        <p className="text-base text-slate-600 text-center mt-2 max-w-3xl mx-auto">{subtitle}</p>
       )}
 
       {/* Meta line */}

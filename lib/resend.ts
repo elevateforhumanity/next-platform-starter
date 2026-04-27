@@ -5,7 +5,13 @@
  */
 export const resend = {
   emails: {
-    send: async (data: { from: string; to: string | string[]; subject: string; html?: string; text?: string }) => {
+    send: async (data: {
+      from: string;
+      to: string | string[];
+      subject: string;
+      html?: string;
+      text?: string;
+    }) => {
       // Hydrate secrets from Supabase app_secrets before reading env vars.
       // This is a no-op after the first call (cached for 5 min).
       const { hydrateProcessEnv } = await import('@/lib/secrets');

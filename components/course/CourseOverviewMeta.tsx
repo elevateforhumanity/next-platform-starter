@@ -90,28 +90,27 @@ export function CourseOverviewMeta({
       {instructor && (
         <div className="flex items-start gap-3 border-t pt-4">
           {instructor.avatar_url ? (
-            <Image
+            <Image sizes="100vw"
               src={instructor.avatar_url}
-              alt={instructor.full_name || "Instructor"}
+              alt={instructor.full_name || 'Instructor'}
               width={40}
               height={40}
               className="mt-1 rounded-full object-cover"
             />
           ) : (
             <div className="mt-1 flex h-10 w-10 items-center justify-center rounded-full bg-slate-200 text-xs font-semibold text-black">
-              {(instructor.full_name || "I")
-                .split(" ")
+              {(instructor.full_name || 'I')
+                .split(' ')
                 .map((p) => p[0])
-                .join("")}
+                .join('')}
             </div>
           )}
           <div>
             <p className="text-xs font-semibold text-black">
-              {instructor.full_name || "Instructor"}
+              {instructor.full_name || 'Instructor'}
             </p>
             <p className="mt-1 text-xs text-black">
-              {instructor.bio ||
-                "Instructor with real-world experience in this field."}
+              {instructor.bio || 'Instructor with real-world experience in this field.'}
             </p>
           </div>
         </div>

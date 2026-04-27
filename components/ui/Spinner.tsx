@@ -5,10 +5,7 @@ export interface SpinnerProps {
   color?: 'primary' | 'white' | 'slate';
 }
 
-export const Spinner: React.FC<SpinnerProps> = ({
-  size = 'md',
-  color = 'primary',
-}) => {
+export const Spinner: React.FC<SpinnerProps> = ({ size = 'md', color = 'primary' }) => {
   const sizeClasses = {
     sm: 'h-4 w-4 border-2',
     md: 'h-11 w-11 border-3',

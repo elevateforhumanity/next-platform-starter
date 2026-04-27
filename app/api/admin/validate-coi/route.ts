@@ -1,9 +1,9 @@
-import { NextRequest, NextResponse } from "next/server";
-import { apiRequireAdmin } from "@/lib/admin/guards";
-import { createClient } from "@/lib/supabase/server";
-import { scanApproveStrict } from "@/lib/insurance/scan-approve-strict";
+import { NextRequest, NextResponse } from 'next/server';
+import { apiRequireAdmin } from '@/lib/admin/guards';
+import { createClient } from '@/lib/supabase/server';
+import { scanApproveStrict } from '@/lib/insurance/scan-approve-strict';
 
-export const runtime = "nodejs";
+export const runtime = 'nodejs';
 
 // 10 MB max — COI PDFs are typically 1-3 MB
 const MAX_FILE_SIZE = 10 * 1024 * 1024;
@@ -31,54 +31,46 @@ export async function POST(req: NextRequest) {
   try {
     form = await req.formData();
   } catch {
-    return NextResponse.json(
-      { error: "Invalid form data" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Invalid form data' }, { status: 400 });
   }
 
-  const file = form.get("file");
-  const expectedBusinessName =
-    (form.get("expectedBusinessName") as string) || undefined;
-  const expectedShopAddress =
-    (form.get("expectedShopAddress") as string) || undefined;
-  const expectedCertificateHolder =
-    (form.get("expectedCertificateHolder") as string) || undefined;
-  const workerRelationshipRaw = form.get("workerRelationship") as string | null;
-  const applicationId =
-    (form.get("applicationId") as string) || undefined;
+  const file = form.get('file');
+  const expectedBusinessName = (form.get('expectedBusinessName') as string) || undefined;
+  const expectedShopAddress = (form.get('expectedShopAddress') as string) || undefined;
+  const expectedCertificateHolder = (form.get('expectedCertificateHolder') as string) || undefined;
+  const workerRelationshipRaw = form.get('workerRelationship') as string | null;
+  const applicationId = (form.get('applicationId') as string) || undefined;
 
   if (!file || !(file instanceof File)) {
-    return NextResponse.json({ error: "Missing file" }, { status: 400 });
+    return NextResponse.json({ error: 'Missing file' }, { status: 400 });
   }
-  if (file.type !== "application/pdf") {
-    return NextResponse.json(
-      { error: "COI must be a PDF file" },
-      { status: 400 }
-    );
+  if (file.type !== 'application/pdf') {
+    return NextResponse.json({ error: 'COI must be a PDF file' }, { status: 400 });
   }
   if (file.size > MAX_FILE_SIZE) {
-    return NextResponse.json(
-      { error: "File too large (max 10 MB)" },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'File too large (max 10 MB)' }, { status: 400 });
   }
 
   const arrayBuffer = await file.arrayBuffer();
   const pdfBuffer = Buffer.from(arrayBuffer);
 
   // Resolve worker relationship: explicit form value > DB lookup from application
-  const validRelationships = ["w2_employees", "1099_contractors_only", "owner_only", "not_sure"] as const;
-  type WorkerRel = typeof validRelationships[number];
+  const validRelationships = [
+    'w2_employees',
+    '1099_contractors_only',
+    'owner_only',
+    'not_sure',
+  ] as const;
+  type WorkerRel = (typeof validRelationships)[number];
 
   let workerRelationship: WorkerRel | undefined;
   if (workerRelationshipRaw && validRelationships.includes(workerRelationshipRaw as WorkerRel)) {
     workerRelationship = workerRelationshipRaw as WorkerRel;
   } else if (applicationId && supabase) {
     const { data: app } = await supabase
-      .from("barbershop_partner_applications")
-      .select("worker_relationship")
-      .eq("id", applicationId)
+      .from('barbershop_partner_applications')
+      .select('worker_relationship')
+      .eq('id', applicationId)
       .maybeSingle();
     if (app?.worker_relationship && validRelationships.includes(app.worker_relationship)) {
       workerRelationship = app.worker_relationship as WorkerRel;
@@ -96,15 +88,15 @@ export async function POST(req: NextRequest) {
   // Persist to partner application if applicationId provided
   if (applicationId && supabase) {
     await supabase
-      .from("barbershop_partner_applications")
+      .from('barbershop_partner_applications')
       .update({
-        insurance_status: result.decision === "APPROVED" ? "approved" : "rejected",
+        insurance_status: result.decision === 'APPROVED' ? 'approved' : 'rejected',
         insurance_validation_json: result,
         insurance_reason_codes: result.validation.reasonCodes,
         insurance_reviewed_at: new Date().toISOString(),
         insurance_review_method: result.method,
       })
-      .eq("id", applicationId);
+      .eq('id', applicationId);
   }
 
   return NextResponse.json({ result }, { status: 200 });

@@ -1,4 +1,3 @@
-
 import { createAdminClient } from '@/lib/supabase/admin';
 
 import { NextResponse } from 'next/server';
@@ -40,10 +39,7 @@ async function _POST(request: Request) {
       .single();
 
     if (error) {
-      return NextResponse.json(
-        { error: toErrorMessage(error) },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
     }
 
     return NextResponse.json({
@@ -55,16 +51,15 @@ async function _POST(request: Request) {
         instructions: miladyConfig.enrollment_instructions,
       },
     });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
   }
 }
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-return NextResponse.json({
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  return NextResponse.json({
     program: miladyConfig.program,
     certification: miladyConfig.certification,
     scholarship: miladyConfig.scholarship_details,

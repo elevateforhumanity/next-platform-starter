@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -14,29 +14,29 @@ export function ProgramBanner() {
   // Log banner view for analytics
   useEffect(() => {
     async function logBannerView() {
-      const { data: { user } } = await supabase.auth.getUser();
-      await supabase
-        .from('program_banner_views')
-        .insert({
-          user_id: user?.id,
-          banner_type: 'workone_appointment',
-          viewed_at: new Date().toISOString()
-        });
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
+      await supabase.from('program_banner_views').insert({
+        user_id: user?.id,
+        banner_type: 'workone_appointment',
+        viewed_at: new Date().toISOString(),
+      });
     }
     logBannerView();
   }, [supabase]);
 
   // Log CTA clicks
   const logCtaClick = async (ctaType: string) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('cta_clicks')
-      .insert({
-        user_id: user?.id,
-        cta_type: ctaType,
-        source: 'program_banner',
-        clicked_at: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('cta_clicks').insert({
+      user_id: user?.id,
+      cta_type: ctaType,
+      source: 'program_banner',
+      clicked_at: new Date().toISOString(),
+    });
   };
 
   return (
@@ -48,8 +48,8 @@ export function ProgramBanner() {
           </p>
           <p className="text-sm text-black mt-1">
             1) Submit the Inquiry Form. 2) Schedule a WorkOne appointment on
-            IndianaCareerConnect.com. 3) Tell them you're there for Elevate for
-            Humanity. 4) Complete your checklist so we can track your progress.
+            IndianaCareerConnect.com. 3) Tell them you're there for Elevate for Humanity. 4)
+            Complete your checklist so we can track your progress.
           </p>
         </div>
 
@@ -116,12 +116,9 @@ function WorkOneChecklist() {
 
   return (
     <div className="rounded-2xl border bg-slate-50 p-4">
-      <p className="text-sm font-semibold text-black">
-        My Progress Checklist
-      </p>
+      <p className="text-sm font-semibold text-black">My Progress Checklist</p>
       <p className="text-sm text-black mt-1">
-        Check these off as you go. This helps us support you faster and keeps
-        everything organized.
+        Check these off as you go. This helps us support you faster and keeps everything organized.
       </p>
 
       <div className="mt-4 grid gap-3">
@@ -146,9 +143,7 @@ function WorkOneChecklist() {
             Appointment date (optional)
             <input
               value={state.appointmentDate || ''}
-              onChange={(e) =>
-                save({ ...state, appointmentDate: e.target.value })
-              }
+              onChange={(e) => save({ ...state, appointmentDate: e.target.value })}
               placeholder="MM/DD/YYYY @ time"
               className="mt-1 w-full rounded-xl border px-3 py-2 text-sm"
             />
@@ -175,8 +170,8 @@ function WorkOneChecklist() {
       <div className="mt-4 rounded-xl bg-white border p-3">
         <p className="text-sm font-semibold text-black">Next step</p>
         <p className="text-sm text-black mt-1">
-          Once your appointment is scheduled, keep going through the checklist
-          and watch for follow-up from our team.
+          Once your appointment is scheduled, keep going through the checklist and watch for
+          follow-up from our team.
         </p>
       </div>
     </div>

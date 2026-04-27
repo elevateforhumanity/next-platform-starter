@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -20,9 +20,7 @@ interface Program {
 
 export function ProgramsTable({ programs }: { programs: Program[] }) {
   const [searchTerm, setSearchTerm] = useState('');
-  const [filterStatus, setFilterStatus] = useState<
-    'all' | 'active' | 'inactive'
-  >('all');
+  const [filterStatus, setFilterStatus] = useState<'all' | 'active' | 'inactive'>('all');
 
   const filteredPrograms = programs.filter((program) => {
     const matchesSearch =
@@ -45,9 +43,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
             placeholder="Search programs..."
             value={searchTerm}
             onChange={(
-              e: React.ChangeEvent<
-                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-              >
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setSearchTerm(e.target.value)}
             className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           />
@@ -96,10 +92,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredPrograms.length === 0 ? (
               <tr>
-                <td
-                  colSpan={7}
-                  className="px-6 py-12 text-center text-black"
-                >
+                <td colSpan={7} className="px-6 py-12 text-center text-black">
                   No programs found
                 </td>
               </tr>
@@ -108,12 +101,8 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                 <tr key={program.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div>
-                      <div className="font-medium text-black">
-                        {program.title || program.name}
-                      </div>
-                      <div className="text-sm text-black">
-                        {program.slug}
-                      </div>
+                      <div className="font-medium text-black">{program.title || program.name}</div>
+                      <div className="text-sm text-black">{program.slug}</div>
                     </div>
                   </td>
                   <td className="px-6 py-4">
@@ -138,14 +127,10 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                     {program.modules?.[0]?.count || 0}
                   </td>
                   <td className="px-6 py-4 text-sm text-black">
-                    {program.duration_hours
-                      ? `${program.duration_hours}h`
-                      : '-'}
+                    {program.duration_hours ? `${program.duration_hours}h` : '-'}
                   </td>
                   <td className="px-6 py-4 text-sm text-black">
-                    {program.price
-                      ? `$${program.price.toLocaleString()}`
-                      : 'Free'}
+                    {program.price ? `$${program.price.toLocaleString()}` : 'Free'}
                   </td>
                   <td className="px-6 py-4 text-sm text-black">
                     {new Date(program.created_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
@@ -183,8 +168,8 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
       {/* Pagination info */}
       <div className="px-6 py-4 border-t bg-gray-50">
         <p className="text-sm text-black">
-          Showing <span className="font-medium">{filteredPrograms.length}</span>{' '}
-          of <span className="font-medium">{programs.length}</span> programs
+          Showing <span className="font-medium">{filteredPrograms.length}</span> of{' '}
+          <span className="font-medium">{programs.length}</span> programs
         </p>
       </div>
     </div>

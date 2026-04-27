@@ -32,7 +32,10 @@ function timeAgo(iso: string): string {
   return `${days}d ago`;
 }
 
-export default function GroupDiscussions({ groupSlug, accentClass = 'bg-brand-blue-600 hover:bg-brand-blue-700' }: Props) {
+export default function GroupDiscussions({
+  groupSlug,
+  accentClass = 'bg-brand-blue-600 hover:bg-brand-blue-700',
+}: Props) {
   const supabase = createClient();
   const [posts, setPosts] = useState<Post[]>([]);
   const [loading, setLoading] = useState(true);
@@ -50,10 +53,12 @@ export default function GroupDiscussions({ groupSlug, accentClass = 'bg-brand-bl
     setLoading(true);
     const { data } = await supabase
       .from('community_posts')
-      .select(`
+      .select(
+        `
         id, content, created_at, likes_count, tags,
         profiles:user_id ( full_name, avatar_url )
-      `)
+      `,
+      )
       .contains('tags', [groupSlug])
       .order('created_at', { ascending: false })
       .limit(50);
@@ -67,12 +72,14 @@ export default function GroupDiscussions({ groupSlug, accentClass = 'bg-brand-bl
         tags: p.tags ?? [],
         author_name: p.profiles?.full_name ?? 'Member',
         author_avatar: p.profiles?.avatar_url ?? null,
-      }))
+      })),
     );
     setLoading(false);
   }
 
-  useEffect(() => { fetchPosts(); }, [groupSlug]); // eslint-disable-line react-hooks/exhaustive-deps
+  useEffect(() => {
+    fetchPosts();
+  }, [groupSlug]); // eslint-disable-line react-hooks/exhaustive-deps
 
   function handleSubmit() {
     const content = draft.trim();
@@ -98,7 +105,9 @@ export default function GroupDiscussions({ groupSlug, accentClass = 'bg-brand-bl
       .from('community_posts')
       .update({ likes_count: current + 1 })
       .eq('id', postId);
-    setPosts(prev => prev.map(p => p.id === postId ? { ...p, likes_count: p.likes_count + 1 } : p));
+    setPosts((prev) =>
+      prev.map((p) => (p.id === postId ? { ...p, likes_count: p.likes_count + 1 } : p)),
+    );
   }
 
   return (
@@ -109,8 +118,10 @@ export default function GroupDiscussions({ groupSlug, accentClass = 'bg-brand-bl
           <textarea
             ref={textareaRef}
             value={draft}
-            onChange={e => setDraft(e.target.value)}
-            onKeyDown={e => { if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) handleSubmit(); }}
+            onChange={(e) => setDraft(e.target.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter' && (e.metaKey || e.ctrlKey)) handleSubmit();
+            }}
             placeholder="Share something with the group…"
             rows={3}
             className="w-full resize-none text-sm text-slate-900 placeholder-slate-400 border-0 outline-none focus:ring-0 bg-transparent"
@@ -133,7 +144,7 @@ export default function GroupDiscussions({ groupSlug, accentClass = 'bg-brand-bl
       {/* Feed */}
       {loading ? (
         <div className="space-y-3">
-          {[1, 2, 3].map(i => (
+          {[1, 2, 3].map((i) => (
             <div key={i} className="bg-white border border-slate-200 rounded-xl p-4 animate-pulse">
               <div className="flex gap-3">
                 <div className="w-8 h-8 rounded-full bg-slate-200 flex-shrink-0" />
@@ -150,27 +161,33 @@ export default function GroupDiscussions({ groupSlug, accentClass = 'bg-brand-bl
         <div className="bg-white border border-slate-200 rounded-xl p-10 text-center">
           <MessageSquare className="w-10 h-10 text-slate-300 mx-auto mb-3" />
           <p className="font-medium text-slate-700">No posts yet</p>
-          <p className="text-sm text-slate-500 mt-1">Be the first to start a discussion in this group.</p>
+          <p className="text-sm text-slate-500 mt-1">
+            Be the first to start a discussion in this group.
+          </p>
         </div>
       ) : (
         <div className="space-y-3">
-          {posts.map(post => (
+          {posts.map((post) => (
             <div key={post.id} className="bg-white border border-slate-200 rounded-xl p-4">
               <div className="flex gap-3">
                 <div className="w-8 h-8 rounded-full bg-slate-200 flex-shrink-0 flex items-center justify-center overflow-hidden">
-                  {post.author_avatar
-                    ? <img src={post.author_avatar} alt="" className="w-full h-full object-cover" />
-                    : <User className="w-4 h-4 text-slate-400" />
-                  }
+                  {post.author_avatar ? (
+                    <img src={post.author_avatar} alt="" className="w-full h-full object-cover" />
+                  ) : (
+                    <User className="w-4 h-4 text-slate-400" />
+                  )}
                 </div>
                 <div className="flex-1 min-w-0">
                   <div className="flex items-center gap-2 mb-1">
                     <span className="text-sm font-semibold text-slate-900">{post.author_name}</span>
                     <span className="flex items-center gap-1 text-xs text-slate-400">
-                      <Clock className="w-3 h-3" />{timeAgo(post.created_at)}
+                      <Clock className="w-3 h-3" />
+                      {timeAgo(post.created_at)}
                     </span>
                   </div>
-                  <p className="text-sm text-slate-700 whitespace-pre-wrap break-words">{post.content}</p>
+                  <p className="text-sm text-slate-700 whitespace-pre-wrap break-words">
+                    {post.content}
+                  </p>
                   <button
                     onClick={() => handleLike(post.id, post.likes_count)}
                     className="mt-2 inline-flex items-center gap-1 text-xs text-slate-400 hover:text-brand-blue-600 transition"

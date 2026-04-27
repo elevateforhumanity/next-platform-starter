@@ -13,8 +13,8 @@ A few items I want to highlight based on what LOC needs:
 
 If helpful, we can schedule:
 
-1) A 30-minute LMS demo + reporting dashboard walkthrough
-2) A cohort planning call to confirm timeline, start date, and roster size
+1. A 30-minute LMS demo + reporting dashboard walkthrough
+2. A cohort planning call to confirm timeline, start date, and roster size
 
 Share your preferred dates/times and I'll make it happen.
 

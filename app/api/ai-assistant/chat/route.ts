@@ -1,7 +1,7 @@
 import { logger } from '@/lib/logger';
 /**
  * AI Assistant Chat API
- * 
+ *
  * Provides real AI-powered responses for the AIAssistantBubble component.
  * Stores conversation history in database for continuity.
  */
@@ -46,7 +46,9 @@ export async function POST(req: NextRequest) {
     }
 
     // Get user if authenticated (optional for chat)
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     // Get or create conversation
     let convId = conversationId;
@@ -91,7 +93,8 @@ export async function POST(req: NextRequest) {
       max_tokens: 300,
     });
 
-    const assistantMessage = completion.choices[0]?.message?.content || 
+    const assistantMessage =
+      completion.choices[0]?.message?.content ||
       "I'm sorry, I couldn't process that. Please try again or call 317-314-3757 for help.";
 
     // Save messages to database
@@ -107,14 +110,14 @@ export async function POST(req: NextRequest) {
       message: assistantMessage,
       conversationId: convId,
     });
-
   } catch (error) {
     logger.error('AI Assistant error:', error);
-    
+
     // Fallback response if AI fails
     return NextResponse.json({
       success: true,
-      message: "I'm having trouble connecting right now. Please call us at 317-314-3757 or visit our [Contact Page](/contact) for assistance.",
+      message:
+        "I'm having trouble connecting right now. Please call us at 317-314-3757 or visit our [Contact Page](/contact) for assistance.",
       conversationId: null,
     });
   }

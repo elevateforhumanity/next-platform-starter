@@ -5,22 +5,31 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import {
-  Building2, Users, FileText, TrendingUp,
-  ArrowRight, ChevronRight, Settings, BarChart3,
+  Building2,
+  Users,
+  FileText,
+  TrendingUp,
+  ArrowRight,
+  ChevronRight,
+  Settings,
+  BarChart3,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
   title: 'Partner Portal | Elevate for Humanity',
-  description: 'Partner dashboard — manage referrals, track student progress, and access partnership resources.',
+  description:
+    'Partner dashboard — manage referrals, track student progress, and access partnership resources.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/partner-portal' },
   robots: { index: false, follow: false },
 };
 
 export default async function PartnerPortalPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/partner-portal');
 
   const db = await getAdminClient();
@@ -56,11 +65,36 @@ export default async function PartnerPortalPage() {
     .eq('status', 'active');
 
   const NAV_ITEMS = [
-    { label: 'Dashboard', href: '/partner/dashboard', icon: BarChart3, desc: 'Overview and key metrics' },
-    { label: 'Students', href: '/partner/students', icon: Users, desc: 'Track referred student progress' },
-    { label: 'Referrals', href: '/partner/referrals', icon: TrendingUp, desc: 'Manage your referral pipeline' },
-    { label: 'Documents', href: '/partner/documents', icon: FileText, desc: 'MOUs, agreements, and reports' },
-    { label: 'Settings', href: '/partner/settings', icon: Settings, desc: 'Account and organization settings' },
+    {
+      label: 'Dashboard',
+      href: '/partner/dashboard',
+      icon: BarChart3,
+      desc: 'Overview and key metrics',
+    },
+    {
+      label: 'Students',
+      href: '/partner/students',
+      icon: Users,
+      desc: 'Track referred student progress',
+    },
+    {
+      label: 'Referrals',
+      href: '/partner/referrals',
+      icon: TrendingUp,
+      desc: 'Manage your referral pipeline',
+    },
+    {
+      label: 'Documents',
+      href: '/partner/documents',
+      icon: FileText,
+      desc: 'MOUs, agreements, and reports',
+    },
+    {
+      label: 'Settings',
+      href: '/partner/settings',
+      icon: Settings,
+      desc: 'Account and organization settings',
+    },
   ];
 
   return (
@@ -75,7 +109,9 @@ export default async function PartnerPortalPage() {
         {/* Header */}
         <div className="flex items-start justify-between mb-8">
           <div>
-            <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-1">Partner Portal</p>
+            <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-1">
+              Partner Portal
+            </p>
             <h1 className="text-2xl font-bold text-slate-900">
               Welcome{profile?.full_name ? `, ${profile.full_name.split(' ')[0]}` : ''}
             </h1>
@@ -105,7 +141,9 @@ export default async function PartnerPortalPage() {
           </div>
           <div className="rounded-xl border border-slate-200 bg-white p-6">
             <Building2 className="w-6 h-6 text-blue-500 mb-3" />
-            <p className="text-2xl font-extrabold text-slate-900 capitalize">{profile?.role ?? 'Partner'}</p>
+            <p className="text-2xl font-extrabold text-slate-900 capitalize">
+              {profile?.role ?? 'Partner'}
+            </p>
             <p className="text-sm text-slate-500 mt-1">Account Type</p>
           </div>
         </div>

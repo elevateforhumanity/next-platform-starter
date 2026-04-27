@@ -17,7 +17,7 @@ interface Question {
 
 export async function selectQuestionsForExamAttempt(
   examId: string,
-  adaptive: boolean
+  adaptive: boolean,
 ): Promise<Question[]> {
   const supabase = await getAdminClient();
   const { data: exam, error: examError } = await supabase

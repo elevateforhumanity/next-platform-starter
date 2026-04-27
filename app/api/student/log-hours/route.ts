@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { createClient } from '@/lib/supabase/server';
@@ -45,19 +43,13 @@ async function _POST(request: Request) {
 
     if (error) {
       // Error: $1
-      return NextResponse.json(
-        { error: toErrorMessage(error) },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, data });
-  } catch (error) { 
+  } catch (error) {
     // Error: $1
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/student/log-hours', _POST, { critical: true });

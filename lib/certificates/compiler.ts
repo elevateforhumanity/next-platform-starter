@@ -22,7 +22,10 @@
 
 import type { SupabaseClient } from '@supabase/supabase-js';
 import type { CertificateEvidence, CertificateRequirements } from '@/lib/course-builder/schema';
-import { getLearnerCompetencyStatus, allCriticalCompetenciesAchieved } from '@/lib/course-builder/competency-mapper';
+import {
+  getLearnerCompetencyStatus,
+  allCriticalCompetenciesAchieved,
+} from '@/lib/course-builder/competency-mapper';
 import { computeCertificateHours } from '@/lib/course-builder/hours-engine';
 import { logger } from '@/lib/logger';
 
@@ -72,7 +75,15 @@ export async function checkCertificateGate(
   params: CertificateGateParams,
 ): Promise<CertificateGateResult> {
   const blockers: string[] = [];
-  const { userId, courseId, programSlug, enrollmentId, requiresFinalExam, minimumHours, certificateRequirements } = params;
+  const {
+    userId,
+    courseId,
+    programSlug,
+    enrollmentId,
+    requiresFinalExam,
+    minimumHours,
+    certificateRequirements,
+  } = params;
 
   // ── Gate 1: All required lessons complete ─────────────────────────────────
   const { data: requiredLessons } = await db
@@ -81,7 +92,7 @@ export async function checkCertificateGate(
     .eq('course_id', courseId)
     .eq('is_required', true);
 
-  const requiredIds = (requiredLessons ?? []).map(l => l.id);
+  const requiredIds = (requiredLessons ?? []).map((l) => l.id);
 
   const { data: completedProgress } = await db
     .from('lesson_progress')
@@ -90,8 +101,8 @@ export async function checkCertificateGate(
     .eq('completed', true)
     .in('lesson_id', requiredIds);
 
-  const completedIds = new Set((completedProgress ?? []).map(r => r.lesson_id));
-  const incompleteCount = requiredIds.filter(id => !completedIds.has(id)).length;
+  const completedIds = new Set((completedProgress ?? []).map((r) => r.lesson_id));
+  const incompleteCount = requiredIds.filter((id) => !completedIds.has(id)).length;
 
   if (incompleteCount > 0) {
     blockers.push(`${incompleteCount} required lesson(s) not yet complete`);
@@ -104,7 +115,7 @@ export async function checkCertificateGate(
     .eq('course_id', courseId)
     .in('lesson_type', ['checkpoint', 'quiz']);
 
-  const checkpointIds = (checkpointLessons ?? []).map(l => l.id);
+  const checkpointIds = (checkpointLessons ?? []).map((l) => l.id);
 
   if (checkpointIds.length > 0) {
     const { data: scores } = await db
@@ -114,8 +125,8 @@ export async function checkCertificateGate(
       .in('lesson_id', checkpointIds)
       .eq('passed', true);
 
-    const passedCheckpoints = new Set((scores ?? []).map(s => s.lesson_id));
-    const failedCheckpoints = checkpointIds.filter(id => !passedCheckpoints.has(id));
+    const passedCheckpoints = new Set((scores ?? []).map((s) => s.lesson_id));
+    const failedCheckpoints = checkpointIds.filter((id) => !passedCheckpoints.has(id));
 
     if (failedCheckpoints.length > 0) {
       blockers.push(`${failedCheckpoints.length} checkpoint(s) not yet passed`);
@@ -129,7 +140,7 @@ export async function checkCertificateGate(
     .eq('course_id', courseId)
     .eq('practical_required', true);
 
-  const practicalIds = (practicalLessons ?? []).map(l => l.id);
+  const practicalIds = (practicalLessons ?? []).map((l) => l.id);
 
   if (practicalIds.length > 0) {
     const { data: approvedSubs } = await db
@@ -139,8 +150,8 @@ export async function checkCertificateGate(
       .eq('status', 'approved')
       .in('course_lesson_id', practicalIds);
 
-    const approvedLessons = new Set((approvedSubs ?? []).map(s => s.course_lesson_id));
-    const unapproved = practicalIds.filter(id => !approvedLessons.has(id));
+    const approvedLessons = new Set((approvedSubs ?? []).map((s) => s.course_lesson_id));
+    const unapproved = practicalIds.filter((id) => !approvedLessons.has(id));
 
     if (unapproved.length > 0) {
       blockers.push(`${unapproved.length} practical lesson(s) not yet approved by instructor`);
@@ -202,7 +213,8 @@ export async function checkCertificateGate(
       .in('id', Array.from(completedIds));
 
     const lessonMinutes = (completedLessonRows ?? []).reduce(
-      (s, r) => s + (r.duration_minutes ?? 0), 0,
+      (s, r) => s + (r.duration_minutes ?? 0),
+      0,
     );
 
     hoursCompleted = computeCertificateHours({
@@ -218,21 +230,27 @@ export async function checkCertificateGate(
   }
 
   // ── Gate 6: Critical competencies achieved ────────────────────────────────
-  const competencyStatuses = await getLearnerCompetencyStatus(db, { userId, courseId, programSlug });
+  const competencyStatuses = await getLearnerCompetencyStatus(db, {
+    userId,
+    courseId,
+    programSlug,
+  });
   const criticalUnachieved = competencyStatuses.filter(
-    s => s.isCritical && s.status !== 'achieved',
+    (s) => s.isCritical && s.status !== 'achieved',
   );
 
   if (criticalUnachieved.length > 0) {
     blockers.push(
-      `${criticalUnachieved.length} critical competency(ies) not yet achieved: ${criticalUnachieved.map(c => c.key).join(', ')}`,
+      `${criticalUnachieved.length} critical competency(ies) not yet achieved: ${criticalUnachieved.map((c) => c.key).join(', ')}`,
     );
   }
 
-  const achievedKeys = competencyStatuses.filter(s => s.status === 'achieved').map(s => s.key);
-  const criticalAchievedKeys = competencyStatuses.filter(s => s.isCritical && s.status === 'achieved').map(s => s.key);
+  const achievedKeys = competencyStatuses.filter((s) => s.status === 'achieved').map((s) => s.key);
+  const criticalAchievedKeys = competencyStatuses
+    .filter((s) => s.isCritical && s.status === 'achieved')
+    .map((s) => s.key);
   const instructorVerified = competencyStatuses.some(
-    s => s.status === 'achieved' && s.requiresInstructorSignoff,
+    (s) => s.status === 'achieved' && s.requiresInstructorSignoff,
   );
 
   const evidence: Partial<CertificateEvidence> = {
@@ -261,7 +279,8 @@ export async function issueProgramCertificate(
   db: SupabaseClient,
   params: IssueCertificateParams,
 ): Promise<IssueCertificateResult> {
-  const { userId, courseId, programId, enrollmentId, studentName, studentEmail, courseTitle } = params;
+  const { userId, courseId, programId, enrollmentId, studentName, studentEmail, courseTitle } =
+    params;
 
   // Idempotency check
   const { data: existing } = await db
@@ -272,15 +291,28 @@ export async function issueProgramCertificate(
     .maybeSingle();
 
   if (existing) {
-    logger.info('[cert-compiler] Certificate already issued', { userId, courseId, certId: existing.id });
-    return { success: true, alreadyIssued: true, certificateId: existing.id, certificateNumber: existing.certificate_number };
+    logger.info('[cert-compiler] Certificate already issued', {
+      userId,
+      courseId,
+      certId: existing.id,
+    });
+    return {
+      success: true,
+      alreadyIssued: true,
+      certificateId: existing.id,
+      certificateNumber: existing.certificate_number,
+    };
   }
 
   // Run gate check
   const gate = await checkCertificateGate(db, params);
 
   if (!gate.eligible) {
-    logger.warn('[cert-compiler] Certificate gate failed', { userId, courseId, blockers: gate.blockers });
+    logger.warn('[cert-compiler] Certificate gate failed', {
+      userId,
+      courseId,
+      blockers: gate.blockers,
+    });
     return {
       success: false,
       alreadyIssued: false,
@@ -295,17 +327,17 @@ export async function issueProgramCertificate(
   const { data: cert, error: certErr } = await db
     .from('program_completion_certificates')
     .insert({
-      user_id:                userId,
-      program_id:             programId,
-      course_id:              courseId,
-      enrollment_id:          enrollmentId,
-      certificate_number:     certNumber,
-      issued_at:              now,
-      completion_date:        now.split('T')[0],
-      hours_completed:        evidence.hoursCompleted,
-      competencies_achieved:  evidence.competenciesAchieved,
-      instructor_verified:    evidence.instructorVerified,
-      verification_summary:   evidence,
+      user_id: userId,
+      program_id: programId,
+      course_id: courseId,
+      enrollment_id: enrollmentId,
+      certificate_number: certNumber,
+      issued_at: now,
+      completion_date: now.split('T')[0],
+      hours_completed: evidence.hoursCompleted,
+      competencies_achieved: evidence.competenciesAchieved,
+      instructor_verified: evidence.instructorVerified,
+      verification_summary: evidence,
     })
     .select('id, certificate_number')
     .maybeSingle();
@@ -324,10 +356,10 @@ export async function issueProgramCertificate(
   // In-app notification
   const verifyUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/verify/${certNumber.split('-').pop()?.toLowerCase()}`;
   await db.from('notifications').insert({
-    user_id:    userId,
-    type:       'achievement',
-    title:      'Certificate Issued!',
-    message:    `Congratulations! Your certificate for ${courseTitle} is ready.`,
+    user_id: userId,
+    type: 'achievement',
+    title: 'Certificate Issued!',
+    message: `Congratulations! Your certificate for ${courseTitle} is ready.`,
     action_url: verifyUrl,
   });
 
@@ -335,13 +367,23 @@ export async function issueProgramCertificate(
   if (studentEmail) {
     try {
       const { emailService } = await import('@/lib/notifications/email');
-      await emailService.sendCertificateNotification(studentEmail, studentName, courseTitle, verifyUrl);
+      await emailService.sendCertificateNotification(
+        studentEmail,
+        studentName,
+        courseTitle,
+        verifyUrl,
+      );
     } catch (e) {
       logger.warn('[cert-compiler] Email failed (non-fatal)', { error: (e as Error).message });
     }
   }
 
-  logger.info('[cert-compiler] Certificate issued', { userId, courseId, certId: cert.id, certNumber });
+  logger.info('[cert-compiler] Certificate issued', {
+    userId,
+    courseId,
+    certId: cert.id,
+    certNumber,
+  });
 
   return {
     success: true,

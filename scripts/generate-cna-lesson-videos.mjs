@@ -8,7 +8,6 @@
 import fs from 'fs';
 import path from 'path';
 
-
 // Map CNA lessons to existing videos
 const videoMappings = [
   {
@@ -46,12 +45,11 @@ const videoMappings = [
 // Check which videos exist
 const videosDir = './public/videos';
 const availableVideos = fs.existsSync(videosDir)
-  ? fs.readdirSync(videosDir).filter(f => f.endsWith('.mp4'))
+  ? fs.readdirSync(videosDir).filter((f) => f.endsWith('.mp4'))
   : [];
 
-
 // Generate video URLs
-const videoUrls = videoMappings.map(mapping => {
+const videoUrls = videoMappings.map((mapping) => {
   // Try to find exact match
   let videoUrl = `/videos/${mapping.videoFile}`;
 
@@ -69,8 +67,9 @@ const videoUrls = videoMappings.map(mapping => {
 
 // Generate SQL for inserting lessons
 const generateSQL = () => {
-  const sql = videoUrls.map((video, index) => {
-    return `
+  const sql = videoUrls
+    .map((video, index) => {
+      return `
 -- Lesson ${index + 1}: ${video.lessonTitle}
 INSERT INTO lessons (id, course_id, title, "order", duration, video_url, content, created_at)
 VALUES (
@@ -87,7 +86,8 @@ ON CONFLICT (id) DO UPDATE SET
   video_url = EXCLUDED.video_url,
   duration = EXCLUDED.duration;
 `;
-  }).join('\n');
+    })
+    .join('\n');
 
   return sql;
 };
@@ -121,5 +121,3 @@ const jsonContent = {
 fs.writeFileSync('./scripts/cna-lesson-videos.json', JSON.stringify(jsonContent, null, 2));
 
 // Summary
-
-

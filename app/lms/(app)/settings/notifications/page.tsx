@@ -17,7 +17,7 @@ import {
 import { createClient } from '@/lib/supabase/client';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 interface NotificationSettings {
@@ -44,13 +44,7 @@ interface NotificationSettings {
   };
 }
 
-function Toggle({
-  checked,
-  onChange,
-}: {
-  checked: boolean;
-  onChange: (v: boolean) => void;
-}) {
+function Toggle({ checked, onChange }: { checked: boolean; onChange: (v: boolean) => void }) {
   return (
     <label className="relative inline-flex items-center cursor-pointer">
       <input
@@ -69,7 +63,7 @@ export default function NotificationSettingsPage() {
   const [loading, setLoading] = useState(true);
   const [saving, setSaving] = useState(false);
   const [saved, setSaved] = useState(false);
-  
+
   const [settings, setSettings] = useState<NotificationSettings>({
     email: {
       course_updates: true,
@@ -96,24 +90,26 @@ export default function NotificationSettingsPage() {
 
   const checkAuth = useCallback(async () => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       router.push('/login?redirect=/lms/settings/notifications');
       return;
     }
-    
+
     // Load saved settings from profile
     const { data: profile } = await supabase
       .from('profiles')
       .select('notification_preferences')
       .eq('id', user.id)
       .maybeSingle();
-    
+
     if (profile?.notification_preferences) {
       setSettings(profile.notification_preferences as NotificationSettings);
     }
-    
+
     setLoading(false);
   }, [router]);
 
@@ -123,40 +119,42 @@ export default function NotificationSettingsPage() {
 
   const handleSave = async () => {
     setSaving(true);
-    
+
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (user) {
       await supabase
         .from('profiles')
         .update({ notification_preferences: settings })
         .eq('id', user.id);
     }
-    
+
     setSaving(false);
     setSaved(true);
     setTimeout(() => setSaved(false), 3000);
   };
 
   const updateEmailSetting = (key: keyof NotificationSettings['email'], value: boolean) => {
-    setSettings(prev => ({
+    setSettings((prev) => ({
       ...prev,
-      email: { ...prev.email, [key]: value }
+      email: { ...prev.email, [key]: value },
     }));
   };
 
   const updatePushSetting = (key: keyof NotificationSettings['push'], value: boolean) => {
-    setSettings(prev => ({
+    setSettings((prev) => ({
       ...prev,
-      push: { ...prev.push, [key]: value }
+      push: { ...prev.push, [key]: value },
     }));
   };
 
   const updateSmsSetting = (key: keyof NotificationSettings['sms'], value: boolean) => {
-    setSettings(prev => ({
+    setSettings((prev) => ({
       ...prev,
-      sms: { ...prev.sms, [key]: value }
+      sms: { ...prev.sms, [key]: value },
     }));
   };
 
@@ -173,7 +171,13 @@ export default function NotificationSettingsPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'LMS', href: '/lms' }, { label: 'Settings', href: '/lms/settings' }, { label: 'Notifications' }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'LMS', href: '/lms' },
+              { label: 'Settings', href: '/lms/settings' },
+              { label: 'Notifications' },
+            ]}
+          />
         </div>
       </div>
 
@@ -223,7 +227,10 @@ export default function NotificationSettingsPage() {
                   <p className="text-sm text-slate-700">New content, announcements, and changes</p>
                 </div>
               </div>
-              <Toggle checked={settings.email.course_updates} onChange={(v) => updateEmailSetting('course_updates', v)} />
+              <Toggle
+                checked={settings.email.course_updates}
+                onChange={(v) => updateEmailSetting('course_updates', v)}
+              />
             </div>
             <div className="px-6 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -233,7 +240,10 @@ export default function NotificationSettingsPage() {
                   <p className="text-sm text-slate-700">Upcoming due dates and deadlines</p>
                 </div>
               </div>
-              <Toggle checked={settings.email.assignment_reminders} onChange={(v) => updateEmailSetting('assignment_reminders', v)} />
+              <Toggle
+                checked={settings.email.assignment_reminders}
+                onChange={(v) => updateEmailSetting('assignment_reminders', v)}
+              />
             </div>
             <div className="px-6 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -243,7 +253,10 @@ export default function NotificationSettingsPage() {
                   <p className="text-sm text-slate-700">When instructors post grades or feedback</p>
                 </div>
               </div>
-              <Toggle checked={settings.email.grade_posted} onChange={(v) => updateEmailSetting('grade_posted', v)} />
+              <Toggle
+                checked={settings.email.grade_posted}
+                onChange={(v) => updateEmailSetting('grade_posted', v)}
+              />
             </div>
             <div className="px-6 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -253,7 +266,10 @@ export default function NotificationSettingsPage() {
                   <p className="text-sm text-slate-700">Direct messages from instructors</p>
                 </div>
               </div>
-              <Toggle checked={settings.email.instructor_messages} onChange={(v) => updateEmailSetting('instructor_messages', v)} />
+              <Toggle
+                checked={settings.email.instructor_messages}
+                onChange={(v) => updateEmailSetting('instructor_messages', v)}
+              />
             </div>
             <div className="px-6 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -263,7 +279,10 @@ export default function NotificationSettingsPage() {
                   <p className="text-sm text-slate-700">Payment confirmations and reminders</p>
                 </div>
               </div>
-              <Toggle checked={settings.email.billing_alerts} onChange={(v) => updateEmailSetting('billing_alerts', v)} />
+              <Toggle
+                checked={settings.email.billing_alerts}
+                onChange={(v) => updateEmailSetting('billing_alerts', v)}
+              />
             </div>
             <div className="px-6 py-4 flex items-center justify-between">
               <div className="flex items-center gap-3">
@@ -273,7 +292,10 @@ export default function NotificationSettingsPage() {
                   <p className="text-sm text-slate-700">Summary of your weekly activity</p>
                 </div>
               </div>
-              <Toggle checked={settings.email.weekly_digest} onChange={(v) => updateEmailSetting('weekly_digest', v)} />
+              <Toggle
+                checked={settings.email.weekly_digest}
+                onChange={(v) => updateEmailSetting('weekly_digest', v)}
+              />
             </div>
           </div>
         </div>
@@ -290,21 +312,30 @@ export default function NotificationSettingsPage() {
                 <p className="font-medium text-slate-900">Course Updates</p>
                 <p className="text-sm text-slate-700">Real-time course notifications</p>
               </div>
-              <Toggle checked={settings.push.course_updates} onChange={(v) => updatePushSetting('course_updates', v)} />
+              <Toggle
+                checked={settings.push.course_updates}
+                onChange={(v) => updatePushSetting('course_updates', v)}
+              />
             </div>
             <div className="px-6 py-4 flex items-center justify-between">
               <div>
                 <p className="font-medium text-slate-900">Assignment Reminders</p>
                 <p className="text-sm text-slate-700">Push reminders for deadlines</p>
               </div>
-              <Toggle checked={settings.push.assignment_reminders} onChange={(v) => updatePushSetting('assignment_reminders', v)} />
+              <Toggle
+                checked={settings.push.assignment_reminders}
+                onChange={(v) => updatePushSetting('assignment_reminders', v)}
+              />
             </div>
             <div className="px-6 py-4 flex items-center justify-between">
               <div>
                 <p className="font-medium text-slate-900">Live Sessions</p>
                 <p className="text-sm text-slate-700">Alerts when live sessions start</p>
               </div>
-              <Toggle checked={settings.push.live_sessions} onChange={(v) => updatePushSetting('live_sessions', v)} />
+              <Toggle
+                checked={settings.push.live_sessions}
+                onChange={(v) => updatePushSetting('live_sessions', v)}
+              />
             </div>
           </div>
         </div>
@@ -321,21 +352,30 @@ export default function NotificationSettingsPage() {
                 <p className="font-medium text-slate-900">Urgent Alerts</p>
                 <p className="text-sm text-slate-700">Critical updates and emergencies</p>
               </div>
-              <Toggle checked={settings.sms.urgent_alerts} onChange={(v) => updateSmsSetting('urgent_alerts', v)} />
+              <Toggle
+                checked={settings.sms.urgent_alerts}
+                onChange={(v) => updateSmsSetting('urgent_alerts', v)}
+              />
             </div>
             <div className="px-6 py-4 flex items-center justify-between">
               <div>
                 <p className="font-medium text-slate-900">Appointment Reminders</p>
                 <p className="text-sm text-slate-700">Reminders for scheduled appointments</p>
               </div>
-              <Toggle checked={settings.sms.appointment_reminders} onChange={(v) => updateSmsSetting('appointment_reminders', v)} />
+              <Toggle
+                checked={settings.sms.appointment_reminders}
+                onChange={(v) => updateSmsSetting('appointment_reminders', v)}
+              />
             </div>
             <div className="px-6 py-4 flex items-center justify-between">
               <div>
                 <p className="font-medium text-slate-900">Payment Reminders</p>
                 <p className="text-sm text-slate-700">SMS reminders for upcoming payments</p>
               </div>
-              <Toggle checked={settings.sms.payment_reminders} onChange={(v) => updateSmsSetting('payment_reminders', v)} />
+              <Toggle
+                checked={settings.sms.payment_reminders}
+                onChange={(v) => updateSmsSetting('payment_reminders', v)}
+              />
             </div>
           </div>
         </div>

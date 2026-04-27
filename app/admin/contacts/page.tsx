@@ -50,7 +50,10 @@ export default async function AdminContactsPage() {
         {Object.keys(byType).length > 0 && (
           <div className="flex flex-wrap gap-3">
             {Object.entries(byType).map(([type, count]) => (
-              <span key={type} className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-sm font-medium">
+              <span
+                key={type}
+                className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-full bg-slate-100 text-slate-700 text-sm font-medium"
+              >
                 <Users className="w-3.5 h-3.5" />
                 {type} <span className="text-slate-400">({count})</span>
               </span>
@@ -85,25 +88,45 @@ export default async function AdminContactsPage() {
                         </Link>
                       </td>
                       <td className="px-6 py-4 text-slate-500">
-                        <a href={`mailto:${c.email}`} className="inline-flex items-center gap-1 hover:text-blue-600">
-                          <Mail className="w-3.5 h-3.5" />{c.email}
+                        <a
+                          href={`mailto:${c.email}`}
+                          className="inline-flex items-center gap-1 hover:text-blue-600"
+                        >
+                          <Mail className="w-3.5 h-3.5" />
+                          {c.email}
                         </a>
                       </td>
                       <td className="px-6 py-4 text-slate-500">
                         {c.phone ? (
-                          <span className="inline-flex items-center gap-1"><Phone className="w-3.5 h-3.5" />{c.phone}</span>
-                        ) : '—'}
+                          <span className="inline-flex items-center gap-1">
+                            <Phone className="w-3.5 h-3.5" />
+                            {c.phone}
+                          </span>
+                        ) : (
+                          '—'
+                        )}
                       </td>
                       <td className="px-6 py-4 text-slate-500">
                         {c.company ? (
-                          <span className="inline-flex items-center gap-1"><Building2 className="w-3.5 h-3.5" />{c.company}</span>
-                        ) : '—'}
+                          <span className="inline-flex items-center gap-1">
+                            <Building2 className="w-3.5 h-3.5" />
+                            {c.company}
+                          </span>
+                        ) : (
+                          '—'
+                        )}
                       </td>
                       <td className="px-6 py-4 text-slate-500">{c.contact_type ?? '—'}</td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
-                          c.status === 'active' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-600'
-                        }`}>{c.status ?? 'unknown'}</span>
+                        <span
+                          className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${
+                            c.status === 'active'
+                              ? 'bg-green-100 text-green-700'
+                              : 'bg-slate-100 text-slate-600'
+                          }`}
+                        >
+                          {c.status ?? 'unknown'}
+                        </span>
                       </td>
                       <td className="px-6 py-4 text-slate-400 text-xs">
                         {c.updated_at ? new Date(c.updated_at).toLocaleDateString() : '—'}

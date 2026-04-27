@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import Link from 'next/link';
@@ -6,7 +6,18 @@ import Image from 'next/image';
 import { Card } from '@/components/ui/Card';
 import { Badge } from '@/components/ui/Badge';
 import { createClient } from '@/lib/supabase/client';
-import { Search, Video, FileText, BookOpen, HelpCircle, Loader2, Filter, Play, Download, Clock } from 'lucide-react';
+import {
+  Search,
+  Video,
+  FileText,
+  BookOpen,
+  HelpCircle,
+  Loader2,
+  Filter,
+  Play,
+  Download,
+  Clock,
+} from 'lucide-react';
 
 interface ContentItem {
   id: string;
@@ -49,12 +60,12 @@ const TYPE_COLORS = {
   resource: 'bg-gray-100 text-slate-900',
 };
 
-export default function ContentLibrary({ 
-  programId, 
-  courseId, 
+export default function ContentLibrary({
+  programId,
+  courseId,
   category: initialCategory,
   limit,
-  showFilters = true 
+  showFilters = true,
 }: Props) {
   const [content, setContent] = useState<ContentItem[]>([]);
   const [categories, setCategories] = useState<string[]>(['all']);
@@ -70,7 +81,9 @@ export default function ContentLibrary({
 
     try {
       // Get user
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       setUserId(user?.id || null);
 
       // Build query
@@ -102,7 +115,10 @@ export default function ContentLibrary({
       } else if (data && data.length > 0) {
         setContent(data);
         // Extract unique categories
-        const uniqueCategories = ['all', ...new Set(data.map(item => item.category).filter(Boolean))];
+        const uniqueCategories = [
+          'all',
+          ...new Set(data.map((item) => item.category).filter(Boolean)),
+        ];
         setCategories(uniqueCategories);
       } else {
         setContent(getFallbackContent());
@@ -126,11 +142,14 @@ export default function ContentLibrary({
     if (!userId) return;
 
     const supabase = createClient();
-    await supabase.from('content_views').insert({
-      content_id: item.id,
-      user_id: userId,
-      content_type: item.type,
-    }).catch(() => {});
+    await supabase
+      .from('content_views')
+      .insert({
+        content_id: item.id,
+        user_id: userId,
+        content_type: item.type,
+      })
+      .catch(() => {});
 
     // Update view count
     await supabase
@@ -141,8 +160,9 @@ export default function ContentLibrary({
   };
 
   // Filter content
-  const filteredContent = content.filter(item => {
-    const matchesSearch = !searchTerm || 
+  const filteredContent = content.filter((item) => {
+    const matchesSearch =
+      !searchTerm ||
       item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
       item.description?.toLowerCase().includes(searchTerm.toLowerCase());
     const matchesCategory = selectedCategory === 'all' || item.category === selectedCategory;
@@ -244,7 +264,8 @@ export default function ContentLibrary({
                       alt={item.title}
                       fill
                       className="object-cover"
-                     sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                      sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                    />
                     {item.type === 'video' && (
                       <div className="absolute inset-0 flex items-center justify-center bg-black/30">
                         <div className="w-12 h-12 bg-white/90 rounded-full flex items-center justify-center">
@@ -254,7 +275,9 @@ export default function ContentLibrary({
                     )}
                   </div>
                 ) : (
-                  <div className={`h-32 flex items-center justify-center ${colorClass.replace('text-', 'bg-').replace('-700', '-50')}`}>
+                  <div
+                    className={`h-32 flex items-center justify-center ${colorClass.replace('text-', 'bg-').replace('-700', '-50')}`}
+                  >
                     <Icon className={`w-12 h-12 ${colorClass.split(' ')[1]}`} />
                   </div>
                 )}
@@ -267,14 +290,18 @@ export default function ContentLibrary({
                     <div className="flex-1 min-w-0">
                       <h3 className="font-semibold text-slate-900 line-clamp-2">{item.title}</h3>
                       {item.description && (
-                        <p className="text-sm text-slate-700 line-clamp-2 mt-1">{item.description}</p>
+                        <p className="text-sm text-slate-700 line-clamp-2 mt-1">
+                          {item.description}
+                        </p>
                       )}
                     </div>
                   </div>
 
                   <div className="flex items-center justify-between text-sm">
                     <div className="flex items-center gap-3">
-                      <Badge variant="secondary" className="text-xs">{item.category}</Badge>
+                      <Badge variant="secondary" className="text-xs">
+                        {item.category}
+                      </Badge>
                       {item.duration && (
                         <span className="flex items-center gap-1 text-slate-700">
                           <Clock className="w-3 h-3" />
@@ -319,7 +346,11 @@ export default function ContentLibrary({
           <Search className="w-12 h-12 text-slate-700 mx-auto mb-4" />
           <p className="text-slate-700 mb-2">No content found matching your search.</p>
           <button
-            onClick={() => { setSearchTerm(''); setSelectedCategory('all'); setSelectedType('all'); }}
+            onClick={() => {
+              setSearchTerm('');
+              setSelectedCategory('all');
+              setSelectedType('all');
+            }}
             className="text-brand-blue-600 hover:underline text-sm"
           >
             Clear filters

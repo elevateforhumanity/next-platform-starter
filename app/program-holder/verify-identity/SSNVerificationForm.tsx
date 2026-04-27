@@ -1,23 +1,14 @@
 'use client';
 
 import { useState } from 'react';
-import {
-  AlertCircle,
-  Loader2,
-  Lock,
-  XCircle,
-  Zap,
-CheckCircle, } from 'lucide-react';
+import { AlertCircle, Loader2, Lock, XCircle, Zap, CheckCircle } from 'lucide-react';
 
 interface SSNVerificationFormProps {
   userId: string;
   onComplete?: () => void;
 }
 
-export default function SSNVerificationForm({
-  userId,
-  onComplete,
-}: SSNVerificationFormProps) {
+export default function SSNVerificationForm({ userId, onComplete }: SSNVerificationFormProps) {
   const [formData, setFormData] = useState({
     ssn: '',
     firstName: '',
@@ -89,9 +80,8 @@ export default function SSNVerificationForm({
       <div className="mb-6">
         <h2 className="text-2xl font-bold mb-2">SSN Verification (FREE)</h2>
         <p className="text-black">
-          Verify your Social Security Number with the Social Security
-          Administration. This is a free service and helps confirm your
-          identity.
+          Verify your Social Security Number with the Social Security Administration. This is a free
+          service and helps confirm your identity.
         </p>
         <div className="mt-4 p-4 bg-brand-blue-50 border-l-4 border-brand-blue-400">
           <p className="text-sm text-brand-blue-900">
@@ -169,8 +159,7 @@ export default function SSNVerificationForm({
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
           />
           <p className="text-xs text-black mt-1">
-            <Lock className="w-5 h-5 inline-block" /> We only store the last 4
-            digits for security
+            <Lock className="w-5 h-5 inline-block" /> We only store the last 4 digits for security
           </p>
         </div>
 
@@ -182,9 +171,7 @@ export default function SSNVerificationForm({
             <input
               type="text"
               value={formData.firstName}
-              onChange={(e) =>
-                setFormData({ ...formData, firstName: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
               placeholder="First name"
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
@@ -198,9 +185,7 @@ export default function SSNVerificationForm({
             <input
               type="text"
               value={formData.lastName}
-              onChange={(e) =>
-                setFormData({ ...formData, lastName: e.target.value })
-              }
+              onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
               placeholder="Doe"
               required
               className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
@@ -215,9 +200,7 @@ export default function SSNVerificationForm({
           <input
             type="date"
             value={formData.dateOfBirth}
-            onChange={(e) =>
-              setFormData({ ...formData, dateOfBirth: e.target.value })
-            }
+            onChange={(e) => setFormData({ ...formData, dateOfBirth: e.target.value })}
             required
             className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
           />
@@ -230,11 +213,7 @@ export default function SSNVerificationForm({
             className="w-full bg-brand-blue-600 text-white px-6 py-3 rounded-lg hover:bg-brand-blue-700 disabled:bg-gray-400 disabled:cursor-not-allowed font-semibold flex items-center justify-center gap-2"
           >
             {loading && <Loader2 className="animate-spin" size={20} />}
-            {loading
-              ? 'Verifying...'
-              : result?.verified
-                ? 'Verified •'
-                : 'Verify SSN (FREE)'}
+            {loading ? 'Verifying...' : result?.verified ? 'Verified •' : 'Verify SSN (FREE)'}
           </button>
         </div>
       </form>
@@ -243,10 +222,9 @@ export default function SSNVerificationForm({
         <p className="text-sm text-black">
           <strong>About SSN Verification:</strong>
           <br />
-          This free service is provided by the Social Security Administration
-          (SSA). It verifies that your SSN, name, and date of birth match SSA
-          records. This helps prevent identity fraud and ensures accurate
-          payroll processing.
+          This free service is provided by the Social Security Administration (SSA). It verifies
+          that your SSN, name, and date of birth match SSA records. This helps prevent identity
+          fraud and ensures accurate payroll processing.
           <br />
           <br />
           <a

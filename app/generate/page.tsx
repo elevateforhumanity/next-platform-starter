@@ -37,8 +37,15 @@ const ORG_TYPES = [
 ];
 
 const INDUSTRIES = [
-  'Healthcare', 'Technology', 'Manufacturing', 'Construction', 
-  'Finance', 'Hospitality', 'Transportation', 'Energy', 'Other'
+  'Healthcare',
+  'Technology',
+  'Manufacturing',
+  'Construction',
+  'Finance',
+  'Hospitality',
+  'Transportation',
+  'Energy',
+  'Other',
 ];
 
 export default function GenerateSitePage() {
@@ -83,10 +90,10 @@ export default function GenerateSitePage() {
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Generate" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Generate' }]} />
       </div>
-{/* Header */}
+      {/* Header */}
       <header className="border-b border-white/10">
         <div className="max-w-5xl mx-auto px-4 py-4 flex items-center justify-between">
           <div className="flex items-center gap-2 text-white">
@@ -117,9 +124,7 @@ export default function GenerateSitePage() {
 
             <div className="bg-white/5 backdrop-blur rounded-2xl p-8 space-y-6">
               <div>
-                <label className="block text-white font-medium mb-2">
-                  Organization Name *
-                </label>
+                <label className="block text-white font-medium mb-2">Organization Name *</label>
                 <input
                   type="text"
                   value={formData.organizationName}
@@ -130,9 +135,7 @@ export default function GenerateSitePage() {
               </div>
 
               <div>
-                <label className="block text-white font-medium mb-3">
-                  Organization Type *
-                </label>
+                <label className="block text-white font-medium mb-3">Organization Type *</label>
                 <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
                   {ORG_TYPES.map((type) => (
                     <button
@@ -167,9 +170,7 @@ export default function GenerateSitePage() {
         {step === 'details' && (
           <div className="space-y-8">
             <div className="text-center">
-              <h1 className="text-4xl font-black text-slate-900 mb-4">
-                Tell Us More
-              </h1>
+              <h1 className="text-4xl font-black text-slate-900 mb-4">Tell Us More</h1>
               <p className="text-slate-600 text-lg">
                 Help AI create the perfect site for your needs.
               </p>
@@ -177,25 +178,25 @@ export default function GenerateSitePage() {
 
             <div className="bg-white/5 backdrop-blur rounded-2xl p-8 space-y-6">
               <div>
-                <label className="block text-white font-medium mb-2">
-                  Industry Focus
-                </label>
+                <label className="block text-white font-medium mb-2">Industry Focus</label>
                 <select
                   value={formData.industry}
                   onChange={(e) => setFormData({ ...formData, industry: e.target.value })}
                   className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg text-white focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
                 >
-                  <option value="" className="bg-slate-800">Select industry...</option>
+                  <option value="" className="bg-slate-800">
+                    Select industry...
+                  </option>
                   {INDUSTRIES.map((ind) => (
-                    <option key={ind} value={ind} className="bg-slate-800">{ind}</option>
+                    <option key={ind} value={ind} className="bg-slate-800">
+                      {ind}
+                    </option>
                   ))}
                 </select>
               </div>
 
               <div>
-                <label className="block text-white font-medium mb-2">
-                  Target Audience
-                </label>
+                <label className="block text-white font-medium mb-2">Target Audience</label>
                 <input
                   type="text"
                   value={formData.targetAudience}
@@ -262,12 +263,8 @@ export default function GenerateSitePage() {
             <div className="inline-flex items-center justify-center w-20 h-20 bg-white/20 rounded-full mb-6">
               <Loader2 className="w-10 h-10 text-brand-blue-400 animate-spin" />
             </div>
-            <h2 className="text-3xl font-black text-slate-900 mb-4">
-              Creating Your Platform...
-            </h2>
-            <p className="text-slate-600">
-              AI is generating your custom LMS configuration
-            </p>
+            <h2 className="text-3xl font-black text-slate-900 mb-4">Creating Your Platform...</h2>
+            <p className="text-slate-600">AI is generating your custom LMS configuration</p>
             <div className="mt-8 space-y-2 text-sm text-slate-500">
               <p>• Analyzing your organization type</p>
               <p>• Generating brand colors and styling</p>
@@ -285,9 +282,7 @@ export default function GenerateSitePage() {
                 <Sparkles className="w-4 h-4" />
                 Site Generated!
               </div>
-              <h1 className="text-4xl font-black text-slate-900 mb-4">
-                Your Platform is Ready
-              </h1>
+              <h1 className="text-4xl font-black text-slate-900 mb-4">Your Platform is Ready</h1>
               <p className="text-slate-600 text-lg">
                 Preview your site below. Upgrade to launch it live.
               </p>
@@ -296,10 +291,7 @@ export default function GenerateSitePage() {
             {/* Preview Card */}
             <div className="bg-white rounded-2xl overflow-hidden shadow-2xl">
               {/* Mini Preview Header */}
-              <div 
-                className="p-6"
-                style={{ backgroundColor: siteConfig.branding.primaryColor }}
-              >
+              <div className="p-6" style={{ backgroundColor: siteConfig.branding.primaryColor }}>
                 <div className="flex items-center justify-between">
                   <span className="text-white font-bold text-xl">
                     {siteConfig.branding.logoText}
@@ -317,10 +309,8 @@ export default function GenerateSitePage() {
                 <h2 className="text-2xl font-bold text-slate-900 mb-2">
                   {siteConfig.homepage.heroTitle}
                 </h2>
-                <p className="text-slate-600 mb-4">
-                  {siteConfig.homepage.heroSubtitle}
-                </p>
-                <button 
+                <p className="text-slate-600 mb-4">{siteConfig.homepage.heroSubtitle}</p>
+                <button
                   className="px-6 py-2 rounded-lg text-white font-medium"
                   style={{ backgroundColor: siteConfig.branding.accentColor }}
                 >
@@ -347,26 +337,30 @@ export default function GenerateSitePage() {
               <h3 className="text-xl font-bold text-slate-900 mb-6 text-center">
                 Choose Your Plan to Launch
               </h3>
-              
+
               <div className="grid md:grid-cols-3 gap-4 mb-6">
                 <a
                   href={`/store/checkout?plan=starter_monthly&preview=${siteConfig.meta.previewId}`}
                   className="p-6 bg-white/10 hover:bg-white/20 rounded-xl text-center transition-colors"
                 >
                   <p className="text-slate-900 font-bold text-lg">Starter</p>
-                  <p className="text-3xl font-black text-slate-900 my-2">$99<span className="text-lg">/mo</span></p>
+                  <p className="text-3xl font-black text-slate-900 my-2">
+                    $99<span className="text-lg">/mo</span>
+                  </p>
                   <p className="text-slate-500 text-sm">100 students</p>
                 </a>
-                
+
                 <a
                   href={`/store/checkout?plan=professional_monthly&preview=${siteConfig.meta.previewId}`}
                   className="p-6 bg-brand-blue-600 hover:bg-brand-blue-700 rounded-xl text-center transition-colors ring-2 ring-brand-blue-400"
                 >
                   <p className="text-slate-900 font-bold text-lg">Professional</p>
-                  <p className="text-3xl font-black text-slate-900 my-2">$299<span className="text-lg">/mo</span></p>
+                  <p className="text-3xl font-black text-slate-900 my-2">
+                    $299<span className="text-lg">/mo</span>
+                  </p>
                   <p className="text-white text-sm">500 students</p>
                 </a>
-                
+
                 <a
                   href={`/store/request-license?preview=${siteConfig.meta.previewId}`}
                   className="p-6 bg-white/10 hover:bg-white/20 rounded-xl text-center transition-colors"

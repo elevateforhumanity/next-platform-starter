@@ -213,8 +213,7 @@ router.post('/api/lms/upload', upload.array('courseFiles', 20), (req, res) => {
     success: true,
     files: uploadedFiles,
     message: `${uploadedFiles.length} files uploaded successfully`,
-    supportedFormats:
-      'All major formats supported (superior to LearnWorlds limitations)',
+    supportedFormats: 'All major formats supported (superior to LearnWorlds limitations)',
   });
 });
 
@@ -271,9 +270,7 @@ router.post('/api/lms/enroll-bnpl', async (req, res) => {
 
   const plan = bnplOptions[paymentPlan];
   if (!plan) {
-    return res
-      .status(400)
-      .json({ success: false, error: 'Invalid payment plan' });
+    return res.status(400).json({ success: false, error: 'Invalid payment plan' });
   }
 
   res.json({
@@ -312,8 +309,7 @@ router.post('/api/lms/customize-branding', (req, res) => {
       'Remove all EFH branding',
       'Advanced customization options',
     ],
-    comparison:
-      'LearnWorlds charges extra for white-label - we include it free',
+    comparison: 'LearnWorlds charges extra for white-label - we include it free',
   });
 });
 

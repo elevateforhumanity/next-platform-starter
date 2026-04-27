@@ -17,8 +17,10 @@ async function _GET(request: Request) {
     const supabase = await createClient();
 
     // Check if user is admin
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -75,9 +77,12 @@ async function _GET(request: Request) {
     });
   } catch (error) {
     logger.error('Rate limit monitoring error:', error);
-    return NextResponse.json({
-      error: 'Internal server error',
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: 'Internal server error',
+      },
+      { status: 500 },
+    );
   }
 }
 
@@ -93,21 +98,21 @@ function analyzeRateLimitHits(hits: any[]) {
 
   // Group by endpoint
   const byEndpoint: Record<string, number> = {};
-  hits.forEach(hit => {
+  hits.forEach((hit) => {
     const endpoint = hit.details?.endpoint || 'unknown';
     byEndpoint[endpoint] = (byEndpoint[endpoint] || 0) + 1;
   });
 
   // Group by IP
   const byIP: Record<string, { count: number; endpoints: Set<string> }> = {};
-  hits.forEach(hit => {
+  hits.forEach((hit) => {
     const ip = hit.ip_address || 'unknown';
     const endpoint = hit.details?.endpoint || 'unknown';
-    
+
     if (!byIP[ip]) {
       byIP[ip] = { count: 0, endpoints: new Set() };
     }
-    
+
     byIP[ip].count++;
     byIP[ip].endpoints.add(endpoint);
   });
@@ -124,16 +129,14 @@ function analyzeRateLimitHits(hits: any[]) {
 
   // Create timeline (hourly buckets)
   const timeline: Record<string, number> = {};
-  hits.forEach(hit => {
+  hits.forEach((hit) => {
     const hour = new Date(hit.created_at).toISOString().slice(0, 13) + ':00:00';
     timeline[hour] = (timeline[hour] || 0) + 1;
   });
 
   return {
     byEndpoint,
-    byIP: Object.fromEntries(
-      Object.entries(byIP).map(([ip, data]) => [ip, data.count])
-    ),
+    byIP: Object.fromEntries(Object.entries(byIP).map(([ip, data]) => [ip, data.count])),
     topOffenders,
     timeline: Object.entries(timeline).map(([time, count]) => ({ time, count })),
   };

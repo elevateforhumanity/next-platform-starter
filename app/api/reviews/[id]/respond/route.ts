@@ -9,12 +9,9 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _POST(
-  request: Request,
-  { params }: { params: Promise<{ id: string }> }
-) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+async function _POST(request: Request, { params }: { params: Promise<{ id: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const { id } = await params;
   try {
@@ -43,10 +40,7 @@ async function _POST(
     const { response } = body;
 
     if (!response) {
-      return NextResponse.json(
-        { error: 'Response text is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Response text is required' }, { status: 400 });
     }
 
     // Update review with response
@@ -90,11 +84,8 @@ async function _POST(
       success: true,
       review,
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/reviews/[id]/respond', _POST);

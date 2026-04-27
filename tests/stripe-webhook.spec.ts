@@ -2,13 +2,13 @@ import { describe, it, expect, beforeEach, vi } from 'vitest';
 
 /**
  * Stripe Webhook Signature Validation Tests
- * 
+ *
  * Tests the critical security fix for webhook signature validation.
  * Ensures that invalid signatures are rejected before processing.
  */
 describe('Stripe Webhook Signature Validation', () => {
   const WEBHOOK_ENDPOINT = '/api/stripe/webhook';
-  
+
   beforeEach(() => {
     vi.clearAllMocks();
   });
@@ -73,7 +73,7 @@ describe('Stripe Webhook Signature Validation', () => {
 
     // Should return 400 immediately, not process the event
     expect(response.status).toBe(400);
-    
+
     // Should not have created any enrollments or sent emails
     // (In a full integration test, we would verify database state)
   });
@@ -81,13 +81,13 @@ describe('Stripe Webhook Signature Validation', () => {
 
 /**
  * Integration Test Notes:
- * 
+ *
  * To run full integration tests with real Stripe webhooks:
  * 1. Use Stripe CLI: stripe listen --forward-to localhost:3000/api/stripe/webhook
  * 2. Trigger test events: stripe trigger checkout.session.completed
  * 3. Verify enrollment creation in database
  * 4. Verify email notifications sent
- * 
+ *
  * Security Considerations:
  * - Always validate webhook signatures before processing
  * - Log validation failures for security monitoring

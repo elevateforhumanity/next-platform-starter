@@ -166,9 +166,7 @@ export class ContentAutomation {
    * Fetch data from all feeds
    */
   async updateAllFeeds(): Promise<void> {
-    const promises = Array.from(this.dataFeeds.values()).map((feed) =>
-      this.updateFeed(feed)
-    );
+    const promises = Array.from(this.dataFeeds.values()).map((feed) => this.updateFeed(feed));
     await Promise.all(promises);
   }
 
@@ -177,7 +175,11 @@ export class ContentAutomation {
    */
   private async updateFeed(feed: DataFeed): Promise<void> {
     try {
-      logger.info(`Updating feed: ${feed.name}`, { feedId: feed.id, feedName: feed.name, feedUrl: feed.url });
+      logger.info(`Updating feed: ${feed.name}`, {
+        feedId: feed.id,
+        feedName: feed.name,
+        feedUrl: feed.url,
+      });
 
       const response = await fetch(feed.url);
       if (!response.ok) {
@@ -209,8 +211,12 @@ export class ContentAutomation {
 
       // Apply content rules
       await this.applyContentRules(feed.id);
-    } catch (error) { /* Error handled silently */ 
-      logger.error(`Error updating feed ${feed.name}`, error as Error, { feedId: feed.id, feedName: feed.name });
+    } catch (error) {
+      /* Error handled silently */
+      logger.error(`Error updating feed ${feed.name}`, error as Error, {
+        feedId: feed.id,
+        feedName: feed.name,
+      });
     }
   }
 
@@ -218,9 +224,7 @@ export class ContentAutomation {
    * Apply content rules for updated feed
    */
   private async applyContentRules(feedId: string): Promise<void> {
-    const rules = this.contentRules.filter(
-      (r) => r.dataFeed === feedId && r.autoUpdate
-    );
+    const rules = this.contentRules.filter((r) => r.dataFeed === feedId && r.autoUpdate);
     const data = this.cache.get(feedId);
 
     for (const rule of rules) {
@@ -236,7 +240,9 @@ export class ContentAutomation {
   /**
    * Format wage data
    */
-  private formatWageData(data: { wages?: Array<{ occupation: string; medianWage: string }> }): string {
+  private formatWageData(data: {
+    wages?: Array<{ occupation: string; medianWage: string }>;
+  }): string {
     if (!data || !data.wages) return '';
 
     return `
@@ -250,7 +256,7 @@ export class ContentAutomation {
               <span class="occupation">${w.occupation}</span>
               <span class="wage">${w.medianWage}</span>
             </div>
-          `
+          `,
             )
             .join('')}
         </div>
@@ -262,7 +268,15 @@ export class ContentAutomation {
   /**
    * Format contract opportunities
    */
-  private formatContractData(data: { opportunities?: Array<{ title: string; description: string; value: string; deadline: string; url: string }> }): string {
+  private formatContractData(data: {
+    opportunities?: Array<{
+      title: string;
+      description: string;
+      value: string;
+      deadline: string;
+      url: string;
+    }>;
+  }): string {
     if (!data || !data.opportunities) return '';
 
     return `
@@ -282,7 +296,7 @@ export class ContentAutomation {
               </div>
               <a href="${c.url}" target="_blank">View Opportunity</a>
             </div>
-          `
+          `,
             )
             .join('')}
         </div>
@@ -293,7 +307,9 @@ export class ContentAutomation {
   /**
    * Format job postings
    */
-  private formatJobData(data: { jobs?: Array<{ title: string; company: string; location: string; salary: string; url: string }> }): string {
+  private formatJobData(data: {
+    jobs?: Array<{ title: string; company: string; location: string; salary: string; url: string }>;
+  }): string {
     if (!data || !data.jobs) return '';
 
     return `
@@ -311,7 +327,7 @@ export class ContentAutomation {
               <p class="salary">${j.salary}</p>
               <a href="${j.url}" target="_blank">Apply Now</a>
             </div>
-          `
+          `,
             )
             .join('')}
         </div>
@@ -322,7 +338,15 @@ export class ContentAutomation {
   /**
    * Format program data
    */
-  private formatProgramData(data: { programs?: Array<{ name: string; description: string; duration: string; cost: string; credential: string }> }): string {
+  private formatProgramData(data: {
+    programs?: Array<{
+      name: string;
+      description: string;
+      duration: string;
+      cost: string;
+      credential: string;
+    }>;
+  }): string {
     if (!data || !data.programs) return '';
 
     return `
@@ -341,7 +365,7 @@ export class ContentAutomation {
                 <span>Credential: ${p.credential}</span>
               </div>
             </div>
-          `
+          `,
             )
             .join('')}
         </div>
@@ -352,7 +376,9 @@ export class ContentAutomation {
   /**
    * Format partner logos with real images
    */
-  private formatPartnerLogos(data: { partners?: Array<{ name: string; logo: string; url: string }> }): string {
+  private formatPartnerLogos(data: {
+    partners?: Array<{ name: string; logo: string; url: string }>;
+  }): string {
     // No partner logos - funding sources only, no company names
     const partners = data?.partners || [];
 
@@ -376,7 +402,7 @@ export class ContentAutomation {
               <img src="${p.logo}" alt="${p.name} Logo" loading="lazy" />
               <span class="partner-name">${p.name}</span>
             </a>
-          `
+          `,
             )
             .join('')}
         </div>
@@ -387,7 +413,16 @@ export class ContentAutomation {
   /**
    * Format grant opportunities
    */
-  private formatGrantData(data: { grants?: Array<{ title: string; description: string; amount: string; deadline: string; agency: string; url: string }> }): string {
+  private formatGrantData(data: {
+    grants?: Array<{
+      title: string;
+      description: string;
+      amount: string;
+      deadline: string;
+      agency: string;
+      url: string;
+    }>;
+  }): string {
     if (!data || !data.grants) return '';
 
     return `
@@ -408,7 +443,7 @@ export class ContentAutomation {
               </div>
               <a href="${g.url}" target="_blank">View Grant</a>
             </div>
-          `
+          `,
             )
             .join('')}
         </div>
@@ -428,7 +463,14 @@ export class ContentAutomation {
   /**
    * Parse RSS feed
    */
-  private parseRSS(rssString: string): Array<{ title?: string | null; description?: string | null; link?: string | null; pubDate?: string | null }> {
+  private parseRSS(
+    rssString: string,
+  ): Array<{
+    title?: string | null;
+    description?: string | null;
+    link?: string | null;
+    pubDate?: string | null;
+  }> {
     const parser = new DOMParser();
     const xmlDoc = parser.parseFromString(rssString, 'text/xml');
     const items = xmlDoc.querySelectorAll('item');

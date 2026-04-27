@@ -15,7 +15,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function PartnerStudentsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/partner/students');
@@ -41,7 +43,8 @@ export default async function PartnerStudentsPage() {
   // Fetch students referred by this partner
   const { data: enrollments, count: totalStudents } = await supabase
     .from('enrollments')
-    .select(`
+    .select(
+      `
       id,
       status,
       progress,
@@ -50,14 +53,16 @@ export default async function PartnerStudentsPage() {
       completed_at,
       student:profiles!enrollments_student_id_fkey(id, full_name, email, created_at),
       program:programs(id, name, slug)
-    `, { count: 'exact' })
+    `,
+      { count: 'exact' },
+    )
     .eq(programHolder ? 'program_holder_id' : 'delegate_id', programHolder?.id || user.id)
     .order('enrolled_at', { ascending: false });
 
   // Calculate stats
-  const activeCount = enrollments?.filter(e => e.status === 'active').length || 0;
-  const completedCount = enrollments?.filter(e => e.status === 'completed').length || 0;
-  const avgProgress = enrollments?.length 
+  const activeCount = enrollments?.filter((e) => e.status === 'active').length || 0;
+  const completedCount = enrollments?.filter((e) => e.status === 'completed').length || 0;
+  const avgProgress = enrollments?.length
     ? Math.round(enrollments.reduce((sum, e) => sum + (e.progress || 0), 0) / enrollments.length)
     : 0;
 
@@ -76,7 +81,10 @@ export default async function PartnerStudentsPage() {
             <h1 className="text-3xl font-bold text-gray-900">Referred Students</h1>
             <p className="text-gray-600">Students enrolled through your organization</p>
           </div>
-          <Link href="/partner/refer" className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600">
+          <Link
+            href="/partner/refer"
+            className="px-4 py-2 bg-orange-500 text-white rounded-lg hover:bg-orange-600"
+          >
             Refer New Student
           </Link>
         </div>
@@ -110,8 +118,11 @@ export default async function PartnerStudentsPage() {
           <div className="p-4 border-b">
             <div className="relative">
               <Search className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
-              <input type="text" placeholder="Search students..." 
-                className="w-full md:w-80 pl-10 pr-4 py-2 border rounded-lg" />
+              <input
+                type="text"
+                placeholder="Search students..."
+                className="w-full md:w-80 pl-10 pr-4 py-2 border rounded-lg"
+              />
             </div>
           </div>
           <table className="w-full">
@@ -130,7 +141,10 @@ export default async function PartnerStudentsPage() {
                 enrollments.map((enrollment: any) => (
                   <tr key={enrollment.id} className="hover:bg-gray-50">
                     <td className="px-4 py-4">
-                      <Link href={`/partner/students/${enrollment.student?.id}`} className="hover:text-orange-600">
+                      <Link
+                        href={`/partner/students/${enrollment.student?.id}`}
+                        className="hover:text-orange-600"
+                      >
                         <p className="font-medium">{enrollment.student?.full_name || 'Unknown'}</p>
                         <p className="text-sm text-gray-500">{enrollment.student?.email}</p>
                       </Link>
@@ -144,24 +158,33 @@ export default async function PartnerStudentsPage() {
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2">
                         <div className="w-24 bg-gray-200 rounded-full h-2">
-                          <div className="bg-orange-500 h-2 rounded-full" 
-                            style={{ width: `${enrollment.progress || 0}%` }} />
+                          <div
+                            className="bg-orange-500 h-2 rounded-full"
+                            style={{ width: `${enrollment.progress || 0}%` }}
+                          />
                         </div>
                         <span className="text-sm">{enrollment.progress || 0}%</span>
                       </div>
                     </td>
                     <td className="px-4 py-4">
-                      <span className={`px-2 py-1 rounded text-xs ${
-                        enrollment.status === 'active' ? 'bg-green-100 text-green-700' :
-                        enrollment.status === 'completed' ? 'bg-blue-100 text-blue-700' :
-                        enrollment.status === 'pending' ? 'bg-yellow-100 text-yellow-700' :
-                        'bg-gray-100 text-gray-700'
-                      }`}>
+                      <span
+                        className={`px-2 py-1 rounded text-xs ${
+                          enrollment.status === 'active'
+                            ? 'bg-green-100 text-green-700'
+                            : enrollment.status === 'completed'
+                              ? 'bg-blue-100 text-blue-700'
+                              : enrollment.status === 'pending'
+                                ? 'bg-yellow-100 text-yellow-700'
+                                : 'bg-gray-100 text-gray-700'
+                        }`}
+                      >
                         {enrollment.status}
                       </span>
                     </td>
                     <td className="px-4 py-4 text-sm text-gray-500">
-                      {enrollment.enrolled_at ? new Date(enrollment.enrolled_at).toLocaleDateString() : 'N/A'}
+                      {enrollment.enrolled_at
+                        ? new Date(enrollment.enrolled_at).toLocaleDateString()
+                        : 'N/A'}
                     </td>
                   </tr>
                 ))

@@ -25,40 +25,46 @@ interface UseActivityCompletionResult {
   onReadingScroll: (e: React.UIEvent<HTMLElement>) => void;
 }
 
-const VIDEO_THRESHOLD = 0.80; // 80% watched = complete
+const VIDEO_THRESHOLD = 0.8; // 80% watched = complete
 const READING_BOTTOM_PX = 120; // within 120px of bottom = complete
 
 export function useActivityCompletion(
-  initialCompleted: Set<ActivityId> = new Set()
+  initialCompleted: Set<ActivityId> = new Set(),
 ): UseActivityCompletionResult {
   const [completed, setCompleted] = useState<Set<ActivityId>>(initialCompleted);
   const videoMaxRef = useRef(0); // track furthest point watched (skip-proof)
 
   const markCompleted = useCallback((id: ActivityId) => {
-    setCompleted(prev => {
+    setCompleted((prev) => {
       if (prev.has(id)) return prev;
       return new Set([...prev, id]);
     });
   }, []);
 
-  const onVideoProgress = useCallback((currentTime: number, duration: number) => {
-    if (!duration || duration < 1) return;
-    // Track furthest point to prevent scrubbing to end
-    if (currentTime > videoMaxRef.current) {
-      videoMaxRef.current = currentTime;
-    }
-    if (videoMaxRef.current / duration >= VIDEO_THRESHOLD) {
-      markCompleted('video');
-    }
-  }, [markCompleted]);
+  const onVideoProgress = useCallback(
+    (currentTime: number, duration: number) => {
+      if (!duration || duration < 1) return;
+      // Track furthest point to prevent scrubbing to end
+      if (currentTime > videoMaxRef.current) {
+        videoMaxRef.current = currentTime;
+      }
+      if (videoMaxRef.current / duration >= VIDEO_THRESHOLD) {
+        markCompleted('video');
+      }
+    },
+    [markCompleted],
+  );
 
-  const onReadingScroll = useCallback((e: React.UIEvent<HTMLElement>) => {
-    const el = e.currentTarget;
-    const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
-    if (distanceFromBottom <= READING_BOTTOM_PX) {
-      markCompleted('reading');
-    }
-  }, [markCompleted]);
+  const onReadingScroll = useCallback(
+    (e: React.UIEvent<HTMLElement>) => {
+      const el = e.currentTarget;
+      const distanceFromBottom = el.scrollHeight - el.scrollTop - el.clientHeight;
+      if (distanceFromBottom <= READING_BOTTOM_PX) {
+        markCompleted('reading');
+      }
+    },
+    [markCompleted],
+  );
 
   return { completed, markCompleted, onVideoProgress, onReadingScroll };
 }

@@ -129,8 +129,7 @@ export const CSV_HEADERS = {
  */
 export const EMAIL_TEMPLATES = {
   LOGIN_REMINDER_SUBJECT: 'Reminder: Log in to your Elevate training this week',
-  WEEKLY_CASELOAD_SUBJECT: (programName: string) =>
-    `Weekly Caseload Summary – ${programName}`,
+  WEEKLY_CASELOAD_SUBJECT: (programName: string) => `Weekly Caseload Summary – ${programName}`,
   AT_RISK_SUBJECT: 'We noticed a pause in your Elevate training',
 } as const;
 

@@ -16,7 +16,7 @@ const FUNDING_PROGRAMS = [
     pays_tuition: true,
     pays_wages: false,
     pays_stipend: false,
-    is_active: true
+    is_active: true,
   },
   {
     code: 'WRG',
@@ -26,7 +26,7 @@ const FUNDING_PROGRAMS = [
     pays_tuition: true,
     pays_wages: false,
     pays_stipend: false,
-    is_active: true
+    is_active: true,
   },
   {
     code: 'JRI',
@@ -36,7 +36,7 @@ const FUNDING_PROGRAMS = [
     pays_tuition: false,
     pays_wages: false,
     pays_stipend: true,
-    is_active: true
+    is_active: true,
   },
   {
     code: 'APPRENTICESHIP',
@@ -46,27 +46,29 @@ const FUNDING_PROGRAMS = [
     pays_tuition: false,
     pays_wages: true,
     pays_stipend: false,
-    is_active: true
-  }
+    is_active: true,
+  },
 ];
 
 const BARBER_PROGRAM = {
   slug: 'barber-apprenticeship',
   name: 'Barber Apprenticeship',
   category: 'Beauty & Barbering',
-  description: 'State of Indiana Registered Barber Apprenticeship combining JRI employability skills, Milady theory, shop-based practical training, and State Board preparation.',
+  description:
+    'State of Indiana Registered Barber Apprenticeship combining JRI employability skills, Milady theory, shop-based practical training, and State Board preparation.',
   delivery_mode: 'hybrid',
   is_apprenticeship: true,
   is_on_etpl: true,
   rapids_occupation_code: '39-5011', // SOC code for barbers
-  active: true
+  active: true,
 };
 
 const BARBER_MODULES = [
   {
     order_index: 0,
     title: 'Module 0 – Job Ready Indy Employability Skills',
-    description: 'Complete all Job Ready Indy badges to build core employability skills required by Marion County employers.',
+    description:
+      'Complete all Job Ready Indy badges to build core employability skills required by Marion County employers.',
     content_type: 'scorm',
     partner_name: 'JRI',
     required_hours: 20.0,
@@ -76,33 +78,36 @@ const BARBER_MODULES = [
       title: 'Job Ready Indy – Full Badge Set',
       provider: 'JRI',
       scorm_version: '1.2',
-      estimated_hours: 20.0
-    }
+      estimated_hours: 20.0,
+    },
   },
   {
     order_index: 1,
     title: 'Module 1 – Barber Theory (Milady)',
-    description: 'Complete Milady barbering theory curriculum including sanitation, anatomy, chemistry, tools, and professional practices.',
+    description:
+      'Complete Milady barbering theory curriculum including sanitation, anatomy, chemistry, tools, and professional practices.',
     content_type: 'external_link',
     partner_name: 'Milady',
     required_hours: 120.0,
     requires_proof: true,
-    is_required: true
+    is_required: true,
   },
   {
     order_index: 2,
     title: 'Module 2 – Shop Hours & Practical Training',
-    description: 'On-the-job training in a licensed barbershop, including haircuts, shaves, fades, sanitation, client consultation, and business skills.',
+    description:
+      'On-the-job training in a licensed barbershop, including haircuts, shaves, fades, sanitation, client consultation, and business skills.',
     content_type: 'other',
     partner_name: 'EFH / Shop Partner',
     required_hours: 1500.0,
     requires_proof: true,
-    is_required: true
+    is_required: true,
   },
   {
     order_index: 3,
     title: 'Module 3 – State Board Prep (EFH SCORM)',
-    description: 'Prepare for the Indiana State Barber Licensing Exam with EFH practice tests, review modules, and mock exams.',
+    description:
+      'Prepare for the Indiana State Barber Licensing Exam with EFH practice tests, review modules, and mock exams.',
     content_type: 'scorm',
     partner_name: 'EFH',
     required_hours: 40.0,
@@ -112,9 +117,9 @@ const BARBER_MODULES = [
       title: 'Barber State Board Prep',
       provider: 'EFH',
       scorm_version: '1.2',
-      estimated_hours: 40.0
-    }
-  }
+      estimated_hours: 40.0,
+    },
+  },
 ];
 
 // ============================================================================
@@ -208,7 +213,7 @@ async function seedBarberModules(programId: string) {
           external_url: module.external_url || null,
           required_hours: module.required_hours,
           requires_proof: module.requires_proof,
-          is_required: module.is_required
+          is_required: module.is_required,
         })
         .select()
         .single();
@@ -223,17 +228,15 @@ async function seedBarberModules(programId: string) {
 
       // Create SCORM package if applicable
       if (module.scorm_package && moduleData.id) {
-        const { error: scormError } = await supabaseAdmin
-          .from('scorm_packages')
-          .insert({
-            module_id: moduleData.id,
-            title: module.scorm_package.title,
-            provider: module.scorm_package.provider,
-            scorm_version: module.scorm_package.scorm_version,
-            storage_path: module.scorm_package.storage_path,
-            launch_url: module.scorm_package.launch_url,
-            estimated_hours: module.scorm_package.estimated_hours
-          });
+        const { error: scormError } = await supabaseAdmin.from('scorm_packages').insert({
+          module_id: moduleData.id,
+          title: module.scorm_package.title,
+          provider: module.scorm_package.provider,
+          scorm_version: module.scorm_package.scorm_version,
+          storage_path: module.scorm_package.storage_path,
+          launch_url: module.scorm_package.launch_url,
+          estimated_hours: module.scorm_package.estimated_hours,
+        });
 
         if (scormError) {
           logError(`Failed to seed SCORM package: ${module.scorm_package.title}`, scormError);
@@ -273,16 +276,14 @@ async function linkFundingOptions(programId: string) {
 
     // Link each funding program to the Barber program
     for (const funding of fundingPrograms) {
-      const { error: linkError } = await supabaseAdmin
-        .from('program_funding_options')
-        .upsert(
-          {
-            program_id: programId,
-            funding_program_id: funding.id,
-            is_default: funding.code === 'WIOA-ADULT' // Set WIOA-ADULT as default
-          },
-          { onConflict: 'program_id,funding_program_id' }
-        );
+      const { error: linkError } = await supabaseAdmin.from('program_funding_options').upsert(
+        {
+          program_id: programId,
+          funding_program_id: funding.id,
+          is_default: funding.code === 'WIOA-ADULT', // Set WIOA-ADULT as default
+        },
+        { onConflict: 'program_id,funding_program_id' },
+      );
 
       if (linkError) {
         logError(`Failed to link funding: ${funding.name}`, linkError);
@@ -328,7 +329,9 @@ async function verifySeeding() {
     logSuccess(`✓ Modules verified: ${modules.length} modules found`);
 
     // Verify SCORM packages
-    const scormCount = modules.filter(m => m.scorm_packages && m.scorm_packages.length > 0).length;
+    const scormCount = modules.filter(
+      (m) => m.scorm_packages && m.scorm_packages.length > 0,
+    ).length;
     logSuccess(`✓ SCORM packages verified: ${scormCount} packages found`);
 
     // Verify funding options
@@ -354,16 +357,13 @@ async function verifySeeding() {
 // ============================================================================
 
 async function main() {
-
   try {
     // Check environment variables
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
     if (!supabaseUrl || !supabaseKey || supabaseUrl.includes('placeholder')) {
-      throw new Error(
-        'Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY environment variables'
-      );
+      throw new Error('Missing SUPABASE_URL or SUPABASE_SERVICE_ROLE_KEY environment variables');
     }
 
     log('Environment variables verified');

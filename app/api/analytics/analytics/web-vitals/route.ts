@@ -30,7 +30,8 @@ export async function POST(request: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('Web vitals API error:', error);
     return NextResponse.json({ success: false }, { status: 500 });
   }

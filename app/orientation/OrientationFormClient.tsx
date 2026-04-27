@@ -114,9 +114,7 @@ export default function OrientationFormClient() {
           </select>
         </div>
       </div>
-      {error && (
-        <p className="text-brand-red-600 text-sm font-medium">{error}</p>
-      )}
+      {error && <p className="text-brand-red-600 text-sm font-medium">{error}</p>}
       <button
         type="submit"
         disabled={loading}

@@ -1,6 +1,6 @@
 /**
  * Intake Workflow API
- * 
+ *
  * Enforces step-based intake workflow before enrollment.
  * No enrollment can proceed without completed intake.
  */
@@ -14,24 +14,23 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 // GET: Retrieve intake record for user/program
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  
+
   const { searchParams } = new URL(request.url);
   const programId = searchParams.get('programId');
   const intakeId = searchParams.get('intakeId');
-  
-  let query = supabase
-    .from('intake_records')
-    .select('*');
-  
+
+  let query = supabase.from('intake_records').select('*');
+
   if (intakeId) {
     query = query.eq('id', intakeId);
   } else if (programId) {
@@ -39,35 +38,37 @@ const supabase = await createClient();
   } else {
     query = query.eq('user_id', user.id);
   }
-  
+
   const { data, error } = await query;
-  
+
   if (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-  
+
   return NextResponse.json({ intakes: data });
 }
 
 // POST: Create new intake record
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'strict');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'strict');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  
+
   const body = await request.json();
   const { programId } = body;
-  
+
   if (!programId) {
     return NextResponse.json({ error: 'Program ID required' }, { status: 400 });
   }
-  
+
   // Check for existing intake
   const { data: existing } = await supabase
     .from('intake_records')
@@ -75,15 +76,18 @@ async function _POST(request: NextRequest) {
     .eq('user_id', user.id)
     .eq('program_id', programId)
     .maybeSingle();
-  
+
   if (existing) {
-    return NextResponse.json({ 
-      error: 'Intake already exists',
-      intakeId: existing.id,
-      status: existing.status
-    }, { status: 409 });
+    return NextResponse.json(
+      {
+        error: 'Intake already exists',
+        intakeId: existing.id,
+        status: existing.status,
+      },
+      { status: 409 },
+    );
   }
-  
+
   // Create new intake
   const { data, error } = await supabase
     .from('intake_records')
@@ -95,65 +99,66 @@ async function _POST(request: NextRequest) {
     })
     .select('id')
     .maybeSingle();
-  
+
   if (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-  
-  return NextResponse.json({ 
-    success: true, 
+
+  return NextResponse.json({
+    success: true,
     intakeId: data.id,
-    message: 'Intake started. Complete all steps before enrollment.'
+    message: 'Intake started. Complete all steps before enrollment.',
   });
 }
 
 // PATCH: Update intake step
 async function _PATCH(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
-  
-  const { data: { user } } = await supabase.auth.getUser();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  
+
   const body = await request.json();
   const { intakeId, step, data: stepData } = body;
-  
+
   if (!intakeId || !step) {
     return NextResponse.json({ error: 'Intake ID and step required' }, { status: 400 });
   }
-  
+
   // Verify ownership or staff role
   const { data: intake } = await supabase
     .from('intake_records')
     .select('user_id, status')
     .eq('id', intakeId)
     .maybeSingle();
-  
+
   if (!intake) {
     return NextResponse.json({ error: 'Intake not found' }, { status: 404 });
   }
-  
+
   // Check user role for staff operations
   const { data: profile } = await supabase
     .from('profiles')
     .select('role')
     .eq('id', user.id)
     .maybeSingle();
-  
+
   const isStaff = profile?.role && ['admin', 'advisor', 'super_admin'].includes(profile.role);
-  
+
   if (intake.user_id !== user.id && !isStaff) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 403 });
   }
-  
+
   // Process step update
   let updateData: Record<string, any> = {};
   let newStatus: IntakeStatus = intake.status;
-  
+
   switch (step) {
     case 'identity':
       updateData = {
@@ -166,7 +171,7 @@ const supabase = await createClient();
         newStatus = 'workforce_screening';
       }
       break;
-      
+
     case 'workforce_screening':
       updateData = {
         workforce_screening_completed: true,
@@ -179,7 +184,7 @@ const supabase = await createClient();
       };
       newStatus = 'employer_screening';
       break;
-      
+
     case 'employer_screening':
       updateData = {
         employer_screening_completed: true,
@@ -197,7 +202,7 @@ const supabase = await createClient();
       }
       updateData.status = newStatus;
       break;
-      
+
     case 'financial_readiness':
       // Only for structured tuition pathway
       updateData = {
@@ -209,18 +214,25 @@ const supabase = await createClient();
         understands_90_day_limit: stepData.understands90DayLimit,
         status: 'program_readiness',
       };
-      
+
       // Validate all financial readiness requirements
-      if (!stepData.canPayDownPayment || !stepData.canCommitMonthly || 
-          !stepData.acceptsAutoPayment || !stepData.understands90DayLimit) {
-        return NextResponse.json({ 
-          error: 'All financial readiness requirements must be confirmed for structured tuition',
-          canProceed: false
-        }, { status: 400 });
+      if (
+        !stepData.canPayDownPayment ||
+        !stepData.canCommitMonthly ||
+        !stepData.acceptsAutoPayment ||
+        !stepData.understands90DayLimit
+      ) {
+        return NextResponse.json(
+          {
+            error: 'All financial readiness requirements must be confirmed for structured tuition',
+            canProceed: false,
+          },
+          { status: 400 },
+        );
       }
       newStatus = 'program_readiness';
       break;
-      
+
     case 'program_readiness':
       updateData = {
         program_readiness_completed: true,
@@ -234,30 +246,30 @@ const supabase = await createClient();
       };
       newStatus = 'pending_signature';
       break;
-      
+
     case 'funding_pathway':
       // Staff only
       if (!isStaff) {
         return NextResponse.json({ error: 'Staff only operation' }, { status: 403 });
       }
-      
+
       const pathway = stepData.pathway as FundingPathway;
       if (!['workforce_funded', 'employer_sponsored', 'structured_tuition'].includes(pathway)) {
         return NextResponse.json({ error: 'Invalid funding pathway' }, { status: 400 });
       }
-      
+
       updateData = {
         funding_pathway: pathway,
         funding_pathway_assigned_at: new Date().toISOString(),
         funding_pathway_assigned_by: user.id,
       };
       break;
-      
+
     case 'signature':
       if (!stepData.signed) {
         return NextResponse.json({ error: 'Signature required' }, { status: 400 });
       }
-      
+
       updateData = {
         acknowledgment_signed: true,
         acknowledgment_signed_at: new Date().toISOString(),
@@ -268,21 +280,18 @@ const supabase = await createClient();
       };
       newStatus = 'completed';
       break;
-      
+
     default:
       return NextResponse.json({ error: 'Invalid step' }, { status: 400 });
   }
-  
+
   // Update intake record
-  const { error } = await supabase
-    .from('intake_records')
-    .update(updateData)
-    .eq('id', intakeId);
-  
+  const { error } = await supabase.from('intake_records').update(updateData).eq('id', intakeId);
+
   if (error) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
-  
+
   // If completed, validate entire intake
   if (newStatus === 'completed') {
     const validation = await validateIntakeCompletion(intakeId);
@@ -292,20 +301,24 @@ const supabase = await createClient();
         .from('intake_records')
         .update({ status: 'pending_signature' })
         .eq('id', intakeId);
-      
-      return NextResponse.json({ 
-        error: 'Intake validation failed',
-        errors: validation.errors
-      }, { status: 400 });
+
+      return NextResponse.json(
+        {
+          error: 'Intake validation failed',
+          errors: validation.errors,
+        },
+        { status: 400 },
+      );
     }
   }
-  
-  return NextResponse.json({ 
-    success: true, 
+
+  return NextResponse.json({
+    success: true,
     status: newStatus,
-    message: newStatus === 'completed' 
-      ? 'Intake completed. You may now proceed with enrollment.'
-      : `Step completed. Next: ${newStatus}`
+    message:
+      newStatus === 'completed'
+        ? 'Intake completed. You may now proceed with enrollment.'
+        : `Step completed. Next: ${newStatus}`,
   });
 }
 export const GET = withApiAudit('/api/intake/workflow', _GET);

@@ -31,9 +31,9 @@ export async function generateCertificatePDF(data: CertificateData): Promise<Blo
   const helvetica = await doc.embedFont(StandardFonts.Helvetica);
 
   const brandOrange = rgb(0.976, 0.451, 0.086); // #f97316
-  const darkSlate = rgb(0.118, 0.161, 0.231);   // #1e293b
-  const medGray = rgb(0.278, 0.333, 0.412);      // #475569
-  const lightGray = rgb(0.580, 0.639, 0.722);    // #94a3b8
+  const darkSlate = rgb(0.118, 0.161, 0.231); // #1e293b
+  const medGray = rgb(0.278, 0.333, 0.412); // #475569
+  const lightGray = rgb(0.58, 0.639, 0.722); // #94a3b8
 
   // Border
   const borderWidth = 8;

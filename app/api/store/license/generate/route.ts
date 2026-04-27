@@ -17,12 +17,12 @@ export const dynamic = 'force-dynamic';
 function verifyAdminApiKey(request: Request): boolean {
   const apiKey = request.headers.get('x-admin-api-key');
   const expectedKey = process.env.ADMIN_API_KEY;
-  
+
   if (!expectedKey) {
     logger.warn('ADMIN_API_KEY not configured - admin API access disabled');
     return false;
   }
-  
+
   return apiKey === expectedKey;
 }
 
@@ -49,24 +49,14 @@ function getProductTier(productSlug: string): {
     },
     'school-license': {
       tier: 'business' as const,
-      features: [
-        'complete_lms',
-        'payment_integration',
-        'white_label',
-        'priority_support',
-      ],
+      features: ['complete_lms', 'payment_integration', 'white_label', 'priority_support'],
       maxDeployments: 3,
       maxUsers: 500,
       duration: 365,
     },
     'agency-license': {
       tier: 'business' as const,
-      features: [
-        'complete_lms',
-        'payment_integration',
-        'white_label',
-        'api_access',
-      ],
+      features: ['complete_lms', 'payment_integration', 'white_label', 'api_access'],
       maxDeployments: 5,
       maxUsers: 1000,
       duration: 365,
@@ -96,10 +86,11 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     // Rate limiting - strict limit for license generation
-    const clientIp = req.headers.get('x-forwarded-for')?.split(',')[0] || 
-                     req.headers.get('x-real-ip') || 
-                     'unknown';
-    
+    const clientIp =
+      req.headers.get('x-forwarded-for')?.split(',')[0] ||
+      req.headers.get('x-real-ip') ||
+      'unknown';
+
     const rateLimit = await checkRateLimit({
       key: `license-generate:${clientIp}`,
       limit: 5,
@@ -110,25 +101,25 @@ async function _POST(req: Request) {
       logger.warn('License generation rate limit exceeded', { ip: clientIp });
       return Response.json(
         { error: 'Too many requests. Please try again later.' },
-        { status: 429 }
+        { status: 429 },
       );
     }
 
     // Authentication: require either admin API key or authenticated admin user
     const isAdmin = verifyAdminApiKey(req);
     const isWebhook = isStripeWebhook(req);
-    
+
     if (!isAdmin && !isWebhook) {
       // Check for authenticated admin user
       const supabase = await createClient();
-      const { data: { user }, error: authError } = await supabase.auth.getUser();
-      
+      const {
+        data: { user },
+        error: authError,
+      } = await supabase.auth.getUser();
+
       if (authError || !user) {
         logger.warn('Unauthorized license generation attempt', { ip: clientIp });
-        return Response.json(
-          { error: 'Authentication required' },
-          { status: 401 }
-        );
+        return Response.json({ error: 'Authentication required' }, { status: 401 });
       }
 
       // Verify admin role
@@ -139,34 +130,25 @@ async function _POST(req: Request) {
         .single();
 
       if (!profile?.role || !['admin', 'super_admin'].includes(profile.role)) {
-        logger.warn('Non-admin license generation attempt', { 
-          userId: user.id, 
-          role: profile?.role 
+        logger.warn('Non-admin license generation attempt', {
+          userId: user.id,
+          role: profile?.role,
         });
-        return Response.json(
-          { error: 'Admin access required' },
-          { status: 403 }
-        );
+        return Response.json({ error: 'Admin access required' }, { status: 403 });
       }
     }
 
     const { email, productSlug, domain } = await req.json();
 
     if (!email || !productSlug) {
-      return Response.json(
-        { error: 'Email and productSlug required' },
-        { status: 400 }
-      );
+      return Response.json({ error: 'Email and productSlug required' }, { status: 400 });
     }
 
     // Use admin client for license operations
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     // Get product configuration
@@ -203,10 +185,7 @@ async function _POST(req: Request) {
 
     if (licenseError) {
       logger.error('Failed to store license:', licenseError);
-      return Response.json(
-        { error: 'Failed to generate license' },
-        { status: 500 }
-      );
+      return Response.json({ error: 'Failed to generate license' }, { status: 500 });
     }
 
     // Audit log the license generation
@@ -227,10 +206,10 @@ async function _POST(req: Request) {
       expiresAt: expiresAt.toISOString(),
       features: config.features,
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'License generation error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return Response.json({ error: toErrorMessage(error) }, { status: 500 });
   }

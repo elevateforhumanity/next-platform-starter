@@ -32,13 +32,13 @@ function firstName(lead: { first_name: string | null }) {
 
 function examLabel(examType: string) {
   const labels: Record<string, string> = {
-    CCMA:    'Certified Clinical Medical Assistant (CCMA)',
-    CPT:     'Certified Phlebotomy Technician (CPT)',
-    CET:     'Certified EKG Technician (CET)',
-    CMAA:    'Certified Medical Administrative Assistant (CMAA)',
-    ExCPT:   'Certified Pharmacy Technician (ExCPT)',
+    CCMA: 'Certified Clinical Medical Assistant (CCMA)',
+    CPT: 'Certified Phlebotomy Technician (CPT)',
+    CET: 'Certified EKG Technician (CET)',
+    CMAA: 'Certified Medical Administrative Assistant (CMAA)',
+    ExCPT: 'Certified Pharmacy Technician (ExCPT)',
     'CPCT/A': 'Certified Patient Care Technician (CPCT/A)',
-    nha:     'NHA Certification Exam',
+    nha: 'NHA Certification Exam',
   };
   return labels[examType] ?? examType;
 }
@@ -57,7 +57,7 @@ export async function GET(req: NextRequest) {
   const ago24h = new Date(now.getTime() - 24 * 60 * 60 * 1000).toISOString();
   const ago48h = new Date(now.getTime() - 48 * 60 * 60 * 1000).toISOString();
   // Upper bound: don't send follow-ups to leads older than 7 days
-  const ago7d  = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
+  const ago7d = new Date(now.getTime() - 7 * 24 * 60 * 60 * 1000).toISOString();
 
   let sent1 = 0;
   let sent2 = 0;
@@ -69,8 +69,8 @@ export async function GET(req: NextRequest) {
     .select('id, email, exam_type, first_name')
     .eq('converted', false)
     .eq('follow_up_1_sent', false)
-    .lte('created_at', ago24h)   // at least 24hrs old
-    .gte('created_at', ago7d)    // not older than 7 days
+    .lte('created_at', ago24h) // at least 24hrs old
+    .gte('created_at', ago7d) // not older than 7 days
     .limit(50);
 
   if (err1) {
@@ -84,10 +84,7 @@ export async function GET(req: NextRequest) {
           subject: `Still need your ${lead.exam_type} exam? Spots available this week`,
           html: followUp1Html(lead),
         });
-        await db
-          .from('exam_booking_leads')
-          .update({ follow_up_1_sent: true })
-          .eq('id', lead.id);
+        await db.from('exam_booking_leads').update({ follow_up_1_sent: true }).eq('id', lead.id);
         sent1++;
       } catch (err) {
         logger.warn('[testing-lead-followup] 24hr email failed', { id: lead.id, err });
@@ -101,7 +98,7 @@ export async function GET(req: NextRequest) {
     .from('exam_booking_leads')
     .select('id, email, exam_type, first_name')
     .eq('converted', false)
-    .eq('follow_up_1_sent', true)   // only after first follow-up was sent
+    .eq('follow_up_1_sent', true) // only after first follow-up was sent
     .eq('follow_up_2_sent', false)
     .lte('created_at', ago48h)
     .gte('created_at', ago7d)
@@ -118,10 +115,7 @@ export async function GET(req: NextRequest) {
           subject: `Last call — secure your ${lead.exam_type} exam date`,
           html: followUp2Html(lead),
         });
-        await db
-          .from('exam_booking_leads')
-          .update({ follow_up_2_sent: true })
-          .eq('id', lead.id);
+        await db.from('exam_booking_leads').update({ follow_up_2_sent: true }).eq('id', lead.id);
         sent2++;
       } catch (err) {
         logger.warn('[testing-lead-followup] 48hr email failed', { id: lead.id, err });

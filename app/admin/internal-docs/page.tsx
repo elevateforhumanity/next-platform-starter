@@ -27,7 +27,7 @@ export default async function InternalDocsPage() {
       .from('documents')
       .select(
         'id, document_type, file_name, status, created_at, expiration_date, profiles!documents_user_id_fkey(full_name, email)',
-        { count: 'exact' }
+        { count: 'exact' },
       )
       .order('created_at', { ascending: false })
       .limit(100),
@@ -44,9 +44,14 @@ export default async function InternalDocsPage() {
         <div className="flex items-center justify-between mt-4 mb-6">
           <div>
             <h1 className="text-2xl font-bold text-slate-900">Internal Docs</h1>
-            <p className="text-slate-600 text-sm mt-1">Staff documents, SOPs, and uploaded files — {total ?? 0} total</p>
+            <p className="text-slate-600 text-sm mt-1">
+              Staff documents, SOPs, and uploaded files — {total ?? 0} total
+            </p>
           </div>
-          <Link href="/admin/document-center" className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700">
+          <Link
+            href="/admin/document-center"
+            className="px-4 py-2 bg-brand-blue-600 text-white rounded-lg text-sm font-medium hover:bg-brand-blue-700"
+          >
             Document Center
           </Link>
         </div>
@@ -88,27 +93,49 @@ export default async function InternalDocsPage() {
                 <tbody className="divide-y">
                   {docs.map((doc: any) => {
                     const profile = doc.profiles as any;
-                    const isExpired = doc.expiration_date && new Date(doc.expiration_date) < new Date();
+                    const isExpired =
+                      doc.expiration_date && new Date(doc.expiration_date) < new Date();
                     return (
                       <tr key={doc.id} className="hover:bg-gray-50">
                         <td className="px-6 py-4">
-                          <p className="font-medium text-slate-900">{profile?.full_name ?? 'Unknown'}</p>
+                          <p className="font-medium text-slate-900">
+                            {profile?.full_name ?? 'Unknown'}
+                          </p>
                           <p className="text-xs text-slate-500">{profile?.email ?? ''}</p>
                         </td>
-                        <td className="px-6 py-4 text-slate-700 max-w-xs truncate">{doc.file_name}</td>
-                        <td className="px-6 py-4 text-slate-600 capitalize">{doc.document_type?.replace(/_/g, ' ') ?? '—'}</td>
-                        <td className="px-6 py-4">
-                          <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                            isExpired                    ? 'bg-gray-100 text-gray-700' :
-                            doc.status === 'approved'   ? 'bg-green-100 text-green-800' :
-                            doc.status === 'pending'    ? 'bg-yellow-100 text-yellow-800' :
-                            doc.status === 'rejected'   ? 'bg-red-100 text-red-800' :
-                                                          'bg-gray-100 text-gray-700'
-                          }`}>{isExpired ? 'expired' : doc.status}</span>
+                        <td className="px-6 py-4 text-slate-700 max-w-xs truncate">
+                          {doc.file_name}
                         </td>
-                        <td className="px-6 py-4 text-slate-500 text-xs">{new Date(doc.created_at).toLocaleDateString()}</td>
+                        <td className="px-6 py-4 text-slate-600 capitalize">
+                          {doc.document_type?.replace(/_/g, ' ') ?? '—'}
+                        </td>
                         <td className="px-6 py-4">
-                          <Link href={`/admin/documents/review/${doc.id}`} className="text-brand-blue-600 hover:underline text-xs font-medium">Review →</Link>
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${
+                              isExpired
+                                ? 'bg-gray-100 text-gray-700'
+                                : doc.status === 'approved'
+                                  ? 'bg-green-100 text-green-800'
+                                  : doc.status === 'pending'
+                                    ? 'bg-yellow-100 text-yellow-800'
+                                    : doc.status === 'rejected'
+                                      ? 'bg-red-100 text-red-800'
+                                      : 'bg-gray-100 text-gray-700'
+                            }`}
+                          >
+                            {isExpired ? 'expired' : doc.status}
+                          </span>
+                        </td>
+                        <td className="px-6 py-4 text-slate-500 text-xs">
+                          {new Date(doc.created_at).toLocaleDateString()}
+                        </td>
+                        <td className="px-6 py-4">
+                          <Link
+                            href={`/admin/documents/review/${doc.id}`}
+                            className="text-brand-blue-600 hover:underline text-xs font-medium"
+                          >
+                            Review →
+                          </Link>
                         </td>
                       </tr>
                     );

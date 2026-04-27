@@ -39,8 +39,9 @@ export function AIAssistantBubble() {
       setMessages([
         {
           role: 'assistant',
-          content: "Welcome to Elevate for Humanity! I'm your AI assistant. How can I help you today?\n\n• Learn about our training programs\n• Check WIOA eligibility\n• Start your application\n• Talk to a human"
-        }
+          content:
+            "Welcome to Elevate for Humanity! I'm your AI assistant. How can I help you today?\n\n• Learn about our training programs\n• Check WIOA eligibility\n• Start your application\n• Talk to a human",
+        },
       ]);
     }
   };
@@ -53,7 +54,7 @@ export function AIAssistantBubble() {
     if (!input.trim() || isLoading) return;
 
     const userMessage = input.trim();
-    setMessages(prev => [...prev, { role: 'user', content: userMessage }]);
+    setMessages((prev) => [...prev, { role: 'user', content: userMessage }]);
     setInput('');
     setIsLoading(true);
 
@@ -68,20 +69,30 @@ export function AIAssistantBubble() {
       });
 
       const data = await response.json();
-      
+
       if (data.conversationId) {
         setConversationId(data.conversationId);
       }
 
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: data.message ?? data.error ?? "I'm having trouble responding right now. Please try again."
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content:
+            data.message ??
+            data.error ??
+            "I'm having trouble responding right now. Please try again.",
+        },
+      ]);
     } catch (error) {
-      setMessages(prev => [...prev, { 
-        role: 'assistant', 
-        content: "I'm having trouble connecting. Please call us at support center for immediate assistance." 
-      }]);
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content:
+            "I'm having trouble connecting. Please call us at support center for immediate assistance.",
+        },
+      ]);
     } finally {
       setIsLoading(false);
     }
@@ -105,18 +116,18 @@ export function AIAssistantBubble() {
         parts.push(content.slice(lastIndex, match.index));
       }
       parts.push(
-        <Link 
-          key={match.index} 
-          href={match[2]} 
+        <Link
+          key={match.index}
+          href={match[2]}
           className="text-brand-orange-600 hover:underline font-medium"
           onClick={() => setIsOpen(false)}
         >
           {match[1]}
-        </Link>
+        </Link>,
       );
       lastIndex = match.index + match[0].length;
     }
-    
+
     if (lastIndex < content.length) {
       parts.push(content.slice(lastIndex));
     }
@@ -187,13 +198,20 @@ export function AIAssistantBubble() {
 
           <div className="flex-1 overflow-y-auto p-4 space-y-4 bg-gray-50 min-h-0">
             {messages.map((message, index) => (
-              <div key={index} className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                <div className={`max-w-[85%] rounded-2xl px-4 py-3 ${
-                  message.role === 'user'
-                    ? 'bg-brand-orange-600 text-white'
-                    : 'bg-white text-slate-900 shadow-sm border border-gray-200'
-                }`}>
-                  <div className="text-sm whitespace-pre-line">{renderMessage(message.content ?? '')}</div>
+              <div
+                key={index}
+                className={`flex ${message.role === 'user' ? 'justify-end' : 'justify-start'}`}
+              >
+                <div
+                  className={`max-w-[85%] rounded-2xl px-4 py-3 ${
+                    message.role === 'user'
+                      ? 'bg-brand-orange-600 text-white'
+                      : 'bg-white text-slate-900 shadow-sm border border-gray-200'
+                  }`}
+                >
+                  <div className="text-sm whitespace-pre-line">
+                    {renderMessage(message.content ?? '')}
+                  </div>
                 </div>
               </div>
             ))}
@@ -212,7 +230,9 @@ export function AIAssistantBubble() {
               {['View Programs', 'Check Eligibility', 'Apply Now'].map((action) => (
                 <button
                   key={action}
-                  onClick={() => { setInput(action); }}
+                  onClick={() => {
+                    setInput(action);
+                  }}
                   className="text-xs bg-gray-100 text-slate-900 px-3 py-1.5 rounded-full hover:bg-gray-200 whitespace-nowrap"
                 >
                   {action}
@@ -237,11 +257,19 @@ export function AIAssistantBubble() {
                 disabled={!input.trim() || isLoading}
                 className="bg-brand-orange-600 text-white rounded-full p-2 hover:bg-brand-orange-700 disabled:opacity-50"
               >
-                {isLoading ? <Loader2 className="h-5 w-5 animate-spin" /> : <Send className="h-5 w-5" />}
+                {isLoading ? (
+                  <Loader2 className="h-5 w-5 animate-spin" />
+                ) : (
+                  <Send className="h-5 w-5" />
+                )}
               </button>
             </div>
             <p className="text-xs text-slate-700 mt-2 text-center">
-              Call <a href="/support" className="text-brand-orange-600 hover:underline">support center</a> for immediate help
+              Call{' '}
+              <a href="/support" className="text-brand-orange-600 hover:underline">
+                support center
+              </a>{' '}
+              for immediate help
             </p>
           </div>
         </div>

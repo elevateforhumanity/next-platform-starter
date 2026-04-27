@@ -23,10 +23,10 @@ import path from 'path';
 import { spawnSync } from 'child_process';
 import { createHash } from 'crypto';
 
-const ROOT        = process.cwd();
-const CSV_PATH    = path.join(ROOT, 'data', 'hvac-master-curriculum.csv');
-const AUDIO_DIR   = path.join(ROOT, 'public', 'hvac', 'audio');
-const VIDEO_DIR   = path.join(ROOT, 'public', 'hvac', 'videos');
+const ROOT = process.cwd();
+const CSV_PATH = path.join(ROOT, 'data', 'hvac-master-curriculum.csv');
+const AUDIO_DIR = path.join(ROOT, 'public', 'hvac', 'audio');
+const VIDEO_DIR = path.join(ROOT, 'public', 'hvac', 'videos');
 const CAPTION_DIR = path.join(ROOT, 'public', 'hvac', 'captions');
 
 // Only generate these four — the rest already have media.
@@ -59,41 +59,82 @@ function parseCSV(raw: string): { headers: string[]; rows: Row[] } {
     const c = raw[i];
     const next = raw[i + 1];
     if (inQuote) {
-      if (c === '"' && next === '"') { cur += '"'; i++; continue; }
-      if (c === '"') { inQuote = false; continue; }
-      cur += c; continue;
+      if (c === '"' && next === '"') {
+        cur += '"';
+        i++;
+        continue;
+      }
+      if (c === '"') {
+        inQuote = false;
+        continue;
+      }
+      cur += c;
+      continue;
     }
-    if (c === '"') { inQuote = true; continue; }
-    if (c === ',') { row.push(cur); cur = ''; continue; }
-    if (c === '\r' && next === '\n') { row.push(cur); records.push(row); row = []; cur = ''; i++; continue; }
-    if (c === '\n') { row.push(cur); records.push(row); row = []; cur = ''; continue; }
+    if (c === '"') {
+      inQuote = true;
+      continue;
+    }
+    if (c === ',') {
+      row.push(cur);
+      cur = '';
+      continue;
+    }
+    if (c === '\r' && next === '\n') {
+      row.push(cur);
+      records.push(row);
+      row = [];
+      cur = '';
+      i++;
+      continue;
+    }
+    if (c === '\n') {
+      row.push(cur);
+      records.push(row);
+      row = [];
+      cur = '';
+      continue;
+    }
     cur += c;
   }
-  if (cur.length || row.length) { row.push(cur); records.push(row); }
+  if (cur.length || row.length) {
+    row.push(cur);
+    records.push(row);
+  }
 
   const headers = records[0];
-  const rows = records.slice(1)
-    .filter(r => r.length === headers.length && r[0])
-    .map(r => Object.fromEntries(headers.map((h, i) => [h, r[i] ?? ''])));
+  const rows = records
+    .slice(1)
+    .filter((r) => r.length === headers.length && r[0])
+    .map((r) => Object.fromEntries(headers.map((h, i) => [h, r[i] ?? ''])));
   return { headers, rows };
 }
 
 function serializeCSV(headers: string[], rows: Row[]): string {
   const esc = (v: string) => `"${String(v ?? '').replace(/"/g, '""')}"`;
-  return [
-    headers.map(esc).join(','),
-    ...rows.map(r => headers.map(h => esc(r[h] ?? '')).join(',')),
-  ].join('\r\n') + '\r\n';
+  return (
+    [
+      headers.map(esc).join(','),
+      ...rows.map((r) => headers.map((h) => esc(r[h] ?? '')).join(',')),
+    ].join('\r\n') + '\r\n'
+  );
 }
 
 // ── VTT caption generator ─────────────────────────────────────────────────────
 function buildVTT(scriptText: string, totalSeconds: number): string {
-  const paras = scriptText.split(/\n{2,}/).map(p => p.trim()).filter(Boolean);
+  const paras = scriptText
+    .split(/\n{2,}/)
+    .map((p) => p.trim())
+    .filter(Boolean);
   if (!paras.length) return 'WEBVTT\n\n';
   const secPer = totalSeconds / paras.length;
   const fmt = (s: number) => {
-    const h = Math.floor(s / 3600).toString().padStart(2, '0');
-    const m = Math.floor((s % 3600) / 60).toString().padStart(2, '0');
+    const h = Math.floor(s / 3600)
+      .toString()
+      .padStart(2, '0');
+    const m = Math.floor((s % 3600) / 60)
+      .toString()
+      .padStart(2, '0');
     const sec = (s % 60).toFixed(3).padStart(6, '0');
     return `${h}:${m}:${sec}`;
   };
@@ -106,8 +147,10 @@ function buildVTT(scriptText: string, totalSeconds: number): string {
     let line = '';
     for (const w of words) {
       const candidate = line ? `${line} ${w}` : w;
-      if (candidate.length > 80) { if (line) lines.push(line); line = w; }
-      else line = candidate;
+      if (candidate.length > 80) {
+        if (line) lines.push(line);
+        line = w;
+      } else line = candidate;
     }
     if (line) lines.push(line);
     out += `${fmt(start)} --> ${fmt(end)}\n${lines.slice(0, 3).join('\n')}\n\n`;
@@ -140,7 +183,7 @@ function main(): void {
   const raw = fs.readFileSync(CSV_PATH, 'utf8');
   const { headers, rows } = parseCSV(raw);
 
-  const targets = rows.filter(r => TARGET_IDS.has(r['Lesson_ID']));
+  const targets = rows.filter((r) => TARGET_IDS.has(r['Lesson_ID']));
   if (targets.length !== TARGET_IDS.size) {
     throw new Error(`Expected ${TARGET_IDS.size} target lessons in CSV, found ${targets.length}`);
   }
@@ -149,14 +192,14 @@ function main(): void {
 
   for (const lesson of targets) {
     const lessonId = lesson['Lesson_ID'];
-    const uuid     = stableUuid(lessonId);
+    const uuid = stableUuid(lessonId);
 
-    const audioRel   = `hvac/audio/lesson-${uuid}.mp3`;
-    const videoRel   = `hvac/videos/lesson-${uuid}.mp4`;
+    const audioRel = `hvac/audio/lesson-${uuid}.mp3`;
+    const videoRel = `hvac/videos/lesson-${uuid}.mp4`;
     const captionRel = `hvac/captions/lesson-${uuid}.vtt`;
 
-    const audioAbs   = path.join(ROOT, 'public', audioRel);
-    const videoAbs   = path.join(ROOT, 'public', videoRel);
+    const audioAbs = path.join(ROOT, 'public', audioRel);
+    const videoAbs = path.join(ROOT, 'public', videoRel);
     const captionAbs = path.join(ROOT, 'public', captionRel);
 
     console.log(`\n=== ${lessonId} (${uuid}) ===`);
@@ -187,7 +230,16 @@ function main(): void {
     } else {
       console.log(`  video: generating...`);
       try {
-        run(['tsx', 'scripts/generate-hvac-videos-did.ts', '--lesson-id', lessonId, '--audio', audioAbs, '--out', videoAbs]);
+        run([
+          'tsx',
+          'scripts/generate-hvac-videos-did.ts',
+          '--lesson-id',
+          lessonId,
+          '--audio',
+          audioAbs,
+          '--out',
+          videoAbs,
+        ]);
       } catch (e: any) {
         console.error(`  video FAILED: ${e.message}`);
         anyFailed = true;

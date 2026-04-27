@@ -1,4 +1,3 @@
-
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
@@ -19,11 +18,10 @@ export default async function NewCampaignPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-3xl mx-auto px-4 py-8">
         <div className="mb-8">
-          <Link 
+          <Link
             href="/admin/campaigns"
             className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-4"
           >
@@ -34,11 +32,12 @@ export default async function NewCampaignPage() {
           <p className="text-slate-700 mt-1">Set up a new marketing campaign</p>
         </div>
 
-        <form action={createCampaignAction} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
+        <form
+          action={createCampaignAction}
+          className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
+        >
           <div className="mb-6">
-            <label className="block text-sm font-medium text-slate-900 mb-1">
-              Campaign Name *
-            </label>
+            <label className="block text-sm font-medium text-slate-900 mb-1">Campaign Name *</label>
             <input
               type="text"
               name="name"
@@ -49,9 +48,7 @@ export default async function NewCampaignPage() {
           </div>
 
           <div className="mb-6">
-            <label className="block text-sm font-medium text-slate-900 mb-1">
-              Campaign Type *
-            </label>
+            <label className="block text-sm font-medium text-slate-900 mb-1">Campaign Type *</label>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
               {[
                 { id: 'email', label: 'Email', icon: Mail },
@@ -60,7 +57,13 @@ export default async function NewCampaignPage() {
                 { id: 'event', label: 'Event', icon: Calendar },
               ].map((type) => (
                 <label key={type.id} className="relative cursor-pointer">
-                  <input type="radio" name="campaign_type" value={type.id} className="peer sr-only" defaultChecked={type.id === 'email'} />
+                  <input
+                    type="radio"
+                    name="campaign_type"
+                    value={type.id}
+                    className="peer sr-only"
+                    defaultChecked={type.id === 'email'}
+                  />
                   <div className="flex flex-col items-center gap-2 p-4 border border-gray-200 rounded-lg peer-checked:border-brand-blue-500 peer-checked:bg-brand-blue-50">
                     <type.icon className="w-6 h-6 text-slate-700 peer-checked:text-brand-blue-600" />
                     <span className="text-sm font-medium">{type.label}</span>
@@ -71,9 +74,7 @@ export default async function NewCampaignPage() {
           </div>
 
           <div className="mb-6">
-            <label className="block text-sm font-medium text-slate-900 mb-1">
-              Subject Line *
-            </label>
+            <label className="block text-sm font-medium text-slate-900 mb-1">Subject Line *</label>
             <input
               type="text"
               name="subject"
@@ -84,9 +85,7 @@ export default async function NewCampaignPage() {
           </div>
 
           <div className="mb-6">
-            <label className="block text-sm font-medium text-slate-900 mb-1">
-              Content
-            </label>
+            <label className="block text-sm font-medium text-slate-900 mb-1">Content</label>
             <textarea
               name="content"
               rows={6}

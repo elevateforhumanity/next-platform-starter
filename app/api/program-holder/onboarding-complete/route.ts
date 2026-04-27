@@ -25,7 +25,9 @@ export async function POST(req: Request) {
 
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const admin = await getAdminClient();
@@ -50,7 +52,8 @@ export async function POST(req: Request) {
       .eq('document_type', 'handbook')
       .maybeSingle();
 
-    if (!handbookAck) return NextResponse.json({ complete: false, reason: 'handbook_not_acknowledged' });
+    if (!handbookAck)
+      return NextResponse.json({ complete: false, reason: 'handbook_not_acknowledged' });
 
     // 3. Check rights acknowledgement
     const { data: rightsAck } = await admin
@@ -60,7 +63,8 @@ export async function POST(req: Request) {
       .eq('document_type', 'rights')
       .maybeSingle();
 
-    if (!rightsAck) return NextResponse.json({ complete: false, reason: 'rights_not_acknowledged' });
+    if (!rightsAck)
+      return NextResponse.json({ complete: false, reason: 'rights_not_acknowledged' });
 
     // 4. Check at least one document uploaded
     const { count: docCount } = await admin
@@ -68,7 +72,8 @@ export async function POST(req: Request) {
       .select('id', { count: 'exact', head: true })
       .eq('user_id', user.id);
 
-    if (!docCount || docCount === 0) return NextResponse.json({ complete: false, reason: 'no_documents' });
+    if (!docCount || docCount === 0)
+      return NextResponse.json({ complete: false, reason: 'no_documents' });
 
     // All steps done — get profile for email
     const { data: profile } = await admin
@@ -90,14 +95,10 @@ export async function POST(req: Request) {
     });
 
     // Mark welcome email sent — column may not exist yet; ignore error gracefully
-    await admin
-      .from('program_holders')
-      .update({ welcome_email_sent: true })
-      .eq('user_id', user.id);
+    await admin.from('program_holders').update({ welcome_email_sent: true }).eq('user_id', user.id);
 
     logger.info('[onboarding-complete] Welcome email sent', { userId: user.id });
     return NextResponse.json({ complete: true, email_sent: true });
-
   } catch (err: any) {
     logger.error('[onboarding-complete] Error', err);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

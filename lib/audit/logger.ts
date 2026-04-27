@@ -1,7 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 
-export type AuditAction = 
+export type AuditAction =
   | 'user.login'
   | 'user.logout'
   | 'user.register'
@@ -54,7 +54,7 @@ export interface AuditLogEntry {
 export async function logAuditEvent(entry: AuditLogEntry): Promise<void> {
   try {
     const supabase = await createClient();
-    
+
     await supabase.from('audit_logs').insert({
       action: entry.action,
       actor_id: entry.actor_id,
@@ -78,7 +78,7 @@ export async function logEnrollmentEvent(
   action: 'enrollment.create' | 'enrollment.update' | 'enrollment.cancel' | 'enrollment.complete',
   actorId: string,
   enrollmentId: string,
-  metadata?: Record<string, any>
+  metadata?: Record<string, any>,
 ): Promise<void> {
   await logAuditEvent({
     action,
@@ -96,7 +96,7 @@ export async function logPaymentEvent(
   action: 'payment.initiated' | 'payment.completed' | 'payment.failed' | 'payment.refunded',
   actorId: string,
   paymentId: string,
-  metadata?: Record<string, any>
+  metadata?: Record<string, any>,
 ): Promise<void> {
   await logAuditEvent({
     action,
@@ -114,7 +114,7 @@ export async function logDocumentEvent(
   action: 'document.upload' | 'document.delete' | 'document.approve' | 'document.reject',
   actorId: string,
   documentId: string,
-  metadata?: Record<string, any>
+  metadata?: Record<string, any>,
 ): Promise<void> {
   await logAuditEvent({
     action,
@@ -132,7 +132,7 @@ export async function logCertificateEvent(
   action: 'certificate.issued' | 'certificate.revoked',
   actorId: string,
   certificateId: string,
-  metadata?: Record<string, any>
+  metadata?: Record<string, any>,
 ): Promise<void> {
   await logAuditEvent({
     action,
@@ -150,7 +150,7 @@ export async function logCourseProgressEvent(
   action: 'course.started' | 'course.completed' | 'lesson.completed',
   actorId: string,
   targetId: string,
-  metadata?: Record<string, any>
+  metadata?: Record<string, any>,
 ): Promise<void> {
   await logAuditEvent({
     action,
@@ -165,11 +165,17 @@ export async function logCourseProgressEvent(
  * Log admin actions
  */
 export async function logAdminAction(
-  action: 'admin.user_role_change' | 'admin.user_suspend' | 'admin.user_activate' | 'admin.program_update' | 'admin.cohort_create' | 'admin.cohort_update',
+  action:
+    | 'admin.user_role_change'
+    | 'admin.user_suspend'
+    | 'admin.user_activate'
+    | 'admin.program_update'
+    | 'admin.cohort_create'
+    | 'admin.cohort_update',
   adminActorId: string,
   targetType: string,
   targetId: string,
-  metadata?: Record<string, any>
+  metadata?: Record<string, any>,
 ): Promise<void> {
   await logAuditEvent({
     action,

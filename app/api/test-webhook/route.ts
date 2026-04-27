@@ -13,10 +13,7 @@ export async function POST(req: Request) {
     const { studentId, programId } = await req.json();
 
     if (!studentId || !programId) {
-      return NextResponse.json(
-        { error: 'Missing studentId or programId' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing studentId or programId' }, { status: 400 });
     }
 
     const supabase = await createClient();
@@ -48,10 +45,7 @@ export async function POST(req: Request) {
 
       if (error) {
         // Error: $1
-        return NextResponse.json(
-          { error: toErrorMessage(error) },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
       }
 
       logger.info('[TEST] ✅ Created enrollment:', newEnrollment.id);
@@ -75,10 +69,7 @@ export async function POST(req: Request) {
 
       if (error) {
         // Error: $1
-        return NextResponse.json(
-          { error: toErrorMessage(error) },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
       }
 
       logger.info('[TEST] ✅ Activated enrollment:', existing.id);
@@ -103,7 +94,7 @@ export async function POST(req: Request) {
     // Error: $1
     return NextResponse.json(
       { err: toErrorMessage(err) || 'Internal server err' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -1,6 +1,6 @@
 /**
  * Learner Dashboard Data Service
- * 
+ *
  * This module provides learner data for the dashboard.
  * When database credentials are configured, it fetches from Supabase.
  * Otherwise, it returns realistic seeded data for demonstration.
@@ -134,7 +134,7 @@ export function getLearnerDashboardData(userId?: string): LearnerDashboardData {
   const today = new Date();
   const startDate = new Date(today);
   startDate.setMonth(startDate.getMonth() - 4); // Started 4 months ago
-  
+
   const expectedCompletion = new Date(today);
   expectedCompletion.setMonth(expectedCompletion.getMonth() + 11); // 11 months from now
 
@@ -156,8 +156,15 @@ export function getLearnerDashboardData(userId?: string): LearnerDashboardData {
       rapidsStatus: 'registered',
       rapidsId: '2025-IN-132301-0042',
       lmsEnrolled: true,
-      startDate: startDate.toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' }),
-      expectedCompletion: expectedCompletion.toLocaleDateString('en-US', { month: 'long', year: 'numeric' }),
+      startDate: startDate.toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      }),
+      expectedCompletion: expectedCompletion.toLocaleDateString('en-US', {
+        month: 'long',
+        year: 'numeric',
+      }),
     },
     progress: {
       theoryModules: 58,
@@ -174,15 +181,52 @@ export function getLearnerDashboardData(userId?: string): LearnerDashboardData {
       id: 'module-008',
       number: 8,
       title: "Men's Haircutting Techniques",
-      description: 'Master classic and modern men\'s haircuts including fades, tapers, and textured styles.',
+      description:
+        "Master classic and modern men's haircuts including fades, tapers, and textured styles.",
       progress: 43,
       lessons: [
-        { id: 'lesson-001', title: 'Introduction to Men\'s Cutting', duration: 15, type: 'video', completed: true },
-        { id: 'lesson-002', title: 'Tools & Equipment Setup', duration: 12, type: 'video', completed: true },
-        { id: 'lesson-003', title: 'Classic Taper Technique', duration: 25, type: 'video', completed: true },
-        { id: 'lesson-004', title: 'Low Fade Fundamentals', duration: 30, type: 'video', completed: false },
-        { id: 'lesson-005', title: 'Mid & High Fades', duration: 28, type: 'video', completed: false },
-        { id: 'lesson-006', title: 'Skin Fade Mastery', duration: 35, type: 'video', completed: false },
+        {
+          id: 'lesson-001',
+          title: "Introduction to Men's Cutting",
+          duration: 15,
+          type: 'video',
+          completed: true,
+        },
+        {
+          id: 'lesson-002',
+          title: 'Tools & Equipment Setup',
+          duration: 12,
+          type: 'video',
+          completed: true,
+        },
+        {
+          id: 'lesson-003',
+          title: 'Classic Taper Technique',
+          duration: 25,
+          type: 'video',
+          completed: true,
+        },
+        {
+          id: 'lesson-004',
+          title: 'Low Fade Fundamentals',
+          duration: 30,
+          type: 'video',
+          completed: false,
+        },
+        {
+          id: 'lesson-005',
+          title: 'Mid & High Fades',
+          duration: 28,
+          type: 'video',
+          completed: false,
+        },
+        {
+          id: 'lesson-006',
+          title: 'Skin Fade Mastery',
+          duration: 35,
+          type: 'video',
+          completed: false,
+        },
         { id: 'lesson-007', title: 'Module Quiz', duration: 20, type: 'quiz', completed: false },
       ],
     },
@@ -347,8 +391,5 @@ export function getLearnerDashboardData(userId?: string): LearnerDashboardData {
  * Check if database is configured
  */
 export function isDatabaseConfigured(): boolean {
-  return !!(
-    process.env.NEXT_PUBLIC_SUPABASE_URL &&
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY
-  );
+  return !!(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY);
 }

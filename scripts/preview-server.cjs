@@ -42,18 +42,9 @@ function getCacheControl(filePath) {
 
   // Images and static assets - long cache
   if (
-    [
-      '.jpg',
-      '.jpeg',
-      '.png',
-      '.gif',
-      '.webp',
-      '.svg',
-      '.ico',
-      '.woff',
-      '.woff2',
-      '.ttf',
-    ].includes(ext)
+    ['.jpg', '.jpeg', '.png', '.gif', '.webp', '.svg', '.ico', '.woff', '.woff2', '.ttf'].includes(
+      ext,
+    )
   ) {
     return 'public, max-age=31536000, immutable';
   }
@@ -142,9 +133,7 @@ server.listen(PORT, '0.0.0.0', () => {
 server.on('error', (err) => {
   if (err.code === 'EADDRINUSE') {
     console.error(`\n❌ Port ${PORT} is already in use.`);
-    console.error(
-      `   Try a different port: PORT=8081 node scripts/preview-server.js\n`
-    );
+    console.error(`   Try a different port: PORT=8081 node scripts/preview-server.js\n`);
   } else {
     console.error('\n❌ Server error:', err.message, '\n');
   }

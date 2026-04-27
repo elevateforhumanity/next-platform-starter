@@ -1,4 +1,3 @@
-
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import webpush from 'web-push';
@@ -16,7 +15,7 @@ if (process.env.VAPID_PUBLIC_KEY && process.env.VAPID_PRIVATE_KEY) {
   webpush.setVapidDetails(
     process.env.VAPID_SUBJECT || 'mailto:info@elevateforhumanity.org',
     process.env.VAPID_PUBLIC_KEY,
-    process.env.VAPID_PRIVATE_KEY
+    process.env.VAPID_PRIVATE_KEY,
   );
 }
 
@@ -26,7 +25,13 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     const { apiRequireAdmin } = await import('@/lib/admin/guards');
-    try { await apiRequireAdmin(req); } catch (e) { return e instanceof Response ? e : NextResponse.json({ error: 'Unauthorized' }, { status: 401 }); }
+    try {
+      await apiRequireAdmin(req);
+    } catch (e) {
+      return e instanceof Response
+        ? e
+        : NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
+    }
 
     const supabase = await createClient();
     const { title, body, targetAudience, url, icon } = await req.json();
@@ -40,7 +45,7 @@ async function _POST(req: Request) {
           success: false,
           error: 'No users found for target audience',
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -73,10 +78,7 @@ async function _POST(req: Request) {
               timestamp: Date.now(),
             });
 
-            await webpush.sendNotification(
-              subscription.subscription_data,
-              payload
-            );
+            await webpush.sendNotification(subscription.subscription_data, payload);
 
             sent++;
 
@@ -89,11 +91,8 @@ async function _POST(req: Request) {
               status: 'sent',
               sent_at: new Date().toISOString(),
             });
-          } catch (error) { 
-            logger.error(
-              `Error sending to subscription ${subscription.id}:`,
-              error
-            );
+          } catch (error) {
+            logger.error(`Error sending to subscription ${subscription.id}:`, error);
             failed++;
 
             // If subscription is invalid (410 Gone), mark as inactive
@@ -115,10 +114,10 @@ async function _POST(req: Request) {
             });
           }
         }
-      } catch (error) { 
+      } catch (error) {
         logger.error(
           `Error processing user ${user.id}:`,
-          error instanceof Error ? error : new Error(String(error))
+          error instanceof Error ? error : new Error(String(error)),
         );
         failed++;
       }
@@ -132,15 +131,12 @@ async function _POST(req: Request) {
         failed,
       },
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Broadcast notification error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
-    return NextResponse.json(
-      { success: false, error: toErrorMessage(error) },
-      { status: 500 }
-    );
+    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
   }
 }
 

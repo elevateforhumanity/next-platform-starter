@@ -1,4 +1,4 @@
-import { logger } from "@/lib/logger";
+import { logger } from '@/lib/logger';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
@@ -9,10 +9,10 @@ export const dynamic = 'force-dynamic';
 
 /**
  * POST /api/automation/test/document-processing
- * 
+ *
  * Test endpoint for document processing automation.
  * Creates a test document and runs it through the processing pipeline.
- * 
+ *
  * FOR QA/DEMO PURPOSES ONLY - does not affect production data.
  */
 async function _POST() {
@@ -22,7 +22,9 @@ async function _POST() {
   const supabase = await createClient();
 
   // Check auth and admin role
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -99,7 +101,7 @@ async function _POST() {
           expiration_date: '2023-01-01',
           state: 'IN',
         },
-        testConfidence: 0.90,
+        testConfidence: 0.9,
         expectedOutcome: 'routed_to_review',
       },
     ];
@@ -134,11 +136,12 @@ async function _POST() {
       }
 
       // Simulate the processing result (in production, this would call processDocument)
-      const outcome = testCase.testConfidence >= 0.85 && 
-                     !testCase.testExtractedData.state?.match(/^(CA|TX|FL|NY)$/) &&
-                     !testCase.testExtractedData.expiration_date?.match(/^202[0-3]/)
-        ? 'auto_approved'
-        : 'routed_to_review';
+      const outcome =
+        testCase.testConfidence >= 0.85 &&
+        !testCase.testExtractedData.state?.match(/^(CA|TX|FL|NY)$/) &&
+        !testCase.testExtractedData.expiration_date?.match(/^202[0-3]/)
+          ? 'auto_approved'
+          : 'routed_to_review';
 
       // Update document with simulated results
       await adminClient
@@ -166,9 +169,13 @@ async function _POST() {
         actor: 'system',
         ruleset_version: '1.0.0-test',
         confidence_score: testCase.testConfidence,
-        reason_codes: outcome === 'auto_approved' 
-          ? ['all_rules_passed', 'test_case'] 
-          : ['test_case', testCase.testExtractedData.state === 'CA' ? 'out_of_state' : 'low_confidence'],
+        reason_codes:
+          outcome === 'auto_approved'
+            ? ['all_rules_passed', 'test_case']
+            : [
+                'test_case',
+                testCase.testExtractedData.state === 'CA' ? 'out_of_state' : 'low_confidence',
+              ],
         input_snapshot: {
           test_case: testCase.name,
           extracted_data: testCase.testExtractedData,
@@ -186,9 +193,10 @@ async function _POST() {
           status: 'pending',
           extracted_data: testCase.testExtractedData,
           confidence_score: testCase.testConfidence,
-          failed_rules: testCase.testExtractedData.state === 'CA' 
-            ? ['Out-of-state transcript requires manual review']
-            : ['OCR confidence below threshold'],
+          failed_rules:
+            testCase.testExtractedData.state === 'CA'
+              ? ['Out-of-state transcript requires manual review']
+              : ['OCR confidence below threshold'],
           system_recommendation: 'manual_review_required',
           created_at: new Date().toISOString(),
         });
@@ -206,9 +214,9 @@ async function _POST() {
       });
     }
 
-    const passed = results.filter(r => r.passed).length;
-    const failed = results.filter(r => r.success && !r.passed).length;
-    const errors = results.filter(r => !r.success).length;
+    const passed = results.filter((r) => r.passed).length;
+    const failed = results.filter((r) => r.success && !r.passed).length;
+    const errors = results.filter((r) => !r.success).length;
 
     return NextResponse.json({
       success: true,
@@ -221,13 +229,15 @@ async function _POST() {
       results,
       timestamp: new Date().toISOString(),
     });
-
   } catch (error) {
     logger.error('[document-processing test]', error);
-    return NextResponse.json({
-      success: false,
-      error: 'Internal server error',
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        success: false,
+        error: 'Internal server error',
+      },
+      { status: 500 },
+    );
   }
 }
 export const POST = withApiAudit('/api/automation/test/document-processing', _POST);

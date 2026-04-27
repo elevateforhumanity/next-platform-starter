@@ -28,7 +28,9 @@ export default async function CountersignMouPage({ params, searchParams }: Props
   // Fetch the program holder
   const { data: holder } = await db
     .from('program_holders')
-    .select('id, organization_name, contact_name, contact_email, mou_signed, mou_signed_at, mou_final_pdf_url, mou_status, status, user_id')
+    .select(
+      'id, organization_name, contact_name, contact_email, mou_signed, mou_signed_at, mou_final_pdf_url, mou_status, status, user_id',
+    )
     .eq('id', id)
     .maybeSingle();
 
@@ -37,7 +39,9 @@ export default async function CountersignMouPage({ params, searchParams }: Props
   // Fetch MOU signature record scoped to this holder's user_id
   const { data: mouSig } = await db
     .from('mou_signatures')
-    .select('id, signer_name, signer_title, supervisor_name, supervisor_license, compensation_model, compensation_rate, mou_version, signed_at, ip_address')
+    .select(
+      'id, signer_name, signer_title, supervisor_name, supervisor_license, compensation_model, compensation_rate, mou_version, signed_at, ip_address',
+    )
     .eq('user_id', holder.user_id)
     .order('signed_at', { ascending: false })
     .limit(1)
@@ -57,25 +61,34 @@ export default async function CountersignMouPage({ params, searchParams }: Props
       .eq('id', id);
 
     if (error) {
-      redirect(`/admin/program-holders/${id}/countersign-mou?error=${encodeURIComponent(error.message)}`);
+      redirect(
+        `/admin/program-holders/${id}/countersign-mou?error=${encodeURIComponent(error.message)}`,
+      );
     }
-    redirect(`/admin/program-holders/${id}?success=${encodeURIComponent('MOU countersigned successfully')}`);
+    redirect(
+      `/admin/program-holders/${id}?success=${encodeURIComponent('MOU countersigned successfully')}`,
+    );
   }
 
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[
-          { label: 'Admin', href: '/admin' },
-          { label: 'Program Holders', href: '/admin/program-holders' },
-          { label: holder.organization_name ?? 'Holder', href: `/admin/program-holders/${id}` },
-          { label: 'Countersign MOU' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Admin', href: '/admin' },
+            { label: 'Program Holders', href: '/admin/program-holders' },
+            { label: holder.organization_name ?? 'Holder', href: `/admin/program-holders/${id}` },
+            { label: 'Countersign MOU' },
+          ]}
+        />
       </div>
 
       <div className="max-w-4xl mx-auto px-4 py-8 space-y-8">
         <div className="flex items-center gap-3">
-          <Link href={`/admin/program-holders/${id}`} className="text-slate-500 hover:text-slate-700">
+          <Link
+            href={`/admin/program-holders/${id}`}
+            className="text-slate-500 hover:text-slate-700"
+          >
             <ArrowLeft className="w-5 h-5" />
           </Link>
           <div>
@@ -113,14 +126,29 @@ export default async function CountersignMouPage({ params, searchParams }: Props
             <div>
               <dt className="text-slate-500">MOU Signed by Holder</dt>
               <dd className="flex items-center gap-1 font-medium">
-                {holder.mou_signed
-                  ? <><CheckCircle className="w-4 h-4 text-green-600" /><span className="text-green-700">Yes — {holder.mou_signed_at ? new Date(holder.mou_signed_at).toLocaleDateString() : ''}</span></>
-                  : <><XCircle className="w-4 h-4 text-slate-400" /><span className="text-slate-500">Not yet signed</span></>}
+                {holder.mou_signed ? (
+                  <>
+                    <CheckCircle className="w-4 h-4 text-green-600" />
+                    <span className="text-green-700">
+                      Yes —{' '}
+                      {holder.mou_signed_at
+                        ? new Date(holder.mou_signed_at).toLocaleDateString()
+                        : ''}
+                    </span>
+                  </>
+                ) : (
+                  <>
+                    <XCircle className="w-4 h-4 text-slate-400" />
+                    <span className="text-slate-500">Not yet signed</span>
+                  </>
+                )}
               </dd>
             </div>
             <div>
               <dt className="text-slate-500">MOU Status</dt>
-              <dd className="font-medium text-slate-900 capitalize">{holder.mou_status ?? 'pending'}</dd>
+              <dd className="font-medium text-slate-900 capitalize">
+                {holder.mou_status ?? 'pending'}
+              </dd>
             </div>
             {holder.mou_final_pdf_url && (
               <div className="sm:col-span-2">
@@ -176,7 +204,9 @@ export default async function CountersignMouPage({ params, searchParams }: Props
               </div>
               <div>
                 <dt className="text-slate-500">Signed At</dt>
-                <dd className="font-medium text-slate-900">{new Date(mouSig.signed_at).toLocaleDateString()}</dd>
+                <dd className="font-medium text-slate-900">
+                  {new Date(mouSig.signed_at).toLocaleDateString()}
+                </dd>
               </div>
             </dl>
           </div>
@@ -188,16 +218,20 @@ export default async function CountersignMouPage({ params, searchParams }: Props
           {holder.mou_status === 'countersigned' ? (
             <div className="flex items-center gap-2 text-green-700 bg-green-50 rounded-lg p-4">
               <CheckCircle className="w-5 h-5 flex-shrink-0" />
-              <p className="text-sm font-medium">MOU has already been countersigned by Elevate for Humanity.</p>
+              <p className="text-sm font-medium">
+                MOU has already been countersigned by Elevate for Humanity.
+              </p>
             </div>
           ) : !holder.mou_signed ? (
             <div className="bg-amber-50 border border-amber-200 rounded-lg p-4 text-sm text-amber-800">
-              The program holder has not yet signed the MOU. Countersignature is only available after the holder signs.
+              The program holder has not yet signed the MOU. Countersignature is only available
+              after the holder signs.
             </div>
           ) : (
             <>
               <p className="text-sm text-slate-600 mb-4">
-                By clicking below, you confirm that Elevate for Humanity countersigns this MOU on behalf of the organization. This action is recorded and cannot be undone.
+                By clicking below, you confirm that Elevate for Humanity countersigns this MOU on
+                behalf of the organization. This action is recorded and cannot be undone.
               </p>
               <form action={countersignMou}>
                 <button

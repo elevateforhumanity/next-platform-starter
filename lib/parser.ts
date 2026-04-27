@@ -1,4 +1,4 @@
-import { marked } from "marked";
+import { marked } from 'marked';
 
 export function parseMarkdown(md: string): string {
   // marked.parse already returns sanitized HTML by default
@@ -36,7 +36,7 @@ export function extractFrontmatter(content: string): { frontmatter: any; body: s
 
   // Parse YAML-like frontmatter
   const frontmatter: any = {};
-  frontmatterText.split('\n').forEach(line => {
+  frontmatterText.split('\n').forEach((line) => {
     const [key, ...valueParts] = line.split(':');
     if (key && valueParts.length > 0) {
       frontmatter[key.trim()] = valueParts.join(':').trim();

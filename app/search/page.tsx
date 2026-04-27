@@ -73,23 +73,33 @@ const programs = [
 
 const quickLinks = [
   { label: 'Apply Now', href: '/apply/student', desc: 'Start your enrollment application' },
-  { label: 'Funding & Eligibility', href: '/funding', desc: 'WIOA, WRG, and Job Ready Indy funding options' },
-  { label: 'Career Services', href: '/career-services', desc: 'Resume help, interview prep, job placement' },
-  { label: 'Employer Partners', href: '/employer', desc: 'Hire trained, certified graduates' },
+  {
+    label: 'Funding & Eligibility',
+    href: '/funding',
+    desc: 'WIOA, WRG, and Job Ready Indy funding options',
+  },
+  {
+    label: 'Career Services',
+    href: '/career-services',
+    desc: 'Resume help, interview prep, job placement',
+  },
+  { label: 'Employer Partners', href: '/employers', desc: 'Hire trained, certified graduates' },
   { label: 'About Elevate', href: '/about', desc: 'Our mission, team, and programs' },
   { label: 'Contact Us', href: '/contact', desc: 'Talk to an enrollment advisor' },
 ];
 
 export default function SearchPage() {
   return (
-    <div className="min-h-screen bg-white">      <div className="bg-white border-b">
+    <div className="min-h-screen bg-white">
+      {' '}
+      <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <Breadcrumbs items={[{ label: 'Search' }]} />
         </div>
       </div>
-
       {/* Hero */}
       <section className="relative h-[320px] sm:h-[400px] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/programs-hero-vibrant.jpg"
           alt="Workforce training programs"
@@ -98,14 +108,15 @@ export default function SearchPage() {
           priority
           sizes="100vw"
         />
-        
       </section>
-
       {/* Program Cards with Images */}
       <section className="py-14 sm:py-20">
         <div className="max-w-6xl mx-auto px-4">
           <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-2">Training Programs</h2>
-          <p className="text-slate-600 mb-10">Industry-recognized certifications in high-demand fields. Many programs are free for eligible students.</p>
+          <p className="text-slate-600 mb-10">
+            Industry-recognized certifications in high-demand fields. Many programs are free for
+            eligible students.
+          </p>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {programs.map((prog) => (
               <Link
@@ -128,7 +139,10 @@ export default function SearchPage() {
                   </h3>
                   <div className="flex flex-wrap gap-1.5 mb-3">
                     {prog.certs.map((cert) => (
-                      <span key={cert} className="text-xs bg-white text-slate-700 px-2 py-1 rounded-full">
+                      <span
+                        key={cert}
+                        className="text-xs bg-white text-slate-700 px-2 py-1 rounded-full"
+                      >
                         {cert}
                       </span>
                     ))}
@@ -148,7 +162,6 @@ export default function SearchPage() {
           </div>
         </div>
       </section>
-
       {/* Quick Links */}
       <section className="py-14 sm:py-20">
         <div className="max-w-6xl mx-auto px-4">
@@ -161,14 +174,15 @@ export default function SearchPage() {
                 href={link.href}
                 className="block p-5 bg-white rounded-xl border border-slate-200 hover:border-brand-blue-300 hover:shadow-sm transition group"
               >
-                <h3 className="font-semibold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition-colors">{link.label}</h3>
+                <h3 className="font-semibold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition-colors">
+                  {link.label}
+                </h3>
                 <p className="text-sm text-slate-500">{link.desc}</p>
               </Link>
             ))}
           </div>
         </div>
       </section>
-
       {/* Funding Banner */}
       <section className="py-14 sm:py-20">
         <div className="max-w-6xl mx-auto px-4">
@@ -183,15 +197,29 @@ export default function SearchPage() {
               />
             </div>
             <div>
-              <p className="text-brand-green-700 font-bold text-sm mb-2 uppercase tracking-wide">Funding Available</p>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Many Programs Are Free</h2>
+              <p className="text-brand-green-700 font-bold text-sm mb-2 uppercase tracking-wide">
+                Funding Available
+              </p>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+                Many Programs Are Free
+              </h2>
               <p className="text-slate-700 mb-3">
-                WIOA, Workforce Ready Grant, and Job-Ready Incentive funding covers tuition, supplies, and certification fees for qualifying students.
+                WIOA, Workforce Ready Grant, and Job-Ready Incentive funding covers tuition,
+                supplies, and certification fees for qualifying students.
               </p>
               <ul className="text-slate-700 space-y-2 mb-6">
-                <li className="flex items-start gap-2"><span className="text-brand-green-600 font-bold mt-0.5">1.</span> Register at indianacareerconnect.com</li>
-                <li className="flex items-start gap-2"><span className="text-brand-green-600 font-bold mt-0.5">2.</span> Schedule a WorkOne appointment</li>
-                <li className="flex items-start gap-2"><span className="text-brand-green-600 font-bold mt-0.5">3.</span> Get approved and start training</li>
+                <li className="flex items-start gap-2">
+                  <span className="text-brand-green-600 font-bold mt-0.5">1.</span> Register at
+                  indianacareerconnect.com
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-brand-green-600 font-bold mt-0.5">2.</span> Schedule a
+                  WorkOne appointment
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-brand-green-600 font-bold mt-0.5">3.</span> Get approved and
+                  start training
+                </li>
               </ul>
               <div className="flex flex-wrap gap-3">
                 <Link
@@ -213,22 +241,37 @@ export default function SearchPage() {
           </div>
         </div>
       </section>
-
       {/* Employer Section */}
       <section className="py-14 sm:py-20">
         <div className="max-w-6xl mx-auto px-4">
           <div className="grid md:grid-cols-2 gap-8 items-center">
             <div className="order-2 md:order-1">
-              <p className="text-brand-orange-600 font-bold text-sm mb-2 uppercase tracking-wide">For Employers</p>
-              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Hire Trained Graduates</h2>
+              <p className="text-brand-orange-600 font-bold text-sm mb-2 uppercase tracking-wide">
+                For Employers
+              </p>
+              <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
+                Hire Trained Graduates
+              </h2>
               <ul className="text-slate-700 space-y-3 mb-6">
-                <li className="flex items-start gap-2"><span className="text-brand-orange-500 font-bold mt-0.5">•</span> Pre-trained, credentialed candidates ready to work</li>
-                <li className="flex items-start gap-2"><span className="text-brand-orange-500 font-bold mt-0.5">•</span> WOTC tax credits — up to $9,600 per hire</li>
-                <li className="flex items-start gap-2"><span className="text-brand-orange-500 font-bold mt-0.5">•</span> OJT reimbursement covers 50-75% of wages</li>
-                <li className="flex items-start gap-2"><span className="text-brand-orange-500 font-bold mt-0.5">•</span> Post jobs and browse candidates online</li>
+                <li className="flex items-start gap-2">
+                  <span className="text-brand-orange-500 font-bold mt-0.5">•</span> Pre-trained,
+                  credentialed candidates ready to work
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-brand-orange-500 font-bold mt-0.5">•</span> WOTC tax credits
+                  — up to $9,600 per hire
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-brand-orange-500 font-bold mt-0.5">•</span> OJT
+                  reimbursement covers 50-75% of wages
+                </li>
+                <li className="flex items-start gap-2">
+                  <span className="text-brand-orange-500 font-bold mt-0.5">•</span> Post jobs and
+                  browse candidates online
+                </li>
               </ul>
               <Link
-                href="/employer"
+                href="/employers"
                 className="inline-block bg-brand-orange-500 hover:bg-brand-orange-600 text-white px-8 py-4 rounded-full font-bold transition hover:scale-105 shadow-lg"
               >
                 Employer Portal →
@@ -246,7 +289,6 @@ export default function SearchPage() {
           </div>
         </div>
       </section>
-
       {/* CTA */}
       <section className="py-16 sm:py-24 bg-gradient-to-br from-brand-red-600 to-brand-red-700 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,rgba(255,255,255,0.1),transparent_50%)]" />

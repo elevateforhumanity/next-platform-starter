@@ -5,9 +5,7 @@ class ChartGenerator {
       type: 'bar',
       data: {
         labels,
-        datasets: [
-          { label: title || 'Data', data: values, backgroundColor: color },
-        ],
+        datasets: [{ label: title || 'Data', data: values, backgroundColor: color }],
       },
       options: { responsive: true },
     };

@@ -21,17 +21,16 @@ import { HVAC_LESSON_NUMBER_TO_DEF_ID } from '../lib/courses/hvac-lesson-number-
 /** Build HTML from a LessonContent object with consistent h2 heading. */
 function buildHtmlFromContent(c: LessonContent, title: string): string {
   const keyTermsHtml = c.keyTerms?.length
-    ? `<h3>Key Terms</h3><dl>${c.keyTerms.map(k =>
-        `<dt>${k.term}</dt><dd>${k.definition}</dd>`).join('')}</dl>`
+    ? `<h3>Key Terms</h3><dl>${c.keyTerms
+        .map((k) => `<dt>${k.term}</dt><dd>${k.definition}</dd>`)
+        .join('')}</dl>`
     : '';
 
   const watchForHtml = c.watchFor?.length
-    ? `<h3>Watch For</h3><ul>${c.watchFor.map(w => `<li>${w}</li>`).join('')}</ul>`
+    ? `<h3>Watch For</h3><ul>${c.watchFor.map((w) => `<li>${w}</li>`).join('')}</ul>`
     : '';
 
-  const jobHtml = c.jobApplication
-    ? `<h3>Job Application</h3><p>${c.jobApplication}</p>`
-    : '';
+  const jobHtml = c.jobApplication ? `<h3>Job Application</h3><p>${c.jobApplication}</p>` : '';
 
   return `<h2>${title}</h2>
 <p>${c.concept}</p>
@@ -428,8 +427,14 @@ async function main() {
     .eq('program_id', PROGRAM_ID)
     .order('lesson_order');
 
-  if (error) { console.error('Fetch failed:', error.message); process.exit(1); }
-  if (!lessons?.length) { console.error('No curriculum lessons found.'); process.exit(1); }
+  if (error) {
+    console.error('Fetch failed:', error.message);
+    process.exit(1);
+  }
+  if (!lessons?.length) {
+    console.error('No curriculum lessons found.');
+    process.exit(1);
+  }
 
   console.log(`Found ${lessons.length} lessons.\n`);
 
@@ -520,9 +525,7 @@ async function main() {
 
     // Resolve defId: first by lesson_order number map, then by slug direct match
     const lessonNum = lesson.lesson_order;
-    const defId =
-      HVAC_LESSON_NUMBER_TO_DEF_ID[lessonNum] ??
-      lesson.lesson_slug;
+    const defId = HVAC_LESSON_NUMBER_TO_DEF_ID[lessonNum] ?? lesson.lesson_slug;
 
     // Checkpoint lessons get review content instead of (or in addition to) concept content
     const checkpointReview = CHECKPOINT_REVIEW[lessonNum];
@@ -535,9 +538,10 @@ async function main() {
     }
 
     // Checkpoints: use review content (authoritative). Others: build from content def.
-    const html = checkpointReview
-      ?? inlineHtml
-      ?? buildHtmlFromContent(contentDef!, lesson.lesson_title ?? '');
+    const html =
+      checkpointReview ??
+      inlineHtml ??
+      buildHtmlFromContent(contentDef!, lesson.lesson_title ?? '');
 
     const { error: updateError } = await db
       .from('curriculum_lessons')
@@ -550,7 +554,9 @@ async function main() {
     }
 
     const tag = checkpointReview ? '[checkpoint-review]' : inlineHtml ? '[inline]' : `[${defId}]`;
-    console.log(`  ✅ ${lesson.lesson_slug.padEnd(25)} ${tag.padEnd(22)} ${lesson.lesson_title?.slice(0, 40)}`);
+    console.log(
+      `  ✅ ${lesson.lesson_slug.padEnd(25)} ${tag.padEnd(22)} ${lesson.lesson_title?.slice(0, 40)}`,
+    );
     updated++;
   }
 
@@ -558,11 +564,14 @@ async function main() {
 
   if (missing.length) {
     console.error(`\n❌ No content definition found for ${missing.length} lessons:`);
-    missing.forEach(m => console.error(`  - ${m}`));
+    missing.forEach((m) => console.error(`  - ${m}`));
     process.exit(1);
   }
 
   console.log('\n✅ Backfill complete.');
 }
 
-main().catch(err => { console.error(err); process.exit(1); });
+main().catch((err) => {
+  console.error(err);
+  process.exit(1);
+});

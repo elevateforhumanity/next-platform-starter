@@ -22,12 +22,10 @@ const priorities = [
   { value: 'urgent', label: 'Urgent - Critical issue' },
 ];
 
-
-
 function SubmitTicketContent() {
   const searchParams = useSearchParams();
   const initialCategory = searchParams.get('category') || 'general';
-  
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -81,8 +79,8 @@ function SubmitTicketContent() {
             <p className="text-slate-700 mb-2">Your ticket number is:</p>
             <p className="text-2xl font-mono font-bold text-brand-blue-600 mb-6">{ticketNumber}</p>
             <p className="text-slate-700 mb-8">
-              We've received your request and will respond within 24-48 hours. 
-              A confirmation email has been sent to {formData.email}.
+              We've received your request and will respond within 24-48 hours. A confirmation email
+              has been sent to {formData.email}.
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
@@ -277,10 +275,10 @@ function SubmitTicketContent() {
 function LoadingFallback() {
   return (
     <div className="min-h-screen bg-white flex items-center justify-center">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Support", href: "/support" }, { label: "Ticket" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Support', href: '/support' }, { label: 'Ticket' }]} />
       </div>
-<Loader2 className="w-10 h-10 text-brand-blue-500 animate-spin" />
+      <Loader2 className="w-10 h-10 text-brand-blue-500 animate-spin" />
     </div>
   );
 }

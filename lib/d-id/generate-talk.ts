@@ -58,7 +58,7 @@ export async function createTalk(params: CreateTalkParams): Promise<TalkResponse
   if (!hasValidExt) {
     throw new Error(
       `audioUrl must be an audio file (${ALLOWED_AUDIO_EXTENSIONS.join(', ')}), got: ${audioPath}. ` +
-      `Extract audio from video first: ffmpeg -i input.mp4 -vn -acodec libmp3lame -ab 192k output.mp3`
+        `Extract audio from video first: ffmpeg -i input.mp4 -vn -acodec libmp3lame -ab 192k output.mp3`,
     );
   }
 
@@ -98,7 +98,7 @@ export async function createTalk(params: CreateTalkParams): Promise<TalkResponse
 export async function pollTalkResult(
   talkId: string,
   maxAttempts = 60,
-  intervalMs = 5000
+  intervalMs = 5000,
 ): Promise<TalkResponse> {
   for (let i = 0; i < maxAttempts; i++) {
     const res = await fetch(`${DID_API_BASE}/talks/${talkId}`, {
@@ -126,5 +126,5 @@ export async function pollTalkResult(
     await new Promise((resolve) => setTimeout(resolve, intervalMs));
   }
 
-  throw new Error(`D-ID talk ${talkId} timed out after ${maxAttempts * intervalMs / 1000}s`);
+  throw new Error(`D-ID talk ${talkId} timed out after ${(maxAttempts * intervalMs) / 1000}s`);
 }

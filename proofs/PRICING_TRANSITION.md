@@ -7,6 +7,7 @@ This is where most people lose leverage. You won't.
 ## When to Transition
 
 After:
+
 - The exec demo, OR
 - The full 10-minute demo
 
@@ -18,11 +19,11 @@ Once they nod, pause, or say "this makes sense."
 
 > "At this point, the only remaining variable is scale."
 
-*Pause.*
+_Pause._
 
 > "Pricing is based on how much of the system you're running—programs, learners, credentials, and partners—not on feature checklists."
 
-*Pause again.*
+_Pause again._
 
 > "Would it be helpful to walk through what that typically looks like?"
 
@@ -39,7 +40,7 @@ Once they nod, pause, or say "this makes sense."
 
 > "I can give you realistic ranges based on similar institutions."
 
-*Stop there.*
+_Stop there._
 
 ---
 
@@ -52,7 +53,7 @@ Once they nod, pause, or say "this makes sense."
 
 > "I'll leave you something clean that helps with that conversation."
 
-*(That's where your written brief does the work for you.)*
+_(That's where your written brief does the work for you.)_
 
 ---
 
@@ -63,7 +64,7 @@ Once they nod, pause, or say "this makes sense."
 > "If today is just about fit, that's fine."
 > If the governance model fits, pricing is straightforward. If it doesn't, there's no number that makes sense.
 
-*Silence after that is your friend.*
+_Silence after that is your friend._
 
 ---
 

@@ -4,7 +4,6 @@ import { useState, useEffect } from 'react';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
 
-
 interface NavItem {
   id?: string;
   name: string;
@@ -60,12 +59,20 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
         aria-label={isOpen ? 'Close menu' : 'Open menu'}
         aria-expanded={isOpen}
       >
-        {isOpen ? <span className="text-2xl leading-none" aria-hidden="true">&times;</span> : <span className="text-2xl leading-none" aria-hidden="true">&#9776;</span>}
+        {isOpen ? (
+          <span className="text-2xl leading-none" aria-hidden="true">
+            &times;
+          </span>
+        ) : (
+          <span className="text-2xl leading-none" aria-hidden="true">
+            &#9776;
+          </span>
+        )}
       </button>
 
       {/* Mobile Menu Overlay */}
       {isOpen && (
-        <div 
+        <div
           className="fixed inset-0 bg-black/50 z-[9998] md:hidden"
           onClick={() => setIsOpen(false)}
         />
@@ -92,7 +99,9 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
                         expandedItem === item.name ? 'rotate-180' : ''
                       }`}
                       aria-hidden="true"
-                    >&#9660;</span>
+                    >
+                      &#9660;
+                    </span>
                   </button>
                   {expandedItem === item.name && (
                     <div className="pb-3 pl-4">
@@ -108,7 +117,8 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
                           );
                         }
 
-                        const programSlug = item.id === 'programs' ? getProgramSlugFromHref(subItem.href) : null;
+                        const programSlug =
+                          item.id === 'programs' ? getProgramSlugFromHref(subItem.href) : null;
                         const applyHref = programSlug ? programApplyLinks[programSlug] : undefined;
 
                         return (

@@ -36,23 +36,23 @@ const PATHWAY_CONFIG = {
   },
 };
 
-export function FundingPathwayBadge({ 
-  pathway, 
+export function FundingPathwayBadge({
+  pathway,
   size = 'md',
-  showLabel = true 
+  showLabel = true,
 }: FundingPathwayBadgeProps) {
   const config = PATHWAY_CONFIG[pathway];
-  
+
   if (!config) return null;
-  
+
   const Icon = config.icon;
-  
+
   const sizeClasses = {
     sm: 'px-2 py-0.5 text-xs',
     md: 'px-3 py-1 text-sm',
     lg: 'px-4 py-2 text-base',
   };
-  
+
   const iconSizes = {
     sm: 'w-3 h-3',
     md: 'w-4 h-4',
@@ -60,10 +60,12 @@ export function FundingPathwayBadge({
   };
 
   return (
-    <span className={`
+    <span
+      className={`
       inline-flex items-center gap-1.5 rounded-full font-medium
       ${config.bgColor} ${config.textColor} ${sizeClasses[size]}
-    `}>
+    `}
+    >
       <Icon className={iconSizes[size]} />
       {showLabel && (size === 'sm' ? config.shortLabel : config.label)}
     </span>
@@ -83,15 +85,15 @@ interface FundingPathwayCardProps {
   };
 }
 
-export function FundingPathwayCard({ 
-  pathway, 
+export function FundingPathwayCard({
+  pathway,
   enrollmentStatus,
-  paymentStatus 
+  paymentStatus,
 }: FundingPathwayCardProps) {
   const config = PATHWAY_CONFIG[pathway];
-  
+
   if (!config) return null;
-  
+
   const Icon = config.icon;
 
   return (
@@ -105,24 +107,26 @@ export function FundingPathwayCard({
           <p className={`font-semibold ${config.textColor}`}>{config.label}</p>
         </div>
       </div>
-      
+
       {pathway === 'workforce_funded' && (
         <p className="text-sm text-slate-700">
           Your training is funded through a workforce program. No payment required.
         </p>
       )}
-      
+
       {pathway === 'employer_sponsored' && (
         <p className="text-sm text-slate-700">
           Your employer is sponsoring your training through post-hire reimbursement.
         </p>
       )}
-      
+
       {pathway === 'structured_tuition' && paymentStatus && (
         <div className="space-y-2">
           <div className="flex justify-between text-sm">
             <span className="text-slate-700">Down Payment</span>
-            <span className={paymentStatus.downPaymentPaid ? 'text-brand-green-600' : 'text-amber-600'}>
+            <span
+              className={paymentStatus.downPaymentPaid ? 'text-brand-green-600' : 'text-amber-600'}
+            >
               {paymentStatus.downPaymentPaid ? 'Paid' : 'Due'}
             </span>
           </div>
@@ -144,7 +148,12 @@ export function FundingPathwayCard({
             <div className="flex justify-between text-sm">
               <span className="text-slate-700">Next Payment</span>
               <span className="text-slate-900">
-                {new Date(paymentStatus.nextPaymentDue).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                {new Date(paymentStatus.nextPaymentDue).toLocaleDateString('en-US', {
+                  timeZone: 'UTC',
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
+                })}
               </span>
             </div>
           )}

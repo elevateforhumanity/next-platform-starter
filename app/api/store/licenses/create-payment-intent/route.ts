@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { parseBody } from '@/lib/api-helpers';
@@ -18,7 +17,11 @@ const licensePaymentSchema = z.object({
     email: z.string().email(),
     contactName: z.string().min(1).max(200),
     organizationName: z.string().min(1).max(200),
-    phone: z.string().regex(/^[\d\s\-()+ ]+$/).min(10).optional(),
+    phone: z
+      .string()
+      .regex(/^[\d\s\-()+ ]+$/)
+      .min(10)
+      .optional(),
   }),
 });
 
@@ -33,8 +36,11 @@ async function _POST(request: NextRequest) {
     const parsed = licensePaymentSchema.safeParse(body);
     if (!parsed.success) {
       return NextResponse.json(
-        { error: 'Invalid request', details: parsed.error.issues.map(i => `${i.path.join('.')}: ${i.message}`) },
-        { status: 400 }
+        {
+          error: 'Invalid request',
+          details: parsed.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`),
+        },
+        { status: 400 },
       );
     }
 
@@ -43,7 +49,11 @@ async function _POST(request: NextRequest) {
     // Get product details from DB (with hardcoded fallback during migration)
     const { getCatalogProduct } = await import('@/lib/store/db');
     let product: Awaited<ReturnType<typeof getCatalogProduct>> = null;
-    try { product = await getCatalogProduct(productId); } catch { /* DB unavailable */ }
+    try {
+      product = await getCatalogProduct(productId);
+    } catch {
+      /* DB unavailable */
+    }
     if (!product) {
       const { ALL_PRODUCTS } = await import('@/app/data/store-products');
       const legacy = ALL_PRODUCTS.find((p) => p.id === productId || p.slug === productId);
@@ -54,7 +64,7 @@ async function _POST(request: NextRequest) {
           name: legacy.name,
           description: legacy.description,
           price: legacy.price,
-          billingType: legacy.billingType as any || 'one_time',
+          billingType: (legacy.billingType as any) || 'one_time',
           licenseType: legacy.licenseType as any,
           features: legacy.features || [],
           appsIncluded: legacy.appsIncluded,
@@ -66,10 +76,7 @@ async function _POST(request: NextRequest) {
     }
 
     if (!product) {
-      return NextResponse.json(
-        { error: 'Product not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Product not found' }, { status: 404 });
     }
 
     // Create or get Stripe customer

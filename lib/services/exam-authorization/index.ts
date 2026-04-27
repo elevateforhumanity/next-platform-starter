@@ -41,7 +41,7 @@ async function auditLog(
     fromStatus?: CertRequestStatus;
     toStatus?: CertRequestStatus;
     metadata?: Record<string, unknown>;
-  }
+  },
 ) {
   if (!db) return;
   await db.from('certification_audit_log').insert({
@@ -65,7 +65,7 @@ async function auditLog(
 export async function initiateCertification(
   userId: string,
   programId: string,
-  pathwayId?: string   // optional — if omitted, uses the primary pathway
+  pathwayId?: string, // optional — if omitted, uses the primary pathway
 ): Promise<{ ok: boolean; error?: string; result?: InitiateResult }> {
   const db = await getAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
@@ -80,13 +80,15 @@ export async function initiateCertification(
   // Resolve pathway — use provided pathwayId or fall back to primary
   const pathwayQuery = db
     .from('program_certification_pathways')
-    .select(`
+    .select(
+      `
       id, credential_name, credential_abbreviation,
       exam_fee_cents, fee_payer,
       eligibility_review_required, application_url,
       credential_registry_id,
       certification_bodies ( id, name, website, application_url )
-    `)
+    `,
+    )
     .eq('program_id', programId)
     .eq('is_active', true);
 
@@ -130,11 +132,15 @@ export async function initiateCertification(
         status: initialStatus,
         provider_name: body?.name ?? null,
         // For non-Stripe pathways, generate auth code immediately
-        ...(initialStatus === 'exam_authorized' ? {
-          authorization_code: crypto.randomBytes(12).toString('hex').toUpperCase(),
-          authorized_at: new Date().toISOString(),
-          authorization_expires_at: new Date(Date.now() + AUTH_EXPIRY_DAYS * 24 * 60 * 60 * 1000).toISOString(),
-        } : {}),
+        ...(initialStatus === 'exam_authorized'
+          ? {
+              authorization_code: crypto.randomBytes(12).toString('hex').toUpperCase(),
+              authorized_at: new Date().toISOString(),
+              authorization_expires_at: new Date(
+                Date.now() + AUTH_EXPIRY_DAYS * 24 * 60 * 60 * 1000,
+              ).toISOString(),
+            }
+          : {}),
       })
       .select('id, authorization_code')
       .maybeSingle();
@@ -147,7 +153,11 @@ export async function initiateCertification(
   } else {
     await db
       .from('certification_requests')
-      .update({ status: initialStatus, pathway_id: pathway.id, updated_at: new Date().toISOString() })
+      .update({
+        status: initialStatus,
+        pathway_id: pathway.id,
+        updated_at: new Date().toISOString(),
+      })
       .eq('id', requestId);
   }
 
@@ -190,14 +200,17 @@ export async function initiateCertification(
 
         paymentIntentId = intent.id;
 
-        await db.from('exam_fee_payments').upsert({
-          user_id: userId,
-          program_id: programId,
-          credential_id: credentialId ?? null,
-          stripe_payment_intent: intent.id,
-          amount_cents: pathway.exam_fee_cents,
-          status: 'processing',
-        }, { onConflict: 'user_id,program_id,credential_id' });
+        await db.from('exam_fee_payments').upsert(
+          {
+            user_id: userId,
+            program_id: programId,
+            credential_id: credentialId ?? null,
+            stripe_payment_intent: intent.id,
+            amount_cents: pathway.exam_fee_cents,
+            status: 'processing',
+          },
+          { onConflict: 'user_id,program_id,credential_id' },
+        );
 
         await auditLog(db, {
           certRequestId: requestId,
@@ -228,7 +241,7 @@ export async function initiateCertification(
 // Generates auth code, sends staff notification email.
 
 export async function confirmPaymentAndAuthorize(
-  stripePaymentIntentId: string
+  stripePaymentIntentId: string,
 ): Promise<{ ok: boolean; error?: string }> {
   const db = await getAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
@@ -295,7 +308,8 @@ export async function confirmPaymentAndAuthorize(
   const [profileRes, programRes, credRes] = await Promise.all([
     db.from('profiles').select('full_name, email').eq('id', certReq.user_id).maybeSingle(),
     db.from('programs').select('title').eq('id', certReq.program_id).maybeSingle(),
-    db.from('credential_registry')
+    db
+      .from('credential_registry')
       .select('name, delivery, credential_providers(name, exam_scheduling_url)')
       .eq('id', certReq.credential_id)
       .maybeSingle(),
@@ -337,7 +351,7 @@ export async function confirmPaymentAndAuthorize(
 
 export async function markForwarded(
   certRequestId: string,
-  staffUserId: string
+  staffUserId: string,
 ): Promise<{ ok: boolean; error?: string }> {
   const db = await getAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
@@ -350,7 +364,8 @@ export async function markForwarded(
     .maybeSingle();
 
   if (!req) return { ok: false, error: 'Request not found' };
-  if (req.status !== 'exam_authorized') return { ok: false, error: `Cannot mark forwarded from status: ${req.status}` };
+  if (req.status !== 'exam_authorized')
+    return { ok: false, error: `Cannot mark forwarded from status: ${req.status}` };
 
   await db
     .from('certification_requests')
@@ -395,7 +410,7 @@ export async function recordUpload(
   certRequestId: string,
   userId: string,
   storagePath: string,
-  originalFilename: string
+  originalFilename: string,
 ): Promise<{ ok: boolean; error?: string; uploadId?: string }> {
   const db = await getAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
@@ -460,7 +475,7 @@ export async function verifyUploadAndIssueCertificate(
   certRequestId: string,
   adminUserId: string,
   approved: boolean,
-  rejectionReason?: string
+  rejectionReason?: string,
 ): Promise<{ ok: boolean; error?: string; certificateId?: string }> {
   const db = await getAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
@@ -473,7 +488,8 @@ export async function verifyUploadAndIssueCertificate(
     .maybeSingle();
 
   if (!req) return { ok: false, error: 'Request not found' };
-  if (req.status !== 'upload_pending') return { ok: false, error: `Cannot verify from status: ${req.status}` };
+  if (req.status !== 'upload_pending')
+    return { ok: false, error: `Cannot verify from status: ${req.status}` };
 
   if (!approved) {
     // Reject — student must re-upload

@@ -58,11 +58,10 @@ export async function canCompleteLesson(userId: string, lessonId: string): Promi
   if (!logs || logs.length === 0) return false;
 
   const verifiedReps = logs
-    .filter(l => l.supervisor_verified)
+    .filter((l) => l.supervisor_verified)
     .reduce((sum, l) => sum + (l.service_count ?? 1), 0);
 
-  const totalReps = logs
-    .reduce((sum, l) => sum + (l.service_count ?? 1), 0);
+  const totalReps = logs.reduce((sum, l) => sum + (l.service_count ?? 1), 0);
 
   if (lesson.requires_verification) {
     return verifiedReps >= lesson.required_reps;

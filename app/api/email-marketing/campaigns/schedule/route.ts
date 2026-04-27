@@ -12,7 +12,9 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -62,10 +64,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Schedule campaign error:', error);
-    return NextResponse.json(
-      { error: 'Failed to schedule campaign' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to schedule campaign' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/email-marketing/campaigns/schedule', _POST);

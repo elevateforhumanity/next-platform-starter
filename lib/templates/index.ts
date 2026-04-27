@@ -1,6 +1,6 @@
 /**
  * Template System for AI-Generated Sites
- * 
+ *
  * Each template includes:
  * - Layout structure
  * - Font pairing
@@ -9,12 +9,12 @@
  * - Industry fit
  */
 
-export type TemplateId = 
-  | 'modern'      // Clean, minimal, tech-forward
+export type TemplateId =
+  | 'modern' // Clean, minimal, tech-forward
   | 'professional' // Corporate, trustworthy
-  | 'bold'        // High contrast, energetic
-  | 'warm'        // Friendly, approachable
-  | 'academic'    // Traditional, scholarly
+  | 'bold' // High contrast, energetic
+  | 'warm' // Friendly, approachable
+  | 'academic' // Traditional, scholarly
   | 'industrial'; // Rugged, trade-focused
 
 export type FontPairing = {
@@ -67,37 +67,43 @@ export const FONT_PAIRINGS: Record<string, FontPairing> = {
     heading: 'Inter',
     body: 'Inter',
     accent: 'JetBrains Mono',
-    googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap',
+    googleFontsUrl:
+      'https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&family=JetBrains+Mono:wght@500&display=swap',
   },
   professional: {
     heading: 'Playfair Display',
     body: 'Source Sans Pro',
     accent: 'Source Sans Pro',
-    googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Sans+Pro:wght@400;600;700&display=swap',
+    googleFontsUrl:
+      'https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700;800&family=Source+Sans+Pro:wght@400;600;700&display=swap',
   },
   bold: {
     heading: 'Bebas Neue',
     body: 'Open Sans',
     accent: 'Open Sans',
-    googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap',
+    googleFontsUrl:
+      'https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Open+Sans:wght@400;600;700&display=swap',
   },
   warm: {
     heading: 'Nunito',
     body: 'Nunito',
     accent: 'Nunito',
-    googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap',
+    googleFontsUrl:
+      'https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700;800&display=swap',
   },
   academic: {
     heading: 'Merriweather',
     body: 'Lato',
     accent: 'Lato',
-    googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Lato:wght@400;700&display=swap',
+    googleFontsUrl:
+      'https://fonts.googleapis.com/css2?family=Merriweather:wght@700;900&family=Lato:wght@400;700&display=swap',
   },
   industrial: {
     heading: 'Oswald',
     body: 'Roboto',
     accent: 'Roboto Mono',
-    googleFontsUrl: 'https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@500&display=swap',
+    googleFontsUrl:
+      'https://fonts.googleapis.com/css2?family=Oswald:wght@500;600;700&family=Roboto:wght@400;500;700&family=Roboto+Mono:wght@500&display=swap',
   },
 };
 
@@ -390,30 +396,31 @@ export const TEMPLATES: Record<TemplateId, Template> = {
 /**
  * Get template recommendation based on industry and org type
  */
-export function getRecommendedTemplate(
-  industry: string,
-  orgType: string
-): TemplateId {
+export function getRecommendedTemplate(industry: string, orgType: string): TemplateId {
   const industryLower = industry.toLowerCase();
   const orgTypeLower = orgType.toLowerCase();
 
   // Industry-based recommendations
-  if (['technology', 'tech', 'software', 'it'].some(t => industryLower.includes(t))) {
+  if (['technology', 'tech', 'software', 'it'].some((t) => industryLower.includes(t))) {
     return 'modern';
   }
-  if (['manufacturing', 'construction', 'hvac', 'electrical', 'plumbing', 'welding'].some(t => industryLower.includes(t))) {
+  if (
+    ['manufacturing', 'construction', 'hvac', 'electrical', 'plumbing', 'welding'].some((t) =>
+      industryLower.includes(t),
+    )
+  ) {
     return 'industrial';
   }
-  if (['healthcare', 'medical', 'nursing'].some(t => industryLower.includes(t))) {
+  if (['healthcare', 'medical', 'nursing'].some((t) => industryLower.includes(t))) {
     return 'professional';
   }
-  if (['education', 'university', 'college'].some(t => industryLower.includes(t))) {
+  if (['education', 'university', 'college'].some((t) => industryLower.includes(t))) {
     return 'academic';
   }
-  if (['nonprofit', 'community', 'social'].some(t => industryLower.includes(t))) {
+  if (['nonprofit', 'community', 'social'].some((t) => industryLower.includes(t))) {
     return 'warm';
   }
-  if (['sports', 'fitness', 'entertainment', 'youth'].some(t => industryLower.includes(t))) {
+  if (['sports', 'fitness', 'entertainment', 'youth'].some((t) => industryLower.includes(t))) {
     return 'bold';
   }
 
@@ -443,8 +450,8 @@ export function getAllTemplates(): Template[] {
  */
 export function getTemplatesForIndustry(industry: string): Template[] {
   const industryLower = industry.toLowerCase();
-  return Object.values(TEMPLATES).filter(t => 
-    t.industries.some(i => i.toLowerCase().includes(industryLower))
+  return Object.values(TEMPLATES).filter((t) =>
+    t.industries.some((i) => i.toLowerCase().includes(industryLower)),
   );
 }
 
@@ -466,7 +473,10 @@ export function generateCSSVariables(colors: ColorScheme): string {
 /**
  * Generate Tailwind config overrides
  */
-export function generateTailwindConfig(template: Template, colorScheme: 'default' | 'alt1' | 'alt2' = 'default') {
+export function generateTailwindConfig(
+  template: Template,
+  colorScheme: 'default' | 'alt1' | 'alt2' = 'default',
+) {
   const colors = template.colorSchemes[colorScheme];
   return {
     theme: {

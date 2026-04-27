@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect } from 'react';
 import { Card } from '@/components/ui/Card';
@@ -25,7 +25,9 @@ export function EmployerTalentPipeline() {
       const supabase = createClient();
       const { data } = await supabase
         .from('job_placements')
-        .select('id, status, match_score, start_date, profiles!job_placements_student_id_fkey(full_name), programs!job_placements_program_id_fkey(title)')
+        .select(
+          'id, status, match_score, start_date, profiles!job_placements_student_id_fkey(full_name), programs!job_placements_program_id_fkey(title)',
+        )
         .in('status', ['sourced', 'screening', 'interview', 'offer', 'hired', 'placed'])
         .order('created_at', { ascending: false })
         .limit(50);
@@ -38,8 +40,13 @@ export function EmployerTalentPipeline() {
           skills: [],
           stage: r.status === 'placed' ? 'hired' : r.status,
           matchScore: r.match_score ?? 0,
-          graduationDate: r.start_date ? new Date(r.start_date).toLocaleDateString('en-US', { year: 'numeric', month: 'short' }) : '—',
-        }))
+          graduationDate: r.start_date
+            ? new Date(r.start_date).toLocaleDateString('en-US', {
+                year: 'numeric',
+                month: 'short',
+              })
+            : '—',
+        })),
       );
       setLoading(false);
     }
@@ -47,12 +54,12 @@ export function EmployerTalentPipeline() {
   }, []);
 
   const stages = ['all', 'sourced', 'screening', 'interview', 'offer', 'hired'];
-  const filteredCandidates = selectedStage === 'all'
-    ? candidates
-    : candidates.filter(c => c.stage === selectedStage);
+  const filteredCandidates =
+    selectedStage === 'all' ? candidates : candidates.filter((c) => c.stage === selectedStage);
 
   if (loading) return <div className="p-8 text-center text-slate-700">Loading pipeline…</div>;
-  if (candidates.length === 0) return <div className="p-8 text-center text-slate-700">No candidates in pipeline yet.</div>;
+  if (candidates.length === 0)
+    return <div className="p-8 text-center text-slate-700">No candidates in pipeline yet.</div>;
 
   const stageColors: Record<string, string> = {
     sourced: 'bg-gray-100 text-black',
@@ -66,7 +73,9 @@ export function EmployerTalentPipeline() {
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Talent Pipeline</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Talent Pipeline
+          </h1>
           <p className="text-white">Manage your candidate pipeline</p>
         </div>
       </div>
@@ -76,7 +85,7 @@ export function EmployerTalentPipeline() {
           {stages.slice(1).map((stage) => (
             <Card key={stage} className="p-4 text-center">
               <p className="text-2xl font-bold text-brand-orange-600">
-                {candidates.filter(c => c.stage === stage).length}
+                {candidates.filter((c) => c.stage === stage).length}
               </p>
               <p className="text-sm text-black capitalize">{stage}</p>
             </Card>
@@ -106,7 +115,9 @@ export function EmployerTalentPipeline() {
                 <div className="flex-1">
                   <div className="flex items-center gap-3 mb-2">
                     <h3 className="text-xl font-bold">{candidate.name}</h3>
-                    <span className={`px-3 py-2 rounded text-xs font-medium ${stageColors[candidate.stage]}`}>
+                    <span
+                      className={`px-3 py-2 rounded text-xs font-medium ${stageColors[candidate.stage]}`}
+                    >
                       {candidate.stage}
                     </span>
                   </div>
@@ -114,7 +125,9 @@ export function EmployerTalentPipeline() {
                   <p className="text-sm text-slate-700">Graduates: {candidate.graduationDate}</p>
                 </div>
                 <div className="text-right">
-                  <div className="text-3xl font-bold text-brand-orange-600">{candidate.matchScore}%</div>
+                  <div className="text-3xl font-bold text-brand-orange-600">
+                    {candidate.matchScore}%
+                  </div>
                   <p className="text-sm text-black">Match Score</p>
                 </div>
               </div>
@@ -123,7 +136,10 @@ export function EmployerTalentPipeline() {
                 <p className="text-sm font-semibold text-black mb-2">Skills:</p>
                 <div className="flex flex-wrap gap-2">
                   {candidate.skills.map((skill) => (
-                    <span key={skill} className="px-3 py-2 bg-brand-orange-100 text-brand-orange-700 text-sm rounded">
+                    <span
+                      key={skill}
+                      className="px-3 py-2 bg-brand-orange-100 text-brand-orange-700 text-sm rounded"
+                    >
                       {skill}
                     </span>
                   ))}
@@ -132,8 +148,12 @@ export function EmployerTalentPipeline() {
 
               <div className="flex gap-2">
                 <Button size="sm">View Profile</Button>
-                <Button size="sm" variant="secondary">Schedule Interview</Button>
-                <Button size="sm" variant="secondary">Send Message</Button>
+                <Button size="sm" variant="secondary">
+                  Schedule Interview
+                </Button>
+                <Button size="sm" variant="secondary">
+                  Send Message
+                </Button>
               </div>
             </Card>
           ))}

@@ -1,4 +1,5 @@
 # Building Maintenance Technician
+
 ## Program Syllabus
 
 **Provider:** Elevate for Humanity  
@@ -6,7 +7,7 @@
 **Program Code:** BLDG-MAINT  
 **Duration:** 4-9 Months (320-720 Hours)  
 **Delivery Method:** Hands-On Training + Field Experience  
-**Funding:** Workforce Grants • Apprenticeship • WIOA  
+**Funding:** Workforce Grants • Apprenticeship • WIOA
 
 ---
 
@@ -32,6 +33,7 @@ Become the go-to person who keeps buildings running! Learn plumbing basics, elec
 ## Course Outline
 
 ### Module 1: Safety & Tools (40 hours)
+
 - OSHA 10-Hour Construction Safety
 - Personal protective equipment
 - Hand and power tool safety
@@ -40,6 +42,7 @@ Become the go-to person who keeps buildings running! Learn plumbing basics, elec
 - Hazard communication
 
 ### Module 2: Plumbing Basics (80 hours)
+
 - Plumbing systems overview
 - Pipe types and fittings
 - Drain cleaning and unclogging
@@ -48,6 +51,7 @@ Become the go-to person who keeps buildings running! Learn plumbing basics, elec
 - Leak detection and repair
 
 ### Module 3: Electrical Fundamentals (80 hours)
+
 - Electrical safety
 - Basic circuits and wiring
 - Outlet and switch replacement
@@ -56,6 +60,7 @@ Become the go-to person who keeps buildings running! Learn plumbing basics, elec
 - Reading electrical diagrams
 
 ### Module 4: HVAC Maintenance (60 hours)
+
 - HVAC system components
 - Filter replacement
 - Thermostat operation
@@ -64,6 +69,7 @@ Become the go-to person who keeps buildings running! Learn plumbing basics, elec
 - Energy efficiency
 
 ### Module 5: Carpentry & Drywall (60 hours)
+
 - Measuring and layout
 - Door and window repairs
 - Drywall patching and repair
@@ -72,6 +78,7 @@ Become the go-to person who keeps buildings running! Learn plumbing basics, elec
 - Flooring basics
 
 ### Module 6: Building Systems (40 hours)
+
 - Fire alarm and sprinkler systems
 - Security systems basics
 - Elevator and escalator awareness
@@ -80,6 +87,7 @@ Become the go-to person who keeps buildings running! Learn plumbing basics, elec
 - Energy management
 
 ### Module 7: Preventive Maintenance (40 hours)
+
 - Maintenance scheduling
 - Equipment inspection procedures
 - Lubrication and cleaning
@@ -88,6 +96,7 @@ Become the go-to person who keeps buildings running! Learn plumbing basics, elec
 - Work order systems
 
 ### Module 8: Customer Service & Communication (20 hours)
+
 - Professional communication
 - Responding to tenant requests
 - Emergency response procedures
@@ -95,6 +104,7 @@ Become the go-to person who keeps buildings running! Learn plumbing basics, elec
 - Teamwork and collaboration
 
 ### Module 9: Field Training (200-400 hours)
+
 - Supervised work at facility
 - Real maintenance requests
 - Emergency response

@@ -56,10 +56,13 @@ async function _GET(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Monitoring errors endpoint error:', error);
-    return NextResponse.json({
-      errors: [],
-      error: 'Internal server error',
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        errors: [],
+        error: 'Internal server error',
+      },
+      { status: 500 },
+    );
   }
 }
 export const GET = withRuntime(withApiAudit('/api/admin/monitoring/errors', _GET));

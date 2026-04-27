@@ -49,35 +49,185 @@ const ICON_MAP: Record<string, LucideIcon> = {
 
 const DEFAULT_DASHBOARDS: Dashboard[] = [
   // ── Hub (all roles) ───────────────────────────────────────────────────────
-  { id: '0',  name: 'My Dashboard',       href: '/my-dashboard',                icon: 'LayoutDashboard', description: 'Your home hub',                color: 'text-brand-blue-600',   roles: ['student', 'instructor', 'mentor', 'creator', 'employer', 'partner', 'program_holder', 'provider_admin', 'staff', 'case_manager', 'workforce_board', 'org_admin', 'admin', 'super_admin'], order_index: 0 },
+  {
+    id: '0',
+    name: 'My Dashboard',
+    href: '/my-dashboard',
+    icon: 'LayoutDashboard',
+    description: 'Your home hub',
+    color: 'text-brand-blue-600',
+    roles: [
+      'student',
+      'instructor',
+      'mentor',
+      'creator',
+      'employer',
+      'partner',
+      'program_holder',
+      'provider_admin',
+      'staff',
+      'case_manager',
+      'workforce_board',
+      'org_admin',
+      'admin',
+      'super_admin',
+    ],
+    order_index: 0,
+  },
 
   // ── Learner ───────────────────────────────────────────────────────────────
-  { id: '1',  name: 'My Learning',        href: '/learner/dashboard',           icon: 'GraduationCap',   description: 'Courses, progress, certificates', color: 'text-brand-blue-600',   roles: ['student'],                                                                                                                                                                                    order_index: 1 },
-  { id: '2',  name: 'My Courses',         href: '/lms/dashboard',               icon: 'BookOpen',        description: 'LMS course content',             color: 'text-indigo-600',        roles: ['student'],                                                                                                                                                                                    order_index: 2 },
+  {
+    id: '1',
+    name: 'My Learning',
+    href: '/learner/dashboard',
+    icon: 'GraduationCap',
+    description: 'Courses, progress, certificates',
+    color: 'text-brand-blue-600',
+    roles: ['student'],
+    order_index: 1,
+  },
+  {
+    id: '2',
+    name: 'My Courses',
+    href: '/lms/dashboard',
+    icon: 'BookOpen',
+    description: 'LMS course content',
+    color: 'text-indigo-600',
+    roles: ['student'],
+    order_index: 2,
+  },
 
   // ── Education staff ───────────────────────────────────────────────────────
-  { id: '3',  name: 'Instructor Portal',  href: '/instructor/dashboard',        icon: 'BookOpen',        description: 'Students, submissions, courses', color: 'text-indigo-600',        roles: ['instructor', 'admin', 'super_admin'],                                                                                                                                                          order_index: 3 },
-  { id: '4',  name: 'Mentor Portal',      href: '/mentor/dashboard',            icon: 'Users',           description: 'Mentees and sessions',           color: 'text-brand-green-600',   roles: ['mentor', 'admin', 'super_admin'],                                                                                                                                                              order_index: 4 },
-  { id: '5',  name: 'Creator Studio',     href: '/creator/dashboard',           icon: 'Palette',         description: 'Build and publish courses',       color: 'text-pink-600',          roles: ['creator', 'admin', 'super_admin'],                                                                                                                                                             order_index: 5 },
+  {
+    id: '3',
+    name: 'Instructor Portal',
+    href: '/instructor/dashboard',
+    icon: 'BookOpen',
+    description: 'Students, submissions, courses',
+    color: 'text-indigo-600',
+    roles: ['instructor', 'admin', 'super_admin'],
+    order_index: 3,
+  },
+  {
+    id: '4',
+    name: 'Mentor Portal',
+    href: '/mentor/dashboard',
+    icon: 'Users',
+    description: 'Mentees and sessions',
+    color: 'text-brand-green-600',
+    roles: ['mentor', 'admin', 'super_admin'],
+    order_index: 4,
+  },
+  {
+    id: '5',
+    name: 'Creator Studio',
+    href: '/creator/dashboard',
+    icon: 'Palette',
+    description: 'Build and publish courses',
+    color: 'text-pink-600',
+    roles: ['creator', 'admin', 'super_admin'],
+    order_index: 5,
+  },
 
   // ── Employer & partners ───────────────────────────────────────────────────
-  { id: '6',  name: 'Employer Portal',    href: '/employer/dashboard',          icon: 'Briefcase',       description: 'Jobs, candidates, apprentices',  color: 'text-brand-orange-600',  roles: ['employer', 'admin', 'super_admin'],                                                                                                                                                            order_index: 6 },
-  { id: '7',  name: 'Partner Portal',     href: '/partner/dashboard',           icon: 'Building2',       description: 'Attendance and hours',           color: 'text-purple-600',        roles: ['partner', 'admin', 'super_admin'],                                                                                                                                                             order_index: 7 },
+  {
+    id: '6',
+    name: 'Employer Portal',
+    href: '/employer/dashboard',
+    icon: 'Briefcase',
+    description: 'Jobs, candidates, apprentices',
+    color: 'text-brand-orange-600',
+    roles: ['employer', 'admin', 'super_admin'],
+    order_index: 6,
+  },
+  {
+    id: '7',
+    name: 'Partner Portal',
+    href: '/partner/dashboard',
+    icon: 'Building2',
+    description: 'Attendance and hours',
+    color: 'text-purple-600',
+    roles: ['partner', 'admin', 'super_admin'],
+    order_index: 7,
+  },
 
   // ── Program administration ────────────────────────────────────────────────
-  { id: '8',  name: 'Program Holder',     href: '/program-holder/dashboard',    icon: 'Building2',       description: 'Programs, compliance, certs',    color: 'text-purple-600',        roles: ['program_holder', 'sponsor', 'admin', 'super_admin'],                                                                                                                                           order_index: 8 },
-  { id: '9',  name: 'Training Provider',  href: '/provider/dashboard',          icon: 'Building2',       description: 'Tenant programs and staff',      color: 'text-amber-600',         roles: ['provider_admin', 'admin', 'super_admin'],                                                                                                                                                      order_index: 9 },
+  {
+    id: '8',
+    name: 'Program Holder',
+    href: '/program-holder/dashboard',
+    icon: 'Building2',
+    description: 'Programs, compliance, certs',
+    color: 'text-purple-600',
+    roles: ['program_holder', 'sponsor', 'admin', 'super_admin'],
+    order_index: 8,
+  },
+  {
+    id: '9',
+    name: 'Training Provider',
+    href: '/provider/dashboard',
+    icon: 'Building2',
+    description: 'Tenant programs and staff',
+    color: 'text-amber-600',
+    roles: ['provider_admin', 'admin', 'super_admin'],
+    order_index: 9,
+  },
 
   // ── Workforce & case management ───────────────────────────────────────────
-  { id: '10', name: 'Case Manager',       href: '/case-manager/dashboard',      icon: 'Users',           description: 'Caseload and WIOA placements',   color: 'text-brand-green-600',   roles: ['case_manager', 'staff', 'admin', 'super_admin'],                                                                                                                                               order_index: 10 },
-  { id: '11', name: 'Workforce Board',    href: '/workforce-board/dashboard',   icon: 'LayoutDashboard', description: 'Regional workforce data',        color: 'text-slate-600',         roles: ['workforce_board', 'admin', 'super_admin'],                                                                                                                                                     order_index: 11 },
+  {
+    id: '10',
+    name: 'Case Manager',
+    href: '/case-manager/dashboard',
+    icon: 'Users',
+    description: 'Caseload and WIOA placements',
+    color: 'text-brand-green-600',
+    roles: ['case_manager', 'staff', 'admin', 'super_admin'],
+    order_index: 10,
+  },
+  {
+    id: '11',
+    name: 'Workforce Board',
+    href: '/workforce-board/dashboard',
+    icon: 'LayoutDashboard',
+    description: 'Regional workforce data',
+    color: 'text-slate-600',
+    roles: ['workforce_board', 'admin', 'super_admin'],
+    order_index: 11,
+  },
 
   // ── Internal staff ────────────────────────────────────────────────────────
-  { id: '12', name: 'Staff Portal',       href: '/staff-portal/dashboard',      icon: 'Users',           description: 'Students, attendance, ops',      color: 'text-brand-green-600',   roles: ['staff', 'admin', 'super_admin'],                                                                                                                                                               order_index: 12 },
-  { id: '13', name: 'Admin',              href: '/admin/dashboard',             icon: 'Shield',          description: 'Full site management',           color: 'text-brand-red-600',     roles: ['admin', 'super_admin'],                                                                                                                                                                        order_index: 13 },
+  {
+    id: '12',
+    name: 'Staff Portal',
+    href: '/staff-portal/dashboard',
+    icon: 'Users',
+    description: 'Students, attendance, ops',
+    color: 'text-brand-green-600',
+    roles: ['staff', 'admin', 'super_admin'],
+    order_index: 12,
+  },
+  {
+    id: '13',
+    name: 'Admin',
+    href: '/admin/dashboard',
+    icon: 'Shield',
+    description: 'Full site management',
+    color: 'text-brand-red-600',
+    roles: ['admin', 'super_admin'],
+    order_index: 13,
+  },
 
   // ── Tools ─────────────────────────────────────────────────────────────────
-  { id: '14', name: 'AI Studio',          href: '/ai-studio',                   icon: 'Sparkles',        description: 'AI video and media tools',       color: 'text-purple-600',        roles: ['instructor', 'creator', 'admin', 'super_admin'],                                                                                                                                               order_index: 14 },
+  {
+    id: '14',
+    name: 'AI Studio',
+    href: '/ai-studio',
+    icon: 'Sparkles',
+    description: 'AI video and media tools',
+    color: 'text-purple-600',
+    roles: ['instructor', 'creator', 'admin', 'super_admin'],
+    order_index: 14,
+  },
 ];
 
 export function DashboardDropdown({ className }: Props) {
@@ -93,8 +243,10 @@ export function DashboardDropdown({ className }: Props) {
     async function fetchData() {
       try {
         // Get current user and their roles
-        const { data: { user } } = await supabase.auth.getUser();
-        
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+
         if (user) {
           // Fetch user profile with roles
           const { data: profile } = await supabase
@@ -118,9 +270,7 @@ export function DashboardDropdown({ className }: Props) {
             .limit(3);
 
           if (recentVisits) {
-            const recent = recentVisits
-              .map((v: any) => v.metadata?.dashboard_href)
-              .filter(Boolean);
+            const recent = recentVisits.map((v: any) => v.metadata?.dashboard_href).filter(Boolean);
             setRecentDashboards(recent);
           }
         }
@@ -148,27 +298,34 @@ export function DashboardDropdown({ className }: Props) {
   // Track dashboard visit
   const trackVisit = async (dashboard: Dashboard) => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (user) {
-      await supabase.from('user_activity').insert({
-        user_id: user.id,
-        activity_type: 'dashboard_visit',
-        metadata: { dashboard_href: dashboard.href, dashboard_name: dashboard.name },
-      }).catch(() => {}); // Ignore errors
+      await supabase
+        .from('user_activity')
+        .insert({
+          user_id: user.id,
+          activity_type: 'dashboard_visit',
+          metadata: { dashboard_href: dashboard.href, dashboard_name: dashboard.name },
+        })
+        .catch(() => {}); // Ignore errors
     }
-    
+
     setIsOpen(false);
   };
 
   // Filter dashboards based on user roles (show all if admin or no roles set)
-  const filteredDashboards = userRoles.includes('admin') || userRoles.includes('super_admin')
-    ? dashboards
-    : dashboards.filter(d => 
-        d.roles.some(role => userRoles.includes(role)) || 
-        d.roles.includes('user') ||
-        userRoles.length === 0
-      );
+  const filteredDashboards =
+    userRoles.includes('admin') || userRoles.includes('super_admin')
+      ? dashboards
+      : dashboards.filter(
+          (d) =>
+            d.roles.some((role) => userRoles.includes(role)) ||
+            d.roles.includes('user') ||
+            userRoles.length === 0,
+        );
 
   // Sort with recent dashboards first
   const sortedDashboards = [...filteredDashboards].sort((a, b) => {
@@ -188,18 +345,13 @@ export function DashboardDropdown({ className }: Props) {
       >
         <LayoutDashboard className="w-4 h-4" />
         <span>Dashboards</span>
-        <ChevronDown
-          className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`}
-        />
+        <ChevronDown className={`w-4 h-4 transition-transform ${isOpen ? 'rotate-180' : ''}`} />
       </button>
 
       {isOpen && (
         <>
           {/* Backdrop */}
-          <div
-            className="fixed inset-0 z-10"
-            onClick={() => setIsOpen(false)}
-          />
+          <div className="fixed inset-0 z-10" onClick={() => setIsOpen(false)} />
 
           {/* Dropdown */}
           <div className="absolute left-0 mt-2 w-80 bg-white rounded-xl shadow-xl border border-slate-200 z-20 overflow-hidden">
@@ -219,7 +371,7 @@ export function DashboardDropdown({ className }: Props) {
                 {sortedDashboards.map((dashboard) => {
                   const Icon = ICON_MAP[dashboard.icon] || LayoutDashboard;
                   const isRecent = recentDashboards.includes(dashboard.href);
-                  
+
                   return (
                     <Link
                       key={dashboard.id}
@@ -241,9 +393,7 @@ export function DashboardDropdown({ className }: Props) {
                             </span>
                           )}
                         </div>
-                        <div className="text-xs text-slate-500">
-                          {dashboard.description}
-                        </div>
+                        <div className="text-xs text-slate-500">{dashboard.description}</div>
                       </div>
                     </Link>
                   );

@@ -72,7 +72,9 @@ export function QuizPanel({
     const passed = score >= passingScore;
     return (
       <div className="bg-white border border-slate-200 rounded-2xl overflow-hidden">
-        <div className={`px-8 py-10 text-center ${passed ? 'bg-brand-green-50' : 'bg-brand-red-50'}`}>
+        <div
+          className={`px-8 py-10 text-center ${passed ? 'bg-brand-green-50' : 'bg-brand-red-50'}`}
+        >
           {passed ? (
             <Trophy className="w-16 h-16 text-brand-green-500 mx-auto mb-4" />
           ) : (
@@ -82,7 +84,11 @@ export function QuizPanel({
             {passed ? 'Quiz Passed!' : 'Not Quite — Try Again'}
           </h3>
           <p className="text-lg text-gray-600 mb-1">
-            Score: <span className="font-bold">{score}/{questions.length}</span> ({Math.round((score / questions.length) * 100)}%)
+            Score:{' '}
+            <span className="font-bold">
+              {score}/{questions.length}
+            </span>{' '}
+            ({Math.round((score / questions.length) * 100)}%)
           </p>
           <p className="text-sm text-gray-500 mb-6">
             {passed
@@ -124,17 +130,18 @@ export function QuizPanel({
         </div>
 
         {/* Question */}
-        <h4 className="text-lg font-semibold text-gray-900 mb-5 leading-relaxed">
-          {q.question}
-        </h4>
+        <h4 className="text-lg font-semibold text-gray-900 mb-5 leading-relaxed">{q.question}</h4>
 
         {/* Options */}
         <div className="space-y-3 mb-6">
           {q.options.map((opt, idx) => {
             let style = 'border-slate-200 hover:border-slate-300 hover:bg-slate-50';
-            if (selected === idx && !showResult) style = 'border-brand-blue-400 bg-brand-blue-50 ring-2 ring-brand-blue-200';
-            if (showResult && idx === q.correctAnswer) style = 'border-brand-green-400 bg-brand-green-50';
-            if (showResult && selected === idx && idx !== q.correctAnswer) style = 'border-brand-red-400 bg-brand-red-50';
+            if (selected === idx && !showResult)
+              style = 'border-brand-blue-400 bg-brand-blue-50 ring-2 ring-brand-blue-200';
+            if (showResult && idx === q.correctAnswer)
+              style = 'border-brand-green-400 bg-brand-green-50';
+            if (showResult && selected === idx && idx !== q.correctAnswer)
+              style = 'border-brand-red-400 bg-brand-red-50';
 
             return (
               <button
@@ -143,12 +150,17 @@ export function QuizPanel({
                 disabled={showResult}
                 className={`w-full text-left flex items-start gap-3 px-4 py-3.5 rounded-xl border-2 transition-all cursor-pointer ${style}`}
               >
-                <span className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${
-                  selected === idx && !showResult ? 'bg-brand-blue-600 text-white' :
-                  showResult && idx === q.correctAnswer ? 'bg-brand-green-500 text-white' :
-                  showResult && selected === idx ? 'bg-brand-red-500 text-white' :
-                  'bg-slate-100 text-slate-600'
-                }`}>
+                <span
+                  className={`w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold shrink-0 mt-0.5 ${
+                    selected === idx && !showResult
+                      ? 'bg-brand-blue-600 text-white'
+                      : showResult && idx === q.correctAnswer
+                        ? 'bg-brand-green-500 text-white'
+                        : showResult && selected === idx
+                          ? 'bg-brand-red-500 text-white'
+                          : 'bg-slate-100 text-slate-600'
+                  }`}
+                >
                   {String.fromCharCode(65 + idx)}
                 </span>
                 <span className="text-sm text-gray-800 leading-relaxed">{opt}</span>
@@ -165,7 +177,9 @@ export function QuizPanel({
 
         {/* Explanation */}
         {showResult && q.explanation && (
-          <div className={`rounded-xl p-4 mb-5 ${isCorrect ? 'bg-brand-green-50 border border-brand-green-200' : 'bg-amber-50 border border-amber-200'}`}>
+          <div
+            className={`rounded-xl p-4 mb-5 ${isCorrect ? 'bg-brand-green-50 border border-brand-green-200' : 'bg-amber-50 border border-amber-200'}`}
+          >
             <p className="text-sm font-semibold text-gray-800 mb-1">
               {isCorrect ? 'Correct!' : 'Explanation:'}
             </p>

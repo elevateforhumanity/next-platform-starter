@@ -85,8 +85,7 @@ async function collectMetrics(): Promise<Metric[]> {
 
   if (uptimeData) {
     const byKind = uptimeData.reduce((acc: any, row: any) => {
-      if (!acc[row.kind])
-        acc[row.kind] = { ok: 0, warn: 0, error: 0, total: 0 };
+      if (!acc[row.kind]) acc[row.kind] = { ok: 0, warn: 0, error: 0, total: 0 };
       acc[row.kind][row.status]++;
       acc[row.kind].total++;
       return acc;
@@ -134,10 +133,7 @@ async function collectMetrics(): Promise<Metric[]> {
       return acc;
     }, {});
 
-    for (const [kind, times] of Object.entries(byKind) as [
-      string,
-      number[],
-    ][]) {
+    for (const [kind, times] of Object.entries(byKind) as [string, number[]][]) {
       const avg = times.reduce((a, b) => a + b, 0) / times.length;
       const min = Math.min(...times);
       const max = Math.max(...times);
@@ -178,15 +174,9 @@ async function collectMetrics(): Promise<Metric[]> {
 
   if (migrationData) {
     const total = migrationData.length;
-    const successful = migrationData.filter(
-      (m: any) => m.status === 'success'
-    ).length;
-    const failed = migrationData.filter(
-      (m: any) => m.status === 'failure'
-    ).length;
-    const rollbacks = migrationData.filter(
-      (m: any) => m.status === 'rollback'
-    ).length;
+    const successful = migrationData.filter((m: any) => m.status === 'success').length;
+    const failed = migrationData.filter((m: any) => m.status === 'failure').length;
+    const rollbacks = migrationData.filter((m: any) => m.status === 'rollback').length;
     const successRate = total > 0 ? (successful / total) * 100 : 100;
 
     metrics.push({
@@ -219,8 +209,7 @@ async function collectMetrics(): Promise<Metric[]> {
       .map((m: any) => m.duration_ms);
 
     if (durations.length > 0) {
-      const avgDuration =
-        durations.reduce((a: number, b: number) => a + b, 0) / durations.length;
+      const avgDuration = durations.reduce((a: number, b: number) => a + b, 0) / durations.length;
       metrics.push({
         name: 'autopilot_migration_duration_ms',
         type: 'gauge',
@@ -239,18 +228,14 @@ async function collectMetrics(): Promise<Metric[]> {
 
   if (deployData) {
     const byPlatform = deployData.reduce((acc: any, row: any) => {
-      if (!acc[row.platform])
-        acc[row.platform] = { total: 0, success: 0, failed: 0 };
+      if (!acc[row.platform]) acc[row.platform] = { total: 0, success: 0, failed: 0 };
       acc[row.platform].total++;
       if (row.status === 'success') acc[row.platform].success++;
       if (row.status === 'failed') acc[row.platform].failed++;
       return acc;
     }, {});
 
-    for (const [platform, counts] of Object.entries(byPlatform) as [
-      string,
-      any,
-    ][]) {
+    for (const [platform, counts] of Object.entries(byPlatform) as [string, any][]) {
       metrics.push({
         name: 'autopilot_deployments_total',
         type: 'counter',
@@ -259,8 +244,7 @@ async function collectMetrics(): Promise<Metric[]> {
         labels: { platform, period: '7d' },
       });
 
-      const successRate =
-        counts.total > 0 ? (counts.success / counts.total) * 100 : 100;
+      const successRate = counts.total > 0 ? (counts.success / counts.total) * 100 : 100;
       metrics.push({
         name: 'autopilot_deployment_success_rate',
         type: 'gauge',
@@ -332,37 +316,27 @@ function calculateHealthScore(metrics: Metric[]): number {
   let score = 100;
 
   // Find uptime metrics
-  const uptimeMetrics = metrics.filter(
-    (m) => m.name === 'autopilot_uptime_percentage'
-  );
+  const uptimeMetrics = metrics.filter((m) => m.name === 'autopilot_uptime_percentage');
   if (uptimeMetrics.length > 0) {
-    const avgUptime =
-      uptimeMetrics.reduce((sum, m) => sum + m.value, 0) / uptimeMetrics.length;
+    const avgUptime = uptimeMetrics.reduce((sum, m) => sum + m.value, 0) / uptimeMetrics.length;
     score = Math.min(score, avgUptime);
   }
 
   // Penalize for errors
-  const errorMetrics = metrics.filter(
-    (m) => m.name === 'autopilot_errors_total'
-  );
+  const errorMetrics = metrics.filter((m) => m.name === 'autopilot_errors_total');
   const totalErrors = errorMetrics.reduce((sum, m) => sum + m.value, 0);
   if (totalErrors > 10) score -= Math.min(20, totalErrors - 10);
 
   // Penalize for rollbacks
-  const rollbackMetrics = metrics.filter(
-    (m) => m.name === 'autopilot_rollbacks_total'
-  );
+  const rollbackMetrics = metrics.filter((m) => m.name === 'autopilot_rollbacks_total');
   const totalRollbacks = rollbackMetrics.reduce((sum, m) => sum + m.value, 0);
   if (totalRollbacks > 0) score -= Math.min(15, totalRollbacks * 5);
 
   // Bonus for high migration success rate
   const migrationSuccessMetrics = metrics.filter(
-    (m) => m.name === 'autopilot_migrations_success_rate'
+    (m) => m.name === 'autopilot_migrations_success_rate',
   );
-  if (
-    migrationSuccessMetrics.length > 0 &&
-    migrationSuccessMetrics[0].value === 100
-  ) {
+  if (migrationSuccessMetrics.length > 0 && migrationSuccessMetrics[0].value === 100) {
     score += 5;
   }
 

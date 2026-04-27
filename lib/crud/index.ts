@@ -1,6 +1,6 @@
 /**
  * Standardized CRUD utilities for API routes
- * 
+ *
  * Pattern:
  * - POST /api/{resource} → Create
  * - GET /api/{resource} → List
@@ -52,18 +52,18 @@ export function created<T>(data: T): NextResponse<ApiResponse<T>> {
 // Validate request body with Zod
 export async function validateBody<T>(
   request: Request,
-  schema: ZodSchema<T>
+  schema: ZodSchema<T>,
 ): Promise<{ data: T } | { error: NextResponse<ApiResponse> }> {
   try {
     const body = await request.json();
     const parsed = schema.safeParse(body);
-    
+
     if (!parsed.success) {
       return {
         error: badRequest('Invalid input', parsed.error.flatten()),
       };
     }
-    
+
     return { data: parsed.data };
   } catch {
     return { error: badRequest('Invalid JSON body') };
@@ -72,16 +72,19 @@ export async function validateBody<T>(
 
 // Check if user is authenticated and has required role
 export async function requireAuth(
-  allowedRoles: string[] = []
+  allowedRoles: string[] = [],
 ): Promise<{ user: any; profile: any } | { error: NextResponse<ApiResponse> }> {
   const supabase = await createClient();
-  
+
   if (!supabase) {
     return { error: serverError('Database unavailable') };
   }
 
-  const { data: { user }, error: authError } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+    error: authError,
+  } = await supabase.auth.getUser();
+
   if (authError || !user) {
     return { error: unauthorized() };
   }
@@ -107,7 +110,7 @@ export async function requireAuth(
 export async function dbCreate<T>(
   table: string,
   data: Record<string, any>,
-  select = '*'
+  select = '*',
 ): Promise<{ data: T } | { error: string }> {
   const supabase = await createClient();
   if (!supabase) return { error: 'Database unavailable' };
@@ -136,14 +139,12 @@ export async function dbList<T>(
     limit?: number;
     offset?: number;
     softDelete?: boolean;
-  } = {}
+  } = {},
 ): Promise<{ data: T[]; count: number } | { error: string }> {
   const supabase = await createClient();
   if (!supabase) return { error: 'Database unavailable' };
 
-  let query = supabase
-    .from(table)
-    .select(options.select || '*', { count: 'exact' });
+  let query = supabase.from(table).select(options.select || '*', { count: 'exact' });
 
   // Apply soft delete filter by default
   if (options.softDelete !== false) {
@@ -182,13 +183,13 @@ export async function dbGet<T>(
   table: string,
   id: string,
   select = '*',
-  softDelete = true
+  softDelete = true,
 ): Promise<{ data: T } | { error: string; notFound?: boolean }> {
   const supabase = await createClient();
   if (!supabase) return { error: 'Database unavailable' };
 
   let query = supabase.from(table).select(select).eq('id', id);
-  
+
   if (softDelete) {
     query = query.is('deleted_at', null);
   }
@@ -208,7 +209,7 @@ export async function dbUpdate<T>(
   table: string,
   id: string,
   data: Record<string, any>,
-  select = '*'
+  select = '*',
 ): Promise<{ data: T } | { error: string; notFound?: boolean }> {
   const supabase = await createClient();
   if (!supabase) return { error: 'Database unavailable' };
@@ -235,7 +236,7 @@ export async function dbUpdate<T>(
 
 export async function dbSoftDelete(
   table: string,
-  id: string
+  id: string,
 ): Promise<{ success: boolean } | { error: string; notFound?: boolean }> {
   const supabase = await createClient();
   if (!supabase) return { error: 'Database unavailable' };
@@ -260,7 +261,7 @@ export async function dbSoftDelete(
 
 export async function dbHardDelete(
   table: string,
-  id: string
+  id: string,
 ): Promise<{ success: boolean } | { error: string }> {
   const supabase = await createClient();
   if (!supabase) return { error: 'Database unavailable' };

@@ -20,9 +20,7 @@ export function redactSecrets(obj: Record<string, any>): Record<string, any> {
 
   for (const [key, value] of Object.entries(obj)) {
     const lowerKey = key.toLowerCase();
-    const isSensitive = SENSITIVE_KEYS.some((sensitive) =>
-      lowerKey.includes(sensitive)
-    );
+    const isSensitive = SENSITIVE_KEYS.some((sensitive) => lowerKey.includes(sensitive));
 
     if (isSensitive) {
       redacted[key] = '[REDACTED]';

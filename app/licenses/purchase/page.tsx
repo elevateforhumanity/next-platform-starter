@@ -9,8 +9,6 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY || '');
 
-
-
 export default function PurchaseLicensePage() {
   const [selectedLicense, setSelectedLicense] = useState('');
   const [quantity, setQuantity] = useState(1);
@@ -63,7 +61,7 @@ export default function PurchaseLicensePage() {
 
       const { sessionId } = await response.json();
       const stripe = await stripePromise;
-      
+
       if (stripe) {
         await stripe.redirectToCheckout({ sessionId });
       }
@@ -74,17 +72,12 @@ export default function PurchaseLicensePage() {
     }
   };
 
-  const selectedLicenseData = licenses.find(l => l.id === selectedLicense);
+  const selectedLicenseData = licenses.find((l) => l.id === selectedLicense);
   const total = selectedLicenseData ? selectedLicenseData.price * quantity : 0;
 
   return (
     <div className="min-h-screen bg-white py-12">
-      <Breadcrumbs
-        items={[
-          { label: 'Licenses', href: '/licenses' },
-          { label: 'Purchase' },
-        ]}
-      />
+      <Breadcrumbs items={[{ label: 'Licenses', href: '/licenses' }, { label: 'Purchase' }]} />
       <div className="container mx-auto px-4 max-w-6xl">
         <h1 className="text-4xl font-bold mb-2">Purchase Program License</h1>
         <p className="text-black mb-8">
@@ -95,7 +88,7 @@ export default function PurchaseLicensePage() {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-lg shadow-sm p-6 mb-6">
               <h2 className="text-2xl font-bold mb-6">Available Licenses</h2>
-              
+
               <div className="space-y-4">
                 {licenses.map((license) => (
                   <div
@@ -114,22 +107,17 @@ export default function PurchaseLicensePage() {
                           alt={license.name}
                           fill
                           className="object-cover"
-                         sizes="100vw" />
+                          sizes="100vw"
+                        />
                       </div>
                       <div className="flex-1">
-                        <h3 className="text-lg font-semibold mb-1">
-                          {license.name}
-                        </h3>
-                        <p className="text-sm text-black mb-2">
-                          {license.description}
-                        </p>
+                        <h3 className="text-lg font-semibold mb-1">{license.name}</h3>
+                        <p className="text-sm text-black mb-2">{license.description}</p>
                         <div className="flex items-center gap-4 text-sm">
                           <span className="text-brand-orange-600 font-semibold">
                             ${license.price.toLocaleString()}
                           </span>
-                          <span className="text-black">
-                            Duration: {license.duration}
-                          </span>
+                          <span className="text-black">Duration: {license.duration}</span>
                         </div>
                       </div>
                     </div>
@@ -154,7 +142,7 @@ export default function PurchaseLicensePage() {
           <div className="lg:col-span-1">
             <div className="bg-white rounded-lg shadow-sm p-6 sticky top-4">
               <h3 className="text-lg font-semibold mb-4">Order Summary</h3>
-              
+
               {selectedLicenseData ? (
                 <>
                   <div className="space-y-4 mb-6">
@@ -164,9 +152,7 @@ export default function PurchaseLicensePage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm text-black mb-2">
-                        Quantity
-                      </label>
+                      <label className="block text-sm text-black mb-2">Quantity</label>
                       <input
                         type="number"
                         min="1"
@@ -184,9 +170,7 @@ export default function PurchaseLicensePage() {
                       </div>
                       <div className="flex justify-between font-bold text-lg">
                         <span>Total</span>
-                        <span className="text-brand-orange-600">
-                          ${total.toLocaleString()}
-                        </span>
+                        <span className="text-brand-orange-600">${total.toLocaleString()}</span>
                       </div>
                     </div>
                   </div>
@@ -201,9 +185,7 @@ export default function PurchaseLicensePage() {
                   </Button>
                 </>
               ) : (
-                <p className="text-black text-center py-8">
-                  Select a license to continue
-                </p>
+                <p className="text-black text-center py-8">Select a license to continue</p>
               )}
 
               <p className="text-xs text-black text-center mt-4">

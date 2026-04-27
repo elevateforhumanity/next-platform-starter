@@ -56,9 +56,7 @@ export default function EnrollmentCheckout({ program, onSuccess, onCancel }) {
     <div className="bg-white rounded-xl shadow-lg p-6 max-w-md mx-auto">
       {/* Program Info */}
       <div className="mb-6">
-        <h3 className="text-2xl font-bold text-brand-text mb-2">
-          {program.title}
-        </h3>
+        <h3 className="text-2xl font-bold text-brand-text mb-2">{program.title}</h3>
         <p className="text-brand-text-muted mb-4">{program.description}</p>
         {/* Program Details */}
         <div className="space-y-2 text-sm">
@@ -91,9 +89,7 @@ export default function EnrollmentCheckout({ program, onSuccess, onCancel }) {
           </span>
         </div>
         {isFree && (
-          <p className="text-sm text-brand-text-muted mt-2">
-            100% FREE through WIOA funding
-          </p>
+          <p className="text-sm text-brand-text-muted mt-2">100% FREE through WIOA funding</p>
         )}
       </div>
       {/* Features */}

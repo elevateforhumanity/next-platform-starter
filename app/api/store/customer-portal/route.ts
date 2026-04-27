@@ -12,22 +12,16 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-
-
 const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-const supabase =
-  supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
+const supabase = supabaseUrl && supabaseKey ? createClient(supabaseUrl, supabaseKey) : null;
 
 async function _POST(request: NextRequest) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   if (!stripe || !supabase) {
-    return NextResponse.json(
-      { error: 'Stripe or Supabase not configured' },
-      { status: 503 }
-    );
+    return NextResponse.json({ error: 'Stripe or Supabase not configured' }, { status: 503 });
   }
 
   try {
@@ -35,10 +29,7 @@ async function _POST(request: NextRequest) {
     const { userId } = body;
 
     if (!userId) {
-      return NextResponse.json(
-        { error: 'Missing required field: userId' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required field: userId' }, { status: 400 });
     }
 
     // Get Stripe customer ID
@@ -51,7 +42,7 @@ async function _POST(request: NextRequest) {
     if (billingError || !billing?.stripe_customer_id) {
       return NextResponse.json(
         { error: 'No billing account found. Please subscribe first.' },
-        { status: 404 }
+        { status: 404 },
       );
     }
 
@@ -69,13 +60,13 @@ async function _POST(request: NextRequest) {
   } catch (error) {
     logger.error(
       'Error creating customer portal session:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       {
         error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -61,7 +61,7 @@ export async function GET(request: NextRequest) {
         avgSalary: 0,
         studentSatisfaction: 0,
       };
-    })
+    }),
   );
 
   return NextResponse.json({ data: outcomes });

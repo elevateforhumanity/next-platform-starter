@@ -12,12 +12,14 @@ import { createClient } from '@supabase/supabase-js';
 import ffmpegInstaller from '@ffmpeg-installer/ffmpeg';
 import ffprobeInstaller from '@ffprobe-installer/ffprobe';
 
-const FFMPEG_BIN  = ffmpegInstaller.path;
+const FFMPEG_BIN = ffmpegInstaller.path;
 const FFPROBE_BIN = ffprobeInstaller.path;
 
 // ─── Supabase ─────────────────────────────────────────────────────────────────
 
-const HAS_SUPABASE_ENV = Boolean(process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY);
+const HAS_SUPABASE_ENV = Boolean(
+  process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY,
+);
 const sb = HAS_SUPABASE_ENV
   ? createClient(process.env.NEXT_PUBLIC_SUPABASE_URL!, process.env.SUPABASE_SERVICE_ROLE_KEY!)
   : null;
@@ -38,12 +40,12 @@ interface CourseConfig {
 const COURSES: Record<string, CourseConfig> = {
   // ── GOLDEN MODEL ──────────────────────────────────────────────────────────
   barber: {
-    id:            '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17',
-    label:         'Barber Apprenticeship',
-    table:         'course_lessons',
-    idColumn:      'course_id',
-    orderColumn:   'order_index',
-    outDir:        path.join(process.cwd(), 'public/videos/barber-lessons'),
+    id: '3fb5ce19-1cde-434c-a8c6-f138d7d7aa17',
+    label: 'Barber Apprenticeship',
+    table: 'course_lessons',
+    idColumn: 'course_id',
+    orderColumn: 'order_index',
+    outDir: path.join(process.cwd(), 'public/videos/barber-lessons'),
     storageBucket: 'course-videos',
     storagePrefix: 'barber',
   },
@@ -63,14 +65,17 @@ const COURSES: Record<string, CourseConfig> = {
 // ─── CLI args ─────────────────────────────────────────────────────────────────
 
 const args = process.argv.slice(2);
-const getArg = (flag: string) => { const i = args.indexOf(flag); return i !== -1 ? args[i + 1] : null; };
-const COURSE_KEY    = getArg('--course') ?? 'barber';
-const SLUG_FILTER   = getArg('--slug');
+const getArg = (flag: string) => {
+  const i = args.indexOf(flag);
+  return i !== -1 ? args[i + 1] : null;
+};
+const COURSE_KEY = getArg('--course') ?? 'barber';
+const SLUG_FILTER = getArg('--slug');
 const MODULE_FILTER = getArg('--module') ? parseInt(getArg('--module')!) : null;
-const FORCE         = args.includes('--force');
-const DRY_RUN       = args.includes('--dry-run');
-const CHAPTER_MODE  = args.includes('--chapter');
-const UPLOAD        = args.includes('--upload');  // upload to Supabase after generating
+const FORCE = args.includes('--force');
+const DRY_RUN = args.includes('--dry-run');
+const CHAPTER_MODE = args.includes('--chapter');
+const UPLOAD = args.includes('--upload'); // upload to Supabase after generating
 const SOURCE_MODE = (getArg('--source') ?? 'auto').toLowerCase(); // auto | db | generated
 const TTS_TIMEOUT_MS = parseInt(getArg('--tts-timeout-ms') ?? '120000', 10);
 const FFMPEG_TIMEOUT_MS = parseInt(getArg('--ffmpeg-timeout-ms') ?? '240000', 10);
@@ -80,7 +85,7 @@ const REUSE_PREVIOUS_ON_FAIL = !args.includes('--no-reuse-previous');
 // ─── B-roll library ───────────────────────────────────────────────────────────
 
 const BROLL = path.join(process.cwd(), 'public/videos/broll');
-const clip  = (key: string) => path.join(BROLL, `${key}.mp4`);
+const clip = (key: string) => path.join(BROLL, `${key}.mp4`);
 
 /**
  * matchText — keyword rules for scene → b-roll clip matching.
@@ -90,58 +95,70 @@ const clip  = (key: string) => path.join(BROLL, `${key}.mp4`);
  */
 function matchText(t: string): string | null {
   // ── Program operations ──
-  if (/logging hours|clocking in|clock out|timesheet|ojt hours|recording hours/.test(t))  return clip('logging-hours-timesheet');
-  if (/dol apprenticeship|apprenticeship structure|apprentice|rapids/.test(t))             return clip('apprentice-training');
-  if (/2000.hour|licensure|license requirement/.test(t))                                   return clip('barber-license-exam');
-  if (/indiana.*law|ipla|license renewal|continuing education|scope of practice/.test(t)) return clip('indiana-license-renewal');
-  if (/state board exam|exam preparation|board prep|written exam/.test(t))                return clip('state-board-exam-prep');
+  if (/logging hours|clocking in|clock out|timesheet|ojt hours|recording hours/.test(t))
+    return clip('logging-hours-timesheet');
+  if (/dol apprenticeship|apprenticeship structure|apprentice|rapids/.test(t))
+    return clip('apprentice-training');
+  if (/2000.hour|licensure|license requirement/.test(t)) return clip('barber-license-exam');
+  if (/indiana.*law|ipla|license renewal|continuing education|scope of practice/.test(t))
+    return clip('indiana-license-renewal');
+  if (/state board exam|exam preparation|board prep|written exam/.test(t))
+    return clip('state-board-exam-prep');
 
   // ── Sanitation & safety ──
-  if (/disinfecting clipper|clipper disinfect|clipper spray|contact time/.test(t))         return clip('disinfecting-clippers');
-  if (/disinfecting scissor|cleaning scissor/.test(t))                                     return clip('disinfecting-scissors');
-  if (/washing hands|hand hygiene|handwash/.test(t))                                       return clip('washing-hands-barber');
-  if (/cleaning station|reset.*station|station between|sanitizing.*station/.test(t))      return clip('cleaning-barber-station');
-  if (/neck strip|cape|draping/.test(t))                                                   return clip('neck-strip-cape');
-  if (/single.use|dispos.*item|sharps|porous item/.test(t))                               return clip('disposing-single-use');
-  if (/blood exposure|bloodborne|blood protocol/.test(t))                                  return clip('blood-exposure-protocol');
-  if (/\bosha\b|hazcom|hazard communication/.test(t))                                      return clip('osha-barbershop');
-  if (/\bppe\b|personal protective equipment/.test(t))                                     return clip('ppe-barber');
-  if (/chemical handling|safe chemical|chemical procedure/.test(t))                       return clip('chemical-handling');
-  if (/patch test/.test(t))                                                                return clip('patch-test');
-  if (/safety data sheet|\bsds\b/.test(t))                                                return clip('sds-safety-data-sheet');
-  if (/\bsteriliz|\binfection control|pre.service clean|barbicide/.test(t))               return clip('disinfecting-clippers');
-  if (/\bdisinfect|\bsanit/.test(t))                                                      return clip('disinfecting-clippers');
+  if (/disinfecting clipper|clipper disinfect|clipper spray|contact time/.test(t))
+    return clip('disinfecting-clippers');
+  if (/disinfecting scissor|cleaning scissor/.test(t)) return clip('disinfecting-scissors');
+  if (/washing hands|hand hygiene|handwash/.test(t)) return clip('washing-hands-barber');
+  if (/cleaning station|reset.*station|station between|sanitizing.*station/.test(t))
+    return clip('cleaning-barber-station');
+  if (/neck strip|cape|draping/.test(t)) return clip('neck-strip-cape');
+  if (/single.use|dispos.*item|sharps|porous item/.test(t)) return clip('disposing-single-use');
+  if (/blood exposure|bloodborne|blood protocol/.test(t)) return clip('blood-exposure-protocol');
+  if (/\bosha\b|hazcom|hazard communication/.test(t)) return clip('osha-barbershop');
+  if (/\bppe\b|personal protective equipment/.test(t)) return clip('ppe-barber');
+  if (/chemical handling|safe chemical|chemical procedure/.test(t))
+    return clip('chemical-handling');
+  if (/patch test/.test(t)) return clip('patch-test');
+  if (/safety data sheet|\bsds\b/.test(t)) return clip('sds-safety-data-sheet');
+  if (/\bsteriliz|\binfection control|pre.service clean|barbicide/.test(t))
+    return clip('disinfecting-clippers');
+  if (/\bdisinfect|\bsanit/.test(t)) return clip('disinfecting-clippers');
 
   // ── Chemistry ──
-  if (/ph scale|hair chemistry|chemical.*hair|hair.*chemical/.test(t))                    return clip('ph-scale-hair');
-  if (/relaxer|texturiz|permanent wave|chemical texture/.test(t))                         return clip('relaxer-texturizer');
-  if (/hair color|haircolor|\btint\b|\bbleach\b|highlight/.test(t))                       return clip('hair-color-chemical');
+  if (/ph scale|hair chemistry|chemical.*hair|hair.*chemical/.test(t)) return clip('ph-scale-hair');
+  if (/relaxer|texturiz|permanent wave|chemical texture/.test(t)) return clip('relaxer-texturizer');
+  if (/hair color|haircolor|\btint\b|\bbleach\b|highlight/.test(t))
+    return clip('hair-color-chemical');
 
   // ── Life skills & professionalism ──
-  if (/smart goal|goal setting|career goal/.test(t))                                      return clip('smart-goals-planning');
-  if (/time management|scheduling|busy barbershop/.test(t))                               return clip('time-management-barber');
-  if (/\bethic|\bobligation\b|\bintegrity\b/.test(t))                                     return clip('ethics-professional');
-  if (/professional image|personal hygiene|hygiene.*barber/.test(t))                      return clip('professional-appearance');
-  if (/first impression/.test(t))                                                         return clip('first-impression-barber');
-  if (/client trust|client retention|loyal client/.test(t))                               return clip('client-retention');
-  if (/ergonomic|posture|standing.*barber/.test(t))                                       return clip('ergonomics-posture');
-  if (/burnout|wellness|self.care|physical demand/.test(t))                               return clip('burnout-wellness');
+  if (/smart goal|goal setting|career goal/.test(t)) return clip('smart-goals-planning');
+  if (/time management|scheduling|busy barbershop/.test(t)) return clip('time-management-barber');
+  if (/\bethic|\bobligation\b|\bintegrity\b/.test(t)) return clip('ethics-professional');
+  if (/professional image|personal hygiene|hygiene.*barber/.test(t))
+    return clip('professional-appearance');
+  if (/first impression/.test(t)) return clip('first-impression-barber');
+  if (/client trust|client retention|loyal client/.test(t)) return clip('client-retention');
+  if (/ergonomic|posture|standing.*barber/.test(t)) return clip('ergonomics-posture');
+  if (/burnout|wellness|self.care|physical demand/.test(t)) return clip('burnout-wellness');
 
   // ── Client services ──
-  if (/consultation|managing.*expectation|client.*expectation/.test(t))                   return clip('client-consultation');
-  if (/complaint|client concern|conflict resolution/.test(t))                             return clip('handling-complaints');
-  if (/long.term.*client|client relationship|building.*client/.test(t))                   return clip('client-retention');
+  if (/consultation|managing.*expectation|client.*expectation/.test(t))
+    return clip('client-consultation');
+  if (/complaint|client concern|conflict resolution/.test(t)) return clip('handling-complaints');
+  if (/long.term.*client|client relationship|building.*client/.test(t))
+    return clip('client-retention');
 
   // ── Technical skills ──
-  if (/straight razor|\bshav|\bhot towel|\blather\b/.test(t))                             return clip('barber-shaving');
-  if (/\bbeard\b|mustache|facial hair/.test(t))                                           return clip('barber-beard-trim');
-  if (/shampoo|scalp massage|scalp treatment|hair wash/.test(t))                          return clip('barber-shampoo');
-  if (/\bstyling\b|\bpomade\b|product application/.test(t))                              return clip('barber-styling');
-  if (/\blineup\b|\bedge up\b|hairline detail/.test(t))                                  return clip('barber-lineup');
-  if (/\bfade\b|\btaper\b|\bblend\b/.test(t))                                            return clip('barber-cutting-hair');
-  if (/\bscissor\b|\bshear\b|cutting technique/.test(t))                                 return clip('barber-cutting-hair');
-  if (/\bclipper\b|\btrimmer\b|tool maintenance/.test(t))                                return clip('barber-cutting-hair');
-  if (/hair.*cut|cut.*hair|haircut/.test(t))                                             return clip('barber-cutting-hair');
+  if (/straight razor|\bshav|\bhot towel|\blather\b/.test(t)) return clip('barber-shaving');
+  if (/\bbeard\b|mustache|facial hair/.test(t)) return clip('barber-beard-trim');
+  if (/shampoo|scalp massage|scalp treatment|hair wash/.test(t)) return clip('barber-shampoo');
+  if (/\bstyling\b|\bpomade\b|product application/.test(t)) return clip('barber-styling');
+  if (/\blineup\b|\bedge up\b|hairline detail/.test(t)) return clip('barber-lineup');
+  if (/\bfade\b|\btaper\b|\bblend\b/.test(t)) return clip('barber-cutting-hair');
+  if (/\bscissor\b|\bshear\b|cutting technique/.test(t)) return clip('barber-cutting-hair');
+  if (/\bclipper\b|\btrimmer\b|tool maintenance/.test(t)) return clip('barber-cutting-hair');
+  if (/hair.*cut|cut.*hair|haircut/.test(t)) return clip('barber-cutting-hair');
 
   return null;
 }
@@ -151,9 +168,8 @@ function matchText(t: string): string | null {
  * Never returns a missing file — falls back gracefully.
  */
 function pickClip(heading: string, body: string): string {
-  const result = matchText(heading.toLowerCase())
-              ?? matchText(body.toLowerCase())
-              ?? clip('barbershop-intro');
+  const result =
+    matchText(heading.toLowerCase()) ?? matchText(body.toLowerCase()) ?? clip('barbershop-intro');
   return fs.existsSync(result) ? result : clip('barbershop-intro');
 }
 
@@ -168,9 +184,15 @@ function buildFullLessonScript(title: string, moduleName: string, content: strin
   const stripped = content
     .replace(/<table[\s\S]*?<\/table>/gi, '') // skip tables — hard to narrate
     .replace(/<[^>]+>/g, ' ')
-    .replace(/&amp;/g, '&').replace(/&lt;/g, '<').replace(/&gt;/g, '>').replace(/&nbsp;/g, ' ').replace(/&#39;/g, "'").replace(/&quot;/g, '"')
+    .replace(/&amp;/g, '&')
+    .replace(/&lt;/g, '<')
+    .replace(/&gt;/g, '>')
+    .replace(/&nbsp;/g, ' ')
+    .replace(/&#39;/g, "'")
+    .replace(/&quot;/g, '"')
     .replace(/#{1,6}\s+/g, '') // strip markdown headings
-    .replace(/\*\*/g, '').replace(/\*/g, '')
+    .replace(/\*\*/g, '')
+    .replace(/\*/g, '')
     .replace(/^\s*[-*+]\s+/gm, '') // strip list bullets
     .replace(/^\s*\d+\.\s+/gm, '') // strip numbered lists
     .replace(/\s{2,}/g, ' ')
@@ -178,7 +200,10 @@ function buildFullLessonScript(title: string, moduleName: string, content: strin
     .trim();
 
   // Build the full script as one narration
-  const lines = stripped.split('\n').map(l => l.trim()).filter(Boolean);
+  const lines = stripped
+    .split('\n')
+    .map((l) => l.trim())
+    .filter(Boolean);
 
   return [
     `Welcome. I'm Brandon Williams, and this is ${title}, part of ${moduleName}.`,
@@ -204,7 +229,10 @@ async function generateTTS(text: string, outPath: string): Promise<void> {
     try {
       const res = await fetch('https://api.openai.com/v1/audio/speech', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json', Authorization: `Bearer ${process.env.OPENAI_API_KEY}` },
+        headers: {
+          'Content-Type': 'application/json',
+          Authorization: `Bearer ${process.env.OPENAI_API_KEY}`,
+        },
         signal: controller.signal,
         body: JSON.stringify({
           model: 'gpt-4o-mini-tts',
@@ -231,7 +259,9 @@ Never rush. Never sound robotic.`,
       }
     }
   }
-  throw new Error(`TTS failed after ${TTS_MAX_RETRIES} attempts: ${lastError?.message ?? 'unknown error'}`);
+  throw new Error(
+    `TTS failed after ${TTS_MAX_RETRIES} attempts: ${lastError?.message ?? 'unknown error'}`,
+  );
 }
 
 // ─── Video assembly ───────────────────────────────────────────────────────────
@@ -245,7 +275,7 @@ function getFileDur(f: string): number {
       execSync(`"${FFPROBE_BIN}" -v quiet -show_entries format=duration -of csv=p=0 "${f}"`, {
         encoding: 'utf8',
         timeout: FFMPEG_TIMEOUT_MS,
-      }).trim()
+      }).trim(),
     );
   } catch {
     return 0;
@@ -273,10 +303,10 @@ function buildFullLessonVideo(
 
   if (!fs.existsSync(MASTER)) throw new Error(`Master b-roll not found: ${MASTER}`);
 
-  const audioDur  = getFileDur(audioPath);
+  const audioDur = getFileDur(audioPath);
   const masterDur = getFileDur(MASTER);
 
-  if (audioDur  <= 0) throw new Error(`Audio duration is 0: ${audioPath}`);
+  if (audioDur <= 0) throw new Error(`Audio duration is 0: ${audioPath}`);
   if (masterDur <= 0) throw new Error(`Master b-roll duration is 0`);
 
   // Spread lessons evenly across the master so each starts at a unique point
@@ -290,28 +320,34 @@ function buildFullLessonVideo(
 
   execSync(
     `"${FFMPEG_BIN}" -y ` +
-    `-ss ${startOffset.toFixed(3)} ` +
-    (needsLoop ? `-stream_loop 1 ` : '') +
-    `-i "${MASTER}" ` +
-    `-i "${audioPath}" ` +
-    `-map 0:v -map 1:a ` +
-    `-t ${audioDur.toFixed(3)} ` +
-    `-vf "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2:black,setsar=1,fps=24" ` +
-    `-c:v libx264 -preset fast -crf 20 ` +
-    `-c:a aac -b:a 192k ` +
-    `-movflags +faststart ` +
-    `"${outPath}"`,
-    { stdio: 'pipe', maxBuffer: 500 * 1024 * 1024, timeout: FFMPEG_TIMEOUT_MS }
+      `-ss ${startOffset.toFixed(3)} ` +
+      (needsLoop ? `-stream_loop 1 ` : '') +
+      `-i "${MASTER}" ` +
+      `-i "${audioPath}" ` +
+      `-map 0:v -map 1:a ` +
+      `-t ${audioDur.toFixed(3)} ` +
+      `-vf "scale=1280:720:force_original_aspect_ratio=decrease,pad=1280:720:(ow-iw)/2:(oh-ih)/2:black,setsar=1,fps=24" ` +
+      `-c:v libx264 -preset fast -crf 20 ` +
+      `-c:a aac -b:a 192k ` +
+      `-movflags +faststart ` +
+      `"${outPath}"`,
+    { stdio: 'pipe', maxBuffer: 500 * 1024 * 1024, timeout: FFMPEG_TIMEOUT_MS },
   );
 }
 
 // ─── Supabase upload ──────────────────────────────────────────────────────────
 
-async function uploadToSupabase(localPath: string, course: CourseConfig, slug: string): Promise<string> {
+async function uploadToSupabase(
+  localPath: string,
+  course: CourseConfig,
+  slug: string,
+): Promise<string> {
   if (!sb) throw new Error('Supabase is not configured for upload');
   const file = fs.readFileSync(localPath);
   const storagePath = `${course.storagePrefix}/${slug}.mp4`;
-  const { error } = await sb.storage.from(course.storageBucket).upload(storagePath, file, { contentType: 'video/mp4', upsert: true });
+  const { error } = await sb.storage
+    .from(course.storageBucket)
+    .upload(storagePath, file, { contentType: 'video/mp4', upsert: true });
   if (error) throw new Error(`Upload failed: ${error.message}`);
   const { data } = sb.storage.from(course.storageBucket).getPublicUrl(storagePath);
   return data.publicUrl;
@@ -327,11 +363,15 @@ interface LessonRow {
 
 function loadLessonsFromGeneratedCourse(courseKey: string): LessonRow[] {
   if (courseKey !== 'barber') {
-    throw new Error(`Generated source is currently supported for barber only (requested: ${courseKey})`);
+    throw new Error(
+      `Generated source is currently supported for barber only (requested: ${courseKey})`,
+    );
   }
   const generatedPath = path.join(process.cwd(), 'scripts/generated/barber-course.generated.json');
   if (!fs.existsSync(generatedPath)) {
-    throw new Error(`Generated course file not found: ${generatedPath}. Run "pnpm course:build" first.`);
+    throw new Error(
+      `Generated course file not found: ${generatedPath}. Run "pnpm course:build" first.`,
+    );
   }
   const json = JSON.parse(fs.readFileSync(generatedPath, 'utf8')) as {
     modules?: Array<{ lessons?: Array<{ slug: string; title: string; content: string }> }>;
@@ -362,7 +402,8 @@ async function main() {
 
   fs.mkdirSync(course.outDir, { recursive: true });
 
-  const useGeneratedSource = SOURCE_MODE === 'generated' || (SOURCE_MODE === 'auto' && !HAS_SUPABASE_ENV);
+  const useGeneratedSource =
+    SOURCE_MODE === 'generated' || (SOURCE_MODE === 'auto' && !HAS_SUPABASE_ENV);
   const useDbSource = SOURCE_MODE === 'db' || (SOURCE_MODE === 'auto' && HAS_SUPABASE_ENV);
   if (!useGeneratedSource && !useDbSource) {
     console.error(`Invalid --source "${SOURCE_MODE}". Use one of: auto | db | generated`);
@@ -377,60 +418,82 @@ async function main() {
   const lessons: LessonRow[] = useGeneratedSource
     ? loadLessonsFromGeneratedCourse(COURSE_KEY)
     : await (async () => {
-      const { data, error } = await sb!
-        .from(course.table)
-        .select(`id, title, slug, content, ${course.orderColumn}`)
-        .eq(course.idColumn, course.id)
-        .order(course.orderColumn);
-      if (error) throw new Error(`DB error: ${error.message}`);
-      return (data ?? []).map((l: any) => ({
-        id: l.id,
-        slug: l.slug,
-        title: l.title,
-        content: l.content ?? '',
-        orderValue: l[course.orderColumn],
-      }));
-    })();
+        const { data, error } = await sb!
+          .from(course.table)
+          .select(`id, title, slug, content, ${course.orderColumn}`)
+          .eq(course.idColumn, course.id)
+          .order(course.orderColumn);
+        if (error) throw new Error(`DB error: ${error.message}`);
+        return (data ?? []).map((l: any) => ({
+          id: l.id,
+          slug: l.slug,
+          title: l.title,
+          content: l.content ?? '',
+          orderValue: l[course.orderColumn],
+        }));
+      })();
 
-  if (!lessons.length) { console.error(`No lessons found from ${sourceLabel}`); process.exit(1); }
+  if (!lessons.length) {
+    console.error(`No lessons found from ${sourceLabel}`);
+    process.exit(1);
+  }
 
   let targets = lessons;
-  if (SLUG_FILTER)   targets = targets.filter(l => l.slug === SLUG_FILTER);
-  if (MODULE_FILTER) targets = targets.filter(l => Math.floor(l.orderValue / 1000) === MODULE_FILTER);
-  if (!targets.length) { console.error('No lessons matched filters'); process.exit(1); }
+  if (SLUG_FILTER) targets = targets.filter((l) => l.slug === SLUG_FILTER);
+  if (MODULE_FILTER)
+    targets = targets.filter((l) => Math.floor(l.orderValue / 1000) === MODULE_FILTER);
+  if (!targets.length) {
+    console.error('No lessons matched filters');
+    process.exit(1);
+  }
 
   console.log(`\n═══ ${course.label} — ${targets.length} lesson(s) [source: ${sourceLabel}] ═══\n`);
 
-  let ok = 0, skipped = 0, failed = 0;
+  let ok = 0,
+    skipped = 0,
+    failed = 0;
   let fallbackReused = 0;
   let previousVideoPath: string | null = null;
 
   for (let i = 0; i < targets.length; i++) {
     const lesson = targets[i];
-    const modNum  = Math.floor(lesson.orderValue / 1000);
+    const modNum = Math.floor(lesson.orderValue / 1000);
     const outPath = path.join(course.outDir, `${lesson.slug}.mp4`);
-    const prefix  = `[${i + 1}/${targets.length}] ${lesson.slug}`;
+    const prefix = `[${i + 1}/${targets.length}] ${lesson.slug}`;
 
     // Never overwrite the locked orientation video
     const LOCKED = ['barber-course-intro-with-voice'];
     if (LOCKED.includes(lesson.slug)) {
-      console.log(`  LOCK  ${prefix} — protected, skipping`); skipped++; continue;
+      console.log(`  LOCK  ${prefix} — protected, skipping`);
+      skipped++;
+      continue;
     }
 
     if (!FORCE && fs.existsSync(outPath) && getFileDur(outPath) > 60) {
-      console.log(`  SKIP  ${prefix}`); skipped++; previousVideoPath = outPath; continue;
+      console.log(`  SKIP  ${prefix}`);
+      skipped++;
+      previousVideoPath = outPath;
+      continue;
     }
 
     if (!lesson.content || lesson.content.length < 50) {
-      console.log(`  ❌    ${prefix} — no content`); failed++; continue;
+      console.log(`  ❌    ${prefix} — no content`);
+      failed++;
+      continue;
     }
 
-    const fullScript = buildFullLessonScript(lesson.title, `${course.label} Module ${modNum}`, lesson.content);
-    const clipPath   = pickClip(lesson.title, fullScript.slice(0, 500));
+    const fullScript = buildFullLessonScript(
+      lesson.title,
+      `${course.label} Module ${modNum}`,
+      lesson.content,
+    );
+    const clipPath = pickClip(lesson.title, fullScript.slice(0, 500));
 
     if (DRY_RUN) {
       const words = fullScript.split(/\s+/).length;
-      console.log(`  DRY   ${prefix} — ${words} words → b-roll: ${path.basename(clipPath, '.mp4')}`);
+      console.log(
+        `  DRY   ${prefix} — ${words} words → b-roll: ${path.basename(clipPath, '.mp4')}`,
+      );
       continue;
     }
 
@@ -438,7 +501,9 @@ async function main() {
 
     try {
       const words = fullScript.split(/\s+/).length;
-      process.stdout.write(`\n  GEN   ${prefix} — ${words} words, b-roll: ${path.basename(clipPath, '.mp4')}\n`);
+      process.stdout.write(
+        `\n  GEN   ${prefix} — ${words} words, b-roll: ${path.basename(clipPath, '.mp4')}\n`,
+      );
 
       const audioPath = path.join(tmpDir, `${lesson.slug}.mp3`);
       process.stdout.write(`        TTS...`);
@@ -461,9 +526,12 @@ async function main() {
       }
 
       if (!useGeneratedSource && sb) {
-        const { error: upErr } = await sb.from(course.table).update({ video_url: videoUrl }).eq('id', lesson.id);
+        const { error: upErr } = await sb
+          .from(course.table)
+          .update({ video_url: videoUrl })
+          .eq('id', lesson.id);
         if (upErr) process.stdout.write(`        ⚠️  DB: ${upErr.message}\n`);
-        else       process.stdout.write(`        DB ✅\n`);
+        else process.stdout.write(`        DB ✅\n`);
       } else {
         process.stdout.write(`        DB skipped (generated source mode)\n`);
       }
@@ -476,39 +544,52 @@ async function main() {
           fs.copyFileSync(previousVideoPath, outPath);
           const videoUrl = `/videos/${path.basename(course.outDir)}/${lesson.slug}.mp4`;
           if (!useGeneratedSource && sb) {
-            const { error: upErr } = await sb.from(course.table).update({ video_url: videoUrl }).eq('id', lesson.id);
+            const { error: upErr } = await sb
+              .from(course.table)
+              .update({ video_url: videoUrl })
+              .eq('id', lesson.id);
             if (upErr) {
               throw new Error(`fallback copy succeeded but DB update failed: ${upErr.message}`);
             }
           }
-          console.warn(`  ⚠️    ${prefix} — generation failed (${err.message}); reused previous video`);
+          console.warn(
+            `  ⚠️    ${prefix} — generation failed (${err.message}); reused previous video`,
+          );
           ok++;
           fallbackReused++;
           previousVideoPath = outPath;
           fs.rmSync(tmpDir, { recursive: true, force: true });
           continue;
         } catch (fallbackErr: any) {
-          console.error(`  ❌    ${prefix} — ${err.message}; fallback failed: ${fallbackErr.message}`);
+          console.error(
+            `  ❌    ${prefix} — ${err.message}; fallback failed: ${fallbackErr.message}`,
+          );
         }
       } else {
         console.error(`  ❌    ${prefix} — ${err.message}`);
       }
-      try { fs.unlinkSync(outPath); } catch {}
+      try {
+        fs.unlinkSync(outPath);
+      } catch {}
       fs.rmSync(tmpDir, { recursive: true, force: true });
       failed++;
     }
   }
 
-  console.log(`\n═══ Done: ${ok} generated, ${skipped} skipped, ${failed} failed, ${fallbackReused} reused previous ═══\n`);
+  console.log(
+    `\n═══ Done: ${ok} generated, ${skipped} skipped, ${failed} failed, ${fallbackReused} reused previous ═══\n`,
+  );
 
   // Chapter mode — concat all module lessons into one file
   if (CHAPTER_MODE && MODULE_FILTER) {
     const chapterPath = path.join(course.outDir, `module-${MODULE_FILTER}-chapter.mp4`);
-    const files = targets.map(l => path.join(course.outDir, `${l.slug}.mp4`)).filter(f => fs.existsSync(f));
+    const files = targets
+      .map((l) => path.join(course.outDir, `${l.slug}.mp4`))
+      .filter((f) => fs.existsSync(f));
     if (files.length) {
       const tmpList = path.join(os.tmpdir(), `chapter-${MODULE_FILTER}.txt`);
       const rawPath = path.join(os.tmpdir(), `chapter-${MODULE_FILTER}-raw.mp4`);
-      fs.writeFileSync(tmpList, files.map(f => `file '${f}'`).join('\n'));
+      fs.writeFileSync(tmpList, files.map((f) => `file '${f}'`).join('\n'));
       execSync(`"${FFMPEG_BIN}" -y -f concat -safe 0 -i "${tmpList}" -c copy "${rawPath}"`, {
         stdio: 'pipe',
         maxBuffer: 2000 * 1024 * 1024,
@@ -519,11 +600,17 @@ async function main() {
         maxBuffer: 2000 * 1024 * 1024,
         timeout: FFMPEG_TIMEOUT_MS,
       });
-      try { fs.unlinkSync(rawPath); fs.unlinkSync(tmpList); } catch {}
+      try {
+        fs.unlinkSync(rawPath);
+        fs.unlinkSync(tmpList);
+      } catch {}
       const dur = getFileDur(chapterPath);
       console.log(`Chapter: ${Math.floor(dur / 60)}m ${Math.round(dur % 60)}s → ${chapterPath}\n`);
     }
   }
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e);
+  process.exit(1);
+});

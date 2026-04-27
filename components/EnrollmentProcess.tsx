@@ -6,7 +6,11 @@ const steps = [
     num: 1,
     title: 'Visit Indiana Career Connect',
     desc: 'Go to indianacareerconnect.com and create your free account. This is the official portal for all WIOA-funded training programs in Indiana.',
-    cta: { label: 'Go to Indiana Career Connect \u2192', href: 'https://www.indianacareerconnect.com', external: true },
+    cta: {
+      label: 'Go to Indiana Career Connect \u2192',
+      href: 'https://www.indianacareerconnect.com',
+      external: true,
+    },
     image: '/images/pages/it-helpdesk-desk.jpg',
     alt: 'Indiana Career Connect registration process',
   },
@@ -52,7 +56,9 @@ export default function EnrollmentProcess() {
     <section className="py-16 sm:py-20">
       <div className="max-w-5xl mx-auto px-4 sm:px-6">
         <div className="text-center mb-14">
-          <p className="text-brand-blue-600 font-semibold text-sm uppercase tracking-widest mb-3">Enrollment Guide</p>
+          <p className="text-brand-blue-600 font-semibold text-sm uppercase tracking-widest mb-3">
+            Enrollment Guide
+          </p>
           <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
             How to Enroll &mdash; Step by Step
           </h2>
@@ -65,7 +71,10 @@ export default function EnrollmentProcess() {
           {steps.map((step, i) => {
             const isEven = i % 2 === 1;
             return (
-              <div key={step.num} className={`flex flex-col ${isEven ? 'md:flex-row-reverse' : 'md:flex-row'} gap-6 md:gap-10 items-center`}>
+              <div
+                key={step.num}
+                className={`flex flex-col ${isEven ? 'md:flex-row-reverse' : 'md:flex-row'} gap-6 md:gap-10 items-center`}
+              >
                 {/* Image */}
                 <div className="w-full md:w-5/12 flex-shrink-0">
                   <div className="relative aspect-[4/3] rounded-xl overflow-hidden">
@@ -89,9 +98,7 @@ export default function EnrollmentProcess() {
                   <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-3">
                     {step.title}
                   </h3>
-                  <p className="text-slate-600 leading-relaxed mb-4">
-                    {step.desc}
-                  </p>
+                  <p className="text-slate-600 leading-relaxed mb-4">{step.desc}</p>
 
                   {step.note && (
                     <div className="bg-brand-blue-50 border-l-4 border-brand-blue-600 p-4 rounded mb-4">
@@ -111,8 +118,8 @@ export default function EnrollmentProcess() {
                     </div>
                   )}
 
-                  {step.cta && (
-                    step.cta.external ? (
+                  {step.cta &&
+                    (step.cta.external ? (
                       <a
                         href={step.cta.href}
                         target="_blank"
@@ -128,8 +135,7 @@ export default function EnrollmentProcess() {
                       >
                         {step.cta.label}
                       </Link>
-                    )
-                  )}
+                    ))}
                 </div>
               </div>
             );
@@ -138,32 +144,84 @@ export default function EnrollmentProcess() {
 
         {/* Quick Links */}
         <div className="mt-16 grid md:grid-cols-3 gap-6">
-          <Link href="/wioa-eligibility" className="group bg-slate-50 rounded-xl p-6 text-center hover:shadow-md transition-all border border-slate-200 hover:border-brand-blue-300">
+          <Link
+            href="/wioa-eligibility"
+            className="group bg-slate-50 rounded-xl p-6 text-center hover:shadow-md transition-all border border-slate-200 hover:border-brand-blue-300"
+          >
             <div className="w-12 h-12 bg-brand-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <svg className="w-6 h-6 text-brand-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-6 h-6 text-brand-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
-            <h4 className="font-bold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition-colors">Eligibility Requirements</h4>
+            <h4 className="font-bold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition-colors">
+              Eligibility Requirements
+            </h4>
             <p className="text-sm text-slate-500">Check if you qualify for WIOA funding</p>
           </Link>
-          <a href="https://www.in.gov/dwd/workone-centers/" target="_blank" rel="noopener noreferrer" className="group bg-slate-50 rounded-xl p-6 text-center hover:shadow-md transition-all border border-slate-200 hover:border-brand-blue-300">
+          <a
+            href="https://www.in.gov/dwd/workone-centers/"
+            target="_blank"
+            rel="noopener noreferrer"
+            className="group bg-slate-50 rounded-xl p-6 text-center hover:shadow-md transition-all border border-slate-200 hover:border-brand-blue-300"
+          >
             <div className="w-12 h-12 bg-brand-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <svg className="w-6 h-6 text-brand-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+              <svg
+                className="w-6 h-6 text-brand-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"
+                />
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"
+                />
               </svg>
             </div>
-            <h4 className="font-bold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition-colors">Find WorkOne Center</h4>
+            <h4 className="font-bold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition-colors">
+              Find WorkOne Center
+            </h4>
             <p className="text-sm text-slate-500">Locate your nearest WorkOne office</p>
           </a>
-          <Link href="/funding" className="group bg-slate-50 rounded-xl p-6 text-center hover:shadow-md transition-all border border-slate-200 hover:border-brand-blue-300">
+          <Link
+            href="/funding"
+            className="group bg-slate-50 rounded-xl p-6 text-center hover:shadow-md transition-all border border-slate-200 hover:border-brand-blue-300"
+          >
             <div className="w-12 h-12 bg-brand-blue-100 rounded-xl flex items-center justify-center mx-auto mb-3">
-              <svg className="w-6 h-6 text-brand-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              <svg
+                className="w-6 h-6 text-brand-blue-600"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                />
               </svg>
             </div>
-            <h4 className="font-bold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition-colors">Funding Options</h4>
+            <h4 className="font-bold text-slate-900 mb-1 group-hover:text-brand-blue-600 transition-colors">
+              Funding Options
+            </h4>
             <p className="text-sm text-slate-500">Learn about WIOA, WRG, and JRI funding</p>
           </Link>
         </div>

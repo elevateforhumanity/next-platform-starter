@@ -82,6 +82,7 @@ Since you're building your own platform, you'll need a SCORM player. See below f
 ### Recommended SCORM Players
 
 #### 1. **SCORM Cloud (Rustici Software)** - Easiest
+
 - **Website:** https://cloud.scorm.com/
 - **Pricing:** Free tier available, then $99/month
 - **Features:**
@@ -91,6 +92,7 @@ Since you're building your own platform, you'll need a SCORM player. See below f
   - No server setup needed
 
 **Integration Steps:**
+
 ```javascript
 // 1. Upload SCORM to SCORM Cloud
 // 2. Get course ID
@@ -104,6 +106,7 @@ Since you're building your own platform, you'll need a SCORM player. See below f
 ```
 
 #### 2. **SCORM.js** - Open Source
+
 - **GitHub:** https://github.com/pipwerks/scorm-api-wrapper
 - **Pricing:** Free
 - **Features:**
@@ -112,6 +115,7 @@ Since you're building your own platform, you'll need a SCORM player. See below f
   - Lightweight
 
 **Integration Steps:**
+
 ```bash
 npm install scorm-api-wrapper
 ```
@@ -131,6 +135,7 @@ SCORM.save();
 ```
 
 #### 3. **H5P** - Alternative (Not SCORM but similar)
+
 - **Website:** https://h5p.org/
 - **Pricing:** Free
 - **Features:**
@@ -145,6 +150,7 @@ SCORM.save();
 ### Data Points to Track
 
 SCORM packages track:
+
 - **Completion status** (completed, incomplete, not attempted)
 - **Score** (0-100%)
 - **Time spent** (total time in module)
@@ -202,6 +208,7 @@ Students earn badges by completing modules:
 You'll want to create visual badges for students. Here's what you need:
 
 ### Badge Design Specs
+
 - **Size:** 300x300px (PNG with transparency)
 - **Style:** Professional, modern
 - **Colors:** Match Elevate branding (emerald green, orange)
@@ -224,6 +231,7 @@ You'll want to create visual badges for students. Here's what you need:
 For the React Native app, you can:
 
 ### Option 1: WebView
+
 ```javascript
 import { WebView } from 'react-native-webview';
 
@@ -237,10 +245,11 @@ import { WebView } from 'react-native-webview';
       // Award badge, update progress
     }
   }}
-/>
+/>;
 ```
 
 ### Option 2: Native SCORM Player
+
 - More complex but better UX
 - Requires native iOS/Android SCORM libraries
 - Can work offline
@@ -268,7 +277,7 @@ async function enrollStudent(userId) {
     'jri-badge-3-learning-strategies',
     'jri-badge-4-social-skills',
     'jri-badge-5-workplace-skills',
-    'jri-badge-6-launch-career'
+    'jri-badge-6-launch-career',
   ];
 
   for (const module of jriModules) {
@@ -284,6 +293,7 @@ async function enrollStudent(userId) {
 EmployIndy and workforce boards want to see:
 
 ### Key Metrics
+
 - **Enrollment numbers** - How many started JRI
 - **Completion rates** - Percentage who finished
 - **Time to complete** - Average days/hours
@@ -362,7 +372,7 @@ export async function POST(request: Request) {
     moduleId: data.moduleId,
     completionStatus: data.status,
     score: data.score,
-    timeSpent: data.time
+    timeSpent: data.time,
   });
 
   // Award badge if completed
@@ -377,16 +387,19 @@ export async function POST(request: Request) {
 ## 📚 Resources
 
 ### EmployIndy Support
+
 - **JRI Setup Support:** https://learning.employindy.org/support
 - **Documentation:** https://learning.employindy.org/jri
 - **Contact:** learning@employindy.org
 
 ### SCORM Resources
+
 - **SCORM.com:** https://scorm.com/
 - **ADL Initiative:** https://adlnet.gov/projects/scorm/
 - **Rustici Software:** https://rusticisoftware.com/
 
 ### LMS Integration Guides
+
 - **Moodle SCORM:** https://docs.moodle.org/en/SCORM
 - **Canvas SCORM:** https://community.canvaslms.com/
 - **Blackboard SCORM:** https://help.blackboard.com/
@@ -409,12 +422,14 @@ export async function POST(request: Request) {
 ## 💰 Cost Estimate
 
 ### SCORM Cloud (Recommended)
+
 - **Free tier:** 10 registrations/month
 - **Starter:** $99/month (100 registrations)
 - **Professional:** $299/month (500 registrations)
 - **Enterprise:** Custom pricing
 
 ### DIY SCORM Player
+
 - **Development time:** 40-80 hours
 - **Cost:** $4,000-$12,000 (if hiring developer)
 - **Maintenance:** Ongoing
@@ -426,6 +441,7 @@ export async function POST(request: Request) {
 ## 📞 Support
 
 For questions about JRI setup:
+
 - **EmployIndy:** learning@employindy.org
 - **Elevate Tech Support:** dev@www.elevateforhumanity.org
 

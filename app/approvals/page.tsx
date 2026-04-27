@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -14,22 +13,17 @@ export const metadata: Metadata = {
 
 import Link from 'next/link';
 import Image from 'next/image';
-import {
-  Award,
-  Building2,
-  Shield,
-  Users,
-  FileCheck,
-CheckCircle, } from 'lucide-react';
+import { Award, Building2, Shield, Users, FileCheck, CheckCircle } from 'lucide-react';
 
 export default function ApprovalsPage() {
   return (
     <div className="bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Approvals" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Approvals' }]} />
       </div>
-{/* Hero Section with Background Image */}
+      {/* Hero Section with Background Image */}
       <section className="relative h-48 md:h-64 w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/approvals-page-1.jpg"
           alt="Elevate for Humanity institutional approvals and governance"
@@ -39,7 +33,6 @@ export default function ApprovalsPage() {
           quality={100}
           sizes="100vw"
         />
-
       </section>
 
       {/* Institutional Governance */}
@@ -48,24 +41,39 @@ export default function ApprovalsPage() {
           <div className="bg-white rounded-2xl p-8 border border-slate-200">
             <h2 className="text-xl font-bold text-slate-900 mb-3">Institutional Governance</h2>
             <p className="text-base text-slate-700 leading-relaxed mb-4">
-              Elevate for Humanity Career &amp; Technical Institute operates under 2Exclusive LLC-S and coordinates apprenticeship sponsorship, instruction, and partner training sites under formal agreements and applicable regulatory standards.
+              Elevate for Humanity Career &amp; Technical Institute operates under 2Exclusive LLC-S
+              and coordinates apprenticeship sponsorship, instruction, and partner training sites
+              under formal agreements and applicable regulatory standards.
             </p>
             <dl className="grid sm:grid-cols-3 gap-4 text-sm">
               <div>
-                <dt className="font-semibold text-slate-500 uppercase tracking-wide text-xs">Legal Entity</dt>
+                <dt className="font-semibold text-slate-500 uppercase tracking-wide text-xs">
+                  Legal Entity
+                </dt>
                 <dd className="text-slate-900 font-medium mt-1">2Exclusive LLC-S</dd>
               </div>
               <div>
-                <dt className="font-semibold text-slate-500 uppercase tracking-wide text-xs">DBA</dt>
-                <dd className="text-slate-900 font-medium mt-1">Elevate for Humanity Career &amp; Technical Institute</dd>
+                <dt className="font-semibold text-slate-500 uppercase tracking-wide text-xs">
+                  DBA
+                </dt>
+                <dd className="text-slate-900 font-medium mt-1">
+                  Elevate for Humanity Career &amp; Technical Institute
+                </dd>
               </div>
               <div>
-                <dt className="font-semibold text-slate-500 uppercase tracking-wide text-xs">Role</dt>
-                <dd className="text-slate-900 font-medium mt-1">Registered Apprenticeship Sponsor, Training Provider, Workforce Intermediary</dd>
+                <dt className="font-semibold text-slate-500 uppercase tracking-wide text-xs">
+                  Role
+                </dt>
+                <dd className="text-slate-900 font-medium mt-1">
+                  Registered Apprenticeship Sponsor, Training Provider, Workforce Intermediary
+                </dd>
               </div>
             </dl>
             <div className="mt-4">
-              <Link href="/governance" className="text-brand-red-600 font-semibold text-sm hover:underline">
+              <Link
+                href="/governance"
+                className="text-brand-red-600 font-semibold text-sm hover:underline"
+              >
                 View full Governance &amp; Program Structure →
               </Link>
             </div>
@@ -90,13 +98,11 @@ export default function ApprovalsPage() {
                 <span className="text-slate-400 flex-shrink-0">•</span>
                 <div>
                   <h3 className="text-lg md:text-lg font-bold mb-3">
-                    INTraining Approved Provider – Indiana Department of
-                    Workforce Development
+                    INTraining Approved Provider – Indiana Department of Workforce Development
                   </h3>
                   <div className="space-y-2 text-lg text-black">
                     <p>
-                      <strong>Program:</strong> Emergency Health & Safety
-                      Technician
+                      <strong>Program:</strong> Emergency Health & Safety Technician
                     </p>
                     <p>
                       <strong>Program Location ID:</strong> 10004621
@@ -115,8 +121,8 @@ export default function ApprovalsPage() {
                     Eligible Training Provider (ETP) – WIOA-funded training
                   </h3>
                   <p className="text-lg text-black">
-                    Approved to serve participants funded through the Workforce
-                    Innovation and Opportunity Act (WIOA)
+                    Approved to serve participants funded through the Workforce Innovation and
+                    Opportunity Act (WIOA)
                   </p>
                 </div>
               </div>
@@ -131,26 +137,22 @@ export default function ApprovalsPage() {
                     Workforce Ready Grant (WRG) Training Provider
                   </h3>
                   <p className="text-lg text-black">
-                    Selected programs available at no cost to eligible adults
-                    through Indiana's Workforce Ready Grant
+                    Selected programs available at no cost to eligible adults through Indiana's
+                    Workforce Ready Grant
                   </p>
                 </div>
               </div>
             </div>
-
-
 
             {/* ITAP */}
             <div className="bg-white rounded-2xl p-8 border-l-4 border-brand-blue-600">
               <div className="flex items-start gap-4">
                 <span className="text-slate-400 flex-shrink-0">•</span>
                 <div>
-                  <h3 className="text-lg md:text-lg font-bold mb-3">
-                    ITAP / INDOT Registration
-                  </h3>
+                  <h3 className="text-lg md:text-lg font-bold mb-3">ITAP / INDOT Registration</h3>
                   <p className="text-lg text-black">
-                    2Exclusive LLC-S registered with INDOT's ITAP for
-                    transportation and construction-aligned workforce services
+                    2Exclusive LLC-S registered with INDOT's ITAP for transportation and
+                    construction-aligned workforce services
                   </p>
                 </div>
               </div>
@@ -180,8 +182,7 @@ export default function ApprovalsPage() {
                   </h3>
                   <div className="space-y-2 text-lg text-black">
                     <p>
-                      <strong>Program:</strong> Emergency Health & Safety
-                      Technician
+                      <strong>Program:</strong> Emergency Health & Safety Technician
                     </p>
                     <p>
                       <strong>RAPIDS Program ID:</strong> 2025-IN-132301
@@ -196,10 +197,10 @@ export default function ApprovalsPage() {
               <div className="flex items-start gap-4">
                 <span className="text-slate-400 flex-shrink-0">•</span>
                 <div>
-                  <h3 className="text-lg md:text-lg font-bold mb-3">
-                    SAM.gov Active Entity
-                  </h3>
-                  <p className="text-lg text-black">Registered active federal government contractor.</p>
+                  <h3 className="text-lg md:text-lg font-bold mb-3">SAM.gov Active Entity</h3>
+                  <p className="text-lg text-black">
+                    Registered active federal government contractor.
+                  </p>
                 </div>
               </div>
             </div>
@@ -227,34 +228,30 @@ export default function ApprovalsPage() {
                     Certiport Authorized Testing Center
                   </h3>
                   <p className="text-lg text-black mb-4">
-                    Authorized to administer industry-standard-recognized
-                    certification exams for:
+                    Authorized to administer industry-standard-recognized certification exams for:
                   </p>
                   <ul className="grid md:grid-cols-2 gap-3">
                     <li className="flex items-center gap-2 text-black">
-                      <span className="text-brand-green-600">•</span> Microsoft
-                      Office Specialist (MOS)
+                      <span className="text-brand-green-600">•</span> Microsoft Office Specialist
+                      (MOS)
                     </li>
                     <li className="flex items-center gap-2 text-black">
-                      <span className="text-brand-green-600">•</span> IC3
-                      Digital Literacy
+                      <span className="text-brand-green-600">•</span> IC3 Digital Literacy
                     </li>
                     <li className="flex items-center gap-2 text-black">
-                      <span className="text-brand-green-600">•</span> IT
-                      Specialist (Networking, Security, Python, Databases,
-                      HTML/CSS/JS)
+                      <span className="text-brand-green-600">•</span> IT Specialist (Networking,
+                      Security, Python, Databases, HTML/CSS/JS)
                     </li>
                     <li className="flex items-center gap-2 text-black">
-                      <span className="text-brand-green-600">•</span> Adobe
-                      Certified Professional
+                      <span className="text-brand-green-600">•</span> Adobe Certified Professional
                     </li>
                     <li className="flex items-center gap-2 text-black">
-                      <span className="text-brand-green-600">•</span>{' '}
-                      Entrepreneurship & Small Business (ESB)
+                      <span className="text-brand-green-600">•</span> Entrepreneurship & Small
+                      Business (ESB)
                     </li>
                     <li className="flex items-center gap-2 text-black">
-                      <span className="text-brand-green-600">•</span>{' '}
-                      Communication Skills for Business (CSB)
+                      <span className="text-brand-green-600">•</span> Communication Skills for
+                      Business (CSB)
                     </li>
                   </ul>
                 </div>
@@ -267,19 +264,16 @@ export default function ApprovalsPage() {
                 <span className="text-slate-400 flex-shrink-0">•</span>
                 <div>
                   <h3 className="text-lg md:text-lg font-bold mb-3">
-                    Elevate LMS Partner School – Client Well-Being & Safety
-                    Certification
+                    Elevate LMS Partner School – Client Well-Being & Safety Certification
                   </h3>
                   <p className="text-lg text-black mb-3">
-                    Training in domestic violence awareness, human trafficking
-                    awareness, and infection control (2-hour course)
+                    Training in domestic violence awareness, human trafficking awareness, and
+                    infection control (2-hour course)
                   </p>
                   <p className="text-black">
                     <strong>School promo code:</strong>{' '}
-                    <code className="bg-slate-200 px-2 py-2 rounded">
-                      efhcti-rise295
-                    </code>{' '}
-                    (for enrolled students and staff)
+                    <code className="bg-slate-200 px-2 py-2 rounded">efhcti-rise295</code> (for
+                    enrolled students and staff)
                   </p>
                 </div>
               </div>
@@ -294,8 +288,7 @@ export default function ApprovalsPage() {
                     CareerSafe / OSHA-aligned Safety Training
                   </h3>
                   <p className="text-lg text-black">
-                    Integrated into trades and safety pathways for workplace
-                    safety certification
+                    Integrated into trades and safety pathways for workplace safety certification
                   </p>
                 </div>
               </div>
@@ -335,12 +328,10 @@ export default function ApprovalsPage() {
               <div className="flex items-start gap-4">
                 <span className="text-slate-400 flex-shrink-0">•</span>
                 <div>
-                  <h3 className="text-lg md:text-lg font-bold mb-3">
-                    Candid/Guidestar Registered
-                  </h3>
+                  <h3 className="text-lg md:text-lg font-bold mb-3">Candid/Guidestar Registered</h3>
                   <p className="text-lg text-black">
-                    Verified profile on Candid/Guidestar, the nation's leading
-                    organizational transparency platform
+                    Verified profile on Candid/Guidestar, the nation's leading organizational
+                    transparency platform
                   </p>
                 </div>
               </div>
@@ -376,35 +367,28 @@ export default function ApprovalsPage() {
 
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <h3 className="text-lg md:text-lg font-bold text-white mb-4">
-                For Students
-              </h3>
+              <h3 className="text-lg md:text-lg font-bold text-white mb-4">For Students</h3>
               <p className="text-black text-lg leading-relaxed">
-                Our students can access funded training through WRG, WIOA, Job Ready Indy,
-                and apprenticeships. Your training is legitimate, recognized,
-                and leads to real employment.
+                Our students can access funded training through WRG, WIOA, Job Ready Indy, and
+                apprenticeships. Your training is legitimate, recognized, and leads to real
+                employment.
               </p>
             </div>
 
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <h3 className="text-lg md:text-lg font-bold text-white mb-4">
-                For Employers
-              </h3>
+              <h3 className="text-lg md:text-lg font-bold text-white mb-4">For Employers</h3>
               <p className="text-black text-lg leading-relaxed">
-                Our employers can trust that our programs are standards-aligned
-                and reportable. Graduates meet industry-standard requirements
-                and are job-ready from day one.
+                Our employers can trust that our programs are standards-aligned and reportable.
+                Graduates meet industry-standard requirements and are job-ready from day one.
               </p>
             </div>
 
             <div className="bg-white/10 backdrop-blur-sm rounded-2xl p-8 border border-white/20">
-              <h3 className="text-lg md:text-lg font-bold text-white mb-4">
-                For Partners
-              </h3>
+              <h3 className="text-lg md:text-lg font-bold text-white mb-4">For Partners</h3>
               <p className="text-black text-lg leading-relaxed">
-                Workforce boards, schools, reenstart programs, and community
-                partners can confidently refer people to Elevate For Humanity
-                knowing we meet state and federal quality benchmarks.
+                Workforce boards, schools, reenstart programs, and community partners can
+                confidently refer people to Elevate For Humanity knowing we meet state and federal
+                quality benchmarks.
               </p>
             </div>
           </div>
@@ -418,8 +402,8 @@ export default function ApprovalsPage() {
             Ready to Get Started?
           </h2>
           <p className="text-base md:text-lg text-black mb-8 leading-relaxed">
-            Start your career transformation today
-            through our state-approved, federally recognized training programs.
+            Start your career transformation today through our state-approved, federally recognized
+            training programs.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link

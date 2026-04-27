@@ -2,7 +2,12 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { getDigitalProduct } from '@/lib/store/digital-products';
 import { createClient } from '@/lib/supabase/server';
-import { generateSignedDownloadUrl, isStorageConfigured, getProductFileInfo, getPublicFallbackUrl } from '@/lib/storage/file-storage';
+import {
+  generateSignedDownloadUrl,
+  isStorageConfigured,
+  getProductFileInfo,
+  getPublicFallbackUrl,
+} from '@/lib/storage/file-storage';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -20,7 +25,7 @@ export const dynamic = 'force-dynamic';
 
 async function verifyDownloadToken(
   token: string,
-  productId: string
+  productId: string,
 ): Promise<{ valid: boolean; userId?: string }> {
   try {
     const supabase = await createClient();
@@ -48,10 +53,7 @@ async function verifyDownloadToken(
   }
 }
 
-async function verifyUserEntitlement(
-  userId: string,
-  productId: string
-): Promise<boolean> {
+async function verifyUserEntitlement(userId: string, productId: string): Promise<boolean> {
   try {
     const supabase = await createClient();
 
@@ -69,34 +71,25 @@ async function verifyUserEntitlement(
   }
 }
 
-async function logDownload(
-  productId: string,
-  token: string,
-  request: NextRequest
-): Promise<void> {
+async function logDownload(productId: string, token: string, request: NextRequest): Promise<void> {
   try {
     const supabase = await createClient();
 
     await supabase.from('downloads').insert({
       product_id: productId,
       download_token: token,
-      ip_address:
-        request.headers.get('x-forwarded-for') ||
-        request.headers.get('x-real-ip'),
+      ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip'),
       user_agent: request.headers.get('user-agent'),
     });
   } catch (error) {
-      logger.error("Unhandled error", error instanceof Error ? error : undefined);
-    }
+    logger.error('Unhandled error', error instanceof Error ? error : undefined);
+  }
 }
 
 /**
  * Handle download request
  */
-async function _GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ productId: string }> }
-) {
+async function _GET(request: NextRequest, { params }: { params: Promise<{ productId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -113,29 +106,20 @@ async function _GET(
 
     // Verify purchase token
     if (!token) {
-      return NextResponse.json(
-        { error: 'Download token required' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Download token required' }, { status: 401 });
     }
 
     // Verify token against purchase records
     const tokenResult = await verifyDownloadToken(token, productId);
     if (!tokenResult.valid) {
-      return NextResponse.json(
-        { error: 'Invalid or expired download link' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Invalid or expired download link' }, { status: 403 });
     }
 
     // Double-check user entitlement
     if (tokenResult.userId) {
       const hasEntitlement = await verifyUserEntitlement(tokenResult.userId, productId);
       if (!hasEntitlement) {
-        return NextResponse.json(
-          { error: 'Access revoked or expired' },
-          { status: 403 }
-        );
+        return NextResponse.json({ error: 'Access revoked or expired' }, { status: 403 });
       }
     }
 
@@ -167,15 +151,15 @@ async function _GET(
     }
 
     // If no download URL configured, return error
-    return NextResponse.json({
-      error: 'Download not available',
-      message: 'Please contact support for assistance.',
-    }, { status: 503 });
-  } catch (err: unknown) {
     return NextResponse.json(
-      { error: 'Failed to process download' },
-      { status: 500 }
+      {
+        error: 'Download not available',
+        message: 'Please contact support for assistance.',
+      },
+      { status: 503 },
     );
+  } catch (err: unknown) {
+    return NextResponse.json({ error: 'Failed to process download' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/store/download/[productId]', _GET);

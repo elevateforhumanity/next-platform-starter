@@ -53,14 +53,14 @@ Find your program today and start building your future.`,
   },
 ];
 
-async function generateVoiceover(video: typeof MISSING_VIDEOS[0]): Promise<void> {
+async function generateVoiceover(video: (typeof MISSING_VIDEOS)[0]): Promise<void> {
   console.log(`🎙️  Generating: ${video.filename}`);
-  
+
   const response = await fetch('https://api.openai.com/v1/audio/speech', {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',
-      'Authorization': `Bearer ${OPENAI_API_KEY}`,
+      Authorization: `Bearer ${OPENAI_API_KEY}`,
     },
     body: JSON.stringify({
       model: 'tts-1-hd',
@@ -77,7 +77,7 @@ async function generateVoiceover(video: typeof MISSING_VIDEOS[0]): Promise<void>
 
   const audioBuffer = await response.arrayBuffer();
   const outputPath = path.join(OUTPUT_DIR, video.filename);
-  
+
   fs.writeFileSync(outputPath, Buffer.from(audioBuffer));
   console.log(`   ✅ Saved: ${outputPath} (${(audioBuffer.byteLength / 1024).toFixed(1)} KB)`);
 }
@@ -94,7 +94,7 @@ async function main() {
     } catch (error) {
       console.log(`   ❌ Failed: ${error}`);
     }
-    await new Promise(resolve => setTimeout(resolve, 500));
+    await new Promise((resolve) => setTimeout(resolve, 500));
   }
 
   console.log('');

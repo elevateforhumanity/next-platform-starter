@@ -85,9 +85,7 @@ app.get('/api/inventory-status', (req, res) => {
     const status = {
       emergency_starter: urgencyManager.getInventoryStatus('emergency_starter'),
       business_rescue: urgencyManager.getInventoryStatus('business_rescue'),
-      enterprise_emergency: urgencyManager.getInventoryStatus(
-        'enterprise_emergency'
-      ),
+      enterprise_emergency: urgencyManager.getInventoryStatus('enterprise_emergency'),
     };
 
     res.json(status);
@@ -138,14 +136,11 @@ const io = socketIo(server, {
 
 // Real-time inventory updates
 io.on('connection', (socket) => {
-
   // Send initial inventory status
   socket.emit('inventory-update', {
     emergency_starter: urgencyManager.getInventoryStatus('emergency_starter'),
     business_rescue: urgencyManager.getInventoryStatus('business_rescue'),
-    enterprise_emergency: urgencyManager.getInventoryStatus(
-      'enterprise_emergency'
-    ),
+    enterprise_emergency: urgencyManager.getInventoryStatus('enterprise_emergency'),
   });
 
   // Send periodic updates
@@ -153,9 +148,7 @@ io.on('connection', (socket) => {
     socket.emit('inventory-update', {
       emergency_starter: urgencyManager.getInventoryStatus('emergency_starter'),
       business_rescue: urgencyManager.getInventoryStatus('business_rescue'),
-      enterprise_emergency: urgencyManager.getInventoryStatus(
-        'enterprise_emergency'
-      ),
+      enterprise_emergency: urgencyManager.getInventoryStatus('enterprise_emergency'),
     });
 
     socket.emit('social-proof-update', {
@@ -170,7 +163,6 @@ io.on('connection', (socket) => {
 });
 
 const PORT = process.env.PORT || 3003;
-server.listen(PORT, () => {
-});
+server.listen(PORT, () => {});
 
 module.exports = { app, server, io };

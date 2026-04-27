@@ -70,9 +70,7 @@ export function ProgressTracker({
             >
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${
-                  milestone.completed
-                    ? 'bg-brand-green-500 text-white'
-                    : 'bg-slate-300 text-black'
+                  milestone.completed ? 'bg-brand-green-500 text-white' : 'bg-slate-300 text-black'
                 }`}
               >
                 {milestone.completed ? (
@@ -106,9 +104,9 @@ export function ProgressTracker({
       {/* Compliance Notice */}
       <div className="pt-4 border-t">
         <p className="text-xs text-slate-500">
-          <strong>Note:</strong> Progress tracking is for motivational purposes.
-          Actual program completion requires meeting all DOL and state licensing requirements,
-          including minimum hours, assessments, and competency demonstrations.
+          <strong>Note:</strong> Progress tracking is for motivational purposes. Actual program
+          completion requires meeting all DOL and state licensing requirements, including minimum
+          hours, assessments, and competency demonstrations.
         </p>
       </div>
     </div>
@@ -144,10 +142,10 @@ export function Leaderboard() {
                   performer.rank === 1
                     ? 'bg-yellow-400 text-yellow-900'
                     : performer.rank === 2
-                    ? 'bg-slate-300 text-black'
-                    : performer.rank === 3
-                    ? 'bg-amber-600 text-white'
-                    : 'bg-slate-200 text-black'
+                      ? 'bg-slate-300 text-black'
+                      : performer.rank === 3
+                        ? 'bg-amber-600 text-white'
+                        : 'bg-slate-200 text-black'
                 }`}
               >
                 {performer.rank}
@@ -167,8 +165,9 @@ export function Leaderboard() {
 
       <div className="mt-4 pt-4 border-t">
         <p className="text-xs text-slate-500">
-          <strong>Privacy Notice:</strong> Leaderboard displays anonymized initials only to protect student privacy
-          in compliance with FERPA regulations. Full names are never displayed publicly.
+          <strong>Privacy Notice:</strong> Leaderboard displays anonymized initials only to protect
+          student privacy in compliance with FERPA regulations. Full names are never displayed
+          publicly.
         </p>
       </div>
     </div>
@@ -182,7 +181,7 @@ export function AchievementBadges({ badges }: { badges: string[] }) {
     'week-one': { icon: Target, color: 'bg-brand-green-500', label: 'Week 1 Champion' },
     'perfect-attendance': { icon: Award, color: 'bg-purple-500', label: 'Perfect Attendance' },
     'skills-master': { icon: Trophy, color: 'bg-yellow-500', label: 'Skills Master' },
-    'mentor': { icon: TrendingUp, color: 'bg-indigo-500', label: 'Peer Mentor' },
+    mentor: { icon: TrendingUp, color: 'bg-indigo-500', label: 'Peer Mentor' },
   };
 
   return (
@@ -195,7 +194,9 @@ export function AchievementBadges({ badges }: { badges: string[] }) {
           const Icon = badge.icon;
           return (
             <div key={badgeId} className="flex flex-col items-center gap-2">
-              <div className={`w-16 h-16 rounded-full ${badge.color} flex items-center justify-center`}>
+              <div
+                className={`w-16 h-16 rounded-full ${badge.color} flex items-center justify-center`}
+              >
                 <Icon className="w-8 h-8 text-white" />
               </div>
               <span className="text-xs text-center font-medium text-black">{badge.label}</span>

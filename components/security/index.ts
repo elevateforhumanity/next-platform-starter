@@ -3,5 +3,5 @@ export {
   HoneypotField,
   TimingCheck,
   BotProtection,
-  useFormTiming
+  useFormTiming,
 } from './SimpleCaptcha';

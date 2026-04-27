@@ -94,7 +94,9 @@ describe('resolveForwardTarget', () => {
 
   it('is case-insensitive on the local part', () => {
     expect(resolveForwardTarget(['INFO@elevateforhumanity.org'])).toBe(FORWARD_MAP['info']);
-    expect(resolveForwardTarget(['Admissions@elevateforhumanity.org'])).toBe(FORWARD_MAP['admissions']);
+    expect(resolveForwardTarget(['Admissions@elevateforhumanity.org'])).toBe(
+      FORWARD_MAP['admissions'],
+    );
   });
 
   it('returns DEFAULT_FORWARD for an unknown prefix', () => {

@@ -6,7 +6,8 @@ import { Calendar, ArrowLeft } from 'lucide-react';
 import { ROUTES } from '@/lib/pricing';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
-const CALENDLY_URL = process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/elevate4humanityedu';
+const CALENDLY_URL =
+  process.env.NEXT_PUBLIC_CALENDLY_URL || 'https://calendly.com/elevate4humanityedu';
 
 export default function SchedulePage() {
   useEffect(() => {
@@ -32,10 +33,16 @@ export default function SchedulePage() {
       <header className="bg-white border-b border-slate-200">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-16">
-            <Link href="/" className="text-lg font-bold text-slate-900 hover:text-brand-orange-600 transition">
+            <Link
+              href="/"
+              className="text-lg font-bold text-slate-900 hover:text-brand-orange-600 transition"
+            >
               Elevate for Humanity
             </Link>
-            <Link href={ROUTES.license} className="text-slate-600 hover:text-brand-orange-600 transition flex items-center gap-2">
+            <Link
+              href={ROUTES.license}
+              className="text-slate-600 hover:text-brand-orange-600 transition flex items-center gap-2"
+            >
               <ArrowLeft className="w-4 h-4" />
               Back to Licensing
             </Link>
@@ -53,8 +60,8 @@ export default function SchedulePage() {
             </div>
             <h1 className="text-4xl font-bold text-slate-900 mb-4">Schedule a Meeting</h1>
             <p className="text-xl text-slate-600 max-w-2xl mx-auto">
-              Book a time that works for you. Whether you&apos;re a prospective student, partner shop,
-              employer, or just want to learn more — pick a slot below.
+              Book a time that works for you. Whether you&apos;re a prospective student, partner
+              shop, employer, or just want to learn more — pick a slot below.
             </p>
           </div>
 
@@ -69,35 +76,46 @@ export default function SchedulePage() {
 
           {/* Meeting Types */}
           <div className="mb-12">
-            <h3 className="text-lg font-semibold text-slate-900 mb-6 text-center">What we can help with</h3>
+            <h3 className="text-lg font-semibold text-slate-900 mb-6 text-center">
+              What we can help with
+            </h3>
             <div className="grid sm:grid-cols-3 gap-6">
               <div className="bg-white rounded-xl p-6 border border-slate-200 text-center">
                 <div className="w-10 h-10 bg-brand-orange-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <span className="text-brand-orange-600 font-bold">1</span>
                 </div>
                 <h4 className="font-medium text-slate-900 mb-1">Student Intake</h4>
-                <p className="text-sm text-slate-600">Discuss programs, funding options, and enrollment steps</p>
+                <p className="text-sm text-slate-600">
+                  Discuss programs, funding options, and enrollment steps
+                </p>
               </div>
               <div className="bg-white rounded-xl p-6 border border-slate-200 text-center">
                 <div className="w-10 h-10 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <span className="text-brand-blue-600 font-bold">2</span>
                 </div>
                 <h4 className="font-medium text-slate-900 mb-1">Partner Site Visit</h4>
-                <p className="text-sm text-slate-600">Zoom walkthrough for barbershop and employer partners</p>
+                <p className="text-sm text-slate-600">
+                  Zoom walkthrough for barbershop and employer partners
+                </p>
               </div>
               <div className="bg-white rounded-xl p-6 border border-slate-200 text-center">
                 <div className="w-10 h-10 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-3">
                   <span className="text-brand-green-600 font-bold">3</span>
                 </div>
                 <h4 className="font-medium text-slate-900 mb-1">Platform Demo</h4>
-                <p className="text-sm text-slate-600">See the LMS, admin dashboard, and employer portal in action</p>
+                <p className="text-sm text-slate-600">
+                  See the LMS, admin dashboard, and employer portal in action
+                </p>
               </div>
             </div>
           </div>
 
           {/* Back Link */}
           <div className="text-center">
-            <Link href={ROUTES.demo} className="text-brand-orange-600 hover:text-brand-orange-700 font-medium">
+            <Link
+              href={ROUTES.demo}
+              className="text-brand-orange-600 hover:text-brand-orange-700 font-medium"
+            >
               Or explore the demo pages on your own →
             </Link>
           </div>
@@ -107,7 +125,9 @@ export default function SchedulePage() {
       {/* Footer */}
       <footer className="bg-white border-t border-slate-200 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <p className="text-slate-500 text-sm">© {new Date().getFullYear()} Elevate for Humanity. All rights reserved.</p>
+          <p className="text-slate-500 text-sm">
+            © {new Date().getFullYear()} Elevate for Humanity. All rights reserved.
+          </p>
         </div>
       </footer>
     </div>

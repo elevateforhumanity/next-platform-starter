@@ -12,50 +12,52 @@ interface WorkOneLocation {
 
 const workOneLocations: WorkOneLocation[] = [
   {
-    name: "WorkOne Indianapolis - East",
-    address: "7251 E 86th St",
-    city: "Indianapolis",
-    zip: "46256",
-    phone: "(317) 842-8801",
-    hours: "Mon-Fri: 8am-5pm",
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=7251+E+86th+St+Indianapolis+IN+46256"
+    name: 'WorkOne Indianapolis - East',
+    address: '7251 E 86th St',
+    city: 'Indianapolis',
+    zip: '46256',
+    phone: '(317) 842-8801',
+    hours: 'Mon-Fri: 8am-5pm',
+    mapUrl: 'https://www.google.com/maps/search/?api=1&query=7251+E+86th+St+Indianapolis+IN+46256',
   },
   {
-    name: "WorkOne Indianapolis - Northwest",
-    address: "3901 N Shadeland Ave",
-    city: "Indianapolis",
-    zip: "46226",
-    phone: "(317) 921-1600",
-    hours: "Mon-Fri: 8am-5pm",
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=3901+N+Shadeland+Ave+Indianapolis+IN+46226"
+    name: 'WorkOne Indianapolis - Northwest',
+    address: '3901 N Shadeland Ave',
+    city: 'Indianapolis',
+    zip: '46226',
+    phone: '(317) 921-1600',
+    hours: 'Mon-Fri: 8am-5pm',
+    mapUrl:
+      'https://www.google.com/maps/search/?api=1&query=3901+N+Shadeland+Ave+Indianapolis+IN+46226',
   },
   {
-    name: "WorkOne Indianapolis - Southeast",
-    address: "1915 W 18th St, Suite C",
-    city: "Indianapolis",
-    zip: "46202",
-    phone: "(317) 684-2400",
-    hours: "Mon-Fri: 8am-5pm",
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=1915+W+18th+St+Indianapolis+IN+46202"
+    name: 'WorkOne Indianapolis - Southeast',
+    address: '1915 W 18th St, Suite C',
+    city: 'Indianapolis',
+    zip: '46202',
+    phone: '(317) 684-2400',
+    hours: 'Mon-Fri: 8am-5pm',
+    mapUrl: 'https://www.google.com/maps/search/?api=1&query=1915+W+18th+St+Indianapolis+IN+46202',
   },
   {
-    name: "WorkOne Indianapolis - Southwest",
-    address: "1200 Madison Ave",
-    city: "Indianapolis",
-    zip: "46225",
-    phone: "(317) 684-2400",
-    hours: "Mon-Fri: 8am-5pm",
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=1200+Madison+Ave+Indianapolis+IN+46225"
+    name: 'WorkOne Indianapolis - Southwest',
+    address: '1200 Madison Ave',
+    city: 'Indianapolis',
+    zip: '46225',
+    phone: '(317) 684-2400',
+    hours: 'Mon-Fri: 8am-5pm',
+    mapUrl:
+      'https://www.google.com/maps/search/?api=1&query=1200+Madison+Ave+Indianapolis+IN+46225',
   },
   {
-    name: "WorkOne Marion County",
-    address: "3901 Meadows Dr",
-    city: "Indianapolis",
-    zip: "46205",
-    phone: "(317) 684-2400",
-    hours: "Mon-Fri: 8am-5pm",
-    mapUrl: "https://www.google.com/maps/search/?api=1&query=3901+Meadows+Dr+Indianapolis+IN+46205"
-  }
+    name: 'WorkOne Marion County',
+    address: '3901 Meadows Dr',
+    city: 'Indianapolis',
+    zip: '46205',
+    phone: '(317) 684-2400',
+    hours: 'Mon-Fri: 8am-5pm',
+    mapUrl: 'https://www.google.com/maps/search/?api=1&query=3901+Meadows+Dr+Indianapolis+IN+46205',
+  },
 ];
 
 export default function WorkOneLocator() {
@@ -74,19 +76,26 @@ export default function WorkOneLocator() {
         {/* Location Cards */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6 mb-12">
           {workOneLocations.map((location, index) => (
-            <div key={index} className="bg-slate-50 rounded-lg p-6 hover:shadow-xl transition-shadow border-2 border-slate-200 hover:border-brand-orange-500">
+            <div
+              key={index}
+              className="bg-slate-50 rounded-lg p-6 hover:shadow-xl transition-shadow border-2 border-slate-200 hover:border-brand-orange-500"
+            >
               <div className="flex items-start gap-3 mb-4">
                 <div className="text-3xl">📍</div>
                 <div className="flex-1">
                   <h3 className="font-bold text-lg text-black mb-2">{location.name}</h3>
                   <div className="space-y-2 text-sm text-black">
                     <p>
-                      {location.address}<br/>
+                      {location.address}
+                      <br />
                       {location.city}, IN {location.zip}
                     </p>
                     <p className="flex items-center gap-2">
                       <span>📞</span>
-                      <a href={`tel:${location.phone.replace(/[^0-9]/g, '')}`} className="hover:text-brand-orange-600">
+                      <a
+                        href={`tel:${location.phone.replace(/[^0-9]/g, '')}`}
+                        className="hover:text-brand-orange-600"
+                      >
                         {location.phone}
                       </a>
                     </p>
@@ -141,9 +150,7 @@ export default function WorkOneLocator() {
         {/* Additional Resources */}
         <div className="mt-12 bg-brand-blue-50 rounded-lg p-8">
           <div className="max-w-3xl mx-auto text-center">
-            <h3 className="text-2xl font-bold text-black mb-4">
-              Can't Visit in Person?
-            </h3>
+            <h3 className="text-2xl font-bold text-black mb-4">Can't Visit in Person?</h3>
             <p className="text-lg text-black mb-6">
               Many WorkOne centers offer virtual appointments via phone or video call
             </p>

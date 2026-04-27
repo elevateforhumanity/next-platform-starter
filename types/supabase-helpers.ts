@@ -56,16 +56,11 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
 
-export function hasProperty<K extends string>(
-  obj: unknown,
-  key: K
-): obj is Record<K, unknown> {
+export function hasProperty<K extends string>(obj: unknown, key: K): obj is Record<K, unknown> {
   return isRecord(obj) && key in obj;
 }
 
-export function assertRecord(
-  value: unknown
-): asserts value is Record<string, unknown> {
+export function assertRecord(value: unknown): asserts value is Record<string, unknown> {
   if (!isRecord(value)) {
     throw new Error('Value is not a record');
   }

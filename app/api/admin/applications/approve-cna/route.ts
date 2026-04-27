@@ -26,18 +26,16 @@ export async function POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const db = await getAdminClient() || supabase;
+    const db = (await getAdminClient()) || supabase;
 
     if (!supabase) return safeError('Database not configured', 503);
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return safeError('Unauthorized', 401);
 
-    const { data: profile } = await db
-      .from('profiles')
-      .select('role')
-      .eq('id', user.id)
-      .single();
+    const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).single();
 
     if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
       return safeError('Forbidden', 403);
@@ -56,7 +54,8 @@ export async function POST(request: NextRequest) {
       .single();
 
     if (fetchErr || !app) return safeError('Application not found', 404);
-    if (app.program_slug !== 'cna') return safeError('This route only handles CNA applications', 400);
+    if (app.program_slug !== 'cna')
+      return safeError('This route only handles CNA applications', 400);
     if (app.status === 'approved') return safeError('Application already approved', 409);
 
     // 1. Update application status
@@ -71,14 +70,12 @@ export async function POST(request: NextRequest) {
     }
 
     // 2. Create partner_enrollments row
-    const { error: enrollErr } = await db
-      .from('partner_enrollments')
-      .insert({
-        user_id: app.user_id,
-        program_slug: 'cna',
-        partner: 'CMI',
-        status: 'assigned',
-      });
+    const { error: enrollErr } = await db.from('partner_enrollments').insert({
+      user_id: app.user_id,
+      program_slug: 'cna',
+      partner: 'CMI',
+      status: 'assigned',
+    });
 
     if (enrollErr) {
       logger.error('[approve-cna] Failed to create partner_enrollment:', enrollErr);
@@ -102,7 +99,9 @@ export async function POST(request: NextRequest) {
       return safeInternalError(cmiErr, 'Failed to enroll student in CMI');
     }
 
-    logger.info(`[approve-cna] application=${application_id} → cmi_student=${cmiStudent.id} actor=${user.id}`);
+    logger.info(
+      `[approve-cna] application=${application_id} → cmi_student=${cmiStudent.id} actor=${user.id}`,
+    );
 
     return NextResponse.json({
       success: true,

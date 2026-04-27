@@ -1,5 +1,12 @@
 import OpenAI from 'openai';
-import type { AIProvider, AIImageProvider, ChatCompletionOptions, ChatCompletionResult, ImageGenerationOptions, GeneratedImage } from '../types';
+import type {
+  AIProvider,
+  AIImageProvider,
+  ChatCompletionOptions,
+  ChatCompletionResult,
+  ImageGenerationOptions,
+  GeneratedImage,
+} from '../types';
 
 /**
  * OpenAI provider — GPT models for chat, DALL-E for images.
@@ -36,11 +43,13 @@ export class OpenAIProvider implements AIProvider, AIImageProvider {
     return {
       content: choice.message.content || '',
       model: res.model,
-      usage: res.usage ? {
-        promptTokens: res.usage.prompt_tokens,
-        completionTokens: res.usage.completion_tokens,
-        totalTokens: res.usage.total_tokens,
-      } : undefined,
+      usage: res.usage
+        ? {
+            promptTokens: res.usage.prompt_tokens,
+            completionTokens: res.usage.completion_tokens,
+            totalTokens: res.usage.total_tokens,
+          }
+        : undefined,
     };
   }
 

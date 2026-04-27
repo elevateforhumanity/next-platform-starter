@@ -27,7 +27,20 @@ async function _GET(request: Request) {
 
     // Aggregate by month
     const monthlyData: Record<string, { total: number; completed: number; employed: number }> = {};
-    const months = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'];
+    const months = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
 
     for (let i = 5; i >= 0; i--) {
       const d = new Date();
@@ -35,7 +48,7 @@ async function _GET(request: Request) {
       monthlyData[months[d.getMonth()]] = { total: 0, completed: 0, employed: 0 };
     }
 
-    (enrollments || []).forEach(e => {
+    (enrollments || []).forEach((e) => {
       const month = months[new Date(e.created_at).getMonth()];
       if (monthlyData[month]) {
         monthlyData[month].total++;

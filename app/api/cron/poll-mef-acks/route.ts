@@ -36,12 +36,17 @@ async function _GET(request: Request) {
 
   const readiness = getRuntimeReadiness();
   const hardBlockers = readiness.issues.filter((i) =>
-    ['CRON_SECRET_MISSING', 'XMLLINT_NOT_AVAILABLE', 'SCHEMA_DIR_MISSING', 'SCHEMA_FILES_MISSING'].includes(i.code)
+    [
+      'CRON_SECRET_MISSING',
+      'XMLLINT_NOT_AVAILABLE',
+      'SCHEMA_DIR_MISSING',
+      'SCHEMA_FILES_MISSING',
+    ].includes(i.code),
   );
   if (hardBlockers.length > 0) {
     return NextResponse.json(
       { ok: false, code: 'MEF_RUNTIME_NOT_READY', issues: hardBlockers },
-      { status: 503 }
+      { status: 503 },
     );
   }
 
@@ -108,7 +113,7 @@ async function _GET(request: Request) {
         logger.warn('poll-mef-acks: rejected', {
           submissionId: sub.submission_id,
           errorCount: ack.errors?.length ?? 0,
-          errors: ack.errors?.map(e => e.errorCode),
+          errors: ack.errors?.map((e) => e.errorCode),
         });
       } else {
         results.still_pending++;

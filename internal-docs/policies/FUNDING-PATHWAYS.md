@@ -1,4 +1,5 @@
 # Funding Pathways
+
 ## Elevate for Humanity Career and Training Institute
 
 **Effective Date:** January 2025  
@@ -21,6 +22,7 @@ Elevate for Humanity places students into one of three funding pathways:
 **Who Pays:** Government workforce agencies, grants, and public programs
 
 **Eligible Programs:**
+
 - WIOA (Workforce Innovation and Opportunity Act)
 - Workforce Ready Grant (Indiana)
 - Vocational Rehabilitation (VR)
@@ -28,17 +30,20 @@ Elevate for Humanity places students into one of three funding pathways:
 - Veterans Programs
 
 **How It Works:**
+
 1. You apply and are determined eligible by the funding agency
 2. The agency issues a voucher or authorization
 3. We invoice the agency directly
 4. You pay $0 out of pocket
 
 **Your Responsibility:**
+
 - Complete eligibility paperwork
 - Attend all required appointments with your case manager
 - Maintain satisfactory progress in the program
 
 **Documentation Required:**
+
 - Funding authorization letter or voucher
 - Case manager contact information
 - Any agency-specific forms
@@ -50,16 +55,19 @@ Elevate for Humanity places students into one of three funding pathways:
 **Who Pays:** Your current or future employer
 
 **Options:**
+
 - **Cohort Sponsorship** — Employer pays for a group of employees
 - **Per-Seat Payment** — Employer pays tuition for individual employee
 - **Post-Hire Reimbursement** — Employer pays after you complete training and are hired
 
 **How It Works:**
+
 1. Employer signs a sponsorship agreement
 2. We invoice the employer directly
 3. You pay $0 out of pocket (or employer deducts from payroll post-hire)
 
 **Requirements:**
+
 - Signed employer agreement BEFORE enrollment
 - Employer must be approved partner
 - Payment terms specified in writing
@@ -73,6 +81,7 @@ Elevate for Humanity places students into one of three funding pathways:
 **This is NOT financial aid.** This is a structured tuition payment arrangement.
 
 **Options:**
+
 - **Pay in Full** — Single payment at enrollment
 - **Third-Party Financing** — Affirm or Klarna (subject to approval)
 - **School Payment Plan** — Deposit + monthly autopay
@@ -87,6 +96,7 @@ Elevate for Humanity places students into one of three funding pathways:
 | Credentials | Released only when balance = $0 |
 
 **Example: $5,000 Tuition**
+
 - Deposit: $1,000
 - Monthly Payment: $667 × 6 months
 - Total: $5,000
@@ -95,14 +105,14 @@ Elevate for Humanity places students into one of three funding pathways:
 
 ## Which Pathway Is Right for You?
 
-| If you... | Your pathway is... |
-|-----------|---------------------|
-| Are unemployed or underemployed | Workforce-Funded (WIOA) |
-| Receive public assistance | Workforce-Funded (WIOA) |
-| Are justice-involved | Workforce-Funded (Reentry) |
-| Have a disability | Workforce-Funded (VR) |
-| Have an employer willing to pay | Employer-Sponsored |
-| Don't qualify for above | Structured Tuition |
+| If you...                       | Your pathway is...         |
+| ------------------------------- | -------------------------- |
+| Are unemployed or underemployed | Workforce-Funded (WIOA)    |
+| Receive public assistance       | Workforce-Funded (WIOA)    |
+| Are justice-involved            | Workforce-Funded (Reentry) |
+| Have a disability               | Workforce-Funded (VR)      |
+| Have an employer willing to pay | Employer-Sponsored         |
+| Don't qualify for above         | Structured Tuition         |
 
 ---
 
@@ -128,4 +138,4 @@ info@elevateforhumanity.org
 
 ---
 
-*This document is for informational purposes. Funding availability varies. Eligibility is determined by the funding source, not by Elevate for Humanity.*
+_This document is for informational purposes. Funding availability varies. Eligibility is determined by the funding source, not by Elevate for Humanity._

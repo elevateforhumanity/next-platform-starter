@@ -357,9 +357,7 @@ export function getFeaturedProducts(): DigitalProduct[] {
 /**
  * Get products by category
  */
-export function getProductsByCategory(
-  category: DigitalProduct['category']
-): DigitalProduct[] {
+export function getProductsByCategory(category: DigitalProduct['category']): DigitalProduct[] {
   return DIGITAL_PRODUCTS.filter((p) => p.category === category);
 }
 
@@ -399,7 +397,7 @@ Do this now:
 ⏱️ This takes about 5 minutes.
 
 Come back when you've created your Login.gov account.`,
-    options: ['Done - I created my Login.gov account', 'I\'m having trouble'],
+    options: ['Done - I created my Login.gov account', "I'm having trouble"],
   },
   {
     id: 'logingov-trouble',
@@ -435,7 +433,7 @@ Do this now:
 You should now see the SAM.gov dashboard.
 
 Are you logged into SAM.gov?`,
-    options: ['Yes, I\'m in SAM.gov', 'The site isn\'t loading', 'I can\'t sign in'],
+    options: ["Yes, I'm in SAM.gov", "The site isn't loading", "I can't sign in"],
   },
   {
     id: 'sam-loading-issue',
@@ -452,7 +450,7 @@ Are you logged into SAM.gov?`,
 - Check status at: sam.gov/content/status
 
 Try again in a few minutes.`,
-    options: ['Let me try again', 'It\'s working now'],
+    options: ['Let me try again', "It's working now"],
   },
   {
     id: 'start-registration',
@@ -467,7 +465,11 @@ Do this now:
 You'll now enter the registration wizard.
 
 What do you see on your screen?`,
-    options: ['I see the registration form', 'I see "Get Unique Entity ID" option', 'I\'m confused about what to click'],
+    options: [
+      'I see the registration form',
+      'I see "Get Unique Entity ID" option',
+      "I'm confused about what to click",
+    ],
   },
   {
     id: 'get-uei-first',
@@ -486,7 +488,7 @@ Do this now:
 The UEI is assigned **instantly** after you enter basic info.
 
 Have you started the UEI process?`,
-    options: ['Yes, I\'m getting my UEI', 'What info do I need for UEI?'],
+    options: ["Yes, I'm getting my UEI", 'What info do I need for UEI?'],
   },
   {
     id: 'uei-info-needed',
@@ -522,7 +524,7 @@ If you don't have an EIN:
 ⚠️ You MUST have an EIN to complete SAM.gov registration.
 
 Do you have your EIN now?`,
-    options: ['Yes, I have my EIN', 'I\'ll get my EIN and come back'],
+    options: ['Yes, I have my EIN', "I'll get my EIN and come back"],
   },
   {
     id: 'enter-core-data',
@@ -565,7 +567,7 @@ Are you entering your core data?`,
 - Check your articles of incorporation
 
 Continue filling out the form and click "Save and Continue".`,
-    options: ['Done with addresses, what\'s next?'],
+    options: ["Done with addresses, what's next?"],
   },
   {
     id: 'entity-info',
@@ -591,7 +593,7 @@ Now you'll enter business details:
 - The state where you registered your business
 
 Are you filling this out?`,
-    options: ['Yes, what about small business status?', 'Done, what\'s next?'],
+    options: ['Yes, what about small business status?', "Done, what's next?"],
   },
   {
     id: 'small-business',
@@ -612,7 +614,7 @@ Check any that apply:
 - 8(a) Business Development Program
 
 These can help you qualify for set-aside contracts.`,
-    options: ['Got it, what\'s next?'],
+    options: ["Got it, what's next?"],
   },
   {
     id: 'naics-codes',
@@ -654,7 +656,7 @@ You can add up to 10 codes.`,
 **Tip:** Look at what similar organizations use. Your primary code should be your main revenue source.
 
 Found your codes?`,
-    options: ['Yes, added my codes', 'I\'ll use the training codes you suggested'],
+    options: ['Yes, added my codes', "I'll use the training codes you suggested"],
   },
   {
     id: 'financial-info',
@@ -690,7 +692,7 @@ You CAN submit without bank info, BUT:
 **Recommendation:** Enter bank info now to avoid delays later.
 
 If you don't have a business bank account yet, open one first.`,
-    options: ['I\'ll enter my bank info now', 'I\'ll add it later and continue'],
+    options: ["I'll enter my bank info now", "I'll add it later and continue"],
   },
   {
     id: 'points-of-contact',
@@ -754,7 +756,7 @@ Common questions:
 - It doesn't automatically disqualify you
 
 Read each question carefully.`,
-    options: ['Completing certifications now', 'What if I\'m unsure about an answer?'],
+    options: ['Completing certifications now', "What if I'm unsure about an answer?"],
   },
   {
     id: 'cert-unsure',
@@ -774,7 +776,7 @@ Read each question carefully.`,
 - Answer conservatively
 - Provide explanation if prompted
 - You can update later if needed`,
-    options: ['I\'ll answer carefully and continue'],
+    options: ["I'll answer carefully and continue"],
   },
   {
     id: 'review-submit',
@@ -837,7 +839,7 @@ Don't worry - errors can be fixed!`,
 - Your UEI number
 - Your CAGE code
 - Your SAM.gov login credentials`,
-    options: ['What do I do while waiting?', 'What\'s next after activation?'],
+    options: ['What do I do while waiting?', "What's next after activation?"],
   },
   {
     id: 'while-waiting',
@@ -883,7 +885,7 @@ Don't worry - errors can be fixed!`,
 - SAM.gov registration expires in 1 YEAR
 - Set a calendar reminder to renew
 - Keep your info updated`,
-    options: ['Tell me about Grants.gov', 'How do I renew SAM.gov?', 'I\'m all set, thanks!'],
+    options: ['Tell me about Grants.gov', 'How do I renew SAM.gov?', "I'm all set, thanks!"],
   },
   {
     id: 'grants-gov-info',
@@ -910,7 +912,7 @@ Don't worry - errors can be fixed!`,
 - "apprenticeship"
 
 Want help finding grants?`,
-    options: ['Yes, help me find grants', 'I\'ll explore on my own', 'How do I renew SAM.gov?'],
+    options: ['Yes, help me find grants', "I'll explore on my own", 'How do I renew SAM.gov?'],
   },
   {
     id: 'renew-sam',
@@ -935,7 +937,7 @@ Want help finding grants?`,
 - Re-registration takes another 7-10 days
 
 Set a calendar reminder NOW!`,
-    options: ['Thanks, I\'ll set a reminder', 'Start over from beginning', 'I\'m done!'],
+    options: ["Thanks, I'll set a reminder", 'Start over from beginning', "I'm done!"],
   },
   {
     id: 'complete',
@@ -957,6 +959,6 @@ Set a calendar reminder NOW!`,
 Good luck with your federal funding journey!
 
 Need to go through this again?`,
-    options: ['Start over', 'I\'m done, thanks!'],
+    options: ['Start over', "I'm done, thanks!"],
   },
 ];

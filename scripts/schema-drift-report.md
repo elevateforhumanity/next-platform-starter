@@ -5,15 +5,15 @@
 
 ## Summary
 
-| Category | Count |
-|----------|-------|
-| Live DB tables | 1118 |
-| Migration-defined | 241 |
-| In both (managed) | 238 |
-| Dashboard-only (unmanaged) | 880 |
-| Dashboard + referenced in code | 610 |
-| Dashboard + NOT referenced | 270 |
-| Migration-only (not in live DB) | 3 |
+| Category                        | Count |
+| ------------------------------- | ----- |
+| Live DB tables                  | 1118  |
+| Migration-defined               | 241   |
+| In both (managed)               | 238   |
+| Dashboard-only (unmanaged)      | 880   |
+| Dashboard + referenced in code  | 610   |
+| Dashboard + NOT referenced      | 270   |
+| Migration-only (not in live DB) | 3     |
 
 ## Migration-Only Tables (not in live DB)
 
@@ -25,58 +25,58 @@
 
 These are the highest-priority tables to bring under migration control.
 
-| Rank | Table | Code Refs | Columns |
-|------|-------|-----------|--------|
-| 1 | `profiles` | 911 | 60 |
-| 2 | `programs` | 162 | 97 |
-| 3 | `training_courses` | 161 | 35 |
-| 4 | `applications` | 92 | 53 |
-| 5 | `certificates` | 71 | 31 |
-| 6 | `training_lessons` | 66 | 23 |
-| 7 | `program_holders` | 55 | 19 |
-| 8 | `notifications` | 50 | 13 |
-| 9 | `partner_lms_enrollments` | 47 | 18 |
-| 10 | `training_enrollments` | 46 | 32 |
-| 11 | `user_profiles` | 41 | 18 |
-| 12 | `messages` | 32 | 11 |
-| 13 | `tenants` | 32 | 12 |
-| 14 | `appointments` | 22 | 20 |
-| 15 | `forum_threads` | 21 | 14 |
-| 16 | `products` | 18 | 35 |
-| 17 | `students` | 18 | 21 |
-| 18 | `donations` | 18 | 22 |
-| 19 | `shops` | 17 | 21 |
-| 20 | `discussion_threads` | 17 | 10 |
-| 21 | `organizations` | 17 | 9 |
-| 22 | `modules` | 16 | 9 |
-| 23 | `cart_items` | 16 | 6 |
-| 24 | `assignments` | 16 | 16 |
-| 25 | `user_app_subscriptions` | 16 | 7 |
-| 26 | `ojt_hours_log` | 15 | 10 |
-| 27 | `shop_staff` | 15 | 9 |
-| 28 | `enrollments` | 15 | 9 |
-| 29 | `partner_lms_providers` | 14 | 12 |
-| 30 | `job_postings` | 13 | 28 |
-| 31 | `partner_lms_courses` | 13 | 18 |
-| 32 | `forum_posts` | 13 | 11 |
-| 33 | `employers` | 13 | 14 |
-| 34 | `attendance_records` | 13 | 9 |
-| 35 | `marketplace_creators` | 13 | 15 |
-| 36 | `assignment_submissions` | 13 | 14 |
-| 37 | `email_campaigns` | 12 | 12 |
-| 38 | `referrals` | 12 | 10 |
-| 39 | `license_purchases` | 12 | 15 |
-| 40 | `email_logs` | 12 | 23 |
-| 41 | `training_hours` | 12 | 9 |
-| 42 | `employees` | 12 | 25 |
-| 43 | `job_applications` | 11 | 9 |
-| 44 | `program_holder_documents` | 11 | 21 |
-| 45 | `apprenticeship_hours` | 11 | 23 |
-| 46 | `intake_records` | 11 | 11 |
-| 47 | `page_views` | 11 | 9 |
-| 48 | `apprentice_hours_log` | 10 | 14 |
-| 49 | `discussions` | 10 | 18 |
-| 50 | `drug_tests` | 10 | 8 |
+| Rank | Table                      | Code Refs | Columns |
+| ---- | -------------------------- | --------- | ------- |
+| 1    | `profiles`                 | 911       | 60      |
+| 2    | `programs`                 | 162       | 97      |
+| 3    | `training_courses`         | 161       | 35      |
+| 4    | `applications`             | 92        | 53      |
+| 5    | `certificates`             | 71        | 31      |
+| 6    | `training_lessons`         | 66        | 23      |
+| 7    | `program_holders`          | 55        | 19      |
+| 8    | `notifications`            | 50        | 13      |
+| 9    | `partner_lms_enrollments`  | 47        | 18      |
+| 10   | `training_enrollments`     | 46        | 32      |
+| 11   | `user_profiles`            | 41        | 18      |
+| 12   | `messages`                 | 32        | 11      |
+| 13   | `tenants`                  | 32        | 12      |
+| 14   | `appointments`             | 22        | 20      |
+| 15   | `forum_threads`            | 21        | 14      |
+| 16   | `products`                 | 18        | 35      |
+| 17   | `students`                 | 18        | 21      |
+| 18   | `donations`                | 18        | 22      |
+| 19   | `shops`                    | 17        | 21      |
+| 20   | `discussion_threads`       | 17        | 10      |
+| 21   | `organizations`            | 17        | 9       |
+| 22   | `modules`                  | 16        | 9       |
+| 23   | `cart_items`               | 16        | 6       |
+| 24   | `assignments`              | 16        | 16      |
+| 25   | `user_app_subscriptions`   | 16        | 7       |
+| 26   | `ojt_hours_log`            | 15        | 10      |
+| 27   | `shop_staff`               | 15        | 9       |
+| 28   | `enrollments`              | 15        | 9       |
+| 29   | `partner_lms_providers`    | 14        | 12      |
+| 30   | `job_postings`             | 13        | 28      |
+| 31   | `partner_lms_courses`      | 13        | 18      |
+| 32   | `forum_posts`              | 13        | 11      |
+| 33   | `employers`                | 13        | 14      |
+| 34   | `attendance_records`       | 13        | 9       |
+| 35   | `marketplace_creators`     | 13        | 15      |
+| 36   | `assignment_submissions`   | 13        | 14      |
+| 37   | `email_campaigns`          | 12        | 12      |
+| 38   | `referrals`                | 12        | 10      |
+| 39   | `license_purchases`        | 12        | 15      |
+| 40   | `email_logs`               | 12        | 23      |
+| 41   | `training_hours`           | 12        | 9       |
+| 42   | `employees`                | 12        | 25      |
+| 43   | `job_applications`         | 11        | 9       |
+| 44   | `program_holder_documents` | 11        | 21      |
+| 45   | `apprenticeship_hours`     | 11        | 23      |
+| 46   | `intake_records`           | 11        | 11      |
+| 47   | `page_views`               | 11        | 9       |
+| 48   | `apprentice_hours_log`     | 10        | 14      |
+| 49   | `discussions`              | 10        | 18      |
+| 50   | `drug_tests`               | 10        | 8       |
 
 ## Full Dashboard-Referenced Tables (sorted by refs)
 
@@ -696,17 +696,20 @@ These are the highest-priority tables to bring under migration control.
 ## APPENDIX: Migration-Only Table Reconciliation
 
 ### secure_identity
+
 - **Migration**: `20260226_isolate_ssn_from_profiles.sql` (created this session)
 - **Status**: NOT in live DB — migration not yet applied
 - **Action**: Apply when ready to isolate SSN from profiles table
 - **Risk**: Code in `lib/security/secure-identity.ts` references this table but gracefully handles absence
 
 ### franchise_preparer_payouts
+
 - **Migration**: `20250124000001_franchise_system.sql`
 - **Status**: EXISTS in live DB ✅
 - **Note**: False positive in drift report — regex matched `preparer_payouts` substring
 
 ### tax_fee_schedules
+
 - **Migration**: `20260125000000_franchise_management.sql`
 - **Status**: NOT in live DB — migration never applied
 - **Code references**: ZERO — not referenced anywhere in app/ or lib/

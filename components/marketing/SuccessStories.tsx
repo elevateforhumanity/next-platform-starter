@@ -2,20 +2,20 @@
 
 const stories = [
   {
-    name: "Guide",
-    role: "Barber Apprenticeship Graduate",
+    name: 'Guide',
+    role: 'Barber Apprenticeship Graduate',
     quote:
-      "From incarceration to owning my own chair. Elevate gave me structure, accountability, and a real pathway.",
+      'From incarceration to owning my own chair. Elevate gave me structure, accountability, and a real pathway.',
   },
   {
-    name: "Sharon",
-    role: "Medical Assistant Graduate",
+    name: 'Sharon',
+    role: 'Medical Assistant Graduate',
     quote:
       "I'm a single mom and thought school wasn't possible. Elevate helped me get funded, stay on track, and step into a real job.",
   },
   {
-    name: "Alicia",
-    role: "Healthcare Graduate",
+    name: 'Alicia',
+    role: 'Healthcare Graduate',
     quote:
       "They didn't just enroll me and disappear. The coaching and employer connections made the difference.",
   },
@@ -33,9 +33,8 @@ export function SuccessStories() {
             Real people, real outcomes.
           </p>
           <p className="mt-3 text-sm text-slate-600">
-            Elevate For Humanity is built around people — not just programs.
-            These stories are just the start of what happens when approvals,
-            funding, and employers line up.
+            Elevate For Humanity is built around people — not just programs. These stories are just
+            the start of what happens when approvals, funding, and employers line up.
           </p>
         </header>
 
@@ -48,9 +47,7 @@ export function SuccessStories() {
               <div className="mb-3 flex items-center gap-3">
                 <div className="h-10 w-10 rounded-full bg-white" />
                 <div>
-                  <h3 className="text-sm font-semibold text-white">
-                    {story.name}
-                  </h3>
+                  <h3 className="text-sm font-semibold text-white">{story.name}</h3>
                   <p className="text-xs text-white">{story.role}</p>
                 </div>
               </div>

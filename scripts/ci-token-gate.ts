@@ -1,10 +1,10 @@
 #!/usr/bin/env npx tsx
 /**
  * CI Token Gate
- * 
+ *
  * Fails the build if banned tokens appear in user-facing code.
  * Run as part of CI pipeline before deploy.
- * 
+ *
  * Usage: npx tsx scripts/ci-token-gate.ts
  * Exit code: 0 = pass, 1 = fail
  */
@@ -30,12 +30,7 @@ const FILE_EXTENSIONS = ['.tsx', '.jsx'];
 // Only check these high-signal tokens in CI.
 // 'coming soon' removed — it is a legitimate DB enum value (coming_soon) and
 // program status label. Catching it here produces only false positives.
-const CI_BANNED_TOKENS = [
-  'lorem ipsum',
-  'lorem',
-  'tbd',
-  'fake',
-];
+const CI_BANNED_TOKENS = ['lorem ipsum', 'lorem', 'tbd', 'fake'];
 
 interface Violation {
   file: string;
@@ -72,12 +67,12 @@ function isAcceptableUse(line: string, token: string): boolean {
   if (/^\s*\/\//.test(line) || /^\s*\/\*/.test(line) || /^\s*\*/.test(line)) {
     return true;
   }
-  
+
   // Check if it's a JSX comment
   if (/{\/\*.*\*\/}/.test(line)) {
     return true;
   }
-  
+
   // Check acceptable patterns
   return ACCEPTABLE_PATTERNS.some((pattern) => pattern.test(line));
 }
@@ -86,25 +81,25 @@ function scanFile(filePath: string): Violation[] {
   const violations: Violation[] = [];
   const content = fs.readFileSync(filePath, 'utf-8');
   const lines = content.split('\n');
-  
+
   const pattern = new RegExp(
     CI_BANNED_TOKENS.map((t) => `\\b${t.replace(/\s+/g, '\\s+')}\\b`).join('|'),
-    'gi'
+    'gi',
   );
-  
+
   lines.forEach((line, lineIndex) => {
     // Skip imports
     if (/^\s*import\s/.test(line)) return;
-    
+
     pattern.lastIndex = 0;
     let match;
-    
+
     while ((match = pattern.exec(line)) !== null) {
       const token = match[0].toLowerCase();
-      
+
       // Skip acceptable uses
       if (isAcceptableUse(line, token)) continue;
-      
+
       violations.push({
         file: filePath,
         line: lineIndex + 1,
@@ -113,33 +108,33 @@ function scanFile(filePath: string): Violation[] {
       });
     }
   });
-  
+
   return violations;
 }
 
 function walkDir(dir: string): string[] {
   const files: string[] = [];
-  
+
   if (!fs.existsSync(dir)) {
     return files;
   }
-  
+
   const entries = fs.readdirSync(dir, { withFileTypes: true });
-  
+
   for (const entry of entries) {
     const fullPath = path.join(dir, entry.name);
-    
+
     if (shouldExclude(fullPath)) {
       continue;
     }
-    
+
     if (entry.isDirectory()) {
       files.push(...walkDir(fullPath));
     } else if (entry.isFile() && FILE_EXTENSIONS.some((ext) => entry.name.endsWith(ext))) {
       files.push(fullPath);
     }
   }
-  
+
   return files;
 }
 
@@ -203,14 +198,14 @@ function scanForForbiddenImages(filePath: string): ImageViolation[] {
 
 function main() {
   console.log('🔍 CI Token Gate - Scanning for banned tokens...\n');
-  
+
   const rootDir = process.cwd();
   const allViolations: Violation[] = [];
-  
+
   for (const scanDir of SCAN_DIRS) {
     const dirPath = path.join(rootDir, scanDir);
     const files = walkDir(dirPath);
-    
+
     for (const file of files) {
       const relativePath = path.relative(rootDir, file);
       const violations = scanFile(file).map((v) => ({ ...v, file: relativePath }));
@@ -236,7 +231,10 @@ function main() {
         if (shouldExclude(fullPath)) continue;
         if (entry.isDirectory()) {
           walkForImages(fullPath);
-        } else if (entry.isFile() && IMAGE_SCAN_EXTENSIONS.some((ext) => entry.name.endsWith(ext))) {
+        } else if (
+          entry.isFile() &&
+          IMAGE_SCAN_EXTENSIONS.some((ext) => entry.name.endsWith(ext))
+        ) {
           files.push(fullPath);
         }
       }
@@ -261,13 +259,13 @@ function main() {
 
   if (hasTokenViolations) {
     console.log(`❌ Found ${allViolations.length} banned token(s):\n`);
-    
+
     const byFile: Record<string, Violation[]> = {};
     allViolations.forEach((v) => {
       if (!byFile[v.file]) byFile[v.file] = [];
       byFile[v.file].push(v);
     });
-    
+
     Object.entries(byFile).forEach(([file, violations]) => {
       console.log(`📄 ${file}`);
       violations.forEach((v) => {
@@ -276,7 +274,7 @@ function main() {
       });
       console.log('');
     });
-    
+
     console.log('Banned tokens:', CI_BANNED_TOKENS.join(', '));
     console.log('');
   }

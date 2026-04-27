@@ -1,4 +1,3 @@
-
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
@@ -19,10 +18,7 @@ async function _GET(request: Request) {
     const status = searchParams.get('status');
     const featured = searchParams.get('featured');
 
-    let query = supabase
-      .from('reviews')
-      .select('*')
-      .order('created_at', { ascending: false });
+    let query = supabase.from('reviews').select('*').order('created_at', { ascending: false });
 
     // Public view - only approved
     if (!status) {
@@ -64,9 +60,7 @@ async function _GET(request: Request) {
 
     // Calculate average rating
     const avgRating = reviews?.length
-      ? (
-          reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length
-        ).toFixed(1)
+      ? (reviews.reduce((sum, r) => sum + r.rating, 0) / reviews.length).toFixed(1)
       : '0.0';
 
     return NextResponse.json({
@@ -74,11 +68,8 @@ async function _GET(request: Request) {
       total: reviews?.length || 0,
       averageRating: parseFloat(avgRating),
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -96,16 +87,13 @@ async function _POST(request: Request) {
     if (!reviewer_name || !rating || !content) {
       return NextResponse.json(
         { error: 'Reviewer name, rating, and content are required' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
     // Validate rating
     if (rating < 1 || rating > 5) {
-      return NextResponse.json(
-        { error: 'Rating must be between 1 and 5' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Rating must be between 1 and 5' }, { status: 400 });
     }
 
     // Get current user if logged in
@@ -150,14 +138,10 @@ async function _POST(request: Request) {
     return NextResponse.json({
       success: true,
       review,
-      message:
-        'Thank you for your review! It will be published after moderation.',
+      message: 'Thank you for your review! It will be published after moderation.',
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/reviews', _GET);

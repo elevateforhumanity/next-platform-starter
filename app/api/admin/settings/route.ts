@@ -11,11 +11,17 @@ export const dynamic = 'force-dynamic';
 
 async function _GET(_req: NextRequest) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const db = await getAdminClient();
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!['admin', 'super_admin'].includes(profile?.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
@@ -26,17 +32,23 @@ async function _GET(_req: NextRequest) {
     return NextResponse.json({ error: 'Failed to load settings' }, { status: 500 });
   }
 
-  const settings = Object.fromEntries((data || []).map(r => [r.key, r.value]));
+  const settings = Object.fromEntries((data || []).map((r) => [r.key, r.value]));
   return NextResponse.json({ settings });
 }
 
 async function _POST(req: NextRequest) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const db = await getAdminClient();
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!['admin', 'super_admin'].includes(profile?.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
@@ -56,16 +68,14 @@ async function _POST(req: NextRequest) {
     return NextResponse.json({ error: 'No valid settings provided' }, { status: 400 });
   }
 
-  const { error } = await db
-    .from('platform_settings')
-    .upsert(updates, { onConflict: 'key' });
+  const { error } = await db.from('platform_settings').upsert(updates, { onConflict: 'key' });
 
   if (error) {
     logger.error('[settings] POST failed:', error.message);
     return NextResponse.json({ error: 'Failed to save settings' }, { status: 500 });
   }
 
-  logger.info('[settings] Updated by', user.id, ':', updates.map(u => u.key).join(', '));
+  logger.info('[settings] Updated by', user.id, ':', updates.map((u) => u.key).join(', '));
   return NextResponse.json({ success: true });
 }
 

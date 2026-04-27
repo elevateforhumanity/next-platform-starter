@@ -44,11 +44,14 @@ async function _POST(request: NextRequest) {
     const standards = await loadIndustryStandards(soc_code, credential_code ?? null, force);
 
     if (!standards) {
-      return NextResponse.json({
-        ok: false,
-        message: 'No data returned. Check ONET_USERNAME/ONET_PASSWORD and BLS_API_KEY.',
-        soc_code,
-      }, { status: 200 });
+      return NextResponse.json(
+        {
+          ok: false,
+          message: 'No data returned. Check ONET_USERNAME/ONET_PASSWORD and BLS_API_KEY.',
+          soc_code,
+        },
+        { status: 200 },
+      );
     }
 
     return NextResponse.json({
@@ -97,7 +100,9 @@ async function _GET(request: NextRequest) {
     // Check what's in cache without fetching
     const { data: rows } = await db
       .from('occupation_standards')
-      .select('source, soc_title, fetched_at, expires_at, median_annual_wage, projected_growth_cat, projected_growth_pct')
+      .select(
+        'source, soc_title, fetched_at, expires_at, median_annual_wage, projected_growth_cat, projected_growth_pct',
+      )
       .eq('soc_code', resolvedSoc);
 
     const { data: domains } = await db
@@ -108,7 +113,7 @@ async function _GET(request: NextRequest) {
     return NextResponse.json({
       soc_code: resolvedSoc,
       cached_sources: rows ?? [],
-      is_fresh: rows?.some(r => new Date(r.expires_at) > new Date()) ?? false,
+      is_fresh: rows?.some((r) => new Date(r.expires_at) > new Date()) ?? false,
       credential_domains: domains ?? [],
     });
   } catch (err) {

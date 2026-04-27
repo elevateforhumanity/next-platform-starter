@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 import { useEffect, useRef, useState } from 'react';
@@ -62,7 +62,7 @@ export function CountUp({
           observer.unobserve(entry.target);
         }
       },
-      { threshold }
+      { threshold },
     );
 
     if (ref.current) {

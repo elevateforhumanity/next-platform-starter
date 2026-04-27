@@ -11,7 +11,10 @@ export const dynamic = 'force-dynamic';
 
 export async function POST() {
   return NextResponse.json(
-    { error: 'Deprecated. Inbound email now uses SendGrid Inbound Parse at /api/webhooks/sendgrid-inbound' },
+    {
+      error:
+        'Deprecated. Inbound email now uses SendGrid Inbound Parse at /api/webhooks/sendgrid-inbound',
+    },
     { status: 410 },
   );
 }

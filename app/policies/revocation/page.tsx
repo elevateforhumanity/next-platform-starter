@@ -6,7 +6,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
 export const metadata: Metadata = {
   title: 'Credential Revocation Policy | Elevate for Humanity',
-  description: 'Conditions under which credentials may be revoked, revocation procedures, and appeal rights.',
+  description:
+    'Conditions under which credentials may be revoked, revocation procedures, and appeal rights.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/policies/revocation',
   },
@@ -18,10 +19,10 @@ export default async function RevocationPage() {
 
   return (
     <div className="min-h-screen bg-gray-50">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Policies", href: "/policies" }, { label: "Revocation" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Policies', href: '/policies' }, { label: 'Revocation' }]} />
       </div>
-<div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
+      <div className="max-w-4xl mx-auto px-4 sm:px-6 py-12">
         <article className="bg-white rounded-xl shadow-sm p-8 md:p-12">
           <div className="mb-8">
             <h1 className="text-4xl font-bold text-black mb-4">Credential Revocation Policy</h1>
@@ -31,13 +32,14 @@ export default async function RevocationPage() {
           <div className="prose prose-lg max-w-none">
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Purpose</h2>
             <p className="text-black mb-6">
-              This policy establishes the conditions under which Elevate for Humanity may revoke credentials 
-              previously awarded to students. Revocation is a serious action taken only when necessary to protect 
-              the integrity of our credentials and the interests of employers, students, and the public.
+              This policy establishes the conditions under which Elevate for Humanity may revoke
+              credentials previously awarded to students. Revocation is a serious action taken only
+              when necessary to protect the integrity of our credentials and the interests of
+              employers, students, and the public.
             </p>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Grounds for Revocation</h2>
-            
+
             <div className="bg-brand-red-50 border-l-4 border-brand-red-400 p-6 mb-6">
               <h3 className="text-lg font-bold text-black mb-3">Fraud or Misrepresentation</h3>
               <p className="text-black mb-2">Credentials may be revoked if obtained through:</p>
@@ -88,7 +90,7 @@ export default async function RevocationPage() {
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Revocation Process</h2>
-            
+
             <div className="bg-gray-50 rounded-xl p-8 border-2 border-gray-200 mb-6">
               <div className="space-y-6">
                 <div className="flex gap-6">
@@ -98,8 +100,8 @@ export default async function RevocationPage() {
                   <div>
                     <h3 className="text-xl font-bold text-black mb-2">Allegation Received</h3>
                     <p className="text-black">
-                      Report or discovery of potential grounds for revocation. Initial review determines if 
-                      investigation is warranted.
+                      Report or discovery of potential grounds for revocation. Initial review
+                      determines if investigation is warranted.
                     </p>
                   </div>
                 </div>
@@ -111,8 +113,8 @@ export default async function RevocationPage() {
                   <div>
                     <h3 className="text-xl font-bold text-black mb-2">Investigation</h3>
                     <p className="text-black">
-                      Registrar or designated official investigates allegations. Gathers evidence, interviews 
-                      witnesses, reviews records. Investigation conducted confidentially.
+                      Registrar or designated official investigates allegations. Gathers evidence,
+                      interviews witnesses, reviews records. Investigation conducted confidentially.
                     </p>
                   </div>
                 </div>
@@ -124,7 +126,8 @@ export default async function RevocationPage() {
                   <div>
                     <h3 className="text-xl font-bold text-black mb-2">Written Notice</h3>
                     <p className="text-black">
-                      If evidence supports revocation, credential holder receives written notice including:
+                      If evidence supports revocation, credential holder receives written notice
+                      including:
                     </p>
                     <ul className="list-disc pl-6 text-black mt-2 space-y-1">
                       <li>Specific allegations and evidence</li>
@@ -161,8 +164,9 @@ export default async function RevocationPage() {
                   <div>
                     <h3 className="text-xl font-bold text-black mb-2">Review and Decision</h3>
                     <p className="text-black">
-                      Credentials Review Committee evaluates all evidence and response. Makes final determination 
-                      on revocation. Decision communicated in writing within 15 business days.
+                      Credentials Review Committee evaluates all evidence and response. Makes final
+                      determination on revocation. Decision communicated in writing within 15
+                      business days.
                     </p>
                   </div>
                 </div>
@@ -173,9 +177,7 @@ export default async function RevocationPage() {
                   </div>
                   <div>
                     <h3 className="text-xl font-bold text-black mb-2">Implementation</h3>
-                    <p className="text-black">
-                      If revocation upheld:
-                    </p>
+                    <p className="text-black">If revocation upheld:</p>
                     <ul className="list-disc pl-6 text-black mt-2 space-y-1">
                       <li>Credential marked as revoked in verification system</li>
                       <li>Notation added to permanent record</li>
@@ -188,26 +190,42 @@ export default async function RevocationPage() {
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Consequences of Revocation</h2>
-            
+
             <div className="bg-brand-red-50 rounded-xl p-6 border-2 border-brand-red-200 mb-6">
               <h3 className="text-xl font-bold text-black mb-4">When Credential is Revoked:</h3>
               <ul className="list-disc pl-6 text-black space-y-2">
-                <li><strong>Credential Invalidated:</strong> No longer valid for employment or professional purposes</li>
-                <li><strong>Verification Updated:</strong> Verification system shows credential as revoked</li>
-                <li><strong>Transcript Notation:</strong> Permanent notation on academic transcript</li>
-                <li><strong>No Refund:</strong> Tuition and fees are not refunded</li>
-                <li><strong>Return Required:</strong> Physical certificates must be returned within 30 days</li>
-                <li><strong>Future Enrollment:</strong> May be ineligible for future enrollment</li>
-                <li><strong>Employer Notification:</strong> Current employer may be notified (if known)</li>
+                <li>
+                  <strong>Credential Invalidated:</strong> No longer valid for employment or
+                  professional purposes
+                </li>
+                <li>
+                  <strong>Verification Updated:</strong> Verification system shows credential as
+                  revoked
+                </li>
+                <li>
+                  <strong>Transcript Notation:</strong> Permanent notation on academic transcript
+                </li>
+                <li>
+                  <strong>No Refund:</strong> Tuition and fees are not refunded
+                </li>
+                <li>
+                  <strong>Return Required:</strong> Physical certificates must be returned within 30
+                  days
+                </li>
+                <li>
+                  <strong>Future Enrollment:</strong> May be ineligible for future enrollment
+                </li>
+                <li>
+                  <strong>Employer Notification:</strong> Current employer may be notified (if
+                  known)
+                </li>
               </ul>
             </div>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Appeal Rights</h2>
-            
+
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Grounds for Appeal</h3>
-            <p className="text-black mb-4">
-              Appeals may be filed based on:
-            </p>
+            <p className="text-black mb-4">Appeals may be filed based on:</p>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
               <li>Procedural errors that affected the outcome</li>
               <li>New evidence not available during initial review</li>
@@ -227,15 +245,25 @@ export default async function RevocationPage() {
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Appeal Outcomes</h3>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
-              <li><strong>Revocation Upheld:</strong> Original decision stands</li>
-              <li><strong>Revocation Overturned:</strong> Credential reinstated</li>
-              <li><strong>Modified Sanction:</strong> Alternative consequence imposed</li>
-              <li><strong>Remanded:</strong> Sent back for additional review</li>
+              <li>
+                <strong>Revocation Upheld:</strong> Original decision stands
+              </li>
+              <li>
+                <strong>Revocation Overturned:</strong> Credential reinstated
+              </li>
+              <li>
+                <strong>Modified Sanction:</strong> Alternative consequence imposed
+              </li>
+              <li>
+                <strong>Remanded:</strong> Sent back for additional review
+              </li>
             </ul>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Reinstatement</h2>
-            
-            <h3 className="text-xl font-bold text-black mt-6 mb-3">Eligibility for Reinstatement</h3>
+
+            <h3 className="text-xl font-bold text-black mt-6 mb-3">
+              Eligibility for Reinstatement
+            </h3>
             <p className="text-black mb-4">
               In rare cases, revoked credentials may be reinstated if:
             </p>
@@ -247,19 +275,19 @@ export default async function RevocationPage() {
             </ul>
 
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Reinstatement Process</h3>
-            <p className="text-black mb-4">
-              To request reinstatement:
-            </p>
+            <p className="text-black mb-4">To request reinstatement:</p>
             <ol className="list-decimal pl-6 mb-6 text-black space-y-2">
               <li>Submit written petition explaining basis for reinstatement</li>
               <li>Provide supporting documentation</li>
               <li>Petition reviewed by Credentials Review Committee</li>
               <li>Decision rendered within 30 business days</li>
-              <li>If approved, credential reissued with notation of revocation and reinstatement</li>
+              <li>
+                If approved, credential reissued with notation of revocation and reinstatement
+              </li>
             </ol>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Reporting and Notification</h2>
-            
+
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Who is Notified</h3>
             <p className="text-black mb-4">
               When credential is revoked, notification may be sent to:
@@ -284,11 +312,9 @@ export default async function RevocationPage() {
             </ul>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Prevention</h2>
-            
+
             <h3 className="text-xl font-bold text-black mt-6 mb-3">Protecting Your Credential</h3>
-            <p className="text-black mb-4">
-              To avoid revocation:
-            </p>
+            <p className="text-black mb-4">To avoid revocation:</p>
             <ul className="list-disc pl-6 mb-6 text-black space-y-2">
               <li>Provide accurate information throughout enrollment</li>
               <li>Complete all work honestly and with integrity</li>
@@ -299,14 +325,26 @@ export default async function RevocationPage() {
             </ul>
 
             <h2 className="text-2xl font-bold text-black mt-8 mb-4">Contact Information</h2>
-            <p className="text-black mb-4">
-              For questions about credential revocation:
-            </p>
+            <p className="text-black mb-4">For questions about credential revocation:</p>
             <ul className="list-none mb-6 text-black space-y-2">
-              <li><strong>Email:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Phone:</strong> (317) 314-3757</li>
-              <li><strong>Appeals:</strong> <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a></li>
-              <li><strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST</li>
+              <li>
+                <strong>Email:</strong>{' '}
+                <a href="/contact" className="text-brand-blue-600 hover:underline">
+                  Contact Us
+                </a>
+              </li>
+              <li>
+                <strong>Phone:</strong> (317) 314-3757
+              </li>
+              <li>
+                <strong>Appeals:</strong>{' '}
+                <a href="/contact" className="text-brand-blue-600 hover:underline">
+                  Contact Us
+                </a>
+              </li>
+              <li>
+                <strong>Office Hours:</strong> Monday-Friday, 9:00 AM - 5:00 PM EST
+              </li>
             </ul>
 
             <div className="bg-brand-blue-50 border-l-4 border-brand-blue-400 p-6 mt-8">
@@ -314,10 +352,29 @@ export default async function RevocationPage() {
                 <strong>Related Policies:</strong>
               </p>
               <ul className="list-disc pl-6 text-black space-y-1">
-                <li><a href="/policies/credentials" className="text-brand-blue-600 hover:underline">Credentials Policy</a></li>
-                <li><a href="/policies/academic-integrity" className="text-brand-blue-600 hover:underline">Academic Integrity Policy</a></li>
-                <li><a href="/policies/student-code" className="text-brand-blue-600 hover:underline">Student Code of Conduct</a></li>
-                <li><a href="/policies/verification" className="text-brand-blue-600 hover:underline">Verification Policy</a></li>
+                <li>
+                  <a href="/policies/credentials" className="text-brand-blue-600 hover:underline">
+                    Credentials Policy
+                  </a>
+                </li>
+                <li>
+                  <a
+                    href="/policies/academic-integrity"
+                    className="text-brand-blue-600 hover:underline"
+                  >
+                    Academic Integrity Policy
+                  </a>
+                </li>
+                <li>
+                  <a href="/policies/student-code" className="text-brand-blue-600 hover:underline">
+                    Student Code of Conduct
+                  </a>
+                </li>
+                <li>
+                  <a href="/policies/verification" className="text-brand-blue-600 hover:underline">
+                    Verification Policy
+                  </a>
+                </li>
               </ul>
             </div>
           </div>

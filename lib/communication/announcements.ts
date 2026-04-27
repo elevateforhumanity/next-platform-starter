@@ -71,7 +71,7 @@ export async function createAnnouncement(data: {
  */
 export async function updateAnnouncement(
   id: string,
-  data: Partial<Announcement>
+  data: Partial<Announcement>,
 ): Promise<Announcement> {
   const supabase = await createClient();
   const { data: announcement, error } = await supabase
@@ -92,10 +92,7 @@ export async function updateAnnouncement(
  */
 export async function deleteAnnouncement(id: string): Promise<void> {
   const supabase = await createClient();
-  const { error } = await supabase
-    .from('announcements')
-    .delete()
-    .eq('id', id);
+  const { error } = await supabase.from('announcements').delete().eq('id', id);
   if (error) throw error;
 }
 /**
@@ -107,15 +104,17 @@ export async function getUserAnnouncements(
     unread_only?: boolean;
     limit?: number;
     scope?: string;
-  }
+  },
 ): Promise<Announcement[]> {
   const supabase = await createClient();
   let query = supabase
     .from('announcement_recipients')
-    .select(`
+    .select(
+      `
       *,
       announcements(*)
-    `)
+    `,
+    )
     .eq('user_id', user_id)
     .eq('announcements.published', true)
     .order('announcements.published_at', { ascending: false });
@@ -129,7 +128,7 @@ export async function getUserAnnouncements(
     query = query.limit(options.limit);
   }
   const { data } = await query;
-  return data?.map(r => r.announcements).filter(Boolean) || [];
+  return data?.map((r) => r.announcements).filter(Boolean) || [];
 }
 /**
  * Get all announcements (admin view)
@@ -161,7 +160,7 @@ export async function getAllAnnouncements(filters?: {
  */
 export async function markAnnouncementRead(
   announcement_id: string,
-  user_id: string
+  user_id: string,
 ): Promise<void> {
   const supabase = await createClient();
   const { error } = await supabase
@@ -196,10 +195,8 @@ async function createRecipients(announcement: Announcement): Promise<void> {
   switch (announcement.scope) {
     case 'system':
       // All users
-      const { data: allUsers } = await supabase
-        .from('profiles')
-        .select('id');
-      recipients = allUsers?.map(u => u.id) || [];
+      const { data: allUsers } = await supabase.from('profiles').select('id');
+      recipients = allUsers?.map((u) => u.id) || [];
       break;
     case 'site':
       // All users at site
@@ -207,7 +204,7 @@ async function createRecipients(announcement: Announcement): Promise<void> {
         .from('profiles')
         .select('id')
         .eq('site_id', announcement.scope_id);
-      recipients = siteUsers?.map(u => u.id) || [];
+      recipients = siteUsers?.map((u) => u.id) || [];
       break;
     case 'program':
       // All students enrolled in program
@@ -216,7 +213,7 @@ async function createRecipients(announcement: Announcement): Promise<void> {
         .select('student_id')
         .eq('program_id', announcement.scope_id)
         .eq('status', 'active');
-      recipients = programStudents?.map(e => e.student_id) || [];
+      recipients = programStudents?.map((e) => e.student_id) || [];
       break;
     case 'course':
       // All students enrolled in course
@@ -225,11 +222,11 @@ async function createRecipients(announcement: Announcement): Promise<void> {
         .select('student_id')
         .eq('course_id', announcement.scope_id)
         .eq('status', 'active');
-      recipients = courseStudents?.map(e => e.student_id) || [];
+      recipients = courseStudents?.map((e) => e.student_id) || [];
       break;
   }
   // Create recipient records
-  const recipientRecords = recipients.map(user_id => ({
+  const recipientRecords = recipients.map((user_id) => ({
     announcement_id: announcement.id,
     user_id,
     read: false,
@@ -237,9 +234,7 @@ async function createRecipients(announcement: Announcement): Promise<void> {
     sms_sent: false,
   }));
   if (recipientRecords.length > 0) {
-    await supabase
-      .from('announcement_recipients')
-      .insert(recipientRecords);
+    await supabase.from('announcement_recipients').insert(recipientRecords);
     // Send notifications
     if (announcement.send_email) {
       await sendEmailNotifications(announcement, recipients);
@@ -252,7 +247,10 @@ async function createRecipients(announcement: Announcement): Promise<void> {
 /**
  * Send email notifications
  */
-async function sendEmailNotifications(announcement: Announcement, recipients: string[]): Promise<void> {
+async function sendEmailNotifications(
+  announcement: Announcement,
+  recipients: string[],
+): Promise<void> {
   // Implementation would use email service (SendGrid, AWS SES, etc.)
   // Update email_sent status
   const supabase = await createClient();
@@ -266,7 +264,10 @@ async function sendEmailNotifications(announcement: Announcement, recipients: st
  * Send SMS notifications
  * Note: SMS functionality disabled - use email notifications instead
  */
-async function sendSMSNotifications(announcement: Announcement, recipients: string[]): Promise<void> {
+async function sendSMSNotifications(
+  announcement: Announcement,
+  recipients: string[],
+): Promise<void> {
   // SMS functionality removed - email is the primary notification method
   const supabase = await createClient();
   await supabase
@@ -302,11 +303,11 @@ export async function getAnnouncementStats(announcement_id: string): Promise<{
     };
   }
   const total_recipients = recipients.length;
-  const read_count = recipients.filter(r => r.read).length;
+  const read_count = recipients.filter((r) => r.read).length;
   const unread_count = total_recipients - read_count;
   const read_percentage = total_recipients > 0 ? (read_count / total_recipients) * 100 : 0;
-  const email_sent_count = recipients.filter(r => r.email_sent).length;
-  const sms_sent_count = recipients.filter(r => r.sms_sent).length;
+  const email_sent_count = recipients.filter((r) => r.email_sent).length;
+  const sms_sent_count = recipients.filter((r) => r.sms_sent).length;
   return {
     total_recipients,
     read_count,

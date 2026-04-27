@@ -47,6 +47,7 @@ export default function PublicPage({
 
       {/* Hero Image — no text overlay */}
       <section className={`relative ${heroHeight} overflow-hidden`}>
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={config.heroImage.src}
           alt={config.heroImage.alt}
@@ -67,9 +68,7 @@ export default function PublicPage({
             <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
               {config.cta.title}
             </h2>
-            <p className="text-xl text-slate-600 mb-10">
-              {config.cta.description}
-            </p>
+            <p className="text-xl text-slate-600 mb-10">{config.cta.description}</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href={config.cta.primaryHref}

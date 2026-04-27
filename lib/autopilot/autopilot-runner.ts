@@ -12,7 +12,7 @@ import { prepareDeploy } from './deploy-prep';
  */
 export async function runAutopilot(
   type: string,
-  payload: any = {}
+  payload: any = {},
 ): Promise<{ success?: boolean; error?: string; data?: any }> {
   try {
     switch (type) {
@@ -44,13 +44,14 @@ export async function runAutopilot(
       default:
         return {
           success: false,
-          error: `Unknown autopilot mode: ${type}. Valid modes: course, scan, media, sitemap, deploy`
+          error: `Unknown autopilot mode: ${type}. Valid modes: course, scan, media, sitemap, deploy`,
         };
     }
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return {
       success: false,
-      error: error instanceof Error ? error.message : 'Autopilot task failed'
+      error: error instanceof Error ? error.message : 'Autopilot task failed',
     };
   }
 }

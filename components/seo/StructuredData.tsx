@@ -50,13 +50,13 @@ export function CourseStructuredData({
     },
     url: `${SITE_URL}${url}`,
     ...(image && { image }),
-    ...(duration && { 
+    ...(duration && {
       timeRequired: duration,
       hasCourseInstance: {
         '@type': 'CourseInstance',
         courseMode: 'blended',
         duration,
-      }
+      },
     }),
     offers: {
       '@type': 'Offer',
@@ -65,15 +65,16 @@ export function CourseStructuredData({
       availability: 'https://schema.org/InStock',
       url: `${SITE_URL}${url}`,
     },
-    ...(rating && reviewCount && {
-      aggregateRating: {
-        '@type': 'AggregateRating',
-        ratingValue: rating,
-        reviewCount,
-        bestRating: 5,
-        worstRating: 1,
-      },
-    }),
+    ...(rating &&
+      reviewCount && {
+        aggregateRating: {
+          '@type': 'AggregateRating',
+          ratingValue: rating,
+          reviewCount,
+          bestRating: 5,
+          worstRating: 1,
+        },
+      }),
     ...(category && { courseCode: category }),
     educationalCredentialAwarded: 'Certificate of Completion',
     inLanguage: 'en-US',
@@ -135,7 +136,7 @@ export function ProgramStructuredData({
     },
     ...(image && { image }),
     ...(duration && { timeToComplete: duration }),
-    ...(certification && { 
+    ...(certification && {
       educationalCredentialAwarded: certification,
       occupationalCredentialAwarded: {
         '@type': 'EducationalOccupationalCredential',
@@ -183,7 +184,8 @@ export function OrganizationStructuredData() {
     alternateName: 'EFH',
     url: SITE_URL,
     logo: `${SITE_URL}/logo.jpg`,
-    description: 'Nonprofit workforce development institute in Indianapolis providing career training at no cost to eligible Indiana residents through WIOA and state funding. Programs in healthcare, skilled trades, technology, barbering, and business.',
+    description:
+      'Nonprofit workforce development institute in Indianapolis providing career training at no cost to eligible Indiana residents through WIOA and state funding. Programs in healthcare, skilled trades, technology, barbering, and business.',
     address: {
       '@type': 'PostalAddress',
       streetAddress: '8888 Keystone Crossing, Suite 1300',
@@ -229,15 +231,11 @@ export function OrganizationStructuredData() {
 /**
  * FAQ structured data
  */
-export function FAQStructuredData({ 
-  faqs 
-}: { 
-  faqs: Array<{ question: string; answer: string }> 
-}) {
+export function FAQStructuredData({ faqs }: { faqs: Array<{ question: string; answer: string }> }) {
   const data = {
     '@context': 'https://schema.org',
     '@type': 'FAQPage',
-    mainEntity: faqs.map(faq => ({
+    mainEntity: faqs.map((faq) => ({
       '@type': 'Question',
       name: faq.question,
       acceptedAnswer: {

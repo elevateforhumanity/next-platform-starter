@@ -90,7 +90,7 @@ export class EmailService {
   async sendEnrollmentConfirmation(
     userEmail: string,
     userName: string,
-    courseName: string
+    courseName: string,
   ): Promise<boolean> {
     const template = this.getEnrollmentTemplate(userName, courseName);
     return this.send({
@@ -107,7 +107,7 @@ export class EmailService {
     userEmail: string,
     userName: string,
     assignmentName: string,
-    dueDate: string
+    dueDate: string,
   ): Promise<boolean> {
     const template = this.getAssignmentReminderTemplate(userName, assignmentName, dueDate);
     return this.send({
@@ -124,7 +124,7 @@ export class EmailService {
     userEmail: string,
     userName: string,
     courseName: string,
-    certificateUrl: string
+    certificateUrl: string,
   ): Promise<boolean> {
     const template = this.getCertificateTemplate(userName, courseName, certificateUrl);
     return this.send({
@@ -140,7 +140,7 @@ export class EmailService {
   async sendAchievementNotification(
     userEmail: string,
     userName: string,
-    achievementName: string
+    achievementName: string,
   ): Promise<boolean> {
     const template = this.getAchievementTemplate(userName, achievementName);
     return this.send({
@@ -157,7 +157,7 @@ export class EmailService {
     staffEmail: string,
     studentName: string,
     documentType: string,
-    programName: string
+    programName: string,
   ): Promise<boolean> {
     const template = this.getDocumentUploadTemplate(studentName, documentType, programName);
     return this.send({
@@ -220,7 +220,7 @@ export class EmailService {
   private getAssignmentReminderTemplate(
     userName: string,
     assignmentName: string,
-    dueDate: string
+    dueDate: string,
   ): EmailTemplate {
     return {
       subject: `Reminder: ${assignmentName} due ${dueDate}`,
@@ -238,7 +238,7 @@ export class EmailService {
   private getCertificateTemplate(
     userName: string,
     courseName: string,
-    certificateUrl: string
+    certificateUrl: string,
   ): EmailTemplate {
     return {
       subject: `Your ${courseName} certificate is ready`,
@@ -269,7 +269,7 @@ export class EmailService {
   private getDocumentUploadTemplate(
     studentName: string,
     documentType: string,
-    programName: string
+    programName: string,
   ): EmailTemplate {
     return {
       subject: `Document review: ${studentName} — ${documentType}`,

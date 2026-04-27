@@ -42,9 +42,7 @@ export default function StaffCampaignsPage() {
 
   const toggleStudent = (studentId: string) => {
     setSelectedStudents((prev) =>
-      prev.includes(studentId)
-        ? prev.filter((id) => id !== studentId)
-        : [...prev, studentId]
+      prev.includes(studentId) ? prev.filter((id) => id !== studentId) : [...prev, studentId],
     );
   };
 
@@ -84,7 +82,8 @@ export default function StaffCampaignsPage() {
       } else {
         alert(`Error: ${data.error}`);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       alert('Failed to send emails');
     } finally {
       setLoading(false);
@@ -95,21 +94,15 @@ export default function StaffCampaignsPage() {
     <div className="min-h-screen bg-white py-8">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="mb-8">
-          <h1 className="text-3xl font-bold text-black">
-            Email My Students
-          </h1>
-          <p className="text-black mt-2">
-            Send emails to students assigned to you
-          </p>
+          <h1 className="text-3xl font-bold text-black">Email My Students</h1>
+          <p className="text-black mt-2">Send emails to students assigned to you</p>
         </div>
 
         <div className="grid lg:grid-cols-3 gap-8">
           {/* Templates */}
           <div className="lg:col-span-1">
             <div className="bg-white rounded-xl shadow-sm p-6 mb-6">
-              <h2 className="text-lg font-bold text-black mb-4">
-                Templates
-              </h2>
+              <h2 className="text-lg font-bold text-black mb-4">Templates</h2>
               <div className="space-y-2 max-h-96 overflow-y-auto">
                 {templates.map((template) => (
                   <button
@@ -121,9 +114,7 @@ export default function StaffCampaignsPage() {
                         : 'border-gray-200 hover:border-gray-300'
                     }`}
                   >
-                    <p className="font-semibold text-black text-sm">
-                      {template.name}
-                    </p>
+                    <p className="font-semibold text-black text-sm">{template.name}</p>
                     <p className="text-xs text-black mt-1 capitalize">
                       {template.category.replace('_', ' ')}
                     </p>
@@ -135,9 +126,7 @@ export default function StaffCampaignsPage() {
             {/* My Students */}
             <div className="bg-white rounded-xl shadow-sm p-6">
               <div className="flex items-center justify-between mb-4">
-                <h2 className="text-lg font-bold text-black">
-                  My Students ({myStudents.length})
-                </h2>
+                <h2 className="text-lg font-bold text-black">My Students ({myStudents.length})</h2>
                 <div className="flex gap-2">
                   <button
                     onClick={selectAll}
@@ -169,19 +158,14 @@ export default function StaffCampaignsPage() {
                       <p className="font-semibold text-black text-sm truncate">
                         {student.full_name}
                       </p>
-                      <p className="text-xs text-black truncate">
-                        {student.email}
-                      </p>
+                      <p className="text-xs text-black truncate">{student.email}</p>
                     </div>
                   </label>
                 ))}
               </div>
               <div className="mt-4 pt-4 border-t border-gray-200">
                 <p className="text-sm text-black">
-                  Selected:{' '}
-                  <span className="font-bold text-black">
-                    {selectedStudents.length}
-                  </span>
+                  Selected: <span className="font-bold text-black">{selectedStudents.length}</span>
                 </p>
               </div>
             </div>
@@ -190,9 +174,7 @@ export default function StaffCampaignsPage() {
           {/* Email Form */}
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl shadow-sm p-6">
-              <h2 className="text-xl font-bold text-black mb-6">
-                Compose Email
-              </h2>
+              <h2 className="text-xl font-bold text-black mb-6">Compose Email</h2>
 
               <div className="space-y-6">
                 <div>
@@ -203,9 +185,7 @@ export default function StaffCampaignsPage() {
                     type="text"
                     required
                     value={formData.subject}
-                    onChange={(e) =>
-                      setFormData({ ...formData, subject: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, subject: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent"
                     placeholder="e.g., Weekly Check-in"
                   />
@@ -218,9 +198,7 @@ export default function StaffCampaignsPage() {
                   <textarea
                     required
                     value={formData.html_content}
-                    onChange={(e) =>
-                      setFormData({ ...formData, html_content: e.target.value })
-                    }
+                    onChange={(e) => setFormData({ ...formData, html_content: e.target.value })}
                     rows={16}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-600 focus:border-transparent font-mono text-sm"
                     placeholder="Select a template or write your own..."

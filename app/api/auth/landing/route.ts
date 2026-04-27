@@ -1,4 +1,3 @@
-
 // app/api/auth/landing/route.ts
 import { NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
@@ -13,10 +12,9 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const cookieStore = await cookies();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const cookieStore = await cookies();
 
   const supabase = createServerClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -29,7 +27,7 @@ const cookieStore = await cookies();
         set(name: string, value: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value, ...options });
-          } catch (error) { 
+          } catch (error) {
             // Handle cookie setting errors
             logger.error('Error setting cookie:', error);
           }
@@ -37,13 +35,13 @@ const cookieStore = await cookies();
         remove(name: string, options: CookieOptions) {
           try {
             cookieStore.set({ name, value: '', ...options });
-          } catch (error) { 
+          } catch (error) {
             // Handle cookie removal errors
             logger.error('Error removing cookie:', error);
           }
         },
       },
-    }
+    },
   );
 
   try {
@@ -68,12 +66,9 @@ const cookieStore = await cookies();
 
     const redirectTo = getRoleDestination(profile.role as string);
     return NextResponse.json({ redirectTo });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Auth landing error:', error);
-    return NextResponse.json(
-      { error: 'Authentication error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Authentication error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/auth/landing', _GET);

@@ -34,7 +34,10 @@ describe('Bug #1 — enrollment-status: correct parameter passed to applyRateLim
   it('fixed version: req and the rate-limit argument are the same reference', () => {
     const req = { url: '/api/lms/enrollment-status?courseId=abc' };
     const captured: unknown[] = [];
-    const applyRateLimit = (r: unknown) => { captured.push(r); return null; };
+    const applyRateLimit = (r: unknown) => {
+      captured.push(r);
+      return null;
+    };
 
     // Fixed call site: applyRateLimit(req, 'api')
     applyRateLimit(req);
@@ -45,7 +48,10 @@ describe('Bug #1 — enrollment-status: correct parameter passed to applyRateLim
   it('a 500 from the rate-limit call causes the lesson page to fail open', () => {
     // The lesson page treats non-ok enrollment responses as "don't block".
     // This means a crashing enrollment-status endpoint lets unenrolled users in.
-    function lessonPageEnrollmentCheck(enrollRes: { ok: boolean; enrolled?: boolean }): 'blocked' | 'allowed' {
+    function lessonPageEnrollmentCheck(enrollRes: {
+      ok: boolean;
+      enrolled?: boolean;
+    }): 'blocked' | 'allowed' {
       if (!enrollRes.ok) {
         // Fail open — lesson loads regardless
         return 'allowed';
@@ -78,18 +84,30 @@ describe('Bug #4 — enrollment-status: legacy fallback scoped to courseId', () 
   }
 
   const enrollments: LegacyEnrollment[] = [
-    { course_id: 'hvac-course-id', user_id: 'user-1', status: 'active', approved_at: '2024-01-01', progress: 80 },
-    { course_id: 'barber-course-id', user_id: 'user-1', status: 'active', approved_at: null, progress: 10 },
+    {
+      course_id: 'hvac-course-id',
+      user_id: 'user-1',
+      status: 'active',
+      approved_at: '2024-01-01',
+      progress: 80,
+    },
+    {
+      course_id: 'barber-course-id',
+      user_id: 'user-1',
+      status: 'active',
+      approved_at: null,
+      progress: 10,
+    },
   ];
 
   // Broken: no courseId filter
   function legacyLookupBroken(userId: string): LegacyEnrollment | null {
-    return enrollments.find(e => e.user_id === userId) ?? null;
+    return enrollments.find((e) => e.user_id === userId) ?? null;
   }
 
   // Fixed: filter by courseId
   function legacyLookupFixed(userId: string, courseId: string): LegacyEnrollment | null {
-    return enrollments.find(e => e.user_id === userId && e.course_id === courseId) ?? null;
+    return enrollments.find((e) => e.user_id === userId && e.course_id === courseId) ?? null;
   }
 
   it('broken version returns an enrollment for a different course (auth bypass)', () => {
@@ -167,7 +185,12 @@ describe('Bug #2 — verifyQuizzesPassed: correct tables for inline quiz trackin
 
   const lessons: QuizLesson[] = [
     { id: 'lesson-quiz-1', title: 'Module 1 Quiz', lesson_type: 'quiz', passing_score: 70 },
-    { id: 'lesson-cp-1', title: 'Module 1 Checkpoint', lesson_type: 'checkpoint', passing_score: 70 },
+    {
+      id: 'lesson-cp-1',
+      title: 'Module 1 Checkpoint',
+      lesson_type: 'checkpoint',
+      passing_score: 70,
+    },
     { id: 'lesson-exam-1', title: 'Final Exam', lesson_type: 'exam', passing_score: 80 },
   ];
 
@@ -302,7 +325,7 @@ describe('Bug #5 — lesson page: checkpoint write races markComplete', () => {
 
     async function checkpointFetch() {
       // Simulate async DB write
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
       order.push('checkpoint_written');
     }
 
@@ -321,7 +344,7 @@ describe('Bug #5 — lesson page: checkpoint write races markComplete', () => {
     const order: string[] = [];
 
     async function checkpointFetch() {
-      await new Promise(resolve => setTimeout(resolve, 10));
+      await new Promise((resolve) => setTimeout(resolve, 10));
       order.push('checkpoint_written');
     }
 
@@ -337,7 +360,7 @@ describe('Bug #5 — lesson page: checkpoint write races markComplete', () => {
     expect(order).toEqual(['markComplete_called']);
 
     // Wait for the fetch to settle to avoid leaking the promise
-    await new Promise(resolve => setTimeout(resolve, 20));
+    await new Promise((resolve) => setTimeout(resolve, 20));
     expect(order).toEqual(['markComplete_called', 'checkpoint_written']);
   });
 
@@ -347,19 +370,17 @@ describe('Bug #5 — lesson page: checkpoint write races markComplete', () => {
     const currentIndexAtRender = 0;
 
     // Closure captures the stale value
-    const navigateWithStaleClosure = () =>
-      lessonsAtRender[currentIndexAtRender + 1]; // always 'lesson-b'
+    const navigateWithStaleClosure = () => lessonsAtRender[currentIndexAtRender + 1]; // always 'lesson-b'
 
     // Lessons list updates (e.g. after progress fetch) but closure is stale
     const updatedLessons = ['lesson-x', 'lesson-y', 'lesson-z'];
     const updatedIndex = 1;
 
     // Fresh closure (what useCallback with correct deps provides)
-    const navigateWithFreshClosure = () =>
-      updatedLessons[updatedIndex + 1]; // correctly 'lesson-z'
+    const navigateWithFreshClosure = () => updatedLessons[updatedIndex + 1]; // correctly 'lesson-z'
 
-    expect(navigateWithStaleClosure()).toBe('lesson-b');   // wrong
-    expect(navigateWithFreshClosure()).toBe('lesson-z');   // correct
+    expect(navigateWithStaleClosure()).toBe('lesson-b'); // wrong
+    expect(navigateWithFreshClosure()).toBe('lesson-z'); // correct
   });
 
   it('passingScore is no longer sent from the client to the checkpoint endpoint', () => {

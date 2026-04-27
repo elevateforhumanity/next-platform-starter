@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 import { ChevronDown } from 'lucide-react';
@@ -14,16 +14,13 @@ export interface AccordionProps {
   allowMultiple?: boolean;
 }
 
-export const Accordion: React.FC<AccordionProps> = ({
-  items,
-  allowMultiple = false,
-}) => {
+export const Accordion: React.FC<AccordionProps> = ({ items, allowMultiple = false }) => {
   const [openItems, setOpenItems] = useState<string[]>([]);
 
   const toggleItem = (id: string) => {
     if (allowMultiple) {
       setOpenItems((prev) =>
-        prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id]
+        prev.includes(id) ? prev.filter((item) => item !== id) : [...prev, id],
       );
     } else {
       setOpenItems((prev) => (prev.includes(id) ? [] : [id]));
@@ -48,9 +45,7 @@ export const Accordion: React.FC<AccordionProps> = ({
                 }`}
               />
             </button>
-            {isOpen && (
-              <div className="p-4 pt-0 text-black">{item.content}</div>
-            )}
+            {isOpen && <div className="p-4 pt-0 text-black">{item.content}</div>}
           </div>
         );
       })}

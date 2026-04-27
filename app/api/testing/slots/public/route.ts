@@ -49,8 +49,8 @@ export async function GET(req: NextRequest) {
 
     // Compute remaining seats server-side and filter out full slots
     const slots = (data ?? [])
-      .filter(s => s.booked_count < s.capacity)
-      .map(s => ({
+      .filter((s) => s.booked_count < s.capacity)
+      .map((s) => ({
         id: s.id,
         examType: s.exam_type,
         startTime: s.start_time,

@@ -1,6 +1,4 @@
-
 export const revalidate = 3600;
-
 
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
@@ -10,7 +8,8 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'SEO & Indexing Governance | Elevate for Humanity',
-  description: 'How search engine indexing is controlled and enforced to protect platform credibility and prevent accidental exposure.',
+  description:
+    'How search engine indexing is controlled and enforced to protect platform credibility and prevent accidental exposure.',
   robots: {
     index: true,
     follow: true,
@@ -38,19 +37,23 @@ const neverIndexed = [
 const enforcementMethods = [
   {
     title: 'Whitelist Control',
-    description: 'A JSON whitelist defines the only URLs allowed to be indexed. Pages not on the list default to noindex.',
+    description:
+      'A JSON whitelist defines the only URLs allowed to be indexed. Pages not on the list default to noindex.',
   },
   {
     title: 'CI/CD Gates',
-    description: 'Continuous Integration checks fail builds if indexing rules are violated. Non-compliant changes cannot be deployed.',
+    description:
+      'Continuous Integration checks fail builds if indexing rules are violated. Non-compliant changes cannot be deployed.',
   },
   {
     title: 'Pull Request Checklists',
-    description: 'Every PR that affects public pages requires explicit acknowledgment of SEO governance rules.',
+    description:
+      'Every PR that affects public pages requires explicit acknowledgment of SEO governance rules.',
   },
   {
     title: 'Canonical Enforcement',
-    description: 'All indexed pages must have self-referencing canonical URLs pointing to the production domain.',
+    description:
+      'All indexed pages must have self-referencing canonical URLs pointing to the production domain.',
   },
 ];
 
@@ -65,13 +68,9 @@ export default async function SeoIndexingPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <Breadcrumbs
-        items={[
-          { label: 'Governance', href: '/admin/governance' },
-          { label: 'SEO & Indexing' },
-        ]}
+        items={[{ label: 'Governance', href: '/admin/governance' }, { label: 'SEO & Indexing' }]}
       />
       {/* Header */}
       <div className="bg-slate-900 text-white py-12">
@@ -79,12 +78,10 @@ export default async function SeoIndexingPage() {
           <div className="flex items-center gap-3 mb-4">
             <Search className="w-8 h-8 text-brand-blue-400" />
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">
-            SEO & Indexing Governance
-          </h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">SEO & Indexing Governance</h1>
           <p className="text-slate-300 text-lg max-w-2xl">
-            Indexing is governed deliberately to protect platform credibility and prevent 
-            accidental exposure of restricted flows.
+            Indexing is governed deliberately to protect platform credibility and prevent accidental
+            exposure of restricted flows.
           </p>
           <div className="mt-6 text-sm text-slate-500">
             Last reviewed: {currentDate} • Owner: Platform Governance
@@ -100,7 +97,8 @@ export default async function SeoIndexingPage() {
             Publishing is not the same as indexing.
           </p>
           <p className="text-slate-700">
-            Public pages default to <code className="bg-slate-200 px-2 py-0.5 rounded text-sm">noindex</code> unless 
+            Public pages default to{' '}
+            <code className="bg-slate-200 px-2 py-0.5 rounded text-sm">noindex</code> unless
             explicitly approved. Indexing is a governance decision, not a content decision.
           </p>
         </section>
@@ -160,18 +158,21 @@ export default async function SeoIndexingPage() {
               <strong>Default robots directive:</strong>
             </p>
             <pre className="bg-slate-800 text-slate-100 p-4 rounded-lg text-sm overflow-x-auto">
-{`<meta name="robots" content="noindex, follow">`}
+              {`<meta name="robots" content="noindex, follow">`}
             </pre>
             <p>
               <strong>Indexed page directive:</strong>
             </p>
             <pre className="bg-slate-800 text-slate-100 p-4 rounded-lg text-sm overflow-x-auto">
-{`<meta name="robots" content="index, follow">
+              {`<meta name="robots" content="index, follow">
 <link rel="canonical" href="https://www.elevateforhumanity.org/page-path">`}
             </pre>
             <p className="text-sm text-slate-600 mt-4">
-              See <code className="bg-slate-200 px-2 py-0.5 rounded">config/seo-index-whitelist.json</code> for 
-              the complete list of approved indexed pages.
+              See{' '}
+              <code className="bg-slate-200 px-2 py-0.5 rounded">
+                config/seo-index-whitelist.json
+              </code>{' '}
+              for the complete list of approved indexed pages.
             </p>
           </div>
         </section>
@@ -180,9 +181,17 @@ export default async function SeoIndexingPage() {
         <section className="mb-12">
           <h2 className="text-2xl font-bold text-slate-900 mb-6">Monitoring</h2>
           <div className="space-y-4 text-slate-700">
-            <p><strong>Weekly:</strong> Search Console coverage scan, index count vs sitemap audit</p>
-            <p><strong>Monthly:</strong> Full indexed page inventory, thin content check, canonical audit</p>
-            <p><strong>Response protocol:</strong> If an issue is detected, apply noindex immediately, then investigate and fix.</p>
+            <p>
+              <strong>Weekly:</strong> Search Console coverage scan, index count vs sitemap audit
+            </p>
+            <p>
+              <strong>Monthly:</strong> Full indexed page inventory, thin content check, canonical
+              audit
+            </p>
+            <p>
+              <strong>Response protocol:</strong> If an issue is detected, apply noindex
+              immediately, then investigate and fix.
+            </p>
           </div>
         </section>
 

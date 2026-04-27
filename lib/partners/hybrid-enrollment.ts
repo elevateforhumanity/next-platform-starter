@@ -35,10 +35,13 @@ export interface HybridEnrollmentResult {
  * Automatically detects if API or link-based mode should be used
  */
 export async function enrollInExternalModule(
-  request: HybridEnrollmentRequest
+  request: HybridEnrollmentRequest,
 ): Promise<HybridEnrollmentResult> {
   const supabase = getSupabaseAdmin();
-  await setAuditContext(supabase, { actorUserId: request.studentId, systemActor: 'hybrid_enrollment' });
+  await setAuditContext(supabase, {
+    actorUserId: request.studentId,
+    systemActor: 'hybrid_enrollment',
+  });
   try {
     // Fetch module details
     const { data: module, error: moduleError } = await supabase
@@ -82,13 +85,13 @@ export async function enrollInExternalModule(
 
     // Use link mode
     return await enrollViaLink(module, request);
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return {
       success: false,
       mode: 'link',
-      error:
-        'Operation failed',
+      error: 'Operation failed',
     };
   }
 }
@@ -96,7 +99,7 @@ export async function enrollInExternalModule(
 async function enrollViaAPI(
   module: any,
   student: any,
-  request: HybridEnrollmentRequest
+  request: HybridEnrollmentRequest,
 ): Promise<HybridEnrollmentResult> {
   const partnerType = module.partner_type as PartnerType;
   const client = getPartnerClient(partnerType);
@@ -112,10 +115,7 @@ async function enrollViaAPI(
   });
 
   // Enroll in course
-  const enrollment = await client.enrollInCourse(
-    account.externalId,
-    module.external_course_code
-  );
+  const enrollment = await client.enrollInCourse(account.externalId, module.external_course_code);
 
   // Get SSO launch URL
   const launchUrl = await client.getSsoLaunchUrl({
@@ -136,7 +136,7 @@ async function enrollViaAPI(
         external_account_id: account.externalId,
         progress_percentage: 0,
       },
-      { onConflict: 'module_id,user_id' }
+      { onConflict: 'module_id,user_id' },
     )
     .select()
     .maybeSingle();
@@ -154,7 +154,7 @@ async function enrollViaAPI(
 
 async function enrollViaLink(
   module: any,
-  request: HybridEnrollmentRequest
+  request: HybridEnrollmentRequest,
 ): Promise<HybridEnrollmentResult> {
   // Create progress record in link mode
   const { data: progress, error } = await supabase
@@ -165,7 +165,7 @@ async function enrollViaLink(
         user_id: request.userId,
         status: 'not_started',
       },
-      { onConflict: 'module_id,user_id' }
+      { onConflict: 'module_id,user_id' },
     )
     .select()
     .maybeSingle();
@@ -183,9 +183,7 @@ async function enrollViaLink(
 /**
  * Sync progress for API-based enrollments
  */
-export async function syncExternalModuleProgress(
-  progressId: string
-): Promise<void> {
+export async function syncExternalModuleProgress(progressId: string): Promise<void> {
   const { data: progress, error: progressError } = await supabase
     .from('external_partner_progress')
     .select(
@@ -195,7 +193,7 @@ export async function syncExternalModuleProgress(
         partner_type,
         delivery_mode
       )
-    `
+    `,
     )
     .eq('id', progressId)
     .maybeSingle();
@@ -212,14 +210,11 @@ export async function syncExternalModuleProgress(
     return;
   }
 
-  const partnerType = progress.external_partner_modules
-    .partner_type as PartnerType;
+  const partnerType = progress.external_partner_modules.partner_type as PartnerType;
   const client = getPartnerClient(partnerType);
 
   // Fetch progress from partner API
-  const partnerProgress = await client.getProgress(
-    progress.external_enrollment_id
-  );
+  const partnerProgress = await client.getProgress(progress.external_enrollment_id);
 
   if (!partnerProgress) return;
 
@@ -237,9 +232,7 @@ export async function syncExternalModuleProgress(
   // Try to fetch certificate if completed
   if (partnerProgress.completed) {
     try {
-      const certificate = await client.getCertificate(
-        progress.external_enrollment_id
-      );
+      const certificate = await client.getCertificate(progress.external_enrollment_id);
       if (certificate) {
         updates.certificate_url = certificate.downloadUrl;
         updates.certificate_number = certificate.certificateNumber;
@@ -249,10 +242,7 @@ export async function syncExternalModuleProgress(
     }
   }
 
-  await supabase
-    .from('external_partner_progress')
-    .update(updates)
-    .eq('id', progressId);
+  await supabase.from('external_partner_progress').update(updates).eq('id', progressId);
 }
 
 /**
@@ -268,7 +258,7 @@ export async function syncAllExternalModules(): Promise<void> {
       external_partner_modules (
         delivery_mode
       )
-    `
+    `,
     )
     .in('status', ['in_progress'])
     .not('external_enrollment_id', 'is', null);
@@ -286,10 +276,7 @@ export async function syncAllExternalModules(): Promise<void> {
         // Small delay to avoid rate limiting
         await new Promise((resolve) => setTimeout(resolve, 100));
       } catch (error) {
-        logger.error(
-          `[HybridEnrollment] Sync failed for ${progress.id}:`,
-          error
-        );
+        logger.error(`[HybridEnrollment] Sync failed for ${progress.id}:`, error);
       }
     }
   }

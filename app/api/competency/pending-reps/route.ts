@@ -80,7 +80,7 @@ export async function GET(request: NextRequest) {
          notes,
          submitted_at,
          profiles:apprentice_id ( full_name ),
-         competency_skills:skill_id ( name )`
+         competency_skills:skill_id ( name )`,
       )
       .in('apprentice_id', apprenticeIds)
       .eq('supervisor_verified', false)

@@ -15,16 +15,8 @@ type Props = {
 export function DashboardStatsGrid({ stats }: Props) {
   return (
     <section className="grid gap-3 md:grid-cols-3 lg:grid-cols-6">
-      <StatCard
-        label="Active courses"
-        value={stats.activeCourses}
-        helper="Currently in progress"
-      />
-      <StatCard
-        label="Completed"
-        value={stats.completedCourses}
-        helper="Finished courses"
-      />
+      <StatCard label="Active courses" value={stats.activeCourses} helper="Currently in progress" />
+      <StatCard label="Completed" value={stats.completedCourses} helper="Finished courses" />
       <StatCard
         label="Avg. completion"
         value={`${stats.avgCompletionPercent}%`}
@@ -40,11 +32,7 @@ export function DashboardStatsGrid({ stats }: Props) {
         value={`${stats.currentStreakDays}d`}
         helper="Daily learning"
       />
-      <StatCard
-        label="Longest streak"
-        value={`${stats.longestStreakDays}d`}
-        helper="Best record"
-      />
+      <StatCard label="Longest streak" value={`${stats.longestStreakDays}d`} helper="Best record" />
     </section>
   );
 }
@@ -58,13 +46,9 @@ type StatCardProps = {
 function StatCard({ label, value, helper }: StatCardProps) {
   return (
     <div className="flex flex-col justify-between rounded-2xl bg-white p-3 shadow-sm">
-      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">
-        {label}
-      </p>
+      <p className="text-xs font-medium uppercase tracking-wide text-slate-500">{label}</p>
       <p className="mt-1 text-xl font-semibold text-black">{value}</p>
-      {helper && (
-        <p className="mt-1 text-[11px] text-slate-500">{helper}</p>
-      )}
+      {helper && <p className="mt-1 text-[11px] text-slate-500">{helper}</p>}
     </div>
   );
 }

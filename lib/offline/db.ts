@@ -78,10 +78,7 @@ class OfflineDB {
     });
   }
 
-  private getStore(
-    storeName: string,
-    mode: IDBTransactionMode = 'readonly'
-  ): IDBObjectStore {
+  private getStore(storeName: string, mode: IDBTransactionMode = 'readonly'): IDBObjectStore {
     if (!this.db) throw new Error('Database not initialized');
     const transaction = this.db.transaction(storeName, mode);
     return transaction.objectStore(storeName);

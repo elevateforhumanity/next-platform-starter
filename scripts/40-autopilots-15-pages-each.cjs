@@ -29,17 +29,17 @@ for (let i = 0; i < NUM_AUTOPILOTS; i++) {
   const start = i * PAGES_PER_AUTOPILOT;
   const end = Math.min(start + PAGES_PER_AUTOPILOT, allPages.length);
   const assignedPages = allPages.slice(start, end);
-  
+
   autopilots.push({
     id: i + 1,
     name: `Autopilot-${String(i + 1).padStart(2, '0')}`,
     pages: assignedPages,
-    count: assignedPages.length
+    count: assignedPages.length,
   });
 }
 
 console.log('AUTOPILOT ASSIGNMENTS:\n');
-autopilots.forEach(ap => {
+autopilots.forEach((ap) => {
   const firstPage = ap.pages[0]?.route || '';
   const lastPage = ap.pages[ap.pages.length - 1]?.route || '';
   console.log(`${ap.name}: ${ap.count} pages (${firstPage} ... ${lastPage})`);
@@ -51,18 +51,20 @@ const startTime = Date.now();
 let totalBuilt = 0;
 
 // Each autopilot builds its assigned pages
-autopilots.forEach(autopilot => {
+autopilots.forEach((autopilot) => {
   console.log(`\n${autopilot.name} starting...`);
-  
+
   autopilot.pages.forEach((page, index) => {
     const code = buildFullPage(page, autopilot.name);
     fs.writeFileSync(page.file, code, 'utf8');
     totalBuilt++;
-    
-    const progress = (totalBuilt / allPages.length * 100).toFixed(1);
-    process.stdout.write(`\r[${progress}%] ${totalBuilt}/${allPages.length} | ${autopilot.name} (${index + 1}/${autopilot.count})`);
+
+    const progress = ((totalBuilt / allPages.length) * 100).toFixed(1);
+    process.stdout.write(
+      `\r[${progress}%] ${totalBuilt}/${allPages.length} | ${autopilot.name} (${index + 1}/${autopilot.count})`,
+    );
   });
-  
+
   console.log(`\n${autopilot.name} completed ${autopilot.count} pages ✓`);
 });
 
@@ -81,7 +83,7 @@ function buildFullPage(pageInfo, autopilotName) {
   const route = pageInfo.route;
   const title = pageInfo.title || 'Page';
   const desc = pageInfo.description || 'Page description';
-  
+
   // Determine page type
   if (route.includes('/admin')) {
     return buildAdminPage(pageInfo, title, desc);

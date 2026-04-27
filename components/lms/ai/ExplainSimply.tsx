@@ -55,9 +55,7 @@ export function ExplainSimply({ content }: Props) {
 
       {/* Error */}
       {state === 'error' && (
-        <p className="mt-2 text-sm text-red-600">
-          Could not simplify right now. Try again.
-        </p>
+        <p className="mt-2 text-sm text-red-600">Could not simplify right now. Try again.</p>
       )}
 
       {/* Simplified output */}
@@ -76,9 +74,7 @@ export function ExplainSimply({ content }: Props) {
               <X className="w-4 h-4" />
             </button>
           </div>
-          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">
-            {simplified}
-          </p>
+          <p className="text-sm text-slate-700 leading-relaxed whitespace-pre-wrap">{simplified}</p>
           <button
             onClick={() => setShowSimplified(false)}
             className="mt-3 text-xs text-brand-blue-500 hover:underline"

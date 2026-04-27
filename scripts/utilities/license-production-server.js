@@ -65,19 +65,14 @@ app.post('/api/generate-license', async (req, res) => {
       });
     }
 
-    const license = generateTieredLicense(
-      email,
-      packageId,
-      licenseType,
-      expiresInDays
-    );
+    const license = generateTieredLicense(email, packageId, licenseType, expiresInDays);
 
     // Generate PDF certificate
     const certificatePath = await generateLicensePDF(
       email,
       `${license.tierName} - ${packageId}`,
       license.licenseKey,
-      license.expiresAt
+      license.expiresAt,
     );
 
     res.json({
@@ -91,10 +86,7 @@ app.post('/api/generate-license', async (req, res) => {
         maxDeployments: license.maxDeployments,
         downloadLimits: license.downloadLimits,
       },
-      certificatePath: certificatePath.replace(
-        './certificates/',
-        '/certificates/'
-      ),
+      certificatePath: certificatePath.replace('./certificates/', '/certificates/'),
     });
   } catch (error) {
     res.status(500).json({ error: 'Failed to generate license' });
@@ -162,7 +154,6 @@ app.get('/', (req, res) => {
 
 // Start server
 app.listen(PORT, () => {
-
   // Ensure certificates directory exists
   const fs = require('fs');
   if (!fs.existsSync('./certificates')) {

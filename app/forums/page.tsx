@@ -6,7 +6,8 @@ import { MessageSquare, Users, TrendingUp, ArrowRight, Clock, Search, Plus } fro
 
 export const metadata: Metadata = {
   title: 'Community Forums | Elevate for Humanity',
-  description: 'Connect with fellow students, alumni, and instructors. Ask questions, share experiences, and support each other.',
+  description:
+    'Connect with fellow students, alumni, and instructors. Ask questions, share experiences, and support each other.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/forums',
   },
@@ -25,13 +26,13 @@ export default async function ForumsPage() {
   const supabase = await createClient();
 
   let categories: ForumCategory[] = [];
-  
+
   if (supabase) {
     const { data, error } = await supabase
       .from('forum_categories')
       .select('id, name, description, order_index')
       .order('order_index', { ascending: true });
-    
+
     if (!error && data) {
       categories = data;
     }
@@ -43,7 +44,8 @@ export default async function ForumsPage() {
       <div className="min-h-screen bg-white">
         {/* Hero */}
         <section className="relative min-h-[400px] flex items-center overflow-hidden">
-          <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image sizes="100vw"
             src="/images/pages/success-stories-hero.jpg"
             alt="Community Forums"
             fill
@@ -59,7 +61,8 @@ export default async function ForumsPage() {
               </span>
               <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Community Forums</h1>
               <p className="text-xl text-indigo-100">
-                Connect with fellow students, alumni, and instructors. Ask questions, share experiences, and support each other on your career journey.
+                Connect with fellow students, alumni, and instructors. Ask questions, share
+                experiences, and support each other on your career journey.
               </p>
             </div>
           </div>
@@ -69,7 +72,8 @@ export default async function ForumsPage() {
           <MessageSquare className="w-16 h-16 text-gray-300 mx-auto mb-6" />
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Forums In Development</h2>
           <p className="text-gray-600 mb-8 max-w-lg mx-auto">
-            We are building a community space where students can connect, ask questions, and support each other. Check back soon!
+            We are building a community space where students can connect, ask questions, and support
+            each other. Check back soon!
           </p>
           <Link
             href="/contact"
@@ -87,25 +91,49 @@ export default async function ForumsPage() {
     'General Discussion': '💬',
     'Healthcare Programs': '🏥',
     'Skilled Trades': '🔧',
-    'Technology': '💻',
+    Technology: '💻',
     'Job Search & Career': '💼',
     'Student Support': '🎓',
   };
 
   const categoryColors: Record<string, { bg: string; border: string; hover: string }> = {
-    'General Discussion': { bg: 'bg-blue-50', border: 'border-blue-200', hover: 'hover:border-blue-400' },
-    'Healthcare Programs': { bg: 'bg-green-50', border: 'border-green-200', hover: 'hover:border-green-400' },
-    'Skilled Trades': { bg: 'bg-orange-50', border: 'border-orange-200', hover: 'hover:border-orange-400' },
-    'Technology': { bg: 'bg-purple-50', border: 'border-purple-200', hover: 'hover:border-purple-400' },
-    'Job Search & Career': { bg: 'bg-indigo-50', border: 'border-indigo-200', hover: 'hover:border-indigo-400' },
-    'Student Support': { bg: 'bg-rose-50', border: 'border-rose-200', hover: 'hover:border-rose-400' },
+    'General Discussion': {
+      bg: 'bg-blue-50',
+      border: 'border-blue-200',
+      hover: 'hover:border-blue-400',
+    },
+    'Healthcare Programs': {
+      bg: 'bg-green-50',
+      border: 'border-green-200',
+      hover: 'hover:border-green-400',
+    },
+    'Skilled Trades': {
+      bg: 'bg-orange-50',
+      border: 'border-orange-200',
+      hover: 'hover:border-orange-400',
+    },
+    Technology: {
+      bg: 'bg-purple-50',
+      border: 'border-purple-200',
+      hover: 'hover:border-purple-400',
+    },
+    'Job Search & Career': {
+      bg: 'bg-indigo-50',
+      border: 'border-indigo-200',
+      hover: 'hover:border-indigo-400',
+    },
+    'Student Support': {
+      bg: 'bg-rose-50',
+      border: 'border-rose-200',
+      hover: 'hover:border-rose-400',
+    },
   };
 
   return (
     <div className="min-h-screen bg-gray-50">
       {/* Hero */}
       <section className="relative min-h-[450px] flex items-center overflow-hidden">
-        <Image
+        <Image sizes="100vw"
           src="/images/pages/success-stories-hero.jpg"
           alt="Community Forums"
           fill
@@ -121,7 +149,8 @@ export default async function ForumsPage() {
             </span>
             <h1 className="text-4xl md:text-5xl font-bold text-white mb-4">Community Forums</h1>
             <p className="text-xl text-indigo-100 mb-8">
-              Connect with fellow students, alumni, and instructors. Ask questions, share experiences, and support each other on your career journey.
+              Connect with fellow students, alumni, and instructors. Ask questions, share
+              experiences, and support each other on your career journey.
             </p>
             <div className="flex flex-wrap gap-4">
               <Link
@@ -175,8 +204,12 @@ export default async function ForumsPage() {
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {categories.map((category) => {
               const icon = categoryIcons[category.name] || '💬';
-              const colors = categoryColors[category.name] || { bg: 'bg-gray-50', border: 'border-gray-200', hover: 'hover:border-gray-400' };
-              
+              const colors = categoryColors[category.name] || {
+                bg: 'bg-gray-50',
+                border: 'border-gray-200',
+                hover: 'hover:border-gray-400',
+              };
+
               return (
                 <Link
                   key={category.id}
@@ -224,7 +257,10 @@ export default async function ForumsPage() {
               </p>
             </div>
           </div>
-          <Link href="/policies/community-guidelines" className="inline-flex items-center gap-2 mt-6 text-indigo-600 font-medium hover:text-indigo-700">
+          <Link
+            href="/policies/community-guidelines"
+            className="inline-flex items-center gap-2 mt-6 text-indigo-600 font-medium hover:text-indigo-700"
+          >
             View Full Community Guidelines <ArrowRight className="w-4 h-4" />
           </Link>
         </section>
@@ -234,7 +270,8 @@ export default async function ForumsPage() {
           <Users className="w-12 h-12 mx-auto mb-4 text-indigo-200" />
           <h2 className="text-2xl font-bold mb-4">Join the Conversation</h2>
           <p className="text-indigo-100 mb-6 max-w-lg mx-auto">
-            Sign in to participate in discussions, ask questions, and connect with the Elevate community.
+            Sign in to participate in discussions, ask questions, and connect with the Elevate
+            community.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link

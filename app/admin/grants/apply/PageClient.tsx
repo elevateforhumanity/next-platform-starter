@@ -9,53 +9,187 @@ import { Send, CheckCircle, AlertCircle, ExternalLink } from 'lucide-react';
 // ── SAEF Round 2 Form Schema ──────────────────────────────────────────────────
 // Add any new grant form here as a new FORM_SCHEMAS entry.
 
-const SAEF_FORM_URL = 'https://docs.google.com/forms/d/e/1FAIpQLSdEfMQFOf50SJF4-YeUGGOGlEa0FKsWzTgeuE3v1OK6e5bZ0w/viewform';
+const SAEF_FORM_URL =
+  'https://docs.google.com/forms/d/e/1FAIpQLSdEfMQFOf50SJF4-YeUGGOGlEa0FKsWzTgeuE3v1OK6e5bZ0w/viewform';
 
 const SAEF_FIELDS = [
   // Section 1 — Org Info
-  { fieldName: 'organization_name',    fieldLabel: 'Organization Name',           type: 'text',     required: true,  section: 'Organization Information' },
-  { fieldName: 'address',              fieldLabel: 'Address',                     type: 'text',     required: true,  section: 'Organization Information' },
-  { fieldName: 'primary_contact',      fieldLabel: 'Primary Contact Person & Title', type: 'text', required: true,  section: 'Organization Information' },
-  { fieldName: 'phone',                fieldLabel: 'Phone',                       type: 'tel',      required: true,  section: 'Organization Information' },
-  { fieldName: 'email',                fieldLabel: 'Email',                       type: 'email',    required: true,  section: 'Organization Information' },
-  { fieldName: 'org_type',             fieldLabel: 'Organization Type',           type: 'select',   required: true,  section: 'Organization Information',
-    options: ['Nonprofit', 'Public Entity', 'Postsecondary Institution', 'Workforce Development Board', 'Group Sponsor', 'Other'] },
+  {
+    fieldName: 'organization_name',
+    fieldLabel: 'Organization Name',
+    type: 'text',
+    required: true,
+    section: 'Organization Information',
+  },
+  {
+    fieldName: 'address',
+    fieldLabel: 'Address',
+    type: 'text',
+    required: true,
+    section: 'Organization Information',
+  },
+  {
+    fieldName: 'primary_contact',
+    fieldLabel: 'Primary Contact Person & Title',
+    type: 'text',
+    required: true,
+    section: 'Organization Information',
+  },
+  {
+    fieldName: 'phone',
+    fieldLabel: 'Phone',
+    type: 'tel',
+    required: true,
+    section: 'Organization Information',
+  },
+  {
+    fieldName: 'email',
+    fieldLabel: 'Email',
+    type: 'email',
+    required: true,
+    section: 'Organization Information',
+  },
+  {
+    fieldName: 'org_type',
+    fieldLabel: 'Organization Type',
+    type: 'select',
+    required: true,
+    section: 'Organization Information',
+    options: [
+      'Nonprofit',
+      'Public Entity',
+      'Postsecondary Institution',
+      'Workforce Development Board',
+      'Group Sponsor',
+      'Other',
+    ],
+  },
 
   // Section 2 — Eligibility
-  { fieldName: 'sam_registration',     fieldLabel: 'SAM.gov Registration / CAGE Code', type: 'text', required: true, section: 'Organizational Eligibility' },
-  { fieldName: 'registered_bidder',    fieldLabel: 'Registered Bidder Status',    type: 'text',     required: true,  section: 'Organizational Eligibility' },
-  { fieldName: 'dol_sponsor',          fieldLabel: 'DOL Registered Apprenticeship Sponsor', type: 'text', required: true, section: 'Organizational Eligibility' },
+  {
+    fieldName: 'sam_registration',
+    fieldLabel: 'SAM.gov Registration / CAGE Code',
+    type: 'text',
+    required: true,
+    section: 'Organizational Eligibility',
+  },
+  {
+    fieldName: 'registered_bidder',
+    fieldLabel: 'Registered Bidder Status',
+    type: 'text',
+    required: true,
+    section: 'Organizational Eligibility',
+  },
+  {
+    fieldName: 'dol_sponsor',
+    fieldLabel: 'DOL Registered Apprenticeship Sponsor',
+    type: 'text',
+    required: true,
+    section: 'Organizational Eligibility',
+  },
 
   // Section 3 — Grant Categories
-  { fieldName: 'categories',           fieldLabel: 'Grant Categories Selected',   type: 'textarea', required: true,  section: 'Grant Categories' },
-  { fieldName: 'total_requested',      fieldLabel: 'Total Funding Requested',     type: 'text',     required: true,  section: 'Grant Categories' },
+  {
+    fieldName: 'categories',
+    fieldLabel: 'Grant Categories Selected',
+    type: 'textarea',
+    required: true,
+    section: 'Grant Categories',
+  },
+  {
+    fieldName: 'total_requested',
+    fieldLabel: 'Total Funding Requested',
+    type: 'text',
+    required: true,
+    section: 'Grant Categories',
+  },
 
   // Section 4 — Employer Partner
-  { fieldName: 'employer_partner',     fieldLabel: 'Employer Partner',            type: 'textarea', required: true,  section: 'Employer Partner' },
+  {
+    fieldName: 'employer_partner',
+    fieldLabel: 'Employer Partner',
+    type: 'textarea',
+    required: true,
+    section: 'Employer Partner',
+  },
 
   // Section 5 — Narrative
-  { fieldName: 'statement_of_need',    fieldLabel: 'Statement of Need',           type: 'textarea', required: true,  section: 'Program Narrative' },
-  { fieldName: 'program_description',  fieldLabel: 'Program Description',         type: 'textarea', required: true,  section: 'Program Narrative' },
-  { fieldName: 'objectives',           fieldLabel: 'Objectives',                  type: 'textarea', required: true,  section: 'Program Narrative' },
-  { fieldName: 'methods',              fieldLabel: 'Methods',                     type: 'textarea', required: true,  section: 'Program Narrative' },
-  { fieldName: 'outcomes',             fieldLabel: 'Expected Outcomes',           type: 'textarea', required: true,  section: 'Program Narrative' },
+  {
+    fieldName: 'statement_of_need',
+    fieldLabel: 'Statement of Need',
+    type: 'textarea',
+    required: true,
+    section: 'Program Narrative',
+  },
+  {
+    fieldName: 'program_description',
+    fieldLabel: 'Program Description',
+    type: 'textarea',
+    required: true,
+    section: 'Program Narrative',
+  },
+  {
+    fieldName: 'objectives',
+    fieldLabel: 'Objectives',
+    type: 'textarea',
+    required: true,
+    section: 'Program Narrative',
+  },
+  {
+    fieldName: 'methods',
+    fieldLabel: 'Methods',
+    type: 'textarea',
+    required: true,
+    section: 'Program Narrative',
+  },
+  {
+    fieldName: 'outcomes',
+    fieldLabel: 'Expected Outcomes',
+    type: 'textarea',
+    required: true,
+    section: 'Program Narrative',
+  },
 
   // Section 6 — Budget
-  { fieldName: 'budget_narrative',     fieldLabel: 'Budget Narrative',            type: 'textarea', required: true,  section: 'Budget' },
+  {
+    fieldName: 'budget_narrative',
+    fieldLabel: 'Budget Narrative',
+    type: 'textarea',
+    required: true,
+    section: 'Budget',
+  },
 
   // Section 7 — Capacity
-  { fieldName: 'org_capacity',         fieldLabel: 'Organizational Capacity & Experience', type: 'textarea', required: true, section: 'Organizational Capacity' },
+  {
+    fieldName: 'org_capacity',
+    fieldLabel: 'Organizational Capacity & Experience',
+    type: 'textarea',
+    required: true,
+    section: 'Organizational Capacity',
+  },
 
   // Section 8 — Commitments
-  { fieldName: 'aihub_commitment',     fieldLabel: 'AiHUB Participation Commitment', type: 'text', required: true,  section: 'Commitments' },
-  { fieldName: 'reporting_commitment', fieldLabel: 'Reporting Commitment',        type: 'text',     required: true,  section: 'Commitments' },
+  {
+    fieldName: 'aihub_commitment',
+    fieldLabel: 'AiHUB Participation Commitment',
+    type: 'text',
+    required: true,
+    section: 'Commitments',
+  },
+  {
+    fieldName: 'reporting_commitment',
+    fieldLabel: 'Reporting Commitment',
+    type: 'text',
+    required: true,
+    section: 'Commitments',
+  },
 ] as const;
 
-type FieldName = typeof SAEF_FIELDS[number]['fieldName'];
+type FieldName = (typeof SAEF_FIELDS)[number]['fieldName'];
 type FormValues = Record<FieldName, string>;
 
 const EMPTY_VALUES: FormValues = Object.fromEntries(
-  SAEF_FIELDS.map((f) => [f.fieldName, ''])
+  SAEF_FIELDS.map((f) => [f.fieldName, '']),
 ) as FormValues;
 
 export default function ApplicationAssistantPage() {
@@ -69,7 +203,9 @@ export default function ApplicationAssistantPage() {
     const fields = SAEF_FIELDS.map((f) => ({ fieldName: f.fieldName, fieldLabel: f.fieldLabel }));
     const results = generateSuggestions(fields);
     const map: Record<string, SuggestedAnswer> = {};
-    results.forEach((s) => { map[s.fieldName] = s; });
+    results.forEach((s) => {
+      map[s.fieldName] = s;
+    });
     setSuggestions(map);
   }, []);
 
@@ -120,18 +256,23 @@ export default function ApplicationAssistantPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-3xl mx-auto px-4 py-8">
-
         {/* Header */}
         <div className="bg-white rounded-2xl shadow-sm p-6 mb-6">
           <div className="flex items-start justify-between flex-wrap gap-4">
             <div>
-              <span className="bg-brand-green-100 text-brand-green-700 text-xs font-bold px-2 py-1 rounded-full">SAEF 3 — ROUND 2</span>
+              <span className="bg-brand-green-100 text-brand-green-700 text-xs font-bold px-2 py-1 rounded-full">
+                SAEF 3 — ROUND 2
+              </span>
               <h1 className="text-2xl font-bold text-slate-900 mt-2">Application Assistant</h1>
-              <p className="text-slate-700 text-sm">Indiana DWD · Education & Advanced Manufacturing · Up to $400,000</p>
+              <p className="text-slate-700 text-sm">
+                Indiana DWD · Education & Advanced Manufacturing · Up to $400,000
+              </p>
             </div>
             <div className="text-right">
               <p className="text-3xl font-bold text-brand-blue-600">{progress}%</p>
-              <p className="text-xs text-slate-700">{filledCount}/{totalFields} fields</p>
+              <p className="text-xs text-slate-700">
+                {filledCount}/{totalFields} fields
+              </p>
             </div>
           </div>
 
@@ -149,7 +290,8 @@ export default function ApplicationAssistantPage() {
               <div className="flex gap-3">
                 <AlertCircle className="w-5 h-5 text-brand-blue-600 flex-shrink-0 mt-0.5" />
                 <p className="text-sm text-brand-blue-800">
-                  Your org profile is loaded. Auto-fill all high-confidence fields instantly, then review before submitting.
+                  Your org profile is loaded. Auto-fill all high-confidence fields instantly, then
+                  review before submitting.
                 </p>
               </div>
               <button
@@ -199,8 +341,12 @@ export default function ApplicationAssistantPage() {
           {submitted ? (
             <div className="flex flex-col items-center gap-3">
               <CheckCircle className="w-10 h-10 text-green-500" />
-              <p className="font-semibold text-slate-900">Form opened with your answers pre-filled.</p>
-              <p className="text-sm text-slate-700">Review the form in the new tab and hit <strong>Submit</strong> to send to DWD.</p>
+              <p className="font-semibold text-slate-900">
+                Form opened with your answers pre-filled.
+              </p>
+              <p className="text-sm text-slate-700">
+                Review the form in the new tab and hit <strong>Submit</strong> to send to DWD.
+              </p>
               <button
                 onClick={openPrefilledForm}
                 className="flex items-center gap-2 border border-gray-300 text-slate-900 px-5 py-2 rounded-lg text-sm font-semibold hover:bg-gray-50 transition-colors"
@@ -227,7 +373,6 @@ export default function ApplicationAssistantPage() {
             </>
           )}
         </div>
-
       </div>
     </div>
   );

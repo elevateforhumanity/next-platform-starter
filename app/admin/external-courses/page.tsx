@@ -21,7 +21,8 @@ export default async function ExternalCoursesAdminPage() {
 
   const { data: items } = await supabase
     .from('program_external_courses')
-    .select(`
+    .select(
+      `
       id,
       partner_name,
       title,
@@ -32,7 +33,8 @@ export default async function ExternalCoursesAdminPage() {
       stripe_price_id,
       is_active,
       programs ( id, title, slug )
-    `)
+    `,
+    )
     .eq('is_active', true)
     .order('partner_name')
     .order('title');
@@ -42,8 +44,8 @@ export default async function ExternalCoursesAdminPage() {
       <div className="mb-6">
         <h1 className="text-2xl font-bold text-slate-900">External Courses — Stripe Pricing</h1>
         <p className="text-sm text-slate-500 mt-1">
-          Set cost and payer rule for each partner course, then sync to Stripe.
-          Rows with no cost_cents show no payment button to learners.
+          Set cost and payer rule for each partner course, then sync to Stripe. Rows with no
+          cost_cents show no payment button to learners.
         </p>
       </div>
 

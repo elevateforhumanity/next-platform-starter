@@ -26,7 +26,7 @@ const VALID_STEP_TYPES = new Set(['lesson', 'checkpoint', 'exam']);
 
 export async function promoteToCurriculum(
   courseId: string,
-  programId: string
+  programId: string,
 ): Promise<PromoteResult> {
   const db = await getAdminClient();
   const result: PromoteResult = {
@@ -66,7 +66,7 @@ export async function promoteToCurriculum(
   }
 
   // Map module_id → { title, order_index }
-  const moduleMap = new Map(modules.map(m => [m.id as string, m]));
+  const moduleMap = new Map(modules.map((m) => [m.id as string, m]));
 
   // ── Fetch staged lessons ──────────────────────────────────────────────────
   const { data: lessons, error: lessonErr } = await db
@@ -85,10 +85,11 @@ export async function promoteToCurriculum(
   for (const lesson of lessons) {
     let content: Record<string, unknown> = {};
     try {
-      content = typeof lesson.content === 'string'
-        ? JSON.parse(lesson.content)
-        : (lesson.content ?? {});
-    } catch { /* no content JSON — ok */ }
+      content =
+        typeof lesson.content === 'string' ? JSON.parse(lesson.content) : (lesson.content ?? {});
+    } catch {
+      /* no content JSON — ok */
+    }
 
     const cs = content.compliance_status as string | undefined;
     // Only block if explicitly set to something other than draft
@@ -106,7 +107,7 @@ export async function promoteToCurriculum(
     .select('lesson_order')
     .eq('course_id', courseId);
 
-  const existingOrders = new Set((existing ?? []).map(r => r.lesson_order as number));
+  const existingOrders = new Set((existing ?? []).map((r) => r.lesson_order as number));
 
   // ── Build insert rows ─────────────────────────────────────────────────────
   const insertRows: Record<string, unknown>[] = [];
@@ -133,9 +134,10 @@ export async function promoteToCurriculum(
     let scriptText = '';
     let keyTerms: string[] = [];
     try {
-      const c = typeof lesson.content === 'string'
-        ? JSON.parse(lesson.content as string)
-        : (lesson.content ?? {});
+      const c =
+        typeof lesson.content === 'string'
+          ? JSON.parse(lesson.content as string)
+          : (lesson.content ?? {});
       const points: string[] = (c.learning_points as string[]) ?? [];
       const scenario: string = (c.scenario as string) ?? '';
       const aq = (c.assessment_question as Record<string, unknown>) ?? {};
@@ -146,9 +148,11 @@ export async function promoteToCurriculum(
           : '',
         scenario ? `\nScenario:\n${scenario}` : '',
         aq.question
-          ? `\nAssessment:\n${aq.question}\na) ${(aq.choices as Record<string,string>)?.a}\nb) ${(aq.choices as Record<string,string>)?.b}\nc) ${(aq.choices as Record<string,string>)?.c}\nd) ${(aq.choices as Record<string,string>)?.d}\nCorrect: ${String(aq.correct).toUpperCase()}\nRationale: ${aq.rationale}`
+          ? `\nAssessment:\n${aq.question}\na) ${(aq.choices as Record<string, string>)?.a}\nb) ${(aq.choices as Record<string, string>)?.b}\nc) ${(aq.choices as Record<string, string>)?.c}\nd) ${(aq.choices as Record<string, string>)?.d}\nCorrect: ${String(aq.correct).toUpperCase()}\nRationale: ${aq.rationale}`
           : '',
-      ].filter(Boolean).join('\n');
+      ]
+        .filter(Boolean)
+        .join('\n');
 
       keyTerms = points.slice(0, 5).map((p: string) => p.split(' ').slice(0, 4).join(' '));
     } catch {
@@ -156,20 +160,20 @@ export async function promoteToCurriculum(
     }
 
     insertRows.push({
-      course_id:    courseId,
+      course_id: courseId,
       // program_id: null when no program is linked yet (nullable per migration
       // 20260525000001_curriculum_lessons_nullable_program_id.sql)
-      program_id:   (programId && programId !== courseId) ? programId : null,
-      lesson_slug:  lesson.slug,
+      program_id: programId && programId !== courseId ? programId : null,
+      lesson_slug: lesson.slug,
       lesson_title: lesson.title,
       lesson_order: lesson.order_index,
       module_order: moduleOrder,
       module_title: moduleTitle,
-      step_type:    stepType,
+      step_type: stepType,
       passing_score: lesson.passing_score ?? 0,
-      script_text:  scriptText,
-      key_terms:    keyTerms,
-      status:       'draft',
+      script_text: scriptText,
+      key_terms: keyTerms,
+      status: 'draft',
     });
   }
 
@@ -190,7 +194,7 @@ export async function promoteToCurriculum(
   }
 
   result.inserted = inserted?.length ?? 0;
-  result.curriculum_lesson_ids = (inserted ?? []).map(r => r.id as string);
+  result.curriculum_lesson_ids = (inserted ?? []).map((r) => r.id as string);
 
   return result;
 }

@@ -4,8 +4,14 @@ import { createClient } from '@/lib/supabase/server';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import {
-  Users, CheckCircle, Award, Briefcase, ChevronRight,
-  AlertCircle, Clock, TrendingUp,
+  Users,
+  CheckCircle,
+  Award,
+  Briefcase,
+  ChevronRight,
+  AlertCircle,
+  Clock,
+  TrendingUp,
 } from 'lucide-react';
 
 export const metadata: Metadata = {
@@ -95,18 +101,27 @@ export default async function CaseManagerDashboardPage() {
   if (learnerIds.length > 0) {
     const { data: rawCmEnrollments } = await supabase
       .from('program_enrollments')
-      .select(`id, user_id, status, enrolled_at, funding_source, program:programs!program_id(id, title)`)
+      .select(
+        `id, user_id, status, enrolled_at, funding_source, program:programs!program_id(id, title)`,
+      )
       .in('user_id', learnerIds)
       .order('enrolled_at', { ascending: false })
       .limit(10);
 
     // Hydrate profiles separately (user_id → auth.users, no FK to profiles)
-    const cmEnrollUserIds = [...new Set((rawCmEnrollments ?? []).map((e: any) => e.user_id).filter(Boolean))];
+    const cmEnrollUserIds = [
+      ...new Set((rawCmEnrollments ?? []).map((e: any) => e.user_id).filter(Boolean)),
+    ];
     const { data: cmEnrollProfiles } = cmEnrollUserIds.length
       ? await supabase.from('profiles').select('id, full_name, email').in('id', cmEnrollUserIds)
       : { data: [] };
-    const cmEnrollProfileMap = Object.fromEntries((cmEnrollProfiles ?? []).map((p: any) => [p.id, p]));
-    recentEnrollments = (rawCmEnrollments ?? []).map((e: any) => ({ ...e, user: cmEnrollProfileMap[e.user_id] ?? null }));
+    const cmEnrollProfileMap = Object.fromEntries(
+      (cmEnrollProfiles ?? []).map((p: any) => [p.id, p]),
+    );
+    recentEnrollments = (rawCmEnrollments ?? []).map((e: any) => ({
+      ...e,
+      user: cmEnrollProfileMap[e.user_id] ?? null,
+    }));
   }
 
   const stats = [
@@ -114,8 +129,18 @@ export default async function CaseManagerDashboardPage() {
     { label: 'Active Enrollments', value: activeEnrollments, icon: Clock, color: 'brand-orange' },
     { label: 'Completions', value: completedEnrollments, icon: CheckCircle, color: 'brand-green' },
     { label: 'Credentials Earned', value: credentialsEarned, icon: Award, color: 'brand-blue' },
-    { label: 'Verified Placements', value: placementsVerified, icon: Briefcase, color: 'brand-green' },
-    { label: 'Placements Pending', value: placementsPending, icon: AlertCircle, color: 'brand-red' },
+    {
+      label: 'Verified Placements',
+      value: placementsVerified,
+      icon: Briefcase,
+      color: 'brand-green',
+    },
+    {
+      label: 'Placements Pending',
+      value: placementsPending,
+      icon: AlertCircle,
+      color: 'brand-red',
+    },
   ];
 
   return (
@@ -134,17 +159,24 @@ export default async function CaseManagerDashboardPage() {
       </div>
 
       <div className="max-w-6xl mx-auto px-6 py-8 space-y-8">
-
         {/* Stats grid */}
         <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-4">
           {stats.map((s) => (
-            <div key={s.label} className="bg-white rounded-xl border border-slate-200 p-4 text-center">
-              <s.icon className={`w-5 h-5 mx-auto mb-2 ${
-                s.color === 'brand-red' ? 'text-brand-red-500'
-                : s.color === 'brand-green' ? 'text-brand-green-600'
-                : s.color === 'brand-orange' ? 'text-orange-500'
-                : 'text-brand-blue-600'
-              }`} />
+            <div
+              key={s.label}
+              className="bg-white rounded-xl border border-slate-200 p-4 text-center"
+            >
+              <s.icon
+                className={`w-5 h-5 mx-auto mb-2 ${
+                  s.color === 'brand-red'
+                    ? 'text-brand-red-500'
+                    : s.color === 'brand-green'
+                      ? 'text-brand-green-600'
+                      : s.color === 'brand-orange'
+                        ? 'text-orange-500'
+                        : 'text-brand-blue-600'
+                }`}
+              />
               <div className="text-2xl font-extrabold text-slate-900">{s.value}</div>
               <div className="text-xs text-slate-500 mt-0.5 leading-tight">{s.label}</div>
             </div>
@@ -170,7 +202,9 @@ export default async function CaseManagerDashboardPage() {
                     className="flex items-center justify-between px-5 py-3 hover:bg-white transition"
                   >
                     <div>
-                      <p className="font-medium text-slate-900 text-sm">{p.full_name ?? 'Unknown'}</p>
+                      <p className="font-medium text-slate-900 text-sm">
+                        {p.full_name ?? 'Unknown'}
+                      </p>
                       <p className="text-xs text-slate-500">{p.email}</p>
                     </div>
                     <ChevronRight className="w-4 h-4 text-slate-400" />
@@ -195,7 +229,9 @@ export default async function CaseManagerDashboardPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="bg-white border-b border-slate-100">
-                    <th className="text-left px-5 py-3 font-semibold text-slate-600">Participant</th>
+                    <th className="text-left px-5 py-3 font-semibold text-slate-600">
+                      Participant
+                    </th>
                     <th className="text-left px-5 py-3 font-semibold text-slate-600">Program</th>
                     <th className="text-left px-5 py-3 font-semibold text-slate-600">Funding</th>
                     <th className="text-left px-5 py-3 font-semibold text-slate-600">Status</th>
@@ -214,13 +250,19 @@ export default async function CaseManagerDashboardPage() {
                         </Link>
                       </td>
                       <td className="px-5 py-3 text-slate-700">{e.program?.title ?? '—'}</td>
-                      <td className="px-5 py-3 text-slate-500 text-xs">{e.funding_source ?? '—'}</td>
+                      <td className="px-5 py-3 text-slate-500 text-xs">
+                        {e.funding_source ?? '—'}
+                      </td>
                       <td className="px-5 py-3">
-                        <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
-                          e.status === 'completed' ? 'bg-brand-green-100 text-brand-green-700'
-                          : e.status === 'active' ? 'bg-brand-blue-100 text-brand-blue-700'
-                          : 'bg-white text-slate-600'
-                        }`}>
+                        <span
+                          className={`inline-flex items-center px-2 py-0.5 rounded-full text-xs font-semibold ${
+                            e.status === 'completed'
+                              ? 'bg-brand-green-100 text-brand-green-700'
+                              : e.status === 'active'
+                                ? 'bg-brand-blue-100 text-brand-blue-700'
+                                : 'bg-white text-slate-600'
+                          }`}
+                        >
                           {e.status}
                         </span>
                       </td>
@@ -238,9 +280,24 @@ export default async function CaseManagerDashboardPage() {
         {/* Quick links */}
         <div className="grid sm:grid-cols-3 gap-4">
           {[
-            { label: 'Pending Placements', href: '/case-manager/placements?status=pending', icon: AlertCircle, desc: 'Verify employment outcomes' },
-            { label: 'WIOA Reporting', href: '/case-manager/reports/wioa', icon: TrendingUp, desc: 'Participant outcome exports' },
-            { label: 'All Participants', href: '/case-manager/participants', icon: Users, desc: 'Full participant list' },
+            {
+              label: 'Pending Placements',
+              href: '/case-manager/placements?status=pending',
+              icon: AlertCircle,
+              desc: 'Verify employment outcomes',
+            },
+            {
+              label: 'WIOA Reporting',
+              href: '/case-manager/reports/wioa',
+              icon: TrendingUp,
+              desc: 'Participant outcome exports',
+            },
+            {
+              label: 'All Participants',
+              href: '/case-manager/participants',
+              icon: Users,
+              desc: 'Full participant list',
+            },
           ].map((link) => (
             <Link
               key={link.label}

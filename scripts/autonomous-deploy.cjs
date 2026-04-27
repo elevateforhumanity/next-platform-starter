@@ -252,10 +252,9 @@ class CloudflarePagesStrategy extends DeploymentStrategy {
   async deploy() {
     log('Attempting Cloudflare Pages deployment...', 'deploy');
 
-    const result = exec(
-      'npx wrangler pages deploy dist --project-name=elevate-for-humanity',
-      { silent: false }
-    );
+    const result = exec('npx wrangler pages deploy dist --project-name=elevate-for-humanity', {
+      silent: false,
+    });
 
     if (result.success) {
       const url = this.extractUrl(result.output);
@@ -321,10 +320,7 @@ class LocalServerStrategy extends DeploymentStrategy {
     log('Starting local server on port 8080...', 'info');
 
     const server = http.createServer((req, res) => {
-      let filePath = path.join(
-        './dist',
-        req.url === '/' ? 'index.html' : req.url
-      );
+      let filePath = path.join('./dist', req.url === '/' ? 'index.html' : req.url);
 
       // Security check
       if (!filePath.startsWith(path.resolve('./dist'))) {
@@ -616,9 +612,7 @@ async function main() {
     console.log(`\n🌐 Your site is live at: ${DEPLOYMENT_URL}`);
     console.log('\n📋 Next steps:');
     console.log('   1. Visit your site and verify functionality');
-    console.log(
-      '   2. Run SEO optimization: node scripts/zero-dependency-seo.cjs'
-    );
+    console.log('   2. Run SEO optimization: node scripts/zero-dependency-seo.cjs');
     console.log('   3. Check deployment-report.json for details');
   } else {
     console.log('\n⚠️  Deployment did not complete successfully');

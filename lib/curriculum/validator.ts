@@ -66,7 +66,7 @@ export function scoreInstructionalCompleteness(lesson: LessonContract): number {
  */
 export function scoreCompetencyFidelity(
   lesson: LessonContract,
-  competencyPhraseMap: Record<string, string[]>
+  competencyPhraseMap: Record<string, string[]>,
 ): number {
   const claimed = lesson.competency_keys ?? [];
   if (claimed.length === 0) return 0;
@@ -78,7 +78,7 @@ export function scoreCompetencyFidelity(
   let covered = 0;
 
   for (const key of claimed) {
-    const phrases = (competencyPhraseMap[key] ?? []).map(p => p.toLowerCase());
+    const phrases = (competencyPhraseMap[key] ?? []).map((p) => p.toLowerCase());
     if (phrases.length === 0) {
       // No phrase map entry — give partial credit if key appears in text
       if (text.includes(key.toLowerCase())) covered += 0.5;
@@ -89,12 +89,15 @@ export function scoreCompetencyFidelity(
     let windowHits = 0;
     for (let i = 0; i < words.length - WINDOW; i++) {
       const window = words.slice(i, i + WINDOW).join(' ');
-      const hits = phrases.filter(p => window.includes(p)).length;
-      if (hits >= 2) { windowHits = hits; break; }
+      const hits = phrases.filter((p) => window.includes(p)).length;
+      if (hits >= 2) {
+        windowHits = hits;
+        break;
+      }
     }
 
     if (windowHits >= 2) covered++;
-    else if (phrases.some(p => text.includes(p))) covered += 0.3; // partial
+    else if (phrases.some((p) => text.includes(p))) covered += 0.3; // partial
   }
 
   let rawScore = covered / claimed.length;
@@ -121,7 +124,7 @@ export function scoreCompetencyFidelity(
  */
 export function scoreExamRelevance(
   lesson: LessonContract,
-  distractorPairs: Array<[string, string]>
+  distractorPairs: Array<[string, string]>,
 ): number {
   if (distractorPairs.length === 0) return 1; // no pairs to check — full credit
 
@@ -152,7 +155,7 @@ export function validateLesson(
   options: {
     competencyPhraseMap?: Record<string, string[]>;
     distractorPairs?: Array<[string, string]>;
-  } = {}
+  } = {},
 ): LessonValidationResult {
   const errors: string[] = [];
   const warnings: string[] = [];
@@ -165,7 +168,9 @@ export function validateLesson(
     errors.push('lesson_title must be at least 5 characters');
   }
   if (!lesson.script_text || lesson.script_text.length < MIN_SCRIPT_LENGTH) {
-    errors.push(`script_text must be at least ${MIN_SCRIPT_LENGTH} characters (got ${lesson.script_text?.length ?? 0})`);
+    errors.push(
+      `script_text must be at least ${MIN_SCRIPT_LENGTH} characters (got ${lesson.script_text?.length ?? 0})`,
+    );
   }
   if (!lesson.summary_text || lesson.summary_text.length < MIN_SUMMARY_LENGTH) {
     errors.push(`summary_text must be at least ${MIN_SUMMARY_LENGTH} characters`);
@@ -177,7 +182,9 @@ export function validateLesson(
     errors.push('competency_keys must have at least 1 entry');
   }
   if (lesson.competency_keys && lesson.competency_keys.length > MAX_COMPETENCIES) {
-    warnings.push(`competency_keys has ${lesson.competency_keys.length} entries — stuffing penalty will apply (max ${MAX_COMPETENCIES})`);
+    warnings.push(
+      `competency_keys has ${lesson.competency_keys.length} entries — stuffing penalty will apply (max ${MAX_COMPETENCIES})`,
+    );
   }
   if (!lesson.key_terms || lesson.key_terms.length === 0) {
     warnings.push('key_terms is empty — glossary will be blank for this lesson');
@@ -201,10 +208,14 @@ export function validateLesson(
     errors.push(`Completeness score ${completeness.toFixed(2)} below minimum ${MIN_COMPLETENESS}`);
   }
   if (competencyFidelity >= 0 && competencyFidelity < MIN_COMPETENCY_FIDELITY) {
-    errors.push(`Competency fidelity score ${competencyFidelity.toFixed(2)} below minimum ${MIN_COMPETENCY_FIDELITY}`);
+    errors.push(
+      `Competency fidelity score ${competencyFidelity.toFixed(2)} below minimum ${MIN_COMPETENCY_FIDELITY}`,
+    );
   }
   if (examRelevance >= 0 && examRelevance < MIN_EXAM_RELEVANCE) {
-    warnings.push(`Exam relevance score ${examRelevance.toFixed(2)} below minimum ${MIN_EXAM_RELEVANCE}`);
+    warnings.push(
+      `Exam relevance score ${examRelevance.toFixed(2)} below minimum ${MIN_EXAM_RELEVANCE}`,
+    );
   }
 
   return {
@@ -229,7 +240,7 @@ export function validateBatch(
   options: {
     competencyPhraseMap?: Record<string, string[]>;
     distractorPairs?: Array<[string, string]>;
-  } = {}
+  } = {},
 ): {
   results: LessonValidationResult[];
   passCount: number;
@@ -237,8 +248,8 @@ export function validateBatch(
   passRate: number;
   allPassed: boolean;
 } {
-  const results = lessons.map(l => validateLesson(l, options));
-  const passCount = results.filter(r => r.passed).length;
+  const results = lessons.map((l) => validateLesson(l, options));
+  const passCount = results.filter((r) => r.passed).length;
   const failCount = results.length - passCount;
 
   return {

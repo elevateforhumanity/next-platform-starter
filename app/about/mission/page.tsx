@@ -3,7 +3,8 @@ import { siteConfig } from '@/content/cf-site';
 
 export const metadata = buildMetadata({
   title: 'Our Mission',
-  description: 'Elevate for Humanity exists to create accessible career pathways and community support for underserved populations.',
+  description:
+    'Elevate for Humanity exists to create accessible career pathways and community support for underserved populations.',
   path: '/about/mission',
 });
 
@@ -19,9 +20,10 @@ export default function MissionPage() {
         <div>
           <h2 className="text-xl font-semibold">What We Do</h2>
           <p className="mt-3 text-slate-700">
-            We deliver credential-bearing workforce training in healthcare, skilled trades, technology,
-            and beauty — with WIOA and Workforce Ready Grant funding available for eligible learners.
-            Every program is designed to move people from enrollment to employment in weeks, not years.
+            We deliver credential-bearing workforce training in healthcare, skilled trades,
+            technology, and beauty — with WIOA and Workforce Ready Grant funding available for
+            eligible learners. Every program is designed to move people from enrollment to
+            employment in weeks, not years.
           </p>
         </div>
         <div>

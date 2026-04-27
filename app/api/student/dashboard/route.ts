@@ -6,13 +6,13 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 /**
  * GET /api/student/dashboard
- * 
+ *
  * Returns student dashboard data:
  * - Active enrollments with program info
  * - Verified hours by enrollment
  * - Pending hours by enrollment
  * - Tasks by enrollment with status
- * 
+ *
  * Strict rendering: Returns empty arrays if no data (never fake data).
  */
 async function _GET(request: Request) {
@@ -23,7 +23,10 @@ async function _GET(request: Request) {
     const supabase = await createClient();
 
     // Get current user
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -33,7 +36,8 @@ async function _GET(request: Request) {
     // Fetch active enrollments with program info
     const { data: enrollments, error: enrollError } = await supabase
       .from('program_enrollments')
-      .select(`
+      .select(
+        `
         id,
         status,
         enrolled_at,
@@ -45,7 +49,8 @@ async function _GET(request: Request) {
           duration_weeks,
           required_hours
         )
-      `)
+      `,
+      )
       .eq('student_id', studentId)
       .in('status', ['active', 'enrolled', 'in_progress'])
       .order('enrolled_at', { ascending: false });
@@ -77,13 +82,14 @@ async function _GET(request: Request) {
     }
 
     // Fetch tasks for student's enrollments
-    const enrollmentIds = (enrollments || []).map(e => e.id);
+    const enrollmentIds = (enrollments || []).map((e) => e.id);
     let tasks: any[] = [];
-    
+
     if (enrollmentIds.length > 0) {
       const { data: taskData, error: taskError } = await supabase
         .from('student_tasks')
-        .select(`
+        .select(
+          `
           id,
           status,
           submitted_at,
@@ -94,7 +100,8 @@ async function _GET(request: Request) {
             instructions,
             due_days
           )
-        `)
+        `,
+        )
         .eq('student_id', studentId)
         .in('enrollment_id', enrollmentIds)
         .order('created_at', { ascending: true });
@@ -108,15 +115,15 @@ async function _GET(request: Request) {
 
     // Aggregate hours by enrollment
     const hoursByEnrollment: Record<string, { verified: number; pending: number }> = {};
-    
-    (verifiedHours || []).forEach(h => {
+
+    (verifiedHours || []).forEach((h) => {
       if (!hoursByEnrollment[h.enrollment_id]) {
         hoursByEnrollment[h.enrollment_id] = { verified: 0, pending: 0 };
       }
       hoursByEnrollment[h.enrollment_id].verified += Number(h.hours);
     });
 
-    (pendingHours || []).forEach(h => {
+    (pendingHours || []).forEach((h) => {
       if (!hoursByEnrollment[h.enrollment_id]) {
         hoursByEnrollment[h.enrollment_id] = { verified: 0, pending: 0 };
       }
@@ -124,10 +131,10 @@ async function _GET(request: Request) {
     });
 
     // Build response with enriched enrollment data
-    const enrichedEnrollments = (enrollments || []).map(enrollment => ({
+    const enrichedEnrollments = (enrollments || []).map((enrollment) => ({
       ...enrollment,
       hours: hoursByEnrollment[enrollment.id] || { verified: 0, pending: 0 },
-      tasks: tasks.filter(t => t.enrollment_id === enrollment.id),
+      tasks: tasks.filter((t) => t.enrollment_id === enrollment.id),
     }));
 
     return NextResponse.json({
@@ -135,7 +142,7 @@ async function _GET(request: Request) {
       totalVerifiedHours: Object.values(hoursByEnrollment).reduce((sum, h) => sum + h.verified, 0),
       totalPendingHours: Object.values(hoursByEnrollment).reduce((sum, h) => sum + h.pending, 0),
       totalTasks: tasks.length,
-      completedTasks: tasks.filter(t => t.status === 'approved').length,
+      completedTasks: tasks.filter((t) => t.status === 'approved').length,
     });
   } catch (error) {
     logger.error('Student dashboard API error:', error);

@@ -43,25 +43,24 @@ export class SMSService {
       return { success: false, error: 'Invalid phone number' };
     }
 
-    const formattedPhone = cleanPhone.startsWith('1') 
-      ? `+${cleanPhone}` 
-      : `+1${cleanPhone}`;
+    const formattedPhone = cleanPhone.startsWith('1') ? `+${cleanPhone}` : `+1${cleanPhone}`;
 
     if (!this.enabled) {
-      logger.info('SMS not sent (Twilio not configured)', { 
-        to: formattedPhone, 
-        messageLength: notification.message.length 
+      logger.info('SMS not sent (Twilio not configured)', {
+        to: formattedPhone,
+        messageLength: notification.message.length,
       });
       return { success: true, messageId: 'not-configured' };
     }
 
     try {
       const url = `https://api.twilio.com/2010-04-01/Accounts/${this.accountSid}/Messages.json`;
-      
+
       const response = await fetch(url, {
         method: 'POST',
         headers: {
-          'Authorization': 'Basic ' + Buffer.from(`${this.accountSid}:${this.authToken}`).toString('base64'),
+          Authorization:
+            'Basic ' + Buffer.from(`${this.accountSid}:${this.authToken}`).toString('base64'),
           'Content-Type': 'application/x-www-form-urlencoded',
         },
         body: new URLSearchParams({
@@ -89,21 +88,32 @@ export class SMSService {
     }
   }
 
-  async sendAssignmentReminder(phoneNumber: string, assignmentName: string, dueDate: string): Promise<SMSResult> {
+  async sendAssignmentReminder(
+    phoneNumber: string,
+    assignmentName: string,
+    dueDate: string,
+  ): Promise<SMSResult> {
     return this.send({
       to: phoneNumber,
       message: `Reminder: ${assignmentName} is due on ${dueDate}. Submit at www.elevateforhumanity.org/lms/assignments`,
     });
   }
 
-  async sendClassReminder(phoneNumber: string, className: string, startTime: string): Promise<SMSResult> {
+  async sendClassReminder(
+    phoneNumber: string,
+    className: string,
+    startTime: string,
+  ): Promise<SMSResult> {
     return this.send({
       to: phoneNumber,
       message: `Your ${className} class starts at ${startTime}. Join at www.elevateforhumanity.org/lms/live`,
     });
   }
 
-  async sendAchievementNotification(phoneNumber: string, achievementName: string): Promise<SMSResult> {
+  async sendAchievementNotification(
+    phoneNumber: string,
+    achievementName: string,
+  ): Promise<SMSResult> {
     return this.send({
       to: phoneNumber,
       message: `Achievement unlocked: ${achievementName}! View at www.elevateforhumanity.org/achievements`,

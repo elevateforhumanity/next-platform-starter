@@ -6,7 +6,8 @@ import { ArrowLeft } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Amir Naseen | Our Team | Elevate for Humanity',
-  description: 'Amir Naseen — Credit Repair Specialist at Elevate for Humanity Career & Technical Institute.',
+  description:
+    'Amir Naseen — Credit Repair Specialist at Elevate for Humanity Career & Technical Institute.',
 };
 
 export default function Page() {
@@ -18,7 +19,10 @@ export default function Page() {
 
       <section className="py-10 sm:py-16">
         <div className="max-w-5xl mx-auto px-6">
-          <Link href="/about/team" className="inline-flex items-center text-sm text-black hover:text-brand-red-600 mb-8">
+          <Link
+            href="/about/team"
+            className="inline-flex items-center text-sm text-black hover:text-brand-red-600 mb-8"
+          >
             <ArrowLeft className="w-4 h-4 mr-1" /> Back to Team
           </Link>
 
@@ -40,8 +44,20 @@ export default function Page() {
               <h1 className="text-3xl font-extrabold text-slate-900 mb-1">Amir Naseen</h1>
               <p className="text-brand-red-600 font-bold text-lg mb-6">Credit Repair Specialist</p>
               <div className="text-slate-800 space-y-4 text-[16px] leading-relaxed">
-                <p>Amir Naseen serves as a Credit Repair Specialist supporting financial readiness and workforce advancement initiatives. He specializes in credit education, credit profile analysis, and strategic dispute processes that help individuals improve financial stability and access employment, housing, and training opportunities.</p>
-                <p>Amir works closely with clients to review credit reports, identify inaccuracies, develop corrective action plans, and provide guidance on responsible credit management aligned with long-term financial growth. His approach focuses on compliance, documentation accuracy, and ethical credit restoration practices that support career development, workforce participation, and economic empowerment within structured training and support programs.</p>
+                <p>
+                  Amir Naseen serves as a Credit Repair Specialist supporting financial readiness
+                  and workforce advancement initiatives. He specializes in credit education, credit
+                  profile analysis, and strategic dispute processes that help individuals improve
+                  financial stability and access employment, housing, and training opportunities.
+                </p>
+                <p>
+                  Amir works closely with clients to review credit reports, identify inaccuracies,
+                  develop corrective action plans, and provide guidance on responsible credit
+                  management aligned with long-term financial growth. His approach focuses on
+                  compliance, documentation accuracy, and ethical credit restoration practices that
+                  support career development, workforce participation, and economic empowerment
+                  within structured training and support programs.
+                </p>
               </div>
             </div>
           </div>

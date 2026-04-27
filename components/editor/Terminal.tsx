@@ -11,9 +11,7 @@ interface TerminalProps {
 }
 
 export default function Terminal({ onCommand, sessionId }: TerminalProps) {
-  const [history, setHistory] = useState<
-    Array<{ type: 'input' | 'output'; text: string }>
-  >([
+  const [history, setHistory] = useState<Array<{ type: 'input' | 'output'; text: string }>>([
     {
       type: 'output',
       text: 'Welcome to EFH Terminal. Type "help" for available commands.',
@@ -26,16 +24,16 @@ export default function Terminal({ onCommand, sessionId }: TerminalProps) {
 
   // Log terminal command to DB
   const logCommand = async (command: string, output: string) => {
-    const { data: { user } } = await supabase.auth.getUser();
-    await supabase
-      .from('terminal_command_log')
-      .insert({
-        user_id: user?.id,
-        session_id: sessionId,
-        command,
-        output: output.substring(0, 1000), // Truncate long outputs
-        executed_at: new Date().toISOString()
-      });
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+    await supabase.from('terminal_command_log').insert({
+      user_id: user?.id,
+      session_id: sessionId,
+      command,
+      output: output.substring(0, 1000), // Truncate long outputs
+      executed_at: new Date().toISOString(),
+    });
   };
 
   useEffect(() => {
@@ -78,7 +76,8 @@ export default function Terminal({ onCommand, sessionId }: TerminalProps) {
       }
 
       setHistory((prev) => [...prev, { type: 'output', text: output }]);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       setHistory((prev) => [
         ...prev,
         {
@@ -119,9 +118,7 @@ export default function Terminal({ onCommand, sessionId }: TerminalProps) {
             type="text"
             value={input}
             onChange={(
-              e: React.ChangeEvent<
-                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-              >
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setInput(e.target.value)}
             className="flex-1 bg-transparent outline-none text-white"
             placeholder="Type a command..."

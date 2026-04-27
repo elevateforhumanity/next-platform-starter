@@ -1,13 +1,13 @@
 /**
  * License Audit Logging
- * 
+ *
  * Tracks all license-related operations for security and compliance.
  */
 
 import { getAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
-export type LicenseAuditEvent = 
+export type LicenseAuditEvent =
   | 'license.created'
   | 'license.validated'
   | 'license.validation_failed'
@@ -51,7 +51,7 @@ export async function auditLicenseEvent(entry: LicenseAuditEntry): Promise<void>
   // Attempt to store in database for persistent audit trail
   try {
     const supabase = await getAdminClient();
-    
+
     await supabase.from('license_audit_log').insert({
       user_id: userId,
       action: event,
@@ -75,7 +75,7 @@ export async function auditLicenseEvent(entry: LicenseAuditEntry): Promise<void>
 export async function auditLicenseCreated(
   licenseId: string,
   tenantId: string,
-  metadata: { tier: string; email: string; generatedBy: string }
+  metadata: { tier: string; email: string; generatedBy: string },
 ): Promise<void> {
   await auditLicenseEvent({
     event: 'license.created',
@@ -92,7 +92,7 @@ export async function auditLicenseValidation(
   licenseId: string,
   success: boolean,
   ipAddress: string,
-  metadata?: Record<string, any>
+  metadata?: Record<string, any>,
 ): Promise<void> {
   await auditLicenseEvent({
     event: success ? 'license.validated' : 'license.validation_failed',
@@ -109,7 +109,7 @@ export async function auditFeatureAccess(
   tenantId: string,
   feature: string,
   granted: boolean,
-  userId?: string
+  userId?: string,
 ): Promise<void> {
   await auditLicenseEvent({
     event: granted ? 'feature.accessed' : 'feature.denied',
@@ -126,7 +126,7 @@ export async function auditLimitExceeded(
   tenantId: string,
   limitType: string,
   current: number,
-  max: number
+  max: number,
 ): Promise<void> {
   await auditLicenseEvent({
     event: 'limit.exceeded',
@@ -142,7 +142,7 @@ export async function auditCloneOperation(
   licenseId: string,
   stage: 'requested' | 'completed',
   targetRepo: string,
-  ipAddress: string
+  ipAddress: string,
 ): Promise<void> {
   await auditLicenseEvent({
     event: stage === 'requested' ? 'clone.requested' : 'clone.completed',

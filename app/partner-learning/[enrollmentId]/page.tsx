@@ -2,12 +2,13 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { 
-  ArrowLeft, 
-  ExternalLink, 
-  Mail, 
-  Clock, 
-  AlertCircle, Circle,
+import {
+  ArrowLeft,
+  ExternalLink,
+  Mail,
+  Clock,
+  AlertCircle,
+  Circle,
   Building2,
   BookOpen,
 } from 'lucide-react';
@@ -25,12 +26,13 @@ type Props = {
 
 export default async function PartnerLearningPage({ params }: Props) {
   const { enrollmentId } = await params;
-  
-  const supabase = await createClient();
-  
 
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const supabase = await createClient();
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) {
     redirect('/login?redirect=/partner-learning/' + enrollmentId);
   }
@@ -38,11 +40,13 @@ export default async function PartnerLearningPage({ params }: Props) {
   // Fetch the partner enrollment
   const { data: enrollment, error } = await supabase
     .from('partner_lms_enrollments')
-    .select(`
+    .select(
+      `
       *,
       partner_lms_courses (id, title, slug, description),
       partner_lms_providers (id, name, portal_url, support_email, support_phone)
-    `)
+    `,
+    )
     .eq('id', enrollmentId)
     .eq('student_id', user.id)
     .maybeSingle();
@@ -57,13 +61,22 @@ export default async function PartnerLearningPage({ params }: Props) {
   const getStatusInfo = (status: string) => {
     switch (status?.toLowerCase()) {
       case 'completed':
-        return { icon: Circle, color: 'text-brand-green-600 bg-brand-green-50', label: 'Completed' };
+        return {
+          icon: Circle,
+          color: 'text-brand-green-600 bg-brand-green-50',
+          label: 'Completed',
+        };
       case 'active':
       case 'enrolled':
       case 'in_progress':
         return { icon: Clock, color: 'text-brand-blue-600 bg-brand-blue-50', label: 'In Progress' };
       case 'pending':
-        return { icon: AlertCircle, Circle, color: 'text-amber-600 bg-amber-50', label: 'Pending Setup' };
+        return {
+          icon: AlertCircle,
+          Circle,
+          color: 'text-amber-600 bg-amber-50',
+          label: 'Pending Setup',
+        };
       default:
         return { icon: Clock, color: 'text-slate-700 bg-white', label: status || 'Unknown' };
     }
@@ -77,14 +90,14 @@ export default async function PartnerLearningPage({ params }: Props) {
       {/* Header */}
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-4xl mx-auto px-6 py-6">
-          <Link 
-            href="/student-portal" 
+          <Link
+            href="/student-portal"
             className="inline-flex items-center gap-2 text-slate-700 hover:text-slate-900 mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Student Portal
           </Link>
-          
+
           <div className="flex items-start justify-between gap-4">
             <div>
               <div className="flex items-center gap-2 text-brand-blue-600 text-sm font-medium mb-2">
@@ -94,12 +107,12 @@ export default async function PartnerLearningPage({ params }: Props) {
               <h1 className="text-2xl md:text-3xl font-bold text-slate-900">
                 {course?.title || enrollment.course_name || 'Partner Course'}
               </h1>
-              {provider?.name && (
-                <p className="text-slate-700 mt-1">Provided by {provider.name}</p>
-              )}
+              {provider?.name && <p className="text-slate-700 mt-1">Provided by {provider.name}</p>}
             </div>
-            
-            <span className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium ${statusInfo.color}`}>
+
+            <span
+              className={`inline-flex items-center gap-2 px-3 py-1.5 rounded-full text-sm font-medium ${statusInfo.color}`}
+            >
               <StatusIcon className="w-4 h-4" />
               {statusInfo.label}
             </span>
@@ -121,12 +134,13 @@ export default async function PartnerLearningPage({ params }: Props) {
               </h2>
               <div className="text-slate-700 space-y-2">
                 <p>
-                  You will receive login credentials for the partner learning portal via email. 
-                  Please check your inbox (and spam folder) for instructions from {provider?.name || 'the course provider'}.
+                  You will receive login credentials for the partner learning portal via email.
+                  Please check your inbox (and spam folder) for instructions from{' '}
+                  {provider?.name || 'the course provider'}.
                 </p>
                 <p>
-                  Once you receive your credentials, use the partner portal to complete your training. 
-                  Your progress will be tracked and reported back to Elevate for Humanity.
+                  Once you receive your credentials, use the partner portal to complete your
+                  training. Your progress will be tracked and reported back to Elevate for Humanity.
                 </p>
               </div>
             </div>
@@ -166,7 +180,7 @@ export default async function PartnerLearningPage({ params }: Props) {
             <h2 className="text-lg font-semibold text-slate-900 mb-4">Need Help?</h2>
             <div className="space-y-3">
               {provider.support_email && (
-                <a 
+                <a
                   href={`mailto:${provider.support_email}`}
                   className="flex items-center gap-3 text-slate-700 hover:text-brand-blue-600"
                 >
@@ -175,7 +189,7 @@ export default async function PartnerLearningPage({ params }: Props) {
                 </a>
               )}
               {provider.support_phone && (
-                <a 
+                <a
                   href={`tel:${provider.support_phone}`}
                   className="flex items-center gap-3 text-slate-700 hover:text-brand-blue-600"
                 >

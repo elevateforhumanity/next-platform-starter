@@ -24,10 +24,10 @@ interface Props {
 
 const QUICK_PROMPTS = [
   "I don't understand this — explain it differently",
-  "Quiz me on this lesson",
-  "Walk me through a service call scenario",
-  "What will the EPA 608 exam ask about this?",
-  "What are the most common mistakes on this?",
+  'Quiz me on this lesson',
+  'Walk me through a service call scenario',
+  'What will the EPA 608 exam ask about this?',
+  'What are the most common mistakes on this?',
 ];
 
 export default function MarcusInstructor({ lessonNumber, lessonTitle }: Props) {
@@ -45,32 +45,38 @@ export default function MarcusInstructor({ lessonNumber, lessonTitle }: Props) {
   }, [messages]);
 
   // Load opening message when panel first opens
-  const fetchReply = useCallback(async (history: Message[], isOpening = false) => {
-    setLoading(true);
-    try {
-      const res = await fetch('/api/ai-instructor/hvac', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          messages: history,
-          lessonNumber,
-          lessonTitle,
-          isOpening,
-        }),
-      });
-      const data = await res.json();
-      if (data.message) {
-        setMessages((prev) => [...prev, { role: 'assistant', content: data.message }]);
+  const fetchReply = useCallback(
+    async (history: Message[], isOpening = false) => {
+      setLoading(true);
+      try {
+        const res = await fetch('/api/ai-instructor/hvac', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({
+            messages: history,
+            lessonNumber,
+            lessonTitle,
+            isOpening,
+          }),
+        });
+        const data = await res.json();
+        if (data.message) {
+          setMessages((prev) => [...prev, { role: 'assistant', content: data.message }]);
+        }
+      } catch {
+        setMessages((prev) => [
+          ...prev,
+          {
+            role: 'assistant',
+            content: "I'm having trouble connecting. Check your internet and try again.",
+          },
+        ]);
+      } finally {
+        setLoading(false);
       }
-    } catch {
-      setMessages((prev) => [
-        ...prev,
-        { role: 'assistant', content: "I'm having trouble connecting. Check your internet and try again." },
-      ]);
-    } finally {
-      setLoading(false);
-    }
-  }, [lessonNumber, lessonTitle]);
+    },
+    [lessonNumber, lessonTitle],
+  );
 
   useEffect(() => {
     if (!opened || messages.length > 0) return;
@@ -112,7 +118,7 @@ export default function MarcusInstructor({ lessonNumber, lessonTitle }: Props) {
         >
           <div className="relative flex-shrink-0">
             <div className="w-12 h-12 rounded-full overflow-hidden border-2 border-white/20">
-              <Image
+              <Image sizes="100vw"
                 src="/images/team/instructors/instructor-trades.jpg"
                 alt="Marcus Johnson"
                 width={48}
@@ -143,7 +149,7 @@ export default function MarcusInstructor({ lessonNumber, lessonTitle }: Props) {
       <div className="flex items-center gap-3 mb-4">
         <div className="relative flex-shrink-0">
           <div className="w-10 h-10 rounded-full overflow-hidden border-2 border-slate-200">
-            <Image
+            <Image sizes="100vw"
               src="/images/team/instructors/instructor-trades.jpg"
               alt="Marcus Johnson"
               width={40}
@@ -195,7 +201,7 @@ export default function MarcusInstructor({ lessonNumber, lessonTitle }: Props) {
                   {/* Avatar */}
                   {msg.role === 'assistant' ? (
                     <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0 mt-0.5">
-                      <Image
+                      <Image sizes="100vw"
                         src="/images/team/instructors/instructor-trades.jpg"
                         alt="Marcus"
                         width={28}
@@ -226,7 +232,7 @@ export default function MarcusInstructor({ lessonNumber, lessonTitle }: Props) {
               {loading && messages.length > 0 && (
                 <div className="flex gap-3">
                   <div className="w-7 h-7 rounded-full overflow-hidden flex-shrink-0">
-                    <Image
+                    <Image sizes="100vw"
                       src="/images/team/instructors/instructor-trades.jpg"
                       alt="Marcus"
                       width={28}

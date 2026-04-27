@@ -42,7 +42,7 @@ export function StudentEngagementChart() {
     );
   }
 
-  const maxViews = Math.max(...data.map(d => d.views), 100);
+  const maxViews = Math.max(...data.map((d) => d.views), 100);
 
   return (
     <div>
@@ -112,7 +112,9 @@ export function CoursePerformanceChart() {
       {data.map((course, idx) => (
         <div key={idx}>
           <div className="flex justify-between text-sm mb-1">
-            <span className="font-medium truncate" title={course.name}>{course.name}</span>
+            <span className="font-medium truncate" title={course.name}>
+              {course.name}
+            </span>
             <span className="text-slate-700">{course.students} students</span>
           </div>
           <div className="w-full bg-gray-200 rounded-full h-4">
@@ -128,5 +130,3 @@ export function CoursePerformanceChart() {
     </div>
   );
 }
-
-

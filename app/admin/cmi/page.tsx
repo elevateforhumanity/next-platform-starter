@@ -7,42 +7,41 @@ import type { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'CMI Program Dashboard | Admin',
-  description: 'Choice Medical Institute CNA program — enrollment, attendance, clinicals, and certificates.',
+  description:
+    'Choice Medical Institute CNA program — enrollment, attendance, clinicals, and certificates.',
 };
 
 const STATUS_LABELS: Record<string, string> = {
-  enrolled:   'Enrolled',
-  training:   'In Training',
-  clinical:   'Clinical',
-  completed:  'Completed',
-  withdrawn:  'Withdrawn',
-  revoked:    'Revoked',
+  enrolled: 'Enrolled',
+  training: 'In Training',
+  clinical: 'Clinical',
+  completed: 'Completed',
+  withdrawn: 'Withdrawn',
+  revoked: 'Revoked',
 };
 
 const STATUS_COLORS: Record<string, string> = {
-  enrolled:  'bg-blue-100 text-blue-800',
-  training:  'bg-amber-100 text-amber-800',
-  clinical:  'bg-purple-100 text-purple-800',
+  enrolled: 'bg-blue-100 text-blue-800',
+  training: 'bg-amber-100 text-amber-800',
+  clinical: 'bg-purple-100 text-purple-800',
   completed: 'bg-green-100 text-green-800',
   withdrawn: 'bg-slate-100 text-slate-600',
-  revoked:   'bg-red-100 text-red-700',
+  revoked: 'bg-red-100 text-red-700',
 };
 
 export default async function CMIDashboardPage() {
   // Auth — admin layout handles redirect, but double-check role here
   const supabase = await createClient();
-  const db = await getAdminClient() || supabase;
+  const db = (await getAdminClient()) || supabase;
 
   if (!supabase) redirect('/login?redirect=/admin/cmi');
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/admin/cmi');
 
-  const { data: profile } = await db
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single();
+  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).single();
 
   if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
     redirect('/admin');
@@ -54,7 +53,8 @@ export default async function CMIDashboardPage() {
   // a student can withdraw voluntarily without being revoked.
   const { data: students, error } = await db
     .from('cmi_students')
-    .select(`
+    .select(
+      `
       id,
       user_id,
       cohort,
@@ -71,7 +71,8 @@ export default async function CMIDashboardPage() {
         revoked_at,
         revoked_by
       )
-    `)
+    `,
+    )
     .order('enrolled_at', { ascending: false });
 
   // Summary counts — revoked is a derived state, not a cmi_students.status value
@@ -91,9 +92,7 @@ export default async function CMIDashboardPage() {
         <p className="text-xs font-semibold uppercase tracking-widest text-slate-500 mb-1">
           Partner Program
         </p>
-        <h1 className="text-3xl font-bold text-slate-900">
-          Choice Medical Institute (CMI)
-        </h1>
+        <h1 className="text-3xl font-bold text-slate-900">Choice Medical Institute (CMI)</h1>
         <p className="mt-1 text-slate-500">
           IDOH Approved CNA Program · Sponsored by Elevate for Humanity
         </p>
@@ -119,9 +118,7 @@ export default async function CMIDashboardPage() {
       {/* Student table */}
       <div className="rounded-2xl border border-slate-200 overflow-hidden">
         <div className="bg-slate-50 border-b border-slate-200 px-6 py-4 flex items-center justify-between">
-          <h2 className="font-semibold text-slate-900">
-            Students ({students?.length ?? 0})
-          </h2>
+          <h2 className="font-semibold text-slate-900">Students ({students?.length ?? 0})</h2>
           <span className="text-xs text-slate-500">
             Routed from CNA applications via approve-cna
           </span>
@@ -146,22 +143,30 @@ export default async function CMIDashboardPage() {
               {students.map((s) => {
                 const app = Array.isArray(s.applications) ? s.applications[0] : s.applications;
                 const typedApp = app as {
-                  first_name?: string; last_name?: string; email?: string;
-                  revoked_at?: string | null; revoked_by?: string | null;
+                  first_name?: string;
+                  last_name?: string;
+                  email?: string;
+                  revoked_at?: string | null;
+                  revoked_by?: string | null;
                 } | null;
                 const name = typedApp
                   ? `${typedApp.first_name ?? ''} ${typedApp.last_name ?? ''}`.trim()
-                  : s.user_id?.slice(0, 8) ?? '—';
+                  : (s.user_id?.slice(0, 8) ?? '—');
                 const email = typedApp?.email ?? '—';
                 const enrolledDate = new Date(s.enrolled_at).toLocaleDateString('en-US', {
-                  month: 'short', day: 'numeric', year: 'numeric',
+                  month: 'short',
+                  day: 'numeric',
+                  year: 'numeric',
                 });
                 // Revoked is derived from applications.revoked_at, not cmi_students.status
                 const effectiveStatus = typedApp?.revoked_at ? 'revoked' : s.status;
                 const isRevoked = effectiveStatus === 'revoked';
 
                 return (
-                  <tr key={s.id} className={`hover:bg-slate-50 transition-colors ${isRevoked ? 'opacity-60' : ''}`}>
+                  <tr
+                    key={s.id}
+                    className={`hover:bg-slate-50 transition-colors ${isRevoked ? 'opacity-60' : ''}`}
+                  >
                     <td className="px-6 py-4">
                       <p className="font-medium text-slate-900">{name}</p>
                       <p className="text-xs text-slate-500">{email}</p>
@@ -170,13 +175,17 @@ export default async function CMIDashboardPage() {
                       {s.cohort ?? <span className="text-slate-400">Unassigned</span>}
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_COLORS[effectiveStatus] ?? 'bg-slate-100 text-slate-600'}`}>
+                      <span
+                        className={`inline-flex items-center rounded-full px-2.5 py-0.5 text-xs font-medium ${STATUS_COLORS[effectiveStatus] ?? 'bg-slate-100 text-slate-600'}`}
+                      >
                         {STATUS_LABELS[effectiveStatus] ?? effectiveStatus}
                       </span>
                       {isRevoked && typedApp?.revoked_at && (
                         <p className="mt-0.5 text-xs text-red-500">
                           {new Date(typedApp.revoked_at).toLocaleDateString('en-US', {
-                            month: 'short', day: 'numeric', year: 'numeric',
+                            month: 'short',
+                            day: 'numeric',
+                            year: 'numeric',
                           })}
                         </p>
                       )}

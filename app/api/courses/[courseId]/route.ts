@@ -10,10 +10,7 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
+async function _GET(request: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -22,10 +19,7 @@ async function _GET(
     const supabase = await createClient();
 
     // Check if courseId is a UUID or slug
-    const isUUID =
-      /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(
-        courseId
-      );
+    const isUUID = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(courseId);
 
     // Get course with lessons
     const query = supabase.from('courses').select(`
@@ -54,28 +48,21 @@ async function _GET(
     // Sort lessons by order_index
     if (course.lessons) {
       course.lessons.sort(
-        (a: { order_index: number }, b: { order_index: number }) =>
-          a.order_index - b.order_index
+        (a: { order_index: number }, b: { order_index: number }) => a.order_index - b.order_index,
       );
     }
 
     return NextResponse.json({ course });
-  } catch (error) { 
-    logger.error(
-      'Course fetch error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Course fetch error:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to fetch course' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
-async function _PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ courseId: string }> }
-) {
+async function _PATCH(request: NextRequest, { params }: { params: Promise<{ courseId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -105,7 +92,7 @@ async function _PATCH(
     // LEGACY_SYSTEM_DISABLED
     return NextResponse.json(
       { error: 'LEGACY_SYSTEM_DISABLED: use PATCH /api/admin/lms/courses/[courseId]' },
-      { status: 410 }
+      { status: 410 },
     );
 
     const updates = await request.json();
@@ -118,28 +105,22 @@ async function _PATCH(
       .single();
 
     if (error) {
-      return NextResponse.json(
-        { error: toErrorMessage(error) },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: toErrorMessage(error) }, { status: 400 });
     }
 
     return NextResponse.json({ course });
-  } catch (error) { 
-    logger.error(
-      'Course update error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Course update error:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to update course' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 async function _DELETE(
   request: NextRequest,
-  { params }: { params: Promise<{ courseId: string }> }
+  { params }: { params: Promise<{ courseId: string }> },
 ) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
@@ -164,39 +145,27 @@ async function _DELETE(
       .maybeSingle();
 
     if (!profile || profile.role !== 'admin') {
-      return NextResponse.json(
-        { error: 'Forbidden - Admin only' },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: 'Forbidden - Admin only' }, { status: 403 });
     }
 
     // LEGACY_SYSTEM_DISABLED
     return NextResponse.json(
       { error: 'LEGACY_SYSTEM_DISABLED: use DELETE /api/admin/lms/courses/[courseId]' },
-      { status: 410 }
+      { status: 410 },
     );
 
-    const { error } = await supabase
-      .from('courses')
-      .delete()
-      .eq('id', courseId);
+    const { error } = await supabase.from('courses').delete().eq('id', courseId);
 
     if (error) {
-      return NextResponse.json(
-        { error: toErrorMessage(error) },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: toErrorMessage(error) }, { status: 400 });
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) { 
-    logger.error(
-      'Course delete error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
+  } catch (error) {
+    logger.error('Course delete error:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to delete course' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -34,7 +34,7 @@ export interface CourseCompletionStatus {
  */
 export async function checkCourseCompletion(
   userId: string,
-  courseId: string
+  courseId: string,
 ): Promise<CourseCompletionStatus> {
   const status: CourseCompletionStatus = {
     isComplete: false,
@@ -58,7 +58,7 @@ export async function checkCourseCompletion(
   status.completedInternalLessons = internalStatus.completed;
   if (!internalStatus.complete) {
     status.missingRequirements.push(
-      `${internalStatus.total - internalStatus.completed} internal lesson(s) remaining`
+      `${internalStatus.total - internalStatus.completed} internal lesson(s) remaining`,
     );
   }
 
@@ -70,8 +70,8 @@ export async function checkCourseCompletion(
   if (!externalStatus.complete) {
     status.missingRequirements.push(
       ...externalStatus.missingModules.map(
-        (m) => `External module: ${m.title} (${m.partner_name})`
-      )
+        (m) => `External module: ${m.title} (${m.partner_name})`,
+      ),
     );
   }
 
@@ -83,22 +83,20 @@ export async function checkCourseCompletion(
   status.failedQuizTitles = quizStatus.failedTitles;
   if (!quizStatus.allPassed && quizStatus.total > 0) {
     status.missingRequirements.push(
-      `${quizStatus.failedTitles.length} quiz(zes) not yet passed: ${quizStatus.failedTitles.join(', ')}`
+      `${quizStatus.failedTitles.length} quiz(zes) not yet passed: ${quizStatus.failedTitles.join(', ')}`,
     );
   }
 
   // Course is complete only if ALL three gates pass
   status.isComplete =
-    status.internalLessonsComplete &&
-    status.externalModulesComplete &&
-    status.quizzesPassed;
+    status.internalLessonsComplete && status.externalModulesComplete && status.quizzesPassed;
 
   return status;
 }
 
 async function checkInternalLessons(
   userId: string,
-  courseId: string
+  courseId: string,
 ): Promise<{ complete: boolean; total: number; completed: number }> {
   const supabase = getSupabaseAdmin();
   // Count total lessons in course
@@ -113,10 +111,7 @@ async function checkInternalLessons(
     .select('*', { count: 'exact', head: true })
     .eq('user_id', userId)
     .eq('completed', true)
-    .in(
-      'lesson_id',
-      supabase.from('training_lessons').select('id').eq('course_id', courseId)
-    );
+    .in('lesson_id', supabase.from('training_lessons').select('id').eq('course_id', courseId));
 
   return {
     complete: (completedLessons || 0) >= (totalLessons || 0),
@@ -127,7 +122,7 @@ async function checkInternalLessons(
 
 async function checkExternalModules(
   userId: string,
-  courseId: string
+  courseId: string,
 ): Promise<{
   complete: boolean;
   total: number;
@@ -158,15 +153,13 @@ async function checkExternalModules(
     .eq('user_id', userId)
     .in(
       'module_id',
-      requiredModules.map((m) => m.id)
+      requiredModules.map((m) => m.id),
     )
     .eq('status', 'approved');
 
   const completedModuleIds = new Set((progress || []).map((p) => p.module_id));
 
-  const missingModules = requiredModules.filter(
-    (m) => !completedModuleIds.has(m.id)
-  );
+  const missingModules = requiredModules.filter((m) => !completedModuleIds.has(m.id));
 
   return {
     complete: missingModules.length === 0,
@@ -178,7 +171,7 @@ async function checkExternalModules(
 
 async function checkQuizzesPassed(
   userId: string,
-  courseId: string
+  courseId: string,
 ): Promise<{
   allPassed: boolean;
   total: number;
@@ -233,7 +226,7 @@ async function checkQuizzesPassed(
  */
 export async function completeCourse(
   userId: string,
-  courseId: string
+  courseId: string,
 ): Promise<{ success: boolean; error?: string }> {
   const status = await checkCourseCompletion(userId, courseId);
 
@@ -270,10 +263,7 @@ export async function completeCourse(
   return { success: true };
 }
 
-async function generateCourseCertificate(
-  userId: string,
-  courseId: string
-): Promise<void> {
+async function generateCourseCertificate(userId: string, courseId: string): Promise<void> {
   const supabase = getSupabaseAdmin();
   // Get course details
   const { data: course } = await supabase
@@ -322,7 +312,7 @@ function generateCertificateNumber(): string {
  */
 export async function getCourseProgress(
   userId: string,
-  courseId: string
+  courseId: string,
 ): Promise<{
   overallPercentage: number;
   internalPercentage: number;

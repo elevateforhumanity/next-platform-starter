@@ -7,28 +7,22 @@ import process from 'node:process';
 function fixVoidClosers(html) {
   return html.replace(
     /<\s*(area|base|br|col|embed|hr|img|input|link|meta|param|source|track|wbr)([^>]*)\/\s*>/gi,
-    (_match, tag, rest) => `<${tag}${rest}>`
+    (_match, tag, rest) => `<${tag}${rest}>`,
   );
 }
 
 function escapeAmpersandsInAttrs(html) {
-  return html.replace(
-    /(href|src|action|data-[^=\s]*)\s*=\s*"([^"]*)"/gi,
-    (match, attr, value) => {
-      const fixed = value.replace(
-        /&(?!amp;|lt;|gt;|quot;|apos;|nbsp;|#\d+;|#x[0-9a-f]+;)/gi,
-        '&amp;'
-      );
-      return `${attr}="${fixed}"`;
-    }
-  );
+  return html.replace(/(href|src|action|data-[^=\s]*)\s*=\s*"([^"]*)"/gi, (match, attr, value) => {
+    const fixed = value.replace(
+      /&(?!amp;|lt;|gt;|quot;|apos;|nbsp;|#\d+;|#x[0-9a-f]+;)/gi,
+      '&amp;',
+    );
+    return `${attr}="${fixed}"`;
+  });
 }
 
 function escapeAmpersandsInText(html) {
-  return html.replace(
-    /&(?!amp;|lt;|gt;|quot;|apos;|nbsp;|#\d+;|#x[0-9a-f]+;)/gi,
-    '&amp;'
-  );
+  return html.replace(/&(?!amp;|lt;|gt;|quot;|apos;|nbsp;|#\d+;|#x[0-9a-f]+;)/gi, '&amp;');
 }
 
 function addButtonTypes(html) {

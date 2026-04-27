@@ -22,7 +22,7 @@ export const dynamic = 'force-dynamic';
 
 export async function POST(
   request: NextRequest,
-  { params }: { params: Promise<{ lessonId: string }> }
+  { params }: { params: Promise<{ lessonId: string }> },
 ) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
@@ -58,11 +58,17 @@ export async function POST(
   const { courseId, moduleOrder, score, passingScore, answers } = body;
 
   if (!courseId || moduleOrder === undefined || score === undefined || passingScore === undefined) {
-    return NextResponse.json({ error: 'Missing required fields: courseId, moduleOrder, score, passingScore' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'Missing required fields: courseId, moduleOrder, score, passingScore' },
+      { status: 400 },
+    );
   }
 
   if (typeof score !== 'number' || score < 0 || score > 100) {
-    return NextResponse.json({ error: 'score must be a number between 0 and 100' }, { status: 400 });
+    return NextResponse.json(
+      { error: 'score must be a number between 0 and 100' },
+      { status: 400 },
+    );
   }
 
   // assertLessonAccess checks the module unlock rule, but module-1 lessons are
@@ -89,7 +95,7 @@ export async function POST(
       moduleOrder,
       score,
       passingScore,
-      answers ?? {}
+      answers ?? {},
     );
 
     logger.info('[checkpoint] Attempt recorded', {
@@ -118,7 +124,10 @@ export async function POST(
 
     return NextResponse.json(result);
   } catch (err) {
-    logger.error('[checkpoint] recordCheckpointAttempt failed:', err instanceof Error ? err : new Error(String(err)));
+    logger.error(
+      '[checkpoint] recordCheckpointAttempt failed:',
+      err instanceof Error ? err : new Error(String(err)),
+    );
     return NextResponse.json({ error: 'Failed to record checkpoint attempt' }, { status: 500 });
   }
 }

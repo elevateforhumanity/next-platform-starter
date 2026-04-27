@@ -10,9 +10,12 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 const _GET = withErrorHandling(async (request: NextRequest) => {
   const supabase = await createClient();
-  
+
   // Get current user
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
   if (error) {
     throw APIErrors.external('Supabase Auth');

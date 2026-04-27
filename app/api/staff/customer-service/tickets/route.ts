@@ -31,10 +31,7 @@ async function _POST(request: Request) {
       .eq('id', user.id)
       .maybeSingle();
 
-    if (
-      !profile ||
-      !['admin', 'super_admin', 'staff', 'advisor'].includes(profile.role)
-    ) {
+    if (!profile || !['admin', 'super_admin', 'staff', 'advisor'].includes(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
 
@@ -47,10 +44,7 @@ async function _POST(request: Request) {
     const { student_id, issue, priority, assigned_to } = body;
 
     if (!student_id || !issue) {
-      return NextResponse.json(
-        { error: 'student_id and issue are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'student_id and issue are required' }, { status: 400 });
     }
 
     // Create ticket
@@ -69,7 +63,7 @@ async function _POST(request: Request) {
         *,
         student:student_id(id, first_name, last_name, email),
         assigned:assigned_to(id, first_name, last_name)
-      `
+      `,
       )
       .maybeSingle();
 
@@ -81,11 +75,8 @@ async function _POST(request: Request) {
       success: true,
       ticket,
     });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: getErrorMessage(error) },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: getErrorMessage(error) }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/staff/customer-service/tickets', _POST);

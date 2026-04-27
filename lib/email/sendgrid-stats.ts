@@ -12,9 +12,9 @@ export interface SendGridMonthStats {
   uniqueClicks: number;
   bounces: number;
   unsubscribes: number;
-  openRate: number;   // unique_opens / delivered, 0–100
-  clickRate: number;  // unique_clicks / delivered, 0–100
-  month: string;      // YYYY-MM-DD (first of month)
+  openRate: number; // unique_opens / delivered, 0–100
+  clickRate: number; // unique_clicks / delivered, 0–100
+  month: string; // YYYY-MM-DD (first of month)
 }
 
 export interface SendGridStatsResult {
@@ -29,17 +29,17 @@ function parseMonth(raw: any): SendGridMonthStats {
   const uniqueOpens = m.unique_opens ?? 0;
   const uniqueClicks = m.unique_clicks ?? 0;
   return {
-    requests:      m.requests ?? 0,
+    requests: m.requests ?? 0,
     delivered,
-    opens:         m.opens ?? 0,
+    opens: m.opens ?? 0,
     uniqueOpens,
-    clicks:        m.clicks ?? 0,
+    clicks: m.clicks ?? 0,
     uniqueClicks,
-    bounces:       m.bounces ?? 0,
-    unsubscribes:  m.unsubscribes ?? 0,
-    openRate:      delivered > 0 ? Math.round((uniqueOpens / delivered) * 1000) / 10 : 0,
-    clickRate:     delivered > 0 ? Math.round((uniqueClicks / delivered) * 1000) / 10 : 0,
-    month:         raw.date,
+    bounces: m.bounces ?? 0,
+    unsubscribes: m.unsubscribes ?? 0,
+    openRate: delivered > 0 ? Math.round((uniqueOpens / delivered) * 1000) / 10 : 0,
+    clickRate: delivered > 0 ? Math.round((uniqueClicks / delivered) * 1000) / 10 : 0,
+    month: raw.date,
   };
 }
 
@@ -60,7 +60,7 @@ export async function getSendGridStats(): Promise<SendGridStatsResult> {
       {
         headers: { Authorization: `Bearer ${key}` },
         next: { revalidate: 3600 }, // cache for 1 hour
-      }
+      },
     );
 
     if (!res.ok) {

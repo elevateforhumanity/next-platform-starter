@@ -45,10 +45,16 @@ export default function ApprenticeshipPage() {
         body="Get paid to learn. Master your craft. Build your career."
         actions={
           <>
-            <Link href="/start" className="inline-flex items-center gap-2 bg-brand-orange-600 text-white px-8 py-3.5 rounded-lg font-bold hover:bg-brand-orange-700 transition-colors">
+            <Link
+              href="/start"
+              className="inline-flex items-center gap-2 bg-brand-orange-600 text-white px-8 py-3.5 rounded-lg font-bold hover:bg-brand-orange-700 transition-colors"
+            >
               Start Your Journey <ArrowRight className="w-5 h-5" />
             </Link>
-            <Link href="#how-it-works" className="border border-slate-300 text-slate-700 px-8 py-3.5 rounded-lg font-bold hover:bg-slate-50 transition-colors">
+            <Link
+              href="#how-it-works"
+              className="border border-slate-300 text-slate-700 px-8 py-3.5 rounded-lg font-bold hover:bg-slate-50 transition-colors"
+            >
               How It Works
             </Link>
           </>
@@ -79,12 +85,10 @@ export default function ApprenticeshipPage() {
       </section>
 
       {/* How It Works */}
-      <section id="how-it-works"className="py-24">
+      <section id="how-it-works" className="py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-black text-black mb-6">
-              How It Works
-            </h2>
+            <h2 className="text-5xl md:text-6xl font-black text-black mb-6">How It Works</h2>
             <p className="text-xl text-black max-w-3xl mx-auto">
               Your path from beginner to licensed professional barber
             </p>
@@ -100,8 +104,8 @@ export default function ApprenticeshipPage() {
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Apply</h3>
                 <p className="text-white leading-relaxed">
-                  Submit your application. No experience required. We'll match
-                  you with a licensed shop.
+                  Submit your application. No experience required. We'll match you with a licensed
+                  shop.
                 </p>
               </div>
             </div>
@@ -115,8 +119,7 @@ export default function ApprenticeshipPage() {
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Get Matched</h3>
                 <p className="text-white leading-relaxed">
-                  We connect you with a licensed barber shop in your area for
-                  hands-on training.
+                  We connect you with a licensed barber shop in your area for hands-on training.
                 </p>
               </div>
             </div>
@@ -130,8 +133,7 @@ export default function ApprenticeshipPage() {
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Train & Earn</h3>
                 <p className="text-white leading-relaxed">
-                  Work alongside master barbers. Earn $12-15/hour while you
-                  learn the craft.
+                  Work alongside master barbers. Earn $12-15/hour while you learn the craft.
                 </p>
               </div>
             </div>
@@ -145,8 +147,7 @@ export default function ApprenticeshipPage() {
                 </div>
                 <h3 className="text-2xl font-bold mb-3">Get Licensed</h3>
                 <p className="text-white leading-relaxed">
-                  Complete 2,000 hours, pass your exam, and earn your Indiana
-                  barber license.
+                  Complete 2,000 hours, pass your exam, and earn your Indiana barber license.
                 </p>
               </div>
             </div>
@@ -169,13 +170,10 @@ export default function ApprenticeshipPage() {
                     <DollarSign className="w-6 h-6 text-slate-900" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-black mb-2">
-                      Get Paid to Learn
-                    </h3>
+                    <h3 className="text-2xl font-bold text-black mb-2">Get Paid to Learn</h3>
                     <p className="text-black text-lg leading-relaxed">
-                      Unlike traditional barber school, you earn $12-15/hour
-                      from day one. No student debt, just income while you
-                      train.
+                      Unlike traditional barber school, you earn $12-15/hour from day one. No
+                      student debt, just income while you train.
                     </p>
                   </div>
                 </div>
@@ -185,12 +183,10 @@ export default function ApprenticeshipPage() {
                     <Users className="w-6 h-6 text-slate-900" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-black mb-2">
-                      Real-World Experience
-                    </h3>
+                    <h3 className="text-2xl font-bold text-black mb-2">Real-World Experience</h3>
                     <p className="text-black text-lg leading-relaxed">
-                      Learn from master barbers in actual shops with real
-                      clients. Build your skills and clientele from the start.
+                      Learn from master barbers in actual shops with real clients. Build your skills
+                      and clientele from the start.
                     </p>
                   </div>
                 </div>
@@ -200,12 +196,10 @@ export default function ApprenticeshipPage() {
                     <Shield className="w-6 h-6 text-slate-900" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-black mb-2">
-                      DOL Registered
-                    </h3>
+                    <h3 className="text-2xl font-bold text-black mb-2">DOL Registered</h3>
                     <p className="text-black text-lg leading-relaxed">
-                      U.S. Department of Labor registered program. Nationally
-                      recognized credential that opens doors nationwide.
+                      U.S. Department of Labor registered program. Nationally recognized credential
+                      that opens doors nationwide.
                     </p>
                   </div>
                 </div>
@@ -215,12 +209,10 @@ export default function ApprenticeshipPage() {
                     <Briefcase className="w-6 h-6 text-slate-900" />
                   </div>
                   <div>
-                    <h3 className="text-2xl font-bold text-black mb-2">
-                      Job Ready
-                    </h3>
+                    <h3 className="text-2xl font-bold text-black mb-2">Job Ready</h3>
                     <p className="text-black text-lg leading-relaxed">
-                      Graduate with 2,000 hours of real experience, a client
-                      base, and connections in the industry.
+                      Graduate with 2,000 hours of real experience, a client base, and connections
+                      in the industry.
                     </p>
                   </div>
                 </div>
@@ -238,16 +230,12 @@ export default function ApprenticeshipPage() {
                   </div>
 
                   <div className="border-b border-white/10 pb-6">
-                    <div className="text-black text-sm mb-2">
-                      Training Hours
-                    </div>
+                    <div className="text-black text-sm mb-2">Training Hours</div>
                     <div className="text-2xl font-bold">2,000 Hours</div>
                   </div>
 
                   <div className="border-b border-white/10 pb-6">
-                    <div className="text-black text-sm mb-2">
-                      Hourly Pay
-                    </div>
+                    <div className="text-black text-sm mb-2">Hourly Pay</div>
                     <div className="text-2xl font-bold">$12-15/Hour</div>
                   </div>
 
@@ -257,12 +245,8 @@ export default function ApprenticeshipPage() {
                   </div>
 
                   <div className="border-b border-white/10 pb-6">
-                    <div className="text-black text-sm mb-2">
-                      Certification
-                    </div>
-                    <div className="text-2xl font-bold">
-                      Indiana Barber License
-                    </div>
+                    <div className="text-black text-sm mb-2">Certification</div>
+                    <div className="text-2xl font-bold">Indiana Barber License</div>
                   </div>
 
                   <div>
@@ -282,9 +266,7 @@ export default function ApprenticeshipPage() {
       <section className="py-24">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-black text-black mb-6">
-              What You'll Master
-            </h2>
+            <h2 className="text-5xl md:text-6xl font-black text-black mb-6">What You'll Master</h2>
             <p className="text-xl text-black max-w-3xl mx-auto">
               Complete training in all aspects of professional barbering
             </p>
@@ -293,11 +275,11 @@ export default function ApprenticeshipPage() {
           <div className="grid md:grid-cols-3 gap-8">
             <div className="bg-white rounded-3xl p-8 hover:shadow-xl transition">
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6">
-                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg">✓</span>
+                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg">
+                  ✓
+                </span>
               </div>
-              <h3 className="text-2xl font-bold text-black mb-4">
-                Classic Cuts
-              </h3>
+              <h3 className="text-2xl font-bold text-black mb-4">Classic Cuts</h3>
               <ul className="space-y-3 text-black">
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
@@ -320,11 +302,11 @@ export default function ApprenticeshipPage() {
 
             <div className="bg-white rounded-3xl p-8 hover:shadow-xl transition">
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6">
-                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg">✓</span>
+                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg">
+                  ✓
+                </span>
               </div>
-              <h3 className="text-2xl font-bold text-black mb-4">
-                Grooming Services
-              </h3>
+              <h3 className="text-2xl font-bold text-black mb-4">Grooming Services</h3>
               <ul className="space-y-3 text-black">
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
@@ -347,11 +329,11 @@ export default function ApprenticeshipPage() {
 
             <div className="bg-white rounded-3xl p-8 hover:shadow-xl transition">
               <div className="w-16 h-16 bg-white rounded-2xl flex items-center justify-center mb-6">
-                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg">✓</span>
+                <span className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center text-white font-bold text-lg">
+                  ✓
+                </span>
               </div>
-              <h3 className="text-2xl font-bold text-black mb-4">
-                Business Skills
-              </h3>
+              <h3 className="text-2xl font-bold text-black mb-4">Business Skills</h3>
               <ul className="space-y-3 text-black">
                 <li className="flex items-center gap-2">
                   <div className="w-1.5 h-1.5 bg-white rounded-full"></div>
@@ -379,28 +361,20 @@ export default function ApprenticeshipPage() {
       <section className="py-24 border-t">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-20">
-            <h2 className="text-5xl md:text-6xl font-black mb-6">
-              Success Stories
-            </h2>
-            <p className="text-xl text-white">
-              Real apprentices, real success
-            </p>
+            <h2 className="text-5xl md:text-6xl font-black mb-6">Success Stories</h2>
+            <p className="text-xl text-white">Real apprentices, real success</p>
           </div>
 
           <div className="grid md:grid-cols-2 gap-8">
             <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
               <div className="flex gap-1 mb-6">
                 {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-5 h-5 fill-yellow-400 text-yellow-400"
-                  />
+                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
               <p className="text-xl text-white mb-8 leading-relaxed">
-                "Best decision I ever made. I'm earning money while learning
-                from the best. Already building my own client base and I'm only
-                6 months in."
+                "Best decision I ever made. I'm earning money while learning from the best. Already
+                building my own client base and I'm only 6 months in."
               </p>
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 bg-white rounded-full"></div>
@@ -414,24 +388,18 @@ export default function ApprenticeshipPage() {
             <div className="bg-white/5 backdrop-blur-sm rounded-3xl p-8 border border-white/10">
               <div className="flex gap-1 mb-6">
                 {[...Array(5)].map((_, i) => (
-                  <Star
-                    key={i}
-                    className="w-5 h-5 fill-yellow-400 text-yellow-400"
-                  />
+                  <Star key={i} className="w-5 h-5 fill-yellow-400 text-yellow-400" />
                 ))}
               </div>
               <p className="text-xl text-white mb-8 leading-relaxed">
-                "Graduated last month and already opened my own chair. The
-                hands-on experience and connections I made were invaluable. No
-                debt, just skills."
+                "Graduated last month and already opened my own chair. The hands-on experience and
+                connections I made were invaluable. No debt, just skills."
               </p>
               <div className="flex items-center gap-4">
                 <div className="w-16 h-16 bg-white rounded-full"></div>
                 <div>
                   <div className="font-bold text-lg">DeAndre Williams</div>
-                  <div className="text-black">
-                    Licensed Barber, Graduate 2024
-                  </div>
+                  <div className="text-black">Licensed Barber, Graduate 2024</div>
                 </div>
               </div>
             </div>
@@ -442,12 +410,10 @@ export default function ApprenticeshipPage() {
       {/* Final CTA */}
       <section className="py-24 bg-gradient-to-br from-brand-orange-600 to-brand-orange-700 text-slate-900">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-5xl md:text-6xl font-black mb-6">
-            Start Earning While You Learn
-          </h2>
+          <h2 className="text-5xl md:text-6xl font-black mb-6">Start Earning While You Learn</h2>
           <p className="text-2xl mb-12 text-white">
-            No experience required. No tuition for eligible participants.
-            Just your commitment to mastering the craft.
+            No experience required. No tuition for eligible participants. Just your commitment to
+            mastering the craft.
           </p>
           <div className="flex flex-col sm:flex-row gap-6 justify-center">
             <Link

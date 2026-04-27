@@ -7,7 +7,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function TranscriptPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/transcript');
 
   const db = await getAdminClient();
@@ -15,7 +17,9 @@ export default async function TranscriptPage() {
   // Enrollment + program
   const { data: enrollment } = await db
     .from('program_enrollments')
-    .select('id, progress_percent, enrolled_at, completed_at, course_id, training_courses(id, title)')
+    .select(
+      'id, progress_percent, enrolled_at, completed_at, course_id, training_courses(id, title)',
+    )
     .eq('user_id', user.id)
     .order('enrolled_at', { ascending: false })
     .limit(1)
@@ -30,14 +34,22 @@ export default async function TranscriptPage() {
   // All lessons for this course
   const courseId = (enrollment?.training_courses as any)?.id ?? enrollment?.course_id;
   const { data: lessons } = courseId
-    ? await db.from('lms_lessons').select('id, title, lesson_number, step_type, module_id').eq('course_id', courseId)
+    ? await db
+        .from('lms_lessons')
+        .select('id, title, lesson_number, step_type, module_id')
+        .eq('course_id', courseId)
     : { data: [] };
 
   // Lesson progress for this user
   const lessonIds = (lessons ?? []).map((l: any) => l.id);
-  const { data: progress } = lessonIds.length > 0
-    ? await db.from('lesson_progress').select('lesson_id, completed').eq('user_id', user.id).in('lesson_id', lessonIds)
-    : { data: [] };
+  const { data: progress } =
+    lessonIds.length > 0
+      ? await db
+          .from('lesson_progress')
+          .select('lesson_id, completed')
+          .eq('user_id', user.id)
+          .in('lesson_id', lessonIds)
+      : { data: [] };
 
   // Checkpoint scores
   const { data: checkpointScores } = await db
@@ -51,11 +63,17 @@ export default async function TranscriptPage() {
   const allLessons = lessons ?? [];
   const completedLessons = allLessons.filter((l: any) => progressMap.get(l.id)).length;
   const checkpointLessons = allLessons.filter((l: any) => l.step_type === 'checkpoint');
-  const checkpointsPassed = checkpointLessons.filter((l: any) => checkpointMap.get(l.id)?.passed).length;
+  const checkpointsPassed = checkpointLessons.filter(
+    (l: any) => checkpointMap.get(l.id)?.passed,
+  ).length;
 
   // Group lessons into domains by module_id (each module = one domain)
   const { data: modules } = courseId
-    ? await db.from('modules').select('id, title, module_order').eq('course_id', courseId).order('module_order')
+    ? await db
+        .from('modules')
+        .select('id, title, module_order')
+        .eq('course_id', courseId)
+        .order('module_order')
     : { data: [] };
 
   const domains = (modules ?? []).map((mod: any, idx: number) => {
@@ -101,7 +119,11 @@ export default async function TranscriptPage() {
       totalLessons={allLessons.length}
       checkpointsPassed={checkpointsPassed}
       totalCheckpoints={checkpointLessons.length}
-      generatedAt={new Date().toLocaleDateString('en-US', { month: 'long', day: 'numeric', year: 'numeric' })}
+      generatedAt={new Date().toLocaleDateString('en-US', {
+        month: 'long',
+        day: 'numeric',
+        year: 'numeric',
+      })}
     />
   );
 }

@@ -47,19 +47,19 @@ export default function CreateOrgPage() {
       const data = await response.json();
       router.push('/dashboard');
     } catch (err) {
-      setError(
-        'An error occurred'
-      );
+      setError('An error occurred');
       setLoading(false);
     }
   }
 
   return (
     <div className="min-h-screen bg-white flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "(Dashboard)", href: "/(dashboard)" }, { label: "Create" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: '(Dashboard)', href: '/(dashboard)' }, { label: 'Create' }]}
+        />
       </div>
-<div className="max-w-md w-full space-y-8">
+      <div className="max-w-md w-full space-y-8">
         <div>
           <h2 className="mt-6 text-center text-3xl font-extrabold text-black">
             Create Organization
@@ -95,10 +95,7 @@ export default function CreateOrgPage() {
 
           <div className="rounded-md shadow-sm space-y-4">
             <div>
-              <label
-                htmlFor="name"
-                className="block text-sm font-medium text-black"
-              >
+              <label htmlFor="name" className="block text-sm font-medium text-black">
                 Organization Name
               </label>
               <input
@@ -114,10 +111,7 @@ export default function CreateOrgPage() {
             </div>
 
             <div>
-              <label
-                htmlFor="slug"
-                className="block text-sm font-medium text-black"
-              >
+              <label htmlFor="slug" className="block text-sm font-medium text-black">
                 URL Slug
               </label>
               <div className="mt-1 flex rounded-md shadow-sm">
@@ -130,9 +124,7 @@ export default function CreateOrgPage() {
                   type="text"
                   required
                   value={formData.slug}
-                  onChange={(e) =>
-                    setFormData({ ...formData, slug: e.target.value })
-                  }
+                  onChange={(e) => setFormData({ ...formData, slug: e.target.value })}
                   pattern="[a-z0-9-]+"
                   className="flex-1 min-w-0 block w-full px-3 py-2 rounded-none rounded-r-md border border-gray-300 focus:ring-brand-blue-500 focus:border-brand-blue-500 sm:text-sm"
                   placeholder="acme-training"
@@ -144,19 +136,14 @@ export default function CreateOrgPage() {
             </div>
 
             <div>
-              <label
-                htmlFor="type"
-                className="block text-sm font-medium text-black"
-              >
+              <label htmlFor="type" className="block text-sm font-medium text-black">
                 Organization Type
               </label>
               <select
                 id="type"
                 name="type"
                 value={formData.type}
-                onChange={(e) =>
-                  setFormData({ ...formData, type: e.target.value })
-                }
+                onChange={(e) => setFormData({ ...formData, type: e.target.value })}
                 className="mt-1 block w-full pl-3 pr-10 py-2 text-base border border-gray-300 focus:outline-none focus:ring-brand-blue-500 focus:border-brand-blue-500 sm:text-sm rounded-md"
               >
                 <option value="training_provider">Training Provider</option>

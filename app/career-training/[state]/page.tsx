@@ -24,7 +24,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
       description: state.careerTraining.description,
       url: `https://www.elevateforhumanity.org/career-training-${state.slug}`,
       siteName: 'Elevate for Humanity',
-      images: [{ url: '/og-default.jpg', width: 1200, height: 630, alt: `${state.name} Career Training` }],
+      images: [
+        { url: '/og-default.jpg', width: 1200, height: 630, alt: `${state.name} Career Training` },
+      ],
       type: 'website',
     },
     twitter: {

@@ -30,7 +30,8 @@ const LESSON = {
   courseCategory: 'barber',
   instructorName: 'Marcus Johnson',
   instructorTitle: 'Barber Apprenticeship Instructor',
-  description: 'Introduction to the DOL-registered barber apprenticeship program — structure, credentials, schedule, and what to expect over 52 weeks.',
+  description:
+    'Introduction to the DOL-registered barber apprenticeship program — structure, credentials, schedule, and what to expect over 52 weeks.',
   content: `
     This is a United States Department of Labor registered apprenticeship program. You will complete
     2,000 hours total — 500 hours of related technical instruction (this course) and 1,500 hours of
@@ -90,7 +91,9 @@ async function main() {
   console.log('Step 1: Planning scenes + generating DALL-E backgrounds...');
   const { scenes, imagePaths, totalDuration } = await lessonToScenes(LESSON);
   console.log(`  → ${scenes.length} scenes | ~${Math.round(totalDuration / 60)} min total`);
-  scenes.forEach((s, i) => console.log(`     [${i+1}] ${s.type}: ${(s as any).heading || s.background?.slice(0,40)}`));
+  scenes.forEach((s, i) =>
+    console.log(`     [${i + 1}] ${s.type}: ${(s as any).heading || s.background?.slice(0, 40)}`),
+  );
 
   // Step 2: Generate video
   console.log('\nStep 2: Generating video (TTS + FFmpeg)...');
@@ -128,4 +131,7 @@ async function main() {
   console.log(`   Output:   ${OUTPUT}`);
 }
 
-main().catch(e => { console.error('Fatal:', e); process.exit(1); });
+main().catch((e) => {
+  console.error('Fatal:', e);
+  process.exit(1);
+});

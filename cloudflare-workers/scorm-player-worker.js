@@ -22,7 +22,7 @@ export default {
     }
 
     return new Response('SCORM Worker Active', { status: 200 });
-  }
+  },
 };
 
 /**
@@ -52,7 +52,6 @@ async function handleSCORM(request, env, url) {
     headers.set('Cache-Control', 'public, max-age=3600');
 
     return new Response(object.body, { headers });
-
   } catch (error) {
     console.error('SCORM delivery error:', error);
     return new Response('Error loading SCORM content', { status: 500 });
@@ -74,20 +73,22 @@ async function handleTracking(request, env) {
     // Store tracking data in KV or D1
     if (env.SCORM_TRACKING) {
       const key = `${userId}:${courseId}`;
-      await env.SCORM_TRACKING.put(key, JSON.stringify({
-        progress,
-        completed,
-        lastUpdated: new Date().toISOString()
-      }));
+      await env.SCORM_TRACKING.put(
+        key,
+        JSON.stringify({
+          progress,
+          completed,
+          lastUpdated: new Date().toISOString(),
+        }),
+      );
     }
 
     return new Response(JSON.stringify({ success: true }), {
       headers: {
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': '*'
-      }
+        'Access-Control-Allow-Origin': '*',
+      },
     });
-
   } catch (error) {
     console.error('Tracking error:', error);
     return new Response('Error tracking progress', { status: 500 });
@@ -103,8 +104,8 @@ function handleCORS() {
       'Access-Control-Allow-Origin': '*',
       'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
       'Access-Control-Allow-Headers': 'Content-Type',
-      'Access-Control-Max-Age': '86400'
-    }
+      'Access-Control-Max-Age': '86400',
+    },
   });
 }
 
@@ -115,21 +116,21 @@ function getContentType(path) {
   const ext = path.split('.').pop().toLowerCase();
 
   const types = {
-    'html': 'text/html',
-    'htm': 'text/html',
-    'js': 'application/javascript',
-    'json': 'application/json',
-    'css': 'text/css',
-    'xml': 'application/xml',
-    'jpg': 'image/jpeg',
-    'jpeg': 'image/jpeg',
-    'png': 'image/png',
-    'gif': 'image/gif',
-    'svg': 'image/svg+xml',
-    'mp4': 'video/mp4',
-    'mp3': 'audio/mpeg',
-    'pdf': 'application/pdf',
-    'zip': 'application/zip'
+    html: 'text/html',
+    htm: 'text/html',
+    js: 'application/javascript',
+    json: 'application/json',
+    css: 'text/css',
+    xml: 'application/xml',
+    jpg: 'image/jpeg',
+    jpeg: 'image/jpeg',
+    png: 'image/png',
+    gif: 'image/gif',
+    svg: 'image/svg+xml',
+    mp4: 'video/mp4',
+    mp3: 'audio/mpeg',
+    pdf: 'application/pdf',
+    zip: 'application/zip',
   };
 
   return types[ext] || 'application/octet-stream';

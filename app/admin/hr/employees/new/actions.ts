@@ -9,11 +9,11 @@ export async function createEmployeeAction(formData: FormData) {
   const supabase = await createClient();
 
   const first_name = (formData.get('first_name') as string)?.trim();
-  const last_name  = (formData.get('last_name')  as string)?.trim();
-  const email      = (formData.get('email')       as string)?.trim();
-  const department = (formData.get('department')  as string) || null;
-  const role       = (formData.get('role')        as string) || 'staff';
-  const hire_date  = (formData.get('hire_date')   as string) || new Date().toISOString().slice(0, 10);
+  const last_name = (formData.get('last_name') as string)?.trim();
+  const email = (formData.get('email') as string)?.trim();
+  const department = (formData.get('department') as string) || null;
+  const role = (formData.get('role') as string) || 'staff';
+  const hire_date = (formData.get('hire_date') as string) || new Date().toISOString().slice(0, 10);
 
   if (!first_name || !last_name || !email) return;
 

@@ -1,6 +1,6 @@
 /**
  * Sezzle Virtual Card Capture API
- * 
+ *
  * Captures a previously authorized Sezzle virtual card payment.
  * Use this when the checkout was created with intent: 'AUTH'
  * and you need to capture the funds later.
@@ -39,27 +39,18 @@ async function _POST(request: NextRequest) {
     }
 
     if (!sezzle.isConfigured()) {
-      return NextResponse.json(
-        { error: 'Sezzle is not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Sezzle is not configured' }, { status: 503 });
     }
 
     const body: CaptureRequest = await request.json();
     const { orderUuid, amountInCents, partialCapture = false, referenceId } = body;
 
     if (!orderUuid) {
-      return NextResponse.json(
-        { error: 'Missing orderUuid' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing orderUuid' }, { status: 400 });
     }
 
     if (!amountInCents || amountInCents <= 0) {
-      return NextResponse.json(
-        { error: 'Invalid amountInCents' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid amountInCents' }, { status: 400 });
     }
 
     // Capture the payment
@@ -95,10 +86,7 @@ async function _POST(request: NextRequest) {
   } catch (error) {
     logger.error('Sezzle capture error:', error);
     const message = 'Internal server error';
-    return NextResponse.json(
-      { error: message },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: message }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/sezzle/virtual-card/capture', _POST);

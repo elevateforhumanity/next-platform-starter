@@ -5,7 +5,7 @@ import Link from 'next/link';
 interface JobFeedProps {
   limit?: number;
   heading?: string;
-  employer_id?: string;  // optionally scope to one employer
+  employer_id?: string; // optionally scope to one employer
 }
 
 export default async function JobFeed({

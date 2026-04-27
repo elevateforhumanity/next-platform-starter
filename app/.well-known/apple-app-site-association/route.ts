@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
-export const runtime = "edge";
+export const runtime = 'edge';
 
 // Minimal valid AASA response for iOS Universal Links
 // Replace appID(s) and paths when adding real Universal Links
@@ -17,8 +17,8 @@ export async function GET() {
 
   return NextResponse.json(body, {
     headers: {
-      "Content-Type": "application/json",
-      "Cache-Control": "public, max-age=3600",
+      'Content-Type': 'application/json',
+      'Cache-Control': 'public, max-age=3600',
     },
   });
 }

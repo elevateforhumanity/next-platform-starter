@@ -8,18 +8,18 @@ import {
   CourseEnrollment,
   ProgressData,
   CertificateData,
-} from "./base";
+} from './base';
 
 /**
  * Partner API Integration Layer
- * 
+ *
  * STATUS: Pending vendor integration — returns default data.
- * 
+ *
  * Each partner (NDS, CareerSafe, etc.) will need a concrete
  * implementation that calls their vendor API. This allows
  * the enrollment/automation pipeline to function without
  * blocking on vendor integration timelines.
- * 
+ *
  * To connect a real partner:
  *   1. Create a class extending BasePartnerAPI
  *   2. Implement createAccount, enrollInCourse, getProgress, getCertificate, getSSOLink
@@ -33,27 +33,25 @@ class PendingPartnerAPI extends BasePartnerAPI {
     return {
       externalId: generatedId,
       username: student.email,
-      loginUrl: "https://partner.elevateforhumanity.org/login",
+      loginUrl: 'https://partner.elevateforhumanity.org/login',
       passwordPlaintext: undefined,
     };
   }
 
   async enrollInCourse(
     accountExternalId: string,
-    courseExternalCode: string
+    courseExternalCode: string,
   ): Promise<CourseEnrollment> {
     // In production: call real partner API here
     return {
       externalEnrollmentId: `${this.partner}_${accountExternalId}_${courseExternalCode}`,
       courseId: courseExternalCode,
       courseName: `Course ${courseExternalCode}`,
-      accessUrl: "https://partner.elevateforhumanity.org/course/launch",
+      accessUrl: 'https://partner.elevateforhumanity.org/course/launch',
     };
   }
 
-  async getProgress(
-    externalEnrollmentId: string
-  ): Promise<ProgressData | null> {
+  async getProgress(externalEnrollmentId: string): Promise<ProgressData | null> {
     // In production: call real partner API here
     // Default: mark as in progress until vendor API connected
     return {
@@ -65,9 +63,7 @@ class PendingPartnerAPI extends BasePartnerAPI {
     };
   }
 
-  async getCertificate(
-    externalEnrollmentId: string
-  ): Promise<CertificateData | null> {
+  async getCertificate(externalEnrollmentId: string): Promise<CertificateData | null> {
     // In production: call real partner API here
     // Default: no certificate until vendor API connected
     return null;
@@ -80,7 +76,7 @@ class PendingPartnerAPI extends BasePartnerAPI {
   }): Promise<string> {
     // In production: generate real SSO link
     return `https://partner.elevateforhumanity.org/sso/launch?enrollment=${encodeURIComponent(
-      params.externalEnrollmentId
+      params.externalEnrollmentId,
     )}`;
   }
 }
@@ -94,4 +90,4 @@ export function getPartnerClient(partner: PartnerType): BasePartnerAPI {
   return new PendingPartnerAPI(partner, config);
 }
 
-export * from "./base";
+export * from './base';

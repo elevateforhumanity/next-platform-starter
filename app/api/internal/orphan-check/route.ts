@@ -27,16 +27,15 @@ export const runtime = 'nodejs';
 
 interface TableOrphanResult {
   table: string;
-  orphaned_rows: number;   // user_id IS NULL
-  linkable_rows: number;   // user_id IS NULL AND matching profile exists
+  orphaned_rows: number; // user_id IS NULL
+  linkable_rows: number; // user_id IS NULL AND matching profile exists
   status: 'OK' | 'REVIEW' | 'ACTION_REQUIRED';
 }
 
 export async function GET(request: NextRequest) {
   await hydrateProcessEnv();
   // Require CRON_SECRET to prevent open access
-  const secret = request.headers.get('x-cron-secret')
-    ?? request.nextUrl.searchParams.get('secret');
+  const secret = request.headers.get('x-cron-secret') ?? request.nextUrl.searchParams.get('secret');
 
   if (!process.env.CRON_SECRET || secret !== process.env.CRON_SECRET) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -60,7 +59,12 @@ export async function GET(request: NextRequest) {
 
       if (e1) {
         logger.error(`[orphan-check] count failed for ${config.table}`, e1.message);
-        results.push({ table: config.table, orphaned_rows: -1, linkable_rows: -1, status: 'REVIEW' });
+        results.push({
+          table: config.table,
+          orphaned_rows: -1,
+          linkable_rows: -1,
+          status: 'REVIEW',
+        });
         continue;
       }
 
@@ -79,15 +83,22 @@ export async function GET(request: NextRequest) {
         .not(config.emailColumn, 'is', null);
 
       if (e2) {
-        results.push({ table: config.table, orphaned_rows: orphaned, linkable_rows: -1, status: 'REVIEW' });
+        results.push({
+          table: config.table,
+          orphaned_rows: orphaned,
+          linkable_rows: -1,
+          status: 'REVIEW',
+        });
         continue;
       }
 
-      const emails = [...new Set(
-        (orphanedRows ?? [])
-          .map((r: Record<string, string>) => r[config.emailColumn]?.toLowerCase().trim())
-          .filter(Boolean)
-      )];
+      const emails = [
+        ...new Set(
+          (orphanedRows ?? [])
+            .map((r: Record<string, string>) => r[config.emailColumn]?.toLowerCase().trim())
+            .filter(Boolean),
+        ),
+      ];
 
       let linkable = 0;
       if (emails.length > 0) {
@@ -99,13 +110,16 @@ export async function GET(request: NextRequest) {
       }
 
       const status: TableOrphanResult['status'] =
-        linkable > 0 ? 'ACTION_REQUIRED' :
-        orphaned > 0 ? 'REVIEW' : 'OK';
+        linkable > 0 ? 'ACTION_REQUIRED' : orphaned > 0 ? 'REVIEW' : 'OK';
 
       if (status === 'ACTION_REQUIRED') hasActionRequired = true;
 
-      results.push({ table: config.table, orphaned_rows: orphaned, linkable_rows: linkable, status });
-
+      results.push({
+        table: config.table,
+        orphaned_rows: orphaned,
+        linkable_rows: linkable,
+        status,
+      });
     } catch (err: unknown) {
       logger.error(`[orphan-check] unexpected error for ${config.table}`, {
         error: err instanceof Error ? err.message : String(err),
@@ -120,11 +134,14 @@ export async function GET(request: NextRequest) {
     logger.info('[orphan-check] all pre-auth tables clean', { results });
   }
 
-  return NextResponse.json({
-    checked_at: new Date().toISOString(),
-    all_clean: !hasActionRequired,
-    results,
-  }, {
-    status: hasActionRequired ? 207 : 200,
-  });
+  return NextResponse.json(
+    {
+      checked_at: new Date().toISOString(),
+      all_clean: !hasActionRequired,
+      results,
+    },
+    {
+      status: hasActionRequired ? 207 : 200,
+    },
+  );
 }

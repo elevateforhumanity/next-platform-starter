@@ -30,7 +30,9 @@ async function generate() {
     instructorTitle: 'HVAC Training Program',
   });
 
-  console.info(`  ${sceneResult.scenes.length} scenes, ${sceneResult.imagePaths.length} images, ${sceneResult.totalDuration}s`);
+  console.info(
+    `  ${sceneResult.scenes.length} scenes, ${sceneResult.imagePaths.length} images, ${sceneResult.totalDuration}s`,
+  );
 
   console.info('\nSTEP 2: Generating video (TTS + FFmpeg compositing)...');
 
@@ -56,7 +58,10 @@ async function generate() {
   }
 
   if (result.videoPath) {
-    const finalPath = path.join(process.cwd(), 'courses/hvac/module1/output/hvac-module1-lesson1.mp4');
+    const finalPath = path.join(
+      process.cwd(),
+      'courses/hvac/module1/output/hvac-module1-lesson1.mp4',
+    );
     await fs.mkdir(path.dirname(finalPath), { recursive: true });
     await fs.copyFile(result.videoPath, finalPath);
     const stat = await fs.stat(finalPath);

@@ -65,12 +65,12 @@ function deduplicateCheckpoints(rows: RawCheckpointRow[]): Map<string, Checkpoin
   for (const row of rows) {
     if (!checkpointScores.has(row.lesson_id)) {
       checkpointScores.set(row.lesson_id, {
-        lessonId:      row.lesson_id,
-        score:         row.score,
-        passed:        row.passed,
-        passingScore:  row.passing_score,
+        lessonId: row.lesson_id,
+        score: row.score,
+        passed: row.passed,
+        passingScore: row.passing_score,
         attemptNumber: row.attempt_number,
-        createdAt:     row.created_at,
+        createdAt: row.created_at,
       });
     }
   }
@@ -90,7 +90,6 @@ const BASE = { lesson_id: LESSON_ID, passing_score: 70, created_at: '2026-01-01T
 // ─── Tests ────────────────────────────────────────────────────────────────────
 
 describe('getLearnerProgress — checkpoint score deduplication', () => {
-
   describe('core bug: pass then fail scenario', () => {
     it('returns the passing attempt when a later attempt fails', () => {
       // Learner passes attempt 2 (80%), then retakes and fails attempt 3 (65%).
@@ -98,7 +97,7 @@ describe('getLearnerProgress — checkpoint score deduplication', () => {
       // The fixed code (order by passed DESC, score DESC) returns attempt 2 → passed=true.
       const rows: RawCheckpointRow[] = [
         { ...BASE, attempt_number: 1, score: 55, passed: false },
-        { ...BASE, attempt_number: 2, score: 80, passed: true  },
+        { ...BASE, attempt_number: 2, score: 80, passed: true },
         { ...BASE, attempt_number: 3, score: 65, passed: false },
       ];
 
@@ -131,7 +130,7 @@ describe('getLearnerProgress — checkpoint score deduplication', () => {
       // but the sort must be stable regardless of score magnitude)
       const rows: RawCheckpointRow[] = [
         { ...BASE, attempt_number: 1, score: 95, passed: false },
-        { ...BASE, attempt_number: 2, score: 70, passed: true  },
+        { ...BASE, attempt_number: 2, score: 70, passed: true },
       ];
 
       const scores = getBestCheckpointScores(rows);
@@ -165,9 +164,7 @@ describe('getLearnerProgress — checkpoint score deduplication', () => {
 
   describe('single attempt', () => {
     it('returns the only attempt when it passes', () => {
-      const rows: RawCheckpointRow[] = [
-        { ...BASE, attempt_number: 1, score: 85, passed: true },
-      ];
+      const rows: RawCheckpointRow[] = [{ ...BASE, attempt_number: 1, score: 85, passed: true }];
 
       const scores = getBestCheckpointScores(rows);
       expect(scores.get(LESSON_ID)!.passed).toBe(true);
@@ -175,9 +172,7 @@ describe('getLearnerProgress — checkpoint score deduplication', () => {
     });
 
     it('returns the only attempt when it fails', () => {
-      const rows: RawCheckpointRow[] = [
-        { ...BASE, attempt_number: 1, score: 55, passed: false },
-      ];
+      const rows: RawCheckpointRow[] = [{ ...BASE, attempt_number: 1, score: 55, passed: false }];
 
       const scores = getBestCheckpointScores(rows);
       expect(scores.get(LESSON_ID)!.passed).toBe(false);
@@ -189,7 +184,7 @@ describe('getLearnerProgress — checkpoint score deduplication', () => {
     it('tracks best score independently per lesson_id', () => {
       const rows: RawCheckpointRow[] = [
         { ...BASE, lesson_id: 'cp-1', attempt_number: 1, score: 60, passed: false },
-        { ...BASE, lesson_id: 'cp-1', attempt_number: 2, score: 80, passed: true  },
+        { ...BASE, lesson_id: 'cp-1', attempt_number: 2, score: 80, passed: true },
         { ...BASE, lesson_id: 'cp-1', attempt_number: 3, score: 55, passed: false },
         { ...BASE, lesson_id: 'cp-2', attempt_number: 1, score: 45, passed: false },
         { ...BASE, lesson_id: 'cp-2', attempt_number: 2, score: 50, passed: false },
@@ -220,7 +215,7 @@ describe('getLearnerProgress — checkpoint score deduplication', () => {
       // Old sort: attempt_number DESC → attempt 3 (failed) is first.
       const rows: RawCheckpointRow[] = [
         { ...BASE, attempt_number: 1, score: 55, passed: false },
-        { ...BASE, attempt_number: 2, score: 80, passed: true  },
+        { ...BASE, attempt_number: 2, score: 80, passed: true },
         { ...BASE, attempt_number: 3, score: 65, passed: false },
       ];
 

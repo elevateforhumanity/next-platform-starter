@@ -15,14 +15,25 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user }, error: authErr } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error: authErr,
+    } = await supabase.auth.getUser();
+
     if (authErr || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const body = await req.json();
-    const { programSlug, programType, programHolderId, employerId, regionId, fundingSource, signaturesRequired } = body;
+    const {
+      programSlug,
+      programType,
+      programHolderId,
+      employerId,
+      regionId,
+      fundingSource,
+      signaturesRequired,
+    } = body;
 
     if (!programSlug) {
       return NextResponse.json({ error: 'programSlug is required' }, { status: 400 });
@@ -56,8 +67,11 @@ async function _GET(req: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user }, error: authErr } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error: authErr,
+    } = await supabase.auth.getUser();
+
     if (authErr || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }

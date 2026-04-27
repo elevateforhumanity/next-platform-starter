@@ -130,18 +130,12 @@ export const metadata: Metadata = {
       { url: '/icon-192.png', type: 'image/png', sizes: '192x192' },
       { url: '/icon-512.png', type: 'image/png', sizes: '512x512' },
     ],
-    apple: [
-      { url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' },
-    ],
+    apple: [{ url: '/apple-touch-icon.png', sizes: '180x180', type: 'image/png' }],
     shortcut: '/favicon.ico',
   },
 };
 
-export default function RootLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function RootLayout({ children }: { children: React.ReactNode }) {
   // Simplified: Always allow indexing on production, always set canonical
   // No async header checks that could cause SSR issues
   const isProduction = process.env.NODE_ENV === 'production';
@@ -157,11 +151,7 @@ export default function RootLayout({
 
         <link rel="icon" href="/favicon.ico" sizes="32x32" />
         <link rel="icon" href="/favicon.png" type="image/png" sizes="192x192" />
-        <link
-          rel="apple-touch-icon"
-          href="/apple-touch-icon.png"
-          sizes="180x180"
-        />
+        <link rel="apple-touch-icon" href="/apple-touch-icon.png" sizes="180x180" />
         <meta name="theme-color" content="#dc2626" />
         {/* Prevent iOS Safari from auto-linking phone numbers/dates — causes hydration mismatches */}
         <meta name="format-detection" content="telephone=no, date=no, email=no, address=no" />
@@ -175,7 +165,9 @@ export default function RootLayout({
         <meta httpEquiv="X-UA-Compatible" content="IE=edge" />
 
         {/* Critical CSS to prevent FOUC on mobile */}
-        <style dangerouslySetInnerHTML={{__html: `
+        <style
+          dangerouslySetInnerHTML={{
+            __html: `
           *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
           html{-webkit-text-size-adjust:100%;background:#fff}
           body{margin:0;line-height:1.6;background:#fff;font-size:17px;min-height:100vh;color:#111827}
@@ -204,7 +196,9 @@ export default function RootLayout({
           .grid-cols-1{grid-template-columns:repeat(1,minmax(0,1fr))}
           @media(min-width:640px){.sm\\:px-6{padding-left:1.5rem;padding-right:1.5rem}}
           @media(min-width:1024px){.lg\\:px-8{padding-left:2rem;padding-right:2rem}.lg\\:grid-cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}}
-        `}} />
+        `,
+          }}
+        />
         <StructuredData />
       </head>
       <body
@@ -218,7 +212,12 @@ export default function RootLayout({
         {/* Suppress marketing chrome on app routes before hydration — no flash on hard nav.
             suppressHydrationWarning is required because this script sets data-app-route on
             <body> before React hydrates, causing a server/client attribute mismatch. */}
-        <script suppressHydrationWarning dangerouslySetInnerHTML={{ __html: `(function(){var p=location.pathname;var APP=['/admin','/lms','/learner','/instructor','/employer','/partner','/staff-portal','/mentor','/program-holder'];if(APP.some(function(a){return p===a||p.startsWith(a+'/')})){document.body.setAttribute('data-app-route','true');}if(p==='/admin'||p.startsWith('/admin/')){document.body.setAttribute('data-admin-route','true');}})();` }} />
+        <script
+          suppressHydrationWarning
+          dangerouslySetInnerHTML={{
+            __html: `(function(){var p=location.pathname;var APP=['/admin','/lms','/learner','/instructor','/employer','/partner','/staff-portal','/mentor','/program-holder'];if(APP.some(function(a){return p===a||p.startsWith(a+'/')})){document.body.setAttribute('data-app-route','true');}if(p==='/admin'||p.startsWith('/admin/')){document.body.setAttribute('data-admin-route','true');}})();`,
+          }}
+        />
         <SkipToContent />
         <GoogleAnalytics />
         <PWAManager />

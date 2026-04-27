@@ -1,4 +1,4 @@
-"use client";
+'use client';
 import { useEffect, useRef, useState, ReactNode } from 'react';
 
 interface ScrollRevealProps {
@@ -14,7 +14,7 @@ export function ScrollReveal({
   className = '',
   delay = 0,
   threshold = 0.1,
-  direction = 'up'
+  direction = 'up',
 }: ScrollRevealProps) {
   const [isVisible, setIsVisible] = useState(false);
   const ref = useRef<HTMLDivElement>(null);
@@ -27,7 +27,7 @@ export function ScrollReveal({
           observer.unobserve(entry.target);
         }
       },
-      { threshold }
+      { threshold },
     );
 
     if (ref.current) {

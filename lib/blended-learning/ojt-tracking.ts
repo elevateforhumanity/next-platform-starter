@@ -138,7 +138,7 @@ export async function logOJTHours(data: {
 export async function verifyOJTHours(
   log_id: string,
   supervisor_email: string,
-  supervisor_comments?: string
+  supervisor_comments?: string,
 ): Promise<OJTHoursLog> {
   const supabase = await createClient();
   // Verify supervisor email matches placement
@@ -187,8 +187,10 @@ export async function getOJTProgress(placement_id: string): Promise<OJTProgressS
     .select('*')
     .eq('placement_id', placement_id);
   const hours_logged = logs?.reduce((sum, log) => sum + log.hours_worked, 0) || 0;
-  const hours_verified = logs?.filter(log => log.supervisor_verified)
-    .reduce((sum, log) => sum + log.hours_worked, 0) || 0;
+  const hours_verified =
+    logs
+      ?.filter((log) => log.supervisor_verified)
+      .reduce((sum, log) => sum + log.hours_worked, 0) || 0;
   const hours_remaining = Math.max(0, placement.hours_required - hours_verified);
   const completion_percentage = (hours_verified / placement.hours_required) * 100;
   // Calculate weeks active
@@ -268,7 +270,7 @@ export async function getUnverifiedHours(supervisor_email: string): Promise<OJTH
  */
 export async function completeOJTPlacement(
   placement_id: string,
-  end_date: string
+  end_date: string,
 ): Promise<OJTPlacement> {
   const supabase = await createClient();
   const progress = await getOJTProgress(placement_id);
@@ -294,7 +296,7 @@ export async function completeOJTPlacement(
  */
 export async function terminateOJTPlacement(
   placement_id: string,
-  reason: string
+  reason: string,
 ): Promise<OJTPlacement> {
   const supabase = await createClient();
   const { data: placement, error } = await supabase
@@ -308,13 +310,11 @@ export async function terminateOJTPlacement(
     .maybeSingle();
   if (error) throw error;
   // Log termination reason
-  await supabase
-    .from('ojt_notes')
-    .insert({
-      placement_id,
-      note_type: 'termination',
-      note: reason,
-    });
+  await supabase.from('ojt_notes').insert({
+    placement_id,
+    note_type: 'termination',
+    note: reason,
+  });
   return placement;
 }
 /**
@@ -324,11 +324,13 @@ export async function generateOJTReport(program_id: string): Promise<any> {
   const supabase = await createClient();
   const { data: placements } = await supabase
     .from('ojt_placements')
-    .select(`
+    .select(
+      `
       *,
       profiles(full_name, email),
       ojt_hours_logs(*)
-    `)
+    `,
+    )
     .eq('program_id', program_id);
   if (!placements) return [];
   const report = [];

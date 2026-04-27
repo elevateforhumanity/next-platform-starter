@@ -34,8 +34,8 @@ export async function getPrograms(): Promise<Program[]> {
     .from('programs')
     .select(
       'id, slug, title, description, short_description, excerpt, image_url, hero_image_url, ' +
-      'estimated_weeks, credential_name, credential, funding_tags, wioa_approved, ' +
-      'published, is_active, status, featured, display_order'
+        'estimated_weeks, credential_name, credential, funding_tags, wioa_approved, ' +
+        'published, is_active, status, featured, display_order',
     )
     .eq('published', true)
     .eq('is_active', true)
@@ -62,8 +62,8 @@ export async function getProgramsByCategory(category: string): Promise<Program[]
     .from('programs')
     .select(
       'id, slug, title, description, short_description, excerpt, image_url, hero_image_url, ' +
-      'estimated_weeks, credential_name, credential, funding_tags, wioa_approved, ' +
-      'published, is_active, status, featured, display_order'
+        'estimated_weeks, credential_name, credential, funding_tags, wioa_approved, ' +
+        'published, is_active, status, featured, display_order',
     )
     .eq('is_active', true)
     .ilike('category', `%${category}%`)
@@ -84,10 +84,10 @@ export async function getProgramBySlug(slug: string): Promise<Program | null> {
     .from('programs')
     .select(
       'id, slug, title, description, short_description, excerpt, full_description, ' +
-      'image_url, hero_image_url, estimated_weeks, credential_name, credential, ' +
-      'funding_tags, wioa_approved, published, is_active, status, featured, display_order, ' +
-      'what_you_learn, career_outcomes, delivery_method, ' +
-      'modules(id, title, description, order)'
+        'image_url, hero_image_url, estimated_weeks, credential_name, credential, ' +
+        'funding_tags, wioa_approved, published, is_active, status, featured, display_order, ' +
+        'what_you_learn, career_outcomes, delivery_method, ' +
+        'modules(id, title, description, order)',
     )
     .eq('slug', slug)
     .eq('published', true)
@@ -104,12 +104,14 @@ export async function getProgramBySlug(slug: string): Promise<Program | null> {
     overview: data.full_description ?? undefined,
     outcomes: data.career_outcomes ?? data.what_you_learn ?? undefined,
     format: data.delivery_method ?? undefined,
-    modules: (data.modules ?? []).map((m: { id: string; title: string; description?: string; order?: number }) => ({
-      id: m.id,
-      title: m.title,
-      description: m.description,
-      order: m.order,
-    })),
+    modules: (data.modules ?? []).map(
+      (m: { id: string; title: string; description?: string; order?: number }) => ({
+        id: m.id,
+        title: m.title,
+        description: m.description,
+        order: m.order,
+      }),
+    ),
   };
 }
 
@@ -152,14 +154,16 @@ function mapProgram(p: Record<string, unknown>): Program {
     title: p.title as string,
     slug: p.slug as string,
     // short_description added by migration 20260402000003; falls back to excerpt or description
-    description: (p.short_description as string | null)
-      ?? (p.excerpt as string | null)
-      ?? (p.description as string | null)
-      ?? '',
+    description:
+      (p.short_description as string | null) ??
+      (p.excerpt as string | null) ??
+      (p.description as string | null) ??
+      '',
     image: (p.image_url as string | null) ?? (p.hero_image_url as string | null) ?? undefined,
     duration: p.estimated_weeks ? `${p.estimated_weeks} weeks` : undefined,
     // credential_name is the canonical column; credential is a newer alias
-    certification: (p.credential_name as string | null) ?? (p.credential as string | null) ?? undefined,
+    certification:
+      (p.credential_name as string | null) ?? (p.credential as string | null) ?? undefined,
     funded: (p.wioa_approved as boolean | null) ?? false,
     is_active: p.is_active as boolean | undefined,
   };

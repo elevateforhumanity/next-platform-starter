@@ -23,16 +23,31 @@ export interface PostApprovalInput {
 export async function runPostApprovalActions(input: PostApprovalInput): Promise<void> {
   const { programSlug, studentEmail, studentName, passwordSetupLink } = input;
 
-  const siteUrl       = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
-  const firstName     = studentName?.split(' ')[0] || 'there';
+  const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
+  const firstName = studentName?.split(' ')[0] || 'there';
   const onboardingUrl = `${siteUrl}/onboarding/learner`;
-  const dashboardUrl  = `${siteUrl}/learner/dashboard`;
-  const lmsUrl        = `${siteUrl}/lms/courses`;
+  const dashboardUrl = `${siteUrl}/learner/dashboard`;
+  const lmsUrl = `${siteUrl}/lms/courses`;
 
   if (programSlug === 'barber-apprenticeship') {
-    await sendBarberApprovalEmail({ studentEmail, firstName, passwordSetupLink: passwordSetupLink ?? null, onboardingUrl, dashboardUrl, lmsUrl, siteUrl });
+    await sendBarberApprovalEmail({
+      studentEmail,
+      firstName,
+      passwordSetupLink: passwordSetupLink ?? null,
+      onboardingUrl,
+      dashboardUrl,
+      lmsUrl,
+      siteUrl,
+    });
   } else {
-    await sendGenericApprovalEmail({ studentEmail, firstName, passwordSetupLink: passwordSetupLink ?? null, onboardingUrl, dashboardUrl, siteUrl });
+    await sendGenericApprovalEmail({
+      studentEmail,
+      firstName,
+      passwordSetupLink: passwordSetupLink ?? null,
+      onboardingUrl,
+      dashboardUrl,
+      siteUrl,
+    });
   }
 
   // Teams notification — non-fatal
@@ -44,14 +59,25 @@ export async function runPostApprovalActions(input: PostApprovalInput): Promise<
       Program: programSlug ?? 'Unknown',
       'Onboarding URL': onboardingUrl,
     },
-  ).catch(err => logger.error('[post-approval] Teams notification failed', err));
+  ).catch((err) => logger.error('[post-approval] Teams notification failed', err));
 }
 
 async function sendBarberApprovalEmail({
-  studentEmail, firstName, passwordSetupLink, onboardingUrl, dashboardUrl, lmsUrl, siteUrl,
+  studentEmail,
+  firstName,
+  passwordSetupLink,
+  onboardingUrl,
+  dashboardUrl,
+  lmsUrl,
+  siteUrl,
 }: {
-  studentEmail: string; firstName: string; passwordSetupLink: string | null;
-  onboardingUrl: string; dashboardUrl: string; lmsUrl: string; siteUrl: string;
+  studentEmail: string;
+  firstName: string;
+  passwordSetupLink: string | null;
+  onboardingUrl: string;
+  dashboardUrl: string;
+  lmsUrl: string;
+  siteUrl: string;
 }) {
   try {
     const { sendEmail } = await import('@/lib/email/sendgrid');
@@ -126,17 +152,28 @@ async function sendBarberApprovalEmail({
 }
 
 async function sendGenericApprovalEmail({
-  studentEmail, firstName, passwordSetupLink, onboardingUrl, dashboardUrl, siteUrl,
+  studentEmail,
+  firstName,
+  passwordSetupLink,
+  onboardingUrl,
+  dashboardUrl,
+  siteUrl,
 }: {
-  studentEmail: string; firstName: string; passwordSetupLink: string | null;
-  onboardingUrl: string; dashboardUrl: string; siteUrl: string;
+  studentEmail: string;
+  firstName: string;
+  passwordSetupLink: string | null;
+  onboardingUrl: string;
+  dashboardUrl: string;
+  siteUrl: string;
 }) {
   try {
     const { sendEmail } = await import('@/lib/email/sendgrid');
 
     // Primary CTA: set password for new users, go to dashboard for existing users
-    const primaryUrl   = passwordSetupLink ?? `${siteUrl}/login?redirect=/onboarding/learner`;
-    const primaryLabel = passwordSetupLink ? 'Create My Account &amp; Start Onboarding →' : 'Go to My Onboarding →';
+    const primaryUrl = passwordSetupLink ?? `${siteUrl}/login?redirect=/onboarding/learner`;
+    const primaryLabel = passwordSetupLink
+      ? 'Create My Account &amp; Start Onboarding →'
+      : 'Go to My Onboarding →';
     const primaryColor = passwordSetupLink ? '#16a34a' : '#2563eb';
 
     await sendEmail({

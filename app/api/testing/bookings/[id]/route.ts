@@ -16,26 +16,40 @@ const FROM = TESTING_EMAIL.from;
 
 function fmtDate(d: string) {
   return new Date(d + 'T12:00:00').toLocaleDateString('en-US', {
-    weekday: 'long', month: 'long', day: 'numeric', year: 'numeric',
+    weekday: 'long',
+    month: 'long',
+    day: 'numeric',
+    year: 'numeric',
   });
 }
 
 async function _PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient();
   const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+  if (!db)
+    return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!['admin', 'super_admin'].includes(profile?.role ?? '')) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
   const { id } = await params;
   let body: any;
-  try { body = await req.json(); } catch { return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 }); }
+  try {
+    body = await req.json();
+  } catch {
+    return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
+  }
 
   const { status, confirmedDate, confirmedTime, adminNotes } = body;
 
@@ -103,7 +117,7 @@ async function _PATCH(req: NextRequest, { params }: { params: Promise<{ id: stri
       from: FROM,
       subject: `Exam Confirmed — ${fmtDate(confirmedDate ?? booking.preferred_date)} at ${confirmedTime ?? booking.preferred_time} | Elevate Testing Center`,
       html,
-    }).catch(e => logger.error('[Testing] Confirm email failed:', e));
+    }).catch((e) => logger.error('[Testing] Confirm email failed:', e));
   }
 
   return NextResponse.json({ success: true, booking });

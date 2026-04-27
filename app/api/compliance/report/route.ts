@@ -14,7 +14,9 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -51,14 +53,15 @@ async function _GET(request: NextRequest) {
 
     // Calculate metrics
     const totalEnrollments = enrollments?.length || 0;
-    const completedEnrollments = enrollments?.filter(e => e.status === 'completed').length || 0;
-    const completionRate = totalEnrollments > 0 ? (completedEnrollments / totalEnrollments * 100).toFixed(1) : 0;
+    const completedEnrollments = enrollments?.filter((e) => e.status === 'completed').length || 0;
+    const completionRate =
+      totalEnrollments > 0 ? ((completedEnrollments / totalEnrollments) * 100).toFixed(1) : 0;
 
-    const pendingItems = complianceItems?.filter(i => i.status === 'pending').length || 0;
-    const completedItems = complianceItems?.filter(i => i.status === 'completed').length || 0;
-    const overdueItems = complianceItems?.filter(i => 
-      i.status === 'pending' && new Date(i.due_date) < new Date()
-    ).length || 0;
+    const pendingItems = complianceItems?.filter((i) => i.status === 'pending').length || 0;
+    const completedItems = complianceItems?.filter((i) => i.status === 'completed').length || 0;
+    const overdueItems =
+      complianceItems?.filter((i) => i.status === 'pending' && new Date(i.due_date) < new Date())
+        .length || 0;
 
     const report = {
       generatedAt: new Date().toISOString(),
@@ -73,15 +76,15 @@ async function _GET(request: NextRequest) {
         completedEnrollments,
         completionRate: `${completionRate}%`,
         totalApplications: applications?.length || 0,
-        pendingApplications: applications?.filter(a => a.status === 'pending').length || 0,
+        pendingApplications: applications?.filter((a) => a.status === 'pending').length || 0,
       },
       compliance: {
         totalItems: complianceItems?.length || 0,
         pendingItems,
         completedItems,
         overdueItems,
-        complianceRate: complianceItems?.length 
-          ? `${(completedItems / complianceItems.length * 100).toFixed(1)}%` 
+        complianceRate: complianceItems?.length
+          ? `${((completedItems / complianceItems.length) * 100).toFixed(1)}%`
           : '0%',
       },
       items: complianceItems?.slice(0, 50) || [],
@@ -90,10 +93,7 @@ async function _GET(request: NextRequest) {
     return NextResponse.json(report);
   } catch (error) {
     logger.error('Compliance report error:', error);
-    return NextResponse.json(
-      { error: 'Failed to generate compliance report' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to generate compliance report' }, { status: 500 });
   }
 }
 
@@ -103,7 +103,9 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -151,10 +153,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Compliance report error:', error);
-    return NextResponse.json(
-      { error: 'Failed to create compliance report' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create compliance report' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/compliance/report', _GET);

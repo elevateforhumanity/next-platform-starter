@@ -37,9 +37,7 @@ export function siteMetadata(input: SiteMetadataInput): Metadata {
     keywords: input.keywords,
     metadataBase: new URL(SITE.url),
     alternates: { canonical: url },
-    robots: input.noIndex
-      ? { index: false, follow: false }
-      : { index: true, follow: true },
+    robots: input.noIndex ? { index: false, follow: false } : { index: true, follow: true },
     openGraph: {
       type: 'website',
       url,

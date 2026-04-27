@@ -41,17 +41,22 @@ async function _POST(req: NextRequest) {
     // Explicit access gate: status OR enrollment_state must grant access.
     // pending_funding_verification retains provisional LMS access by policy.
     // See enrollment_grants_lms_access() in DB and docs/enrollment-funding-states.md.
-    const accessStates = ['active', 'in_progress', 'enrolled', 'confirmed', 'pending_funding_verification'];
-    const enrollmentGrantsAccess = enrollment &&
-      (accessStates.includes(enrollment.status) || accessStates.includes(enrollment.enrollment_state));
+    const accessStates = [
+      'active',
+      'in_progress',
+      'enrolled',
+      'confirmed',
+      'pending_funding_verification',
+    ];
+    const enrollmentGrantsAccess =
+      enrollment &&
+      (accessStates.includes(enrollment.status) ||
+        accessStates.includes(enrollment.enrollment_state));
 
     const enrollment_checked = enrollmentGrantsAccess ? enrollment : null;
 
     if (!enrollment_checked) {
-      return NextResponse.json(
-        { error: 'Not enrolled in this course' },
-        { status: 403 },
-      );
+      return NextResponse.json({ error: 'Not enrolled in this course' }, { status: 403 });
     }
 
     // Get course details
@@ -73,7 +78,7 @@ async function _POST(req: NextRequest) {
       },
       {
         onConflict: 'user_id,course_id',
-      }
+      },
     );
 
     if (error) {
@@ -81,13 +86,12 @@ async function _POST(req: NextRequest) {
     }
 
     return NextResponse.json({ success: true });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
-        error:
-          'Internal server error',
+        error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

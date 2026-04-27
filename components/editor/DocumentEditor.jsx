@@ -4,12 +4,7 @@ import 'quill/dist/quill.snow.css';
 /**
  * DocumentEditor Component - Google Docs alternative with real-time collaboration
  */
-export function DocumentEditor({
-  documentId,
-  userId,
-  userName,
-  canEdit = true,
-}) {
+export function DocumentEditor({ documentId, userId, userName, canEdit = true }) {
   const editorRef = useRef(null);
   const quillRef = useRef(null);
   const [collaborators, setCollaborators] = useState([]);
@@ -48,14 +43,14 @@ export function DocumentEditor({
     quill.on('text-change', (delta, oldDelta, source) => {
       if (source === 'user') {
         // Broadcast changes to other users (in production, use WebSocket)
-        // 
+        //
       }
     });
     // Track cursor position
     quill.on('selection-change', (range, oldRange, source) => {
       if (range && source === 'user') {
         // Broadcast cursor position
-        // 
+        //
       }
     });
     return () => {
@@ -115,9 +110,7 @@ export function DocumentEditor({
   };
   const exportDocument = async (format) => {
     try {
-      const response = await fetch(
-        `/api/documents/${documentId}/export/${format}`
-      );
+      const response = await fetch(`/api/documents/${documentId}/export/${format}`);
       const blob = await response.blob();
       const url = window.URL.createObjectURL(blob);
       const a = document.createElement('a');
@@ -150,9 +143,7 @@ export function DocumentEditor({
           }}
         >
           <div style={{ display: 'flex', gap: '1rem', alignItems: 'center' }}>
-            <h2 style={{ margin: 0, fontSize: '1.125rem' }}>
-              Untitled Document
-            </h2>
+            <h2 style={{ margin: 0, fontSize: '1.125rem' }}>Untitled Document</h2>
             {isSaving ? (
               <span
                 style={{
@@ -175,9 +166,7 @@ export function DocumentEditor({
           </div>
           <div style={{ display: 'flex', gap: '0.5rem', alignItems: 'center' }}>
             {/* Collaborators */}
-            <div
-              style={{ display: 'flex', gap: '0.25rem', marginRight: '1rem' }}
-            >
+            <div style={{ display: 'flex', gap: '0.25rem', marginRight: '1rem' }}>
               {collaborators.slice(0, 3).map((collab, i) => (
                 <div
                   key={i}
@@ -305,9 +294,7 @@ export function DocumentEditor({
         >
           <h3 style={{ marginBottom: '1rem' }}>Comments</h3>
           {comments.length === 0 ? (
-            <p
-              style={{ color: 'var(--brand-text-muted)', fontSize: '0.875rem' }}
-            >
+            <p style={{ color: 'var(--brand-text-muted)', fontSize: '0.875rem' }}>
               No comments yet
             </p>
           ) : (
@@ -330,9 +317,7 @@ export function DocumentEditor({
                 >
                   {comment.userName}
                 </div>
-                <div style={{ fontSize: '0.875rem', marginBottom: '0.25rem' }}>
-                  {comment.text}
-                </div>
+                <div style={{ fontSize: '0.875rem', marginBottom: '0.25rem' }}>{comment.text}</div>
                 <div
                   style={{
                     fontSize: '0.75rem',

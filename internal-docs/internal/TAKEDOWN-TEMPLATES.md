@@ -13,7 +13,7 @@ To: [abuse@hostingprovider.com]
 
 Dear DMCA Agent,
 
-I am writing to report copyright infringement under the Digital Millennium 
+I am writing to report copyright infringement under the Digital Millennium
 Copyright Act (17 U.S.C. § 512).
 
 ORIGINAL COPYRIGHTED WORK:
@@ -24,7 +24,7 @@ First Published: 2024
 INFRINGING MATERIAL:
 URL(s): [LIST ALL INFRINGING URLs]
 
-The above URL(s) contain unauthorized copies of our website design, code, 
+The above URL(s) contain unauthorized copies of our website design, code,
 and content. The infringing site has copied our:
 - [ ] Website design and layout
 - [ ] Written content
@@ -33,7 +33,7 @@ and content. The infringing site has copied our:
 - [ ] Branding elements
 
 PROOF OF ORIGINAL OWNERSHIP:
-Our invisible watermarks are embedded in the copied content. Search the 
+Our invisible watermarks are embedded in the copied content. Search the
 infringing page source for:
 - "EFH-ORIGINAL-2024"
 - "Elizabeth L. Greene"
@@ -43,13 +43,13 @@ These watermarks prove the content was copied from our original site.
 
 REQUIRED STATEMENTS:
 
-1. I have a good faith belief that the use of the copyrighted materials 
-   described above is not authorized by the copyright owner, its agent, 
+1. I have a good faith belief that the use of the copyrighted materials
+   described above is not authorized by the copyright owner, its agent,
    or the law.
 
-2. I swear, under penalty of perjury, that the information in this 
-   notification is accurate and that I am the copyright owner or am 
-   authorized to act on behalf of the owner of an exclusive right that 
+2. I swear, under penalty of perjury, that the information in this
+   notification is accurate and that I am the copyright owner or am
+   authorized to act on behalf of the owner of an exclusive right that
    is allegedly infringed.
 
 CONTACT INFORMATION:
@@ -81,7 +81,7 @@ To: [abuse@registrar.com]
 
 Dear Abuse Team,
 
-I am reporting that a domain registered through your service is being used 
+I am reporting that a domain registered through your service is being used
 to host stolen copyrighted content.
 
 INFRINGING DOMAIN: [domain.com]
@@ -93,8 +93,8 @@ Website: https://www.elevateforhumanity.org
 Contact: legal@www.elevateforhumanity.org
 
 NATURE OF INFRINGEMENT:
-The domain [domain.com] is hosting an unauthorized copy of our entire 
-website, including proprietary code, design, and content. This constitutes 
+The domain [domain.com] is hosting an unauthorized copy of our entire
+website, including proprietary code, design, and content. This constitutes
 willful copyright infringement.
 
 EVIDENCE:
@@ -103,10 +103,10 @@ EVIDENCE:
 3. WHOIS shows domain registered after our site launch
 
 REQUESTED ACTION:
-Please suspend this domain or contact the registrant to remove the 
+Please suspend this domain or contact the registrant to remove the
 infringing content immediately.
 
-I declare under penalty of perjury that this information is accurate and 
+I declare under penalty of perjury that this information is accurate and
 that I am authorized to act on behalf of Elevate for Humanity.
 
 /s/ Elizabeth L. Greene
@@ -132,13 +132,13 @@ Infringing URLs (one per line):
 [URL 3]
 
 Description of infringement:
-The listed URLs contain unauthorized copies of my website content, design, 
-and code. The original content was created by Elevate for Humanity and 
-first published at www.elevateforhumanity.org. The infringing sites have 
+The listed URLs contain unauthorized copies of my website content, design,
+and code. The original content was created by Elevate for Humanity and
+first published at www.elevateforhumanity.org. The infringing sites have
 copied this content without permission.
 
 Sworn statements:
-[x] I have a good faith belief that use of the copyrighted materials 
+[x] I have a good faith belief that use of the copyrighted materials
     described above is not authorized by the copyright owner.
 [x] The information in this notification is accurate.
 [x] I am the copyright owner or authorized to act on their behalf.
@@ -163,12 +163,12 @@ Re: Copyright Infringement - Immediate Removal Required
 
 Dear Sir/Madam,
 
-This letter serves as formal notice that you are infringing on the 
+This letter serves as formal notice that you are infringing on the
 copyrights of Elevate for Humanity.
 
 INFRINGEMENT DETAILS:
-Your website at [infringing-domain.com] contains unauthorized copies of 
-copyrighted material owned by Elevate for Humanity, including but not 
+Your website at [infringing-domain.com] contains unauthorized copies of
+copyrighted material owned by Elevate for Humanity, including but not
 limited to:
 
 - Website design and user interface
@@ -195,7 +195,7 @@ If you fail to comply, we will:
 3. Pursue legal action for copyright infringement
 4. Seek statutory damages up to $150,000 per work infringed
 
-This is not an empty threat. We have documented evidence of your 
+This is not an empty threat. We have documented evidence of your
 infringement, including our embedded watermarks in your copied content.
 
 CONTACT:
@@ -221,7 +221,7 @@ Subject: Copyright Infringement - Merchant Selling Stolen Content
 
 To: [abuse@stripe.com / abuse@paypal.com]
 
-I am reporting a merchant using your payment services to profit from 
+I am reporting a merchant using your payment services to profit from
 stolen copyrighted content.
 
 MERCHANT INFORMATION:
@@ -234,7 +234,7 @@ Website: https://www.elevateforhumanity.org
 Contact: legal@www.elevateforhumanity.org
 
 INFRINGEMENT DESCRIPTION:
-The merchant at [infringing-site.com] has copied our entire website/product 
+The merchant at [infringing-site.com] has copied our entire website/product
 and is selling it as their own. This includes:
 - Our proprietary learning management system design
 - Course content and curriculum
@@ -246,7 +246,7 @@ EVIDENCE:
 - Timeline showing our site predates theirs
 
 REQUEST:
-Please investigate this merchant and consider suspending their payment 
+Please investigate this merchant and consider suspending their payment
 processing capabilities until the infringement is resolved.
 
 I declare under penalty of perjury that this information is accurate.
@@ -270,8 +270,8 @@ Original content: https://www.elevateforhumanity.org
 Infringing content: [URL of post/page/profile]
 
 Description:
-This [page/post/profile] has copied content from my website 
-www.elevateforhumanity.org without permission. The copied material includes 
+This [page/post/profile] has copied content from my website
+www.elevateforhumanity.org without permission. The copied material includes
 [describe: images, text, branding, etc.].
 
 I am the copyright owner of the original content.
@@ -290,25 +290,25 @@ Date: [DATE]
 
 ## Quick Reference: Where to File
 
-| Platform | DMCA/Abuse URL |
-|----------|----------------|
-| Netlify | https://netlify.com/legal/dmca-policy |
-| Netlify | https://www.netlify.com/dmca/ |
-| GitHub | https://support.github.com/contact/dmca-takedown |
-| Cloudflare | https://www.cloudflare.com/abuse/form |
-| AWS | https://aws.amazon.com/forms/report-infringement |
-| Google Cloud | https://support.google.com/legal/troubleshooter/1114905 |
-| DigitalOcean | https://www.digitalocean.com/company/contact#abuse |
-| GoDaddy | https://www.godaddy.com/legal/agreements/dmca-copyright |
-| Namecheap | abuse@namecheap.com |
+| Platform      | DMCA/Abuse URL                                                |
+| ------------- | ------------------------------------------------------------- |
+| Netlify       | https://netlify.com/legal/dmca-policy                         |
+| Netlify       | https://www.netlify.com/dmca/                                 |
+| GitHub        | https://support.github.com/contact/dmca-takedown              |
+| Cloudflare    | https://www.cloudflare.com/abuse/form                         |
+| AWS           | https://aws.amazon.com/forms/report-infringement              |
+| Google Cloud  | https://support.google.com/legal/troubleshooter/1114905       |
+| DigitalOcean  | https://www.digitalocean.com/company/contact#abuse            |
+| GoDaddy       | https://www.godaddy.com/legal/agreements/dmca-copyright       |
+| Namecheap     | abuse@namecheap.com                                           |
 | Google Search | https://www.google.com/webmasters/tools/legal-removal-request |
-| Bing Search | https://www.bing.com/webmasters/contentremoval |
-| Facebook | https://www.facebook.com/help/contact/634636770043106 |
-| Instagram | https://help.instagram.com/contact/552695131608132 |
-| Twitter/X | https://help.twitter.com/forms/dmca |
-| LinkedIn | https://www.linkedin.com/help/linkedin/ask/TS-NIDMCA |
+| Bing Search   | https://www.bing.com/webmasters/contentremoval                |
+| Facebook      | https://www.facebook.com/help/contact/634636770043106         |
+| Instagram     | https://help.instagram.com/contact/552695131608132            |
+| Twitter/X     | https://help.twitter.com/forms/dmca                           |
+| LinkedIn      | https://www.linkedin.com/help/linkedin/ask/TS-NIDMCA          |
 
 ---
 
-*Keep copies of all correspondence for legal records.*
-*Last Updated: January 2025*
+_Keep copies of all correspondence for legal records._
+_Last Updated: January 2025_

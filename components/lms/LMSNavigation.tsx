@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -75,21 +75,38 @@ export function LMSNavigation({ user, profile }: LMSNavigationProps) {
   }, [user?.id, supabase]);
 
   const navItems = [
-    { href: '/lms/dashboard',     label: 'Dashboard',    desc: 'Your home base',       icon: LayoutDashboard },
-    { href: '/lms/courses',       label: 'My Courses',   desc: 'Lessons & modules',    icon: BookOpen, badge: courseCount > 0 ? courseCount : undefined },
-    { href: '/lms/assignments',   label: 'Assignments',  desc: 'Tasks & submissions',  icon: ClipboardCheck },
-    { href: '/lms/progress',      label: 'Progress',     desc: 'Track completion',     icon: TrendingUp },
-    { href: '/lms/quizzes',       label: 'Quizzes',      desc: 'Tests & exams',        icon: ClipboardCheck },
-    { href: '/lms/calendar',      label: 'Schedule',     desc: 'Dates & deadlines',    icon: Calendar },
-    { href: '/lms/attendance',    label: 'Attendance',   desc: 'Class attendance',     icon: BookMarked },
-    { href: '/lms/messages',      label: 'Messages',     desc: 'Inbox & chat',         icon: MessageSquare, badge: unreadMessages > 0 ? unreadMessages : undefined },
-    { href: '/lms/certificates',  label: 'Certificates', desc: 'Your credentials',     icon: Award },
-    { href: '/lms/ai-tutor',      label: 'AI Tutor',     desc: 'Get help from AI',     icon: BookOpen },
-    { href: '/lms/library',       label: 'Library',      desc: 'Resources & reading',  icon: BookMarked },
-    { href: '/lms/social',        label: 'Community',    desc: 'Groups & connections', icon: ChevronDown },
-    { href: '/lms/alumni',        label: 'Alumni',       desc: 'Alumni network',       icon: Award },
-    { href: '/lms/payments',      label: 'Payments',     desc: 'Billing & invoices',   icon: Award },
-    { href: '/lms/settings',      label: 'Settings',     desc: 'Account settings',     icon: Settings },
+    { href: '/lms/dashboard', label: 'Dashboard', desc: 'Your home base', icon: LayoutDashboard },
+    {
+      href: '/lms/courses',
+      label: 'My Courses',
+      desc: 'Lessons & modules',
+      icon: BookOpen,
+      badge: courseCount > 0 ? courseCount : undefined,
+    },
+    {
+      href: '/lms/assignments',
+      label: 'Assignments',
+      desc: 'Tasks & submissions',
+      icon: ClipboardCheck,
+    },
+    { href: '/lms/progress', label: 'Progress', desc: 'Track completion', icon: TrendingUp },
+    { href: '/lms/quizzes', label: 'Quizzes', desc: 'Tests & exams', icon: ClipboardCheck },
+    { href: '/lms/calendar', label: 'Schedule', desc: 'Dates & deadlines', icon: Calendar },
+    { href: '/lms/attendance', label: 'Attendance', desc: 'Class attendance', icon: BookMarked },
+    {
+      href: '/lms/messages',
+      label: 'Messages',
+      desc: 'Inbox & chat',
+      icon: MessageSquare,
+      badge: unreadMessages > 0 ? unreadMessages : undefined,
+    },
+    { href: '/lms/certificates', label: 'Certificates', desc: 'Your credentials', icon: Award },
+    { href: '/lms/ai-tutor', label: 'AI Tutor', desc: 'Get help from AI', icon: BookOpen },
+    { href: '/lms/library', label: 'Library', desc: 'Resources & reading', icon: BookMarked },
+    { href: '/lms/social', label: 'Community', desc: 'Groups & connections', icon: ChevronDown },
+    { href: '/lms/alumni', label: 'Alumni', desc: 'Alumni network', icon: Award },
+    { href: '/lms/payments', label: 'Payments', desc: 'Billing & invoices', icon: Award },
+    { href: '/lms/settings', label: 'Settings', desc: 'Account settings', icon: Settings },
   ];
 
   // Resources available to learners inside the LMS — not surfaced on the marketing site.
@@ -104,28 +121,37 @@ export function LMSNavigation({ user, profile }: LMSNavigationProps) {
     { href: '/support/help', label: 'Help Center' },
   ];
 
-  const isActive = (href: string) =>
-    pathname === href || pathname?.startsWith(href + '/');
+  const isActive = (href: string) => pathname === href || pathname?.startsWith(href + '/');
 
-  const userInitials = profile?.first_name && profile?.last_name
-    ? `${profile.first_name[0]}${profile.last_name[0]}`
-    : profile?.full_name
-      ? profile.full_name.split(' ').map(n => n[0]).join('').slice(0, 2)
-      : 'U';
+  const userInitials =
+    profile?.first_name && profile?.last_name
+      ? `${profile.first_name[0]}${profile.last_name[0]}`
+      : profile?.full_name
+        ? profile.full_name
+            .split(' ')
+            .map((n) => n[0])
+            .join('')
+            .slice(0, 2)
+        : 'U';
 
-  const userName = profile?.full_name || 
-    (profile?.first_name && profile?.last_name 
-      ? `${profile.first_name} ${profile.last_name}` 
+  const userName =
+    profile?.full_name ||
+    (profile?.first_name && profile?.last_name
+      ? `${profile.first_name} ${profile.last_name}`
       : 'Student');
 
   return (
-    <nav role="navigation" aria-label="LMS navigation" className="bg-brand-blue-900 sticky top-0 z-50 shadow-lg">
+    <nav
+      role="navigation"
+      aria-label="LMS navigation"
+      className="bg-brand-blue-900 sticky top-0 z-50 shadow-lg"
+    >
       <div className="max-w-7xl mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
-          <Link 
-            href="/lms/dashboard" 
-            aria-label="Learning Portal Home" 
+          <Link
+            href="/lms/dashboard"
+            aria-label="Learning Portal Home"
             className="flex items-center gap-3 group"
           >
             <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center group-hover:scale-105 transition-transform p-1">
@@ -136,9 +162,7 @@ export function LMSNavigation({ user, profile }: LMSNavigationProps) {
                 className="w-full h-full object-contain"
               />
             </div>
-            <span className="font-bold text-lg text-white hidden sm:block">
-              Learning Portal
-            </span>
+            <span className="font-bold text-lg text-white hidden sm:block">Learning Portal</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -219,7 +243,7 @@ export function LMSNavigation({ user, profile }: LMSNavigationProps) {
             {/* User Menu - Desktop */}
             <div className="hidden md:flex items-center gap-3 ml-2 pl-4 border-l border-white/20">
               {profile?.avatar_url ? (
-                <Image
+                <Image sizes="100vw"
                   src={profile.avatar_url}
                   alt={userName}
                   width={32}
@@ -243,11 +267,7 @@ export function LMSNavigation({ user, profile }: LMSNavigationProps) {
               className="lg:hidden p-2 hover:bg-white/10 rounded-lg transition text-white"
               aria-label={mobileMenuOpen ? 'Close menu' : 'Open menu'}
             >
-              {mobileMenuOpen ? (
-                <X className="w-6 h-6" />
-              ) : (
-                <Menu className="w-6 h-6" />
-              )}
+              {mobileMenuOpen ? <X className="w-6 h-6" /> : <Menu className="w-6 h-6" />}
             </button>
           </div>
         </div>
@@ -294,7 +314,9 @@ export function LMSNavigation({ user, profile }: LMSNavigationProps) {
                           </span>
                         )}
                       </div>
-                      <div className={`text-xs ${isActive(item.href) ? 'text-brand-blue-600' : 'text-white/50'}`}>
+                      <div
+                        className={`text-xs ${isActive(item.href) ? 'text-brand-blue-600' : 'text-white/50'}`}
+                      >
                         {item.desc}
                       </div>
                     </div>
@@ -302,10 +324,12 @@ export function LMSNavigation({ user, profile }: LMSNavigationProps) {
                 );
               })}
             </div>
-            
+
             {/* Resources section */}
             <div className="mt-4 pt-4 border-t border-white/10">
-              <div className="px-4 py-2 text-xs font-bold text-white/40 uppercase tracking-wide">Resources</div>
+              <div className="px-4 py-2 text-xs font-bold text-white/40 uppercase tracking-wide">
+                Resources
+              </div>
               {resourceItems.map((item) => (
                 <Link
                   key={item.href}
@@ -322,7 +346,7 @@ export function LMSNavigation({ user, profile }: LMSNavigationProps) {
             <div className="mt-4 pt-4 border-t border-white/10">
               <div className="flex items-center gap-3 px-4 py-2">
                 {profile?.avatar_url ? (
-                  <Image
+                  <Image sizes="100vw"
                     src={profile.avatar_url}
                     alt={userName}
                     width={40}
@@ -339,7 +363,7 @@ export function LMSNavigation({ user, profile }: LMSNavigationProps) {
                   <div className="text-sm text-white/60">{user?.email}</div>
                 </div>
               </div>
-              
+
               <div className="mt-2 space-y-1">
                 <Link
                   href="/lms/profile"

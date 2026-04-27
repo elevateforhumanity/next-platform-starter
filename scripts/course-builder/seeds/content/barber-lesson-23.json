@@ -4,24 +4,14 @@
     "questions": [
       {
         "prompt": "What is the starting point for a low fade?",
-        "choices": [
-          "Just above the ears",
-          "At the temples",
-          "Above the temples",
-          "At the crown"
-        ],
+        "choices": ["Just above the ears", "At the temples", "Above the temples", "At the crown"],
         "answerIndex": 0,
         "rationale": "A low fade begins just above the ears, creating a subtle transition.",
         "type": "recall"
       },
       {
         "prompt": "Which fade type is ideal for a client seeking a conservative yet stylish look?",
-        "choices": [
-          "Low fade",
-          "Mid fade",
-          "High fade",
-          "No fade"
-        ],
+        "choices": ["Low fade", "Mid fade", "High fade", "No fade"],
         "answerIndex": 0,
         "rationale": "A low fade offers a conservative yet stylish look, making it suitable for clients who prefer subtlety.",
         "type": "recall"
@@ -40,24 +30,14 @@
       },
       {
         "prompt": "A client presents with a request for a bold, edgy appearance. Which fade should you recommend?",
-        "choices": [
-          "Low fade",
-          "Mid fade",
-          "High fade",
-          "No fade"
-        ],
+        "choices": ["Low fade", "Mid fade", "High fade", "No fade"],
         "answerIndex": 2,
         "rationale": "A high fade creates a striking contrast, making it ideal for clients seeking a bold, edgy look.",
         "type": "scenario"
       },
       {
         "prompt": "What is the correct dwell time for clipper disinfectant spray?",
-        "choices": [
-          "5 minutes",
-          "10 minutes",
-          "15 minutes",
-          "20 minutes"
-        ],
+        "choices": ["5 minutes", "10 minutes", "15 minutes", "20 minutes"],
         "answerIndex": 1,
         "rationale": "The correct dwell time for clipper disinfectant spray is usually around 10 minutes to effectively kill bacteria and viruses.",
         "type": "recall"
@@ -76,12 +56,7 @@
       },
       {
         "prompt": "A new client asks for a fade that starts around the temple area. Which fade should you perform?",
-        "choices": [
-          "Low fade",
-          "Mid fade",
-          "High fade",
-          "No fade"
-        ],
+        "choices": ["Low fade", "Mid fade", "High fade", "No fade"],
         "answerIndex": 1,
         "rationale": "A mid fade starts around the temple area, offering a balanced look.",
         "type": "scenario"
@@ -112,12 +87,7 @@
       },
       {
         "prompt": "Which fade type offers a balanced look that is neither too bold nor too subtle?",
-        "choices": [
-          "Low fade",
-          "Mid fade",
-          "High fade",
-          "No fade"
-        ],
+        "choices": ["Low fade", "Mid fade", "High fade", "No fade"],
         "answerIndex": 1,
         "rationale": "A mid fade offers a balanced look, making it suitable for clients who want a modern, versatile style.",
         "type": "recall"
@@ -184,24 +154,14 @@
       },
       {
         "prompt": "What is the starting point for a high fade?",
-        "choices": [
-          "Just above the ears",
-          "At the temples",
-          "Above the temples",
-          "At the crown"
-        ],
+        "choices": ["Just above the ears", "At the temples", "Above the temples", "At the crown"],
         "answerIndex": 2,
         "rationale": "A high fade starts at or above the temples, creating a striking contrast.",
         "type": "recall"
       },
       {
         "prompt": "A client with a round face requests a fade. Which fade might complement their face shape best?",
-        "choices": [
-          "Low fade",
-          "Mid fade",
-          "High fade",
-          "No fade"
-        ],
+        "choices": ["Low fade", "Mid fade", "High fade", "No fade"],
         "answerIndex": 2,
         "rationale": "A high fade can add length to the appearance of a round face, providing a more balanced look.",
         "type": "scenario"

@@ -101,7 +101,7 @@ export async function logFerpaAccess(entry: FerpaLogEntry): Promise<void> {
 export async function logStudentSelfAccess(
   studentId: string,
   recordType: FerpaRecordType,
-  recordId?: string
+  recordId?: string,
 ): Promise<void> {
   await logFerpaAccess({
     accessorId: studentId,
@@ -123,7 +123,7 @@ export async function logStaffRecordAccess(
   studentId: string,
   recordType: FerpaRecordType,
   action: 'view' | 'update' | 'export' | 'delete' = 'view',
-  recordId?: string
+  recordId?: string,
 ): Promise<void> {
   await logFerpaAccess({
     accessorId: staffId,
@@ -143,7 +143,7 @@ export async function logSsnAccess(
   accessorId: string,
   accessorRole: string,
   studentId: string,
-  action: 'view' | 'update' = 'view'
+  action: 'view' | 'update' = 'view',
 ): Promise<void> {
   await logFerpaAccess({
     accessorId,
@@ -164,7 +164,7 @@ export async function logBulkExport(
   accessorRole: string,
   recordType: FerpaRecordType,
   studentCount: number,
-  reason: FerpaAccessReason = 'legitimate_educational_interest'
+  reason: FerpaAccessReason = 'legitimate_educational_interest',
 ): Promise<void> {
   await logFerpaAccess({
     accessorId,

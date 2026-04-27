@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 import type { Metadata } from 'next';
 
 export const metadata: Metadata = {
@@ -10,7 +11,6 @@ export default function CNAApplySuccessPage() {
   return (
     <main className="min-h-screen bg-white flex items-center justify-center px-6 py-16">
       <div className="mx-auto max-w-md text-center">
-
         {/* Check mark */}
         <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-green-100">
           <svg
@@ -34,22 +34,26 @@ export default function CNAApplySuccessPage() {
 
         <ul className="text-left inline-block space-y-2 mb-8 text-slate-700">
           <li className="flex items-start gap-2">
-            <span className="mt-0.5 text-green-500 font-bold" aria-hidden="true">✓</span>
+            <span className="mt-0.5 text-green-500 font-bold" aria-hidden="true">
+              ✓
+            </span>
             Confirm your eligibility
           </li>
           <li className="flex items-start gap-2">
-            <span className="mt-0.5 text-green-500 font-bold" aria-hidden="true">✓</span>
+            <span className="mt-0.5 text-green-500 font-bold" aria-hidden="true">
+              ✓
+            </span>
             Walk you through funding options
           </li>
           <li className="flex items-start gap-2">
-            <span className="mt-0.5 text-green-500 font-bold" aria-hidden="true">✓</span>
+            <span className="mt-0.5 text-green-500 font-bold" aria-hidden="true">
+              ✓
+            </span>
             Get you enrolled
           </li>
         </ul>
 
-        <p className="text-sm text-slate-500 mb-6">
-          Ready to move faster? Call or text us now.
-        </p>
+        <p className="text-sm text-slate-500 mb-6">Ready to move faster? Call or text us now.</p>
 
         <div className="flex flex-col sm:flex-row gap-3 justify-center">
           <a
@@ -67,11 +71,13 @@ export default function CNAApplySuccessPage() {
         </div>
 
         <p className="mt-10 text-xs text-slate-400">
-          <Link href="/programs/cna" className="underline hover:text-slate-600">
+          <Link
+            href={canonicalRoutes.programs.certifiedNursingAssistant}
+            className="underline hover:text-slate-600"
+          >
             ← Back to CNA program
           </Link>
         </p>
-
       </div>
     </main>
   );

@@ -72,7 +72,11 @@ interface Props {
   onComplete?: () => void;
 }
 
-export default function RefrigerationCycleDiagram({ mode = 'explore', onStageSelect, onComplete }: Props) {
+export default function RefrigerationCycleDiagram({
+  mode = 'explore',
+  onStageSelect,
+  onComplete,
+}: Props) {
   const [activeStage, setActiveStage] = useState<string | null>(null);
   const [revealedStages, setRevealedStages] = useState<Set<string>>(new Set());
 
@@ -102,13 +106,54 @@ export default function RefrigerationCycleDiagram({ mode = 'explore', onStageSel
 
       <div className="p-4 md:p-6">
         {/* SVG Diagram */}
-        <svg viewBox="0 0 700 460" className="w-full max-w-2xl mx-auto" role="img" aria-label="Refrigeration cycle showing compression, condensation, expansion, and evaporation stages">
+        <svg
+          viewBox="0 0 700 460"
+          className="w-full max-w-2xl mx-auto"
+          role="img"
+          aria-label="Refrigeration cycle showing compression, condensation, expansion, and evaporation stages"
+        >
           {/* Background zones */}
-          <rect x="350" y="10" width="340" height="200" rx="12" fill="#fef2f2" stroke="#fecaca" strokeWidth="1" />
-          <text x="520" y="35" textAnchor="middle" className="text-[11px]" fill="#991b1b" fontWeight="600">OUTDOOR UNIT (Hot Side)</text>
+          <rect
+            x="350"
+            y="10"
+            width="340"
+            height="200"
+            rx="12"
+            fill="#fef2f2"
+            stroke="#fecaca"
+            strokeWidth="1"
+          />
+          <text
+            x="520"
+            y="35"
+            textAnchor="middle"
+            className="text-[11px]"
+            fill="#991b1b"
+            fontWeight="600"
+          >
+            OUTDOOR UNIT (Hot Side)
+          </text>
 
-          <rect x="10" y="250" width="340" height="200" rx="12" fill="#eff6ff" stroke="#bfdbfe" strokeWidth="1" />
-          <text x="180" y="275" textAnchor="middle" className="text-[11px]" fill="#1e3a8a" fontWeight="600">INDOOR UNIT (Cold Side)</text>
+          <rect
+            x="10"
+            y="250"
+            width="340"
+            height="200"
+            rx="12"
+            fill="#eff6ff"
+            stroke="#bfdbfe"
+            strokeWidth="1"
+          />
+          <text
+            x="180"
+            y="275"
+            textAnchor="middle"
+            className="text-[11px]"
+            fill="#1e3a8a"
+            fontWeight="600"
+          >
+            INDOOR UNIT (Cold Side)
+          </text>
 
           {/* COMPRESSOR (bottom-right) */}
           <g
@@ -117,7 +162,14 @@ export default function RefrigerationCycleDiagram({ mode = 'explore', onStageSel
             role="button"
             aria-label="Stage 1: Compression"
           >
-            <circle cx="520" cy="170" r="42" fill={activeStage === 'compression' ? '#fecaca' : '#fee2e2'} stroke="#dc2626" strokeWidth="2.5" />
+            <circle
+              cx="520"
+              cy="170"
+              r="42"
+              fill={activeStage === 'compression' ? '#fecaca' : '#fee2e2'}
+              stroke="#dc2626"
+              strokeWidth="2.5"
+            />
             <text x="520" y="162" textAnchor="middle" fill="#dc2626" fontWeight="700" fontSize="13">
               {isRevealed('compression') ? 'COMPRESSOR' : mode === 'quiz' ? '?' : 'COMPRESSOR'}
             </text>
@@ -126,9 +178,23 @@ export default function RefrigerationCycleDiagram({ mode = 'explore', onStageSel
             </text>
             {/* Pulsing indicator */}
             {activeStage === 'compression' && (
-              <circle cx="520" cy="170" r="46" fill="none" stroke="#dc2626" strokeWidth="1.5" opacity="0.4">
+              <circle
+                cx="520"
+                cy="170"
+                r="46"
+                fill="none"
+                stroke="#dc2626"
+                strokeWidth="1.5"
+                opacity="0.4"
+              >
                 <animate attributeName="r" from="46" to="54" dur="1s" repeatCount="indefinite" />
-                <animate attributeName="opacity" from="0.4" to="0" dur="1s" repeatCount="indefinite" />
+                <animate
+                  attributeName="opacity"
+                  from="0.4"
+                  to="0"
+                  dur="1s"
+                  repeatCount="indefinite"
+                />
               </circle>
             )}
           </g>
@@ -140,9 +206,22 @@ export default function RefrigerationCycleDiagram({ mode = 'explore', onStageSel
             role="button"
             aria-label="Stage 2: Condensation"
           >
-            <rect x="430" y="50" width="180" height="60" rx="10" fill={activeStage === 'condensation' ? '#fed7aa' : '#ffedd5'} stroke="#ea580c" strokeWidth="2.5" />
+            <rect
+              x="430"
+              y="50"
+              width="180"
+              height="60"
+              rx="10"
+              fill={activeStage === 'condensation' ? '#fed7aa' : '#ffedd5'}
+              stroke="#ea580c"
+              strokeWidth="2.5"
+            />
             <text x="520" y="77" textAnchor="middle" fill="#ea580c" fontWeight="700" fontSize="13">
-              {isRevealed('condensation') ? 'CONDENSER COIL' : mode === 'quiz' ? '?' : 'CONDENSER COIL'}
+              {isRevealed('condensation')
+                ? 'CONDENSER COIL'
+                : mode === 'quiz'
+                  ? '?'
+                  : 'CONDENSER COIL'}
             </text>
             <text x="520" y="97" textAnchor="middle" fill="#9a3412" fontSize="10">
               {isRevealed('condensation') ? 'Stage 2 — Heat Rejected' : ''}
@@ -156,7 +235,16 @@ export default function RefrigerationCycleDiagram({ mode = 'explore', onStageSel
             role="button"
             aria-label="Stage 3: Expansion"
           >
-            <rect x="130" y="300" width="100" height="50" rx="8" fill={activeStage === 'expansion' ? '#bfdbfe' : '#dbeafe'} stroke="#2563eb" strokeWidth="2.5" />
+            <rect
+              x="130"
+              y="300"
+              width="100"
+              height="50"
+              rx="8"
+              fill={activeStage === 'expansion' ? '#bfdbfe' : '#dbeafe'}
+              stroke="#2563eb"
+              strokeWidth="2.5"
+            />
             <text x="180" y="322" textAnchor="middle" fill="#2563eb" fontWeight="700" fontSize="11">
               {isRevealed('expansion') ? 'METERING' : mode === 'quiz' ? '?' : 'METERING'}
             </text>
@@ -172,9 +260,22 @@ export default function RefrigerationCycleDiagram({ mode = 'explore', onStageSel
             role="button"
             aria-label="Stage 4: Evaporation"
           >
-            <rect x="50" y="370" width="180" height="60" rx="10" fill={activeStage === 'evaporation' ? '#a5f3fc' : '#cffafe'} stroke="#0891b2" strokeWidth="2.5" />
+            <rect
+              x="50"
+              y="370"
+              width="180"
+              height="60"
+              rx="10"
+              fill={activeStage === 'evaporation' ? '#a5f3fc' : '#cffafe'}
+              stroke="#0891b2"
+              strokeWidth="2.5"
+            />
             <text x="140" y="397" textAnchor="middle" fill="#0891b2" fontWeight="700" fontSize="13">
-              {isRevealed('evaporation') ? 'EVAPORATOR COIL' : mode === 'quiz' ? '?' : 'EVAPORATOR COIL'}
+              {isRevealed('evaporation')
+                ? 'EVAPORATOR COIL'
+                : mode === 'quiz'
+                  ? '?'
+                  : 'EVAPORATOR COIL'}
             </text>
             <text x="140" y="417" textAnchor="middle" fill="#155e75" fontSize="10">
               {isRevealed('evaporation') ? 'Stage 4 — Heat Absorbed' : ''}
@@ -186,7 +287,14 @@ export default function RefrigerationCycleDiagram({ mode = 'explore', onStageSel
             <marker id="arrowRed" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
               <path d="M0,0 L8,3 L0,6" fill="#dc2626" />
             </marker>
-            <marker id="arrowOrange" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
+            <marker
+              id="arrowOrange"
+              markerWidth="8"
+              markerHeight="6"
+              refX="8"
+              refY="3"
+              orient="auto"
+            >
               <path d="M0,0 L8,3 L0,6" fill="#ea580c" />
             </marker>
             <marker id="arrowBlue" markerWidth="8" markerHeight="6" refX="8" refY="3" orient="auto">
@@ -198,32 +306,77 @@ export default function RefrigerationCycleDiagram({ mode = 'explore', onStageSel
           </defs>
 
           {/* Compressor → Condenser (hot gas, going up) */}
-          <path d="M520,128 L520,115" fill="none" stroke="#dc2626" strokeWidth="3" markerEnd="url(#arrowRed)" />
-          <text x="540" y="122" fill="#dc2626" fontSize="9" fontWeight="600">HOT GAS ↑</text>
+          <path
+            d="M520,128 L520,115"
+            fill="none"
+            stroke="#dc2626"
+            strokeWidth="3"
+            markerEnd="url(#arrowRed)"
+          />
+          <text x="540" y="122" fill="#dc2626" fontSize="9" fontWeight="600">
+            HOT GAS ↑
+          </text>
 
           {/* Condenser → Metering Device (liquid line, going left and down) */}
-          <path d="M430,80 L370,80 L370,240 L240,240 L240,300" fill="none" stroke="#ea580c" strokeWidth="3" markerEnd="url(#arrowOrange)" strokeDasharray="none" />
-          <text x="310" y="72" fill="#ea580c" fontSize="9" fontWeight="600">LIQUID LINE →</text>
-          <text x="250" y="260" fill="#ea580c" fontSize="9" fontWeight="600">HIGH PRESS LIQUID ↓</text>
+          <path
+            d="M430,80 L370,80 L370,240 L240,240 L240,300"
+            fill="none"
+            stroke="#ea580c"
+            strokeWidth="3"
+            markerEnd="url(#arrowOrange)"
+            strokeDasharray="none"
+          />
+          <text x="310" y="72" fill="#ea580c" fontSize="9" fontWeight="600">
+            LIQUID LINE →
+          </text>
+          <text x="250" y="260" fill="#ea580c" fontSize="9" fontWeight="600">
+            HIGH PRESS LIQUID ↓
+          </text>
 
           {/* Metering Device → Evaporator (cold mix, going down) */}
-          <path d="M180,350 L140,370" fill="none" stroke="#2563eb" strokeWidth="3" markerEnd="url(#arrowBlue)" />
-          <text x="100" y="362" fill="#2563eb" fontSize="9" fontWeight="600">COLD MIX ↓</text>
+          <path
+            d="M180,350 L140,370"
+            fill="none"
+            stroke="#2563eb"
+            strokeWidth="3"
+            markerEnd="url(#arrowBlue)"
+          />
+          <text x="100" y="362" fill="#2563eb" fontSize="9" fontWeight="600">
+            COLD MIX ↓
+          </text>
 
           {/* Evaporator → Compressor (suction line, going right and up) */}
-          <path d="M230,400 L330,400 L330,240 L480,240 L480,210" fill="none" stroke="#0891b2" strokeWidth="3" markerEnd="url(#arrowCyan)" />
-          <text x="390" y="248" fill="#0891b2" fontSize="9" fontWeight="600">SUCTION LINE →</text>
-          <text x="490" y="232" fill="#0891b2" fontSize="9" fontWeight="600">LOW PRESS VAPOR ↑</text>
+          <path
+            d="M230,400 L330,400 L330,240 L480,240 L480,210"
+            fill="none"
+            stroke="#0891b2"
+            strokeWidth="3"
+            markerEnd="url(#arrowCyan)"
+          />
+          <text x="390" y="248" fill="#0891b2" fontSize="9" fontWeight="600">
+            SUCTION LINE →
+          </text>
+          <text x="490" y="232" fill="#0891b2" fontSize="9" fontWeight="600">
+            LOW PRESS VAPOR ↑
+          </text>
 
           {/* Heat arrows */}
           <g opacity="0.6">
             {/* Heat out at condenser */}
-            <text x="640" y="70" fill="#dc2626" fontSize="20">☀</text>
-            <text x="630" y="90" fill="#991b1b" fontSize="9">HEAT OUT</text>
+            <text x="640" y="70" fill="#dc2626" fontSize="20">
+              ☀
+            </text>
+            <text x="630" y="90" fill="#991b1b" fontSize="9">
+              HEAT OUT
+            </text>
 
             {/* Heat in at evaporator */}
-            <text x="30" y="420" fill="#2563eb" fontSize="16">🏠</text>
-            <text x="20" y="440" fill="#1e40af" fontSize="9">HEAT IN</text>
+            <text x="30" y="420" fill="#2563eb" fontSize="16">
+              🏠
+            </text>
+            <text x="20" y="440" fill="#1e40af" fontSize="9">
+              HEAT IN
+            </text>
           </g>
         </svg>
 
@@ -257,7 +410,8 @@ export default function RefrigerationCycleDiagram({ mode = 'explore', onStageSel
 
         {!active && (
           <p className="text-center text-sm text-slate-400 mt-4">
-            Click any component in the diagram to see details about that stage of the refrigeration cycle.
+            Click any component in the diagram to see details about that stage of the refrigeration
+            cycle.
           </p>
         )}
 

@@ -15,7 +15,7 @@ export async function getCached<T>(key: string): Promise<T | null> {
 export async function setCached(key: string, value: any, ttlSeconds: number = 300) {
   cache.set(key, {
     value,
-    expires: Date.now() + (ttlSeconds * 1000),
+    expires: Date.now() + ttlSeconds * 1000,
   });
 }
 

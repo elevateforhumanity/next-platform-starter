@@ -12,12 +12,10 @@ import MarkPaidButton from './MarkPaidButton';
 
 export const dynamic = 'force-dynamic';
 
-
 export default async function AdminPayoutsPage() {
   await requireAdmin();
 
   const supabase = await createClient();
-
 
   // Fetch creators with pending earnings
   const { data: creators } = await supabase
@@ -33,7 +31,7 @@ export default async function AdminPayoutsPage() {
         payout_date,
         created_at
       )
-    `
+    `,
     )
     .eq('status', 'approved')
     .order('display_name');
@@ -44,12 +42,12 @@ export default async function AdminPayoutsPage() {
       const allSales = creator.sales || [];
       const totalEarnings = allSales.reduce(
         (sum, sale) => sum + (sale.creator_earnings_cents || 0),
-        0
+        0,
       );
       const pendingSales = allSales.filter((sale) => !sale.paid_out);
       const pendingEarnings = pendingSales.reduce(
         (sum, sale) => sum + (sale.creator_earnings_cents || 0),
-        0
+        0,
       );
       const paidEarnings = totalEarnings - pendingEarnings;
 
@@ -61,31 +59,25 @@ export default async function AdminPayoutsPage() {
         pendingSales,
         lastPayoutDate: allSales
           .filter((sale) => sale.paid_out && sale.payout_date)
-          .sort(
-            (a, b) =>
-              new Date(b.payout_date).getTime() -
-              new Date(a.payout_date).getTime()
-          )[0]?.payout_date,
+          .sort((a, b) => new Date(b.payout_date).getTime() - new Date(a.payout_date).getTime())[0]
+          ?.payout_date,
       };
     }) || [];
 
   // Filter creators with pending earnings above minimum ($50)
   const creatorsNeedingPayout = creatorsWithEarnings.filter(
-    (c) => c.pendingEarnings >= 5000 // $50 minimum
+    (c) => c.pendingEarnings >= 5000, // $50 minimum
   );
 
   return (
     <div className="py-8">
-
       {/* Hero Image */}
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Payouts" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Payouts' }]} />
       </div>
-<div className="mb-8">
+      <div className="mb-8">
         <h1 className="text-3xl font-bold mb-2">Manage Payouts</h1>
-        <p className="text-black">
-          Process monthly payouts to creators (minimum $50)
-        </p>
+        <p className="text-black">Process monthly payouts to creators (minimum $50)</p>
       </div>
 
       {/* Creators Needing Payout */}
@@ -95,9 +87,7 @@ export default async function AdminPayoutsPage() {
         </h2>
 
         {creatorsNeedingPayout.length === 0 ? (
-          <p className="text-black">
-            No creators have reached the $50 minimum payout threshold.
-          </p>
+          <p className="text-black">No creators have reached the $50 minimum payout threshold.</p>
         ) : (
           <div className="overflow-x-auto">
             <table className="w-full">
@@ -114,26 +104,15 @@ export default async function AdminPayoutsPage() {
               <tbody>
                 {creatorsNeedingPayout.map((creator) => (
                   <tr key={creator.id} className="border-b hover:bg-gray-50">
-                    <td className="py-3 px-4 font-semibold">
-                      {creator.display_name}
-                    </td>
-                    <td className="py-3 px-4 text-sm">
-                      {creator.payout_method || 'Not set'}
-                    </td>
-                    <td className="py-3 px-4 text-sm">
-                      {creator.payout_email}
-                    </td>
+                    <td className="py-3 px-4 font-semibold">{creator.display_name}</td>
+                    <td className="py-3 px-4 text-sm">{creator.payout_method || 'Not set'}</td>
+                    <td className="py-3 px-4 text-sm">{creator.payout_email}</td>
                     <td className="py-3 px-4 font-bold text-brand-green-600">
                       ${(creator.pendingEarnings / 100).toFixed(2)}
                     </td>
-                    <td className="py-3 px-4 text-sm">
-                      {creator.pendingSales.length} unpaid
-                    </td>
+                    <td className="py-3 px-4 text-sm">{creator.pendingSales.length} unpaid</td>
                     <td className="py-3 px-4">
-                      <MarkPaidButton
-                        creatorId={creator.id}
-                        amount={creator.pendingEarnings}
-                      />
+                      <MarkPaidButton creatorId={creator.id} amount={creator.pendingEarnings} />
                     </td>
                   </tr>
                 ))}
@@ -161,12 +140,8 @@ export default async function AdminPayoutsPage() {
             <tbody>
               {creatorsWithEarnings.map((creator) => (
                 <tr key={creator.id} className="border-b hover:bg-gray-50">
-                  <td className="py-3 px-4 font-semibold">
-                    {creator.display_name}
-                  </td>
-                  <td className="py-3 px-4">
-                    ${(creator.totalEarnings / 100).toFixed(2)}
-                  </td>
+                  <td className="py-3 px-4 font-semibold">{creator.display_name}</td>
+                  <td className="py-3 px-4">${(creator.totalEarnings / 100).toFixed(2)}</td>
                   <td className="py-3 px-4 text-brand-green-600">
                     ${(creator.paidEarnings / 100).toFixed(2)}
                   </td>
@@ -187,9 +162,7 @@ export default async function AdminPayoutsPage() {
 
       {/* Payout Instructions */}
       <div className="mt-8 bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-6">
-        <h3 className="font-semibold text-brand-blue-900 mb-3">
-          Manual Payout Process
-        </h3>
+        <h3 className="font-semibold text-brand-blue-900 mb-3">Manual Payout Process</h3>
         <ol className="list-decimal list-inside space-y-2 text-sm text-brand-blue-800">
           <li>Review creators ready for payout (minimum $50)</li>
           <li>Process payment via their preferred method (ACH/PayPal/Zelle)</li>
@@ -197,8 +170,8 @@ export default async function AdminPayoutsPage() {
           <li>Creator will see updated balance in their dashboard</li>
         </ol>
         <p className="mt-4 text-sm text-brand-blue-700">
-          <strong>Future:</strong> Upgrade to Stripe Connect for automatic
-          payouts. See STRIPE_CONNECT_UPGRADE.md for details.
+          <strong>Future:</strong> Upgrade to Stripe Connect for automatic payouts. See
+          STRIPE_CONNECT_UPGRADE.md for details.
         </p>
       </div>
     </div>

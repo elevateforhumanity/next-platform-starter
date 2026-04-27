@@ -13,16 +13,12 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 // GET /api/wioa/iep/[id] - Get IEP by ID
-async function _GET(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 'super_admin']);
-    if (_authCheck instanceof NextResponse) return _authCheck;
-    const supabase = _authCheck.adminDb;
+async function _GET(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 'super_admin']);
+  if (_authCheck instanceof NextResponse) return _authCheck;
+  const supabase = _authCheck.adminDb;
   try {
     const { id } = await params;
 
@@ -35,28 +31,24 @@ const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 's
     if (error) throw error;
 
     return NextResponse.json({ success: true, data });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
         success: false,
         error: { code: 'SERVER_ERROR', message: toErrorMessage(error) },
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 // PUT /api/wioa/iep/[id] - Update IEP
-async function _PUT(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 'super_admin']);
-    if (_authCheck instanceof NextResponse) return _authCheck;
-    const supabase = _authCheck.adminDb;
+async function _PUT(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 'super_admin']);
+  if (_authCheck instanceof NextResponse) return _authCheck;
+  const supabase = _authCheck.adminDb;
   try {
     const { id } = await params;
     const body = await parseBody<Record<string, any>>(request);
@@ -79,27 +71,27 @@ const _authCheck = await requireApiRole(['workforce_board', 'staff', 'admin', 's
       },
     });
 
-    if (error) { logger.error('[wioa/iep] DB mutation failed', { code: error.code }); return NextResponse.json({ error: 'DB_MUTATION_FAILED' }, { status: 500 }); }
+    if (error) {
+      logger.error('[wioa/iep] DB mutation failed', { code: error.code });
+      return NextResponse.json({ error: 'DB_MUTATION_FAILED' }, { status: 500 });
+    }
 
     return NextResponse.json({ success: true, data });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
         success: false,
         error: { code: 'SERVER_ERROR', message: toErrorMessage(error) },
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 // POST /api/wioa/iep/[id]/approve - Approve IEP
-async function _POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+async function _POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   try {
     const { id } = await params;
@@ -126,16 +118,19 @@ async function _POST(
       },
     });
 
-    if (error) { logger.error('[wioa/iep] DB mutation failed', { code: error.code }); return NextResponse.json({ error: 'DB_MUTATION_FAILED' }, { status: 500 }); }
+    if (error) {
+      logger.error('[wioa/iep] DB mutation failed', { code: error.code });
+      return NextResponse.json({ error: 'DB_MUTATION_FAILED' }, { status: 500 });
+    }
 
     return NextResponse.json({ success: true, data });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
         success: false,
         error: { code: 'SERVER_ERROR', message: toErrorMessage(error) },
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

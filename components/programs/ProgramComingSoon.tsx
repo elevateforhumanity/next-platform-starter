@@ -13,7 +13,8 @@ export function ProgramComingSoon({ title, slug }: { title: string; slug: string
         </p>
         <h1 className="text-3xl font-bold text-slate-900">{title}</h1>
         <p className="mt-4 text-slate-600 leading-relaxed">
-          We&apos;re finalizing enrollment details for this program. Contact us to get on the list or learn more about start dates.
+          We&apos;re finalizing enrollment details for this program. Contact us to get on the list
+          or learn more about start dates.
         </p>
         <div className="mt-8 flex flex-wrap justify-center gap-3">
           <Link

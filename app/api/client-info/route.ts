@@ -14,7 +14,7 @@ async function _GET(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const headersList = await headers();
-  
+
   // Get IP from various headers (in order of preference)
   const ip =
     headersList.get('x-forwarded-for')?.split(',')[0]?.trim() ||

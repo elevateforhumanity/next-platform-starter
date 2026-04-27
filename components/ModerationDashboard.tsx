@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -13,7 +13,8 @@ import {
   MessageSquare,
   Filter,
   TrendingUp,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 interface ModerationReport {
   id: string;
@@ -48,7 +49,8 @@ export default function ModerationDashboard() {
       const response = await fetch('/api/moderation?action=pending&limit=100');
       const data = await response.json();
       setReports(data.reports || []);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     } finally {
       setLoading(false);
@@ -60,7 +62,8 @@ export default function ModerationDashboard() {
       const response = await fetch('/api/moderation?action=stats');
       const data = await response.json();
       setStats(data.stats);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   };
@@ -84,7 +87,8 @@ export default function ModerationDashboard() {
         fetchStats();
         setSelectedReport(null);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       alert('Failed to process review');
     }
@@ -103,7 +107,9 @@ export default function ModerationDashboard() {
     };
 
     return (
-      <span className={`px-2 py-2 rounded-full text-xs font-medium ${colors[reason] || colors.other}`}>
+      <span
+        className={`px-2 py-2 rounded-full text-xs font-medium ${colors[reason] || colors.other}`}
+      >
         {reason.replace('_', ' ')}
       </span>
     );
@@ -199,7 +205,7 @@ export default function ModerationDashboard() {
         <div className="flex items-center gap-4">
           <Filter className="w-5 h-5 text-slate-700" />
           <div className="flex gap-2">
-            {['all', 'spam', 'harassment', 'inappropriate', 'copyright'].map(f => (
+            {['all', 'spam', 'harassment', 'inappropriate', 'copyright'].map((f) => (
               <button
                 key={f}
                 onClick={() => setFilter(f)}
@@ -240,34 +246,33 @@ export default function ModerationDashboard() {
               </tr>
             </thead>
             <tbody className="bg-white divide-y divide-gray-200">
-              {reports.map(report => (
+              {reports.map((report) => (
                 <tr key={report.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center gap-2">
                       <span className="text-2xl">{getContentTypeIcon(report.content_type)}</span>
                       <div>
-                        <div className="text-sm font-medium text-black">
-                          {report.content_type}
-                        </div>
+                        <div className="text-sm font-medium text-black">{report.content_type}</div>
                         <div className="text-sm text-slate-700">
                           ID: {report.content_id.slice(0, 8)}...
                         </div>
                       </div>
                     </div>
                   </td>
-                  <td className="px-6 py-4 whitespace-nowrap">
-                    {getReasonBadge(report.reason)}
-                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">{getReasonBadge(report.reason)}</td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-black">
                       {report.reporter?.first_name} {report.reporter?.last_name}
                     </div>
-                    <div className="text-sm text-slate-700">
-                      {report.reporter?.email}
-                    </div>
+                    <div className="text-sm text-slate-700">{report.reporter?.email}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm text-slate-700">
-                    {new Date(report.created_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                    {new Date(report.created_at).toLocaleDateString('en-US', {
+                      timeZone: 'UTC',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-sm">
                     <div className="flex gap-2">
@@ -351,13 +356,17 @@ export default function ModerationDashboard() {
                 Cancel
               </button>
               <button
-                onClick={() => handleReview(selectedReport.id, 'approve', 'Content approved after review')}
+                onClick={() =>
+                  handleReview(selectedReport.id, 'approve', 'Content approved after review')
+                }
                 className="flex-1 px-4 py-2 bg-brand-green-600 text-white rounded-lg hover:bg-brand-green-700"
               >
                 Approve
               </button>
               <button
-                onClick={() => handleReview(selectedReport.id, 'remove', 'Content removed for policy violation')}
+                onClick={() =>
+                  handleReview(selectedReport.id, 'remove', 'Content removed for policy violation')
+                }
                 className="flex-1 px-4 py-2 bg-brand-orange-600 text-white rounded-lg hover:bg-brand-orange-700"
               >
                 Remove

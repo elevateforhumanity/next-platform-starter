@@ -1,4 +1,3 @@
-
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -55,10 +54,9 @@ export default async function AdminApiKeysPage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Admin", href: "/admin" }, { label: "Api Keys" }]} />
+        <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Api Keys' }]} />
       </div>
       <div className="max-w-7xl mx-auto px-4 py-8">
         {/* Header */}
@@ -80,8 +78,8 @@ export default async function AdminApiKeysPage() {
             <div>
               <h3 className="font-medium text-yellow-800">Keep your API keys secure</h3>
               <p className="text-sm text-yellow-700 mt-1">
-                Never share your API keys in public repositories or client-side code. 
-                Rotate keys regularly and revoke any that may have been compromised.
+                Never share your API keys in public repositories or client-side code. Rotate keys
+                regularly and revoke any that may have been compromised.
               </p>
             </div>
           </div>
@@ -120,7 +118,9 @@ export default async function AdminApiKeysPage() {
             <div className="p-8 text-center">
               <Key className="w-12 h-12 text-slate-700 mx-auto mb-4" />
               <h3 className="text-lg font-medium text-slate-900 mb-2">No API keys yet</h3>
-              <p className="text-slate-700 mb-4">Generate your first API key to get started with integrations</p>
+              <p className="text-slate-700 mb-4">
+                Generate your first API key to get started with integrations
+              </p>
               <button className="inline-flex items-center gap-2 px-4 py-2 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700">
                 <Plus className="w-5 h-5" />
                 Generate New Key
@@ -132,10 +132,18 @@ export default async function AdminApiKeysPage() {
                 <tr>
                   <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Name</th>
                   <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Key</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Created</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Last Used</th>
-                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">Status</th>
-                  <th className="text-right px-6 py-4 text-sm font-semibold text-slate-900">Actions</th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">
+                    Created
+                  </th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">
+                    Last Used
+                  </th>
+                  <th className="text-left px-6 py-4 text-sm font-semibold text-slate-900">
+                    Status
+                  </th>
+                  <th className="text-right px-6 py-4 text-sm font-semibold text-slate-900">
+                    Actions
+                  </th>
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-200">
@@ -163,13 +171,14 @@ export default async function AdminApiKeysPage() {
                       {new Date(apiKey.created_at).toLocaleDateString()}
                     </td>
                     <td className="px-6 py-4 text-sm text-slate-700">
-                      {apiKey.last_used_at 
+                      {apiKey.last_used_at
                         ? new Date(apiKey.last_used_at).toLocaleDateString()
-                        : 'Never'
-                      }
+                        : 'Never'}
                     </td>
                     <td className="px-6 py-4">
-                      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[apiKey.status] || 'bg-gray-100 text-slate-900'}`}>
+                      <span
+                        className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${statusColors[apiKey.status] || 'bg-gray-100 text-slate-900'}`}
+                      >
                         {apiKey.status}
                       </span>
                     </td>

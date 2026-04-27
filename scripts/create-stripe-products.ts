@@ -1,6 +1,6 @@
 /**
  * Create Stripe Products and Prices
- * 
+ *
  * Creates the subscription products needed for the platform
  * Run with: STRIPE_SECRET_KEY=xxx npx tsx scripts/create-stripe-products.ts
  */
@@ -22,7 +22,8 @@ interface ProductConfig {
 const PRODUCTS: ProductConfig[] = [
   {
     name: 'Student Access',
-    description: 'Full access to LMS courses, career resources, and community features. Perfect for individual learners.',
+    description:
+      'Full access to LMS courses, career resources, and community features. Perfect for individual learners.',
     price: 3900, // $39.00
     interval: 'month',
     metadata: {
@@ -33,7 +34,8 @@ const PRODUCTS: ProductConfig[] = [
   },
   {
     name: 'Career Track Access',
-    description: 'Everything in Student Access plus career coaching, job placement assistance, and priority support.',
+    description:
+      'Everything in Student Access plus career coaching, job placement assistance, and priority support.',
     price: 14900, // $149.00
     interval: 'month',
     metadata: {
@@ -46,14 +48,14 @@ const PRODUCTS: ProductConfig[] = [
 
 async function createProduct(config: ProductConfig) {
   console.log(`\nCreating product: ${config.name}`);
-  
+
   // Check if product already exists
   const existingProducts = await stripe.products.search({
     query: `name:'${config.name}'`,
   });
-  
+
   let product: Stripe.Product;
-  
+
   if (existingProducts.data.length > 0) {
     product = existingProducts.data[0];
     console.log(`  Product already exists: ${product.id}`);
@@ -65,19 +67,19 @@ async function createProduct(config: ProductConfig) {
     });
     console.log(`  Created product: ${product.id}`);
   }
-  
+
   // Check if price already exists
   const existingPrices = await stripe.prices.list({
     product: product.id,
     active: true,
   });
-  
+
   const matchingPrice = existingPrices.data.find(
-    p => p.unit_amount === config.price && p.recurring?.interval === config.interval
+    (p) => p.unit_amount === config.price && p.recurring?.interval === config.interval,
   );
-  
+
   let price: Stripe.Price;
-  
+
   if (matchingPrice) {
     price = matchingPrice;
     console.log(`  Price already exists: ${price.id}`);
@@ -93,7 +95,7 @@ async function createProduct(config: ProductConfig) {
     });
     console.log(`  Created price: ${price.id}`);
   }
-  
+
   return { product, price };
 }
 
@@ -101,9 +103,9 @@ async function main() {
   console.log('='.repeat(60));
   console.log('CREATING STRIPE PRODUCTS');
   console.log('='.repeat(60));
-  
+
   const results: Array<{ name: string; productId: string; priceId: string }> = [];
-  
+
   for (const config of PRODUCTS) {
     try {
       const { product, price } = await createProduct(config);
@@ -116,19 +118,19 @@ async function main() {
       console.error(`Failed to create ${config.name}:`, error);
     }
   }
-  
+
   console.log('\n' + '='.repeat(60));
   console.log('RESULTS');
   console.log('='.repeat(60));
-  
+
   console.log('\nAdd these to lib/stripe/app-store-products.ts:\n');
-  
+
   for (const result of results) {
     console.log(`// ${result.name}`);
     console.log(`stripePriceId: '${result.priceId}',`);
     console.log('');
   }
-  
+
   console.log('\n' + '='.repeat(60));
   console.log('COMPLETE');
   console.log('='.repeat(60));

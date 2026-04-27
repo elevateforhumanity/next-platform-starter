@@ -1,4 +1,3 @@
-
 export const revalidate = 3600;
 
 import { Metadata } from 'next';
@@ -77,7 +76,9 @@ export default async function LocationsPage() {
         microLabel={heroBanners['locations'].microLabel}
         belowHeroHeadline={heroBanners['locations'].belowHeroHeadline}
         belowHeroSubheadline={heroBanners['locations'].belowHeroSubheadline}
-        ctas={[heroBanners['locations'].primaryCta, heroBanners['locations'].secondaryCta].filter(Boolean)}
+        ctas={[heroBanners['locations'].primaryCta, heroBanners['locations'].secondaryCta].filter(
+          Boolean,
+        )}
         trustIndicators={heroBanners['locations'].trustIndicators}
         transcript={heroBanners['locations'].transcript}
       />
@@ -101,7 +102,7 @@ export default async function LocationsPage() {
               <div className="grid md:grid-cols-2 gap-8">
                 <div>
                   <h3 className="text-2xl font-bold text-slate-900 mb-4">{mainOffice.name}</h3>
-                  
+
                   <div className="space-y-4">
                     <div className="flex items-start gap-3">
                       <MapPin className="w-5 h-5 text-brand-blue-600 mt-1 flex-shrink-0" />
@@ -119,7 +120,10 @@ export default async function LocationsPage() {
                     {mainOffice.phone && (
                       <div className="flex items-center gap-3">
                         <Phone className="w-5 h-5 text-brand-blue-600 flex-shrink-0" />
-                        <a href={`tel:${mainOffice.phone.replace(/\D/g, '')}`} className="text-brand-blue-600 hover:underline">
+                        <a
+                          href={`tel:${mainOffice.phone.replace(/\D/g, '')}`}
+                          className="text-brand-blue-600 hover:underline"
+                        >
                           {mainOffice.phone}
                         </a>
                       </div>
@@ -128,7 +132,10 @@ export default async function LocationsPage() {
                     {mainOffice.email && (
                       <div className="flex items-center gap-3">
                         <Mail className="w-5 h-5 text-brand-blue-600 flex-shrink-0" />
-                        <a href={`mailto:${mainOffice.email}`} className="text-brand-blue-600 hover:underline">
+                        <a
+                          href={`mailto:${mainOffice.email}`}
+                          className="text-brand-blue-600 hover:underline"
+                        >
                           {mainOffice.email}
                         </a>
                       </div>
@@ -138,7 +145,7 @@ export default async function LocationsPage() {
                   <div className="mt-6">
                     <a
                       href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                        `${mainOffice.address_line1}, ${mainOffice.city}, ${mainOffice.state} ${mainOffice.zip_code}`
+                        `${mainOffice.address_line1}, ${mainOffice.city}, ${mainOffice.state} ${mainOffice.zip_code}`,
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -172,22 +179,30 @@ export default async function LocationsPage() {
             <h2 className="text-2xl font-bold text-slate-900 mb-8">Training Centers</h2>
             <div className="grid md:grid-cols-2 gap-6">
               {otherLocations.map((location: Location) => (
-                <div key={location.id} className="bg-white border rounded-xl p-6 hover:shadow-md transition">
+                <div
+                  key={location.id}
+                  className="bg-white border rounded-xl p-6 hover:shadow-md transition"
+                >
                   <h3 className="text-lg font-bold text-slate-900 mb-3">{location.name}</h3>
-                  
+
                   <div className="space-y-2 text-sm text-slate-700">
                     <div className="flex items-start gap-2">
                       <MapPin className="w-4 h-4 text-slate-700 mt-0.5 flex-shrink-0" />
                       <div>
                         <p>{location.address_line1}</p>
-                        <p>{location.city}, {location.state} {location.zip_code}</p>
+                        <p>
+                          {location.city}, {location.state} {location.zip_code}
+                        </p>
                       </div>
                     </div>
 
                     {location.phone && (
                       <div className="flex items-center gap-2">
                         <Phone className="w-4 h-4 text-slate-700 flex-shrink-0" />
-                        <a href={`tel:${location.phone.replace(/\D/g, '')}`} className="text-brand-blue-600 hover:underline">
+                        <a
+                          href={`tel:${location.phone.replace(/\D/g, '')}`}
+                          className="text-brand-blue-600 hover:underline"
+                        >
                           {location.phone}
                         </a>
                       </div>
@@ -196,7 +211,10 @@ export default async function LocationsPage() {
                     {location.email && (
                       <div className="flex items-center gap-2">
                         <Mail className="w-4 h-4 text-slate-700 flex-shrink-0" />
-                        <a href={`mailto:${location.email}`} className="text-brand-blue-600 hover:underline">
+                        <a
+                          href={`mailto:${location.email}`}
+                          className="text-brand-blue-600 hover:underline"
+                        >
                           {location.email}
                         </a>
                       </div>
@@ -206,7 +224,7 @@ export default async function LocationsPage() {
                   <div className="mt-4">
                     <a
                       href={`https://www.google.com/maps/search/?api=1&query=${encodeURIComponent(
-                        `${location.address_line1}, ${location.city}, ${location.state} ${location.zip_code}`
+                        `${location.address_line1}, ${location.city}, ${location.state} ${location.zip_code}`,
                       )}`}
                       target="_blank"
                       rel="noopener noreferrer"
@@ -226,17 +244,42 @@ export default async function LocationsPage() {
           <h2 className="text-2xl font-bold text-slate-900 mb-6 text-center">Locations FAQ</h2>
           <div className="space-y-4 max-w-2xl mx-auto">
             {[
-              { q: 'Do I need to visit in person to enroll?', a: 'No, you can complete the enrollment process online or by phone. However, we welcome campus visits to tour facilities and meet staff.' },
-              { q: 'Where does training take place?', a: 'Training locations vary by program. Some programs are at our main facility, others at partner sites. Your enrollment advisor will provide specific location details.' },
-              { q: 'Is parking available?', a: 'Yes, free parking is available at all our training locations. Specific parking instructions are provided during orientation.' },
-              { q: 'Are locations accessible?', a: 'Yes, all our facilities are ADA accessible. Contact us if you need specific accommodations.' },
-              { q: 'Can I transfer between locations?', a: 'In some cases, yes. Speak with your program coordinator about transfer options if your situation changes.' },
+              {
+                q: 'Do I need to visit in person to enroll?',
+                a: 'No, you can complete the enrollment process online or by phone. However, we welcome campus visits to tour facilities and meet staff.',
+              },
+              {
+                q: 'Where does training take place?',
+                a: 'Training locations vary by program. Some programs are at our main facility, others at partner sites. Your enrollment advisor will provide specific location details.',
+              },
+              {
+                q: 'Is parking available?',
+                a: 'Yes, free parking is available at all our training locations. Specific parking instructions are provided during orientation.',
+              },
+              {
+                q: 'Are locations accessible?',
+                a: 'Yes, all our facilities are ADA accessible. Contact us if you need specific accommodations.',
+              },
+              {
+                q: 'Can I transfer between locations?',
+                a: 'In some cases, yes. Speak with your program coordinator about transfer options if your situation changes.',
+              },
             ].map((faq, i) => (
               <details key={i} className="bg-white rounded-xl overflow-hidden shadow-sm group">
                 <summary className="p-4 cursor-pointer font-semibold text-slate-900 flex justify-between items-center">
                   {faq.q}
-                  <svg className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                  <svg
+                    className="w-5 h-5 text-slate-400 group-open:rotate-180 transition-transform"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M19 9l-7 7-7-7"
+                    />
                   </svg>
                 </summary>
                 <div className="px-4 pb-4 text-slate-600">{faq.a}</div>

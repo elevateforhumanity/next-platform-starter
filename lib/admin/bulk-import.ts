@@ -149,17 +149,12 @@ export function validateUser(user: BulkImportUser, row: number): ImportError[] {
       field: 'role',
       message: 'Role is required',
     });
-  } else if (
-    !['student', 'instructor', 'admin', 'partner', 'case-manager'].includes(
-      user.role
-    )
-  ) {
+  } else if (!['student', 'instructor', 'admin', 'partner', 'case-manager'].includes(user.role)) {
     errors.push({
       row,
       email: user.email,
       field: 'role',
-      message:
-        'Invalid role. Must be: student, instructor, admin, partner, or case-manager',
+      message: 'Invalid role. Must be: student, instructor, admin, partner, or case-manager',
     });
   }
 
@@ -188,9 +183,7 @@ export function validateUser(user: BulkImportUser, row: number): ImportError[] {
 /**
  * Import users to database
  */
-export async function importUsers(
-  users: BulkImportUser[]
-): Promise<ImportResult> {
+export async function importUsers(users: BulkImportUser[]): Promise<ImportResult> {
   const { createClient } = await import('@/lib/supabase/server');
   const supabase = await createClient();
 
@@ -228,15 +221,14 @@ export async function importUsers(
       }
 
       // Create auth user
-      const { data: authUser, error: authError } =
-        await supabase.auth.admin.createUser({
-          email: user.email,
-          email_confirm: true,
-          user_metadata: {
-            first_name: user.firstName,
-            last_name: user.lastName,
-          },
-        });
+      const { data: authUser, error: authError } = await supabase.auth.admin.createUser({
+        email: user.email,
+        email_confirm: true,
+        user_metadata: {
+          first_name: user.firstName,
+          last_name: user.lastName,
+        },
+      });
 
       if (authError) {
         errors.push({
@@ -284,13 +276,13 @@ export async function importUsers(
 
       createdUsers.push(user.email);
       successCount++;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       errors.push({
         row,
         email: user.email,
         field: 'system',
-        message:
-          'Operation failed',
+        message: 'Operation failed',
       });
     }
   }
@@ -309,7 +301,9 @@ export async function importUsers(
         created_emails: createdUsers,
       },
     });
-  } catch { /* audit best-effort */ }
+  } catch {
+    /* audit best-effort */
+  }
 
   return {
     success: errors.length === 0,
@@ -376,7 +370,7 @@ export async function exportUsersToCSV(filters?: {
         enrollment?.cohort || '',
         enrollment?.start_date || '',
         enrollment?.funding_source || '',
-      ].join(',')
+      ].join(','),
     );
   }
 

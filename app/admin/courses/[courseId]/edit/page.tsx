@@ -17,9 +17,10 @@ export default async function EditCoursePage({
 }) {
   const { courseId } = await params;
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-
 
   const { data: profile } = await supabase
     .from('profiles')
@@ -39,33 +40,31 @@ export default async function EditCoursePage({
 
   if (!course) notFound();
 
-  const { data: programs } = await supabase
-    .from('programs')
-    .select('id, title')
-    .order('title');
+  const { data: programs } = await supabase.from('programs').select('id, title').order('title');
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <div className="max-w-3xl mx-auto px-4 py-8">
         <nav className="text-sm mb-6">
           <ol className="flex items-center space-x-2 text-slate-700">
             <li>
-              <Link href="/admin" className="hover:text-brand-blue-600">Admin</Link>
+              <Link href="/admin" className="hover:text-brand-blue-600">
+                Admin
+              </Link>
             </li>
             <li>/</li>
             <li>
-              <Link href="/admin/courses" className="hover:text-brand-blue-600">Courses</Link>
+              <Link href="/admin/courses" className="hover:text-brand-blue-600">
+                Courses
+              </Link>
             </li>
             <li>/</li>
             <li className="text-slate-900 font-medium">Edit</li>
           </ol>
         </nav>
 
-        <h1 className="text-2xl font-bold text-slate-900 mb-6">
-          Edit: {course.title}
-        </h1>
+        <h1 className="text-2xl font-bold text-slate-900 mb-6">Edit: {course.title}</h1>
 
         <EditCourseForm course={course} programs={programs || []} />
       </div>

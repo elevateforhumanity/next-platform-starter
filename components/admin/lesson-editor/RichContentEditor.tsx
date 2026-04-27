@@ -17,8 +17,16 @@ import Placeholder from '@tiptap/extension-placeholder';
 import CharacterCount from '@tiptap/extension-character-count';
 import { useEffect } from 'react';
 import {
-  Bold, Italic, List, ListOrdered, Heading2, Heading3,
-  Quote, Minus, Undo, Redo,
+  Bold,
+  Italic,
+  List,
+  ListOrdered,
+  Heading2,
+  Heading3,
+  Quote,
+  Minus,
+  Undo,
+  Redo,
 } from 'lucide-react';
 
 interface Props {

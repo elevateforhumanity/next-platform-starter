@@ -12,14 +12,14 @@ Building an in-house learning management system seems straightforward until you 
 
 ### Development Costs
 
-| Component | DIY Estimate | Timeline |
-|-----------|-------------|----------|
-| Core LMS functionality | $150,000 - $300,000 | 6-12 months |
-| Compliance modules (WIOA, FERPA) | $75,000 - $150,000 | 3-6 months |
-| Reporting & analytics | $50,000 - $100,000 | 2-4 months |
-| Mobile responsiveness | $25,000 - $50,000 | 1-2 months |
-| Integrations (Calendly, CRM, etc.) | $30,000 - $60,000 | 2-3 months |
-| **Total** | **$330,000 - $660,000** | **14-27 months** |
+| Component                          | DIY Estimate            | Timeline         |
+| ---------------------------------- | ----------------------- | ---------------- |
+| Core LMS functionality             | $150,000 - $300,000     | 6-12 months      |
+| Compliance modules (WIOA, FERPA)   | $75,000 - $150,000      | 3-6 months       |
+| Reporting & analytics              | $50,000 - $100,000      | 2-4 months       |
+| Mobile responsiveness              | $25,000 - $50,000       | 1-2 months       |
+| Integrations (Calendly, CRM, etc.) | $30,000 - $60,000       | 2-3 months       |
+| **Total**                          | **$330,000 - $660,000** | **14-27 months** |
 
 ### Ongoing Maintenance
 
@@ -69,12 +69,14 @@ Every month spent building is a month not serving learners.
 ## Decision Framework
 
 ### Build if:
+
 - You have unique requirements no platform can meet
 - You have dedicated IT staff with LMS experience
 - Timeline is not a constraint
 - Budget exceeds $500,000 for technology alone
 
 ### Partner if:
+
 - You need to launch within 30-90 days
 - Compliance is a priority
 - You want to focus resources on learners, not technology
@@ -94,4 +96,4 @@ We'd rather you succeed with the right solution than struggle with the wrong one
 
 ---
 
-*Elevate for Humanity — Technology that serves the mission, not the other way around.*
+_Elevate for Humanity — Technology that serves the mission, not the other way around._

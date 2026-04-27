@@ -1,14 +1,14 @@
-import { logger } from "@/lib/logger";
+import { logger } from '@/lib/logger';
 /**
  * Canonical Agreement Acceptance Recording
- * 
+ *
  * This is the ONLY function that should write to license_agreement_acceptances.
  * All agreement signing flows must use this function.
  */
 
 import { SupabaseClient } from '@supabase/supabase-js';
 
-export type AgreementType = 
+export type AgreementType =
   | 'enrollment'
   | 'handbook'
   | 'data_sharing'
@@ -57,7 +57,7 @@ export interface RecordAgreementResult {
 
 /**
  * Records an agreement acceptance to license_agreement_acceptances.
- * 
+ *
  * Features:
  * - Idempotent: returns success if row already exists for (user_id, agreement_type, document_version)
  * - Validates signer_email matches authenticated user email
@@ -65,7 +65,7 @@ export interface RecordAgreementResult {
  * - Records role at time of signing
  */
 export async function recordAgreementAcceptance(
-  params: RecordAgreementParams
+  params: RecordAgreementParams,
 ): Promise<RecordAgreementResult> {
   const {
     supabase,
@@ -178,7 +178,7 @@ export async function recordAgreementAcceptance(
 export async function recordMultipleAgreements(
   supabase: SupabaseClient,
   baseParams: Omit<RecordAgreementParams, 'supabase' | 'agreementType' | 'documentVersion'>,
-  agreements: Array<{ type: AgreementType; version: string }>
+  agreements: Array<{ type: AgreementType; version: string }>,
 ): Promise<{ success: boolean; results: RecordAgreementResult[]; allSucceeded: boolean }> {
   const results: RecordAgreementResult[] = [];
 

@@ -12,10 +12,10 @@ export const metadata: Metadata = {
 };
 
 const STATUS_BADGE: Record<string, string> = {
-  active:   'bg-green-100 text-green-800',
+  active: 'bg-green-100 text-green-800',
   inactive: 'bg-gray-100 text-slate-700',
-  paused:   'bg-yellow-100 text-yellow-800',
-  error:    'bg-red-100 text-red-800',
+  paused: 'bg-yellow-100 text-yellow-800',
+  error: 'bg-red-100 text-red-800',
 };
 
 export default async function WorkflowsPage() {
@@ -42,8 +42,10 @@ export default async function WorkflowsPage() {
             <h1 className="text-3xl font-bold text-slate-900">Workflows</h1>
             <p className="text-slate-700 text-sm mt-1">Live workflow state from the database</p>
           </div>
-          <Link href="/admin/workflows/new"
-            className="bg-brand-orange-600 hover:bg-brand-orange-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors">
+          <Link
+            href="/admin/workflows/new"
+            className="bg-brand-orange-600 hover:bg-brand-orange-700 text-white text-sm font-semibold px-4 py-2 rounded-lg transition-colors"
+          >
             + New Workflow
           </Link>
         </div>
@@ -51,8 +53,8 @@ export default async function WorkflowsPage() {
         <div className="grid grid-cols-2 md:grid-cols-3 gap-4 mb-6">
           {[
             { label: 'Total Workflows', value: rows.length },
-            { label: 'Active',          value: active },
-            { label: 'Total Runs',      value: totalRuns.toLocaleString() },
+            { label: 'Active', value: active },
+            { label: 'Total Runs', value: totalRuns.toLocaleString() },
           ].map((kpi) => (
             <div key={kpi.label} className="bg-white rounded-lg border p-4 shadow-sm">
               <p className="text-xs text-slate-700 uppercase tracking-wide">{kpi.label}</p>
@@ -70,7 +72,9 @@ export default async function WorkflowsPage() {
               <thead className="bg-slate-50 border-b">
                 <tr>
                   {['Name', 'Category', 'Status', 'Runs', 'Last Run', 'Last Result'].map((h) => (
-                    <th key={h} className="px-4 py-3 text-left font-medium text-slate-600">{h}</th>
+                    <th key={h} className="px-4 py-3 text-left font-medium text-slate-600">
+                      {h}
+                    </th>
                   ))}
                 </tr>
               </thead>
@@ -80,7 +84,9 @@ export default async function WorkflowsPage() {
                     <td className="px-4 py-3 font-medium text-slate-900">{r.name}</td>
                     <td className="px-4 py-3 text-slate-600 capitalize">{r.category}</td>
                     <td className="px-4 py-3">
-                      <span className={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_BADGE[r.status] ?? 'bg-gray-100 text-slate-700'}`}>
+                      <span
+                        className={`px-2 py-0.5 rounded text-xs font-medium ${STATUS_BADGE[r.status] ?? 'bg-gray-100 text-slate-700'}`}
+                      >
                         {r.status}
                       </span>
                     </td>

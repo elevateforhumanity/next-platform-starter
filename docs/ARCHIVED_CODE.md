@@ -1,4 +1,4 @@
-# _archived/ directory
+# \_archived/ directory
 
 The `_archived/` directory at the repo root contains historical code removed from the
 live application. It is excluded from git tracking (`.gitignore`), TypeScript

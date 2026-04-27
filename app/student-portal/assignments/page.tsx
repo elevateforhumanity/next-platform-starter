@@ -3,7 +3,7 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Metadata } from 'next';
-import { FileText, Clock, AlertCircle, Calendar, CheckCircle, } from 'lucide-react';
+import { FileText, Clock, AlertCircle, Calendar, CheckCircle } from 'lucide-react';
 import { logger } from '@/lib/logger';
 
 export const metadata: Metadata = {
@@ -15,14 +15,17 @@ export const dynamic = 'force-dynamic';
 
 export default async function AssignmentsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
-  
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
+
   if (!user) redirect('/login?redirect=/student-portal/assignments');
 
   // Fetch assignments from database
   const { data: assignments, error } = await supabase
     .from('assignments')
-    .select(`
+    .select(
+      `
       id,
       title,
       description,
@@ -32,7 +35,8 @@ export default async function AssignmentsPage() {
       max_points,
       submitted_at,
       course:courses(title)
-    `)
+    `,
+    )
     .eq('user_id', user.id)
     .order('due_date', { ascending: true });
 
@@ -52,22 +56,26 @@ export default async function AssignmentsPage() {
     courseName: a.course?.name || 'Course',
   }));
 
-  const pendingCount = assignmentList.filter(a => a.status === 'pending').length;
-  const submittedCount = assignmentList.filter(a => a.status === 'submitted').length;
-  const gradedCount = assignmentList.filter(a => a.status === 'graded').length;
+  const pendingCount = assignmentList.filter((a) => a.status === 'pending').length;
+  const submittedCount = assignmentList.filter((a) => a.status === 'submitted').length;
+  const gradedCount = assignmentList.filter((a) => a.status === 'graded').length;
 
   const getStatusConfig = (status: string, dueDate: string) => {
     const isOverdue = new Date(dueDate) < new Date() && status === 'pending';
-    
+
     if (isOverdue) {
       return { label: 'Overdue', color: 'bg-brand-red-100 text-brand-red-700', icon: AlertCircle };
     }
-    
+
     switch (status) {
       case 'submitted':
         return { label: 'Submitted', color: 'bg-brand-blue-100 text-brand-blue-700', icon: Clock };
       case 'graded':
-        return { label: 'Graded', color: 'bg-brand-green-100 text-brand-green-700', icon: CheckCircle };
+        return {
+          label: 'Graded',
+          color: 'bg-brand-green-100 text-brand-green-700',
+          icon: CheckCircle,
+        };
       default:
         return { label: 'Pending', color: 'bg-yellow-100 text-yellow-700', icon: Clock };
     }
@@ -83,10 +91,17 @@ export default async function AssignmentsPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/student-portal-page-2.jpg" alt="Student portal" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/student-portal-page-2.jpg"
+          alt="Student portal"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="max-w-4xl mx-auto px-4">
         <div className="mb-8">
@@ -118,7 +133,10 @@ export default async function AssignmentsPage() {
               const StatusIcon = statusConfig.icon;
 
               return (
-                <div key={assignment.id} className="bg-white rounded-xl border p-4 hover:shadow-md transition">
+                <div
+                  key={assignment.id}
+                  className="bg-white rounded-xl border p-4 hover:shadow-md transition"
+                >
                   <div className="flex items-start justify-between">
                     <div className="flex items-start gap-4">
                       <div className="w-10 h-10 bg-white rounded-lg flex items-center justify-center">
@@ -141,7 +159,9 @@ export default async function AssignmentsPage() {
                       </div>
                     </div>
                     <div className="flex items-center gap-3">
-                      <span className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${statusConfig.color}`}>
+                      <span
+                        className={`inline-flex items-center gap-1 px-2 py-1 rounded-full text-xs font-medium ${statusConfig.color}`}
+                      >
                         <StatusIcon className="w-3 h-3" />
                         {statusConfig.label}
                       </span>

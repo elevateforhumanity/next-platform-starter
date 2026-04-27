@@ -52,12 +52,7 @@
       },
       {
         "prompt": "Which item should be discarded immediately after use?",
-        "choices": [
-          "Metal scissors",
-          "Clipper blades",
-          "Neck strips",
-          "Combs"
-        ],
+        "choices": ["Metal scissors", "Clipper blades", "Neck strips", "Combs"],
         "answerIndex": 2,
         "rationale": "Neck strips are single-use items and should be discarded after each client to prevent contamination.",
         "type": "recall"
@@ -124,12 +119,7 @@
       },
       {
         "prompt": "What is the correct distance to hold the disinfectant spray from clipper blades?",
-        "choices": [
-          "2 inches",
-          "4 inches",
-          "6 inches",
-          "8 inches"
-        ],
+        "choices": ["2 inches", "4 inches", "6 inches", "8 inches"],
         "answerIndex": 2,
         "rationale": "Holding the spray can 6 inches away ensures even coverage and effective disinfection.",
         "type": "recall"

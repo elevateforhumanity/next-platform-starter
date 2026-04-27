@@ -65,9 +65,9 @@ export interface LessonValidationResult {
   errors: string[];
   warnings: string[];
   scores: {
-    completeness: number;   // 0–1
+    completeness: number; // 0–1
     competencyFidelity: number; // 0–1 (average across claimed competencies)
-    examRelevance: number;  // 0–1
+    examRelevance: number; // 0–1
   };
 }
 

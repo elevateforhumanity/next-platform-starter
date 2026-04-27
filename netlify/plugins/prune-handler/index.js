@@ -15,29 +15,60 @@ const { existsSync, readdirSync, statSync } = require('fs');
 
 const PRUNE_PACKAGES = [
   // Next.js SWC compiler platform binaries (113 MB each, build-time only)
-  '@next/swc-linux-x64-gnu', '@next/swc-linux-x64-musl',
-  '@next/swc-darwin-x64', '@next/swc-darwin-arm64', '@next/swc-win32-x64-msvc',
+  '@next/swc-linux-x64-gnu',
+  '@next/swc-linux-x64-musl',
+  '@next/swc-darwin-x64',
+  '@next/swc-darwin-arm64',
+  '@next/swc-win32-x64-msvc',
   // esbuild / webpack (build-time only)
-  '@esbuild', 'esbuild', 'webpack', 'webpack-sources',
+  '@esbuild',
+  'esbuild',
+  'webpack',
+  'webpack-sources',
   // SWC compiler — NOT @swc/helpers (required by Next.js at runtime)
-  '@swc/core', '@swc/cli',
+  '@swc/core',
+  '@swc/cli',
   // Browser automation
-  'puppeteer', 'puppeteer-core', 'playwright', 'playwright-core',
-  'chromium-bidi', '@playwright', '@sparticuz', 'chrome-aws-lambda',
+  'puppeteer',
+  'puppeteer-core',
+  'playwright',
+  'playwright-core',
+  'chromium-bidi',
+  '@playwright',
+  '@sparticuz',
+  'chrome-aws-lambda',
   // Browser-only 3D / media
-  'three', 'three-stdlib', '@react-three',
-  'hls.js', 'video.js', '@mediapipe',
+  'three',
+  'three-stdlib',
+  '@react-three',
+  'hls.js',
+  'video.js',
+  '@mediapipe',
   // Browser-only UI
-  'monaco-editor', '@monaco-editor',
-  'lucide-react', 'recharts', 'html2canvas',
+  'monaco-editor',
+  '@monaco-editor',
+  'lucide-react',
+  'recharts',
+  'html2canvas',
   // Dev / test tools
-  'typescript', 'prettier', 'eslint', '@typescript-eslint',
-  'vitest', 'jest', '@jest', '@storybook',
-  'jsdom', 'happy-dom',
+  'typescript',
+  'prettier',
+  'eslint',
+  '@typescript-eslint',
+  'vitest',
+  'jest',
+  '@jest',
+  '@storybook',
+  'jsdom',
+  'happy-dom',
   // Sentry CLI binary only (keep @sentry/nextjs, @sentry/node — used at runtime)
-  '@sentry/cli-linux-x64', '@sentry/cli',
+  '@sentry/cli-linux-x64',
+  '@sentry/cli',
   // WebContainer / collaborative editing (browser-only)
-  '@webcontainer', 'yjs', 'y-protocols', 'lib0',
+  '@webcontainer',
+  'yjs',
+  'y-protocols',
+  'lib0',
 ];
 
 async function pruneNodeModules(nodeModulesDir) {
@@ -56,7 +87,7 @@ async function pruneNodeModules(nodeModulesDir) {
   if (existsSync(pnpmDir)) {
     const entries = await readdir(pnpmDir);
     for (const entry of entries) {
-      const matches = PRUNE_PACKAGES.some(pkg => {
+      const matches = PRUNE_PACKAGES.some((pkg) => {
         const pnpmPkg = pkg.startsWith('@') ? pkg.replace('/', '+') : pkg;
         return entry.startsWith(pnpmPkg + '@') || entry === pnpmPkg;
       });
@@ -74,7 +105,11 @@ function findNodeModules(dir, depth = 0) {
   if (depth > 6 || !existsSync(dir)) return [];
   const results = [];
   let entries;
-  try { entries = readdirSync(dir); } catch { return results; }
+  try {
+    entries = readdirSync(dir);
+  } catch {
+    return results;
+  }
   for (const entry of entries) {
     if (entry === 'node_modules') {
       results.push(join(dir, entry));
@@ -102,7 +137,9 @@ module.exports = {
     console.log(`[prune-handler] handler exists: ${existsSync(handlerPath)}`);
 
     const nodeModulesDirs = findNodeModules(netlifyDir);
-    console.log(`[prune-handler] found ${nodeModulesDirs.length} node_modules dirs under .netlify/`);
+    console.log(
+      `[prune-handler] found ${nodeModulesDirs.length} node_modules dirs under .netlify/`,
+    );
 
     let total = 0;
     for (const nm of nodeModulesDirs) {

@@ -15,10 +15,7 @@ export const dynamic = 'force-dynamic';
  * barbershop_partner_applications.status = 'approved'.
  * Sends a notification email to the applicant.
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+export async function POST(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
 
@@ -26,7 +23,9 @@ export async function POST(
 
   // Verify admin session
   const userSupabase = await createClient();
-  const { data: { user } } = await userSupabase.auth.getUser();
+  const {
+    data: { user },
+  } = await userSupabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -54,7 +53,10 @@ export async function POST(
     .maybeSingle();
 
   if (fetchError || !application) {
-    logger.error('barbershop application fetch error', undefined, { id, detail: fetchError?.message });
+    logger.error('barbershop application fetch error', undefined, {
+      id,
+      detail: fetchError?.message,
+    });
     return NextResponse.json({ error: 'Application not found' }, { status: 404 });
   }
 
@@ -74,7 +76,10 @@ export async function POST(
     .eq('id', id);
 
   if (updateError) {
-    logger.error('barbershop application approval failed', undefined, { id, detail: updateError.message });
+    logger.error('barbershop application approval failed', undefined, {
+      id,
+      detail: updateError.message,
+    });
     return NextResponse.json({ error: 'Failed to approve application' }, { status: 500 });
   }
 
@@ -98,45 +103,49 @@ export async function POST(
       .from('shops')
       .upsert(
         {
-          name:    application.shop_legal_name,
+          name: application.shop_legal_name,
           address1: application.shop_address_line1 ?? application.shop_physical_address ?? null,
-          city:    application.shop_city ?? null,
-          state:   application.shop_state ?? null,
-          zip:     application.shop_zip ?? null,
-          email:   application.contact_email,
-          active:  true,
+          city: application.shop_city ?? null,
+          state: application.shop_state ?? null,
+          zip: application.shop_zip ?? null,
+          email: application.contact_email,
+          active: true,
         },
-        { onConflict: 'name,city,state' }  // prevent duplicate shops on re-approval
+        { onConflict: 'name,city,state' }, // prevent duplicate shops on re-approval
       )
       .select('id')
       .maybeSingle();
 
     if (shopErr) {
-      logger.warn('[barber-approve] shops upsert failed (non-fatal)', { id, detail: shopErr.message });
+      logger.warn('[barber-approve] shops upsert failed (non-fatal)', {
+        id,
+        detail: shopErr.message,
+      });
     } else {
       provisionedShopId = shopRow.id;
 
       // Upsert shop_supervisors row.
       // user_id is null — populated when supervisor claims account via email link.
       // name + email are the durable identity anchors until then.
-      const { error: supervisorErr } = await supabase
-        .from('shop_supervisors')
-        .upsert(
-          {
-            shop_id:        provisionedShopId,
-            user_id:        null,           // claimed post-approval via onboarding link
-            name:           application.supervisor_name ?? application.contact_name ?? application.owner_name,
-            email:          application.contact_email,
-            phone:          application.contact_phone ?? null,
-            license_number: application.supervisor_license_number ?? null,
-            license_type:   'barber',
-            is_active:      true,
-          },
-          { onConflict: 'shop_id,email' }
-        );
+      const { error: supervisorErr } = await supabase.from('shop_supervisors').upsert(
+        {
+          shop_id: provisionedShopId,
+          user_id: null, // claimed post-approval via onboarding link
+          name: application.supervisor_name ?? application.contact_name ?? application.owner_name,
+          email: application.contact_email,
+          phone: application.contact_phone ?? null,
+          license_number: application.supervisor_license_number ?? null,
+          license_type: 'barber',
+          is_active: true,
+        },
+        { onConflict: 'shop_id,email' },
+      );
 
       if (supervisorErr) {
-        logger.warn('[barber-approve] shop_supervisors upsert failed (non-fatal)', { id, detail: supervisorErr.message });
+        logger.warn('[barber-approve] shop_supervisors upsert failed (non-fatal)', {
+          id,
+          detail: supervisorErr.message,
+        });
       } else {
         logger.info('[barber-approve] shop + supervisor provisioned', {
           applicationId: id,
@@ -147,7 +156,10 @@ export async function POST(
     }
   } catch (provisionErr) {
     // Non-fatal — approval is recorded. Admin can manually provision if needed.
-    logger.warn('[barber-approve] Provisioning failed (non-fatal)', { id, error: String(provisionErr) });
+    logger.warn('[barber-approve] Provisioning failed (non-fatal)', {
+      id,
+      error: String(provisionErr),
+    });
   }
 
   // Send approval notification email (non-blocking)
@@ -185,7 +197,7 @@ export async function POST(
     entityId: id,
     metadata: { shop_name: application.shop_legal_name, contact_email: application.contact_email },
     req: request,
-  }).catch(e => logger.warn('[barber-approve] Audit log failed', e));
+  }).catch((e) => logger.warn('[barber-approve] Audit log failed', e));
 
   return NextResponse.json({ success: true, status: 'approved' });
 }

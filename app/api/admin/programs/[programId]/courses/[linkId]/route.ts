@@ -15,13 +15,12 @@ export const dynamic = 'force-dynamic';
 
 const PatchSchema = z.object({
   is_required: z.boolean().optional(),
-  order_index:  z.number().int().min(0).optional(),
+  order_index: z.number().int().min(0).optional(),
 });
-
 
 export async function PATCH(
   req: NextRequest,
-  { params }: { params: Promise<{ programId: string; linkId: string }> }
+  { params }: { params: Promise<{ programId: string; linkId: string }> },
 ) {
   const { programId, linkId } = await params;
   const auth = await apiRequireAdmin(req);
@@ -44,13 +43,13 @@ export async function PATCH(
     .select()
     .single();
 
-  if (error) return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+  if (error) return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   return NextResponse.json({ item: data });
 }
 
 export async function DELETE(
   req: NextRequest,
-  { params }: { params: Promise<{ programId: string; linkId: string }> }
+  { params }: { params: Promise<{ programId: string; linkId: string }> },
 ) {
   const { programId, linkId } = await params;
   const auth = await apiRequireAdmin(req);
@@ -65,7 +64,7 @@ export async function DELETE(
 
   if (error) {
     logger.error('DELETE program course link error', error);
-    return NextResponse.json({ error: "Internal server error" }, { status: 500 });
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
   return NextResponse.json({ ok: true });
 }

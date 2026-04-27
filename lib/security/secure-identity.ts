@@ -26,22 +26,20 @@ export async function getSSNLast4(userId: string): Promise<string | null> {
 export async function storeSSNData(
   userId: string,
   ssnLast4: string,
-  ssnHash?: string
+  ssnHash?: string,
 ): Promise<boolean> {
   const db = await getAdminClient();
   if (!db) return false;
 
-  const { error } = await db
-    .from('secure_identity')
-    .upsert(
-      {
-        user_id: userId,
-        ssn_last4: ssnLast4,
-        ...(ssnHash ? { ssn_hash: ssnHash } : {}),
-        updated_at: new Date().toISOString(),
-      },
-      { onConflict: 'user_id' }
-    );
+  const { error } = await db.from('secure_identity').upsert(
+    {
+      user_id: userId,
+      ssn_last4: ssnLast4,
+      ...(ssnHash ? { ssn_hash: ssnHash } : {}),
+      updated_at: new Date().toISOString(),
+    },
+    { onConflict: 'user_id' },
+  );
 
   if (error) {
     logger.error('[SecureIdentity] Store failed', error);
@@ -63,5 +61,5 @@ export async function hasSSNOnFile(userId: string): Promise<boolean> {
     .eq('user_id', userId)
     .maybeSingle();
 
-  return !!(data?.ssn_last4);
+  return !!data?.ssn_last4;
 }

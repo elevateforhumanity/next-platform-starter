@@ -29,7 +29,7 @@ interface AuditContext {
  */
 export async function setAuditContext(
   db: { rpc: (fn: string, params: Record<string, unknown>) => Promise<{ error: unknown }> },
-  ctx: AuditContext
+  ctx: AuditContext,
 ): Promise<void> {
   try {
     const { error } = await db.rpc('set_audit_context', {

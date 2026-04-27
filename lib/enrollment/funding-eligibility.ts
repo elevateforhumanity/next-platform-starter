@@ -28,7 +28,7 @@
 
 // ─── 2025 FPL base figures ────────────────────────────────────────────────────
 
-const FPL_BASE = 15060;   // 1-person household
+const FPL_BASE = 15060; // 1-person household
 const FPL_PER_ADDITIONAL = 5380; // each additional person
 
 export function fplForHousehold(size: number): number {
@@ -39,18 +39,18 @@ export function fplForHousehold(size: number): number {
 // ─── Types ────────────────────────────────────────────────────────────────────
 
 export type FundingSource =
-  | 'workone_wioa'          // WorkOne-administered WIOA Title I
+  | 'workone_wioa' // WorkOne-administered WIOA Title I
   | 'workforce_ready_grant' // Indiana Workforce Ready Grant (DWD)
-  | 'jri'                   // Justice Reinvestment Initiative
-  | 'impact_partnership'    // Elevate partner-funded (e.g. Impact)
-  | 'employer_sponsored'    // Employer pays
-  | 'self_pay';             // Student pays out of pocket
+  | 'jri' // Justice Reinvestment Initiative
+  | 'impact_partnership' // Elevate partner-funded (e.g. Impact)
+  | 'employer_sponsored' // Employer pays
+  | 'self_pay'; // Student pays out of pocket
 
 export type EligibilityStatus =
-  | 'likely_eligible'       // Meets screening criteria — must still be verified
-  | 'possible'              // May qualify — needs more info or external determination
-  | 'not_eligible'          // Does not meet criteria
-  | 'requires_external';    // External agency (WorkOne) makes the determination
+  | 'likely_eligible' // Meets screening criteria — must still be verified
+  | 'possible' // May qualify — needs more info or external determination
+  | 'not_eligible' // Does not meet criteria
+  | 'requires_external'; // External agency (WorkOne) makes the determination
 
 export interface FundingOption {
   source: FundingSource;
@@ -124,8 +124,8 @@ export function evaluateFundingEligibility(input: EligibilityInput): Eligibility
       reason: wioa_likely
         ? 'Based on your income and employment status, you may qualify for free training through WorkOne.'
         : wioa_possible
-        ? 'You may qualify for WorkOne funding. WorkOne will make the final determination.'
-        : 'You may not meet standard WIOA income criteria, but WorkOne can still assess your situation.',
+          ? 'You may qualify for WorkOne funding. WorkOne will make the final determination.'
+          : 'You may not meet standard WIOA income criteria, but WorkOne can still assess your situation.',
       instructions: [
         'Contact your local WorkOne center before completing this application.',
         'Tell them you are enrolling in training with Elevate for Humanity and need a WIOA or Workforce Ready Grant eligibility determination.',
@@ -188,7 +188,8 @@ export function evaluateFundingEligibility(input: EligibilityInput): Eligibility
     source: 'impact_partnership',
     label: 'Partner-Funded Scholarship',
     status: 'possible',
-    reason: 'Elevate partners with community organizations that may cover your tuition. Availability depends on your program and current funding.',
+    reason:
+      'Elevate partners with community organizations that may cover your tuition. Availability depends on your program and current funding.',
     instructions: [
       'Contact Elevate at 317-314-3757 or info@elevateforhumanity.org to ask about partner-funded seats in your program.',
       'Partner funding is limited and awarded on a first-come, first-served basis.',
@@ -239,11 +240,11 @@ export function evaluateFundingEligibility(input: EligibilityInput): Eligibility
 
   // Recommended = first sponsored option that isn't not_eligible, else self_pay
   const recommended =
-    options.find(o => o.source !== 'self_pay' && o.status !== 'not_eligible') ??
-    options.find(o => o.source === 'self_pay')!;
+    options.find((o) => o.source !== 'self_pay' && o.status !== 'not_eligible') ??
+    options.find((o) => o.source === 'self_pay')!;
 
   const hasSponsoredOption = options.some(
-    o => o.source !== 'self_pay' && o.status !== 'not_eligible',
+    (o) => o.source !== 'self_pay' && o.status !== 'not_eligible',
   );
 
   return { options, recommended, hasSponsoredOption };
@@ -268,11 +269,11 @@ export function toEligibilitySummary(
   return {
     requested_source: requestedSource,
     evaluated_options: result.options
-      .filter(o => o.status !== 'not_eligible')
-      .map(o => o.enrollmentFundingSource),
+      .filter((o) => o.status !== 'not_eligible')
+      .map((o) => o.enrollmentFundingSource),
     recommended_source: result.recommended.enrollmentFundingSource,
     requires_workone: result.options.some(
-      o => o.source === 'workone_wioa' && o.requiresExternalConfirmation,
+      (o) => o.source === 'workone_wioa' && o.requiresExternalConfirmation,
     ),
     has_sponsored_option: result.hasSponsoredOption,
     evaluated_at: new Date().toISOString(),

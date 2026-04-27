@@ -5,8 +5,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Support Services | Elevate for Humanity',
-  description:
-    'Tax services, career counseling, job placement, and comprehensive support.',
+  description: 'Tax services, career counseling, job placement, and comprehensive support.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/services',
   },
@@ -83,7 +82,15 @@ export default function ServicesPage() {
       {/* Hero */}
       <section className="relative w-full">
         <div className="relative h-[300px] md:h-[400px] w-full overflow-hidden">
-          <Image src="/images/pages/services-page-1.jpg" alt="Support Services" fill className="object-cover" priority sizes="100vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+          <Image
+            src="/images/pages/services-page-1.jpg"
+            alt="Support Services"
+            fill
+            className="object-cover"
+            priority
+            sizes="100vw"
+          />
         </div>
         <div className="bg-white py-10">
           <div className="max-w-5xl mx-auto px-4 text-center">
@@ -95,9 +102,7 @@ export default function ServicesPage() {
       {/* Services Grid */}
       <section className="py-16 px-4">
         <div className="max-w-7xl mx-auto">
-          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">
-            Our Services
-          </h2>
+          <h2 className="text-3xl font-bold text-gray-900 text-center mb-12">Our Services</h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {services.map((service) => (
               <Link
@@ -111,7 +116,8 @@ export default function ServicesPage() {
                     alt={service.title}
                     fill
                     className="object-cover"
-                   sizes="100vw" />
+                    sizes="100vw"
+                  />
                 </div>
                 <div className="p-6">
                   <h3 className="text-xl font-bold text-gray-900 mb-2 group-hover:text-brand-blue-600">
@@ -128,9 +134,7 @@ export default function ServicesPage() {
       {/* CTA */}
       <section className="py-16 px-4">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl font-bold text-slate-900 mb-6">
-            Need Help?
-          </h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-6">Need Help?</h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/contact"

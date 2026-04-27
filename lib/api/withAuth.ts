@@ -11,7 +11,7 @@ interface WithAuthOptions {
 
 type AuthedHandler = (
   req: NextRequest,
-  ctx: { user: { id: string; email: string }; role: Role }
+  ctx: { user: { id: string; email: string }; role: Role },
 ) => Promise<NextResponse> | NextResponse;
 
 /**
@@ -28,7 +28,10 @@ export function withAuth(handler: AuthedHandler, options: WithAuthOptions = {}) 
   return async function (req: NextRequest): Promise<NextResponse> {
     try {
       const supabase = await createClient();
-      const { data: { user }, error: authError } = await supabase.auth.getUser();
+      const {
+        data: { user },
+        error: authError,
+      } = await supabase.auth.getUser();
 
       if (authError || !user) {
         return safeError('Unauthorized', 401);

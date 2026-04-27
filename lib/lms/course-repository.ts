@@ -67,7 +67,8 @@ export async function getPublishedCourseBySlug(
 ): Promise<CourseWithModules> {
   const { data, error } = await db
     .from('courses')
-    .select(`
+    .select(
+      `
       id, program_id, slug, title, short_description, description, status, published_at,
       course_modules (
         id, title, order_index,
@@ -76,7 +77,8 @@ export async function getPublishedCourseBySlug(
           passing_score, quiz_questions, is_required
         )
       )
-    `)
+    `,
+    )
     .eq('slug', slug)
     .eq('status', 'published')
     .eq('is_active', true)
@@ -92,8 +94,9 @@ export async function getPublishedCourseBySlug(
       .sort((a: CourseModule, b: CourseModule) => a.order_index - b.order_index)
       .map((mod: CourseModule) => ({
         ...mod,
-        course_lessons: (mod.course_lessons ?? [])
-          .sort((a: CourseLesson, b: CourseLesson) => a.order_index - b.order_index),
+        course_lessons: (mod.course_lessons ?? []).sort(
+          (a: CourseLesson, b: CourseLesson) => a.order_index - b.order_index,
+        ),
       })),
   };
 
@@ -109,7 +112,8 @@ export async function getPublishedCourseById(
 ): Promise<CourseWithModules> {
   const { data, error } = await db
     .from('courses')
-    .select(`
+    .select(
+      `
       id, program_id, slug, title, short_description, description, status, published_at,
       course_modules (
         id, title, order_index,
@@ -118,7 +122,8 @@ export async function getPublishedCourseById(
           passing_score, quiz_questions, is_required
         )
       )
-    `)
+    `,
+    )
     .eq('id', courseId)
     .eq('status', 'published')
     .eq('is_active', true)
@@ -133,8 +138,9 @@ export async function getPublishedCourseById(
       .sort((a: CourseModule, b: CourseModule) => a.order_index - b.order_index)
       .map((mod: CourseModule) => ({
         ...mod,
-        course_lessons: (mod.course_lessons ?? [])
-          .sort((a: CourseLesson, b: CourseLesson) => a.order_index - b.order_index),
+        course_lessons: (mod.course_lessons ?? []).sort(
+          (a: CourseLesson, b: CourseLesson) => a.order_index - b.order_index,
+        ),
       })),
   };
 }
@@ -143,22 +149,22 @@ export async function getPublishedCourseById(
  * Single lesson by ID — confirms it belongs to a published course.
  * Throws if lesson not found or course not published.
  */
-export async function getPublishedLesson(
-  db: SupabaseClient,
-  lessonId: string,
-) {
+export async function getPublishedLesson(db: SupabaseClient, lessonId: string) {
   const { data, error } = await db
     .from('course_lessons')
-    .select(`
+    .select(
+      `
       id, course_id, module_id, slug, title, content,
       lesson_type, order_index, passing_score, quiz_questions, is_required,
       courses!inner(id, slug, title, status, is_active)
-    `)
+    `,
+    )
     .eq('id', lessonId)
     .eq('courses.status', 'published')
     .eq('courses.is_active', true)
     .maybeSingle();
 
-  if (error) throw new Error(`Lesson ${lessonId} not found or course not published: ${error.message}`);
+  if (error)
+    throw new Error(`Lesson ${lessonId} not found or course not published: ${error.message}`);
   return data;
 }

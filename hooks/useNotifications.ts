@@ -1,12 +1,12 @@
 'use client';
 
 import { useState, useEffect, useCallback } from 'react';
-import { 
-  subscribeToNotifications, 
-  markNotificationRead, 
+import {
+  subscribeToNotifications,
+  markNotificationRead,
   markAllNotificationsRead,
   getUnreadCount,
-  type Notification 
+  type Notification,
 } from '@/lib/realtime/notifications';
 import { createClient } from '@/lib/supabase/client';
 
@@ -16,8 +16,8 @@ interface UseNotificationsOptions {
   showBrowserNotifications?: boolean;
 }
 
-export function useNotifications({ 
-  userId, 
+export function useNotifications({
+  userId,
   enabled = true,
   showBrowserNotifications = true,
 }: UseNotificationsOptions) {
@@ -32,7 +32,7 @@ export function useNotifications({
     async function fetchNotifications() {
       setIsLoading(true);
       const supabase = createClient();
-      
+
       const { data } = await supabase
         .from('notifications')
         .select('*')
@@ -42,7 +42,7 @@ export function useNotifications({
 
       if (data) {
         setNotifications(data);
-        setUnreadCount(data.filter(n => !n.read).length);
+        setUnreadCount(data.filter((n) => !n.read).length);
       }
       setIsLoading(false);
     }
@@ -55,8 +55,8 @@ export function useNotifications({
     if (!enabled || !userId) return;
 
     const unsubscribe = subscribeToNotifications(userId, (notification) => {
-      setNotifications(prev => [notification, ...prev]);
-      setUnreadCount(prev => prev + 1);
+      setNotifications((prev) => [notification, ...prev]);
+      setUnreadCount((prev) => prev + 1);
 
       // Show browser notification if permitted
       if (showBrowserNotifications && Notification.permission === 'granted') {
@@ -74,10 +74,10 @@ export function useNotifications({
   // Request browser notification permission
   const requestPermission = useCallback(async () => {
     if (!('Notification' in window)) return false;
-    
+
     if (Notification.permission === 'granted') return true;
     if (Notification.permission === 'denied') return false;
-    
+
     const permission = await Notification.requestPermission();
     return permission === 'granted';
   }, []);
@@ -86,10 +86,10 @@ export function useNotifications({
   const markAsRead = useCallback(async (notificationId: string) => {
     const success = await markNotificationRead(notificationId);
     if (success) {
-      setNotifications(prev => 
-        prev.map(n => n.id === notificationId ? { ...n, read: true } : n)
+      setNotifications((prev) =>
+        prev.map((n) => (n.id === notificationId ? { ...n, read: true } : n)),
       );
-      setUnreadCount(prev => Math.max(0, prev - 1));
+      setUnreadCount((prev) => Math.max(0, prev - 1));
     }
     return success;
   }, []);
@@ -98,7 +98,7 @@ export function useNotifications({
   const markAllAsRead = useCallback(async () => {
     const success = await markAllNotificationsRead(userId);
     if (success) {
-      setNotifications(prev => prev.map(n => ({ ...n, read: true })));
+      setNotifications((prev) => prev.map((n) => ({ ...n, read: true })));
       setUnreadCount(0);
     }
     return success;
@@ -126,27 +126,31 @@ export function useNotifications({
  */
 export function useCourseRealtime(courseId: string, userId: string) {
   const [onlineUsers, setOnlineUsers] = useState<string[]>([]);
-  const [recentActivity, setRecentActivity] = useState<Array<{
-    userId: string;
-    action: string;
-    timestamp: string;
-  }>>([]);
+  const [recentActivity, setRecentActivity] = useState<
+    Array<{
+      userId: string;
+      action: string;
+      timestamp: string;
+    }>
+  >([]);
 
   useEffect(() => {
     if (!courseId || !userId) return;
 
     const supabase = createClient();
-    
+
     // Subscribe to presence
     const channel = supabase
       .channel(`course:${courseId}`)
       .on('presence', { event: 'sync' }, () => {
         const state = channel.presenceState();
-        const users = Object.values(state).flat().map((u: any) => u.user_id);
+        const users = Object.values(state)
+          .flat()
+          .map((u: any) => u.user_id);
         setOnlineUsers(users);
       })
       .on('broadcast', { event: 'activity' }, ({ payload }) => {
-        setRecentActivity(prev => [payload, ...prev].slice(0, 10));
+        setRecentActivity((prev) => [payload, ...prev].slice(0, 10));
       })
       .subscribe(async (status) => {
         if (status === 'SUBSCRIBED') {
@@ -159,20 +163,23 @@ export function useCourseRealtime(courseId: string, userId: string) {
     };
   }, [courseId, userId]);
 
-  const broadcastActivity = useCallback(async (action: string) => {
-    const supabase = createClient();
-    const channel = supabase.channel(`course:${courseId}`);
-    
-    await channel.send({
-      type: 'broadcast',
-      event: 'activity',
-      payload: {
-        userId,
-        action,
-        timestamp: new Date().toISOString(),
-      },
-    });
-  }, [courseId, userId]);
+  const broadcastActivity = useCallback(
+    async (action: string) => {
+      const supabase = createClient();
+      const channel = supabase.channel(`course:${courseId}`);
+
+      await channel.send({
+        type: 'broadcast',
+        event: 'activity',
+        payload: {
+          userId,
+          action,
+          timestamp: new Date().toISOString(),
+        },
+      });
+    },
+    [courseId, userId],
+  );
 
   return {
     onlineUsers,

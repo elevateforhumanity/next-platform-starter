@@ -10,19 +10,34 @@ interface Message {
 }
 
 const QUICK_PROMPTS = [
-  { icon: BookOpen, text: 'Explain this concept', prompt: 'Can you explain this concept in simple terms?' },
-  { icon: FileText, text: 'Create study guide', prompt: 'Create a study guide for my current topic' },
-  { icon: Lightbulb, text: 'Practice questions', prompt: 'Give me some practice questions to test my understanding' },
-  { icon: Sparkles, text: 'Summarize lesson', prompt: 'Summarize the key points from my current lesson' },
+  {
+    icon: BookOpen,
+    text: 'Explain this concept',
+    prompt: 'Can you explain this concept in simple terms?',
+  },
+  {
+    icon: FileText,
+    text: 'Create study guide',
+    prompt: 'Create a study guide for my current topic',
+  },
+  {
+    icon: Lightbulb,
+    text: 'Practice questions',
+    prompt: 'Give me some practice questions to test my understanding',
+  },
+  {
+    icon: Sparkles,
+    text: 'Summarize lesson',
+    prompt: 'Summarize the key points from my current lesson',
+  },
 ];
-
-
 
 export default function AITutorPage() {
   const [messages, setMessages] = useState<Message[]>([
     {
       role: 'assistant',
-      content: "Hello! I'm your AI Tutor, here to help you succeed in your training. I can explain concepts, create study guides, generate practice questions, and help you prepare for exams. What would you like to learn about today?",
+      content:
+        "Hello! I'm your AI Tutor, here to help you succeed in your training. I can explain concepts, create study guides, generate practice questions, and help you prepare for exams. What would you like to learn about today?",
     },
   ]);
   const [input, setInput] = useState('');
@@ -70,10 +85,7 @@ export default function AITutorPage() {
           },
         ]);
       } else {
-        setMessages((prev) => [
-          ...prev,
-          { role: 'assistant', content: data.message },
-        ]);
+        setMessages((prev) => [...prev, { role: 'assistant', content: data.message }]);
         if (data.conversationId) {
           setConversationId(data.conversationId);
         }
@@ -83,7 +95,8 @@ export default function AITutorPage() {
         ...prev,
         {
           role: 'assistant',
-          content: "I'm having trouble connecting right now. Please check your internet connection and try again.",
+          content:
+            "I'm having trouble connecting right now. Please check your internet connection and try again.",
         },
       ]);
     } finally {
@@ -101,7 +114,7 @@ export default function AITutorPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Ai Tutor" }]} />
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Ai Tutor' }]} />
       </div>
       {/* Header */}
       <div className="bg-brand-blue-600 text-white py-6">
@@ -148,9 +161,7 @@ export default function AITutorPage() {
             {messages.map((message, index) => (
               <div
                 key={index}
-                className={`flex gap-3 ${
-                  message.role === 'user' ? 'flex-row-reverse' : ''
-                }`}
+                className={`flex gap-3 ${message.role === 'user' ? 'flex-row-reverse' : ''}`}
               >
                 <div
                   className={`w-8 h-8 rounded-full flex items-center justify-center flex-shrink-0 ${

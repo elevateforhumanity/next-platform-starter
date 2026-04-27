@@ -27,7 +27,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function LinkAccountsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const adminDb = await getAdminClient();
@@ -81,7 +83,7 @@ export default async function LinkAccountsPage() {
 
       // Look up auth user by email via admin API
       const { data: authData } = await adminDb.auth.admin.listUsers({ page: 1, perPage: 1000 });
-      const match = authData?.users?.find(u => u.email?.toLowerCase() === a.email?.toLowerCase());
+      const match = authData?.users?.find((u) => u.email?.toLowerCase() === a.email?.toLowerCase());
 
       return {
         apprenticeId: a.id,
@@ -91,21 +93,23 @@ export default async function LinkAccountsPage() {
         matchedUserId: match?.id ?? null,
         matchedUserEmail: match?.email ?? null,
       };
-    })
+    }),
   );
 
-  const fixable = results.filter(r => r.matchedUserId);
-  const noMatch = results.filter(r => !r.matchedUserId);
+  const fixable = results.filter((r) => r.matchedUserId);
+  const noMatch = results.filter((r) => !r.matchedUserId);
 
   return (
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-4xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Admin', href: '/admin/dashboard' },
-            { label: 'Apprenticeships', href: '/admin/apprenticeships' },
-            { label: 'Link Accounts' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Admin', href: '/admin/dashboard' },
+              { label: 'Apprenticeships', href: '/admin/apprenticeships' },
+              { label: 'Link Accounts' },
+            ]}
+          />
         </div>
       </div>
 
@@ -120,7 +124,9 @@ export default async function LinkAccountsPage() {
               Link Apprentice Accounts
             </h1>
             <p className="text-sm text-slate-500 mt-0.5">
-              Apprentice records with no <code className="text-xs bg-slate-100 px-1 rounded">user_id</code> — these apprentices see &ldquo;no active apprenticeship&rdquo; when they log in.
+              Apprentice records with no{' '}
+              <code className="text-xs bg-slate-100 px-1 rounded">user_id</code> — these apprentices
+              see &ldquo;no active apprenticeship&rdquo; when they log in.
             </p>
           </div>
         </div>
@@ -129,7 +135,10 @@ export default async function LinkAccountsPage() {
           <div className="bg-white rounded-xl border border-slate-200 p-10 text-center">
             <CheckCircle2 className="w-10 h-10 text-green-500 mx-auto mb-3" />
             <p className="font-semibold text-slate-700">All apprentice records are linked</p>
-            <p className="text-sm text-slate-500 mt-1">No missing <code className="text-xs bg-slate-100 px-1 rounded">user_id</code> values found.</p>
+            <p className="text-sm text-slate-500 mt-1">
+              No missing <code className="text-xs bg-slate-100 px-1 rounded">user_id</code> values
+              found.
+            </p>
           </div>
         ) : (
           <div className="space-y-6">
@@ -157,14 +166,19 @@ export default async function LinkAccountsPage() {
                   Auth account found — click to link
                 </h2>
                 <div className="space-y-2">
-                  {fixable.map(r => (
-                    <div key={r.apprenticeId} className="bg-white rounded-xl border border-slate-200 p-4 flex items-center justify-between gap-4">
+                  {fixable.map((r) => (
+                    <div
+                      key={r.apprenticeId}
+                      className="bg-white rounded-xl border border-slate-200 p-4 flex items-center justify-between gap-4"
+                    >
                       <div className="min-w-0">
                         <p className="font-medium text-slate-900 text-sm truncate">{r.email}</p>
                         <p className="text-xs text-slate-400 mt-0.5">
-                          Apprentice ID: <span className="font-mono">{r.apprenticeId.slice(0, 8)}…</span>
+                          Apprentice ID:{' '}
+                          <span className="font-mono">{r.apprenticeId.slice(0, 8)}…</span>
                           {' · '}
-                          Auth ID: <span className="font-mono">{r.matchedUserId!.slice(0, 8)}…</span>
+                          Auth ID:{' '}
+                          <span className="font-mono">{r.matchedUserId!.slice(0, 8)}…</span>
                           {' · '}
                           Status: {r.status}
                           {' · '}
@@ -190,14 +204,20 @@ export default async function LinkAccountsPage() {
                   No auth account found — apprentice has not signed up yet
                 </h2>
                 <div className="space-y-2">
-                  {noMatch.map(r => (
-                    <div key={r.apprenticeId} className="bg-white rounded-xl border border-slate-100 p-4 flex items-center justify-between gap-4 opacity-70">
+                  {noMatch.map((r) => (
+                    <div
+                      key={r.apprenticeId}
+                      className="bg-white rounded-xl border border-slate-100 p-4 flex items-center justify-between gap-4 opacity-70"
+                    >
                       <div className="min-w-0">
                         <p className="font-medium text-slate-700 text-sm truncate">
-                          {r.email ?? <span className="text-slate-400 italic">No email on record</span>}
+                          {r.email ?? (
+                            <span className="text-slate-400 italic">No email on record</span>
+                          )}
                         </p>
                         <p className="text-xs text-slate-400 mt-0.5">
-                          Apprentice ID: <span className="font-mono">{r.apprenticeId.slice(0, 8)}…</span>
+                          Apprentice ID:{' '}
+                          <span className="font-mono">{r.apprenticeId.slice(0, 8)}…</span>
                           {' · '}
                           Status: {r.status}
                           {' · '}
@@ -212,7 +232,8 @@ export default async function LinkAccountsPage() {
                   ))}
                 </div>
                 <p className="text-xs text-slate-400 mt-3">
-                  Send the apprentice an invite link so they can create their account. Once they sign up with the same email, the link will appear above.
+                  Send the apprentice an invite link so they can create their account. Once they
+                  sign up with the same email, the link will appear above.
                 </p>
               </div>
             )}

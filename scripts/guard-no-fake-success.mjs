@@ -37,7 +37,7 @@ const SCOPED_PATHS = [
 
 function isInScope(file) {
   const rel = path.relative(ROOT, file).replace(/\\/g, '/');
-  return SCOPED_PATHS.some(p => rel.includes(p));
+  return SCOPED_PATHS.some((p) => rel.includes(p));
 }
 
 const bannedPatterns = [
@@ -91,12 +91,16 @@ function lineAt(content, index) {
 
 function checkFile(file) {
   let content;
-  try { content = fs.readFileSync(file, 'utf8'); } catch { return; }
+  try {
+    content = fs.readFileSync(file, 'utf8');
+  } catch {
+    return;
+  }
 
   for (const rule of bannedPatterns) {
     if (rule.scopedOnly && !isInScope(file)) continue;
     const rel = path.relative(ROOT, file).replace(/\\/g, '/');
-    if (rule.excludePaths?.some(p => rel.includes(p))) continue;
+    if (rule.excludePaths?.some((p) => rel.includes(p))) continue;
     rule.regex.lastIndex = 0;
     for (const match of content.matchAll(rule.regex)) {
       violations.push({
@@ -108,8 +112,6 @@ function checkFile(file) {
       });
     }
   }
-
-
 }
 
 for (const dir of TARGET_DIRS) {

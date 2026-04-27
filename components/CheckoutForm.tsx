@@ -1,15 +1,10 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 import { useState } from 'react';
 import { loadStripe } from '@stripe/stripe-js';
-import {
-  Elements,
-  PaymentElement,
-  useStripe,
-  useElements,
-} from '@stripe/react-stripe-js';
+import { Elements, PaymentElement, useStripe, useElements } from '@stripe/react-stripe-js';
 import { CreditCard, Lock, Check } from 'lucide-react';
 
 const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!);
@@ -104,14 +99,10 @@ function PaymentForm({
         <div className="w-20 h-20 bg-brand-green-100 rounded-full flex items-center justify-center mx-auto mb-6">
           <Check className="w-10 h-10 text-brand-green-600" />
         </div>
-        <h3 className="text-2xl font-bold text-black mb-2">
-          Payment Successful!
-        </h3>
-        <p className="text-black mb-6">
-          You're now enrolled in {courseName}
-        </p>
+        <h3 className="text-2xl font-bold text-black mb-2">Payment Successful!</h3>
+        <p className="text-black mb-6">You're now enrolled in {courseName}</p>
         <button
-          onClick={() => window.location.href = `/courses/${courseId}`}
+          onClick={() => (window.location.href = `/courses/${courseId}`)}
           className="px-6 py-3 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition-colors"
         >
           Go to Course
@@ -128,9 +119,7 @@ function PaymentForm({
         <div className="space-y-2">
           <div className="flex justify-between">
             <span className="text-black">{courseName}</span>
-            <span className="font-semibold text-black">
-              ${amount.toFixed(2)}
-            </span>
+            <span className="font-semibold text-black">${amount.toFixed(2)}</span>
           </div>
           {referralCode && (
             <div className="flex justify-between text-brand-green-600">
@@ -149,9 +138,7 @@ function PaymentForm({
 
       {/* Payment Element */}
       <div>
-        <label className="block text-sm font-medium text-black mb-2">
-          Payment Details
-        </label>
+        <label className="block text-sm font-medium text-black mb-2">Payment Details</label>
         <PaymentElement />
       </div>
 
@@ -224,7 +211,8 @@ export default function CheckoutForm(props: CheckoutFormProps) {
 
         const data = await response.json();
         setClientSecret(data.intent.client_secret);
-      } catch (error) { /* Error handled silently */ 
+      } catch (error) {
+        /* Error handled silently */
         // Error: $1
       } finally {
         setLoading(false);

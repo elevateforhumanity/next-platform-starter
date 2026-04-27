@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -32,13 +32,7 @@ interface Program {
   slug: string;
 }
 
-export function ModulesTable({
-  modules,
-  programs,
-}: {
-  modules: Module[];
-  programs: Program[];
-}) {
+export function ModulesTable({ modules, programs }: { modules: Module[]; programs: Program[] }) {
   const [searchTerm, setSearchTerm] = useState('');
   const [filterProgram, setFilterProgram] = useState<string>('all');
   const [filterType, setFilterType] = useState<string>('all');
@@ -46,11 +40,11 @@ export function ModulesTable({
   const filteredModules = modules.filter((module) => {
     const matchesSearch =
       module.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      (module.program?.title || module.program?.name)?.toLowerCase().includes(searchTerm.toLowerCase());
-    const matchesProgram =
-      filterProgram === 'all' || module.program_id === filterProgram;
-    const matchesType =
-      filterType === 'all' || module.module_type === filterType;
+      (module.program?.title || module.program?.name)
+        ?.toLowerCase()
+        .includes(searchTerm.toLowerCase());
+    const matchesProgram = filterProgram === 'all' || module.program_id === filterProgram;
+    const matchesType = filterType === 'all' || module.module_type === filterType;
 
     return matchesSearch && matchesProgram && matchesType;
   });
@@ -80,18 +74,14 @@ export function ModulesTable({
             placeholder="Search modules..."
             value={searchTerm}
             onChange={(
-              e: React.ChangeEvent<
-                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-              >
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setSearchTerm(e.target.value)}
             className="flex-1 px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           />
           <select
             value={filterProgram}
             onChange={(
-              e: React.ChangeEvent<
-                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-              >
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setFilterProgram(e.target.value)}
             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           >
@@ -105,9 +95,7 @@ export function ModulesTable({
           <select
             value={filterType}
             onChange={(
-              e: React.ChangeEvent<
-                HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
-              >
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
             ) => setFilterType(e.target.value)}
             className="px-4 py-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           >
@@ -151,10 +139,7 @@ export function ModulesTable({
           <tbody className="bg-white divide-y divide-gray-200">
             {filteredModules.length === 0 ? (
               <tr>
-                <td
-                  colSpan={7}
-                  className="px-6 py-12 text-center text-black"
-                >
+                <td colSpan={7} className="px-6 py-12 text-center text-black">
                   No modules found
                 </td>
               </tr>
@@ -163,20 +148,15 @@ export function ModulesTable({
                 <tr key={module.id} className="hover:bg-gray-50">
                   <td className="px-6 py-4">
                     <div>
-                      <div className="font-medium text-black">
-                        {module.title}
-                      </div>
+                      <div className="font-medium text-black">{module.title}</div>
                       {module.description && (
-                        <div className="text-sm text-black line-clamp-1">
-                          {module.description}
+                        <div className="text-sm text-black line-clamp-1">{module.description}</div>
+                      )}
+                      {module.scorm_package && module.scorm_package.length > 0 && (
+                        <div className="text-xs text-brand-blue-600 mt-1">
+                          SCORM: {module.scorm_package[0].title}
                         </div>
                       )}
-                      {module.scorm_package &&
-                        module.scorm_package.length > 0 && (
-                          <div className="text-xs text-brand-blue-600 mt-1">
-                            SCORM: {module.scorm_package[0].title}
-                          </div>
-                        )}
                     </div>
                   </td>
                   <td className="px-6 py-4 text-sm text-black">
@@ -189,17 +169,13 @@ export function ModulesTable({
                       {module.module_type}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-sm text-black">
-                    #{module.order_index}
-                  </td>
+                  <td className="px-6 py-4 text-sm text-black">#{module.order_index}</td>
                   <td className="px-6 py-4 text-sm text-black">
                     {module.duration_hours ? `${module.duration_hours}h` : '-'}
                   </td>
                   <td className="px-6 py-4">
                     {module.is_required ? (
-                      <span className="text-brand-green-600 font-medium">
-                        • Required
-                      </span>
+                      <span className="text-brand-green-600 font-medium">• Required</span>
                     ) : (
                       <span className="text-black">Optional</span>
                     )}
@@ -233,8 +209,8 @@ export function ModulesTable({
       {/* Pagination info */}
       <div className="px-6 py-4 border-t bg-gray-50">
         <p className="text-sm text-black">
-          Showing <span className="font-medium">{filteredModules.length}</span>{' '}
-          of <span className="font-medium">{modules.length}</span> modules
+          Showing <span className="font-medium">{filteredModules.length}</span> of{' '}
+          <span className="font-medium">{modules.length}</span> modules
         </p>
       </div>
     </div>

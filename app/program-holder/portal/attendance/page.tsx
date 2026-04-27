@@ -3,7 +3,15 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
-import { Calendar, CheckCircle, XCircle, Clock, ChevronRight, Users, AlertCircle } from 'lucide-react';
+import {
+  Calendar,
+  CheckCircle,
+  XCircle,
+  Clock,
+  ChevronRight,
+  Users,
+  AlertCircle,
+} from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
@@ -13,13 +21,20 @@ export const metadata: Metadata = {
 
 export default async function AttendancePage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/program-holder/portal/attendance');
 
   const db = await getAdminClient();
 
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
-  if (!['program_holder', 'admin', 'super_admin', 'instructor'].includes(profile?.role ?? '')) redirect('/portals');
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
+  if (!['program_holder', 'admin', 'super_admin', 'instructor'].includes(profile?.role ?? ''))
+    redirect('/portals');
 
   const [
     { data: recentAttendance },
@@ -28,14 +43,19 @@ export default async function AttendancePage() {
     { count: lateCount },
     { data: sessions },
   ] = await Promise.all([
-    db.from('cohort_attendance')
+    db
+      .from('cohort_attendance')
       .select('id, status, minutes_attended, notes, created_at, user_id')
       .order('created_at', { ascending: false })
       .limit(20),
-    db.from('cohort_attendance').select('*', { count: 'exact', head: true }).eq('status', 'present'),
+    db
+      .from('cohort_attendance')
+      .select('*', { count: 'exact', head: true })
+      .eq('status', 'present'),
     db.from('cohort_attendance').select('*', { count: 'exact', head: true }).eq('status', 'absent'),
     db.from('cohort_attendance').select('*', { count: 'exact', head: true }).eq('status', 'late'),
-    db.from('cohort_sessions')
+    db
+      .from('cohort_sessions')
       .select('id, title, scheduled_at, status')
       .order('scheduled_at', { ascending: false })
       .limit(8),
@@ -48,10 +68,15 @@ export default async function AttendancePage() {
     <div className="min-h-screen bg-slate-50">
       <div className="bg-white border-b px-6 py-4 flex items-center justify-between">
         <div>
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-0.5">Program Holder Portal</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-600 mb-0.5">
+            Program Holder Portal
+          </p>
           <h1 className="text-xl font-bold text-slate-900">Attendance</h1>
         </div>
-        <Link href="/program-holder/portal" className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50">
+        <Link
+          href="/program-holder/portal"
+          className="inline-flex items-center gap-1.5 rounded-lg border border-slate-300 px-4 py-2 text-sm font-semibold text-slate-700 hover:bg-slate-50"
+        >
           ← Portal
         </Link>
       </div>
@@ -59,8 +84,18 @@ export default async function AttendancePage() {
       <div className="max-w-5xl mx-auto px-6 py-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 gap-5 mb-8">
           {[
-            { label: 'Attendance Rate', value: `${attendanceRate}%`, icon: CheckCircle, color: 'text-green-500' },
-            { label: 'Present', value: presentCount ?? 0, icon: CheckCircle, color: 'text-green-500' },
+            {
+              label: 'Attendance Rate',
+              value: `${attendanceRate}%`,
+              icon: CheckCircle,
+              color: 'text-green-500',
+            },
+            {
+              label: 'Present',
+              value: presentCount ?? 0,
+              icon: CheckCircle,
+              color: 'text-green-500',
+            },
             { label: 'Absent', value: absentCount ?? 0, icon: XCircle, color: 'text-red-500' },
             { label: 'Late', value: lateCount ?? 0, icon: Clock, color: 'text-amber-500' },
           ].map((s) => {
@@ -78,19 +113,29 @@ export default async function AttendancePage() {
         <div className="grid lg:grid-cols-2 gap-6">
           <div className="bg-white rounded-xl border border-slate-200">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-              <h2 className="font-bold text-slate-900 flex items-center gap-2"><Calendar className="w-4 h-4 text-brand-red-500" /> Recent Sessions</h2>
+              <h2 className="font-bold text-slate-900 flex items-center gap-2">
+                <Calendar className="w-4 h-4 text-brand-red-500" /> Recent Sessions
+              </h2>
             </div>
             {!sessions?.length ? (
-              <div className="px-6 py-10 text-center text-slate-400 text-sm">No sessions found.</div>
+              <div className="px-6 py-10 text-center text-slate-400 text-sm">
+                No sessions found.
+              </div>
             ) : (
               <div className="divide-y divide-slate-100">
                 {sessions.map((s: any) => (
                   <div key={s.id} className="flex items-center justify-between px-6 py-3">
                     <div>
                       <p className="text-sm font-medium text-slate-900">{s.title ?? 'Session'}</p>
-                      <p className="text-xs text-slate-400">{s.scheduled_at ? new Date(s.scheduled_at).toLocaleDateString() : '—'}</p>
+                      <p className="text-xs text-slate-400">
+                        {s.scheduled_at ? new Date(s.scheduled_at).toLocaleDateString() : '—'}
+                      </p>
                     </div>
-                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${s.status === 'completed' ? 'bg-green-50 text-green-700' : s.status === 'scheduled' ? 'bg-blue-50 text-blue-700' : 'bg-slate-100 text-slate-500'}`}>{s.status ?? 'unknown'}</span>
+                    <span
+                      className={`text-xs font-semibold px-2.5 py-1 rounded-full ${s.status === 'completed' ? 'bg-green-50 text-green-700' : s.status === 'scheduled' ? 'bg-blue-50 text-blue-700' : 'bg-slate-100 text-slate-500'}`}
+                    >
+                      {s.status ?? 'unknown'}
+                    </span>
                   </div>
                 ))}
               </div>
@@ -99,24 +144,39 @@ export default async function AttendancePage() {
 
           <div className="bg-white rounded-xl border border-slate-200">
             <div className="flex items-center justify-between px-6 py-4 border-b border-slate-100">
-              <h2 className="font-bold text-slate-900 flex items-center gap-2"><Users className="w-4 h-4 text-brand-red-500" /> Recent Records</h2>
+              <h2 className="font-bold text-slate-900 flex items-center gap-2">
+                <Users className="w-4 h-4 text-brand-red-500" /> Recent Records
+              </h2>
             </div>
             {!recentAttendance?.length ? (
-              <div className="px-6 py-10 text-center text-slate-400 text-sm">No attendance records yet.</div>
+              <div className="px-6 py-10 text-center text-slate-400 text-sm">
+                No attendance records yet.
+              </div>
             ) : (
               <div className="divide-y divide-slate-100">
                 {recentAttendance.map((a: any) => (
                   <div key={a.id} className="flex items-center justify-between px-6 py-3">
                     <div>
-                      <p className="text-xs text-slate-400">{new Date(a.created_at).toLocaleDateString()}</p>
-                      {a.minutes_attended && <p className="text-xs text-slate-500">{a.minutes_attended} min</p>}
+                      <p className="text-xs text-slate-400">
+                        {new Date(a.created_at).toLocaleDateString()}
+                      </p>
+                      {a.minutes_attended && (
+                        <p className="text-xs text-slate-500">{a.minutes_attended} min</p>
+                      )}
                     </div>
-                    <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
-                      a.status === 'present' ? 'bg-green-50 text-green-700' :
-                      a.status === 'absent' ? 'bg-red-50 text-red-700' :
-                      a.status === 'late' ? 'bg-amber-50 text-amber-700' :
-                      'bg-slate-100 text-slate-500'
-                    }`}>{a.status}</span>
+                    <span
+                      className={`text-xs font-semibold px-2.5 py-1 rounded-full ${
+                        a.status === 'present'
+                          ? 'bg-green-50 text-green-700'
+                          : a.status === 'absent'
+                            ? 'bg-red-50 text-red-700'
+                            : a.status === 'late'
+                              ? 'bg-amber-50 text-amber-700'
+                              : 'bg-slate-100 text-slate-500'
+                      }`}
+                    >
+                      {a.status}
+                    </span>
                   </div>
                 ))}
               </div>

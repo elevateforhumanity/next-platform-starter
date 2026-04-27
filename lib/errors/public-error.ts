@@ -11,7 +11,7 @@ export type PublicErrorPayload = {
  */
 export function toPublicError(
   err: unknown,
-  fallback = 'Something went wrong. Please try again.'
+  fallback = 'Something went wrong. Please try again.',
 ): PublicErrorPayload {
   if (err && typeof err === 'object') {
     const anyErr = err as Record<string, unknown>;

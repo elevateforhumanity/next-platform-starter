@@ -23,11 +23,17 @@ function findAllPages(dir, baseDir = dir) {
       if (!item.startsWith('.') && item !== 'node_modules' && item !== 'api') {
         pages = pages.concat(findAllPages(fullPath, baseDir));
       }
-    } else if (item === 'page.tsx' || item === 'page.ts' || item === 'page.jsx' || item === 'page.js') {
-      const relativePath = fullPath.replace(baseDir, '').replace(/\/page\.(tsx|ts|jsx|js)$/, '') || '/';
+    } else if (
+      item === 'page.tsx' ||
+      item === 'page.ts' ||
+      item === 'page.jsx' ||
+      item === 'page.js'
+    ) {
+      const relativePath =
+        fullPath.replace(baseDir, '').replace(/\/page\.(tsx|ts|jsx|js)$/, '') || '/';
       pages.push({
         path: relativePath,
-        file: fullPath
+        file: fullPath,
       });
     }
   }
@@ -85,16 +91,14 @@ function analyzePageDetailed(filePath, allPagePaths) {
 
     // Check for hero image (1920x800-1000px recommendation)
     const hasHeroSection = /hero|Hero|banner|Banner/.test(content);
-    const heroImages = images.filter(img =>
-      /hero|banner|large|header/i.test(img)
-    );
+    const heroImages = images.filter((img) => /hero|banner|large|header/i.test(img));
 
     // Check image quality indicators
     const hasQualitySettings = /quality=\{?\d+\}?/.test(content);
 
     // Check for alt text on all images
     const imageMatches = content.match(/<Image[^>]*>/g) || [];
-    const imagesWithAlt = imageMatches.filter(img => /alt=["'][^"']+["']/.test(img));
+    const imagesWithAlt = imageMatches.filter((img) => /alt=["'][^"']+["']/.test(img));
     const imagesWithoutAlt = imageMatches.length - imagesWithAlt.length;
 
     // Check for CTAs
@@ -107,9 +111,9 @@ function analyzePageDetailed(filePath, allPagePaths) {
       /Sign Up/i,
       /Register/i,
       /Schedule/i,
-      /Book/i
+      /Book/i,
     ];
-    const ctaCount = ctaPatterns.filter(pattern => pattern.test(content)).length;
+    const ctaCount = ctaPatterns.filter((pattern) => pattern.test(content)).length;
 
     // Check for placeholders
     const placeholderPatterns = [
@@ -120,9 +124,9 @@ function analyzePageDetailed(filePath, allPagePaths) {
       /coming soon/i,
       /Lorem ipsum/i,
       /\[Your .+?\]/,
-      /\{.+?\}/
+      /\{.+?\}/,
     ];
-    const placeholders = placeholderPatterns.filter(pattern => pattern.test(content));
+    const placeholders = placeholderPatterns.filter((pattern) => pattern.test(content));
 
     // Check metadata
     const hasMetadata = /export const metadata/.test(content);
@@ -130,15 +134,17 @@ function analyzePageDetailed(filePath, allPagePaths) {
     const hasDescription = /description:\s*["']/.test(content);
 
     // Check for broken internal links
-    const brokenLinks = links.filter(link => {
+    const brokenLinks = links.filter((link) => {
       const cleanLink = link.split('?')[0].split('#')[0];
-      return !allPagePaths.includes(cleanLink) &&
-             !cleanLink.startsWith('/api/') &&
-             !cleanLink.startsWith('/images/');
+      return (
+        !allPagePaths.includes(cleanLink) &&
+        !cleanLink.startsWith('/api/') &&
+        !cleanLink.startsWith('/images/')
+      );
     });
 
     // Check for missing images
-    const missingImages = images.filter(img => !checkImageExists(img));
+    const missingImages = images.filter((img) => !checkImageExists(img));
 
     // Content quality checks
     const wordCount = content.split(/\s+/).length;
@@ -179,7 +185,7 @@ function analyzePageDetailed(filePath, allPagePaths) {
       // Auth
       isAuthRequired: /redirect\(['"]\/login['"]\)|createClient|getUser/.test(content),
 
-      lineCount: content.split('\n').length
+      lineCount: content.split('\n').length,
     };
   } catch (error) {
     return null;
@@ -201,10 +207,8 @@ function categorizePage(path) {
   return 'marketing';
 }
 
-
 const pages = findAllPages(appDir);
-const allPagePaths = pages.map(p => p.path);
-
+const allPagePaths = pages.map((p) => p.path);
 
 const auditResults = {
   totalPages: pages.length,
@@ -217,9 +221,9 @@ const auditResults = {
     imagesWithoutAlt: [],
     brokenLinks: [],
     missingImages: [],
-    thinContent: []
+    thinContent: [],
   },
-  summary: {}
+  summary: {},
 };
 
 // Analyze each page
@@ -234,7 +238,7 @@ for (const page of pages) {
   if (analysis) {
     const pageData = {
       path: page.path,
-      ...analysis
+      ...analysis,
     };
 
     auditResults.categories[category].push(pageData);
@@ -249,7 +253,7 @@ for (const page of pages) {
     if (analysis.hasPlaceholders) {
       auditResults.issues.hasPlaceholders.push({
         path: page.path,
-        count: analysis.placeholderCount
+        count: analysis.placeholderCount,
       });
     }
     if (!analysis.hasMetadata || !analysis.hasTitle || !analysis.hasDescription) {
@@ -258,25 +262,25 @@ for (const page of pages) {
     if (analysis.imagesWithoutAlt > 0) {
       auditResults.issues.imagesWithoutAlt.push({
         path: page.path,
-        count: analysis.imagesWithoutAlt
+        count: analysis.imagesWithoutAlt,
       });
     }
     if (analysis.brokenLinks > 0) {
       auditResults.issues.brokenLinks.push({
         path: page.path,
-        links: analysis.brokenLinkPaths
+        links: analysis.brokenLinkPaths,
       });
     }
     if (analysis.missingImages > 0) {
       auditResults.issues.missingImages.push({
         path: page.path,
-        images: analysis.missingImagePaths
+        images: analysis.missingImagePaths,
       });
     }
     if (!analysis.hasRichContent && ['marketing', 'programs'].includes(category)) {
       auditResults.issues.thinContent.push({
         path: page.path,
-        wordCount: analysis.wordCount
+        wordCount: analysis.wordCount,
       });
     }
   }
@@ -286,13 +290,13 @@ for (const page of pages) {
 for (const [category, pageList] of Object.entries(auditResults.categories)) {
   auditResults.summary[category] = {
     total: pageList.length,
-    withHero: pageList.filter(p => p.hasHeroSection).length,
-    withCTA: pageList.filter(p => p.hasCTA).length,
-    withMetadata: pageList.filter(p => p.hasMetadata && p.hasTitle && p.hasDescription).length,
-    withPlaceholders: pageList.filter(p => p.hasPlaceholders).length,
-    withBrokenLinks: pageList.filter(p => p.brokenLinks > 0).length,
-    withMissingImages: pageList.filter(p => p.missingImages > 0).length,
-    withImagesNoAlt: pageList.filter(p => p.imagesWithoutAlt > 0).length
+    withHero: pageList.filter((p) => p.hasHeroSection).length,
+    withCTA: pageList.filter((p) => p.hasCTA).length,
+    withMetadata: pageList.filter((p) => p.hasMetadata && p.hasTitle && p.hasDescription).length,
+    withPlaceholders: pageList.filter((p) => p.hasPlaceholders).length,
+    withBrokenLinks: pageList.filter((p) => p.brokenLinks > 0).length,
+    withMissingImages: pageList.filter((p) => p.missingImages > 0).length,
+    withImagesNoAlt: pageList.filter((p) => p.imagesWithoutAlt > 0).length,
   };
 }
 
@@ -301,10 +305,8 @@ for (const [category, pageList] of Object.entries(auditResults.categories)) {
 for (const [category, stats] of Object.entries(auditResults.summary)) {
 }
 
-
 // Save results
 writeFileSync(
   join(__dirname, '..', 'comprehensive-audit-results.json'),
-  JSON.stringify(auditResults, null, 2)
+  JSON.stringify(auditResults, null, 2),
 );
-

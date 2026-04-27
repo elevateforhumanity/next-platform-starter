@@ -22,16 +22,14 @@ import { withRuntime } from '@/lib/api/withRuntime';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export const POST = withRuntime(
-  { cron: true },
-  async () => {
-
+export const POST = withRuntime({ cron: true }, async () => {
   const db = await getAdminClient();
 
   // Fetch all unsent reminders due now or overdue
   const { data: reminders, error } = await db
     .from('testing_appointment_reminders')
-    .select(`
+    .select(
+      `
       id,
       type,
       appointment_id,
@@ -44,7 +42,8 @@ export const POST = withRuntime(
         status,
         reschedule_url
       )
-    `)
+    `,
+    )
     .eq('sent', false)
     .eq('canceled', false)
     .lte('send_at', new Date().toISOString())
@@ -66,21 +65,27 @@ export const POST = withRuntime(
     const appt = (reminder as any).testing_appointments;
     if (!appt || appt.status === 'canceled') {
       // Mark canceled reminders as done
-      await db.from('testing_appointment_reminders')
+      await db
+        .from('testing_appointment_reminders')
         .update({ sent: true, canceled: true })
         .eq('id', reminder.id);
       continue;
     }
 
-    const { invitee_name, invitee_email, invitee_phone, exam_type, start_time, reschedule_url } = appt;
+    const { invitee_name, invitee_email, invitee_phone, exam_type, start_time, reschedule_url } =
+      appt;
     const isOneHour = reminder.type === '1h';
 
     const date = new Date(start_time);
     const formatted = date.toLocaleDateString('en-US', {
-      weekday: 'long', month: 'long', day: 'numeric',
+      weekday: 'long',
+      month: 'long',
+      day: 'numeric',
     });
     const time = date.toLocaleTimeString('en-US', {
-      hour: 'numeric', minute: '2-digit', timeZone: 'America/Indiana/Indianapolis',
+      hour: 'numeric',
+      minute: '2-digit',
+      timeZone: 'America/Indiana/Indianapolis',
     });
 
     const subject = isOneHour
@@ -139,7 +144,7 @@ export const POST = withRuntime(
       if (invitee_email) {
         await resend.emails.send({
           from: `Elevate Testing Center <${TESTING_CENTER.email}>`,
-          to:   invitee_email,
+          to: invitee_email,
           subject,
           html: emailHtml,
         });
@@ -154,7 +159,8 @@ export const POST = withRuntime(
       }
 
       // Mark sent
-      await db.from('testing_appointment_reminders')
+      await db
+        .from('testing_appointment_reminders')
         .update({ sent: true, sent_at: new Date().toISOString() })
         .eq('id', reminder.id);
 
@@ -167,5 +173,4 @@ export const POST = withRuntime(
 
   logger.info('Testing reminders processed', { sent, failed: failed.length });
   return NextResponse.json({ ok: true, sent, failed: failed.length });
-  }
-);
+});

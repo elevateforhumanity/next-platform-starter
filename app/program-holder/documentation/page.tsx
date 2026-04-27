@@ -31,7 +31,8 @@ export default async function DocumentationPage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!profile || !['program_holder','admin','super_admin','staff'].includes(profile.role)) redirect('/login');
+  if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role))
+    redirect('/login');
 
   const resources = [
     {
@@ -90,11 +91,14 @@ export default async function DocumentationPage() {
 
   return (
     <div className="min-h-screen bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Program Holder", href: "/program-holder" }, { label: "Documentation" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Program Holder', href: '/program-holder' }, { label: 'Documentation' }]}
+        />
+      </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/program-holder-docs.jpg"
           alt="Documentation"
@@ -104,7 +108,6 @@ export default async function DocumentationPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Content Section */}
@@ -127,9 +130,7 @@ export default async function DocumentationPage() {
                   {category.category === 'Policies' && (
                     <FileCheck className="h-11 w-11 text-brand-blue-600" />
                   )}
-                  <h2 className="text-2xl font-bold text-black">
-                    {category.category}
-                  </h2>
+                  <h2 className="text-2xl font-bold text-black">{category.category}</h2>
                 </div>
 
                 <div className="grid md:grid-cols-2 gap-4">
@@ -159,9 +160,7 @@ export default async function DocumentationPage() {
 
             {/* Quick Links */}
             <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-6">
-              <h3 className="text-lg font-semibold text-brand-blue-900 mb-4">
-                Quick Links
-              </h3>
+              <h3 className="text-lg font-semibold text-brand-blue-900 mb-4">Quick Links</h3>
               <div className="grid md:grid-cols-3 gap-4">
                 <Link
                   href="/program-holder/documents"

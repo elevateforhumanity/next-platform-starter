@@ -10,10 +10,7 @@ import type { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import Image from 'next/image';
-import {
-  CheckCircle,
-  XCircle,
-} from 'lucide-react';
+import { CheckCircle, XCircle } from 'lucide-react';
 import { HostShopRequirements } from '@/components/compliance/HostShopRequirements';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import HeroVideo from '@/components/marketing/HeroVideo';
@@ -22,8 +19,7 @@ import heroBanners from '@/content/heroBanners';
 export const dynamic = 'force-dynamic';
 
 export const metadata: Metadata = {
-  title:
-    'Registered Esthetician Apprenticeship | DOL Sponsorship & Oversight | Indiana',
+  title: 'Registered Esthetician Apprenticeship | DOL Sponsorship & Oversight | Indiana',
   description:
     'DOL Registered Esthetician Apprenticeship sponsorship, oversight, and related instruction (Milady Theory) in Indiana. Federal apprenticeship sponsorship, employer coordination, compliance reporting. ETPL approved. This program does not grant esthetician licensure or clock hours toward state exams.',
   keywords:
@@ -46,7 +42,7 @@ export default async function EstheticianApprenticeshipPage() {
       </div>
     );
   }
-  
+
   // Fetch esthetician apprenticeship program
   const { data: program } = await supabase
     .from('programs')
@@ -66,16 +62,24 @@ export default async function EstheticianApprenticeshipPage() {
         analyticsName={banner.analyticsName}
         belowHeroHeadline={banner.belowHeroHeadline}
         belowHeroSubheadline={banner.belowHeroSubheadline}
-        ctas={[banner.primaryCta, ...(banner.secondaryCta ? [banner.secondaryCta] : [])].filter(Boolean)}
+        ctas={[banner.primaryCta, ...(banner.secondaryCta ? [banner.secondaryCta] : [])].filter(
+          Boolean,
+        )}
         trustIndicators={banner.trustIndicators}
         transcript={banner.transcript}
       />
 
       {/* Avatar Guide */}
-      <PageAvatar videoSrc="/videos/avatars/esthetician-guide.mp4" title="Esthetician Apprenticeship Guide" />
+      <PageAvatar
+        videoSrc="/videos/avatars/esthetician-guide.mp4"
+        title="Esthetician Apprenticeship Guide"
+      />
 
       {/* Pathway Disclosure */}
-      <PathwayDisclosure programName="Esthetician Apprenticeship" programSlug="esthetician-apprenticeship" />
+      <PathwayDisclosure
+        programName="Esthetician Apprenticeship"
+        programSlug="esthetician-apprenticeship"
+      />
 
       {/* Program Description */}
       <section className="bg-white py-16">
@@ -84,16 +88,18 @@ export default async function EstheticianApprenticeshipPage() {
             <div>
               <h2 className="text-3xl font-bold text-black mb-6">Program Description</h2>
               <p className="text-lg text-gray-700 mb-4">
-                Start your career in skincare and beauty through our DOL-registered esthetician apprenticeship. 
-                Learn advanced skincare techniques while earning, with theory instruction through Milady.
+                Start your career in skincare and beauty through our DOL-registered esthetician
+                apprenticeship. Learn advanced skincare techniques while earning, with theory
+                instruction through Milady.
               </p>
               <p className="text-gray-700">
-                Our program provides federal apprenticeship sponsorship, employer coordination, and compliance 
-                reporting to help you build a successful career in esthetics.
+                Our program provides federal apprenticeship sponsorship, employer coordination, and
+                compliance reporting to help you build a successful career in esthetics.
               </p>
             </div>
             <div className="relative h-[350px] rounded-2xl overflow-hidden">
-              <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+              <Image sizes="100vw"
                 src="/images/programs/efh-esthetician-client-services-card.jpg"
                 alt="Esthetician training"
                 fill
@@ -105,22 +111,30 @@ export default async function EstheticianApprenticeshipPage() {
         <div className="mx-auto max-w-4xl px-6">
           <div className="bg-teal-50 border-2 border-teal-200 rounded-xl p-6 mb-8">
             <p className="text-lg text-black leading-relaxed">
-              <strong>Registered Esthetician Apprenticeship Sponsorship, Oversight & Related Instruction (Milady Theory).</strong>
+              <strong>
+                Registered Esthetician Apprenticeship Sponsorship, Oversight & Related Instruction
+                (Milady Theory).
+              </strong>
             </p>
             <p className="text-black mt-4 leading-relaxed">
-              This program provides federal apprenticeship sponsorship, employer coordination, compliance reporting, and related instruction. 
-              Practical skills training and licensure-required instructional hours are provided by a licensed esthetician school. 
+              This program provides federal apprenticeship sponsorship, employer coordination,
+              compliance reporting, and related instruction. Practical skills training and
+              licensure-required instructional hours are provided by a licensed esthetician school.
               This program does not grant esthetician licensure or clock hours toward state exams.
             </p>
           </div>
 
           {/* Indiana Requirements */}
           <div className="bg-blue-50 border-2 border-blue-200 rounded-xl p-6 mb-8">
-            <h3 className="text-xl font-bold text-blue-900 mb-3">Indiana Esthetician Requirements</h3>
+            <h3 className="text-xl font-bold text-blue-900 mb-3">
+              Indiana Esthetician Requirements
+            </h3>
             <ul className="space-y-2 text-blue-900">
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <span><strong>700 hours</strong> of esthetician training required</span>
+                <span>
+                  <strong>700 hours</strong> of esthetician training required
+                </span>
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
@@ -128,7 +142,10 @@ export default async function EstheticianApprenticeshipPage() {
               </li>
               <li className="flex items-start gap-2">
                 <CheckCircle className="w-5 h-5 flex-shrink-0 mt-0.5" />
-                <span>Prepares learners for licensure through <strong>Indiana Professional Licensing Agency (IPLA)</strong></span>
+                <span>
+                  Prepares learners for licensure through{' '}
+                  <strong>Indiana Professional Licensing Agency (IPLA)</strong>
+                </span>
               </li>
             </ul>
           </div>
@@ -192,7 +209,7 @@ export default async function EstheticianApprenticeshipPage() {
       <section className="bg-gray-50 py-16">
         <div className="mx-auto max-w-4xl px-6">
           <h2 className="text-3xl font-bold text-black mb-6">Program Fee</h2>
-          
+
           <div className="bg-white border-2 border-slate-200 rounded-xl p-8 shadow-lg">
             <div className="text-center mb-6">
               <div className="text-5xl font-black text-teal-600">$3,480</div>
@@ -201,13 +218,17 @@ export default async function EstheticianApprenticeshipPage() {
 
             <div className="bg-teal-50 border border-teal-200 rounded-lg p-4 mb-6">
               <p className="text-teal-900 text-center">
-                <strong>The program fee applies regardless of transferred hours.</strong> Credit for prior learning may reduce the duration of participation but does not alter the program fee. The fee reflects apprenticeship sponsorship, compliance oversight, employer coordination, related instruction, and completion under the sponsor&apos;s registered apprenticeship program.
+                <strong>The program fee applies regardless of transferred hours.</strong> Credit for
+                prior learning may reduce the duration of participation but does not alter the
+                program fee. The fee reflects apprenticeship sponsorship, compliance oversight,
+                employer coordination, related instruction, and completion under the sponsor&apos;s
+                registered apprenticeship program.
               </p>
             </div>
 
             <div className="space-y-4">
               <h3 className="text-lg font-bold text-black">Payment Options</h3>
-              
+
               <Link
                 href="/apply?program=esthetician-apprenticeship&payment=?method=full"
                 className="w-full flex items-center justify-between px-6 py-4 bg-teal-600 hover:bg-teal-700 text-white font-bold rounded-lg transition-all"
@@ -249,14 +270,15 @@ export default async function EstheticianApprenticeshipPage() {
       <section className="bg-white py-16">
         <div className="mx-auto max-w-4xl px-6">
           <h2 className="text-3xl font-bold text-black mb-8">Frequently Asked Questions</h2>
-          
+
           <div className="space-y-6">
             <div className="bg-slate-50 border border-slate-200 rounded-lg p-6">
               <h3 className="text-lg font-bold text-black mb-2">
                 Does the $3,480 change if I transfer in hours?
               </h3>
               <p className="text-slate-700">
-                No. The program fee is a flat rate. Transferred hours reduce time-in-program, not the scope of services or fee.
+                No. The program fee is a flat rate. Transferred hours reduce time-in-program, not
+                the scope of services or fee.
               </p>
             </div>
 
@@ -265,16 +287,16 @@ export default async function EstheticianApprenticeshipPage() {
                 Does this program replace esthetician school?
               </h3>
               <p className="text-slate-700">
-                No. Apprentices must complete licensure-required instructional hours through a licensed esthetician school.
+                No. Apprentices must complete licensure-required instructional hours through a
+                licensed esthetician school.
               </p>
             </div>
 
             <div className="bg-slate-50 border border-slate-200 rounded-lg p-6">
-              <h3 className="text-lg font-bold text-black mb-2">
-                What does the $3,480 cover?
-              </h3>
+              <h3 className="text-lg font-bold text-black mb-2">What does the $3,480 cover?</h3>
               <p className="text-slate-700">
-                Federal apprenticeship sponsorship, compliance reporting, employer coordination, Milady theory instruction, and program completion documentation.
+                Federal apprenticeship sponsorship, compliance reporting, employer coordination,
+                Milady theory instruction, and program completion documentation.
               </p>
             </div>
 
@@ -291,8 +313,8 @@ export default async function EstheticianApprenticeshipPage() {
       </section>
 
       {/* Host Shop Requirements Section */}
-      <HostShopRequirements 
-        programTrack="esthetician" 
+      <HostShopRequirements
+        programTrack="esthetician"
         showApprovalProcess={true}
         showMultiRegion={true}
       />
@@ -339,7 +361,6 @@ export default async function EstheticianApprenticeshipPage() {
           </div>
         </div>
       </section>
-
     </div>
   );
 }

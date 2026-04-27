@@ -13,7 +13,12 @@
  *   if (!result.passed) throw new Error(result.violations.map(v => v.detail).join('\n'));
  */
 
-import type { CredentialBlueprint, BlueprintModule, BlueprintAuditResult, BlueprintAuditViolation } from './types';
+import type {
+  CredentialBlueprint,
+  BlueprintModule,
+  BlueprintAuditResult,
+  BlueprintAuditViolation,
+} from './types';
 import type { LessonContract } from '../types';
 
 // ─── Main audit entry point ───────────────────────────────────────────────────
@@ -23,13 +28,13 @@ export function auditAgainstBlueprint(
   lessons: LessonContract[],
 ): BlueprintAuditResult {
   const violations: BlueprintAuditViolation[] = [];
-  const warnings:   BlueprintAuditViolation[] = [];
+  const warnings: BlueprintAuditViolation[] = [];
 
   // Group lessons by module_title for lookup
   const byModule = groupByModule(lessons);
 
   // 1. Check every required module exists
-  const generatedModuleTitles = new Set(lessons.map(l => l.module_title));
+  const generatedModuleTitles = new Set(lessons.map((l) => l.module_title));
   for (const bpMod of blueprint.modules) {
     if (!generatedModuleTitles.has(bpMod.title)) {
       violations.push({
@@ -50,7 +55,7 @@ export function auditAgainstBlueprint(
   const generatedOrder = getGeneratedModuleOrder(lessons);
   for (let i = 0; i < orderedModules.length; i++) {
     const expected = orderedModules[i].title;
-    const actual   = generatedOrder[i];
+    const actual = generatedOrder[i];
     if (actual && actual !== expected) {
       violations.push({
         severity: 'error',
@@ -73,10 +78,11 @@ export function auditAgainstBlueprint(
 
   // 4. Check final exam exists if required
   if (blueprint.generationRules.requiresFinalExam) {
-    const hasFinalExam = lessons.some(l =>
-      (l as any).lesson_type === 'final_exam' ||
-      l.lesson_title.toLowerCase().includes('final') ||
-      l.lesson_title.toLowerCase().includes('practice exam')
+    const hasFinalExam = lessons.some(
+      (l) =>
+        (l as any).lesson_type === 'final_exam' ||
+        l.lesson_title.toLowerCase().includes('final') ||
+        l.lesson_title.toLowerCase().includes('practice exam'),
     );
     if (!hasFinalExam) {
       violations.push({
@@ -125,9 +131,10 @@ function auditModule(
 
   // Required lesson types
   for (const typeRule of bpMod.requiredLessonTypes) {
-    const typeCount = lessons.filter(l =>
-      (l as any).lesson_type === typeRule.lessonType ||
-      inferLessonType(l) === typeRule.lessonType
+    const typeCount = lessons.filter(
+      (l) =>
+        (l as any).lesson_type === typeRule.lessonType ||
+        inferLessonType(l) === typeRule.lessonType,
     ).length;
     if (typeCount < typeRule.requiredCount) {
       violations.push({
@@ -141,10 +148,11 @@ function auditModule(
 
   // Quiz required
   if (bpMod.quizRequired) {
-    const hasQuiz = lessons.some(l =>
-      (l as any).lesson_type === 'quiz' ||
-      l.lesson_title.toLowerCase().includes('quiz') ||
-      l.lesson_title.toLowerCase().includes('checkpoint')
+    const hasQuiz = lessons.some(
+      (l) =>
+        (l as any).lesson_type === 'quiz' ||
+        l.lesson_title.toLowerCase().includes('quiz') ||
+        l.lesson_title.toLowerCase().includes('checkpoint'),
     );
     if (!hasQuiz) {
       violations.push({
@@ -157,9 +165,9 @@ function auditModule(
   }
 
   // Competency coverage
-  const allCompetencyKeys = lessons.flatMap(l => l.competency_keys ?? []);
+  const allCompetencyKeys = lessons.flatMap((l) => l.competency_keys ?? []);
   for (const comp of bpMod.competencies) {
-    const touchpoints = allCompetencyKeys.filter(k => k === comp.competencyKey).length;
+    const touchpoints = allCompetencyKeys.filter((k) => k === comp.competencyKey).length;
     if (touchpoints < comp.minimumTouchpoints) {
       const severity = comp.isCritical ? 'error' : 'warning';
       (severity === 'error' ? violations : warnings).push({
@@ -187,7 +195,9 @@ function groupByModule(lessons: LessonContract[]): Map<string, LessonContract[]>
 function getGeneratedModuleOrder(lessons: LessonContract[]): string[] {
   const seen = new Set<string>();
   const order: string[] = [];
-  const sorted = [...lessons].sort((a, b) => a.module_order - b.module_order || a.lesson_order - b.lesson_order);
+  const sorted = [...lessons].sort(
+    (a, b) => a.module_order - b.module_order || a.lesson_order - b.lesson_order,
+  );
   for (const l of sorted) {
     if (!seen.has(l.module_title)) {
       seen.add(l.module_title);
@@ -200,16 +210,18 @@ function getGeneratedModuleOrder(lessons: LessonContract[]): string[] {
 /** Infer lesson type from title when explicit type is not stored on LessonContract */
 function inferLessonType(lesson: LessonContract): string {
   const t = lesson.lesson_title.toLowerCase();
-  if (t.includes('quiz') || t.includes('checkpoint'))  return 'quiz';
+  if (t.includes('quiz') || t.includes('checkpoint')) return 'quiz';
   if (t.includes('final exam') || t.includes('practice exam')) return 'final_exam';
-  if (t.includes('lab') || t.includes('practice'))     return 'lab';
-  if (t.includes('practicum'))                          return 'practicum';
-  if (t.includes('remediation'))                        return 'remediation';
-  if (t.includes('review') || t.includes('overview'))  return 'review';
-  if (t.includes('safety') || t.includes('hazard'))    return 'safety';
-  if (t.includes('regulation') || t.includes('compliance') || t.includes('legal')) return 'regulation';
+  if (t.includes('lab') || t.includes('practice')) return 'lab';
+  if (t.includes('practicum')) return 'practicum';
+  if (t.includes('remediation')) return 'remediation';
+  if (t.includes('review') || t.includes('overview')) return 'review';
+  if (t.includes('safety') || t.includes('hazard')) return 'safety';
+  if (t.includes('regulation') || t.includes('compliance') || t.includes('legal'))
+    return 'regulation';
   if (t.includes('procedure') || t.includes('how to') || t.includes('steps')) return 'procedure';
   if (t.includes('scenario') || t.includes('case study')) return 'scenario';
-  if (t.includes('introduction') || t.includes('orientation') || t.includes('welcome')) return 'orientation';
+  if (t.includes('introduction') || t.includes('orientation') || t.includes('welcome'))
+    return 'orientation';
   return 'concept';
 }

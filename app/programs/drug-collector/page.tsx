@@ -44,7 +44,7 @@ export default async function Page() {
       </div>
     );
   }
-  
+
   // Fetch drug collector program
   const { data: program } = await supabase
     .from('programs')
@@ -55,10 +55,7 @@ export default async function Page() {
   return (
     <div className="min-h-screen bg-white">
       <Breadcrumbs
-        items={[
-          { label: 'Programs', href: '/programs' },
-          { label: 'Drug Collector' },
-        ]}
+        items={[{ label: 'Programs', href: '/programs' }, { label: 'Drug Collector' }]}
       />
       <CompactHero
         variant="default"
@@ -77,18 +74,15 @@ export default async function Page() {
       <section className="max-w-7xl mx-auto px-4 py-16">
         <div className="grid md:grid-cols-2 gap-12">
           <div>
-            <h2 className="text-3xl font-bold text-black mb-6">
-              Program Overview
-            </h2>
+            <h2 className="text-3xl font-bold text-black mb-6">Program Overview</h2>
             <p className="text-lg text-black mb-4">
-              Become a certified Drug & Alcohol Specimen Collector and work in
-              healthcare facilities, labs, and workplace testing programs. This
-              specialized certification is in high demand across transportation,
-              healthcare, and corporate sectors.
+              Become a certified Drug & Alcohol Specimen Collector and work in healthcare
+              facilities, labs, and workplace testing programs. This specialized certification is in
+              high demand across transportation, healthcare, and corporate sectors.
             </p>
             <p className="text-lg text-black mb-4">
-              Our DOT-approved training meets all federal requirements for urine
-              and breath alcohol specimen collection.
+              Our DOT-approved training meets all federal requirements for urine and breath alcohol
+              specimen collection.
             </p>
             <div className="flex flex-wrap gap-3 mt-4">
               <span className="flex items-center gap-2 text-green-600 text-sm font-medium">
@@ -102,7 +96,8 @@ export default async function Page() {
               </span>
             </div>
             <div className="relative h-[250px] rounded-xl overflow-hidden mt-6">
-              <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+              <Image sizes="100vw"
                 src="/images/healthcare/healthcare-professional-portrait-1.jpg"
                 alt="Healthcare professional"
                 fill
@@ -111,9 +106,7 @@ export default async function Page() {
             </div>
           </div>
           <div className="bg-blue-50 p-8 rounded-lg">
-            <h3 className="text-2xl font-bold text-black mb-4">
-              Quick Facts
-            </h3>
+            <h3 className="text-2xl font-bold text-black mb-4">Quick Facts</h3>
             <ul className="space-y-3">
               <li className="flex items-start gap-3">
                 <span className="text-blue-600 font-bold">Duration:</span>
@@ -125,9 +118,7 @@ export default async function Page() {
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-blue-600 font-bold">Format:</span>
-                <span className="text-black">
-                  Hybrid (online + hands-on)
-                </span>
+                <span className="text-black">Hybrid (online + hands-on)</span>
               </li>
               <li className="flex items-start gap-3">
                 <span className="text-blue-600 font-bold">Starting Pay:</span>
@@ -143,7 +134,10 @@ export default async function Page() {
       </section>
 
       {/* Avatar Guide */}
-      <PageAvatar videoSrc="/videos/avatars/drug-collector-guide.mp4" title="Drug Collector Program Guide" />
+      <PageAvatar
+        videoSrc="/videos/avatars/drug-collector-guide.mp4"
+        title="Drug Collector Program Guide"
+      />
 
       {/* Pathway Disclosure */}
       <PathwayDisclosure programName="Drug Collector" programSlug="drug-collector" />
@@ -151,57 +145,31 @@ export default async function Page() {
       {/* What You'll Learn */}
       <section className="bg-gray-50 py-16">
         <div className="max-w-7xl mx-auto px-4">
-          <h2 className="text-3xl font-bold text-black mb-8 text-center">
-            What You'll Learn
-          </h2>
+          <h2 className="text-3xl font-bold text-black mb-8 text-center">What You'll Learn</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">
-                DOT Regulations
-              </h3>
-              <p className="text-black">
-                Federal requirements for drug and alcohol testing
-              </p>
+              <h3 className="text-xl font-bold text-black mb-3">DOT Regulations</h3>
+              <p className="text-black">Federal requirements for drug and alcohol testing</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">
-                Specimen Collection
-              </h3>
-              <p className="text-black">
-                Proper urine collection procedures and chain of custody
-              </p>
+              <h3 className="text-xl font-bold text-black mb-3">Specimen Collection</h3>
+              <p className="text-black">Proper urine collection procedures and chain of custody</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">
-                Breath Alcohol Testing
-              </h3>
-              <p className="text-black">
-                Operating evidential breath testing devices
-              </p>
+              <h3 className="text-xl font-bold text-black mb-3">Breath Alcohol Testing</h3>
+              <p className="text-black">Operating evidential breath testing devices</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">
-                Documentation
-              </h3>
-              <p className="text-black">
-                Accurate record-keeping and reporting
-              </p>
+              <h3 className="text-xl font-bold text-black mb-3">Documentation</h3>
+              <p className="text-black">Accurate record-keeping and reporting</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">
-                Quality Control
-              </h3>
-              <p className="text-black">
-                Maintaining specimen integrity and validity
-              </p>
+              <h3 className="text-xl font-bold text-black mb-3">Quality Control</h3>
+              <p className="text-black">Maintaining specimen integrity and validity</p>
             </div>
             <div className="bg-white p-6 rounded-lg shadow-sm">
-              <h3 className="text-xl font-bold text-black mb-3">
-                Legal Compliance
-              </h3>
-              <p className="text-black">
-                Privacy laws and legal requirements
-              </p>
+              <h3 className="text-xl font-bold text-black mb-3">Legal Compliance</h3>
+              <p className="text-black">Privacy laws and legal requirements</p>
             </div>
           </div>
         </div>
@@ -209,14 +177,10 @@ export default async function Page() {
 
       {/* Career Outlook */}
       <section className="max-w-7xl mx-auto px-4 py-16">
-        <h2 className="text-3xl font-bold text-black mb-8 text-center">
-          Career Opportunities
-        </h2>
+        <h2 className="text-3xl font-bold text-black mb-8 text-center">Career Opportunities</h2>
         <div className="grid md:grid-cols-2 gap-8">
           <div>
-            <h3 className="text-2xl font-bold text-black mb-4">
-              Work Settings
-            </h3>
+            <h3 className="text-2xl font-bold text-black mb-4">Work Settings</h3>
             <ul className="space-y-2 text-black">
               <li>• Medical Laboratories</li>
               <li>• Occupational Health Clinics</li>
@@ -227,9 +191,7 @@ export default async function Page() {
             </ul>
           </div>
           <div>
-            <h3 className="text-2xl font-bold text-black mb-4">
-              Why This Career?
-            </h3>
+            <h3 className="text-2xl font-bold text-black mb-4">Why This Career?</h3>
             <ul className="space-y-2 text-black">
               <li>• High demand across industries</li>
               <li>• Flexible scheduling options</li>
@@ -265,12 +227,8 @@ export default async function Page() {
       {/* CTA */}
       <section className="bg-brand-blue-600 text-white py-16">
         <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-3xl font-bold mb-4">
-            Get DOT-Certified in Weeks
-          </h2>
-          <p className="text-xl mb-8">
-            Start your specialized healthcare career today.
-          </p>
+          <h2 className="text-3xl font-bold mb-4">Get DOT-Certified in Weeks</h2>
+          <p className="text-xl mb-8">Start your specialized healthcare career today.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/apply"

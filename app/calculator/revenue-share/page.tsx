@@ -3,12 +3,7 @@
 import { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import {
-  Calculator,
-  DollarSign,
-  TrendingUp,
-  FileText,
-CheckCircle, } from 'lucide-react';
+import { Calculator, DollarSign, TrendingUp, FileText, CheckCircle } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export default function RevenueShareCalculator() {
@@ -30,12 +25,15 @@ export default function RevenueShareCalculator() {
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Calculator', href: '/calculator' }, { label: 'Revenue Share' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Calculator', href: '/calculator' }, { label: 'Revenue Share' }]}
+          />
         </div>
       </div>
 
       {/* Hero */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/programs/efh-business-startup-marketing-hero.jpg"
           alt="Revenue Share Calculator"
@@ -44,8 +42,6 @@ export default function RevenueShareCalculator() {
           priority
           sizes="100vw"
         />
-        
-
       </section>
 
       {/* Calculator */}
@@ -53,9 +49,7 @@ export default function RevenueShareCalculator() {
         <div className="grid lg:grid-cols-2 gap-8">
           {/* Input Section */}
           <div className="bg-white rounded-lg shadow-md p-8">
-            <h2 className="text-2xl font-bold text-black mb-6">
-              Input Your Numbers
-            </h2>
+            <h2 className="text-2xl font-bold text-black mb-6">Input Your Numbers</h2>
 
             <div className="space-y-6">
               <div>
@@ -71,9 +65,7 @@ export default function RevenueShareCalculator() {
                     className="w-full pl-8 pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                   />
                 </div>
-                <p className="text-xs text-black mt-1">
-                  Typical range: $150-$500
-                </p>
+                <p className="text-xs text-black mt-1">Typical range: $150-$500</p>
               </div>
 
               <div>
@@ -100,24 +92,21 @@ export default function RevenueShareCalculator() {
                 </h3>
                 <ul className="text-sm text-brand-blue-800 space-y-1">
                   <li>
-                    <span className="text-slate-400 flex-shrink-0">•</span> Professional Tax Software
-                    Software (unlimited)
+                    <span className="text-slate-400 flex-shrink-0">•</span> Professional Tax
+                    Software Software (unlimited)
                   </li>
                   <li>
-                    <span className="text-slate-400 flex-shrink-0">•</span> All
-                    training and support
+                    <span className="text-slate-400 flex-shrink-0">•</span> All training and support
                   </li>
                   <li>
-                    <span className="text-slate-400 flex-shrink-0">•</span> Marketing
-                    materials
+                    <span className="text-slate-400 flex-shrink-0">•</span> Marketing materials
                   </li>
                   <li>
-                    <span className="text-slate-400 flex-shrink-0">•</span> No
-                    per-return fees
+                    <span className="text-slate-400 flex-shrink-0">•</span> No per-return fees
                   </li>
                   <li>
-                    <span className="text-slate-400 flex-shrink-0">•</span> No monthly
-                    software costs
+                    <span className="text-slate-400 flex-shrink-0">•</span> No monthly software
+                    costs
                   </li>
                 </ul>
               </div>
@@ -132,9 +121,7 @@ export default function RevenueShareCalculator() {
                   onChange={(e) => setNumberOfReturns(Number(e.target.value))}
                   className="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 />
-                <p className="text-xs text-black mt-1">
-                  Average: 50-200 per month
-                </p>
+                <p className="text-xs text-black mt-1">Average: 50-200 per month</p>
               </div>
             </div>
           </div>
@@ -143,16 +130,12 @@ export default function RevenueShareCalculator() {
           <div className="space-y-6">
             {/* Per Return Breakdown */}
             <div className="bg-white rounded-lg shadow-md p-8">
-              <h2 className="text-2xl font-bold text-black mb-6">
-                Per Return Breakdown
-              </h2>
+              <h2 className="text-2xl font-bold text-black mb-6">Per Return Breakdown</h2>
 
               <div className="space-y-4">
                 <div className="flex justify-between items-center pb-3 border-b">
                   <span className="text-black">Base Tax Prep Fee</span>
-                  <span className="text-xl font-bold">
-                    ${clientPayment.toFixed(2)}
-                  </span>
+                  <span className="text-xl font-bold">${clientPayment.toFixed(2)}</span>
                 </div>
 
                 <div className="space-y-2 text-sm">
@@ -167,12 +150,8 @@ export default function RevenueShareCalculator() {
                 </div>
 
                 <div className="flex justify-between items-center pt-3 border-t">
-                  <span className="font-semibold text-black">
-                    Add-On Fees (Main Office)
-                  </span>
-                  <span className="text-lg text-black">
-                    ${addOnFees.toFixed(2)}
-                  </span>
+                  <span className="font-semibold text-black">Add-On Fees (Main Office)</span>
+                  <span className="text-lg text-black">${addOnFees.toFixed(2)}</span>
                 </div>
 
                 <div className="bg-brand-green-50 rounded-lg p-4 mt-4 border-2 border-brand-green-200">
@@ -192,13 +171,11 @@ export default function RevenueShareCalculator() {
                 <div className="bg-gray-50 rounded-lg p-3 text-sm">
                   <div className="flex justify-between text-black mb-1">
                     <span>Main Office Gets:</span>
-                    <span className="font-medium">
-                      ${mainOfficeTotal.toFixed(2)}
-                    </span>
+                    <span className="font-medium">${mainOfficeTotal.toFixed(2)}</span>
                   </div>
                   <div className="text-xs text-black">
-                    40% base (${mainOfficeBaseShare.toFixed(2)}) + 100% add-ons
-                    (${addOnFees.toFixed(2)})
+                    40% base (${mainOfficeBaseShare.toFixed(2)}) + 100% add-ons ($
+                    {addOnFees.toFixed(2)})
                   </div>
                   <div className="text-xs text-black mt-1">
                     (Includes software, training, support, add-on processing)
@@ -209,9 +186,7 @@ export default function RevenueShareCalculator() {
 
             {/* Monthly & Annual Projections */}
             <div className="bg-brand-green-600 rounded-lg shadow-md p-8 text-white">
-              <h2 className="text-2xl font-bold mb-6">
-                Your Potential Earnings
-              </h2>
+              <h2 className="text-2xl font-bold mb-6">Your Potential Earnings</h2>
 
               <div className="space-y-6">
                 <div>
@@ -219,9 +194,7 @@ export default function RevenueShareCalculator() {
                     <TrendingUp className="w-5 h-5 mr-2" />
                     <span className="text-sm opacity-90">Monthly Revenue</span>
                   </div>
-                  <div className="text-4xl font-bold">
-                    ${monthlyRevenue.toLocaleString()}
-                  </div>
+                  <div className="text-4xl font-bold">${monthlyRevenue.toLocaleString()}</div>
                   <p className="text-sm opacity-75 mt-1">
                     Based on {numberOfReturns} returns/month
                   </p>
@@ -230,16 +203,10 @@ export default function RevenueShareCalculator() {
                 <div className="border-t border-white/20 pt-6">
                   <div className="flex items-center mb-2">
                     <DollarSign className="w-5 h-5 mr-2" />
-                    <span className="text-sm opacity-90">
-                      Annual Revenue (4-month season)
-                    </span>
+                    <span className="text-sm opacity-90">Annual Revenue (4-month season)</span>
                   </div>
-                  <div className="text-4xl font-bold">
-                    ${annualRevenue.toLocaleString()}
-                  </div>
-                  <p className="text-sm opacity-75 mt-1">
-                    January - April tax season
-                  </p>
+                  <div className="text-4xl font-bold">${annualRevenue.toLocaleString()}</div>
+                  <p className="text-sm opacity-75 mt-1">January - April tax season</p>
                 </div>
               </div>
             </div>
@@ -252,9 +219,7 @@ export default function RevenueShareCalculator() {
                   <div className="text-2xl font-bold text-brand-blue-600">
                     {numberOfReturns * 4}
                   </div>
-                  <div className="text-xs text-black">
-                    Total Returns/Season
-                  </div>
+                  <div className="text-xs text-black">Total Returns/Season</div>
                 </div>
                 <div className="bg-gray-50 rounded-lg p-4">
                   <div className="text-2xl font-bold text-brand-green-600">
@@ -281,9 +246,7 @@ export default function RevenueShareCalculator() {
 
         {/* Scenarios */}
         <div className="mt-12 bg-white rounded-lg shadow-md p-8">
-          <h2 className="text-2xl font-bold text-black mb-6">
-            Example Scenarios
-          </h2>
+          <h2 className="text-2xl font-bold text-black mb-6">Example Scenarios</h2>
 
           <div className="grid md:grid-cols-3 gap-6">
             <div className="border-2 border-gray-200 rounded-lg p-6">
@@ -295,9 +258,7 @@ export default function RevenueShareCalculator() {
               </ul>
               <div className="mt-4 pt-4 border-t">
                 <div className="text-2xl font-bold text-brand-green-600">$30,000</div>
-                <div className="text-xs text-black">
-                  Annual revenue (60% of $250 × 50 × 4)
-                </div>
+                <div className="text-xs text-black">Annual revenue (60% of $250 × 50 × 4)</div>
               </div>
             </div>
 
@@ -313,9 +274,7 @@ export default function RevenueShareCalculator() {
               </ul>
               <div className="mt-4 pt-4 border-t">
                 <div className="text-2xl font-bold text-brand-green-600">$72,000</div>
-                <div className="text-xs text-black">
-                  Annual revenue (60% of $300 × 100 × 4)
-                </div>
+                <div className="text-xs text-black">Annual revenue (60% of $300 × 100 × 4)</div>
               </div>
             </div>
 
@@ -327,12 +286,8 @@ export default function RevenueShareCalculator() {
                 <li>• 4 preparers</li>
               </ul>
               <div className="mt-4 pt-4 border-t">
-                <div className="text-2xl font-bold text-brand-green-600">
-                  $168,000
-                </div>
-                <div className="text-xs text-black">
-                  Annual revenue (60% of $350 × 200 × 4)
-                </div>
+                <div className="text-2xl font-bold text-brand-green-600">$168,000</div>
+                <div className="text-xs text-black">Annual revenue (60% of $350 × 200 × 4)</div>
               </div>
             </div>
           </div>
@@ -340,33 +295,30 @@ export default function RevenueShareCalculator() {
 
         {/* Important Notes */}
         <div className="mt-8 bg-yellow-50 border-2 border-yellow-200 rounded-lg p-6">
-          <h3 className="font-bold text-lg text-black mb-4">
-            Important Notes
-          </h3>
+          <h3 className="font-bold text-lg text-black mb-4">Important Notes</h3>
           <ul className="space-y-2 text-sm text-black">
             <li>
-              • <strong>Payment Timing:</strong> You receive payment only after
-              IRS releases client refunds (typically 23-26 days)
+              • <strong>Payment Timing:</strong> You receive payment only after IRS releases client
+              refunds (typically 23-26 days)
             </li>
             <li>
-              • <strong>Taxes:</strong> Set aside 30-35% for self-employment and
-              income taxes
+              • <strong>Taxes:</strong> Set aside 30-35% for self-employment and income taxes
             </li>
             <li>
-              • <strong>Volume Bonuses:</strong> After first year, qualify for
-              better splits (up to 68/32)
+              • <strong>Volume Bonuses:</strong> After first year, qualify for better splits (up to
+              68/32)
             </li>
             <li>
-              • <strong>Quality Bonuses:</strong> Earn up to +4% for zero audits
-              and high satisfaction
+              • <strong>Quality Bonuses:</strong> Earn up to +4% for zero audits and high
+              satisfaction
             </li>
             <li>
-              • <strong>Software Included:</strong> Professional tax software, training,
-              and support included - no monthly fees
+              • <strong>Software Included:</strong> Professional tax software, training, and support
+              included - no monthly fees
             </li>
             <li>
-              • <strong>Add-On Fees:</strong> Main office keeps 100% of refund
-              advance, prepaid card, and bank product fees
+              • <strong>Add-On Fees:</strong> Main office keeps 100% of refund advance, prepaid
+              card, and bank product fees
             </li>
           </ul>
         </div>
@@ -374,9 +326,7 @@ export default function RevenueShareCalculator() {
         {/* CTA */}
         <div className="mt-8 bg-brand-blue-900 text-white rounded-lg p-8 text-center">
           <h2 className="text-2xl font-bold mb-4">Ready to Get Started?</h2>
-          <p className="text-lg mb-6">
-            Complete onboarding and start earning revenue share today.
-          </p>
+          <p className="text-lg mb-6">Complete onboarding and start earning revenue share today.</p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
               href="/suboffice-onboarding"

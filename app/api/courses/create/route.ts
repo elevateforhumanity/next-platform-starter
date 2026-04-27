@@ -35,7 +35,7 @@ async function _POST(request: NextRequest) {
     if (!profile || !['admin', 'instructor'].includes(profile.role)) {
       return NextResponse.json(
         { error: 'Forbidden - Admin or Instructor role required' },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -50,7 +50,7 @@ async function _POST(request: NextRequest) {
     // LEGACY_SYSTEM_DISABLED — new courses must be created via /api/admin/lms/courses
     return NextResponse.json(
       { error: 'LEGACY_SYSTEM_DISABLED: use POST /api/admin/lms/courses to create courses' },
-      { status: 410 }
+      { status: 410 },
     );
 
     // Insert course
@@ -67,7 +67,7 @@ async function _POST(request: NextRequest) {
         status: 'draft',
         total_lessons: courseData.modules.reduce(
           (acc: number, m: { lessons: any[] }) => acc + m.lessons.length,
-          0
+          0,
         ),
       })
       .select()
@@ -79,19 +79,11 @@ async function _POST(request: NextRequest) {
     }
 
     // Insert modules and lessons
-    for (
-      let moduleIndex = 0;
-      moduleIndex < courseData.modules.length;
-      moduleIndex++
-    ) {
+    for (let moduleIndex = 0; moduleIndex < courseData.modules.length; moduleIndex++) {
       const moduleData = courseData.modules[moduleIndex];
 
       // Insert lessons for this module
-      for (
-        let lessonIndex = 0;
-        lessonIndex < moduleData.lessons.length;
-        lessonIndex++
-      ) {
+      for (let lessonIndex = 0; lessonIndex < moduleData.lessons.length; lessonIndex++) {
         const lessonData = moduleData.lessons[lessonIndex];
 
         const { error: lessonError } = await supabase.from('training_lessons').insert({
@@ -119,14 +111,14 @@ async function _POST(request: NextRequest) {
         title: course.title,
       },
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Course creation error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to create course' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

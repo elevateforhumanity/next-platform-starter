@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect} from 'react';
+import { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { ArrowLeft, Loader2, CheckCircle } from 'lucide-react';
 import { useRouter } from 'next/navigation';
@@ -12,9 +12,11 @@ export default function CosmetologyApplyPage() {
       const { createBrowserClient } = await import('@supabase/ssr');
       const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       );
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (!session) {
         window.location.href = '/login?redirect=/programs/cosmetology-apprenticeship/apply';
       }
@@ -73,10 +75,15 @@ export default function CosmetologyApplyPage() {
 
         <div className="bg-white rounded-2xl shadow-sm border border-slate-200 p-8">
           <div className="mb-6">
-            <span className="text-xs font-bold text-brand-green-600 uppercase tracking-wider">DOL Registered Apprenticeship</span>
-            <h1 className="text-2xl font-extrabold text-slate-900 mt-1">Cosmetology Apprenticeship Application</h1>
+            <span className="text-xs font-bold text-brand-green-600 uppercase tracking-wider">
+              DOL Registered Apprenticeship
+            </span>
+            <h1 className="text-2xl font-extrabold text-slate-900 mt-1">
+              Cosmetology Apprenticeship Application
+            </h1>
             <p className="text-black text-sm mt-2">
-              Earn while you learn. Complete this form to begin your application — our team will contact you within 1 business day.
+              Earn while you learn. Complete this form to begin your application — our team will
+              contact you within 1 business day.
             </p>
           </div>
 
@@ -104,7 +111,9 @@ export default function CosmetologyApplyPage() {
           <form onSubmit={handleSubmit} className="space-y-4">
             <div className="grid grid-cols-2 gap-4">
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="firstName">First Name *</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="firstName">
+                  First Name *
+                </label>
                 <input
                   id="firstName"
                   name="firstName"
@@ -114,7 +123,9 @@ export default function CosmetologyApplyPage() {
                 />
               </div>
               <div>
-                <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="lastName">Last Name *</label>
+                <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="lastName">
+                  Last Name *
+                </label>
                 <input
                   id="lastName"
                   name="lastName"
@@ -126,7 +137,9 @@ export default function CosmetologyApplyPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="email">Email Address *</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="email">
+                Email Address *
+              </label>
               <input
                 id="email"
                 name="email"
@@ -137,7 +150,9 @@ export default function CosmetologyApplyPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="phone">Phone Number *</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="phone">
+                Phone Number *
+              </label>
               <input
                 id="phone"
                 name="phone"
@@ -148,7 +163,9 @@ export default function CosmetologyApplyPage() {
             </div>
 
             <div>
-              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="city">City *</label>
+              <label className="block text-xs font-bold text-slate-700 mb-1" htmlFor="city">
+                City *
+              </label>
               <input
                 id="city"
                 name="city"
@@ -164,7 +181,9 @@ export default function CosmetologyApplyPage() {
               className="w-full bg-brand-red-600 hover:bg-brand-red-700 disabled:opacity-60 text-white font-bold py-3.5 rounded-xl transition-colors flex items-center justify-center gap-2 mt-2"
             >
               {loading ? (
-                <><Loader2 className="w-4 h-4 animate-spin" /> Submitting…</>
+                <>
+                  <Loader2 className="w-4 h-4 animate-spin" /> Submitting…
+                </>
               ) : (
                 'Submit Application'
               )}
@@ -172,9 +191,16 @@ export default function CosmetologyApplyPage() {
 
             <p className="text-xs text-black text-center">
               Questions?{' '}
-              <a href="tel:3173143757" className="text-brand-blue-600 hover:underline">(317) 314-3757</a>
-              {' '}or{' '}
-              <a href="mailto:info@elevateforhumanity.org" className="text-brand-blue-600 hover:underline">email us</a>
+              <a href="tel:3173143757" className="text-brand-blue-600 hover:underline">
+                (317) 314-3757
+              </a>{' '}
+              or{' '}
+              <a
+                href="mailto:info@elevateforhumanity.org"
+                className="text-brand-blue-600 hover:underline"
+              >
+                email us
+              </a>
             </p>
           </form>
         </div>

@@ -35,7 +35,8 @@ export default function HomeHero() {
     const onScroll = () => {
       if (started) return;
       setStarted(true);
-      audio.play()
+      audio
+        .play()
         .then(() => setPlaying(true))
         .catch(() => {});
       window.removeEventListener('scroll', onScroll);
@@ -52,8 +53,12 @@ export default function HomeHero() {
       audio.pause();
       setPlaying(false);
     } else {
-      audio.play()
-        .then(() => { setPlaying(true); setStarted(true); })
+      audio
+        .play()
+        .then(() => {
+          setPlaying(true);
+          setStarted(true);
+        })
         .catch(() => {});
     }
   }
@@ -61,7 +66,6 @@ export default function HomeHero() {
   return (
     <section className="bg-slate-950 px-4 sm:px-8 py-10 sm:py-14">
       <div className="max-w-6xl mx-auto grid lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-
         {/* VIDEO CARD — no text overlay */}
         <div
           className="relative rounded-2xl overflow-hidden shadow-2xl ring-1 ring-white/10"
@@ -101,10 +105,17 @@ export default function HomeHero() {
               aria-label={playing ? 'Mute voiceover' : 'Play voiceover'}
               className="flex items-center gap-1.5 h-8 px-3 rounded-full bg-black/60 text-white text-xs backdrop-blur-sm hover:bg-black/80 transition-colors border border-white/20"
             >
-              {playing
-                ? <><Volume2 className="w-3.5 h-3.5" /><span>Mute</span></>
-                : <><VolumeX className="w-3.5 h-3.5" /><span className="font-semibold">▶ Sound</span></>
-              }
+              {playing ? (
+                <>
+                  <Volume2 className="w-3.5 h-3.5" />
+                  <span>Mute</span>
+                </>
+              ) : (
+                <>
+                  <VolumeX className="w-3.5 h-3.5" />
+                  <span className="font-semibold">▶ Sound</span>
+                </>
+              )}
             </button>
           </div>
         </div>
@@ -118,17 +129,26 @@ export default function HomeHero() {
             We train adults for real jobs —<br className="hidden sm:block" /> in weeks, not years.
           </h1>
           <p className="text-slate-300 text-base leading-relaxed mb-4 max-w-lg">
-            Short-term career training in healthcare, skilled trades, CDL, barbering, and technology.
+            Short-term career training in healthcare, skilled trades, CDL, barbering, and
+            technology.
           </p>
           <p className="text-slate-400 text-sm leading-relaxed mb-8 max-w-lg">
-            Most programs are available at{' '}
-            <span className="text-white font-semibold">no cost</span> to eligible Indiana residents
-            through WIOA and state funding. DOL Registered Apprenticeship Sponsor. ETPL approved.
+            Most programs are available at <span className="text-white font-semibold">no cost</span>{' '}
+            to eligible Indiana residents through WIOA and state funding. DOL Registered
+            Apprenticeship Sponsor. ETPL approved.
           </p>
 
           <div className="flex flex-wrap gap-2 mb-8">
-            {['DOL Registered Apprenticeship', 'ETPL Approved', 'WIOA Funded', 'Indiana DWD Partner'].map((b) => (
-              <span key={b} className="text-xs font-semibold text-slate-300 bg-white/10 border border-white/10 px-3 py-1 rounded-full">
+            {[
+              'DOL Registered Apprenticeship',
+              'ETPL Approved',
+              'WIOA Funded',
+              'Indiana DWD Partner',
+            ].map((b) => (
+              <span
+                key={b}
+                className="text-xs font-semibold text-slate-300 bg-white/10 border border-white/10 px-3 py-1 rounded-full"
+              >
                 {b}
               </span>
             ))}
@@ -149,7 +169,6 @@ export default function HomeHero() {
             </Link>
           </div>
         </div>
-
       </div>
     </section>
   );

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -57,16 +57,17 @@ export function PeerTutoringMarketplace() {
     },
   ];
 
-  const subjects = ['all', ...Array.from(new Set(tutors.flatMap(t => t.subjects)))];
-  const filteredTutors = selectedSubject === 'all'
-    ? tutors
-    : tutors.filter(t => t.subjects.includes(selectedSubject));
+  const subjects = ['all', ...Array.from(new Set(tutors.flatMap((t) => t.subjects)))];
+  const filteredTutors =
+    selectedSubject === 'all' ? tutors : tutors.filter((t) => t.subjects.includes(selectedSubject));
 
   return (
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Peer Tutoring Marketplace</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Peer Tutoring Marketplace
+          </h1>
           <p className="text-white">Connect with expert student tutors</p>
         </div>
       </div>
@@ -109,7 +110,10 @@ export function PeerTutoringMarketplace() {
                 <p className="text-sm font-semibold text-black mb-2">Subjects:</p>
                 <div className="flex flex-wrap gap-2">
                   {tutor.subjects.map((subject) => (
-                    <span key={subject} className="px-2 py-2 bg-brand-orange-100 text-brand-orange-700 text-xs rounded">
+                    <span
+                      key={subject}
+                      className="px-2 py-2 bg-brand-orange-100 text-brand-orange-700 text-xs rounded"
+                    >
                       {subject}
                     </span>
                   ))}
@@ -118,7 +122,9 @@ export function PeerTutoringMarketplace() {
 
               <div className="mb-4 text-sm text-black">
                 <p>📅 {tutor.availability}</p>
-                <p className="font-bold text-brand-orange-600 text-lg mt-2">${tutor.hourlyRate}/hour</p>
+                <p className="font-bold text-brand-orange-600 text-lg mt-2">
+                  ${tutor.hourlyRate}/hour
+                </p>
               </div>
 
               <Button className="w-full">Book Session</Button>

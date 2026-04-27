@@ -15,7 +15,7 @@ async function requireAdmin() {
   if (!user) return null;
   const db = await getAdminClient();
   const { data: p } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
-  if (!p || !['admin','super_admin','org_admin','staff'].includes(p.role)) return null;
+  if (!p || !['admin', 'super_admin', 'org_admin', 'staff'].includes(p.role)) return null;
   return user;
 }
 
@@ -28,13 +28,20 @@ export async function GET(req: NextRequest) {
   const issuerType = searchParams.get('issuer_type');
 
   const db = await getAdminClient();
-  let q = db.from('credential_registry').select('*').eq('is_active', true).order('credential_stack').order('name');
+  let q = db
+    .from('credential_registry')
+    .select('*')
+    .eq('is_active', true)
+    .order('credential_stack')
+    .order('name');
   if (stack) q = q.eq('credential_stack', stack);
   if (issuerType) q = q.eq('issuer_type', issuerType);
 
   const { data, error } = await q;
   if (error) return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
-  return NextResponse.json({ credentials: (data ?? []).map((r) => mapCredentialRow(r as RawCredentialRow)) });
+  return NextResponse.json({
+    credentials: (data ?? []).map((r) => mapCredentialRow(r as RawCredentialRow)),
+  });
 }
 
 export async function POST(req: NextRequest) {
@@ -43,8 +50,9 @@ export async function POST(req: NextRequest) {
 
   const body = await req.json().catch(() => null);
   if (!body?.name?.trim()) return NextResponse.json({ error: 'name is required' }, { status: 422 });
-  if (!body?.issuing_authority?.trim()) return NextResponse.json({ error: 'issuing_authority is required' }, { status: 422 });
-  if (!['elevate_issued','elevate_proctored','partner_delivered'].includes(body.issuer_type)) {
+  if (!body?.issuing_authority?.trim())
+    return NextResponse.json({ error: 'issuing_authority is required' }, { status: 422 });
+  if (!['elevate_issued', 'elevate_proctored', 'partner_delivered'].includes(body.issuer_type)) {
     return NextResponse.json({ error: 'invalid issuer_type' }, { status: 422 });
   }
 
@@ -52,7 +60,8 @@ export async function POST(req: NextRequest) {
   const metadata = {
     ...(body.metadata ?? {}),
     protected: body.proctor_authority === 'elevate',
-    credential_owner: body.proctor_authority === 'elevate' ? 'elevate' : (body.issuing_authority ?? ''),
+    credential_owner:
+      body.proctor_authority === 'elevate' ? 'elevate' : (body.issuing_authority ?? ''),
   };
 
   const db = await getAdminClient();
@@ -67,6 +76,13 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 
-  logger.info('Credential created', { name: body.name, issuer_type: body.issuer_type, userId: user.id });
-  return NextResponse.json({ credential: mapCredentialRow(data as RawCredentialRow) }, { status: 201 });
+  logger.info('Credential created', {
+    name: body.name,
+    issuer_type: body.issuer_type,
+    userId: user.id,
+  });
+  return NextResponse.json(
+    { credential: mapCredentialRow(data as RawCredentialRow) },
+    { status: 201 },
+  );
 }

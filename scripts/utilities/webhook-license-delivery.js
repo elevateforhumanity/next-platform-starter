@@ -108,11 +108,7 @@ exports.handler = async (event, context) => {
   let stripeEvent;
 
   try {
-    stripeEvent = stripe.webhooks.constructEvent(
-      event.body,
-      sig,
-      endpointSecret
-    );
+    stripeEvent = stripe.webhooks.constructEvent(event.body, sig, endpointSecret);
   } catch (err) {
     return {
       statusCode: 400,
@@ -185,7 +181,6 @@ async function processSuccessfulPayment(session) {
 // 💾 Store license in database (implement with your preferred DB)
 async function storeLicense(license) {
   // Example: Store in Supabase, Firebase, or your database
-
   // Uncomment and implement with your database:
   /*
   const { data, error } = await supabase
@@ -250,7 +245,7 @@ async function sendLicenseEmail(email, name, licenses, session) {
           })
           .join('')}
       </div>
-    `
+    `,
       )
       .join('')}
 

@@ -12,12 +12,8 @@ export function ApprenticeshipBadge() {
           <Award className="w-6 h-6 text-white" />
         </div>
         <div>
-          <div className="text-lg font-bold text-black">
-            Registered Apprenticeship (RAPIDS)
-          </div>
-          <div className="text-sm text-black">
-            U.S. Department of Labor Certified
-          </div>
+          <div className="text-lg font-bold text-black">Registered Apprenticeship (RAPIDS)</div>
+          <div className="text-sm text-black">U.S. Department of Labor Certified</div>
         </div>
       </div>
 

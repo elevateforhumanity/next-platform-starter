@@ -98,15 +98,15 @@ export default function ProgramCategoryPage({
       {/* Below-hero identity and CTAs */}
       <section className="border-b border-slate-100 py-10 sm:py-12">
         <div className="max-w-4xl mx-auto px-4 sm:px-6">
-          <span className={`inline-block ${colors.badge} text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wide`}>
+          <span
+            className={`inline-block ${colors.badge} text-white text-xs font-bold px-3 py-1 rounded-full mb-4 uppercase tracking-wide`}
+          >
             {tagline}
           </span>
           <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight mb-4">
             {categoryName}
           </h1>
-          <p className="text-slate-600 text-lg leading-relaxed mb-8 max-w-2xl">
-            {description}
-          </p>
+          <p className="text-slate-600 text-lg leading-relaxed mb-8 max-w-2xl">{description}</p>
           <div className="flex flex-wrap gap-3">
             <Link
               href={`/apply?program=${categorySlug}`}
@@ -126,7 +126,7 @@ export default function ProgramCategoryPage({
 
       {/* Avatar Guide - Below Hero */}
       {avatarVideoSrc && (
-        <HeroAvatarGuide 
+        <HeroAvatarGuide
           videoSrc={avatarVideoSrc}
           avatarName={avatarName || `${categoryName} Guide`}
           message={`Learn about our ${categoryName} training programs and career opportunities.`}
@@ -163,10 +163,11 @@ export default function ProgramCategoryPage({
               Available Programs
             </h2>
             <p className="text-lg text-slate-600 max-w-2xl mx-auto">
-              Choose the program that fits your career goals. All programs include job placement assistance.
+              Choose the program that fits your career goals. All programs include job placement
+              assistance.
             </p>
           </div>
-          
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8">
             {programs.map((program) => (
               <Link
@@ -175,13 +176,15 @@ export default function ProgramCategoryPage({
                 className="group bg-white rounded-2xl overflow-hidden shadow-md hover:shadow-xl transition-all duration-300 border border-slate-100"
               >
                 <div className="relative h-52 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={program.image}
                     alt={program.title}
                     fill
                     className="object-cover group-hover:scale-105 transition-transform duration-500"
                     quality={85}
-                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+                    sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+                  />
                   <div className="absolute bottom-4 left-4 right-4">
                     <div className="flex items-center gap-2 text-white/90 text-sm">
                       <Clock className="w-4 h-4" />
@@ -194,7 +197,9 @@ export default function ProgramCategoryPage({
                     {program.title}
                   </h3>
                   <p className="text-slate-600 mb-4 line-clamp-2">{program.description}</p>
-                  <span className={`inline-flex items-center ${colors.text} font-semibold group-hover:gap-2 transition-all`}>
+                  <span
+                    className={`inline-flex items-center ${colors.text} font-semibold group-hover:gap-2 transition-all`}
+                  >
                     Learn More
                     <ArrowRight className="w-4 h-4 ml-1 group-hover:translate-x-1 transition-transform" />
                   </span>
@@ -212,7 +217,8 @@ export default function ProgramCategoryPage({
             Ready to Start Your {categoryName} Career?
           </h2>
           <p className="text-white/90 text-lg mb-8 max-w-2xl mx-auto">
-            Most students qualify for free training through WIOA funding. Apply today and start your new career path.
+            Most students qualify for free training through WIOA funding. Apply today and start your
+            new career path.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
             <Link

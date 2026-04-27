@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -58,16 +56,14 @@ async function _POST(req: NextRequest) {
       .eq('id', user.id)
       .maybeSingle();
 
-    const isAdmin =
-      profile?.role === 'admin' || profile?.role === 'super_admin';
+    const isAdmin = profile?.role === 'admin' || profile?.role === 'super_admin';
 
     if (!isAdmin) {
       return NextResponse.json(
         {
-          error:
-            'Forbidden - Only admin or super_admin may approve enrollments',
+          error: 'Forbidden - Only admin or super_admin may approve enrollments',
         },
-        { status: 403 }
+        { status: 403 },
       );
     }
 
@@ -76,10 +72,7 @@ async function _POST(req: NextRequest) {
     const { enrollment_id } = body;
 
     if (!enrollment_id) {
-      return NextResponse.json(
-        { error: 'Missing required field: enrollment_id' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required field: enrollment_id' }, { status: 400 });
     }
 
     logger.info('Starting enrollment approval', {
@@ -97,10 +90,7 @@ async function _POST(req: NextRequest) {
 
     if (enrollmentError || !enrollment) {
       logger.error('Enrollment not found', { enrollment_id, enrollmentError });
-      return NextResponse.json(
-        { error: 'Enrollment not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Enrollment not found' }, { status: 404 });
     }
 
     // Check if enrollment is in a pre-approval state
@@ -109,7 +99,7 @@ async function _POST(req: NextRequest) {
         {
           error: `Enrollment status is ${enrollment.status}, expected pending`,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -117,7 +107,7 @@ async function _POST(req: NextRequest) {
     // MANDATORY VERIFICATION GATE
     // Approval is BLOCKED until required documents are VERIFIED
     // =========================================================================
-    
+
     // Check if this is an apprentice enrollment (check for apprentice record)
     const { data: apprentice } = await supabase
       .from('apprentices')
@@ -127,7 +117,7 @@ async function _POST(req: NextRequest) {
 
     if (apprentice) {
       const verificationGate = await canApproveApprentice(apprentice.id);
-      
+
       if (!verificationGate.allowed) {
         logger.warn('Enrollment approval blocked - documents not verified', {
           enrollment_id,
@@ -135,7 +125,7 @@ async function _POST(req: NextRequest) {
           reason: verificationGate.reason,
           unverified_docs: verificationGate.unverifiedDocs,
         });
-        
+
         return NextResponse.json(
           {
             error: 'Document verification required before approval',
@@ -143,10 +133,10 @@ async function _POST(req: NextRequest) {
             unverifiedDocuments: verificationGate.unverifiedDocs,
             message: 'Required documents must be verified before enrollment can be approved.',
           },
-          { status: 400 }
+          { status: 400 },
         );
       }
-      
+
       logger.info('Document verification gate passed', {
         enrollment_id,
         apprentice_id: apprentice.id,
@@ -165,10 +155,7 @@ async function _POST(req: NextRequest) {
 
     if (updateEnrollmentError) {
       logger.error('Failed to activate enrollment', updateEnrollmentError);
-      return NextResponse.json(
-        { error: 'Failed to activate enrollment' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to activate enrollment' }, { status: 500 });
     }
 
     logger.info('Enrollment activated', { enrollment_id });
@@ -183,10 +170,7 @@ async function _POST(req: NextRequest) {
       .eq('id', enrollment.user_id);
 
     if (updateProfileError) {
-      logger.error(
-        'Failed to activate profile enrollment_status',
-        updateProfileError
-      );
+      logger.error('Failed to activate profile enrollment_status', updateProfileError);
       // Continue - enrollment is already active
     } else {
       logger.info('Profile enrollment_status activated', {
@@ -204,15 +188,16 @@ async function _POST(req: NextRequest) {
 
         if (linkedCourses && linkedCourses.length > 0) {
           for (const course of linkedCourses) {
-            await supabase
-              .from('training_enrollments')
-              .upsert({
+            await supabase.from('training_enrollments').upsert(
+              {
                 user_id: enrollment.user_id,
                 course_id: course.id,
                 status: 'active',
                 progress: 0,
                 enrolled_at: new Date().toISOString(),
-              }, { onConflict: 'user_id,course_id' });
+              },
+              { onConflict: 'user_id,course_id' },
+            );
           }
           logger.info('Created training_enrollments on approval', {
             userId: enrollment.user_id,
@@ -240,19 +225,17 @@ async function _POST(req: NextRequest) {
         .eq('id', enrollment.program_id)
         .maybeSingle();
 
-      const { error: apprenticeError } = await supabase
-        .from('apprentices')
-        .insert({
-          user_id: enrollment.user_id,
-          application_id: null, // Link if came from application flow
-          program_id: enrollment.program_id,
-          program_name: program?.name || 'Barber Apprenticeship',
-          status: 'active',
-          total_hours_required: program?.total_hours || 2000,
-          hours_completed: 0,
-          transfer_hours_credited: 0,
-          enrollment_date: new Date().toISOString().split('T')[0],
-        });
+      const { error: apprenticeError } = await supabase.from('apprentices').insert({
+        user_id: enrollment.user_id,
+        application_id: null, // Link if came from application flow
+        program_id: enrollment.program_id,
+        program_name: program?.name || 'Barber Apprenticeship',
+        status: 'active',
+        total_hours_required: program?.total_hours || 2000,
+        hours_completed: 0,
+        transfer_hours_credited: 0,
+        enrollment_date: new Date().toISOString().split('T')[0],
+      });
 
       if (apprenticeError) {
         logger.error('Failed to create apprentice record', apprenticeError);
@@ -268,7 +251,7 @@ async function _POST(req: NextRequest) {
     // STEP 3: Generate enrollment steps via RPC
     const { data: stepsResult, error: stepsError } = await supabase.rpc(
       'generate_enrollment_steps',
-      { p_enrollment_id: enrollment_id }
+      { p_enrollment_id: enrollment_id },
     );
 
     if (stepsError) {
@@ -309,8 +292,7 @@ async function _POST(req: NextRequest) {
         user_id: enrollment.user_id,
         type: 'system',
         title: 'Enrollment Approved',
-        message:
-          'Your enrollment has been approved. You now have access to the student portal.',
+        message: 'Your enrollment has been approved. You now have access to the student portal.',
       });
 
       // Email notification via outbox (with token link)
@@ -327,7 +309,7 @@ async function _POST(req: NextRequest) {
             studentProfile.email,
             studentProfile.full_name || 'Student',
             true, // approved
-            enrollment_id
+            enrollment_id,
           );
           logger.info('Student notification enqueued via outbox', {
             userId: enrollment.user_id,
@@ -357,10 +339,7 @@ async function _POST(req: NextRequest) {
         }
       }
     } catch (err: any) {
-      logger.warn(
-        'Failed to send student notification (non-critical)',
-        err
-      );
+      logger.warn('Failed to send student notification (non-critical)', err);
     }
 
     // STEP 6: Notify program holder if enrollment has program_holder_id
@@ -408,10 +387,7 @@ async function _POST(req: NextRequest) {
         }
       }
     } catch (err: any) {
-      logger.warn(
-        'Failed to send program holder notification (non-critical)',
-        err
-      );
+      logger.warn('Failed to send program holder notification (non-critical)', err);
     }
 
     // Return proof
@@ -430,10 +406,7 @@ async function _POST(req: NextRequest) {
     });
   } catch (err: any) {
     logger.error('Enrollment approval error', err);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/enroll/approve', _POST, { critical: true });

@@ -7,7 +7,7 @@ const UniversalCoursePlayer = dynamicImport(
     import('@/components/UniversalCoursePlayer').then((m) => ({
       default: m.UniversalCoursePlayer,
     })),
-  { ssr: false }
+  { ssr: false },
 );
 
 interface Props {

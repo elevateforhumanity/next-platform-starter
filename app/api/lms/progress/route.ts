@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -23,7 +22,9 @@ export const dynamic = 'force-dynamic';
 
 async function _GET(req: NextRequest) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
@@ -35,20 +36,21 @@ async function _GET(req: NextRequest) {
     const progress = await getLearnerProgress(user.id, courseId);
 
     return NextResponse.json({
-      completedLessonIds:  Array.from(progress.completedLessonIds),
-      checkpointScores:    Object.fromEntries(progress.checkpointScores),
-      stepSubmissions:     Object.fromEntries(
-        Array.from(progress.stepSubmissions.entries()).map(([k, v]) => [k, { status: v.status }])
+      completedLessonIds: Array.from(progress.completedLessonIds),
+      checkpointScores: Object.fromEntries(progress.checkpointScores),
+      stepSubmissions: Object.fromEntries(
+        Array.from(progress.stepSubmissions.entries()).map(([k, v]) => [k, { status: v.status }]),
       ),
-      progressPercent:     progress.progressPercent,
-      courseCompleted:     progress.courseCompleted,
-      certificateNumber:   progress.certificateNumber,
+      progressPercent: progress.progressPercent,
+      courseCompleted: progress.courseCompleted,
+      certificateNumber: progress.certificateNumber,
     });
   }
 
   // Legacy: return flat completed list for user (no courseId)
   const db = await getAdminClient();
-  if (!db) return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
+  if (!db)
+    return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
   const { data: legacyProgress } = await db
     .from('lesson_progress')
     .select('id, completed_at, lesson:course_lessons(title, course_id)')
@@ -60,4 +62,7 @@ async function _GET(req: NextRequest) {
   return NextResponse.json({ progress: legacyProgress || [] });
 }
 
-export const GET = withApiAudit('/api/lms/progress', _GET as unknown as (req: Request, ...args: any[]) => Promise<Response>);
+export const GET = withApiAudit(
+  '/api/lms/progress',
+  _GET as unknown as (req: Request, ...args: any[]) => Promise<Response>,
+);

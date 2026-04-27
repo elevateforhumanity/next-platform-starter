@@ -1,5 +1,3 @@
-
-
 import { getStripe } from '@/lib/stripe/client';
 import { NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -22,10 +20,7 @@ async function _POST(req: Request) {
     const { accountId } = body;
 
     if (!process.env.STRIPE_SECRET_KEY) {
-      return NextResponse.json(
-        { error: 'Stripe not configured' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Stripe not configured' }, { status: 500 });
     }
 
     const Stripe = (await import('stripe')).default;
@@ -44,10 +39,7 @@ async function _POST(req: Request) {
 
     return NextResponse.json({ url: link.url });
   } catch (err: any) {
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const POST = withRuntime(withApiAudit('/api/stripe/connect/onboard', _POST));

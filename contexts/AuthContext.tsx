@@ -15,7 +15,7 @@ interface AuthContextType {
 
 const AuthContext = createContext<AuthContextType>({
   user: null,
-  loading: false
+  loading: false,
 });
 
 export function useAuth() {
@@ -24,8 +24,6 @@ export function useAuth() {
 
 export function AuthProvider({ children }: { children: ReactNode }) {
   return (
-    <AuthContext.Provider value={{ user: null, loading: false }}>
-      {children}
-    </AuthContext.Provider>
+    <AuthContext.Provider value={{ user: null, loading: false }}>{children}</AuthContext.Provider>
   );
 }

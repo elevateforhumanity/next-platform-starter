@@ -52,12 +52,7 @@
       },
       {
         "prompt": "Which tool is essential for cleaning the hairline after completing a fade?",
-        "choices": [
-          "Scissors",
-          "Trimmers",
-          "Razor",
-          "Clipper guards"
-        ],
+        "choices": ["Scissors", "Trimmers", "Razor", "Clipper guards"],
         "answerIndex": 1,
         "rationale": "Trimmers are used to define and clean the hairline, enhancing the overall appearance of the haircut.",
         "type": "recall"

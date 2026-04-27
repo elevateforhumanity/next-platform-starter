@@ -1,7 +1,15 @@
 'use client';
 
 import { useState } from 'react';
-import { Sparkles, Loader2, Download, CheckCircle, AlertCircle, ChevronDown, ChevronRight } from 'lucide-react';
+import {
+  Sparkles,
+  Loader2,
+  Download,
+  CheckCircle,
+  AlertCircle,
+  ChevronDown,
+  ChevronRight,
+} from 'lucide-react';
 
 interface GenerateForm {
   courseName: string;
@@ -28,12 +36,15 @@ const DEFAULTS: GenerateForm = {
 export function GenerateCourseClient() {
   const [form, setForm] = useState<GenerateForm>(DEFAULTS);
   const [loading, setLoading] = useState(false);
-  const [result, setResult] = useState<{ blueprint: Record<string, unknown>; meta: Record<string, unknown> } | null>(null);
+  const [result, setResult] = useState<{
+    blueprint: Record<string, unknown>;
+    meta: Record<string, unknown>;
+  } | null>(null);
   const [error, setError] = useState<string | null>(null);
   const [expandedModules, setExpandedModules] = useState<Set<number>>(new Set());
 
   function set<K extends keyof GenerateForm>(key: K, value: GenerateForm[K]) {
-    setForm(f => ({ ...f, [key]: value }));
+    setForm((f) => ({ ...f, [key]: value }));
   }
 
   async function handleGenerate() {
@@ -48,7 +59,8 @@ export function GenerateCourseClient() {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           ...form,
-          programSlug: form.programSlug || form.courseName.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
+          programSlug:
+            form.programSlug || form.courseName.toLowerCase().replace(/[^a-z0-9]+/g, '-'),
         }),
       });
 
@@ -64,7 +76,9 @@ export function GenerateCourseClient() {
 
   function downloadBlueprint() {
     if (!result) return;
-    const blob = new Blob([JSON.stringify(result.blueprint, null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify(result.blueprint, null, 2)], {
+      type: 'application/json',
+    });
     const url = URL.createObjectURL(blob);
     const a = document.createElement('a');
     a.href = url;
@@ -74,7 +88,7 @@ export function GenerateCourseClient() {
   }
 
   function toggleModule(i: number) {
-    setExpandedModules(prev => {
+    setExpandedModules((prev) => {
       const next = new Set(prev);
       next.has(i) ? next.delete(i) : next.add(i);
       return next;
@@ -92,7 +106,8 @@ export function GenerateCourseClient() {
           AI Course Generator
         </h1>
         <p className="text-slate-400 mt-1">
-          Generate a workforce-ready, SAMHSA-aligned course blueprint. Review the output, then seed it to the database.
+          Generate a workforce-ready, SAMHSA-aligned course blueprint. Review the output, then seed
+          it to the database.
         </p>
       </div>
 
@@ -103,7 +118,7 @@ export function GenerateCourseClient() {
           <input
             type="text"
             value={form.courseName}
-            onChange={e => set('courseName', e.target.value)}
+            onChange={(e) => set('courseName', e.target.value)}
             placeholder="e.g. Peer Recovery Specialist"
             className="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
@@ -114,20 +129,24 @@ export function GenerateCourseClient() {
             <label className="block text-sm font-medium text-slate-300 mb-1">State</label>
             <select
               value={form.state}
-              onChange={e => set('state', e.target.value)}
+              onChange={(e) => set('state', e.target.value)}
               className="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
-              {['IN','IL','OH','KY','MI','TN','GA','FL','TX','CA'].map(s => (
-                <option key={s} value={s}>{s}</option>
+              {['IN', 'IL', 'OH', 'KY', 'MI', 'TN', 'GA', 'FL', 'TX', 'CA'].map((s) => (
+                <option key={s} value={s}>
+                  {s}
+                </option>
               ))}
             </select>
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Credential Target</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">
+              Credential Target
+            </label>
             <select
               value={form.credentialTarget}
-              onChange={e => set('credentialTarget', e.target.value)}
+              onChange={(e) => set('credentialTarget', e.target.value)}
               className="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
             >
               <option value="STATE_BOARD">State Board</option>
@@ -141,31 +160,37 @@ export function GenerateCourseClient() {
             <label className="block text-sm font-medium text-slate-300 mb-1">Modules</label>
             <input
               type="number"
-              min={4} max={10}
+              min={4}
+              max={10}
               value={form.moduleCount}
-              onChange={e => set('moduleCount', Number(e.target.value))}
+              onChange={(e) => set('moduleCount', Number(e.target.value))}
               className="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-300 mb-1">Lessons per Module</label>
+            <label className="block text-sm font-medium text-slate-300 mb-1">
+              Lessons per Module
+            </label>
             <input
               type="number"
-              min={3} max={8}
+              min={3}
+              max={8}
               value={form.lessonsPerModule}
-              onChange={e => set('lessonsPerModule', Number(e.target.value))}
+              onChange={(e) => set('lessonsPerModule', Number(e.target.value))}
               className="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-2.5 text-white focus:outline-none focus:ring-2 focus:ring-orange-500"
             />
           </div>
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-slate-300 mb-1">Program Slug (optional)</label>
+          <label className="block text-sm font-medium text-slate-300 mb-1">
+            Program Slug (optional)
+          </label>
           <input
             type="text"
             value={form.programSlug}
-            onChange={e => set('programSlug', e.target.value)}
+            onChange={(e) => set('programSlug', e.target.value)}
             placeholder="auto-generated from course name"
             className="w-full bg-slate-900 border border-slate-600 rounded-lg px-4 py-2.5 text-white placeholder-slate-500 focus:outline-none focus:ring-2 focus:ring-orange-500"
           />
@@ -176,7 +201,7 @@ export function GenerateCourseClient() {
             <input
               type="checkbox"
               checked={form.includeCheckpoints}
-              onChange={e => set('includeCheckpoints', e.target.checked)}
+              onChange={(e) => set('includeCheckpoints', e.target.checked)}
               className="rounded border-slate-600 bg-slate-900 text-orange-500"
             />
             Checkpoint quiz per module
@@ -185,7 +210,7 @@ export function GenerateCourseClient() {
             <input
               type="checkbox"
               checked={form.includeFinalExam}
-              onChange={e => set('includeFinalExam', e.target.checked)}
+              onChange={(e) => set('includeFinalExam', e.target.checked)}
               className="rounded border-slate-600 bg-slate-900 text-orange-500"
             />
             Final exam
@@ -198,9 +223,14 @@ export function GenerateCourseClient() {
           className="w-full flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 disabled:opacity-50 disabled:cursor-not-allowed text-white font-semibold py-3 rounded-lg transition-colors"
         >
           {loading ? (
-            <><Loader2 className="w-5 h-5 animate-spin" /> Generating course — this takes 30–60 seconds…</>
+            <>
+              <Loader2 className="w-5 h-5 animate-spin" /> Generating course — this takes 30–60
+              seconds…
+            </>
           ) : (
-            <><Sparkles className="w-5 h-5" /> Generate Course Blueprint</>
+            <>
+              <Sparkles className="w-5 h-5" /> Generate Course Blueprint
+            </>
           )}
         </button>
       </div>
@@ -221,7 +251,8 @@ export function GenerateCourseClient() {
               <CheckCircle className="w-5 h-5" />
               <span className="font-semibold">Blueprint generated</span>
               <span className="text-slate-400 text-sm">
-                · {modules?.length ?? 0} modules · {(result.meta as Record<string,unknown>).tokensUsed as number} tokens
+                · {modules?.length ?? 0} modules ·{' '}
+                {(result.meta as Record<string, unknown>).tokensUsed as number} tokens
               </span>
             </div>
             <button
@@ -236,7 +267,9 @@ export function GenerateCourseClient() {
           {/* Next step instruction */}
           <div className="bg-slate-800 border border-slate-700 rounded-xl p-4 text-sm text-slate-300 font-mono">
             <p className="text-slate-400 mb-1">Next step — seed to database:</p>
-            <p className="text-orange-300">{(result.meta as Record<string,unknown>).nextStep as string}</p>
+            <p className="text-orange-300">
+              {(result.meta as Record<string, unknown>).nextStep as string}
+            </p>
           </div>
 
           {/* Module preview */}
@@ -245,7 +278,7 @@ export function GenerateCourseClient() {
               Course Structure Preview
             </div>
             {modules?.map((mod, i) => {
-              const lessons = mod.lessons as Array<Record<string,unknown>> | undefined;
+              const lessons = mod.lessons as Array<Record<string, unknown>> | undefined;
               const expanded = expandedModules.has(i);
               return (
                 <div key={i} className="border-b border-slate-700 last:border-0">
@@ -253,20 +286,36 @@ export function GenerateCourseClient() {
                     onClick={() => toggleModule(i)}
                     className="w-full flex items-center gap-3 px-5 py-3 text-left hover:bg-slate-700/50 transition-colors"
                   >
-                    {expanded ? <ChevronDown className="w-4 h-4 text-slate-400" /> : <ChevronRight className="w-4 h-4 text-slate-400" />}
+                    {expanded ? (
+                      <ChevronDown className="w-4 h-4 text-slate-400" />
+                    ) : (
+                      <ChevronRight className="w-4 h-4 text-slate-400" />
+                    )}
                     <span className="text-slate-200 font-medium">{mod.title as string}</span>
-                    <span className="ml-auto text-slate-500 text-sm">{lessons?.length ?? 0} lessons</span>
+                    <span className="ml-auto text-slate-500 text-sm">
+                      {lessons?.length ?? 0} lessons
+                    </span>
                   </button>
                   {expanded && lessons && (
                     <div className="px-5 pb-3 space-y-1">
                       {lessons.map((lesson, j) => (
-                        <div key={j} className="flex items-center gap-2 text-sm text-slate-400 py-1 pl-7">
-                          <span className={`w-2 h-2 rounded-full shrink-0 ${
-                            (lesson.slug as string)?.endsWith('-checkpoint') ? 'bg-blue-400' :
-                            (lesson.slug as string)?.endsWith('-exam') ? 'bg-purple-400' : 'bg-slate-500'
-                          }`} />
+                        <div
+                          key={j}
+                          className="flex items-center gap-2 text-sm text-slate-400 py-1 pl-7"
+                        >
+                          <span
+                            className={`w-2 h-2 rounded-full shrink-0 ${
+                              (lesson.slug as string)?.endsWith('-checkpoint')
+                                ? 'bg-blue-400'
+                                : (lesson.slug as string)?.endsWith('-exam')
+                                  ? 'bg-purple-400'
+                                  : 'bg-slate-500'
+                            }`}
+                          />
                           <span>{lesson.title as string}</span>
-                          <span className="ml-auto text-slate-600">{lesson.durationMinutes as number}m</span>
+                          <span className="ml-auto text-slate-600">
+                            {lesson.durationMinutes as number}m
+                          </span>
                         </div>
                       ))}
                     </div>

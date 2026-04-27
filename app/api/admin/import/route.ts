@@ -26,7 +26,7 @@ function parseCSV(content: string): Record<string, string>[] {
   const lines = content.trim().split('\n');
   if (lines.length < 2) return [];
 
-  const headers = lines[0].split(',').map(h => h.trim().toLowerCase().replace(/['"]/g, ''));
+  const headers = lines[0].split(',').map((h) => h.trim().toLowerCase().replace(/['"]/g, ''));
   const records: Record<string, string>[] = [];
 
   for (let i = 1; i < lines.length; i++) {
@@ -63,7 +63,7 @@ function parseCSV(content: string): Record<string, string>[] {
 async function importStudents(
   supabase: any,
   tenantId: string,
-  records: Record<string, string>[]
+  records: Record<string, string>[],
 ): Promise<ImportResult> {
   const result: ImportResult = { success: true, imported: 0, failed: 0, errors: [] };
 
@@ -76,7 +76,8 @@ async function importStudents(
         continue;
       }
 
-      const fullName = record.full_name || 
+      const fullName =
+        record.full_name ||
         [record.first_name, record.last_name].filter(Boolean).join(' ') ||
         email.split('@')[0];
 
@@ -118,7 +119,9 @@ async function importStudents(
       }
     } catch (error) {
       result.failed++;
-      result.errors.push(`${record.email || 'Unknown'}: ${error instanceof Error ? 'Import failed: see logs' : 'Import failed'}`);
+      result.errors.push(
+        `${record.email || 'Unknown'}: ${error instanceof Error ? 'Import failed: see logs' : 'Import failed'}`,
+      );
     }
   }
 
@@ -129,7 +132,7 @@ async function importStudents(
 async function importCourses(
   supabase: any,
   tenantId: string,
-  records: Record<string, string>[]
+  records: Record<string, string>[],
 ): Promise<ImportResult> {
   const result: ImportResult = { success: true, imported: 0, failed: 0, errors: [] };
 
@@ -142,7 +145,10 @@ async function importCourses(
         continue;
       }
 
-      const code = record.code || record.course_code || name.toUpperCase().replace(/\s+/g, '_').substring(0, 20);
+      const code =
+        record.code ||
+        record.course_code ||
+        name.toUpperCase().replace(/\s+/g, '_').substring(0, 20);
 
       // Check if course exists in canonical table
       const { data: existing } = await supabase
@@ -154,12 +160,15 @@ async function importCourses(
       const slug = code.toLowerCase().replace(/_/g, '-');
 
       if (existing) {
-        await supabase.from('courses').update({
-          title: name,
-          description: record.description || '',
-          is_active: record.is_active !== 'false',
-          updated_at: new Date().toISOString(),
-        }).eq('id', existing.id);
+        await supabase
+          .from('courses')
+          .update({
+            title: name,
+            description: record.description || '',
+            is_active: record.is_active !== 'false',
+            updated_at: new Date().toISOString(),
+          })
+          .eq('id', existing.id);
       } else {
         await supabase.from('courses').insert({
           id: crypto.randomUUID(),
@@ -175,7 +184,9 @@ async function importCourses(
       result.imported++;
     } catch (error) {
       result.failed++;
-      result.errors.push(`${record.name || 'Unknown'}: ${error instanceof Error ? 'Import failed: see logs' : 'Import failed'}`);
+      result.errors.push(
+        `${record.name || 'Unknown'}: ${error instanceof Error ? 'Import failed: see logs' : 'Import failed'}`,
+      );
     }
   }
 
@@ -186,7 +197,7 @@ async function importCourses(
 async function importEnrollments(
   supabase: any,
   tenantId: string,
-  records: Record<string, string>[]
+  records: Record<string, string>[],
 ): Promise<ImportResult> {
   const result: ImportResult = { success: true, imported: 0, failed: 0, errors: [] };
 
@@ -256,7 +267,9 @@ async function importEnrollments(
       result.imported++;
     } catch (error) {
       result.failed++;
-      result.errors.push(`${record.student_email || 'Unknown'}: ${error instanceof Error ? 'Import failed: see logs' : 'Import failed'}`);
+      result.errors.push(
+        `${record.student_email || 'Unknown'}: ${error instanceof Error ? 'Import failed: see logs' : 'Import failed'}`,
+      );
     }
   }
 
@@ -267,7 +280,7 @@ async function importEnrollments(
 async function importEmployers(
   supabase: any,
   tenantId: string,
-  records: Record<string, string>[]
+  records: Record<string, string>[],
 ): Promise<ImportResult> {
   const result: ImportResult = { success: true, imported: 0, failed: 0, errors: [] };
 
@@ -310,7 +323,9 @@ async function importEmployers(
       result.imported++;
     } catch (error) {
       result.failed++;
-      result.errors.push(`${record.company_name || 'Unknown'}: ${error instanceof Error ? 'Import failed: see logs' : 'Import failed'}`);
+      result.errors.push(
+        `${record.company_name || 'Unknown'}: ${error instanceof Error ? 'Import failed: see logs' : 'Import failed'}`,
+      );
     }
   }
 
@@ -329,7 +344,8 @@ async function _POST(request: NextRequest) {
 
     // Get current tenant
     const { data: profile } = await supabase
-      .from('profiles').select('tenant_id')
+      .from('profiles')
+      .select('tenant_id')
       .eq('id', auth.id)
       .maybeSingle();
 
@@ -345,10 +361,7 @@ async function _POST(request: NextRequest) {
     const type = formData.get('type') as string;
 
     if (!file || !type) {
-      return NextResponse.json(
-        { error: 'Missing file or type parameter' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing file or type parameter' }, { status: 400 });
     }
 
     // Read and parse CSV
@@ -358,7 +371,7 @@ async function _POST(request: NextRequest) {
     if (records.length === 0) {
       return NextResponse.json(
         { success: false, imported: 0, failed: 0, errors: ['No valid records found in CSV'] },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -378,10 +391,7 @@ async function _POST(request: NextRequest) {
         result = await importEmployers(supabase, tenantId, records);
         break;
       default:
-        return NextResponse.json(
-          { error: `Unknown import type: ${type}` },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: `Unknown import type: ${type}` }, { status: 400 });
     }
 
     await logAdminAudit({
@@ -403,14 +413,17 @@ async function _POST(request: NextRequest) {
   } catch (error) {
     logger.error('Import error:', error instanceof Error ? error : new Error(String(error)));
     return NextResponse.json(
-      { 
-        success: false, 
-        imported: 0, 
-        failed: 0, 
-        errors: [error instanceof Error ? 'Import failed: see logs' : 'Import failed'] 
+      {
+        success: false,
+        imported: 0,
+        failed: 0,
+        errors: [error instanceof Error ? 'Import failed: see logs' : 'Import failed'],
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
-export const POST = withApiAudit('/api/admin/import', _POST as unknown as (req: Request, ...args: any[]) => Promise<Response>);
+export const POST = withApiAudit(
+  '/api/admin/import',
+  _POST as unknown as (req: Request, ...args: any[]) => Promise<Response>,
+);

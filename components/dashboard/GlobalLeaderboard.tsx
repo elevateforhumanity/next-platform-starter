@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import React from 'react';
 
-import { useEffect, useState } from "react";
+import { useEffect, useState } from 'react';
 
 type GlobalRow = {
   rank: number;
@@ -21,7 +21,7 @@ export function GlobalLeaderboard() {
 
     async function load() {
       try {
-        const res = await fetch("/api/leaderboard/global");
+        const res = await fetch('/api/leaderboard/global');
         if (!res.ok) return;
         const json = await res.json();
         if (!cancelled) setRows(json.leaderboard || []);
@@ -65,19 +65,13 @@ export function GlobalLeaderboard() {
           <div
             key={row.userId}
             className={`flex items-center justify-between rounded-lg px-3 py-2.5 ${
-              row.isYou ? "bg-brand-orange-50" : "bg-slate-50"
+              row.isYou ? 'bg-brand-orange-50' : 'bg-slate-50'
             }`}
           >
             <div className="flex items-center gap-2">
-              <span className="text-[11px] font-bold text-black">
-                #{row.rank}
-              </span>
-              <span
-                className={`font-medium ${
-                  row.isYou ? "text-brand-orange-700" : "text-black"
-                }`}
-              >
-                {row.isYou ? "You" : row.name}
+              <span className="text-[11px] font-bold text-black">#{row.rank}</span>
+              <span className={`font-medium ${row.isYou ? 'text-brand-orange-700' : 'text-black'}`}>
+                {row.isYou ? 'You' : row.name}
               </span>
             </div>
             <div className="flex items-center gap-2">

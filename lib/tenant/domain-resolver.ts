@@ -18,14 +18,14 @@ export async function resolveTenantFromDomain(domain: string): Promise<TenantFro
     'elevate317.netlify.app',
     'localhost',
   ];
-  
-  if (mainDomains.some(d => domain.includes(d))) {
+
+  if (mainDomains.some((d) => domain.includes(d))) {
     return null;
   }
 
   try {
     const supabase = await createClient();
-    
+
     const { data, error } = await supabase
       .rpc('get_tenant_by_domain', { p_domain: domain })
       .maybeSingle();

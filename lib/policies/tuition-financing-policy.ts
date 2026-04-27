@@ -1,11 +1,11 @@
 /**
  * TUITION FINANCING POLICY
  * Elevate for Humanity Career and Training Institute
- * 
+ *
  * This policy governs all non-funded (non-WIOA, non-Pell) tuition payments.
  * Staff must follow this policy exactly. No verbal negotiations. No exceptions
  * without written approval from the Executive Director.
- * 
+ *
  * EFFECTIVE DATE: January 2025
  * LAST UPDATED: January 2025
  */
@@ -13,7 +13,7 @@
 export const TUITION_FINANCING_POLICY = {
   version: '1.0',
   effectiveDate: '2025-01-15',
-  
+
   /**
    * POLICY STATEMENT
    */
@@ -38,7 +38,8 @@ waiving fees, or making verbal promises about payment flexibility.
      */
     thirdPartyFinancing: {
       name: 'Third-Party Tuition Financing',
-      description: 'Finance your tuition through an approved education lender. Get approved in minutes, pay over 6-24 months.',
+      description:
+        'Finance your tuition through an approved education lender. Get approved in minutes, pay over 6-24 months.',
       providers: ['Klarna/Afterpay/Zip', 'Klarna', 'Climb Credit'],
       terms: {
         minAmount: 500,
@@ -47,7 +48,8 @@ waiving fees, or making verbal promises about payment flexibility.
         typicalMonthlyPayment: { min: 225, max: 400 }, // for $5,000
         approvalType: 'soft_credit_check',
       },
-      instituteBenefit: 'Institute receives full tuition (minus small servicing fee) within days. Zero default risk.',
+      instituteBenefit:
+        'Institute receives full tuition (minus small servicing fee) within days. Zero default risk.',
       studentBenefit: 'Predictable monthly payments. Build credit history. No large upfront cost.',
       eligibility: 'Students with income or fair credit history.',
     },
@@ -68,7 +70,8 @@ waiving fees, or making verbal promises about payment flexibility.
       },
       instituteBenefit: 'Employer carries payment responsibility. Strong placement incentive.',
       studentBenefit: 'No out-of-pocket cost if employer pays directly.',
-      eligibility: 'Students with confirmed employer partner willing to sign reimbursement agreement.',
+      eligibility:
+        'Students with confirmed employer partner willing to sign reimbursement agreement.',
       restrictions: [
         'Employer must be approved partner',
         'Signed agreement required BEFORE enrollment',
@@ -83,7 +86,8 @@ waiving fees, or making verbal promises about payment flexibility.
      */
     internalInstallmentPlan: {
       name: 'School Payment Plan',
-      description: 'Pay a deposit now, then fixed monthly payments via autopay. No credit check required.',
+      description:
+        'Pay a deposit now, then fixed monthly payments via autopay. No credit check required.',
       terms: {
         minDownPayment: 1000,
         downPaymentPercent: 20, // 20% minimum
@@ -144,13 +148,15 @@ waiving fees, or making verbal promises about payment flexibility.
     {
       step: 3,
       question: 'Does the student have income or fair credit?',
-      ifYes: 'Direct to third-party financing (Klarna/Afterpay/Zip/Klarna). If approved, process enrollment. If declined, continue to Step 4.',
+      ifYes:
+        'Direct to third-party financing (Klarna/Afterpay/Zip/Klarna). If approved, process enrollment. If declined, continue to Step 4.',
       ifNo: 'Continue to Step 4.',
     },
     {
       step: 4,
       question: 'Does the student have an employer willing to sponsor tuition?',
-      ifYes: 'Verify employer is approved partner. Get signed employer agreement. Process employer-sponsored enrollment.',
+      ifYes:
+        'Verify employer is approved partner. Get signed employer agreement. Process employer-sponsored enrollment.',
       ifNo: 'Continue to Step 5.',
     },
     {
@@ -206,7 +212,7 @@ The Institute does not extend credit or make loans. Internal installment plans a
 structured tuition payments for training access, not financing arrangements. 
 All marketing and enrollment language must reflect this distinction.
     `.trim(),
-    
+
     requiredDisclosures: [
       'Total tuition amount',
       'Down payment amount',
@@ -214,7 +220,7 @@ All marketing and enrollment language must reflect this distinction.
       'Consequences of missed payments',
       'Refund policy',
     ],
-    
+
     requiredSignatures: [
       'Enrollment Agreement',
       'Payment Authorization (for installment plans)',
@@ -229,13 +235,13 @@ All marketing and enrollment language must reflect this distinction.
  */
 export const EXAMPLE_PAYMENT_STRUCTURES = {
   tuitionAmount: 5000,
-  
+
   payInFull: {
     dueAtEnrollment: 5000,
     monthlyPayment: 0,
     totalCost: 5000,
   },
-  
+
   thirdPartyFinancing: {
     dueAtEnrollment: 0,
     monthlyPayment: 278, // ~$5,000 over 18 months
@@ -243,7 +249,7 @@ export const EXAMPLE_PAYMENT_STRUCTURES = {
     totalCost: 5004, // Slight variance due to provider fees
     provider: 'Klarna/Afterpay/Zip/Klarna',
   },
-  
+
   employerSponsored: {
     dueAtEnrollment: 0,
     monthlyPayment: 417, // $5,000 over 12 months post-hire
@@ -251,7 +257,7 @@ export const EXAMPLE_PAYMENT_STRUCTURES = {
     totalCost: 5000,
     paidBy: 'Employer',
   },
-  
+
   internalInstallmentPlan: {
     dueAtEnrollment: 1000, // 20% down
     monthlyPayment: 667, // Remaining $4,000 over 6 months

@@ -19,9 +19,7 @@ export async function getSignedDocumentUrl(
   const supabase = admin || (await createClient());
   if (!supabase) return null;
 
-  const { data, error } = await supabase.storage
-    .from(bucket)
-    .createSignedUrl(filePath, expiresIn);
+  const { data, error } = await supabase.storage.from(bucket).createSignedUrl(filePath, expiresIn);
 
   if (error || !data?.signedUrl) {
     return null;

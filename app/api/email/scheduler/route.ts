@@ -46,10 +46,7 @@ async function _GET(req: Request) {
     for (const campaign of campaigns) {
       try {
         // Mark as sending
-        await supabase
-          .from('email_campaigns')
-          .update({ status: 'sending' })
-          .eq('id', campaign.id);
+        await supabase.from('email_campaigns').update({ status: 'sending' }).eq('id', campaign.id);
 
         // Send campaign
         const sendResponse = await fetch(
@@ -67,7 +64,7 @@ async function _GET(req: Request) {
               customHtml: campaign.html_content,
               recipientList: campaign.recipient_list,
             }),
-          }
+          },
         );
 
         const sendResult = await sendResponse.json();
@@ -97,10 +94,10 @@ async function _GET(req: Request) {
             error: sendResult.error,
           });
         }
-      } catch (error) { 
+      } catch (error) {
         logger.error(
           `Error processing campaign ${campaign.id}:`,
-          error instanceof Error ? error : new Error(String(error))
+          error instanceof Error ? error : new Error(String(error)),
         );
 
         // Mark as failed
@@ -127,15 +124,9 @@ async function _GET(req: Request) {
       processed: campaigns.length,
       results,
     });
-  } catch (error) { 
-    logger.error(
-      'Scheduler error:',
-      error instanceof Error ? error : new Error(String(error))
-    );
-    return NextResponse.json(
-      { success: false, error: toErrorMessage(error) },
-      { status: 500 }
-    );
+  } catch (error) {
+    logger.error('Scheduler error:', error instanceof Error ? error : new Error(String(error)));
+    return NextResponse.json({ success: false, error: toErrorMessage(error) }, { status: 500 });
   }
 }
 
@@ -143,8 +134,8 @@ async function _GET(req: Request) {
  * Manual trigger for testing
  */
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'strict');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'strict');
+  if (rateLimited) return rateLimited;
 
   return GET(req);
 }

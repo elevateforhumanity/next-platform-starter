@@ -15,18 +15,25 @@ async function _POST(req: Request, { params }: { params: Promise<{ caseId: strin
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user }, error: authErr } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error: authErr,
+    } = await supabase.auth.getUser();
+
     if (authErr || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     const { caseId } = await params;
     const body = await req.json();
-    const { signerRole, signerName, signerEmail, agreementType, agreementVersion, signatureData } = body;
+    const { signerRole, signerName, signerEmail, agreementType, agreementVersion, signatureData } =
+      body;
 
     if (!signerRole || !agreementType) {
-      return NextResponse.json({ error: 'signerRole and agreementType are required' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'signerRole and agreementType are required' },
+        { status: 400 },
+      );
     }
 
     const { data: enrollmentCase } = await supabase
@@ -39,7 +46,7 @@ async function _POST(req: Request, { params }: { params: Promise<{ caseId: strin
       return NextResponse.json({ error: 'Case not found' }, { status: 404 });
     }
 
-    const isAuthorized = 
+    const isAuthorized =
       user.id === enrollmentCase.student_id ||
       user.id === enrollmentCase.program_holder_id ||
       user.id === enrollmentCase.employer_id;
@@ -50,7 +57,7 @@ async function _POST(req: Request, { params }: { params: Promise<{ caseId: strin
         .select('role')
         .eq('id', user.id)
         .maybeSingle();
-      
+
       if (!profile || !['admin', 'staff'].includes(profile.role)) {
         return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
       }
@@ -74,8 +81,8 @@ async function _POST(req: Request, { params }: { params: Promise<{ caseId: strin
     return NextResponse.json({
       success: true,
       completeness: result.completeness,
-      message: result.completeness.complete 
-        ? 'All signatures complete. Case activated.' 
+      message: result.completeness.complete
+        ? 'All signatures complete. Case activated.'
         : `Signature added. Missing: ${result.completeness.missing.join(', ')}`,
     });
   } catch (err: any) {
@@ -90,8 +97,11 @@ async function _GET(req: Request, { params }: { params: Promise<{ caseId: string
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user }, error: authErr } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error: authErr,
+    } = await supabase.auth.getUser();
+
     if (authErr || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -101,7 +111,9 @@ async function _GET(req: Request, { params }: { params: Promise<{ caseId: string
     // agreement_acceptances: subject_type, subject_id, agreement_key, agreement_version, accepted_name, accepted_email, accepted_at
     const { data: signatures, error } = await supabase
       .from('agreement_acceptances')
-      .select('id, subject_type, subject_id, agreement_key, agreement_version, accepted_name, accepted_email, accepted_at')
+      .select(
+        'id, subject_type, subject_id, agreement_key, agreement_version, accepted_name, accepted_email, accepted_at',
+      )
       .eq('subject_id', caseId)
       .order('accepted_at', { ascending: true });
 

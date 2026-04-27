@@ -36,17 +36,26 @@ const BRANDON = {
   outro: path.join(CLIPS_DIR, 'v15-outro.mp4'),
   recap: path.join(CLIPS_DIR, 'v15-keyterms.mp4'),
   explain: [
-    'v15-heat-combustion.mp4', 'v15-heat-exchanger.mp4', 'v15-heat-blower.mp4',
-    'v15-heat-pump.mp4', 'v15-cool-compressor.mp4', 'v15-cool-condenser.mp4',
-    'v15-cool-txv.mp4', 'v15-cool-evaporator.mp4', 'v15-vent-ducts.mp4', 'v15-vent-fresh.mp4',
+    'v15-heat-combustion.mp4',
+    'v15-heat-exchanger.mp4',
+    'v15-heat-blower.mp4',
+    'v15-heat-pump.mp4',
+    'v15-cool-compressor.mp4',
+    'v15-cool-condenser.mp4',
+    'v15-cool-txv.mp4',
+    'v15-cool-evaporator.mp4',
+    'v15-vent-ducts.mp4',
+    'v15-vent-fresh.mp4',
   ],
-  transition: [
-    'v15-cool-overview.mp4', 'v15-vent-exhaust.mp4',
-  ],
+  transition: ['v15-cool-overview.mp4', 'v15-vent-exhaust.mp4'],
 };
 
 function dur(file: string): number {
-  return parseFloat(execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${file}"`).toString().trim());
+  return parseFloat(
+    execSync(`ffprobe -v error -show_entries format=duration -of csv=p=0 "${file}"`)
+      .toString()
+      .trim(),
+  );
 }
 
 function safe(text: string): string {
@@ -122,11 +131,11 @@ function buildDiagramSegment(
 
   execSync(
     `ffmpeg -y -i "${presenterClip}" -loop 1 -t ${segDur} -i "${diagramPath}" ` +
-    `-i "${audioPath}" ` +
-    `-filter_complex "${fc}" ` +
-    `-map "[out]" -map 2:a -ss ${startSec} -t ${segDur} ` +
-    `-c:v libx264 -preset fast -crf 22 -c:a aac -b:a 128k -shortest ` +
-    `"${outPath}" 2>/dev/null`
+      `-i "${audioPath}" ` +
+      `-filter_complex "${fc}" ` +
+      `-map "[out]" -map 2:a -ss ${startSec} -t ${segDur} ` +
+      `-c:v libx264 -preset fast -crf 22 -c:a aac -b:a 128k -shortest ` +
+      `"${outPath}" 2>/dev/null`,
   );
 
   return outPath;
@@ -160,10 +169,10 @@ function buildTitleCardSegment(
 
   execSync(
     `ffmpeg -y -i "${presenterClip}" -i "${audioPath}" ` +
-    `-filter_complex "${fc}" ` +
-    `-map "[out]" -map 1:a ` +
-    `-c:v libx264 -preset fast -crf 22 -c:a aac -b:a 128k -shortest ` +
-    `"${outPath}" 2>/dev/null`
+      `-filter_complex "${fc}" ` +
+      `-map "[out]" -map 1:a ` +
+      `-c:v libx264 -preset fast -crf 22 -c:a aac -b:a 128k -shortest ` +
+      `"${outPath}" 2>/dev/null`,
   );
 
   return outPath;
@@ -176,8 +185,8 @@ function normalizeClip(input: string, output: string): string {
   if (fs.existsSync(output)) return output;
   execSync(
     `ffmpeg -y -i "${input}" -c:v libx264 -preset fast -crf 22 ` +
-    `-vf "scale=1280:720,fps=25" -c:a aac -b:a 128k -ar 44100 -ac 2 ` +
-    `"${output}" 2>/dev/null`
+      `-vf "scale=1280:720,fps=25" -c:a aac -b:a 128k -ar 44100 -ac 2 ` +
+      `"${output}" 2>/dev/null`,
   );
   return output;
 }
@@ -291,25 +300,30 @@ function assembleLesson(lessonNumber: number, dryRun: boolean, force: boolean): 
 
   // Concatenate all segments
   const concatList = path.join(tmpDir, 'concat.txt');
-  fs.writeFileSync(concatList, segments.map(s => `file '${s}'`).join('\n'));
+  fs.writeFileSync(concatList, segments.map((s) => `file '${s}'`).join('\n'));
 
-  execSync(
-    `ffmpeg -y -f concat -safe 0 -i "${concatList}" -c copy "${finalPath}" 2>/dev/null`
-  );
+  execSync(`ffmpeg -y -f concat -safe 0 -i "${concatList}" -c copy "${finalPath}" 2>/dev/null`);
 
   // Clean up tmp
   fs.rmSync(tmpDir, { recursive: true, force: true });
 
   // Write sources manifest
   const sourcesPath = path.join(outDir, 'sources.json');
-  fs.writeFileSync(sourcesPath, JSON.stringify({
-    lessonNumber,
-    segments: segments.map(s => path.basename(s)),
-    hasDiagram,
-    audioDuration: audioDur,
-    finalDuration: dur(finalPath),
-    finalSize: fs.statSync(finalPath).size,
-  }, null, 2));
+  fs.writeFileSync(
+    sourcesPath,
+    JSON.stringify(
+      {
+        lessonNumber,
+        segments: segments.map((s) => path.basename(s)),
+        hasDiagram,
+        audioDuration: audioDur,
+        finalDuration: dur(finalPath),
+        finalSize: fs.statSync(finalPath).size,
+      },
+      null,
+      2,
+    ),
+  );
 
   const finalDur = dur(finalPath);
   const finalSize = (fs.statSync(finalPath).size / 1024 / 1024).toFixed(1);
@@ -331,7 +345,9 @@ for (let i = 0; i < args.length; i++) {
 }
 
 if (!lessonNum) {
-  console.error('Usage: npx tsx scripts/assemble-hvac-lesson.ts --lesson <number> [--dry-run] [--force]');
+  console.error(
+    'Usage: npx tsx scripts/assemble-hvac-lesson.ts --lesson <number> [--dry-run] [--force]',
+  );
   process.exit(1);
 }
 

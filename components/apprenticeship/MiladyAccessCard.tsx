@@ -34,7 +34,9 @@ export function MiladyAccessCard({
   useEffect(() => {
     async function fetchAccess() {
       try {
-        const res = await fetch(`/api/milady/access?studentId=${studentId}&programSlug=${programSlug}`);
+        const res = await fetch(
+          `/api/milady/access?studentId=${studentId}&programSlug=${programSlug}`,
+        );
         if (res.ok) {
           const data = await res.json();
           setAccessInfo(data);
@@ -110,7 +112,9 @@ export function MiladyAccessCard({
       {/* License Code Display */}
       {accessInfo?.licenseCode && (
         <div className="bg-white/10 backdrop-blur rounded-lg p-4 mb-4">
-          <p className="text-purple-200 text-sm mb-2">Your License Code (included in program fee):</p>
+          <p className="text-purple-200 text-sm mb-2">
+            Your License Code (included in program fee):
+          </p>
           <div className="flex items-center gap-2">
             <code className="flex-1 bg-white/20 px-4 py-2 rounded font-mono text-lg tracking-wider">
               {accessInfo.licenseCode}

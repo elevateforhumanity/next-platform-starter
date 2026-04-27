@@ -26,15 +26,22 @@ async function _POST(request: NextRequest) {
     } = body;
 
     // Validate required fields
-    if (!service_id || !first_name || !last_name || !email || !phone || !appointment_date || !appointment_time) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+    if (
+      !service_id ||
+      !first_name ||
+      !last_name ||
+      !email ||
+      !phone ||
+      !appointment_date ||
+      !appointment_time
+    ) {
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     // Get current user if logged in
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     // Create appointment
     const { data: appointment, error } = await supabase
@@ -51,18 +58,17 @@ async function _POST(request: NextRequest) {
         notes: notes || null,
         status: 'pending',
       })
-      .select(`
+      .select(
+        `
         *,
         service:curvature_services(name, duration_minutes, price)
-      `)
+      `,
+      )
       .maybeSingle();
 
     if (error) {
       logger.error('Appointment creation error:', error);
-      return NextResponse.json(
-        { error: 'Failed to create appointment' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to create appointment' }, { status: 500 });
     }
 
     // Send confirmation email
@@ -74,8 +80,8 @@ async function _POST(request: NextRequest) {
           to: appointment.email,
           subject: 'Appointment Confirmation - Curvature Body Sculpting',
           template: 'appointment-confirmation',
-          data: { appointment }
-        })
+          data: { appointment },
+        }),
       });
     } catch (emailError) {
       logger.error('Failed to send confirmation email:', emailError);
@@ -88,10 +94,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Appointment error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -124,7 +127,7 @@ async function _GET(request: NextRequest) {
         .eq('appointment_date', date)
         .in('status', ['pending', 'confirmed']);
 
-      bookedTimes = appointments?.map(a => a.appointment_time) || [];
+      bookedTimes = appointments?.map((a) => a.appointment_time) || [];
     }
 
     return NextResponse.json({
@@ -133,10 +136,7 @@ async function _GET(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Services fetch error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/curvature/appointments', _GET);

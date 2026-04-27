@@ -8,7 +8,9 @@ import { safeError, safeInternalError } from '@/lib/api/safe-error';
 export async function handleDashboard(request: NextRequest, discipline: string) {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) return safeError('Unauthorized', 401);
 
     const { data: profile } = await supabase
@@ -35,13 +37,18 @@ export async function handleDashboard(request: NextRequest, discipline: string) 
     // Filter on the `date` column (YYYY-MM-DD), not submitted_at, so that
     // hours approved after the week they were worked still count correctly.
     const now = new Date();
-    const weekStartDate = new Date(Date.UTC(
-      now.getUTCFullYear(), now.getUTCMonth(),
-      now.getUTCDate() - now.getUTCDay()   // back to Sunday
-    )).toISOString().split('T')[0];
+    const weekStartDate = new Date(
+      Date.UTC(
+        now.getUTCFullYear(),
+        now.getUTCMonth(),
+        now.getUTCDate() - now.getUTCDay(), // back to Sunday
+      ),
+    )
+      .toISOString()
+      .split('T')[0];
 
     const weeklyHours = (hoursData ?? [])
-      .filter(r => r.date && r.date >= weekStartDate)
+      .filter((r) => r.date && r.date >= weekStartDate)
       .reduce((sum, r) => sum + (r.hours ?? 0), 0);
 
     return NextResponse.json({

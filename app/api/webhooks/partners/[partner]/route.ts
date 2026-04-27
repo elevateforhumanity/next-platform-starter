@@ -1,6 +1,5 @@
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
-
 // app/api/webhooks/partners/[partner]/route.ts
 // Webhook endpoint for partner progress updates
 
@@ -26,10 +25,7 @@ function getSupabaseClient() {
   return createClient(supabaseUrl, supabaseKey);
 }
 
-async function _POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ partner: string }> }
-) {
+async function _POST(request: NextRequest, { params }: { params: Promise<{ partner: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
   const { partner: partnerName } = await params;
@@ -47,10 +43,7 @@ async function _POST(
 
     if (!webhookSecret) {
       logger.error(`[Webhook] PARTNER_WEBHOOK_SECRET not configured`);
-      return NextResponse.json(
-        { error: 'Webhook not configured' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Webhook not configured' }, { status: 500 });
     }
 
     if (providedSecret !== webhookSecret) {
@@ -93,21 +86,21 @@ async function _POST(
     await client.processWebhook(payload);
 
     return NextResponse.json({ success: true });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       `[Webhook] Error processing ${partner} webhook:`,
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Internal server error' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }
 
 async function handleEnrollmentCreated(
   partner: PartnerType,
-  data: Record<string, any>
+  data: Record<string, any>,
 ): Promise<void> {
   const supabase = getSupabaseClient();
 
@@ -130,7 +123,7 @@ async function handleEnrollmentCreated(
 
 async function handleProgressUpdated(
   partner: PartnerType,
-  data: Record<string, any>
+  data: Record<string, any>,
 ): Promise<void> {
   const supabase = getSupabaseClient();
 
@@ -154,7 +147,7 @@ async function handleProgressUpdated(
 
 async function handleCourseCompleted(
   partner: PartnerType,
-  data: Record<string, any>
+  data: Record<string, any>,
 ): Promise<void> {
   const supabase = getSupabaseClient();
 
@@ -172,13 +165,10 @@ async function handleCourseCompleted(
   }
 
   // Mark step complete and advance to next
-  const { data: nextStepId, error: advanceError } = await supabase.rpc(
-    'mark_step_complete',
-    {
-      p_step_id: step.id,
-      p_external_enrollment_id: data.enrollmentId as string,
-    }
-  );
+  const { data: nextStepId, error: advanceError } = await supabase.rpc('mark_step_complete', {
+    p_step_id: step.id,
+    p_external_enrollment_id: data.enrollmentId as string,
+  });
 
   if (advanceError) {
     logger.error('[Webhook] Failed to advance step:', advanceError);
@@ -206,9 +196,7 @@ async function handleCourseCompleted(
   if (nextStepId) {
     const { data: nextStep } = await supabase
       .from('enrollment_steps')
-      .select(
-        '*, provider:partner_lms_providers(*), enrollment:enrollments(user_id)'
-      )
+      .select('*, provider:partner_lms_providers(*), enrollment:enrollments(user_id)')
       .eq('id', nextStepId)
       .maybeSingle();
 
@@ -226,10 +214,7 @@ async function handleCourseCompleted(
           }),
         });
       } catch (enrollError) {
-        logger.error(
-          '[Webhook] Failed to auto-enroll in next partner:',
-          enrollError
-        );
+        logger.error('[Webhook] Failed to auto-enroll in next partner:', enrollError);
       }
     }
   } else {
@@ -261,7 +246,7 @@ async function handleCourseCompleted(
 
 async function handleCertificateIssued(
   partner: PartnerType,
-  data: Record<string, any>
+  data: Record<string, any>,
 ): Promise<void> {
   const supabase = getSupabaseClient();
 
@@ -282,4 +267,7 @@ async function handleCertificateIssued(
     logger.error('[Webhook] Failed to update certificate:', error);
   }
 }
-export const POST = withApiAudit('/api/webhooks/partners/[partner]', _POST, { actor_type: 'webhook', skip_body: true });
+export const POST = withApiAudit('/api/webhooks/partners/[partner]', _POST, {
+  actor_type: 'webhook',
+  skip_body: true,
+});

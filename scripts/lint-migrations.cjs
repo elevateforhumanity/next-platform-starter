@@ -14,7 +14,10 @@ const fs = require('fs');
 const path = require('path');
 
 const dir = path.join(__dirname, '../supabase/migrations');
-const files = fs.readdirSync(dir).filter(f => f.endsWith('.sql')).sort();
+const files = fs
+  .readdirSync(dir)
+  .filter((f) => f.endsWith('.sql'))
+  .sort();
 
 const issues = [];
 
@@ -28,7 +31,12 @@ const FILENAME_RE = /^\d{8}\d{6}_[a-z0-9][a-z0-9_]+\.sql$/;
 
 for (const file of files) {
   if (!FILENAME_RE.test(file)) {
-    issues.push({ type: 'BAD_FILENAME', file, line: 0, detail: `Does not match YYYYMMDDNNNNNN_description.sql` });
+    issues.push({
+      type: 'BAD_FILENAME',
+      file,
+      line: 0,
+      detail: `Does not match YYYYMMDDNNNNNN_description.sql`,
+    });
   }
 }
 
@@ -43,7 +51,7 @@ for (const file of files) {
     if (/^\s*--/.test(lines[i])) continue;
 
     const tableMatch = lines[i].match(
-      /CREATE\s+TABLE\s+(IF\s+NOT\s+EXISTS\s+)?(?:public\.)?(\w+)\s*\(/i
+      /CREATE\s+TABLE\s+(IF\s+NOT\s+EXISTS\s+)?(?:public\.)?(\w+)\s*\(/i,
     );
     if (!tableMatch) continue;
 
@@ -64,17 +72,25 @@ for (const file of files) {
     }
 
     // ── Extract block ────────────────────────────────────────────────────────
-    let depth = 0, blockEnd = i;
+    let depth = 0,
+      blockEnd = i;
     for (let j = i; j < lines.length; j++) {
       const nc = lines[j].replace(/--.*$/, '');
-      let inStr = false, sc = '';
+      let inStr = false,
+        sc = '';
       for (const ch of nc) {
-        if (inStr) { if (ch === sc) inStr = false; }
-        else if (ch === "'" || ch === '"') { inStr = true; sc = ch; }
-        else if (ch === '(') depth++;
+        if (inStr) {
+          if (ch === sc) inStr = false;
+        } else if (ch === "'" || ch === '"') {
+          inStr = true;
+          sc = ch;
+        } else if (ch === '(') depth++;
         else if (ch === ')') depth--;
       }
-      if (j > i && depth === 0) { blockEnd = j; break; }
+      if (j > i && depth === 0) {
+        blockEnd = j;
+        break;
+      }
     }
 
     // ── Tokenize column definitions ──────────────────────────────────────────
@@ -85,29 +101,44 @@ for (const file of files) {
       const nc = lines[j].replace(/--.*$/, '');
       const trimmed = nc.trim();
       const depthBefore = depth;
-      let inStr = false, sc = '';
+      let inStr = false,
+        sc = '';
       for (const ch of nc) {
-        if (inStr) { if (ch === sc) inStr = false; }
-        else if (ch === "'" || ch === '"') { inStr = true; sc = ch; }
-        else if (ch === '(') depth++;
+        if (inStr) {
+          if (ch === sc) inStr = false;
+        } else if (ch === "'" || ch === '"') {
+          inStr = true;
+          sc = ch;
+        } else if (ch === '(') depth++;
         else if (ch === ')') depth--;
       }
       if (j === i) continue;
       if (depth === 0 && trimmed.startsWith(')')) break;
-      if (depthBefore === 1 && trimmed &&
-          !/^,?\s*(CONSTRAINT|PRIMARY\s+KEY|UNIQUE|CHECK|FOREIGN\s+KEY|EXCLUDE)\b/i.test(trimmed)) {
-        let colDepth = depth, endIdx = j;
+      if (
+        depthBefore === 1 &&
+        trimmed &&
+        !/^,?\s*(CONSTRAINT|PRIMARY\s+KEY|UNIQUE|CHECK|FOREIGN\s+KEY|EXCLUDE)\b/i.test(trimmed)
+      ) {
+        let colDepth = depth,
+          endIdx = j;
         if (colDepth > 1) {
           for (let k = j + 1; k <= blockEnd; k++) {
             const knc = lines[k].replace(/--.*$/, '');
-            let kInStr = false, kSc = '';
+            let kInStr = false,
+              kSc = '';
             for (const ch of knc) {
-              if (kInStr) { if (ch === kSc) kInStr = false; }
-              else if (ch === "'" || ch === '"') { kInStr = true; kSc = ch; }
-              else if (ch === '(') colDepth++;
+              if (kInStr) {
+                if (ch === kSc) kInStr = false;
+              } else if (ch === "'" || ch === '"') {
+                kInStr = true;
+                kSc = ch;
+              } else if (ch === '(') colDepth++;
               else if (ch === ')') colDepth--;
             }
-            if (colDepth <= 1) { endIdx = k; break; }
+            if (colDepth <= 1) {
+              endIdx = k;
+              break;
+            }
           }
         }
         cols.push({ startIdx: j, endIdx });
@@ -125,10 +156,20 @@ for (const file of files) {
       const hasComma = codeTrimed.endsWith(',');
 
       if (!isLast && !hasComma) {
-        issues.push({ type: 'MISSING_COMMA', file, line: endIdx + 1, detail: codeTrimed.trim().slice(0, 80) });
+        issues.push({
+          type: 'MISSING_COMMA',
+          file,
+          line: endIdx + 1,
+          detail: codeTrimed.trim().slice(0, 80),
+        });
       }
       if (isLast && hasComma) {
-        issues.push({ type: 'TRAILING_COMMA', file, line: endIdx + 1, detail: codeTrimed.trim().slice(0, 80) });
+        issues.push({
+          type: 'TRAILING_COMMA',
+          file,
+          line: endIdx + 1,
+          detail: codeTrimed.trim().slice(0, 80),
+        });
       }
     }
   }
@@ -149,7 +190,7 @@ for (const i of issues) {
 console.error(`❌ Migration lint failed — ${issues.length} issue(s) in ${files.length} files\n`);
 for (const [type, items] of Object.entries(byType)) {
   console.error(`${type} (${items.length}):`);
-  items.forEach(i => console.error(`  ${i.file}:${i.line}  ${i.detail}`));
+  items.forEach((i) => console.error(`  ${i.file}:${i.line}  ${i.detail}`));
   console.error('');
 }
 process.exit(1);

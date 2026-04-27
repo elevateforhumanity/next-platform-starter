@@ -1,5 +1,5 @@
-import { Employer } from "@/lms-data/employers";
-import { getProgramsWithTuitionMeta } from "@/lms-data/tuition";
+import { Employer } from '@/lms-data/employers';
+import { getProgramsWithTuitionMeta } from '@/lms-data/tuition';
 
 const programsWithTuition = getProgramsWithTuitionMeta();
 
@@ -9,7 +9,7 @@ interface Props {
 
 export function EmployerProposalPreview({ employer }: Props) {
   const employerPrograms = programsWithTuition.filter((p) =>
-    employer.interestedPrograms.includes(p.program.id)
+    employer.interestedPrograms.includes(p.program.id),
   );
 
   return (
@@ -19,19 +19,18 @@ export function EmployerProposalPreview({ employer }: Props) {
           Draft Employer Proposal – {employer.name}
         </p>
         <p className="mt-2 text-[11px] text-slate-200">
-          Dear {employer.contactName || "Employer Partner"},
+          Dear {employer.contactName || 'Employer Partner'},
         </p>
         <p className="mt-2 text-[11px] text-slate-300">
-          Elevate for Humanity Career and Training Institute is a workforce hub
-          that combines credentialed training, soft skills, and on-the-job
-          experiences so your hires show up ready, not just certified. We are
-          approved with your local workforce system and actively align with JRI,
-          WRG, WEX, OJT, apprenticeships and employer-sponsored training.
+          Elevate for Humanity Career and Training Institute is a workforce hub that combines
+          credentialed training, soft skills, and on-the-job experiences so your hires show up
+          ready, not just certified. We are approved with your local workforce system and actively
+          align with JRI, WRG, WEX, OJT, apprenticeships and employer-sponsored training.
         </p>
         <p className="mt-2 text-[11px] text-slate-300">
-          Below is a high-level summary of how we can partner with{" "}
-          <span className="font-semibold">{employer.name}</span> to build and
-          grow your talent pipeline.
+          Below is a high-level summary of how we can partner with{' '}
+          <span className="font-semibold">{employer.name}</span> to build and grow your talent
+          pipeline.
         </p>
       </section>
 
@@ -50,18 +49,17 @@ export function EmployerProposalPreview({ employer }: Props) {
                   </p>
                 )}
                 <p className="mt-1 text-[11px] text-slate-300">
-                  This pathway can be delivered using Elevate&apos;s LMS,
-                  credential partners, and your worksite as a real-world
-                  learning lab. We will align soft skills (JRI style), technical
-                  content, and work experience to your expectations.
+                  This pathway can be delivered using Elevate&apos;s LMS, credential partners, and
+                  your worksite as a real-world learning lab. We will align soft skills (JRI style),
+                  technical content, and work experience to your expectations.
                 </p>
               </li>
             ))}
           </ul>
         ) : (
           <p className="mt-2 text-[11px] text-slate-300">
-            No specific programs have been mapped to this employer yet. An admin
-            can update employer.interestedPrograms in lms-data/employers.ts.
+            No specific programs have been mapped to this employer yet. An admin can update
+            employer.interestedPrograms in lms-data/employers.ts.
           </p>
         )}
       </section>
@@ -71,59 +69,45 @@ export function EmployerProposalPreview({ employer }: Props) {
           Funding & Earn-While-You-Learn Options
         </p>
         <p className="mt-2 text-[11px] text-slate-300">
-          Depending on the program and participant eligibility, Elevate may
-          braid together:
+          Depending on the program and participant eligibility, Elevate may braid together:
         </p>
         <ul className="mt-2 list-disc space-y-1 pl-5 text-[11px] text-slate-300">
           <li>
-            <span className="font-semibold">Job Ready Indy (JRI)</span> for soft
-            skills and work readiness, often with stipends.
+            <span className="font-semibold">Job Ready Indy (JRI)</span> for soft skills and work
+            readiness, often with stipends.
           </li>
           <li>
-            <span className="font-semibold">
-              Workforce Ready Grant (WRG) and ETPL programs
-            </span>{" "}
-            to offset tuition where eligible.
+            <span className="font-semibold">Workforce Ready Grant (WRG) and ETPL programs</span> to
+            offset tuition where eligible.
           </li>
           <li>
-            <span className="font-semibold">WEX and OJT</span> to support wages
-            while individuals learn on your worksite.
+            <span className="font-semibold">WEX and OJT</span> to support wages while individuals
+            learn on your worksite.
           </li>
           <li>
-            Apprenticeship models (where appropriate) that combine hours, wages
-            and instruction.
+            Apprenticeship models (where appropriate) that combine hours, wages and instruction.
           </li>
           <li>
-            Employer sponsorship and payment plans via Stripe for non-grant
-            pathways and microprograms.
+            Employer sponsorship and payment plans via Stripe for non-grant pathways and
+            microprograms.
           </li>
         </ul>
       </section>
 
       <section className="rounded-xl border border-slate-800 bg-slate-900/90 p-4">
-        <p className="text-[11px] font-semibold text-slate-100">
-          Next Steps
-        </p>
+        <p className="text-[11px] font-semibold text-slate-100">Next Steps</p>
         <ol className="mt-2 list-decimal space-y-1 pl-5 text-[11px] text-slate-300">
+          <li>Confirm which pathways are the highest priority for {employer.name}.</li>
+          <li>Identify whether WEX, OJT, apprenticeship, or direct hire is the best fit.</li>
           <li>
-            Confirm which pathways are the highest priority for{" "}
-            {employer.name}.
+            Work with Elevate to complete any required MOUs, WEX/OJT templates, and job
+            descriptions.
           </li>
-          <li>
-            Identify whether WEX, OJT, apprenticeship, or direct hire is the
-            best fit.
-          </li>
-          <li>
-            Work with Elevate to complete any required MOUs, WEX/OJT templates,
-            and job descriptions.
-          </li>
-          <li>
-            Schedule a small pilot cohort and agree on metrics for success.
-          </li>
+          <li>Schedule a small pilot cohort and agree on metrics for success.</li>
         </ol>
         <p className="mt-2 text-[11px] text-slate-300">
-          Once finalized, this content can be moved into a branded PDF or
-          proposal document for {employer.name}.
+          Once finalized, this content can be moved into a branded PDF or proposal document for{' '}
+          {employer.name}.
         </p>
       </section>
     </div>

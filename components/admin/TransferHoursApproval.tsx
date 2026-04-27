@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 /**
@@ -36,7 +36,7 @@ interface TransferHoursApprovalProps {
 
 export default function TransferHoursApproval({
   transferHours,
-  enrollmentId
+  enrollmentId,
 }: TransferHoursApprovalProps) {
   const [expandedId, setExpandedId] = useState<string | null>(null);
   const [processing, setProcessing] = useState<string | null>(null);
@@ -45,14 +45,14 @@ export default function TransferHoursApproval({
   async function handleApprove(transferHour: TransferHour) {
     const theoryAccepted = prompt(
       `Theory hours to accept (max ${transferHour.hours_theory_submitted}):`,
-      transferHour.hours_theory_submitted.toString()
+      transferHour.hours_theory_submitted.toString(),
     );
 
     if (theoryAccepted === null) return;
 
     const practicalAccepted = prompt(
       `Practical hours to accept (max ${transferHour.hours_practical_submitted}):`,
-      transferHour.hours_practical_submitted.toString()
+      transferHour.hours_practical_submitted.toString(),
     );
 
     if (practicalAccepted === null) return;
@@ -67,7 +67,7 @@ export default function TransferHoursApproval({
       hours_practical_accepted: parseFloat(practicalAccepted),
       hours_other_accepted: transferHour.hours_other_submitted,
       effective_date: new Date().toISOString().split('T')[0],
-      notes: notes || undefined
+      notes: notes || undefined,
     });
 
     setProcessing(null);
@@ -112,9 +112,11 @@ export default function TransferHoursApproval({
         <div
           key={th.id}
           className={`border rounded-lg overflow-hidden transition-all ${
-            th.status === 'approved' ? 'border-brand-green-500/30 bg-brand-green-500/5' :
-            th.status === 'rejected' ? 'border-brand-red-500/30 bg-brand-orange-500/5' :
-            'border-slate-600 bg-slate-800/30'
+            th.status === 'approved'
+              ? 'border-brand-green-500/30 bg-brand-green-500/5'
+              : th.status === 'rejected'
+                ? 'border-brand-red-500/30 bg-brand-orange-500/5'
+                : 'border-slate-600 bg-slate-800/30'
           }`}
         >
           {/* Header */}
@@ -125,12 +127,8 @@ export default function TransferHoursApproval({
             <div className="flex items-start justify-between">
               <div className="flex-1">
                 <div className="flex items-center gap-3 mb-2">
-                  <h4 className="text-white font-semibold">
-                    {th.source_school_name}
-                  </h4>
-                  <span className="text-xs text-slate-400">
-                    {th.source_state}
-                  </span>
+                  <h4 className="text-white font-semibold">{th.source_school_name}</h4>
+                  <span className="text-xs text-slate-400">{th.source_state}</span>
                   {th.license_type && (
                     <span className="text-xs px-2 py-2 bg-slate-700 rounded text-slate-300">
                       {th.license_type}
@@ -144,8 +142,8 @@ export default function TransferHoursApproval({
                     <span className="text-white ml-2 font-medium">
                       {th.status === 'approved'
                         ? `${th.hours_theory_accepted} / ${th.hours_theory_submitted}`
-                        : th.hours_theory_submitted
-                      } hrs
+                        : th.hours_theory_submitted}{' '}
+                      hrs
                     </span>
                   </div>
                   <div>
@@ -153,8 +151,8 @@ export default function TransferHoursApproval({
                     <span className="text-white ml-2 font-medium">
                       {th.status === 'approved'
                         ? `${th.hours_practical_accepted} / ${th.hours_practical_submitted}`
-                        : th.hours_practical_submitted
-                      } hrs
+                        : th.hours_practical_submitted}{' '}
+                      hrs
                     </span>
                   </div>
                   {th.hours_other_submitted > 0 && (
@@ -169,16 +167,18 @@ export default function TransferHoursApproval({
               </div>
 
               <div className="flex items-center gap-3">
-                <span className={`badge ${
-                  th.status === 'approved' ? 'badge-success' :
-                  th.status === 'rejected' ? 'badge-warning' :
-                  'badge-primary'
-                }`}>
+                <span
+                  className={`badge ${
+                    th.status === 'approved'
+                      ? 'badge-success'
+                      : th.status === 'rejected'
+                        ? 'badge-warning'
+                        : 'badge-primary'
+                  }`}
+                >
                   {th.status}
                 </span>
-                <span className="text-slate-400">
-                  {expandedId === th.id ? '▼' : '▶'}
-                </span>
+                <span className="text-slate-400">{expandedId === th.id ? '▼' : '▶'}</span>
               </div>
             </div>
           </div>
@@ -186,7 +186,6 @@ export default function TransferHoursApproval({
           {/* Expanded Details */}
           {expandedId === th.id && (
             <div className="border-t border-slate-600 p-4 space-y-4">
-
               {/* Documentation */}
               {th.proof_doc_path && (
                 <div>
@@ -215,14 +214,24 @@ export default function TransferHoursApproval({
                 <div>
                   <span className="text-slate-400">Submitted:</span>
                   <span className="text-slate-300 ml-2">
-                    {new Date(th.created_at).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                    {new Date(th.created_at).toLocaleDateString('en-US', {
+                      timeZone: 'UTC',
+                      month: 'short',
+                      day: 'numeric',
+                      year: 'numeric',
+                    })}
                   </span>
                 </div>
                 {th.effective_date && (
                   <div>
                     <span className="text-slate-400">Effective:</span>
                     <span className="text-slate-300 ml-2">
-                      {new Date(th.effective_date).toLocaleDateString('en-US', { timeZone: 'UTC', month: 'short', day: 'numeric', year: 'numeric' })}
+                      {new Date(th.effective_date).toLocaleDateString('en-US', {
+                        timeZone: 'UTC',
+                        month: 'short',
+                        day: 'numeric',
+                        year: 'numeric',
+                      })}
                     </span>
                   </div>
                 )}
@@ -270,7 +279,6 @@ export default function TransferHoursApproval({
                   </div>
                 </div>
               )}
-
             </div>
           )}
         </div>

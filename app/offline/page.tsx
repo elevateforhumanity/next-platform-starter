@@ -8,8 +8,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/offline',
   },
   title: 'Offline | Elevate For Humanity',
-  description:
-    'Explore Offline and discover opportunities for career growth and development.',
+  description: 'Explore Offline and discover opportunities for career growth and development.',
 };
 
 export default async function OfflinePage() {
@@ -17,6 +16,7 @@ export default async function OfflinePage() {
     <div className="min-h-screen bg-gray-50">
       {/* Hero Section */}
       <section className="relative h-[400px] md:h-[500px] lg:h-[600px] flex items-center justify-center text-white overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/artlist/hero-training-1.jpg"
           alt="Offline"
@@ -28,12 +28,9 @@ export default async function OfflinePage() {
         />
 
         <div className="relative z-10 max-w-4xl mx-auto px-4 text-center">
-          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">
-            Offline
-          </h1>
+          <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-6">Offline</h1>
           <p className="text-base md:text-lg mb-8 text-gray-100">
-            Explore Offline and discover opportunities for career growth and
-            development.
+            Explore Offline and discover opportunities for career growth and development.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -61,8 +58,7 @@ export default async function OfflinePage() {
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Offline</h2>
                 <p className="text-black mb-6">
-                  Explore Offline and discover opportunities for career growth
-                  and development.
+                  Explore Offline and discover opportunities for career growth and development.
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start">
@@ -146,9 +142,7 @@ export default async function OfflinePage() {
                   </svg>
                 </div>
                 <h3 className="text-lg font-semibold mb-3">Learn</h3>
-                <p className="text-black">
-                  Access quality training programs
-                </p>
+                <p className="text-black">Access quality training programs</p>
               </div>
 
               <div className="bg-white rounded-lg shadow-sm border p-6">
@@ -199,12 +193,9 @@ export default async function OfflinePage() {
       <section className="py-16 bg-brand-blue-700 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
-            <h2 className="text-2xl md:text-3xl font-bold mb-4">
-              Ready to Get Started?
-            </h2>
+            <h2 className="text-2xl md:text-3xl font-bold mb-4">Ready to Get Started?</h2>
             <p className="text-base md:text-lg text-blue-100 mb-8">
-              Join thousands who have launched successful careers through our
-              programs.
+              Join thousands who have launched successful careers through our programs.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link

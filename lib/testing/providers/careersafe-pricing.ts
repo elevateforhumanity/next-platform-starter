@@ -22,43 +22,43 @@ import { calculatePrice, calculateRetakePrice, calculateNoShowFee } from '../pri
 // ─── OSHA 10 ──────────────────────────────────────────────────────────────────
 
 /** ⚠️ ESTIMATE — verify against your CareerSafe provider agreement */
-const OSHA10_COURSE_COST  = 22;
-const OSHA10_DELIVERY     = 10;
-const OSHA10_OVERHEAD     =  8;
+const OSHA10_COURSE_COST = 22;
+const OSHA10_DELIVERY = 10;
+const OSHA10_OVERHEAD = 8;
 
 const osha10 = calculatePrice({
-  voucherCost:  OSHA10_COURSE_COST,
-  proctorCost:  OSHA10_DELIVERY,
+  voucherCost: OSHA10_COURSE_COST,
+  proctorCost: OSHA10_DELIVERY,
   overheadCost: OSHA10_OVERHEAD,
-  provider:     'careersafe',
+  provider: 'careersafe',
 });
 
 // ─── OSHA 30 ──────────────────────────────────────────────────────────────────
 
 /** ⚠️ ESTIMATE — verify against your CareerSafe provider agreement */
-const OSHA30_COURSE_COST  = 60;
-const OSHA30_DELIVERY     = 18;
-const OSHA30_OVERHEAD     = 10;
+const OSHA30_COURSE_COST = 60;
+const OSHA30_DELIVERY = 18;
+const OSHA30_OVERHEAD = 10;
 
 const osha30 = calculatePrice({
-  voucherCost:  OSHA30_COURSE_COST,
-  proctorCost:  OSHA30_DELIVERY,
+  voucherCost: OSHA30_COURSE_COST,
+  proctorCost: OSHA30_DELIVERY,
   overheadCost: OSHA30_OVERHEAD,
-  provider:     'careersafe',
+  provider: 'careersafe',
 });
 
 // ─── Exports ──────────────────────────────────────────────────────────────────
 
 export const CAREERSAFE_PRICING = {
   osha10: {
-    price:    osha10.price,
+    price: osha10.price,
     trueCost: osha10.trueCost,
-    margin:   osha10.margin,
+    margin: osha10.margin,
   },
   osha30: {
-    price:    osha30.price,
+    price: osha30.price,
     trueCost: osha30.trueCost,
-    margin:   osha30.margin,
+    margin: osha30.margin,
   },
   noShow: calculateNoShowFee(OSHA10_DELIVERY, OSHA10_OVERHEAD),
 } as const;
@@ -66,13 +66,13 @@ export const CAREERSAFE_PRICING = {
 /** Fee rows for proctoring-capabilities.ts */
 export const CAREERSAFE_FEES = [
   {
-    label:  'OSHA 10-Hour',
+    label: 'OSHA 10-Hour',
     amount: CAREERSAFE_PRICING.osha10.price,
-    note:   'Includes course + DOL wallet card',
+    note: 'Includes course + DOL wallet card',
   },
   {
-    label:  'OSHA 30-Hour',
+    label: 'OSHA 30-Hour',
     amount: CAREERSAFE_PRICING.osha30.price,
-    note:   'Includes course + DOL wallet card',
+    note: 'Includes course + DOL wallet card',
   },
 ] as const;

@@ -28,7 +28,9 @@ async function _POST(request: NextRequest) {
 
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -42,9 +44,10 @@ async function _POST(request: NextRequest) {
 
     // Get request metadata
     const headersList = await headers();
-    const ip_address = headersList.get('x-forwarded-for')?.split(',')[0] || 
-                       headersList.get('x-real-ip') || 
-                       'unknown';
+    const ip_address =
+      headersList.get('x-forwarded-for')?.split(',')[0] ||
+      headersList.get('x-real-ip') ||
+      'unknown';
     const user_agent = headersList.get('user-agent') || 'unknown';
 
     // Get current versions for each agreement type
@@ -59,8 +62,8 @@ async function _POST(request: NextRequest) {
     }
 
     // Create acceptance records
-    const acceptances = agreements.map(agreementType => {
-      const version = versions?.find(v => v.agreement_type === agreementType);
+    const acceptances = agreements.map((agreementType) => {
+      const version = versions?.find((v) => v.agreement_type === agreementType);
       return {
         user_id: user.id,
         organization_id: organization_id || null,
@@ -78,9 +81,9 @@ async function _POST(request: NextRequest) {
     // Insert acceptances (upsert to handle re-acceptance of same version)
     const { data: inserted, error: insertError } = await supabase
       .from('license_agreement_acceptances')
-      .upsert(acceptances, { 
+      .upsert(acceptances, {
         onConflict: 'user_id,agreement_type,document_version',
-        ignoreDuplicates: true 
+        ignoreDuplicates: true,
       })
       .select();
 
@@ -93,9 +96,8 @@ async function _POST(request: NextRequest) {
       success: true,
       accepted: agreements,
       timestamp: new Date().toISOString(),
-      message: `Accepted ${agreements.length} agreement(s)`
+      message: `Accepted ${agreements.length} agreement(s)`,
     });
-
   } catch (error) {
     logger.error('Agreement acceptance error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
@@ -113,7 +115,9 @@ async function _GET(request: NextRequest) {
 
     const supabase = await createClient();
 
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -131,14 +135,15 @@ async function _GET(request: NextRequest) {
 
     // Check which are current
     const required: AgreementType[] = ['eula', 'tos', 'aup', 'disclosures'];
-    const status: Record<string, { accepted: boolean; version?: string; accepted_at?: string }> = {};
+    const status: Record<string, { accepted: boolean; version?: string; accepted_at?: string }> =
+      {};
 
     for (const type of required) {
-      const currentVersion = versions?.find(v => v.agreement_type === type)?.current_version;
-      const acceptance = acceptances?.find(a => 
-        a.agreement_type === type && a.document_version === currentVersion
+      const currentVersion = versions?.find((v) => v.agreement_type === type)?.current_version;
+      const acceptance = acceptances?.find(
+        (a) => a.agreement_type === type && a.document_version === currentVersion,
       );
-      
+
       status[type] = {
         accepted: !!acceptance,
         version: acceptance?.document_version,
@@ -147,9 +152,9 @@ async function _GET(request: NextRequest) {
     }
 
     // Check license agreement separately (only for licensees)
-    const licenseVersion = versions?.find(v => v.agreement_type === 'license')?.current_version;
-    const licenseAcceptance = acceptances?.find(a => 
-      a.agreement_type === 'license' && a.document_version === licenseVersion
+    const licenseVersion = versions?.find((v) => v.agreement_type === 'license')?.current_version;
+    const licenseAcceptance = acceptances?.find(
+      (a) => a.agreement_type === 'license' && a.document_version === licenseVersion,
     );
     status['license'] = {
       accepted: !!licenseAcceptance,
@@ -157,14 +162,13 @@ async function _GET(request: NextRequest) {
       accepted_at: licenseAcceptance?.accepted_at,
     };
 
-    const allRequiredAccepted = required.every(type => status[type].accepted);
+    const allRequiredAccepted = required.every((type) => status[type].accepted);
 
     return NextResponse.json({
       user_id: user.id,
       all_required_accepted: allRequiredAccepted,
       agreements: status,
     });
-
   } catch (error) {
     logger.error('Agreement status check error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

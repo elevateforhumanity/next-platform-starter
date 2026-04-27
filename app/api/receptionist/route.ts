@@ -1,5 +1,3 @@
-
-
 import { NextResponse } from 'next/server';
 import { getOpenAIClient } from '@/lib/openai-client';
 import { logger } from '@/lib/logger';
@@ -49,10 +47,7 @@ async function _POST(req: Request) {
     const { message, history } = await req.json();
 
     if (!message) {
-      return NextResponse.json(
-        { error: 'Message is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Message is required' }, { status: 400 });
     }
 
     const openai = getOpenAIClient();
@@ -87,7 +82,7 @@ async function _POST(req: Request) {
       "I apologize, I'm having trouble responding right now. Please visit /contact or /faq for help.";
 
     return NextResponse.json({ response });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Receptionist API error:', error);
 
     // Return helpful fallback

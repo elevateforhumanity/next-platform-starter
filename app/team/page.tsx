@@ -9,7 +9,8 @@ export const revalidate = 3600;
 
 export const metadata: Metadata = {
   title: 'Our Team | Elevate for Humanity',
-  description: 'Meet the educators, workforce specialists, and community advocates behind Elevate for Humanity.',
+  description:
+    'Meet the educators, workforce specialists, and community advocates behind Elevate for Humanity.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/team' },
 };
 
@@ -22,16 +23,17 @@ export default async function TeamPage() {
     .eq('is_active', true)
     .order('display_order');
 
-  const members = (dbStaff && dbStaff.length > 0)
-    ? dbStaff.map((p) => ({
-        id: p.id,
-        name: p.name ?? 'Team Member',
-        title: p.title ?? '',
-        bio: p.bio ?? '',
-        headshotSrc: p.image_url ?? null,
-        email: p.email ?? '',
-      }))
-    : TEAM;
+  const members =
+    dbStaff && dbStaff.length > 0
+      ? dbStaff.map((p) => ({
+          id: p.id,
+          name: p.name ?? 'Team Member',
+          title: p.title ?? '',
+          bio: p.bio ?? '',
+          headshotSrc: p.image_url ?? null,
+          email: p.email ?? '',
+        }))
+      : TEAM;
 
   return (
     <div className="min-h-screen bg-white">
@@ -43,7 +45,9 @@ export default async function TeamPage() {
 
       <section className="bg-slate-900 py-16 px-4">
         <div className="max-w-4xl mx-auto">
-          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">Elevate for Humanity</p>
+          <p className="text-xs font-bold uppercase tracking-widest text-brand-red-400 mb-3">
+            Elevate for Humanity
+          </p>
           <h1 className="text-4xl font-extrabold text-white mb-4">Our Team</h1>
           <p className="text-slate-300 text-lg max-w-2xl">
             Educators, workforce specialists, and community advocates committed to learner success.
@@ -54,9 +58,12 @@ export default async function TeamPage() {
       <section className="py-16 px-4">
         <div className="max-w-6xl mx-auto grid gap-6 md:grid-cols-2">
           {members.map((member) => (
-            <article key={member.id} className="flex gap-4 rounded-xl border p-6 hover:bg-slate-50 transition">
+            <article
+              key={member.id}
+              className="flex gap-4 rounded-xl border p-6 hover:bg-slate-50 transition"
+            >
               {member.headshotSrc && (
-                <Image
+                <Image sizes="100vw"
                   src={member.headshotSrc}
                   alt={member.name}
                   width={80}
@@ -85,8 +92,13 @@ export default async function TeamPage() {
       <section className="bg-slate-50 py-12 px-4 text-center">
         <div className="max-w-2xl mx-auto">
           <h2 className="text-2xl font-bold text-slate-900 mb-3">Join Our Team</h2>
-          <p className="text-slate-600 mb-6">We're always looking for passionate educators and workforce professionals.</p>
-          <Link href="/careers" className="rounded-lg bg-brand-red-600 px-6 py-3 text-white font-semibold hover:bg-brand-red-700">
+          <p className="text-slate-600 mb-6">
+            We're always looking for passionate educators and workforce professionals.
+          </p>
+          <Link
+            href="/careers"
+            className="rounded-lg bg-brand-red-600 px-6 py-3 text-white font-semibold hover:bg-brand-red-700"
+          >
             View Open Positions
           </Link>
         </div>

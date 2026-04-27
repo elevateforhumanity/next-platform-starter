@@ -1,12 +1,17 @@
 /**
  * Licensure Rules Engine
- * 
+ *
  * Hard-coded state rules for automatic transfer evaluation.
  * Rules are versioned and hashed for audit trail.
  */
 
 import crypto from 'crypto';
-import type { LicensureRules, SourceType, TransferEvaluationResult, EvaluationDecision } from './types';
+import type {
+  LicensureRules,
+  SourceType,
+  TransferEvaluationResult,
+  EvaluationDecision,
+} from './types';
 import { INDIANA_RULES } from './IN';
 
 // Export types
@@ -14,7 +19,7 @@ export * from './types';
 
 // Registry of all state rules
 const STATE_RULES: Record<string, LicensureRules> = {
-  'IN': INDIANA_RULES,
+  IN: INDIANA_RULES,
 };
 
 // Supported states
@@ -37,7 +42,7 @@ export function hashRules(rules: LicensureRules): string {
 
 /**
  * Evaluate transfer hours against state rules
- * 
+ *
  * This is AUTOMATIC evaluation - no manual intervention for standard cases.
  * Returns 'requires_manual_review' only for edge cases.
  */
@@ -50,7 +55,7 @@ export function evaluateTransfer(params: {
   has_documents?: boolean;
 }): TransferEvaluationResult {
   const rules = getRules(params.target_state);
-  
+
   // State not supported - requires manual review
   if (!rules) {
     return {
@@ -68,7 +73,7 @@ export function evaluateTransfer(params: {
   const reasonCodes: string[] = [];
   let decision: EvaluationDecision = 'accepted';
   let acceptedHours = params.hours_claimed;
-  
+
   // Check if source type is accepted
   if (!rules.accepted_sources.includes(params.source_type)) {
     return {
@@ -104,7 +109,8 @@ export function evaluateTransfer(params: {
       rule_set_id: rules.rule_set_id,
       rule_hash: ruleHash,
       reason_codes: ['DOCUMENTS_MISSING'],
-      explanation: 'Transfer credit requires documentation (transcript, certificate, or license verification).',
+      explanation:
+        'Transfer credit requires documentation (transcript, certificate, or license verification).',
     };
   }
 
@@ -161,7 +167,7 @@ export function checkExamEligibility(params: {
   has_pending_reviews: boolean;
 }): { eligible: boolean; reason: string } {
   const rules = getRules(params.state);
-  
+
   if (!rules) {
     return { eligible: false, reason: 'State rules not found.' };
   }
@@ -172,9 +178,9 @@ export function checkExamEligibility(params: {
 
   if (params.total_accepted_hours < rules.exam_eligibility_hours) {
     const remaining = rules.exam_eligibility_hours - params.total_accepted_hours;
-    return { 
-      eligible: false, 
-      reason: `${remaining} more hours required. Current: ${params.total_accepted_hours}/${rules.exam_eligibility_hours}.` 
+    return {
+      eligible: false,
+      reason: `${remaining} more hours required. Current: ${params.total_accepted_hours}/${rules.exam_eligibility_hours}.`,
     };
   }
 
@@ -184,18 +190,22 @@ export function checkExamEligibility(params: {
 /**
  * Calculate remaining hours needed
  */
-export function calculateRemainingHours(params: {
-  state: string;
-  total_accepted_hours: number;
-}): { remaining: number; total_required: number; percentage_complete: number } {
+export function calculateRemainingHours(params: { state: string; total_accepted_hours: number }): {
+  remaining: number;
+  total_required: number;
+  percentage_complete: number;
+} {
   const rules = getRules(params.state);
-  
+
   if (!rules) {
     return { remaining: 0, total_required: 0, percentage_complete: 0 };
   }
 
   const remaining = Math.max(0, rules.required_total_hours - params.total_accepted_hours);
-  const percentage = Math.min(100, (params.total_accepted_hours / rules.required_total_hours) * 100);
+  const percentage = Math.min(
+    100,
+    (params.total_accepted_hours / rules.required_total_hours) * 100,
+  );
 
   return {
     remaining,

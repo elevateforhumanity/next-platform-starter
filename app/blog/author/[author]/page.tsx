@@ -33,16 +33,13 @@ async function getAuthorPosts(author: string) {
       .order('published_at', { ascending: false });
 
     return posts || [];
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return [];
   }
 }
 
-export default async function AuthorPage({
-  params,
-}: {
-  params: Promise<{ author: string }>;
-}) {
+export default async function AuthorPage({ params }: { params: Promise<{ author: string }> }) {
   const { author } = await params;
   const posts = await getAuthorPosts(author);
   const authorName = author.replace(/-/g, ' ');
@@ -53,10 +50,10 @@ export default async function AuthorPage({
 
   return (
     <div className="bg-white min-h-screen">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Blog", href: "/blog" }, { label: "[Author]" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Blog', href: '/blog' }, { label: '[Author]' }]} />
       </div>
-<div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         {/* Author Header */}
         <div className="mb-12 text-center">
           <div className="w-24 h-24    rounded-full mx-auto mb-4 flex items-center justify-center text-white text-3xl font-bold">
@@ -99,18 +96,11 @@ export default async function AuthorPage({
                   </span>
                 )}
                 <h2 className="text-xl font-bold text-black mb-2">
-                  <Link
-                    href={`/blog/${post.slug}`}
-                    className="hover:text-brand-blue-600"
-                  >
+                  <Link href={`/blog/${post.slug}`} className="hover:text-brand-blue-600">
                     {post.title}
                   </Link>
                 </h2>
-                {post.excerpt && (
-                  <p className="text-black mb-4 line-clamp-3">
-                    {post.excerpt}
-                  </p>
-                )}
+                {post.excerpt && <p className="text-black mb-4 line-clamp-3">{post.excerpt}</p>}
                 <div className="text-sm text-slate-500">
                   {new Date(post.published_at).toLocaleDateString()}
                 </div>

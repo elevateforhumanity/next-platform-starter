@@ -63,9 +63,7 @@ export const courseSchema = (course: {
   },
 });
 
-export const breadcrumbSchema = (
-  items: Array<{ name: string; url: string }>
-) => ({
+export const breadcrumbSchema = (items: Array<{ name: string; url: string }>) => ({
   '@context': 'https://schema.org',
   '@type': 'BreadcrumbList',
   itemListElement: items.map((item, index) => ({
@@ -76,9 +74,7 @@ export const breadcrumbSchema = (
   })),
 });
 
-export const faqSchema = (
-  faqs: Array<{ question: string; answer: string }>
-) => ({
+export const faqSchema = (faqs: Array<{ question: string; answer: string }>) => ({
   '@context': 'https://schema.org',
   '@type': 'FAQPage',
   mainEntity: faqs.map((faq) => ({

@@ -7,14 +7,14 @@ let redis: Redis | null = null;
 
 function getRedis(): Redis | null {
   if (redis) return redis;
-  
+
   const url = process.env.UPSTASH_REDIS_REST_URL;
   const token = process.env.UPSTASH_REDIS_REST_TOKEN;
-  
+
   if (!url || !token || !url.startsWith('https://')) {
     return null;
   }
-  
+
   redis = new Redis({ url, token });
   return redis;
 }
@@ -33,7 +33,10 @@ const RATE_LIMITS = {
 } as const;
 
 // Create rate limiters lazily
-function createRateLimiter(config: { requests: number; window: string }, prefix: string): Ratelimit | null {
+function createRateLimiter(
+  config: { requests: number; window: string },
+  prefix: string,
+): Ratelimit | null {
   const r = getRedis();
   if (!r) return null;
   return new Ratelimit({
@@ -55,15 +58,51 @@ let _pageLoadRateLimit: Ratelimit | null | undefined;
 let _licenseRateLimit: Ratelimit | null | undefined;
 let _licenseValidateRateLimit: Ratelimit | null | undefined;
 
-export const authRateLimit = { get: () => _authRateLimit ?? (_authRateLimit = createRateLimiter(RATE_LIMITS.auth, 'ratelimit:auth')) };
-export const paymentRateLimit = { get: () => _paymentRateLimit ?? (_paymentRateLimit = createRateLimiter(RATE_LIMITS.payment, 'ratelimit:payment')) };
-export const contactRateLimit = { get: () => _contactRateLimit ?? (_contactRateLimit = createRateLimiter(RATE_LIMITS.contact, 'ratelimit:contact')) };
-export const apiRateLimit = { get: () => _apiRateLimit ?? (_apiRateLimit = createRateLimiter(RATE_LIMITS.api, 'ratelimit:api')) };
-export const strictRateLimit = { get: () => _strictRateLimit ?? (_strictRateLimit = createRateLimiter(RATE_LIMITS.strict, 'ratelimit:strict')) };
-export const publicRateLimit = { get: () => _publicRateLimit ?? (_publicRateLimit = createRateLimiter(RATE_LIMITS.public, 'ratelimit:public')) };
-export const pageLoadRateLimit = { get: () => _pageLoadRateLimit ?? (_pageLoadRateLimit = createRateLimiter(RATE_LIMITS.pageLoad, 'ratelimit:pageload')) };
-export const licenseRateLimit = { get: () => _licenseRateLimit ?? (_licenseRateLimit = createRateLimiter(RATE_LIMITS.license, 'ratelimit:license')) };
-export const licenseValidateRateLimit = { get: () => _licenseValidateRateLimit ?? (_licenseValidateRateLimit = createRateLimiter(RATE_LIMITS.licenseValidate, 'ratelimit:license-validate')) };
+export const authRateLimit = {
+  get: () =>
+    _authRateLimit ?? (_authRateLimit = createRateLimiter(RATE_LIMITS.auth, 'ratelimit:auth')),
+};
+export const paymentRateLimit = {
+  get: () =>
+    _paymentRateLimit ??
+    (_paymentRateLimit = createRateLimiter(RATE_LIMITS.payment, 'ratelimit:payment')),
+};
+export const contactRateLimit = {
+  get: () =>
+    _contactRateLimit ??
+    (_contactRateLimit = createRateLimiter(RATE_LIMITS.contact, 'ratelimit:contact')),
+};
+export const apiRateLimit = {
+  get: () => _apiRateLimit ?? (_apiRateLimit = createRateLimiter(RATE_LIMITS.api, 'ratelimit:api')),
+};
+export const strictRateLimit = {
+  get: () =>
+    _strictRateLimit ??
+    (_strictRateLimit = createRateLimiter(RATE_LIMITS.strict, 'ratelimit:strict')),
+};
+export const publicRateLimit = {
+  get: () =>
+    _publicRateLimit ??
+    (_publicRateLimit = createRateLimiter(RATE_LIMITS.public, 'ratelimit:public')),
+};
+export const pageLoadRateLimit = {
+  get: () =>
+    _pageLoadRateLimit ??
+    (_pageLoadRateLimit = createRateLimiter(RATE_LIMITS.pageLoad, 'ratelimit:pageload')),
+};
+export const licenseRateLimit = {
+  get: () =>
+    _licenseRateLimit ??
+    (_licenseRateLimit = createRateLimiter(RATE_LIMITS.license, 'ratelimit:license')),
+};
+export const licenseValidateRateLimit = {
+  get: () =>
+    _licenseValidateRateLimit ??
+    (_licenseValidateRateLimit = createRateLimiter(
+      RATE_LIMITS.licenseValidate,
+      'ratelimit:license-validate',
+    )),
+};
 
 // Helper function to get identifier from request
 export function getIdentifier(request: Request): string {
@@ -71,7 +110,7 @@ export function getIdentifier(request: Request): string {
   const forwarded = request.headers.get('x-forwarded-for');
   const realIp = request.headers.get('x-real-ip');
   const ip = forwarded?.split(',')[0] || realIp || 'unknown';
-  
+
   return ip;
 }
 

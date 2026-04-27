@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { createClient } from '@/lib/supabase/server';
@@ -28,17 +27,11 @@ async function _POST(request: NextRequest) {
     const { role, paymentType, rate, payoutMethod, taxIdUploaded } = body;
 
     if (!role || !paymentType || !rate || !payoutMethod) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     if (!taxIdUploaded) {
-      return NextResponse.json(
-        { error: 'W-9 tax form must be uploaded' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'W-9 tax form must be uploaded' }, { status: 400 });
     }
 
     // Validate rate against config
@@ -57,7 +50,7 @@ async function _POST(request: NextRequest) {
           {
             error: `Rate must be between ${rateConfig.min_rate} and ${rateConfig.max_rate}`,
           },
-          { status: 400 }
+          { status: 400 },
         );
       }
     }
@@ -84,30 +77,22 @@ async function _POST(request: NextRequest) {
         .eq('id', existingProfile.id);
 
       if (updateError) {
-        return NextResponse.json(
-          { error: 'Failed to update payroll profile' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to update payroll profile' }, { status: 500 });
       }
     } else {
       // Create new profile
-      const { error: insertError } = await supabase
-        .from('payroll_profiles')
-        .insert({
-          user_id: user.id,
-          role: role,
-          payment_type: paymentType,
-          rate: parseFloat(rate),
-          payout_method: payoutMethod,
-          tax_id_uploaded: taxIdUploaded,
-          status: 'PENDING',
-        });
+      const { error: insertError } = await supabase.from('payroll_profiles').insert({
+        user_id: user.id,
+        role: role,
+        payment_type: paymentType,
+        rate: parseFloat(rate),
+        payout_method: payoutMethod,
+        tax_id_uploaded: taxIdUploaded,
+        status: 'PENDING',
+      });
 
       if (insertError) {
-        return NextResponse.json(
-          { error: 'Failed to create payroll profile' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to create payroll profile' }, { status: 500 });
       }
     }
 
@@ -123,9 +108,7 @@ async function _POST(request: NextRequest) {
       action: 'payroll_profile_created',
       entity: 'payroll_profiles',
       changes: { role, paymentType, rate, payoutMethod },
-      ip_address:
-        request.headers.get('x-forwarded-for') ||
-        request.headers.get('x-real-ip'),
+      ip_address: request.headers.get('x-forwarded-for') || request.headers.get('x-real-ip'),
       user_agent: request.headers.get('user-agent'),
     });
 
@@ -135,10 +118,9 @@ async function _POST(request: NextRequest) {
   } catch (err: any) {
     return NextResponse.json(
       {
-        err:
-          'Internal server error',
+        err: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

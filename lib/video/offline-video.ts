@@ -20,7 +20,7 @@ export class OfflineVideoManager {
     videoId: string,
     lessonId: string,
     url: string,
-    onProgress?: (progress: DownloadProgress) => void
+    onProgress?: (progress: DownloadProgress) => void,
   ): Promise<boolean> {
     try {
       const response = await fetch(url);
@@ -60,7 +60,8 @@ export class OfflineVideoManager {
       });
       //
       return true;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return false;
     }
@@ -77,7 +78,8 @@ export class OfflineVideoManager {
       }
       // Create object URL from blob
       return URL.createObjectURL(video.blob);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return null;
     }
@@ -90,7 +92,8 @@ export class OfflineVideoManager {
       const db = await getDB();
       const video = await db.getVideo(videoId);
       return !!video;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       return false;
     }
   }
@@ -103,7 +106,8 @@ export class OfflineVideoManager {
       await db.deleteVideo(videoId);
       //
       return true;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return false;
     }
@@ -120,7 +124,8 @@ export class OfflineVideoManager {
         count: 0, // Would need to query video count
         sizeMB: Math.round((estimate.usage / 1024 / 1024) * 100) / 100,
       };
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return { count: 0, sizeMB: 0 };
     }
@@ -134,7 +139,8 @@ export class OfflineVideoManager {
       // Would need to implement getAllVideos and delete each
       //
       return true;
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
       return false;
     }
@@ -149,7 +155,7 @@ export function useVideoDownload() {
     videoId: string,
     lessonId: string,
     url: string,
-    onProgress?: (progress: DownloadProgress) => void
+    onProgress?: (progress: DownloadProgress) => void,
   ) => {
     return manager.downloadVideo(videoId, lessonId, url, onProgress);
   };

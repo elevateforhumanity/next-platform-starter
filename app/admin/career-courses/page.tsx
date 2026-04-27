@@ -14,25 +14,32 @@ export const metadata: Metadata = {
 
 export default async function CareerCoursesPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const db = await getAdminClient();
-  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+  const { data: profile } = await db
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
   if (!['admin', 'super_admin', 'staff'].includes(profile?.role ?? '')) redirect('/unauthorized');
 
-  const [
-    { data: courses, count: total },
-    { count: published },
-    { count: draft },
-  ] = await Promise.all([
-    db.from('career_courses')
-      .select('id, title, slug, status, created_at, updated_at', { count: 'exact' })
-      .order('created_at', { ascending: false })
-      .limit(50),
-    db.from('career_courses').select('*', { count: 'exact', head: true }).eq('status', 'published'),
-    db.from('career_courses').select('*', { count: 'exact', head: true }).eq('status', 'draft'),
-  ]);
+  const [{ data: courses, count: total }, { count: published }, { count: draft }] =
+    await Promise.all([
+      db
+        .from('career_courses')
+        .select('id, title, slug, status, created_at, updated_at', { count: 'exact' })
+        .order('created_at', { ascending: false })
+        .limit(50),
+      db
+        .from('career_courses')
+        .select('*', { count: 'exact', head: true })
+        .eq('status', 'published'),
+      db.from('career_courses').select('*', { count: 'exact', head: true }).eq('status', 'draft'),
+    ]);
 
   return (
     <AdminPageShell
@@ -40,9 +47,9 @@ export default async function CareerCoursesPage() {
       description="Self-paced career development courses available in the marketplace."
       breadcrumbs={[{ label: 'Admin', href: '/admin/dashboard' }, { label: 'Career Courses' }]}
       stats={[
-        { label: 'Total',     value: total ?? 0,     icon: BookOpen,     color: 'slate' },
-        { label: 'Published', value: published ?? 0, icon: CheckCircle,  color: 'green' },
-        { label: 'Draft',     value: draft ?? 0,     icon: Clock,        color: 'amber' },
+        { label: 'Total', value: total ?? 0, icon: BookOpen, color: 'slate' },
+        { label: 'Published', value: published ?? 0, icon: CheckCircle, color: 'green' },
+        { label: 'Draft', value: draft ?? 0, icon: Clock, color: 'amber' },
       ]}
       actions={
         <Link
@@ -64,20 +71,27 @@ export default async function CareerCoursesPage() {
               <div className="col-span-1" />
             </div>
             {courses.map((course: any) => (
-              <div key={course.id} className="grid grid-cols-12 gap-4 px-5 py-4 items-center hover:bg-slate-50 transition-colors">
+              <div
+                key={course.id}
+                className="grid grid-cols-12 gap-4 px-5 py-4 items-center hover:bg-slate-50 transition-colors"
+              >
                 <div className="col-span-5">
-                  <p className="text-sm font-semibold text-slate-900 truncate">{course.title || '—'}</p>
+                  <p className="text-sm font-semibold text-slate-900 truncate">
+                    {course.title || '—'}
+                  </p>
                   <p className="text-xs text-slate-400 mt-0.5">{course.id.slice(0, 8)}…</p>
                 </div>
                 <div className="col-span-3">
                   <p className="text-xs text-slate-500 font-mono truncate">{course.slug || '—'}</p>
                 </div>
                 <div className="col-span-2">
-                  <span className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide ${
-                    course.status === 'published'
-                      ? 'bg-emerald-100 text-emerald-700'
-                      : 'bg-amber-100 text-amber-700'
-                  }`}>
+                  <span
+                    className={`inline-flex items-center px-2 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wide ${
+                      course.status === 'published'
+                        ? 'bg-emerald-100 text-emerald-700'
+                        : 'bg-amber-100 text-amber-700'
+                    }`}
+                  >
                     {course.status ?? 'draft'}
                   </span>
                 </div>

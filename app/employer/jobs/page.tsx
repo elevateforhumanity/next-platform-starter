@@ -15,9 +15,10 @@ export const dynamic = 'force-dynamic';
 export default async function EmployerJobsPage() {
   const supabase = await createClient();
 
-
   // Auth check
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const { data: profile } = await supabase
@@ -37,9 +38,9 @@ export default async function EmployerJobsPage() {
     .eq('employer_id', user.id)
     .order('created_at', { ascending: false });
 
-  const activeJobs = jobs?.filter(j => j.status === 'active') || [];
-  const draftJobs = jobs?.filter(j => j.status === 'draft') || [];
-  const closedJobs = jobs?.filter(j => j.status === 'closed') || [];
+  const activeJobs = jobs?.filter((j) => j.status === 'active') || [];
+  const draftJobs = jobs?.filter((j) => j.status === 'draft') || [];
+  const closedJobs = jobs?.filter((j) => j.status === 'closed') || [];
 
   return (
     <div className="min-h-screen bg-white">

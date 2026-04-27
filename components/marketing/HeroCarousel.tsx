@@ -1,12 +1,12 @@
-"use client";
+'use client';
 
 import React from 'react';
 // components/marketing/HeroCarousel.tsx
 
-import { useEffect, useState } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import Image from "next/image";
-import Link from "next/link";
+import { useEffect, useState } from 'react';
+import { motion, AnimatePresence } from 'framer-motion';
+import Image from 'next/image';
+import Link from 'next/link';
 
 type Slide = {
   id: number;
@@ -24,39 +24,39 @@ type Slide = {
 const slides: Slide[] = [
   {
     id: 1,
-    label: "Funded training · No debt",
-    title: "Free career paths for real people.",
-    highlight: "Healthcare, trades, CDL, barbering.",
-    body: "Most learners qualify for $0 tuition through workforce grants and justice-aligned funding. We help with paperwork, approvals, and the hard parts.",
-    image: "/media/programs/efh-cna-hero.jpg",
-    primaryCtaLabel: "Check my eligibility",
-    primaryCtaHref: "/apply",
-    secondaryCtaLabel: "See all programs",
-    secondaryCtaHref: "/programs",
+    label: 'Funded training · No debt',
+    title: 'Free career paths for real people.',
+    highlight: 'Healthcare, trades, CDL, barbering.',
+    body: 'Most learners qualify for $0 tuition through workforce grants and justice-aligned funding. We help with paperwork, approvals, and the hard parts.',
+    image: '/media/programs/efh-cna-hero.jpg',
+    primaryCtaLabel: 'Check my eligibility',
+    primaryCtaHref: '/apply',
+    secondaryCtaLabel: 'See all programs',
+    secondaryCtaHref: '/programs',
   },
   {
     id: 2,
-    label: "Re-entry & second chances",
-    title: "From incarceration to income.",
-    highlight: "Coaching + apprenticeships + employers.",
-    body: "Barber, trades, and other pathways built specifically with re-entry in mind — structure, accountability, and real earning potential.",
-    image: "/images/pages/barber-gallery-1.jpg",
-    primaryCtaLabel: "Explore re-entry pathways",
-    primaryCtaHref: "/reentry",
-    secondaryCtaLabel: "Watch 2-minute story",
-    secondaryCtaHref: "/videos/barber-reentry",
+    label: 'Re-entry & second chances',
+    title: 'From incarceration to income.',
+    highlight: 'Coaching + apprenticeships + employers.',
+    body: 'Barber, trades, and other pathways built specifically with re-entry in mind — structure, accountability, and real earning potential.',
+    image: '/images/pages/barber-gallery-1.jpg',
+    primaryCtaLabel: 'Explore re-entry pathways',
+    primaryCtaHref: '/reentry',
+    secondaryCtaLabel: 'Watch 2-minute story',
+    secondaryCtaHref: '/videos/barber-reentry',
   },
   {
     id: 3,
-    label: "Employers · Courts · Workforce",
-    title: "An engine for talent pipelines.",
-    highlight: "OJT · WEX · apprenticeships · JRI.",
-    body: "Elevate plugs into courts, boards, and HR so funded training actually turns into staffed positions and measurable outcomes.",
-    image: "/images/pages/training-cohort.jpg",
-    primaryCtaLabel: "Partner with Elevate",
-    primaryCtaHref: "/employers",
-    secondaryCtaLabel: "View employer one-pager",
-    secondaryCtaHref: "/employers/resources",
+    label: 'Employers · Courts · Workforce',
+    title: 'An engine for talent pipelines.',
+    highlight: 'OJT · WEX · apprenticeships · JRI.',
+    body: 'Elevate plugs into courts, boards, and HR so funded training actually turns into staffed positions and measurable outcomes.',
+    image: '/images/pages/training-cohort.jpg',
+    primaryCtaLabel: 'Partner with Elevate',
+    primaryCtaHref: '/employers',
+    secondaryCtaLabel: 'View employer one-pager',
+    secondaryCtaHref: '/employers/resources',
   },
 ];
 
@@ -77,8 +77,7 @@ export function HeroCarousel() {
 
   const goTo = (i: number) => setIndex(i);
   const next = () => setIndex((prev) => (prev + 1) % slides.length);
-  const prev = () =>
-    setIndex((prev) => (prev - 1 + slides.length) % slides.length);
+  const prev = () => setIndex((prev) => (prev - 1 + slides.length) % slides.length);
 
   return (
     <section className="relative overflow-hidden">
@@ -92,7 +91,7 @@ export function HeroCarousel() {
               initial={{ opacity: 0, x: -40 }}
               animate={{ opacity: 1, x: 0 }}
               exit={{ opacity: 0, x: 40 }}
-              transition={{ duration: 0.5, ease: "easeOut" }}
+              transition={{ duration: 0.5, ease: 'easeOut' }}
               className="space-y-6"
             >
               <p className="inline-flex items-center rounded-full bg-brand-orange-500/10 px-3 py-2 text-xs font-semibold uppercase tracking-[0.2em] text-brand-orange-300 ring-1 ring-brand-orange-500/40">
@@ -100,13 +99,9 @@ export function HeroCarousel() {
               </p>
               <h1 className="text-balance text-4xl font-semibold tracking-tight sm:text-5xl lg:text-6xl">
                 {activeSlide.title}
-                <span className="block text-brand-orange-300">
-                  {activeSlide.highlight}
-                </span>
+                <span className="block text-brand-orange-300">{activeSlide.highlight}</span>
               </h1>
-              <p className="text-balance text-base text-zinc-100 sm:text-lg">
-                {activeSlide.body}
-              </p>
+              <p className="text-balance text-base text-zinc-100 sm:text-lg">{activeSlide.body}</p>
 
               {/* CTAs */}
               <div className="space-y-3">
@@ -129,8 +124,8 @@ export function HeroCarousel() {
                     ★
                   </span>
                   <span>
-                    Designed with workforce boards, courts, and employers — not
-                    just a school in a silo.
+                    Designed with workforce boards, courts, and employers — not just a school in a
+                    silo.
                   </span>
                 </div>
               </div>
@@ -153,9 +148,7 @@ export function HeroCarousel() {
                   type="button"
                   onClick={() => goTo(i)}
                   className={`h-2.5 w-2.5 rounded-full transition ${
-                    i === index
-                      ? "bg-brand-orange-400"
-                      : "bg-zinc-700 hover:bg-zinc-500"
+                    i === index ? 'bg-brand-orange-400' : 'bg-zinc-700 hover:bg-zinc-500'
                   }`}
                   aria-label={`Go to slide ${i + 1}`}
                 />
@@ -181,16 +174,18 @@ export function HeroCarousel() {
                   initial={{ opacity: 0, scale: 1.02 }}
                   animate={{ opacity: 1, scale: 1 }}
                   exit={{ opacity: 0, scale: 0.98 }}
-                  transition={{ duration: 0.6, ease: "easeOut" }}
+                  transition={{ duration: 0.6, ease: 'easeOut' }}
                   className="absolute inset-0"
                 >
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
                   <Image
                     src={activeSlide.image}
                     alt={activeSlide.title}
                     fill
                     priority
                     className="object-cover"
-                   sizes="100vw" />
+                    sizes="100vw"
+                  />
                 </motion.div>
               </AnimatePresence>
             </div>

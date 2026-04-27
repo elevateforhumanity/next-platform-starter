@@ -22,13 +22,7 @@ const includeGlobs = [
   '**/*.css',
 ];
 
-const excludeDirs = new Set([
-  'node_modules',
-  '.git',
-  '.github',
-  'dist',
-  'client/dist',
-]);
+const excludeDirs = new Set(['node_modules', '.git', '.github', 'dist', 'client/dist']);
 
 function isExcluded(filePath) {
   const rel = path.relative(ROOT, filePath);

@@ -1,19 +1,25 @@
-
 export const revalidate = 3600;
-
 
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { 
-  FileText, Shield, Scale, Search, Settings, Mail, 
-  ArrowRight, Building2, Phone
+import {
+  FileText,
+  Shield,
+  Scale,
+  Search,
+  Settings,
+  Mail,
+  ArrowRight,
+  Building2,
+  Phone,
 } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Governance | Elevate for Humanity',
-  description: 'Platform governance, authoritative documents, and operational controls. For partners, buyers, reviewers, and agency representatives.',
+  description:
+    'Platform governance, authoritative documents, and operational controls. For partners, buyers, reviewers, and agency representatives.',
   robots: {
     index: true,
     follow: true,
@@ -84,7 +90,6 @@ export default async function GovernancePage() {
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
@@ -100,12 +105,10 @@ export default async function GovernancePage() {
             <Building2 className="w-8 h-8 text-brand-blue-400" />
             <span className="text-brand-blue-400 font-medium">Platform Governance</span>
           </div>
-          <h1 className="text-3xl md:text-4xl font-bold mb-4">
-            Governance
-          </h1>
+          <h1 className="text-3xl md:text-4xl font-bold mb-4">Governance</h1>
           <p className="text-slate-300 text-lg max-w-2xl">
-            This page provides a clear overview of how the platform is governed, documented, 
-            and controlled across the public site, LMS, Store, and affiliated services.
+            This page provides a clear overview of how the platform is governed, documented, and
+            controlled across the public site, LMS, Store, and affiliated services.
           </p>
           <div className="mt-6 text-sm text-slate-500">
             Last reviewed: {currentDate} • Owner: Platform Governance
@@ -116,13 +119,15 @@ export default async function GovernancePage() {
       <div className="max-w-4xl mx-auto px-4 py-12">
         {/* For Reviewers */}
         <section className="mb-12 bg-brand-blue-50 rounded-xl p-6 border border-brand-blue-100">
-          <h2 className="text-xl font-bold text-slate-900 mb-4">For Partners, Buyers & Reviewers</h2>
+          <h2 className="text-xl font-bold text-slate-900 mb-4">
+            For Partners, Buyers & Reviewers
+          </h2>
           <p className="text-slate-700 leading-relaxed mb-4">
-            If you are a partner, buyer, reviewer, or agency representative, this is the best 
+            If you are a partner, buyer, reviewer, or agency representative, this is the best
             starting point for understanding how the platform operates and how risk is managed.
           </p>
           <p className="text-slate-700 leading-relaxed">
-            All governance documents are designed to stand alone during diligence, regulatory 
+            All governance documents are designed to stand alone during diligence, regulatory
             review, or payment processor review.
           </p>
         </section>
@@ -218,28 +223,30 @@ export default async function GovernancePage() {
             Contact Governance Team
           </Link>
         </section>
-      {/* CTA Section */}
-      <section className="bg-brand-blue-700 text-white py-12">
-        <div className="max-w-4xl mx-auto px-4 text-center">
-          <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Your Career?</h2>
-          <p className="text-brand-blue-100 mb-6">Check your eligibility for funded career training programs.</p>
-          <div className="flex flex-col sm:flex-row gap-4 justify-center">
-            <Link
-              href="/apply"
-              className="inline-flex items-center justify-center bg-white text-brand-blue-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition"
-            >
-              Apply Now
-            </Link>
-            <a
-              href="/support"
-              className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-blue-800 transition"
-            >
-              <Phone className="w-4 h-4" />
-              (317) 314-3757
-            </a>
+        {/* CTA Section */}
+        <section className="bg-brand-blue-700 text-white py-12">
+          <div className="max-w-4xl mx-auto px-4 text-center">
+            <h2 className="text-2xl md:text-3xl font-bold mb-3">Ready to Start Your Career?</h2>
+            <p className="text-brand-blue-100 mb-6">
+              Check your eligibility for funded career training programs.
+            </p>
+            <div className="flex flex-col sm:flex-row gap-4 justify-center">
+              <Link
+                href="/apply"
+                className="inline-flex items-center justify-center bg-white text-brand-blue-700 px-6 py-3 rounded-lg font-bold hover:bg-gray-100 transition"
+              >
+                Apply Now
+              </Link>
+              <a
+                href="/support"
+                className="inline-flex items-center justify-center gap-2 border-2 border-white text-white px-6 py-3 rounded-lg font-bold hover:bg-brand-blue-800 transition"
+              >
+                <Phone className="w-4 h-4" />
+                (317) 314-3757
+              </a>
+            </div>
           </div>
-        </div>
-      </section>
+        </section>
       </div>
     </div>
   );

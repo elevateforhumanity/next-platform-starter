@@ -4,7 +4,7 @@ import { createClient } from '@/lib/supabase/server';
 // Enhanced validation functions
 export async function checkDuplicateEnrollment(
   studentId: string,
-  programId: string
+  programId: string,
 ): Promise<{ isDuplicate: boolean; existingEnrollmentId?: string }> {
   const supabase = await createClient();
   const { data: existing } = await supabase
@@ -25,9 +25,7 @@ export async function verifyCertificateEligibility(enrollmentId: string) {
   const supabase = await createClient();
   const { data: enrollment } = await supabase
     .from('program_enrollments')
-    .select(
-      '*, program:programs(required_lessons), progress:lesson_progress(completed_at)'
-    )
+    .select('*, program:programs(required_lessons), progress:lesson_progress(completed_at)')
     .eq('id', enrollmentId)
     .maybeSingle();
 
@@ -35,11 +33,9 @@ export async function verifyCertificateEligibility(enrollmentId: string) {
     return { eligible: false, reason: 'Program not completed' };
   }
 
-  const completedLessons =
-    enrollment.progress?.filter((p: any) => p.completed_at).length || 0;
+  const completedLessons = enrollment.progress?.filter((p: any) => p.completed_at).length || 0;
   const requiredLessons = enrollment.program?.required_lessons || 0;
-  const completionPercentage =
-    requiredLessons > 0 ? (completedLessons / requiredLessons) * 100 : 0;
+  const completionPercentage = requiredLessons > 0 ? (completedLessons / requiredLessons) * 100 : 0;
 
   if (completionPercentage < 100) {
     return {
@@ -121,10 +117,7 @@ export const validators = {
     const monthDiff = today.getMonth() - birthDate.getMonth();
 
     // Adjust age if birthday hasn't occurred yet this year
-    if (
-      monthDiff < 0 ||
-      (monthDiff === 0 && today.getDate() < birthDate.getDate())
-    ) {
+    if (monthDiff < 0 || (monthDiff === 0 && today.getDate() < birthDate.getDate())) {
       age--;
     }
 
@@ -137,7 +130,7 @@ export const validators = {
 
 export function validateForm(
   values: Record<string, any>,
-  rules: Record<string, Array<(data: any) => string | null>>
+  rules: Record<string, Array<(data: any) => string | null>>,
 ): Record<string, string> {
   const errors: Record<string, string> = {};
 

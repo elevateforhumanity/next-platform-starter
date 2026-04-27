@@ -1,4 +1,3 @@
-
 interface WhoThisIsForSectionProps {
   items: string[];
   title?: string;

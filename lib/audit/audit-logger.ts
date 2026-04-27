@@ -76,22 +76,20 @@ export async function logAuditEvent(entry: AuditLogEntry): Promise<boolean> {
   try {
     const supabase = await createClient();
 
-    const { error } = await supabase
-      .from('audit_logs')
-      .insert({
-        action: entry.action,
-        user_id: entry.userId,
-        tenant_id: entry.organizationId || null,
-        resource_type: entry.resourceType,
-        resource_id: entry.resourceId,
-        details: {
-          ...(entry.details || {}),
-          ...(entry.errorMessage ? { error_message: entry.errorMessage } : {}),
-        },
-        ip_address: entry.ipAddress,
-        user_agent: entry.userAgent,
-        success: entry.success,
-      });
+    const { error } = await supabase.from('audit_logs').insert({
+      action: entry.action,
+      user_id: entry.userId,
+      tenant_id: entry.organizationId || null,
+      resource_type: entry.resourceType,
+      resource_id: entry.resourceId,
+      details: {
+        ...(entry.details || {}),
+        ...(entry.errorMessage ? { error_message: entry.errorMessage } : {}),
+      },
+      ip_address: entry.ipAddress,
+      user_agent: entry.userAgent,
+      success: entry.success,
+    });
 
     if (error) {
       logger.error('Error logging audit event:', error);
@@ -99,7 +97,8 @@ export async function logAuditEvent(entry: AuditLogEntry): Promise<boolean> {
     }
 
     return true;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('Exception logging audit event:', error);
     return false;
   }
@@ -111,7 +110,7 @@ export async function logAuditEvent(entry: AuditLogEntry): Promise<boolean> {
 export async function logStudentAction(
   action: AuditAction,
   studentId: string,
-  details?: Record<string, any>
+  details?: Record<string, any>,
 ): Promise<void> {
   await logAuditEvent({
     action,
@@ -130,10 +129,12 @@ export async function logRequirementVerification(
   requirementId: string,
   verifiedBy: string,
   approved: boolean,
-  reason?: string
+  reason?: string,
 ): Promise<void> {
   await logAuditEvent({
-    action: approved ? 'program_holder.requirement_verified' : 'program_holder.requirement_rejected',
+    action: approved
+      ? 'program_holder.requirement_verified'
+      : 'program_holder.requirement_rejected',
     userId: verifiedBy,
     resourceType: 'requirement',
     resourceId: requirementId,
@@ -152,7 +153,7 @@ export async function logFundingAssignment(
   enrollmentId: string,
   fundingSourceId: string,
   amount: number,
-  assignedBy: string
+  assignedBy: string,
 ): Promise<void> {
   await logAuditEvent({
     action: 'workforce.funding_assigned',
@@ -174,7 +175,7 @@ export async function logSecurityEvent(
   action: AuditAction,
   userId?: string,
   details?: Record<string, any>,
-  ipAddress?: string
+  ipAddress?: string,
 ): Promise<void> {
   await logAuditEvent({
     action,
@@ -193,7 +194,7 @@ export async function logDataExport(
   userId: string,
   exportType: string,
   recordCount: number,
-  organizationId?: string
+  organizationId?: string,
 ): Promise<void> {
   await logAuditEvent({
     action: 'system.data_exported',
@@ -212,10 +213,7 @@ export async function logDataExport(
 /**
  * Get audit logs for a user
  */
-export async function getUserAuditLogs(
-  userId: string,
-  limit: number = 100
-): Promise<any[]> {
+export async function getUserAuditLogs(userId: string, limit: number = 100): Promise<any[]> {
   const supabase = await createClient();
 
   const { data, error }: any = await supabase
@@ -239,7 +237,7 @@ export async function getUserAuditLogs(
 export async function getResourceAuditLogs(
   resourceType: string,
   resourceId: string,
-  limit: number = 100
+  limit: number = 100,
 ): Promise<any[]> {
   const supabase = await createClient();
 
@@ -266,14 +264,11 @@ export async function getOrganizationAuditLogs(
   organizationId: string,
   startDate?: Date,
   endDate?: Date,
-  limit: number = 1000
+  limit: number = 1000,
 ): Promise<any[]> {
   const supabase = await createClient();
 
-  let query = supabase
-    .from('audit_logs')
-    .select('*')
-    .eq('organization_id', organizationId);
+  let query = supabase.from('audit_logs').select('*').eq('organization_id', organizationId);
 
   if (startDate) {
     query = query.gte('created_at', startDate.toISOString());
@@ -283,9 +278,7 @@ export async function getOrganizationAuditLogs(
     query = query.lte('created_at', endDate.toISOString());
   }
 
-  const { data, error } = await query
-    .order('created_at', { ascending: false })
-    .limit(limit);
+  const { data, error } = await query.order('created_at', { ascending: false }).limit(limit);
 
   if (error) {
     logger.error('Error fetching organization audit logs:', error);
@@ -298,24 +291,16 @@ export async function getOrganizationAuditLogs(
 /**
  * Get security events
  */
-export async function getSecurityEvents(
-  startDate?: Date,
-  limit: number = 100
-): Promise<any[]> {
+export async function getSecurityEvents(startDate?: Date, limit: number = 100): Promise<any[]> {
   const supabase = await createClient();
 
-  let query = supabase
-    .from('audit_logs')
-    .select('*')
-    .like('action', 'security.%');
+  let query = supabase.from('audit_logs').select('*').like('action', 'security.%');
 
   if (startDate) {
     query = query.gte('created_at', startDate.toISOString());
   }
 
-  const { data, error } = await query
-    .order('created_at', { ascending: false })
-    .limit(limit);
+  const { data, error } = await query.order('created_at', { ascending: false }).limit(limit);
 
   if (error) {
     logger.error('Error fetching security events:', error);
@@ -331,7 +316,7 @@ export async function getSecurityEvents(
 export async function generateComplianceReport(
   organizationId: string,
   startDate: Date,
-  endDate: Date
+  endDate: Date,
 ): Promise<{
   totalActions: number;
   actionsByType: Record<string, number>;
@@ -381,7 +366,7 @@ export async function generateComplianceReport(
 export async function exportAuditLogsToCSV(
   organizationId: string,
   startDate: Date,
-  endDate: Date
+  endDate: Date,
 ): Promise<string> {
   const logs = await getOrganizationAuditLogs(organizationId, startDate, endDate);
 
@@ -389,19 +374,21 @@ export async function exportAuditLogsToCSV(
   const header = 'Timestamp,Action,User ID,Resource Type,Resource ID,Success,IP Address,Details\n';
 
   // CSV rows
-  const rows = logs.map(log => {
-    const details = JSON.stringify(log.details || {}).replace(/"/g, '""');
-    return [
-      log.created_at,
-      log.action,
-      log.user_id || '',
-      log.resource_type || '',
-      log.resource_id || '',
-      log.success ? 'Yes' : 'No',
-      log.ip_address || '',
-      `"${details}"`,
-    ].join(',');
-  }).join('\n');
+  const rows = logs
+    .map((log) => {
+      const details = JSON.stringify(log.details || {}).replace(/"/g, '""');
+      return [
+        log.created_at,
+        log.action,
+        log.user_id || '',
+        log.resource_type || '',
+        log.resource_id || '',
+        log.success ? 'Yes' : 'No',
+        log.ip_address || '',
+        `"${details}"`,
+      ].join(',');
+    })
+    .join('\n');
 
   return header + rows;
 }

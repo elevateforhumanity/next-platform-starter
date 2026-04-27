@@ -5,7 +5,11 @@ import { notFound } from 'next/navigation';
 import { getProgramConfig } from '@/lib/partners/program-config';
 import UniversalPartnerLanding from './UniversalPartnerLanding';
 
-export async function generateMetadata({ params }: { params: Promise<{ program: string }> }): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ program: string }>;
+}): Promise<Metadata> {
   const { program } = await params;
   const config = getProgramConfig(program);
   if (!config) return { title: 'Program Not Found' };
@@ -24,7 +28,11 @@ export async function generateMetadata({ params }: { params: Promise<{ program: 
   };
 }
 
-export default async function ProgramPartnerPage({ params }: { params: Promise<{ program: string }> }) {
+export default async function ProgramPartnerPage({
+  params,
+}: {
+  params: Promise<{ program: string }>;
+}) {
   const { program } = await params;
   const config = getProgramConfig(program);
   if (!config) notFound();

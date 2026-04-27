@@ -6,7 +6,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 async function _POST(req: Request) {
   try {
     const supabase = await createClient();
-      const { faq_id, helpful } = await req.json();
+    const { faq_id, helpful } = await req.json();
 
     await supabase.from('faq_search_analytics').insert({
       search_query: faq_id,

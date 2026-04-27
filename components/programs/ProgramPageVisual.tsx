@@ -38,7 +38,6 @@ interface Props {
 }
 
 export function ProgramPageVisual({ program }: Props) {
-
   return (
     <div className="min-h-screen bg-white">
       {/* HERO - Full width, visual-first */}
@@ -50,6 +49,7 @@ export function ProgramPageVisual({ program }: Props) {
             className="absolute inset-0 w-full h-full object-cover"
           />
         ) : (
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
           <Image
             src={program.heroImage}
             alt={program.title}
@@ -57,11 +57,12 @@ export function ProgramPageVisual({ program }: Props) {
             className="object-cover"
             priority
             quality={90}
-           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw" />
+            sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
+          />
         )}
-        
+
         <div className="relative z-10 w-full max-w-7xl mx-auto px-6 pb-12">
-          <Link 
+          <Link
             href={program.categoryHref}
             className="inline-flex items-center text-slate-600 text-sm mb-4 hover:text-white"
           >
@@ -70,10 +71,8 @@ export function ProgramPageVisual({ program }: Props) {
           <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white mb-4">
             {program.title}
           </h1>
-          <p className="text-xl text-white/90 mb-8 max-w-2xl">
-            {program.tagline}
-          </p>
-          
+          <p className="text-xl text-white/90 mb-8 max-w-2xl">{program.tagline}</p>
+
           {/* Stats Row */}
           <div className="flex flex-wrap gap-6 mb-8">
             <div className="flex items-center gap-2 bg-white/10 backdrop-blur px-4 py-2 rounded-full">
@@ -116,28 +115,31 @@ export function ProgramPageVisual({ program }: Props) {
 
       {/* VISUAL SECTIONS - Alternating image/content */}
       {program.sections.map((section, index) => (
-        <section 
-          key={index} 
+        <section
+          key={index}
           className={`py-16 lg:py-24 ${index % 2 === 0 ? 'bg-white' : 'bg-slate-50'}`}
         >
           <div className="max-w-7xl mx-auto px-6">
-            <div className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}>
+            <div
+              className={`grid lg:grid-cols-2 gap-12 items-center ${index % 2 === 1 ? 'lg:flex-row-reverse' : ''}`}
+            >
               {/* Image */}
-              <div className={`relative h-[400px] rounded-2xl overflow-hidden shadow-xl ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+              <div
+                className={`relative h-[400px] rounded-2xl overflow-hidden shadow-xl ${index % 2 === 1 ? 'lg:order-2' : ''}`}
+              >
                 <Image
                   src={section.image}
                   alt={section.title}
                   fill
                   className="object-cover"
                   quality={85}
-                 sizes="100vw" />
+                  sizes="100vw"
+                />
               </div>
-              
+
               {/* Content */}
               <div className={index % 2 === 1 ? 'lg:order-1' : ''}>
-                <h2 className="text-3xl font-bold text-slate-900 mb-6">
-                  {section.title}
-                </h2>
+                <h2 className="text-3xl font-bold text-slate-900 mb-6">{section.title}</h2>
                 <div className="space-y-4">
                   {section.points.map((point, i) => (
                     <div key={i} className="flex items-start gap-3">
@@ -158,17 +160,13 @@ export function ProgramPageVisual({ program }: Props) {
       <section className="py-16 lg:py-24 border-t">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">
-              Career Opportunities
-            </h2>
-            <p className="text-slate-500 text-lg">
-              Jobs you can get after completing this program
-            </p>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Career Opportunities</h2>
+            <p className="text-slate-500 text-lg">Jobs you can get after completing this program</p>
           </div>
-          
+
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {program.careers.map((career, index) => (
-              <div 
+              <div
                 key={index}
                 className="bg-white rounded-xl p-6 border border-slate-700 hover:border-brand-blue-500 transition"
               >
@@ -187,17 +185,12 @@ export function ProgramPageVisual({ program }: Props) {
       <section className="py-16 lg:py-24">
         <div className="max-w-4xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">
-              Requirements
-            </h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">Requirements</h2>
           </div>
-          
+
           <div className="grid sm:grid-cols-2 gap-4">
             {program.requirements.map((req, index) => (
-              <div 
-                key={index}
-                className="flex items-center gap-3 bg-slate-50 rounded-xl p-4"
-              >
+              <div key={index} className="flex items-center gap-3 bg-slate-50 rounded-xl p-4">
                 <div className="w-8 h-8 bg-brand-green-100 rounded-full flex items-center justify-center flex-shrink-0">
                   <span className="text-slate-500 flex-shrink-0">•</span>
                 </div>
@@ -212,11 +205,9 @@ export function ProgramPageVisual({ program }: Props) {
       <section className="py-16 lg:py-24 bg-slate-50">
         <div className="max-w-7xl mx-auto px-6">
           <div className="text-center mb-12">
-            <h2 className="text-3xl font-bold text-slate-900 mb-4">
-              How It Works
-            </h2>
+            <h2 className="text-3xl font-bold text-slate-900 mb-4">How It Works</h2>
           </div>
-          
+
           <div className="grid md:grid-cols-3 gap-8">
             <div className="text-center">
               <div className="w-20 h-20 bg-white rounded-2xl flex items-center justify-center mx-auto mb-6">
@@ -246,17 +237,18 @@ export function ProgramPageVisual({ program }: Props) {
       {/* CTA */}
       <section className="py-16 lg:py-24">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-            Ready to Start?
-          </h2>
+          <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">Ready to Start?</h2>
           <p className="text-white text-lg mb-6">
-            {program.fundingType === 'funded' 
+            {program.fundingType === 'funded'
               ? 'Free training for eligible Indiana residents through WIOA funding.'
               : 'Flexible payment options available.'}
           </p>
-          
-          <PathwayDisclosure variant="compact" className="bg-brand-blue-700 border-brand-blue-500 mb-8 max-w-2xl mx-auto" />
-          
+
+          <PathwayDisclosure
+            variant="compact"
+            className="bg-brand-blue-700 border-brand-blue-500 mb-8 max-w-2xl mx-auto"
+          />
+
           <div className="flex flex-wrap justify-center gap-4">
             <Link
               href="/apply"

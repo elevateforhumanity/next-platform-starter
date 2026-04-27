@@ -12,12 +12,18 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    const { data: _roleProfile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    const { data: _roleProfile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
     if (!_roleProfile || !['admin', 'super_admin', 'staff'].includes(_roleProfile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
@@ -26,34 +32,32 @@ async function _POST(request: NextRequest) {
     const { intakeId, scriptId, acknowledged } = body;
 
     // Log acknowledgment
-    const { error } = await supabase
-      .from('script_acknowledgments')
-      .upsert({
-        intake_id: intakeId,
-        script_id: scriptId,
-        user_id: user.id,
-        acknowledged,
-        acknowledged_at: acknowledged ? new Date().toISOString() : null,
-      });
+    const { error } = await supabase.from('script_acknowledgments').upsert({
+      intake_id: intakeId,
+      script_id: scriptId,
+      user_id: user.id,
+      acknowledged,
+      acknowledged_at: acknowledged ? new Date().toISOString() : null,
+    });
 
     if (error) {
       logger.error('Acknowledgment error:', error);
       // Return success for demo
-      return NextResponse.json({ 
-        success: true, 
-        message: 'Script acknowledgment recorded' 
+      return NextResponse.json({
+        success: true,
+        message: 'Script acknowledgment recorded',
       });
     }
 
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Script acknowledgment recorded' 
+    return NextResponse.json({
+      success: true,
+      message: 'Script acknowledgment recorded',
     });
   } catch (error) {
     logger.error('Acknowledgment error:', error);
-    return NextResponse.json({ 
-      success: true, 
-      message: 'Script acknowledgment recorded' 
+    return NextResponse.json({
+      success: true,
+      message: 'Script acknowledgment recorded',
     });
   }
 }

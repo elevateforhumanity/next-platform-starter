@@ -208,7 +208,7 @@ export async function logClinicalHours(data: {
 export async function verifyClinicalHours(
   log_id: string,
   supervisor_email: string,
-  supervisor_feedback?: string
+  supervisor_feedback?: string,
 ): Promise<ClinicalHoursLog> {
   const supabase = await createClient();
   // Verify supervisor
@@ -280,8 +280,10 @@ export async function getClinicalProgress(placement_id: string): Promise<Clinica
     .select('*')
     .eq('placement_id', placement_id);
   const hours_logged = logs?.reduce((sum, log) => sum + log.hours_worked, 0) || 0;
-  const hours_verified = logs?.filter(log => log.supervisor_verified)
-    .reduce((sum, log) => sum + log.hours_worked, 0) || 0;
+  const hours_verified =
+    logs
+      ?.filter((log) => log.supervisor_verified)
+      .reduce((sum, log) => sum + log.hours_worked, 0) || 0;
   const hours_remaining = Math.max(0, placement.hours_required - hours_verified);
   const completion_percentage = (hours_verified / placement.hours_required) * 100;
   const patients_cared_for = logs?.reduce((sum, log) => sum + log.patients_cared_for, 0) || 0;
@@ -290,9 +292,8 @@ export async function getClinicalProgress(placement_id: string): Promise<Clinica
     .from('skills_checklist')
     .select('*')
     .eq('placement_id', placement_id);
-  const skills_completed = skills?.filter(s =>
-    s.proficiency_level === 'performed_independently'
-  ).length || 0;
+  const skills_completed =
+    skills?.filter((s) => s.proficiency_level === 'performed_independently').length || 0;
   // Get required skills from program
   const { data: program } = await supabase
     .from('programs')
@@ -300,9 +301,8 @@ export async function getClinicalProgress(placement_id: string): Promise<Clinica
     .eq('id', placement.program_id)
     .maybeSingle();
   const skills_required = program?.required_skills?.length || 0;
-  const skills_completion_percentage = skills_required > 0
-    ? (skills_completed / skills_required) * 100
-    : 0;
+  const skills_completion_percentage =
+    skills_required > 0 ? (skills_completed / skills_required) * 100 : 0;
   // Determine status
   let status: 'on_track' | 'behind' | 'ahead' | 'completed' = 'on_track';
   if (completion_percentage >= 100 && skills_completion_percentage >= 100) {
@@ -336,7 +336,9 @@ export async function getClinicalProgress(placement_id: string): Promise<Clinica
 /**
  * Get student's clinical placements
  */
-export async function getStudentClinicalPlacements(student_id: string): Promise<ClinicalPlacement[]> {
+export async function getStudentClinicalPlacements(
+  student_id: string,
+): Promise<ClinicalPlacement[]> {
   const supabase = await createClient();
   const { data: placements } = await supabase
     .from('clinical_placements')
@@ -360,7 +362,9 @@ export async function getSkillsChecklist(placement_id: string): Promise<SkillsCh
 /**
  * Get unverified clinical hours for supervisor
  */
-export async function getUnverifiedClinicalHours(supervisor_email: string): Promise<ClinicalHoursLog[]> {
+export async function getUnverifiedClinicalHours(
+  supervisor_email: string,
+): Promise<ClinicalHoursLog[]> {
   const supabase = await createClient();
   const { data: logs } = await supabase
     .from('clinical_hours_logs')
@@ -375,7 +379,7 @@ export async function getUnverifiedClinicalHours(supervisor_email: string): Prom
  */
 export async function completeClinicalPlacement(
   placement_id: string,
-  end_date: string
+  end_date: string,
 ): Promise<ClinicalPlacement> {
   const supabase = await createClient();
   const progress = await getClinicalProgress(placement_id);
@@ -406,13 +410,15 @@ export async function generateClinicalReport(program_id: string): Promise<any> {
   const supabase = await createClient();
   const { data: placements } = await supabase
     .from('clinical_placements')
-    .select(`
+    .select(
+      `
       *,
       profiles(full_name, email),
       clinical_sites(name, type),
       clinical_hours_logs(*),
       skills_checklist(*)
-    `)
+    `,
+    )
     .eq('program_id', program_id);
   if (!placements) return [];
   const report = [];
@@ -430,23 +436,25 @@ export async function generateClinicalReport(program_id: string): Promise<any> {
  */
 async function checkClinicalCompletion(placement_id: string): Promise<void> {
   const progress = await getClinicalProgress(placement_id);
-  if (progress.hours_verified >= progress.hours_required &&
-      progress.skills_completion_percentage >= 100) {
+  if (
+    progress.hours_verified >= progress.hours_required &&
+    progress.skills_completion_percentage >= 100
+  ) {
     await completeClinicalPlacement(placement_id, new Date().toISOString().split('T')[0]);
   }
 }
 /**
  * Send supervisor orientation email
  */
-async function sendSupervisorOrientationEmail(placement: ClinicalPlacement, site: ClinicalSite): Promise<void> {
-}
+async function sendSupervisorOrientationEmail(
+  placement: ClinicalPlacement,
+  site: ClinicalSite,
+): Promise<void> {}
 /**
  * Send clinical verification request
  */
-async function sendClinicalVerificationRequest(log: ClinicalHoursLog): Promise<void> {
-}
+async function sendClinicalVerificationRequest(log: ClinicalHoursLog): Promise<void> {}
 /**
  * Send clinical completion notification
  */
-async function sendClinicalCompletionNotification(placement: ClinicalPlacement): Promise<void> {
-}
+async function sendClinicalCompletionNotification(placement: ClinicalPlacement): Promise<void> {}

@@ -1,6 +1,5 @@
 'use client';
 
-
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 import { useCallback, useEffect, useMemo, useState } from 'react';
@@ -33,10 +32,9 @@ export default function LicensingPage() {
   const [loading, setLoading] = useState(true);
 
   const loadData = useCallback(async () => {
-
     const [licensesRes, tenantsRes] = await Promise.all([
       supabase.from('licenses').select('*').order('created_at', { ascending: false }),
-      supabase.from('tenants').select('id, name, slug, active').order('name')
+      supabase.from('tenants').select('id, name, slug, active').order('name'),
     ]);
 
     if (licensesRes.data) setLicenses(licensesRes.data);
@@ -46,7 +44,10 @@ export default function LicensingPage() {
 
   useEffect(() => {
     supabase.auth.getSession().then(({ data: { session } }) => {
-      if (!session) { router.replace('/login?redirect=/admin/licensing'); return; }
+      if (!session) {
+        router.replace('/login?redirect=/admin/licensing');
+        return;
+      }
       loadData();
     });
   }, [loadData, router, supabase]);
@@ -61,14 +62,13 @@ export default function LicensingPage() {
 
   return (
     <div className="p-8 max-w-7xl mx-auto">
-
       {/* Hero Image */}
       <Breadcrumbs items={[{ label: 'Admin', href: '/admin' }, { label: 'Licensing' }]} />
       <h1 className="text-3xl font-bold mb-8 mt-4">License Management</h1>
 
       <div className="grid gap-6">
         {licenses.map((license) => {
-          const tenant = tenants.find(t => t.id === license.tenant_id);
+          const tenant = tenants.find((t) => t.id === license.tenant_id);
 
           return (
             <div key={license.id} className="border rounded-lg p-6 bg-white shadow-sm">
@@ -78,12 +78,17 @@ export default function LicensingPage() {
                   <p className="text-sm text-black">{tenant?.slug}</p>
                 </div>
                 <div className="flex gap-2">
-                  <span className={`px-3 py-2 rounded-full text-sm font-medium ${
-                    license.status === 'active' ? 'bg-brand-green-100 text-brand-green-800' :
-                    license.status === 'suspended' ? 'bg-yellow-100 text-yellow-800' :
-                    license.status === 'expired' ? 'bg-brand-red-100 text-brand-red-800' :
-                    'bg-gray-100 text-black'
-                  }`}>
+                  <span
+                    className={`px-3 py-2 rounded-full text-sm font-medium ${
+                      license.status === 'active'
+                        ? 'bg-brand-green-100 text-brand-green-800'
+                        : license.status === 'suspended'
+                          ? 'bg-yellow-100 text-yellow-800'
+                          : license.status === 'expired'
+                            ? 'bg-brand-red-100 text-brand-red-800'
+                            : 'bg-gray-100 text-black'
+                    }`}
+                  >
                     {license.status}
                   </span>
                   <span className="px-3 py-2 rounded-full text-sm font-medium bg-brand-blue-100 text-brand-blue-800">
@@ -104,7 +109,11 @@ export default function LicensingPage() {
                 <div>
                   <p className="text-sm text-black">Expires</p>
                   <p className="text-lg font-semibold">
-                    {license.expires_at ? new Date(license.expires_at).toLocaleDateString('en-US', { timeZone: 'UTC' }) : 'Never'}
+                    {license.expires_at
+                      ? new Date(license.expires_at).toLocaleDateString('en-US', {
+                          timeZone: 'UTC',
+                        })
+                      : 'Never'}
                   </p>
                 </div>
               </div>
@@ -157,9 +166,7 @@ export default function LicensingPage() {
       </div>
 
       {licenses.length === 0 && (
-        <div className="text-center py-12 text-black">
-          No licenses found
-        </div>
+        <div className="text-center py-12 text-black">No licenses found</div>
       )}
     </div>
   );

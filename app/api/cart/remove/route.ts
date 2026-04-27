@@ -13,7 +13,9 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
@@ -26,11 +28,7 @@ async function _POST(req: Request) {
       return NextResponse.json({ error: 'Item ID required' }, { status: 400 });
     }
 
-    await supabase
-      .from('cart_items')
-      .delete()
-      .eq('id', itemId)
-      .eq('user_id', user.id);
+    await supabase.from('cart_items').delete().eq('id', itemId).eq('user_id', user.id);
 
     return NextResponse.redirect(new URL('/store/cart', req.url), 303);
   } catch (error) {

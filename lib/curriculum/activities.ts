@@ -13,18 +13,12 @@
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
-export type ActivityType =
-  | 'video'
-  | 'reading'
-  | 'flashcards'
-  | 'lab'
-  | 'practice'
-  | 'checkpoint';
+export type ActivityType = 'video' | 'reading' | 'flashcards' | 'lab' | 'practice' | 'checkpoint';
 
 export type ActivityDescriptor = {
-  type:     ActivityType;
-  label:    string;
-  order:    number;
+  type: ActivityType;
+  label: string;
+  order: number;
   required: boolean;
 };
 
@@ -45,36 +39,36 @@ export function defaultActivities(stepType: string): ActivityDescriptor[] {
   switch (stepType) {
     case 'checkpoint':
       return [
-        { type: 'video',      label: 'Watch Lesson Video',    order: 1, required: true  },
-        { type: 'reading',    label: 'Reading',               order: 2, required: true  },
-        { type: 'flashcards', label: 'Flashcards',            order: 3, required: false },
-        { type: 'practice',   label: 'Practice Questions',    order: 4, required: true  },
-        { type: 'checkpoint', label: 'Checkpoint Quiz',       order: 5, required: true  },
+        { type: 'video', label: 'Watch Lesson Video', order: 1, required: true },
+        { type: 'reading', label: 'Reading', order: 2, required: true },
+        { type: 'flashcards', label: 'Flashcards', order: 3, required: false },
+        { type: 'practice', label: 'Practice Questions', order: 4, required: true },
+        { type: 'checkpoint', label: 'Checkpoint Quiz', order: 5, required: true },
       ];
 
     case 'lab':
     case 'assignment':
       return [
-        { type: 'video',   label: 'Watch Lesson Video', order: 1, required: true },
-        { type: 'reading', label: 'Reading',             order: 2, required: true },
-        { type: 'lab',     label: 'Hands-On Lab',        order: 3, required: true },
+        { type: 'video', label: 'Watch Lesson Video', order: 1, required: true },
+        { type: 'reading', label: 'Reading', order: 2, required: true },
+        { type: 'lab', label: 'Hands-On Lab', order: 3, required: true },
       ];
 
     case 'quiz':
     case 'exam':
       return [
-        { type: 'video',      label: 'Watch Lesson Video', order: 1, required: false },
-        { type: 'flashcards', label: 'Flashcards',         order: 2, required: false },
-        { type: 'practice',   label: 'Practice Questions', order: 3, required: false },
-        { type: 'checkpoint', label: 'Quiz',               order: 4, required: true  },
+        { type: 'video', label: 'Watch Lesson Video', order: 1, required: false },
+        { type: 'flashcards', label: 'Flashcards', order: 2, required: false },
+        { type: 'practice', label: 'Practice Questions', order: 3, required: false },
+        { type: 'checkpoint', label: 'Quiz', order: 4, required: true },
       ];
 
     default: // 'lesson', 'certification', and anything unrecognised
       return [
-        { type: 'video',      label: 'Watch Lesson Video', order: 1, required: true  },
-        { type: 'reading',    label: 'Reading',            order: 2, required: true  },
-        { type: 'flashcards', label: 'Flashcards',         order: 3, required: false },
-        { type: 'practice',   label: 'Practice Questions', order: 4, required: false },
+        { type: 'video', label: 'Watch Lesson Video', order: 1, required: true },
+        { type: 'reading', label: 'Reading', order: 2, required: true },
+        { type: 'flashcards', label: 'Flashcards', order: 3, required: false },
+        { type: 'practice', label: 'Practice Questions', order: 4, required: false },
       ];
   }
 }

@@ -6,10 +6,10 @@ import { Send, Loader2, CheckCircle, XCircle } from 'lucide-react';
 type Audience = 'all-students' | 'active-students' | 'instructors' | 'admins';
 
 const AUDIENCES: { value: Audience; label: string }[] = [
-  { value: 'all-students',    label: 'All Students' },
+  { value: 'all-students', label: 'All Students' },
   { value: 'active-students', label: 'Active Students Only' },
-  { value: 'instructors',     label: 'Instructors' },
-  { value: 'admins',          label: 'Admins' },
+  { value: 'instructors', label: 'Instructors' },
+  { value: 'admins', label: 'Admins' },
 ];
 
 export default function NotificationBroadcastForm() {
@@ -20,7 +20,12 @@ export default function NotificationBroadcastForm() {
     url: '/lms',
   });
   const [sending, setSending] = useState(false);
-  const [result, setResult] = useState<{ success: boolean; sent?: number; failed?: number; error?: string } | null>(null);
+  const [result, setResult] = useState<{
+    success: boolean;
+    sent?: number;
+    failed?: number;
+    error?: string;
+  } | null>(null);
 
   async function handleSend(e: React.FormEvent) {
     e.preventDefault();
@@ -35,7 +40,7 @@ export default function NotificationBroadcastForm() {
       });
       const data = await res.json();
       setResult(data);
-      if (data.success) setForm(f => ({ ...f, title: '', body: '' }));
+      if (data.success) setForm((f) => ({ ...f, title: '', body: '' }));
     } catch {
       setResult({ success: false, error: 'Request failed' });
     } finally {
@@ -50,7 +55,7 @@ export default function NotificationBroadcastForm() {
         <input
           type="text"
           value={form.title}
-          onChange={e => setForm(f => ({ ...f, title: e.target.value }))}
+          onChange={(e) => setForm((f) => ({ ...f, title: e.target.value }))}
           required
           maxLength={80}
           className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
@@ -61,7 +66,7 @@ export default function NotificationBroadcastForm() {
         <label className="block text-xs font-semibold text-slate-700 mb-1">Message</label>
         <textarea
           value={form.body}
-          onChange={e => setForm(f => ({ ...f, body: e.target.value }))}
+          onChange={(e) => setForm((f) => ({ ...f, body: e.target.value }))}
           required
           rows={3}
           maxLength={200}
@@ -75,10 +80,14 @@ export default function NotificationBroadcastForm() {
           <label className="block text-xs font-semibold text-slate-700 mb-1">Audience</label>
           <select
             value={form.targetAudience}
-            onChange={e => setForm(f => ({ ...f, targetAudience: e.target.value as Audience }))}
+            onChange={(e) => setForm((f) => ({ ...f, targetAudience: e.target.value as Audience }))}
             className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           >
-            {AUDIENCES.map(a => <option key={a.value} value={a.value}>{a.label}</option>)}
+            {AUDIENCES.map((a) => (
+              <option key={a.value} value={a.value}>
+                {a.label}
+              </option>
+            ))}
           </select>
         </div>
         <div>
@@ -86,17 +95,21 @@ export default function NotificationBroadcastForm() {
           <input
             type="text"
             value={form.url}
-            onChange={e => setForm(f => ({ ...f, url: e.target.value }))}
+            onChange={(e) => setForm((f) => ({ ...f, url: e.target.value }))}
             className="w-full rounded-lg border border-slate-200 px-3 py-2 text-sm text-slate-900 focus:outline-none focus:ring-2 focus:ring-brand-blue-500"
           />
         </div>
       </div>
 
       {result && (
-        <div className={`flex items-start gap-2 rounded-lg p-3 text-sm ${result.success ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-800'}`}>
-          {result.success
-            ? <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
-            : <XCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />}
+        <div
+          className={`flex items-start gap-2 rounded-lg p-3 text-sm ${result.success ? 'bg-emerald-50 text-emerald-800' : 'bg-red-50 text-red-800'}`}
+        >
+          {result.success ? (
+            <CheckCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+          ) : (
+            <XCircle className="w-4 h-4 flex-shrink-0 mt-0.5" />
+          )}
           <span>
             {result.success
               ? `Sent to ${result.sent ?? 0} device${(result.sent ?? 0) !== 1 ? 's' : ''}${result.failed ? `, ${result.failed} failed` : ''}`

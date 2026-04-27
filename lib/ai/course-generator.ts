@@ -20,15 +20,15 @@ import { logger } from '@/lib/logger';
 
 export interface GeneratedQuizQuestion {
   question: string;
-  options: string[];          // 4 options, A–D
-  correct_index: number;      // 0-based
+  options: string[]; // 4 options, A–D
+  correct_index: number; // 0-based
   explanation: string;
 }
 
 export interface GeneratedLesson {
   title: string;
-  description: string;        // 1–2 sentence summary
-  content: string;            // Full lesson body (markdown)
+  description: string; // 1–2 sentence summary
+  content: string; // Full lesson body (markdown)
   /** 1–3 sentence learner-facing summary for preview and audit scoring */
   summary_text: string;
   key_takeaways: string[];
@@ -44,9 +44,9 @@ export interface GeneratedLesson {
 
 export interface GeneratedCourse {
   title: string;
-  course_name: string;        // same as title — required NOT NULL field
+  course_name: string; // same as title — required NOT NULL field
   description: string;
-  summary: string;            // 1–2 sentence elevator pitch
+  summary: string; // 1–2 sentence elevator pitch
   learning_objectives: string[];
   difficulty: 'beginner' | 'intermediate' | 'advanced';
   duration_hours: number;
@@ -99,7 +99,9 @@ function buildUserPrompt(opts: CourseGeneratorOptions): string {
     opts.tone ? `Tone/style: ${opts.tone}` : null,
     `Include quiz questions per lesson: ${includeQuiz}`,
     `Include reflection prompts: ${includeReflection}`,
-  ].filter(Boolean).join('\n');
+  ]
+    .filter(Boolean)
+    .join('\n');
 
   return `Generate a complete course based on the following input.
 
@@ -197,15 +199,14 @@ function validateCourse(data: unknown): GeneratedCourse {
         competency_keys: Array.isArray(lesson.competency_keys)
           ? (lesson.competency_keys as unknown[]).map(String).slice(0, 3)
           : [],
-        duration_minutes: typeof lesson.duration_minutes === 'number' ? lesson.duration_minutes : 30,
+        duration_minutes:
+          typeof lesson.duration_minutes === 'number' ? lesson.duration_minutes : 30,
         quiz_questions: Array.isArray(lesson.quiz_questions)
           ? (lesson.quiz_questions as unknown[]).map((q: unknown) => {
               const qObj = (q || {}) as Record<string, unknown>;
               return {
                 question: String(qObj.question || '').trim(),
-                options: Array.isArray(qObj.options)
-                  ? (qObj.options as unknown[]).map(String)
-                  : [],
+                options: Array.isArray(qObj.options) ? (qObj.options as unknown[]).map(String) : [],
                 correct_index: typeof qObj.correct_index === 'number' ? qObj.correct_index : 0,
                 explanation: String(qObj.explanation || '').trim(),
               };
@@ -253,7 +254,8 @@ export async function generateCourse(opts: CourseGeneratorOptions): Promise<Gene
           { role: 'assistant' as const, content: raw },
           {
             role: 'user' as const,
-            content: 'Your response was not valid JSON. Return only the JSON object, no other text.',
+            content:
+              'Your response was not valid JSON. Return only the JSON object, no other text.',
           },
         ],
         model: 'gpt-4.1',

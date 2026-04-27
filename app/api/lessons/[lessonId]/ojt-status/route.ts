@@ -48,11 +48,11 @@ export async function GET(
     if (logsErr) return safeInternalError(logsErr, 'Failed to load competency log');
 
     const verifiedReps = (logs ?? [])
-      .filter(l => l.supervisor_verified)
+      .filter((l) => l.supervisor_verified)
       .reduce((sum, l) => sum + (l.service_count ?? 1), 0);
 
     const pendingReps = (logs ?? [])
-      .filter(l => !l.supervisor_verified)
+      .filter((l) => !l.supervisor_verified)
       .reduce((sum, l) => sum + (l.service_count ?? 1), 0);
 
     // requires_verification=true → only supervisor-verified reps count toward unlock

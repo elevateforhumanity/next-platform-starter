@@ -2,7 +2,6 @@
 // AUTH: Intentionally public — no authentication required
 import { NextRequest, NextResponse } from 'next/server';
 
-
 import { getStripe } from '@/lib/stripe/client';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -14,19 +13,13 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     if (!stripe) {
-      return NextResponse.json(
-        { error: 'Payment processing is not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Payment processing is not configured' }, { status: 503 });
     }
 
     const { amount } = await request.json();
 
     if (!amount || amount < 1) {
-      return NextResponse.json(
-        { error: 'Invalid donation amount' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid donation amount' }, { status: 400 });
     }
 
     // Create Stripe Checkout Session
@@ -38,8 +31,7 @@ async function _POST(request: NextRequest) {
             currency: 'usd',
             product_data: {
               name: 'Donation to Elevate for Humanity',
-              description:
-                'Support free career training for underserved communities',
+              description: 'Support free career training for underserved communities',
               images: ['https://www.elevateforhumanity.org/logo.jpg'],
             },
             unit_amount: Math.round(amount * 100), // Convert to cents
@@ -58,10 +50,7 @@ async function _POST(request: NextRequest) {
 
     return NextResponse.json({ sessionId: session.id, url: session.url });
   } catch (err: any) {
-    return NextResponse.json(
-      { error: 'Failed to create checkout session' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/donate/create-checkout', _POST);

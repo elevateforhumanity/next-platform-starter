@@ -16,12 +16,7 @@
       },
       {
         "prompt": "A client presents with hair that appears very translucent and feels silky. How would you classify their hair texture?",
-        "choices": [
-          "Fine",
-          "Medium",
-          "Coarse",
-          "Curly"
-        ],
+        "choices": ["Fine", "Medium", "Coarse", "Curly"],
         "answerIndex": 0,
         "rationale": "Fine hair often appears more translucent and feels silky, indicating a delicate texture.",
         "type": "scenario"
@@ -40,12 +35,7 @@
       },
       {
         "prompt": "During a service, you notice a client's hair sinks quickly in water. What does this indicate about their hair porosity?",
-        "choices": [
-          "Low porosity",
-          "Normal porosity",
-          "High porosity",
-          "No porosity"
-        ],
+        "choices": ["Low porosity", "Normal porosity", "High porosity", "No porosity"],
         "answerIndex": 2,
         "rationale": "Hair that sinks quickly in water indicates high porosity, as the open cuticles allow water to penetrate rapidly.",
         "type": "scenario"
@@ -64,12 +54,7 @@
       },
       {
         "prompt": "What does a visual inspection under natural light help you assess in a client's hair?",
-        "choices": [
-          "Porosity",
-          "Texture",
-          "Elasticity",
-          "Color"
-        ],
+        "choices": ["Porosity", "Texture", "Elasticity", "Color"],
         "answerIndex": 1,
         "rationale": "A visual inspection under natural light helps to assess the hair's texture by observing its translucency and thickness.",
         "type": "recall"
@@ -112,12 +97,7 @@
       },
       {
         "prompt": "During a consultation, you observe more scalp visibility than usual. What does this suggest about the client's hair density?",
-        "choices": [
-          "High density",
-          "Low density",
-          "Normal density",
-          "No density"
-        ],
+        "choices": ["High density", "Low density", "Normal density", "No density"],
         "answerIndex": 1,
         "rationale": "More scalp visibility suggests low hair density, indicating fewer strands per square inch on the scalp.",
         "type": "scenario"
@@ -148,48 +128,28 @@
       },
       {
         "prompt": "What is the best method to assess hair porosity?",
-        "choices": [
-          "Visual inspection",
-          "Tactile assessment",
-          "Float test",
-          "Scalp observation"
-        ],
+        "choices": ["Visual inspection", "Tactile assessment", "Float test", "Scalp observation"],
         "answerIndex": 2,
         "rationale": "The float test, where a strand of hair is placed in water, is the best method to assess hair porosity.",
         "type": "recall"
       },
       {
         "prompt": "A client presents with hair that feels thick and rough. What texture does this indicate?",
-        "choices": [
-          "Fine",
-          "Medium",
-          "Coarse",
-          "Curly"
-        ],
+        "choices": ["Fine", "Medium", "Coarse", "Curly"],
         "answerIndex": 2,
         "rationale": "Hair that feels thick and rough is indicative of a coarse texture, which is more resistant to styling.",
         "type": "scenario"
       },
       {
         "prompt": "Which cutting technique is most effective for managing coarse hair?",
-        "choices": [
-          "Layering",
-          "Thinning",
-          "Blunt cutting",
-          "Point cutting"
-        ],
+        "choices": ["Layering", "Thinning", "Blunt cutting", "Point cutting"],
         "answerIndex": 1,
         "rationale": "Thinning is effective for managing coarse hair as it reduces bulk and enhances manageability.",
         "type": "applied"
       },
       {
         "prompt": "What does it mean if a client's hair floats during the porosity test?",
-        "choices": [
-          "Low porosity",
-          "Normal porosity",
-          "High porosity",
-          "No porosity"
-        ],
+        "choices": ["Low porosity", "Normal porosity", "High porosity", "No porosity"],
         "answerIndex": 0,
         "rationale": "If a client's hair floats during the porosity test, it indicates low porosity, meaning the cuticles are tightly closed.",
         "type": "recall"
@@ -208,12 +168,7 @@
       },
       {
         "prompt": "Which factor is crucial for determining how hair responds to styling and chemical processes?",
-        "choices": [
-          "Hair color",
-          "Hair length",
-          "Hair porosity",
-          "Scalp condition"
-        ],
+        "choices": ["Hair color", "Hair length", "Hair porosity", "Scalp condition"],
         "answerIndex": 2,
         "rationale": "Hair porosity is crucial as it affects how hair absorbs and retains moisture, influencing its response to styling and chemicals.",
         "type": "recall"

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import {
-
   BookOpen,
   TrendingUp,
   Award,
@@ -48,17 +47,26 @@ export default async function GradesPage() {
     .select('id, status, course_id, progress_percent, created_at, updated_at')
     .eq('user_id', user.id)
     .order('created_at', { ascending: false });
-  const gradeCourseIds = [...new Set((rawGradeEnrollments || []).map((e: any) => e.course_id).filter(Boolean))];
+  const gradeCourseIds = [
+    ...new Set((rawGradeEnrollments || []).map((e: any) => e.course_id).filter(Boolean)),
+  ];
   const { data: gradeCourses } = gradeCourseIds.length
-    ? await supabase.from('courses').select('id, title, description, thumbnail_url').in('id', gradeCourseIds)
+    ? await supabase
+        .from('courses')
+        .select('id, title, description, thumbnail_url')
+        .in('id', gradeCourseIds)
     : { data: [] };
   const gradeCourseMap = Object.fromEntries((gradeCourses || []).map((c: any) => [c.id, c]));
-  const enrollments = (rawGradeEnrollments || []).map((e: any) => ({ ...e, courses: gradeCourseMap[e.course_id] ?? null }));
+  const enrollments = (rawGradeEnrollments || []).map((e: any) => ({
+    ...e,
+    courses: gradeCourseMap[e.course_id] ?? null,
+  }));
 
   // Fetch assignment submissions with grades
   const { data: assignmentSubmissions } = await supabase
     .from('assignment_submissions')
-    .select(`
+    .select(
+      `
       *,
       assignments (
         id,
@@ -66,7 +74,8 @@ export default async function GradesPage() {
         max_points,
         course_id
       )
-    `)
+    `,
+    )
     .eq('student_id', user.id)
     .not('grade', 'is', null)
     .order('graded_at', { ascending: false });
@@ -74,14 +83,16 @@ export default async function GradesPage() {
   // Fetch quiz attempts with scores
   const { data: quizAttempts } = await supabase
     .from('quiz_attempts')
-    .select(`
+    .select(
+      `
       *,
       quizzes (
         id,
         title,
         course_id
       )
-    `)
+    `,
+    )
     .eq('user_id', user.id)
     .eq('status', 'completed')
     .order('completed_at', { ascending: false });
@@ -101,7 +112,7 @@ export default async function GradesPage() {
       return sum + ((sub.grade || 0) / maxPoints) * 100;
     }, 0);
     stats.avgAssignmentGrade = Math.round(totalPercentage / assignmentSubmissions.length);
-    assignmentSubmissions.forEach(sub => {
+    assignmentSubmissions.forEach((sub) => {
       if (sub.assignments?.course_id) {
         stats.coursesWithGrades.add(sub.assignments.course_id);
       }
@@ -111,7 +122,7 @@ export default async function GradesPage() {
   if (quizAttempts && quizAttempts.length > 0) {
     const totalScore = quizAttempts.reduce((sum, attempt) => sum + (attempt.score || 0), 0);
     stats.avgQuizScore = Math.round(totalScore / quizAttempts.length);
-    quizAttempts.forEach(attempt => {
+    quizAttempts.forEach((attempt) => {
       if (attempt.quizzes?.course_id) {
         stats.coursesWithGrades.add(attempt.quizzes.course_id);
       }
@@ -119,15 +130,18 @@ export default async function GradesPage() {
   }
 
   // Calculate course grades
-  const courseGrades: Record<string, { 
-    courseId: string;
-    courseTitle: string;
-    assignments: { title: string; grade: number; maxPoints: number; date: string }[];
-    quizzes: { title: string; score: number; date: string }[];
-    overallGrade: number;
-  }> = {};
+  const courseGrades: Record<
+    string,
+    {
+      courseId: string;
+      courseTitle: string;
+      assignments: { title: string; grade: number; maxPoints: number; date: string }[];
+      quizzes: { title: string; score: number; date: string }[];
+      overallGrade: number;
+    }
+  > = {};
 
-  assignmentSubmissions?.forEach(sub => {
+  assignmentSubmissions?.forEach((sub) => {
     const courseId = sub.assignments?.course_id;
     const courseTitle = sub.assignments?.courses?.title || 'Unknown Course';
     if (courseId) {
@@ -149,7 +163,7 @@ export default async function GradesPage() {
     }
   });
 
-  quizAttempts?.forEach(attempt => {
+  quizAttempts?.forEach((attempt) => {
     const courseId = attempt.quizzes?.course_id;
     const courseTitle = attempt.quizzes?.courses?.title || 'Unknown Course';
     if (courseId) {
@@ -171,20 +185,20 @@ export default async function GradesPage() {
   });
 
   // Calculate overall grade for each course
-  Object.values(courseGrades).forEach(course => {
+  Object.values(courseGrades).forEach((course) => {
     let totalPoints = 0;
     let earnedPoints = 0;
-    
-    course.assignments.forEach(a => {
+
+    course.assignments.forEach((a) => {
       totalPoints += a.maxPoints;
       earnedPoints += a.grade;
     });
-    
-    course.quizzes.forEach(q => {
+
+    course.quizzes.forEach((q) => {
       totalPoints += 100;
       earnedPoints += q.score;
     });
-    
+
     course.overallGrade = totalPoints > 0 ? Math.round((earnedPoints / totalPoints) * 100) : 0;
   });
 
@@ -224,9 +238,9 @@ export default async function GradesPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Grades" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Grades' }]} />
+      </div>
       <div className="max-w-7xl mx-auto px-4">
         {/* Header */}
         <div className="mb-8">
@@ -258,9 +272,7 @@ export default async function GradesPage() {
                 <FileText className="w-5 h-5 text-brand-green-600" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-slate-900">
-                  {stats.totalAssignments}
-                </div>
+                <div className="text-2xl font-bold text-slate-900">{stats.totalAssignments}</div>
                 <div className="text-xs text-slate-600">Assignments</div>
               </div>
             </div>
@@ -272,9 +284,7 @@ export default async function GradesPage() {
                 <Circle className="w-5 h-5 text-brand-blue-600" />
               </div>
               <div>
-                <div className="text-2xl font-bold text-slate-900">
-                  {stats.totalQuizzes}
-                </div>
+                <div className="text-2xl font-bold text-slate-900">{stats.totalQuizzes}</div>
                 <div className="text-xs text-slate-600">Quizzes</div>
               </div>
             </div>
@@ -310,17 +320,19 @@ export default async function GradesPage() {
                         <BookOpen className="w-6 h-6 text-brand-blue-600" />
                       </div>
                       <div>
-                        <h2 className="text-xl font-bold text-slate-900">
-                          {course.courseTitle}
-                        </h2>
+                        <h2 className="text-xl font-bold text-slate-900">{course.courseTitle}</h2>
                         <p className="text-sm text-slate-600">
                           {course.assignments.length} assignments • {course.quizzes.length} quizzes
                         </p>
                       </div>
                     </div>
                     <div className="text-right">
-                      <div className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl ${getGradeColor(course.overallGrade)}`}>
-                        <span className="text-2xl font-bold">{getLetterGrade(course.overallGrade)}</span>
+                      <div
+                        className={`inline-flex items-center gap-2 px-4 py-2 rounded-xl ${getGradeColor(course.overallGrade)}`}
+                      >
+                        <span className="text-2xl font-bold">
+                          {getLetterGrade(course.overallGrade)}
+                        </span>
                         <span className="text-sm font-medium">({course.overallGrade}%)</span>
                       </div>
                     </div>
@@ -336,7 +348,9 @@ export default async function GradesPage() {
                       </h3>
                       <div className="space-y-3">
                         {course.assignments.map((assignment, idx) => {
-                          const percentage = Math.round((assignment.grade / assignment.maxPoints) * 100);
+                          const percentage = Math.round(
+                            (assignment.grade / assignment.maxPoints) * 100,
+                          );
                           return (
                             <div
                               key={idx}
@@ -346,11 +360,15 @@ export default async function GradesPage() {
                                 <FileText className="w-5 h-5 text-slate-400" />
                                 <div>
                                   <p className="font-medium text-slate-900">{assignment.title}</p>
-                                  <p className="text-sm text-slate-500">{formatDate(assignment.date)}</p>
+                                  <p className="text-sm text-slate-500">
+                                    {formatDate(assignment.date)}
+                                  </p>
                                 </div>
                               </div>
                               <div className="text-right">
-                                <p className={`font-bold ${getGradeColor(percentage)} px-3 py-1 rounded-lg`}>
+                                <p
+                                  className={`font-bold ${getGradeColor(percentage)} px-3 py-1 rounded-lg`}
+                                >
                                   {assignment.grade}/{assignment.maxPoints}
                                 </p>
                                 <p className="text-xs text-slate-500 mt-1">{percentage}%</p>
@@ -382,7 +400,9 @@ export default async function GradesPage() {
                               </div>
                             </div>
                             <div className="text-right">
-                              <p className={`font-bold ${getGradeColor(quiz.score)} px-3 py-1 rounded-lg`}>
+                              <p
+                                className={`font-bold ${getGradeColor(quiz.score)} px-3 py-1 rounded-lg`}
+                              >
                                 {quiz.score}%
                               </p>
                             </div>

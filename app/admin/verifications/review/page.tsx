@@ -16,23 +16,32 @@ export default async function AdminVerificationReviewPage() {
   await requireRole(['admin', 'super_admin']);
   const supabase = await createClient();
 
-
-
   const { data: rawVerifications, error: verificationsError } = await supabase
     .from('id_verifications')
     .select('*')
     .order('created_at', { ascending: false });
-  if (verificationsError) throw new Error(`id_verifications query failed: ${verificationsError.message}`);
+  if (verificationsError)
+    throw new Error(`id_verifications query failed: ${verificationsError.message}`);
 
   // Hydrate profiles separately (id_verifications.user_id → auth.users, no FK to profiles)
-  const verifListUserIds = [...new Set((rawVerifications ?? []).map((v: any) => v.user_id).filter(Boolean))];
+  const verifListUserIds = [
+    ...new Set((rawVerifications ?? []).map((v: any) => v.user_id).filter(Boolean)),
+  ];
   const { data: verifListProfiles } = verifListUserIds.length
-    ? await supabase.from('profiles').select('id, full_name, email, role').in('id', verifListUserIds)
+    ? await supabase
+        .from('profiles')
+        .select('id, full_name, email, role')
+        .in('id', verifListUserIds)
     : { data: [] };
-  const verifListProfileMap = Object.fromEntries((verifListProfiles ?? []).map((p: any) => [p.id, p]));
-  const verifications = (rawVerifications ?? []).map((v: any) => ({ ...v, profiles: verifListProfileMap[v.user_id] ?? null }));
+  const verifListProfileMap = Object.fromEntries(
+    (verifListProfiles ?? []).map((p: any) => [p.id, p]),
+  );
+  const verifications = (rawVerifications ?? []).map((v: any) => ({
+    ...v,
+    profiles: verifListProfileMap[v.user_id] ?? null,
+  }));
 
-  const pendingVerifications  = verifications.filter((v) => v.status === 'pending');
+  const pendingVerifications = verifications.filter((v) => v.status === 'pending');
   const approvedVerifications = verifications.filter((v) => v.status === 'approved');
   const rejectedVerifications = verifications.filter((v) => v.status === 'rejected');
 
@@ -55,26 +64,18 @@ export default async function AdminVerificationReviewPage() {
       pending: 'bg-yellow-100 text-yellow-800 border-yellow-300',
       rejected: 'bg-brand-red-100 text-brand-red-800 border-brand-red-300',
     };
-    return (
-      styles[status as keyof typeof styles] ||
-      'bg-slate-100 text-black border-slate-300'
-    );
+    return styles[status as keyof typeof styles] || 'bg-slate-100 text-black border-slate-300';
   };
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="border-b py-8">
         <div className="max-w-7xl mx-auto px-6">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-4xl font-bold text-black mb-2">
-                ID Verification Review
-              </h1>
-              <p className="text-lg text-black">
-                Review and approve identity verifications
-              </p>
+              <h1 className="text-4xl font-bold text-black mb-2">ID Verification Review</h1>
+              <p className="text-lg text-black">Review and approve identity verifications</p>
             </div>
             <Link
               href="/admin/dashboard"
@@ -91,9 +92,7 @@ export default async function AdminVerificationReviewPage() {
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <div className="flex items-center justify-between mb-2">
               <Shield className="w-8 h-8 text-brand-blue-600" />
-              <span className="text-3xl font-bold text-black">
-                {verifications?.length || 0}
-              </span>
+              <span className="text-3xl font-bold text-black">{verifications?.length || 0}</span>
             </div>
             <div className="text-sm text-black">Total Verifications</div>
           </div>
@@ -105,17 +104,13 @@ export default async function AdminVerificationReviewPage() {
                 {pendingVerifications.length}
               </span>
             </div>
-            <div className="text-sm text-yellow-900 font-semibold">
-              Pending Review
-            </div>
+            <div className="text-sm text-yellow-900 font-semibold">Pending Review</div>
           </div>
 
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <div className="flex items-center justify-between mb-2">
               <span className="text-slate-400 flex-shrink-0">•</span>
-              <span className="text-3xl font-bold text-black">
-                {approvedVerifications.length}
-              </span>
+              <span className="text-3xl font-bold text-black">{approvedVerifications.length}</span>
             </div>
             <div className="text-sm text-black">Approved</div>
           </div>
@@ -123,9 +118,7 @@ export default async function AdminVerificationReviewPage() {
           <div className="bg-white rounded-lg shadow-sm border p-6">
             <div className="flex items-center justify-between mb-2">
               <XCircle className="w-8 h-8 text-brand-red-600" />
-              <span className="text-3xl font-bold text-black">
-                {rejectedVerifications.length}
-              </span>
+              <span className="text-3xl font-bold text-black">{rejectedVerifications.length}</span>
             </div>
             <div className="text-sm text-black">Rejected</div>
           </div>
@@ -151,9 +144,7 @@ export default async function AdminVerificationReviewPage() {
                       <p className="text-sm text-black">
                         {verification.id_type
                           .replace(/_/g, ' ')
-                          .replace(/\b\w/g, (l: string) =>
-                            l.toUpperCase()
-                          )}{' '}
+                          .replace(/\b\w/g, (l: string) => l.toUpperCase())}{' '}
                         •{(verification.profiles as any)?.email} (
                         {(verification.profiles as any)?.role}) • Submitted{' '}
                         {new Date(verification.created_at).toLocaleDateString()}
@@ -176,9 +167,7 @@ export default async function AdminVerificationReviewPage() {
         )}
 
         <div className="bg-white rounded-lg shadow-sm border p-6">
-          <h2 className="text-2xl font-bold text-black mb-4">
-            All Verifications
-          </h2>
+          <h2 className="text-2xl font-bold text-black mb-4">All Verifications</h2>
 
           {verifications && verifications.length > 0 ? (
             <div className="space-y-3">
@@ -196,28 +185,23 @@ export default async function AdminVerificationReviewPage() {
                       <p className="text-sm text-black">
                         {verification.id_type
                           .replace(/_/g, ' ')
-                          .replace(/\b\w/g, (l: string) =>
-                            l.toUpperCase()
-                          )}{' '}
+                          .replace(/\b\w/g, (l: string) => l.toUpperCase())}{' '}
                         •{(verification.profiles as any)?.email} (
                         {(verification.profiles as any)?.role}) • Submitted{' '}
                         {new Date(verification.created_at).toLocaleDateString()}
                       </p>
-                      {verification.status === 'rejected' &&
-                        verification.rejection_reason && (
-                          <p className="text-sm text-brand-red-600 mt-1">
-                            <strong>Reason:</strong>{' '}
-                            {verification.rejection_reason}
-                          </p>
-                        )}
+                      {verification.status === 'rejected' && verification.rejection_reason && (
+                        <p className="text-sm text-brand-red-600 mt-1">
+                          <strong>Reason:</strong> {verification.rejection_reason}
+                        </p>
+                      )}
                     </div>
                   </div>
                   <div className="flex items-center gap-3">
                     <span
                       className={`px-3 py-2 rounded-full text-xs font-semibold border ${getStatusBadge(verification.status)}`}
                     >
-                      {verification.status.charAt(0).toUpperCase() +
-                        verification.status.slice(1)}
+                      {verification.status.charAt(0).toUpperCase() + verification.status.slice(1)}
                     </span>
                     <Link
                       href={`/admin/verifications/review/${verification.id}`}

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -26,7 +26,9 @@ export function ShoppingCart() {
 
   const fetchCart = useCallback(async () => {
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       // Load from localStorage for guests
@@ -45,7 +47,7 @@ export function ShoppingCart() {
         .eq('user_id', user.id);
 
       if (data) {
-        const items: CartItem[] = data.map(item => ({
+        const items: CartItem[] = data.map((item) => ({
           id: item.product_id,
           title: item.products?.name || 'Product',
           price: item.products?.price || 0,
@@ -67,18 +69,18 @@ export function ShoppingCart() {
 
   const updateQuantity = async (id: string, change: number) => {
     const newItems = cartItems.map((item) =>
-      item.id === id
-        ? { ...item, quantity: Math.max(1, item.quantity + change) }
-        : item
+      item.id === id ? { ...item, quantity: Math.max(1, item.quantity + change) } : item,
     );
     setCartItems(newItems);
 
     // Sync to database
     const supabase = createClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (user) {
-      const item = newItems.find(i => i.id === id);
+      const item = newItems.find((i) => i.id === id);
       if (item) {
         await supabase
           .from('cart_items')
@@ -105,10 +107,7 @@ export function ShoppingCart() {
     }
   };
 
-  const subtotal = cartItems.reduce(
-    (sum, item) => sum + item.price * item.quantity,
-    0
-  );
+  const subtotal = cartItems.reduce((sum, item) => sum + item.price * item.quantity, 0);
   const discountAmount = subtotal * discount;
   const total = subtotal - discountAmount;
 
@@ -131,9 +130,7 @@ export function ShoppingCart() {
                 <div className="text-center py-12">
                   <CartIcon className="mx-auto text-slate-700 mb-4" size={64} />
                   <h3 className="text-xl font-semibold mb-2">Your cart is empty</h3>
-                  <p className="text-black mb-6">
-                    Browse our courses and add them to your cart
-                  </p>
+                  <p className="text-black mb-6">Browse our courses and add them to your cart</p>
                   <Link href="/programs">
                     <Button className="bg-brand-orange-600 hover:bg-brand-orange-700">
                       Browse Courses
@@ -153,7 +150,8 @@ export function ShoppingCart() {
                           alt={item.title}
                           fill
                           className="object-cover rounded"
-                         sizes="100vw" />
+                          sizes="100vw"
+                        />
                       </div>
 
                       <div className="flex-1">
@@ -171,9 +169,7 @@ export function ShoppingCart() {
                           >
                             <Minus size={16} />
                           </button>
-                          <span className="w-8 text-center font-semibold">
-                            {item.quantity}
-                          </span>
+                          <span className="w-8 text-center font-semibold">{item.quantity}</span>
                           <button
                             onClick={() => updateQuantity(item.id, 1)}
                             className="p-2 hover:bg-gray-100 transition"
@@ -207,9 +203,7 @@ export function ShoppingCart() {
               <div className="space-y-2">
                 <div className="flex justify-between">
                   <span className="text-black">Subtotal</span>
-                  <span className="font-semibold">
-                    ${(subtotal / 100).toFixed(2)}
-                  </span>
+                  <span className="font-semibold">${(subtotal / 100).toFixed(2)}</span>
                 </div>
 
                 {discount > 0 && (
@@ -222,9 +216,7 @@ export function ShoppingCart() {
                 <div className="pt-2 border-t">
                   <div className="flex justify-between text-lg font-bold">
                     <span>Total</span>
-                    <span className="text-brand-orange-600">
-                      ${(total / 100).toFixed(2)}
-                    </span>
+                    <span className="text-brand-orange-600">${(total / 100).toFixed(2)}</span>
                   </div>
                 </div>
               </div>
@@ -239,7 +231,11 @@ export function ShoppingCart() {
                   <input
                     type="text"
                     value={promoCode}
-                    onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setPromoCode(e.target.value)}
+                    onChange={(
+                      e: React.ChangeEvent<
+                        HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
+                      >,
+                    ) => setPromoCode(e.target.value)}
                     placeholder="Enter code"
                     className="flex-1 px-3 py-2 border rounded focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
                   />
@@ -252,9 +248,7 @@ export function ShoppingCart() {
                   </Button>
                 </div>
                 {discount > 0 && (
-                  <div className="mt-2 text-sm text-brand-green-600">
-                    • Promo code applied!
-                  </div>
+                  <div className="mt-2 text-sm text-brand-green-600">• Promo code applied!</div>
                 )}
               </div>
 

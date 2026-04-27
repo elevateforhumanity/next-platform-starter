@@ -1,9 +1,9 @@
 /**
  * Generate Videos for All Lessons
- * 
+ *
  * This script generates videos for each lesson using the AI video generator
  * and updates the database with video URLs.
- * 
+ *
  * Usage: npx ts-node scripts/generate-lesson-videos.ts
  */
 
@@ -14,7 +14,7 @@ dotenv.config({ path: '.env.local' });
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
+  process.env.SUPABASE_SERVICE_ROLE_KEY!,
 );
 
 const API_URL = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
@@ -38,7 +38,7 @@ interface Course {
 async function generateVideoForLesson(lesson: Lesson, courseName: string): Promise<string | null> {
   try {
     const prompt = `Educational video for "${courseName}" - Lesson ${lesson.lesson_number}: ${lesson.title}. ${lesson.content.substring(0, 200)}`;
-    
+
     const response = await fetch(`${API_URL}/api/ai-studio/generate-video`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -129,7 +129,7 @@ async function main() {
       }
 
       // Rate limiting - wait between requests
-      await new Promise(resolve => setTimeout(resolve, 2000));
+      await new Promise((resolve) => setTimeout(resolve, 2000));
     }
   }
 
@@ -167,7 +167,7 @@ async function assignExistingVideos() {
   for (const lesson of lessons) {
     // Rotate through available videos
     const videoUrl = artlistVideos[lesson.lesson_number % artlistVideos.length];
-    
+
     const { error: updateError } = await supabase
       .from('training_lessons')
       .update({ video_url: videoUrl })

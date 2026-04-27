@@ -48,7 +48,7 @@ async function ttsChunk(
   const response = await fetch('https://api.openai.com/v1/audio/speech', {
     method: 'POST',
     headers: {
-      'Authorization': `Bearer ${apiKey}`,
+      Authorization: `Bearer ${apiKey}`,
       'Content-Type': 'application/json',
     },
     body: JSON.stringify({
@@ -73,7 +73,7 @@ async function ttsChunk(
 export async function generateTextToSpeech(
   text: string,
   voice: string = 'alloy',
-  speed: number = 1.0
+  speed: number = 1.0,
 ): Promise<Buffer> {
   if (!text || text.trim().length === 0) {
     throw new Error('Text is required for TTS generation');
@@ -102,7 +102,7 @@ export async function generateTextToSpeech(
 export async function generateAndSaveAudio(
   text: string,
   outputPath: string,
-  options: TTSOptions = {}
+  options: TTSOptions = {},
 ): Promise<string> {
   try {
     const { voice = 'alloy', speed = 1.0 } = options;
@@ -115,7 +115,6 @@ export async function generateAndSaveAudio(
 
     // Write file
     await fs.writeFile(outputPath, audioBuffer);
-
 
     return outputPath;
   } catch (error) {
@@ -132,7 +131,7 @@ export async function generateMultipleAudio(
     voice?: TTSOptions['voice'];
     speed?: number;
   }>,
-  outputDir: string
+  outputDir: string,
 ): Promise<string[]> {
   try {
     const audioPaths: string[] = [];
@@ -158,10 +157,7 @@ export async function generateMultipleAudio(
 /**
  * Get estimated audio duration (rough estimate based on text length)
  */
-export function estimateAudioDuration(
-  text: string,
-  speed: number = 1.0
-): number {
+export function estimateAudioDuration(text: string, speed: number = 1.0): number {
   // Average speaking rate: ~150 words per minute
   // Adjust for speed
   const words = text.split(/\s+/).length;

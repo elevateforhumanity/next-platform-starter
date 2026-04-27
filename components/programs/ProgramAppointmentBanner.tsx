@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import Link from 'next/link';
 
@@ -11,9 +11,9 @@ export function ProgramAppointmentBanner() {
             Appointment-Based Enrollment & Funding Process
           </p>
           <p className="mt-1 text-sm text-amber-900/90 leading-relaxed">
-            Funding and eligibility are determined through an appointment with
-            your local WorkOne / Indiana Career Connect office. We do not
-            provide funding decisions by walk-in, email, or social media.
+            Funding and eligibility are determined through an appointment with your local WorkOne /
+            Indiana Career Connect office. We do not provide funding decisions by walk-in, email, or
+            social media.
           </p>
 
           <ol className="mt-3 list-decimal pl-5 text-sm text-amber-900/90 space-y-1">
@@ -30,10 +30,7 @@ export function ProgramAppointmentBanner() {
               </a>
             </li>
             <li>Tell the advisor you are working with Elevate for Humanity</li>
-            <li>
-              Return and complete your Next Steps Checklist so we can move you
-              forward
-            </li>
+            <li>Return and complete your Next Steps Checklist so we can move you forward</li>
           </ol>
         </div>
 

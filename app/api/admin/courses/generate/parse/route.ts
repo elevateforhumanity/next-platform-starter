@@ -39,7 +39,11 @@ export async function POST(req: NextRequest) {
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const db = await getAdminClient();
-    const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    const { data: profile } = await db
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
     if (!profile || !ADMIN_ROLES.has(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
@@ -69,19 +73,21 @@ export async function POST(req: NextRequest) {
         } else {
           return NextResponse.json(
             { error: 'Unsupported file type. Upload a PDF or DOCX.' },
-            { status: 400 }
+            { status: 400 },
           );
         }
 
         if (!raw_text) {
           return NextResponse.json(
             { error: 'Could not extract text from file. Try pasting the content instead.' },
-            { status: 422 }
+            { status: 422 },
           );
         }
 
         logger.info('File parsed for course generation', {
-          userId: user.id, input_type, chars: raw_text.length,
+          userId: user.id,
+          input_type,
+          chars: raw_text.length,
         });
         return NextResponse.json({ raw_text, input_type });
       }

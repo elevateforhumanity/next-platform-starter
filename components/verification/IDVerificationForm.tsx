@@ -34,9 +34,7 @@ export function IDVerificationForm() {
     selfie: null as File | null,
   });
 
-  const handleInputChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>
-  ) => {
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement>) => {
     setFormData({
       ...formData,
       [e.target.name]: e.target.value,
@@ -45,7 +43,7 @@ export function IDVerificationForm() {
 
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
-    field: 'idFront' | 'idBack' | 'selfie'
+    field: 'idFront' | 'idBack' | 'selfie',
   ) => {
     if (e.target.files && e.target.files[0]) {
       setFiles({
@@ -112,17 +110,13 @@ export function IDVerificationForm() {
         <div className="flex items-center gap-4 mb-4">
           <span className="text-slate-500 flex-shrink-0">•</span>
           <div>
-            <h2 className="text-2xl font-bold text-brand-green-900">
-              Verification Submitted!
-            </h2>
-            <p className="text-brand-green-700">
-              Your identity verification is being reviewed.
-            </p>
+            <h2 className="text-2xl font-bold text-brand-green-900">Verification Submitted!</h2>
+            <p className="text-brand-green-700">Your identity verification is being reviewed.</p>
           </div>
         </div>
         <p className="text-brand-green-800">
-          You'll receive an email notification once your verification is
-          approved. This typically takes 1-2 business days.
+          You'll receive an email notification once your verification is approved. This typically
+          takes 1-2 business days.
         </p>
       </div>
     );
@@ -145,9 +139,7 @@ export function IDVerificationForm() {
         <h3 className="text-xl font-bold mb-4">Personal Information</h3>
         <div className="grid md:grid-cols-3 gap-4">
           <div>
-            <label className="block text-sm font-semibold mb-2">
-              First Name *
-            </label>
+            <label className="block text-sm font-semibold mb-2">First Name *</label>
             <input
               type="text"
               name="firstName"
@@ -158,9 +150,7 @@ export function IDVerificationForm() {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">
-              Middle Name
-            </label>
+            <label className="block text-sm font-semibold mb-2">Middle Name</label>
             <input
               type="text"
               name="middleName"
@@ -170,9 +160,7 @@ export function IDVerificationForm() {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">
-              Last Name *
-            </label>
+            <label className="block text-sm font-semibold mb-2">Last Name *</label>
             <input
               type="text"
               name="lastName"
@@ -185,9 +173,7 @@ export function IDVerificationForm() {
         </div>
         <div className="grid md:grid-cols-2 gap-4 mt-4">
           <div>
-            <label className="block text-sm font-semibold mb-2">
-              Date of Birth *
-            </label>
+            <label className="block text-sm font-semibold mb-2">Date of Birth *</label>
             <input
               type="date"
               name="dateOfBirth"
@@ -198,9 +184,7 @@ export function IDVerificationForm() {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">
-              Last 4 of SSN (Optional)
-            </label>
+            <label className="block text-sm font-semibold mb-2">Last 4 of SSN (Optional)</label>
             <input
               type="text"
               name="ssnLast4"
@@ -220,9 +204,7 @@ export function IDVerificationForm() {
         <h3 className="text-xl font-bold mb-4">Address Information</h3>
         <div className="space-y-4">
           <div>
-            <label className="block text-sm font-semibold mb-2">
-              Street Address *
-            </label>
+            <label className="block text-sm font-semibold mb-2">Street Address *</label>
             <input
               type="text"
               name="streetAddress"
@@ -233,9 +215,7 @@ export function IDVerificationForm() {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">
-              Address Line 2
-            </label>
+            <label className="block text-sm font-semibold mb-2">Address Line 2</label>
             <input
               type="text"
               name="addressLine2"
@@ -258,9 +238,7 @@ export function IDVerificationForm() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold mb-2">
-                State *
-              </label>
+              <label className="block text-sm font-semibold mb-2">State *</label>
               <input
                 type="text"
                 name="state"
@@ -273,9 +251,7 @@ export function IDVerificationForm() {
               />
             </div>
             <div>
-              <label className="block text-sm font-semibold mb-2">
-                ZIP Code *
-              </label>
+              <label className="block text-sm font-semibold mb-2">ZIP Code *</label>
               <input
                 type="text"
                 name="zipCode"
@@ -296,9 +272,7 @@ export function IDVerificationForm() {
         <h3 className="text-xl font-bold mb-4">ID Document Information</h3>
         <div className="grid md:grid-cols-2 gap-4">
           <div>
-            <label className="block text-sm font-semibold mb-2">
-              ID Type *
-            </label>
+            <label className="block text-sm font-semibold mb-2">ID Type *</label>
             <select
               name="idType"
               value={formData.idType}
@@ -313,9 +287,7 @@ export function IDVerificationForm() {
             </select>
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">
-              ID Number *
-            </label>
+            <label className="block text-sm font-semibold mb-2">ID Number *</label>
             <input
               type="text"
               name="idNumber"
@@ -326,9 +298,7 @@ export function IDVerificationForm() {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">
-              Issuing State
-            </label>
+            <label className="block text-sm font-semibold mb-2">Issuing State</label>
             <input
               type="text"
               name="idState"
@@ -340,9 +310,7 @@ export function IDVerificationForm() {
             />
           </div>
           <div>
-            <label className="block text-sm font-semibold mb-2">
-              Expiration Date
-            </label>
+            <label className="block text-sm font-semibold mb-2">Expiration Date</label>
             <input
               type="date"
               name="idExpiration"
@@ -360,9 +328,7 @@ export function IDVerificationForm() {
         <div className="space-y-6">
           {/* ID Front */}
           <div>
-            <label className="block text-sm font-semibold mb-2">
-              ID Front Photo *
-            </label>
+            <label className="block text-sm font-semibold mb-2">ID Front Photo *</label>
             <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-brand-blue-500 transition">
               <Upload className="w-12 h-12 text-slate-400 mx-auto mb-2" />
               <input
@@ -374,9 +340,7 @@ export function IDVerificationForm() {
                 id="idFront"
               />
               <label htmlFor="idFront" className="cursor-pointer">
-                <span className="text-brand-blue-600 font-semibold">
-                  Click to upload
-                </span>
+                <span className="text-brand-blue-600 font-semibold">Click to upload</span>
                 <span className="text-black"> or drag and drop</span>
               </label>
               {files.idFront && (
@@ -402,9 +366,7 @@ export function IDVerificationForm() {
                 id="idBack"
               />
               <label htmlFor="idBack" className="cursor-pointer">
-                <span className="text-brand-blue-600 font-semibold">
-                  Click to upload
-                </span>
+                <span className="text-brand-blue-600 font-semibold">Click to upload</span>
                 <span className="text-black"> or drag and drop</span>
               </label>
               {files.idBack && (
@@ -417,9 +379,7 @@ export function IDVerificationForm() {
 
           {/* Selfie */}
           <div>
-            <label className="block text-sm font-semibold mb-2">
-              Selfie Photo *
-            </label>
+            <label className="block text-sm font-semibold mb-2">Selfie Photo *</label>
             <div className="border-2 border-dashed border-slate-300 rounded-lg p-6 text-center hover:border-brand-blue-500 transition">
               <Camera className="w-12 h-12 text-slate-400 mx-auto mb-2" />
               <input
@@ -432,9 +392,7 @@ export function IDVerificationForm() {
                 id="selfie"
               />
               <label htmlFor="selfie" className="cursor-pointer">
-                <span className="text-brand-blue-600 font-semibold">
-                  Take a selfie
-                </span>
+                <span className="text-brand-blue-600 font-semibold">Take a selfie</span>
                 <span className="text-black"> or upload photo</span>
               </label>
               {files.selfie && (
@@ -444,8 +402,7 @@ export function IDVerificationForm() {
               )}
             </div>
             <p className="mt-2 text-sm text-black">
-              Take a clear photo of your face. Make sure your face is well-lit
-              and clearly visible.
+              Take a clear photo of your face. Make sure your face is well-lit and clearly visible.
             </p>
           </div>
         </div>

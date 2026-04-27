@@ -81,7 +81,9 @@ export function LessonInlineInput({
       try {
         const { createClient } = await import('@/lib/supabase/client');
         const supabase = await createClient();
-        const { data: { user } } = await supabase.auth.getUser();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
         if (!user || cancelled) return;
 
         const { data } = await supabase
@@ -97,58 +99,75 @@ export function LessonInlineInput({
           onChange?.(data.response_text);
           setTimeout(autoGrow, 0);
         }
-      } catch { /* non-fatal */ }
-      finally { if (!cancelled) setLoaded(true); }
+      } catch {
+        /* non-fatal */
+      } finally {
+        if (!cancelled) setLoaded(true);
+      }
     }
     load();
-    return () => { cancelled = true; };
+    return () => {
+      cancelled = true;
+    };
   }, [lessonId, fieldKey]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Debounced save
-  const save = useCallback(async (text: string) => {
-    if (!text.trim()) return;
-    setSaveState('saving');
-    try {
-      const { createClient } = await import('@/lib/supabase/client');
-      const supabase = await createClient();
-      const { data: { user } } = await supabase.auth.getUser();
-      if (!user) return;
+  const save = useCallback(
+    async (text: string) => {
+      if (!text.trim()) return;
+      setSaveState('saving');
+      try {
+        const { createClient } = await import('@/lib/supabase/client');
+        const supabase = await createClient();
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        if (!user) return;
 
-      const { error } = await supabase
-        .from('lesson_responses')
-        .upsert({
-          user_id: user.id,
-          lesson_id: lessonId,
-          course_id: courseId,
-          field_key: fieldKey,
-          response_text: text,
-          updated_at: new Date().toISOString(),
-        }, { onConflict: 'user_id,lesson_id,field_key' });
+        const { error } = await supabase.from('lesson_responses').upsert(
+          {
+            user_id: user.id,
+            lesson_id: lessonId,
+            course_id: courseId,
+            field_key: fieldKey,
+            response_text: text,
+            updated_at: new Date().toISOString(),
+          },
+          { onConflict: 'user_id,lesson_id,field_key' },
+        );
 
-      setSaveState(error ? 'error' : 'saved');
-      if (!error) setTimeout(() => setSaveState('idle'), 3000);
-    } catch {
-      setSaveState('error');
-    }
-  }, [lessonId, courseId, fieldKey]);
+        setSaveState(error ? 'error' : 'saved');
+        if (!error) setTimeout(() => setSaveState('idle'), 3000);
+      } catch {
+        setSaveState('error');
+      }
+    },
+    [lessonId, courseId, fieldKey],
+  );
 
-  const handleChange = useCallback((text: string) => {
-    setValue(text);
-    onChange?.(text);
-    autoGrow();
-    setSaveState('idle');
-    if (debounceRef.current) clearTimeout(debounceRef.current);
-    debounceRef.current = setTimeout(() => save(text), DEBOUNCE_MS);
-  }, [save, autoGrow, onChange]);
+  const handleChange = useCallback(
+    (text: string) => {
+      setValue(text);
+      onChange?.(text);
+      autoGrow();
+      setSaveState('idle');
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+      debounceRef.current = setTimeout(() => save(text), DEBOUNCE_MS);
+    },
+    [save, autoGrow, onChange],
+  );
 
   // Ctrl+Enter submits long/reflect
-  const handleKeyDown = useCallback((e: React.KeyboardEvent) => {
-    if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && variant !== 'short') {
-      e.preventDefault();
-      if (debounceRef.current) clearTimeout(debounceRef.current);
-      save(value);
-    }
-  }, [variant, value, save]);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === 'Enter' && variant !== 'short') {
+        e.preventDefault();
+        if (debounceRef.current) clearTimeout(debounceRef.current);
+        save(value);
+      }
+    },
+    [variant, value, save],
+  );
 
   const saveIcon = {
     idle: null,
@@ -171,7 +190,11 @@ export function LessonInlineInput({
         <PenLine className="w-4 h-4 text-brand-blue-600 mt-0.5 shrink-0" aria-hidden />
         <p className="text-sm font-semibold text-slate-800 leading-snug">
           {prompt}
-          {required && <span className="text-red-500 ml-1" aria-label="required">*</span>}
+          {required && (
+            <span className="text-red-500 ml-1" aria-label="required">
+              *
+            </span>
+          )}
         </p>
       </div>
 
@@ -181,7 +204,7 @@ export function LessonInlineInput({
           ref={inputRef}
           type="text"
           value={value}
-          onChange={e => handleChange(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
           onKeyDown={handleKeyDown}
           placeholder={placeholder ?? 'Type your answer…'}
           aria-labelledby={labelId}
@@ -194,9 +217,12 @@ export function LessonInlineInput({
         <textarea
           ref={textareaRef}
           value={value}
-          onChange={e => handleChange(e.target.value)}
+          onChange={(e) => handleChange(e.target.value)}
           onKeyDown={handleKeyDown}
-          placeholder={placeholder ?? (variant === 'reflect' ? 'Write your reflection here…' : 'Type your response…')}
+          placeholder={
+            placeholder ??
+            (variant === 'reflect' ? 'Write your reflection here…' : 'Type your response…')
+          }
           aria-labelledby={labelId}
           aria-describedby={statusId}
           aria-required={required}
@@ -212,9 +238,13 @@ export function LessonInlineInput({
       <div className="flex items-center justify-between mt-2 gap-2">
         <div className="flex items-center gap-1.5">
           {variant === 'reflect' && (
-            <span className={`text-xs font-medium ${meetsMinWords ? 'text-emerald-600' : 'text-slate-500'}`}>
+            <span
+              className={`text-xs font-medium ${meetsMinWords ? 'text-emerald-600' : 'text-slate-500'}`}
+            >
               {wordCount} / {minWords} words
-              {meetsMinWords && <CheckCircle className="inline w-3 h-3 ml-1 text-emerald-500" aria-hidden />}
+              {meetsMinWords && (
+                <CheckCircle className="inline w-3 h-3 ml-1 text-emerald-500" aria-hidden />
+              )}
             </span>
           )}
         </div>

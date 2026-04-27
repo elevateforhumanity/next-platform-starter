@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Award } from 'lucide-react';
 
@@ -36,9 +36,7 @@ export function CertificateTemplate({
         </div>
 
         {/* Title */}
-        <h1 className="text-5xl font-bold text-black mb-4">
-          Certificate of Completion
-        </h1>
+        <h1 className="text-5xl font-bold text-black mb-4">Certificate of Completion</h1>
 
         {/* Subtitle */}
         <p className="text-xl text-black mb-8">This certifies that</p>
@@ -49,15 +47,14 @@ export function CertificateTemplate({
         </h2>
 
         {/* Course Info */}
-        <p className="text-xl text-black mb-4">
-          has successfully completed
-        </p>
+        <p className="text-xl text-black mb-4">has successfully completed</p>
         <h3 className="text-3xl font-bold text-black mb-8">{courseName}</h3>
 
         {/* Date */}
         <p className="text-lg text-black mb-12">
           Completed on{' '}
-          {new Date(completionDate).toLocaleDateString('en-US', { timeZone: 'UTC',
+          {new Date(completionDate).toLocaleDateString('en-US', {
+            timeZone: 'UTC',
             month: 'long',
             day: 'numeric',
             year: 'numeric',
@@ -69,16 +66,16 @@ export function CertificateTemplate({
           <div className="text-center">
             <div className="border-t-2 border-slate-900 pt-2 px-8">
               <p className="font-bold text-black">{instructorName}</p>
-              <p className="text-sm text-black">Elevate for Humanity Career &amp; Technical Institute</p>
+              <p className="text-sm text-black">
+                Elevate for Humanity Career &amp; Technical Institute
+              </p>
             </div>
           </div>
         </div>
 
         {/* Certificate Number */}
         <div className="mt-8">
-          <p className="text-xs text-slate-500">
-            Certificate Number: {certificateNumber}
-          </p>
+          <p className="text-xs text-slate-500">Certificate Number: {certificateNumber}</p>
           <p className="text-xs text-slate-500">
             Verify at: www.elevateforhumanity.org/verify/{certificateNumber}
           </p>
@@ -156,12 +153,7 @@ export function CertificatePreview({
           onClick={downloadPDF}
           className="flex-1 bg-brand-blue-600 hover:bg-brand-blue-700 text-white px-6 py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2"
         >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
@@ -184,12 +176,7 @@ export function CertificatePreview({
           onClick={copyVerificationLink}
           className="flex-1 bg-slate-100 hover:bg-slate-200 text-black px-6 py-3 rounded-lg font-semibold transition flex items-center justify-center gap-2"
         >
-          <svg
-            className="w-5 h-5"
-            fill="none"
-            stroke="currentColor"
-            viewBox="0 0 24 24"
-          >
+          <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path
               strokeLinecap="round"
               strokeLinejoin="round"

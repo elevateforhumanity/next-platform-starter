@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
 import { apiRequireAdmin, apiRequireInstructor } from '@/lib/admin/guards';
@@ -29,17 +28,11 @@ export async function GET(request: NextRequest) {
     const format = searchParams.get('format') || 'csv';
     const filters = searchParams.get('filters');
     const sortBy = searchParams.get('sortBy');
-    const sortOrder = searchParams.get('sortOrder') as
-      | 'asc'
-      | 'desc'
-      | undefined;
+    const sortOrder = searchParams.get('sortOrder') as 'asc' | 'desc' | undefined;
     const limit = searchParams.get('limit');
 
     if (!type) {
-      return NextResponse.json(
-        { error: 'Export type is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Export type is required' }, { status: 400 });
     }
 
     // Check authorization based on export type
@@ -86,14 +79,11 @@ export async function GET(request: NextRequest) {
         break;
       case 'analytics': {
         const entityId = searchParams.get('entityId');
-        const entityType = searchParams.get('entityType') as
-          | 'course'
-          | 'student'
-          | 'instructor';
+        const entityType = searchParams.get('entityType') as 'course' | 'student' | 'instructor';
         if (!entityId || !entityType) {
           return NextResponse.json(
             { error: 'entityId and entityType required for analytics export' },
-            { status: 400 }
+            { status: 400 },
           );
         }
         data = await exportAnalytics(entityType, entityId, options);
@@ -101,10 +91,7 @@ export async function GET(request: NextRequest) {
         break;
       }
       default:
-        return NextResponse.json(
-          { error: 'Invalid export type' },
-          { status: 400 }
-        );
+        return NextResponse.json({ error: 'Invalid export type' }, { status: 400 });
     }
 
     // Log audit event
@@ -145,7 +132,8 @@ export async function GET(request: NextRequest) {
             title: `${type.charAt(0).toUpperCase() + type.slice(1)} Export`,
             subtitle: `Generated on ${new Date().toLocaleDateString()}`,
             columns: template?.columns,
-            orientation: data.length > 0 && Object.keys(data[0]).length > 6 ? 'landscape' : 'portrait',
+            orientation:
+              data.length > 0 && Object.keys(data[0]).length > 6 ? 'landscape' : 'portrait',
           },
           filename: `${filename}.pdf`,
         }),
@@ -153,7 +141,11 @@ export async function GET(request: NextRequest) {
 
       if (!pdfResponse.ok) {
         const detail = await pdfResponse.text();
-        logger.error('export PDF Netlify function error', { type, status: pdfResponse.status, detail });
+        logger.error('export PDF Netlify function error', {
+          type,
+          status: pdfResponse.status,
+          detail,
+        });
         return NextResponse.json({ error: 'PDF generation failed' }, { status: 500 });
       }
 
@@ -166,17 +158,11 @@ export async function GET(request: NextRequest) {
         },
       });
     } else {
-      return NextResponse.json(
-        { error: 'Invalid format. Use csv or pdf' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid format. Use csv or pdf' }, { status: 400 });
     }
-  } catch (error) { 
+  } catch (error) {
     logger.error('Export error:', error);
-    return NextResponse.json(
-      { error: 'Failed to export data' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to export data' }, { status: 500 });
   }
 }
 
@@ -196,10 +182,7 @@ export async function POST(request: NextRequest) {
     const { tables, format, filters } = body;
 
     if (!tables || !Array.isArray(tables) || tables.length === 0) {
-      return NextResponse.json(
-        { error: 'Tables array is required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Tables array is required' }, { status: 400 });
     }
 
     // Export multiple tables
@@ -237,10 +220,7 @@ export async function POST(request: NextRequest) {
         export_type: 'batch',
         tables,
         format,
-        total_records: Object.values(results).reduce(
-          (sum, data) => sum + data.length,
-          0
-        ),
+        total_records: Object.values(results).reduce((sum, data) => sum + data.length, 0),
       },
     } as string);
 
@@ -263,14 +243,11 @@ export async function POST(request: NextRequest) {
           acc[key] = data.length;
           return acc;
         },
-        {} as Record<string, number>
+        {} as Record<string, number>,
       ),
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Batch export error:', error);
-    return NextResponse.json(
-      { error: 'Failed to perform batch export' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to perform batch export' }, { status: 500 });
   }
 }

@@ -48,9 +48,11 @@ export const digitalWorkbooks: StoreProduct[] = [
     name: 'Barber Apprenticeship Complete Workbook',
     slug: 'barber-apprenticeship-workbook',
     category: 'digital-workbook',
-    price: 49.00,
-    description: 'Complete study guide with all course materials, practice exercises, and state exam prep',
-    longDescription: 'This comprehensive workbook includes all reading materials from the Barber Apprenticeship program, organized practice exercises, state licensing exam preparation, and quick reference guides. Perfect for students who want offline study materials or supplemental resources.',
+    price: 49.0,
+    description:
+      'Complete study guide with all course materials, practice exercises, and state exam prep',
+    longDescription:
+      'This comprehensive workbook includes all reading materials from the Barber Apprenticeship program, organized practice exercises, state licensing exam preparation, and quick reference guides. Perfect for students who want offline study materials or supplemental resources.',
     image: 'https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=600&h=600&fit=crop&q=90',
     programId: 'barber-001',
     programName: 'Barber Apprenticeship',
@@ -64,17 +66,19 @@ export const digitalWorkbooks: StoreProduct[] = [
       'State exam preparation guide',
       'Quick reference charts',
       'Downloadable PDF format',
-      'Lifetime access'
-    ]
+      'Lifetime access',
+    ],
   },
   {
     id: 'wb-cna-001',
     name: 'CNA Training Complete Study Guide',
     slug: 'cna-training-study-guide',
     category: 'digital-workbook',
-    price: 56.00,
-    description: 'Comprehensive CNA study materials with 500+ practice questions and skills checklist',
-    longDescription: 'Master your CNA certification with this complete study guide featuring all course materials, 500+ practice questions, clinical skills checklist, and state-specific exam preparation.',
+    price: 56.0,
+    description:
+      'Comprehensive CNA study materials with 500+ practice questions and skills checklist',
+    longDescription:
+      'Master your CNA certification with this complete study guide featuring all course materials, 500+ practice questions, clinical skills checklist, and state-specific exam preparation.',
     image: 'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=600&h=600&fit=crop&q=90',
     programId: 'cna-001',
     programName: 'CNA Training',
@@ -88,17 +92,18 @@ export const digitalWorkbooks: StoreProduct[] = [
       'Clinical skills checklist',
       'State exam prep guide',
       'Anatomy & physiology review',
-      'Downloadable PDF'
-    ]
+      'Downloadable PDF',
+    ],
   },
   {
     id: 'wb-hvac-001',
     name: 'HVAC Technician Complete Workbook',
     slug: 'hvac-technician-workbook',
     category: 'digital-workbook',
-    price: 49.00,
+    price: 49.0,
     description: 'Technical diagrams, practice problems, and EPA 608 certification prep',
-    longDescription: 'Complete HVAC training workbook with technical diagrams, electrical schematics, practice problems, and comprehensive EPA 608 certification preparation for all types.',
+    longDescription:
+      'Complete HVAC training workbook with technical diagrams, electrical schematics, practice problems, and comprehensive EPA 608 certification preparation for all types.',
     image: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&h=600&fit=crop&q=90',
     programId: 'hvac-001',
     programName: 'HVAC Technician',
@@ -112,18 +117,20 @@ export const digitalWorkbooks: StoreProduct[] = [
       'EPA 608 prep (Core, Type I, II, III)',
       'Practice problems with solutions',
       'Troubleshooting guides',
-      'Downloadable PDF'
-    ]
+      'Downloadable PDF',
+    ],
   },
   {
     id: 'wb-medical-assistant-001',
     name: 'Medical Assistant Complete Bundle',
     slug: 'medical-assistant-bundle',
     category: 'digital-workbook',
-    price: 70.00,
-    salePrice: 56.00,
-    description: 'All course materials, clinical skills guide, and certification prep in one bundle',
-    longDescription: 'The ultimate Medical Assistant study package including all course materials, clinical procedures guide, administrative skills, and complete certification exam preparation.',
+    price: 70.0,
+    salePrice: 56.0,
+    description:
+      'All course materials, clinical skills guide, and certification prep in one bundle',
+    longDescription:
+      'The ultimate Medical Assistant study package including all course materials, clinical procedures guide, administrative skills, and complete certification exam preparation.',
     image: 'https://images.unsplash.com/photo-1559839734-2b71ea197ec2?w=600&h=600&fit=crop&q=90',
     programId: 'medical-assistant-001',
     programName: 'Medical Assistant',
@@ -137,8 +144,8 @@ export const digitalWorkbooks: StoreProduct[] = [
       'Administrative skills manual',
       'Certification exam prep',
       'Practice tests',
-      'Downloadable PDF bundle'
-    ]
+      'Downloadable PDF bundle',
+    ],
   },
 ];
 
@@ -149,9 +156,10 @@ export const videoCourses: StoreProduct[] = [
     name: 'Barber Skills Video Library',
     slug: 'barber-skills-video-library',
     category: 'video-course',
-    price: 140.00,
+    price: 140.0,
     description: 'Complete video library with all barber training demonstrations and techniques',
-    longDescription: 'Lifetime access to our complete barber training video library featuring professional demonstrations of cuts, fades, shaves, and styling techniques. Stream or download for offline viewing.',
+    longDescription:
+      'Lifetime access to our complete barber training video library featuring professional demonstrations of cuts, fades, shaves, and styling techniques. Stream or download for offline viewing.',
     image: 'https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=600&h=600&fit=crop&q=90',
     programId: 'barber-001',
     programName: 'Barber Apprenticeship',
@@ -165,17 +173,18 @@ export const videoCourses: StoreProduct[] = [
       'Download for offline viewing',
       'Lifetime access',
       'Mobile-friendly',
-      'Closed captions'
-    ]
+      'Closed captions',
+    ],
   },
   {
     id: 'vid-cna-001',
     name: 'CNA Clinical Skills Videos',
     slug: 'cna-clinical-skills-videos',
     category: 'video-course',
-    price: 112.00,
+    price: 112.0,
     description: 'Step-by-step video demonstrations of all required CNA clinical skills',
-    longDescription: 'Master all required CNA clinical skills with our comprehensive video library featuring step-by-step demonstrations, common mistakes to avoid, and exam tips.',
+    longDescription:
+      'Master all required CNA clinical skills with our comprehensive video library featuring step-by-step demonstrations, common mistakes to avoid, and exam tips.',
     image: 'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=600&h=600&fit=crop&q=90',
     programId: 'cna-001',
     programName: 'CNA Training',
@@ -189,8 +198,8 @@ export const videoCourses: StoreProduct[] = [
       'Common mistakes guide',
       'Exam tips and tricks',
       'Lifetime access',
-      'Mobile-friendly'
-    ]
+      'Mobile-friendly',
+    ],
   },
 ];
 
@@ -201,9 +210,11 @@ export const certificationPrep: StoreProduct[] = [
     name: 'State Barber Exam Prep Course',
     slug: 'state-barber-exam-prep',
     category: 'certification-prep',
-    price: 210.00,
-    description: 'Complete state barber licensing exam preparation with practice tests and study materials',
-    longDescription: 'Prepare for your state barber licensing exam with our comprehensive prep course featuring practice exams, study guides, and test-taking strategies. 90-day access.',
+    price: 210.0,
+    description:
+      'Complete state barber licensing exam preparation with practice tests and study materials',
+    longDescription:
+      'Prepare for your state barber licensing exam with our comprehensive prep course featuring practice exams, study guides, and test-taking strategies. 90-day access.',
     image: 'https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=600&h=600&fit=crop&q=90',
     programId: 'barber-001',
     programName: 'Barber Apprenticeship',
@@ -217,17 +228,18 @@ export const certificationPrep: StoreProduct[] = [
       'Study guides and flashcards',
       'Test-taking strategies',
       '90-day access',
-      'Score tracking'
-    ]
+      'Score tracking',
+    ],
   },
   {
     id: 'cert-cna-001',
     name: 'CNA State Exam Prep Package',
     slug: 'cna-state-exam-prep',
     category: 'certification-prep',
-    price: 140.00,
+    price: 140.0,
     description: 'State-specific CNA exam preparation with practice tests and skills videos',
-    longDescription: 'Pass your CNA state exam with confidence using our targeted prep package including practice tests, skills videos, and state-specific content. 60-day access.',
+    longDescription:
+      'Pass your CNA state exam with confidence using our targeted prep package including practice tests, skills videos, and state-specific content. 60-day access.',
     image: 'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=600&h=600&fit=crop&q=90',
     programId: 'cna-001',
     programName: 'CNA Training',
@@ -241,17 +253,18 @@ export const certificationPrep: StoreProduct[] = [
       'State-specific content',
       'Study schedule planner',
       '60-day access',
-      'Performance analytics'
-    ]
+      'Performance analytics',
+    ],
   },
   {
     id: 'cert-hvac-001',
     name: 'EPA 608 Certification Prep',
     slug: 'epa-608-certification-prep',
     category: 'certification-prep',
-    price: 182.00,
+    price: 182.0,
     description: 'Complete EPA 608 certification prep for Core, Type I, Type II, and Type III',
-    longDescription: 'Master the EPA 608 certification exam with our comprehensive prep course covering Core, Type I, Type II, and Type III. Includes practice exams and study materials. 90-day access.',
+    longDescription:
+      'Master the EPA 608 certification exam with our comprehensive prep course covering Core, Type I, Type II, and Type III. Includes practice exams and study materials. 90-day access.',
     image: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&h=600&fit=crop&q=90',
     programId: 'hvac-001',
     programName: 'HVAC Technician',
@@ -265,8 +278,8 @@ export const certificationPrep: StoreProduct[] = [
       '10+ practice exams',
       'Study guides',
       '90-day access',
-      'Exam voucher discount'
-    ]
+      'Exam voucher discount',
+    ],
   },
 ];
 
@@ -277,9 +290,11 @@ export const physicalProducts: StoreProduct[] = [
     name: 'Professional Barber Tool Kit',
     slug: 'professional-barber-tool-kit',
     category: 'physical-product',
-    price: 420.00,
-    description: 'Complete professional barber tool kit with clippers, scissors, combs, and carrying case',
-    longDescription: 'Everything you need to start your barber career. This professional-grade kit includes premium clippers, scissors, combs, brushes, and a durable carrying case.',
+    price: 420.0,
+    description:
+      'Complete professional barber tool kit with clippers, scissors, combs, and carrying case',
+    longDescription:
+      'Everything you need to start your barber career. This professional-grade kit includes premium clippers, scissors, combs, brushes, and a durable carrying case.',
     image: 'https://images.unsplash.com/photo-1622287162716-f311baa1a2b8?w=600&h=600&fit=crop&q=90',
     programId: 'barber-001',
     programName: 'Barber Apprenticeship',
@@ -294,17 +309,18 @@ export const physicalProducts: StoreProduct[] = [
       'Straight razor',
       'Neck duster',
       'Carrying case',
-      '1-year warranty'
-    ]
+      '1-year warranty',
+    ],
   },
   {
     id: 'phys-cna-scrubs-001',
     name: 'CNA Scrubs Set - Navy Blue',
     slug: 'cna-scrubs-navy-blue',
     category: 'physical-product',
-    price: 64.00,
+    price: 64.0,
     description: 'Professional scrubs set including top and pants, available in sizes S-3XL',
-    longDescription: 'Comfortable, durable scrubs designed for healthcare professionals. Includes matching top and pants in professional navy blue. Multiple sizes available.',
+    longDescription:
+      'Comfortable, durable scrubs designed for healthcare professionals. Includes matching top and pants in professional navy blue. Multiple sizes available.',
     image: 'https://images.unsplash.com/photo-1584820927498-cfe5211fd8bf?w=600&h=600&fit=crop&q=90',
     programId: 'cna-001',
     programName: 'CNA Training',
@@ -318,17 +334,18 @@ export const physicalProducts: StoreProduct[] = [
       'Multiple pockets',
       'Sizes S-3XL',
       'Machine washable',
-      'Fade-resistant fabric'
-    ]
+      'Fade-resistant fabric',
+    ],
   },
   {
     id: 'phys-hvac-kit-001',
     name: 'HVAC Tool Set - Starter Kit',
     slug: 'hvac-tool-set-starter',
     category: 'physical-product',
-    price: 630.00,
+    price: 630.0,
     description: 'Essential HVAC tools including gauges, vacuum pump, and carrying case',
-    longDescription: 'Professional HVAC starter kit with all essential tools for residential and commercial work. Includes manifold gauges, vacuum pump, and durable carrying case.',
+    longDescription:
+      'Professional HVAC starter kit with all essential tools for residential and commercial work. Includes manifold gauges, vacuum pump, and durable carrying case.',
     image: 'https://images.unsplash.com/photo-1621905251918-48416bd8575a?w=600&h=600&fit=crop&q=90',
     programId: 'hvac-001',
     programName: 'HVAC Technician',
@@ -343,17 +360,18 @@ export const physicalProducts: StoreProduct[] = [
       'Leak detector',
       'Hand tools set',
       'Carrying case',
-      '2-year warranty'
-    ]
+      '2-year warranty',
+    ],
   },
   {
     id: 'phys-safety-001',
     name: 'Safety Equipment Bundle',
     slug: 'safety-equipment-bundle',
     category: 'physical-product',
-    price: 112.00,
+    price: 112.0,
     description: 'OSHA-compliant safety glasses, gloves, and protective equipment',
-    longDescription: 'Complete safety equipment bundle for all trades programs. OSHA-compliant and industry-standard protective gear.',
+    longDescription:
+      'Complete safety equipment bundle for all trades programs. OSHA-compliant and industry-standard protective gear.',
     image: 'https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=600&fit=crop&q=90',
     programId: 'all',
     programName: 'All Programs',
@@ -367,8 +385,8 @@ export const physicalProducts: StoreProduct[] = [
       'Ear protection',
       'Dust masks',
       'Hard hat',
-      'Safety vest'
-    ]
+      'Safety vest',
+    ],
   },
 ];
 
@@ -382,30 +400,31 @@ export const allProducts: StoreProduct[] = [
 
 // Helper functions
 export function getProductById(id: string): StoreProduct | undefined {
-  return allProducts.find(p => p.id === id);
+  return allProducts.find((p) => p.id === id);
 }
 
 export function getProductBySlug(slug: string): StoreProduct | undefined {
-  return allProducts.find(p => p.slug === slug);
+  return allProducts.find((p) => p.slug === slug);
 }
 
 export function getProductsByCategory(category: ProductCategory): StoreProduct[] {
-  return allProducts.filter(p => p.category === category);
+  return allProducts.filter((p) => p.category === category);
 }
 
 export function getProductsByProgram(programId: string): StoreProduct[] {
-  return allProducts.filter(p => p.programId === programId || p.programId === 'all');
+  return allProducts.filter((p) => p.programId === programId || p.programId === 'all');
 }
 
 export function getFeaturedProducts(): StoreProduct[] {
-  return allProducts.filter(p => p.featured);
+  return allProducts.filter((p) => p.featured);
 }
 
 export function searchProducts(query: string): StoreProduct[] {
   const lowerQuery = query.toLowerCase();
-  return allProducts.filter(p =>
-    p.name.toLowerCase().includes(lowerQuery) ||
-    p.description.toLowerCase().includes(lowerQuery) ||
-    p.tags?.some(tag => tag.toLowerCase().includes(lowerQuery))
+  return allProducts.filter(
+    (p) =>
+      p.name.toLowerCase().includes(lowerQuery) ||
+      p.description.toLowerCase().includes(lowerQuery) ||
+      p.tags?.some((tag) => tag.toLowerCase().includes(lowerQuery)),
   );
 }

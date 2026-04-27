@@ -8,12 +8,10 @@ import { BookOpen, Award, Briefcase } from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: {
-    canonical:
-      'https://www.elevateforhumanity.org/workforce-board/participants',
+    canonical: 'https://www.elevateforhumanity.org/workforce-board/participants',
   },
   title: 'Participants | Elevate For Humanity',
-  description:
-    'View and manage program participants.',
+  description: 'View and manage program participants.',
 };
 
 export default function ParticipantsPage() {
@@ -21,11 +19,17 @@ export default function ParticipantsPage() {
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Workforce Board", href: "/workforce-board" }, { label: "Participants" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[
+            { label: 'Workforce Board', href: '/workforce-board' },
+            { label: 'Participants' },
+          ]}
+        />
       </div>
-{/* Hero Section */}
+      {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/workforce-board-page-2.jpg"
           alt="Participants"
@@ -46,8 +50,8 @@ export default function ParticipantsPage() {
               <div>
                 <h2 className="text-2xl md:text-3xl font-bold mb-6">Participants</h2>
                 <p className="text-black mb-6">
-                  Workforce board participants receive funded training, industry certifications,
-                  and career placement support through our WIOA-aligned programs.
+                  Workforce board participants receive funded training, industry certifications, and
+                  career placement support through our WIOA-aligned programs.
                 </p>
                 <ul className="space-y-3">
                   <li className="flex items-start">
@@ -106,8 +110,8 @@ export default function ParticipantsPage() {
               Ready to Get Started?
             </h2>
             <p className="text-base md:text-lg text-white/90 mb-8">
-              Apply for workforce training programs or browse available
-              courses to begin your career journey.
+              Apply for workforce training programs or browse available courses to begin your career
+              journey.
             </p>
             <div className="flex flex-wrap gap-4 justify-center">
               <Link

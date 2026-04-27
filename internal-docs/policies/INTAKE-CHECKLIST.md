@@ -1,4 +1,5 @@
 # Admissions Intake Checklist
+
 ## Elevate for Humanity Career and Training Institute
 
 **INTERNAL DOCUMENT — REQUIRED FOR ALL ADMISSIONS STAFF**
@@ -134,13 +135,13 @@ Before enrollment, student must sign acknowledgment confirming:
 
 ## Internal Rules (Non-Negotiable)
 
-| Rule | Meaning |
-|------|---------|
-| Intake is not sales | Do not sell during intake |
-| Funding is decided before emotion | No excitement until pathway is confirmed |
-| No staff member overrides intake | No exceptions without executive approval |
-| Exceptions require written approval | Verbal approvals do not exist |
-| "We'll figure it out later" is prohibited | This phrase is a policy violation |
+| Rule                                      | Meaning                                  |
+| ----------------------------------------- | ---------------------------------------- |
+| Intake is not sales                       | Do not sell during intake                |
+| Funding is decided before emotion         | No excitement until pathway is confirmed |
+| No staff member overrides intake          | No exceptions without executive approval |
+| Exceptions require written approval       | Verbal approvals do not exist            |
+| "We'll figure it out later" is prohibited | This phrase is a policy violation        |
 
 ---
 
@@ -172,4 +173,4 @@ They enroll the right students, the right way.
 
 ---
 
-*This checklist is mandatory. Skipping steps or overriding without written executive approval is a policy violation subject to disciplinary action.*
+_This checklist is mandatory. Skipping steps or overriding without written executive approval is a policy violation subject to disciplinary action._

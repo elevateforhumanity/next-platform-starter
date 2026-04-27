@@ -5,13 +5,21 @@ import { createClient } from '@/lib/supabase/client';
 import { X, Save, Search, Upload } from 'lucide-react';
 import { HVAC_COURSE_ID } from '@/lib/courses/hvac-uuids';
 import type {
-  ExamSession, ExamProvider, ExamSessionStatus, ExamResult,
-  IdType, DeliveryMethod,
+  ExamSession,
+  ExamProvider,
+  ExamSessionStatus,
+  ExamResult,
+  IdType,
+  DeliveryMethod,
 } from './types';
 import {
-  PROVIDER_LABELS, STATUS_LABELS, RESULT_LABELS,
-  EPA_EXAMS, DEFAULT_PROCTOR_NAME,
-  ESCO_PROCTOR_ID, MAINSTREAM_PROCTOR_ID,
+  PROVIDER_LABELS,
+  STATUS_LABELS,
+  RESULT_LABELS,
+  EPA_EXAMS,
+  DEFAULT_PROCTOR_NAME,
+  ESCO_PROCTOR_ID,
+  MAINSTREAM_PROCTOR_ID,
 } from './types';
 
 interface Props {
@@ -44,7 +52,9 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
 
   useEffect(() => {
     (async () => {
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (user) {
         setCurrentUserId(user.id);
         const { data: profile } = await supabase
@@ -71,7 +81,9 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
   const [examCode, setExamCode] = useState(session?.exam_code || '');
   const [startCode, setStartCode] = useState(session?.start_code || '');
   const [startKey, setStartKey] = useState(session?.start_key || '');
-  const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>(session?.delivery_method || 'in_person');
+  const [deliveryMethod, setDeliveryMethod] = useState<DeliveryMethod>(
+    session?.delivery_method || 'in_person',
+  );
   const [idVerified, setIdVerified] = useState(session?.id_verified ?? false);
   const [idType, setIdType] = useState<IdType | ''>(session?.id_type || '');
   const [idNotes, setIdNotes] = useState(session?.id_notes || '');
@@ -91,7 +103,10 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
 
   // Student search
   useEffect(() => {
-    if (studentSearch.length < 2) { setStudentMatches([]); return; }
+    if (studentSearch.length < 2) {
+      setStudentMatches([]);
+      return;
+    }
     const timer = setTimeout(async () => {
       const { data } = await supabase
         .from('profiles')
@@ -179,9 +194,18 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
     e.preventDefault();
     setError('');
 
-    if (!studentName.trim()) { setError('Student name is required.'); return; }
-    if (!idVerified) { setError('ID verification is required before logging an exam session.'); return; }
-    if (!idType) { setError('Select the ID type used for verification.'); return; }
+    if (!studentName.trim()) {
+      setError('Student name is required.');
+      return;
+    }
+    if (!idVerified) {
+      setError('ID verification is required before logging an exam session.');
+      return;
+    }
+    if (!idType) {
+      setError('Select the ID type used for verification.');
+      return;
+    }
 
     setSaving(true);
 
@@ -221,9 +245,7 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
         .eq('id', session.id);
       err = updateErr;
     } else {
-      const { error: insertErr } = await supabase
-        .from('exam_sessions')
-        .insert(payload);
+      const { error: insertErr } = await supabase.from('exam_sessions').insert(payload);
       err = insertErr;
     }
 
@@ -235,7 +257,8 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
     }
   };
 
-  const inputCls = 'w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500';
+  const inputCls =
+    'w-full px-3 py-2 text-sm border border-slate-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500';
   const selectCls = inputCls;
 
   return (
@@ -244,7 +267,11 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
         <h2 className="text-lg font-bold text-slate-900">
           {isEdit ? 'Edit Exam Session' : 'Log New Exam Session'}
         </h2>
-        <button type="button" onClick={onCancel} className="p-1 text-slate-400 hover:text-slate-600">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="p-1 text-slate-400 hover:text-slate-600"
+        >
           <X className="w-5 h-5" />
         </button>
       </div>
@@ -258,7 +285,9 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
 
         {/* Section 1: Student */}
         <fieldset className="space-y-4">
-          <legend className="text-sm font-bold text-slate-800 uppercase tracking-wider">Student Information</legend>
+          <legend className="text-sm font-bold text-slate-800 uppercase tracking-wider">
+            Student Information
+          </legend>
           <div className="grid sm:grid-cols-3 gap-4">
             <div className="relative">
               <Label required>Student Name</Label>
@@ -267,7 +296,7 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
                 <input
                   type="text"
                   value={studentSearch || studentName}
-                  onChange={e => {
+                  onChange={(e) => {
                     setStudentSearch(e.target.value);
                     setStudentName(e.target.value);
                     setShowStudentDropdown(true);
@@ -279,7 +308,7 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
               </div>
               {showStudentDropdown && studentMatches.length > 0 && (
                 <div className="absolute z-10 w-full mt-1 bg-white border border-slate-200 rounded-lg shadow-lg max-h-48 overflow-y-auto">
-                  {studentMatches.map(m => (
+                  {studentMatches.map((m) => (
                     <button
                       key={m.id}
                       type="button"
@@ -295,13 +324,25 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
             </div>
             <div>
               <Label>Email</Label>
-              <input type="email" value={studentEmail} onChange={e => setStudentEmail(e.target.value)} className={inputCls} placeholder="student@email.com" />
+              <input
+                type="email"
+                value={studentEmail}
+                onChange={(e) => setStudentEmail(e.target.value)}
+                className={inputCls}
+                placeholder="student@email.com"
+              />
             </div>
             <div>
               <Label>Program</Label>
-              <select value={programSlug} onChange={e => setProgramSlug(e.target.value)} className={selectCls}>
+              <select
+                value={programSlug}
+                onChange={(e) => setProgramSlug(e.target.value)}
+                className={selectCls}
+              >
                 <option value="hvac-technician">HVAC Technician</option>
-                <option value="construction-trades-certification">Construction Trades Certification</option>
+                <option value="construction-trades-certification">
+                  Construction Trades Certification
+                </option>
                 <option value="electrical">Electrical Technician</option>
                 <option value="plumbing">Plumbing Technician</option>
                 <option value="">Other / Standalone</option>
@@ -312,14 +353,20 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
 
         {/* Exam Eligibility Check */}
         {eligibility?.checked && (
-          <div className={`rounded-lg border p-4 ${eligibility.eligible ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-200'}`}>
+          <div
+            className={`rounded-lg border p-4 ${eligibility.eligible ? 'bg-green-50 border-green-200' : 'bg-amber-50 border-amber-200'}`}
+          >
             <div className="flex items-start gap-3">
               <span className="text-lg">{eligibility.eligible ? '✅' : '⚠️'}</span>
               <div>
-                <p className={`text-sm font-semibold ${eligibility.eligible ? 'text-green-800' : 'text-amber-800'}`}>
+                <p
+                  className={`text-sm font-semibold ${eligibility.eligible ? 'text-green-800' : 'text-amber-800'}`}
+                >
                   {eligibility.eligible ? 'Eligible for Proctored Exam' : 'Training Incomplete'}
                 </p>
-                <p className={`text-sm mt-1 ${eligibility.eligible ? 'text-green-700' : 'text-amber-700'}`}>
+                <p
+                  className={`text-sm mt-1 ${eligibility.eligible ? 'text-green-700' : 'text-amber-700'}`}
+                >
                   {eligibility.message}
                 </p>
                 <div className="flex gap-4 mt-2 text-xs text-slate-600">
@@ -333,20 +380,36 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
 
         {/* Section 2: Exam Details */}
         <fieldset className="space-y-4">
-          <legend className="text-sm font-bold text-slate-800 uppercase tracking-wider">Exam Details</legend>
+          <legend className="text-sm font-bold text-slate-800 uppercase tracking-wider">
+            Exam Details
+          </legend>
           <div className="grid sm:grid-cols-3 gap-4">
             <div>
               <Label required>Provider</Label>
-              <select value={provider} onChange={e => setProvider(e.target.value as ExamProvider)} className={selectCls}>
+              <select
+                value={provider}
+                onChange={(e) => setProvider(e.target.value as ExamProvider)}
+                className={selectCls}
+              >
                 {Object.entries(PROVIDER_LABELS).map(([k, v]) => (
-                  <option key={k} value={k}>{v}</option>
+                  <option key={k} value={k}>
+                    {v}
+                  </option>
                 ))}
               </select>
             </div>
             <div>
               <Label required>Exam</Label>
-              <select value={examName} onChange={e => setExamName(e.target.value)} className={selectCls}>
-                {EPA_EXAMS.map(e => <option key={e} value={e}>{e}</option>)}
+              <select
+                value={examName}
+                onChange={(e) => setExamName(e.target.value)}
+                className={selectCls}
+              >
+                {EPA_EXAMS.map((e) => (
+                  <option key={e} value={e}>
+                    {e}
+                  </option>
+                ))}
                 <option value="OSHA 10-Hour">OSHA 10-Hour</option>
                 <option value="OSHA 30-Hour">OSHA 30-Hour</option>
                 <option value="IC3 Digital Literacy">IC3 Digital Literacy</option>
@@ -356,7 +419,11 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
             </div>
             <div>
               <Label>Delivery Method</Label>
-              <select value={deliveryMethod} onChange={e => setDeliveryMethod(e.target.value as DeliveryMethod)} className={selectCls}>
+              <select
+                value={deliveryMethod}
+                onChange={(e) => setDeliveryMethod(e.target.value as DeliveryMethod)}
+                className={selectCls}
+              >
                 <option value="in_person">In-Person (proctored at site)</option>
                 <option value="online_proctored">Online (proctored remotely)</option>
                 <option value="hybrid">Hybrid</option>
@@ -366,20 +433,43 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
           <div className="grid sm:grid-cols-3 gap-4">
             <div>
               <Label>Exam Code</Label>
-              <input type="text" value={examCode} onChange={e => setExamCode(e.target.value)} className={inputCls} placeholder="Provider exam code" />
+              <input
+                type="text"
+                value={examCode}
+                onChange={(e) => setExamCode(e.target.value)}
+                className={inputCls}
+                placeholder="Provider exam code"
+              />
             </div>
             <div>
               <Label>Start Code</Label>
-              <input type="text" value={startCode} onChange={e => setStartCode(e.target.value)} className={inputCls} placeholder="One-time start code" />
+              <input
+                type="text"
+                value={startCode}
+                onChange={(e) => setStartCode(e.target.value)}
+                className={inputCls}
+                placeholder="One-time start code"
+              />
             </div>
             <div>
               <Label>Start Key</Label>
-              <input type="text" value={startKey} onChange={e => setStartKey(e.target.value)} className={inputCls} placeholder="Start key (if applicable)" />
+              <input
+                type="text"
+                value={startKey}
+                onChange={(e) => setStartKey(e.target.value)}
+                className={inputCls}
+                placeholder="Start key (if applicable)"
+              />
             </div>
           </div>
           <div className="flex items-center gap-4">
             <label className="flex items-center gap-2 text-sm">
-              <input type="checkbox" checked={isRetest} onChange={e => setIsRetest(e.target.checked)} className="rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500" />
+              <input
+                type="checkbox"
+                checked={isRetest}
+                onChange={(e) => setIsRetest(e.target.checked)}
+                className="rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
+              />
               <span className="text-slate-700">This is a retest</span>
             </label>
           </div>
@@ -387,22 +477,30 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
 
         {/* Section 3: ID Verification */}
         <fieldset className="space-y-4 bg-amber-50 border border-amber-200 rounded-lg p-4">
-          <legend className="text-sm font-bold text-amber-800 uppercase tracking-wider">Identity Verification</legend>
+          <legend className="text-sm font-bold text-amber-800 uppercase tracking-wider">
+            Identity Verification
+          </legend>
           <div className="grid sm:grid-cols-3 gap-4">
             <div>
               <label className="flex items-center gap-2 text-sm">
                 <input
                   type="checkbox"
                   checked={idVerified}
-                  onChange={e => setIdVerified(e.target.checked)}
+                  onChange={(e) => setIdVerified(e.target.checked)}
                   className="rounded border-slate-300 text-brand-green-600 focus:ring-brand-green-500"
                 />
-                <span className="font-semibold text-slate-700">ID Verified <span className="text-brand-red-500">*</span></span>
+                <span className="font-semibold text-slate-700">
+                  ID Verified <span className="text-brand-red-500">*</span>
+                </span>
               </label>
             </div>
             <div>
               <Label required>ID Type</Label>
-              <select value={idType} onChange={e => setIdType(e.target.value as IdType)} className={selectCls}>
+              <select
+                value={idType}
+                onChange={(e) => setIdType(e.target.value as IdType)}
+                className={selectCls}
+              >
                 <option value="">Select ID type...</option>
                 <option value="drivers_license">Driver&apos;s License</option>
                 <option value="state_id">State ID</option>
@@ -413,59 +511,111 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
             </div>
             <div>
               <Label>ID Notes</Label>
-              <input type="text" value={idNotes} onChange={e => setIdNotes(e.target.value)} className={inputCls} placeholder="e.g., Name mismatch — used maiden name" />
+              <input
+                type="text"
+                value={idNotes}
+                onChange={(e) => setIdNotes(e.target.value)}
+                className={inputCls}
+                placeholder="e.g., Name mismatch — used maiden name"
+              />
             </div>
           </div>
         </fieldset>
 
         {/* Section 4: Session Tracking */}
         <fieldset className="space-y-4">
-          <legend className="text-sm font-bold text-slate-800 uppercase tracking-wider">Session Tracking</legend>
+          <legend className="text-sm font-bold text-slate-800 uppercase tracking-wider">
+            Session Tracking
+          </legend>
           <div className="grid sm:grid-cols-4 gap-4">
             <div>
               <Label>Status</Label>
-              <select value={status} onChange={e => setStatus(e.target.value as ExamSessionStatus)} className={selectCls}>
+              <select
+                value={status}
+                onChange={(e) => setStatus(e.target.value as ExamSessionStatus)}
+                className={selectCls}
+              >
                 {Object.entries(STATUS_LABELS).map(([k, v]) => (
-                  <option key={k} value={k}>{v}</option>
+                  <option key={k} value={k}>
+                    {v}
+                  </option>
                 ))}
               </select>
             </div>
             <div>
               <Label>Result</Label>
-              <select value={result} onChange={e => setResult(e.target.value as ExamResult)} className={selectCls}>
+              <select
+                value={result}
+                onChange={(e) => setResult(e.target.value as ExamResult)}
+                className={selectCls}
+              >
                 {Object.entries(RESULT_LABELS).map(([k, v]) => (
-                  <option key={k} value={k}>{v}</option>
+                  <option key={k} value={k}>
+                    {v}
+                  </option>
                 ))}
               </select>
             </div>
             <div>
               <Label>Score (%)</Label>
-              <input type="number" min="0" max="100" step="0.1" value={score} onChange={e => setScore(e.target.value)} className={inputCls} placeholder="e.g., 84.5" />
+              <input
+                type="number"
+                min="0"
+                max="100"
+                step="0.1"
+                value={score}
+                onChange={(e) => setScore(e.target.value)}
+                className={inputCls}
+                placeholder="e.g., 84.5"
+              />
             </div>
             <div>
               <Label>Duration (min)</Label>
-              <input type="number" min="1" value={durationMin} onChange={e => setDurationMin(e.target.value)} className={inputCls} />
+              <input
+                type="number"
+                min="1"
+                value={durationMin}
+                onChange={(e) => setDurationMin(e.target.value)}
+                className={inputCls}
+              />
             </div>
           </div>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <Label>Started At</Label>
-              <input type="datetime-local" value={startedAt} onChange={e => setStartedAt(e.target.value)} className={inputCls} />
+              <input
+                type="datetime-local"
+                value={startedAt}
+                onChange={(e) => setStartedAt(e.target.value)}
+                className={inputCls}
+              />
             </div>
             <div>
               <Label>Completed At</Label>
-              <input type="datetime-local" value={completedAt} onChange={e => setCompletedAt(e.target.value)} className={inputCls} />
+              <input
+                type="datetime-local"
+                value={completedAt}
+                onChange={(e) => setCompletedAt(e.target.value)}
+                className={inputCls}
+              />
             </div>
           </div>
         </fieldset>
 
         {/* Section 5: Proctor */}
         <fieldset className="space-y-4">
-          <legend className="text-sm font-bold text-slate-800 uppercase tracking-wider">Proctor Information</legend>
+          <legend className="text-sm font-bold text-slate-800 uppercase tracking-wider">
+            Proctor Information
+          </legend>
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
               <Label required>Proctor Name</Label>
-              <input type="text" value={proctorName} onChange={e => setProctorName(e.target.value)} className={inputCls} />
+              <input
+                type="text"
+                value={proctorName}
+                onChange={(e) => setProctorName(e.target.value)}
+                className={inputCls}
+              />
               <p className="text-xs text-slate-400 mt-1">
                 Proctor ID: {provider === 'esco_epa608' ? ESCO_PROCTOR_ID : MAINSTREAM_PROCTOR_ID}
               </p>
@@ -474,7 +624,7 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
               <Label>Proctor Notes</Label>
               <textarea
                 value={proctorNotes}
-                onChange={e => setProctorNotes(e.target.value)}
+                onChange={(e) => setProctorNotes(e.target.value)}
                 rows={2}
                 className={inputCls}
                 placeholder="Any irregularities, accommodations, or observations..."
@@ -485,21 +635,40 @@ export default function NewSessionForm({ session, onSaved, onCancel }: Props) {
 
         {/* Section 6: Evidence */}
         <fieldset className="space-y-4">
-          <legend className="text-sm font-bold text-slate-800 uppercase tracking-wider">Evidence (Optional)</legend>
+          <legend className="text-sm font-bold text-slate-800 uppercase tracking-wider">
+            Evidence (Optional)
+          </legend>
           <div>
             <Label>Evidence URL</Label>
-            <input type="url" value={evidenceUrl} onChange={e => setEvidenceUrl(e.target.value)} className={inputCls} placeholder="Link to uploaded certificate, score report, or photo" />
-            <p className="text-xs text-slate-400 mt-1">Upload evidence to Supabase Storage and paste the URL here, or link to an external document.</p>
+            <input
+              type="url"
+              value={evidenceUrl}
+              onChange={(e) => setEvidenceUrl(e.target.value)}
+              className={inputCls}
+              placeholder="Link to uploaded certificate, score report, or photo"
+            />
+            <p className="text-xs text-slate-400 mt-1">
+              Upload evidence to Supabase Storage and paste the URL here, or link to an external
+              document.
+            </p>
           </div>
         </fieldset>
       </div>
 
       {/* Footer */}
       <div className="flex items-center justify-end gap-3 px-6 py-4 border-t border-slate-200 bg-slate-50 rounded-b-xl">
-        <button type="button" onClick={onCancel} className="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50">
+        <button
+          type="button"
+          onClick={onCancel}
+          className="px-4 py-2 text-sm font-medium text-slate-700 bg-white border border-slate-300 rounded-lg hover:bg-slate-50"
+        >
           Cancel
         </button>
-        <button type="submit" disabled={saving} className="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-brand-blue-600 rounded-lg hover:bg-brand-blue-700 disabled:opacity-50">
+        <button
+          type="submit"
+          disabled={saving}
+          className="flex items-center gap-2 px-5 py-2 text-sm font-medium text-white bg-brand-blue-600 rounded-lg hover:bg-brand-blue-700 disabled:opacity-50"
+        >
           <Save className="w-4 h-4" />
           {saving ? 'Saving...' : isEdit ? 'Update Session' : 'Log Session'}
         </button>

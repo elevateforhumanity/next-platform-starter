@@ -16,12 +16,7 @@
       },
       {
         "prompt": "Which of the following is a contraindication for using a razor during a lineup?",
-        "choices": [
-          "Dry skin",
-          "Irritated skin",
-          "Oily skin",
-          "Thick hair"
-        ],
+        "choices": ["Dry skin", "Irritated skin", "Oily skin", "Thick hair"],
         "answerIndex": 1,
         "rationale": "Irritated skin is a contraindication because using a razor on it can exacerbate the condition and lead to discomfort or infection.",
         "type": "recall"

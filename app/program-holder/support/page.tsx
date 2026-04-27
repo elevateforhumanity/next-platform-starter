@@ -31,7 +31,8 @@ export default async function SupportPage() {
     .eq('id', user.id)
     .maybeSingle();
 
-  if (!profile || !['program_holder','admin','super_admin','staff'].includes(profile.role)) redirect('/login');
+  if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role))
+    redirect('/login');
 
   const supportChannels = [
     {
@@ -81,11 +82,14 @@ export default async function SupportPage() {
 
   return (
     <div className="min-h-screen bg-white">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Program Holder", href: "/program-holder" }, { label: "Support" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Program Holder', href: '/program-holder' }, { label: 'Support' }]}
+        />
+      </div>
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/program-holder-page-3.jpg"
           alt="Support"
@@ -95,7 +99,6 @@ export default async function SupportPage() {
           priority
           sizes="100vw"
         />
-
       </section>
 
       {/* Content Section */}
@@ -112,17 +115,11 @@ export default async function SupportPage() {
                 >
                   <div className="flex items-start gap-4">
                     <div className={`p-3 bg-${channel.color}-100 rounded-lg`}>
-                      <channel.icon
-                        className={`h-11 w-11 text-${channel.color}-600`}
-                      />
+                      <channel.icon className={`h-11 w-11 text-${channel.color}-600`} />
                     </div>
                     <div className="flex-1">
-                      <h3 className="text-xl font-bold text-black mb-2">
-                        {channel.type}
-                      </h3>
-                      <p
-                        className={`text-lg font-medium text-${channel.color}-600 mb-2`}
-                      >
+                      <h3 className="text-xl font-bold text-black mb-2">{channel.type}</h3>
+                      <p className={`text-lg font-medium text-${channel.color}-600 mb-2`}>
                         {channel.value}
                       </p>
                       <p className="text-sm text-black flex items-center gap-2">
@@ -139,20 +136,13 @@ export default async function SupportPage() {
             <div className="bg-white rounded-lg shadow-sm border p-8 mb-8">
               <div className="flex items-center gap-3 mb-6">
                 <HelpCircle className="h-11 w-11 text-brand-blue-600" />
-                <h2 className="text-2xl font-bold text-black">
-                  Frequently Asked Questions
-                </h2>
+                <h2 className="text-2xl font-bold text-black">Frequently Asked Questions</h2>
               </div>
 
               <div className="space-y-6">
                 {faqs.map((faq, index) => (
-                  <div
-                    key={index}
-                    className="border-b pb-6 last:border-b-0 last:pb-0"
-                  >
-                    <h3 className="text-lg font-semibold text-black mb-2">
-                      {faq.question}
-                    </h3>
+                  <div key={index} className="border-b pb-6 last:border-b-0 last:pb-0">
+                    <h3 className="text-lg font-semibold text-black mb-2">{faq.question}</h3>
                     <p className="text-black mb-3">{faq.answer}</p>
                     <Link
                       href={faq.link}
@@ -194,29 +184,17 @@ export default async function SupportPage() {
 
             {/* Office Hours */}
             <div className="bg-white rounded-lg shadow-sm border p-6">
-              <h3 className="text-lg font-semibold text-black mb-4">
-                Office Hours
-              </h3>
+              <h3 className="text-lg font-semibold text-black mb-4">Office Hours</h3>
               <div className="grid md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="font-medium text-black mb-2">
-                    Phone Support
-                  </h4>
-                  <p className="text-black">
-                    Monday - Friday: 9:00 AM - 5:00 PM EST
-                  </p>
+                  <h4 className="font-medium text-black mb-2">Phone Support</h4>
+                  <p className="text-black">Monday - Friday: 9:00 AM - 5:00 PM EST</p>
                   <p className="text-black">Saturday - Sunday: Closed</p>
                 </div>
                 <div>
-                  <h4 className="font-medium text-black mb-2">
-                    Email Support
-                  </h4>
-                  <p className="text-black">
-                    24/7 - We respond within 24 hours
-                  </p>
-                  <p className="text-black">
-                    Urgent matters: Call during office hours
-                  </p>
+                  <h4 className="font-medium text-black mb-2">Email Support</h4>
+                  <p className="text-black">24/7 - We respond within 24 hours</p>
+                  <p className="text-black">Urgent matters: Call during office hours</p>
                 </div>
               </div>
             </div>

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -25,7 +25,9 @@ interface Goal {
 }
 
 export function StudentSuccessCoaching() {
-  const [activeTab, setActiveTab] = useState<'dashboard' | 'sessions' | 'goals' | 'resources'>('dashboard');
+  const [activeTab, setActiveTab] = useState<'dashboard' | 'sessions' | 'goals' | 'resources'>(
+    'dashboard',
+  );
 
   const sessions: CoachingSession[] = [
     {
@@ -89,7 +91,9 @@ export function StudentSuccessCoaching() {
                 key={tab}
                 onClick={() => setActiveTab(tab)}
                 className={`py-4 px-2 border-b-2 font-medium ${
-                  activeTab === tab ? 'border-brand-red-600 text-brand-orange-600' : 'border-transparent text-slate-700'
+                  activeTab === tab
+                    ? 'border-brand-red-600 text-brand-orange-600'
+                    : 'border-transparent text-slate-700'
                 }`}
               >
                 {tab.charAt(0).toUpperCase() + tab.slice(1)}
@@ -109,7 +113,9 @@ export function StudentSuccessCoaching() {
             </Card>
             <Card className="p-6">
               <h3 className="text-sm text-black mb-2">Active Goals</h3>
-              <p className="text-3xl font-bold text-brand-orange-500">{goals.filter(g => g.status !== 'completed').length}</p>
+              <p className="text-3xl font-bold text-brand-orange-500">
+                {goals.filter((g) => g.status !== 'completed').length}
+              </p>
               <p className="text-sm text-slate-700">2 in progress</p>
             </Card>
             <Card className="p-6">
@@ -133,15 +139,17 @@ export function StudentSuccessCoaching() {
                     <h3 className="text-xl font-bold">{session.topic}</h3>
                     <p className="text-black">Coach: {session.coach}</p>
                     <p className="text-sm text-slate-700">{session.date}</p>
-                    {session.notes && (
-                      <p className="mt-2 text-sm text-black">{session.notes}</p>
-                    )}
+                    {session.notes && <p className="mt-2 text-sm text-black">{session.notes}</p>}
                   </div>
-                  <span className={`px-3 py-2 rounded text-sm ${
-                    session.status === 'scheduled' ? 'bg-brand-blue-100 text-brand-blue-700' :
-                    session.status === 'completed' ? 'bg-brand-green-100 text-brand-green-700' :
-                    'bg-gray-100 text-black'
-                  }`}>
+                  <span
+                    className={`px-3 py-2 rounded text-sm ${
+                      session.status === 'scheduled'
+                        ? 'bg-brand-blue-100 text-brand-blue-700'
+                        : session.status === 'completed'
+                          ? 'bg-brand-green-100 text-brand-green-700'
+                          : 'bg-gray-100 text-black'
+                    }`}
+                  >
                     {session.status}
                   </span>
                 </div>
@@ -164,11 +172,15 @@ export function StudentSuccessCoaching() {
                     <p className="text-sm text-black">{goal.category}</p>
                     <p className="text-sm text-slate-700">Due: {goal.dueDate}</p>
                   </div>
-                  <span className={`px-3 py-2 rounded text-sm ${
-                    goal.status === 'on-track' ? 'bg-brand-green-100 text-brand-green-700' :
-                    goal.status === 'at-risk' ? 'bg-yellow-100 text-yellow-700' :
-                    'bg-brand-blue-100 text-brand-blue-700'
-                  }`}>
+                  <span
+                    className={`px-3 py-2 rounded text-sm ${
+                      goal.status === 'on-track'
+                        ? 'bg-brand-green-100 text-brand-green-700'
+                        : goal.status === 'at-risk'
+                          ? 'bg-yellow-100 text-yellow-700'
+                          : 'bg-brand-blue-100 text-brand-blue-700'
+                    }`}
+                  >
                     {goal.status}
                   </span>
                 </div>
@@ -178,10 +190,7 @@ export function StudentSuccessCoaching() {
                     <span className="font-semibold">{goal.progress}%</span>
                   </div>
                   <div className="w-full bg-gray-200 rounded-full h-2">
-                    <div
-                      className="   h-2 rounded-full"
-                      style={{ width: `${goal.progress}%` }}
-                    />
+                    <div className="   h-2 rounded-full" style={{ width: `${goal.progress}%` }} />
                   </div>
                 </div>
               </Card>
@@ -194,17 +203,29 @@ export function StudentSuccessCoaching() {
             <Card className="p-6">
               <h3 className="text-xl font-bold mb-4">Study Skills</h3>
               <ul className="space-y-2">
-                <li className="text-brand-blue-600 hover:underline cursor-pointer">Time Management Guide</li>
-                <li className="text-brand-blue-600 hover:underline cursor-pointer">Note-Taking Strategies</li>
-                <li className="text-brand-blue-600 hover:underline cursor-pointer">Test Preparation Tips</li>
+                <li className="text-brand-blue-600 hover:underline cursor-pointer">
+                  Time Management Guide
+                </li>
+                <li className="text-brand-blue-600 hover:underline cursor-pointer">
+                  Note-Taking Strategies
+                </li>
+                <li className="text-brand-blue-600 hover:underline cursor-pointer">
+                  Test Preparation Tips
+                </li>
               </ul>
             </Card>
             <Card className="p-6">
               <h3 className="text-xl font-bold mb-4">Career Resources</h3>
               <ul className="space-y-2">
-                <li className="text-brand-blue-600 hover:underline cursor-pointer">Resume Writing Workshop</li>
-                <li className="text-brand-blue-600 hover:underline cursor-pointer">Interview Preparation</li>
-                <li className="text-brand-blue-600 hover:underline cursor-pointer">Networking Strategies</li>
+                <li className="text-brand-blue-600 hover:underline cursor-pointer">
+                  Resume Writing Workshop
+                </li>
+                <li className="text-brand-blue-600 hover:underline cursor-pointer">
+                  Interview Preparation
+                </li>
+                <li className="text-brand-blue-600 hover:underline cursor-pointer">
+                  Networking Strategies
+                </li>
               </ul>
             </Card>
           </div>

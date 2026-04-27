@@ -5,27 +5,78 @@ import { DollarSign, CheckCircle, FileText, ArrowRight, Users, Clock, Phone } fr
 
 export const metadata: Metadata = {
   title: 'WOTC — Work Opportunity Tax Credit | Elevate for Humanity',
-  description: 'Learn how employers can earn $2,400–$9,600 per eligible hire through the Work Opportunity Tax Credit (WOTC) program.',
+  description:
+    'Learn how employers can earn $2,400–$9,600 per eligible hire through the Work Opportunity Tax Credit (WOTC) program.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/employer-portal/wotc' },
 };
 
 const targetGroups = [
-  { group: 'WIOA/TANF Recipients', credit: 'Up to $2,400', description: 'Individuals receiving Temporary Assistance for Needy Families' },
-  { group: 'Veterans (SNAP recipients)', credit: 'Up to $2,400', description: 'Veterans who received SNAP benefits in the past 15 months' },
-  { group: 'Disabled Veterans', credit: 'Up to $9,600', description: 'Veterans with service-connected disabilities' },
-  { group: 'Ex-Felons', credit: 'Up to $2,400', description: 'Individuals convicted of a felony and hired within 1 year of release' },
-  { group: 'Vocational Rehabilitation Referrals', credit: 'Up to $2,400', description: 'Individuals referred by a state vocational rehabilitation agency' },
-  { group: 'Summer Youth Employees', credit: 'Up to $1,200', description: 'Youth ages 16–17 in empowerment zones during summer months' },
-  { group: 'SNAP Recipients (ages 18–39)', credit: 'Up to $2,400', description: 'Young adults receiving Supplemental Nutrition Assistance' },
-  { group: 'SSI Recipients', credit: 'Up to $2,400', description: 'Individuals receiving Supplemental Security Income' },
-  { group: 'Long-Term Unemployment Recipients', credit: 'Up to $5,600', description: 'Individuals unemployed for 27+ consecutive weeks' },
+  {
+    group: 'WIOA/TANF Recipients',
+    credit: 'Up to $2,400',
+    description: 'Individuals receiving Temporary Assistance for Needy Families',
+  },
+  {
+    group: 'Veterans (SNAP recipients)',
+    credit: 'Up to $2,400',
+    description: 'Veterans who received SNAP benefits in the past 15 months',
+  },
+  {
+    group: 'Disabled Veterans',
+    credit: 'Up to $9,600',
+    description: 'Veterans with service-connected disabilities',
+  },
+  {
+    group: 'Ex-Felons',
+    credit: 'Up to $2,400',
+    description: 'Individuals convicted of a felony and hired within 1 year of release',
+  },
+  {
+    group: 'Vocational Rehabilitation Referrals',
+    credit: 'Up to $2,400',
+    description: 'Individuals referred by a state vocational rehabilitation agency',
+  },
+  {
+    group: 'Summer Youth Employees',
+    credit: 'Up to $1,200',
+    description: 'Youth ages 16–17 in empowerment zones during summer months',
+  },
+  {
+    group: 'SNAP Recipients (ages 18–39)',
+    credit: 'Up to $2,400',
+    description: 'Young adults receiving Supplemental Nutrition Assistance',
+  },
+  {
+    group: 'SSI Recipients',
+    credit: 'Up to $2,400',
+    description: 'Individuals receiving Supplemental Security Income',
+  },
+  {
+    group: 'Long-Term Unemployment Recipients',
+    credit: 'Up to $5,600',
+    description: 'Individuals unemployed for 27+ consecutive weeks',
+  },
 ];
 
 const steps = [
-  { title: 'Screen Candidates', description: 'Use IRS Form 8850 to pre-screen new hires before or on the day employment begins.' },
-  { title: 'Submit to SWA', description: 'Submit Form 8850 to your State Workforce Agency within 28 days of the hire start date.' },
-  { title: 'Receive Certification', description: 'The SWA verifies eligibility and issues a certification letter.' },
-  { title: 'Claim the Credit', description: 'File IRS Form 5884 with your tax return to claim the credit.' },
+  {
+    title: 'Screen Candidates',
+    description:
+      'Use IRS Form 8850 to pre-screen new hires before or on the day employment begins.',
+  },
+  {
+    title: 'Submit to SWA',
+    description:
+      'Submit Form 8850 to your State Workforce Agency within 28 days of the hire start date.',
+  },
+  {
+    title: 'Receive Certification',
+    description: 'The SWA verifies eligibility and issues a certification letter.',
+  },
+  {
+    title: 'Claim the Credit',
+    description: 'File IRS Form 5884 with your tax return to claim the credit.',
+  },
 ];
 
 export default function WOTCPage() {
@@ -33,10 +84,9 @@ export default function WOTCPage() {
     <div className="min-h-screen bg-white">
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Employer Portal', href: '/employer-portal' },
-            { label: 'WOTC' },
-          ]} />
+          <Breadcrumbs
+            items={[{ label: 'Employer Portal', href: '/employer-portal' }, { label: 'WOTC' }]}
+          />
         </div>
       </div>
 
@@ -51,18 +101,17 @@ export default function WOTCPage() {
       </section>
 
       <div className="max-w-6xl mx-auto px-4 py-12">
-
         <section className="mb-16">
           <h2 className="text-2xl font-bold text-slate-900 mb-4">What is WOTC?</h2>
           <p className="text-blue-100 mb-4">
             The Work Opportunity Tax Credit (WOTC) is a federal tax credit available to employers
-            who hire individuals from certain target groups that face barriers to employment.
-            The credit is calculated as a percentage of first-year wages paid to qualifying employees.
+            who hire individuals from certain target groups that face barriers to employment. The
+            credit is calculated as a percentage of first-year wages paid to qualifying employees.
           </p>
           <p className="text-blue-100">
-            Many Elevate for Humanity graduates qualify under one or more WOTC target groups.
-            When you hire our graduates, you may be eligible for tax credits while gaining
-            skilled, trained workers.
+            Many Elevate for Humanity graduates qualify under one or more WOTC target groups. When
+            you hire our graduates, you may be eligible for tax credits while gaining skilled,
+            trained workers.
           </p>
         </section>
 
@@ -73,7 +122,9 @@ export default function WOTCPage() {
               <div key={tg.group} className="border rounded-lg p-4">
                 <div className="flex items-start justify-between mb-2">
                   <h3 className="font-semibold text-slate-900 text-sm">{tg.group}</h3>
-                  <span className="text-brand-green-600 font-bold text-sm whitespace-nowrap ml-2">{tg.credit}</span>
+                  <span className="text-brand-green-600 font-bold text-sm whitespace-nowrap ml-2">
+                    {tg.credit}
+                  </span>
                 </div>
                 <p className="text-xs text-slate-500">{tg.description}</p>
               </div>
@@ -120,7 +171,10 @@ export default function WOTCPage() {
           <div className="grid md:grid-cols-3 gap-4">
             {[
               { form: 'IRS Form 8850', desc: 'Pre-Screening Notice and Certification Request' },
-              { form: 'ETA Form 9061', desc: 'Individual Characteristics Form (employer completes)' },
+              {
+                form: 'ETA Form 9061',
+                desc: 'Individual Characteristics Form (employer completes)',
+              },
               { form: 'IRS Form 5884', desc: 'Work Opportunity Credit (filed with tax return)' },
             ].map((f) => (
               <div key={f.form} className="flex items-start gap-3 p-4 border rounded-lg">
@@ -138,8 +192,8 @@ export default function WOTCPage() {
         <section className="bg-brand-blue-700 text-white rounded-xl p-8 text-center">
           <h2 className="text-2xl font-bold mb-3">Hire Elevate Graduates &amp; Earn Tax Credits</h2>
           <p className="text-blue-100 mb-6 max-w-2xl mx-auto">
-            Our workforce development programs train candidates who may qualify for WOTC.
-            We can help you identify eligible hires and navigate the certification process.
+            Our workforce development programs train candidates who may qualify for WOTC. We can
+            help you identify eligible hires and navigate the certification process.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

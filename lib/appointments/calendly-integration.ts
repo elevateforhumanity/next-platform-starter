@@ -71,25 +71,25 @@ export function getCalendlyLink(appointmentType: string): string {
 
   // Map appointment types to Calendly links
   const linkMap: Record<string, string> = {
-    'advising': CALENDLY_LINKS.advising,
-    'generaladvising': CALENDLY_LINKS.advising,
-    'barbering': CALENDLY_LINKS.barbering,
-    'barberingconsultation': CALENDLY_LINKS.barbering,
-    'hvac': CALENDLY_LINKS.hvac,
-    'hvacconsultation': CALENDLY_LINKS.hvac,
-    'cdl': CALENDLY_LINKS.cdl,
-    'cdlconsultation': CALENDLY_LINKS.cdl,
-    'medicalassistant': CALENDLY_LINKS.medicalAssistant,
-    'medicalassistantconsultation': CALENDLY_LINKS.medicalAssistant,
-    'welding': CALENDLY_LINKS.welding,
-    'weldingconsultation': CALENDLY_LINKS.welding,
-    'taxvita': CALENDLY_LINKS.taxVita,
-    'freetaxprep': CALENDLY_LINKS.taxVita,
-    'taxpaid': CALENDLY_LINKS.taxPaid,
-    'paidtaxservices': CALENDLY_LINKS.taxPaid,
-    'casemanagement': CALENDLY_LINKS.caseManagement,
-    'financialaid': CALENDLY_LINKS.financialAid,
-    'workforceintake': CALENDLY_LINKS.workforceIntake,
+    advising: CALENDLY_LINKS.advising,
+    generaladvising: CALENDLY_LINKS.advising,
+    barbering: CALENDLY_LINKS.barbering,
+    barberingconsultation: CALENDLY_LINKS.barbering,
+    hvac: CALENDLY_LINKS.hvac,
+    hvacconsultation: CALENDLY_LINKS.hvac,
+    cdl: CALENDLY_LINKS.cdl,
+    cdlconsultation: CALENDLY_LINKS.cdl,
+    medicalassistant: CALENDLY_LINKS.medicalAssistant,
+    medicalassistantconsultation: CALENDLY_LINKS.medicalAssistant,
+    welding: CALENDLY_LINKS.welding,
+    weldingconsultation: CALENDLY_LINKS.welding,
+    taxvita: CALENDLY_LINKS.taxVita,
+    freetaxprep: CALENDLY_LINKS.taxVita,
+    taxpaid: CALENDLY_LINKS.taxPaid,
+    paidtaxservices: CALENDLY_LINKS.taxPaid,
+    casemanagement: CALENDLY_LINKS.caseManagement,
+    financialaid: CALENDLY_LINKS.financialAid,
+    workforceintake: CALENDLY_LINKS.workforceIntake,
   };
 
   return linkMap[type] || CALENDLY_LINKS.advising;
@@ -123,7 +123,7 @@ export async function createAppointment(data: {
       location: data.location,
       notes: data.notes,
       calendly_event_uri: data.calendlyEventUri,
-      status: 'scheduled'
+      status: 'scheduled',
     })
     .select('id')
     .maybeSingle();
@@ -140,10 +140,7 @@ export async function createAppointment(data: {
  * Handle Calendly webhook event
  * Called when Calendly sends webhook notifications
  */
-export async function handleCalendlyWebhook(
-  eventType: string,
-  payload: any
-): Promise<boolean> {
+export async function handleCalendlyWebhook(eventType: string, payload: any): Promise<boolean> {
   const supabase = await createClient();
 
   try {
@@ -168,9 +165,12 @@ export async function handleCalendlyWebhook(
       }
 
       // Determine meeting type and details
-      const meetingType = event.location.type === 'zoom' ? 'zoom' :
-                         event.location.type === 'phone' ? 'phone' :
-                         'in_person';
+      const meetingType =
+        event.location.type === 'zoom'
+          ? 'zoom'
+          : event.location.type === 'phone'
+            ? 'phone'
+            : 'in_person';
 
       // Create appointment record
       const appointmentId = await createAppointment({
@@ -180,7 +180,7 @@ export async function handleCalendlyWebhook(
         meetingType,
         meetingLink: event.location.join_url,
         phoneNumber: event.location.phone_number,
-        calendlyEventUri: event.uri
+        calendlyEventUri: event.uri,
       });
 
       if (appointmentId) {
@@ -196,10 +196,10 @@ export async function handleCalendlyWebhook(
             day: 'numeric',
             hour: 'numeric',
             minute: '2-digit',
-            timeZoneName: 'short'
+            timeZoneName: 'short',
           }),
           event.location.join_url,
-          event.location.phone_number
+          event.location.phone_number,
         );
       }
 
@@ -215,7 +215,7 @@ export async function handleCalendlyWebhook(
         .from('appointments')
         .update({
           status: 'canceled',
-          canceled_at: new Date().toISOString()
+          canceled_at: new Date().toISOString(),
         })
         .eq('calendly_event_uri', event.uri);
 
@@ -223,7 +223,8 @@ export async function handleCalendlyWebhook(
     }
 
     return false;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     logger.error('Error handling Calendly webhook:', error);
     return false;
   }
@@ -276,10 +277,7 @@ export async function getPastAppointments(studentId: string, limit: number = 10)
 /**
  * Cancel appointment
  */
-export async function cancelAppointment(
-  appointmentId: string,
-  reason?: string
-): Promise<boolean> {
+export async function cancelAppointment(appointmentId: string, reason?: string): Promise<boolean> {
   const supabase = await createClient();
 
   const { error } = await supabase
@@ -287,7 +285,7 @@ export async function cancelAppointment(
     .update({
       status: 'canceled',
       canceled_at: new Date().toISOString(),
-      cancellation_reason: reason
+      cancellation_reason: reason,
     })
     .eq('id', appointmentId);
 
@@ -302,10 +300,7 @@ export async function cancelAppointment(
 /**
  * Mark appointment as completed
  */
-export async function completeAppointment(
-  appointmentId: string,
-  notes?: string
-): Promise<boolean> {
+export async function completeAppointment(appointmentId: string, notes?: string): Promise<boolean> {
   const supabase = await createClient();
 
   const { error } = await supabase
@@ -313,7 +308,7 @@ export async function completeAppointment(
     .update({
       status: 'completed',
       completed_at: new Date().toISOString(),
-      notes: notes
+      notes: notes,
     })
     .eq('id', appointmentId);
 
@@ -335,7 +330,7 @@ export async function markNoShow(appointmentId: string): Promise<boolean> {
     .from('appointments')
     .update({
       status: 'no_show',
-      no_show_at: new Date().toISOString()
+      no_show_at: new Date().toISOString(),
     })
     .eq('id', appointmentId);
 
@@ -352,7 +347,7 @@ export async function markNoShow(appointmentId: string): Promise<boolean> {
  * Used by scheduled job to send reminder emails
  */
 export async function getAppointmentsNeedingReminders(
-  hoursBeforeAppointment: number
+  hoursBeforeAppointment: number,
 ): Promise<any[]> {
   const supabase = await createClient();
 
@@ -367,13 +362,15 @@ export async function getAppointmentsNeedingReminders(
 
   const { data, error }: any = await supabase
     .from('appointments')
-    .select(`
+    .select(
+      `
       *,
       profiles!appointments_student_id_fkey(
         first_name,
         email
       )
-    `)
+    `,
+    )
     .eq('status', 'scheduled')
     .gte('scheduled_time', windowStart.toISOString())
     .lte('scheduled_time', windowEnd.toISOString());
@@ -393,5 +390,5 @@ export const APPOINTMENT_CONTACT = {
   phone: '(317) 314-3757',
   email: 'info@elevateforhumanity.org',
   address: '8888 Keystone Crossing Suite 1300, Indianapolis, IN 46240',
-  hours: 'Monday-Friday, 9:00 AM - 5:00 PM EST'
+  hours: 'Monday-Friday, 9:00 AM - 5:00 PM EST',
 };

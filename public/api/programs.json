@@ -89,10 +89,7 @@
         "revenue": 2700000,
         "profit": 1080000
       },
-      "instructors": [
-        "Psychiatric RN (clinical content)",
-        "Life Coach (recovery/coaching skills)"
-      ],
+      "instructors": ["Psychiatric RN (clinical content)", "Life Coach (recovery/coaching skills)"],
       "certifications": [
         "Indiana Certification Board CPRS",
         "Mental Health First Aid",

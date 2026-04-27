@@ -18,16 +18,18 @@ const ALLOWED_ROLES = ['mentor', 'admin', 'super_admin'];
 
 const NAV_ITEMS = [
   { href: '/mentor/dashboard', label: 'Dashboard' },
-  { href: '/mentor/mentees',   label: 'Mentees' },
+  { href: '/mentor/mentees', label: 'Mentees' },
   { href: '/mentor/approvals', label: 'Approvals' },
-  { href: '/mentor/sessions',  label: 'Sessions' },
-  { href: '/mentor/messages',  label: 'Messages' },
+  { href: '/mentor/sessions', label: 'Sessions' },
+  { href: '/mentor/messages', label: 'Messages' },
   { href: '/mentor/resources', label: 'Resources' },
 ];
 
 export default async function MentorLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/mentor/dashboard');
@@ -53,14 +55,20 @@ export default async function MentorLayout({ children }: { children: React.React
               <span className="text-lg font-bold text-brand-blue-700">Mentor Portal</span>
               <div className="hidden md:flex items-center gap-4">
                 {NAV_ITEMS.map((item) => (
-                  <a key={item.href} href={item.href} className="text-sm text-gray-600 hover:text-brand-blue-700 transition-colors">
+                  <a
+                    key={item.href}
+                    href={item.href}
+                    className="text-sm text-gray-600 hover:text-brand-blue-700 transition-colors"
+                  >
                     {item.label}
                   </a>
                 ))}
               </div>
             </div>
             <div className="flex items-center">
-              <a href="/api/auth/signout" className="text-sm text-gray-500 hover:text-gray-700">Sign out</a>
+              <a href="/api/auth/signout" className="text-sm text-gray-500 hover:text-gray-700">
+                Sign out
+              </a>
             </div>
           </div>
         </div>

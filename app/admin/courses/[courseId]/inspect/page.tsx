@@ -17,7 +17,9 @@ async function getCourseDetail(courseId: string) {
 
   const { data: course, error } = await supabase
     .from('training_courses')
-    .select('id, slug, course_name, description, is_active, updated_at, program_id, programs(slug, title)')
+    .select(
+      'id, slug, course_name, description, is_active, updated_at, program_id, programs(slug, title)',
+    )
     .eq('id', courseId)
     .maybeSingle();
 
@@ -95,20 +97,26 @@ export default async function InspectCoursePage({
           </div>
           <div>
             <p className="text-xs text-slate-500 mb-0.5">Status</p>
-            <span className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${course.is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}`}>
+            <span
+              className={`inline-flex rounded-full px-2 py-0.5 text-xs font-medium ${course.is_active ? 'bg-emerald-100 text-emerald-800' : 'bg-slate-100 text-slate-600'}`}
+            >
               {course.is_active ? 'Active' : 'Inactive'}
             </span>
           </div>
           <div>
             <p className="text-xs text-slate-500 mb-0.5">Updated</p>
-            <p className="text-slate-700">{course.updated_at ? new Date(course.updated_at).toLocaleDateString() : '—'}</p>
+            <p className="text-slate-700">
+              {course.updated_at ? new Date(course.updated_at).toLocaleDateString() : '—'}
+            </p>
           </div>
         </div>
 
         {/* Lesson table */}
         <div className="bg-white rounded-xl border overflow-hidden">
           <div className="border-b px-4 py-3 flex items-center justify-between">
-            <h2 className="font-semibold text-slate-900">Lessons <span className="text-slate-400 font-normal text-sm">({lessons.length})</span></h2>
+            <h2 className="font-semibold text-slate-900">
+              Lessons <span className="text-slate-400 font-normal text-sm">({lessons.length})</span>
+            </h2>
             <span className="text-xs text-slate-500">{published} published</span>
           </div>
           <div className="overflow-x-auto">
@@ -126,16 +134,23 @@ export default async function InspectCoursePage({
               <tbody className="divide-y divide-slate-100">
                 {lessons.map((lesson: any) => (
                   <tr key={lesson.id} className="hover:bg-slate-50">
-                    <td className="px-4 py-2.5 text-slate-400 tabular-nums">{lesson.order_index}</td>
+                    <td className="px-4 py-2.5 text-slate-400 tabular-nums">
+                      {lesson.order_index}
+                    </td>
                     <td className="px-4 py-2.5 font-medium text-slate-900">{lesson.title}</td>
                     <td className="px-4 py-2.5 font-mono text-xs text-slate-500">{lesson.slug}</td>
                     <td className="px-4 py-2.5">
-                      <span className={`inline-flex rounded px-1.5 py-0.5 text-xs font-medium ${
-                        lesson.lesson_type === 'checkpoint' ? 'bg-amber-100 text-amber-800' :
-                        lesson.lesson_type === 'quiz'       ? 'bg-purple-100 text-purple-800' :
-                        lesson.lesson_type === 'exam'       ? 'bg-brand-red-100 text-brand-red-800' :
-                        'bg-slate-100 text-slate-600'
-                      }`}>
+                      <span
+                        className={`inline-flex rounded px-1.5 py-0.5 text-xs font-medium ${
+                          lesson.lesson_type === 'checkpoint'
+                            ? 'bg-amber-100 text-amber-800'
+                            : lesson.lesson_type === 'quiz'
+                              ? 'bg-purple-100 text-purple-800'
+                              : lesson.lesson_type === 'exam'
+                                ? 'bg-brand-red-100 text-brand-red-800'
+                                : 'bg-slate-100 text-slate-600'
+                        }`}
+                      >
                         {lesson.lesson_type ?? 'lesson'}
                       </span>
                     </td>

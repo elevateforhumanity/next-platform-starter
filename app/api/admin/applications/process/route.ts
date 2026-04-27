@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -15,13 +14,13 @@ export const dynamic = 'force-dynamic';
 // Mirrors the DB trigger's enforced state machine:
 //   submitted → in_review → approved → ready_to_enroll → enrolled
 const ACTIONS = {
-  review:         { from: 'submitted',      to: 'in_review'       },
-  approve:        { from: 'in_review',      to: 'approved'        },
-  ready_to_enroll:{ from: 'approved',       to: 'ready_to_enroll' },
-  enroll:         { from: 'ready_to_enroll',to: 'enrolled'        },
-  reject:         { from: 'in_review',      to: 'rejected'        },
+  review: { from: 'submitted', to: 'in_review' },
+  approve: { from: 'in_review', to: 'approved' },
+  ready_to_enroll: { from: 'approved', to: 'ready_to_enroll' },
+  enroll: { from: 'ready_to_enroll', to: 'enrolled' },
+  reject: { from: 'in_review', to: 'rejected' },
   // One-click: review → approve → ready_to_enroll → enroll in sequence
-  finalize:       { from: 'submitted',      to: 'enrolled'        },
+  finalize: { from: 'submitted', to: 'enrolled' },
 } as const;
 
 type Action = keyof typeof ACTIONS;
@@ -36,14 +35,12 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
   }
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const { data: profile } = await db
-    .from('profiles')
-    .select('role')
-    .eq('id', user.id)
-    .single();
+  const { data: profile } = await db.from('profiles').select('role').eq('id', user.id).single();
 
   if (!profile || !['admin', 'super_admin', 'staff'].includes(profile.role)) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
@@ -138,17 +135,18 @@ export async function POST(req: NextRequest) {
         logger.error('[process] enroll_application RPC failed', rpcError);
         // Parse structured error codes from the RPC exception message
         const msg = rpcError.message ?? '';
-        const status =
-          msg.startsWith('FUNDING_NOT_VERIFIED') ? 422 :
-          msg.startsWith('INVALID_PROGRAM') ? 422 :
-          msg.startsWith('PROGRAM_NOT_CONFIGURED') ? 422 :
-          msg.startsWith('NO_USER_ACCOUNT') ? 422 :
-          msg.startsWith('INVALID_STATE') ? 422 :
-          500;
-        return NextResponse.json(
-          { error: msg, completed_steps: steps },
-          { status },
-        );
+        const status = msg.startsWith('FUNDING_NOT_VERIFIED')
+          ? 422
+          : msg.startsWith('INVALID_PROGRAM')
+            ? 422
+            : msg.startsWith('PROGRAM_NOT_CONFIGURED')
+              ? 422
+              : msg.startsWith('NO_USER_ACCOUNT')
+                ? 422
+                : msg.startsWith('INVALID_STATE')
+                  ? 422
+                  : 500;
+        return NextResponse.json({ error: msg, completed_steps: steps }, { status });
       }
 
       enrollmentId = (rpcResult as any)?.enrollment_id ?? null;
@@ -206,8 +204,6 @@ export async function POST(req: NextRequest) {
     user_id: userId,
     enrollment_id: enrollmentId,
     steps,
-    note: enrollmentId
-      ? `Enrollment created (delivery_model resolved at enroll step)`
-      : undefined,
+    note: enrollmentId ? `Enrollment created (delivery_model resolved at enroll step)` : undefined,
   });
 }

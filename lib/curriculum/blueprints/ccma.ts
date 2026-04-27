@@ -71,14 +71,14 @@ export const CCMA_BLUEPRINT: CredentialBlueprint = {
       scope: 'all',
       minQuestions: 10,
       maxQuestions: 25,
-      passingThreshold: 0.70,
+      passingThreshold: 0.7,
     },
     {
       assessmentType: 'final',
       scope: 'ccma-exam',
       minQuestions: 150,
       maxQuestions: 150,
-      passingThreshold: 0.70,
+      passingThreshold: 0.7,
     },
   ],
 
@@ -94,9 +94,20 @@ export const CCMA_BLUEPRINT: CredentialBlueprint = {
       practicalRequired: false,
       isCritical: true,
       domainKey: 'medical-law-ethics',
-      requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 2 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: [{ competencyKey: 'hipaa-compliance', isCritical: true, minimumTouchpoints: 1 }, { competencyKey: 'patient-rights', isCritical: true, minimumTouchpoints: 1 }],
-      suggestedLessonSkeleton: ['HIPAA & Patient Privacy', 'Medical Ethics & Scope of Practice', 'Legal Responsibilities of the MA', 'Module Checkpoint'],
+      requiredLessonTypes: [
+        { lessonType: 'lesson', requiredCount: 2 },
+        { lessonType: 'checkpoint', requiredCount: 1 },
+      ],
+      competencies: [
+        { competencyKey: 'hipaa-compliance', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'patient-rights', isCritical: true, minimumTouchpoints: 1 },
+      ],
+      suggestedLessonSkeleton: [
+        'HIPAA & Patient Privacy',
+        'Medical Ethics & Scope of Practice',
+        'Legal Responsibilities of the MA',
+        'Module Checkpoint',
+      ],
     },
     {
       slug: 'ccma-m02-communication',
@@ -108,9 +119,20 @@ export const CCMA_BLUEPRINT: CredentialBlueprint = {
       practicalRequired: false,
       isCritical: true,
       domainKey: 'communication',
-      requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 2 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: [{ competencyKey: 'verbal-communication', isCritical: true, minimumTouchpoints: 1 }, { competencyKey: 'written-communication', isCritical: false, minimumTouchpoints: 1 }],
-      suggestedLessonSkeleton: ['Verbal & Nonverbal Communication', 'Telephone & Written Communication', 'Patient Education Techniques', 'Module Checkpoint'],
+      requiredLessonTypes: [
+        { lessonType: 'lesson', requiredCount: 2 },
+        { lessonType: 'checkpoint', requiredCount: 1 },
+      ],
+      competencies: [
+        { competencyKey: 'verbal-communication', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'written-communication', isCritical: false, minimumTouchpoints: 1 },
+      ],
+      suggestedLessonSkeleton: [
+        'Verbal & Nonverbal Communication',
+        'Telephone & Written Communication',
+        'Patient Education Techniques',
+        'Module Checkpoint',
+      ],
     },
     {
       slug: 'ccma-m03-infection-control',
@@ -122,9 +144,22 @@ export const CCMA_BLUEPRINT: CredentialBlueprint = {
       practicalRequired: true,
       isCritical: true,
       domainKey: 'infection-control',
-      requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 2 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: [{ competencyKey: 'standard-precautions', isCritical: true, minimumTouchpoints: 1 }, { competencyKey: 'ppe-usage', isCritical: true, minimumTouchpoints: 1 }],
-      suggestedLessonSkeleton: ['Standard & Transmission-Based Precautions', 'Hand Hygiene & PPE', 'Sterilization & Disinfection', 'Infection Control Lab', 'Module Checkpoint'],
+      requiredLessonTypes: [
+        { lessonType: 'lesson', requiredCount: 2 },
+        { lessonType: 'lab', requiredCount: 1 },
+        { lessonType: 'checkpoint', requiredCount: 1 },
+      ],
+      competencies: [
+        { competencyKey: 'standard-precautions', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'ppe-usage', isCritical: true, minimumTouchpoints: 1 },
+      ],
+      suggestedLessonSkeleton: [
+        'Standard & Transmission-Based Precautions',
+        'Hand Hygiene & PPE',
+        'Sterilization & Disinfection',
+        'Infection Control Lab',
+        'Module Checkpoint',
+      ],
     },
     {
       slug: 'ccma-m04-patient-intake',
@@ -136,9 +171,20 @@ export const CCMA_BLUEPRINT: CredentialBlueprint = {
       practicalRequired: false,
       isCritical: true,
       domainKey: 'patient-intake',
-      requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 2 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: [{ competencyKey: 'medical-history', isCritical: true, minimumTouchpoints: 1 }, { competencyKey: 'ehr-documentation', isCritical: true, minimumTouchpoints: 1 }],
-      suggestedLessonSkeleton: ['Medical History & Chief Complaint', 'EHR Documentation Basics', 'Vital Signs Documentation', 'Module Checkpoint'],
+      requiredLessonTypes: [
+        { lessonType: 'lesson', requiredCount: 2 },
+        { lessonType: 'checkpoint', requiredCount: 1 },
+      ],
+      competencies: [
+        { competencyKey: 'medical-history', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'ehr-documentation', isCritical: true, minimumTouchpoints: 1 },
+      ],
+      suggestedLessonSkeleton: [
+        'Medical History & Chief Complaint',
+        'EHR Documentation Basics',
+        'Vital Signs Documentation',
+        'Module Checkpoint',
+      ],
     },
     {
       slug: 'ccma-m05-vital-signs',
@@ -150,9 +196,23 @@ export const CCMA_BLUEPRINT: CredentialBlueprint = {
       practicalRequired: true,
       isCritical: true,
       domainKey: 'vital-signs',
-      requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 2 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: [{ competencyKey: 'blood-pressure', isCritical: true, minimumTouchpoints: 1 }, { competencyKey: 'temperature-pulse-respiration', isCritical: true, minimumTouchpoints: 1 }, { competencyKey: 'height-weight', isCritical: false, minimumTouchpoints: 1 }],
-      suggestedLessonSkeleton: ['Temperature, Pulse & Respiration', 'Blood Pressure Measurement', 'Height, Weight & BMI', 'Vital Signs Lab', 'Module Checkpoint'],
+      requiredLessonTypes: [
+        { lessonType: 'lesson', requiredCount: 2 },
+        { lessonType: 'lab', requiredCount: 1 },
+        { lessonType: 'checkpoint', requiredCount: 1 },
+      ],
+      competencies: [
+        { competencyKey: 'blood-pressure', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'temperature-pulse-respiration', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'height-weight', isCritical: false, minimumTouchpoints: 1 },
+      ],
+      suggestedLessonSkeleton: [
+        'Temperature, Pulse & Respiration',
+        'Blood Pressure Measurement',
+        'Height, Weight & BMI',
+        'Vital Signs Lab',
+        'Module Checkpoint',
+      ],
     },
     {
       slug: 'ccma-m06-clinical-procedures',
@@ -164,9 +224,24 @@ export const CCMA_BLUEPRINT: CredentialBlueprint = {
       practicalRequired: true,
       isCritical: true,
       domainKey: 'clinical-procedures',
-      requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 3 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: [{ competencyKey: 'injections', isCritical: true, minimumTouchpoints: 1 }, { competencyKey: 'wound-care', isCritical: true, minimumTouchpoints: 1 }, { competencyKey: 'specimen-collection', isCritical: true, minimumTouchpoints: 1 }],
-      suggestedLessonSkeleton: ['Injections & Immunizations', 'Wound Care & Dressing Changes', 'Specimen Collection & Handling', 'Assisting with Minor Surgery', 'Clinical Procedures Lab', 'Module Checkpoint'],
+      requiredLessonTypes: [
+        { lessonType: 'lesson', requiredCount: 3 },
+        { lessonType: 'lab', requiredCount: 1 },
+        { lessonType: 'checkpoint', requiredCount: 1 },
+      ],
+      competencies: [
+        { competencyKey: 'injections', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'wound-care', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'specimen-collection', isCritical: true, minimumTouchpoints: 1 },
+      ],
+      suggestedLessonSkeleton: [
+        'Injections & Immunizations',
+        'Wound Care & Dressing Changes',
+        'Specimen Collection & Handling',
+        'Assisting with Minor Surgery',
+        'Clinical Procedures Lab',
+        'Module Checkpoint',
+      ],
     },
     {
       slug: 'ccma-m07-phlebotomy',
@@ -178,9 +253,22 @@ export const CCMA_BLUEPRINT: CredentialBlueprint = {
       practicalRequired: true,
       isCritical: true,
       domainKey: 'phlebotomy',
-      requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 2 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: [{ competencyKey: 'venipuncture', isCritical: true, minimumTouchpoints: 1 }, { competencyKey: 'capillary-puncture', isCritical: true, minimumTouchpoints: 1 }],
-      suggestedLessonSkeleton: ['Venipuncture Technique', 'Capillary Puncture & Fingerstick', 'Lab Safety & CLIA Waived Tests', 'Phlebotomy Lab', 'Module Checkpoint'],
+      requiredLessonTypes: [
+        { lessonType: 'lesson', requiredCount: 2 },
+        { lessonType: 'lab', requiredCount: 1 },
+        { lessonType: 'checkpoint', requiredCount: 1 },
+      ],
+      competencies: [
+        { competencyKey: 'venipuncture', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'capillary-puncture', isCritical: true, minimumTouchpoints: 1 },
+      ],
+      suggestedLessonSkeleton: [
+        'Venipuncture Technique',
+        'Capillary Puncture & Fingerstick',
+        'Lab Safety & CLIA Waived Tests',
+        'Phlebotomy Lab',
+        'Module Checkpoint',
+      ],
     },
     {
       slug: 'ccma-m08-pharmacology',
@@ -192,9 +280,20 @@ export const CCMA_BLUEPRINT: CredentialBlueprint = {
       practicalRequired: false,
       isCritical: true,
       domainKey: 'pharmacology',
-      requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 2 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: [{ competencyKey: 'drug-classifications', isCritical: true, minimumTouchpoints: 1 }, { competencyKey: 'medication-math', isCritical: true, minimumTouchpoints: 1 }],
-      suggestedLessonSkeleton: ['Drug Classifications & Actions', 'Medication Math & Dosage Calculations', 'Routes of Administration', 'Module Checkpoint'],
+      requiredLessonTypes: [
+        { lessonType: 'lesson', requiredCount: 2 },
+        { lessonType: 'checkpoint', requiredCount: 1 },
+      ],
+      competencies: [
+        { competencyKey: 'drug-classifications', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'medication-math', isCritical: true, minimumTouchpoints: 1 },
+      ],
+      suggestedLessonSkeleton: [
+        'Drug Classifications & Actions',
+        'Medication Math & Dosage Calculations',
+        'Routes of Administration',
+        'Module Checkpoint',
+      ],
     },
     {
       slug: 'ccma-m09-ekg-basics',
@@ -206,9 +305,22 @@ export const CCMA_BLUEPRINT: CredentialBlueprint = {
       practicalRequired: true,
       isCritical: false,
       domainKey: 'ekg-cardiology',
-      requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 2 }, { lessonType: 'lab', requiredCount: 1 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: [{ competencyKey: 'ekg-lead-placement', isCritical: true, minimumTouchpoints: 1 }, { competencyKey: 'cardiac-rhythms', isCritical: false, minimumTouchpoints: 1 }],
-      suggestedLessonSkeleton: ['Cardiac Anatomy & Physiology', 'EKG Lead Placement', 'Reading Basic Rhythms', 'EKG Lab', 'Module Checkpoint'],
+      requiredLessonTypes: [
+        { lessonType: 'lesson', requiredCount: 2 },
+        { lessonType: 'lab', requiredCount: 1 },
+        { lessonType: 'checkpoint', requiredCount: 1 },
+      ],
+      competencies: [
+        { competencyKey: 'ekg-lead-placement', isCritical: true, minimumTouchpoints: 1 },
+        { competencyKey: 'cardiac-rhythms', isCritical: false, minimumTouchpoints: 1 },
+      ],
+      suggestedLessonSkeleton: [
+        'Cardiac Anatomy & Physiology',
+        'EKG Lead Placement',
+        'Reading Basic Rhythms',
+        'EKG Lab',
+        'Module Checkpoint',
+      ],
     },
     {
       slug: 'ccma-m10-administrative',
@@ -220,9 +332,20 @@ export const CCMA_BLUEPRINT: CredentialBlueprint = {
       practicalRequired: false,
       isCritical: false,
       domainKey: 'administrative',
-      requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 2 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: [{ competencyKey: 'scheduling', isCritical: false, minimumTouchpoints: 1 }, { competencyKey: 'billing-coding', isCritical: false, minimumTouchpoints: 1 }],
-      suggestedLessonSkeleton: ['Scheduling & Appointment Management', 'Medical Billing & Coding Basics', 'Insurance & Prior Authorization', 'Module Checkpoint'],
+      requiredLessonTypes: [
+        { lessonType: 'lesson', requiredCount: 2 },
+        { lessonType: 'checkpoint', requiredCount: 1 },
+      ],
+      competencies: [
+        { competencyKey: 'scheduling', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'billing-coding', isCritical: false, minimumTouchpoints: 1 },
+      ],
+      suggestedLessonSkeleton: [
+        'Scheduling & Appointment Management',
+        'Medical Billing & Coding Basics',
+        'Insurance & Prior Authorization',
+        'Module Checkpoint',
+      ],
     },
     // ── PersonAbility™ + Health Coaching ─────────────────────────────────────
     {
@@ -235,9 +358,21 @@ export const CCMA_BLUEPRINT: CredentialBlueprint = {
       practicalRequired: false,
       isCritical: false,
       domainKey: 'professional-skills',
-      requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 2 }, { lessonType: 'checkpoint', requiredCount: 1 }],
-      competencies: [{ competencyKey: 'patient-engagement', isCritical: false, minimumTouchpoints: 1 }, { competencyKey: 'health-coaching', isCritical: false, minimumTouchpoints: 1 }],
-      suggestedLessonSkeleton: ['Patient Communication & Engagement', 'Health Coaching Fundamentals', 'Cultural Competency', 'Professionalism in Healthcare', 'Module Checkpoint'],
+      requiredLessonTypes: [
+        { lessonType: 'lesson', requiredCount: 2 },
+        { lessonType: 'checkpoint', requiredCount: 1 },
+      ],
+      competencies: [
+        { competencyKey: 'patient-engagement', isCritical: false, minimumTouchpoints: 1 },
+        { competencyKey: 'health-coaching', isCritical: false, minimumTouchpoints: 1 },
+      ],
+      suggestedLessonSkeleton: [
+        'Patient Communication & Engagement',
+        'Health Coaching Fundamentals',
+        'Cultural Competency',
+        'Professionalism in Healthcare',
+        'Module Checkpoint',
+      ],
     },
     // ── CCMA Certification Exam ───────────────────────────────────────────────
     {
@@ -250,9 +385,16 @@ export const CCMA_BLUEPRINT: CredentialBlueprint = {
       practicalRequired: false,
       isCritical: true,
       domainKey: 'exam-prep',
-      requiredLessonTypes: [{ lessonType: 'lesson', requiredCount: 1 }, { lessonType: 'exam', requiredCount: 1 }],
+      requiredLessonTypes: [
+        { lessonType: 'lesson', requiredCount: 1 },
+        { lessonType: 'exam', requiredCount: 1 },
+      ],
       competencies: [{ competencyKey: 'exam-readiness', isCritical: true, minimumTouchpoints: 1 }],
-      suggestedLessonSkeleton: ['CCMA Exam Strategy & Test-Taking Tips', 'Comprehensive Practice Assessment', 'CCMA Certification Exam'],
+      suggestedLessonSkeleton: [
+        'CCMA Exam Strategy & Test-Taking Tips',
+        'Comprehensive Practice Assessment',
+        'CCMA Certification Exam',
+      ],
     },
   ],
 };

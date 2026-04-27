@@ -47,7 +47,7 @@ const STRIPE_CONNECT_ACCOUNTS: Record<string, string> = {};
  * Called from the Stripe webhook handler.
  */
 export async function processVendorPayout(
-  request: VendorPayoutRequest
+  request: VendorPayoutRequest,
 ): Promise<VendorPayoutResult> {
   const supabase = await getAdminClient();
   if (!supabase) {
@@ -67,7 +67,9 @@ export async function processVendorPayout(
       .maybeSingle();
 
     if (existing) {
-      logger.info('[vendor-payout] Already processed for enrollment:', request.enrollmentId);
+      logger.info('[vendor-payout] Already processed for enrollment', {
+        enrollmentId: request.enrollmentId,
+      });
       return { success: true, payoutId: existing.id, method: 'recorded_payable' };
     }
 
@@ -102,11 +104,13 @@ export async function processVendorPayout(
         });
         stripeTransferId = transfer.id;
         method = 'stripe_transfer';
-        logger.info('[vendor-payout] Stripe transfer created:', transfer.id);
+        logger.info('[vendor-payout] Stripe transfer created', { transferId: transfer.id });
       } catch (transferErr) {
         // Non-fatal: fall back to recorded payable
-        logger.error('[vendor-payout] Stripe transfer failed, recording as payable:',
-          transferErr instanceof Error ? transferErr : new Error(String(transferErr)));
+        logger.error(
+          '[vendor-payout] Stripe transfer failed, recording as payable:',
+          transferErr instanceof Error ? transferErr : new Error(String(transferErr)),
+        );
         method = 'recorded_payable';
       }
     }
@@ -137,7 +141,9 @@ export async function processVendorPayout(
       return { success: false, method, error: 'Failed to record payout' };
     }
 
-    logger.info(`[vendor-payout] ${method}: $${(request.wholesaleCostCents / 100).toFixed(2)} to ${request.providerName}, margin $${(marginCents / 100).toFixed(2)}`);
+    logger.info(
+      `[vendor-payout] ${method}: $${(request.wholesaleCostCents / 100).toFixed(2)} to ${request.providerName}, margin $${(marginCents / 100).toFixed(2)}`,
+    );
 
     return {
       success: true,
@@ -145,8 +151,10 @@ export async function processVendorPayout(
       method,
     };
   } catch (err) {
-    logger.error('[vendor-payout] Unexpected error:',
-      err instanceof Error ? err : new Error(String(err)));
+    logger.error(
+      '[vendor-payout] Unexpected error:',
+      err instanceof Error ? err : new Error(String(err)),
+    );
     return { success: false, method: 'recorded_payable', error: 'Payout processing failed' };
   }
 }

@@ -18,14 +18,14 @@ import type { CourseModule, CourseTemplate } from './schema';
 // Values are [min, default, max] in minutes.
 
 export const DURATION_RANGES: Record<LessonType, [number, number, number]> = {
-  lesson:        [20,  30,  45],
-  video:         [10,  20,  30],
-  checkpoint:    [10,  15,  20],
-  quiz:          [15,  20,  30],
-  lab:           [30,  60,  90],
-  assignment:    [30,  60, 120],
-  exam:          [60,  90, 120],
-  certification: [ 5,  10,  15],
+  lesson: [20, 30, 45],
+  video: [10, 20, 30],
+  checkpoint: [10, 15, 20],
+  quiz: [15, 20, 30],
+  lab: [30, 60, 90],
+  assignment: [30, 60, 120],
+  exam: [60, 90, 120],
+  certification: [5, 10, 15],
 };
 
 /**
@@ -95,7 +95,7 @@ export function validateHours(template: CourseTemplate): HoursValidationResult {
   const warnings: string[] = [];
   const minimumHours = template.minimumHours ?? 0;
 
-  const moduleBreakdown = template.modules.map(mod => ({
+  const moduleBreakdown = template.modules.map((mod) => ({
     slug: mod.slug,
     title: mod.title,
     hours: sumModuleHours(mod),
@@ -107,7 +107,9 @@ export function validateHours(template: CourseTemplate): HoursValidationResult {
   for (const mod of template.modules) {
     for (const lesson of mod.lessons) {
       if (lesson.durationMinutes == null) {
-        errors.push(`${mod.slug}/${lesson.slug}: duration_minutes is null — run assignDurations first`);
+        errors.push(
+          `${mod.slug}/${lesson.slug}: duration_minutes is null — run assignDurations first`,
+        );
       } else if (lesson.durationMinutes < minDuration(lesson.type)) {
         warnings.push(
           `${mod.slug}/${lesson.slug}: duration ${lesson.durationMinutes}m is below minimum ${minDuration(lesson.type)}m for type '${lesson.type}'`,

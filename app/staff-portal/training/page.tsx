@@ -12,8 +12,7 @@ export const metadata: Metadata = {
     canonical: 'https://www.elevateforhumanity.org/staff-portal/training',
   },
   title: 'Staff Training | Elevate For Humanity',
-  description:
-    'Complete training modules, track your progress, and earn completion certificates.',
+  description: 'Complete training modules, track your progress, and earn completion certificates.',
 };
 
 /**
@@ -27,15 +26,9 @@ export const metadata: Metadata = {
  */
 export default async function StaffTrainingPage() {
   // Require staff or admin role
-  const { user, profile } = await requireRole([
-    'staff',
-    'admin',
-    'super_admin',
-    'advisor',
-  ]);
+  const { user, profile } = await requireRole(['staff', 'admin', 'super_admin', 'advisor']);
 
   const supabase = await createClient();
-
 
   // Get all training modules
   const { data: modules, error: modulesError } = await supabase
@@ -62,8 +55,7 @@ export default async function StaffTrainingPage() {
 
   const totalModules = modules?.length || 0;
   const completedModules = progress?.filter((p) => p.completed_at).length || 0;
-  const certifiedModules =
-    progress?.filter((p) => p.certification_date).length || 0;
+  const certifiedModules = progress?.filter((p) => p.certification_date).length || 0;
   const completionPercentage =
     totalModules > 0 ? Math.round((completedModules / totalModules) * 100) : 0;
 
@@ -72,7 +64,9 @@ export default async function StaffTrainingPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Staff Portal', href: '/staff-portal' }, { label: 'Training' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Staff Portal', href: '/staff-portal' }, { label: 'Training' }]}
+          />
         </div>
       </div>
 
@@ -81,9 +75,7 @@ export default async function StaffTrainingPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold text-black">
-                Staff Training
-              </h1>
+              <h1 className="text-3xl font-bold text-black">Staff Training</h1>
               <p className="text-black mt-2">
                 Complete training modules and earn completion certificates
               </p>
@@ -105,9 +97,7 @@ export default async function StaffTrainingPage() {
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
               <BookOpen className="h-11 w-11 text-brand-blue-600" />
-              <span className="text-3xl font-bold text-black">
-                {totalModules}
-              </span>
+              <span className="text-3xl font-bold text-black">{totalModules}</span>
             </div>
             <p className="text-black text-sm">Total Modules</p>
           </div>
@@ -115,9 +105,7 @@ export default async function StaffTrainingPage() {
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
               <span className="text-slate-500 flex-shrink-0">•</span>
-              <span className="text-3xl font-bold text-black">
-                {completedModules}
-              </span>
+              <span className="text-3xl font-bold text-black">{completedModules}</span>
             </div>
             <p className="text-black text-sm">Completed</p>
           </div>
@@ -125,9 +113,7 @@ export default async function StaffTrainingPage() {
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
               <Award className="h-11 w-11 text-yellow-600" />
-              <span className="text-3xl font-bold text-black">
-                {certifiedModules}
-              </span>
+              <span className="text-3xl font-bold text-black">{certifiedModules}</span>
             </div>
             <p className="text-black text-sm">Certifications</p>
           </div>
@@ -135,9 +121,7 @@ export default async function StaffTrainingPage() {
           <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6">
             <div className="flex items-center justify-between mb-2">
               <Clock className="h-11 w-11 text-brand-blue-600" />
-              <span className="text-3xl font-bold text-black">
-                {completionPercentage}%
-              </span>
+              <span className="text-3xl font-bold text-black">{completionPercentage}%</span>
             </div>
             <p className="text-black text-sm">Progress</p>
           </div>
@@ -146,9 +130,7 @@ export default async function StaffTrainingPage() {
         {/* Progress Bar */}
         <div className="bg-white rounded-lg shadow-sm border border-slate-200 p-6 mb-8">
           <div className="flex items-center justify-between mb-2">
-            <h2 className="text-lg font-semibold text-black">
-              Overall Progress
-            </h2>
+            <h2 className="text-lg font-semibold text-black">Overall Progress</h2>
             <span className="text-sm text-black">
               {completedModules} of {totalModules} modules completed
             </span>
@@ -163,15 +145,11 @@ export default async function StaffTrainingPage() {
 
         {/* Training Modules */}
         <div className="space-y-6">
-          <h2 className="text-2xl font-bold text-black">
-            Training Modules
-          </h2>
+          <h2 className="text-2xl font-bold text-black">Training Modules</h2>
 
           {modulesError && (
             <div className="bg-brand-red-50 border border-brand-red-200 rounded-lg p-4">
-              <p className="text-brand-red-800">
-                Error loading modules: {modulesError.message}
-              </p>
+              <p className="text-brand-red-800">Error loading modules: {modulesError.message}</p>
             </div>
           )}
 
@@ -182,8 +160,7 @@ export default async function StaffTrainingPage() {
                 No Training Modules Available
               </h3>
               <p className="text-black">
-                Training modules will appear here once they are added by
-                administrators.
+                Training modules will appear here once they are added by administrators.
               </p>
             </div>
           ) : (
@@ -196,18 +173,14 @@ export default async function StaffTrainingPage() {
                   <div className="flex items-start justify-between mb-4">
                     <div className="flex-1">
                       <div className="flex items-center gap-2 mb-2">
-                        <h3 className="text-lg font-semibold text-black">
-                          {module.title}
-                        </h3>
+                        <h3 className="text-lg font-semibold text-black">{module.title}</h3>
                         {module.required && (
                           <span className="px-2 py-2 bg-brand-red-100 text-brand-red-700 text-xs font-medium rounded">
                             Required
                           </span>
                         )}
                       </div>
-                      <p className="text-black text-sm mb-3">
-                        {module.description}
-                      </p>
+                      <p className="text-black text-sm mb-3">{module.description}</p>
                       {module.duration && (
                         <p className="text-slate-500 text-sm flex items-center gap-1">
                           <Clock className="h-4 w-4" />
@@ -215,19 +188,14 @@ export default async function StaffTrainingPage() {
                         </p>
                       )}
                     </div>
-                    {module.isCompleted && (
-                      <span className="text-slate-500 flex-shrink-0">•</span>
-                    )}
+                    {module.isCompleted && <span className="text-slate-500 flex-shrink-0">•</span>}
                   </div>
 
                   {module.progress && (
                     <div className="mb-4 p-3 bg-white rounded-lg">
                       <div className="flex items-center justify-between text-sm">
                         <span className="text-black">
-                          Completed:{' '}
-                          {new Date(
-                            module.progress.completed_at
-                          ).toLocaleDateString()}
+                          Completed: {new Date(module.progress.completed_at).toLocaleDateString()}
                         </span>
                         {module.progress.quiz_score && (
                           <span className="font-medium text-black">
@@ -257,16 +225,12 @@ export default async function StaffTrainingPage() {
                       </a>
                     )}
                     {!module.isCompleted && (
-                      <button
-                        className="flex-1 px-4 py-2 bg-white text-black rounded-lg hover:bg-slate-200 transition-colors"
-                      >
+                      <button className="flex-1 px-4 py-2 bg-white text-black rounded-lg hover:bg-slate-200 transition-colors">
                         Take Quiz
                       </button>
                     )}
                     {module.isCompleted && !module.isCertified && (
-                      <button
-                        className="flex-1 px-4 py-2 bg-yellow-100 text-yellow-700 rounded-lg hover:bg-yellow-200 transition-colors"
-                      >
+                      <button className="flex-1 px-4 py-2 bg-yellow-100 text-yellow-700 rounded-lg hover:bg-yellow-200 transition-colors">
                         Retake Quiz
                       </button>
                     )}

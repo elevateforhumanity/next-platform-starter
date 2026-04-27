@@ -1,4 +1,11 @@
-import type { AIProvider, AIImageProvider, ChatCompletionOptions, ChatCompletionResult, ImageGenerationOptions, GeneratedImage } from '../types';
+import type {
+  AIProvider,
+  AIImageProvider,
+  ChatCompletionOptions,
+  ChatCompletionResult,
+  ImageGenerationOptions,
+  GeneratedImage,
+} from '../types';
 
 /**
  * Azure Cognitive Services / Azure OpenAI provider.
@@ -13,10 +20,18 @@ import type { AIProvider, AIImageProvider, ChatCompletionOptions, ChatCompletion
 export class AzureProvider implements AIProvider, AIImageProvider {
   readonly name = 'azure' as const;
 
-  private get endpoint() { return process.env.AZURE_OPENAI_ENDPOINT || ''; }
-  private get apiKey() { return process.env.AZURE_OPENAI_API_KEY || ''; }
-  private get deployment() { return process.env.AZURE_OPENAI_DEPLOYMENT || 'gpt-4.1-mini'; }
-  private get apiVersion() { return process.env.AZURE_OPENAI_API_VERSION || '2024-02-01'; }
+  private get endpoint() {
+    return process.env.AZURE_OPENAI_ENDPOINT || '';
+  }
+  private get apiKey() {
+    return process.env.AZURE_OPENAI_API_KEY || '';
+  }
+  private get deployment() {
+    return process.env.AZURE_OPENAI_DEPLOYMENT || 'gpt-4.1-mini';
+  }
+  private get apiVersion() {
+    return process.env.AZURE_OPENAI_API_VERSION || '2024-02-01';
+  }
 
   isAvailable(): boolean {
     return !!(this.endpoint && this.apiKey);
@@ -48,11 +63,13 @@ export class AzureProvider implements AIProvider, AIImageProvider {
     return {
       content: choice.message.content || '',
       model: data.model || this.deployment,
-      usage: data.usage ? {
-        promptTokens: data.usage.prompt_tokens,
-        completionTokens: data.usage.completion_tokens,
-        totalTokens: data.usage.total_tokens,
-      } : undefined,
+      usage: data.usage
+        ? {
+            promptTokens: data.usage.prompt_tokens,
+            completionTokens: data.usage.completion_tokens,
+            totalTokens: data.usage.total_tokens,
+          }
+        : undefined,
     };
   }
 

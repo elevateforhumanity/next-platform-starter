@@ -18,7 +18,7 @@ if (!process.env.NETLIFY) {
   process.exit(0);
 }
 
-const ROOT          = process.cwd();
+const ROOT = process.cwd();
 const MANIFEST_PATH = join(ROOT, '.next', 'server', 'app-paths-manifest.json');
 
 // Hard ceiling — marketing site has ~150 real routes. 300 gives headroom for
@@ -37,7 +37,7 @@ const FORBIDDEN_PREFIXES = [
   '/my-dashboard',
   '/instructor',
   '/employer-portal',
-  '/employer/',  // /employer/* sub-routes (not /employers which is public)
+  '/employer/', // /employer/* sub-routes (not /employers which is public)
   '/partner-dashboard',
   '/program-holder',
   '/staff-portal',
@@ -91,17 +91,16 @@ const compiledRoutes = Object.keys(manifest);
 let failed = false;
 
 // Check 1: forbidden prefixes in compiled output
-const leaked = compiledRoutes.filter(route =>
-  FORBIDDEN_PREFIXES.some(prefix =>
-    route === prefix ||
-    route.startsWith(prefix + '/') ||
-    route.startsWith(prefix + '[')
-  )
+const leaked = compiledRoutes.filter((route) =>
+  FORBIDDEN_PREFIXES.some(
+    (prefix) =>
+      route === prefix || route.startsWith(prefix + '/') || route.startsWith(prefix + '['),
+  ),
 );
 
 if (leaked.length > 0) {
   console.error('\n[route-guard] HARD FAIL — forbidden routes in compiled output:');
-  leaked.forEach(r => console.error('  ✗ ' + r));
+  leaked.forEach((r) => console.error('  ✗ ' + r));
   failed = true;
 }
 
@@ -109,7 +108,9 @@ if (leaked.length > 0) {
 console.log(`\n[route-guard] Compiled routes: ${compiledRoutes.length}`);
 
 if (compiledRoutes.length > ROUTE_CEILING) {
-  console.error(`\n[route-guard] HARD FAIL — ${compiledRoutes.length} compiled routes exceed ceiling of ${ROUTE_CEILING}`);
+  console.error(
+    `\n[route-guard] HARD FAIL — ${compiledRoutes.length} compiled routes exceed ceiling of ${ROUTE_CEILING}`,
+  );
   console.error('Quarantine is leaking Railway routes. Fix the allowlist.');
   failed = true;
 }
@@ -119,4 +120,6 @@ if (failed) {
   process.exit(1);
 }
 
-console.log(`[route-guard] ✅ ${compiledRoutes.length}/${ROUTE_CEILING} compiled routes — all clean. No Railway routes in build output.\n`);
+console.log(
+  `[route-guard] ✅ ${compiledRoutes.length}/${ROUTE_CEILING} compiled routes — all clean. No Railway routes in build output.\n`,
+);

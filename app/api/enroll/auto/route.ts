@@ -29,31 +29,25 @@ interface AutoEnrollRequest {
 async function _POST(req: Request) {
   return NextResponse.json(
     { error: 'This endpoint is deprecated. Use /api/enrollments/create-enforced.' },
-    { status: 410 }
+    { status: 410 },
   );
   try {
     const rateLimited = await applyRateLimit(req, 'contact');
     if (rateLimited) return rateLimited;
 
     if (!process.env.STRIPE_SECRET_KEY) {
-      return NextResponse.json(
-        { error: 'Payment system not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
     }
 
     const body: AutoEnrollRequest = await req.json();
     const { firstName, lastName, email, phone, programSlug, notes } = body;
 
     if (!firstName || !lastName || !email || !programSlug) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     const supabase = await createClient();
-  const db = await getAdminClient();
+    const db = await getAdminClient();
     const emailLower = email.toLowerCase();
 
     logger.info('Starting auto-enrollment', { email: emailLower, programSlug });
@@ -85,24 +79,20 @@ async function _POST(req: Request) {
     } else {
       // STEP 3: Create auth user
       const tempPassword = Math.random().toString(36).slice(-12) + 'Aa1!';
-      const { data: authData, error: authError } =
-        await supabase.auth.admin.createUser({
-          email: emailLower,
-          password: tempPassword,
-          email_confirm: true,
-          user_metadata: {
-            full_name: `${firstName} ${lastName}`,
-            first_name: firstName,
-            last_name: lastName,
-          },
-        });
+      const { data: authData, error: authError } = await supabase.auth.admin.createUser({
+        email: emailLower,
+        password: tempPassword,
+        email_confirm: true,
+        user_metadata: {
+          full_name: `${firstName} ${lastName}`,
+          first_name: firstName,
+          last_name: lastName,
+        },
+      });
 
       if (authError || !authData.user) {
         logger.error('Auth user creation failed', authError);
-        return NextResponse.json(
-          { error: 'Failed to create account' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to create account' }, { status: 500 });
       }
 
       userId = authData.user.id;
@@ -122,10 +112,7 @@ async function _POST(req: Request) {
 
       if (profileError) {
         logger.error('Profile creation failed', profileError);
-        return NextResponse.json(
-          { error: 'Failed to create profile' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to create profile' }, { status: 500 });
       }
 
       logger.info('Created new user', { userId });
@@ -148,24 +135,24 @@ async function _POST(req: Request) {
       // Idempotent upsert — safe against race conditions
       const { data: enrollment, error: enrollError } = await db
         .from('program_enrollments')
-        .upsert({
-          user_id: userId,
-          program_id: program.id,
-          status: 'active',
-          payment_status: 'waived',
-        }, {
-          onConflict: 'user_id,program_id',
-          ignoreDuplicates: false,
-        })
+        .upsert(
+          {
+            user_id: userId,
+            program_id: program.id,
+            status: 'active',
+            payment_status: 'waived',
+          },
+          {
+            onConflict: 'user_id,program_id',
+            ignoreDuplicates: false,
+          },
+        )
         .select('id')
         .single();
 
       if (enrollError) {
         logger.error('Enrollment creation failed', enrollError);
-        return NextResponse.json(
-          { error: 'Failed to create enrollment' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to create enrollment' }, { status: 500 });
       }
 
       enrollmentId = enrollment.id;
@@ -199,15 +186,16 @@ async function _POST(req: Request) {
 
       if (linkedCourses && linkedCourses.length > 0) {
         for (const course of linkedCourses) {
-          await db
-            .from('training_enrollments')
-            .upsert({
+          await db.from('training_enrollments').upsert(
+            {
               user_id: userId,
               course_id: course.id,
               status: 'active',
               progress: 0,
               enrolled_at: new Date().toISOString(),
-            }, { onConflict: 'user_id,course_id' });
+            },
+            { onConflict: 'user_id,course_id' },
+          );
         }
         logger.info('Created training_enrollments', { userId, courseCount: linkedCourses.length });
       }
@@ -256,8 +244,7 @@ async function _POST(req: Request) {
     // STEP 8: For barber program, create Stripe checkout for Elevate to pay $295
     // Note: Student doesn't pay - this is for Elevate's internal payment tracking
     if (programSlug === 'barber-apprenticeship') {
-      const siteUrl =
-        process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
+      const siteUrl = process.env.NEXT_PUBLIC_SITE_URL || 'http://localhost:3000';
 
       const session = await stripe.checkout.sessions.create({
         mode: 'payment',
@@ -294,20 +281,14 @@ async function _POST(req: Request) {
       });
 
       if (!session.url) {
-        return NextResponse.json(
-          { error: 'Failed to create checkout session' },
-          { status: 500 }
-        );
+        return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
       }
 
-      logger.info(
-        'Enrollment complete, Stripe checkout created for Elevate payment',
-        {
-          userId,
-          enrollmentId,
-          sessionId: session.id,
-        }
-      );
+      logger.info('Enrollment complete, Stripe checkout created for Elevate payment', {
+        userId,
+        enrollmentId,
+        sessionId: session.id,
+      });
 
       return NextResponse.json({
         ok: true,
@@ -339,7 +320,7 @@ async function _POST(req: Request) {
     logger.error('Auto-enrollment err', err);
     return NextResponse.json(
       { err: toErrorMessage(err) || 'Internal server err' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

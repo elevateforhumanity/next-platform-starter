@@ -4,15 +4,26 @@ import { createClient } from '@/lib/supabase/server';
 import { headers } from 'next/headers';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
-
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 // All values must match rows in the agreement_versions table.
 type AgreementType =
-  | 'eula' | 'tos' | 'aup' | 'disclosures' | 'license' | 'nda'
-  | 'mou' | 'employer_agreement' | 'staff_agreement' | 'program_holder_mou'
-  | 'enrollment' | 'handbook' | 'data_sharing' | 'ferpa' | 'participation';
+  | 'eula'
+  | 'tos'
+  | 'aup'
+  | 'disclosures'
+  | 'license'
+  | 'nda'
+  | 'mou'
+  | 'employer_agreement'
+  | 'staff_agreement'
+  | 'program_holder_mou'
+  | 'enrollment'
+  | 'handbook'
+  | 'data_sharing'
+  | 'ferpa'
+  | 'participation';
 type SignatureMethod = 'checkbox' | 'typed' | 'drawn';
 
 interface SignRequest {
@@ -43,7 +54,9 @@ async function _POST(request: NextRequest) {
     const supabase = await createClient();
 
     // Primary: cookie-based session (production).
-    let { data: { user } } = await supabase.auth.getUser();
+    let {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     // Parse body early so we can access _token for the fallback auth path.
     const body: SignRequest = await request.json();
@@ -88,7 +101,10 @@ async function _POST(request: NextRequest) {
     }
 
     if (!signer_name || signer_name.trim().length < 2) {
-      return NextResponse.json({ error: 'signer_name required (min 2 characters)' }, { status: 400 });
+      return NextResponse.json(
+        { error: 'signer_name required (min 2 characters)' },
+        { status: 400 },
+      );
     }
 
     if (!signer_email || !signer_email.includes('@')) {
@@ -109,9 +125,10 @@ async function _POST(request: NextRequest) {
 
     // Get request metadata
     const headersList = await headers();
-    const ip_address = headersList.get('x-forwarded-for')?.split(',')[0] ||
-                       headersList.get('x-real-ip') ||
-                       'unknown';
+    const ip_address =
+      headersList.get('x-forwarded-for')?.split(',')[0] ||
+      headersList.get('x-real-ip') ||
+      'unknown';
     const user_agent = headersList.get('user-agent') || 'unknown';
 
     // Get current versions for each agreement type
@@ -138,8 +155,8 @@ async function _POST(request: NextRequest) {
 
     // Create acceptance records with signature data
     // Note: Only include columns that exist in the table
-    const acceptances = agreements.map(agreementType => {
-      const version = versions?.find(v => v.agreement_type === agreementType);
+    const acceptances = agreements.map((agreementType) => {
+      const version = versions?.find((v) => v.agreement_type === agreementType);
       return {
         user_id: user.id,
         organization_id: organization_id || null,
@@ -149,7 +166,12 @@ async function _POST(request: NextRequest) {
         signer_name: signer_name.trim(),
         signer_email: signer_email.trim().toLowerCase(),
         signature_method,
-        signature_data: signature_method === 'drawn' ? signature_data : (signature_method === 'typed' ? signature_typed?.trim() : null),
+        signature_data:
+          signature_method === 'drawn'
+            ? signature_data
+            : signature_method === 'typed'
+              ? signature_typed?.trim()
+              : null,
         // Metadata
         accepted_at: timestamp,
         ip_address,
@@ -208,7 +230,6 @@ async function _POST(request: NextRequest) {
       ip_address,
       message: `Successfully signed ${agreements.length} agreement(s)`,
     });
-
   } catch (error) {
     logger.error('Agreement signing error:', error);
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });

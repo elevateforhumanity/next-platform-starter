@@ -6,7 +6,8 @@ import { FileText, Download, ClipboardList, UserPlus, Shield, Building2 } from '
 export const metadata: Metadata = {
   alternates: { canonical: 'https://www.elevateforhumanity.org/forms' },
   title: 'Forms & Documents | Elevate For Humanity',
-  description: 'Download enrollment forms, funding applications, compliance documents, and program-specific forms.',
+  description:
+    'Download enrollment forms, funding applications, compliance documents, and program-specific forms.',
 };
 
 const FORM_CATEGORIES = [
@@ -15,7 +16,10 @@ const FORM_CATEGORIES = [
     icon: UserPlus,
     forms: [
       { name: 'Student Enrollment Application', desc: 'Required for all new students.' },
-      { name: 'Program Change Request', desc: 'Request to switch to a different training program.' },
+      {
+        name: 'Program Change Request',
+        desc: 'Request to switch to a different training program.',
+      },
       { name: 'Withdrawal Form', desc: 'Formal withdrawal from a training program.' },
     ],
   },
@@ -23,9 +27,18 @@ const FORM_CATEGORIES = [
     title: 'Financial Aid & Funding',
     icon: ClipboardList,
     forms: [
-      { name: 'WIOA Eligibility Checklist', desc: 'Documents needed for WIOA funding determination.' },
-      { name: 'Supportive Services Request', desc: 'Request transportation, childcare, or other support.' },
-      { name: 'Third-Party Payment Authorization', desc: 'For employer or agency-sponsored students.' },
+      {
+        name: 'WIOA Eligibility Checklist',
+        desc: 'Documents needed for WIOA funding determination.',
+      },
+      {
+        name: 'Supportive Services Request',
+        desc: 'Request transportation, childcare, or other support.',
+      },
+      {
+        name: 'Third-Party Payment Authorization',
+        desc: 'For employer or agency-sponsored students.',
+      },
     ],
   },
   {
@@ -60,7 +73,9 @@ export default function FormsPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <FileText className="w-10 h-10 mx-auto mb-4 text-gray-300" />
           <h1 className="text-3xl md:text-4xl font-bold mb-3">Forms & Documents</h1>
-          <p className="text-slate-600 text-lg">Download the forms you need for enrollment, funding, compliance, and partnerships.</p>
+          <p className="text-slate-600 text-lg">
+            Download the forms you need for enrollment, funding, compliance, and partnerships.
+          </p>
         </div>
       </section>
 
@@ -77,7 +92,10 @@ export default function FormsPage() {
                 </div>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
                   {cat.forms.map((form) => (
-                    <div key={form.name} className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-sm transition-all">
+                    <div
+                      key={form.name}
+                      className="bg-white border border-gray-200 rounded-lg p-5 hover:shadow-sm transition-all"
+                    >
                       <h3 className="font-semibold text-gray-900 mb-1 text-sm">{form.name}</h3>
                       <p className="text-gray-500 text-xs mb-3">{form.desc}</p>
                       <span className="text-brand-blue-600 text-xs font-medium inline-flex items-center gap-1">
@@ -96,8 +114,15 @@ export default function FormsPage() {
       {/* Contact */}
       <section className="py-12">
         <div className="max-w-3xl mx-auto px-4 text-center">
-          <p className="text-gray-600 mb-4">Need a form not listed here? Contact our enrollment team.</p>
-          <Link href="/contact" className="bg-brand-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition">Contact Us</Link>
+          <p className="text-gray-600 mb-4">
+            Need a form not listed here? Contact our enrollment team.
+          </p>
+          <Link
+            href="/contact"
+            className="bg-brand-blue-600 text-white px-6 py-3 rounded-lg font-semibold hover:bg-brand-blue-700 transition"
+          >
+            Contact Us
+          </Link>
         </div>
       </section>
     </div>

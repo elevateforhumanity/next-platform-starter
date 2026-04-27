@@ -1,14 +1,7 @@
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
 import { Metadata } from 'next';
-import {
-  ChevronRight,
-  Search,
-  Filter,
-  ShoppingCart,
-  Star,
-  Package,
-} from 'lucide-react';
+import { ChevronRight, Search, Filter, ShoppingCart, Star, Package } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { logger } from '@/lib/logger';
 
@@ -35,7 +28,6 @@ interface Product {
 export default async function ProductsPage() {
   const supabase = await createClient();
 
-
   // Fetch products from database
   const { data: productsData, error } = await supabase
     .from('products')
@@ -61,7 +53,7 @@ export default async function ProductsPage() {
   }));
 
   // Get unique categories from products
-  const categories = ['All', ...new Set(products.map(p => p.category).filter(Boolean))];
+  const categories = ['All', ...new Set(products.map((p) => p.category).filter(Boolean))];
 
   return (
     <div className="min-h-screen bg-white">
@@ -127,7 +119,10 @@ export default async function ProductsPage() {
         {products.length > 0 ? (
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
             {products.map((product) => (
-              <div key={product.id} className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow">
+              <div
+                key={product.id}
+                className="bg-white rounded-xl shadow-sm border border-gray-200 overflow-hidden hover:shadow-md transition-shadow"
+              >
                 <div className="h-40 bg-white flex items-center justify-center relative">
                   <Package className="w-16 h-16 text-gray-300" />
                   {!product.in_stock && (
@@ -160,7 +155,9 @@ export default async function ProductsPage() {
                     <div className="flex items-center gap-2">
                       <span className="text-lg font-bold text-gray-900">${product.price}</span>
                       {product.original_price && (
-                        <span className="text-sm text-slate-500 line-through">${product.original_price}</span>
+                        <span className="text-sm text-slate-500 line-through">
+                          ${product.original_price}
+                        </span>
                       )}
                     </div>
                     <button
@@ -178,7 +175,9 @@ export default async function ProductsPage() {
           <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-12 text-center">
             <Package className="w-16 h-16 text-gray-300 mx-auto mb-4" />
             <h2 className="text-xl font-semibold text-gray-900 mb-2">No products available</h2>
-            <p className="text-gray-600 mb-6">No products available yet. Contact us to request learning materials.</p>
+            <p className="text-gray-600 mb-6">
+              No products available yet. Contact us to request learning materials.
+            </p>
             <Link href="/shop" className="text-brand-blue-600 hover:underline">
               Return to Shop
             </Link>

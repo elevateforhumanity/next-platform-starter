@@ -2,14 +2,10 @@ const https = require('https');
 const fs = require('fs');
 
 // Load autopilot configuration
-const config = JSON.parse(
-  fs.readFileSync('autopilot-cloudflare-setup.json', 'utf8')
-);
-
+const config = JSON.parse(fs.readFileSync('autopilot-cloudflare-setup.json', 'utf8'));
 
 // Execute autopilot tasks
 async function executeAutopilot() {
-
   try {
     await createPagesProject();
 
@@ -17,12 +13,9 @@ async function executeAutopilot() {
 
     await configureDNS();
 
-    config.expected_outcome.check_urls.forEach((url) => {
-    });
+    config.expected_outcome.check_urls.forEach((url) => {});
 
-
-    config.expected_outcome.features.forEach((feature) => {
-    });
+    config.expected_outcome.features.forEach((feature) => {});
   } catch (error) {
     showManualInstructions();
   }
@@ -67,16 +60,11 @@ function createPagesProject() {
           const response = JSON.parse(data);
           if (
             response.success ||
-            (response.errors &&
-              response.errors[0].message.includes('already exists'))
+            (response.errors && response.errors[0].message.includes('already exists'))
           ) {
             resolve(response);
           } else {
-            reject(
-              new Error(
-                response.errors ? response.errors[0].message : 'Unknown error'
-              )
-            );
+            reject(new Error(response.errors ? response.errors[0].message : 'Unknown error'));
           }
         } catch (error) {
           reject(error);
@@ -105,8 +93,7 @@ function configureDNS() {
   });
 }
 
-function showManualInstructions() {
-}
+function showManualInstructions() {}
 
 // Execute autopilot
 executeAutopilot();

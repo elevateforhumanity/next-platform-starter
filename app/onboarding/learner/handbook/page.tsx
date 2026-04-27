@@ -164,12 +164,15 @@ export default function HandbookPage() {
     const supabase = createClient();
 
     supabase.auth.getUser().then(({ data, error: authErr }) => {
-      if (authErr || !data?.user) { router.push('/login?redirect=' + encodeURIComponent(window.location.pathname)); return; }
+      if (authErr || !data?.user) {
+        router.push('/login?redirect=' + encodeURIComponent(window.location.pathname));
+        return;
+      }
       setUserId(data.user.id);
 
       fetch('/api/compliance/record?type=handbook')
-        .then(res => res.json())
-        .then(result => {
+        .then((res) => res.json())
+        .then((result) => {
           if (result.data && result.data.length > 0) setAlreadyAcknowledged(true);
           setLoading(false);
         })
@@ -179,18 +182,20 @@ export default function HandbookPage() {
 
   const toggleExpand = (id: string) => {
     const next = new Set(expanded);
-    if (next.has(id)) next.delete(id); else next.add(id);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
     setExpanded(next);
   };
 
   const toggleAcknowledge = (id: string) => {
     const next = new Set(acknowledged);
-    if (next.has(id)) next.delete(id); else next.add(id);
+    if (next.has(id)) next.delete(id);
+    else next.add(id);
     setAcknowledged(next);
 
     // Auto-expand next unacknowledged section
     if (!next.has(id)) return;
-    const currentIdx = HANDBOOK_SECTIONS.findIndex(s => s.id === id);
+    const currentIdx = HANDBOOK_SECTIONS.findIndex((s) => s.id === id);
     for (let i = currentIdx + 1; i < HANDBOOK_SECTIONS.length; i++) {
       if (!next.has(HANDBOOK_SECTIONS[i].id)) {
         const expandNext = new Set(expanded);
@@ -201,7 +206,7 @@ export default function HandbookPage() {
     }
   };
 
-  const allAcknowledged = HANDBOOK_SECTIONS.every(s => acknowledged.has(s.id));
+  const allAcknowledged = HANDBOOK_SECTIONS.every((s) => acknowledged.has(s.id));
 
   const handleSubmit = async () => {
     if (!allAcknowledged || !userId) return;
@@ -239,7 +244,10 @@ export default function HandbookPage() {
   return (
     <div className="min-h-screen bg-white">
       {/* VIDEO HERO — full bleed, no text on top */}
-      <div className="relative w-full overflow-hidden" style={{ height: '55vh', minHeight: 280, maxHeight: 480 }}>
+      <div
+        className="relative w-full overflow-hidden"
+        style={{ height: '55vh', minHeight: 280, maxHeight: 480 }}
+      >
         <CanonicalVideo
           src="/videos/elevate-overview-with-narration.mp4"
           poster="/images/pages/onboarding-page-1.jpg"
@@ -248,15 +256,20 @@ export default function HandbookPage() {
       </div>
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[
-            { label: 'Onboarding', href: '/onboarding/learner' },
-            { label: 'Student Handbook' },
-          ]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Onboarding', href: '/onboarding/learner' },
+              { label: 'Student Handbook' },
+            ]}
+          />
         </div>
       </div>
 
       <div className="max-w-3xl mx-auto px-4 py-8">
-        <Link href="/onboarding/learner" className="text-sm text-brand-blue-600 flex items-center gap-1 mb-6">
+        <Link
+          href="/onboarding/learner"
+          className="text-sm text-brand-blue-600 flex items-center gap-1 mb-6"
+        >
           <ArrowLeft className="w-4 h-4" /> Back to Onboarding
         </Link>
 
@@ -265,8 +278,9 @@ export default function HandbookPage() {
           <h1 className="text-2xl font-bold text-slate-900">Student Handbook</h1>
         </div>
         <p className="text-slate-700 mb-6">
-          Read each section below and check the box to confirm you have read and understand the policy.
-          You must acknowledge all {HANDBOOK_SECTIONS.length} sections to complete this step.
+          Read each section below and check the box to confirm you have read and understand the
+          policy. You must acknowledge all {HANDBOOK_SECTIONS.length} sections to complete this
+          step.
         </p>
 
         {alreadyAcknowledged && (
@@ -276,9 +290,14 @@ export default function HandbookPage() {
             </div>
             <div className="flex-1 text-center sm:text-left">
               <h2 className="text-lg font-bold text-slate-900 mb-1">Handbook Acknowledged</h2>
-              <p className="text-slate-500 text-sm">You have acknowledged all sections of the student handbook.</p>
+              <p className="text-slate-500 text-sm">
+                You have acknowledged all sections of the student handbook.
+              </p>
             </div>
-            <Link href="/onboarding/learner" className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 flex-shrink-0">
+            <Link
+              href="/onboarding/learner"
+              className="inline-flex items-center gap-2 px-5 py-2.5 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 flex-shrink-0"
+            >
               Continue <ArrowLeft className="w-4 h-4 rotate-180" />
             </Link>
           </div>
@@ -290,7 +309,9 @@ export default function HandbookPage() {
             <div className="bg-gray-50 border border-gray-200 rounded-lg p-4 mb-6">
               <div className="flex justify-between text-sm mb-2">
                 <span className="font-medium text-slate-900">Sections Acknowledged</span>
-                <span className="text-slate-700">{acknowledged.size} of {HANDBOOK_SECTIONS.length}</span>
+                <span className="text-slate-700">
+                  {acknowledged.size} of {HANDBOOK_SECTIONS.length}
+                </span>
               </div>
               <div className="h-2 bg-gray-200 rounded-full overflow-hidden">
                 <div
@@ -307,21 +328,34 @@ export default function HandbookPage() {
                 const isAcked = acknowledged.has(section.id);
 
                 return (
-                  <div key={section.id} className={`border rounded-xl overflow-hidden ${isAcked ? 'border-brand-blue-300 bg-brand-blue-50' : 'border-gray-200 bg-white'}`}>
+                  <div
+                    key={section.id}
+                    className={`border rounded-xl overflow-hidden ${isAcked ? 'border-brand-blue-300 bg-brand-blue-50' : 'border-gray-200 bg-white'}`}
+                  >
                     <button
                       type="button"
                       onClick={() => toggleExpand(section.id)}
                       className="w-full p-4 flex items-center gap-3 text-left hover:bg-gray-50 transition-colors"
                     >
-                      <div className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isAcked ? 'bg-brand-blue-600' : 'bg-gray-100'}`}>
-                        {isAcked
-                          ? <CheckCircle2 className="w-4 h-4 text-white" />
-                          : <BookOpen className="w-4 h-4 text-slate-700" />}
+                      <div
+                        className={`flex-shrink-0 w-8 h-8 rounded-full flex items-center justify-center ${isAcked ? 'bg-brand-blue-600' : 'bg-gray-100'}`}
+                      >
+                        {isAcked ? (
+                          <CheckCircle2 className="w-4 h-4 text-white" />
+                        ) : (
+                          <BookOpen className="w-4 h-4 text-slate-700" />
+                        )}
                       </div>
-                      <span className={`flex-1 font-semibold ${isAcked ? 'text-brand-blue-900' : 'text-slate-900'}`}>
+                      <span
+                        className={`flex-1 font-semibold ${isAcked ? 'text-brand-blue-900' : 'text-slate-900'}`}
+                      >
                         {section.title}
                       </span>
-                      {isExpanded ? <ChevronUp className="w-5 h-5 text-slate-700" /> : <ChevronDown className="w-5 h-5 text-slate-700" />}
+                      {isExpanded ? (
+                        <ChevronUp className="w-5 h-5 text-slate-700" />
+                      ) : (
+                        <ChevronDown className="w-5 h-5 text-slate-700" />
+                      )}
                     </button>
 
                     {isExpanded && (
@@ -349,7 +383,9 @@ export default function HandbookPage() {
 
             {/* Submit */}
             {error && (
-              <div className="mt-4 bg-brand-red-50 border border-brand-red-200 rounded-lg p-3 text-brand-red-700 text-sm">{error}</div>
+              <div className="mt-4 bg-brand-red-50 border border-brand-red-200 rounded-lg p-3 text-brand-red-700 text-sm">
+                {error}
+              </div>
             )}
 
             <div className="mt-6 text-center">
@@ -362,10 +398,13 @@ export default function HandbookPage() {
                     : 'bg-gray-300 text-slate-700 cursor-not-allowed'
                 }`}
               >
-                {submitting ? 'Submitting...' : `Acknowledge All ${HANDBOOK_SECTIONS.length} Sections`}
+                {submitting
+                  ? 'Submitting...'
+                  : `Acknowledge All ${HANDBOOK_SECTIONS.length} Sections`}
               </button>
               <p className="text-xs text-slate-700 mt-2">
-                Version {HANDBOOK_VERSION} — Your acknowledgment is recorded with timestamp for compliance purposes.
+                Version {HANDBOOK_VERSION} — Your acknowledgment is recorded with timestamp for
+                compliance purposes.
               </p>
             </div>
           </>

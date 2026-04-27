@@ -62,7 +62,9 @@ function resolveChatProvider(): AIProvider {
     }
   }
 
-  throw new Error('No AI chat provider available. Set OPENAI_API_KEY, GEMINI_API_KEY, or AZURE_OPENAI_API_KEY.');
+  throw new Error(
+    'No AI chat provider available. Set OPENAI_API_KEY, GEMINI_API_KEY, or AZURE_OPENAI_API_KEY.',
+  );
 }
 
 function resolveImageProvider(): AIImageProvider {
@@ -139,7 +141,10 @@ Return ONLY a JSON array, no markdown fences.`,
   });
 
   try {
-    const cleaned = result.content.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
+    const cleaned = result.content
+      .replace(/```json?\n?/g, '')
+      .replace(/```/g, '')
+      .trim();
     return JSON.parse(cleaned);
   } catch {
     logger.error('Failed to parse quiz generation response');
@@ -174,10 +179,18 @@ Passing threshold is 80%. Be specific in feedback. Return ONLY JSON.`,
   });
 
   try {
-    const cleaned = result.content.replace(/```json?\n?/g, '').replace(/```/g, '').trim();
+    const cleaned = result.content
+      .replace(/```json?\n?/g, '')
+      .replace(/```/g, '')
+      .trim();
     return JSON.parse(cleaned);
   } catch {
-    return { score: 0, maxScore, feedback: 'Unable to grade automatically. Please contact your instructor.', passed: false };
+    return {
+      score: 0,
+      maxScore,
+      feedback: 'Unable to grade automatically. Please contact your instructor.',
+      passed: false,
+    };
   }
 }
 

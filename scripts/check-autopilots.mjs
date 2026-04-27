@@ -24,8 +24,7 @@ const colors = {
   cyan: '\x1b[36m',
 };
 
-function log(msg, color = 'reset') {
-}
+function log(msg, color = 'reset') {}
 
 function section(title) {
   log(`\n${'='.repeat(70)}`, 'cyan');
@@ -196,12 +195,10 @@ async function checkAutopilots() {
 async function checkPackageJsonIntegration() {
   section('📦 PACKAGE.JSON INTEGRATION');
 
-  const packageJson = JSON.parse(
-    await fs.readFile(path.join(ROOT, 'package.json'), 'utf-8')
-  );
+  const packageJson = JSON.parse(await fs.readFile(path.join(ROOT, 'package.json'), 'utf-8'));
 
-  const autopilotScripts = Object.entries(packageJson.scripts || {}).filter(
-    ([key]) => key.includes('autopilot')
+  const autopilotScripts = Object.entries(packageJson.scripts || {}).filter(([key]) =>
+    key.includes('autopilot'),
   );
 
   if (autopilotScripts.length > 0) {
@@ -212,7 +209,6 @@ async function checkPackageJsonIntegration() {
   } else {
     log('⚠️  No autopilot scripts in package.json', 'yellow');
   }
-
 
   // Check postbuild integration
   const postbuild = packageJson.scripts?.postbuild;
@@ -266,13 +262,12 @@ async function generateReport(results) {
   section('📊 SUMMARY REPORT');
 
   log(
-    `Total Autopilots: ${results.active.length + results.configured.length + results.missing.length + results.notExecutable.length}`
+    `Total Autopilots: ${results.active.length + results.configured.length + results.missing.length + results.notExecutable.length}`,
   );
   log(`✅ Active (integrated in build): ${results.active.length}`, 'green');
   log(`🔧 Configured (manual run): ${results.configured.length}`, 'blue');
   log(`⚠️  Not Executable: ${results.notExecutable.length}`, 'yellow');
   log(`❌ Missing: ${results.missing.length}`, 'red');
-
 
   if (results.active.length > 0) {
     log('Active Autopilots (run automatically):', 'green');

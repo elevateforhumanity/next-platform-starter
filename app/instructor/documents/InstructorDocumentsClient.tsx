@@ -5,13 +5,29 @@ import { createClient } from '@/lib/supabase/client';
 import { Upload, CheckCircle, Clock, XCircle, FileText } from 'lucide-react';
 
 const DOCUMENT_TYPES = [
-  { key: 'government_id',             label: 'Government-Issued ID',        description: 'Driver\'s license, passport, or state ID' },
-  { key: 'instructor_certification',  label: 'Instructor Certification',     description: 'Teaching certificate or professional credential' },
-  { key: 'instructor_license',        label: 'Professional License',         description: 'State or industry license relevant to your program' },
-  { key: 'background_check',          label: 'Background Check Authorization', description: 'Signed authorization form for background screening' },
+  {
+    key: 'government_id',
+    label: 'Government-Issued ID',
+    description: "Driver's license, passport, or state ID",
+  },
+  {
+    key: 'instructor_certification',
+    label: 'Instructor Certification',
+    description: 'Teaching certificate or professional credential',
+  },
+  {
+    key: 'instructor_license',
+    label: 'Professional License',
+    description: 'State or industry license relevant to your program',
+  },
+  {
+    key: 'background_check',
+    label: 'Background Check Authorization',
+    description: 'Signed authorization form for background screening',
+  },
 ] as const;
 
-type DocType = typeof DOCUMENT_TYPES[number]['key'];
+type DocType = (typeof DOCUMENT_TYPES)[number]['key'];
 
 interface ExistingDoc {
   id: string;
@@ -28,9 +44,9 @@ interface Props {
 }
 
 const STATUS_ICON: Record<string, React.ReactNode> = {
-  approved:  <CheckCircle className="w-4 h-4 text-emerald-600" />,
-  pending:   <Clock className="w-4 h-4 text-amber-500" />,
-  rejected:  <XCircle className="w-4 h-4 text-red-500" />,
+  approved: <CheckCircle className="w-4 h-4 text-emerald-600" />,
+  pending: <Clock className="w-4 h-4 text-amber-500" />,
+  rejected: <XCircle className="w-4 h-4 text-red-500" />,
 };
 
 export default function InstructorDocumentsClient({ userId, existingDocs, focusType }: Props) {
@@ -39,7 +55,7 @@ export default function InstructorDocumentsClient({ userId, existingDocs, focusT
   const [error, setError] = useState<string | null>(null);
   const fileRefs = useRef<Record<string, HTMLInputElement | null>>({});
 
-  const getDoc = (type: string) => docs.find(d => d.document_type === type);
+  const getDoc = (type: string) => docs.find((d) => d.document_type === type);
 
   const handleUpload = async (type: DocType, file: File) => {
     setUploading(type);
@@ -56,19 +72,22 @@ export default function InstructorDocumentsClient({ userId, existingDocs, focusT
 
       const { data, error: dbError } = await supabase
         .from('documents')
-        .upsert({
-          user_id: userId,
-          document_type: type,
-          file_name: file.name,
-          storage_path: path,
-          status: 'pending',
-        }, { onConflict: 'user_id,document_type' })
+        .upsert(
+          {
+            user_id: userId,
+            document_type: type,
+            file_name: file.name,
+            storage_path: path,
+            status: 'pending',
+          },
+          { onConflict: 'user_id,document_type' },
+        )
         .select('id, document_type, file_name, created_at, status')
         .single();
       if (dbError) throw dbError;
 
-      setDocs(prev => {
-        const filtered = prev.filter(d => d.document_type !== type);
+      setDocs((prev) => {
+        const filtered = prev.filter((d) => d.document_type !== type);
         return data ? [...filtered, data] : filtered;
       });
     } catch (err: any) {
@@ -86,7 +105,7 @@ export default function InstructorDocumentsClient({ userId, existingDocs, focusT
         </div>
       )}
 
-      {DOCUMENT_TYPES.map(dt => {
+      {DOCUMENT_TYPES.map((dt) => {
         const existing = getDoc(dt.key);
         const isUploading = uploading === dt.key;
         const isFocus = focusType === dt.key;
@@ -111,19 +130,19 @@ export default function InstructorDocumentsClient({ userId, existingDocs, focusT
                 </div>
                 <p className="text-xs text-slate-500 mt-0.5 ml-6">{dt.description}</p>
                 {existing && (
-                  <p className="text-xs text-slate-400 mt-1 ml-6 truncate">
-                    {existing.file_name}
-                  </p>
+                  <p className="text-xs text-slate-400 mt-1 ml-6 truncate">{existing.file_name}</p>
                 )}
               </div>
 
               <div className="shrink-0">
                 <input
-                  ref={el => { fileRefs.current[dt.key] = el; }}
+                  ref={(el) => {
+                    fileRefs.current[dt.key] = el;
+                  }}
                   type="file"
                   accept=".pdf,.jpg,.jpeg,.png,.doc,.docx"
                   className="hidden"
-                  onChange={e => {
+                  onChange={(e) => {
                     const file = e.target.files?.[0];
                     if (file) handleUpload(dt.key, file);
                     e.target.value = '';
@@ -145,7 +164,8 @@ export default function InstructorDocumentsClient({ userId, existingDocs, focusT
       })}
 
       <p className="text-xs text-slate-400 pt-2">
-        Accepted formats: PDF, JPG, PNG, DOC, DOCX · Max 10 MB per file · Files are reviewed within 2 business days.
+        Accepted formats: PDF, JPG, PNG, DOC, DOCX · Max 10 MB per file · Files are reviewed within
+        2 business days.
       </p>
     </div>
   );

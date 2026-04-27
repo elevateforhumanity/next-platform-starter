@@ -93,7 +93,7 @@ export default function VideoInterview() {
         body: formData,
       });
       if (response.ok) {
-        // 
+        //
       }
     } catch (error) {
       // Error: $1
@@ -122,12 +122,10 @@ export default function VideoInterview() {
       <div className="max-w-3xl mx-auto p-6 text-center">
         <div className="bg-green-50 border-2 border-green-500 rounded-lg p-8">
           <div className="text-6xl mb-4 text-4xl md:text-5xl lg:text-6xl">✅</div>
-          <h2 className="text-3xl font-bold text-brand-success mb-4">
-            Interview Complete!
-          </h2>
+          <h2 className="text-3xl font-bold text-brand-success mb-4">Interview Complete!</h2>
           <p className="text-lg text-brand-text mb-6">
-            Thank you for completing your video interview. Our team will review
-            your responses and contact you within 2-3 business days.
+            Thank you for completing your video interview. Our team will review your responses and
+            contact you within 2-3 business days.
           </p>
           <div className="bg-white p-4 rounded-lg">
             <h3 className="font-bold mb-2">What's Next?</h3>
@@ -151,8 +149,7 @@ export default function VideoInterview() {
             Question {currentQuestion + 1} of {questions.length}
           </span>
           <span className="text-sm text-brand-text-muted">
-            {Math.round(((currentQuestion + 1) / questions.length) * 100)}%
-            Complete
+            {Math.round(((currentQuestion + 1) / questions.length) * 100)}% Complete
           </span>
         </div>
         <div className="w-full bg-brand-border rounded-full h-2">
@@ -166,17 +163,15 @@ export default function VideoInterview() {
       </div>
       {/* Question Card */}
       <div className="bg-white rounded-lg shadow-lg p-6 mb-6">
-        <h2 className="text-2xl font-bold mb-4">
-          {questions[currentQuestion].text}
-        </h2>
+        <h2 className="text-2xl font-bold mb-4">{questions[currentQuestion].text}</h2>
         <div className="bg-blue-50 border-l-4 border-blue-500 p-4 mb-4">
           <p className="text-sm text-brand-info">
             💡 <strong>Tip:</strong> {questions[currentQuestion].tips}
           </p>
         </div>
         <p className="text-brand-text-muted">
-          You have <strong>2 minutes</strong> to answer. Take a moment to think
-          before you start recording.
+          You have <strong>2 minutes</strong> to answer. Take a moment to think before you start
+          recording.
         </p>
       </div>
       {/* Video Container */}
@@ -237,9 +232,7 @@ export default function VideoInterview() {
             >
               <span>✅</span>
               <span>
-                {currentQuestion < questions.length - 1
-                  ? 'Next Question'
-                  : 'Complete Interview'}
+                {currentQuestion < questions.length - 1 ? 'Next Question' : 'Complete Interview'}
               </span>
             </button>
           </div>

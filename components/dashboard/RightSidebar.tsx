@@ -1,17 +1,9 @@
-"use client";
+'use client';
 
 import React from 'react';
 
 import { useState, useEffect } from 'react';
-import {
-  Calendar,
-  Clock,
-  Bell,
-  TrendingUp,
-  Award,
-  Target,
-  AlertCircle,
-} from 'lucide-react';
+import { Calendar, Clock, Bell, TrendingUp, Award, Target, AlertCircle } from 'lucide-react';
 import Link from 'next/link';
 import { createBrowserClient } from '@supabase/ssr';
 
@@ -53,7 +45,7 @@ export function RightSidebar() {
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL || '',
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || ''
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || '',
   );
 
   useEffect(() => {
@@ -79,7 +71,8 @@ export function RightSidebar() {
 
       // Load notifications count
       await loadNotifications(user.id);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     } finally {
       setLoading(false);
@@ -99,7 +92,7 @@ export function RightSidebar() {
         courses (
           title
         )
-      `
+      `,
       )
       .gte('due_date', new Date().toISOString())
       .order('due_date', { ascending: true })
@@ -246,9 +239,7 @@ export function RightSidebar() {
                 href={`/lms/courses/${deadline.courseId}`}
                 className="block border-l-2 border-brand-orange-400 pl-3 hover:bg-slate-50 -ml-4 pl-4 py-2 transition"
               >
-                <p className="text-sm font-medium text-black">
-                  {deadline.title}
-                </p>
+                <p className="text-sm font-medium text-black">{deadline.title}</p>
                 <p className="text-xs text-black">{deadline.courseTitle}</p>
                 <p className="text-xs text-brand-orange-600 font-medium mt-1">
                   {formatDate(deadline.dueDate)}
@@ -266,9 +257,7 @@ export function RightSidebar() {
           Calendar
         </h3>
         <div className="text-center">
-          <div className="text-3xl font-bold text-black">
-            {new Date().getDate()}
-          </div>
+          <div className="text-3xl font-bold text-black">{new Date().getDate()}</div>
           <div className="text-sm text-black">
             {new Date().toLocaleDateString('en-US', {
               month: 'long',

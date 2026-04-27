@@ -1,4 +1,3 @@
-
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
@@ -23,10 +22,7 @@ export const GET = protectTestEndpoint(async () => {
       clientCreated = true;
 
       // Try a simple query
-      const { data, error }: any = await supabase
-        .from('applications')
-        .select('count')
-        .limit(1);
+      const { data, error }: any = await supabase.from('applications').select('count').limit(1);
 
       return NextResponse.json({
         status: 'success',
@@ -43,7 +39,7 @@ export const GET = protectTestEndpoint(async () => {
           querySuccess: !error,
           error: error
             ? {
-                code: (error as any)?.code || "UNKNOWN",
+                code: (error as any)?.code || 'UNKNOWN',
                 message: error instanceof Error ? error.message : String(error),
                 details: error.details,
                 hint: error.hint,
@@ -51,7 +47,8 @@ export const GET = protectTestEndpoint(async () => {
             : null,
         },
       });
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       clientError = error instanceof Error ? error.message : String(error);
       return NextResponse.json({
         status: 'error',
@@ -67,7 +64,8 @@ export const GET = protectTestEndpoint(async () => {
         },
       });
     }
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return NextResponse.json({
       status: 'error',
       message: error instanceof Error ? error.message : String(error),

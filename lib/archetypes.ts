@@ -111,20 +111,9 @@ export const ARCHETYPES: Record<ArchetypeKey, ArchetypeRule> = {
   policy_compliance_legal: {
     key: 'policy_compliance_legal',
     label: 'Policy / Compliance / Legal',
-    requiredSections: [
-      'hero',
-      'purpose',
-      'core_sections',
-      'metadata',
-      'accessibility',
-    ],
+    requiredSections: ['hero', 'purpose', 'core_sections', 'metadata', 'accessibility'],
     metadataPrefix: 'Policy',
-    routeMatchers: [
-      /^\/policies(\/.*)?$/,
-      /^\/legal(\/.*)?$/,
-      /^\/privacy$/,
-      /^\/terms$/,
-    ],
+    routeMatchers: [/^\/policies(\/.*)?$/, /^\/legal(\/.*)?$/, /^\/privacy$/, /^\/terms$/],
     mustIncludeTokens: ['Effective date', 'Contact'],
   },
 
@@ -140,11 +129,7 @@ export const ARCHETYPES: Record<ArchetypeKey, ArchetypeRule> = {
       'accessibility',
     ],
     metadataPrefix: 'Partners',
-    routeMatchers: [
-      /^\/partners(\/.*)?$/,
-      /^\/employers(\/.*)?$/,
-      /^\/agencies(\/.*)?$/,
-    ],
+    routeMatchers: [/^\/partners(\/.*)?$/, /^\/employers(\/.*)?$/, /^\/agencies(\/.*)?$/],
     mustIncludeTokens: ['Partnership', 'Request', 'Contact'],
   },
 
@@ -165,19 +150,9 @@ export const ARCHETYPES: Record<ArchetypeKey, ArchetypeRule> = {
   reporting_admin_ops: {
     key: 'reporting_admin_ops',
     label: 'Reporting / Admin / Ops',
-    requiredSections: [
-      'hero',
-      'purpose',
-      'core_sections',
-      'metadata',
-      'accessibility',
-    ],
+    requiredSections: ['hero', 'purpose', 'core_sections', 'metadata', 'accessibility'],
     metadataPrefix: 'Admin',
-    routeMatchers: [
-      /^\/admin(\/.*)?$/,
-      /^\/ops(\/.*)?$/,
-      /^\/reports?(\/.*)?$/,
-    ],
+    routeMatchers: [/^\/admin(\/.*)?$/, /^\/ops(\/.*)?$/, /^\/reports?(\/.*)?$/],
     requiresServerAuth: true,
     requiresRoleGate: true,
     mustIncludeTokens: ['Export', 'Audit', 'Filters'],
@@ -195,13 +170,7 @@ export const ARCHETYPES: Record<ArchetypeKey, ArchetypeRule> = {
       'accessibility',
     ],
     metadataPrefix: 'Info',
-    routeMatchers: [
-      /^\/$/,
-      /^\/about$/,
-      /^\/contact$/,
-      /^\/impact$/,
-      /^\/donate$/,
-    ],
+    routeMatchers: [/^\/$/, /^\/about$/, /^\/contact$/, /^\/impact$/, /^\/donate$/],
   },
 
   system_utility_error: {
@@ -209,13 +178,7 @@ export const ARCHETYPES: Record<ArchetypeKey, ArchetypeRule> = {
     label: 'System / Utility / Error States',
     requiredSections: ['purpose', 'core_sections', 'metadata', 'accessibility'],
     metadataPrefix: 'System',
-    routeMatchers: [
-      /^\/sitemap\.xml$/,
-      /^\/robots\.txt$/,
-      /^\/404$/,
-      /^\/500$/,
-      /^\/status$/,
-    ],
+    routeMatchers: [/^\/sitemap\.xml$/, /^\/robots\.txt$/, /^\/404$/, /^\/500$/, /^\/status$/],
   },
 };
 

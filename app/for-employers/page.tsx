@@ -63,18 +63,41 @@ export default async function ForEmployersPage() {
 
       {/* Hero */}
       <section className="relative h-[200px] sm:h-[260px] w-full overflow-hidden">
-        <Image src="/images/pages/for-employers-page-1.jpg" alt="Employer partner meeting with Elevate for Humanity team" fill className="object-cover" priority sizes="100vw" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/for-employers-page-1.jpg"
+          alt="Employer partner meeting with Elevate for Humanity team"
+          fill
+          className="object-cover"
+          priority
+          sizes="100vw"
+        />
       </section>
       <div className="bg-white border-b border-slate-200 py-8 px-4">
         <div className="max-w-6xl mx-auto">
-          <p className="text-green-600 font-bold text-xs uppercase tracking-widest mb-2">For Employers</p>
-          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900">Hire. Sponsor. Train.<br />Three ways to work with the Elevate OS.</h1>
-          <p className="text-slate-600 mt-2 max-w-3xl">Access our talent pipeline of job-ready candidates trained in healthcare, skilled trades, technology, and business. No recruitment fees. WIOA and WOTC eligible.</p>
+          <p className="text-green-600 font-bold text-xs uppercase tracking-widest mb-2">
+            For Employers
+          </p>
+          <h1 className="text-3xl sm:text-4xl font-extrabold text-slate-900">
+            Hire. Sponsor. Train.
+            <br />
+            Three ways to work with the Elevate OS.
+          </h1>
+          <p className="text-slate-600 mt-2 max-w-3xl">
+            Access our talent pipeline of job-ready candidates trained in healthcare, skilled
+            trades, technology, and business. No recruitment fees. WIOA and WOTC eligible.
+          </p>
           <div className="flex flex-wrap gap-3 mt-5">
-            <Link href="/employer-portal" className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-6 py-2.5 rounded-lg font-bold transition text-sm">
+            <Link
+              href="/employer-portal"
+              className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white px-6 py-2.5 rounded-lg font-bold transition text-sm"
+            >
               <Building2 className="w-4 h-4" /> Employer Portal
             </Link>
-            <Link href="/employers/post-job" className="inline-flex items-center gap-2 border-2 border-slate-300 text-slate-700 px-6 py-2.5 rounded-lg font-bold hover:bg-white transition text-sm">
+            <Link
+              href="/employers/post-job"
+              className="inline-flex items-center gap-2 border-2 border-slate-300 text-slate-700 px-6 py-2.5 rounded-lg font-bold hover:bg-white transition text-sm"
+            >
               Post a Job — Free
             </Link>
           </div>
@@ -109,10 +132,15 @@ export default async function ForEmployersPage() {
       <section className="py-16">
         <div className="max-w-7xl mx-auto px-4">
           <div className="text-center mb-12">
-            <p className="text-green-600 font-bold text-xs uppercase tracking-widest mb-2">Three Employer Paths</p>
-            <h2 className="text-3xl font-bold mb-4">Hire graduates. Sponsor apprentices. Co-design cohorts.</h2>
+            <p className="text-green-600 font-bold text-xs uppercase tracking-widest mb-2">
+              Three Employer Paths
+            </p>
+            <h2 className="text-3xl font-bold mb-4">
+              Hire graduates. Sponsor apprentices. Co-design cohorts.
+            </h2>
             <p className="text-slate-700 max-w-2xl mx-auto">
-              We train candidates to your specifications and deliver them job-ready. You hire with confidence.
+              We train candidates to your specifications and deliver them job-ready. You hire with
+              confidence.
             </p>
           </div>
           <div className="grid md:grid-cols-3 gap-8">
@@ -121,18 +149,31 @@ export default async function ForEmployersPage() {
               <div className="w-10 h-10 bg-green-100 rounded-lg flex items-center justify-center mb-4">
                 <Users className="w-5 h-5 text-green-700" />
               </div>
-              <h3 className="text-lg font-bold text-slate-900 mb-2">Hire Pre-Credentialed Graduates</h3>
+              <h3 className="text-lg font-bold text-slate-900 mb-2">
+                Hire Pre-Credentialed Graduates
+              </h3>
               <p className="text-slate-600 text-sm leading-relaxed flex-1 mb-4">
-                Candidates complete training, earn industry credentials, pass background checks and drug testing — before you interview them. No recruiting fees. WOTC tax credits up to $9,600 per eligible hire.
+                Candidates complete training, earn industry credentials, pass background checks and
+                drug testing — before you interview them. No recruiting fees. WOTC tax credits up to
+                $9,600 per eligible hire.
               </p>
               <ul className="space-y-1.5 mb-5">
-                {['Healthcare (CNA, CCMA, CPT)', 'Skilled Trades (HVAC, Welding)', 'Technology (CompTIA, Certiport)', 'Business & Finance'].map(i => (
+                {[
+                  'Healthcare (CNA, CCMA, CPT)',
+                  'Skilled Trades (HVAC, Welding)',
+                  'Technology (CompTIA, Certiport)',
+                  'Business & Finance',
+                ].map((i) => (
                   <li key={i} className="flex items-center gap-2 text-xs text-slate-600">
-                    <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />{i}
+                    <CheckCircle className="w-3.5 h-3.5 text-green-500 flex-shrink-0" />
+                    {i}
                   </li>
                 ))}
               </ul>
-              <Link href="/employers/talent-pipeline" className="bg-green-600 hover:bg-green-700 text-white text-sm font-bold px-4 py-2.5 rounded-lg text-center transition-colors">
+              <Link
+                href="/employers/talent-pipeline"
+                className="bg-green-600 hover:bg-green-700 text-white text-sm font-bold px-4 py-2.5 rounded-lg text-center transition-colors"
+              >
                 Browse Talent Pipeline →
               </Link>
             </div>
@@ -144,16 +185,27 @@ export default async function ForEmployersPage() {
               </div>
               <h3 className="text-lg font-bold text-slate-900 mb-2">Sponsor a DOL Apprentice</h3>
               <p className="text-slate-600 text-sm leading-relaxed flex-1 mb-4">
-                Earn-and-learn from day one. Apprentices work in your business while completing structured training. OJT wage reimbursement up to 50%. RAPIDS-tracked. DOL Certificate of Completion issued.
+                Earn-and-learn from day one. Apprentices work in your business while completing
+                structured training. OJT wage reimbursement up to 50%. RAPIDS-tracked. DOL
+                Certificate of Completion issued.
               </p>
               <ul className="space-y-1.5 mb-5">
-                {['OJT wage reimbursement up to 50%', 'RAPIDS-tracked — federal system of record', 'DOL Certificate of Completion', 'Barber, Cosmetology, Culinary, Trades'].map(i => (
+                {[
+                  'OJT wage reimbursement up to 50%',
+                  'RAPIDS-tracked — federal system of record',
+                  'DOL Certificate of Completion',
+                  'Barber, Cosmetology, Culinary, Trades',
+                ].map((i) => (
                   <li key={i} className="flex items-center gap-2 text-xs text-slate-600">
-                    <CheckCircle className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />{i}
+                    <CheckCircle className="w-3.5 h-3.5 text-blue-500 flex-shrink-0" />
+                    {i}
                   </li>
                 ))}
               </ul>
-              <Link href="/programs/apprenticeships" className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold px-4 py-2.5 rounded-lg text-center transition-colors">
+              <Link
+                href="/programs/apprenticeships"
+                className="bg-blue-600 hover:bg-blue-700 text-white text-sm font-bold px-4 py-2.5 rounded-lg text-center transition-colors"
+              >
                 Apprenticeship Programs →
               </Link>
             </div>
@@ -165,16 +217,27 @@ export default async function ForEmployersPage() {
               </div>
               <h3 className="text-lg font-bold text-slate-900 mb-2">Co-Design a Training Cohort</h3>
               <p className="text-slate-600 text-sm leading-relaxed flex-1 mb-4">
-                Work with Elevate to design a custom training cohort aligned to your specific job requirements. We handle curriculum, compliance, credentialing, and WIOA funding. You get a pipeline built for your roles.
+                Work with Elevate to design a custom training cohort aligned to your specific job
+                requirements. We handle curriculum, compliance, credentialing, and WIOA funding. You
+                get a pipeline built for your roles.
               </p>
               <ul className="space-y-1.5 mb-5">
-                {['Custom curriculum to your job specs', 'WIOA-funded — no cost to employer', 'Cohort scheduling around your hiring timeline', 'Dedicated account manager'].map(i => (
+                {[
+                  'Custom curriculum to your job specs',
+                  'WIOA-funded — no cost to employer',
+                  'Cohort scheduling around your hiring timeline',
+                  'Dedicated account manager',
+                ].map((i) => (
                   <li key={i} className="flex items-center gap-2 text-xs text-slate-600">
-                    <CheckCircle className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />{i}
+                    <CheckCircle className="w-3.5 h-3.5 text-purple-500 flex-shrink-0" />
+                    {i}
                   </li>
                 ))}
               </ul>
-              <Link href="/contact" className="bg-purple-600 hover:bg-purple-700 text-white text-sm font-bold px-4 py-2.5 rounded-lg text-center transition-colors">
+              <Link
+                href="/contact"
+                className="bg-purple-600 hover:bg-purple-700 text-white text-sm font-bold px-4 py-2.5 rounded-lg text-center transition-colors"
+              >
                 Talk to Our Team →
               </Link>
             </div>
@@ -188,10 +251,30 @@ export default async function ForEmployersPage() {
           <h2 className="text-3xl font-bold text-center mb-12">How It Works</h2>
           <div className="space-y-8">
             {[
-              { step: '1', title: 'Tell Us What You Need', description: 'Share your hiring needs, job requirements, and timeline. We match candidates from our active training programs.' },
-              { step: '2', title: 'We Train & Screen Candidates', description: 'Candidates complete industry-specific training, earn certifications, pass background checks, and complete drug testing.' },
-              { step: '3', title: 'Interview & Hire', description: 'Review pre-screened candidates, conduct interviews, and hire with confidence. We provide 90-day retention support.' },
-              { step: '4', title: 'Claim Tax Credits', description: 'We help you file WOTC paperwork for eligible hires. Credits range from $2,400 to $9,600 per employee.' },
+              {
+                step: '1',
+                title: 'Tell Us What You Need',
+                description:
+                  'Share your hiring needs, job requirements, and timeline. We match candidates from our active training programs.',
+              },
+              {
+                step: '2',
+                title: 'We Train & Screen Candidates',
+                description:
+                  'Candidates complete industry-specific training, earn certifications, pass background checks, and complete drug testing.',
+              },
+              {
+                step: '3',
+                title: 'Interview & Hire',
+                description:
+                  'Review pre-screened candidates, conduct interviews, and hire with confidence. We provide 90-day retention support.',
+              },
+              {
+                step: '4',
+                title: 'Claim Tax Credits',
+                description:
+                  'We help you file WOTC paperwork for eligible hires. Credits range from $2,400 to $9,600 per employee.',
+              },
             ].map((item) => (
               <div key={item.step} className="flex gap-6 items-start">
                 <div className="w-12 h-12 bg-brand-blue-600 text-white rounded-full flex items-center justify-center font-bold text-lg flex-shrink-0">
@@ -213,12 +296,42 @@ export default async function ForEmployersPage() {
           <h2 className="text-3xl font-bold text-center mb-10">Employer Resources</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
             {[
-              { title: 'Employer Portal', href: '/employer-portal', description: 'Manage jobs, review candidates, track hires', icon: Building2 },
-              { title: 'Post a Job', href: '/employers/post-job', description: 'Free job postings to our candidate pool', icon: Briefcase },
-              { title: 'Talent Pipeline', href: '/employers/talent-pipeline', description: 'Browse available candidates by skill', icon: Users },
-              { title: 'Apprenticeships', href: '/employers/apprenticeships', description: 'DOL registered earn-and-learn programs', icon: Award },
-              { title: 'Employer Benefits', href: '/employers/benefits', description: 'WOTC credits, OJT reimbursement, more', icon: DollarSign },
-              { title: 'Drug Testing', href: '/drug-testing/employer-programs', description: 'DOT and non-DOT workplace testing', icon: Shield },
+              {
+                title: 'Employer Portal',
+                href: '/employer-portal',
+                description: 'Manage jobs, review candidates, track hires',
+                icon: Building2,
+              },
+              {
+                title: 'Post a Job',
+                href: '/employers/post-job',
+                description: 'Free job postings to our candidate pool',
+                icon: Briefcase,
+              },
+              {
+                title: 'Talent Pipeline',
+                href: '/employers/talent-pipeline',
+                description: 'Browse available candidates by skill',
+                icon: Users,
+              },
+              {
+                title: 'Apprenticeships',
+                href: '/employers/apprenticeships',
+                description: 'DOL registered earn-and-learn programs',
+                icon: Award,
+              },
+              {
+                title: 'Employer Benefits',
+                href: '/employers/benefits',
+                description: 'WOTC credits, OJT reimbursement, more',
+                icon: DollarSign,
+              },
+              {
+                title: 'Drug Testing',
+                href: '/drug-testing/employer-programs',
+                description: 'DOT and non-DOT workplace testing',
+                icon: Shield,
+              },
             ].map((item) => (
               <Link
                 key={item.title}
@@ -243,7 +356,8 @@ export default async function ForEmployersPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold mb-4">Ready to Hire?</h2>
           <p className="text-white mb-8 text-lg">
-            Contact our employer services team to discuss your hiring needs. We&apos;ll match you with trained, certified candidates at no cost.
+            Contact our employer services team to discuss your hiring needs. We&apos;ll match you
+            with trained, certified candidates at no cost.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link

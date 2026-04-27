@@ -94,7 +94,7 @@ const EXCLUDED_PREFIXES = [
 
   // Portal/role-specific routes — auth-gated, not public content
   '/apprentice',
-  '/partner',          // /partner/* (role portal) — /partners/* (public partner pages) is allowed
+  '/partner', // /partner/* (role portal) — /partners/* (public partner pages) is allowed
   '/program-holder',
   '/compliance',
   '/ferpa',
@@ -227,23 +227,25 @@ function getPriority(route: string): number {
   if (route.startsWith('/courses')) return 0.8;
   if (route.startsWith('/store/guides')) return 0.8;
   if (route.startsWith('/blog') || route.startsWith('/resources')) return 0.7;
-  if (route.startsWith('/policies') || route.startsWith('/privacy') || route.startsWith('/terms')) return 0.4;
+  if (route.startsWith('/policies') || route.startsWith('/privacy') || route.startsWith('/terms'))
+    return 0.4;
   return 0.6;
 }
 
 // Change frequency based on route patterns
-function getChangeFreq(route: string): 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never' {
+function getChangeFreq(
+  route: string,
+): 'always' | 'hourly' | 'daily' | 'weekly' | 'monthly' | 'yearly' | 'never' {
   if (route === '/' || route === '/apply') return 'daily';
   if (route.startsWith('/programs') || route.startsWith('/blog')) return 'weekly';
   // SEO authority hubs — reviewed and updated monthly
   if (SEO_HUB_PREFIXES.some(p => route.startsWith(p))) return 'monthly';
   // State-specific pages update monthly
-  if (route.startsWith('/career-training-') || route.startsWith('/community-services-')) return 'monthly';
+  if (route.startsWith('/career-training-') || route.startsWith('/community-services-'))
+    return 'monthly';
   if (route.startsWith('/policies') || route.startsWith('/privacy')) return 'yearly';
   return 'monthly';
 }
-
-
 
 // Recursively find all page.tsx files.
 // Only runs at build time (dynamic = 'force-static'). The Netlify lambda
@@ -262,7 +264,8 @@ function findAllPages(dir: string, basePath: string = ''): string[] {
 
       if (item.isDirectory()) {
         // Skip dynamic routes [param], private dirs (__), and hidden dirs
-        if (item.name.startsWith('[') || item.name.startsWith('_') || item.name.startsWith('.')) continue;
+        if (item.name.startsWith('[') || item.name.startsWith('_') || item.name.startsWith('.'))
+          continue;
 
         // Route groups (name) — strip parens, don't add to path
         let routePart = item.name;
@@ -285,32 +288,32 @@ function findAllPages(dir: string, basePath: string = ''): string[] {
 
 export default function sitemap(): MetadataRoute.Sitemap {
   const now = new Date().toISOString();
-  
+
   // Find all pages in the app directory
   const appDir = path.join(process.cwd(), 'app');
   const allRoutes = findAllPages(appDir);
-  
+
   // Filter out excluded routes and deduplicate
   const publicRoutes = [...new Set(allRoutes)]
-    .filter(route => {
+    .filter((route) => {
       // Check prefix exclusions
-      if (EXCLUDED_PREFIXES.some(prefix => route.startsWith(prefix))) return false;
+      if (EXCLUDED_PREFIXES.some((prefix) => route.startsWith(prefix))) return false;
       // Check segment exclusions (e.g. /programs/admin, /store/checkout)
       const segments = route.split('/');
-      if (segments.some(seg => EXCLUDED_SEGMENTS.includes(`/${seg}`))) return false;
+      if (segments.some((seg) => EXCLUDED_SEGMENTS.includes(`/${seg}`))) return false;
       // Check suffix exclusions — enrollment flows and internal sub-pages
-      if (EXCLUDED_SUFFIXES.some(suffix => route.endsWith(suffix))) return false;
+      if (EXCLUDED_SUFFIXES.some((suffix) => route.endsWith(suffix))) return false;
       return true;
     })
     .sort();
-  
+
   // Generate sitemap entries — all routes belong to elevateforhumanity.org
-  const entries: MetadataRoute.Sitemap = publicRoutes.map(route => ({
+  const entries: MetadataRoute.Sitemap = publicRoutes.map((route) => ({
     url: `${ELEVATE_URL}${route === '/' ? '' : route}`,
     lastModified: now,
     changeFrequency: getChangeFreq(route),
     priority: getPriority(route),
   }));
-  
+
   return entries;
 }

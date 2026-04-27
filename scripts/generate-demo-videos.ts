@@ -25,18 +25,24 @@ import * as fs from 'fs';
 import * as path from 'path';
 
 const OPENAI_KEY = process.env.OPENAI_API_KEY;
-const DID_KEY    = process.env.DID_API_KEY;
-const SITE_URL   = 'https://www.elevateforhumanity.org';
-const SUPABASE_URL         = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
+const DID_KEY = process.env.DID_API_KEY;
+const SITE_URL = 'https://www.elevateforhumanity.org';
+const SUPABASE_URL = process.env.NEXT_PUBLIC_SUPABASE_URL || '';
 const SUPABASE_SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY || '';
 
 const AUDIO_DIR = path.join(process.cwd(), 'public', 'videos', 'demo', 'audio');
 const VIDEO_DIR = path.join(process.cwd(), 'public', 'videos', 'demo');
 const PHOTO_URL = `${SITE_URL}/images/team/elizabeth-greene-headshot.jpg`;
-const PHOTO_LOCAL = path.join(process.cwd(), 'public', 'images', 'team', 'elizabeth-greene-headshot.jpg');
+const PHOTO_LOCAL = path.join(
+  process.cwd(),
+  'public',
+  'images',
+  'team',
+  'elizabeth-greene-headshot.jpg',
+);
 
-const DRY_RUN   = process.argv.includes('--dry-run');
-const SINGLE    = process.argv.includes('--scene')
+const DRY_RUN = process.argv.includes('--dry-run');
+const SINGLE = process.argv.includes('--scene')
   ? process.argv[process.argv.indexOf('--scene') + 1]
   : null;
 
@@ -208,7 +214,8 @@ async function generateScript(scene: DemoScene): Promise<string> {
       messages: [
         {
           role: 'system',
-          content: 'You write concise, professional narration scripts for software product demo videos. Output only the spoken narration — no stage directions, no scene labels, no markdown. 45–60 seconds when read aloud at a natural pace.',
+          content:
+            'You write concise, professional narration scripts for software product demo videos. Output only the spoken narration — no stage directions, no scene labels, no markdown. 45–60 seconds when read aloud at a natural pace.',
         },
         { role: 'user', content: scene.scriptPrompt },
       ],
@@ -238,18 +245,15 @@ async function generateAudio(script: string, outputPath: string): Promise<void> 
 
 async function uploadAudioToSupabase(localPath: string, storagePath: string): Promise<string> {
   const buf = fs.readFileSync(localPath);
-  const res = await fetch(
-    `${SUPABASE_URL}/storage/v1/object/demo-audio/${storagePath}`,
-    {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
-        'Content-Type': 'audio/mpeg',
-        'x-upsert': 'true',
-      },
-      body: buf,
-    }
-  );
+  const res = await fetch(`${SUPABASE_URL}/storage/v1/object/demo-audio/${storagePath}`, {
+    method: 'POST',
+    headers: {
+      Authorization: `Bearer ${SUPABASE_SERVICE_KEY}`,
+      'Content-Type': 'audio/mpeg',
+      'x-upsert': 'true',
+    },
+    body: buf,
+  });
   if (!res.ok) throw new Error(`Supabase upload failed: ${await res.text()}`);
   return `${SUPABASE_URL}/storage/v1/object/public/demo-audio/${storagePath}`;
 }
@@ -271,8 +275,10 @@ async function submitDIDTalk(audioUrl: string): Promise<string> {
 
 async function pollDIDTalk(talkId: string): Promise<string> {
   for (let i = 0; i < 60; i++) {
-    await new Promise(r => setTimeout(r, 5000));
-    const res = await fetch(`https://api.d-id.com/talks/${talkId}`, { headers: didHeaders() as any });
+    await new Promise((r) => setTimeout(r, 5000));
+    const res = await fetch(`https://api.d-id.com/talks/${talkId}`, {
+      headers: didHeaders() as any,
+    });
     const data = await res.json();
     if (data.status === 'done') return data.result_url;
     if (data.status === 'error') throw new Error(`D-ID failed: ${JSON.stringify(data)}`);
@@ -337,15 +343,21 @@ async function processScene(scene: DemoScene): Promise<void> {
 }
 
 async function main() {
-  if (!OPENAI_KEY) { console.error('OPENAI_API_KEY not set'); process.exit(1); }
-  if (!DID_KEY && !DRY_RUN) { console.error('DID_API_KEY not set'); process.exit(1); }
+  if (!OPENAI_KEY) {
+    console.error('OPENAI_API_KEY not set');
+    process.exit(1);
+  }
+  if (!DID_KEY && !DRY_RUN) {
+    console.error('DID_API_KEY not set');
+    process.exit(1);
+  }
 
-  const scenes = SINGLE
-    ? SCENES.filter(s => s.id === SINGLE)
-    : SCENES;
+  const scenes = SINGLE ? SCENES.filter((s) => s.id === SINGLE) : SCENES;
 
   if (scenes.length === 0) {
-    console.error(`Scene "${SINGLE}" not found. Valid IDs:\n${SCENES.map(s => `  ${s.id}`).join('\n')}`);
+    console.error(
+      `Scene "${SINGLE}" not found. Valid IDs:\n${SCENES.map((s) => `  ${s.id}`).join('\n')}`,
+    );
     process.exit(1);
   }
 
@@ -358,4 +370,7 @@ async function main() {
   console.log('\n✅ Done.');
 }
 
-main().catch(e => { console.error(e); process.exit(1); });
+main().catch((e) => {
+  console.error(e);
+  process.exit(1);
+});

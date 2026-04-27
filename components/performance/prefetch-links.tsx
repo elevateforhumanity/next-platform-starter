@@ -1,16 +1,10 @@
-"use client";
+'use client';
 
 import { useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 
 // Critical routes to prefetch
-const CRITICAL_ROUTES = [
-  '/programs',
-  '/apply',
-  '/contact',
-  '/login',
-  '/about',
-];
+const CRITICAL_ROUTES = ['/programs', '/apply', '/contact', '/login', '/about'];
 
 export function PrefetchLinks() {
   const router = useRouter();
@@ -18,7 +12,7 @@ export function PrefetchLinks() {
   useEffect(() => {
     // Prefetch critical routes after initial load
     const timer = setTimeout(() => {
-      CRITICAL_ROUTES.forEach(route => {
+      CRITICAL_ROUTES.forEach((route) => {
         router.prefetch(route);
       });
     }, 2000);

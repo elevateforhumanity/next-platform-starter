@@ -64,8 +64,8 @@ function buildScenesFromScript(lesson: {
   // Split on double newlines or sentence groups
   const paragraphs = script
     .split(/\n{2,}/)
-    .map(p => p.trim())
-    .filter(p => p.length > 20)
+    .map((p) => p.trim())
+    .filter((p) => p.length > 20)
     .slice(0, 4); // max 4 content scenes
 
   const scenes: RawScene[] = [];
@@ -187,10 +187,7 @@ export async function POST(request: NextRequest) {
   }
 
   // ── 2. Mark as rendering ────────────────────────────────────────────────────
-  await adminDb
-    .from('course_lessons')
-    .update({ video_status: 'rendering' })
-    .eq('id', lessonId);
+  await adminDb.from('course_lessons').update({ video_status: 'rendering' }).eq('id', lessonId);
 
   // Fetch course title for branding
   const { data: course } = await supabase
@@ -201,9 +198,7 @@ export async function POST(request: NextRequest) {
 
   const courseTitle = course?.title ?? 'Elevate LMS';
   const script = lesson.script ?? lesson.title;
-  const bulletPoints: string[] = Array.isArray(lesson.bullet_points)
-    ? lesson.bullet_points
-    : [];
+  const bulletPoints: string[] = Array.isArray(lesson.bullet_points) ? lesson.bullet_points : [];
 
   try {
     // ── 3. Build scenes ───────────────────────────────────────────────────────
@@ -232,7 +227,9 @@ export async function POST(request: NextRequest) {
         // Fetch clip and image in parallel
         const [clipUrl, imageUrl] = await Promise.all([
           getPexelsVideoClip(raw.clip_keyword, { minDuration: 5, maxDuration: 20 }),
-          getPexelsImage(raw.clip_keyword).then(url => url ?? getPollinationsImage(raw.clip_keyword)),
+          getPexelsImage(raw.clip_keyword).then(
+            (url) => url ?? getPollinationsImage(raw.clip_keyword),
+          ),
         ]);
 
         // Generate per-scene TTS audio
@@ -246,7 +243,12 @@ export async function POST(request: NextRequest) {
           await writeFile(audioPath, audioBuffer);
           audioSrc = audioPath;
         } catch (err) {
-          logger.warn('[GenerateVideo] TTS failed for scene ' + i + ': ' + (err instanceof Error ? err.message : err));
+          logger.warn(
+            '[GenerateVideo] TTS failed for scene ' +
+              i +
+              ': ' +
+              (err instanceof Error ? err.message : err),
+          );
         }
 
         return {
@@ -256,7 +258,7 @@ export async function POST(request: NextRequest) {
           audioSrc,
           durationFrames: narrationFrames(raw.narration),
         };
-      })
+      }),
     );
 
     // ── 5. Render MP4 ─────────────────────────────────────────────────────────
@@ -310,9 +312,7 @@ export async function POST(request: NextRequest) {
       throw new Error('Storage upload failed: ' + uploadErr.message);
     }
 
-    const { data: urlData } = adminDb.storage
-      .from('course-videos')
-      .getPublicUrl(storagePath);
+    const { data: urlData } = adminDb.storage.from('course-videos').getPublicUrl(storagePath);
 
     const videoUrl = urlData.publicUrl;
     const durationSeconds = Math.round(totalFrames / FPS);
@@ -332,9 +332,7 @@ export async function POST(request: NextRequest) {
     // Clean up temp files
     await Promise.all([
       unlink(videoPath).catch(() => {}),
-      ...scenes
-        .filter(s => s.audioSrc)
-        .map(s => unlink(s.audioSrc!).catch(() => {})),
+      ...scenes.filter((s) => s.audioSrc).map((s) => unlink(s.audioSrc!).catch(() => {})),
     ]);
 
     logger.info(`[GenerateVideo] Complete: ${lessonId} → ${videoUrl}`);
@@ -345,13 +343,9 @@ export async function POST(request: NextRequest) {
       duration_seconds: durationSeconds,
       scene_count: scenes.length,
     });
-
   } catch (err) {
     // Mark failed
-    await adminDb
-      .from('course_lessons')
-      .update({ video_status: 'failed' })
-      .eq('id', lessonId);
+    await adminDb.from('course_lessons').update({ video_status: 'failed' }).eq('id', lessonId);
 
     return safeInternalError(err, 'Video generation failed');
   }

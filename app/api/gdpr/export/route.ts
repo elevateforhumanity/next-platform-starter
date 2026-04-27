@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { requestDataPortability } from '@/lib/gdpr';
 import { createClient } from '@/lib/supabase/server';
@@ -31,24 +29,20 @@ async function _POST(request: NextRequest) {
     if (result.success === false) {
       return NextResponse.json(
         { error: 'error' in result ? result.error : 'Export failed' },
-        { status: 500 }
+        { status: 500 },
       );
     }
 
     // Use 'in' operator to safely narrow the union
     return new NextResponse('data' in result ? result.data : '', {
       headers: {
-        'Content-Type':
-          'contentType' in result ? result.contentType : 'application/json',
+        'Content-Type': 'contentType' in result ? result.contentType : 'application/json',
         'Content-Disposition': `attachment; filename="${'filename' in result ? result.filename : 'export.json'}"`,
       },
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error('Error exporting user data:', error);
-    return NextResponse.json(
-      { error: 'Failed to export data' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to export data' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/gdpr/export', _POST);

@@ -87,7 +87,13 @@ const PublishDraftSchema = z.object({
   estimated_total_minutes: z.number().int().min(1),
   certificate_enabled: z.boolean().default(true),
   completion_rule: z.object({
-    type: z.enum(['lesson_completion', 'quiz_threshold', 'hybrid', 'all_lessons', 'required_lessons']),
+    type: z.enum([
+      'lesson_completion',
+      'quiz_threshold',
+      'hybrid',
+      'all_lessons',
+      'required_lessons',
+    ]),
     quiz_threshold_percent: z.number().int().min(0).max(100).optional(),
   }),
   modules: z.array(CompiledModuleSchema).min(1),
@@ -118,7 +124,7 @@ const TRUSTED_PUBLISH_ROLES = new Set(['admin', 'super_admin', 'staff']);
 
 function resolvePublishStatus(
   wantsLive: boolean,
-  callerRole: string | null | undefined
+  callerRole: string | null | undefined,
 ): 'draft' | 'pending_review' | 'published' {
   if (!wantsLive) return 'draft';
   if (callerRole && TRUSTED_PUBLISH_ROLES.has(callerRole)) return 'published';
@@ -143,7 +149,7 @@ function resolvePublishStatus(
  */
 async function checkCoverageGate(
   programId: string,
-  isLivePublish: boolean
+  isLivePublish: boolean,
 ): Promise<string | null> {
   if (!isLivePublish) return null; // drafts bypass the gate
 
@@ -180,7 +186,7 @@ async function checkCoverageGate(
   }
 
   const result = await runAlignmentAudit([prog.slug]);
-  const programAudit = result.programs.find(p => p.programSlug === prog.slug);
+  const programAudit = result.programs.find((p) => p.programSlug === prog.slug);
 
   if (!programAudit) {
     // Program exists but is not active — data integrity problem, fail closed
@@ -207,7 +213,8 @@ function ensureUniqueLessonTitles(draft: PublishDraft): void {
   for (const mod of draft.modules) {
     for (const lesson of mod.lessons) {
       const key = lesson.lesson_title.trim().toLowerCase();
-      if (seen.has(key)) return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+      if (seen.has(key))
+        return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
       seen.add(key);
     }
   }
@@ -264,7 +271,7 @@ function renderCompiledLessonContent(lesson: CompiledLesson): string {
         `**Correct Answer:** ${q.correct_answer}`,
         '',
         `**Explanation:** ${q.explanation}`,
-      ].join('\n')
+      ].join('\n'),
     )
     .join('\n\n');
 
@@ -298,7 +305,7 @@ async function publishCompiledDraft(
   draft: PublishDraft,
   userId: string,
   callerRole: string | null | undefined,
-  db: SupabaseClient
+  db: SupabaseClient,
 ): Promise<{ courseId: string; slug: string; lessonCount: number }> {
   ensureUniqueLessonTitles(draft);
   validateQuizAnswers(draft);
@@ -308,11 +315,13 @@ async function publishCompiledDraft(
   // Drafts (auto_publish: false) are always allowed through.
   if (draft.program_id) {
     const coverageError = await checkCoverageGate(draft.program_id, draft.auto_publish);
-    if (coverageError) return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+    if (coverageError)
+      return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 
   const slugBase = draft.course_name
-    .toLowerCase().trim()
+    .toLowerCase()
+    .trim()
     .replace(/['"]/g, '')
     .replace(/[^a-z0-9]+/g, '-')
     .replace(/^-+|-+$/g, '')
@@ -325,29 +334,29 @@ async function publishCompiledDraft(
   const { data: courseRow, error: courseErr } = await db
     .from('training_courses')
     .insert({
-      course_name:         draft.course_name,
-      title:               draft.course_title,
-      description:         draft.description,
-      summary:             draft.summary,
-      difficulty:          draft.difficulty,
-      duration_hours:      durationHours,
+      course_name: draft.course_name,
+      title: draft.course_title,
+      description: draft.description,
+      summary: draft.summary,
+      difficulty: draft.difficulty,
+      duration_hours: durationHours,
       slug,
-      is_published:        draft.auto_publish && TRUSTED_PUBLISH_ROLES.has(callerRole ?? ''),
-      is_active:           draft.auto_publish && TRUSTED_PUBLISH_ROLES.has(callerRole ?? ''),
-      status:              resolvePublishStatus(draft.auto_publish, callerRole),
-      passing_score:       passingScore,
+      is_published: draft.auto_publish && TRUSTED_PUBLISH_ROLES.has(callerRole ?? ''),
+      is_active: draft.auto_publish && TRUSTED_PUBLISH_ROLES.has(callerRole ?? ''),
+      status: resolvePublishStatus(draft.auto_publish, callerRole),
+      passing_score: passingScore,
       certificate_enabled: draft.certificate_enabled,
-      created_by:          userId,
+      created_by: userId,
       metadata: {
-        ai_generated:           true,
-        generation_version:     'v2-course-compiler',
-        source_type:            draft.source_type ?? 'unknown',
-        source_prompt:          draft.source_prompt ?? null,
-        target_audience:        draft.target_audience,
-        learning_objectives:    draft.learning_objectives,
+        ai_generated: true,
+        generation_version: 'v2-course-compiler',
+        source_type: draft.source_type ?? 'unknown',
+        source_prompt: draft.source_prompt ?? null,
+        target_audience: draft.target_audience,
+        learning_objectives: draft.learning_objectives,
         estimated_total_minutes: draft.estimated_total_minutes,
-        module_count:           draft.modules.length,
-        lesson_count:           draft.modules.reduce((s, m) => s + m.lessons.length, 0),
+        module_count: draft.modules.length,
+        lesson_count: draft.modules.reduce((s, m) => s + m.lessons.length, 0),
       },
     })
     .select('id, slug')
@@ -365,27 +374,27 @@ async function publishCompiledDraft(
   for (const mod of draft.modules) {
     for (const lesson of mod.lessons) {
       lessonRows.push({
-        course_id:        courseId,
-        lesson_number:    lessonNumber,
-        title:            lesson.lesson_title,
-        description:      lesson.lesson_objectives[0] ?? '',
-        content:          renderCompiledLessonContent(lesson),
-        content_type:     'text',
+        course_id: courseId,
+        lesson_number: lessonNumber,
+        title: lesson.lesson_title,
+        description: lesson.lesson_objectives[0] ?? '',
+        content: renderCompiledLessonContent(lesson),
+        content_type: 'text',
         duration_minutes: lesson.estimated_minutes,
-        is_required:      true,
-        is_published:     draft.auto_publish && TRUSTED_PUBLISH_ROLES.has(callerRole ?? ''),
-        order_index:      lessonNumber - 1,
-        quiz_questions:   lesson.knowledge_check,
+        is_required: true,
+        is_published: draft.auto_publish && TRUSTED_PUBLISH_ROLES.has(callerRole ?? ''),
+        order_index: lessonNumber - 1,
+        quiz_questions: lesson.knowledge_check,
         metadata: {
-          ai_generated:      true,
-          module_title:      mod.module_title,
-          module_order:      mod.module_order,
+          ai_generated: true,
+          module_title: mod.module_title,
+          module_order: mod.module_order,
           module_objectives: mod.module_objectives,
           lesson_objectives: lesson.lesson_objectives,
-          narration_script:  lesson.narration_script,
-          slide_outline:     lesson.slide_outline,
+          narration_script: lesson.narration_script,
+          slide_outline: lesson.slide_outline,
           practice_exercise: lesson.practice_exercise,
-          instructor_notes:  lesson.instructor_notes,
+          instructor_notes: lesson.instructor_notes,
           estimated_minutes: lesson.estimated_minutes,
         },
       });
@@ -402,7 +411,7 @@ async function publishCompiledDraft(
     let clLessonNumber = 1;
     for (const mod of draft.modules) {
       const totalInModule = mod.lessons.length;
-      const isFinalModule  = mod.module_order === draft.modules.length;
+      const isFinalModule = mod.module_order === draft.modules.length;
 
       const { data: moduleRow, error: modErr } = await db
         .from('course_modules')
@@ -416,37 +425,38 @@ async function publishCompiledDraft(
       }
 
       const courseRows = mod.lessons.map((lesson, lessonIdx) => {
-        const titleLower     = lesson.lesson_title.toLowerCase();
+        const titleLower = lesson.lesson_title.toLowerCase();
         const isLastInModule = lessonIdx === totalInModule - 1;
-        const isCheckpoint   =
+        const isCheckpoint =
           titleLower.includes('checkpoint') ||
           titleLower.includes('module assessment') ||
           (isLastInModule && !isFinalModule);
 
-        const lesson_type: string =
-          isCheckpoint                                    ? 'checkpoint' :
-          titleLower.includes('exam') ||
-          titleLower.includes('final assessment')         ? 'exam' :
-          titleLower.includes('lab') ||
-          titleLower.includes('hands-on')                 ? 'lab' :
-          titleLower.includes('assignment') ||
-          titleLower.includes('reflection')               ? 'assignment' :
-          lesson.knowledge_check?.length > 0              ? 'quiz' :
-                                                            'lesson';
+        const lesson_type: string = isCheckpoint
+          ? 'checkpoint'
+          : titleLower.includes('exam') || titleLower.includes('final assessment')
+            ? 'exam'
+            : titleLower.includes('lab') || titleLower.includes('hands-on')
+              ? 'lab'
+              : titleLower.includes('assignment') || titleLower.includes('reflection')
+                ? 'assignment'
+                : lesson.knowledge_check?.length > 0
+                  ? 'quiz'
+                  : 'lesson';
 
         const row = {
-          course_id:      courseId,
-          module_id:      moduleRow.id,
-          slug:           `${slugify(lesson.lesson_title).slice(0, 80)}-${clLessonNumber}`,
-          title:          lesson.lesson_title,
-          content:        lesson.narration_script || renderCompiledLessonContent(lesson),
+          course_id: courseId,
+          module_id: moduleRow.id,
+          slug: `${slugify(lesson.lesson_title).slice(0, 80)}-${clLessonNumber}`,
+          title: lesson.lesson_title,
+          content: lesson.narration_script || renderCompiledLessonContent(lesson),
           lesson_type,
-          order_index:    mod.module_order * 1000 + (lessonIdx + 1),
-          passing_score:  isCheckpoint ? 80 : null,
+          order_index: mod.module_order * 1000 + (lessonIdx + 1),
+          passing_score: isCheckpoint ? 80 : null,
           quiz_questions: lesson.knowledge_check?.length ? lesson.knowledge_check : null,
-          is_required:    true,
-          is_published:   draft.auto_publish && TRUSTED_PUBLISH_ROLES.has(callerRole ?? ''),
-          status:         resolvePublishStatus(draft.auto_publish, callerRole),
+          is_required: true,
+          is_published: draft.auto_publish && TRUSTED_PUBLISH_ROLES.has(callerRole ?? ''),
+          status: resolvePublishStatus(draft.auto_publish, callerRole),
         };
         clLessonNumber++;
         return row;
@@ -454,7 +464,11 @@ async function publishCompiledDraft(
 
       const { error: clErr } = await db.from('course_lessons').insert(courseRows);
       if (clErr) {
-        logger.warn('course_lessons insert failed (non-fatal)', { courseId, module: mod.module_title, error: clErr.message });
+        logger.warn('course_lessons insert failed (non-fatal)', {
+          courseId,
+          module: mod.module_title,
+          error: clErr.message,
+        });
       }
     }
     logger.info('course_lessons write complete', { courseId, programId: draft.program_id });
@@ -463,17 +477,18 @@ async function publishCompiledDraft(
   // 3. completion_rules — entity_type/entity_id pattern (no direct course_id column)
   const { error: ruleErr } = await db.from('completion_rules').insert({
     entity_type: 'course',
-    entity_id:   courseId,
-    rule_type:   draft.completion_rule.type,
+    entity_id: courseId,
+    rule_type: draft.completion_rule.type,
     config: {
       quiz_threshold_percent: draft.completion_rule.quiz_threshold_percent ?? null,
-      certificate_enabled:    draft.certificate_enabled,
-      passing_score:          passingScore,
-      ai_generated:           true,
+      certificate_enabled: draft.certificate_enabled,
+      passing_score: passingScore,
+      ai_generated: true,
     },
     is_active: true,
   });
-  if (ruleErr) logger.warn('completion_rules insert failed (non-fatal)', { courseId, error: ruleErr.message });
+  if (ruleErr)
+    logger.warn('completion_rules insert failed (non-fatal)', { courseId, error: ruleErr.message });
 
   // 4. program_courses — order_index column (not sort_order)
   if (draft.program_id) {
@@ -481,9 +496,10 @@ async function publishCompiledDraft(
       .from('program_courses')
       .upsert(
         { program_id: draft.program_id, course_id: courseId, is_required: true, order_index: 999 },
-        { onConflict: 'program_id,course_id', ignoreDuplicates: true }
+        { onConflict: 'program_id,course_id', ignoreDuplicates: true },
       );
-    if (pcErr) logger.warn('program_courses upsert failed (non-fatal)', { courseId, error: pcErr.message });
+    if (pcErr)
+      logger.warn('program_courses upsert failed (non-fatal)', { courseId, error: pcErr.message });
   }
 
   return { courseId, slug: courseRow.slug, lessonCount: lessonRows.length };
@@ -507,7 +523,9 @@ async function _POST(req: NextRequest) {
     if (body.draft) {
       const parsed = PublishDraftSchema.safeParse(body.draft);
       if (!parsed.success) {
-        const issues = parsed.error.issues.map((i) => `${i.path.join('.')}: ${i.message}`).join('; ');
+        const issues = parsed.error.issues
+          .map((i) => `${i.path.join('.')}: ${i.message}`)
+          .join('; ');
         return NextResponse.json({ error: `Invalid draft: ${issues}` }, { status: 422 });
       }
       const result = await publishCompiledDraft(parsed.data, user.id, callerRole, db);
@@ -517,8 +535,11 @@ async function _POST(req: NextRequest) {
     }
 
     // ── Legacy GeneratedCourse path ─────────────────────────────────────────
-    const { course, program_id, is_published = false }
-      : { course: GeneratedCourse; program_id?: string; is_published?: boolean } = body;
+    const {
+      course,
+      program_id,
+      is_published = false,
+    }: { course: GeneratedCourse; program_id?: string; is_published?: boolean } = body;
 
     if (!course?.title || !course.modules?.length) {
       return NextResponse.json({ error: 'Invalid course data' }, { status: 400 });
@@ -535,38 +556,41 @@ async function _POST(req: NextRequest) {
     // ── 1. Course record ────────────────────────────────────────────────────
     // slug with timestamp suffix prevents collisions on repeated generation
     const slugBase = course.title
-      .toLowerCase().trim()
+      .toLowerCase()
+      .trim()
       .replace(/[^a-z0-9\s-]/g, '')
       .replace(/\s+/g, '-')
       .replace(/-+/g, '-')
       .slice(0, 74);
     const slug = `${slugBase}-${Date.now().toString().slice(-6)}`;
 
-    const durationHours = course.duration_hours ||
+    const durationHours =
+      course.duration_hours ||
       Math.ceil(
         course.modules.reduce(
-          (n, m) => n + m.lessons.reduce((s, l) => s + (l.duration_minutes || 10), 0), 0
-        ) / 60
+          (n, m) => n + m.lessons.reduce((s, l) => s + (l.duration_minutes || 10), 0),
+          0,
+        ) / 60,
       );
 
     const { data: courseRow, error: courseErr } = await db
       .from('training_courses')
       .insert({
-        course_name:    course.title,
-        title:          course.title,
-        description:    course.description,
-        category:       course.category,
+        course_name: course.title,
+        title: course.title,
+        description: course.description,
+        category: course.category,
         duration_hours: durationHours,
         slug,
-        is_published:   is_published && TRUSTED_PUBLISH_ROLES.has(callerRole ?? ''),
-        is_active:      is_published && TRUSTED_PUBLISH_ROLES.has(callerRole ?? ''),
-        status:         resolvePublishStatus(is_published, callerRole),
-        passing_score:  course.passing_score ?? 70,
-        created_by:     user.id,
+        is_published: is_published && TRUSTED_PUBLISH_ROLES.has(callerRole ?? ''),
+        is_active: is_published && TRUSTED_PUBLISH_ROLES.has(callerRole ?? ''),
+        status: resolvePublishStatus(is_published, callerRole),
+        passing_score: course.passing_score ?? 70,
+        created_by: user.id,
         metadata: {
-          subtitle:     course.subtitle,
-          audience:     course.audience,
-          generated:    true,
+          subtitle: course.subtitle,
+          audience: course.audience,
+          generated: true,
           generated_at: new Date().toISOString(),
           generated_by: user.id,
         },
@@ -580,23 +604,23 @@ async function _POST(req: NextRequest) {
     // ── 2. Lesson records ───────────────────────────────────────────────────
     const lessonRows = course.modules.flatMap((mod, modIdx) =>
       mod.lessons.map((lesson) => ({
-        course_id:        courseId,
-        lesson_number:    lesson.lesson_number,
-        title:            lesson.title,
-        description:      lesson.description,
-        content:          lesson.content,
-        content_type:     lesson.content_type,
+        course_id: courseId,
+        lesson_number: lesson.lesson_number,
+        title: lesson.title,
+        description: lesson.description,
+        content: lesson.content,
+        content_type: lesson.content_type,
         duration_minutes: lesson.duration_minutes,
-        is_required:      lesson.is_required ?? true,
+        is_required: lesson.is_required ?? true,
         is_published,
-        order_index:      lesson.lesson_number - 1,
-        quiz_questions:   lesson.quiz_questions?.length ? lesson.quiz_questions : null,
+        order_index: lesson.lesson_number - 1,
+        quiz_questions: lesson.quiz_questions?.length ? lesson.quiz_questions : null,
         metadata: {
           module_title: mod.title,
           module_index: modIdx,
-          objectives:   lesson.objectives ?? [],
+          objectives: lesson.objectives ?? [],
         },
-      }))
+      })),
     );
 
     const { error: lessonsErr } = await db.from('training_lessons').insert(lessonRows);
@@ -620,50 +644,55 @@ async function _POST(req: NextRequest) {
       }
 
       const courseRows = mod.lessons.map((lesson, lessonIdx) => {
-        const titleLower     = lesson.title.toLowerCase();
+        const titleLower = lesson.title.toLowerCase();
         const isLastInModule = lessonIdx === totalInModule - 1;
-        const isCheckpoint   =
+        const isCheckpoint =
           titleLower.includes('checkpoint') ||
           titleLower.includes('module assessment') ||
           (isLastInModule && !isFinalModule);
 
-        const lesson_type: string =
-          isCheckpoint                                    ? 'checkpoint' :
-          titleLower.includes('exam') ||
-          titleLower.includes('final assessment')         ? 'exam' :
-          titleLower.includes('lab') ||
-          titleLower.includes('hands-on')                 ? 'lab' :
-          titleLower.includes('assignment') ||
-          titleLower.includes('reflection')               ? 'assignment' :
-          lesson.content_type === 'quiz' ||
-          (lesson.quiz_questions?.length ?? 0) > 0        ? 'quiz' :
-                                                            'lesson';
+        const lesson_type: string = isCheckpoint
+          ? 'checkpoint'
+          : titleLower.includes('exam') || titleLower.includes('final assessment')
+            ? 'exam'
+            : titleLower.includes('lab') || titleLower.includes('hands-on')
+              ? 'lab'
+              : titleLower.includes('assignment') || titleLower.includes('reflection')
+                ? 'assignment'
+                : lesson.content_type === 'quiz' || (lesson.quiz_questions?.length ?? 0) > 0
+                  ? 'quiz'
+                  : 'lesson';
 
         const slugBase = lesson.title
-          .toLowerCase().trim()
+          .toLowerCase()
+          .trim()
           .replace(/[^a-z0-9]+/g, '-')
           .replace(/^-+|-+$/g, '')
           .slice(0, 80);
 
         return {
-          course_id:      courseId,
-          module_id:      moduleRow.id,
-          slug:           `${slugBase}-${lesson.lesson_number}`,
-          title:          lesson.title,
-          content:        lesson.content,
+          course_id: courseId,
+          module_id: moduleRow.id,
+          slug: `${slugBase}-${lesson.lesson_number}`,
+          title: lesson.title,
+          content: lesson.content,
           lesson_type,
-          order_index:    (modIdx + 1) * 1000 + (lessonIdx + 1),
-          passing_score:  isCheckpoint ? 80 : null,
+          order_index: (modIdx + 1) * 1000 + (lessonIdx + 1),
+          passing_score: isCheckpoint ? 80 : null,
           quiz_questions: lesson.quiz_questions?.length ? lesson.quiz_questions : null,
-          is_required:    lesson.is_required ?? true,
+          is_required: lesson.is_required ?? true,
           is_published,
-          status:         resolvePublishStatus(is_published, callerRole),
+          status: resolvePublishStatus(is_published, callerRole),
         };
       });
 
       const { error: clErr } = await db.from('course_lessons').insert(courseRows);
       if (clErr) {
-        logger.warn('course_lessons insert failed (non-fatal)', { courseId, module: mod.title, error: clErr.message });
+        logger.warn('course_lessons insert failed (non-fatal)', {
+          courseId,
+          module: mod.title,
+          error: clErr.message,
+        });
       }
     }
     logger.info('course_lessons write complete (legacy path)', { courseId });
@@ -672,10 +701,10 @@ async function _POST(req: NextRequest) {
     // entity_type/entity_id pattern — no direct course_id column on this table
     const { error: ruleErr } = await db.from('completion_rules').insert({
       entity_type: 'course',
-      entity_id:   courseId,
-      rule_type:   course.completion_rule ?? 'all_lessons',
-      config:      { passing_score: course.passing_score ?? 70 },
-      is_active:   true,
+      entity_id: courseId,
+      rule_type: course.completion_rule ?? 'all_lessons',
+      config: { passing_score: course.passing_score ?? 70 },
+      is_active: true,
     });
     if (ruleErr) logger.warn('completion_rules insert (non-fatal):', ruleErr.message);
 
@@ -686,18 +715,29 @@ async function _POST(req: NextRequest) {
         .from('program_courses')
         .upsert(
           { program_id, course_id: courseId, is_required: true, order_index: 0 },
-          { onConflict: 'program_id,course_id', ignoreDuplicates: true }
+          { onConflict: 'program_id,course_id', ignoreDuplicates: true },
         );
       if (pcErr) logger.warn('program_courses upsert (non-fatal):', pcErr.message);
     }
 
     const finalStatus = resolvePublishStatus(is_published, callerRole);
     logger.info('Course published from generator', {
-      userId: user.id, courseId, slug: courseRow.slug, status: finalStatus,
-      title: course.title, lessons: lessonRows.length, programId: program_id,
+      userId: user.id,
+      courseId,
+      slug: courseRow.slug,
+      status: finalStatus,
+      title: course.title,
+      lessons: lessonRows.length,
+      programId: program_id,
     });
 
-    return NextResponse.json({ ok: true, courseId, slug: courseRow.slug, lessonCount: lessonRows.length, status: finalStatus });
+    return NextResponse.json({
+      ok: true,
+      courseId,
+      slug: courseRow.slug,
+      lessonCount: lessonRows.length,
+      status: finalStatus,
+    });
   } catch (err: any) {
     logger.error('Course publish error:', err);
     return NextResponse.json({ ok: false, error: 'Publish failed' }, { status: 500 });

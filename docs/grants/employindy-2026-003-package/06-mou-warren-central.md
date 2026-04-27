@@ -8,8 +8,11 @@ Indianapolis, Indiana
 ---
 
 # MEMORANDUM OF UNDERSTANDING
+
 ## Elevate for Humanity & Warren Central High School
+
 ## WIOA In-School Youth Career Coaching Partnership
+
 ## EmployIndy RFP 2026-003
 
 ---
@@ -148,13 +151,13 @@ By signing below, both parties agree to the terms of this Memorandum of Understa
 
 **ELEVATE FOR HUMANITY**
 
-Signature: ___________________________
+Signature: ************\_\_\_************
 
 Name: Elizabeth Greene
 
 Title: Founder & Chief Executive Officer
 
-Date: ___________________________
+Date: ************\_\_\_************
 
 Organization: Elevate for Humanity
 Website: www.elevateforhumanity.org
@@ -164,13 +167,13 @@ Email: elevate4humanityedu@gmail.com
 
 **WARREN CENTRAL HIGH SCHOOL**
 
-Signature: ___________________________
+Signature: ************\_\_\_************
 
 Name: Masimba Taylor
 
 Title: Principal
 
-Date: ___________________________
+Date: ************\_\_\_************
 
 Organization: Warren Central High School, MSD Warren Township
 Phone: 317-532-6203
@@ -178,5 +181,5 @@ Email: mtaylor4@warren.k12.in.us
 
 ---
 
-*Elevate for Humanity | www.elevateforhumanity.org | Indianapolis, Indiana*
-*DOL RAP Provider ID 206251 | SAM.gov CAGE: 0Q856 | IMM Certified | ByBlack Certified*
+_Elevate for Humanity | www.elevateforhumanity.org | Indianapolis, Indiana_
+_DOL RAP Provider ID 206251 | SAM.gov CAGE: 0Q856 | IMM Certified | ByBlack Certified_

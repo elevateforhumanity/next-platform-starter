@@ -12,9 +12,7 @@ import { CheckCircle, Loader2 } from 'lucide-react';
 function AffirmConfirmContent() {
   const searchParams = useSearchParams();
   const router = useRouter();
-  const [status, setStatus] = useState<'processing' | 'success' | 'error'>(
-    'processing'
-  );
+  const [status, setStatus] = useState<'processing' | 'success' | 'error'>('processing');
   const [transactionId, setTransactionId] = useState<string>('');
   const [errorMessage, setErrorMessage] = useState<string>('');
 
@@ -53,15 +51,12 @@ function AffirmConfirmContent() {
 
       // Redirect to success page after 3 seconds
       setTimeout(() => {
-        router.push(
-          `/payment/success?transaction_id=${data.transaction_id}&provider=affirm`
-        );
+        router.push(`/payment/success?transaction_id=${data.transaction_id}&provider=affirm`);
       }, 3000);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       setStatus('error');
-      setErrorMessage(
-        error instanceof Error ? error.message : 'Failed to process payment'
-      );
+      setErrorMessage(error instanceof Error ? error.message : 'Failed to process payment');
     }
   };
 
@@ -71,32 +66,20 @@ function AffirmConfirmContent() {
         {status === 'processing' && (
           <div className="text-center">
             <Loader2 className="w-16 h-16 text-brand-blue-600 animate-spin mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-black mb-2">
-              Processing Payment
-            </h1>
-            <p className="text-black">
-              Please wait while we confirm your payment with Affirm...
-            </p>
+            <h1 className="text-2xl font-bold text-black mb-2">Processing Payment</h1>
+            <p className="text-black">Please wait while we confirm your payment with Affirm...</p>
           </div>
         )}
 
         {status === 'success' && (
           <div className="text-center">
             <CheckCircle className="w-16 h-16 text-brand-green-600 mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-black mb-2">
-              Payment Successful!
-            </h1>
-            <p className="text-black mb-4">
-              Your payment has been processed successfully.
-            </p>
+            <h1 className="text-2xl font-bold text-black mb-2">Payment Successful!</h1>
+            <p className="text-black mb-4">Your payment has been processed successfully.</p>
             {transactionId && (
-              <p className="text-sm text-black mb-6">
-                Transaction ID: {transactionId}
-              </p>
+              <p className="text-sm text-black mb-6">Transaction ID: {transactionId}</p>
             )}
-            <p className="text-sm text-black">
-              Redirecting to confirmation page...
-            </p>
+            <p className="text-sm text-black">Redirecting to confirmation page...</p>
           </div>
         )}
 
@@ -117,9 +100,7 @@ function AffirmConfirmContent() {
                 />
               </svg>
             </div>
-            <h1 className="text-2xl font-bold text-black mb-2">
-              Payment Failed
-            </h1>
+            <h1 className="text-2xl font-bold text-black mb-2">Payment Failed</h1>
             <p className="text-black mb-6">
               {errorMessage || 'There was an error processing your payment.'}
             </p>
@@ -144,8 +125,6 @@ function AffirmConfirmContent() {
   );
 }
 
-
-
 export default function AffirmConfirmPage() {
   return (
     <Suspense
@@ -153,9 +132,7 @@ export default function AffirmConfirmPage() {
         <div className="min-h-screen bg-gray-50 flex items-center justify-center p-4">
           <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
             <Loader2 className="w-16 h-16 text-brand-blue-600 animate-spin mx-auto mb-4" />
-            <h1 className="text-2xl font-bold text-black mb-2">
-              Loading...
-            </h1>
+            <h1 className="text-2xl font-bold text-black mb-2">Loading...</h1>
             <p className="text-black">Please wait</p>
           </div>
         </div>

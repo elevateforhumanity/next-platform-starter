@@ -11,8 +11,13 @@ import { initializeModuleProgress } from './module-gating';
 import { logger } from '@/lib/logger';
 
 export type LessonType =
-  | 'lesson' | 'quiz' | 'checkpoint' | 'lab'
-  | 'assignment' | 'exam' | 'certification';
+  | 'lesson'
+  | 'quiz'
+  | 'checkpoint'
+  | 'lab'
+  | 'assignment'
+  | 'exam'
+  | 'certification';
 
 export interface GeneratedLesson {
   slug: string;
@@ -44,10 +49,7 @@ export interface CreateCourseInput {
  * Writes to: courses → course_modules → course_lessons → audit_logs
  * Returns the created course row.
  */
-export async function createDraftCourse(
-  db: SupabaseClient,
-  input: CreateCourseInput,
-) {
+export async function createDraftCourse(db: SupabaseClient, input: CreateCourseInput) {
   // Validation gate — fail loudly before writing anything to the DB.
   const assessmentTypes = new Set(['checkpoint', 'quiz', 'exam']);
   const emptyLessons: string[] = [];
@@ -55,9 +57,10 @@ export async function createDraftCourse(
 
   for (const mod of input.modules) {
     for (const lesson of mod.lessons) {
-      const body = typeof lesson.content === 'string'
-        ? lesson.content.trim()
-        : JSON.stringify(lesson.content ?? '').trim();
+      const body =
+        typeof lesson.content === 'string'
+          ? lesson.content.trim()
+          : JSON.stringify(lesson.content ?? '').trim();
 
       if (!body || body === '{}' || body === '""' || body.length < 50) {
         emptyLessons.push(lesson.slug ?? lesson.title ?? '(unknown)');
@@ -76,27 +79,27 @@ export async function createDraftCourse(
   if (emptyLessons.length > 0) {
     throw new Error(
       `createDraftCourse: ${emptyLessons.length} lesson(s) have empty or missing content — build aborted.\n` +
-      `Empty lessons: ${emptyLessons.join(', ')}`
+        `Empty lessons: ${emptyLessons.join(', ')}`,
     );
   }
 
   if (missingAssessments.length > 0) {
     throw new Error(
       `createDraftCourse: ${missingAssessments.length} assessment lesson(s) have no quiz_questions — build aborted.\n` +
-      `Missing assessments: ${missingAssessments.join(', ')}`
+        `Missing assessments: ${missingAssessments.join(', ')}`,
     );
   }
 
   const { data: course, error: courseErr } = await db
     .from('courses')
     .insert({
-      program_id:        input.programId ?? null,
-      slug:              input.slug,
-      title:             input.title,
+      program_id: input.programId ?? null,
+      slug: input.slug,
+      title: input.title,
       short_description: input.shortDescription ?? null,
-      description:       input.description ?? null,
-      status:            'draft',
-      is_active:         true,
+      description: input.description ?? null,
+      status: 'draft',
+      is_active: true,
     })
     .select('*')
     .maybeSingle();
@@ -110,8 +113,8 @@ export async function createDraftCourse(
     const { data: moduleRow, error: modErr } = await db
       .from('course_modules')
       .insert({
-        course_id:   course.id,
-        title:       mod.title,
+        course_id: course.id,
+        title: mod.title,
         order_index: mi + 1,
       })
       .select('*')
@@ -121,33 +124,31 @@ export async function createDraftCourse(
     if (!moduleRow) throw new Error(`Failed to create module: ${mod.title}`);
 
     const lessonRows = mod.lessons.map((l, li) => ({
-      course_id:      course.id,
-      module_id:      moduleRow.id,
-      slug:           l.slug,
-      title:          l.title,
-      content:        l.content,
-      lesson_type:    l.lessonType ?? 'lesson',
-      order_index:    (mi + 1) * 1000 + (li + 1),
-      passing_score:  l.passingScore ?? null,
+      course_id: course.id,
+      module_id: moduleRow.id,
+      slug: l.slug,
+      title: l.title,
+      content: l.content,
+      lesson_type: l.lessonType ?? 'lesson',
+      order_index: (mi + 1) * 1000 + (li + 1),
+      passing_score: l.passingScore ?? null,
       quiz_questions: l.quizQuestions ?? null,
-      is_required:    l.isRequired ?? true,
+      is_required: l.isRequired ?? true,
     }));
 
-    const { error: lessonErr } = await db
-      .from('course_lessons')
-      .insert(lessonRows);
+    const { error: lessonErr } = await db.from('course_lessons').insert(lessonRows);
 
     if (lessonErr) throw lessonErr;
   }
 
   await db.rpc('log_audit_event', {
     p_actor_user_id: input.actorUserId,
-    p_entity_type:   'course',
-    p_entity_id:     course.id,
-    p_action:        'course_created_draft',
-    p_details:       {
-      slug:         input.slug,
-      title:        input.title,
+    p_entity_type: 'course',
+    p_entity_id: course.id,
+    p_action: 'course_created_draft',
+    p_details: {
+      slug: input.slug,
+      title: input.title,
       module_count: input.modules.length,
     },
   });
@@ -189,12 +190,12 @@ export async function publishCourse(
     const { data: newVersion, error: versionErr } = await db
       .from('course_versions')
       .insert({
-        course_id:      courseId,
+        course_id: courseId,
         version_number: nextVersionNumber,
-        label:          label ?? `v${nextVersionNumber}`,
-        is_published:   true,
-        published_at:   new Date().toISOString(),
-        created_by:     actorUserId ?? null,
+        label: label ?? `v${nextVersionNumber}`,
+        is_published: true,
+        published_at: new Date().toISOString(),
+        created_by: actorUserId ?? null,
       })
       .select('id')
       .maybeSingle();
@@ -203,12 +204,25 @@ export async function publishCourse(
       logger.error('[publishCourse] course_versions insert failed:', versionErr.message);
     } else if (newVersion) {
       version = newVersion;
-      const { data: mods } = await db.from('course_modules').select('id').eq('course_id', courseId).order('order_index');
+      const { data: mods } = await db
+        .from('course_modules')
+        .select('id')
+        .eq('course_id', courseId)
+        .order('order_index');
       for (const m of mods ?? []) {
-        await db.from('course_version_modules').insert({ version_id: newVersion.id, module_id: m.id });
+        await db
+          .from('course_version_modules')
+          .insert({ version_id: newVersion.id, module_id: m.id });
       }
-      const { data: lessons } = await db.from('course_lessons').select('id').eq('course_id', courseId).order('order_index');
-      const lessonRows = (lessons ?? []).map((l: { id: string }) => ({ version_id: newVersion.id, lesson_id: l.id }));
+      const { data: lessons } = await db
+        .from('course_lessons')
+        .select('id')
+        .eq('course_id', courseId)
+        .order('order_index');
+      const lessonRows = (lessons ?? []).map((l: { id: string }) => ({
+        version_id: newVersion.id,
+        lesson_id: l.id,
+      }));
       for (let i = 0; i < lessonRows.length; i += 50) {
         await db.from('course_version_lessons').insert(lessonRows.slice(i, i + 50));
       }
@@ -219,10 +233,10 @@ export async function publishCourse(
 
   await db.rpc('log_audit_event', {
     p_actor_user_id: actorUserId,
-    p_entity_type:   'course',
-    p_entity_id:     courseId,
-    p_action:        'course_published',
-    p_details:       { version_id: version?.id ?? null },
+    p_entity_type: 'course',
+    p_entity_id: courseId,
+    p_action: 'course_published',
+    p_details: { version_id: version?.id ?? null },
   });
 
   return { course: data, version: version ?? null };
@@ -265,13 +279,13 @@ export async function enrollStudentInCourse(
 
   await db.rpc('log_audit_event', {
     p_actor_user_id: actorUserId,
-    p_entity_type:   'course',
-    p_entity_id:     courseId,
-    p_action:        'student_enrolled',
-    p_details:       {
-      user_id:    userId,
+    p_entity_type: 'course',
+    p_entity_id: courseId,
+    p_action: 'student_enrolled',
+    p_details: {
+      user_id: userId,
       course_slug: course.slug,
-      version_id:  versionId,
+      version_id: versionId,
     },
   });
 

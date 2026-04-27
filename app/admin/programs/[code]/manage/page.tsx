@@ -7,9 +7,11 @@ import ProgramManagerClient from './ProgramManagerClient';
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata(
-  { params }: { params: Promise<{ code: string }> }
-): Promise<Metadata> {
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ code: string }>;
+}): Promise<Metadata> {
   const { code } = await params;
   return {
     title: `Manage Program · ${code} | Admin`,
@@ -17,15 +19,13 @@ export async function generateMetadata(
   };
 }
 
-export default async function ManageProgramPage({
-  params,
-}: {
-  params: Promise<{ code: string }>;
-}) {
+export default async function ManageProgramPage({ params }: { params: Promise<{ code: string }> }) {
   const { code } = await params;
 
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const db = await getAdminClient();
@@ -75,10 +75,12 @@ export default async function ManageProgramPage({
   // Load attached internal courses
   const { data: internalLinks } = await supabase
     .from('program_courses')
-    .select(`
+    .select(
+      `
       id, order_index, is_required,
       course:training_courses(id, title, course_name, slug, status, duration_hours, category)
-    `)
+    `,
+    )
     .eq('program_id', program.id)
     .order('order_index');
 
@@ -100,13 +102,15 @@ export default async function ManageProgramPage({
   // Load credentials already linked to this program
   const { data: linkedCredentials } = await supabase
     .from('program_credentials')
-    .select(`
+    .select(
+      `
       id, is_required, sort_order, notes,
       credential:credential_registry(
         id, name, abbreviation, issuer_type, credential_stack,
         competency_area, stack_level, issuing_authority, is_active
       )
-    `)
+    `,
+    )
     .eq('program_id', program.id)
     .order('sort_order');
 
@@ -121,17 +125,20 @@ export default async function ManageProgramPage({
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <Breadcrumbs items={[
-          { label: 'Admin', href: '/admin' },
-          { label: 'Programs', href: '/admin/programs' },
-          { label: program.title, href: `/admin/programs/${programCode}/dashboard` },
-          { label: 'Manage Training' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Admin', href: '/admin' },
+            { label: 'Programs', href: '/admin/programs' },
+            { label: program.title, href: `/admin/programs/${programCode}/dashboard` },
+            { label: 'Manage Training' },
+          ]}
+        />
 
         <div className="mt-6 mb-8">
           <h1 className="text-2xl font-bold text-slate-900">{program.title}</h1>
           <p className="text-slate-500 mt-1">
-            Manage credentials, internal LMS courses, and external partner training for this program.
+            Manage credentials, internal LMS courses, and external partner training for this
+            program.
           </p>
         </div>
 

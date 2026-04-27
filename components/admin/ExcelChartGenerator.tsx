@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState } from 'react';
 
@@ -28,9 +28,7 @@ interface ExcelExportOptions {
 }
 
 export function ExcelChartGenerator() {
-  const [availableCharts, setAvailableCharts] = useState<ExcelChartConfig[]>(
-    []
-  );
+  const [availableCharts, setAvailableCharts] = useState<ExcelChartConfig[]>([]);
   const [selectedCharts, setSelectedCharts] = useState<string[]>([]);
   const [exportOptions, setExportOptions] = useState<ExcelExportOptions>({
     includeCharts: true,
@@ -201,11 +199,7 @@ export function ExcelChartGenerator() {
             color: 'var(--brand-danger)',
           },
         ],
-        colors: [
-          'var(--brand-success)',
-          'var(--brand-info)',
-          'var(--brand-danger)',
-        ],
+        colors: ['var(--brand-success)', 'var(--brand-info)', 'var(--brand-danger)'],
         showLabels: true,
         showPercentages: true,
         showLegend: true,
@@ -233,11 +227,7 @@ export function ExcelChartGenerator() {
             color: 'var(--brand-warning)',
           },
         ],
-        colors: [
-          'var(--brand-success)',
-          'var(--brand-info)',
-          'var(--brand-warning)',
-        ],
+        colors: ['var(--brand-success)', 'var(--brand-info)', 'var(--brand-warning)'],
         showLabels: true,
         showPercentages: true,
         showLegend: true,
@@ -265,11 +255,7 @@ export function ExcelChartGenerator() {
             color: 'var(--brand-danger)',
           },
         ],
-        colors: [
-          'var(--brand-success)',
-          'var(--brand-warning)',
-          'var(--brand-danger)',
-        ],
+        colors: ['var(--brand-success)', 'var(--brand-warning)', 'var(--brand-danger)'],
         showLabels: true,
         showPercentages: true,
         showLegend: true,
@@ -318,11 +304,7 @@ export function ExcelChartGenerator() {
               return {
                 title: chart?.title,
                 headers: ['Category', 'Value', 'Percentage'],
-                data: chart?.data.map((d) => [
-                  d.label,
-                  d.value,
-                  `${d.percentage}%`,
-                ]),
+                data: chart?.data.map((d) => [d.label, d.value, `${d.percentage}%`]),
               };
             }),
           },
@@ -333,12 +315,7 @@ export function ExcelChartGenerator() {
                 ['Indicator', 'Target', 'Actual', 'Status'],
                 ['Employment Rate (2nd Quarter)', '70%', '78.5%', 'Exceeds'],
                 ['Employment Rate (4th Quarter)', '65%', '72.3%', 'Exceeds'],
-                [
-                  'Median Earnings (2nd Quarter)',
-                  '$5,500',
-                  '$6,200',
-                  'Exceeds',
-                ],
+                ['Median Earnings (2nd Quarter)', '$5,500', '$6,200', 'Exceeds'],
                 ['Credential Attainment Rate', '60%', '67.8%', 'Exceeds'],
                 ['Measurable Skill Gains', '50%', '58.2%', 'Exceeds'],
               ],
@@ -370,9 +347,7 @@ export function ExcelChartGenerator() {
 
   const toggleChartSelection = (chartTitle: string) => {
     setSelectedCharts((prev) =>
-      prev.includes(chartTitle)
-        ? prev.filter((t) => t !== chartTitle)
-        : [...prev, chartTitle]
+      prev.includes(chartTitle) ? prev.filter((t) => t !== chartTitle) : [...prev, chartTitle],
     );
   };
 
@@ -382,9 +357,7 @@ export function ExcelChartGenerator() {
 
     return (
       <div className="bg-white border rounded-lg p-4">
-        <h4 className="font-medium text-brand-text mb-4 text-center">
-          {chart.title}
-        </h4>
+        <h4 className="font-medium text-brand-text mb-4 text-center">{chart.title}</h4>
         <div className="flex items-center justify-center">
           <div className="relative">
             <svg width="200" height="200" viewBox="0 0 200 200">
@@ -394,14 +367,10 @@ export function ExcelChartGenerator() {
                 const startAngle = currentAngle;
                 const endAngle = currentAngle + angle;
 
-                const x1 =
-                  100 + 80 * Math.cos(((startAngle - 90) * Math.PI) / 180);
-                const y1 =
-                  100 + 80 * Math.sin(((startAngle - 90) * Math.PI) / 180);
-                const x2 =
-                  100 + 80 * Math.cos(((endAngle - 90) * Math.PI) / 180);
-                const y2 =
-                  100 + 80 * Math.sin(((endAngle - 90) * Math.PI) / 180);
+                const x1 = 100 + 80 * Math.cos(((startAngle - 90) * Math.PI) / 180);
+                const y1 = 100 + 80 * Math.sin(((startAngle - 90) * Math.PI) / 180);
+                const x2 = 100 + 80 * Math.cos(((endAngle - 90) * Math.PI) / 180);
+                const y2 = 100 + 80 * Math.sin(((endAngle - 90) * Math.PI) / 180);
 
                 const largeArcFlag = angle > 180 ? 1 : 0;
 
@@ -415,33 +384,19 @@ export function ExcelChartGenerator() {
                 currentAngle += angle;
 
                 return (
-                  <path
-                    key={index}
-                    d={pathData}
-                    fill={item.color}
-                    stroke="white"
-                    strokeWidth="2"
-                  />
+                  <path key={index} d={pathData} fill={item.color} stroke="white" strokeWidth="2" />
                 );
               })}
-              {chart.type === 'doughnut' && (
-                <circle cx="100" cy="100" r="40"
-fill="white" />
-              )}
+              {chart.type === 'doughnut' && <circle cx="100" cy="100" r="40" fill="white" />}
             </svg>
           </div>
           {chart.showLegend && (
             <div className="ml-6 space-y-2">
               {chart.data.map((item, index) => (
                 <div key={index} className="flex items-center text-sm">
-                  <div
-                    className="w-3 h-3 rounded mr-2"
-                    style={{ backgroundColor: item.color }}
-                  />
+                  <div className="w-3 h-3 rounded mr-2" style={{ backgroundColor: item.color }} />
                   <span className="text-brand-text">
-                    {item.label}{' '}
-                    {chart.showPercentages &&
-                      `(${item.percentage.toFixed(1)}%)`}
+                    {item.label} {chart.showPercentages && `(${item.percentage.toFixed(1)}%)`}
                   </span>
                 </div>
               ))}
@@ -456,9 +411,7 @@ fill="white" />
     <div className="excel-chart-generator">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h2 className="text-2xl font-bold text-brand-text">
-            📊 Excel Chart Generator
-          </h2>
+          <h2 className="text-2xl font-bold text-brand-text">📊 Excel Chart Generator</h2>
           <p className="text-brand-text-muted">
             Automatically generate professional pie charts and export to Excel
           </p>
@@ -468,21 +421,15 @@ fill="white" />
           disabled={isGenerating || selectedCharts.length === 0}
           className="bg-brand-success text-white px-6 py-3 rounded-lg hover:bg-brand-success-hover disabled:opacity-50 font-medium"
         >
-          {isGenerating
-            ? '🔄 Generating Excel...'
-            : '📊 Generate Excel with Charts'}
+          {isGenerating ? '🔄 Generating Excel...' : '📊 Generate Excel with Charts'}
         </button>
       </div>
       {/* Export Options */}
       <div className="bg-white border rounded-lg p-6 mb-6">
-        <h3 className="text-lg font-semibold text-brand-text mb-4">
-          📋 Export Options
-        </h3>
+        <h3 className="text-lg font-semibold text-brand-text mb-4">📋 Export Options</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
           <div>
-            <label className="block text-sm font-medium text-brand-text mb-2">
-              File Name
-            </label>
+            <label className="block text-sm font-medium text-brand-text mb-2">File Name</label>
             <input
               type="text"
               value={exportOptions.fileName}
@@ -496,9 +443,7 @@ fill="white" />
             />
           </div>
           <div>
-            <label className="block text-sm font-medium text-brand-text mb-2">
-              Chart Size
-            </label>
+            <label className="block text-sm font-medium text-brand-text mb-2">Chart Size</label>
             <select
               value={exportOptions.chartSize}
               onChange={(e) =>
@@ -557,9 +502,7 @@ fill="white" />
                 }
                 className="mr-2"
               />
-              <span className="text-sm text-brand-text">
-                Professional Formatting
-              </span>
+              <span className="text-sm text-brand-text">Professional Formatting</span>
             </label>
           </div>
         </div>
@@ -586,14 +529,10 @@ fill="white" />
       {/* Chart Selection */}
       <div className="mb-6">
         <div className="flex items-center justify-between mb-4">
-          <h3 className="text-lg font-semibold text-brand-text">
-            📊 Available Charts
-          </h3>
+          <h3 className="text-lg font-semibold text-brand-text">📊 Available Charts</h3>
           <div className="flex space-x-2">
             <button
-              onClick={() =>
-                setSelectedCharts(availableCharts.map((c) => c.title))
-              }
+              onClick={() => setSelectedCharts(availableCharts.map((c) => c.title))}
               className="text-sm bg-brand-surface text-brand-info px-3 py-2 rounded hover:bg-brand-blue-200"
             >
               Select All
@@ -617,9 +556,7 @@ fill="white" />
                     onChange={() => toggleChartSelection(chart.title)}
                     className="mr-2"
                   />
-                  <span className="text-sm bg-white px-2 py-2 rounded shadow">
-                    Include
-                  </span>
+                  <span className="text-sm bg-white px-2 py-2 rounded shadow">Include</span>
                 </label>
               </div>
               <PieChartPreview chart={chart} />
@@ -634,14 +571,10 @@ fill="white" />
       </div>
       {/* Excel Features */}
       <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-lg p-6">
-        <h3 className="text-lg font-semibold text-brand-blue-900 mb-4">
-          📈 Excel Export Features
-        </h3>
+        <h3 className="text-lg font-semibold text-brand-blue-900 mb-4">📈 Excel Export Features</h3>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
           <div className="bg-white rounded p-4">
-            <h4 className="font-medium text-brand-blue-900 mb-2">
-              🎨 Professional Charts
-            </h4>
+            <h4 className="font-medium text-brand-blue-900 mb-2">🎨 Professional Charts</h4>
             <ul className="text-sm text-brand-info space-y-1">
               <li>• Pie charts with custom colors</li>
               <li>• Doughnut charts for emphasis</li>
@@ -650,9 +583,7 @@ fill="white" />
             </ul>
           </div>
           <div className="bg-white rounded p-4">
-            <h4 className="font-medium text-brand-blue-900 mb-2">
-              📊 Data Integration
-            </h4>
+            <h4 className="font-medium text-brand-blue-900 mb-2">📊 Data Integration</h4>
             <ul className="text-sm text-brand-info space-y-1">
               <li>• Raw data tables included</li>
               <li>• WIOA compliance metrics</li>

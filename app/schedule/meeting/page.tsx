@@ -2,14 +2,13 @@
 
 import { useState } from 'react';
 import Link from 'next/link';
-import { 
-  Calendar, 
-  Video, 
-  Phone, 
-  Clock, 
-  ArrowLeft, 
+import {
+  Calendar,
+  Video,
+  Phone,
+  Clock,
+  ArrowLeft,
   ArrowRight,
-  
   User,
   Mail,
   MessageSquare,
@@ -37,7 +36,7 @@ const TIME_SLOTS: TimeSlot[] = [
 function getNextTwoWeeks(): Date[] {
   const dates: Date[] = [];
   const today = new Date();
-  
+
   for (let i = 1; i <= 14; i++) {
     const date = new Date(today);
     date.setDate(today.getDate() + i);
@@ -46,24 +45,24 @@ function getNextTwoWeeks(): Date[] {
       dates.push(date);
     }
   }
-  
+
   return dates;
 }
 
 function formatDate(date: Date): string {
-  return date.toLocaleDateString('en-US', { 
-    weekday: 'short', 
-    month: 'short', 
-    day: 'numeric' 
+  return date.toLocaleDateString('en-US', {
+    weekday: 'short',
+    month: 'short',
+    day: 'numeric',
   });
 }
 
 function formatDateFull(date: Date): string {
-  return date.toLocaleDateString('en-US', { 
-    weekday: 'long', 
-    month: 'long', 
+  return date.toLocaleDateString('en-US', {
+    weekday: 'long',
+    month: 'long',
     day: 'numeric',
-    year: 'numeric'
+    year: 'numeric',
   });
 }
 
@@ -142,20 +141,28 @@ export default function ScheduleMeetingPage() {
               : 'We received your request and will confirm your meeting within 1 business day. If the requested time is unavailable, we will suggest alternatives.'}
           </p>
           {isConfirmed && (
-          <div className="bg-white rounded-xl p-4 mb-6">
-            <p className="font-semibold text-slate-900">{selectedDate && formatDateFull(selectedDate)}</p>
-            <p className="text-slate-700">
-              {TIME_SLOTS.find(s => s.time === selectedTime)?.display} (1 hour)
-            </p>
-            <p className="text-sm text-slate-700 mt-2">
-              {meetingType === 'virtual' ? 'Via Google Meet' : 'We will call you'}
-            </p>
-          </div>
+            <div className="bg-white rounded-xl p-4 mb-6">
+              <p className="font-semibold text-slate-900">
+                {selectedDate && formatDateFull(selectedDate)}
+              </p>
+              <p className="text-slate-700">
+                {TIME_SLOTS.find((s) => s.time === selectedTime)?.display} (1 hour)
+              </p>
+              <p className="text-sm text-slate-700 mt-2">
+                {meetingType === 'virtual' ? 'Via Google Meet' : 'We will call you'}
+              </p>
+            </div>
           )}
           <p className="text-sm text-slate-700 mb-6">
-            {isConfirmed
-              ? <>A confirmation email has been sent to <strong>{formData.email}</strong></>
-              : <>Questions? Call us at <strong>(317) 314-3757</strong></>}
+            {isConfirmed ? (
+              <>
+                A confirmation email has been sent to <strong>{formData.email}</strong>
+              </>
+            ) : (
+              <>
+                Questions? Call us at <strong>(317) 314-3757</strong>
+              </>
+            )}
           </p>
           <div className="flex flex-col gap-3">
             <Link
@@ -199,21 +206,27 @@ export default function ScheduleMeetingPage() {
         {/* Progress Steps */}
         <div className="flex items-center justify-center mb-12">
           <div className="flex items-center">
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-              step >= 1 ? 'bg-brand-blue-600 text-white' : 'bg-gray-200 text-slate-700'
-            }`}>
+            <div
+              className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
+                step >= 1 ? 'bg-brand-blue-600 text-white' : 'bg-gray-200 text-slate-700'
+              }`}
+            >
               1
             </div>
             <div className={`w-20 h-1 ${step >= 2 ? 'bg-brand-blue-600' : 'bg-gray-200'}`} />
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-              step >= 2 ? 'bg-brand-blue-600 text-white' : 'bg-gray-200 text-slate-700'
-            }`}>
+            <div
+              className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
+                step >= 2 ? 'bg-brand-blue-600 text-white' : 'bg-gray-200 text-slate-700'
+              }`}
+            >
               2
             </div>
             <div className={`w-20 h-1 ${step >= 3 ? 'bg-brand-blue-600' : 'bg-gray-200'}`} />
-            <div className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
-              step >= 3 ? 'bg-brand-blue-600 text-white' : 'bg-gray-200 text-slate-700'
-            }`}>
+            <div
+              className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold ${
+                step >= 3 ? 'bg-brand-blue-600 text-white' : 'bg-gray-200 text-slate-700'
+              }`}
+            >
               3
             </div>
           </div>
@@ -245,8 +258,7 @@ export default function ScheduleMeetingPage() {
                   Meet face-to-face via Google Meet video call. Screen sharing available.
                 </p>
                 <div className="flex items-center text-sm text-slate-700">
-                  <Clock className="w-4 h-4 mr-2" />
-                  1 hour
+                  <Clock className="w-4 h-4 mr-2" />1 hour
                 </div>
               </button>
 
@@ -267,8 +279,7 @@ export default function ScheduleMeetingPage() {
                   We'll call you at your preferred number. No video required.
                 </p>
                 <div className="flex items-center text-sm text-slate-700">
-                  <Clock className="w-4 h-4 mr-2" />
-                  1 hour
+                  <Clock className="w-4 h-4 mr-2" />1 hour
                 </div>
               </button>
             </div>
@@ -305,9 +316,7 @@ export default function ScheduleMeetingPage() {
                     <div className="text-xs font-medium opacity-75">
                       {date.toLocaleDateString('en-US', { weekday: 'short' })}
                     </div>
-                    <div className="text-lg font-bold">
-                      {date.getDate()}
-                    </div>
+                    <div className="text-lg font-bold">{date.getDate()}</div>
                     <div className="text-xs opacity-75">
                       {date.toLocaleDateString('en-US', { month: 'short' })}
                     </div>
@@ -368,7 +377,8 @@ export default function ScheduleMeetingPage() {
             <div className="text-center mb-8">
               <h1 className="text-3xl font-bold text-slate-900 mb-4">Your Information</h1>
               <p className="text-slate-700">
-                {formatDateFull(selectedDate!)} at {TIME_SLOTS.find(s => s.time === selectedTime)?.display}
+                {formatDateFull(selectedDate!)} at{' '}
+                {TIME_SLOTS.find((s) => s.time === selectedTime)?.display}
               </p>
             </div>
 
@@ -386,7 +396,7 @@ export default function ScheduleMeetingPage() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
-                    placeholder="Your full name"
+                    placeholder="Enter your full legal name"
                   />
                 </div>
 
@@ -442,10 +452,20 @@ export default function ScheduleMeetingPage() {
               <div className="mt-6 p-4 bg-white rounded-xl">
                 <h4 className="font-semibold text-slate-900 mb-2">Meeting Summary</h4>
                 <div className="text-sm text-slate-700 space-y-1">
-                  <p><strong>Type:</strong> {meetingType === 'virtual' ? 'Virtual Meeting (Google Meet)' : 'Phone Call'}</p>
-                  <p><strong>Date:</strong> {selectedDate && formatDateFull(selectedDate)}</p>
-                  <p><strong>Time:</strong> {TIME_SLOTS.find(s => s.time === selectedTime)?.display}</p>
-                  <p><strong>Duration:</strong> 1 Hour</p>
+                  <p>
+                    <strong>Type:</strong>{' '}
+                    {meetingType === 'virtual' ? 'Virtual Meeting (Google Meet)' : 'Phone Call'}
+                  </p>
+                  <p>
+                    <strong>Date:</strong> {selectedDate && formatDateFull(selectedDate)}
+                  </p>
+                  <p>
+                    <strong>Time:</strong>{' '}
+                    {TIME_SLOTS.find((s) => s.time === selectedTime)?.display}
+                  </p>
+                  <p>
+                    <strong>Duration:</strong> 1 Hour
+                  </p>
                 </div>
               </div>
 

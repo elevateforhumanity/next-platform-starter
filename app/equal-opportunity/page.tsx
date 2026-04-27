@@ -5,7 +5,8 @@ import { Scale, Shield, Users, Accessibility, FileText, ArrowRight, Phone } from
 
 export const metadata: Metadata = {
   title: 'Equal Opportunity Employer | Elevate for Humanity',
-  description: 'Elevate for Humanity is an equal opportunity employer and training provider. Learn about our non-discrimination policies and commitment to equal access.',
+  description:
+    'Elevate for Humanity is an equal opportunity employer and training provider. Learn about our non-discrimination policies and commitment to equal access.',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/equal-opportunity',
   },
@@ -22,21 +23,24 @@ const policies = [
   {
     title: 'FERPA Policy',
     href: '/policies/ferpa',
-    description: 'Family Educational Rights and Privacy Act - protecting student education records.',
+    description:
+      'Family Educational Rights and Privacy Act - protecting student education records.',
     icon: FileText,
     color: 'green',
   },
   {
     title: 'WIOA Policy',
     href: '/policies/wioa',
-    description: 'Workforce Innovation and Opportunity Act compliance and equal access requirements.',
+    description:
+      'Workforce Innovation and Opportunity Act compliance and equal access requirements.',
     icon: Users,
     color: 'blue',
   },
   {
     title: 'Grievance Procedure',
     href: '/policies/grievance',
-    description: 'How to file a complaint or grievance regarding discrimination or policy violations.',
+    description:
+      'How to file a complaint or grievance regarding discrimination or policy violations.',
     icon: Scale,
     color: 'orange',
   },
@@ -57,7 +61,8 @@ const policies = [
   {
     title: 'Accessibility',
     href: '/accessibility',
-    description: 'Our commitment to accessibility and accommodations for individuals with disabilities.',
+    description:
+      'Our commitment to accessibility and accommodations for individuals with disabilities.',
     icon: Accessibility,
     color: 'rose',
   },
@@ -72,9 +77,17 @@ const policies = [
 
 const colorClasses: Record<string, { bg: string; border: string; icon: string }> = {
   blue: { bg: 'bg-brand-blue-50', border: 'border-brand-blue-200', icon: 'text-brand-blue-600' },
-  green: { bg: 'bg-brand-green-50', border: 'border-brand-green-200', icon: 'text-brand-green-600' },
+  green: {
+    bg: 'bg-brand-green-50',
+    border: 'border-brand-green-200',
+    icon: 'text-brand-green-600',
+  },
   blue: { bg: 'bg-brand-blue-50', border: 'border-brand-blue-200', icon: 'text-brand-blue-600' },
-  orange: { bg: 'bg-brand-orange-50', border: 'border-brand-orange-200', icon: 'text-brand-orange-600' },
+  orange: {
+    bg: 'bg-brand-orange-50',
+    border: 'border-brand-orange-200',
+    icon: 'text-brand-orange-600',
+  },
   rose: { bg: 'bg-rose-50', border: 'border-rose-200', icon: 'text-rose-600' },
   teal: { bg: 'bg-teal-50', border: 'border-teal-200', icon: 'text-teal-600' },
   indigo: { bg: 'bg-indigo-50', border: 'border-indigo-200', icon: 'text-indigo-600' },
@@ -87,7 +100,9 @@ export default function EqualOpportunityPage() {
       {/* Breadcrumbs */}
       <div className="bg-white border-b border-brand-blue-800">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Funding', href: '/funding' }, { label: 'Equal Opportunity' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Funding', href: '/funding' }, { label: 'Equal Opportunity' }]}
+          />
         </div>
       </div>
 
@@ -100,8 +115,8 @@ export default function EqualOpportunityPage() {
           </div>
           <h1 className="text-4xl md:text-5xl font-bold mb-4">Equal Opportunity Employer</h1>
           <p className="text-xl text-white max-w-3xl">
-            Elevate for Humanity is committed to providing equal opportunity in employment and 
-            education without regard to race, color, religion, sex, national origin, age, 
+            Elevate for Humanity is committed to providing equal opportunity in employment and
+            education without regard to race, color, religion, sex, national origin, age,
             disability, genetic information, or any other protected status.
           </p>
         </div>
@@ -113,25 +128,26 @@ export default function EqualOpportunityPage() {
           <h2 className="text-2xl font-bold text-gray-900 mb-4">Our Commitment</h2>
           <div className="prose prose-lg max-w-none text-gray-700">
             <p>
-              Elevate for Humanity is an Equal Opportunity Employer and Training Provider. We are 
-              committed to creating and maintaining a workplace and learning environment free from 
+              Elevate for Humanity is an Equal Opportunity Employer and Training Provider. We are
+              committed to creating and maintaining a workplace and learning environment free from
               discrimination and harassment.
             </p>
             <p>
-              We provide equal employment opportunities to all employees and applicants without 
-              regard to race, color, religion, sex (including pregnancy, sexual orientation, and 
-              gender identity), national origin, age, disability, genetic information, veteran 
-              status, or any other characteristic protected by applicable federal, state, or local law.
+              We provide equal employment opportunities to all employees and applicants without
+              regard to race, color, religion, sex (including pregnancy, sexual orientation, and
+              gender identity), national origin, age, disability, genetic information, veteran
+              status, or any other characteristic protected by applicable federal, state, or local
+              law.
             </p>
             <p>
-              This policy applies to all terms and conditions of employment, including recruiting, 
-              hiring, placement, promotion, termination, layoff, recall, transfer, leaves of absence, 
-              compensation, and training.
+              This policy applies to all terms and conditions of employment, including recruiting,
+              hiring, placement, promotion, termination, layoff, recall, transfer, leaves of
+              absence, compensation, and training.
             </p>
             <p>
-              As a recipient of federal funding through WIOA and other workforce development programs, 
-              we comply with all applicable non-discrimination requirements and provide equal access 
-              to our programs and services.
+              As a recipient of federal funding through WIOA and other workforce development
+              programs, we comply with all applicable non-discrimination requirements and provide
+              equal access to our programs and services.
             </p>
           </div>
         </section>
@@ -140,15 +156,15 @@ export default function EqualOpportunityPage() {
         <section className="mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Non-Discrimination Policies</h2>
           <p className="text-gray-600 mb-8">
-            Click on each policy below to read the full policy document and understand your rights 
+            Click on each policy below to read the full policy document and understand your rights
             and our obligations under federal law.
           </p>
-          
+
           <div className="grid md:grid-cols-2 gap-6">
             {policies.map((policy) => {
               const Icon = policy.icon;
               const colors = colorClasses[policy.color];
-              
+
               return (
                 <Link
                   key={policy.href}
@@ -164,9 +180,7 @@ export default function EqualOpportunityPage() {
                         {policy.title}
                         <ArrowRight className="w-4 h-4 opacity-0 group-hover:opacity-100 transition" />
                       </h3>
-                      <p className="text-gray-600 text-sm mt-1">
-                        {policy.description}
-                      </p>
+                      <p className="text-gray-600 text-sm mt-1">{policy.description}</p>
                     </div>
                   </div>
                 </Link>
@@ -179,7 +193,8 @@ export default function EqualOpportunityPage() {
         <section className="rounded-xl shadow-sm border p-8 mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-6">Protected Classes</h2>
           <p className="text-gray-600 mb-6">
-            We do not discriminate against any individual based on the following protected characteristics:
+            We do not discriminate against any individual based on the following protected
+            characteristics:
           </p>
           <div className="grid md:grid-cols-3 gap-4">
             {[
@@ -211,29 +226,36 @@ export default function EqualOpportunityPage() {
         <section className="bg-brand-blue-50 rounded-xl border-2 border-brand-blue-200 p-8 mb-12">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">How to File a Complaint</h2>
           <p className="text-gray-700 mb-6">
-            If you believe you have been discriminated against, you have the right to file a complaint. 
-            You may file a complaint with:
+            If you believe you have been discriminated against, you have the right to file a
+            complaint. You may file a complaint with:
           </p>
-          
+
           <div className="grid md:grid-cols-2 gap-6">
             <div className="bg-white rounded-lg p-6">
               <h3 className="font-semibold text-gray-900 mb-2">Internal Complaint</h3>
-              <p className="text-gray-600 text-sm mb-4">
-                Contact our Equal Opportunity Officer:
+              <p className="text-gray-600 text-sm mb-4">Contact our Equal Opportunity Officer:</p>
+              <p className="text-gray-900">
+                Email:{' '}
+                <a href="/contact" className="text-brand-blue-600 hover:underline">
+                  Contact Us
+                </a>
               </p>
               <p className="text-gray-900">
-                Email: <a href="/contact" className="text-brand-blue-600 hover:underline">Contact Us</a>
-              </p>
-              <p className="text-gray-900">
-                Phone: <a href="/support" className="text-brand-blue-600 hover:underline">Visit Support Center</a>
+                Phone:{' '}
+                <a href="/support" className="text-brand-blue-600 hover:underline">
+                  Visit Support Center
+                </a>
               </p>
               <p className="mt-4">
-                <Link href="/grievance" className="text-brand-blue-600 hover:underline text-sm font-medium">
+                <Link
+                  href="/grievance"
+                  className="text-brand-blue-600 hover:underline text-sm font-medium"
+                >
                   View Grievance Procedure →
                 </Link>
               </p>
             </div>
-            
+
             <div className="bg-white rounded-lg p-6">
               <h3 className="font-semibold text-gray-900 mb-2">External Complaint</h3>
               <p className="text-gray-600 text-sm mb-4">
@@ -257,18 +279,19 @@ export default function EqualOpportunityPage() {
           <p className="mt-2">
             Auxiliary aids and services are available upon request to individuals with disabilities.
           </p>
-          <p className="mt-2">
-            TTY/TDD: 711 (Indiana Relay)
-          </p>
+          <p className="mt-2">TTY/TDD: 711 (Indiana Relay)</p>
         </section>
       </div>
 
       {/* CTA Section */}
       <section className="py-16">
         <div className="max-w-4xl mx-auto px-6 text-center">
-          <h2 className="text-3xl font-bold text-slate-900 mb-4">Need Assistance or Have Questions?</h2>
+          <h2 className="text-3xl font-bold text-slate-900 mb-4">
+            Need Assistance or Have Questions?
+          </h2>
           <p className="text-xl text-white mb-8">
-            Contact us for accommodations, to file a complaint, or for more information about our equal opportunity policies.
+            Contact us for accommodations, to file a complaint, or for more information about our
+            equal opportunity policies.
           </p>
           <div className="flex flex-wrap gap-4 justify-center">
             <Link

@@ -8,7 +8,14 @@ import { sendEmail } from './sendgrid';
 
 const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 
-type FundingType = 'wioa' | 'jri' | 'apprenticeship' | 'self-pay' | 'wrg' | 'next-level-jobs' | 'employer-sponsored';
+type FundingType =
+  | 'wioa'
+  | 'jri'
+  | 'apprenticeship'
+  | 'self-pay'
+  | 'wrg'
+  | 'next-level-jobs'
+  | 'employer-sponsored';
 
 interface ProgramInfo {
   name: string;
@@ -23,8 +30,10 @@ interface ProgramInfo {
 const PROGRAMS: Record<string, ProgramInfo> = {
   'hvac-technician': {
     name: 'HVAC Technician',
-    description: 'HVAC technicians install, maintain, and repair heating, ventilation, and air conditioning systems in homes and commercial buildings. This is one of the highest-demand skilled trades in Indiana.',
-    credentials: 'EPA 608 Universal Certification, OSHA 10 Safety Certification, industry-recognized HVAC credentials, Indiana HVAC journeyman license pathway',
+    description:
+      'HVAC technicians install, maintain, and repair heating, ventilation, and air conditioning systems in homes and commercial buildings. This is one of the highest-demand skilled trades in Indiana.',
+    credentials:
+      'EPA 608 Universal Certification, OSHA 10 Safety Certification, industry-recognized HVAC credentials, Indiana HVAC journeyman license pathway',
     careerOutlook: 'Starting pay: $18-$24/hour. Experienced: $25-$40+/hour. Year-round demand.',
     duration: '12 Weeks (144 Hours)',
     funding: ['wioa', 'next-level-jobs', 'wrg'],
@@ -32,7 +41,8 @@ const PROGRAMS: Record<string, ProgramInfo> = {
   },
   'barber-apprenticeship': {
     name: 'Barber Apprenticeship',
-    description: 'USDOL Registered Apprenticeship — 2,000 hours of on-the-job training at an approved barbershop plus online theory through the Elevate LMS to earn your Indiana barber license.',
+    description:
+      'USDOL Registered Apprenticeship — 2,000 hours of on-the-job training at an approved barbershop plus online theory through the Elevate LMS to earn your Indiana barber license.',
     credentials: 'Indiana Barber License',
     careerOutlook: 'Licensed barbers earn $30,000-$60,000+/year. Shop owners earn more.',
     duration: '12-18 Months',
@@ -41,7 +51,8 @@ const PROGRAMS: Record<string, ProgramInfo> = {
   },
   'cna-cert': {
     name: 'CNA (Certified Nursing Assistant)',
-    description: 'CNAs provide direct patient care in hospitals, nursing homes, and home health settings — vital signs, daily activities, and patient monitoring.',
+    description:
+      'CNAs provide direct patient care in hospitals, nursing homes, and home health settings — vital signs, daily activities, and patient monitoring.',
     credentials: 'Indiana CNA Certification',
     careerOutlook: 'Starting pay: $15-$19/hour. Experienced: $18-$24/hour. High demand statewide.',
     duration: '4-8 Weeks',
@@ -50,16 +61,19 @@ const PROGRAMS: Record<string, ProgramInfo> = {
   },
   'cpr-cert': {
     name: 'CPR, AED & First Aid',
-    description: 'American Heart Association CPR/AED and First Aid certifications for healthcare workers, teachers, childcare providers, and anyone who wants life-saving skills.',
+    description:
+      'American Heart Association CPR/AED and First Aid certifications for healthcare workers, teachers, childcare providers, and anyone who wants life-saving skills.',
     credentials: 'AHA CPR/AED and First Aid Certification',
-    careerOutlook: 'Required credential for many healthcare and education jobs. Enhances any resume.',
+    careerOutlook:
+      'Required credential for many healthcare and education jobs. Enhances any resume.',
     duration: '1 Day (4-8 Hours)',
     funding: ['self-pay', 'employer-sponsored'],
     etplApproved: false,
   },
   'medical-assistant': {
     name: 'Medical Assistant',
-    description: 'Medical Assistants work in clinics and doctor offices — taking vitals, drawing blood, scheduling appointments, and assisting physicians.',
+    description:
+      'Medical Assistants work in clinics and doctor offices — taking vitals, drawing blood, scheduling appointments, and assisting physicians.',
     credentials: 'Certified Medical Assistant (CMA)',
     careerOutlook: 'Starting pay: $16-$20/hour. Experienced: $20-$26/hour.',
     duration: '16-24 Weeks',
@@ -68,7 +82,8 @@ const PROGRAMS: Record<string, ProgramInfo> = {
   },
   'phlebotomy-technician': {
     name: 'Phlebotomy Technician',
-    description: 'Phlebotomy Technicians draw blood for lab tests, transfusions, and donations. Fast-track healthcare career.',
+    description:
+      'Phlebotomy Technicians draw blood for lab tests, transfusions, and donations. Fast-track healthcare career.',
     credentials: 'Certified Phlebotomy Technician (CPT)',
     careerOutlook: 'Starting pay: $15-$18/hour. Experienced: $18-$23/hour.',
     duration: '4-8 Weeks',
@@ -77,34 +92,38 @@ const PROGRAMS: Record<string, ProgramInfo> = {
   },
   'cdl-training': {
     name: 'CDL (Commercial Driver License)',
-    description: 'Get your Class A CDL in 4-6 weeks. Classroom instruction, range practice, and real road experience.',
+    description:
+      'Get your Class A CDL in 4-6 weeks. Classroom instruction, range practice, and real road experience.',
     credentials: 'Indiana Class A Commercial Driver License (CDL-A)',
     careerOutlook: 'Starting: $45,000-$55,000/year. Experienced: $60,000-$85,000+/year.',
     duration: '4-6 Weeks (160 Hours)',
     funding: ['wioa', 'wrg', 'employer-sponsored'],
     etplApproved: true,
   },
-  'electrical': {
+  electrical: {
     name: 'Electrical Apprenticeship',
-    description: 'Residential and commercial electrical systems — wiring, circuits, panels, troubleshooting, and NEC code compliance.',
+    description:
+      'Residential and commercial electrical systems — wiring, circuits, panels, troubleshooting, and NEC code compliance.',
     credentials: 'OSHA 10, Indiana Electrical Apprentice Registration',
     careerOutlook: 'Apprentice: $16-$20/hour. Journeyman: $25-$40/hour.',
     duration: '12 Weeks (144 Hours)',
     funding: ['wioa', 'next-level-jobs', 'wrg'],
     etplApproved: true,
   },
-  'plumbing': {
+  plumbing: {
     name: 'Plumbing Apprenticeship',
-    description: 'Indiana Plumbing Code, pipe materials, DWV systems, water supply, fixture installation, and troubleshooting.',
+    description:
+      'Indiana Plumbing Code, pipe materials, DWV systems, water supply, fixture installation, and troubleshooting.',
     credentials: 'OSHA 10, Plumbing Program Completion Certificate',
     careerOutlook: 'Apprentice: $16-$20/hour. Journeyman: $25-$40/hour.',
     duration: '12 Weeks (144 Hours)',
     funding: ['wioa', 'next-level-jobs', 'wrg'],
     etplApproved: true,
   },
-  'welding': {
+  welding: {
     name: 'Welding Certification',
-    description: 'MIG, TIG, stick welding, blueprint reading, and metal fabrication through hands-on training.',
+    description:
+      'MIG, TIG, stick welding, blueprint reading, and metal fabrication through hands-on training.',
     credentials: 'AWS (American Welding Society) Certification',
     careerOutlook: 'Starting: $18-$22/hour. Certified: $25-$40+/hour.',
     duration: '12-24 Weeks',
@@ -113,7 +132,8 @@ const PROGRAMS: Record<string, ProgramInfo> = {
   },
   'it-support-specialist': {
     name: 'IT Support Specialist',
-    description: 'Troubleshoot hardware/software, support end users, maintain computer systems. Entry point into tech.',
+    description:
+      'Troubleshoot hardware/software, support end users, maintain computer systems. Entry point into tech.',
     credentials: 'CompTIA A+ Certification',
     careerOutlook: 'Starting: $18-$22/hour. Experienced: $24-$35/hour.',
     duration: '12-20 Weeks',
@@ -122,7 +142,8 @@ const PROGRAMS: Record<string, ProgramInfo> = {
   },
   'cybersecurity-analyst': {
     name: 'Cybersecurity Fundamentals',
-    description: 'Protect organizations from digital threats — monitoring networks, responding to incidents, implementing security.',
+    description:
+      'Protect organizations from digital threats — monitoring networks, responding to incidents, implementing security.',
     credentials: 'CompTIA Security+ Certification',
     careerOutlook: 'Starting: $22-$30/hour. Experienced: $35-$55/hour.',
     duration: '12-20 Weeks',
@@ -131,7 +152,8 @@ const PROGRAMS: Record<string, ProgramInfo> = {
   },
   'tax-prep': {
     name: 'Tax Preparation Program',
-    description: 'Prepare individual and business tax returns using professional software. Work for a firm or start your own business.',
+    description:
+      'Prepare individual and business tax returns using professional software. Work for a firm or start your own business.',
     credentials: 'IRS PTIN, VITA Certification, QuickBooks Pro Advisor',
     careerOutlook: 'Firms: $15-$25/hour. Self-employed: $50-$200+ per return.',
     duration: '10 Weeks (150 Hours)',
@@ -140,7 +162,8 @@ const PROGRAMS: Record<string, ProgramInfo> = {
   },
   'peer-recovery-specialist-jri': {
     name: 'Certified Peer Recovery Coach',
-    description: 'Support individuals in recovery from substance use disorders using your own lived experience.',
+    description:
+      'Support individuals in recovery from substance use disorders using your own lived experience.',
     credentials: 'Indiana Certified Peer Recovery Coach (CPRC)',
     careerOutlook: 'Starting: $15-$20/hour. Experienced: $20-$28/hour.',
     duration: '45 Days (180 Hours)',
@@ -149,7 +172,8 @@ const PROGRAMS: Record<string, ProgramInfo> = {
   },
   'reentry-specialist': {
     name: 'Public Safety Reentry Specialist',
-    description: 'Help individuals returning from incarceration reintegrate — housing, employment, and support services.',
+    description:
+      'Help individuals returning from incarceration reintegrate — housing, employment, and support services.',
     credentials: 'Reentry Specialist Certificate',
     careerOutlook: 'Starting: $16-$22/hour. Work with corrections, nonprofits, government.',
     duration: '6-8 Weeks',
@@ -158,7 +182,8 @@ const PROGRAMS: Record<string, ProgramInfo> = {
   },
   'forklift-operator': {
     name: 'Forklift Operator Certification',
-    description: 'OSHA-compliant forklift operation in warehouses, distribution centers, and manufacturing.',
+    description:
+      'OSHA-compliant forklift operation in warehouses, distribution centers, and manufacturing.',
     credentials: 'OSHA Forklift Operator Certification',
     careerOutlook: 'Starting: $16-$20/hour. Experienced: $20-$26/hour. Immediate placement.',
     duration: '1-2 Weeks (40 Hours)',
@@ -167,9 +192,11 @@ const PROGRAMS: Record<string, ProgramInfo> = {
   },
   'business-startup': {
     name: 'Business Start-up & Marketing',
-    description: 'Launch your own business — business planning, digital marketing, LLC formation, and financial management.',
+    description:
+      'Launch your own business — business planning, digital marketing, LLC formation, and financial management.',
     credentials: 'Business Start-up Certificate, Marketing Fundamentals Certificate',
-    careerOutlook: 'Self-employment in any industry — barbershop, cleaning, food truck, consulting.',
+    careerOutlook:
+      'Self-employment in any industry — barbershop, cleaning, food truck, consulting.',
     duration: '5 Weeks (32 Hours)',
     funding: ['wioa', 'wrg'],
     etplApproved: true,
@@ -180,11 +207,11 @@ function getProgram(slug: string): ProgramInfo {
   const normalized = slug.toLowerCase().replace(/\s+/g, '-');
   if (PROGRAMS[normalized]) return PROGRAMS[normalized];
   // Try partial match
-  const match = Object.keys(PROGRAMS).find(k => normalized.includes(k) || k.includes(normalized));
+  const match = Object.keys(PROGRAMS).find((k) => normalized.includes(k) || k.includes(normalized));
   if (match) return PROGRAMS[match];
   // Fallback
   return {
-    name: slug.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase()),
+    name: slug.replace(/-/g, ' ').replace(/\b\w/g, (c) => c.toUpperCase()),
     description: 'This program provides hands-on training and industry-recognized credentials.',
     credentials: 'Industry-recognized certification upon completion',
     careerOutlook: 'Competitive wages with strong demand in Indianapolis and across Indiana.',
@@ -199,7 +226,7 @@ function hasFunding(p: ProgramInfo, type: FundingType): boolean {
 }
 
 function isSelfPayOnly(p: ProgramInfo): boolean {
-  return p.funding.every(f => f === 'self-pay' || f === 'employer-sponsored');
+  return p.funding.every((f) => f === 'self-pay' || f === 'employer-sponsored');
 }
 
 export async function sendApplicationWelcomeEmail(params: {

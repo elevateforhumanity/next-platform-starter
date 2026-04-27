@@ -39,17 +39,16 @@ export default async function LmsAppLayout({ children }: { children: ReactNode }
     redirect(loginRedirect);
   }
 
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
 
   if (error || !user) {
     redirect(loginRedirect);
   }
 
-  const { data: profile } = await db
-    .from('profiles')
-    .select('*')
-    .eq('id', user.id)
-    .maybeSingle();
+  const { data: profile } = await db.from('profiles').select('*').eq('id', user.id).maybeSingle();
 
   // Server-side role check
   if (profile?.role && !canAccessRoute('/lms', profile.role)) {
@@ -79,8 +78,7 @@ export default async function LmsAppLayout({ children }: { children: ReactNode }
       const isSuspended =
         barberSub.status === 'suspended' ||
         barberSub.payment_status === 'suspended' ||
-        (barberSub.suspension_deadline &&
-          new Date(barberSub.suspension_deadline) < new Date());
+        (barberSub.suspension_deadline && new Date(barberSub.suspension_deadline) < new Date());
 
       if (isSuspended) {
         redirect('/billing-required?reason=payment_failed');
@@ -98,9 +96,7 @@ export default async function LmsAppLayout({ children }: { children: ReactNode }
         .limit(1)
         .maybeSingle();
 
-      const legacyActive =
-        !!legacyEnrollment?.approved_at ||
-        legacyEnrollment?.status === 'active';
+      const legacyActive = !!legacyEnrollment?.approved_at || legacyEnrollment?.status === 'active';
 
       if (!legacyActive) {
         // Not yet granted — send to student portal with pending state

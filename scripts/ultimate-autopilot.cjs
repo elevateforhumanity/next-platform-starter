@@ -49,9 +49,7 @@ function executeWithFallbacks(command, fallbacks = []) {
 
     // Try fallbacks
     for (let i = 0; i < fallbacks.length; i++) {
-      console.log(
-        `  🔄 Trying fallback ${i + 1}/${fallbacks.length}: ${fallbacks[i]}`
-      );
+      console.log(`  🔄 Trying fallback ${i + 1}/${fallbacks.length}: ${fallbacks[i]}`);
       try {
         const result = execSync(fallbacks[i], {
           encoding: 'utf8',
@@ -80,19 +78,12 @@ function buildFromSource() {
     {
       name: 'Standard pnpm build',
       command: 'pnpm build',
-      fallbacks: [
-        'npm run build',
-        'yarn build',
-        'node node_modules/vite/bin/vite.js build',
-      ],
+      fallbacks: ['npm run build', 'yarn build', 'node node_modules/vite/bin/vite.js build'],
     },
     {
       name: 'Clean build',
       command: 'rm -rf dist node_modules/.vite && pnpm install && pnpm build',
-      fallbacks: [
-        'rm -rf dist && pnpm build',
-        'pnpm install --force && pnpm build',
-      ],
+      fallbacks: ['rm -rf dist && pnpm build', 'pnpm install --force && pnpm build'],
     },
     {
       name: 'Manual Vite build',
@@ -218,10 +209,7 @@ function deployAnywhere() {
     {
       name: 'Firebase Hosting',
       check: () => true,
-      deploy: () =>
-        executeWithFallbacks('npx firebase deploy --only hosting', [
-          'firebase deploy',
-        ]),
+      deploy: () => executeWithFallbacks('npx firebase deploy --only hosting', ['firebase deploy']),
     },
     {
       name: 'Custom HTTP Upload',
@@ -246,9 +234,7 @@ function deployAnywhere() {
     }
   }
 
-  console.log(
-    '  ⚠️  All deployment strategies exhausted. Creating local server...'
-  );
+  console.log('  ⚠️  All deployment strategies exhausted. Creating local server...');
   return startLocalServer();
 }
 
@@ -328,10 +314,7 @@ function startLocalServer() {
   }
 
   const server = http.createServer((req, res) => {
-    const filePath = path.join(
-      distPath,
-      req.url === '/' ? 'index.html' : req.url
-    );
+    const filePath = path.join(distPath, req.url === '/' ? 'index.html' : req.url);
 
     fs.readFile(filePath, (err, data) => {
       if (err) {
@@ -376,8 +359,7 @@ function autoFixIssues() {
     {
       name: 'Fix missing dependencies',
       check: () => !fs.existsSync('./node_modules'),
-      fix: () =>
-        executeWithFallbacks('pnpm install', ['npm install', 'yarn install']),
+      fix: () => executeWithFallbacks('pnpm install', ['npm install', 'yarn install']),
     },
     {
       name: 'Fix environment variables',
@@ -394,8 +376,7 @@ function autoFixIssues() {
     {
       name: 'Fix permissions',
       check: () => process.platform !== 'win32',
-      fix: () =>
-        executeWithFallbacks('chmod +x scripts/*.sh', ['chmod -R +x scripts/']),
+      fix: () => executeWithFallbacks('chmod +x scripts/*.sh', ['chmod -R +x scripts/']),
     },
     {
       name: 'Clear cache',
@@ -473,8 +454,7 @@ function verifyDeployment() {
   const checks = [
     {
       name: 'Build output exists',
-      check: () =>
-        fs.existsSync('./dist') && fs.existsSync('./dist/index.html'),
+      check: () => fs.existsSync('./dist') && fs.existsSync('./dist/index.html'),
     },
     {
       name: 'Assets generated',
@@ -634,14 +614,10 @@ function main() {
     console.log('\n📋 Next steps:');
     console.log('   1. Check deployment-success.json for details');
     console.log('   2. Visit your deployed site');
-    console.log(
-      '   3. Run SEO optimization: node scripts/zero-dependency-seo.js'
-    );
+    console.log('   3. Run SEO optimization: node scripts/zero-dependency-seo.js');
     console.log('   4. Submit sitemap to search engines');
   } else {
-    console.log(
-      '\n⚠️  Some critical tasks failed, but alternatives are available:'
-    );
+    console.log('\n⚠️  Some critical tasks failed, but alternatives are available:');
     console.log('   1. Manual Netlify Drop: https://app.netlify.com/drop');
     console.log('   2. Local preview: npm run preview');
     console.log('   3. Check logs above for specific errors');

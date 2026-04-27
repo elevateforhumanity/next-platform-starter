@@ -5,8 +5,16 @@ import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
-  BookOpen, Users, FileText, Briefcase, Monitor, Download,
-  DollarSign, MessageCircle, ExternalLink, ChevronRight,
+  BookOpen,
+  Users,
+  FileText,
+  Briefcase,
+  Monitor,
+  Download,
+  DollarSign,
+  MessageCircle,
+  ExternalLink,
+  ChevronRight,
 } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -19,35 +27,115 @@ export const metadata: Metadata = {
 
 // Icon map — DB stores icon name as string
 const ICON_MAP: Record<string, React.ElementType> = {
-  BookOpen, Users, FileText, Briefcase, Monitor, Download,
-  DollarSign, MessageCircle,
+  BookOpen,
+  Users,
+  FileText,
+  Briefcase,
+  Monitor,
+  Download,
+  DollarSign,
+  MessageCircle,
 };
 
 const CATEGORY_LABELS: Record<string, string> = {
-  academic:  'Academic Support',
-  career:    'Career Services',
+  academic: 'Academic Support',
+  career: 'Career Services',
   financial: 'Financial Resources',
   technical: 'Technical Support',
-  general:   'General Resources',
+  general: 'General Resources',
 };
 
 const CATEGORY_ORDER = ['academic', 'career', 'financial', 'technical', 'general'];
 
 // Fallback if table not yet populated
 const FALLBACK_RESOURCES = [
-  { id: '1', title: 'Digital Library',   description: 'Access thousands of textbooks, journals, and study materials', category: 'academic',  icon: 'BookOpen',      href: '/lms/library',    external: false, badge: null },
-  { id: '2', title: 'Tutoring Center',   description: 'One-on-one and group tutoring with certified tutors',          category: 'academic',  icon: 'Users',         href: '/tutoring',       external: false, badge: 'Free' },
-  { id: '3', title: 'Writing Center',    description: 'Feedback on essays, reports, and professional documents',      category: 'academic',  icon: 'FileText',      href: '/writing-center', external: false, badge: 'Free' },
-  { id: '4', title: 'Career Services',   description: 'Resume help, interview prep, and job placement assistance',    category: 'career',    icon: 'Briefcase',     href: '/career-services',external: false, badge: null },
-  { id: '5', title: 'IT Help Desk',      description: 'Technical support for LMS access, software, and devices',     category: 'technical', icon: 'Monitor',       href: '/lms/help',       external: false, badge: null },
-  { id: '6', title: 'Study Materials',   description: 'Download practice tests, flashcards, and study guides',       category: 'academic',  icon: 'Download',      href: '/lms/files',      external: false, badge: null },
-  { id: '7', title: 'Financial Aid',     description: 'Scholarships, grants, and payment plan information',           category: 'financial', icon: 'DollarSign',    href: '/financial-aid',  external: false, badge: null },
-  { id: '8', title: 'Student Community', description: 'Connect with classmates and join study groups',               category: 'general',   icon: 'MessageCircle', href: '/lms/community',  external: false, badge: null },
+  {
+    id: '1',
+    title: 'Digital Library',
+    description: 'Access thousands of textbooks, journals, and study materials',
+    category: 'academic',
+    icon: 'BookOpen',
+    href: '/lms/library',
+    external: false,
+    badge: null,
+  },
+  {
+    id: '2',
+    title: 'Tutoring Center',
+    description: 'One-on-one and group tutoring with certified tutors',
+    category: 'academic',
+    icon: 'Users',
+    href: '/tutoring',
+    external: false,
+    badge: 'Free',
+  },
+  {
+    id: '3',
+    title: 'Writing Center',
+    description: 'Feedback on essays, reports, and professional documents',
+    category: 'academic',
+    icon: 'FileText',
+    href: '/writing-center',
+    external: false,
+    badge: 'Free',
+  },
+  {
+    id: '4',
+    title: 'Career Services',
+    description: 'Resume help, interview prep, and job placement assistance',
+    category: 'career',
+    icon: 'Briefcase',
+    href: '/career-services',
+    external: false,
+    badge: null,
+  },
+  {
+    id: '5',
+    title: 'IT Help Desk',
+    description: 'Technical support for LMS access, software, and devices',
+    category: 'technical',
+    icon: 'Monitor',
+    href: '/lms/help',
+    external: false,
+    badge: null,
+  },
+  {
+    id: '6',
+    title: 'Study Materials',
+    description: 'Download practice tests, flashcards, and study guides',
+    category: 'academic',
+    icon: 'Download',
+    href: '/lms/files',
+    external: false,
+    badge: null,
+  },
+  {
+    id: '7',
+    title: 'Financial Aid',
+    description: 'Scholarships, grants, and payment plan information',
+    category: 'financial',
+    icon: 'DollarSign',
+    href: '/financial-aid',
+    external: false,
+    badge: null,
+  },
+  {
+    id: '8',
+    title: 'Student Community',
+    description: 'Connect with classmates and join study groups',
+    category: 'general',
+    icon: 'MessageCircle',
+    href: '/lms/community',
+    external: false,
+    badge: null,
+  },
 ];
 
 export default async function StudentPortalResourcesPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/student-portal/resources');
 
   const { data: dbResources } = await supabase
@@ -56,7 +144,7 @@ export default async function StudentPortalResourcesPage() {
     .eq('active', true)
     .order('display_order', { ascending: true });
 
-  const resources = (dbResources && dbResources.length > 0) ? dbResources : FALLBACK_RESOURCES;
+  const resources = dbResources && dbResources.length > 0 ? dbResources : FALLBACK_RESOURCES;
 
   // Group by category
   const grouped = CATEGORY_ORDER.reduce<Record<string, typeof resources>>((acc, cat) => {
@@ -75,19 +163,30 @@ export default async function StudentPortalResourcesPage() {
   return (
     <div className="min-h-screen bg-white">
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/student-portal-page-6.jpg" alt="Student resources" fill sizes="100vw" className="object-cover" priority />
+        <Image
+          src="/images/pages/student-portal-page-6.jpg"
+          alt="Student resources"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
         <div className="absolute inset-0 bg-slate-900/40" />
         <div className="absolute inset-0 flex items-end">
           <div className="max-w-7xl mx-auto px-4 sm:px-6 pb-6 w-full">
             <h1 className="text-3xl sm:text-4xl font-extrabold text-white">Student Resources</h1>
-            <p className="text-white/80 text-sm mt-1">Everything you need to succeed in your program</p>
+            <p className="text-white/80 text-sm mt-1">
+              Everything you need to succeed in your program
+            </p>
           </div>
         </div>
       </section>
 
       <div className="bg-white border-b border-gray-200">
         <div className="max-w-7xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Student Portal', href: '/student-portal' }, { label: 'Resources' }]} />
+          <Breadcrumbs
+            items={[{ label: 'Student Portal', href: '/student-portal' }, { label: 'Resources' }]}
+          />
         </div>
       </div>
 
@@ -119,16 +218,20 @@ export default async function StudentPortalResourcesPage() {
                             {resource.badge}
                           </span>
                         )}
-                        {resource.external
-                          ? <ExternalLink className="w-3.5 h-3.5 text-slate-700" />
-                          : <ChevronRight className="w-4 h-4 text-slate-700 group-hover:text-brand-blue-500 transition-colors" />}
+                        {resource.external ? (
+                          <ExternalLink className="w-3.5 h-3.5 text-slate-700" />
+                        ) : (
+                          <ChevronRight className="w-4 h-4 text-slate-700 group-hover:text-brand-blue-500 transition-colors" />
+                        )}
                       </div>
                     </div>
                     <h3 className="font-semibold text-slate-900 text-sm mb-1 group-hover:text-brand-blue-700 transition-colors">
                       {resource.title}
                     </h3>
                     {resource.description && (
-                      <p className="text-xs text-slate-700 leading-relaxed flex-1">{resource.description}</p>
+                      <p className="text-xs text-slate-700 leading-relaxed flex-1">
+                        {resource.description}
+                      </p>
                     )}
                   </Link>
                 );
@@ -144,10 +247,16 @@ export default async function StudentPortalResourcesPage() {
             <p className="text-sm text-brand-blue-700 mt-0.5">Student services is here to help.</p>
           </div>
           <div className="flex gap-3 flex-shrink-0">
-            <a href="tel:+13173143757" className="inline-flex items-center gap-2 bg-white border border-brand-blue-200 text-brand-blue-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-blue-100 transition-colors">
+            <a
+              href="tel:+13173143757"
+              className="inline-flex items-center gap-2 bg-white border border-brand-blue-200 text-brand-blue-700 px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-blue-100 transition-colors"
+            >
               (317) 314-3757
             </a>
-            <Link href="/contact" className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition-colors">
+            <Link
+              href="/contact"
+              className="inline-flex items-center gap-2 bg-brand-blue-600 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-brand-blue-700 transition-colors"
+            >
               Contact Us <ChevronRight className="w-4 h-4" />
             </Link>
           </div>

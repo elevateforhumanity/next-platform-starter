@@ -22,7 +22,7 @@ export async function POST(request: NextRequest) {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Basic ${Buffer.from(`${publicKey}:${privateKey}`).toString('base64')}`,
+        Authorization: `Basic ${Buffer.from(`${publicKey}:${privateKey}`).toString('base64')}`,
       },
       body: JSON.stringify({
         checkout_token,
@@ -83,10 +83,11 @@ export async function POST(request: NextRequest) {
       charge_id: chargeData.id,
       enrollment_id: enrollment?.id,
     });
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return NextResponse.json(
       { error: error.message || 'Failed to process Affirm payment' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

@@ -105,13 +105,7 @@ serve(async (req) => {
     }
 
     // Generate app template
-    const template = generateExpoTemplate(
-      appName,
-      primary,
-      accent,
-      logoUrl,
-      org_id
-    );
+    const template = generateExpoTemplate(appName, primary, accent, logoUrl, org_id);
 
     // Upload template to storage
     const templateBlob = new Blob([template], { type: 'application/json' });
@@ -137,10 +131,7 @@ serve(async (req) => {
     }
 
     // Update build status
-    await supabase
-      .from('mobile_apps')
-      .update({ build_status: 'building' })
-      .eq('id', app.id);
+    await supabase.from('mobile_apps').update({ build_status: 'building' }).eq('id', app.id);
 
     return new Response(
       JSON.stringify({
@@ -150,7 +141,7 @@ serve(async (req) => {
       }),
       {
         headers: { 'Content-Type': 'application/json' },
-      }
+      },
     );
   } catch (error) {
     return new Response(`Error: ${error.message}`, { status: 500 });
@@ -162,7 +153,7 @@ function generateExpoTemplate(
   primary: string,
   accent: string,
   logoUrl: string | undefined,
-  orgId: string
+  orgId: string,
 ): string {
   return JSON.stringify(
     {
@@ -205,6 +196,6 @@ function generateExpoTemplate(
       },
     },
     null,
-    2
+    2,
   );
 }

@@ -6,18 +6,24 @@ import { useState, useEffect, Suspense } from 'react';
 import { useSearchParams, useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Loader2, CreditCard, Calculator, Info } from 'lucide-react';
+import HeroVideo from '@/components/marketing/HeroVideo';
 
 // Pricing constants - matches lib/programs/pricing.ts
 const PRICING = {
   totalHours: 2000,
   fullPrice: 4980,
-  minDeposit: 600,       // minimum down payment / starting deposit
+  minDeposit: 600, // minimum down payment / starting deposit
   billingDay: 'Friday',
 };
 
-function calculateWeeklyPayment(hoursPerWeek: number, transferHours: number = 0, deposit: number = PRICING.minDeposit) {
+function calculateWeeklyPayment(
+  hoursPerWeek: number,
+  transferHours: number = 0,
+  deposit: number = PRICING.minDeposit,
+) {
   const remainingHours = PRICING.totalHours - transferHours;
-  const weeks = Math.ceil(remainingHours / hoursPerWeek);
+  // Fixed 29-week payment term per lib/programs/pricing.ts — do not derive from hours
+  const weeks = 29;
   const remainingBalance = PRICING.fullPrice - deposit;
   const weeklyDollars = weeks > 0 ? Math.round((remainingBalance / weeks) * 100) / 100 : 0;
   return { weeklyDollars, weeks, remainingHours, remainingBalance };
@@ -48,15 +54,17 @@ function BarberApprenticeshipApplyPageInner() {
   const [error, setError] = useState('');
   const [errorSeverity, setErrorSeverity] = useState<'info' | 'critical'>('info');
   const [nextFriday, setNextFriday] = useState('Friday');
-  
+
   // Payment calculator state
   const [transferHours, setTransferHours] = useState(0);
   const [hoursPerWeek, setHoursPerWeek] = useState(40);
-  
+
   // Payment option
-  const [paymentOption, setPaymentOption] = useState<'weekly' | 'full' | 'custom' | 'sezzle' | 'affirm'>('weekly');
+  const [paymentOption, setPaymentOption] = useState<
+    'weekly' | 'full' | 'custom' | 'sezzle' | 'affirm'
+  >('weekly');
   const [customAmount, setCustomAmount] = useState(PRICING.minDeposit);
-  
+
   // Form state
   const [formData, setFormData] = useState({
     firstName: '',
@@ -74,10 +82,14 @@ function BarberApprenticeshipApplyPageInner() {
 
   // Use the actual deposit amount for weekly plan so remaining balance is accurate
   const depositForCalc = paymentOption === 'weekly' ? PRICING.minDeposit : customAmount;
-  const { weeklyDollars, weeks, remainingHours, remainingBalance } = calculateWeeklyPayment(hoursPerWeek, transferHours, depositForCalc);
+  const { weeklyDollars, weeks, remainingHours, remainingBalance } = calculateWeeklyPayment(
+    hoursPerWeek,
+    transferHours,
+    depositForCalc,
+  );
 
   const updateField = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   const handlePayNow = async () => {
@@ -151,11 +163,14 @@ function BarberApprenticeshipApplyPageInner() {
             hostShopName: formData.hostShopName,
           }),
         });
-        
+
         const affirmData = await checkoutResponse.json();
-        
+
         if (!checkoutResponse.ok || !affirmData.checkoutConfig) {
-          setError(affirmData.error || 'Affirm is temporarily unavailable. Please select Card, Payment Plan, or another option above.');
+          setError(
+            affirmData.error ||
+              'Affirm is temporarily unavailable. Please select Card, Payment Plan, or another option above.',
+          );
           setErrorSeverity('info');
           setLoading(false);
           return;
@@ -164,7 +179,7 @@ function BarberApprenticeshipApplyPageInner() {
         // Load Affirm JS SDK dynamically
         try {
           const affirmJsUrl = affirmData.affirmJsUrl || 'https://cdn1.affirm.com/js/v2/affirm.js';
-          
+
           // Set up Affirm config on window before loading SDK
           (window as any)._affirm_config = {
             public_api_key: affirmData.publicKey,
@@ -193,13 +208,15 @@ function BarberApprenticeshipApplyPageInner() {
           }
         } catch (sdkError) {
           console.error('Affirm SDK error:', sdkError);
-          setError('Affirm checkout could not load. Please select Card, Payment Plan, or another option above.');
+          setError(
+            'Affirm checkout could not load. Please select Card, Payment Plan, or another option above.',
+          );
           setErrorSeverity('info');
           setLoading(false);
         }
         return;
       } else if (paymentOption === 'sezzle') {
-        // Sezzle - pay over time. Minimum is the setup fee ($1,743).
+        // Sezzle - pay over time. Minimum is the configured down payment ($600).
         const sezzleAmount = Math.min(2500, Math.max(PRICING.minDeposit, customAmount));
         checkoutResponse = await fetch('/api/sezzle/checkout', {
           method: 'POST',
@@ -222,14 +239,17 @@ function BarberApprenticeshipApplyPageInner() {
             hostShopName: formData.hostShopName,
           }),
         });
-        
+
         const sezzleData = await checkoutResponse.json();
         // Sezzle response received
-        
+
         if (checkoutResponse.ok && sezzleData.checkoutUrl) {
           window.location.href = sezzleData.checkoutUrl;
         } else {
-          setError(sezzleData.error || 'Sezzle is temporarily unavailable. Please select Card, Payment Plan, or another option above.');
+          setError(
+            sezzleData.error ||
+              'Sezzle is temporarily unavailable. Please select Card, Payment Plan, or another option above.',
+          );
           setErrorSeverity('info');
           setLoading(false);
         }
@@ -275,7 +295,11 @@ function BarberApprenticeshipApplyPageInner() {
         window.location.href = checkoutData.url;
       } else {
         console.error('Checkout error:', checkoutData);
-        setError(checkoutData.error || checkoutData.details || 'Unable to create checkout. Please try again or select a different payment option.');
+        setError(
+          checkoutData.error ||
+            checkoutData.details ||
+            'Unable to create checkout. Please try again or select a different payment option.',
+        );
         setErrorSeverity('critical');
         setLoading(false);
       }
@@ -289,39 +313,33 @@ function BarberApprenticeshipApplyPageInner() {
 
   return (
     <main className="min-h-screen bg-white">
-      {/* Video Hero */}
-      <section className="relative h-[40vh] min-h-[300px] flex items-center">
-        <video
-          autoPlay
-          loop
-          muted
-          playsInline
-          className="absolute inset-0 w-full h-full object-cover"
-          poster="/hero-images/barber-hero.jpg"
-        >
-          <source src="/videos/barber-hero-final.mp4" type="video/mp4" />
-        </video>
-        
-        <div className="relative z-10 max-w-5xl mx-auto px-6 w-full">
-          <Link 
-            href="/programs/barber-apprenticeship" 
-            className="inline-flex items-center gap-2 text-white/80 hover:text-white text-sm mb-4"
+      <HeroVideo
+        videoSrcDesktop="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4"
+        videoSrcMobile="/videos/barber-hero-final.mp4"
+        posterImage="/hero-images/barber-hero.jpg"
+        microLabel="Barber Apprenticeship"
+        analyticsName="barber-apply"
+      >
+        <div className="max-w-5xl">
+          <Link
+            href="/programs/barber-apprenticeship"
+            className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 text-sm mb-4"
           >
             <ArrowLeft className="w-4 h-4" />
             Back to Program
           </Link>
-          <h1 className="text-4xl md:text-5xl font-bold text-white drop-shadow-lg">
-            Enroll & Pay
+          <h1 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold text-slate-900 leading-tight mb-3">
+            Enroll &amp; Pay
           </h1>
-          <p className="text-xl text-white/90 mt-2 drop-shadow-md">
-            Barber Apprenticeship Program
+          <p className="text-slate-700 text-lg leading-relaxed">
+            Barber Apprenticeship Program — payment calculator, flexible down payment, and secure
+            checkout.
           </p>
         </div>
-      </section>
+      </HeroVideo>
 
       <div className="max-w-5xl mx-auto px-6 py-12">
         <div className="grid lg:grid-cols-5 gap-8">
-          
           {/* Left Column - Payment Calculator */}
           <div className="lg:col-span-2">
             <div className="bg-brand-blue-600 rounded-2xl p-6 text-white sticky top-8">
@@ -375,7 +393,9 @@ function BarberApprenticeshipApplyPageInner() {
               <div className="bg-white/10 rounded-xl p-4 mb-4">
                 <div className="grid grid-cols-2 gap-4 text-center">
                   <div>
-                    <div className="text-brand-blue-200 text-xs uppercase mb-1">Remaining Hours</div>
+                    <div className="text-brand-blue-200 text-xs uppercase mb-1">
+                      Remaining Hours
+                    </div>
                     <div className="text-2xl font-black">{remainingHours.toLocaleString()}</div>
                   </div>
                   <div>
@@ -398,8 +418,12 @@ function BarberApprenticeshipApplyPageInner() {
                 <div className="text-center">
                   <div className="text-green-200 text-xs uppercase mb-1">Payment Options</div>
                   <div className="text-sm text-white mt-2 space-y-1">
-                    <p><strong>Pay in Full:</strong> Card or Bank</p>
-                    <p><strong>Affirm/Klarna:</strong> Split into payments</p>
+                    <p>
+                      <strong>Pay in Full:</strong> Card or Bank
+                    </p>
+                    <p>
+                      <strong>Affirm/Klarna:</strong> Split into payments
+                    </p>
                   </div>
                 </div>
               </div>
@@ -407,7 +431,8 @@ function BarberApprenticeshipApplyPageInner() {
               {/* If not approved for full BNPL */}
               <div className="bg-white/10 rounded-xl p-3 mt-4">
                 <p className="text-xs text-brand-blue-200 text-center">
-                  If BNPL partially approved, remaining balance split into ~{weeks} weekly payments of ${weeklyDollars.toFixed(2)}
+                  If BNPL partially approved, remaining balance split into ~{weeks} weekly payments
+                  of ${weeklyDollars.toFixed(2)}
                 </p>
               </div>
 
@@ -423,17 +448,23 @@ function BarberApprenticeshipApplyPageInner() {
           {/* Right Column - Form & Payment */}
           <div className="lg:col-span-3">
             {error && (
-              <div className={`mb-6 p-4 rounded-lg border ${
-                errorSeverity === 'critical' 
-                  ? 'bg-red-50 border-red-200' 
-                  : 'bg-amber-50 border-amber-200'
-              }`}>
-                <p className={`font-medium ${
-                  errorSeverity === 'critical' ? 'text-red-800' : 'text-amber-800'
-                }`}>{error}</p>
+              <div
+                className={`mb-6 p-4 rounded-lg border ${
+                  errorSeverity === 'critical'
+                    ? 'bg-red-50 border-red-200'
+                    : 'bg-amber-50 border-amber-200'
+                }`}
+              >
+                <p
+                  className={`font-medium ${
+                    errorSeverity === 'critical' ? 'text-red-800' : 'text-amber-800'
+                  }`}
+                >
+                  {error}
+                </p>
                 {errorSeverity === 'critical' && (
-                  <a 
-                    href="/support" 
+                  <a
+                    href="/support"
                     className="inline-block mt-2 text-red-600 font-medium hover:underline"
                   >
                     Need help? Call Get Help Online
@@ -444,7 +475,7 @@ function BarberApprenticeshipApplyPageInner() {
 
             <div className="bg-white rounded-2xl shadow-lg border border-gray-200 p-6 sm:p-8">
               <h2 className="text-2xl font-bold text-black mb-6">Your Information</h2>
-              
+
               <div className="space-y-5">
                 {/* Name */}
                 <div className="grid grid-cols-2 gap-4">
@@ -462,9 +493,7 @@ function BarberApprenticeshipApplyPageInner() {
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-medium text-black mb-1">
-                      Last Name *
-                    </label>
+                    <label className="block text-sm font-medium text-black mb-1">Last Name *</label>
                     <input
                       type="text"
                       required
@@ -478,9 +507,7 @@ function BarberApprenticeshipApplyPageInner() {
 
                 {/* Contact */}
                 <div>
-                  <label className="block text-sm font-medium text-black mb-1">
-                    Email *
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-1">Email *</label>
                   <input
                     type="email"
                     required
@@ -492,9 +519,7 @@ function BarberApprenticeshipApplyPageInner() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-black mb-1">
-                    Phone *
-                  </label>
+                  <label className="block text-sm font-medium text-black mb-1">Phone *</label>
                   <input
                     type="tel"
                     required
@@ -581,14 +606,14 @@ function BarberApprenticeshipApplyPageInner() {
                 {/* Payment Options */}
                 <div className="border-t border-black pt-6 mt-6">
                   <p className="text-lg text-black font-bold mb-4">Choose Payment Option</p>
-                  
+
                   {/* Option 1: Pay in Full */}
                   <button
                     type="button"
                     onClick={() => setPaymentOption('full')}
                     className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
-                      paymentOption === 'full' 
-                        ? 'border-green-600 bg-green-50' 
+                      paymentOption === 'full'
+                        ? 'border-green-600 bg-green-50'
                         : 'border-gray-300 bg-white hover:border-gray-400'
                     }`}
                   >
@@ -598,8 +623,12 @@ function BarberApprenticeshipApplyPageInner() {
                         <p className="text-black text-sm">One-time payment - 5% discount</p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-green-600 text-xl">${Math.round(PRICING.fullPrice * 0.95).toLocaleString()}</p>
-                        <p className="text-xs text-black line-through">${PRICING.fullPrice.toLocaleString()}</p>
+                        <p className="font-bold text-green-600 text-xl">
+                          ${Math.round(PRICING.fullPrice * 0.95).toLocaleString()}
+                        </p>
+                        <p className="text-xs text-black line-through">
+                          ${PRICING.fullPrice.toLocaleString()}
+                        </p>
                       </div>
                     </div>
                   </button>
@@ -609,18 +638,23 @@ function BarberApprenticeshipApplyPageInner() {
                     type="button"
                     onClick={() => setPaymentOption('weekly')}
                     className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
-                      paymentOption === 'weekly' 
-                        ? 'border-brand-orange-600 bg-orange-50' 
+                      paymentOption === 'weekly'
+                        ? 'border-brand-orange-600 bg-orange-50'
                         : 'border-gray-300 bg-white hover:border-gray-400'
                     }`}
                   >
                     <div className="flex justify-between items-center">
                       <div>
                         <p className="font-bold text-black text-lg">Payment Plan</p>
-                        <p className="text-black text-sm">${PRICING.minDeposit.toLocaleString()} today + ${weeklyDollars.toFixed(2)}/week</p>
+                        <p className="text-black text-sm">
+                          ${PRICING.minDeposit.toLocaleString()} today + ${weeklyDollars.toFixed(2)}
+                          /week
+                        </p>
                       </div>
                       <div className="text-right">
-                        <p className="font-bold text-brand-orange-600 text-xl">${PRICING.minDeposit.toLocaleString()}</p>
+                        <p className="font-bold text-brand-orange-600 text-xl">
+                          ${PRICING.minDeposit.toLocaleString()}
+                        </p>
                         <p className="text-xs text-black">due today</p>
                       </div>
                     </div>
@@ -631,15 +665,17 @@ function BarberApprenticeshipApplyPageInner() {
                     type="button"
                     onClick={() => setPaymentOption('custom')}
                     className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
-                      paymentOption === 'custom' 
-                        ? 'border-brand-blue-600 bg-brand-blue-50' 
+                      paymentOption === 'custom'
+                        ? 'border-brand-blue-600 bg-brand-blue-50'
                         : 'border-gray-300 bg-white hover:border-gray-400'
                     }`}
                   >
                     <div className="flex justify-between items-center">
                       <div>
                         <p className="font-bold text-black text-lg">Custom Amount</p>
-                        <p className="text-black text-sm">Pay what you can today (min ${PRICING.minDeposit.toLocaleString()})</p>
+                        <p className="text-black text-sm">
+                          Pay what you can today (min ${PRICING.minDeposit.toLocaleString()})
+                        </p>
                       </div>
                       <div className="text-right">
                         <p className="font-bold text-brand-blue-600 text-lg">You Choose</p>
@@ -667,13 +703,16 @@ function BarberApprenticeshipApplyPageInner() {
                           onBlur={() => {
                             const min = PRICING.minDeposit;
                             if (customAmount < min) setCustomAmount(min);
-                            if (customAmount > PRICING.fullPrice) setCustomAmount(PRICING.fullPrice);
+                            if (customAmount > PRICING.fullPrice)
+                              setCustomAmount(PRICING.fullPrice);
                           }}
                           className="w-full px-4 py-3 text-2xl font-bold border-2 border-brand-blue-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                         />
                       </div>
                       <p className="text-sm text-black mt-2">
-                        Remaining ${(PRICING.fullPrice - customAmount).toLocaleString()} will be billed weekly at ${((PRICING.fullPrice - customAmount) / weeks).toFixed(2)}/week
+                        Remaining ${(PRICING.fullPrice - customAmount).toLocaleString()} will be
+                        billed weekly at ${((PRICING.fullPrice - customAmount) / weeks).toFixed(2)}
+                        /week
                       </p>
                     </div>
                   )}
@@ -683,8 +722,8 @@ function BarberApprenticeshipApplyPageInner() {
                     type="button"
                     onClick={() => setPaymentOption('affirm')}
                     className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
-                      paymentOption === 'affirm' 
-                        ? 'border-brand-blue-600 bg-brand-blue-50' 
+                      paymentOption === 'affirm'
+                        ? 'border-brand-blue-600 bg-brand-blue-50'
                         : 'border-gray-300 bg-white hover:border-gray-400'
                     }`}
                   >
@@ -695,7 +734,9 @@ function BarberApprenticeshipApplyPageInner() {
                       </div>
                       <div className="text-right">
                         <p className="font-bold text-brand-blue-600 text-lg">You Choose</p>
-                        <p className="text-xs text-black">min ${PRICING.minDeposit.toLocaleString()}</p>
+                        <p className="text-xs text-black">
+                          min ${PRICING.minDeposit.toLocaleString()}
+                        </p>
                       </div>
                     </div>
                   </button>
@@ -704,7 +745,8 @@ function BarberApprenticeshipApplyPageInner() {
                   {paymentOption === 'affirm' && (
                     <div className="bg-brand-blue-50 rounded-xl p-4 mb-3 border-2 border-brand-blue-200">
                       <label className="block text-sm font-medium text-black mb-2">
-                        How much do you want to finance with Affirm? (min ${PRICING.minDeposit.toLocaleString()})
+                        How much do you want to finance with Affirm? (min $
+                        {PRICING.minDeposit.toLocaleString()})
                       </label>
                       <div className="flex items-center gap-2">
                         <span className="text-2xl font-bold text-black">$</span>
@@ -718,8 +760,10 @@ function BarberApprenticeshipApplyPageInner() {
                             setCustomAmount(val ? parseInt(val) : 0);
                           }}
                           onBlur={() => {
-                            if (customAmount < PRICING.minDeposit) setCustomAmount(PRICING.minDeposit);
-                            if (customAmount > PRICING.fullPrice) setCustomAmount(PRICING.fullPrice);
+                            if (customAmount < PRICING.minDeposit)
+                              setCustomAmount(PRICING.minDeposit);
+                            if (customAmount > PRICING.fullPrice)
+                              setCustomAmount(PRICING.fullPrice);
                           }}
                           className="w-full px-4 py-3 text-2xl font-bold border-2 border-brand-blue-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
                         />
@@ -735,8 +779,8 @@ function BarberApprenticeshipApplyPageInner() {
                     type="button"
                     onClick={() => setPaymentOption('sezzle')}
                     className={`w-full p-4 rounded-xl border-2 mb-3 text-left transition ${
-                      paymentOption === 'sezzle' 
-                        ? 'border-indigo-600 bg-indigo-50' 
+                      paymentOption === 'sezzle'
+                        ? 'border-indigo-600 bg-indigo-50'
                         : 'border-gray-300 bg-white hover:border-gray-400'
                     }`}
                   >
@@ -747,7 +791,9 @@ function BarberApprenticeshipApplyPageInner() {
                       </div>
                       <div className="text-right">
                         <p className="font-bold text-indigo-600 text-lg">You Choose</p>
-                        <p className="text-xs text-black">${PRICING.minDeposit.toLocaleString()} - $2,500</p>
+                        <p className="text-xs text-black">
+                          ${PRICING.minDeposit.toLocaleString()} - $2,500
+                        </p>
                       </div>
                     </div>
                   </button>
@@ -756,7 +802,8 @@ function BarberApprenticeshipApplyPageInner() {
                   {paymentOption === 'sezzle' && (
                     <div className="bg-indigo-50 rounded-xl p-4 mb-3 border-2 border-indigo-200">
                       <label className="block text-sm font-medium text-black mb-2">
-                        How much do you want to pay with Sezzle? (${PRICING.minDeposit.toLocaleString()} - $2,500)
+                        How much do you want to pay with Sezzle? ($
+                        {PRICING.minDeposit.toLocaleString()} - $2,500)
                       </label>
                       <div className="flex items-center gap-2">
                         <span className="text-2xl font-bold text-black">$</span>
@@ -770,40 +817,67 @@ function BarberApprenticeshipApplyPageInner() {
                             setCustomAmount(val ? parseInt(val) : 0);
                           }}
                           onBlur={() => {
-                            if (customAmount < PRICING.minDeposit) setCustomAmount(PRICING.minDeposit);
+                            if (customAmount < PRICING.minDeposit)
+                              setCustomAmount(PRICING.minDeposit);
                             if (customAmount > 2500) setCustomAmount(2500);
                           }}
                           className="w-full px-4 py-3 text-2xl font-bold border-2 border-indigo-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500"
                         />
                       </div>
                       <p className="text-sm text-black mt-2">
-                        Sezzle will check your eligibility - 4 payments of ${Math.round((customAmount || 0) / 4).toLocaleString()} every 2 weeks
+                        Sezzle will check your eligibility - 4 payments of $
+                        {Math.round((customAmount || 0) / 4).toLocaleString()} every 2 weeks
                       </p>
                     </div>
                   )}
 
                   {/* Payment Methods Available */}
                   <div className="bg-gray-50 rounded-xl p-4 mb-4">
-                    <p className="text-sm text-black font-medium mb-3">Payment methods available at checkout:</p>
+                    <p className="text-sm text-black font-medium mb-3">
+                      Payment methods available at checkout:
+                    </p>
                     <div className="flex flex-wrap gap-2 justify-center mb-2">
-                      <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">Card</span>
-                      <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">Apple Pay</span>
-                      <span className="px-3 py-1 bg-white text-black border border-black rounded-full text-xs font-bold">Google Pay</span>
-                      <span className="px-3 py-1 bg-brand-blue-900 text-white rounded-full text-xs font-bold">Samsung Pay</span>
-                      <span className="px-3 py-1 bg-brand-blue-100 text-brand-blue-700 rounded-full text-xs font-bold">Link</span>
+                      <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">
+                        Card
+                      </span>
+                      <span className="px-3 py-1 bg-black text-white rounded-full text-xs font-bold">
+                        Apple Pay
+                      </span>
+                      <span className="px-3 py-1 bg-white text-black border border-black rounded-full text-xs font-bold">
+                        Google Pay
+                      </span>
+                      <span className="px-3 py-1 bg-brand-blue-900 text-white rounded-full text-xs font-bold">
+                        Samsung Pay
+                      </span>
+                      <span className="px-3 py-1 bg-brand-blue-100 text-brand-blue-700 rounded-full text-xs font-bold">
+                        Link
+                      </span>
                     </div>
                     <div className="flex flex-wrap gap-2 justify-center mb-2">
-                      <span className="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-xs font-bold">Klarna</span>
-                      <span className="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-bold">Afterpay</span>
-                      <span className="px-3 py-1 bg-brand-blue-100 text-brand-blue-700 rounded-full text-xs font-bold">Zip</span>
+                      <span className="px-3 py-1 bg-pink-100 text-pink-700 rounded-full text-xs font-bold">
+                        Klarna
+                      </span>
+                      <span className="px-3 py-1 bg-teal-100 text-teal-700 rounded-full text-xs font-bold">
+                        Afterpay
+                      </span>
+                      <span className="px-3 py-1 bg-brand-blue-100 text-brand-blue-700 rounded-full text-xs font-bold">
+                        Zip
+                      </span>
                     </div>
                     <div className="flex flex-wrap gap-2 justify-center">
-                      <span className="px-3 py-1 bg-green-500 text-white rounded-full text-xs font-bold">Cash App</span>
-                      <span className="px-3 py-1 bg-orange-400 text-white rounded-full text-xs font-bold">Amazon Pay</span>
-                      <span className="px-3 py-1 bg-brand-blue-600 text-white rounded-full text-xs font-bold">Bank (ACH)</span>
+                      <span className="px-3 py-1 bg-green-500 text-white rounded-full text-xs font-bold">
+                        Cash App
+                      </span>
+                      <span className="px-3 py-1 bg-orange-400 text-white rounded-full text-xs font-bold">
+                        Amazon Pay
+                      </span>
+                      <span className="px-3 py-1 bg-brand-blue-600 text-white rounded-full text-xs font-bold">
+                        Bank (ACH)
+                      </span>
                     </div>
                     <p className="text-xs text-gray-600 mt-3 text-center">
-                      Payment options subject to eligibility. Terms and availability vary by provider.
+                      Payment options subject to eligibility. Terms and availability vary by
+                      provider.
                     </p>
                   </div>
                 </div>
@@ -811,7 +885,13 @@ function BarberApprenticeshipApplyPageInner() {
                 {/* Pay Button */}
                 <button
                   onClick={handlePayNow}
-                  disabled={loading || !formData.email || !formData.firstName || !formData.lastName || !formData.phone}
+                  disabled={
+                    loading ||
+                    !formData.email ||
+                    !formData.firstName ||
+                    !formData.lastName ||
+                    !formData.phone
+                  }
                   className="w-full py-4 bg-brand-blue-600 hover:bg-brand-blue-700 disabled:bg-gray-300 text-white font-bold rounded-lg transition-colors flex items-center justify-center gap-2 text-lg"
                 >
                   {loading ? (
@@ -828,7 +908,8 @@ function BarberApprenticeshipApplyPageInner() {
                 </button>
 
                 <p className="text-center text-sm text-black mt-4">
-                  Secure payment via Stripe. Card, Apple Pay, Google Pay, PayPal, Venmo, Cash App accepted.
+                  Secure payment via Stripe. Card, Apple Pay, Google Pay, PayPal, Venmo, Cash App
+                  accepted.
                 </p>
               </div>
             </div>
@@ -836,8 +917,12 @@ function BarberApprenticeshipApplyPageInner() {
             {/* Payment Options Notice */}
             <div className="mt-6 bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-4">
               <p className="text-brand-blue-800 text-sm">
-                <strong>Have questions?</strong> Contact us for payment plan options or employer-sponsored funding.{' '}
-                <Link href="/inquiry?program=barber-apprenticeship" className="text-brand-blue-700 font-medium hover:underline">
+                <strong>Have questions?</strong> Contact us for payment plan options or
+                employer-sponsored funding.{' '}
+                <Link
+                  href="/inquiry?program=barber-apprenticeship"
+                  className="text-brand-blue-700 font-medium hover:underline"
+                >
                   Request information →
                 </Link>
               </p>

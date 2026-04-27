@@ -13,9 +13,11 @@ export default function ProgramHolderSetup() {
       const { createBrowserClient } = await import('@supabase/ssr');
       const supabase = createBrowserClient(
         process.env.NEXT_PUBLIC_SUPABASE_URL!,
-        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+        process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
       );
-      const { data: { session } } = await supabase.auth.getSession();
+      const {
+        data: { session },
+      } = await supabase.auth.getSession();
       if (!session) {
         window.location.href = '/login?redirect=/program-holder/onboarding/setup';
       }
@@ -102,7 +104,9 @@ export default function ProgramHolderSetup() {
   return (
     <div className="min-h-screen bg-white py-12">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: 'Program Holder', href: '/program-holder' }, { label: 'Onboarding' }]} />
+        <Breadcrumbs
+          items={[{ label: 'Program Holder', href: '/program-holder' }, { label: 'Onboarding' }]}
+        />
       </div>
       <div className="max-w-4xl mx-auto px-6">
         {/* Progress Steps */}
@@ -120,7 +124,9 @@ export default function ProgramHolderSetup() {
                     {step > s ? '✓' : s}
                   </div>
                   {s < STEPS.length && (
-                    <div className={`h-1 w-16 ${step > s ? 'bg-brand-green-600' : 'bg-gray-300'}`} />
+                    <div
+                      className={`h-1 w-16 ${step > s ? 'bg-brand-green-600' : 'bg-gray-300'}`}
+                    />
                   )}
                 </div>
               );
@@ -158,7 +164,8 @@ export default function ProgramHolderSetup() {
                   placeholder="e.g., Advanced Welding Certification"
                 />
                 <p className="text-sm text-slate-500 mt-1">
-                  This name will appear on certificates: &quot;[Program Name] — Sponsored by Elevate for Humanity Career &amp; Technical Institute&quot;
+                  This name will appear on certificates: &quot;[Program Name] — Sponsored by Elevate
+                  for Humanity Career &amp; Technical Institute&quot;
                 </p>
               </div>
               <button
@@ -205,11 +212,15 @@ export default function ProgramHolderSetup() {
                 />
               </div>
               <div>
-                <label className="block font-semibold mb-2">Certification/Credential Offered *</label>
+                <label className="block font-semibold mb-2">
+                  Certification/Credential Offered *
+                </label>
                 <input
                   type="text"
                   value={formData.certificationOffered}
-                  onChange={(e) => setFormData({ ...formData, certificationOffered: e.target.value })}
+                  onChange={(e) =>
+                    setFormData({ ...formData, certificationOffered: e.target.value })
+                  }
                   className="w-full px-4 py-3 border rounded-lg"
                   placeholder="e.g., AWS Certified Welder, State CNA License"
                 />
@@ -279,7 +290,9 @@ export default function ProgramHolderSetup() {
                 <div className="flex items-start gap-3">
                   <AlertCircle className="text-brand-blue-600 flex-shrink-0 mt-1" />
                   <div>
-                    <p className="font-semibold text-brand-blue-900 mb-2">Our team will use your syllabus to:</p>
+                    <p className="font-semibold text-brand-blue-900 mb-2">
+                      Our team will use your syllabus to:
+                    </p>
                     <ul className="text-sm text-brand-blue-800 space-y-1">
                       <li>• Match your program to compatible course templates</li>
                       <li>• Identify required learning modules</li>
@@ -340,7 +353,11 @@ export default function ProgramHolderSetup() {
                 ].map(({ label, value, highlight }) => (
                   <div key={label} className="pt-4 first:pt-0">
                     <p className="text-xs text-slate-500 uppercase tracking-wide mb-0.5">{label}</p>
-                    <p className={`font-semibold ${highlight ? 'text-brand-green-700' : 'text-slate-900'}`}>{value || '—'}</p>
+                    <p
+                      className={`font-semibold ${highlight ? 'text-brand-green-700' : 'text-slate-900'}`}
+                    >
+                      {value || '—'}
+                    </p>
                   </div>
                 ))}
               </div>
@@ -356,9 +373,7 @@ export default function ProgramHolderSetup() {
                 </ol>
               </div>
 
-              {submitError && (
-                <p className="text-red-600 text-sm text-center">{submitError}</p>
-              )}
+              {submitError && <p className="text-red-600 text-sm text-center">{submitError}</p>}
               <div className="flex gap-4">
                 <button
                   onClick={() => setStep(3)}

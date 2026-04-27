@@ -4,33 +4,32 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Metadata } from 'next';
-import { 
-  Play, 
-  Clock, 
-  Award, 
-  
-  Star, 
+import {
+  Play,
+  Clock,
+  Award,
+  Star,
   Users,
   Download,
   MessageSquare,
   ShieldCheck,
   ArrowRight,
-  ChevronDown
+  ChevronDown,
 } from 'lucide-react';
 import { CourseDetailClient } from './CourseDetailClient';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const dynamic = 'force-dynamic';
 
-export async function generateMetadata({ 
-  params 
-}: { 
-  params: Promise<{ slug: string }> 
+export async function generateMetadata({
+  params,
+}: {
+  params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
   const supabase = await createClient();
   const db = await getAdminClient();
-  
+
   if (!supabase) return { title: 'Course Not Found' };
 
   const { data: course } = await db
@@ -47,11 +46,7 @@ export async function generateMetadata({
   };
 }
 
-export default async function CourseDetailPage({
-  params,
-}: {
-  params: Promise<{ slug: string }>;
-}) {
+export default async function CourseDetailPage({ params }: { params: Promise<{ slug: string }> }) {
   const { slug } = await params;
   const supabase = await createClient();
   const db = await getAdminClient();
@@ -62,11 +57,13 @@ export default async function CourseDetailPage({
 
   const { data: course } = await db
     .from('career_courses')
-    .select(`
+    .select(
+      `
       *,
       features:career_course_features(*),
       modules:career_course_modules(*)
-    `)
+    `,
+    )
     .eq('slug', slug)
     .eq('is_active', true)
     .single();
@@ -76,16 +73,26 @@ export default async function CourseDetailPage({
   }
 
   const sortedModules = course.modules?.sort((a: any, b: any) => a.sort_order - b.sort_order) || [];
-  const sortedFeatures = course.features?.sort((a: any, b: any) => a.sort_order - b.sort_order) || [];
+  const sortedFeatures =
+    course.features?.sort((a: any, b: any) => a.sort_order - b.sort_order) || [];
 
-  const totalDuration = sortedModules.reduce((acc: number, m: any) => acc + (m.duration_minutes || 0), 0);
+  const totalDuration = sortedModules.reduce(
+    (acc: number, m: any) => acc + (m.duration_minutes || 0),
+    0,
+  );
 
   return (
     <div className="min-h-screen bg-white">
       {/* Breadcrumbs */}
       <div className="bg-white border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs items={[{ label: 'Career Services', href: '/career-services' }, { label: 'Courses', href: '/career-services/courses' }, { label: course.title }]} />
+          <Breadcrumbs
+            items={[
+              { label: 'Career Services', href: '/career-services' },
+              { label: 'Courses', href: '/career-services/courses' },
+              { label: course.title },
+            ]}
+          />
         </div>
       </div>
 
@@ -125,7 +132,9 @@ export default async function CourseDetailPage({
               <div className="flex flex-col gap-2">
                 <div className="flex items-center gap-4">
                   <div>
-                    <span className="text-4xl font-bold sezzle-hero-price">${Number(course.price).toFixed(0)}</span>
+                    <span className="text-4xl font-bold sezzle-hero-price">
+                      ${Number(course.price).toFixed(0)}
+                    </span>
                     {course.original_price && (
                       <span className="text-xl text-slate-500 line-through ml-3">
                         ${Number(course.original_price).toFixed(0)}
@@ -147,7 +156,8 @@ export default async function CourseDetailPage({
 
             <div className="relative">
               <div className="relative rounded-2xl overflow-hidden shadow-2xl">
-                <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+                <Image sizes="100vw"
                   src={course.image_url || '/images/pages/career-services-page-4.jpg'}
                   alt={course.title}
                   width={600}
@@ -189,22 +199,25 @@ export default async function CourseDetailPage({
           <div className="flex items-center justify-between mb-8">
             <h2 className="text-3xl font-bold text-gray-900">Course Curriculum</h2>
             <p className="text-gray-600">
-              {sortedModules.length} lessons • {Math.floor(totalDuration / 60)}h {totalDuration % 60}m total
+              {sortedModules.length} lessons • {Math.floor(totalDuration / 60)}h{' '}
+              {totalDuration % 60}m total
             </p>
           </div>
 
           <div className="space-y-3">
             {sortedModules.map((module: any, index: number) => (
-              <div 
-                key={module.id} 
+              <div
+                key={module.id}
                 className="bg-white border rounded-xl p-4 hover:shadow-md transition"
               >
                 <div className="flex items-center gap-4">
-                  <div className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${
-                    module.is_preview 
-                      ? 'bg-brand-green-100 text-brand-green-600' 
-                      : 'bg-white text-gray-600'
-                  }`}>
+                  <div
+                    className={`w-10 h-10 rounded-full flex items-center justify-center font-bold text-sm ${
+                      module.is_preview
+                        ? 'bg-brand-green-100 text-brand-green-600'
+                        : 'bg-white text-gray-600'
+                    }`}
+                  >
                     {index + 1}
                   </div>
                   <div className="flex-1">
@@ -238,21 +251,27 @@ export default async function CourseDetailPage({
                 <ShieldCheck className="w-8 h-8 text-brand-green-600" />
               </div>
               <h3 className="font-bold text-gray-900 mb-2">30-Day Money Back</h3>
-              <p className="text-gray-600 text-sm">Not satisfied? Get a full refund within 30 days, no questions asked.</p>
+              <p className="text-gray-600 text-sm">
+                Not satisfied? Get a full refund within 30 days, no questions asked.
+              </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <Download className="w-8 h-8 text-brand-blue-600" />
               </div>
               <h3 className="font-bold text-gray-900 mb-2">Lifetime Access</h3>
-              <p className="text-gray-600 text-sm">Buy once, access forever. Including all future updates.</p>
+              <p className="text-gray-600 text-sm">
+                Buy once, access forever. Including all future updates.
+              </p>
             </div>
             <div className="text-center">
               <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center mx-auto mb-4">
                 <MessageSquare className="w-8 h-8 text-brand-blue-600" />
               </div>
               <h3 className="font-bold text-gray-900 mb-2">Expert Support</h3>
-              <p className="text-gray-600 text-sm">Get your questions answered by career experts.</p>
+              <p className="text-gray-600 text-sm">
+                Get your questions answered by career experts.
+              </p>
             </div>
           </div>
         </div>

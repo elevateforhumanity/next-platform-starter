@@ -24,9 +24,7 @@ export default function PaymentMethodSelector({
 
   return (
     <div className="space-y-3">
-      <label className="block text-sm font-medium text-slate-700 mb-2">
-        Payment Method
-      </label>
+      <label className="block text-sm font-medium text-slate-700 mb-2">Payment Method</label>
 
       {/* Stripe (Card, Affirm, Klarna, Afterpay) */}
       <button
@@ -42,9 +40,7 @@ export default function PaymentMethodSelector({
         <div className="flex items-center justify-between">
           <div>
             <p className="font-semibold text-slate-900">Credit Card or BNPL</p>
-            <p className="text-sm text-slate-600">
-              Card, Affirm, Klarna, or Afterpay
-            </p>
+            <p className="text-sm text-slate-600">Card, Affirm, Klarna, or Afterpay</p>
           </div>
           <div className="flex items-center gap-2">
             <div className="w-8 h-5 bg-slate-100 rounded flex items-center justify-center text-xs font-bold text-slate-600">
@@ -74,8 +70,8 @@ export default function PaymentMethodSelector({
           selectedMethod === 'sezzle'
             ? 'border-purple-500 bg-purple-50'
             : sezzleAvailable
-            ? 'border-slate-200 hover:border-slate-300'
-            : 'border-slate-100 bg-slate-50 opacity-50'
+              ? 'border-slate-200 hover:border-slate-300'
+              : 'border-slate-100 bg-slate-50 opacity-50'
         } ${disabled || !sezzleAvailable ? 'cursor-not-allowed' : 'cursor-pointer'}`}
       >
         <div className="flex items-center justify-between">
@@ -90,8 +86,8 @@ export default function PaymentMethodSelector({
               {sezzleAvailable
                 ? `4 payments of $${sezzlePayment.toFixed(2)}`
                 : amount < 35
-                ? 'Minimum $35 required'
-                : 'Maximum $2,500 limit'}
+                  ? 'Minimum $35 required'
+                  : 'Maximum $2,500 limit'}
             </p>
           </div>
           <div className="w-16 h-8 bg-white rounded flex items-center justify-center">
@@ -109,9 +105,7 @@ export default function PaymentMethodSelector({
                   <div className="text-xs text-slate-500">
                     {num === 1 ? 'Today' : `+${(num - 1) * 2} wks`}
                   </div>
-                  <div className="font-semibold text-purple-700">
-                    ${sezzlePayment.toFixed(2)}
-                  </div>
+                  <div className="font-semibold text-purple-700">${sezzlePayment.toFixed(2)}</div>
                 </div>
               ))}
             </div>

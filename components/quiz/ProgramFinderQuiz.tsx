@@ -38,12 +38,42 @@ const steps: QuizStep[] = [
     question: 'What kind of work excites you?',
     subtitle: 'Pick the field that feels right — you can always explore others later.',
     options: [
-      { id: 'healthcare', label: 'Healthcare', image: '/images/pages/comp-home-hero.jpg', description: 'Help people heal and stay healthy' },
-      { id: 'trades', label: 'Skilled Trades', image: '/images/pages/hvac-technician.jpg', description: 'Build, fix, and create with your hands' },
-      { id: 'cdl', label: 'CDL / Trucking', image: '/images/pages/hvac-technician.jpg', description: 'Hit the road and earn $50K+' },
-      { id: 'tech', label: 'Technology', image: '/images/pages/training-classroom.jpg', description: 'IT support, cybersecurity, web dev' },
-      { id: 'barber', label: 'Barbering', image: '/images/pages/barber-gallery-1.jpg', description: 'Earn while you learn a creative trade' },
-      { id: 'safety', label: 'CPR & First Aid', image: '/images/pages/training-classroom.jpg', description: 'Same-day HSI certification' },
+      {
+        id: 'healthcare',
+        label: 'Healthcare',
+        image: '/images/pages/comp-home-hero.jpg',
+        description: 'Help people heal and stay healthy',
+      },
+      {
+        id: 'trades',
+        label: 'Skilled Trades',
+        image: '/images/pages/hvac-technician.jpg',
+        description: 'Build, fix, and create with your hands',
+      },
+      {
+        id: 'cdl',
+        label: 'CDL / Trucking',
+        image: '/images/pages/hvac-technician.jpg',
+        description: 'Hit the road and earn $50K+',
+      },
+      {
+        id: 'tech',
+        label: 'Technology',
+        image: '/images/pages/training-classroom.jpg',
+        description: 'IT support, cybersecurity, web dev',
+      },
+      {
+        id: 'barber',
+        label: 'Barbering',
+        image: '/images/pages/barber-gallery-1.jpg',
+        description: 'Earn while you learn a creative trade',
+      },
+      {
+        id: 'safety',
+        label: 'CPR & First Aid',
+        image: '/images/pages/training-classroom.jpg',
+        description: 'Same-day HSI certification',
+      },
     ],
   },
   {
@@ -51,9 +81,24 @@ const steps: QuizStep[] = [
     question: 'How soon do you want to start?',
     subtitle: 'Most programs have rolling enrollment — no waiting for a semester.',
     options: [
-      { id: 'asap', label: 'This week', icon: <Clock className="w-6 h-6" />, description: 'I\'m ready now' },
-      { id: 'month', label: 'Within a month', icon: <Clock className="w-6 h-6" />, description: 'Need a little time to prepare' },
-      { id: 'exploring', label: 'Just exploring', icon: <Clock className="w-6 h-6" />, description: 'Researching my options' },
+      {
+        id: 'asap',
+        label: 'This week',
+        icon: <Clock className="w-6 h-6" />,
+        description: "I'm ready now",
+      },
+      {
+        id: 'month',
+        label: 'Within a month',
+        icon: <Clock className="w-6 h-6" />,
+        description: 'Need a little time to prepare',
+      },
+      {
+        id: 'exploring',
+        label: 'Just exploring',
+        icon: <Clock className="w-6 h-6" />,
+        description: 'Researching my options',
+      },
     ],
   },
   {
@@ -61,9 +106,24 @@ const steps: QuizStep[] = [
     question: 'Do you need help paying for training?',
     subtitle: 'Many students qualify for no-cost training through state and federal programs.',
     options: [
-      { id: 'free', label: 'Yes — I need free training', icon: <DollarSign className="w-6 h-6" />, description: 'WIOA, WRG, and JRI cover everything' },
-      { id: 'self', label: 'I can pay on my own', icon: <DollarSign className="w-6 h-6" />, description: 'Self-pay or employer-sponsored' },
-      { id: 'unsure', label: 'Not sure yet', icon: <DollarSign className="w-6 h-6" />, description: 'Help me figure it out' },
+      {
+        id: 'free',
+        label: 'Yes — I need free training',
+        icon: <DollarSign className="w-6 h-6" />,
+        description: 'WIOA, WRG, and JRI cover everything',
+      },
+      {
+        id: 'self',
+        label: 'I can pay on my own',
+        icon: <DollarSign className="w-6 h-6" />,
+        description: 'Self-pay or employer-sponsored',
+      },
+      {
+        id: 'unsure',
+        label: 'Not sure yet',
+        icon: <DollarSign className="w-6 h-6" />,
+        description: 'Help me figure it out',
+      },
     ],
   },
 ];
@@ -83,27 +143,111 @@ interface ProgramResult {
 
 const programResults: Record<string, ProgramResult[]> = {
   healthcare: [
-    { title: 'CNA Certification', description: 'Become a Certified Nursing Assistant in 4-6 weeks. High demand across Indiana hospitals and care facilities.', href: '/programs/cna', duration: '4-6 weeks', salary: '$32K-$42K', funding: 'WIOA / WRG' },
-    { title: 'Medical Assistant', description: 'Clinical and administrative skills for doctor\'s offices, clinics, and hospitals.', href: '/programs/medical-assistant', duration: '12-16 weeks', salary: '$35K-$45K', funding: 'WIOA / WRG' },
-    { title: 'Phlebotomy', description: 'Learn venipuncture and specimen collection. Quick certification, immediate job placement.', href: '/programs/healthcare', duration: '4-8 weeks', salary: '$33K-$40K', funding: 'WIOA / WRG' },
+    {
+      title: 'CNA Certification',
+      description:
+        'Become a Certified Nursing Assistant in 4-6 weeks. High demand across Indiana hospitals and care facilities.',
+      href: '/programs/cna',
+      duration: '4-6 weeks',
+      salary: '$32K-$42K',
+      funding: 'WIOA / WRG',
+    },
+    {
+      title: 'Medical Assistant',
+      description:
+        "Clinical and administrative skills for doctor's offices, clinics, and hospitals.",
+      href: '/programs/medical-assistant',
+      duration: '12-16 weeks',
+      salary: '$35K-$45K',
+      funding: 'WIOA / WRG',
+    },
+    {
+      title: 'Phlebotomy',
+      description:
+        'Learn venipuncture and specimen collection. Quick certification, immediate job placement.',
+      href: '/programs/healthcare',
+      duration: '4-8 weeks',
+      salary: '$33K-$40K',
+      funding: 'WIOA / WRG',
+    },
   ],
   trades: [
-    { title: 'HVAC Technician', description: 'Install and repair heating, ventilation, and air conditioning systems.', href: '/programs/hvac-technician', duration: '8-16 weeks', salary: '$40K-$65K', funding: 'WIOA / WRG' },
-    { title: 'Electrical', description: 'Residential and commercial electrical installation and maintenance.', href: '/programs/electrical', duration: '8-16 weeks', salary: '$42K-$70K', funding: 'WIOA / WRG' },
-    { title: 'Welding', description: 'MIG, TIG, and stick welding certifications for manufacturing and construction.', href: '/programs/welding', duration: '8-12 weeks', salary: '$38K-$60K', funding: 'WIOA / WRG' },
+    {
+      title: 'HVAC Technician',
+      description: 'Install and repair heating, ventilation, and air conditioning systems.',
+      href: '/programs/hvac-technician',
+      duration: '8-16 weeks',
+      salary: '$40K-$65K',
+      funding: 'WIOA / WRG',
+    },
+    {
+      title: 'Electrical',
+      description: 'Residential and commercial electrical installation and maintenance.',
+      href: '/programs/electrical',
+      duration: '8-16 weeks',
+      salary: '$42K-$70K',
+      funding: 'WIOA / WRG',
+    },
+    {
+      title: 'Welding',
+      description: 'MIG, TIG, and stick welding certifications for manufacturing and construction.',
+      href: '/programs/welding',
+      duration: '8-12 weeks',
+      salary: '$38K-$60K',
+      funding: 'WIOA / WRG',
+    },
   ],
   cdl: [
-    { title: 'CDL Class A Training', description: 'Get your Commercial Driver\'s License and start earning immediately. Over-the-road and local routes available.', href: '/programs/cdl-training', duration: '3-4 weeks', salary: '$50K-$80K', funding: 'WIOA / WRG' },
+    {
+      title: 'CDL Class A Training',
+      description:
+        "Get your Commercial Driver's License and start earning immediately. Over-the-road and local routes available.",
+      href: '/programs/cdl-training',
+      duration: '3-4 weeks',
+      salary: '$50K-$80K',
+      funding: 'WIOA / WRG',
+    },
   ],
   tech: [
-    { title: 'IT Help Desk', description: 'Certiport IT Specialist certification. Help desk and system administration roles.', href: '/programs/it-help-desk', duration: '8 weeks', salary: '$38K-$55K', funding: 'WIOA / WRG' },
-    { title: 'Cybersecurity Analyst', description: 'Certiport IT Specialist — Cybersecurity certification. Protect networks and data for organizations.', href: '/programs/cybersecurity-analyst', duration: '12 weeks', salary: '$55K-$100K', funding: 'WIOA / WRG' },
+    {
+      title: 'IT Help Desk',
+      description:
+        'Certiport IT Specialist certification. Help desk and system administration roles.',
+      href: '/programs/it-help-desk',
+      duration: '8 weeks',
+      salary: '$38K-$55K',
+      funding: 'WIOA / WRG',
+    },
+    {
+      title: 'Cybersecurity Analyst',
+      description:
+        'Certiport IT Specialist — Cybersecurity certification. Protect networks and data for organizations.',
+      href: '/programs/cybersecurity-analyst',
+      duration: '12 weeks',
+      salary: '$55K-$100K',
+      funding: 'WIOA / WRG',
+    },
   ],
   barber: [
-    { title: 'Barber Apprenticeship', description: 'Earn while you learn in a licensed barbershop. 2,000 hours toward your Indiana barber license.', href: '/programs/barber-apprenticeship', duration: '12-18 months', salary: '$30K-$60K+', funding: 'JRI / WIOA' },
+    {
+      title: 'Barber Apprenticeship',
+      description:
+        'Earn while you learn in a licensed barbershop. 2,000 hours toward your Indiana barber license.',
+      href: '/programs/barber-apprenticeship',
+      duration: '12-18 months',
+      salary: '$30K-$60K+',
+      funding: 'JRI / WIOA',
+    },
   ],
   safety: [
-    { title: 'CPR & First Aid (HSI)', description: 'Same-day certification. American Heart Association equivalent through HSI.', href: '/programs/cpr-first-aid', duration: '1 day', salary: 'Required for many jobs', funding: 'Self-pay ($65)' },
+    {
+      title: 'CPR & First Aid (HSI)',
+      description: 'Same-day certification. American Heart Association equivalent through HSI.',
+      href: '/programs/cpr-first-aid',
+      duration: '1 day',
+      salary: 'Required for many jobs',
+      funding: 'Self-pay ($65)',
+    },
   ],
 };
 
@@ -121,20 +265,23 @@ export default function ProgramFinderQuiz() {
   const isLastStep = currentStep === steps.length - 1;
   const showResults = currentStep >= steps.length;
 
-  const selectOption = useCallback((optionId: string) => {
-    setSelectedOption(optionId);
+  const selectOption = useCallback(
+    (optionId: string) => {
+      setSelectedOption(optionId);
 
-    // Auto-advance after a brief pause so the user sees their selection
-    setTimeout(() => {
-      setIsTransitioning(true);
+      // Auto-advance after a brief pause so the user sees their selection
       setTimeout(() => {
-        setAnswers((prev) => ({ ...prev, [step.key]: optionId }));
-        setCurrentStep((prev) => prev + 1);
-        setSelectedOption(null);
-        setIsTransitioning(false);
-      }, 300);
-    }, 400);
-  }, [step]);
+        setIsTransitioning(true);
+        setTimeout(() => {
+          setAnswers((prev) => ({ ...prev, [step.key]: optionId }));
+          setCurrentStep((prev) => prev + 1);
+          setSelectedOption(null);
+          setIsTransitioning(false);
+        }, 300);
+      }, 400);
+    },
+    [step],
+  );
 
   const goBack = () => {
     if (currentStep > 0) {
@@ -162,17 +309,18 @@ export default function ProgramFinderQuiz() {
   /* ---- Results screen ---- */
   if (showResults) {
     return (
-      <div className={`transition-all duration-500 ${isTransitioning ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+      <div
+        className={`transition-all duration-500 ${isTransitioning ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
+      >
         <div className="text-center mb-10">
           <div className="inline-flex items-center gap-2 px-4 py-2 bg-emerald-50 text-emerald-700 rounded-full text-sm font-medium mb-4">
             <Sparkles className="w-4 h-4" />
             Your personalized results
           </div>
-          <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">
-            Programs matched to you
-          </h3>
+          <h3 className="text-2xl sm:text-3xl font-bold text-slate-900">Programs matched to you</h3>
           <p className="text-slate-600 mt-2">
-            Based on your interest in <span className="font-semibold text-slate-900">{answers.interest}</span>
+            Based on your interest in{' '}
+            <span className="font-semibold text-slate-900">{answers.interest}</span>
             {answers.funding === 'free' && ' — these programs are available at no cost'}
           </p>
         </div>
@@ -232,16 +380,23 @@ export default function ProgramFinderQuiz() {
   }
 
   /* ---- Quiz steps ---- */
-  const progress = ((currentStep) / steps.length) * 100;
+  const progress = (currentStep / steps.length) * 100;
 
   return (
-    <div className={`transition-all duration-300 ${isTransitioning ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}>
+    <div
+      className={`transition-all duration-300 ${isTransitioning ? 'opacity-0 translate-y-4' : 'opacity-100 translate-y-0'}`}
+    >
       {/* Progress bar */}
       <div className="mb-8">
         <div className="flex items-center justify-between text-sm text-slate-500 mb-2">
-          <span>Step {currentStep + 1} of {steps.length}</span>
+          <span>
+            Step {currentStep + 1} of {steps.length}
+          </span>
           {currentStep > 0 && (
-            <button onClick={goBack} className="inline-flex items-center gap-1 text-slate-500 hover:text-slate-800 transition-colors">
+            <button
+              onClick={goBack}
+              className="inline-flex items-center gap-1 text-slate-500 hover:text-slate-800 transition-colors"
+            >
               <ArrowLeft className="w-3.5 h-3.5" /> Back
             </button>
           )}
@@ -273,9 +428,10 @@ export default function ProgramFinderQuiz() {
                 className={`
                   group relative rounded-2xl overflow-hidden cursor-pointer
                   transition-all duration-300
-                  ${isSelected
-                    ? 'ring-4 ring-brand-blue-500 ring-offset-2 scale-[1.02]'
-                    : 'hover:shadow-xl hover:-translate-y-1'
+                  ${
+                    isSelected
+                      ? 'ring-4 ring-brand-blue-500 ring-offset-2 scale-[1.02]'
+                      : 'hover:shadow-xl hover:-translate-y-1'
                   }
                 `}
               >
@@ -297,7 +453,13 @@ export default function ProgramFinderQuiz() {
                 </div>
                 {isSelected && (
                   <div className="absolute top-3 right-3 w-7 h-7 bg-brand-blue-500 rounded-full flex items-center justify-center shadow-lg">
-                    <svg className="w-4 h-4 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <svg
+                      className="w-4 h-4 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={3}
+                    >
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>
@@ -308,7 +470,9 @@ export default function ProgramFinderQuiz() {
         </div>
       ) : (
         /* ---- Icon card layout (steps 2-3) ---- */
-        <div className={`grid gap-3 ${step.options.length > 2 ? 'sm:grid-cols-3' : 'sm:grid-cols-2 max-w-xl mx-auto'}`}>
+        <div
+          className={`grid gap-3 ${step.options.length > 2 ? 'sm:grid-cols-3' : 'sm:grid-cols-2 max-w-xl mx-auto'}`}
+        >
           {step.options.map((option) => {
             const isSelected = selectedOption === option.id;
             return (
@@ -318,22 +482,27 @@ export default function ProgramFinderQuiz() {
                 className={`
                   relative flex flex-col items-center gap-3 p-6 rounded-2xl border-2 text-center
                   transition-all duration-200 cursor-pointer
-                  ${isSelected
-                    ? 'border-brand-blue-500 bg-brand-blue-50 shadow-md shadow-brand-blue-500/10 scale-[1.02]'
-                    : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-md hover:shadow-slate-200/50 hover:-translate-y-0.5'
+                  ${
+                    isSelected
+                      ? 'border-brand-blue-500 bg-brand-blue-50 shadow-md shadow-brand-blue-500/10 scale-[1.02]'
+                      : 'border-slate-200 bg-white hover:border-slate-300 hover:shadow-md hover:shadow-slate-200/50 hover:-translate-y-0.5'
                   }
                 `}
               >
                 {option.icon && (
-                  <div className={`
+                  <div
+                    className={`
                     w-12 h-12 rounded-xl flex items-center justify-center transition-colors duration-200
                     ${isSelected ? 'bg-brand-blue-500 text-white' : 'bg-slate-100 text-slate-600'}
-                  `}>
+                  `}
+                  >
                     {option.icon}
                   </div>
                 )}
                 <div>
-                  <p className={`font-semibold text-base ${isSelected ? 'text-brand-blue-700' : 'text-slate-900'}`}>
+                  <p
+                    className={`font-semibold text-base ${isSelected ? 'text-brand-blue-700' : 'text-slate-900'}`}
+                  >
                     {option.label}
                   </p>
                   {option.description && (
@@ -342,7 +511,13 @@ export default function ProgramFinderQuiz() {
                 </div>
                 {isSelected && (
                   <div className="absolute top-3 right-3 w-5 h-5 bg-brand-blue-500 rounded-full flex items-center justify-center">
-                    <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={3}>
+                    <svg
+                      className="w-3 h-3 text-white"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={3}
+                    >
                       <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
                     </svg>
                   </div>

@@ -94,7 +94,7 @@ export async function getUnreadNotifications(userId: string): Promise<Notificati
  */
 export async function getUserNotifications(
   userId: string,
-  limit: number = 50
+  limit: number = 50,
 ): Promise<Notification[]> {
   const supabase = await createClient();
 
@@ -164,10 +164,7 @@ export async function markAllNotificationsAsRead(userId: string): Promise<boolea
 export async function deleteNotification(notificationId: string): Promise<boolean> {
   const supabase = await createClient();
 
-  const { error } = await supabase
-    .from('notifications')
-    .delete()
-    .eq('id', notificationId);
+  const { error } = await supabase.from('notifications').delete().eq('id', notificationId);
 
   if (error) {
     logger.error('Error deleting notification:', error);
@@ -208,7 +205,7 @@ export async function notifyNewRequirement(
   studentId: string,
   requirementTitle: string,
   dueDate: string,
-  requirementId: string
+  requirementId: string,
 ): Promise<void> {
   await createNotification({
     userId: studentId,
@@ -231,7 +228,7 @@ export async function notifyRequirementDeadline(
   studentId: string,
   requirementTitle: string,
   daysUntilDue: number,
-  requirementId: string
+  requirementId: string,
 ): Promise<void> {
   await createNotification({
     userId: studentId,
@@ -254,7 +251,7 @@ export async function notifyOverdueRequirement(
   studentId: string,
   requirementTitle: string,
   daysOverdue: number,
-  requirementId: string
+  requirementId: string,
 ): Promise<void> {
   await createNotification({
     userId: studentId,
@@ -277,7 +274,7 @@ export async function notifyRequirementVerified(
   studentId: string,
   requirementTitle: string,
   approved: boolean,
-  reason?: string
+  reason?: string,
 ): Promise<void> {
   await createNotification({
     userId: studentId,
@@ -302,7 +299,7 @@ export async function notifyAppointmentConfirmed(
   studentId: string,
   appointmentType: string,
   scheduledTime: string,
-  appointmentId: string
+  appointmentId: string,
 ): Promise<void> {
   await createNotification({
     userId: studentId,
@@ -325,7 +322,7 @@ export async function notifyAppointmentReminder(
   studentId: string,
   appointmentType: string,
   hoursUntil: number,
-  appointmentId: string
+  appointmentId: string,
 ): Promise<void> {
   await createNotification({
     userId: studentId,
@@ -348,7 +345,7 @@ export async function notifyPendingVerification(
   programHolderId: string,
   studentName: string,
   requirementTitle: string,
-  requirementId: string
+  requirementId: string,
 ): Promise<void> {
   await createNotification({
     userId: programHolderId,
@@ -371,7 +368,7 @@ export async function notifyAtRiskStudent(
   advisorId: string,
   studentName: string,
   riskFactors: string[],
-  studentId: string
+  studentId: string,
 ): Promise<void> {
   await createNotification({
     userId: advisorId,
@@ -393,7 +390,7 @@ export async function notifyAtRiskStudent(
 export async function notifyFundingAssigned(
   studentId: string,
   fundingSource: string,
-  amount: number
+  amount: number,
 ): Promise<void> {
   await createNotification({
     userId: studentId,
@@ -415,7 +412,7 @@ export async function notifyFundingAssigned(
 export async function notifyEnrollmentConfirmed(
   studentId: string,
   programName: string,
-  startDate: string
+  startDate: string,
 ): Promise<void> {
   await createNotification({
     userId: studentId,
@@ -439,7 +436,7 @@ export async function notifySystemMessage(
   title: string,
   message: string,
   actionUrl?: string,
-  actionLabel?: string
+  actionLabel?: string,
 ): Promise<void> {
   await createNotification({
     userId,

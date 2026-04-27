@@ -18,12 +18,12 @@ interface GuidedTourProps {
   showOnce?: boolean;
 }
 
-export function GuidedTour({ 
-  tourId, 
-  steps, 
-  onComplete, 
+export function GuidedTour({
+  tourId,
+  steps,
+  onComplete,
   autoStart = false,
-  showOnce = true 
+  showOnce = true,
 }: GuidedTourProps) {
   const [isActive, setIsActive] = useState(false);
   const [currentStep, setCurrentStep] = useState(0);
@@ -47,7 +47,7 @@ export function GuidedTour({
 
     const step = steps[currentStep];
     const element = document.querySelector(`[data-tour="${step.target}"]`);
-    
+
     if (element) {
       const rect = element.getBoundingClientRect();
       setTargetRect(rect);
@@ -57,7 +57,7 @@ export function GuidedTour({
 
   const handleNext = useCallback(() => {
     if (currentStep < steps.length - 1) {
-      setCurrentStep(prev => prev + 1);
+      setCurrentStep((prev) => prev + 1);
     } else {
       handleComplete();
     }
@@ -65,7 +65,7 @@ export function GuidedTour({
 
   const handlePrev = useCallback(() => {
     if (currentStep > 0) {
-      setCurrentStep(prev => prev - 1);
+      setCurrentStep((prev) => prev - 1);
     }
   }, [currentStep]);
 
@@ -143,10 +143,7 @@ export function GuidedTour({
   return (
     <>
       {/* Overlay */}
-      <div 
-        className="fixed inset-0 bg-black/50 z-[9998]"
-        onClick={handleSkip}
-      />
+      <div className="fixed inset-0 bg-black/50 z-[9998]" onClick={handleSkip} />
 
       {/* Highlight box */}
       {targetRect && (
@@ -162,10 +159,7 @@ export function GuidedTour({
       )}
 
       {/* Tooltip */}
-      <div 
-        style={tooltipStyle}
-        className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6"
-      >
+      <div style={tooltipStyle} className="bg-white rounded-xl shadow-2xl max-w-sm w-full p-6">
         <div className="flex items-start justify-between mb-4">
           <div>
             <span className="text-xs text-purple-600 font-medium">
@@ -185,10 +179,7 @@ export function GuidedTour({
         <p className="text-slate-600 text-sm mb-6">{step.content}</p>
 
         <div className="flex items-center justify-between">
-          <button
-            onClick={handleSkip}
-            className="text-sm text-slate-500 hover:text-slate-700"
-          >
+          <button onClick={handleSkip} className="text-sm text-slate-500 hover:text-slate-700">
             Skip tour
           </button>
           <div className="flex gap-2">
@@ -220,25 +211,29 @@ export const PROGRAMS_HUB_TOUR_STEPS: TourStep[] = [
   {
     target: 'programs-hero',
     title: 'Welcome to Programs',
-    content: 'This is where you can explore all our training programs. Each program leads to a credential or certification.',
+    content:
+      'This is where you can explore all our training programs. Each program leads to a credential or certification.',
     position: 'bottom',
   },
   {
     target: 'programs-categories',
     title: 'Browse by Category',
-    content: 'Programs are organized by industry. Click a category to see available programs in that field.',
+    content:
+      'Programs are organized by industry. Click a category to see available programs in that field.',
     position: 'top',
   },
   {
     target: 'programs-apprenticeship',
     title: 'Apprenticeship Programs',
-    content: 'Apprenticeships let you earn while you learn. You get paid on-the-job training plus classroom instruction.',
+    content:
+      'Apprenticeships let you earn while you learn. You get paid on-the-job training plus classroom instruction.',
     position: 'right',
   },
   {
     target: 'programs-cta',
     title: 'Ready to Start?',
-    content: 'Click any program to see full details, pricing, and enrollment steps. Questions? Use the chat button.',
+    content:
+      'Click any program to see full details, pricing, and enrollment steps. Questions? Use the chat button.',
     position: 'top',
   },
 ];
@@ -248,25 +243,29 @@ export const BARBER_PAGE_TOUR_STEPS: TourStep[] = [
   {
     target: 'barber-hero',
     title: 'Barber Apprenticeship',
-    content: 'This is a DOL-registered apprenticeship. You earn while you learn at a real barbershop.',
+    content:
+      'This is a DOL-registered apprenticeship. You earn while you learn at a real barbershop.',
     position: 'bottom',
   },
   {
     target: 'barber-pricing',
     title: 'Pricing & Payment',
-    content: 'Total cost is $4,980. You pay a $1,743 setup fee at enrollment, then weekly payments every Friday.',
+    content:
+      'Total cost is $4,980. You pay a $1,743 setup fee at enrollment, then weekly payments every Friday.',
     position: 'top',
   },
   {
     target: 'barber-transfer',
     title: 'Transfer Hours',
-    content: 'Already have barber training hours? You can transfer them in. This may reduce your weekly payment.',
+    content:
+      'Already have barber training hours? You can transfer them in. This may reduce your weekly payment.',
     position: 'right',
   },
   {
     target: 'barber-partner',
     title: 'For Shop Owners',
-    content: 'Own a barbershop? You can become a partner and host apprentices. Click here to learn more.',
+    content:
+      'Own a barbershop? You can become a partner and host apprentices. Click here to learn more.',
     position: 'top',
   },
 ];

@@ -56,11 +56,30 @@ export interface ApiAuditEvent {
 
 // Keys to strip from params before logging — prevents PII leakage.
 const REDACT_KEYS = new Set([
-  'password', 'ssn', 'ssn_hash', 'ssn_last4', 'date_of_birth', 'dob',
-  'bank_account', 'routing_number', 'account_number', 'tax_id',
-  'driver_license', 'state_id', 'government_id', 'itin', 'ein',
-  'credit_card', 'card_number', 'cvv', 'cvc', 'expiry',
-  'secret', 'token', 'api_key', 'authorization',
+  'password',
+  'ssn',
+  'ssn_hash',
+  'ssn_last4',
+  'date_of_birth',
+  'dob',
+  'bank_account',
+  'routing_number',
+  'account_number',
+  'tax_id',
+  'driver_license',
+  'state_id',
+  'government_id',
+  'itin',
+  'ein',
+  'credit_card',
+  'card_number',
+  'cvv',
+  'cvc',
+  'expiry',
+  'secret',
+  'token',
+  'api_key',
+  'authorization',
 ]);
 
 function sanitizeParams(params: Record<string, unknown>): Record<string, unknown> {
@@ -89,7 +108,7 @@ function withTimeout<T>(promise: Promise<T>, ms: number): Promise<T> {
   return Promise.race([
     promise,
     new Promise<T>((_, reject) =>
-      setTimeout(() => reject(new Error(`Audit write timed out after ${ms}ms`)), ms)
+      setTimeout(() => reject(new Error(`Audit write timed out after ${ms}ms`)), ms),
     ),
   ]);
 }
@@ -153,7 +172,9 @@ export async function writeApiAuditEvent(event: ApiAuditEvent): Promise<void> {
 async function resolveActor(): Promise<{ id: string; type: ActorType } | null> {
   try {
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
     if (user) {
       return { id: user.id, type: 'user' };
     }
@@ -177,7 +198,9 @@ async function extractParams(req: Request): Promise<Record<string, unknown>> {
     url.searchParams.forEach((value, key) => {
       params[key] = value;
     });
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
 
   // Body for mutation methods
   if (['POST', 'PUT', 'PATCH'].includes(req.method)) {
@@ -199,7 +222,9 @@ async function extractParams(req: Request): Promise<Record<string, unknown>> {
           }
         }
       }
-    } catch { /* non-JSON body or stream error — skip */ }
+    } catch {
+      /* non-JSON body or stream error — skip */
+    }
   }
 
   return params;
@@ -253,7 +278,9 @@ export async function auditApiRoute(
   if (!options?.skip_body) {
     try {
       params = await extractParams(req);
-    } catch { /* skip */ }
+    } catch {
+      /* skip */
+    }
   }
 
   const ctx: AuditRouteContext = { requestId, actorId, actorType };

@@ -36,7 +36,7 @@ app.use(
       'https://elevateforhumanity.netlify.app',
     ],
     credentials: true,
-  })
+  }),
 );
 
 app.use(express.json());
@@ -151,8 +151,7 @@ app.get('/api/programs', (req, res) => {
     {
       slug: 'ai-fundamentals',
       name: 'AI Fundamentals',
-      description:
-        'Master artificial intelligence and machine learning foundations',
+      description: 'Master artificial intelligence and machine learning foundations',
       price: 199700,
       currency: 'usd',
       duration: '12 weeks',
@@ -161,8 +160,7 @@ app.get('/api/programs', (req, res) => {
     {
       slug: 'data-science-bootcamp',
       name: 'Data Science Bootcamp',
-      description:
-        'Comprehensive data science training with real-world projects',
+      description: 'Comprehensive data science training with real-world projects',
       price: 495000,
       currency: 'usd',
       duration: '16 weeks',
@@ -171,8 +169,7 @@ app.get('/api/programs', (req, res) => {
     {
       slug: 'advanced-ai-specialization',
       name: 'Advanced AI Specialization',
-      description:
-        'Expert-level AI training with deep learning and neural networks',
+      description: 'Expert-level AI training with deep learning and neural networks',
       price: 749500,
       currency: 'usd',
       duration: '20 weeks',
@@ -202,7 +199,6 @@ app.use('*', (req, res) => {
 });
 
 // Start server
-app.listen(PORT, '0.0.0.0', () => {
-});
+app.listen(PORT, '0.0.0.0', () => {});
 
 module.exports = app;

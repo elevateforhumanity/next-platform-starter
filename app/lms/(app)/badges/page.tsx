@@ -5,11 +5,10 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 import {
-
   Award,
   Star,
   Trophy,
@@ -20,7 +19,8 @@ import {
   Heart,
   Users,
   Lock,
-CheckCircle, } from 'lucide-react';
+  CheckCircle,
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   alternates: {
@@ -121,8 +121,16 @@ const iconMap: Record<string, any> = {
 const colorMap: Record<string, { bg: string; text: string; border: string }> = {
   blue: { bg: 'bg-brand-blue-100', text: 'text-brand-blue-600', border: 'border-brand-blue-200' },
   yellow: { bg: 'bg-yellow-100', text: 'text-yellow-600', border: 'border-yellow-200' },
-  green: { bg: 'bg-brand-green-100', text: 'text-brand-green-600', border: 'border-brand-green-200' },
-  orange: { bg: 'bg-brand-orange-100', text: 'text-brand-orange-600', border: 'border-brand-orange-200' },
+  green: {
+    bg: 'bg-brand-green-100',
+    text: 'text-brand-green-600',
+    border: 'border-brand-green-200',
+  },
+  orange: {
+    bg: 'bg-brand-orange-100',
+    text: 'text-brand-orange-600',
+    border: 'border-brand-orange-200',
+  },
   blue: { bg: 'bg-brand-blue-100', text: 'text-brand-blue-600', border: 'border-brand-blue-200' },
   pink: { bg: 'bg-pink-100', text: 'text-pink-600', border: 'border-pink-200' },
   cyan: { bg: 'bg-cyan-100', text: 'text-cyan-600', border: 'border-cyan-200' },
@@ -141,10 +149,7 @@ export default async function BadgesPage() {
   }
 
   // Fetch badges from database
-  const { data: dbBadges } = await supabase
-    .from('badges')
-    .select('*')
-    .order('created_at');
+  const { data: dbBadges } = await supabase.from('badges').select('*').order('created_at');
 
   // Fetch user's earned badges
   const { data: userBadges } = await supabase
@@ -172,7 +177,7 @@ export default async function BadgesPage() {
 
   // Use database badges or defaults
   const badges = dbBadges && dbBadges.length > 0 ? dbBadges : defaultBadges;
-  const earnedBadgeIds = new Set(userBadges?.map(ub => ub.badge_id) || []);
+  const earnedBadgeIds = new Set(userBadges?.map((ub) => ub.badge_id) || []);
 
   // Calculate progress for each badge
   const calculateProgress = (badge: any) => {
@@ -180,10 +185,10 @@ export default async function BadgesPage() {
       case 'complete_course':
         return Math.min(100, ((completedCourses || 0) / badge.threshold) * 100);
       case 'perfect_quiz':
-        const perfectQuizzes = quizAttempts?.filter(q => q.score === 100).length || 0;
+        const perfectQuizzes = quizAttempts?.filter((q) => q.score === 100).length || 0;
         return Math.min(100, (perfectQuizzes / badge.threshold) * 100);
       case 'high_quiz_scores':
-        const highScores = quizAttempts?.filter(q => q.score >= 90).length || 0;
+        const highScores = quizAttempts?.filter((q) => q.score >= 90).length || 0;
         return Math.min(100, (highScores / badge.threshold) * 100);
       case 'forum_help':
         return Math.min(100, ((forumPosts || 0) / badge.threshold) * 100);
@@ -197,9 +202,9 @@ export default async function BadgesPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "LMS", href: "/lms/courses" }, { label: "Badges" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'LMS', href: '/lms/courses' }, { label: 'Badges' }]} />
+      </div>
       <div className="max-w-6xl mx-auto px-4">
         {/* Header */}
         <div className="text-center mb-8">
@@ -239,18 +244,20 @@ export default async function BadgesPage() {
             </h2>
             <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
               {badges
-                .filter(badge => earnedBadgeIds.has(badge.id))
-                .map(badge => {
+                .filter((badge) => earnedBadgeIds.has(badge.id))
+                .map((badge) => {
                   const IconComponent = iconMap[badge.icon] || Award;
                   const colors = colorMap[badge.color] || colorMap.blue;
-                  const earnedBadge = userBadges?.find(ub => ub.badge_id === badge.id);
+                  const earnedBadge = userBadges?.find((ub) => ub.badge_id === badge.id);
 
                   return (
                     <div
                       key={badge.id}
                       className={`bg-white rounded-xl border-2 ${colors.border} p-6 text-center`}
                     >
-                      <div className={`w-16 h-16 ${colors.bg} rounded-full flex items-center justify-center mx-auto mb-4`}>
+                      <div
+                        className={`w-16 h-16 ${colors.bg} rounded-full flex items-center justify-center mx-auto mb-4`}
+                      >
                         <IconComponent className={`w-8 h-8 ${colors.text}`} />
                       </div>
                       <h3 className="font-bold text-slate-900 mb-1">{badge.name}</h3>
@@ -275,8 +282,8 @@ export default async function BadgesPage() {
           </h2>
           <div className="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
             {badges
-              .filter(badge => !earnedBadgeIds.has(badge.id))
-              .map(badge => {
+              .filter((badge) => !earnedBadgeIds.has(badge.id))
+              .map((badge) => {
                 const IconComponent = iconMap[badge.icon] || Award;
                 const colors = colorMap[badge.color] || colorMap.blue;
                 const progress = calculateProgress(badge);
@@ -294,7 +301,7 @@ export default async function BadgesPage() {
                     </div>
                     <h3 className="font-bold text-slate-700 mb-1">{badge.name}</h3>
                     <p className="text-sm text-slate-500 mb-3">{badge.description}</p>
-                    
+
                     {/* Progress bar */}
                     <div className="mt-3">
                       <div className="h-2 bg-white rounded-full overflow-hidden">
@@ -303,7 +310,9 @@ export default async function BadgesPage() {
                           style={{ width: `${progress}%` }}
                         />
                       </div>
-                      <p className="text-xs text-slate-500 mt-1">{Math.round(progress)}% complete</p>
+                      <p className="text-xs text-slate-500 mt-1">
+                        {Math.round(progress)}% complete
+                      </p>
                     </div>
                   </div>
                 );
@@ -317,7 +326,8 @@ export default async function BadgesPage() {
             <Award className="w-16 h-16 text-slate-300 mx-auto mb-4" />
             <h2 className="text-xl font-bold text-slate-900 mb-2">No Badges Available</h2>
             <p className="text-slate-600 mb-6">
-              Complete courses and certifications to earn badges. Your achievements will appear here.
+              Complete courses and certifications to earn badges. Your achievements will appear
+              here.
             </p>
             <Link
               href="/lms/courses"
@@ -331,7 +341,10 @@ export default async function BadgesPage() {
 
         {/* Back Link */}
         <div className="mt-8 text-center">
-          <Link href="/lms/dashboard" className="text-brand-blue-600 hover:text-brand-blue-700 font-medium">
+          <Link
+            href="/lms/dashboard"
+            className="text-brand-blue-600 hover:text-brand-blue-700 font-medium"
+          >
             ← Back to Dashboard
           </Link>
         </div>

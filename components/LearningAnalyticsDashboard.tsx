@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -34,7 +34,9 @@ export default function LearningAnalyticsDashboard() {
   React.useEffect(() => {
     const loadAnalytics = async () => {
       const supabase = createClient();
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
         setLoading(false);
         return;
@@ -64,21 +66,25 @@ export default function LearningAnalyticsDashboard() {
           .eq('user_id', user.id);
 
         // Calculate metrics
-        const totalStudyMinutes = activity?.reduce((sum, a) => sum + (a.duration_minutes || 0), 0) || 0;
-        const avgScore = grades?.length 
-          ? grades.reduce((sum, g) => sum + (g.points / g.max_points) * 100, 0) / grades.length 
+        const totalStudyMinutes =
+          activity?.reduce((sum, a) => sum + (a.duration_minutes || 0), 0) || 0;
+        const avgScore = grades?.length
+          ? grades.reduce((sum, g) => sum + (g.points / g.max_points) * 100, 0) / grades.length
           : 0;
         const completionRate = enrollments?.length
-          ? enrollments.filter(e => e.status === 'completed').length / enrollments.length * 100
+          ? (enrollments.filter((e) => e.status === 'completed').length / enrollments.length) * 100
           : 0;
 
         setLearningMetrics({
           studyTime: Math.round(totalStudyMinutes / 60),
           completionRate: Math.round(completionRate),
           averageScore: Math.round(avgScore),
-          engagementScore: Math.min(100, Math.round((activity?.length || 0) / daysAgo * 10)),
+          engagementScore: Math.min(100, Math.round(((activity?.length || 0) / daysAgo) * 10)),
           predictedGrade: avgScore >= 90 ? 'A' : avgScore >= 80 ? 'B' : avgScore >= 70 ? 'C' : 'D',
-          onTrackPercentage: Math.round(enrollments?.reduce((sum, e) => sum + (e.progress_percent || 0), 0) / (enrollments?.length || 1)),
+          onTrackPercentage: Math.round(
+            enrollments?.reduce((sum, e) => sum + (e.progress_percent || 0), 0) /
+              (enrollments?.length || 1),
+          ),
         });
 
         // Generate insights based on data
@@ -103,9 +109,19 @@ export default function LearningAnalyticsDashboard() {
             action: 'Enroll in advanced course',
           });
         }
-        setInsights(generatedInsights.length > 0 ? generatedInsights : [
-          { id: '1', type: 'recommendation', title: 'Keep Up the Good Work', description: 'You are on track with your learning goals', confidence: 85 },
-        ]);
+        setInsights(
+          generatedInsights.length > 0
+            ? generatedInsights
+            : [
+                {
+                  id: '1',
+                  type: 'recommendation',
+                  title: 'Keep Up the Good Work',
+                  description: 'You are on track with your learning goals',
+                  confidence: 85,
+                },
+              ],
+        );
       } catch (err) {
         console.error('Error loading analytics:', err);
       } finally {
@@ -125,13 +141,15 @@ export default function LearningAnalyticsDashboard() {
     { day: 'Sun', hours: 9, score: 95 },
   ];
 
-  const maxHours = Math.max(...weeklyActivity.map(d => d.hours));
+  const maxHours = Math.max(...weeklyActivity.map((d) => d.hours));
 
   return (
     <div className="min-h-screen bg-white">
       <div className="   text-white py-12">
         <div className="max-w-7xl mx-auto px-4">
-          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">Learning Analytics</h1>
+          <h1 className="text-4xl font-bold mb-2 text-2xl md:text-3xl lg:text-4xl">
+            Learning Analytics
+          </h1>
           <p className="text-white">Automated insights into your learning journey</p>
         </div>
       </div>
@@ -141,7 +159,9 @@ export default function LearningAnalyticsDashboard() {
           <h2 className="text-2xl font-bold">Performance Overview</h2>
           <select
             value={timeRange}
-            onChange={(e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => setTimeRange(e.target.value)}
+            onChange={(
+              e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>,
+            ) => setTimeRange(e.target.value)}
             className="px-4 py-2 border rounded"
           >
             <option value="7">Last 7 days</option>
@@ -159,19 +179,25 @@ export default function LearningAnalyticsDashboard() {
 
           <Card className="p-6">
             <h3 className="text-sm text-black mb-2">Completion Rate</h3>
-            <p className="text-3xl font-bold text-brand-orange-500">{learningMetrics.completionRate}%</p>
+            <p className="text-3xl font-bold text-brand-orange-500">
+              {learningMetrics.completionRate}%
+            </p>
             <p className="text-sm text-brand-green-600">↑ 5% from last period</p>
           </Card>
 
           <Card className="p-6">
             <h3 className="text-sm text-black mb-2">Average Score</h3>
-            <p className="text-3xl font-bold text-brand-green-600">{learningMetrics.averageScore}%</p>
+            <p className="text-3xl font-bold text-brand-green-600">
+              {learningMetrics.averageScore}%
+            </p>
             <p className="text-sm text-brand-green-600">↑ 3% from last period</p>
           </Card>
 
           <Card className="p-6">
             <h3 className="text-sm text-black mb-2">Engagement Score</h3>
-            <p className="text-3xl font-bold text-brand-blue-600">{learningMetrics.engagementScore}%</p>
+            <p className="text-3xl font-bold text-brand-blue-600">
+              {learningMetrics.engagementScore}%
+            </p>
             <p className="text-sm text-yellow-600">→ Stable</p>
           </Card>
 
@@ -183,7 +209,9 @@ export default function LearningAnalyticsDashboard() {
 
           <Card className="p-6">
             <h3 className="text-sm text-black mb-2">On Track</h3>
-            <p className="text-3xl font-bold text-brand-green-600">{learningMetrics.onTrackPercentage}%</p>
+            <p className="text-3xl font-bold text-brand-green-600">
+              {learningMetrics.onTrackPercentage}%
+            </p>
             <p className="text-sm text-black">Meeting milestones</p>
           </Card>
         </div>
@@ -196,7 +224,9 @@ export default function LearningAnalyticsDashboard() {
                 <div key={day.day}>
                   <div className="flex justify-between text-sm mb-1">
                     <span className="font-medium">{day.day}</span>
-                    <span className="text-black">{day.hours}h • {day.score}%</span>
+                    <span className="text-black">
+                      {day.hours}h • {day.score}%
+                    </span>
                   </div>
                   <div className="flex gap-2">
                     <div className="flex-1 bg-gray-200 rounded-full h-2">
@@ -223,19 +253,25 @@ export default function LearningAnalyticsDashboard() {
               <div className="p-4 bg-brand-blue-50 rounded">
                 <h4 className="font-semibold text-brand-blue-900 mb-1">Peak Performance Time</h4>
                 <p className="text-sm text-brand-blue-700">9:00 AM - 11:00 AM</p>
-                <p className="text-xs text-brand-blue-600 mt-1">Highest scores achieved during this window</p>
+                <p className="text-xs text-brand-blue-600 mt-1">
+                  Highest scores achieved during this window
+                </p>
               </div>
 
               <div className="p-4 bg-purple-50 rounded">
                 <h4 className="font-semibold text-purple-900 mb-1">Preferred Learning Style</h4>
                 <p className="text-sm text-purple-700">Visual & Interactive</p>
-                <p className="text-xs text-purple-600 mt-1">Video content and hands-on exercises work best</p>
+                <p className="text-xs text-purple-600 mt-1">
+                  Video content and hands-on exercises work best
+                </p>
               </div>
 
               <div className="p-4 bg-brand-orange-50 rounded">
                 <h4 className="font-semibold text-brand-orange-900 mb-1">Optimal Session Length</h4>
                 <p className="text-sm text-brand-orange-700">45-60 minutes</p>
-                <p className="text-xs text-brand-orange-600 mt-1">Performance drops after 60 minutes</p>
+                <p className="text-xs text-brand-orange-600 mt-1">
+                  Performance drops after 60 minutes
+                </p>
               </div>
             </div>
           </Card>
@@ -248,20 +284,30 @@ export default function LearningAnalyticsDashboard() {
               <div
                 key={insight.id}
                 className={`p-4 rounded-lg border-l-4 ${
-                  insight.type === 'risk' ? 'bg-brand-red-50 border-brand-red-500' :
-                  insight.type === 'opportunity' ? 'bg-brand-green-50 border-brand-green-500' :
-                  'bg-brand-blue-50 border-brand-blue-500'
+                  insight.type === 'risk'
+                    ? 'bg-brand-red-50 border-brand-red-500'
+                    : insight.type === 'opportunity'
+                      ? 'bg-brand-green-50 border-brand-green-500'
+                      : 'bg-brand-blue-50 border-brand-blue-500'
                 }`}
               >
                 <div className="flex justify-between items-start mb-2">
                   <div className="flex-1">
                     <div className="flex items-center gap-2 mb-1">
-                      <span className={`text-lg ${
-                        insight.type === 'risk' ? '⚠️' :
-                        insight.type === 'opportunity' ? '🎯' : '💡'
-                      }`}>
-                        {insight.type === 'risk' ? '⚠️' :
-                         insight.type === 'opportunity' ? '🎯' : '💡'}
+                      <span
+                        className={`text-lg ${
+                          insight.type === 'risk'
+                            ? '⚠️'
+                            : insight.type === 'opportunity'
+                              ? '🎯'
+                              : '💡'
+                        }`}
+                      >
+                        {insight.type === 'risk'
+                          ? '⚠️'
+                          : insight.type === 'opportunity'
+                            ? '🎯'
+                            : '💡'}
                       </span>
                       <h4 className="font-bold">{insight.title}</h4>
                     </div>
@@ -285,7 +331,8 @@ export default function LearningAnalyticsDashboard() {
             <div className="p-4 bg-white rounded">
               <h4 className="font-semibold mb-2">📚 Study Strategy</h4>
               <p className="text-sm text-black">
-                Focus on JavaScript fundamentals before moving to frameworks. Your assessment scores suggest gaps in core concepts.
+                Focus on JavaScript fundamentals before moving to frameworks. Your assessment scores
+                suggest gaps in core concepts.
               </p>
             </div>
             <div className="p-4 bg-white rounded">
@@ -297,7 +344,8 @@ export default function LearningAnalyticsDashboard() {
             <div className="p-4 bg-white rounded">
               <h4 className="font-semibold mb-2">🤝 Peer Learning</h4>
               <p className="text-sm text-black">
-                Join study groups for React topics. Collaborative learning improves retention by 40%.
+                Join study groups for React topics. Collaborative learning improves retention by
+                40%.
               </p>
             </div>
             <div className="p-4 bg-white rounded">

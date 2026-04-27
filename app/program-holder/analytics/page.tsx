@@ -1,7 +1,16 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
-import { ChevronRight, TrendingUp, Users, DollarSign, GraduationCap, Download, ArrowUp, ArrowDown } from 'lucide-react';
+import {
+  ChevronRight,
+  TrendingUp,
+  Users,
+  DollarSign,
+  GraduationCap,
+  Download,
+  ArrowUp,
+  ArrowDown,
+} from 'lucide-react';
 import { requireProgramHolder } from '@/lib/auth/require-program-holder';
 import { EnrollmentTrendChart } from '@/components/program-holder/EnrollmentTrendChart';
 
@@ -114,9 +123,9 @@ export default async function ProgramHolderAnalyticsPage() {
         ...program,
         enrollments: enrollments || 0,
         completed: completed || 0,
-        completionRate: enrollments ? Math.round((completed || 0) / enrollments * 100) : 0,
+        completionRate: enrollments ? Math.round(((completed || 0) / enrollments) * 100) : 0,
       };
-    })
+    }),
   );
 
   // Completion rate — current vs previous period
@@ -137,28 +146,29 @@ export default async function ProgramHolderAnalyticsPage() {
 
   // Calculate changes
   const enrollmentChange = previousEnrollments
-    ? Math.round(((currentEnrollments || 0) - previousEnrollments) / previousEnrollments * 100)
+    ? Math.round((((currentEnrollments || 0) - previousEnrollments) / previousEnrollments) * 100)
     : 0;
 
   const completionRate = totalEnrollments
-    ? Math.round((completedEnrollments || 0) / totalEnrollments * 100)
+    ? Math.round(((completedEnrollments || 0) / totalEnrollments) * 100)
     : 0;
 
-  const prevCompletionRate = (previousEnrollments || 0) > 0
-    ? Math.round((previousCompleted || 0) / previousEnrollments * 100)
-    : 0;
-  const currentCompletionRate = (currentEnrollments || 0) > 0
-    ? Math.round((currentCompleted || 0) / (currentEnrollments || 1) * 100)
-    : 0;
+  const prevCompletionRate =
+    (previousEnrollments || 0) > 0
+      ? Math.round(((previousCompleted || 0) / previousEnrollments) * 100)
+      : 0;
+  const currentCompletionRate =
+    (currentEnrollments || 0) > 0
+      ? Math.round(((currentCompleted || 0) / (currentEnrollments || 1)) * 100)
+      : 0;
   const completionRateChange = currentCompletionRate - prevCompletionRate;
 
   // Estimated revenue — current vs previous period
   const payoutShare = (programHolder.payout_share ?? 50) / 100;
   const estimatedRevenue = (completedEnrollments || 0) * 500 * payoutShare;
   const prevRevenue = (previousCompleted || 0) * 500 * payoutShare;
-  const revenueChange = prevRevenue > 0
-    ? Math.round(((estimatedRevenue - prevRevenue) / prevRevenue) * 100)
-    : 0;
+  const revenueChange =
+    prevRevenue > 0 ? Math.round(((estimatedRevenue - prevRevenue) / prevRevenue) * 100) : 0;
 
   const metrics = [
     {
@@ -194,13 +204,19 @@ export default async function ProgramHolderAnalyticsPage() {
   return (
     <div className="min-h-screen bg-white py-8">
       <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Program Holder", href: "/program-holder" }, { label: "Analytics" }]} />
+        <Breadcrumbs
+          items={[{ label: 'Program Holder', href: '/program-holder' }, { label: 'Analytics' }]}
+        />
       </div>
       <div className="max-w-7xl mx-auto px-4">
         <nav className="flex items-center gap-2 text-sm text-slate-700 mb-6">
-          <Link href="/" className="hover:text-brand-orange-600">Home</Link>
+          <Link href="/" className="hover:text-brand-orange-600">
+            Home
+          </Link>
           <ChevronRight className="w-4 h-4" />
-          <Link href="/program-holder" className="hover:text-brand-orange-600">Program Holder</Link>
+          <Link href="/program-holder" className="hover:text-brand-orange-600">
+            Program Holder
+          </Link>
           <ChevronRight className="w-4 h-4" />
           <span className="text-slate-900">Analytics</span>
         </nav>
@@ -224,13 +240,15 @@ export default async function ProgramHolderAnalyticsPage() {
 
         {/* Metrics Grid */}
         <div className="grid md:grid-cols-4 gap-4 mb-8">
-          {metrics.map(metric => (
+          {metrics.map((metric) => (
             <div key={metric.label} className="bg-white rounded-xl border p-6">
               <div className="flex items-center justify-between mb-4">
                 <div className="w-10 h-10 bg-brand-orange-100 rounded-lg flex items-center justify-center">
                   <metric.icon className="w-5 h-5 text-brand-orange-600" />
                 </div>
-                <span className={`flex items-center gap-1 text-sm ${metric.up ? 'text-brand-green-600' : 'text-brand-red-600'}`}>
+                <span
+                  className={`flex items-center gap-1 text-sm ${metric.up ? 'text-brand-green-600' : 'text-brand-red-600'}`}
+                >
                   {metric.up ? <ArrowUp className="w-4 h-4" /> : <ArrowDown className="w-4 h-4" />}
                   {metric.change}
                 </span>
@@ -302,21 +320,29 @@ export default async function ProgramHolderAnalyticsPage() {
             <thead className="bg-white">
               <tr>
                 <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">Program</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">Enrollments</th>
-                <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">Completion Rate</th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">
+                  Enrollments
+                </th>
+                <th className="px-4 py-3 text-left text-sm font-medium text-slate-700">
+                  Completion Rate
+                </th>
               </tr>
             </thead>
             <tbody className="divide-y">
               {programStats.length > 0 ? (
                 programStats.map((program: any) => (
                   <tr key={program.id} className="hover:bg-white">
-                    <td className="px-4 py-4 font-medium">{program.title || program?.title || program?.name}</td>
+                    <td className="px-4 py-4 font-medium">
+                      {program.title || program?.title || program?.name}
+                    </td>
                     <td className="px-4 py-4">{program.enrollments}</td>
                     <td className="px-4 py-4">
                       <div className="flex items-center gap-2">
                         <div className="w-24 bg-gray-200 rounded-full h-2">
-                          <div className="bg-brand-orange-500 h-2 rounded-full"
-                            style={{ width: `${program.completionRate}%` }} />
+                          <div
+                            className="bg-brand-orange-500 h-2 rounded-full"
+                            style={{ width: `${program.completionRate}%` }}
+                          />
                         </div>
                         <span className="text-sm">{program.completionRate}%</span>
                       </div>

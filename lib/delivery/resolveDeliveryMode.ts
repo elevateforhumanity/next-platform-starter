@@ -5,10 +5,10 @@
 
 export type DeliveryMode = 'internal' | 'partner' | 'hybrid';
 
-export type EnrollmentSource = 
-  | 'enrollments' 
-  | 'student_enrollments' 
-  | 'partner_enrollments' 
+export type EnrollmentSource =
+  | 'enrollments'
+  | 'student_enrollments'
+  | 'partner_enrollments'
   | 'partner_lms_enrollments';
 
 export type DeliveryModeResult = {
@@ -23,7 +23,7 @@ type ProgramRow = {
 
 /**
  * Resolve delivery mode for an enrollment
- * 
+ *
  * Precedence:
  * 1. If program.delivery_mode is set → use it
  * 2. Else infer from enrollment source table
@@ -31,7 +31,7 @@ type ProgramRow = {
  */
 export function resolveDeliveryMode(
   source: EnrollmentSource,
-  program?: ProgramRow | null
+  program?: ProgramRow | null,
 ): DeliveryModeResult {
   // 1. Check explicit program configuration
   if (program?.delivery_mode) {
@@ -43,7 +43,7 @@ export function resolveDeliveryMode(
 
   // 2. Infer from enrollment source
   const inferredMode = inferFromSource(source);
-  
+
   return {
     mode: inferredMode,
     inferred: true,
@@ -58,11 +58,11 @@ function inferFromSource(source: EnrollmentSource): DeliveryMode {
     case 'partner_lms_enrollments':
     case 'partner_enrollments':
       return 'partner';
-    
+
     case 'student_enrollments':
       // student_enrollments is used for barber apprenticeship (hybrid)
       return 'hybrid';
-    
+
     case 'enrollments':
     default:
       return 'internal';
@@ -78,19 +78,19 @@ export function getContinueLearningUrl(
     enrollment_id: string;
     course_id?: string | null;
     program_slug?: string | null;
-  }
+  },
 ): string {
   switch (deliveryMode) {
     case 'partner':
       return `/partner-learning/${enrollment.enrollment_id}`;
-    
+
     case 'hybrid':
       // Hybrid enrollments go to case management or LMS dashboard
       if (enrollment.course_id) {
         return `/lms/courses/${enrollment.course_id}`;
       }
       return '/learner/dashboard';
-    
+
     case 'internal':
     default:
       if (enrollment.course_id) {

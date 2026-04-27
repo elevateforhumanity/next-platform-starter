@@ -79,6 +79,7 @@ function ProgramCard({ p }: { p: CatalogProgram }) {
     >
       {/* Cover image — no overlay, no text on image */}
       <div className="relative aspect-[16/10] overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src={p.heroImage}
           alt={p.heroImageAlt}
@@ -89,11 +90,15 @@ function ProgramCard({ p }: { p: CatalogProgram }) {
         {/* Top badges only — no overlay, no text */}
         <div className="absolute left-3 top-3 flex flex-wrap gap-1.5">
           {p.badge && (
-            <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${badgeBg(p.badgeColor)}`}>
+            <span
+              className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${badgeBg(p.badgeColor)}`}
+            >
               {p.badge}
             </span>
           )}
-          <span className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${modeBg(p.deliveryMode)}`}>
+          <span
+            className={`rounded-full px-2.5 py-0.5 text-[11px] font-semibold ${modeBg(p.deliveryMode)}`}
+          >
             {modeLabel(p.deliveryMode)}
           </span>
         </div>
@@ -104,9 +109,12 @@ function ProgramCard({ p }: { p: CatalogProgram }) {
         <h3 className="font-semibold text-slate-900 text-sm leading-tight mb-1">{p.title}</h3>
         <div className="flex items-center justify-between">
           <span className="flex items-center gap-1 text-xs text-black">
-            <Clock className="w-3 h-3" />{p.durationWeeks} weeks
+            <Clock className="w-3 h-3" />
+            {p.durationWeeks} weeks
           </span>
-          <span className="text-xs text-black">{p.isSelfPay ? 'Self-pay' : 'WIOA / Grant funded'}</span>
+          <span className="text-xs text-black">
+            {p.isSelfPay ? 'Self-pay' : 'WIOA / Grant funded'}
+          </span>
         </div>
       </div>
     </Link>
@@ -127,9 +135,11 @@ export default function CatalogFilters({ programs, sectors }: Props) {
       if (activeSector && p.sector !== activeSector) return false;
       if (activeMode && p.deliveryMode !== activeMode) return false;
       if (activeFunding === 'wioa' && p.isSelfPay) return false;
-      if (activeFunding === 'grant' && (p.isSelfPay || !p.badge?.toLowerCase().includes('grant'))) return false;
+      if (activeFunding === 'grant' && (p.isSelfPay || !p.badge?.toLowerCase().includes('grant')))
+        return false;
       if (q) {
-        const haystack = `${p.title} ${p.subtitle} ${p.credentials.join(' ')} ${p.entryJob ?? ''}`.toLowerCase();
+        const haystack =
+          `${p.title} ${p.subtitle} ${p.credentials.join(' ')} ${p.entryJob ?? ''}`.toLowerCase();
         if (!haystack.includes(q)) return false;
       }
       return true;
@@ -155,9 +165,13 @@ export default function CatalogFilters({ programs, sectors }: Props) {
       <div className="rounded-[2rem] border border-slate-200 bg-white shadow-sm overflow-hidden mb-8">
         <div className="flex flex-col gap-4 border-b border-slate-200 px-6 py-5 sm:flex-row sm:items-center sm:justify-between">
           <div>
-            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">Program Catalog</p>
+            <p className="text-xs font-semibold uppercase tracking-[0.2em] text-emerald-700">
+              Program Catalog
+            </p>
             <h2 className="mt-1 text-xl font-semibold text-slate-900">
-              {hasFilters ? `${filtered.length} program${filtered.length !== 1 ? 's' : ''} found` : `${programs.length} programs across ${sectors.length} sectors`}
+              {hasFilters
+                ? `${filtered.length} program${filtered.length !== 1 ? 's' : ''} found`
+                : `${programs.length} programs across ${sectors.length} sectors`}
             </h2>
           </div>
           <div className="flex w-full max-w-md gap-2">
@@ -173,7 +187,12 @@ export default function CatalogFilters({ programs, sectors }: Props) {
             </div>
             {hasFilters && (
               <button
-                onClick={() => { setQuery(''); setActiveSector(null); setActiveMode(null); setActiveFunding(null); }}
+                onClick={() => {
+                  setQuery('');
+                  setActiveSector(null);
+                  setActiveMode(null);
+                  setActiveFunding(null);
+                }}
                 className="h-11 rounded-2xl border border-slate-300 px-4 text-sm font-medium text-black hover:border-slate-400 transition-colors"
               >
                 Clear
@@ -242,7 +261,12 @@ export default function CatalogFilters({ programs, sectors }: Props) {
         <div className="rounded-2xl border border-dashed border-slate-300 bg-white p-12 text-center">
           <p className="text-black font-medium">No programs match your filters.</p>
           <button
-            onClick={() => { setQuery(''); setActiveSector(null); setActiveMode(null); setActiveFunding(null); }}
+            onClick={() => {
+              setQuery('');
+              setActiveSector(null);
+              setActiveMode(null);
+              setActiveFunding(null);
+            }}
             className="mt-3 text-sm text-brand-blue-600 hover:underline"
           >
             Clear all filters
@@ -251,7 +275,9 @@ export default function CatalogFilters({ programs, sectors }: Props) {
       ) : hasFilters ? (
         /* Flat grid when filtering */
         <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-          {filtered.map((p) => <ProgramCard key={p.slug} p={p} />)}
+          {filtered.map((p) => (
+            <ProgramCard key={p.slug} p={p} />
+          ))}
         </div>
       ) : (
         /* Sector-grouped view when no filters active */
@@ -265,11 +291,16 @@ export default function CatalogFilters({ programs, sectors }: Props) {
               {items.length === 0 ? (
                 <div className="rounded-xl border border-dashed border-slate-300 bg-white p-8 text-center text-sm text-black">
                   New programs in this sector are in development.{' '}
-                  <Link href="/contact" className="text-brand-blue-600 underline">Contact us</Link> to express interest.
+                  <Link href="/contact" className="text-brand-blue-600 underline">
+                    Contact us
+                  </Link>{' '}
+                  to express interest.
                 </div>
               ) : (
                 <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
-                  {items.map((p) => <ProgramCard key={p.slug} p={p} />)}
+                  {items.map((p) => (
+                    <ProgramCard key={p.slug} p={p} />
+                  ))}
                 </div>
               )}
             </div>

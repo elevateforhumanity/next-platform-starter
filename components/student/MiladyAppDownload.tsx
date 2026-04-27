@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { Smartphone, Download, ExternalLink } from 'lucide-react';
 import Image from 'next/image';
@@ -8,7 +8,9 @@ export default function MiladyAppDownload() {
     <div className="bg-slate-900 rounded-xl shadow-lg p-6 text-white">
       <div className="text-center mb-4">
         <div className="w-12 h-12 bg-white rounded-lg flex items-center justify-center mx-auto mb-3 p-1.5">
-          <Image alt="Milady app download" loading="lazy"
+          <Image
+            alt="Milady app download"
+            loading="lazy"
             src="/images/milady-logo.jpg"
             alt="Milady"
             width={40}
@@ -52,8 +54,7 @@ export default function MiladyAppDownload() {
           <li>Download the Thinkific app</li>
           <li>Open the app and tap "Login"</li>
           <li>
-            Enter:{' '}
-            <span className="font-semibold text-white">miladytraining.com</span>
+            Enter: <span className="font-semibold text-white">miladytraining.com</span>
           </li>
           <li>Login with your Milady credentials</li>
           <li>Start learning anywhere, anytime!</li>

@@ -1,8 +1,8 @@
-"use client";
+'use client';
 
 import React from 'react';
 
-import { useState } from "react";
+import { useState } from 'react';
 
 type Student = {
   enrollmentId: string;
@@ -33,31 +33,22 @@ export default function GradebookClient({ initialData }: Props) {
 
   function getGradeValue(gi: GradeItem, enrollmentId: string): string {
     const g = gi.grades.find((x) => x.enrollmentId === enrollmentId);
-    return g ? String(g.points) : "";
+    return g ? String(g.points) : '';
   }
 
-  async function handleChange(
-    gradeItemId: string,
-    enrollmentId: string,
-    value: string
-  ) {
-    const points = value === "" ? null : Number(value);
-    if (value !== "" && Number.isNaN(points)) return;
+  async function handleChange(gradeItemId: string, enrollmentId: string, value: string) {
+    const points = value === '' ? null : Number(value);
+    if (value !== '' && Number.isNaN(points)) return;
 
     // Update local state optimistically
     setGradeItems((prev) =>
       prev.map((gi) => {
         if (gi.id !== gradeItemId) return gi;
-        const existing = gi.grades.find(
-          (g) => g.enrollmentId === enrollmentId
-        );
+        const existing = gi.grades.find((g) => g.enrollmentId === enrollmentId);
         if (!existing) {
           return {
             ...gi,
-            grades:
-              points === null
-                ? gi.grades
-                : [...gi.grades, { enrollmentId, points }],
+            grades: points === null ? gi.grades : [...gi.grades, { enrollmentId, points }],
           };
         }
         return {
@@ -65,25 +56,24 @@ export default function GradebookClient({ initialData }: Props) {
           grades:
             points === null
               ? gi.grades.filter((g) => g.enrollmentId !== enrollmentId)
-              : gi.grades.map((g) =>
-                  g.enrollmentId === enrollmentId ? { ...g, points } : g
-                ),
+              : gi.grades.map((g) => (g.enrollmentId === enrollmentId ? { ...g, points } : g)),
         };
-      })
+      }),
     );
 
     if (points === null) return; // Don't save empty grades
 
     setSaving(true);
     try {
-      await fetch("/api/grade/upsert", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
+      await fetch('/api/grade/upsert', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ gradeItemId, enrollmentId, points }),
       });
-    } catch (error) { /* Error handled silently */ 
-    // Error handled
-  } finally {
+    } catch (error) {
+      /* Error handled silently */
+      // Error handled
+    } finally {
       setSaving(false);
     }
   }
@@ -99,8 +89,7 @@ export default function GradebookClient({ initialData }: Props) {
               Gradebook – {initialData.course.title}
             </h1>
             <p className="mt-2 text-sm text-black">
-              Click a cell to enter or update grades. Changes save
-              automatically.
+              Click a cell to enter or update grades. Changes save automatically.
             </p>
           </div>
           {saving && (
@@ -139,48 +128,29 @@ export default function GradebookClient({ initialData }: Props) {
               {students.map((s) => {
                 // Calculate total
                 const total = gradeItems.reduce((sum, gi) => {
-                  const g = gi.grades.find(
-                    (x) => x.enrollmentId === s.enrollmentId
-                  );
+                  const g = gi.grades.find((x) => x.enrollmentId === s.enrollmentId);
                   return sum + (g?.points ?? 0);
                 }, 0);
-                const maxTotal = gradeItems.reduce(
-                  (sum, gi) => sum + gi.maxPoints,
-                  0
-                );
-                const percentage =
-                  maxTotal > 0 ? ((total / maxTotal) * 100).toFixed(1) : "0.0";
+                const maxTotal = gradeItems.reduce((sum, gi) => sum + gi.maxPoints, 0);
+                const percentage = maxTotal > 0 ? ((total / maxTotal) * 100).toFixed(1) : '0.0';
 
                 return (
-                  <tr
-                    key={s.enrollmentId}
-                    className="border-t border-slate-100"
-                  >
+                  <tr key={s.enrollmentId} className="border-t border-slate-100">
                     <td className="sticky left-0 z-10 bg-white px-3 py-2 text-black">
                       <div className="font-medium">{s.name}</div>
-                      <div className="text-[10px] text-slate-500">
-                        {s.email}
-                      </div>
+                      <div className="text-[10px] text-slate-500">{s.email}</div>
                     </td>
                     {gradeItems.map((gi) => (
                       <td key={gi.id} className="px-3 py-2 align-middle">
                         <input
                           className="w-16 rounded-lg border border-slate-200 px-2 py-2 text-right text-xs focus:border-brand-orange-500 focus:outline-none"
                           defaultValue={getGradeValue(gi, s.enrollmentId)}
-                          onBlur={(e) =>
-                            handleChange(
-                              gi.id,
-                              s.enrollmentId,
-                              e.target.value.trim()
-                            )
-                          }
+                          onBlur={(e) => handleChange(gi.id, s.enrollmentId, e.target.value.trim())}
                           placeholder="–"
                         />
                       </td>
                     ))}
-                    <td className="px-3 py-2 text-right font-semibold text-black">
-                      {percentage}%
-                    </td>
+                    <td className="px-3 py-2 text-right font-semibold text-black">{percentage}%</td>
                   </tr>
                 );
               })}

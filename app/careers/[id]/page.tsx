@@ -36,7 +36,9 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
       let resumeUrl = '';
 
       // Get user first — RLS requires auth.uid() as first path segment
-      const { data: { user } } = await supabase.auth.getUser();
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
 
       // Upload resume if provided — via API route (bypasses storage RLS)
       if (resume) {
@@ -50,26 +52,26 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
         resumeUrl = uploadResult.document?.file_url || '';
       }
 
-      const { error: insertErr } = await supabase
-        .from('job_applications')
-        .insert({
-          job_posting_id: id,
-          student_id: user?.id || null,
-          resume_url: resumeUrl,
-          cover_letter: formData.coverLetter,
-          notes: [
-            `Name: ${formData.firstName} ${formData.lastName}`,
-            `Email: ${formData.email}`,
-            `Phone: ${formData.phone}`,
-            formData.linkedIn ? `LinkedIn: ${formData.linkedIn}` : '',
-            formData.portfolio ? `Portfolio: ${formData.portfolio}` : '',
-            `Experience: ${formData.experience}`,
-            `Availability: ${formData.availability}`,
-            formData.salary ? `Salary: ${formData.salary}` : '',
-            formData.heardAbout ? `Source: ${formData.heardAbout}` : '',
-          ].filter(Boolean).join('\n'),
-          status: 'submitted',
-        });
+      const { error: insertErr } = await supabase.from('job_applications').insert({
+        job_posting_id: id,
+        student_id: user?.id || null,
+        resume_url: resumeUrl,
+        cover_letter: formData.coverLetter,
+        notes: [
+          `Name: ${formData.firstName} ${formData.lastName}`,
+          `Email: ${formData.email}`,
+          `Phone: ${formData.phone}`,
+          formData.linkedIn ? `LinkedIn: ${formData.linkedIn}` : '',
+          formData.portfolio ? `Portfolio: ${formData.portfolio}` : '',
+          `Experience: ${formData.experience}`,
+          `Availability: ${formData.availability}`,
+          formData.salary ? `Salary: ${formData.salary}` : '',
+          formData.heardAbout ? `Source: ${formData.heardAbout}` : '',
+        ]
+          .filter(Boolean)
+          .join('\n'),
+        status: 'submitted',
+      });
 
       if (insertErr) throw new Error(insertErr.message);
 
@@ -111,18 +113,21 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
             </div>
             <h1 className="text-3xl font-bold text-slate-900 mb-4">Application Submitted!</h1>
             <p className="text-slate-700 mb-8">
-              Thank you for your interest in joining Elevate for Humanity. 
-              We&apos;ll review your application and get back to you within 5-7 business days.
+              Thank you for your interest in joining Elevate for Humanity. We&apos;ll review your
+              application and get back to you within 5-7 business days.
             </p>
             <div className="space-y-4">
-              <Link 
+              <Link
                 href="/careers"
                 className="inline-block px-6 py-3 bg-brand-blue-600 text-white rounded-lg font-semibold hover:bg-brand-blue-700 transition"
               >
                 View More Positions
               </Link>
               <p className="text-sm text-slate-700">
-                Questions? Email us at <a href="/contact" className="text-brand-blue-600">Contact Us</a>
+                Questions? Email us at{' '}
+                <a href="/contact" className="text-brand-blue-600">
+                  Contact Us
+                </a>
               </p>
             </div>
           </div>
@@ -133,12 +138,15 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
 
   return (
     <div className="min-h-screen bg-white py-8">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Careers", href: "/careers" }, { label: "[Id]" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Careers', href: '/careers' }, { label: '[Id]' }]} />
       </div>
-<div className="max-w-4xl mx-auto px-4">
+      <div className="max-w-4xl mx-auto px-4">
         {/* Back Link */}
-        <Link href="/careers" className="inline-flex items-center text-brand-blue-600 hover:text-brand-blue-700 mb-6">
+        <Link
+          href="/careers"
+          className="inline-flex items-center text-brand-blue-600 hover:text-brand-blue-700 mb-6"
+        >
           <ArrowLeft className="w-4 h-4 mr-2" />
           Back to Careers
         </Link>
@@ -165,7 +173,7 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
         {/* Application Form */}
         <form onSubmit={handleSubmit} className="bg-white rounded-xl shadow-sm p-8">
           <h2 className="text-2xl font-bold text-slate-900 mb-6">Your Information</h2>
-          
+
           {/* Personal Info */}
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <div>
@@ -174,7 +182,7 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
                 type="text"
                 required
                 value={formData.firstName}
-                onChange={(e) => setFormData({...formData, firstName: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, firstName: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 placeholder="First name"
               />
@@ -185,7 +193,7 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
                 type="text"
                 required
                 value={formData.lastName}
-                onChange={(e) => setFormData({...formData, lastName: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, lastName: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 placeholder="Doe"
               />
@@ -196,7 +204,7 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
                 type="email"
                 required
                 value={formData.email}
-                onChange={(e) => setFormData({...formData, email: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 placeholder="john@elevateforhumanity.org"
               />
@@ -207,7 +215,7 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
                 type="tel"
                 required
                 value={formData.phone}
-                onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 placeholder="(317) 314-3757"
               />
@@ -217,21 +225,25 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
           {/* Links */}
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <div>
-              <label className="block text-sm font-medium text-slate-900 mb-2">LinkedIn Profile</label>
+              <label className="block text-sm font-medium text-slate-900 mb-2">
+                LinkedIn Profile
+              </label>
               <input
                 type="url"
                 value={formData.linkedIn}
-                onChange={(e) => setFormData({...formData, linkedIn: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, linkedIn: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 placeholder="https://linkedin.com/in/yourprofile"
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-900 mb-2">Portfolio/Website</label>
+              <label className="block text-sm font-medium text-slate-900 mb-2">
+                Portfolio/Website
+              </label>
               <input
                 type="url"
                 value={formData.portfolio}
-                onChange={(e) => setFormData({...formData, portfolio: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, portfolio: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 placeholder="https://yourportfolio.com"
               />
@@ -269,7 +281,7 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
             <label className="block text-sm font-medium text-slate-900 mb-2">Cover Letter</label>
             <textarea
               value={formData.coverLetter}
-              onChange={(e) => setFormData({...formData, coverLetter: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, coverLetter: e.target.value })}
               rows={5}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
               placeholder="Tell us why you're interested in this position and what makes you a great fit..."
@@ -278,11 +290,13 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
 
           {/* Experience */}
           <div className="mb-8">
-            <label className="block text-sm font-medium text-slate-900 mb-2">Relevant Experience *</label>
+            <label className="block text-sm font-medium text-slate-900 mb-2">
+              Relevant Experience *
+            </label>
             <textarea
               required
               value={formData.experience}
-              onChange={(e) => setFormData({...formData, experience: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, experience: e.target.value })}
               rows={4}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
               placeholder="Briefly describe your relevant experience and qualifications..."
@@ -292,11 +306,13 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
           {/* Additional Questions */}
           <div className="grid md:grid-cols-2 gap-6 mb-8">
             <div>
-              <label className="block text-sm font-medium text-slate-900 mb-2">Availability *</label>
+              <label className="block text-sm font-medium text-slate-900 mb-2">
+                Availability *
+              </label>
               <select
                 required
                 value={formData.availability}
-                onChange={(e) => setFormData({...formData, availability: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, availability: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
               >
                 <option value="">Select availability</option>
@@ -307,11 +323,13 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
               </select>
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-900 mb-2">Salary Expectations</label>
+              <label className="block text-sm font-medium text-slate-900 mb-2">
+                Salary Expectations
+              </label>
               <input
                 type="text"
                 value={formData.salary}
-                onChange={(e) => setFormData({...formData, salary: e.target.value})}
+                onChange={(e) => setFormData({ ...formData, salary: e.target.value })}
                 className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
                 placeholder="e.g., $50,000 - $60,000"
               />
@@ -319,10 +337,12 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
           </div>
 
           <div className="mb-8">
-            <label className="block text-sm font-medium text-slate-900 mb-2">How did you hear about us?</label>
+            <label className="block text-sm font-medium text-slate-900 mb-2">
+              How did you hear about us?
+            </label>
             <select
               value={formData.heardAbout}
-              onChange={(e) => setFormData({...formData, heardAbout: e.target.value})}
+              onChange={(e) => setFormData({ ...formData, heardAbout: e.target.value })}
               className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
             >
               <option value="">Select an option</option>
@@ -350,7 +370,8 @@ export default function CareerApplicationPage({ params }: { params: Promise<{ id
 
         {/* Contact Info */}
         <div className="mt-8 text-center text-slate-700">
-          <p>Questions about this position? Contact us at{' '}
+          <p>
+            Questions about this position? Contact us at{' '}
             <a href="/contact" className="text-brand-blue-600 hover:underline">
               our contact form
             </a>

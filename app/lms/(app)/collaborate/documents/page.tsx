@@ -8,7 +8,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { FileText, Users, Save, ArrowLeft } from 'lucide-react';
 import Link from 'next/link';
 
-export const dynamic = "force-dynamic";
+export const dynamic = 'force-dynamic';
 export const revalidate = 0;
 
 export default function SharedDocumentsPage() {
@@ -24,7 +24,10 @@ export default function SharedDocumentsPage() {
   useEffect(() => {
     const supabase = createClient();
     supabase.auth.getUser().then(({ data: { user: u } }) => {
-      if (!u) { router.push('/login?redirect=' + encodeURIComponent(window.location.pathname)); return; }
+      if (!u) {
+        router.push('/login?redirect=' + encodeURIComponent(window.location.pathname));
+        return;
+      }
       setUser(u);
       setLoading(false);
 
@@ -37,7 +40,9 @@ export default function SharedDocumentsPage() {
         .then(({ data }) => setDocuments(data || []));
     });
 
-    return () => { providerRef.current?.destroy(); };
+    return () => {
+      providerRef.current?.destroy();
+    };
   }, [router]);
 
   const openDocument = (docId: string) => {
@@ -79,11 +84,13 @@ export default function SharedDocumentsPage() {
   return (
     <div className="min-h-screen bg-white">
       <div className="max-w-7xl mx-auto px-4 py-6">
-        <Breadcrumbs items={[
-          { label: 'LMS', href: '/lms/dashboard' },
-          { label: 'Collaborate', href: '/lms/collaborate' },
-          { label: 'Shared Documents' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'LMS', href: '/lms/dashboard' },
+            { label: 'Collaborate', href: '/lms/collaborate' },
+            { label: 'Shared Documents' },
+          ]}
+        />
 
         <div className="mt-6">
           <div className="flex items-center justify-between mb-6">
@@ -110,7 +117,10 @@ export default function SharedDocumentsPage() {
                     <span>{collaborators.length} online</span>
                   </div>
                   <button
-                    onClick={() => { providerRef.current?.destroy(); setActiveDoc(null); }}
+                    onClick={() => {
+                      providerRef.current?.destroy();
+                      setActiveDoc(null);
+                    }}
                     className="text-sm text-slate-700 hover:text-slate-900"
                   >
                     Close
@@ -143,22 +153,27 @@ export default function SharedDocumentsPage() {
             </div>
           ) : (
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-4">
-              {documents.length > 0 ? documents.map((doc: any) => (
-                <button
-                  key={doc.id}
-                  onClick={() => openDocument(doc.id)}
-                  className="bg-white rounded-xl p-6 border shadow-sm hover:shadow-md transition text-left"
-                >
-                  <FileText className="w-8 h-8 text-brand-blue-600 mb-3" />
-                  <h3 className="font-semibold text-slate-900 mb-1">{doc.title || 'Untitled'}</h3>
-                  <p className="text-sm text-slate-700">
-                    Last edited {new Date(doc.updated_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
-                  </p>
-                </button>
-              )) : (
+              {documents.length > 0 ? (
+                documents.map((doc: any) => (
+                  <button
+                    key={doc.id}
+                    onClick={() => openDocument(doc.id)}
+                    className="bg-white rounded-xl p-6 border shadow-sm hover:shadow-md transition text-left"
+                  >
+                    <FileText className="w-8 h-8 text-brand-blue-600 mb-3" />
+                    <h3 className="font-semibold text-slate-900 mb-1">{doc.title || 'Untitled'}</h3>
+                    <p className="text-sm text-slate-700">
+                      Last edited{' '}
+                      {new Date(doc.updated_at).toLocaleDateString('en-US', { timeZone: 'UTC' })}
+                    </p>
+                  </button>
+                ))
+              ) : (
                 <div className="col-span-full bg-white rounded-xl p-12 text-center border">
                   <FileText className="w-16 h-16 text-slate-700 mx-auto mb-4" />
-                  <h2 className="text-xl font-semibold text-slate-900 mb-2">No shared documents yet</h2>
+                  <h2 className="text-xl font-semibold text-slate-900 mb-2">
+                    No shared documents yet
+                  </h2>
                   <p className="text-slate-700">Documents shared with you will appear here.</p>
                 </div>
               )}

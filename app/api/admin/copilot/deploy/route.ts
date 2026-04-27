@@ -23,12 +23,19 @@ async function _GET(request: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    const { data: _roleProfile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    const { data: _roleProfile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
     if (!_roleProfile || !['admin', 'super_admin', 'staff'].includes(_roleProfile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
@@ -49,10 +56,7 @@ async function _GET(request: Request) {
     return NextResponse.json({ deployments: deployments || [] });
   } catch (error) {
     logger.error('Error fetching copilot deployments:', error);
-    return NextResponse.json(
-      { error: 'Failed to fetch deployments' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to fetch deployments' }, { status: 500 });
   }
 }
 
@@ -63,12 +67,19 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    const { data: _roleProfile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    const { data: _roleProfile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
     if (!_roleProfile || !['admin', 'super_admin', 'staff'].includes(_roleProfile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
@@ -77,10 +88,7 @@ async function _POST(request: NextRequest) {
     const { copilot_type, config } = body;
 
     if (!copilot_type || !['ai_tutor', 'admin_assistant', 'support_bot'].includes(copilot_type)) {
-      return NextResponse.json(
-        { error: 'Invalid copilot type' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Invalid copilot type' }, { status: 400 });
     }
 
     // Check if this copilot type is already deployed
@@ -94,7 +102,7 @@ async function _POST(request: NextRequest) {
     if (existing) {
       return NextResponse.json(
         { error: 'This copilot is already deployed. Stop it first before redeploying.' },
-        { status: 409 }
+        { status: 409 },
       );
     }
 
@@ -141,10 +149,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Error deploying copilot:', error);
-    return NextResponse.json(
-      { error: 'Failed to deploy copilot' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to deploy copilot' }, { status: 500 });
   }
 }
 
@@ -155,12 +160,19 @@ async function _PATCH(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    const { data: _roleProfile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    const { data: _roleProfile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
     if (!_roleProfile || !['admin', 'super_admin', 'staff'].includes(_roleProfile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
@@ -171,7 +183,7 @@ async function _PATCH(request: NextRequest) {
     if (!deployment_id || !['start', 'stop'].includes(action)) {
       return NextResponse.json(
         { error: 'Invalid request. Provide deployment_id and action (start/stop)' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -179,7 +191,7 @@ async function _PATCH(request: NextRequest) {
 
     const { data: updated, error } = await supabase
       .from('copilot_deployments')
-      .update({ 
+      .update({
         status: newStatus,
         updated_at: new Date().toISOString(),
       })
@@ -191,7 +203,14 @@ async function _PATCH(request: NextRequest) {
       throw error;
     }
 
-    await logAdminAudit({ action: AdminAction.COPILOT_UPDATED, actorId: user.id, entityType: 'copilot_deployments', entityId: deployment_id, metadata: { copilot_action: action, new_status: newStatus }, req: request });
+    await logAdminAudit({
+      action: AdminAction.COPILOT_UPDATED,
+      actorId: user.id,
+      entityType: 'copilot_deployments',
+      entityId: deployment_id,
+      metadata: { copilot_action: action, new_status: newStatus },
+      req: request,
+    });
 
     return NextResponse.json({
       deployment: updated,
@@ -199,10 +218,7 @@ async function _PATCH(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Error updating copilot deployment:', error);
-    return NextResponse.json(
-      { error: 'Failed to update deployment' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to update deployment' }, { status: 500 });
   }
 }
 
@@ -213,12 +229,19 @@ async function _DELETE(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    const { data: _roleProfile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
+    const { data: _roleProfile } = await supabase
+      .from('profiles')
+      .select('role')
+      .eq('id', user.id)
+      .maybeSingle();
     if (!_roleProfile || !['admin', 'super_admin', 'staff'].includes(_roleProfile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
@@ -227,32 +250,30 @@ async function _DELETE(request: NextRequest) {
     const deploymentId = searchParams.get('id');
 
     if (!deploymentId) {
-      return NextResponse.json(
-        { error: 'Deployment ID required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Deployment ID required' }, { status: 400 });
     }
 
-    const { error } = await supabase
-      .from('copilot_deployments')
-      .delete()
-      .eq('id', deploymentId);
+    const { error } = await supabase.from('copilot_deployments').delete().eq('id', deploymentId);
 
     if (error) {
       throw error;
     }
 
-    await logAdminAudit({ action: AdminAction.COPILOT_DELETED, actorId: user.id, entityType: 'copilot_deployments', entityId: deploymentId, metadata: {}, req: request });
+    await logAdminAudit({
+      action: AdminAction.COPILOT_DELETED,
+      actorId: user.id,
+      entityType: 'copilot_deployments',
+      entityId: deploymentId,
+      metadata: {},
+      req: request,
+    });
 
     return NextResponse.json({
       message: 'Deployment removed successfully',
     });
   } catch (error) {
     logger.error('Error removing copilot deployment:', error);
-    return NextResponse.json(
-      { error: 'Failed to remove deployment' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to remove deployment' }, { status: 500 });
   }
 }
 

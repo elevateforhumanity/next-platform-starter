@@ -43,7 +43,7 @@ export default function PaymentPlanCheckout({
   programHours,
   hoursPerWeek = 40,
   minimumDownPayment,
-  minimumDownPaymentPercent = 0.10,
+  minimumDownPaymentPercent = 0.1,
   approvedAmount = 0,
   paidAmount = 0,
   onCheckout,
@@ -56,8 +56,9 @@ export default function PaymentPlanCheckout({
   const hasPartialCredit = totalCredits > 0 && remainingBalance > 0;
 
   // Minimum down payment for remaining balance
-  const minDown = minimumDownPayment || Math.max(50, Math.round(remainingBalance * minimumDownPaymentPercent));
-  
+  const minDown =
+    minimumDownPayment || Math.max(50, Math.round(remainingBalance * minimumDownPaymentPercent));
+
   const [paymentType, setPaymentType] = useState<'full' | 'plan'>('plan');
   const [downPayment, setDownPayment] = useState(Math.min(minDown, remainingBalance));
   const [useBnpl, setUseBnpl] = useState(false);
@@ -68,9 +69,8 @@ export default function PaymentPlanCheckout({
   const plan = useMemo(() => {
     const balanceAfterDown = remainingBalance - downPayment;
     const numberOfWeeks = Math.ceil(programHours / hoursPerWeek);
-    const weeklyPayment = numberOfWeeks > 0 && balanceAfterDown > 0 
-      ? Math.ceil(balanceAfterDown / numberOfWeeks) 
-      : 0;
+    const weeklyPayment =
+      numberOfWeeks > 0 && balanceAfterDown > 0 ? Math.ceil(balanceAfterDown / numberOfWeeks) : 0;
 
     // Generate schedule
     const schedule: PaymentScheduleItem[] = [];
@@ -103,7 +103,7 @@ export default function PaymentPlanCheckout({
       // Weekly payments
       for (let week = 1; week <= numberOfWeeks && balance > 0; week++) {
         const dueDate = new Date(startDate);
-        dueDate.setDate(dueDate.getDate() + (week * 7));
+        dueDate.setDate(dueDate.getDate() + week * 7);
         const payment = Math.min(weeklyPayment, balance);
         balance -= payment;
 
@@ -124,7 +124,15 @@ export default function PaymentPlanCheckout({
       numberOfWeeks: balanceAfterDown > 0 ? numberOfWeeks : 0,
       schedule,
     };
-  }, [downPayment, remainingBalance, totalAmount, totalCredits, programHours, hoursPerWeek, paymentType]);
+  }, [
+    downPayment,
+    remainingBalance,
+    totalAmount,
+    totalCredits,
+    programHours,
+    hoursPerWeek,
+    paymentType,
+  ]);
 
   // BNPL availability
   const sezzleAvailable = downPayment >= 35 && downPayment <= 2500;
@@ -157,7 +165,16 @@ export default function PaymentPlanCheckout({
             You are ready to enroll in {programName}!
           </p>
           <button
-            onClick={() => onCheckout({ paymentType: 'full', amount: 0, downPayment: 0, weeklyPayment: 0, numberOfWeeks: 0, useBnpl: false })}
+            onClick={() =>
+              onCheckout({
+                paymentType: 'full',
+                amount: 0,
+                downPayment: 0,
+                weeklyPayment: 0,
+                numberOfWeeks: 0,
+                useBnpl: false,
+              })
+            }
             className="bg-brand-green-600 text-white px-8 py-4 rounded-lg font-bold text-lg hover:bg-brand-green-700 transition-colors"
           >
             Complete Enrollment
@@ -171,9 +188,9 @@ export default function PaymentPlanCheckout({
   const presetAmounts = [
     { label: 'Min', amount: minDown },
     { label: '25%', amount: Math.round(remainingBalance * 0.25) },
-    { label: '50%', amount: Math.round(remainingBalance * 0.50) },
+    { label: '50%', amount: Math.round(remainingBalance * 0.5) },
     { label: 'Full', amount: remainingBalance },
-  ].filter(p => p.amount >= minDown && p.amount <= remainingBalance);
+  ].filter((p) => p.amount >= minDown && p.amount <= remainingBalance);
 
   return (
     <div className="bg-white rounded-xl border-2 border-slate-200 overflow-hidden">
@@ -203,7 +220,9 @@ export default function PaymentPlanCheckout({
             </div>
             <div>
               <p className="text-brand-red-700">Remaining Balance</p>
-              <p className="font-bold text-brand-red-600 text-xl">{formatCurrency(remainingBalance)}</p>
+              <p className="font-bold text-brand-red-600 text-xl">
+                {formatCurrency(remainingBalance)}
+              </p>
             </div>
           </div>
           <p className="text-xs text-amber-700 mt-2">
@@ -218,7 +237,7 @@ export default function PaymentPlanCheckout({
           <p className="text-sm font-medium text-slate-700 mb-3">
             {hasPartialCredit ? 'Pay Remaining Balance:' : 'Choose Payment Option:'}
           </p>
-          
+
           <div className="grid grid-cols-2 gap-3">
             <button
               type="button"
@@ -230,7 +249,9 @@ export default function PaymentPlanCheckout({
               }`}
             >
               <p className="font-bold text-slate-900">Pay in Full</p>
-              <p className="text-lg font-bold text-brand-green-600">{formatCurrency(remainingBalance)}</p>
+              <p className="text-lg font-bold text-brand-green-600">
+                {formatCurrency(remainingBalance)}
+              </p>
               <p className="text-xs text-brand-green-600">Enroll immediately</p>
             </button>
 
@@ -319,41 +340,54 @@ export default function PaymentPlanCheckout({
                 {totalCredits > 0 && (
                   <div className="flex justify-between text-sm pb-2 border-b border-brand-blue-200">
                     <span className="text-brand-green-700">✓ Already Credited</span>
-                    <span className="font-semibold text-brand-green-600">{formatCurrency(totalCredits)}</span>
+                    <span className="font-semibold text-brand-green-600">
+                      {formatCurrency(totalCredits)}
+                    </span>
                   </div>
                 )}
                 <div className="flex justify-between">
                   <span className="text-slate-600">Down Payment (Today)</span>
-                  <span className="text-xl font-bold text-brand-blue-600">{formatCurrency(downPayment)}</span>
+                  <span className="text-xl font-bold text-brand-blue-600">
+                    {formatCurrency(downPayment)}
+                  </span>
                 </div>
                 <div className="flex justify-between">
                   <span className="text-slate-600">Balance After Down Payment</span>
-                  <span className="font-semibold text-slate-700">{formatCurrency(plan.balanceAfterDown)}</span>
+                  <span className="font-semibold text-slate-700">
+                    {formatCurrency(plan.balanceAfterDown)}
+                  </span>
                 </div>
                 {plan.balanceAfterDown > 0 && (
                   <>
                     <div className="flex justify-between">
                       <span className="text-slate-600">Weekly Payment</span>
-                      <span className="font-bold text-slate-900">{formatCurrency(plan.weeklyPayment)}/week</span>
+                      <span className="font-bold text-slate-900">
+                        {formatCurrency(plan.weeklyPayment)}/week
+                      </span>
                     </div>
                     <div className="flex justify-between">
                       <span className="text-slate-600">Duration</span>
-                      <span className="font-semibold text-slate-700">{plan.numberOfWeeks} weeks</span>
+                      <span className="font-semibold text-slate-700">
+                        {plan.numberOfWeeks} weeks
+                      </span>
                     </div>
                   </>
                 )}
               </div>
 
               {/* Enrollment Status */}
-              <div className={`mt-4 p-3 rounded-lg ${plan.balanceAfterDown > 0 ? 'bg-amber-100' : 'bg-brand-green-100'}`}>
+              <div
+                className={`mt-4 p-3 rounded-lg ${plan.balanceAfterDown > 0 ? 'bg-amber-100' : 'bg-brand-green-100'}`}
+              >
                 {plan.balanceAfterDown > 0 ? (
                   <p className="text-sm text-amber-800">
-                    ⚠️ <strong>Enrollment pending:</strong> You can start after paying down payment. 
+                    ⚠️ <strong>Enrollment pending:</strong> You can start after paying down payment.
                     Weekly payments required to continue.
                   </p>
                 ) : (
                   <p className="text-sm text-brand-green-800">
-                    ✓ <strong>Full enrollment:</strong> Pay {formatCurrency(downPayment)} to enroll immediately!
+                    ✓ <strong>Full enrollment:</strong> Pay {formatCurrency(downPayment)} to enroll
+                    immediately!
                   </p>
                 )}
               </div>
@@ -369,9 +403,12 @@ export default function PaymentPlanCheckout({
                   className="mt-1 w-5 h-5 text-brand-blue-600 border-slate-300 rounded focus:ring-brand-blue-500"
                 />
                 <div>
-                  <p className="font-medium text-slate-900">Split down payment with Buy Now Pay Later</p>
+                  <p className="font-medium text-slate-900">
+                    Split down payment with Buy Now Pay Later
+                  </p>
                   <p className="text-sm text-slate-600">
-                    Can't pay {formatCurrency(downPayment)} today? Use BNPL to split it into smaller payments.
+                    Can't pay {formatCurrency(downPayment)} today? Use BNPL to split it into smaller
+                    payments.
                   </p>
                 </div>
               </label>
@@ -382,7 +419,9 @@ export default function PaymentPlanCheckout({
                     type="button"
                     onClick={() => setSelectedBnpl('stripe')}
                     className={`w-full p-3 rounded-lg border-2 text-left ${
-                      selectedBnpl === 'stripe' ? 'border-brand-blue-500 bg-brand-blue-50' : 'border-slate-200'
+                      selectedBnpl === 'stripe'
+                        ? 'border-brand-blue-500 bg-brand-blue-50'
+                        : 'border-slate-200'
                     }`}
                   >
                     <p className="font-medium">Affirm / Klarna / Afterpay</p>
@@ -397,16 +436,17 @@ export default function PaymentPlanCheckout({
                       selectedBnpl === 'sezzle' && sezzleAvailable
                         ? 'border-purple-500 bg-purple-50'
                         : sezzleAvailable
-                        ? 'border-slate-200'
-                        : 'border-slate-100 bg-slate-50 opacity-50'
+                          ? 'border-slate-200'
+                          : 'border-slate-100 bg-slate-50 opacity-50'
                     }`}
                   >
                     <p className="font-medium">Sezzle</p>
                     <p className="text-sm text-slate-600">
-                      {sezzleAvailable 
+                      {sezzleAvailable
                         ? `4 payments of ${formatCurrency(downPayment / 4)}`
-                        : downPayment < 35 ? 'Min $35 required' : 'Max $2,500'
-                      }
+                        : downPayment < 35
+                          ? 'Min $35 required'
+                          : 'Max $2,500'}
                     </p>
                   </button>
                 </div>
@@ -435,21 +475,31 @@ export default function PaymentPlanCheckout({
                   </thead>
                   <tbody>
                     {plan.schedule.map((item, idx) => (
-                      <tr key={idx} className={`border-b border-slate-100 ${
-                        item.type === 'credit' ? 'bg-brand-green-50' : 
-                        item.type === 'down_payment' ? 'bg-brand-blue-50 font-semibold' : ''
-                      }`}>
+                      <tr
+                        key={idx}
+                        className={`border-b border-slate-100 ${
+                          item.type === 'credit'
+                            ? 'bg-brand-green-50'
+                            : item.type === 'down_payment'
+                              ? 'bg-brand-blue-50 font-semibold'
+                              : ''
+                        }`}
+                      >
                         <td className="py-2">
-                          {item.type === 'credit' ? '✓ Credit Applied' :
-                           item.type === 'down_payment' ? '⬇️ Down Payment' : 
-                           `Week ${item.weekNumber}`}
+                          {item.type === 'credit'
+                            ? '✓ Credit Applied'
+                            : item.type === 'down_payment'
+                              ? '⬇️ Down Payment'
+                              : `Week ${item.weekNumber}`}
                         </td>
                         <td className="py-2">
                           {item.type === 'credit' ? 'Applied' : formatDate(item.dueDate)}
                         </td>
                         <td className="py-2 text-right">
                           {item.type === 'credit' ? (
-                            <span className="text-brand-green-600">-{formatCurrency(item.amount)}</span>
+                            <span className="text-brand-green-600">
+                              -{formatCurrency(item.amount)}
+                            </span>
                           ) : (
                             formatCurrency(item.amount)
                           )}
@@ -474,15 +524,19 @@ export default function PaymentPlanCheckout({
           disabled={isLoading}
           className="w-full bg-brand-blue-600 text-white py-4 rounded-lg font-bold text-lg hover:bg-brand-blue-700 transition-colors disabled:bg-slate-300 disabled:cursor-not-allowed"
         >
-          {isLoading ? 'Processing...' : 
-           paymentType === 'full' ? `Pay ${formatCurrency(remainingBalance)} - Enroll Now` :
-           useBnpl ? `Continue with BNPL - ${formatCurrency(downPayment)}` :
-           `Pay ${formatCurrency(downPayment)} Down Payment`}
+          {isLoading
+            ? 'Processing...'
+            : paymentType === 'full'
+              ? `Pay ${formatCurrency(remainingBalance)} - Enroll Now`
+              : useBnpl
+                ? `Continue with BNPL - ${formatCurrency(downPayment)}`
+                : `Pay ${formatCurrency(downPayment)} Down Payment`}
         </button>
 
         {paymentType === 'plan' && plan.balanceAfterDown > 0 && (
           <p className="text-xs text-center text-slate-500 mt-2">
-            Remaining {formatCurrency(plan.balanceAfterDown)} due in {plan.numberOfWeeks} weekly payments of {formatCurrency(plan.weeklyPayment)}
+            Remaining {formatCurrency(plan.balanceAfterDown)} due in {plan.numberOfWeeks} weekly
+            payments of {formatCurrency(plan.weeklyPayment)}
           </p>
         )}
       </div>

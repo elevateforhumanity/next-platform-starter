@@ -1,4 +1,3 @@
-
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
@@ -19,8 +18,9 @@ export default async function InstructorAssignmentsPage({ params }: { params: Pa
   const { courseId } = await params;
   const supabase = await createClient();
 
-
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
   const { data: course } = await supabase
@@ -38,12 +38,13 @@ export default async function InstructorAssignmentsPage({ params }: { params: Pa
 
   // Get submission counts per assignment
   const assignmentIds = (assignments || []).map((a: any) => a.id);
-  const { data: submissionCounts } = assignmentIds.length > 0
-    ? await supabase
-        .from('assignment_submissions')
-        .select('assignment_id')
-        .in('assignment_id', assignmentIds)
-    : { data: [] };
+  const { data: submissionCounts } =
+    assignmentIds.length > 0
+      ? await supabase
+          .from('assignment_submissions')
+          .select('assignment_id')
+          .in('assignment_id', assignmentIds)
+      : { data: [] };
 
   const countMap = new Map<string, number>();
   (submissionCounts || []).forEach((s: any) => {
@@ -51,12 +52,10 @@ export default async function InstructorAssignmentsPage({ params }: { params: Pa
   });
 
   // Get graded counts
-  const { data: gradedCounts } = assignmentIds.length > 0
-    ? await supabase
-        .from('grades')
-        .select('assignment_id')
-        .in('assignment_id', assignmentIds)
-    : { data: [] };
+  const { data: gradedCounts } =
+    assignmentIds.length > 0
+      ? await supabase.from('grades').select('assignment_id').in('assignment_id', assignmentIds)
+      : { data: [] };
 
   const gradedMap = new Map<string, number>();
   (gradedCounts || []).forEach((g: any) => {
@@ -65,17 +64,32 @@ export default async function InstructorAssignmentsPage({ params }: { params: Pa
 
   return (
     <div className="min-h-screen bg-white">
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden">
-        <Image src="/images/pages/instructor-page-5.jpg" alt="Instructor portal" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/instructor-page-5.jpg"
+          alt="Instructor portal"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="max-w-5xl mx-auto px-4 py-8">
         <nav className="text-sm mb-4">
           <ol className="flex items-center space-x-2 text-slate-700">
-            <li><Link href="/instructor" className="hover:text-brand-blue-600">Instructor</Link></li>
+            <li>
+              <Link href="/instructor" className="hover:text-brand-blue-600">
+                Instructor
+              </Link>
+            </li>
             <li>/</li>
-            <li><Link href="/instructor/courses" className="hover:text-brand-blue-600">Courses</Link></li>
+            <li>
+              <Link href="/instructor/courses" className="hover:text-brand-blue-600">
+                Courses
+              </Link>
+            </li>
             <li>/</li>
             <li className="text-slate-900 font-medium">Assignments</li>
           </ol>
@@ -83,9 +97,7 @@ export default async function InstructorAssignmentsPage({ params }: { params: Pa
 
         <div className="flex justify-between items-center mb-8">
           <div>
-            <h1 className="text-3xl font-bold text-slate-900">
-              {course?.title} — Assignments
-            </h1>
+            <h1 className="text-3xl font-bold text-slate-900">{course?.title} — Assignments</h1>
             <p className="text-slate-700 mt-1">
               {assignments?.length || 0} assignment{(assignments?.length || 0) !== 1 ? 's' : ''}
             </p>
@@ -115,9 +127,7 @@ export default async function InstructorAssignmentsPage({ params }: { params: Pa
                     <div className="flex-1">
                       <div className="flex items-center gap-3 mb-2">
                         <FileText className="w-5 h-5 text-brand-blue-600" />
-                        <h2 className="text-lg font-semibold text-slate-900">
-                          {assignment.title}
-                        </h2>
+                        <h2 className="text-lg font-semibold text-slate-900">{assignment.title}</h2>
                         {needsGrading > 0 && (
                           <span className="bg-brand-orange-100 text-brand-orange-700 text-xs font-semibold px-2 py-1 rounded-full">
                             {needsGrading} to grade
@@ -145,7 +155,9 @@ export default async function InstructorAssignmentsPage({ params }: { params: Pa
                           {totalGraded} graded
                         </span>
                         {assignment.due_date && (
-                          <span className={`flex items-center gap-1 ${isPastDue ? 'text-brand-red-500' : ''}`}>
+                          <span
+                            className={`flex items-center gap-1 ${isPastDue ? 'text-brand-red-500' : ''}`}
+                          >
                             <Clock className="w-4 h-4" />
                             Due {new Date(assignment.due_date).toLocaleDateString()}
                           </span>

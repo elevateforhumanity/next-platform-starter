@@ -238,20 +238,23 @@ export const quizQuestions = [
   {
     id: 'mod4-l27-q1',
     type: 'scenario' as const,
-    question: 'You are cutting a flat top and the top plane looks level from the front but slopes downward toward the back when viewed from the side. What is the most likely cause?',
+    question:
+      'You are cutting a flat top and the top plane looks level from the front but slopes downward toward the back when viewed from the side. What is the most likely cause?',
     options: [
       'The clipper blade is misaligned — it cuts lower at the back of the pass than the front',
       'The comb was following the curve of the crown instead of being held parallel to the floor — the comb must be level relative to the ground, not relative to the head',
-      'The client\'s head shape is not suitable for a flat top — the crown is too curved',
+      "The client's head shape is not suitable for a flat top — the crown is too curved",
       'The corners were not defined before the flat pass — the clipper rounded the back edge',
     ],
     correctAnswer: 1,
-    explanation: 'A flat top that slopes toward the back is the classic result of the comb following the curve of the crown rather than being held parallel to the floor. The barber\'s instinct is to follow the head shape — but a flat top requires the comb to be geometrically level regardless of the head\'s curve. The fix is to hold the comb parallel to the floor and drop to eye level with the comb during the pass to verify it is level. A misaligned blade would produce uneven cutting across the entire pass, not a consistent slope. A curved crown is a pre-cut assessment issue — it should be identified before cutting, not discovered after.',
+    explanation:
+      "A flat top that slopes toward the back is the classic result of the comb following the curve of the crown rather than being held parallel to the floor. The barber's instinct is to follow the head shape — but a flat top requires the comb to be geometrically level regardless of the head's curve. The fix is to hold the comb parallel to the floor and drop to eye level with the comb during the pass to verify it is level. A misaligned blade would produce uneven cutting across the entire pass, not a consistent slope. A curved crown is a pre-cut assessment issue — it should be identified before cutting, not discovered after.",
   },
   {
     id: 'mod4-l27-q2',
     type: 'scenario' as const,
-    question: 'A client requests a taper. After completing the sides and back, you notice a visible step line between the #2 and #3 guard sections. What is the correct next step?',
+    question:
+      'A client requests a taper. After completing the sides and back, you notice a visible step line between the #2 and #3 guard sections. What is the correct next step?',
     options: [
       'Take the #3 section shorter with the #2 guard to eliminate the step',
       'Use a clipper over comb blending pass at the step with a flatter comb angle to create a continuous graduation',
@@ -259,25 +262,29 @@ export const quizQuestions = [
       'Switch to scissor over comb for the entire taper section and start over',
     ],
     correctAnswer: 1,
-    explanation: 'A visible step line in a taper means the guard sizes changed too abruptly with no blending pass at the transition. The correction is a clipper over comb blending pass directly at the step line using a flatter comb angle — this creates a gradual transition between the two lengths without removing significant length from either section.',
+    explanation:
+      'A visible step line in a taper means the guard sizes changed too abruptly with no blending pass at the transition. The correction is a clipper over comb blending pass directly at the step line using a flatter comb angle — this creates a gradual transition between the two lengths without removing significant length from either section.',
   },
   {
     id: 'mod4-l27-q3',
     type: 'failure-diagnosis' as const,
-    question: 'After completing a flat top, the corners are rounded rather than sharp. What is the root cause?',
+    question:
+      'After completing a flat top, the corners are rounded rather than sharp. What is the root cause?',
     options: [
       'The clipper blade is misaligned — a misaligned blade rounds edges',
       'The corner was not defined with a vertical comb hold — the clipper rounded the edge during the flat pass',
-      'The client\'s head shape does not support sharp flat top corners',
+      "The client's head shape does not support sharp flat top corners",
       'The top plane was cut too short — there is not enough length to form a sharp corner',
     ],
     correctAnswer: 1,
-    explanation: 'Rounded flat top corners are caused by not defining the corner with a vertical comb hold. During the flat pass, the clipper naturally rounds the edge where the top plane meets the sides. To create a sharp 90-degree corner, the comb must be held vertically at the corner and the clipper passed cleanly along it — this defines the edge before the flat pass removes the excess.',
+    explanation:
+      'Rounded flat top corners are caused by not defining the corner with a vertical comb hold. During the flat pass, the clipper naturally rounds the edge where the top plane meets the sides. To create a sharp 90-degree corner, the comb must be held vertically at the corner and the clipper passed cleanly along it — this defines the edge before the flat pass removes the excess.',
   },
   {
     id: 'mod4-l27-q4',
     type: 'next-step' as const,
-    question: 'You are cutting an Ivy League and the part line is curved rather than straight. What is the correct next step?',
+    question:
+      'You are cutting an Ivy League and the part line is curved rather than straight. What is the correct next step?',
     options: [
       'Cut the top shorter so the part line is less visible',
       'Use the fine end of the barber comb to redefine the part line, then clean it with the outliner — work slowly in one direction',
@@ -285,19 +292,22 @@ export const quizQuestions = [
       'The curved part line is acceptable — a perfectly straight part is not achievable on all head shapes',
     ],
     correctAnswer: 1,
-    explanation: 'A curved part line in an Ivy League is corrected by redefining it with the fine end of the barber comb, then cleaning the line with the outliner. Working slowly in one direction prevents the line from drifting. The part line is a defining detail of the Ivy League — a curved or broken part line is a visible failure that must be corrected before the service is complete.',
+    explanation:
+      'A curved part line in an Ivy League is corrected by redefining it with the fine end of the barber comb, then cleaning the line with the outliner. Working slowly in one direction prevents the line from drifting. The part line is a defining detail of the Ivy League — a curved or broken part line is a visible failure that must be corrected before the service is complete.',
   },
   {
     id: 'mod4-l27-q5',
     type: 'scenario' as const,
-    question: 'A client with a flat crown requests a flat top. After assessing the head shape, you determine the crown does not have sufficient density to support a level plane. What is the correct response?',
+    question:
+      'A client with a flat crown requests a flat top. After assessing the head shape, you determine the crown does not have sufficient density to support a level plane. What is the correct response?',
     options: [
       'Proceed with the flat top — the technique will compensate for the crown shape',
       'Inform the client that the crown shape may prevent a perfectly level plane and discuss alternative cuts before proceeding',
-      'Cut the flat top as requested — the client\'s preference overrides the structural assessment',
+      "Cut the flat top as requested — the client's preference overrides the structural assessment",
       'Decline to perform the service — a flat crown makes a flat top impossible',
     ],
     correctAnswer: 1,
-    explanation: 'A flat or irregular crown can prevent a perfectly level flat top plane. The correct response is to inform the client before cutting — not after. Explain that the crown shape may limit the result and discuss alternatives (such as a taper or Ivy League) that would work better with the client\'s head shape. Proceeding without this conversation and delivering a poor result is a service failure that could have been avoided.',
+    explanation:
+      "A flat or irregular crown can prevent a perfectly level flat top plane. The correct response is to inform the client before cutting — not after. Explain that the crown shape may limit the result and discuss alternatives (such as a taper or Ivy League) that would work better with the client's head shape. Proceeding without this conversation and delivering a poor result is a service failure that could have been avoided.",
   },
 ];

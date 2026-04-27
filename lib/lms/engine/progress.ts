@@ -10,14 +10,12 @@ import 'server-only';
  */
 
 import { getAdminClient } from '@/lib/supabase/admin';
-import type {
-  LearnerProgress, LessonProgress, CheckpointScore, StepSubmission,
-} from './types';
+import type { LearnerProgress, LessonProgress, CheckpointScore, StepSubmission } from './types';
 import { calcProgressPercent, isCourseComplete } from '@/lib/lms/progress-calc';
 
 export async function getLearnerProgress(
   userId: string,
-  courseId: string
+  courseId: string,
 ): Promise<LearnerProgress> {
   const db = await getAdminClient();
 
@@ -60,17 +58,12 @@ export async function getLearnerProgress(
       .eq('course_id', courseId)
       .maybeSingle(),
 
-    db
-      .from('course_lessons')
-      .select('id')
-      .eq('course_id', courseId),
+    db.from('course_lessons').select('id').eq('course_id', courseId),
   ]);
 
   // Completed lesson IDs
   const completedLessonIds = new Set<string>(
-    (progressRows ?? [])
-      .filter((r: any) => r.completed)
-      .map((r: any) => r.lesson_id)
+    (progressRows ?? []).filter((r: any) => r.completed).map((r: any) => r.lesson_id),
   );
 
   // Best checkpoint score per lesson (first row = best attempt: passed first, then highest score)
@@ -78,12 +71,12 @@ export async function getLearnerProgress(
   for (const row of checkpointRows ?? []) {
     if (!checkpointScores.has(row.lesson_id)) {
       checkpointScores.set(row.lesson_id, {
-        lessonId:      row.lesson_id,
-        score:         row.score,
-        passed:        row.passed,
-        passingScore:  row.passing_score,
+        lessonId: row.lesson_id,
+        score: row.score,
+        passed: row.passed,
+        passingScore: row.passing_score,
         attemptNumber: row.attempt_number,
-        createdAt:     row.created_at,
+        createdAt: row.created_at,
       });
     }
   }
@@ -93,15 +86,15 @@ export async function getLearnerProgress(
   for (const row of submissionRows ?? []) {
     if (!stepSubmissions.has(row.lesson_id)) {
       stepSubmissions.set(row.lesson_id, {
-        id:        row.id,
-        lessonId:  row.lesson_id,
-        status:    row.status,
+        id: row.id,
+        lessonId: row.lesson_id,
+        status: row.status,
         createdAt: row.created_at,
       });
     }
   }
 
-  const totalLessons    = allLessons?.length ?? 0;
+  const totalLessons = allLessons?.length ?? 0;
   const progressPercent = calcProgressPercent(completedLessonIds.size, totalLessons);
 
   return {

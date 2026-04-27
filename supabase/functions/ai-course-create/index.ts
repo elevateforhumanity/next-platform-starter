@@ -136,9 +136,7 @@ async function generateWithAnthropic(prompt: string): Promise<string> {
   return data.content[0].text;
 }
 
-async function generateCourseOutline(
-  request: CourseRequest
-): Promise<CourseOutline> {
+async function generateCourseOutline(request: CourseRequest): Promise<CourseOutline> {
   const prompt = `
 Generate a comprehensive course outline for the following:
 
@@ -206,8 +204,7 @@ Return ONLY valid JSON, no additional text.
   try {
     // Extract JSON if wrapped in markdown code blocks
     const jsonMatch =
-      responseText.match(/```json\n([\s\S]*?)\n```/) ||
-      responseText.match(/```\n([\s\S]*?)\n```/);
+      responseText.match(/```json\n([\s\S]*?)\n```/) || responseText.match(/```\n([\s\S]*?)\n```/);
     const jsonText = jsonMatch ? jsonMatch[1] : responseText;
 
     return JSON.parse(jsonText);
@@ -218,7 +215,7 @@ Return ONLY valid JSON, no additional text.
 
 async function createCourseInDatabase(
   outline: CourseOutline,
-  request: CourseRequest
+  request: CourseRequest,
 ): Promise<string> {
   try {
     // Create course
@@ -294,10 +291,7 @@ async function createCourseInDatabase(
       metadata: {
         difficulty: request.difficulty,
         moduleCount: outline.modules.length,
-        lessonCount: outline.modules.reduce(
-          (sum, m) => sum + m.lessons.length,
-          0
-        ),
+        lessonCount: outline.modules.reduce((sum, m) => sum + m.lessons.length, 0),
       },
     });
 
@@ -314,8 +308,7 @@ serve(async (req) => {
       headers: {
         'Access-Control-Allow-Origin': '*',
         'Access-Control-Allow-Methods': 'POST, OPTIONS',
-        'Access-Control-Allow-Headers':
-          'authorization, x-client-info, apikey, content-type',
+        'Access-Control-Allow-Headers': 'authorization, x-client-info, apikey, content-type',
       },
     });
   }
@@ -329,16 +322,16 @@ serve(async (req) => {
         JSON.stringify({
           error: 'Missing required fields: topic, orgId, userId',
         }),
-        { status: 400, headers: { 'Content-Type': 'application/json' } }
+        { status: 400, headers: { 'Content-Type': 'application/json' } },
       );
     }
 
     // Check if AI provider is configured
     if (!OPENAI_API_KEY && !ANTHROPIC_API_KEY) {
-      return new Response(
-        JSON.stringify({ error: 'No AI provider configured' }),
-        { status: 500, headers: { 'Content-Type': 'application/json' } }
-      );
+      return new Response(JSON.stringify({ error: 'No AI provider configured' }), {
+        status: 500,
+        headers: { 'Content-Type': 'application/json' },
+      });
     }
 
     // Generate course outline
@@ -355,7 +348,7 @@ serve(async (req) => {
       }),
       {
         headers: { 'Content-Type': 'application/json' },
-      }
+      },
     );
   } catch (error: any) {
     return new Response(JSON.stringify({ error: error.message }), {

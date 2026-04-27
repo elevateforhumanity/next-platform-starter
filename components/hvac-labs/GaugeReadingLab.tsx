@@ -2,7 +2,10 @@
 
 import { useState } from 'react';
 import { CheckCircle, XCircle, ChevronRight, RotateCcw } from 'lucide-react';
-import { GAUGE_READING_EXERCISES, type GaugeReadingExercise } from '@/lib/courses/hvac-diagnostic-exercises';
+import {
+  GAUGE_READING_EXERCISES,
+  type GaugeReadingExercise,
+} from '@/lib/courses/hvac-diagnostic-exercises';
 
 export default function GaugeReadingLab() {
   const [currentIdx, setCurrentIdx] = useState(0);
@@ -55,16 +58,23 @@ export default function GaugeReadingLab() {
       <div className="flex items-center justify-between">
         <div>
           <h3 className="text-lg font-bold text-slate-900">Gauge Reading Lab</h3>
-          <p className="text-sm text-slate-500">Read the gauges. Calculate superheat and subcooling. Diagnose the problem.</p>
+          <p className="text-sm text-slate-500">
+            Read the gauges. Calculate superheat and subcooling. Diagnose the problem.
+          </p>
         </div>
         <div className="flex items-center gap-3">
           <span className="text-sm font-medium text-slate-600">
             {currentIdx + 1} / {exercises.length}
           </span>
-          <span className={`text-sm font-bold px-3 py-1 rounded-full ${
-            score.total === 0 ? 'bg-slate-100 text-slate-500' :
-            score.correct / score.total >= 0.7 ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'
-          }`}>
+          <span
+            className={`text-sm font-bold px-3 py-1 rounded-full ${
+              score.total === 0
+                ? 'bg-slate-100 text-slate-500'
+                : score.correct / score.total >= 0.7
+                  ? 'bg-green-100 text-green-700'
+                  : 'bg-red-100 text-red-700'
+            }`}
+          >
             {score.correct}/{score.total} correct
           </span>
         </div>
@@ -74,15 +84,21 @@ export default function GaugeReadingLab() {
       <div className="bg-brand-blue-700 text-white rounded-xl p-6">
         <div className="flex items-center justify-between mb-4">
           <h4 className="font-bold text-lg">{ex.title}</h4>
-          <span className={`text-xs px-2.5 py-1 rounded-full font-bold ${
-            ex.difficulty === 'beginner' ? 'bg-green-500/20 text-green-300' :
-            ex.difficulty === 'intermediate' ? 'bg-amber-500/20 text-amber-300' :
-            'bg-red-500/20 text-red-300'
-          }`}>
+          <span
+            className={`text-xs px-2.5 py-1 rounded-full font-bold ${
+              ex.difficulty === 'beginner'
+                ? 'bg-green-500/20 text-green-300'
+                : ex.difficulty === 'intermediate'
+                  ? 'bg-amber-500/20 text-amber-300'
+                  : 'bg-red-500/20 text-red-300'
+            }`}
+          >
             {ex.difficulty}
           </span>
         </div>
-        <p className="text-sm text-slate-600 mb-4">{ex.refrigerant} &middot; {ex.systemType}</p>
+        <p className="text-sm text-slate-600 mb-4">
+          {ex.refrigerant} &middot; {ex.systemType}
+        </p>
 
         {/* Conditions */}
         <div className="grid grid-cols-2 gap-3 mb-6">
@@ -124,13 +140,16 @@ export default function GaugeReadingLab() {
         <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-4">
           <h4 className="font-bold text-slate-800">Your Calculations</h4>
           <p className="text-xs text-slate-500">
-            Superheat = Suction Line Temp − Saturation Temp at Suction Pressure<br />
+            Superheat = Suction Line Temp − Saturation Temp at Suction Pressure
+            <br />
             Subcooling = Saturation Temp at Discharge Pressure − Liquid Line Temp
           </p>
 
           <div className="grid sm:grid-cols-2 gap-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Superheat (°F)</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Superheat (°F)
+              </label>
               <input
                 type="number"
                 value={superheatInput}
@@ -140,7 +159,9 @@ export default function GaugeReadingLab() {
               />
             </div>
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1">Subcooling (°F)</label>
+              <label className="block text-sm font-medium text-slate-700 mb-1">
+                Subcooling (°F)
+              </label>
               <input
                 type="number"
                 value={subcoolingInput}
@@ -152,7 +173,9 @@ export default function GaugeReadingLab() {
           </div>
 
           <div>
-            <label className="block text-sm font-medium text-slate-700 mb-1">What is your diagnosis?</label>
+            <label className="block text-sm font-medium text-slate-700 mb-1">
+              What is your diagnosis?
+            </label>
             <textarea
               value={diagnosisInput}
               onChange={(e) => setDiagnosisInput(e.target.value)}
@@ -174,23 +197,47 @@ export default function GaugeReadingLab() {
         <div className="bg-white border border-slate-200 rounded-xl p-6 space-y-5">
           {/* Results */}
           <div className="grid sm:grid-cols-2 gap-4">
-            <div className={`rounded-lg p-4 border-2 ${shCorrect ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}>
+            <div
+              className={`rounded-lg p-4 border-2 ${shCorrect ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}
+            >
               <div className="flex items-center gap-2 mb-1">
-                {shCorrect ? <CheckCircle className="w-5 h-5 text-green-600" /> : <XCircle className="w-5 h-5 text-red-600" />}
+                {shCorrect ? (
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                ) : (
+                  <XCircle className="w-5 h-5 text-red-600" />
+                )}
                 <span className="text-sm font-bold">Superheat</span>
               </div>
-              <p className="text-sm">Your answer: <span className="font-bold">{superheatInput}°F</span></p>
-              <p className="text-sm">Correct: <span className="font-bold">{ex.superheat}°F</span></p>
-              <p className="text-xs text-slate-500 mt-1">{ex.suctionLineTemp}°F − {ex.suctionSatTemp}°F = {ex.superheat}°F</p>
+              <p className="text-sm">
+                Your answer: <span className="font-bold">{superheatInput}°F</span>
+              </p>
+              <p className="text-sm">
+                Correct: <span className="font-bold">{ex.superheat}°F</span>
+              </p>
+              <p className="text-xs text-slate-500 mt-1">
+                {ex.suctionLineTemp}°F − {ex.suctionSatTemp}°F = {ex.superheat}°F
+              </p>
             </div>
-            <div className={`rounded-lg p-4 border-2 ${scCorrect ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}>
+            <div
+              className={`rounded-lg p-4 border-2 ${scCorrect ? 'bg-green-50 border-green-300' : 'bg-red-50 border-red-300'}`}
+            >
               <div className="flex items-center gap-2 mb-1">
-                {scCorrect ? <CheckCircle className="w-5 h-5 text-green-600" /> : <XCircle className="w-5 h-5 text-red-600" />}
+                {scCorrect ? (
+                  <CheckCircle className="w-5 h-5 text-green-600" />
+                ) : (
+                  <XCircle className="w-5 h-5 text-red-600" />
+                )}
                 <span className="text-sm font-bold">Subcooling</span>
               </div>
-              <p className="text-sm">Your answer: <span className="font-bold">{subcoolingInput}°F</span></p>
-              <p className="text-sm">Correct: <span className="font-bold">{ex.subcooling}°F</span></p>
-              <p className="text-xs text-slate-500 mt-1">{ex.liquidSatTemp}°F − {ex.liquidLineTemp}°F = {ex.subcooling}°F</p>
+              <p className="text-sm">
+                Your answer: <span className="font-bold">{subcoolingInput}°F</span>
+              </p>
+              <p className="text-sm">
+                Correct: <span className="font-bold">{ex.subcooling}°F</span>
+              </p>
+              <p className="text-xs text-slate-500 mt-1">
+                {ex.liquidSatTemp}°F − {ex.liquidLineTemp}°F = {ex.subcooling}°F
+              </p>
             </div>
           </div>
 
@@ -209,11 +256,17 @@ export default function GaugeReadingLab() {
           {/* Navigation */}
           <div className="flex gap-3">
             {currentIdx < exercises.length - 1 ? (
-              <button onClick={nextExercise} className="flex-1 bg-brand-blue-600 text-white font-bold py-3 rounded-lg hover:bg-brand-blue-700 transition flex items-center justify-center gap-2">
+              <button
+                onClick={nextExercise}
+                className="flex-1 bg-brand-blue-600 text-white font-bold py-3 rounded-lg hover:bg-brand-blue-700 transition flex items-center justify-center gap-2"
+              >
                 Next Scenario <ChevronRight className="w-5 h-5" />
               </button>
             ) : (
-              <button onClick={reset} className="flex-1 bg-slate-800 text-white font-bold py-3 rounded-lg hover:bg-slate-900 transition flex items-center justify-center gap-2">
+              <button
+                onClick={reset}
+                className="flex-1 bg-slate-800 text-white font-bold py-3 rounded-lg hover:bg-slate-900 transition flex items-center justify-center gap-2"
+              >
                 <RotateCcw className="w-5 h-5" /> Start Over ({score.correct}/{score.total})
               </button>
             )}

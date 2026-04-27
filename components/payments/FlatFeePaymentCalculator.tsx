@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import { createClient } from '@/lib/supabase/client';
 
@@ -7,7 +7,7 @@ import { CreditCard, Calendar, AlertTriangle } from 'lucide-react';
 
 /**
  * Flat Fee Payment Calculator
- * 
+ *
  * COMPLIANCE NOTICE:
  * - Program fee is FLAT ($4,980) regardless of transferred hours
  * - Transferred hours reduce time-in-program ONLY, NOT the fee
@@ -46,15 +46,15 @@ export function FlatFeePaymentCalculator({
 
   const paymentPlans: PaymentPlan[] = useMemo(() => {
     if (balance <= 0) return [];
-    
+
     return [
-      { months: 2, monthlyAmount: Math.ceil(balance / 2 * 100) / 100, label: '2 Months' },
-      { months: 3, monthlyAmount: Math.ceil(balance / 3 * 100) / 100, label: '3 Months' },
-      { months: 4, monthlyAmount: Math.ceil(balance / 4 * 100) / 100, label: '4 Months' },
-      { months: 6, monthlyAmount: Math.ceil(balance / 6 * 100) / 100, label: '6 Months' },
-      { months: 9, monthlyAmount: Math.ceil(balance / 9 * 100) / 100, label: '9 Months' },
-      { months: 12, monthlyAmount: Math.ceil(balance / 12 * 100) / 100, label: '12 Months' },
-    ].filter(p => p.monthlyAmount >= 50);
+      { months: 2, monthlyAmount: Math.ceil((balance / 2) * 100) / 100, label: '2 Months' },
+      { months: 3, monthlyAmount: Math.ceil((balance / 3) * 100) / 100, label: '3 Months' },
+      { months: 4, monthlyAmount: Math.ceil((balance / 4) * 100) / 100, label: '4 Months' },
+      { months: 6, monthlyAmount: Math.ceil((balance / 6) * 100) / 100, label: '6 Months' },
+      { months: 9, monthlyAmount: Math.ceil((balance / 9) * 100) / 100, label: '9 Months' },
+      { months: 12, monthlyAmount: Math.ceil((balance / 12) * 100) / 100, label: '12 Months' },
+    ].filter((p) => p.monthlyAmount >= 50);
   }, [balance]);
 
   const handleDownPaymentChange = (value: string) => {
@@ -62,7 +62,7 @@ export function FlatFeePaymentCalculator({
     const parts = cleaned.split('.');
     if (parts.length > 2) return;
     if (parts[1]?.length > 2) return;
-    
+
     setDownPayment(cleaned);
     setSelectedPlan(null);
   };
@@ -78,7 +78,7 @@ export function FlatFeePaymentCalculator({
 
   const handleContinue = async () => {
     let planData: any = null;
-    
+
     if (balance <= 0) {
       planData = {
         downPayment: downPaymentNum,
@@ -87,7 +87,7 @@ export function FlatFeePaymentCalculator({
         totalPrice: programFee,
       };
     } else if (selectedPlan) {
-      const plan = paymentPlans.find(p => p.months === selectedPlan);
+      const plan = paymentPlans.find((p) => p.months === selectedPlan);
       if (plan) {
         planData = {
           downPayment: downPaymentNum,
@@ -102,16 +102,21 @@ export function FlatFeePaymentCalculator({
       // Log payment plan selection for analytics
       try {
         const supabase = createClient();
-        const { data: { user } } = await supabase.auth.getUser();
-        await supabase.from('payment_plan_selections').insert({
-          user_id: user?.id || null,
-          program_name: programName,
-          program_fee: programFee,
-          down_payment: planData.downPayment,
-          plan_months: planData.planMonths,
-          monthly_amount: planData.monthlyAmount,
-          selected_at: new Date().toISOString(),
-        }).catch(() => {});
+        const {
+          data: { user },
+        } = await supabase.auth.getUser();
+        await supabase
+          .from('payment_plan_selections')
+          .insert({
+            user_id: user?.id || null,
+            program_name: programName,
+            program_fee: programFee,
+            down_payment: planData.downPayment,
+            plan_months: planData.planMonths,
+            monthly_amount: planData.monthlyAmount,
+            selected_at: new Date().toISOString(),
+          })
+          .catch(() => {});
       } catch {
         // Analytics logging is non-critical
       }
@@ -135,8 +140,9 @@ export function FlatFeePaymentCalculator({
           <div className="flex items-start gap-3">
             <AlertTriangle className="w-5 h-5 text-amber-600 flex-shrink-0 mt-0.5" />
             <div className="text-sm text-amber-900">
-              <strong>Important:</strong> This program provides apprenticeship sponsorship, oversight, and related instruction only. 
-              It does not replace barber school or grant state licensure hours.
+              <strong>Important:</strong> This program provides apprenticeship sponsorship,
+              oversight, and related instruction only. It does not replace barber school or grant
+              state licensure hours.
             </div>
           </div>
         </div>
@@ -144,7 +150,9 @@ export function FlatFeePaymentCalculator({
         {/* Program Fee Display */}
         <div className="bg-purple-50 border border-purple-200 rounded-lg p-6 text-center">
           <div className="text-sm text-purple-700 mb-1">Program Fee (Flat Rate)</div>
-          <div className="text-4xl font-black text-purple-600">${programFee.toLocaleString('en-US')}</div>
+          <div className="text-4xl font-black text-purple-600">
+            ${programFee.toLocaleString('en-US')}
+          </div>
           <p className="text-xs text-purple-600 mt-2">
             Fee applies regardless of transferred hours
           </p>
@@ -156,7 +164,9 @@ export function FlatFeePaymentCalculator({
             How much would you like to pay today?
           </label>
           <div className="relative">
-            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-lg font-semibold">$</span>
+            <span className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-500 text-lg font-semibold">
+              $
+            </span>
             <input
               type="text"
               inputMode="decimal"
@@ -207,7 +217,9 @@ export function FlatFeePaymentCalculator({
             </div>
             <div className="flex justify-between items-center mt-2">
               <span className="text-slate-600">Today&apos;s Payment</span>
-              <span className="font-semibold text-brand-green-600">-${downPaymentNum.toLocaleString('en-US')}</span>
+              <span className="font-semibold text-brand-green-600">
+                -${downPaymentNum.toLocaleString('en-US')}
+              </span>
             </div>
             <div className="border-t border-slate-300 mt-3 pt-3 flex justify-between items-center">
               <span className="font-semibold text-slate-800">Remaining Balance</span>
@@ -263,19 +275,27 @@ export function FlatFeePaymentCalculator({
             <div className="space-y-1 text-sm">
               <div className="flex justify-between">
                 <span className="text-purple-700">Today&apos;s Payment</span>
-                <span className="font-semibold text-purple-900">${downPaymentNum.toLocaleString('en-US')}</span>
+                <span className="font-semibold text-purple-900">
+                  ${downPaymentNum.toLocaleString('en-US')}
+                </span>
               </div>
               {balance > 0 && selectedPlan && (
                 <div className="flex justify-between">
                   <span className="text-purple-700">Monthly Payment</span>
                   <span className="font-semibold text-purple-900">
-                    ${paymentPlans.find(p => p.months === selectedPlan)?.monthlyAmount.toLocaleString('en-US')}/mo × {selectedPlan}
+                    $
+                    {paymentPlans
+                      .find((p) => p.months === selectedPlan)
+                      ?.monthlyAmount.toLocaleString('en-US')}
+                    /mo × {selectedPlan}
                   </span>
                 </div>
               )}
               <div className="border-t border-purple-200 pt-2 mt-2 flex justify-between">
                 <span className="font-semibold text-purple-900">Total Program Fee</span>
-                <span className="font-bold text-purple-900">${programFee.toLocaleString('en-US')}</span>
+                <span className="font-bold text-purple-900">
+                  ${programFee.toLocaleString('en-US')}
+                </span>
               </div>
             </div>
           </div>
@@ -291,7 +311,9 @@ export function FlatFeePaymentCalculator({
           }`}
         >
           <CreditCard className="inline w-5 h-5 mr-2" />
-          {balance <= 0 ? `Pay $${downPaymentNum.toLocaleString('en-US')} Now` : 'Continue to Payment'}
+          {balance <= 0
+            ? `Pay $${downPaymentNum.toLocaleString('en-US')} Now`
+            : 'Continue to Payment'}
         </button>
 
         {/* What's Included */}

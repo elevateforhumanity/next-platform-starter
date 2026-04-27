@@ -1,13 +1,13 @@
 /**
  * Enrollment State Machine
- * 
+ *
  * States: applied → approved → confirmed → orientation_complete → documents_complete → active
- * 
+ *
  * Self-pay: auto-approved on application
  * Funded: requires manual approval
  */
 
-export type EnrollmentState = 
+export type EnrollmentState =
   | 'applied'
   | 'approved'
   | 'confirmed'
@@ -113,7 +113,7 @@ export function getActionDescription(action: NextRequiredAction): string {
     case 'CONTINUE_LEARNING':
       return 'Continue your learning journey.';
     case 'AWAIT_PLACEMENT':
-      return 'Your placement is in progress. You\'ll be notified when it\'s confirmed.';
+      return "Your placement is in progress. You'll be notified when it's confirmed.";
     default:
       return 'Continue with your enrollment.';
   }

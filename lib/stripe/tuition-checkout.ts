@@ -3,7 +3,7 @@ import { logger } from '@/lib/logger';
 
 /**
  * TUITION CHECKOUT LOGIC
- * 
+ *
  * Handles three payment paths:
  * 1. Pay in Full - Single Stripe Checkout session
  * 2. BNPL (Klarna/Afterpay/Zip/Klarna) - Stripe Checkout with BNPL methods enabled
@@ -13,8 +13,6 @@ import { logger } from '@/lib/logger';
 import type Stripe from 'stripe';
 import { stripe } from '@/lib/stripe/client';
 import { getTuitionConfig, PAYMENT_METHODS } from './tuition-config';
-
-
 
 export type PaymentOption = 'pay_in_full' | 'bnpl' | 'installment_plan';
 
@@ -40,30 +38,30 @@ interface CheckoutResult {
  */
 export async function createTuitionCheckout(params: CheckoutParams): Promise<CheckoutResult> {
   const config = getTuitionConfig(params.programId);
-  
+
   if (!config) {
     return { success: false, error: 'Program not found' };
   }
-  
+
   try {
     switch (params.paymentOption) {
       case 'pay_in_full':
         return await createPayInFullCheckout(config, params);
-      
+
       case 'bnpl':
         return await createBnplCheckout(config, params);
-      
+
       case 'installment_plan':
         return await createInstallmentDepositCheckout(config, params);
-      
+
       default:
         return { success: false, error: 'Invalid payment option' };
     }
   } catch (error) {
     logger.error('Checkout error:', error);
-    return { 
-      success: false, 
-      error: error instanceof Error ? error.message : 'Checkout failed' 
+    return {
+      success: false,
+      error: error instanceof Error ? error.message : 'Checkout failed',
     };
   }
 }
@@ -72,8 +70,8 @@ export async function createTuitionCheckout(params: CheckoutParams): Promise<Che
  * PAY IN FULL - Single payment checkout
  */
 async function createPayInFullCheckout(
-  config: typeof import('./tuition-config').TUITION_PRODUCTS[0],
-  params: CheckoutParams
+  config: (typeof import('./tuition-config').TUITION_PRODUCTS)[0],
+  params: CheckoutParams,
 ): Promise<CheckoutResult> {
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
@@ -105,7 +103,7 @@ async function createPayInFullCheckout(
     success_url: params.successUrl,
     cancel_url: params.cancelUrl,
   });
-  
+
   return {
     success: true,
     checkoutUrl: session.url!,
@@ -117,16 +115,16 @@ async function createPayInFullCheckout(
  * BNPL - Checkout with Klarna/Afterpay/Zip/Klarna enabled (subject to approval)
  */
 async function createBnplCheckout(
-  config: typeof import('./tuition-config').TUITION_PRODUCTS[0],
-  params: CheckoutParams
+  config: (typeof import('./tuition-config').TUITION_PRODUCTS)[0],
+  params: CheckoutParams,
 ): Promise<CheckoutResult> {
   // Build payment method types based on what's enabled
   const paymentMethodTypes: Stripe.Checkout.SessionCreateParams.PaymentMethodType[] = ['card'];
-  
+
   if (PAYMENT_METHODS.klarna) paymentMethodTypes.push('klarna');
   if (PAYMENT_METHODS.afterpay_clearpay) paymentMethodTypes.push('afterpay_clearpay');
   if (PAYMENT_METHODS.zip) paymentMethodTypes.push('zip');
-  
+
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     customer_email: params.studentEmail,
@@ -157,7 +155,7 @@ async function createBnplCheckout(
     success_url: params.successUrl,
     cancel_url: params.cancelUrl,
   });
-  
+
   return {
     success: true,
     checkoutUrl: session.url!,
@@ -170,12 +168,12 @@ async function createBnplCheckout(
  * After deposit is paid, weekly subscription is created via webhook
  */
 async function createInstallmentDepositCheckout(
-  config: typeof import('./tuition-config').TUITION_PRODUCTS[0],
-  params: CheckoutParams
+  config: (typeof import('./tuition-config').TUITION_PRODUCTS)[0],
+  params: CheckoutParams,
 ): Promise<CheckoutResult> {
   const { installmentPlan } = config;
   const remainingBalance = config.totalTuition - installmentPlan.depositAmount;
-  
+
   const session = await stripe.checkout.sessions.create({
     mode: 'payment',
     customer_email: params.studentEmail,
@@ -220,7 +218,7 @@ async function createInstallmentDepositCheckout(
       terms_of_service: 'required',
     },
   });
-  
+
   return {
     success: true,
     checkoutUrl: session.url!,
@@ -243,22 +241,22 @@ export async function createInstallmentSubscription(
     monthly_amount?: string;
     number_of_months?: string;
     payment_interval?: string;
-  }
+  },
 ): Promise<{ success: boolean; subscriptionId?: string; error?: string }> {
   try {
     // Determine if weekly or monthly (default to weekly for new subscriptions)
     const isWeekly = metadata.payment_interval === 'week' || metadata.weekly_amount;
-    
-    const amount = isWeekly 
+
+    const amount = isWeekly
       ? parseInt(metadata.weekly_amount || '0')
       : parseInt(metadata.monthly_amount || '0');
-    
+
     const numberOfPayments = isWeekly
       ? parseInt(metadata.number_of_weeks || '0')
       : parseInt(metadata.number_of_months || '0');
-    
+
     const interval = isWeekly ? 'week' : 'month';
-    
+
     // Create a price for the subscription
     const price = await stripe.prices.create({
       currency: 'usd',
@@ -276,7 +274,7 @@ export async function createInstallmentSubscription(
         },
       },
     });
-    
+
     // Create subscription with automatic weekly/monthly billing
     const subscription = await stripe.subscriptions.create({
       customer: customerId,
@@ -299,9 +297,11 @@ export async function createInstallmentSubscription(
         save_default_payment_method: 'on_subscription',
       },
     });
-    
-    logger.info(`Created ${interval}ly subscription ${subscription.id} for student ${metadata.student_id}: $${amount}/${interval} x ${numberOfPayments}`);
-    
+
+    logger.info(
+      `Created ${interval}ly subscription ${subscription.id} for student ${metadata.student_id}: $${amount}/${interval} x ${numberOfPayments}`,
+    );
+
     return {
       success: true,
       subscriptionId: subscription.id,
@@ -318,14 +318,12 @@ export async function createInstallmentSubscription(
 /**
  * Cancel subscription after all installments are paid (called from webhook)
  */
-export async function checkAndCancelCompletedSubscription(
-  subscriptionId: string
-): Promise<void> {
+export async function checkAndCancelCompletedSubscription(subscriptionId: string): Promise<void> {
   const subscription = await stripe.subscriptions.retrieve(subscriptionId);
-  
+
   const totalInstallments = parseInt(subscription.metadata.total_installments || '0');
   const installmentsPaid = parseInt(subscription.metadata.installments_paid || '0') + 1;
-  
+
   // Update count
   await stripe.subscriptions.update(subscriptionId, {
     metadata: {
@@ -333,11 +331,13 @@ export async function checkAndCancelCompletedSubscription(
       installments_paid: installmentsPaid.toString(),
     },
   });
-  
+
   // Cancel if all installments paid
   if (installmentsPaid >= totalInstallments) {
     await stripe.subscriptions.cancel(subscriptionId);
-    logger.info(`Subscription ${subscriptionId} completed - all ${totalInstallments} installments paid`);
+    logger.info(
+      `Subscription ${subscriptionId} completed - all ${totalInstallments} installments paid`,
+    );
   }
 }
 
@@ -347,49 +347,52 @@ export async function checkAndCancelCompletedSubscription(
 export async function handleFailedPayment(
   subscriptionId: string,
   studentId: string,
-  supabaseClient?: any
+  supabaseClient?: any,
 ): Promise<void> {
   let supabase = supabaseClient;
-  
+
   if (!supabase) {
     const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL;
     const supabaseKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
-    
+
     if (!supabaseUrl || !supabaseKey) {
       logger.error('Supabase not configured for payment failure handling');
       return;
     }
-    
+
     const { createClient } = await import('@supabase/supabase-js');
     supabase = createClient(supabaseUrl, supabaseKey);
   }
 
   const { setAuditContext } = await import('@/lib/audit-context');
   await setAuditContext(supabase, { systemActor: 'tuition_payment_failure' });
-  
+
   logger.info(`Payment failed for subscription ${subscriptionId}, student ${studentId}`);
-  
+
   // Update enrollment status to suspended
   const { error } = await supabase
     .from('program_enrollments')
-    .update({ 
+    .update({
       status: 'SUSPENDED',
       payment_status: 'FAILED',
       updated_at: new Date().toISOString(),
     })
     .eq('student_id', studentId);
-  
+
   if (error) {
     logger.error('Failed to suspend enrollment:', error);
   } else {
     logger.info(`Enrollment suspended for student ${studentId}`);
   }
-  
+
   // Log the payment failure
-  await supabase.from('payment_logs').insert({
-    student_id: studentId,
-    stripe_subscription_id: subscriptionId,
-    status: 'failed',
-    metadata: { reason: 'payment_failed', suspended: true },
-  }).catch((err: Error) => logger.warn('Failed to log payment failure:', err));
+  await supabase
+    .from('payment_logs')
+    .insert({
+      student_id: studentId,
+      stripe_subscription_id: subscriptionId,
+      status: 'failed',
+      metadata: { reason: 'payment_failed', suspended: true },
+    })
+    .catch((err: Error) => logger.warn('Failed to log payment failure:', err));
 }

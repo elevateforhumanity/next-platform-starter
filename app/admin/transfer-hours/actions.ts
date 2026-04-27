@@ -7,7 +7,9 @@ import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 
 async function requireAdminActor() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) throw new Error('Unauthorized');
 
   const db = await getAdminClient();
@@ -27,7 +29,7 @@ async function requireAdminActor() {
 export async function approveTransferHours(
   requestId: string,
   hoursApproved: number,
-  notes?: string
+  notes?: string,
 ) {
   const { user, db } = await requireAdminActor();
 

@@ -11,14 +11,9 @@ export const metadata: Metadata = {
   description: 'Review and verify program holder application',
 };
 
-export default async function ReviewVerificationPage({
-  params,
-}: {
-  params: { id: string };
-}) {
+export default async function ReviewVerificationPage({ params }: { params: { id: string } }) {
   const { user, profile } = await requireRole(['admin', 'super_admin']);
   const supabase = await getAdminClient();
-
 
   // Get program holder
   const { data: rawHolder } = await supabase
@@ -33,7 +28,11 @@ export default async function ReviewVerificationPage({
 
   // Hydrate user profile separately (program_holders.user_id has no FK to profiles)
   const { data: holderUserProfile } = rawHolder.user_id
-    ? await supabase.from('profiles').select('id, email, first_name, last_name, phone').eq('id', rawHolder.user_id).maybeSingle()
+    ? await supabase
+        .from('profiles')
+        .select('id, email, first_name, last_name, phone')
+        .eq('id', rawHolder.user_id)
+        .maybeSingle()
     : { data: null };
   const holder = { ...rawHolder, user: holderUserProfile ?? null };
 
@@ -61,7 +60,7 @@ export default async function ReviewVerificationPage({
         first_name,
         last_name
       )
-    `
+    `,
     )
     .eq('program_holder_id', holder.user_id)
     .order('created_at', { ascending: false });

@@ -1,10 +1,8 @@
-
 export const revalidate = 3600;
 
 import Link from 'next/link';
 import { Metadata } from 'next';
 import { Mail } from 'lucide-react';
-
 
 export const metadata: Metadata = {
   title: 'Thank You for Your Interest!',
@@ -18,14 +16,12 @@ export default function InquirySuccessPage() {
         <div className="flex justify-center mb-6">
           <span className="text-black flex-shrink-0">•</span>
         </div>
-        
-        <h1 className="text-2xl font-bold text-slate-900 mb-4">
-          Thank You for Your Interest!
-        </h1>
-        
+
+        <h1 className="text-2xl font-bold text-slate-900 mb-4">Thank You for Your Interest!</h1>
+
         <p className="text-black mb-6">
-          We've received your inquiry and sent a confirmation to your email. 
-          Our team will contact you within 1-2 business days.
+          We've received your inquiry and sent a confirmation to your email. Our team will contact
+          you within 1-2 business days.
         </p>
 
         <div className="bg-white rounded-lg p-4 mb-6">
@@ -54,10 +50,7 @@ export default function InquirySuccessPage() {
             </Link>
           </div>
           <div className="flex justify-center gap-4 mt-2">
-            <a
-              href="/faq"
-              className="text-emerald-600 hover:underline text-sm"
-            >
+            <a href="/faq" className="text-emerald-600 hover:underline text-sm">
               Browse FAQ
             </a>
             <a

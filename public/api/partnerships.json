@@ -34,11 +34,7 @@
       "value": "$5M-$15M potential",
       "status": "active",
       "programs": ["Adult Education", "Career Pathways"],
-      "benefits": [
-        "Educational funding",
-        "Curriculum approval",
-        "Student support services"
-      ]
+      "benefits": ["Educational funding", "Curriculum approval", "Student support services"]
     },
     {
       "id": "certiport",

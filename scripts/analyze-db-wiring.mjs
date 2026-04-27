@@ -24,7 +24,8 @@ const dbPatterns = {
 
 // Route categories
 const routeCategories = {
-  public: /^\/(programs|about|contact|apply|blog|news|stories|employers|workforce|donate|privacy|terms|copyright|accessibility)/,
+  public:
+    /^\/(programs|about|contact|apply|blog|news|stories|employers|workforce|donate|privacy|terms|copyright|accessibility)/,
   auth: /^\/(login|signup|reset-password|verify|invite|auth)/,
   student: /^\/student\//,
   programHolder: /^\/(program-holder|shop|partners)\//,
@@ -44,7 +45,7 @@ function categorizeRoute(route) {
 
 function getAllFiles(dir, fileList = []) {
   const files = readdirSync(dir);
-  files.forEach(file => {
+  files.forEach((file) => {
     const filePath = join(dir, file);
     if (statSync(filePath).isDirectory()) {
       if (!file.startsWith('.') && file !== 'node_modules') {
@@ -66,7 +67,8 @@ function analyzeFile(filePath) {
     hasUserFilter: false,
     hasProgramFilter: false,
     hasProfileFilter: false,
-    isServerComponent: content.includes('createClient') && content.includes('@/lib/supabase/server'),
+    isServerComponent:
+      content.includes('createClient') && content.includes('@/lib/supabase/server'),
     isClientComponent: content.includes("'use client'"),
     hasAuth: content.includes('getUser()') || content.includes('getSession()'),
   };
@@ -104,7 +106,7 @@ function analyzeFile(filePath) {
 
 function buildDataContractMap() {
   const files = getAllFiles(appDir);
-  const pageFiles = files.filter(f => f.endsWith('page.tsx') || f.endsWith('page.ts'));
+  const pageFiles = files.filter((f) => f.endsWith('page.tsx') || f.endsWith('page.ts'));
 
   const contractMap = {
     generated: new Date().toISOString(),
@@ -115,14 +117,16 @@ function buildDataContractMap() {
       tablesUsed: {},
       rpcsUsed: {},
       missingFilters: [],
-    }
+    },
   };
 
-  pageFiles.forEach(filePath => {
-    const route = '/' + relative(appDir, filePath)
-      .replace(/\/page\.tsx?$/, '')
-      .replace(/\([\w-]+\)\//g, '')
-      .replace(/\[(\w+)\]/g, ':$1');
+  pageFiles.forEach((filePath) => {
+    const route =
+      '/' +
+      relative(appDir, filePath)
+        .replace(/\/page\.tsx?$/, '')
+        .replace(/\([\w-]+\)\//g, '')
+        .replace(/\[(\w+)\]/g, ':$1');
 
     const category = categorizeRoute(route);
     const analysis = analyzeFile(filePath);
@@ -136,11 +140,11 @@ function buildDataContractMap() {
     // Update summary
     contractMap.summary.byCategory[category] = (contractMap.summary.byCategory[category] || 0) + 1;
 
-    analysis.tables.forEach(table => {
+    analysis.tables.forEach((table) => {
       contractMap.summary.tablesUsed[table] = (contractMap.summary.tablesUsed[table] || 0) + 1;
     });
 
-    analysis.rpcs.forEach(rpc => {
+    analysis.rpcs.forEach((rpc) => {
       contractMap.summary.rpcsUsed[rpc] = (contractMap.summary.rpcsUsed[rpc] || 0) + 1;
     });
 
@@ -158,7 +162,12 @@ function buildDataContractMap() {
         });
       }
 
-      if (needsUserScope && !analysis.hasUserFilter && !analysis.hasProfileFilter && analysis.tables.length > 0) {
+      if (
+        needsUserScope &&
+        !analysis.hasUserFilter &&
+        !analysis.hasProfileFilter &&
+        analysis.tables.length > 0
+      ) {
         contractMap.summary.missingFilters.push({
           route,
           category,
@@ -174,8 +183,4 @@ function buildDataContractMap() {
 
 const contractMap = buildDataContractMap();
 
-writeFileSync(
-  join(reportsDir, 'data-contract-map.json'),
-  JSON.stringify(contractMap, null, 2)
-);
-
+writeFileSync(join(reportsDir, 'data-contract-map.json'), JSON.stringify(contractMap, null, 2));

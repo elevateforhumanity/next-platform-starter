@@ -17,7 +17,7 @@ const DEFAULT_REQUIRED_DOCS: Omit<RequiredDocument, 'uploaded' | 'file_url'>[] =
   {
     id: 'photo_id',
     name: 'Government-issued Photo ID',
-    description: 'Driver\'s license, state ID, or passport',
+    description: "Driver's license, state ID, or passport",
   },
   {
     id: 'proof_of_residence',
@@ -40,8 +40,10 @@ export default function DocumentsPage() {
   useEffect(() => {
     async function checkEnrollment() {
       const supabase = createClient();
-      
-      const { data: { user } } = await supabase.auth.getUser();
+
+      const {
+        data: { user },
+      } = await supabase.auth.getUser();
       if (!user) {
         router.push('/login?redirect=' + encodeURIComponent(window.location.pathname));
         return;
@@ -76,9 +78,9 @@ export default function DocumentsPage() {
       }
 
       setEnrollmentId(data.id);
-      
+
       // Initialize documents (in real app, fetch from DB)
-      setDocuments(DEFAULT_REQUIRED_DOCS.map(doc => ({ ...doc, uploaded: false })));
+      setDocuments(DEFAULT_REQUIRED_DOCS.map((doc) => ({ ...doc, uploaded: false })));
       setLoading(false);
     }
 
@@ -87,7 +89,7 @@ export default function DocumentsPage() {
 
   async function handleFileUpload(docId: string, file: File) {
     if (!enrollmentId || !userId) return;
-    
+
     setUploading(docId);
     setError(null);
 
@@ -107,12 +109,12 @@ export default function DocumentsPage() {
       if (!res.ok) throw new Error(result.error || 'Upload failed');
 
       // Update local state
-      setDocuments(docs => 
-        docs.map(doc => 
-          doc.id === docId 
+      setDocuments((docs) =>
+        docs.map((doc) =>
+          doc.id === docId
             ? { ...doc, uploaded: true, file_url: result.document?.file_url || '' }
-            : doc
-        )
+            : doc,
+        ),
       );
     } catch (err: any) {
       setError('An error occurred');
@@ -123,8 +125,8 @@ export default function DocumentsPage() {
 
   async function handleSubmit() {
     if (!enrollmentId) return;
-    
-    const allUploaded = documents.every(doc => doc.uploaded);
+
+    const allUploaded = documents.every((doc) => doc.uploaded);
     if (!allUploaded) {
       setError('Please upload all required documents');
       return;
@@ -137,9 +139,9 @@ export default function DocumentsPage() {
       const response = await fetch('/api/enrollment/documents/complete', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ 
+        body: JSON.stringify({
           enrollment_id: enrollmentId,
-          documents: documents.map(d => ({ id: d.id, file_url: d.file_url }))
+          documents: documents.map((d) => ({ id: d.id, file_url: d.file_url })),
         }),
       });
 
@@ -181,7 +183,7 @@ export default function DocumentsPage() {
     );
   }
 
-  const allUploaded = documents.every(doc => doc.uploaded);
+  const allUploaded = documents.every((doc) => doc.uploaded);
 
   return (
     <div className="min-h-screen bg-white py-12 px-4">
@@ -197,15 +199,14 @@ export default function DocumentsPage() {
         {/* Document List */}
         <div className="space-y-4 mb-8">
           {documents.map((doc) => (
-            <div
-              key={doc.id}
-              className="bg-white rounded-xl shadow-sm border border-gray-200 p-6"
-            >
+            <div key={doc.id} className="bg-white rounded-xl shadow-sm border border-gray-200 p-6">
               <div className="flex items-start justify-between gap-4">
                 <div className="flex items-start gap-4">
-                  <div className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${
-                    doc.uploaded ? 'bg-brand-green-100' : 'bg-white'
-                  }`}>
+                  <div
+                    className={`flex-shrink-0 w-10 h-10 rounded-lg flex items-center justify-center ${
+                      doc.uploaded ? 'bg-brand-green-100' : 'bg-white'
+                    }`}
+                  >
                     {doc.uploaded ? (
                       <span className="text-slate-500 flex-shrink-0">•</span>
                     ) : (
@@ -220,19 +221,25 @@ export default function DocumentsPage() {
 
                 {doc.uploaded ? (
                   <button
-                    onClick={() => setDocuments(docs => 
-                      docs.map(d => d.id === doc.id ? { ...d, uploaded: false, file_url: undefined } : d)
-                    )}
+                    onClick={() =>
+                      setDocuments((docs) =>
+                        docs.map((d) =>
+                          d.id === doc.id ? { ...d, uploaded: false, file_url: undefined } : d,
+                        ),
+                      )
+                    }
                     className="text-slate-700 hover:text-slate-700"
                   >
                     <X className="w-5 h-5" />
                   </button>
                 ) : (
-                  <label className={`flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer transition-colors ${
-                    uploading === doc.id
-                      ? 'bg-white text-slate-700'
-                      : 'bg-brand-blue-50 text-brand-blue-600 hover:bg-brand-blue-100'
-                  }`}>
+                  <label
+                    className={`flex items-center gap-2 px-4 py-2 rounded-lg cursor-pointer transition-colors ${
+                      uploading === doc.id
+                        ? 'bg-white text-slate-700'
+                        : 'bg-brand-blue-50 text-brand-blue-600 hover:bg-brand-blue-100'
+                    }`}
+                  >
                     {uploading === doc.id ? (
                       <>
                         <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-brand-blue-600"></div>

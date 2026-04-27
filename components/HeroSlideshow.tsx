@@ -1,10 +1,10 @@
-"use client";
+'use client';
 
 import React from 'react';
-import { useState, useEffect } from "react";
-import Image from "next/image";
-import Link from "next/link";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useState, useEffect } from 'react';
+import Image from 'next/image';
+import Link from 'next/link';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 interface Slide {
   image: string;
   title: string;
@@ -16,95 +16,95 @@ interface Slide {
 }
 const slides: Slide[] = [
   {
-    image: "/images/hero/hero-main-welcome.jpg",
-    title: "Elevate for Humanity",
-    text: "State-approved, federally aligned workforce training that opens doors to high-wage careers.",
+    image: '/images/hero/hero-main-welcome.jpg',
+    title: 'Elevate for Humanity',
+    text: 'State-approved, federally aligned workforce training that opens doors to high-wage careers.',
     cta: {
-      text: "Explore Programs",
-      href: "/programs/barber-apprenticeship"
-    }
+      text: 'Explore Programs',
+      href: '/programs/barber-apprenticeship',
+    },
   },
   {
-    image: "/images/hero/hero-barber.jpg",
-    title: "DOL Registered Barber Apprenticeship",
-    text: "2,000-hour barber apprenticeship. Earn while you learn. WIOA, WRG, and JRI fundable. Indiana state licensure.",
+    image: '/images/hero/hero-barber.jpg',
+    title: 'DOL Registered Barber Apprenticeship',
+    text: '2,000-hour barber apprenticeship. Earn while you learn. WIOA, WRG, and JRI fundable. Indiana state licensure.',
     cta: {
-      text: "Learn More",
-      href: "/programs/barber-apprenticeship"
-    }
+      text: 'Learn More',
+      href: '/programs/barber-apprenticeship',
+    },
   },
   {
-    image: "/images/hero/hero-healthcare.jpg",
-    title: "Healthcare Training Programs",
-    text: "CNA certification through Choice Medical Institute. State-approved, workforce fundable, high-demand careers.",
+    image: '/images/hero/hero-healthcare.jpg',
+    title: 'Healthcare Training Programs',
+    text: 'CNA certification through Choice Medical Institute. State-approved, workforce fundable, high-demand careers.',
     cta: {
-      text: "View Healthcare Programs",
-      href: "/programs/barber-apprenticeship"
-    }
+      text: 'View Healthcare Programs',
+      href: '/programs/barber-apprenticeship',
+    },
   },
   {
-    image: "/images/hero/hero-skilled-trades.jpg",
-    title: "Skilled Trades & Building Technician",
-    text: "HVAC, electrical, plumbing. Hands-on training for high-wage careers in construction and maintenance.",
+    image: '/images/hero/hero-skilled-trades.jpg',
+    title: 'Skilled Trades & Building Technician',
+    text: 'HVAC, electrical, plumbing. Hands-on training for high-wage careers in construction and maintenance.',
     cta: {
-      text: "View Trades Programs",
-      href: "/programs/barber-apprenticeship"
-    }
+      text: 'View Trades Programs',
+      href: '/programs/barber-apprenticeship',
+    },
   },
   {
-    image: "/images/hero/hero-beauty-wellness.jpg",
-    title: "Beauty & Esthetics Programs",
-    text: "Nails, esthetics, and cosmetology training with experienced instructors.",
+    image: '/images/hero/hero-beauty-wellness.jpg',
+    title: 'Beauty & Esthetics Programs',
+    text: 'Nails, esthetics, and cosmetology training with experienced instructors.',
     cta: {
-      text: "View Beauty Programs",
-      href: "/programs/barber-apprenticeship"
-    }
+      text: 'View Beauty Programs',
+      href: '/programs/barber-apprenticeship',
+    },
   },
   {
-    image: "/images/hero/hero-career-services.jpg",
-    title: "Career Services & Support",
-    text: "Life coaching, mental health partnerships, and wraparound support to help you succeed.",
+    image: '/images/hero/hero-career-services.jpg',
+    title: 'Career Services & Support',
+    text: 'Life coaching, mental health partnerships, and wraparound support to help you succeed.',
     cta: {
-      text: "Learn About Support",
-      href: "/support"
-    }
+      text: 'Learn About Support',
+      href: '/support',
+    },
   },
   {
-    image: "/images/hero/hero-hands-on-training.jpg",
-    title: "Hands-On Training",
-    text: "Real-world skills training with experienced instructors in state-of-the-art facilities.",
+    image: '/images/hero/hero-hands-on-training.jpg',
+    title: 'Hands-On Training',
+    text: 'Real-world skills training with experienced instructors in state-of-the-art facilities.',
     cta: {
-      text: "See Our Facilities",
-      href: "/programs/barber-apprenticeship"
-    }
+      text: 'See Our Facilities',
+      href: '/programs/barber-apprenticeship',
+    },
   },
   {
-    image: "/images/hero/hero-tech-careers.jpg",
-    title: "Technology Career Pathways",
-    text: "IT training and technology skills for the digital economy.",
+    image: '/images/hero/hero-tech-careers.jpg',
+    title: 'Technology Career Pathways',
+    text: 'IT training and technology skills for the digital economy.',
     cta: {
-      text: "Explore Tech Programs",
-      href: "/programs/barber-apprenticeship"
-    }
+      text: 'Explore Tech Programs',
+      href: '/programs/barber-apprenticeship',
+    },
   },
   {
-    image: "/images/hero/hero-business.jpg",
-    title: "Business & Professional Skills",
-    text: "Office administration, customer service, and professional development training.",
+    image: '/images/hero/hero-business.jpg',
+    title: 'Business & Professional Skills',
+    text: 'Office administration, customer service, and professional development training.',
     cta: {
-      text: "View Business Programs",
-      href: "/programs/barber-apprenticeship"
-    }
+      text: 'View Business Programs',
+      href: '/programs/barber-apprenticeship',
+    },
   },
   {
-    image: "/images/hero/hero-early-childhood.jpg",
-    title: "Early Childhood Education",
-    text: "Childcare and early education training for rewarding careers working with children.",
+    image: '/images/hero/hero-early-childhood.jpg',
+    title: 'Early Childhood Education',
+    text: 'Childcare and early education training for rewarding careers working with children.',
     cta: {
-      text: "Learn More",
-      href: "/programs/barber-apprenticeship"
-    }
-  }
+      text: 'Learn More',
+      href: '/programs/barber-apprenticeship',
+    },
+  },
 ];
 export default function HeroSlideshow() {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -120,7 +120,7 @@ export default function HeroSlideshow() {
   useEffect(() => {
     const audio = new Audio('/videos/voiceover.mp3');
     audio.volume = 0.7;
-    audio.play().catch(err => {
+    audio.play().catch((err) => {
       // Autoplay blocked by browser - user needs to interact first
     });
   }, []);
@@ -139,11 +139,12 @@ export default function HeroSlideshow() {
         <div
           key={index}
           className={`absolute inset-0 transition-opacity duration-1000 ${
-            index === currentSlide ? "opacity-100" : "opacity-0"
+            index === currentSlide ? 'opacity-100' : 'opacity-0'
           }`}
         >
           {slide.image ? (
-            <Image
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+            <Image sizes="100vw"
               src={slide.image}
               alt={slide.title}
               fill

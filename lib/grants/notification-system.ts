@@ -8,7 +8,9 @@ import { setAuditContext } from '@/lib/audit-context';
 import { EmailService } from '@/lib/notifications/email';
 import { SMSService } from '@/lib/notifications/sms';
 
-function getDb() { return getAdminClient(); }
+function getDb() {
+  return getAdminClient();
+}
 
 export type GrantNotificationType =
   | 'draft_generated'
@@ -48,7 +50,7 @@ export interface NotificationRecipient {
  * Create in-system notification
  */
 export async function createNotification(
-  notification: Omit<GrantNotification, 'id' | 'createdAt' | 'read'>
+  notification: Omit<GrantNotification, 'id' | 'createdAt' | 'read'>,
 ): Promise<GrantNotification> {
   const db = getDb();
   await setAuditContext(db, { systemActor: 'grants_notification_system' }).catch(() => {});
@@ -96,7 +98,7 @@ async function sendEmailNotification(
   recipient: NotificationRecipient,
   notification: GrantNotification,
   grantTitle: string,
-  entityName: string
+  entityName: string,
 ): Promise<void> {
   const subject = `${getNotificationEmoji(notification.type)} ${notification.title}`;
 
@@ -165,7 +167,7 @@ async function sendEmailNotification(
 async function sendSMSNotification(
   recipient: NotificationRecipient,
   notification: GrantNotification,
-  grantTitle: string
+  grantTitle: string,
 ): Promise<void> {
   if (!recipient.phone) return;
 
@@ -207,7 +209,7 @@ export async function sendGrantNotification(
     sendEmail?: boolean;
     sendSMS?: boolean;
     recipients?: NotificationRecipient[];
-  } = {}
+  } = {},
 ): Promise<void> {
   const db = getDb();
   await setAuditContext(db, { systemActor: 'grants_notification_system' }).catch(() => {});
@@ -235,13 +237,9 @@ export async function sendGrantNotification(
   for (const recipient of recipients) {
     if (emailEnabled) {
       try {
-        await sendEmailNotification(
-          recipient,
-          createdNotification,
-          grantTitle,
-          entityName
-        );
-      } catch (error) { /* Error handled silently */ 
+        await sendEmailNotification(recipient, createdNotification, grantTitle, entityName);
+      } catch (error) {
+        /* Error handled silently */
         // Error: $1
       }
     }
@@ -249,7 +247,8 @@ export async function sendGrantNotification(
     if (smsEnabled && notification.priority === 'urgent') {
       try {
         await sendSMSNotification(recipient, createdNotification, grantTitle);
-      } catch (error) { /* Error handled silently */ 
+      } catch (error) {
+        /* Error handled silently */
         // Error: $1
       }
     }
@@ -267,9 +266,7 @@ export async function sendGrantNotification(
 /**
  * Notify when draft is generated
  */
-export async function notifyDraftGenerated(
-  applicationId: string
-): Promise<void> {
+export async function notifyDraftGenerated(applicationId: string): Promise<void> {
   const { data: app } = await getDb()
     .from('grant_applications')
     .select('*, grant:grant_opportunities(title), entity:entities(name)')
@@ -327,7 +324,7 @@ export async function notifyPackageReady(applicationId: string): Promise<void> {
 export async function notifyGrantSubmitted(
   applicationId: string,
   submittedBy: string,
-  confirmationNumber?: string
+  confirmationNumber?: string,
 ): Promise<void> {
   const { data: app } = await getDb()
     .from('grant_applications')
@@ -354,7 +351,7 @@ export async function notifyGrantSubmitted(
         submittedAt: new Date().toISOString(),
       },
     },
-    { sendSMS: true }
+    { sendSMS: true },
   );
 }
 
@@ -363,7 +360,7 @@ export async function notifyGrantSubmitted(
  */
 export async function notifyDeadlineApproaching(
   grantId: string,
-  daysRemaining: number
+  daysRemaining: number,
 ): Promise<void> {
   const { data: grant } = await getDb()
     .from('grant_opportunities')
@@ -400,7 +397,7 @@ export async function notifyDeadlineApproaching(
           daysRemaining,
         },
       },
-      { sendSMS: priority === 'urgent' }
+      { sendSMS: priority === 'urgent' },
     );
   }
 }

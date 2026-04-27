@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe/client';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -14,12 +13,8 @@ async function _POST(request: NextRequest) {
     const auth = await requireAuth(request);
     if (auth.error) return auth.error;
 
-
     if (!stripe) {
-      return NextResponse.json(
-        { error: 'Payment system not configured' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Payment system not configured' }, { status: 503 });
     }
 
     const { studentInfo, examDate, examTime } = await request.json();
@@ -55,11 +50,8 @@ async function _POST(request: NextRequest) {
     });
 
     return NextResponse.json({ sessionId: session.id, url: session.url });
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Failed to create checkout session' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Failed to create checkout session' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/apprenticeships/ipla-exam/checkout', _POST);

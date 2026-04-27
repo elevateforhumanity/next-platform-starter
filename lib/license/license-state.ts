@@ -1,17 +1,17 @@
 /**
  * License State Management
- * 
+ *
  * Controls access to platform features based on license status.
  * Trial → Licensed → Expired flow with clear gating.
  */
 
 export type LicenseState = 'trial' | 'licensed' | 'expired';
 
-export type OrganizationType = 
-  | 'workforce_board' 
-  | 'training_provider' 
-  | 'nonprofit' 
-  | 'government' 
+export type OrganizationType =
+  | 'workforce_board'
+  | 'training_provider'
+  | 'nonprofit'
+  | 'government'
   | 'apprenticeship_sponsor'
   | 'other';
 
@@ -63,14 +63,14 @@ export function determineLicenseState(info: Partial<LicenseInfo>): LicenseState 
   if (info.licensedAt) {
     return 'licensed';
   }
-  
+
   if (info.trialStartedAt && info.trialExpiresAt) {
     if (isTrialExpired(info.trialExpiresAt)) {
       return 'expired';
     }
     return 'trial';
   }
-  
+
   return 'expired';
 }
 
@@ -78,10 +78,10 @@ export function determineLicenseState(info: Partial<LicenseInfo>): LicenseState 
  * Create a new trial license info
  */
 export function createTrialLicense(
-  organizationName: string, 
+  organizationName: string,
   organizationType: OrganizationType,
   contactName: string,
-  contactEmail: string
+  contactEmail: string,
 ): LicenseInfo {
   const now = new Date();
   return {

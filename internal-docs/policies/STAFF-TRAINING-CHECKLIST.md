@@ -1,4 +1,5 @@
 # Admissions Staff Training & Enforcement Checklist
+
 ## Elevate for Humanity Career and Training Institute
 
 **INTERNAL DOCUMENT — REQUIRED FOR ALL ADMISSIONS STAFF**
@@ -33,12 +34,14 @@ Staff must be able to explain, **without notes**:
 ## SECTION 2: Language Control (Script Adherence)
 
 **Staff must use:**
+
 - Approved admissions script only
 - Neutral, confident tone
 - Clear numbers stated once
 - No speculative language
 
 **Staff may not use:**
+
 - "Maybe"
 - "Possibly"
 - "Let me see what I can do"
@@ -54,12 +57,15 @@ Staff must be able to explain, **without notes**:
 Staff must respond **exactly as trained** when hearing:
 
 ### "I can only do $100 a month."
+
 → "At that level, a long-term payor is required. We would need to explore workforce funding, employer sponsorship, or external financing."
 
 ### "Other schools let me pay less."
+
 → "Each institution structures tuition differently. Our model is designed to support completion and stability."
 
 ### "Can you make an exception?"
+
 → "Our funding pathways are standardized. Exceptions are not handled at the admissions level."
 
 **No alternative responses permitted.**
@@ -82,11 +88,13 @@ Staff must confirm:
 ## SECTION 5: Payment Handling Rules
 
 **Staff may:**
+
 - Collect payments only after pathway assignment
 - Explain payment terms once
 - Direct payment questions back to policy
 
 **Staff may not:**
+
 - Adjust payment amounts
 - Extend timelines
 - Collect partial payments
@@ -97,6 +105,7 @@ Staff must confirm:
 ## SECTION 6: Escalation Protocol
 
 **Staff escalate only when:**
+
 - Employer sponsorship documentation is pending
 - Workforce eligibility requires agency coordination
 - Executive approval is required for nonstandard cases
@@ -122,11 +131,13 @@ Leadership reviews monthly:
 ## SECTION 8: Termination Thresholds
 
 **Immediate retraining required if staff:**
+
 - Deviates from script twice
 - Negotiates payment terms
 - Enrolls without completed intake
 
 **Removal from admissions role if:**
+
 - Policy is overridden
 - Unauthorized promises are made
 - Financial exposure is created
@@ -137,7 +148,7 @@ Leadership reviews monthly:
 
 ## Final Statement for Staff
 
-*Read aloud during training:*
+_Read aloud during training:_
 
 > "Access is not the same as flexibility.  
 > Structure is how we protect students and the institution.  
@@ -172,4 +183,4 @@ Staff Signature: _______________________
 
 ---
 
-*This checklist is reviewed quarterly and after every new hire. Non-compliance is documented and addressed per Section 8.*
+_This checklist is reviewed quarterly and after every new hire. Non-compliance is documented and addressed per Section 8._

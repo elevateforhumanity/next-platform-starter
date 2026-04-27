@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React, { useState, useEffect, useCallback } from 'react';
 import { Card } from '@/components/ui/Card';
@@ -63,7 +63,8 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
       // Fetch placements
       let query = supabase
         .from('job_placements')
-        .select(`
+        .select(
+          `
           id,
           student_id,
           program_id,
@@ -77,7 +78,8 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
           profiles!job_placements_student_id_fkey(full_name),
           training_programs(name),
           employer_profiles(company_name)
-        `)
+        `,
+        )
         .order('created_at', { ascending: false });
 
       if (programId) {
@@ -100,7 +102,8 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
         program_id: p.program_id,
         program_name: p.training_programs?.name || p.programs?.title || 'Program',
         employer_id: p.employer_id,
-        employer_name: p.employer_profiles?.company_name || p.employers?.business_name || 'Employer',
+        employer_name:
+          p.employer_profiles?.company_name || p.employers?.business_name || 'Employer',
         position: p.position,
         salary: p.salary || 0,
         start_date: p.start_date,
@@ -121,12 +124,12 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
   }, [programId]);
 
   const calculateMetrics = (data: Placement[]) => {
-    const placed = data.filter(p => p.status === 'placed');
-    const totalWithSalary = data.filter(p => p.salary > 0);
+    const placed = data.filter((p) => p.status === 'placed');
+    const totalWithSalary = data.filter((p) => p.salary > 0);
 
     // Group by program
     const programCounts: Record<string, number> = {};
-    data.forEach(p => {
+    data.forEach((p) => {
       programCounts[p.program_name] = (programCounts[p.program_name] || 0) + 1;
     });
     const placementsByProgram = Object.entries(programCounts)
@@ -140,7 +143,7 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
 
     // Group by employer
     const employerCounts: Record<string, number> = {};
-    placed.forEach(p => {
+    placed.forEach((p) => {
       employerCounts[p.employer_name] = (employerCounts[p.employer_name] || 0) + 1;
     });
     const topEmployers = Object.entries(employerCounts)
@@ -151,13 +154,21 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
     setMetrics({
       totalPlacements: placed.length,
       placementRate: data.length > 0 ? Math.round((placed.length / data.length) * 100) : 0,
-      avgSalary: totalWithSalary.length > 0 
-        ? Math.round(totalWithSalary.reduce((sum, p) => sum + p.salary, 0) / totalWithSalary.length)
-        : 0,
+      avgSalary:
+        totalWithSalary.length > 0
+          ? Math.round(
+              totalWithSalary.reduce((sum, p) => sum + p.salary, 0) / totalWithSalary.length,
+            )
+          : 0,
       avgTimeToPlacement: (() => {
         const diffs = placed
-          .filter(p => p.start_date && p.created_at)
-          .map(p => Math.round((new Date(p.start_date).getTime() - new Date(p.created_at).getTime()) / (1000 * 60 * 60 * 24)));
+          .filter((p) => p.start_date && p.created_at)
+          .map((p) =>
+            Math.round(
+              (new Date(p.start_date).getTime() - new Date(p.created_at).getTime()) /
+                (1000 * 60 * 60 * 24),
+            ),
+          );
         return diffs.length > 0 ? Math.round(diffs.reduce((a, b) => a + b, 0) / diffs.length) : 0;
       })(),
       placementsByProgram,
@@ -167,10 +178,10 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
 
   const calculatePipeline = (data: Placement[]) => {
     setPipelineCounts({
-      job_ready: data.filter(p => p.status === 'job_ready').length,
-      interviewing: data.filter(p => p.status === 'interviewing').length,
-      offer_pending: data.filter(p => p.status === 'offer_pending').length,
-      placed: data.filter(p => p.status === 'placed').length,
+      job_ready: data.filter((p) => p.status === 'job_ready').length,
+      interviewing: data.filter((p) => p.status === 'interviewing').length,
+      offer_pending: data.filter((p) => p.status === 'offer_pending').length,
+      placed: data.filter((p) => p.status === 'placed').length,
     });
   };
 
@@ -178,16 +189,19 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
     fetchData();
   }, [fetchData]);
 
-  const filteredPlacements = filterStatus === 'all'
-    ? placements
-    : placements.filter(p => p.status === filterStatus);
+  const filteredPlacements =
+    filterStatus === 'all' ? placements : placements.filter((p) => p.status === filterStatus);
 
   const getStatusColor = (status: string) => {
     switch (status) {
-      case 'placed': return 'bg-brand-green-100 text-brand-green-700';
-      case 'offer_pending': return 'bg-yellow-100 text-yellow-700';
-      case 'interviewing': return 'bg-brand-blue-100 text-brand-blue-700';
-      default: return 'bg-gray-100 text-slate-900';
+      case 'placed':
+        return 'bg-brand-green-100 text-brand-green-700';
+      case 'offer_pending':
+        return 'bg-yellow-100 text-yellow-700';
+      case 'interviewing':
+        return 'bg-brand-blue-100 text-brand-blue-700';
+      default:
+        return 'bg-gray-100 text-slate-900';
     }
   };
 
@@ -209,7 +223,9 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
               key={tab}
               onClick={() => setActiveTab(tab)}
               className={`py-4 px-2 border-b-2 font-medium capitalize ${
-                activeTab === tab ? 'border-brand-blue-600 text-brand-blue-600' : 'border-transparent text-slate-700'
+                activeTab === tab
+                  ? 'border-brand-blue-600 text-brand-blue-600'
+                  : 'border-transparent text-slate-700'
               }`}
             >
               {tab}
@@ -252,7 +268,9 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
                 </div>
                 <h3 className="text-sm text-slate-700">Avg Starting Salary</h3>
               </div>
-              <p className="text-3xl font-bold text-brand-orange-600">${(metrics.avgSalary / 1000).toFixed(0)}k</p>
+              <p className="text-3xl font-bold text-brand-orange-600">
+                ${(metrics.avgSalary / 1000).toFixed(0)}k
+              </p>
               <p className="text-sm text-brand-green-600 mt-1">↑ 8% from last year</p>
             </Card>
 
@@ -263,7 +281,9 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
                 </div>
                 <h3 className="text-sm text-slate-700">Avg Time to Placement</h3>
               </div>
-              <p className="text-3xl font-bold text-purple-600">{metrics.avgTimeToPlacement} days</p>
+              <p className="text-3xl font-bold text-purple-600">
+                {metrics.avgTimeToPlacement} days
+              </p>
               <p className="text-sm text-brand-green-600 mt-1">↓ 15% improvement</p>
             </Card>
           </div>
@@ -294,7 +314,10 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
               <h3 className="text-lg font-bold mb-4">Top Hiring Partners</h3>
               <div className="space-y-3">
                 {metrics.topEmployers.map((partner) => (
-                  <div key={partner.name} className="flex items-center justify-between p-3 bg-gray-50 rounded-lg">
+                  <div
+                    key={partner.name}
+                    className="flex items-center justify-between p-3 bg-gray-50 rounded-lg"
+                  >
                     <div className="flex items-center gap-3">
                       <Building2 className="w-5 h-5 text-slate-700" />
                       <span className="font-medium">{partner.name}</span>
@@ -338,7 +361,9 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
                   <div className="flex-1">
                     <div className="flex items-center gap-3 mb-2">
                       <h3 className="text-lg font-bold">{placement.student_name}</h3>
-                      <span className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(placement.status)}`}>
+                      <span
+                        className={`px-3 py-1 rounded-full text-xs font-medium ${getStatusColor(placement.status)}`}
+                      >
                         {placement.status.replace('_', ' ').toUpperCase()}
                       </span>
                     </div>
@@ -366,7 +391,9 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
                   </div>
                   {placement.match_score && (
                     <div className="text-right ml-6">
-                      <div className="text-3xl font-bold text-brand-blue-600">{placement.match_score}%</div>
+                      <div className="text-3xl font-bold text-brand-blue-600">
+                        {placement.match_score}%
+                      </div>
                       <p className="text-sm text-slate-700">Match Score</p>
                     </div>
                   )}
@@ -383,9 +410,24 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
           <h2 className="text-xl font-bold mb-6">Placement Pipeline</h2>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
             {[
-              { stage: 'Job Ready', count: pipelineCounts.job_ready, color: 'blue', icon: Briefcase },
-              { stage: 'Interviewing', count: pipelineCounts.interviewing, color: 'purple', icon: Users },
-              { stage: 'Offer Pending', count: pipelineCounts.offer_pending, color: 'yellow', icon: Clock },
+              {
+                stage: 'Job Ready',
+                count: pipelineCounts.job_ready,
+                color: 'blue',
+                icon: Briefcase,
+              },
+              {
+                stage: 'Interviewing',
+                count: pipelineCounts.interviewing,
+                color: 'purple',
+                icon: Users,
+              },
+              {
+                stage: 'Offer Pending',
+                count: pipelineCounts.offer_pending,
+                color: 'yellow',
+                icon: Clock,
+              },
               { stage: 'Placed', count: pipelineCounts.placed, color: 'green', icon: TrendingUp },
             ].map((stage) => {
               const Icon = stage.icon;
@@ -395,9 +437,7 @@ export function JobPlacementTracking({ programId, showPipeline = true }: Props) 
                     <Icon className={`w-6 h-6 text-${stage.color}-600`} />
                   </div>
                   <h3 className="text-lg font-bold mb-2">{stage.stage}</h3>
-                  <p className={`text-4xl font-bold text-${stage.color}-600 mb-1`}>
-                    {stage.count}
-                  </p>
+                  <p className={`text-4xl font-bold text-${stage.color}-600 mb-1`}>{stage.count}</p>
                   <p className="text-sm text-slate-700">students</p>
                   <Button size="sm" variant="secondary" className="w-full mt-4">
                     View Details

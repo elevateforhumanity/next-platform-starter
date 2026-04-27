@@ -15,9 +15,11 @@ This document maps the Elevate LMS platform capabilities to Indiana workforce an
 ## 1. Student Intake & Eligibility Control
 
 ### Indiana Expectation
+
 Clear, documented intake process with eligibility validation and auditability.
 
 ### Platform Implementation
+
 - Multi-step intake enforced by server-side state machine
 - Eligibility captured before advancement (`eligibility_complete` state)
 - No application can be submitted unless all required steps are completed in order
@@ -28,6 +30,7 @@ Clear, documented intake process with eligibility validation and auditability.
 > Student eligibility and intake completion are enforced at the database level through a controlled application state machine. Applications cannot be submitted unless all required eligibility and documentation steps are completed and validated.
 
 ### Evidence
+
 ```sql
 -- Show state machine enforcement
 SELECT id, application_state, submitted_at, state_history
@@ -43,9 +46,11 @@ SELECT * FROM audit_logs WHERE action = 'invalid_state_transition';
 ## 2. Application Integrity & Recordkeeping
 
 ### Indiana Expectation
+
 No partial records, no unverifiable submissions, auditable lifecycle.
 
 ### Platform Implementation
+
 - Single source of truth for submission (`state = submitted` + `submitted_at`)
 - Full state history retained in JSONB array
 - Invalid or out-of-order submissions rejected and logged
@@ -56,9 +61,10 @@ No partial records, no unverifiable submissions, auditable lifecycle.
 > The system maintains an immutable record of application lifecycle events, including all state transitions, timestamps, and rejection attempts, ensuring full auditability.
 
 ### Evidence
+
 ```sql
 -- Complete application audit trail
-SELECT 
+SELECT
   id,
   email,
   application_state,
@@ -74,9 +80,11 @@ WHERE id = 'APPLICATION_UUID';
 ## 3. Enrollment & Participation Tracking
 
 ### Indiana Expectation
+
 Accurate enrollment records, no duplicate participation, recoverable errors.
 
 ### Platform Implementation
+
 - Enrollment provisioning via atomic transactional RPC (`rpc_enroll_student`)
 - Program + course enrollments created together or not at all
 - Unique constraints prevent duplicate enrollments
@@ -88,9 +96,10 @@ Accurate enrollment records, no duplicate participation, recoverable errors.
 > Enrollment records are provisioned through atomic database transactions to prevent partial or duplicate records. Retry-safe idempotency ensures consistent outcomes under failure conditions.
 
 ### Evidence
+
 ```sql
 -- Enrollment with full audit trail
-SELECT 
+SELECT
   pe.id as enrollment_id,
   pe.student_id,
   pe.program_id,
@@ -110,6 +119,7 @@ SELECT * FROM idempotency_keys WHERE operation = 'enroll_student';
 ## 4. Employer / Partner Controls
 
 ### Indiana Expectation
+
 Approved partners only, controlled access, documented approvals.
 
 ### Platform Implementation
@@ -133,9 +143,10 @@ Approved partners only, controlled access, documented approvals.
 > Employer and partner access is controlled through a two-phase approval process that prevents partial approvals and ensures all access is explicitly granted and auditable.
 
 ### Evidence
+
 ```sql
 -- Partner approval audit trail
-SELECT 
+SELECT
   pa.id,
   pa.shop_name,
   pa.approval_status,
@@ -152,9 +163,11 @@ WHERE pa.approval_status = 'approved';
 ## 5. Failure Handling & Recovery
 
 ### Indiana Expectation
+
 Systems must handle errors without corrupting records.
 
 ### Platform Implementation
+
 - No optimistic submission (server validates before persisting)
 - Explicit failure responses with error codes
 - Draft recovery for applicants (24-hour localStorage persistence)
@@ -166,6 +179,7 @@ Systems must handle errors without corrupting records.
 > The platform is designed to fail safely, ensuring no incomplete or invalid records are persisted during system or network failures.
 
 ### Recovery Procedures
+
 - See `docs/ADMIN_RUNBOOK.md` for operational procedures
 - Automated monitoring via `/api/cron/check-stuck-approvals`
 
@@ -174,11 +188,13 @@ Systems must handle errors without corrupting records.
 ## 6. Audit & Oversight
 
 ### Indiana Expectation
+
 Ability to demonstrate compliance on request.
 
 ### Platform Implementation
 
 **Logged Events:**
+
 - Application state transitions
 - Invalid transition attempts
 - Enrollment creation
@@ -187,6 +203,7 @@ Ability to demonstrate compliance on request.
 - Notification delivery
 
 **Audit Log Structure:**
+
 ```sql
 CREATE TABLE audit_logs (
   id UUID PRIMARY KEY,
@@ -207,17 +224,17 @@ CREATE TABLE audit_logs (
 
 ```sql
 -- All actions for a specific student
-SELECT * FROM audit_logs 
+SELECT * FROM audit_logs
 WHERE details->>'user_id' = 'STUDENT_UUID'
 ORDER BY created_at;
 
 -- All partner approvals in date range
-SELECT * FROM audit_logs 
+SELECT * FROM audit_logs
 WHERE action = 'partner_approved'
 AND created_at BETWEEN '2026-01-01' AND '2026-12-31';
 
 -- All enrollment activity
-SELECT * FROM audit_logs 
+SELECT * FROM audit_logs
 WHERE action = 'enrollment_created'
 ORDER BY created_at DESC;
 ```
@@ -228,14 +245,14 @@ ORDER BY created_at DESC;
 
 ### Technical Controls
 
-| Control | Implementation |
-|---------|----------------|
+| Control                   | Implementation                                      |
+| ------------------------- | --------------------------------------------------- |
 | State machine enforcement | `application_state` enum with validated transitions |
-| Atomic transactions | PL/pgSQL functions with automatic rollback |
-| Idempotency | `idempotency_keys` table with unique constraints |
-| Row-level locking | `SELECT ... FOR UPDATE` prevents race conditions |
-| Unique constraints | Prevent duplicate enrollments |
-| RLS policies | Block direct table manipulation |
+| Atomic transactions       | PL/pgSQL functions with automatic rollback          |
+| Idempotency               | `idempotency_keys` table with unique constraints    |
+| Row-level locking         | `SELECT ... FOR UPDATE` prevents race conditions    |
+| Unique constraints        | Prevent duplicate enrollments                       |
+| RLS policies              | Block direct table manipulation                     |
 
 ### Compliance Statement
 
@@ -247,18 +264,19 @@ ORDER BY created_at DESC;
 
 ### Available Reports
 
-| Report | Data Source | Purpose |
-|--------|-------------|---------|
-| Enrollment by Program | `program_enrollments` | Participation tracking |
-| Enrollment by Funding Source | `program_enrollments.funding_source` | Grant reporting |
-| Application Pipeline | `career_applications.application_state` | Intake funnel |
-| Partner Activity | `partner_applications`, `partners` | Employer engagement |
-| Completion Rates | `enrollments.status` | Outcome tracking |
+| Report                       | Data Source                             | Purpose                |
+| ---------------------------- | --------------------------------------- | ---------------------- |
+| Enrollment by Program        | `program_enrollments`                   | Participation tracking |
+| Enrollment by Funding Source | `program_enrollments.funding_source`    | Grant reporting        |
+| Application Pipeline         | `career_applications.application_state` | Intake funnel          |
+| Partner Activity             | `partner_applications`, `partners`      | Employer engagement    |
+| Completion Rates             | `enrollments.status`                    | Outcome tracking       |
 
 ### Sample Report Query
+
 ```sql
 -- Enrollment summary by program and funding
-SELECT 
+SELECT
   p.name as program_name,
   pe.funding_source,
   COUNT(*) as enrollment_count,
@@ -304,25 +322,25 @@ ORDER BY p.name, pe.funding_source;
 
 ## Appendix B: Key Database Functions
 
-| Function | Purpose |
-|----------|---------|
-| `start_application()` | Initialize application with audit trail |
-| `advance_application_state()` | Validated state transitions |
-| `submit_application()` | Final submission with validation |
-| `rpc_enroll_student()` | Atomic enrollment orchestration |
-| `rpc_approve_partner()` | Phase 1 partner approval |
-| `rpc_link_partner_user()` | Phase 2 auth linking |
+| Function                      | Purpose                                 |
+| ----------------------------- | --------------------------------------- |
+| `start_application()`         | Initialize application with audit trail |
+| `advance_application_state()` | Validated state transitions             |
+| `submit_application()`        | Final submission with validation        |
+| `rpc_enroll_student()`        | Atomic enrollment orchestration         |
+| `rpc_approve_partner()`       | Phase 1 partner approval                |
+| `rpc_link_partner_user()`     | Phase 2 auth linking                    |
 
 ---
 
 ## Appendix C: Contact & Documentation
 
-| Resource | Location |
-|----------|----------|
+| Resource                | Location                              |
+| ----------------------- | ------------------------------------- |
 | Technical Documentation | `docs/OPERATIONAL_READINESS_AUDIT.md` |
-| Admin Procedures | `docs/ADMIN_RUNBOOK.md` |
-| Onboarding Checklist | `docs/COHORT_ONBOARDING_CHECKLIST.md` |
-| Database Migrations | `supabase/migrations/` |
+| Admin Procedures        | `docs/ADMIN_RUNBOOK.md`               |
+| Onboarding Checklist    | `docs/COHORT_ONBOARDING_CHECKLIST.md` |
+| Database Migrations     | `supabase/migrations/`                |
 
 ---
 

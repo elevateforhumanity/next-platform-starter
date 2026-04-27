@@ -14,18 +14,15 @@ export const dynamic = 'force-dynamic';
 
 /**
  * STEP 5F: Admin license controls
- * 
+ *
  * Actions:
  * - PATCH: Update license (suspend, reactivate, update features/limits)
  * - DELETE: Revoke license
- * 
+ *
  * All actions require super_admin role and are audited.
  */
 
-async function _PATCH(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function _PATCH(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -85,32 +82,32 @@ async function _PATCH(
           .from('licenses')
           .update({ features, updated_at: new Date().toISOString() })
           .eq('id', licenseId);
-        
+
         // Log feature update
         await logAdminAccess(
           license.tenant_id,
           'update_license_features',
           'licenses',
-          `Updated features: ${JSON.stringify(features)}`
+          `Updated features: ${JSON.stringify(features)}`,
         );
         break;
 
       case 'update_limits':
         result = await supabase
           .from('licenses')
-          .update({ 
+          .update({
             max_users: limits.max_users,
             max_students: limits.max_students,
             max_programs: limits.max_programs,
             updated_at: new Date().toISOString(),
           })
           .eq('id', licenseId);
-        
+
         await logAdminAccess(
           license.tenant_id,
           'update_license_limits',
           'licenses',
-          `Updated limits: ${JSON.stringify(limits)}`
+          `Updated limits: ${JSON.stringify(limits)}`,
         );
         break;
 
@@ -141,7 +138,10 @@ async function _PATCH(
 
     return NextResponse.json({ success: true, action });
   } catch (error) {
-    logger.error('Admin license endpoint error', error instanceof Error ? error : new Error(String(error)));
+    logger.error(
+      'Admin license endpoint error',
+      error instanceof Error ? error : new Error(String(error)),
+    );
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
@@ -149,10 +149,7 @@ async function _PATCH(
 /**
  * DELETE: Revoke license (permanent)
  */
-async function _DELETE(
-  request: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function _DELETE(request: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -201,7 +198,10 @@ async function _DELETE(
 
     return NextResponse.json({ success: true, revoked: data });
   } catch (error) {
-    logger.error('License revocation endpoint error', error instanceof Error ? error : new Error(String(error)));
+    logger.error(
+      'License revocation endpoint error',
+      error instanceof Error ? error : new Error(String(error)),
+    );
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }

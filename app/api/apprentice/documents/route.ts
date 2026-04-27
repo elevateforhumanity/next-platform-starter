@@ -19,7 +19,9 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -71,7 +73,9 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -99,17 +103,23 @@ async function _POST(request: NextRequest) {
 
     // Validate file size
     if (file.size > docType.max_file_size_mb * 1024 * 1024) {
-      return NextResponse.json({ 
-        error: `File too large. Maximum size is ${docType.max_file_size_mb}MB` 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: `File too large. Maximum size is ${docType.max_file_size_mb}MB`,
+        },
+        { status: 400 },
+      );
     }
 
     // Validate file type
     const ext = file.name.split('.').pop()?.toLowerCase();
     if (!docType.accepted_formats.includes(ext || '')) {
-      return NextResponse.json({ 
-        error: `Invalid file type. Accepted: ${docType.accepted_formats.join(', ')}` 
-      }, { status: 400 });
+      return NextResponse.json(
+        {
+          error: `Invalid file type. Accepted: ${docType.accepted_formats.join(', ')}`,
+        },
+        { status: 400 },
+      );
     }
 
     // Generate unique filename
@@ -179,18 +189,20 @@ async function _POST(request: NextRequest) {
       if (admins && admins.length > 0) {
         const { emailService } = await import('@/lib/notifications/email');
         const studentName = studentProfile?.full_name || studentProfile?.email || 'Unknown Student';
-        
+
         // Send notification to all admins
         for (const admin of admins) {
           if (admin.email) {
-            await emailService.sendDocumentUploadNotification(
-              admin.email,
-              studentName,
-              docType.name || docType.document_type,
-              programSlug
-            ).catch((err: Error) => {
-              logger.error('[Documents API] Staff notification failed:', err);
-            });
+            await emailService
+              .sendDocumentUploadNotification(
+                admin.email,
+                studentName,
+                docType.name || docType.document_type,
+                programSlug,
+              )
+              .catch((err: Error) => {
+                logger.error('[Documents API] Staff notification failed:', err);
+              });
           }
         }
         logger.info('[Documents API] Staff notifications sent for document upload');
@@ -200,9 +212,9 @@ async function _POST(request: NextRequest) {
       logger.error('[Documents API] Staff notification error:', notifyError);
     }
 
-    return NextResponse.json({ 
-      success: true, 
-      document: docRecord 
+    return NextResponse.json({
+      success: true,
+      document: docRecord,
     });
   } catch (error) {
     logger.error('[Documents API] Error:', error);
@@ -220,7 +232,9 @@ async function _DELETE(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
@@ -257,10 +271,7 @@ async function _DELETE(request: NextRequest) {
     }
 
     // Delete record
-    const { error } = await supabase
-      .from('apprentice_documents')
-      .delete()
-      .eq('id', docId);
+    const { error } = await supabase.from('apprentice_documents').delete().eq('id', docId);
 
     if (error) {
       logger.error('[Documents API] Delete error:', error);

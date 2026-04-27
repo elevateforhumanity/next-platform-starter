@@ -2,10 +2,10 @@
 
 /**
  * SEO Validation CI Script
- * 
+ *
  * Enforces SEO governance rules at build time.
  * Fails the build if any rule is violated.
- * 
+ *
  * Rules enforced:
  * 1. Default noindex for new pages
  * 2. Index whitelist validation
@@ -13,7 +13,7 @@
  * 4. Canonical validation
  * 5. Metadata uniqueness
  * 6. Sitemap safety
- * 
+ *
  * Usage: npx ts-node scripts/ci/seo-validation.ts
  */
 
@@ -94,14 +94,14 @@ function fileToRoute(filePath: string): string {
     .replace(/\/page\.jsx?$/, '')
     .replace(/\(.*?\)\//g, '') // Remove route groups like (marketing)/
     .replace(/\[.*?\]/g, ':param'); // Convert [id] to :param
-  
+
   return route || '/';
 }
 
 // Check if route matches any blocked pattern
 function isBlockedRoute(route: string): boolean {
-  return BLOCKED_PATTERNS.some(pattern => 
-    route.startsWith(pattern) || route === pattern.replace(/\/$/, '')
+  return BLOCKED_PATTERNS.some(
+    (pattern) => route.startsWith(pattern) || route === pattern.replace(/\/$/, ''),
   );
 }
 
@@ -110,7 +110,7 @@ function extractMetadata(filePath: string): PageMetadata | null {
   try {
     const content = fs.readFileSync(filePath, 'utf-8');
     const route = fileToRoute(filePath);
-    
+
     const metadata: PageMetadata = {
       file: filePath,
       route,
@@ -129,11 +129,11 @@ function extractMetadata(filePath: string): PageMetadata | null {
     if (robotsMatch) {
       metadata.robots = robotsMatch[1] === 'true' ? 'index, follow' : 'noindex, follow';
     }
-    
+
     // Check for explicit meta robots in content
-    if (content.includes("content=\"index, follow\"") || content.includes("'index, follow'")) {
+    if (content.includes('content="index, follow"') || content.includes("'index, follow'")) {
       metadata.robots = 'index, follow';
-    } else if (content.includes("content=\"noindex") || content.includes("'noindex")) {
+    } else if (content.includes('content="noindex') || content.includes("'noindex")) {
       metadata.robots = 'noindex, follow';
     }
 
@@ -150,7 +150,7 @@ function extractMetadata(filePath: string): PageMetadata | null {
 // RULE 1: Default noindex for new pages
 function validateDefaultNoindex(pages: PageMetadata[], whitelist: string[]) {
   console.log('\n📋 Rule 1: Checking default noindex...');
-  
+
   for (const page of pages) {
     if (!page.robots && !whitelist.includes(page.route)) {
       // Page has no explicit robots directive and is not whitelisted
@@ -163,7 +163,7 @@ function validateDefaultNoindex(pages: PageMetadata[], whitelist: string[]) {
 // RULE 2: Index whitelist validation
 function validateIndexWhitelist(pages: PageMetadata[], whitelist: string[]) {
   console.log('\n📋 Rule 2: Validating index whitelist...');
-  
+
   for (const page of pages) {
     if (page.robots === 'index, follow' && !whitelist.includes(page.route)) {
       errors.push({
@@ -180,7 +180,7 @@ function validateIndexWhitelist(pages: PageMetadata[], whitelist: string[]) {
 // RULE 3: Blocked routes never indexed
 function validateBlockedRoutes(pages: PageMetadata[]) {
   console.log('\n📋 Rule 3: Checking blocked routes...');
-  
+
   for (const page of pages) {
     if (isBlockedRoute(page.route) && page.robots === 'index, follow') {
       errors.push({
@@ -197,7 +197,7 @@ function validateBlockedRoutes(pages: PageMetadata[]) {
 // RULE 4: Canonical validation
 function validateCanonicals(pages: PageMetadata[], whitelist: string[]) {
   console.log('\n📋 Rule 4: Validating canonicals...');
-  
+
   for (const page of pages) {
     if (whitelist.includes(page.route)) {
       // Indexed pages must have canonical
@@ -225,9 +225,9 @@ function validateCanonicals(pages: PageMetadata[], whitelist: string[]) {
 // RULE 5: Metadata uniqueness
 function validateMetadataUniqueness(pages: PageMetadata[], whitelist: string[]) {
   console.log('\n📋 Rule 5: Checking metadata uniqueness...');
-  
-  const indexedPages = pages.filter(p => whitelist.includes(p.route));
-  
+
+  const indexedPages = pages.filter((p) => whitelist.includes(p.route));
+
   // Check for duplicate titles
   const titles = new Map<string, string[]>();
   for (const page of indexedPages) {
@@ -245,7 +245,7 @@ function validateMetadataUniqueness(pages: PageMetadata[], whitelist: string[]) 
       });
     }
   }
-  
+
   for (const [title, routes] of titles) {
     if (routes.length > 1) {
       errors.push({
@@ -257,7 +257,7 @@ function validateMetadataUniqueness(pages: PageMetadata[], whitelist: string[]) 
       });
     }
   }
-  
+
   // Check for duplicate descriptions
   const descriptions = new Map<string, string[]>();
   for (const page of indexedPages) {
@@ -275,7 +275,7 @@ function validateMetadataUniqueness(pages: PageMetadata[], whitelist: string[]) 
       });
     }
   }
-  
+
   for (const [desc, routes] of descriptions) {
     if (routes.length > 1) {
       errors.push({
@@ -292,16 +292,16 @@ function validateMetadataUniqueness(pages: PageMetadata[], whitelist: string[]) 
 // RULE 6: Sitemap safety
 function validateSitemap(whitelist: string[]) {
   console.log('\n📋 Rule 6: Validating sitemap...');
-  
+
   const sitemapPath = path.join(APP_DIR, 'sitemap.ts');
-  
+
   if (!fs.existsSync(sitemapPath)) {
     warnings.push('No sitemap.ts found');
     return;
   }
-  
+
   const content = fs.readFileSync(sitemapPath, 'utf-8');
-  
+
   // Check for blocked routes in sitemap
   for (const pattern of BLOCKED_PATTERNS) {
     if (content.includes(`'${pattern}'`) || content.includes(`"${pattern}"`)) {
@@ -317,7 +317,7 @@ function validateSitemap(whitelist: string[]) {
       }
     }
   }
-  
+
   // Check for query strings
   if (content.match(/url:.*\?/)) {
     errors.push({
@@ -334,25 +334,25 @@ function validateSitemap(whitelist: string[]) {
 async function runValidation() {
   console.log('🔍 SEO Validation Starting...\n');
   console.log('='.repeat(60));
-  
+
   // Load whitelist
   const whitelist = loadWhitelist();
   console.log(`📄 Loaded ${whitelist.length} whitelisted pages`);
-  
+
   // Find all page files
   const pageFiles = glob.sync(`${APP_DIR}/**/page.{tsx,ts,jsx,js}`, {
     ignore: ['**/node_modules/**', '**/_*/**'],
   });
-  
+
   console.log(`📁 Found ${pageFiles.length} page files`);
-  
+
   // Extract metadata from all pages
   const pages: PageMetadata[] = [];
   for (const file of pageFiles) {
     const metadata = extractMetadata(file);
     if (metadata) pages.push(metadata);
   }
-  
+
   // Run all validations
   validateDefaultNoindex(pages, whitelist);
   validateIndexWhitelist(pages, whitelist);
@@ -360,19 +360,19 @@ async function runValidation() {
   validateCanonicals(pages, whitelist);
   validateMetadataUniqueness(pages, whitelist);
   validateSitemap(whitelist);
-  
+
   // Output results
   console.log('\n' + '='.repeat(60));
-  
+
   if (warnings.length > 0) {
     console.log('\n⚠️  WARNINGS:');
-    warnings.forEach(w => console.log(`   - ${w}`));
+    warnings.forEach((w) => console.log(`   - ${w}`));
   }
-  
+
   if (errors.length > 0) {
     console.log('\n❌ ERRORS FOUND:');
     console.log('-'.repeat(60));
-    
+
     for (const error of errors) {
       console.log(`\n🚫 ${error.rule}`);
       console.log(`   File: ${error.file}`);
@@ -380,13 +380,13 @@ async function runValidation() {
       console.log(`   Issue: ${error.message}`);
       console.log(`   Fix: ${error.fix}`);
     }
-    
+
     console.log('\n' + '='.repeat(60));
     console.log(`\n❌ SEO VALIDATION FAILED: ${errors.length} error(s) found`);
     console.log('\nDeploy blocked. Fix errors and re-run validation.\n');
     process.exit(1);
   }
-  
+
   console.log('\n✅ SEO VALIDATION PASSED');
   console.log(`   - ${pages.length} pages checked`);
   console.log(`   - ${whitelist.length} pages whitelisted for indexing`);
@@ -397,7 +397,7 @@ async function runValidation() {
 }
 
 // Run
-runValidation().catch(err => {
+runValidation().catch((err) => {
   console.error('❌ Validation script error:', err);
   process.exit(1);
 });

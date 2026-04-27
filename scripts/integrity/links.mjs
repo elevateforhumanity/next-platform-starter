@@ -1,10 +1,10 @@
 #!/usr/bin/env node
 /**
  * Link Integrity Check
- * 
+ *
  * Scans built Next.js output for internal links and verifies they resolve.
  * Fails CI if any broken links are found.
- * 
+ *
  * Output: reports/link_report.json
  */
 
@@ -24,18 +24,18 @@ if (!fs.existsSync(reportsDir)) {
 // Collect all page routes from app directory
 function collectRoutes(dir, basePath = '') {
   const routes = [];
-  
+
   if (!fs.existsSync(dir)) {
     return routes;
   }
 
   const entries = fs.readdirSync(dir, { withFileTypes: true });
-  
+
   for (const entry of entries) {
     if (entry.name.startsWith('_') || entry.name.startsWith('.')) continue;
-    
+
     const fullPath = path.join(dir, entry.name);
-    
+
     if (entry.isDirectory()) {
       // Skip route groups (parentheses)
       const routeSegment = entry.name.startsWith('(') ? '' : `/${entry.name}`;
@@ -44,25 +44,25 @@ function collectRoutes(dir, basePath = '') {
       routes.push(basePath || '/');
     }
   }
-  
+
   return routes;
 }
 
 // Collect all API routes from app/api directory
 function collectApiRoutes(dir, basePath = '/api') {
   const routes = [];
-  
+
   if (!fs.existsSync(dir)) {
     return routes;
   }
 
   const entries = fs.readdirSync(dir, { withFileTypes: true });
-  
+
   for (const entry of entries) {
     if (entry.name.startsWith('_') || entry.name.startsWith('.')) continue;
-    
+
     const fullPath = path.join(dir, entry.name);
-    
+
     if (entry.isDirectory()) {
       const routeSegment = entry.name.startsWith('(') ? '' : `/${entry.name}`;
       routes.push(...collectApiRoutes(fullPath, basePath + routeSegment));
@@ -70,39 +70,39 @@ function collectApiRoutes(dir, basePath = '/api') {
       routes.push(basePath);
     }
   }
-  
+
   return routes;
 }
 
 // Collect all static files from public directory
 function collectStaticFiles(dir, basePath = '') {
   const files = [];
-  
+
   if (!fs.existsSync(dir)) {
     return files;
   }
 
   const entries = fs.readdirSync(dir, { withFileTypes: true });
-  
+
   for (const entry of entries) {
     if (entry.name.startsWith('.')) continue;
-    
+
     const fullPath = path.join(dir, entry.name);
-    
+
     if (entry.isDirectory()) {
       files.push(...collectStaticFiles(fullPath, `${basePath}/${entry.name}`));
     } else {
       files.push(`${basePath}/${entry.name}`);
     }
   }
-  
+
   return files;
 }
 
 // Extract href values from source files
 function extractLinks(dir) {
   const links = new Set();
-  
+
   function scanFile(filePath) {
     const content = fs.readFileSync(filePath, 'utf-8');
     // Match href="/..." patterns
@@ -117,14 +117,14 @@ function extractLinks(dir) {
       }
     }
   }
-  
+
   function scanDir(dirPath) {
     if (!fs.existsSync(dirPath)) return;
-    
+
     const entries = fs.readdirSync(dirPath, { withFileTypes: true });
     for (const entry of entries) {
       if (entry.name === 'node_modules' || entry.name.startsWith('.')) continue;
-      
+
       const fullPath = path.join(dirPath, entry.name);
       if (entry.isDirectory()) {
         scanDir(fullPath);
@@ -133,7 +133,7 @@ function extractLinks(dir) {
       }
     }
   }
-  
+
   scanDir(dir);
   return Array.from(links);
 }
@@ -209,11 +209,7 @@ const staticFiles = collectStaticFiles(publicDir);
 const links = extractLinks(appDir);
 
 // Combine all valid paths
-const allValidPaths = new Set([
-  ...pageRoutes,
-  ...apiRoutes,
-  ...staticFiles,
-]);
+const allValidPaths = new Set([...pageRoutes, ...apiRoutes, ...staticFiles]);
 
 // Check which links don't have corresponding routes
 const brokenLinks = [];
@@ -225,9 +221,9 @@ for (const link of links) {
     validLinks.push({ link, status: 'dynamic-skipped' });
     continue;
   }
-  
+
   // Allow links that match a dynamic route pattern (e.g. /lms/courses/<uuid>)
-  const isDynamicMatch = Array.from(allValidPaths).some(p => {
+  const isDynamicMatch = Array.from(allValidPaths).some((p) => {
     if (!p.includes('[')) return false;
     const pattern = p.replace(/\[.*?\]/g, '[^/]+');
     return new RegExp('^' + pattern + '$').test(link);
@@ -249,7 +245,7 @@ for (const link of links) {
     allValidPaths.has(link + '/') ||
     allValidPaths.has(link.replace(/\/$/, '')) ||
     // Check if it's a parent path of an existing route (e.g., /admin exists if /admin/dashboard exists)
-    Array.from(allValidPaths).some(p => p.startsWith(link + '/'));
+    Array.from(allValidPaths).some((p) => p.startsWith(link + '/'));
 
   if (pathExists) {
     validLinks.push({ link, status: 'valid' });
@@ -263,18 +259,15 @@ const report = {
   timestamp: new Date().toISOString(),
   summary: {
     totalLinks: links.length,
-    validLinks: validLinks.filter(l => l.status === 'valid').length,
+    validLinks: validLinks.filter((l) => l.status === 'valid').length,
     brokenLinks: brokenLinks.length,
-    dynamicSkipped: validLinks.filter(l => l.status === 'dynamic-skipped').length,
+    dynamicSkipped: validLinks.filter((l) => l.status === 'dynamic-skipped').length,
   },
   brokenLinks,
   validLinks: validLinks.slice(0, 50), // Limit output size
 };
 
-fs.writeFileSync(
-  path.join(reportsDir, 'link_report.json'),
-  JSON.stringify(report, null, 2)
-);
+fs.writeFileSync(path.join(reportsDir, 'link_report.json'), JSON.stringify(report, null, 2));
 
 console.log('Link Integrity Report');
 console.log('=====================');

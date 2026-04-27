@@ -46,7 +46,7 @@ export async function POST(
   if (program.review_status !== 'approved') {
     return safeError(
       `Program must be approved before publishing. Current status: '${program.review_status}'. ` +
-      `Submit via POST /api/admin/programs/${programId}/review`,
+        `Submit via POST /api/admin/programs/${programId}/review`,
       409,
     );
   }
@@ -59,17 +59,18 @@ export async function POST(
   ]);
 
   const missing: string[] = [];
-  if (!program.title?.trim())       missing.push('Program title');
+  if (!program.title?.trim()) missing.push('Program title');
   if (!program.description?.trim()) missing.push('Program description');
-  if (!program.hero_image_url)      missing.push('Hero image');
-  if (!program.estimated_weeks)     missing.push('Program duration');
-  if (!program.delivery_method)     missing.push('Delivery mode');
-  if ((outcomes?.length ?? 0) < 3)  missing.push(`Outcomes (${outcomes?.length ?? 0}/3 minimum)`);
-  if ((ctas?.length ?? 0) === 0)    missing.push('Primary CTA');
+  if (!program.hero_image_url) missing.push('Hero image');
+  if (!program.estimated_weeks) missing.push('Program duration');
+  if (!program.delivery_method) missing.push('Delivery mode');
+  if ((outcomes?.length ?? 0) < 3) missing.push(`Outcomes (${outcomes?.length ?? 0}/3 minimum)`);
+  if ((ctas?.length ?? 0) === 0) missing.push('Primary CTA');
 
   const totalModules = modules?.length ?? 0;
-  const totalLessons = modules?.reduce((n: number, m: any) => n + (m.program_lessons?.length ?? 0), 0) ?? 0;
-  if (totalModules < 3)  missing.push(`Modules (${totalModules}/3 minimum)`);
+  const totalLessons =
+    modules?.reduce((n: number, m: any) => n + (m.program_lessons?.length ?? 0), 0) ?? 0;
+  if (totalModules < 3) missing.push(`Modules (${totalModules}/3 minimum)`);
   if (totalLessons < 10) missing.push(`Lessons (${totalLessons}/10 minimum)`);
 
   if (missing.length > 0) {
@@ -80,9 +81,15 @@ export async function POST(
   const result = await publishProgram(db, programId, auth.user.id);
   if (!result.ok) return safeInternalError(new Error(result.error), 'Publish failed');
 
-  db.from('audit_logs').insert({
-    actor_id: auth.user.id, action: 'publish', resource_type: 'program', resource_id: programId,
-  }).then(() => {}).catch(() => {});
+  db.from('audit_logs')
+    .insert({
+      actor_id: auth.user.id,
+      action: 'publish',
+      resource_type: 'program',
+      resource_id: programId,
+    })
+    .then(() => {})
+    .catch(() => {});
 
   return NextResponse.json({ ok: true, published: true, version: result.version });
 }

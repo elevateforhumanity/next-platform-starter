@@ -75,7 +75,7 @@ for (let i = 1; i <= 95; i++) {
     mp3Path: hasAudio ? mp3Path : null,
     brandonClip,
     diagramBackground: hasDiag ? diagBg : null,
-    outputPath: `temp/assembled/hvac-lesson-${String(i).padStart(3,'0')}.mp4`,
+    outputPath: `temp/assembled/hvac-lesson-${String(i).padStart(3, '0')}.mp4`,
     status: hasAudio ? 'ready' : 'missing-audio',
   });
 }
@@ -83,8 +83,8 @@ for (let i = 1; i <= 95; i++) {
 fs.mkdirSync('reports', { recursive: true });
 fs.writeFileSync('data/hvac-lesson-manifest.json', JSON.stringify(manifest, null, 2));
 
-const ready = manifest.filter(l => l.status === 'ready').length;
-const missingAudio = manifest.filter(l => l.status === 'missing-audio').length;
+const ready = manifest.filter((l) => l.status === 'ready').length;
+const missingAudio = manifest.filter((l) => l.status === 'missing-audio').length;
 console.log(`Manifest built: ${manifest.length} lessons`);
 console.log(`  Ready to assemble: ${ready}`);
 console.log(`  Missing audio:     ${missingAudio}`);

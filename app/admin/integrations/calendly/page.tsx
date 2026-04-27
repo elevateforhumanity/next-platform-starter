@@ -19,13 +19,15 @@ export default async function CalendlyIntegrationPage() {
   // Live bookings from DB
   const { data: bookings } = await db
     .from('calendly_bookings')
-    .select('id, invitee_name, invitee_email, event_name, start_time, status, utm_source, created_at')
+    .select(
+      'id, invitee_name, invitee_email, event_name, start_time, status, utm_source, created_at',
+    )
     .order('start_time', { ascending: false })
     .limit(50);
 
   const [scheduled, canceled] = [
-    (bookings ?? []).filter(b => b.status === 'scheduled').length,
-    (bookings ?? []).filter(b => b.status === 'canceled').length,
+    (bookings ?? []).filter((b) => b.status === 'scheduled').length,
+    (bookings ?? []).filter((b) => b.status === 'canceled').length,
   ];
 
   const webhookUrl = `${process.env.NEXT_PUBLIC_SITE_URL ?? 'https://www.elevateforhumanity.org'}/api/chatbot/calendly-webhook`;
@@ -35,11 +37,13 @@ export default async function CalendlyIntegrationPage() {
   return (
     <div className="min-h-screen bg-slate-50">
       <div className="max-w-4xl mx-auto px-4 py-8">
-        <Breadcrumbs items={[
-          { label: 'Admin', href: '/admin/dashboard' },
-          { label: 'Integrations', href: '/admin/integrations' },
-          { label: 'Calendly' },
-        ]} />
+        <Breadcrumbs
+          items={[
+            { label: 'Admin', href: '/admin/dashboard' },
+            { label: 'Integrations', href: '/admin/integrations' },
+            { label: 'Calendly' },
+          ]}
+        />
 
         <div className="mt-6 flex items-center gap-4">
           <div className="w-12 h-12 bg-white rounded-xl border border-slate-200 flex items-center justify-center shadow-sm">
@@ -56,9 +60,11 @@ export default async function CalendlyIntegrationPage() {
           <div className="bg-white rounded-xl border border-slate-200 p-4">
             <p className="text-xs text-slate-500 uppercase tracking-wide font-medium">Webhook</p>
             <div className="mt-1 flex items-center gap-1.5">
-              {hasSecret
-                ? <CheckCircle2 className="w-4 h-4 text-green-500" />
-                : <XCircle className="w-4 h-4 text-red-400" />}
+              {hasSecret ? (
+                <CheckCircle2 className="w-4 h-4 text-green-500" />
+              ) : (
+                <XCircle className="w-4 h-4 text-red-400" />
+              )}
               <span className="text-sm font-medium text-slate-900">
                 {hasSecret ? 'Secret configured' : 'Secret missing'}
               </span>
@@ -84,7 +90,8 @@ export default async function CalendlyIntegrationPage() {
             <code className="text-sm text-slate-700 flex-1 break-all">{webhookUrl}</code>
           </div>
           <p className="text-xs text-slate-400 mt-2">
-            Subscribe to: <code className="bg-slate-100 px-1 rounded">invitee.created</code> and <code className="bg-slate-100 px-1 rounded">invitee.canceled</code>
+            Subscribe to: <code className="bg-slate-100 px-1 rounded">invitee.created</code> and{' '}
+            <code className="bg-slate-100 px-1 rounded">invitee.canceled</code>
           </p>
 
           <div className="mt-4 pt-4 border-t border-slate-100">
@@ -92,15 +99,33 @@ export default async function CalendlyIntegrationPage() {
             <div className="space-y-2 text-sm">
               <div className="flex items-center justify-between">
                 <span className="text-slate-600">Main booking URL</span>
-                {hasPublicUrl
-                  ? <a href={process.env.NEXT_PUBLIC_CALENDLY_URL} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-xs">View →</a>
-                  : <span className="text-xs text-slate-400">Set NEXT_PUBLIC_CALENDLY_URL</span>}
+                {hasPublicUrl ? (
+                  <a
+                    href={process.env.NEXT_PUBLIC_CALENDLY_URL}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline text-xs"
+                  >
+                    View →
+                  </a>
+                ) : (
+                  <span className="text-xs text-slate-400">Set NEXT_PUBLIC_CALENDLY_URL</span>
+                )}
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-slate-600">30-min link</span>
-                {process.env.NEXT_PUBLIC_CALENDLY_30MIN
-                  ? <a href={process.env.NEXT_PUBLIC_CALENDLY_30MIN} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline text-xs">View →</a>
-                  : <span className="text-xs text-slate-400">Set NEXT_PUBLIC_CALENDLY_30MIN</span>}
+                {process.env.NEXT_PUBLIC_CALENDLY_30MIN ? (
+                  <a
+                    href={process.env.NEXT_PUBLIC_CALENDLY_30MIN}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-blue-600 hover:underline text-xs"
+                  >
+                    View →
+                  </a>
+                ) : (
+                  <span className="text-xs text-slate-400">Set NEXT_PUBLIC_CALENDLY_30MIN</span>
+                )}
               </div>
             </div>
           </div>
@@ -121,28 +146,44 @@ export default async function CalendlyIntegrationPage() {
               <table className="w-full text-sm">
                 <thead>
                   <tr className="border-b border-slate-100">
-                    {['Name', 'Email', 'Event', 'Time', 'Source', 'Status'].map(h => (
-                      <th key={h} className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wide">{h}</th>
+                    {['Name', 'Email', 'Event', 'Time', 'Source', 'Status'].map((h) => (
+                      <th
+                        key={h}
+                        className="text-left px-4 py-3 text-xs font-semibold text-slate-400 uppercase tracking-wide"
+                      >
+                        {h}
+                      </th>
                     ))}
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-slate-50">
-                  {bookings.map(b => (
+                  {bookings.map((b) => (
                     <tr key={b.id} className="hover:bg-slate-50">
                       <td className="px-4 py-3 font-medium text-slate-900">{b.invitee_name}</td>
                       <td className="px-4 py-3 text-slate-500">{b.invitee_email}</td>
-                      <td className="px-4 py-3 text-slate-600 max-w-[160px] truncate">{b.event_name}</td>
+                      <td className="px-4 py-3 text-slate-600 max-w-[160px] truncate">
+                        {b.event_name}
+                      </td>
                       <td className="px-4 py-3 text-slate-500 whitespace-nowrap">
                         <span className="flex items-center gap-1">
                           <Clock className="w-3 h-3" />
-                          {new Date(b.start_time).toLocaleDateString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' })}
+                          {new Date(b.start_time).toLocaleDateString('en-US', {
+                            month: 'short',
+                            day: 'numeric',
+                            hour: 'numeric',
+                            minute: '2-digit',
+                          })}
                         </span>
                       </td>
                       <td className="px-4 py-3 text-slate-400">{b.utm_source ?? '—'}</td>
                       <td className="px-4 py-3">
-                        <span className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
-                          b.status === 'scheduled' ? 'bg-green-100 text-green-700' : 'bg-slate-100 text-slate-500'
-                        }`}>
+                        <span
+                          className={`inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium ${
+                            b.status === 'scheduled'
+                              ? 'bg-green-100 text-green-700'
+                              : 'bg-slate-100 text-slate-500'
+                          }`}
+                        >
                           {b.status}
                         </span>
                       </td>

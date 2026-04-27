@@ -1,11 +1,11 @@
-
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 
 export const metadata: Metadata = {
   title: 'Privacy Policy | Elevate For Humanity',
-  description: 'Privacy Policy describing how Elevate For Humanity collects, uses, and protects personal information.',
+  description:
+    'Privacy Policy describing how Elevate For Humanity collects, uses, and protects personal information.',
 };
 
 export default function PrivacyPolicyPage() {
@@ -30,7 +30,9 @@ export default function PrivacyPolicyPage() {
               <li>Name, email address, phone number, and mailing address</li>
               <li>Program interest and application details</li>
               <li>Payment and transaction records, when applicable</li>
-              <li>Technical information such as IP address, browser type, and device information</li>
+              <li>
+                Technical information such as IP address, browser type, and device information
+              </li>
               <li>Attendance, progress, and assessment records for enrolled learners</li>
             </ul>
 
@@ -46,14 +48,14 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-xl font-bold text-gray-900 mt-8 mb-4">3. Information Sharing</h2>
             <p className="text-gray-700 mb-4">
               We do not sell personal information. We may share information with service providers,
-              payment processors, learning technology vendors, and government or program partners when
-              required to operate services, fulfill program requirements, or comply with law.
+              payment processors, learning technology vendors, and government or program partners
+              when required to operate services, fulfill program requirements, or comply with law.
             </p>
 
             <h2 className="text-xl font-bold text-gray-900 mt-8 mb-4">4. Data Security</h2>
             <p className="text-gray-700 mb-4">
-              We use reasonable administrative, technical, and physical safeguards to protect personal
-              information. No method of transmission or storage is completely secure.
+              We use reasonable administrative, technical, and physical safeguards to protect
+              personal information. No method of transmission or storage is completely secure.
             </p>
 
             <h2 className="text-xl font-bold text-gray-900 mt-8 mb-4">5. Your Choices</h2>
@@ -65,7 +67,10 @@ export default function PrivacyPolicyPage() {
             <h2 className="text-xl font-bold text-gray-900 mt-8 mb-4">6. Contact</h2>
             <p className="text-gray-700 mb-4">
               For privacy-related questions, contact:{' '}
-              <a href="mailto:info@elevateforhumanity.org" className="text-brand-green-600 hover:underline">
+              <a
+                href="mailto:info@elevateforhumanity.org"
+                className="text-brand-green-600 hover:underline"
+              >
                 info@elevateforhumanity.org
               </a>
             </p>

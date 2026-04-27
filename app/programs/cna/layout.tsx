@@ -2,9 +2,10 @@ import { Metadata } from 'next';
 
 export const metadata: Metadata = {
   title: 'CNA Training Program | Elevate for Humanity',
-  description: 'Become a Certified Nursing Assistant. CNA training program with hands-on clinical experience. $1,200 tuition with payment plans.',
+  description:
+    'Become a Certified Nursing Assistant. CNA training program with hands-on clinical experience. $1,200 tuition with payment plans.',
   alternates: {
-    canonical: 'https://www.elevateforhumanity.org/programs/cna',
+    canonical: 'https://www.elevateforhumanity.org/programs/certified-nursing-assistant',
   },
 };
 

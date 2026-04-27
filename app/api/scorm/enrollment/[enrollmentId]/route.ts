@@ -1,4 +1,3 @@
-
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
@@ -9,10 +8,7 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-async function _GET(
-  request: Request,
-  { params }: { params: Promise<{ enrollmentId: string }> }
-) {
+async function _GET(request: Request, { params }: { params: Promise<{ enrollmentId: string }> }) {
   try {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
@@ -33,17 +29,14 @@ async function _GET(
         `
         *,
         scorm_package:scorm_packages(*)
-      `
+      `,
       )
       .eq('id', enrollmentId)
       .maybeSingle();
 
     if (error) {
       logger.error('Error fetching SCORM enrollment:', error);
-      return NextResponse.json(
-        { error: 'Enrollment not found' },
-        { status: 404 }
-      );
+      return NextResponse.json({ error: 'Enrollment not found' }, { status: 404 });
     }
 
     // Verify user has access
@@ -60,12 +53,9 @@ async function _GET(
     }
 
     return NextResponse.json(enrollment);
-  } catch (error) { 
+  } catch (error) {
     logger.error('SCORM enrollment GET error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/scorm/enrollment/[enrollmentId]', _GET);

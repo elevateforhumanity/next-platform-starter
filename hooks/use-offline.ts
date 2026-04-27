@@ -23,7 +23,7 @@ export interface UseOfflineReturn {
  */
 export function useOffline(): UseOfflineReturn {
   const [isOnline, setIsOnline] = useState(
-    typeof navigator !== 'undefined' ? navigator.onLine : true
+    typeof navigator !== 'undefined' ? navigator.onLine : true,
   );
   const [isServiceWorkerReady, setIsServiceWorkerReady] = useState(false);
   const [pendingActionsCount, setPendingActionsCount] = useState(0);
@@ -74,7 +74,9 @@ export function useOffline(): UseOfflineReturn {
       try {
         const actions = await db.getAllOfflineActions();
         setPendingActionsCount(actions.length);
-      } catch (error) { /* Error handled silently */ }
+      } catch (error) {
+        /* Error handled silently */
+      }
     };
 
     updateCount();
@@ -117,7 +119,7 @@ export function useOffline(): UseOfflineReturn {
       });
       setPendingActionsCount((count) => count + 1);
     },
-    [db]
+    [db],
   );
 
   const clearOfflineActions = useCallback(async () => {
@@ -157,7 +159,9 @@ export function useOfflineCache<T>(key: string, expiresIn?: number) {
       try {
         const cachedData = await db.getCachedData(key);
         setData(cachedData);
-      } catch (error) { /* Error handled silently */ } finally {
+      } catch (error) {
+        /* Error handled silently */
+      } finally {
         setLoading(false);
       }
     };
@@ -170,7 +174,7 @@ export function useOfflineCache<T>(key: string, expiresIn?: number) {
       await db.setCachedData(key, newData, expiresIn);
       setData(newData);
     },
-    [db, key, expiresIn]
+    [db, key, expiresIn],
   );
 
   const clearData = useCallback(async () => {

@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -33,7 +33,7 @@ export default function AttendanceTracker({
 
   const supabase = createBrowserClient(
     process.env.NEXT_PUBLIC_SUPABASE_URL!,
-    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!
+    process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY!,
   );
 
   // Start attendance session
@@ -62,7 +62,8 @@ export default function AttendanceTracker({
         loginTimeRef.current = new Date();
         lastActivityRef.current = new Date();
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }, [supabase, courseId, activityType]);
@@ -73,9 +74,7 @@ export default function AttendanceTracker({
 
     try {
       const now = new Date();
-      const durationMinutes = Math.round(
-        (now.getTime() - loginTimeRef.current.getTime()) / 60000
-      );
+      const durationMinutes = Math.round((now.getTime() - loginTimeRef.current.getTime()) / 60000);
 
       await supabase
         .from('attendance_log')
@@ -84,7 +83,8 @@ export default function AttendanceTracker({
           duration_minutes: durationMinutes,
         })
         .eq('id', sessionIdRef.current);
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }, [supabase]);
@@ -127,11 +127,12 @@ export default function AttendanceTracker({
             sessions_count: 1,
           });
         }
-      } catch (error) { /* Error handled silently */ 
+      } catch (error) {
+        /* Error handled silently */
         // Error: $1
       }
     },
-    [supabase]
+    [supabase],
   );
 
   // End session
@@ -140,9 +141,7 @@ export default function AttendanceTracker({
 
     try {
       const now = new Date();
-      const durationMinutes = Math.round(
-        (now.getTime() - loginTimeRef.current.getTime()) / 60000
-      );
+      const durationMinutes = Math.round((now.getTime() - loginTimeRef.current.getTime()) / 60000);
 
       await supabase
         .from('attendance_log')
@@ -159,7 +158,8 @@ export default function AttendanceTracker({
       if (user) {
         await updateWeeklyHours(user.id, durationMinutes);
       }
-    } catch (error) { /* Error handled silently */ 
+    } catch (error) {
+      /* Error handled silently */
       // Error: $1
     }
   }, [supabase, updateWeeklyHours]);
@@ -175,8 +175,7 @@ export default function AttendanceTracker({
   // Check for inactivity (5 minutes)
   const checkInactivity = useCallback(() => {
     const now = new Date();
-    const inactiveMinutes =
-      (now.getTime() - lastActivityRef.current.getTime()) / 60000;
+    const inactiveMinutes = (now.getTime() - lastActivityRef.current.getTime()) / 60000;
 
     if (inactiveMinutes > 5 && isActiveRef.current) {
       isActiveRef.current = false;
@@ -214,13 +213,7 @@ export default function AttendanceTracker({
 
       endSession();
     };
-  }, [
-    startSession,
-    handleActivity,
-    checkInactivity,
-    updateSession,
-    endSession,
-  ]);
+  }, [startSession, handleActivity, checkInactivity, updateSession, endSession]);
 
   // This component doesn't render anything visible
   return null;

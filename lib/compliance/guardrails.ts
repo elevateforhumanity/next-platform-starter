@@ -1,4 +1,3 @@
-
 /**
  * AUTOMATED COMPLIANCE GUARDRAILS
  *
@@ -652,9 +651,7 @@ export function getCriticalGuardrails(): GuardrailPolicy[] {
   return CRITICAL_GUARDRAILS;
 }
 
-export function getGuardrailsByViolationType(
-  type: ViolationType
-): GuardrailPolicy[] {
+export function getGuardrailsByViolationType(type: ViolationType): GuardrailPolicy[] {
   return getAllGuardrails().filter((g) => g.violationType === type);
 }
 
@@ -662,9 +659,7 @@ export function shouldAutoEnforce(guardrail: GuardrailPolicy): boolean {
   return guardrail.autoEnforce;
 }
 
-export function getEnforcementAction(
-  guardrail: GuardrailPolicy
-): EnforcementAction {
+export function getEnforcementAction(guardrail: GuardrailPolicy): EnforcementAction {
   return guardrail.enforcementAction;
 }
 

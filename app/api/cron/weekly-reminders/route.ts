@@ -25,23 +25,26 @@ async function _GET(request: NextRequest) {
   // Verify cron secret
   const authHeader = request.headers.get('authorization');
   const cronSecret = process.env.CRON_SECRET;
-  
+
   if (cronSecret && authHeader !== `Bearer ${cronSecret}`) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   if (!VAPID_PUBLIC_KEY || !VAPID_PRIVATE_KEY) {
-    return NextResponse.json({ 
-      error: 'Push notifications not configured',
-      message: 'VAPID keys not set' 
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: 'Push notifications not configured',
+        message: 'VAPID keys not set',
+      },
+      { status: 500 },
+    );
   }
 
   try {
     // Create admin Supabase client
     const supabase = createClient(
       process.env.NEXT_PUBLIC_SUPABASE_URL!,
-      process.env.SUPABASE_SERVICE_ROLE_KEY!
+      process.env.SUPABASE_SERVICE_ROLE_KEY!,
     );
 
     // Get all apprentices who haven't logged hours this week
@@ -50,8 +53,7 @@ async function _GET(request: NextRequest) {
     weekStart.setHours(0, 0, 0, 0);
 
     // Get apprentices with push subscriptions
-    const { data: subscriptions, error: subError } = await supabase
-      .from('push_subscriptions')
+    const { data: subscriptions, error: subError } = await supabase.from('push_subscriptions')
       .select(`
         id,
         user_id,
@@ -66,9 +68,9 @@ async function _GET(request: NextRequest) {
     }
 
     if (!subscriptions || subscriptions.length === 0) {
-      return NextResponse.json({ 
+      return NextResponse.json({
         message: 'No push subscriptions found',
-        sent: 0 
+        sent: 0,
       });
     }
 
@@ -78,7 +80,7 @@ async function _GET(request: NextRequest) {
       .select('user_id')
       .eq('role', 'apprentice');
 
-    const apprenticeIds = new Set(apprentices?.map(a => a.user_id) || []);
+    const apprenticeIds = new Set(apprentices?.map((a) => a.user_id) || []);
 
     // Get users who have logged hours this week
     const { data: recentLogs } = await supabase
@@ -86,11 +88,11 @@ async function _GET(request: NextRequest) {
       .select('apprentice_id')
       .gte('created_at', weekStart.toISOString());
 
-    const usersWithLogs = new Set(recentLogs?.map(l => l.apprentice_id) || []);
+    const usersWithLogs = new Set(recentLogs?.map((l) => l.apprentice_id) || []);
 
     // Filter to apprentices who haven't logged this week
-    const subscriptionsToNotify = subscriptions.filter(sub => 
-      apprenticeIds.has(sub.user_id) && !usersWithLogs.has(sub.user_id)
+    const subscriptionsToNotify = subscriptions.filter(
+      (sub) => apprenticeIds.has(sub.user_id) && !usersWithLogs.has(sub.user_id),
     );
 
     let sent = 0;
@@ -128,10 +130,7 @@ async function _GET(request: NextRequest) {
 
         // Remove invalid subscriptions
         if (error.statusCode === 410 || error.statusCode === 404) {
-          await supabase
-            .from('push_subscriptions')
-            .delete()
-            .eq('id', subscription.id);
+          await supabase.from('push_subscriptions').delete().eq('id', subscription.id);
         }
       }
     }

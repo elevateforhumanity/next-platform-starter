@@ -18,10 +18,7 @@ export const dynamic = 'force-dynamic';
  *
  * Requires admin/super_admin/staff role.
  */
-export async function POST(
-  request: NextRequest,
-  { params }: { params: { courseId: string } }
-) {
+export async function POST(request: NextRequest, { params }: { params: { courseId: string } }) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
 
@@ -36,16 +33,19 @@ export async function POST(
   const audit = await runAndPersistAudit(courseId, user.id);
 
   if (!audit.publishable) {
-    return NextResponse.json({
-      error:    'Course publish blocked — resolve all fatal and blocking issues first.',
-      publishable: false,
-      issues:   audit.issues,
-      summary: {
-        fatal:    audit.issues.filter(i => i.severity === 'fatal').length,
-        blocking: audit.issues.filter(i => i.severity === 'blocking').length,
-        warning:  audit.issues.filter(i => i.severity === 'warning').length,
+    return NextResponse.json(
+      {
+        error: 'Course publish blocked — resolve all fatal and blocking issues first.',
+        publishable: false,
+        issues: audit.issues,
+        summary: {
+          fatal: audit.issues.filter((i) => i.severity === 'fatal').length,
+          blocking: audit.issues.filter((i) => i.severity === 'blocking').length,
+          warning: audit.issues.filter((i) => i.severity === 'warning').length,
+        },
       },
-    }, { status: 422 });
+      { status: 422 },
+    );
   }
 
   // All checks passed — publish
@@ -53,9 +53,9 @@ export async function POST(
   const { data: course, error: publishErr } = await db
     .from('courses')
     .update({
-      status:       'published',
+      status: 'published',
       published_at: new Date().toISOString(),
-      updated_at:   new Date().toISOString(),
+      updated_at: new Date().toISOString(),
     })
     .eq('id', courseId)
     .select('id, title, slug, status, published_at')
@@ -66,6 +66,6 @@ export async function POST(
   return NextResponse.json({
     publishable: true,
     course,
-    warnings: audit.issues.filter(i => i.severity === 'warning'),
+    warnings: audit.issues.filter((i) => i.severity === 'warning'),
   });
 }

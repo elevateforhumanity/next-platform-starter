@@ -22,18 +22,18 @@ async function _POST(req: Request) {
 
     // Validate required fields
     if (!body.name || !body.email) {
-      return NextResponse.json(
-        { error: 'Name and email are required' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Name and email are required' }, { status: 400 });
     }
 
     const supabase = await getAdminClient();
 
     if (!supabase) {
       return NextResponse.json(
-        { error: 'Service temporarily unavailable. Please call 317-314-3757 for immediate assistance.' },
-        { status: 503 }
+        {
+          error:
+            'Service temporarily unavailable. Please call 317-314-3757 for immediate assistance.',
+        },
+        { status: 503 },
       );
     }
 
@@ -62,7 +62,7 @@ async function _POST(req: Request) {
           status: existing.status,
           submittedAt: existing.created_at,
         },
-        { status: 409 } // Conflict
+        { status: 409 }, // Conflict
       );
     }
 
@@ -87,11 +87,12 @@ async function _POST(req: Request) {
       .single();
 
     if (error) {
-      logger.error('Supabase insert error', { code: error.code, details: error.details, hint: error.hint });
-      return NextResponse.json(
-        { error: 'Failed to save inquiry' },
-        { status: 500 }
-      );
+      logger.error('Supabase insert error', {
+        code: error.code,
+        details: error.details,
+        hint: error.hint,
+      });
+      return NextResponse.json({ error: 'Failed to save inquiry' }, { status: 500 });
     }
 
     // Send email notifications
@@ -126,7 +127,7 @@ async function _POST(req: Request) {
             </div>
           `,
           }),
-        }
+        },
       );
 
       // Notification to staff
@@ -148,11 +149,11 @@ async function _POST(req: Request) {
             <p><a href="https://www.elevateforhumanity.org/admin/applications">View in Admin Portal</a></p>
           `,
           }),
-        }
+        },
       );
     } catch (emailError) {
-        logger.error("Unhandled error", emailError instanceof Error ? emailError : undefined);
-      }
+      logger.error('Unhandled error', emailError instanceof Error ? emailError : undefined);
+    }
 
     return NextResponse.json(
       {
@@ -161,13 +162,10 @@ async function _POST(req: Request) {
         email: data.email,
         program: data.program_id,
       },
-      { status: 200 }
+      { status: 200 },
     );
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Unexpected error processing inquiry' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Unexpected error processing inquiry' }, { status: 500 });
   }
 }
 export const POST = withApiAudit('/api/inquiries', _POST);

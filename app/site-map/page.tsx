@@ -19,9 +19,7 @@ export default function SitemapPage() {
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {headerNavigation.map((section, index) => (
             <div key={index} className="bg-white rounded-lg shadow-sm p-6">
-              <h2 className="text-xl font-bold mb-4 text-orange-600">
-                {section.label}
-              </h2>
+              <h2 className="text-xl font-bold mb-4 text-orange-600">{section.label}</h2>
               <ul className="space-y-2">
                 {section.items.map((item, itemIndex) => (
                   <li key={itemIndex}>

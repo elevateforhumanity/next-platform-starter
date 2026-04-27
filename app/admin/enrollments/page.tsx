@@ -28,36 +28,59 @@ export default async function AdminEnrollmentsPage() {
   // Enrich with profile data
   const pendingWithProfiles = await Promise.all(
     (pendingAccess || []).map(async (e: any) => {
-      const { data: p } = await db.from('profiles')
+      const { data: p } = await db
+        .from('profiles')
         .select('full_name, email, onboarding_completed')
-        .eq('id', e.user_id).maybeSingle();
+        .eq('id', e.user_id)
+        .maybeSingle();
       return { ...e, profile: p };
-    })
+    }),
   );
 
   const { data: rawEnrollments, error: enrollmentsError } = await db
     .from('program_enrollments')
     .select('*, course:courses(id, title)')
     .order('enrolled_at', { ascending: false });
-  if (enrollmentsError) throw new Error(`program_enrollments query failed: ${enrollmentsError.message}`);
+  if (enrollmentsError)
+    throw new Error(`program_enrollments query failed: ${enrollmentsError.message}`);
 
   // Supporting data — degrade gracefully if unavailable
-  const { data: users } = await db.from('profiles').select('id, full_name, email').order('full_name');
+  const { data: users } = await db
+    .from('profiles')
+    .select('id, full_name, email')
+    .order('full_name');
 
   // Hydrate student profiles separately (user_id → auth.users, no FK to profiles)
-  const enrollUserIds = [...new Set((rawEnrollments ?? []).map((e: any) => e.user_id).filter(Boolean))];
-  const enrollProfileMap = Object.fromEntries((users ?? []).filter((p: any) => enrollUserIds.includes(p.id)).map((p: any) => [p.id, p]));
-  const enrollments = (rawEnrollments ?? []).map((e: any) => ({ ...e, student: enrollProfileMap[e.user_id] ?? null }));
-  const { data: coursesRaw } = await db.from('courses').select('id, title').eq('is_active', true).order('title');
-  const { data: cohortsRaw } = await db.from('cohorts').select('id, name, code, status').eq('status', 'active').order('name');
+  const enrollUserIds = [
+    ...new Set((rawEnrollments ?? []).map((e: any) => e.user_id).filter(Boolean)),
+  ];
+  const enrollProfileMap = Object.fromEntries(
+    (users ?? []).filter((p: any) => enrollUserIds.includes(p.id)).map((p: any) => [p.id, p]),
+  );
+  const enrollments = (rawEnrollments ?? []).map((e: any) => ({
+    ...e,
+    student: enrollProfileMap[e.user_id] ?? null,
+  }));
+  const { data: coursesRaw } = await db
+    .from('courses')
+    .select('id, title')
+    .eq('is_active', true)
+    .order('title');
+  const { data: cohortsRaw } = await db
+    .from('cohorts')
+    .select('id, name, code, status')
+    .eq('status', 'active')
+    .order('name');
 
   const allEnrollments = enrollments;
   const stats = {
-    total:     allEnrollments.length,
-    active:    allEnrollments.filter((e: any) => e.status === 'active').length,
+    total: allEnrollments.length,
+    active: allEnrollments.filter((e: any) => e.status === 'active').length,
     completed: allEnrollments.filter((e: any) => e.status === 'completed').length,
-    atRisk:    allEnrollments.filter((e: any) => e.at_risk).length,
-    pending:   allEnrollments.filter((e: any) => ['pending', 'pending_approval', 'pending_review'].includes(e.status)).length,
+    atRisk: allEnrollments.filter((e: any) => e.at_risk).length,
+    pending: allEnrollments.filter((e: any) =>
+      ['pending', 'pending_approval', 'pending_review'].includes(e.status),
+    ).length,
   };
 
   return (
@@ -66,11 +89,23 @@ export default async function AdminEnrollmentsPage() {
       description="Manage student program enrollments, approvals, and progress."
       breadcrumbs={[{ label: 'Admin', href: '/admin/dashboard' }, { label: 'Enrollments' }]}
       stats={[
-        { label: 'Total',     value: stats.total,     icon: Users,         color: 'slate' },
-        { label: 'Active',    value: stats.active,    icon: TrendingUp,    color: 'green' },
-        { label: 'Pending',   value: stats.pending,   icon: Clock,         color: 'amber', alert: stats.pending > 0 },
-        { label: 'Completed', value: stats.completed, icon: CheckCircle,   color: 'blue' },
-        { label: 'At Risk',   value: stats.atRisk,    icon: AlertTriangle, color: 'red',   alert: stats.atRisk > 0 },
+        { label: 'Total', value: stats.total, icon: Users, color: 'slate' },
+        { label: 'Active', value: stats.active, icon: TrendingUp, color: 'green' },
+        {
+          label: 'Pending',
+          value: stats.pending,
+          icon: Clock,
+          color: 'amber',
+          alert: stats.pending > 0,
+        },
+        { label: 'Completed', value: stats.completed, icon: CheckCircle, color: 'blue' },
+        {
+          label: 'At Risk',
+          value: stats.atRisk,
+          icon: AlertTriangle,
+          color: 'red',
+          alert: stats.atRisk > 0,
+        },
       ]}
     >
       {/* Pending access — students who paid + completed onboarding, waiting for admin grant */}

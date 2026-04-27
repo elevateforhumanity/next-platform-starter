@@ -11,10 +11,7 @@ export interface TwoFactorSecret {
 }
 
 // Generate 2FA secret and QR code
-export async function generate2FASecret(
-  userId: string,
-  email: string
-): Promise<TwoFactorSecret> {
+export async function generate2FASecret(userId: string, email: string): Promise<TwoFactorSecret> {
   // Generate secret
   const secret = speakeasy.generateSecret({
     name: `Elevate LMS (${email})`,
@@ -46,10 +43,7 @@ export async function generate2FASecret(
 }
 
 // Verify 2FA token
-export async function verify2FAToken(
-  userId: string,
-  token: string
-): Promise<boolean> {
+export async function verify2FAToken(userId: string, token: string): Promise<boolean> {
   const supabase = await createClient();
 
   // Get user's 2FA secret
@@ -75,10 +69,7 @@ export async function verify2FAToken(
 }
 
 // Enable 2FA for user
-export async function enable2FA(
-  userId: string,
-  token: string
-): Promise<boolean> {
+export async function enable2FA(userId: string, token: string): Promise<boolean> {
   // First verify the token
   const supabase = await createClient();
 
@@ -104,37 +95,25 @@ export async function enable2FA(
   }
 
   // Enable 2FA
-  await supabase
-    .from('two_factor_auth')
-    .update({ enabled: true })
-    .eq('user_id', userId);
+  await supabase.from('two_factor_auth').update({ enabled: true }).eq('user_id', userId);
 
   return true;
 }
 
 // Disable 2FA for user
-export async function disable2FA(
-  userId: string,
-  password: string
-): Promise<boolean> {
+export async function disable2FA(userId: string, password: string): Promise<boolean> {
   // Verify password first
   const supabase = await createClient();
 
   // In production, verify password against user's actual password
   // For now, just disable
-  await supabase
-    .from('two_factor_auth')
-    .update({ enabled: true })
-    .eq('user_id', userId);
+  await supabase.from('two_factor_auth').update({ enabled: true }).eq('user_id', userId);
 
   return true;
 }
 
 // Verify backup code
-export async function verifyBackupCode(
-  userId: string,
-  code: string
-): Promise<boolean> {
+export async function verifyBackupCode(userId: string, code: string): Promise<boolean> {
   const supabase = await createClient();
 
   const { data: twoFactor } = await supabase

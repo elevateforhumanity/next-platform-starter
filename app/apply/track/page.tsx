@@ -3,7 +3,7 @@
 import React from 'react';
 
 import { useState, useEffect } from 'react';
-import { Search, Clock, XCircle, Phone, Mail, CheckCircle, } from 'lucide-react';
+import { Search, Clock, XCircle, Phone, Mail, CheckCircle } from 'lucide-react';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
@@ -36,8 +36,7 @@ const statusConfig = {
     bg: 'bg-brand-blue-50',
     border: 'border-brand-blue-200',
     label: 'Contacted',
-    description:
-      'An advisor has reached out to you. Please check your email or phone.',
+    description: 'An advisor has reached out to you. Please check your email or phone.',
   },
   approved: {
     icon: CheckCircle,
@@ -53,12 +52,9 @@ const statusConfig = {
     bg: 'bg-brand-red-50',
     border: 'border-brand-red-200',
     label: 'Not Approved',
-    description:
-      'Unfortunately, we cannot proceed with your application at this time.',
+    description: 'Unfortunately, we cannot proceed with your application at this time.',
   },
 };
-
-
 
 export default function TrackApplicationPage() {
   const [searchId, setSearchId] = useState('');
@@ -101,15 +97,11 @@ export default function TrackApplicationPage() {
       if (applicationId) params.append('id', applicationId);
       if (applicationEmail) params.append('email', applicationEmail);
 
-      const response = await fetch(
-        `/api/applications/track?${params.toString()}`
-      );
+      const response = await fetch(`/api/applications/track?${params.toString()}`);
 
       if (!response.ok) {
         if (response.status === 404) {
-          throw new Error(
-            'Application not found. Please check your ID or email.'
-          );
+          throw new Error('Application not found. Please check your ID or email.');
         }
         throw new Error('Failed to retrieve application status');
       }
@@ -117,9 +109,7 @@ export default function TrackApplicationPage() {
       const data = await response.json();
       setApplication(data);
     } catch (err: any) {
-      setError(
-        'Operation failed'
-      );
+      setError('Operation failed');
     } finally {
       setLoading(false);
     }
@@ -145,9 +135,7 @@ export default function TrackApplicationPage() {
       <div className="max-w-4xl mx-auto px-4 py-16">
         {/* Header */}
         <div className="text-center mb-12">
-          <h1 className="text-4xl font-bold text-black mb-4">
-            Track Your Application
-          </h1>
+          <h1 className="text-4xl font-bold text-black mb-4">Track Your Application</h1>
           <p className="text-lg text-black">
             Enter your Application ID or Email Address to check your status
           </p>
@@ -173,15 +161,10 @@ export default function TrackApplicationPage() {
               />
             </div>
 
-            <div className="text-center text-sm text-black font-semibold">
-              OR
-            </div>
+            <div className="text-center text-sm text-black font-semibold">OR</div>
 
             <div>
-              <label
-                htmlFor="email"
-                className="block text-sm font-semibold text-black mb-2"
-              >
+              <label htmlFor="email" className="block text-sm font-semibold text-black mb-2">
                 Email Address (Optional)
               </label>
               <input
@@ -228,9 +211,7 @@ export default function TrackApplicationPage() {
             >
               <StatusIcon className={`w-8 h-8 ${status.color} flex-shrink-0`} />
               <div className="flex-1">
-                <h2 className={`text-2xl font-bold ${status.color} mb-2`}>
-                  {status.label}
-                </h2>
+                <h2 className={`text-2xl font-bold ${status.color} mb-2`}>{status.label}</h2>
                 <p className="text-black">{status.description}</p>
               </div>
             </div>
@@ -238,77 +219,52 @@ export default function TrackApplicationPage() {
             <div className="space-y-4">
               <div className="grid md:grid-cols-2 gap-4">
                 <div>
-                  <p className="text-sm font-semibold text-black mb-1">
-                    Applicant Name
-                  </p>
+                  <p className="text-sm font-semibold text-black mb-1">Applicant Name</p>
                   <p className="text-black font-medium">
                     {application.first_name} {application.last_name}
                   </p>
                 </div>
                 <div>
-                  <p className="text-sm font-semibold text-black mb-1">
-                    Email
-                  </p>
-                  <p className="text-black font-medium">
-                    {application.email}
-                  </p>
+                  <p className="text-sm font-semibold text-black mb-1">Email</p>
+                  <p className="text-black font-medium">{application.email}</p>
                 </div>
               </div>
 
               {application.phone && (
                 <div>
-                  <p className="text-sm font-semibold text-black mb-1">
-                    Phone
-                  </p>
-                  <p className="text-black font-medium">
-                    {application.phone}
-                  </p>
+                  <p className="text-sm font-semibold text-black mb-1">Phone</p>
+                  <p className="text-black font-medium">{application.phone}</p>
                 </div>
               )}
 
               {application.program_id && (
                 <div>
-                  <p className="text-sm font-semibold text-black mb-1">
-                    Program Interest
-                  </p>
-                  <p className="text-black font-medium">
-                    {application.program_id}
-                  </p>
+                  <p className="text-sm font-semibold text-black mb-1">Program Interest</p>
+                  <p className="text-black font-medium">{application.program_id}</p>
                 </div>
               )}
 
               <div>
-                <p className="text-sm font-semibold text-black mb-1">
-                  Submitted
-                </p>
+                <p className="text-sm font-semibold text-black mb-1">Submitted</p>
                 <p className="text-black font-medium">
-                  {new Date(application.submitted_at).toLocaleDateString(
-                    'en-US',
-                    {
-                      year: 'numeric',
-                      month: 'long',
-                      day: 'numeric',
-                      hour: '2-digit',
-                      minute: '2-digit',
-                    }
-                  )}
+                  {new Date(application.submitted_at).toLocaleDateString('en-US', {
+                    year: 'numeric',
+                    month: 'long',
+                    day: 'numeric',
+                    hour: '2-digit',
+                    minute: '2-digit',
+                  })}
                 </p>
               </div>
 
               <div>
-                <p className="text-sm font-semibold text-black mb-1">
-                  Application ID
-                </p>
-                <p className="text-black font-mono text-sm">
-                  {application.id}
-                </p>
+                <p className="text-sm font-semibold text-black mb-1">Application ID</p>
+                <p className="text-black font-mono text-sm">{application.id}</p>
               </div>
 
               {application.notes && (
                 <div>
-                  <p className="text-sm font-semibold text-black mb-1">
-                    Notes
-                  </p>
+                  <p className="text-sm font-semibold text-black mb-1">Notes</p>
                   <p className="text-black">{application.notes}</p>
                 </div>
               )}
@@ -320,9 +276,7 @@ export default function TrackApplicationPage() {
 
               {application.status === 'pending' && (
                 <div className="space-y-3 text-sm text-black">
-                  <p>
-                    • An advisor will review your application within 24 hours
-                  </p>
+                  <p>• An advisor will review your application within 24 hours</p>
                   <p>• We'll contact you within 1-2 business days</p>
                   <p>• Check your email and phone for updates</p>
                 </div>
@@ -360,9 +314,7 @@ export default function TrackApplicationPage() {
           <div className="bg-white rounded-xl shadow-sm p-6">
             <Phone className="w-8 h-8 text-brand-orange-600 mb-3" />
             <h3 className="font-bold text-black mb-2">Need Help?</h3>
-            <p className="text-sm text-black mb-3">
-              Contact us Monday-Friday, 9am-5pm
-            </p>
+            <p className="text-sm text-black mb-3">Contact us Monday-Friday, 9am-5pm</p>
             <a
               href="/support"
               className="inline-block text-brand-orange-600 hover:text-brand-orange-700 font-semibold text-sm"
@@ -374,9 +326,7 @@ export default function TrackApplicationPage() {
           <div className="bg-white rounded-xl shadow-sm p-6">
             <Mail className="w-8 h-8 text-brand-orange-600 mb-3" />
             <h3 className="font-bold text-black mb-2">Email Us</h3>
-            <p className="text-sm text-black mb-3">
-              We respond within 24 hours
-            </p>
+            <p className="text-sm text-black mb-3">We respond within 24 hours</p>
             <a
               href="/contact"
               className="inline-block text-brand-orange-600 hover:text-brand-orange-700 font-semibold text-sm"
@@ -388,10 +338,7 @@ export default function TrackApplicationPage() {
 
         {/* Back to Home */}
         <div className="text-center mt-8">
-          <Link
-            href="/"
-            className="text-black hover:text-black font-semibold"
-          >
+          <Link href="/" className="text-black hover:text-black font-semibold">
             ← Back to Home
           </Link>
         </div>

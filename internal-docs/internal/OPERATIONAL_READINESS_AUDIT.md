@@ -25,16 +25,16 @@ This audit examined the Elevate LMS application for operational readiness issues
 
 ### Implementation
 
-| Component | Status |
-|-----------|--------|
-| `application_state` enum | ✅ Implemented |
-| `start_application()` RPC | ✅ Implemented |
+| Component                         | Status         |
+| --------------------------------- | -------------- |
+| `application_state` enum          | ✅ Implemented |
+| `start_application()` RPC         | ✅ Implemented |
 | `advance_application_state()` RPC | ✅ Implemented |
-| `submit_application()` RPC | ✅ Implemented |
-| Server-side state validation | ✅ Implemented |
-| Field whitelisting per state | ✅ Implemented |
-| State history cap (20 entries) | ✅ Implemented |
-| RLS blocking direct writes | ✅ Implemented |
+| `submit_application()` RPC        | ✅ Implemented |
+| Server-side state validation      | ✅ Implemented |
+| Field whitelisting per state      | ✅ Implemented |
+| State history cap (20 entries)    | ✅ Implemented |
+| RLS blocking direct writes        | ✅ Implemented |
 
 ### State Machine Definition
 
@@ -44,6 +44,7 @@ started → eligibility_complete → documents_complete → review_ready → sub
 ```
 
 **Backward transitions allowed (for corrections):**
+
 - `eligibility_complete` → `started`
 - `documents_complete` → `eligibility_complete`
 - `review_ready` → `documents_complete`
@@ -57,13 +58,13 @@ started → eligibility_complete → documents_complete → review_ready → sub
 
 ### Field Whitelisting
 
-| State | Writable Fields |
-|-------|-----------------|
-| `started` | Personal info (name, email, phone, address, DOB) |
+| State                  | Writable Fields                                               |
+| ---------------------- | ------------------------------------------------------------- |
+| `started`              | Personal info (name, email, phone, address, DOB)              |
 | `eligibility_complete` | Education (high_school, graduation_year, gpa, college, major) |
-| `documents_complete` | Program selection (program_id, funding_type, employment) |
-| `review_ready` | None (read-only) |
-| `submitted` | None (immutable) |
+| `documents_complete`   | Program selection (program_id, funding_type, employment)      |
+| `review_ready`         | None (read-only)                                              |
+| `submitted`            | None (immutable)                                              |
 
 ---
 
@@ -73,15 +74,16 @@ started → eligibility_complete → documents_complete → review_ready → sub
 
 **RPC:** `rpc_enroll_student(p_user_id, p_program_id, p_idempotency_key, p_source, p_metadata)`
 
-| Guarantee | Implementation |
-|-----------|----------------|
-| Atomic transaction | Single PL/pgSQL function |
-| Idempotency | `idempotency_keys` table with unique constraint |
-| Row locking | `SELECT ... FOR UPDATE` on profile |
-| Unique constraints | `(user_id, program_id)` on program_enrollments |
-| Audit trail | `audit_logs` entry on success |
+| Guarantee          | Implementation                                  |
+| ------------------ | ----------------------------------------------- |
+| Atomic transaction | Single PL/pgSQL function                        |
+| Idempotency        | `idempotency_keys` table with unique constraint |
+| Row locking        | `SELECT ... FOR UPDATE` on profile              |
+| Unique constraints | `(user_id, program_id)` on program_enrollments  |
+| Audit trail        | `audit_logs` entry on success                   |
 
 **Operations in single transaction:**
+
 1. Insert `program_enrollments`
 2. Insert `enrollments` (loop over courses)
 3. Update `profiles.enrollment_status`
@@ -117,6 +119,7 @@ CREATE TYPE partner_approval_status AS ENUM (
 ### Retry Workflow
 
 If auth user creation fails:
+
 1. Partner remains in `approved_pending_user` state
 2. Route returns HTTP 207 (Multi-Status) with `status: 'approved_pending_user'`
 3. Admin can retry approval - Phase 1 is idempotent, Phase 2 will complete
@@ -141,11 +144,11 @@ CREATE TABLE idempotency_keys (
 
 ### Operations Tracked
 
-| Operation | Key Format |
-|-----------|------------|
-| `enroll_student` | `enrollment-{user_id}-{program_id}-{timestamp}` |
-| `approve_partner` | `approve-{application_id}-{timestamp}` |
-| `link_partner_user` | `link-{partner_id}-{auth_user_id}` |
+| Operation           | Key Format                                      |
+| ------------------- | ----------------------------------------------- |
+| `enroll_student`    | `enrollment-{user_id}-{program_id}-{timestamp}` |
+| `approve_partner`   | `approve-{application_id}-{timestamp}`          |
+| `link_partner_user` | `link-{partner_id}-{auth_user_id}`              |
 
 ### Behavior
 
@@ -253,6 +256,7 @@ COMMIT (or ROLLBACK on any error)
 ### Phase 2 Tests (16 tests)
 
 **Enrollment (6 tests):**
+
 1. First enrollment call succeeds
 2. Idempotent re-call returns same result
 3. Profile status updated to active
@@ -261,6 +265,7 @@ COMMIT (or ROLLBACK on any error)
 6. Different key, same enrollment returns existing
 
 **Partner Approval (10 tests):**
+
 1. First approval call succeeds
 2. Idempotent re-call
 3. Partner entity created
@@ -276,23 +281,23 @@ COMMIT (or ROLLBACK on any error)
 
 ## Migration Files
 
-| File | Purpose |
-|------|---------|
-| `20260129_application_state_machine.sql` | Phase 1: State machine, RPCs, RLS |
-| `20260129_application_state_machine_tests.sql` | Phase 1 test suite |
-| `20260129_phase2_enrollment_orchestration.sql` | Phase 2: Enrollment RPC |
-| `20260129_phase2_partner_approval.sql` | Phase 2: Partner approval RPCs |
-| `20260129_phase2_tests.sql` | Phase 2 test suite |
+| File                                           | Purpose                           |
+| ---------------------------------------------- | --------------------------------- |
+| `20260129_application_state_machine.sql`       | Phase 1: State machine, RPCs, RLS |
+| `20260129_application_state_machine_tests.sql` | Phase 1 test suite                |
+| `20260129_phase2_enrollment_orchestration.sql` | Phase 2: Enrollment RPC           |
+| `20260129_phase2_partner_approval.sql`         | Phase 2: Partner approval RPCs    |
+| `20260129_phase2_tests.sql`                    | Phase 2 test suite                |
 
 ---
 
 ## Files Modified
 
-| File | Change |
-|------|--------|
-| `app/apply/full/ApplicationForm.tsx` | Uses RPCs, no direct inserts |
-| `lib/enrollment/orchestrate-enrollment.ts` | Single RPC call, no multi-write logic |
-| `app/api/partner/applications/[id]/approve/route.ts` | Two-phase RPC flow |
+| File                                                 | Change                                |
+| ---------------------------------------------------- | ------------------------------------- |
+| `app/apply/full/ApplicationForm.tsx`                 | Uses RPCs, no direct inserts          |
+| `lib/enrollment/orchestrate-enrollment.ts`           | Single RPC call, no multi-write logic |
+| `app/api/partner/applications/[id]/approve/route.ts` | Two-phase RPC flow                    |
 
 ---
 
@@ -305,6 +310,7 @@ COMMIT (or ROLLBACK on any error)
 Detects partners stuck in `approved_pending_user` state for > 24 hours.
 
 **Triggers:**
+
 - Email alert to admin
 - In-app notification to all admins
 

@@ -9,7 +9,7 @@ export const dynamic = 'force-dynamic';
 /**
  * GET /api/timeclock/context
  * Returns the authenticated user's timeclock context.
- * 
+ *
  * Site access is role-based:
  * - admin/super_admin/staff: all active sites
  * - apprentice: only sites linked to their employer
@@ -23,13 +23,13 @@ async function _GET(request: NextRequest) {
     const supabase = await createClient();
 
     // Get authenticated user
-    const { data: { user }, error: authError } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser();
+
     if (authError || !user) {
-      return NextResponse.json(
-        { error: 'Unauthorized' },
-        { status: 401 }
-      );
+      return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
     // Get user profile
@@ -44,29 +44,32 @@ async function _GET(request: NextRequest) {
 
     // Get apprentice record linked to this user via user_id or email match
     let apprentice = null;
-    
+
     // First try direct user_id match
     const { data: apprenticeByUserId } = await supabase
       .from('apprentices')
-      .select(`
+      .select(
+        `
         id,
         referral_id,
         employer_id,
         rapids_id,
         start_date,
         status
-      `)
+      `,
+      )
       .eq('user_id', user.id)
       .eq('status', 'active')
       .maybeSingle();
-    
+
     if (apprenticeByUserId) {
       apprentice = apprenticeByUserId;
     } else if (user.email) {
       // Fallback: match by email if user_id not set
       const { data: apprenticeByEmail } = await supabase
         .from('apprentices')
-        .select(`
+        .select(
+          `
           id,
           referral_id,
           employer_id,
@@ -74,11 +77,12 @@ async function _GET(request: NextRequest) {
           start_date,
           status,
           email
-        `)
+        `,
+        )
         .eq('email', user.email)
         .eq('status', 'active')
         .maybeSingle();
-      
+
       if (apprenticeByEmail) {
         apprentice = apprenticeByEmail;
         // Update the apprentice record with user_id for future lookups
@@ -107,7 +111,8 @@ async function _GET(request: NextRequest) {
     // Build site query based on role
     let sitesQuery = supabase
       .from('apprentice_sites')
-      .select(`
+      .select(
+        `
         id,
         name,
         latitude,
@@ -118,7 +123,8 @@ async function _GET(request: NextRequest) {
           id,
           name
         )
-      `)
+      `,
+      )
       .eq('is_active', true);
 
     // Restrict sites for non-admin users
@@ -132,7 +138,7 @@ async function _GET(request: NextRequest) {
 
     const { data: sites } = await sitesQuery;
 
-    const allowedSites = (sites || []).map(site => ({
+    const allowedSites = (sites || []).map((site) => ({
       id: site.id,
       name: site.name || (site.shops as { name: string } | null)?.name || 'Unknown Site',
       lat: site.latitude,
@@ -164,7 +170,10 @@ async function _GET(request: NextRequest) {
           };
         }
       } catch (err) {
-        logger.error('Timeclock context: active shift lookup failed', err instanceof Error ? err : undefined);
+        logger.error(
+          'Timeclock context: active shift lookup failed',
+          err instanceof Error ? err : undefined,
+        );
       }
     }
 
@@ -181,10 +190,7 @@ async function _GET(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Timeclock context error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/timeclock/context', _GET);

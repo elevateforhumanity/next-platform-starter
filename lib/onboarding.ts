@@ -31,20 +31,22 @@ export const ONBOARDING_FLOWS: Record<string, OnboardingFlow> = {
       {
         id: 'welcome',
         title: 'Welcome! 👋',
-        description: 'Let\'s take a quick tour to help you get started with your learning journey.',
+        description: "Let's take a quick tour to help you get started with your learning journey.",
         skippable: true,
       },
       {
         id: 'dashboard',
         title: 'Your Dashboard',
-        description: 'This is your personal dashboard where you can see your enrolled courses, progress, and upcoming assignments.',
+        description:
+          'This is your personal dashboard where you can see your enrolled courses, progress, and upcoming assignments.',
         target: '[data-onboarding="dashboard"]',
         position: 'bottom',
       },
       {
         id: 'browse_courses',
         title: 'Browse Courses',
-        description: 'Explore thousands of courses across various categories. Use filters to find exactly what you need.',
+        description:
+          'Explore thousands of courses across various categories. Use filters to find exactly what you need.',
         target: '[data-onboarding="browse"]',
         position: 'bottom',
         action: 'Browse Courses',
@@ -52,28 +54,32 @@ export const ONBOARDING_FLOWS: Record<string, OnboardingFlow> = {
       {
         id: 'search',
         title: 'Search Functionality',
-        description: 'Use the search bar to quickly find courses, instructors, or topics you\'re interested in.',
+        description:
+          "Use the search bar to quickly find courses, instructors, or topics you're interested in.",
         target: '[data-onboarding="search"]',
         position: 'bottom',
       },
       {
         id: 'profile',
         title: 'Your Profile',
-        description: 'Customize your profile, track achievements, and manage your learning preferences.',
+        description:
+          'Customize your profile, track achievements, and manage your learning preferences.',
         target: '[data-onboarding="profile"]',
         position: 'left',
       },
       {
         id: 'notifications',
         title: 'Stay Updated',
-        description: 'Get real-time notifications about course updates, assignments, and messages from instructors.',
+        description:
+          'Get real-time notifications about course updates, assignments, and messages from instructors.',
         target: '[data-onboarding="notifications"]',
         position: 'bottom',
       },
       {
         id: 'complete',
-        title: 'You\'re All Set! 🎉',
-        description: 'You\'ve completed the tour. Start exploring courses and begin your learning journey today!',
+        title: "You're All Set! 🎉",
+        description:
+          "You've completed the tour. Start exploring courses and begin your learning journey today!",
         action: 'Start Learning',
       },
     ],
@@ -91,28 +97,32 @@ export const ONBOARDING_FLOWS: Record<string, OnboardingFlow> = {
       {
         id: 'course_overview',
         title: 'Course Overview',
-        description: 'Here you can see the course syllabus, instructor information, and what you\'ll learn.',
+        description:
+          "Here you can see the course syllabus, instructor information, and what you'll learn.",
         target: '[data-onboarding="course-overview"]',
         position: 'top',
       },
       {
         id: 'video_player',
         title: 'Video Player Features',
-        description: 'Control playback speed, enable captions, adjust quality, and use keyboard shortcuts (Space to play/pause, ← → to skip).',
+        description:
+          'Control playback speed, enable captions, adjust quality, and use keyboard shortcuts (Space to play/pause, ← → to skip).',
         target: '[data-onboarding="video-player"]',
         position: 'bottom',
       },
       {
         id: 'notes',
         title: 'Take Notes',
-        description: 'Take timestamped notes while watching. Click any note to jump back to that moment in the video.',
+        description:
+          'Take timestamped notes while watching. Click any note to jump back to that moment in the video.',
         target: '[data-onboarding="notes"]',
         position: 'left',
       },
       {
         id: 'discussions',
         title: 'Join Discussions',
-        description: 'Ask questions, share insights, and connect with fellow learners in the discussion forum.',
+        description:
+          'Ask questions, share insights, and connect with fellow learners in the discussion forum.',
         target: '[data-onboarding="discussions"]',
         position: 'top',
       },
@@ -134,20 +144,22 @@ export const ONBOARDING_FLOWS: Record<string, OnboardingFlow> = {
       {
         id: 'welcome',
         title: 'Welcome, Instructor! 👨‍🏫',
-        description: 'Let\'s set up your teaching environment and create your first course.',
+        description: "Let's set up your teaching environment and create your first course.",
         skippable: true,
       },
       {
         id: 'instructor_dashboard',
         title: 'Instructor Dashboard',
-        description: 'Manage all your courses, view student analytics, and track engagement from here.',
+        description:
+          'Manage all your courses, view student analytics, and track engagement from here.',
         target: '[data-onboarding="instructor-dashboard"]',
         position: 'bottom',
       },
       {
         id: 'create_course',
         title: 'Create Your First Course',
-        description: 'Click here to start creating a new course. Add videos, quizzes, assignments, and more.',
+        description:
+          'Click here to start creating a new course. Add videos, quizzes, assignments, and more.',
         target: '[data-onboarding="create-course"]',
         position: 'bottom',
         action: 'Create Course',
@@ -155,28 +167,32 @@ export const ONBOARDING_FLOWS: Record<string, OnboardingFlow> = {
       {
         id: 'course_builder',
         title: 'Course Builder',
-        description: 'Use our intuitive course builder to structure your content, upload materials, and set prerequisites.',
+        description:
+          'Use our intuitive course builder to structure your content, upload materials, and set prerequisites.',
         target: '[data-onboarding="course-builder"]',
         position: 'right',
       },
       {
         id: 'student_management',
         title: 'Manage Students',
-        description: 'View enrolled students, grade assignments, and communicate directly with learners.',
+        description:
+          'View enrolled students, grade assignments, and communicate directly with learners.',
         target: '[data-onboarding="students"]',
         position: 'left',
       },
       {
         id: 'analytics',
         title: 'Course Analytics',
-        description: 'Track student progress, engagement metrics, and course performance with detailed analytics.',
+        description:
+          'Track student progress, engagement metrics, and course performance with detailed analytics.',
         target: '[data-onboarding="analytics"]',
         position: 'bottom',
       },
       {
         id: 'messaging',
         title: 'Student Communication',
-        description: 'Respond to student questions, send announcements, and provide personalized feedback.',
+        description:
+          'Respond to student questions, send announcements, and provide personalized feedback.',
         target: '[data-onboarding="messaging"]',
         position: 'left',
       },
@@ -195,34 +211,39 @@ export const ONBOARDING_FLOWS: Record<string, OnboardingFlow> = {
       {
         id: 'welcome',
         title: 'Admin Dashboard',
-        description: 'Welcome to the admin panel. Manage users, courses, and platform settings from here.',
+        description:
+          'Welcome to the admin panel. Manage users, courses, and platform settings from here.',
         skippable: true,
       },
       {
         id: 'user_management',
         title: 'User Management',
-        description: 'View all users, manage roles, perform bulk operations, and handle user reports.',
+        description:
+          'View all users, manage roles, perform bulk operations, and handle user reports.',
         target: '[data-onboarding="users"]',
         position: 'bottom',
       },
       {
         id: 'course_moderation',
         title: 'Course Moderation',
-        description: 'Review and approve new courses, manage content quality, and handle reported content.',
+        description:
+          'Review and approve new courses, manage content quality, and handle reported content.',
         target: '[data-onboarding="moderation"]',
         position: 'bottom',
       },
       {
         id: 'analytics_admin',
         title: 'Platform Analytics',
-        description: 'Monitor platform health, user engagement, revenue metrics, and growth trends.',
+        description:
+          'Monitor platform health, user engagement, revenue metrics, and growth trends.',
         target: '[data-onboarding="admin-analytics"]',
         position: 'bottom',
       },
       {
         id: 'bulk_operations',
         title: 'Bulk Operations',
-        description: 'Perform mass enrollments, send notifications, export data, and manage users at scale.',
+        description:
+          'Perform mass enrollments, send notifications, export data, and manage users at scale.',
         target: '[data-onboarding="bulk-ops"]',
         position: 'left',
       },
@@ -238,10 +259,7 @@ export const ONBOARDING_FLOWS: Record<string, OnboardingFlow> = {
 };
 
 // Check if user has completed an onboarding flow
-export async function hasCompletedOnboarding(
-  userId: string,
-  flowId: string
-): Promise<boolean> {
+export async function hasCompletedOnboarding(userId: string, flowId: string): Promise<boolean> {
   const supabase = createClient();
 
   const { data, error }: any = await supabase
@@ -258,7 +276,7 @@ export async function hasCompletedOnboarding(
 // Get user's onboarding progress
 export async function getOnboardingProgress(
   userId: string,
-  flowId: string
+  flowId: string,
 ): Promise<{
   currentStep: number;
   completedSteps: string[];
@@ -283,22 +301,17 @@ export async function getOnboardingProgress(
 }
 
 // Start an onboarding flow
-export async function startOnboarding(
-  userId: string,
-  flowId: string
-): Promise<void> {
+export async function startOnboarding(userId: string, flowId: string): Promise<void> {
   const supabase = createClient();
 
-  await supabase
-    .from('user_onboarding')
-    .upsert({
-      user_id: userId,
-      flow_id: flowId,
-      current_step: 0,
-      completed_steps: [],
-      completed: false,
-      started_at: new Date().toISOString(),
-    });
+  await supabase.from('user_onboarding').upsert({
+    user_id: userId,
+    flow_id: flowId,
+    current_step: 0,
+    completed_steps: [],
+    completed: false,
+    started_at: new Date().toISOString(),
+  });
 }
 
 // Update onboarding progress
@@ -306,7 +319,7 @@ export async function updateOnboardingProgress(
   userId: string,
   flowId: string,
   stepId: string,
-  stepIndex: number
+  stepIndex: number,
 ): Promise<void> {
   const supabase = createClient();
 
@@ -335,10 +348,7 @@ export async function updateOnboardingProgress(
 }
 
 // Complete an onboarding flow
-export async function completeOnboarding(
-  userId: string,
-  flowId: string
-): Promise<void> {
+export async function completeOnboarding(userId: string, flowId: string): Promise<void> {
   const supabase = createClient();
 
   await supabase
@@ -362,10 +372,7 @@ export async function completeOnboarding(
 }
 
 // Skip an onboarding flow
-export async function skipOnboarding(
-  userId: string,
-  flowId: string
-): Promise<void> {
+export async function skipOnboarding(userId: string, flowId: string): Promise<void> {
   const supabase = createClient();
 
   await supabase
@@ -380,30 +387,21 @@ export async function skipOnboarding(
 }
 
 // Reset onboarding (for testing or user request)
-export async function resetOnboarding(
-  userId: string,
-  flowId: string
-): Promise<void> {
+export async function resetOnboarding(userId: string, flowId: string): Promise<void> {
   const supabase = createClient();
 
-  await supabase
-    .from('user_onboarding')
-    .delete()
-    .eq('user_id', userId)
-    .eq('flow_id', flowId);
+  await supabase.from('user_onboarding').delete().eq('user_id', userId).eq('flow_id', flowId);
 }
 
 // Helper functions for rewards
 async function awardBadge(userId: string, badgeId: string): Promise<void> {
   const supabase = createClient();
 
-  await supabase
-    .from('user_achievements')
-    .insert({
-      user_id: userId,
-      achievement_id: badgeId,
-      earned_at: new Date().toISOString(),
-    });
+  await supabase.from('user_achievements').insert({
+    user_id: userId,
+    achievement_id: badgeId,
+    earned_at: new Date().toISOString(),
+  });
 }
 
 async function awardPoints(userId: string, points: number): Promise<void> {
@@ -418,7 +416,7 @@ async function awardPoints(userId: string, points: number): Promise<void> {
 // Get recommended onboarding flows for a user
 export async function getRecommendedOnboarding(
   userId: string,
-  userRole: 'student' | 'instructor' | 'admin'
+  userRole: 'student' | 'instructor' | 'admin',
 ): Promise<OnboardingFlow[]> {
   const supabase = createClient();
 
@@ -429,14 +427,12 @@ export async function getRecommendedOnboarding(
     .eq('user_id', userId)
     .eq('completed', true);
 
-  const completedFlowIds = completed?.map(c => c.flow_id) || [];
+  const completedFlowIds = completed?.map((c) => c.flow_id) || [];
 
   // Return flows for user's role that haven't been completed
-  return Object.values(ONBOARDING_FLOWS)
-    .filter(flow =>
-      flow.role === userRole &&
-      !completedFlowIds.includes(flow.id)
-    );
+  return Object.values(ONBOARDING_FLOWS).filter(
+    (flow) => flow.role === userRole && !completedFlowIds.includes(flow.id),
+  );
 }
 
 // Interactive tutorial system
@@ -474,7 +470,8 @@ export const TUTORIALS: Record<string, Tutorial> = {
       {
         id: 'playback_speed',
         title: 'Adjust Playback Speed',
-        content: 'Speed up or slow down videos to match your learning pace. Click the speed button and select from 0.5x to 2x.',
+        content:
+          'Speed up or slow down videos to match your learning pace. Click the speed button and select from 0.5x to 2x.',
         type: 'interactive',
         action: {
           type: 'click',
@@ -484,7 +481,8 @@ export const TUTORIALS: Record<string, Tutorial> = {
       {
         id: 'quality_selector',
         title: 'Change Video Quality',
-        content: 'Adjust video quality based on your internet connection. Higher quality uses more bandwidth.',
+        content:
+          'Adjust video quality based on your internet connection. Higher quality uses more bandwidth.',
         type: 'interactive',
         action: {
           type: 'click',
@@ -580,7 +578,8 @@ export const TUTORIALS: Record<string, Tutorial> = {
       {
         id: 'upload_video',
         title: 'Upload Course Content',
-        content: 'Upload videos, PDFs, and other learning materials. Videos are automatically processed.',
+        content:
+          'Upload videos, PDFs, and other learning materials. Videos are automatically processed.',
         type: 'interactive',
       },
       {
@@ -618,7 +617,7 @@ export const TUTORIALS: Record<string, Tutorial> = {
 // Get tutorial progress
 export async function getTutorialProgress(
   userId: string,
-  tutorialId: string
+  tutorialId: string,
 ): Promise<{
   currentStep: number;
   completedSteps: string[];
@@ -647,7 +646,7 @@ export async function updateTutorialProgress(
   userId: string,
   tutorialId: string,
   stepId: string,
-  stepIndex: number
+  stepIndex: number,
 ): Promise<void> {
   const supabase = createClient();
 
@@ -663,22 +662,17 @@ export async function updateTutorialProgress(
     completedSteps.push(stepId);
   }
 
-  await supabase
-    .from('user_tutorials')
-    .upsert({
-      user_id: userId,
-      tutorial_id: tutorialId,
-      current_step: stepIndex + 1,
-      completed_steps: completedSteps,
-      updated_at: new Date().toISOString(),
-    });
+  await supabase.from('user_tutorials').upsert({
+    user_id: userId,
+    tutorial_id: tutorialId,
+    current_step: stepIndex + 1,
+    completed_steps: completedSteps,
+    updated_at: new Date().toISOString(),
+  });
 }
 
 // Complete tutorial
-export async function completeTutorial(
-  userId: string,
-  tutorialId: string
-): Promise<void> {
+export async function completeTutorial(userId: string, tutorialId: string): Promise<void> {
   const supabase = createClient();
 
   await supabase

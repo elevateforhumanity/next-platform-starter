@@ -1,6 +1,6 @@
-import { NextResponse } from "next/server";
+import { NextResponse } from 'next/server';
 
-import { createClient } from "@/lib/supabase/server";
+import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -11,33 +11,33 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(request: Request) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const supabase = await createClient();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const supabase = await createClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   // Check if user is partner
   const { data: profile } = await supabase
-    .from("profiles")
-    .select("role, tenant_id")
-    .eq("id", user.id)
+    .from('profiles')
+    .select('role, tenant_id')
+    .eq('id', user.id)
     .maybeSingle();
 
-  if (profile?.role !== "partner") {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (profile?.role !== 'partner') {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
   // Get attendance records for this partner's enrollments
   const { data: records, error } = await supabase
-    .from("attendance_records")
-    .select(`
+    .from('attendance_records')
+    .select(
+      `
       *,
       enrollments!inner(
         id,
@@ -46,9 +46,10 @@ const supabase = await createClient();
         courses(title),
         profiles(full_name, email)
       )
-    `)
-    .eq("enrollments.tenant_id", profile.tenant_id)
-    .order("date", { ascending: false });
+    `,
+    )
+    .eq('enrollments.tenant_id', profile.tenant_id)
+    .order('date', { ascending: false });
 
   if (error) {
     return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
@@ -58,8 +59,8 @@ const supabase = await createClient();
 }
 
 async function _POST(request: Request) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const {
@@ -67,55 +68,52 @@ async function _POST(request: Request) {
   } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   // Check if user is partner
   const { data: profile } = await supabase
-    .from("profiles")
-    .select("role, tenant_id")
-    .eq("id", user.id)
+    .from('profiles')
+    .select('role, tenant_id')
+    .eq('id', user.id)
     .maybeSingle();
 
-  if (profile?.role !== "partner") {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+  if (profile?.role !== 'partner') {
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
   const { enrollmentId, date, hours, notes } = await request.json();
 
   if (!enrollmentId || !date || hours === null || hours === undefined) {
     return NextResponse.json(
-      { error: "enrollmentId, date, and hours are required" },
-      { status: 400 }
+      { error: 'enrollmentId, date, and hours are required' },
+      { status: 400 },
     );
   }
 
   // Verify enrollment belongs to this partner's tenant
   const { data: enrollment } = await supabase
-    .from("program_enrollments")
-    .select("id, tenant_id")
-    .eq("id", enrollmentId)
+    .from('program_enrollments')
+    .select('id, tenant_id')
+    .eq('id', enrollmentId)
     .maybeSingle();
 
   if (!enrollment) {
-    return NextResponse.json(
-      { error: "Enrollment not found" },
-      { status: 404 }
-    );
+    return NextResponse.json({ error: 'Enrollment not found' }, { status: 404 });
   }
 
   if (enrollment.tenant_id !== profile.tenant_id) {
-    return NextResponse.json({ error: "Forbidden" }, { status: 403 });
+    return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
   // Create attendance record
   const { data: record, error } = await supabase
-    .from("attendance_records")
+    .from('attendance_records')
     .insert({
       enrollment_id: enrollmentId,
       date,
       hours: Number(hours),
-      source: "partner",
+      source: 'partner',
       recorded_by: user.id,
       notes: notes || null,
     })
@@ -127,21 +125,21 @@ async function _POST(request: Request) {
   }
 
   // Update total hours on enrollment
-  const { error: updateError } = await supabase.rpc("increment_hours_trained", {
+  const { error: updateError } = await supabase.rpc('increment_hours_trained', {
     enrollment_id: enrollmentId,
     hours_to_add: Number(hours),
   });
 
   if (updateError) {
-    logger.error("Failed to update hours_trained:", updateError);
+    logger.error('Failed to update hours_trained:', updateError);
   }
 
   // Log the attendance record
-  await supabase.from("audit_logs").insert({
+  await supabase.from('audit_logs').insert({
     actor_id: user.id,
     actor_email: user.email,
-    action: "partner_recorded_attendance",
-    resource_type: "attendance_record",
+    action: 'partner_recorded_attendance',
+    resource_type: 'attendance_record',
     resource_id: record.id,
     metadata: {
       enrollmentId,

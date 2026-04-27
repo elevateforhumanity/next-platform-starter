@@ -3,65 +3,65 @@
 export class NotFoundError extends Error {
   constructor(msg: string) {
     super(msg);
-    this.name = "NotFoundError";
+    this.name = 'NotFoundError';
   }
 }
 
 export class ValidationError extends Error {
   constructor(msg: string) {
     super(msg);
-    this.name = "ValidationError";
+    this.name = 'ValidationError';
   }
 }
 
 export class AuthenticationError extends Error {
   constructor(msg: string) {
     super(msg);
-    this.name = "AuthenticationError";
+    this.name = 'AuthenticationError';
   }
 }
 
 export class AuthorizationError extends Error {
   constructor(msg: string) {
     super(msg);
-    this.name = "AuthorizationError";
+    this.name = 'AuthorizationError';
   }
 }
 
 export class GitHubError extends Error {
   constructor(msg: string) {
     super(msg);
-    this.name = "GitHubError";
+    this.name = 'GitHubError';
   }
 }
 
 export class SupabaseError extends Error {
   constructor(msg: string) {
     super(msg);
-    this.name = "SupabaseError";
+    this.name = 'SupabaseError';
   }
 }
 
 export class StripeError extends Error {
   constructor(msg: string) {
     super(msg);
-    this.name = "StripeError";
+    this.name = 'StripeError';
   }
 }
 
 export class AutopilotError extends Error {
   constructor(msg: string) {
     super(msg);
-    this.name = "AutopilotError";
+    this.name = 'AutopilotError';
   }
 }
 
 export function isNotFoundError(error: any): error is NotFoundError {
-  return error instanceof NotFoundError || error?.name === "NotFoundError";
+  return error instanceof NotFoundError || error?.name === 'NotFoundError';
 }
 
 export function isValidationError(error: any): error is ValidationError {
-  return error instanceof ValidationError || error?.name === "ValidationError";
+  return error instanceof ValidationError || error?.name === 'ValidationError';
 }
 
 export function handleError(error: any): { message: string; status: number } {
@@ -82,5 +82,5 @@ export function handleError(error: any): { message: string; status: number } {
   }
 
   // Default to 500 for unknown errors
-  return { message: "Internal server error", status: 500 };
+  return { message: 'Internal server error', status: 500 };
 }

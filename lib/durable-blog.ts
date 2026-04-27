@@ -26,7 +26,7 @@ export async function fetchDurableBlogPosts(): Promise<DurableBlogPost[]> {
     // Option 1: Try RSS feed first
     const rssUrl = 'https://elevateforhumanity.durable.co/blog/rss';
     const response = await fetch(rssUrl, {
-      next: { revalidate: 300 } // Cache for 5 minutes
+      next: { revalidate: 300 }, // Cache for 5 minutes
     });
 
     if (response.ok) {
@@ -37,7 +37,7 @@ export async function fetchDurableBlogPosts(): Promise<DurableBlogPost[]> {
     // Option 2: Try JSON API if available
     const apiUrl = 'https://elevateforhumanity.durable.co/api/blog';
     const apiResponse = await fetch(apiUrl, {
-      next: { revalidate: 300 }
+      next: { revalidate: 300 },
     });
 
     if (apiResponse.ok) {
@@ -46,7 +46,8 @@ export async function fetchDurableBlogPosts(): Promise<DurableBlogPost[]> {
     }
 
     return [];
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return [];
   }
@@ -80,13 +81,14 @@ function parseRSSFeed(rssText: string): DurableBlogPost[] {
           featured_image: extractImageFromContent(description),
           category: category || 'Blog',
           published_at: pubDate || new Date().toISOString(),
-          source: 'durable'
+          source: 'durable',
         });
       }
     });
 
     return posts;
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     // Error: $1
     return [];
   }

@@ -41,15 +41,12 @@ const svg = `
 try {
   await sharp(Buffer.from(svg)).jpeg({ quality: 90 }).toFile('public/og.jpg');
 
-
   // Also create a PNG version for better quality
   await sharp(Buffer.from(svg)).png().toFile('public/og.png');
-
 
   // Get file sizes
   const jpgSize = fs.statSync('public/og.jpg').size;
   const pngSize = fs.statSync('public/og.png').size;
-
 } catch (error) {
   console.error('❌ Error generating image:', error.message);
   process.exit(1);

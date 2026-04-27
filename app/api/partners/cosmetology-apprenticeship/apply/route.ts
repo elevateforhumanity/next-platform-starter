@@ -13,17 +13,39 @@ async function _POST(request: NextRequest) {
 
     const body = await request.json();
     const {
-      salonLegalName, salonDbaName, ownerName,
-      contactName, contactEmail, contactPhone,
-      salonAddressLine1, salonAddressLine2, salonCity, salonState, salonZip,
+      salonLegalName,
+      salonDbaName,
+      ownerName,
+      contactName,
+      contactEmail,
+      contactPhone,
+      salonAddressLine1,
+      salonAddressLine2,
+      salonCity,
+      salonState,
+      salonZip,
       indianaSalonLicenseNumber,
-      supervisorName, supervisorLicenseNumber, supervisorYearsLicensed,
-      compensationModel, numberOfEmployees,
-      workersCompStatus, hasGeneralLiability, canSuperviseAndVerify,
-      mouAcknowledged, consentAcknowledged, notes,
+      supervisorName,
+      supervisorLicenseNumber,
+      supervisorYearsLicensed,
+      compensationModel,
+      numberOfEmployees,
+      workersCompStatus,
+      hasGeneralLiability,
+      canSuperviseAndVerify,
+      mouAcknowledged,
+      consentAcknowledged,
+      notes,
     } = body;
 
-    if (!salonLegalName || !contactEmail || !contactPhone || !indianaSalonLicenseNumber || !supervisorName || !supervisorLicenseNumber) {
+    if (
+      !salonLegalName ||
+      !contactEmail ||
+      !contactPhone ||
+      !indianaSalonLicenseNumber ||
+      !supervisorName ||
+      !supervisorLicenseNumber
+    ) {
       return safeError('Missing required fields', 400);
     }
     if (!mouAcknowledged || !consentAcknowledged) {
@@ -53,7 +75,9 @@ async function _POST(request: NextRequest) {
         license_number: indianaSalonLicenseNumber,
         supervisor_name: supervisorName,
         supervisor_license_number: supervisorLicenseNumber,
-        supervisor_years_licensed: supervisorYearsLicensed ? parseInt(supervisorYearsLicensed) : null,
+        supervisor_years_licensed: supervisorYearsLicensed
+          ? parseInt(supervisorYearsLicensed)
+          : null,
         compensation_model: compensationModel,
         number_of_employees: numberOfEmployees ? parseInt(numberOfEmployees) : null,
         workers_comp_status: workersCompStatus,

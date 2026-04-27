@@ -25,14 +25,13 @@ async function searchBlogPosts(query: string) {
       .from('blog_posts')
       .select('*')
       .eq('published', true)
-      .or(
-        `title.ilike.%${query}%,content.ilike.%${query}%,excerpt.ilike.%${query}%`
-      )
+      .or(`title.ilike.%${query}%,content.ilike.%${query}%,excerpt.ilike.%${query}%`)
       .order('published_at', { ascending: false })
       .limit(20);
 
     return posts || [];
-  } catch (error) { /* Error handled silently */ 
+  } catch (error) {
+    /* Error handled silently */
     return [];
   }
 }
@@ -48,10 +47,10 @@ export default async function BlogSearchPage({
 
   return (
     <div className="bg-white min-h-screen">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Blog", href: "/blog" }, { label: "Search" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Blog', href: '/blog' }, { label: 'Search' }]} />
       </div>
-<div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-12">
         {/* Search Header */}
         <div className="mb-8">
           <h1 className="text-4xl font-bold text-black mb-4 text-2xl md:text-3xl lg:text-4xl">
@@ -112,22 +111,13 @@ export default async function BlogSearchPage({
                     </span>
                   )}
                   <h2 className="text-xl font-bold text-black mb-2">
-                    <Link
-                      href={`/blog/${post.slug}`}
-                      className="hover:text-brand-blue-600"
-                    >
+                    <Link href={`/blog/${post.slug}`} className="hover:text-brand-blue-600">
                       {post.title}
                     </Link>
                   </h2>
-                  {post.excerpt && (
-                    <p className="text-black mb-4 line-clamp-3">
-                      {post.excerpt}
-                    </p>
-                  )}
+                  {post.excerpt && <p className="text-black mb-4 line-clamp-3">{post.excerpt}</p>}
                   <div className="flex items-center justify-between text-sm text-slate-500">
-                    <span>
-                      {new Date(post.published_at).toLocaleDateString()}
-                    </span>
+                    <span>{new Date(post.published_at).toLocaleDateString()}</span>
                     {post.author && <span>By {post.author}</span>}
                   </div>
                 </div>
@@ -140,9 +130,7 @@ export default async function BlogSearchPage({
         {!query && (
           <div className="text-center py-12">
             <Search className="w-16 h-16 text-slate-300 mx-auto mb-4" />
-            <p className="text-black text-lg">
-              Enter a search term to find blog posts
-            </p>
+            <p className="text-black text-lg">Enter a search term to find blog posts</p>
           </div>
         )}
       </div>

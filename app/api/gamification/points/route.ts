@@ -1,5 +1,4 @@
-
-import { NextRequest, NextResponse } from "next/server";
+import { NextRequest, NextResponse } from 'next/server';
 import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -14,30 +13,32 @@ async function parseBody<T>(request: NextRequest): Promise<T> {
 
 async function _GET(request: NextRequest) {
   const supabase = await getAdminClient();
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const { data: userPoints } = await supabase
-    .from("user_points")
-    .select("*")
-    .eq("user_id", user.id)
+    .from('user_points')
+    .select('*')
+    .eq('user_id', user.id)
     .maybeSingle();
 
   if (!userPoints) {
     const { data: newPoints } = await supabase
-      .from("user_points")
+      .from('user_points')
       .insert({
         user_id: user.id,
         total_points: 0,
         level: 1,
-        level_name: "Beginner",
+        level_name: 'Beginner',
         points_to_next_level: 100,
       })
       .select()
@@ -51,19 +52,21 @@ async function _GET(request: NextRequest) {
 
 async function _POST(request: NextRequest) {
   const supabase = await getAdminClient();
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
-    return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
+    return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
   const body = await parseBody<Record<string, any>>(request);
   const { points, action_type, description, reference_id, reference_type } = body;
 
-  await supabase.from("point_transactions").insert({
+  await supabase.from('point_transactions').insert({
     user_id: user.id,
     points,
     action_type,
@@ -73,25 +76,25 @@ async function _POST(request: NextRequest) {
   });
 
   const { data: currentPoints } = await supabase
-    .from("user_points")
-    .select("*")
-    .eq("user_id", user.id)
+    .from('user_points')
+    .select('*')
+    .eq('user_id', user.id)
     .maybeSingle();
 
   const newTotal = (currentPoints?.total_points || 0) + points;
   const newLevel = Math.floor(newTotal / 1000) + 1;
-  const levelName = newLevel === 1 ? "Beginner" : newLevel <= 5 ? "Intermediate" : "Advanced";
+  const levelName = newLevel === 1 ? 'Beginner' : newLevel <= 5 ? 'Intermediate' : 'Advanced';
   const pointsToNext = 1000 - (newTotal % 1000);
 
   const { data: updatedPoints } = await supabase
-    .from("user_points")
+    .from('user_points')
     .update({
       total_points: newTotal,
       level: newLevel,
       level_name: levelName,
       points_to_next_level: pointsToNext,
     })
-    .eq("user_id", user.id)
+    .eq('user_id', user.id)
     .select()
     .maybeSingle();
 

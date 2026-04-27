@@ -5,15 +5,15 @@ import type { ServsafePriceType, ServsafeProduct } from '@/types/servsafe';
 // ─── Markup engine ────────────────────────────────────────────────────────────
 
 const MULTIPLIERS: Record<ServsafePriceType, number> = {
-  course_exam_bundle:  1.50,
-  exam_only:           1.60,
-  retake:              1.75,
-  instructor_material: 1.50,
-  learning_suite:      1.50,
+  course_exam_bundle: 1.5,
+  exam_only: 1.6,
+  retake: 1.75,
+  instructor_material: 1.5,
+  learning_suite: 1.5,
 };
 
 export function roundToPsychologicalPrice(value: number): number {
-  const ceiled    = Math.ceil(value);
+  const ceiled = Math.ceil(value);
   const remainder = ceiled % 10;
   if (remainder === 9) return ceiled;
   return ceiled + ((9 - remainder + 10) % 10);
@@ -42,9 +42,9 @@ export function getStartingPrice(products: ServsafeProduct[]): number {
 /** Admin helper — margin on a single product */
 export function getMargin(
   vendorBase: number,
-  retailPrice: number
+  retailPrice: number,
 ): { dollars: number; percent: number } {
   const dollars = Number((retailPrice - vendorBase).toFixed(2));
-  const percent = Number(((retailPrice - vendorBase) / retailPrice * 100).toFixed(1));
+  const percent = Number((((retailPrice - vendorBase) / retailPrice) * 100).toFixed(1));
   return { dollars, percent };
 }

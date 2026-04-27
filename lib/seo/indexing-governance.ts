@@ -1,9 +1,9 @@
 /**
  * INDEXING GOVERNANCE
- * 
+ *
  * This file defines the rules for what pages can be indexed.
  * It is the single source of truth for SEO indexing decisions.
- * 
+ *
  * WAVE 1: Core marketing, trust, and public informational pages
  * WAVE 2: High-quality resource guides (after 60 days of Wave 1 stability)
  */
@@ -51,14 +51,14 @@ export const NEVER_INDEX_PATTERNS = [
   '/checkout/*',
   '/payment/*',
   '/learner/dashboard',
-  '/lms/courses/*',  // Course interiors
+  '/lms/courses/*', // Course interiors
   '/lms/assignments',
   '/lms/quizzes',
   '/lms/grades',
   '/lms/messages',
   '/lms/profile',
   '/lms/settings',
-  '/*?*',  // Any URL with query params
+  '/*?*', // Any URL with query params
 ];
 
 /**
@@ -87,15 +87,12 @@ export const WAVE2_APPROVED_TYPES = {
     urlPattern: '/programs/*-overview',
     requirements: [
       'What the program is',
-      'Who it\'s for',
+      "Who it's for",
       'How it works at high level',
       'No lesson content',
       'No enrollment pressure',
     ],
-    examples: [
-      '/programs/barber-apprenticeship-overview',
-      '/programs/career-training-explained',
-    ],
+    examples: ['/programs/barber-apprenticeship-overview', '/programs/career-training-explained'],
   },
   complianceExplainers: {
     description: 'Transparency and compliance information',
@@ -117,10 +114,7 @@ export const WAVE2_APPROVED_TYPES = {
  * Internal linking rules for resource pages
  */
 export const INTERNAL_LINKING_RULES = {
-  required: [
-    'Link upward to a Wave 1 page',
-    'Link sideways to 1–2 related resources',
-  ],
+  required: ['Link upward to a Wave 1 page', 'Link sideways to 1–2 related resources'],
   forbidden: [
     'Never link directly into checkout flows',
     'Never link directly into gated/auth flows',
@@ -132,7 +126,7 @@ export const INTERNAL_LINKING_RULES = {
  * Check if a URL matches any never-index pattern
  */
 export function isNeverIndexed(url: string): boolean {
-  return NEVER_INDEX_PATTERNS.some(pattern => {
+  return NEVER_INDEX_PATTERNS.some((pattern) => {
     if (pattern.endsWith('*')) {
       return url.startsWith(pattern.slice(0, -1));
     }
@@ -151,11 +145,11 @@ export function isNeverIndexed(url: string): boolean {
  * Resource page metadata requirements
  */
 export interface ResourcePageMetadata {
-  title: string;           // Clear, plain title (no clickbait)
-  description: string;     // 140-160 chars
-  lastReviewed: string;    // ISO date
-  reviewedBy: string;      // Institutional role
-  version?: string;        // Optional version number
+  title: string; // Clear, plain title (no clickbait)
+  description: string; // 140-160 chars
+  lastReviewed: string; // ISO date
+  reviewedBy: string; // Institutional role
+  version?: string; // Optional version number
   category: PageCategory;
   wave: IndexingWave;
 }

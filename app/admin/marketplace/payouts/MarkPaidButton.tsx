@@ -17,7 +17,7 @@ export default function MarkPaidButton({
 
   const handleMarkPaid = async () => {
     const confirmed = confirm(
-      `Mark $${(amount / 100).toFixed(2)} as paid to this creator?\n\nThis will update all unpaid sales for this creator.`
+      `Mark $${(amount / 100).toFixed(2)} as paid to this creator?\n\nThis will update all unpaid sales for this creator.`,
     );
 
     if (!confirmed) return;

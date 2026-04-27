@@ -21,7 +21,7 @@ interface EbookLayoutProps {
 
 export default function EbookLayout({ chapters, currentChapterId, children }: EbookLayoutProps) {
   const [sidebarOpen, setSidebarOpen] = useState(false);
-  const currentIndex = chapters.findIndex(c => c.id === currentChapterId);
+  const currentIndex = chapters.findIndex((c) => c.id === currentChapterId);
   const prev = chapters[currentIndex - 1];
   const next = chapters[currentIndex + 1];
 
@@ -52,7 +52,10 @@ export default function EbookLayout({ chapters, currentChapterId, children }: Eb
           <div className="relative w-80 bg-white h-full overflow-y-auto shadow-2xl">
             <div className="flex items-center justify-between p-4 border-b border-slate-200">
               <span className="font-bold text-slate-900">Table of Contents</span>
-              <button onClick={() => setSidebarOpen(false)} className="p-1 hover:bg-slate-100 rounded">
+              <button
+                onClick={() => setSidebarOpen(false)}
+                className="p-1 hover:bg-slate-100 rounded"
+              >
                 <X className="w-5 h-5" />
               </button>
             </div>
@@ -64,7 +67,7 @@ export default function EbookLayout({ chapters, currentChapterId, children }: Eb
               >
                 Cover & Introduction
               </Link>
-              {chapters.map(ch => (
+              {chapters.map((ch) => (
                 <Link
                   key={ch.id}
                   href={`/ebook/barber-theory/${ch.id}`}
@@ -102,7 +105,9 @@ export default function EbookLayout({ chapters, currentChapterId, children }: Eb
               Ch. {prev.number}: {prev.title}
             </span>
           </Link>
-        ) : <div />}
+        ) : (
+          <div />
+        )}
         {next ? (
           <Link
             href={`/ebook/barber-theory/${next.id}`}
@@ -114,7 +119,9 @@ export default function EbookLayout({ chapters, currentChapterId, children }: Eb
             </span>
             <ChevronRight className="w-4 h-4" />
           </Link>
-        ) : <div />}
+        ) : (
+          <div />
+        )}
       </div>
     </div>
   );

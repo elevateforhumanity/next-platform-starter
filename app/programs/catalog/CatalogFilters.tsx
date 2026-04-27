@@ -8,11 +8,14 @@ import { useCallback } from 'react';
 
 type Current = { q: string; category: string; wioa: boolean; provider: string };
 
-function buildUrl(current: Current, overrides: Partial<{ q: string; category: string; wioa: string; provider: string; page: string }>) {
+function buildUrl(
+  current: Current,
+  overrides: Partial<{ q: string; category: string; wioa: string; provider: string; page: string }>,
+) {
   const merged = {
     q: overrides.q !== undefined ? overrides.q : current.q,
     category: overrides.category !== undefined ? overrides.category : current.category,
-    wioa: overrides.wioa !== undefined ? overrides.wioa : (current.wioa ? 'true' : ''),
+    wioa: overrides.wioa !== undefined ? overrides.wioa : current.wioa ? 'true' : '',
     provider: overrides.provider !== undefined ? overrides.provider : current.provider,
     page: overrides.page ?? '1',
   };
@@ -39,12 +42,16 @@ export default function CatalogFilters({
   return (
     <div className="space-y-5">
       <div>
-        <label className="block text-xs font-semibold text-black mb-1.5 uppercase tracking-wide">Search</label>
-        <form onSubmit={e => {
-          e.preventDefault();
-          const q = (e.currentTarget.elements.namedItem('q') as HTMLInputElement).value;
-          go(buildUrl(current, { q, page: '1' }));
-        }}>
+        <label className="block text-xs font-semibold text-black mb-1.5 uppercase tracking-wide">
+          Search
+        </label>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            const q = (e.currentTarget.elements.namedItem('q') as HTMLInputElement).value;
+            go(buildUrl(current, { q, page: '1' }));
+          }}
+        >
           <input
             name="q"
             defaultValue={current.q}
@@ -59,7 +66,9 @@ export default function CatalogFilters({
           <input
             type="checkbox"
             checked={current.wioa}
-            onChange={e => go(buildUrl(current, { wioa: e.target.checked ? 'true' : '', page: '1' }))}
+            onChange={(e) =>
+              go(buildUrl(current, { wioa: e.target.checked ? 'true' : '', page: '1' }))
+            }
             className="rounded border-slate-300 text-brand-blue-600 focus:ring-brand-blue-500"
           />
           WIOA Eligible Only
@@ -67,22 +76,28 @@ export default function CatalogFilters({
       </div>
 
       <div>
-        <label className="block text-xs font-semibold text-black mb-1.5 uppercase tracking-wide">Category</label>
+        <label className="block text-xs font-semibold text-black mb-1.5 uppercase tracking-wide">
+          Category
+        </label>
         <div className="space-y-1">
           <button
             onClick={() => go(buildUrl(current, { category: '', page: '1' }))}
             className={`block w-full text-left text-sm px-2 py-1 rounded-lg transition ${
-              !current.category ? 'bg-brand-blue-50 text-brand-blue-700 font-medium' : 'text-black hover:bg-white'
+              !current.category
+                ? 'bg-brand-blue-50 text-brand-blue-700 font-medium'
+                : 'text-black hover:bg-white'
             }`}
           >
             All Categories
           </button>
-          {categories.map(cat => (
+          {categories.map((cat) => (
             <button
               key={cat}
               onClick={() => go(buildUrl(current, { category: cat, page: '1' }))}
               className={`block w-full text-left text-sm px-2 py-1 rounded-lg transition ${
-                current.category === cat ? 'bg-brand-blue-50 text-brand-blue-700 font-medium' : 'text-black hover:bg-white'
+                current.category === cat
+                  ? 'bg-brand-blue-50 text-brand-blue-700 font-medium'
+                  : 'text-black hover:bg-white'
               }`}
             >
               {cat}

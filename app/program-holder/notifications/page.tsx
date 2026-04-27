@@ -48,15 +48,15 @@ export default async function ProgramHolderNotificationsPage() {
 
   return (
     <div className="min-h-screen bg-white py-8">
-        <div className="max-w-7xl mx-auto px-4 py-4">
-          <Breadcrumbs items={[{ label: "Program Holder", href: "/program-holder" }, { label: "Notifications" }]} />
-        </div>
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs
+          items={[{ label: 'Program Holder', href: '/program-holder' }, { label: 'Notifications' }]}
+        />
+      </div>
       <div className="max-w-4xl mx-auto px-4">
         <div className="mb-8 flex items-center justify-between">
           <div>
-            <h1 className="text-3xl font-bold text-black mb-2">
-              Notifications
-            </h1>
+            <h1 className="text-3xl font-bold text-black mb-2">Notifications</h1>
             <p className="text-black">
               {unreadCount > 0
                 ? `You have ${unreadCount} unread notification${unreadCount === 1 ? '' : 's'}`
@@ -74,12 +74,9 @@ export default async function ProgramHolderNotificationsPage() {
         {!notifications || notifications.length === 0 ? (
           <div className="bg-white rounded-lg border border-gray-200 p-12 text-center">
             <Bell className="w-16 h-16 text-slate-700 mx-auto mb-4" />
-            <h2 className="text-xl font-semibold text-black mb-2">
-              No Notifications Yet
-            </h2>
+            <h2 className="text-xl font-semibold text-black mb-2">No Notifications Yet</h2>
             <p className="text-black">
-              You'll see notifications here when students enroll or complete
-              milestones.
+              You'll see notifications here when students enroll or complete milestones.
             </p>
           </div>
         ) : (
@@ -88,9 +85,7 @@ export default async function ProgramHolderNotificationsPage() {
               <div
                 key={notification.id}
                 className={`bg-white rounded-lg border p-4 transition ${
-                  notification.read
-                    ? 'border-gray-200'
-                    : 'border-brand-blue-200 bg-brand-blue-50'
+                  notification.read ? 'border-gray-200' : 'border-brand-blue-200 bg-brand-blue-50'
                 }`}
               >
                 <div className="flex items-start gap-4">
@@ -100,24 +95,17 @@ export default async function ProgramHolderNotificationsPage() {
                     }`}
                   />
                   <div className="flex-1">
-                    <h3 className="font-semibold text-black mb-1">
-                      {notification.title}
-                    </h3>
-                    <p className="text-sm text-black mb-2">
-                      {notification.message}
-                    </p>
+                    <h3 className="font-semibold text-black mb-1">{notification.title}</h3>
+                    <p className="text-sm text-black mb-2">{notification.message}</p>
                     <div className="flex items-center gap-4 text-xs text-black">
                       <span>
-                        {new Date(notification.created_at).toLocaleDateString(
-                          'en-US',
-                          {
-                            month: 'short',
-                            day: 'numeric',
-                            year: 'numeric',
-                            hour: 'numeric',
-                            minute: '2-digit',
-                          }
-                        )}
+                        {new Date(notification.created_at).toLocaleDateString('en-US', {
+                          month: 'short',
+                          day: 'numeric',
+                          year: 'numeric',
+                          hour: 'numeric',
+                          minute: '2-digit',
+                        })}
                       </span>
                       {notification.action_url && (
                         <Link

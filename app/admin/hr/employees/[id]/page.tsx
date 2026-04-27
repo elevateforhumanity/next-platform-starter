@@ -37,20 +37,19 @@ export default async function EmployeeDetailPage({ params }: Props) {
   const { id } = await params;
   const supabase = await createClient();
 
-
-
-
   // Fetch employee
   const { data: employee, error } = await supabase
     .from('employees')
-    .select(`
+    .select(
+      `
       *,
       profiles (id, first_name, last_name, email, phone, avatar_url),
       departments (id, name),
       managers:employees!employees_manager_id_fkey (
         profiles (first_name, last_name)
       )
-    `)
+    `,
+    )
     .eq('id', id)
     .maybeSingle();
 
@@ -87,7 +86,6 @@ export default async function EmployeeDetailPage({ params }: Props) {
 
   return (
     <div className="p-6 max-w-7xl mx-auto">
-
       {/* Hero Image */}
       {/* Header */}
       <div className="mb-6">
@@ -103,7 +101,14 @@ export default async function EmployeeDetailPage({ params }: Props) {
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center">
               {profile?.avatar_url ? (
-                <Image src={profile.avatar_url} alt={`${profile?.first_name} ${profile?.last_name}`} width={64} height={64} className="w-16 h-16 rounded-full object-cover" />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+                <Image sizes="100vw"
+                  src={profile.avatar_url}
+                  alt={`${profile?.first_name} ${profile?.last_name}`}
+                  width={64}
+                  height={64}
+                  className="w-16 h-16 rounded-full object-cover"
+                />
               ) : (
                 <User className="w-8 h-8 text-brand-blue-600" />
               )}
@@ -114,14 +119,14 @@ export default async function EmployeeDetailPage({ params }: Props) {
               </h1>
               <p className="text-slate-600">{employee.job_title || 'Employee'}</p>
               <div className="flex items-center gap-2 mt-1">
-                <span className={`px-2 py-0.5 rounded-full text-xs font-medium ${
-                  statusColors[employee.status] || 'bg-gray-100 text-slate-900'
-                }`}>
+                <span
+                  className={`px-2 py-0.5 rounded-full text-xs font-medium ${
+                    statusColors[employee.status] || 'bg-gray-100 text-slate-900'
+                  }`}
+                >
                   {employee.status?.replace('_', ' ') || 'Active'}
                 </span>
-                {department && (
-                  <span className="text-xs text-slate-500">{department.name}</span>
-                )}
+                {department && <span className="text-xs text-slate-500">{department.name}</span>}
               </div>
             </div>
           </div>
@@ -158,7 +163,9 @@ export default async function EmployeeDetailPage({ params }: Props) {
                 <div>
                   <p className="text-sm text-slate-600">Start Date</p>
                   <p className="font-medium text-slate-900">
-                    {employee.start_date ? new Date(employee.start_date).toLocaleDateString() : 'N/A'}
+                    {employee.start_date
+                      ? new Date(employee.start_date).toLocaleDateString()
+                      : 'N/A'}
                   </p>
                 </div>
               </div>
@@ -168,7 +175,9 @@ export default async function EmployeeDetailPage({ params }: Props) {
                 </div>
                 <div>
                   <p className="text-sm text-slate-600">Employment Type</p>
-                  <p className="font-medium text-slate-900">{employee.employment_type || 'Full-time'}</p>
+                  <p className="font-medium text-slate-900">
+                    {employee.employment_type || 'Full-time'}
+                  </p>
                 </div>
               </div>
               <div className="flex items-center gap-3">
@@ -206,14 +215,19 @@ export default async function EmployeeDetailPage({ params }: Props) {
                     <div>
                       <p className="font-medium text-slate-900">{request.type}</p>
                       <p className="text-sm text-slate-600">
-                        {new Date(request.start_date).toLocaleDateString()} - {new Date(request.end_date).toLocaleDateString()}
+                        {new Date(request.start_date).toLocaleDateString()} -{' '}
+                        {new Date(request.end_date).toLocaleDateString()}
                       </p>
                     </div>
-                    <span className={`px-2 py-1 rounded-full text-xs font-medium ${
-                      request.status === 'approved' ? 'bg-brand-green-100 text-brand-green-800' :
-                      request.status === 'pending' ? 'bg-yellow-100 text-yellow-800' :
-                      'bg-brand-red-100 text-brand-red-800'
-                    }`}>
+                    <span
+                      className={`px-2 py-1 rounded-full text-xs font-medium ${
+                        request.status === 'approved'
+                          ? 'bg-brand-green-100 text-brand-green-800'
+                          : request.status === 'pending'
+                            ? 'bg-yellow-100 text-yellow-800'
+                            : 'bg-brand-red-100 text-brand-red-800'
+                      }`}
+                    >
                       {request.status}
                     </span>
                   </div>
@@ -316,9 +330,15 @@ export default async function EmployeeDetailPage({ params }: Props) {
               <div className="pt-4 border-t border-slate-200">
                 <p className="text-sm text-slate-600 mb-2">Benefits</p>
                 <div className="flex flex-wrap gap-2">
-                  <span className="px-2 py-1 bg-brand-blue-100 text-brand-blue-800 rounded text-xs">Health Insurance</span>
-                  <span className="px-2 py-1 bg-brand-blue-100 text-brand-blue-800 rounded text-xs">401(k)</span>
-                  <span className="px-2 py-1 bg-brand-blue-100 text-brand-blue-800 rounded text-xs">PTO</span>
+                  <span className="px-2 py-1 bg-brand-blue-100 text-brand-blue-800 rounded text-xs">
+                    Health Insurance
+                  </span>
+                  <span className="px-2 py-1 bg-brand-blue-100 text-brand-blue-800 rounded text-xs">
+                    401(k)
+                  </span>
+                  <span className="px-2 py-1 bg-brand-blue-100 text-brand-blue-800 rounded text-xs">
+                    PTO
+                  </span>
                 </div>
               </div>
             </div>

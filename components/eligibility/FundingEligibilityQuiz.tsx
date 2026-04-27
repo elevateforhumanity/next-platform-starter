@@ -90,11 +90,27 @@ const ELIGIBILITY_QUESTIONS: Question[] = [
 ];
 
 const FUNDING_PROGRAMS = [
-  { name: 'WIOA Adult', minScore: 60, description: 'Workforce Innovation and Opportunity Act funding for adults' },
-  { name: 'WIOA Dislocated Worker', minScore: 55, description: 'For workers who lost jobs due to layoffs or closures' },
+  {
+    name: 'WIOA Adult',
+    minScore: 60,
+    description: 'Workforce Innovation and Opportunity Act funding for adults',
+  },
+  {
+    name: 'WIOA Dislocated Worker',
+    minScore: 55,
+    description: 'For workers who lost jobs due to layoffs or closures',
+  },
   { name: 'EmployIndy', minScore: 50, description: 'Indianapolis workforce development funding' },
-  { name: 'JRI (Justice Reentry)', minScore: 45, description: 'For justice-involved individuals reentering workforce' },
-  { name: 'Trade Adjustment Assistance', minScore: 40, description: 'For workers affected by foreign trade' },
+  {
+    name: 'JRI (Justice Reentry)',
+    minScore: 45,
+    description: 'For justice-involved individuals reentering workforce',
+  },
+  {
+    name: 'Trade Adjustment Assistance',
+    minScore: 40,
+    description: 'For workers affected by foreign trade',
+  },
 ];
 
 export function FundingEligibilityQuiz() {
@@ -114,7 +130,7 @@ export function FundingEligibilityQuiz() {
 
   const calculateEligibility = () => {
     setIsCalculating(true);
-    
+
     let totalScore = 0;
     ELIGIBILITY_QUESTIONS.forEach((q) => {
       const answer = answers[q.id];
@@ -167,17 +183,21 @@ export function FundingEligibilityQuiz() {
 
   if (isComplete) {
     const isEligible = eligiblePrograms.length > 0;
-    
+
     return (
       <div className="max-w-2xl mx-auto">
         {/* Result Header */}
-        <div className={`p-8 rounded-2xl text-center mb-8 ${isEligible ? 'bg-brand-green-50 border-2 border-brand-green-200' : 'bg-amber-50 border-2 border-amber-200'}`}>
+        <div
+          className={`p-8 rounded-2xl text-center mb-8 ${isEligible ? 'bg-brand-green-50 border-2 border-brand-green-200' : 'bg-amber-50 border-2 border-amber-200'}`}
+        >
           {isEligible ? (
             <>
               <span className="text-slate-500 flex-shrink-0">•</span>
               <h2 className="text-3xl font-bold text-brand-green-800 mb-2">You Likely Qualify!</h2>
               <p className="text-brand-green-700 text-lg">
-                Based on your answers, you may be eligible for <strong>{eligiblePrograms.length}</strong> funding program{eligiblePrograms.length > 1 ? 's' : ''}
+                Based on your answers, you may be eligible for{' '}
+                <strong>{eligiblePrograms.length}</strong> funding program
+                {eligiblePrograms.length > 1 ? 's' : ''}
               </p>
             </>
           ) : (
@@ -197,7 +217,10 @@ export function FundingEligibilityQuiz() {
             <h3 className="text-xl font-bold text-slate-900 mb-4">Programs You May Qualify For:</h3>
             <div className="space-y-3">
               {eligiblePrograms.map((program) => (
-                <div key={program.name} className="bg-white border border-slate-200 rounded-xl p-4 flex items-start gap-4">
+                <div
+                  key={program.name}
+                  className="bg-white border border-slate-200 rounded-xl p-4 flex items-start gap-4"
+                >
                   <span className="text-slate-500 flex-shrink-0">•</span>
                   <div>
                     <h4 className="font-semibold text-slate-900">{program.name}</h4>
@@ -214,15 +237,21 @@ export function FundingEligibilityQuiz() {
           <h3 className="text-lg font-bold text-brand-blue-900 mb-3">Next Steps</h3>
           <ol className="space-y-2 text-brand-blue-800">
             <li className="flex items-start gap-2">
-              <span className="bg-brand-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm flex-shrink-0">1</span>
+              <span className="bg-brand-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm flex-shrink-0">
+                1
+              </span>
               <span>Complete a full application (takes 5-10 minutes)</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="bg-brand-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm flex-shrink-0">2</span>
+              <span className="bg-brand-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm flex-shrink-0">
+                2
+              </span>
               <span>Our team will verify your eligibility with funding agencies</span>
             </li>
             <li className="flex items-start gap-2">
-              <span className="bg-brand-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm flex-shrink-0">3</span>
+              <span className="bg-brand-blue-600 text-white w-6 h-6 rounded-full flex items-center justify-center text-sm flex-shrink-0">
+                3
+              </span>
               <span>Get enrolled in your chosen program - often at no cost to you</span>
             </li>
           </ol>
@@ -247,7 +276,10 @@ export function FundingEligibilityQuiz() {
 
         {/* Contact */}
         <p className="text-center text-slate-600 mt-6">
-          Questions? Call us at <a href="/support" className="text-brand-blue-600 font-semibold">Get Help Online</a>
+          Questions? Call us at{' '}
+          <a href="/support" className="text-brand-blue-600 font-semibold">
+            Get Help Online
+          </a>
         </p>
       </div>
     );
@@ -258,11 +290,13 @@ export function FundingEligibilityQuiz() {
       {/* Progress Bar */}
       <div className="mb-8">
         <div className="flex justify-between text-sm text-slate-600 mb-2">
-          <span>Question {currentStep + 1} of {ELIGIBILITY_QUESTIONS.length}</span>
+          <span>
+            Question {currentStep + 1} of {ELIGIBILITY_QUESTIONS.length}
+          </span>
           <span>{Math.round(progress)}% complete</span>
         </div>
         <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
-          <div 
+          <div
             className="h-full bg-white transition-all duration-300"
             style={{ width: `${progress}%` }}
           />
@@ -288,11 +322,13 @@ export function FundingEligibilityQuiz() {
               }`}
             >
               <div className="flex items-center gap-3">
-                <div className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
-                  answers[currentQuestion.id] === option.value
-                    ? 'border-brand-blue-600 bg-brand-blue-600'
-                    : 'border-slate-300'
-                }`}>
+                <div
+                  className={`w-5 h-5 rounded-full border-2 flex items-center justify-center ${
+                    answers[currentQuestion.id] === option.value
+                      ? 'border-brand-blue-600 bg-brand-blue-600'
+                      : 'border-slate-300'
+                  }`}
+                >
                   {answers[currentQuestion.id] === option.value && (
                     <div className="w-2 h-2 bg-white rounded-full" />
                   )}

@@ -15,7 +15,9 @@ export const dynamic = 'force-dynamic';
 
 export default async function NotificationsPage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/notifications');
@@ -30,10 +32,10 @@ export default async function NotificationsPage() {
     .limit(50);
 
   // Count unread
-  const unreadCount = notifications?.filter(n => !n.is_read).length || 0;
+  const unreadCount = notifications?.filter((n) => !n.is_read).length || 0;
 
   return (
-    <NotificationsClient 
+    <NotificationsClient
       userId={user.id}
       initialNotifications={notifications || []}
       unreadCount={unreadCount}

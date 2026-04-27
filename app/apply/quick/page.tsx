@@ -26,7 +26,7 @@ export default async function QuickApplyPage() {
       </div>
     );
   }
-  
+
   // Fetch quick apply programs
   const { data: programs } = await supabase
     .from('programs')
@@ -34,12 +34,7 @@ export default async function QuickApplyPage() {
     .eq('quick_apply_enabled', true);
   return (
     <div className="min-h-screen bg-slate-50">
-      <Breadcrumbs
-        items={[
-          { label: 'Apply', href: '/apply' },
-          { label: 'Quick Apply' },
-        ]}
-      />
+      <Breadcrumbs items={[{ label: 'Apply', href: '/apply' }, { label: 'Quick Apply' }]} />
       <section className="border-b border-slate-200 bg-white">
         <div className="max-w-3xl mx-auto px-4 sm:px-6 py-8 sm:py-12">
           <p className="text-xs font-semibold tracking-widest text-emerald-700 uppercase mb-2">
@@ -49,8 +44,8 @@ export default async function QuickApplyPage() {
             Apply for Training Programs
           </h1>
           <p className="text-base sm:text-lg text-black max-w-2xl">
-            Complete this quick form to get started. We'll review your
-            information and contact you within 1-2 business days.
+            Complete this quick form to get started. We'll review your information and contact you
+            within 1-2 business days.
           </p>
         </div>
       </section>

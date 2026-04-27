@@ -12,10 +12,7 @@ import { logger } from '@/lib/logger';
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
-export async function POST(
-  request: Request,
-  { params }: { params: Promise<{ authId: string }> }
-) {
+export async function POST(request: Request, { params }: { params: Promise<{ authId: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
@@ -52,14 +49,14 @@ export async function POST(
 
   // Insert exam result
   const { error: insertErr } = await db.from('exam_results').insert({
-    authorization_id:   authId,
-    user_id:            existing.user_id,
-    passed:             passedBool,
-    score:              score ? parseFloat(score) : null,
+    authorization_id: authId,
+    user_id: existing.user_id,
+    passed: passedBool,
+    score: score ? parseFloat(score) : null,
     exam_date,
     certificate_number: certificate_number || null,
-    recorded_by:        auth.id,
-    issued_at:          passedBool ? new Date().toISOString() : null,
+    recorded_by: auth.id,
+    issued_at: passedBool ? new Date().toISOString() : null,
   });
 
   if (insertErr) return safeDbError(insertErr, 'Failed to record result');
@@ -68,7 +65,7 @@ export async function POST(
   const { error: updateErr } = await db
     .from('exam_authorizations')
     .update({
-      status:     passedBool ? 'passed' : 'failed',
+      status: passedBool ? 'passed' : 'failed',
       updated_at: new Date().toISOString(),
     })
     .eq('id', authId);
@@ -88,7 +85,7 @@ export async function POST(
       program_id: existing.program_id,
     },
     req: request,
-  }).catch(e => logger.warn('[exam-result] Audit log failed', e));
+  }).catch((e) => logger.warn('[exam-result] Audit log failed', e));
 
   return NextResponse.json({
     success: true,

@@ -8,10 +8,7 @@ import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const dynamic = 'force-dynamic';
 
 // PATCH - Update module (script, video_url, etc.)
-async function _PATCH(
-  req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
-) {
+async function _PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
   const auth = await apiRequireAdmin(req);
@@ -23,7 +20,8 @@ async function _PATCH(
     if (!body) return NextResponse.json({ error: 'Invalid JSON' }, { status: 400 });
 
     const db = await getAdminClient();
-    if (!db) return NextResponse.json({ error: 'Service temporarily unavailable' }, { status: 503 });
+    if (!db)
+      return NextResponse.json({ error: 'Service temporarily unavailable' }, { status: 503 });
 
     // Pre-read: verify module exists before updating
     const { data: existing, error: fetchError } = await db

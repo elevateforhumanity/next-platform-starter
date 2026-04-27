@@ -43,7 +43,9 @@ function OptionButton({
       }`}
     >
       <span className="flex items-center gap-3">
-        <span className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${selected ? 'border-brand-red-600 bg-brand-red-600' : 'border-slate-300'}`}>
+        <span
+          className={`w-5 h-5 rounded-full border-2 flex-shrink-0 flex items-center justify-center ${selected ? 'border-brand-red-600 bg-brand-red-600' : 'border-slate-300'}`}
+        >
           {selected && <CheckCircle className="w-3 h-3 text-white" />}
         </span>
         {label}
@@ -63,15 +65,15 @@ export default function EligibilityScreener({ program }: { program?: string }) {
   });
 
   function set<K extends keyof Answers>(field: K, value: Answers[K]) {
-    setAnswers(prev => ({ ...prev, [field]: value }));
+    setAnswers((prev) => ({ ...prev, [field]: value }));
   }
 
   function next() {
-    setStep(s => Math.min(s + 1, TOTAL_STEPS));
+    setStep((s) => Math.min(s + 1, TOTAL_STEPS));
   }
 
   function back() {
-    setStep(s => Math.max(s - 1, 1));
+    setStep((s) => Math.max(s - 1, 1));
   }
 
   function evaluate() {
@@ -112,10 +114,20 @@ export default function EligibilityScreener({ program }: { program?: string }) {
       {step === 1 && (
         <>
           <h2 className="text-xl font-bold text-slate-900 mb-1">Are you 18 or older?</h2>
-          <p className="text-slate-500 text-sm mb-5">Most funded programs require participants to be 18+.</p>
+          <p className="text-slate-500 text-sm mb-5">
+            Most funded programs require participants to be 18+.
+          </p>
           <div className="space-y-3">
-            <OptionButton label="Yes, I am 18 or older" selected={answers.age === '18+'} onClick={() => set('age', '18+')} />
-            <OptionButton label="No, I am under 18" selected={answers.age === 'under18'} onClick={() => set('age', 'under18')} />
+            <OptionButton
+              label="Yes, I am 18 or older"
+              selected={answers.age === '18+'}
+              onClick={() => set('age', '18+')}
+            />
+            <OptionButton
+              label="No, I am under 18"
+              selected={answers.age === 'under18'}
+              onClick={() => set('age', 'under18')}
+            />
           </div>
         </>
       )}
@@ -123,11 +135,25 @@ export default function EligibilityScreener({ program }: { program?: string }) {
       {step === 2 && (
         <>
           <h2 className="text-xl font-bold text-slate-900 mb-1">Current employment status?</h2>
-          <p className="text-slate-500 text-sm mb-5">This helps determine which funding programs apply to you.</p>
+          <p className="text-slate-500 text-sm mb-5">
+            This helps determine which funding programs apply to you.
+          </p>
           <div className="space-y-3">
-            <OptionButton label="Unemployed / looking for work" selected={answers.employment === 'unemployed'} onClick={() => set('employment', 'unemployed')} />
-            <OptionButton label="Part-time employed" selected={answers.employment === 'part_time'} onClick={() => set('employment', 'part_time')} />
-            <OptionButton label="Full-time employed" selected={answers.employment === 'full_time'} onClick={() => set('employment', 'full_time')} />
+            <OptionButton
+              label="Unemployed / looking for work"
+              selected={answers.employment === 'unemployed'}
+              onClick={() => set('employment', 'unemployed')}
+            />
+            <OptionButton
+              label="Part-time employed"
+              selected={answers.employment === 'part_time'}
+              onClick={() => set('employment', 'part_time')}
+            />
+            <OptionButton
+              label="Full-time employed"
+              selected={answers.employment === 'full_time'}
+              onClick={() => set('employment', 'full_time')}
+            />
           </div>
         </>
       )}
@@ -135,29 +161,59 @@ export default function EligibilityScreener({ program }: { program?: string }) {
       {step === 3 && (
         <>
           <h2 className="text-xl font-bold text-slate-900 mb-1">Household income level?</h2>
-          <p className="text-slate-500 text-sm mb-5">WIOA and WRG funding is income-based. All answers are confidential.</p>
+          <p className="text-slate-500 text-sm mb-5">
+            WIOA and WRG funding is income-based. All answers are confidential.
+          </p>
           <div className="space-y-3">
-            <OptionButton label="Low income (below 200% federal poverty level)" selected={answers.income === 'low'} onClick={() => set('income', 'low')} />
-            <OptionButton label="Moderate income" selected={answers.income === 'moderate'} onClick={() => set('income', 'moderate')} />
-            <OptionButton label="Above moderate" selected={answers.income === 'high'} onClick={() => set('income', 'high')} />
+            <OptionButton
+              label="Low income (below 200% federal poverty level)"
+              selected={answers.income === 'low'}
+              onClick={() => set('income', 'low')}
+            />
+            <OptionButton
+              label="Moderate income"
+              selected={answers.income === 'moderate'}
+              onClick={() => set('income', 'moderate')}
+            />
+            <OptionButton
+              label="Above moderate"
+              selected={answers.income === 'high'}
+              onClick={() => set('income', 'high')}
+            />
           </div>
         </>
       )}
 
       {step === 4 && (
         <>
-          <h2 className="text-xl font-bold text-slate-900 mb-1">Have you been involved in the justice system?</h2>
-          <p className="text-slate-500 text-sm mb-5">Job Ready Indy and JRI funding is specifically available for justice-involved individuals.</p>
+          <h2 className="text-xl font-bold text-slate-900 mb-1">
+            Have you been involved in the justice system?
+          </h2>
+          <p className="text-slate-500 text-sm mb-5">
+            Job Ready Indy and JRI funding is specifically available for justice-involved
+            individuals.
+          </p>
           <div className="space-y-3">
-            <OptionButton label="Yes" selected={answers.justice === 'yes'} onClick={() => set('justice', 'yes')} />
-            <OptionButton label="No" selected={answers.justice === 'no'} onClick={() => set('justice', 'no')} />
+            <OptionButton
+              label="Yes"
+              selected={answers.justice === 'yes'}
+              onClick={() => set('justice', 'yes')}
+            />
+            <OptionButton
+              label="No"
+              selected={answers.justice === 'no'}
+              onClick={() => set('justice', 'no')}
+            />
           </div>
         </>
       )}
 
       <div className="flex items-center justify-between mt-6">
         {step > 1 ? (
-          <button onClick={back} className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700">
+          <button
+            onClick={back}
+            className="flex items-center gap-1 text-sm text-slate-500 hover:text-slate-700"
+          >
             <ArrowLeft className="w-4 h-4" /> Back
           </button>
         ) : (

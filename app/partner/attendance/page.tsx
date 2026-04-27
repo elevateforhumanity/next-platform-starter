@@ -21,11 +21,18 @@ export const metadata: Metadata = {
 
 export default async function PartnerAttendancePage() {
   const supabase = await createClient();
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/partner/login');
 
-  const { data: profile } = await supabase.from('profiles').select('role').eq('id', user.id).maybeSingle();
-  if (!profile || !['partner', 'admin', 'super_admin', 'staff'].includes(profile.role)) redirect('/unauthorized');
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
+  if (!profile || !['partner', 'admin', 'super_admin', 'staff'].includes(profile.role))
+    redirect('/unauthorized');
 
   let sessions: any[] = [];
   let summary: any = null;
@@ -69,8 +76,15 @@ export default async function PartnerAttendancePage() {
         title: r.program_slug?.replace(/-/g, ' ') || 'Training Session',
         date: r.created_at,
         status: 'completed',
-        total_hours: [r.mon_hours, r.tue_hours, r.wed_hours, r.thu_hours, r.fri_hours, r.sat_hours, r.sun_hours]
-          .reduce((a: number, b: string) => a + (parseFloat(b) || 0), 0),
+        total_hours: [
+          r.mon_hours,
+          r.tue_hours,
+          r.wed_hours,
+          r.thu_hours,
+          r.fri_hours,
+          r.sat_hours,
+          r.sun_hours,
+        ].reduce((a: number, b: string) => a + (parseFloat(b) || 0), 0),
         notes: r.notes,
       }));
     }
@@ -84,13 +98,22 @@ export default async function PartnerAttendancePage() {
 
   return (
     <div>
-
       {/* Hero Image */}
       <section className="relative h-[160px] sm:h-[220px] md:h-[280px] overflow-hidden rounded-xl mb-6 -mx-4 sm:-mx-6 lg:-mx-8">
-        <Image src="/images/pages/partner-page-2.jpg" alt="Partner attendance" fill sizes="100vw" className="object-cover" priority />
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
+        <Image
+          src="/images/pages/partner-page-2.jpg"
+          alt="Partner attendance"
+          fill
+          sizes="100vw"
+          className="object-cover"
+          priority
+        />
       </section>
       <div className="mb-6">
-        <Breadcrumbs items={[{ label: 'Partner', href: '/partner/attendance' }, { label: 'Attendance' }]} />
+        <Breadcrumbs
+          items={[{ label: 'Partner', href: '/partner/attendance' }, { label: 'Attendance' }]}
+        />
       </div>
 
       <div className="flex items-center justify-between mb-8">
@@ -99,8 +122,10 @@ export default async function PartnerAttendancePage() {
           <p className="text-slate-700 mt-1">Manage attendance for training sessions</p>
         </div>
         <div className="flex gap-3">
-          <Link href="/partner/attendance/record"
-            className="flex items-center gap-2 bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 text-sm font-medium">
+          <Link
+            href="/partner/attendance/record"
+            className="flex items-center gap-2 bg-brand-blue-600 text-white px-4 py-2 rounded-lg hover:bg-brand-blue-700 text-sm font-medium"
+          >
             <Plus className="w-4 h-4" /> Record Attendance
           </Link>
         </div>
@@ -139,7 +164,8 @@ export default async function PartnerAttendancePage() {
             <div>
               <h3 className="font-semibold text-amber-800">Low Attendance Alert</h3>
               <p className="text-amber-700 text-sm mt-1">
-                {lowAttendance.length} student{lowAttendance.length > 1 ? 's' : ''} below 75% attendance threshold:
+                {lowAttendance.length} student{lowAttendance.length > 1 ? 's' : ''} below 75%
+                attendance threshold:
               </p>
               <ul className="mt-2 space-y-1">
                 {lowAttendance.slice(0, 5).map((s: any, i: number) => (
@@ -162,33 +188,49 @@ export default async function PartnerAttendancePage() {
           <table className="w-full">
             <thead className="bg-white">
               <tr>
-                <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">Session</th>
+                <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">
+                  Session
+                </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">Date</th>
-                <th className="px-6 py-3 text-center text-sm font-semibold text-slate-900">Hours</th>
-                <th className="px-6 py-3 text-center text-sm font-semibold text-slate-900">Status</th>
+                <th className="px-6 py-3 text-center text-sm font-semibold text-slate-900">
+                  Hours
+                </th>
+                <th className="px-6 py-3 text-center text-sm font-semibold text-slate-900">
+                  Status
+                </th>
                 <th className="px-6 py-3 text-left text-sm font-semibold text-slate-900">Notes</th>
               </tr>
             </thead>
             <tbody className="divide-y divide-gray-200">
               {sessions.map((s: any) => (
                 <tr key={s.id} className="hover:bg-white">
-                  <td className="px-6 py-4 font-medium text-slate-900 capitalize">{s.title || 'Session'}</td>
+                  <td className="px-6 py-4 font-medium text-slate-900 capitalize">
+                    {s.title || 'Session'}
+                  </td>
                   <td className="px-6 py-4 text-slate-700 text-sm">
                     {s.date ? new Date(s.date).toLocaleDateString() : '—'}
                   </td>
                   <td className="px-6 py-4 text-center text-sm">
-                    {s.total_hours ?? s.duration_minutes ? `${Math.round((s.duration_minutes || 0) / 60)}h` : '—'}
+                    {(s.total_hours ?? s.duration_minutes)
+                      ? `${Math.round((s.duration_minutes || 0) / 60)}h`
+                      : '—'}
                   </td>
                   <td className="px-6 py-4 text-center">
-                    <span className={`px-2 py-1 rounded text-xs font-medium ${
-                      s.status === 'completed' ? 'bg-brand-green-100 text-brand-green-700' :
-                      s.status === 'active' ? 'bg-brand-blue-100 text-brand-blue-700' :
-                      'bg-white text-slate-900'
-                    }`}>
+                    <span
+                      className={`px-2 py-1 rounded text-xs font-medium ${
+                        s.status === 'completed'
+                          ? 'bg-brand-green-100 text-brand-green-700'
+                          : s.status === 'active'
+                            ? 'bg-brand-blue-100 text-brand-blue-700'
+                            : 'bg-white text-slate-900'
+                      }`}
+                    >
                       {s.status || 'recorded'}
                     </span>
                   </td>
-                  <td className="px-6 py-4 text-slate-700 text-sm truncate max-w-[200px]">{s.notes || '—'}</td>
+                  <td className="px-6 py-4 text-slate-700 text-sm truncate max-w-[200px]">
+                    {s.notes || '—'}
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -197,8 +239,10 @@ export default async function PartnerAttendancePage() {
           <div className="text-center py-12">
             <Calendar className="w-12 h-12 text-slate-700 mx-auto mb-3" />
             <p className="text-slate-700 mb-4">No attendance sessions recorded yet.</p>
-            <Link href="/partner/attendance/record"
-              className="text-brand-blue-600 font-medium hover:underline">
+            <Link
+              href="/partner/attendance/record"
+              className="text-brand-blue-600 font-medium hover:underline"
+            >
               Record your first session
             </Link>
           </div>

@@ -30,13 +30,12 @@ async function _GET(request: Request) {
     }
 
     return NextResponse.json({ templates: templates || [] });
-  } catch (error) { 
+  } catch (error) {
     return NextResponse.json(
       {
-        error:
-          'Internal server error',
+        error: 'Internal server error',
       },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

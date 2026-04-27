@@ -39,7 +39,6 @@ export function SEO({
       <meta property="og:image" content={`${siteUrl}${ogImage}`} />
       <meta property="og:locale" content="en_US" />
 
-
       {/* Additional SEO */}
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <meta name="theme-color" content="#0F4C81" />

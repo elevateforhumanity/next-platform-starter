@@ -2,9 +2,10 @@ import { NextRequest } from 'next/server';
 import crypto from 'crypto';
 
 export function generateFingerprint(req: NextRequest): string {
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-             req.headers.get('x-real-ip') ||
-             'unknown';
+  const ip =
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    req.headers.get('x-real-ip') ||
+    'unknown';
 
   const components = [
     req.headers.get('user-agent') || '',
@@ -39,13 +40,14 @@ const fingerprintStore = new Map<string, FingerprintData>();
 
 export async function trackFingerprint(
   req: NextRequest,
-  action: string
+  action: string,
 ): Promise<{ suspicious: boolean; data: FingerprintData }> {
   const fingerprint = generateFingerprint(req);
   const key = `${fingerprint}:${action}`;
-  const ip = req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
-             req.headers.get('x-real-ip') ||
-             'unknown';
+  const ip =
+    req.headers.get('x-forwarded-for')?.split(',')[0]?.trim() ||
+    req.headers.get('x-real-ip') ||
+    'unknown';
 
   const existing = fingerprintStore.get(key);
   const now = new Date();

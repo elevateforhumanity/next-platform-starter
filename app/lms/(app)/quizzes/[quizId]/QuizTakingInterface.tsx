@@ -39,13 +39,19 @@ interface Props {
   examSessionId?: string;
 }
 
-export default function QuizTakingInterface({ quiz, questions, attemptId, visitorId, examSessionId }: Props) {
+export default function QuizTakingInterface({
+  quiz,
+  questions,
+  attemptId,
+  visitorId,
+  examSessionId,
+}: Props) {
   const router = useRouter();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [answers, setAnswers] = useState<Record<string, string>>({});
   const [flagged, setFlagged] = useState<Set<string>>(new Set());
   const [timeRemaining, setTimeRemaining] = useState<number | null>(
-    quiz.time_limit_minutes ? quiz.time_limit_minutes * 60 : null
+    quiz.time_limit_minutes ? quiz.time_limit_minutes * 60 : null,
   );
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [showConfirmSubmit, setShowConfirmSubmit] = useState(false);
@@ -75,11 +81,11 @@ export default function QuizTakingInterface({ quiz, questions, attemptId, visito
   };
 
   const handleAnswerSelect = (questionId: string, answerId: string) => {
-    setAnswers(prev => ({ ...prev, [questionId]: answerId }));
+    setAnswers((prev) => ({ ...prev, [questionId]: answerId }));
   };
 
   const toggleFlag = (questionId: string) => {
-    setFlagged(prev => {
+    setFlagged((prev) => {
       const newSet = new Set(prev);
       if (newSet.has(questionId)) {
         newSet.delete(questionId);
@@ -122,7 +128,7 @@ export default function QuizTakingInterface({ quiz, questions, attemptId, visito
     if (timeRemaining === null || timeRemaining <= 0) return;
 
     const timer = setInterval(() => {
-      setTimeRemaining(prev => {
+      setTimeRemaining((prev) => {
         if (prev === null || prev <= 1) {
           clearInterval(timer);
           handleSubmit();
@@ -160,11 +166,15 @@ export default function QuizTakingInterface({ quiz, questions, attemptId, visito
             </div>
             <div className="flex items-center gap-4">
               {timeRemaining !== null && (
-                <div className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-lg ${
-                  timeRemaining < 60 ? 'bg-brand-red-100 text-brand-red-700' : 
-                  timeRemaining < 300 ? 'bg-yellow-100 text-yellow-700' : 
-                  'bg-white text-slate-700'
-                }`}>
+                <div
+                  className={`flex items-center gap-2 px-4 py-2 rounded-lg font-mono text-lg ${
+                    timeRemaining < 60
+                      ? 'bg-brand-red-100 text-brand-red-700'
+                      : timeRemaining < 300
+                        ? 'bg-yellow-100 text-yellow-700'
+                        : 'bg-white text-slate-700'
+                  }`}
+                >
                   <Clock className="w-5 h-5" />
                   {formatTime(timeRemaining)}
                 </div>
@@ -177,11 +187,11 @@ export default function QuizTakingInterface({ quiz, questions, attemptId, visito
               </button>
             </div>
           </div>
-          
+
           {/* Progress Bar */}
           <div className="mt-4">
             <div className="h-2 bg-slate-200 rounded-full overflow-hidden">
-              <div 
+              <div
                 className="h-full bg-brand-blue-600 transition-all duration-300"
                 style={{ width: `${progress}%` }}
               />
@@ -233,7 +243,7 @@ export default function QuizTakingInterface({ quiz, questions, attemptId, visito
                   .map((answer, idx) => {
                     const isSelected = answers[currentQuestion.id] === answer.id;
                     const letter = String.fromCharCode(65 + idx);
-                    
+
                     return (
                       <button
                         key={answer.id}
@@ -244,14 +254,16 @@ export default function QuizTakingInterface({ quiz, questions, attemptId, visito
                             : 'border-slate-200 hover:border-slate-300 hover:bg-white'
                         }`}
                       >
-                        <span className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
-                          isSelected
-                            ? 'bg-brand-blue-600 text-white'
-                            : 'bg-white text-slate-600'
-                        }`}>
+                        <span
+                          className={`w-10 h-10 rounded-full flex items-center justify-center font-bold ${
+                            isSelected ? 'bg-brand-blue-600 text-white' : 'bg-white text-slate-600'
+                          }`}
+                        >
                           {letter}
                         </span>
-                        <span className={`flex-1 ${isSelected ? 'text-brand-blue-900' : 'text-slate-700'}`}>
+                        <span
+                          className={`flex-1 ${isSelected ? 'text-brand-blue-900' : 'text-slate-700'}`}
+                        >
                           {answer.answer_text}
                         </span>
                       </button>
@@ -262,7 +274,7 @@ export default function QuizTakingInterface({ quiz, questions, attemptId, visito
               {/* Navigation */}
               <div className="flex items-center justify-between mt-8 pt-6 border-t border-slate-200">
                 <button
-                  onClick={() => setCurrentIndex(prev => Math.max(0, prev - 1))}
+                  onClick={() => setCurrentIndex((prev) => Math.max(0, prev - 1))}
                   disabled={currentIndex === 0}
                   className="flex items-center gap-2 px-4 py-2 text-slate-600 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
@@ -270,7 +282,9 @@ export default function QuizTakingInterface({ quiz, questions, attemptId, visito
                   Previous
                 </button>
                 <button
-                  onClick={() => setCurrentIndex(prev => Math.min(shuffledQuestions.length - 1, prev + 1))}
+                  onClick={() =>
+                    setCurrentIndex((prev) => Math.min(shuffledQuestions.length - 1, prev + 1))
+                  }
                   disabled={currentIndex === shuffledQuestions.length - 1}
                   className="flex items-center gap-2 px-4 py-2 text-slate-600 hover:text-slate-900 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
@@ -290,7 +304,7 @@ export default function QuizTakingInterface({ quiz, questions, attemptId, visito
                   const isAnswered = answers[q.id] !== undefined;
                   const isFlagged = flagged.has(q.id);
                   const isCurrent = idx === currentIndex;
-                  
+
                   return (
                     <button
                       key={q.id}
@@ -299,8 +313,8 @@ export default function QuizTakingInterface({ quiz, questions, attemptId, visito
                         isCurrent
                           ? 'bg-brand-blue-600 text-white'
                           : isAnswered
-                          ? 'bg-brand-green-100 text-brand-green-700'
-                          : 'bg-white text-slate-600 hover:bg-slate-200'
+                            ? 'bg-brand-green-100 text-brand-green-700'
+                            : 'bg-white text-slate-600 hover:bg-slate-200'
                       }`}
                     >
                       {idx + 1}
@@ -311,7 +325,7 @@ export default function QuizTakingInterface({ quiz, questions, attemptId, visito
                   );
                 })}
               </div>
-              
+
               <div className="mt-4 pt-4 border-t border-slate-200 space-y-2 text-sm">
                 <div className="flex items-center gap-2">
                   <span className="w-4 h-4 bg-brand-green-100 rounded" />
@@ -341,19 +355,20 @@ export default function QuizTakingInterface({ quiz, questions, attemptId, visito
               </div>
               <h3 className="text-xl font-bold text-slate-900">Submit Quiz?</h3>
             </div>
-            
+
             {unansweredCount > 0 && (
               <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4">
                 <p className="text-yellow-800">
-                  You have <strong>{unansweredCount}</strong> unanswered question{unansweredCount !== 1 ? 's' : ''}.
+                  You have <strong>{unansweredCount}</strong> unanswered question
+                  {unansweredCount !== 1 ? 's' : ''}.
                 </p>
               </div>
             )}
-            
+
             <p className="text-slate-600 mb-6">
               Once submitted, you cannot change your answers. Are you sure you want to submit?
             </p>
-            
+
             <div className="flex gap-3">
               <button
                 onClick={() => setShowConfirmSubmit(false)}

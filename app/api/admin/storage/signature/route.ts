@@ -13,8 +13,8 @@ export const dynamic = 'force-dynamic';
 const _GET = withAuth(
   async (req, context) => {
     const { user } = context;
-      const supabase = await createRouteHandlerClient({ cookies });
-      const { searchParams } = new URL(req.url);
+    const supabase = await createRouteHandlerClient({ cookies });
+    const { searchParams } = new URL(req.url);
     const path = searchParams.get('path');
 
     if (!path) {
@@ -22,9 +22,7 @@ const _GET = withAuth(
     }
 
     // Download from storage
-    const { data, error }: any = await supabase.storage
-      .from('agreements')
-      .download(path);
+    const { data, error }: any = await supabase.storage.from('agreements').download(path);
 
     if (error || !data) {
       logger.error('Download error:', error);
@@ -38,8 +36,7 @@ const _GET = withAuth(
         'Content-Type': 'image/png',
       },
     });
-
-    },
-    { roles: ['admin', 'super_admin'] }
+  },
+  { roles: ['admin', 'super_admin'] },
 );
 export const GET = withApiAudit('/api/admin/storage/signature', _GET);

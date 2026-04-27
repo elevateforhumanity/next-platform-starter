@@ -10,7 +10,8 @@ export function SupersonicScopeSection({ pageType }: SupersonicScopeSectionProps
   const content = {
     security: {
       title: 'Application to Supersonic Fast Cash Tax Services',
-      description: 'This Security & Data Protection Statement applies to Supersonic Fast Cash tax preparation services and optional refund-based advance products, operated under 2Exclusive LLC-S.',
+      description:
+        'This Security & Data Protection Statement applies to Supersonic Fast Cash tax preparation services and optional refund-based advance products, operated under 2Exclusive LLC-S.',
       points: [
         'Tax preparation data is handled according to the same security standards described above',
         'Refund advance eligibility data follows the same access controls and retention policies',
@@ -20,7 +21,8 @@ export function SupersonicScopeSection({ pageType }: SupersonicScopeSectionProps
     },
     compliance: {
       title: 'Application to Supersonic Fast Cash Tax Services',
-      description: 'This Compliance & Disclosure Framework applies to Supersonic Fast Cash tax preparation services and optional refund-based advance products, operated under 2Exclusive LLC-S.',
+      description:
+        'This Compliance & Disclosure Framework applies to Supersonic Fast Cash tax preparation services and optional refund-based advance products, operated under 2Exclusive LLC-S.',
       points: [
         'Tax preparation disclosures follow the same compliance standards described above',
         'Refund advance terms and eligibility are disclosed according to this framework',
@@ -40,9 +42,9 @@ export function SupersonicScopeSection({ pageType }: SupersonicScopeSectionProps
         </div>
         <h2 className="text-xl font-bold text-slate-900">{title}</h2>
       </div>
-      
+
       <p className="text-slate-700 mb-4">{description}</p>
-      
+
       <ul className="space-y-2">
         {points.map((point, index) => (
           <li key={index} className="flex items-start gap-2 text-slate-700">
@@ -53,8 +55,9 @@ export function SupersonicScopeSection({ pageType }: SupersonicScopeSectionProps
       </ul>
 
       <p className="mt-4 text-sm text-slate-600 italic">
-        This section clarifies scope only. It does not create separate rules, retention periods, 
-        security claims, or disclosures beyond what is defined in the canonical governance documents.
+        This section clarifies scope only. It does not create separate rules, retention periods,
+        security claims, or disclosures beyond what is defined in the canonical governance
+        documents.
       </p>
     </section>
   );

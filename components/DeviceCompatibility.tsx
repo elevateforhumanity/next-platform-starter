@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -48,9 +48,7 @@ export default function DeviceCompatibility() {
       name: 'IndexedDB',
       supported: 'indexedDB' in window,
       message:
-        'indexedDB' in window
-          ? 'Offline data storage available'
-          : 'Offline storage not supported',
+        'indexedDB' in window ? 'Offline data storage available' : 'Offline storage not supported',
     });
 
     // Background Sync
@@ -67,10 +65,7 @@ export default function DeviceCompatibility() {
     results.push({
       name: 'Web Share',
       supported: 'share' in navigator,
-      message:
-        'share' in navigator
-          ? 'Native sharing available'
-          : 'Web share not supported',
+      message: 'share' in navigator ? 'Native sharing available' : 'Web share not supported',
     });
 
     // Geolocation
@@ -78,16 +73,13 @@ export default function DeviceCompatibility() {
       name: 'Geolocation',
       supported: 'geolocation' in navigator,
       message:
-        'geolocation' in navigator
-          ? 'Location services available'
-          : 'Geolocation not supported',
+        'geolocation' in navigator ? 'Location services available' : 'Geolocation not supported',
     });
 
     // Camera/Media
     results.push({
       name: 'Camera Access',
-      supported:
-        'mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices,
+      supported: 'mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices,
       message:
         'mediaDevices' in navigator && 'getUserMedia' in navigator.mediaDevices
           ? 'Camera access available'
@@ -99,9 +91,7 @@ export default function DeviceCompatibility() {
       name: 'Touch Events',
       supported: 'ontouchstart' in window,
       message:
-        'ontouchstart' in window
-          ? 'Touch interface detected'
-          : 'Touch not detected (desktop)',
+        'ontouchstart' in window ? 'Touch interface detected' : 'Touch not detected (desktop)',
     });
 
     setChecks(results);
@@ -186,12 +176,9 @@ export default function DeviceCompatibility() {
         <div className="w-16 h-16 mx-auto mb-4 bg-brand-blue-100 rounded-full flex items-center justify-center">
           <Smartphone size={32} className="text-brand-orange-600" />
         </div>
-        <h1 className="text-2xl font-bold text-black mb-2">
-          Device Compatibility
-        </h1>
+        <h1 className="text-2xl font-bold text-black mb-2">Device Compatibility</h1>
         <p className="text-black">
-          {supportedCount} of {totalCount} features supported (
-          {Math.round(compatibilityPercent)}%)
+          {supportedCount} of {totalCount} features supported ({Math.round(compatibilityPercent)}%)
         </p>
       </div>
       {/* Progress Bar */}
@@ -204,9 +191,7 @@ export default function DeviceCompatibility() {
       {/* Device Info */}
       {deviceInfo && (
         <div className="bg-white rounded-lg border border-gray-200 p-6">
-          <h2 className="font-semibold text-black mb-4">
-            Device Information
-          </h2>
+          <h2 className="font-semibold text-black mb-4">Device Information</h2>
           <div className="grid grid-cols-2 gap-4 text-sm">
             <div>
               <div className="text-black">Operating System</div>
@@ -214,15 +199,11 @@ export default function DeviceCompatibility() {
             </div>
             <div>
               <div className="text-black">Device Type</div>
-              <div className="font-medium text-black">
-                {deviceInfo.device}
-              </div>
+              <div className="font-medium text-black">{deviceInfo.device}</div>
             </div>
             <div>
               <div className="text-black">Browser</div>
-              <div className="font-medium text-black">
-                {deviceInfo.browser}
-              </div>
+              <div className="font-medium text-black">{deviceInfo.browser}</div>
             </div>
             <div>
               <div className="text-black">Screen Size</div>
@@ -232,9 +213,7 @@ export default function DeviceCompatibility() {
             </div>
             <div>
               <div className="text-black">Pixel Ratio</div>
-              <div className="font-medium text-black">
-                {deviceInfo.screen.pixelRatio}x
-              </div>
+              <div className="font-medium text-black">{deviceInfo.screen.pixelRatio}x</div>
             </div>
             <div>
               <div className="text-black">Online Status</div>
@@ -247,8 +226,7 @@ export default function DeviceCompatibility() {
                 <div>
                   <div className="text-black">Connection Type</div>
                   <div className="font-medium text-black">
-                    {deviceInfo.network.effectiveType?.toUpperCase() ||
-                      'Unknown'}
+                    {deviceInfo.network.effectiveType?.toUpperCase() || 'Unknown'}
                   </div>
                 </div>
                 <div>
@@ -291,32 +269,18 @@ export default function DeviceCompatibility() {
       {compatibilityPercent < 100 && (
         <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
           <div className="flex items-start gap-3">
-            <AlertCircle
-              size={20}
-              className="text-yellow-600 flex-shrink-0 mt-0.5"
-            />
+            <AlertCircle size={20} className="text-yellow-600 flex-shrink-0 mt-0.5" />
             <div>
-              <h3 className="font-semibold text-yellow-900 mb-1">
-                Recommendations
-              </h3>
+              <h3 className="font-semibold text-yellow-900 mb-1">Recommendations</h3>
               <ul className="text-sm text-yellow-800 space-y-1">
-                {!checks.find((c) => c.name === 'Service Worker')
-                  ?.supported && (
-                  <li>
-                    • Use a modern browser (Chrome, Firefox, Safari) for offline
-                    support
-                  </li>
+                {!checks.find((c) => c.name === 'Service Worker')?.supported && (
+                  <li>• Use a modern browser (Chrome, Firefox, Safari) for offline support</li>
                 )}
-                {!checks.find((c) => c.name === 'Push Notifications')
-                  ?.supported && (
-                  <li>
-                    • Push notifications require HTTPS and a compatible browser
-                  </li>
+                {!checks.find((c) => c.name === 'Push Notifications')?.supported && (
+                  <li>• Push notifications require HTTPS and a compatible browser</li>
                 )}
                 {deviceInfo?.os === 'iOS' && (
-                  <li>
-                    • iOS has limited PWA support - some features may not work
-                  </li>
+                  <li>• iOS has limited PWA support - some features may not work</li>
                 )}
               </ul>
             </div>

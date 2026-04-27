@@ -44,10 +44,10 @@ function sanitizeSlug(raw: string): string {
   return String(raw ?? '')
     .toLowerCase()
     .trim()
-    .replace(/[^a-z0-9\s-]/g, '')   // remove non-alphanumeric except spaces and hyphens
-    .replace(/[\s_]+/g, '-')         // spaces and underscores → hyphens
-    .replace(/-{2,}/g, '-')          // collapse multiple hyphens
-    .replace(/^-|-$/g, '');          // trim leading/trailing hyphens
+    .replace(/[^a-z0-9\s-]/g, '') // remove non-alphanumeric except spaces and hyphens
+    .replace(/[\s_]+/g, '-') // spaces and underscores → hyphens
+    .replace(/-{2,}/g, '-') // collapse multiple hyphens
+    .replace(/^-|-$/g, ''); // trim leading/trailing hyphens
 }
 
 function deduplicateSlugs(lessons: Record<string, unknown>[]): void {
@@ -71,12 +71,15 @@ function resequenceOrderIndex(lessons: Record<string, unknown>[]): void {
     if (modDiff !== 0) return modDiff;
     // Within module: lessons first, then checkpoints, then exams
     const typeOrder = { lesson: 0, checkpoint: 1, exam: 2 };
-    const typeDiff = (typeOrder[a.step_type as keyof typeof typeOrder] ?? 0) -
-                     (typeOrder[b.step_type as keyof typeof typeOrder] ?? 0);
+    const typeDiff =
+      (typeOrder[a.step_type as keyof typeof typeOrder] ?? 0) -
+      (typeOrder[b.step_type as keyof typeof typeOrder] ?? 0);
     if (typeDiff !== 0) return typeDiff;
     return (a.order_index as number) - (b.order_index as number);
   });
-  lessons.forEach((l, i) => { l.order_index = i + 1; });
+  lessons.forEach((l, i) => {
+    l.order_index = i + 1;
+  });
 }
 
 export interface NormalizationLog {
@@ -87,9 +90,10 @@ export interface NormalizationLog {
   compliance_status_enforced: boolean;
 }
 
-export function normalizeCourseOutline(
-  raw: unknown
-): { normalized: unknown; log: NormalizationLog } {
+export function normalizeCourseOutline(raw: unknown): {
+  normalized: unknown;
+  log: NormalizationLog;
+} {
   const log: NormalizationLog = {
     step_type_coercions: [],
     slug_sanitizations: [],
@@ -121,7 +125,9 @@ export function normalizeCourseOutline(
 
   // 2a. Coerce step_type aliases
   for (const lesson of lessons) {
-    const raw_type = String(lesson.step_type ?? '').toLowerCase().trim();
+    const raw_type = String(lesson.step_type ?? '')
+      .toLowerCase()
+      .trim();
     if (!VALID_STEP_TYPES.has(raw_type)) {
       const coerced = STEP_TYPE_ALIASES[raw_type] ?? 'lesson';
       log.step_type_coercions.push(`"${lesson.slug}": "${raw_type}" → "${coerced}"`);
@@ -130,7 +136,7 @@ export function normalizeCourseOutline(
   }
 
   // 2b. Sanitize slugs
-  const slugsBefore = lessons.map(l => l.slug as string);
+  const slugsBefore = lessons.map((l) => l.slug as string);
   for (const lesson of lessons) {
     const original = lesson.slug as string;
     const sanitized = sanitizeSlug(original);
@@ -141,9 +147,9 @@ export function normalizeCourseOutline(
   }
 
   // 2c. Deduplicate slugs
-  const slugsBeforeDedup = lessons.map(l => l.slug as string);
+  const slugsBeforeDedup = lessons.map((l) => l.slug as string);
   deduplicateSlugs(lessons);
-  const slugsAfterDedup = lessons.map(l => l.slug as string);
+  const slugsAfterDedup = lessons.map((l) => l.slug as string);
   for (let i = 0; i < lessons.length; i++) {
     if (slugsBeforeDedup[i] !== slugsAfterDedup[i]) {
       log.slug_deduplicates.push(`"${slugsBeforeDedup[i]}" → "${slugsAfterDedup[i]}"`);
@@ -151,9 +157,9 @@ export function normalizeCourseOutline(
   }
 
   // 2d. Resequence order_index
-  const originalIndices = lessons.map(l => l.order_index);
+  const originalIndices = lessons.map((l) => l.order_index);
   resequenceOrderIndex(lessons);
-  const newIndices = lessons.map(l => l.order_index);
+  const newIndices = lessons.map((l) => l.order_index);
   if (JSON.stringify(originalIndices) !== JSON.stringify(newIndices)) {
     log.order_index_resequenced = true;
   }

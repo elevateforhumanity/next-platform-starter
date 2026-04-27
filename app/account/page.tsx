@@ -3,9 +3,16 @@ import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { 
-  User, CreditCard, Key, Bell, Shield, FileText, 
-  ChevronRight, Settings, LogOut
+import {
+  User,
+  CreditCard,
+  Key,
+  Bell,
+  Shield,
+  FileText,
+  ChevronRight,
+  Settings,
+  LogOut,
 } from 'lucide-react';
 import Image from 'next/image';
 
@@ -58,7 +65,9 @@ const accountSections = [
 export default async function AccountPage() {
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/account');
 
   const { data: profile } = await supabase
@@ -82,7 +91,13 @@ export default async function AccountPage() {
           <div className="flex items-center gap-4">
             <div className="w-16 h-16 bg-brand-blue-100 rounded-full flex items-center justify-center">
               {profile?.avatar_url ? (
-                <Image src={profile.avatar_url} alt={profile.full_name || 'Profile'} width={64} height={64} className="w-16 h-16 rounded-full object-cover" />
+                <Image sizes="100vw"
+                  src={profile.avatar_url}
+                  alt={profile.full_name || 'Profile'}
+                  width={64}
+                  height={64}
+                  className="w-16 h-16 rounded-full object-cover"
+                />
               ) : (
                 <User className="w-8 h-8 text-brand-blue-600" />
               )}

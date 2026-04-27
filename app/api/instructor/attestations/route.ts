@@ -1,4 +1,3 @@
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -25,16 +24,26 @@ export const dynamic = 'force-dynamic';
  */
 
 const ALLOWED_ROLES = new Set([
-  'instructor', 'lead_instructor', 'program_director',
-  'sponsor_admin', 'admin', 'super_admin',
+  'instructor',
+  'lead_instructor',
+  'program_director',
+  'sponsor_admin',
+  'admin',
+  'super_admin',
 ]);
 
 const ATTESTATION_TYPES = new Set([
-  'module_completion', 'session_delivery', 'weekly_review', 'competency_checkpoint',
+  'module_completion',
+  'session_delivery',
+  'weekly_review',
+  'competency_checkpoint',
 ]);
 
 const ATTESTATION_METHODS = new Set([
-  'digital_signature', 'in_person', 'video_review', 'lms_system',
+  'digital_signature',
+  'in_person',
+  'video_review',
+  'lms_system',
 ]);
 
 async function getInstructorProfile(db: any, userId: string) {
@@ -79,12 +88,17 @@ async function _POST(req: NextRequest) {
 
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const instructor = await getInstructorProfile(db, user.id);
   if (!instructor?.allowed) {
-    return NextResponse.json({ error: 'Only instructors can create attestations' }, { status: 403 });
+    return NextResponse.json(
+      { error: 'Only instructors can create attestations' },
+      { status: 403 },
+    );
   }
 
   const body = await req.json();
@@ -106,29 +120,34 @@ async function _POST(req: NextRequest) {
   if (!attestation_type || !student_id) {
     return NextResponse.json(
       { error: 'attestation_type and student_id are required' },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (!ATTESTATION_TYPES.has(attestation_type)) {
     return NextResponse.json(
       { error: `Invalid attestation_type. Must be one of: ${[...ATTESTATION_TYPES].join(', ')}` },
-      { status: 400 }
+      { status: 400 },
     );
   }
 
   if (!ATTESTATION_METHODS.has(attestation_method)) {
     return NextResponse.json(
-      { error: `Invalid attestation_method. Must be one of: ${[...ATTESTATION_METHODS].join(', ')}` },
-      { status: 400 }
+      {
+        error: `Invalid attestation_method. Must be one of: ${[...ATTESTATION_METHODS].join(', ')}`,
+      },
+      { status: 400 },
     );
   }
 
   // At least one context reference must be provided
   if (!program_id && !course_id && !cohort_session_id && !lesson_id && !hour_entry_id) {
     return NextResponse.json(
-      { error: 'At least one context reference (program_id, course_id, cohort_session_id, lesson_id, or hour_entry_id) is required' },
-      { status: 400 }
+      {
+        error:
+          'At least one context reference (program_id, course_id, cohort_session_id, lesson_id, or hour_entry_id) is required',
+      },
+      { status: 400 },
     );
   }
 
@@ -156,8 +175,11 @@ async function _POST(req: NextRequest) {
 
     if (existingAttestation) {
       return NextResponse.json(
-        { error: 'Session already attested for this student', attestation_id: existingAttestation.id },
-        { status: 409 }
+        {
+          error: 'Session already attested for this student',
+          attestation_id: existingAttestation.id,
+        },
+        { status: 409 },
       );
     }
   }
@@ -175,8 +197,11 @@ async function _POST(req: NextRequest) {
 
     if (existingAttestation) {
       return NextResponse.json(
-        { error: 'Module already attested for this student', attestation_id: existingAttestation.id },
-        { status: 409 }
+        {
+          error: 'Module already attested for this student',
+          attestation_id: existingAttestation.id,
+        },
+        { status: 409 },
       );
     }
   }
@@ -237,7 +262,9 @@ async function _GET(req: NextRequest) {
 
   const supabase = await createClient();
 
-  const { data: { user } } = await supabase.auth.getUser();
+  const {
+    data: { user },
+  } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
   const url = new URL(req.url);

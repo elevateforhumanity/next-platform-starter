@@ -38,15 +38,16 @@ const SUPPORTED_TYPES = [
 ];
 const SUPPORTED_EXTENSIONS = ['.pdf', '.docx', '.doc', '.txt', '.md'];
 
-
 function normalizeText(raw: string): string {
-  return raw
-    .replace(/\r\n/g, '\n')
-    .replace(/\r/g, '\n')
-    .replace(/\n{3,}/g, '\n\n')
-    // eslint-disable-next-line no-control-regex
-    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
-    .trim();
+  return (
+    raw
+      .replace(/\r\n/g, '\n')
+      .replace(/\r/g, '\n')
+      .replace(/\n{3,}/g, '\n\n')
+      // eslint-disable-next-line no-control-regex
+      .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '')
+      .trim()
+  );
 }
 
 /** Returns true if extracted PDF text is too sparse to be real content */
@@ -82,10 +83,10 @@ async function ocrPdf(buffer: Buffer): Promise<{
   let offset = 0;
   while (offset < buffer.length - 2 && images.length < MAX_OCR_PAGES) {
     // Find JPEG SOI marker
-    const jpegStart = buffer.indexOf(Buffer.from([0xFF, 0xD8, 0xFF]), offset);
+    const jpegStart = buffer.indexOf(Buffer.from([0xff, 0xd8, 0xff]), offset);
     if (jpegStart === -1) break;
     // Find JPEG EOI marker
-    const jpegEnd = buffer.indexOf(Buffer.from([0xFF, 0xD9]), jpegStart + 2);
+    const jpegEnd = buffer.indexOf(Buffer.from([0xff, 0xd9]), jpegStart + 2);
     if (jpegEnd === -1) break;
     const imgBuf = buffer.slice(jpegStart, jpegEnd + 2);
     // Only keep images larger than 10KB (skip thumbnails/icons)
@@ -110,7 +111,9 @@ async function ocrPdf(buffer: Buffer): Promise<{
   try {
     for (const imgBuf of images) {
       try {
-        const { data: { text } } = await worker.recognize(imgBuf);
+        const {
+          data: { text },
+        } = await worker.recognize(imgBuf);
         if (text.trim().length > 20) texts.push(text.trim());
       } catch {
         // skip unreadable image
@@ -156,7 +159,7 @@ export async function POST(request: Request) {
   if (file.size > MAX_FILE_BYTES) {
     return NextResponse.json(
       { error: `File too large (${(file.size / 1024 / 1024).toFixed(1)} MB). Maximum is 10 MB.` },
-      { status: 413 }
+      { status: 413 },
     );
   }
 
@@ -170,15 +173,14 @@ export async function POST(request: Request) {
     ext === '.doc' ||
     mime === 'application/vnd.openxmlformats-officedocument.wordprocessingml.document' ||
     mime === 'application/msword';
-  const isText =
-    ext === '.txt' || ext === '.md' || mime.startsWith('text/');
+  const isText = ext === '.txt' || ext === '.md' || mime.startsWith('text/');
 
   if (!isPdf && !isDocx && !isText) {
     return NextResponse.json(
       {
         error: `Unsupported file type "${ext || mime}". Supported: ${SUPPORTED_EXTENSIONS.join(', ')}`,
       },
-      { status: 415 }
+      { status: 415 },
     );
   }
 
@@ -197,8 +199,11 @@ export async function POST(request: Request) {
         const msg = parseErr?.message || '';
         if (msg.includes('Invalid PDF') || msg.includes('Bad XRef') || msg.includes('encrypted')) {
           return NextResponse.json(
-            { error: 'Could not parse this PDF. It may be encrypted or corrupted. Try exporting as a plain text file.' },
-            { status: 422 }
+            {
+              error:
+                'Could not parse this PDF. It may be encrypted or corrupted. Try exporting as a plain text file.',
+            },
+            { status: 422 },
           );
         }
         throw parseErr;
@@ -218,7 +223,7 @@ export async function POST(request: Request) {
                 `for automatic text recognition within the time limit. ` +
                 `Please export the document as a text or Word file, or copy and paste the content directly.`,
             },
-            { status: 422 }
+            { status: 422 },
           );
         }
 
@@ -232,7 +237,7 @@ export async function POST(request: Request) {
                 'This PDF is scanned (image-only) and OCR could not extract readable text. ' +
                 'Try exporting as a Word document or copying the text manually.',
             },
-            { status: 422 }
+            { status: 422 },
           );
         }
 
@@ -260,8 +265,11 @@ export async function POST(request: Request) {
 
     if (text.length < 20) {
       return NextResponse.json(
-        { error: 'Could not extract readable text from this file. Try copying and pasting the content instead.' },
-        { status: 422 }
+        {
+          error:
+            'Could not extract readable text from this file. Try copying and pasting the content instead.',
+        },
+        { status: 422 },
       );
     }
 
@@ -276,10 +284,16 @@ export async function POST(request: Request) {
     const msg = err?.message || '';
     if (msg.includes('Invalid PDF') || msg.includes('Bad XRef')) {
       return NextResponse.json(
-        { error: 'Could not parse this PDF. It may be encrypted or corrupted. Try exporting as a plain text file.' },
-        { status: 422 }
+        {
+          error:
+            'Could not parse this PDF. It may be encrypted or corrupted. Try exporting as a plain text file.',
+        },
+        { status: 422 },
       );
     }
-    return NextResponse.json({ error: 'File parsing failed. Try a different format.' }, { status: 500 });
+    return NextResponse.json(
+      { error: 'File parsing failed. Try a different format.' },
+      { status: 500 },
+    );
   }
 }

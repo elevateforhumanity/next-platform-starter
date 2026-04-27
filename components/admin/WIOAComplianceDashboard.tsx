@@ -38,51 +38,71 @@ export interface WIOADashboardProps {
 
 const SEVERITY_STYLES: Record<string, string> = {
   critical: 'border-rose-200 bg-rose-50 text-rose-800',
-  high:     'border-orange-200 bg-orange-50 text-orange-800',
-  medium:   'border-amber-200 bg-amber-50 text-amber-800',
-  low:      'border-blue-200 bg-blue-50 text-blue-800',
+  high: 'border-orange-200 bg-orange-50 text-orange-800',
+  medium: 'border-amber-200 bg-amber-50 text-amber-800',
+  low: 'border-blue-200 bg-blue-50 text-blue-800',
 };
 
 const REPORT_STATUS_STYLES: Record<string, string> = {
-  completed:   'bg-emerald-100 text-emerald-800',
+  completed: 'bg-emerald-100 text-emerald-800',
   in_progress: 'bg-blue-100 text-blue-800',
-  overdue:     'bg-rose-100 text-rose-800',
-  upcoming:    'bg-slate-100 text-slate-600',
+  overdue: 'bg-rose-100 text-rose-800',
+  upcoming: 'bg-slate-100 text-slate-600',
 };
 
 function fmtDate(iso: string) {
-  return new Date(iso).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' });
+  return new Date(iso).toLocaleDateString('en-US', {
+    month: 'short',
+    day: 'numeric',
+    year: 'numeric',
+    timeZone: 'UTC',
+  });
 }
 
 function pct(n: number, d: number) {
   return d > 0 ? Math.round((n / d) * 100) : 0;
 }
 
-export default function WIOAComplianceDashboard({ participants, reports, alerts }: WIOADashboardProps) {
+export default function WIOAComplianceDashboard({
+  participants,
+  reports,
+  alerts,
+}: WIOADashboardProps) {
   const placementRate = pct(participants.placements, participants.total);
   const credentialRate = pct(participants.completions, participants.total);
 
   return (
     <div className="space-y-8">
       <div>
-        <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Federal Workforce</p>
+        <p className="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">
+          Federal Workforce
+        </p>
         <h2 className="text-3xl font-black text-slate-900">WIOA Compliance</h2>
       </div>
 
       {/* Active alerts */}
       {alerts.length > 0 && (
         <div className="space-y-3">
-          <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Active Alerts</p>
-          {alerts.map(alert => (
-            <div key={alert.id} className={`flex items-start gap-3 rounded-xl border px-5 py-4 ${SEVERITY_STYLES[alert.severity] ?? SEVERITY_STYLES.low}`}>
+          <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
+            Active Alerts
+          </p>
+          {alerts.map((alert) => (
+            <div
+              key={alert.id}
+              className={`flex items-start gap-3 rounded-xl border px-5 py-4 ${SEVERITY_STYLES[alert.severity] ?? SEVERITY_STYLES.low}`}
+            >
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-semibold">{alert.message}</p>
                 <p className="text-xs mt-0.5 opacity-80">{alert.actionRequired}</p>
                 {alert.deadline && (
-                  <p className="text-xs mt-1 font-mono opacity-60">Deadline: {fmtDate(alert.deadline)}</p>
+                  <p className="text-xs mt-1 font-mono opacity-60">
+                    Deadline: {fmtDate(alert.deadline)}
+                  </p>
                 )}
               </div>
-              <span className={`flex-shrink-0 text-xs font-bold uppercase px-2 py-1 rounded ${SEVERITY_STYLES[alert.severity] ?? ''}`}>
+              <span
+                className={`flex-shrink-0 text-xs font-bold uppercase px-2 py-1 rounded ${SEVERITY_STYLES[alert.severity] ?? ''}`}
+              >
                 {alert.severity}
               </span>
             </div>
@@ -94,18 +114,30 @@ export default function WIOAComplianceDashboard({ participants, reports, alerts 
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-4">
         {[
           { label: 'Total Participants', value: participants.total.toLocaleString() },
-          { label: 'Placement Rate',     value: `${placementRate}%`,  target: '70%', ok: placementRate >= 70 },
-          { label: 'Credential Rate',    value: `${credentialRate}%`, target: '60%', ok: credentialRate >= 60 },
-          { label: 'Veterans',           value: participants.veterans.toLocaleString() },
+          {
+            label: 'Placement Rate',
+            value: `${placementRate}%`,
+            target: '70%',
+            ok: placementRate >= 70,
+          },
+          {
+            label: 'Credential Rate',
+            value: `${credentialRate}%`,
+            target: '60%',
+            ok: credentialRate >= 60,
+          },
+          { label: 'Veterans', value: participants.veterans.toLocaleString() },
         ].map(({ label, value, target, ok }) => (
           <div key={label} className="rounded-xl border border-slate-200 bg-white px-4 py-5">
-            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">{label}</p>
-            <p className={`text-2xl font-black tabular-nums ${ok === false ? 'text-rose-600' : ok === true ? 'text-emerald-600' : 'text-slate-900'}`}>
+            <p className="text-xs font-semibold text-slate-400 uppercase tracking-wide mb-1">
+              {label}
+            </p>
+            <p
+              className={`text-2xl font-black tabular-nums ${ok === false ? 'text-rose-600' : ok === true ? 'text-emerald-600' : 'text-slate-900'}`}
+            >
               {value}
             </p>
-            {target && (
-              <p className="text-xs text-slate-400 mt-0.5">Target: {target}</p>
-            )}
+            {target && <p className="text-xs text-slate-400 mt-0.5">Target: {target}</p>}
           </div>
         ))}
       </div>
@@ -113,21 +145,28 @@ export default function WIOAComplianceDashboard({ participants, reports, alerts 
       {/* Demographics */}
       {participants.total > 0 && (
         <div className="rounded-xl border border-slate-200 bg-white p-6">
-          <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">Participant Demographics</p>
+          <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide mb-4">
+            Participant Demographics
+          </p>
           <div className="space-y-3">
             {[
-              { label: 'Veterans',           count: participants.veterans },
+              { label: 'Veterans', count: participants.veterans },
               { label: 'Dislocated Workers', count: participants.dislocatedWorkers },
-              { label: 'Low Income',         count: participants.lowIncome },
-              { label: 'Youth',              count: participants.youth },
+              { label: 'Low Income', count: participants.lowIncome },
+              { label: 'Youth', count: participants.youth },
             ].map(({ label, count }) => (
               <div key={label}>
                 <div className="flex items-baseline justify-between mb-1">
                   <span className="text-sm font-medium text-slate-700">{label}</span>
-                  <span className="text-xs text-slate-400 tabular-nums">{count} ({pct(count, participants.total)}%)</span>
+                  <span className="text-xs text-slate-400 tabular-nums">
+                    {count} ({pct(count, participants.total)}%)
+                  </span>
                 </div>
                 <div className="h-1.5 rounded-full bg-slate-100 overflow-hidden">
-                  <div className="h-full rounded-full bg-blue-500" style={{ width: `${pct(count, participants.total)}%` }} />
+                  <div
+                    className="h-full rounded-full bg-blue-500"
+                    style={{ width: `${pct(count, participants.total)}%` }}
+                  />
                 </div>
               </div>
             ))}
@@ -139,20 +178,28 @@ export default function WIOAComplianceDashboard({ participants, reports, alerts 
       {reports.length > 0 && (
         <div className="rounded-xl border border-slate-200 bg-white overflow-hidden">
           <div className="px-6 py-4 border-b border-slate-100">
-            <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">Reporting Schedule</p>
+            <p className="text-sm font-semibold text-slate-500 uppercase tracking-wide">
+              Reporting Schedule
+            </p>
           </div>
           <div className="divide-y divide-slate-100">
             {reports.map((r, i) => (
               <div key={i} className="flex items-center gap-4 px-6 py-4">
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-semibold text-slate-900 truncate">{r.reportType}</p>
-                  <p className="text-xs text-slate-400 mt-0.5">Due {fmtDate(r.dueDate)} · {r.submissionMethod}</p>
+                  <p className="text-xs text-slate-400 mt-0.5">
+                    Due {fmtDate(r.dueDate)} · {r.submissionMethod}
+                  </p>
                 </div>
                 <div className="flex items-center gap-2 flex-shrink-0">
                   {r.autoGenerated && (
-                    <span className="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded font-medium">Auto</span>
+                    <span className="text-xs bg-slate-100 text-slate-500 px-2 py-0.5 rounded font-medium">
+                      Auto
+                    </span>
                   )}
-                  <span className={`text-xs font-semibold px-2.5 py-1 rounded-full ${REPORT_STATUS_STYLES[r.status] ?? 'bg-slate-100 text-slate-600'}`}>
+                  <span
+                    className={`text-xs font-semibold px-2.5 py-1 rounded-full ${REPORT_STATUS_STYLES[r.status] ?? 'bg-slate-100 text-slate-600'}`}
+                  >
                     {r.status.replace(/_/g, ' ')}
                   </span>
                 </div>
@@ -164,8 +211,13 @@ export default function WIOAComplianceDashboard({ participants, reports, alerts 
 
       {participants.total === 0 && alerts.length === 0 && reports.length === 0 && (
         <div className="rounded-xl border border-slate-200 bg-slate-50 px-6 py-10 text-center">
-          <p className="text-slate-500 text-sm">No WIOA data found. Tables may not be populated yet.</p>
-          <Link href="/admin/compliance" className="mt-3 inline-block text-xs font-semibold text-blue-600 hover:text-blue-700">
+          <p className="text-slate-500 text-sm">
+            No WIOA data found. Tables may not be populated yet.
+          </p>
+          <Link
+            href="/admin/compliance"
+            className="mt-3 inline-block text-xs font-semibold text-blue-600 hover:text-blue-700"
+          >
             Run compliance audit →
           </Link>
         </div>

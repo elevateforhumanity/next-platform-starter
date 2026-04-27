@@ -1,6 +1,6 @@
 /**
  * Enrollment Payment Flow Tests
- * 
+ *
  * Tests payment processing and enrollment completion
  */
 
@@ -57,7 +57,7 @@ class PaymentService {
     amount: number,
     userId: string,
     courseId: string,
-    paymentMethod: PaymentMethod = 'card'
+    paymentMethod: PaymentMethod = 'card',
   ): Promise<PaymentIntent> {
     const intent: PaymentIntent = {
       id: this.generateId('pi'),
@@ -78,7 +78,7 @@ class PaymentService {
   async createCheckoutSession(
     paymentIntentId: string,
     successUrl: string,
-    cancelUrl: string
+    cancelUrl: string,
   ): Promise<CheckoutSession> {
     const session: CheckoutSession = {
       id: this.generateId('cs'),
@@ -103,11 +103,11 @@ class PaymentService {
 
     // Simulate payment processing
     intent.status = 'processing';
-    
+
     // Simulate successful payment (in real world, this would be async webhook)
     intent.status = 'completed';
     intent.completed_at = new Date().toISOString();
-    
+
     return { success: true };
   }
 
@@ -159,7 +159,7 @@ class PaymentEnrollmentService {
   async initiateEnrollment(
     userId: string,
     courseId: string,
-    amount: number
+    amount: number,
   ): Promise<{ enrollment: Enrollment; checkoutUrl: string }> {
     // Create pending enrollment
     const enrollment: Enrollment = {
@@ -173,11 +173,7 @@ class PaymentEnrollmentService {
     this.enrollments.set(enrollment.id, enrollment);
 
     // Create payment intent
-    const paymentIntent = await this.paymentService.createPaymentIntent(
-      amount,
-      userId,
-      courseId
-    );
+    const paymentIntent = await this.paymentService.createPaymentIntent(amount, userId, courseId);
 
     // Update enrollment with payment intent
     paymentIntent.metadata.enrollment_id = enrollment.id;
@@ -186,7 +182,7 @@ class PaymentEnrollmentService {
     const session = await this.paymentService.createCheckoutSession(
       paymentIntent.id,
       `/enrollment/success?id=${enrollment.id}`,
-      `/enrollment/cancel?id=${enrollment.id}`
+      `/enrollment/cancel?id=${enrollment.id}`,
     );
 
     return { enrollment, checkoutUrl: session.url };
@@ -205,7 +201,10 @@ class PaymentEnrollmentService {
     return enrollment;
   }
 
-  async completeEnrollment(enrollmentId: string, paymentIntentId: string): Promise<{ success: boolean; error?: string }> {
+  async completeEnrollment(
+    enrollmentId: string,
+    paymentIntentId: string,
+  ): Promise<{ success: boolean; error?: string }> {
     const enrollment = this.enrollments.get(enrollmentId);
     if (!enrollment) {
       return { success: false, error: 'Enrollment not found' };
@@ -222,7 +221,7 @@ class PaymentEnrollmentService {
 
     enrollment.status = 'active';
     enrollment.payment_status = 'completed';
-    
+
     return { success: true };
   }
 
@@ -233,7 +232,10 @@ class PaymentEnrollmentService {
     }
   }
 
-  async processRefund(enrollmentId: string, paymentIntentId: string): Promise<{ success: boolean; error?: string }> {
+  async processRefund(
+    enrollmentId: string,
+    paymentIntentId: string,
+  ): Promise<{ success: boolean; error?: string }> {
     const enrollment = this.enrollments.get(enrollmentId);
     if (!enrollment) {
       return { success: false, error: 'Enrollment not found' };
@@ -246,7 +248,7 @@ class PaymentEnrollmentService {
 
     enrollment.status = 'dropped';
     enrollment.payment_status = 'refunded';
-    
+
     return { success: true };
   }
 
@@ -265,7 +267,7 @@ describe('Payment Processing', () => {
   describe('Payment Intent Creation', () => {
     it('should create payment intent with correct amount', async () => {
       const intent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1');
-      
+
       expect(intent.id).toBeDefined();
       expect(intent.amount).toBe(29999);
       expect(intent.currency).toBe('usd');
@@ -274,15 +276,25 @@ describe('Payment Processing', () => {
 
     it('should store metadata with user and course info', async () => {
       const intent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1');
-      
+
       expect(intent.metadata.user_id).toBe('user-1');
       expect(intent.metadata.course_id).toBe('course-1');
     });
 
     it('should support different payment methods', async () => {
-      const cardIntent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1', 'card');
-      const affirmIntent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-2', 'affirm');
-      
+      const cardIntent = await paymentService.createPaymentIntent(
+        29999,
+        'user-1',
+        'course-1',
+        'card',
+      );
+      const affirmIntent = await paymentService.createPaymentIntent(
+        29999,
+        'user-1',
+        'course-2',
+        'affirm',
+      );
+
       expect(cardIntent.payment_method).toBe('card');
       expect(affirmIntent.payment_method).toBe('affirm');
     });
@@ -291,12 +303,8 @@ describe('Payment Processing', () => {
   describe('Checkout Session', () => {
     it('should create checkout session with URL', async () => {
       const intent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1');
-      const session = await paymentService.createCheckoutSession(
-        intent.id,
-        '/success',
-        '/cancel'
-      );
-      
+      const session = await paymentService.createCheckoutSession(intent.id, '/success', '/cancel');
+
       expect(session.id).toBeDefined();
       expect(session.url).toContain('checkout.stripe.com');
       expect(session.status).toBe('open');
@@ -304,12 +312,8 @@ describe('Payment Processing', () => {
 
     it('should set expiration time', async () => {
       const intent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1');
-      const session = await paymentService.createCheckoutSession(
-        intent.id,
-        '/success',
-        '/cancel'
-      );
-      
+      const session = await paymentService.createCheckoutSession(intent.id, '/success', '/cancel');
+
       expect(session.expires_at).toBeGreaterThan(Date.now());
     });
   });
@@ -318,9 +322,9 @@ describe('Payment Processing', () => {
     it('should process pending payment successfully', async () => {
       const intent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1');
       const result = await paymentService.processPayment(intent.id);
-      
+
       expect(result.success).toBe(true);
-      
+
       const updatedIntent = paymentService.getPaymentIntent(intent.id);
       expect(updatedIntent?.status).toBe('completed');
       expect(updatedIntent?.completed_at).toBeDefined();
@@ -328,7 +332,7 @@ describe('Payment Processing', () => {
 
     it('should reject processing non-existent payment', async () => {
       const result = await paymentService.processPayment('non-existent');
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Payment intent not found');
     });
@@ -336,9 +340,9 @@ describe('Payment Processing', () => {
     it('should reject processing already completed payment', async () => {
       const intent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1');
       await paymentService.processPayment(intent.id);
-      
+
       const result = await paymentService.processPayment(intent.id);
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toContain('Cannot process payment');
     });
@@ -348,20 +352,20 @@ describe('Payment Processing', () => {
     it('should refund completed payment', async () => {
       const intent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1');
       await paymentService.processPayment(intent.id);
-      
+
       const result = await paymentService.refundPayment(intent.id);
-      
+
       expect(result.success).toBe(true);
-      
+
       const updatedIntent = paymentService.getPaymentIntent(intent.id);
       expect(updatedIntent?.status).toBe('refunded');
     });
 
     it('should reject refunding pending payment', async () => {
       const intent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1');
-      
+
       const result = await paymentService.refundPayment(intent.id);
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Can only refund completed payments');
     });
@@ -380,7 +384,7 @@ describe('Enrollment with Payment', () => {
   describe('Paid Enrollment Flow', () => {
     it('should create pending enrollment with checkout URL', async () => {
       const result = await enrollmentService.initiateEnrollment('user-1', 'course-1', 29999);
-      
+
       expect(result.enrollment.id).toBeDefined();
       expect(result.enrollment.status).toBe('pending_payment');
       expect(result.enrollment.payment_status).toBe('pending');
@@ -388,29 +392,37 @@ describe('Enrollment with Payment', () => {
     });
 
     it('should activate enrollment after payment completion', async () => {
-      const { enrollment } = await enrollmentService.initiateEnrollment('user-1', 'course-1', 29999);
-      
+      const { enrollment } = await enrollmentService.initiateEnrollment(
+        'user-1',
+        'course-1',
+        29999,
+      );
+
       // Simulate payment processing (would be webhook in real world)
       const intent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1');
       intent.metadata.enrollment_id = enrollment.id;
       await paymentService.processPayment(intent.id);
-      
+
       const result = await enrollmentService.completeEnrollment(enrollment.id, intent.id);
-      
+
       expect(result.success).toBe(true);
-      
+
       const updatedEnrollment = enrollmentService.getEnrollment(enrollment.id);
       expect(updatedEnrollment?.status).toBe('active');
       expect(updatedEnrollment?.payment_status).toBe('completed');
     });
 
     it('should reject completion without payment', async () => {
-      const { enrollment } = await enrollmentService.initiateEnrollment('user-1', 'course-1', 29999);
+      const { enrollment } = await enrollmentService.initiateEnrollment(
+        'user-1',
+        'course-1',
+        29999,
+      );
       const intent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1');
-      
+
       // Don't process payment
       const result = await enrollmentService.completeEnrollment(enrollment.id, intent.id);
-      
+
       expect(result.success).toBe(false);
       expect(result.error).toBe('Payment not completed');
     });
@@ -419,7 +431,7 @@ describe('Enrollment with Payment', () => {
   describe('Free Enrollment Flow', () => {
     it('should create active enrollment immediately for free courses', async () => {
       const enrollment = await enrollmentService.handleFreeEnrollment('user-1', 'free-course');
-      
+
       expect(enrollment.status).toBe('active');
       expect(enrollment.payment_status).toBe('completed');
       expect(enrollment.payment_amount).toBe(0);
@@ -428,10 +440,14 @@ describe('Enrollment with Payment', () => {
 
   describe('Payment Failure Handling', () => {
     it('should mark enrollment as failed on payment failure', async () => {
-      const { enrollment } = await enrollmentService.initiateEnrollment('user-1', 'course-1', 29999);
-      
+      const { enrollment } = await enrollmentService.initiateEnrollment(
+        'user-1',
+        'course-1',
+        29999,
+      );
+
       await enrollmentService.handlePaymentFailure(enrollment.id);
-      
+
       const updatedEnrollment = enrollmentService.getEnrollment(enrollment.id);
       expect(updatedEnrollment?.payment_status).toBe('failed');
     });
@@ -439,18 +455,22 @@ describe('Enrollment with Payment', () => {
 
   describe('Refund Flow', () => {
     it('should process refund and drop enrollment', async () => {
-      const { enrollment } = await enrollmentService.initiateEnrollment('user-1', 'course-1', 29999);
-      
+      const { enrollment } = await enrollmentService.initiateEnrollment(
+        'user-1',
+        'course-1',
+        29999,
+      );
+
       // Complete payment first
       const intent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1');
       await paymentService.processPayment(intent.id);
       await enrollmentService.completeEnrollment(enrollment.id, intent.id);
-      
+
       // Process refund
       const result = await enrollmentService.processRefund(enrollment.id, intent.id);
-      
+
       expect(result.success).toBe(true);
-      
+
       const updatedEnrollment = enrollmentService.getEnrollment(enrollment.id);
       expect(updatedEnrollment?.status).toBe('dropped');
       expect(updatedEnrollment?.payment_status).toBe('refunded');
@@ -472,22 +492,22 @@ describe('Complete Payment Enrollment Flow', () => {
     const { enrollment, checkoutUrl } = await enrollmentService.initiateEnrollment(
       'user-1',
       'course-1',
-      29999
+      29999,
     );
     expect(enrollment.status).toBe('pending_payment');
     expect(checkoutUrl).toBeDefined();
-    
+
     // Step 2: User completes payment (simulated)
     const intent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1');
     intent.metadata.enrollment_id = enrollment.id;
-    
+
     const paymentResult = await paymentService.processPayment(intent.id);
     expect(paymentResult.success).toBe(true);
-    
+
     // Step 3: Webhook triggers enrollment completion
     const completionResult = await enrollmentService.completeEnrollment(enrollment.id, intent.id);
     expect(completionResult.success).toBe(true);
-    
+
     // Step 4: Verify final state
     const finalEnrollment = enrollmentService.getEnrollment(enrollment.id);
     expect(finalEnrollment?.status).toBe('active');
@@ -497,19 +517,15 @@ describe('Complete Payment Enrollment Flow', () => {
 
   it('should handle payment failure gracefully', async () => {
     // Step 1: User initiates enrollment
-    const { enrollment } = await enrollmentService.initiateEnrollment(
-      'user-1',
-      'course-1',
-      29999
-    );
-    
+    const { enrollment } = await enrollmentService.initiateEnrollment('user-1', 'course-1', 29999);
+
     // Step 2: Payment fails
     const intent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1');
     await paymentService.failPayment(intent.id, 'Card declined');
-    
+
     // Step 3: Handle failure
     await enrollmentService.handlePaymentFailure(enrollment.id);
-    
+
     // Step 4: Verify enrollment is not active
     const finalEnrollment = enrollmentService.getEnrollment(enrollment.id);
     expect(finalEnrollment?.status).toBe('pending_payment');
@@ -522,16 +538,16 @@ describe('Complete Payment Enrollment Flow', () => {
     const intent = await paymentService.createPaymentIntent(29999, 'user-1', 'course-1');
     await paymentService.processPayment(intent.id);
     await enrollmentService.completeEnrollment(enrollment.id, intent.id);
-    
+
     // Step 2: User requests refund
     const refundResult = await enrollmentService.processRefund(enrollment.id, intent.id);
     expect(refundResult.success).toBe(true);
-    
+
     // Step 3: Verify final state
     const finalEnrollment = enrollmentService.getEnrollment(enrollment.id);
     expect(finalEnrollment?.status).toBe('dropped');
     expect(finalEnrollment?.payment_status).toBe('refunded');
-    
+
     const finalIntent = paymentService.getPaymentIntent(intent.id);
     expect(finalIntent?.status).toBe('refunded');
   });

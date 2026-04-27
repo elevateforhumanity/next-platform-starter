@@ -8,31 +8,31 @@
  * Usage: node scripts/sync-static-courses-to-supabase.mjs
  */
 
-import fs from "fs";
-import path from "path";
-import { createClient } from "@supabase/supabase-js";
+import fs from 'fs';
+import path from 'path';
+import { createClient } from '@supabase/supabase-js';
 
 // Load environment variables
 const url = process.env.NEXT_PUBLIC_SUPABASE_URL;
 const serviceKey = process.env.SUPABASE_SERVICE_ROLE_KEY;
 
 if (!url || !serviceKey) {
-  console.error("❌ Missing required environment variables:");
-  console.error("   - NEXT_PUBLIC_SUPABASE_URL");
-  console.error("   - SUPABASE_SERVICE_ROLE_KEY");
-  console.error("\nMake sure .env.local is configured correctly.");
+  console.error('❌ Missing required environment variables:');
+  console.error('   - NEXT_PUBLIC_SUPABASE_URL');
+  console.error('   - SUPABASE_SERVICE_ROLE_KEY');
+  console.error('\nMake sure .env.local is configured correctly.');
   process.exit(1);
 }
 
 const supabase = createClient(url, serviceKey, {
-  auth: { persistSession: false }
+  auth: { persistSession: false },
 });
 
 const ROOT = process.cwd();
-const COURSES_DIR = path.join(ROOT, "lms-data", "courses");
+const COURSES_DIR = path.join(ROOT, 'lms-data', 'courses');
 
 function read(file) {
-  return fs.readFileSync(file, "utf8");
+  return fs.readFileSync(file, 'utf8');
 }
 
 function listCourseFiles() {
@@ -43,7 +43,7 @@ function listCourseFiles() {
 
   return fs
     .readdirSync(COURSES_DIR)
-    .filter((f) => f.startsWith("program-") && f.endsWith(".ts"))
+    .filter((f) => f.startsWith('program-') && f.endsWith('.ts'))
     .sort()
     .map((f) => ({ file: f, abs: path.join(COURSES_DIR, f) }));
 }
@@ -58,7 +58,7 @@ function extractField(src, key) {
 function extractBool(src, key) {
   const regex = new RegExp(`${key}\\s*:\\s*(true|false)`, 'i');
   const match = src.match(regex);
-  return match?.[1] === "true" ? true : match?.[1] === "false" ? false : null;
+  return match?.[1] === 'true' ? true : match?.[1] === 'false' ? false : null;
 }
 
 function extractNumber(src, key) {
@@ -68,9 +68,7 @@ function extractNumber(src, key) {
 }
 
 async function upsertCourse(courseData) {
-  const { error } = await supabase
-    .from("courses")
-    .upsert(courseData, { onConflict: "slug" });
+  const { error } = await supabase.from('courses').upsert(courseData, { onConflict: 'slug' });
 
   if (error) {
     throw new Error(`Failed to upsert course: ${error.message}`);
@@ -78,7 +76,6 @@ async function upsertCourse(courseData) {
 }
 
 async function main() {
-
   const files = listCourseFiles();
 
   let synced = 0;
@@ -90,20 +87,21 @@ async function main() {
       const src = read(f.abs);
 
       // Extract core fields
-      const slug = extractField(src, "slug");
-      const title = extractField(src, "title") || extractField(src, "name");
-      const description = extractField(src, "description");
-      const shortDescription = extractField(src, "shortDescription") || extractField(src, "short_description");
-      const category = extractField(src, "category");
+      const slug = extractField(src, 'slug');
+      const title = extractField(src, 'title') || extractField(src, 'name');
+      const description = extractField(src, 'description');
+      const shortDescription =
+        extractField(src, 'shortDescription') || extractField(src, 'short_description');
+      const category = extractField(src, 'category');
 
       // Extract partner fields
-      const partnerUrl = extractField(src, "partnerUrl");
-      const launchMode = extractField(src, "launchMode");
-      const allowIframe = extractBool(src, "allowIframe");
+      const partnerUrl = extractField(src, 'partnerUrl');
+      const launchMode = extractField(src, 'launchMode');
+      const allowIframe = extractBool(src, 'allowIframe');
 
       // Extract metadata
-      const isPublished = extractBool(src, "isPublished");
-      const hoursTotal = extractNumber(src, "hoursTotal") || extractNumber(src, "hours");
+      const isPublished = extractBool(src, 'isPublished');
+      const hoursTotal = extractNumber(src, 'hoursTotal') || extractNumber(src, 'hours');
 
       if (!slug || !title) {
         skipped++;
@@ -111,7 +109,7 @@ async function main() {
       }
 
       // Determine delivery mode
-      const deliveryMode = partnerUrl ? "partner_link" : "internal";
+      const deliveryMode = partnerUrl ? 'partner_link' : 'internal';
 
       // Build course data (only include columns that exist in the table)
       const courseData = {
@@ -122,28 +120,25 @@ async function main() {
         is_published: isPublished ?? true,
         delivery_mode: deliveryMode,
         partner_url: partnerUrl || null,
-        launch_mode: launchMode || "external",
+        launch_mode: launchMode || 'external',
         allow_iframe: allowIframe ?? false,
       };
 
       await upsertCourse(courseData);
       synced++;
-
     } catch (error) {
       console.error(`❌ Error processing ${f.file}:`, error.message);
       errors++;
     }
   }
 
-
   if (errors > 0) {
-    console.error("⚠️  Some courses failed to sync. Review errors above.");
+    console.error('⚠️  Some courses failed to sync. Review errors above.');
     process.exit(1);
   }
-
 }
 
 main().catch((error) => {
-  console.error("\n❌ Fatal error:", error.message);
+  console.error('\n❌ Fatal error:', error.message);
   process.exit(1);
 });

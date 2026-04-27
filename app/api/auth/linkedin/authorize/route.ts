@@ -13,17 +13,13 @@ export const maxDuration = 60;
  * Redirects user to LinkedIn for authorization
  */
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
-const clientId = process.env.LINKEDIN_CLIENT_ID;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
+  const clientId = process.env.LINKEDIN_CLIENT_ID;
   const redirectUri = `${process.env.NEXT_PUBLIC_SITE_URL}/api/auth/linkedin/callback`;
 
   if (!clientId) {
-    return NextResponse.json(
-      { error: 'LinkedIn Client ID not configured' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'LinkedIn Client ID not configured' }, { status: 500 });
   }
 
   // Use crypto.randomBytes for the OAuth state parameter — Math.random() is

@@ -32,10 +32,7 @@ interface Lesson {
 }
 
 // Helper functions that mirror API logic
-function calculateCourseProgress(
-  completedLessons: number,
-  totalLessons: number
-): number {
+function calculateCourseProgress(completedLessons: number, totalLessons: number): number {
   if (totalLessons === 0) return 0;
   return Math.round((completedLessons / totalLessons) * 100);
 }
@@ -136,8 +133,24 @@ describe('Lesson Progress Tracking', () => {
       ];
 
       const completedProgress: LessonProgress[] = [
-        { id: 'p1', user_id: 'u1', lesson_id: 'l1', course_id: 'c1', completed: true, completed_at: '2026-01-01', time_spent_seconds: 100 },
-        { id: 'p2', user_id: 'u1', lesson_id: 'l2', course_id: 'c1', completed: true, completed_at: '2026-01-02', time_spent_seconds: 150 },
+        {
+          id: 'p1',
+          user_id: 'u1',
+          lesson_id: 'l1',
+          course_id: 'c1',
+          completed: true,
+          completed_at: '2026-01-01',
+          time_spent_seconds: 100,
+        },
+        {
+          id: 'p2',
+          user_id: 'u1',
+          lesson_id: 'l2',
+          course_id: 'c1',
+          completed: true,
+          completed_at: '2026-01-02',
+          time_spent_seconds: 150,
+        },
       ];
 
       const progress = calculateCourseProgress(completedProgress.length, lessons.length);
@@ -146,9 +159,33 @@ describe('Lesson Progress Tracking', () => {
 
     it('should calculate total time spent', () => {
       const progressRecords: LessonProgress[] = [
-        { id: 'p1', user_id: 'u1', lesson_id: 'l1', course_id: 'c1', completed: true, completed_at: '2026-01-01', time_spent_seconds: 300 },
-        { id: 'p2', user_id: 'u1', lesson_id: 'l2', course_id: 'c1', completed: true, completed_at: '2026-01-02', time_spent_seconds: 450 },
-        { id: 'p3', user_id: 'u1', lesson_id: 'l3', course_id: 'c1', completed: false, completed_at: null, time_spent_seconds: 120 },
+        {
+          id: 'p1',
+          user_id: 'u1',
+          lesson_id: 'l1',
+          course_id: 'c1',
+          completed: true,
+          completed_at: '2026-01-01',
+          time_spent_seconds: 300,
+        },
+        {
+          id: 'p2',
+          user_id: 'u1',
+          lesson_id: 'l2',
+          course_id: 'c1',
+          completed: true,
+          completed_at: '2026-01-02',
+          time_spent_seconds: 450,
+        },
+        {
+          id: 'p3',
+          user_id: 'u1',
+          lesson_id: 'l3',
+          course_id: 'c1',
+          completed: false,
+          completed_at: null,
+          time_spent_seconds: 120,
+        },
       ];
 
       const totalTime = progressRecords.reduce((sum, p) => sum + p.time_spent_seconds, 0);

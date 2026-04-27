@@ -13,9 +13,8 @@ export const dynamic = 'force-dynamic';
  * Exchanges code for access token and stores in database
  */
 async function _GET(request: NextRequest) {
-  
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
   const searchParams = request.nextUrl.searchParams;
   const code = searchParams.get('code');
   const error = searchParams.get('error');
@@ -23,7 +22,7 @@ async function _GET(request: NextRequest) {
 
   if (error) {
     return NextResponse.redirect(
-      new URL(`/admin/settings/social-media?error=${error}`, request.url)
+      new URL(`/admin/settings/social-media?error=${error}`, request.url),
     );
   }
 
@@ -33,13 +32,13 @@ async function _GET(request: NextRequest) {
   const storedState = request.cookies.get('oauth_state_youtube')?.value;
   if (!storedState || !returnedState || storedState !== returnedState) {
     return NextResponse.redirect(
-      new URL('/admin/settings/social-media?error=invalid_state', request.url)
+      new URL('/admin/settings/social-media?error=invalid_state', request.url),
     );
   }
 
   if (!code) {
     return NextResponse.redirect(
-      new URL('/admin/settings/social-media?error=no_code', request.url)
+      new URL('/admin/settings/social-media?error=no_code', request.url),
     );
   }
 
@@ -65,7 +64,7 @@ async function _GET(request: NextRequest) {
 
     if (!tokenResponse.ok || tokenData.error) {
       return NextResponse.redirect(
-        new URL('/admin/settings/social-media?error=token_failed', request.url)
+        new URL('/admin/settings/social-media?error=token_failed', request.url),
       );
     }
 
@@ -76,48 +75,48 @@ async function _GET(request: NextRequest) {
       `https://www.googleapis.com/youtube/v3/channels?part=snippet&mine=true`,
       {
         headers: { Authorization: `Bearer ${access_token}` },
-      }
+      },
     );
     const channelData = await channelResponse.json();
 
     // Store in database
     const supabase = await createClient();
-    const { data: { user } } = await supabase.auth.getUser();
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
 
     if (!user) {
       return NextResponse.redirect(
-        new URL('/admin/settings/social-media?error=unauthorized', request.url)
+        new URL('/admin/settings/social-media?error=unauthorized', request.url),
       );
     }
 
     // Save to settings table
-    const { error: saveError } = await supabase
-      .from('social_media_settings')
-      .upsert({
-        platform: 'youtube',
-        access_token,
-        refresh_token,
-        expires_at: new Date(Date.now() + expires_in * 1000).toISOString(),
-        profile_data: channelData,
-        updated_by: user.id,
-        updated_at: new Date().toISOString(),
-      });
+    const { error: saveError } = await supabase.from('social_media_settings').upsert({
+      platform: 'youtube',
+      access_token,
+      refresh_token,
+      expires_at: new Date(Date.now() + expires_in * 1000).toISOString(),
+      profile_data: channelData,
+      updated_by: user.id,
+      updated_at: new Date().toISOString(),
+    });
 
     if (saveError) {
       return NextResponse.redirect(
-        new URL('/admin/settings/social-media?error=save_failed', request.url)
+        new URL('/admin/settings/social-media?error=save_failed', request.url),
       );
     }
 
     // Clear the state cookie — it is single-use.
     const successResponse = NextResponse.redirect(
-      new URL('/admin/settings/social-media?success=youtube_connected', request.url)
+      new URL('/admin/settings/social-media?success=youtube_connected', request.url),
     );
     successResponse.cookies.set('oauth_state_youtube', '', { maxAge: 0, path: '/' });
     return successResponse;
   } catch (error) {
     return NextResponse.redirect(
-      new URL('/admin/settings/social-media?error=unexpected', request.url)
+      new URL('/admin/settings/social-media?error=unexpected', request.url),
     );
   }
 }

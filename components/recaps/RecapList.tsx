@@ -1,4 +1,4 @@
-"use client";
+'use client';
 
 import React from 'react';
 
@@ -41,14 +41,10 @@ export default function RecapList() {
         </button>
       </div>
 
-      {loading ? (
-        <div className="text-sm text-neutral-500">Loading…</div>
-      ) : null}
+      {loading ? <div className="text-sm text-neutral-500">Loading…</div> : null}
 
       {!loading && recaps.length === 0 ? (
-        <div className="text-sm text-neutral-600">
-          No recaps yet. Create your first one.
-        </div>
+        <div className="text-sm text-neutral-600">No recaps yet. Create your first one.</div>
       ) : null}
 
       <div className="grid gap-3">

@@ -16,7 +16,10 @@ async function _POST(request: NextRequest) {
 
     // Verify the submitter is authenticated
     const userSupabase = await createClient();
-    const { data: { user }, error: authError } = await userSupabase.auth.getUser();
+    const {
+      data: { user },
+      error: authError,
+    } = await userSupabase.auth.getUser();
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -25,10 +28,7 @@ async function _POST(request: NextRequest) {
     const supabase = await getAdminClient();
 
     if (!supabase) {
-      return NextResponse.json(
-        { error: 'Service temporarily unavailable.' },
-        { status: 503 }
-      );
+      return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
 
     const {
@@ -56,24 +56,15 @@ async function _POST(request: NextRequest) {
 
     // Validate required fields
     if (!shopName || !ownerName || !email || !phone || !addressLine1 || !city || !state || !zip) {
-      return NextResponse.json(
-        { error: 'Missing required fields' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
     }
 
     if (!programsRequested || programsRequested.length === 0) {
-      return NextResponse.json(
-        { error: 'Please select at least one program' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'Please select at least one program' }, { status: 400 });
     }
 
     if (!agreedToTerms) {
-      return NextResponse.json(
-        { error: 'You must agree to the terms to submit' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'You must agree to the terms to submit' }, { status: 400 });
     }
 
     // Check for existing application with same email
@@ -87,7 +78,7 @@ async function _POST(request: NextRequest) {
     if (existingApp) {
       return NextResponse.json(
         { error: 'An application with this email already exists' },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -114,10 +105,7 @@ async function _POST(request: NextRequest) {
 
     if (insertError) {
       logger.error('Failed to create partner application:', insertError);
-      return NextResponse.json(
-        { error: 'Failed to submit application' },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: 'Failed to submit application' }, { status: 500 });
     }
 
     // Send confirmation email to applicant
@@ -206,10 +194,7 @@ async function _POST(request: NextRequest) {
     });
   } catch (error) {
     logger.error('Partner application error:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 
@@ -220,32 +205,35 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await getAdminClient();
-    
+
     // Verify admin role via auth header or cookie
     const authHeader = request.headers.get('authorization');
     const token = authHeader?.replace('Bearer ', '');
-    
+
     if (!token) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    
-    const { data: { user }, error: authError } = await supabase.auth.getUser(token);
-    
+
+    const {
+      data: { user },
+      error: authError,
+    } = await supabase.auth.getUser(token);
+
     if (authError || !user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
-    
+
     // Check admin role
     const { data: profile } = await supabase
       .from('profiles')
       .select('role')
       .eq('id', user.id)
       .maybeSingle();
-    
+
     if (!profile || !['admin', 'super_admin'].includes(profile.role)) {
       return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
     }
-    
+
     const { searchParams } = new URL(request.url);
     const status = searchParams.get('status') || 'pending';
 
@@ -262,10 +250,7 @@ async function _GET(request: NextRequest) {
     return NextResponse.json({ applications });
   } catch (error) {
     logger.error('Failed to fetch applications:', error);
-    return NextResponse.json(
-      { error: 'Internal server error' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
 export const GET = withApiAudit('/api/partner/applications', _GET);

@@ -16,8 +16,10 @@ async function _GET(request: Request) {
     const supabase = await createClient();
 
     // Check if user is admin
-    const { data: { user } } = await supabase.auth.getUser();
-    
+    const {
+      data: { user },
+    } = await supabase.auth.getUser();
+
     if (!user) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
@@ -52,9 +54,12 @@ async function _GET(request: Request) {
     });
   } catch (error) {
     logger.error('Performance monitoring error:', error);
-    return NextResponse.json({
-      error: 'Internal server error',
-    }, { status: 500 });
+    return NextResponse.json(
+      {
+        error: 'Internal server error',
+      },
+      { status: 500 },
+    );
   }
 }
 
@@ -74,8 +79,8 @@ function calculatePerformanceMetrics(requests: any[]) {
 
   // Extract response times
   const responseTimes = requests
-    .map(r => r.details?.duration || 0)
-    .filter(d => d > 0)
+    .map((r) => r.details?.duration || 0)
+    .filter((d) => d > 0)
     .sort((a, b) => a - b);
 
   // Calculate percentiles
@@ -88,8 +93,8 @@ function calculatePerformanceMetrics(requests: any[]) {
 
   // Group by endpoint
   const byEndpoint: Record<string, { count: number; totalTime: number; errors: number }> = {};
-  
-  requests.forEach(req => {
+
+  requests.forEach((req) => {
     const endpoint = req.details?.endpoint || 'unknown';
     const duration = req.details?.duration || 0;
     const isError = req.details?.statusCode >= 400;
@@ -112,16 +117,12 @@ function calculatePerformanceMetrics(requests: any[]) {
   }));
 
   // Sort by average time
-  const slowestEndpoints = endpointStats
-    .sort((a, b) => b.averageTime - a.averageTime)
-    .slice(0, 10);
+  const slowestEndpoints = endpointStats.sort((a, b) => b.averageTime - a.averageTime).slice(0, 10);
 
-  const fastestEndpoints = endpointStats
-    .sort((a, b) => a.averageTime - b.averageTime)
-    .slice(0, 10);
+  const fastestEndpoints = endpointStats.sort((a, b) => a.averageTime - b.averageTime).slice(0, 10);
 
   // Calculate error rate
-  const totalErrors = requests.filter(r => r.details?.statusCode >= 400).length;
+  const totalErrors = requests.filter((r) => r.details?.statusCode >= 400).length;
   const errorRate = (totalErrors / requests.length) * 100;
 
   return {

@@ -4,12 +4,9 @@ import { NextRequest, NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
-async function _POST(
-  request: NextRequest,
-  { params }: { params: Promise<{ quizId: string }> }
-) {
-    const rateLimited = await applyRateLimit(request, 'api');
-    if (rateLimited) return rateLimited;
+async function _POST(request: NextRequest, { params }: { params: Promise<{ quizId: string }> }) {
+  const rateLimited = await applyRateLimit(request, 'api');
+  if (rateLimited) return rateLimited;
 
   const auth = await requireApiRole(['student', 'admin', 'super_admin']);
   if (auth instanceof NextResponse) return auth;
@@ -122,16 +119,16 @@ async function _POST(
     .eq('quiz_id', quizId)
     .eq('user_id', user.id);
 
-  const completedAttempts = existingAttempts?.filter(a => a.completed_at) || [];
-  
+  const completedAttempts = existingAttempts?.filter((a) => a.completed_at) || [];
+
   // Check if max attempts reached
   if (quiz.max_attempts && completedAttempts.length >= quiz.max_attempts) {
     return NextResponse.json({ error: 'Maximum attempts reached' }, { status: 403 });
   }
 
   // Check for in-progress attempt
-  const inProgressAttempt = existingAttempts?.find(a => !a.completed_at);
-  
+  const inProgressAttempt = existingAttempts?.find((a) => !a.completed_at);
+
   if (inProgressAttempt) {
     // Resume existing attempt
     return NextResponse.redirect(new URL(`/lms/quizzes/${quizId}`, request.url));

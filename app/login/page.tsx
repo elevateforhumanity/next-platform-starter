@@ -2,7 +2,6 @@
 
 // Static shell — no server data needed. Served from CDN, no cold start.
 
-
 import React from 'react';
 
 import { useState, useEffect, Suspense } from 'react';
@@ -42,7 +41,7 @@ function LoginForm() {
 
     try {
       const supabase = createClient();
-      
+
       const { data, error }: any = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password, // never trim passwords — leading/trailing spaces are valid
@@ -101,6 +100,7 @@ function LoginForm() {
     <div className="min-h-screen bg-white">
       {/* Hero Banner */}
       <section className="relative h-[200px] w-full overflow-hidden">
+// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/login-page-1.jpg"
           alt="Elevate for Humanity login"
@@ -122,23 +122,26 @@ function LoginForm() {
             </p>
 
             {reason === 'idle' && !error && (
-              <div className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-sm" role="alert">
+              <div
+                className="mb-6 p-4 bg-amber-50 border border-amber-200 rounded-lg text-amber-800 text-sm"
+                role="alert"
+              >
                 Your session expired due to inactivity. Please sign in again.
               </div>
             )}
 
             {error && (
-              <div className="mb-6 p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-800 text-sm" role="alert">
+              <div
+                className="mb-6 p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-800 text-sm"
+                role="alert"
+              >
                 {error}
               </div>
             )}
 
             <form onSubmit={handleLogin} className="space-y-5">
               <div>
-                <label
-                  htmlFor="email"
-                  className="block text-sm font-semibold text-black mb-2"
-                >
+                <label htmlFor="email" className="block text-sm font-semibold text-black mb-2">
                   Email Address
                 </label>
                 <input
@@ -153,10 +156,7 @@ function LoginForm() {
               </div>
 
               <div>
-                <label
-                  htmlFor="password"
-                  className="block text-sm font-semibold text-black mb-2"
-                >
+                <label htmlFor="password" className="block text-sm font-semibold text-black mb-2">
                   Password
                 </label>
                 <input
@@ -199,23 +199,21 @@ function LoginForm() {
             </div>
 
             <div className="mt-8 pt-6 border-t border-slate-200">
-              <p className="text-center text-sm text-black mb-4">
-                Quick Access:
-              </p>
+              <p className="text-center text-sm text-black mb-4">Quick Access:</p>
               <div className="grid grid-cols-2 gap-3">
                 {[
-                  { label: 'Student Portal',     dest: '/learner/dashboard' },
-                  { label: 'Admin Portal',        dest: '/admin/dashboard' },
-                  { label: 'Program Holder',      dest: '/program-holder/dashboard' },
-                  { label: 'Instructor',          dest: '/instructor/dashboard' },
-                  { label: 'Employer',            dest: '/employer/dashboard' },
-                  { label: 'Partner Portal',      dest: '/partner/dashboard' },
-                  { label: 'Staff Portal',        dest: '/staff-portal/dashboard' },
-                  { label: 'Mentor',              dest: '/mentor/dashboard' },
-                  { label: 'Case Manager',        dest: '/case-manager/dashboard' },
-                  { label: 'Workforce Board',     dest: '/workforce-board/dashboard' },
-                  { label: 'Provider Admin',      dest: '/provider/dashboard' },
-                  { label: 'Creator',             dest: '/creator/dashboard' },
+                  { label: 'Student Portal', dest: '/learner/dashboard' },
+                  { label: 'Admin Portal', dest: '/admin/dashboard' },
+                  { label: 'Program Holder', dest: '/program-holder/dashboard' },
+                  { label: 'Instructor', dest: '/instructor/dashboard' },
+                  { label: 'Employer', dest: '/employer/dashboard' },
+                  { label: 'Partner Portal', dest: '/partner/dashboard' },
+                  { label: 'Staff Portal', dest: '/staff-portal/dashboard' },
+                  { label: 'Mentor', dest: '/mentor/dashboard' },
+                  { label: 'Case Manager', dest: '/case-manager/dashboard' },
+                  { label: 'Workforce Board', dest: '/workforce-board/dashboard' },
+                  { label: 'Provider Admin', dest: '/provider/dashboard' },
+                  { label: 'Creator', dest: '/creator/dashboard' },
                 ].map((item) => (
                   <Link
                     key={item.dest}
@@ -233,13 +231,10 @@ function LoginForm() {
           <div className="mt-6 text-center text-sm text-black">
             <p>
               Need help?{' '}
-              <a
-                href="tel:+13173143757"
-                className="text-brand-blue-600 font-semibold"
-              >
+              <a href="tel:+13173143757" className="text-brand-blue-600 font-semibold">
                 (317) 314-3757
-              </a>
-              {' '}or{' '}
+              </a>{' '}
+              or{' '}
               <Link href="/support" className="text-brand-blue-600 font-semibold">
                 support center
               </Link>
@@ -255,9 +250,7 @@ export default function LoginPage() {
   return (
     <Suspense
       fallback={
-        <div className="min-h-screen bg-white flex items-center justify-center">
-          Loading...
-        </div>
+        <div className="min-h-screen bg-white flex items-center justify-center">Loading...</div>
       }
     >
       <LoginForm />

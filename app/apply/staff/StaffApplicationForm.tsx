@@ -35,13 +35,15 @@ export default function StaffApplicationForm() {
     if (result.success) {
       router.push(result.redirectTo!);
     } else {
-      const subject = encodeURIComponent(`Staff Application: ${data.firstName} ${data.lastName} - ${data.position}`);
+      const subject = encodeURIComponent(
+        `Staff Application: ${data.firstName} ${data.lastName} - ${data.position}`,
+      );
       const body = encodeURIComponent(
         `Name: ${data.firstName} ${data.lastName}\nPosition: ${data.position}\n` +
-        `Email: ${data.email}\nPhone: ${data.phone}\n` +
-        `Experience: ${data.experience || 'N/A'}\nAvailability: ${data.availability || 'N/A'}\n`
+          `Email: ${data.email}\nPhone: ${data.phone}\n` +
+          `Experience: ${data.experience || 'N/A'}\nAvailability: ${data.availability || 'N/A'}\n`,
       );
-      window.location.href = "/contact";
+      window.location.href = '/contact';
       setLoading(false);
     }
   }
@@ -49,22 +51,20 @@ export default function StaffApplicationForm() {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-800 text-sm" role="alert">
+        <div
+          className="p-4 bg-brand-red-50 border border-brand-red-200 rounded-lg text-brand-red-800 text-sm"
+          role="alert"
+        >
           {error}
         </div>
       )}
 
       <div className="bg-white border border-slate-200 rounded-lg p-6">
-        <h2 className="text-xl font-bold text-black mb-4">
-          Personal Information
-        </h2>
+        <h2 className="text-xl font-bold text-black mb-4">Personal Information</h2>
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <div>
-            <label
-              htmlFor="firstName"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="firstName" className="block text-sm font-medium text-black mb-2">
               First Name *
             </label>
             <input
@@ -77,10 +77,7 @@ export default function StaffApplicationForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="lastName"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="lastName" className="block text-sm font-medium text-black mb-2">
               Last Name *
             </label>
             <input
@@ -93,10 +90,7 @@ export default function StaffApplicationForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="email"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="email" className="block text-sm font-medium text-black mb-2">
               Email *
             </label>
             <input
@@ -109,10 +103,7 @@ export default function StaffApplicationForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="phone"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="phone" className="block text-sm font-medium text-black mb-2">
               Phone *
             </label>
             <input
@@ -127,16 +118,11 @@ export default function StaffApplicationForm() {
       </div>
 
       <div className="bg-white border border-slate-200 rounded-lg p-6">
-        <h2 className="text-xl font-bold text-black mb-4">
-          Position Details
-        </h2>
+        <h2 className="text-xl font-bold text-black mb-4">Position Details</h2>
 
         <div className="space-y-4">
           <div>
-            <label
-              htmlFor="role"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="role" className="block text-sm font-medium text-black mb-2">
               Role Type *
             </label>
             <select
@@ -152,10 +138,7 @@ export default function StaffApplicationForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="position"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="position" className="block text-sm font-medium text-black mb-2">
               Position Applying For *
             </label>
             <input
@@ -169,10 +152,7 @@ export default function StaffApplicationForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="experience"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="experience" className="block text-sm font-medium text-black mb-2">
               Relevant Experience
             </label>
             <textarea
@@ -185,10 +165,7 @@ export default function StaffApplicationForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="education"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="education" className="block text-sm font-medium text-black mb-2">
               Education
             </label>
             <textarea
@@ -201,10 +178,7 @@ export default function StaffApplicationForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="certifications"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="certifications" className="block text-sm font-medium text-black mb-2">
               Certifications & Licenses
             </label>
             <textarea
@@ -217,10 +191,7 @@ export default function StaffApplicationForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="availability"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="availability" className="block text-sm font-medium text-black mb-2">
               Availability
             </label>
             <select
@@ -237,10 +208,7 @@ export default function StaffApplicationForm() {
           </div>
 
           <div>
-            <label
-              htmlFor="coverLetter"
-              className="block text-sm font-medium text-black mb-2"
-            >
+            <label htmlFor="coverLetter" className="block text-sm font-medium text-black mb-2">
               Cover Letter
             </label>
             <textarea

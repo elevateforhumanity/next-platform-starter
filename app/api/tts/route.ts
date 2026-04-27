@@ -18,7 +18,7 @@ export async function POST(request: NextRequest) {
     // Node.js resolves it at runtime. The ignore comment prevents Turbopack
     // from tracing into the package during the build.
     const { tts } = await import(/* turbopackIgnore: true */ 'edge-tts');
-    
+
     // Generate audio buffer
     const audioBuffer = await tts(trimmedText, {
       voice: voice,

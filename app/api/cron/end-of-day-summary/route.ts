@@ -1,5 +1,3 @@
-
-
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
@@ -48,7 +46,7 @@ async function _GET(request: NextRequest) {
           id,
           name
         )
-      `
+      `,
       )
       .eq('status', 'active');
 
@@ -73,7 +71,7 @@ async function _GET(request: NextRequest) {
       // Only send summary if student checked in today
       const student = apprenticeship.student as any;
       const program = apprenticeship.program as any;
-      
+
       if (todayLog && student?.email) {
         const response = await fetch(
           `${process.env.NEXT_PUBLIC_SITE_URL}/api/apprentice/email-alerts`,
@@ -96,7 +94,7 @@ async function _GET(request: NextRequest) {
                 date: today,
               },
             }),
-          }
+          },
         );
 
         results.push({
@@ -112,12 +110,9 @@ async function _GET(request: NextRequest) {
       summaries_sent: results.length,
       results,
     });
-  } catch (error) { 
+  } catch (error) {
     logger.error('End of day summary cron error:', error);
-    return NextResponse.json(
-      { error: 'Failed to send end of day summaries' },
-      { status: 500 }
-    );
+    return NextResponse.json({ error: 'Failed to send end of day summaries' }, { status: 500 });
   }
 }
 export const GET = withRuntime(withApiAudit('/api/cron/end-of-day-summary', _GET));

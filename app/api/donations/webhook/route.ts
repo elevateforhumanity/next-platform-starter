@@ -1,5 +1,3 @@
-
-
 import { createClient } from '@/lib/supabase/server';
 import { NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe/client';
@@ -11,7 +9,8 @@ export const maxDuration = 60;
 
 export const dynamic = 'force-dynamic';
 
-const webhookSecret = process.env.STRIPE_WEBHOOK_SECRET_DONATIONS || process.env.STRIPE_WEBHOOK_SECRET!;
+const webhookSecret =
+  process.env.STRIPE_WEBHOOK_SECRET_DONATIONS || process.env.STRIPE_WEBHOOK_SECRET!;
 
 async function _POST(request: Request) {
   try {
@@ -19,22 +18,19 @@ async function _POST(request: Request) {
     const signature = request.headers.get('stripe-signature');
 
     if (!signature) {
-      return NextResponse.json(
-        { error: 'No signature provided' },
-        { status: 400 }
-      );
+      return NextResponse.json({ error: 'No signature provided' }, { status: 400 });
     }
 
     let event: Stripe.Event;
 
     try {
       event = stripe.webhooks.constructEvent(body, signature, webhookSecret);
-    } catch (error) { 
+    } catch (error) {
       return NextResponse.json(
         {
           error: `Webhook Error: ${'Internal server error'}`,
         },
-        { status: 400 }
+        { status: 400 },
       );
     }
 
@@ -190,12 +186,10 @@ async function _POST(request: Request) {
 
       default:
     }
-
-  } catch (error) { 
-    return NextResponse.json(
-      { error: 'Webhook handler failed' },
-      { status: 500 }
-    );
+  } catch (error) {
+    return NextResponse.json({ error: 'Webhook handler failed' }, { status: 500 });
   }
 }
-export const POST = withRuntime(withApiAudit('/api/donations/webhook', _POST, { actor_type: 'webhook', skip_body: true }));
+export const POST = withRuntime(
+  withApiAudit('/api/donations/webhook', _POST, { actor_type: 'webhook', skip_body: true }),
+);

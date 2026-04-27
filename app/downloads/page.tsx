@@ -1,18 +1,11 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import Link from 'next/link';
-import {
-  Download,
-  FileText,
-  BookOpen,
-  GraduationCap,
-  FileCheck,
-} from 'lucide-react';
+import { Download, FileText, BookOpen, GraduationCap, FileCheck } from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Download Center | Elevate For Humanity',
-  description:
-    'Access handbooks, workbooks, forms, and resources for students and staff',
+  description: 'Access handbooks, workbooks, forms, and resources for students and staff',
   alternates: {
     canonical: 'https://www.elevateforhumanity.org/downloads',
   },
@@ -176,12 +169,9 @@ export default async function DownloadsPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center">
             <Download className="w-16 h-16 mx-auto mb-6" />
-            <h1 className="text-4xl md:text-5xl font-bold mb-4">
-              Download Center
-            </h1>
+            <h1 className="text-4xl md:text-5xl font-bold mb-4">Download Center</h1>
             <p className="text-base md:text-lg text-slate-200">
-              Access handbooks, workbooks, forms, and resources for students and
-              staff
+              Access handbooks, workbooks, forms, and resources for students and staff
             </p>
           </div>
         </div>
@@ -191,8 +181,12 @@ export default async function DownloadsPage() {
       <section className="py-4 bg-amber-50 border-b border-amber-200">
         <div className="container mx-auto px-4">
           <p className="text-center text-amber-800">
-            <strong>Note:</strong> Documents are available upon request. Click "Call to Request" or call{' '}
-            <a href="tel:+13173143757" className="font-bold underline">(317) 314-3757</a> to receive any document.
+            <strong>Note:</strong> Documents are available upon request. Click "Call to Request" or
+            call{' '}
+            <a href="tel:+13173143757" className="font-bold underline">
+              (317) 314-3757
+            </a>{' '}
+            to receive any document.
           </p>
         </div>
       </section>
@@ -251,12 +245,8 @@ export default async function DownloadsPage() {
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
-                        <h3 className="text-lg font-semibold mb-2">
-                          {item.title}
-                        </h3>
-                        <p className="text-sm text-gray-600 mb-3">
-                          {item.description}
-                        </p>
+                        <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                        <p className="text-sm text-gray-600 mb-3">{item.description}</p>
                         <div className="flex items-center gap-4 text-sm text-gray-500">
                           <span>{item.size || item.file_size}</span>
                           {item.updated && (
@@ -296,9 +286,7 @@ export default async function DownloadsPage() {
             <div id="workbooks">
               <div className="flex items-center gap-3 mb-8">
                 <GraduationCap className="w-8 h-8 text-green-600" />
-                <h2 className="text-2xl md:text-3xl font-bold">
-                  Program Workbooks
-                </h2>
+                <h2 className="text-2xl md:text-3xl font-bold">Program Workbooks</h2>
               </div>
               <div className="grid md:grid-cols-2 gap-6">
                 {displayWorkbooks.map((item: any, index: number) => (
@@ -308,12 +296,8 @@ export default async function DownloadsPage() {
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
-                        <h3 className="text-lg font-semibold mb-2">
-                          {item.title}
-                        </h3>
-                        <p className="text-sm text-gray-600 mb-3">
-                          {item.description}
-                        </p>
+                        <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                        <p className="text-sm text-gray-600 mb-3">{item.description}</p>
                         <div className="text-sm text-gray-500">
                           <span>{item.size || item.file_size}</span>
                         </div>
@@ -347,9 +331,7 @@ export default async function DownloadsPage() {
             <div id="forms">
               <div className="flex items-center gap-3 mb-8">
                 <FileCheck className="w-8 h-8 text-purple-600" />
-                <h2 className="text-2xl md:text-3xl font-bold">
-                  Forms & Applications
-                </h2>
+                <h2 className="text-2xl md:text-3xl font-bold">Forms & Applications</h2>
               </div>
               <div className="grid md:grid-cols-3 gap-6">
                 {displayForms.map((item: any, index: number) => (
@@ -389,9 +371,7 @@ export default async function DownloadsPage() {
             <div id="guides">
               <div className="flex items-center gap-3 mb-8">
                 <FileText className="w-8 h-8 text-orange-600" />
-                <h2 className="text-2xl md:text-3xl font-bold">
-                  Student Guides
-                </h2>
+                <h2 className="text-2xl md:text-3xl font-bold">Student Guides</h2>
               </div>
               <div className="grid md:grid-cols-2 gap-6">
                 {displayGuides.map((item: any, index: number) => (
@@ -401,12 +381,8 @@ export default async function DownloadsPage() {
                   >
                     <div className="flex items-start justify-between mb-3">
                       <div className="flex-1">
-                        <h3 className="text-lg font-semibold mb-2">
-                          {item.title}
-                        </h3>
-                        <p className="text-sm text-gray-600 mb-3">
-                          {item.description}
-                        </p>
+                        <h3 className="text-lg font-semibold mb-2">{item.title}</h3>
+                        <p className="text-sm text-gray-600 mb-3">{item.description}</p>
                         <div className="text-sm text-gray-500">
                           <span>{item.size || item.file_size}</span>
                         </div>
@@ -446,8 +422,7 @@ export default async function DownloadsPage() {
             <div className="bg-blue-50 rounded-lg p-8 text-center">
               <h2 className="text-2xl font-bold mb-4">Need Help?</h2>
               <p className="text-gray-600 mb-6">
-                Can't find what you're looking for? Our student services team is
-                here to help.
+                Can't find what you're looking for? Our student services team is here to help.
               </p>
               <div className="flex flex-wrap gap-4 justify-center">
                 <Link
@@ -473,8 +448,8 @@ export default async function DownloadsPage() {
         <div className="container mx-auto px-4">
           <div className="max-w-4xl mx-auto text-center text-sm text-gray-600">
             <p>
-              All documents are provided in PDF format. If you need documents in
-              an alternative format for accessibility purposes, please contact{' '}
+              All documents are provided in PDF format. If you need documents in an alternative
+              format for accessibility purposes, please contact{' '}
               <a
                 href="mailto:accessibility@www.elevateforhumanity.org"
                 className="text-blue-600 hover:underline"

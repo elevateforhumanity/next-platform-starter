@@ -6,8 +6,19 @@ import { ArrowLeft, Calendar, Clock, User, Phone } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 const timeSlots = [
-  '9:00 AM', '9:30 AM', '10:00 AM', '10:30 AM', '11:00 AM', '11:30 AM',
-  '1:00 PM', '1:30 PM', '2:00 PM', '2:30 PM', '3:00 PM', '3:30 PM', '4:00 PM'
+  '9:00 AM',
+  '9:30 AM',
+  '10:00 AM',
+  '10:30 AM',
+  '11:00 AM',
+  '11:30 AM',
+  '1:00 PM',
+  '1:30 PM',
+  '2:00 PM',
+  '2:30 PM',
+  '3:00 PM',
+  '3:30 PM',
+  '4:00 PM',
 ];
 
 export default function EnrollmentBookingPage() {
@@ -20,7 +31,7 @@ export default function EnrollmentBookingPage() {
     email: '',
     phone: '',
     program: '',
-    notes: ''
+    notes: '',
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [isSubmitted, setIsSubmitted] = useState(false);
@@ -89,7 +100,8 @@ export default function EnrollmentBookingPage() {
           </div>
           <h1 className="text-3xl font-bold text-slate-900 mb-4">Appointment Confirmed!</h1>
           <p className="text-slate-700 mb-6">
-            Your enrollment consultation is scheduled for <strong>{selectedDate}</strong> at <strong>{selectedTime}</strong>.
+            Your enrollment consultation is scheduled for <strong>{selectedDate}</strong> at{' '}
+            <strong>{selectedTime}</strong>.
           </p>
           <div className="bg-white rounded-xl border p-6 mb-6 text-left">
             <h3 className="font-semibold mb-3">What to expect:</h3>
@@ -104,7 +116,10 @@ export default function EnrollmentBookingPage() {
             A confirmation email has been sent to {formData.email}
           </p>
           <div className="flex gap-4 justify-center">
-            <Link href="/programs" className="text-brand-blue-600 hover:text-brand-blue-700 font-medium">
+            <Link
+              href="/programs"
+              className="text-brand-blue-600 hover:text-brand-blue-700 font-medium"
+            >
               Browse Programs
             </Link>
             <Link href="/" className="text-slate-700 hover:text-slate-900 font-medium">
@@ -128,7 +143,10 @@ export default function EnrollmentBookingPage() {
       {/* Header */}
       <div className="bg-brand-blue-700 text-white py-8">
         <div className="max-w-3xl mx-auto px-4">
-          <Link href="/booking" className="inline-flex items-center gap-2 text-white hover:text-white mb-4">
+          <Link
+            href="/booking"
+            className="inline-flex items-center gap-2 text-white hover:text-white mb-4"
+          >
             <ArrowLeft className="w-4 h-4" />
             Back to Booking
           </Link>
@@ -143,15 +161,23 @@ export default function EnrollmentBookingPage() {
           <div className="flex items-center justify-between">
             {[1, 2, 3].map((s) => (
               <div key={s} className="flex items-center">
-                <div className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
-                  step >= s ? 'bg-brand-blue-600 text-white' : 'bg-gray-200 text-slate-700'
-                }`}>
+                <div
+                  className={`w-8 h-8 rounded-full flex items-center justify-center text-sm font-medium ${
+                    step >= s ? 'bg-brand-blue-600 text-white' : 'bg-gray-200 text-slate-700'
+                  }`}
+                >
                   {s}
                 </div>
-                <span className={`ml-2 text-sm hidden sm:inline ${step >= s ? 'text-brand-blue-600 font-medium' : 'text-slate-700'}`}>
+                <span
+                  className={`ml-2 text-sm hidden sm:inline ${step >= s ? 'text-brand-blue-600 font-medium' : 'text-slate-700'}`}
+                >
                   {s === 1 ? 'Select Date' : s === 2 ? 'Select Time' : 'Your Info'}
                 </span>
-                {s < 3 && <div className={`w-12 sm:w-24 h-1 mx-2 ${step > s ? 'bg-brand-blue-600' : 'bg-gray-200'}`} />}
+                {s < 3 && (
+                  <div
+                    className={`w-12 sm:w-24 h-1 mx-2 ${step > s ? 'bg-brand-blue-600' : 'bg-gray-200'}`}
+                  />
+                )}
               </div>
             ))}
           </div>
@@ -177,9 +203,13 @@ export default function EnrollmentBookingPage() {
                   }}
                   className="p-4 border rounded-lg hover:border-brand-blue-500 hover:bg-brand-blue-50 transition-colors text-center"
                 >
-                  <div className="text-sm text-slate-700">{date.toLocaleDateString('en-US', { weekday: 'short' })}</div>
+                  <div className="text-sm text-slate-700">
+                    {date.toLocaleDateString('en-US', { weekday: 'short' })}
+                  </div>
                   <div className="text-lg font-semibold">{date.getDate()}</div>
-                  <div className="text-sm text-slate-700">{date.toLocaleDateString('en-US', { month: 'short' })}</div>
+                  <div className="text-sm text-slate-700">
+                    {date.toLocaleDateString('en-US', { month: 'short' })}
+                  </div>
                 </button>
               ))}
             </div>
@@ -189,7 +219,10 @@ export default function EnrollmentBookingPage() {
         {/* Step 2: Select Time */}
         {step === 2 && (
           <div className="bg-white rounded-xl border p-6">
-            <button onClick={() => setStep(1)} className="text-brand-blue-600 hover:text-brand-blue-700 text-sm mb-4 flex items-center gap-1">
+            <button
+              onClick={() => setStep(1)}
+              className="text-brand-blue-600 hover:text-brand-blue-700 text-sm mb-4 flex items-center gap-1"
+            >
               <ArrowLeft className="w-4 h-4" /> Change date
             </button>
             <h2 className="text-xl font-bold text-slate-900 mb-2 flex items-center gap-2">
@@ -217,10 +250,13 @@ export default function EnrollmentBookingPage() {
         {/* Step 3: Your Information */}
         {step === 3 && (
           <div className="bg-white rounded-xl border p-6">
-            <button onClick={() => setStep(2)} className="text-brand-blue-600 hover:text-brand-blue-700 text-sm mb-4 flex items-center gap-1">
+            <button
+              onClick={() => setStep(2)}
+              className="text-brand-blue-600 hover:text-brand-blue-700 text-sm mb-4 flex items-center gap-1"
+            >
               <ArrowLeft className="w-4 h-4" /> Change time
             </button>
-            
+
             <div className="bg-brand-blue-50 rounded-lg p-4 mb-6">
               <p className="text-sm text-brand-blue-800">
                 <strong>Appointment:</strong> {selectedDate} at {selectedTime}
@@ -235,7 +271,9 @@ export default function EnrollmentBookingPage() {
             <div className="space-y-4">
               <div className="grid sm:grid-cols-2 gap-4">
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-1">First Name *</label>
+                  <label className="block text-sm font-medium text-slate-900 mb-1">
+                    First Name *
+                  </label>
                   <input
                     type="text"
                     required
@@ -245,7 +283,9 @@ export default function EnrollmentBookingPage() {
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-slate-900 mb-1">Last Name *</label>
+                  <label className="block text-sm font-medium text-slate-900 mb-1">
+                    Last Name *
+                  </label>
                   <input
                     type="text"
                     required
@@ -280,7 +320,9 @@ export default function EnrollmentBookingPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">Program of Interest</label>
+                <label className="block text-sm font-medium text-slate-900 mb-1">
+                  Program of Interest
+                </label>
                 <select
                   value={formData.program}
                   onChange={(e) => setFormData({ ...formData, program: e.target.value })}
@@ -299,7 +341,9 @@ export default function EnrollmentBookingPage() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-slate-900 mb-1">Questions or Notes</label>
+                <label className="block text-sm font-medium text-slate-900 mb-1">
+                  Questions or Notes
+                </label>
                 <textarea
                   value={formData.notes}
                   onChange={(e) => setFormData({ ...formData, notes: e.target.value })}
@@ -316,7 +360,13 @@ export default function EnrollmentBookingPage() {
               )}
               <button
                 onClick={handleSubmit}
-                disabled={isSubmitting || !formData.firstName || !formData.lastName || !formData.email || !formData.phone}
+                disabled={
+                  isSubmitting ||
+                  !formData.firstName ||
+                  !formData.lastName ||
+                  !formData.email ||
+                  !formData.phone
+                }
                 className="w-full bg-brand-blue-600 hover:bg-brand-blue-700 text-white py-4 rounded-lg font-bold text-lg transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
               >
                 {isSubmitting ? 'Booking...' : 'Confirm Appointment'}
@@ -328,7 +378,10 @@ export default function EnrollmentBookingPage() {
         {/* Help CTA */}
         <div className="mt-8 bg-white rounded-xl p-6 text-center">
           <p className="text-slate-700 mb-2">Need help with your enrollment?</p>
-          <a href="/faq" className="inline-flex items-center gap-2 text-xl font-bold text-brand-blue-600 hover:text-brand-blue-700">
+          <a
+            href="/faq"
+            className="inline-flex items-center gap-2 text-xl font-bold text-brand-blue-600 hover:text-brand-blue-700"
+          >
             Visit our FAQ & Help Center →
           </a>
         </div>

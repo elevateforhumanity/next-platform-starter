@@ -12,28 +12,28 @@ type Params = Promise<{ slug: string }>;
 
 async function getArticle(slug: string) {
   const supabase = await getDb();
-  
+
   const { data: article, error } = await supabase
     .from('support_articles')
     .select('*')
     .eq('slug', slug)
     .eq('published', true)
     .maybeSingle();
-  
+
   if (error || !article) return null;
-  
+
   // Increment views
   await supabase
     .from('support_articles')
     .update({ views: (article.views || 0) + 1 })
     .eq('id', article.id);
-  
+
   return article;
 }
 
 async function getRelatedArticles(category: string, currentSlug: string) {
   const supabase = await getDb();
-  
+
   const { data: articles } = await supabase
     .from('support_articles')
     .select('title, slug, excerpt')
@@ -41,18 +41,18 @@ async function getRelatedArticles(category: string, currentSlug: string) {
     .eq('category', category)
     .neq('slug', currentSlug)
     .limit(3);
-  
+
   return articles || [];
 }
 
 export async function generateMetadata({ params }: { params: Params }): Promise<Metadata> {
   const { slug } = await params;
   const article = await getArticle(slug);
-  
+
   if (!article) {
     return { title: 'Article Not Found | Elevate For Humanity' };
   }
-  
+
   return {
     title: `${article.title} | Help Center | Elevate For Humanity`,
     description: article.excerpt,
@@ -65,19 +65,19 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function HelpArticlePage({ params }: { params: Params }) {
   const { slug } = await params;
   const article = await getArticle(slug);
-  
+
   if (!article) {
     notFound();
   }
-  
+
   const relatedArticles = await getRelatedArticles(article.category, slug);
 
   return (
     <div className="min-h-screen bg-white">
-            <div className="max-w-7xl mx-auto px-4 py-4">
-        <Breadcrumbs items={[{ label: "Support", href: "/support" }, { label: "[Slug]" }]} />
+      <div className="max-w-7xl mx-auto px-4 py-4">
+        <Breadcrumbs items={[{ label: 'Support', href: '/support' }, { label: '[Slug]' }]} />
       </div>
-{/* Header */}
+      {/* Header */}
       <section className="border-b py-6">
         <div className="max-w-4xl mx-auto px-6">
           <Link
@@ -104,11 +104,11 @@ export default async function HelpArticlePage({ params }: { params: Params }) {
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-6">
           <div className="bg-white rounded-2xl p-8 shadow-sm">
-            <div 
+            <div
               className="prose prose-lg max-w-none prose-headings:text-black prose-p:text-slate-900 prose-a:text-brand-blue-600 prose-strong:text-black prose-li:text-slate-900"
               dangerouslySetInnerHTML={{ __html: sanitizeRichHtml(formatContent(article.content)) }}
             />
-            
+
             {/* Tags */}
             {article.tags && article.tags.length > 0 && (
               <div className="mt-8 pt-8 border-t border-gray-200">
@@ -165,9 +165,7 @@ export default async function HelpArticlePage({ params }: { params: Params }) {
           {/* Still need help */}
           <div className="mt-12 p-8 bg-brand-blue-50 rounded-2xl text-center">
             <h2 className="text-xl font-bold text-black mb-2">Still need help?</h2>
-            <p className="text-slate-700 mb-6">
-              Our support team is ready to assist you.
-            </p>
+            <p className="text-slate-700 mb-6">Our support team is ready to assist you.</p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link
                 href="/support/ticket"
@@ -191,14 +189,17 @@ export default async function HelpArticlePage({ params }: { params: Params }) {
 
 function formatContent(content: string): string {
   if (!content) return '';
-  
+
   return content
     .replace(/^### (.*$)/gim, '<h3 class="text-xl font-bold mt-8 mb-4">$1</h3>')
     .replace(/^## (.*$)/gim, '<h2 class="text-2xl font-bold mt-10 mb-4">$1</h2>')
     .replace(/^# (.*$)/gim, '<h1 class="text-3xl font-bold mt-12 mb-6">$1</h1>')
     .replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>')
     .replace(/\*(.*?)\*/g, '<em>$1</em>')
-    .replace(/\[([^\]]+)\]\(([^)]+)\)/g, '<a href="$2" class="text-brand-blue-600 hover:underline">$1</a>')
+    .replace(
+      /\[([^\]]+)\]\(([^)]+)\)/g,
+      '<a href="$2" class="text-brand-blue-600 hover:underline">$1</a>',
+    )
     .replace(/^- (.*$)/gim, '<li class="ml-4 mb-1">$1</li>')
     .replace(/^\d+\. (.*$)/gim, '<li class="ml-4 mb-1">$1</li>')
     .replace(/\n\n/g, '</p><p class="mb-4">');

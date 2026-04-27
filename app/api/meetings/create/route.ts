@@ -12,8 +12,8 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _POST(req: Request) {
-    const rateLimited = await applyRateLimit(req, 'api');
-    if (rateLimited) return rateLimited;
+  const rateLimited = await applyRateLimit(req, 'api');
+  if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
   const {
@@ -35,19 +35,10 @@ async function _POST(req: Request) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const {
-    courseId,
-    topic,
-    start,
-    provider = 'zoom',
-    durationMinutes = 60,
-  } = await req.json();
+  const { courseId, topic, start, provider = 'zoom', durationMinutes = 60 } = await req.json();
 
   if (!courseId || !topic || !start) {
-    return NextResponse.json(
-      { error: 'Missing required fields' },
-      { status: 400 }
-    );
+    return NextResponse.json({ error: 'Missing required fields' }, { status: 400 });
   }
 
   try {
@@ -70,7 +61,10 @@ async function _POST(req: Request) {
       joinUrl = zoom.join_url;
     } else if (provider === 'teams') {
       // Teams meeting creation requires Graph API — not yet configured
-      return NextResponse.json({ error: 'Teams meeting creation not yet configured' }, { status: 500 });
+      return NextResponse.json(
+        { error: 'Teams meeting creation not yet configured' },
+        { status: 500 },
+      );
     }
 
     const { data: meeting, error } = await supabase
@@ -87,21 +81,18 @@ async function _POST(req: Request) {
       .maybeSingle();
 
     if (error) {
-      return NextResponse.json(
-        { error: toErrorMessage(error) },
-        { status: 500 }
-      );
+      return NextResponse.json({ error: toErrorMessage(error) }, { status: 500 });
     }
 
     return NextResponse.json({ success: true, meeting });
-  } catch (error) { 
+  } catch (error) {
     logger.error(
       'Meeting creation error:',
-      error instanceof Error ? error : new Error(String(error))
+      error instanceof Error ? error : new Error(String(error)),
     );
     return NextResponse.json(
       { error: toErrorMessage(error) || 'Failed to create meeting' },
-      { status: 500 }
+      { status: 500 },
     );
   }
 }

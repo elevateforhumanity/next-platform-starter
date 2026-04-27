@@ -120,7 +120,6 @@ function generateRpcStub(rpcName) {
 function main() {
   const files = walk(ROOT);
 
-
   const allTables = new Set();
   const allRpcs = new Set();
   const tableUsage = new Map(); // Track which files use which tables
@@ -140,17 +139,13 @@ function main() {
     rpcs.forEach((r) => allRpcs.add(r));
   }
 
-
   if (allTables.size === 0 && allRpcs.size === 0) {
     return;
   }
 
   fs.mkdirSync(OUTPUT_DIR, { recursive: true });
 
-  const timestamp = new Date()
-    .toISOString()
-    .replace(/[:.]/g, '-')
-    .split('T')[0];
+  const timestamp = new Date().toISOString().replace(/[:.]/g, '-').split('T')[0];
   const outFile = path.join(OUTPUT_DIR, `autopilot-schema-${timestamp}.sql`);
 
   const lines = [];
@@ -178,7 +173,7 @@ function main() {
     for (const table of sortedTables) {
       const usedIn = tableUsage.get(table) || [];
       lines.push(
-        `-- Used in: ${usedIn.slice(0, 3).join(', ')}${usedIn.length > 3 ? ` (+${usedIn.length - 3} more)` : ''}`
+        `-- Used in: ${usedIn.slice(0, 3).join(', ')}${usedIn.length > 3 ? ` (+${usedIn.length - 3} more)` : ''}`,
       );
       lines.push(generateTableStub(table));
       lines.push('');
@@ -224,9 +219,7 @@ function main() {
     '',
     '## Detected Tables',
     '',
-    ...sortedTables.map(
-      (t) => `- \`${t}\` - Used in ${tableUsage.get(t).length} file(s)`
-    ),
+    ...sortedTables.map((t) => `- \`${t}\` - Used in ${tableUsage.get(t).length} file(s)`),
     '',
     '## Detected RPC Functions',
     '',

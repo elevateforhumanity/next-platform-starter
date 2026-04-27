@@ -13,14 +13,20 @@ const ADMIN_ROLES = ['admin', 'super_admin', 'staff'];
 
 async function requireAdmin() {
   const supabase = await createClient();
-  const { data: { user }, error } = await supabase.auth.getUser();
+  const {
+    data: { user },
+    error,
+  } = await supabase.auth.getUser();
   if (error || !user) return { user: null, db: null, error: 'Unauthorized' as const };
 
   const db = await getAdminClient();
   if (!db) return { user: null, db: null, error: 'Service unavailable' as const };
 
   const { data: profile } = await db
-    .from('profiles').select('role').eq('id', user.id).maybeSingle();
+    .from('profiles')
+    .select('role')
+    .eq('id', user.id)
+    .maybeSingle();
 
   if (!profile || !ADMIN_ROLES.includes(profile.role ?? '')) {
     return { user: null, db: null, error: 'Forbidden' as const };
@@ -34,7 +40,10 @@ export async function POST(req: Request) {
 
   const { user, db, error: authError } = await requireAdmin();
   if (authError || !user || !db) {
-    return NextResponse.json({ error: authError }, { status: authError === 'Unauthorized' ? 401 : 403 });
+    return NextResponse.json(
+      { error: authError },
+      { status: authError === 'Unauthorized' ? 401 : 403 },
+    );
   }
 
   const body = await req.json();
@@ -75,13 +84,13 @@ export async function GET(request: Request) {
 
   const { user, db, error: authError } = await requireAdmin();
   if (authError || !user || !db) {
-    return NextResponse.json({ error: authError }, { status: authError === 'Unauthorized' ? 401 : 403 });
+    return NextResponse.json(
+      { error: authError },
+      { status: authError === 'Unauthorized' ? 401 : 403 },
+    );
   }
 
-  const { data, error } = await db
-    .from('soc_controls')
-    .select('*')
-    .order('control_id');
+  const { data, error } = await db.from('soc_controls').select('*').order('control_id');
 
   if (error) {
     logger.error('[soc/mark] select failed', error);

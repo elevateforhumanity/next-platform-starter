@@ -11,12 +11,12 @@ All platform licensing uses a **one-time license fee** model with optional month
 
 ### License Tiers
 
-| Tier | Price | Billing | Source |
-|------|-------|---------|--------|
-| Core Platform | $4,999 | One-time | `app/data/store-products.ts:117` |
-| School / Training Provider | $15,000 | One-time | `app/data/store-products.ts:145` |
-| Enterprise Solution | $50,000 | One-time | `app/data/store-products.ts:175` |
-| Monthly Subscription | $499/month | Recurring | `app/data/store-products.ts:205` |
+| Tier                       | Price      | Billing   | Source                           |
+| -------------------------- | ---------- | --------- | -------------------------------- |
+| Core Platform              | $4,999     | One-time  | `app/data/store-products.ts:117` |
+| School / Training Provider | $15,000    | One-time  | `app/data/store-products.ts:145` |
+| Enterprise Solution        | $50,000    | One-time  | `app/data/store-products.ts:175` |
+| Monthly Subscription       | $499/month | Recurring | `app/data/store-products.ts:205` |
 
 ---
 
@@ -82,11 +82,11 @@ These items are scoped separately based on organizational needs:
 
 Separate from platform licensing, we offer digital products:
 
-| Product | Price | Source |
-|---------|-------|--------|
-| Start a Tax Business Toolkit | $49 | `lib/store/digital-products.ts:36` |
-| Grant Readiness Guide | $29 | `lib/store/digital-products.ts:52` |
-| Fund-Ready Mini Course | $149 | `lib/store/digital-products.ts:66` |
+| Product                      | Price | Source                             |
+| ---------------------------- | ----- | ---------------------------------- |
+| Start a Tax Business Toolkit | $49   | `lib/store/digital-products.ts:36` |
+| Grant Readiness Guide        | $29   | `lib/store/digital-products.ts:52` |
+| Fund-Ready Mini Course       | $149  | `lib/store/digital-products.ts:66` |
 
 ---
 
@@ -95,18 +95,23 @@ Separate from platform licensing, we offer digital products:
 Use these disclaimers in all pricing communications:
 
 **General pricing:**
+
 > "Final pricing depends on scope, branding, modules, and implementation support."
 
 **Integrations:**
+
 > "Integrations available via API/webhooks; implementation depends on partner environment."
 
 **Funding eligibility:**
+
 > "Funding eligibility determined by local workforce boards and program requirements."
 
 **Hiring incentives:**
+
 > "Hiring incentives subject to eligibility and approval requirements."
 
 **Implementation:**
+
 > "Implementation and configuration services scoped separately based on organizational needs."
 
 ---
