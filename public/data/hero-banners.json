@@ -124,7 +124,6 @@
   },
   "store": {
     "pageKey": "store",
-    "videoSrcDesktop": "/videos/store-marketplace.mp4",
     "posterImage": "/hero-images/services-hero.jpg",
     "voiceoverSrc": "/audio/heroes/store.mp3",
     "microLabel": "White-Label Platform",
@@ -150,7 +149,6 @@
   },
   "programs": {
     "pageKey": "programs",
-    "videoSrcDesktop": "/videos/programs-overview-video-with-narration.mp4",
     "posterImage": "/hero-images/pathways-hero.jpg",
     "voiceoverSrc": "/audio/heroes/programs.mp3",
     "microLabel": "Career Training",
@@ -176,7 +174,6 @@
   },
   "learner": {
     "pageKey": "learner",
-    "videoSrcDesktop": "/videos/student-portal-hero.mp4",
     "posterImage": "/hero-images/how-it-works-hero.jpg",
     "voiceoverSrc": "/audio/heroes/learner.mp3",
     "microLabel": "Your Training",
@@ -259,7 +256,6 @@
   },
   "cdl-training": {
     "pageKey": "cdl-training",
-    "videoSrcDesktop": "/videos/cdl-hero.mp4",
     "posterImage": "/hero-images/cdl-cat-new.jpg",
     "voiceoverSrc": "/audio/heroes/cdl.mp3",
     "microLabel": "CDL Class A",
@@ -868,7 +864,6 @@
   },
   "apprenticeships": {
     "pageKey": "apprenticeships",
-    "videoSrcDesktop": "/videos/training-providers-hero.mp4",
     "posterImage": "/hero-images/apprenticeships-hero.jpg",
     "voiceoverSrc": "/audio/heroes/barber.mp3",
     "microLabel": "Earn While You Learn",
@@ -894,7 +889,6 @@
   },
   "it-help-desk": {
     "pageKey": "it-help-desk",
-    "videoSrcDesktop": "/videos/it-technology.mp4",
     "posterImage": "/hero-images/technology-cat-new.jpg",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "CompTIA A+ Prep",
@@ -923,7 +917,6 @@
   },
   "cybersecurity-analyst": {
     "pageKey": "cybersecurity-analyst",
-    "videoSrcDesktop": "/videos/it-technology.mp4",
     "posterImage": "/hero-images/technology-cat-new.jpg",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "CompTIA Security+ Prep",
@@ -952,7 +945,6 @@
   },
   "network-administration": {
     "pageKey": "network-administration",
-    "videoSrcDesktop": "/videos/it-technology.mp4",
     "posterImage": "/hero-images/technology-cat-new.jpg",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "CompTIA Network+ Prep",
@@ -1004,12 +996,10 @@
       "Network support pay $35K–$48K"
     ],
     "transcript": "Train for Certiport IT Specialist Networking certification in 6 weeks, building skills in network support, cabling, and help desk operations. Network support technicians commonly earn $35,000 to $48,000. Free with WIOA or Next Level Jobs funding for eligible Indiana residents.",
-    "analyticsName": "network-support-technician",
-    "videoSrcDesktop": "/videos/it-technology.mp4"
+    "analyticsName": "network-support-technician"
   },
   "software-development": {
     "pageKey": "software-development",
-    "videoSrcDesktop": "/videos/it-technology.mp4",
     "posterImage": "/hero-images/technology-cat-new.jpg",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "IT Specialist Python",
@@ -1038,7 +1028,6 @@
   },
   "web-development": {
     "pageKey": "web-development",
-    "videoSrcDesktop": "/videos/it-technology.mp4",
     "posterImage": "/hero-images/technology-cat-new.jpg",
     "voiceoverSrc": "/audio/heroes/technology.mp3",
     "microLabel": "Meta Front-End Cert",
@@ -1090,8 +1079,7 @@
       "Designer pay $38K–$58K"
     ],
     "transcript": "Train for Adobe Certified Professional in Visual Design in 10 weeks, building skills in Photoshop, Illustrator, and InDesign. Graphic designers commonly earn $38,000 to $58,000. WIOA and Next Level Jobs funding available for eligible Indiana residents. Apply now.",
-    "analyticsName": "graphic-design",
-    "videoSrcDesktop": "/videos/it-technology.mp4"
+    "analyticsName": "graphic-design"
   },
   "cad-drafting": {
     "pageKey": "cad-drafting",
@@ -1123,7 +1111,6 @@
   },
   "tax-preparation": {
     "pageKey": "tax-preparation",
-    "videoSrcDesktop": "/videos/tax-career-paths.mp4",
     "posterImage": "/hero-images/tax-hero.jpg",
     "voiceoverSrc": "/audio/heroes/tax.mp3",
     "microLabel": "IRS PTIN + AFSP",
@@ -1152,7 +1139,6 @@
   },
   "bookkeeping": {
     "pageKey": "bookkeeping",
-    "videoSrcDesktop": "/videos/partner-business.mp4",
     "posterImage": "/hero-images/business-hero.jpg",
     "voiceoverSrc": "/audio/heroes/bookkeeping.mp3",
     "microLabel": "QuickBooks Certified User",
@@ -1204,8 +1190,7 @@
       "Admin pay $32K–$48K"
     ],
     "transcript": "Train for Microsoft Office Specialist Word and Excel certifications in 6 weeks, building skills in Word, Excel, PowerPoint, Outlook, and business communication. Office administrators commonly earn $32,000 to $48,000. Free with WIOA or Next Level Jobs funding for eligible Indiana residents.",
-    "analyticsName": "office-administration",
-    "videoSrcDesktop": "/videos/partner-business.mp4"
+    "analyticsName": "office-administration"
   },
   "entrepreneurship": {
     "pageKey": "entrepreneurship",
@@ -1232,8 +1217,7 @@
       "Real business plan deliverable"
     ],
     "transcript": "Train for Certiport ESB certification in 6 weeks, building skills in business planning, marketing, and financial management. Small business owners and business support roles commonly earn $32,000 to $55,000. Evening schedule. Free with WIOA or grant funding for eligible Indiana residents.",
-    "analyticsName": "entrepreneurship",
-    "videoSrcDesktop": "/videos/partner-business.mp4"
+    "analyticsName": "entrepreneurship"
   },
   "business-administration": {
     "pageKey": "business-administration",
@@ -1260,8 +1244,7 @@
       "Business admin pay $38K–$55K"
     ],
     "transcript": "Train for Microsoft Office Specialist and Certiport ESB certifications in 8 weeks, building skills in Microsoft Office, QuickBooks, and business fundamentals. Business administrators commonly earn $38,000 to $55,000. WIOA and Next Level Jobs funding available for eligible Indiana residents.",
-    "analyticsName": "business-administration",
-    "videoSrcDesktop": "/videos/partner-business.mp4"
+    "analyticsName": "business-administration"
   },
   "project-management": {
     "pageKey": "project-management",
@@ -1288,8 +1271,7 @@
       "PM pay $52K–$75K"
     ],
     "transcript": "Train for Certiport Project Management certification in 6 weeks, building skills in Agile, Scrum, and traditional project management methodologies. Project managers commonly earn $52,000 to $75,000. Free with WIOA or Next Level Jobs funding for eligible Indiana residents.",
-    "analyticsName": "project-management",
-    "videoSrcDesktop": "/videos/partner-business.mp4"
+    "analyticsName": "project-management"
   },
   "finance-bookkeeping-accounting": {
     "pageKey": "finance-bookkeeping-accounting",
@@ -1316,8 +1298,7 @@
       "Enrolled Agent exam prep"
     ],
     "transcript": "Earn IRS PTIN, QuickBooks Certified User, and Enrolled Agent exam preparation through a tiered credential pathway completed in 12 weeks, covering tax preparation, bookkeeping, payroll, and accounting. Finance professionals commonly earn $42,000 to $62,000. WIOA funding available for eligible Indiana residents.",
-    "analyticsName": "finance-bookkeeping-accounting",
-    "videoSrcDesktop": "/videos/partner-business.mp4"
+    "analyticsName": "finance-bookkeeping-accounting"
   },
   "peer-recovery-specialist": {
     "pageKey": "peer-recovery-specialist",
@@ -1351,7 +1332,6 @@
   },
   "technology": {
     "pageKey": "technology",
-    "videoSrcDesktop": "/videos/it-technology.mp4",
     "posterImage": "/hero-images/technology-cat-new.jpg",
     "microLabel": "Indianapolis, Indiana",
     "belowHeroHeadline": "Technology Career Training — CompTIA A+ in 12 weeks.",
@@ -1374,7 +1354,6 @@
   },
   "business": {
     "pageKey": "business",
-    "videoSrcDesktop": "/videos/partner-business.mp4",
     "posterImage": "/images/pages/business-sector.jpg",
     "voiceoverSrc": "/audio/heroes/business.mp3",
     "microLabel": "Business & Finance Programs",
@@ -1446,7 +1425,6 @@
   },
   "lms": {
     "pageKey": "lms",
-    "videoSrcDesktop": "/videos/lms-learning.mp4",
     "posterImage": "/hero-images/how-it-works-hero.jpg",
     "voiceoverSrc": "/audio/heroes/lms.mp3",
     "microLabel": "Student Training Portal",
@@ -1944,7 +1922,6 @@
   },
   "workforce-partners": {
     "pageKey": "workforce-partners",
-    "videoSrcDesktop": "/videos/employer-hero.mp4",
     "posterImage": "/hero-images/employer-hero.jpg",
     "microLabel": "Workforce Partners",
     "belowHeroHeadline": "A workforce pipeline you can count on.",
@@ -1968,7 +1945,6 @@
   },
   "impact": {
     "pageKey": "impact",
-    "videoSrcDesktop": "/videos/graduation-success.mp4",
     "posterImage": "/images/pages/impact-video-poster.jpg",
     "microLabel": "Impact & Outcomes",
     "belowHeroHeadline": "Real results for learners, employers, and communities.",
@@ -1992,7 +1968,6 @@
   },
   "supersonic": {
     "pageKey": "supersonic",
-    "videoSrcDesktop": "/videos/tax-career-paths.mp4",
     "posterImage": "/hero-images/tax-hero.jpg",
     "voiceoverSrc": "/audio/heroes/supersonic.mp3",
     "microLabel": "SupersonicFastCash",
@@ -2040,7 +2015,6 @@
   },
   "enrollment": {
     "pageKey": "enrollment",
-    "videoSrcDesktop": "/videos/getting-started-hero.mp4",
     "posterImage": "/hero-images/apply-hero.jpg",
     "voiceoverSrc": "/audio/heroes/enrollment.mp3",
     "microLabel": "Enrollment",
@@ -2065,7 +2039,6 @@
   },
   "how-it-works": {
     "pageKey": "how-it-works",
-    "videoSrcDesktop": "/videos/getting-started-hero.mp4",
     "posterImage": "/hero-images/how-it-works-hero.jpg",
     "voiceoverSrc": "/audio/heroes/how-it-works.mp3",
     "microLabel": "How It Works",
@@ -2090,7 +2063,6 @@
   },
   "employer": {
     "pageKey": "employer",
-    "videoSrcDesktop": "/videos/employer-hero.mp4",
     "posterImage": "/hero-images/employer-hero.jpg",
     "voiceoverSrc": "/audio/heroes/career-services.mp3",
     "microLabel": "For Employers",
@@ -2164,7 +2136,6 @@
   },
   "hire-graduates": {
     "pageKey": "hire-graduates",
-    "videoSrcDesktop": "/videos/employer-hero.mp4",
     "posterImage": "/images/pages/employer-hero.jpg",
     "voiceoverSrc": "/audio/heroes/hire-graduates.mp3",
     "microLabel": "Hire Our Graduates",
@@ -2189,7 +2160,6 @@
   },
   "for-employers": {
     "pageKey": "for-employers",
-    "videoSrcDesktop": "/videos/employer-hero.mp4",
     "posterImage": "/images/pages/for-employers-page-1.jpg",
     "voiceoverSrc": "/audio/heroes/for-employers.mp3",
     "microLabel": "For Employers",
@@ -2312,7 +2282,6 @@
   },
   "program-holder": {
     "pageKey": "program-holder",
-    "videoSrcDesktop": "/videos/employer-hero.mp4",
     "posterImage": "/images/pages/program-holder-page-1.jpg",
     "voiceoverSrc": "/audio/heroes/program-holder.mp3",
     "microLabel": "Program Holders",
@@ -2437,7 +2406,6 @@
   },
   "cybersecurity": {
     "pageKey": "cybersecurity",
-    "videoSrcDesktop": "/videos/it-technology.mp4",
     "posterImage": "/hero-images/technology-cat-new.jpg",
     "microLabel": "CompTIA Security+",
     "credentialLabel": "CompTIA Security+",
@@ -2464,7 +2432,6 @@
   },
   "hospitality": {
     "pageKey": "hospitality",
-    "videoSrcDesktop": "/videos/partner-business.mp4",
     "posterImage": "/hero-images/business-hero.jpg",
     "microLabel": "Indianapolis, Indiana",
     "belowHeroHeadline": "Hospitality & Customer Service — ServSafe certified in 8 weeks.",
