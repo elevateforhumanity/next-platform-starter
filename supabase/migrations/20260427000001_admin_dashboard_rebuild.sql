@@ -40,8 +40,21 @@ GRANT SELECT ON public.v_admin_cohort_summary TO service_role;
 -- 2. Ensure participant_barriers has the status column used by /admin/barriers
 -- ────────────────────────────────────────────────────────────────────────────
 ALTER TABLE IF EXISTS public.participant_barriers
-  ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'active'
-  CHECK (status IN ('active', 'resolved', 'in_progress'));
+  ADD COLUMN IF NOT EXISTS status TEXT NOT NULL DEFAULT 'active';
+
+-- Add the constraint only if it doesn't already exist to avoid errors on re-run
+DO $$
+BEGIN
+  IF NOT EXISTS (
+    SELECT 1 FROM pg_constraint
+    WHERE conrelid = 'public.participant_barriers'::regclass
+      AND conname   = 'participant_barriers_status_check'
+  ) THEN
+    ALTER TABLE public.participant_barriers
+      ADD CONSTRAINT participant_barriers_status_check
+        CHECK (status IN ('active', 'resolved', 'in_progress'));
+  END IF;
+END $$;
 
 -- ────────────────────────────────────────────────────────────────────────────
 -- 3. Ensure api_keys table exists for /admin/api-keys

@@ -33,6 +33,14 @@ export default async function CohortTrackerPage() {
   await requireAdmin();
   const db = await getAdminClient();
 
+  if (!db) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <p className="text-slate-500 text-sm">Unable to connect to database. Please try again.</p>
+      </div>
+    );
+  }
+
   const [cohortsRes, programsRes] = await Promise.all([
     db
       .from('cohorts')
