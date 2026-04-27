@@ -136,6 +136,16 @@ export default function QuizPlayer({
     { questionId: string; selected: number; correct: boolean }[]
   >([]);
 
+  // Ref mirror of answeredQuestions — updated synchronously in handleSelect so
+  // handleNext always reads the complete list, including the last answer.
+  // React's setState is async: when the user answers the final question and
+  // immediately clicks "Next/Finish", the answeredQuestions state value captured
+  // in the handleNext closure is still the pre-answer snapshot, causing the last
+  // answer to be excluded from the score and answersMap sent to the server.
+  const answeredQuestionsRef = useRef<{ questionId: string; selected: number; correct: boolean }[]>(
+    [],
+  );
+
   const feedbackRef = useRef<HTMLDivElement>(null);
 
   const question = questions[currentIndex];
@@ -165,25 +175,27 @@ export default function QuizPlayer({
         playWrongSound();
       }
 
-      setAnsweredQuestions((prev) => [
-        ...prev,
-        { questionId: question.id, selected: optionIndex, correct },
-      ]);
+      const entry = { questionId: question.id, selected: optionIndex, correct };
+      // Update the ref synchronously before any state flush so handleNext
+      // always sees the complete list when it fires on the last question.
+      answeredQuestionsRef.current = [...answeredQuestionsRef.current, entry];
+      setAnsweredQuestions(answeredQuestionsRef.current);
     },
     [isRevealed, question],
   );
 
   const handleNext = useCallback(() => {
     if (isLastQuestion) {
-      // Derive score from answeredQuestions rather than correctCount to avoid
-      // reading a stale closure value when the last answer was correct (setState
-      // is async so correctCount hasn't incremented yet at this point).
-      const finalCorrect = answeredQuestions.filter((q) => q.correct).length;
+      // Read from the ref, not the state, to guarantee the last answer is included.
+      // answeredQuestions (state) may still be the pre-last-answer snapshot here
+      // because React batches setState calls and the flush hasn't happened yet.
+      const allAnswers = answeredQuestionsRef.current;
+      const finalCorrect = allAnswers.filter((q) => q.correct).length;
       const finalScore = Math.round((finalCorrect / questions.length) * 100);
       setFinished(true);
       // Build answers map: { questionId: selectedOptionIndex }
       const answersMap: Record<string, number> = {};
-      answeredQuestions.forEach((q) => {
+      allAnswers.forEach((q) => {
         answersMap[q.questionId] = q.selected;
       });
       onComplete(finalScore, answersMap);
@@ -192,7 +204,7 @@ export default function QuizPlayer({
       setSelectedAnswer(null);
       setIsRevealed(false);
     }
-  }, [isLastQuestion, answeredQuestions, questions.length, onComplete]);
+  }, [isLastQuestion, questions.length, onComplete]);
 
   const handleRetake = useCallback(() => {
     setCurrentIndex(0);
@@ -200,6 +212,7 @@ export default function QuizPlayer({
     setIsRevealed(false);
     setCorrectCount(0);
     setFinished(false);
+    answeredQuestionsRef.current = [];
     setAnsweredQuestions([]);
   }, []);
 
