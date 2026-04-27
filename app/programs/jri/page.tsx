@@ -29,16 +29,6 @@ export const metadata: Metadata = {
   },
 };
 
-const jriProgramSlugs = [
-  'cna',
-  'phlebotomy-technician',
-  'home-health-aide',
-  'direct-support-professional',
-  'cdl',
-  'workforce-readiness',
-  'peer-recovery-coach',
-];
-
 export default async function JRIProgramsPage() {
   const supabase = await createClient();
 

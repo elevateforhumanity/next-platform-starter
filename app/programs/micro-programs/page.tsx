@@ -20,14 +20,6 @@ export const metadata: Metadata = {
   },
 };
 
-const microProgramSlugs = [
-  'cpr-certification',
-  'workforce-readiness',
-  'peer-recovery-coach',
-  'drug-collector',
-  'emergency-health-safety-tech',
-];
-
 export default async function MicroProgramsPage() {
   const supabase = createPublicClient();
 
