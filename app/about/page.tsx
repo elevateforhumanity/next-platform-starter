@@ -6,43 +6,26 @@ import { ArrowRight, ExternalLink } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { TEAM } from '@/data/team';
 import { createClient } from '@/lib/supabase/server';
-import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 
 export const revalidate = 3600; // re-fetch team from DB hourly
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
-
 export const metadata: Metadata = {
   title: 'About Us | Elevate for Humanity',
-  description:
-    'Elevate for Humanity is a workforce development institute in Indianapolis providing funded career training in healthcare, trades, CDL, technology, and barbering. Founded by Elizabeth Greene.',
-  alternates: { canonical: `${SITE_URL}/about` },
+  description: 'Elevate for Humanity is a workforce development institute in Indianapolis providing funded career training in healthcare, trades, CDL, technology, and barbering. Founded by Elizabeth Greene.',
+  alternates: { canonical: 'https://www.elevateforhumanity.org/about' },
   openGraph: {
     title: 'About Elevate for Humanity',
-    description:
-      'A workforce development institute providing funded career training in Indianapolis, Indiana. Founded by Elizabeth Greene.',
-    url: `${SITE_URL}/about`,
+    description: 'A workforce development institute providing funded career training in Indianapolis, Indiana. Founded by Elizabeth Greene.',
+    url: 'https://www.elevateforhumanity.org/about',
     siteName: 'Elevate for Humanity',
-    images: [
-      {
-        url: '/images/team/elizabeth-greene-headshot.jpg',
-        width: 800,
-        height: 1080,
-        alt: 'Elizabeth Greene, Founder of Elevate for Humanity',
-      },
-    ],
+    images: [{ url: '/images/team/elizabeth-greene-headshot.jpg', width: 800, height: 1080, alt: 'Elizabeth Greene, Founder of Elevate for Humanity' }],
     type: 'website',
   },
 };
 
 export default async function AboutPage() {
   // Fetch team from DB; fall back to static data/team.ts if unavailable
-  let dbTeam: {
-    name: string;
-    title: string;
-    headshot_url: string | null;
-    display_order: number;
-  }[] = [];
+  let dbTeam: { name: string; title: string; headshot_url: string | null; display_order: number }[] = [];
   try {
     const supabase = await createClient();
     const { data } = await supabase
@@ -56,15 +39,9 @@ export default async function AboutPage() {
   }
 
   // Merge: DB rows take priority; fall back to data/team.ts shape for rendering
-  const teamForDisplay =
-    dbTeam.length > 0
-      ? dbTeam.map((m) => ({
-          id: m.name,
-          name: m.name,
-          title: m.title,
-          headshotSrc: m.headshot_url ?? undefined,
-        }))
-      : TEAM;
+  const teamForDisplay = dbTeam.length > 0
+    ? dbTeam.map((m) => ({ id: m.name, name: m.name, title: m.title, headshotSrc: m.headshot_url ?? undefined }))
+    : TEAM;
 
   const founder = teamForDisplay[0];
 
@@ -81,7 +58,6 @@ export default async function AboutPage() {
         <div className="max-w-4xl mx-auto flex flex-col sm:flex-row items-center gap-8">
           {/* Contained headshot */}
           <div className="relative w-40 h-40 sm:w-52 sm:h-52 flex-shrink-0 rounded-2xl overflow-hidden shadow-lg border border-slate-200">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
             <Image
               src="/images/team/elizabeth-greene.jpg"
               alt="Elizabeth Greene, Founder & CEO of Elevate for Humanity"
@@ -100,8 +76,7 @@ export default async function AboutPage() {
               Elevate for Humanity
             </h1>
             <p className="text-black text-base sm:text-lg max-w-2xl leading-relaxed mb-2">
-              Workforce development institute providing funded career training to people facing
-              barriers to employment.
+              Workforce development institute providing funded career training to people facing barriers to employment.
             </p>
             <p className="text-sm text-slate-500 font-medium">
               Founded by Elizabeth Greene · Founder &amp; CEO
@@ -119,35 +94,29 @@ export default async function AboutPage() {
           </div>
           <div className="text-slate-700 space-y-4">
             <p>
-              Elevate for Humanity is a workforce development institute based in Indianapolis,
-              Indiana. We provide funded career training to people who need it most —
+              Elevate for Humanity is a workforce development institute based in
+              Indianapolis, Indiana. We provide funded career training to people who need it most —
               justice-involved individuals, low-income families, veterans, dislocated workers,
               individuals with disabilities, and anyone facing barriers to employment.
             </p>
             <p>
               We are operated by 2Exclusive LLC-S in partnership with Rise Forward Foundation.
-              Founded in 2019 by Elizabeth Greene, we have grown from a single training program into
-              a structured career pathway system covering healthcare, skilled trades, CDL trucking,
-              technology, and barbering.
+              Founded in 2019 by Elizabeth Greene, we have grown from a single training program
+              into a structured career pathway system covering healthcare, skilled trades, CDL
+              trucking, technology, and barbering.
             </p>
             <p>
-              Many of our programs are available at no cost to eligible participants through WIOA
-              (Workforce Innovation and Opportunity Act), the Workforce Ready Grant, and Eligibility
-              is determined through Indiana WorkOne career centers. We assist with the screening and
-              paperwork — participants focus on training.
+              Many of our programs are available at no cost to eligible participants through
+              WIOA (Workforce Innovation and Opportunity Act), the Workforce Ready Grant, and
+              Eligibility is determined through Indiana WorkOne career centers.
+              We assist with the screening and paperwork — participants focus on training.
             </p>
           </div>
           <div className="mt-6 flex flex-wrap gap-4">
-            <Link
-              href="/pathways"
-              className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-6 py-3 rounded-lg font-bold transition inline-flex items-center"
-            >
+            <Link href="/pathways" className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-6 py-3 rounded-lg font-bold transition inline-flex items-center">
               See Our Career Pathways <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
-            <Link
-              href="/start"
-              className="bg-white hover:bg-brand-red-50 text-brand-red-600 border-2 border-brand-red-200 px-6 py-3 rounded-lg font-bold transition"
-            >
+            <Link href="/start" className="bg-white hover:bg-brand-red-50 text-brand-red-600 border-2 border-brand-red-200 px-6 py-3 rounded-lg font-bold transition">
               Check Eligibility &amp; Apply
             </Link>
           </div>
@@ -165,10 +134,7 @@ export default async function AboutPage() {
             employment support, and direct employer placement.
           </p>
           <div className="mt-6">
-            <Link
-              href="/about/mission"
-              className="inline-flex items-center text-black hover:text-brand-red-600 text-sm font-semibold underline underline-offset-4"
-            >
+            <Link href="/about/mission" className="inline-flex items-center text-black hover:text-brand-red-600 text-sm font-semibold underline underline-offset-4">
               Full mission statement &amp; values <ArrowRight className="ml-1 w-4 h-4" />
             </Link>
           </div>
@@ -183,29 +149,18 @@ export default async function AboutPage() {
           <div className="space-y-8">
             <div className="flex flex-col sm:flex-row gap-5">
               <div className="relative h-48 sm:h-auto sm:w-56 flex-shrink-0 rounded-lg overflow-hidden">
-                <Image
-                  src="/images/pages/about-career-training.jpg"
-                  alt="Career training programs"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 224px"
-                  quality={90}
-                  className="object-cover"
-                />
+                <Image src="/images/pages/about-career-training.jpg" alt="Career training programs" fill sizes="(max-width: 640px) 100vw, 224px" quality={90} className="object-cover" />
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 text-lg mb-2">Career Training Programs</h3>
                 <p className="text-sm text-slate-700 mb-2">
                   We run certification programs in healthcare (CNA, Medical Assistant, Phlebotomy),
-                  skilled trades (HVAC, Electrical, Welding, Plumbing), CDL trucking (Class A and
-                  B), IT and cybersecurity (Certiport IT Specialist, Cisco CCST), barbering (DOL
-                  Registered Apprenticeship), and CPR/First Aid. Most programs run 4 to 16 weeks and
-                  include hands-on training, certification exam preparation, and job placement
-                  assistance.
+                  skilled trades (HVAC, Electrical, Welding, Plumbing), CDL trucking (Class A and B),
+                  IT and cybersecurity (Certiport IT Specialist, Cisco CCST), barbering (DOL Registered Apprenticeship),
+                  and CPR/First Aid. Most programs run 4 to 16 weeks and include hands-on training,
+                  certification exam preparation, and job placement assistance.
                 </p>
-                <Link
-                  href="/programs"
-                  className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700"
-                >
+                <Link href="/programs" className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700">
                   Browse All Programs <ArrowRight className="ml-1 w-4 h-4" />
                 </Link>
               </div>
@@ -213,28 +168,17 @@ export default async function AboutPage() {
 
             <div className="flex flex-col sm:flex-row gap-5">
               <div className="relative h-48 sm:h-auto sm:w-56 flex-shrink-0 rounded-lg overflow-hidden">
-                <Image
-                  src="/images/pages/about-funding-nav.jpg"
-                  alt="Workforce funding options"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 224px"
-                  quality={90}
-                  className="object-cover"
-                />
+                <Image src="/images/pages/about-funding-nav.jpg" alt="Workforce funding options" fill sizes="(max-width: 640px) 100vw, 224px" quality={90} className="object-cover" />
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 text-lg mb-2">Funding Navigation</h3>
                 <p className="text-sm text-slate-700 mb-2">
-                  Most people do not know they may qualify for funded training. We walk every
-                  participant through the eligibility process for WIOA (covers tuition, books,
-                  supplies, and sometimes transportation and childcare), the Workforce Ready Grant
-                  (covers high-demand certifications regardless of income). We handle the paperwork
-                  with WorkOne and DWD.
+                  Most people do not know they may qualify for funded training. We walk every participant
+                  through the eligibility process for WIOA (covers tuition, books, supplies, and
+                  sometimes transportation and childcare), the Workforce Ready Grant (covers
+                  high-demand certifications regardless of income). We handle the paperwork with WorkOne and DWD.
                 </p>
-                <Link
-                  href="/funding"
-                  className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700"
-                >
+                <Link href="/funding" className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700">
                   See Funding Options <ArrowRight className="ml-1 w-4 h-4" />
                 </Link>
               </div>
@@ -242,30 +186,18 @@ export default async function AboutPage() {
 
             <div className="flex flex-col sm:flex-row gap-5">
               <div className="relative h-48 sm:h-auto sm:w-56 flex-shrink-0 rounded-lg overflow-hidden">
-                <Image
-                  src="/images/pages/about-employer-partners.jpg"
-                  alt="Employer partnerships"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 224px"
-                  quality={90}
-                  className="object-cover"
-                />
+                <Image src="/images/pages/about-employer-partners.jpg" alt="Employer partnerships" fill sizes="(max-width: 640px) 100vw, 224px" quality={90} className="object-cover" />
               </div>
               <div>
-                <h3 className="font-bold text-slate-900 text-lg mb-2">
-                  Job Placement &amp; Employer Partnerships
-                </h3>
+                <h3 className="font-bold text-slate-900 text-lg mb-2">Job Placement &amp; Employer Partnerships</h3>
                 <p className="text-sm text-slate-700 mb-2">
                   Our career services team helps every graduate with resume building, interview
-                  preparation, and direct introductions to employers who are hiring. We partner with
-                  HVAC contractors, hospitals, trucking companies, barbershops, IT firms, and
-                  construction companies across Central Indiana. We track employment outcomes at 6
-                  and 12 months after graduation.
+                  preparation, and direct introductions to employers who are hiring. We partner
+                  with HVAC contractors, hospitals, trucking companies, barbershops, IT firms, and
+                  construction companies across Central Indiana. We track employment outcomes at
+                  6 and 12 months after graduation.
                 </p>
-                <Link
-                  href="/career-services/job-placement"
-                  className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700"
-                >
+                <Link href="/career-services/job-placement" className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700">
                   Career Services &amp; Placement <ArrowRight className="ml-1 w-4 h-4" />
                 </Link>
               </div>
@@ -273,22 +205,15 @@ export default async function AboutPage() {
 
             <div className="flex flex-col sm:flex-row gap-5">
               <div className="relative h-48 sm:h-auto sm:w-56 flex-shrink-0 rounded-lg overflow-hidden">
-                <Image
-                  src="/images/pages/about-supportive-services.jpg"
-                  alt="Supportive services"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 224px"
-                  quality={90}
-                  className="object-cover"
-                />
+                <Image src="/images/pages/about-supportive-services.jpg" alt="Supportive services" fill sizes="(max-width: 640px) 100vw, 224px" quality={90} className="object-cover" />
               </div>
               <div>
                 <h3 className="font-bold text-slate-900 text-lg mb-2">Supportive Services</h3>
                 <p className="text-sm text-slate-700">
                   Training alone is not enough if someone cannot get to class or keep the lights on.
-                  We provide career counseling, mental health support, housing assistance,
-                  transportation help, and connections to community resources. Our goal is to remove
-                  every barrier between a participant and a stable career.
+                  We provide career counseling, mental health support, housing assistance, transportation
+                  help, and connections to community resources. Our goal is to remove every barrier
+                  between a participant and a stable career.
                 </p>
               </div>
             </div>
@@ -301,47 +226,34 @@ export default async function AboutPage() {
         <div className="max-w-4xl mx-auto px-4">
           <h2 className="text-xl font-bold text-slate-900 mb-3">Training Delivery Model</h2>
           <p className="text-sm text-black mb-4">
-            Elevate for Humanity is a hybrid workforce training hub and DOL Registered
-            Apprenticeship Sponsor (RAPIDS: 2025-IN-132301). We coordinate employer-based hands-on
-            instruction with online didactic learning — not a traditional campus model.
+            Elevate for Humanity is a hybrid workforce training hub and DOL Registered Apprenticeship
+            Sponsor (RAPIDS: 2025-IN-132301). We coordinate employer-based hands-on instruction with
+            online didactic learning — not a traditional campus model.
           </p>
           <div className="grid sm:grid-cols-2 gap-4 mb-4">
             <div className="bg-white rounded-lg p-4 border border-slate-200">
               <h3 className="font-semibold text-slate-900 text-sm mb-2">Didactic Instruction</h3>
-              <p className="text-xs text-black">
-                Delivered online via the Elevate LMS platform. Curriculum, assessments, and progress
-                tracking are managed digitally.
-              </p>
+              <p className="text-xs text-black">Delivered online via the Elevate LMS platform. Curriculum, assessments, and progress tracking are managed digitally.</p>
             </div>
             <div className="bg-white rounded-lg p-4 border border-slate-200">
               <h3 className="font-semibold text-slate-900 text-sm mb-2">Hands-On / OJT Training</h3>
-              <p className="text-xs text-black">
-                Conducted at approved employer partner sites, licensed shops, clinical facilities,
-                and OJT placements. Training sites vary by program.
-              </p>
+              <p className="text-xs text-black">Conducted at approved employer partner sites, licensed shops, clinical facilities, and OJT placements. Training sites vary by program.</p>
             </div>
             <div className="bg-white rounded-lg p-4 border border-slate-200">
               <h3 className="font-semibold text-slate-900 text-sm mb-2">Support Services</h3>
-              <p className="text-xs text-black">
-                Career counseling, case management, and advising available virtually and in-person
-                by appointment.
-              </p>
+              <p className="text-xs text-black">Career counseling, case management, and advising available virtually and in-person by appointment.</p>
             </div>
             <div className="bg-white rounded-lg p-4 border border-slate-200">
               <h3 className="font-semibold text-slate-900 text-sm mb-2">Administrative Office</h3>
-              <p className="text-xs text-black">
-                8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240. Administrative and
-                enrollment support — not an instructional facility.
-              </p>
+              <p className="text-xs text-black">8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240. Administrative and enrollment support — not an instructional facility.</p>
             </div>
           </div>
           <div className="text-sm text-slate-700 space-y-2">
             <p>
-              <strong>Training sites by program:</strong> Barber and cosmetology apprentices train
-              at licensed partner barbershops. Healthcare students complete clinicals at partner
-              medical facilities. CDL students train at partner driving schools. Skilled trades
-              apprentices work at employer worksites. IT and business programs are delivered online
-              with instructor oversight and scheduled progress reviews.
+              <strong>Training sites by program:</strong> Barber and cosmetology apprentices train at
+              licensed partner barbershops. Healthcare students complete clinicals at partner medical
+              facilities. CDL students train at partner driving schools. Skilled trades apprentices
+              work at employer worksites. IT and business programs are delivered online with instructor oversight and scheduled progress reviews.
             </p>
             <p>
               All credentials are issued by recognized third-party authorities (Indiana PLA, ISDH,
@@ -350,22 +262,13 @@ export default async function AboutPage() {
             </p>
           </div>
           <div className="flex flex-wrap gap-4 mt-4">
-            <Link
-              href="/partners/training-sites"
-              className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700"
-            >
+            <Link href="/partners/training-sites" className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700">
               Employer partners &amp; training sites <ArrowRight className="ml-1 w-4 h-4" />
             </Link>
-            <Link
-              href="/disclosures/training-delivery"
-              className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700"
-            >
+            <Link href="/disclosures/training-delivery" className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700">
               Full training delivery disclosure <ArrowRight className="ml-1 w-4 h-4" />
             </Link>
-            <Link
-              href="/accreditation"
-              className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700"
-            >
+            <Link href="/accreditation" className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700">
               Approvals and credentials <ArrowRight className="ml-1 w-4 h-4" />
             </Link>
           </div>
@@ -375,52 +278,29 @@ export default async function AboutPage() {
       {/* Institutional Governance */}
       <section className="py-12 border-t border-slate-200">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">
-            Centralized Workforce Development &amp; Apprenticeship Sponsor
-          </h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-4">Centralized Workforce Development &amp; Apprenticeship Sponsor</h2>
           <p className="text-sm text-slate-700 mb-4">
-            Elevate for Humanity Career &amp; Technical Institute, a program of 2Exclusive LLC-S,
-            operates as a centralized workforce development and Registered Apprenticeship sponsor
-            organization. The institute provides related technical instruction (RTI), apprenticeship
-            sponsorship, workforce-funded career pathway enrollment, and coordination with licensed
-            employer training sites under a unified governance and compliance structure.
+            Elevate for Humanity Career &amp; Technical Institute, a program of 2Exclusive LLC-S, operates as a centralized workforce development and Registered Apprenticeship sponsor organization. The institute provides related technical instruction (RTI), apprenticeship sponsorship, workforce-funded career pathway enrollment, and coordination with licensed employer training sites under a unified governance and compliance structure.
           </p>
           <p className="text-sm text-black mb-6">
-            Apprentices receive structured instruction through the institute while completing
-            supervised on-the-job training at sponsor-approved licensed partner locations in
-            accordance with state and federal apprenticeship standards.
+            Apprentices receive structured instruction through the institute while completing supervised on-the-job training at sponsor-approved licensed partner locations in accordance with state and federal apprenticeship standards.
           </p>
           <div className="grid sm:grid-cols-3 gap-4">
             <div className="bg-white rounded-lg p-4 border border-slate-200">
-              <h3 className="font-semibold text-slate-900 text-sm mb-2">
-                Related Technical Instruction
-              </h3>
-              <p className="text-xs text-black">
-                Delivered by the institute through structured curriculum and learning systems.
-              </p>
+              <h3 className="font-semibold text-slate-900 text-sm mb-2">Related Technical Instruction</h3>
+              <p className="text-xs text-black">Delivered by the institute through structured curriculum and learning systems.</p>
             </div>
             <div className="bg-white rounded-lg p-4 border border-slate-200">
               <h3 className="font-semibold text-slate-900 text-sm mb-2">On-the-Job Training</h3>
-              <p className="text-xs text-black">
-                Delivered at licensed employer partner locations operating under formal training
-                agreements.
-              </p>
+              <p className="text-xs text-black">Delivered at licensed employer partner locations operating under formal training agreements.</p>
             </div>
             <div className="bg-white rounded-lg p-4 border border-slate-200">
-              <h3 className="font-semibold text-slate-900 text-sm mb-2">
-                Oversight &amp; Compliance
-              </h3>
-              <p className="text-xs text-black">
-                Managed by the Sponsor including standards, hour tracking, apprentice registration,
-                and regulatory reporting.
-              </p>
+              <h3 className="font-semibold text-slate-900 text-sm mb-2">Oversight &amp; Compliance</h3>
+              <p className="text-xs text-black">Managed by the Sponsor including standards, hour tracking, apprentice registration, and regulatory reporting.</p>
             </div>
           </div>
           <div className="mt-4">
-            <Link
-              href="/governance"
-              className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700"
-            >
+            <Link href="/governance" className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700">
               View Governance &amp; Program Structure <ArrowRight className="ml-1 w-4 h-4" />
             </Link>
           </div>
@@ -464,19 +344,9 @@ export default async function AboutPage() {
                 desc: 'Organizations that need trained, credentialed workers. We run custom training cohorts for your hiring needs and handle all the funding paperwork.',
               },
             ].map((item) => (
-              <div
-                key={item.title}
-                className="bg-white rounded-xl border border-slate-200 overflow-hidden"
-              >
+              <div key={item.title} className="bg-white rounded-xl border border-slate-200 overflow-hidden">
                 <div className="relative h-40 overflow-hidden">
-                  <Image
-                    src={item.image}
-                    alt={item.title}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 50vw"
-                    quality={90}
-                    className="object-cover"
-                  />
+                  <Image src={item.image} alt={item.title} fill sizes="(max-width: 640px) 100vw, 50vw" quality={90} className="object-cover" />
                 </div>
                 <div className="p-5">
                   <h3 className="font-bold text-slate-900 mb-2">{item.title}</h3>
@@ -486,10 +356,7 @@ export default async function AboutPage() {
             ))}
           </div>
           <div className="mt-8 text-center">
-            <Link
-              href="/start"
-              className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-6 py-3 rounded-lg font-bold transition inline-flex items-center"
-            >
+            <Link href="/start" className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-6 py-3 rounded-lg font-bold transition inline-flex items-center">
               Check Your Eligibility <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </div>
@@ -499,9 +366,7 @@ export default async function AboutPage() {
       {/* Our Credentials */}
       <section className="py-12">
         <div className="max-w-5xl mx-auto px-4">
-          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 text-center">
-            Our Credentials
-          </h2>
+          <h2 className="text-2xl sm:text-3xl font-bold text-slate-900 mb-3 text-center">Our Credentials</h2>
           <p className="text-black text-center mb-8 max-w-2xl mx-auto">
             These are the government agencies and workforce organizations that have approved,
             registered, or partnered with Elevate for Humanity.
@@ -509,43 +374,14 @@ export default async function AboutPage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4">
             {[
-              {
-                logo: '/images/partners/usdol.webp',
-                name: 'U.S. Department of Labor',
-                role: 'Registered Apprenticeship Sponsor',
-                desc: 'Our barber apprenticeship program is registered with USDOL and tracked in the RAPIDS system.',
-              },
-              {
-                logo: '/images/partners/dwd.webp',
-                name: 'Indiana DWD',
-                role: 'Listed Training Provider',
-                desc: 'Listed on the Eligible Training Provider List (ETPL). Eligible students may use WIOA and Workforce Ready Grant funding.',
-              },
-              {
-                logo: '/images/partners/workone.webp',
-                name: 'WorkOne',
-                role: 'Workforce Partner',
-                desc: 'We work with WorkOne career centers across Central Indiana for participant referrals and eligibility screening.',
-              },
-              {
-                logo: '/images/partners/nextleveljobs.webp',
-                name: 'Next Level Jobs',
-                role: 'Workforce Ready Grant Provider',
-                desc: 'Our high-demand certification programs qualify for the Workforce Ready Grant through Next Level Jobs.',
-              },
+              { logo: '/images/partners/usdol.webp', name: 'U.S. Department of Labor', role: 'Registered Apprenticeship Sponsor', desc: 'Our barber apprenticeship program is registered with USDOL and tracked in the RAPIDS system.' },
+              { logo: '/images/partners/dwd.webp', name: 'Indiana DWD', role: 'Listed Training Provider', desc: 'Listed on the Eligible Training Provider List (ETPL). Eligible students may use WIOA and Workforce Ready Grant funding.' },
+              { logo: '/images/partners/workone.webp', name: 'WorkOne', role: 'Workforce Partner', desc: 'We work with WorkOne career centers across Central Indiana for participant referrals and eligibility screening.' },
+              { logo: '/images/partners/nextleveljobs.webp', name: 'Next Level Jobs', role: 'Workforce Ready Grant Provider', desc: 'Our high-demand certification programs qualify for the Workforce Ready Grant through Next Level Jobs.' },
             ].map((cred) => (
-              <div
-                key={cred.name}
-                className="bg-white rounded-lg border border-slate-200 p-5 text-center"
-              >
+              <div key={cred.name} className="bg-white rounded-lg border border-slate-200 p-5 text-center">
                 <div className="relative w-16 h-16 mx-auto mb-3 overflow-hidden">
-                  <Image
-                    src={cred.logo}
-                    alt={cred.name}
-                    fill
-                    sizes="64px"
-                    className="object-contain"
-                  />
+                  <Image src={cred.logo} alt={cred.name} fill sizes="64px" className="object-contain" />
                 </div>
                 <h3 className="font-bold text-slate-900 text-sm">{cred.name}</h3>
                 <p className="text-brand-red-600 text-xs font-semibold mb-2">{cred.role}</p>
@@ -556,31 +392,12 @@ export default async function AboutPage() {
 
           <div className="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mt-4">
             {[
-              {
-                name: 'WIOA',
-                role: 'Eligible Training Provider',
-                desc: 'Programs approved for WIOA Adult, Dislocated Worker, and Youth funding.',
-              },
-              {
-                name: 'Job Ready Indy',
-                role: 'Approved Provider',
-                desc: 'Approved Job Ready Indy training provider serving justice-involved individuals in Marion County.',
-              },
-              {
-                name: 'EmployIndy',
-                role: 'Workforce Partner',
-                desc: 'Partner with EmployIndy for workforce development in Marion County.',
-              },
-              {
-                name: 'Indiana State Board',
-                role: 'Cosmetology & Barber Examiners',
-                desc: 'Barber apprenticeship aligned with Indiana State Board licensing requirements.',
-              },
+              { name: 'WIOA', role: 'Eligible Training Provider', desc: 'Programs approved for WIOA Adult, Dislocated Worker, and Youth funding.' },
+              { name: 'Job Ready Indy', role: 'Approved Provider', desc: 'Approved Job Ready Indy training provider serving justice-involved individuals in Marion County.' },
+              { name: 'EmployIndy', role: 'Workforce Partner', desc: 'Partner with EmployIndy for workforce development in Marion County.' },
+              { name: 'Indiana State Board', role: 'Cosmetology & Barber Examiners', desc: 'Barber apprenticeship aligned with Indiana State Board licensing requirements.' },
             ].map((cred) => (
-              <div
-                key={cred.name}
-                className="bg-white rounded-lg border border-slate-200 p-5 text-center"
-              >
+              <div key={cred.name} className="bg-white rounded-lg border border-slate-200 p-5 text-center">
                 <div className="w-16 h-16 mx-auto mb-3 bg-white rounded-lg border border-slate-200 flex items-center justify-center">
                   <span className="text-slate-700 font-bold text-xs">{cred.name}</span>
                 </div>
@@ -593,41 +410,21 @@ export default async function AboutPage() {
 
           {/* Verification Links */}
           <div className="mt-8 bg-white rounded-lg border border-slate-200 p-6">
-            <h3 className="font-bold text-slate-900 text-sm mb-3 uppercase tracking-wider">
-              Verify Our Credentials
-            </h3>
+            <h3 className="font-bold text-slate-900 text-sm mb-3 uppercase tracking-wider">Verify Our Credentials</h3>
             <div className="grid sm:grid-cols-2 gap-3 text-sm">
-              <a
-                href="https://intraining.dwd.in.gov"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
-              >
+              <a href="https://intraining.dwd.in.gov" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-800 hover:underline">
                 <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
                 INTraining — ETPL Provider Lookup (search &quot;2Exclusive&quot;)
               </a>
-              <a
-                href="https://www.apprenticeship.gov/partner-finder"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
-              >
+              <a href="https://www.apprenticeship.gov/partner-finder" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-800 hover:underline">
                 <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
                 Apprenticeship.gov — Registered Sponsor Finder
               </a>
-              <a
-                href="https://www.in.gov/dwd/job-seekers/training-opportunities/"
-                target="_blank"
-                rel="noopener noreferrer"
-                className="flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
-              >
+              <a href="https://www.in.gov/dwd/job-seekers/training-opportunities/" target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-800 hover:underline">
                 <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
                 Indiana DWD — Training Opportunities
               </a>
-              <Link
-                href="/cert/verify"
-                className="flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-800 hover:underline"
-              >
+              <Link href="/cert/verify" className="flex items-center gap-2 text-brand-blue-600 hover:text-brand-blue-800 hover:underline">
                 <ExternalLink className="w-3.5 h-3.5 flex-shrink-0" />
                 Verify a Student Certificate
               </Link>
@@ -657,71 +454,29 @@ export default async function AboutPage() {
                 <p className="text-brand-red-600 font-semibold text-sm mb-4">{founder.title}</p>
                 <p className="text-sm text-slate-700 mb-4">{founder.bio}</p>
                 <p className="text-sm text-slate-700 mb-4">
-                  Elizabeth is a U.S. Army veteran (Unit Supply Specialist), IRS Enrolled Agent (EA)
-                  with an EFIN and PTIN, and EPA 608 Certified Proctor. She is authorized to
-                  represent taxpayers before the IRS and to proctor EPA Section 608 refrigerant
-                  handling exams. She also operates SupersonicFastCash, a tax preparation software
-                  company.
+                  Elizabeth is a U.S. Army veteran (Unit Supply Specialist), IRS Enrolled Agent (EA) with an EFIN
+                  and PTIN, and EPA 608 Certified Proctor. She is authorized to represent taxpayers
+                  before the IRS and to proctor EPA Section 608 refrigerant handling exams. She also
+                  operates SupersonicFastCash, a tax preparation software company.
                 </p>
 
                 {/* Credentials & Authorizations */}
                 <div className="mb-5">
-                  <p className="text-xs font-bold uppercase tracking-widest text-black mb-3">
-                    Credentials &amp; Authorizations
-                  </p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-black mb-3">Credentials &amp; Authorizations</p>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                     {[
-                      {
-                        label: 'IRS Enrolled Agent (EA)',
-                        detail: 'Authorized to represent taxpayers before the IRS',
-                      },
-                      {
-                        label: 'EFIN & PTIN',
-                        detail:
-                          'IRS Electronic Filing Identification Number and Preparer Tax Identification Number',
-                      },
-                      {
-                        label: 'ERO — Electronic Return Originator',
-                        detail:
-                          'Authorized IRS e-file originator for individual and business returns',
-                      },
-                      {
-                        label: 'SBIN — IRS Submitter',
-                        detail:
-                          'Authorized to submit returns directly to the IRS for both for-profit and non-profit filers',
-                      },
-                      {
-                        label: 'VITA Site',
-                        detail: 'IRS-authorized Volunteer Income Tax Assistance site',
-                      },
-                      {
-                        label: 'EPA 608 Certified Proctor',
-                        detail:
-                          'Authorized to proctor EPA Section 608 refrigerant handling certification exams',
-                      },
-                      {
-                        label: 'ACT WorkKeys Authorized Testing Site (Realm: 1317721865)',
-                        detail:
-                          'Authorized to administer ACT WorkKeys assessments and issue the National Career Readiness Certificate (NCRC)',
-                      },
-                      {
-                        label: 'Elevate LMS — Proctor & Partner',
-                        detail:
-                          'Authorized proctor and curriculum partner for Elevate LMS cosmetology and barbering coursework',
-                      },
-                      {
-                        label: 'Black Certified',
-                        detail: 'Certified partner for Black Certified credentialing programs',
-                      },
-                      {
-                        label: 'U.S. Army Veteran',
-                        detail: 'Unit Supply Specialist — honorably served',
-                      },
+                      { label: 'IRS Enrolled Agent (EA)', detail: 'Authorized to represent taxpayers before the IRS' },
+                      { label: 'EFIN & PTIN', detail: 'IRS Electronic Filing Identification Number and Preparer Tax Identification Number' },
+                      { label: 'ERO — Electronic Return Originator', detail: 'Authorized IRS e-file originator for individual and business returns' },
+                      { label: 'SBIN — IRS Submitter', detail: 'Authorized to submit returns directly to the IRS for both for-profit and non-profit filers' },
+                      { label: 'VITA Site', detail: 'IRS-authorized Volunteer Income Tax Assistance site' },
+                      { label: 'EPA 608 Certified Proctor', detail: 'Authorized to proctor EPA Section 608 refrigerant handling certification exams' },
+                      { label: 'ACT WorkKeys Authorized Testing Site (Realm: 1317721865)', detail: 'Authorized to administer ACT WorkKeys assessments and issue the National Career Readiness Certificate (NCRC)' },
+                      { label: 'Elevate LMS — Proctor & Partner', detail: 'Authorized proctor and curriculum partner for Elevate LMS cosmetology and barbering coursework' },
+                      { label: 'Black Certified', detail: 'Certified partner for Black Certified credentialing programs' },
+                      { label: 'U.S. Army Veteran', detail: 'Unit Supply Specialist — honorably served' },
                     ].map((cred) => (
-                      <div
-                        key={cred.label}
-                        className="flex gap-2 items-start bg-slate-50 rounded-lg px-3 py-2 border border-slate-100"
-                      >
+                      <div key={cred.label} className="flex gap-2 items-start bg-slate-50 rounded-lg px-3 py-2 border border-slate-100">
                         <span className="text-brand-red-500 mt-0.5 flex-shrink-0">✓</span>
                         <div>
                           <p className="text-xs font-semibold text-slate-900">{cred.label}</p>
@@ -734,9 +489,7 @@ export default async function AboutPage() {
 
                 {/* Workforce Funding Partners */}
                 <div className="mb-5">
-                  <p className="text-xs font-bold uppercase tracking-widest text-black mb-3">
-                    Workforce Funding &amp; Program Partners
-                  </p>
+                  <p className="text-xs font-bold uppercase tracking-widest text-black mb-3">Workforce Funding &amp; Program Partners</p>
                   <div className="flex flex-wrap gap-2">
                     {[
                       'Workforce Ready Grant (WRG)',
@@ -745,28 +498,17 @@ export default async function AboutPage() {
                       'Indiana State Board (IPLA)',
                       'ITAP — Indiana Training Approval Process',
                     ].map((p) => (
-                      <span
-                        key={p}
-                        className="text-xs bg-white border border-slate-200 text-slate-700 rounded-full px-3 py-1 font-medium"
-                      >
-                        {p}
-                      </span>
+                      <span key={p} className="text-xs bg-white border border-slate-200 text-slate-700 rounded-full px-3 py-1 font-medium">{p}</span>
                     ))}
                   </div>
                 </div>
 
                 <div className="flex flex-wrap gap-3">
-                  <Link
-                    href="/about/team"
-                    className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700"
-                  >
+                  <Link href="/about/team" className="text-brand-red-600 font-semibold text-sm inline-flex items-center hover:text-brand-red-700">
                     Meet the Full Team <ArrowRight className="ml-1 w-4 h-4" />
                   </Link>
                   {founder.email && (
-                    <a
-                      href={`mailto:${founder.email}`}
-                      className="text-black text-sm hover:text-slate-700"
-                    >
+                    <a href={`mailto:${founder.email}`} className="text-black text-sm hover:text-slate-700">
                       {founder.email}
                     </a>
                   )}
@@ -788,31 +530,28 @@ export default async function AboutPage() {
             </p>
           </div>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-6">
-            {teamForDisplay
-              .filter((member) => member.name !== founder.name)
-              .map((member) => (
-                <Link
-                  key={member.id}
-                  href={`/about/team#member-${member.id}`}
-                  className="group text-center"
-                >
-                  <div className="relative w-full aspect-[3/4] max-w-[240px] mx-auto rounded-xl overflow-hidden mb-4 shadow-md group-hover:shadow-xl transition-shadow">
-                    <Image
-                      src={member.headshotSrc || '/images/pages/about-hero.jpg'}
-                      alt={member.name}
-                      fill
-                      sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
-                      quality={90}
-                      className="object-cover object-center"
-                    />
-                  </div>
-                  <h3 className="font-bold text-slate-900 text-sm sm:text-base">{member.name}</h3>
-                  <p className="text-black text-xs sm:text-sm mt-1 leading-snug">{member.title}</p>
-                  <span className="inline-flex items-center gap-1 text-brand-red-600 text-sm font-semibold mt-2 group-hover:gap-2 transition-all">
-                    View Bio <ArrowRight className="w-3.5 h-3.5" />
-                  </span>
-                </Link>
-              ))}
+            {teamForDisplay.filter((member) => member.name !== founder.name).map((member) => (
+              <Link
+                key={member.id}
+                href={`/about/team#member-${member.id}`}
+                className="group text-center"
+              >
+                <div className="relative w-full aspect-[3/4] max-w-[240px] mx-auto rounded-xl overflow-hidden mb-4 shadow-md group-hover:shadow-xl transition-shadow">
+                  <Image
+                    src={member.headshotSrc || '/images/pages/about-hero.jpg'}
+                    alt={member.name}
+                    fill
+                    sizes="(max-width: 640px) 50vw, (max-width: 1024px) 33vw, 25vw"
+                    quality={90} className="object-cover object-center"
+                  />
+                </div>
+                <h3 className="font-bold text-slate-900 text-sm sm:text-base">{member.name}</h3>
+                <p className="text-black text-xs sm:text-sm mt-1 leading-snug">{member.title}</p>
+                <span className="inline-flex items-center gap-1 text-brand-red-600 text-sm font-semibold mt-2 group-hover:gap-2 transition-all">
+                  View Bio <ArrowRight className="w-3.5 h-3.5" />
+                </span>
+              </Link>
+            ))}
           </div>
         </div>
       </section>
@@ -820,62 +559,19 @@ export default async function AboutPage() {
       {/* Programs at a glance */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-slate-900 mb-6 text-center">
-            Programs at a Glance
-          </h2>
+          <h2 className="text-2xl font-bold text-slate-900 mb-6 text-center">Programs at a Glance</h2>
           <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-4">
             {[
-              {
-                name: 'CNA Certification',
-                duration: '4–6 weeks',
-                image: '/images/pages/about-hero.jpg',
-                href: canonicalRoutes.programs.certifiedNursingAssistant,
-              },
-              {
-                name: 'CDL Training',
-                duration: '4–6 weeks',
-                image: '/images/pages/about-hero.jpg',
-                href: '/programs/cdl-training',
-              },
-              {
-                name: 'HVAC Technician',
-                duration: '12 weeks',
-                image: '/images/pages/about-hero.jpg',
-                href: canonicalRoutes.programs.hvacTechnician,
-              },
-              {
-                name: 'Electrical',
-                duration: '12–16 weeks',
-                image: '/images/pages/about-hero.jpg',
-                href: '/programs/electrical',
-              },
-              {
-                name: 'Barber Apprenticeship',
-                duration: '~18 months',
-                image: '/images/pages/about-hero.jpg',
-                href: '/programs/barber-apprenticeship',
-              },
-              {
-                name: 'IT & Cybersecurity',
-                duration: '8–16 weeks',
-                image: '/images/pages/about-hero.jpg',
-                href: '/programs/technology',
-              },
+              { name: 'CNA Certification', duration: '4–6 weeks', image: '/images/pages/about-hero.jpg', href: '/programs/cna' },
+              { name: 'CDL Training', duration: '4–6 weeks', image: '/images/pages/about-hero.jpg', href: '/programs/cdl-training' },
+              { name: 'HVAC Technician', duration: '12 weeks', image: '/images/pages/about-hero.jpg', href: '/programs/hvac-technician' },
+              { name: 'Electrical', duration: '12–16 weeks', image: '/images/pages/about-hero.jpg', href: '/programs/electrical' },
+              { name: 'Barber Apprenticeship', duration: '~18 months', image: '/images/pages/about-hero.jpg', href: '/programs/barber-apprenticeship' },
+              { name: 'IT & Cybersecurity', duration: '8–16 weeks', image: '/images/pages/about-hero.jpg', href: '/programs/technology' },
             ].map((p) => (
-              <Link
-                key={p.name}
-                href={p.href}
-                className="group bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-md transition"
-              >
+              <Link key={p.name} href={p.href} className="group bg-white rounded-lg border border-slate-200 overflow-hidden hover:shadow-md transition">
                 <div className="relative h-36 overflow-hidden">
-                  <Image
-                    src={p.image}
-                    alt={p.name}
-                    fill
-                    sizes="(max-width: 640px) 100vw, 33vw"
-                    quality={90}
-                    className="object-cover group-hover:scale-105 transition-transform duration-300"
-                  />
+                  <Image src={p.image} alt={p.name} fill sizes="(max-width: 640px) 100vw, 33vw" quality={90} className="object-cover group-hover:scale-105 transition-transform duration-300" />
                 </div>
                 <div className="p-4">
                   <h3 className="font-bold text-slate-900 text-sm">{p.name}</h3>
@@ -885,10 +581,7 @@ export default async function AboutPage() {
             ))}
           </div>
           <div className="mt-6 text-center">
-            <Link
-              href="/programs"
-              className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-6 py-3 rounded-lg font-bold transition inline-flex items-center"
-            >
+            <Link href="/programs" className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-6 py-3 rounded-lg font-bold transition inline-flex items-center">
               View All Programs <ArrowRight className="ml-2 w-4 h-4" />
             </Link>
           </div>
@@ -898,80 +591,39 @@ export default async function AboutPage() {
       {/* For Partners */}
       <section className="py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <h2 className="text-2xl font-bold text-slate-900 text-center mb-6">
-            For Organizations &amp; Partners
-          </h2>
+          <h2 className="text-2xl font-bold text-slate-900 text-center mb-6">For Organizations &amp; Partners</h2>
           <div className="grid sm:grid-cols-3 gap-6">
-            <Link
-              href="/pathways/partners"
-              className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:shadow-md transition"
-            >
+            <Link href="/pathways/partners" className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:shadow-md transition">
               <div className="relative h-40 overflow-hidden">
-                <Image
-                  src="/images/pages/about-partner-cta.jpg"
-                  alt="Partner with Elevate"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                  quality={90}
-                  className="object-cover"
-                />
+                <Image src="/images/pages/about-partner-cta.jpg" alt="Partner with Elevate" fill sizes="(max-width: 640px) 100vw, 33vw" quality={90} className="object-cover" />
               </div>
               <div className="p-5">
                 <h3 className="font-bold text-slate-900 mb-2">Partner With Us</h3>
-                <p className="text-sm text-black mb-2">
-                  Workforce boards, community organizations, and employers — see how custom cohort
-                  training works.
-                </p>
+                <p className="text-sm text-black mb-2">Workforce boards, community organizations, and employers — see how custom cohort training works.</p>
                 <span className="text-brand-red-600 text-sm font-semibold inline-flex items-center">
                   Partnership Details <ArrowRight className="ml-1 w-4 h-4" />
                 </span>
               </div>
             </Link>
-            <Link
-              href="/about/partners"
-              className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:shadow-md transition"
-            >
+            <Link href="/about/partners" className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:shadow-md transition">
               <div className="relative h-40 overflow-hidden">
-                <Image
-                  src="/images/pages/employer-hero.jpg"
-                  alt="Employer and community partners"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                  quality={90}
-                  className="object-cover"
-                />
+                <Image src="/images/pages/employer-hero.jpg" alt="Employer and community partners" fill sizes="(max-width: 640px) 100vw, 33vw" quality={90} className="object-cover" />
               </div>
               <div className="p-5">
                 <h3 className="font-bold text-slate-900 mb-2">Our Partners</h3>
-                <p className="text-sm text-black mb-2">
-                  Employers, workforce boards, and community organizations we work with across
-                  Central Indiana.
-                </p>
+                <p className="text-sm text-black mb-2">Employers, workforce boards, and community organizations we work with across Central Indiana.</p>
                 <span className="text-brand-red-600 text-sm font-semibold inline-flex items-center">
                   View Partners <ArrowRight className="ml-1 w-4 h-4" />
                 </span>
               </div>
             </Link>
-            <Link
-              href="/pathways"
-              className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:shadow-md transition"
-            >
+            <Link href="/pathways" className="bg-white rounded-xl overflow-hidden border border-slate-200 hover:shadow-md transition">
               <div className="relative h-40 overflow-hidden">
-                <Image
-                  src="/images/pages/job-placement.jpg"
-                  alt="Career pathways"
-                  fill
-                  sizes="(max-width: 640px) 100vw, 33vw"
-                  quality={90}
-                  className="object-cover"
-                />
+                <Image src="/images/pages/job-placement.jpg" alt="Career pathways" fill sizes="(max-width: 640px) 100vw, 33vw" quality={90} className="object-cover" />
               </div>
               <div className="p-5">
                 <h3 className="font-bold text-slate-900 mb-2">Career Pathways Framework</h3>
-                <p className="text-sm text-black mb-2">
-                  See our structured 5-stage pathway model: eligibility, training, credentialing,
-                  placement, and advancement.
-                </p>
+                <p className="text-sm text-black mb-2">See our structured 5-stage pathway model: eligibility, training, credentialing, placement, and advancement.</p>
                 <span className="text-brand-red-600 text-sm font-semibold inline-flex items-center">
                   View Pathways <ArrowRight className="ml-1 w-4 h-4" />
                 </span>
@@ -986,20 +638,14 @@ export default async function AboutPage() {
         <div className="max-w-4xl mx-auto px-4 text-center">
           <h2 className="text-3xl font-bold text-white mb-4">Ready to Get Started?</h2>
           <p className="text-lg text-white mb-8 max-w-2xl mx-auto">
-            Check your eligibility in about 5 minutes. If you qualify for funding, your entire
-            training can be free — tuition, materials, certifications, and career services.
+            Check your eligibility in about 5 minutes. If you qualify for funding,
+            your entire training can be free — tuition, materials, certifications, and career services.
           </p>
           <div className="flex flex-wrap justify-center gap-4">
-            <Link
-              href="/start"
-              className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition inline-flex items-center"
-            >
+            <Link href="/start" className="bg-brand-red-600 hover:bg-brand-red-700 text-white px-8 py-4 rounded-lg font-bold text-lg transition inline-flex items-center">
               Check Eligibility &amp; Apply <ArrowRight className="ml-2 w-5 h-5" />
             </Link>
-            <Link
-              href="/contact"
-              className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg font-bold text-lg transition border-2 border-white/30"
-            >
+            <Link href="/contact" className="bg-white/10 hover:bg-white/20 text-white px-8 py-4 rounded-lg font-bold text-lg transition border-2 border-white/30">
               Contact Us
             </Link>
           </div>

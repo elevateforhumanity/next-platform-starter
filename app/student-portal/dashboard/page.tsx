@@ -40,9 +40,7 @@ export default async function StudentPortalPage() {
       </div>
     );
   }
-  const {
-    data: { user },
-  } = await supabase.auth.getUser();
+  const { data: { user } } = await supabase.auth.getUser();
 
   if (!user) {
     redirect('/login?redirect=/student-portal');
@@ -58,7 +56,11 @@ export default async function StudentPortalPage() {
   const hours = dashboard?.hours || [];
 
   // Get profile separately (not in RPC)
-  const { data: profile } = await supabase.from('profiles').select('*').eq('id', user.id).single();
+  const { data: profile } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .single();
 
   // Get message count separately
   const { count: messageCount } = await supabase
@@ -68,7 +70,7 @@ export default async function StudentPortalPage() {
     .eq('is_read', false);
 
   const quickLinks = [
-    { icon: BookOpen, title: 'My Courses', href: '/student-portal/courses', color: 'blue' },
+    { icon: BookOpen, title: 'My Courses', href: '/lms/courses', color: 'blue' },
     { icon: Calendar, title: 'Schedule', href: '/student-portal/schedule', color: 'green' },
     { icon: BarChart3, title: 'Grades', href: '/student-portal/grades', color: 'blue' },
     { icon: Users, title: 'Instructors', href: '/student-portal/instructors', color: 'orange' },
@@ -82,16 +84,11 @@ export default async function StudentPortalPage() {
         <div className="max-w-7xl mx-auto px-4">
           <div className="flex items-center justify-between">
             <div>
-              <h1 className="text-3xl font-bold">
-                Welcome back, {profile?.full_name || 'Student'}
-              </h1>
+              <h1 className="text-3xl font-bold">Welcome back, {profile?.full_name || 'Student'}</h1>
               <p className="text-blue-100 mt-1">Your learning dashboard</p>
             </div>
             <div className="flex items-center gap-4">
-              <Link
-                href="/student-portal/messages"
-                className="relative p-2 bg-blue-500 rounded-lg hover:bg-blue-400"
-              >
+              <Link href="/student-portal/messages" className="relative p-2 bg-blue-500 rounded-lg hover:bg-blue-400">
                 <MessageSquare className="w-5 h-5" />
                 {messageCount && messageCount > 0 && (
                   <span className="absolute -top-1 -right-1 bg-red-500 text-white text-xs w-5 h-5 rounded-full flex items-center justify-center">
@@ -99,10 +96,7 @@ export default async function StudentPortalPage() {
                   </span>
                 )}
               </Link>
-              <Link
-                href="/student-portal/settings"
-                className="p-2 bg-blue-500 rounded-lg hover:bg-blue-400"
-              >
+              <Link href="/student-portal/settings" className="p-2 bg-blue-500 rounded-lg hover:bg-blue-400">
                 <Settings className="w-5 h-5" />
               </Link>
             </div>
@@ -121,9 +115,7 @@ export default async function StudentPortalPage() {
                   href={link.href}
                   className="bg-white rounded-xl border p-4 hover:shadow-md transition flex items-center gap-3"
                 >
-                  <div
-                    className={`w-10 h-10 bg-${link.color}-100 rounded-lg flex items-center justify-center`}
-                  >
+                  <div className={`w-10 h-10 bg-${link.color}-100 rounded-lg flex items-center justify-center`}>
                     <link.icon className={`w-5 h-5 text-${link.color}-600`} />
                   </div>
                   <span className="font-medium">{link.title}</span>
@@ -135,39 +127,27 @@ export default async function StudentPortalPage() {
             <div className="bg-white rounded-xl shadow-sm border p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold">My Programs</h2>
-                <Link
-                  href="/student-portal/courses"
-                  className="text-blue-600 text-sm font-medium hover:underline"
-                >
+                <Link href="/lms/courses" className="text-blue-600 text-sm font-medium hover:underline">
                   View All
                 </Link>
               </div>
               {enrollments.length > 0 ? (
                 <div className="space-y-4">
                   {enrollments.map((enrollment: any) => (
-                    <div
-                      key={enrollment.enrollment_id}
-                      className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg"
-                    >
+                    <div key={enrollment.enrollment_id} className="flex items-center gap-4 p-3 bg-gray-50 rounded-lg">
                       <div className="w-16 h-12 bg-gray-200 rounded overflow-hidden flex-shrink-0 relative">
                         <div className="w-full h-full flex items-center justify-center">
                           <BookOpen className="w-6 h-6 text-gray-400" />
                         </div>
                       </div>
                       <div className="flex-1 min-w-0">
-                        <h3 className="font-medium truncate">
-                          {enrollment.program_title || 'Untitled Program'}
-                        </h3>
+                        <h3 className="font-medium truncate">{enrollment.program_title || 'Untitled Program'}</h3>
                         <div className="flex items-center gap-2 mt-1">
-                          <span
-                            className={`text-xs px-2 py-0.5 rounded-full ${
-                              enrollment.status === 'active'
-                                ? 'bg-green-100 text-green-700'
-                                : enrollment.status === 'completed'
-                                  ? 'bg-blue-100 text-blue-700'
-                                  : 'bg-gray-100 text-gray-700'
-                            }`}
-                          >
+                          <span className={`text-xs px-2 py-0.5 rounded-full ${
+                            enrollment.status === 'active' ? 'bg-green-100 text-green-700' :
+                            enrollment.status === 'completed' ? 'bg-blue-100 text-blue-700' :
+                            'bg-gray-100 text-gray-700'
+                          }`}>
                             {enrollment.status}
                           </span>
                           {enrollment.progress > 0 && (
@@ -183,8 +163,8 @@ export default async function StudentPortalPage() {
                           )}
                         </div>
                       </div>
-                      <Link
-                        href={enrollment.next_action_href || `/programs/${enrollment.program_slug}`}
+                      <Link 
+                        href={enrollment.next_action_href || `/programs/${enrollment.program_slug}`} 
                         className="text-blue-600 text-sm font-medium"
                       >
                         {enrollment.next_action_label || 'Continue'}
@@ -208,10 +188,7 @@ export default async function StudentPortalPage() {
               <div className="bg-white rounded-xl shadow-sm border p-6">
                 <div className="flex items-center justify-between mb-4">
                   <h2 className="text-xl font-semibold">Hours Progress</h2>
-                  <Link
-                    href="/apprentice/hours"
-                    className="text-blue-600 text-sm font-medium hover:underline"
-                  >
+                  <Link href="/apprentice/hours" className="text-blue-600 text-sm font-medium hover:underline">
                     View Details
                   </Link>
                 </div>
@@ -222,15 +199,11 @@ export default async function StudentPortalPage() {
                       <div className="grid grid-cols-3 gap-4 mt-2 text-sm">
                         <div>
                           <p className="text-gray-700">Verified</p>
-                          <p className="font-semibold text-green-600">
-                            {h.verified_hours || 0} hrs
-                          </p>
+                          <p className="font-semibold text-green-600">{h.verified_hours || 0} hrs</p>
                         </div>
                         <div>
                           <p className="text-gray-700">Pending</p>
-                          <p className="font-semibold text-yellow-600">
-                            {h.pending_hours || 0} hrs
-                          </p>
+                          <p className="font-semibold text-yellow-600">{h.pending_hours || 0} hrs</p>
                         </div>
                         <div>
                           <p className="text-gray-700">Required</p>
@@ -247,20 +220,14 @@ export default async function StudentPortalPage() {
             <div className="bg-white rounded-xl shadow-sm border p-6">
               <div className="flex items-center justify-between mb-4">
                 <h2 className="text-xl font-semibold">Tasks & Deadlines</h2>
-                <Link
-                  href="/student-portal/assignments"
-                  className="text-blue-600 text-sm font-medium hover:underline"
-                >
+                <Link href="/student-portal/assignments" className="text-blue-600 text-sm font-medium hover:underline">
                   View All
                 </Link>
               </div>
               {tasks.length > 0 ? (
                 <div className="space-y-3">
                   {tasks.map((task: any, idx: number) => (
-                    <div
-                      key={idx}
-                      className="flex items-center justify-between p-3 border rounded-lg"
-                    >
+                    <div key={idx} className="flex items-center justify-between p-3 border rounded-lg">
                       <div>
                         <h3 className="font-medium">{task.title}</h3>
                         <p className="text-sm text-gray-700">{task.description}</p>
@@ -299,9 +266,7 @@ export default async function StudentPortalPage() {
                     <div key={idx} className="border-l-4 border-blue-500 pl-3">
                       <h3 className="font-medium text-sm">{announcement.title}</h3>
                       <p className="text-xs text-gray-700 mt-1">
-                        {announcement.created_at
-                          ? new Date(announcement.created_at).toLocaleDateString()
-                          : ''}
+                        {announcement.created_at ? new Date(announcement.created_at).toLocaleDateString() : ''}
                       </p>
                     </div>
                   ))}
@@ -327,10 +292,7 @@ export default async function StudentPortalPage() {
             <div className="bg-blue-50 border border-blue-200 rounded-xl p-6">
               <h3 className="font-semibold mb-3">Need Help?</h3>
               <div className="space-y-2 text-sm">
-                <Link
-                  href="/student-portal/handbook"
-                  className="block text-blue-600 hover:underline"
-                >
+                <Link href="/student-portal/handbook" className="block text-blue-600 hover:underline">
                   Student Handbook
                 </Link>
                 <Link href="/faq" className="block text-blue-600 hover:underline">

@@ -13,17 +13,8 @@
 
 import { useState, useEffect } from 'react';
 import {
-  RefreshCw,
-  CheckCircle,
-  AlertCircle,
-  ChevronDown,
-  ChevronRight,
-  Briefcase,
-  TrendingUp,
-  DollarSign,
-  Award,
-  Wrench,
-  BookOpen,
+  RefreshCw, CheckCircle, AlertCircle, ChevronDown, ChevronRight,
+  Briefcase, TrendingUp, DollarSign, Award, Wrench, BookOpen,
 } from 'lucide-react';
 import type { IndustryStandards } from '@/lib/industry/standards-loader';
 import { PROGRAM_SOC_CODES } from '@/lib/industry/onet';
@@ -43,9 +34,7 @@ export default function IndustryStandardsPanel({
   credentialCode,
   onStandardsLoaded,
 }: Props) {
-  const [socCode, setSocCode] = useState(
-    propSocCode ?? (programSlug ? PROGRAM_SOC_CODES[programSlug] : '') ?? '',
-  );
+  const [socCode, setSocCode] = useState(propSocCode ?? (programSlug ? PROGRAM_SOC_CODES[programSlug] : '') ?? '');
   const [credCode, setCredCode] = useState(credentialCode ?? '');
   const [status, setStatus] = useState<Status>('idle');
   const [standards, setStandards] = useState<IndustryStandards | null>(null);
@@ -57,12 +46,12 @@ export default function IndustryStandardsPanel({
   useEffect(() => {
     if (!socCode) return;
     fetch(`/api/admin/industry/refresh-standards?soc_code=${encodeURIComponent(socCode)}`)
-      .then((r) => r.json())
-      .then((d) => setCacheInfo(d))
+      .then(r => r.json())
+      .then(d => setCacheInfo(d))
       .catch(() => {});
   }, [socCode]);
 
-  const toggle = (key: string) => setExpanded((prev) => ({ ...prev, [key]: !prev[key] }));
+  const toggle = (key: string) => setExpanded(prev => ({ ...prev, [key]: !prev[key] }));
 
   const refresh = async (force = false) => {
     if (!socCode) return;
@@ -93,7 +82,7 @@ export default function IndustryStandardsPanel({
   };
 
   const isFresh = cacheInfo?.is_fresh;
-  const fmt = (n: number | null) => (n ? `$${n.toLocaleString()}` : '—');
+  const fmt = (n: number | null) => n ? `$${n.toLocaleString()}` : '—';
 
   return (
     <div className="border border-slate-200 rounded-xl overflow-hidden bg-white">
@@ -103,31 +92,27 @@ export default function IndustryStandardsPanel({
           <Briefcase className="w-4 h-4 text-slate-500" />
           <span className="font-semibold text-sm text-slate-800">Industry Standards</span>
           {isFresh && (
-            <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">
-              Cached
-            </span>
+            <span className="text-xs bg-green-100 text-green-700 px-2 py-0.5 rounded-full font-medium">Cached</span>
           )}
           {!isFresh && cacheInfo && (
-            <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">
-              Stale
-            </span>
+            <span className="text-xs bg-amber-100 text-amber-700 px-2 py-0.5 rounded-full font-medium">Stale</span>
           )}
         </div>
         <div className="flex items-center gap-2 flex-wrap">
           <input
             value={socCode}
-            onChange={(e) => setSocCode(e.target.value)}
+            onChange={e => setSocCode(e.target.value)}
             placeholder="SOC code (e.g. 21-1093.00)"
             className="border border-slate-200 rounded-lg px-3 py-1.5 text-xs w-44 focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
           />
           <input
             value={credCode}
-            onChange={(e) => setCredCode(e.target.value)}
+            onChange={e => setCredCode(e.target.value)}
             placeholder="Credential code (e.g. ICRC-PRS)"
             className="border border-slate-200 rounded-lg px-3 py-1.5 text-xs w-44 focus:ring-2 focus:ring-brand-blue-500 focus:border-transparent"
           />
           <button
-            onClick={() => (isFresh ? refresh(false) : refresh(true))}
+            onClick={() => isFresh ? refresh(false) : refresh(true)}
             disabled={!socCode || status === 'loading'}
             className="flex items-center gap-1.5 bg-brand-blue-600 text-white text-xs font-semibold px-3 py-1.5 rounded-lg hover:bg-brand-blue-700 disabled:opacity-40 transition-colors"
           >
@@ -144,9 +129,7 @@ export default function IndustryStandardsPanel({
           <div>
             <p className="font-semibold">Fetch failed</p>
             <p className="text-xs mt-0.5">{error}</p>
-            <p className="text-xs mt-1 text-red-600">
-              Check ONET_USERNAME, ONET_PASSWORD, and BLS_API_KEY in environment.
-            </p>
+            <p className="text-xs mt-1 text-red-600">Check ONET_API_KEY (or ONET_USERNAME/ONET_PASSWORD) and BLS_API_KEY in environment.</p>
           </div>
         </div>
       )}
@@ -156,22 +139,18 @@ export default function IndustryStandardsPanel({
         <div className="px-4 py-6 text-center text-sm text-slate-400">
           <Briefcase className="w-8 h-8 mx-auto mb-2 opacity-30" />
           <p>Enter a SOC code and fetch industry standards.</p>
-          <p className="text-xs mt-1">
-            Data from O*NET, BLS, and CareerOneStop will be injected into the AI prompt.
-          </p>
+          <p className="text-xs mt-1">Data from O*NET, BLS, and CareerOneStop will be injected into the AI prompt.</p>
           {Object.keys(PROGRAM_SOC_CODES).length > 0 && (
             <div className="mt-3 flex flex-wrap gap-1.5 justify-center">
-              {Object.entries(PROGRAM_SOC_CODES)
-                .slice(0, 8)
-                .map(([slug, soc]) => (
-                  <button
-                    key={slug}
-                    onClick={() => setSocCode(soc)}
-                    className="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded-md transition-colors"
-                  >
-                    {slug.replace(/-/g, ' ')}
-                  </button>
-                ))}
+              {Object.entries(PROGRAM_SOC_CODES).slice(0, 8).map(([slug, soc]) => (
+                <button
+                  key={slug}
+                  onClick={() => setSocCode(soc)}
+                  className="text-xs bg-slate-100 hover:bg-slate-200 text-slate-600 px-2 py-1 rounded-md transition-colors"
+                >
+                  {slug.replace(/-/g, ' ')}
+                </button>
+              ))}
             </div>
           )}
         </div>
@@ -180,32 +159,14 @@ export default function IndustryStandardsPanel({
       {/* Loaded state */}
       {standards && status === 'loaded' && (
         <div className="divide-y divide-slate-100">
+
           {/* Summary strip */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-0 divide-x divide-slate-100">
             {[
-              {
-                icon: DollarSign,
-                label: 'Indiana Median',
-                value: fmt(standards.indiana_median_wage ?? standards.median_annual_wage) + '/yr',
-              },
-              {
-                icon: TrendingUp,
-                label: 'Job Growth',
-                value: standards.projected_growth_cat ?? '—',
-              },
-              {
-                icon: Briefcase,
-                label: 'Core Tasks',
-                value: `${standards.top_tasks.length} tasks`,
-              },
-              {
-                icon: Award,
-                label: 'Exam Domains',
-                value:
-                  standards.credential_domains.length > 0
-                    ? `${standards.credential_domains.length} domains`
-                    : 'None',
-              },
+              { icon: DollarSign, label: 'Indiana Median', value: fmt(standards.indiana_median_wage ?? standards.median_annual_wage) + '/yr' },
+              { icon: TrendingUp, label: 'Job Growth', value: standards.projected_growth_cat ?? '—' },
+              { icon: Briefcase, label: 'Core Tasks', value: `${standards.top_tasks.length} tasks` },
+              { icon: Award, label: 'Exam Domains', value: standards.credential_domains.length > 0 ? `${standards.credential_domains.length} domains` : 'None' },
             ].map(({ icon: Icon, label, value }) => (
               <div key={label} className="px-4 py-3 text-center">
                 <Icon className="w-4 h-4 text-slate-400 mx-auto mb-1" />
@@ -225,26 +186,18 @@ export default function IndustryStandardsPanel({
                 <span className="flex items-center gap-2">
                   <Award className="w-4 h-4 text-brand-blue-600" />
                   Credential Exam Domains ({standards.credential_code})
-                  <span className="text-xs font-normal text-slate-500">
-                    — AI will structure modules around these
-                  </span>
+                  <span className="text-xs font-normal text-slate-500">— AI will structure modules around these</span>
                 </span>
-                {expanded.domains ? (
-                  <ChevronDown className="w-4 h-4" />
-                ) : (
-                  <ChevronRight className="w-4 h-4" />
-                )}
+                {expanded.domains ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
               </button>
               {expanded.domains && (
                 <div className="px-4 pb-4 space-y-3">
-                  {standards.credential_domains.map((d) => (
+                  {standards.credential_domains.map(d => (
                     <div key={d.key} className="border border-slate-200 rounded-lg p-3">
                       <div className="flex items-center justify-between mb-2">
                         <span className="font-semibold text-sm text-slate-900">{d.name}</span>
                         <div className="flex items-center gap-2 text-xs text-slate-500">
-                          <span className="bg-brand-blue-50 text-brand-blue-700 px-2 py-0.5 rounded-full font-medium">
-                            {d.weight_pct}% of exam
-                          </span>
+                          <span className="bg-brand-blue-50 text-brand-blue-700 px-2 py-0.5 rounded-full font-medium">{d.weight_pct}% of exam</span>
                           <span>{d.min_hours}h min</span>
                         </div>
                       </div>
@@ -273,23 +226,15 @@ export default function IndustryStandardsPanel({
                 <span className="flex items-center gap-2">
                   <Briefcase className="w-4 h-4 text-slate-500" />
                   Core Job Tasks (O*NET)
-                  <span className="text-xs font-normal text-slate-500">
-                    — what workers actually do
-                  </span>
+                  <span className="text-xs font-normal text-slate-500">— what workers actually do</span>
                 </span>
-                {expanded.tasks ? (
-                  <ChevronDown className="w-4 h-4" />
-                ) : (
-                  <ChevronRight className="w-4 h-4" />
-                )}
+                {expanded.tasks ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
               </button>
               {expanded.tasks && (
                 <ol className="px-4 pb-4 space-y-1.5">
                   {standards.top_tasks.map((t, i) => (
                     <li key={i} className="flex items-start gap-2 text-xs text-slate-700">
-                      <span className="shrink-0 w-5 h-5 bg-slate-100 rounded-full flex items-center justify-center text-slate-500 font-medium">
-                        {i + 1}
-                      </span>
+                      <span className="shrink-0 w-5 h-5 bg-slate-100 rounded-full flex items-center justify-center text-slate-500 font-medium">{i + 1}</span>
                       {t}
                     </li>
                   ))}
@@ -309,37 +254,23 @@ export default function IndustryStandardsPanel({
                   <BookOpen className="w-4 h-4 text-slate-500" />
                   Skills & Knowledge (O*NET)
                 </span>
-                {expanded.skills ? (
-                  <ChevronDown className="w-4 h-4" />
-                ) : (
-                  <ChevronRight className="w-4 h-4" />
-                )}
+                {expanded.skills ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
               </button>
               {expanded.skills && (
                 <div className="px-4 pb-4 grid grid-cols-2 gap-4">
                   <div>
                     <p className="text-xs font-semibold text-slate-600 mb-2">Top Skills</p>
                     <div className="flex flex-wrap gap-1.5">
-                      {standards.top_skills.map((s) => (
-                        <span
-                          key={s}
-                          className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full"
-                        >
-                          {s}
-                        </span>
+                      {standards.top_skills.map(s => (
+                        <span key={s} className="text-xs bg-blue-50 text-blue-700 px-2 py-0.5 rounded-full">{s}</span>
                       ))}
                     </div>
                   </div>
                   <div>
                     <p className="text-xs font-semibold text-slate-600 mb-2">Knowledge Areas</p>
                     <div className="flex flex-wrap gap-1.5">
-                      {standards.top_knowledge.map((k) => (
-                        <span
-                          key={k}
-                          className="text-xs bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full"
-                        >
-                          {k}
-                        </span>
+                      {standards.top_knowledge.map(k => (
+                        <span key={k} className="text-xs bg-purple-50 text-purple-700 px-2 py-0.5 rounded-full">{k}</span>
                       ))}
                     </div>
                   </div>
@@ -359,21 +290,12 @@ export default function IndustryStandardsPanel({
                   <Wrench className="w-4 h-4 text-slate-500" />
                   Technology Tools Used
                 </span>
-                {expanded.tech ? (
-                  <ChevronDown className="w-4 h-4" />
-                ) : (
-                  <ChevronRight className="w-4 h-4" />
-                )}
+                {expanded.tech ? <ChevronDown className="w-4 h-4" /> : <ChevronRight className="w-4 h-4" />}
               </button>
               {expanded.tech && (
                 <div className="px-4 pb-4 flex flex-wrap gap-1.5">
-                  {standards.technology_skills.map((t) => (
-                    <span
-                      key={t}
-                      className="text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full"
-                    >
-                      {t}
-                    </span>
+                  {standards.technology_skills.map(t => (
+                    <span key={t} className="text-xs bg-slate-100 text-slate-700 px-2 py-0.5 rounded-full">{t}</span>
                   ))}
                 </div>
               )}
@@ -398,10 +320,7 @@ export default function IndustryStandardsPanel({
           {/* Source footer */}
           <div className="px-4 py-2 bg-slate-50 flex items-center justify-between text-xs text-slate-400">
             <span>Sources: {standards.sources.join(', ')}</span>
-            <span>
-              {standards.is_cached ? 'From cache' : 'Live fetch'} ·{' '}
-              {new Date(standards.fetched_at).toLocaleDateString()}
-            </span>
+            <span>{standards.is_cached ? 'From cache' : 'Live fetch'} · {new Date(standards.fetched_at).toLocaleDateString()}</span>
           </div>
         </div>
       )}

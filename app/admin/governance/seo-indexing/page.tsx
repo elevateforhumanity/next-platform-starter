@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   description:
     'How search engine indexing is controlled and enforced to protect platform credibility and prevent accidental exposure.',
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
   },
 };
 

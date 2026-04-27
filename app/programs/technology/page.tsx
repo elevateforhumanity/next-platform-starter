@@ -8,7 +8,7 @@ export const revalidate = 86400;
 export const metadata: Metadata = {
   title: TECHNOLOGY.metaTitle ?? `${TECHNOLOGY.title} | Elevate for Humanity`,
   description: TECHNOLOGY.metaDescription ?? TECHNOLOGY.subtitle,
-  alternates: { canonical: '/programs/technology' },
+  alternates: { canonical: 'https://www.elevateforhumanity.org/programs/technology' },
 };
 
 export default function Page() {

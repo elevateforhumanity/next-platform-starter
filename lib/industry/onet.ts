@@ -8,7 +8,7 @@
  * work activities for every SOC-coded occupation.
  *
  * Free account required: https://services.onetcenter.org/
- * Set ONET_USERNAME and ONET_PASSWORD in environment.
+ * Set ONET_API_KEY or ONET_USERNAME/ONET_PASSWORD in environment.
  *
  * Rate limit: 1 req/sec on free tier. This client adds a 1.1s delay between
  * calls when fetching multiple endpoints for the same SOC code.
@@ -69,17 +69,19 @@ export interface OnetOccupation {
   education: OnetEducation;
 }
 
-function authHeader(): string {
+function authHeaders(): Record<string, string> {
+  const apiKey = process.env.ONET_API_KEY;
+  if (apiKey) return { 'X-API-Key': apiKey };
   const user = process.env.ONET_USERNAME;
   const pass = process.env.ONET_PASSWORD;
-  if (!user || !pass) throw new Error('ONET_USERNAME and ONET_PASSWORD must be set');
-  return 'Basic ' + Buffer.from(`${user}:${pass}`).toString('base64');
+  if (!user || !pass) throw new Error('ONET_API_KEY or ONET_USERNAME/ONET_PASSWORD must be set');
+  return { Authorization: 'Basic ' + Buffer.from(`${user}:${pass}`).toString('base64') };
 }
 
 async function onetGet<T>(path: string): Promise<T> {
   const res = await fetch(`${BASE}${path}`, {
     headers: {
-      Authorization: authHeader(),
+      ...authHeaders(),
       Accept: 'application/json',
     },
     next: { revalidate: 0 }, // always fresh — we cache in Supabase
@@ -177,7 +179,10 @@ export async function fetchOnetOccupation(socCode: string): Promise<OnetOccupati
 
 /** Check if O*NET credentials are configured. */
 export function isOnetConfigured(): boolean {
-  return !!(process.env.ONET_USERNAME && process.env.ONET_PASSWORD);
+  return !!(
+    process.env.ONET_API_KEY ||
+    (process.env.ONET_USERNAME && process.env.ONET_PASSWORD)
+  );
 }
 
 /**

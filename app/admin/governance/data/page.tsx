@@ -1,25 +1,33 @@
+
 export const revalidate = 3600;
+
 
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { Shield, Clock, Trash2, Lock, FileText, Database, Eye, AlertTriangle } from 'lucide-react';
+import { 
+  Shield, Clock, Trash2, Lock, FileText, 
+  Database, Eye, AlertTriangle 
+} from 'lucide-react';
 
 export const metadata: Metadata = {
   title: 'Data Governance | Elevate for Humanity',
-  description:
-    'Data retention, deletion policies, and governance framework for the Elevate Workforce Operating System.',
+  description: 'Data retention, deletion policies, and governance framework for the Elevate Workforce Operating System.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
-function PolicySection({
-  title,
-  icon: Icon,
-  children,
-}: {
-  title: string;
-  icon: typeof Shield;
-  children: React.ReactNode;
+function PolicySection({ 
+  title, 
+  icon: Icon, 
+  children 
+}: { 
+  title: string; 
+  icon: typeof Shield; 
+  children: React.ReactNode 
 }) {
   return (
     <section className="rounded-xl border border-slate-200 overflow-hidden">
@@ -37,15 +45,16 @@ export default async function DataGovernancePage() {
 
   return (
     <div className="min-h-screen bg-white">
+
       {/* Hero Image */}
       {/* Header */}
       <section className="bg-slate-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <Breadcrumbs
+          <Breadcrumbs 
             items={[
               { label: 'Governance', href: '/admin/governance' },
-              { label: 'Data Governance' },
-            ]}
+              { label: 'Data Governance' }
+            ]} 
           />
           <h1 className="text-3xl md:text-4xl font-bold mt-4 mb-4">Data Governance</h1>
           <p className="text-slate-300 text-lg">
@@ -55,34 +64,29 @@ export default async function DataGovernancePage() {
       </section>
 
       <div className="max-w-4xl mx-auto px-4 py-12 space-y-8">
+
         {/* Overview */}
         <div className="bg-brand-blue-50 border border-brand-blue-200 rounded-xl p-6">
           <h2 className="font-semibold text-brand-blue-900 mb-2">Governance Principle</h2>
           <p className="text-brand-blue-800">
-            The platform automates operations. Authority over data decisions remains with workforce
-            administrators and designated data stewards. All data handling follows federal and state
-            workforce program requirements.
+            The platform automates operations. Authority over data decisions remains with workforce administrators 
+            and designated data stewards. All data handling follows federal and state workforce program requirements.
           </p>
         </div>
 
         {/* Data Retention */}
         <PolicySection title="Data Retention Policy" icon={Clock}>
           <p className="text-slate-600 mb-6">
-            Data is retained according to federal workforce program requirements and state
-            regulations. Retention periods are measured from the date of program exit or last
-            activity.
+            Data is retained according to federal workforce program requirements and state regulations. 
+            Retention periods are measured from the date of program exit or last activity.
           </p>
-
+          
           <div className="overflow-x-auto">
             <table className="w-full text-sm">
               <thead>
                 <tr className="border-b border-slate-200">
-                  <th className="text-left py-3 px-4 font-semibold text-slate-900">
-                    Data Category
-                  </th>
-                  <th className="text-left py-3 px-4 font-semibold text-slate-900">
-                    Retention Period
-                  </th>
+                  <th className="text-left py-3 px-4 font-semibold text-slate-900">Data Category</th>
+                  <th className="text-left py-3 px-4 font-semibold text-slate-900">Retention Period</th>
                   <th className="text-left py-3 px-4 font-semibold text-slate-900">Authority</th>
                 </tr>
               </thead>
@@ -94,9 +98,7 @@ export default async function DataGovernancePage() {
                 </tr>
                 <tr>
                   <td className="py-3 px-4 text-slate-700">Financial Records</td>
-                  <td className="py-3 px-4 text-slate-700">
-                    3 years after final expenditure report
-                  </td>
+                  <td className="py-3 px-4 text-slate-700">3 years after final expenditure report</td>
                   <td className="py-3 px-4 text-slate-500">2 CFR 200.334</td>
                 </tr>
                 <tr>
@@ -122,8 +124,7 @@ export default async function DataGovernancePage() {
         {/* Data Deletion */}
         <PolicySection title="Data Deletion Policy" icon={Trash2}>
           <p className="text-slate-600 mb-6">
-            Participants may request deletion of their personal data subject to legal retention
-            requirements.
+            Participants may request deletion of their personal data subject to legal retention requirements.
           </p>
 
           <div className="space-y-4">
@@ -136,14 +137,13 @@ export default async function DataGovernancePage() {
                 </div>
               </div>
             </div>
-
+            
             <div className="flex items-start gap-3">
               <AlertTriangle className="w-5 h-5 text-amber-600 mt-0.5" />
               <div>
                 <div className="font-medium text-slate-900">Subject to Retention Requirements</div>
                 <div className="text-slate-600 text-sm">
-                  Program enrollment records, funding documentation, compliance records, audit
-                  trails
+                  Program enrollment records, funding documentation, compliance records, audit trails
                 </div>
               </div>
             </div>
@@ -153,7 +153,7 @@ export default async function DataGovernancePage() {
               <div>
                 <div className="font-medium text-slate-900">Anonymization Alternative</div>
                 <div className="text-slate-600 text-sm">
-                  Where deletion is not permitted, personal identifiers are removed while retaining
+                  Where deletion is not permitted, personal identifiers are removed while retaining 
                   aggregate program data for reporting purposes.
                 </div>
               </div>
@@ -163,11 +163,10 @@ export default async function DataGovernancePage() {
           <div className="mt-6 p-4 bg-slate-50 rounded-lg">
             <div className="font-medium text-slate-900 mb-2">To Request Data Deletion</div>
             <p className="text-slate-600 text-sm mb-3">
-              Submit a written request to our Data Protection Officer. Requests are processed within
-              30 days.
+              Submit a written request to our Data Protection Officer. Requests are processed within 30 days.
             </p>
-            <Link
-              href="/contact?topic=data-deletion"
+            <Link 
+              href="/contact?topic=data-deletion" 
               className="text-brand-blue-600 text-sm font-medium hover:underline"
             >
               Submit Deletion Request →
@@ -178,8 +177,7 @@ export default async function DataGovernancePage() {
         {/* Access Control */}
         <PolicySection title="Access Control" icon={Eye}>
           <p className="text-slate-600 mb-6">
-            Data access is role-based and logged. Only authorized personnel can access participant
-            records.
+            Data access is role-based and logged. Only authorized personnel can access participant records.
           </p>
 
           <div className="grid md:grid-cols-2 gap-4">
@@ -207,8 +205,7 @@ export default async function DataGovernancePage() {
         {/* Data Export */}
         <PolicySection title="Data Export & Portability" icon={Database}>
           <p className="text-slate-600 mb-6">
-            Authorized users can export data in standard formats for reporting and integration
-            purposes.
+            Authorized users can export data in standard formats for reporting and integration purposes.
           </p>
 
           <div className="space-y-3">
@@ -217,27 +214,21 @@ export default async function DataGovernancePage() {
                 <div className="font-medium text-slate-900">CSV Export</div>
                 <div className="text-slate-500 text-sm">Standard tabular format</div>
               </div>
-              <span className="bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded text-xs">
-                Available
-              </span>
+              <span className="bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded text-xs">Available</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
               <div>
                 <div className="font-medium text-slate-900">JSON Export</div>
                 <div className="text-slate-500 text-sm">Structured data format</div>
               </div>
-              <span className="bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded text-xs">
-                Available
-              </span>
+              <span className="bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded text-xs">Available</span>
             </div>
             <div className="flex items-center justify-between p-3 bg-slate-50 rounded-lg">
               <div>
                 <div className="font-medium text-slate-900">PIRL-Compatible Export</div>
                 <div className="text-slate-500 text-sm">WIOA performance reporting format</div>
               </div>
-              <span className="bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded text-xs">
-                Available
-              </span>
+              <span className="bg-brand-green-100 text-brand-green-700 px-2 py-0.5 rounded text-xs">Available</span>
             </div>
           </div>
         </PolicySection>
@@ -273,16 +264,16 @@ export default async function DataGovernancePage() {
         <div className="bg-slate-100 rounded-xl p-6 text-center">
           <h3 className="font-semibold text-slate-900 mb-2">Data Governance Questions</h3>
           <p className="text-slate-600 text-sm mb-4">
-            For questions about data handling, retention, or deletion requests, contact our Data
-            Protection Officer.
+            For questions about data handling, retention, or deletion requests, contact our Data Protection Officer.
           </p>
-          <Link
-            href="/admin/governance/contact"
+          <Link 
+            href="/admin/governance/contact" 
             className="inline-flex items-center gap-2 bg-slate-900 text-white px-6 py-2 rounded-lg font-medium hover:bg-slate-800 transition"
           >
             Contact Governance Team
           </Link>
         </div>
+
       </div>
 
       {/* Footer */}

@@ -1,4 +1,6 @@
+
 export const revalidate = 3600;
+
 
 import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
@@ -8,8 +10,11 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const metadata: Metadata = {
   title: 'Security & Data Protection Statement | Elevate for Humanity',
-  description:
-    'How 2Exclusive LLC-S (d/b/a Elevate for Humanity Career & Technical Institute) protects personal, educational, and operational data.',
+  description: 'How 2Exclusive LLC-S (d/b/a Elevate for Humanity Career & Technical Institute) protects personal, educational, and operational data.',
+  robots: {
+    index: false,
+    follow: false,
+  },
 };
 
 export default async function SecurityDocumentPage() {
@@ -23,21 +28,20 @@ export default async function SecurityDocumentPage() {
 
   return (
     <div className="min-h-screen bg-white">
+
       {/* Hero Image */}
       {/* Breadcrumbs */}
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
-          <Breadcrumbs
-            items={[{ label: 'Governance', href: '/admin/governance' }, { label: 'Security' }]}
-          />
+          <Breadcrumbs items={[{ label: 'Governance', href: '/admin/governance' }, { label: 'Security' }]} />
         </div>
       </div>
 
       {/* Header */}
       <div className="bg-slate-900 text-white py-12">
         <div className="max-w-4xl mx-auto px-4">
-          <Link
-            href="/admin/governance"
+          <Link 
+            href="/admin/governance" 
             className="inline-flex items-center text-slate-400 hover:text-white mb-6 text-sm"
           >
             <ArrowLeft className="w-4 h-4 mr-2" />
@@ -75,17 +79,16 @@ export default async function SecurityDocumentPage() {
               1. Purpose
             </h2>
             <p className="text-slate-700 leading-relaxed">
-              This document defines how 2Exclusive LLC-S (d/b/a Elevate for Humanity Career &amp;
-              Technical Institute) protects personal, educational, and operational data across the
-              workforce training platform. It provides clear, accurate, and reviewable information
-              to students, partners, regulators, and funding agencies regarding security practices
-              and data handling. Rise Forward Foundation and approved training partners operate
-              their own systems independently. This document covers only Elevate for Humanity
-              systems.
+              This document defines how 2Exclusive LLC-S (d/b/a Elevate for Humanity Career &amp; Technical Institute) 
+              protects personal, educational, and operational data across the workforce training platform. 
+              It provides clear, accurate, and reviewable information to students, partners, regulators, 
+              and funding agencies regarding security practices and data handling.
+              Rise Forward Foundation and approved training partners operate 
+              their own systems independently. This document covers only Elevate for Humanity systems.
             </p>
             <p className="text-slate-700 leading-relaxed mt-4">
-              This document governs all systems unless a more specific authoritative document
-              explicitly overrides a section.
+              This document governs all systems unless a more specific authoritative document explicitly 
+              overrides a section.
             </p>
           </section>
 
@@ -106,15 +109,14 @@ export default async function SecurityDocumentPage() {
               <li>Administrative, instructor, and partner portals</li>
             </ul>
             <p className="text-slate-700 leading-relaxed mt-4">
-              Tax preparation services operated under the SupersonicFastCash brand (a separate DBA
-              of 2Exclusive LLC-S) are governed by a separate security addendum available at{' '}
+              Tax preparation services operated under the SupersonicFastCash brand (a separate DBA of 2Exclusive LLC-S) 
+              are governed by a separate security addendum available at{' '}
               <Link href="/supersonic" className="text-brand-blue-600 hover:underline">
                 supersonicfastcash security documentation
-              </Link>
-              .
+              </Link>.
             </p>
             <p className="text-slate-700 leading-relaxed mt-4">
-              It applies to all users, including students, tax filers, instructors, administrators,
+              It applies to all users, including students, tax filers, instructors, administrators, 
               partners, and internal staff.
             </p>
           </section>
@@ -146,7 +148,7 @@ export default async function SecurityDocumentPage() {
               4. Data Storage and Protection
             </h2>
             <p className="text-slate-700 leading-relaxed mb-4">
-              Data is protected using industry-standard safeguards designed to reduce unauthorized
+              Data is protected using industry-standard safeguards designed to reduce unauthorized 
               access and misuse, including:
             </p>
             <ul className="list-disc list-inside text-slate-700 space-y-2 ml-4">
@@ -156,7 +158,7 @@ export default async function SecurityDocumentPage() {
               <li>Separation of production and non-production environments</li>
             </ul>
             <p className="text-slate-700 leading-relaxed mt-4 italic">
-              No system is represented as infallible. Security controls are designed to reduce risk,
+              No system is represented as infallible. Security controls are designed to reduce risk, 
               not eliminate it entirely.
             </p>
           </section>
@@ -195,7 +197,7 @@ export default async function SecurityDocumentPage() {
               <li>Comply with legal and regulatory obligations</li>
             </ul>
             <p className="text-slate-700 leading-relaxed mt-4">
-              Users may request account closure or data deletion where applicable, subject to
+              Users may request account closure or data deletion where applicable, subject to 
               retention obligations.
             </p>
           </section>
@@ -224,7 +226,9 @@ export default async function SecurityDocumentPage() {
             <h2 className="text-xl font-bold text-slate-900 border-b border-slate-200 pb-2 mb-4">
               8. User Responsibilities
             </h2>
-            <p className="text-slate-700 leading-relaxed mb-4">Users are expected to:</p>
+            <p className="text-slate-700 leading-relaxed mb-4">
+              Users are expected to:
+            </p>
             <ul className="list-disc list-inside text-slate-700 space-y-2 ml-4">
               <li>Provide accurate information</li>
               <li>Protect login credentials</li>
@@ -239,8 +243,8 @@ export default async function SecurityDocumentPage() {
               9. Contact and Reporting
             </h2>
             <p className="text-slate-700 leading-relaxed">
-              Security-related questions or concerns may be submitted through official support
-              channels. Reports are reviewed and addressed according to internal procedures.
+              Security-related questions or concerns may be submitted through official support channels. 
+              Reports are reviewed and addressed according to internal procedures.
             </p>
           </section>
 
@@ -250,7 +254,7 @@ export default async function SecurityDocumentPage() {
               10. Versioning and Review
             </h2>
             <p className="text-slate-700 leading-relaxed">
-              This document is reviewed periodically and updated as platform features, regulations,
+              This document is reviewed periodically and updated as platform features, regulations, 
               or operational practices change.
             </p>
             <p className="text-slate-700 leading-relaxed mt-4">
@@ -263,13 +267,13 @@ export default async function SecurityDocumentPage() {
         <div className="mt-12 pt-8 border-t border-slate-200">
           <p className="text-center text-slate-500 text-sm mb-6">End of Document</p>
           <div className="flex justify-center gap-4">
-            <Link
+            <Link 
               href="/admin/governance"
               className="px-6 py-3 bg-slate-100 text-slate-700 rounded-lg font-medium hover:bg-slate-200 transition-colors"
             >
               Back to Index
             </Link>
-            <Link
+            <Link 
               href="/contact"
               className="px-6 py-3 bg-slate-900 text-white rounded-lg font-medium hover:bg-slate-800 transition-colors"
             >

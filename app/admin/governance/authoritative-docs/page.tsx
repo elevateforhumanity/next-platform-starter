@@ -23,8 +23,8 @@ export const metadata: Metadata = {
   description:
     'The seven governing documents that define platform operations for website, LMS, Store, and tax services.',
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
   },
 };
 

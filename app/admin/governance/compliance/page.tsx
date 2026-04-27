@@ -11,8 +11,8 @@ export const metadata: Metadata = {
   description:
     'How legal, financial, and eligibility disclosures are presented and how compliance alignment is maintained across the platform.',
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
   },
 };
 

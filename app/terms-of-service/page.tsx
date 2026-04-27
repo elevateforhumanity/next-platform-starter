@@ -5,12 +5,10 @@ import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { FileText, Phone } from 'lucide-react';
 
-const SITE_URL = 'https://www.elevateforhumanity.org';
-
 export const metadata: Metadata = {
   title: 'Terms of Service | Elevate for Humanity',
   description: 'Terms and conditions for using Elevate for Humanity services and programs.',
-  alternates: { canonical: `${SITE_URL}/terms-of-service` },
+  alternates: { canonical: 'https://www.elevateforhumanity.org/terms-of-service' },
 };
 
 export default function TermsOfServicePage() {

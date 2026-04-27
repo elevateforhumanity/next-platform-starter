@@ -21,8 +21,8 @@ export const metadata: Metadata = {
   description:
     'Platform governance, authoritative documents, and operational controls. For partners, buyers, reviewers, and agency representatives.',
   robots: {
-    index: true,
-    follow: true,
+    index: false,
+    follow: false,
   },
 };
 

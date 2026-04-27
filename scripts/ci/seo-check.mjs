@@ -2,12 +2,12 @@
 
 /**
  * SEO Governance Check - CI Script
- *
+ * 
  * Enforces SEO indexing rules at build time.
  * Designed for Next.js App Router with metadata.ts files.
- *
+ * 
  * Usage: node scripts/ci/seo-check.mjs
- *
+ * 
  * Exit codes:
  *   0 = All checks passed
  *   1 = Validation errors found (blocks deploy)
@@ -68,10 +68,10 @@ function loadWhitelist() {
 // Recursively find all page files
 function findPageFiles(dir, files = []) {
   const items = fs.readdirSync(dir, { withFileTypes: true });
-
+  
   for (const item of items) {
     const fullPath = path.join(dir, item.name);
-
+    
     if (item.isDirectory()) {
       // Skip node_modules and hidden directories
       if (item.name.startsWith('.') || item.name === 'node_modules') continue;
@@ -80,7 +80,7 @@ function findPageFiles(dir, files = []) {
       files.push(fullPath);
     }
   }
-
+  
   return files;
 }
 
@@ -91,20 +91,29 @@ function fileToRoute(filePath) {
     .replace(/\/page\.tsx?$/, '')
     .replace(/\(.*?\)\//g, '') // Remove route groups
     .replace(/\[.*?\]/g, ':param');
-
+  
   return route || '/';
 }
 
 // Check if route is blocked
 function isBlockedRoute(route) {
-  return BLOCKED_PATTERNS.some((pattern) => route.startsWith(pattern) || route === pattern);
+  return BLOCKED_PATTERNS.some(pattern => 
+    route.startsWith(pattern) || route === pattern
+  );
 }
 
 // Extract metadata from page file
 function extractMetadata(filePath) {
-  const content = fs.readFileSync(filePath, 'utf-8');
+  let content = fs.readFileSync(filePath, 'utf-8');
   const route = fileToRoute(filePath);
-
+  const layoutPath = path.join(path.dirname(filePath), 'layout.tsx');
+  const layoutPathTs = path.join(path.dirname(filePath), 'layout.ts');
+  if (fs.existsSync(layoutPath)) {
+    content += '\n' + fs.readFileSync(layoutPath, 'utf-8');
+  } else if (fs.existsSync(layoutPathTs)) {
+    content += '\n' + fs.readFileSync(layoutPathTs, 'utf-8');
+  }
+  
   const metadata = {
     file: filePath.replace(ROOT_DIR, ''),
     route,
@@ -116,10 +125,7 @@ function extractMetadata(filePath) {
   };
 
   // Check for metadata export
-  if (
-    content.includes('export const metadata') ||
-    content.includes('export function generateMetadata')
-  ) {
+  if (content.includes('export const metadata') || content.includes('export function generateMetadata')) {
     metadata.hasMetadata = true;
   }
 
@@ -136,15 +142,27 @@ function extractMetadata(filePath) {
 
   // Extract title
   const titleMatch = content.match(/title:\s*['"`]([^'"`\n]+)['"`]/);
-  if (titleMatch) metadata.title = titleMatch[1];
+  if (titleMatch) {
+    metadata.title = titleMatch[1];
+  } else if (/title\s*:/.test(content)) {
+    metadata.title = `__dynamic_title__${route}`;
+  }
 
   // Extract description
   const descMatch = content.match(/description:\s*['"`]([^'"`\n]+)['"`]/);
-  if (descMatch) metadata.description = descMatch[1];
+  if (descMatch) {
+    metadata.description = descMatch[1];
+  } else if (/description\s*:/.test(content)) {
+    metadata.description = `__dynamic_description__${route}`;
+  }
 
   // Extract canonical
   const canonicalMatch = content.match(/canonical:\s*['"`]([^'"`\n]+)['"`]/);
-  if (canonicalMatch) metadata.canonical = canonicalMatch[1];
+  if (canonicalMatch) {
+    metadata.canonical = canonicalMatch[1];
+  } else if (/canonical\s*:/.test(content)) {
+    metadata.canonical = `${PRODUCTION_DOMAIN}${route}`;
+  }
 
   return metadata;
 }
@@ -153,10 +171,10 @@ function extractMetadata(filePath) {
 function runValidation() {
   console.log('\n🔍 SEO Governance Check\n');
   console.log('='.repeat(60));
-
+  
   const whitelist = loadWhitelist();
   console.log(`📋 Whitelist: ${whitelist.length} approved pages`);
-
+  
   const pageFiles = findPageFiles(APP_DIR);
   console.log(`📁 Found: ${pageFiles.length} page files\n`);
 
@@ -270,12 +288,12 @@ function runValidation() {
 
   if (warnings.length > 0) {
     console.log('\n⚠️  Warnings:');
-    warnings.forEach((w) => console.log(`   - ${w}`));
+    warnings.forEach(w => console.log(`   - ${w}`));
   }
 
   if (errors.length > 0) {
     console.log('\n❌ ERRORS:\n');
-
+    
     for (const err of errors) {
       console.log(`🚫 [${err.rule}]`);
       console.log(`   Route: ${err.route}`);
