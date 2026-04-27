@@ -3,35 +3,33 @@ import Link from 'next/link';
 import { Phone, ExternalLink, MapPin } from 'lucide-react';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import ProgramFundingGate from '@/components/programs/ProgramFundingGate';
-import { TransferHoursCalculator } from '../TransferHoursCalculator';
 
 export const metadata: Metadata = {
-  title: 'Funding & Enrollment | Barber Apprenticeship | Elevate for Humanity',
+  title: 'Funding & Enrollment | Cosmetology Apprenticeship | Elevate for Humanity',
   description:
-    'Explore funding options for the Barber Apprenticeship — FSSA IMPACT for SNAP/TANF recipients, employer sponsorship, or self-pay with flexible weekly payments.',
+    'Explore funding options for the Cosmetology Apprenticeship — FSSA IMPACT for SNAP/TANF recipients, employer sponsorship, or self-pay with flexible payments.',
 };
 
-export default function BarberEligibilityPage() {
+export default function CosmetologyEligibilityPage() {
   return (
     <div className="min-h-screen bg-white">
       <HeroVideo
-        videoSrcDesktop="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/barber-hero-final.mp4"
-        videoSrcMobile="/videos/barber-hero-final.mp4"
-        posterImage="/hero-images/barber-hero.jpg"
-        microLabel="Barber Apprenticeship"
-        analyticsName="barber-eligibility"
+        videoSrcDesktop="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
+        posterImage="/hero-images/cosmetology-hero.jpg"
+        microLabel="Cosmetology Apprenticeship"
+        analyticsName="cosmetology-eligibility"
         belowHeroHeadline="Funding & Enrollment"
-        belowHeroSubheadline="The Barber Apprenticeship is not on Indiana's ETPL — it does not qualify for WIOA or Workforce Ready Grant. FSSA IMPACT (SNAP/TANF), employer sponsorship, and self-pay are all available."
+        belowHeroSubheadline="The Cosmetology Apprenticeship is not on Indiana's ETPL and does not qualify for WIOA or Workforce Ready Grant. FSSA IMPACT (SNAP/TANF), employer sponsorship, and self-pay are all available."
         ctas={[
           {
             label: '← Back to Program',
-            href: '/programs/barber-apprenticeship',
+            href: '/programs/cosmetology-apprenticeship',
             variant: 'secondary',
           },
         ]}
       />
 
-      {/* Funding gate questionnaire */}
+      {/* Funding gate */}
       <section className="py-12 bg-slate-50">
         <div className="max-w-2xl mx-auto px-4 sm:px-6">
           <h2 className="text-2xl font-bold text-slate-900 mb-2">Find Your Funding Path</h2>
@@ -39,12 +37,12 @@ export default function BarberEligibilityPage() {
             Answer two quick questions and we&rsquo;ll show you exactly how to enroll.
           </p>
           <ProgramFundingGate
-            programName="Barber Apprenticeship"
-            applyHref="/programs/barber-apprenticeship/apply"
-            selfPayCost="$4,980"
-            depositAmount="$1,743"
-            depositHref="https://buy.stripe.com/8x2bJ21986rletw0dN8EN0o"
-            fullPayHref="https://buy.stripe.com/6oUdRa4lkaHB7141hR8EN0b"
+            programName="Cosmetology Apprenticeship"
+            applyHref="/programs/cosmetology-apprenticeship/apply"
+            selfPayCost="$6,000"
+            depositAmount="$2,100"
+            depositHref="https://buy.stripe.com/fZu00j2UUdnofsDcfDgIo0a"
+            fullPayHref="https://buy.stripe.com/9B600jbrq1EGdkvgvTgIo09"
           />
         </div>
       </section>
@@ -56,13 +54,13 @@ export default function BarberEligibilityPage() {
             Why isn&rsquo;t this program WIOA or WRG eligible?
           </h2>
           <p className="text-slate-600 mb-4">
-            WIOA Individual Training Accounts (ITAs) and the Workforce Ready Grant can only be used
-            at programs listed on Indiana&rsquo;s Eligible Training Provider List (ETPL). The Barber
-            Apprenticeship is an apprenticeship-model program — it is not currently on the ETPL.
+            WIOA Individual Training Accounts and the Workforce Ready Grant require programs to be
+            listed on Indiana&rsquo;s Eligible Training Provider List (ETPL). The Cosmetology
+            Apprenticeship is an apprenticeship-model program and is not currently on the ETPL.
           </p>
           <p className="text-slate-600 mb-6">
-            If you are exploring other ETPL-listed programs (such as HVAC or CNA), your WorkOne
-            case manager can help you find options that qualify for full funding.
+            If you are exploring ETPL-listed programs (such as HVAC or CNA), your WorkOne case
+            manager can help you find options that qualify for full funding.
           </p>
           <div className="flex flex-wrap gap-3">
             <a
@@ -84,26 +82,15 @@ export default function BarberEligibilityPage() {
         </div>
       </section>
 
-      {/* Payment calculator */}
-      <section className="py-12 bg-slate-50">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6">
-          <h2 className="text-xl font-bold text-slate-900 mb-2">Weekly Payment Calculator</h2>
-          <p className="text-slate-600 mb-6">
-            Estimate your weekly payment based on transfer hours and deposit amount.
-          </p>
-          <TransferHoursCalculator />
-        </div>
-      </section>
-
       {/* WorkOne reference */}
-      <section className="py-12">
+      <section className="py-12 bg-slate-50">
         <div className="max-w-3xl mx-auto px-4 sm:px-6">
           <h2 className="text-xl font-bold text-slate-900 mb-2">Marion County WorkOne</h2>
           <p className="text-slate-600 mb-4">
             WorkOne case managers can connect you with other funded training programs and free
             career services — résumé help, job search, and more.
           </p>
-          <div className="bg-slate-50 rounded-lg p-4 space-y-2">
+          <div className="bg-white border border-slate-200 rounded-lg p-4 space-y-2">
             <div className="flex items-center gap-2 text-slate-600 text-sm">
               <Phone className="w-4 h-4" />
               <a href="tel:3176842400" className="hover:text-blue-600">
