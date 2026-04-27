@@ -147,7 +147,7 @@ export default async function EmployerReportsPage() {
         <div className="border rounded-lg p-6">
           <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
           <div className="space-y-2">
-            <Link href="/employer/applications" className="block text-brand-blue-600 hover:underline text-sm">View All Applications →</Link>
+            <Link href="/employer/candidates" className="block text-brand-blue-600 hover:underline text-sm">View All Applications →</Link>
             <Link href="/employer/jobs" className="block text-brand-blue-600 hover:underline text-sm">Manage Job Postings →</Link>
             <Link href="/employer/compliance" className="block text-brand-blue-600 hover:underline text-sm">Compliance & WIOA →</Link>
           </div>

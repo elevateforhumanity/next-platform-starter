@@ -204,7 +204,7 @@ private/
 *.secrets
 
 # Removed bloat — do not re-add
-reports/
+# Note: /reports/ (root only) — do NOT use bare `reports/` as it matches app/employer/reports/
 audit_artifacts/
 playwright-report/
 .github/workflows-disabled-all/
