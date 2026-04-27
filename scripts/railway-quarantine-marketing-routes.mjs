@@ -59,6 +59,7 @@ const SHARED = [
   'data',
   'layouts',
   'login',
+  'admin-login',
   'signup',
   'forgot-password',
   'reset',
