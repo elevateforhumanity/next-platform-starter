@@ -31,15 +31,28 @@ export default function AdminLoginPage() {
       if (authError) throw authError;
       if (!data?.user) throw new Error('Login succeeded but no user returned');
 
+      // Small delay to allow the session cookie to be set before the server-side check
+      await new Promise((resolve) => setTimeout(resolve, 500));
+
       // Verify admin role server-side — never trust client-side profile reads
       const check = await fetch('/api/auth/verify-admin-role', { method: 'POST' });
       if (!check.ok) {
-        await supabase.auth.signOut();
-        setError(
-          'This login is for administrators only. Use the main sign-in page for your portal.',
-        );
-        setLoading(false);
-        return;
+        // Fallback: check role directly from the session profile
+        const { data: profile } = await supabase
+          .from('profiles')
+          .select('role')
+          .eq('id', data.user.id)
+          .maybeSingle();
+
+        const ADMIN_ROLES = ['admin', 'super_admin', 'org_admin', 'staff'];
+        if (!profile || !ADMIN_ROLES.includes(profile.role)) {
+          await supabase.auth.signOut();
+          setError(
+            'This login is for administrators only. Use the main sign-in page for your portal.',
+          );
+          setLoading(false);
+          return;
+        }
       }
 
       router.push('/admin/dashboard');
