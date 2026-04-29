@@ -7,9 +7,12 @@ import { getStaticProgram } from '@/data/programs/index';
 import ProgramDetailPageComponent from '@/components/programs/ProgramDetailPage';
 import { ProgramStructuredData } from '@/components/seo/CourseStructuredData';
 import { OnetLaborData } from '@/components/programs/onet/OnetLaborData';
+import { getProgramOgImageUrl } from '@/lib/programs/og-images';
 import { CheckCircle, Clock, Award, DollarSign, ArrowRight, ShieldCheck } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
+
+const SITE_URL = 'https://www.elevateforhumanity.org';
 
 export async function generateMetadata({
   params,
@@ -17,6 +20,15 @@ export async function generateMetadata({
   params: Promise<{ slug: string }>;
 }): Promise<Metadata> {
   const { slug } = await params;
+  const ogImage = getProgramOgImageUrl(slug, SITE_URL);
+
+  const ogBase = {
+    images: [{ url: ogImage, width: 1200, height: 630, alt: '' }],
+    siteName: 'Elevate for Humanity',
+    type: 'website' as const,
+  };
+
+  // DB programs
   const db = createPublicClient();
   if (db) {
     const { data } = await db
@@ -24,24 +36,46 @@ export async function generateMetadata({
       .select('title, description, short_description')
       .eq('slug', slug)
       .maybeSingle();
-    if (data)
+    if (data) {
+      const title = `${data.title} | Elevate for Humanity`;
+      const description = data.short_description || data.description || '';
       return {
-        title: `${data.title} | Elevate for Humanity`,
-        description: data.short_description || data.description || '',
+        title,
+        description,
+        alternates: { canonical: `${SITE_URL}/programs/${slug}` },
+        openGraph: { ...ogBase, title, description, images: [{ url: ogImage, width: 1200, height: 630, alt: data.title }] },
+        twitter: { card: 'summary_large_image', title, description, images: [ogImage] },
       };
+    }
   }
-  // Static ProgramSchema programs (richer data)
+
+  // Static ProgramSchema programs
   const sp = getStaticProgram(slug);
-  if (sp)
+  if (sp) {
+    const title = sp.metaTitle || `${sp.title} | Elevate for Humanity`;
+    const description = sp.metaDescription || sp.subtitle || '';
+    const img = sp.heroImage || ogImage;
     return {
-      title: sp.metaTitle || `${sp.title} | Elevate for Humanity`,
-      description: sp.metaDescription || sp.subtitle || '',
-      alternates: { canonical: `/programs/${slug}` },
+      title,
+      description,
+      alternates: { canonical: `${SITE_URL}/programs/${slug}` },
+      openGraph: { ...ogBase, title, description, images: [{ url: img.startsWith('http') ? img : `${SITE_URL}${img}`, width: 1200, height: 630, alt: sp.title }] },
+      twitter: { card: 'summary_large_image', title, description, images: [img.startsWith('http') ? img : `${SITE_URL}${img}`] },
     };
+  }
+
   // cf-programs fallback
   const p = staticPrograms.find((p) => p.slug === slug);
   if (!p) return {};
-  return { title: `${p.title} | Elevate for Humanity`, description: p.summary };
+  const title = `${p.title} | Elevate for Humanity`;
+  const description = p.summary;
+  return {
+    title,
+    description,
+    alternates: { canonical: `${SITE_URL}/programs/${slug}` },
+    openGraph: { ...ogBase, title, description, images: [{ url: ogImage, width: 1200, height: 630, alt: p.title }] },
+    twitter: { card: 'summary_large_image', title, description, images: [ogImage] },
+  };
 }
 
 // Funding sources shown on every program page

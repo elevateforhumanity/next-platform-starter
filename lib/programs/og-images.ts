@@ -1,0 +1,90 @@
+/**
+ * Per-program OG image map.
+ *
+ * Maps program slug → absolute path to the best available hero/card image.
+ * Used in generateMetadata() for Open Graph and Twitter card tags.
+ *
+ * Rules:
+ *   - Prefer /images/pages/programs-{slug}-hero.jpg (program-specific hero)
+ *   - Fall back to /images/pages/{slug}-hero.jpg
+ *   - Fall back to /images/pages/card-{slug}.jpg
+ *   - Fall back to PROGRAM_OG_DEFAULT
+ *
+ * All paths are relative to /public and must exist in the repo.
+ */
+
+export const PROGRAM_OG_DEFAULT = '/images/og-image.jpg';
+
+export const PROGRAM_OG_IMAGES: Record<string, string> = {
+  // ── Skilled Trades ────────────────────────────────────────────────────────
+  'hvac-technician':                '/images/pages/programs-hvac-hero.jpg',
+  'hvac':                           '/images/pages/programs-hvac-hero.jpg',
+  'electrical':                     '/images/pages/programs-electrical-apply-hero.jpg',
+  'plumbing':                       '/images/pages/programs-plumbing-apply-hero.jpg',
+  'welding':                        '/images/pages/programs-welding-apply-hero.jpg',
+  'cdl-training':                   '/images/pages/programs-cdl-hero.jpg',
+  'diesel-mechanic':                '/images/pages/programs-hvac-hero.jpg',
+  'forklift':                       '/images/pages/programs-hvac-hero.jpg',
+  'construction-trades-certification': '/images/pages/programs-welding-apply-hero.jpg',
+
+  // ── Healthcare ────────────────────────────────────────────────────────────
+  'cna':                            '/images/pages/programs-cna-hero.jpg',
+  'cna-certification':              '/images/pages/programs-cna-hero.jpg',
+  'certified-nursing-assistant':    '/images/pages/programs-cna-hero.jpg',
+  'medical-assistant':              '/images/pages/programs-medical-apply-hero.jpg',
+  'phlebotomy':                     '/images/pages/programs-medical-apply-hero.jpg',
+  'pharmacy-technician':            '/images/pages/programs-medical-apply-hero.jpg',
+  'home-health-aide':               '/images/pages/programs-cna-hero.jpg',
+  'peer-recovery-specialist':       '/images/pages/programs-cna-hero.jpg',
+  'sanitation-infection-control':   '/images/pages/programs-medical-apply-hero.jpg',
+  'emergency-health-safety':        '/images/pages/programs-medical-apply-hero.jpg',
+  'cpr-first-aid':                  '/images/pages/programs-medical-apply-hero.jpg',
+
+  // ── Beauty / Apprenticeships ──────────────────────────────────────────────
+  'barber-apprenticeship':          '/images/pages/barber-hero-main.jpg',
+  'barber':                         '/images/pages/barber-hero-main.jpg',
+  'cosmetology-apprenticeship':     '/images/pages/cosmetology-hero.jpg',
+  'esthetician':                    '/images/programs/efh-esthetician-client-services-card.jpg',
+  'esthetician-apprenticeship':     '/images/programs/efh-esthetician-client-services-card.jpg',
+  'nail-technician-apprenticeship': '/images/pages/nail-tech-hero.jpg',
+  'beauty-career-educator':         '/images/pages/cosmetology-hero.jpg',
+  'culinary-apprenticeship':        '/images/pages/programs-hvac-hero.jpg',
+
+  // ── Technology ────────────────────────────────────────────────────────────
+  'cybersecurity-analyst':          '/images/pages/cybersecurity-hero.jpg',
+  'cybersecurity':                  '/images/pages/cybersecurity-hero.jpg',
+  'it-help-desk':                   '/images/pages/networking-hero.jpg',
+  'it-support':                     '/images/pages/networking-hero.jpg',
+  'network-administration':         '/images/pages/networking-hero.jpg',
+  'network-support-technician':     '/images/pages/networking-hero.jpg',
+  'software-development':           '/images/pages/networking-hero.jpg',
+  'web-development':                '/images/pages/networking-hero.jpg',
+  'cad-drafting':                   '/images/pages/networking-hero.jpg',
+
+  // ── Business ─────────────────────────────────────────────────────────────
+  'business-administration':        '/images/programs/efh-business-startup-marketing-hero.jpg',
+  'business':                       '/images/programs/efh-business-startup-marketing-hero.jpg',
+  'bookkeeping':                    '/images/programs/efh-business-startup-marketing-hero.jpg',
+  'finance-bookkeeping-accounting': '/images/programs/efh-business-startup-marketing-hero.jpg',
+  'office-administration':          '/images/programs/efh-business-startup-marketing-hero.jpg',
+  'project-management':             '/images/programs/efh-business-startup-marketing-hero.jpg',
+  'entrepreneurship':               '/images/programs/efh-business-startup-marketing-hero.jpg',
+  'graphic-design':                 '/images/programs/efh-business-startup-marketing-hero.jpg',
+  'tax-preparation':                '/images/pages/tax-main-hero.jpg',
+  'tax-prep-financial-services':    '/images/pages/tax-main-hero.jpg',
+
+  // ── Hospitality / Other ───────────────────────────────────────────────────
+  'hospitality':                    '/images/pages/programs-hvac-hero.jpg',
+  'technology':                     '/images/pages/networking-hero.jpg',
+  'direct-support-professional':    '/images/pages/programs-cna-hero.jpg',
+};
+
+/** Returns the OG image path for a program slug. Always returns a valid path. */
+export function getProgramOgImage(slug: string): string {
+  return PROGRAM_OG_IMAGES[slug] ?? PROGRAM_OG_DEFAULT;
+}
+
+/** Full absolute URL for use in metadata (requires site base URL) */
+export function getProgramOgImageUrl(slug: string, baseUrl = 'https://www.elevateforhumanity.org'): string {
+  return `${baseUrl}${getProgramOgImage(slug)}`;
+}

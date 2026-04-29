@@ -29,6 +29,20 @@ export const metadata: Metadata = {
   alternates: {
     canonical: 'https://elevateforhumanity.institute/programs/barber-apprenticeship',
   },
+  openGraph: {
+    title: 'Barber Apprenticeship | Elevate for Humanity',
+    description: 'DOL Registered Barber Apprenticeship — 2,000 hours, Indiana Barber License, FSSA funded.',
+    url: 'https://www.elevateforhumanity.org/programs/barber-apprenticeship',
+    siteName: 'Elevate for Humanity',
+    images: [{ url: 'https://www.elevateforhumanity.org/images/pages/barber-hero-main.jpg', width: 1200, height: 630, alt: 'Barber Apprenticeship' }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Barber Apprenticeship | Elevate for Humanity',
+    description: 'DOL Registered Barber Apprenticeship — 2,000 hours, Indiana Barber License, FSSA funded.',
+    images: ['https://www.elevateforhumanity.org/images/pages/barber-hero-main.jpg'],
+  },
 };
 
 export default async function BarberApprenticeshipPage() {

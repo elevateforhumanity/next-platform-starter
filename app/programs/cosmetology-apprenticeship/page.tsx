@@ -9,6 +9,20 @@ export const metadata: Metadata = {
   title: COSMETOLOGY.metaTitle ?? `${COSMETOLOGY.title} | Elevate for Humanity`,
   description: COSMETOLOGY.metaDescription ?? COSMETOLOGY.subtitle,
   alternates: { canonical: '/programs/cosmetology-apprenticeship' },
+  openGraph: {
+    title: 'Cosmetology Apprenticeship | Elevate for Humanity',
+    description: 'DOL Registered Cosmetology Apprenticeship — 2,000 hours, Indiana Cosmetology License, FSSA funded.',
+    url: 'https://www.elevateforhumanity.org/programs/cosmetology-apprenticeship',
+    siteName: 'Elevate for Humanity',
+    images: [{ url: 'https://www.elevateforhumanity.org/images/pages/cosmetology-hero.jpg', width: 1200, height: 630, alt: 'Cosmetology Apprenticeship' }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'Cosmetology Apprenticeship | Elevate for Humanity',
+    description: 'DOL Registered Cosmetology Apprenticeship — 2,000 hours, Indiana Cosmetology License, FSSA funded.',
+    images: ['https://www.elevateforhumanity.org/images/pages/cosmetology-hero.jpg'],
+  },
 };
 
 export default function Page() {

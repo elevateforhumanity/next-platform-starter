@@ -9,6 +9,20 @@ export const metadata: Metadata = {
   title: CDL_TRAINING.metaTitle ?? `${CDL_TRAINING.title} | Elevate for Humanity`,
   description: CDL_TRAINING.metaDescription ?? CDL_TRAINING.subtitle,
   alternates: { canonical: '/programs/cdl-training' },
+  openGraph: {
+    title: 'CDL Training | Elevate for Humanity',
+    description: 'Commercial Driver License (CDL-A) training. WIOA funded. High-demand transportation career.',
+    url: 'https://www.elevateforhumanity.org/programs/cdl-training',
+    siteName: 'Elevate for Humanity',
+    images: [{ url: 'https://www.elevateforhumanity.org/images/pages/programs-cdl-hero.jpg', width: 1200, height: 630, alt: 'CDL Training' }],
+    type: 'website',
+  },
+  twitter: {
+    card: 'summary_large_image',
+    title: 'CDL Training | Elevate for Humanity',
+    description: 'Commercial Driver License (CDL-A) training. WIOA funded. High-demand transportation career.',
+    images: ['https://www.elevateforhumanity.org/images/pages/programs-cdl-hero.jpg'],
+  },
 };
 
 export default function Page() {
