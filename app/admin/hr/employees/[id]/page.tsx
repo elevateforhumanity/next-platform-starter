@@ -199,7 +199,7 @@ export default async function EmployeeDetailPage({ params }: Props) {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Time Off Requests</h2>
               <Link
-                href={`/admin/hr/time-off?employee=${id}`}
+                href={`/admin/hr/time?employee=${id}`}
                 className="text-sm text-brand-blue-600 hover:underline"
               >
                 View All
@@ -243,7 +243,7 @@ export default async function EmployeeDetailPage({ params }: Props) {
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-lg font-semibold text-slate-900">Performance Reviews</h2>
               <Link
-                href={`/admin/hr/performance?employee=${id}`}
+                href={`/admin/hr/employees/${id}`}
                 className="text-sm text-brand-blue-600 hover:underline"
               >
                 View All

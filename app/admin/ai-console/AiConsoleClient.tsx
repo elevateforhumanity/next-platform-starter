@@ -13,7 +13,7 @@ const AI_FEATURES = [
   {
     title: 'Course Generator',
     description: 'Generate full courses from a topic or blueprint',
-    href: '/admin/courses/generate',
+    href: '/admin/course-builder',
     icon: BookOpen,
     color: 'bg-blue-50 text-blue-700',
     status: 'live',

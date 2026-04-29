@@ -24,16 +24,10 @@ export const metadata: Metadata = {
 
 async function getSubmissionsData() {
   const db = await getAdminClient();
+  // grant_submissions.entity and .grant are text fields, not FKs — no joins
   const { data: submissions } = await db
     .from('grant_submissions')
-    .select(
-      `
-      *,
-      grant:grant_opportunities(title, agency, due_date),
-      entity:entities(name),
-      application:grant_applications(draft_title)
-    `,
-    )
+    .select('id, entity, grant, status, submitted, submitted_at, submitted_by, confirmation_number, awarded, rejected, portal_url, timeline, created_at')
     .order('submitted_at', { ascending: false });
 
   return { submissions: submissions || [] };
@@ -197,7 +191,7 @@ export default async function GrantSubmissionsPage() {
                     <td className="px-6 py-4">
                       <div>
                         <p className="font-semibold text-black">
-                          {submission.grant?.title || 'Unknown Grant'}
+                          {submission.grant || 'Unknown Grant'}
                         </p>
                         <p className="text-sm text-slate-500">
                           {submission.grant?.agency || 'N/A'}
@@ -206,7 +200,7 @@ export default async function GrantSubmissionsPage() {
                     </td>
                     <td className="px-6 py-4">
                       <p className="text-sm text-black">
-                        {submission.entity?.name || 'Unknown Entity'}
+                        {submission.entity || 'Unknown Entity'}
                       </p>
                     </td>
                     <td className="px-6 py-4">{getMethodBadge(submission.method)}</td>

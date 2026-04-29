@@ -56,7 +56,8 @@ export async function POST(req: NextRequest) {
   const parsed = BodySchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return safeError('Invalid input', 400);
 
-  const db = getAdminClient();
+  const db = await getAdminClient();
+  if (!db) return safeError('Service unavailable', 503);
   const body = parsed.data;
 
   if (body.type === 'module') {

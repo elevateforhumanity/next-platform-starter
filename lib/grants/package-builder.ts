@@ -8,8 +8,10 @@ import { setAuditContext } from '@/lib/audit-context';
 import { Document, Packer, Paragraph, HeadingLevel } from 'docx';
 import JSZip from 'jszip';
 
-function getDb() {
-  return getAdminClient();
+async function getDb() {
+  const db = await getAdminClient();
+  if (!db) throw new Error('Admin client unavailable');
+  return db;
 }
 
 export interface GrantPackage {
@@ -354,7 +356,7 @@ Total,,0
  * Build complete grant package
  */
 export async function buildGrantPackage(applicationId: string): Promise<GrantPackage> {
-  const db = getDb();
+  const db = await getDb();
   await setAuditContext(db, { systemActor: 'grants_package_builder' }).catch(() => {});
   const { data: app, error } = await db
     .from('grant_applications')

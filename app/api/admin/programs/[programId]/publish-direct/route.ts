@@ -32,7 +32,7 @@ export async function POST(
   if (auth.error) return auth.error;
 
   const { programId } = await params;
-  const db = getAdminClient();
+  const db = await getAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   // Load program — need title + slug for completeness check and revalidation

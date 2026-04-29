@@ -519,7 +519,7 @@ export default function AICourseBuilderChat({ programs }: { programs: Program[] 
         </div>
         <div className="flex gap-2">
           <Link
-            href="/admin/courses/generate"
+            href="/admin/course-builder"
             className="text-xs text-slate-400 hover:text-slate-600 border px-3 py-1.5 rounded-lg"
           >
             Form builder →

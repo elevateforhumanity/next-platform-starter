@@ -16,7 +16,7 @@ export async function POST(request: NextRequest) {
   const name = (body.name as string)?.trim();
   if (!name) return safeError('name is required', 400);
 
-  const db = getAdminClient();
+  const db = await getAdminClient();
   if (!db) return safeError('Database unavailable', 503);
 
   // Generate a secure key — only shown once, store the hash
@@ -52,7 +52,7 @@ export async function DELETE(request: NextRequest) {
   const id = request.nextUrl.searchParams.get('id');
   if (!id) return safeError('id is required', 400);
 
-  const db = getAdminClient();
+  const db = await getAdminClient();
   if (!db) return safeError('Database unavailable', 503);
 
   const { error } = await db.from('api_keys').delete().eq('id', id);

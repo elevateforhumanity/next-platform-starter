@@ -28,7 +28,8 @@ export default async function ProgramAdminDashboardPage() {
   const user = await requireAdmin();
   if (!user) redirect('/login?redirect=/programs/admin/dashboard');
 
-  const supabase = getAdminClient();
+  const supabase = await getAdminClient();
+  if (!supabase) redirect('/login');
 
   const [programsResult, enrollmentsResult] = await Promise.all([
     supabase

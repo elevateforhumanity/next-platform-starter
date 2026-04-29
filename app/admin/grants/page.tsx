@@ -24,7 +24,7 @@ export default async function GrantsPage() {
   const [grantsRes, activeRes, pendingRes] = await Promise.all([
     db
       .from('grants')
-      .select('id, name, funder, amount, status, start_date, end_date, created_at', {
+      .select('id, agency, draft, due_date, intake, status, submitted, created_at', {
         count: 'exact',
       })
       .order('created_at', { ascending: false })
@@ -131,19 +131,19 @@ export default async function GrantsPage() {
                 <thead>
                   <tr className="border-b border-slate-100 bg-slate-50">
                     <th className="text-left py-3 px-5 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      Grant
+                      Agency
                     </th>
                     <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      Funder
+                      Draft
                     </th>
                     <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      Amount
+                      Due Date
                     </th>
                     <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
                       Status
                     </th>
                     <th className="text-left py-3 px-4 text-[10px] font-bold uppercase tracking-widest text-slate-400">
-                      Period
+                      Submitted
                     </th>
                     <th className="py-3 px-4" />
                   </tr>
@@ -151,10 +151,10 @@ export default async function GrantsPage() {
                 <tbody className="divide-y divide-slate-50">
                   {grants.map((g: any) => (
                     <tr key={g.id} className="hover:bg-slate-50 transition-colors">
-                      <td className="py-3.5 px-5 font-semibold text-slate-900">{g.name}</td>
-                      <td className="py-3.5 px-4 text-slate-500">{g.funder ?? '—'}</td>
-                      <td className="py-3.5 px-4 text-slate-700 font-medium">
-                        {g.amount ? `$${Number(g.amount).toLocaleString()}` : '—'}
+                      <td className="py-3.5 px-5 font-semibold text-slate-900">{g.agency ?? '—'}</td>
+                      <td className="py-3.5 px-4 text-slate-500 text-xs truncate max-w-[160px]">{g.draft ?? '—'}</td>
+                      <td className="py-3.5 px-4 text-slate-500 text-xs">
+                        {g.due_date ? new Date(g.due_date).toLocaleDateString() : '—'}
                       </td>
                       <td className="py-3.5 px-4">
                         <span
@@ -163,10 +163,7 @@ export default async function GrantsPage() {
                           {g.status ?? 'unknown'}
                         </span>
                       </td>
-                      <td className="py-3.5 px-4 text-slate-500 text-xs">
-                        {g.start_date ? new Date(g.start_date).toLocaleDateString() : '—'}
-                        {g.end_date ? ` – ${new Date(g.end_date).toLocaleDateString()}` : ''}
-                      </td>
+                      <td className="py-3.5 px-4 text-slate-500 text-xs">{g.submitted ?? '—'}</td>
                       <td className="py-3.5 px-4 text-right">
                         <Link
                           href={`/admin/grants/${g.id}`}

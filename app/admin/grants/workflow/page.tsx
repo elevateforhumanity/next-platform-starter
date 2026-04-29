@@ -145,8 +145,8 @@ export default async function GrantWorkflowPage() {
                     key={grant.id}
                     className="border border-slate-200 rounded-lg p-4 hover:border-brand-blue-300 transition"
                   >
-                    <h3 className="font-semibold text-black mb-1">{grant.title}</h3>
-                    <p className="text-sm text-black mb-2">{grant.agency || 'Federal Agency'}</p>
+                    <h3 className="font-semibold text-black mb-1">{grant.agency || 'Unknown Agency'}</h3>
+                    <p className="text-sm text-black mb-2">{grant.draft || 'No draft title'}</p>
                     <div className="flex items-center justify-between">
                       <span className="text-xs text-slate-500">
                         Due: {new Date(grant.due_date).toLocaleDateString()}

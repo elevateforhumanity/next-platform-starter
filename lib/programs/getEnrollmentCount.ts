@@ -7,7 +7,7 @@ import { getAdminClient } from '@/lib/supabase/admin';
 
 export async function getEnrollmentCount(programSlug: string): Promise<number> {
   try {
-    const db = getAdminClient();
+    const db = await getAdminClient();
     // Resolve program id from slug
     const { data: program } = await db
       .from('programs')

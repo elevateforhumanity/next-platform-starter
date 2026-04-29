@@ -21,7 +21,8 @@ export default async function BarbershopOnboardingLayout({
     redirect('/login?redirect=/partners/barbershop-apprenticeship/onboarding');
   }
 
-  const db = getAdminClient();
+  const db = await getAdminClient();
+  if (!db) redirect('/login');
   const { data: profile } = await db
     .from('profiles')
     .select('role')
