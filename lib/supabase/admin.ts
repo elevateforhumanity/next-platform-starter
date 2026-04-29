@@ -99,7 +99,7 @@ export async function getAdminClient(): Promise<SupabaseClient<any> | null> {
  *   const db = await requireAdminClient();
  */
 export async function requireAdminClient(): Promise<SupabaseClient<any>> {
-  const client = await requireAdminClient();
+  const client = await getAdminClient();
   if (!client) {
     throw new Error(
       'requireAdminClient(): SUPABASE_SERVICE_ROLE_KEY is not set. ' +
