@@ -25,6 +25,27 @@ import { canonicalRoutes } from '@/lib/routes/canonical-routes';
 // extend navigation_items with: section, is_header, display_order (int), parent_id.
 export const NAV_ITEMS = [
   {
+    id: 'portals',
+    name: 'Portals',
+    href: '/portals',
+    subItems: [
+      { name: '— Learner —', href: '/portals', isHeader: true },
+      { name: 'Student Portal', href: '/login?redirect=/learner/dashboard' },
+      { name: '— Partners —', href: '/portals', isHeader: true },
+      { name: 'Program Holder Portal', href: '/login?redirect=/program-holder/dashboard' },
+      { name: 'Instructor Portal', href: '/login?redirect=/instructor/dashboard' },
+      { name: 'Partner Portal', href: '/login?redirect=/partner/dashboard' },
+      { name: 'Employer Portal', href: '/login?redirect=/employer/dashboard' },
+      { name: 'Case Manager Portal', href: '/login?redirect=/case-manager/dashboard' },
+      { name: 'Mentor Portal', href: '/login?redirect=/mentor/dashboard' },
+      { name: '— Staff —', href: '/portals', isHeader: true },
+      { name: 'Staff Portal', href: '/login?redirect=/staff-portal/dashboard' },
+      { name: 'Admin Dashboard', href: '/login?redirect=/admin/dashboard' },
+      { name: '— All Portals —', href: '/portals', isHeader: true },
+      { name: 'View All Portals →', href: '/portals' },
+    ],
+  },
+  {
     id: 'programs',
     name: 'Programs',
     href: '/programs',
