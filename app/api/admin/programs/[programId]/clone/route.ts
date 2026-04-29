@@ -30,6 +30,7 @@ import { getAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { registerProgramCourse } from '@/lib/course-builder/program-resolver';
+import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -127,7 +128,7 @@ export async function POST(
       .insert(
         outcomes.map(({ id: _, program_id: __, ...o }) => ({ ...o, program_id: newProgramId })),
       );
-    if (error) errors.push(`outcomes: ${error.message}`);
+    if (error) { logger.error('[clone] outcomes insert failed', { programId, error: error.message }); errors.push('outcomes: insert failed'); }
   }
 
   // ── 5. Clone program_credentials ─────────────────────────────────────────
@@ -142,7 +143,7 @@ export async function POST(
     const { error } = await db
       .from('program_credentials')
       .insert(creds.map(({ id: _, program_id: __, ...c }) => ({ ...c, program_id: newProgramId })));
-    if (error) errors.push(`credentials: ${error.message}`);
+    if (error) { logger.error('[clone] credentials insert failed', { programId, error: error.message }); errors.push('credentials: insert failed'); }
   }
 
   // ── 6. Clone program_ctas ─────────────────────────────────────────────────
@@ -157,7 +158,7 @@ export async function POST(
     const { error } = await db
       .from('program_ctas')
       .insert(ctas.map(({ id: _, program_id: __, ...c }) => ({ ...c, program_id: newProgramId })));
-    if (error) errors.push(`ctas: ${error.message}`);
+    if (error) { logger.error('[clone] ctas insert failed', { programId, error: error.message }); errors.push('ctas: insert failed'); }
   }
 
   // ── 7. Clone program_tracks ───────────────────────────────────────────────
@@ -174,7 +175,7 @@ export async function POST(
       .insert(
         tracks.map(({ id: _, program_id: __, ...t }) => ({ ...t, program_id: newProgramId })),
       );
-    if (error) errors.push(`tracks: ${error.message}`);
+    if (error) { logger.error('[clone] tracks insert failed', { programId, error: error.message }); errors.push('tracks: insert failed'); }
   }
 
   // ── 8. Clone program_modules + program_lessons ────────────────────────────
@@ -195,7 +196,8 @@ export async function POST(
       .single();
 
     if (modErr || !newMod) {
-      errors.push(`module '${mod.title}': ${modErr?.message}`);
+      logger.error('[clone] module insert failed', { programId, title: mod.title, error: modErr?.message });
+      errors.push(`module '${mod.title}': insert failed`);
       continue;
     }
 
@@ -205,7 +207,7 @@ export async function POST(
         .insert(
           lessons.map(({ id: _, module_id: __, ...l }: any) => ({ ...l, module_id: newMod.id })),
         );
-      if (lessonErr) errors.push(`lessons in '${mod.title}': ${lessonErr.message}`);
+      if (lessonErr) { logger.error('[clone] lessons insert failed', { programId, module: mod.title, error: lessonErr.message }); errors.push(`lessons in '${mod.title}': insert failed`); }
     }
   }
 
@@ -249,7 +251,8 @@ export async function POST(
         .single();
 
       if (courseErr || !newCourse) {
-        errors.push(`course clone: ${courseErr?.message}`);
+        logger.error('[clone] course insert failed', { programId, error: courseErr?.message });
+        errors.push('course clone: insert failed');
       } else {
         const newCourseId = newCourse.id;
 
@@ -275,7 +278,8 @@ export async function POST(
             .single();
 
           if (cmodErr || !newCmod) {
-            errors.push(`course_module '${cmod.title}': ${cmodErr?.message}`);
+            logger.error('[clone] course_module insert failed', { programId, title: cmod.title, error: cmodErr?.message });
+            errors.push(`course_module '${cmod.title}': insert failed`);
             continue;
           }
 
@@ -287,7 +291,7 @@ export async function POST(
                 course_module_id: newCmod.id,
               })),
             );
-            if (clessonErr) errors.push(`course_lessons in '${cmod.title}': ${clessonErr.message}`);
+            if (clessonErr) { logger.error('[clone] course_lessons insert failed', { programId, module: cmod.title, error: clessonErr.message }); errors.push(`course_lessons in '${cmod.title}': insert failed`); }
           }
         }
 

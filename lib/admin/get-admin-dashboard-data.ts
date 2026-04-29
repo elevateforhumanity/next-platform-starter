@@ -111,6 +111,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     wioaDocsPendingRes,
     newLeadsTodayRes,
     newEnrollmentsTodayRes,
+    stalledApplicationsRes,
+    noOutcomeEnrollmentsRes,
+    missingFundingEnrollmentsRes,
     systemHealthRes,
   ] = await Promise.all([
     // Auth — critical, but resolved here so it runs in parallel with DB queries
@@ -243,6 +246,30 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     db.from('program_enrollments')
       .select('id', { count: 'exact', head: true })
       .gte('created_at', new Date(new Date().setHours(0, 0, 0, 0)).toISOString()),
+
+    // Operational alerts — stalled applications (7+ days in submitted/pending)
+    db.from('applications')
+      .select('id, first_name, last_name, full_name, email, program_interest, program_slug, status, created_at, submitted_at')
+      .in('status', ['submitted', 'pending', 'in_review'])
+      .lt('created_at', new Date(Date.now() - 7 * 24 * 60 * 60 * 1000).toISOString())
+      .order('created_at', { ascending: true })
+      .limit(10),
+
+    // Completed enrollments with no outcome recorded
+    db.from('program_enrollments')
+      .select('id, user_id, program_id, status, completed_at')
+      .eq('status', 'completed')
+      .is('outcome', null)
+      .order('completed_at', { ascending: true })
+      .limit(10),
+
+    // Active enrollments missing funding source
+    db.from('program_enrollments')
+      .select('id, user_id, program_id, status, created_at')
+      .eq('status', 'active')
+      .is('funding_source', null)
+      .order('created_at', { ascending: true })
+      .limit(10),
 
     // System health — runs in parallel with all other queries
     getSystemHealth(db).catch(() => ({
@@ -857,6 +884,9 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
     complianceAlerts,
     staleLeads,
     pendingWioaDocs,
+    stalledApplications: stalledApplicationsRes.data ?? [],
+    noOutcomeEnrollments: noOutcomeEnrollmentsRes.data ?? [],
+    missingFundingEnrollments: missingFundingEnrollmentsRes.data ?? [],
     profile: adminProfile,
     generatedAt: new Date().toISOString(),
     degradedSections,

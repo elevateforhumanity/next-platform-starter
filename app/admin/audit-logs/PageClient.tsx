@@ -27,12 +27,16 @@ export default function AuditLogsPage() {
   const [actionFilter, setActionFilter] = useState('');
   const [resourceFilter, setResourceFilter] = useState('');
   const [searchTerm, setSearchTerm] = useState('');
+  const [dateFrom, setDateFrom] = useState('');
+  const [dateTo, setDateTo] = useState('');
 
   const loadLogs = useCallback(async () => {
     try {
       const params = new URLSearchParams();
       if (actionFilter) params.append('action', actionFilter);
       if (resourceFilter) params.append('resource_type', resourceFilter);
+      if (dateFrom) params.append('start_date', dateFrom);
+      if (dateTo) params.append('end_date', dateTo);
 
       const response = await fetch(`/api/admin/audit-logs?${params}`);
       if (response.ok) {
@@ -44,7 +48,7 @@ export default function AuditLogsPage() {
     } finally {
       setLoading(false);
     }
-  }, [actionFilter, resourceFilter]);
+  }, [actionFilter, resourceFilter, dateFrom, dateTo]);
 
   useEffect(() => {
     loadLogs();
@@ -121,13 +125,13 @@ export default function AuditLogsPage() {
               Track all system activities and user actions
             </p>
           </div>
-          <button
-            onClick={exportLogs}
+          <a
+            href={`/api/admin/audit-logs?export=true&${new URLSearchParams({ action: actionFilter, start_date: dateFrom, end_date: dateTo }).toString()}`}
             className="flex items-center gap-2 bg-gray-900 text-white px-4 py-2 rounded-lg text-sm font-medium hover:bg-gray-800 transition-colors"
           >
             <Download className="w-4 h-4" />
             Export CSV
-          </button>
+          </a>
         </div>
 
         {/* Stats */}
@@ -202,6 +206,34 @@ export default function AuditLogsPage() {
                 <option value="weekly_hours">Weekly Hours</option>
               </select>
             </div>
+            <div>
+              <label className="block text-xs font-medium text-slate-700 mb-1">From</label>
+              <input
+                type="date"
+                value={dateFrom}
+                onChange={(e) => setDateFrom(e.target.value)}
+                className="px-3 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+              />
+            </div>
+            <div>
+              <label className="block text-xs font-medium text-slate-700 mb-1">To</label>
+              <input
+                type="date"
+                value={dateTo}
+                onChange={(e) => setDateTo(e.target.value)}
+                className="px-3 py-2 border border-gray-200 rounded-md text-sm focus:outline-none focus:ring-1 focus:ring-gray-300"
+              />
+            </div>
+            {(actionFilter || resourceFilter || dateFrom || dateTo || searchTerm) && (
+              <div className="flex items-end">
+                <button
+                  onClick={() => { setActionFilter(''); setResourceFilter(''); setDateFrom(''); setDateTo(''); setSearchTerm(''); }}
+                  className="px-3 py-2 text-xs text-slate-500 border border-gray-200 rounded-md hover:bg-gray-50"
+                >
+                  Clear
+                </button>
+              </div>
+            )}
           </div>
         </div>
 

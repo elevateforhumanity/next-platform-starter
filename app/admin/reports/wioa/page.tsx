@@ -53,9 +53,20 @@ interface ParticipantRow {
   credential_received: boolean;
 }
 
+// ── Filters ───────────────────────────────────────────────────────────────────
+
+interface Filters {
+  status?: string;
+  funding?: string;
+  category?: string;
+  search?: string;
+  start_date?: string;
+  end_date?: string;
+}
+
 // ── Data fetching ─────────────────────────────────────────────────────────────
 
-async function fetchWioaData(): Promise<{
+async function fetchWioaData(filters: Filters): Promise<{
   summary: WioaSummary | null;
   participants: ParticipantRow[];
   viewMissing: boolean;
@@ -63,7 +74,7 @@ async function fetchWioaData(): Promise<{
   const db = await getAdminClient();
 
   // Try the unified view first
-  const { data: rows, error: viewErr } = await db
+  let query = db
     .from('participant_report')
     .select(
       'enrollment_id,full_name,email,program_title,program_category,enrollment_status,' +
@@ -71,11 +82,19 @@ async function fetchWioaData(): Promise<{
         'employer_name,job_title,hourly_wage,credential_received',
     )
     .order('applied_at', { ascending: false })
-    .limit(200);
+    .limit(500);
+
+  if (filters.status)     query = query.eq('enrollment_status', filters.status);
+  if (filters.funding)    query = query.ilike('funding_source', `${filters.funding}%`);
+  if (filters.category)   query = query.eq('program_category', filters.category);
+  if (filters.start_date) query = query.gte('applied_at', filters.start_date);
+  if (filters.end_date)   query = query.lte('applied_at', filters.end_date);
+
+  const { data: rows, error: viewErr } = await query;
 
   if (viewErr) {
     // View not applied — fall back to raw program_enrollments
-    const { data: fallback } = await db
+    let fbQuery = db
       .from('program_enrollments')
       .select(
         `id, created_at, completed_at, enrollment_state, status, program_slug,
@@ -83,7 +102,13 @@ async function fetchWioaData(): Promise<{
          programs ( title, category )`,
       )
       .order('created_at', { ascending: false })
-      .limit(200);
+      .limit(500);
+
+    if (filters.status)     fbQuery = fbQuery.eq('enrollment_state', filters.status);
+    if (filters.start_date) fbQuery = fbQuery.gte('created_at', filters.start_date);
+    if (filters.end_date)   fbQuery = fbQuery.lte('created_at', filters.end_date);
+
+    const { data: fallback } = await fbQuery;
 
     const participants: ParticipantRow[] = (fallback ?? []).map((r: any) => ({
       enrollment_id: r.id,
@@ -106,17 +131,29 @@ async function fetchWioaData(): Promise<{
     return { summary: null, participants, viewMissing: true };
   }
 
-  // Fetch summary metrics via RPC
+  // Client-side search filter (full_name / email)
+  let filtered = (rows ?? []) as ParticipantRow[];
+  if (filters.search) {
+    const q = filters.search.toLowerCase();
+    filtered = filtered.filter(
+      (r) =>
+        r.full_name?.toLowerCase().includes(q) ||
+        r.email?.toLowerCase().includes(q) ||
+        r.program_title?.toLowerCase().includes(q),
+    );
+  }
+
+  // Fetch summary metrics via RPC (unfiltered for totals)
   const { data: summaryRows } = await db.rpc('wioa_summary_metrics', {
-    p_start_date: null,
-    p_end_date: null,
+    p_start_date: filters.start_date ?? null,
+    p_end_date:   filters.end_date   ?? null,
     p_program_id: null,
-    p_funding: null,
+    p_funding:    filters.funding    ?? null,
   });
 
   return {
     summary: summaryRows?.[0] ?? null,
-    participants: (rows ?? []) as ParticipantRow[],
+    participants: filtered,
     viewMissing: false,
   };
 }
@@ -153,10 +190,24 @@ const OUTCOME_LABELS: Record<string, string> = {
 
 // ── Page ──────────────────────────────────────────────────────────────────────
 
-export default async function WioaReportPage() {
+export default async function WioaReportPage({
+  searchParams,
+}: {
+  searchParams: Promise<Record<string, string>>;
+}) {
   await requireRole(['admin', 'super_admin', 'staff']);
 
-  const { summary, participants, viewMissing } = await fetchWioaData();
+  const sp = await searchParams;
+  const filters: Filters = {
+    status:     sp.status     || undefined,
+    funding:    sp.funding    || undefined,
+    category:   sp.category   || undefined,
+    search:     sp.search     || undefined,
+    start_date: sp.start_date || undefined,
+    end_date:   sp.end_date   || undefined,
+  };
+
+  const { summary, participants, viewMissing } = await fetchWioaData(filters);
 
   const stats = summary
     ? [
@@ -213,6 +264,67 @@ export default async function WioaReportPage() {
       </div>
 
       <div className="max-w-7xl mx-auto px-4 sm:px-6 py-8 space-y-8">
+
+        {/* Filter bar */}
+        <form method="GET" className="bg-white border border-slate-200 rounded-2xl shadow-sm p-4">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-3">
+            <input
+              name="search"
+              defaultValue={filters.search}
+              placeholder="Search name / email…"
+              className="col-span-2 sm:col-span-1 lg:col-span-2 border border-slate-200 rounded-xl px-3 py-2 text-sm focus:ring-2 focus:ring-brand-blue-500 focus:border-brand-blue-500"
+            />
+            <select name="status" defaultValue={filters.status ?? ''} className="border border-slate-200 rounded-xl px-3 py-2 text-sm">
+              <option value="">All Statuses</option>
+              <option value="applied">Applied</option>
+              <option value="approved">Approved</option>
+              <option value="enrolled">Enrolled</option>
+              <option value="active">Active</option>
+              <option value="in_progress">In Progress</option>
+              <option value="completed">Completed</option>
+              <option value="exited">Exited</option>
+            </select>
+            <select name="funding" defaultValue={filters.funding ?? ''} className="border border-slate-200 rounded-xl px-3 py-2 text-sm">
+              <option value="">All Funding</option>
+              <option value="wioa">WIOA</option>
+              <option value="workforce_ready">Workforce Ready Grant</option>
+              <option value="self_pay">Self-Pay</option>
+              <option value="employer">Employer Sponsored</option>
+            </select>
+            <select name="category" defaultValue={filters.category ?? ''} className="border border-slate-200 rounded-xl px-3 py-2 text-sm">
+              <option value="">All Categories</option>
+              <option value="Healthcare">Healthcare</option>
+              <option value="Skilled Trades">Skilled Trades</option>
+              <option value="Technology">Technology</option>
+              <option value="Business">Business</option>
+              <option value="Apprenticeships">Apprenticeships</option>
+            </select>
+            <div className="flex gap-2">
+              <button type="submit" className="flex-1 bg-slate-900 text-white text-sm font-semibold rounded-xl px-3 py-2 hover:bg-slate-800 transition-colors">
+                Filter
+              </button>
+              <a href="/admin/reports/wioa" className="flex-shrink-0 border border-slate-200 text-slate-600 text-sm font-medium rounded-xl px-3 py-2 hover:bg-slate-50 transition-colors">
+                Clear
+              </a>
+            </div>
+          </div>
+          {/* Date range */}
+          <div className="flex flex-wrap gap-3 mt-3 pt-3 border-t border-slate-100">
+            <div className="flex items-center gap-2">
+              <label className="text-xs text-slate-500 font-medium">From</label>
+              <input type="date" name="start_date" defaultValue={filters.start_date} className="border border-slate-200 rounded-lg px-2 py-1 text-xs" />
+            </div>
+            <div className="flex items-center gap-2">
+              <label className="text-xs text-slate-500 font-medium">To</label>
+              <input type="date" name="end_date" defaultValue={filters.end_date} className="border border-slate-200 rounded-lg px-2 py-1 text-xs" />
+            </div>
+            {Object.values(filters).some(Boolean) && (
+              <span className="text-xs text-brand-blue-600 font-medium self-center">
+                {participants.length} result{participants.length !== 1 ? 's' : ''} shown
+              </span>
+            )}
+          </div>
+        </form>
 
         {/* Migration warning */}
         {viewMissing && (

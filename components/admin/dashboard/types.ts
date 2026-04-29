@@ -179,6 +179,12 @@ export interface AdminDashboardData {
   staleLeads: StaleLeadItem[];
   /** pending WIOA docs count */
   pendingWioaDocs: number;
+  /** Applications stuck in submitted/pending for 7+ days */
+  stalledApplications: Record<string, unknown>[];
+  /** Completed enrollments with no outcome recorded */
+  noOutcomeEnrollments: Record<string, unknown>[];
+  /** Active enrollments missing a funding source */
+  missingFundingEnrollments: Record<string, unknown>[];
   profile: { full_name: string | null } | null;
   generatedAt: string;
   /** Non-empty when one or more non-critical sections failed to load. */

@@ -1,16 +1,6 @@
-// PUBLIC ROUTE: Admin PWA install page.
-// No auth required — install prompt must work on fresh devices before login.
-// Not linked from any navigation. Access via direct URL only.
-// robots: noindex enforced below.
+import { redirect } from 'next/navigation';
 
-import type { Metadata } from 'next';
-import AdminInstallClient from './AdminInstallClient';
-
-export const metadata: Metadata = {
-  title: 'Install Admin App | Elevate for Humanity',
-  robots: { index: false, follow: false },
-};
-
-export default function AdminInstallPage() {
-  return <AdminInstallClient />;
+// Moved outside /admin/ — admin layout auth gate blocked unauthenticated access.
+export default function Page() {
+  redirect('/install-app');
 }

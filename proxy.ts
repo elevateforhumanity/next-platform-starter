@@ -530,8 +530,8 @@ export async function proxy(request: NextRequest) {
     pathname === '/signup' ||
     pathname === '/unauthorized' ||
     // Admin PWA install page — intentionally public, not linked from nav.
-    // Direct URL only. Auth would block the install prompt on fresh devices.
-    pathname === '/admin/install'
+    // Lives outside /admin/ to avoid the admin layout auth gate.
+    pathname === '/install-app'
   ) {
     return nextWithPathname();
   }

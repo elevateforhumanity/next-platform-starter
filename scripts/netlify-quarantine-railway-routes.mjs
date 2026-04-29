@@ -35,6 +35,7 @@ const QUARANTINE_DIR = join(ROOT, '.netlify-quarantine', 'app');
 const ALLOWED_TOP_LEVEL = new Set([
   // ── Core public marketing ─────────────────────────────────────────────────
   'about',
+  'install-app',
   'contact',
   'programs',
   'apply',

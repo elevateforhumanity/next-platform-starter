@@ -11,6 +11,7 @@ import {
   Activity, TrendingUp, Inbox,
 } from "lucide-react";
 import type { AdminDashboardData, InactiveLearner, StaleLeadItem } from "./types";
+import { OperationalAlerts } from "./OperationalAlerts";
 
 
 function fmtUsd(cents: number) {
@@ -350,7 +351,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
             <Link href="/admin/compliance" className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Open Compliance</Link>
             <Link href="/admin/crm/leads" className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">CRM Queue</Link>
             <Link href="/admin/dev-studio" className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Dev Studio</Link>
-            <Link href="/admin/install" className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">📲 Install App</Link>
+            <Link href="/install-app" className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">📲 Install App</Link>
           </div>
         </div>
 
@@ -358,6 +359,9 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
 
         {/* Priority KPI Strip */}
         <PriorityStrip data={data} />
+
+        {/* Operational alerts — stalled apps, missing outcomes, missing funding */}
+        <OperationalAlerts data={data} />
 
         {/* Today's Priorities */}
         <TodaysPriorities data={data} />

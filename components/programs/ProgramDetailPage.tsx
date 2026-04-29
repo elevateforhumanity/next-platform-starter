@@ -8,6 +8,8 @@
  * HVAC Technician is the canonical reference implementation.
  */
 
+import EnrollmentPipeline from '@/components/programs/EnrollmentPipeline';
+
 import Image from 'next/image';
 import Link from 'next/link';
 import dynamic from 'next/dynamic';
@@ -787,9 +789,16 @@ export default function ProgramDetailPage({
           <h2 className="text-3xl sm:text-4xl font-extrabold text-white mb-3">
             Ready to Start Your {p.title} Career?
           </h2>
-          <p className="text-slate-300 text-base max-w-xl mx-auto mb-10 leading-relaxed">
+          <p className="text-slate-300 text-base max-w-xl mx-auto mb-8 leading-relaxed">
             {p.fundingStatement}
           </p>
+
+          {/* Enrollment pipeline */}
+          <EnrollmentPipeline
+            applyHref={p.cta.applyHref || `/apply/intake?program=${p.slug}`}
+            showCta={false}
+            className="mb-8 text-left"
+          />
 
           {/* Two distinct paths — applicant vs enrolled */}
           <div className="flex flex-col sm:flex-row items-stretch justify-center gap-4 mb-4">
