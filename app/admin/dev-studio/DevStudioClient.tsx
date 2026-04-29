@@ -16,7 +16,7 @@ const AIChat            = dynamic(() => import('@/components/dev-studio/AIChat')
 type Tab = 'command' | 'terminal' | 'files' | 'website' | 'container' | 'chat';
 interface FileNode { name: string; path: string; type: 'file' | 'directory'; children?: FileNode[]; }
 
-const TABS: { id: Tab; Icon: React.ElementType; label: string }[] = [
+const TABS: { id: Tab; Icon: React.ElementType<{ className?: string }>; label: string }[] = [
   { id: 'command',   Icon: Sparkles,      label: 'Command'   },
   { id: 'chat',      Icon: MessageSquare, label: 'AI Chat'   },
   { id: 'terminal',  Icon: Terminal,      label: 'Terminal'  },

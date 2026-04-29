@@ -20,7 +20,7 @@ export function AnimatedCounter({ target, duration = 1200 }: { target: number; d
   }, []);
 
   useEffect(() => {
-    if (prefersReduced) { setCount(target); return; }
+    if (prefersReduced) { setCount(target); return undefined; }
     let start = 0;
     setCount(0);
     const step = Math.max(1, Math.ceil(target / (duration / 16)));
@@ -40,7 +40,7 @@ export function StatusDot({ color }: { color: string }) {
 }
 
 export function EmptyState({ icon: Icon, title, subtitle, href, linkText }: {
-  icon: React.ElementType; title: string; subtitle: string; href?: string; linkText?: string;
+  icon: React.ElementType<{ className?: string }>; title: string; subtitle: string; href?: string; linkText?: string;
 }) {
   return (
     <div className="px-6 py-10 text-center">

@@ -122,7 +122,7 @@ export default async function DocumentCategoryPage({ params }: Props) {
       {/* Documents */}
       {documents && documents.length > 0 ? (
         <div className="space-y-8">
-          {Object.entries(groupedDocs).map(([subcategory, docs]) => (
+          {(Object.entries(groupedDocs) as [string, any[]][]).map(([subcategory, docs]) => (
             <div key={subcategory}>
               {Object.keys(groupedDocs).length > 1 && (
                 <h2 className="text-lg font-semibold text-slate-900 mb-4 flex items-center gap-2">

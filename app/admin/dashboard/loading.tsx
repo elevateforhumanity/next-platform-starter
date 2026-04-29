@@ -1,5 +1,7 @@
-function Pulse({ className }: { className: string }) {
-  return <div className={`animate-pulse bg-gray-200 rounded ${className}`} />;
+import type React from 'react';
+
+function Pulse({ className, style }: { className: string; style?: React.CSSProperties }) {
+  return <div className={`animate-pulse bg-gray-200 rounded ${className}`} style={style} />;
 }
 
 export default function DashboardLoading() {
