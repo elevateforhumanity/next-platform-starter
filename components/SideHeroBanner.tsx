@@ -48,7 +48,7 @@ export default function SideHeroBanner() {
               fill
               sizes="100vw"
               className="object-cover"
-              quality={100}
+              quality={90}
             />
           </div>
         </div>

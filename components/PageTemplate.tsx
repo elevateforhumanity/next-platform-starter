@@ -156,7 +156,7 @@ export function PageTemplate({
                         alt={section.imageAlt || section.title}
                         href={section.imageHref}
                         fill
-                        quality={100}
+                        quality={90}
                         sizes="(max-width: 768px) 100vw, 50vw"
                       />
                     </div>

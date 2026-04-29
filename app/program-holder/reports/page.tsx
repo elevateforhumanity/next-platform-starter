@@ -103,7 +103,7 @@ export default async function ReportsPage() {
           alt="Reports"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

@@ -49,7 +49,7 @@ export default async function WioaPage() {
           alt="WIOA Success Story"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

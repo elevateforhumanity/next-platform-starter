@@ -150,7 +150,7 @@ export default function HeroSlideshow() {
               fill
               className="object-cover"
               priority={index === 0}
-              quality={100}
+              quality={90}
             />
           ) : null}
           <div className="relative h-full flex items-center">

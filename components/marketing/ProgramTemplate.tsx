@@ -80,7 +80,7 @@ export function ProgramTemplate({ program }: ProgramTemplateProps) {
           fill
           className="object-cover"
           priority
-          quality={100}
+          quality={90}
           sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
         />
 
@@ -350,7 +350,7 @@ export function ProgramTemplate({ program }: ProgramTemplateProps) {
                 alt="Start your training today"
                 fill
                 className="object-cover"
-                quality={100}
+                quality={90}
                 sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
               />
             </div>

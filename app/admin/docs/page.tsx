@@ -45,7 +45,7 @@ export default async function DocsPage() {
           alt="Documentation Management"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

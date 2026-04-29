@@ -25,7 +25,7 @@ export function ProgramCard({
     <div className="bg-white rounded-xl overflow-hidden shadow-md border border-slate-200 hover:shadow-xl transition-all">
       {/* Image */}
       <div className="relative aspect-video overflow-hidden">
-        <Image sizes="100vw" src={image} alt={title} fill className="object-cover" quality={100} />
+        <Image sizes="100vw" src={image} alt={title} fill className="object-cover" quality={90} />
         {badge && (
           <div className="absolute top-4 right-4 bg-brand-green-500 text-white px-4 py-2 rounded-full text-sm font-bold shadow-lg">
             {badge}

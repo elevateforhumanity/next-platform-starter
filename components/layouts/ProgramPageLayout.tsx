@@ -70,7 +70,7 @@ export function ProgramPageLayout(props: ProgramPageLayoutProps) {
           sizes="100vw"
           className="object-cover"
           priority
-          quality={100}
+          quality={90}
         />
 
         <div className="relative h-full flex items-center">
@@ -324,7 +324,7 @@ export function ProgramPageLayout(props: ProgramPageLayoutProps) {
                 fill
                 sizes="100vw"
                 className="object-cover"
-                quality={100}
+                quality={90}
               />
             </div>
             <div className="text-white">

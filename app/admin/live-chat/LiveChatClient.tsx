@@ -23,7 +23,7 @@ export default function LiveChatPage() {
           alt="Live Chat"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

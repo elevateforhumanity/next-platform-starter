@@ -32,7 +32,7 @@ export default function AcademicIntegrityPage() {
           alt="Academic Integrity"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

@@ -79,7 +79,7 @@ export default function AdminLoginPage() {
           fill
           className="object-cover"
           priority
-          quality={100}
+          quality={90}
           sizes="100vw"
         />
         <div className="absolute inset-0 bg-black/40 flex items-center justify-center">

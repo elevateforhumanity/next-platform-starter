@@ -49,7 +49,7 @@ export default async function QuizBuilderPage() {
           alt="Quiz Builder"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

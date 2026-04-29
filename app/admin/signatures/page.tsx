@@ -59,7 +59,7 @@ export default async function SignaturesPage() {
           alt="Signatures Management"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

@@ -46,7 +46,7 @@ export default async function MobileAppPage() {
           alt="Mobile App"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

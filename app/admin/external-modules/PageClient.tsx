@@ -114,7 +114,7 @@ export default function ExternalModulesPage() {
           alt="External Modules Management"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

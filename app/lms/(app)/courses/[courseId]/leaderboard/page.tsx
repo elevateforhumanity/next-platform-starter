@@ -102,7 +102,7 @@ export default function CourseLeaderboardPage() {
             alt="Leaderboard"
             fill
             className="object-cover"
-            quality={100}
+            quality={90}
             priority
             sizes="100vw"
           />
@@ -158,7 +158,7 @@ export default function CourseLeaderboardPage() {
                       alt="Students achieving goals"
                       fill
                       className="object-cover"
-                      quality={100}
+                      quality={90}
                       sizes="(max-width: 768px) 100vw, 50vw"
                     />
                   </div>
@@ -275,7 +275,7 @@ export default function CourseLeaderboardPage() {
                         width={80}
                         height={80}
                         className="rounded-full"
-                        quality={100}
+                        quality={90}
                       />
                     ) : (
                       <span className="text-2xl font-bold text-white">
@@ -302,7 +302,7 @@ export default function CourseLeaderboardPage() {
                         width={96}
                         height={96}
                         className="rounded-full"
-                        quality={100}
+                        quality={90}
                       />
                     ) : (
                       <span className="text-3xl font-bold text-white">
@@ -331,7 +331,7 @@ export default function CourseLeaderboardPage() {
                         width={80}
                         height={80}
                         className="rounded-full"
-                        quality={100}
+                        quality={90}
                       />
                     ) : (
                       <span className="text-2xl font-bold text-white">
@@ -382,7 +382,7 @@ export default function CourseLeaderboardPage() {
                             width={48}
                             height={48}
                             className="rounded-full"
-                            quality={100}
+                            quality={90}
                           />
                         ) : (
                           <span className="text-brand-blue-600 font-semibold">

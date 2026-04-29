@@ -41,7 +41,7 @@ export default async function GoogleClassroomPage() {
           alt="Google Classroom"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

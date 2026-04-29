@@ -95,7 +95,7 @@ export default async function SupportPage() {
           alt="Support"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

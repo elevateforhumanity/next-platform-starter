@@ -27,7 +27,7 @@ export function DashboardHero({
           fill
           sizes="100vw"
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
         />
       </div>

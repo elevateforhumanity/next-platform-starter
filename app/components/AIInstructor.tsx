@@ -110,7 +110,7 @@ export default function AIInstructor({
               alt={instructorName}
               fill
               className="object-cover"
-              quality={100}
+              quality={90}
               sizes="100vw"
               onError={(e) => {
                 // Fallback to default avatar if image fails to load

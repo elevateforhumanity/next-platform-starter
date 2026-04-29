@@ -101,7 +101,7 @@ export default function NewWorkflowPage() {
           alt="Email marketing automation"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />
@@ -481,7 +481,7 @@ export default function NewWorkflowPage() {
                     alt="Students learning"
                     fill
                     className="object-cover"
-                    quality={100}
+                    quality={90}
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>

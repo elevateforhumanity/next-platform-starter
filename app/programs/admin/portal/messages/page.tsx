@@ -58,7 +58,7 @@ export default async function MessagesPage() {
           fill
           sizes="100vw"
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

@@ -109,7 +109,7 @@ export function AdminApprenticeshipsClient() {
           alt="Apprenticeships"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />
@@ -346,7 +346,7 @@ export function AdminApprenticeshipsClient() {
                     alt="Students learning"
                     fill
                     className="object-cover"
-                    quality={100}
+                    quality={90}
                     sizes="(max-width: 768px) 100vw, 50vw"
                   />
                 </div>

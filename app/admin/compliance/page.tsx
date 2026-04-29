@@ -107,13 +107,12 @@ export default async function CompliancePage() {
 
       {/* Hero Section */}
       <section className="relative h-48 md:h-64 overflow-hidden">
-// IMAGE-CONTRACT: placeholder-review required (blurDataURL or approved fallback)
         <Image
           src="/images/pages/admin-compliance-detail.jpg"
-          alt="Compliance"
+          alt="Compliance dashboard overview"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

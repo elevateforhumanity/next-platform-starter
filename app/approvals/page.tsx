@@ -30,7 +30,7 @@ export default function ApprovalsPage() {
           fill
           className="object-cover"
           priority
-          quality={100}
+          quality={90}
           sizes="100vw"
         />
       </section>

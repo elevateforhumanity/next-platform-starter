@@ -123,7 +123,7 @@ export default async function CompliancePage() {
           alt="Compliance"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

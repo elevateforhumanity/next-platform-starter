@@ -57,7 +57,7 @@ export default async function programIdPage() {
           alt="[programId]"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

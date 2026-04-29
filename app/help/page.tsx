@@ -43,7 +43,7 @@ export default async function HelpPage() {
             alt="Student receiving personalized help and support"
             fill
             className="object-cover"
-            quality={100}
+            quality={90}
             priority
             sizes="100vw"
           />
@@ -205,7 +205,7 @@ export default async function HelpPage() {
                 alt="Student using help resources on laptop"
                 fill
                 className="object-cover"
-                quality={100}
+                quality={90}
                 sizes="(max-width: 1024px) 100vw, 50vw"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/50 to-transparent" />

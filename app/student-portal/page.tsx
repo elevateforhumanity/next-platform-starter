@@ -280,7 +280,7 @@ export default async function StudentPortalPage() {
           alt="Student Portal"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

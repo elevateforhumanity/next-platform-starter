@@ -124,7 +124,7 @@ export default async function LearningPathsPage() {
           alt="Learning Paths"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />
@@ -163,7 +163,7 @@ export default async function LearningPathsPage() {
                   alt="Learning Paths"
                   fill
                   className="object-cover"
-                  quality={100}
+                  quality={90}
                   sizes="(max-width: 768px) 100vw, 50vw"
                 />
               </div>

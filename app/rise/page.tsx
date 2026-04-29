@@ -53,7 +53,7 @@ export default async function RiseFoundationPage() {
           fill
           className="object-cover opacity-40"
           priority
-          quality={100}
+          quality={90}
           sizes="100vw"
         />
         <div className="relative z-10 flex h-full items-center">
@@ -64,7 +64,7 @@ export default async function RiseFoundationPage() {
               alt="Hero"
               fill
               className="object-cover"
-              quality={100}
+              quality={90}
               priority
               sizes="100vw"
             />

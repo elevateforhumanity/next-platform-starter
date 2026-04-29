@@ -50,7 +50,7 @@ export default async function DocumentCenterPage() {
           alt="Document Center"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />

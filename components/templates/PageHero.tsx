@@ -60,7 +60,7 @@ export default function PageHero({ title, description, forceHero }: PageHeroProp
           alt={title || 'Hero'}
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority={priority}
           unoptimized
           sizes="100vw"

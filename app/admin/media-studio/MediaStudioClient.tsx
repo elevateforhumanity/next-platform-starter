@@ -160,7 +160,7 @@ export default function MediaStudioPage() {
           alt="Media Studio"
           fill
           className="object-cover"
-          quality={100}
+          quality={90}
           priority
           sizes="100vw"
         />
@@ -281,7 +281,7 @@ export default function MediaStudioPage() {
                       fill
                       className="object-cover"
                       sizes="100vw"
-                      quality={100}
+                      quality={90}
                     />
                   ) : (
                     <div className="flex items-center justify-center h-full">
