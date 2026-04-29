@@ -5,6 +5,7 @@ import { useRouter, useSearchParams } from 'next/navigation';
 import { createClient } from '@/lib/supabase/client';
 import { Award, Lock, ArrowRight, Shield, MapPin, Clock } from 'lucide-react';
 import { CERTIPORT_EXAMS } from '@/lib/partners/certiport';
+import { getProvidersForAmount } from '@/lib/bnpl-config';
 
 type FundingStatus = 'funded' | 'self_pay' | 'loading';
 type CourseStatus = 'complete' | 'incomplete' | 'loading';
@@ -316,6 +317,29 @@ function CertiportExamContent() {
             </>
           )}
         </button>
+
+        {/* BNPL options — shown for self-pay path only */}
+        {fundingStatus !== 'funded' && (
+          <div className="rounded-xl border border-slate-200 bg-slate-50 p-4 mt-4">
+            <p className="text-xs font-semibold text-slate-600 mb-2 text-center">
+              Split your $150 payment — accepted at checkout
+            </p>
+            <div className="flex flex-wrap justify-center gap-2">
+              {getProvidersForAmount(150).map((p) => (
+                <span
+                  key={p.id}
+                  className={`inline-flex items-center gap-1 text-xs font-semibold px-2.5 py-1 rounded-full ${p.badgeBg} ${p.badgeText}`}
+                >
+                  {p.name}
+                  <span className="font-normal opacity-75">— {p.description}</span>
+                </span>
+              ))}
+            </div>
+            <p className="text-[11px] text-slate-400 text-center mt-2">
+              Select your preferred payment method on the next screen
+            </p>
+          </div>
+        )}
 
         <p className="text-center text-slate-500 text-sm mt-4">
           Exams are proctored on-site at the Elevate testing center.
