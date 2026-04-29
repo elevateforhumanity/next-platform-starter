@@ -291,7 +291,6 @@ const ALLOWED_TOP_LEVEL = new Set([
   'demos',
   'portals',
   // ── New public pages ──────────────────────────────────────────────────────
-  'creator',
   'partner-operating-model',
   'wioa-participant',
   'certification',
