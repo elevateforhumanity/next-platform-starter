@@ -40,6 +40,7 @@ export default async function ProgramHolderMOUPage() {
 
   const orgName = holder.organization_name || profile.full_name || 'Your Organization';
   const isCustomHvac = holder.mou_type === 'custom_hvac_codelivery';
+  const isCustomCdl = holder.mou_type === 'custom_cdl_provider';
 
   return (
     <div className="min-h-screen bg-white">
@@ -404,6 +405,283 @@ export default async function ProgramHolderMOUPage() {
                     terminate with 30 days written notice. Termination does not affect obligations
                     for students already enrolled prior to the termination date.
                   </p>
+                </>
+              ) : isCustomCdl ? (
+                /* C1 Truck Driving — CDL Training Provider MOU */
+                <>
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">I. Purpose of Agreement</h3>
+                  <p className="mb-4">
+                    This MOU outlines the goals, objectives, structure, costs, and expectations of
+                    the C1 CDL Training Program. The intent is to clearly define the responsibilities
+                    of the training provider, the student, and the student&apos;s employer, agency,
+                    or sponsor in pursuit of either a Class A or Class B Commercial Driver&apos;s
+                    License (CDL).
+                  </p>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">II. Program Goals &amp; Objectives</h3>
+                  <p className="mb-2 font-medium text-slate-800">1. Primary Objective — Class A CDL</p>
+                  <p className="mb-3">
+                    To provide students with the knowledge, skills, and hands-on driving experience
+                    required to successfully obtain a Class A CDL and begin a career as a
+                    professional commercial driver.
+                  </p>
+                  <p className="mb-2 font-medium text-slate-800">2. Primary Objective — Class B CDL</p>
+                  <p className="mb-3">
+                    To equip students with the competencies necessary to obtain a Class B CDL and
+                    enter the workforce as a qualified commercial vehicle operator.
+                  </p>
+                  <p className="mb-2 font-medium text-slate-800">3. Overall Program Goals</p>
+                  <ul className="list-disc pl-5 space-y-1 mb-4">
+                    <li>Deliver high-quality classroom, range, and road instruction in compliance with federal and state CDL standards</li>
+                    <li>Prepare each student for the CDL skills test</li>
+                    <li>Support students through employment preparation and job placement assistance</li>
+                  </ul>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">III. Program Costs</h3>
+                  <p className="mb-2 font-medium text-slate-800">1. Class A CDL Training Program</p>
+                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4">
+                    <div className="flex justify-between items-center py-1.5 border-b border-slate-200">
+                      <span className="font-medium text-slate-800">Cash Price</span>
+                      <span className="font-bold text-slate-900">$4,995.00</span>
+                    </div>
+                    <p className="text-xs text-slate-500 mt-2 mb-1 font-medium">Includes:</p>
+                    <ul className="list-disc pl-5 space-y-0.5 text-xs text-slate-600 mb-2">
+                      <li>Classroom instruction (online or in-person)</li>
+                      <li>Behind-the-wheel range training</li>
+                      <li>Road training</li>
+                    </ul>
+                    <p className="text-xs text-slate-500 mt-2 mb-1 font-medium">Does Not Include:</p>
+                    <ul className="list-disc pl-5 space-y-0.5 text-xs text-slate-600">
+                      <li>State licensing and CDL issuance fees</li>
+                    </ul>
+                  </div>
+                  <p className="mb-2 font-medium text-slate-800">2. Class B CDL Training Program</p>
+                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4">
+                    <div className="flex justify-between items-center py-1.5 border-b border-slate-200">
+                      <span className="font-medium text-slate-800">Cash Price</span>
+                      <span className="font-bold text-slate-900">$3,495.00</span>
+                    </div>
+                    <p className="text-xs text-slate-500 mt-2 mb-1 font-medium">Includes:</p>
+                    <ul className="list-disc pl-5 space-y-0.5 text-xs text-slate-600 mb-2">
+                      <li>Classroom instruction (online or in-person)</li>
+                      <li>Behind-the-wheel range training</li>
+                      <li>Road training</li>
+                    </ul>
+                    <p className="text-xs text-slate-500 mt-2 mb-1 font-medium">Does Not Include:</p>
+                    <ul className="list-disc pl-5 space-y-0.5 text-xs text-slate-600">
+                      <li>State licensing and CDL issuance fees</li>
+                    </ul>
+                  </div>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">IV. Program Format &amp; Structure</h3>
+                  <p className="mb-2 font-medium text-slate-800">1. Classroom Training — Class A &amp; Class B</p>
+                  <ul className="list-disc pl-5 space-y-1 mb-3">
+                    <li><strong>Duration:</strong> One week</li>
+                    <li><strong>Delivery:</strong> Online or in-person</li>
+                    <li>Curriculum covers required FMCSA ELDT theory material, safety, regulations, and foundational knowledge</li>
+                  </ul>
+                  <p className="mb-2 font-medium text-slate-800">2. Behind-the-Wheel, Range &amp; Road Training</p>
+                  <ul className="list-disc pl-5 space-y-1 mb-4">
+                    <li><strong>Class A CDL:</strong> Three weeks of range and road instruction, followed by a CDL skills test</li>
+                    <li><strong>Class B CDL:</strong> One week of range and road instruction, followed by a CDL skills test</li>
+                  </ul>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">V. Attendance &amp; Conduct Expectations</h3>
+                  <p className="mb-2 font-medium text-slate-800">1. Attendance Requirement</p>
+                  <ul className="list-disc pl-5 space-y-1 mb-3">
+                    <li>Students may have no more than <strong>two absences</strong> during the program</li>
+                    <li>Exceeding the maximum absence limit may result in dismissal</li>
+                  </ul>
+                  <p className="mb-2 font-medium text-slate-800">2. Timeliness &amp; Tardiness</p>
+                  <ul className="list-disc pl-5 space-y-1 mb-3">
+                    <li>Training hours: <strong>Monday–Friday, 7:00 a.m. – 4:00 p.m.</strong></li>
+                    <li>Includes one-hour lunch and two 15-minute breaks</li>
+                    <li>Students must arrive on time each day; excessive tardiness may result in removal</li>
+                  </ul>
+                  <div className="bg-amber-50 border border-amber-200 rounded-lg p-3 mb-3 text-sm text-amber-800">
+                    <strong>Note:</strong> Transportation to and from CDL training each day must be
+                    provided by the student, employer, or agency funding the training.
+                  </div>
+                  <p className="mb-2 font-medium text-slate-800">3. Professional Conduct</p>
+                  <p className="mb-4">
+                    Students must comply with all facility rules, safety guidelines, and instructor
+                    direction at all times.
+                  </p>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">VI. Job Placement Support</h3>
+                  <p className="mb-2 font-medium text-slate-800">1. Job Placement Coordination</p>
+                  <p className="mb-3">
+                    Each student will be assigned a Job Placement Coordinator who will provide
+                    guidance on employment opportunities and carrier partnerships.
+                  </p>
+                  <p className="mb-2 font-medium text-slate-800">2. Career Preparation</p>
+                  <p className="mb-4">
+                    Students will be introduced to job opportunities beginning on day one.
+                    Representatives from partner carriers will regularly present to classes
+                    throughout training.
+                  </p>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">VII. Drop &amp; Dismissal Policy</h3>
+                  <p className="mb-2">A student may be dismissed for any of the following:</p>
+                  <ol className="list-decimal pl-5 space-y-1 mb-4">
+                    <li>Failure to meet attendance or timeliness requirements</li>
+                    <li>Insufficient progress or inability to meet skill requirements</li>
+                    <li>Failure or refusal of required drug screening</li>
+                    <li>Violation of safety rules or conduct standards, as determined by program leadership</li>
+                  </ol>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">VIII. Participant Ownership &amp; Non-Solicitation</h3>
+                  <p className="mb-4">
+                    All participants referred to {orgName} remain enrolled students of Elevate for
+                    Humanity. {orgName} may not bypass, independently solicit, or retain
+                    participants outside the terms of this agreement. Any attempt to redirect
+                    participants to a competing program or circumvent Elevate&apos;s enrollment and
+                    funding processes constitutes a material breach of this MOU.
+                  </p>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">IX. Responsibilities</h3>
+                  <p className="mb-2 font-medium text-slate-800">Elevate for Humanity</p>
+                  <ul className="list-disc pl-5 space-y-1 mb-3">
+                    <li>Participant recruitment and enrollment</li>
+                    <li>Funding submission and voucher processing</li>
+                    <li>Enrollment records, progress tracking, and compliance reporting</li>
+                    <li>Student success support services</li>
+                  </ul>
+                  <p className="mb-2 font-medium text-slate-800">{orgName} (Training Provider)</p>
+                  <ul className="list-disc pl-5 space-y-1 mb-4">
+                    <li>Deliver all CDL training: classroom, range, and road instruction</li>
+                    <li>Provide qualified CDL instructors holding applicable federal and Indiana state licenses</li>
+                    <li>Supply all vehicles, equipment, and materials necessary for training</li>
+                    <li>Prepare students for and administer CDL skills testing</li>
+                    <li>Provide job placement assistance and employment support</li>
+                    <li>Track and report student attendance, training hours, and milestone completions to Elevate weekly</li>
+                    <li>Maintain a safe, FMCSA-compliant training environment at all times</li>
+                    <li>Notify Elevate within 48 hours of any safety incident, withdrawal, or attendance risk</li>
+                    <li>Ensure all training aligns with FMCSA ELDT regulations and applicable Indiana CDL standards</li>
+                    <li>Maintain audit-ready records for all WIOA, FSSA, and funding requirements</li>
+                  </ul>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">X. Compensation &amp; Referral</h3>
+                  <p className="mb-3">
+                    Funding referral partners will receive <strong>$195.00 per student</strong> at
+                    class start. {orgName} invoices Elevate for the agreed training cost per
+                    participant. {orgName} must submit an itemized cost breakdown including tuition,
+                    training, equipment, testing, and administrative fees. No hidden fees are
+                    permitted.
+                  </p>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">XI. Payment Structure</h3>
+                  <ul className="list-disc pl-5 space-y-1 mb-4">
+                    <li><strong>50%</strong> payable upon verified student start with a valid funding voucher issued</li>
+                    <li><strong>50%</strong> payable upon verified program completion</li>
+                    <li>All payments contingent on funding approval from the applicable agency</li>
+                    <li>Payment rendered within <strong>10 business days</strong> after Elevate receives funds from the funding source</li>
+                    <li>Elevate is not liable for delays caused by WorkOne or other funding agencies</li>
+                  </ul>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">XII. Reporting Requirements</h3>
+                  <ul className="list-disc pl-5 space-y-1 mb-4">
+                    <li>Daily attendance records required for all training sessions</li>
+                    <li>Weekly progress reports must be submitted to Elevate</li>
+                    <li>{orgName} must alert Elevate within <strong>48 hours</strong> of any attendance risk, withdrawal, or performance concern</li>
+                    <li>Missing or late reports may result in withheld payment until records are received</li>
+                  </ul>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">XIII. Refund Policy</h3>
+                  <div className="bg-slate-50 border border-slate-200 rounded-lg p-4 mb-4">
+                    <div className="grid grid-cols-2 gap-2 text-sm">
+                      <div className="font-medium text-slate-700">No-show / never started</div>
+                      <div className="text-slate-600">No payment issued</div>
+                      <div className="font-medium text-slate-700">0–25% completion</div>
+                      <div className="text-slate-600">Prorated payment only</div>
+                      <div className="font-medium text-slate-700">25–75% completion</div>
+                      <div className="text-slate-600">Prorated payment only</div>
+                      <div className="font-medium text-slate-700">75%+ completion</div>
+                      <div className="text-slate-600">Full payment if documented</div>
+                    </div>
+                  </div>
+                  <p className="mb-4">
+                    Overpayments must be refunded to Elevate within <strong>10 business days</strong> of identification.
+                  </p>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">XIV. Compliance</h3>
+                  <p className="mb-4">
+                    {orgName} must comply with WIOA, FSSA, FMCSA ELDT regulations, and all
+                    applicable funding source requirements. All records must be audit-ready.
+                    {orgName} operates under Elevate&apos;s compliance system; Elevate&apos;s rules
+                    take precedence. {orgName} is liable for any compliance failures attributable
+                    to its training operations.
+                  </p>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">XV. Audit Rights</h3>
+                  <p className="mb-4">
+                    Elevate may audit {orgName}&apos;s records, attendance documentation, training
+                    logs, and performance data at any time with reasonable notice. {orgName} agrees
+                    to cooperate fully with any audit request.
+                  </p>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">XVI. Invoicing</h3>
+                  <p className="mb-4">
+                    All invoices must include supporting documentation (attendance records,
+                    completion evidence, itemized costs) and align with funding approvals on file.
+                    Invoices without required documentation will not be processed until complete.
+                  </p>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">XVII. Confidentiality</h3>
+                  <p className="mb-4">
+                    Both parties agree to protect all participant PII, business data, pricing
+                    structures, funding relationships, and proprietary program materials. Neither
+                    party shall disclose confidential information to any third party without prior
+                    written consent. These obligations survive termination for{' '}
+                    <strong>three (3) years</strong>.
+                  </p>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">XVIII. Termination</h3>
+                  <p className="mb-4">
+                    Either party may terminate with <strong>30 days</strong> written notice.
+                    Elevate may terminate immediately upon material breach, including
+                    non-compliance with funding requirements, failure to report, solicitation of
+                    Elevate&apos;s participants, or safety violations. Termination does not affect
+                    obligations for students already enrolled.
+                  </p>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">XIX. Independent Contractors</h3>
+                  <p className="mb-4">
+                    Nothing in this MOU creates an employment relationship, joint venture,
+                    partnership, or agency between Elevate and {orgName}. Each party is solely
+                    responsible for its own employees, taxes, insurance, and liabilities.
+                  </p>
+
+                  <h3 className="font-semibold text-slate-800 mt-5 mb-2">XX. Agreement &amp; Acknowledgement</h3>
+                  <p className="mb-3">
+                    By participating in this program, the student acknowledges and agrees to the
+                    terms, expectations, and responsibilities outlined in this MOU.
+                  </p>
+                  <p className="mb-3">
+                    Companies, employers, agencies, and funding partners entering into this MOU
+                    alongside the student confirm that the individual enrolling has demonstrated a
+                    responsibility and willingness to uphold the requirements outlined in this
+                    document. By entering into this agreement, they are also assuming{' '}
+                    <strong>financial responsibility</strong> on behalf of the student receiving
+                    instruction and training.
+                  </p>
+
+                  <div className="border-t border-slate-200 pt-6 mt-4 grid grid-cols-2 gap-8">
+                    <div>
+                      <p className="text-xs text-slate-500 mb-1 font-medium uppercase tracking-wide">
+                        C1 Truck Driver Training
+                      </p>
+                      <div className="border-b border-slate-400 h-8 mb-1" />
+                      <p className="text-xs text-slate-500">Authorized Signature &amp; Date</p>
+                    </div>
+                    <div>
+                      <p className="text-xs text-slate-500 mb-1 font-medium uppercase tracking-wide">
+                        Elevate for Humanity
+                      </p>
+                      <div className="border-b border-slate-400 h-8 mb-1" />
+                      <p className="text-xs text-slate-500">Elizabeth Greene, Founder &amp; CEO</p>
+                    </div>
+                  </div>
                 </>
               ) : (
                 /* Universal MOU — all other program holders */
