@@ -60,7 +60,7 @@ export function BarberHero() {
               Check Eligibility
             </Link>
             <Link
-              href="/checkout/barber-apprenticeship"
+              href="/apply/barber-apprenticeship"
               className="inline-flex items-center justify-center rounded-lg border-2 border-gray-300 px-6 py-3 text-base font-semibold text-slate-900 hover:bg-gray-50 transition-colors"
             >
               Self-Pay Enrollment

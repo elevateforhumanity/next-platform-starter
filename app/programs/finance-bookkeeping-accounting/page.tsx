@@ -480,19 +480,19 @@ export default async function FinancePathwayPage() {
               </ul>
               <div className="flex flex-wrap gap-3 mt-4 pt-3 border-t border-amber-200">
                 <Link
-                  href="/compliance/internship-agreement"
+                  href="/federal-compliance"
                   className="text-xs font-semibold text-amber-800 hover:underline"
                 >
                   Internship Agreement Template →
                 </Link>
                 <Link
-                  href="/compliance/ojt-training-plan"
+                  href="/ojt-and-funding"
                   className="text-xs font-semibold text-amber-800 hover:underline"
                 >
                   OJT Training Plan →
                 </Link>
                 <Link
-                  href="/compliance/internship-evaluation"
+                  href="/federal-compliance"
                   className="text-xs font-semibold text-amber-800 hover:underline"
                 >
                   Evaluation Form →

@@ -84,7 +84,7 @@ export default async function CareerServicesContactPage() {
               <h2 className="text-xl font-bold text-gray-900 mb-2">Schedule Appointment</h2>
               <p className="text-gray-600 mb-4">Book a one-on-one session</p>
               <Link
-                href="/schedule"
+                href="/booking"
                 className="inline-flex items-center text-lg font-bold text-brand-blue-600 hover:text-brand-blue-700"
               >
                 Book Now <ArrowRight className="ml-2 w-5 h-5" />
@@ -280,7 +280,7 @@ export default async function CareerServicesContactPage() {
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href="/schedule"
+              href="/booking"
               className="bg-white hover:bg-gray-100 text-brand-blue-900 px-8 py-4 rounded-lg text-lg font-bold transition-all inline-flex items-center justify-center"
             >
               <Calendar className="mr-2 w-5 h-5" />

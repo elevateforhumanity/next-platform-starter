@@ -128,6 +128,7 @@ const SKIP_PATH_PATTERNS = [
   /\/app\/student\//,
   /\/app\/creator\//,
   /\/app\/builder\//,
+  /\/app\/programs\/admin\//,
   /\/app\/supersonic\//,
   /\/app\/tax\//,
   /\/app\/pwa\//,

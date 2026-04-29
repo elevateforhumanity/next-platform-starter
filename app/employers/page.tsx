@@ -194,7 +194,7 @@ export default function EmployersPage() {
                 alt: 'Industry certifications earned before day one',
                 title: 'Industry Certifications Already Earned',
                 desc: 'Graduates hold credentials recognized by employers and regulators: EPA 608, OSHA 10/30, CNA, CDL Class A/B, CompTIA A+, and more.',
-                href: '/credentials',
+                href: '/verify-credentials',
                 cta: 'See Credentials',
               },
               {

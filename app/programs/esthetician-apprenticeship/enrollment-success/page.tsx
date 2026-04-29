@@ -149,7 +149,7 @@ export default async function EnrollmentSuccessPage() {
         </div>
 
         <Link
-          href="/learner/dashboard"
+          href="/login"
           className="block w-full bg-teal-500 hover:bg-teal-600 text-white text-center py-5 rounded-xl font-bold text-lg transition-all hover:scale-[1.02] shadow-lg mb-3"
         >
           Start Orientation →

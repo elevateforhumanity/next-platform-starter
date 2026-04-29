@@ -39,7 +39,7 @@ const HELP_TOPICS = [
   {
     title: 'Enrollment & Eligibility',
     desc: 'Questions about applying, eligibility requirements, or funding options.',
-    href: '/enroll',
+    href: '/apply',
   },
   {
     title: 'Technical Support',
@@ -54,7 +54,7 @@ const HELP_TOPICS = [
   {
     title: 'Billing & Payments',
     desc: 'Questions about tuition, payment plans, or funding status.',
-    href: '/account/billing',
+    href: '/financing',
   },
   {
     title: 'Career Services',

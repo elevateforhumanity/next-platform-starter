@@ -171,7 +171,7 @@ export default async function AchievementsPage() {
               Elevate for Humanity
             </Link>
             <Link
-              href="/learner/dashboard"
+              href="/login"
               className="text-sm text-brand-orange-600 hover:text-brand-orange-700"
             >
               Back to Dashboard

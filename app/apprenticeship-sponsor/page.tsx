@@ -309,7 +309,7 @@ export default function ApprenticeshipSponsorPage() {
             Full Governance Structure
           </Link>
           <Link
-            href="/approvals"
+            href="/contact"
             className="bg-white hover:bg-slate-200 text-slate-900 font-semibold px-6 py-3 rounded-lg transition-colors"
           >
             Approvals &amp; Verification

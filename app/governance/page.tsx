@@ -214,7 +214,7 @@ export default function GovernancePage() {
         {/* Links */}
         <section className="flex flex-wrap gap-4 pt-4 border-t border-slate-200">
           <Link
-            href="/approvals"
+            href="/contact"
             className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-semibold px-6 py-3 rounded-lg transition-colors"
           >
             Approvals &amp; Verification
