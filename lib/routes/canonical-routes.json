@@ -10,10 +10,42 @@
     },
     "programs": {
       "certifiedNursingAssistant": "/programs/certified-nursing-assistant",
+      "homeHealthAide": "/programs/home-health-aide",
+      "phlebotomy": "/programs/phlebotomy",
+      "medicalAssistant": "/programs/medical-assistant",
+      "pharmacyTechnician": "/programs/pharmacy-technician",
+      "qualifiedMedicationAide": "/programs/qma",
+      "peerRecoverySpecialist": "/programs/peer-recovery-specialist",
       "hvacTechnician": "/programs/hvac-technician",
       "cdlTraining": "/programs/cdl-training",
       "itHelpDesk": "/programs/it-help-desk",
-      "barberApprenticeship": "/programs/barber-apprenticeship"
+      "cybersecurityAnalyst": "/programs/cybersecurity-analyst",
+      "networkAdministration": "/programs/network-administration",
+      "webDevelopment": "/programs/web-development",
+      "softwareDevelopment": "/programs/software-development",
+      "graphicDesign": "/programs/graphic-design",
+      "cadDrafting": "/programs/cad-drafting",
+      "bookkeeping": "/programs/bookkeeping",
+      "taxPreparation": "/programs/tax-preparation",
+      "officeAdministration": "/programs/office-administration",
+      "businessAdministration": "/programs/business-administration",
+      "entrepreneurship": "/programs/entrepreneurship",
+      "projectManagement": "/programs/project-management",
+      "barberApprenticeship": "/programs/barber-apprenticeship",
+      "cosmetologyApprenticeship": "/programs/cosmetology-apprenticeship",
+      "nailTechnicianApprenticeship": "/programs/nail-technician-apprenticeship",
+      "estheticianApprenticeship": "/programs/esthetician-apprenticeship",
+      "beautyCareerEducator": "/programs/beauty-career-educator",
+      "buildingServicesTechnician": "/programs/building-services-technician",
+      "constructionTrades": "/programs/construction-trades-certification",
+      "forklift": "/programs/forklift",
+      "welding": "/programs/welding",
+      "dieselMechanic": "/programs/diesel-mechanic",
+      "directSupportProfessional": "/programs/direct-support-professional",
+      "cprFirstAid": "/programs/cpr-first-aid",
+      "osha": "/programs/emergency-health-safety",
+      "hospitality": "/programs/hospitality",
+      "culinaryApprenticeship": "/programs/culinary-apprenticeship"
     },
     "complianceFunding": {
       "funding": "/funding",
@@ -28,121 +60,94 @@
     }
   },
   "legacyAliases": [
-    {
-      "source": "/programs/cna",
-      "destination": "/programs/certified-nursing-assistant",
-      "permanent": true
-    },
-    {
-      "source": "/programs/cna-training",
-      "destination": "/programs/certified-nursing-assistant",
-      "permanent": true
-    },
-    {
-      "source": "/programs/cna-certification",
-      "destination": "/programs/certified-nursing-assistant",
-      "permanent": true
-    },
-    {
-      "source": "/programs/cna-cert",
-      "destination": "/programs/certified-nursing-assistant",
-      "permanent": true
-    },
-    {
-      "source": "/programs/home-health-aide",
-      "destination": "/programs/certified-nursing-assistant",
-      "permanent": true
-    },
-    {
-      "source": "/programs/hvac",
-      "destination": "/programs/hvac-technician",
-      "permanent": true
-    },
-    {
-      "source": "/programs/hvac-technician-program",
-      "destination": "/programs/hvac-technician",
-      "permanent": true
-    },
-    {
-      "source": "/programs/hvac-tech",
-      "destination": "/programs/hvac-technician",
-      "permanent": true
-    },
-    {
-      "source": "/programs/hvac-technician-wrg",
-      "destination": "/programs/hvac-technician",
-      "permanent": true
-    },
-    {
-      "source": "/training/hvac-technician",
-      "destination": "/programs/hvac-technician",
-      "permanent": true
-    },
-    {
-      "source": "/programs/cna-training-wrg",
-      "destination": "/programs/certified-nursing-assistant",
-      "permanent": true
-    },
-    {
-      "source": "/partners/esthetician-apprenticeship",
-      "destination": "/partners/cosmetology-apprenticeship",
-      "permanent": true
-    },
-    {
-      "source": "/programs/peer-recovery-coach",
-      "destination": "/programs/peer-recovery-specialist",
-      "permanent": true
-    },
-    {
-      "source": "/programs/peer-recovery-specialist-jri",
-      "destination": "/programs/peer-recovery-specialist",
-      "permanent": true
-    },
-    {
-      "source": "/programs/certified-peer-recovery-coach",
-      "destination": "/programs/peer-recovery-specialist",
-      "permanent": true
-    },
-    {
-      "source": "/programs/peer-recovery",
-      "destination": "/programs/peer-recovery-specialist",
-      "permanent": true
-    },
-    {
-      "source": "/programs/peer-support",
-      "destination": "/programs/peer-recovery-specialist",
-      "permanent": true
-    },
-    {
-      "source": "/programs/peer-support-professional",
-      "destination": "/programs/peer-recovery-specialist",
-      "permanent": true
-    },
-    {
-      "source": "/programs/recovery-coach",
-      "destination": "/programs/peer-recovery-specialist",
-      "permanent": true
-    },
-    {
-      "source": "/programs/it-support-specialist",
-      "destination": "/programs/it-help-desk",
-      "permanent": true
-    },
-    {
-      "source": "/programs/it-support",
-      "destination": "/programs/it-help-desk",
-      "permanent": true
-    },
-    {
-      "source": "/workforce-training-indianapolis",
-      "destination": "/career-training-indiana",
-      "permanent": true
-    },
-    {
-      "source": "/wioa-funded-training-indiana",
-      "destination": "/wioa-eligibility",
-      "permanent": true
-    }
+    { "source": "/programs/cna",                          "destination": "/programs/certified-nursing-assistant", "permanent": true },
+    { "source": "/programs/cna-training",                 "destination": "/programs/certified-nursing-assistant", "permanent": true },
+    { "source": "/programs/cna-certification",            "destination": "/programs/certified-nursing-assistant", "permanent": true },
+    { "source": "/programs/cna-cert",                     "destination": "/programs/certified-nursing-assistant", "permanent": true },
+    { "source": "/programs/cna-training-wrg",             "destination": "/programs/certified-nursing-assistant", "permanent": true },
+    { "source": "/programs/hha",                          "destination": "/programs/home-health-aide",            "permanent": true },
+    { "source": "/programs/home-health",                  "destination": "/programs/home-health-aide",            "permanent": true },
+    { "source": "/programs/hvac",                         "destination": "/programs/hvac-technician",             "permanent": true },
+    { "source": "/programs/hvac-tech",                    "destination": "/programs/hvac-technician",             "permanent": true },
+    { "source": "/programs/hvac-technician-program",      "destination": "/programs/hvac-technician",             "permanent": true },
+    { "source": "/programs/hvac-technician-wrg",          "destination": "/programs/hvac-technician",             "permanent": true },
+    { "source": "/training/hvac-technician",              "destination": "/programs/hvac-technician",             "permanent": true },
+    { "source": "/hvac",                                  "destination": "/programs/hvac-technician",             "permanent": true },
+    { "source": "/programs/it-support",                   "destination": "/programs/it-help-desk",                "permanent": true },
+    { "source": "/programs/it-support-specialist",        "destination": "/programs/it-help-desk",                "permanent": true },
+    { "source": "/programs/it-technician",                "destination": "/programs/it-help-desk",                "permanent": true },
+    { "source": "/programs/comptia",                      "destination": "/programs/it-help-desk",                "permanent": true },
+    { "source": "/programs/cybersecurity",                "destination": "/programs/cybersecurity-analyst",       "permanent": true },
+    { "source": "/programs/network-support",              "destination": "/programs/network-administration",      "permanent": true },
+    { "source": "/programs/network-support-technician",   "destination": "/programs/network-administration",      "permanent": true },
+    { "source": "/programs/web-design",                   "destination": "/programs/web-development",             "permanent": true },
+    { "source": "/programs/software-dev",                 "destination": "/programs/software-development",        "permanent": true },
+    { "source": "/programs/graphic-design-program",       "destination": "/programs/graphic-design",              "permanent": true },
+    { "source": "/programs/cad",                          "destination": "/programs/cad-drafting",                "permanent": true },
+    { "source": "/programs/bookkeeping-quickbooks",       "destination": "/programs/bookkeeping",                 "permanent": true },
+    { "source": "/programs/tax-prep",                     "destination": "/programs/tax-preparation",             "permanent": true },
+    { "source": "/programs/tax-prep-financial-services",  "destination": "/programs/tax-preparation",             "permanent": true },
+    { "source": "/programs/office-admin",                 "destination": "/programs/office-administration",       "permanent": true },
+    { "source": "/programs/business-admin",               "destination": "/programs/business-administration",     "permanent": true },
+    { "source": "/programs/business",                     "destination": "/programs/business-administration",     "permanent": true },
+    { "source": "/programs/project-mgmt",                 "destination": "/programs/project-management",          "permanent": true },
+    { "source": "/programs/barber",                       "destination": "/programs/barber-apprenticeship",       "permanent": true },
+    { "source": "/programs/cosmetology",                  "destination": "/programs/cosmetology-apprenticeship",  "permanent": true },
+    { "source": "/programs/nail-tech",                    "destination": "/programs/nail-technician-apprenticeship", "permanent": true },
+    { "source": "/programs/esthetician",                  "destination": "/programs/esthetician-apprenticeship",  "permanent": true },
+    { "source": "/programs/professional-esthetician",     "destination": "/programs/esthetician-apprenticeship",  "permanent": true },
+    { "source": "/programs/beauty",                       "destination": "/programs/beauty-career-educator",      "permanent": true },
+    { "source": "/programs/peer-recovery",                "destination": "/programs/peer-recovery-specialist",    "permanent": true },
+    { "source": "/programs/peer-support",                 "destination": "/programs/peer-recovery-specialist",    "permanent": true },
+    { "source": "/programs/peer-support-professional",    "destination": "/programs/peer-recovery-specialist",    "permanent": true },
+    { "source": "/programs/peer-recovery-coach",          "destination": "/programs/peer-recovery-specialist",    "permanent": true },
+    { "source": "/programs/certified-peer-recovery-coach","destination": "/programs/peer-recovery-specialist",    "permanent": true },
+    { "source": "/programs/peer-recovery-specialist-jri", "destination": "/programs/peer-recovery-specialist",    "permanent": true },
+    { "source": "/programs/recovery-coach",               "destination": "/programs/peer-recovery-specialist",    "permanent": true },
+    { "source": "/programs/cdl-transportation",           "destination": "/programs/cdl-training",                "permanent": true },
+    { "source": "/programs/cdl-class-a",                  "destination": "/programs/cdl-training",                "permanent": true },
+    { "source": "/programs/cdl",                          "destination": "/programs/cdl-training",                "permanent": true },
+    { "source": "/programs/building-maintenance",         "destination": "/programs/building-services-technician","permanent": true },
+    { "source": "/programs/construction",                 "destination": "/programs/construction-trades-certification", "permanent": true },
+    { "source": "/programs/osha",                         "destination": "/programs/emergency-health-safety",     "permanent": true },
+    { "source": "/programs/cpr",                          "destination": "/programs/cpr-first-aid",               "permanent": true },
+    { "source": "/programs/cpr-first-aid-hsi",            "destination": "/programs/cpr-first-aid",               "permanent": true },
+    { "source": "/programs/direct-support",               "destination": "/programs/direct-support-professional", "permanent": true },
+    { "source": "/programs/drug-test",                    "destination": "/programs/drug-collector",              "permanent": true },
+    { "source": "/programs/sanitation",                   "destination": "/programs/sanitation-infection-control","permanent": true },
+    { "source": "/programs/finance-bookkeeping-accounting","destination": "/programs/bookkeeping",                "permanent": true },
+    { "source": "/programs/micro-programs",               "destination": "/programs/catalog",                     "permanent": true },
+    { "source": "/programs/federal-funded",               "destination": "/funding",                              "permanent": true },
+    { "source": "/programs/technology",                   "destination": "/programs/it-help-desk",                "permanent": true },
+    { "source": "/programs/jri",                          "destination": "/partners/jri",                         "permanent": true },
+    { "source": "/partners/esthetician-apprenticeship",   "destination": "/partners/cosmetology-apprenticeship",  "permanent": true },
+    { "source": "/partners/attendance",                   "destination": "/program-holder/dashboard",             "permanent": true },
+    { "source": "/partners/students",                     "destination": "/program-holder/students",              "permanent": true },
+    { "source": "/partners/cosmetology-apprenticeship/documents", "destination": "/program-holder/documents",     "permanent": true },
+    { "source": "/program-holder/courses",                "destination": "/program-holder/programs",              "permanent": true },
+    { "source": "/org/cohorts",                           "destination": "/program-holder/dashboard",             "permanent": true },
+    { "source": "/org/invites",                           "destination": "/program-holder/dashboard",             "permanent": true },
+    { "source": "/ferpa/reports",                         "destination": "/program-holder/compliance",            "permanent": true },
+    { "source": "/governance/security",                   "destination": "/disclosures",                          "permanent": true },
+    { "source": "/legal/agreements",                      "destination": "/terms-of-service",                     "permanent": true },
+    { "source": "/store/licenses",                        "destination": "/contact",                              "permanent": true },
+    { "source": "/store/licenses/starter-license",        "destination": "/contact",                              "permanent": true },
+    { "source": "/ebook/barber-theory",                   "destination": "/programs/barber-apprenticeship",       "permanent": true },
+    { "source": "/pwa/barber",                            "destination": "/programs/barber-apprenticeship",       "permanent": true },
+    { "source": "/pwa/cosmetology",                       "destination": "/programs/cosmetology-apprenticeship",  "permanent": true },
+    { "source": "/pwa/esthetician",                       "destination": "/programs/esthetician-apprenticeship",  "permanent": true },
+    { "source": "/pwa/nail-tech",                         "destination": "/programs/nail-technician-apprenticeship", "permanent": true },
+    { "source": "/employer/apprentices/new",              "destination": "/for-employers",                        "permanent": true },
+    { "source": "/demo/admin",                            "destination": "/contact",                              "permanent": true },
+    { "source": "/community",                             "destination": "/contact",                              "permanent": true },
+    { "source": "/community/groups",                      "destination": "/contact",                              "permanent": true },
+    { "source": "/workforce-training-indianapolis",       "destination": "/workforce-training-indianapolis",      "permanent": false },
+    { "source": "/wioa-funded-training-indiana",          "destination": "/wioa-eligibility",                     "permanent": true },
+    { "source": "/supersonic-fast-cash/apply",            "destination": "/supersonic-fast-cash",                 "permanent": true },
+    { "source": "/supersonic-fast-cash/book-appointment", "destination": "/supersonic-fast-cash",                 "permanent": true },
+    { "source": "/supersonic-fast-cash/legal/privacy",    "destination": "/privacy-policy",                       "permanent": true },
+    { "source": "/supersonic-fast-cash/legal/terms",      "destination": "/terms-of-service",                     "permanent": true },
+    { "source": "/supersonic-fast-cash/portal",           "destination": "/supersonic-fast-cash",                 "permanent": true }
   ],
   "railwayOnlyPrefixes": [
     "/admin",

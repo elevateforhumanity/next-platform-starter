@@ -7,6 +7,7 @@ interface SubItem {
   name: string;
   href: string;
   isHeader?: boolean;
+  isSectionLink?: boolean;
   nested?: boolean;
 }
 
@@ -68,6 +69,15 @@ export default function HeaderDesktopNav({ items }: HeaderDesktopNavProps) {
                     >
                       {subItem.name.replace(/—/g, '').trim()}
                     </div>
+                  ) : subItem.isSectionLink ? (
+                    <Link
+                      key={subItem.name}
+                      href={subItem.href}
+                      prefetch={false}
+                      className="block px-4 py-2 mt-1 first:mt-0 text-xs font-extrabold text-brand-red-600 uppercase tracking-wide bg-brand-red-50 border-t border-brand-red-100 hover:bg-brand-red-100 hover:text-brand-red-700 transition-colors"
+                    >
+                      {subItem.name}
+                    </Link>
                   ) : (
                     <Link
                       key={subItem.name}

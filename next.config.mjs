@@ -388,60 +388,26 @@ const nextConfig = {
       { source: '/verifyemail', destination: '/verify-email', permanent: true },
       { source: '/lms/messages/new', destination: '/lms/messages', permanent: true },
       { source: '/lms/messages/support/new', destination: '/lms/messages', permanent: true },
-      {
-        source: '/programs/building-maintenance-tech',
-        destination: '/programs/hvac-technician',
-        permanent: true,
-      },
-      {
-        source: '/programs/building-services-technician',
-        destination: '/programs/hvac-technician',
-        permanent: true,
-      },
-      {
-        source: '/programs/business-financial',
-        destination: '/programs/finance-bookkeeping-accounting',
-        permanent: true,
-      },
-      // cpr-first-aid has no page — cpr-first-aid-hsi is the real page
-      {
-        source: '/programs/cpr-first-aid',
-        destination: '/programs/cpr-first-aid-hsi',
-        permanent: true,
-      },
-      {
-        source: '/programs/direct-support-professional',
-        destination: '/programs/peer-recovery-specialist',
-        permanent: true,
-      },
-      {
-        source: '/programs/drug-collector',
-        destination: '/drug-testing/training',
-        permanent: true,
-      },
-      {
-        source: '/programs/esthetician-apprenticeship',
-        destination: '/programs/cosmetology-apprenticeship',
-        permanent: true,
-      },
+      // building-maintenance-tech → building-services-technician (correct page)
+      { source: '/programs/building-maintenance-tech', destination: '/programs/building-services-technician', permanent: true },
+      // finance-bookkeeping-accounting → bookkeeping (canonical page)
+      { source: '/programs/business-financial', destination: '/programs/bookkeeping', permanent: true },
+      { source: '/programs/finance-bookkeeping-accounting', destination: '/programs/bookkeeping', permanent: true },
+      // cpr-first-aid HAS its own page — no redirect needed (removed incorrect redirect)
+      // direct-support-professional HAS its own page — no redirect needed
+      // drug-collector HAS its own page — no redirect needed
+      // esthetician-apprenticeship HAS its own page — no redirect needed
       {
         source: '/programs/professional-esthetician',
-        destination: '/programs/esthetician',
+        destination: '/programs/esthetician-apprenticeship',
         permanent: true,
       },
       // forklift now has its own detail page — redirect removed
       { source: '/programs/it-support', destination: '/programs/it-help-desk', permanent: true },
-      {
-        source: '/programs/jri',
-        destination: '/programs/peer-recovery-specialist',
-        permanent: true,
-      },
-      { source: '/programs/phlebotomy', destination: '/programs/healthcare', permanent: true },
-      {
-        source: '/programs/phlebotomy-technician',
-        destination: '/programs/healthcare',
-        permanent: true,
-      },
+      // /programs/jri → /partners/jri (JRI is a funding partner page, not a program)
+      { source: '/programs/jri', destination: '/partners/jri', permanent: true },
+      // phlebotomy HAS its own page — redirect to it, not generic /healthcare
+      { source: '/programs/phlebotomy-technician', destination: '/programs/phlebotomy', permanent: true },
       {
         source: '/programs/business-startup-marketing',
         destination: '/programs/entrepreneurship',
@@ -449,7 +415,7 @@ const nextConfig = {
       },
       {
         source: '/programs/emergency-health-safety-tech',
-        destination: '/programs/healthcare',
+        destination: '/programs/emergency-health-safety',
         permanent: true,
       },
       {

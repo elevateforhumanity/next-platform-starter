@@ -1,0 +1,59 @@
+import { Metadata } from 'next';
+import EmployerMOUSignForm from './EmployerMOUSignForm';
+
+export const metadata: Metadata = {
+  title: 'Employer Partnership MOU | Elevate for Humanity',
+  description:
+    'Sign your Memorandum of Understanding with Elevate for Humanity to become an official employer hiring partner.',
+  alternates: { canonical: 'https://www.elevateforhumanity.org/mou/employer' },
+};
+
+export default function EmployerMOUPage() {
+  return (
+    <div className="min-h-screen bg-slate-50">
+      {/* Header */}
+      <div className="bg-[#0e3a7d] text-white px-4 py-8 text-center">
+        <p className="text-xs font-semibold tracking-widest uppercase text-blue-300 mb-2">
+          Elevate for Humanity · Technical and Career Institute
+        </p>
+        <h1 className="text-2xl sm:text-3xl font-bold mb-2">Employer Partnership MOU</h1>
+        <p className="text-blue-200 text-sm max-w-lg mx-auto">
+          Sign your Memorandum of Understanding to become an official Elevate hiring partner.
+          Takes about 5 minutes. No financial obligation.
+        </p>
+      </div>
+
+      {/* What you're agreeing to — above the fold */}
+      <div className="bg-white border-b">
+        <div className="max-w-2xl mx-auto px-4 py-6 grid grid-cols-1 sm:grid-cols-3 gap-4 text-center text-sm">
+          {[
+            { icon: '✓', title: 'No cost', body: 'This is a hiring partnership only — no fees, no financial commitment.' },
+            { icon: '✓', title: 'State-funded graduates', body: 'Our graduates are trained through Indiana SNAP E&T — fully funded.' },
+            { icon: '✓', title: '5 minutes', body: 'Fill out your info, draw your signature, download your signed MOU.' },
+          ].map((item) => (
+            <div key={item.title} className="space-y-1">
+              <p className="text-emerald-600 font-bold text-lg">{item.icon} {item.title}</p>
+              <p className="text-slate-500">{item.body}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Form */}
+      <div className="max-w-2xl mx-auto px-4 py-10">
+        <div className="bg-white rounded-xl border shadow-sm p-6 sm:p-8">
+          <EmployerMOUSignForm />
+        </div>
+
+        <p className="text-center text-xs text-slate-400 mt-6">
+          Questions? Call Elizabeth Greene directly at{' '}
+          <a href="tel:3173143757" className="text-blue-600 hover:underline">(317) 314-3757</a>
+          {' '}or email{' '}
+          <a href="mailto:elevate4humanityedu@gmail.com" className="text-blue-600 hover:underline">
+            elevate4humanityedu@gmail.com
+          </a>
+        </p>
+      </div>
+    </div>
+  );
+}

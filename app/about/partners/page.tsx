@@ -89,6 +89,7 @@ export default async function PartnersPage() {
                         width={120}
                         height={60}
                         className="object-contain"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                       />
                     </div>
                   )}
@@ -121,6 +122,7 @@ export default async function PartnersPage() {
                         width={120}
                         height={60}
                         className="object-contain"
+                        onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
                       />
                     </div>
                   )}
@@ -143,24 +145,50 @@ export default async function PartnersPage() {
               <h2 className="text-3xl font-bold text-slate-900">Training Partners</h2>
             </div>
             <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-              {trainingPartners.map((partner: any) => (
-                <div key={partner.id} className="bg-white border rounded-xl p-6 shadow-sm">
-                  <h3 className="font-semibold text-slate-900 mb-2">{partner.name}</h3>
-                  {partner.description && (
-                    <p className="text-sm text-black mb-3">{partner.description}</p>
-                  )}
-                  {partner.website_url && (
-                    <a
-                      href={partner.website_url}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-brand-blue-600 text-sm hover:underline"
-                    >
-                      Visit Website
-                    </a>
-                  )}
-                </div>
-              ))}
+              {trainingPartners.map((partner: any) => {
+                // Validate website_url — must start with http to avoid bad redirects
+                const safeUrl =
+                  partner.website_url &&
+                  (partner.website_url.startsWith('http://') ||
+                    partner.website_url.startsWith('https://'))
+                    ? partner.website_url
+                    : null;
+                return (
+                  <div key={partner.id} className="bg-white border rounded-xl p-6 shadow-sm hover:shadow-md transition">
+                    {/* Logo — shown if logo_url is present */}
+                    {partner.logo_url ? (
+                      <div className="h-16 flex items-center justify-center mb-4">
+                        <Image
+                          src={partner.logo_url}
+                          alt={partner.name}
+                          width={120}
+                          height={60}
+                          className="object-contain"
+                          onError={(e) => { (e.target as HTMLImageElement).style.display = 'none'; }}
+                        />
+                      </div>
+                    ) : (
+                      <div className="h-16 flex items-center justify-center mb-4 bg-slate-50 rounded-lg">
+                        <GraduationCap className="w-8 h-8 text-slate-300" />
+                      </div>
+                    )}
+                    <h3 className="font-semibold text-slate-900 mb-2">{partner.name}</h3>
+                    {partner.description && (
+                      <p className="text-sm text-slate-600 mb-3">{partner.description}</p>
+                    )}
+                    {safeUrl && (
+                      <a
+                        href={safeUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-brand-blue-600 text-sm hover:underline"
+                      >
+                        Visit Website →
+                      </a>
+                    )}
+                  </div>
+                );
+              })}
             </div>
           </div>
         </section>

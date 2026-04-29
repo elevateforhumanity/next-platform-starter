@@ -1058,6 +1058,235 @@
   status = 302
   force = true
 
+# ── Broken redirect fixes ─────────────────────────────────────────────────────
+
+# Program apply pages missing for non-apprenticeship tracks
+[[redirects]]
+  from = "/programs/cdl-training/apply"
+  to = "/apply?program=cdl-training"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/it-help-desk/apply"
+  to = "/apply?program=it-help-desk"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/bookkeeping/apply"
+  to = "/apply?program=bookkeeping"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/forklift/apply"
+  to = "/apply?program=forklift"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/medical-assistant/apply"
+  to = "/apply?program=medical-assistant"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/phlebotomy-technician/apply"
+  to = "/apply?program=phlebotomy-technician"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/welding/apply"
+  to = "/apply?program=welding"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/electrical/apply"
+  to = "/apply?program=electrical"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/plumbing/apply"
+  to = "/apply?program=plumbing"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/pharmacy-technician/apply"
+  to = "/apply?program=pharmacy-technician"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/graphic-design/apply"
+  to = "/apply?program=graphic-design"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/web-development/apply"
+  to = "/apply?program=web-development"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/software-development/apply"
+  to = "/apply?program=software-development"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/network-administration/apply"
+  to = "/apply?program=network-administration"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/project-management/apply"
+  to = "/apply?program=project-management"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/tax-preparation/apply"
+  to = "/apply?program=tax-preparation"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/office-administration/apply"
+  to = "/apply?program=office-administration"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/business-administration/apply"
+  to = "/apply?program=business-administration"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/entrepreneurship/apply"
+  to = "/apply?program=entrepreneurship"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/diesel-mechanic/apply"
+  to = "/apply?program=diesel-mechanic"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/construction-trades-certification/apply"
+  to = "/apply?program=construction-trades-certification"
+  status = 301
+  force = true
+
+# Broken slug redirects — wrong destinations fixed
+[[redirects]]
+  from = "/programs/tax-preparation"
+  to = "/programs/tax-preparation"
+  status = 200
+
+[[redirects]]
+  from = "/programs/phlebotomy"
+  to = "/programs/phlebotomy-technician"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/programs/home-health-aide"
+  to = "/programs/home-health-aide"
+  status = 200
+
+[[redirects]]
+  from = "/programs/cpr-first-aid"
+  to = "/programs/cpr-first-aid-hsi"
+  status = 301
+  force = true
+
+# Utility pages with wrong or missing destinations
+[[redirects]]
+  from = "/tuition-fees"
+  to = "/tuition"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/consumer-education"
+  to = "/resources"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/workone-partner-packet"
+  to = "/snap-et-partner"
+  status = 301
+  force = true
+
+# /for-employers now has its own page — no redirect needed
+
+[[redirects]]
+  from = "/apply/quick"
+  to = "/apply"
+  status = 301
+  force = true
+
+# Funding sub-pages — redirect to funding hub until pages are built
+[[redirects]]
+  from = "/funding/federal-programs"
+  to = "/funding"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/funding/state-programs"
+  to = "/funding"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/funding/wrg"
+  to = "/funding"
+  status = 301
+  force = true
+
+# Partner sub-pages — redirect to partners hub until pages are built
+[[redirects]]
+  from = "/partners/jri"
+  to = "/partners"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/partners/reentry"
+  to = "/partners"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/partners/workforce"
+  to = "/partners"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/partners/mou"
+  to = "/mou/employer"
+  status = 301
+  force = true
+
+[[redirects]]
+  from = "/apprenticeship-sponsor"
+  to = "/partners/training-provider"
+  status = 301
+  force = true
+
 
 
 

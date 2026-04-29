@@ -1,7 +1,7 @@
 import Link from 'next/link';
 import Image from 'next/image';
 import type { Metadata } from 'next';
-import { TEAM } from '@/data/team';
+import { teamMembers } from '@/content/cf-team';
 
 export const metadata: Metadata = {
   title: 'Our Team | Elevate for Humanity',
@@ -17,10 +17,11 @@ export default function TeamPage() {
         Educators, workforce specialists, and community advocates committed to learner success.
       </p>
       <div className="mt-10 grid gap-6 md:grid-cols-2">
-        {TEAM.map((member) => (
-          <article key={member.id} className="flex gap-4 rounded border p-6 hover:bg-slate-50">
+        {teamMembers.map((member) => (
+          <article key={member.slug} className="flex gap-4 rounded border p-6 hover:bg-slate-50">
             {member.headshotSrc && (
-              <Image sizes="100vw"
+              <Image
+                sizes="72px"
                 src={member.headshotSrc}
                 alt={member.name}
                 width={72}
@@ -33,7 +34,7 @@ export default function TeamPage() {
               <p className="text-sm text-slate-500">{member.title}</p>
               <p className="mt-2 text-sm text-slate-700 line-clamp-3">{member.bio}</p>
               <Link
-                href={`/about/team/${member.id}`}
+                href={`/about/team/${member.slug}`}
                 className="mt-3 inline-block text-sm font-medium text-brand-red-600 underline hover:text-brand-red-700"
               >
                 Read more

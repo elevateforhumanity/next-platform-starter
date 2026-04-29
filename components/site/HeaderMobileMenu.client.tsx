@@ -8,7 +8,7 @@ interface NavItem {
   id?: string;
   name: string;
   href?: string;
-  subItems?: { name: string; href: string; isHeader?: boolean; nested?: boolean }[];
+  subItems?: { name: string; href: string; isHeader?: boolean; isSectionLink?: boolean; nested?: boolean }[];
 }
 
 interface HeaderMobileMenuProps {
@@ -114,6 +114,20 @@ export default function HeaderMobileMenu({ items, programApplyLinks = {} }: Head
                             >
                               {subItem.name.replace(/—/g, '').trim()}
                             </div>
+                          );
+                        }
+
+                        if (subItem.isSectionLink) {
+                          return (
+                            <Link
+                              key={subItem.name}
+                              href={subItem.href}
+                              prefetch={false}
+                              onClick={() => setIsOpen(false)}
+                              className="block pt-3 pb-1 text-xs font-extrabold text-brand-red-600 uppercase tracking-wide border-t border-brand-red-100 hover:text-brand-red-700 transition-colors"
+                            >
+                              {subItem.name}
+                            </Link>
                           );
                         }
 

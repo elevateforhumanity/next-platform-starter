@@ -23,7 +23,7 @@ export const TEAM: TeamMember[] = [
     name: 'Elizabeth Greene',
     title: 'Founder & Chief Executive Officer',
     orgRole: 'Executive Leadership',
-    bio: 'U.S. Army veteran (Unit Supply Specialist), IRS Enrolled Agent (EA), EFIN and PTIN holder, licensed barber, Indiana substitute teacher, EPA 608 Certified Proctor. Elizabeth founded Elevate for Humanity — a DOL Registered Apprenticeship Sponsor, ETPL provider, WRG/WIOA/JRI approved, Job Ready Indy partner, WorkOne partner, EmployIndy partner, HSI affiliate, CareerSafe OSHA provider, Milady partner, NRF Rise Up provider, Certiport CATC, SAM.gov registered (CAGE: 0Q856), federal government contractor, and ByBlack certified. She also operates SupersonicFastCash (tax software) and Selfish Inc., a 501(c)(3) nonprofit (DBA: The Rise Foundation) providing VITA free tax prep and community services.',
+    bio: 'U.S. Army veteran (Unit Supply Specialist), IRS Enrolled Agent (EA), EFIN and PTIN holder, licensed barber, Indiana substitute teacher, EPA 608 Certified Proctor. Elizabeth founded Elevate for Humanity — a DOL Registered Apprenticeship Sponsor, ETPL provider, WRG/WIOA/JRI approved, Job Ready Indy partner, WorkOne partner, EmployIndy partner, HSI affiliate, CareerSafe OSHA provider, Milady partner, NRF Rise Up provider, Certiport CATC, SAM.gov registered (CAGE: 0Q856), federal government contractor, and ByBlack certified. She also operates SupersonicFastCash (tax software) and Selfish Inc., a 501(c)(3) nonprofit (DBA: The Rise Foundation) providing VITA free tax prep and community services. She also operates SupersonicFastCash (tax software) and Selfish Inc., a 501(c)(3) nonprofit (DBA: The Rise Foundation) providing VITA free tax prep and community services.',
     headshotSrc: '/images/team/elizabeth-greene-headshot.jpg',
     email: '',
   },
@@ -71,6 +71,23 @@ export const TEAM: TeamMember[] = [
     bio: 'Clystjah supports program operations and student services, helping participants navigate enrollment and stay on track through their training programs.',
     headshotSrc: '/images/clystjah-woodley.jpg',
     email: 'clystjah@elevateforhumanity.org',
+  },
+  {
+    id: '11',
+    name: 'Ameco Martin',
+    title: 'Director of Information Technology',
+    orgRole: 'Information Technology Programs',
+    bio: 'Ameco Martin holds an Associate\'s Degree in Business and a Bachelor\'s Degree in Computer Programming. She is the owner of Ameco\'s Enterprise LLC, located at 6110 West 25th Street, Unit 241022, Indianapolis, IN 46224. She serves as Director of Information Technology at Elevate for Humanity, overseeing all IT and technology credential programs including IT Help Desk / CompTIA A+, Cybersecurity Analyst, Network Administration, Network Support Technician, Web Development, Software Development, Graphic Design, CAD/Drafting, and related business technology programs. She also serves as the dedicated Career Coach embedded full-time at Warren Central High School under Elevate\'s WIOA In-School Youth contract with EmployIndy.',
+    email: 'amecosenterprise@gmail.com',
+  },
+  {
+    id: '10',
+    name: 'Naomi Jordan',
+    title: 'Director of Healthcare Administration',
+    orgRole: 'Healthcare Programs & Administration',
+    bio: 'Naomi Jordan is the owner of Rebuilds Mind and Body Studio LLC, located at 6331 N Keystone Ave, Indianapolis, IN 46220. She holds active Indiana credentials as a Certified Nursing Assistant (CNA), Home Health Aide (HHA), Phlebotomy Technician, and Qualified Medication Aide (QMA). She serves as Director of Healthcare Administration at Elevate for Humanity, overseeing all healthcare program administration, clinical coordination, healthcare partner relationships, and curriculum compliance for CNA, HHA, Phlebotomy, QMA, Medical Assistant, Pharmacy Technician, and Peer Recovery Specialist programs.',
+    // headshotSrc: '/images/naomi-jordan.jpg', // photo pending
+    email: 'naomi@elevateforhumanity.org',
   },
   {
     id: '9',
