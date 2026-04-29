@@ -27,7 +27,7 @@ export default function ProgramHostAgreementPage() {
           <p>
             This Master Program Host Agreement ("Agreement") is entered into between{' '}
             <strong>
-              2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Training Institute
+              2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Technical Institute
             </strong>{' '}
             ("Operating Company"), the training network operating entity, and the organization
             identified at execution ("Host Facility").
@@ -388,7 +388,7 @@ export default function ProgramHostAgreementPage() {
         <DocumentSection heading="Operating Company Contact" number={12}>
           <p>
             <strong>
-              2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Training Institute
+              2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Technical Institute
             </strong>
             <br />
             8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240

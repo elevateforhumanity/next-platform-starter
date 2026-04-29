@@ -41,7 +41,7 @@ const portals = [
   {
     name: 'Employer Portal',
     description: 'Post jobs, hire graduates, access WOTC credits',
-    href: '/employer-portal',
+    href: '/employer/dashboard',
     icon: Building2,
     color: 'bg-green-500',
     public: true,

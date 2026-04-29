@@ -29,7 +29,7 @@ export default function InstitutionalGovernancePage() {
 
         <div className="prose prose-slate max-w-none">
           <p className="text-lg text-slate-700 leading-relaxed mb-8">
-            Elevate for Humanity Career &amp; Training Institute operates under the legal governance
+            Elevate for Humanity Career &amp; Technical Institute operates under the legal governance
             of 2Exclusive LLC-S and functions as a centralized workforce training provider,
             Registered Apprenticeship sponsor, and career and technical instructional institution.
             The organization administers structured training programs, apprenticeship sponsorship,
@@ -59,7 +59,7 @@ export default function InstitutionalGovernancePage() {
                 {/* Level 2 */}
                 <div className="w-full max-w-md bg-brand-blue-700 text-white rounded-lg px-6 py-4 text-center">
                   <p className="font-bold text-sm">
-                    Elevate for Humanity Career &amp; Training Institute
+                    Elevate for Humanity Career &amp; Technical Institute
                   </p>
                   <p className="text-white text-xs mt-1">
                     Instruction, Programs &amp; Related Technical Instruction (RTI)
@@ -109,7 +109,7 @@ export default function InstitutionalGovernancePage() {
                     Doing Business As
                   </dt>
                   <dd className="font-semibold text-slate-900 mt-0.5">
-                    Elevate for Humanity Career &amp; Training Institute
+                    Elevate for Humanity Career &amp; Technical Institute
                   </dd>
                 </div>
                 <div>
@@ -164,7 +164,7 @@ export default function InstitutionalGovernancePage() {
               <div className="bg-white border border-slate-200 rounded-lg p-5">
                 <h3 className="font-bold text-slate-900 mb-2">Instructional Delivery</h3>
                 <p>
-                  Elevate for Humanity Career &amp; Training Institute delivers related technical
+                  Elevate for Humanity Career &amp; Technical Institute delivers related technical
                   instruction (RTI) through its learning management system (LMS) and in-person
                   classroom sessions. All instructional content is aligned with occupation-specific
                   competency standards and documented per program requirements.
@@ -209,7 +209,7 @@ export default function InstitutionalGovernancePage() {
                     Instructional Provider
                   </dt>
                   <dd className="font-semibold mt-0.5">
-                    Elevate for Humanity Career &amp; Training Institute
+                    Elevate for Humanity Career &amp; Technical Institute
                   </dd>
                 </div>
                 <div>
@@ -307,7 +307,7 @@ export default function InstitutionalGovernancePage() {
               Training may be fully funded for eligible participants through workforce programs such
               as WIOA, Job Ready Indy, and approved funding partners. Eligibility and funding
               determinations are subject to program and agency guidelines. Elevate for Humanity
-              Career &amp; Training Institute does not guarantee funding approval. Self-pay
+              Career &amp; Technical Institute does not guarantee funding approval. Self-pay
               enrollment options are available for participants who do not qualify for funded
               programs.
             </p>

@@ -23,7 +23,7 @@ import {
 const NAV = [
   { label: 'Portals', href: '#portals' },
   { label: 'Student', href: '/student-portal' },
-  { label: 'Employer', href: '/employer-portal' },
+  { label: 'Employer', href: '/employer/dashboard' },
   { label: 'Staff', href: '/staff-portal' },
   { label: 'Admin', href: '/admin-login' },
 ];
@@ -43,7 +43,7 @@ const PORTALS = [
   {
     title: 'Employer Portal',
     desc: 'Manage apprentices, track training progress, access compliance documents, and connect with program coordinators.',
-    href: '/employer-portal',
+    href: '/employer/dashboard',
     loginHref: '/login?redirect=/employer/dashboard',
     image: '/images/pages/career-services-page-1.jpg',
     Icon: Users,

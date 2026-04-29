@@ -30,7 +30,7 @@ export default function PartnerMOUPage() {
           <p>
             This Memorandum of Understanding ("Agreement") is entered into between{' '}
             <strong>
-              2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Training Institute
+              2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Technical Institute
             </strong>{' '}
             ("Program Owner" or "Elevate"), a workforce training provider operating under Indiana
             law, and the collaborating organization identified at the time of execution
@@ -366,7 +366,7 @@ export default function PartnerMOUPage() {
 
         <DocumentSection heading="Program Owner Contact" number={15}>
           <p>
-            <strong>Elevate for Humanity Career &amp; Training Institute</strong>
+            <strong>Elevate for Humanity Career &amp; Technical Institute</strong>
             <br />
             2Exclusive LLC-S d/b/a Elevate for Humanity
             <br />

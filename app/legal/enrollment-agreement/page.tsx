@@ -26,7 +26,7 @@ export default function EnrollmentAgreementPage() {
           <p>
             This Enrollment Agreement is entered into between{' '}
             <strong>
-              2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Training Institute
+              2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Technical Institute
             </strong>{' '}
             ("Elevate"), located at 8888 Keystone Crossing, Suite 1300, Indianapolis, IN 46240, and
             the student identified during enrollment ("Student").

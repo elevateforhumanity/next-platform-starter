@@ -33,7 +33,7 @@ export default function ProgramLicenseAgreementPage() {
             </li>
             <li>
               <strong>
-                2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Training Institute
+                2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Technical Institute
               </strong>{' '}
               ("Operating Company"), a for-profit limited liability company operating under Indiana
               law, responsible for enrollment operations, tuition collection, technology

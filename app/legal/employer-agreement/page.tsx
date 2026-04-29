@@ -27,7 +27,7 @@ export default function EmployerAgreementPage() {
           <p>
             This Employer Partnership Agreement is entered into between{' '}
             <strong>
-              2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Training Institute
+              2Exclusive LLC-S d/b/a Elevate for Humanity Career &amp; Technical Institute
             </strong>{' '}
             ("Elevate") and the employer identified at the time of execution ("Employer").
           </p>

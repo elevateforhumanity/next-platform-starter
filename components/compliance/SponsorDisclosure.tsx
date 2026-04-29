@@ -15,7 +15,7 @@ export default function SponsorDisclosure() {
         </div>
         <div className="flex flex-col sm:flex-row sm:gap-2">
           <dt className="text-slate-400 font-medium sm:min-w-[180px]">Instructional Provider:</dt>
-          <dd className="font-semibold">Elevate for Humanity Career &amp; Training Institute</dd>
+          <dd className="font-semibold">Elevate for Humanity Career &amp; Technical Institute</dd>
         </div>
         <div className="flex flex-col sm:flex-row sm:gap-2">
           <dt className="text-slate-400 font-medium sm:min-w-[180px]">Training Sites:</dt>
