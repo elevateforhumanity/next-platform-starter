@@ -33,11 +33,12 @@ const MAX_FILE_BYTES = 512 * 1024; // 512 KB
 const BLOCKED_PATTERNS = [/^\.env/, /node_modules/, /\.git\//, /\.next\//];
 
 function resolveSafe(filePath: string): string | null {
-  const resolved = path.resolve(ROOT, filePath);
-  if (!resolved.startsWith(ROOT + path.sep) && resolved !== ROOT) return null;
-  const rel = path.relative(ROOT, resolved);
+  // Use path.normalize instead of path.resolve to avoid Turbopack full-project tracing
+  const joined = path.normalize(ROOT + path.sep + filePath.replace(/^\/+/, ''));
+  if (!joined.startsWith(ROOT + path.sep) && joined !== ROOT) return null;
+  const rel = path.relative(ROOT, joined);
   if (BLOCKED_PATTERNS.some((p) => p.test(rel))) return null;
-  return resolved;
+  return joined;
 }
 
 interface TreeNode {

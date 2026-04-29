@@ -81,8 +81,10 @@ export async function POST(request: NextRequest) {
   // Resolve cwd safely within repo root
   let cwd = ROOT;
   if (cwdParam) {
-    const resolved = path.resolve(ROOT, cwdParam);
-    if (resolved.startsWith(ROOT)) cwd = resolved;
+    // Use path.join + normalize to avoid Turbopack tracing the whole project
+    // (path.resolve with a dynamic second arg causes full-project file tracing)
+    const joined = path.normalize(ROOT + path.sep + cwdParam.replace(/^\/+/, ''));
+    if (joined.startsWith(ROOT)) cwd = joined;
   }
 
   const stream = new ReadableStream({

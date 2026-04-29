@@ -5,12 +5,6 @@ import path from 'node:path';
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   // Disable Next's built-in lint step during build — ESLint runs separately
-  // in CI via pnpm lint. The built-in step fails because it loads the Next
-  // ESLint plugin which is not in devDependencies (we use flat config instead).
-  eslint: {
-    ignoreDuringBuilds: true,
-  },
-
   // Server external packages - exclude heavy dependencies from the server bundle
   // These are loaded at runtime instead of being bundled, reducing Lambda size
   serverExternalPackages: [

@@ -72,15 +72,15 @@ export interface PipelineOptions {
 
 // ── Helpers ───────────────────────────────────────────────────────────────────
 
-const FONT_BOLD = '/workspaces/Elevate-lms/public/fonts/Inter-Bold.otf';
-const FONT_REGULAR = '/workspaces/Elevate-lms/public/fonts/Inter-Regular.otf';
-const FONT_SEMI = '/workspaces/Elevate-lms/public/fonts/Inter-SemiBold.otf';
+const FONT_FALLBACK = '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
+const FONT_BOLD = fs.existsSync('/workspaces/Elevate-lms/public/fonts/Inter-Bold.otf') ? '/workspaces/Elevate-lms/public/fonts/Inter-Bold.otf' : FONT_FALLBACK;
+const FONT_REGULAR = fs.existsSync('/workspaces/Elevate-lms/public/fonts/Inter-Regular.otf') ? '/workspaces/Elevate-lms/public/fonts/Inter-Regular.otf' : FONT_FALLBACK;
+const FONT_SEMI = fs.existsSync('/workspaces/Elevate-lms/public/fonts/Inter-SemiBold.otf') ? '/workspaces/Elevate-lms/public/fonts/Inter-SemiBold.otf' : FONT_FALLBACK;
 
-// Fallback to DejaVu if Inter not present
+// Font paths resolved at module load time — constants already have fallback applied
 function fontPath(variant: 'bold' | 'regular' | 'semi'): string {
-  const map = { bold: FONT_BOLD, regular: FONT_REGULAR, semi: FONT_SEMI };
-  const p = map[variant];
-  return fs.existsSync(p) ? p : '/usr/share/fonts/truetype/dejavu/DejaVuSans-Bold.ttf';
+  const map: Record<string, string> = { bold: FONT_BOLD, regular: FONT_REGULAR, semi: FONT_SEMI };
+  return map[variant] ?? FONT_FALLBACK;
 }
 
 /** Strip markdown, truncate to maxChars */
