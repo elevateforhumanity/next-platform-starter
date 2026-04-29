@@ -151,6 +151,7 @@ export type UserRole =
   | 'admin'
   | 'super_admin'
   | 'staff'
+  | 'org_admin'
   | 'program_holder'
   | 'provider_admin'
   | 'case_manager'

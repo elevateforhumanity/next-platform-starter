@@ -116,20 +116,19 @@ export function OperationalAlerts({ data }: { data: AdminDashboardData }) {
       {/* No outcome after completion */}
       <AlertSection
         icon={<CheckCircle2 className="h-4 w-4 text-amber-600" />}
-        title="Completed — no outcome recorded"
+        title="Enrolled — no placement or credential outcome"
         count={noOutcomeEnrollments.length}
-        viewAllHref="/admin/reports/wioa?status=completed"
+        viewAllHref="/admin/reports/wioa"
       >
         {noOutcomeEnrollments.map((enr: any) => {
-          const completedAt = enr.completed_at
-            ? new Date(enr.completed_at).toLocaleDateString()
-            : '—';
+          const id = enr.enrollment_id as string;
+          const name = enr.full_name || enr.email || id?.slice(0, 8) + '…';
           return (
             <AlertRow
-              key={enr.id}
-              href={`/admin/enrollments/${enr.id}`}
-              label={`Enrollment ${enr.id.slice(0, 8)}…`}
-              detail={`Completed ${completedAt} · outcome missing`}
+              key={id}
+              href={`/admin/enrollments/${id}`}
+              label={name}
+              detail={`${enr.program_title ?? 'unknown program'} · no placement or credential`}
             />
           );
         })}
@@ -140,18 +139,17 @@ export function OperationalAlerts({ data }: { data: AdminDashboardData }) {
         icon={<DollarSign className="h-4 w-4 text-amber-600" />}
         title="Active enrollments — no funding source"
         count={missingFundingEnrollments.length}
-        viewAllHref="/admin/enrollments?funding=missing"
+        viewAllHref="/admin/reports/wioa?status=active"
       >
         {missingFundingEnrollments.map((enr: any) => {
-          const enrolledAt = enr.created_at
-            ? new Date(enr.created_at).toLocaleDateString()
-            : '—';
+          const id = enr.enrollment_id as string;
+          const name = enr.full_name || enr.email || id?.slice(0, 8) + '…';
           return (
             <AlertRow
-              key={enr.id}
-              href={`/admin/enrollments/${enr.id}`}
-              label={`Enrollment ${enr.id.slice(0, 8)}…`}
-              detail={`Enrolled ${enrolledAt} · funding source not set`}
+              key={id}
+              href={`/admin/enrollments/${id}`}
+              label={name}
+              detail={`${enr.program_title ?? 'unknown program'} · funding source not set`}
             />
           );
         })}

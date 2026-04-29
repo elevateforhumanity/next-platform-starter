@@ -254,20 +254,21 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .order('created_at', { ascending: true })
       .limit(10),
 
-    // Completed enrollments with no outcome recorded
-    db.from('program_enrollments')
-      .select('id, user_id, program_id, status, completed_at')
-      .eq('status', 'completed')
-      .is('outcome', null)
-      .order('completed_at', { ascending: true })
+    // Completed enrollments with no outcome — via participant_report view
+    // (program_enrollments has no outcome column; outcome_type is derived in the view)
+    db.from('participant_report')
+      .select('enrollment_id, full_name, email, program_title, funding_source, outcome_type')
+      .eq('outcome_type', 'none')
+      .not('enrollment_id', 'is', null)
+      .order('enrollment_id', { ascending: true })
       .limit(10),
 
-    // Active enrollments missing funding source
-    db.from('program_enrollments')
-      .select('id, user_id, program_id, status, created_at')
-      .eq('status', 'active')
+    // Active enrollments missing funding source — via participant_report view
+    db.from('participant_report')
+      .select('enrollment_id, full_name, email, program_title, enrollment_status')
+      .in('enrollment_status', ['active', 'in_progress', 'enrolled'])
       .is('funding_source', null)
-      .order('created_at', { ascending: true })
+      .order('enrollment_id', { ascending: true })
       .limit(10),
 
     // System health — runs in parallel with all other queries

@@ -351,6 +351,7 @@ export function AdminDashboardContent({ data }: { data: AdminDashboardData }) {
             <Link href="/admin/compliance" className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Open Compliance</Link>
             <Link href="/admin/crm/leads" className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">CRM Queue</Link>
             <Link href="/admin/dev-studio" className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">Dev Studio</Link>
+            <Link href="/admin/dev-studio?tab=container" className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">🐳 Container</Link>
             <Link href="/install-app" className="inline-flex items-center gap-2 px-4 py-2 bg-white border border-slate-200 text-slate-700 text-sm font-semibold rounded-xl hover:bg-slate-50 transition-colors">📲 Install App</Link>
           </div>
         </div>

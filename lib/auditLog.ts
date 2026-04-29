@@ -6,6 +6,9 @@ export type AuditAction =
   | 'UPDATE'
   | 'DELETE'
   | 'EXPORT'
+  | 'VIEW_REPORT'
+  | 'EXPORT_REPORT'
+  | 'STATUS_CHANGE'
   | 'LOGIN'
   | 'LOGOUT'
   | 'APPROVE'
@@ -32,7 +35,12 @@ export type AuditEntity =
   | 'ssn'
   | 'tax_return'
   | 'payroll'
-  | 'pii';
+  | 'pii'
+  | 'participant_report'
+  | 'enrollment'
+  | 'application'
+  | 'program'
+  | 'certificate';
 
 export type ActorRole =
   | 'sponsor'

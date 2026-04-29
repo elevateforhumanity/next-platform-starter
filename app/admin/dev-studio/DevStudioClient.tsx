@@ -13,6 +13,7 @@
  */
 
 import { useCallback, useEffect, useRef, useState } from 'react';
+import { useSearchParams } from 'next/navigation';
 import dynamic from 'next/dynamic';
 import {
   Terminal,
@@ -76,7 +77,12 @@ const QUICK_SHELL = [
 // ── Main component ────────────────────────────────────────────────────────────
 
 export default function DevStudioClient() {
-  const [tab, setTab] = useState<Tab>('command');
+  const searchParams = useSearchParams();
+  const initialTab = (searchParams.get('tab') as Tab | null);
+  const validTabs: Tab[] = ['command', 'terminal', 'files', 'website', 'container'];
+  const [tab, setTab] = useState<Tab>(
+    initialTab && validTabs.includes(initialTab) ? initialTab : 'command'
+  );
 
   return (
     <div className="flex flex-col h-[calc(100vh-64px)] bg-slate-950 text-slate-100">
