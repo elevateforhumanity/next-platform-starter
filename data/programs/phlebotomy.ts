@@ -12,6 +12,7 @@ export const PHLEBOTOMY: ProgramSchema = {
     'Complete 120 hours of classroom and clinical training in 4 weeks. Prepare for the NHA Certified Phlebotomy Technician (CPT) exam and enter healthcare within a month.',
   sector: 'healthcare',
   category: 'Healthcare',
+  programType: 'workforce',
 
   heroImage: '/images/pages/phlebotomy-real.jpg',
   heroImageAlt: 'Phlebotomy student practicing venipuncture technique',

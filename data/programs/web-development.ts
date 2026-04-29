@@ -6,6 +6,7 @@ export const WEB_DEVELOPMENT: ProgramSchema = {
     'Learn HTML, CSS, JavaScript, and WordPress. Prepare for Meta Front-End Developer and WordPress certifications in 12 weeks.',
   sector: 'technology',
   category: 'Web Development',
+  programType: 'workforce',
   heroImage: '/images/pages/web-development.jpg',
   heroImageAlt: 'Web development student coding on a laptop',
   deliveryMode: 'hybrid',

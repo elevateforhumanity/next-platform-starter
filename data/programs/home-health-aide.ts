@@ -7,6 +7,7 @@ export const HOME_HEALTH_AIDE: ProgramSchema = {
     'Become a certified Home Health Aide in 4 weeks. Earn CCHW and HHA certifications for in-home care careers.',
   sector: 'healthcare',
   category: 'Home & Community Health',
+  programType: 'workforce',
   heroImage: '/images/pages/healthcare-classroom.jpg',
   heroImageAlt: 'Home health aide assisting elderly client',
   videoSrc: '/videos/cna-hero.mp4',

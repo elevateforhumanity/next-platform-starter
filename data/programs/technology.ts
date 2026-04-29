@@ -7,6 +7,7 @@ export const TECHNOLOGY: ProgramSchema = {
     'Launch a tech career with industry-recognized certifications in IT support, cybersecurity, networking, and software development.',
   sector: 'technology',
   category: 'Information Technology',
+  programType: 'workforce',
   heroImage: '/images/pages/technology.jpg',
   heroImageAlt: 'Technology student working on a computer',
   deliveryMode: 'hybrid',

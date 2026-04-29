@@ -12,6 +12,7 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
   subtitle: 'DOL Registered Apprenticeship in barbering. Complete 2,000 hours of training (1,500 OJT + 500 RTI) to earn your Indiana Barber License.',
   sector: 'personal-services',
   category: 'Personal Services',
+  programType: 'apprenticeship',
 
   heroImage: '/images/pages/barber-hero-main.jpg',
   heroImageAlt: 'Barber apprentice training at a licensed barbershop',

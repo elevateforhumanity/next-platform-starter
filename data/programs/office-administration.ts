@@ -7,6 +7,7 @@ export const OFFICE_ADMINISTRATION: ProgramSchema = {
     'Master Microsoft Office and business communication. Prepare for Microsoft Office Specialist certifications in 6 weeks.',
   sector: 'business',
   category: 'Business Administration',
+  programType: 'workforce',
 
   heroImage: '/images/pages/office-admin-desk.jpg',
   heroImageAlt: 'Office administration and business training program',

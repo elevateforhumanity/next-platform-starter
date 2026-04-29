@@ -7,6 +7,7 @@ export const PEER_RECOVERY: ProgramSchema = {
     'Earn your Indiana Certified Peer Recovery Specialist (CPRS) credential in 8 weeks. Help others overcome addiction and mental health challenges.',
   sector: 'healthcare',
   category: 'Healthcare & Human Services',
+  programType: 'workforce',
   heroImage: '/hero-images/healthcare-hero.jpg',
   heroImageAlt: 'Peer recovery specialist in a counseling session',
   deliveryMode: 'hybrid',

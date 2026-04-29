@@ -7,6 +7,7 @@ export const IT_HELP_DESK: ProgramSchema = {
     'Troubleshoot hardware, software, and networks. Prepare for CompTIA A+ in 8 weeks and launch your IT career.',
   sector: 'technology',
   category: 'Information Technology',
+  programType: 'workforce',
 
   heroImage: '/images/pages/it-helpdesk-desk.jpg',
   heroImageAlt: 'IT support student troubleshooting hardware in a lab',

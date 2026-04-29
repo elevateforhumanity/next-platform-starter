@@ -7,6 +7,7 @@ export const CDL_TRAINING: ProgramSchema = {
     "Get your Commercial Driver's License in 3–6 weeks. Behind-the-wheel training, pre-trip inspection, and job placement with trucking companies.",
   sector: 'skilled-trades',
   category: 'Transportation',
+  programType: 'workforce',
 
   heroImage: '/images/pages/cdl-truck-highway.jpg',
   heroImageAlt: 'CDL student behind the wheel of a commercial truck',

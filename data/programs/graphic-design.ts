@@ -6,6 +6,7 @@ export const GRAPHIC_DESIGN: ProgramSchema = {
     'Learn Adobe Photoshop, Illustrator, and InDesign. Prepare for Adobe Certified Professional credentials in 10 weeks.',
   sector: 'technology',
   category: 'Graphic Design',
+  programType: 'workforce',
   heroImage: '/images/pages/graphic-design.jpg',
   heroImageAlt: 'Graphic design student working in Adobe Creative Suite',
   deliveryMode: 'hybrid',

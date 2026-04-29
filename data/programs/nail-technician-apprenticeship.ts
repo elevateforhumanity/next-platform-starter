@@ -6,6 +6,7 @@ export const NAIL_TECH: ProgramSchema = {
     'Earn your Indiana nail technician license through a registered apprenticeship. 600 hours of supervised training.',
   sector: 'personal-services',
   category: 'Nail Technology',
+  programType: 'apprenticeship',
   heroImage: '/images/pages/nail-technician.jpg',
   heroImageAlt: 'Nail technician apprentice performing a manicure',
   deliveryMode: 'in-person',

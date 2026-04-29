@@ -7,6 +7,7 @@ export const BOOKKEEPING: ProgramSchema = {
     'Master small business accounting and prepare for the QuickBooks Certified User exam in 5 weeks.',
   sector: 'business',
   category: 'Accounting & Finance',
+  programType: 'workforce',
 
   heroImage: '/images/pages/bookkeeping-ledger.jpg',
   heroImageAlt: 'Bookkeeping and accounting training program',

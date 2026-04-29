@@ -6,6 +6,7 @@ export const CPR_FIRST_AID: ProgramSchema = {
   subtitle: '$130 · Live instructor · Mannequin shipped to your door · Train from home',
   sector: 'healthcare',
   category: 'Emergency Response',
+  programType: 'certification',
   heroImage: '/images/pages/cpr-mannequin.jpg',
   heroImageAlt: 'CPR training mannequin for at-home certification',
   videoSrc: '',

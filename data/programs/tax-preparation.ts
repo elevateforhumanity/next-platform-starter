@@ -6,6 +6,7 @@ export const TAX_PREPARATION: ProgramSchema = {
     'Earn your IRS PTIN and learn individual and small business tax preparation. 8-week program with real tax software training.',
   sector: 'business',
   category: 'Tax & Accounting',
+  programType: 'workforce',
   heroImage: '/images/pages/tax-prep-desk.jpg',
   heroImageAlt: 'Tax preparation student learning tax filing procedures',
   videoSrc: '/videos/tax-career-paths.mp4',

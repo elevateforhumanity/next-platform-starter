@@ -6,6 +6,7 @@ export const PROJECT_MANAGEMENT: ProgramSchema = {
     'Prepare for Certiport Project Management certification. Agile, Scrum, and traditional PM methodologies in 6 weeks.',
   sector: 'business',
   category: 'Project Management',
+  programType: 'workforce',
   heroImage: '/images/pages/project-management.jpg',
   heroImageAlt: 'Project manager leading a team meeting',
   deliveryMode: 'hybrid',

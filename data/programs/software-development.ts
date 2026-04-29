@@ -6,6 +6,7 @@ export const SOFTWARE_DEV: ProgramSchema = {
     'Learn Python, databases, and software engineering fundamentals. Prepare for IT Specialist certifications in 12 weeks.',
   sector: 'technology',
   category: 'Software Development',
+  programType: 'workforce',
   heroImage: '/images/pages/software-development.jpg',
   heroImageAlt: 'Software development student writing code',
   deliveryMode: 'hybrid',

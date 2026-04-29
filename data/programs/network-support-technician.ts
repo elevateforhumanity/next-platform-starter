@@ -6,6 +6,7 @@ export const NETWORK_SUPPORT: ProgramSchema = {
     'Prepare for IT Specialist certification in networking. Entry-level network support and help desk skills in 6 weeks.',
   sector: 'technology',
   category: 'IT Support',
+  programType: 'workforce',
   heroImage: '/images/pages/networking-hero.jpg',
   heroImageAlt: 'Network support technician troubleshooting a connection',
   deliveryMode: 'hybrid',

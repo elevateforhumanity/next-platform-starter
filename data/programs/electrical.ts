@@ -7,6 +7,7 @@ export const ELECTRICAL: ProgramSchema = {
     'Learn residential and commercial wiring, electrical theory, and NEC code. Graduate with OSHA 30 and NCCER credentials in 12 weeks.',
   sector: 'skilled-trades',
   category: 'Electrical',
+  programType: 'workforce',
 
   heroImage: '/images/pages/electrical-wiring.jpg',
   heroImageAlt: 'Electrical student working on wiring in a training lab',

@@ -6,6 +6,7 @@ export const ENTREPRENEURSHIP: ProgramSchema = {
     'Launch or grow your business. Business planning, marketing, financial management, and Certiport ESB certification in 6 weeks.',
   sector: 'business',
   category: 'Entrepreneurship',
+  programType: 'workforce',
   heroImage: '/images/pages/entrepreneurship.jpg',
   heroImageAlt: 'Entrepreneur working on a business plan',
   deliveryMode: 'hybrid',

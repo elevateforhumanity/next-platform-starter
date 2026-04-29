@@ -7,6 +7,7 @@ export const PLUMBING: ProgramSchema = {
     'Install and repair residential and commercial plumbing systems. Earn OSHA 10 and NCCER credentials in 10 weeks.',
   sector: 'skilled-trades',
   category: 'Plumbing',
+  programType: 'workforce',
 
   heroImage: '/images/pages/plumbing-pipes.jpg',
   heroImageAlt: 'Plumbing student working on pipe installation',

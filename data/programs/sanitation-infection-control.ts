@@ -7,6 +7,7 @@ export const SANITATION: ProgramSchema = {
     'Prepare for infection control and ServSafe certifications for healthcare, food service, and personal services industries in 2 weeks.',
   sector: 'healthcare',
   category: 'Infection Control',
+  programType: 'certification',
   heroImage: '/images/pages/sanitation.jpg',
   heroImageAlt: 'Sanitation and infection control training in a clinical setting',
   deliveryMode: 'hybrid',

@@ -6,6 +6,7 @@ export const BUSINESS_ADMIN: ProgramSchema = {
     'Prepare for Certiport business certifications. Microsoft Office, QuickBooks, and business fundamentals in 8 weeks.',
   sector: 'business',
   category: 'Business Administration',
+  programType: 'workforce',
   heroImage: '/images/pages/business-sector.jpg',
   heroImageAlt: 'Business administration student working on a computer',
   deliveryMode: 'hybrid',

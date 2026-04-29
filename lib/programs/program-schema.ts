@@ -182,6 +182,13 @@ export interface ProgramSchema {
   subtitle: string;
   sector: 'skilled-trades' | 'healthcare' | 'personal-services' | 'technology' | 'business';
   category: string;
+  /**
+   * Program classification for funding agency mapping and nav taxonomy.
+   * - workforce: structured, fundable training (WIOA/WRG/FSSA eligible), weeks–months
+   * - apprenticeship: DOL-registered, earn-while-you-learn, 12–24+ months
+   * - certification: short-duration credential or add-on (CPR, OSHA, HVAC, etc.)
+   */
+  programType: 'workforce' | 'apprenticeship' | 'certification';
 
   // ─── Media ───────────────────────────────────────────────────────
   heroImage: string;

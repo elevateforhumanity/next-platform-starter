@@ -7,6 +7,7 @@ export const CNA: ProgramSchema = {
     'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed healthcare facilities. State exam proctored on-site. FSSA IMPACT funding available for eligible participants. Self-pay: $1,800.',
   sector: 'healthcare',
   category: 'Healthcare',
+  programType: 'workforce',
 
   heroImage: '/images/pages/cna-patient-care.jpg',
   heroImageAlt: 'CNA student assisting a patient at a licensed healthcare facility in Indianapolis',

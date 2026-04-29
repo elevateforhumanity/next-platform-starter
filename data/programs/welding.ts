@@ -7,6 +7,7 @@ export const WELDING: ProgramSchema = {
     'Learn MIG, TIG, and stick welding. Prepare for AWS certifications and enter the skilled trades workforce in 10 weeks.',
   sector: 'skilled-trades',
   category: 'Welding & Fabrication',
+  programType: 'workforce',
 
   heroImage: '/images/pages/welding-sparks.jpg',
   heroImageAlt: 'Welding student practicing MIG welding in a training lab',

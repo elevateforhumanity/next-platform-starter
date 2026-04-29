@@ -11,6 +11,7 @@ export const PHARMACY_TECHNICIAN: ProgramSchema = {
     'Prepare for the PTCB Certified Pharmacy Technician (CPhT) exam. Learn medication dispensing, pharmacy law, sterile compounding, and inventory management in 10 weeks.',
   sector: 'healthcare',
   category: 'Healthcare',
+  programType: 'workforce',
 
   heroImage: '/images/pages/pharmacy-tech.jpg',
   heroImageAlt: 'Pharmacy technician student in a clinical lab setting',

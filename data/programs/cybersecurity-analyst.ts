@@ -7,6 +7,7 @@ export const CYBERSECURITY_ANALYST: ProgramSchema = {
     'Protect networks and data from cyber threats. Prepare for CompTIA Security+ in 12 weeks.',
   sector: 'technology',
   category: 'Cybersecurity',
+  programType: 'workforce',
 
   heroImage: '/images/pages/cybersecurity-screen.jpg',
   heroImageAlt: 'Cybersecurity student analyzing network security',

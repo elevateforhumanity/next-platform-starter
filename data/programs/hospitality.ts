@@ -7,6 +7,7 @@ export const HOSPITALITY: ProgramSchema = {
     'Build a career in hotels, restaurants, and event services. Earn industry-recognized credentials in hospitality operations and customer service.',
   sector: 'business',
   category: 'Hospitality & Tourism',
+  programType: 'workforce',
   heroImage: '/images/pages/hospitality.jpg',
   heroImageAlt: 'Hospitality professional at a hotel front desk',
   deliveryMode: 'hybrid',

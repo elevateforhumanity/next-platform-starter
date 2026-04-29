@@ -6,6 +6,7 @@ export const NETWORK_ADMIN: ProgramSchema = {
     'Prepare for CompTIA Network+ certification. Network design, configuration, and troubleshooting in 10 weeks.',
   sector: 'technology',
   category: 'Networking',
+  programType: 'workforce',
   heroImage: '/images/pages/network-administration.jpg',
   heroImageAlt: 'Network administration student configuring network equipment',
   videoSrc: '/videos/it-technology.mp4',

@@ -6,6 +6,7 @@ export const CULINARY: ProgramSchema = {
     'Earn ServSafe certification and culinary skills through a registered apprenticeship. Hands-on training in a professional kitchen.',
   sector: 'personal-services',
   category: 'Culinary Arts',
+  programType: 'apprenticeship',
   heroImage: '/images/pages/culinary.jpg',
   heroImageAlt: 'Culinary apprentice preparing food in a professional kitchen',
   deliveryMode: 'in-person',

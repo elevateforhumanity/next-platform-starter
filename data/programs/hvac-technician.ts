@@ -7,6 +7,7 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
     'Install, service, and repair heating and cooling systems. EPA 608 Universal certification proctored on-site. 12 weeks. WIOA and Workforce Ready Grant funding available for eligible Indiana residents.',
   sector: 'skilled-trades',
   category: 'Skilled Trades',
+  programType: 'certification',
 
   heroImage: '/images/pages/hvac-unit.jpg',
   heroImageAlt: 'HVAC technician servicing a rooftop unit in Indianapolis',

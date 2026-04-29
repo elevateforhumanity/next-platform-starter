@@ -6,6 +6,7 @@ export const CAD_DRAFTING: ProgramSchema = {
     'Learn AutoCAD and Revit for architectural and mechanical drafting. Prepare for Autodesk Certified User credentials in 10 weeks.',
   sector: 'technology',
   category: 'Design & Drafting',
+  programType: 'workforce',
   heroImage: '/images/pages/cad-drafting.jpg',
   heroImageAlt: 'CAD drafting student working on technical drawings',
   deliveryMode: 'hybrid',

@@ -7,6 +7,7 @@ export const DIESEL_MECHANIC: ProgramSchema = {
     'Diagnose and repair diesel engines, transmissions, and hydraulic systems. OSHA 10 and ASE prep in 12 weeks.',
   sector: 'skilled-trades',
   category: 'Diesel Technology',
+  programType: 'workforce',
 
   heroImage: '/images/pages/diesel-mechanic.jpg',
   heroImageAlt: 'Diesel mechanic student working on an engine',
