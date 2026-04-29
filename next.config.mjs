@@ -89,8 +89,12 @@ const nextConfig = {
     return process.env.COMMIT_REF || process.env.GITHUB_SHA || `build-${Date.now()}`;
   },
   // Railway needs standalone for the persistent Node server.
-  // Netlify breaks with standalone — gate behind RAILWAY env var.
-  ...(process.env.RAILWAY === 'true' ? { output: 'standalone' } : {}),
+  // Netlify breaks with standalone (ENOENT on route-group client-reference-manifest files).
+  // Gate on RAILWAY_ENVIRONMENT (auto-injected by Railway, never present on Netlify)
+  // rather than RAILWAY=true which Netlify may inherit via RAILWAY_URL env leakage.
+  ...(process.env.RAILWAY_ENVIRONMENT && process.env.NETLIFY !== 'true'
+    ? { output: 'standalone' }
+    : {}),
   // edge-tts ships index.ts as its entry point (uncompiled TypeScript).
   // Netlify/webpack build: transpilePackages compiles it so webpack can parse it.
   // Railway build uses next.config.railway.mjs where edge-tts is in
