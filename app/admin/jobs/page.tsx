@@ -203,15 +203,27 @@ export default async function JobsPage() {
                   </td>
                   <td className="px-6 py-4">
                     <div className="flex items-center gap-2">
-                      <button className="p-2 hover:bg-gray-100 rounded-lg" title="View">
+                      <Link
+                        href={`/admin/jobs/${job.id}`}
+                        className="p-2 hover:bg-gray-100 rounded-lg"
+                        title="View"
+                      >
                         <Eye className="w-4 h-4 text-slate-700" />
-                      </button>
-                      <button className="p-2 hover:bg-gray-100 rounded-lg" title="Edit">
+                      </Link>
+                      <Link
+                        href={`/admin/jobs/${job.id}/edit`}
+                        className="p-2 hover:bg-gray-100 rounded-lg"
+                        title="Edit"
+                      >
                         <Edit className="w-4 h-4 text-slate-700" />
-                      </button>
-                      <button className="p-2 hover:bg-gray-100 rounded-lg" title="Delete">
+                      </Link>
+                      <Link
+                        href={`/admin/jobs/${job.id}/delete`}
+                        className="p-2 hover:bg-brand-red-50 rounded-lg"
+                        title="Delete"
+                      >
                         <Trash2 className="w-4 h-4 text-brand-red-500" />
-                      </button>
+                      </Link>
                     </div>
                   </td>
                 </tr>

@@ -57,8 +57,9 @@ export async function getSystemHealth(db: SupabaseClient): Promise<DashboardSyst
       .eq('status', 'active')
       .eq('docs_verified', false),
 
-    // Unresolved compliance flags
-    db.from('compliance_flags').select('id', { count: 'exact', head: true }).eq('resolved', false),
+    // Unresolved compliance flags (table may not exist — degrade gracefully)
+    db.from('compliance_flags').select('id', { count: 'exact', head: true }).eq('resolved', false)
+      .then(r => r.error ? { count: 0, error: null } : r),
   ]);
 
   const stripeWebhookOk = !!stripeWebhook.data?.value;
