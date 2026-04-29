@@ -18,16 +18,21 @@ export const metadata: Metadata = {
     description:
       'Get trained, credentialed, and placed in a job — often at no cost through WIOA or state funding.',
   },
-  // Preload hero video and poster so browser fetches them during HTML parse,
-  // before React hydrates. Eliminates the blank-hero delay on first load.
-  other: {
-    'link-preload-video': 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4',
-  },
+  // Preload hero video during HTML parse, before React hydrates.
+  // Next.js metadata `other` does not emit <link rel="preload"> — handled
+  // via the explicit <link> tag rendered in the page component instead.
 };
 
 export default function HomePage() {
   return (
     <main>
+      {/* Preload hero video during HTML parse — eliminates blank-hero delay */}
+      <link
+        rel="preload"
+        as="video"
+        href="https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hero-home-fast.mp4"
+        type="video/mp4"
+      />
       {/* HERO */}
       <HeroVideo
         videoSrcDesktop={heroBanners.home.videoSrcDesktop}
