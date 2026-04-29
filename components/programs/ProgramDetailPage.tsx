@@ -15,6 +15,7 @@ import Link from 'next/link';
 import dynamic from 'next/dynamic';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import HeroPicture from '@/components/marketing/HeroPicture';
+import ProgramApplyForm from '@/components/programs/ProgramApplyForm';
 // PaymentPlanCalculator: not yet implemented — import removed to unblock build
 import heroBanners, { type HeroBannerConfig } from '@/content/heroBanners';
 import {
@@ -709,7 +710,7 @@ export default function ProgramDetailPage({
             <div className="flex flex-col sm:flex-row gap-3">
               {primaryCTA && (
                 <Link
-                  href={primaryCTA.href}
+                  href={primaryCTA.external ? primaryCTA.href : '#apply'}
                   target={primaryCTA.external ? '_blank' : '_self'}
                   rel={primaryCTA.external ? 'noopener noreferrer' : undefined}
                   className="inline-flex items-center justify-center bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-5 py-3 rounded-lg transition-colors text-sm"
@@ -779,6 +780,24 @@ export default function ProgramDetailPage({
               </ul>
             </div>
           </div>
+        </div>
+      </section>
+
+      {/* ===== INLINE APPLICATION FORM ===== */}
+      <section id="apply" className="py-16 bg-white border-t border-slate-100">
+        <div className="max-w-2xl mx-auto px-4">
+          <div className="mb-8 text-center">
+            <span className="inline-block bg-brand-red-50 text-brand-red-700 text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-3">
+              Apply Now
+            </span>
+            <h2 className="text-3xl font-extrabold text-slate-900 mb-2">
+              Start Your {p.title} Journey
+            </h2>
+            <p className="text-slate-500 text-base">
+              Free to apply · No payment required · An advisor will contact you within 1 business day
+            </p>
+          </div>
+          <ProgramApplyForm programSlug={p.slug} programTitle={p.title} />
         </div>
       </section>
 
