@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 export const dynamic = 'force-dynamic';
 
 import { Metadata } from 'next';
@@ -82,7 +83,8 @@ function formatDate(iso: string): string {
 
 export default async function AdminStripeIntegrationPage() {
   await requireAdmin();
-  const supabase = getAdminClient();
+  const supabase = await getAdminClient();
+  if (!supabase) notFound();
 
   const [flagsResult, enrollmentsResult] = await Promise.all([
     supabase

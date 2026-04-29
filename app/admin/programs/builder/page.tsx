@@ -18,7 +18,8 @@ export default async function ProgramBuilderPage({
   await requireRole(['admin', 'super_admin', 'staff']);
   const { tab, programId } = await searchParams;
 
-  const db = getAdminClient();
+  const db = await getAdminClient();
+  if (!db) return <div className="p-8 text-red-600">Database not configured</div>;
 
   const [{ data: programs }, { data: courses }, { data: dbPrograms }] = await Promise.all([
     db

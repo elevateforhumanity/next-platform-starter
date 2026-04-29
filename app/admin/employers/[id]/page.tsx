@@ -21,7 +21,7 @@ export async function generateMetadata({
 export default async function EmployerPage({ params }: { params: Promise<{ id: string }> }) {
   await requireRole(['admin', 'super_admin', 'staff']);
   const { id } = await params;
-  const db = getAdminClient();
+  const db = await getAdminClient();
 
   const { data: employer } = await db
     .from('employers')

@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { requireRole } from '@/lib/auth/require-role';
@@ -26,7 +27,8 @@ function currentFY(): string {
 export default async function FssaImpactAdminPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
 
-  const db = getAdminClient();
+  const db = await getAdminClient();
+  if (!db) notFound();
   const fy = currentFY();
 
   // Parallel data fetch — all queries are safe-fallback (tables may not exist yet)

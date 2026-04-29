@@ -29,7 +29,7 @@ function fmtCents(cents: number | null) {
 export default async function EnrollmentDetailPage({ params }: { params: Promise<{ id: string }> }) {
   await requireRole(['admin', 'super_admin', 'staff']);
   const { id } = await params;
-  const db = getAdminClient();
+  const db = await getAdminClient();
 
   const { data: enrollment, error } = await db
     .from('program_enrollments')

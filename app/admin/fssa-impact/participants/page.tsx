@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { requireRole } from '@/lib/auth/require-role';
@@ -27,7 +28,8 @@ function fmtDate(d: string | null) {
 export default async function FssaParticipantsPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
 
-  const db = getAdminClient();
+  const db = await getAdminClient();
+  if (!db) notFound();
 
   const { data, count } = await db
     .from('fssa_participants')

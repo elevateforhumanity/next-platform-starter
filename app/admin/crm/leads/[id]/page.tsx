@@ -28,7 +28,7 @@ function Field({ label, value }: { label: string; value: string | null | undefin
 export default async function LeadDetailPage({ params }: { params: Promise<{ id: string }> }) {
   await requireRole(['admin', 'super_admin', 'staff']);
   const { id } = await params;
-  const db = getAdminClient();
+  const db = await getAdminClient();
 
   const { data: lead, error } = await db
     .from('leads')

@@ -46,7 +46,7 @@ function fmtDateTime(d: string | null) {
 export default async function ParticipantDetailPage({ params }: { params: { id: string } }) {
   await requireRole(['admin', 'super_admin', 'staff']);
 
-  const db = getAdminClient();
+  const db = await getAdminClient();
   const { id } = params;
 
   const [participantRes, attendanceRes, componentsRes] = await Promise.all([

@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -22,7 +23,8 @@ const STATUS_COLORS: Record<string, string> = {
 
 export default async function AdminEnrollmentPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = getAdminClient();
+  const db = await getAdminClient();
+  if (!db) notFound();
 
   const { data: enrollments } = await db
     .from('program_enrollments')

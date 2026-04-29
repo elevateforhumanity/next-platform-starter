@@ -7,12 +7,15 @@ import { useState } from 'react';
 
 interface Program {
   id: string;
-  name: string;
+  name?: string;
+  title?: string;
   slug: string;
   description?: string;
   is_active: boolean;
   featured: boolean;
-  duration_hours?: number;
+  /** DB column is 'hours' — duration_hours does not exist */
+  hours?: number;
+  duration_weeks?: number;
   price?: number;
   created_at: string;
   modules?: { count: number }[];
@@ -127,7 +130,7 @@ export function ProgramsTable({ programs }: { programs: Program[] }) {
                     {program.modules?.[0]?.count || 0}
                   </td>
                   <td className="px-6 py-4 text-sm text-black">
-                    {program.duration_hours ? `${program.duration_hours}h` : '-'}
+                    {program.hours ? `${program.hours}h` : program.duration_weeks ? `${program.duration_weeks}wk` : '-'}
                   </td>
                   <td className="px-6 py-4 text-sm text-black">
                     {program.price ? `$${program.price.toLocaleString()}` : 'Free'}

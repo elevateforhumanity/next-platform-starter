@@ -1,3 +1,4 @@
+import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { getAdminClient } from '@/lib/supabase/admin';
@@ -20,7 +21,8 @@ const SEVERITY_COLORS: Record<string, string> = {
 
 export default async function ComplianceDashboardPage() {
   await requireRole(['admin', 'super_admin']);
-  const db = getAdminClient();
+  const db = await getAdminClient();
+  if (!db) notFound();
 
   const [alertsRes, resolvedRes, wioaRes] = await Promise.all([
     db

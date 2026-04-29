@@ -22,7 +22,8 @@ export async function generateMetadata({
 export default async function ProgramPage({ params }: { params: Promise<{ code: string }> }) {
   await requireRole(['admin', 'super_admin', 'staff']);
   const { code } = await params;
-  const db = getAdminClient();
+  const db = await getAdminClient();
+  if (!db) notFound();
 
   // Try slug first, then id
   const { data: program } = await db
@@ -76,7 +77,7 @@ export default async function ProgramPage({ params }: { params: Promise<{ code: 
               <BarChart3 className="w-4 h-4" /> Dashboard
             </Link>
             <Link
-              href={`/admin/programs/${program.id}/edit`}
+              href={`/admin/programs/${code}/manage`}
               className="inline-flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-blue-700 transition-colors"
             >
               <Edit3 className="w-4 h-4" /> Edit
