@@ -49,6 +49,17 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
       if (error.message.includes('ACTOR_NOT_AUTHORIZED')) return safeError('Forbidden', 403);
       if (error.message.includes('APPLICATION_NOT_FOUND'))
         return safeError('Application not found', 404);
+      // RPC not yet deployed — migration 20260503000011_approval_hardening.sql
+      // must be applied in Supabase Dashboard before revoke is available.
+      if (
+        error.message.includes('Could not find the function') ||
+        error.message.includes('schema cache')
+      ) {
+        return safeError(
+          'Revoke RPC not available. Apply migration 20260503000011_approval_hardening.sql in Supabase Dashboard.',
+          503,
+        );
+      }
       return safeInternalError(error, 'Revoke failed');
     }
 

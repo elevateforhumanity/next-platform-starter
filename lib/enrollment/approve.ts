@@ -293,21 +293,37 @@ export async function approveApplication(
     );
 
     if (atomicErr) {
-      throw new Error(`Atomic approval failed (${app.program_slug}): ${atomicErr.message}`);
-    }
+      // RPC missing from DB (migration not yet applied) — fall through to
+      // application-layer path so non-atomic approval still completes.
+      // Apply supabase/migrations/20260503000011_approval_hardening.sql in
+      // Supabase Dashboard to restore the atomic path for CNA.
+      if (
+        atomicErr.message.includes('Could not find the function') ||
+        atomicErr.message.includes('schema cache')
+      ) {
+        logger.warn('[approve] atomic RPC not found — falling back to application-layer path', {
+          applicationId,
+          slug: app.program_slug,
+          hint: 'Apply migration 20260503000011_approval_hardening.sql in Supabase Dashboard',
+        });
+        await attachPartnerRouting({ db, application: { ...app, user_id: userId } });
+      } else {
+        throw new Error(`Atomic approval failed (${app.program_slug}): ${atomicErr.message}`);
+      }
+    } else {
+      if (atomicResult?.status === 'blocked') {
+        return {
+          success: false,
+          error: `Approval blocked: ${(atomicResult.blockers as string[]).join(', ')}`,
+        };
+      }
 
-    if (atomicResult?.status === 'blocked') {
-      return {
-        success: false,
-        error: `Approval blocked: ${(atomicResult.blockers as string[]).join(', ')}`,
-      };
+      logger.info('[approve] atomic approval complete', {
+        applicationId,
+        userId,
+        result: atomicResult,
+      });
     }
-
-    logger.info('[approve] atomic approval complete', {
-      applicationId,
-      userId,
-      result: atomicResult,
-    });
   } else {
     // NHA and non-partner programs — application-layer idempotent path
     await attachPartnerRouting({ db, application: { ...app, user_id: userId } });
