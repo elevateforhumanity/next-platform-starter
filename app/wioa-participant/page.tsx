@@ -32,7 +32,7 @@ const steps = [
 ];
 
 const programs = [
-  { label: 'CNA / Healthcare', href: '/programs/cna' },
+  { label: 'Medical Assistant', href: '/programs/medical-assistant' },
   { label: 'HVAC Technician', href: '/programs/hvac-technician' },
   { label: 'CDL Training', href: '/programs/cdl-training' },
   { label: 'Cosmetology / Barbering', href: '/programs/cosmetology-apprenticeship' },

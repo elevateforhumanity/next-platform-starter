@@ -4,7 +4,7 @@ export const CNA: ProgramSchema = {
   slug: 'cna',
   title: 'Certified Nursing Assistant (CNA)',
   subtitle:
-    'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed healthcare facilities. State exam proctored on-site. WIOA and Workforce Ready Grant funding available for eligible Indiana residents.',
+    'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed healthcare facilities. State exam proctored on-site. FSSA IMPACT funding available for eligible participants. Self-pay: $1,800.',
   sector: 'healthcare',
   category: 'Healthcare',
 
@@ -25,10 +25,10 @@ export const CNA: ProgramSchema = {
   schedule: 'Mon–Fri, 30–40 hours per week',
   cohortSize: '8–12 participants per cohort',
   fundingStatement:
-    'WIOA and Workforce Ready Grant funding available for eligible Indiana residents. Covers tuition, books, and state exam fees when approved. Eligibility is not guaranteed. Self-pay: $1,800.',
+    'FSSA IMPACT funding available for eligible participants (SNAP/TANF recipients). Covers tuition, books, and state exam fees when approved. Eligibility is not guaranteed. Self-pay: $1,800.',
   selfPayCost: '$1,800',
-  badge: 'WIOA Eligible',
-  badgeColor: 'green',
+  badge: 'FSSA Eligible',
+  badgeColor: 'blue',
 
   credentials: [
     {
@@ -182,14 +182,9 @@ export const CNA: ProgramSchema = {
         'Federal law establishing minimum training and competency standards for nursing assistants in Medicare/Medicaid facilities.',
     },
     {
-      standard: 'WIOA Title I',
+      standard: 'FSSA IMPACT Program',
       description:
-        'Eligible training provider under the Workforce Innovation and Opportunity Act for adult and dislocated worker funding.',
-    },
-    {
-      standard: 'Indiana Workforce Ready Grant',
-      description:
-        'Program approved for WRG funding for eligible Indiana residents pursuing high-demand healthcare careers.',
+        'Eligible training provider under the Indiana FSSA IMPACT program for SNAP and TANF recipients pursuing healthcare careers.',
     },
   ],
 
@@ -229,7 +224,7 @@ export const CNA: ProgramSchema = {
     {
       question: 'What funding is available?',
       answer:
-        'WIOA and Indiana Workforce Ready Grant funding are available for eligible residents. Many students pay $0. Eligibility is determined by your local WorkOne office. Self-pay tuition is $1,800.',
+        'CNA is funded through the FSSA IMPACT program for eligible SNAP and TANF recipients. Many students pay $0. Eligibility is determined through FSSA intake. Self-pay tuition is $1,800.',
     },
     {
       question: 'Where are the clinical rotations?',
@@ -256,9 +251,9 @@ export const CNA: ProgramSchema = {
 
   metaTitle: 'CNA Program — Indiana State Certification in 6 Weeks | Elevate for Humanity',
   metaDescription:
-    'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed facilities. State exam proctored on-site. WIOA and Workforce Ready Grant funding available. Indianapolis.',
+    'Indiana state CNA certification in 6 weeks. Clinical rotations at licensed facilities. State exam proctored on-site. FSSA IMPACT funding available for eligible participants. Self-pay: $1,800. Indianapolis.',
 
   enrollmentType: 'internal',
   deliveryModel: 'internal',
-  fundingOptions: ['wioa', 'wrg', 'impact'],
+  fundingOptions: ['fssa', 'impact', 'self-pay'],
 };

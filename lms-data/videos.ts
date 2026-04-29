@@ -25,7 +25,7 @@ export const videos: VideoData[] = [
     id: 'cna-hero',
     title: 'CNA Training Program - Certified Nursing Assistant',
     description:
-      'Free CNA training in Indianapolis. State-approved program, 6-8 weeks, job placement assistance. Become a Certified Nursing Assistant with WIOA funding.',
+      'CNA training in Indianapolis. State-approved program, 6 weeks, job placement assistance. FSSA IMPACT funded for eligible participants. Self-pay: $1,800.',
     videoUrl: '/videos/cna-hero.mp4',
     thumbnailUrl: '/images/healthcare/video-thumbnail-cna-training.jpg',
     duration: 'PT45S',

@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic';
 export const metadata: Metadata = {
   title: 'Healthcare Training Programs | CNA, Phlebotomy, Medical Assistant | Elevate for Humanity',
   description:
-    'State-approved healthcare training in Indianapolis. CNA, Phlebotomy, Medical Assistant, Pharmacy Tech and more. Free for eligible participants through WIOA funding.',
+    'State-approved healthcare training in Indianapolis. CNA, Phlebotomy, Medical Assistant, Pharmacy Tech and more. Funding available through FSSA IMPACT and WIOA depending on program.',
   alternates: { canonical: 'https://www.elevateforhumanity.org/programs/healthcare' },
 };
 

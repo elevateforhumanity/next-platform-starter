@@ -13,7 +13,7 @@ export const careerTrainingAreas: CareerTrainingArea[] = [
     title: 'Healthcare',
     summary: 'Entry-level healthcare credentials with clinical training.',
     description:
-      'Programs in CNA, phlebotomy, medical assisting, home health aide, and emergency health safety. Most programs complete in 4–12 weeks with WIOA funding available.',
+      'Programs in CNA (FSSA funded), phlebotomy, medical assisting, home health aide, and emergency health safety. Funding varies by program — FSSA, WIOA, and self-pay options available.',
     programs: [
       'Certified Nursing Assistant (CNA)',
       'Phlebotomy Technician',
