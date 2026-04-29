@@ -1,7 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { createClient } from '@/lib/supabase/server';
-import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -41,10 +40,6 @@ export default async function CompliancePage() {
     .from('profiles')
     .select('*', { count: 'exact', head: true })
     .eq('status', 'active');
-
-  if (profile?.role !== 'admin' && profile?.role !== 'super_admin') {
-    redirect('/unauthorized');
-  }
 
   // WIOA data — tables may not exist yet; all queries are safe-fallback
   const [wioaParticipants, wioaReports, wioaAlerts] = await Promise.all([

@@ -17,6 +17,13 @@ export default async function ProgramsPage() {
   const db = createPublicClient();
   let programs: { slug: string; title: string; description: string | null }[] = [];
 
+  // Alias slugs that have dedicated redirect pages — exclude from catalog
+  const ALIAS_SLUGS = new Set([
+    'barber', 'cdl', 'cna-certification', 'certified-nursing-assistant',
+    'cpr-first-aid-hsi', 'cybersecurity', 'hvac', 'it-support',
+    'professional-esthetician', 'tax-prep-financial-services',
+  ]);
+
   if (db) {
     const { data } = await db
       .from('programs')
@@ -25,20 +32,40 @@ export default async function ProgramsPage() {
       .neq('status', 'archived')
       .order('title');
     if (data && data.length > 0) {
-      programs = data.map((p) => ({
-        slug: p.slug,
-        title: p.title,
-        description: p.short_description || p.description || null,
-      }));
+      // Deduplicate: exclude known alias slugs, then deduplicate by normalized title
+      const seenTitles = new Set<string>();
+      programs = data
+        .filter((p) => !ALIAS_SLUGS.has(p.slug))
+        .filter((p) => {
+          const key = p.title.toLowerCase().trim();
+          if (seenTitles.has(key)) return false;
+          seenTitles.add(key);
+          return true;
+        })
+        .map((p) => ({
+          slug: p.slug,
+          title: p.title,
+          description: p.short_description || p.description || null,
+        }));
     }
   }
 
   if (programs.length === 0) {
-    programs = staticPrograms.map((p) => ({
-      slug: p.slug,
-      title: p.title,
-      description: p.summary,
-    }));
+    // Static fallback — also deduplicated by title
+    const seenTitles = new Set<string>();
+    programs = staticPrograms
+      .filter((p) => !ALIAS_SLUGS.has(p.slug))
+      .filter((p) => {
+        const key = p.title.toLowerCase().trim();
+        if (seenTitles.has(key)) return false;
+        seenTitles.add(key);
+        return true;
+      })
+      .map((p) => ({
+        slug: p.slug,
+        title: p.title,
+        description: p.summary,
+      }));
   }
 
   return (

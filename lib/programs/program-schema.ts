@@ -544,7 +544,7 @@ export function getEnrollmentTracks(
   const hasWIOA = p.fundingOptions?.some((f) => f === 'wioa' || f === 'wrg') ?? false;
   const hasImpact = p.fundingOptions?.includes('impact') ?? false;
   const hasEmployer = p.fundingOptions?.includes('employer_paid') ?? false;
-  const applyHref = p.cta.applyHref || `/programs/${p.slug}/apply`;
+  const applyHref = p.cta.applyHref || `/apply?program=${p.slug}`;
 
   // Funded track label/description varies by what funding is actually available
   let fundedLabel = 'Workforce-Funded Training';

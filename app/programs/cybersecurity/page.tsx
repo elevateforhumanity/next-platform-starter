@@ -1,10 +1,6 @@
-import { requireRole } from '@/lib/auth/require-role';
-import { getEnrollmentCount } from '@/lib/programs/getEnrollmentCount';
-import { CybersecurityProgramPageClient } from './CybersecurityProgramPageClient';
+import { redirect } from 'next/navigation';
 
-export const dynamic = 'force-dynamic';
-
-export default async function CybersecurityProgramPage() {
-  const enrollmentCount = await getEnrollmentCount('cybersecurity');
-  return <CybersecurityProgramPageClient enrollmentCount={enrollmentCount} />;
+// Canonical URL is /programs/cybersecurity-analyst
+export default function CybersecurityPage() {
+  redirect('/programs/cybersecurity-analyst');
 }

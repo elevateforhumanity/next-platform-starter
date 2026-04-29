@@ -31,7 +31,7 @@ const industries = [
     description:
       'Train for in-demand healthcare careers including CNA, Medical Assistant, Phlebotomy, and more.',
     programs: ['CNA', 'Medical Assistant', 'Phlebotomy', 'Home Health Aide'],
-    href: '/industries/healthcare',
+    href: '/programs/healthcare',
   },
   {
     id: 'skilled-trades',

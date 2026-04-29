@@ -113,7 +113,7 @@ export default function ProgramDetailPage({
                 return (
                   <HeroPicture
                     src={banner.posterImage ?? p.heroImage}
-                    alt={banner.microLabel ?? p.heroImageAlt}
+                    alt={p.heroImageAlt ?? banner.microLabel ?? p.title}
                     microLabel={banner.microLabel}
                     analyticsName={banner.analyticsName}
                     belowHeroHeadline={banner.belowHeroHeadline}

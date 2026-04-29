@@ -3,7 +3,6 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { Briefcase, Building2, MapPin, Clock, Plus, Search, Eye, Edit, Trash2 } from 'lucide-react';
 import { getAdminClient } from '@/lib/supabase/admin';
-import { createClient } from '@/lib/supabase/server';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const dynamic = 'force-dynamic';
@@ -50,8 +49,6 @@ async function getJobsData() {
 
 export default async function JobsPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const auth = await createClient();
-
   const { jobs: dbJobs, stats: dbStats } = await getJobsData();
 
   const stats = [

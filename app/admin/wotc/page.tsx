@@ -49,14 +49,16 @@ export default async function WOTCAdminPage() {
       value: `$${totalCredits.toLocaleString()}`,
       icon: DollarSign,
       color: 'green',
+      change: '',
     },
-    { label: 'Active Applications', value: activeCount.toString(), icon: FileText, color: 'blue' },
-    { label: 'Pending Review', value: pendingCount.toString(), icon: Clock, color: 'yellow' },
+    { label: 'Active Applications', value: activeCount.toString(), icon: FileText, color: 'blue', change: '' },
+    { label: 'Pending Review', value: pendingCount.toString(), icon: Clock, color: 'yellow', change: '' },
     {
       label: 'Approved This Month',
       value: approvedThisMonth.toString(),
       icon: Circle,
       color: 'blue',
+      change: '',
     },
   ];
   return (
@@ -87,11 +89,6 @@ export default async function WOTCAdminPage() {
             <div key={index} className="bg-white rounded-xl shadow-sm p-6">
               <div className="flex items-center justify-between mb-4">
                 <stat.icon className={`w-8 h-8 text-${stat.color}-600`} />
-                <span
-                  className={`text-sm font-medium ${stat.change.startsWith('+') ? 'text-brand-green-600' : 'text-brand-red-600'}`}
-                >
-                  {stat.change}
-                </span>
               </div>
               <p className="text-2xl font-bold text-slate-900">{stat.value}</p>
               <p className="text-sm text-slate-700">{stat.label}</p>

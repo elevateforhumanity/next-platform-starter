@@ -70,7 +70,22 @@ export default async function ProgramCatalogPage({
   if (wioaOnly) query = query.eq('wioa_eligible', true);
   if (providerSlug) query = query.eq('provider_slug', providerSlug);
 
-  const { data: programs, count } = await query;
+  const { data: rawPrograms, count } = await query;
+
+  // Exclude alias slugs that redirect to canonical pages
+  const ALIAS_SLUGS = new Set([
+    'barber', 'cdl', 'cna-certification', 'certified-nursing-assistant',
+    'cpr-first-aid-hsi', 'cybersecurity', 'hvac', 'it-support',
+    'professional-esthetician', 'tax-prep-financial-services',
+  ]);
+  const seenTitles = new Set<string>();
+  const programs = (rawPrograms ?? []).filter((p) => {
+    if (p.slug && ALIAS_SLUGS.has(p.slug)) return false;
+    const key = p.title.toLowerCase().trim();
+    if (seenTitles.has(key)) return false;
+    seenTitles.add(key);
+    return true;
+  });
 
   const totalPages = Math.ceil((count ?? 0) / perPage);
 

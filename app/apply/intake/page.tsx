@@ -10,21 +10,33 @@ function IntakeForm() {
   const searchParams = useSearchParams();
   const programParam = searchParams.get('program') || '';
 
-  // Map slug to select value
+  // Map legacy/alias slugs → canonical registry slugs
   const SLUG_TO_VALUE: Record<string, string> = {
-    'hvac-technician': 'hvac',
-    hvac: 'hvac',
-    'barber-apprenticeship': 'barbering',
-    barbering: 'barbering',
-    'cna-cert': 'cna',
+    // HVAC
+    hvac: 'hvac-technician',
+    'hvac-tech': 'hvac-technician',
+    // Barber
+    barbering: 'barber-apprenticeship',
+    barber: 'barber-apprenticeship',
+    // CNA
     cna: 'cna',
-    'cdl-training': 'cdl',
-    cdl: 'cdl',
-    'medical-assistant': 'medical-assistant',
-    'phlebotomy-technician': 'phlebotomy',
+    'cna-cert': 'cna',
+    'cna-certification': 'cna',
+    'certified-nursing-assistant': 'cna',
+    'cna-training': 'cna',
+    // CDL
+    cdl: 'cdl-training',
+    'cdl-class-a': 'cdl-training',
+    // Phlebotomy
     phlebotomy: 'phlebotomy',
-    welding: 'welding',
-    electrical: 'electrical',
+    'phlebotomy-technician': 'phlebotomy',
+    // IT
+    'it-support': 'it-help-desk',
+    // Cybersecurity
+    cybersecurity: 'cybersecurity-analyst',
+    // CPR
+    'cpr-first-aid-hsi': 'cpr-first-aid',
+    cpr: 'cpr-first-aid',
   };
   const initialProgram = SLUG_TO_VALUE[programParam] || programParam || '';
   const [loading, setLoading] = useState(false);
@@ -237,20 +249,22 @@ function IntakeForm() {
                     defaultValue={initialProgram || 'barbering'}
                     className="w-full border border-slate-300 bg-white text-slate-900 p-3 rounded-lg focus:ring-2 focus:ring-brand-red-500 focus:border-brand-red-500"
                   >
-                    <option value="barber-apprenticeship">Barber Apprenticeship</option>
                     <option value="cna">Certified Nursing Assistant (CNA)</option>
-                    <option value="cdl-training">CDL Class A Training</option>
                     <option value="medical-assistant">Medical Assistant</option>
                     <option value="phlebotomy">Phlebotomy Technician</option>
                     <option value="pharmacy-technician">Pharmacy Technician</option>
-                    <option value="home-health-aide">Home Health Aide Certification</option>
+                    <option value="home-health-aide">Home Health Aide</option>
                     <option value="peer-recovery-specialist">Peer Recovery Specialist</option>
-                    <option value="cpr-first-aid">CPR &amp; First Aid Certification</option>
+                    <option value="cpr-first-aid">CPR, AED &amp; First Aid</option>
                     <option value="hvac-technician">HVAC Technician</option>
+                    <option value="cdl-training">CDL (Commercial Driver License)</option>
                     <option value="welding">Welding Technology</option>
                     <option value="electrical">Electrical Technician</option>
                     <option value="plumbing">Plumbing Technician</option>
                     <option value="forklift">Forklift Operator Certification</option>
+                    <option value="barber-apprenticeship">Barber Apprenticeship</option>
+                    <option value="cosmetology-apprenticeship">Cosmetology Apprenticeship</option>
+                    <option value="esthetician">Professional Esthetician &amp; Client Services</option>
                     <option value="it-help-desk">IT Help Desk Technician</option>
                     <option value="cybersecurity-analyst">Cybersecurity Analyst</option>
                     <option value="network-administration">Network Administration</option>
@@ -261,8 +275,6 @@ function IntakeForm() {
                     <option value="bookkeeping">Bookkeeping &amp; QuickBooks</option>
                     <option value="tax-preparation">Tax Preparation</option>
                     <option value="entrepreneurship">Entrepreneurship &amp; Small Business</option>
-                    <option value="cosmetology-apprenticeship">Cosmetology Apprenticeship</option>
-                    <option value="esthetician">Professional Esthetician &amp; Client Services</option>
                     <option value="other">Other</option>
                   </select>
                 </div>

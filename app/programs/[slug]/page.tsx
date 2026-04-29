@@ -14,6 +14,30 @@ export const dynamic = 'force-dynamic';
 
 const SITE_URL = 'https://www.elevateforhumanity.org';
 
+// Slugs that have a dedicated /programs/{slug}/apply page.
+// All others fall back to /apply?program={slug} (generic intake).
+const DEDICATED_APPLY_SLUGS = new Set([
+  'barber-apprenticeship',
+  'cna',
+  'cosmetology-apprenticeship',
+  'culinary-apprenticeship',
+  'electrical',
+  'esthetician',
+  'hvac-technician',
+  'medical-assistant',
+  'nail-technician-apprenticeship',
+  'peer-recovery-specialist',
+  'plumbing',
+  'sanitation-infection-control',
+  'welding',
+]);
+
+function getApplyHref(slug: string): string {
+  return DEDICATED_APPLY_SLUGS.has(slug)
+    ? `/programs/${slug}/apply`
+    : `/apply?program=${slug}`;
+}
+
 export async function generateMetadata({
   params,
 }: {
@@ -23,7 +47,7 @@ export async function generateMetadata({
   const ogImage = getProgramOgImageUrl(slug, SITE_URL);
 
   const ogBase = {
-    images: [{ url: ogImage, width: 1200, height: 630, alt: '' }],
+    images: [{ url: ogImage, width: 1200, height: 630, alt: `${slug.replace(/-/g, ' ')} training program at Elevate for Humanity` }],
     siteName: 'Elevate for Humanity',
     type: 'website' as const,
   };
@@ -194,7 +218,7 @@ function ProgramPage({
           </div>
           <div className="flex flex-col sm:flex-row gap-4">
             <Link
-              href={`/programs/${slug}/apply`}
+              href={getApplyHref(slug)}
               className="bg-brand-red-600 hover:bg-brand-red-700 text-white font-extrabold px-10 py-4 rounded-xl transition-colors text-sm text-center"
             >
               Apply Now
@@ -410,7 +434,7 @@ function ProgramPage({
           </h2>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
-              href={`/programs/${slug}/apply`}
+              href={getApplyHref(slug)}
               className="bg-white text-brand-red-700 font-extrabold px-10 py-4 rounded-xl hover:bg-red-50 transition-colors text-sm"
             >
               Apply Now

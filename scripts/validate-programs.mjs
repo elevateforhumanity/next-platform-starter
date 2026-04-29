@@ -100,15 +100,86 @@ for (const file of importedFiles) {
   console.log(`  ✅ ${slug}`);
 }
 
+// ── Duplicate title check ─────────────────────────────────────────────────
+console.log('\n[validate-programs] Checking for duplicate program titles...');
+const titlesSeen = new Map(); // title → slug
+for (const file of importedFiles) {
+  const filePath = join(ROOT, 'data/programs', `${file}.ts`);
+  if (!existsSync(filePath)) continue;
+  const content = readFileSync(filePath, 'utf8');
+  const slugMatch = content.match(/slug:\s*['"]([^'"]+)['"]/);
+  const titleMatch = content.match(/title:\s*['"]([^'"]+)['"]/);
+  if (!slugMatch || !titleMatch) continue;
+  const slug = slugMatch[1];
+  const title = titleMatch[1].toLowerCase().trim();
+  if (titlesSeen.has(title)) {
+    console.error(`  ❌ DUPLICATE TITLE: "${titleMatch[1]}" used by both "${titlesSeen.get(title)}" and "${slug}"`);
+    errors++;
+  } else {
+    titlesSeen.set(title, slug);
+  }
+}
+if (errors === 0) console.log('  ✅ No duplicate titles');
+
+// ── Primary CTA check ─────────────────────────────────────────────────────
+console.log('\n[validate-programs] Checking for missing primary CTAs...');
+for (const file of importedFiles) {
+  const filePath = join(ROOT, 'data/programs', `${file}.ts`);
+  if (!existsSync(filePath)) continue;
+  const content = readFileSync(filePath, 'utf8');
+  const slugMatch = content.match(/slug:\s*['"]([^'"]+)['"]/);
+  if (!slugMatch) continue;
+  const slug = slugMatch[1];
+  // Must have either applyHref in cta block, or enrollmentType: 'external' with externalEnrollmentUrl
+  const hasApplyHref = /applyHref:\s*['"][^'"]+['"]/.test(content);
+  const hasExternal = /enrollmentType:\s*['"]external['"]/.test(content) && /externalEnrollmentUrl:\s*['"][^'"]+['"]/.test(content);
+  const hasWaitlist = /enrollmentType:\s*['"]waitlist['"]/.test(content);
+  if (!hasApplyHref && !hasExternal && !hasWaitlist) {
+    console.error(`  ❌ ${slug} — missing primary CTA: no applyHref, externalEnrollmentUrl, or waitlist enrollmentType`);
+    errors++;
+  }
+}
+if (errors === 0) console.log('  ✅ All programs have primary CTAs');
+
+// ── H1 check on dedicated page.tsx files ─────────────────────────────────
+console.log('\n[validate-programs] Checking for missing H1 on dedicated program pages...');
+for (const file of importedFiles) {
+  const filePath = join(ROOT, 'data/programs', `${file}.ts`);
+  if (!existsSync(filePath)) continue;
+  const content = readFileSync(filePath, 'utf8');
+  const slugMatch = content.match(/slug:\s*['"]([^'"]+)['"]/);
+  if (!slugMatch) continue;
+  const slug = slugMatch[1];
+  const pagePath = join(ROOT, 'app/programs', slug, 'page.tsx');
+  if (!existsSync(pagePath)) continue; // uses [slug] renderer — H1 checked there
+  const pageContent = readFileSync(pagePath, 'utf8');
+  // Skip alias pages (they just redirect)
+  if (pageContent.includes('redirect(') && pageContent.split('\n').length < 15) continue;
+  // Must have <h1 or use a component known to render H1 (ProgramDetailPage, WorkforceProgramPage, etc.)
+  const hasH1 = /<h1[\s>]/.test(pageContent);
+  const hasH1Component = /ProgramDetailPage|WorkforceProgramPage|TradesProgramPage|VisualProgramTemplate|ProgramPageLayout|ProgramPageTemplate|programName=|PathwayDisclosure/.test(pageContent);
+  if (!hasH1 && !hasH1Component) {
+    console.warn(`  ⚠️  ${slug} — no <h1> or known H1 component in dedicated page.tsx`);
+    warnings++;
+  }
+}
+if (warnings === 0) console.log('  ✅ All dedicated program pages have H1');
+
 // Check for duplicate slugs across next.config.mjs redirects pointing to programs
 const nextConfig = readFileSync(join(ROOT, 'next.config.mjs'), 'utf8');
 const programRedirects = [...nextConfig.matchAll(/source:\s*['"]\/programs\/([^'"]+)['"]/g)].map((m) => m[1]);
 const redirectTargets = [...nextConfig.matchAll(/destination:\s*['"]\/programs\/([^'"]+)['"]/g)].map((m) => m[1]);
 
 // Warn if a redirect target doesn't exist as a registered slug
+// Skip wildcards, category pages, and known non-registry targets
+const KNOWN_NON_REGISTRY = new Set([
+  'healthcare', 'skilled-trades', 'technology', 'beauty', 'business',
+  'building-services-technician', 'esthetician-apprenticeship',
+  ':path*', 'catalog', 'admin',
+]);
 for (const target of redirectTargets) {
-  // Strip sub-paths
   const targetSlug = target.split('/')[0];
+  if (targetSlug.includes(':') || KNOWN_NON_REGISTRY.has(targetSlug)) continue;
   if (!slugsSeen.has(targetSlug) && !INTERNAL_SLUGS.has(targetSlug)) {
     console.warn(`  ⚠️  next.config redirect target /programs/${target} — slug "${targetSlug}" not in registry`);
     warnings++;

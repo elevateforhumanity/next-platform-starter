@@ -47,8 +47,13 @@ async function getHealthcarePrograms(): Promise<ProgramCard[]> {
         .eq('category', 'healthcare')
         .eq('published', true)
         .order('title');
-      if (data && data.length > 0)
-        return data.map((p) => ({ slug: p.slug, title: p.title, description: p.short_description || p.description || '' }));
+      if (data && data.length > 0) {
+        const seen = new Set<string>();
+        return data
+          .filter((p) => HEALTHCARE_SLUGS.includes(p.slug))
+          .filter((p) => { const k = p.title.toLowerCase().trim(); if (seen.has(k)) return false; seen.add(k); return true; })
+          .map((p) => ({ slug: p.slug, title: p.title, description: p.short_description || p.description || '' }));
+      }
     }
   } catch { /* fall through */ }
   return staticPrograms
