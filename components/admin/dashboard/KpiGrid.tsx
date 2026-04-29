@@ -1,7 +1,7 @@
 'use client';
 
+import React, { useEffect, useRef, useState } from 'react';
 import Link from 'next/link';
-import { useEffect, useRef, useState } from 'react';
 import { ArrowUpRight, ArrowDownRight, Activity, FileClock, DollarSign, Award } from 'lucide-react';
 import type { KPICard } from './types';
 
@@ -12,12 +12,19 @@ function fmt(n: number) {
   return new Intl.NumberFormat('en-US').format(n);
 }
 
-function iconFor(label: string) {
+const ICON_MAP: Record<string, React.ComponentType<{ className?: string }>> = {
+  activity: Activity,
+  fileclock: FileClock,
+  dollar: DollarSign,
+  award: Award,
+};
+
+function iconKeyFor(label: string): string {
   const l = label.toLowerCase();
-  if (l.includes('learner') || l.includes('student')) return Activity;
-  if (l.includes('application')) return FileClock;
-  if (l.includes('revenue')) return DollarSign;
-  return Award;
+  if (l.includes('learner') || l.includes('student')) return 'activity';
+  if (l.includes('application')) return 'fileclock';
+  if (l.includes('revenue')) return 'dollar';
+  return 'award';
 }
 
 /** Animates a number from 0 to target over ~600ms */
@@ -42,7 +49,7 @@ function useCountUp(target: number) {
 
 function KpiCard({ card }: { card: KPICard }) {
   const pos = card.delta >= 0;
-  const Icon = iconFor(card.label);
+  const IconComponent = ICON_MAP[iconKeyFor(card.label)];
   const isRevenue = card.label.toLowerCase().includes('revenue');
   const animated = useCountUp(card.value);
 
@@ -84,7 +91,7 @@ function KpiCard({ card }: { card: KPICard }) {
                 : 'bg-slate-100 dark:bg-slate-700 text-slate-600 dark:text-slate-300',
             ].join(' ')}
           >
-            <Icon className="h-5 w-5" />
+            <IconComponent className="h-5 w-5" />
           </div>
         </div>
 
