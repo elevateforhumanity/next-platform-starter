@@ -6,6 +6,7 @@ import { programs as staticPrograms } from '@/content/cf-programs';
 import { getStaticProgram } from '@/data/programs/index';
 import ProgramDetailPageComponent from '@/components/programs/ProgramDetailPage';
 import { ProgramStructuredData } from '@/components/seo/CourseStructuredData';
+import { OnetLaborData } from '@/components/programs/onet/OnetLaborData';
 import { CheckCircle, Clock, Award, DollarSign, ArrowRight, ShieldCheck } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -444,6 +445,7 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
           }}
         />
         <ProgramDetailPageComponent program={sp} />
+        <OnetLaborData slug={slug} />
       </>
     );
   }
@@ -453,12 +455,15 @@ export default async function ProgramDetailPage({ params }: { params: Promise<{ 
   if (!p) return notFound();
 
   return (
-    <ProgramPage
-      title={p.title}
-      summary={p.summary}
-      description={p.description}
-      slug={p.slug}
-      sections={p.sections}
-    />
+    <>
+      <ProgramPage
+        title={p.title}
+        summary={p.summary}
+        description={p.description}
+        slug={p.slug}
+        sections={p.sections}
+      />
+      <OnetLaborData slug={p.slug} />
+    </>
   );
 }

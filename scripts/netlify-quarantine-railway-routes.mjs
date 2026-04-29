@@ -77,6 +77,7 @@ const ALLOWED_TOP_LEVEL = new Set([
   'ojt-and-funding',
   'certiport-exam',
   'cert',
+  'career-assessment',
   // ── Public info/utility pages ─────────────────────────────────────────────
   'faq',
   'events',
