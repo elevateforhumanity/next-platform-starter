@@ -138,7 +138,7 @@ export default function ConnectPage() {
             <Link href="/import" className="text-slate-400 hover:text-white">
               Import & Migrate →
             </Link>
-            <Link href="/generate" className="text-slate-400 hover:text-white">
+            <Link href="/programs" className="text-slate-400 hover:text-white">
               Build New →
             </Link>
           </div>

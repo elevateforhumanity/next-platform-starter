@@ -271,7 +271,7 @@ export default function FounderPage() {
                 name: 'Selfish Inc. — The Rise Foundation',
                 role: '501(c)(3) Nonprofit · DBA: The Rise Foundation',
                 desc: 'IRS-recognized 501(c)(3) nonprofit. The Rise Foundation is the operating DBA of Selfish Inc. Programs include mental wellness counseling, CurvatureBody Sculpting, Meri-Go-Round wellness products, and free VITA tax preparation for Indianapolis families.',
-                href: '/rise-foundation',
+                href: '/rise',
               },
               {
                 name: 'SupersonicFastCash',

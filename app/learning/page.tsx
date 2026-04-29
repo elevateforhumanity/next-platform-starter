@@ -89,7 +89,7 @@ export default async function LearningHubPage() {
               icon={<BookMarked className="w-12 h-12 text-brand-red-600" />}
               title="Student Handbook"
               description="Policies, procedures, and resources"
-              href="/student-handbook"
+              href="/legal/student-handbook"
               count="Essential guide"
             />
             <ResourceCard

@@ -232,7 +232,7 @@ export default function InteractiveDemoPage() {
                 <h3 className="text-slate-400 text-sm font-medium mb-3">Quick Actions</h3>
                 <div className="space-y-2">
                   <Link
-                    href="/ai-studio"
+                    href="/store/ai-studio"
                     className="flex items-center gap-2 text-purple-400 hover:text-purple-300 text-sm"
                   >
                     <Zap className="w-4 h-4" />

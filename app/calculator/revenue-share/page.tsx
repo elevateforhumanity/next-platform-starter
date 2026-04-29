@@ -26,7 +26,7 @@ export default function RevenueShareCalculator() {
       <div className="bg-slate-50 border-b">
         <div className="max-w-6xl mx-auto px-4 py-3">
           <Breadcrumbs
-            items={[{ label: 'Calculator', href: '/calculator' }, { label: 'Revenue Share' }]}
+            items={[{ label: 'Calculator', href: '/calculator/revenue-share' }, { label: 'Revenue Share' }]}
           />
         </div>
       </div>

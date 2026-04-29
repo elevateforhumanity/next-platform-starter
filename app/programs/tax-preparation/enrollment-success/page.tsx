@@ -171,7 +171,7 @@ export default async function EnrollmentSuccessPage() {
           IRS PTIN Application
         </a>
         <Link
-          href="/supersonic"
+          href="/programs/tax-preparation"
           className="block w-full bg-slate-600 hover:bg-slate-500 text-white text-center py-4 rounded-xl font-bold transition-all mb-6"
         >
           <BookOpen className="inline w-4 h-4 mr-2" />

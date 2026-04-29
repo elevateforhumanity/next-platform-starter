@@ -75,7 +75,7 @@ export default async function StaffOnboardingPage() {
       icon: BookOpen,
       title: 'Employee Handbook',
       desc: 'Read and acknowledge all policies, procedures, and your rights as an employee.',
-      href: '/employee/handbook',
+      href: '/legal/student-handbook',
       done: handbookDone,
       required: true,
     },

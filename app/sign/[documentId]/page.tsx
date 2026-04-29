@@ -187,7 +187,7 @@ export default function SignDocumentPage() {
     <div className="min-h-screen bg-white py-12">
       <div className="max-w-7xl mx-auto px-4 py-4">
         <Breadcrumbs
-          items={[{ label: 'Sign Document', href: '/sign' }, { label: doc?.title || 'Document' }]}
+          items={[{ label: 'Sign Document', href: '/contact' }, { label: doc?.title || 'Document' }]}
         />
       </div>
 

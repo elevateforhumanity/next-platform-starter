@@ -395,7 +395,7 @@ export default function AcademicIntegrityPage() {
               <h3 className="font-semibold text-black mb-2">Student Handbook</h3>
               <p className="text-sm text-black mb-2">Review all academic policies</p>
               <Link
-                href="/student-handbook"
+                href="/legal/student-handbook"
                 className="text-brand-blue-600 hover:text-brand-blue-700 text-sm font-semibold"
               >
                 Read Handbook →

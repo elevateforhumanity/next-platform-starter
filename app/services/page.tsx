@@ -15,7 +15,7 @@ const services = [
   {
     title: 'Tax Services',
     description: 'Professional tax preparation and maximum refund guarantee',
-    href: '/tax-services',
+    href: '/tax-self-prep',
     image: '/images/pages/career-services.jpg',
   },
   {
@@ -33,7 +33,7 @@ const services = [
   {
     title: 'Career Center',
     description: 'Job boards, employer connections, placement assistance',
-    href: '/career-center',
+    href: '/career-services',
     image: '/images/pages/comp-home-pathways-support.jpg',
   },
   {
@@ -45,13 +45,13 @@ const services = [
   {
     title: 'Academic Advising',
     description: 'One-on-one guidance to help you succeed',
-    href: '/advising',
+    href: '/contact',
     image: '/images/pages/healthcare-grad.jpg',
   },
   {
     title: 'Mentorship Program',
     description: 'Connect with industry professionals',
-    href: '/mentorship',
+    href: '/student-support',
     image: '/images/pages/store-recommendations.jpg',
   },
   {

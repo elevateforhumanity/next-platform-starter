@@ -80,7 +80,7 @@ export default function AIChatPage() {
             24/7 to support your success.
           </p>
           <Link
-            href="/ai-tutor"
+            href="/contact"
             className="inline-flex items-center gap-2 bg-white text-brand-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-brand-blue-50 transition-colors"
           >
             <MessageSquare className="w-5 h-5" />
@@ -179,7 +179,7 @@ export default function AIChatPage() {
                   disabled
                 />
                 <Link
-                  href="/ai-tutor"
+                  href="/contact"
                   className="px-6 py-3 bg-brand-blue-600 text-white rounded-full font-semibold hover:bg-brand-blue-700 transition-colors"
                 >
                   Start Chat
@@ -216,7 +216,7 @@ export default function AIChatPage() {
             {sampleQuestions.map((question, index) => (
               <Link
                 key={index}
-                href="/ai-tutor"
+                href="/contact"
                 className="flex items-center gap-3 p-4 bg-white rounded-xl border hover:border-brand-blue-300 hover:shadow-md transition-all"
               >
                 <MessageSquare className="w-5 h-5 text-brand-blue-600 flex-shrink-0" />
@@ -236,7 +236,7 @@ export default function AIChatPage() {
             Your AI learning assistant is ready to help you succeed.
           </p>
           <Link
-            href="/ai-tutor"
+            href="/contact"
             className="inline-flex items-center gap-2 bg-white text-brand-blue-600 px-8 py-4 rounded-full font-bold text-lg hover:bg-brand-blue-50 transition-colors"
           >
             <MessageSquare className="w-5 h-5" />

@@ -106,7 +106,7 @@ const TAB_LINKS: Record<string, { label: string; href: string }[]> = {
     { label: 'Learner Dashboard', href: '/learner/dashboard' },
     { label: 'Instructor Portal', href: '/instructor/dashboard' },
     { label: 'Mentor Portal', href: '/mentor/dashboard' },
-    { label: 'Creator Studio', href: '/creator/dashboard' },
+    { label: 'Creator Studio', href: '/store' },
     { label: 'Schedule', href: '/schedule/select' },
   ],
   trades: [

@@ -112,7 +112,7 @@ export default function ImportSitePage() {
             <Globe className="w-6 h-6 text-brand-green-400" />
             <span className="font-bold text-lg">Import Your Website</span>
           </div>
-          <Link href="/generate" className="text-slate-400 hover:text-white text-sm">
+          <Link href="/programs" className="text-slate-400 hover:text-white text-sm">
             Or build from scratch →
           </Link>
         </div>

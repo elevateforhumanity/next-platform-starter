@@ -63,7 +63,7 @@ const updates = [
     title: 'VITA Tax Preparation Services',
     description:
       'Free tax preparation services available for students and community members. IRS-certified volunteers ready to help.',
-    href: '/programs/tax-preparation',
+    href: '/tax-self-prep',
     category: 'Services',
     icon: Users,
   },

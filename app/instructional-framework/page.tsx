@@ -788,7 +788,7 @@ export default function InstructionalFrameworkPage() {
               How Training Works
             </Link>
             <Link
-              href="/instructor-credentials"
+              href="/training-providers"
               className="inline-flex items-center gap-2 px-4 py-2 border border-gray-300 text-gray-700 rounded-lg text-sm font-medium hover:bg-white transition"
             >
               Instructor Credentials

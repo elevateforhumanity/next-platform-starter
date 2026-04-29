@@ -29,7 +29,7 @@ const FINANCING_OPTIONS = [
     icon: CreditCard,
     color: 'blue',
     cta: 'Apply with Affirm',
-    href: '/enrollment?payment=affirm',
+    href: '/apply?payment=affirm',
   },
   {
     id: 'wioa',
@@ -58,7 +58,7 @@ const FINANCING_OPTIONS = [
     icon: Wallet,
     color: 'amber',
     cta: 'Enroll with Payment Plan',
-    href: '/enrollment?payment=plan',
+    href: '/apply?payment=plan',
   },
 ];
 
@@ -193,7 +193,7 @@ export default function FinancingPage() {
           Choose your program and select your payment option at checkout.
         </p>
         <Link
-          href="/enrollment"
+          href="/apply"
           className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold px-8 py-4 rounded-full transition-colors"
         >
           Browse Programs <ChevronRight className="w-4 h-4" />

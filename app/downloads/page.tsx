@@ -432,7 +432,7 @@ export default async function DownloadsPage() {
                   Contact Support
                 </Link>
                 <Link
-                  href="/student-handbook"
+                  href="/legal/student-handbook"
                   className="bg-white text-blue-600 px-6 py-3 rounded-lg hover:bg-gray-50 transition-colors font-semibold border-2 border-blue-600"
                 >
                   View Student Handbook
