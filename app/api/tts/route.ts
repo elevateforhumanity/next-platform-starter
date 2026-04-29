@@ -1,8 +1,12 @@
 import { NextRequest, NextResponse } from 'next/server';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 const DEFAULT_VOICE = 'en-US-JennyNeural';
 
 export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'public');
+  if (rateLimited) return rateLimited;
+
   try {
     const { text, voice = DEFAULT_VOICE } = await request.json();
 
@@ -41,6 +45,9 @@ export async function POST(request: NextRequest) {
 }
 
 export async function GET(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'public');
+  if (rateLimited) return rateLimited;
+
   const { searchParams } = new URL(request.url);
   const text = searchParams.get('text');
   const voice = searchParams.get('voice') || DEFAULT_VOICE;

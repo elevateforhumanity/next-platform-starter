@@ -298,6 +298,7 @@
     "lighthouse": "npx @lhci/cli autorun --collect.staticDistDir=out --upload.target=filesystem --upload.outputDir=.lighthouse",
     "check:links": "linkinator http://127.0.0.1:8080 --recurse --skip 'mailto:|tel:'",
     "ci:lh": "lhci collect --url=http://127.0.0.1:8080 --numberOfRuns=1 --settings.preset=desktop",
+    "audit:program-routes": "node scripts/audit-program-routes.mjs",
     "test": "vitest --run",
     "test:netlify:marketing-build": "node scripts/test-netlify-marketing-build.mjs --build",
     "test:railway:full-platform-build": "node scripts/test-railway-full-platform-build.mjs",

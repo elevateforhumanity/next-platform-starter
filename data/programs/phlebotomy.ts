@@ -65,25 +65,11 @@ export const PHLEBOTOMY: ProgramSchema = {
     { statement: 'Pass the NHA CPT national certification exam' },
   ],
 
-  careerOutcomes: [
-    {
-      title: 'Phlebotomist',
-      employer: 'Hospital / Lab',
-      salaryRange: '$32,000–$42,000',
-      hiringRate: '92%',
-    },
-    {
-      title: 'Lab Assistant',
-      employer: 'Clinical Laboratory',
-      salaryRange: '$30,000–$40,000',
-      hiringRate: '88%',
-    },
-    {
-      title: 'Patient Services Tech',
-      employer: 'Outpatient Clinic',
-      salaryRange: '$31,000–$41,000',
-      hiringRate: '85%',
-    },
+  careers: [
+    { title: 'Phlebotomist', salary: '$32,000–$42,000' },
+    { title: 'Lab Assistant', salary: '$30,000–$40,000' },
+    { title: 'Patient Services Technician', salary: '$31,000–$41,000' },
+    { title: 'Medical Laboratory Technician', salary: '$45,000–$58,000' },
   ],
 
   curriculum: [
@@ -151,15 +137,15 @@ export const PHLEBOTOMY: ProgramSchema = {
 
   complianceAlignment: [
     {
-      framework: 'OSHA Bloodborne Pathogens Standard (29 CFR 1910.1030)',
+      standard: 'OSHA Bloodborne Pathogens Standard (29 CFR 1910.1030)',
       description: 'Full compliance training included',
     },
     {
-      framework: 'HIPAA Patient Privacy',
+      standard: 'HIPAA Privacy Rule',
       description: 'Patient data handling and confidentiality',
     },
     {
-      framework: 'CLSI Standards',
+      standard: 'CLSI GP41-A6 — Venipuncture Standard',
       description: 'Clinical and Laboratory Standards Institute venipuncture guidelines',
     },
   ],
@@ -265,6 +251,30 @@ export const PHLEBOTOMY: ProgramSchema = {
       answer:
         'Most graduates receive job offers within 2–4 weeks of passing the NHA CPT exam. Hospitals, labs, blood banks, and outpatient clinics hire phlebotomists year-round.',
     },
+  ],
+
+  admissionRequirements: [
+    '18 years or older',
+    'High school diploma or GED',
+    'No prior healthcare experience required',
+    'Government-issued photo ID',
+  ],
+  equipmentIncluded: 'All lab supplies, NHA CPT exam voucher, CPR/BLS certification, and Bloodborne Pathogens certificate included',
+  modality: 'Hybrid — In-person lab practice and supervised clinical draws, LMS-supported theory',
+  facilityInfo: 'Elevate training center, Indianapolis',
+  employerPartners: [
+    'IU Health',
+    'Eskenazi Health',
+    'Community Health Network',
+    'Clinical laboratories',
+  ],
+  pricingIncludes: [
+    '120 instructional hours',
+    'NHA CPT certification exam',
+    'CPR/BLS certification',
+    'Bloodborne Pathogens certificate',
+    'All lab supplies',
+    'Career placement support',
   ],
 
   breadcrumbs: [

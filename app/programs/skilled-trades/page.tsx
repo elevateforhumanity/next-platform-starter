@@ -1,14 +1,21 @@
-'use client';
-
 import Link from 'next/link';
 import Image from 'next/image';
-import { useEffect, useState } from 'react';
 
 import { Breadcrumbs } from '@/components/seo/Breadcrumbs';
 import PathwayDisclosure from '@/components/PathwayDisclosure';
-import PageAvatar from '@/components/PageAvatar';
 import HeroVideo from '@/components/marketing/HeroVideo';
 import heroBanners from '@/content/heroBanners';
+import { createPublicClient } from '@/lib/supabase/public';
+import { programs as staticPrograms } from '@/content/cf-programs';
+import type { Metadata } from 'next';
+
+export const metadata: Metadata = {
+  title: 'Skilled Trades Training Programs | HVAC, Welding, Electrical | Elevate for Humanity',
+  description: 'Industry-recognized skilled trades credentials in Indianapolis. HVAC, Welding, Electrical, Plumbing, CDL and more. Free for eligible participants through WIOA funding.',
+  alternates: { canonical: 'https://www.elevateforhumanity.org/programs/skilled-trades' },
+};
+
+export const dynamic = 'force-dynamic';
 
 interface Program {
   id: string;
@@ -42,37 +49,45 @@ const programImages: Record<string, string> = {
   default: '/images/pages/hvac-unit.jpg',
 };
 
-export default function SkilledTradesProgramsPage() {
-  const [programs, setPrograms] = useState<Program[]>([]);
-  const [loading, setLoading] = useState(true);
+const TRADES_SLUGS = [
+  'hvac-technician','welding','electrical','plumbing','cdl-training',
+  'diesel-mechanic','construction-trades-certification','forklift',
+];
+
+async function getSkilledTradesPrograms(): Promise<Program[]> {
+  try {
+    const db = createPublicClient();
+    if (db) {
+      const { data } = await db
+        .from('programs')
+        .select('id, slug, title, short_description, description')
+        .in('category', ['trades', 'skilled-trades'])
+        .eq('published', true)
+        .order('title');
+      if (data && data.length > 0)
+        return data.map((p) => ({ id: p.id, slug: p.slug, name: p.title, description: p.short_description || p.description || '', category: 'trades', duration_weeks: 0, price: 0, certification: '', is_active: true }));
+    }
+  } catch { /* fall through */ }
+  return staticPrograms
+    .filter((p) => TRADES_SLUGS.includes(p.slug))
+    .map((p) => ({ id: p.slug, slug: p.slug, name: p.title, description: p.description || '', category: 'trades', duration_weeks: 0, price: 0, certification: '', is_active: true }));
+}
+
+export default async function SkilledTradesProgramsPage() {
+  const programs = await getSkilledTradesPrograms();
   const b = heroBanners['skilled-trades'] ?? {
-    videoSrcDesktop:
-      'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4',
+    videoSrcDesktop: 'https://pub-23811be4d3844e45a8bc2d3dc5e7aaec.r2.dev/videos/hvac-hero-final.mp4',
     posterImage: '/hero-images/skilled-trades-category.webp',
     microLabel: 'Skilled Trades Programs',
     analyticsName: 'skilled-trades',
     belowHeroHeadline: 'Skilled Trades — HVAC, Electrical, Welding, Plumbing and more.',
     belowHeroSubheadline: 'Industry-recognized credentials. Job-ready in weeks.',
-    ctas: [],
+    primaryCta: { label: 'Apply Now', href: '/apply?program=skilled-trades' },
+    secondaryCta: { label: 'Check Eligibility', href: '/check-eligibility', variant: 'secondary' as const },
     trustIndicators: [],
+    transcript: '',
   };
-
-  useEffect(() => {
-    async function fetchPrograms() {
-      try {
-        const res = await fetch('/api/programs?category=trades');
-        const data = await res.json();
-        if (data.status === 'success' && data.programs?.length > 0) {
-          setPrograms(data.programs);
-        }
-      } catch (error) {
-        console.error('Failed to fetch programs:', error);
-      } finally {
-        setLoading(false);
-      }
-    }
-    fetchPrograms();
-  }, []);
+  const ctas = [b.primaryCta, ...('secondaryCta' in b && b.secondaryCta ? [b.secondaryCta] : [])].filter(Boolean);
 
   return (
     <div className="min-h-screen bg-white">
@@ -84,12 +99,12 @@ export default function SkilledTradesProgramsPage() {
         analyticsName={b.analyticsName}
         belowHeroHeadline={b.belowHeroHeadline}
         belowHeroSubheadline={b.belowHeroSubheadline}
-        ctas={[b.primaryCta, ...(b.secondaryCta ? [b.secondaryCta] : [])]}
+        ctas={ctas}
         trustIndicators={b.trustIndicators}
         transcript={b.transcript}
       />
 
-      <PageAvatar videoSrc="/videos/avatars/trades-guide.mp4" title="Trades Guide" />
+
 
       {/* Breadcrumbs */}
       <Breadcrumbs />
@@ -112,14 +127,7 @@ export default function SkilledTradesProgramsPage() {
             </p>
           </div>
 
-          {loading ? (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-              {[1, 2, 3].map((i) => (
-                <div key={i} className="bg-white rounded-2xl h-96 animate-pulse shadow-lg" />
-              ))}
-            </div>
-          ) : (
-            <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+          <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
               {programs.map((program) => (
                 <Link
                   key={program.id || program.slug}
@@ -162,7 +170,6 @@ export default function SkilledTradesProgramsPage() {
                 </Link>
               ))}
             </div>
-          )}
         </div>
       </section>
 

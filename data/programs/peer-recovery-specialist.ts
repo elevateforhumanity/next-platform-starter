@@ -235,6 +235,38 @@ export const PEER_RECOVERY: ProgramSchema = {
     },
   ],
 
+  careers: [
+    { title: 'Certified Peer Recovery Specialist (CPRS)', salary: '$32,000–$45,000' },
+    { title: 'Recovery Coach', salary: '$34,000–$48,000' },
+    { title: 'Case Manager — Behavioral Health', salary: '$38,000–$52,000' },
+    { title: 'Substance Use Counselor (with additional licensure)', salary: '$45,000–$62,000' },
+  ],
+
+  admissionRequirements: [
+    '18 years or older',
+    'High school diploma or GED',
+    'Personal lived experience with recovery (substance use or mental health) preferred',
+    'Background check required — some employers may have restrictions',
+  ],
+  equipmentIncluded: 'All course materials, CPRS exam preparation resources, and practicum placement support included',
+  modality: 'Hybrid — Online coursework via LMS, in-person practicum hours at approved sites',
+  facilityInfo: 'Elevate training center, Indianapolis, with practicum placements at community behavioral health sites',
+  employerPartners: [
+    'Centerstone Indiana',
+    'Volunteers of America Indiana',
+    'Recovery community organizations',
+    'Indiana community mental health centers',
+  ],
+  pricingIncludes: [
+    '80 instructional hours',
+    'CPRS exam preparation',
+    'Practicum placement coordination',
+    'All course materials',
+    'Career placement support',
+  ],
+  paymentTerms:
+    'WIOA and Workforce Ready Grant funding accepted for eligible Indiana residents. Self-pay option available with payment plans.',
+
   cta: {
     applyHref: '/programs/peer-recovery-specialist/apply',
     requestInfoHref: '/contact?program=peer-recovery-specialist',

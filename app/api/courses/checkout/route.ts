@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import Stripe from 'stripe';
+import { apiAuthGuard } from '@/lib/admin/guards';
+import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -9,6 +11,12 @@ const stripe = process.env.STRIPE_SECRET_KEY
   : null;
 
 export async function POST(request: NextRequest) {
+  const rateLimited = await applyRateLimit(request, 'payment');
+  if (rateLimited) return rateLimited;
+
+  const auth = await apiAuthGuard(request);
+  if (auth.error) return auth.error;
+
   try {
     if (!stripe) {
       return NextResponse.json({ error: 'Payment system not configured' }, { status: 500 });
@@ -74,7 +82,7 @@ export async function POST(request: NextRequest) {
   } catch (error: any) {
     console.error('Course checkout error:', error);
     return NextResponse.json(
-      { error: error.message || 'Failed to create checkout session' },
+      { error: 'Failed to create checkout session' },
       { status: 500 },
     );
   }
