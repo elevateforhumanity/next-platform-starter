@@ -24,6 +24,7 @@ import { spawn } from 'child_process';
 import path from 'path';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { hydrateProcessEnv } from '@/lib/secrets';
 
 export const dynamic = 'force-dynamic';
 export const runtime = 'nodejs';
@@ -57,6 +58,9 @@ export async function POST(request: NextRequest) {
 
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
+
+  // Hydrate app_secrets into process.env so spawned commands have full secret access
+  await hydrateProcessEnv();
 
   const body = await request.json().catch(() => null);
   const command: string = body?.command ?? '';

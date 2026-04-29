@@ -34,6 +34,7 @@ import { NextRequest } from 'next/server';
 import OpenAI from 'openai';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
+import { hydrateProcessEnv } from '@/lib/secrets';
 import { safeError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
 
@@ -1025,6 +1026,9 @@ export async function POST(req: NextRequest) {
 
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
+
+  // Hydrate app_secrets so executed commands have full secret access
+  await hydrateProcessEnv();
 
   const { command, history = [] } = await req.json();
   if (!command?.trim()) {
