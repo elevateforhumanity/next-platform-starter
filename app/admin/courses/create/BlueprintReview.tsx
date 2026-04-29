@@ -637,7 +637,7 @@ function StatBox({
   value,
   children,
 }: {
-  icon: React.ElementType;
+  icon: React.ElementType<{ className?: string }>;
   label: string;
   value?: string | number;
   children?: React.ReactNode;

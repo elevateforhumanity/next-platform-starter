@@ -14,7 +14,7 @@ export async function generateMetadata({
 }): Promise<Metadata> {
   const { credentialId } = await params;
   const db = await requireAdminClient();
-  const { data } = await supabase
+  const { data } = await db
     .from('credential_registry')
     .select('name')
     .eq('id', credentialId)

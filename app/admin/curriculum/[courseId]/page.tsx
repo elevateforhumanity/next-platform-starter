@@ -46,7 +46,7 @@ export default async function CurriculumCourseEditorPage({
     ? await supabase.from('programs').select('id, title').eq('id', courseId).maybeSingle()
     : { data: null };
 
-  const courseName = trainingCourse?.title ?? program?.name ?? null;
+  const courseName = trainingCourse?.title ?? (program as any)?.title ?? (program as any)?.name ?? null;
 
   // Count curriculum_lessons rows for this courseId
   const { count: lessonCount } = await supabase
@@ -57,6 +57,12 @@ export default async function CurriculumCourseEditorPage({
   if (lessonCount === 0 && !trainingCourse && !program) {
     notFound();
   }
+
+  // Show a warning when the course has no curriculum_lessons rows — it's on the legacy path.
+  const legacyWarning =
+    lessonCount === 0 && trainingCourse
+      ? 'This course has no curriculum_lessons rows. Learners are served from the legacy training_lessons table. Migrate lessons to curriculum_lessons to use the DB-driven engine.'
+      : null;
 
   // Module summary for the sidebar — group by module_order
   const { data: moduleSummary } = await supabase

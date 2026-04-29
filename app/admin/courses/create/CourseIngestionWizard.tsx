@@ -272,7 +272,7 @@ export default function CourseIngestionWizard({ programs }: Props) {
     <div className="space-y-6">
       <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
         {INPUT_MODES.map((m) => {
-          const Icon = m.icon;
+          const Icon = m.icon as React.ElementType<{ className?: string }>;
           const active = mode === m.id;
           return (
             <button

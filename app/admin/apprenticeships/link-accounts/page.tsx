@@ -69,7 +69,7 @@ export default async function LinkAccountsPage() {
   };
 
   const results: MatchResult[] = await Promise.all(
-    rows.map(async (a) => {
+    rows.map(async (a: { id: string; email: string | null; status: string; program_id: string | null; created_at: string; shop_id: string | null }) => {
       if (!a.email) {
         return {
           apprenticeId: a.id,
