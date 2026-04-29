@@ -1,5 +1,5 @@
 import { logger } from '@/lib/logger';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 
 /**
@@ -57,7 +57,7 @@ export async function enforceDocumentRetention(
   options: RetentionOptions = {},
 ): Promise<RetentionResult> {
   const { dryRun = false, batchSize = 50, actorId = 'system' } = options;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) {
     logger.error('[Retention] Admin client not available');
     return { scanned: 0, deleted: 0, skipped: 0, errors: 0, dryRun, documents: [] };

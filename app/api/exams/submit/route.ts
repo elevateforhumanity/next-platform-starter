@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 // app/api/exams/submit/route.ts
 import { NextResponse } from 'next/server';
@@ -15,7 +15,7 @@ async function _POST(request: Request) {
   const rateLimited = await applyRateLimit(request, 'strict');
   if (rateLimited) return rateLimited;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const session = await requireApiAuth();
   const { attemptId, answers } = await request.json();
 

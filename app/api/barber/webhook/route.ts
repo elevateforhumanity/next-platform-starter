@@ -2,7 +2,7 @@ import { logger } from '@/lib/logger';
 import { getStripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import type Stripe from 'stripe';
 import {
   BARBER_PRICING,
@@ -124,8 +124,8 @@ async function _POST(request: NextRequest) {
   }
 
   // Webhook handlers must use the admin (service role) client — there is no user session.
-  // await getAdminClient() throws if env vars are missing, which is the correct behaviour.
-  const supabase = await getAdminClient();
+  // await requireAdminClient() throws if env vars are missing, which is the correct behaviour.
+  const supabase = await requireAdminClient();
 
   try {
     switch (event.type) {
@@ -1250,7 +1250,7 @@ async function _PUT(request: NextRequest) {
     });
 
     // Update database — use admin client to bypass RLS on barber_subscriptions
-    const adminDb = await getAdminClient();
+    const adminDb = await requireAdminClient();
     await adminDb
       .from('barber_subscriptions')
       .update({

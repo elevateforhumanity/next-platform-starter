@@ -7,7 +7,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { TESTING_CENTER } from '@/lib/testing/testing-config';
 import { withRuntime } from '@/lib/api/withRuntime';
@@ -25,7 +25,7 @@ const SlotSchema = z.object({
 });
 
 export const GET = withRuntime({ auth: 'admin' }, async () => {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Database unavailable', 500);
 
   const { data, error } = await db
@@ -40,7 +40,7 @@ export const GET = withRuntime({ auth: 'admin' }, async () => {
 });
 
 export const POST = withRuntime({ auth: 'admin' }, async (req) => {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Database unavailable', 500);
 
   let raw: unknown;
@@ -79,7 +79,7 @@ export const POST = withRuntime({ auth: 'admin' }, async (req) => {
 });
 
 export const DELETE = withRuntime({ auth: 'admin' }, async (req) => {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Database unavailable', 500);
 
   const id = req.nextUrl.searchParams.get('id');

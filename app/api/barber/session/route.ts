@@ -5,7 +5,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
@@ -45,7 +45,7 @@ export async function POST(request: NextRequest) {
       return safeError('module_number 1–8 required', 400);
     }
 
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (!db) return safeError('Service unavailable', 503);
 
     // Abandon any existing active session for this user
@@ -88,7 +88,7 @@ export async function PATCH(request: NextRequest) {
     const { session_id, video_seconds, clicks } = await request.json();
     if (!session_id) return safeError('session_id required', 400);
 
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (!db) return safeError('Service unavailable', 503);
 
     const { data: session } = await db
@@ -144,7 +144,7 @@ export async function DELETE(request: NextRequest) {
     const { session_id } = await request.json();
     if (!session_id) return safeError('session_id required', 400);
 
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (!db) return safeError('Service unavailable', 503);
 
     const { data: session } = await db

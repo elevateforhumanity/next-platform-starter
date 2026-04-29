@@ -1,6 +1,6 @@
 // PUBLIC ROUTE: partner document upload form
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
 export async function POST(request: NextRequest) {
@@ -15,7 +15,7 @@ export async function POST(request: NextRequest) {
       return safeError('Missing required fields', 400);
     }
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     // Verify token matches partner
     const { data: partner } = await supabase

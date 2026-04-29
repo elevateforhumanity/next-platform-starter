@@ -1,6 +1,6 @@
 /* Exam eligibility service. AUTHORIZATION AUTHORITY MODEL Path A — DB trigger (authoritative): trg_auto_exam_authorization fires on checkpoint_scores INSERT. When evaluate_exam_readiness() returns is_ready=true, it writes a row to exam_authorizations. This is the source of truth for whether a learner may sit an exam. It is deterministic, independent of app-layer bugs, and idempotent (unique index on user_id + program_id where status != expired revoked). Path B — service layer (funding auxiliary): checkEligibilityAndAuthorize() is called from the lesson completion route. It writes to exam_funding_authorizations — a separate table used for funding coordination and DOL reporting. It is NOT the gate for exam access. If Path B fails silently, Path A still governs. The exam-readiness API ( api lms courses [courseId] exam-readiness) reads exam_authorizations (Path A) to surface authorization status to the learner. Wraps evaluate_exam_eligibility_v2() (credential_exam_domains aware) and evaluate_exam_eligibility() (EPA simulation pipeline, preserved as-is). Call checkExamEligibility() from: - LMS course completion handler (to auto-create exam_funding_authorization) - lms certification page (to show eligibility status) - api credentials funding-decision (to gate checkout) Never call the SQL function directly from API routes — use this service so eligibility logic stays in one place. */
 
-import { createAdminClient, getAdminClient } from '@/lib/supabase/admin';
+import { createAdminClient, requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 // ─── Types ────────────────────────────────────────────────────────────────────
@@ -44,7 +44,7 @@ export async function checkExamEligibility(
   credentialId: string,
   programId: string,
 ): Promise<EligibilityResult> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const evaluatedAt = new Date().toISOString();
 
   if (!db) {
@@ -227,7 +227,7 @@ export async function checkEligibilityAndAuthorize(
     return { ...result, authorizationCreated: false };
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return { ...result, authorizationCreated: false };
 
   // Idempotency guard: skip if a non-denied authorization already exists.

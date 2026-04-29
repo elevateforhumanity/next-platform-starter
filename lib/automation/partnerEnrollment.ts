@@ -1,7 +1,7 @@
 import 'server-only';
 
 // lib/automation/partnerEnrollment.ts
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 import { getPartnerClient, PartnerType, StudentData } from '../partners';
 
@@ -25,7 +25,7 @@ export interface AutoEnrollmentResult {
 export async function autoEnrollPartnerCourse(
   payload: AutoEnrollmentRequest,
 ): Promise<AutoEnrollmentResult> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   await setAuditContext(supabase, { systemActor: 'partner_enrollment_automation' });
 
   try {

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -135,7 +135,7 @@ export default async function LearnerOnboardingPage({
 
   // Use admin client for all data queries — bypasses RLS so new accounts
   // whose profile row hasn't been created yet don't throw PGRST116
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // Role check: program holders, employers, and instructors have their own
   // onboarding flows — redirect them before running the student gate logic.

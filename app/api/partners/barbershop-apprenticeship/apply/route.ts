@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: barbershop apprenticeship application
 
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email';
 import { logger } from '@/lib/logger';
 import crypto from 'crypto';
@@ -175,7 +175,7 @@ async function _POST(req: Request) {
       );
     }
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase) {
       logger.error('Supabase admin client not available');
       return NextResponse.json({ error: 'Service temporarily unavailable' }, { status: 503 });

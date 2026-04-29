@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { requireAdmin } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   startCourseGeneration,
   pauseCourseGeneration,
@@ -42,7 +42,7 @@ const LESSON_STATUS_COLORS: Record<string, string> = {
 // ── Data fetch ────────────────────────────────────────────────────────────────
 
 async function getCourseWithLessons(courseId: string) {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: course, error } = await db
     .from('courses')

@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import { TrendingUp, Users, CheckCircle, AlertTriangle, Clock } from 'lucide-react';
 import { AdminPageShell } from '@/components/admin/AdminPageShell';
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default async function AdminEnrollmentsPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Students who paid but haven't been granted LMS access yet (pending admin review)
   const { data: pendingAccess } = await db

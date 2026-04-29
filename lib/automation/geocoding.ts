@@ -11,7 +11,7 @@ import 'server-only';
  * - Never geocode per-request (expensive and slow)
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export interface GeocodingResult {
@@ -80,7 +80,7 @@ export async function geocodeAddress(
  * Geocode a partner and update their record.
  */
 export async function geocodePartner(partnerId: string): Promise<GeocodingResult> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // Get partner address
   const { data: partner, error: fetchError } = await supabase
@@ -152,7 +152,7 @@ export async function geocodeAllPartners(): Promise<{
   failed: number;
   errors: Array<{ partnerId: string; error: string }>;
 }> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // Get partners without coordinates
   const { data: partners } = await supabase
@@ -198,7 +198,7 @@ export async function setPartnerCoordinates(
   lat: number,
   lng: number,
 ): Promise<{ success: boolean; error?: string }> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { error } = await supabase
     .from('partners')

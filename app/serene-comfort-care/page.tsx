@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   Heart,
   Users,
@@ -34,7 +34,7 @@ const PROGRAMS = [
 ];
 
 export default async function SereneComfortCarePage() {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Pull partner record if it exists
   const { data: partner } = await db

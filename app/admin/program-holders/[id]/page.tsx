@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { redirect, notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -40,7 +40,7 @@ async function verifyApprovalCaller(
   holderId: string,
 ): Promise<{ callerId: string; adb: SupabaseClient }> {
   const supa = await createClient();
-  const adb = await getAdminClient();
+  const adb = await requireAdminClient();
   const sdb = adb;
 
   const {

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireAdmin } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { BulkCourseActions } from './BulkCourseActions';
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default async function BulkOperationsPage() {
   await requireAdmin();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) throw new Error('Admin client unavailable');
 
   const { data: courses, count } = await db

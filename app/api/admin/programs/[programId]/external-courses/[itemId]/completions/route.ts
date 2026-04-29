@@ -9,7 +9,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { z } from 'zod';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
@@ -22,7 +22,7 @@ export async function GET(
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data, error } = await db
     .from('program_external_completions')
     .select(
@@ -62,7 +62,7 @@ export async function POST(
     return NextResponse.json({ error: 'Invalid request body' }, { status: 422 });
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data, error } = await db
     .from('program_external_completions')
     .upsert(
@@ -105,7 +105,7 @@ export async function DELETE(
   const userId = searchParams.get('user_id');
   if (!userId) return NextResponse.json({ error: 'user_id required' }, { status: 400 });
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { error } = await db
     .from('program_external_completions')
     .delete()

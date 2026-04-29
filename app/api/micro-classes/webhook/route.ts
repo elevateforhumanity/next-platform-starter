@@ -15,7 +15,7 @@ import { getStripeServer } from '@/lib/stripe/get-stripe-server';
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 import { getCourseById } from '@/lib/partners/link-based-integration';
@@ -74,7 +74,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ received: true });
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return NextResponse.json({ error: 'DB unavailable' }, { status: 500 });
 
   // Idempotency — skip if already processed

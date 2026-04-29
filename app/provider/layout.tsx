@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import Link from 'next/link';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { LayoutDashboard, BookOpen, ShieldCheck, Settings, Users, LogOut } from 'lucide-react';
 
 const NAV = [
@@ -21,7 +21,7 @@ export default async function ProviderLayout({ children }: { children: React.Rea
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/provider/dashboard');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: profile } = await db!
     .from('profiles')
     .select('role, tenant_id, full_name, email')

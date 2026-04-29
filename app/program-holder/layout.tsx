@@ -1,7 +1,7 @@
 import React from 'react';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -30,7 +30,7 @@ import {
 
 export default async function ProgramHolderLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) throw new Error('Admin client failed to initialize');
 
   if (!supabase) {

@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: public intake lead capture
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
@@ -31,7 +31,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid email format.' }, { status: 400 });
     }
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Service unavailable.' }, { status: 503 });
     }

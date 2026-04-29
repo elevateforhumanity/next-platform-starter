@@ -3,7 +3,7 @@ import { logger } from '@/lib/logger';
 import { sendTeamsMessage } from '@/lib/notifications/teams';
 
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { withRateLimit } from '@/lib/api/with-rate-limit';
 import { contactRateLimit } from '@/lib/rate-limit';
 import { applicationSchema } from '@/lib/api/validation-schemas';
@@ -68,7 +68,7 @@ export const POST = withRateLimit(
       const firstName = nameParts[0] || '';
       const lastName = nameParts.slice(1).join(' ') || '';
 
-      const supabase = await getAdminClient();
+      const supabase = await requireAdminClient();
 
       if (!supabase) {
         return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

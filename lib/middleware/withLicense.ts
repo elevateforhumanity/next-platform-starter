@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { createAdminClient, getAdminClient } from '@/lib/supabase/admin';
+import { createAdminClient, requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { TenantContext } from './withTenant';
 import { checkLicenseAccess } from '@/lib/licensing/billing-authority';
@@ -43,7 +43,7 @@ export async function withLicense(
   requiredFeature?: string,
 ): Promise<{ valid: boolean; license?: LicenseContext; error?: string }> {
   try {
-    const adminSupabase = await getAdminClient();
+    const adminSupabase = await requireAdminClient();
     await setAuditContext(adminSupabase, { systemActor: 'license_middleware' });
 
     // Get license for tenant - include all fields needed for billing authority check
@@ -138,7 +138,7 @@ async function logLicenseViolation(
  * Check if a specific feature is available
  */
 export async function hasFeature(tenantId: string, feature: string): Promise<boolean> {
-  const adminSupabase = await getAdminClient();
+  const adminSupabase = await requireAdminClient();
 
   const { data: license } = await adminSupabase
     .from('licenses')
@@ -158,7 +158,7 @@ export async function hasFeature(tenantId: string, feature: string): Promise<boo
 export async function checkUserLimit(
   tenantId: string,
 ): Promise<{ allowed: boolean; current: number; max: number }> {
-  const adminSupabase = await getAdminClient();
+  const adminSupabase = await requireAdminClient();
 
   const [licenseResult, userCountResult] = await Promise.all([
     adminSupabase

@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Heart, DollarSign, Users, Award, CheckCircle, ArrowRight, RefreshCw } from 'lucide-react';
 
 export const revalidate = 3600;
@@ -54,7 +54,7 @@ const IMPACT_STATS = [
 ];
 
 export default async function MonthlyDonationPage() {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Pull total donation count as social proof
   const { count: donorCount } = await db

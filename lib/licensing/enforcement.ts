@@ -4,7 +4,7 @@
  * Handles refunds and disputes
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { suspendLicense } from './provisioning';
 
@@ -25,7 +25,7 @@ interface LicenseValidation {
  * Validate a license by key
  */
 export async function validateLicense(licenseKey: string): Promise<LicenseValidation> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: license } = await supabase
     .from('licenses')
@@ -78,7 +78,7 @@ export async function validateLicense(licenseKey: string): Promise<LicenseValida
  * Validate license by tenant ID
  */
 export async function validateTenantLicense(tenantId: string): Promise<LicenseValidation> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: tenant } = await supabase
     .from('tenants')
@@ -156,7 +156,7 @@ export async function checkFeatureAccess(
  * Handle Stripe refund event
  */
 export async function handleRefund(paymentIntentId: string): Promise<void> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const requestId = crypto.randomUUID();
 
   await setAuditContext(supabase, { systemActor: 'stripe_refund_handler', requestId });
@@ -200,7 +200,7 @@ export async function handleRefund(paymentIntentId: string): Promise<void> {
  * Handle Stripe dispute event
  */
 export async function handleDispute(paymentIntentId: string): Promise<void> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const requestId = crypto.randomUUID();
 
   await setAuditContext(supabase, { systemActor: 'stripe_dispute_handler', requestId });
@@ -244,7 +244,7 @@ export async function handleDispute(paymentIntentId: string): Promise<void> {
  * Revoke a license permanently
  */
 export async function revokeLicense(tenantId: string, reason: string): Promise<void> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const requestId = crypto.randomUUID();
 
   await setAuditContext(supabase, { systemActor: 'license_enforcement', requestId });
@@ -268,7 +268,7 @@ export async function revokeLicense(tenantId: string, reason: string): Promise<v
  * Extend license expiration
  */
 export async function extendLicense(tenantId: string, newExpirationDate: Date): Promise<void> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const requestId = crypto.randomUUID();
 
   await setAuditContext(supabase, { systemActor: 'license_enforcement', requestId });

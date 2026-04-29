@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import InstructorOrientationClient from './InstructorOrientationClient';
 
@@ -19,7 +19,7 @@ export default async function InstructorOrientationPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/onboarding/instructor/orientation');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: profile } = await db
     .from('profiles')
     .select('role, full_name, first_name')

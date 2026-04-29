@@ -1,6 +1,6 @@
 /* eslint-disable no-empty */
 import { getStripe } from '@/lib/stripe/client';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { NextRequest, NextResponse } from 'next/server';
 import type Stripe from 'stripe';
@@ -24,7 +24,7 @@ async function grantLmsAccess(
   stripeSessionId?: string,
   amountPaidCents?: number,
 ): Promise<boolean> {
-  const adminDb = await getAdminClient();
+  const adminDb = await requireAdminClient();
   if (!adminDb) {
     logger.error('grantLmsAccess: no admin DB client');
     return false;
@@ -245,7 +245,7 @@ async function _POST(req: NextRequest) {
 
     // Fail-closed idempotency: record in webhook_events_processed before mutating state
     const supabaseForIdem = await createClient();
-    const dbIdem = await getAdminClient();
+    const dbIdem = await requireAdminClient();
     if (!dbIdem)
       return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
     try {
@@ -293,7 +293,7 @@ async function _POST(req: NextRequest) {
       logger.error('FAIL-CLOSED: Idempotency insert threw, skipping store refund', idemCatchErr);
       // Best-effort retry log — dbIdem may not be available if this threw
       try {
-        const fallbackDb = await getAdminClient();
+        const fallbackDb = await requireAdminClient();
         if (fallbackDb)
           await fallbackDb
             .from('webhook_retry_log')

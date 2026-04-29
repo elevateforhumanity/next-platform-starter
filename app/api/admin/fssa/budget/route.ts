@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeDbError } from '@/lib/api/safe-error';
@@ -11,7 +11,7 @@ export async function GET(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   const { searchParams } = new URL(request.url);
@@ -56,7 +56,7 @@ export async function POST(request: NextRequest) {
     return safeError('fiscal_year, category, and line_item are required', 400);
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   const { data, error } = await db
@@ -89,7 +89,7 @@ export async function PATCH(request: NextRequest) {
   const body = await request.json().catch(() => null);
   if (!body?.id) return safeError('id is required', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   const allowed = ['budgeted_amount', 'expended_amount', 'encumbered', 'notes', 'quarter'];
@@ -120,7 +120,7 @@ export async function DELETE(request: NextRequest) {
   const id = searchParams.get('id');
   if (!id) return safeError('id is required', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   const { error } = await db.from('fssa_budget').delete().eq('id', id);

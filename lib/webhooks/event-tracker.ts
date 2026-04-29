@@ -6,7 +6,7 @@
  * After processing, the record is finalized with status + timestamp.
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export type WebhookProvider = 'stripe' | 'sezzle' | 'affirm' | 'jotform' | 'calendly' | 'resend';
@@ -34,7 +34,7 @@ export async function claimWebhookEvent(
   metadata?: Record<string, unknown>,
 ): Promise<TrackEventResult> {
   try {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase) {
       // DB unavailable — caller must decide based on confident=false
       logger.warn('Webhook event tracker: DB unavailable', { provider, eventId });
@@ -81,7 +81,7 @@ export async function finalizeWebhookEvent(
   errorMessage?: string,
 ): Promise<void> {
   try {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase) return;
 
     const { error } = await supabase

@@ -16,7 +16,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { loadIndustryStandards } from '@/lib/industry/standards-loader';
 import { PROGRAM_SOC_CODES } from '@/lib/industry/onet';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
 export const runtime = 'nodejs';
@@ -92,7 +92,7 @@ async function _GET(request: NextRequest) {
   }
 
   try {
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
 
     // Check what's in cache without fetching
     const { data: rows } = await db

@@ -3,7 +3,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireInstructor } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
 
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
       return safeError('hours_verified and hour_type required for hour_block signoff', 400);
     }
 
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (!db) return safeError('Service unavailable', 503);
 
     const { data: signoff, error } = await db

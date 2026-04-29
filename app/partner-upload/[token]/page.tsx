@@ -1,7 +1,7 @@
 export const dynamic = 'force-dynamic';
 
 export default async function PartnerUploadPage({ params }: { params: { token: string } }) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: partner } = await supabase
     .from('partners')

@@ -25,7 +25,7 @@
 import { z } from 'zod';
 import { NextResponse } from 'next/server';
 import { getStripe } from '@/lib/stripe/client';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -74,7 +74,7 @@ async function _POST(req: Request) {
     }
     const { firstName, lastName, email, phone, programSlug, fundingSource } = parsed.data;
 
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable' }, { status: 503 });
     }

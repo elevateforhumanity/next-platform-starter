@@ -63,8 +63,11 @@ export function createAdminClient(): SupabaseClient<any> {
  * Use this in API routes instead of createAdminClient() to guarantee
  * SUPABASE_SERVICE_ROLE_KEY is loaded even on cold starts.
  *
+ * Returns null if SUPABASE_SERVICE_ROLE_KEY is absent (e.g. build-time prerender).
+ * Use `requireAdminClient()` when null is not acceptable.
+ *
  * Usage:
- *   const db = await getAdminClient();
+ *   const db = await requireAdminClient();
  */
 export async function getAdminClient(): Promise<SupabaseClient<any> | null> {
   try {
@@ -88,6 +91,25 @@ export async function getAdminClient(): Promise<SupabaseClient<any> | null> {
 }
 
 /**
+ * Like getAdminClient() but throws if the service role key is absent.
+ * Use in server components and pages where a null client would cause a broken page.
+ * The error boundary will catch this and show a 500 rather than a silently broken UI.
+ *
+ * Usage:
+ *   const db = await requireAdminClient();
+ */
+export async function requireAdminClient(): Promise<SupabaseClient<any>> {
+  const client = await requireAdminClient();
+  if (!client) {
+    throw new Error(
+      'requireAdminClient(): SUPABASE_SERVICE_ROLE_KEY is not set. ' +
+        'Ensure secrets are configured in the environment.',
+    );
+  }
+  return client;
+}
+
+/**
  * Create an admin client with audit context pre-set.
  * The audit trigger will read these session variables to attribute the write.
  *
@@ -101,7 +123,7 @@ export async function createAuditedAdminClient(ctx: {
   requestId?: string | null;
 }): Promise<SupabaseClient<any>> {
   // Hydrate secrets before creating the client — same guarantee as getAdminClient().
-  const client = await getAdminClient();
+  const client = await requireAdminClient();
 
   try {
     await client.rpc('set_audit_context', {

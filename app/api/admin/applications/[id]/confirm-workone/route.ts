@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeDbError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
@@ -16,7 +16,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   const { id } = await params;
   const body = (await request.json().catch(() => ({}))) as { workone_approval_ref?: string };
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: app, error: fetchErr } = await db
     .from('applications')

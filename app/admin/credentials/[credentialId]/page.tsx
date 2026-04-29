@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { redirect, notFound } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import CredentialForm from '../CredentialForm';
 
@@ -13,7 +13,7 @@ export async function generateMetadata({
   params: Promise<{ credentialId: string }>;
 }): Promise<Metadata> {
   const { credentialId } = await params;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data } = await supabase
     .from('credential_registry')
     .select('name')
@@ -33,7 +33,7 @@ export default async function EditCredentialPage({
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: profile } = await supabase
     .from('profiles')

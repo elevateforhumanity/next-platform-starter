@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 import Image from 'next/image';
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle, XCircle, ArrowRight, Shield } from 'lucide-react';
@@ -25,7 +25,7 @@ interface VerificationResult {
 
 export default async function ApprovedPage() {
   const supabase = await createClient();
-  const db = (await getAdminClient()) || supabase;
+  const db = (await requireAdminClient()) || supabase;
   const {
     data: { user },
   } = await supabase.auth.getUser();

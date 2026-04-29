@@ -1,6 +1,6 @@
 import 'server-only';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 
 const ADMIN_ROLES = ['admin', 'super_admin', 'org_admin', 'staff'] as const;
@@ -16,7 +16,7 @@ export async function requireAdmin() {
     redirect('/login');
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: profile } = await db
     .from('profiles')
     .select('role')
@@ -39,7 +39,7 @@ export async function isAdmin(): Promise<boolean> {
 
     if (!user) return false;
 
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     const { data: profile } = await db
       .from('profiles')
       .select('role')

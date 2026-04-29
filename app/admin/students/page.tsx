@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import { Users, TrendingUp, Clock, CheckCircle, Mail, Phone, UserPlus } from 'lucide-react';
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default async function StudentsPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: students, count: totalStudents } = await db
     .from('profiles')

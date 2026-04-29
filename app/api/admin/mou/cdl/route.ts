@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeDbError, safeInternalError } from '@/lib/api/safe-error';
@@ -40,7 +40,7 @@ export async function POST(request: NextRequest) {
 
   // Optionally persist to partners table
   if (body.partner_id) {
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (db) {
       await db
         .from('partners')
@@ -71,7 +71,7 @@ export async function GET(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   // Return CDL partners with MOU status

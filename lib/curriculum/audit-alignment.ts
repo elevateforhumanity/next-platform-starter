@@ -31,7 +31,7 @@
  *     and fails the lesson if any claimed competency is not adequately taught.
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 // ─── Constants ────────────────────────────────────────────────────────────────
@@ -311,7 +311,7 @@ function evaluateCompetency(
 export async function runContentAlignmentAudit(
   programSlug: string,
 ): Promise<ProgramAlignmentAudit> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const auditedAt = new Date().toISOString();
 
   const empty: ProgramAlignmentAudit = {

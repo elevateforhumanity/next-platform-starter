@@ -7,7 +7,7 @@
  * - canAddEmployer/canAddApprentice -> use checkUsageLimits from '@/lib/licensing'
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export interface TenantLicense {
@@ -24,7 +24,7 @@ export interface TenantLicense {
  * @deprecated Use getTenantLicense from '@/lib/licensing' instead
  */
 export async function getTenantLicense(tenantId: string): Promise<TenantLicense | null> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data, error }: any = await supabase
     .from('tenant_licenses')
@@ -78,7 +78,7 @@ export async function enforceLimits(
  * Check if tenant can add more employers
  */
 export async function canAddEmployer(tenantId: string): Promise<boolean> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { count } = await supabase
     .from('employers')
@@ -97,7 +97,7 @@ export async function canAddEmployer(tenantId: string): Promise<boolean> {
  * Check if tenant can add more apprentices
  */
 export async function canAddApprentice(tenantId: string): Promise<boolean> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { count } = await supabase
     .from('apprentices')
@@ -116,7 +116,7 @@ export async function canAddApprentice(tenantId: string): Promise<boolean> {
  * Get license usage statistics
  */
 export async function getLicenseUsage(tenantId: string) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const license = await getTenantLicense(tenantId);
 
   if (!license) {
@@ -181,7 +181,7 @@ export async function updateTenantLicense(
   plan: 'starter' | 'pro' | 'enterprise',
   expiresAt?: string,
 ): Promise<TenantLicense | null> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const limits = PLAN_LIMITS[plan];
 
   const { data, error }: any = await supabase

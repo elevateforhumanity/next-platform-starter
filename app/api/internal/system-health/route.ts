@@ -9,7 +9,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { checkAdminIP } from '@/lib/api/admin-ip-guard';
@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
   if (rateLimited) return rateLimited;
 
   try {
-    const admin = await getAdminClient();
+    const admin = await requireAdminClient();
     const db = admin ?? (await createClient());
 
     const { data: programs, error } = await db

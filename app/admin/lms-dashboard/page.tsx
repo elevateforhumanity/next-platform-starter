@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { requireAdmin } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   GraduationCap,
   TrendingUp,
@@ -21,7 +21,7 @@ export const metadata: Metadata = {
 
 export default async function LMSDashboardPage() {
   await requireAdmin();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const [
     { count: totalEnrollments },

@@ -9,7 +9,7 @@ import 'server-only';
  * - program_completion_certificates (to detect certified state)
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import type { LearnerProgress, LessonProgress, CheckpointScore, StepSubmission } from './types';
 import { calcProgressPercent, isCourseComplete } from '@/lib/lms/progress-calc';
 
@@ -17,7 +17,7 @@ export async function getLearnerProgress(
   userId: string,
   courseId: string,
 ): Promise<LearnerProgress> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const [
     { data: progressRows },

@@ -12,7 +12,7 @@ import {
   Filter,
   MoreVertical,
 } from 'lucide-react';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 };
 
 async function getAffiliateData() {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // Total registered affiliates
   const { count: totalCount } = await supabase

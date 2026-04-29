@@ -2,7 +2,7 @@
 // Partners sign via /mou/employer without needing an account.
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { generateEmployerMOUPdf } from '@/lib/documents/generate-employer-mou-pdf';
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest) {
   // Save partner record — fire and forget, non-fatal
   if (body.create_partner) {
     try {
-      const db = await getAdminClient();
+      const db = await requireAdminClient();
       if (db) {
         await db.from('partners').insert({
           name: body.employer_name,

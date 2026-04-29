@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -26,7 +26,7 @@ export async function GET(request: NextRequest) {
 
   if (!courseId || !lessonId) return safeError('course_id and lesson_id required', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data, error } = await db
     .from('student_lesson_evidence')
     .select(
@@ -74,7 +74,7 @@ export async function POST(request: NextRequest) {
     );
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Verify enrollment
   const { data: enrollment } = await db

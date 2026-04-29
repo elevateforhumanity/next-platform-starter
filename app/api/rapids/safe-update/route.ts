@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { normalizeRapidsStatus, canTransitionRapidsStatus, type RapidsStatus } from '@/lib/rapids';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { apiRequireAdmin } from '@/lib/admin/guards';
@@ -27,7 +27,7 @@ async function _POST(req: Request) {
 
     const safeStatus = normalizeRapidsStatus(status);
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

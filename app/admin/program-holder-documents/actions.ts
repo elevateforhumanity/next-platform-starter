@@ -1,7 +1,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { writeAdminAuditEvent, AuditActions } from '@/lib/audit';
 
 const ADMIN_ROLES = ['admin', 'super_admin', 'staff'];
@@ -16,7 +16,7 @@ export async function reviewDocument(docId: string, approved: boolean, notes?: s
   if (authError) throw new Error('Auth failed');
   if (!user) return { error: 'Not authenticated' };
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return { error: 'Service unavailable' };
 
   // ── 2. ROLE CHECK ──────────────────────────────────────────────────

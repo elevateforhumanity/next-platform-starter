@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { MessageSquare, Send, Clock, ChevronRight } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -18,7 +18,7 @@ export default async function PortalMessagesPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/program-holder/portal/messages');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: profile } = await db
     .from('profiles')
     .select('role')

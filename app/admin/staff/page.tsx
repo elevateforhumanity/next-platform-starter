@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { Users, Mail, Shield, Plus } from 'lucide-react';
 
@@ -16,7 +16,7 @@ const STAFF_ROLES = ['admin', 'super_admin', 'staff', 'instructor', 'org_admin']
 
 export default async function AdminStaffPage() {
   await requireRole(['admin', 'super_admin']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) notFound();
 
   const { data: staff } = await db

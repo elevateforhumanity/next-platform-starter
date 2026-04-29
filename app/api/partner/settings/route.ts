@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
@@ -14,7 +14,7 @@ export async function PATCH(request: NextRequest) {
   } = await supabase.auth.getUser();
   if (!user) return safeError('Unauthorized', 401);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db)
     return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 

@@ -25,7 +25,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { auditLog } from '@/lib/auditLog';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';
@@ -48,7 +48,7 @@ async function _GET(request: NextRequest) {
   const page       = Math.max(1, parseInt(searchParams.get('page') ?? '1', 10));
   const perPage    = Math.min(500, Math.max(1, parseInt(searchParams.get('per_page') ?? '100', 10)));
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   try {
     // ── Summary metrics (single RPC call) ──────────────────────────────────
@@ -111,7 +111,7 @@ async function _GET(request: NextRequest) {
 
 /** Fallback when the participant_report view hasn't been applied yet. */
 async function fallbackReport(
-  db: Awaited<ReturnType<typeof getAdminClient>>,
+  db: Awaited<ReturnType<typeof requireAdminClient>>,
   opts: {
     startDate: string | null;
     endDate: string | null;

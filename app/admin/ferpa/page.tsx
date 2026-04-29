@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import {
   Shield,
@@ -22,7 +22,7 @@ export const metadata: Metadata = {
 
 export default async function AdminFerpaPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const ytdStart = new Date(new Date().getFullYear(), 0, 1).toISOString();
 
   const [consentRes, pendingDocsRes, totalStudentsRes, ferpaViolRes, auditRes] = await Promise.all([

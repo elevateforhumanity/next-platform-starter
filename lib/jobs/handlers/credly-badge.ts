@@ -16,7 +16,7 @@
  *   }
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { issueCredlyBadge } from '@/lib/credentials/credly';
 
@@ -36,7 +36,7 @@ export async function handleCredlyBadgeIssue(payload: Record<string, any>): Prom
     );
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) throw new Error('Admin client unavailable');
 
   // Idempotency check — skip if badge already issued

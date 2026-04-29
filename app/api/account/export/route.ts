@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 // app/api/account/export/route.ts
 import { NextResponse } from 'next/server';
@@ -30,7 +30,7 @@ async function _GET(request: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     const { data: user, error: userError } = await db
       .from('users')
       .select('*')

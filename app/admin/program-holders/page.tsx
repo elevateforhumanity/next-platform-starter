@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import { Building2, Clock, CheckCircle, XCircle, Eye, Send } from 'lucide-react';
@@ -23,7 +23,7 @@ const STATUS_STYLES: Record<string, string> = {
 
 export default async function AdminProgramHoldersPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // Fetch all program holders
   const { data: holders } = await supabase

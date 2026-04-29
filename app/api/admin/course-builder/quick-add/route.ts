@@ -13,7 +13,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
 export const dynamic = 'force-dynamic';
@@ -56,7 +56,7 @@ export async function POST(req: NextRequest) {
   const parsed = BodySchema.safeParse(await req.json().catch(() => null));
   if (!parsed.success) return safeError('Invalid input', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
   const body = parsed.data;
 

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -20,7 +20,7 @@ export const metadata: Metadata = {
 
 export default async function RiseFoundationPage() {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   if (!supabase) {
     return (

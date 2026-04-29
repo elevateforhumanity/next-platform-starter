@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   getDay3Email,
   getDay7Email,
@@ -22,7 +22,7 @@ async function _GET(req: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   if (!supabase) {
     return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

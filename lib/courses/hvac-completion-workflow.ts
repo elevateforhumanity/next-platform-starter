@@ -15,7 +15,7 @@
  * and sending the next email in the sequence.
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
@@ -248,7 +248,7 @@ export async function advanceHvacWorkflow(userId: string): Promise<{
   action: string;
   emailSent: boolean;
 }> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return { action: 'error', emailSent: false };
 
   await setAuditContext(db, { systemActor: 'hvac_completion_workflow' });

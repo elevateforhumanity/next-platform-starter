@@ -6,7 +6,7 @@
 // account by supplying a different email. Now the deletion is always scoped
 // to the authenticated session user.
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logAuditEvent, AuditActions, getRequestMetadata } from '@/lib/audit';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 export const runtime = 'nodejs';
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
   // Deletion is always for the authenticated user — never caller-supplied email
   const sessionUserId = authSession.user.id;
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const { reason } = await req.json().catch(() => ({ reason: undefined }));
 
   const { data: user, error } = await supabase

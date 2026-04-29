@@ -13,7 +13,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { randomUUID } from 'crypto';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
@@ -32,7 +32,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
     const requestId = randomUUID();
 
     const supabase = await createClient();
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (!db)
       return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 

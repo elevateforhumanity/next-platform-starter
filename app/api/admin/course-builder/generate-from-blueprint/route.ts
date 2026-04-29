@@ -19,7 +19,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getAllBlueprints } from '@/lib/curriculum/blueprints';
 import { buildCanonicalCourseFromBlueprint } from '@/lib/curriculum/builders/buildCanonicalCourseFromBlueprint';
 import {
@@ -193,7 +193,7 @@ export async function POST(req: NextRequest) {
   const courseId = seedResult.courseId;
 
   // ── Step 4: Generate assessment banks per lesson ───────────────────────────
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   let assessmentsGenerated = 0;
 
   try {

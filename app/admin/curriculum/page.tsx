@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 
 export default async function CurriculumPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // Aggregate lesson counts per course_id from curriculum_lessons (live table)
   const { data: lessonRows } = await supabase

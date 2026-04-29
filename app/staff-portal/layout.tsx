@@ -2,7 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { IdleTimeoutGuard } from '@/components/auth/IdleTimeoutGuard';
 
 export const dynamic = 'force-dynamic';
@@ -22,7 +22,7 @@ export default async function StaffPortalLayout({ children }: { children: React.
   // proxy.ts handles redirect for protected sub-routes; this layout adds
   // defense-in-depth by verifying role for authenticated users.
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) throw new Error('Admin client failed to initialize');
   const {
     data: { user },

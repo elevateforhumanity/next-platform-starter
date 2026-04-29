@@ -4,11 +4,11 @@
  */
 
 import { getEntityByUEI, checkExclusions } from '@/lib/integrations/sam-gov';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 
 function getDb() {
-  return getAdminClient();
+  return requireAdminClient();
 }
 
 export interface EligibilityCheck {

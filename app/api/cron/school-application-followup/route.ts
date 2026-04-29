@@ -14,7 +14,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 
@@ -224,7 +224,7 @@ export async function POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) {
     logger.error('[school-followup] admin client unavailable');
     return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });

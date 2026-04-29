@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import { redirect } from 'next/navigation';
 import VerificationReviewForm from './VerificationReviewForm';
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default async function ReviewVerificationPage({ params }: { params: { id: string } }) {
   const { user, profile } = await requireRole(['admin', 'super_admin']);
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // Get program holder
   const { data: rawHolder } = await supabase

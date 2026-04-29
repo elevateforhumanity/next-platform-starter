@@ -1,5 +1,5 @@
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import PageClient from './PageClient';
 import Link from 'next/link';
 import { Zap, Layout, BookOpen } from 'lucide-react';
@@ -10,7 +10,7 @@ export default async function CourseBuilderPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
 
   // Load recent courses for the Live Builder quick-access list
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: courses } = await db
     .from('courses')
     .select('id, title, status')

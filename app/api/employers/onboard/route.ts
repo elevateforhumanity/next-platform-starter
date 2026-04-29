@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: employer onboarding form
 import { NextResponse } from 'next/server';
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { getTemplate } from '@/lib/notifications/templates';
@@ -20,7 +20,7 @@ async function _POST(req: Request) {
     const { employer_id, documents, business_name, contact_name, contact_email, contact_phone } =
       body;
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
@@ -101,7 +101,7 @@ async function _GET(request: Request) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     const { data, error }: any = await supabase
       .from('employer_onboarding')

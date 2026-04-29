@@ -2,7 +2,7 @@ import { logger } from '@/lib/logger';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
@@ -19,7 +19,7 @@ async function _GET(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (!db)
       return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
     const {
@@ -73,7 +73,7 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (!db)
       return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
     const {

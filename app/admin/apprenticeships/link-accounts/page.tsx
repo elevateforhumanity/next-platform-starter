@@ -12,7 +12,7 @@
 
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Link2, AlertTriangle, CheckCircle2, User } from 'lucide-react';
@@ -32,7 +32,7 @@ export default async function LinkAccountsPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  const adminDb = await getAdminClient();
+  const adminDb = await requireAdminClient();
 
   // Auth + role check
 

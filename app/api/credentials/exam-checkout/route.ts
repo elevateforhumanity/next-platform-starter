@@ -15,7 +15,7 @@ import { NextRequest, NextResponse } from 'next/server';
 
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { resolvePaymentResponsibility } from '@/lib/services/credential-pipeline';
 
 import { hydrateProcessEnv } from '@/lib/secrets';
@@ -39,7 +39,7 @@ export async function POST(req: NextRequest) {
     return NextResponse.json({ error: 'Missing attemptId' }, { status: 400 });
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return NextResponse.json({ error: 'Database unavailable' }, { status: 500 });
 
   // Load attempt — verify ownership

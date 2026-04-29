@@ -10,7 +10,7 @@ import 'server-only';
  *   short_description (added in 20260402000003), display_order (added in 20260402000003)
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import type { Program, CourseProgress } from './types';
 import { logger } from '@/lib/logger';
@@ -22,7 +22,7 @@ import { logger } from '@/lib/logger';
  * local dev without secrets). Export so program pages can reuse it.
  */
 export async function getDb() {
-  const admin = await getAdminClient();
+  const admin = await requireAdminClient();
   if (admin) return admin;
   // Service role key absent (build-time prerender, local dev) — use anon client.
   return await createClient();

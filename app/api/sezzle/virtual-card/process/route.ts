@@ -18,7 +18,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { randomBytes } from 'crypto';
 import { sezzle } from '@/lib/sezzle/client';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -198,7 +198,7 @@ async function _POST(request: NextRequest) {
       // Create enrollment via the shared factory — handles user lookup/creation
       // and writes to program_enrollments with the correct schema (program_id, user_id).
       if (programSlug && holder?.email) {
-        const adminDb = await getAdminClient();
+        const adminDb = await requireAdminClient();
         let programId: string | undefined;
         if (adminDb) {
           const { data: prog } = await adminDb

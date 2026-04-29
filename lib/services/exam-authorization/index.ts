@@ -14,7 +14,7 @@ import 'server-only';
 // All state transitions are written to certification_audit_log (append-only).
 
 import crypto from 'crypto';
-import { createAdminClient, getAdminClient } from '@/lib/supabase/admin';
+import { createAdminClient, requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 import { getStripe } from '@/lib/stripe/client';
 import { logger } from '@/lib/logger';
@@ -67,7 +67,7 @@ export async function initiateCertification(
   programId: string,
   pathwayId?: string, // optional — if omitted, uses the primary pathway
 ): Promise<{ ok: boolean; error?: string; result?: InitiateResult }> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
   await setAuditContext(db, { systemActor: 'exam-authorization' });
 
@@ -243,7 +243,7 @@ export async function initiateCertification(
 export async function confirmPaymentAndAuthorize(
   stripePaymentIntentId: string,
 ): Promise<{ ok: boolean; error?: string }> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
   await setAuditContext(db, { systemActor: 'exam-authorization' });
 
@@ -353,7 +353,7 @@ export async function markForwarded(
   certRequestId: string,
   staffUserId: string,
 ): Promise<{ ok: boolean; error?: string }> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
   await setAuditContext(db, { systemActor: 'exam-authorization' });
 
@@ -412,7 +412,7 @@ export async function recordUpload(
   storagePath: string,
   originalFilename: string,
 ): Promise<{ ok: boolean; error?: string; uploadId?: string }> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
   await setAuditContext(db, { systemActor: 'exam-authorization' });
 
@@ -477,7 +477,7 @@ export async function verifyUploadAndIssueCertificate(
   approved: boolean,
   rejectionReason?: string,
 ): Promise<{ ok: boolean; error?: string; certificateId?: string }> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return { ok: false, error: 'Database unavailable' };
   await setAuditContext(db, { systemActor: 'exam-authorization' });
 

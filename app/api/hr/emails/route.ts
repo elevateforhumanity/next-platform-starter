@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { hrEmailTemplates, HrEmailStep, HrEmailParams } from '@/lib/email/templates/hr-emails';
@@ -24,7 +24,7 @@ async function _POST(req: NextRequest) {
   if (rateLimited) return rateLimited;
 
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db)
     return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 

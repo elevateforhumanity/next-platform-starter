@@ -3,7 +3,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { requireAdmin } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 async function getCourseDetail(courseId: string) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: course, error } = await supabase
     .from('training_courses')

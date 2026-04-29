@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import type { Metadata } from 'next';
@@ -30,7 +30,7 @@ export default async function EnrollmentPendingPage({
   // Confirm the enrollment is actually in pending_funding_verification.
   // If it has since been verified, redirect to the course.
   if (courseId) {
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     const { data: enrollment } = await db
       .from('program_enrollments')
       .select('enrollment_state, status')

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
@@ -48,9 +48,9 @@ export default async function ApplicationsPage({
         : [];
 
   // Use admin client for data queries to bypass RLS
-  let adminDb: Awaited<ReturnType<typeof getAdminClient>> | null = null;
+  let adminDb: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
   try {
-    adminDb = await getAdminClient();
+    adminDb = await requireAdminClient();
   } catch {
     /* handled by null check below */
   }

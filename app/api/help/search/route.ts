@@ -2,7 +2,7 @@
 
 // app/api/help/search/route.ts
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { sanitizeSearchInput } from '@/lib/utils';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -12,7 +12,7 @@ export const maxDuration = 60;
 export const dynamic = 'force-dynamic';
 
 async function _GET(request: Request) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;

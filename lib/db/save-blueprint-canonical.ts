@@ -9,7 +9,7 @@
  * must go through this function so they appear in lms_lessons and on /programs.
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import type { CourseBlueprint } from '@/lib/ai/course-ingestion';
 
 export interface SaveBlueprintResult {
@@ -23,7 +23,7 @@ export async function saveBlueprintToCanonical(
   blueprint: CourseBlueprint,
   options: { program_id?: string | null; created_by?: string | null } = {},
 ): Promise<SaveBlueprintResult> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // 1. Upsert course row
   const { data: course, error: courseErr } = await db

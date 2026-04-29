@@ -4,7 +4,7 @@
 import { NextResponse } from 'next/server';
 import { createRemoteJWKSet, jwtVerify } from 'jose';
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { logger } from '@/lib/logger';
@@ -29,7 +29,7 @@ async function _POST(request: Request) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const supabase = db;
 
   const req = request as Request & { cookies?: any };

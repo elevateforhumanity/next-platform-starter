@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { logAdminAudit, AdminAction, BULK_ENTITY_ID } from '@/lib/admin/audit-log';
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -36,7 +36,7 @@ async function _POST(req: Request) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const adminClient = await getAdminClient();
+  const adminClient = await requireAdminClient();
   const body = (await req.json()) as Payload;
 
   if (!body?.id || !body?.patch) {

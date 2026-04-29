@@ -2,7 +2,7 @@
 
 // app/api/xapi/route.ts
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { parseBody } from '@/lib/api-helpers';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -16,7 +16,7 @@ export const dynamic = 'force-dynamic';
 // xAPI uses its own auth model (Basic Auth / OAuth token in Authorization header).
 // Session-based auth is not applicable to LRS endpoints.
 async function _POST(request: Request) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
@@ -49,7 +49,7 @@ async function _POST(request: Request) {
 }
 
 async function _GET(request: Request) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;

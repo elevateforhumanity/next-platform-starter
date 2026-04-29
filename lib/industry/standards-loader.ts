@@ -16,7 +16,7 @@
  * which injects it into the AI system prompt.
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { fetchOnetOccupation, isOnetConfigured, type OnetOccupation } from './onet';
 import {
   fetchBlsWages,
@@ -94,7 +94,7 @@ export async function loadIndustryStandards(
   credentialCode?: string | null,
   forceRefresh = false,
 ): Promise<IndustryStandards | null> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // 1. Check cache
   if (!forceRefresh) {

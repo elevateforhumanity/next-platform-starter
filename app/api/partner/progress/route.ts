@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { NextRequest, NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -18,7 +18,7 @@ async function _GET(request: NextRequest) {
   }
 
   const program = request.nextUrl.searchParams.get('program');
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Get partner org
   const { data: partnerUser } = await db
@@ -75,7 +75,7 @@ async function _POST(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const body = await request.json();
 
   const { data: partnerUser } = await db

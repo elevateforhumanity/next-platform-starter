@@ -12,7 +12,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { resend } from '@/lib/resend';
 import { sendSMS } from '@/lib/notifications/sms';
 import { logger } from '@/lib/logger';
@@ -23,7 +23,7 @@ export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
 
 export const POST = withRuntime({ cron: true }, async () => {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Fetch all unsent reminders due now or overdue
   const { data: reminders, error } = await db

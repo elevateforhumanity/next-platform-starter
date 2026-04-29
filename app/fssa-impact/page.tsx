@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   TrendingUp,
   Users,
@@ -48,7 +48,7 @@ const ELIGIBLE_PROGRAMS = [
 ];
 
 export default async function FSSAImpactPage() {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Pull platform-wide impact metrics
   const { data: metrics } = await db

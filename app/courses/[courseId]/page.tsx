@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 export const dynamic = 'force-dynamic';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -29,7 +29,7 @@ export async function generateMetadata({
   }
 
   const supabase = await createClient();
-  const db = (await getAdminClient()) || supabase;
+  const db = (await requireAdminClient()) || supabase;
 
   if (!db) {
     return {
@@ -107,7 +107,7 @@ export default async function CourseDetailPage({
   }
 
   const supabase = await createClient();
-  const db = (await getAdminClient()) || supabase;
+  const db = (await requireAdminClient()) || supabase;
 
   if (!db) {
     notFound();

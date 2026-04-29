@@ -2,12 +2,12 @@
 import { createAdminClient } from '@/lib/supabase/admin';
 import type { SupabaseClient } from '@supabase/supabase-js';
 
-/** @deprecated Use await getAdminClient() from '@/lib/supabase/admin' instead. */
+/** @deprecated Use await requireAdminClient() from '@/lib/supabase/admin' instead. */
 export async function getDeprecatedSupabaseAdminClient(): Promise<SupabaseClient<any>> {
-  return getAdminClient();
+  return requireAdminClient();
 }
 
-/** @deprecated Use await getAdminClient() from '@/lib/supabase/admin' instead. */
+/** @deprecated Use await requireAdminClient() from '@/lib/supabase/admin' instead. */
 export const supabaseAdmin: SupabaseClient<any> = new Proxy({} as SupabaseClient<any>, {
   get(_target, prop) {
     if (!_client) _client = createAdminClient();

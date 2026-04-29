@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 import { ApplicationUpdateSchema } from '@/lib/validators/course';
 import { getApplication, updateApplication, deleteApplication } from '@/lib/db/courses';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { logger } from '@/lib/logger';
@@ -64,7 +64,7 @@ async function _PATCH(request: Request, { params }: { params: Promise<{ id: stri
     const data = await updateApplication(id, updateData as any);
 
     // Audit log (non-fatal)
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (db) {
       await db
         .from('audit_logs')
@@ -99,7 +99,7 @@ async function _DELETE(request: Request, { params }: { params: Promise<{ id: str
 
     const data = await deleteApplication(id);
 
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (db) {
       await db
         .from('audit_logs')

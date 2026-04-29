@@ -14,7 +14,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getStripe } from '@/lib/stripe/client';
 import { logger } from '@/lib/logger';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
@@ -30,7 +30,7 @@ export async function POST(request: NextRequest) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   // Auth: must be authenticated

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeDbError } from '@/lib/api/safe-error';
 
@@ -17,7 +17,7 @@ export async function GET(request: NextRequest) {
       ? e
       : NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data, error } = await db
     .from('social_campaigns')
     .select('*')
@@ -36,7 +36,7 @@ export async function POST(request: NextRequest) {
       ? e
       : NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const body = await request.json().catch(() => null);
   if (!body?.name || !body?.platform) {
     return NextResponse.json({ error: 'name and platform are required' }, { status: 400 });

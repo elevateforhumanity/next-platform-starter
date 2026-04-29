@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import ProgramSubmitForm from './ProgramSubmitForm';
 
 export const dynamic = 'force-dynamic';
@@ -12,7 +12,7 @@ export default async function ProviderProgramNewPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/provider/programs/new');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: profile } = await supabase
     .from('profiles')
     .select('tenant_id')

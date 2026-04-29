@@ -22,7 +22,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 // ─── Role vocabulary ──────────────────────────────────────────────────────────
 // Must match the CHECK constraint on organization_users.role.
@@ -82,7 +82,7 @@ export async function requireOrgAccess(
     throw NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) {
     throw NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
   }
@@ -136,7 +136,7 @@ export async function getSessionOrg(
   } = await supabase.auth.getUser();
   if (!user) return null;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return null;
 
   const { data } = await db
@@ -163,7 +163,7 @@ export async function assertOrgRole(
   orgId: string,
   minRole: OrgRole = 'report_viewer',
 ): Promise<boolean> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return false;
 
   const { data: profile } = await db

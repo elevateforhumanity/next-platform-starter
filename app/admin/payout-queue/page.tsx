@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 import {
@@ -62,7 +62,7 @@ export default async function PayoutQueuePage({
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/admin/payout-queue');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) redirect('/admin/dashboard');
 
   const { data: profile } = await db

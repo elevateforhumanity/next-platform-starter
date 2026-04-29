@@ -2,7 +2,7 @@ import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { Resend } from 'resend';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const runtime = 'nodejs';
 export const dynamic = 'force-dynamic';
@@ -255,7 +255,7 @@ export async function POST(request: NextRequest) {
     }
 
     // Persist booking to DB regardless of email status
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (db) {
       const p = event.payload;
       await db

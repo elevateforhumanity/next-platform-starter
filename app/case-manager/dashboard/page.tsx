@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
@@ -25,7 +25,7 @@ export default async function CaseManagerDashboardPage() {
   const { user } = await requireRole(['case_manager', 'admin', 'super_admin', 'staff']);
 
   const supabase = await createClient();
-  const admin = await getAdminClient();
+  const admin = await requireAdminClient();
   const db = admin || supabase;
 
   // ─── Assigned participants ────────────────────────────────────────────────

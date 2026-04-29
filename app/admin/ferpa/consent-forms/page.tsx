@@ -1,5 +1,5 @@
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { FileText, CheckCircle, Clock } from 'lucide-react';
@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function FerpaConsentFormsPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: forms, count } = await db
     .from('documents')

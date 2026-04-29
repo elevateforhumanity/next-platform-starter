@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import CredentialForm from '../CredentialForm';
 
@@ -14,7 +14,7 @@ export default async function NewCredentialPage() {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: profile } = await supabase
     .from('profiles')
     .select('role')

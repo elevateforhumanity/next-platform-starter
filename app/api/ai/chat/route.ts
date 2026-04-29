@@ -4,7 +4,7 @@ export const maxDuration = 60;
 
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import OpenAI from 'openai';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -29,7 +29,7 @@ async function _POST(req: Request) {
     }
 
     const supabase = await createClient();
-    const db = (await getAdminClient()) || supabase;
+    const db = (await requireAdminClient()) || supabase;
     const {
       data: { user },
     } = await supabase.auth.getUser();
@@ -159,7 +159,7 @@ async function _GET(req: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const db = (await getAdminClient()) || supabase;
+    const db = (await requireAdminClient()) || supabase;
     const {
       data: { user },
     } = await supabase.auth.getUser();

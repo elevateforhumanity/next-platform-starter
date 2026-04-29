@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { Plus, BookOpen } from 'lucide-react';
 
@@ -21,7 +21,7 @@ export default async function ProviderProgramsPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/provider/programs');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: profile } = await supabase
     .from('profiles')
     .select('tenant_id')

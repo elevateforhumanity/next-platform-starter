@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
@@ -23,7 +23,7 @@ interface ValidationResult {
 async function _POST(request: NextRequest) {
   try {
     const supabase = await createClient();
-    const admin = await getAdminClient();
+    const admin = await requireAdminClient();
     const db = admin || supabase;
 
     const {

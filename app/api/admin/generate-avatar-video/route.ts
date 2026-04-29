@@ -4,7 +4,7 @@ export const maxDuration = 300;
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createTalk, pollTalkResult } from '@/lib/d-id/generate-talk';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -45,7 +45,7 @@ async function _POST(req: NextRequest) {
 
   try {
     const supabase = await createClient();
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
 
     const {
       data: { user },

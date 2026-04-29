@@ -1,7 +1,7 @@
 // app/api/analytics/events/route.ts
 // Track user activity events
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -17,7 +17,7 @@ async function _POST(req: NextRequest) {
   const auth = await apiAuthGuard(req);
   if (auth.error) return auth.error;
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const { tenantId, eventType, payload, path } = await req.json();
   // userId is always the authenticated user — never trust client-supplied userId
   const userId = auth.user.id;

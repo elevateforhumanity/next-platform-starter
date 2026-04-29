@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 import { createRouteHandlerClient } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { randomBytes } from 'node:crypto';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -42,7 +42,7 @@ async function _POST(req: NextRequest) {
   if (!['admin', 'partner'].includes(prof?.role)) return new Response('Forbidden', { status: 403 });
 
   // Use service role for certificate/enrollment writes (RLS restricts inserts to admin)
-  const adminDb = await getAdminClient();
+  const adminDb = await requireAdminClient();
 
   if (!adminDb) {
     return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

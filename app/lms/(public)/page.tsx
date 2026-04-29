@@ -38,8 +38,8 @@ export default async function LmsPublicPage() {
   if (user) redirect('/learner/dashboard');
 
   // Load programs from DB — active, published, ordered
-  const { getAdminClient } = await import('@/lib/supabase/admin');
-  const db = await getAdminClient();
+  const { requireAdminClient: getAdminClient } = await import('@/lib/supabase/admin');
+  const db = await requireAdminClient();
   const { data: dbPrograms } = db
     ? await db
         .from('programs')

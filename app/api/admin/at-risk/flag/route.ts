@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
@@ -17,7 +17,7 @@ export async function POST(request: NextRequest) {
   const { studentId, enrollmentId } = await request.json();
   if (!studentId) return safeError('studentId required', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { error } = await db
     .from('profiles')

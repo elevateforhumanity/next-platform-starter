@@ -2,7 +2,7 @@
 // Used by the campaign composer to show real contact counts.
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeInternalError } from '@/lib/api/safe-error';
 
 export const runtime = 'nodejs';
@@ -12,7 +12,7 @@ export async function GET(req: NextRequest) {
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
 
   try {

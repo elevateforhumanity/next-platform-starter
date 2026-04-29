@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { resolveLessonOjt } from '@/lib/ojt/resolveLessonOjt';
 
 /**
@@ -11,7 +11,7 @@ import { resolveLessonOjt } from '@/lib/ojt/resolveLessonOjt';
  *   3. If requires_verification=true, those entries must be supervisor-verified
  */
 export async function canCompleteLesson(userId: string, lessonId: string): Promise<boolean> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const lesson = await resolveLessonOjt(db, lessonId);
 

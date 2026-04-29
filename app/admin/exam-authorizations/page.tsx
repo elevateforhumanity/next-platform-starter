@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { AlertTriangle, Clock, CheckCircle, XCircle, Calendar, RefreshCw } from 'lucide-react';
 import ExamAuthWorkQueue from './ExamAuthWorkQueue';
 
@@ -19,7 +19,7 @@ export default async function ExamAuthorizationsPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: profile } = await supabase
     .from('profiles')

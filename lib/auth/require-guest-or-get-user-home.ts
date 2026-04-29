@@ -10,7 +10,7 @@
  */
 
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
 
 export async function requireGuestOrGetUserHome(): Promise<string | null> {
@@ -21,7 +21,7 @@ export async function requireGuestOrGetUserHome(): Promise<string | null> {
 
   if (!user) return null;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: profile } = await db
     .from('profiles')
     .select('role')

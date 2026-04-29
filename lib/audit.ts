@@ -6,7 +6,7 @@
 // 2. Written to stderr as structured JSON (container-level visibility)
 // 3. Counted in auditFailureCount (scrapable by monitoring)
 // 4. Written to fallback file if DB is unreachable (disaster recovery)
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 // Telemetry: in-process failure counter. Expose via /api/health or metrics endpoint.
@@ -38,7 +38,7 @@ async function onAuditFailure(context: string, error: unknown, event: Record<str
   // Channel 3: Durable DB fallback — separate table with minimal constraints.
   // Uses a fresh client to avoid reusing the one that just failed.
   try {
-    const fallbackClient = await getAdminClient();
+    const fallbackClient = await requireAdminClient();
     // Fire-and-forget: don't await, don't let this throw
     fallbackClient
       .from('audit_failures')
@@ -158,9 +158,9 @@ export async function logAuditEvent(event: AuditEvent): Promise<void> {
   };
 
   try {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
-    // getAdminClient() returns null when SUPABASE_SERVICE_ROLE_KEY is absent
+    // requireAdminClient() returns null when SUPABASE_SERVICE_ROLE_KEY is absent
     // (e.g. cold Lambda start before app_secrets hydration, or missing secret).
     // Throwing here would cascade into the 800ms audit timeout on every request.
     // Log to stderr and return — the fallback channels in onAuditFailure handle

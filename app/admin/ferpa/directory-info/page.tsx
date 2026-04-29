@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import DirectoryInfoClient from './DirectoryInfoClient';
 
@@ -38,7 +38,7 @@ const DIRECTORY_FIELDS = [
 ];
 
 async function getDirectorySettings() {
-  const adminClient = await getAdminClient();
+  const adminClient = await requireAdminClient();
   const fallback = await createClient();
   const db = adminClient ?? fallback;
 

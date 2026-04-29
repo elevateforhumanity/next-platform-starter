@@ -8,7 +8,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getOrgContext } from '@/lib/org/getOrgContext';
 import { requireOrgAccess } from '@/lib/auth/org-guard';
 import { sendOrgInviteEmail } from '@/lib/email/sendOrgInviteEmail';
@@ -69,7 +69,7 @@ async function _POST(req: NextRequest) {
     return safeError('Cannot invite to a different organization', 403);
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   try {
@@ -176,7 +176,7 @@ async function _GET(req: NextRequest) {
     return res as NextResponse;
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   try {

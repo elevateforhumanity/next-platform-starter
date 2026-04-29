@@ -14,7 +14,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
@@ -44,7 +44,7 @@ export async function POST(req: NextRequest) {
   if (!email || !email.includes('@')) return safeError('Valid email required', 400);
   if (!examType) return safeError('examType required', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Database unavailable', 500);
 
   try {
@@ -107,7 +107,7 @@ export async function PATCH(req: NextRequest) {
   const { email, examType } = body;
   if (!email || !examType) return safeError('email and examType required', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Database unavailable', 500);
 
   const { error } = await db

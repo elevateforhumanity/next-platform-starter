@@ -1,7 +1,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { prepareSSNForStorage } from '@/lib/security/ssn';
@@ -10,7 +10,7 @@ import { logger } from '@/lib/logger';
 
 export async function createWOTCApplication(formData: FormData) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -72,7 +72,7 @@ export async function createWOTCApplication(formData: FormData) {
 
 export async function updateWOTCApplication(id: string, formData: FormData) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -133,7 +133,7 @@ export async function updateWOTCApplication(id: string, formData: FormData) {
 
 export async function submitWOTCApplication(id: string) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const {
     data: { user },
@@ -169,7 +169,7 @@ export async function submitWOTCApplication(id: string) {
 
 export async function updateWOTCStatus(id: string, status: string, notes?: string) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const {
     data: { user },
@@ -211,7 +211,7 @@ export async function updateWOTCStatus(id: string, status: string, notes?: strin
 
 export async function deleteWOTCApplication(id: string) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const {
     data: { user },

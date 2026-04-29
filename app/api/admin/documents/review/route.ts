@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { sendEmail } from '@/lib/email';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -20,7 +20,7 @@ async function _POST(request: NextRequest) {
     if (auth.error) return auth.error;
 
     const supabase = await createClient();
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
 
     const { documentId, action, rejectionReason, adminId } = await request.json();
 

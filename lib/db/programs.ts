@@ -18,7 +18,7 @@
  * has_lms_course, program_funding table).
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import type { DeliveryModel, FundingType, EnrollmentType } from '@/lib/programs/program-schema';
 
@@ -129,7 +129,7 @@ export interface DbProgram {
 // ─── DB client ────────────────────────────────────────────────────────────────
 
 async function getDb() {
-  const admin = await getAdminClient();
+  const admin = await requireAdminClient();
   if (admin) return admin;
   return await createClient();
 }

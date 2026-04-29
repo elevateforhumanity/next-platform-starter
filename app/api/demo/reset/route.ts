@@ -6,7 +6,7 @@ import { logger } from '@/lib/logger';
  */
 
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { isDemoEnabled, getDemoTenantSlug } from '@/lib/demo/context';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
@@ -33,7 +33,7 @@ async function _POST(request: Request) {
       return NextResponse.json({ error: 'Demo mode is not enabled' }, { status: 403 });
     }
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

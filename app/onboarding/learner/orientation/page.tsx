@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -221,7 +221,7 @@ export default async function OrientationPage() {
   } = await sessionClient.auth.getUser();
   if (!user) redirect('/login');
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // Pull from program_enrollments first, fall back to training_enrollments (legacy HVAC)
   const [{ data: enrollment }, { data: legacyEnrollment }] = await Promise.all([

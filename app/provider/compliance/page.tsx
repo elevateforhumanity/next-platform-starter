@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { CheckCircle, Clock, AlertTriangle, Upload } from 'lucide-react';
 import ComplianceUpload from './ComplianceUpload';
 
@@ -23,7 +23,7 @@ export default async function ProviderCompliancePage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/provider/compliance');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: profile } = await supabase
     .from('profiles')
     .select('tenant_id')

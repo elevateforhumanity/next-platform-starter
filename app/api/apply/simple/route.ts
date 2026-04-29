@@ -1,6 +1,6 @@
 // PUBLIC ROUTE: simplified program application form
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { resolveProgramId } from '@/lib/programs/resolve';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -41,9 +41,9 @@ async function _POST(req: Request) {
     // WIOA-style prescreen
     const eligible = funding !== 'Self Pay' && program !== 'Not Sure';
 
-    let supabase: Awaited<ReturnType<typeof getAdminClient>> | null = null;
+    let supabase: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
     try {
-      supabase = await getAdminClient();
+      supabase = await requireAdminClient();
     } catch {
       /* non-fatal — falls back to anon client */
     }

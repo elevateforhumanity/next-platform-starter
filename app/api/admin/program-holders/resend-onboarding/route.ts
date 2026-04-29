@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { hydrateProcessEnv } from '@/lib/secrets';
 
@@ -19,7 +19,7 @@ export const dynamic = 'force-dynamic';
 export async function POST(req: NextRequest) {
   await hydrateProcessEnv();
   const supabase = await createClient();
-  const adminDb = await getAdminClient();
+  const adminDb = await requireAdminClient();
 
   if (!adminDb) {
     return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });

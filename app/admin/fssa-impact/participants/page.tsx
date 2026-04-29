@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft, UserPlus } from 'lucide-react';
 
@@ -28,7 +28,7 @@ function fmtDate(d: string | null) {
 export default async function FssaParticipantsPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) notFound();
 
   const { data, count } = await db

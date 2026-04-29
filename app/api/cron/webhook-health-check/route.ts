@@ -1,6 +1,6 @@
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { hydrateProcessEnv } from '@/lib/secrets';
 
@@ -31,7 +31,7 @@ export async function GET(request: NextRequest) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const adminDb = await getAdminClient();
+  const adminDb = await requireAdminClient();
   if (!adminDb) {
     return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });
   }

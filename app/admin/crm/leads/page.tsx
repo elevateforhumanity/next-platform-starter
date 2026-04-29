@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import {
   Target,
@@ -32,7 +32,7 @@ const STATUS_STYLES: Record<string, string> = {
 
 export default async function CRMLeadsPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const staleDate = new Date(Date.now() - 5 * 24 * 60 * 60 * 1000).toISOString();
 

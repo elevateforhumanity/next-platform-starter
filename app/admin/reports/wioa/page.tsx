@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   ChevronRight,
   Download,
@@ -71,7 +71,7 @@ async function fetchWioaData(filters: Filters): Promise<{
   participants: ParticipantRow[];
   viewMissing: boolean;
 }> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Try the unified view first
   let query = db

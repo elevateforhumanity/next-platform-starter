@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireAdmin } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { createCohort } from './actions';
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default async function NewCohortPage() {
   await requireAdmin();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) throw new Error('Admin client unavailable');
 
   // Load programs for the dropdown

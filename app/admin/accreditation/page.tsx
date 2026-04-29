@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import {
   Shield,
@@ -29,7 +29,7 @@ const CAT_LABELS: Record<string, string> = {
 
 export default async function AccreditationPage() {
   await requireRole(['admin', 'super_admin']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const [standardsRes, evidenceRes] = await Promise.all([
     db

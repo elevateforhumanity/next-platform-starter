@@ -1,5 +1,5 @@
 import { logger } from '@/lib/logger';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { auditLog, AuditAction, AuditEntity } from '@/lib/logging/auditLog';
 
 export type CaseStatus =
@@ -67,7 +67,7 @@ export interface SignatureCompleteness {
 export async function createEnrollmentCase(
   params: CreateCaseParams,
 ): Promise<EnrollmentCase | null> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const defaultSignatures: SignerRole[] = params.signaturesRequired || [
     'student',
@@ -125,7 +125,7 @@ export async function createEnrollmentCase(
 }
 
 export async function checkSignatureCompleteness(caseId: string): Promise<SignatureCompleteness> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: caseData } = await supabase
     .from('enrollment_cases')
@@ -152,7 +152,7 @@ export async function checkSignatureCompleteness(caseId: string): Promise<Signat
 export async function addSignature(
   params: SignatureParams,
 ): Promise<{ success: boolean; completeness: SignatureCompleteness }> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // agreement_acceptances: subject_type, subject_id, agreement_key, agreement_version, accepted_name, accepted_email, accepted_ip, user_agent
   const { data: signature, error } = await supabase
@@ -202,7 +202,7 @@ export async function transitionCaseStatus(
   actorId?: string,
   actorRole?: string,
 ): Promise<boolean> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: currentCase } = await supabase
     .from('enrollment_cases')
@@ -245,7 +245,7 @@ export async function transitionCaseStatus(
 }
 
 export async function getCaseTimeline(caseId: string): Promise<any[]> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data } = await supabase
     .from('case_events')
@@ -257,7 +257,7 @@ export async function getCaseTimeline(caseId: string): Promise<any[]> {
 }
 
 export async function getCaseTasks(caseId: string): Promise<any[]> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data } = await supabase
     .from('case_tasks')
@@ -274,7 +274,7 @@ export async function completeTask(
   evidenceUrl?: string,
   evidenceMetadata?: any,
 ): Promise<boolean> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: task, error } = await supabase
     .from('case_tasks')
@@ -311,7 +311,7 @@ export async function completeTask(
 }
 
 export async function initializeCaseTasks(caseId: string): Promise<number> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data } = await supabase.rpc('initialize_case_tasks', { p_case_id: caseId });
 

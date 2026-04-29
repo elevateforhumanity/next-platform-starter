@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import { requireAdmin } from '@/lib/authGuards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 
@@ -22,7 +22,7 @@ const STATUS_BADGE: Record<string, string> = {
 
 export default async function SocialMediaPage() {
   await requireAdmin();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: campaigns } = await db
     .from('social_campaigns')

@@ -1,6 +1,6 @@
 // PUBLIC ROUTE: public intake status check by token
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 export const runtime = 'nodejs';
@@ -33,7 +33,7 @@ export async function GET(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid token format.' }, { status: 400 });
     }
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Service unavailable.' }, { status: 503 });
     }

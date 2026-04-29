@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { BookOpen, ChevronRight } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
@@ -20,7 +20,7 @@ export default async function PartnerProgramsPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/partner/login');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) redirect('/partner/login');
 
   const { data: profile } = await db

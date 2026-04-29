@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 
@@ -59,7 +59,7 @@ export async function GET(_req: NextRequest, { params }: Params) {
   const user = await getCurrentUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const attempt = await loadAttempt(db, attemptId, user.id);
   if (!attempt) return NextResponse.json({ error: 'Attempt not found' }, { status: 404 });
 
@@ -83,7 +83,7 @@ export async function PATCH(req: NextRequest, { params }: Params) {
     return NextResponse.json({ error: parsed.error.flatten() }, { status: 422 });
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const attempt = await loadAttempt(db, attemptId, user.id);
   if (!attempt) return NextResponse.json({ error: 'Attempt not found' }, { status: 404 });
 

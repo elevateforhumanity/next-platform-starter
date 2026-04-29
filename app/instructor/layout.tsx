@@ -2,7 +2,7 @@ import React from 'react';
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import {
   BookOpen,
@@ -38,7 +38,7 @@ const navItems = [
 
 export default async function InstructorLayout({ children }: { children: React.ReactNode }) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) throw new Error('Admin client failed to initialize');
 
   if (!supabase) {

@@ -2,7 +2,7 @@ import { logger } from '@/lib/logger';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { z } from 'zod';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -42,7 +42,7 @@ async function _GET(request: NextRequest) {
       .eq('id', user.id)
       .maybeSingle();
 
-    const adminClient = await getAdminClient();
+    const adminClient = await requireAdminClient();
 
     if (!adminClient) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
@@ -96,7 +96,7 @@ async function _POST(request: NextRequest) {
     // Generate ticket number
     const ticketNumber = `TKT-${Date.now().toString(36).toUpperCase()}`;
 
-    const adminClient = await getAdminClient();
+    const adminClient = await requireAdminClient();
     const { data: ticket, error } = await adminClient
       .from('support_tickets')
       .insert({

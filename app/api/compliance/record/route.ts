@@ -1,6 +1,6 @@
 import { safeInternalError } from '@/lib/api/safe-error';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
@@ -12,7 +12,7 @@ async function _POST(request: NextRequest) {
   try {
     await hydrateProcessEnv();
     const supabase = await createClient();
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (!db)
       return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 
@@ -131,7 +131,7 @@ async function _GET(request: NextRequest) {
   try {
     await hydrateProcessEnv();
     const supabase = await createClient();
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (!db)
       return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 

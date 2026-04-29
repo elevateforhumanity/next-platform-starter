@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export type HealthStatus = 'healthy' | 'degraded' | 'down';
 
@@ -34,7 +34,7 @@ async function timeCheck<T>(
 }
 
 export async function getSiteHealthSnapshot(): Promise<SiteHealthSnapshot> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const checks: Promise<HealthCheckResult>[] = [
     // Real DB ping

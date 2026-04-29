@@ -1,5 +1,5 @@
 import { logger } from '@/lib/logger';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
@@ -95,7 +95,7 @@ async function _POST(request: NextRequest) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const supabaseAdmin = await getAdminClient();
+    const supabaseAdmin = await requireAdminClient();
 
     if (!supabaseAdmin) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

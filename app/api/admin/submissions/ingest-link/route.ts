@@ -13,7 +13,7 @@ export const maxDuration = 30;
  */
 
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
@@ -174,7 +174,7 @@ export async function POST(req: Request) {
     return safeError('Invalid URL', 400);
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   // 1. Save source_link row immediately (fetch_status = pending)

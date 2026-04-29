@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
@@ -19,7 +19,7 @@ async function _PATCH(req: Request, { params }: { params: Promise<{ id: string }
   } = await supabase.auth.getUser();
   if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-  const adminClient = await getAdminClient();
+  const adminClient = await requireAdminClient();
 
   const { data: row, error: rowErr } = await adminClient
     .from('workone_checklist')

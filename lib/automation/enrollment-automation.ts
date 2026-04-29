@@ -6,7 +6,7 @@ import { logger } from '@/lib/logger';
  * Automates enrollment workflows and notifications
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 
 export interface EnrollmentAutomation {
@@ -20,7 +20,7 @@ export interface EnrollmentAutomation {
  * Send welcome sequence after enrollment
  */
 export async function sendWelcomeSequence(enrollmentId: string) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   await setAuditContext(supabase, { systemActor: 'enrollment_automation' });
 
   const { data: enrollment } = await supabase
@@ -97,7 +97,7 @@ export async function sendWelcomeSequence(enrollmentId: string) {
  * Send reminder to inactive students
  */
 export async function sendInactivityReminders() {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   await setAuditContext(supabase, { systemActor: 'enrollment_automation' });
 
   // Find students who haven't been active in 7 days
@@ -161,7 +161,7 @@ export async function sendInactivityReminders() {
  * Send completion nudge to students near completion
  */
 export async function sendCompletionNudges() {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   await setAuditContext(supabase, { systemActor: 'enrollment_automation' });
 
   // Find students who are 80%+ complete but haven't finished
@@ -223,7 +223,7 @@ export async function sendCompletionNudges() {
  * Auto-assign courses based on program enrollment
  */
 export async function autoAssignCourses(enrollmentId: string) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   await setAuditContext(supabase, { systemActor: 'enrollment_automation' });
 
   const { data: enrollment } = await supabase

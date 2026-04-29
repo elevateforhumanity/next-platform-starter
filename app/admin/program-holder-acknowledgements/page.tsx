@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { CheckCircle, Clock, FileText, ShieldCheck, BookOpen } from 'lucide-react';
@@ -41,7 +41,7 @@ function fmtDate(iso: string) {
 
 export default async function ProgramHolderAcknowledgementsPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const [acksRes, handbookRes, holdersRes] = await Promise.all([
     db

@@ -1,7 +1,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { revalidatePath } from 'next/cache';
 import { updateProgramProgress } from '@/lib/lms/update-program-progress';
 import { logger } from '@/lib/logger';
@@ -29,9 +29,9 @@ export async function submitAssignment(formData: FormData) {
 
   if (!assignmentId) return { error: 'Assignment ID is required' };
 
-  let db: Awaited<ReturnType<typeof getAdminClient>> | null = null;
+  let db: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
   try {
-    db = await getAdminClient();
+    db = await requireAdminClient();
   } catch (err) {
     logger.error('[Assignments] getAdminClient failed', err);
   }

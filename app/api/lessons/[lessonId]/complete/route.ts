@@ -3,7 +3,7 @@ import { resolveHvacCourseId } from '@/lib/courses/resolvers';
 import { checkEligibilityAndAuthorize } from '@/lib/services/exam-eligibility';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser } from '@/lib/auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -48,8 +48,8 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ lesso
     );
 
     // Admin client required — bypasses RLS recursion in lms_lessons view.
-    // await getAdminClient() throws if SUPABASE_SERVICE_ROLE_KEY is missing.
-    const db = await getAdminClient();
+    // await requireAdminClient() throws if SUPABASE_SERVICE_ROLE_KEY is missing.
+    const db = await requireAdminClient();
 
     // Get lesson to find course_id.
     // lms_lessons is a view: curriculum_lessons (priority) UNION training_lessons (fallback).
@@ -447,7 +447,7 @@ async function _DELETE(
     }
 
     const { lessonId } = await params;
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
 
     // Resolve course_id for progress recalculation
     const { data: lessonRow } = await db

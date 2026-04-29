@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import { AlertTriangle, Clock, ChevronRight, ArrowRight } from 'lucide-react';
@@ -18,7 +18,15 @@ const RISK_STYLES: Record<string, string> = {
 
 export default async function AtRiskPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = await getAdminClient();
+  const adminDb = await requireAdminClient();
+  if (!adminDb) {
+    return (
+      <div className="min-h-screen bg-white flex items-center justify-center">
+        <p className="text-slate-500 text-sm">Service unavailable — admin client could not be initialized.</p>
+      </div>
+    );
+  }
+  const db = adminDb;
   const inactive14 = new Date(Date.now() - 14 * 24 * 60 * 60 * 1000).toISOString();
 
   const [flaggedRes, inactiveEnrollRes] = await Promise.all([

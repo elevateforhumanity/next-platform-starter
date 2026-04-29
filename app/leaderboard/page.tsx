@@ -3,7 +3,7 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Trophy, Medal, Flame } from 'lucide-react';
 
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 export const metadata: Metadata = {
   title: 'Leaderboard | Elevate For Humanity',
   description: 'See top learners and compete for the top spots.',
@@ -17,7 +17,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function LeaderboardPage() {
   const supabase = await createClient();
-  const db = (await getAdminClient()) || supabase;
+  const db = (await requireAdminClient()) || supabase;
   const { data: dbRows } = await db.from('user_points').select('*').limit(50);
   const topLearners = (dbRows as any[]) || [];
 

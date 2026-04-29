@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   CheckCircle,
   ArrowRight,
@@ -62,7 +62,7 @@ const HOW_IT_WORKS = [
 ];
 
 export default async function ForAgenciesPage() {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Pull published programs with outcome data for proof
   const { data: programs } = await db

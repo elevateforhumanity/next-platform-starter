@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default async function CaseloadReportsPage() {
   await requireRole(['admin', 'super_admin']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Total active caseload = active program enrollments
   const { count: totalCaseload } = await db

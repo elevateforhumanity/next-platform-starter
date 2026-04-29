@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -24,7 +24,7 @@ export const dynamic = 'force-dynamic';
 
 export default async function AnalyticsPage() {
   const supabase = await createClient();
-  const db = (await getAdminClient()) || supabase;
+  const db = (await requireAdminClient()) || supabase;
 
   if (!supabase) {
     redirect('/login?redirect=/employer-portal/analytics');

@@ -1,6 +1,6 @@
 'use server';
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
@@ -15,7 +15,7 @@ export async function bulkUpdateCourseStatus(
   if (auth.error) return { success: false, error: 'Unauthorized' };
   if (ids.length === 0) return { success: true };
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return { success: false, error: 'DB unavailable' };
 
   const { error } = await db
@@ -42,7 +42,7 @@ export async function exportCoursesCSV(
   const auth = await apiRequireAdmin(req);
   if (auth.error) return { error: 'Unauthorized' };
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return { error: 'DB unavailable' };
 
   let query = db

@@ -11,7 +11,7 @@
  *   Step 3: remove HVAC_COURSE_ID / HVAC_PROGRAM_ID constants
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 
 // Module-level cache — avoids repeated DB round-trips within a single process.
@@ -26,7 +26,7 @@ const programIdCache = new Map<string, string>();
 export async function resolveCourseId(slug: string): Promise<string | null> {
   if (courseIdCache.has(slug)) return courseIdCache.get(slug)!;
 
-  const supabase = (await getAdminClient()) ?? (await createClient());
+  const supabase = (await requireAdminClient()) ?? (await createClient());
   const { data } = await supabase.from('courses').select('id').eq('slug', slug).maybeSingle();
 
   if (data?.id) {
@@ -43,7 +43,7 @@ export async function resolveCourseId(slug: string): Promise<string | null> {
 export async function resolveProgramId(slug: string): Promise<string | null> {
   if (programIdCache.has(slug)) return programIdCache.get(slug)!;
 
-  const supabase = (await getAdminClient()) ?? (await createClient());
+  const supabase = (await requireAdminClient()) ?? (await createClient());
   const { data } = await supabase.from('programs').select('id').eq('slug', slug).maybeSingle();
 
   if (data?.id) {

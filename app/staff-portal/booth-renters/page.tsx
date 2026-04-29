@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import {
@@ -64,7 +64,7 @@ const STATUS_STYLES: Record<
 export default async function BoothRentersPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
 
-  const _admin = await getAdminClient();
+  const _admin = await requireAdminClient();
   const supabase = await createClient();
   const db = _admin || supabase;
 

@@ -1,7 +1,7 @@
 import { logger } from '@/lib/logger';
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { geocodeAddress, buildAddressString, isGeocodingResult } from '@/lib/geo/geocode';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logAdminAudit, AdminAction, BULK_ENTITY_ID } from '@/lib/admin/audit-log';
@@ -15,7 +15,7 @@ async function _POST(req: Request) {
     if (rateLimited) return rateLimited;
 
     const supabase = await createClient();
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
     }

@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiAuthGuard } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -57,7 +57,7 @@ export async function POST(request: NextRequest) {
     return safeError('submission_text or file_urls is required', 400);
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Verify the lesson exists and belongs to the course
   const { data: lesson, error: lessonErr } = await db
@@ -149,7 +149,7 @@ export async function GET(request: NextRequest) {
 
   if (!course_id) return safeError('course_id is required', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   let query = db
     .from('step_submissions')

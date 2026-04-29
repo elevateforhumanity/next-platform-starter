@@ -13,7 +13,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
@@ -29,7 +29,7 @@ export async function GET(request: NextRequest) {
   const orgId = searchParams.get('org_id');
   const type = searchParams.get('type');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   let query = db
@@ -73,7 +73,7 @@ export async function POST(request: NextRequest) {
     return safeError('Invalid body — org_id (UUID), storage_path, and type required', 400);
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   const { data, error } = await db

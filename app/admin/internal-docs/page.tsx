@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { FileText, Clock, CheckCircle, XCircle } from 'lucide-react';
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default async function InternalDocsPage() {
   await requireRole(['admin', 'super_admin']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // documents: id, document_type, file_name, status, created_at, expiration_date, user_id
   const [

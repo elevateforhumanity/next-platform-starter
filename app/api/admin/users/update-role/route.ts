@@ -4,7 +4,7 @@
 // Requires admin or super_admin.
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -65,7 +65,7 @@ async function _POST(request: NextRequest) {
       );
     }
 
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     const { error } = await db
       .from('profiles')
       .update({ role, updated_at: new Date().toISOString() })

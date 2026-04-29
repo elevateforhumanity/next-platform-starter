@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle, AlertCircle } from 'lucide-react';
@@ -20,7 +20,7 @@ export default async function ProgramHolderMOUPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/program-holder/mou');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: profile } = await db
     .from('profiles')

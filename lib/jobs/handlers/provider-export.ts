@@ -11,7 +11,7 @@
  *   format: 'csv'
  */
 
-import { createAdminClient, getAdminClient } from '@/lib/supabase/admin';
+import { createAdminClient, requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 type ExportType = 'learners' | 'enrollments' | 'completions' | 'credentials' | 'placements';
@@ -110,7 +110,7 @@ export async function handleProviderDataExport(payload: Record<string, any>): Pr
     throw new Error('Missing export_type or tenant_id');
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) throw new Error('Admin client unavailable');
 
   const rows = await fetchRows(db, export_type as ExportType, tenant_id);

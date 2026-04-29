@@ -17,7 +17,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { randomBytes } from 'crypto';
 import { getAffirmCheckoutConfig, affirm } from '@/lib/affirm/client';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { resolvePaymentAmount } from '@/lib/payments/resolve-amount';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -91,7 +91,7 @@ async function _POST(request: NextRequest) {
     const orderId = `EFH-AFFIRM-${Date.now()}-${randomBytes(6).toString('hex')}`;
 
     // Store checkout context in DB (server-side, not URL params)
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import * as Sentry from '@sentry/nextjs';
 
@@ -12,7 +12,7 @@ export const dynamic = 'force-dynamic';
 
 async function _GET(request: Request) {
   const supabase = await createClient();
-  const admin = await getAdminClient();
+  const admin = await requireAdminClient();
   const db = admin || supabase;
 
   if (!db) {

@@ -1,7 +1,7 @@
 // app/api/xapi/statement/route.ts
 // xAPI Learning Record Store (LRS) endpoint
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { parseBody } from '@/lib/api-helpers';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -16,7 +16,7 @@ export const dynamic = 'force-dynamic';
  * Receive and store xAPI statements
  */
 async function _POST(request: NextRequest) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
@@ -36,7 +36,7 @@ async function _POST(request: NextRequest) {
     const statements = Array.isArray(body) ? body : [body];
 
     // Resolve tenant from the authenticated user's profile
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     const { data: actorProfile } = await db
       .from('profiles')
       .select('tenant_id')
@@ -82,7 +82,7 @@ async function _POST(request: NextRequest) {
  * Retrieve xAPI statements (LRS query)
  */
 async function _GET(request: NextRequest) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;

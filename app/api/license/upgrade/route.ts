@@ -3,7 +3,7 @@ import type Stripe from 'stripe';
 import { getStripe } from '@/lib/stripe/client';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
 import { auditMutation } from '@/lib/api/withAudit';
@@ -97,7 +97,7 @@ async function _POST(request: NextRequest) {
     }
 
     // Verify license exists and belongs to tenant
-    const adminSupabase = await getAdminClient();
+    const adminSupabase = await requireAdminClient();
     const { data: license, error: licenseError } = await adminSupabase
       .from('licenses')
       .select('id, tenant_id, tier, status, stripe_customer_id')

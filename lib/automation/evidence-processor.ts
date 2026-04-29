@@ -16,7 +16,7 @@ import 'server-only';
  * - All decisions logged to automated_decisions table
  */
 
-import { createAdminClient, getAdminClient } from '@/lib/supabase/admin';
+import { createAdminClient, requireAdminClient } from '@/lib/supabase/admin';
 import { extractTextFromImage, autoExtract, OCRResult } from '@/lib/ocr/tesseract-ocr';
 import { logger } from '@/lib/logger';
 import { setAuditContext } from '@/lib/audit-context';
@@ -260,7 +260,7 @@ export async function processDocument(
   declaredType?: DocumentType,
   context?: ValidationContext,
 ): Promise<ProcessingResult> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   await setAuditContext(supabase, { systemActor: 'evidence_processor' });
   const startTime = Date.now();
 
@@ -648,7 +648,7 @@ export async function processTranscript(
     result.outcome === 'auto_approved' &&
     result.extractedData.hours_completed
   ) {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     await setAuditContext(supabase, { systemActor: 'evidence_processor' });
     const hours = result.extractedData.hours_completed as number;
 

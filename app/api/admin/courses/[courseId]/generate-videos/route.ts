@@ -23,7 +23,7 @@ import { execSync } from 'child_process';
 import fs from 'fs';
 import os from 'os';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
 import { processLesson, resolveVideoProfile } from '@/lib/video/pipeline';
@@ -53,7 +53,7 @@ export async function POST(
   if (!process.env.OPENAI_API_KEY) return safeError('OPENAI_API_KEY not set', 503);
   if (!process.env.PEXELS_API_KEY) return safeError('PEXELS_API_KEY not set', 503);
 
-  const sb = await getAdminClient();
+  const sb = await requireAdminClient();
   if (!sb) return safeError('Service unavailable', 503);
 
   // Load course to get video_profile / video_config

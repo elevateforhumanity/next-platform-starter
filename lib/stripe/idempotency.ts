@@ -4,7 +4,7 @@
  * Prevents duplicate processing of the same event
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 const ENVIRONMENT = process.env.NODE_ENV === 'production' ? 'production' : 'development';
@@ -19,7 +19,7 @@ export interface IdempotencyResult {
  * Returns immediately with 200 if duplicate
  */
 export async function checkIdempotency(eventId: string): Promise<IdempotencyResult> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data } = await supabase
     .from('processed_stripe_events')
@@ -43,7 +43,7 @@ export async function markEventProcessed(
   paymentIntentId?: string,
   metadata?: Record<string, any>,
 ): Promise<void> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { error } = await supabase.from('processed_stripe_events').insert({
     stripe_event_id: eventId,

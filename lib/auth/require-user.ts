@@ -16,7 +16,7 @@
 import { redirect } from 'next/navigation';
 import { headers } from 'next/headers';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getRoleDestination } from '@/lib/auth/role-destinations';
 
 // Must stay in sync with UserRole in lib/auth/role-destinations.ts
@@ -84,7 +84,7 @@ export async function requireUser(options?: {
     redirect(path);
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: profile } = await db.from('profiles').select('*').eq('id', user.id).maybeSingle();
 
   const role = (profile?.role ?? null) as AppRole | null;

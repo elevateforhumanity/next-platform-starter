@@ -1,5 +1,5 @@
 // app/api/account/delete/route.ts
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { NextResponse } from 'next/server';
 import { requireApiAuth } from '@/lib/auth';
 
@@ -21,7 +21,7 @@ async function _POST(request: Request) {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: user, error: userError } = await db
     .from('users')
     .select('id, email')

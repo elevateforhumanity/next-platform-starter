@@ -1,6 +1,6 @@
 import { safeInternalError } from '@/lib/api/safe-error';
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { approveApplication } from '@/lib/enrollment/approve';
 import { sendEmail } from '@/lib/email';
@@ -107,7 +107,7 @@ async function _POST(request: NextRequest) {
     }
 
     const userId = user.id;
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (!db)
       return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 

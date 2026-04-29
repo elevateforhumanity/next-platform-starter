@@ -2,7 +2,7 @@
 
 import { NextResponse } from 'next/server';
 import { z } from 'zod';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -53,7 +53,7 @@ async function _POST(req: Request) {
 
       // Only save if email provided
       if (demoData.email) {
-        const supabase = await getAdminClient();
+        const supabase = await requireAdminClient();
 
         if (!supabase) {
           return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
@@ -98,7 +98,7 @@ async function _POST(req: Request) {
     // Try to save to database (non-blocking - form should work even without DB)
     let dbSaved = false;
     try {
-      const supabase = await getAdminClient();
+      const supabase = await requireAdminClient();
 
       // Split name into first/last for marketing_contacts table
       const nameParts = data.name.trim().split(/\s+/);

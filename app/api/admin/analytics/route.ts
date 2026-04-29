@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withAuth } from '@/lib/api/withAuth';
 import { safeInternalError } from '@/lib/api/safe-error';
@@ -25,7 +25,7 @@ export const GET = withAuth(
       } = await supabase.auth.getUser();
       if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
-      const db = await getAdminClient();
+      const db = await requireAdminClient();
       if (!db) return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
 
       const { data: profile } = await db

@@ -4,7 +4,7 @@ import { redirect } from 'next/navigation';
 import { requireAdmin } from '@/lib/auth';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { AdminLicenseWrapper } from '@/components/licensing/AdminLicenseWrapper';
 import { getLicenseAccessMode } from '@/lib/licensing/billing-authority';
 import { reconcileTrialOnboarding } from '@/lib/trial/reconcile-onboarding';
@@ -39,7 +39,7 @@ export const metadata: Metadata = {
 };
 
 async function getLicenseContext() {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const supabase = await createClient();
 
@@ -88,7 +88,7 @@ export default async function AdminLayout({ children }: { children: React.ReactN
   // Fetch user + notifications + license context in parallel — single round-trip.
   // Both are bounded by a timeout so a slow DB query cannot block every admin page.
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const [context, headerData] = await Promise.all([
     withTimeout(getLicenseContext(), 3000, 'getLicenseContext').catch(() => null),

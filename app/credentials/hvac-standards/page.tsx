@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { resolveHvacCourseId } from '@/lib/courses/resolvers';
 import HVACStandardsContent from './HVACStandardsContent';
 
@@ -11,7 +11,7 @@ export const metadata: Metadata = {
 };
 
 export default async function HVACStandardsPage() {
-  const [db, courseId] = await Promise.all([getAdminClient(), resolveHvacCourseId()]);
+  const [db, courseId] = await Promise.all([requireAdminClient(), resolveHvacCourseId()]);
 
   const { data: lessons } = await db
     .from('curriculum_lessons')

@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -24,9 +24,9 @@ export default async function PartnerDashboardPage() {
 
   if (!user) redirect('/partner/login');
 
-  let db: Awaited<ReturnType<typeof getAdminClient>>;
+  let db: Awaited<ReturnType<typeof requireAdminClient>>;
   try {
-    db = await getAdminClient();
+    db = await requireAdminClient();
   } catch {
     redirect('/partner/login');
   }

@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -34,7 +34,7 @@ async function _GET(req: Request) {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const adminClient = await getAdminClient();
+  const adminClient = await requireAdminClient();
   const url = new URL(req.url);
   const status = (url.searchParams.get('status') || '').trim();
   const needs = (url.searchParams.get('needs') || '').trim();

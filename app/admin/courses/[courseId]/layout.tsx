@@ -1,5 +1,5 @@
 import { notFound } from 'next/navigation';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export default async function AdminCourseLayout({
   children,
@@ -9,7 +9,7 @@ export default async function AdminCourseLayout({
   params: Promise<{ courseId: string }>;
 }) {
   const { courseId } = await params;
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   if (!supabase) return notFound();
 

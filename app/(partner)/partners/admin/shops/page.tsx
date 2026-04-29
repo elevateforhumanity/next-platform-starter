@@ -7,7 +7,7 @@ export const metadata: Metadata = {
 };
 
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 
 export const dynamic = 'force-dynamic';
@@ -18,7 +18,7 @@ export default async function AdminShopsPage() {
 
   try {
     const supabase = await createClient();
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
 
     if (!supabase) {
       return (

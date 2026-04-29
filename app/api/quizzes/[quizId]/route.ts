@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { parseBody } from '@/lib/api-helpers';
@@ -26,7 +26,7 @@ async function _GET(request: NextRequest, { params }: { params: Promise<{ quizId
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     const { quizId } = await params;
 
     // Fetch quiz details
@@ -80,7 +80,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ quizI
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     const { quizId } = await params;
     const body = await parseBody<Record<string, any>>(request);
     // userId and enrollmentId both derived server-side — never trust caller-supplied values.

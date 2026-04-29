@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 /**
  * Partner queries read enrollments/certificates for OTHER users (placed students).
@@ -10,7 +10,7 @@ import { getAdminClient } from '@/lib/supabase/admin';
  */
 async function getPartnerClient() {
   try {
-    return await getAdminClient();
+    return await requireAdminClient();
   } catch {
     return await createClient();
   }

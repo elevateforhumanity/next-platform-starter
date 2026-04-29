@@ -1,6 +1,6 @@
 'use server';
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
@@ -12,7 +12,7 @@ export async function createCohort(formData: FormData) {
   const auth = await apiRequireAdmin(req);
   if (auth.error) throw new Error('Unauthorized');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) throw new Error('DB unavailable');
 
   const name = formData.get('name') as string;

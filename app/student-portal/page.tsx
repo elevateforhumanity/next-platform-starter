@@ -198,8 +198,8 @@ export default async function StudentPortalPage() {
   // No hardcoded/fake announcements - strict rendering rule
 
   // Live enrollment stats for public marketing section
-  const { getAdminClient } = await import('@/lib/supabase/admin');
-  const db = await getAdminClient();
+  const { requireAdminClient: getAdminClient } = await import('@/lib/supabase/admin');
+  const db = await requireAdminClient();
   const [
     { count: activeEnrollments },
     { count: publishedPrograms },

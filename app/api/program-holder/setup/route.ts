@@ -1,7 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { cookies } from 'next/headers';
 import { createRouteHandlerClient } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
 export const runtime = 'nodejs';
@@ -59,7 +59,7 @@ async function _POST(req: NextRequest) {
 
   // Upsert into program_holders using user_id as the conflict key.
   // Uses admin client to bypass RLS — user is already authenticated above.
-  const admin = await getAdminClient();
+  const admin = await requireAdminClient();
   const { data: holder, error: upsertError } = await admin
     .from('program_holders')
     .upsert(

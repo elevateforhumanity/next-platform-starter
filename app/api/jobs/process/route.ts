@@ -16,7 +16,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import type { CertificateIssuedPayload } from '@/lib/jobs/enqueue';
 import { hydrateProcessEnv } from '@/lib/secrets';
@@ -93,7 +93,7 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
     return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const now = new Date().toISOString();
 
   // Claim a batch of pending jobs due for processing.

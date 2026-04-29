@@ -22,7 +22,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { getCurrentUser } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { runAlignmentAudit } from '@/lib/services/credential-alignment-audit';
 import { slugify } from '@/lib/course-utils';
@@ -154,7 +154,7 @@ async function checkCoverageGate(
   if (!isLivePublish) return null; // drafts bypass the gate
 
   // runAlignmentAudit takes slugs; resolve the program slug from the DB
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) {
     // DB client unavailable — infrastructure failure, fail open
     logger.error('coverage-gate: DB client unavailable, skipping audit', { programId });
@@ -515,7 +515,7 @@ async function _POST(req: NextRequest) {
     if (!user) return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
 
     const body = await req.json();
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
 
     const callerRole = user.profile?.role ?? null;
 

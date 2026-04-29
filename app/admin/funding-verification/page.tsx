@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import type { Metadata } from 'next';
 import FundingVerificationTable from './FundingVerificationTable';
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default async function FundingVerificationPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // v_funding_verification_queue is defined in migration 20260503000013.
   // Columns: enrollment_id, user_id, email, full_name, phone, program_slug,

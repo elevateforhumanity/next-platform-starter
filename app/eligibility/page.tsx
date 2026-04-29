@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import EligibilityPreQualifier from '@/components/enrollment/EligibilityPreQualifier';
 import { CheckCircle, XCircle, AlertCircle, ArrowRight, Users } from 'lucide-react';
 
@@ -54,7 +54,7 @@ const QUICK_CHECKS = [
 ];
 
 export default async function EligibilityPage() {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Pull published programs for the eligibility quiz context
   const { data: programs } = await db

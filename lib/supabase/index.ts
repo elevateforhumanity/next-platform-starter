@@ -2,7 +2,7 @@
  * Supabase Client - Unified Export
  *
  * Use the appropriate client for your context:
- * - Server Components/API Routes: createClient() or await getAdminClient()
+ * - Server Components/API Routes: createClient() or await requireAdminClient()
  * - Client Components: Use createBrowserClient from './client'
  */
 

@@ -15,7 +15,7 @@ import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { auditLog } from '@/lib/auditLog';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { convertToCSV, type ExportColumn } from '@/lib/dataExport';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';
@@ -82,7 +82,7 @@ export async function GET(request: NextRequest) {
   const funding   = searchParams.get('funding');
   const status    = searchParams.get('status');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   try {
     let query = db
@@ -135,7 +135,7 @@ export async function GET(request: NextRequest) {
 }
 
 async function fallbackCsvExport(
-  db: Awaited<ReturnType<typeof getAdminClient>>,
+  db: Awaited<ReturnType<typeof requireAdminClient>>,
   opts: { startDate: string | null; endDate: string | null; programId: string | null; status: string | null },
 ) {
   let query = db

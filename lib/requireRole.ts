@@ -1,9 +1,9 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export type UserRole = 'sponsor' | 'employer' | 'workone' | 'admin';
 
 export async function requireRole(userId: string, role: UserRole) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data, error }: any = await supabase
     .from('user_roles')
@@ -29,7 +29,7 @@ export async function hasRole(userId: string, role: UserRole): Promise<boolean> 
 }
 
 export async function getUserRoles(userId: string): Promise<UserRole[]> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data, error }: any = await supabase
     .from('user_roles')
@@ -44,7 +44,7 @@ export async function getUserRoles(userId: string): Promise<UserRole[]> {
 }
 
 export async function assignRole(userId: string, role: UserRole, tenant?: string) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data, error }: any = await supabase
     .from('user_roles')
@@ -60,7 +60,7 @@ export async function assignRole(userId: string, role: UserRole, tenant?: string
 }
 
 export async function removeRole(userId: string, role: UserRole) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { error } = await supabase
     .from('user_roles')

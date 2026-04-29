@@ -1,5 +1,5 @@
 import { logger } from '@/lib/logger';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -39,7 +39,7 @@ async function _POST() {
     return NextResponse.json({ error: 'Forbidden' }, { status: 403 });
   }
 
-  const adminClient = await getAdminClient();
+  const adminClient = await requireAdminClient();
 
   try {
     // Simulate document processing scenarios

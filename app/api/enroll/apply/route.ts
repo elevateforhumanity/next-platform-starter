@@ -1,7 +1,7 @@
 // Using Node.js runtime for SendGrid
 
 import { z } from 'zod';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
 import { createClient } from '@/lib/supabase/server';
@@ -84,7 +84,7 @@ async function _POST(req: Request) {
     // If no authenticated user, create a lead record
     if (!studentId) {
       // Use admin client to bypass RLS for public form submission
-      const adminClient = await getAdminClient();
+      const adminClient = await requireAdminClient();
 
       if (!adminClient) {
         return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

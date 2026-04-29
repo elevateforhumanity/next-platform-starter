@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireAdmin } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { Bell, ChevronRight, CheckCircle, XCircle, Clock } from 'lucide-react';
 import NotificationBroadcastForm from './NotificationBroadcastForm';
@@ -33,7 +33,7 @@ function fmtDate(iso: string) {
 
 export default async function AdminNotificationsPage() {
   await requireAdmin();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const [logsRes, statsRes] = await Promise.all([
     db

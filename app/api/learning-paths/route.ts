@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -13,7 +13,7 @@ async function parseBody<T>(request: NextRequest): Promise<T> {
 }
 
 async function _GET(request: NextRequest) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
@@ -32,7 +32,7 @@ async function _GET(request: NextRequest) {
 }
 
 async function _POST(request: NextRequest) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 

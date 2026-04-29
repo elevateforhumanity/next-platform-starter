@@ -1,7 +1,7 @@
 import { logger } from '@/lib/logger';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { apiRequireAdmin } from '@/lib/admin/guards';
@@ -19,7 +19,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ id: s
 
     const { id } = await params;
     const { reason } = await request.json();
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

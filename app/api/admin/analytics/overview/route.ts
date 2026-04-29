@@ -1,5 +1,5 @@
 import { requireAdmin } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 // app/api/admin/analytics/overview/route.ts
 // Real-time analytics overview
@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
 
 const _GET = withAuth(
   async (req: NextRequest, user) => {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     const db = supabase;
     const tenantId = req.headers.get('x-tenant-id');
 

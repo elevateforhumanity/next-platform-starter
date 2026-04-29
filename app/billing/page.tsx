@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { CreditCard, FileText, Clock, CheckCircle, AlertCircle } from 'lucide-react';
 
 export const dynamic = 'force-dynamic';
@@ -22,7 +22,7 @@ export default async function BillingPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/billing');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Pull invoices for this user
   // Columns: id, invoice_number, amount, total, status, due_date, paid_at, created_at, items

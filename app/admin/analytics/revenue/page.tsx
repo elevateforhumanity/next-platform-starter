@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 
 export const dynamic = 'force-dynamic';
@@ -12,7 +12,7 @@ function fmtUsd(n: number) {
 
 export default async function RevenueAnalyticsPage() {
   await requireRole(['admin', 'super_admin']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const now = new Date();
   const startOfMonth = new Date(now.getFullYear(), now.getMonth(), 1).toISOString();

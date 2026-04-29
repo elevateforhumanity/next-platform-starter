@@ -6,7 +6,7 @@
 // supplying a different email. Now the export is always scoped to the
 // authenticated session user — the request body email is ignored.
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logAuditEvent, AuditActions, getRequestMetadata } from '@/lib/audit';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 export const runtime = 'nodejs';
@@ -31,7 +31,7 @@ export async function POST(req: NextRequest) {
   // Export is always for the authenticated user — never caller-supplied email
   const sessionUserId = authSession.user.id;
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: user, error: userError } = await supabase
     .from('profiles')

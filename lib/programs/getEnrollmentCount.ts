@@ -3,11 +3,11 @@
  * Used by public program pages to show live learner counts.
  * Returns 0 on any error — never throws.
  */
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export async function getEnrollmentCount(programSlug: string): Promise<number> {
   try {
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     // Resolve program id from slug
     const { data: program } = await db
       .from('programs')

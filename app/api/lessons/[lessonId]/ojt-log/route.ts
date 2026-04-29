@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser } from '@/lib/auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
@@ -23,7 +23,7 @@ export async function POST(
     const body = await request.json().catch(() => ({}));
     const { notes, supervisorName, serviceCount, courseId } = body;
 
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
 
     const lesson = await resolveLessonOjt(db, lessonId);
     if (!lesson) return safeError('Lesson not found', 404);

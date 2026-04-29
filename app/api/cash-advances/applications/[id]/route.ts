@@ -1,5 +1,5 @@
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 // app/api/cash-advances/applications/[id]/route.ts
 import { NextRequest, NextResponse } from 'next/server';
@@ -21,7 +21,7 @@ async function _GET(request: NextRequest, { params }: { params: Promise<{ id: st
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     const { id } = await params;
 
     const { data, error }: any = await supabase
@@ -48,7 +48,7 @@ async function _PATCH(request: NextRequest, { params }: { params: Promise<{ id: 
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     const { id } = await params;
     const body = await parseBody<Record<string, any>>(request);
 

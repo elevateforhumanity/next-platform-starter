@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { z } from 'zod';
 import { logger } from '@/lib/logger';
 
@@ -18,7 +18,7 @@ export async function PATCH(
   const { programId, linkId } = await params;
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const body = await req.json().catch(() => null);
   const parsed = PatchSchema.safeParse(body);
@@ -50,7 +50,7 @@ export async function DELETE(
   const { programId, linkId } = await params;
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { error } = await db
     .from('program_credentials')

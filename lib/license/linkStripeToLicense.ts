@@ -7,7 +7,7 @@ import { logger } from '@/lib/logger';
 
 import type Stripe from 'stripe';
 import { getStripe } from '@/lib/stripe/client';
-import { createAdminClient, getAdminClient } from '@/lib/supabase/admin';
+import { createAdminClient, requireAdminClient } from '@/lib/supabase/admin';
 
 import { logAuditEvent } from '@/lib/audit';
 import { setAuditContext } from '@/lib/audit-context';
@@ -37,7 +37,7 @@ export async function linkStripeToLicense(
   metadata: LinkingMetadata,
   currentPeriodEnd?: string,
 ): Promise<LinkResult> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   if (!supabase) {
     logger.error('[linkStripeToLicense] Supabase admin client not available');
@@ -225,7 +225,7 @@ export async function handleSubscriptionUpdated(
   const subscriptionId = subscription.id;
   const currentPeriodEnd = new Date(subscription.current_period_end * 1000).toISOString();
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   await setAuditContext(supabase, {
     systemActor: 'stripe_subscription_handler',
     requestId: event.id,
@@ -289,7 +289,7 @@ export async function handleSubscriptionDeleted(
   event: Stripe.Event,
   subscription: Stripe.Subscription,
 ): Promise<LinkResult> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const subscriptionId = subscription.id;
 
   const { data } = await supabase
@@ -322,7 +322,7 @@ export async function handlePaymentFailed(
     return { success: false, error: 'No subscription on invoice' };
   }
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data } = await supabase
     .from('licenses')

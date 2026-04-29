@@ -1,7 +1,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { writeAdminAuditEvent } from '@/lib/audit';
 import { sendInternalEmail } from '@/lib/email/send-internal';
 import { logger } from '@/lib/logger';
@@ -35,7 +35,7 @@ export async function updateEnrollment(
   },
 ) {
   const { user, supabase } = await requireAdminAction();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { error } = await db
     .from('program_enrollments')
     .update({ ...fields, updated_at: new Date().toISOString() })
@@ -61,7 +61,7 @@ export async function createEnrollment(data: {
   progress?: number;
 }) {
   const { user, supabase } = await requireAdminAction();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: existing } = await db
     .from('program_enrollments')
     .select('id')
@@ -101,7 +101,7 @@ export async function createEnrollment(data: {
 // ── Delete enrollment ─────────────────────────────────────────────────────────
 export async function deleteEnrollment(enrollmentId: string, userId: string, courseId: string) {
   const { user, supabase } = await requireAdminAction();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   await db.from('lesson_progress').delete().eq('user_id', userId).eq('course_id', courseId);
   await db.from('lms_progress').delete().eq('user_id', userId).eq('course_id', courseId);
   const { error } = await db.from('program_enrollments').delete().eq('id', enrollmentId);
@@ -120,7 +120,7 @@ export async function deleteEnrollment(enrollmentId: string, userId: string, cou
 // ── Toggle at-risk ────────────────────────────────────────────────────────────
 export async function toggleAtRisk(enrollmentId: string, currentValue: boolean) {
   const { user, supabase } = await requireAdminAction();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { error } = await db
     .from('program_enrollments')
     .update({ at_risk: !currentValue, updated_at: new Date().toISOString() })
@@ -137,7 +137,7 @@ export async function toggleAtRisk(enrollmentId: string, currentValue: boolean) 
 // ── Mark complete ─────────────────────────────────────────────────────────────
 export async function markEnrollmentComplete(enrollmentId: string) {
   const { user, supabase } = await requireAdminAction();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const now = new Date().toISOString();
   const { error } = await db
     .from('program_enrollments')
@@ -160,7 +160,7 @@ export async function markEnrollmentComplete(enrollmentId: string) {
 // ── Approve enrollment ────────────────────────────────────────────────────────
 export async function approveEnrollment(enrollmentId: string, userId: string) {
   const { user, supabase } = await requireAdminAction();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const now = new Date().toISOString();
   const { error } = await db
     .from('program_enrollments')

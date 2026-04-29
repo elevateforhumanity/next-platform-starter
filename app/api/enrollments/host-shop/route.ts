@@ -1,6 +1,6 @@
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
@@ -38,7 +38,7 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Agreement acceptance is required' }, { status: 400 });
     }
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Database connection unavailable' }, { status: 503 });
     }

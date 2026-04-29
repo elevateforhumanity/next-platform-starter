@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { requireAdmin } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -28,7 +28,7 @@ export default async function ProgramAdminDashboardPage() {
   const user = await requireAdmin();
   if (!user) redirect('/login?redirect=/programs/admin/dashboard');
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) redirect('/login');
 
   const [programsResult, enrollmentsResult] = await Promise.all([

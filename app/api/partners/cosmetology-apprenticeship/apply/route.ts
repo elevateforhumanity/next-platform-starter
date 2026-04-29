@@ -1,6 +1,6 @@
 // PUBLIC ROUTE: cosmetology apprenticeship application
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withRuntime } from '@/lib/api/withRuntime';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
@@ -52,7 +52,7 @@ async function _POST(request: NextRequest) {
       return safeError('Acknowledgments are required', 400);
     }
 
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
 
     // Insert partner application
     const { data: partner, error: partnerError } = await db

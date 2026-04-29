@@ -17,7 +17,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeDbError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import {
@@ -48,7 +48,7 @@ export async function POST(request: NextRequest, { params }: { params: Promise<{
   const { action } = body;
   if (!action) return safeError('action is required', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Load the completion record with student + course info
   const { data: rec, error: fetchErr } = await db

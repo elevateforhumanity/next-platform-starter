@@ -16,7 +16,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import {
@@ -36,7 +36,7 @@ export async function GET(request: NextRequest) {
   const auth = await apiRequireAdmin(request);
   if (auth.error) return auth.error;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   const mappings = await listProgramCourseMappings(db);
@@ -67,7 +67,7 @@ export async function POST(request: NextRequest) {
     return safeError('Invalid body — program_slug (kebab-case) and course_id (UUID) required', 400);
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   // Verify the course_id actually exists before registering.
@@ -110,7 +110,7 @@ export async function DELETE(request: NextRequest) {
     return safeError('program_slug required', 400);
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   const result = await unregisterProgramCourse(db, body.program_slug);

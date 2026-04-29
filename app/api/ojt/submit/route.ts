@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
@@ -26,7 +26,7 @@ async function _POST(req: Request) {
     const { apprentice_id, employer_id, wage_rate, reimbursement_rate, hours_worked, status } =
       body;
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
@@ -62,7 +62,7 @@ async function _GET(request: Request) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     const { data, error }: any = await supabase
       .from('ojt_reimbursements')
@@ -87,7 +87,7 @@ async function _PATCH(req: Request) {
     const body = await req.json();
     const { id, status } = body;
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     const { data, error }: any = await supabase
       .from('ojt_reimbursements')

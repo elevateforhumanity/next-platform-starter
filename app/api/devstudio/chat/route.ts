@@ -1,7 +1,7 @@
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import OpenAI from 'openai';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -49,7 +49,7 @@ Be concise and direct. Provide working code.`;
     // Log interaction to database
     try {
       const supabase = await createClient();
-      const db = (await getAdminClient()) || supabase;
+      const db = (await requireAdminClient()) || supabase;
       const {
         data: { user },
       } = await supabase.auth.getUser();

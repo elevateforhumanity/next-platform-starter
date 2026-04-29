@@ -10,7 +10,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { loadAllBlueprints } from '@/lib/curriculum/load-blueprint';
 import { generateCourseFromBlueprint } from '@/lib/curriculum/generate-course-from-blueprint';
@@ -30,7 +30,7 @@ export async function POST(
   }
 
   const { courseId } = await params;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Resolve course from canonical courses table (not training_courses)
   const { data: course, error: courseError } = await db

@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   TrendingUp,
   Users,
@@ -36,7 +36,7 @@ const FUNDING_SOURCES = [
 ];
 
 export default async function FundingImpactPage() {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Live outcome data
   const { count: totalEnrollments } = await db

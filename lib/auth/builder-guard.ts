@@ -15,7 +15,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export type BuilderAccess =
@@ -61,7 +61,7 @@ export async function builderGuard(
     return { error: NextResponse.json({ error: 'Unauthorized' }, { status: 401 }) };
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) {
     return { error: NextResponse.json({ error: 'Service unavailable' }, { status: 503 }) };
   }

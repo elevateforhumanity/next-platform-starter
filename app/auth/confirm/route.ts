@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { NextResponse } from 'next/server';
 import type { NextRequest } from 'next/server';
 import type { EmailOtpType } from '@supabase/supabase-js';
@@ -37,7 +37,7 @@ export async function GET(request: NextRequest) {
         // Link any pre-payment program_enrollments rows (user paid before
         // creating an account — email matches, user_id is null).
         try {
-          const db = await getAdminClient();
+          const db = await requireAdminClient();
           const {
             data: { user },
           } = await supabase.auth.getUser();
@@ -142,7 +142,7 @@ export async function GET(request: NextRequest) {
         // Role-based redirect override — program holders land on onboarding, not learner dashboard.
         // This handles magic links sent by sendProgramHolderWelcomeEmail.
         try {
-          const db = await getAdminClient();
+          const db = await requireAdminClient();
           const {
             data: { user },
           } = await supabase.auth.getUser();
@@ -174,7 +174,7 @@ export async function GET(request: NextRequest) {
         // Run the same pre-auth reconciliation as signup so any pending
         // applications or enrollments are linked to the new account.
         try {
-          const db = await getAdminClient();
+          const db = await requireAdminClient();
           const {
             data: { user },
           } = await supabase.auth.getUser();

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { BookOpen, Users, BarChart3, ArrowRight, Edit3 } from 'lucide-react';
@@ -22,7 +22,7 @@ export async function generateMetadata({
 export default async function ProgramPage({ params }: { params: Promise<{ code: string }> }) {
   await requireRole(['admin', 'super_admin', 'staff']);
   const { code } = await params;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) notFound();
 
   // Try slug first, then id

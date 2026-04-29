@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Phone, ArrowRight, Newspaper } from 'lucide-react';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import ReelsFeed from '@/components/reels/ReelsFeed';
 
 export const revalidate = 3600;
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 };
 
 export default async function ReelsPage() {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: reels } = await db
     .from('reels')

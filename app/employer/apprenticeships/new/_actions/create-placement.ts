@@ -1,12 +1,12 @@
 'use server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
 
 export async function createPlacement(formData: FormData) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) throw new Error('Admin client failed to initialize');
 
   // Get authenticated user

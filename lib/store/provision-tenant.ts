@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { auditLog } from '@/lib/auditLog';
 import { setAuditContext } from '@/lib/audit-context';
@@ -52,7 +52,7 @@ export async function provisionTenant(
   params: ProvisionTenantParams,
 ): Promise<TenantProvisioningResult> {
   const { email, organizationName, productId, licenseId, stripeEventId } = params;
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   await setAuditContext(supabase, { systemActor: 'tenant_provisioning', requestId: stripeEventId });
 
@@ -221,7 +221,7 @@ export async function provisionTenant(
  * Check if a license has been provisioned
  */
 export async function isLicenseProvisioned(licenseId: string): Promise<boolean> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const { data } = await supabase
     .from('licenses')
     .select('tenant_id')

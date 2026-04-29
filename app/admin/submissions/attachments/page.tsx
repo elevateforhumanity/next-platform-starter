@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -47,7 +47,7 @@ export default async function AttachmentLibraryPage() {
     data: { user },
   } = await supabase.auth.getUser();
   if (!user) redirect('/login');
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: profile } = await db
     .from('profiles')

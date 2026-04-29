@@ -8,7 +8,7 @@ function getCourseBySlug(slug: string) {
   return defs.find((c: any) => c.slug === slug);
 }
 import { getCurrentUser } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { resolveHvacCourseId } from '@/lib/courses/resolvers';
 import HvacCourseHome from './HvacCourseHome';
 
@@ -40,7 +40,7 @@ export default async function HvacCoursePage() {
   const user = await getCurrentUser();
   if (user) {
     try {
-      const db = await getAdminClient();
+      const db = await requireAdminClient();
       const { data: progress } = await db
         .from('lesson_progress')
         .select('lesson_id, completed, completed_at, time_spent_seconds')

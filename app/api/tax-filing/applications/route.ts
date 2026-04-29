@@ -1,5 +1,5 @@
 // PUBLIC ROUTE: tax filing application form
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 // app/api/tax-filing/applications/route.ts
 import { NextRequest, NextResponse } from 'next/server';
@@ -24,7 +24,7 @@ async function _GET(request: NextRequest) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     const searchParams = request.nextUrl.searchParams;
 
     // Get query parameters
@@ -72,7 +72,7 @@ async function _POST(request: NextRequest) {
     const rateLimited = await applyRateLimit(request, 'api');
     if (rateLimited) return rateLimited;
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     const body = await parseBody<Record<string, any>>(request);
 
     const { data, error }: any = await supabase

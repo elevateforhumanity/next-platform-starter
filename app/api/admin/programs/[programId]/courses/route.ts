@@ -8,7 +8,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { z } from 'zod';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { mapCourseRow, type RawCourseRow } from '@/lib/domain';
 
@@ -28,7 +28,7 @@ export async function GET(
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data, error } = await db
     .from('program_courses')
     .select(
@@ -71,7 +71,7 @@ export async function POST(
     return NextResponse.json({ error: issues }, { status: 422 });
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data, error } = await db
     .from('program_courses')
     .upsert(

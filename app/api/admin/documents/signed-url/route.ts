@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { getAdminDocumentUrl } from '@/lib/admin/document-access';
 import { logger } from '@/lib/logger';
@@ -26,7 +26,7 @@ async function _GET(request: NextRequest) {
     const auth = await apiRequireAdmin(request);
     if (auth.error) return auth.error;
     const supabase = await createClient();
-    const admin = await getAdminClient();
+    const admin = await requireAdminClient();
     const db = admin || supabase;
 
     const { searchParams } = new URL(request.url);

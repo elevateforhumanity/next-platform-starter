@@ -22,7 +22,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeDbError } from '@/lib/api/safe-error';
@@ -316,7 +316,7 @@ const ALLOWED_KEYS = new Set([
 
 async function auditWrite(userId: string, action: 'upsert' | 'delete', keys: string[]) {
   try {
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     await db.from('audit_logs').insert({
       user_id: userId,
       action: `env_vars.${action}`,
@@ -339,7 +339,7 @@ export async function GET(req: NextRequest) {
   const auth = await apiRequireAdmin(req);
   if (auth.error) return auth.error;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data, error } = await db
     .from('platform_settings')
     .select('key, value, updated_at')
@@ -391,7 +391,7 @@ export async function POST(req: NextRequest) {
     }
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const rows = body.entries.map((e) => ({
     key: e.key.trim(),
     value: e.value,
@@ -427,7 +427,7 @@ export async function DELETE(req: NextRequest) {
     return safeError(`Key not in allowlist: ${key}`, 400);
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { error } = await db.from('platform_settings').delete().eq('key', key);
 
   if (error) return safeDbError(error, 'Failed to delete setting');

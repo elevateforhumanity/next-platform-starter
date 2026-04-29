@@ -8,7 +8,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireInstructor } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
@@ -33,7 +33,7 @@ export async function PATCH(request: NextRequest, { params }: { params: { course
     return safeError('invalid JSON body', 400);
   }
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) return safeError('DB unavailable', 503);
 
   const ids = items.map((i) => i.id);

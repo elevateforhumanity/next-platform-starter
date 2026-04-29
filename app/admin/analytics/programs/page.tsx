@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { BookOpen, Users, Award, TrendingUp, ChevronRight, ArrowRight } from 'lucide-react';
 
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
 
 export default async function ProgramAnalyticsPage() {
   await requireRole(['admin', 'super_admin']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const [
     totalProgramsRes,

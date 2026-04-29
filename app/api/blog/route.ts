@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: public blog content feed
 import { logger } from '@/lib/logger';
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
@@ -18,7 +18,7 @@ async function _GET(request: Request) {
     const category = searchParams.get('category');
     const slug = searchParams.get('slug');
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

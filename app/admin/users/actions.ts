@@ -1,7 +1,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { writeAdminAuditEvent, AuditActions } from '@/lib/audit';
 
 async function requireAdminActor() {
@@ -12,7 +12,7 @@ async function requireAdminActor() {
   } = await supabase.auth.getUser();
   if (authError) throw new Error('Auth failed');
   if (!user) throw new Error('Not authenticated');
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: profile, error: profileError } = await db
     .from('profiles')
     .select('role')

@@ -6,7 +6,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError } from '@/lib/api/safe-error';
 import {
@@ -27,7 +27,7 @@ export async function GET(
   if (auth.error) return auth.error;
 
   const { courseId } = await params;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   const versions = await listCourseVersions(db, courseId);
@@ -44,7 +44,7 @@ export async function POST(
   if (auth.error) return auth.error;
 
   const { courseId } = await params;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   // Enforce approval gate.
@@ -82,7 +82,7 @@ export async function PUT(
     return safeError('version (number) required', 400);
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   const result = await rollbackCourse(db, courseId, body.version, auth.user.id);

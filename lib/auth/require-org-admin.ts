@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@supabase/supabase-js';
 import { logAuthFailure, logAdminAction } from '@/lib/monitoring';
 
@@ -75,7 +75,7 @@ export async function requireOrgAdmin(req: Request, orgId: string): Promise<OrgA
   }
 
   // Check if user is org_admin or super_admin for this organization
-  const admin = await getAdminClient();
+  const admin = await requireAdminClient();
   const { data, error } = await admin
     .from('organization_users')
     .select('role')

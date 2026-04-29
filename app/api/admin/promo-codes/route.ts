@@ -1,6 +1,6 @@
 import { requireAdmin } from '@/lib/auth';
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
@@ -17,7 +17,7 @@ async function _GET(request: Request) {
   if (auth instanceof NextResponse) return auth;
 
   try {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
@@ -47,7 +47,7 @@ async function _POST(req: Request) {
 
   try {
     const body = await req.json();
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
@@ -100,7 +100,7 @@ async function _PUT(req: Request) {
 
   try {
     const body = await req.json();
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }
@@ -158,7 +158,7 @@ async function _DELETE(req: Request) {
       return NextResponse.json({ error: 'ID required' }, { status: 400 });
     }
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
     }

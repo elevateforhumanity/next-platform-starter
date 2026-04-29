@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: barber apprenticeship confirmation
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { barberConfirmationAdminEmail } from '@/lib/email/templates/barber-full-onboarding';
 import { logger } from '@/lib/logger';
@@ -25,7 +25,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid request' }, { status: 400 });
     }
 
-    const admin = await getAdminClient();
+    const admin = await requireAdminClient();
     if (!admin) {
       return NextResponse.json({ error: 'Service unavailable' }, { status: 500 });
     }

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { Shield, Plus, ExternalLink, Award, BookOpen, Users } from 'lucide-react';
@@ -25,7 +25,7 @@ const STACK_LABELS: Record<string, string> = {
 
 export default async function CredentialRegistryPage() {
   await requireRole(['admin', 'super_admin', 'org_admin', 'staff']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: rawCredentials } = await db
     .from('credential_registry')

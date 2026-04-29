@@ -1,7 +1,7 @@
 import { NextResponse } from 'next/server';
 
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -151,7 +151,7 @@ async function _POST(req: Request) {
 
     // Notify admin of new document upload
     try {
-      const admin = await getAdminClient();
+      const admin = await requireAdminClient();
       const { data: phProfile } = await supabase
         .from('profiles')
         .select('full_name, email')
@@ -188,7 +188,7 @@ async function _POST(req: Request) {
 
     // Check if all onboarding steps are now complete and fire welcome email
     try {
-      const admin = await getAdminClient();
+      const admin = await requireAdminClient();
       if (admin) {
         const { data: holder } = await admin
           .from('program_holders')

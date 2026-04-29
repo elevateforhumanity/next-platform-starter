@@ -1,7 +1,7 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export async function getEtplMetrics() {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // Get apprentice counts by status
   const { data: apprentices } = await supabase.from('apprentices').select('status');
@@ -28,7 +28,7 @@ export async function getEtplMetrics() {
 }
 
 export async function getFundingMetrics() {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: funding } = await supabase.from('funding_cases').select('*');
 
@@ -59,7 +59,7 @@ export async function getFundingMetrics() {
 }
 
 export async function getEmployerMetrics() {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: employers } = await supabase.from('employer_onboarding').select('*');
 
@@ -77,7 +77,7 @@ export async function getEmployerMetrics() {
 }
 
 export async function getRapidsMetrics() {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: rapids } = await supabase.from('rapids_tracking').select('*');
 
@@ -95,7 +95,7 @@ export async function getRapidsMetrics() {
 }
 
 export async function getWotcMetrics() {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: wotc } = await supabase.from('wotc_tracking').select('*');
 

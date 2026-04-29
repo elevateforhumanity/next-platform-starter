@@ -1,6 +1,6 @@
 // app/api/cm/learners/[id]/notes/route.ts - Add case manager notes
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getAuthUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -15,7 +15,7 @@ async function _POST(req: NextRequest, { params }: { params: Promise<{ id: strin
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
 
-  const supabaseAdmin = await getAdminClient();
+  const supabaseAdmin = await requireAdminClient();
 
   try {
     const { id } = await params;
@@ -29,7 +29,7 @@ async function _POST(req: NextRequest, { params }: { params: Promise<{ id: strin
       );
     }
 
-    const supabaseAdmin = await getAdminClient();
+    const supabaseAdmin = await requireAdminClient();
     const learnerId = id;
     const caseManagerId = user.id;
 

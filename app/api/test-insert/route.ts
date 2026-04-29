@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 export const maxDuration = 60;
 
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 
 export async function GET(request: NextRequest) {
@@ -24,7 +24,7 @@ export async function GET(request: NextRequest) {
 export async function POST(req: Request) {
   try {
     const body = await req.json();
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
 
     // Try to insert test data
     const { data, error }: any = await supabase

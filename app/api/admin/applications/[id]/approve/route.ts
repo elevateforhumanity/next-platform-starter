@@ -2,7 +2,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 import { approveApplication } from '@/lib/enrollment/approve';
 import { runPostApprovalActions } from '@/lib/enrollment/post-approval';
@@ -22,7 +22,7 @@ async function _POST(req: NextRequest, { params }: { params: Promise<{ id: strin
   const adminUserId = auth.id;
 
   const { id } = await params;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) {
     return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
   }

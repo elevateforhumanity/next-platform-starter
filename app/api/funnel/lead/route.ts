@@ -2,7 +2,7 @@
 import { safeInternalError } from '@/lib/api/safe-error';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { hydrateProcessEnv } from '@/lib/secrets';
@@ -57,7 +57,7 @@ export async function POST(req: NextRequest) {
     .filter(Boolean)
     .join(' | ');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Store in leads table
   let applicationId: string | null = null;

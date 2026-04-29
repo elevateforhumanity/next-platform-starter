@@ -5,7 +5,7 @@
  * All functions are server-only (use createAdminClient).
  */
 
-import { createAdminClient, getAdminClient } from '@/lib/supabase/admin';
+import { createAdminClient, requireAdminClient } from '@/lib/supabase/admin';
 import { CALENDLY_CONFIG } from './testing-config';
 
 const CALENDLY_API = 'https://api.calendly.com';
@@ -21,7 +21,7 @@ let _cachedToken: string | null = null;
 export async function getCalendlyToken(): Promise<string> {
   if (_cachedToken) return _cachedToken;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data, error } = await db
     .from('app_secrets')
     .select('value')

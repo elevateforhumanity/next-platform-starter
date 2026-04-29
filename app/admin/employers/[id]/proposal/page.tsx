@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
@@ -22,7 +22,7 @@ export default async function EmployerProposalPage({
   await requireRole(['admin', 'super_admin']);
   const { id } = await params;
 
-  const adminClient = await getAdminClient();
+  const adminClient = await requireAdminClient();
   const fallback = await createClient();
   const db = adminClient ?? fallback;
 

@@ -16,7 +16,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   generateAndPersistModuleQuiz,
   generateAndPersistFinalExam,
@@ -53,7 +53,7 @@ export async function POST(request: NextRequest) {
   if (!body.lessonId) return safeError('lessonId is required', 400);
   if (!body.lessonType) return safeError('lessonType is required', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   try {
     let result;

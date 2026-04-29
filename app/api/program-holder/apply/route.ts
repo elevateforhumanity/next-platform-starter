@@ -1,6 +1,6 @@
 // PUBLIC ROUTE: program holder application form
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 import {
   sendProgramHolderApplicationConfirmation,
@@ -53,7 +53,7 @@ async function _POST(req: NextRequest) {
     }
 
     // Check for duplicate by email
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     // Check for duplicate by email
     const { data: existing } = await supabase
       .from('applications')

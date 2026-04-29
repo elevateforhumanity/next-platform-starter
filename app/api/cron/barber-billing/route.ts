@@ -16,7 +16,7 @@
  */
 
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 import { withRuntime } from '@/lib/api/withRuntime';
@@ -30,7 +30,7 @@ const ADMIN_EMAIL = 'elevate4humanityedu@gmail.com';
 export const GET = withRuntime({ cron: 'bearer' }, async () => {
   const SITE_URL = process.env.NEXT_PUBLIC_SITE_URL || 'https://www.elevateforhumanity.org';
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) {
     return NextResponse.json({ error: 'DB unavailable' }, { status: 503 });
   }

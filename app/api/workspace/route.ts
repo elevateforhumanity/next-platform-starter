@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
@@ -18,7 +18,7 @@ export async function GET(request: NextRequest) {
   }
 
   try {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     const { data, error } = await supabase
       .from('studio_workspaces')
       .select('*')
@@ -54,7 +54,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Name is required' }, { status: 400 });
     }
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     const { data, error } = await supabase
       .from('studio_workspaces')
       .insert({

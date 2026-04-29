@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 /**
  * API route guard: returns 401/403 NextResponse if user is not admin.
@@ -17,7 +17,7 @@ export async function requireAdminRole(): Promise<NextResponse | null> {
     return NextResponse.json({ error: 'Authentication required' }, { status: 401 });
   }
 
-  const admin = await getAdminClient();
+  const admin = await requireAdminClient();
   const db = admin || supabase;
 
   const { data: profile } = await db

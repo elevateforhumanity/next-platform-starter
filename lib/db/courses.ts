@@ -470,9 +470,9 @@ export async function listApplications(filters?: { status?: string; programId?: 
 export async function getApplication(id: string) {
   // Use admin client — applications table RLS blocks session-based reads.
   // Callers are admin API routes that have already verified the caller's role.
-  const { getAdminClient } = await import('@/lib/supabase/admin');
+  const { requireAdminClient: getAdminClient } = await import('@/lib/supabase/admin');
   const { setAuditContext } = await import('@/lib/audit-context');
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   await setAuditContext(db, { systemActor: 'admin_applications_api' });
   const { data, error } = await db
     .from('applications')
@@ -486,9 +486,9 @@ export async function getApplication(id: string) {
 
 export async function updateApplication(id: string, patch: ApplicationUpdate) {
   // Use admin client — applications table RLS blocks session-based updates.
-  const { getAdminClient } = await import('@/lib/supabase/admin');
+  const { requireAdminClient: getAdminClient } = await import('@/lib/supabase/admin');
   const { setAuditContext } = await import('@/lib/audit-context');
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   await setAuditContext(db, { systemActor: 'admin_applications_api' });
   const updateData: any = { ...patch, updated_at: new Date().toISOString() };
   if (patch.status === 'approved' || patch.status === 'rejected') {
@@ -507,9 +507,9 @@ export async function updateApplication(id: string, patch: ApplicationUpdate) {
 }
 
 export async function deleteApplication(id: string) {
-  const { getAdminClient } = await import('@/lib/supabase/admin');
+  const { requireAdminClient: getAdminClient } = await import('@/lib/supabase/admin');
   const { setAuditContext } = await import('@/lib/audit-context');
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   await setAuditContext(db, { systemActor: 'admin_applications_api' });
   const { error } = await db.from('applications').delete().eq('id', id);
   if (error) throw new Error('Database operation failed');

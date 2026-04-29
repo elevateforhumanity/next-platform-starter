@@ -1,6 +1,6 @@
 import { notFound } from 'next/navigation';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import LiveCourseBuilder from '@/components/admin/course-builder/LiveCourseBuilder';
 
 export const dynamic = 'force-dynamic';
@@ -13,7 +13,7 @@ export default async function LiveCourseBuilderPage({
   await requireRole(['admin', 'super_admin', 'staff']);
 
   const { courseId } = await params;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Load course
   const { data: course } = await db

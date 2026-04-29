@@ -2,7 +2,7 @@
 // Saves to platform_settings and sends notification email to Elizabeth.
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeDbError, safeInternalError } from '@/lib/api/safe-error';
 import https from 'https';
@@ -65,7 +65,7 @@ export async function POST(request: NextRequest) {
   const body = await request.json().catch(() => null);
   if (!body?.org_name) return safeError('org_name is required', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   // Save with timestamp key so multiple submissions are preserved

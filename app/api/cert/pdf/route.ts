@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { cookies } from 'next/headers';
 import { createRouteHandlerClient } from '@/lib/auth';
 
@@ -34,7 +34,7 @@ async function _GET(req: NextRequest) {
   if (!cert) return new Response('Certificate not found', { status: 404 });
 
   // Fetch user and course details
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: userAuth } = await db.auth.admin.getUserById(cert.user_id);
   const u = userAuth?.user;
 

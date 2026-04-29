@@ -1,5 +1,5 @@
 import { logger } from '@/lib/logger';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 /**
  * Admin read-only queries for timeclock compliance monitoring
@@ -54,7 +54,7 @@ export interface WeeklyCapWarning {
  * Get all currently active shifts (clocked in but not out)
  */
 export async function getActiveShifts(): Promise<ActiveShift[]> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) return [];
 
   const { data, error } = await supabase
@@ -80,7 +80,7 @@ export async function getActiveShifts(): Promise<ActiveShift[]> {
 export async function getAutoClockOuts(
   options: { since?: string; limit?: number } = {},
 ): Promise<AutoClockOutEntry[]> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) return [];
 
   let query = supabase
@@ -117,7 +117,7 @@ export async function getAutoClockOuts(
 export async function getLunchViolations(
   options: { since?: string; limit?: number } = {},
 ): Promise<LunchViolation[]> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) return [];
 
   let query = supabase
@@ -179,7 +179,7 @@ export async function getLunchViolations(
  * Get weekly cap warnings (apprentices at 90%+ of max hours)
  */
 export async function getWeeklyCapWarnings(): Promise<WeeklyCapWarning[]> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) return [];
 
   // Get current week ending (Saturday)
@@ -242,7 +242,7 @@ export async function getApprenticeDailySummary(
   startDate: string,
   endDate: string,
 ): Promise<Array<{ work_date: string; total_hours: number; segments: number }>> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) return [];
 
   const { data, error } = await supabase

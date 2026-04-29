@@ -1,7 +1,7 @@
 import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { Users, CheckCircle, Clock, AlertTriangle, TrendingUp } from 'lucide-react';
 
@@ -23,7 +23,7 @@ const STATUS_COLORS: Record<string, string> = {
 
 export default async function AdminEnrollmentPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) notFound();
 
   const { data: enrollments } = await db

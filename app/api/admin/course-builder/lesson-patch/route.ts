@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError, safeDbError } from '@/lib/api/safe-error';
 
 export const dynamic = 'force-dynamic';
@@ -50,7 +50,7 @@ export async function PATCH(req: NextRequest) {
   if (fields.passing_score !== undefined) update.passing_score = fields.passing_score;
   if (fields.status !== undefined) update.status = fields.status;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data, error } = await db
     .from('course_lessons')

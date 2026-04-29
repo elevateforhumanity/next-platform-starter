@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, CheckCircle2 } from 'lucide-react';
@@ -21,7 +21,7 @@ export default async function VerifyIdentityPage() {
   } = await sessionClient.auth.getUser();
   if (!user) redirect('/login?redirect=/onboarding/learner/verify-identity');
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // Check identity via documents table (id_verifications has no user_id column)
   const { data: idDoc } = await supabase

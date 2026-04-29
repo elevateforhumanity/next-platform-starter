@@ -1,6 +1,6 @@
 'use server';
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { randomBytes } from 'crypto';
 import { revalidatePath } from 'next/cache';
 import { sendEmail } from '@/lib/email';
@@ -349,9 +349,9 @@ async function insertApplication(payload: {
   | { success: true; applicationId: string; referenceNumber: string; email?: string }
   | { success: false; error: string }
 > {
-  let supabase: Awaited<ReturnType<typeof getAdminClient>> | null = null;
+  let supabase: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
   try {
-    supabase = await getAdminClient();
+    supabase = await requireAdminClient();
   } catch (err) {
     logger.error('[Apply] getAdminClient failed in insertApplication', err);
   }
@@ -714,9 +714,9 @@ export async function submitStudentApplication(data: StudentApplicationData) {
   if (!result.success) return result;
 
   // Persist funding eligibility fields and set status for WorkOne-pending applications
-  let supabase: Awaited<ReturnType<typeof getAdminClient>> | null = null;
+  let supabase: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
   try {
-    supabase = await getAdminClient();
+    supabase = await requireAdminClient();
   } catch (err) {
     logger.error(
       '[Apply] getAdminClient failed in submitStudentApplication — eligibility fields not persisted',
@@ -887,9 +887,9 @@ export async function submitProgramHolderApplication(data: ProgramHolderApplicat
 
   if (result.success) {
     // Create program_holders row and set role immediately — no admin approval needed.
-    let adminDb: Awaited<ReturnType<typeof getAdminClient>> | null = null;
+    let adminDb: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
     try {
-      adminDb = await getAdminClient();
+      adminDb = await requireAdminClient();
     } catch (err) {
       logger.error('[Apply] getAdminClient failed in submitProgramHolderApplication', err);
     }
@@ -1224,9 +1224,9 @@ export async function submitStaffApplication(data: StaffApplicationData) {
 }
 
 export async function getApplicationStatus(identifier: string) {
-  let supabase: Awaited<ReturnType<typeof getAdminClient>> | null = null;
+  let supabase: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
   try {
-    supabase = await getAdminClient();
+    supabase = await requireAdminClient();
   } catch (err) {
     logger.error('[Apply] getAdminClient failed in getApplicationStatus', err);
   }

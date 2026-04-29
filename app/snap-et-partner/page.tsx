@@ -1,7 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   CheckCircle,
   AlertCircle,
@@ -66,7 +66,7 @@ const REFERRAL_STEPS = [
 ];
 
 export default async function SnapEtPartnerPage() {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Live enrollment capacity signal
   const { count: activeEnrollments } = await db

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { Calendar, CheckCircle2, Clock, XCircle } from 'lucide-react';
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default async function CalendlyIntegrationPage() {
   await requireRole(['admin', 'super_admin']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Live bookings from DB
   const { data: bookings } = await db

@@ -1,6 +1,6 @@
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { createAdminClient, getAdminClient } from '@/lib/supabase/admin';
+import { createAdminClient, requireAdminClient } from '@/lib/supabase/admin';
 import type { UserRole } from '@/types/database';
 
 export interface ApiAuthResult {
@@ -51,8 +51,8 @@ export async function requireApiRole(
 
   // Use admin client for profile lookup to bypass RLS on profiles table,
   // then hand the RLS-respecting client to the caller for data queries.
-  // await getAdminClient() throws if SUPABASE_SERVICE_ROLE_KEY is missing — no fallback.
-  const admin = await getAdminClient();
+  // await requireAdminClient() throws if SUPABASE_SERVICE_ROLE_KEY is missing — no fallback.
+  const admin = await requireAdminClient();
   const profileDb = admin;
 
   const { data: profile } = await profileDb

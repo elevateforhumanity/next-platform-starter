@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -19,7 +19,7 @@ async function requireAdminUser() {
   } = await supabase.auth.getUser();
   if (error || !user) return { user: null, db: null, error: 'Unauthorized' as const };
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return { user: null, db: null, error: 'Service unavailable' as const };
 
   const { data: profile } = await db

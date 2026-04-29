@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { generateCertificateNumber } from '@/lib/partner-workflows/certificates';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
@@ -8,7 +8,7 @@ export const dynamic = 'force-dynamic';
 
 async function _POST(req: NextRequest) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db)
     return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 

@@ -1,6 +1,6 @@
 'use server';
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 
@@ -29,9 +29,9 @@ export async function sendRecoveryEmail(
     return { success: false, error: 'Please enter a valid email address.' };
   }
 
-  let supabase: Awaited<ReturnType<typeof getAdminClient>> | null = null;
+  let supabase: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
   try {
-    supabase = await getAdminClient();
+    supabase = await requireAdminClient();
   } catch (err) {
     logger.error('[Recovery] getAdminClient failed', err);
   }

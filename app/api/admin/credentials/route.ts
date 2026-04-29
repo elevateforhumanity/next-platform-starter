@@ -3,7 +3,7 @@
  * GET  /api/admin/credentials — list all credentials (with optional stack filter)
  */
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 import { mapCredentialRow, type RawCredentialRow } from '@/lib/domain';
@@ -13,7 +13,7 @@ export const dynamic = 'force-dynamic';
 async function requireAdmin() {
   const user = await getCurrentUser();
   if (!user) return null;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: p } = await db.from('profiles').select('role').eq('id', user.id).maybeSingle();
   if (!p || !['admin', 'super_admin', 'org_admin', 'staff'].includes(p.role)) return null;
   return user;
@@ -27,7 +27,7 @@ export async function GET(req: NextRequest) {
   const stack = searchParams.get('stack');
   const issuerType = searchParams.get('issuer_type');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   let q = db
     .from('credential_registry')
     .select('*')
@@ -64,7 +64,7 @@ export async function POST(req: NextRequest) {
       body.proctor_authority === 'elevate' ? 'elevate' : (body.issuing_authority ?? ''),
   };
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data, error } = await db
     .from('credential_registry')
     .insert({ ...body, metadata, created_by: user.id })

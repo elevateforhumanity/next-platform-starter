@@ -15,7 +15,7 @@ import {
 import { CERT_PROVIDERS, type ExamDefinition } from '@/lib/testing/proctoring-capabilities';
 
 export const dynamic = 'force-dynamic';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 const LEVEL_COLORS: Record<string, string> = {
   amber: 'bg-amber-50 border-amber-200 text-amber-900',
@@ -77,7 +77,7 @@ export default async function ProviderPage({ params }: Props) {
     verify_url?: string;
   } | null = null;
   try {
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (db) {
       const { data } = await db
         .from('testing_providers')

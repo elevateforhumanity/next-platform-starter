@@ -1,7 +1,7 @@
 import { safeInternalError } from '@/lib/api/safe-error';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -25,7 +25,7 @@ function fmtDate(d: string) {
 
 async function _PATCH(req: NextRequest, { params }: { params: Promise<{ id: string }> }) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db)
     return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
 

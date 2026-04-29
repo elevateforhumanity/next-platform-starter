@@ -9,7 +9,7 @@
 //   3. All quiz lessons passed (score recorded)
 //   4. Practical/lab lessons complete (for programs that require them)
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import type { ReadinessResult } from './types';
 
@@ -17,7 +17,7 @@ export async function checkCertificationReadiness(
   userId: string,
   programId: string,
 ): Promise<ReadinessResult> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) {
     logger.error('[ExamAuth] Admin client unavailable for readiness check');
     return {

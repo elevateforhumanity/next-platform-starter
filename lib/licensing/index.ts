@@ -31,7 +31,7 @@ export {
 } from './tenant-context';
 
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export type LicensePlan = 'trial' | 'basic' | 'professional' | 'enterprise';
@@ -289,7 +289,7 @@ export async function validateApiKey(
     return { valid: false, error: 'API key required' };
   }
 
-  const supabase = await await getAdminClient();
+  const supabase = await await requireAdminClient();
 
   const { data: tenant, error } = await supabase
     .from('tenants')

@@ -1,7 +1,7 @@
 import { logger } from '@/lib/logger';
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -31,7 +31,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ id: s
   if (rateLimited) return rateLimited;
 
   const { id: applicationId } = await params;
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   if (!supabase) {
     return NextResponse.json({ error: 'Database unavailable' }, { status: 503 });

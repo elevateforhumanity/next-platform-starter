@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import { Briefcase, CheckCircle, Clock, Plus, ChevronRight, ArrowRight } from 'lucide-react';
@@ -19,7 +19,7 @@ const STATUS_STYLES: Record<string, string> = {
 
 export default async function GrantsPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const [grantsRes, activeRes, pendingRes] = await Promise.all([
     db

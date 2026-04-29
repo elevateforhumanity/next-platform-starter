@@ -4,7 +4,7 @@
 // Returns { profile, tenantId } on success, or { error: NextResponse } to return immediately.
 
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError } from '@/lib/api/safe-error';
 import type { NextResponse } from 'next/server';
 
@@ -38,7 +38,7 @@ export async function providerApiGuard(): Promise<GuardSuccess | GuardFailure> {
   }
 
   // Check tenant is active — never trust the UI suspension check alone
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return { error: safeError('Service unavailable', 503) };
 
   const { data: tenant } = await db

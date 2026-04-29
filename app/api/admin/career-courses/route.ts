@@ -1,5 +1,5 @@
 import { getStripe } from '@/lib/stripe/client';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logAdminAudit, AdminAction, BULK_ENTITY_ID } from '@/lib/admin/audit-log';
@@ -32,7 +32,7 @@ async function _GET(request: Request) {
   const denied = await guardAdmin();
   if (denied) return denied;
   try {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
@@ -71,7 +71,7 @@ async function _POST(req: Request) {
     const { action } = await req.json();
 
     if (action === 'sync-stripe') {
-      const supabase = await getAdminClient();
+      const supabase = await requireAdminClient();
 
       if (!supabase) {
         return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

@@ -4,7 +4,7 @@ export const maxDuration = 60;
 
 // app/api/grants/draft/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import OpenAI from 'openai';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -33,7 +33,7 @@ async function _POST(req: NextRequest) {
     return NextResponse.json({ error: 'AI features not configured' }, { status: 503 });
   }
   try {
-    const supabaseAdmin = await getAdminClient();
+    const supabaseAdmin = await requireAdminClient();
     const body = await req.json();
     const { grantId, entityId } = body as { grantId: string; entityId: string };
 

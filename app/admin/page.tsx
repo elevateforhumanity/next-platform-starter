@@ -403,7 +403,7 @@ export default async function AdminLandingPage() {
           <div className="divide-y divide-slate-100">
             {data.topPrograms.map((prog) => (
               <div key={prog.id} className="flex items-center justify-between py-4">
-                <p className="font-semibold text-slate-900 truncate min-w-0 mr-4">{prog.name}</p>
+                <p className="font-semibold text-slate-900 truncate min-w-0 mr-4">{prog.title}</p>
                 <div className="flex items-center gap-6 flex-shrink-0 text-sm">
                   <span className="text-slate-500">{fmtNum(prog.learners)} learners</span>
                   <span className="font-semibold text-slate-900">

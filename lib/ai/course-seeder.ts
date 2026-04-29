@@ -18,7 +18,7 @@
  *   - Returns a detailed result: inserted, updated, skipped, errors
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export interface SeederResult {
   course_id: string;
@@ -35,7 +35,7 @@ export async function seedCourseToCurriculumLessons(
   courseId: string,
   programId: string,
 ): Promise<SeederResult> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const result: SeederResult = {
     course_id: courseId,
     inserted: 0,

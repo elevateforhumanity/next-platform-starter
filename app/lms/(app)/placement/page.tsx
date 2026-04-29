@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Briefcase, Users, Calendar, Building2, ArrowRight } from 'lucide-react';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getActiveJobs } from '@/lib/data/jobs';
 import JobCard from '@/components/jobs/JobCard';
 
@@ -22,7 +22,7 @@ export default async function PlacementPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/lms/placement');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Fetch jobs + learner's enrolled programs for context
   const [jobs, profileResult] = await Promise.all([

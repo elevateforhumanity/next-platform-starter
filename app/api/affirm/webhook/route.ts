@@ -9,7 +9,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { createEnrollmentFromPayment } from '@/lib/enrollment/create-enrollment';
 import { logAuditEvent } from '@/lib/audit';
@@ -87,7 +87,7 @@ async function _POST(request: NextRequest) {
       return NextResponse.json({ error: 'Temporary processing error' }, { status: 503 });
     }
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase) {
       await finalizeWebhookEvent('affirm', eventId, 'errored', 'DB unavailable');
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

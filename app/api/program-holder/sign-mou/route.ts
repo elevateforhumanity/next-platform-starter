@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { cookies } from 'next/headers';
 import { createRouteHandlerClient } from '@/lib/auth';
 import { logger } from '@/lib/logger';
@@ -32,7 +32,7 @@ async function _POST(request: NextRequest) {
     }
 
     // Check if already signed — keyed on signer_name + program_holder row
-    const admin = await getAdminClient();
+    const admin = await requireAdminClient();
     const { data: holderRow } = await admin
       .from('program_holders')
       .select('id, mou_signed')

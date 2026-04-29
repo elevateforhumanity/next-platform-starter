@@ -18,7 +18,7 @@
  * with admin notification.
  */
 
-import { createAdminClient, getAdminClient } from '@/lib/supabase/admin';
+import { createAdminClient, requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export interface CredentialDeliveryRequest {
@@ -61,7 +61,7 @@ const PARTNER_ENROLLMENT_URLS: Record<string, string> = {
 export async function deliverCredentials(
   request: CredentialDeliveryRequest,
 ): Promise<CredentialDeliveryResult> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) {
     return { success: false, method: 'manual_queue', error: 'Database unavailable' };
   }

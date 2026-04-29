@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
@@ -39,7 +39,7 @@ async function _POST(req: NextRequest) {
 
   try {
     // Find user by email via profiles table
-    const adminDb = await getAdminClient();
+    const adminDb = await requireAdminClient();
     const { data: profileRow } = await adminDb
       .from('profiles')
       .select('id, email')

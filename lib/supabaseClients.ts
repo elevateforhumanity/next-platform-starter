@@ -1,5 +1,5 @@
 /** @deprecated Use '@/lib/supabase/server', '@/lib/supabase/client', '@/lib/supabase/admin' instead. */
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createBrowserClient } from '@/lib/supabase/client';
 
 /** @deprecated Use createBrowserClient() from '@/lib/supabase/client' instead. */
@@ -9,12 +9,12 @@ export function getClientSupabase() {
 
 /** @deprecated Use createClient() from '@/lib/supabase/server' instead. */
 export async function getServerSupabase() {
-  return getAdminClient();
+  return requireAdminClient();
 }
 
-/** @deprecated Use await getAdminClient() from '@/lib/supabase/admin' instead. */
+/** @deprecated Use await requireAdminClient() from '@/lib/supabase/admin' instead. */
 export async function getAdminSupabase() {
-  return getAdminClient();
+  return requireAdminClient();
 }
 
 /** @deprecated */

@@ -1,7 +1,7 @@
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { checkBarberSuspension } from '@/lib/barber/suspension';
@@ -82,7 +82,7 @@ async function _POST(request: NextRequest) {
         data: { user },
       } = await authClient.auth.getUser();
       if (user) {
-        const db = await getAdminClient();
+        const db = await requireAdminClient();
         if (db) {
           const suspended = await checkBarberSuspension(user.id, db);
           if (suspended) return suspended;
@@ -110,7 +110,7 @@ async function _POST(request: NextRequest) {
       );
     }
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Database not configured' }, { status: 503 });
     }

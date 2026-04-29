@@ -3,7 +3,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getOrgContext } from '@/lib/org/getOrgContext';
 import { requireOrgAccess } from '@/lib/auth/org-guard';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
@@ -28,7 +28,7 @@ export async function DELETE(
 
   const { inviteId } = await params;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   // Fetch invite to verify org ownership before deleting

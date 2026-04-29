@@ -1,6 +1,6 @@
 // PUBLIC ROUTE: general waitlist form
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -36,7 +36,7 @@ async function _POST(request: NextRequest) {
       );
     }
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase) {
       return NextResponse.json({ error: 'Service unavailable' }, { status: 500 });
     }
@@ -162,7 +162,7 @@ async function _GET(request: NextRequest) {
     return NextResponse.json({ error: 'program parameter required' }, { status: 400 });
   }
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) {
     return NextResponse.json({ error: 'Service unavailable' }, { status: 500 });
   }

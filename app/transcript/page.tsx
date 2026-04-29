@@ -1,6 +1,6 @@
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import TranscriptContent from './TranscriptContent';
 
 export const dynamic = 'force-dynamic';
@@ -12,7 +12,7 @@ export default async function TranscriptPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/transcript');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Enrollment + program
   const { data: enrollment } = await db

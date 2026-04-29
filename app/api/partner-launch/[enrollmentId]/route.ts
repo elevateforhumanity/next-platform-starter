@@ -1,5 +1,5 @@
 // PUBLIC ROUTE: Server-to-server partner LMS launch — enrollment-ID scoped
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 // app/api/partner-launch/[enrollmentId]/route.ts
 import { NextResponse } from 'next/server';
@@ -22,7 +22,7 @@ async function _GET(_req: Request, { params }: Params) {
   const rateLimited = await applyRateLimit(_req, 'api');
   if (rateLimited) return rateLimited;
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const { enrollmentId } = await params;
 
   const { data: enrollment, error } = await supabase

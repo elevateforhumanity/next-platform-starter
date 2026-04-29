@@ -1,7 +1,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { revalidatePath } from 'next/cache';
 import { redirect } from 'next/navigation';
 import { logAdminAudit, AdminAction, BULK_ENTITY_ID } from '@/lib/admin/audit-log';
@@ -9,7 +9,7 @@ import { logger } from '@/lib/logger';
 
 export async function createGrantOpportunity(formData: FormData) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const {
     data: { user },
@@ -64,7 +64,7 @@ export async function createGrantOpportunity(formData: FormData) {
 
 export async function updateGrantOpportunity(id: string, formData: FormData) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const {
     data: { user },
@@ -125,7 +125,7 @@ export async function updateGrantOpportunity(id: string, formData: FormData) {
 
 export async function deleteGrantOpportunity(id: string) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const {
     data: { user },
   } = await supabase.auth.getUser();
@@ -162,7 +162,7 @@ export async function deleteGrantOpportunity(id: string) {
 
 export async function createGrantApplication(formData: FormData) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const {
     data: { user },
@@ -212,7 +212,7 @@ export async function updateGrantApplicationStatus(
   reviewerNotes?: string,
 ) {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: existing } = await db
     .from('grant_applications')

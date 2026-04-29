@@ -24,7 +24,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { generateCourseOutlineFn } from '@/lib/ai/generate-course-outline-fn';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 import { transformLessonContent } from '@/lib/lms/transformLessonContent';
@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
   }
 
   const { outline, attempt, normalization } = genResult;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // ── Gate 4: Write staging tables ─────────────────────────────────────────
   // Insert course (map to actual courses columns)

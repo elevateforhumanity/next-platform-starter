@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { loadJsonOnce } from '@/lib/data/json-cache';
 
 function loadCourseDefinitions(): any[] {
@@ -31,7 +31,7 @@ function deterministicUUID(key: string): string {
 
 async function requireAdmin() {
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!supabase) return { error: 'Database unavailable', status: 500 };
   const {
     data: { user },

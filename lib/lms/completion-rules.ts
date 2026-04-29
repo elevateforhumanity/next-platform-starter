@@ -21,7 +21,7 @@ import 'server-only';
  * }
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export interface CompletionRule {
   type: 'lessons_complete' | 'quizzes_passed' | 'min_hours' | 'external_modules';
@@ -60,7 +60,7 @@ export async function evaluateCompletion(
   programId: string,
   courseId: string,
 ): Promise<CompletionStatus> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return { isComplete: false, progressPercent: 0, ruleResults: [] };
 
   // Get program completion criteria

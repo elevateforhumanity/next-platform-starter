@@ -2,7 +2,7 @@ import { requireRole } from '@/lib/auth/require-role';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { Briefcase, Building2, MapPin, Clock, Plus, Search, Eye, Edit, Trash2 } from 'lucide-react';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 
 export const dynamic = 'force-dynamic';
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 };
 
 async function getJobsData() {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: jobPostings, count: jobCount } = await supabase
     .from('job_postings')

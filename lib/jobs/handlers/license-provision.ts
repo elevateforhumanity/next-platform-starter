@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { ProvisioningJob } from '../queue';
 
@@ -11,7 +11,7 @@ import { setAuditContext } from '@/lib/audit-context';
  * Creates or activates a license for a tenant
  */
 export async function processLicenseProvision(job: ProvisioningJob): Promise<void> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   await setAuditContext(supabase, {
     systemActor: 'license_provision_job',
     requestId: job.correlation_id,

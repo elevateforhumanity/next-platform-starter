@@ -3,7 +3,7 @@
 // app/api/programs/featured/route.ts
 // Cached featured programs endpoint
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { cacheGet, cacheSet } from '@/lib/cache';
 import { toErrorMessage } from '@/lib/safe';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -20,9 +20,9 @@ async function _GET(req: NextRequest) {
   } catch (e) {
     console.warn('[rate-limit] applyRateLimit failed — continuing without limit', e);
   }
-  let supabase: Awaited<ReturnType<typeof getAdminClient>> | null = null;
+  let supabase: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
   try {
-    supabase = await getAdminClient();
+    supabase = await requireAdminClient();
   } catch {
     /* non-fatal — falls back to anon client */
   }

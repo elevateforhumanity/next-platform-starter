@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { FileText, ChevronRight, ArrowRight, Plus, Eye, Edit } from 'lucide-react';
 
@@ -18,7 +18,7 @@ const STATUS_STYLES: Record<string, string> = {
 
 export default async function AdminBlogPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const [postsRes, publishedRes, draftRes] = await Promise.all([
     db

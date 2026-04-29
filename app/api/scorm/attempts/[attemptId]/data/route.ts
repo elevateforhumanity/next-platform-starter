@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 // app/api/scorm/attempts/[attemptId]/data/route.ts
 import { NextResponse } from 'next/server';
@@ -14,7 +14,7 @@ export const dynamic = 'force-dynamic';
 async function _GET(request: Request, { params }: { params: Promise<{ attemptId: string }> }) {
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const { attemptId } = await params;
   const session = await requireApiAuth();
 
@@ -46,7 +46,7 @@ async function _POST(request: Request, { params }: { params: Promise<{ attemptId
   const rateLimited = await applyRateLimit(request, 'api');
   if (rateLimited) return rateLimited;
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const { attemptId } = await params;
   const session = await requireApiAuth();
   const { data } = await request.json();

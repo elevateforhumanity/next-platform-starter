@@ -1,5 +1,5 @@
 import 'server-only';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import { setAuditContext } from '@/lib/audit-context';
@@ -33,7 +33,7 @@ export interface EnrollmentResult {
  * Does NOT touch training_courses, training_enrollments, or course_progress.
  */
 export async function completeEnrollment(data: EnrollmentData): Promise<EnrollmentResult> {
-  const admin = await getAdminClient();
+  const admin = await requireAdminClient();
   const supabase = admin || (await createClient());
 
   try {
@@ -152,7 +152,7 @@ export async function completeEnrollment(data: EnrollmentData): Promise<Enrollme
  * Verify course access — reads program_enrollments (canonical).
  */
 export async function verifyCourseAccess(userId: string, courseId: string): Promise<boolean> {
-  const admin = await getAdminClient();
+  const admin = await requireAdminClient();
   const supabase = admin || (await createClient());
 
   const { data: enrollment } = await supabase

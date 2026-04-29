@@ -1,5 +1,5 @@
 /**
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
  * @deprecated Use canonical enrollment routes:
  *   - /api/enroll (student enrollment)
  *   - /api/enrollment/submit (comprehensive wizard)

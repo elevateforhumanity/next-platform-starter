@@ -11,7 +11,7 @@
  *   - components/programs/HostShopSelect.tsx  (client dropdown via API)
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export type HostShop = {
   id: string;
@@ -51,9 +51,9 @@ export async function getApprovedShops(program?: ProgramKey): Promise<HostShop[]
   // Admin client requires SUPABASE_SERVICE_ROLE_KEY — not available at Netlify
   // build time. Return empty list so static generation succeeds; ISR will
   // populate real data at runtime.
-  let db: Awaited<ReturnType<typeof getAdminClient>>;
+  let db: Awaited<ReturnType<typeof requireAdminClient>>;
   try {
-    db = await getAdminClient();
+    db = await requireAdminClient();
   } catch {
     return [];
   }

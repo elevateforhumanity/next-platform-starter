@@ -51,8 +51,8 @@ export function bustConfigCache() {
 async function loadFromDB(): Promise<Map<string, string>> {
   try {
     // Dynamic import avoids circular dependency with supabase clients
-    const { getAdminClient } = await import('@/lib/supabase/admin');
-    const db = await getAdminClient();
+    const { requireAdminClient: getAdminClient } = await import('@/lib/supabase/admin');
+    const db = await requireAdminClient();
     if (!db) return new Map();
 
     const { data, error } = await db

@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: CDL program waitlist form
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { logger } from '@/lib/logger';
@@ -27,7 +27,7 @@ export async function POST(request: NextRequest) {
       }
     }
 
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
 
     // Check for duplicate (same email in last 24 hours)
     const oneDayAgo = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();

@@ -14,7 +14,7 @@ import 'server-only';
  */
 
 import { randomBytes } from 'crypto';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { getCertificateIssuedEmail } from '@/lib/email/career-course-sequences';
@@ -25,7 +25,7 @@ export async function issueCertificateIfEligible(
   courseId: string,
   enrollmentId: string,
 ): Promise<string | null> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Already issued?
   const { data: existing } = await db

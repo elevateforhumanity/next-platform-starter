@@ -1,7 +1,7 @@
 import type { SupabaseClient } from '@supabase/supabase-js';
 import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 
@@ -41,7 +41,7 @@ async function requireAdmin() {
   } = await userSupabase.auth.getUser();
   if (!user) return { error: 'Unauthorized', status: 401 as const };
 
-  const adminDb = await getAdminClient();
+  const adminDb = await requireAdminClient();
   if (!adminDb) return { error: 'Database unavailable', status: 503 as const };
 
   const { data: profile } = await adminDb

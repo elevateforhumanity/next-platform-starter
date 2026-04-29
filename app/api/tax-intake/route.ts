@@ -1,5 +1,5 @@
 // PUBLIC ROUTE: tax intake form
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -14,7 +14,7 @@ async function _POST(req: Request) {
     const rateLimited = await applyRateLimit(req, 'api');
     if (rateLimited) return rateLimited;
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     const body = await req.json();
 
     const { data, error }: any = await supabase

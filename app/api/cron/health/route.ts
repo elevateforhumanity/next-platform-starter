@@ -14,7 +14,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export const dynamic = 'force-dynamic';
@@ -54,7 +54,7 @@ export async function GET(request: NextRequest) {
 
   // ── 2. Supabase DB reachability ───────────────────────────────────────────
   try {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase)
       return NextResponse.json({ error: 'Admin client returned null' }, { status: 500 });
 
@@ -77,7 +77,7 @@ export async function GET(request: NextRequest) {
 
   // ── 3. Followups table reachability ───────────────────────────────────────
   try {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (!supabase)
       return NextResponse.json({ error: 'Admin client returned null' }, { status: 500 });
 
@@ -108,7 +108,7 @@ export async function GET(request: NextRequest) {
 
   // ── 5. Recent followup activity ───────────────────────────────────────────
   try {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (supabase) {
       const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000).toISOString();
       const { data, error } = await supabase

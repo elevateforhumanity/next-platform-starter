@@ -1,6 +1,6 @@
 // PUBLIC ROUTE: public program inquiry form
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
 import { sendEmail } from '@/lib/email';
@@ -39,7 +39,7 @@ export async function POST(request: NextRequest, { params }: { params: { slug: s
     return safeError('Invalid email address', 400);
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Insert into applications with program context pre-filled
   const { data: application, error } = await db

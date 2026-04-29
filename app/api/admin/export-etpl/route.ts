@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 export const runtime = 'nodejs';
@@ -22,7 +22,7 @@ async function _GET(req: Request) {
       return NextResponse.json({ error: 'Unauthorized' }, { status: 401 });
     }
 
-    const adminClient = await getAdminClient();
+    const adminClient = await requireAdminClient();
 
     if (!adminClient) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

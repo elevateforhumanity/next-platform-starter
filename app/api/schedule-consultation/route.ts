@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: public consultation scheduling form
 
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email';
 import { logger } from '@/lib/logger';
 import { createZoomMeeting } from '@/lib/integrations/zoom';
@@ -75,7 +75,7 @@ async function _POST(request: Request) {
     }
 
     // Save to Supabase
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     if (supabase) {
       const { error: dbError } = await supabase.from('appointments').insert({
         email,

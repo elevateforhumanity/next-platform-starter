@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect, notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, BookOpen, Award, Users, Shield, CheckCircle } from 'lucide-react';
@@ -35,7 +35,7 @@ export default async function EnrollPage({ params }: Props) {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/lms/courses/' + courseId + '/enroll');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: course, error } = await db
     .from('courses')

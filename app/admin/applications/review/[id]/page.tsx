@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import Image from 'next/image';
@@ -48,9 +48,9 @@ export default async function ReviewApplicationPage({
   const { id } = await params;
 
   // Use admin client — applications table RLS restricts session-based reads.
-  let db: Awaited<ReturnType<typeof getAdminClient>> | null = null;
+  let db: Awaited<ReturnType<typeof requireAdminClient>> | null = null;
   try {
-    db = await getAdminClient();
+    db = await requireAdminClient();
   } catch (_) {
     /* notFound() below handles null db */
   }

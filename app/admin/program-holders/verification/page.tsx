@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 
@@ -16,7 +16,7 @@ export const metadata: Metadata = {
 
 export default async function ProgramHolderVerificationPage() {
   const { user, profile } = await requireRole(['admin', 'super_admin']);
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // Get pending verifications
   const { data: rawPendingHolders } = await supabase

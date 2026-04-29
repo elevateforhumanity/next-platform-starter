@@ -1,5 +1,5 @@
 import { logger } from '@/lib/logger';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export type AuditAction =
   | 'CREATE'
@@ -90,7 +90,7 @@ export async function auditLog({
   metadata,
 }: AuditLogParams): Promise<void> {
   try {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     const logEntry = {
       actor_user_id,
@@ -145,7 +145,7 @@ export async function getAuditLogs(
   entity_id?: string,
   limit = 100,
 ): Promise<GetAuditLogsResult> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // Handle both old positional args and new object params
   let queryParams: GetAuditLogsParams;
@@ -200,7 +200,7 @@ export async function getAuditLogs(
  * Query audit logs by actor
  */
 export async function getAuditLogsByActor(actor_user_id: string, limit = 100) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data, error }: any = await supabase
     .from('audit_logs')
@@ -221,7 +221,7 @@ export async function getAuditLogsByActor(actor_user_id: string, limit = 100) {
  * Get audit log statistics
  */
 export async function getAuditStats(days = 30) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const since = new Date();
   since.setDate(since.getDate() - days);

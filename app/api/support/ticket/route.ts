@@ -2,7 +2,7 @@
 import { NextResponse } from 'next/server';
 import { requireApiAuth } from '@/lib/auth';
 import { createZendeskTicket } from '@/lib/support/zendesk';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -26,7 +26,7 @@ async function _POST(request: Request) {
   const userId = session.user?.id;
 
   // Save to Supabase for internal tracking
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   if (!supabase) {
     return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

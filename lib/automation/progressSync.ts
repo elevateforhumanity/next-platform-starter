@@ -19,7 +19,7 @@ function getSupabaseClient() {
 }
 
 export async function syncSingleEnrollment(enrollmentId: string) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: enrollment, error } = await supabase
     .from('partner_lms_enrollments')
@@ -56,7 +56,7 @@ export async function syncSingleEnrollment(enrollmentId: string) {
 }
 
 export async function syncAllActivePartnerEnrollments() {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: enrollments } = await supabase
     .from('partner_lms_enrollments')

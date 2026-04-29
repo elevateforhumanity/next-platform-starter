@@ -18,7 +18,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { safeError } from '@/lib/api/safe-error';
 import { sendEmail } from '@/lib/email/sendgrid';
 import {
@@ -62,7 +62,7 @@ export async function GET(req: NextRequest) {
     }
   }
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) return safeError('Service unavailable', 503);
   const now = new Date();
   const results: Record<string, { sent: number; flagged: number; errors: number }> = {

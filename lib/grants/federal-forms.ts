@@ -3,12 +3,12 @@
  * Generates pre-filled federal grant forms (SF-424, SF-424A, SF-LLL, etc.)
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 import { getEntityByUEI } from '@/lib/integrations/sam-gov';
 
 function getDb() {
-  return getAdminClient();
+  return requireAdminClient();
 }
 
 export interface SF424Data {

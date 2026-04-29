@@ -3,7 +3,7 @@ import type { SupabaseClient } from '@supabase/supabase-js';
 
 import crypto from 'node:crypto';
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -48,7 +48,7 @@ async function logAudit(
  * Rate-limited credential verification with audit logging.
  */
 async function _POST(req: NextRequest) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   const ip = getClientIp(req.headers);
   const ipHash = hashIp(ip);
 

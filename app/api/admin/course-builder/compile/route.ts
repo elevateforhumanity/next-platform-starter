@@ -13,7 +13,7 @@ import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { compileBlueprintToCourse } from '@/lib/course-builder/compiler';
 import type { CourseTemplate } from '@/lib/course-builder/schema';
 
@@ -35,7 +35,7 @@ export async function POST(request: NextRequest) {
 
   if (!body.template) return safeError('template is required', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   try {
     const result = await compileBlueprintToCourse({

@@ -2,7 +2,7 @@ import { requireAdmin } from '@/lib/auth';
 
 // app/api/admin/export/enrollments/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { withAuth } from '@/lib/with-auth';
 import { logger } from '@/lib/logger';
 import { logBulkExport } from '@/lib/audit/ferpa';
@@ -16,7 +16,7 @@ export const dynamic = 'force-dynamic';
 const _GET = withAuth(
   async (req: NextRequest, user) => {
     try {
-      const supabaseAdmin = await getAdminClient();
+      const supabaseAdmin = await requireAdminClient();
       const { searchParams } = new URL(req.url);
       const format = searchParams.get('format') || 'csv';
       const fundingType = searchParams.get('funding_type');

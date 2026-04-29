@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 // app/api/cash-advances/applications/[id]/approve/route.ts
 import { NextRequest, NextResponse } from 'next/server';
@@ -22,7 +22,7 @@ async function _POST(request: NextRequest, { params }: { params: Promise<{ id: s
     const auth = await apiRequireAdmin(request);
     if (auth.error) return auth.error;
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     const { id } = await params;
     const body = await parseBody<Record<string, any>>(request);
     const { approved_amount, notes } = body;

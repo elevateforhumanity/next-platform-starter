@@ -1,6 +1,6 @@
 import { requireAdmin } from '@/lib/auth';
 import { Metadata } from 'next';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
@@ -31,7 +31,7 @@ const STATUS_STYLES: Record<string, string> = {
 
 export default async function CohortTrackerPage() {
   await requireAdmin();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   if (!db) {
     return (

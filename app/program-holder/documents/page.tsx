@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { FileText, Upload, Clock, XCircle } from 'lucide-react';
@@ -42,7 +42,7 @@ export default async function ProgramHolderDocumentsPage({
   if (!profile || !['program_holder', 'admin', 'super_admin', 'staff'].includes(profile.role))
     redirect('/login');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: rawDocuments } = await db
     .from('documents')

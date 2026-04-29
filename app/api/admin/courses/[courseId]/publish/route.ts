@@ -3,7 +3,7 @@ import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeDbError } from '@/lib/api/safe-error';
 import { runAndPersistAudit } from '@/lib/services/course-publish-auditor';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export const dynamic = 'force-dynamic';
 
@@ -49,7 +49,7 @@ export async function POST(request: NextRequest, { params }: { params: { courseI
   }
 
   // All checks passed — publish
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: course, error: publishErr } = await db
     .from('courses')
     .update({

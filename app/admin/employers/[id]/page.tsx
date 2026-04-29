@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { Building2, Mail, Phone, MapPin, Briefcase, Users, Edit3, ArrowRight } from 'lucide-react';
@@ -21,7 +21,7 @@ export async function generateMetadata({
 export default async function EmployerPage({ params }: { params: Promise<{ id: string }> }) {
   await requireRole(['admin', 'super_admin', 'staff']);
   const { id } = await params;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: employer } = await db
     .from('employers')

@@ -3,7 +3,7 @@
  * Provides detailed insights into course performance
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export interface CourseAnalytics {
   courseId: string;
@@ -50,7 +50,7 @@ export interface EnrollmentTrends {
  * Get comprehensive course analytics
  */
 export async function getCourseAnalytics(courseId: string): Promise<CourseAnalytics | null> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // Get course info
   const { data: course } = await supabase
@@ -195,7 +195,7 @@ export async function getEnrollmentTrends(
   courseId: string,
   period: 'week' | 'month' | 'quarter' = 'month',
 ): Promise<EnrollmentTrends[]> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const intervals = period === 'week' ? 7 : period === 'month' ? 30 : 90;
   const { data: enrollments } = await supabase
@@ -215,7 +215,7 @@ export async function getEnrollmentTrends(
  * Get student engagement metrics
  */
 export async function getStudentEngagement(courseId: string) {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: progress } = await supabase
     .from('lms_progress')

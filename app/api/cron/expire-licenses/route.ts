@@ -1,5 +1,5 @@
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 
@@ -27,7 +27,7 @@ async function _GET(request: Request) {
   }
 
   try {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     // Call the batch expiry function
     const { data, error } = await supabase.rpc('expire_all_overdue_licenses');

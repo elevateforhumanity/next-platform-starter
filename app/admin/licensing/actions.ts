@@ -1,7 +1,7 @@
 'use server';
 
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { writeAdminAuditEvent, AuditActions } from '@/lib/audit';
 
 export async function updateLicenseStatus(licenseId: string, status: string) {
@@ -13,7 +13,7 @@ export async function updateLicenseStatus(licenseId: string, status: string) {
   if (authError) throw new Error('Auth failed');
   if (!user) throw new Error('Not authenticated');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: profile } = await db
     .from('profiles')

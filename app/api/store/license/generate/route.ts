@@ -145,7 +145,7 @@ async function _POST(req: Request) {
     }
 
     // Use admin client for license operations
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
 
@@ -51,7 +51,7 @@ export default async function PartnerInquiriesAdminPage() {
     const status = String(formData.get('status'));
     const notes = String(formData.get('internal_notes') || '');
 
-    const adminDb = await getAdminClient();
+    const adminDb = await requireAdminClient();
     if (adminDb) {
       await adminDb
         .from('partner_inquiries')

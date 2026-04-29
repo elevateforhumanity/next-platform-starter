@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { Building2, AlertTriangle, CheckCircle, Clock } from 'lucide-react';
@@ -19,7 +19,7 @@ export default async function AdminProvidersPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return <div className="p-8 text-red-600">Database unavailable</div>;
 
   const { data: profile } = await supabase

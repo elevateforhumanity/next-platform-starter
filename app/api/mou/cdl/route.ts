@@ -2,7 +2,7 @@
 // Referral partners and students sign via /mou/cdl without needing an account.
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { generateCDLStudentMOUPdf } from '@/lib/documents/generate-cdl-student-mou-pdf';
@@ -44,7 +44,7 @@ export async function POST(request: NextRequest) {
 
   // Record the signed MOU — fire and forget, non-fatal
   try {
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (db) {
       await db.from('partners').insert({
         name: body.organization_name ?? body.signer_name,

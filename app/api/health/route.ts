@@ -1,6 +1,6 @@
 // PUBLIC ROUTE: health check — no auth possible
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { toErrorMessage } from '@/lib/safe';
 import { getAppVersion } from '@/lib/version/getAppVersion';
@@ -45,7 +45,7 @@ async function _GET(request: Request) {
         error: 'Missing Supabase credentials',
       };
     } else {
-      const db = await getAdminClient();
+      const db = await requireAdminClient();
       if (!db) {
         checks.checks.database = {
           connected: false,
@@ -129,7 +129,7 @@ async function _GET(request: Request) {
 
   // Check 7: Audit infrastructure integrity (trigger health)
   try {
-    const adminClient = await getAdminClient();
+    const adminClient = await requireAdminClient();
     if (adminClient) {
       const { data: integrity } = await adminClient.rpc('verify_audit_integrity');
       // RPC returns: { disabled_triggers, missing_immutability, checked_at }

@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { getLearnerProgress } from '@/lib/lms/engine';
 export const runtime = 'nodejs';
@@ -48,7 +48,7 @@ async function _GET(req: NextRequest) {
   }
 
   // Legacy: return flat completed list for user (no courseId)
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db)
     return NextResponse.json({ error: 'Admin client failed to initialize' }, { status: 500 });
   const { data: legacyProgress } = await db

@@ -1,11 +1,11 @@
 'use server';
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { revalidatePath } from 'next/cache';
 
 export async function toggleDirectoryField(key: string, value: boolean) {
-  const adminClient = await getAdminClient();
+  const adminClient = await requireAdminClient();
   const fallback = await createClient();
   const db = adminClient ?? fallback;
 

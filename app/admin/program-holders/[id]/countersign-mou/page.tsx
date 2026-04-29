@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
 import { notFound, redirect } from 'next/navigation';
@@ -23,7 +23,7 @@ export default async function CountersignMouPage({ params, searchParams }: Props
   const { error: pageError, success: pageSuccess } = await searchParams;
 
   await requireRole(['admin', 'super_admin']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Fetch the program holder
   const { data: holder } = await db
@@ -50,7 +50,7 @@ export default async function CountersignMouPage({ params, searchParams }: Props
   // Server action: mark MOU as countersigned
   async function countersignMou() {
     'use server';
-    const db2 = await getAdminClient();
+    const db2 = await requireAdminClient();
     const { error } = await db2
       .from('program_holders')
       .update({

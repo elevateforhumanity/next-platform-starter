@@ -10,7 +10,7 @@ export const dynamic = 'force-dynamic';
  */
 
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { logger } from '@/lib/logger';
@@ -29,7 +29,7 @@ export async function POST(req: Request) {
   const { apprenticeId, userId } = body;
   if (!apprenticeId || !userId) return safeError('apprenticeId and userId are required', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // Verify the apprentice record exists and has no user_id
   const { data: existing, error: fetchErr } = await db

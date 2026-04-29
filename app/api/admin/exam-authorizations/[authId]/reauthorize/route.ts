@@ -3,7 +3,7 @@
 // Calls reauthorize_exam_if_ready() which runs a fresh readiness evaluation —
 // does not reuse the original authorization's readiness state.
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
@@ -20,7 +20,7 @@ export async function POST(request: Request, { params }: { params: Promise<{ aut
 
   const { authId } = await params;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   // Resolve the expired authorization to get user_id + program_id

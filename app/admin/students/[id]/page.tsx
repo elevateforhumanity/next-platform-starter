@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound, redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   ArrowLeft,
   Mail,
@@ -86,7 +86,7 @@ export default async function StudentDetailPage({ params }: { params: Promise<{ 
   } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: adminProfile } = await db
     .from('profiles')
     .select('role')

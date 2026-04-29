@@ -6,7 +6,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export const runtime = 'nodejs';
@@ -36,7 +36,7 @@ async function _GET(request: Request) {
   }
 
   // Look up platform to get its authorization endpoint
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: platform } = await db
     .from('lti_platforms')
     .select('auth_login_url, jwks_uri')

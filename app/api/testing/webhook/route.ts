@@ -15,7 +15,7 @@ import { getStripeServer } from '@/lib/stripe/get-stripe-server';
 
 import { NextRequest, NextResponse } from 'next/server';
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { sendEmail } from '@/lib/email/sendgrid';
 import { logger } from '@/lib/logger';
 import { TESTING_CENTER, TESTING_EMAIL, CALENDLY_CONFIG } from '@/lib/testing/testing-config';
@@ -59,7 +59,7 @@ export const POST = withRuntime({ secrets: [...ENV.STRIPE_TESTING_WEBHOOK] }, as
   }
 
   const session = event.data.object as Stripe.Checkout.Session;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return NextResponse.json({ error: 'DB unavailable' }, { status: 500 });
 
   // ── Exam booking fee paid ────────────────────────────────────────────────

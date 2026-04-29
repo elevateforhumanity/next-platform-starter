@@ -4,7 +4,7 @@
  * Tracks all license-related operations for security and compliance.
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export type LicenseAuditEvent =
@@ -50,7 +50,7 @@ export async function auditLicenseEvent(entry: LicenseAuditEntry): Promise<void>
 
   // Attempt to store in database for persistent audit trail
   try {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     await supabase.from('license_audit_log').insert({
       user_id: userId,

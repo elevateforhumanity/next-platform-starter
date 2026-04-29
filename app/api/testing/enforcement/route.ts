@@ -12,7 +12,7 @@
  */
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
@@ -26,7 +26,7 @@ export async function GET(req: NextRequest) {
   const email = req.nextUrl.searchParams.get('email')?.toLowerCase().trim();
   if (!email) return safeError('email is required', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Database unavailable', 500);
 
   try {

@@ -1,5 +1,5 @@
 import 'server-only';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 
 const DEFAULT_EXPIRY = 60; // 60 seconds — short-lived for PII document access
@@ -15,7 +15,7 @@ export async function getSignedDocumentUrl(
 ): Promise<string | null> {
   if (!filePath) return null;
 
-  const admin = await getAdminClient();
+  const admin = await requireAdminClient();
   const supabase = admin || (await createClient());
   if (!supabase) return null;
 

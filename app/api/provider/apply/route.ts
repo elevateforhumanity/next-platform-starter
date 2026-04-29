@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: provider application form
 
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient as createAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient as createAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 export const runtime = 'nodejs';
@@ -71,7 +71,7 @@ export async function POST(request: NextRequest) {
   }
 
   try {
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     // Check for duplicate pending application
     const { data: existing } = await supabase

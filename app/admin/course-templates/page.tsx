@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { BookOpen, Globe, Lock } from 'lucide-react';
 
@@ -14,7 +14,7 @@ export const metadata: Metadata = {
 
 export default async function CourseTemplatesPage() {
   await requireRole(['admin', 'super_admin']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // course_templates: id, name, description, category, structure, is_public, created_by, created_at
   const [

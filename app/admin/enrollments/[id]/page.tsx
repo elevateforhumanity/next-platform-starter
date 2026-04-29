@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft, User, BookOpen, DollarSign, Calendar } from 'lucide-react';
 
@@ -29,7 +29,7 @@ function fmtCents(cents: number | null) {
 export default async function EnrollmentDetailPage({ params }: { params: Promise<{ id: string }> }) {
   await requireRole(['admin', 'super_admin', 'staff']);
   const { id } = await params;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: enrollment, error } = await db
     .from('program_enrollments')

@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { NextRequest, NextResponse } from 'next/server';
 import { withAuth } from '@/lib/with-auth';
@@ -29,7 +29,7 @@ const _GET = withAuth(
     const since = new Date();
     since.setDate(since.getDate() - (isNaN(days) ? 7 : days));
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     const db = supabase;
 
     const { data, error }: any = await db

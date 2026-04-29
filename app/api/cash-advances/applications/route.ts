@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 // app/api/cash-advances/applications/route.ts
 import { NextRequest, NextResponse } from 'next/server';
@@ -20,7 +20,7 @@ async function _GET(request: NextRequest) {
     const auth = await apiRequireAdmin(request);
     if (auth.error) return auth.error;
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
     const searchParams = request.nextUrl.searchParams;
 
     // Get query parameters

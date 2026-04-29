@@ -3,7 +3,7 @@
 // Only queries tables that exist and have live data.
 // No synthetic stats, no fake deltas.
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { createClient } from '@/lib/supabase/server';
 import { logger } from '@/lib/logger';
 import {
@@ -76,7 +76,7 @@ const MONTH_SHORT = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct'
 
 export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const supabase = await createClient();
-  const adminClient = await getAdminClient();
+  const adminClient = await requireAdminClient();
   // Fall back to the anon client if the service role key is absent.
   // Queries that require elevated privileges will return empty results
   // rather than crashing the entire dashboard.
@@ -214,11 +214,11 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .order('submitted_at', { ascending: true })
       .limit(10),
 
-    // Compliance alerts — unresolved, for dashboard snapshot
-    // Real columns: title (not message), status != 'resolved' (not a boolean resolved column)
+    // Compliance alerts — open/unresolved, for dashboard snapshot
+    // Live schema: status TEXT (default 'open'), no boolean resolved column
     db.from('compliance_alerts')
       .select('id, alert_type, severity, title, description, created_at')
-      .neq('status', 'resolved')
+      .eq('status', 'open')
       .order('severity', { ascending: false })
       .limit(5),
 

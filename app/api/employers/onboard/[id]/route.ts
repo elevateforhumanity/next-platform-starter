@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: employer onboarding step update
 import { NextResponse } from 'next/server';
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { getTemplate } from '@/lib/notifications/templates';
@@ -22,7 +22,7 @@ async function _PATCH(req: Request, { params }: { params: Params }) {
     const body = await req.json();
     const { status, notes } = body;
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

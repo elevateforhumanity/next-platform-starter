@@ -1,6 +1,6 @@
 // PUBLIC ROUTE: CNA program waitlist form
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
@@ -33,7 +33,7 @@ export async function POST(req: NextRequest) {
     .filter(Boolean)
     .join(' | ');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { error } = await db.from('waitlist').insert({
     name: full_name,
     email,

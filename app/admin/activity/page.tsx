@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import {
   Activity, Shield, Users, BookOpen, FileText,
@@ -62,7 +62,7 @@ function eventCategory(action: string, resourceType: string): string {
 
 export default async function ActivityPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const [logsRes, countRes, enrollRes, appRes] = await Promise.all([
     db

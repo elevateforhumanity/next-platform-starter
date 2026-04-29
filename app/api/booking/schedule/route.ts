@@ -1,7 +1,7 @@
 // PUBLIC ROUTE: public schedule booking form
 
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { z } from 'zod';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -51,7 +51,7 @@ async function _POST(req: Request) {
     // Try saving to Supabase
     let dbSaved = false;
     try {
-      const supabase = await getAdminClient();
+      const supabase = await requireAdminClient();
 
       if (!supabase) {
         return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

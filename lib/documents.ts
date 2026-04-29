@@ -21,7 +21,7 @@ import { logger } from '@/lib/logger';
  * - CE approval: ce_certificate
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { setAuditContext } from '@/lib/audit-context';
 
 export type OwnerType = 'apprentice' | 'host_shop';
@@ -106,7 +106,7 @@ export async function hasRequiredDocuments(
   ownerType: OwnerType,
   ownerId: string,
 ): Promise<{ complete: boolean; missing: DocumentType[] }> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) {
     return { complete: false, missing: REQUIRED_DOCUMENTS[ownerType] };
   }
@@ -137,7 +137,7 @@ export async function hasVerifiedDocuments(
   ownerId: string,
   requiredTypes?: DocumentType[],
 ): Promise<{ complete: boolean; unverified: DocumentType[] }> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) {
     const required = requiredTypes || REQUIRED_VERIFIED_DOCUMENTS[ownerType];
     return { complete: false, unverified: required };
@@ -174,7 +174,7 @@ export async function hasVerifiedTransferDocuments(
   userId: string,
   sourceType: TransferSourceType,
 ): Promise<{ complete: boolean; unverified: DocumentType[] }> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) {
     return { complete: false, unverified: TRANSFER_DOCS_BY_SOURCE[sourceType] || [] };
   }
@@ -225,7 +225,7 @@ export async function hasTransferDocuments(
   apprenticeId: string,
   transferId?: string,
 ): Promise<boolean> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) return false;
 
   const { data: docs } = await supabase
@@ -351,7 +351,7 @@ export async function canSetExamEligible(
   }
 
   // Check for any pending transfer requests that need verification
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (supabase) {
     const { data: pendingTransfers } = await supabase
       .from('hour_transfer_requests')
@@ -375,7 +375,7 @@ export async function canSetExamEligible(
  * Requires: ce_certificate verified
  */
 export async function canApproveCEHours(userId: string): Promise<VerificationGateResult> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) {
     return {
       allowed: false,
@@ -407,7 +407,7 @@ export async function canApproveCEHours(userId: string): Promise<VerificationGat
  * Get all documents for an owner
  */
 export async function getDocuments(ownerType: OwnerType, ownerId: string): Promise<Document[]> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) return [];
 
   const { data } = await supabase
@@ -429,7 +429,7 @@ export async function verifyDocument(
   verifiedBy: string,
   verificationNotes?: string,
 ): Promise<boolean> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) return false;
 
   await setAuditContext(supabase, {
@@ -461,7 +461,7 @@ export async function rejectDocument(
   rejectedBy: string,
   reason: string,
 ): Promise<boolean> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) return false;
 
   await setAuditContext(supabase, {
@@ -497,7 +497,7 @@ export async function createDocumentRecord(params: {
   fileSizeBytes?: number;
   uploadedBy: string;
 }): Promise<Document | null> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) return null;
 
   await setAuditContext(supabase, {

@@ -1,6 +1,6 @@
 'use server';
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { revalidatePath } from 'next/cache';
 import { headers } from 'next/headers';
@@ -16,7 +16,7 @@ export async function updateApplicationStatus(
   const auth = await apiRequireAdmin(req);
   if (auth.error) return { success: false, error: 'Unauthorized' };
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return { success: false, error: 'DB unavailable' };
 
   const { error } = await db

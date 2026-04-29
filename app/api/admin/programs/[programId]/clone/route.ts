@@ -26,7 +26,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import { registerProgramCourse } from '@/lib/course-builder/program-resolver';
@@ -48,7 +48,7 @@ export async function POST(
   const { programId } = await params;
   const body = await request.json().catch(() => ({}));
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   // ── 1. Load source program ────────────────────────────────────────────────

@@ -1,7 +1,7 @@
 import { logger } from '@/lib/logger';
 import { NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Redis } from '@upstash/redis';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
@@ -18,7 +18,7 @@ async function _GET(request: Request) {
 
   // Auth — admin/super_admin only (endpoint exposes infrastructure details)
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const {
     data: { user },
@@ -86,7 +86,7 @@ async function checkDatabase() {
   const startTime = Date.now();
   try {
     const supabase = await createClient();
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     const { error } = await db.from('profiles').select('id', { count: 'exact', head: true });
     const latency = Date.now() - startTime;
     if (error) return { status: 'fail', connected: false, latency };

@@ -7,7 +7,7 @@ import 'server-only';
  * consistent with the rest of the system.
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getLearnerProgress } from '@/lib/lms/engine';
 import { logger } from '@/lib/logger';
 
@@ -19,7 +19,7 @@ import { logger } from '@/lib/logger';
  * @param courseId   - courses.id
  */
 export async function updateProgramProgress(userId: string, courseId: string): Promise<void> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) {
     logger.error('updateProgramProgress: admin client unavailable');
     return;
@@ -67,7 +67,7 @@ export async function updateProgramProgress(userId: string, courseId: string): P
  * @param quizId  - quizzes.id  (or course_lessons.id for checkpoint quizzes)
  */
 export async function updateProgressAfterQuiz(userId: string, quizId: string): Promise<void> {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return;
 
   // Try quizzes table first

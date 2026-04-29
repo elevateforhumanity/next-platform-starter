@@ -2,7 +2,7 @@ import { Metadata } from 'next';
 import Link from 'next/link';
 import { notFound } from 'next/navigation';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft } from 'lucide-react';
 import ParticipantExitForm from './ParticipantExitForm';
@@ -46,7 +46,7 @@ function fmtDateTime(d: string | null) {
 export default async function ParticipantDetailPage({ params }: { params: { id: string } }) {
   await requireRole(['admin', 'super_admin', 'staff']);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { id } = params;
 
   const [participantRes, attendanceRes, componentsRes] = await Promise.all([

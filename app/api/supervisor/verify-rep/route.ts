@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser } from '@/lib/auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError, safeDbError } from '@/lib/api/safe-error';
@@ -34,7 +34,7 @@ export async function POST(request: NextRequest) {
 
     if (!competencyLogId) return safeError('competencyLogId required', 400);
 
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (!db) return safeError('Service unavailable', 503);
 
     // Fetch the log entry

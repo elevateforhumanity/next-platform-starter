@@ -1,7 +1,7 @@
 import { NextRequest } from 'next/server';
 import { cookies } from 'next/headers';
 import { createRouteHandlerClient } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { randomBytes } from 'node:crypto';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -38,7 +38,7 @@ async function _POST(req: NextRequest) {
   }
 
   // Use service role for certificate writes (RLS restricts inserts to admin)
-  const adminDb = await getAdminClient();
+  const adminDb = await requireAdminClient();
 
   if (!adminDb) {
     return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { requireAdmin } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import Image from 'next/image';
 import { BarChart, DollarSign, Gift } from 'lucide-react';
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
 
 export default async function CashAdvancesAdminPage() {
   await requireAdmin();
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   // Fetch applications
   const { data: applications, error } = await supabase

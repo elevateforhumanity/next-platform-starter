@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import ProgramBuilderClient from './ProgramBuilderClient';
 
 export const dynamic = 'force-dynamic';
@@ -18,7 +18,7 @@ export default async function ProgramBuilderPage({
   await requireRole(['admin', 'super_admin', 'staff']);
   const { tab, programId } = await searchParams;
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return <div className="p-8 text-red-600">Database not configured</div>;
 
   const [{ data: programs }, { data: courses }, { data: dbPrograms }] = await Promise.all([

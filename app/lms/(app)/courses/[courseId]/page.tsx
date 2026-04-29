@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect, notFound } from 'next/navigation';
 import Image from 'next/image';
 import {
@@ -35,7 +35,7 @@ export const dynamic = 'force-dynamic';
 type Params = Promise<{ courseId: string }>;
 
 async function resolveCourse(courseId: string) {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: course } = await db
     .from('courses')
     .select('id, title, description, short_description, status, is_active, program_id, slug')
@@ -83,7 +83,7 @@ export async function generateMetadata({ params }: { params: Params }): Promise<
 export default async function CoursePage({ params }: { params: Params }) {
   const { courseId } = await params;
   const supabase = await createClient();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const {
     data: { user },

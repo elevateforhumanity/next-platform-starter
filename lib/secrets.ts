@@ -62,7 +62,7 @@ async function loadSecrets(): Promise<Record<string, string>> {
   const client = getBootstrapClient();
   if (!client) {
     // SUPABASE_SERVICE_ROLE_KEY absent — local dev or Lambda before secret injection.
-    // Fall through to process.env; getAdminClient() will return null and callers
+    // Fall through to process.env; requireAdminClient() will return null and callers
     // must handle that gracefully.
     return {};
   }

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { CheckCircle2, ExternalLink, ArrowRight, BookOpen } from 'lucide-react';
@@ -22,9 +22,9 @@ export default async function OrientationCompletePage() {
   } = await sessionClient.auth.getUser();
   if (!user) redirect('/login');
 
-  let supabase: Awaited<ReturnType<typeof getAdminClient>>;
+  let supabase: Awaited<ReturnType<typeof requireAdminClient>>;
   try {
-    supabase = await getAdminClient();
+    supabase = await requireAdminClient();
   } catch {
     redirect('/login');
   }

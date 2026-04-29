@@ -1,6 +1,6 @@
 // app/api/cm/learners/[id]/route.ts - Get learner details for case manager
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getAuthUser } from '@/lib/auth';
 import { logger } from '@/lib/logger';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
@@ -15,7 +15,7 @@ async function _GET(req: NextRequest, { params }: { params: Promise<{ id: string
   const rateLimited = await applyRateLimit(req, 'api');
   if (rateLimited) return rateLimited;
   try {
-    const supabaseAdmin = await getAdminClient();
+    const supabaseAdmin = await requireAdminClient();
     const { id } = await params;
 
     // Get current user

@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import {
   Users,
@@ -28,7 +28,7 @@ const STATUS_STYLES: Record<string, string> = {
 
 export default async function WIOAEligibilityPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   // wioa_applications may not exist — fall back to applications with wioa funding
   const [appsRes, pendingRes, approvedRes, deniedRes] = await Promise.all([

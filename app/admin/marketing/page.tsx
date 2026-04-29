@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import {
   Megaphone, Mail, Share2, FileText, BarChart2,
@@ -17,7 +17,7 @@ export const revalidate = 60;
 
 export default async function MarketingPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const [campaignsRes, leadsRes, postsRes] = await Promise.all([
     db.from('campaigns').select('id, name, status, created_at').order('created_at', { ascending: false }).limit(5),

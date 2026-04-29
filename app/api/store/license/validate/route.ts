@@ -1,6 +1,6 @@
 import { hashLicenseKey, isValidLicenseKeyFormat } from '@/lib/store/license';
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 import { toErrorMessage } from '@/lib/safe';
 import { checkRateLimit } from '@/lib/rate-limit';
@@ -51,7 +51,7 @@ async function _POST(req: Request) {
       return Response.json({ valid: false, error: 'Invalid license key format' }, { status: 400 });
     }
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

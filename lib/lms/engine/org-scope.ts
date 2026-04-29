@@ -5,7 +5,7 @@ import 'server-only';
  * Read-only query helpers for organization-scoped data access.
  * Used by the partner portal and reporting API.
  *
- * All functions require await getAdminClient() — they bypass RLS and apply
+ * All functions require await requireAdminClient() — they bypass RLS and apply
  * org scoping explicitly. Callers must verify org membership before
  * calling these (see lib/auth/org-guard.ts).
  *
@@ -13,12 +13,12 @@ import 'server-only';
  * It does not call getLearnerProgress.
  */
 
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 // ─── Internal helper ──────────────────────────────────────────────────────────
 
 async function requireDb(caller: string) {
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) throw new Error(`${caller}: admin client unavailable (missing service role key)`);
   return db;
 }

@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser } from '@/lib/auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
@@ -23,7 +23,7 @@ export async function GET(request: NextRequest) {
   if (!user) return safeError('Unauthorized', 401);
 
   try {
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
     if (!db) return safeError('Service unavailable', 503);
 
     // Auth path 1: partner_users → apprenticeships

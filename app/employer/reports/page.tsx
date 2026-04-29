@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import Link from 'next/link';
@@ -17,7 +17,7 @@ export default async function EmployerReportsPage() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/employer/reports');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: profile } = await db.from('profiles').select('role, employer_id').eq('id', user.id).maybeSingle();
   if (!profile || !['employer', 'admin', 'super_admin', 'staff'].includes(profile.role)) redirect('/login');
 

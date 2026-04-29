@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 export interface LessonOjtMeta {
   required_skill_id: string | null;
@@ -26,7 +26,7 @@ export interface LessonOjtMeta {
  *   - app/api/lessons/[lessonId]/ojt-log/route.ts
  */
 export async function resolveLessonOjt(
-  db: Awaited<ReturnType<typeof getAdminClient>>,
+  db: Awaited<ReturnType<typeof requireAdminClient>>,
   lessonId: string,
 ): Promise<LessonOjtMeta | null> {
   // course_lessons — barber apprenticeship and all blueprint-driven programs

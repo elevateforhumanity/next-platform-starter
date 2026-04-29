@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireAdmin } from '@/lib/auth';
 import Link from 'next/link';
 import { Users, Eye, Download, Search } from 'lucide-react';
@@ -35,7 +35,7 @@ export default async function ApplicantsPage({
   searchParams: Promise<{ status?: string; q?: string; page?: string }>;
 }) {
   await requireAdmin();
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) throw new Error('Admin client unavailable');
 
   const { status: filterStatus, q: search, page: pageParam } = await searchParams;

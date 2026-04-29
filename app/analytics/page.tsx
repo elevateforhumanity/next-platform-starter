@@ -3,7 +3,7 @@ import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   Users,
   GraduationCap,
@@ -45,7 +45,7 @@ export default async function AnalyticsPage() {
     redirect('/lms/dashboard');
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const [
     { count: totalUsers },

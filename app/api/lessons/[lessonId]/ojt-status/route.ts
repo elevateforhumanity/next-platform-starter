@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser } from '@/lib/auth';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
@@ -20,7 +20,7 @@ export async function GET(
 
   try {
     const { lessonId } = await params;
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
 
     const lesson = await resolveLessonOjt(db, lessonId);
     if (!lesson) return safeError('Lesson not found', 404);

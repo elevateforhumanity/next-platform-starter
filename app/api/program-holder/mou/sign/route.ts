@@ -1,5 +1,5 @@
 import { NextRequest } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { cookies } from 'next/headers';
 import { createRouteHandlerClient } from '@/lib/auth';
@@ -36,7 +36,7 @@ async function _POST(req: NextRequest) {
   }
 
   // Use admin client for all DB + storage writes (bypasses RLS)
-  const adminClient = await getAdminClient();
+  const adminClient = await requireAdminClient();
   if (!adminClient) {
     return new Response('Server error', { status: 500 });
   }

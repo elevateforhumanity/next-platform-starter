@@ -14,7 +14,7 @@ import 'server-only';
  */
 
 import { getStripe } from '@/lib/stripe/client';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { logger } from '@/lib/logger';
 
 export interface VendorPayoutRequest {
@@ -49,7 +49,7 @@ const STRIPE_CONNECT_ACCOUNTS: Record<string, string> = {};
 export async function processVendorPayout(
   request: VendorPayoutRequest,
 ): Promise<VendorPayoutResult> {
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) {
     return { success: false, method: 'recorded_payable', error: 'Database unavailable' };
   }

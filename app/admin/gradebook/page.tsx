@@ -1,5 +1,5 @@
 import { Metadata } from 'next';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { requireRole } from '@/lib/auth/require-role';
 import Link from 'next/link';
 import { BookOpen, ArrowRight } from 'lucide-react';
@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 
 export default async function AdminGradebookIndexPage() {
   await requireRole(['admin', 'super_admin', 'instructor']);
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   const { data: courses } = await supabase
     .from('courses')

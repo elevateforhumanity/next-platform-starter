@@ -13,7 +13,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError } from '@/lib/api/safe-error';
@@ -43,7 +43,7 @@ export async function POST(request: NextRequest) {
   }
 
   const supabase = await createClient();
-  const adminDb = await getAdminClient();
+  const adminDb = await requireAdminClient();
   if (!adminDb) return safeError('Service unavailable', 503);
 
   // Fetch lesson + course
@@ -100,7 +100,7 @@ async function runRender(opts: {
   lessonTitle: string;
   script: string;
   bulletPoints: string[];
-  adminDb: NonNullable<Awaited<ReturnType<typeof getAdminClient>>>;
+  adminDb: NonNullable<Awaited<ReturnType<typeof requireAdminClient>>>;
 }) {
   const { jobId, lessonId, courseTitle, lessonTitle, script, bulletPoints, adminDb } = opts;
 

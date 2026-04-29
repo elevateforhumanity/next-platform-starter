@@ -3,7 +3,7 @@ export const dynamic = 'force-dynamic';
 
 import { Metadata } from 'next';
 import { requireAdmin } from '@/lib/auth';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import {
   CreditCard,
@@ -83,7 +83,7 @@ function formatDate(iso: string): string {
 
 export default async function AdminStripeIntegrationPage() {
   await requireAdmin();
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
   if (!supabase) notFound();
 
   const [flagsResult, enrollmentsResult] = await Promise.all([

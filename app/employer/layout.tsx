@@ -1,5 +1,5 @@
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 
 export const dynamic = 'force-dynamic';
@@ -59,7 +59,7 @@ export default async function EmployerLayout({ children }: { children: React.Rea
     return <>{children}</>;
   }
 
-  const _admin = await getAdminClient();
+  const _admin = await requireAdminClient();
   const db = _admin;
   if (!db) throw new Error('Admin client failed to initialize');
 

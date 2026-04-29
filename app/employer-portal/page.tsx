@@ -2,7 +2,7 @@ import type { Metadata } from 'next';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import {
   Briefcase,
   Users,
@@ -30,7 +30,7 @@ export default async function EmployerPortalPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login?redirect=/employer-portal');
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: profile } = await db
     .from('profiles')

@@ -21,7 +21,7 @@ import { mkdir, writeFile, readFile, unlink, mkdtemp } from 'fs/promises';
 import { bundle } from '@remotion/bundler';
 import { renderMedia, selectComposition } from '@remotion/renderer';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
@@ -171,7 +171,7 @@ export async function POST(request: NextRequest) {
   }
 
   const supabase = await createClient();
-  const adminDb = await getAdminClient();
+  const adminDb = await requireAdminClient();
   if (!adminDb) return safeError('Service unavailable', 503);
 
   // ── 1. Fetch lesson ─────────────────────────────────────────────────────────

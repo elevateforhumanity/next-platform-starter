@@ -1,6 +1,6 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { redirect } from 'next/navigation';
 import Link from 'next/link';
 import {
@@ -34,7 +34,7 @@ export default async function InstructorOnboardingPage() {
   // so non-instructors are redirected without triggering unnecessary reads.
   // Use admin client only for the profile lookup (profiles table has RLS that
   // blocks users from reading their own role column in some policies).
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   const { data: profile } = await db
     .from('profiles')
     .select('full_name, email, role, avatar_url')

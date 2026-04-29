@@ -15,7 +15,7 @@
 
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 import {
@@ -36,7 +36,7 @@ export async function GET(
   if (auth.error) return auth.error;
 
   const { programId } = await params;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   const versions = await listProgramVersions(db, programId);
@@ -53,7 +53,7 @@ export async function POST(
   if (auth.error) return auth.error;
 
   const { programId } = await params;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   // Enforce approval gate — program must be in 'approved' state before publish.
@@ -92,7 +92,7 @@ export async function PUT(
     return safeError('version (number) required', 400);
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   const result = await rollbackProgram(db, programId, body.version, auth.user.id);

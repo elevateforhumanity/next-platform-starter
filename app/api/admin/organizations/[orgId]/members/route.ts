@@ -17,7 +17,7 @@
 import { NextRequest, NextResponse } from 'next/server';
 import { z } from 'zod';
 import { apiRequireAdmin } from '@/lib/admin/guards';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { safeError, safeInternalError } from '@/lib/api/safe-error';
 
@@ -36,7 +36,7 @@ export async function GET(
   if (auth.error) return auth.error;
 
   const { orgId } = await params;
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   const { data, error } = await db
@@ -74,7 +74,7 @@ export async function POST(
     return safeError('email or user_id, and role required', 400);
   }
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   // Verify org exists
@@ -120,7 +120,7 @@ export async function DELETE(
   const body = await request.json().catch(() => ({}));
   if (!body.user_id) return safeError('user_id required', 400);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) return safeError('Service unavailable', 503);
 
   const { error } = await db

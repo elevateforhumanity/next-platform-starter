@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { getCurrentUser } from '@/lib/auth';
 import { redirect } from 'next/navigation';
 import ExternalCourseStripeTable from './ExternalCourseStripeTable';
@@ -9,7 +9,7 @@ export const metadata = { title: 'External Courses — Stripe Pricing' };
 async function requireAdmin() {
   const user = await getCurrentUser();
   if (!user) redirect('/login?redirect=/admin/external-courses');
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   return user;
 }
 
@@ -17,7 +17,7 @@ export default async function ExternalCoursesAdminPage() {
   const supabase = await createClient();
   await requireAdmin();
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: items } = await supabase
     .from('program_external_courses')

@@ -3,7 +3,7 @@ import { requireAdmin } from '@/lib/auth';
 
 // app/api/admin/external-progress/update/route.ts
 import { NextRequest, NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { withAuth } from '@/lib/with-auth';
 import { logger } from '@/lib/logger';
 import { logAdminAudit, AdminAction } from '@/lib/admin/audit-log';
@@ -47,7 +47,7 @@ export const POST = withAuth(
         return NextResponse.json({ error: 'Invalid status' }, { status: 400 });
       }
 
-      const db = await getAdminClient();
+      const db = await requireAdminClient();
       if (!db) return NextResponse.json({ error: 'Service unavailable' }, { status: 503 });
 
       // Pre-read — verify record exists before mutating

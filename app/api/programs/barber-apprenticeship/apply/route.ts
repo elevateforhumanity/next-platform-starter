@@ -2,7 +2,7 @@
 import { logger } from '@/lib/logger';
 
 import { NextResponse } from 'next/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { z } from 'zod';
 import { DOT_CODES } from '@/lib/compliance/rapids-integration';
 import { RAPIDS_CONFIG, getRAPIDSEnrollmentData } from '@/lib/compliance/rapids-config';
@@ -43,7 +43,7 @@ export async function POST(req: Request) {
     const data = await req.json();
     const validated = barberApplicationSchema.parse(data);
 
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     if (!supabase) {
       return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });

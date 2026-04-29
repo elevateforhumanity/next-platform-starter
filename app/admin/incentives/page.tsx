@@ -1,6 +1,6 @@
 import { requireRole } from '@/lib/auth/require-role';
 import type { Metadata } from 'next';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import Link from 'next/link';
 import { DollarSign, TrendingUp, Users, Award, Plus } from 'lucide-react';
 
@@ -19,7 +19,7 @@ const STATUS_STYLES: Record<string, string> = {
 
 export default async function IncentivesPage() {
   await requireRole(['admin', 'super_admin', 'staff']);
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
 
   const { data: rows } = await db
     .from('incentives')

@@ -2,7 +2,7 @@ import { notFound } from 'next/navigation';
 import { Metadata } from 'next';
 import Link from 'next/link';
 import { requireRole } from '@/lib/auth/require-role';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import AttendanceForm from '@/components/admin/fssa/AttendanceForm';
 import { ArrowLeft } from 'lucide-react';
@@ -23,7 +23,7 @@ function fmtDate(d: string) {
 export default async function FssaAttendancePage() {
   await requireRole(['admin', 'super_admin', 'staff']);
 
-  const db = await getAdminClient();
+  const db = await requireAdminClient();
   if (!db) notFound();
 
   // Recent attendance with participant names

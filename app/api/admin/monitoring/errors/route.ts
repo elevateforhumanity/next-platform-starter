@@ -2,7 +2,7 @@ import { logger } from '@/lib/logger';
 import { NextRequest, NextResponse } from 'next/server';
 import { apiRequireAdmin } from '@/lib/admin/guards';
 import { createClient } from '@/lib/supabase/server';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import { applyRateLimit } from '@/lib/api/withRateLimit';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import { withRuntime } from '@/lib/api/withRuntime';
@@ -23,7 +23,7 @@ async function _GET(request: NextRequest) {
     const offset = parseInt(searchParams.get('offset') || '0', 10);
 
     const supabase = await createClient();
-    const db = await getAdminClient();
+    const db = await requireAdminClient();
 
     // Fetch recent errors from audit_logs table
     const { data: errors, error } = await db

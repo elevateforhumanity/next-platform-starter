@@ -1,7 +1,7 @@
 import { Metadata } from 'next';
 import { createClient } from '@/lib/supabase/server';
 import { redirect } from 'next/navigation';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import WebhookHealthDashboard from './WebhookHealthDashboard';
 
 export const dynamic = 'force-dynamic';
@@ -21,7 +21,7 @@ export default async function WebhookHealthPage() {
   } = await supabase.auth.getUser();
   if (!user) redirect('/login');
 
-  const adminDb = await getAdminClient();
+  const adminDb = await requireAdminClient();
   if (adminDb) {
     const { data: profile } = await adminDb
       .from('profiles')

@@ -1,4 +1,4 @@
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 
 import { NextResponse } from 'next/server';
 
@@ -24,7 +24,7 @@ async function _GET(request: Request) {
     }
 
     // Use service role key for admin operations
-    const supabase = await getAdminClient();
+    const supabase = await requireAdminClient();
 
     // Find students who haven't logged in for 7+ days
     const sevenDaysAgo = new Date();

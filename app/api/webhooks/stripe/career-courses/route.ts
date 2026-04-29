@@ -3,7 +3,7 @@ import { getStripe } from '@/lib/stripe/client';
 import { hydrateProcessEnv } from '@/lib/secrets';
 import { NextResponse } from 'next/server';
 import { headers } from 'next/headers';
-import { getAdminClient } from '@/lib/supabase/admin';
+import { requireAdminClient } from '@/lib/supabase/admin';
 import type Stripe from 'stripe';
 import { withApiAudit } from '@/lib/audit/withApiAudit';
 import * as Sentry from '@sentry/nextjs';
@@ -37,7 +37,7 @@ async function _POST(req: Request) {
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
-  const supabase = await getAdminClient();
+  const supabase = await requireAdminClient();
 
   if (!supabase) {
     return NextResponse.json({ error: 'Service temporarily unavailable.' }, { status: 503 });
