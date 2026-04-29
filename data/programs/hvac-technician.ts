@@ -256,9 +256,9 @@ export const HVAC_TECHNICIAN: ProgramSchema = {
   ],
 
   employerPartners: [
-    { name: 'Gaylor Electric', logoUrl: null, hiringUrl: null },
-    { name: 'Summers Plumbing Heating & Cooling', logoUrl: null, hiringUrl: null },
-    { name: 'Service Experts', logoUrl: null, hiringUrl: null },
+    'Gaylor Electric',
+    'Summers Plumbing Heating & Cooling',
+    'Service Experts',
   ],
 
   faqs: [

@@ -210,9 +210,9 @@ export const CNA: ProgramSchema = {
   ],
 
   employerPartners: [
-    { name: 'Ascension St. Vincent', logoUrl: null, hiringUrl: null },
-    { name: 'IU Health', logoUrl: null, hiringUrl: null },
-    { name: 'Kindred Healthcare', logoUrl: null, hiringUrl: null },
+    'Ascension St. Vincent',
+    'IU Health',
+    'Kindred Healthcare',
   ],
 
   faqs: [

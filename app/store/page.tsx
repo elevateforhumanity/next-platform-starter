@@ -141,7 +141,7 @@ export default function StorePage() {
               },
               {
                 label: 'Employer Portal',
-                href: '/demo/employer',
+                href: '/for-employers',
                 desc: 'Candidates, apprenticeships, incentives',
               },
               {
@@ -485,10 +485,10 @@ export default function StorePage() {
               Website Builder
             </Link>
             <Link
-              href="/creator/products"
+              href="/programs"
               className="px-4 py-2 bg-white border border-slate-200 rounded-lg text-sm font-medium text-slate-700 hover:border-brand-red-300 hover:text-brand-red-700 transition-colors"
             >
-              Creator Products
+              Browse Programs
             </Link>
           </div>
         </div>
