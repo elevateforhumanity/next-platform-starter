@@ -283,7 +283,6 @@ const ALLOWED_TOP_LEVEL = new Set([
   // ── Mixed pages — landing public, sub-pages Railway ───────────────────────
   // (sub-pages listed in FORBIDDEN_SUBPATHS below)
   'shop',
-  'store',
   'student-support',
   'tax-self-prep',
   'client-portal',

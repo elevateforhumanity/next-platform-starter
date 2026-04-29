@@ -20,19 +20,11 @@ export default function StoreDemoVideo() {
   };
 
   const toggle = () => {
-    if (!started) {
-      start();
-      return;
-    }
+    if (!started) { start(); return; }
     const v = videoRef.current;
     if (!v) return;
-    if (v.paused) {
-      v.play();
-      setPlaying(true);
-    } else {
-      v.pause();
-      setPlaying(false);
-    }
+    if (v.paused) { v.play(); setPlaying(true); }
+    else { v.pause(); setPlaying(false); }
   };
 
   const fullscreen = () => {
@@ -60,12 +52,8 @@ export default function StoreDemoVideo() {
             <div className="w-24 h-24 bg-white rounded-full flex items-center justify-center shadow-xl hover:scale-110 transition-transform mb-4">
               <Play className="w-11 h-11 text-brand-red-600 ml-1" />
             </div>
-            <p className="text-white font-bold text-lg drop-shadow-lg">
-              Watch: HVAC Course — Module 1, Lesson 1
-            </p>
-            <p className="text-white/80 text-sm mt-1 drop-shadow">
-              Sample lesson from the licensable HVAC Technician course
-            </p>
+            <p className="text-white font-bold text-lg drop-shadow-lg">Watch: HVAC Course — Module 1, Lesson 1</p>
+            <p className="text-white/80 text-sm mt-1 drop-shadow">Sample lesson from the licensable HVAC Technician course</p>
           </div>
         </>
       )}
@@ -79,36 +67,16 @@ export default function StoreDemoVideo() {
             playsInline
             muted
             controls={false}
-            onCanPlay={() => {
-              videoRef.current
-                ?.play()
-                .then(() => setPlaying(true))
-                .catch(() => {});
-            }}
+            onCanPlay={() => { videoRef.current?.play().then(() => setPlaying(true)).catch(() => {}); }}
             onEnded={() => setPlaying(false)}
           >
-            <source
-              src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/course-videos/hvac/hvac-module1-lesson1.mp4`}
-              type="video/mp4"
-            />
+            <source src={`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/course-videos/hvac/hvac-module1-lesson1.mp4`} type="video/mp4" />
           </video>
           <div className="absolute bottom-0 inset-x-0 p-3 flex items-center justify-between bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                toggle();
-              }}
-              className="text-white hover:text-white/80"
-            >
+            <button onClick={(e) => { e.stopPropagation(); toggle(); }} className="text-white hover:text-white/80">
               {playing ? <Pause className="w-5 h-5" /> : <Play className="w-5 h-5" />}
             </button>
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                fullscreen();
-              }}
-              className="text-white hover:text-white/80"
-            >
+            <button onClick={(e) => { e.stopPropagation(); fullscreen(); }} className="text-white hover:text-white/80">
               <Maximize2 className="w-4 h-4" />
             </button>
           </div>
