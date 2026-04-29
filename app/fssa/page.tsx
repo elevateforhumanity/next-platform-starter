@@ -325,10 +325,10 @@ export default function FSSAImpactPage() {
             A team member or case partner may contact you to verify eligibility before enrollment is approved.
           </p>
           <Link
-            href="/apply/student?funding=fssa-impact"
+            href="/apply/fssa"
             className="inline-flex items-center gap-2 bg-brand-red-600 hover:bg-brand-red-700 text-white font-bold text-lg px-10 py-4 rounded-full transition-colors shadow-lg"
           >
-            Start Application
+            Start Application — No Account Required
             <ArrowRight className="w-5 h-5" />
           </Link>
         </div>

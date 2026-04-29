@@ -127,6 +127,30 @@ export default async function ApplyPage({
         </div>
       )}
 
+      {/* FSSA IMPACT callout — SNAP/TANF recipients */}
+      <section className="max-w-6xl mx-auto px-4 pt-8">
+        <div className="bg-green-50 border border-green-200 rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center gap-5">
+          <div className="flex-1">
+            <span className="inline-block bg-green-600 text-white text-xs font-bold uppercase tracking-widest px-3 py-1 rounded-full mb-2">
+              FSSA IMPACT — Free Training
+            </span>
+            <h2 className="text-lg font-bold text-green-900 mb-1">
+              Receiving SNAP or TANF? You may qualify for fully funded training.
+            </h2>
+            <p className="text-green-800 text-sm">
+              Indiana&apos;s FSSA IMPACT program covers tuition, books, and supplies for eligible
+              SNAP and TANF recipients. Apply directly here — no Microsoft account required.
+            </p>
+          </div>
+          <Link
+            href="/apply/fssa"
+            className="flex-shrink-0 inline-flex items-center gap-2 bg-green-600 hover:bg-green-700 text-white font-bold px-6 py-3 rounded-lg text-sm transition-colors"
+          >
+            Apply for FSSA IMPACT <ArrowRight className="w-4 h-4" />
+          </Link>
+        </div>
+      </section>
+
       {/* Application cards */}
       <section className="max-w-6xl mx-auto px-4 pb-10 sm:pb-14 space-y-8">
         {/* Student — full width, image fills left side */}
