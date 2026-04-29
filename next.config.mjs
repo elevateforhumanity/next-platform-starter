@@ -674,7 +674,14 @@ const nextConfig = {
         destination: '/programs/cdl-training',
         permanent: true,
       },
-      // CNA and HVAC aliases are appended from lib/routes/canonical-routes.json
+      // CNA duplicates → canonical /programs/cna
+      { source: '/programs/cna-certification', destination: '/programs/cna', permanent: true },
+      { source: '/programs/certified-nursing-assistant', destination: '/programs/cna', permanent: true },
+      { source: '/programs/cna-training', destination: '/programs/cna', permanent: true },
+      // HVAC duplicates → canonical /programs/hvac-technician
+      { source: '/programs/hvac', destination: '/programs/hvac-technician', permanent: true },
+      // Cybersecurity duplicate → canonical /programs/cybersecurity-analyst
+      { source: '/programs/cybersecurity', destination: '/programs/cybersecurity-analyst', permanent: true },
       // Barber & Beauty
       {
         source: '/programs/barber',

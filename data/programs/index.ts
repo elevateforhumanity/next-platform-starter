@@ -43,6 +43,9 @@ import { SANITATION } from './sanitation-infection-control';
 import { PEER_RECOVERY } from './peer-recovery-specialist';
 import { HVAC_TECHNICIAN } from './hvac-technician';
 import { BARBER_APPRENTICESHIP } from './barber-apprenticeship';
+import { PHLEBOTOMY } from './phlebotomy';
+import { HOSPITALITY } from './hospitality';
+import { TECHNOLOGY } from './technology';
 
 const STATIC_PROGRAMS: ProgramSchema[] = [
   // Programs with dedicated page.tsx — registered here for [slug] fallback and sitemap
@@ -61,6 +64,9 @@ const STATIC_PROGRAMS: ProgramSchema[] = [
   SANITATION,
   PEER_RECOVERY,
   // Programs served via [slug]/page.tsx dynamic renderer
+  PHLEBOTOMY,
+  HOSPITALITY,
+  TECHNOLOGY,
   BEAUTY_CAREER_EDUCATOR,
   BOOKKEEPING,
   BUSINESS_ADMIN,

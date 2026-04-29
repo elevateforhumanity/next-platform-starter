@@ -318,6 +318,38 @@ export interface ProgramSchema {
    */
   fundingOptions?: FundingType[];
 
+  // ─── Agency-Grade Funding Eligibility ───────────────────────────
+  /**
+   * Explicit YES/NO funding eligibility flags for agency reporting.
+   * These drive FSSA, SNAP E&T, WIOA, and ETPL compliance displays.
+   * Derived from fundingOptions when not explicitly set, but prefer
+   * explicit values for programs submitted to state agencies.
+   */
+  funding?: {
+    /** FSSA IMPACT — Indiana Family and Social Services Administration */
+    fssa_eligible: boolean;
+    /** SNAP Employment & Training — FSSA SNAP E&T TPP */
+    snap_et_eligible: boolean;
+    /** WIOA Title I — Workforce Innovation and Opportunity Act */
+    wioa_eligible: boolean;
+    /** Indiana ETPL — Eligible Training Provider List (WorkOne/DWD) */
+    etpl_approved: boolean;
+    /** Workforce Ready Grant — Indiana state tuition grant */
+    wrg_eligible: boolean;
+  };
+
+  // ─── Visibility & Status Control ────────────────────────────────
+  /**
+   * When false, program is hidden from all public surfaces (nav, catalog, cards).
+   * Use this instead of deleting programs — preserves enrollment history.
+   */
+  active?: boolean;
+  /**
+   * When false, program exists in the registry but is not shown publicly.
+   * Allows internal use (reporting, enrollment) without public exposure.
+   */
+  public_visible?: boolean;
+
   /**
    * How a learner enrolls. Drives primary CTA behavior.
    *   internal  — apply form → LMS (default for internal/hybrid)

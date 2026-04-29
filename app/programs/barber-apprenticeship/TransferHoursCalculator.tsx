@@ -43,13 +43,13 @@ export function TransferHoursCalculator() {
           <input
             type="number"
             min="0"
-            max={BARBER_PRICING.totalHoursRequired - 100}
+            max={1500}
             step="50"
             value={transferHours}
             onChange={(e) =>
               setTransferHours(
                 Math.min(
-                  BARBER_PRICING.totalHoursRequired - 100,
+                  1500,
                   Math.max(0, parseInt(e.target.value) || 0),
                 ),
               )
@@ -58,7 +58,7 @@ export function TransferHoursCalculator() {
             placeholder="e.g., 500"
           />
           <p className="text-xs text-amber-200 mt-1">
-            Max: {BARBER_PRICING.totalHoursRequired - 100} hours
+            Max: 1,500 OJT hours (Indiana transfer limit)
           </p>
         </div>
         <div>

@@ -168,8 +168,9 @@ export const COSMETOLOGY: ProgramSchema = {
       description: 'Program registered with U.S. Department of Labor.',
     },
     {
-      standard: 'WIOA Title I',
-      description: 'Eligible for WIOA supportive services during apprenticeship.',
+      standard: 'WIOA Title I — Supportive Services Only',
+      description:
+        'This program is NOT on the Indiana ETPL and is not eligible for WIOA tuition funding. Enrolled apprentices who are WIOA-eligible may access WIOA supportive services (transportation, childcare, tools) through their WorkOne case manager. Tuition is not covered by WIOA.',
     },
   ],
   trainingPhases: [
@@ -273,6 +274,13 @@ export const COSMETOLOGY: ProgramSchema = {
   deliveryModelDetail: 'hybrid',
   partnerProvider: 'milady',
   fundingOptions: ['impact', 'employer_paid', 'self_pay'],
+  funding: {
+    fssa_eligible: true,
+    snap_et_eligible: true,
+    wioa_eligible: false,   // NOT on Indiana ETPL — tuition not covered by WIOA
+    etpl_approved: false,
+    wrg_eligible: false,
+  },
   enrollmentType: 'internal',
   partnerCourses: [
     {

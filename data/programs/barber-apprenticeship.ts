@@ -260,6 +260,13 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
   deliveryModelDetail: 'hybrid',
   partnerProvider: 'milady',
   fundingOptions: ['impact', 'employer_paid', 'self_pay'],
+  funding: {
+    fssa_eligible: true,
+    snap_et_eligible: true,
+    wioa_eligible: false,   // DOL apprenticeship — not on Indiana ETPL
+    etpl_approved: false,
+    wrg_eligible: false,
+  },
   enrollmentType: 'internal',
   partnerCourses: [
     {
@@ -267,7 +274,7 @@ export const BARBER_APPRENTICESHIP: ProgramSchema = {
       label: 'Milady Standard Barbering',
       partnerName: 'Milady/Cengage',
       credentialIssued: 'Barbering Certificate',
-      duration: '1,500 hours RTI',
+      duration: '500 hours RTI',
       required: true,
       enrollmentUrl: 'https://www.milady.com/barbering',
     },
