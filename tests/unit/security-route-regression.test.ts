@@ -373,20 +373,19 @@ describe('POST /api/quizzes/[quizId] — foreign enrollmentId rejected', () => {
     expect(src).toContain('Not enrolled in this course');
   });
 
-  it('getAdminClient is used only as DB client, not to bypass auth', async () => {
+  it('requireAdminClient is used only as DB client, not to bypass auth', async () => {
     const { readFileSync } = await import('fs');
     const src = readFileSync('app/api/quizzes/[quizId]/route.ts', 'utf8');
 
-    // getAdminClient is the DB write client — acceptable for server-side writes.
+    // requireAdminClient is the DB write client — acceptable for server-side writes.
     // What matters is that auth is checked via getSession() BEFORE any DB access,
     // and that userId/enrollmentId are never taken from the request body.
     expect(src).toContain('authSession.user.id');
     // Auth check must precede the admin client usage
     const sessionCheckPos = src.indexOf('authSession');
-    const adminClientPos = src.indexOf('getAdminClient');
-    // getAdminClient import is at top of file; first USE in POST handler must come after session check
+    // requireAdminClient import is at top of file; first USE in POST handler must come after session check
     const postHandlerPos = src.indexOf('async function _POST');
-    const adminClientUsePos = src.indexOf('getAdminClient()', postHandlerPos);
+    const adminClientUsePos = src.indexOf('requireAdminClient()', postHandlerPos);
     expect(sessionCheckPos).toBeLessThan(adminClientUsePos);
   });
 });
