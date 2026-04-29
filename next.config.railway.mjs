@@ -132,6 +132,16 @@ const railwayConfig = {
     if (!isServer) {
       config.resolve.fallback = { ...config.resolve.fallback, fs: false, net: false, tls: false };
     }
+
+    // edge-tts ships uncompiled TypeScript (index.ts with `export type`) as its
+    // entry point. Webpack's SWC loader cannot handle it. Mark it as an external
+    // so webpack skips resolution/parsing and Node.js requires it at runtime.
+    // This complements serverExternalPackages (runtime) and turbopack.resolveAlias (dev).
+    if (isServer) {
+      config.externals = config.externals || [];
+      config.externals.push('edge-tts');
+    }
+
     config.parallelism = 1;
     return config;
   },
