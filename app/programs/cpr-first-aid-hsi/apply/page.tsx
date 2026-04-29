@@ -4,9 +4,9 @@ import { Breadcrumbs } from '@/components/ui/Breadcrumbs';
 import { ArrowLeft, CheckCircle, Clock, DollarSign, Calendar } from 'lucide-react';
 
 export const metadata: Metadata = {
-  title: 'Apply for CPR PROGRAM_TITLE First Aid | Elevate for Humanity',
+  title: 'Apply for CPR & First Aid (HSI) | Elevate for Humanity',
   description:
-    'Apply for our CPR PROGRAM_TITLE First Aid program. Free training with WIOA funding available.',
+    'Apply for CPR & First Aid (HSI) certification through Elevate for Humanity. Self-pay: $75.',
 };
 
 export default function ApplyPage() {
@@ -17,12 +17,12 @@ export default function ApplyPage() {
           <Breadcrumbs
             items={[
               { label: 'Programs', href: '/programs' },
-              { label: 'CPR PROGRAM_TITLE First Aid', href: '/programs/cpr-first-aid-hsi' },
+              { label: 'CPR & First Aid (HSI)', href: '/programs/cpr-first-aid-hsi' },
               { label: 'Apply' },
             ]}
             className="text-blue-200 mb-4"
           />
-          <h1 className="text-3xl md:text-4xl font-bold">Apply for CPR PROGRAM_TITLE First Aid</h1>
+          <h1 className="text-3xl md:text-4xl font-bold">Apply for CPR & First Aid (HSI)</h1>
           <p className="text-blue-100 mt-2">Start your career training today</p>
         </div>
       </div>
@@ -42,7 +42,7 @@ export default function ApplyPage() {
               <DollarSign className="w-5 h-5 text-green-600" />
               <div>
                 <p className="text-sm text-gray-600">Cost</p>
-                <p className="font-semibold text-black">Free with WIOA</p>
+                <p className="font-semibold text-black">Self-Pay: $75</p>
               </div>
             </div>
             <div className="flex items-center gap-3">
@@ -62,7 +62,7 @@ export default function ApplyPage() {
               'Must be 18 years or older',
               'High school diploma or GED',
               'Indiana resident or authorized to work in US',
-              'Meet WIOA eligibility requirements',
+              'Self-pay tuition: $75',
             ].map((req, i) => (
               <li key={i} className="flex items-start gap-3">
                 <CheckCircle className="w-5 h-5 text-green-600 mt-0.5 flex-shrink-0" />
@@ -75,7 +75,7 @@ export default function ApplyPage() {
         <div className="bg-blue-50 rounded-2xl p-8 text-center">
           <h2 className="text-2xl font-bold text-black mb-4">Ready to Apply?</h2>
           <p className="text-gray-600 mb-6">
-            Complete our online application to check your eligibility for free WIOA-funded training.
+            CPR &amp; First Aid (HSI) is a self-pay program. Tuition is $75. Complete the application and our team will contact you to schedule your session.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 justify-center">
             <Link
@@ -85,10 +85,10 @@ export default function ApplyPage() {
               Start Application
             </Link>
             <Link
-              href="/wioa-eligibility"
+              href="/programs/cpr-first-aid-hsi"
               className="inline-flex items-center justify-center px-8 py-4 bg-white text-blue-600 font-bold rounded-lg border-2 border-blue-600 hover:bg-blue-50 transition"
             >
-              Check WIOA Eligibility
+              Program Details
             </Link>
           </div>
         </div>
