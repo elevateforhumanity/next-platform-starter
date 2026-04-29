@@ -204,7 +204,7 @@ export default async function HireGraduatesPage() {
               Request Candidates
             </Link>
             <Link
-              href="/employer"
+              href="/employer/dashboard"
               className="border border-slate-300 text-slate-700 px-8 py-4 rounded-lg font-bold hover:bg-white transition-colors"
             >
               Employer Portal

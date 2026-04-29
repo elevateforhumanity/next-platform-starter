@@ -96,7 +96,7 @@ export default function GetStartedPage() {
             </Link>
 
             <Link
-              href="/employer"
+              href="/employer/dashboard"
               className="bg-white rounded-xl p-8 shadow-sm border hover:border-brand-blue-500 hover:shadow-md transition group"
             >
               <Briefcase className="w-10 h-10 text-purple-600 mb-4" />

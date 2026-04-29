@@ -153,7 +153,7 @@ export default async function DirectoryPage() {
               Contact Us <ArrowRight className="w-5 h-5" />
             </Link>
             <Link
-              href="/employer"
+              href="/employer/dashboard"
               className="inline-flex items-center gap-2 border-2 border-slate-300 text-slate-700 px-8 py-4 rounded-full font-bold hover:border-slate-400 transition"
             >
               Employer Portal

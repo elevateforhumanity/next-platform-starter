@@ -138,25 +138,24 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
       .eq('status', 'active')
       .lt('created_at', lastMonthEndS),
 
-    // Revenue — use aggregate to avoid fetching all rows
+    // Revenue — PostgREST aggregate syntax not supported on this project version.
+    // Fetch amount_paid_cents rows and sum in JS. Row count is bounded by paid
+    // enrollments only, which stays small relative to total enrollments.
     db.from('program_enrollments')
-      .select('amount_paid_cents.sum()')
-      .in('payment_status', ['paid', 'completed', 'setup_fee_paid'])
-      .single(),
+      .select('amount_paid_cents')
+      .in('payment_status', ['paid', 'completed', 'setup_fee_paid']),
 
     db.from('program_enrollments')
-      .select('amount_paid_cents.sum()')
+      .select('amount_paid_cents')
       .in('payment_status', ['paid', 'completed', 'setup_fee_paid'])
-      .gte('created_at', thisMonthStart)
-      .single(),
+      .gte('created_at', thisMonthStart),
 
     // Last month revenue for delta
     db.from('program_enrollments')
-      .select('amount_paid_cents.sum()')
+      .select('amount_paid_cents')
       .in('payment_status', ['paid', 'completed', 'setup_fee_paid'])
       .gte('created_at', lastMonthStartS)
-      .lt('created_at', lastMonthEndS)
-      .single(),
+      .lt('created_at', lastMonthEndS),
 
     // Count from both tables — certificates (legacy) and program_completion_certificates (LMS engine)
     Promise.all([
@@ -434,9 +433,12 @@ export async function getAdminDashboardData(): Promise<AdminDashboardData> {
   const oldestApp = pendingApps[0] ?? null;
 
   // ── Revenue — extracted from aggregate results ────────────────────────────
-  const revenueAllTimeCents   = toSafeNumber((revenueAllTimeRes.data as any)?.amount_paid_cents ?? 0);
-  const revenueThisMonthCents = toSafeNumber((revenueThisMonthRes.data as any)?.amount_paid_cents ?? 0);
-  const revenueLastMonthCents = revenueLastMonthRes.error ? 0 : toSafeNumber((revenueLastMonthRes.data as any)?.amount_paid_cents ?? 0);
+  const sumCents = (res: { data: any; error: any }) =>
+    res.error ? 0 : ((res.data as any[]) ?? []).reduce((acc: number, r: any) => acc + toSafeNumber(r.amount_paid_cents ?? 0), 0);
+
+  const revenueAllTimeCents   = sumCents(revenueAllTimeRes);
+  const revenueThisMonthCents = sumCents(revenueThisMonthRes);
+  const revenueLastMonthCents = sumCents(revenueLastMonthRes);
 
   // ── Enrollment trend — bucket by month ───────────────────────────────────
   const trendBuckets: Record<string, number> = {};

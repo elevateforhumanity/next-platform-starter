@@ -59,7 +59,7 @@ export default async function PlacementsPage() {
           <nav className="text-sm mb-4">
             <ol className="flex items-center space-x-2 text-slate-700">
               <li>
-                <Link href="/employer" className="hover:text-primary">
+                <Link href="/employer/dashboard" className="hover:text-primary">
                   Employer
                 </Link>
               </li>

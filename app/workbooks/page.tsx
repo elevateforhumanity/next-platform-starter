@@ -177,7 +177,7 @@ export default function WorkbooksPage() {
           <h2 className="text-2xl font-bold text-black mb-4">Additional Resources</h2>
           <div className="grid md:grid-cols-3 gap-6">
             <Link
-              href="/student-handbook"
+              href="/programs"
               className="block p-6 bg-white rounded-lg hover:shadow-md transition"
             >
               <FileText className="w-8 h-8 text-brand-blue-600 mb-3" />

@@ -146,7 +146,7 @@ export default function StorePage() {
               },
               {
                 label: 'Student Portal',
-                href: '/demo/learner',
+                href: '/programs',
                 desc: 'Courses, progress, credentials',
               },
             ].map((d) => (

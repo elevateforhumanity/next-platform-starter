@@ -8,7 +8,7 @@ export default function EmployerNotFound() {
         <h1 className="text-xl font-bold text-slate-900 mb-2">Page Not Found</h1>
         <p className="text-slate-700 mb-6">This employer page doesn't exist or has been moved.</p>
         <Link
-          href="/employer"
+          href="/employer/dashboard"
           className="inline-flex items-center justify-center px-5 py-2.5 bg-brand-blue-600 text-white rounded-lg hover:bg-brand-blue-700 transition font-medium text-sm"
         >
           Back to Employer Portal

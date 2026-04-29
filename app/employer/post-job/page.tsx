@@ -26,7 +26,7 @@ export default async function PostJobPage() {
           <nav className="text-sm mb-4">
             <ol className="flex items-center space-x-2 text-slate-700">
               <li>
-                <Link href="/employer" className="hover:text-slate-900">
+                <Link href="/employer/dashboard" className="hover:text-slate-900">
                   Employer
                 </Link>
               </li>
@@ -125,7 +125,7 @@ export default async function PostJobPage() {
                 Post Job
               </button>
               <Link
-                href="/employer"
+                href="/employer/dashboard"
                 className="px-4 py-2 border rounded-lg hover:bg-slate-50 text-slate-900 transition-colors"
               >
                 Cancel
